@@ -84,17 +84,25 @@ interface ClassModel extends Partial<Record<ItemTypeEnum, number>> {
 
 interface ElementDataModel {
   name: string;
+  /** pt-BR label shown in the UI; `name` stays English for CSS (property_*) + logic. */
+  displayName?: string;
   physicalElementToMonster: number;
   magicalElementToMonster: number;
   myElement: number;
 }
 interface RaceDataModel {
   name: string;
+  /** pt-BR label shown in the UI; `name` stays English for any name-based logic. */
+  displayName?: string;
   physical: number;
   magical: number;
 }
 interface SkillMultiplierModel {
   name: string;
+  /** pt-BR skill label shown in the UI (falls back to `name`). */
+  displayName?: string;
+  /** ragassets skill-icon id (from the LATAM skill map); absent if unmapped. */
+  icon?: number;
   value: number;
   cd: string;
 }
@@ -110,6 +118,21 @@ const monsterTypes = [
   ['Boss', 'boss'],
   ['Normal', 'normal'],
 ];
+
+// pt-BR labels for the "Bônus de Habilidade / Multiplicadores" summary tables.
+// Keyed by the English identifier (ElementType/RaceType value or literal) that
+// stays on `name` for CSS classes (property_*) and name-based logic.
+const ELEMENT_PT: Record<string, string> = {
+  Neutral: 'Neutro', Water: 'Água', Earth: 'Terra', Fire: 'Fogo', Wind: 'Vento',
+  Poison: 'Veneno', Holy: 'Sagrado', Dark: 'Sombrio', Ghost: 'Fantasma', Undead: 'Morto-Vivo',
+};
+const RACE_PT: Record<string, string> = {
+  Formless: 'Amorfo', Undead: 'Morto-Vivo', Brute: 'Bruto', Plant: 'Planta', Insect: 'Inseto',
+  Fish: 'Peixe', Demon: 'Demônio', DemiHuman: 'Semi-Humano', Angel: 'Anjo', Dragon: 'Dragão',
+};
+const SIZE_PT: Record<string, string> = { Small: 'Pequeno', Medium: 'Médio', Large: 'Grande' };
+const MONSTER_TYPE_PT: Record<string, string> = { Boss: 'Chefe', Normal: 'Normal' };
+const ATK_TYPE_PT: Record<string, string> = { Melee: 'Corpo a corpo', Range: 'À distância', MATK: 'MATK' };
 
 const HideHpSp = {
   [ClassName.SpiritHandler]: environment.production,
@@ -827,6 +850,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     for (const [eleShow, ele] of elements) {
       d.push({
         name: eleShow,
+        displayName: ELEMENT_PT[eleShow] ?? eleShow,
         physicalElementToMonster: p_element_all + (this.totalSummary[`p_element_${ele}`] || 0),
         magicalElementToMonster: m_element_all + (this.totalSummary[`m_element_${ele}`] || 0),
         myElement: m_my_element_all + (this.totalSummary[`m_my_element_${ele}`] || 0),
@@ -845,6 +869,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     for (const [raceShow, race] of races) {
       d.push({
         name: raceShow,
+        displayName: RACE_PT[raceShow] ?? raceShow,
         physical: p_race_all + (this.totalSummary[`p_race_${race}`] || 0),
         magical: m_race_all + (this.totalSummary[`m_race_${race}`] || 0),
       });
@@ -856,6 +881,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.peneRaceTable = races.map(([classShow, race]) => {
       return {
         name: classShow,
+        displayName: RACE_PT[classShow] ?? classShow,
         physical: p_pene_race_all + (this.totalSummary[`p_pene_race_${race}`] || 0),
         magical: m_pene_race_all + (this.totalSummary[`m_pene_race_${race}`] || 0),
       };
@@ -871,6 +897,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     for (const [sizeShow, size] of sizes) {
       d.push({
         name: sizeShow,
+        displayName: SIZE_PT[sizeShow] ?? sizeShow,
         physical: p_size_all + (this.totalSummary[`p_size_${size}`] || 0),
         magical: m_size_all + (this.totalSummary[`m_size_${size}`] || 0),
       });
@@ -888,6 +915,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     for (const [classShow, _class] of monsterTypes) {
       d.push({
         name: classShow,
+        displayName: MONSTER_TYPE_PT[classShow] ?? classShow,
         physical: p_class_all + (this.totalSummary[`p_class_${_class}`] || 0),
         magical: m_class_all + (this.totalSummary[`m_class_${_class}`] || 0),
       });
@@ -899,6 +927,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.peneClassTable = monsterTypes.map(([classShow, _class]) => {
       return {
         name: classShow,
+        displayName: MONSTER_TYPE_PT[classShow] ?? classShow,
         physical: p_pene_class_all + (this.totalSummary[`p_pene_class_${_class}`] || 0),
         magical: m_pene_class_all + (this.totalSummary[`m_pene_class_${_class}`] || 0),
       };
@@ -907,9 +936,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   private setAtkTypeTable(): void {
     this.atkTypeTable = [
-      { name: 'Melee', value: this.totalSummary.melee || 0 },
-      { name: 'Range', value: this.totalSummary.range || 0 },
-      { name: 'MATK', value: this.totalSummary.matkPercent || 0 },
+      { name: 'Melee', displayName: ATK_TYPE_PT['Melee'], value: this.totalSummary.melee || 0 },
+      { name: 'Range', displayName: ATK_TYPE_PT['Range'], value: this.totalSummary.range || 0 },
+      { name: 'MATK', displayName: ATK_TYPE_PT['MATK'], value: this.totalSummary.matkPercent || 0 },
     ];
   }
 
@@ -944,7 +973,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.skillMultiplierTable = [...dMap.values()];
+    // Overlay the pt-BR skill name + ragassets skill-icon id (same LATAM skill map
+    // used by the skill panels). Rows whose key isn't a mapped skill keep the
+    // English label and render no icon (the template guards on `icon`).
+    this.skillMultiplierTable = [...dMap.values()].map((row) => {
+      const pt = this.resolveSkill(row.name);
+      return pt ? { ...row, displayName: pt.name, icon: pt.id } : row;
+    });
   }
 
   calculateToSelectedMonsters(needCalcAll = true) {

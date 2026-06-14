@@ -293,6 +293,19 @@
   object-fit: contain;
 }
 
+/* Skill-multiplier table name cell: the table uses table-layout:fixed, so the
+   icon stays fixed-size and the long pt-BR skill label ellipsizes (full name on
+   hover via the cell's title) instead of widening the column into a scrollbar. */
+.skill_name_cell {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+}
+.skill_name_cell .skill_icon {
+  flex: 0 0 auto;
+}
+
 .border_default {
   border: var(--border-radius) solid var(--surface-border);
 }
