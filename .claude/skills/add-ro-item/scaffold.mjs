@@ -30,41 +30,51 @@ const fieldNum = (desc, label) => {
   return m ? Number(m[1]) : null;
 };
 
-// Build a location -> most-common {itemTypeId, itemSubTypeId, usableClass}
-// profile straight from item.json (data-driven, no guessing).
-const locProfile = new Map();
-{
-  const tally = new Map();
-  for (const it of items) {
-    if (it.location == null) continue;
-    const key = `${it.location}`;
-    const sub = `${it.itemTypeId}|${it.itemSubTypeId}|${JSON.stringify(it.usableClass ?? ["all"])}`;
-    const m = tally.get(key) ?? new Map();
-    m.set(sub, (m.get(sub) ?? 0) + 1);
-    tally.set(key, m);
-  }
-  for (const [loc, m] of tally) {
-    const [best] = [...m.entries()].sort((a, b) => b[1] - a[1])[0];
-    const [itemTypeId, itemSubTypeId, usableClass] = best.split("|");
-    locProfile.set(loc, { itemTypeId: Number(itemTypeId), itemSubTypeId: Number(itemSubTypeId), usableClass: JSON.parse(usableClass) });
-  }
-}
+// Authoritative slot -> item.json fields. The calc routes the equip dropdowns by
+// itemTypeId + itemSubTypeId (see ro-calculator.component setItemDropdownList):
+// NORMAL gear is itemTypeId 2 (ARMOR) with the ItemSubTypeId enum values; COSTUME
+// gear is itemTypeId 9 with 519-522. Headgear also needs `location`
+// (Upper/Middle/Lower) since all head slots share itemSubTypeId 512.
+// (The location-tagged itemSubTypeId 526-530 items in item.json are SHADOW gear —
+// do not copy those for normal equipment.)
+const SLOT_FIELDS = {
+  Upper:    { itemTypeId: 2, itemSubTypeId: 512, location: "Upper" },
+  Middle:   { itemTypeId: 2, itemSubTypeId: 512, location: "Middle" },
+  Lower:    { itemTypeId: 2, itemSubTypeId: 512, location: "Lower" },
+  Armor:    { itemTypeId: 2, itemSubTypeId: 513, location: "Armor" },
+  Garment:  { itemTypeId: 2, itemSubTypeId: 515, location: "Garment" },
+  Shoes:    { itemTypeId: 2, itemSubTypeId: 516, location: "Shoes" },
+  Shield:   { itemTypeId: 2, itemSubTypeId: 514, location: "Shield" },
+  Accessory:{ itemTypeId: 2, itemSubTypeId: 517, location: "Accessory" },
+  Weapon:   null, // weapon: itemTypeId 1; itemSubTypeId = weapon class — copy from a same-class weapon
+  CostumeUpper:   { itemTypeId: 9, itemSubTypeId: 519, location: "Upper" },
+  CostumeMiddle:  { itemTypeId: 9, itemSubTypeId: 520, location: "Middle" },
+  CostumeLower:   { itemTypeId: 9, itemSubTypeId: 521, location: "Lower" },
+  CostumeGarment: { itemTypeId: 9, itemSubTypeId: 522, location: "Garment" },
+};
 
-// Map the pt-BR "Equipa em" / "Tipo" footer to an item.json location string.
-function ptToLocation(desc) {
-  const eq = (field(desc, "Equipa em") || "").toLowerCase();
-  if (eq) {
-    if (/baixo/.test(eq)) return "Lower";
-    if (/meio/.test(eq)) return "Middle";
-    if (/cima|topo|alto/.test(eq)) return "Upper";
-  }
+// Map the pt-BR footer (Tipo / Equipa em) + name to a slot key.
+function ptToSlot(desc, name) {
   const tipo = (field(desc, "Tipo") || "").toLowerCase();
+  const eq = (field(desc, "Equipa em") || "").toLowerCase();
+  // Costume / vanity: Tipo "Visual"/"Fantasia" or a "[Visual]" name. A costume can
+  // span several head slots ("Topo, Meio e Baixo") — use the topmost present.
+  if (/visual|fantasia/.test(tipo) || /^\s*\[visual\]/i.test(name)) {
+    if (/topo|cima/.test(eq)) return "CostumeUpper";
+    if (/meio/.test(eq)) return "CostumeMiddle";
+    if (/baixo/.test(eq)) return "CostumeLower";
+    if (/capa|manto/.test(eq) || /capa|manto/.test(tipo)) return "CostumeGarment";
+    return "CostumeUpper";
+  }
+  if (/baixo/.test(eq)) return "Lower";
+  if (/meio/.test(eq)) return "Middle";
+  if (/cima|topo|alto/.test(eq)) return "Upper";
   if (/armadura/.test(tipo)) return "Armor";
   if (/capa|manto/.test(tipo)) return "Garment";
   if (/sapato|cal[cç]ado|bota/.test(tipo)) return "Shoes";
   if (/escudo/.test(tipo)) return "Shield";
-  if (/acess[oó]rio/.test(tipo)) return "AccessoryRight"; // side ambiguous; verify
-  if (/arma|espada|lan[cç]a|machado|adaga|arco|cajado|varinha|chicote|manopla|katar|revólver|rifle|instrumento/.test(tipo)) return "Weapon";
+  if (/acess[oó]rio/.test(tipo)) return "Accessory";
+  if (/arma|espada|lan[cç]a|machado|adaga|arco|cajado|varinha|chicote|manopla|katar|rev[oó]lver|rifle|instrumento|livro|punho/.test(tipo)) return "Weapon";
   return null;
 }
 
@@ -85,8 +95,8 @@ function scaffold(id) {
   if (!lt) { out.push("NOT in latam-items.json — id unknown to the LATAM client. Cannot scaffold."); return out.join("\n"); }
 
   const desc = lt.description || "";
-  const location = ptToLocation(desc);
-  const prof = location ? locProfile.get(location) : null;
+  const slot = ptToSlot(desc, lt.name);
+  const f = slot ? SLOT_FIELDS[slot] : null;
   const def = fieldNum(desc, "DEF");
   const weight = fieldNum(desc, "Peso");
   const reqLvl = fieldNum(desc, "N[ií]vel necess[aá]rio") ?? fieldNum(desc, "Nivel necessario");
@@ -95,9 +105,9 @@ function scaffold(id) {
   out.push(`name (pt):   ${lt.name}`);
   out.push(`aegisName:   ${lt.aegisName ?? "(none)"}`);
   out.push(`Tipo/Slot:   ${field(desc, "Tipo")} / ${field(desc, "Equipa em") ?? "-"}`);
-  out.push(`location:    ${location ?? "(could not infer — set by hand)"}${prof ? `  → itemTypeId=${prof.itemTypeId}, itemSubTypeId=${prof.itemSubTypeId}` : ""}`);
-  if (location === "Weapon") out.push(`  ⚠ weapon: itemSubTypeId varies by weapon class — confirm against a same-class weapon in item.json.`);
-  if (location === "AccessoryRight") out.push(`  ⚠ accessory side ambiguous (Right/Left) — pick per the replay's worn slot.`);
+  out.push(`slot:        ${slot ?? "(could not infer — set itemTypeId/itemSubTypeId/location by hand)"}${f ? `  → itemTypeId=${f.itemTypeId}, itemSubTypeId=${f.itemSubTypeId}, location=${JSON.stringify(f.location)}` : ""}`);
+  if (slot === "Weapon") out.push(`  ⚠ weapon: itemTypeId=1, itemSubTypeId = the weapon class — copy from a same-class weapon already in item.json.`);
+  if (slot === "Accessory") out.push(`  ⚠ accessory: itemSubTypeId 517 = both sides; use 510 (right) / 511 (left) if side-specific.`);
   out.push(`divine-pride: https://www.divine-pride.net/database/item/${id}   (combos / verify script)`);
   out.push(`\n--- EFFECT / COMBO LINES (map each to a bonus key per SKILL.md) ---`);
   for (const b of effectBlocks(desc)) out.push(b.split("\n").map((l) => "  " + l).join("\n"));
@@ -110,16 +120,16 @@ function scaffold(id) {
     resName: "",
     description: "",
     slots: Number(slots),
-    itemTypeId: prof?.itemTypeId ?? null,
-    itemSubTypeId: prof?.itemSubTypeId ?? null,
+    itemTypeId: f?.itemTypeId ?? null,
+    itemSubTypeId: f?.itemSubTypeId ?? null,
     itemLevel: null,
     attack: null,
     defense: def,
     weight: weight,
     requiredLevel: reqLvl,
-    location: location,
+    location: f?.location ?? null,
     compositionPos: null,
-    usableClass: prof?.usableClass ?? ["all"],
+    usableClass: ["all"],
     script: {},
   };
   out.push(`\n--- RECORD SKELETON (fill "script", then insert into item.json) ---`);

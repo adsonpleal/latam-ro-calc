@@ -18,9 +18,13 @@ node .claude/skills/add-ro-item/scaffold.mjs <id> [<id> ...]
 ```
 For each id it prints: pt name, aegisName, inferred `location`/`itemTypeId`/`itemSubTypeId` (from item.json), parsed `defense`/`weight`/`requiredLevel`, the isolated **effect/combo lines**, a divine-pride URL, and a **record skeleton** with `script: {}`. (Skips ids already in item.json.)
 
-### 2. Structural fields — verify the scaffold's guesses
-- `slots`: the scaffold defaults from the name; **confirm from divine-pride** (the `[N]` after the name) — a slotted armor needs `slots: 1`.
-- `location`/`itemTypeId`/`itemSubTypeId`: trustworthy for headgear/armor/garment/shoes/shield/accessory. For **weapons** the `itemSubTypeId` encodes the weapon class — copy it from a same-class weapon already in item.json. For **accessories** confirm Right vs Left.
+### 2. Structural fields — the scaffold fills these; verify a couple
+The scaffold maps the slot to **authoritative** `itemTypeId`/`itemSubTypeId`/`location` (these route the calc's equip dropdowns in `setItemDropdownList`):
+- Normal gear: `itemTypeId: 2` + ItemSubTypeId enum — head 512 (+`location` Upper/Middle/Lower), Armor 513, Shield 514, Garment 515, Boot/Shoes 516, Acc 517. **Do NOT copy the `location`-tagged 526-530 items — those are shadow gear.**
+- **Costume / `[Visual]`**: `itemTypeId: 9`, subtype 519 (Upper) / 520 (Middle) / 521 (Lower) / 522 (Garment). The scaffold detects "Tipo: Visual".
+- `slots`: confirm from divine-pride's `[N]` (the scaffold defaults from the name, usually `0`) — a slotted armor needs `slots: 1`.
+- **Weapons**: scaffold leaves them blank — set `itemTypeId: 1` and copy `itemSubTypeId` (the weapon class) from a same-class weapon in item.json.
+- **Accessories**: subtype `517` works both sides; use `510` (right) / `511` (left) only if the bonus is side-specific.
 - Leave `name` as the pt name and `description: ""` — `RoService` overlays pt name/description and sets `presentInLatam` at runtime from `latam-items.json`.
 
 ### 3. Bonus script — map each effect line to a bonus key
@@ -90,5 +94,5 @@ It appends them to `item.json` with a minimal diff and skips ids already present
 - One record per id; `id` + a `script` object are required (the script may be `{}` for a pure-stat/vanity item).
 - `aegisName` is a label only (no calc effect) — take it from `latam-items.json`.
 - Don't re-add an id that's already in item.json (apply.mjs guards this).
-- Costume/`[Visual]` items rarely have a combat script — usually `script: {}`.
+- Costume/`[Visual]` items: **add them too — do not skip.** The scaffold routes them to a costume slot (`itemTypeId 9`, subtype 519-522). Their `script` is usually `{}`, but check the description for costume-enchant/stat effects.
 - Keep effects you can't confidently map **out** of the script rather than guessing.
