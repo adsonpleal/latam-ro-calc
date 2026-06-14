@@ -315,7 +315,7 @@
                   <div class="col-12">
                     Precisão:
                     <span class="font-semibold px-1 summary_stat_atk">{{ totalSummary?.calc?.totalHit || 0 }}</span>
-                    Perfeito:
+                    Perfeita:
                     <span class="font-semibold px-1 summary_stat_atk">{{ totalSummary?.calc?.totalPerfectHit || 0 }} %</span>
                   </div>
                   <div class="col-12">
@@ -1564,7 +1564,7 @@
                 <div [ngSwitch]="bishopBuff.inputType">
                   <div *ngSwitchCase="'dropdown'">
                     <div class="p-inputgroup">
-                      <span class="p-inputgroup-addon text_group_ellips {{ bishopBuff.isDebuff ? 'skill_debuff' : '' }}">{{ bishopBuff.label }}</span>
+                      <span class="p-inputgroup-addon text_group_ellips {{ bishopBuff.isDebuff ? 'skill_debuff' : '' }}" [title]="bishopBuff.label"><span class="skill_label_text">{{ bishopBuff.label }}</span></span>
                       <p-dropdown
                         [autoDisplayFirst]="false"
                         [resetFilterOnHide]="true"
@@ -1578,7 +1578,7 @@
                   </div>
                   <div *ngSwitchDefault>
                     <div class="p-inputgroup">
-                      <span class="p-inputgroup-addon text_group_ellips {{ bishopBuff.isDebuff ? 'skill_debuff' : '' }}">{{ bishopBuff.label }}</span>
+                      <span class="p-inputgroup-addon text_group_ellips {{ bishopBuff.isDebuff ? 'skill_debuff' : '' }}" [title]="bishopBuff.label"><span class="skill_label_text">{{ bishopBuff.label }}</span></span>
                       <p-selectButton
                         [options]="bishopBuff.dropdown"
                         [(ngModel)]="model.skillBuffs[i]"
@@ -1594,13 +1594,13 @@
 
           <!-- Learned Skills -->
           <div class="col-4" [hidden]="passiveSkills.length === 0">
-            <p-tag severity="warning" value="Learn to get bonuses"></p-tag>
+            <p-tag severity="warning" value="Aprenda para ganhar bônus"></p-tag>
             <div class="grid grid-nogutter">
               <div *ngFor="let passiveSkill of passiveSkills; let i = index" class="col-12">
                 <div [ngSwitch]="passiveSkill.inputType">
                   <div *ngSwitchCase="'dropdown'">
                     <div class="p-inputgroup">
-                      <span class="p-inputgroup-addon text_group_ellips">{{ passiveSkill.label }}</span>
+                      <span class="p-inputgroup-addon text_group_ellips" [title]="passiveSkill.label"><img *ngIf="passiveSkill.icon" [src]="passiveSkill.icon | iconUrl: 'skill'" alt="" class="skill_icon mr-1" /><span class="skill_label_text">{{ passiveSkill.label }}</span></span>
                       <p-dropdown
                         [autoDisplayFirst]="false"
                         [resetFilterOnHide]="true"
@@ -1614,7 +1614,7 @@
                   </div>
                   <div *ngSwitchDefault>
                     <div class="p-inputgroup">
-                      <span class="p-inputgroup-addon text_group_ellips">{{ passiveSkill.label }}</span>
+                      <span class="p-inputgroup-addon text_group_ellips" [title]="passiveSkill.label"><img *ngIf="passiveSkill.icon" [src]="passiveSkill.icon | iconUrl: 'skill'" alt="" class="skill_icon mr-1" /><span class="skill_label_text">{{ passiveSkill.label }}</span></span>
                       <p-selectButton
                         [options]="passiveSkill.dropdown"
                         [(ngModel)]="model.passiveSkills[i]"
@@ -1630,13 +1630,13 @@
 
           <!-- Active SKills -->
           <div class="col-4">
-            <p-tag severity="danger" value="Activating Skills/Effects"></p-tag>
+            <p-tag severity="danger" value="Habilidades/efeitos ativos"></p-tag>
             <div class="grid grid-nogutter">
               <div *ngFor="let activeSkill of activeSkills; let i = index" class="col-12">
                 <div [ngSwitch]="activeSkill.inputType">
                   <div *ngSwitchCase="'dropdown'">
                     <div class="p-inputgroup">
-                      <span class="p-inputgroup-addon text_group_ellips {{ activeSkill.isDebuff ? 'skill_debuff' : '' }}">{{ activeSkill.label }}</span>
+                      <span class="p-inputgroup-addon text_group_ellips {{ activeSkill.isDebuff ? 'skill_debuff' : '' }}" [title]="activeSkill.label"><img *ngIf="activeSkill.icon" [src]="activeSkill.icon | iconUrl: 'skill'" alt="" class="skill_icon mr-1" /><span class="skill_label_text">{{ activeSkill.label }}</span></span>
                       <p-dropdown
                         [autoDisplayFirst]="false"
                         [resetFilterOnHide]="true"
@@ -1650,7 +1650,7 @@
                   </div>
                   <div *ngSwitchDefault>
                     <div class="p-inputgroup">
-                      <span class="p-inputgroup-addon text_group_ellips {{ activeSkill.isDebuff ? 'skill_debuff' : '' }}">{{ activeSkill.label }}</span>
+                      <span class="p-inputgroup-addon text_group_ellips {{ activeSkill.isDebuff ? 'skill_debuff' : '' }}" [title]="activeSkill.label"><img *ngIf="activeSkill.icon" [src]="activeSkill.icon | iconUrl: 'skill'" alt="" class="skill_icon mr-1" /><span class="skill_label_text">{{ activeSkill.label }}</span></span>
                       <p-selectButton
                         [options]="activeSkill.dropdown"
                         [(ngModel)]="model.activeSkills[i]"

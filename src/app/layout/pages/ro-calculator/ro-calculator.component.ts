@@ -29,7 +29,7 @@ import {
   WeaponTypeNameMapBySubTypeId,
   getMonsterSpawnMap,
 } from 'src/app/constants';
-import { ActiveSkillModel, AtkSkillModel, CharacterBase, ClassName, PassiveSkillModel } from 'src/app/jobs';
+import { ActiveSkillModel, AtkSkillModel, CharacterBase, ClassName, PassiveSkillModel, SkillModel } from 'src/app/jobs';
 import {
   createBaseHPSPOptionList,
   createExtraOptionList,
@@ -45,6 +45,7 @@ import {
   waitRxjs,
 } from 'src/app/utils';
 import { importReplayBuffer } from '../../../replay/replay-to-model';
+import { MainModel } from '../../../models/main.model';
 import { environment } from 'src/environments/environment';
 import { getClassDropdownList } from '../../../jobs/_class-list';
 import { racePtBr, sizePtBr, elementPtBr } from '../../../constants/monster-i18n';
@@ -153,7 +154,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   refineList = createNumberDropdownList({ from: 0, to: 18 });
   shadowRefineList = createNumberDropdownList({ from: 0, to: 10 });
   mainStatusList = createNumberDropdownList({ from: 1, to: 130 });
-  traitStatusList = createNumberDropdownList({ from: 0, to: 110 });
+  traitStatusList = createNumberDropdownList({ from: 0, to: 100 });
   levelList = [];
   jobList = [];
   propertyAtkList = ElementConverterList;
@@ -1150,12 +1151,57 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     input.value = ''; // allow re-picking the same file
   }
 
+  /**
+   * Map a replay's learned skill tree (client skill id → level) onto the model's
+   * skill panels. Keyed by skill name through the LATAM skill map (name → id), so
+   * only skills the calculator knows about are set; the rest stay at 0.
+   * setSkillModelArray() (run inside loadItemSet) applies these maps to the actual
+   * dropdowns, which is what produces the passive-skill stat bonuses.
+   */
+  private applyLearnedSkills(model: MainModel, learnedSkills: Record<number, number>) {
+    const char = this.characterList.find((c) => c.value === model.class)?.['instant'] as CharacterBase | undefined;
+    if (!char) return;
+
+    // Resolve the dropdown value that represents a given learned level. Most
+    // skills use the level as the value; the skillLv/closest fallbacks cover the
+    // few whose option values aren't the plain level (toggles, bonus amounts).
+    const pick = (dropdown: SkillModel[] = [], level: number): number => {
+      if (!level) return 0;
+      const byLv = dropdown.find((o) => o.skillLv === level);
+      if (byLv) return byLv.value;
+      const byVal = dropdown.find((o) => o.value === level);
+      if (byVal) return byVal.value;
+      const ranked = dropdown
+        .filter((o) => o.isUse !== false)
+        .map((o) => ({ value: o.value, lv: o.skillLv ?? o.value }))
+        .filter((o) => typeof o.lv === 'number' && o.lv <= level)
+        .sort((a, b) => b.lv - a.lv);
+      return ranked.length ? ranked[0].value : 0;
+    };
+
+    const build = (skills: { name: string; dropdown: SkillModel[] }[]) => {
+      const out: Record<string, number> = {};
+      for (const s of skills) {
+        const id = this.latamSkills[s.name]?.id;
+        const level = id ? learnedSkills[id] : 0;
+        if (!level) continue;
+        const value = pick(s.dropdown, level);
+        if (value) out[s.name] = value;
+      }
+      return out;
+    };
+
+    model.passiveSkillMap = { ...model.passiveSkillMap, ...build(char.passiveSkills) };
+    model.activeSkillMap = { ...model.activeSkillMap, ...build(char.activeSkills) };
+    model.skillBuffMap = { ...model.skillBuffMap, ...build(this.skillBuffs) };
+  }
+
   async importReplay(file: File) {
     if (this.replayBusy) return;
     this.replayBusy = true;
     try {
       const buf = await file.arrayBuffer();
-      const { model, summary } = importReplayBuffer(buf, this.items);
+      const { model, summary, learnedSkills } = importReplayBuffer(buf, this.items);
       // The calculator only carries the advanced LATAM classes; bail out cleanly
       // (keeping the current build) if the replay's class isn't one of them.
       if (!this.characterList?.some((c) => c.value === model.class)) {
@@ -1168,6 +1214,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         });
         return;
       }
+      // Map the replay's learned skill tree onto the model's skill panels before
+      // loadItemSet — setSkillModelArray() (run inside it) applies these maps.
+      this.applyLearnedSkills(model, learnedSkills);
       this.loadItemSet(model as any).subscribe({
         complete: () => {
           // Switching to a class with a different level range can leave the
@@ -1181,6 +1230,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           const skipped = summary.skippedItems.length;
           const detail =
             `${summary.player || 'Personagem'} — nível ${summary.baseLevel}, ${summary.equippedCount} equipamentos` +
+            (summary.learnedSkillCount ? `, ${summary.learnedSkillCount} habilidades` : '') +
             (skipped ? `, ${skipped} ignorado(s) (fora do banco de dados)` : '') +
             '. ⚠️ Talentos (POD/STA/SAB/FEI/CON/CRV) não são gravados no replay — ajuste-os manualmente.';
           this.messageService.add({ severity: 'success', summary: 'Replay importado', detail, life: 9000 });
@@ -1263,13 +1313,16 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   private setClassSkill() {
-    this.activeSkills = this.selectedCharacter.activeSkills;
-    this.passiveSkills = this.selectedCharacter.passiveSkills;
-    // Overlay pt-BR skill names + ragassets skill-icon id (from the GRF skill map).
-    this.atkSkills = this.selectedCharacter.atkSkills.map((a) => {
-      const pt = this.resolveSkill(a.name);
-      return pt ? { ...a, label: pt.name, icon: pt.id } : a;
-    });
+    // Overlay pt-BR skill names + ragassets skill-icon id (from the GRF skill map)
+    // on every skill panel. Skills missing from the map keep their English label
+    // and render no icon (the template guards on `icon`).
+    const localize = <T extends { name: string }>(skill: T) => {
+      const pt = this.resolveSkill(skill.name);
+      return pt ? { ...skill, label: pt.name, icon: pt.id } : skill;
+    };
+    this.activeSkills = this.selectedCharacter.activeSkills.map(localize);
+    this.passiveSkills = this.selectedCharacter.passiveSkills.map(localize);
+    this.atkSkills = this.selectedCharacter.atkSkills.map(localize);
     this.offensiveSkills = [...new Set(this.selectedCharacter.atkSkills.map((a) => a.name)).values()].map((name) => {
       const pt = this.resolveSkill(name);
       return { label: pt?.name ?? name, value: name, icon: pt?.id };

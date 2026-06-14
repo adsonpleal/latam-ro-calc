@@ -141,6 +141,7 @@ export function decodeReplay(buf: ArrayBuffer): Replay {
   const paramChanges: ParamChangeEvent[] = [];
   const statusEvents: StatusEvent[] = [];
   const chats: ChatEvent[] = [];
+  const learnedSkills = new Map<number, number>();
   const knownPacketIdSet = new Set<number>();
   // Map from ground-skill-unit AID → caster AID. Skills like Onda Psíquica
   // (Psychic Wave), Storm Gust, Comet, etc. spawn a "skill unit" entity that
@@ -293,6 +294,13 @@ export function decodeReplay(buf: ArrayBuffer): Replay {
         if (ev.unitAid) groundUnits.add(ev.unitAid);
         break;
       }
+      case "skillList":
+        // Snapshot — keep the highest level seen per skill if it somehow repeats.
+        for (const e of decoded.data) {
+          const prev = learnedSkills.get(e.skillId) ?? 0;
+          if (e.level > prev) learnedSkills.set(e.skillId, e.level);
+        }
+        break;
       case "chat":
         chats.push(decoded.data);
         break;
@@ -424,6 +432,7 @@ export function decodeReplay(buf: ArrayBuffer): Replay {
 
   return {
     sessionInfo: { ...session, durationMs },
+    learnedSkills,
     entities,
     damage,
     kills,

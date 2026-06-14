@@ -119,6 +119,8 @@ export interface ActiveSkillModel {
   name: SKILL_NAME;
   dropdown: SkillModel[];
   isDevMode?: boolean;
+  /** ragassets skill-icon id, attached at runtime from the LATAM skill map. */
+  icon?: number;
 }
 export type PassiveSkillModel = ActiveSkillModel;
 

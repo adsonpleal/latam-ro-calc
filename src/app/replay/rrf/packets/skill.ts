@@ -1,6 +1,28 @@
 import { ByteReader } from "../reader";
 import type { SkillCast, SkillUse } from "../types";
 
+export type SkillInfoEntry = { skillId: number; level: number };
+
+/**
+ * 0x010f — ZC_SKILLINFO_LIST (the learned skill tree, sent once at login).
+ * Variable-length: a u16 packet length at +2, then fixed 37-byte records:
+ *   +0 id u16, +2 inf u32, +6 level u16, +8 sp u16, +10 range u16,
+ *   +12 name 24B, +36 upgradable u8.
+ * Verified against LATAM client recordings (AC_OWL=43, WH_NATUREFRIENDLY=5325).
+ */
+export function decodeSkillInfoList(raw: Uint8Array): SkillInfoEntry[] {
+  const view = new DataView(raw.buffer, raw.byteOffset, raw.byteLength);
+  const REC = 37;
+  const end = Math.min(view.getUint16(2, true), raw.byteLength);
+  const entries: SkillInfoEntry[] = [];
+  for (let p = 4; p + REC <= end; p += REC) {
+    const skillId = view.getUint16(p, true);
+    const level = view.getUint16(p + 6, true);
+    if (skillId > 0 && level > 0) entries.push({ skillId, level });
+  }
+  return entries;
+}
+
 /** 0x011a — clif_skill_nodamage (older, 15 bytes incl. pkt id). */
 export function decodeSkillNoDamage011a(reader: ByteReader, time: number): SkillUse {
   const skillId = reader.u16();

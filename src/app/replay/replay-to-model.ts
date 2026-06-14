@@ -114,9 +114,17 @@ export type ReplayImportSummary = {
   skippedItems: { slot: SlotKey; itemId: number }[];
   /** Card/enchant ids dropped because they aren't in the LATAM item DB. */
   skippedCards: number;
+  /** Number of learned skills (level > 0) read from the skill-tree snapshot. */
+  learnedSkillCount: number;
 };
 
-export type ReplayImportResult = { model: MainModel; summary: ReplayImportSummary };
+export type ReplayImportResult = {
+  model: MainModel;
+  summary: ReplayImportSummary;
+  /** Learned skill tree from the replay — client skill id → level (level > 0).
+   *  Mapped onto the model's skill panels by the importer. */
+  learnedSkills: Record<number, number>;
+};
 
 /** A minimal view of the calculator's item map (`item.json` keyed by id). */
 type ItemMap = Record<number, { id: number } & Record<string, any>>;
@@ -161,6 +169,9 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
     }
   }
 
+  const learnedSkills: Record<number, number> = {};
+  for (const [id, lvl] of replay.learnedSkills) learnedSkills[id] = lvl;
+
   return {
     model,
     summary: {
@@ -171,7 +182,9 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
       equippedCount,
       skippedItems,
       skippedCards,
+      learnedSkillCount: Object.keys(learnedSkills).length,
     },
+    learnedSkills,
   };
 
   function writeCards(m: MainModel, fields: string[], rec: InventoryRecord, onSkip: () => void) {

@@ -178,6 +178,13 @@ export type InventoryRecord = {
 
 export type Replay = {
   sessionInfo: SessionInfo;
+  /**
+   * Learned skill tree from the recording's `ZC_SKILLINFO_LIST` (0x010f)
+   * snapshot — client skill id → learned level (only levels > 0). The client
+   * sends this once at login/map-load; it's the player's full skill build at
+   * the start of the recording.
+   */
+  learnedSkills: Map<number, number>;
   entities: Map<number, Entity>;
   damage: DamageEvent[];
   kills: VanishEvent[];

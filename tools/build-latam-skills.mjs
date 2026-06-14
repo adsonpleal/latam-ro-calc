@@ -60,6 +60,9 @@ const SKILL_ID_OVERRIDES = {
   "Dragon Breath - WATER": 5004, // RK_DRAGONBREATH_WATER "Dragon's Water Breath"
   "Hot Barrel": 2568,         // RL_HEAT_BARREL      "Hit Barrel"
   "Wug Strike": 2243,         // RA_WUGSTRIKE        "Warg Strike"
+  "Wug Rider": 2241,          // RA_WUGRIDER         "Warg Ride"
+  "Nature Friendly": 5325,    // WH_NATUREFRIENDLY   "Nature's Friend"
+  "Wind Walk": 383,           // SN_WINDWALK         "Wind Walk" -> "Caminho do Vento"
   "Cold Slower": 2260,        // NC_COLDSLOWER       "Ice Launcher"
   "Musical Strike": 316,      // BA_MUSICALSTRIKE    "Melody Strike"
   "Lion Howling": 2517,       // SR_HOWLINGOFLION    "Lion's Howl"
@@ -106,11 +109,23 @@ function extractSkillNames(grf, listBase) {
   return out;
 }
 
-// The calculator's authoritative offensive skill names (its atkSkill `name`s).
-function readOffensiveSkillNames() {
+// Read one `<VAR> = [ ... ] as const;` string array out of skill-name.ts.
+function readSkillNamesArray(varName) {
   const src = readFileSync(resolve(process.cwd(), "src/app/constants/skill-name.ts"), "utf8");
-  const block = src.split("OFFENSIVE_SKILL_NAMES = [")[1].split("] as const;")[0];
-  const names = [...block.matchAll(/'([^']*)'|"([^"]*)"/g)].map((m) => m[1] ?? m[2]);
+  const block = src.split(`${varName} = [`)[1].split("] as const;")[0];
+  return [...block.matchAll(/'([^']*)'|"([^"]*)"/g)].map((m) => m[1] ?? m[2]);
+}
+
+// Every calc skill name we want a pt-BR label + icon id for: the offensive
+// (atkSkill) names AND the active/passive skill names shown in the
+// "learn for bonuses" / "activating skills" panels. `_`-prefixed names are
+// calc-internal pseudo-skills (no real client skill / icon) — drop them so
+// they don't norm-match an unrelated id.
+function readSkillNames() {
+  const names = [
+    ...readSkillNamesArray("OFFENSIVE_SKILL_NAMES"),
+    ...readSkillNamesArray("ACTIVE_PASSIVE_SKILL_NAMES"),
+  ].filter((n) => n && !n.startsWith("_"));
   return [...new Set(names)];
 }
 
@@ -153,7 +168,7 @@ function main() {
 
     const ptById = (id) => dpPt[id] ?? ptGrf[id] ?? null;
 
-    const names = readOffensiveSkillNames();
+    const names = readSkillNames();
     const out = {};
     const unmatched = [];
     let exact = 0, alias = 0, normd = 0, override = 0;
@@ -177,7 +192,7 @@ function main() {
     const total = names.length;
     const matched = total - unmatched.length;
     console.log(`\nwrote ${outPath}`);
-    console.log(`calc offensive skills: ${total}`);
+    console.log(`calc skills (offensive + active/passive): ${total}`);
     console.log(`  matched: ${matched} (${Math.round((matched / total) * 100)}%) — exact ${exact}, alias ${alias}, norm ${normd}, override ${override}`);
     console.log(`  unmatched (left English): ${unmatched.length}`);
     if (args.report && unmatched.length) {

@@ -15,9 +15,11 @@ import {
 import {
   decodeSkillCast,
   decodeSkillEntry09ca,
+  decodeSkillInfoList,
   decodeSkillNoDamage011a,
   decodeSkillNoDamage09cb,
   type GroundSkillEntry,
+  type SkillInfoEntry,
 } from "./skill";
 import { decodeMapChange, decodeMobHp, decodeVanish } from "./misc";
 import {
@@ -78,6 +80,7 @@ export const PacketIds = {
   STATUS_0983: 0x0983,
   GROUND_SKILL_ENTRY: 0x09ca,
   SELF_CHAT: 0x008e,
+  SKILLINFO_LIST: 0x010f,
 } as const;
 
 export type DecodedPacket =
@@ -95,6 +98,7 @@ export type DecodedPacket =
   | { type: "paramChange"; data: ParamChangeEvent }
   | { type: "status"; data: StatusEvent }
   | { type: "groundSkillEntry"; data: GroundSkillEntry }
+  | { type: "skillList"; data: SkillInfoEntry[] }
   | { type: "chat"; data: ChatEvent };
 
 export function decodePacket(
@@ -158,6 +162,8 @@ export function decodePacket(
         return { type: "status", data: decodeStatus0983(reader, time) };
       case PacketIds.GROUND_SKILL_ENTRY:
         return { type: "groundSkillEntry", data: decodeSkillEntry09ca(reader, time) };
+      case PacketIds.SKILLINFO_LIST:
+        return { type: "skillList", data: decodeSkillInfoList(raw) };
       case PacketIds.SELF_CHAT:
         return { type: "chat", data: decodeSelfChat(raw, time) };
       default:
