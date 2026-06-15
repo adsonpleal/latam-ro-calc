@@ -858,7 +858,7 @@ export class DamageCalculator {
     const rangedMultiplier = this.toPercent(ranged + 100);
     const baseSkillMultiplier = this.toPercent(baseSkillDamage);
     const equipSkillMultiplier = this.toPercent(100 + this.getSkillBonus(skillName));
-    const criDmgToMonster = floor(criDmg * criDmgPercentage || 0);
+    const criDmgToMonster = criDmg * criDmgPercentage || 0;
     const criMultiplier = canCri ? this.toPercent(criDmgToMonster + 100) : 1;
 
     const dmgType = isMelee ? SkillType.MELEE : SkillType.RANGE;
@@ -1254,10 +1254,17 @@ export class DamageCalculator {
     }
 
     const _baseSkillDamage = formula(formulaParams) + this.getFlatDmg(skillName);
-    let baseSkillDamage = floor(_baseSkillDamage);
+    // The skill ratio is truncated in-game (the server casts it to int), so use a
+    // plain floor here rather than the float-correcting `floor()` helper. Formulas
+    // that scale by `baseLevel/100` underflow in JS (e.g. Hawk Rush 1040×1.5×2.3 =
+    // 3587.9999999999995 instead of 3588); `floor()` rounds that back up to 3588,
+    // which is one ratio-point higher than the game and inflated the damage.
+    // Verified against in-game replay: Hawk Rush (ratio 3607, not 3608) matches,
+    // Focused Arrow Strike (ratio 4160, no underflow) is unchanged.
+    let baseSkillDamage = Math.floor(_baseSkillDamage);
 
     const _NoStackbaseSkillDamage = formula({ ...formulaParams, stack: 0 }) + this.getFlatDmg(skillName);
-    const noStackNaseSkillDamage = floor(_NoStackbaseSkillDamage);
+    const noStackNaseSkillDamage = Math.floor(_NoStackbaseSkillDamage);
 
     const params = {
       baseSkillDamage,

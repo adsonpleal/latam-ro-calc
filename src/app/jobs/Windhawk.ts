@@ -1,5 +1,5 @@
 import { JOB_4_MAX_JOB_LEVEL, JOB_4_MIN_MAX_LEVEL } from '../app-config';
-import { WeaponTypeName } from '../constants';
+import { ElementType, WeaponTypeName } from '../constants';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput } from '../models/info-for-class.model';
 import { Ranger } from './Ranger';
@@ -180,7 +180,7 @@ export class Windhawk extends Ranger {
         const totalStack = stack;
         const calaBonus = this.isSkillActive('Calamity Gale') ? 1.2 : 1;
 
-        return (skillLevel * 340 + status.totalCon * 10) * (baseLevel / 100) * (1 + 0.1 * totalStack) * calaBonus;
+        return (skillLevel * 300 + status.totalCon * 10) * (baseLevel / 100) * (1 + 0.1 * totalStack) * calaBonus;
       },
     },
     {
@@ -193,11 +193,15 @@ export class Windhawk extends Ranger {
       cd: 1.5,
       hit: 5,
       canCri: () => this.isSkillActive('Calamity Gale'),
+      // Gale Storm crits apply only half of the crit-damage gear (like Hawk Rush's 0.25).
+      // Without this it fell through to the default 1.0 and over-applied crit by ~1.6x.
+      // Verified against in-game replay: crit per hit 754498 (Lv10, Ilimitar 5, Calamity Gale).
+      criDmgPercentage: 0.5,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const baseLevel = model.level;
 
-        return (skillLevel * 950 + status.totalCon * 5) * (baseLevel / 100);
+        return (skillLevel * 250 + status.totalCon * 5) * (baseLevel / 100);
       },
     },
     {
@@ -208,8 +212,10 @@ export class Windhawk extends Ranger {
       fct: 0,
       vct: 0,
       cd: 0.15,
+      hit: 2, // div=2 in-game: the cast total is split into two floored hits
+      element: ElementType.Neutral,
       canCri: true,
-      criDmgPercentage: 0.5,
+      criDmgPercentage: 0.25,
       baseCriPercentage: 1,
       verifyItemFn: ({ weapon }) => {
         const requires: WeaponTypeName[] = ['bow'];
@@ -222,7 +228,7 @@ export class Windhawk extends Ranger {
         const baseLevel = model.level;
         const natureFrieldlyLv = this.learnLv('Nature Friendly');
 
-        return (skillLevel * 500 + status.totalCon * 5) * (1 + 0.1 * natureFrieldlyLv) * (baseLevel / 100);
+        return (skillLevel * 200 + status.totalCon * 5) * (1 + 0.1 * natureFrieldlyLv) * (baseLevel / 100);
       },
     },
   ];
