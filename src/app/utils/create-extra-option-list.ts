@@ -4,6 +4,22 @@ import { DropdownModel } from '../models/dropdown.model';
 import { createBaseStatOptionList } from './create-base-stat-option-list';
 import { createTraitStatOptionList } from './create-trait-stat-option-list';
 
+// pt-BR display labels. Keys stay English because the calc derives option
+// `value`s from those English strings — only the shown `label` is translated.
+const TR: Record<string, string> = {
+  Physical: 'Físico',
+  Magical: 'Mágico',
+  Race: 'Raça',
+  Element: 'Elemento',
+  Size: 'Tamanho',
+  Class: 'Classe',
+  'Long Range': 'Longo Alcance',
+  Melee: 'Corpo a corpo',
+  'CRI Rate': 'Taxa Crít.',
+  'CRI Dmg': 'Dano Crít.',
+};
+const tr = (s: string) => TR[s] ?? s;
+
 export const createExtraOptionList = () => {
   const atkTypes = ['Physical', 'Magical'];
   const atkProps = {
@@ -18,14 +34,14 @@ export const createExtraOptionList = () => {
     const atk = atkType.at(0).toLowerCase();
     const item = {
       value: atk,
-      label: atkType,
+      label: tr(atkType),
       children: [],
     };
     for (const [dmgType, dmgSubTypes] of Object.entries(atkProps)) {
       const propLow = dmgType.toLowerCase();
       item.children.push({
         value: `${atk}_${dmgType}`,
-        label: dmgType,
+        label: tr(dmgType),
         children: dmgSubTypes.map((finalProp) => {
           const finalPropLow = finalProp.toLowerCase();
           let fixedSize = finalPropLow;
@@ -40,7 +56,7 @@ export const createExtraOptionList = () => {
               const num = k + 1;
               return {
                 value: `${atk}_${propLow}_${fixedSize}:${num}`,
-                label: `${atk.toUpperCase()}. ${dmgType} ${finalProp} +${num}%`,
+                label: `${atk.toUpperCase()}. ${tr(dmgType)} ${finalProp} +${num}%`,
               };
             }),
           };
@@ -53,7 +69,7 @@ export const createExtraOptionList = () => {
 
   // No idea about programmatic
   items[1].children.push({
-    label: 'My Magical Element',
+    label: 'Meu Elemento Mágico',
     value: 'My Element',
     children: atkProps.Element.map((element) => {
       const elementLow = element.toLowerCase();
@@ -64,23 +80,23 @@ export const createExtraOptionList = () => {
           const num = k + 1;
           return {
             value: `m_my_element_${elementLow}:${num}`,
-            label: `M. My ${element} +${num}%`,
+            label: `M. Meu ${element} +${num}%`,
           };
         }),
       };
     }),
   });
   items[0].children.push({
-    label: 'Ignore Size penalty',
+    label: 'Ignorar penalidade de tamanho',
     value: 'ignore_size_penalty:1',
     // children: [],
   });
 
   const peneList = [
-    { mainItemIdx: 0, label: 'เจาะกาย Race', prefixProp: 'p_pene_race_', properties: atkProps.Race },
-    { mainItemIdx: 0, label: 'เจาะกาย Class', prefixProp: 'p_pene_class_', properties: atkProps.Class },
-    { mainItemIdx: 1, label: 'เจาะเวท Race', prefixProp: 'm_pene_race_', properties: atkProps.Race },
-    { mainItemIdx: 1, label: 'เจาะเวท Class', prefixProp: 'm_pene_class_', properties: atkProps.Class },
+    { mainItemIdx: 0, label: 'Penetração Física - Raça', prefixProp: 'p_pene_race_', properties: atkProps.Race },
+    { mainItemIdx: 0, label: 'Penetração Física - Classe', prefixProp: 'p_pene_class_', properties: atkProps.Class },
+    { mainItemIdx: 1, label: 'Penetração Mágica - Raça', prefixProp: 'm_pene_race_', properties: atkProps.Race },
+    { mainItemIdx: 1, label: 'Penetração Mágica - Classe', prefixProp: 'm_pene_class_', properties: atkProps.Class },
   ] as {
     mainItemIdx: number;
     label: string;
@@ -92,7 +108,7 @@ export const createExtraOptionList = () => {
     const scale = 1;
     const rawMin = 1;
     const rawMax = 100;
-    const pre = mainItemIdx === 0 ? 'เจาะกาย' : 'เจาะเวท';
+    const pre = mainItemIdx === 0 ? 'Pen. Física' : 'Pen. Mágica';
 
     const children = [];
     for (const prop of properties) {
@@ -161,7 +177,7 @@ export const createExtraOptionList = () => {
 
   const DEFAULT_CAP = 10;
   for (const [label, prop, rawMin, rawMax, scale, suffix] of options) {
-    const labelNoPercent = label.replace(' %', '');
+    const labelNoPercent = tr(label).replace(' %', '');
     const values = [] as { label: string; min: number; max: number }[];
     const sign = label === 'Delay' || label === 'VCT' ? '-' : '+';
     const cap = rawMax - rawMin > 20 ? DEFAULT_CAP : rawMax;
@@ -200,7 +216,7 @@ export const createExtraOptionList = () => {
 
     const item = {
       value: label,
-      label,
+      label: tr(label),
       children,
     };
 

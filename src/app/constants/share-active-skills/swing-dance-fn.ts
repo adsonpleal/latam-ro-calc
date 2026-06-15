@@ -1,7 +1,7 @@
 import { PassiveSkillModel } from '../../jobs/_character-base.abstract';
 
 export const SwingDanceFn = (): PassiveSkillModel => ({
-  label: 'Swing Dance 5',
+  label: 'Ritmo Contagiante 5',
   name: 'Swing Dance',
   inputType: 'selectButton',
   dropdown: [

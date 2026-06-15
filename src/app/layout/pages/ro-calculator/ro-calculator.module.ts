@@ -28,6 +28,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { BlockUIModule } from 'primeng/blockui';
 import { DataViewModule } from 'primeng/dataview';
 import { TreeSelectModule } from 'primeng/treeselect';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { RoCalculatorComponent } from './ro-calculator.component';
 import { PrettyJsonPipe } from '../../prettier-json.pipe';
@@ -81,6 +82,7 @@ import { MonsterTermPipe } from '../../../pipes/monster-term.pipe';
     BlockUIModule,
     DataViewModule,
     TreeSelectModule,
+    TooltipModule,
     FieldsetModule,
     DialogModule,
     RoCalculatorRoutingModule,

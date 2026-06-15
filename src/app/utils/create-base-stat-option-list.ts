@@ -2,20 +2,20 @@ import { DropdownModel } from '../models/dropdown.model';
 
 export const createBaseStatOptionList = (starVal: number, endVal: number) => {
   const item: DropdownModel & { children: any[] } = {
-    label: 'Base Stat',
+    label: 'Atributos',
     value: 'Base Stat',
     children: [],
   };
 
   const VAL_CAP = 10;
   const options: [string, string][] = [
-    ['All Stat', 'allStatus'],
-    ['Str', 'str'],
-    ['Agi', 'agi'],
-    ['Vit', 'vit'],
-    ['Int', 'int'],
-    ['Dex', 'dex'],
-    ['Luk', 'luk'],
+    ['Todos Atributos', 'allStatus'],
+    ['FOR', 'str'],
+    ['AGI', 'agi'],
+    ['VIT', 'vit'],
+    ['INT', 'int'],
+    ['DES', 'dex'],
+    ['SOR', 'luk'],
   ];
 
   for (const [label, prop] of options) {

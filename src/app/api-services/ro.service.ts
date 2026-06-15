@@ -30,6 +30,7 @@ export class RoService {
   private cachedHpSpTable$: Observable<any>;
   private cachedLatamClasses$: Observable<number[]>;
   private cachedLatamSkills$: Observable<Record<string, { id: number; name: string }>>;
+  private cachedLatamSkillDesc$: Observable<Record<string, string>>;
   private _isFirst = true;
 
   constructor(private http: HttpClient) {
@@ -130,6 +131,10 @@ export class RoService {
     this.cachedLatamSkills$ = this.http
       .get<Record<string, { id: number; name: string }>>('assets/demo/data/latam-skills.json')
       .pipe(shareReplay(1));
+    // skill id -> pt-BR client skill description (from tools/build-latam-skill-desc.mjs).
+    this.cachedLatamSkillDesc$ = this.http
+      .get<Record<string, string>>('assets/demo/data/latam-skill-desc.json')
+      .pipe(shareReplay(1));
 
     // this.doX();
     // this.generateHpSp()
@@ -153,6 +158,10 @@ export class RoService {
 
   getLatamSkills(): Observable<Record<string, { id: number; name: string }>> {
     return this.cachedLatamSkills$;
+  }
+
+  getLatamSkillDesc(): Observable<Record<string, string>> {
+    return this.cachedLatamSkillDesc$;
   }
 
   private generateHpSp() {

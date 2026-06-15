@@ -25,6 +25,11 @@ export class AppTopBarComponent {
 
   references: { label: string; link: string; writer: string; date?: string; }[] = [
     {
+      label: 'Windhawk (2nd version)',
+      writer: 'Sigma the fallen',
+      link: 'https://sigmathefallen.blogspot.com/2024/07/windhawk-2nd-version.html',
+    },
+    {
       label: 'Jobs Improvement Bundle Update (20 June 2024)',
       writer: 'RO GGT',
       link: 'https://ro.gnjoy.in.th/bundleupdate13',

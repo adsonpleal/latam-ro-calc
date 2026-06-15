@@ -261,6 +261,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   itemId = 0;
   itemBonus = {};
   itemDescription = '';
+  /** memoised pt-BR item descriptions (HTML) for the consumable hover popovers */
+  private itemDescCache = new Map<number, string>();
 
   itemOptionNumber = ItemOptionNumber;
 
@@ -293,6 +295,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   equipableItems: (DropdownModel & { id: number; position: string; })[] = [];
   offensiveSkills: (DropdownModel & { icon?: number })[] = [];
   latamSkills: Record<string, { id: number; name: string }> = {};
+  /** skill id -> pt-BR client skill description (raw ^RRGGBB text) */
+  latamSkillDesc: Record<string, string> = {};
 
   // --- Replay (.rrf) import modal ---
   showReplayImport = false;
@@ -504,12 +508,14 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       this.roService.getHpSpTable<HpSpTable>(),
       this.roService.getLatamClasses(),
       this.roService.getLatamSkills(),
+      this.roService.getLatamSkillDesc(),
     ]).pipe(
-      tap(([items, monsters, hpSpTable, latamClasses, latamSkills]) => {
+      tap(([items, monsters, hpSpTable, latamClasses, latamSkills, latamSkillDesc]) => {
         this.items = items;
         this.monsterDataMap = monsters;
         this.hpSpTable = hpSpTable;
         this.latamSkills = latamSkills;
+        this.latamSkillDesc = latamSkillDesc;
 
         // Hide classes unreleased on LATAM (no job icon in the client GRF).
         const latamClassSet = new Set(latamClasses);
@@ -1130,6 +1136,14 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       const pt = this.resolveSkill(skill.name);
       return pt ? { ...skill, label: pt.name, icon: pt.id } : skill;
     };
+    // Buffs keep their curated (already pt-BR) labels — only attach the icon id.
+    // A buff may pin its own `icon` (e.g. a generic buff that shouldn't use the
+    // skill-map icon); that explicit id wins over the resolved one.
+    const attachIcon = <T extends { name: string; icon?: number }>(skill: T) => {
+      const pt = this.resolveSkill(skill.name);
+      return pt ? { ...skill, icon: skill.icon ?? pt.id } : skill;
+    };
+    this.skillBuffs = JobBuffs.map(attachIcon);
     this.activeSkills = this.selectedCharacter.activeSkills.map(localize);
     this.passiveSkills = this.selectedCharacter.passiveSkills.map(localize);
     this.atkSkills = this.selectedCharacter.atkSkills.map(localize);
@@ -1909,7 +1923,20 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.updateItemEvent.next(1);
   }
 
-  onSkillBuffChange() {
+  onSkillBuffChange(i: number) {
+    const changed = this.skillBuffs[i];
+    const group = changed?.exclusiveGroup;
+    // turning on a buff in an exclusive group (e.g. the souls) turns the rest off
+    if (group) {
+      const selected = changed.dropdown.find((d) => d.value === this.model.skillBuffs[i]);
+      if (selected?.isUse) {
+        this.skillBuffs.forEach((buff, j) => {
+          if (j !== i && buff.exclusiveGroup === group) {
+            this.model.skillBuffs[j] = buff.dropdown.find((d) => !d.isUse)?.value ?? 0;
+          }
+        });
+      }
+    }
     this.updateItemEvent.next(1);
   }
 
@@ -1943,6 +1970,72 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.itemId = itemId;
     this.itemBonus = bonus; //{ script, bonus };
     this.itemDescription = prettyItemDesc(this.items[itemId]?.description);
+  }
+
+  /** pt-BR description (HTML) for a consumable's hover popover, memoised. */
+  itemDescTooltip(id: number): string {
+    if (!id || !this.items) return '';
+    const cached = this.itemDescCache.get(id);
+    if (cached !== undefined) return cached;
+    const item = this.items[id];
+    const desc = prettyItemDesc(item?.description) || '';
+    const title = item?.name ? `<div class="item_desc_title"><b>${item.name}</b></div><br>` : '';
+    const html = title || desc ? `${title}${desc}` : '';
+    this.itemDescCache.set(id, html);
+    return html;
+  }
+
+  /** pt-BR labels for buff bonus keys (skill descriptions aren't in the local
+   *  data, so the buff popover summarises the effect from its bonus values). */
+  private readonly buffBonusLabels: Record<string, string> = {
+    atk: 'ATK', matk: 'MATK', atkPercent: 'ATK%', matkPercent: 'MATK%',
+    pAtk: 'P.ATK', sMatk: 'S.MATK', cRate: 'C.RATE',
+    hit: 'HIT', cri: 'Crit', perfectHit: 'Acerto Perfeito', flatDmg: 'Dano Fixo',
+    aspd: 'ASPD', aspdPercent: 'ASPD%', skillAspd: 'ASPD (hab.)', vct: 'VCT',
+    str: 'FOR', agi: 'AGI', vit: 'VIT', int: 'INT', dex: 'DES', luk: 'SOR',
+    pow: 'POW', sta: 'STA', wis: 'WIS', spl: 'SPL', con: 'CON', crt: 'CRT',
+    def: 'DEF', mdef: 'MDEF',
+    p_pene_race_all: 'Penetração Física (Raça)', m_pene_race_all: 'Penetração Mágica (Raça)',
+    pene_res: 'Penetrar Res', pene_mres: 'Penetrar MRes',
+    monster_res: 'Res do alvo', monster_mres: 'MRes do alvo',
+    comet: 'Dano Cometa', raid: 'Dano físico recebido', darkClaw: 'Garra Sombria',
+    sporeExplosion: 'Dano recebido', quake: 'Dano físico recebido', oleumSanctum: 'Oleum Sanctum',
+    mysticAmp: 'Ampl. Mística', magnumBreakPsedoBonus: 'Impacto Explosivo', magnumBreakClearEDP: 'Limpar EDP',
+    ignore_size_penalty: 'Ignora penalidade de tamanho', m_my_element_water: 'Dano Mágico (Água)',
+  };
+  private buffTooltipCache = new Map<string, string>();
+
+  /** Buff label popover: the real pt-BR client skill description when available,
+   *  otherwise an effect summary derived from the buff's bonuses. */
+  buffTooltip(buff: { name: string; label: string; icon?: number; isDebuff?: boolean; dropdown: any[] }): string {
+    const cached = this.buffTooltipCache.get(buff.name);
+    if (cached !== undefined) return cached;
+
+    const descReady = Object.keys(this.latamSkillDesc).length > 0;
+    const desc = buff.icon ? prettyItemDesc(this.latamSkillDesc[buff.icon]) : '';
+
+    let html: string;
+    if (desc) {
+      // the client description already opens with the skill name
+      const debuff = buff.isDebuff ? `<div style="color:#b00000">Debuff no monstro</div>` : '';
+      html = `${debuff}${desc}`;
+    } else {
+      // fallback: summarise what the calc applies, one line per usable level
+      const fmt = (v: any) => (typeof v === 'number' ? (v > 0 ? `+${v}` : `${v}`) : v);
+      const lines = (buff.dropdown || [])
+        .filter((d) => d.isUse && d.bonus && Object.keys(d.bonus).length)
+        .map((d) => {
+          const parts = Object.entries(d.bonus).map(([k, v]) => `${this.buffBonusLabels[k] ?? k} ${fmt(v)}`);
+          return `<div>${d.label}: ${parts.join(', ')}</div>`;
+        });
+      const title = `<div class="item_desc_title"><b>${buff.label}</b></div>`;
+      const debuff = buff.isDebuff ? `<div style="color:#b00000">Debuff no monstro</div>` : '';
+      html = `${title}${debuff}${lines.length ? lines.join('') : '<div>—</div>'}`;
+    }
+
+    // only memoise once the description data has loaded (avoid caching the fallback)
+    if (descReady) this.buffTooltipCache.set(buff.name, html);
+    return html;
   }
 
   onLog(inputs) {

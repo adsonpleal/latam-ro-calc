@@ -18,7 +18,18 @@ export class BattleDmgSummaryComponent {
 
   @Output() showElementTableClick = new EventEmitter<any>();
 
+  // Display-only pt-BR for the skill damage type (the raw value drives logic).
+  private readonly dmgTypePtBr: Record<string, string> = {
+    Melee: 'Corpo a corpo',
+    Range: 'À distância',
+    Magical: 'Mágico',
+  };
+
   constructor() {}
+
+  dmgTypeLabel(type: string): string {
+    return this.dmgTypePtBr[type] ?? type;
+  }
 
   onShowElementalTableClick() {
     this.showElementTableClick.emit(1);

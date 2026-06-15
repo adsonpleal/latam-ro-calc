@@ -59,3 +59,27 @@ $gutter: 1rem; //for primeflex grid system
   background-color: black !important;
   color: white !important;
 }
+
+/* pt-BR item description popover (consumables hover) — mirrors the white
+   "Descrições dos Itens" panel so the in-game colour codes stay legible. */
+.item_desc_tooltip.p-tooltip {
+  max-width: 90vw;
+}
+.item_desc_tooltip .p-tooltip-text {
+  background: #ffffff;
+  color: #000000;
+  width: max-content;
+  max-width: 90vw;
+  white-space: normal;
+  font-size: 0.85rem;
+  line-height: 1.25;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+.item_desc_tooltip .item_desc_title {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.item_desc_tooltip.p-tooltip .p-tooltip-arrow {
+  border-right-color: #ffffff;
+  border-left-color: #ffffff;
+}

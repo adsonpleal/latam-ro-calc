@@ -55,8 +55,14 @@
 }
 
 :host ::ng-deep .column_list p-listbox .p-listbox-list {
-  columns: 2;
+  columns: 1;
   padding: 0;
+}
+
+/* Let the consumable item row shrink to the listbox width so a long label
+   ellipsises (via .text_ellips) instead of hard-clipping at the edge. */
+:host ::ng-deep .consumable .p-listbox-item > .flex {
+  min-width: 0;
 }
 
 :host ::ng-deep .battle_summary .p-fieldset-content {
@@ -104,6 +110,9 @@
   height: 19px;
   overflow: hidden;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  /* allow the label to shrink inside its flex row so the ellipsis can show */
+  min-width: 0;
 }
 
 .text_ellips_no_height {
@@ -126,6 +135,16 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   min-width: 0;
+}
+
+/* buff name → clickable divine-pride link, keeps the label colour */
+a.skill_link {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+a.skill_link:hover {
+  text-decoration: underline;
 }
 
 :host ::ng-deep .select_skill p-selectbutton {
@@ -270,7 +289,8 @@
 .skill_hilight_label {
   background-color: #121212;
   color: var(--yellow-500);
-  width: 60px;
+  width: auto;
+  white-space: nowrap;
 }
 
 .dropdown_monster_group_label {

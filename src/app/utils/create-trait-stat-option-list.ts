@@ -2,7 +2,7 @@ import { DropdownModel } from '../models/dropdown.model';
 
 export const createTraitStatOptionList = (starVal: number, endVal: number) => {
   const item: DropdownModel & { children: any[] } = {
-    label: 'Trait Stat',
+    label: 'Atributos Especiais',
     value: 'Trait Stat',
     children: [],
   };

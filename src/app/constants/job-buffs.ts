@@ -1,10 +1,11 @@
 import { ActiveSkillModel } from '../jobs/_character-base.abstract';
 import { BragisPoemFn, DarkClawFn, ShieldSpellFn, SwingDanceFn } from './share-active-skills';
 
-export const JobBuffs: ActiveSkillModel[] = [
+const JobBuffsList: ActiveSkillModel[] = [
   {
     name: 'Cantocandidus',
-    label: 'Agi Up',
+    label: 'Aumentar Agilidade',
+    icon: 29,
     inputType: 'dropdown',
     dropdown: [
       { label: '-', value: 0, isUse: false },
@@ -20,7 +21,8 @@ export const JobBuffs: ActiveSkillModel[] = [
   },
   {
     name: 'Clementia',
-    label: 'Blessing',
+    label: 'Bênção',
+    icon: 34,
     inputType: 'dropdown',
     dropdown: [
       { label: '-', value: 0, isUse: false },
@@ -53,7 +55,7 @@ export const JobBuffs: ActiveSkillModel[] = [
   },
   {
     name: 'Competentia',
-    label: '[บิC4] Competentia',
+    label: 'Competentia',
     inputType: 'selectButton',
     dropdown: [
       { label: 'Yes', isUse: true, value: 5, bonus: { pAtk: 50, sMatk: 50 } },
@@ -61,59 +63,41 @@ export const JobBuffs: ActiveSkillModel[] = [
     ],
   },
   {
-    name: '_Religio_Benedictum',
-    label: '[บิC4] All Trait +10',
+    name: 'Religio',
+    label: 'Religio',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 5, bonus: { spl: 10, wis: 10, sta: 10, pow: 10, crt: 10, con: 10 } },
+      { label: 'Yes', isUse: true, value: 5, bonus: { spl: 10, wis: 10, sta: 10 } },
       { label: 'No', isUse: false, value: 0 },
     ],
   },
   {
-    name: '_Argutus Vita_Telum',
-    label: '[บิC4] เจาะ Res/MRes 25',
+    name: 'Benedictum',
+    label: 'Benedictum',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 5, bonus: { pene_res: 25, pene_mres: 25 } },
+      { label: 'Yes', isUse: true, value: 5, bonus: { pow: 10, crt: 10, con: 10 } },
       { label: 'No', isUse: false, value: 0 },
     ],
   },
-  // {
-  //   name: 'Religio',
-  //   label: 'Religio 5',
-  //   inputType: 'selectButton',
-  //   dropdown: [
-  //     { label: 'Yes', isUse: true, value: 5, bonus: { spl: 10, wis: 10, sta: 10 } },
-  //     { label: 'No', isUse: false, value: 0 },
-  //   ],
-  // },
-  // {
-  //   name: 'Benedictum',
-  //   label: 'Benedictum 5',
-  //   inputType: 'selectButton',
-  //   dropdown: [
-  //     { label: 'Yes', isUse: true, value: 5, bonus: { pow: 10, crt: 10, con: 10 } },
-  //     { label: 'No', isUse: false, value: 0 },
-  //   ],
-  // },
-  // {
-  //   name: 'Argutus Vita',
-  //   label: 'Argutus Vita 5',
-  //   inputType: 'selectButton',
-  //   dropdown: [
-  //     { label: 'Yes', isUse: true, value: 5, bonus: { pene_mres: 25 } },
-  //     { label: 'No', isUse: false, value: 0 },
-  //   ],
-  // },
-  // {
-  //   name: 'Argutus Telum',
-  //   label: 'Argutus Telum 5',
-  //   inputType: 'selectButton',
-  //   dropdown: [
-  //     { label: 'Yes', isUse: true, value: 5, bonus: { pene_res: 25 } },
-  //     { label: 'No', isUse: false, value: 0 },
-  //   ],
-  // },
+  {
+    name: 'Argutus Vita',
+    label: 'Argutus Vita',
+    inputType: 'selectButton',
+    dropdown: [
+      { label: 'Yes', isUse: true, value: 5, bonus: { pene_mres: 25 } },
+      { label: 'No', isUse: false, value: 0 },
+    ],
+  },
+  {
+    name: 'Argutus Telum',
+    label: 'Argutus Telum',
+    inputType: 'selectButton',
+    dropdown: [
+      { label: 'Yes', isUse: true, value: 5, bonus: { pene_res: 25 } },
+      { label: 'No', isUse: false, value: 0 },
+    ],
+  },
   {
     name: 'Presens Acies',
     label: 'Presens Acies 5',
@@ -125,7 +109,7 @@ export const JobBuffs: ActiveSkillModel[] = [
   },
   {
     name: 'Crazy Uproar',
-    label: 'Crazy Uproar',
+    label: 'Grito de Guerra',
     inputType: 'selectButton',
     isMasteryAtk: true,
     dropdown: [
@@ -135,7 +119,7 @@ export const JobBuffs: ActiveSkillModel[] = [
   },
   {
     name: 'Adrenaline Rush',
-    label: 'Adrenaline 5',
+    label: 'Adrenalina 5',
     inputType: 'selectButton',
     dropdown: [
       { label: 'Yes', value: 5, skillLv: 5, isUse: true, bonus: { hit: 20, skillAspd: 5 } },
@@ -144,7 +128,7 @@ export const JobBuffs: ActiveSkillModel[] = [
   },
   {
     name: 'Power Thrust',
-    label: 'Power Thrust 5',
+    label: 'Força Violenta 5',
     inputType: 'selectButton',
     dropdown: [
       { label: 'Yes', value: 5, skillLv: 5, isUse: true, bonus: { flatDmg: 15 } },
@@ -152,7 +136,7 @@ export const JobBuffs: ActiveSkillModel[] = [
     ],
   },
   {
-    label: 'Weapon Perfect 5',
+    label: 'Manejo Perfeito 5',
     inputType: 'selectButton',
     name: 'Weapon Perfection',
     dropdown: [
@@ -161,19 +145,54 @@ export const JobBuffs: ActiveSkillModel[] = [
     ],
   },
   {
-    name: 'Soul',
-    label: 'Soul 5',
-    inputType: 'dropdown',
+    name: 'Fairy Soul',
+    label: 'Espírito da Fada',
+    icon: 2599,
+    exclusiveGroup: 'soul',
+    inputType: 'selectButton',
     dropdown: [
-      { label: '-', isUse: false, value: 0 },
-      { label: 'Shadow Soul', isUse: true, value: 1, bonus: { cri: 20, aspd: 3 } },
-      { label: 'Fairy Soul', isUse: true, value: 2, bonus: { matk: 50, vct: 10 } },
-      { label: 'Falcon Soul', isUse: true, value: 3, bonus: { atk: 50, hit: 15 } },
+      { label: 'Yes', isUse: true, value: 1, bonus: { matk: 50, vct: 10 } },
+      { label: 'No', isUse: false, value: 0 },
+    ],
+  },
+  {
+    name: 'Shadow Soul',
+    label: 'Espírito das Sombras',
+    icon: 2597,
+    exclusiveGroup: 'soul',
+    inputType: 'selectButton',
+    dropdown: [
+      { label: 'Yes', isUse: true, value: 1, bonus: { cri: 20, aspd: 3 } },
+      { label: 'No', isUse: false, value: 0 },
+    ],
+  },
+  {
+    name: 'Falcon Soul',
+    label: 'Espírito do Falcão',
+    icon: 2598,
+    exclusiveGroup: 'soul',
+    inputType: 'selectButton',
+    dropdown: [
+      { label: 'Yes', isUse: true, value: 1, bonus: { atk: 50, hit: 15 } },
+      { label: 'No', isUse: false, value: 0 },
+    ],
+  },
+  {
+    // Defensive soul (DEF/MDEF, unbreakable equipment) — no offensive effect to model.
+    name: 'Golem Soul',
+    label: 'Espírito do Golem',
+    icon: 2596,
+    exclusiveGroup: 'soul',
+    inputType: 'selectButton',
+    dropdown: [
+      { label: 'Yes', isUse: true, value: 1, bonus: {} },
+      { label: 'No', isUse: false, value: 0 },
     ],
   },
   {
     name: "Odin's Power",
-    label: "Odin's Power",
+    label: 'Poder de Odin',
+    icon: 2537,
     inputType: 'dropdown',
     dropdown: [
       { label: '-', isUse: false, value: 0 },
@@ -183,7 +202,8 @@ export const JobBuffs: ActiveSkillModel[] = [
   },
   {
     name: 'Comet Amp',
-    label: 'Comet Amp',
+    label: 'Cometa',
+    icon: 2213,
     inputType: 'selectButton',
     isDebuff: true,
     dropdown: [
@@ -192,17 +212,17 @@ export const JobBuffs: ActiveSkillModel[] = [
     ],
   },
   {
-    label: 'Magnum Break',
+    label: 'Impacto Explosivo',
     name: 'Magnum Break',
     inputType: 'dropdown',
     dropdown: [
       { label: '-', value: 0, isUse: false },
-      { label: 'Active', value: 1, isUse: true, bonus: { magnumBreakPsedoBonus: 1 } },
-      { label: 'Clear EDP', value: 2, isUse: true, bonus: { magnumBreakClearEDP: 1 } },
+      { label: 'Ativo', value: 1, isUse: true, bonus: { magnumBreakPsedoBonus: 1 } },
+      { label: 'Limpar EDP', value: 2, isUse: true, bonus: { magnumBreakClearEDP: 1 } },
     ],
   },
   {
-    label: 'Bunch of Shrimp',
+    label: 'Chuva de Mariscos',
     name: 'Bunch of Shrimp',
     inputType: 'selectButton',
     dropdown: [
@@ -212,7 +232,7 @@ export const JobBuffs: ActiveSkillModel[] = [
   },
   {
     name: 'Moonlight Serenade',
-    label: 'Moonlight Ser 5',
+    label: 'Serenata ao Luar',
     inputType: 'dropdown',
     dropdown: [
       { label: '-', isUse: false, value: 0 },
@@ -225,7 +245,7 @@ export const JobBuffs: ActiveSkillModel[] = [
   },
   {
     name: 'Striking',
-    label: 'Striking 5',
+    label: 'Encanto de Órion',
     inputType: 'selectButton',
     isEquipAtk: true,
     dropdown: [
@@ -235,7 +255,8 @@ export const JobBuffs: ActiveSkillModel[] = [
   },
   {
     name: 'Raid',
-    label: 'Raid',
+    label: 'Ataque Surpresa',
+    icon: 214, // RG_RAID
     inputType: 'selectButton',
     isDebuff: true,
     dropdown: [
@@ -246,7 +267,8 @@ export const JobBuffs: ActiveSkillModel[] = [
   DarkClawFn(),
   {
     name: 'Debuff_Spore Explosion',
-    label: 'Spore Explosion',
+    label: 'Esporo Explosivo',
+    icon: 2481,
     inputType: 'selectButton',
     isDebuff: true,
     dropdown: [
@@ -259,7 +281,7 @@ export const JobBuffs: ActiveSkillModel[] = [
   SwingDanceFn(),
   {
     name: 'Mystical Amplification',
-    label: 'Mystical Amp 10',
+    label: 'Ampl. Mística 10',
     inputType: 'selectButton',
     dropdown: [
       { label: 'Yes', isUse: true, value: 1, bonus: { mysticAmp: 50 } },
@@ -268,77 +290,62 @@ export const JobBuffs: ActiveSkillModel[] = [
   },
   {
     name: 'Spell Enchanting',
-    label: 'Spell Enchanting 5',
+    label: 'Enfeitiçar 5',
     inputType: 'selectButton',
     dropdown: [
       { label: 'Yes', isUse: true, value: 5, bonus: { sMatk: 5 * 4 } },
       { label: 'No', isUse: false, value: 0 },
     ],
   },
-  // {
-  //   name: 'Geffenia Nocturne',
-  //   label: 'Geffenia Nocturne 10',
-  //   inputType: 'selectButton',
-  //   isDebuff: true,
-  //   dropdown: [
-  //     { label: 'Yes', isUse: true, value: 10, bonus: { monster_mres: -10*10 } },
-  //     { label: 'No', isUse: false, value: 0 },
-  //   ],
-  // },
-  // {
-  //   name: 'Rhapsody of Mineworker',
-  //   label: 'Rhapsody of Mineworker 10',
-  //   inputType: 'selectButton',
-  //   isDebuff: true,
-  //   dropdown: [
-  //     { label: 'Yes', isUse: true, value: 10, bonus: { monster_res: -10*10 } },
-  //     { label: 'No', isUse: false, value: 0 },
-  //   ],
-  // },
-  // {
-  //   name: 'Serenade of Jawaii',
-  //   label: 'Serenade of Jawaii 5',
-  //   inputType: 'selectButton',
-  //   isDebuff: true,
-  //   dropdown: [
-  //     { label: 'Yes', isUse: true, value: 5, bonus: { sMatk: 5*3 } },
-  //     { label: 'No', isUse: false, value: 0 },
-  //   ],
-  // },
-  // {
-  //   name: 'March of Prontera',
-  //   label: 'Serenade of Jawaii 5',
-  //   inputType: 'selectButton',
-  //   isDebuff: true,
-  //   dropdown: [
-  //     { label: 'Yes', isUse: true, value: 5, bonus: { pAtk: 5*3 } },
-  //     { label: 'No', isUse: false, value: 0 },
-  //   ],
-  // },
   {
-    name: '_Trouvere_Troubadour_pAtk_sMatk',
-    label: '+ P.ATK S.Matk',
+    name: 'March of Prontera',
+    label: 'Marcha de Prontera',
+    icon: 5364,
     inputType: 'dropdown',
     dropdown: [
       { label: '-', isUse: false, value: 0 },
-      { label: '+ 15', isUse: true, value: 5, bonus: { sMatk: 15, pAtk: 15 } },
-      { label: '+ 22', isUse: true, value: 6, bonus: { sMatk: 22, pAtk: 22 } },
+      { label: '+ 15', isUse: true, value: 5, bonus: { pAtk: 15 } },
+      { label: '+ 22', isUse: true, value: 6, bonus: { pAtk: 22 } },
+    ],
+  },
+  {
+    name: 'Serenade of Jawaii',
+    label: 'Serenata de Jawaii',
+    icon: 5362,
+    inputType: 'dropdown',
+    dropdown: [
+      { label: '-', isUse: false, value: 0 },
+      { label: '+ 15', isUse: true, value: 5, bonus: { sMatk: 15 } },
+      { label: '+ 22', isUse: true, value: 6, bonus: { sMatk: 22 } },
     ],
   },
 
   {
-    name: '_Trouvere_Troubadour_ignore_res_mres',
-    label: 'Res/MRes -100',
+    name: 'Rhapsody of Mineworker',
+    label: 'Rapsódia do Minerador',
+    icon: 5360,
     inputType: 'selectButton',
     isDebuff: true,
     dropdown: [
-      { label: 'Yes', isUse: true, value: 10, bonus: { monster_res: -10 * 10, monster_mres: -10 * 10 } },
+      { label: 'Yes', isUse: true, value: 10, bonus: { monster_res: -100 } },
+      { label: 'No', isUse: false, value: 0 },
+    ],
+  },
+  {
+    name: 'Geffenia Nocturne',
+    label: 'Recital de Geffenia',
+    icon: 5358,
+    inputType: 'selectButton',
+    isDebuff: true,
+    dropdown: [
+      { label: 'Yes', isUse: true, value: 10, bonus: { monster_mres: -100 } },
       { label: 'No', isUse: false, value: 0 },
     ],
   },
   {
     name: '_Meister_Quake',
-    label: 'Quake 10',
+    label: 'Avanço Sísmico',
+    icon: 5296,
     inputType: 'selectButton',
     isDebuff: true,
     dropdown: [
@@ -373,4 +380,10 @@ export const JobBuffs: ActiveSkillModel[] = [
   //     { label: 'Lv 5', value: 5, isUse: true },
   //   ],
   // },
+];
+
+// Buffs first, monster debuffs last (stable within each group).
+export const JobBuffs: ActiveSkillModel[] = [
+  ...JobBuffsList.filter((b) => !b.isDebuff),
+  ...JobBuffsList.filter((b) => b.isDebuff),
 ];
