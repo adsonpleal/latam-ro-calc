@@ -55,6 +55,7 @@ import { ItemListModel } from '../../../models/item-list.model';
 import { ItemModel } from '../../../models/item.model';
 import { MonsterModel } from '../../../models/monster.model';
 import { LayoutService } from '../../service/app.layout.service';
+import { ItemShopService } from './item-shop.service';
 import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
 import { CalculatorController, collectBuffBonuses, collectConsumables } from 'src/app/core/calculator-controller';
@@ -277,12 +278,17 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   itemBonusRows: { label: string; icon?: number; display: string; isSkill: boolean }[] = [];
   itemDescription = '';
 
-  /** LATAM shops are split per server; the market link below points at whichever is selected. */
-  shopServerOptions = [
-    { label: 'Freya', value: 'FREYA' },
-    { label: 'Nidhogg', value: 'NIDHOGG' },
-  ];
-  selectedShopServer = localStorage.getItem('ro-shop-server') || 'FREYA';
+  /** LATAM shops are split per server; the market link below points at whichever is
+   *  selected. State + link logic live in ItemShopService so the search dialog shares it. */
+  get shopServerOptions() {
+    return this.itemShop.serverOptions;
+  }
+  get selectedShopServer(): string {
+    return this.itemShop.server;
+  }
+  set selectedShopServer(value: string) {
+    this.itemShop.server = value;
+  }
   /** memoised pt-BR item descriptions (HTML) for the consumable hover popovers */
   private itemDescCache = new Map<number, string>();
 
@@ -336,6 +342,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     private confirmationService: ConfirmationService,
     private dialogService: DialogService,
     private readonly layoutService: LayoutService,
+    private readonly itemShop: ItemShopService,
   ) { }
 
   ngOnInit() {
@@ -1144,6 +1151,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           id,
         };
       });
+  }
+
+  /** pt-BR label of the currently selected class (same lookup as the class picker),
+   *  used for the item-search dialog title. Falls back to '' before a class is set. */
+  get selectedClassLabel(): string {
+    return Characters.find((a) => a.value === this.model.class)?.label ?? '';
   }
 
   private setClassInstant() {
@@ -2092,24 +2105,17 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   onSelectShopServer() {
-    localStorage.setItem('ro-shop-server', this.selectedShopServer);
+    // The ItemShopService setter persists the choice; nothing else to do here.
   }
 
   /** Divine Pride database page for the currently inspected item. */
   get divinePrideItemUrl(): string {
-    return this.itemId ? `https://www.divine-pride.net/database/item/${this.itemId}` : '';
+    return this.itemShop.divinePrideItemUrl(this.itemId);
   }
 
   /** GnJoy LATAM market (buy orders) search for the inspected item on the selected server. */
   get marketItemUrl(): string {
-    const name = this.items[this.itemId]?.name;
-    if (!name) return '';
-    const params = new URLSearchParams({
-      storeType: 'BUY',
-      serverType: this.selectedShopServer,
-      searchWord: name,
-    });
-    return `https://ro.gnjoylatam.com/pt/intro/shop-search/trading?${params.toString()}`;
+    return this.itemShop.marketItemUrl(this.items[this.itemId]?.name);
   }
 
   /** pt-BR description (HTML) for a consumable's hover popover, memoised. */

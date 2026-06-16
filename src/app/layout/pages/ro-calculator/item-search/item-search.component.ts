@@ -4,40 +4,41 @@ import { DropdownModel } from '../../../../models/dropdown.model';
 import { ItemModel } from '../../../../models/item.model';
 import { Observable, Subject, Subscription, debounceTime, tap } from 'rxjs';
 import { LayoutService } from '../../../service/app.layout.service';
+import { ItemShopService } from '../item-shop.service';
 
 const positions: DropdownModel[] = [
-  { value: 'weaponList', label: 'Weapon' },
-  { value: 'weaponCardList', label: 'Weapon Card' },
+  { value: 'weaponList', label: 'Arma' },
+  { value: 'weaponCardList', label: 'Carta de Arma' },
 
-  { value: 'shieldList', label: 'Shield' },
-  { value: 'shieldCardList', label: 'Shield Card' },
+  { value: 'shieldList', label: 'Escudo' },
+  { value: 'shieldCardList', label: 'Carta de Escudo' },
 
-  { value: 'headUpperList', label: 'Head Upper' },
-  { value: 'headMiddleList', label: 'Head Middle' },
-  { value: 'headLowerList', label: 'Head Lower' },
-  { value: 'headCardList', label: 'Head Card' },
+  { value: 'headUpperList', label: 'Topo' },
+  { value: 'headMiddleList', label: 'Meio' },
+  { value: 'headLowerList', label: 'Baixo' },
+  { value: 'headCardList', label: 'Carta de Cabeça' },
 
-  { value: 'enchants', label: 'Enchant Stone' },
+  { value: 'enchants', label: 'Pedra de Encantamento' },
 
-  { value: 'armorList', label: 'Armor' },
-  { value: 'armorCardList', label: 'Armor Card' },
-  { value: 'garmentList', label: 'Garment' },
-  { value: 'garmentCardList', label: 'Garment Card' },
-  { value: 'bootList', label: 'Boot' },
-  { value: 'bootCardList', label: 'Boot Card' },
-  { value: 'accList', label: 'Acc' },
-  { value: 'accCardList', label: 'Acc Card' },
+  { value: 'armorList', label: 'Armadura' },
+  { value: 'armorCardList', label: 'Carta de Armadura' },
+  { value: 'garmentList', label: 'Capa' },
+  { value: 'garmentCardList', label: 'Carta de Capa' },
+  { value: 'bootList', label: 'Botas' },
+  { value: 'bootCardList', label: 'Carta de Botas' },
+  { value: 'accList', label: 'Acessório' },
+  { value: 'accCardList', label: 'Carta de Acessório' },
 
   { value: 'petList', label: 'Pet' },
 
-  { value: 'costumeList', label: 'Costume' },
+  { value: 'costumeList', label: 'Visual' },
 
-  { value: 'shadowWeaponList', label: 'Shadow Weapon' },
-  { value: 'shadowArmorList', label: 'Shadow Armor' },
-  { value: 'shadowShieldList', label: 'Shadow Shield' },
-  { value: 'shadowBootList', label: 'Shadow Boot' },
-  { value: 'shadowEarringList', label: 'Shadow Earring' },
-  { value: 'shadowPendantList', label: 'Shadow Pendant' },
+  { value: 'shadowWeaponList', label: 'Arma Sombria' },
+  { value: 'shadowArmorList', label: 'Armadura Sombria' },
+  { value: 'shadowShieldList', label: 'Escudo Sombrio' },
+  { value: 'shadowBootList', label: 'Botas Sombrias' },
+  { value: 'shadowEarringList', label: 'Brinco Sombrio' },
+  { value: 'shadowPendantList', label: 'Pingente Sombrio' },
 ];
 
 @Component({
@@ -48,6 +49,8 @@ const positions: DropdownModel[] = [
 export class ItemSearchComponent implements OnInit, OnDestroy {
   @Input({ required: true }) items!: Record<number, ItemModel>;
   @Input({ required: true }) selectedCharacter: any;
+  /** pt-BR class name for the dialog title; falls back to the English className. */
+  @Input() className = '';
   @Input({ required: true }) equipableItems: (DropdownModel & { id: number; position: string })[];
   @Input({ required: true }) offensiveSkills: DropdownModel[] = [];
   @Input({ required: true }) onClassChanged: Observable<boolean>;
@@ -59,7 +62,31 @@ export class ItemSearchComponent implements OnInit, OnDestroy {
   private selectItemSource = new Subject<number>();
   private onSelectItemChange$ = this.selectItemSource.asObservable();
 
-  constructor(private layoutService: LayoutService) {}
+  constructor(
+    private layoutService: LayoutService,
+    private readonly itemShop: ItemShopService,
+  ) {}
+
+  // Shop server selector (shared state with the "Descrições dos Itens" section).
+  get shopServerOptions() {
+    return this.itemShop.serverOptions;
+  }
+  get selectedShopServer(): string {
+    return this.itemShop.server;
+  }
+  set selectedShopServer(value: string) {
+    this.itemShop.server = value;
+  }
+
+  /** Divine Pride database page for the currently inspected item. */
+  get divinePrideItemUrl(): string {
+    return this.itemShop.divinePrideItemUrl(this.activeFilteredItem?.id);
+  }
+
+  /** GnJoy LATAM market (buy orders) search for the inspected item on the selected server. */
+  get marketItemUrl(): string {
+    return this.itemShop.marketItemUrl(this.items[this.activeFilteredItem?.id]?.name);
+  }
 
   isShowSearchDialog = false;
   itemPositionOptions = positions;
