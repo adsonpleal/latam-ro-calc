@@ -49,9 +49,15 @@ export class LayoutService {
 
   private overlayOpen = new Subject<any>();
 
+  private itemSearchOpen = new Subject<void>();
+
   configUpdate$ = this.configUpdate.asObservable();
 
   overlayOpen$ = this.overlayOpen.asObservable();
+
+  /** Fired by the topbar "Itens" button so the page-level item-search dialog opens
+   *  (the trigger lives in the global topbar, the dialog lives inside the calculator). */
+  itemSearchOpen$ = this.itemSearchOpen.asObservable();
 
   constructor() {
     this.onConfigUpdate();
@@ -85,6 +91,10 @@ export class LayoutService {
 
   showConfigSidebar() {
     this.state.configSidebarVisible = true;
+  }
+
+  openItemSearch() {
+    this.itemSearchOpen.next();
   }
 
   showMyProfileSidebar() {

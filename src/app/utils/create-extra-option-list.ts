@@ -17,6 +17,7 @@ const TR: Record<string, string> = {
   Melee: 'Corpo a corpo',
   'CRI Rate': 'Taxa Crít.',
   'CRI Dmg': 'Dano Crít.',
+  Delay: 'Pós-conjuração',
 };
 const tr = (s: string) => TR[s] ?? s;
 

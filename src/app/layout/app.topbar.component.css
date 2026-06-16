@@ -17,3 +17,8 @@
 .youtube-link {
   background-color: black;
 }
+
+/* push the Itens / Config buttons to the right corner of the topbar */
+.topbar-actions {
+  margin-left: auto;
+}

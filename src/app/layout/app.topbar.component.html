@@ -10,6 +10,20 @@
   </button>
   <button pButton class="pl-2 p-button-text p-button-info p-button-raised" (click)="showReferenceDialog()">Referências</button>
 
+  <div class="topbar-actions flex align-items-center gap-2">
+    <button pButton class="p-button-info p-button-raised px-2" (click)="openItemSearch()">
+      <i class="pi pi-search"></i>
+      <span class="pl-1">Itens</span>
+    </button>
+    <button
+      pButton
+      class="p-button-success p-button-raised p-button-icon-only"
+      icon="pi pi-cog"
+      aria-label="Config"
+      (click)="openConfig()"
+    ></button>
+  </div>
+
   <p-dialog header="Informações adicionais" [draggable]="false" [resizable]="false" [modal]="true" [(visible)]="visibleInfo" [style]="{ width: '50vw' }">
     <div class="card flex flex-column align-items-center gap-2 flex-wrap">
       <ul>

@@ -3,6 +3,7 @@ import { createBonusNameList, prettyItemDesc } from '../../../../utils';
 import { DropdownModel } from '../../../../models/dropdown.model';
 import { ItemModel } from '../../../../models/item.model';
 import { Observable, Subject, Subscription, debounceTime, tap } from 'rxjs';
+import { LayoutService } from '../../../service/app.layout.service';
 
 const positions: DropdownModel[] = [
   { value: 'weaponList', label: 'Weapon' },
@@ -53,9 +54,12 @@ export class ItemSearchComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
   private subscription2: Subscription;
+  private subscription3: Subscription;
 
   private selectItemSource = new Subject<number>();
   private onSelectItemChange$ = this.selectItemSource.asObservable();
+
+  constructor(private layoutService: LayoutService) {}
 
   isShowSearchDialog = false;
   itemPositionOptions = positions;
@@ -102,11 +106,14 @@ export class ItemSearchComponent implements OnInit, OnDestroy {
       .subscribe((itemId) => {
         this.seletedItemId = itemId;
       });
+    // The "Itens" trigger now lives in the global topbar; open the dialog on its signal.
+    this.subscription3 = this.layoutService.itemSearchOpen$.subscribe(() => this.showSearchDialog());
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
     this.subscription2?.unsubscribe();
+    this.subscription3?.unsubscribe();
   }
 
   onItemSearchFilterChange() {

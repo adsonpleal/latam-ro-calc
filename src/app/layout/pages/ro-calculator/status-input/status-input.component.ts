@@ -15,6 +15,12 @@ export class StatusInputComponent {
   @Input({ required: true }) extraValue: number;
   @Input() badgeSeverity: 'success' | 'info' | 'warning' | 'danger' = 'info';
   @Input() disabled = false;
+  /** When false the "+N" badge isn't clickable (no equipped item contributes to this
+   *  stat, so its breakdown would be empty). */
+  @Input() extraClickable = true;
+  /** Emitted when the "+N" equip-bonus badge is clicked; the parent opens the
+   *  "which items contribute" breakdown for this stat. */
+  @Output() extraClick = new EventEmitter<void>();
 
   constructor() {}
 

@@ -18,8 +18,22 @@
       <ng-template pTemplate="filtericon"> </ng-template>
     </p-dropdown>
   </div>
-  <span *ngIf="badgeSeverity === 'info'" class="_font-medium text-lg text-cyan-300 mr-1" style="min-width: 35px">+{{ extraValue }}</span>
-  <span *ngIf="badgeSeverity !== 'info'" class="_font-medium text-lg text-yellow-400" style="min-width: 35px">+{{ extraValue }}</span>
+  <span
+    *ngIf="badgeSeverity === 'info'"
+    class="_font-medium text-lg text-cyan-300 mr-1"
+    [class.bonus_clickable]="extraValue && extraClickable"
+    (click)="extraValue && extraClickable && extraClick.emit()"
+    style="min-width: 35px; position: relative; z-index: 1"
+    >+{{ extraValue }}</span
+  >
+  <span
+    *ngIf="badgeSeverity !== 'info'"
+    class="_font-medium text-lg text-yellow-400"
+    [class.bonus_clickable]="extraValue && extraClickable"
+    (click)="extraValue && extraClickable && extraClick.emit()"
+    style="min-width: 35px; position: relative; z-index: 1"
+    >+{{ extraValue }}</span
+  >
 
   <!-- <p-badge value="+{{ extraValue }}" size="large" severity="{{ badgeSeverity }}"></p-badge> -->
 </div>

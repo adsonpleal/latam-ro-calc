@@ -31,14 +31,16 @@
   [resizable]="false"
   [style]="{ width: '420px', 'max-width': '92vw' }"
 >
-  <div *ngIf="bonusBreakdownRows.length === 0" class="p-2 text-center">Nenhum item contribui para este valor.</div>
+  <div *ngIf="bonusBreakdownRows.length === 0" class="p-2 text-center">
+    Sem contribuição de itens — este valor vem de atributos base/classe.
+  </div>
   <ul *ngIf="bonusBreakdownRows.length" class="bonus_breakdown_list">
     <li *ngFor="let r of bonusBreakdownRows" class="flex align-items-center justify-content-between py-2 px-1">
       <span class="flex align-items-center gap-2 text_ellips">
         <img *ngIf="r.icon" [src]="r.icon | iconUrl: r.iconType" alt="" class="skill_icon" />
         <span>{{ r.label }}</span>
       </span>
-      <span class="{{ bonusBreakdownValueClass }} font-semibold ml-2">{{ r.value > 0 ? '+' + r.value : r.value }}</span>
+      <span class="{{ bonusBreakdownValueClass }} font-semibold ml-2">{{ r.value > 0 ? '+' + r.value : r.value }}{{ r.isPercent ? '%' : '' }}</span>
     </li>
   </ul>
 </p-dialog>
@@ -159,6 +161,7 @@
                     [(value)]="model.str"
                     (valueChange)="onBaseStatusChange()"
                     [extraValue]="(model.jobStr || 0) + (totalSummary?.str || 0)"
+                    (extraClick)="showBonusBreakdown({ label: 'FOR', keys: statBreakdownKeys('str'), valueClass: 'summary_value' })"
                   ></app-status-input>
                 </div>
                 <div class="col-6">
@@ -170,6 +173,7 @@
                     (valueChange)="onBaseStatusChange()"
                     [extraValue]="(model.jobPow || 0) + (totalSummary?.pow || 0)"
                     badgeSeverity="danger"
+                    (extraClick)="showBonusBreakdown({ label: 'POD', keys: statBreakdownKeys('pow'), valueClass: 'summary_stat_yellow' })"
                   ></app-status-input>
                 </div>
               </div>
@@ -183,6 +187,7 @@
                     [(value)]="model.agi"
                     (valueChange)="onBaseStatusChange()"
                     [extraValue]="(model.jobAgi || 0) + (totalSummary?.agi || 0)"
+                    (extraClick)="showBonusBreakdown({ label: 'AGI', keys: statBreakdownKeys('agi'), valueClass: 'summary_value' })"
                   ></app-status-input>
                 </div>
                 <div class="col-6">
@@ -194,6 +199,7 @@
                     (valueChange)="onBaseStatusChange()"
                     [extraValue]="(model.jobSta || 0) + (totalSummary?.sta || 0)"
                     badgeSeverity="danger"
+                    (extraClick)="showBonusBreakdown({ label: 'STA', keys: statBreakdownKeys('sta'), valueClass: 'summary_stat_yellow' })"
                   ></app-status-input>
                 </div>
               </div>
@@ -207,6 +213,7 @@
                     [(value)]="model.vit"
                     (valueChange)="onBaseStatusChange()"
                     [extraValue]="(model.jobVit || 0) + (totalSummary?.vit || 0)"
+                    (extraClick)="showBonusBreakdown({ label: 'VIT', keys: statBreakdownKeys('vit'), valueClass: 'summary_value' })"
                   ></app-status-input>
                 </div>
                 <div class="col-6">
@@ -218,6 +225,7 @@
                     (valueChange)="onBaseStatusChange()"
                     [extraValue]="(model.jobWis || 0) + (totalSummary?.wis || 0)"
                     badgeSeverity="danger"
+                    (extraClick)="showBonusBreakdown({ label: 'SAB', keys: statBreakdownKeys('wis'), valueClass: 'summary_stat_yellow' })"
                   ></app-status-input>
                 </div>
               </div>
@@ -231,6 +239,7 @@
                     [(value)]="model.int"
                     (valueChange)="onBaseStatusChange()"
                     [extraValue]="(model.jobInt || 0) + (totalSummary?.int || 0)"
+                    (extraClick)="showBonusBreakdown({ label: 'INT', keys: statBreakdownKeys('int'), valueClass: 'summary_value' })"
                   ></app-status-input>
                 </div>
                 <div class="col-6">
@@ -242,6 +251,7 @@
                     (valueChange)="onBaseStatusChange()"
                     [extraValue]="(model.jobSpl || 0) + (totalSummary?.spl || 0)"
                     badgeSeverity="danger"
+                    (extraClick)="showBonusBreakdown({ label: 'FEI', keys: statBreakdownKeys('spl'), valueClass: 'summary_stat_yellow' })"
                   ></app-status-input>
                 </div>
               </div>
@@ -255,6 +265,7 @@
                     [(value)]="model.dex"
                     (valueChange)="onBaseStatusChange()"
                     [extraValue]="(model.jobDex || 0) + (totalSummary?.dex || 0)"
+                    (extraClick)="showBonusBreakdown({ label: 'DES', keys: statBreakdownKeys('dex'), valueClass: 'summary_value' })"
                   ></app-status-input>
                 </div>
                 <div class="col-6">
@@ -266,6 +277,7 @@
                     (valueChange)="onBaseStatusChange()"
                     [extraValue]="(model.jobCon || 0) + (totalSummary?.con || 0)"
                     badgeSeverity="danger"
+                    (extraClick)="showBonusBreakdown({ label: 'CON', keys: statBreakdownKeys('con'), valueClass: 'summary_stat_yellow' })"
                   ></app-status-input>
                 </div>
               </div>
@@ -279,6 +291,7 @@
                     [(value)]="model.luk"
                     (valueChange)="onBaseStatusChange()"
                     [extraValue]="(model.jobLuk || 0) + (totalSummary?.luk || 0)"
+                    (extraClick)="showBonusBreakdown({ label: 'SOR', keys: statBreakdownKeys('luk'), valueClass: 'summary_value' })"
                   ></app-status-input>
                 </div>
                 <div class="col-6">
@@ -290,6 +303,7 @@
                     (valueChange)="onBaseStatusChange()"
                     [extraValue]="(model.jobCrt || 0) + (totalSummary?.crt || 0)"
                     badgeSeverity="danger"
+                    (extraClick)="showBonusBreakdown({ label: 'CRV', keys: statBreakdownKeys('crt'), valueClass: 'summary_stat_yellow' })"
                   ></app-status-input>
                 </div>
               </div>
@@ -306,7 +320,11 @@
                 <div class="grid grid-nogutter">
                   <div class="col-12">
                     Alt+Q ATQ:
-                    <span class="font-semibold px-1 summary_stat_atk">
+                    <span
+                      class="font-semibold px-1 summary_stat_atk"
+                      [class.bonus_clickable]="canBreakdown(['atk'])"
+                      (click)="showBonusBreakdown({ label: 'ATQ', keys: ['atk'], valueClass: 'summary_stat_atk' })"
+                    >
                       {{ totalSummary?.calc?.totalStatusAtk || 0 }} +
                       {{
                         totalSummary?.weapon?.baseWeaponAtk +
@@ -318,52 +336,53 @@
                   </div>
                   <div [hidden]="env.production" class="col-12">
                     ATQ Equip:
-                    <span class="font-semibold px-1 summary_stat_atk">{{ totalSummary?.atk || 0 }} + {{ totalSummary?.atkPercent || 0 }} %</span>
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['atk'])" (click)="showBonusBreakdown({ label: 'ATQ (equip)', keys: ['atk'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.atk || 0 }}</span> +
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['atkPercent'])" (click)="showBonusBreakdown({ label: 'ATQ %', keys: ['atkPercent'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.atkPercent || 0 }} %</span>
                   </div>
                   <div class="col-6">
                     P.ATQ:
-                    <span class="font-semibold px-1 summary_stat_atk2">{{ totalSummary?.dmg?.pAtk || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_atk2" [class.bonus_clickable]="(totalSummary?.dmg?.pAtk || 0) !== 0" (click)="showBonusBreakdown({ label: 'P.ATQ', keys: ['pAtk'], valueClass: 'summary_stat_atk2' })">{{ totalSummary?.dmg?.pAtk || 0 }}</span>
                   </div>
                   <div class="col-6">
                     T.CRÍT:
-                    <span class="font-semibold px-1 summary_stat_atk2">{{ totalSummary?.dmg?.cRate || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_atk2" [class.bonus_clickable]="(totalSummary?.dmg?.cRate || 0) !== 0" (click)="showBonusBreakdown({ label: 'T.CRÍT', keys: ['cRate'], valueClass: 'summary_stat_atk2' })">{{ totalSummary?.dmg?.cRate || 0 }}</span>
                   </div>
                   <div class="col-12">
                     VelAtq:
-                    <span class="font-semibold px-1 summary_stat_atk">{{ totalSummary?.calc?.totalAspd || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['aspd'])" (click)="showBonusBreakdown({ label: 'VelAtq', keys: ['aspd'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.calc?.totalAspd || 0 }}</span>
                     <span class="font-semibold px-1 summary_highlight">( {{ totalSummary?.calc?.hitPerSecs || 0 }} Hits/s )</span>
                   </div>
                   <div class="col-12">
                     Precisão:
-                    <span class="font-semibold px-1 summary_stat_atk">{{ totalSummary?.calc?.totalHit || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['hit'])" (click)="showBonusBreakdown({ label: 'Precisão', keys: ['hit'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.calc?.totalHit || 0 }}</span>
                     Perfeita:
-                    <span class="font-semibold px-1 summary_stat_atk">{{ totalSummary?.calc?.totalPerfectHit || 0 }} %</span>
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="(totalSummary?.calc?.totalPerfectHit || 0) !== 0" (click)="showBonusBreakdown({ label: 'Precisão Perfeita', keys: ['perfectHit'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.calc?.totalPerfectHit || 0 }} %</span>
                   </div>
                   <div class="col-12">
                     Crítico:
-                    <span class="font-semibold px-1 summary_stat_atk">{{ totalSummary?.calc?.totalCri || 0 }} %</span>
-                    Dano: <span class="font-semibold px-1 summary_stat_atk">{{ totalSummary?.criDmg || 0 }} %</span>
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['cri'])" (click)="showBonusBreakdown({ label: 'Crítico', keys: ['cri'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.calc?.totalCri || 0 }} %</span>
+                    Dano: <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['criDmg'])" (click)="showBonusBreakdown({ label: 'Dano crítico', keys: ['criDmg'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.criDmg || 0 }} %</span>
                   </div>
                   <div class="col-12">
                     Corpo a corpo:
-                    <span class="font-semibold px-1 summary_stat_atk">{{ totalSummary?.melee || 0 }} %</span> À distância:
-                    <Span class="font-semibold px-1 summary_stat_atk">{{ totalSummary?.range || 0 }} %</Span>
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['melee'])" (click)="showBonusBreakdown({ label: 'Corpo a corpo', keys: ['melee'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.melee || 0 }} %</span> À distância:
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['range'])" (click)="showBonusBreakdown({ label: 'À distância', keys: ['range'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.range || 0 }} %</span>
                   </div>
                   <div class="col-12">
                     DEF:
-                    <span class="font-semibold px-1 summary_stat_def">{{ totalSummary?.calc?.softDef || 0 }} + {{ totalSummary?.calc?.def || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_def" [class.bonus_clickable]="canBreakdown(['def'])" (click)="showBonusBreakdown({ label: 'DEF', keys: ['def'], valueClass: 'summary_stat_def' })">{{ totalSummary?.calc?.softDef || 0 }} + {{ totalSummary?.calc?.def || 0 }}</span>
                     RES:
-                    <span class="font-semibold px-1 summary_stat_def2">{{ totalSummary?.calc?.res || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_def2" [class.bonus_clickable]="(totalSummary?.calc?.res || 0) !== 0" (click)="showBonusBreakdown({ label: 'RES', keys: ['res'], valueClass: 'summary_stat_def2' })">{{ totalSummary?.calc?.res || 0 }}</span>
                   </div>
                   <div class="col-12">
                     DEFM:
-                    <span class="font-semibold px-1 summary_stat_def">{{ totalSummary?.calc?.softMdef || 0 }} + {{ totalSummary?.calc?.mdef || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_def" [class.bonus_clickable]="canBreakdown(['mdef'])" (click)="showBonusBreakdown({ label: 'DEFM', keys: ['mdef'], valueClass: 'summary_stat_def' })">{{ totalSummary?.calc?.softMdef || 0 }} + {{ totalSummary?.calc?.mdef || 0 }}</span>
                     RESM:
-                    <span class="font-semibold px-1 summary_stat_def2">{{ totalSummary?.calc?.mres || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_def2" [class.bonus_clickable]="(totalSummary?.calc?.mres || 0) !== 0" (click)="showBonusBreakdown({ label: 'RESM', keys: ['mres'], valueClass: 'summary_stat_def2' })">{{ totalSummary?.calc?.mres || 0 }}</span>
                   </div>
                   <div class="col-12">
                     ESQV:
-                    <span class="font-semibold px-1 summary_stat_def">{{ totalSummary?.calc?.totalFlee || 0 }} + {{ totalSummary?.calc?.totalPerfectDodge || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_def" [class.bonus_clickable]="canBreakdown(['flee', 'perfectDodge'])" (click)="showBonusBreakdown({ label: 'Esquiva', keys: ['flee', 'perfectDodge'], valueClass: 'summary_stat_def' })">{{ totalSummary?.calc?.totalFlee || 0 }} + {{ totalSummary?.calc?.totalPerfectDodge || 0 }}</span>
                   </div>
                 </div>
               </div>
@@ -371,7 +390,10 @@
                 <div class="grid grid-nogutter mx-1">
                   <div class="col-12">
                     Alt+Q ATQM:
-                    <span class="font-semibold px-1 summary_stat_matk"
+                    <span
+                      class="font-semibold px-1 summary_stat_matk"
+                      [class.bonus_clickable]="canBreakdown(['matk'])"
+                      (click)="showBonusBreakdown({ label: 'ATQM', keys: ['matk'], valueClass: 'summary_stat_matk' })"
                       >{{ totalSummary?.calc?.totalStatusMatk || 0 }} +
                       {{
                         totalSummary?.weapon?.baseWeaponMatk +
@@ -383,25 +405,26 @@
                   </div>
                   <div [hidden]="env.production" class="col-12">
                     ATQM Equip:
-                    <span class="font-semibold px-1 summary_stat_matk">{{ totalSummary?.matk || 0 }} + {{ totalSummary?.matkPercent || 0 }} %</span>
+                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['matk'])" (click)="showBonusBreakdown({ label: 'ATQM (equip)', keys: ['matk'], valueClass: 'summary_stat_matk' })">{{ totalSummary?.matk || 0 }}</span> +
+                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['matkPercent'])" (click)="showBonusBreakdown({ label: 'ATQM %', keys: ['matkPercent'], valueClass: 'summary_stat_matk' })">{{ totalSummary?.matkPercent || 0 }} %</span>
                   </div>
                   <div class="col-12">
                     ATQM
-                    <span class="font-semibold px-1 summary_stat_matk">{{ totalSummary?.matkPercent || 0 }} %</span>
+                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['matkPercent'])" (click)="showBonusBreakdown({ label: 'ATQM %', keys: ['matkPercent'], valueClass: 'summary_stat_matk' })">{{ totalSummary?.matkPercent || 0 }} %</span>
                     S.ATQM:
-                    <span class="font-semibold px-1 summary_stat_matk2">{{ totalSummary?.dmg?.sMatk || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_matk2" [class.bonus_clickable]="(totalSummary?.dmg?.sMatk || 0) !== 0" (click)="showBonusBreakdown({ label: 'S.ATQM', keys: ['sMatk'], valueClass: 'summary_stat_matk2' })">{{ totalSummary?.dmg?.sMatk || 0 }}</span>
                   </div>
                   <div class="col-12">
-                    Atraso Pós-Conj.:
-                    <span class="font-semibold px-1 summary_stat_matk">{{ totalSummary?.acd || 0 }}</span>
+                    Pós-conjuração:
+                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['acd'])" (click)="showBonusBreakdown({ label: 'Pós-conjuração', keys: ['acd'], valueClass: 'summary_stat_matk' })">{{ totalSummary?.acd || 0 }}</span>
                   </div>
                   <div class="col-12">
                     Conj. Fixa:
-                    <span class="font-semibold px-1 summary_stat_matk">{{ totalSummary?.fct || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['fct'])" (click)="showBonusBreakdown({ label: 'Conj. Fixa', keys: ['fct'], valueClass: 'summary_stat_matk' })">{{ totalSummary?.fct || 0 }}</span>
                   </div>
                   <div class="col-12">
                     Conj. Variável:
-                    <span class="font-semibold px-1 summary_stat_matk">{{ totalSummary?.vct || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['vct'])" (click)="showBonusBreakdown({ label: 'Conj. Variável', keys: ['vct'], valueClass: 'summary_stat_matk' })">{{ totalSummary?.vct || 0 }}</span>
                   </div>
                   <div class="col-12">
                     DES2 INT1:
@@ -412,7 +435,7 @@
                     <div class="grid grid-nogutter">
                       <div class="col-12 flex gap-1">
                         HP:
-                        <span class="font-semibold px-1 summary_stat_yellow">{{ totalSummary?.calc?.maxHp || 0 | number }}</span>
+                        <span class="font-semibold px-1 summary_stat_yellow" [class.bonus_clickable]="canBreakdown(['hp', 'hpPercent'])" (click)="showBonusBreakdown({ label: 'HP máx.', keys: ['hp', 'hpPercent'], valueClass: 'summary_stat_yellow' })">{{ totalSummary?.calc?.maxHp || 0 | number }}</span>
                         <!-- <p-cascadeSelect
                           [(ngModel)]="model.rawOptionTxts[itemOptionNumber.X_HP]"
                           [options]="baseHpOptions"
@@ -428,7 +451,7 @@
                       </div>
                       <div class="col-12 flex gap-1">
                         SP:
-                        <span class="font-semibold px-1 summary_stat_yellow">{{ totalSummary?.calc?.maxSp || 0 | number }}</span>
+                        <span class="font-semibold px-1 summary_stat_yellow" [class.bonus_clickable]="canBreakdown(['sp', 'spPercent'])" (click)="showBonusBreakdown({ label: 'SP máx.', keys: ['sp', 'spPercent'], valueClass: 'summary_stat_yellow' })">{{ totalSummary?.calc?.maxSp || 0 | number }}</span>
                         <!-- <p-cascadeSelect
                           [(ngModel)]="model.rawOptionTxts[itemOptionNumber.X_SP]"
                           [options]="baseSpOptions"
@@ -1927,7 +1950,8 @@
         <app-misc-detail [elementTable]="[]" [raceTable]="peneRaceTable" [sizeTable]="[]" [classTable]="peneClassTable" [skillMultiplierTable]="[]" [isPene]="true" (valueClick)="showBonusBreakdown($event)"></app-misc-detail>
       </p-accordionTab>
 
-      <p-accordionTab header="Resumo">
+      <!-- Hidden for now (code kept): flip *ngIf back to true to restore the "Resumo" tab. -->
+      <p-accordionTab header="Resumo" *ngIf="false">
         <div class="grid grid-nogutter" style="overflow: auto">
           <div class="col-6 json_display">
             <pre [innerHTML]="modelSummary | prettyjson: [true, 3]"></pre>
@@ -1939,7 +1963,8 @@
         </div>
       </p-accordionTab>
 
-      <p-accordionTab header="Resumo de Equipamentos">
+      <!-- Hidden for now (code kept): flip *ngIf back to true to restore the "Resumo de Equipamentos" tab. -->
+      <p-accordionTab header="Resumo de Equipamentos" *ngIf="false">
         <div class="grid grid-nogutter">
           <div class="col-6 json_display">
             <pre [innerHTML]="itemSummary | prettyjson: [true, 3]"></pre>
@@ -1953,6 +1978,18 @@
       <p-accordionTab header="Descrições dos Itens">
         <div class="grid grid-nogutter">
           <div class="col-4">
+            <div class="flex align-items-center gap-2 px-2 py-2">
+              <span class="text-sm white-space-nowrap">Servidor:</span>
+              <p-dropdown
+                class="flex-1"
+                [options]="shopServerOptions"
+                [(ngModel)]="selectedShopServer"
+                optionLabel="label"
+                optionValue="value"
+                styleClass="w-full"
+                (onChange)="onSelectShopServer()"
+              ></p-dropdown>
+            </div>
             <div class="item_label_compare" *ngIf="isEnableCompare && equipCompareItems?.length">
               <p-listbox
                 [options]="equipCompareItems"
@@ -1990,11 +2027,34 @@
           </div>
           <div class="col-8">
             <div class="grid grid-nogutter ml-2" style="max-height: 700px; overflow: auto">
-              <div class="col-12 json_display">
-                ItemID: {{ itemId }}
-                <pre [innerHTML]="itemBonus | prettyjson: [true, 3]"></pre>
+              <div *ngIf="!itemId" class="col-12 flex flex-column align-items-center justify-content-center text-center px-3" style="min-height: 240px; opacity: 0.6">
+                <i class="pi pi-arrow-circle-left" style="font-size: 2.5rem"></i>
+                <p class="mt-3 mb-0">Selecione um item na lista ao lado para ver seus bônus e descrição.</p>
               </div>
-              <div class="col-12 px-2 py-2" style="color: #000; background-color: #fff" [innerHTML]="itemDescription"></div>
+              <ng-container *ngIf="itemId">
+                <div class="col-12 json_display">
+                  <div class="flex flex-column align-items-start gap-1">
+                    <span>
+                      Item ID:
+                      <a [href]="divinePrideItemUrl" target="_blank" rel="noopener noreferrer">{{ itemId }}</a>
+                    </span>
+                    <a [href]="marketItemUrl" target="_blank" rel="noopener noreferrer" class="flex align-items-center gap-1">
+                      <i class="pi pi-shopping-cart"></i> Mercado
+                    </a>
+                  </div>
+                  <ul *ngIf="itemBonusRows.length" class="bonus_breakdown_list mt-2">
+                    <li *ngFor="let r of itemBonusRows" class="flex align-items-center justify-content-between py-1 px-1">
+                      <span class="flex align-items-center gap-2 text_ellips">
+                        <img *ngIf="r.icon" [src]="r.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                        <span>{{ r.label }}</span>
+                      </span>
+                      <span class="font-semibold ml-2 item_bonus_value">{{ r.display }}</span>
+                    </li>
+                  </ul>
+                  <div *ngIf="!itemBonusRows.length" class="px-1 py-2" style="opacity: 0.7">Sem bônus.</div>
+                </div>
+                <div class="col-12 px-2 py-2 mt-3" style="color: #000; background-color: #fff" [innerHTML]="itemDescription"></div>
+              </ng-container>
             </div>
           </div>
         </div>

@@ -236,10 +236,14 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   /** Full per-source bonus breakdown (every equip slot/card/enchant + skills) from
    *  the last calc; powers the "which items contribute to this value" modal. */
   private bonusBreakdownSources: Record<string, any> = {};
+  /** Every bonus key that at least one source contributes to (non-zero) in the last
+   *  calc. A summary value is only worth a breakdown — and thus only clickable — when
+   *  one of its keys is here; base/trait-derived stats (no item source) are excluded. */
+  private bonusBreakdownKeys = new Set<string>();
   isShowBonusBreakdown = false;
   bonusBreakdownTitle = '';
   bonusBreakdownValueClass = 'summary_damage';
-  bonusBreakdownRows: { label: string; icon?: number; iconType: 'item' | 'skill'; value: number }[] = [];
+  bonusBreakdownRows: { label: string; icon?: number; iconType: 'item' | 'skill'; value: number; isPercent?: boolean }[] = [];
   modelSummary: any;
   totalSummary: any;
 
@@ -268,7 +272,17 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   selectedItemDesc: ItemTypeEnum;
   itemId = 0;
   itemBonus = {};
+  /** Visual rows for the item-bonus panel (replaces the raw JSON dump): each stat/skill
+   *  bonus as a labelled row, skill-named bonuses carrying their pt-BR skill icon. */
+  itemBonusRows: { label: string; icon?: number; display: string; isSkill: boolean }[] = [];
   itemDescription = '';
+
+  /** LATAM shops are split per server; the market link below points at whichever is selected. */
+  shopServerOptions = [
+    { label: 'Freya', value: 'FREYA' },
+    { label: 'Nidhogg', value: 'NIDHOGG' },
+  ];
+  selectedShopServer = localStorage.getItem('ro-shop-server') || 'FREYA';
   /** memoised pt-BR item descriptions (HTML) for the consumable hover popovers */
   private itemDescCache = new Map<number, string>();
 
@@ -731,6 +745,14 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.modelSummary = { ...modelSummary, rawOptionTxts: modelSummary.rawOptionTxts.filter(Boolean) };
     const x = calc.getItemSummary();
     this.bonusBreakdownSources = x;
+    const contributingKeys = new Set<string>();
+    for (const map of Object.values(x)) {
+      if (!map || typeof map !== 'object') continue;
+      for (const [k, v] of Object.entries(map)) {
+        if (typeof v === 'number' && v !== 0) contributingKeys.add(k);
+      }
+    }
+    this.bonusBreakdownKeys = contributingKeys;
     const splitNumber = Object.keys(x).length / 2;
     const part1 = Object.entries(x).filter((a, index) => {
       return index < splitNumber;
@@ -1980,7 +2002,114 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
     this.itemId = itemId;
     this.itemBonus = bonus; //{ script, bonus };
+    this.itemBonusRows = this.buildItemBonusRows(bonus);
     this.itemDescription = prettyItemDesc(this.items[itemId]?.description);
+  }
+
+  /** Turn a flat item-bonus summary ({ key: value }) into display rows. Skill-named
+   *  keys resolve to their pt-BR skill (icon + name, value shown as a % skill-damage
+   *  bonus); every other key gets a localized stat label. Skills are grouped last so
+   *  the icon column reads cleanly — mirrors the visual bonus lists used elsewhere. */
+  private buildItemBonusRows(bonus: Record<string, any>): { label: string; icon?: number; display: string; isSkill: boolean }[] {
+    const fmt = (v: number) => (v > 0 ? `+${v}` : `${v}`);
+    const rows = Object.entries(bonus || {}).map(([key, value]) => {
+      const skill = this.resolveSkill(key);
+      if (skill) {
+        const display = typeof value === 'number' ? `${fmt(value)}%` : `${value}`;
+        return { label: skill.name, icon: skill.id, display, isSkill: true };
+      }
+      const display = typeof value === 'number' ? fmt(value) : `${value}`;
+      return { label: this.bonusKeyLabel(key), display, isSkill: false };
+    });
+    return [...rows.filter((r) => !r.isSkill), ...rows.filter((r) => r.isSkill)];
+  }
+
+  /** pt-BR label for an item/equip bonus key: explicit overrides first, then the shared
+   *  buff labels, then a decoder for the structured damage keys (p_/m_ × size/element/
+   *  race/class), falling back to the raw key when nothing matches. */
+  private bonusKeyLabel(key: string): string {
+    return this.itemBonusLabels[key] ?? this.buffBonusLabels[key] ?? this.decodeStructuredBonusKey(key) ?? key;
+  }
+
+  // pt-BR stat labels aligned with the battle-summary panel (ATQ/ATQM/DEFM/VelAtq/Conj. …),
+  // so the item-bonus list reads the same as the rest of the UI instead of raw EN abbreviations.
+  private readonly itemBonusLabels: Record<string, string> = {
+    hp: 'HP máx.', hpPercent: 'HP máx. %', sp: 'SP máx.', spPercent: 'SP máx. %',
+    def: 'DEF', defPercent: 'DEF %', softDef: 'DEF Suave', softDefPercent: 'DEF Suave %',
+    mdef: 'DEFM', mdefPercent: 'DEFM %', softMdef: 'DEFM Suave', softMdefPercent: 'DEFM Suave %',
+    res: 'RES', mres: 'RESM',
+    allStatus: 'Todos os atributos', allTrait: 'Todos os traços',
+    range: 'Dano à distância', melee: 'Dano corpo a corpo', bowRange: 'Alcance do arco',
+    atk: 'ATQ', x_atk: 'ATQ (extra)', cannonballAtk: 'ATQ Bala de Canhão', atkPercent: 'ATQ %',
+    matk: 'ATQM', matkPercent: 'ATQM %', flatDmg: 'Dano fixo', dmg: 'Dano',
+    pAtk: 'P.ATQ', sMatk: 'S.ATQM', cRate: 'T.CRÍT',
+    aspd: 'VelAtq', aspdPercent: 'VelAtq %',
+    skillAspd: 'VelAtq (hab.)', skillAspdPercent: 'VelAtq % (hab.)', decreaseSkillAspdPercent: 'Reduz VelAtq (hab.)',
+    acd: 'Pós-conjuração', fct: 'Conj. Fixa', fctPercent: 'Conj. Fixa %',
+    vct: 'Conj. Variável', vct_inc: 'Conj. Variável (aumento)', vctBySkill: 'Conj. Variável (hab.)',
+    hit: 'Precisão', perfectHit: 'Precisão Perfeita', cri: 'Crítico', criDmg: 'Dano crítico',
+    perfectDodge: 'Esquiva perfeita', flee: 'Esquiva', forceCri: 'Força crítico',
+    ignore_size_penalty: 'Ignora penalidade de tamanho', p_infiltration: 'Infiltração física',
+    p_final: 'Dano físico final', m_final: 'Dano mágico final', mildwind: 'Vento Suave',
+  };
+
+  private readonly bonusKeyParts = {
+    atk: { p: 'Físico', m: 'Mágico' } as Record<string, string>,
+    cat: { size: 'Tamanho', element: 'Elemento', race: 'Raça', class: 'Classe' } as Record<string, string>,
+    sub: {
+      all: 'Todos', s: 'Pequeno', m: 'Médio', l: 'Grande',
+      normal: 'Normal', boss: 'Chefe',
+      neutral: 'Neutro', water: 'Água', earth: 'Terra', fire: 'Fogo', wind: 'Vento',
+      poison: 'Veneno', holy: 'Sagrado', dark: 'Sombrio', ghost: 'Fantasma', undead: 'Morto-vivo',
+      formless: 'Sem Forma', brute: 'Bruto', plant: 'Planta', insect: 'Inseto', fish: 'Peixe',
+      demon: 'Demônio', demihuman: 'Semi-humano', angel: 'Anjo', dragon: 'Dragão',
+    } as Record<string, string>,
+  };
+
+  /** Decode the structured damage keys, e.g. `p_size_l` → "Dano Físico (Tamanho: Grande)",
+   *  `m_pene_race_demon` → "Penetração Mágica (Raça: Demônio)", `pene_res_race_fish` →
+   *  "Penetrar RES (Raça: Peixe)". Returns undefined when the key isn't one of these. */
+  private decodeStructuredBonusKey(key: string): string | undefined {
+    const { atk, cat, sub } = this.bonusKeyParts;
+    let m: RegExpMatchArray | null;
+    // p_/m_ penetration vs a category subtype
+    if ((m = key.match(/^([pm])_pene_(size|element|race|class)_(\w+)$/))) {
+      return `Penetração ${atk[m[1]] === 'Físico' ? 'Física' : 'Mágica'} (${cat[m[2]]}: ${sub[m[3]] ?? m[3]})`;
+    }
+    // m_my_element_* — damage with the character's own element
+    if ((m = key.match(/^m_my_element_(\w+)$/))) {
+      return `Dano Mágico (Meu Elemento: ${sub[m[1]] ?? m[1]})`;
+    }
+    // p_/m_ damage vs a category subtype
+    if ((m = key.match(/^([pm])_(size|element|race|class)_(\w+)$/))) {
+      return `Dano ${atk[m[1]]} (${cat[m[2]]}: ${sub[m[3]] ?? m[3]})`;
+    }
+    // RES/MRES penetration vs a race
+    if ((m = key.match(/^pene_(res|mres)_race_(\w+)$/))) {
+      return `Penetrar ${m[1].toUpperCase()} (Raça: ${sub[m[2]] ?? m[2]})`;
+    }
+    return undefined;
+  }
+
+  onSelectShopServer() {
+    localStorage.setItem('ro-shop-server', this.selectedShopServer);
+  }
+
+  /** Divine Pride database page for the currently inspected item. */
+  get divinePrideItemUrl(): string {
+    return this.itemId ? `https://www.divine-pride.net/database/item/${this.itemId}` : '';
+  }
+
+  /** GnJoy LATAM market (buy orders) search for the inspected item on the selected server. */
+  get marketItemUrl(): string {
+    const name = this.items[this.itemId]?.name;
+    if (!name) return '';
+    const params = new URLSearchParams({
+      storeType: 'BUY',
+      serverType: this.selectedShopServer,
+      searchWord: name,
+    });
+    return `https://ro.gnjoylatam.com/pt/intro/shop-search/trading?${params.toString()}`;
   }
 
   /** pt-BR description (HTML) for a consumable's hover popover, memoised. */
@@ -2057,17 +2186,45 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   /** Open the breakdown modal for a clicked summary value: list every source
    *  (equip slot/card/enchant + skill) whose contribution to `keys` is non-zero. */
+  /** True when at least one equipped source contributes to `keys`; drives whether a
+   *  summary value renders as clickable (no point opening an empty breakdown). */
+  canBreakdown(keys: string[]): boolean {
+    return keys.some((k) => this.bonusBreakdownKeys.has(k));
+  }
+
+  private readonly mainStats = new Set(['str', 'agi', 'vit', 'int', 'dex', 'luk']);
+
+  /** Every source key that feeds a base/trait stat total: the stat itself, the skill
+   *  flat boost (`<stat>Boost`, e.g. Improve Concentration's agiBoost), and the all-stat
+   *  bonus (`allStatus` for main stats, `allTrait` for traits). */
+  statBreakdownKeys(stat: string): string[] {
+    return [stat, `${stat}Boost`, this.mainStats.has(stat) ? 'allStatus' : 'allTrait'];
+  }
+
+  /** A bonus key whose value is a percentage (so the breakdown row shows "%"): the
+   *  `*Percent` keys, the structured `p_/m_/pene_` damage keys, and a few named ones. */
+  private isPercentKey(k: string): boolean {
+    return /Percent$/.test(k) || /^(p|m)_/.test(k) || /^pene_/.test(k) || ['range', 'melee', 'criDmg', 'cri', 'perfectHit'].includes(k);
+  }
+
   showBonusBreakdown(event: { label: string; keys: string[]; valueClass: string }): void {
     const rows: typeof this.bonusBreakdownRows = [];
     for (const [srcKey, bonusMap] of Object.entries(this.bonusBreakdownSources || {})) {
       if (!bonusMap || typeof bonusMap !== 'object') continue;
       let sum = 0;
+      let pct = 0;
+      let flat = 0;
       for (const k of event.keys) {
         const v = (bonusMap as any)[k];
-        if (typeof v === 'number') sum += v;
+        if (typeof v === 'number' && v !== 0) {
+          sum += v;
+          if (this.isPercentKey(k)) pct++;
+          else flat++;
+        }
       }
       if (!sum) continue;
-      rows.push(this.resolveBonusSource(srcKey, sum));
+      // a source contributes via one unit type in practice; only flag "%" when it's purely percent
+      rows.push({ ...this.resolveBonusSource(srcKey, sum), isPercent: pct > 0 && flat === 0 });
     }
     rows.sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
 

@@ -330,6 +330,12 @@ a.skill_link:hover {
   border-bottom: 1px solid var(--surface-border);
 }
 
+/* item-bonus panel value (matches the orange the old JSON dump used for numbers) */
+.item_bonus_value {
+  color: #f2b619;
+  white-space: nowrap;
+}
+
 .monster_id_link {
   margin-top: 0.25rem;
   font-size: 0.85rem;

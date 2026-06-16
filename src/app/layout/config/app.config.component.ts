@@ -81,10 +81,6 @@ export class AppConfigComponent implements OnInit {
     this.layoutService.onConfigUpdate();
   }
 
-  onConfigButtonClick() {
-    this.layoutService.showConfigSidebar();
-  }
-
   changeTheme(theme: string, colorScheme: string) {
     localStorage.setItem('theme', theme);
     localStorage.setItem('colorScheme', colorScheme);

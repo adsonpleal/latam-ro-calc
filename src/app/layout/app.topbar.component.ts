@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LayoutService } from './service/app.layout.service';
 
 @Component({
   selector: 'app-topbar',
@@ -6,6 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.topbar.component.css'],
 })
 export class AppTopBarComponent {
+  constructor(private layoutService: LayoutService) {}
+
   visibleInfo: boolean = false;
   visibleReference = false;
 
@@ -1048,5 +1051,13 @@ export class AppTopBarComponent {
 
   showInfoDialog() {
     this.visibleInfo = true;
+  }
+
+  openItemSearch() {
+    this.layoutService.openItemSearch();
+  }
+
+  openConfig() {
+    this.layoutService.showConfigSidebar();
   }
 }
