@@ -51,7 +51,7 @@
   <div class="p-fluid col-7">
     <!-- Create Update Class -->
     <div class="grid grid-nogutter">
-      <div class="col-4">
+      <div class="col-4 pr-2">
         <div class="grid grid-nogutter">
           <div class="col-12">
             <button
@@ -63,6 +63,14 @@
               [disabled]="isInProcessingPreset || replayBusy"
               (click)="openReplayImport()"
             ></button>
+          </div>
+
+          <div class="col-12">
+            <div class="flex gap-1 mt-1">
+              <button type="button" pButton class="p-button-help p-button-sm flex-1 px-1" icon="pi pi-save" label="Salvar" [disabled]="isInProcessingPreset" (click)="openSaveDialog()"></button>
+              <button type="button" pButton class="p-button-help p-button-sm flex-1 px-1" icon="pi pi-folder-open" label="Simulações" (click)="openSavesDialog()"></button>
+              <button type="button" pButton class="p-button-help p-button-sm flex-1 px-1" icon="pi pi-share-alt" label="Link" [disabled]="isInProcessingPreset" (click)="openShareDialog()"></button>
+            </div>
           </div>
 
           <div class="col-12">
@@ -2093,4 +2101,92 @@
     <b>Talentos (POD/STA/SAB/FEI/CON/CRV) não são gravados no replay</b> — o jogo apenas exibe os da última sessão, então ajuste-os manualmente.
     Bônus aleatórios não são lidos; itens fora do banco de dados são ignorados.
   </p>
+</p-dialog>
+
+<!-- Save the current simulation under a name (browser localStorage) -->
+<p-dialog
+  header="Salvar simulação"
+  [(visible)]="showSaveDialog"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '380px', 'max-width': '92vw' }"
+>
+  <div class="flex flex-column gap-2 pt-2">
+    <label for="saveSimName">Nome da simulação</label>
+    <input
+      id="saveSimName"
+      type="text"
+      pInputText
+      [value]="saveName"
+      (input)="saveName = $any($event.target).value"
+      (keyup.enter)="confirmSave()"
+      placeholder="Ex.: Rune Knight Nv 200"
+    />
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton class="p-button-text" label="Cancelar" (click)="showSaveDialog = false"></button>
+    <button pButton class="p-button-success" icon="pi pi-save" label="Salvar" (click)="confirmSave()"></button>
+  </ng-template>
+</p-dialog>
+
+<!-- Preview / load / delete saved simulations (paper-doll cards) -->
+<p-dialog
+  [(visible)]="showSavesDialog"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '900px', 'max-width': '95vw' }"
+  [contentStyle]="{ 'padding-top': '1rem' }"
+>
+  <ng-template pTemplate="header">
+    <div class="flex align-items-center justify-content-between" style="width: 100%">
+      <span class="text-xl font-medium">Simulações salvas</span>
+      <button pButton class="p-button-sm p-button-outlined mr-3" icon="pi pi-plus" label="Nova simulação" (click)="newSimulation()"></button>
+    </div>
+  </ng-template>
+
+  <div *ngIf="savedSims.length === 0" class="p-5 text-center" style="opacity: 0.7">
+    Nenhuma simulação salva ainda. Monte sua build e use <b>Salvar</b> na barra superior.
+  </div>
+
+  <div class="grid" *ngIf="savedSims.length">
+    <div class="col-12 sm:col-6 lg:col-4 p-2" *ngFor="let sim of savedSims">
+      <div class="border_default px-3 py-2 flex flex-column align-items-center gap-1 cursor-pointer" style="height: 100%" (click)="loadSavedSim(sim)">
+        <img
+          [src]="charSpriteUrl(sim.preset)"
+          [alt]="sim.name"
+          (error)="onCharSpriteError($event, sim.classId)"
+          style="height: 175px; object-fit: contain; image-rendering: pixelated"
+        />
+        <div class="text-center" style="width: 100%">
+          <div class="font-semibold overflow-hidden text-overflow-ellipsis white-space-nowrap">{{ sim.name }}</div>
+          <div class="text-sm" style="opacity: 0.7">{{ classLabel(sim.classId) }} · Nv {{ sim.preset.level }}/{{ sim.preset.jobLevel }}</div>
+        </div>
+        <div class="flex gap-2 justify-content-center mt-auto">
+          <button pButton class="p-button-sm p-button-success" icon="pi pi-upload" label="Carregar" (click)="$event.stopPropagation(); loadSavedSim(sim)"></button>
+          <button pButton class="p-button-sm p-button-danger p-button-outlined" icon="pi pi-trash" aria-label="Excluir" (click)="deleteSavedSim(sim, $event)"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Sharable link with the build embedded in the URL -->
+<p-dialog
+  header="Compartilhar simulação"
+  [(visible)]="showShareDialog"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '480px', 'max-width': '94vw' }"
+>
+  <p class="mt-0 mb-2 text-sm" style="opacity: 0.8">Link com a simulação embutida — quem abrir verá exatamente esta build.</p>
+  <div class="p-inputgroup">
+    <input type="text" pInputText readonly [value]="shareUrl" (focus)="$any($event.target).select()" />
+    <button pButton icon="pi pi-copy" class="p-button-success" aria-label="Copiar link" (click)="copyShareUrl()"></button>
+  </div>
 </p-dialog>

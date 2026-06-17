@@ -303,6 +303,16 @@ export const ClassIcon: Record<ClassIDEnum, number> = {
   4308: 4308,
 } as const;
 
+/**
+ * Inverse of ClassIcon: a real sprite/job id (as the server sends it, e.g. in a
+ * replay — 4073 Royal Guard, 4060 Rune Knight) -> the calc's internal class id
+ * (11, 12, …). 4th jobs map to themselves. Used to translate a replay's class
+ * into the id the calc's class dropdown / icon expect.
+ */
+export const ClassIdBySpriteJob: Record<number, number> = Object.fromEntries(
+  (Object.entries(ClassIcon) as [string, number][]).map(([internalId, jobId]) => [jobId, Number(internalId)]),
+);
+
 export const JobPromotionMapper: Partial<Record<ClassIDEnum, number>> = {
   [ClassIDEnum.RoyalGuard]: ClassIDEnum.ImperialGuard,
   [ClassIDEnum.RuneKnight]: ClassIDEnum.DragonKnight,

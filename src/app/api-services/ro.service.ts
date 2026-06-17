@@ -31,6 +31,7 @@ export class RoService {
   private cachedLatamClasses$: Observable<number[]>;
   private cachedLatamSkills$: Observable<Record<string, { id: number; name: string }>>;
   private cachedLatamSkillDesc$: Observable<Record<string, string>>;
+  private cachedItemViews$: Observable<Record<string, [number, number]>>;
   private _isFirst = true;
 
   constructor(private http: HttpClient) {
@@ -135,6 +136,11 @@ export class RoService {
     this.cachedLatamSkillDesc$ = this.http
       .get<Record<string, string>>('assets/demo/data/latam-skill-desc.json')
       .pipe(shareReplay(1));
+    // item id -> sprite "view" id (client ClassNum) for rendering equipped gear
+    // (headgear/garment) on the character paper-doll (from tools/build-item-views.mjs).
+    this.cachedItemViews$ = this.http
+      .get<Record<string, [number, number]>>('assets/demo/data/item-views.json')
+      .pipe(shareReplay(1));
 
     // this.doX();
     // this.generateHpSp()
@@ -142,6 +148,11 @@ export class RoService {
 
   getItems<T>(): Observable<T> {
     return this.cachedItems$;
+  }
+
+  /** item id -> [sprite view id (ClassNum), visual-slot mask], for the paper-doll. */
+  getItemViews(): Observable<Record<string, [number, number]>> {
+    return this.cachedItemViews$;
   }
 
   getMonsters<T>(): Observable<T> {

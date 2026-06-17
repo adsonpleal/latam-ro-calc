@@ -27,7 +27,7 @@ import {
   WeaponTypeNameMapBySubTypeId,
   getMonsterSpawnMap,
 } from 'src/app/constants';
-import { ActiveSkillModel, AtkSkillModel, CharacterBase, ClassName, PassiveSkillModel, SkillModel } from 'src/app/jobs';
+import { ActiveSkillModel, AtkSkillModel, CharacterBase, ClassIdBySpriteJob, ClassName, PassiveSkillModel, SkillModel } from 'src/app/jobs';
 import {
   createBaseHPSPOptionList,
   createExtraOptionList,
@@ -74,6 +74,9 @@ import {
   buildSkillMultiplierTable,
 } from 'src/app/core/summary-tables';
 import { MonsterDataViewComponent } from './monster-data-view/monster-data-view.component';
+import { SavedSimulation, SavedSimulationStore } from 'src/app/core/saved-simulations';
+import { encodeBuild, decodeBuild } from 'src/app/core/share-codec';
+import { buildCharSpriteUrl, bareJobSprite } from 'src/app/pipes/char-sprite.pipe';
 
 interface MonsterSelectItemGroup extends SelectItemGroup {
   items: any[];
@@ -127,6 +130,17 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   skillBuffs = JobBuffs;
 
   isInProcessingPreset = false;
+
+  // --- Save / preview / share simulations (browser localStorage) ----------
+  private savedSimStore = new SavedSimulationStore(localStorage);
+  /** item id -> [sprite view id (ClassNum), visual-slot mask], for the paper-doll. */
+  private itemViews: Record<string, [number, number]> = {};
+  savedSims: SavedSimulation[] = [];
+  showSavesDialog = false;
+  showSaveDialog = false;
+  saveName = '';
+  showShareDialog = false;
+  shareUrl = '';
 
   env = environment;
   model = createMainModel();
@@ -347,16 +361,22 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initCalcTableColumns();
+    // A share link (?b=...) wins over the local autosave; falls back to it when absent.
+    const sharedBuild = this.consumeSharedBuild();
     this.initData()
-      .pipe(switchMap(() => this.loadItemSet(localStorage.getItem('ro-set'))))
+      .pipe(switchMap(() => this.loadItemSet(sharedBuild ?? localStorage.getItem('ro-set'))))
       .subscribe(() => {
-        //
+        if (sharedBuild) {
+          this.messageService.add({ severity: 'success', summary: 'Simulação carregada', detail: 'Carregada a partir do link compartilhado.' });
+        }
       });
 
     const laySub = this.layoutService.configUpdate$.pipe(debounceTime(300)).subscribe((c) => {
       this.hideBasicAtk = c.hideBasicAtk;
     });
     this.allSubs.push(laySub);
+
+    this.allSubs.push(this.roService.getItemViews().subscribe((views) => (this.itemViews = views || {})));
 
     const isCalcSubs = this.isCalculatingEvent.pipe(debounceTime(100)).subscribe(() => (this.isCalculating = false));
     this.allSubs.push(isCalcSubs);
@@ -855,7 +875,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     return new Promise((res) => {
       this.confirmationService.confirm({
         message: message,
-        header: 'Confirmation',
+        header: 'Confirmação',
         icon: icon || 'pi pi-exclamation-triangle',
         accept: () => {
           res(true);
@@ -978,6 +998,151 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     localStorage.setItem('ro-set', JSON.stringify(toUpsertPresetModel(this.model, this.selectedCharacter)));
   }
 
+  // --- Save / preview / share simulations ---------------------------------
+  /** The current build in the same preset shape the autosave / replay import use. */
+  private currentPreset(): PresetModel {
+    return toUpsertPresetModel(this.model, this.selectedCharacter) as unknown as PresetModel;
+  }
+
+  /** Display label for a class id, for the preview cards / save name prefill. */
+  classLabel(classId: number): string {
+    return Characters.find((c) => c.value === classId)?.label ?? '';
+  }
+
+  openSaveDialog(): void {
+    const label = this.classLabel(this.model.class) || 'Simulação';
+    this.saveName = `${label} Nv ${this.model.level}`;
+    this.showSaveDialog = true;
+  }
+
+  async confirmSave(): Promise<void> {
+    const name = (this.saveName || '').trim();
+    if (!name) {
+      this.messageService.add({ severity: 'warn', summary: 'Nome obrigatório', detail: 'Dê um nome à simulação.' });
+      return;
+    }
+    if (this.savedSimStore.nameExists(name)) {
+      const ok = await this.waitConfirm(`Já existe uma simulação chamada "${name}". Substituir?`);
+      if (!ok) return;
+    }
+    this.savedSimStore.upsert(name, this.currentPreset());
+    this.showSaveDialog = false;
+    this.messageService.add({ severity: 'success', summary: 'Simulação salva', detail: name });
+  }
+
+  openSavesDialog(): void {
+    this.savedSims = this.savedSimStore.list();
+    this.showSavesDialog = true;
+  }
+
+  async loadSavedSim(sim: SavedSimulation): Promise<void> {
+    const ok = await this.waitConfirm('Isso vai substituir a simulação atual. Continuar?');
+    if (!ok) return;
+    this.loadItemSet(sim.preset).subscribe({
+      complete: () => {
+        this.showSavesDialog = false;
+        this.onBaseStatusChange();
+        this.messageService.add({ severity: 'success', summary: 'Simulação carregada', detail: sim.name });
+      },
+      error: (err) => {
+        console.error(err);
+        this.messageService.add({ severity: 'error', summary: 'Falha ao carregar', detail: 'Erro ao aplicar a simulação.' });
+      },
+    });
+  }
+
+  async deleteSavedSim(sim: SavedSimulation, event: Event): Promise<void> {
+    event.stopPropagation();
+    const ok = await this.waitConfirm(`Excluir a simulação "${sim.name}"?`);
+    if (!ok) return;
+    this.savedSimStore.remove(sim.id);
+    this.savedSims = this.savedSimStore.list();
+    this.messageService.add({ severity: 'info', summary: 'Simulação excluída', detail: sim.name });
+  }
+
+  async newSimulation(): Promise<void> {
+    const ok = await this.waitConfirm('Isso vai limpar a simulação atual e começar do zero. Continuar?');
+    if (!ok) return;
+    this.loadItemSet(createMainModel() as any).subscribe({
+      complete: () => {
+        this.showSavesDialog = false;
+        this.onBaseStatusChange();
+        this.messageService.add({ severity: 'success', summary: 'Nova simulação', detail: 'Tudo foi limpo.' });
+      },
+    });
+  }
+
+  openShareDialog(): void {
+    this.shareUrl = this.buildShareUrl();
+    this.showShareDialog = true;
+  }
+
+  async copyShareUrl(): Promise<void> {
+    try {
+      await navigator.clipboard.writeText(this.shareUrl);
+      this.messageService.add({ severity: 'success', summary: 'Link copiado', detail: 'Cole para compartilhar a simulação.' });
+    } catch (error) {
+      console.error(error);
+      this.messageService.add({ severity: 'warn', summary: 'Copie manualmente', detail: 'Selecione o link e copie.' });
+    }
+  }
+
+  /** Full paper-doll URL (job + equipped headgears/garment) for a saved-sim card. */
+  charSpriteUrl(preset: PresetModel): string {
+    return buildCharSpriteUrl(preset as unknown as Record<string, any>, this.itemViews);
+  }
+
+  /** (error) handler for the paper-doll <img>: degrade to the bare job sprite, then hide. */
+  onCharSpriteError(event: Event, classId: number): void {
+    const img = event.target as HTMLImageElement;
+    const fallback = bareJobSprite(classId);
+    if (fallback && img.src !== fallback) img.src = fallback;
+    else img.style.visibility = 'hidden';
+  }
+
+  private buildShareUrl(): string {
+    const token = encodeBuild(this.currentPreset() as unknown as Record<string, any>);
+    const { origin, pathname } = window.location;
+    return `${origin}${pathname}#/?b=${token}`;
+  }
+
+  /** Read & consume a shared build (?b=...) from the URL (query or hash query),
+   *  then strip the param so a refresh/copy doesn't re-apply or leak the token. */
+  private consumeSharedBuild(): PresetModel | null {
+    try {
+      // Read the token raw — NOT via URLSearchParams, which would turn any '+'
+      // into a space. The token lives in the hash query (#/?b=...) or the search.
+      const match = window.location.href.match(/[?&]b=([^&#]+)/);
+      const token = match?.[1];
+      if (!token) return null;
+      const build = decodeBuild(token) as PresetModel | null;
+      this.stripBuildParamFromUrl();
+      return build;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  private stripBuildParamFromUrl(): void {
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('b');
+      let hash = url.hash;
+      if (hash.includes('?')) {
+        const path = hash.slice(0, hash.indexOf('?'));
+        const params = new URLSearchParams(hash.slice(hash.indexOf('?') + 1));
+        params.delete('b');
+        const rest = params.toString();
+        hash = rest ? `${path}?${rest}` : path;
+      }
+      url.hash = hash;
+      window.history.replaceState(null, '', url.toString());
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   // --- Import build from a Ragnarok replay (.rrf) -------------------------
   openReplayImport() {
     this.showReplayImport = true;
@@ -1058,6 +1223,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     try {
       const buf = await file.arrayBuffer();
       const { model, summary, learnedSkills } = importReplayBuffer(buf, this.items);
+      // The replay carries the real sprite/job id (e.g. 4073 Royal Guard); the
+      // calc models classes by internal id (11), so translate it back so the
+      // class dropdown + icon select the right class.
+      model.class = ClassIdBySpriteJob[model.class] ?? model.class;
       // The calculator only carries the advanced LATAM classes; bail out cleanly
       // (keeping the current build) if the replay's class isn't one of them.
       if (!this.characterList?.some((c) => c.value === model.class)) {
@@ -1068,6 +1237,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           detail: `A classe deste replay (${summary.player || 'personagem'}, job ${model.class}) não está disponível na calculadora.`,
           life: 7000,
         });
+        return;
+      }
+      // Importing replaces the current build — confirm first (same alert as
+      // loading a saved sim / starting a new simulation).
+      const ok = await this.waitConfirm('Isso vai substituir a simulação atual. Continuar?');
+      if (!ok) {
+        this.replayBusy = false;
         return;
       }
       // Map the replay's learned skill tree onto the model's skill panels before

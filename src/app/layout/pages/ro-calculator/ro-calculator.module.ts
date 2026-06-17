@@ -50,6 +50,7 @@ import { StatusInputComponent } from './status-input/status-input.component';
 import { IconUrlPipe } from '../../../pipes/icon-url.pipe';
 import { MonsterSpritePipe } from '../../../pipes/monster-sprite.pipe';
 import { MonsterTermPipe } from '../../../pipes/monster-term.pipe';
+import { CharSpritePipe } from '../../../pipes/char-sprite.pipe';
 
 @NgModule({
   imports: [
@@ -89,6 +90,7 @@ import { MonsterTermPipe } from '../../../pipes/monster-term.pipe';
     IconUrlPipe,
     MonsterSpritePipe,
     MonsterTermPipe,
+    CharSpritePipe,
   ],
   declarations: [
     RoCalculatorComponent,
