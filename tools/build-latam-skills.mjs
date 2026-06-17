@@ -68,6 +68,9 @@ const SKILL_ID_OVERRIDES = {
   "Cold Slower": 2260,        // NC_COLDSLOWER       "Ice Launcher"
   "Musical Strike": 316,      // BA_MUSICALSTRIKE    "Melody Strike"
   "Lion Howling": 2517,       // SR_HOWLINGOFLION    "Lion's Howl"
+  "Comet": 2213,              // WL_COMET — the lowest-id "Comet" (708) is a dead/legacy id (404 on the CDN)
+  "Comet Amp": 2213,          // amplified-Comet debuff toggle — show as "Cometa"
+  "Released": 2230,           // WL_RELEASE          "Lançar Magia"
 };
 
 const norm = (s) => (s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
