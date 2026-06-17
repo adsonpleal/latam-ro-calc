@@ -28,7 +28,7 @@ export const ElementConverterList: DropdownModel[] = [
   },
   {
     img: 'I_EnchantPoison',
-    label: 'EnchantPoison',
+    label: 'Envenenar Arma',
     value: ElementType.Poison,
     element: ElementType.Poison,
   },
