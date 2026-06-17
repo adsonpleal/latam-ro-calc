@@ -2141,7 +2141,23 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.updateItemEvent.next(1);
   }
 
-  onSkillClassChange() {
+  onSkillClassChange(i?: number) {
+    // turning on an active skill in an exclusive group (e.g. the Inquisitor Faiths)
+    // turns the rest of that group off — mirrors onSkillBuffChange for the souls.
+    if (i != null) {
+      const changed = this.activeSkills[i];
+      const group = changed?.exclusiveGroup;
+      if (group) {
+        const selected = changed.dropdown.find((d) => d.value === this.model.activeSkills[i]);
+        if (selected?.isUse) {
+          this.activeSkills.forEach((skill, j) => {
+            if (j !== i && skill.exclusiveGroup === group) {
+              this.model.activeSkills[j] = skill.dropdown.find((d) => !d.isUse)?.value ?? 0;
+            }
+          });
+        }
+      }
+    }
     this.updateItemEvent.next(1);
   }
 

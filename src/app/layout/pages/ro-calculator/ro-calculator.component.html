@@ -1695,7 +1695,7 @@
                         [resetFilterOnHide]="true"
                         [options]="activeSkill.dropdown"
                         [(ngModel)]="model.activeSkills[i]"
-                        (onChange)="onSkillClassChange()"
+                        (onChange)="onSkillClassChange(i)"
                         styleClass="'width: 50%'"
                         scrollHeight="380px"
                       ></p-dropdown>
@@ -1707,7 +1707,7 @@
                       <p-selectButton
                         [options]="activeSkill.dropdown"
                         [(ngModel)]="model.activeSkills[i]"
-                        (onChange)="onSkillClassChange()"
+                        (onChange)="onSkillClassChange(i)"
                         styleClass="'width: 50%'"
                       ></p-selectButton>
                     </div>

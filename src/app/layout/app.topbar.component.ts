@@ -38,6 +38,21 @@ export class AppTopBarComponent {
       link: 'https://sigmathefallen.blogspot.com/2024/08/dragon-knight-2nd-version.html',
     },
     {
+      label: 'Shadow Cross (2nd version)',
+      writer: 'Sigma the fallen',
+      link: 'https://sigmathefallen.blogspot.com/2024/06/shadow-cross-2nd-version.html',
+    },
+    {
+      label: 'Abyss Chaser (2nd version)',
+      writer: 'Sigma the fallen',
+      link: 'https://sigmathefallen.blogspot.com/2024/07/abyss-chaser-2nd-version.html',
+    },
+    {
+      label: 'Inquisitor (2nd version)',
+      writer: 'Sigma the fallen',
+      link: 'https://sigmathefallen.blogspot.com/2024/08/inquisitor-2nd-version.html',
+    },
+    {
       label: 'Windhawk (2nd version)',
       writer: 'Sigma the fallen',
       link: 'https://sigmathefallen.blogspot.com/2024/07/windhawk-2nd-version.html',

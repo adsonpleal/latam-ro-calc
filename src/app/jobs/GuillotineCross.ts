@@ -183,7 +183,7 @@ export class GuillotineCross extends AssassinCross {
     DarkClawFn(),
     {
       name: 'Spin Count',
-      label: 'Spin Count',
+      label: 'Pontos de Rotação',
       inputType: 'dropdown',
       dropdown: [
         { label: '-', isUse: false, value: 0 },

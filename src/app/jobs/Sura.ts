@@ -480,7 +480,7 @@ export class Sura extends Champion {
       ],
     },
     {
-      label: 'Total Spirit',
+      label: 'Esferas Espirituais',
       name: 'Total Spirit',
       inputType: 'dropdown',
       isMasteryAtk: true,
@@ -510,7 +510,7 @@ export class Sura extends Champion {
       ],
     },
     {
-      label: 'Current HP',
+      label: 'HP Atual',
       name: 'Current HP',
       inputType: 'dropdown',
       dropdown: [
@@ -527,7 +527,7 @@ export class Sura extends Champion {
       ],
     },
     {
-      label: 'Current SP',
+      label: 'SP Atual',
       name: 'Current SP',
       inputType: 'dropdown',
       dropdown: [

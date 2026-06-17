@@ -165,7 +165,7 @@ export class AbyssChaser extends ShadowChaser {
   private readonly atkSkillList4th: AtkSkillModel[] = [
     {
       name: 'Abyss Dagger',
-      label: '[V3] Abyss Dagger Lv5',
+      label: '[V2] Abyss Dagger Lv5',
       value: 'Abyss Dagger==5',
       acd: 0.5,
       fct: 0,
@@ -184,12 +184,12 @@ export class AbyssChaser extends ShadowChaser {
         const { totalPow } = status;
         const { level: baseLevel } = model;
 
-        return (100 + skillLevel * 500 + totalPow * 5) * (baseLevel / 100);
+        return (skillLevel * 350 + totalPow * 5) * (baseLevel / 100);
       },
     },
     {
       name: 'Unlucky Rush',
-      label: '[V3] Unlucky Rush Lv5',
+      label: '[V2] Unlucky Rush Lv5',
       value: 'Unlucky Rush==5',
       acd: 0.5,
       fct: 0,
@@ -206,7 +206,7 @@ export class AbyssChaser extends ShadowChaser {
     },
     {
       name: 'Deft Stab',
-      label: '[V3] Deft Stab Lv10',
+      label: '[V2] Deft Stab Lv10',
       value: 'Deft Stab==10',
       acd: 0.5,
       fct: 0,
@@ -219,12 +219,12 @@ export class AbyssChaser extends ShadowChaser {
         const { totalPow } = status;
         const { level: baseLevel } = model;
 
-        return (350 + skillLevel * 550 + totalPow * 5) * (baseLevel / 100);
+        return (skillLevel * 360 + totalPow * 5) * (baseLevel / 100);
       },
     },
     {
       name: 'Chain Reaction Shot',
-      label: '[V3] Chain Reaction Shot Lv5',
+      label: '[V2] Chain Reaction Shot Lv5',
       value: 'Chain Reaction Shot==5',
       acd: 0,
       fct: 1,
@@ -241,15 +241,15 @@ export class AbyssChaser extends ShadowChaser {
         const { totalCon } = status;
         const { level: baseLevel } = model;
 
-        const primary = (skillLevel * 850 + totalCon * 15) * (baseLevel / 100);
-        const second = (600 + skillLevel * 2350 + totalCon * 15) * (baseLevel / 100);
+        const primary = (skillLevel * 600 + totalCon * 5) * (baseLevel / 100);
+        const second = (skillLevel * 950 + totalCon * 5) * (baseLevel / 100);
 
         return floor(primary) + floor(second);
       },
     },
     {
       name: 'Frenzy Shot',
-      label: '[V3] Frenzy Shot Lv10 (1 hit)',
+      label: '[V2] Frenzy Shot Lv10 (1 hit)',
       value: 'Frenzy Shot==10',
       acd: 0.5,
       fct: 0,
@@ -269,12 +269,12 @@ export class AbyssChaser extends ShadowChaser {
         const { totalCon } = status;
         const { level: baseLevel } = model;
 
-        return (skillLevel * 400 + totalCon * 5) * (baseLevel / 100);
+        return (skillLevel * 350 + totalCon * 5) * (baseLevel / 100);
       },
     },
     {
       name: 'From the Abyss',
-      label: '[V3] From the Abyss Lv5',
+      label: '[V2] From the Abyss Lv5',
       value: 'From the Abyss==5',
       acd: 0,
       fct: 0,
@@ -282,18 +282,18 @@ export class AbyssChaser extends ShadowChaser {
       cd: 60,
       isMatk: true,
       element: ElementType.Neutral,
-      totalHit: 2,
+      totalHit: 1,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalSpl } = status;
         const { level: baseLevel } = model;
 
-        return (100 + skillLevel * 500 + totalSpl * 5) * (baseLevel / 100);
+        return (150 + skillLevel * 70 + totalSpl * 5) * (baseLevel / 100);
       },
     },
     {
       name: 'Abyss Square',
-      label: '[V3] Abyss Square Lv5 (อยู่นอกพื้นที่สกิล)',
+      label: '[V2] Abyss Square Lv5 (อยู่นอกพื้นที่สกิล)',
       value: 'Abyss Square==5',
       acd: 0.5,
       fct: 1.5,
@@ -308,12 +308,12 @@ export class AbyssChaser extends ShadowChaser {
         const { level: baseLevel } = model;
         const magicSwordMasLv = this.learnLv('Magic Sword Mastery');
 
-        return (skillLevel * (570 + magicSwordMasLv * 20) + totalSpl * 5) * (baseLevel / 100);
+        return (skillLevel * (250 + magicSwordMasLv * 15) + totalSpl * 5) * (baseLevel / 100);
       },
     },
     {
       name: 'Omega Abyss Strike',
-      label: '[V3] Omega Abyss Strike Lv10',
+      label: '[V2] Omega Abyss Strike Lv10',
       value: 'Omega Abyss Strike==10',
       acd: 0.5,
       fct: 1.5,
@@ -325,9 +325,9 @@ export class AbyssChaser extends ShadowChaser {
         const { model, skillLevel, status, monster } = input;
         const { totalSpl } = status;
         const { level: baseLevel } = model;
-        const raceBonus = monster.isRace('angel', 'demon') ? 150 : 0;
+        const raceBonus = monster.isRace('angel', 'demon') ? 550 : 0;
 
-        return (skillLevel * (2200 + raceBonus) + totalSpl * 10) * (baseLevel / 100);
+        return (skillLevel * (600 + raceBonus) + totalSpl * 10) * (baseLevel / 100);
       },
     },
   ];

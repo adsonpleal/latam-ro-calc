@@ -152,12 +152,6 @@ const traitBonusTable: Record<number, [number, number, number, number, number, n
   70: [11, 8, 6, 3, 6, 6],
 };
 
-const _3Faith = {
-  1: 'Sincere',
-  2: 'Firm',
-  3: 'Powerful',
-} as const;
-
 export class Inquisitor extends Sura {
   protected override CLASS_NAME = ClassName.Inquisitor;
   protected override JobBonusTable = jobBonusTable;
@@ -170,7 +164,7 @@ export class Inquisitor extends Sura {
   private readonly atkSkillList4th: AtkSkillModel[] = [
     {
       name: 'First Brand',
-      label: '[V3] First Brand Lv5',
+      label: '[V2] First Brand Lv5',
       value: 'First Brand==5',
       acd: 0,
       fct: 0,
@@ -182,12 +176,12 @@ export class Inquisitor extends Sura {
         const { totalPow } = status;
         const baseLevel = model.level;
 
-        return (skillLevel * 1200 + totalPow * 5) * (baseLevel / 100);
+        return (skillLevel * 450 + totalPow * 3) * (baseLevel / 100);
       },
     },
     {
       name: 'Second Faith',
-      label: '[V3] Second Faith Lv5',
+      label: '[V2] Second Faith Lv5',
       value: 'Second Faith==5',
       acd: 0,
       fct: 0,
@@ -200,12 +194,12 @@ export class Inquisitor extends Sura {
         const { totalPow } = status;
         const baseLevel = model.level;
 
-        return (100 + skillLevel * 2300 + totalPow * 5) * (baseLevel / 100);
+        return (skillLevel * 500 + totalPow * 4) * (baseLevel / 100);
       },
     },
     {
       name: 'Third Punish',
-      label: '[V3] Third Punish Lv5',
+      label: '[V2] Third Punish Lv5',
       value: 'Third Punish==5',
       acd: 0,
       fct: 0,
@@ -215,18 +209,18 @@ export class Inquisitor extends Sura {
       canCri: true,
       baseCriPercentage: 1,
       criDmgPercentage: 0.5,
-      totalHit: 3,
+      totalHit: 2,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalPow } = status;
         const baseLevel = model.level;
 
-        return (350 + skillLevel * 1500 + totalPow * 10) * (baseLevel / 100);
+        return (skillLevel * 650 + totalPow * 5) * (baseLevel / 100);
       },
     },
     {
       name: 'Second Judgement',
-      label: '[V3] Second Judgement Lv5',
+      label: '[V2] Second Judgement Lv5',
       value: 'Second Judgement==5',
       acd: 0,
       fct: 0,
@@ -239,12 +233,12 @@ export class Inquisitor extends Sura {
         const { totalPow } = status;
         const baseLevel = model.level;
 
-        return (150 + skillLevel * 2600 + totalPow * 7) * (baseLevel / 100);
+        return (skillLevel * 500 + totalPow * 4) * (baseLevel / 100);
       },
     },
     {
       name: 'Third Consecration',
-      label: '[V3] Third Consecration Lv5',
+      label: '[V2] Third Consecration Lv5',
       value: 'Third Consecration==5',
       acd: 0,
       fct: 0,
@@ -257,12 +251,12 @@ export class Inquisitor extends Sura {
         const { totalPow } = status;
         const baseLevel = model.level;
 
-        return (skillLevel * 700 + totalPow * 10) * (baseLevel / 100);
+        return (skillLevel * 650 + totalPow * 5) * (baseLevel / 100);
       },
     },
     {
       name: 'Second Flame',
-      label: '[V3] Second Flame Lv5',
+      label: '[V2] Second Flame Lv5',
       value: 'Second Flame==5',
       acd: 0,
       fct: 0,
@@ -274,12 +268,12 @@ export class Inquisitor extends Sura {
         const { totalPow } = status;
         const baseLevel = model.level;
 
-        return (100 + skillLevel * 2900 + totalPow * 9) * (baseLevel / 100);
+        return (skillLevel * 550 + totalPow * 4) * (baseLevel / 100);
       },
     },
     {
       name: 'Third Flame Bomb',
-      label: '[V3] Third Flame Bomb Lv5',
+      label: '[V2] Third Flame Bomb Lv5',
       value: 'Third Flame Bomb==5',
       acd: 0,
       fct: 0,
@@ -292,12 +286,12 @@ export class Inquisitor extends Sura {
         const { totalPow } = status;
         const baseLevel = model.level;
 
-        return (skillLevel * 650 + totalPow * 10 + floor(maxHp / 5)) * (baseLevel / 100);
+        return (skillLevel * 650 + totalPow * 5 + floor(maxHp / 5)) * (baseLevel / 100);
       },
     },
     {
       name: 'Explosion Blaster',
-      label: '[V3] Explosion Blaster Lv5',
+      label: '[V2] Explosion Blaster Lv5',
       value: 'Explosion Blaster==5',
       acd: 0,
       fct: 0,
@@ -312,15 +306,15 @@ export class Inquisitor extends Sura {
         const baseLevel = model.level;
 
         if (this.isSkillActive('Oleum Sanctum')) {
-          return (skillLevel * 3200 + totalPow * 15) * (baseLevel / 100);
+          return (skillLevel * 850 + totalPow * 5) * (baseLevel / 100);
         }
 
-        return (skillLevel * 2800 + totalPow * 15) * (baseLevel / 100);
+        return (skillLevel * 650 + totalPow * 3) * (baseLevel / 100);
       },
     },
     {
       name: 'Massive Flame Blaster',
-      label: '[V3] Massive Flame Blaster Lv10',
+      label: '[V2] Massive Flame Blaster Lv10',
       value: 'Massive Flame Blaster==10',
       acd: 1,
       fct: 0,
@@ -333,22 +327,43 @@ export class Inquisitor extends Sura {
         const { model, skillLevel, status, monster } = input;
         const { totalPow } = status;
         const baseLevel = model.level;
-        const raceBonus = monster.isRace('demihuman', 'brute') ? 150 : 0;
+        const raceBonus = monster.isRace('demihuman', 'brute') ? 300 : 0;
 
-        return (skillLevel * (2150 + raceBonus) + totalPow * 15) * (baseLevel / 100);
+        return (skillLevel * (800 + raceBonus) + totalPow * 10) * (baseLevel / 100);
       },
     },
   ];
   private readonly activeSkillList4th: ActiveSkillModel[] = [
+    // The three Faiths are mutually exclusive (only one active at a time), like the
+    // Soul Reaper "Espírito" souls — handled via exclusiveGroup in onSkillClassChange.
     {
-      name: '_3Faith',
-      label: 'Faith 5',
-      inputType: 'dropdown',
+      name: 'Sincere Faith',
+      label: 'Sincere Faith',
+      exclusiveGroup: 'faith',
+      inputType: 'selectButton',
       dropdown: [
-        { label: '-', value: 0, isUse: false },
-        { label: _3Faith[1], value: 1, isUse: true },
-        { label: _3Faith[2], value: 2, isUse: true },
-        { label: _3Faith[3], value: 3, isUse: true },
+        { label: 'Yes', value: 5, isUse: true },
+        { label: 'No', value: 0, isUse: false },
+      ],
+    },
+    {
+      name: 'Firm Faith',
+      label: 'Firm Faith',
+      exclusiveGroup: 'faith',
+      inputType: 'selectButton',
+      dropdown: [
+        { label: 'Yes', value: 5, isUse: true },
+        { label: 'No', value: 0, isUse: false },
+      ],
+    },
+    {
+      name: 'Powerful Faith',
+      label: 'Powerful Faith',
+      exclusiveGroup: 'faith',
+      inputType: 'selectButton',
+      dropdown: [
+        { label: 'Yes', value: 5, isUse: true },
+        { label: 'No', value: 0, isUse: false },
       ],
     },
     {
@@ -397,14 +412,14 @@ export class Inquisitor extends Sura {
       addBonus(totalBonus, 'p_race_undead', willOfFaithLv + 2);
     }
 
-    const faithChoice = _3Faith[this.activeSkillLv('_3Faith') as keyof typeof _3Faith];
-    if (faithChoice === 'Sincere') {
+    // Only one Faith can be active at a time (exclusiveGroup 'faith'). Values are Lv5.
+    if (this.isSkillActive('Sincere Faith')) {
       addBonus(totalBonus, 'aspd', 3);
       addBonus(totalBonus, 'perfectHit', 5 * 4);
-    } else if (faithChoice === 'Firm') {
+    } else if (this.isSkillActive('Firm Faith')) {
       addBonus(totalBonus, 'hpPercent', 5 * 2);
       addBonus(totalBonus, 'res', 5 * 8);
-    } else if (faithChoice === 'Powerful') {
+    } else if (this.isSkillActive('Powerful Faith')) {
       addBonus(totalBonus, 'atk', 10 + 5 * 5);
       addBonus(totalBonus, 'pAtk', 5 + 5 * 2);
     }

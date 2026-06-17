@@ -74,6 +74,26 @@ const SKILL_ID_OVERRIDES = {
   "Ignition Break": 2006,     // RK_IGNITIONBREAK — lowest-id "Impacto Flamejante" (740) is dead (404 on the CDN)
   "Ride Dragon": 2007,        // RK_DRAGONTRAINING icon (riding has no dedicated skill/icon)
   "Dragonic Breath": 2008,    // calc-only DK breath (no client skill) — reuse the Dragon Breath icon
+  "Shadow Wound": 5293,       // SHC_ENCHANTING_SHADOW "Profanar Arma" — the skill that inflicts the debuff
+  "Fatal Manace": 2284,       // SC_FATALMENACE — lowest-id "Ofensiva Fatal" (732) is dead (404 on the CDN)
+  "Psychic Wave": 2449,       // reproduced skill — lowest-id "Onda Psíquica" (736) is dead (404)
+  "Reverberation": 2414,      // reproduced skill — lowest-id "Ressonância" (725) is dead (404)
+  "Genesis Ray": 2321,        // reproduced skill — lowest-id "Luz da Criação" (737) is dead (404)
+  "Strip Shadow": 5313,       // ABC_STRIP_SHADOW "Remoção Sombria Total" (client name didn't auto-match)
+  "Unlucky Rush": 5315,       // ABC_UNLUCKY_RUSH "Salto Revés" (client typo "Unluck Rush" — no auto-match)
+  "Snatcher": 210,            // RG_SNATCHER "Mãos Leves" (didn't auto-match)
+  "Plagiarism": 225,          // RG_PLAGIARISM "Plágio" (GRF en-name for 225 is "Intimidate", so no auto-match)
+  "Intimidate": 219,          // RG_INTIMIDATE "Rapto" — without this it grabs 225 "Plágio" (en-name collision)
+  "Hell Gate": 2343,          // SR_GATEOFHELL "Portões do Inferno" (calc name "Hell Gate" != client "Gates of Hell")
+  "Iron Hand": 259,           // MO_IRONHAND "Punhos de Ferro"
+  "Gentle Touch - Opposite": 2347, // SR_GENTLETOUCH_CHANGE — client "Chakra da Fúria" (Touch - Change)
+  "Gentle Touch - Alive": 2348,    // SR_GENTLETOUCH_REVITALIZE — client "Chakra do Vigor" (Touch - Revitalize)
+  "Dodge": 265,               // MO Dodge "Cair das Pétalas" (49 is Thief's Improve Dodge, 420 is TaeKwon's)
+  "Sincere Faith": 5242,      // IQ "Mantra da Energia" (one of the 3 mutually-exclusive Faiths)
+  "Firm Faith": 5239,         // IQ "Mantra da Saúde"
+  "Powerful Faith": 5238,     // IQ "Mantra da Força"
+  "Vigor Explosion": 270,     // MO_EXPLOSIONSPIRITS "Fúria Interior" (client en "Explosion Spirits"; bROWiki)
+  "Vigor condensation": 261,  // MO_CALLSPIRITS "Invocar Esfera Espiritual" (client en "Call Spirits")
 };
 
 // Calc names that render an 'item' icon instead of a skill icon. The Rune Knight
@@ -94,6 +114,7 @@ const SKILL_ICON_OVERRIDES = {
 const SKILL_PT_NAME_OVERRIDES = {
   "Ride Dragon": "Montar Dragão",
   "Dragonic Breath": "Sopro Draconiano", // distinct from Dragon Breath ("Sopro do Dragão")
+  "Shadow Wound": "Profanação",          // official client status name inflicted by Profanar Arma (Enchanting Shadow)
   "Turisus Runestone": "Runa: Thurisaz",
   "Asir Runestone": "Runa: Othila",
   "Lux Anima Runestone": "Runa: Luxanima",
