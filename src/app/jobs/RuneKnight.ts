@@ -289,7 +289,7 @@ export class RuneKnight extends LordKnight {
     },
     {
       name: 'Current HP',
-      label: 'Current HP',
+      label: 'HP Atual',
       inputType: 'dropdown',
       dropdown: [
         { label: '100 %', value: 0, isUse: false },
@@ -557,13 +557,13 @@ export class RuneKnight extends LordKnight {
     return totalBonus;
   }
 
-  private getCurrentHp(maxHp: number) {
+  protected getCurrentHp(maxHp: number) {
     const curHp = this.activeSkillLv('Current HP') || 100;
 
     return maxHp * curHp * 0.01;
   }
 
-  private calcDragonBreathFormula(input: AtkSkillFormulaInput) {
+  protected calcDragonBreathFormula(input: AtkSkillFormulaInput) {
     const { model, skillLevel, currentHp, maxSp, status, totalBonus } = input;
     const baseLevel = model.level;
     const dragonTrainingLv = this.learnLv('Dragon Training');

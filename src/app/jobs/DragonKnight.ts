@@ -163,7 +163,7 @@ export class DragonKnight extends RuneKnight {
   private readonly atkSkillList4th: AtkSkillModel[] = [
     {
       name: 'Servant Weapon',
-      label: '[V3] Servant Weapon Lv5',
+      label: '[V2] Servant Weapon Lv5',
       value: 'Servant Weapon==5',
       acd: 0,
       fct: 0,
@@ -173,18 +173,18 @@ export class DragonKnight extends RuneKnight {
       criDmgPercentage: 0.5,
       baseCriPercentage: 1,
       isMelee: true,
-      totalHit: 2,
+      totalHit: 1,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalPow } = status;
         const baseLevel = model.level;
 
-        return (500 + skillLevel * 400 + totalPow * 5) * (baseLevel / 100);
+        return (200 + skillLevel * 50 + totalPow * 5) * (baseLevel / 100);
       },
     },
     {
       name: 'Hack and Slasher',
-      label: '[V3] Hack and Slasher Lv10',
+      label: '[V2] Hack and Slasher Lv10',
       value: 'Hack and Slasher==10',
       acd: 0.25,
       fct: 0,
@@ -205,12 +205,12 @@ export class DragonKnight extends RuneKnight {
         const { totalPow } = status;
         const baseLevel = model.level;
 
-        return (300 + skillLevel * 700 + totalPow * 7) * (baseLevel / 100);
+        return (500 + skillLevel * 250 + totalPow * 5) * (baseLevel / 100);
       },
     },
     {
       name: 'Storm Slash',
-      label: '[V3] Storm Slash Lv5',
+      label: '[V2] Storm Slash Lv5',
       value: 'Storm Slash==5',
       acd: 0.5,
       fct: 0,
@@ -232,12 +232,12 @@ export class DragonKnight extends RuneKnight {
         const { totalPow } = status;
         const baseLevel = model.level;
 
-        return (100 + skillLevel * 170 + totalPow * 5) * (baseLevel / 100);
+        return (skillLevel * 120 + totalPow * 5) * (baseLevel / 100);
       },
     },
     {
       name: 'Madness Crusher',
-      label: '[V3] Madness Crusher Lv5',
+      label: '[V2] Madness Crusher Lv5',
       value: 'Madness Crusher==5',
       acd: 0.5,
       fct: 0.5,
@@ -255,12 +255,12 @@ export class DragonKnight extends RuneKnight {
         const baseLevel = model.level;
         const { weight, baseWeaponLevel } = weapon.data;
 
-        return (400 + skillLevel * 600 + totalPow * 5 + weight * baseWeaponLevel) * (baseLevel / 100);
+        return (skillLevel * 600 + totalPow * 5 + weight * baseWeaponLevel) * (baseLevel / 100);
       },
     },
     {
       name: 'Dragonic Breath',
-      label: '[V3] Dragonic Breath Lv10',
+      label: '[V2] Dragonic Breath Lv10',
       value: 'Dragonic Breath==10',
       acd: 0.15,
       fct: 0.5,
@@ -269,16 +269,11 @@ export class DragonKnight extends RuneKnight {
       hit: 2,
       isIgnoreDef: true,
       isIgnoreSDef: true,
-      formula: (input: AtkSkillFormulaInput): number => {
-        const { model, skillLevel, status, maxHp, maxSp } = input;
-        const { totalPow } = status;
-        const baseLevel = model.level;
-        if (this.activeSkillLv('Dragonic Aura')) {
-          return (50 + skillLevel * (350 + 0.07 * (maxHp / 8 + maxSp / 4)) + totalPow * 10) * (baseLevel / 100);
-        }
-
-        return (50 + skillLevel * (350 + 0.05 * (maxHp / 8 + maxSp / 4)) + totalPow * 7) * (baseLevel / 100);
-      },
+      currentHpFn: (maxHp) => this.getCurrentHp(maxHp),
+      // 2nd version: shares the Dragon Breath formula —
+      // (floor(curHP/50) + floor(maxSP/4)) x skillLv x (baseLv/100)
+      // x (90 + DragonTraining x 10 + [if Dragonic Aura learned: (POW/5) x (1 + PAtk/100)]).
+      formula: (input: AtkSkillFormulaInput): number => this.calcDragonBreathFormula(input),
     },
   ];
   private readonly activeSkillList4th: ActiveSkillModel[] = [

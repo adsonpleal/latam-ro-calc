@@ -338,7 +338,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   equipableItems: (DropdownModel & { id: number; position: string; })[] = [];
   offensiveSkills: (DropdownModel & { icon?: number })[] = [];
-  latamSkills: Record<string, { id: number; name: string }> = {};
+  latamSkills: Record<string, { id: number; name: string; iconType?: 'item' | 'skill' }> = {};
   /** skill id -> pt-BR client skill description (raw ^RRGGBB text) */
   latamSkillDesc: Record<string, string> = {};
 
@@ -1346,7 +1346,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   /** Resolve a calc skill name to its LATAM { id, pt-BR name }. The id is baked
    *  per skill at build time (tools/build-latam-skills.mjs -> latam-skills.json),
    *  keyed by the calc's own skill name, so this is a direct exact lookup. */
-  private resolveSkill(name: string): { id: number; name: string } | undefined {
+  private resolveSkill(name: string): { id: number; name: string; iconType?: 'item' | 'skill' } | undefined {
     return this.latamSkills[name];
   }
 
@@ -1356,7 +1356,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // and render no icon (the template guards on `icon`).
     const localize = <T extends { name: string }>(skill: T) => {
       const pt = this.resolveSkill(skill.name);
-      return pt ? { ...skill, label: pt.name, icon: pt.id } : skill;
+      return pt ? { ...skill, label: pt.name, icon: pt.id, iconType: pt.iconType } : skill;
     };
     // Buffs keep their curated (already pt-BR) labels — only attach the icon id.
     // A buff may pin its own `icon` (e.g. a generic buff that shouldn't use the
@@ -2425,7 +2425,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     }
     const skill = this.resolveSkill(srcKey);
     if (skill) {
-      return { label: skill.name, icon: skill.id, iconType: 'skill', value };
+      return { label: skill.name, icon: skill.id, iconType: skill.iconType ?? 'skill', value };
     }
     const fallback: Record<string, string> = { extra: 'Extras', consumableBonuses: 'Consumíveis' };
     return { label: fallback[srcKey] ?? srcKey, iconType: 'item', value };

@@ -121,6 +121,9 @@ export interface ActiveSkillModel {
   isDevMode?: boolean;
   /** ragassets skill-icon id, attached at runtime from the LATAM skill map. */
   icon?: number;
+  /** ragassets icon namespace for `icon` (default 'skill'). Some toggles use an
+   *  'item' icon instead — e.g. the rune toggles show the rune-stone item icon. */
+  iconType?: 'item' | 'job' | 'skill';
   /** buffs sharing an exclusiveGroup are mutually exclusive — turning one on
    *  turns the others off (e.g. the Soul Reaper "Espírito" souls). */
   exclusiveGroup?: string;

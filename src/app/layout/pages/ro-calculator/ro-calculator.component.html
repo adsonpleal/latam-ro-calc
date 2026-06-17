@@ -1689,7 +1689,7 @@
                 <div [ngSwitch]="activeSkill.inputType">
                   <div *ngSwitchCase="'dropdown'">
                     <div class="p-inputgroup">
-                      <span class="p-inputgroup-addon text_group_ellips {{ activeSkill.isDebuff ? 'skill_debuff' : '' }}" [pTooltip]="buffTooltip(activeSkill)" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip"><img *ngIf="activeSkill.icon" [src]="activeSkill.icon | iconUrl: 'skill'" alt="" class="skill_icon mr-1" /><a *ngIf="activeSkill.icon" class="skill_label_text skill_link" href="https://www.divine-pride.net/database/skill/{{ activeSkill.icon }}" target="_blank" rel="noreferrer noopener">{{ activeSkill.label }}</a><span *ngIf="!activeSkill.icon" class="skill_label_text">{{ activeSkill.label }}</span></span>
+                      <span class="p-inputgroup-addon text_group_ellips {{ activeSkill.isDebuff ? 'skill_debuff' : '' }}" [pTooltip]="buffTooltip(activeSkill)" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip"><img *ngIf="activeSkill.icon" [src]="activeSkill.icon | iconUrl: (activeSkill.iconType || 'skill')" alt="" class="skill_icon mr-1" /><a *ngIf="activeSkill.icon" class="skill_label_text skill_link" href="https://www.divine-pride.net/database/{{ activeSkill.iconType === 'item' ? 'item' : 'skill' }}/{{ activeSkill.icon }}" target="_blank" rel="noreferrer noopener">{{ activeSkill.label }}</a><span *ngIf="!activeSkill.icon" class="skill_label_text">{{ activeSkill.label }}</span></span>
                       <p-dropdown
                         [autoDisplayFirst]="false"
                         [resetFilterOnHide]="true"
@@ -1703,7 +1703,7 @@
                   </div>
                   <div *ngSwitchDefault>
                     <div class="p-inputgroup">
-                      <span class="p-inputgroup-addon text_group_ellips {{ activeSkill.isDebuff ? 'skill_debuff' : '' }}" [pTooltip]="buffTooltip(activeSkill)" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip"><img *ngIf="activeSkill.icon" [src]="activeSkill.icon | iconUrl: 'skill'" alt="" class="skill_icon mr-1" /><a *ngIf="activeSkill.icon" class="skill_label_text skill_link" href="https://www.divine-pride.net/database/skill/{{ activeSkill.icon }}" target="_blank" rel="noreferrer noopener">{{ activeSkill.label }}</a><span *ngIf="!activeSkill.icon" class="skill_label_text">{{ activeSkill.label }}</span></span>
+                      <span class="p-inputgroup-addon text_group_ellips {{ activeSkill.isDebuff ? 'skill_debuff' : '' }}" [pTooltip]="buffTooltip(activeSkill)" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip"><img *ngIf="activeSkill.icon" [src]="activeSkill.icon | iconUrl: (activeSkill.iconType || 'skill')" alt="" class="skill_icon mr-1" /><a *ngIf="activeSkill.icon" class="skill_label_text skill_link" href="https://www.divine-pride.net/database/{{ activeSkill.iconType === 'item' ? 'item' : 'skill' }}/{{ activeSkill.icon }}" target="_blank" rel="noreferrer noopener">{{ activeSkill.label }}</a><span *ngIf="!activeSkill.icon" class="skill_label_text">{{ activeSkill.label }}</span></span>
                       <p-selectButton
                         [options]="activeSkill.dropdown"
                         [(ngModel)]="model.activeSkills[i]"

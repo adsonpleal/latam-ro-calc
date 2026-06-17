@@ -71,6 +71,32 @@ const SKILL_ID_OVERRIDES = {
   "Comet": 2213,              // WL_COMET — the lowest-id "Comet" (708) is a dead/legacy id (404 on the CDN)
   "Comet Amp": 2213,          // amplified-Comet debuff toggle — show as "Cometa"
   "Released": 2230,           // WL_RELEASE          "Lançar Magia"
+  "Ignition Break": 2006,     // RK_IGNITIONBREAK — lowest-id "Impacto Flamejante" (740) is dead (404 on the CDN)
+  "Ride Dragon": 2007,        // RK_DRAGONTRAINING icon (riding has no dedicated skill/icon)
+  "Dragonic Breath": 2008,    // calc-only DK breath (no client skill) — reuse the Dragon Breath icon
+};
+
+// Calc names that render an 'item' icon instead of a skill icon. The Rune Knight
+// rune toggles show the rune-stone item icon (bROWiki) — the effect-skill icon for
+// Lux Anima (skill 5005) isn't served by ragassets, and a rune-stone icon fits a
+// "Runa: X" toggle better anyway. id = divine-pride item id, iconType is baked into
+// the output so the UI requests /icons/item/{id}.png.
+const SKILL_ICON_OVERRIDES = {
+  "Turisus Runestone": { id: 12731, iconType: "item" }, // Thurisaz rune -> Força Titânica
+  "Asir Runestone": { id: 12729, iconType: "item" },    // Othila rune   -> Aura de Combate
+  "Lux Anima Runestone": { id: 22540, iconType: "item" }, // Luxanima rune -> Luz da Alma
+};
+
+// Calc names whose displayed pt-BR label we pin by hand, overriding the
+// divine-pride name resolved from the id. Used for the Rune Knight rune toggles
+// (show the rune name from bROWiki rather than the rune's effect-skill name) and
+// the Ride Dragon mount toggle.
+const SKILL_PT_NAME_OVERRIDES = {
+  "Ride Dragon": "Montar Dragão",
+  "Dragonic Breath": "Sopro Draconiano", // distinct from Dragon Breath ("Sopro do Dragão")
+  "Turisus Runestone": "Runa: Thurisaz",
+  "Asir Runestone": "Runa: Othila",
+  "Lux Anima Runestone": "Runa: Luxanima",
 };
 
 const norm = (s) => (s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -179,6 +205,14 @@ function main() {
     let exact = 0, alias = 0, normd = 0, override = 0;
 
     for (const name of names) {
+      // item-icon toggles (rune stones): bake the item id + iconType, label from the override.
+      if (name in SKILL_ICON_OVERRIDES) {
+        const { id, iconType } = SKILL_ICON_OVERRIDES[name];
+        out[name] = { id, name: SKILL_PT_NAME_OVERRIDES[name] || name, iconType };
+        override++;
+        continue;
+      }
+
       let id;
       if (name in SKILL_ID_OVERRIDES) { id = SKILL_ID_OVERRIDES[name]; override++; }
       else if (name in enToId) { id = enToId[name]; exact++; }
@@ -188,7 +222,7 @@ function main() {
       if (id == null) { unmatched.push(name); continue; }
 
       const pt = ptById(id);
-      out[name] = { id, name: pt || name };
+      out[name] = { id, name: SKILL_PT_NAME_OVERRIDES[name] || pt || name };
     }
 
     const outPath = resolve(process.cwd(), "src/assets/demo/data/latam-skills.json");
