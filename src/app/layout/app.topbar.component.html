@@ -19,7 +19,7 @@
       pButton
       class="p-button-success p-button-raised p-button-icon-only"
       icon="pi pi-cog"
-      aria-label="Config"
+      aria-label="Configurações"
       (click)="openConfig()"
     ></button>
   </div>
@@ -80,7 +80,7 @@
   <p-dialog header="Referências" [draggable]="false" [resizable]="false" [modal]="true" [(visible)]="visibleReference" [style]="{ width: '50vw', height: '70vh' }">
     <ul>
       <li *ngFor="let reference of references">
-        <span class="">[ by {{ reference.writer }} ]</span>
+        <span class="">[ por {{ reference.writer }} ]</span>
         <span class="mx-2">{{ reference.label }}</span>
         <a href="{{ reference.link }}" target="_blank" rel="noreferrer noopener">Link</a>
       </li>

@@ -199,7 +199,7 @@
       <div class="col-6">
         <app-calc-value
           [enableCompare]="isEnableCompare && totalSummary2?.dmg"
-          label="Skill/s:"
+          label="Hab./s:"
           unit=" Hits/s"
           styleClass="summary_highlight"
           styleClass2="summary_compare"
@@ -336,7 +336,7 @@
   <div class="col-12" [hidden]="totalSummary?.dmg?.effectedSkillDamageMin <= 0 || !selectedChances?.length">
     <app-calc-value
       [enableCompare]="isEnableCompare && totalSummary2?.dmg"
-      label="Skill/s:"
+      label="Hab./s:"
       styleClass="summary_chance_hilight"
       styleClass2="summary_compare"
       [max]="totalSummary?.dmg?.effectedSkillHitsPerSec"

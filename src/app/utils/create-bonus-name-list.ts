@@ -1,4 +1,5 @@
 import { ElementType } from '../constants/element-type.const';
+import { elementPtBr, monsterTypePtBr, racePtBr, sizePtBr } from '../constants/monster-i18n';
 import { RaceType } from '../constants/race-type.const';
 import { DropdownModel } from '../models/dropdown.model';
 import { createBaseStatOptionList } from './create-base-stat-option-list';
@@ -6,6 +7,46 @@ import { createBaseStatOptionList } from './create-base-stat-option-list';
 interface X extends DropdownModel {
   children?: X[];
 }
+
+// pt-BR display labels. Keys/values stay English because the search filter matches
+// on the English `value`s — only the shown `label` is translated.
+const TR: Record<string, string> = {
+  Physical: 'Físico',
+  Magical: 'Mágico',
+  Race: 'Raça',
+  Element: 'Elemento',
+  Size: 'Tamanho',
+  Class: 'Classe',
+  Atk: 'ATQ',
+  'Atk %': 'ATQ %',
+  Matk: 'ATQM',
+  'Matk %': 'ATQM %',
+  'Long Range': 'Longo Alcance',
+  Melee: 'Corpo a corpo',
+  'CRI Rate': 'Taxa Crít.',
+  'CRI Dmg': 'Dano Crít.',
+  Delay: 'Pós-conjuração',
+  VCT: 'Conj. Variável',
+};
+const tr = (s: string) => TR[s] ?? s;
+
+// Translate a damage-target member (race/element/size/class) for display; `All` is
+// the "any target" sentinel. Per-type maps live in monster-i18n.
+const trProp = (dmgType: string, prop: string): string => {
+  if (prop === 'All') return 'Todos';
+  switch (dmgType) {
+    case 'Race':
+      return racePtBr(prop);
+    case 'Element':
+      return elementPtBr(prop);
+    case 'Size':
+      return sizePtBr(prop);
+    case 'Class':
+      return monsterTypePtBr(prop);
+    default:
+      return prop;
+  }
+};
 
 export const createBonusNameList = () => {
   const atkTypes = ['Physical', 'Magical'];
@@ -21,7 +62,7 @@ export const createBonusNameList = () => {
     const bonusType = atkType.at(0).toLowerCase();
     const item: X = {
       value: bonusType,
-      label: atkType,
+      label: tr(atkType),
       children: [],
     };
     for (const [dmgType, dmgSubTypes] of Object.entries(atkProps)) {
@@ -29,7 +70,7 @@ export const createBonusNameList = () => {
       const val = `${propLow}_${dmgType}`;
       item.children.push({
         value: val,
-        label: dmgType,
+        label: tr(dmgType),
         children: dmgSubTypes.map((label2) => {
           const finalPropLow = label2.toLowerCase();
           let fixedSize = finalPropLow;
@@ -41,7 +82,7 @@ export const createBonusNameList = () => {
 
           return {
             value: bonusName,
-            label: `${bonusType.toUpperCase()}. ${dmgType} ${label2}`,
+            label: `${bonusType.toUpperCase()}. ${tr(dmgType)} ${trProp(dmgType, label2)}`,
           };
         }),
       });
@@ -52,7 +93,7 @@ export const createBonusNameList = () => {
 
   // No idea about programmatic
   items[1].children.push({
-    label: 'My Magical Element',
+    label: 'Meu Elemento Mágico',
     value: 'My Element',
     children: atkProps.Element.map((element) => {
       const elementLow = element.toLowerCase();
@@ -60,7 +101,7 @@ export const createBonusNameList = () => {
 
       return {
         value: prop,
-        label: `M. My ${element}`,
+        label: `M. Meu ${trProp('Element', element)}`,
       };
     }),
   });
@@ -93,7 +134,7 @@ export const createBonusNameList = () => {
 
   for (const [label, bonusName] of options) {
     const item: X = {
-      label,
+      label: tr(label),
       value: bonusName,
     };
 

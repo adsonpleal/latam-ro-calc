@@ -109,15 +109,15 @@ export class ItemSearchComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.bonusNameList.push(
       {
-        label: 'FCT',
+        label: 'Conj. Fixa',
         value: 'fct',
       },
       {
-        label: 'Perfect Dodge',
+        label: 'Esquiva perfeita',
         value: 'perfectDodge',
       },
       {
-        label: 'ลด Cooldown',
+        label: 'Redução de Recarga',
         value: 'cd__',
       },
     );
