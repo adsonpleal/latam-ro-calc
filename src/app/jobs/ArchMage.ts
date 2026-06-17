@@ -179,7 +179,7 @@ export class ArchMage extends Warlock {
         const { totalSpl } = status;
         const { level: baseLevel } = model;
 
-        return (skillLevel * 250 + totalSpl * 3) * (baseLevel / 100);
+        return (skillLevel * 180 + totalSpl * 3) * (baseLevel / 100);
       }
     },
     {
@@ -192,13 +192,13 @@ export class ArchMage extends Warlock {
       cd: 4,
       isMatk: true,
       element: ElementType.Dark,
-      totalHit: ({ skillLevel }) => [0, 7, 7, 10, 10, 14][skillLevel],
+      totalHit: ({ skillLevel }) => [0, 7, 7, 10, 10, 13][skillLevel],
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalSpl } = status;
         const { level: baseLevel } = model;
 
-        return (skillLevel * 950 + totalSpl * 5) * (baseLevel / 100);
+        return (skillLevel * 500 + totalSpl * 5) * (baseLevel / 100);
       }
     },
     {
@@ -211,13 +211,14 @@ export class ArchMage extends Warlock {
       cd: 5,
       isMatk: true,
       element: ElementType.Fire,
-      totalHit: 10,
+      // 10 hits, each dealing damage twice (2nd version) => 20 instances.
+      totalHit: 20,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalSpl } = status;
         const { level: baseLevel } = model;
 
-        return (50 + skillLevel * 740 + totalSpl * 5) * (baseLevel / 100);
+        return (skillLevel * 200 + totalSpl * 5) * (baseLevel / 100);
       },
     },
     {
@@ -230,13 +231,14 @@ export class ArchMage extends Warlock {
       cd: 5,
       isMatk: true,
       element: ElementType.Water,
-      totalHit: 8,
+      // 8 hits, each dealing damage twice (2nd version) => 16 instances.
+      totalHit: 16,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalSpl } = status;
         const { level: baseLevel } = model;
 
-        return (180 + skillLevel * 760 + totalSpl * 5) * (baseLevel / 100);
+        return (skillLevel * 150 + totalSpl * 5) * (baseLevel / 100);
       },
     },
     {
@@ -255,7 +257,7 @@ export class ArchMage extends Warlock {
         const { totalSpl } = status;
         const { level: baseLevel } = model;
 
-        return (100 + skillLevel * 760 + totalSpl * 5) * (baseLevel / 100);
+        return (skillLevel * 90 + totalSpl * 5) * (baseLevel / 100);
       },
     },
     {
@@ -268,13 +270,14 @@ export class ArchMage extends Warlock {
       cd: 4,
       isMatk: true,
       element: ElementType.Earth,
-      totalHit: 10,
+      // 10 hits, each dealing damage twice (2nd version) => 20 instances.
+      totalHit: 20,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalSpl } = status;
         const { level: baseLevel } = model;
 
-        return (100 + skillLevel * 730 + totalSpl * 5) * (baseLevel / 100);
+        return (skillLevel * 250 + totalSpl * 5) * (baseLevel / 100);
       },
     },
     {
@@ -315,10 +318,10 @@ export class ArchMage extends Warlock {
         const { totalSpl } = status;
         const { level: baseLevel } = model;
         if (this.isSkillActive('Climax')) {
-          return (400 + skillLevel * 1250 + totalSpl * 5) * (baseLevel / 100);
+          return (skillLevel * 850 + totalSpl * 5) * (baseLevel / 100);
         }
 
-        return (250 + skillLevel * 900 + totalSpl * 5) * (baseLevel / 100);
+        return (skillLevel * 600 + totalSpl * 5) * (baseLevel / 100);
       },
     },
     {
@@ -337,10 +340,10 @@ export class ArchMage extends Warlock {
         const { totalSpl } = status;
         const { level: baseLevel } = model;
         if (this.isSkillActive('Climax')) {
-          return (skillLevel * 1250 + totalSpl * 5) * (baseLevel / 100);
+          return (skillLevel * 850 + totalSpl * 5) * (baseLevel / 100);
         }
 
-        return (skillLevel * 950 + totalSpl * 5) * (baseLevel / 100);
+        return (skillLevel * 600 + totalSpl * 5) * (baseLevel / 100);
       },
     },
     {
@@ -359,15 +362,15 @@ export class ArchMage extends Warlock {
         const { totalSpl } = status;
         const { level: baseLevel } = model;
         if (this.isSkillActive('Climax')) {
-          return (skillLevel * 1250 + totalSpl * 5) * (baseLevel / 100);
+          return (skillLevel * 850 + totalSpl * 5) * (baseLevel / 100);
         }
 
-        return (skillLevel * 950 + totalSpl * 5) * (baseLevel / 100);
+        return (skillLevel * 600 + totalSpl * 5) * (baseLevel / 100);
       },
     },
     {
       name: 'All Bloom',
-      label: '[V3] All Bloom Lv5 (1 hit)',
+      label: '[V3] All Bloom Lv5',
       value: 'All Bloom==5',
       acd: 0.5,
       fct: 1.5,
@@ -375,18 +378,20 @@ export class ArchMage extends Warlock {
       cd: 6,
       isMatk: true,
       element: ElementType.Fire,
+      // (Skill level x 4) fireworks land randomly within the area; Climax Lv3 = +100% power.
+      totalHit: ({ skillLevel }) => skillLevel * 4,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalSpl } = status;
         const { level: baseLevel } = model;
-        const climaxBonus = this.activeSkillLv('Climax') === 3 ? 300 : 0;
+        const climaxMult = this.activeSkillLv('Climax') === 3 ? 2 : 1;
 
-        return (200 + skillLevel * 1200 + totalSpl * 5) * (baseLevel / 100) + climaxBonus;
+        return (skillLevel * 100 + totalSpl * 5) * (baseLevel / 100) * climaxMult;
       },
     },
     {
       name: 'Violent Quake',
-      label: '[V3] Violent Quake Lv5 (1 hit)',
+      label: '[V3] Violent Quake Lv5',
       value: 'Violent Quake==5',
       acd: 0.5,
       fct: 1.5,
@@ -394,13 +399,15 @@ export class ArchMage extends Warlock {
       cd: 6,
       isMatk: true,
       element: ElementType.Earth,
+      // (Skill level x 4) rocks land randomly within the area; Climax Lv3 = +100% power.
+      totalHit: ({ skillLevel }) => skillLevel * 4,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalSpl } = status;
         const { level: baseLevel } = model;
-        const climaxBonus = this.activeSkillLv('Climax') === 3 ? 200 : 0;
+        const climaxMult = this.activeSkillLv('Climax') === 3 ? 2 : 1;
 
-        return (200 + skillLevel * 1200 + totalSpl * 5) * (baseLevel / 100) + climaxBonus;
+        return (skillLevel * 120 + totalSpl * 5) * (baseLevel / 100) * climaxMult;
       },
     },
     // {

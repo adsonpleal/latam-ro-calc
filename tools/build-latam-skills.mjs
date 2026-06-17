@@ -42,6 +42,8 @@ const SKILL_NAME_ALIASES = {
   "Shatter Storm": "Shattering Storm",
   "Nuckle Boost": "Knuckle Boost",
   "Spread Shot": "Spread Attack",
+  "Rain of Crystal": "Crystal Rain",        // AG_CRYSTAL_RAIN 5216 "Cascata de Cristal"
+  "Two hand Staff Mastery": "Two Staff",    // AG_TWOHANDSTAFF 5228 "Perícia com Cajado de Duas Mãos"
 };
 
 // Calc names whose id we pin by hand because the client English name differs

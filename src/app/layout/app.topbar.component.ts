@@ -28,6 +28,11 @@ export class AppTopBarComponent {
 
   references: { label: string; link: string; writer: string; date?: string; }[] = [
     {
+      label: 'Arch Mage (2nd version)',
+      writer: 'Sigma the fallen',
+      link: 'https://sigmathefallen.blogspot.com/2024/05/arch-mage-2nd-version.html',
+    },
+    {
       label: 'Windhawk (2nd version)',
       writer: 'Sigma the fallen',
       link: 'https://sigmathefallen.blogspot.com/2024/07/windhawk-2nd-version.html',
