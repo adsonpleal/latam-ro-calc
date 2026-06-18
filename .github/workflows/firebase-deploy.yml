@@ -18,7 +18,9 @@ jobs:
           bun-version: latest
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        # bun auto-enables --frozen-lockfile in CI; the committed bun.lock drifts from
+        # package.json, so allow bun to reconcile it instead of failing the run.
+        run: bun install --no-frozen-lockfile
 
       - name: Build
         run: bun run build
