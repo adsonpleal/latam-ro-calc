@@ -116,6 +116,11 @@ const HideHpSp = {
   providers: [ConfirmationService, MessageService, DialogService],
 })
 export class RoCalculatorComponent implements OnInit, OnDestroy {
+  // Beta notice shown on every simulator load (for now, no dismissal persistence).
+  showBetaModal = true;
+  readonly feedbackFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSc5wsk9KOLOmPbALe-Cww1dG4AYmjrSraEuBXcrweeyriSoLQ/viewform';
+  readonly discordUrl = 'https://discord.gg/S4uEwGqK';
+
   updateItemEvent = new Subject();
   updateMonsterListEvent = new Subject();
   updateCompareEvent = new Subject();

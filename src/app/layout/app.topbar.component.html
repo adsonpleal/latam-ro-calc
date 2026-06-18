@@ -10,6 +10,27 @@
   </button>
   <button pButton class="pl-2 p-button-text p-button-info p-button-raised" (click)="showReferenceDialog()">Referências</button>
 
+  <div class="flex align-items-center gap-2 ml-2">
+    <a [href]="feedbackFormUrl" target="_blank" rel="noreferrer noopener">
+      <button pButton class="p-button-warning p-button-raised px-2" aria-label="Feedback">
+        <i class="pi pi-comment"></i>
+        <span class="pl-1">Feedback</span>
+      </button>
+    </a>
+    <a [href]="feedbackSheetUrl" target="_blank" rel="noreferrer noopener">
+      <button pButton class="p-button-help p-button-raised px-2" aria-label="Backlog">
+        <i class="pi pi-list"></i>
+        <span class="pl-1">Backlog</span>
+      </button>
+    </a>
+    <a [href]="discordUrl" target="_blank" rel="noreferrer noopener">
+      <button pButton class="p-button-raised px-2" style="background: #5865f2; border-color: #5865f2" aria-label="Discord">
+        <i class="pi pi-discord"></i>
+        <span class="pl-1">Discord</span>
+      </button>
+    </a>
+  </div>
+
   <div class="topbar-actions flex align-items-center gap-2">
     <button pButton class="p-button-info p-button-raised px-2" (click)="openItemSearch()">
       <i class="pi pi-search"></i>
@@ -30,10 +51,13 @@
         <li *ngFor="let info of infos">{{ info }}</li>
       </ul>
 
-      <div>
+      <div class="flex gap-2 flex-wrap justify-content-center">
         Reportar problema
-        <a href="https://web.facebook.com/zfehu.oivgwhy" target="_blank" rel="noreferrer noopener">
-          <p-chip label="Tong Aphisit" icon="pi pi-facebook"></p-chip>
+        <a [href]="feedbackFormUrl" target="_blank" rel="noreferrer noopener">
+          <p-chip label="Feedback" icon="pi pi-comment"></p-chip>
+        </a>
+        <a [href]="discordUrl" target="_blank" rel="noreferrer noopener">
+          <p-chip label="Discord" icon="pi pi-discord"></p-chip>
         </a>
       </div>
     </div>
@@ -74,6 +98,10 @@
       <ul class="mt-0">
         <li *ngFor="let log of update.logs">{{ log }}</li>
       </ul>
+    </div>
+
+    <div class="mt-3 text-center">
+      <a [href]="originalChangelogUrl" target="_blank" rel="noreferrer noopener">Histórico original (pré-fork) →</a>
     </div>
   </p-dialog>
 

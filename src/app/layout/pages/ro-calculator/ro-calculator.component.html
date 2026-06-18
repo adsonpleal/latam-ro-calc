@@ -2,6 +2,55 @@
 <p-blockUI [blocked]="isInProcessingPreset"></p-blockUI>
 <p-confirmDialog [position]="'top'" [style]="{ width: '25vw' }"></p-confirmDialog>
 
+<p-dialog
+  [draggable]="false"
+  [resizable]="false"
+  [modal]="true"
+  [(visible)]="showBetaModal"
+  [style]="{ width: '40vw', 'min-width': '320px' }"
+  [breakpoints]="{ '960px': '90vw' }"
+>
+  <ng-template pTemplate="header">
+    <div class="flex align-items-center gap-2">
+      <i class="pi pi-exclamation-triangle text-2xl" style="color: var(--yellow-500)"></i>
+      <span class="text-xl font-medium">Bem-vindo ao Simulador RO LATAM (Beta)</span>
+    </div>
+  </ng-template>
+
+  <div class="flex flex-column gap-3 line-height-3">
+    <p class="m-0">
+      Este simulador ainda está em <strong>beta</strong>. Estamos ajustando o
+      <strong>rebalanceamento para o servidor LATAM</strong>, e alguns itens ainda podem estar
+      <strong>faltando ou com valores imprecisos</strong>.
+    </p>
+    <p class="m-0">
+      Até o momento, a única classe <strong>totalmente validada</strong> é a
+      <strong>Falcão do Vento</strong>. As demais classes podem apresentar divergências.
+    </p>
+    <p class="m-0">
+      Encontrou algo errado? Conte pra gente! Seu feedback é o que faz o projeto evoluir.
+    </p>
+    <div class="flex gap-2 flex-wrap justify-content-center mt-2">
+      <a [href]="feedbackFormUrl" target="_blank" rel="noreferrer noopener">
+        <button pButton class="p-button-warning p-button-raised">
+          <i class="pi pi-comment"></i>
+          <span class="pl-2">Enviar feedback</span>
+        </button>
+      </a>
+      <a [href]="discordUrl" target="_blank" rel="noreferrer noopener">
+        <button pButton class="p-button-raised" style="background: #5865f2; border-color: #5865f2">
+          <i class="pi pi-discord"></i>
+          <span class="pl-2">Entrar no Discord</span>
+        </button>
+      </a>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton class="p-button-text" label="Entendi, vamos lá!" (click)="showBetaModal = false"></button>
+  </ng-template>
+</p-dialog>
+
 <app-item-search
   [items]="items"
   [selectedCharacter]="selectedCharacter"
