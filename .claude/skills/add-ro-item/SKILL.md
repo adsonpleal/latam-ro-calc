@@ -22,7 +22,7 @@ For each id it prints: pt name, aegisName, inferred `location`/`itemTypeId`/`ite
 The scaffold maps the slot to **authoritative** `itemTypeId`/`itemSubTypeId`/`location` (these route the calc's equip dropdowns in `setItemDropdownList`):
 - Normal gear: `itemTypeId: 2` + ItemSubTypeId enum — head 512 (+`location` Upper/Middle/Lower), Armor 513, Shield 514, Garment 515, Boot/Shoes 516, Acc 517. **Do NOT copy the `location`-tagged 526-530 items — those are shadow gear.**
 - **Costume / `[Visual]`**: `itemTypeId: 9`, subtype 519 (Upper) / 520 (Middle) / 521 (Lower) / 522 (Garment). The scaffold detects "Tipo: Visual".
-- `slots`: confirm from divine-pride's `[N]` (the scaffold defaults from the name, usually `0`) — a slotted armor needs `slots: 1`.
+- `slots`: the scaffold now fills this from the **GRF-authoritative `slots`** field in `latam-items.json` (the client `slotCount` from `iteminfo_new.lub`, via `build-latam-db.mjs`) — trust it. The LATAM display name drops the `[1]` suffix, so do **not** infer slots from the name. The scaffold falls back to the name-suffix parse only for entries predating the slots extraction (it flags this in its output); in that case cross-check with **LATAM divine-pride** (recipe below) — the header reads e.g. `Manto Branco Físico [1]` → `slots: 1`. Garments/armor/etc. cap at 1; weapons can have more. A slotted item left at `slots: 0` silently hides its card slot in the calc.
 - **Weapons**: scaffold leaves them blank — set `itemTypeId: 1` and copy `itemSubTypeId` (the weapon class) from a same-class weapon in item.json.
 - **Accessories**: subtype `517` works both sides; use `510` (right) / `511` (left) only if the bonus is side-specific.
 - Leave `name` as the pt name and `description: ""` — `RoService` overlays pt name/description and sets `presentInLatam` at runtime from `latam-items.json`.
@@ -66,7 +66,7 @@ Replace `PHRASE` (e.g. `Pós-conjuração`). Match the key it uses and the sign.
 
 ### 4. Combos — only this item's own, matched by id
 - Encode **only the combos that appear in THIS item's description** (`Conjunto [Partner]`). The partner item declares its own combos in its own description — don't duplicate.
-- Get the partner **ids** + exact bonus from divine-pride (`https://www.divine-pride.net/database/item/<id>` — the "Item Combo / Set" section lists each set's member ids and bonus). The GRF description can be incomplete; divine-pride is the combo source of truth.
+- Get the partner **ids** + exact bonus from divine-pride (`https://www.divine-pride.net/database/item/<id>` — the "Item Combo / Set" section lists each set's member ids and bonus). The GRF description can be incomplete; divine-pride is the combo source of truth. For LATAM-only items use the **authenticated LATAM fetch** below — an anonymous request returns "Item is not available on this server" and renders no name/stats/slots.
 - Encode with `EQUIP_ID[<partnerId>]<value>` (implemented in `calculator.ts` — `equipItemIdSet` + the `EQUIP_ID[...]` branch in `validateCondition`). Using the **id** avoids the pt-BR rename / `[Apoio]` bracket problem that breaks name-based `EQUIP[...]`.
 
 Example — 450147 (Colete Ilusión A), description combos with 480062 (ATQ +50) and 480063 (cast delay −10%):
@@ -77,6 +77,24 @@ Example — 450147 (Colete Ilusión A), description combos with 480062 (ATQ +50)
   "acd":         ["EQUIP_ID[480063]10"]
 }
 ```
+
+### 4b. Fetching LATAM divine-pride (authoritative slots / names / stats)
+LATAM (bRO) items are **not in divine-pride's anonymous view** — a plain GET shows a `account/login` link, `Unknown Item name`, and "Item is not available on this server". You only get the real GRF data (correct name **with its `[N]` slot suffix**, defense, weight, level, combos) when the request carries a logged-in divine-pride session whose account server has the item, plus `lang=pt`.
+
+```powershell
+$s = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+$s.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/149 Safari/537.36"
+# All three cookies on the PARENT domain ".divine-pride.net" (not "www."), or auth/server won't apply.
+# Get the values from a logged-in browser: DevTools > Application > Cookies > divine-pride.net.
+$s.Cookies.Add((New-Object System.Net.Cookie("lang","pt","/",".divine-pride.net")))
+$s.Cookies.Add((New-Object System.Net.Cookie("ASP.NET_SessionId","<SESSION_ID>","/",".divine-pride.net")))
+$s.Cookies.Add((New-Object System.Net.Cookie(".ASPXAUTH","<ASPXAUTH>","/",".divine-pride.net")))
+$r = Invoke-WebRequest -UseBasicParsing -Uri "https://www.divine-pride.net/database/item/<id>" -WebSession $s
+# The "[N]" in the header name is the slot count:
+[regex]::Match($r.Content,'(?s)<legend class="entry-title">(.*?)</legend>').Groups[1].Value -replace '<[^>]+>',' '
+# e.g. -> "Manto Branco Físico [1] 480812 WM_Physical_LT"  => slots: 1
+```
+**⚠ Never commit the cookie values** — `.ASPXAUTH`/`ASP.NET_SessionId` are the user's live credentials and this repo is public. Ask the user to paste them at call time (or read from a git-ignored file); keep placeholders in any saved snippet. Delete any `.dp_*.html` scratch files when done.
 
 ### 5. Apply
 Write the finished record(s) to a temp JSON file (array of full records), then:
@@ -89,6 +107,7 @@ It appends them to `item.json` with a minimal diff and skips ids already present
 - The dev preview rebuilds; confirm "Compiled successfully" in its logs.
 - Re-run `scaffold.mjs <id>` → it should now report "ALREADY in item.json".
 - In the calculator: pick the item in its slot, check the bonus shows; for combos, equip both partners and confirm the set bonus applies (and disappears when one is removed).
+- **Slots:** confirm `slots` matches the `[N]` from LATAM divine-pride and that the calc shows that many card slots on the equipped item — a slotted item left at `slots: 0` silently hides its card slot.
 
 ## Rules & gotchas
 - One record per id; `id` + a `script` object are required (the script may be `{}` for a pure-stat/vanity item).

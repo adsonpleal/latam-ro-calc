@@ -2,11 +2,13 @@
 // Extract the LATAM-server reference data from an installed Ragnarok Online
 // LATAM client and emit JSON to src/assets/demo/data/:
 //
-//   latam-items.json    { "<id>": { name, description } } — the pt-BR item name
-//                        (identifiedDisplayName) and description
-//                        (identifiedDescriptionName) from System/iteminfo_new.lub.
-//                        The key set IS the "present in LATAM" item universe; the
-//                        merge step flags item.json with `presentInLatam`.
+//   latam-items.json    { "<id>": { name, description, aegisName, slots } } — the
+//                        pt-BR item name (identifiedDisplayName), description
+//                        (identifiedDescriptionName) and slotCount from
+//                        System/iteminfo_new.lub (aegisName from itemmoveinfov5.txt;
+//                        slots omitted when 0). The key set IS the "present in
+//                        LATAM" item universe; the merge step flags item.json with
+//                        `presentInLatam`.
 //
 //   latam-classes.json  [ <jobIconId>, ... ] — the class/job icon ids whose
 //                        renewalparty/icon_jobs_<id>.bmp exists in data.grf.
@@ -120,6 +122,12 @@ function extractItems(lubPath, aegisMap = {}) {
     // items the move-info table doesn't cover.
     const aegisName = aegisMap[id] ?? decodeClientString(entry.get("identifiedResourceName"));
     if (aegisName) rec.aegisName = aegisName;
+    // Card/enchant slot count — the GRF-authoritative source. The LATAM display
+    // name drops the "[N]" suffix, so this is the only reliable slot signal; the
+    // calc reads `slots` from item.json, so add-ro-item uses this to fill it.
+    // Omit when 0 to keep the file minimal (matches the empty-field style above).
+    const slots = Number(entry.get("slotCount") || 0);
+    if (slots > 0) rec.slots = slots;
     out[id] = rec;
   }
   return out;
