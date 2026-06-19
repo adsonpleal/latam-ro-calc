@@ -32,15 +32,14 @@ import {
   createBaseHPSPOptionList,
   createExtraOptionList,
   createMainModel,
-  createMainStatOptionList,
   createNumberDropdownList,
   prettyItemDesc,
   sortObj,
   toDropdownList,
   toRawOptionTxtList,
   toUpsertPresetModel,
-  waitRxjs,
 } from 'src/app/utils';
+import { waitRxjs } from 'src/app/utils/wait-rxjs';
 import { importReplayBuffer } from '../../../replay/replay-to-model';
 import { MainModel } from '../../../models/main.model';
 import { environment } from 'src/environments/environment';
@@ -152,7 +151,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   private emptyModel = createMainModel();
   model2: ClassModel = { rawOptionTxts: [] };
 
-  basicOptions = createMainStatOptionList();
   baseHpOptions = createBaseHPSPOptionList('BaseHP') as any;
   baseSpOptions = createBaseHPSPOptionList('BaseSP') as any;
   refineList = createNumberDropdownList({ from: 0, to: 18 });
@@ -717,11 +715,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           const itemId = this.model2[_itemType];
 
           if (isShadowOption[_itemType]) {
-            // force have only 1 option
-            if (!itemId) {
-              this.model2.rawOptionTxts[slotNumbers[0]] = null;
+            // Shadow gear can carry up to two options (SD_*_1 / SD_*_2); mirror
+            // the primary path (toRawOptionTxtList) and copy/clear every slot.
+            for (const slot of slotNumbers) {
+              if (!itemId) this.model2.rawOptionTxts[slot] = null;
+              rawOptionTxts[slot] = this.model2.rawOptionTxts[slot];
             }
-            rawOptionTxts[slotNumbers[0]] = this.model2.rawOptionTxts[slotNumbers[0]];
             continue;
           }
 
@@ -1267,6 +1266,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           const skipped = summary.skippedItems.length;
           const detail =
             `${summary.player || 'Personagem'} — nível ${summary.baseLevel}, ${summary.equippedCount} equipamentos` +
+            (summary.appliedOptions ? `, ${summary.appliedOptions} bônus aleatórios` : '') +
             (summary.learnedSkillCount ? `, ${summary.learnedSkillCount} habilidades` : '') +
             (skipped ? `, ${skipped} ignorado(s) (fora do banco de dados)` : '') +
             '. ⚠️ Talentos (POD/STA/SAB/FEI/CON/CRV) não são gravados no replay — ajuste-os manualmente.';

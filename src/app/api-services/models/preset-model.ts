@@ -2,6 +2,12 @@ export interface PresetModel {
   class: number;
   level: number;
   jobLevel: number;
+
+  /** Character appearance for the paper-doll (replay import). 0 = female, 1 = male. */
+  sex?: number;
+  hairStyle?: number;
+  hairColor?: number;
+  clothesColor?: number;
   str: number;
   jobStr: number;
   agi: number;

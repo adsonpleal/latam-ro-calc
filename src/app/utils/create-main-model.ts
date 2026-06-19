@@ -5,6 +5,11 @@ export const createMainModel = (): MainModel => ({
   level: 99,
   jobLevel: 1,
 
+  sex: undefined,
+  hairStyle: undefined,
+  hairColor: undefined,
+  clothesColor: undefined,
+
   str: 1,
   jobStr: undefined,
   agi: 1,

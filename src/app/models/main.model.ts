@@ -6,6 +6,17 @@ export interface MainModel extends Partial<EquipmentModel> {
   level: number;
   jobLevel: number;
 
+  /**
+   * Character appearance, for the saved-sim paper-doll. Populated by the replay
+   * import; left undefined for builds assembled by hand (the paper-doll then
+   * falls back to its male / default-hair defaults). `sex`: 0 = female, 1 = male.
+   * `hairStyle` is a sprite id; `hairColor` / `clothesColor` are palette indices.
+   */
+  sex?: number;
+  hairStyle?: number;
+  hairColor?: number;
+  clothesColor?: number;
+
   str: number;
   jobStr?: number;
   agi: number;

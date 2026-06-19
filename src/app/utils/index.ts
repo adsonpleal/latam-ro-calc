@@ -8,7 +8,6 @@ export * from './create-base-stat-option-list';
 export * from './create-bonus-name-list';
 export * from './create-extra-option-list';
 export * from './create-main-model';
-export * from './create-main-stat-opton-list';
 export * from './create-number-dropdown-list';
 export * from './create-raw-total-bonus';
 export * from './first-upper-case';
@@ -23,6 +22,9 @@ export * from './to-drowdown-list';
 export * from './to-grade-list';
 export * from './to-raw-option-txt-list';
 export * from './to-upsert-preset-model';
-export * from './wait-rxjs';
+// NOTE: `wait-rxjs` is intentionally NOT re-exported here. It imports rxjs (only
+// used by Angular components), and the framework-free engine (core/domain/utils)
+// pulls this barrel into its Vitest suites, which run in plain Node. Re-exporting
+// it would drag rxjs into those tests. Import it directly: `from '.../wait-rxjs'`.
 export * from './gen-skill-list';
 export * from './create-trait-stat-option-list'

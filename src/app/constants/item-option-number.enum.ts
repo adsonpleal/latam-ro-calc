@@ -51,6 +51,16 @@ export enum ItemOptionNumber {
 
   X_HP = 26,
   X_SP = 27,
+
+  // Second random-option slot per shadow piece. Newer shadow gear (e.g. the
+  // Magical Spell Shadow Weapon) rolls two Bônus Aleatórios; the first slot is
+  // SD_*_1 above. Appended at the end so existing slot numbers are unchanged.
+  SD_Wp_2 = 30,
+  SD_Ar_2 = 31,
+  SD_Sh_2 = 32,
+  SD_B_2 = 33,
+  SD_Ear_2 = 34,
+  SD_Pan_2 = 35,
 }
 
 const slotNumbers = Object.values(ItemOptionNumber).filter((a) => Number.isInteger(a)) as number[];

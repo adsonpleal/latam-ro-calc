@@ -27,7 +27,9 @@ export const toRawOptionTxtList = (model: MainModel, itemMap) => {
     const itemId = model[_itemType];
 
     if (isShadowOption[_itemType]) {
-      if (!itemId) rawOptionTxts[slotNumbers[0]] = null;
+      // Shadow gear can carry up to two random options (SD_*_1 / SD_*_2). Clear
+      // every slot when no item occupies it.
+      if (!itemId) for (const slot of slotNumbers) rawOptionTxts[slot] = null;
       continue;
     }
 

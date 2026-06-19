@@ -3,6 +3,7 @@
     "version": "0.1.0-beta",
     "scripts": {
         "ng": "ng",
+        "prepare": "node scripts/setup-hooks.mjs",
         "start": "ng serve  --host 0.0.0.0 --hmr --port 4200",
         "start2": "ng serve",
         "build": "ng build",

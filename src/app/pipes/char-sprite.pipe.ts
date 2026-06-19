@@ -66,7 +66,10 @@ export const buildCharSpriteUrl = (
   const classId = Number(preset?.['class']);
   if (!classId) return '';
   const job = spriteJobId(classId);
-  const sex = resolveSex(job, reportedSex);
+  // Prefer an explicit sex carried on the build (replay import sets it); fall
+  // back to the caller-passed value, then to the gender-lock / male default.
+  const presetSex = preset?.['sex'];
+  const sex = resolveSex(job, presetSex === 0 || presetSex === 1 ? presetSex : reportedSex);
   const entry = (id: any): [number, number] | null => {
     const e = viewMap?.[String(id)];
     return Array.isArray(e) && e[0] > 0 ? e : null;
@@ -95,10 +98,19 @@ export const buildCharSpriteUrl = (
   const shieldId = preset?.['shield'];
   const shield = shieldId && shieldId !== preset?.['weapon'] ? view(shieldId) : null;
 
+  // Hair style + palettes from the build (replay import); 0/absent → defaults.
+  const hairStyle = Number(preset?.['hairStyle']) || DEFAULT_HEAD;
+  const hairColor = Number(preset?.['hairColor']) || 0;
+  const clothesColor = Number(preset?.['clothesColor']) || 0;
+
   const p = new URLSearchParams();
   p.set('job', String(job));
   p.set('gender', sex === 0 ? 'female' : 'male');
-  p.set('head', String(DEFAULT_HEAD));
+  p.set('head', String(hairStyle));
+  // Palette indices for hair / clothes color. 0 = standard palette → omit so the
+  // gateway uses its default (same convention ragreplaystats' viewer uses).
+  if (hairColor) p.set('headPalette', String(hairColor));
+  if (clothesColor) p.set('bodyPalette', String(clothesColor));
   if (headgear.length) p.set('headgear', headgear.join(','));
   if (garment != null) p.set('garment', String(garment));
   if (weapon != null) p.set('weapon', String(weapon));

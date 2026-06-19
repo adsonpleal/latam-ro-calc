@@ -41,7 +41,7 @@
     </div>
 
     <div class="col-8 grid grid-nogutter">
-      <div class="col-5">
+      <div class="col-3">
         <p-dropdown
           inputId="baseItemEnchant2"
           [autoDisplayFirst]="false"
@@ -100,7 +100,7 @@
         </p-dropdown>
       </div>
 
-      <div class="col-4">
+      <div class="col-3">
         <p-cascadeSelect
           [(ngModel)]="optionValue"
           [disabled]="!itemId"
@@ -108,11 +108,26 @@
           optionValue="value"
           optionGroupLabel="label"
           optionLabel="label"
-          [optionGroupChildren]="['children', 'children']"
-          placeholder="Opções"
+          [optionGroupChildren]="['children', 'children', 'children']"
+          placeholder="Opção 1"
           [showClear]="true"
           (onChange)="onOptionChange($event)"
           (onClear)="onOptionChange($event)"
+        ></p-cascadeSelect>
+      </div>
+      <div class="col-3">
+        <p-cascadeSelect
+          [(ngModel)]="option2Value"
+          [disabled]="!itemId"
+          [options]="optionList"
+          optionValue="value"
+          optionGroupLabel="label"
+          optionLabel="label"
+          [optionGroupChildren]="['children', 'children', 'children']"
+          placeholder="Opção 2"
+          [showClear]="true"
+          (onChange)="onOption2Change($event)"
+          (onClear)="onOption2Change($event)"
         ></p-cascadeSelect>
       </div>
     </div>

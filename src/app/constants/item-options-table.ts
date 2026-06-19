@@ -12,12 +12,12 @@ export const ItemOptionTable: [ItemTypeEnum, ItemOptionNumber[]][] = [
   [ItemTypeEnum.accLeft, [ItemOptionNumber.A_Left_1, ItemOptionNumber.A_Left_2]],
   [ItemTypeEnum.accRight, [ItemOptionNumber.A_Right_1, ItemOptionNumber.A_Right_2]],
 
-  [ItemTypeEnum.shadowWeapon, [ItemOptionNumber.SD_Wp_1]],
-  [ItemTypeEnum.shadowArmor, [ItemOptionNumber.SD_Ar_1]],
-  [ItemTypeEnum.shadowShield, [ItemOptionNumber.SD_Sh_1]],
-  [ItemTypeEnum.shadowBoot, [ItemOptionNumber.SD_B_1]],
-  [ItemTypeEnum.shadowEarring, [ItemOptionNumber.SD_Ear_1]],
-  [ItemTypeEnum.shadowPendant, [ItemOptionNumber.SD_Pan_1]],
+  [ItemTypeEnum.shadowWeapon, [ItemOptionNumber.SD_Wp_1, ItemOptionNumber.SD_Wp_2]],
+  [ItemTypeEnum.shadowArmor, [ItemOptionNumber.SD_Ar_1, ItemOptionNumber.SD_Ar_2]],
+  [ItemTypeEnum.shadowShield, [ItemOptionNumber.SD_Sh_1, ItemOptionNumber.SD_Sh_2]],
+  [ItemTypeEnum.shadowBoot, [ItemOptionNumber.SD_B_1, ItemOptionNumber.SD_B_2]],
+  [ItemTypeEnum.shadowEarring, [ItemOptionNumber.SD_Ear_1, ItemOptionNumber.SD_Ear_2]],
+  [ItemTypeEnum.shadowPendant, [ItemOptionNumber.SD_Pan_1, ItemOptionNumber.SD_Pan_2]],
 ];
 
 const WeaponTable: typeof ItemOptionTable = [

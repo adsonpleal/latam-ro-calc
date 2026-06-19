@@ -20,7 +20,16 @@ describe('decodeReplay (Mergulho test.rrf)', () => {
     expect(s.job).toBe(4257); // Windhawk
     expect(s.baseLevel).toBe(230);
     expect(s.jobLevel).toBe(47);
+    // Sex now comes from chunk 1095 (flipped), not the old constant-1 chunk 1098.
+    // Preá is male, so the 1095=0 flag maps to sex 1.
     expect(s.sex).toBe(1);
+  });
+
+  it("reads the recording character's look from the session snapshot", () => {
+    const s = replay.sessionInfo;
+    expect(s.hairStyle).toBe(1);
+    expect(s.hairColor).toBe(0);
+    expect(s.clothesColor).toBe(0);
   });
 
   it('reads the allocated base stats from the session snapshot', () => {
@@ -50,6 +59,15 @@ describe('decodeReplay (Mergulho test.rrf)', () => {
     expect(garment).toBeDefined();
     expect(garment!.refine).toBe(10);
     expect(garment!.cards).toEqual([300732, 29537, 29539, 29539]);
+  });
+
+  it('parses a random-options array on every item record (empty here, Preá ran no BA)', () => {
+    for (const rec of replay.initialInventory.values()) {
+      expect(Array.isArray(rec.options)).toBe(true);
+    }
+    // This recording carries no random options, so every parsed list is empty.
+    const withOptions = [...replay.initialInventory.values()].filter((r) => r.options.length);
+    expect(withOptions).toHaveLength(0);
   });
 
   it('decodes player damage events with skill id, hit count and hit type', () => {

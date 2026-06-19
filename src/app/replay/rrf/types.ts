@@ -16,7 +16,23 @@ export type Entity = {
   /** 0 = female, 1 = male; undefined = unknown. From spawn packets, with the
    *  local player falling back to the session snapshot. */
   sex?: number;
+  /**
+   * Appearance for the paper-doll viewer (local player only, from the Session
+   * container; undefined elsewhere). `hairStyle` is a sprite id; `hairColor` /
+   * `clothesColor` are palette indices (undefined = default/standard palette).
+   */
+  hairStyle?: number;
+  hairColor?: number;
+  clothesColor?: number;
 };
+
+/**
+ * A single random option ("Bônus Aleatório") on an equipped item. `id` indexes
+ * the client's option table (the rAthena `e_random_option_var` enum), `value` is
+ * the rolled magnitude (e.g. id 19 + value 7 → "ATQM +7"). `param` is a
+ * secondary byte (element/race for a few options; 0 for most).
+ */
+export type RandomOption = { id: number; value: number; param: number };
 
 export type HitType = "normal" | "critical" | "double" | "lucky" | "miss";
 
@@ -109,6 +125,8 @@ export type EquipChangeEvent = {
   itemId: number;
   refine: number;
   cards: number[];
+  /** Random options ("Bônus Aleatórios") resolved from the inventory snapshot. */
+  options: RandomOption[];
 };
 
 export type ParamChangeEvent = {
@@ -144,6 +162,14 @@ export type SessionInfo = {
   jobLevel: number;
   /** 0 = female, 1 = male; -1 = unknown. */
   sex: number;
+  /**
+   * Local player's appearance, from the Session snapshot. `hairStyle` is a
+   * sprite id (chunk 1060); `hairColor` (1064) / `clothesColor` (1063) are
+   * palette indices. 0 = default/standard palette.
+   */
+  hairStyle: number;
+  hairColor: number;
+  clothesColor: number;
   /** Allocated base stats, read from the Session snapshot (chunks 1024-1029). */
   str: number;
   agi: number;
@@ -174,6 +200,11 @@ export type InventoryRecord = {
   refine: number;
   /** Up to 4 card item ids. 0 = empty slot. */
   cards: [number, number, number, number];
+  /**
+   * Random options ("Bônus Aleatórios") — present on newer (221-byte) equip
+   * records; empty for older snapshots, the bag view or non-equipment.
+   */
+  options: RandomOption[];
 };
 
 export type Replay = {

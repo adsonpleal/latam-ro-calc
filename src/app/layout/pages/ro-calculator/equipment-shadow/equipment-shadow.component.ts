@@ -37,6 +37,9 @@ export class EquipmentShadowComponent implements OnInit, OnChanges {
   @Input() optionValue = undefined;
   @Output() optionValueChange = new EventEmitter<string>();
 
+  @Input() option2Value = undefined;
+  @Output() option2ValueChange = new EventEmitter<string>();
+
   @Input() enchant3Id = undefined;
   @Output() enchant3IdChange = new EventEmitter<number>();
 
@@ -156,6 +159,11 @@ export class EquipmentShadowComponent implements OnInit, OnChanges {
 
   onOptionChange(optionValue: any) {
     this.optionValueChange.emit(optionValue?.value);
+    this.optionChange.emit(optionValue);
+  }
+
+  onOption2Change(optionValue: any) {
+    this.option2ValueChange.emit(optionValue?.value);
     this.optionChange.emit(optionValue);
   }
 }

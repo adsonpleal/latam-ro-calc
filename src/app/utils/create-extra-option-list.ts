@@ -24,6 +24,14 @@ const TR: Record<string, string> = {
   'CRI Dmg': 'Dano Crít.',
   VCT: 'Conj. Variável',
   Delay: 'Pós-conjuração',
+  Hit: 'Precisão',
+  Flee: 'Esquiva',
+  'Perfect Dodge': 'Esquiva Perfeita',
+  Def: 'DEF',
+  Mdef: 'DEFM',
+  Res: 'TEN',
+  Mres: 'MTEN',
+  HPlus: 'C.Mais',
 };
 const tr = (s: string) => TR[s] ?? s;
 
@@ -192,6 +200,17 @@ export const createExtraOptionList = () => {
     ['HP', 'hp', 1, 20, 50],
     ['SP %', 'spPercent', 1, 20, 1, ' %'],
     ['SP', 'sp', 1, 20, 20],
+    // Defensive / accuracy rolls — not in the original list, added so replay
+    // imports of these random options (Bônus Aleatórios) are representable.
+    ['Hit', 'hit', 1, 50, 1],
+    ['Flee', 'flee', 1, 50, 1],
+    ['Perfect Dodge', 'perfectDodge', 1, 30, 1],
+    ['Def', 'def', 1, 200, 1],
+    ['Mdef', 'mdef', 1, 100, 1],
+    // Trait-derived rolls (cRate already lives in the trait-stat list).
+    ['Res', 'res', 1, 50, 1],
+    ['Mres', 'mres', 1, 50, 1],
+    ['HPlus', 'hplus', 1, 50, 1],
   ];
 
   const subTypeMap = {

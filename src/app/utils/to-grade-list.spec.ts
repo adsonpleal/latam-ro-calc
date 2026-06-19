@@ -4,9 +4,9 @@ import { getGradeList, toGradeList } from './to-grade-list';
 describe('toGradeList', () => {
   it('builds labelled, lower-cased grade options sorted descending', () => {
     expect(toGradeList(['A', 'B', 'C'])).toEqual([
-      { label: 'Grade C', value: 'c' },
-      { label: 'Grade B', value: 'b' },
-      { label: 'Grade A', value: 'a' },
+      { label: 'Grau C', value: 'c' },
+      { label: 'Grau B', value: 'b' },
+      { label: 'Grau A', value: 'a' },
     ]);
   });
 
@@ -19,7 +19,7 @@ describe('getGradeList', () => {
   it('returns the fixed ungrade..A option set', () => {
     const list = getGradeList();
     expect(list).toHaveLength(5);
-    expect(list[0]).toEqual({ label: 'ungrade', value: '' });
+    expect(list[0]).toEqual({ label: 'Sem Grau', value: '' });
     expect(list.map((g) => g.value)).toEqual(['', 'D', 'C', 'B', 'A']);
   });
 });

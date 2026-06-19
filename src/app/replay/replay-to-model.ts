@@ -1,7 +1,10 @@
+import { ItemOptionMap } from '../constants/item-options-table';
+import { ItemTypeEnum } from '../constants/item-type.enum';
 import { MainModel } from '../models/main.model';
 import { createMainModel } from '../utils/create-main-model';
+import { randomOptionToScript } from './random-option-map';
 import { decodeReplay } from './rrf/decode';
-import { InventoryRecord, Replay } from './rrf/types';
+import { InventoryRecord, RandomOption, Replay } from './rrf/types';
 
 /**
  * rAthena `e_equip_pos` bits — the `equipped` bitmask each inventory record
@@ -139,6 +142,10 @@ export type ReplayImportSummary = {
   skippedItems: { slot: SlotKey; itemId: number }[];
   /** Card/enchant ids dropped because they aren't in the LATAM item DB. */
   skippedCards: number;
+  /** Random options ("Bônus Aleatórios") written into the model's option slots. */
+  appliedOptions: number;
+  /** Random options dropped — unsupported by the calc or with no free option slot. */
+  skippedOptions: number;
   /** Number of learned skills (level > 0) read from the skill-tree snapshot. */
   learnedSkillCount: number;
 };
@@ -157,9 +164,9 @@ type ItemMap = Record<number, { id: number } & Record<string, any>>;
 /**
  * Build a calculator MainModel from a parsed replay + the calculator's item map.
  * Sets class, levels, allocated base stats and every equipped piece (refine +
- * cards + socket-enchants). Items absent from the LATAM DB are skipped and
- * reported. Random options and 4th-job traits are not present in the replay and
- * are left at their defaults.
+ * cards + socket-enchants + random options). Items absent from the LATAM DB are
+ * skipped and reported. 4th-job traits are not present in the replay and are left
+ * at their defaults.
  */
 export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportResult {
   const s = replay.sessionInfo;
@@ -173,17 +180,25 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
   model.int = s.int || 0;
   model.dex = s.dex || 0;
   model.luk = s.luk || 0;
+  // Character appearance, for the saved-sim paper-doll (undefined = use defaults).
+  model.sex = s.sex === 0 || s.sex === 1 ? s.sex : undefined;
+  model.hairStyle = s.hairStyle || undefined;
+  model.hairColor = s.hairColor || undefined;
+  model.clothesColor = s.clothesColor || undefined;
 
   const known = (id: number) => id > 0 && !!itemMap[id];
   const skippedItems: ReplayImportSummary['skippedItems'] = [];
   let skippedCards = 0;
   let equippedCount = 0;
+  let appliedOptions = 0;
+  let skippedOptions = 0;
 
   for (const rec of replay.initialInventory.values()) {
     if (!rec.equipped) continue;
+    const itemKnown = known(rec.itemId);
     for (const { key, cardOffset } of resolveSlots(rec.equipped)) {
       const def = SLOTS[key];
-      if (!known(rec.itemId)) {
+      if (!itemKnown) {
         skippedItems.push({ slot: key, itemId: rec.itemId });
         continue;
       }
@@ -191,6 +206,13 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
       if (def.refine) (model as any)[def.refine] = rec.refine || 0;
       writeCards(model, def.cards, rec, cardOffset, () => skippedCards++);
       equippedCount++;
+    }
+    // Random options live on the item, not a card slot — apply them once per
+    // known item (an unknown item is already wholly skipped above).
+    if (itemKnown && rec.options.length) {
+      const r = applyOptions(model, rec.equipped, rec.options);
+      appliedOptions += r.applied;
+      skippedOptions += r.skipped;
     }
   }
 
@@ -207,10 +229,47 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
       equippedCount,
       skippedItems,
       skippedCards,
+      appliedOptions,
+      skippedOptions,
       learnedSkillCount: Object.keys(learnedSkills).length,
     },
     learnedSkills,
   };
+
+  /**
+   * Write an item's random options into the model's `rawOptionTxts`, indexed by
+   * the calculator's per-slot option numbers (see item-options-table.ts). The
+   * options belong to whichever worn slot carries option numbers (weapons,
+   * armor, garment, shield, accessories, headgear, shadow gear); slots without
+   * any (boots, lower headgear, costumes) can't hold them. Each option is mapped
+   * to a calc option-script and dropped (counted) when unsupported or when the
+   * slot has no remaining option positions.
+   */
+  function applyOptions(m: MainModel, equippedMask: number, options: RandomOption[]) {
+    let slotNumbers: number[] | undefined;
+    for (const { key } of resolveSlots(equippedMask)) {
+      const sn = ItemOptionMap.get(key as unknown as ItemTypeEnum);
+      if (sn && sn.length) {
+        slotNumbers = sn;
+        break;
+      }
+    }
+
+    let applied = 0;
+    let skipped = 0;
+    let pos = 0;
+    for (const opt of options) {
+      const script = randomOptionToScript(opt);
+      if (!script || !slotNumbers || pos >= slotNumbers.length) {
+        skipped++;
+        continue;
+      }
+      m.rawOptionTxts[slotNumbers[pos]] = script;
+      pos++;
+      applied++;
+    }
+    return { applied, skipped };
+  }
 
   function writeCards(m: MainModel, fields: string[], rec: InventoryRecord, cardOffset: number, onSkip: () => void) {
     // Map the replay's socket positions onto this slot's card/enchant fields
