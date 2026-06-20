@@ -184,7 +184,7 @@ export class RoyalGuard extends Paladin {
       acd: 0,
       fct: 0,
       vct: 0,
-      cd: 2,
+      cd: 1.7,
       canCri: true,
       criDmgPercentage: 0.5,
       formula: (input: AtkSkillFormulaInput): number => {
