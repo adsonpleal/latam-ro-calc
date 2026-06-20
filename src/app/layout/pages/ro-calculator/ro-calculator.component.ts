@@ -2257,6 +2257,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     skillAspd: 'VelAtq (hab.)', skillAspdPercent: 'VelAtq % (hab.)', decreaseSkillAspdPercent: 'Reduz VelAtq (hab.)',
     acd: 'Pós-conjuração', fct: 'Conj. Fixa', fctPercent: 'Conj. Fixa %',
     vct: 'Conj. Variável', vct_inc: 'Conj. Variável (aumento)', vctBySkill: 'Conj. Variável (hab.)',
+    cd: 'Redução de Recarga',
     hit: 'Precisão', perfectHit: 'Precisão Perfeita', cri: 'Crítico', criDmg: 'Dano crítico',
     perfectDodge: 'Esquiva perfeita', flee: 'Esquiva', forceCri: 'Força crítico',
     ignore_size_penalty: 'Ignora penalidade de tamanho', p_infiltration: 'Infiltração física',
@@ -2297,6 +2298,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // RES/MRES penetration vs a race
     if ((m = key.match(/^pene_(res|mres)_race_(\w+)$/))) {
       return `Penetrar ${m[1].toUpperCase()} (Raça: ${sub[m[2]] ?? m[2]})`;
+    }
+    // Combo bonuses
+    if ((m = key.match(/^(vct|fct|cd)__(.+)$/))) {
+      return `${this.itemBonusLabels[m[1]]} de ${sub[m[2]] ?? m[2]}`;
     }
     return undefined;
   }
