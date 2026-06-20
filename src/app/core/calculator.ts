@@ -910,50 +910,23 @@ export class Calculator {
       if (!valid) return { isValid: false, restCondition };
 
       restCondition = restCondition.replace(setCondition, '');
+      if (restCondition.startsWith('===')) restCondition = restCondition.replace('===', '');
+      return this.validateCondition({ itemType, itemRefine, script: restCondition });
+    }
 
-      // REFINE[garment,armor==20]===10
-      // REFINE[9]===25
-      const [unused, refineCombo, refineCond] = restCondition.match(/^REFINE\[(\D*?)=*=*(\d+)]/) ?? [];
-      if (refineCombo) {
-        // console.log({ unused, refineCombo, restCondition });
-        if (restCondition.includes(`${unused}---`)) {
-          return { isValid: true, restCondition };
-        }
-
-        const totalRefine = refineCombo
-          .split(',')
-          .map((itemType) => this.mapRefine.get(itemType as ItemTypeEnum))
-          .reduce((sum, cur) => sum + (cur || 0), 0);
-        // console.log({ totalRefine, refineCond });
-        if (totalRefine >= Number(refineCond)) {
-          restCondition = restCondition.replace(unused, '');
-          if (!restCondition.startsWith('===')) {
-            return this.validateCondition({ itemType, itemRefine, script: restCondition });
-          }
-        } else {
-          return { isValid: false, restCondition };
-        }
-      } else if (refineCond) {
-        if (itemRefine >= Number(refineCond)) {
-          restCondition = restCondition.replace(unused, '');
-        } else {
-          return {
-            isValid: false,
-            restCondition,
-          };
-        }
-      }
-
-      if (restCondition.startsWith('===')) {
-        const replaced = restCondition.replace('===', '');
-        if (Number.isNaN(Number(replaced))) {
-          restCondition = restCondition.replace('0===', '');
-        } else {
-          restCondition = replaced;
-        }
-      }
-
-      return { isValid: true, restCondition };
+    // REFINE[headUpper,garment==22] — slot-based sum
+    const [unusedSlot, slotNames, slotRefineCond] = restCondition.match(/^REFINE\[(\D+?)==(\d+)]/) ?? [];
+    if (slotNames) {
+      if (restCondition.includes(`${unusedSlot}---`)) return { isValid: true, restCondition };
+      const totalRefine = slotNames
+        .split(',')
+        .map((slot) => this.mapRefine.get(slot as ItemTypeEnum))
+        .reduce((sum, cur) => sum + (cur || 0), 0);
+      // console.log({ totalRefine, refineCond });
+      if (totalRefine < Number(slotRefineCond)) return { isValid: false, restCondition };
+      restCondition = restCondition.replace(unusedSlot, '');
+      if (restCondition.startsWith('===')) restCondition = restCondition.replace('===', '');
+      return this.validateCondition({ itemType, itemRefine, script: restCondition });
     }
 
     // REFINE[11]
