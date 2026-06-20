@@ -215,7 +215,7 @@ export class Warlock extends HighWizard {
       acd: 1,
       fct: 0.5,
       vct: 4,
-      cd: 10,
+      cd: 8,
       isMatk: true,
       hit: 5,
       element: ElementType.Water,
