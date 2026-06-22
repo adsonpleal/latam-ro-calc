@@ -191,7 +191,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   accRightCardList: DropdownModel[] = [];
   petList: DropdownModel[] = [];
 
-
   costumeUpperList: DropdownModel[] = [];
   costumeMiddleList: DropdownModel[] = [];
   costumeLowerList: DropdownModel[] = [];
@@ -2304,7 +2303,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     }
     // Combo bonuses
     if ((m = key.match(/^(vct|fct|cd)__(.+)$/))) {
-      return `Redução de ${this.itemBonusLabels[m[1]]} de ${sub[m[2]] ?? m[2]}`;
+      const resolvedSkill = this.resolveSkillKey(m[2]);
+      return `Redução de ${this.itemBonusLabels[m[1]]} de ${resolvedSkill ? resolvedSkill.name : resolvedSkill}`;
     }
     return undefined;
   }
