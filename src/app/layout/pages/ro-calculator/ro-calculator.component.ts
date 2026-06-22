@@ -2301,6 +2301,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     if ((m = key.match(/^pene_(res|mres)_race_(\w+)$/))) {
       return `Penetrar ${m[1].toUpperCase()} (Raça: ${sub[m[2]] ?? m[2]})`;
     }
+    // Chance of activating something
+    if ((m = key.match(/^chance__(\w+)$/))) {
+      const determinedBonus = this.buffBonusLabels[m[1]] ?? this.decodeStructuredBonusKey(m[1])
+      return `Chance de ${determinedBonus ?? m[1].toUpperCase()}`;
+    }
     // Combo bonuses
     if ((m = key.match(/^(vct|fct|cd)__(.+)$/))) {
       const resolvedSkill = this.resolveSkillKey(m[2]);
