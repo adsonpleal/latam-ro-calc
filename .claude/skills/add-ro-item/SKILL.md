@@ -35,8 +35,13 @@ Each script value is `"<key>": ["<entry>", ...]`. An entry is one of:
 | `"X---Y"` | `floor(refino / X) · Y` (step) | `A cada X refinos: +Y` |
 | `"X===Y"` | `+Y` when `refino ≥ X` (threshold) | `Refino +X ou mais: +Y` |
 | `"EQUIP_ID[id]Y"` or `"EQUIP_ID[id]===Y"` | `+Y` when item `id` is also equipped (combo) | `Conjunto [Partner]: +Y` |
+| `"SKILL_ID[id==lv]Y"` | `+Y` when the **learned** (passive) skill `id` is at level ≥ `lv` | `Se aprendeu <Perícia> Nv lv: +Y` |
+| `"SKILL_ID[id==N]---Y"` | `floor(skillLevel / N) · Y` (scale by learned level) | `A cada N níveis de <Perícia>: +Y` |
+| `"ACTIVE_SKILL_ID[id]Y"` | `+Y` while the **active/used** skill `id` is in play | `Ao usar <Perícia>: +Y` |
 
 `EQUIP_ID` grammar: `&&` = all required, `||` = any-of, e.g. `EQUIP_ID[480062||480063]50`. Multiple entries on one key stack: `"atk": ["100", "2---10", "EQUIP_ID[480062]50"]`.
+
+**Reference skills by id, never by name.** `SKILL_ID[...]` / `ACTIVE_SKILL_ID[...]` are the id-based forms of the engine's older name tokens (`LEARN_SKILL[Name==lv]` / `ACTIVE_SKILL[Name]`) — prefer the id form for the same reason as `EQUIP_ID`: it survives pt-BR renaming and avoids guessing the exact internal English skill name (e.g. `SKILL_ID[2008==1]---2` instead of `LEARN_SKILL[Dragon Breath==1]---2`). `SKILL_ID2[id==lv]` is the niche variant of `LEARN_SKILL2`. Find a skill **id** in the Skill Catalog (`SKILL_META` / `SKILL_ID_BY_NAME`, `src/app/skills`) — the `id` field next to the pt-BR `label`. Parsed in `calculator.ts` (`learnedSkillIdMap` / `usedSkillIdSet` + the `SKILL_ID[...]` / `ACTIVE_SKILL_ID[...]` branches in `validateCondition`).
 
 **Bonus-key map (pt-BR phrase → key).** The authoritative key list is `src/app/utils/create-raw-total-bonus.ts` (187 keys). Common ones:
 

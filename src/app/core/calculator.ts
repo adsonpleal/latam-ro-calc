@@ -11,7 +11,7 @@ import {
 import { SKILL_NAME } from 'src/app/constants/skill-name';
 import { Monster, Weapon } from 'src/app/domain';
 import { CharacterBase } from 'src/app/jobs';
-import { resolveSkillById } from 'src/app/skills';
+import { resolveSkillById, SKILL_ID_BY_NAME } from 'src/app/skills';
 import { createRawTotalBonus, floor, isNumber, round } from 'src/app/utils';
 import { ChanceModel } from 'src/app/models/chance-model';
 import { BasicAspdModel, BasicDamageSummaryModel, MiscModel, SkillAspdModel, SkillDamageSummaryModel } from 'src/app/models/damage-summary.model';
@@ -153,6 +153,12 @@ export class Calculator {
   private mapItemNameRefine = new Map<string, number>();
   private usedSkillNames = new Set<string>();
   private learnedSkillMap = new Map<string, number>();
+  /** Id-keyed mirrors of the name-keyed skill state above — back the `SKILL_ID[...]`
+   *  / `ACTIVE_SKILL_ID[...]` conditions (id matching survives skill-name changes,
+   *  same rationale as `equipItemIdSet`). Several names can share one id, so the
+   *  learned map keeps the highest level among them. */
+  private learnedSkillIdMap = new Map<number, number>();
+  private usedSkillIdSet = new Set<number>();
   private equipAtkSkillBonus: Record<string, Record<string, any>> = {};
   private buffMasteryAtkBonus: Record<string, Record<string, any>> = {};
   private buffEquipAtkBonus: Record<string, Record<string, any>> = {};
@@ -295,6 +301,18 @@ export class Calculator {
     return this.usedSkillNames.has(skillName);
   }
 
+  /** Learned level of a skill by its in-game id (0 if not learned) — the id-based
+   *  counterpart of `learnedSkillMap.get(name)`, used by the `SKILL_ID[...]` tokens. */
+  private learnedSkillLevelById(skillId: number) {
+    return this.learnedSkillIdMap.get(skillId) ?? 0;
+  }
+
+  /** Whether an active/used skill is in play, matched by in-game id (the id-based
+   *  counterpart of `isUsedSkill`), used by the `ACTIVE_SKILL_ID[...]` token. */
+  private isUsedSkillId(skillId: number) {
+    return this.usedSkillIdSet.has(skillId);
+  }
+
   private get additionalBonusInput(): AdditionalBonusInput {
     return {
       model: this.model,
@@ -407,11 +425,24 @@ export class Calculator {
   setUsedSkillNames(usedSkillNames: Set<string>) {
     this.usedSkillNames = usedSkillNames;
 
+    this.usedSkillIdSet = new Set<number>();
+    for (const name of usedSkillNames) {
+      const id = SKILL_ID_BY_NAME[name];
+      if (id !== undefined) this.usedSkillIdSet.add(id);
+    }
+
     return this;
   }
 
   setLearnedSkills(learnedSkillMap: Map<string, number>) {
     this.learnedSkillMap = learnedSkillMap;
+
+    this.learnedSkillIdMap = new Map<number, number>();
+    for (const [name, level] of learnedSkillMap) {
+      const id = SKILL_ID_BY_NAME[name];
+      if (id === undefined) continue;
+      this.learnedSkillIdMap.set(id, Math.max(this.learnedSkillIdMap.get(id) ?? 0, level));
+    }
 
     return this;
   }
@@ -599,6 +630,14 @@ export class Calculator {
     if (skillName) {
       const learned = this.learnedSkillMap.get(skillName) || 0;
       return calc(learned, Number(skillLv));
+    }
+
+    // SKILL_ID[4==2]---1  — id form of LEARN_SKILL above (scale by learned level).
+    // Lookbehind keeps it from matching the SKILL_ID[ tail inside ACTIVE_SKILL_ID[.
+    const [, scaleSkillId, scaleSkillLv] = condition.match(/(?<!ACTIVE_)SKILL_ID\[(\d+)==(\d+)]/) ?? [];
+    if (scaleSkillId) {
+      const learned = this.learnedSkillLevelById(Number(scaleSkillId));
+      return calc(learned, Number(scaleSkillLv));
     }
 
     // level:1(125)---1
@@ -793,6 +832,17 @@ export class Calculator {
       restCondition = restCondition.replace(toRemove_, '');
     }
 
+    // SKILL_ID[2418==5]1  — id form of LEARN_SKILL gating above. The lookbehind
+    // stops this from matching the SKILL_ID[ tail inside ACTIVE_SKILL_ID[.
+    const [, skillIdRemove, skillIdCond] = restCondition.match(/((?<!ACTIVE_)SKILL_ID\[(.+?)\]=?=?=?)-?\d+/) ?? [];
+    if (skillIdCond) {
+      const [skillId, skillLv] = skillIdCond.split('==');
+      const isPass = this.learnedSkillLevelById(Number(skillId)) >= Number(skillLv);
+      if (!isPass) return { isValid: false, restCondition };
+
+      restCondition = restCondition.replace(skillIdRemove, '');
+    }
+
     // LEARN_SKILL2[Illusion - Shadow==5]SUM[level==4]---2
     const [_raw2, toRemove2_, learnCond2] = restCondition.match(/(LEARN_SKILL2\[(.+?)\]=?=?=?)/) ?? [];
     if (learnCond2) {
@@ -801,6 +851,16 @@ export class Calculator {
       if (!isPass) return { isValid: false, restCondition };
 
       restCondition = restCondition.replace(toRemove2_, '');
+    }
+
+    // SKILL_ID2[2255==5]SUM[level==4]---2  — id form of LEARN_SKILL2 gating above
+    const [, skillId2Remove, skillId2Cond] = restCondition.match(/(SKILL_ID2\[(.+?)\]=?=?=?)/) ?? [];
+    if (skillId2Cond) {
+      const [skillId, skillLv] = skillId2Cond.split('==');
+      const isPass = this.learnedSkillLevelById(Number(skillId)) >= Number(skillLv);
+      if (!isPass) return { isValid: false, restCondition };
+
+      restCondition = restCondition.replace(skillId2Remove, '');
     }
 
     // LEVEL[130]2---1
@@ -812,6 +872,14 @@ export class Calculator {
       if (!isPass) return { isValid: false, restCondition };
 
       restCondition = restCondition.replace(toRemove2, '');
+    }
+
+    // ACTIVE_SKILL_ID[2479]9===50  — id form of ACTIVE_SKILL gating below
+    const [unusedActId, actSkillId] = restCondition.match(/ACTIVE_SKILL_ID\[(\d+)]/) ?? [];
+    if (actSkillId) {
+      if (!this.isUsedSkillId(Number(actSkillId))) return { isValid: false, restCondition };
+
+      restCondition = restCondition.replace(unusedActId, '');
     }
 
     // ACTIVE_SKILL[Platinum Altar]9===50(90 วินาที)

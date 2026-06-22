@@ -3,6 +3,7 @@ import { AtkSkillModel } from './_character-base.abstract';
 import { Minstrel } from './Minstrel';
 import { Oboro } from './Oboro';
 import { Ranger } from './Ranger';
+import { Windhawk } from './Windhawk';
 
 /**
  * Characterization tests that lock current skill-damage output BEFORE the
@@ -97,5 +98,64 @@ describe('Oboro/Kagerou shared Cross Slash (branches on Cross Wound)', () => {
     const oboro = new Oboro();
     (oboro as any).bonuses = stubBonuses(['Cross Wound']);
     expect(dmgOf(oboro, 'Cross Slash', { level: 200, skillLevel: 10 })).toBe(6000);
+  });
+});
+
+// Windhawk (4th Ranger) atk skills read CON, base level, stack and cross-skill
+// state (Calamity Gale buff / Nature Friendly learn level). These pin the formula
+// output so the skill-id refactor can't silently change Windhawk damage.
+describe('Windhawk atk-skill formulas (smoke)', () => {
+  // status/stack aren't part of the shared dmgOf helper, so invoke the formula directly.
+  const whDmg = (
+    wh: Windhawk,
+    name: string,
+    input: { level: number; skillLevel: number; con: number; stack?: number },
+  ) =>
+    findSkill(wh, name).formula({
+      model: { level: input.level },
+      skillLevel: input.skillLevel,
+      status: { totalCon: input.con },
+      stack: input.stack,
+      skills: (wh as any).skillState,
+    } as any);
+
+  describe('Crescive Bolt — stacks, branches on Calamity Gale (×1.2)', () => {
+    // (10*300 + 100*10) * (200/100) * (1 + 0.1*3) = 4000 * 2 * 1.3 = 10400
+    it('Lv10 @ base 200, CON 100, 3 stacks, no Calamity Gale', () => {
+      const wh = new Windhawk();
+      (wh as any).bonuses = stubBonuses();
+      expect(whDmg(wh, 'Crescive Bolt', { level: 200, skillLevel: 10, con: 100, stack: 3 })).toBe(10400);
+    });
+
+    // 10400 * 1.2 = 12480
+    it('Lv10 @ base 200, CON 100, 3 stacks, Calamity Gale active', () => {
+      const wh = new Windhawk();
+      (wh as any).bonuses = stubBonuses(['Calamity Gale']);
+      expect(whDmg(wh, 'Crescive Bolt', { level: 200, skillLevel: 10, con: 100, stack: 3 })).toBe(12480);
+    });
+  });
+
+  // (10*250 + 100*5) * (200/100) = 3000 * 2 = 6000
+  it('Gale Storm Lv10 @ base 200, CON 100', () => {
+    const wh = new Windhawk();
+    (wh as any).bonuses = stubBonuses();
+    expect(whDmg(wh, 'Gale Storm', { level: 200, skillLevel: 10, con: 100 })).toBe(6000);
+  });
+
+  describe('Hawk Rush — scales with Nature Friendly learn level', () => {
+    // (5*200 + 100*5) * (1 + 0) * (200/100) = 1500 * 2 = 3000
+    it('Lv5 @ base 200, CON 100, no Nature Friendly', () => {
+      const wh = new Windhawk();
+      (wh as any).bonuses = stubBonuses();
+      expect(whDmg(wh, 'Hawk Rush', { level: 200, skillLevel: 5, con: 100 })).toBe(3000);
+    });
+
+    // 1500 * (1 + 0.1*5) * 2 = 1500 * 1.5 * 2 = 4500
+    it('Lv5 @ base 200, CON 100, Nature Friendly Lv5 (+50%)', () => {
+      const wh = new Windhawk();
+      (wh as any).bonuses = stubBonuses();
+      (wh as any).bonuses.learnedSkillMap.set('Nature Friendly', 5);
+      expect(whDmg(wh, 'Hawk Rush', { level: 200, skillLevel: 5, con: 100 })).toBe(4500);
+    });
   });
 });

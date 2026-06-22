@@ -48,4 +48,26 @@ describe('item.json skill references', () => {
 
     expect({ invalidIds, unmigrated }).toEqual({ invalidIds: [], unmigrated: [] });
   });
+
+  // The id-based condition tokens (parsed in calculator.ts): SKILL_ID[id==lv],
+  // SKILL_ID2[id==lv] and ACTIVE_SKILL_ID[id]. The (?<!ACTIVE_) lookbehind on the
+  // SKILL_ID alternative avoids double-matching the SKILL_ID tail of ACTIVE_SKILL_ID.
+  it('reference valid skill ids in SKILL_ID / SKILL_ID2 / ACTIVE_SKILL_ID tokens', () => {
+    const tokenRe = /(?:ACTIVE_SKILL_ID|(?<!ACTIVE_)SKILL_ID2?)\[(\d+)/g;
+    const invalid: string[] = [];
+
+    for (const [itemId, item] of Object.entries(items)) {
+      if (!item.script) continue;
+      for (const entries of Object.values(item.script)) {
+        for (const entry of Array.isArray(entries) ? entries : [entries]) {
+          if (typeof entry !== 'string') continue;
+          for (const [, id] of entry.matchAll(tokenRe)) {
+            if (!VALID_SKILL_IDS.has(Number(id))) invalid.push(`${itemId}: "${entry}"`);
+          }
+        }
+      }
+    }
+
+    expect(invalid).toEqual([]);
+  });
 });

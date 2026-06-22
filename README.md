@@ -80,6 +80,13 @@ A pasta `tools/` contém os scripts que geram a base de dados LATAM (`build-lata
 `build-latam-monsters.mjs`, etc.) a partir das fontes do jogo. As habilidades (nomes,
 descrições e ids) ficam no catálogo estático em `src/app/skills/`.
 
+## Base de dados de itens
+
+O banco de itens fica em `src/assets/demo/data/item.json`. O campo `script` (os bônus de
+cada item) usa uma sintaxe compacta de condições e valores. A referência completa — todos
+os campos, chaves de bônus, condições e exemplos comentados — está em
+**[docs/item-json.md](docs/item-json.md)**.
+
 ## Deploy
 
 O build de produção é publicado no Firebase Hosting. Pushes na branch `main` disparam o
