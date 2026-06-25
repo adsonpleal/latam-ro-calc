@@ -6,9 +6,13 @@
 # ============================================================================
 FROM node:18-alpine AS base
 WORKDIR /app
-# Copy only the manifest first so `npm install` is cached unless deps change.
+# Copy the manifest first so `npm install` is cached unless deps change.
 # (No package-lock.json in the repo yet, so we use `npm install`, not `npm ci`.)
+# `scripts/` must come too: package.json's `prepare` lifecycle runs
+# `scripts/setup-hooks.mjs` during install, and npm aborts if the file is absent
+# (the script itself no-ops when git/.git is missing, as it is in the image).
 COPY package.json ./
+COPY scripts ./scripts
 RUN npm install
 
 # ============================================================================
