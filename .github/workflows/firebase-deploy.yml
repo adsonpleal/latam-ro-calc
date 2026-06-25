@@ -30,5 +30,9 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          # Pin the CLI: firebase-tools 15.22.2 regressed service-account auth
+          # ("Premature close" fetching the OAuth token); 15.22.1 was the last
+          # known-good. Bump/remove once a later release fixes it.
+          firebaseToolsVersion: "15.22.1"
           channelId: live
           projectId: simulador-latam-ro
