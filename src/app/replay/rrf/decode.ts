@@ -497,7 +497,7 @@ function extractSessionInfo(containers: AnyContainer[], recordedAt: Date) {
   // STR 120 / LUK 120, and the value is identical across recordings of the same
   // character (it's the allocated portion, with no gear bonus folded in).
   let str = 0, agi = 0, vit = 0, int_ = 0, dex = 0, luk = 0;
-  // Sprite sex of the recording character — see the chunk 1095 note below.
+  // Sprite sex of the recording character — see the ReplayData chunk 963 note below.
   let sex = -1;
   // Appearance of the recording character, for the paper-doll viewer. The local
   // player never self-spawns, so (unlike other entities) the look isn't in any
@@ -518,6 +518,15 @@ function extractSessionInfo(containers: AnyContainer[], recordedAt: Date) {
     if (replayData.chunks.length > 5) {
       map = readKoreanZ(replayData.chunks[5].data);
     }
+    // Sprite sex of the recording character lives in ReplayData chunk 963
+    // (0 = female, 1 = male — same convention as spawn packets and the viewer,
+    // so no flip). It is NOT in the Session container: the same account can hold
+    // both male and female characters (so account-level data can't tell them
+    // apart), and the local player never self-spawns, so this is the only
+    // per-character sex source. (Earlier code read Session chunk 1095, which is 0
+    // for every character regardless of sex → it always returned "male".)
+    const sexFlag = readU32ChunkById(replayData, 963);
+    sex = sexFlag === 0 ? 0 : sexFlag === 1 ? 1 : -1;
   }
 
   const sessionContainer = containers.find(
@@ -535,13 +544,6 @@ function extractSessionInfo(containers: AnyContainer[], recordedAt: Date) {
     int_ = readU32ChunkById(sessionContainer, 1027) ?? 0;
     dex = readU32ChunkById(sessionContainer, 1028) ?? 0;
     luk = readU32ChunkById(sessionContainer, 1029) ?? 0;
-    // Sprite sex of the recording character lives in chunk 1095, stored
-    // *inverted* vs the RO wire convention used everywhere else here (spawn
-    // packets + the viewer): chunk 1095 is 1=female / 0=male, our `sex` is
-    // 0=female / 1=male — so flip it. (The old code read chunk 1098, a constant 1
-    // for every character, so it always returned "male".)
-    const sexFlag = readU32ChunkById(sessionContainer, 1095);
-    sex = sexFlag === 1 ? 0 : sexFlag === 0 ? 1 : -1;
     hairStyle = readU32ChunkById(sessionContainer, 1060) ?? 0;
     hairColor = readU32ChunkById(sessionContainer, 1064) ?? 0;
     clothesColor = readU32ChunkById(sessionContainer, 1063) ?? 0;
