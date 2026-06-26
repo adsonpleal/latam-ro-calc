@@ -25,6 +25,16 @@ jobs:
       - name: Build
         run: bun run build
 
+      # Pin Node 20 for the Firebase CLI. The runners now force actions onto
+      # Node 24, whose networking stack regresses firebase-tools service-account
+      # auth ("Premature close" fetching the OAuth token) — this broke deploys
+      # even with the firebaseToolsVersion pin below, which was green on Node 20.
+      # The build above uses Bun, so this only affects the deploy step's npx.
+      - name: Setup Node (Firebase CLI)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
