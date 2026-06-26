@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.1-beta — 2026-06-26
+
+- Adicionados os **Bônus Aleatórios** ao conjunto Selo de Loki: o Selo de Loki e
+  os selos de Copas, Espadas, Ouros e Paus agora aceitam 2 bônus aleatórios cada.
+  Bônus aleatórios também foram habilitados para elmos de posição **Baixo**.
+  (Correção sugerida pelo Ted.)
+- Corrigida a tradução do bônus de dano mágico por propriedade: "Meu Elemento
+  Mágico" → "Dano Mágico por Propriedade" (ex.: "Dano mágico Fogo +N%"),
+  alinhada ao texto oficial do cliente.
+
 ## 0.1.0-beta — 2026-06-18
 
 Primeiro lançamento beta do **Simulador RO LATAM**, um fork e tradução do projeto

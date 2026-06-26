@@ -20,9 +20,8 @@ export enum ItemOptionNumber {
   H_Mid_1 = 10,
   H_Mid_2 = 11,
   H_Mid_3 = 29,
-  // H_Low_1,
-  // H_Low_2,
-  // H_Low_3,
+  // H_Low_1 / H_Low_2 are appended at the end (36/37) so existing slot numbers
+  // are unchanged — see below.
 
   Armor_1 = 12,
   Armor_2 = 13,
@@ -61,6 +60,13 @@ export enum ItemOptionNumber {
   SD_B_2 = 33,
   SD_Ear_2 = 34,
   SD_Pan_2 = 35,
+
+  // Lower-headgear random-option slots. Appended at the end (not 12/13-style
+  // sequential) so existing slot numbers stay stable. Lower head pieces such as
+  // the Selo de Loki "Ace" set (Heart/Spade/Diamond/Clover) roll two Bônus
+  // Aleatórios; ExtraOptionTable gates how many of these are actually shown.
+  H_Low_1 = 36,
+  H_Low_2 = 37,
 }
 
 const slotNumbers = Object.values(ItemOptionNumber).filter((a) => Number.isInteger(a)) as number[];

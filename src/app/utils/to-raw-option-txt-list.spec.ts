@@ -9,8 +9,12 @@ const model = (over: Partial<MainModel> = {}): MainModel =>
   ({ rawOptionTxts: [], ...over } as MainModel);
 
 // `Temporal_Armor_TW` is a 2-option-slot armor in ExtraOptionTable; the unknown
-// id resolves to 0 slots.
-const itemMap = { 2301: { id: 2301, aegisName: 'Temporal_Armor_TW' } } as any;
+// id resolves to 0 slots. `Clover_Ace_Defense` (Selo de Paus, 420269) is a
+// Lower-headgear member of the Selo de Loki set — 2 Bônus Aleatórios slots.
+const itemMap = {
+  2301: { id: 2301, aegisName: 'Temporal_Armor_TW' },
+  420269: { id: 420269, aegisName: 'Clover_Ace_Defense' },
+} as any;
 
 describe('toRawOptionTxtList', () => {
   it('keeps both shadow option slots while the shadow item is worn', () => {
@@ -47,6 +51,24 @@ describe('toRawOptionTxtList', () => {
     rawOptionTxts[N.Armor_1] = 'atk:10';
     const out = toRawOptionTxtList(model({ armor: 99999, rawOptionTxts } as any), itemMap);
     expect(out[N.Armor_1]).toBeNull();
+  });
+
+  it('keeps both Lower-headgear option slots for a Selo de Loki "Ace" item', () => {
+    const rawOptionTxts: string[] = [];
+    rawOptionTxts[N.H_Low_1] = 'str:5';
+    rawOptionTxts[N.H_Low_2] = 'def:200';
+    const out = toRawOptionTxtList(model({ headLower: 420269, rawOptionTxts } as any), itemMap);
+    expect(out[N.H_Low_1]).toBe('str:5');
+    expect(out[N.H_Low_2]).toBe('def:200');
+  });
+
+  it('clears Lower-headgear option slots when no Lower headgear is worn', () => {
+    const rawOptionTxts: string[] = [];
+    rawOptionTxts[N.H_Low_1] = 'str:5';
+    rawOptionTxts[N.H_Low_2] = 'def:200';
+    const out = toRawOptionTxtList(model({ headLower: undefined, rawOptionTxts }), itemMap);
+    expect(out[N.H_Low_1]).toBeNull();
+    expect(out[N.H_Low_2]).toBeNull();
   });
 
   it('relocates a weapon baseHp/baseSp roll into the X_HP/X_SP buckets', () => {

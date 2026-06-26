@@ -91,17 +91,19 @@ export const createBonusNameList = () => {
     items.push(item);
   }
 
-  // No idea about programmatic
+  // "Dano mágico <Propriedade>" — own-element spell damage (rAthena
+  // ADDSKILLMDAMAGE_*), not "Dano mágico contra <Prop>" (the "Elemento" group).
   items[1].children.push({
-    label: 'Meu Elemento Mágico',
+    label: 'Dano Mágico por Propriedade',
     value: 'My Element',
     children: atkProps.Element.map((element) => {
       const elementLow = element.toLowerCase();
       const prop = `m_my_element_${elementLow}`;
+      const propLabel = element === 'All' ? 'todas as propriedades' : trProp('Element', element);
 
       return {
         value: prop,
-        label: `M. Meu ${trProp('Element', element)}`,
+        label: `Dano mágico ${propLabel}`,
       };
     }),
   });

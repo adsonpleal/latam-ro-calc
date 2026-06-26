@@ -2324,7 +2324,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     }
     // m_my_element_* — damage with the character's own element
     if ((m = key.match(/^m_my_element_(\w+)$/))) {
-      return `Dano Mágico (Meu Elemento: ${sub[m[1]] ?? m[1]})`;
+      const prop = m[1] === 'all' ? 'todas as propriedades' : (sub[m[1]] ?? m[1]);
+      return `Dano Mágico por Propriedade (${prop})`;
     }
     // p_/m_ damage vs a category subtype
     if ((m = key.match(/^([pm])_(size|element|race|class)_(\w+)$/))) {

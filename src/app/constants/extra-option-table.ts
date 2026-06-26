@@ -120,6 +120,15 @@ export const ExtraOptionTable = {
 
   Bloody_Knight_Shield_: 2,
   Gambler_Seal: 2,
+
+  // Selo de Loki set (Gambler's Seal). Each rolls two Bônus Aleatórios via its
+  // "Loki" combiner — Selo de Loki (Middle) from the Moeda de Loki coins, the
+  // four Ace seals (Lower) from the Aviso/Conselho/Fofoca/Cochicho de Loki.
+  Gambler_Seal_KR_: 2, // 410233 Selo de Loki (1) — Middle
+  Heart_Ace_Melee: 2, // 420210 Selo de Copas — Lower
+  Spade_Ace_Melee: 2, // 420213 Selo de Espadas — Lower
+  Diamond_Ace_Range: 2, // 420220 Selo de Ouros — Lower
+  Clover_Ace_Defense: 2, // 420269 Selo de Paus — Lower
   Droop_Gunslinger: 2,
   Cat_Lace_Hairband_K: 2,
   Kafra_Suit: 1,

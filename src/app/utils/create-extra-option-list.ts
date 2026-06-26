@@ -101,20 +101,25 @@ export const createExtraOptionList = () => {
     items.push(item);
   }
 
-  // No idea about programmatic
+  // "Dano mágico <Propriedade>" — raises the damage of the caster's own-element
+  // spells (rAthena ADDSKILLMDAMAGE_*; in-game label "Dano mágico Fogo +N%").
+  // Distinct from the "Elemento" group above, which is "Dano mágico contra
+  // <Prop>" (damage vs the target's element). The old "Meu Elemento Mágico" /
+  // "M. Meu X" wording was a literal port of the English "My Element".
   items[1].children.push({
-    label: 'Meu Elemento Mágico',
+    label: 'Dano Mágico por Propriedade',
     value: 'My Element',
     children: atkProps.Element.map((element) => {
       const elementLow = element.toLowerCase();
+      const propLabel = element === 'All' ? 'todas as propriedades' : trProp('Element', element);
       return {
         value: `m_my_element_${elementLow}`,
-        label: trProp('Element', element),
+        label: propLabel,
         children: Array.from({ length: 25 }, (_, k) => {
           const num = k + 1;
           return {
             value: `m_my_element_${elementLow}:${num}`,
-            label: `M. Meu ${trProp('Element', element)} +${num}%`,
+            label: `Dano mágico ${propLabel} +${num}%`,
           };
         }),
       };
