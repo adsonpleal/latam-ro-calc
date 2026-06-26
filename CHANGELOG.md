@@ -1,6 +1,9 @@
 # Changelog
 
-## 0.1.1-beta — 2026-06-26
+> As notas detalhadas por versão também aparecem no app, em **Novidades** (a lista
+> `updates` em `app.topbar.component.ts` é a fonte canônica voltada ao usuário).
+
+## 0.1.2-beta — 2026-06-26
 
 - Adicionados os **Bônus Aleatórios** ao conjunto Selo de Loki: o Selo de Loki e
   os selos de Copas, Espadas, Ouros e Paus agora aceitam 2 bônus aleatórios cada.
@@ -9,6 +12,14 @@
 - Corrigida a tradução do bônus de dano mágico por propriedade: "Meu Elemento
   Mágico" → "Dano Mágico por Propriedade" (ex.: "Dano mágico Fogo +N%"),
   alinhada ao texto oficial do cliente.
+
+## 0.1.1-beta — 2026-06-25
+
+- Diversos ajustes de cálculo e interface (exibição de "%", reduções de conjuração
+  negativas, debuff Oratio, comparação de Escudo/Efeitos).
+- Importação de Bônus Aleatórios e da aparência do personagem via replay (`.rrf`).
+- Mais de 282 itens LATAM e novos monstros (Glastheim Infernal, MVPs do bROWiki).
+- Correções de scripts/combos e do motor de cálculo. Lista completa em **Novidades**.
 
 ## 0.1.0-beta — 2026-06-18
 
