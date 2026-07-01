@@ -147,10 +147,6 @@ export class EquipmentComponent implements OnChanges, OnInit {
     }
   }
 
-  get isHeadCardable() {
-    return this.itemType === ItemTypeEnum.headMiddle || this.itemType === ItemTypeEnum.headUpper;
-  }
-
   get isAcc() {
     return this.itemType === ItemTypeEnum.accLeft || this.itemType === ItemTypeEnum.accRight;
   }

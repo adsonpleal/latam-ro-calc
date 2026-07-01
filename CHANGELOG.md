@@ -3,6 +3,12 @@
 > As notas detalhadas por versão também aparecem no app, em **Novidades** (a lista
 > `updates` em `app.topbar.component.ts` é a fonte canônica voltada ao usuário).
 
+## 0.1.3-beta — 2026-07-01
+
+- Adicionadas as **Essências de Morroc** (FOR, AGI, VIT, INT, DES e SOR, níveis 1
+  a 3), que podem ser combinadas em qualquer equipamento ou arma com slot.
+  (Sugerido pelo Ted.)
+
 ## 0.1.2-beta — 2026-06-26
 
 - Adicionados os **Bônus Aleatórios** ao conjunto Selo de Loki: o Selo de Loki e

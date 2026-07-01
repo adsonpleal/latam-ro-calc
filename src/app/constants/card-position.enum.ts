@@ -8,4 +8,7 @@ export enum CardPosition {
   Acc = 136,
   AccL = 128,
   AccR = 8,
+  // Sentinel (not a real equip bitmask): items that fit ANY slot's card socket,
+  // e.g. the Essências de Morroc. Routed into every card picker.
+  All = -1,
 }

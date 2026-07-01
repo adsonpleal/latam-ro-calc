@@ -103,6 +103,13 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.3-beta',
+      date: '01-07-2026',
+      logs: [
+        'Adicionadas as Essências de Morroc (FOR, AGI, VIT, INT, DES e SOR, níveis 1 a 3), que podem ser combinadas em qualquer equipamento ou arma com slot. Obrigado ao Ted por sugerir.',
+      ],
+    },
+    {
       v: '0.1.2-beta',
       date: '26-06-2026',
       logs: [

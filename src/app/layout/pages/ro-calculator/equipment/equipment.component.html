@@ -78,20 +78,13 @@
           (onChange)="onSelectItem('card1Id', $event.value)"
           placeholder="Carta{{ isWeapon ? ' 1' : '' }}"
         >
-          <ng-template *ngIf="!isHeadCardable" let-item pTemplate="selectedItem">
-            <div class="flex gap-1 item_template" *ngIf="card1Id">
-              <img src="assets/icons/card.png" alt="" class="item_img" />
-              <div>{{ item.label }}</div>
-            </div>
-          </ng-template>
-
-          <ng-template *ngIf="isHeadCardable" let-item pTemplate="selectedItem">
+          <ng-template let-item pTemplate="selectedItem">
             <div class="flex gap-1 item_template" *ngIf="card1Id">
               <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
               <div>{{ item.label }}</div>
             </div>
           </ng-template>
-          <ng-template *ngIf="isHeadCardable" let-item pTemplate="item">
+          <ng-template let-item pTemplate="item">
             <div class="flex gap-1">
               <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
               <div>{{ item.label }}</div>
@@ -116,7 +109,13 @@
         >
           <ng-template let-item pTemplate="selectedItem">
             <div class="flex gap-1 item_template" *ngIf="card2Id">
-              <img src="assets/icons/card.png" alt="" class="item_img" />
+              <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
+              <div>{{ item.label }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-item pTemplate="item">
+            <div class="flex gap-1">
+              <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
               <div>{{ item.label }}</div>
             </div>
           </ng-template>
@@ -139,7 +138,13 @@
         >
           <ng-template let-item pTemplate="selectedItem">
             <div class="flex gap-1 item_template" *ngIf="card3Id">
-              <img src="assets/icons/card.png" alt="" class="item_img" />
+              <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
+              <div>{{ item.label }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-item pTemplate="item">
+            <div class="flex gap-1">
+              <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
               <div>{{ item.label }}</div>
             </div>
           </ng-template>
@@ -162,7 +167,13 @@
         >
           <ng-template let-item pTemplate="selectedItem">
             <div class="flex gap-1 item_template" *ngIf="card4Id">
-              <img src="assets/icons/card.png" alt="" class="item_img" />
+              <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
+              <div>{{ item.label }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-item pTemplate="item">
+            <div class="flex gap-1">
+              <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
               <div>{{ item.label }}</div>
             </div>
           </ng-template>
