@@ -11,7 +11,13 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.primengConfig.ripple = true;
-        // pt-BR labels for the shared confirm dialogs (accept/reject) app-wide.
-        this.primengConfig.setTranslation({ accept: 'Sim', reject: 'Não' });
+        // pt-BR labels app-wide: confirm dialogs (accept/reject) and the
+        // dropdown/listbox empty-state messages (e.g. filtered search with no hit).
+        this.primengConfig.setTranslation({
+            accept: 'Sim',
+            reject: 'Não',
+            emptyFilterMessage: 'Nenhum resultado encontrado',
+            emptyMessage: 'Nenhum resultado encontrado',
+        });
     }
 }
