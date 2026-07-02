@@ -103,6 +103,14 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.4-beta',
+      date: '02-07-2026',
+      logs: [
+        'Adicionados 206 Equipamentos Sombrios (Shadow Gear) que faltavam no banco de dados, extraídos do cliente LATAM. Obrigado a quem reportou o Escudo Sombrio de Sigrun.',
+        'Todos os Equipamentos Sombrios com "HP máx. +10 por refino" agora aplicam esse bônus no cálculo.',
+      ],
+    },
+    {
       v: '0.1.3-beta',
       date: '01-07-2026',
       logs: [

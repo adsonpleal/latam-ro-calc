@@ -3,6 +3,14 @@
 > As notas detalhadas por versão também aparecem no app, em **Novidades** (a lista
 > `updates` em `app.topbar.component.ts` é a fonte canônica voltada ao usuário).
 
+## 0.1.4-beta — 2026-07-02
+
+- Adicionados **206 Equipamentos Sombrios** (Shadow Gear) que faltavam no banco de
+  dados, extraídos do cliente LATAM (incluindo o Escudo Sombrio de Sigrun, que foi
+  reportado). Estruturas, scripts de bônus e combos por conjunto foram preenchidos.
+- Todos os Equipamentos Sombrios com **"HP máx. +10 por refino"** agora aplicam
+  esse bônus no cálculo (inclusive os itens já existentes que não o tinham).
+
 ## 0.1.3-beta — 2026-07-01
 
 - Adicionadas as **Essências de Morroc** (FOR, AGI, VIT, INT, DES e SOR, níveis 1
