@@ -38782,12 +38782,13 @@
       "RuneKnight"
     ],
     "script": {
-      "hp": [
-        "1---10"
-      ],
       "5004": [
         "5",
-        "2---2"
+        "2---2",
+        "EQUIP_ID[24288]REFINE[shadowArmor,shadowWeapon==1]---1"
+      ],
+      "hp": [
+        "1---10"
       ]
     }
   },
@@ -230988,6 +230989,12 @@
       ],
       "hp": [
         "1---10"
+      ],
+      "p_pene_race_all": [
+        "EQUIP_ID[24390&&24389&&24392&&24391&&24388]20"
+      ],
+      "m_pene_race_all": [
+        "EQUIP_ID[24390&&24389&&24392&&24391&&24388]20"
       ]
     }
   },
@@ -236714,6 +236721,9 @@
       "hit": [
         "5",
         "2---1"
+      ],
+      "atk": [
+        "EQUIP_ID[24152]REFINE[shadowEarring,shadowWeapon==1]---1"
       ]
     }
   },
@@ -236743,7 +236753,8 @@
       ],
       "def": [
         "5",
-        "2---1"
+        "2---1",
+        "EQUIP_ID[24155]REFINE[shadowArmor,shadowPendant==1]---1"
       ]
     }
   },
