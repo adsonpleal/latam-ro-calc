@@ -1,5 +1,5 @@
 import { ItemTypeEnum, ItemTypeId } from 'src/app/constants';
-import { ActiveSkillModel, AtkSkillModel, CharacterBase, ClassIDEnum, ClassName } from 'src/app/jobs';
+import { ActiveSkillModel, AtkSkillModel, CharacterBase, ClassIDEnum, ClassName, RuneKnight, Warlock } from 'src/app/jobs';
 import { HpSpTable } from 'src/app/models/hp-sp-table.model';
 import { ItemModel } from 'src/app/models/item.model';
 import { MainModel } from 'src/app/models/main.model';
@@ -114,6 +114,65 @@ describe('Calculator', () => {
 
   it('should be created', () => {
     expect(calculator).toBeTruthy();
+  });
+
+  // Sigrun shadow set: Malha (24326, armor) + Escudo (24327, shield). The combo
+  // is declared on the armor and grants — when the shield is also equipped, the
+  // set refine sum is >= 17, AND the class is a Swordman/Thief/Taekwon line —
+  // ATQ +15 "adicional" (on top of the armor's own USED[...]15 base). This test
+  // guards the class gate, the partner-equipped gate, and the min-refine gate.
+  describe('Sigrun shadow set combo (24326 Malha + 24327 Escudo)', () => {
+    const COMBO_ATK = 'EQUIP_ID[24327]USED[Swordman||Thief||Taekwondo]REFINE[shadowArmor,shadowShield==17]15';
+    const sigrunItems = (): Record<number, Partial<ItemModel>> => ({
+      24326: {
+        id: 24326, name: 'Malha Sombria de Sigrun', itemTypeId: 10, itemSubTypeId: 526,
+        // base ATQ +15 for the class line, plus the set combo entry
+        script: { atk: ['USED[Swordman||Thief||Taekwondo]15', COMBO_ATK] },
+      },
+      24327: { id: 24327, name: 'Escudo Sombrio de Sigrun', itemTypeId: 10, itemSubTypeId: 527, script: {} },
+    });
+
+    const atkFor = (
+      cls: CharacterBase,
+      opts: { armorRefine: number; shieldRefine?: number; withShield?: boolean },
+    ): number => {
+      const { armorRefine, shieldRefine = 0, withShield = true } = opts;
+      // initialise the character's skill bonuses (needed by setAdditionalBonus)
+      cls.setLearnSkills({ activeSkillIds: [], passiveSkillIds: [] }).getSkillBonusAndName();
+      const calc = new Calculator();
+      calc.setMasterItems(sigrunItems() as any).setHpSpTable(mockHpSpTable).setClass(cls).setMonster(mockMonster);
+      const model = createMainModel();
+      model.level = 100;
+      model.shadowArmor = 24326;
+      model.shadowArmorRefine = armorRefine;
+      if (withShield) {
+        model.shadowShield = 24327;
+        model.shadowShieldRefine = shieldRefine;
+      }
+      calc.loadItemFromModel(model).prepareAllItemBonus();
+      return (calc as any).totalEquipStatus.atk as number;
+    };
+
+    it('applies the +15 combo for a Swordman-line class when shield equipped and set refine >= 17 (base 15 + combo 15 = 30)', () => {
+      expect(atkFor(new RuneKnight(), { armorRefine: 9, shieldRefine: 8 })).toBe(30);
+    });
+
+    it('applies at exactly 17 (boundary), regardless of how the refine is split', () => {
+      expect(atkFor(new RuneKnight(), { armorRefine: 9, shieldRefine: 8 })).toBe(30); // 17
+      expect(atkFor(new RuneKnight(), { armorRefine: 16, shieldRefine: 1 })).toBe(30); // 17
+    });
+
+    it('does NOT apply the combo when set refine sum is 16 (only the base +15)', () => {
+      expect(atkFor(new RuneKnight(), { armorRefine: 8, shieldRefine: 8 })).toBe(15);
+    });
+
+    it('does NOT apply the combo when the partner shield is not equipped (only the base +15)', () => {
+      expect(atkFor(new RuneKnight(), { armorRefine: 15, withShield: false })).toBe(15);
+    });
+
+    it('does NOT apply anything for a non-matching class (Warlock/Mage line)', () => {
+      expect(atkFor(new Warlock(), { armorRefine: 9, shieldRefine: 8 })).toBe(0);
+    });
   });
 
   describe('loadItemFromModel', () => {
