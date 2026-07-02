@@ -229580,19 +229580,24 @@
       ],
       "hp": [
         "1---10",
-        "USED[Novice||SuperNovice||Summoner]1000"
+        "USED[Novice||SuperNovice||Summoner]1000",
+        "EQUIP_ID[24327]USED[Novice||SuperNovice||Summoner]REFINE[shadowArmor,shadowShield==17]1000"
       ],
       "atk": [
-        "USED[Swordman||Thief||Taekwondo]15"
+        "USED[Swordman||Thief||Taekwondo]15",
+        "EQUIP_ID[24327]USED[Swordman||Thief||Taekwondo]REFINE[shadowArmor,shadowShield==17]15"
       ],
       "matk": [
-        "USED[Mage||Acolyte||Ninja||SoulLinker]15"
+        "USED[Mage||Acolyte||Ninja||SoulLinker]15",
+        "EQUIP_ID[24327]USED[Mage||Acolyte||Ninja||SoulLinker]REFINE[shadowArmor,shadowShield==17]15"
       ],
       "range": [
-        "USED[Merchant||Archer||Gunslinger]3"
+        "USED[Merchant||Archer||Gunslinger]3",
+        "EQUIP_ID[24327]USED[Merchant||Archer||Gunslinger]REFINE[shadowArmor,shadowShield==17]3"
       ],
       "aspdPercent": [
-        "USED[Novice||SuperNovice||Summoner]5"
+        "USED[Novice||SuperNovice||Summoner]5",
+        "EQUIP_ID[24327]USED[Novice||SuperNovice||Summoner]REFINE[shadowArmor,shadowShield==17]5"
       ]
     }
   },
