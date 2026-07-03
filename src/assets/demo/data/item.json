@@ -239823,5 +239823,9245 @@
         "1---1"
       ]
     }
+  },
+  "410013": {
+    "id": 410013,
+    "aegisName": "EXP_Processor_",
+    "name": "Comunicador Avançado",
+    "unidName": "Comunicador Avançado",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2206": {
+    "id": 2206,
+    "aegisName": "면사포",
+    "name": "Véu de Noiva",
+    "unidName": "Véu de Noiva",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "5"
+      ]
+    }
+  },
+  "2208": {
+    "id": 2208,
+    "aegisName": "리본",
+    "name": "Laço",
+    "unidName": "Laço",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "3"
+      ]
+    }
+  },
+  "2209": {
+    "id": 2209,
+    "aegisName": "리본",
+    "name": "Laço",
+    "unidName": "Laço",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "3"
+      ]
+    }
+  },
+  "2234": {
+    "id": 2234,
+    "aegisName": "티아라",
+    "name": "Diadema",
+    "unidName": "Diadema",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ]
+    }
+  },
+  "2235": {
+    "id": 2235,
+    "aegisName": "크라운",
+    "name": "Coroa",
+    "unidName": "Coroa",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ]
+    }
+  },
+  "2236": {
+    "id": 2236,
+    "aegisName": "산타모자",
+    "name": "Gorro de Natal",
+    "unidName": "Gorro de Natal",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "1"
+      ],
+      "luk": [
+        "1"
+      ]
+    }
+  },
+  "2249": {
+    "id": 2249,
+    "aegisName": "코로넷",
+    "name": "Coroa Menor",
+    "unidName": "Coroa Menor",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "2252": {
+    "id": 2252,
+    "aegisName": "위저드햇",
+    "name": "Chapéu de Bathory",
+    "unidName": "Chapéu de Bathory",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage"
+    ],
+    "script": {
+      "sp": [
+        "100"
+      ]
+    }
+  },
+  "2254": {
+    "id": 2254,
+    "aegisName": "천사의머리띠",
+    "name": "Asas de Anjo",
+    "unidName": "Asas de Anjo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ],
+      "luk": [
+        "1"
+      ]
+    }
+  },
+  "2255": {
+    "id": 2255,
+    "aegisName": "악마의머리띠",
+    "name": "Asas de Demônio",
+    "unidName": "Asas de Demônio",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ]
+    }
+  },
+  "2274": {
+    "id": 2274,
+    "aegisName": "망자의머리띠",
+    "name": "Faixa de Fantasma",
+    "unidName": "Faixa de Fantasma",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ]
+    }
+  },
+  "2277": {
+    "id": 2277,
+    "aegisName": "간호모",
+    "name": "Chapéu de Enfermeira",
+    "unidName": "Chapéu de Enfermeira",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "2285": {
+    "id": 2285,
+    "aegisName": "명사수의사과",
+    "name": "Maçã de Guilherme Tell",
+    "unidName": "Maçã de Guilherme Tell",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "3"
+      ]
+    }
+  },
+  "2291": {
+    "id": 2291,
+    "aegisName": "나비가면",
+    "name": "Disfarce",
+    "unidName": "Disfarce",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_demihuman": [
+        "3"
+      ]
+    }
+  },
+  "5002": {
+    "id": 5002,
+    "aegisName": "쥬얼크라운",
+    "name": "Coroa Adornada",
+    "unidName": "Coroa Adornada",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Thief",
+      "Merchant"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ],
+      "luk": [
+        "1"
+      ]
+    }
+  },
+  "5003": {
+    "id": 5003,
+    "aegisName": "광대모자",
+    "name": "Chapéu de Bufão",
+    "unidName": "Chapéu de Bufão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "2"
+      ]
+    }
+  },
+  "5007": {
+    "id": 5007,
+    "aegisName": "로드서클릿",
+    "name": "Coroa do Líder",
+    "unidName": "Coroa do Líder",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "int": [
+        "1"
+      ],
+      "luk": [
+        "1"
+      ]
+    }
+  },
+  "5018": {
+    "id": 5018,
+    "aegisName": "깃털모자",
+    "name": "Chapéu com Pluma",
+    "unidName": "Chapéu com Pluma",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Archer"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "5019": {
+    "id": 5019,
+    "aegisName": "커세어",
+    "name": "Chapéu de Corsário",
+    "unidName": "Chapéu de Corsário",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ]
+    }
+  },
+  "5021": {
+    "id": 5021,
+    "aegisName": "돈잃은자의마음",
+    "name": "Avareza",
+    "unidName": "Avareza",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Merchant"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ],
+      "dex": [
+        "1"
+      ]
+    }
+  },
+  "5026": {
+    "id": 5026,
+    "aegisName": "요리사의모자",
+    "name": "Mestre-Cuca",
+    "unidName": "Mestre-Cuca",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ]
+    }
+  },
+  "5027": {
+    "id": 5027,
+    "aegisName": "마법사의모자",
+    "name": "Chapéu de Mestre Arcano",
+    "unidName": "Chapéu de Mestre Arcano",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ],
+      "sp": [
+        "150"
+      ]
+    }
+  },
+  "5038": {
+    "id": 5038,
+    "aegisName": "새끼악마모자",
+    "name": "Chapéu de Deviruchi",
+    "unidName": "Chapéu de Deviruchi",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "5070": {
+    "id": 5070,
+    "aegisName": "열혈머리띠",
+    "name": "Faixa de Caratê",
+    "unidName": "Faixa de Caratê",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ]
+    }
+  },
+  "5072": {
+    "id": 5072,
+    "aegisName": "인큐버스뿔",
+    "name": "Chifre de Incubus",
+    "unidName": "Chifre de Incubus",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "5112": {
+    "id": 5112,
+    "aegisName": "슈노모자",
+    "name": "Chapéu do Superaprendiz",
+    "unidName": "Chapéu do Superaprendiz",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "5119": {
+    "id": 5119,
+    "aegisName": "슈노모자",
+    "name": "Chapéu do Superaprendiz",
+    "unidName": "Chapéu do Superaprendiz",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "5121": {
+    "id": 5121,
+    "aegisName": "지르타스가면",
+    "name": "Máscara de Jirtas",
+    "unidName": "Máscara de Jirtas",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_demihuman": [
+        "5"
+      ]
+    }
+  },
+  "5129": {
+    "id": 5129,
+    "aegisName": "새둥지",
+    "name": "Ninho Abandonado",
+    "unidName": "Ninho Abandonado",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ]
+    }
+  },
+  "5141": {
+    "id": 5141,
+    "aegisName": "마리오넷모자",
+    "name": "Boneca de Marionete",
+    "unidName": "Boneca de Marionete",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ]
+    }
+  },
+  "5146": {
+    "id": 5146,
+    "aegisName": "코끼리모자",
+    "name": "Chapéu de Elefante",
+    "unidName": "Chapéu de Elefante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ]
+    }
+  },
+  "5262": {
+    "id": 5262,
+    "aegisName": "골드티아라",
+    "name": "Diadema Dourada",
+    "unidName": "Diadema Dourada",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ]
+    }
+  },
+  "5286": {
+    "id": 5286,
+    "aegisName": "페코페코머리띠",
+    "name": "Asas de PecoPeco",
+    "unidName": "Asas de PecoPeco",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspdPercent": [
+        "5"
+      ],
+      "vct": [
+        "5",
+        "10===5"
+      ]
+    }
+  },
+  "5345": {
+    "id": 5345,
+    "aegisName": "더블류인형모자",
+    "name": "Boneca de Deborah",
+    "unidName": "Boneca de Deborah",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "2"
+      ],
+      "p_race_undead": [
+        "5"
+      ],
+      "m_race_undead": [
+        "5"
+      ]
+    }
+  },
+  "5382": {
+    "id": 5382,
+    "aegisName": "방울리본",
+    "name": "Lacinho Natalino",
+    "unidName": "Lacinho Natalino",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ]
+    }
+  },
+  "5436": {
+    "id": 5436,
+    "aegisName": "신부의화관",
+    "name": "Coroa da Noiva",
+    "unidName": "Coroa da Noiva",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "3"
+      ]
+    }
+  },
+  "5444": {
+    "id": 5444,
+    "aegisName": "머리빗",
+    "name": "Pente Vermelho",
+    "unidName": "Pente Vermelho",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "6"
+      ]
+    }
+  },
+  "5446": {
+    "id": 5446,
+    "aegisName": "고양이발머리핀",
+    "name": "Presilha de Pegada",
+    "unidName": "Presilha de Pegada",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "5"
+      ],
+      "perfectDodge": [
+        "3"
+      ]
+    }
+  },
+  "5447": {
+    "id": 5447,
+    "aegisName": "개구리모자",
+    "name": "Chapéu de Sapo",
+    "unidName": "Chapéu de Sapo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_insect": [
+        "12"
+      ],
+      "m_race_insect": [
+        "12"
+      ]
+    }
+  },
+  "5475": {
+    "id": 5475,
+    "aegisName": "큐브마스크",
+    "name": "Sorriso Maligno",
+    "unidName": "Sorriso Maligno",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "5510": {
+    "id": 5510,
+    "aegisName": "헬름",
+    "name": "Touca de Banho",
+    "unidName": "Touca de Banho",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "3"
+      ],
+      "flee": [
+        "3"
+      ]
+    }
+  },
+  "5512": {
+    "id": 5512,
+    "aegisName": "Aquarius_Diadem",
+    "name": "Diadema de Aquário",
+    "unidName": "Diadema de Aquário",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ],
+      "flee": [
+        "10"
+      ],
+      "def": [
+        "7===1"
+      ],
+      "atk": [
+        "7===15"
+      ]
+    }
+  },
+  "5513": {
+    "id": 5513,
+    "aegisName": "Aquarius_Crown",
+    "name": "Coroa de Aquário",
+    "unidName": "Coroa de Aquário",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ],
+      "flee": [
+        "10"
+      ],
+      "def": [
+        "7===1"
+      ],
+      "atk": [
+        "7===15"
+      ]
+    }
+  },
+  "5515": {
+    "id": 5515,
+    "aegisName": "Pisces_Crown",
+    "name": "Coroa de Peixes",
+    "unidName": "Coroa de Peixes",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "def": [
+        "7===1"
+      ],
+      "p_class_normal": [
+        "7===2"
+      ],
+      "p_class_boss": [
+        "7===2"
+      ]
+    }
+  },
+  "5570": {
+    "id": 5570,
+    "aegisName": "Gemini_Crown",
+    "name": "Coroa de Gêmeos",
+    "unidName": "Coroa de Gêmeos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ],
+      "cri": [
+        "3",
+        "7===5"
+      ],
+      "atk": [
+        "7===10"
+      ]
+    }
+  },
+  "5579": {
+    "id": 5579,
+    "aegisName": "배회하는자의삿갓",
+    "name": "Chapéu Chinês do Andarilho",
+    "unidName": "Chapéu Chinês do Andarilho",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ],
+      "flee": [
+        "3"
+      ]
+    }
+  },
+  "5581": {
+    "id": 5581,
+    "aegisName": "Cancer_Diadem",
+    "name": "Diadema de Câncer",
+    "unidName": "Diadema de Câncer",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ],
+      "m_final": [
+        "7===2"
+      ]
+    }
+  },
+  "5585": {
+    "id": 5585,
+    "aegisName": "Rune_Hairband",
+    "name": "Tiara de Runas",
+    "unidName": "Tiara de Runas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hit": [
+        "5"
+      ]
+    }
+  },
+  "5588": {
+    "id": 5588,
+    "aegisName": "Leo_Crown",
+    "name": "Coroa de Leão",
+    "unidName": "Coroa de Leão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "atk": [
+        "5"
+      ],
+      "cri": [
+        "7===2"
+      ],
+      "flee": [
+        "7===10"
+      ]
+    }
+  },
+  "5589": {
+    "id": 5589,
+    "aegisName": "Leo_Diadem",
+    "name": "Diadema de Leão",
+    "unidName": "Diadema de Leão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ],
+      "atk": [
+        "5"
+      ],
+      "flee": [
+        "7===10"
+      ],
+      "aspdPercent": [
+        "7===3"
+      ]
+    }
+  },
+  "5593": {
+    "id": 5593,
+    "aegisName": "K_Rabbit_Bonnet",
+    "name": "Capuz de Coelho",
+    "unidName": "Capuz de Coelho",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "10"
+      ],
+      "matk": [
+        "10"
+      ],
+      "acd": [
+        "3"
+      ]
+    }
+  },
+  "5596": {
+    "id": 5596,
+    "aegisName": "4Leaf_Clover_In_Mouth",
+    "name": "Trevo Festivo",
+    "unidName": "Trevo Festivo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "2"
+      ],
+      "atk": [
+        "5"
+      ],
+      "matk": [
+        "5"
+      ],
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "5598": {
+    "id": 5598,
+    "aegisName": "Virgo_Crown",
+    "name": "Coroa de Virgem",
+    "unidName": "Coroa de Virgem",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "2"
+      ],
+      "aspdPercent": [
+        "1"
+      ]
+    }
+  },
+  "5603": {
+    "id": 5603,
+    "aegisName": "RTC우승자전용",
+    "name": "Boneca de Valquíria I",
+    "unidName": "Boneca de Valquíria I",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "3"
+      ],
+      "aspdPercent": [
+        "10"
+      ],
+      "fct": [
+        "0.5"
+      ],
+      "p_race_demihuman": [
+        "10"
+      ],
+      "m_race_demihuman": [
+        "10"
+      ]
+    }
+  },
+  "5604": {
+    "id": 5604,
+    "aegisName": "RTC준우승자전용",
+    "name": "Boneca de Valquíria II",
+    "unidName": "Boneca de Valquíria II",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "2"
+      ],
+      "aspdPercent": [
+        "7"
+      ],
+      "fct": [
+        "0.3"
+      ],
+      "p_race_demihuman": [
+        "5"
+      ],
+      "m_race_demihuman": [
+        "5"
+      ]
+    }
+  },
+  "5605": {
+    "id": 5605,
+    "aegisName": "RTC3등전용",
+    "name": "Boneca de Valquíria III",
+    "unidName": "Boneca de Valquíria III",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ],
+      "aspdPercent": [
+        "5"
+      ],
+      "fct": [
+        "0.1"
+      ],
+      "p_race_demihuman": [
+        "3"
+      ],
+      "m_race_demihuman": [
+        "3"
+      ]
+    }
+  },
+  "5654": {
+    "id": 5654,
+    "aegisName": "Holy_Marching_Hat_J",
+    "name": "Chapéu da Banda Celestial",
+    "unidName": "Chapéu da Banda Celestial",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ],
+      "m_final": [
+        "2",
+        "9===5"
+      ]
+    }
+  },
+  "5662": {
+    "id": 5662,
+    "aegisName": "Libra_Crown",
+    "name": "Coroa de Libra",
+    "unidName": "Coroa de Libra",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "3"
+      ],
+      "m_final": [
+        "7===3",
+        "9===2"
+      ]
+    }
+  },
+  "5663": {
+    "id": 5663,
+    "aegisName": "Libra_Diadem",
+    "name": "Diadema de Libra",
+    "unidName": "Diadema de Libra",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "3"
+      ],
+      "atk": [
+        "7"
+      ],
+      "flee": [
+        "9===5"
+      ],
+      "p_class_normal": [
+        "9===3"
+      ],
+      "p_class_boss": [
+        "9===3"
+      ]
+    }
+  },
+  "5740": {
+    "id": 5740,
+    "aegisName": "Sagittarius_Diadem",
+    "name": "Diadema de Sagitário",
+    "unidName": "Diadema de Sagitário",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "2"
+      ],
+      "vct": [
+        "7===3"
+      ],
+      "m_final": [
+        "9===3"
+      ]
+    }
+  },
+  "5744": {
+    "id": 5744,
+    "aegisName": "Capricorn_Diadem",
+    "name": "Coroa de Capricórnio",
+    "unidName": "Coroa de Capricórnio",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "2"
+      ],
+      "vit": [
+        "2"
+      ]
+    }
+  },
+  "5745": {
+    "id": 5745,
+    "aegisName": "Capricorn_Crown",
+    "name": "Diadema de Capricórnio",
+    "unidName": "Diadema de Capricórnio",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "2"
+      ],
+      "int": [
+        "7===2"
+      ],
+      "vct": [
+        "8===3"
+      ]
+    }
+  },
+  "5758": {
+    "id": 5758,
+    "aegisName": "빈사의백조",
+    "name": "Súplica do Cisne",
+    "unidName": "Súplica do Cisne",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Wanderer"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "int": [
+        "1"
+      ],
+      "range": [
+        "5"
+      ]
+    }
+  },
+  "5767": {
+    "id": 5767,
+    "aegisName": "Samurai_Mask",
+    "name": "Máscara de Samurai",
+    "unidName": "Máscara de Samurai",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_class_normal": [
+        "1"
+      ],
+      "p_class_boss": [
+        "1"
+      ]
+    }
+  },
+  "5788": {
+    "id": 5788,
+    "aegisName": "201303_cash_3D_Glasses",
+    "name": "Óculos 3D",
+    "unidName": "Óculos 3D",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_race_formless": [
+        "4"
+      ]
+    }
+  },
+  "5910": {
+    "id": 5910,
+    "aegisName": "Male_Poring_Earmuff",
+    "name": "Brincos de Marin",
+    "unidName": "Brincos de Marin",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ],
+      "sp": [
+        "50"
+      ]
+    }
+  },
+  "5936": {
+    "id": 5936,
+    "aegisName": "8_Type_PurgatorialWing",
+    "name": "Asas de Dragão Caído",
+    "unidName": "Asas de Dragão Caído",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_race_dragon": [
+        "4"
+      ]
+    }
+  },
+  "15127": {
+    "id": 15127,
+    "aegisName": "Female_Poring_Earmuff",
+    "name": "Brincos de Poring",
+    "unidName": "Brincos de Poring",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "2"
+      ],
+      "hp": [
+        "200"
+      ]
+    }
+  },
+  "18561": {
+    "id": 18561,
+    "aegisName": "B_Feather_Beret",
+    "name": "Quepe com Pluma",
+    "unidName": "Quepe com Pluma",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "2"
+      ],
+      "mdef": [
+        "3"
+      ]
+    }
+  },
+  "18566": {
+    "id": 18566,
+    "aegisName": "Nut_Donut_In_Mouth",
+    "name": "Donut Caramelizado",
+    "unidName": "Donut Caramelizado",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "5"
+      ],
+      "matk": [
+        "5"
+      ]
+    }
+  },
+  "18626": {
+    "id": 18626,
+    "aegisName": "201112_cash_Gelato_Hat",
+    "name": "Chapéu de Gelato",
+    "unidName": "Chapéu de Gelato",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "300"
+      ]
+    }
+  },
+  "18762": {
+    "id": 18762,
+    "aegisName": "여우가면",
+    "name": "Máscara Kyuubi",
+    "unidName": "Máscara Kyuubi",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ],
+      "luk": [
+        "2"
+      ],
+      "flee": [
+        "7===4"
+      ]
+    }
+  },
+  "18764": {
+    "id": 18764,
+    "aegisName": "토끼머리띠",
+    "name": "Orelhas do Dono da Lua",
+    "unidName": "Orelhas do Dono da Lua",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "2"
+      ],
+      "cri": [
+        "7===5"
+      ]
+    }
+  },
+  "18769": {
+    "id": 18769,
+    "aegisName": "무낙모자",
+    "name": "Chapéu Mandarin Vermelho",
+    "unidName": "Chapéu Mandarin Vermelho",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_undead": [
+        "7===10"
+      ]
+    }
+  },
+  "18818": {
+    "id": 18818,
+    "aegisName": "Red_Pencil_In_Mouth",
+    "name": "Lápis Vermelho",
+    "unidName": "Lápis Vermelho",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hit": [
+        "3"
+      ]
+    }
+  },
+  "18819": {
+    "id": 18819,
+    "aegisName": "Blue_Pencil_In_Mouth",
+    "name": "Lápis Azul",
+    "unidName": "Lápis Azul",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hit": [
+        "3"
+      ]
+    }
+  },
+  "18859": {
+    "id": 18859,
+    "aegisName": "엔젤링풍선",
+    "name": "Balão de Poring Noel",
+    "unidName": "Balão de Poring Noel",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ],
+      "hp": [
+        "100"
+      ],
+      "m_final": [
+        "2"
+      ]
+    }
+  },
+  "18886": {
+    "id": 18886,
+    "aegisName": "Rainbow_Long_Octopus",
+    "name": "Polvo Colorido",
+    "unidName": "Polvo Colorido",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "2"
+      ],
+      "dex": [
+        "2"
+      ],
+      "hpPercent": [
+        "10"
+      ],
+      "spPercent": [
+        "10"
+      ],
+      "allStatus": [
+        "3"
+      ]
+    }
+  },
+  "18970": {
+    "id": 18970,
+    "aegisName": "Moon_Cat_Magic",
+    "name": "Touca Felina Mágica",
+    "unidName": "Touca Felina Mágica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "3"
+      ],
+      "acd": [
+        "5",
+        "2---1"
+      ],
+      "vct": [
+        "5",
+        "2---1"
+      ]
+    }
+  },
+  "19031": {
+    "id": 19031,
+    "aegisName": "Fallen_Angel_Blessing",
+    "name": "Asinhas de Skeggiold",
+    "unidName": "Asinhas de Skeggiold",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_angel": [
+        "5"
+      ]
+    }
+  },
+  "19033": {
+    "id": 19033,
+    "aegisName": "Accessories_Of_Goddess",
+    "name": "Tiara Perene",
+    "unidName": "Tiara Perene",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "1000",
+        "7===400",
+        "9===600"
+      ]
+    }
+  },
+  "19087": {
+    "id": 19087,
+    "aegisName": "천사의유령",
+    "name": "Espírito Olímpico",
+    "unidName": "Espírito Olímpico",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "hit": [
+        "8"
+      ]
+    }
+  },
+  "19115": {
+    "id": 19115,
+    "aegisName": "공화국의모자",
+    "name": "Chapéu da República",
+    "unidName": "Chapéu da República",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "range": [
+        "6",
+        "7===2",
+        "10===4"
+      ]
+    }
+  },
+  "19126": {
+    "id": 19126,
+    "aegisName": "매지컬부스터",
+    "name": "Fones Sombrios",
+    "unidName": "Fones Sombrios",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspd": [
+        "1"
+      ],
+      "acd": [
+        "1"
+      ]
+    }
+  },
+  "19132": {
+    "id": 19132,
+    "aegisName": "나비가면",
+    "name": "Disfarce",
+    "unidName": "Disfarce",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_demihuman": [
+        "3"
+      ]
+    }
+  },
+  "19176": {
+    "id": 19176,
+    "aegisName": "Fallen_Angel_Blessing_",
+    "name": "Asinhas de Skeggiold",
+    "unidName": "Asinhas de Skeggiold",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_angel": [
+        "5"
+      ]
+    }
+  },
+  "19223": {
+    "id": 19223,
+    "aegisName": "Cap_IL",
+    "name": "Barrete Ilusional",
+    "unidName": "Barrete Ilusional",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Thief",
+      "Merchant",
+      "Novice"
+    ],
+    "script": {
+      "p_final": [
+        "1"
+      ],
+      "atk": [
+        "1---2"
+      ]
+    }
+  },
+  "19283": {
+    "id": 19283,
+    "aegisName": "K_Heart_Wing_Hairband",
+    "name": "[Evento] Tiara dos Corações-Alados",
+    "unidName": "[Evento] Tiara dos Corações-Alados",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "acd": [
+        "5",
+        "3---3"
+      ]
+    }
+  },
+  "19341": {
+    "id": 19341,
+    "aegisName": "Devil_Egg_Shell",
+    "name": "Casca Demoníaca",
+    "unidName": "Casca Demoníaca",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspdPercent": [
+        "2"
+      ]
+    }
+  },
+  "420155": {
+    "id": 420155,
+    "aegisName": "Booster_Scarf_C",
+    "name": "Cachecol Dínamo C",
+    "unidName": "Cachecol Dínamo C",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "3"
+      ],
+      "criDmg": [
+        "5"
+      ]
+    }
+  },
+  "436002": {
+    "id": 436002,
+    "aegisName": "Thanatos_Mal_MaskK",
+    "name": "Máscara de Odium",
+    "unidName": "Máscara de Odium",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ]
+    }
+  },
+  "436003": {
+    "id": 436003,
+    "aegisName": "Thanatos_Mal_MaskK_",
+    "name": "Máscara de Odium",
+    "unidName": "Máscara de Odium",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ]
+    }
+  },
+  "2207": {
+    "id": 2207,
+    "aegisName": "장식용꽃",
+    "name": "Florzinha",
+    "unidName": "Florzinha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2218": {
+    "id": 2218,
+    "aegisName": "마스크",
+    "name": "Máscara Cirúrgica",
+    "unidName": "Máscara Cirúrgica",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2242": {
+    "id": 2242,
+    "aegisName": "고급선글래스",
+    "name": "Óculos Ultra-Violeta",
+    "unidName": "Óculos Ultra-Violeta",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2243": {
+    "id": 2243,
+    "aegisName": "스핀글래스",
+    "name": "Quatro-Olhos",
+    "unidName": "Quatro-Olhos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2264": {
+    "id": 2264,
+    "aegisName": "무낙모자",
+    "name": "Chapéu de Munak",
+    "unidName": "Chapéu de Munak",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2265": {
+    "id": 2265,
+    "aegisName": "시위용마스크",
+    "name": "Máscara X",
+    "unidName": "Máscara X",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2267": {
+    "id": 2267,
+    "aegisName": "담배",
+    "name": "Cigarro",
+    "unidName": "Cigarro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2268": {
+    "id": 2268,
+    "aegisName": "파이프담배",
+    "name": "Cachimbo",
+    "unidName": "Cachimbo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2269": {
+    "id": 2269,
+    "aegisName": "꽃잎",
+    "name": "Flor Romântica",
+    "unidName": "Flor Romântica",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2270": {
+    "id": 2270,
+    "aegisName": "풀잎",
+    "name": "Folha Romântica",
+    "unidName": "Folha Romântica",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2282": {
+    "id": 2282,
+    "aegisName": "영혼고리",
+    "name": "Auréola",
+    "unidName": "Auréola",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2283": {
+    "id": 2283,
+    "aegisName": "귀마개",
+    "name": "Aquecedor de Orelha",
+    "unidName": "Aquecedor de Orelha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2292": {
+    "id": 2292,
+    "aegisName": "용접마스크",
+    "name": "Máscara de Solda",
+    "unidName": "Máscara de Solda",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "5001": {
+    "id": 5001,
+    "aegisName": "헤드폰",
+    "name": "Fone de Ouvido",
+    "unidName": "Fone de Ouvido",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5004": {
+    "id": 5004,
+    "aegisName": "산소마스크",
+    "name": "Máscara de Oxigênio",
+    "unidName": "Máscara de Oxigênio",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5005": {
+    "id": 5005,
+    "aegisName": "가스마스크",
+    "name": "Máscara de Gás",
+    "unidName": "Máscara de Gás",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5017": {
+    "id": 5017,
+    "aegisName": "본헬름",
+    "name": "Elmo de Osso",
+    "unidName": "Elmo de Osso",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "5031": {
+    "id": 5031,
+    "aegisName": "광산헬멧",
+    "name": "Capacete de Mineiro",
+    "unidName": "Capacete de Mineiro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Thief",
+      "Merchant",
+      "Novice"
+    ],
+    "script": {
+      "dex": [
+        "2"
+      ]
+    }
+  },
+  "5039": {
+    "id": 5039,
+    "aegisName": "알록달록알껍질",
+    "name": "Casca de Ovo Colorida",
+    "unidName": "Casca de Ovo Colorida",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5045": {
+    "id": 5045,
+    "aegisName": "마술사의모자",
+    "name": "Cartola",
+    "unidName": "Cartola",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage",
+      "Novice"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ],
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "5055": {
+    "id": 5055,
+    "aegisName": "장식용알껍질",
+    "name": "Chapéu de Ovo do Aprendiz",
+    "unidName": "Chapéu de Ovo do Aprendiz",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "5058": {
+    "id": 5058,
+    "aegisName": "늘어진고양이",
+    "name": "Chapéu de Gatinho Dorminhoco",
+    "unidName": "Chapéu de Gatinho Dorminhoco",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5084": {
+    "id": 5084,
+    "aegisName": "귀찮은너구리",
+    "name": "Chapéu de Fumacento Dorminhoco",
+    "unidName": "Chapéu de Fumacento Dorminhoco",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5086": {
+    "id": 5086,
+    "aegisName": "알람가면",
+    "name": "Máscara de Alarme",
+    "unidName": "Máscara de Alarme",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5111": {
+    "id": 5111,
+    "aegisName": "오리모자",
+    "name": "Chapéu Galápago",
+    "unidName": "Chapéu Galápago",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5115": {
+    "id": 5115,
+    "aegisName": "Winter_Hat",
+    "name": "Chapéu de Inverno",
+    "unidName": "Chapéu de Inverno",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5116": {
+    "id": 5116,
+    "aegisName": "바나나모자",
+    "name": "Chapéu de Banana",
+    "unidName": "Chapéu de Banana",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5132": {
+    "id": 5132,
+    "aegisName": "엔젤링모자",
+    "name": "Chapéu de Angeling",
+    "unidName": "Chapéu de Angeling",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5135": {
+    "id": 5135,
+    "aegisName": "사이클롭스아이",
+    "name": "Olho do Ciclope",
+    "unidName": "Olho do Ciclope",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "50"
+      ]
+    }
+  },
+  "5168": {
+    "id": 5168,
+    "aegisName": "본건모자",
+    "name": "Chapéu de Bongun",
+    "unidName": "Chapéu de Bongun",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5169": {
+    "id": 5169,
+    "aegisName": "각시탈",
+    "name": "Máscara de Noiva",
+    "unidName": "Máscara de Noiva",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5170": {
+    "id": 5170,
+    "aegisName": "깃털베레모",
+    "name": "Boina Alada",
+    "unidName": "Boina Alada",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5172": {
+    "id": 5172,
+    "aegisName": "베레모",
+    "name": "Boina",
+    "unidName": "Boina",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5173": {
+    "id": 5173,
+    "aegisName": "사또모자",
+    "name": "Chapéu de Magistrado",
+    "unidName": "Chapéu de Magistrado",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5174": {
+    "id": 5174,
+    "aegisName": "아얌",
+    "name": "Ayam",
+    "unidName": "Ayam",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5175": {
+    "id": 5175,
+    "aegisName": "익명요청",
+    "name": "Faixa de Censura",
+    "unidName": "Faixa de Censura",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5176": {
+    "id": 5176,
+    "aegisName": "하회탈",
+    "name": "Máscara Hahoe",
+    "unidName": "Máscara Hahoe",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5177": {
+    "id": 5177,
+    "aegisName": "Guardian_Lion_Mask",
+    "name": "Máscara Mítica de Leão",
+    "unidName": "Máscara Mítica de Leão",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5187": {
+    "id": 5187,
+    "aegisName": "트윈리본",
+    "name": "Lacinhos Floridos",
+    "unidName": "Lacinhos Floridos",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "30"
+      ]
+    }
+  },
+  "5225": {
+    "id": 5225,
+    "aegisName": "마칭햇",
+    "name": "Chapéu de Parada",
+    "unidName": "Chapéu de Parada",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ]
+    }
+  },
+  "5226": {
+    "id": 5226,
+    "aegisName": "프로펠라_",
+    "name": "Hélices 2.0",
+    "unidName": "Hélices 2.0",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5254": {
+    "id": 5254,
+    "aegisName": "데빌링모자",
+    "name": "Chapéu de Deviling",
+    "unidName": "Chapéu de Deviling",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "cri": [
+        "3"
+      ]
+    }
+  },
+  "5283": {
+    "id": 5283,
+    "aegisName": "병아리모자",
+    "name": "Chapéu de Pintinho",
+    "unidName": "Chapéu de Pintinho",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "2"
+      ]
+    }
+  },
+  "5297": {
+    "id": 5297,
+    "aegisName": "소울리스윙",
+    "name": "Auréola Celeste",
+    "unidName": "Auréola Celeste",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "5307": {
+    "id": 5307,
+    "aegisName": "열대과일모자",
+    "name": "Chapéu de Frutas",
+    "unidName": "Chapéu de Frutas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "7===15"
+      ],
+      "matk": [
+        "7===15"
+      ]
+    }
+  },
+  "5324": {
+    "id": 5324,
+    "aegisName": "리틀엔젤돌",
+    "name": "Boneca da Lady Solace",
+    "unidName": "Boneca da Lady Solace",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "3"
+      ]
+    }
+  },
+  "5333": {
+    "id": 5333,
+    "aegisName": "전파안테나",
+    "name": "Antena de Rádio",
+    "unidName": "Antena de Rádio",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5340": {
+    "id": 5340,
+    "aegisName": "디포르테인형모자",
+    "name": "Boneca de Denise",
+    "unidName": "Boneca de Denise",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ]
+    }
+  },
+  "5341": {
+    "id": 5341,
+    "aegisName": "글라리스인형모자",
+    "name": "Boneca de Sofia",
+    "unidName": "Boneca de Sofia",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ]
+    }
+  },
+  "5342": {
+    "id": 5342,
+    "aegisName": "소린인형모자",
+    "name": "Boneca de Marianne",
+    "unidName": "Boneca de Marianne",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "2"
+      ]
+    }
+  },
+  "5343": {
+    "id": 5343,
+    "aegisName": "테일링인형모자",
+    "name": "Boneca de Tatiana",
+    "unidName": "Boneca de Tatiana",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ]
+    }
+  },
+  "5344": {
+    "id": 5344,
+    "aegisName": "비닛인형모자",
+    "name": "Boneca de Bianca",
+    "unidName": "Boneca de Bianca",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "2"
+      ]
+    }
+  },
+  "5364": {
+    "id": 5364,
+    "aegisName": "흑사왕의모자",
+    "name": "Chapéu da Serpente Suprema",
+    "unidName": "Chapéu da Serpente Suprema",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5365": {
+    "id": 5365,
+    "aegisName": "Fried_Egg",
+    "name": "Chapéu de Magnólia",
+    "unidName": "Chapéu de Magnólia",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5367": {
+    "id": 5367,
+    "aegisName": "혜군모자",
+    "name": "Chapéu de Yao Jun",
+    "unidName": "Chapéu de Yao Jun",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5374": {
+    "id": 5374,
+    "aegisName": "대형마제스틱고우트",
+    "name": "Chifres Majestosos Gigantes",
+    "unidName": "Chifres Majestosos Gigantes",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_demihuman": [
+        "12"
+      ]
+    }
+  },
+  "5378": {
+    "id": 5378,
+    "aegisName": "Rabbit_Ear_Hat",
+    "name": "Cartola de Coelho",
+    "unidName": "Cartola de Coelho",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "3"
+      ]
+    }
+  },
+  "5383": {
+    "id": 5383,
+    "aegisName": "헌팅캡",
+    "name": "Chapéu de Caça",
+    "unidName": "Chapéu de Caça",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "1"
+      ]
+    }
+  },
+  "5387": {
+    "id": 5387,
+    "aegisName": "Neko_Mimi_Kafra",
+    "name": "Tiara de Kafra Gatinha",
+    "unidName": "Tiara de Kafra Gatinha",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5404": {
+    "id": 5404,
+    "aegisName": "블루리본",
+    "name": "Lacinhos Azuis",
+    "unidName": "Lacinhos Azuis",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5414": {
+    "id": 5414,
+    "aegisName": "Campfire_Hat",
+    "name": "Fogueira de São João",
+    "unidName": "Fogueira de São João",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5420": {
+    "id": 5420,
+    "aegisName": "Mask_Of_Ifrit",
+    "name": "Máscara do Ifrit",
+    "unidName": "Máscara do Ifrit",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ],
+      "int": [
+        "2"
+      ],
+      "m_my_element_fire": [
+        "10"
+      ]
+    }
+  },
+  "5431": {
+    "id": 5431,
+    "aegisName": "꼬꼬댁모자",
+    "name": "Chapéu de Galinha",
+    "unidName": "Chapéu de Galinha",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspdPercent": [
+        "5"
+      ]
+    }
+  },
+  "5443": {
+    "id": 5443,
+    "aegisName": "아기천사상",
+    "name": "Estátua de Bebê Anjo",
+    "unidName": "Estátua de Bebê Anjo",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5454": {
+    "id": 5454,
+    "aegisName": "Dog_Cap_",
+    "name": "Boneco de Cachorrinho",
+    "unidName": "Boneco de Cachorrinho",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "5457": {
+    "id": 5457,
+    "aegisName": "Spring_Rabbit_Hat",
+    "name": "Coelhinho de Cabeça",
+    "unidName": "Coelhinho de Cabeça",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "5"
+      ],
+      "matk": [
+        "5"
+      ]
+    }
+  },
+  "5464": {
+    "id": 5464,
+    "aegisName": "자하인형모자",
+    "name": "Boneca da Lady Branca",
+    "unidName": "Boneca da Lady Branca",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "3"
+      ],
+      "m_race_undead": [
+        "10"
+      ],
+      "matk": [
+        "1---30"
+      ],
+      "fct": [
+        "1---0.08"
+      ]
+    }
+  },
+  "5490": {
+    "id": 5490,
+    "aegisName": "Anubis_Helm",
+    "name": "Elmo de Anubis",
+    "unidName": "Elmo de Anubis",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5497": {
+    "id": 5497,
+    "aegisName": "호랑이왕인형모자",
+    "name": "Chapéu de Eddga",
+    "unidName": "Chapéu de Eddga",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ],
+      "dex": [
+        "2"
+      ],
+      "atk": [
+        "1---25"
+      ]
+    }
+  },
+  "5500": {
+    "id": 5500,
+    "aegisName": "아이스크림모자",
+    "name": "Chapéu de Sundae",
+    "unidName": "Chapéu de Sundae",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5508": {
+    "id": 5508,
+    "aegisName": "Shark_Hat",
+    "name": "Chapéu de Tubarão",
+    "unidName": "Chapéu de Tubarão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "agi": [
+        "2"
+      ]
+    }
+  },
+  "5509": {
+    "id": 5509,
+    "aegisName": "Sting_Hat",
+    "name": "Chapéu de Sting",
+    "unidName": "Chapéu de Sting",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ],
+      "vit": [
+        "1"
+      ]
+    }
+  },
+  "5514": {
+    "id": 5514,
+    "aegisName": "Pisces_Diadem",
+    "name": "Diadema de Peixes",
+    "unidName": "Diadema de Peixes",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ],
+      "mdef": [
+        "7===1"
+      ],
+      "m_final": [
+        "7===2"
+      ]
+    }
+  },
+  "5518": {
+    "id": 5518,
+    "aegisName": "대형마제스틱고우트2",
+    "name": "Chifres Místicos de Bafomé",
+    "unidName": "Chifres Místicos de Bafomé",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5536": {
+    "id": 5536,
+    "aegisName": "Spare_Card",
+    "name": "Carta Imperfeita",
+    "unidName": "Carta Imperfeita",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "1"
+      ],
+      "perfectDodge": [
+        "1"
+      ]
+    }
+  },
+  "5539": {
+    "id": 5539,
+    "aegisName": "Jaguar_Hat",
+    "name": "Máscara de Onça-Pintada",
+    "unidName": "Máscara de Onça-Pintada",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5545": {
+    "id": 5545,
+    "aegisName": "Aries_Diadem",
+    "name": "Diadema de Áries",
+    "unidName": "Diadema de Áries",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "2"
+      ],
+      "def": [
+        "7===2"
+      ]
+    }
+  },
+  "5546": {
+    "id": 5546,
+    "aegisName": "Aries_Crown",
+    "name": "Coroa de Áries",
+    "unidName": "Coroa de Áries",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "2"
+      ],
+      "perfectDodge": [
+        "7===2"
+      ]
+    }
+  },
+  "5547": {
+    "id": 5547,
+    "aegisName": "RJC_Katusa",
+    "name": "Tiara da Primavera",
+    "unidName": "Tiara da Primavera",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5548": {
+    "id": 5548,
+    "aegisName": "Scarlet_Rose",
+    "name": "Rosa Escarlate",
+    "unidName": "Rosa Escarlate",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5549": {
+    "id": 5549,
+    "aegisName": "Taurus_Diadem",
+    "name": "Diadema de Touro",
+    "unidName": "Diadema de Touro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_final": [
+        "2",
+        "7===1"
+      ],
+      "acd": [
+        "2"
+      ],
+      "dex": [
+        "7===1"
+      ]
+    }
+  },
+  "5550": {
+    "id": 5550,
+    "aegisName": "Taurus_Crown",
+    "name": "Coroa de Touro",
+    "unidName": "Coroa de Touro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_class_normal": [
+        "2"
+      ],
+      "p_class_boss": [
+        "2"
+      ],
+      "acd": [
+        "2"
+      ],
+      "str": [
+        "7===1"
+      ]
+    }
+  },
+  "5569": {
+    "id": 5569,
+    "aegisName": "Gemini_Diadem",
+    "name": "Diadema de Gêmeos",
+    "unidName": "Diadema de Gêmeos",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ],
+      "flee": [
+        "5"
+      ]
+    }
+  },
+  "5582": {
+    "id": 5582,
+    "aegisName": "Cancer_Crown",
+    "name": "Coroa de Câncer",
+    "unidName": "Coroa de Câncer",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ],
+      "flee": [
+        "7===7"
+      ],
+      "def": [
+        "7===1"
+      ],
+      "atk": [
+        "7===15"
+      ]
+    }
+  },
+  "5584": {
+    "id": 5584,
+    "aegisName": "Majestic_Evil_Horn",
+    "name": "Chifres Majestosos Malignos",
+    "unidName": "Chifres Majestosos Malignos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5595": {
+    "id": 5595,
+    "aegisName": "유노의눈",
+    "name": "Olho de Juno",
+    "unidName": "Olho de Juno",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5599": {
+    "id": 5599,
+    "aegisName": "Virgo_Diadem",
+    "name": "Diadema de Virgem",
+    "unidName": "Diadema de Virgem",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspdPercent": [
+        "1"
+      ]
+    }
+  },
+  "5610": {
+    "id": 5610,
+    "aegisName": "Ice_Wing_Ear",
+    "name": "Asas de Gelo",
+    "unidName": "Asas de Gelo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "1"
+      ]
+    }
+  },
+  "5658": {
+    "id": 5658,
+    "aegisName": "Imp_Hat",
+    "name": "Chapéu de Imp",
+    "unidName": "Chapéu de Imp",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_my_element_fire": [
+        "10"
+      ]
+    }
+  },
+  "5671": {
+    "id": 5671,
+    "aegisName": "201111_Drooping_Morocc_Minion",
+    "name": "Boneca da Vaidade",
+    "unidName": "Boneca da Vaidade",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5676": {
+    "id": 5676,
+    "aegisName": "Scorpio_Crown",
+    "name": "Coroa de Escorpião",
+    "unidName": "Coroa de Escorpião",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ],
+      "m_final": [
+        "7===5"
+      ]
+    }
+  },
+  "5677": {
+    "id": 5677,
+    "aegisName": "Scorpio_Diadem",
+    "name": "Diadema de Escorpião",
+    "unidName": "Diadema de Escorpião",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "2"
+      ],
+      "atk": [
+        "7===5"
+      ]
+    }
+  },
+  "5738": {
+    "id": 5738,
+    "aegisName": "Snowman_Hat",
+    "name": "Chapéu de Boneco de Neve",
+    "unidName": "Chapéu de Boneco de Neve",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "5739": {
+    "id": 5739,
+    "aegisName": "Sagittarius_Crown",
+    "name": "Coroa de Sagitário",
+    "unidName": "Coroa de Sagitário",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "2"
+      ],
+      "aspdPercent": [
+        "7===2"
+      ],
+      "range": [
+        "7===3"
+      ]
+    }
+  },
+  "5746": {
+    "id": 5746,
+    "aegisName": "룬서클릿",
+    "name": "Poder das Runas",
+    "unidName": "Poder das Runas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "RuneKnight"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "5747": {
+    "id": 5747,
+    "aegisName": "미트라",
+    "name": "Desejo dos Deuses",
+    "unidName": "Desejo dos Deuses",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "ArchBishop"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ],
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "5748": {
+    "id": 5748,
+    "aegisName": "스나이퍼고글",
+    "name": "Visão do Sentinela",
+    "unidName": "Visão do Sentinela",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "Ranger"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ],
+      "dex": [
+        "1"
+      ]
+    }
+  },
+  "5749": {
+    "id": 5749,
+    "aegisName": "드라이버밴드",
+    "name": "Talento do Piloto",
+    "unidName": "Talento do Piloto",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Mechanic"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "dex": [
+        "1"
+      ]
+    }
+  },
+  "5750": {
+    "id": 5750,
+    "aegisName": "그림자공작",
+    "name": "Artifício das Sombras",
+    "unidName": "Artifício das Sombras",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "ShadowChaser"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ],
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "5752": {
+    "id": 5752,
+    "aegisName": "마이더스의속삭임",
+    "name": "Toque de Midas",
+    "unidName": "Toque de Midas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Genetic"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "dex": [
+        "1"
+      ]
+    }
+  },
+  "5753": {
+    "id": 5753,
+    "aegisName": "마력의돌모자",
+    "name": "Mistério da Magia",
+    "unidName": "Mistério da Magia",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Warlock"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ],
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "5754": {
+    "id": 5754,
+    "aegisName": "불타는혼",
+    "name": "Disciplina do Espírito",
+    "unidName": "Disciplina do Espírito",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Sura"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ],
+      "str": [
+        "1"
+      ]
+    }
+  },
+  "5755": {
+    "id": 5755,
+    "aegisName": "침묵의집행자",
+    "name": "Som do Silêncio",
+    "unidName": "Som do Silêncio",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "GuillotineCross"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "5756": {
+    "id": 5756,
+    "aegisName": "바람의속삭임",
+    "name": "Sussurro dos Elementos",
+    "unidName": "Sussurro dos Elementos",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Sorcerer"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ],
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "5757": {
+    "id": 5757,
+    "aegisName": "복각슈미츠의투구",
+    "name": "Ordem do Protetor",
+    "unidName": "Ordem do Protetor",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "RoyalGuard"
+    ],
+    "script": {
+      "vit": [
+        "2"
+      ],
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "5760": {
+    "id": 5760,
+    "aegisName": "드라이버밴드_",
+    "name": "Talento do Piloto",
+    "unidName": "Talento do Piloto",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Mechanic"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "dex": [
+        "1"
+      ]
+    }
+  },
+  "5761": {
+    "id": 5761,
+    "aegisName": "Sloth_Hat",
+    "name": "Chapéu do Bicho Preguiça",
+    "unidName": "Chapéu do Bicho Preguiça",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ]
+    }
+  },
+  "5776": {
+    "id": 5776,
+    "aegisName": "불타는태양",
+    "name": "Sol Radiante",
+    "unidName": "Sol Radiante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5792": {
+    "id": 5792,
+    "aegisName": "물고기핀",
+    "name": "Alfinete de Peixe",
+    "unidName": "Alfinete de Peixe",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5796": {
+    "id": 5796,
+    "aegisName": "Cheer_Scarf",
+    "name": "[Aluguel] Disfarce 1",
+    "unidName": "[Aluguel] Disfarce 1",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5801": {
+    "id": 5801,
+    "aegisName": "201211_cash_Ribbon_Of_Bride",
+    "name": "Laço de Noiva",
+    "unidName": "Laço de Noiva",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "2"
+      ]
+    }
+  },
+  "5859": {
+    "id": 5859,
+    "aegisName": "Glory_FB_Hat",
+    "name": "Chapéu do Torneio: Honra",
+    "unidName": "Chapéu do Torneio: Honra",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ],
+      "aspd": [
+        "1"
+      ]
+    }
+  },
+  "5873": {
+    "id": 5873,
+    "aegisName": "Helmet_Of_Siegfried",
+    "name": "Elmo de Siegfried",
+    "unidName": "Elmo de Siegfried",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {
+      "allStatus": [
+        "5"
+      ]
+    }
+  },
+  "5880": {
+    "id": 5880,
+    "aegisName": "201407_Cheering_Whistle_J",
+    "name": "Apito da Animação",
+    "unidName": "Apito da Animação",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ]
+    }
+  },
+  "5944": {
+    "id": 5944,
+    "aegisName": "Thief_Hood",
+    "name": "Disfarce Suspeito",
+    "unidName": "Disfarce Suspeito",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5978": {
+    "id": 5978,
+    "aegisName": "Toy_Syringe",
+    "name": "Vacina da Cura",
+    "unidName": "Vacina da Cura",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5985": {
+    "id": 5985,
+    "aegisName": "Noble_Mask",
+    "name": "Máscara da Nobreza",
+    "unidName": "Máscara da Nobreza",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "1"
+      ],
+      "aspdPercent": [
+        "1"
+      ]
+    }
+  },
+  "18514": {
+    "id": 18514,
+    "aegisName": "낙원단모자2",
+    "name": "Chapéu do Éden II",
+    "unidName": "Chapéu do Éden II",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "18520": {
+    "id": 18520,
+    "aegisName": "자티왕관",
+    "name": "Coroa Jaty",
+    "unidName": "Coroa Jaty",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "18523": {
+    "id": 18523,
+    "aegisName": "201111_Super_Cell",
+    "name": "Super Nimbus",
+    "unidName": "Super Nimbus",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "18550": {
+    "id": 18550,
+    "aegisName": "Asgard_Blessing",
+    "name": "Bênção de Asgard",
+    "unidName": "Bênção de Asgard",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "2"
+      ]
+    }
+  },
+  "18569": {
+    "id": 18569,
+    "aegisName": "Soft_Sheep_Hat",
+    "name": "Chapéu de Ovelha Fofinha",
+    "unidName": "Chapéu de Ovelha Fofinha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "1",
+        "2---1"
+      ]
+    }
+  },
+  "18572": {
+    "id": 18572,
+    "aegisName": "Korean_Judge_Hat",
+    "name": "Chapéu do Julgamento",
+    "unidName": "Chapéu do Julgamento",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vct": [
+        "6"
+      ],
+      "aspdPercent": [
+        "6"
+      ],
+      "p_class_normal": [
+        "2---1"
+      ],
+      "p_class_boss": [
+        "2---1"
+      ],
+      "m_final": [
+        "2---1"
+      ],
+      "range": [
+        "1---1"
+      ]
+    }
+  },
+  "18589": {
+    "id": 18589,
+    "aegisName": "Strawberry_Hat",
+    "name": "Chapéu de Morango",
+    "unidName": "Chapéu de Morango",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "18595": {
+    "id": 18595,
+    "aegisName": "Horn_Of_Ancient",
+    "name": "Chifre do Patriarca",
+    "unidName": "Chifre do Patriarca",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "18597": {
+    "id": 18597,
+    "aegisName": "Mercury_Helm",
+    "name": "Elmo do Mercúrio",
+    "unidName": "Elmo do Mercúrio",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "3",
+        "7===2",
+        "9===2"
+      ],
+      "aspdPercent": [
+        "3",
+        "7===2",
+        "9===2"
+      ]
+    }
+  },
+  "18630": {
+    "id": 18630,
+    "aegisName": "201205_cash_Dep_Alice_Hat",
+    "name": "Boneca de Alicel",
+    "unidName": "Boneca de Alicel",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_demihuman": [
+        "10"
+      ]
+    }
+  },
+  "18639": {
+    "id": 18639,
+    "aegisName": "201208_cash_Naval_Officer_Hat",
+    "name": "Quepe da Marinha",
+    "unidName": "Quepe da Marinha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "3"
+      ]
+    }
+  },
+  "18699": {
+    "id": 18699,
+    "aegisName": "201303_cash_Starving_Fish_Hat",
+    "name": "Salmão Faminto",
+    "unidName": "Salmão Faminto",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "18752": {
+    "id": 18752,
+    "aegisName": "저주받은책",
+    "name": "Livro Amaldiçoado",
+    "unidName": "Livro Amaldiçoado",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "18760": {
+    "id": 18760,
+    "aegisName": "마법사의모자",
+    "name": "Chapéu do Mago Implacável",
+    "unidName": "Chapéu do Mago Implacável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage",
+      "SoulLinker"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ],
+      "sp": [
+        "150"
+      ],
+      "matk": [
+        "1---1"
+      ]
+    }
+  },
+  "18761": {
+    "id": 18761,
+    "aegisName": "마술사의모자",
+    "name": "Cartola Magnificente",
+    "unidName": "Cartola Magnificente",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage",
+      "Novice",
+      "SoulLinker"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ],
+      "agi": [
+        "1"
+      ],
+      "sp": [
+        "50",
+        "1---5"
+      ]
+    }
+  },
+  "18763": {
+    "id": 18763,
+    "aegisName": "광대모자",
+    "name": "Espírito do Humor",
+    "unidName": "Espírito do Humor",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "2"
+      ],
+      "criDmg": [
+        "7===5"
+      ]
+    }
+  },
+  "18768": {
+    "id": 18768,
+    "aegisName": "본헬름",
+    "name": "Elmo de Marfim",
+    "unidName": "Elmo de Marfim",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "18772": {
+    "id": 18772,
+    "aegisName": "망원경",
+    "name": "Visor Além do Alcance",
+    "unidName": "Visor Além do Alcance",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "Archer"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ],
+      "range": [
+        "1"
+      ]
+    }
+  },
+  "18773": {
+    "id": 18773,
+    "aegisName": "핀헬름",
+    "name": "Nadadeiras Verdes",
+    "unidName": "Nadadeiras Verdes",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {
+      "hp": [
+        "300"
+      ]
+    }
+  },
+  "18785": {
+    "id": 18785,
+    "aegisName": "King_Poring_Hat",
+    "name": "Chapéu do Rei Poring",
+    "unidName": "Chapéu do Rei Poring",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ],
+      "luk": [
+        "1"
+      ]
+    }
+  },
+  "18820": {
+    "id": 18820,
+    "aegisName": "흙빛의투구",
+    "name": "Elmo de Cinzas",
+    "unidName": "Elmo de Cinzas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Only 3rd Cls"
+    ],
+    "script": {}
+  },
+  "18833": {
+    "id": 18833,
+    "aegisName": "201503_Marin_Crown",
+    "name": "Coroa de Marin",
+    "unidName": "Coroa de Marin",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "18838": {
+    "id": 18838,
+    "aegisName": "Angeling_Woolly_Hat",
+    "name": "Touca de Angeling",
+    "unidName": "Touca de Angeling",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ],
+      "atk": [
+        "2",
+        "1---2"
+      ],
+      "matk": [
+        "2",
+        "1---2"
+      ]
+    }
+  },
+  "18856": {
+    "id": 18856,
+    "aegisName": "201302_cash_W_King_Tiger_Doll_Hat",
+    "name": "Chapéu do Tigre Branco",
+    "unidName": "Chapéu do Tigre Branco",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ],
+      "dex": [
+        "2"
+      ],
+      "atk": [
+        "1---25"
+      ]
+    }
+  },
+  "18894": {
+    "id": 18894,
+    "aegisName": "Rainbow_Star",
+    "name": "Diadema Arco-íris",
+    "unidName": "Diadema Arco-íris",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "18907": {
+    "id": 18907,
+    "aegisName": "201406_Drooping_Panda",
+    "name": "Boneco de Panda",
+    "unidName": "Boneco de Panda",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "18908": {
+    "id": 18908,
+    "aegisName": "Isabella_Red_Ear",
+    "name": "Orelhas Vermelhas de Fiera",
+    "unidName": "Orelhas Vermelhas de Fiera",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "5"
+      ],
+      "hpPercent": [
+        "5"
+      ]
+    }
+  },
+  "18914": {
+    "id": 18914,
+    "aegisName": "Kid_Deviling",
+    "name": "Encosto do Deviling",
+    "unidName": "Encosto do Deviling",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "18929": {
+    "id": 18929,
+    "aegisName": "Elephant_Model_Hat",
+    "name": "Miniatura de Elefante",
+    "unidName": "Miniatura de Elefante",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "2"
+      ]
+    }
+  },
+  "18930": {
+    "id": 18930,
+    "aegisName": "Gorilla_Model_Hat",
+    "name": "Miniatura de Gorila",
+    "unidName": "Miniatura de Gorila",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ]
+    }
+  },
+  "18931": {
+    "id": 18931,
+    "aegisName": "Lion_Model_Hat",
+    "name": "Miniatura de Leão",
+    "unidName": "Miniatura de Leão",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ]
+    }
+  },
+  "18932": {
+    "id": 18932,
+    "aegisName": "Rhino_Model_Hat",
+    "name": "Miniatura de Rinoceronte",
+    "unidName": "Miniatura de Rinoceronte",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "2"
+      ]
+    }
+  },
+  "19009": {
+    "id": 19009,
+    "aegisName": "Cloud_Buster",
+    "name": "Nimbus Trovejante",
+    "unidName": "Nimbus Trovejante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19051": {
+    "id": 19051,
+    "aegisName": "Moon_Cat_Warrior",
+    "name": "Touca Felina Guerreira",
+    "unidName": "Touca Felina Guerreira",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "3"
+      ]
+    }
+  },
+  "19053": {
+    "id": 19053,
+    "aegisName": "Moon_Cat_Fighter",
+    "name": "Touca Felina Bárbara",
+    "unidName": "Touca Felina Bárbara",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "3"
+      ]
+    }
+  },
+  "19084": {
+    "id": 19084,
+    "aegisName": "Parfait_V_Hat",
+    "name": "Chapéu dos Farfelle",
+    "unidName": "Chapéu dos Farfelle",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Doram"
+    ],
+    "script": {
+      "luk": [
+        "1"
+      ]
+    }
+  },
+  "19088": {
+    "id": 19088,
+    "aegisName": "망원경",
+    "name": "Binóculos",
+    "unidName": "Binóculos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "Archer"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ]
+    }
+  },
+  "19089": {
+    "id": 19089,
+    "aegisName": "눈가리개",
+    "name": "Venda",
+    "unidName": "Venda",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19090": {
+    "id": 19090,
+    "aegisName": "알람가면",
+    "name": "Máscara de Alarme",
+    "unidName": "Máscara de Alarme",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19093": {
+    "id": 19093,
+    "aegisName": "스핀글래스",
+    "name": "Quatro-Olhos",
+    "unidName": "Quatro-Olhos",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19131": {
+    "id": 19131,
+    "aegisName": "Radio_Antenna_",
+    "name": "Para-raios",
+    "unidName": "Para-raios",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "5"
+      ],
+      "flee": [
+        "5"
+      ]
+    }
+  },
+  "19134": {
+    "id": 19134,
+    "aegisName": "Whikebain_Ears_K",
+    "name": "Orelhinhas da Wickebine",
+    "unidName": "Orelhinhas da Wickebine",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "10"
+      ],
+      "criDmg": [
+        "10"
+      ]
+    }
+  },
+  "19135": {
+    "id": 19135,
+    "aegisName": "Spirit_Of_Chung_E",
+    "name": "Espírito da Chung E",
+    "unidName": "Espírito da Chung E",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "4---1",
+        "12===3"
+      ],
+      "spPercent": [
+        "4---1",
+        "12===3"
+      ]
+    }
+  },
+  "19136": {
+    "id": 19136,
+    "aegisName": "Spirit_Of_Chung_E_",
+    "name": "Espírito da Chung E",
+    "unidName": "Espírito da Chung E",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "4---1",
+        "12===3"
+      ],
+      "spPercent": [
+        "4---1",
+        "12===3"
+      ]
+    }
+  },
+  "19143": {
+    "id": 19143,
+    "aegisName": "Poring_Balloon",
+    "name": "Balão de Poring",
+    "unidName": "Balão de Poring",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19146": {
+    "id": 19146,
+    "aegisName": "Marin_Balloon",
+    "name": "Balão de Marin",
+    "unidName": "Balão de Marin",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19147": {
+    "id": 19147,
+    "aegisName": "Drops_Balloon",
+    "name": "Balão de Drops",
+    "unidName": "Balão de Drops",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "2"
+      ]
+    }
+  },
+  "19148": {
+    "id": 19148,
+    "aegisName": "SantaPoring_Balloon",
+    "name": "Balão de Poring Natalino",
+    "unidName": "Balão de Poring Natalino",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19149": {
+    "id": 19149,
+    "aegisName": "Poporing_Balloon",
+    "name": "Balão de Poporing",
+    "unidName": "Balão de Poporing",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19150": {
+    "id": 19150,
+    "aegisName": "Metaling_Balloon",
+    "name": "Balão de Metaling",
+    "unidName": "Balão de Metaling",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19151": {
+    "id": 19151,
+    "aegisName": "Deviling_Balloon",
+    "name": "Balão de Deviling",
+    "unidName": "Balão de Deviling",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19152": {
+    "id": 19152,
+    "aegisName": "Angeling_Balloon",
+    "name": "Balão de Angeling",
+    "unidName": "Balão de Angeling",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19153": {
+    "id": 19153,
+    "aegisName": "Ghostring_Balloon",
+    "name": "Balão de Ghostring",
+    "unidName": "Balão de Ghostring",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19154": {
+    "id": 19154,
+    "aegisName": "Archangeling_Balloon",
+    "name": "Balão de Archangeling",
+    "unidName": "Balão de Archangeling",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19164": {
+    "id": 19164,
+    "aegisName": "Para_Team_Hat100",
+    "name": "Boina do Éden III",
+    "unidName": "Boina do Éden III",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "7===10"
+      ],
+      "matk": [
+        "7===10"
+      ],
+      "allStatus": [
+        "9===1"
+      ]
+    }
+  },
+  "19165": {
+    "id": 19165,
+    "aegisName": "Para_Team_Hat160",
+    "name": "Boina do Éden IV",
+    "unidName": "Boina do Éden IV",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "7===15"
+      ],
+      "matk": [
+        "7===15"
+      ],
+      "allStatus": [
+        "9===2"
+      ]
+    }
+  },
+  "19211": {
+    "id": 19211,
+    "aegisName": "Magical_Feather_K",
+    "name": "Tiara de Valquíria Mística",
+    "unidName": "Tiara de Valquíria Mística",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19238": {
+    "id": 19238,
+    "aegisName": "입에무는대파",
+    "name": "Cebolinha",
+    "unidName": "Cebolinha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19264": {
+    "id": 19264,
+    "aegisName": "GoldFish_Hat",
+    "name": "Chapéu de Dourado",
+    "unidName": "Chapéu de Dourado",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19284": {
+    "id": 19284,
+    "aegisName": "K_New_Wave_Sunglasses",
+    "name": "[Evento] Óculos Retrofuturistas",
+    "unidName": "[Evento] Óculos Retrofuturistas",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "acd": [
+        "10"
+      ]
+    }
+  },
+  "19328": {
+    "id": 19328,
+    "aegisName": "Spider_Temp_TW",
+    "name": "Chapéu Aracnídeo",
+    "unidName": "Chapéu Aracnídeo",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspd": [
+        "1"
+      ],
+      "p_final": [
+        "9===2",
+        "12===3"
+      ],
+      "aspdPercent": [
+        "9===5",
+        "12===5"
+      ]
+    }
+  },
+  "19340": {
+    "id": 19340,
+    "aegisName": "Saint_Egg_Shell",
+    "name": "Casca Angelical",
+    "unidName": "Casca Angelical",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19364": {
+    "id": 19364,
+    "aegisName": "Engineer_Cap_K",
+    "name": "Chapéu de Viagem",
+    "unidName": "Chapéu de Viagem",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "2---10"
+      ],
+      "matk": [
+        "2---10"
+      ],
+      "p_race_formless": [
+        "9===10"
+      ],
+      "m_race_formless": [
+        "9===10"
+      ]
+    }
+  },
+  "19415": {
+    "id": 19415,
+    "aegisName": "White_Bird_Rose",
+    "name": "Rosa Alada",
+    "unidName": "Rosa Alada",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19416": {
+    "id": 19416,
+    "aegisName": "C_Midgarts_Glory",
+    "name": "Brasão de Rune-Midgard",
+    "unidName": "Brasão de Rune-Midgard",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19434": {
+    "id": 19434,
+    "aegisName": "HeartAngel",
+    "name": "Pingu Voador",
+    "unidName": "Pingu Voador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ],
+      "spPercent": [
+        "2"
+      ]
+    }
+  },
+  "400758": {
+    "id": 400758,
+    "aegisName": "Cat_FF_Hat",
+    "name": "Gorro Felino Poderoso",
+    "unidName": "Gorro Felino Poderoso",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "2---15"
+      ],
+      "cri": [
+        "7===10"
+      ],
+      "range": [
+        "9===15"
+      ],
+      "melee": [
+        "9===15"
+      ],
+      "fct": [
+        "13===0.3"
+      ]
+    }
+  },
+  "400759": {
+    "id": 400759,
+    "aegisName": "Cat_FF_Hat2",
+    "name": "Gorro Felino Mágico",
+    "unidName": "Gorro Felino Mágico",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matk": [
+        "2---15"
+      ],
+      "vct": [
+        "7===15"
+      ],
+      "fct": [
+        "7===0.2"
+      ],
+      "m_my_element_all": [
+        "9===20"
+      ]
+    }
+  },
+  "410012": {
+    "id": 410012,
+    "aegisName": "EXP_Processor",
+    "name": "Comunicador Avançado",
+    "unidName": "Comunicador Avançado",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "420160": {
+    "id": 420160,
+    "aegisName": "Cons_Of_Earth_J",
+    "name": "Força Terrestre",
+    "unidName": "Força Terrestre",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "420752": {
+    "id": 420752,
+    "aegisName": "PoringTownBerry_LT",
+    "name": "Moranguinho",
+    "unidName": "Moranguinho",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "436000": {
+    "id": 436000,
+    "aegisName": "Tha_Maero_MaskK",
+    "name": "Máscara de Maero",
+    "unidName": "Máscara de Maero",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_final": [
+        "3"
+      ]
+    }
+  },
+  "436001": {
+    "id": 436001,
+    "aegisName": "Tha_Despero_MaskK",
+    "name": "Máscara de Despero",
+    "unidName": "Máscara de Despero",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_final": [
+        "3"
+      ]
+    }
+  },
+  "436004": {
+    "id": 436004,
+    "aegisName": "Tha_Despero_MaskK_",
+    "name": "Máscara de Despero",
+    "unidName": "Máscara de Despero",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_final": [
+        "3"
+      ]
+    }
+  },
+  "436005": {
+    "id": 436005,
+    "aegisName": "Tha_Maero_MaskK_",
+    "name": "Máscara de Maero",
+    "unidName": "Máscara de Maero",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_final": [
+        "3"
+      ]
+    }
+  },
+  "5022": {
+    "id": 5022,
+    "aegisName": "태양신의모자",
+    "name": "Coroa do Deus-Sol",
+    "unidName": "Coroa do Deus-Sol",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "3"
+      ],
+      "int": [
+        "2"
+      ]
+    }
+  },
+  "5025": {
+    "id": 5025,
+    "aegisName": "천사의투구",
+    "name": "Elmo Angelical",
+    "unidName": "Elmo Angelical",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ],
+      "luk": [
+        "1"
+      ]
+    }
+  },
+  "5353": {
+    "id": 5353,
+    "aegisName": "태양신의모자",
+    "name": "Coroa do Deus-Sol",
+    "unidName": "Coroa do Deus-Sol",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "3"
+      ],
+      "int": [
+        "2"
+      ]
+    }
+  },
+  "5398": {
+    "id": 5398,
+    "aegisName": "본헤드",
+    "name": "Capacete de Crânio",
+    "unidName": "Capacete de Crânio",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ]
+    }
+  },
+  "5399": {
+    "id": 5399,
+    "aegisName": "만드라고라캡",
+    "name": "Chapéu de Mandrágora",
+    "unidName": "Chapéu de Mandrágora",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "3"
+      ]
+    }
+  },
+  "18766": {
+    "id": 18766,
+    "aegisName": "천사의투구",
+    "name": "Elmo de Angelus",
+    "unidName": "Elmo de Angelus",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "18767": {
+    "id": 18767,
+    "aegisName": "태양신의모자",
+    "name": "Elmo de Helios",
+    "unidName": "Elmo de Helios",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "3"
+      ],
+      "int": [
+        "2"
+      ],
+      "atk": [
+        "10"
+      ],
+      "matk": [
+        "10"
+      ]
+    }
+  },
+  "5122": {
+    "id": 5122,
+    "aegisName": "Magni_Cap",
+    "name": "Chapéu de Magni",
+    "unidName": "Chapéu de Magni",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ]
+    }
+  },
+  "5123": {
+    "id": 5123,
+    "aegisName": "Ulle_Cap",
+    "name": "Chapéu de Ulle",
+    "unidName": "Chapéu de Ulle",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "2"
+      ],
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "5124": {
+    "id": 5124,
+    "aegisName": "Fricca_Circlet",
+    "name": "Diadema de Fricca",
+    "unidName": "Diadema de Fricca",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ],
+      "sp": [
+        "50"
+      ],
+      "def": [
+        "2"
+      ]
+    }
+  },
+  "5126": {
+    "id": 5126,
+    "aegisName": "모르피셔스두건",
+    "name": "Capuz de Morpheus",
+    "unidName": "Capuz de Morpheus",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ],
+      "mdef": [
+        "11"
+      ],
+      "spPercent": [
+        "20"
+      ]
+    }
+  },
+  "5127": {
+    "id": 5127,
+    "aegisName": "모리아네헬름",
+    "name": "Elmo de Morrigane",
+    "unidName": "Elmo de Morrigane",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "2"
+      ],
+      "atk": [
+        "3"
+      ],
+      "str": [
+        "2"
+      ],
+      "cri": [
+        "13"
+      ],
+      "perfectDodge": [
+        "13"
+      ]
+    }
+  },
+  "5128": {
+    "id": 5128,
+    "aegisName": "게브네이투구",
+    "name": "Elmo de Goibne",
+    "unidName": "Elmo de Goibne",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "3"
+      ],
+      "def": [
+        "5"
+      ],
+      "mdef": [
+        "15"
+      ],
+      "hpPercent": [
+        "15"
+      ],
+      "spPercent": [
+        "5"
+      ]
+    }
+  },
+  "5171": {
+    "id": 5171,
+    "aegisName": "발키리투구",
+    "name": "Elmo das Valquírias",
+    "unidName": "Elmo das Valquírias",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice",
+      "Only 3rd Cls"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "5442": {
+    "id": 5442,
+    "aegisName": "넥타이",
+    "name": "Gravata Azul",
+    "unidName": "Gravata Azul",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ],
+      "vct": [
+        "3"
+      ],
+      "aspdPercent": [
+        "3"
+      ]
+    }
+  },
+  "5467": {
+    "id": 5467,
+    "aegisName": "Helm_Of_Dragoon",
+    "name": "Elmo do Dragão",
+    "unidName": "Elmo do Dragão",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ],
+      "int": [
+        "2"
+      ],
+      "dex": [
+        "2"
+      ],
+      "p_race_dragon": [
+        "25"
+      ],
+      "perfectDodge": [
+        "3"
+      ],
+      "aspd": [
+        "1"
+      ]
+    }
+  },
+  "5495": {
+    "id": 5495,
+    "aegisName": "뇌신지력",
+    "name": "Bênção de Thor",
+    "unidName": "Bênção de Thor",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ],
+      "dex": [
+        "1"
+      ]
+    }
+  },
+  "5498": {
+    "id": 5498,
+    "aegisName": "Wondering_Wolf_Helm",
+    "name": "Elmo do Lobo Errante",
+    "unidName": "Elmo do Lobo Errante",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "5"
+      ],
+      "flee": [
+        "10"
+      ]
+    }
+  },
+  "5766": {
+    "id": 5766,
+    "aegisName": "Amistr_Cap",
+    "name": "Chapéu de Amistr",
+    "unidName": "Chapéu de Amistr",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "1",
+        "2---1"
+      ],
+      "sp": [
+        "20"
+      ],
+      "hp": [
+        "300"
+      ]
+    }
+  },
+  "5782": {
+    "id": 5782,
+    "aegisName": "201203_cash_Hoplite_Helmet",
+    "name": "Elmo Espartano",
+    "unidName": "Elmo Espartano",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ],
+      "p_class_normal": [
+        "3",
+        "3"
+      ],
+      "p_class_boss": [
+        "3",
+        "3"
+      ],
+      "def": [
+        "2"
+      ]
+    }
+  },
+  "5786": {
+    "id": 5786,
+    "aegisName": "고대요정의귀",
+    "name": "Orelhas Anciãs",
+    "unidName": "Orelhas Anciãs",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "1"
+      ],
+      "hp": [
+        "100"
+      ],
+      "sp": [
+        "30"
+      ],
+      "p_class_normal": [
+        "1"
+      ],
+      "p_class_boss": [
+        "1"
+      ],
+      "m_final": [
+        "1"
+      ]
+    }
+  },
+  "18564": {
+    "id": 18564,
+    "aegisName": "Love_Piece",
+    "name": "Biscoito de Coração",
+    "unidName": "Biscoito de Coração",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "18656": {
+    "id": 18656,
+    "aegisName": "마녀의모자",
+    "name": "Poderoso Chapéu de Bruxa",
+    "unidName": "Poderoso Chapéu de Bruxa",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ],
+      "int": [
+        "2"
+      ],
+      "p_race_demon": [
+        "15"
+      ],
+      "m_race_demon": [
+        "15"
+      ],
+      "p_race_undead": [
+        "15"
+      ],
+      "m_race_undead": [
+        "15"
+      ],
+      "aspdPercent": [
+        "10",
+        "EQUIP_ID[5176]10"
+      ],
+      "flee": [
+        "10"
+      ],
+      "atk": [
+        "30",
+        "EQUIP_ID[5475]30"
+      ],
+      "matk": [
+        "30",
+        "EQUIP_ID[5475]30"
+      ]
+    }
+  },
+  "18673": {
+    "id": 18673,
+    "aegisName": "Tare_Pope_",
+    "name": "Papisa Dorminhoca",
+    "unidName": "Papisa Dorminhoca",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_final": [
+        "9===7",
+        "12===5"
+      ]
+    }
+  },
+  "18730": {
+    "id": 18730,
+    "aegisName": "크리투라학원모자",
+    "name": "Chapéu de Calouro",
+    "unidName": "Chapéu de Calouro",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "15"
+      ],
+      "sp": [
+        "5"
+      ],
+      "atk": [
+        "5"
+      ],
+      "matk": [
+        "5"
+      ]
+    }
+  },
+  "18816": {
+    "id": 18816,
+    "aegisName": "Adv_Angel_School_Cap",
+    "name": "Boné do Aluno Exemplar",
+    "unidName": "Boné do Aluno Exemplar",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "2"
+      ],
+      "int": [
+        "2"
+      ],
+      "luk": [
+        "1"
+      ]
+    }
+  },
+  "18817": {
+    "id": 18817,
+    "aegisName": "Adv_Devil_School_Cap",
+    "name": "Boné do Aluno Travesso",
+    "unidName": "Boné do Aluno Travesso",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "2"
+      ],
+      "str": [
+        "2"
+      ],
+      "luk": [
+        "1"
+      ]
+    }
+  },
+  "19026": {
+    "id": 19026,
+    "aegisName": "에길헬름",
+    "name": "Protetor de Preamar",
+    "unidName": "Protetor de Preamar",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "3"
+      ],
+      "hp": [
+        "1000"
+      ],
+      "sp": [
+        "100"
+      ],
+      "p_race_fish": [
+        "50"
+      ],
+      "m_race_fish": [
+        "50"
+      ]
+    }
+  },
+  "19097": {
+    "id": 19097,
+    "aegisName": "Ribbon_Piamat_K",
+    "name": "Laço Macabro",
+    "unidName": "Laço Macabro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ]
+    }
+  },
+  "19119": {
+    "id": 19119,
+    "aegisName": "Toughen_Time_Keeper_Hat",
+    "name": "Chapéu de Aventura",
+    "unidName": "Chapéu de Aventura",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "2"
+      ],
+      "hp": [
+        "500"
+      ],
+      "sp": [
+        "100"
+      ],
+      "vct": [
+        "5"
+      ]
+    }
+  },
+  "19177": {
+    "id": 19177,
+    "aegisName": "Elemental_Crown_K",
+    "name": "Coroa dos Elementos",
+    "unidName": "Coroa dos Elementos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "3",
+        "2---1"
+      ],
+      "range": [
+        "4",
+        "45"
+      ]
+    }
+  },
+  "19209": {
+    "id": 19209,
+    "aegisName": "Nurse_Cap_IL",
+    "name": "Chapéu de Enfermagem Ilusional",
+    "unidName": "Chapéu de Enfermagem Ilusional",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "int": [
+        "1",
+        "2---1"
+      ]
+    }
+  },
+  "19266": {
+    "id": 19266,
+    "aegisName": "Survive_Circlet_K",
+    "name": "Diadema do Sobrevivente",
+    "unidName": "Diadema do Sobrevivente",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "3"
+      ],
+      "matk": [
+        "2---10"
+      ],
+      "m_final": [
+        "10===5"
+      ]
+    }
+  },
+  "19275": {
+    "id": 19275,
+    "aegisName": "Rental_Scuba_Mask",
+    "name": "[Aluguel] Snorkel",
+    "unidName": "[Aluguel] Snorkel",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "20"
+      ],
+      "matk": [
+        "20"
+      ],
+      "perfectDodge": [
+        "15"
+      ],
+      "vct": [
+        "30"
+      ],
+      "aspd": [
+        "2"
+      ],
+      "aspdPercent": [
+        "15"
+      ],
+      "p_race_fish": [
+        "25"
+      ],
+      "m_race_fish": [
+        "25"
+      ]
+    }
+  },
+  "19310": {
+    "id": 19310,
+    "aegisName": "Rebeginer_Cap",
+    "name": "Quepe Inicial",
+    "unidName": "Quepe Inicial",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ],
+      "hp": [
+        "200"
+      ]
+    }
+  },
+  "400075": {
+    "id": 400075,
+    "aegisName": "Astraea_Helm_TW",
+    "name": "Tiara de Astrea",
+    "unidName": "Tiara de Astrea",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "5",
+        "7===5"
+      ],
+      "perfectDodge": [
+        "10",
+        "EQUIP_ID[22167]10"
+      ],
+      "fct": [
+        "0.5",
+        "EQUIP_ID[22167]0.5"
+      ]
+    }
+  },
+  "400528": {
+    "id": 400528,
+    "aegisName": "Escarlate_Hat_BR",
+    "name": "Boina Escarlate-OS",
+    "unidName": "Boina Escarlate-OS",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice",
+      "SuperNovice"
+    ],
+    "script": {
+      "matk": [
+        "2---20"
+      ],
+      "vct": [
+        "7===15"
+      ],
+      "m_my_element_all": [
+        "9===15"
+      ],
+      "fct": [
+        "11===0.2"
+      ]
+    }
+  },
+  "401251": {
+    "id": 401251,
+    "aegisName": "Thanos_Hat_TF_LT",
+    "name": "Elmo Mortal de Cinzas",
+    "unidName": "Elmo Mortal de Cinzas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Thief"
+    ],
+    "script": {
+      "atk": [
+        "2---10"
+      ],
+      "matk": [
+        "2---10"
+      ],
+      "p_final": [
+        "7===5"
+      ],
+      "aspdPercent": [
+        "9===10"
+      ],
+      "acd": [
+        "11===15"
+      ],
+      "m_final": [
+        "5",
+        "EQUIP_ID[13093]5"
+      ],
+      "melee": [
+        "5",
+        "EQUIP_ID[28000]5"
+      ]
+    }
+  },
+  "401252": {
+    "id": 401252,
+    "aegisName": "Thanos_Hat_MG_LT",
+    "name": "Elmo Mágico de Cinzas",
+    "unidName": "Elmo Mágico de Cinzas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage"
+    ],
+    "script": {
+      "atk": [
+        "2---10"
+      ],
+      "matk": [
+        "2---10"
+      ],
+      "m_my_element_all": [
+        "7===5"
+      ],
+      "vct": [
+        "9===10"
+      ],
+      "acd": [
+        "11===15"
+      ],
+      "m_final": [
+        "7",
+        "EQUIP_ID[2023]7"
+      ]
+    }
+  },
+  "401253": {
+    "id": 401253,
+    "aegisName": "Thanos_Hat_AL_LT",
+    "name": "Elmo Divino de Cinzas",
+    "unidName": "Elmo Divino de Cinzas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "atk": [
+        "2---10"
+      ],
+      "matk": [
+        "2---10"
+      ],
+      "vct": [
+        "9===10"
+      ],
+      "acd": [
+        "11===15"
+      ],
+      "m_final": [
+        "5",
+        "EQUIP_ID[1669]5"
+      ],
+      "melee": [
+        "5",
+        "EQUIP_ID[16028]5"
+      ],
+      "range": [
+        "5",
+        "EQUIP_ID[1836]5"
+      ]
+    }
+  },
+  "401254": {
+    "id": 401254,
+    "aegisName": "Thanos_Hat_MC_LT",
+    "name": "Elmo Cobiçado de Cinzas",
+    "unidName": "Elmo Cobiçado de Cinzas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Merchant"
+    ],
+    "script": {
+      "atk": [
+        "2---10"
+      ],
+      "matk": [
+        "2---10"
+      ],
+      "p_final": [
+        "7===5"
+      ],
+      "aspdPercent": [
+        "9===10"
+      ],
+      "acd": [
+        "11===15"
+      ],
+      "range": [
+        "5",
+        "EQUIP_ID[16028]5"
+      ]
+    }
+  },
+  "401255": {
+    "id": 401255,
+    "aegisName": "Thanos_Hat_SW_LT",
+    "name": "Elmo Bravio de Cinzas",
+    "unidName": "Elmo Bravio de Cinzas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {
+      "atk": [
+        "2---10"
+      ],
+      "matk": [
+        "2---10"
+      ],
+      "p_final": [
+        "7===5"
+      ],
+      "aspdPercent": [
+        "9===10"
+      ],
+      "acd": [
+        "11===15"
+      ],
+      "range": [
+        "5",
+        "EQUIP_ID[1496]5"
+      ]
+    }
+  },
+  "401256": {
+    "id": 401256,
+    "aegisName": "Thanos_Hat_AC_LT",
+    "name": "Elmo Certeiro de Cinzas",
+    "unidName": "Elmo Certeiro de Cinzas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Archer"
+    ],
+    "script": {
+      "atk": [
+        "2---10"
+      ],
+      "matk": [
+        "2---10"
+      ],
+      "range": [
+        "7===5"
+      ],
+      "aspdPercent": [
+        "9===10"
+      ],
+      "acd": [
+        "11===15"
+      ],
+      "perfectDodge": [
+        "20",
+        "EQUIP_ID[13093]20"
+      ]
+    }
+  },
+  "410612": {
+    "id": 410612,
+    "aegisName": "Detale_Wings_LT",
+    "name": "Asa Dracônica",
+    "unidName": "Asa Dracônica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_dragon": [
+        "5"
+      ],
+      "m_race_dragon": [
+        "5"
+      ],
+      "p_race_undead": [
+        "5"
+      ],
+      "m_race_undead": [
+        "5"
+      ],
+      "atk": [
+        "50"
+      ],
+      "matk": [
+        "50"
+      ]
+    }
+  },
+  "410613": {
+    "id": 410613,
+    "aegisName": "Angelgolt_Wings_LT",
+    "name": "Asa Angelical",
+    "unidName": "Asa Angelical",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_angel": [
+        "5"
+      ],
+      "m_race_angel": [
+        "5"
+      ],
+      "p_race_demon": [
+        "5"
+      ],
+      "m_race_demon": [
+        "5"
+      ],
+      "atk": [
+        "50"
+      ],
+      "matk": [
+        "50"
+      ]
+    }
+  },
+  "410642": {
+    "id": 410642,
+    "aegisName": "Guardian_Helm_LT",
+    "name": "Elmo Real",
+    "unidName": "Elmo Real",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vct": [
+        "8"
+      ],
+      "aspdPercent": [
+        "8"
+      ]
+    }
+  },
+  "420609": {
+    "id": 420609,
+    "aegisName": "Flattery_Cloak",
+    "name": "Manto Arrogante",
+    "unidName": "Manto Arrogante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "spPercent": [
+        "3"
+      ]
+    }
+  },
+  "420681": {
+    "id": 420681,
+    "aegisName": "Consultation_Cloak_LT",
+    "name": "Manto Consulente",
+    "unidName": "Manto Consulente",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_final": [
+        "3"
+      ]
+    }
+  },
+  "420682": {
+    "id": 420682,
+    "aegisName": "Agenda_Cloak_LT",
+    "name": "Manto Atraente",
+    "unidName": "Manto Atraente",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_final": [
+        "3"
+      ]
+    }
   }
 }
