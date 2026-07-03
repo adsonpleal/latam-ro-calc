@@ -20063,7 +20063,8 @@
         "2---4"
       ],
       "luk": [
-        "3---5"
+        "3---5",
+        "EQUIP[Clergy's Boots&&Clergy's Manteau]8"
       ],
       "p_race_angel": [
         "4---8"
@@ -37211,6 +37212,10 @@
       "spPercent": [
         "EQUIP[Hard Champion Shadow Shoes]===2",
         "EQUIP[Hard Champion Shadow Shoes]REFINE[shadowShield,shadowBoot==16]===2"
+      ],
+      "hpPercent": [
+        "EQUIP[Hard Champion Shadow Shoes]===2",
+        "EQUIP[Hard Champion Shadow Shoes]REFINE[shadowShield,shadowBoot==16]===2"
       ]
     }
   },
@@ -40390,12 +40395,13 @@
       "ArchBishop"
     ],
     "script": {
-      "hp": [
-        "1---10"
-      ],
       "79": [
         "5",
-        "2---2"
+        "2---2",
+        "EQUIP_ID[24497&&24499]REFINE[shadowWeapon,shadowPendant,shadowEarring==1]---1"
+      ],
+      "hp": [
+        "1---10"
       ]
     }
   },
@@ -65123,7 +65129,16 @@
     "location": null,
     "compositionPos": null,
     "script": {
+      "14": [
+        "ACTIVE_SKILL[Striking]30"
+      ],
+      "19": [
+        "ACTIVE_SKILL[Striking]30"
+      ],
       "20": [
+        "ACTIVE_SKILL[Striking]30"
+      ],
+      "90": [
         "ACTIVE_SKILL[Striking]30"
       ]
     }
@@ -65146,7 +65161,16 @@
     "location": null,
     "compositionPos": null,
     "script": {
+      "14": [
+        "ACTIVE_SKILL[Striking]60"
+      ],
+      "19": [
+        "ACTIVE_SKILL[Striking]60"
+      ],
       "20": [
+        "ACTIVE_SKILL[Striking]60"
+      ],
+      "90": [
         "ACTIVE_SKILL[Striking]60"
       ]
     }
@@ -158895,6 +158919,10 @@
       "StarEmperor"
     ],
     "script": {
+      "2576": [
+        "EQUIP[Noblesse Attack Manteau&&Noblesse Attack Boots&&Noblesse Attack Ring]===10",
+        "EQUIP[Noblesse Attack Manteau&&Noblesse Attack Boots&&Noblesse Attack Ring]REFINE[armor,garment,boot==27]===10"
+      ],
       "atk": [
         "50"
       ],
@@ -158908,9 +158936,12 @@
         "EQUIP[Noblesse Attack Manteau&&Noblesse Attack Boots&&Noblesse Attack Ring]===2",
         "EQUIP[Noblesse Attack Manteau&&Noblesse Attack Boots&&Noblesse Attack Ring]REFINE[armor,garment,boot==27]===3"
       ],
-      "2576": [
-        "EQUIP[Noblesse Attack Manteau&&Noblesse Attack Boots&&Noblesse Attack Ring]===10",
-        "EQUIP[Noblesse Attack Manteau&&Noblesse Attack Boots&&Noblesse Attack Ring]REFINE[armor,garment,boot==27]===10"
+      "p_size_all": [
+        "EQUIP[Noblesse Attack Manteau&&Noblesse Attack Boots&&Noblesse Attack Ring]===5",
+        "EQUIP[Noblesse Attack Manteau&&Noblesse Attack Boots&&Noblesse Attack Ring]REFINE[armor,garment,boot==27]===5"
+      ],
+      "m_size_all": [
+        "EQUIP[Noblesse Attack Manteau&&Noblesse Attack Boots&&Noblesse Attack Ring]REFINE[armor,garment,boot==27]===5"
       ]
     }
   },
@@ -160429,6 +160460,10 @@
       "StarEmperor"
     ],
     "script": {
+      "2576": [
+        "EQUIP[Imperial Attack Manteau&&Imperial Attack Boots&&Imperial Attack Ring]===10",
+        "EQUIP[Imperial Attack Manteau&&Imperial Attack Boots&&Imperial Attack Ring]REFINE[armor,garment,boot==27]===15"
+      ],
       "atk": [
         "75"
       ],
@@ -160442,9 +160477,8 @@
         "EQUIP[Imperial Attack Manteau&&Imperial Attack Boots&&Imperial Attack Ring]===2",
         "EQUIP[Imperial Attack Manteau&&Imperial Attack Boots&&Imperial Attack Ring]REFINE[armor,garment,boot==27]===3"
       ],
-      "2576": [
-        "EQUIP[Imperial Attack Manteau&&Imperial Attack Boots&&Imperial Attack Ring]===10",
-        "EQUIP[Imperial Attack Manteau&&Imperial Attack Boots&&Imperial Attack Ring]REFINE[armor,garment,boot==27]===15"
+      "aspd": [
+        "EQUIP[Imperial Attack Manteau&&Imperial Attack Boots&&Imperial Attack Ring]REFINE[armor,garment,boot==27]===1"
       ]
     }
   },
@@ -166089,6 +166123,9 @@
       ],
       "mdef": [
         "3---5"
+      ],
+      "perfectDodge": [
+        "EQUIP_ID[32209]10"
       ]
     }
   },
@@ -166260,10 +166297,12 @@
         "10"
       ],
       "atk": [
-        "3---15"
+        "3---15",
+        "EQUIP_ID[32208]30"
       ],
       "matk": [
-        "3---15"
+        "3---15",
+        "EQUIP_ID[32210]30"
       ]
     }
   },
@@ -228926,6 +228965,9 @@
       ],
       "m_my_element_all": [
         "5"
+      ],
+      "cd__2607": [
+        "EQUIP_ID[19397]10"
       ]
     }
   },
@@ -228955,6 +228997,15 @@
       ],
       "melee": [
         "5"
+      ],
+      "cd__2320": [
+        "EQUIP_ID[19196]2"
+      ],
+      "perfectHit": [
+        "EQUIP_ID[19396]10"
+      ],
+      "cri": [
+        "EQUIP_ID[19204]5"
       ]
     }
   },
@@ -229643,6 +229694,18 @@
       ],
       "range": [
         "5"
+      ],
+      "perfectHit": [
+        "EQUIP_ID[19198]10"
+      ],
+      "cd__2517": [
+        "EQUIP_ID[19198]7.5"
+      ],
+      "cd__3009": [
+        "EQUIP_ID[19203]0.5"
+      ],
+      "perfectDodge": [
+        "EQUIP_ID[19202]8"
       ]
     }
   },
@@ -229666,7 +229729,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "perfectHit": [
+        "EQUIP_ID[32228]===25"
+      ],
+      "atk": [
+        "EQUIP_ID[32230]===25"
+      ]
+    }
   },
   "29144": {
     "id": 29144,
@@ -230092,7 +230162,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "fct": [
+        "EQUIP[Angel Poring Shoes]REFINE[boot==12]0.4"
+      ]
+    }
   },
   "18560": {
     "id": 18560,
@@ -230697,6 +230771,21 @@
     "script": {
       "hpPercent": [
         "3"
+      ],
+      "p_race_demon": [
+        "EQUIP_ID[15147]REFINE[armor==7]===7",
+        "EQUIP_ID[15147]REFINE[armor==11]===7"
+      ],
+      "p_race_undead": [
+        "EQUIP_ID[15147]REFINE[armor==7]===7",
+        "EQUIP_ID[15147]REFINE[armor==11]===7"
+      ],
+      "p_element_dark": [
+        "EQUIP_ID[15147]REFINE[armor==7]===7",
+        "EQUIP_ID[15147]REFINE[armor==11]===7"
+      ],
+      "p_class_all": [
+        "EQUIP_ID[15147]REFINE[armor==9]===5"
       ]
     }
   },
@@ -231223,13 +231312,19 @@
         "7===15"
       ],
       "range": [
-        "9===10"
+        "9===10",
+        "EQUIP_ID[480124]REFINE[armor,garment==23]REFINE[armor,garment==1]---1"
       ],
       "melee": [
-        "9===10"
+        "9===10",
+        "EQUIP_ID[480124]REFINE[armor,garment==23]REFINE[armor,garment==1]---1"
       ],
       "acd": [
-        "11===10"
+        "11===10",
+        "EQUIP_ID[480124]5"
+      ],
+      "p_element_all": [
+        "EQUIP_ID[480124]REFINE[armor,garment==18]===10"
       ]
     }
   },
@@ -231579,6 +231674,12 @@
       "all"
     ],
     "script": {
+      "2446": [
+        "EQUIP[Illusion Muffler]REFINE[garment==7]7===40"
+      ],
+      "2449": [
+        "EQUIP[Illusion Muffler]===10"
+      ],
       "matk": [
         "180"
       ],
@@ -231587,6 +231688,15 @@
       ],
       "int": [
         "3"
+      ],
+      "m_my_element_neutral": [
+        "EQUIP[Illusion Muffler]REFINE[weapon,garment==18]===10"
+      ],
+      "m_my_element_earth": [
+        "EQUIP[Illusion Muffler]REFINE[weapon,garment==18]===10"
+      ],
+      "m_my_element_water": [
+        "EQUIP[Illusion Muffler]REFINE[weapon,garment==22]===10"
       ]
     }
   },
@@ -231637,6 +231747,30 @@
       "all"
     ],
     "script": {
+      "739": [
+        "EQUIP_ID[1762]10"
+      ],
+      "2038": [
+        "EQUIP_ID[1751]10"
+      ],
+      "2202": [
+        "EQUIP_ID[1757]10"
+      ],
+      "2211": [
+        "EQUIP_ID[1752]10"
+      ],
+      "2214": [
+        "EQUIP_ID[1755]10"
+      ],
+      "2216": [
+        "EQUIP_ID[1756]10"
+      ],
+      "2447": [
+        "EQUIP_ID[1754]10"
+      ],
+      "2449": [
+        "EQUIP_ID[1773]10"
+      ],
       "matk": [
         "150",
         "2---10"
@@ -232359,11 +232493,23 @@
       "all"
     ],
     "script": {
+      "316": [
+        "EQUIP_ID[4234&&4252&&4178&&4297]10"
+      ],
+      "324": [
+        "EQUIP_ID[4234&&4252&&4178&&4297]10"
+      ],
+      "394": [
+        "EQUIP_ID[4234&&4252&&4178&&4297]5"
+      ],
       "vit": [
         "1"
       ],
       "hpPercent": [
         "10"
+      ],
+      "dex": [
+        "EQUIP_ID[4234&&4252&&4178&&4297]5"
       ]
     }
   },
@@ -232574,6 +232720,15 @@
     "script": {
       "vit": [
         "1"
+      ],
+      "hpPercent": [
+        "EQUIP[Angel Poring Shoes]5"
+      ],
+      "spPercent": [
+        "EQUIP[Angel Poring Shoes]5"
+      ],
+      "acd": [
+        "EQUIP[Angel Poring Shoes]REFINE[boot==12]5"
       ]
     }
   },
