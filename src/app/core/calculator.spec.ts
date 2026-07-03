@@ -1,5 +1,6 @@
+import { readFileSync } from 'node:fs';
 import { ItemTypeEnum, ItemTypeId } from 'src/app/constants';
-import { ActiveSkillModel, AtkSkillModel, CharacterBase, ClassIDEnum, ClassName, RuneKnight, Warlock } from 'src/app/jobs';
+import { ActiveSkillModel, AtkSkillModel, CharacterBase, ClassIDEnum, ClassName, RuneKnight, ShadowCross, Warlock } from 'src/app/jobs';
 import { HpSpTable } from 'src/app/models/hp-sp-table.model';
 import { ItemModel } from 'src/app/models/item.model';
 import { MainModel } from 'src/app/models/main.model';
@@ -116,26 +117,22 @@ describe('Calculator', () => {
     expect(calculator).toBeTruthy();
   });
 
-  // Sigrun shadow set: Malha (24326, armor) + Escudo (24327, shield). The combo
-  // is declared on the armor and grants — when the shield is also equipped, the
-  // set refine sum is >= 17, AND the class is a Swordman/Thief/Taekwon line —
-  // ATQ +15 "adicional" (on top of the armor's own USED[...]15 base). This test
-  // guards the class gate, the partner-equipped gate, and the min-refine gate.
+  // Sigrun shadow set: Malha (24326, armor) + Escudo (24327, shield). Loads the
+  // REAL scripts from item.json so it guards the shipped data. For a Swordman/
+  // Thief/Taekwon-line class with both pieces equipped and set refine sum >= 17,
+  // the set grants ATQ +15 "adicional" (on top of the armor's own USED[...]15
+  // base) AND ATQ-speed +1 that STACKS with the shield's own +1 (so ASPD +2).
   describe('Sigrun shadow set combo (24326 Malha + 24327 Escudo)', () => {
-    const COMBO_ATK = 'EQUIP_ID[24327]USED[Swordman||Thief||Taekwondo]REFINE[shadowArmor,shadowShield==17]15';
+    const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
     const sigrunItems = (): Record<number, Partial<ItemModel>> => ({
-      24326: {
-        id: 24326, name: 'Malha Sombria de Sigrun', itemTypeId: 10, itemSubTypeId: 526,
-        // base ATQ +15 for the class line, plus the set combo entry
-        script: { atk: ['USED[Swordman||Thief||Taekwondo]15', COMBO_ATK] },
-      },
-      24327: { id: 24327, name: 'Escudo Sombrio de Sigrun', itemTypeId: 10, itemSubTypeId: 527, script: {} },
+      24326: { ...db['24326'], itemTypeId: 10, itemSubTypeId: 526 },
+      24327: { ...db['24327'], itemTypeId: 10, itemSubTypeId: 527 },
     });
 
-    const atkFor = (
+    const statsFor = (
       cls: CharacterBase,
       opts: { armorRefine: number; shieldRefine?: number; withShield?: boolean },
-    ): number => {
+    ): { atk: number; aspd: number } => {
       const { armorRefine, shieldRefine = 0, withShield = true } = opts;
       // initialise the character's skill bonuses (needed by setAdditionalBonus)
       cls.setLearnSkills({ activeSkillIds: [], passiveSkillIds: [] }).getSkillBonusAndName();
@@ -150,28 +147,32 @@ describe('Calculator', () => {
         model.shadowShieldRefine = shieldRefine;
       }
       calc.loadItemFromModel(model).prepareAllItemBonus();
-      return (calc as any).totalEquipStatus.atk as number;
+      const total = (calc as any).totalEquipStatus;
+      return { atk: total.atk as number, aspd: total.aspd as number };
     };
 
-    it('applies the +15 combo for a Swordman-line class when shield equipped and set refine >= 17 (base 15 + combo 15 = 30)', () => {
-      expect(atkFor(new RuneKnight(), { armorRefine: 9, shieldRefine: 8 })).toBe(30);
+    it('Swordman line, both equipped, set refine >= 17: ATQ +30 (15 base + 15 combo), ASPD +2 (1 shield + 1 combo)', () => {
+      expect(statsFor(new RuneKnight(), { armorRefine: 9, shieldRefine: 8 })).toEqual({ atk: 30, aspd: 2 });
     });
 
-    it('applies at exactly 17 (boundary), regardless of how the refine is split', () => {
-      expect(atkFor(new RuneKnight(), { armorRefine: 9, shieldRefine: 8 })).toBe(30); // 17
-      expect(atkFor(new RuneKnight(), { armorRefine: 16, shieldRefine: 1 })).toBe(30); // 17
+    it('Thief line (Shadow Cross) — the reported build, both pieces at +10 (sum 20): ATQ +30, ASPD +2', () => {
+      expect(statsFor(new ShadowCross(), { armorRefine: 10, shieldRefine: 10 })).toEqual({ atk: 30, aspd: 2 });
     });
 
-    it('does NOT apply the combo when set refine sum is 16 (only the base +15)', () => {
-      expect(atkFor(new RuneKnight(), { armorRefine: 8, shieldRefine: 8 })).toBe(15);
+    it('boundary: exactly 17 applies the combo regardless of split', () => {
+      expect(statsFor(new RuneKnight(), { armorRefine: 16, shieldRefine: 1 })).toEqual({ atk: 30, aspd: 2 });
     });
 
-    it('does NOT apply the combo when the partner shield is not equipped (only the base +15)', () => {
-      expect(atkFor(new RuneKnight(), { armorRefine: 15, withShield: false })).toBe(15);
+    it('set refine sum 16: combo off — only bases (ATQ +15 from armor, ASPD +1 from shield)', () => {
+      expect(statsFor(new RuneKnight(), { armorRefine: 8, shieldRefine: 8 })).toEqual({ atk: 15, aspd: 1 });
     });
 
-    it('does NOT apply anything for a non-matching class (Warlock/Mage line)', () => {
-      expect(atkFor(new Warlock(), { armorRefine: 9, shieldRefine: 8 })).toBe(0);
+    it('shield not equipped: no combo and no shield base (ATQ +15 from armor, ASPD +0)', () => {
+      expect(statsFor(new RuneKnight(), { armorRefine: 15, withShield: false })).toEqual({ atk: 15, aspd: 0 });
+    });
+
+    it('non-matching class (Warlock/Mage line): no ATQ, no ASPD from this set', () => {
+      expect(statsFor(new Warlock(), { armorRefine: 9, shieldRefine: 8 })).toEqual({ atk: 0, aspd: 0 });
     });
   });
 

@@ -229599,6 +229599,21 @@
       "aspdPercent": [
         "USED[Novice||SuperNovice||Summoner]5",
         "EQUIP_ID[24327]USED[Novice||SuperNovice||Summoner]REFINE[shadowArmor,shadowShield==17]5"
+      ],
+      "aspd": [
+        "EQUIP_ID[24327]USED[Swordman||Thief||Taekwondo]REFINE[shadowArmor,shadowShield==17]1"
+      ],
+      "spPercent": [
+        "EQUIP_ID[24327]USED[Mage||Acolyte||Ninja||SoulLinker]REFINE[shadowArmor,shadowShield==17]2"
+      ],
+      "flee": [
+        "EQUIP_ID[24327]USED[Merchant||Archer||Gunslinger]REFINE[shadowArmor,shadowShield==17]15"
+      ],
+      "sp": [
+        "EQUIP_ID[24327]USED[Novice||SuperNovice||Summoner]REFINE[shadowArmor,shadowShield==17]300"
+      ],
+      "vct": [
+        "EQUIP_ID[24327]USED[Novice||SuperNovice||Summoner]REFINE[shadowArmor,shadowShield==17]5"
       ]
     }
   },
