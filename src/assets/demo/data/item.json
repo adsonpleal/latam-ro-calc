@@ -271144,5 +271144,2481 @@
         "5"
       ]
     }
+  },
+  "2407": {
+    "id": 2407,
+    "aegisName": "유리구두",
+    "name": "Sapatilha de Cristal",
+    "unidName": "Sapatilha de Cristal",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "5"
+      ]
+    }
+  },
+  "2410": {
+    "id": 2410,
+    "aegisName": "슬레이프니르",
+    "name": "Sleipnir",
+    "unidName": "Sleipnir",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 350,
+    "requiredLevel": 94,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "25"
+      ],
+      "hpPercent": [
+        "20"
+      ],
+      "spPercent": [
+        "20"
+      ]
+    }
+  },
+  "2413": {
+    "id": 2413,
+    "aegisName": "안전화",
+    "name": "Coturnos",
+    "unidName": "Coturnos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 22,
+    "weight": 35,
+    "requiredLevel": 30,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {}
+  },
+  "2414": {
+    "id": 2414,
+    "aegisName": "샌들",
+    "name": "Sandálias do Aprendiz",
+    "unidName": "Sandálias do Aprendiz",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2415": {
+    "id": 2415,
+    "aegisName": "슬리퍼",
+    "name": "Pantufas de Coelho",
+    "unidName": "Pantufas de Coelho",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 9,
+    "weight": 30,
+    "requiredLevel": 30,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "3"
+      ]
+    }
+  },
+  "2416": {
+    "id": 2416,
+    "aegisName": "초보자용슈즈",
+    "name": "Sapatos do Aprendiz",
+    "unidName": "Sapatos do Aprendiz",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 8,
+    "weight": 50,
+    "requiredLevel": 40,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ]
+    }
+  },
+  "2417": {
+    "id": 2417,
+    "aegisName": "Fricco_Shoes",
+    "name": "Sapatos de Fricco",
+    "unidName": "Sapatos de Fricco",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 50,
+    "requiredLevel": 65,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ]
+    }
+  },
+  "2418": {
+    "id": 2418,
+    "aegisName": "비다르의부츠",
+    "name": "Botas de Vidar",
+    "unidName": "Botas de Vidar",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 65,
+    "requiredLevel": 65,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "9"
+      ],
+      "spPercent": [
+        "9"
+      ]
+    }
+  },
+  "2419": {
+    "id": 2419,
+    "aegisName": "게브네이의군화",
+    "name": "Grevas de Goibne",
+    "unidName": "Grevas de Goibne",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 70,
+    "requiredLevel": 54,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ],
+      "spPercent": [
+        "5"
+      ]
+    }
+  },
+  "2420": {
+    "id": 2420,
+    "aegisName": "천사의재래",
+    "name": "Reencarnação do Anjo",
+    "unidName": "Reencarnação do Anjo",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 8,
+    "weight": 70,
+    "requiredLevel": 54,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "hp": [
+        "100"
+      ]
+    }
+  },
+  "2421": {
+    "id": 2421,
+    "aegisName": "발키리의슈즈",
+    "name": "Sapatos das Valquírias",
+    "unidName": "Sapatos das Valquírias",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 50,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice",
+      "Only 3rd Cls"
+    ],
+    "script": {}
+  },
+  "2423": {
+    "id": 2423,
+    "aegisName": "배리언트슈즈",
+    "name": "Sapatos Divergentes",
+    "unidName": "Sapatos Divergentes",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 50,
+    "requiredLevel": 85,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "hpPercent": [
+        "20"
+      ],
+      "spPercent": [
+        "20"
+      ],
+      "def": [
+        "2---1"
+      ]
+    }
+  },
+  "2424": {
+    "id": 2424,
+    "aegisName": "Tidal_Shoes",
+    "name": "Sapatos da Maré",
+    "unidName": "Sapatos da Maré",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 30,
+    "requiredLevel": 55,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2425": {
+    "id": 2425,
+    "aegisName": "검은가죽부츠",
+    "name": "Botas Pretas de Couro",
+    "unidName": "Botas Pretas de Couro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 16,
+    "weight": 50,
+    "requiredLevel": 55,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "2426": {
+    "id": 2426,
+    "aegisName": "쉐도우워크",
+    "name": "Passo das Sombras",
+    "unidName": "Passo das Sombras",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 200,
+    "requiredLevel": 75,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2434": {
+    "id": 2434,
+    "aegisName": "Black_Leather_Boots_",
+    "name": "Botas de Couro Preto",
+    "unidName": "Botas de Couro Preto",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 16,
+    "weight": 50,
+    "requiredLevel": 55,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "2435": {
+    "id": 2435,
+    "aegisName": "그리브",
+    "name": "Grevas de Batalha",
+    "unidName": "Grevas de Batalha",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 15,
+    "weight": 0,
+    "requiredLevel": 80,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Thief",
+      "Merchant",
+      "Taekwondo",
+      "Ninja"
+    ],
+    "script": {
+      "hp": [
+        "100"
+      ]
+    }
+  },
+  "2436": {
+    "id": 2436,
+    "aegisName": "부츠",
+    "name": "Botas de Combate",
+    "unidName": "Botas de Combate",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 9,
+    "weight": 0,
+    "requiredLevel": 80,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Archer",
+      "Mage",
+      "Novice",
+      "SoulLinker"
+    ],
+    "script": {
+      "hp": [
+        "100"
+      ]
+    }
+  },
+  "2437": {
+    "id": 2437,
+    "aegisName": "안전화",
+    "name": "Botas de Batalha",
+    "unidName": "Botas de Batalha",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 9,
+    "weight": 0,
+    "requiredLevel": 80,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Gunslinger"
+    ],
+    "script": {
+      "hp": [
+        "100"
+      ]
+    }
+  },
+  "2440": {
+    "id": 2440,
+    "aegisName": "스프린트슈즈",
+    "name": "Sapatos de Corrida",
+    "unidName": "Sapatos de Corrida",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "2450": {
+    "id": 2450,
+    "aegisName": "생명나무줄기슈즈",
+    "name": "Sapatos da Árvore da Vida",
+    "unidName": "Sapatos da Árvore da Vida",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 16,
+    "weight": 50,
+    "requiredLevel": 60,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "vit": [
+        "2"
+      ],
+      "hpPercent": [
+        "10"
+      ]
+    }
+  },
+  "2456": {
+    "id": 2456,
+    "aegisName": "비다르의부츠",
+    "name": "Botas do Éden I",
+    "unidName": "Botas do Éden I",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 14,
+    "weight": 0,
+    "requiredLevel": 7,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2457": {
+    "id": 2457,
+    "aegisName": "비다르의부츠",
+    "name": "Botas do Éden II",
+    "unidName": "Botas do Éden II",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 16,
+    "weight": 0,
+    "requiredLevel": 26,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2458": {
+    "id": 2458,
+    "aegisName": "비다르의부츠",
+    "name": "Botas do Éden III",
+    "unidName": "Botas do Éden III",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 18,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2459": {
+    "id": 2459,
+    "aegisName": "Upg_Shoes",
+    "name": "Sapato Aprimorável",
+    "unidName": "Sapato Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 15,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "2460": {
+    "id": 2460,
+    "aegisName": "Upg_Boots",
+    "name": "Bota Aprimorável",
+    "unidName": "Bota Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 6,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Archer",
+      "Thief",
+      "Merchant",
+      "Taekwondo",
+      "Gunslinger"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "2461": {
+    "id": 2461,
+    "aegisName": "Upg_Greave",
+    "name": "Greva Aprimorável",
+    "unidName": "Greva Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 32,
+    "weight": 40,
+    "requiredLevel": 65,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Knight"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "2463": {
+    "id": 2463,
+    "aegisName": "야성의부츠",
+    "name": "Botas Ferais",
+    "unidName": "Botas Ferais",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2465": {
+    "id": 2465,
+    "aegisName": "댄스구두",
+    "name": "Sapatos de Dança",
+    "unidName": "Sapatos de Dança",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 15,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Wanderer"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ],
+      "aspdPercent": [
+        "2"
+      ]
+    }
+  },
+  "2467": {
+    "id": 2467,
+    "aegisName": "골든로드슈즈",
+    "name": "Sapatos do Açoite de Ouro",
+    "unidName": "Sapatos do Açoite de Ouro",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Warlock"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ]
+    }
+  },
+  "2468": {
+    "id": 2468,
+    "aegisName": "아쿠아슈즈",
+    "name": "Sapatos Aquáticos",
+    "unidName": "Sapatos Aquáticos",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Warlock"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ]
+    }
+  },
+  "2469": {
+    "id": 2469,
+    "aegisName": "크림즌슈즈",
+    "name": "Sapatos Vermelhos",
+    "unidName": "Sapatos Vermelhos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Warlock"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ]
+    }
+  },
+  "2470": {
+    "id": 2470,
+    "aegisName": "포레스트슈즈",
+    "name": "Sapatos Florestais",
+    "unidName": "Sapatos Florestais",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Warlock"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ]
+    }
+  },
+  "2471": {
+    "id": 2471,
+    "aegisName": "자애의슈즈",
+    "name": "Sapatos da Afeição",
+    "unidName": "Sapatos da Afeição",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 30,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "ArchBishop"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ]
+    }
+  },
+  "2473": {
+    "id": 2473,
+    "aegisName": "군용부츠",
+    "name": "Botas do Éden IV",
+    "unidName": "Botas do Éden IV",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 0,
+    "requiredLevel": 60,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ],
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "2475": {
+    "id": 2475,
+    "aegisName": "우르의그리브",
+    "name": "Grevas de Ur",
+    "unidName": "Grevas de Ur",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 32,
+    "weight": 90,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "RuneKnight",
+      "Knight"
+    ],
+    "script": {
+      "sp": [
+        "40"
+      ]
+    }
+  },
+  "2477": {
+    "id": 2477,
+    "aegisName": "사바흐의슈즈",
+    "name": "Botas dos Manuks",
+    "unidName": "Botas dos Manuks",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 18,
+    "weight": 40,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "GuillotineCross"
+    ],
+    "script": {
+      "luk": [
+        "3"
+      ],
+      "sp": [
+        "30"
+      ]
+    }
+  },
+  "2478": {
+    "id": 2478,
+    "aegisName": "나브의슈즈",
+    "name": "Botas de Nab",
+    "unidName": "Botas de Nab",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 18,
+    "weight": 40,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "GuillotineCross"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ],
+      "flee": [
+        "3"
+      ]
+    }
+  },
+  "2480": {
+    "id": 2480,
+    "aegisName": "검은날개의부츠",
+    "name": "Sapatos das Asas das Sombras",
+    "unidName": "Sapatos das Asas das Sombras",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 18,
+    "weight": 40,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Ranger"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ],
+      "spPercent": [
+        "5"
+      ]
+    }
+  },
+  "2483": {
+    "id": 2483,
+    "aegisName": "시즈그리브",
+    "name": "Grevas de Cerco",
+    "unidName": "Grevas de Cerco",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 75,
+    "requiredLevel": 95,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "2484": {
+    "id": 2484,
+    "aegisName": "시즈부츠",
+    "name": "Botas de Cerco",
+    "unidName": "Botas de Cerco",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 50,
+    "requiredLevel": 95,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Archer",
+      "Thief",
+      "Merchant",
+      "Taekwondo",
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "2485": {
+    "id": 2485,
+    "aegisName": "시즈슈즈",
+    "name": "Sapatos de Cerco",
+    "unidName": "Sapatos de Cerco",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 15,
+    "weight": 35,
+    "requiredLevel": 95,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage",
+      "Novice",
+      "SoulLinker"
+    ],
+    "script": {}
+  },
+  "2486": {
+    "id": 2486,
+    "aegisName": "쉐도우워크",
+    "name": "Passo das Sombras",
+    "unidName": "Passo das Sombras",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 200,
+    "requiredLevel": 75,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2491": {
+    "id": 2491,
+    "aegisName": "악몽의벙웅곳부츠",
+    "name": "Botas do Pesadelo de Bangungot",
+    "unidName": "Botas do Pesadelo de Bangungot",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 60,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "1---1"
+      ]
+    }
+  },
+  "2492": {
+    "id": 2492,
+    "aegisName": "바야니악몽의벙웅곳부츠",
+    "name": "Botas de Bangungot Bayani",
+    "unidName": "Botas de Bangungot Bayani",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 60,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "1---1"
+      ]
+    }
+  },
+  "2495": {
+    "id": 2495,
+    "aegisName": "201210_Cash_Egir_Shoes",
+    "name": "Botas de Aegir",
+    "unidName": "Botas de Aegir",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 30,
+    "requiredLevel": 110,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2499": {
+    "id": 2499,
+    "aegisName": "Temporal_Boots",
+    "name": "Botas Temporais",
+    "unidName": "Botas Temporais",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 60,
+    "requiredLevel": 10,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "300",
+        "3---100"
+      ],
+      "sp": [
+        "30",
+        "3---10"
+      ]
+    }
+  },
+  "22015": {
+    "id": 22015,
+    "aegisName": "천사의재래",
+    "name": "Reencarnação do Arcanjo",
+    "unidName": "Reencarnação do Arcanjo",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 8,
+    "weight": 30,
+    "requiredLevel": 99,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ],
+      "sp": [
+        "100"
+      ]
+    }
+  },
+  "22033": {
+    "id": 22033,
+    "aegisName": "흙빛의신발",
+    "name": "Botas de Cinzas",
+    "unidName": "Botas de Cinzas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 40,
+    "requiredLevel": 120,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Only 3rd Cls"
+    ],
+    "script": {}
+  },
+  "22035": {
+    "id": 22035,
+    "aegisName": "용사네펜데스구두",
+    "name": "Salto Heroico",
+    "unidName": "Salto Heroico",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 30,
+    "requiredLevel": 160,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vct": [
+        "10",
+        "8===5",
+        "9===1",
+        "10===1",
+        "11===3",
+        "12===3",
+        "13===3"
+      ]
+    }
+  },
+  "22036": {
+    "id": 22036,
+    "aegisName": "용사은빛여우부츠",
+    "name": "Sapato Heroico",
+    "unidName": "Sapato Heroico",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 15,
+    "weight": 30,
+    "requiredLevel": 160,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "range": [
+        "5"
+      ]
+    }
+  },
+  "22037": {
+    "id": 22037,
+    "aegisName": "용사운골리안트부츠",
+    "name": "Coturno Heroico",
+    "unidName": "Coturno Heroico",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 30,
+    "requiredLevel": 160,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "22043": {
+    "id": 22043,
+    "aegisName": "민첩성보완장치",
+    "name": "Peça de AGI Suplementar",
+    "unidName": "Peça de AGI Suplementar",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 35,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Mechanic"
+    ],
+    "script": {
+      "aspdPercent": [
+        "5",
+        "4---1"
+      ],
+      "atk": [
+        "EQUIP_ID[15343]30"
+      ]
+    }
+  },
+  "22044": {
+    "id": 22044,
+    "aegisName": "강화파츠부스터",
+    "name": "Autopeça - Acelerador",
+    "unidName": "Autopeça - Acelerador",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 23,
+    "weight": 100,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Mechanic"
+    ],
+    "script": {}
+  },
+  "22046": {
+    "id": 22046,
+    "aegisName": "비공정부츠",
+    "name": "Coturnos de Comissário",
+    "unidName": "Coturnos de Comissário",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 26,
+    "weight": 0,
+    "requiredLevel": 125,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ],
+      "aspdPercent": [
+        "10"
+      ]
+    }
+  },
+  "22047": {
+    "id": 22047,
+    "aegisName": "펠록의부츠",
+    "name": "Botas do Ferlock",
+    "unidName": "Botas do Ferlock",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 25,
+    "requiredLevel": 125,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ],
+      "aspdPercent": [
+        "5",
+        "7===5",
+        "9===5"
+      ],
+      "aspd": [
+        "12===1"
+      ]
+    }
+  },
+  "22049": {
+    "id": 22049,
+    "aegisName": "Sol_Shoes",
+    "name": "Sapatos Solares",
+    "unidName": "Sapatos Solares",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 25,
+    "requiredLevel": 90,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "22051": {
+    "id": 22051,
+    "aegisName": "Ramor_Shoes",
+    "name": "Botas dos Malditos",
+    "unidName": "Botas dos Malditos",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 25,
+    "requiredLevel": 90,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "22055": {
+    "id": 22055,
+    "aegisName": "Sharel_Shoes",
+    "name": "Sapatilha Coral",
+    "unidName": "Sapatilha Coral",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 25,
+    "requiredLevel": 90,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "1---1"
+      ],
+      "spPercent": [
+        "1---1"
+      ]
+    }
+  },
+  "22057": {
+    "id": 22057,
+    "aegisName": "Flow_Shoes",
+    "name": "Sapatos Cerúleos",
+    "unidName": "Sapatos Cerúleos",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 25,
+    "requiredLevel": 90,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "22059": {
+    "id": 22059,
+    "aegisName": "Egir_Shoes_K",
+    "name": "Coturnos de Preamar",
+    "unidName": "Coturnos de Preamar",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 30,
+    "requiredLevel": 40,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ],
+      "sp": [
+        "50"
+      ]
+    }
+  },
+  "22061": {
+    "id": 22061,
+    "aegisName": "Lumiere_Shoes",
+    "name": "Sapatos Lumiere",
+    "unidName": "Sapatos Lumiere",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 25,
+    "requiredLevel": 90,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "22069": {
+    "id": 22069,
+    "aegisName": "Lian_Shoes",
+    "name": "Sapatos Arco-Íris de Lian",
+    "unidName": "Sapatos Arco-Íris de Lian",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 25,
+    "requiredLevel": 90,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "22075": {
+    "id": 22075,
+    "aegisName": "Shoes_Of_Cracks",
+    "name": "Sapatos Perene",
+    "unidName": "Sapatos Perene",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 25,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "300",
+        "7===400",
+        "9===600"
+      ]
+    }
+  },
+  "22076": {
+    "id": 22076,
+    "aegisName": "Hardwood_Slipper",
+    "name": "Sandálias Ecológicas",
+    "unidName": "Sandálias Ecológicas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 5,
+    "requiredLevel": 9,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Doram"
+    ],
+    "script": {}
+  },
+  "22077": {
+    "id": 22077,
+    "aegisName": "Red_Eco_Boots",
+    "name": "Botas Ecológicas",
+    "unidName": "Botas Ecológicas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 10,
+    "requiredLevel": 18,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Doram"
+    ],
+    "script": {
+      "cri": [
+        "5"
+      ]
+    }
+  },
+  "22078": {
+    "id": 22078,
+    "aegisName": "Union_STR_Boots",
+    "name": "Bota Esmeralda FOR",
+    "unidName": "Bota Esmeralda FOR",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2---1"
+      ]
+    }
+  },
+  "22079": {
+    "id": 22079,
+    "aegisName": "Union_AGI_Boots",
+    "name": "Bota Esmeralda AGI",
+    "unidName": "Bota Esmeralda AGI",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2---1"
+      ]
+    }
+  },
+  "22080": {
+    "id": 22080,
+    "aegisName": "Union_DEX_Shoes",
+    "name": "Sapato Esmeralda DES",
+    "unidName": "Sapato Esmeralda DES",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "2---1"
+      ]
+    }
+  },
+  "22081": {
+    "id": 22081,
+    "aegisName": "Union_INT_Shoes",
+    "name": "Sapato Esmeralda INT",
+    "unidName": "Sapato Esmeralda INT",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2---1"
+      ]
+    }
+  },
+  "22083": {
+    "id": 22083,
+    "aegisName": "도람슈즈",
+    "name": "Sapato Básico de Doram",
+    "unidName": "Sapato Básico de Doram",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Doram"
+    ],
+    "script": {
+      "hp": [
+        "100"
+      ],
+      "sp": [
+        "50"
+      ]
+    }
+  },
+  "22084": {
+    "id": 22084,
+    "aegisName": "도람슈즈",
+    "name": "Sapato Elegante de Doram",
+    "unidName": "Sapato Elegante de Doram",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 60,
+    "requiredLevel": 140,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Doram"
+    ],
+    "script": {
+      "hp": [
+        "300"
+      ],
+      "sp": [
+        "100"
+      ]
+    }
+  },
+  "22085": {
+    "id": 22085,
+    "aegisName": "도람슈즈",
+    "name": "Sapato Luxuoso de Doram",
+    "unidName": "Sapato Luxuoso de Doram",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 35,
+    "weight": 70,
+    "requiredLevel": 175,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Doram"
+    ],
+    "script": {
+      "hpPercent": [
+        "10"
+      ],
+      "spPercent": [
+        "5"
+      ],
+      "hp": [
+        "2---100"
+      ],
+      "sp": [
+        "2---20"
+      ]
+    }
+  },
+  "22102": {
+    "id": 22102,
+    "aegisName": "Toughen_Time_Keepr_Bts",
+    "name": "Botas de Aventura",
+    "unidName": "Botas de Aventura",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 23,
+    "weight": 0,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ],
+      "vct": [
+        "5"
+      ]
+    }
+  },
+  "22122": {
+    "id": 22122,
+    "aegisName": "Para_Team_Boots100",
+    "name": "Coturnos do Éden I",
+    "unidName": "Coturnos do Éden I",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 22,
+    "weight": 0,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "22123": {
+    "id": 22123,
+    "aegisName": "Para_Team_Boots115",
+    "name": "Coturnos do Éden II",
+    "unidName": "Coturnos do Éden II",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 0,
+    "requiredLevel": 115,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "22124": {
+    "id": 22124,
+    "aegisName": "Para_Team_Boots130",
+    "name": "Coturnos do Éden III",
+    "unidName": "Coturnos do Éden III",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 27,
+    "weight": 0,
+    "requiredLevel": 130,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "2"
+      ]
+    }
+  },
+  "22125": {
+    "id": 22125,
+    "aegisName": "Para_Team_Boots145",
+    "name": "Coturnos do Éden IV",
+    "unidName": "Coturnos do Éden IV",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 0,
+    "requiredLevel": 145,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "2"
+      ]
+    }
+  },
+  "22126": {
+    "id": 22126,
+    "aegisName": "Para_Team_Boots160",
+    "name": "Coturnos do Éden V",
+    "unidName": "Coturnos do Éden V",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 0,
+    "requiredLevel": 160,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "2"
+      ]
+    }
+  },
+  "22131": {
+    "id": 22131,
+    "aegisName": "탈라리아신발",
+    "name": "Bota Esporada",
+    "unidName": "Bota Esporada",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "spPercent": [
+        "5",
+        "7===5",
+        "9===5"
+      ]
+    }
+  },
+  "22141": {
+    "id": 22141,
+    "aegisName": "YSF01_Greave",
+    "name": "Grevas YSF01",
+    "unidName": "Grevas YSF01",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 130,
+    "requiredLevel": 170,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspdPercent": [
+        "8===8"
+      ],
+      "aspd": [
+        "11===1"
+      ],
+      "criDmg": [
+        "13===10"
+      ]
+    }
+  },
+  "22168": {
+    "id": 22168,
+    "aegisName": "True_Hunting_Boots",
+    "name": "Botas Reais",
+    "unidName": "Botas Reais",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspdPercent": [
+        "8",
+        "3---2"
+      ]
+    }
+  },
+  "22169": {
+    "id": 22169,
+    "aegisName": "R_Hunting_Boots",
+    "name": "Botas de Caça",
+    "unidName": "Botas de Caça",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 0,
+    "requiredLevel": 50,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspdPercent": [
+        "8"
+      ]
+    }
+  },
+  "22173": {
+    "id": 22173,
+    "aegisName": "Rebeginer_Boots",
+    "name": "Bota Inicial",
+    "unidName": "Bota Inicial",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 15,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "300"
+      ],
+      "sp": [
+        "50"
+      ],
+      "flee": [
+        "15"
+      ]
+    }
+  },
+  "22192": {
+    "id": 22192,
+    "aegisName": "Goibne_Boots_IL",
+    "name": "Greva Goibne Ilusional",
+    "unidName": "Greva Goibne Ilusional",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 42,
+    "weight": 120,
+    "requiredLevel": 130,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ],
+      "spPercent": [
+        "5"
+      ],
+      "vct": [
+        "7===5"
+      ],
+      "range": [
+        "9===10"
+      ]
+    }
+  },
+  "22206": {
+    "id": 22206,
+    "aegisName": "Regia_Hunting_Boots",
+    "name": "Bota Monárquica",
+    "unidName": "Bota Monárquica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 50,
+    "requiredLevel": 50,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspdPercent": [
+        "5"
+      ],
+      "hit": [
+        "3---2"
+      ]
+    }
+  },
+  "22215": {
+    "id": 22215,
+    "aegisName": "H_AD_Sandle",
+    "name": "Sandália Vanguardista",
+    "unidName": "Sandália Vanguardista",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "15"
+      ],
+      "matk": [
+        "15"
+      ]
+    }
+  },
+  "470346": {
+    "id": 470346,
+    "aegisName": "Growth_Shoes_A_G",
+    "name": "Bota Evolutiva Física",
+    "unidName": "Bota Evolutiva Física",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 0,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "100"
+      ],
+      "fct": [
+        "0.5"
+      ],
+      "melee": [
+        "5"
+      ],
+      "range": [
+        "5"
+      ]
+    }
+  },
+  "470347": {
+    "id": 470347,
+    "aegisName": "Growth_Shoes_M_G",
+    "name": "Bota Evolutiva Mágica",
+    "unidName": "Bota Evolutiva Mágica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 0,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "100"
+      ],
+      "fct": [
+        "0.5"
+      ]
+    }
+  },
+  "470411": {
+    "id": 470411,
+    "aegisName": "Frontier_Boots_LT",
+    "name": "Botas de Cowboy",
+    "unidName": "Botas de Cowboy",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 10,
+    "requiredLevel": 99,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "7===20"
+      ],
+      "aspdPercent": [
+        "11===10"
+      ],
+      "criDmg": [
+        "EQUIP_ID[18145]5"
+      ],
+      "acd": [
+        "EQUIP_ID[28721]5"
+      ],
+      "melee": [
+        "EQUIP_ID[28116]5"
+      ]
+    }
+  },
+  "470413": {
+    "id": 470413,
+    "aegisName": "Santa_Shoes_LT",
+    "name": "Bota Natalina",
+    "unidName": "Bota Natalina",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 10,
+    "requiredLevel": 99,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "fct": [
+        "7===0.5"
+      ]
+    }
+  },
+  "470415": {
+    "id": 470415,
+    "aegisName": "Samba_Shoes",
+    "name": "Antiga Sandália de Samba",
+    "unidName": "Antiga Sandália de Samba",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ],
+      "sp": [
+        "100"
+      ],
+      "atk": [
+        "2---3"
+      ],
+      "matk": [
+        "2---3"
+      ]
+    }
   }
 }
