@@ -238018,7 +238018,9 @@
       ],
       "matkPercent": [
         "2---1",
-        "EQUIP_ID[24230&&24229]1"
+        "EQUIP_ID[24230&&24229]1",
+        "EQUIP_ID[24230&&24229]REFINE[shadowWeapon,shadowPendant,shadowEarring==20]1",
+        "EQUIP_ID[24230&&24229]REFINE[shadowWeapon,shadowPendant,shadowEarring==25]1"
       ]
     }
   },
@@ -238053,7 +238055,9 @@
       "matkPercent": [
         "1",
         "7===1",
-        "9===1"
+        "9===1",
+        "EQUIP_ID[24230&&24229]REFINE[shadowWeapon,shadowPendant,shadowEarring==20]1",
+        "EQUIP_ID[24230&&24229]REFINE[shadowWeapon,shadowPendant,shadowEarring==25]1"
       ]
     }
   },
