@@ -273620,5 +273620,2453 @@
         "2---3"
       ]
     }
+  },
+  "2507": {
+    "id": 2507,
+    "aegisName": "옛영주의망토",
+    "name": "Capa do Marquês",
+    "unidName": "Capa do Marquês",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 9,
+    "weight": 60,
+    "requiredLevel": 40,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "2509": {
+    "id": 2509,
+    "aegisName": "생존의망토",
+    "name": "Capa do Sobrevivente",
+    "unidName": "Capa do Sobrevivente",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 55,
+    "requiredLevel": 75,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage",
+      "SoulLinker"
+    ],
+    "script": {
+      "vit": [
+        "10"
+      ]
+    }
+  },
+  "2510": {
+    "id": 2510,
+    "aegisName": "후드",
+    "name": "Capuz do Aprendiz",
+    "unidName": "Capuz do Aprendiz",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 4,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2511": {
+    "id": 2511,
+    "aegisName": "스켈레톤망토",
+    "name": "Capa dos Mortos",
+    "unidName": "Capa dos Mortos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 70,
+    "requiredLevel": 75,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2512": {
+    "id": 2512,
+    "aegisName": "초보자용망토",
+    "name": "Manteau do Aprendiz",
+    "unidName": "Manteau do Aprendiz",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 7,
+    "weight": 50,
+    "requiredLevel": 40,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2515": {
+    "id": 2515,
+    "aegisName": "윙오브이글",
+    "name": "Asa de Águia",
+    "unidName": "Asa de Águia",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 30,
+    "requiredLevel": 85,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage",
+      "SoulLinker"
+    ],
+    "script": {}
+  },
+  "2516": {
+    "id": 2516,
+    "aegisName": "Falcon_Robe",
+    "name": "Sobrepeliz do Falcão",
+    "unidName": "Sobrepeliz do Falcão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 8,
+    "weight": 40,
+    "requiredLevel": 65,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "15"
+      ],
+      "perfectDodge": [
+        "5"
+      ]
+    }
+  },
+  "2517": {
+    "id": 2517,
+    "aegisName": "발리의망토",
+    "name": "Manteau de Vali",
+    "unidName": "Manteau de Vali",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 60,
+    "requiredLevel": 65,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2518": {
+    "id": 2518,
+    "aegisName": "모르피셔스쇼올",
+    "name": "Véu de Morpheus",
+    "unidName": "Véu de Morpheus",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 8,
+    "weight": 60,
+    "requiredLevel": 33,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "spPercent": [
+        "10"
+      ]
+    }
+  },
+  "2519": {
+    "id": 2519,
+    "aegisName": "모리아네의망토",
+    "name": "Manteau de Morrigane",
+    "unidName": "Manteau de Morrigane",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 9,
+    "weight": 60,
+    "requiredLevel": 61,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "2"
+      ],
+      "perfectDodge": [
+        "8"
+      ]
+    }
+  },
+  "2520": {
+    "id": 2520,
+    "aegisName": "게브네이어깨장식",
+    "name": "Ombreiras de Goibne",
+    "unidName": "Ombreiras de Goibne",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 11,
+    "weight": 70,
+    "requiredLevel": 54,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ]
+    }
+  },
+  "2521": {
+    "id": 2521,
+    "aegisName": "천사의온기",
+    "name": "Cardigã Angelical",
+    "unidName": "Cardigã Angelical",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 6,
+    "weight": 40,
+    "requiredLevel": 20,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2522": {
+    "id": 2522,
+    "aegisName": "런닝셔츠",
+    "name": "Camiseta",
+    "unidName": "Camiseta",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 15,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2523": {
+    "id": 2523,
+    "aegisName": "런닝셔츠",
+    "name": "Camiseta",
+    "unidName": "Camiseta",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 15,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2527": {
+    "id": 2527,
+    "aegisName": "드래곤의숨결",
+    "name": "Sopro do Dragão",
+    "unidName": "Sopro do Dragão",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 16,
+    "weight": 60,
+    "requiredLevel": 48,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2529": {
+    "id": 2529,
+    "aegisName": "라이더휘장",
+    "name": "Insígnia do Cavaleiro",
+    "unidName": "Insígnia do Cavaleiro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 50,
+    "requiredLevel": 55,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ]
+    }
+  },
+  "2530": {
+    "id": 2530,
+    "aegisName": "라이더휘장",
+    "name": "Insígnia do Cavaleiro",
+    "unidName": "Insígnia do Cavaleiro",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 50,
+    "requiredLevel": 55,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ]
+    }
+  },
+  "2531": {
+    "id": 2531,
+    "aegisName": "울프헤딘",
+    "name": "Ulfhedinn",
+    "unidName": "Ulfhedinn",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 70,
+    "requiredLevel": 70,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Thief",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "2532": {
+    "id": 2532,
+    "aegisName": "미스릴마법망토",
+    "name": "Manto de Mithril",
+    "unidName": "Manto de Mithril",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 8,
+    "weight": 40,
+    "requiredLevel": 70,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Archer",
+      "Novice",
+      "ArchMage"
+    ],
+    "script": {}
+  },
+  "2536": {
+    "id": 2536,
+    "aegisName": "스킨오브벤투스",
+    "name": "Pele de Ventus",
+    "unidName": "Pele de Ventus",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 7,
+    "weight": 25,
+    "requiredLevel": 60,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "200"
+      ],
+      "flee": [
+        "10"
+      ]
+    }
+  },
+  "2538": {
+    "id": 2538,
+    "aegisName": "발키리의망토",
+    "name": "Manteau do Capitão",
+    "unidName": "Manteau do Capitão",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 28,
+    "weight": 0,
+    "requiredLevel": 80,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Thief",
+      "Merchant",
+      "Taekwondo",
+      "Ninja"
+    ],
+    "script": {
+      "hp": [
+        "50"
+      ]
+    }
+  },
+  "2539": {
+    "id": 2539,
+    "aegisName": "옛영주의망토",
+    "name": "Manteau do Comandante",
+    "unidName": "Manteau do Comandante",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 0,
+    "requiredLevel": 80,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Archer",
+      "Mage",
+      "Novice",
+      "SoulLinker"
+    ],
+    "script": {
+      "hp": [
+        "50"
+      ]
+    }
+  },
+  "2540": {
+    "id": 2540,
+    "aegisName": "누더기망토",
+    "name": "Manteau do Xerife",
+    "unidName": "Manteau do Xerife",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 0,
+    "requiredLevel": 80,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Gunslinger"
+    ],
+    "script": {
+      "hp": [
+        "50"
+      ]
+    }
+  },
+  "2541": {
+    "id": 2541,
+    "aegisName": "아스프리카",
+    "name": "Manto de Asfrika",
+    "unidName": "Manto de Asfrika",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 40,
+    "requiredLevel": 94,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "30"
+      ]
+    }
+  },
+  "2542": {
+    "id": 2542,
+    "aegisName": "옛영주의망토",
+    "name": "Manteau de Chamas de Naght Sieger",
+    "unidName": "Manteau de Chamas de Naght Sieger",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 16,
+    "weight": 70,
+    "requiredLevel": 70,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ],
+      "m_final": [
+        "1"
+      ]
+    }
+  },
+  "2545": {
+    "id": 2545,
+    "aegisName": "무시카",
+    "name": "Mushika",
+    "unidName": "Mushika",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 50,
+    "requiredLevel": 70,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "HighPriest",
+      "Priest"
+    ],
+    "script": {}
+  },
+  "2553": {
+    "id": 2553,
+    "aegisName": "드래곤의망토",
+    "name": "Manto do Dragão",
+    "unidName": "Manto do Dragão",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 14,
+    "weight": 100,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "2560": {
+    "id": 2560,
+    "aegisName": "울프헤딘",
+    "name": "Capa do Éden I",
+    "unidName": "Capa do Éden I",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 14,
+    "weight": 0,
+    "requiredLevel": 7,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2568": {
+    "id": 2568,
+    "aegisName": "로키의머플러",
+    "name": "Sobrepeliz do Loki",
+    "unidName": "Sobrepeliz do Loki",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 40,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "2569": {
+    "id": 2569,
+    "aegisName": "자애의숄",
+    "name": "Xale da Afeição",
+    "unidName": "Xale da Afeição",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 30,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "ArchBishop"
+    ],
+    "script": {
+      "perfectDodge": [
+        "5"
+      ]
+    }
+  },
+  "2574": {
+    "id": 2574,
+    "aegisName": "우르의망토",
+    "name": "Manteau de Ur",
+    "unidName": "Manteau de Ur",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 60,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "RuneKnight",
+      "Knight"
+    ],
+    "script": {
+      "hpPercent": [
+        "2"
+      ]
+    }
+  },
+  "2577": {
+    "id": 2577,
+    "aegisName": "사바흐의후드",
+    "name": "Capuz dos Manuks",
+    "unidName": "Capuz dos Manuks",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 10,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "GuillotineCross"
+    ],
+    "script": {
+      "flee": [
+        "12"
+      ],
+      "criDmg": [
+        "1---1"
+      ]
+    }
+  },
+  "2578": {
+    "id": 2578,
+    "aegisName": "나브의후드",
+    "name": "Capuz de Nab",
+    "unidName": "Capuz de Nab",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 10,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "GuillotineCross"
+    ],
+    "script": {
+      "atk": [
+        "1---2"
+      ],
+      "flee": [
+        "1---2"
+      ]
+    }
+  },
+  "2581": {
+    "id": 2581,
+    "aegisName": "검은날개의망토",
+    "name": "Sobrepeliz das Asas das Sombras",
+    "unidName": "Sobrepeliz das Asas das Sombras",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 15,
+    "weight": 20,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Ranger"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ]
+    }
+  },
+  "2582": {
+    "id": 2582,
+    "aegisName": "샐비지케이프",
+    "name": "Capa Recuperada",
+    "unidName": "Capa Recuperada",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 1,
+    "weight": 40,
+    "requiredLevel": 130,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "ArchBishop",
+      "Warlock"
+    ],
+    "script": {}
+  },
+  "2586": {
+    "id": 2586,
+    "aegisName": "시즈망토",
+    "name": "Manteau de Cerco",
+    "unidName": "Manteau de Cerco",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 32,
+    "weight": 60,
+    "requiredLevel": 95,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2587": {
+    "id": 2587,
+    "aegisName": "시즈머플러",
+    "name": "Sobrepeliz de Cerco",
+    "unidName": "Sobrepeliz de Cerco",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 15,
+    "weight": 40,
+    "requiredLevel": 95,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2589": {
+    "id": 2589,
+    "aegisName": "Fallen_Angel_Wing",
+    "name": "Asas de Arcanjo Caído",
+    "unidName": "Asas de Arcanjo Caído",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 18,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "2590": {
+    "id": 2590,
+    "aegisName": "부워여주머니옷",
+    "name": "Roupa de Aniagem de Buwaya",
+    "unidName": "Roupa de Aniagem de Buwaya",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 8,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2591": {
+    "id": 2591,
+    "aegisName": "바야니부워여주머니옷",
+    "name": "Roupa de Aniagem de Buwaya Bayani",
+    "unidName": "Roupa de Aniagem de Buwaya Bayani",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 8,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2593": {
+    "id": 2593,
+    "aegisName": "Flow_Manteau",
+    "name": "Manto Cerúleo",
+    "unidName": "Manto Cerúleo",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 70,
+    "requiredLevel": 65,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2596": {
+    "id": 2596,
+    "aegisName": "Sharel_Manteau",
+    "name": "Manto Coral",
+    "unidName": "Manto Coral",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 70,
+    "requiredLevel": 65,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2598": {
+    "id": 2598,
+    "aegisName": "Ramor_Manteau",
+    "name": "Capa dos Malditos",
+    "unidName": "Capa dos Malditos",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 70,
+    "requiredLevel": 65,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "20701": {
+    "id": 20701,
+    "aegisName": "201210_cash_Sol_Manteau",
+    "name": "Manteau Solar",
+    "unidName": "Manteau Solar",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 70,
+    "requiredLevel": 65,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "20705": {
+    "id": 20705,
+    "aegisName": "Lumiere_Manteau",
+    "name": "Manto Lumiere",
+    "unidName": "Manto Lumiere",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 70,
+    "requiredLevel": 65,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "20710": {
+    "id": 20710,
+    "aegisName": "천사의온기",
+    "name": "Cardigã Arcangelical",
+    "unidName": "Cardigã Arcangelical",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 6,
+    "weight": 40,
+    "requiredLevel": 99,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "20721": {
+    "id": 20721,
+    "aegisName": "흙빛의망토",
+    "name": "Capa de Cinzas",
+    "unidName": "Capa de Cinzas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 60,
+    "requiredLevel": 120,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Only 3rd Cls"
+    ],
+    "script": {}
+  },
+  "20732": {
+    "id": 20732,
+    "aegisName": "체력보완장치",
+    "name": "Peça de VIT Suplementar",
+    "unidName": "Peça de VIT Suplementar",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Mechanic"
+    ],
+    "script": {
+      "hpPercent": [
+        "6",
+        "2---1"
+      ]
+    }
+  },
+  "20743": {
+    "id": 20743,
+    "aegisName": "비공정망토",
+    "name": "Manto de Comissário",
+    "unidName": "Manto de Comissário",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 0,
+    "requiredLevel": 125,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "20"
+      ],
+      "vct": [
+        "20"
+      ]
+    }
+  },
+  "20753": {
+    "id": 20753,
+    "aegisName": "Lian_Robe",
+    "name": "Manto Arco-Íris de Lian",
+    "unidName": "Manto Arco-Íris de Lian",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 70,
+    "requiredLevel": 65,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "20756": {
+    "id": 20756,
+    "aegisName": "Egir_Manteau_K",
+    "name": "Sobrepeliz de Preamar",
+    "unidName": "Sobrepeliz de Preamar",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 30,
+    "requiredLevel": 40,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ],
+      "sp": [
+        "50"
+      ]
+    }
+  },
+  "20779": {
+    "id": 20779,
+    "aegisName": "ManteauOfCracks",
+    "name": "Manto Perene",
+    "unidName": "Manto Perene",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 16,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "300",
+        "7===400",
+        "9===600"
+      ]
+    }
+  },
+  "20780": {
+    "id": 20780,
+    "aegisName": "Union_MHP_Manteau",
+    "name": "Manteau Esmeralda I",
+    "unidName": "Manteau Esmeralda I",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "2---2"
+      ]
+    }
+  },
+  "20781": {
+    "id": 20781,
+    "aegisName": "Union_FLEE_Manteau",
+    "name": "Manteau Esmeralda II",
+    "unidName": "Manteau Esmeralda II",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "2---3"
+      ]
+    }
+  },
+  "20782": {
+    "id": 20782,
+    "aegisName": "Union_SP_Muffler",
+    "name": "Sobrepeliz Esmeralda I",
+    "unidName": "Sobrepeliz Esmeralda I",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "20787": {
+    "id": 20787,
+    "aegisName": "Union_CRI_Muffler",
+    "name": "Sobrepeliz Esmeralda II",
+    "unidName": "Sobrepeliz Esmeralda II",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "2---2"
+      ]
+    }
+  },
+  "20788": {
+    "id": 20788,
+    "aegisName": "도람망토",
+    "name": "Manto Básico de Doram",
+    "unidName": "Manto Básico de Doram",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 30,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Doram"
+    ],
+    "script": {
+      "flee": [
+        "5"
+      ],
+      "perfectDodge": [
+        "3---1"
+      ]
+    }
+  },
+  "20789": {
+    "id": 20789,
+    "aegisName": "도람망토",
+    "name": "Manto Elegante de Doram",
+    "unidName": "Manto Elegante de Doram",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 40,
+    "requiredLevel": 140,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Doram"
+    ],
+    "script": {
+      "flee": [
+        "7"
+      ],
+      "luk": [
+        "3---1"
+      ],
+      "perfectDodge": [
+        "3---1"
+      ]
+    }
+  },
+  "20790": {
+    "id": 20790,
+    "aegisName": "도람망토",
+    "name": "Manto Luxuoso de Doram",
+    "unidName": "Manto Luxuoso de Doram",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 50,
+    "requiredLevel": 175,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Doram"
+    ],
+    "script": {
+      "flee": [
+        "10"
+      ],
+      "int": [
+        "2---1"
+      ],
+      "dex": [
+        "2---1"
+      ],
+      "luk": [
+        "2---1"
+      ],
+      "perfectDodge": [
+        "2---1"
+      ]
+    }
+  },
+  "20801": {
+    "id": 20801,
+    "aegisName": "Toughen_Time_Keepr_MT",
+    "name": "Manto de Aventura",
+    "unidName": "Manto de Aventura",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 0,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "20"
+      ],
+      "perfectDodge": [
+        "5"
+      ]
+    }
+  },
+  "20802": {
+    "id": 20802,
+    "aegisName": "AmistrBag_Teleport",
+    "name": "Mochila de Amistr Teleportiva",
+    "unidName": "Mochila de Amistr Teleportiva",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "20803": {
+    "id": 20803,
+    "aegisName": "AmistrBag_Heal",
+    "name": "Mochila de Amistr Curativa",
+    "unidName": "Mochila de Amistr Curativa",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "20805": {
+    "id": 20805,
+    "aegisName": "AmistrBag_Incagi",
+    "name": "Mochila de Amistr Ágil",
+    "unidName": "Mochila de Amistr Ágil",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "20806": {
+    "id": 20806,
+    "aegisName": "AmistrBag_Magnum",
+    "name": "Mochila de Amistr Explosiva",
+    "unidName": "Mochila de Amistr Explosiva",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "20807": {
+    "id": 20807,
+    "aegisName": "AmistrBag_Endure",
+    "name": "Mochila de Amistr Vigorosa",
+    "unidName": "Mochila de Amistr Vigorosa",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "20808": {
+    "id": 20808,
+    "aegisName": "AmistrBag_Sight",
+    "name": "Mochila de Amistr Reveladora",
+    "unidName": "Mochila de Amistr Reveladora",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "20809": {
+    "id": 20809,
+    "aegisName": "AmistrBag_Concentrate",
+    "name": "Mochila de Amistr Concentrada",
+    "unidName": "Mochila de Amistr Concentrada",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "20811": {
+    "id": 20811,
+    "aegisName": "AmistrBag_Hiding",
+    "name": "Mochila de Amistr Furtiva",
+    "unidName": "Mochila de Amistr Furtiva",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "20819": {
+    "id": 20819,
+    "aegisName": "Oxygen_Bomb_K",
+    "name": "Cilindro de Oxigênio",
+    "unidName": "Cilindro de Oxigênio",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 50,
+    "requiredLevel": 40,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "12"
+      ],
+      "aspd": [
+        "EQUIP_ID[19162]1"
+      ]
+    }
+  },
+  "20820": {
+    "id": 20820,
+    "aegisName": "원소의망토",
+    "name": "Capa dos Elementos",
+    "unidName": "Capa dos Elementos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 12,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Sorcerer"
+    ],
+    "script": {
+      "flee": [
+        "10",
+        "3---5"
+      ],
+      "aspdPercent": [
+        "9===5"
+      ]
+    }
+  },
+  "20822": {
+    "id": 20822,
+    "aegisName": "마인워커백팩",
+    "name": "Mochila Mineradora",
+    "unidName": "Mochila Mineradora",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 16,
+    "weight": 60,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Mechanic"
+    ],
+    "script": {
+      "aspdPercent": [
+        "5",
+        "2---1"
+      ],
+      "atk": [
+        "9===20"
+      ]
+    }
+  },
+  "20823": {
+    "id": 20823,
+    "aegisName": "Para_Team_Manteau100",
+    "name": "Manto do Éden I",
+    "unidName": "Manto do Éden I",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 0,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "12"
+      ],
+      "hp": [
+        "7===500",
+        "9===500"
+      ],
+      "perfectDodge": [
+        "7===2"
+      ]
+    }
+  },
+  "20824": {
+    "id": 20824,
+    "aegisName": "Para_Team_Manteau130",
+    "name": "Manto do Éden II",
+    "unidName": "Manto do Éden II",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 0,
+    "requiredLevel": 130,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "12"
+      ],
+      "hp": [
+        "500",
+        "7===500"
+      ],
+      "perfectDodge": [
+        "2"
+      ]
+    }
+  },
+  "20825": {
+    "id": 20825,
+    "aegisName": "Para_Team_Manteau160",
+    "name": "Manto do Éden III",
+    "unidName": "Manto do Éden III",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 0,
+    "requiredLevel": 160,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "12"
+      ],
+      "hp": [
+        "1000"
+      ],
+      "perfectDodge": [
+        "2"
+      ]
+    }
+  },
+  "20834": {
+    "id": 20834,
+    "aegisName": "홍련의스톨",
+    "name": "Capa Eremita",
+    "unidName": "Capa Eremita",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 40,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "20835": {
+    "id": 20835,
+    "aegisName": "타락천사의날개",
+    "name": "[Especial] Asas de Arcanjo Caído",
+    "unidName": "[Especial] Asas de Arcanjo Caído",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 18,
+    "weight": 20,
+    "requiredLevel": 99,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "20840": {
+    "id": 20840,
+    "aegisName": "Cape_Of_Ancient_Lord_IL",
+    "name": "Capa do Marquês Ilusional",
+    "unidName": "Capa do Marquês Ilusional",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 18,
+    "weight": 60,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ],
+      "matk": [
+        "EQUIP_ID[28725]80",
+        "EQUIP_ID[13469]100"
+      ]
+    }
+  },
+  "20855": {
+    "id": 20855,
+    "aegisName": "Rental_Oxygen_Bomb",
+    "name": "[Aluguel] Cilindro de Oxigênio",
+    "unidName": "[Aluguel] Cilindro de Oxigênio",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "20856": {
+    "id": 20856,
+    "aegisName": "YSF01_Manteau",
+    "name": "Manteau YSF01",
+    "unidName": "Manteau YSF01",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 32,
+    "weight": 75,
+    "requiredLevel": 170,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "8===20"
+      ],
+      "acd": [
+        "11===3",
+        "13===4"
+      ]
+    }
+  },
+  "20902": {
+    "id": 20902,
+    "aegisName": "True_Hunting_Manteau",
+    "name": "Manto Real",
+    "unidName": "Manto Real",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 18,
+    "weight": 70,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "15"
+      ],
+      "vct": [
+        "10",
+        "3---5"
+      ]
+    }
+  },
+  "20903": {
+    "id": 20903,
+    "aegisName": "R_Hunting_Manteau",
+    "name": "Manto de Caça",
+    "unidName": "Manto de Caça",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 18,
+    "weight": 0,
+    "requiredLevel": 50,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "15"
+      ],
+      "vct": [
+        "15"
+      ]
+    }
+  },
+  "20905": {
+    "id": 20905,
+    "aegisName": "Astrea_Cape",
+    "name": "Capa de Astrea",
+    "unidName": "Capa de Astrea",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 15,
+    "weight": 40,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ],
+      "vit": [
+        "2"
+      ],
+      "dex": [
+        "2"
+      ],
+      "hpPercent": [
+        "5",
+        "EQUIP_ID[22167]5"
+      ],
+      "spPercent": [
+        "5",
+        "EQUIP_ID[22167]5"
+      ],
+      "aspd": [
+        "12===2"
+      ],
+      "allStatus": [
+        "EQUIP_ID[22167]1"
+      ]
+    }
+  },
+  "20906": {
+    "id": 20906,
+    "aegisName": "Rebeginer_Manteau",
+    "name": "Capa Inicial",
+    "unidName": "Capa Inicial",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vct": [
+        "5"
+      ]
+    }
+  },
+  "20923": {
+    "id": 20923,
+    "aegisName": "Goibne_Shoulder_IL",
+    "name": "Ombreira Goibne Ilusional",
+    "unidName": "Ombreira Goibne Ilusional",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 47,
+    "weight": 100,
+    "requiredLevel": 130,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ]
+    }
+  },
+  "20945": {
+    "id": 20945,
+    "aegisName": "Regia_Hunting_Manteau",
+    "name": "Capa Monárquica",
+    "unidName": "Capa Monárquica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 9,
+    "weight": 70,
+    "requiredLevel": 50,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "15"
+      ],
+      "aspdPercent": [
+        "5"
+      ],
+      "vct": [
+        "3---2"
+      ]
+    }
+  },
+  "20953": {
+    "id": 20953,
+    "aegisName": "H_AD_Hood",
+    "name": "Capuz Vanguardista",
+    "unidName": "Capuz Vanguardista",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hit": [
+        "10"
+      ]
+    }
+  },
+  "20955": {
+    "id": 20955,
+    "aegisName": "Chrismas_Tree",
+    "name": "Guardiã do Natal",
+    "unidName": "Guardiã do Natal",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "9===30"
+      ],
+      "matk": [
+        "9===30"
+      ]
+    }
+  },
+  "480136": {
+    "id": 480136,
+    "aegisName": "Thanatos_Sword",
+    "name": "Espada Mágica de Thanatos",
+    "unidName": "Espada Mágica de Thanatos",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 60,
+    "weight": 50,
+    "requiredLevel": 180,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "range": [
+        "3---2"
+      ],
+      "melee": [
+        "3---2"
+      ],
+      "m_my_element_all": [
+        "3---2"
+      ],
+      "vct": [
+        "EQUIP_ID[400023]10"
+      ]
+    }
+  },
+  "480278": {
+    "id": 480278,
+    "aegisName": "Huse_Luk_R_Wing",
+    "name": "Asas de Garuda",
+    "unidName": "Asas de Garuda",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 10,
+    "requiredLevel": 70,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "2---8"
+      ],
+      "matk": [
+        "2---8"
+      ],
+      "range": [
+        "9===7"
+      ],
+      "melee": [
+        "9===7"
+      ],
+      "m_my_element_all": [
+        "9===7"
+      ]
+    }
+  },
+  "480567": {
+    "id": 480567,
+    "aegisName": "Growth_Manteau_A_G",
+    "name": "Capa Evolutiva Física",
+    "unidName": "Capa Evolutiva Física",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ],
+      "vct": [
+        "5"
+      ]
+    }
+  },
+  "480568": {
+    "id": 480568,
+    "aegisName": "Growth_Manteau_M_G",
+    "name": "Capa Evolutiva Mágica",
+    "unidName": "Capa Evolutiva Mágica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ],
+      "vct": [
+        "5"
+      ]
+    }
+  },
+  "480683": {
+    "id": 480683,
+    "aegisName": "Reaper_Scythe",
+    "name": "Foice da Malícia",
+    "unidName": "Foice da Malícia",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "9===30"
+      ],
+      "matk": [
+        "9===30"
+      ]
+    }
   }
 }
