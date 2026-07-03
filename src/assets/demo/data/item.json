@@ -232775,6 +232775,27 @@
       "all"
     ],
     "script": {
+      "2005": [
+        "EQUIP_ID[18971]REFINE[garment==2]---20"
+      ],
+      "2233": [
+        "EQUIP_ID[18984]REFINE[garment==2]---5"
+      ],
+      "2257": [
+        "EQUIP_ID[18974]REFINE[garment==2]---5"
+      ],
+      "2258": [
+        "EQUIP_ID[18974]REFINE[garment==2]---5"
+      ],
+      "2278": [
+        "EQUIP_ID[18973]REFINE[garment==2]---5"
+      ],
+      "2413": [
+        "EQUIP_ID[18976||18981]REFINE[garment==2]---15"
+      ],
+      "2490": [
+        "EQUIP_ID[18977]REFINE[garment==2]---15"
+      ],
       "mdef": [
         "2---1"
       ],
@@ -232786,6 +232807,43 @@
       ],
       "acd": [
         "2---1"
+      ],
+      "m_size_all": [
+        "EQUIP_ID[18978]REFINE[garment==2]---1",
+        "EQUIP_ID[18980]REFINE[garment==2]---1"
+      ],
+      "cd__5012": [
+        "EQUIP_ID[18978]REFINE[garment==12]===30"
+      ],
+      "matk": [
+        "EQUIP_ID[18980]REFINE[garment==12]===30"
+      ],
+      "range": [
+        "EQUIP_ID[18984]REFINE[garment==2]---2",
+        "EQUIP_ID[18977]REFINE[garment==2]---2"
+      ],
+      "cd__2233": [
+        "EQUIP_ID[18984]REFINE[garment==12]===0.5"
+      ],
+      "cd__2413": [
+        "EQUIP_ID[18976||18981]REFINE[garment==12]===1"
+      ],
+      "cd__2267": [
+        "EQUIP_ID[18974]REFINE[garment==12]===30"
+      ],
+      "criDmg": [
+        "EQUIP_ID[18982]REFINE[garment==2]---3"
+      ],
+      "p_pene_race_all": [
+        "EQUIP_ID[18982]REFINE[garment==12]===25"
+      ],
+      "flee": [
+        "EQUIP_ID[18975]REFINE[garment==2]---5"
+      ],
+      "atk": [
+        "EQUIP_ID[18973]REFINE[garment==12]===30",
+        "EQUIP_ID[18977]REFINE[garment==12]===30",
+        "EQUIP_ID[18979]REFINE[garment==12]===30"
       ]
     }
   },
