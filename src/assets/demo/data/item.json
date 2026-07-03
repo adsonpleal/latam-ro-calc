@@ -267537,5 +267537,3612 @@
       "all"
     ],
     "script": {}
+  },
+  "2318": {
+    "id": 2318,
+    "aegisName": "로드클로스",
+    "name": "Vestimental Nobre",
+    "unidName": "Vestimental Nobre",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 59,
+    "weight": 250,
+    "requiredLevel": 70,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Merchant"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "2319": {
+    "id": 2319,
+    "aegisName": "글리터링클로스",
+    "name": "Jaqueta Brilhante",
+    "unidName": "Jaqueta Brilhante",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 58,
+    "weight": 250,
+    "requiredLevel": 60,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2327": {
+    "id": 2327,
+    "aegisName": "홀리로브",
+    "name": "Batina",
+    "unidName": "Batina",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 57,
+    "weight": 170,
+    "requiredLevel": 60,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2330": {
+    "id": 2330,
+    "aegisName": "타이즈",
+    "name": "Malha",
+    "unidName": "Malha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 27,
+    "weight": 50,
+    "requiredLevel": 45,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Archer"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ]
+    }
+  },
+  "2331": {
+    "id": 2331,
+    "aegisName": "타이즈",
+    "name": "Malha",
+    "unidName": "Malha",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 27,
+    "weight": 50,
+    "requiredLevel": 45,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Archer"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ]
+    }
+  },
+  "2334": {
+    "id": 2334,
+    "aegisName": "매직코트",
+    "name": "Vestimenta Arcana",
+    "unidName": "Vestimenta Arcana",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 60,
+    "requiredLevel": 50,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage"
+    ],
+    "script": {}
+  },
+  "2335": {
+    "id": 2335,
+    "aegisName": "씨프클로스",
+    "name": "Traje de Gatuno",
+    "unidName": "Traje de Gatuno",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Thief"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "2336": {
+    "id": 2336,
+    "aegisName": "씨프클로스",
+    "name": "Traje de Gatuno",
+    "unidName": "Traje de Gatuno",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Thief"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "2337": {
+    "id": 2337,
+    "aegisName": "닌자슈츠",
+    "name": "Indumentária Ninja",
+    "unidName": "Indumentária Ninja",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 58,
+    "weight": 150,
+    "requiredLevel": 50,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Thief",
+      "Ninja"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "2343": {
+    "id": 2343,
+    "aegisName": "캐스팅의로브",
+    "name": "Manto da Conjuração",
+    "unidName": "Manto da Conjuração",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 110,
+    "requiredLevel": 75,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "SoulLinker",
+      "HighWizard"
+    ],
+    "script": {
+      "vct": [
+        "3"
+      ]
+    }
+  },
+  "2352": {
+    "id": 2352,
+    "aegisName": "어드밴쳐슈츠",
+    "name": "Traje do Aprendiz",
+    "unidName": "Traje do Aprendiz",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2354": {
+    "id": 2354,
+    "aegisName": "게브네이의갑옷",
+    "name": "Armadura de Goibne",
+    "unidName": "Armadura de Goibne",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 58,
+    "weight": 350,
+    "requiredLevel": 54,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "2"
+      ],
+      "hpPercent": [
+        "10"
+      ]
+    }
+  },
+  "2355": {
+    "id": 2355,
+    "aegisName": "천사의가호",
+    "name": "Proteção Angelical",
+    "unidName": "Proteção Angelical",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 60,
+    "requiredLevel": 40,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2356": {
+    "id": 2356,
+    "aegisName": "은혜의성의",
+    "name": "Batina da Fé",
+    "unidName": "Batina da Fé",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 250,
+    "requiredLevel": 70,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Priest"
+    ],
+    "script": {}
+  },
+  "2357": {
+    "id": 2357,
+    "aegisName": "발키리의갑옷",
+    "name": "Armadura das Valquírias",
+    "unidName": "Armadura das Valquírias",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 55,
+    "weight": 280,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "2358": {
+    "id": 2358,
+    "aegisName": "천사의예복",
+    "name": "Vestimenta Angelical",
+    "unidName": "Vestimenta Angelical",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 100,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "4"
+      ]
+    }
+  },
+  "2359": {
+    "id": 2359,
+    "aegisName": "닌자슈츠",
+    "name": "Indumentária Ninja",
+    "unidName": "Indumentária Ninja",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 58,
+    "weight": 150,
+    "requiredLevel": 50,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Thief",
+      "Ninja"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "2360": {
+    "id": 2360,
+    "aegisName": "캐스팅의로브",
+    "name": "Manto da Conjuração",
+    "unidName": "Manto da Conjuração",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 110,
+    "requiredLevel": 75,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "SoulLinker",
+      "HighWizard"
+    ],
+    "script": {
+      "vct": [
+        "3"
+      ]
+    }
+  },
+  "2364": {
+    "id": 2364,
+    "aegisName": "메테오플레이트",
+    "name": "Armadura de Meteo",
+    "unidName": "Armadura de Meteo",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 85,
+    "weight": 300,
+    "requiredLevel": 55,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "2365": {
+    "id": 2365,
+    "aegisName": "오를레앙의제복",
+    "name": "Bata de Orleans",
+    "unidName": "Bata de Orleans",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 15,
+    "weight": 30,
+    "requiredLevel": 55,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2366": {
+    "id": 2366,
+    "aegisName": "디바인클로스",
+    "name": "Vestimenta Divina",
+    "unidName": "Vestimenta Divina",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 150,
+    "requiredLevel": 55,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2372": {
+    "id": 2372,
+    "aegisName": "매직코트",
+    "name": "Vestimenta Arcana",
+    "unidName": "Vestimenta Arcana",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 60,
+    "requiredLevel": 50,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "2373": {
+    "id": 2373,
+    "aegisName": "홀리로브",
+    "name": "Batina",
+    "unidName": "Batina",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 57,
+    "weight": 170,
+    "requiredLevel": 60,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2376": {
+    "id": 2376,
+    "aegisName": "플레이트",
+    "name": "Armadura de Assalto",
+    "unidName": "Armadura de Assalto",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 57,
+    "weight": 0,
+    "requiredLevel": 80,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant",
+      "Taekwondo"
+    ],
+    "script": {
+      "hp": [
+        "150"
+      ]
+    }
+  },
+  "2377": {
+    "id": 2377,
+    "aegisName": "메일",
+    "name": "Armadura de Elite",
+    "unidName": "Armadura de Elite",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 0,
+    "requiredLevel": 80,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Merchant"
+    ],
+    "script": {
+      "hp": [
+        "150"
+      ]
+    }
+  },
+  "2378": {
+    "id": 2378,
+    "aegisName": "씨프클로스",
+    "name": "Manto do Mercenário",
+    "unidName": "Manto do Mercenário",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 41,
+    "weight": 0,
+    "requiredLevel": 80,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Thief",
+      "Ninja"
+    ],
+    "script": {
+      "hp": [
+        "150"
+      ]
+    }
+  },
+  "2379": {
+    "id": 2379,
+    "aegisName": "천사의가호",
+    "name": "Manto de Batalha do Feiticeiro",
+    "unidName": "Manto de Batalha do Feiticeiro",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 36,
+    "weight": 0,
+    "requiredLevel": 80,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage",
+      "SoulLinker"
+    ],
+    "script": {
+      "hp": [
+        "150"
+      ]
+    }
+  },
+  "2380": {
+    "id": 2380,
+    "aegisName": "은혜의성의",
+    "name": "Manto do Médico",
+    "unidName": "Manto do Médico",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 0,
+    "requiredLevel": 80,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "hp": [
+        "150"
+      ]
+    }
+  },
+  "2381": {
+    "id": 2381,
+    "aegisName": "스나이핑슈츠",
+    "name": "Túnica do Arqueiro de Elite",
+    "unidName": "Túnica do Arqueiro de Elite",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 35,
+    "weight": 0,
+    "requiredLevel": 80,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Archer"
+    ],
+    "script": {
+      "hp": [
+        "150"
+      ]
+    }
+  },
+  "2382": {
+    "id": 2382,
+    "aegisName": "오를레앙의제복",
+    "name": "Túnica do Artilheiro de Elite",
+    "unidName": "Túnica do Artilheiro de Elite",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 0,
+    "requiredLevel": 80,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Gunslinger"
+    ],
+    "script": {
+      "hp": [
+        "150"
+      ]
+    }
+  },
+  "2383": {
+    "id": 2383,
+    "aegisName": "브륀힐트",
+    "name": "Armadura de Brynhildr",
+    "unidName": "Armadura de Brynhildr",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 120,
+    "weight": 40,
+    "requiredLevel": 94,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_final": [
+        "10"
+      ],
+      "p_class_normal": [
+        "10"
+      ],
+      "p_class_boss": [
+        "10"
+      ]
+    }
+  },
+  "2386": {
+    "id": 2386,
+    "aegisName": "카멜레온아머",
+    "name": "Armadura Camaleão",
+    "unidName": "Armadura Camaleão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 58,
+    "weight": 170,
+    "requiredLevel": 70,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2387": {
+    "id": 2387,
+    "aegisName": "스프린트메일",
+    "name": "Armadura de Corrida",
+    "unidName": "Armadura de Corrida",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 100,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ]
+    }
+  },
+  "2388": {
+    "id": 2388,
+    "aegisName": "칸두라",
+    "name": "Kandura",
+    "unidName": "Kandura",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 36,
+    "weight": 30,
+    "requiredLevel": 70,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "AssassinCross"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ],
+      "flee": [
+        "5"
+      ],
+      "aspdPercent": [
+        "2"
+      ]
+    }
+  },
+  "2389": {
+    "id": 2389,
+    "aegisName": "나가의비늘갑옷",
+    "name": "Cota de Escamas de Naga",
+    "unidName": "Cota de Escamas de Naga",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 100,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2390": {
+    "id": 2390,
+    "aegisName": "개량형타이즈",
+    "name": "Malha Aprimorada",
+    "unidName": "Malha Aprimorada",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 38,
+    "weight": 40,
+    "requiredLevel": 75,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Archer"
+    ],
+    "script": {
+      "perfectDodge": [
+        "3"
+      ]
+    }
+  },
+  "2391": {
+    "id": 2391,
+    "aegisName": "라이프링크",
+    "name": "Armadura Vital",
+    "unidName": "Armadura Vital",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 75,
+    "weight": 350,
+    "requiredLevel": 82,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {
+      "vit": [
+        "2"
+      ]
+    }
+  },
+  "2393": {
+    "id": 2393,
+    "aegisName": "어드밴쳐슈츠",
+    "name": "Túnica de Iniciante",
+    "unidName": "Túnica de Iniciante",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2394": {
+    "id": 2394,
+    "aegisName": "어드밴쳐슈츠",
+    "name": "Túnica Gloriosa",
+    "unidName": "Túnica Gloriosa",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 0,
+    "requiredLevel": 81,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "20"
+      ]
+    }
+  },
+  "2395": {
+    "id": 2395,
+    "aegisName": "어드밴쳐슈츠",
+    "name": "Túnica Gloriosa Industrializada",
+    "unidName": "Túnica Gloriosa Industrializada",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 0,
+    "requiredLevel": 61,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "600"
+      ]
+    }
+  },
+  "2396": {
+    "id": 2396,
+    "aegisName": "어드밴쳐슈츠",
+    "name": "Túnica Gloriosa Barata",
+    "unidName": "Túnica Gloriosa Barata",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ]
+    }
+  },
+  "2399": {
+    "id": 2399,
+    "aegisName": "드래곤베스트",
+    "name": "Colete do Dragão",
+    "unidName": "Colete do Dragão",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 50,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "15000": {
+    "id": 15000,
+    "aegisName": "본플레이트",
+    "name": "Armadura de Placas de Ossos",
+    "unidName": "Armadura de Placas de Ossos",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 60,
+    "weight": 100,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Thief",
+      "Merchant"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ]
+    }
+  },
+  "15009": {
+    "id": 15009,
+    "aegisName": "은혜의성의",
+    "name": "Uniforme do Éden I",
+    "unidName": "Uniforme do Éden I",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 35,
+    "weight": 0,
+    "requiredLevel": 7,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "100"
+      ],
+      "sp": [
+        "10"
+      ]
+    }
+  },
+  "15010": {
+    "id": 15010,
+    "aegisName": "은혜의성의",
+    "name": "Uniforme do Éden II",
+    "unidName": "Uniforme do Éden II",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 46,
+    "weight": 0,
+    "requiredLevel": 26,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "200"
+      ],
+      "sp": [
+        "20"
+      ]
+    }
+  },
+  "15011": {
+    "id": 15011,
+    "aegisName": "은혜의성의",
+    "name": "Uniforme do Éden III",
+    "unidName": "Uniforme do Éden III",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 58,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "300"
+      ],
+      "sp": [
+        "30"
+      ]
+    }
+  },
+  "15012": {
+    "id": 15012,
+    "aegisName": "퓨엔테로브",
+    "name": "Robe Puente",
+    "unidName": "Robe Puente",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 42,
+    "weight": 40,
+    "requiredLevel": 22,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "15015": {
+    "id": 15015,
+    "aegisName": "강화어드벤쳐슈츠",
+    "name": "Túnica Aprimorável",
+    "unidName": "Túnica Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 15,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "15016": {
+    "id": 15016,
+    "aegisName": "Upg_Coat",
+    "name": "Casaco Aprimorável",
+    "unidName": "Casaco Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 47,
+    "weight": 60,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "15017": {
+    "id": 15017,
+    "aegisName": "강화세인트로브",
+    "name": "Manto Sagrado Aprimorável",
+    "unidName": "Manto Sagrado Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 55,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Merchant",
+      "Novice"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "15018": {
+    "id": 15018,
+    "aegisName": "강화타이즈",
+    "name": "Malha Aprimorável",
+    "unidName": "Malha Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 32,
+    "weight": 25,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Archer"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ],
+      "dex": [
+        "1"
+      ]
+    }
+  },
+  "15019": {
+    "id": 15019,
+    "aegisName": "강화씨프클로스",
+    "name": "Traje de Gatuno Aprimorável",
+    "unidName": "Traje de Gatuno Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Thief",
+      "Ninja"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ],
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "15020": {
+    "id": 15020,
+    "aegisName": "강화메일",
+    "name": "Cota de Malha Aprimorável",
+    "unidName": "Cota de Malha Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 60,
+    "weight": 165,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Thief",
+      "Merchant"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "15021": {
+    "id": 15021,
+    "aegisName": "Upg_Formal_Dress",
+    "name": "Paletó Aprimorável",
+    "unidName": "Paletó Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 15,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "15025": {
+    "id": 15025,
+    "aegisName": "골든로드로브",
+    "name": "Manto do Açoite de Ouro",
+    "unidName": "Manto do Açoite de Ouro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Warlock"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "15026": {
+    "id": 15026,
+    "aegisName": "아쿠아로브",
+    "name": "Manto Aquático",
+    "unidName": "Manto Aquático",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Warlock"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "15027": {
+    "id": 15027,
+    "aegisName": "크림즌로브",
+    "name": "Manto Vermelho",
+    "unidName": "Manto Vermelho",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Warlock"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "15028": {
+    "id": 15028,
+    "aegisName": "Forest_Robe",
+    "name": "Manto Florestal",
+    "unidName": "Manto Florestal",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Warlock"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "15029": {
+    "id": 15029,
+    "aegisName": "자애의로브",
+    "name": "Túnica da Afeição",
+    "unidName": "Túnica da Afeição",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 22,
+    "weight": 30,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "ArchBishop"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "15032": {
+    "id": 15032,
+    "aegisName": "티덩",
+    "name": "Tidung",
+    "unidName": "Tidung",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 2,
+    "weight": 50,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "15036": {
+    "id": 15036,
+    "aegisName": "우르의플레이트",
+    "name": "Armadura de Ur",
+    "unidName": "Armadura de Ur",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 110,
+    "weight": 300,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "RuneKnight",
+      "Knight"
+    ],
+    "script": {
+      "hpPercent": [
+        "1---1"
+      ]
+    }
+  },
+  "15038": {
+    "id": 15038,
+    "aegisName": "사바흐의클로스",
+    "name": "Vestimenta dos Manuks",
+    "unidName": "Vestimenta dos Manuks",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 10,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "GuillotineCross"
+    ],
+    "script": {
+      "luk": [
+        "3"
+      ]
+    }
+  },
+  "15039": {
+    "id": 15039,
+    "aegisName": "나브의클로스",
+    "name": "Vestimenta de Nab",
+    "unidName": "Vestimenta de Nab",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 10,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "GuillotineCross"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ],
+      "int": [
+        "2"
+      ]
+    }
+  },
+  "15040": {
+    "id": 15040,
+    "aegisName": "201110_Prison_Uniform",
+    "name": "Uniforme de Presidiário",
+    "unidName": "Uniforme de Presidiário",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 150,
+    "requiredLevel": 50,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "15043": {
+    "id": 15043,
+    "aegisName": "검은날개의슈츠",
+    "name": "Malha das Asas das Sombras",
+    "unidName": "Malha das Asas das Sombras",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 10,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Ranger"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ],
+      "atk": [
+        "1---3"
+      ]
+    }
+  },
+  "15044": {
+    "id": 15044,
+    "aegisName": "초록수술복",
+    "name": "Bata de Operação Verde",
+    "unidName": "Bata de Operação Verde",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 66,
+    "weight": 66,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Genetic"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ],
+      "sp": [
+        "30"
+      ]
+    }
+  },
+  "15046": {
+    "id": 15046,
+    "aegisName": "칠흑의갑옷",
+    "name": "Placa de Cerco",
+    "unidName": "Placa de Cerco",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 85,
+    "weight": 330,
+    "requiredLevel": 95,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant",
+      "Taekwondo"
+    ],
+    "script": {
+      "hpPercent": [
+        "9===25"
+      ]
+    }
+  },
+  "15047": {
+    "id": 15047,
+    "aegisName": "클레르슈츠",
+    "name": "Túnica de Cerco",
+    "unidName": "Túnica de Cerco",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 75,
+    "requiredLevel": 95,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Archer",
+      "Thief",
+      "Merchant",
+      "Taekwondo",
+      "Ninja"
+    ],
+    "script": {
+      "perfectDodge": [
+        "6===5"
+      ],
+      "hpPercent": [
+        "9===15"
+      ]
+    }
+  },
+  "15048": {
+    "id": 15048,
+    "aegisName": "오딘의축복",
+    "name": "Manto de Cerco",
+    "unidName": "Manto de Cerco",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 50,
+    "requiredLevel": 95,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage",
+      "Novice",
+      "SoulLinker"
+    ],
+    "script": {
+      "flee": [
+        "6===5"
+      ],
+      "hp": [
+        "9===1000"
+      ],
+      "sp": [
+        "9===100"
+      ]
+    }
+  },
+  "15052": {
+    "id": 15052,
+    "aegisName": "바야니버코너워비늘갑옷",
+    "name": "Armadura de Escamas de Bakonawa Bayani",
+    "unidName": "Armadura de Escamas de Bakonawa Bayani",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 55,
+    "weight": 50,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "15053": {
+    "id": 15053,
+    "aegisName": "특수닌자슈츠",
+    "name": "Indumentária Ninja Especial",
+    "unidName": "Indumentária Ninja Especial",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 70,
+    "weight": 120,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {
+      "agi": [
+        "1",
+        "3---1"
+      ]
+    }
+  },
+  "15054": {
+    "id": 15054,
+    "aegisName": "닌자비늘갑옷",
+    "name": "Armadura de Escamas do Ninja",
+    "unidName": "Armadura de Escamas do Ninja",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 90,
+    "weight": 180,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {
+      "hpPercent": [
+        "15"
+      ]
+    }
+  },
+  "15055": {
+    "id": 15055,
+    "aegisName": "무중암영",
+    "name": "Armadura do Rei das Sombras",
+    "unidName": "Armadura do Rei das Sombras",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 60,
+    "weight": 150,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "15056": {
+    "id": 15056,
+    "aegisName": "특수닌자슈츠",
+    "name": "Indumentária Ninja Especial",
+    "unidName": "Indumentária Ninja Especial",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 70,
+    "weight": 120,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {
+      "agi": [
+        "1",
+        "3---1"
+      ]
+    }
+  },
+  "15058": {
+    "id": 15058,
+    "aegisName": "201208_cash_Rider_Suit",
+    "name": "Jaqueta de Motociclista",
+    "unidName": "Jaqueta de Motociclista",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 100,
+    "requiredLevel": 55,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "15068": {
+    "id": 15068,
+    "aegisName": "천사의가호",
+    "name": "Proteção Arcangelical",
+    "unidName": "Proteção Arcangelical",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 60,
+    "requiredLevel": 99,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "15088": {
+    "id": 15088,
+    "aegisName": "School_Uniform",
+    "name": "Uniforme Escolar",
+    "unidName": "Uniforme Escolar",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 50,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ],
+      "luk": [
+        "1"
+      ]
+    }
+  },
+  "15089": {
+    "id": 15089,
+    "aegisName": "글리터링클로스",
+    "name": "Fraque",
+    "unidName": "Fraque",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 30,
+    "requiredLevel": 80,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "acd": [
+        "3",
+        "7===2"
+      ],
+      "vct": [
+        "3",
+        "7===2"
+      ],
+      "aspdPercent": [
+        "3",
+        "7===2"
+      ]
+    }
+  },
+  "15090": {
+    "id": 15090,
+    "aegisName": "흙빛의갑옷",
+    "name": "Armadura de Cinzas",
+    "unidName": "Armadura de Cinzas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 90,
+    "weight": 240,
+    "requiredLevel": 120,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Archer",
+      "Thief",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "15091": {
+    "id": 15091,
+    "aegisName": "흙빛의로브",
+    "name": "Manto de Cinzas",
+    "unidName": "Manto de Cinzas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 55,
+    "weight": 130,
+    "requiredLevel": 120,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage",
+      "Novice"
+    ],
+    "script": {}
+  },
+  "15093": {
+    "id": 15093,
+    "aegisName": "용사의플레이트",
+    "name": "Armadura Heroica",
+    "unidName": "Armadura Heroica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 120,
+    "weight": 400,
+    "requiredLevel": 160,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ],
+      "spPercent": [
+        "5"
+      ],
+      "atk": [
+        "10"
+      ],
+      "matk": [
+        "10"
+      ]
+    }
+  },
+  "15094": {
+    "id": 15094,
+    "aegisName": "용사의매직코트",
+    "name": "Vestimenta Heroica",
+    "unidName": "Vestimenta Heroica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 80,
+    "requiredLevel": 160,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ],
+      "spPercent": [
+        "5"
+      ]
+    }
+  },
+  "15095": {
+    "id": 15095,
+    "aegisName": "용사의저지먼트숄",
+    "name": "Batina Heroica",
+    "unidName": "Batina Heroica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 77,
+    "weight": 50,
+    "requiredLevel": 160,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ],
+      "spPercent": [
+        "5"
+      ],
+      "atk": [
+        "10"
+      ],
+      "matk": [
+        "10"
+      ]
+    }
+  },
+  "15096": {
+    "id": 15096,
+    "aegisName": "용사의트레이드메일",
+    "name": "Malha Heroica",
+    "unidName": "Malha Heroica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 100,
+    "weight": 50,
+    "requiredLevel": 160,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Merchant"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ],
+      "spPercent": [
+        "5"
+      ],
+      "atk": [
+        "10"
+      ],
+      "matk": [
+        "10"
+      ]
+    }
+  },
+  "15098": {
+    "id": 15098,
+    "aegisName": "용사의타겟슈츠",
+    "name": "Túnica Heroica",
+    "unidName": "Túnica Heroica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 60,
+    "weight": 20,
+    "requiredLevel": 160,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Archer"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ],
+      "spPercent": [
+        "5"
+      ],
+      "allStatus": [
+        "1"
+      ],
+      "aspd": [
+        "1"
+      ],
+      "range": [
+        "3"
+      ]
+    }
+  },
+  "15110": {
+    "id": 15110,
+    "aegisName": "근력보완장치",
+    "name": "Peça de FOR Suplementar",
+    "unidName": "Peça de FOR Suplementar",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 80,
+    "weight": 200,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Mechanic"
+    ],
+    "script": {
+      "p_class_normal": [
+        "5",
+        "4---1"
+      ],
+      "p_class_boss": [
+        "5",
+        "4---1"
+      ]
+    }
+  },
+  "15111": {
+    "id": 15111,
+    "aegisName": "강화파츠장갑",
+    "name": "Autopeça - Carburador",
+    "unidName": "Autopeça - Carburador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 110,
+    "weight": 300,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Mechanic"
+    ],
+    "script": {}
+  },
+  "15116": {
+    "id": 15116,
+    "aegisName": "비공정갑옷",
+    "name": "Uniforme de Comissário",
+    "unidName": "Uniforme de Comissário",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 100,
+    "weight": 0,
+    "requiredLevel": 125,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ],
+      "hp": [
+        "1000"
+      ],
+      "sp": [
+        "100"
+      ]
+    }
+  },
+  "15117": {
+    "id": 15117,
+    "aegisName": "펠록의갑옷",
+    "name": "Uniforme do Ferlock",
+    "unidName": "Uniforme do Ferlock",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 70,
+    "weight": 75,
+    "requiredLevel": 125,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "500",
+        "7===500",
+        "9===200",
+        "12===300"
+      ],
+      "sp": [
+        "50",
+        "7===50",
+        "9===20",
+        "12===30"
+      ],
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "15121": {
+    "id": 15121,
+    "aegisName": "사라의전투로브",
+    "name": "Manto da Sarah",
+    "unidName": "Manto da Sarah",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 35,
+    "weight": 80,
+    "requiredLevel": 145,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "15126": {
+    "id": 15126,
+    "aegisName": "도람옷",
+    "name": "Veste Básica de Doram",
+    "unidName": "Veste Básica de Doram",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 80,
+    "weight": 70,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Doram"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ],
+      "sp": [
+        "100"
+      ],
+      "int": [
+        "3---1"
+      ],
+      "dex": [
+        "3---1"
+      ]
+    }
+  },
+  "15129": {
+    "id": 15129,
+    "aegisName": "도람옷",
+    "name": "Veste Elegante de Doram",
+    "unidName": "Veste Elegante de Doram",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 100,
+    "weight": 80,
+    "requiredLevel": 140,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Doram"
+    ],
+    "script": {
+      "hpPercent": [
+        "10"
+      ],
+      "spPercent": [
+        "10"
+      ],
+      "int": [
+        "2---1"
+      ],
+      "dex": [
+        "2---1"
+      ]
+    }
+  },
+  "15138": {
+    "id": 15138,
+    "aegisName": "Egir_Armor_K",
+    "name": "Cota de Preamar",
+    "unidName": "Cota de Preamar",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 160,
+    "requiredLevel": 40,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ],
+      "sp": [
+        "50"
+      ]
+    }
+  },
+  "15141": {
+    "id": 15141,
+    "aegisName": "Armor_Of_Goddess",
+    "name": "Cota Perene",
+    "unidName": "Cota Perene",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "500",
+        "7===400",
+        "9===600"
+      ],
+      "sp": [
+        "EQUIP_ID[19033]100"
+      ]
+    }
+  },
+  "15150": {
+    "id": 15150,
+    "aegisName": "White_Shirt",
+    "name": "Camiseta Branca",
+    "unidName": "Camiseta Branca",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 5,
+    "requiredLevel": 6,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Doram"
+    ],
+    "script": {
+      "flee": [
+        "5"
+      ],
+      "hp": [
+        "70"
+      ]
+    }
+  },
+  "15151": {
+    "id": 15151,
+    "aegisName": "White_Eco_Shirt",
+    "name": "Camiseta Ecológica",
+    "unidName": "Camiseta Ecológica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 10,
+    "requiredLevel": 15,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Doram"
+    ],
+    "script": {
+      "flee": [
+        "10"
+      ],
+      "hp": [
+        "150"
+      ]
+    }
+  },
+  "15152": {
+    "id": 15152,
+    "aegisName": "Union_Mail",
+    "name": "Cota Esmeralda",
+    "unidName": "Cota Esmeralda",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ],
+      "hpPercent": [
+        "2---2"
+      ]
+    }
+  },
+  "15153": {
+    "id": 15153,
+    "aegisName": "Union_Mattle",
+    "name": "Capote Esmeralda",
+    "unidName": "Capote Esmeralda",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ],
+      "flee": [
+        "2---3"
+      ]
+    }
+  },
+  "15154": {
+    "id": 15154,
+    "aegisName": "Union_Suit",
+    "name": "Túnica Esmeralda",
+    "unidName": "Túnica Esmeralda",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ],
+      "flee": [
+        "2---3"
+      ]
+    }
+  },
+  "15155": {
+    "id": 15155,
+    "aegisName": "Union_Robe",
+    "name": "Manto Esmeralda",
+    "unidName": "Manto Esmeralda",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ]
+    }
+  },
+  "15156": {
+    "id": 15156,
+    "aegisName": "도람옷",
+    "name": "Veste Luxuosa de Doram",
+    "unidName": "Veste Luxuosa de Doram",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 120,
+    "weight": 90,
+    "requiredLevel": 175,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Doram"
+    ],
+    "script": {
+      "hpPercent": [
+        "15"
+      ],
+      "spPercent": [
+        "15"
+      ],
+      "int": [
+        "1---1"
+      ],
+      "dex": [
+        "1---1"
+      ]
+    }
+  },
+  "15163": {
+    "id": 15163,
+    "aegisName": "의제의로브",
+    "name": "Vestimenta Atraente",
+    "unidName": "Vestimenta Atraente",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_final": [
+        "5"
+      ]
+    }
+  },
+  "15164": {
+    "id": 15164,
+    "aegisName": "의제의로브",
+    "name": "Vestimenta Consulente",
+    "unidName": "Vestimenta Consulente",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "5"
+      ]
+    }
+  },
+  "15167": {
+    "id": 15167,
+    "aegisName": "Toughen_Time_Keepr_Robe",
+    "name": "Túnica de Aventura",
+    "unidName": "Túnica de Aventura",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 74,
+    "weight": 0,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "2"
+      ],
+      "hp": [
+        "500"
+      ],
+      "sp": [
+        "50"
+      ],
+      "perfectDodge": [
+        "3"
+      ]
+    }
+  },
+  "15174": {
+    "id": 15174,
+    "aegisName": "Supper_Swimsuit_K",
+    "name": "Roupa de Borracha",
+    "unidName": "Roupa de Borracha",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 1,
+    "weight": 10,
+    "requiredLevel": 40,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "5",
+        "3---1"
+      ],
+      "spPercent": [
+        "5",
+        "3---1"
+      ],
+      "perfectDodge": [
+        "EQUIP_ID[19162]10"
+      ],
+      "vct": [
+        "EQUIP_ID[19162]10"
+      ]
+    }
+  },
+  "15177": {
+    "id": 15177,
+    "aegisName": "원소의로브",
+    "name": "Vestes dos Elementos",
+    "unidName": "Vestes dos Elementos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Sorcerer"
+    ],
+    "script": {
+      "aspdPercent": [
+        "10"
+      ],
+      "matk": [
+        "2---5"
+      ]
+    }
+  },
+  "15179": {
+    "id": 15179,
+    "aegisName": "마인워커베스트",
+    "name": "Colete Minerador",
+    "unidName": "Colete Minerador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 80,
+    "weight": 150,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Mechanic"
+    ],
+    "script": {
+      "flee": [
+        "10",
+        "2---4"
+      ],
+      "cri": [
+        "9===5"
+      ]
+    }
+  },
+  "15180": {
+    "id": 15180,
+    "aegisName": "히피클로스",
+    "name": "Roupa de Hippie",
+    "unidName": "Roupa de Hippie",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "20"
+      ]
+    }
+  },
+  "15181": {
+    "id": 15181,
+    "aegisName": "Para_Team_Armor100",
+    "name": "Farda do Éden I",
+    "unidName": "Farda do Éden I",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 80,
+    "weight": 0,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ],
+      "hp": [
+        "700"
+      ],
+      "sp": [
+        "100"
+      ]
+    }
+  },
+  "15182": {
+    "id": 15182,
+    "aegisName": "Para_Team_Armor115",
+    "name": "Farda do Éden II",
+    "unidName": "Farda do Éden II",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 85,
+    "weight": 0,
+    "requiredLevel": 115,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ],
+      "hp": [
+        "1100"
+      ],
+      "sp": [
+        "120"
+      ]
+    }
+  },
+  "15183": {
+    "id": 15183,
+    "aegisName": "Para_Team_Armor130",
+    "name": "Farda do Éden III",
+    "unidName": "Farda do Éden III",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 90,
+    "weight": 0,
+    "requiredLevel": 130,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "2"
+      ],
+      "hp": [
+        "1100"
+      ],
+      "sp": [
+        "120"
+      ]
+    }
+  },
+  "15184": {
+    "id": 15184,
+    "aegisName": "Para_Team_Armor145",
+    "name": "Farda do Éden IV",
+    "unidName": "Farda do Éden IV",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 100,
+    "weight": 0,
+    "requiredLevel": 145,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "2"
+      ],
+      "hp": [
+        "1500"
+      ],
+      "sp": [
+        "150"
+      ]
+    }
+  },
+  "15185": {
+    "id": 15185,
+    "aegisName": "Para_Team_Armor160",
+    "name": "Farda do Éden V",
+    "unidName": "Farda do Éden V",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 100,
+    "weight": 0,
+    "requiredLevel": 160,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "2"
+      ],
+      "hp": [
+        "1500"
+      ],
+      "sp": [
+        "150"
+      ]
+    }
+  },
+  "15195": {
+    "id": 15195,
+    "aegisName": "Puente_Robe_IL",
+    "name": "Robe Puente Ilusional",
+    "unidName": "Robe Puente Ilusional",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 52,
+    "weight": 40,
+    "requiredLevel": 99,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matk": [
+        "EQUIP_ID[16063]100"
+      ]
+    }
+  },
+  "15210": {
+    "id": 15210,
+    "aegisName": "Rental_SupperSwimsuit",
+    "name": "[Aluguel] Roupa de Borracha",
+    "unidName": "[Aluguel] Roupa de Borracha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 1,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "10"
+      ],
+      "spPercent": [
+        "10"
+      ]
+    }
+  },
+  "15212": {
+    "id": 15212,
+    "aegisName": "YSF01_Plate",
+    "name": "Armadura YSF01",
+    "unidName": "Armadura YSF01",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 78,
+    "weight": 210,
+    "requiredLevel": 170,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_final": [
+        "8===5",
+        "11===2",
+        "13===4",
+        "1---1"
+      ]
+    }
+  },
+  "15246": {
+    "id": 15246,
+    "aegisName": "True_Hunting_Mail",
+    "name": "Armadura Real",
+    "unidName": "Armadura Real",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 90,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_brute": [
+        "10"
+      ],
+      "m_race_brute": [
+        "10"
+      ],
+      "p_race_insect": [
+        "10"
+      ],
+      "m_race_insect": [
+        "10"
+      ],
+      "hp": [
+        "1000"
+      ],
+      "sp": [
+        "200"
+      ],
+      "hpPercent": [
+        "3---1"
+      ],
+      "spPercent": [
+        "3---1"
+      ]
+    }
+  },
+  "15247": {
+    "id": 15247,
+    "aegisName": "R_Hunting_Mail",
+    "name": "Armadura de Caça",
+    "unidName": "Armadura de Caça",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 0,
+    "requiredLevel": 50,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "2000"
+      ],
+      "sp": [
+        "300"
+      ],
+      "p_race_brute": [
+        "10"
+      ],
+      "m_race_brute": [
+        "10"
+      ],
+      "p_race_insect": [
+        "10"
+      ],
+      "m_race_insect": [
+        "10"
+      ]
+    }
+  },
+  "15250": {
+    "id": 15250,
+    "aegisName": "Rebeginer_Suits",
+    "name": "Túnica Inicial",
+    "unidName": "Túnica Inicial",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ],
+      "hp": [
+        "400"
+      ],
+      "sp": [
+        "100"
+      ]
+    }
+  },
+  "15344": {
+    "id": 15344,
+    "aegisName": "강화파츠장갑",
+    "name": "Autopeça - Carburador",
+    "unidName": "Autopeça - Carburador",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 110,
+    "weight": 300,
+    "requiredLevel": 130,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Mechanic"
+    ],
+    "script": {}
+  },
+  "15348": {
+    "id": 15348,
+    "aegisName": "Goibne_Armor_IL",
+    "name": "Armadura Goibne Ilusional",
+    "unidName": "Armadura Goibne Ilusional",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 158,
+    "weight": 350,
+    "requiredLevel": 130,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "10"
+      ],
+      "def": [
+        "7===50"
+      ]
+    }
+  },
+  "15367": {
+    "id": 15367,
+    "aegisName": "Astraea_Armor",
+    "name": "Armadura de Astrea",
+    "unidName": "Armadura de Astrea",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 80,
+    "weight": 50,
+    "requiredLevel": 94,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "15390": {
+    "id": 15390,
+    "aegisName": "Regia_Hunting_Mail",
+    "name": "Armadura Monárquica",
+    "unidName": "Armadura Monárquica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 90,
+    "requiredLevel": 50,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_brute": [
+        "7"
+      ],
+      "m_race_brute": [
+        "7"
+      ],
+      "p_race_insect": [
+        "7"
+      ],
+      "m_race_insect": [
+        "7"
+      ],
+      "hp": [
+        "500",
+        "3---50"
+      ],
+      "sp": [
+        "100",
+        "3---20"
+      ]
+    }
+  },
+  "15410": {
+    "id": 15410,
+    "aegisName": "H_AD_Suits",
+    "name": "Túnica Vanguardista",
+    "unidName": "Túnica Vanguardista",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 35,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "300"
+      ],
+      "sp": [
+        "100"
+      ]
+    }
+  },
+  "450151": {
+    "id": 450151,
+    "aegisName": "코튼셔츠",
+    "name": "Camisa de Algodão para Testes",
+    "unidName": "Camisa de Algodão para Testes",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "450198": {
+    "id": 450198,
+    "aegisName": "Evt_RagFes_Shirts",
+    "name": "Camiseta de Algodão",
+    "unidName": "Camiseta de Algodão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "450406": {
+    "id": 450406,
+    "aegisName": "Cvt_Magical_Armor",
+    "name": "Exoesqueleto Mágico",
+    "unidName": "Exoesqueleto Mágico",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 130,
+    "weight": 100,
+    "requiredLevel": 150,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matk": [
+        "100",
+        "2---10"
+      ],
+      "vct": [
+        "7===15"
+      ],
+      "m_my_element_all": [
+        "9===10"
+      ],
+      "acd": [
+        "11===10",
+        "EQUIP_ID[480125]5"
+      ]
+    }
+  },
+  "450445": {
+    "id": 450445,
+    "aegisName": "Growth_Armor_A_G",
+    "name": "Cota Evolutiva Física",
+    "unidName": "Cota Evolutiva Física",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 100,
+    "weight": 0,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "50"
+      ],
+      "p_final": [
+        "5"
+      ],
+      "aspdPercent": [
+        "5"
+      ]
+    }
+  },
+  "450446": {
+    "id": 450446,
+    "aegisName": "Growth_Armor_M_G",
+    "name": "Cota Evolutiva Mágica",
+    "unidName": "Cota Evolutiva Mágica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 100,
+    "weight": 0,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matk": [
+        "50"
+      ],
+      "m_final": [
+        "5"
+      ],
+      "aspdPercent": [
+        "5"
+      ]
+    }
   }
 }
