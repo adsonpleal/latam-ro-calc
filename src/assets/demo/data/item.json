@@ -276068,5 +276068,974 @@
         "9===30"
       ]
     }
+  },
+  "2109": {
+    "id": 2109,
+    "aegisName": "메모라이즈북",
+    "name": "Grimório",
+    "unidName": "Grimório",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 100,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage",
+      "SoulLinker"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "2111": {
+    "id": 2111,
+    "aegisName": "신의사자",
+    "name": "Spiritus Sancti",
+    "unidName": "Spiritus Sancti",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 120,
+    "weight": 160,
+    "requiredLevel": 83,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ],
+      "vit": [
+        "3"
+      ]
+    }
+  },
+  "2112": {
+    "id": 2112,
+    "aegisName": "가드",
+    "name": "Vembrassa do Aprendiz",
+    "unidName": "Vembrassa do Aprendiz",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2113": {
+    "id": 2113,
+    "aegisName": "초보자용쉴드",
+    "name": "Escudo do Aprendiz",
+    "unidName": "Escudo do Aprendiz",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 100,
+    "requiredLevel": 40,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2116": {
+    "id": 2116,
+    "aegisName": "천사의보호",
+    "name": "Guardião Angelical",
+    "unidName": "Guardião Angelical",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 50,
+    "requiredLevel": 20,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2121": {
+    "id": 2121,
+    "aegisName": "메모라이즈북",
+    "name": "Grimório",
+    "unidName": "Grimório",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 100,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage",
+      "SoulLinker"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "2123": {
+    "id": 2123,
+    "aegisName": "오를레앙의서버",
+    "name": "Travessa de Orleans",
+    "unidName": "Travessa de Orleans",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 75,
+    "weight": 100,
+    "requiredLevel": 55,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2124": {
+    "id": 2124,
+    "aegisName": "가시방패",
+    "name": "Escudo Farpado",
+    "unidName": "Escudo Farpado",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 85,
+    "weight": 100,
+    "requiredLevel": 55,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2125": {
+    "id": 2125,
+    "aegisName": "스트롱쉴드",
+    "name": "Escudo Colossal",
+    "unidName": "Escudo Colossal",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 90,
+    "weight": 250,
+    "requiredLevel": 75,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Thief",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "2128": {
+    "id": 2128,
+    "aegisName": "신의사자",
+    "name": "Spiritus Sancti",
+    "unidName": "Spiritus Sancti",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 120,
+    "weight": 160,
+    "requiredLevel": 83,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ],
+      "vit": [
+        "3"
+      ]
+    }
+  },
+  "2129": {
+    "id": 2129,
+    "aegisName": "구마의성서",
+    "name": "Bíblia de Exorcismo",
+    "unidName": "Bíblia de Exorcismo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 80,
+    "weight": 60,
+    "requiredLevel": 50,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Priest"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "2130": {
+    "id": 2130,
+    "aegisName": "크로스쉴드",
+    "name": "Escudo Cruzado",
+    "unidName": "Escudo Cruzado",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 130,
+    "weight": 200,
+    "requiredLevel": 80,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ]
+    }
+  },
+  "2131": {
+    "id": 2131,
+    "aegisName": "마력의서제1권",
+    "name": "Bíblia da Magia, Vol. 1",
+    "unidName": "Bíblia da Magia, Vol. 1",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 18,
+    "weight": 100,
+    "requiredLevel": 70,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage",
+      "SoulLinker"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ]
+    }
+  },
+  "2133": {
+    "id": 2133,
+    "aegisName": "토너먼트쉴드",
+    "name": "Escudo de Torneio",
+    "unidName": "Escudo de Torneio",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 105,
+    "weight": 100,
+    "requiredLevel": 50,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {
+      "p_class_normal": [
+        "1"
+      ],
+      "p_class_boss": [
+        "1"
+      ]
+    }
+  },
+  "2134": {
+    "id": 2134,
+    "aegisName": "나가의비늘방패",
+    "name": "Escudo de Escamas de Naga",
+    "unidName": "Escudo de Escamas de Naga",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 35,
+    "weight": 50,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2135": {
+    "id": 2135,
+    "aegisName": "쉐도우가드",
+    "name": "Escudo das Sombras",
+    "unidName": "Escudo das Sombras",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 52,
+    "weight": 80,
+    "requiredLevel": 70,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2138": {
+    "id": 2138,
+    "aegisName": "브라디움방패",
+    "name": "Escudo de Bradium",
+    "unidName": "Escudo de Bradium",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 98,
+    "weight": 180,
+    "requiredLevel": 65,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ]
+    }
+  },
+  "2149": {
+    "id": 2149,
+    "aegisName": "Upg_Guard",
+    "name": "Vembrassa Aprimorável",
+    "unidName": "Vembrassa Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 15,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "2150": {
+    "id": 2150,
+    "aegisName": "Upg_Buckler",
+    "name": "Broquel Aprimorável",
+    "unidName": "Broquel Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Thief",
+      "Merchant",
+      "Novice"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "2151": {
+    "id": 2151,
+    "aegisName": "Upg_Shield",
+    "name": "Escudo Aprimorável",
+    "unidName": "Escudo Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 8,
+    "weight": 65,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "2158": {
+    "id": 2158,
+    "aegisName": "Ramor_Shield_Undead",
+    "name": "Refletor dos Malditos",
+    "unidName": "Refletor dos Malditos",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 130,
+    "requiredLevel": 65,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2160": {
+    "id": 2160,
+    "aegisName": "기간트쉴드",
+    "name": "Escudo Gigante",
+    "unidName": "Escudo Gigante",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 130,
+    "weight": 280,
+    "requiredLevel": 100,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {}
+  },
+  "2164": {
+    "id": 2164,
+    "aegisName": "201208_cash_Sombre_Shield",
+    "name": "Escudo Brilhante",
+    "unidName": "Escudo Brilhante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 130,
+    "requiredLevel": 65,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2165": {
+    "id": 2165,
+    "aegisName": "201210_cash_Sol_Shield",
+    "name": "Escudo Solar",
+    "unidName": "Escudo Solar",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 130,
+    "requiredLevel": 65,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2168": {
+    "id": 2168,
+    "aegisName": "Immuned_Shield",
+    "name": "Escudo Celestial",
+    "unidName": "Escudo Celestial",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 55,
+    "weight": 70,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2169": {
+    "id": 2169,
+    "aegisName": "칼라삭",
+    "name": "Kalasag",
+    "unidName": "Kalasag",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 40,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2170": {
+    "id": 2170,
+    "aegisName": "바야니칼라삭",
+    "name": "Kalasag Bayani",
+    "unidName": "Kalasag Bayani",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 40,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2171": {
+    "id": 2171,
+    "aegisName": "여우문양팔목보호대",
+    "name": "Proteção de Braço da Raposa",
+    "unidName": "Proteção de Braço da Raposa",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 20,
+    "requiredLevel": 100,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {
+      "flee": [
+        "5"
+      ]
+    }
+  },
+  "2172": {
+    "id": 2172,
+    "aegisName": "늑대문양팔목보호대",
+    "name": "Proteção de Braço do Lobo",
+    "unidName": "Proteção de Braço do Lobo",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 70,
+    "weight": 25,
+    "requiredLevel": 100,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "2173": {
+    "id": 2173,
+    "aegisName": "초승달문양팔목보호대",
+    "name": "Proteção de Braço da Lua Crescente",
+    "unidName": "Proteção de Braço da Lua Crescente",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 25,
+    "requiredLevel": 100,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {
+      "acd": [
+        "1---2"
+      ]
+    }
+  },
+  "2174": {
+    "id": 2174,
+    "aegisName": "Lumiere_Shield",
+    "name": "Escudo Lumiere",
+    "unidName": "Escudo Lumiere",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 130,
+    "requiredLevel": 65,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2181": {
+    "id": 2181,
+    "aegisName": "헤르보르",
+    "name": "Hervor",
+    "unidName": "Hervor",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 100,
+    "weight": 150,
+    "requiredLevel": 90,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2182": {
+    "id": 2182,
+    "aegisName": "헤르보르아르비트",
+    "name": "Hervor Alvitr",
+    "unidName": "Hervor Alvitr",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 150,
+    "weight": 300,
+    "requiredLevel": 100,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "20"
+      ]
+    }
+  },
+  "2183": {
+    "id": 2183,
+    "aegisName": "천사의보호",
+    "name": "Guardião Arcangelical",
+    "unidName": "Guardião Arcangelical",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 40,
+    "requiredLevel": 99,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2185": {
+    "id": 2185,
+    "aegisName": "플래티넘쉴드",
+    "name": "Refletor Mágico",
+    "unidName": "Refletor Mágico",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 100,
+    "requiredLevel": 99,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2195": {
+    "id": 2195,
+    "aegisName": "Lian_Shield",
+    "name": "Escudo Arco-Íris de Lian",
+    "unidName": "Escudo Arco-Íris de Lian",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 130,
+    "requiredLevel": 65,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "28904": {
+    "id": 28904,
+    "aegisName": "Union_Guard",
+    "name": "Vembrassa Esmeralda",
+    "unidName": "Vembrassa Esmeralda",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 60,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "def": [
+        "1---12"
+      ]
+    }
+  },
+  "28905": {
+    "id": 28905,
+    "aegisName": "Union_Buckler",
+    "name": "Broquel Esmeralda",
+    "unidName": "Broquel Esmeralda",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 60,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "spPercent": [
+        "1---2"
+      ]
+    }
+  },
+  "28914": {
+    "id": 28914,
+    "aegisName": "Toughen_Time_Keepr_Shd",
+    "name": "Escudo da Aventura",
+    "unidName": "Escudo da Aventura",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 0,
+    "requiredLevel": 100,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ]
+    }
+  },
+  "460158": {
+    "id": 460158,
+    "aegisName": "Auto_Shield_B_LT",
+    "name": "Escudo Automatron B",
+    "unidName": "Escudo Automatron B",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 95,
+    "weight": 120,
+    "requiredLevel": 160,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
   }
 }
