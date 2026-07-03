@@ -103,6 +103,13 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.7-beta',
+      date: '03-07-2026',
+      logs: [
+        'Adicionado o acessório Anulus Ira, incluindo o bônus de conjunto com as armas da linha dos pecados (Ira, Invidia, Superbia, Glutonia, Acedia, Pigritia, Avaritia, Luxuriae, Furiae e Hypocritae). Obrigado ao Ted por reportar.',
+      ],
+    },
+    {
       v: '0.1.6-beta',
       date: '03-07-2026',
       logs: [

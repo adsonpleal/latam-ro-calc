@@ -285272,5 +285272,40 @@
       "all"
     ],
     "script": {}
+  },
+  "491014": {
+    "id": 491014,
+    "aegisName": "Anulus_Ira_LT",
+    "name": "Anulus Ira",
+    "unidName": "Anulus Ira",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 30,
+    "requiredLevel": 150,
+    "location": "AccessoryLeft",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "perfectDodge": [
+        "10"
+      ],
+      "p_size_all": [
+        "10"
+      ],
+      "m_size_all": [
+        "10"
+      ],
+      "allStatus": [
+        "EQUIP_ID[500007||600008||500008||590006||510008||560004||650003||520002||640005||700007||510009||530002||700008||540004||540005||570005||700009||580005||550008||610006||550009||630003||810000||820000||830001||840000]1"
+      ]
+    }
   }
 }
