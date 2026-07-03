@@ -231525,7 +231525,11 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "DragonKnight",
+      "Knight",
+      "RoyalGuard",
+      "RuneKnight",
+      "Swordman"
     ],
     "script": {
       "perfectDodge": [
@@ -231554,7 +231558,10 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Assassin",
+      "AssassinCross",
+      "GuillotineCross",
+      "ShadowCross"
     ],
     "script": {}
   },
@@ -231576,7 +231583,19 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Acolyte",
+      "ArchBishop",
+      "Biolo",
+      "Cardinal",
+      "Genetic",
+      "HyperNovice",
+      "Inquisitor",
+      "Mechanic",
+      "Meister",
+      "Merchant",
+      "Novice",
+      "Sura",
+      "Swordman"
     ],
     "script": {}
   },
@@ -231598,7 +231617,10 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Inquisitor",
+      "Monk",
+      "Priest",
+      "Sura"
     ],
     "script": {}
   },
@@ -231620,7 +231642,25 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Acolyte",
+      "ArchBishop",
+      "ArchMage",
+      "Cardinal",
+      "Doram",
+      "ElementalMaster",
+      "HighPriest",
+      "HyperNovice",
+      "Mage",
+      "Monk",
+      "Novice",
+      "Priest",
+      "Sorcerer",
+      "SoulAscetic",
+      "SoulLinker",
+      "SoulReaper",
+      "SpiritHandler",
+      "SuperNovice",
+      "Warlock"
     ],
     "script": {
       "matk": [
@@ -231649,7 +231689,15 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Biolo",
+      "Genetic",
+      "HyperNovice",
+      "ImperialGuard",
+      "Merchant",
+      "Novice",
+      "RoyalGuard",
+      "Swordman",
+      "Thief"
     ],
     "script": {}
   },
@@ -231671,7 +231719,25 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Acolyte",
+      "ArchBishop",
+      "ArchMage",
+      "Cardinal",
+      "Doram",
+      "ElementalMaster",
+      "HighPriest",
+      "HyperNovice",
+      "Mage",
+      "Monk",
+      "Novice",
+      "Priest",
+      "Sorcerer",
+      "SoulAscetic",
+      "SoulLinker",
+      "SoulReaper",
+      "SpiritHandler",
+      "SuperNovice",
+      "Warlock"
     ],
     "script": {
       "2446": [
@@ -231718,7 +231784,11 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Kagerou",
+      "Ninja",
+      "Oboro",
+      "Shinkiro",
+      "Shiranui"
     ],
     "script": {
       "vct": [
@@ -231744,7 +231814,18 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "AbyssChaser",
+      "Archer",
+      "Minstrel",
+      "Ranger",
+      "Rogue",
+      "ShadowChaser",
+      "Sniper",
+      "Thief",
+      "Troubadour",
+      "Trouvere",
+      "Wanderer",
+      "Windhawk"
     ],
     "script": {
       "739": [
@@ -231807,7 +231888,18 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "AbyssChaser",
+      "Archer",
+      "Minstrel",
+      "Ranger",
+      "Rogue",
+      "ShadowChaser",
+      "Sniper",
+      "Thief",
+      "Troubadour",
+      "Trouvere",
+      "Wanderer",
+      "Windhawk"
     ],
     "script": {
       "atk": [
@@ -249419,7 +249511,11 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "DragonKnight",
+      "Knight",
+      "RoyalGuard",
+      "RuneKnight",
+      "Swordman"
     ],
     "script": {}
   },
@@ -254235,7 +254331,25 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Acolyte",
+      "ArchBishop",
+      "ArchMage",
+      "Cardinal",
+      "Doram",
+      "ElementalMaster",
+      "HighPriest",
+      "HyperNovice",
+      "Mage",
+      "Monk",
+      "Novice",
+      "Priest",
+      "Sorcerer",
+      "SoulAscetic",
+      "SoulLinker",
+      "SoulReaper",
+      "SpiritHandler",
+      "SuperNovice",
+      "Warlock"
     ],
     "script": {
       "p_race_demon": [
@@ -254695,7 +254809,18 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "AbyssChaser",
+      "Archer",
+      "Minstrel",
+      "Ranger",
+      "Rogue",
+      "ShadowChaser",
+      "Sniper",
+      "Thief",
+      "Troubadour",
+      "Trouvere",
+      "Wanderer",
+      "Windhawk"
     ],
     "script": {
       "int": [
@@ -254968,7 +255093,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {
       "int": [
@@ -254994,7 +255121,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {
       "int": [
@@ -255020,7 +255149,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {
       "agi": [
@@ -255049,7 +255180,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {}
   },
@@ -255119,7 +255252,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {}
   },
@@ -255141,7 +255276,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {
       "dex": [
@@ -255170,7 +255307,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {
       "dex": [
@@ -255254,7 +255393,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {
       "p_race_demihuman": [
@@ -255280,7 +255421,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {
       "matk": [
@@ -255306,7 +255449,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {}
   },
@@ -255328,7 +255473,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {}
   },
@@ -255350,7 +255497,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {
       "matk": [
@@ -255376,7 +255525,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {}
   },
@@ -255398,7 +255549,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {}
   },
@@ -255420,7 +255573,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {
       "aspd": [
@@ -255446,7 +255601,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {
       "luk": [
@@ -255472,7 +255629,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {
       "luk": [
@@ -255498,7 +255657,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {
       "dex": [
@@ -255527,7 +255688,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {}
   },
@@ -255549,7 +255712,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {
       "perfectDodge": [
@@ -255581,7 +255746,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {
       "cri": [
@@ -255607,7 +255774,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {}
   },
@@ -255629,7 +255798,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {}
   },
@@ -255651,7 +255822,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {
       "agi": [
@@ -255680,7 +255853,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {}
   },
@@ -255702,7 +255877,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {}
   },
@@ -255724,7 +255901,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {}
   },
@@ -255746,7 +255925,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {
       "dex": [
@@ -255775,7 +255956,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {
       "dex": [
@@ -255804,7 +255987,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {
       "int": [
@@ -255830,7 +256015,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {
       "agi": [
@@ -255859,7 +256046,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {
       "p_race_demihuman": [
@@ -255940,7 +256129,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {}
   },
@@ -255962,7 +256153,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {}
   },
@@ -256013,7 +256206,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {}
   },
@@ -256035,7 +256230,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {}
   },
@@ -256930,7 +257127,28 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "AbyssChaser",
+      "Alchemist",
+      "Archer",
+      "AssassinCross",
+      "GuillotineCross",
+      "HyperNovice",
+      "Kagerou",
+      "Mage",
+      "Merchant",
+      "Ninja",
+      "Novice",
+      "Oboro",
+      "Ranger",
+      "ShadowChaser",
+      "ShadowCross",
+      "Shinkiro",
+      "Shiranui",
+      "SoulLinker",
+      "SuperNovice",
+      "Swordman",
+      "Thief",
+      "Windhawk"
     ],
     "script": {
       "str": [
@@ -258093,7 +258311,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Gunslinger",
+      "NightWatch",
+      "Rebellion"
     ],
     "script": {
       "cri": [
@@ -258122,7 +258342,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Gunslinger",
+      "NightWatch",
+      "Rebellion"
     ],
     "script": {
       "cri": [
@@ -260001,7 +260223,28 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "AbyssChaser",
+      "Alchemist",
+      "Archer",
+      "AssassinCross",
+      "GuillotineCross",
+      "HyperNovice",
+      "Kagerou",
+      "Mage",
+      "Merchant",
+      "Ninja",
+      "Novice",
+      "Oboro",
+      "Ranger",
+      "ShadowChaser",
+      "ShadowCross",
+      "Shinkiro",
+      "Shiranui",
+      "SoulLinker",
+      "SuperNovice",
+      "Swordman",
+      "Thief",
+      "Windhawk"
     ],
     "script": {}
   },
@@ -260328,7 +260571,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {
       "matk": [
@@ -260354,7 +260599,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Bard",
+      "Minstrel",
+      "Troubadour"
     ],
     "script": {
       "atk": [
@@ -260384,7 +260631,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {
       "vct": [
@@ -260410,7 +260659,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Dancer",
+      "Trouvere",
+      "Wanderer"
     ],
     "script": {
       "atk": [
@@ -260820,7 +261071,18 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "AbyssChaser",
+      "Archer",
+      "Minstrel",
+      "Ranger",
+      "Rogue",
+      "ShadowChaser",
+      "Sniper",
+      "Thief",
+      "Troubadour",
+      "Trouvere",
+      "Wanderer",
+      "Windhawk"
     ],
     "script": {
       "range": [
@@ -260846,7 +261108,18 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "AbyssChaser",
+      "Archer",
+      "Minstrel",
+      "Ranger",
+      "Rogue",
+      "ShadowChaser",
+      "Sniper",
+      "Thief",
+      "Troubadour",
+      "Trouvere",
+      "Wanderer",
+      "Windhawk"
     ],
     "script": {
       "range": [
@@ -261476,7 +261749,18 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "AbyssChaser",
+      "Archer",
+      "Minstrel",
+      "Ranger",
+      "Rogue",
+      "ShadowChaser",
+      "Sniper",
+      "Thief",
+      "Troubadour",
+      "Trouvere",
+      "Wanderer",
+      "Windhawk"
     ],
     "script": {
       "range": [
@@ -261645,7 +261929,9 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "all"
+      "Gunslinger",
+      "NightWatch",
+      "Rebellion"
     ],
     "script": {
       "matk": [
