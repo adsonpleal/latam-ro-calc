@@ -103,6 +103,16 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.6-beta',
+      date: '03-07-2026',
+      logs: [
+        'Grande adição de equipamentos LATAM que faltavam no banco de dados: 333 equipamentos para cabeça, 473 armas, 207 acessórios, 129 armaduras, 92 calçados, 92 mantos, 40 escudos e 359 trajes (visuais) — mais de 1.700 itens no total.',
+        'Bônus, restrições de classe (incluindo evoluções), níveis, ATQ/ATQM das armas e bônus de conjunto (via item par equipado) foram preenchidos a partir das descrições do cliente LATAM.',
+        'Corrigido cálculo dos bônus de conjunto, que estavam sendo aplicados de forma permanente em vez de dependerem do item par estar equipado.',
+        'Adicionado o acessório Comunicador Avançado.',
+      ],
+    },
+    {
       v: '0.1.5-beta',
       date: '03-07-2026',
       logs: [
