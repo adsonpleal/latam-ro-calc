@@ -103,6 +103,13 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.5-beta',
+      date: '03-07-2026',
+      logs: [
+        'Estatísticas de monstros corrigidas para os valores oficiais do LATAM (divine-pride): 41 monstros tiveram HP, atributos, DEF/DEFM, resistências (Res/MRes) e/ou raça ajustados. Obrigado ao Ted por reportar.',
+      ],
+    },
+    {
       v: '0.1.4-beta',
       date: '02-07-2026',
       logs: [
