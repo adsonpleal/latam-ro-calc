@@ -14,7 +14,7 @@ export class AppTopBarComponent {
 
   readonly feedbackFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSc5wsk9KOLOmPbALe-Cww1dG4AYmjrSraEuBXcrweeyriSoLQ/viewform';
   readonly feedbackSheetUrl = 'https://docs.google.com/spreadsheets/d/1mWGbu4CpMYPnPfipjNfmD37u7xutvurPd_CeE-O67vw/edit';
-  readonly discordUrl = 'https://discord.gg/S4uEwGqK';
+  readonly discordUrl = 'https://discord.gg/JCXTqqWq9Q';
   // Original changelog/history at the fork point (last upstream release v3.2.19).
   readonly originalChangelogUrl =
     'https://github.com/turugrura/tong-calc-ro/blob/ba4312f/src/app/layout/app.topbar.component.ts';
