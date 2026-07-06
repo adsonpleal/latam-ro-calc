@@ -2281,7 +2281,14 @@
 >
   <p class="mt-0 mb-2 text-sm" style="opacity: 0.8">Link com a simulação embutida — quem abrir verá exatamente esta build.</p>
   <div class="p-inputgroup">
-    <input type="text" pInputText readonly [value]="shareUrl" (focus)="$any($event.target).select()" />
-    <button pButton icon="pi pi-copy" class="p-button-success" aria-label="Copiar link" (click)="copyShareUrl()"></button>
+    <input type="text" pInputText readonly [value]="shareShortening ? 'Encurtando o link…' : shareUrl" (focus)="$any($event.target).select()" />
+    <button
+      pButton
+      [icon]="shareShortening ? 'pi pi-spinner pi-spin' : 'pi pi-copy'"
+      class="p-button-success"
+      aria-label="Copiar link"
+      [disabled]="shareShortening"
+      (click)="copyShareUrl()"
+    ></button>
   </div>
 </p-dialog>

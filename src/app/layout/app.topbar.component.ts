@@ -103,6 +103,13 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.8-beta',
+      date: '06-07-2026',
+      logs: [
+        'Link de compartilhamento agora é encurtado automaticamente (via short.latam-tools.com.br) — chega de links gigantes. Se o encurtador estiver fora do ar, o link completo continua funcionando.',
+      ],
+    },
+    {
       v: '0.1.7-beta',
       date: '03-07-2026',
       logs: [

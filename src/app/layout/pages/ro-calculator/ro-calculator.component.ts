@@ -147,6 +147,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   saveName = '';
   showShareDialog = false;
   shareUrl = '';
+  shareShortening = false;
 
   env = environment;
   model = createMainModel();
@@ -1090,6 +1091,28 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   openShareDialog(): void {
     this.shareUrl = this.buildShareUrl();
     this.showShareDialog = true;
+    void this.shortenShareUrl();
+  }
+
+  /** Swap the embedded-build URL for a short link; keep the long URL if the shortener is unreachable. */
+  private async shortenShareUrl(): Promise<void> {
+    const longUrl = this.shareUrl;
+    this.shareShortening = true;
+    try {
+      const res = await fetch(`${environment.shortenerUrl}/api/links`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: longUrl }),
+      });
+      if (!res.ok) throw new Error(`shortener responded ${res.status}`);
+      const { short_url } = (await res.json()) as { short_url?: string };
+      // Only swap if the dialog still shows the URL we shortened (it may have been reopened with a new build).
+      if (short_url && this.shareUrl === longUrl) this.shareUrl = short_url;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.shareShortening = false;
+    }
   }
 
   async copyShareUrl(): Promise<void> {
