@@ -640,10 +640,6 @@ a.skill_link:hover {
   width: 100%;
 }
 
-.lv200 {
-  color: var(--yellow-200);
-}
-
 .replay-dropzone {
   display: flex;
   flex-direction: column;

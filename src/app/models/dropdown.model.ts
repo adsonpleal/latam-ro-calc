@@ -11,5 +11,4 @@ export interface ItemDropdownModel {
   element?: string;
   usableClass?: string[];
   unusableClass?: string[];
-  lv200ClassName?: string
 }

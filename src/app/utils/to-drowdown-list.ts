@@ -31,7 +31,6 @@ export const toDropdownList = <T extends Record<string, any>>(
       usableClass: a['usableClass'] || undefined,
       unusableClass: a['unusableClass'] || undefined,
       element: elementKey ? a[elementKey] || '' : undefined,
-      lv200ClassName: a['requiredLevel'] >= 200 ? 'lv200' : '',
       ...ex,
     };
   });

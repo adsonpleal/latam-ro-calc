@@ -1726,24 +1726,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       switch (itemTypeId) {
         case ItemTypeId.WEAPON:
           // if (!item.name.startsWith('Furious')) continue;
-          if (item.itemLevel > 4) {
-            weaponList.push({
-              ...item,
-              name: `[LV ${item.itemLevel}] ${item.name}`
-            });
-          } else {
-            weaponList.push(item);
-          }
+          weaponList.push(item);
 
           if (itemSubTypeId === 256 || itemSubTypeId === 257) {
-            if (item.itemLevel > 4) {
-              leftWeaponList.push({
-                ...item,
-                name: `[LV ${item.itemLevel}] ${item.name}`
-              });
-            } else {
-              leftWeaponList.push(item);
-            }
+            leftWeaponList.push(item);
           }
           continue;
         case ItemTypeId.CONSUMABLE:
@@ -1762,55 +1748,20 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
             headLowerList.push(item);
           } else {
             // if (!item.name.startsWith('Furious')) continue;
-            if (item.itemLevel > 1) {
-              headUpperList.push({
-                ...item,
-                name: `[LV ${item.itemLevel}] ${item.name}`
-              });
-            } else {
-              headUpperList.push(item);
-            }
+            headUpperList.push(item);
           }
           continue;
         case ItemSubTypeId.Shield:
-          if (item.itemLevel > 1) {
-            shieldList.push({
-              ...item,
-              name: `[LV ${item.itemLevel}] ${item.name}`
-            });
-          } else {
-            shieldList.push(item);
-          }
+          shieldList.push(item);
           continue;
         case ItemSubTypeId.Armor:
-          if (item.itemLevel > 1) {
-            armorList.push({
-              ...item,
-              name: `[LV ${item.itemLevel}] ${item.name}`
-            });
-          } else {
-            armorList.push(item);
-          }
+          armorList.push(item);
           continue;
         case ItemSubTypeId.Garment:
-          if (item.itemLevel > 1) {
-            garmentList.push({
-              ...item,
-              name: `[LV ${item.itemLevel}] ${item.name}`
-            });
-          } else {
-            garmentList.push(item);
-          }
+          garmentList.push(item);
           continue;
         case ItemSubTypeId.Boot:
-          if (item.itemLevel > 1) {
-            bootList.push({
-              ...item,
-              name: `[LV ${item.itemLevel}] ${item.name}`
-            });
-          } else {
-            bootList.push(item);
-          }
+          bootList.push(item);
           continue;
         case ItemSubTypeId.Acc_L:
           accLeftList.push(item);
