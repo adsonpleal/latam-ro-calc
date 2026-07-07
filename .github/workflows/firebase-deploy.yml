@@ -69,6 +69,9 @@ jobs:
 
       - name: Post novidades to Discord
         if: steps.ver.outputs.changed == 'true'
+        # best-effort: the deploy already shipped, so a Discord hiccup (perms,
+        # outage) shouldn't fail the run — it's still logged as a failed step.
+        continue-on-error: true
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
           DISCORD_CHANNEL_ID: "1524025278471471295"
