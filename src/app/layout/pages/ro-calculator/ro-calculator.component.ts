@@ -8,6 +8,7 @@ import { SKILL_DESC_BY_ID, SKILL_ID_BY_NAME, resolveSkillById, resolveSkillMeta 
 import { AllowedCompareItemTypes } from 'src/app/app-config';
 import {
   AllowLeftWeaponMapper,
+  AspdPotionFixBonus,
   AspdPotionList,
   AspdPotionList2,
   CardPosition,
@@ -59,7 +60,7 @@ import { LayoutService } from '../../service/app.layout.service';
 import { ItemShopService } from './item-shop.service';
 import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
-import { applyGuaranaCandy, CalculatorController, collectBuffBonuses, collectConsumables } from 'src/app/core/calculator-controller';
+import { applyGuaranaCandy, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectConsumables } from 'src/app/core/calculator-controller';
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { parseOptionScripts } from 'src/app/core/option-scripts';
 import {
@@ -774,9 +775,14 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     const modelSummary = calc.getModelSummary() as any;
     this.modelSummary = { ...modelSummary, rawOptionTxts: modelSummary.rawOptionTxts.filter(Boolean) };
     const x = calc.getItemSummary();
-    // engine sources (equips, skills, buffs) + per-consumable maps, so the breakdown
-    // modal can attribute consumables/buffs/skills alongside item slots
-    this.bonusBreakdownSources = { ...x, ...collectConsumables(this.model, this.items).sources };
+    // engine sources (equips, skills, buffs) + per-consumable maps + the selected
+    // ASPD potions (display-only), so the breakdown modal can attribute
+    // consumables/buffs/skills/potions alongside item slots
+    this.bonusBreakdownSources = {
+      ...x,
+      ...collectConsumables(this.model, this.items).sources,
+      ...collectAspdPotionSources(this.model, AspdPotionFixBonus),
+    };
     const contributingKeys = new Set<string>();
     for (const map of Object.values(this.bonusBreakdownSources)) {
       if (!map || typeof map !== 'object') continue;

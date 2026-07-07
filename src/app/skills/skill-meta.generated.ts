@@ -23,6 +23,7 @@ export const SKILL_META = {
   "_3Faith": {  },
   "_Argutus Vita_Telum": {  },
   "_Biolo_Monster_List": {  },
+  "Tempering": { id: 8045, label: "Tempering" },
   "_ElementalMaster_spirit": {  },
   "_Sorcerer_Elemental_Spirit": {  },
   "_Meister_ABR_List": {  },

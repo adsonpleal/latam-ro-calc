@@ -5,6 +5,7 @@ import {
   BuffDef,
   CalcChainInput,
   CalculatorController,
+  collectAspdPotionSources,
   collectBuffBonuses,
   collectConsumables,
   GUARANA_CANDY,
@@ -74,6 +75,26 @@ describe('collectConsumables', () => {
       const sel = collectConsumables({ consumables: [12792, 12791], consumables2: [], aspdPotions: [] }, numericItems);
       expect(sel.sources).toEqual({ consumable_12792: { matkPercent: 10 } });
     });
+  });
+});
+
+describe('collectAspdPotionSources', () => {
+  // Concentração 4, Despertar 6, Fúria 9, Poção de Ouro 3
+  const fixBonus = new Map([[645, 4], [656, 6], [657, 9], [12684, 3]]);
+
+  it('exposes the single-select potion under aspdPercent, keyed consumable_<id>', () => {
+    expect(collectAspdPotionSources({ aspdPotion: 656, aspdPotions: [] }, fixBonus)).toEqual({
+      consumable_656: { aspdPercent: 6 },
+    });
+  });
+
+  it('includes multi-select potions and ignores ids without a fixed bonus', () => {
+    const sources = collectAspdPotionSources({ aspdPotion: 645, aspdPotions: [12684, 12437] }, fixBonus);
+    expect(sources).toEqual({ consumable_645: { aspdPercent: 4 }, consumable_12684: { aspdPercent: 3 } });
+  });
+
+  it('is empty when nothing is selected', () => {
+    expect(collectAspdPotionSources({ aspdPotion: undefined, aspdPotions: [] }, fixBonus)).toEqual({});
   });
 });
 

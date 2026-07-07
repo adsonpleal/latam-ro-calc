@@ -3,7 +3,7 @@ import { DropdownModel } from '../../../../models/dropdown.model';
 import { ItemModel } from '../../../../models/item.model';
 import { ItemTypeEnum, OptionableItemTypeSet } from '../../../../constants/item-type.enum';
 import { ExtraOptionTable } from '../../../../constants/extra-option-table';
-import { createNumberDropdownList, getGradeList } from '../../../../utils';
+import { createNumberDropdownList, getGradeList, prettyItemDesc } from '../../../../utils';
 import { getEnchants } from 'src/app/constants/enchant_item';
 
 interface EventEmitterResultModel {
@@ -169,6 +169,23 @@ export class EquipmentComponent implements OnChanges, OnInit {
 
   private getItem(mainItemId?: number) {
     return this.items?.[mainItemId || this.itemId] ?? ({} as ItemModel);
+  }
+
+  private readonly descTooltipCache = new Map<number, string>();
+
+  /** pt-BR description (HTML) for an item's hover popover, memoised — same content
+   *  as the "Descrições dos Itens" panel. Used by the base item, card and enchant
+   *  dropdowns (both the selected value and the option list). */
+  itemDescTooltip(id: number): string {
+    if (!id || !this.items) return '';
+    const cached = this.descTooltipCache.get(id);
+    if (cached !== undefined) return cached;
+    const item = this.items[id];
+    const desc = prettyItemDesc(item?.description) || '';
+    const title = item?.name ? `<div class="item_desc_title"><b>${item.name}</b></div><br>` : '';
+    const html = title || desc ? `${title}${desc}` : '';
+    this.descTooltipCache.set(id, html);
+    return html;
   }
 
   private setEnchantList() {

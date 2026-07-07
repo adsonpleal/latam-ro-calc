@@ -216,6 +216,27 @@ export class Biolo extends Genetic {
         { label: 'No', value: 0, isUse: false },
       ],
     },
+    {
+      // Tempering (MH_TEMPERING, skill 8045): self-buff granting P.Atk, +1 per level
+      // (Lv 1 = +6 … Lv 10 = +15). divine-pride.net/database/skill/8045
+      name: 'Tempering',
+      label: 'Tempering',
+      icon: 8045,
+      inputType: 'dropdown',
+      dropdown: [
+        { label: '-', value: 0, isUse: false },
+        { label: 'Lv 1', value: 1, isUse: true, bonus: { pAtk: 6 } },
+        { label: 'Lv 2', value: 2, isUse: true, bonus: { pAtk: 7 } },
+        { label: 'Lv 3', value: 3, isUse: true, bonus: { pAtk: 8 } },
+        { label: 'Lv 4', value: 4, isUse: true, bonus: { pAtk: 9 } },
+        { label: 'Lv 5', value: 5, isUse: true, bonus: { pAtk: 10 } },
+        { label: 'Lv 6', value: 6, isUse: true, bonus: { pAtk: 11 } },
+        { label: 'Lv 7', value: 7, isUse: true, bonus: { pAtk: 12 } },
+        { label: 'Lv 8', value: 8, isUse: true, bonus: { pAtk: 13 } },
+        { label: 'Lv 9', value: 9, isUse: true, bonus: { pAtk: 14 } },
+        { label: 'Lv 10', value: 10, isUse: true, bonus: { pAtk: 15 } },
+      ],
+    },
   ];
   private readonly passiveSkillList4th: PassiveSkillModel[] = [
     {

@@ -67,6 +67,29 @@ export function collectConsumables(
   return { scripts: ids.map((id: ConsumableId) => items[id].script), sources, usedHpL, usedSupBattlePill };
 }
 
+/**
+ * Display-only breakdown sources for the selected ASPD potions (Concentração 645,
+ * Despertar 656, Fúria 657, Poção de Ouro 12684). Their effect isn't a plain
+ * script bonus — it's an AGI-scaled term inside the ASPD formula — so they never
+ * appear via {@link collectConsumables}. Here we surface each one's fixed potion
+ * value under `aspdPercent` purely so the VelAtq bonus-breakdown modal can list it
+ * (keyed `consumable_<id>` to reuse the item label/icon resolver). NOT fed to the
+ * engine, so it can't double-count.
+ */
+export function collectAspdPotionSources(
+  model: Pick<MainModel, 'aspdPotion' | 'aspdPotions'>,
+  fixBonus: Map<number, number>,
+): Record<string, Record<string, number>> {
+  const sources: Record<string, Record<string, number>> = {};
+  const add = (id?: number) => {
+    const bonus = id ? fixBonus.get(id) : undefined;
+    if (bonus) sources[`consumable_${id}`] = { aspdPercent: bonus };
+  };
+  add(model.aspdPotion);
+  for (const id of model.aspdPotions ?? []) add(id);
+  return sources;
+}
+
 /** One selectable buff row (a subset of `JobBuffs`). */
 export interface BuffDef {
   name: string;

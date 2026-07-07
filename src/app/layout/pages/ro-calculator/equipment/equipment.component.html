@@ -17,13 +17,13 @@
           placeholder="{{ placeholder }}"
         >
           <ng-template let-item pTemplate="selectedItem">
-            <div class="flex gap-1 item_template" *ngIf="itemId">
+            <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="itemId">
               <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
               <div>{{ item.label }}</div>
             </div>
           </ng-template>
           <ng-template let-item pTemplate="item">
-            <div class="flex gap-1 {{ item.lv200ClassName }}">
+            <div class="flex gap-1 {{ item.lv200ClassName }}" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
               <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
               <div>{{ item.label }}</div>
             </div>
@@ -79,13 +79,13 @@
           placeholder="Carta{{ isWeapon ? ' 1' : '' }}"
         >
           <ng-template let-item pTemplate="selectedItem">
-            <div class="flex gap-1 item_template" *ngIf="card1Id">
+            <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="card1Id">
               <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
               <div>{{ item.label }}</div>
             </div>
           </ng-template>
           <ng-template let-item pTemplate="item">
-            <div class="flex gap-1">
+            <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
               <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
               <div>{{ item.label }}</div>
             </div>
@@ -108,13 +108,13 @@
           placeholder="Carta 2"
         >
           <ng-template let-item pTemplate="selectedItem">
-            <div class="flex gap-1 item_template" *ngIf="card2Id">
+            <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="card2Id">
               <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
               <div>{{ item.label }}</div>
             </div>
           </ng-template>
           <ng-template let-item pTemplate="item">
-            <div class="flex gap-1">
+            <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
               <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
               <div>{{ item.label }}</div>
             </div>
@@ -137,13 +137,13 @@
           placeholder="Carta 3"
         >
           <ng-template let-item pTemplate="selectedItem">
-            <div class="flex gap-1 item_template" *ngIf="card3Id">
+            <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="card3Id">
               <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
               <div>{{ item.label }}</div>
             </div>
           </ng-template>
           <ng-template let-item pTemplate="item">
-            <div class="flex gap-1">
+            <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
               <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
               <div>{{ item.label }}</div>
             </div>
@@ -166,13 +166,13 @@
           placeholder="Carta 4"
         >
           <ng-template let-item pTemplate="selectedItem">
-            <div class="flex gap-1 item_template" *ngIf="card4Id">
+            <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="card4Id">
               <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
               <div>{{ item.label }}</div>
             </div>
           </ng-template>
           <ng-template let-item pTemplate="item">
-            <div class="flex gap-1">
+            <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
               <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
               <div>{{ item.label }}</div>
             </div>
@@ -228,7 +228,7 @@
               placeholder="Encantamento 1"
             >
               <ng-template let-item pTemplate="selectedItem">
-                <div class="flex gap-1 item_template" *ngIf="enchant1Id">
+                <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="enchant1Id">
                   <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
                   <div>{{ item.label }}</div>
                 </div>
@@ -257,7 +257,7 @@
               placeholder="Encantamento 2"
             >
               <ng-template let-item pTemplate="selectedItem">
-                <div class="flex gap-1 item_template" *ngIf="enchant2Id">
+                <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="enchant2Id">
                   <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
                   <div>{{ item.label }}</div>
                 </div>
@@ -286,7 +286,7 @@
               placeholder="Encantamento 3"
             >
               <ng-template let-item pTemplate="selectedItem">
-                <div class="flex gap-1 item_template" *ngIf="enchant3Id">
+                <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="enchant3Id">
                   <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
                   <div>{{ item.label }}</div>
                 </div>
@@ -315,7 +315,7 @@
               placeholder="Encantamento 4"
             >
               <ng-template let-item pTemplate="selectedItem">
-                <div class="flex gap-1 item_template" *ngIf="enchant4Id">
+                <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="enchant4Id">
                   <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
                   <div>{{ item.label }}</div>
                 </div>
