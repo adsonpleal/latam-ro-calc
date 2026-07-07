@@ -106,6 +106,7 @@ export class AppTopBarComponent {
       v: '0.1.10-beta',
       date: '06-07-2026',
       logs: [
+        'Novos equipamentos do EP18 adicionados ao banco: armaduras Astrais, capacetes RTC (Decadente/Fortificado/Descartado) e Máscara de Pesar (com seus conjuntos), Sinete Estelar e trajes visuais. Encantos Decadente/Fortificado/de Sucata ganharam os bônus de dano por arma do conjunto.',
         'O detalhamento de bônus (ao clicar em um valor do resumo) agora mostra também as contribuições de consumíveis, buffs e habilidades passivas — antes só os equipamentos apareciam. A VelAtq lista as poções de ASPD (Concentração/Despertar/Fúria) selecionadas.',
         'Passe o mouse sobre um equipamento (no seletor ou na lista) para ver a descrição do item em um popover, igual à seção "Descrições dos Itens".',
         'Adicionada a habilidade Tempering (buff de P.ATQ) para o Cientista.',

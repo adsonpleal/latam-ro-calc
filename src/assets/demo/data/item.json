@@ -138707,7 +138707,13 @@
         "3",
         "9===1",
         "11===1"
-      ]
+      ],
+      "5283": ["EQUIP_ID[590015]15"],
+      "5292": ["EQUIP_ID[610015]15"],
+      "5295": ["EQUIP_ID[620005]15"],
+      "5321": ["EQUIP_ID[510026]15"],
+      "5340": ["EQUIP_ID[500018]15"],
+      "5341": ["EQUIP_ID[500018]15"]
     }
   },
   "313370": {
@@ -138738,7 +138744,12 @@
         "3",
         "9===1",
         "11===1"
-      ]
+      ],
+      "5213": ["EQUIP_ID[600013]15"],
+      "5225": ["EQUIP_ID[640013]15"],
+      "5266": ["EQUIP_ID[530009]15"],
+      "5372": ["EQUIP_ID[540013]15"],
+      "perfectHit": ["EQUIP_ID[530009]20"]
     }
   },
   "313371": {
@@ -138763,7 +138774,10 @@
         "4",
         "9===6",
         "11===6"
-      ]
+      ],
+      "5244": ["EQUIP_ID[560011]15"],
+      "5330": ["EQUIP_ID[700021]15"],
+      "5353": ["EQUIP_ID[580012||570012]15"]
     }
   },
   "313406": {
@@ -285300,5 +285314,623 @@
         "EQUIP_ID[500007||600008||500008||590006||510008||560004||650003||520002||640005||700007||510009||530002||700008||540004||540005||570005||700009||580005||550008||610006||550009||630003||810000||820000||830001||840000]1"
       ]
     }
+  },
+  "450166": {
+    "id": 450166,
+    "aegisName": "Vague_Star_Robe",
+    "name": "Veste Astral",
+    "unidName": "Veste Astral",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 105,
+    "weight": 50,
+    "requiredLevel": 240,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matk": [
+        "125",
+        "2---15"
+      ],
+      "vct": [
+        "9===10"
+      ],
+      "m_my_element_all": [
+        "11===10"
+      ]
+    }
+  },
+  "450167": {
+    "id": 450167,
+    "aegisName": "Vague_Star_Suit",
+    "name": "Túnica Astral",
+    "unidName": "Túnica Astral",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 135,
+    "weight": 150,
+    "requiredLevel": 240,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "75",
+        "2---10"
+      ],
+      "matk": [
+        "75",
+        "2---10"
+      ],
+      "aspdPercent": [
+        "9===7"
+      ],
+      "range": [
+        "11===10"
+      ]
+    }
+  },
+  "450168": {
+    "id": 450168,
+    "aegisName": "Vague_Star_Armor",
+    "name": "Armadura Astral",
+    "unidName": "Armadura Astral",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 175,
+    "weight": 250,
+    "requiredLevel": 240,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "125",
+        "2---15"
+      ],
+      "hpPercent": [
+        "9===7"
+      ],
+      "melee": [
+        "11===10"
+      ]
+    }
+  },
+  "401433": {
+    "id": 401433,
+    "aegisName": "RTC3등투구",
+    "name": "Capacete Decadente",
+    "unidName": "Capacete Decadente",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 0,
+    "requiredLevel": 201,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "2---10"
+      ],
+      "matk": [
+        "2---10"
+      ],
+      "pAtk": [
+        "3---1"
+      ],
+      "sMatk": [
+        "3---1"
+      ],
+      "aspdPercent": [
+        "7===15"
+      ],
+      "vct": [
+        "9===15"
+      ],
+      "acd": [
+        "11===15"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[500018||510026||590015||610015||620005]10"
+      ],
+      "m_size_all": [
+        "EQUIP_ID[500018||510026||590015||610015||620005]10"
+      ]
+    }
+  },
+  "401434": {
+    "id": 401434,
+    "aegisName": "RTC준우승자투구",
+    "name": "Capacete Fortificado",
+    "unidName": "Capacete Fortificado",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 0,
+    "requiredLevel": 201,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "2---10"
+      ],
+      "matk": [
+        "2---10"
+      ],
+      "pAtk": [
+        "3---1"
+      ],
+      "sMatk": [
+        "3---1"
+      ],
+      "aspdPercent": [
+        "7===15"
+      ],
+      "vct": [
+        "9===15"
+      ],
+      "acd": [
+        "11===15"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[530009||540013||600013||640013]10"
+      ],
+      "m_size_all": [
+        "EQUIP_ID[530009||540013||600013||640013]10"
+      ]
+    }
+  },
+  "401435": {
+    "id": 401435,
+    "aegisName": "RTC우승자투구",
+    "name": "Capacete Descartado",
+    "unidName": "Capacete Descartado",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 0,
+    "requiredLevel": 201,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "2---10"
+      ],
+      "matk": [
+        "2---10"
+      ],
+      "pAtk": [
+        "3---1"
+      ],
+      "sMatk": [
+        "3---1"
+      ],
+      "aspdPercent": [
+        "7===15"
+      ],
+      "vct": [
+        "9===15"
+      ],
+      "acd": [
+        "11===15"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[560011||570012||580012||700021]10"
+      ],
+      "m_size_all": [
+        "EQUIP_ID[560011||570012||580012||700021]10"
+      ]
+    }
+  },
+  "436031": {
+    "id": 436031,
+    "aegisName": "THA_DOLOR_MASK",
+    "name": "Máscara de Pesar",
+    "unidName": "Máscara de Pesar",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 0,
+    "requiredLevel": 201,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "pAtk": [
+        "5"
+      ],
+      "sMatk": [
+        "5"
+      ],
+      "acd": [
+        "4"
+      ],
+      "spPercent": [
+        "EQUIP_ID[300270||300271||300272||300273]25"
+      ]
+    }
+  },
+  "400147": {
+    "id": 400147,
+    "aegisName": "Drooping_Betelgeuse",
+    "name": "[Visual] Boneco de Betelgeuse",
+    "unidName": "[Visual] Boneco de Betelgeuse",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "400148": {
+    "id": 400148,
+    "aegisName": "Black_Dragon_Style",
+    "name": "[Visual] Cabelos de Betelgeuse",
+    "unidName": "[Visual] Cabelos de Betelgeuse",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 521,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "400149": {
+    "id": 400149,
+    "aegisName": "C_Black_Thunder",
+    "name": "[Visual] Aura de Betelgeuse",
+    "unidName": "[Visual] Aura de Betelgeuse",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "400427": {
+    "id": 400427,
+    "aegisName": "C_Demi_Freyja_Hair",
+    "name": "[Visual] Cabelos de Freya",
+    "unidName": "[Visual] Cabelos de Freya",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 521,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "400789": {
+    "id": 400789,
+    "aegisName": "C_C_F_Aureola_RD",
+    "name": "[Visual] Consecrate Fides Vermelha",
+    "unidName": "[Visual] Consecrate Fides Vermelha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410278": {
+    "id": 410278,
+    "aegisName": "C_Blink_Eyes_Bloody",
+    "name": "[Visual] Piscadela Sangrenta",
+    "unidName": "[Visual] Piscadela Sangrenta",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410430": {
+    "id": 410430,
+    "aegisName": "C_Blink_Eyes_Forest",
+    "name": "[Visual] Piscadela Florestal",
+    "unidName": "[Visual] Piscadela Florestal",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410448": {
+    "id": 410448,
+    "aegisName": "C_Blink_Eyes_Cosmic",
+    "name": "[Visual] Piscadela Cósmica",
+    "unidName": "[Visual] Piscadela Cósmica",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410574": {
+    "id": 410574,
+    "aegisName": "C_Blink_Eyes_Chocolate",
+    "name": "[Visual] Piscadela Chocolate",
+    "unidName": "[Visual] Piscadela Chocolate",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "420222": {
+    "id": 420222,
+    "aegisName": "C_Consecrate_F_Aureola",
+    "name": "[Visual] Consecrate Fides",
+    "unidName": "[Visual] Consecrate Fides",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 521,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "420546": {
+    "id": 420546,
+    "aegisName": "C_Miriam_Hair",
+    "name": "[Visual] Cabelo de Miriam",
+    "unidName": "[Visual] Cabelo de Miriam",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 521,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480407": {
+    "id": 480407,
+    "aegisName": "C_Leticia_Wing",
+    "name": "[Visual] Asas de Letícia",
+    "unidName": "[Visual] Asas de Letícia",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480456": {
+    "id": 480456,
+    "aegisName": "C_Plant_Outing_Set",
+    "name": "[Visual] Mochila de Vinha",
+    "unidName": "[Visual] Mochila de Vinha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480541": {
+    "id": 480541,
+    "aegisName": "C_Demi_Freyja_Wing",
+    "name": "[Visual] Asas Caídas de Freya",
+    "unidName": "[Visual] Asas Caídas de Freya",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "490131": {
+    "id": 490131,
+    "aegisName": "Signet_Of_Star",
+    "name": "Sinete Estelar",
+    "unidName": "Sinete Estelar",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 510,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 50,
+    "requiredLevel": 240,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
   }
 }
