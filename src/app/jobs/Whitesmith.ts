@@ -90,7 +90,7 @@ export class Whitesmith extends Merchant {
       inputType: 'selectButton',
       dropdown: [
         {
-          label: 'Yes',
+          label: 'Sim',
           value: 5,
           isUse: true,
           bonus: {
@@ -108,7 +108,7 @@ export class Whitesmith extends Merchant {
             twohandMace_skillAspd: 7,
           },
         },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -116,8 +116,8 @@ export class Whitesmith extends Merchant {
       name: 'Power Thrust',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true, bonus: { flatDmg: 25 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true, bonus: { flatDmg: 25 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -125,8 +125,8 @@ export class Whitesmith extends Merchant {
       name: 'Weapon Perfection',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true, bonus: { ignore_size_penalty: 1 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true, bonus: { ignore_size_penalty: 1 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -134,8 +134,8 @@ export class Whitesmith extends Merchant {
       name: 'Power Maximize',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true, bonus: { weapon_maximize: 1 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true, bonus: { weapon_maximize: 1 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

@@ -160,8 +160,8 @@ export class Swordman extends CharacterBase {
       name: 'Magnum Break',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 10, isUse: true, bonus: { magnumBreakPsedoBonus: 1 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 10, isUse: true, bonus: { magnumBreakPsedoBonus: 1 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

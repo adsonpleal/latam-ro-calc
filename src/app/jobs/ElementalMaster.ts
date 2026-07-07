@@ -321,12 +321,15 @@ export class ElementalMaster extends Sorcerer {
       label: 'Espírito Elemental',
       inputType: 'dropdown',
       dropdown: [
+        // pt-BR summon names shown to the user; icons are the Summon Elemental skill
+        // ids (rAthena e_skill). The internal `_spirit` keys (Divulio/Terramotus)
+        // still drive the isSpirit() formula logic, so labels are set literally here.
         { label: '-', value: 0, isUse: false },
-        { label: this._spirit[1], value: 1, isUse: true },
-        { label: this._spirit[2], value: 2, isUse: true },
-        { label: this._spirit[3], value: 3, isUse: true },
-        { label: this._spirit[4], value: 4, isUse: true },
-        { label: this._spirit[5], value: 5, isUse: true },
+        { label: 'Diluvium', value: 1, isUse: true, icon: 5376 },
+        { label: 'Ardor', value: 2, isUse: true, icon: 5375 },
+        { label: 'Procella', value: 3, isUse: true, icon: 5377 },
+        { label: 'Terremotus', value: 4, isUse: true, icon: 5378 },
+        { label: 'Serpens', value: 5, isUse: true, icon: 5379 },
       ],
     },
   ];

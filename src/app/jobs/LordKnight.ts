@@ -90,8 +90,8 @@ export class LordKnight extends Swordman {
       name: 'Two hand Quicken',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 10, skillLv: 10, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 10, skillLv: 10, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -99,8 +99,8 @@ export class LordKnight extends Swordman {
       label: 'Aura Blade 5',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -108,8 +108,8 @@ export class LordKnight extends Swordman {
       label: 'Spear Dynamo 5',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true, bonus: { atkPercent: 15, hit: 50, defPercent: -15 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true, bonus: { atkPercent: 15, hit: 50, defPercent: -15 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

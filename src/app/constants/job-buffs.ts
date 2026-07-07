@@ -40,8 +40,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     label: 'Impositio 5',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 5, bonus: { atk: 25, matk: 25 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 5, bonus: { atk: 25, matk: 25 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -49,8 +49,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     label: 'Expiatio 5',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 5, bonus: { p_pene_race_all: 25, m_pene_race_all: 25 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 5, bonus: { p_pene_race_all: 25, m_pene_race_all: 25 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -58,8 +58,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     label: 'Competentia',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 5, bonus: { pAtk: 50, sMatk: 50 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 5, bonus: { pAtk: 50, sMatk: 50 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -67,8 +67,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     label: 'Religio',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 5, bonus: { spl: 10, wis: 10, sta: 10 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 5, bonus: { spl: 10, wis: 10, sta: 10 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -76,8 +76,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     label: 'Benedictum',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 5, bonus: { pow: 10, crt: 10, con: 10 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 5, bonus: { pow: 10, crt: 10, con: 10 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -85,8 +85,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     label: 'Argutus Vita',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 5, bonus: { pene_mres: 25 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 5, bonus: { pene_mres: 25 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -94,8 +94,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     label: 'Argutus Telum',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 5, bonus: { pene_res: 25 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 5, bonus: { pene_res: 25 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -103,8 +103,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     label: 'Presens Acies 5',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 5, bonus: { cRate: 10 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 5, bonus: { cRate: 10 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -113,8 +113,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     inputType: 'selectButton',
     isMasteryAtk: true,
     dropdown: [
-      { label: 'Yes', value: 1, skillLv: 1, isUse: true, bonus: { str: 4, atk: 30 } },
-      { label: 'No', value: 0, isUse: false },
+      { label: 'Sim', value: 1, skillLv: 1, isUse: true, bonus: { str: 4, atk: 30 } },
+      { label: 'Não', value: 0, isUse: false },
     ],
   },
   {
@@ -122,8 +122,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     label: 'Adrenalina 5',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', value: 5, skillLv: 5, isUse: true, bonus: { hit: 20, skillAspd: 5 } },
-      { label: 'No', value: 0, isUse: false },
+      { label: 'Sim', value: 5, skillLv: 5, isUse: true, bonus: { hit: 20, skillAspd: 5 } },
+      { label: 'Não', value: 0, isUse: false },
     ],
   },
   {
@@ -131,8 +131,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     label: 'Força Violenta 5',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', value: 5, skillLv: 5, isUse: true, bonus: { flatDmg: 15 } },
-      { label: 'No', value: 0, isUse: false },
+      { label: 'Sim', value: 5, skillLv: 5, isUse: true, bonus: { flatDmg: 15 } },
+      { label: 'Não', value: 0, isUse: false },
     ],
   },
   {
@@ -140,8 +140,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     inputType: 'selectButton',
     name: 'Weapon Perfection',
     dropdown: [
-      { label: 'Yes', value: 5, skillLv: 5, isUse: true, bonus: { ignore_size_penalty: 1 } },
-      { label: 'No', value: 0, isUse: false },
+      { label: 'Sim', value: 5, skillLv: 5, isUse: true, bonus: { ignore_size_penalty: 1 } },
+      { label: 'Não', value: 0, isUse: false },
     ],
   },
   {
@@ -151,8 +151,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     exclusiveGroup: 'soul',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 1, bonus: { matk: 50, vct: 10 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 1, bonus: { matk: 50, vct: 10 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -162,8 +162,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     exclusiveGroup: 'soul',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 1, bonus: { cri: 20, aspd: 3 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 1, bonus: { cri: 20, aspd: 3 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -173,8 +173,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     exclusiveGroup: 'soul',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 1, bonus: { atk: 50, hit: 15 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 1, bonus: { atk: 50, hit: 15 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -185,8 +185,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     exclusiveGroup: 'soul',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 1, bonus: {} },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 1, bonus: {} },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -207,8 +207,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     inputType: 'selectButton',
     isDebuff: true,
     dropdown: [
-      { label: 'Yes', isUse: true, value: 1, bonus: { comet: 50 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 1, bonus: { comet: 50 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -226,8 +226,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     name: 'Bunch of Shrimp',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 1, bonus: { atkPercent: 10, matkPercent: 10 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 1, bonus: { atkPercent: 10, matkPercent: 10 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -249,8 +249,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     inputType: 'selectButton',
     isEquipAtk: true,
     dropdown: [
-      { label: 'Yes', isUse: true, value: 20, bonus: { atk: 100, perfectHit: 70 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 20, bonus: { atk: 100, perfectHit: 70 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -260,8 +260,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     inputType: 'selectButton',
     isDebuff: true,
     dropdown: [
-      { label: 'Yes', isUse: true, value: 1, bonus: { raid: 1 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 1, bonus: { raid: 1 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   DarkClawFn(),
@@ -272,8 +272,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     inputType: 'selectButton',
     isDebuff: true,
     dropdown: [
-      { label: 'Yes', isUse: true, value: 1, bonus: { sporeExplosion: 10 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 1, bonus: { sporeExplosion: 10 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   ShieldSpellFn(),
@@ -284,8 +284,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     label: 'Ampl. Mística 10',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 1, bonus: { mysticAmp: 50 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 1, bonus: { mysticAmp: 50 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -293,8 +293,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     label: 'Enfeitiçar 5',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', isUse: true, value: 5, bonus: { sMatk: 5 * 4 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 5, bonus: { sMatk: 5 * 4 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -327,8 +327,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     inputType: 'selectButton',
     isDebuff: true,
     dropdown: [
-      { label: 'Yes', isUse: true, value: 10, bonus: { monster_res: -100 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 10, bonus: { monster_res: -100 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -338,8 +338,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     inputType: 'selectButton',
     isDebuff: true,
     dropdown: [
-      { label: 'Yes', isUse: true, value: 10, bonus: { monster_mres: -100 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 10, bonus: { monster_mres: -100 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -351,8 +351,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     inputType: 'selectButton',
     isDebuff: true,
     dropdown: [
-      { label: 'Yes', isUse: true, value: 10, bonus: { oratio: 20 } },
-      { label: 'No', isUse: false, value: 0 },
+      { label: 'Sim', isUse: true, value: 10, bonus: { oratio: 20 } },
+      { label: 'Não', isUse: false, value: 0 },
     ],
   },
   {
@@ -362,8 +362,8 @@ const JobBuffsList: ActiveSkillModel[] = [
     inputType: 'selectButton',
     isDebuff: true,
     dropdown: [
-      { label: 'Yes', value: 10, isUse: true, bonus: { quake: 50 } },
-      { label: 'No', value: 0, isUse: false },
+      { label: 'Sim', value: 10, isUse: true, bonus: { quake: 50 } },
+      { label: 'Não', value: 0, isUse: false },
     ],
   },
   {
@@ -376,8 +376,8 @@ const JobBuffsList: ActiveSkillModel[] = [
       // { label: 'Lv 2', value: 2, isUse: true, bonus: { oleumSanctum: 2 * 3 } },
       // { label: 'Lv 3', value: 3, isUse: true, bonus: { oleumSanctum: 3 * 3 } },
       // { label: 'Lv 4', value: 4, isUse: true, bonus: { oleumSanctum: 4 * 3 } },
-      { label: 'Yes', value: 5, isUse: true, bonus: { oleumSanctum: 5 * 3 } },
-      { label: 'No', value: 0, isUse: false },
+      { label: 'Sim', value: 5, isUse: true, bonus: { oleumSanctum: 5 * 3 } },
+      { label: 'Não', value: 0, isUse: false },
     ],
   },
   // {

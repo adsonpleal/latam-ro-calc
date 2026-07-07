@@ -338,8 +338,8 @@ export class AbyssChaser extends ShadowChaser {
       isDebuff: true,
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true, bonus: { monster_res: -50, monster_mres: -50 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true, bonus: { monster_res: -50, monster_mres: -50 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -353,8 +353,8 @@ export class AbyssChaser extends ShadowChaser {
       label: 'Abyss Dagger',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

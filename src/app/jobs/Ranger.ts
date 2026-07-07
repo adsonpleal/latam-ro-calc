@@ -115,8 +115,8 @@ export class Ranger extends Sniper {
       inputType: 'selectButton',
       isMasteryAtk: true,
       dropdown: [
-        { label: 'Yes', value: 5, skillLv: 5, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, skillLv: 5, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     NoLimitFn(),

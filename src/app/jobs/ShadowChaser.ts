@@ -330,8 +330,8 @@ export class ShadowChaser extends Stalker {
       name: 'Preserve',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 10, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 10, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -339,8 +339,8 @@ export class ShadowChaser extends Stalker {
       name: 'Shadow Spell',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 10, isUse: true, bonus: { matk: 50 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 10, isUse: true, bonus: { matk: 50 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     ShieldSpellFn(),
@@ -352,8 +352,8 @@ export class ShadowChaser extends Stalker {
       name: 'Mystical Amplification',
       isEquipAtk: true,
       dropdown: [
-        { label: 'Yes', isUse: true, value: 5, bonus: { mysticAmp: 25 } },
-        { label: 'No', isUse: false, value: 0 },
+        { label: 'Sim', isUse: true, value: 5, bonus: { mysticAmp: 25 } },
+        { label: 'Não', isUse: false, value: 0 },
       ],
     },
   ];

@@ -103,8 +103,8 @@ export class StarGladiator extends Taekwondo {
       name: 'Wrath of',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 3, skillLv: 3, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 3, skillLv: 3, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

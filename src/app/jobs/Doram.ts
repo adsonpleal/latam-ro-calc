@@ -199,8 +199,8 @@ export class Doram extends CharacterBase {
       name: 'Bunch of Shrimp',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, skillLv: 5, isUse: true, bonus: { atkPercent: 10, matkPercent: 10 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, skillLv: 5, isUse: true, bonus: { atkPercent: 10, matkPercent: 10 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];
@@ -343,8 +343,8 @@ export class Doram extends CharacterBase {
       name: 'Sprit Of Life',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 1, skillLv: 1, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, skillLv: 1, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {

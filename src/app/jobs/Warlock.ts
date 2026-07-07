@@ -301,8 +301,8 @@ export class Warlock extends HighWizard {
       label: 'Recogn Spell',
       name: 'Recognized Spell',
       dropdown: [
-        { label: 'Yes', isUse: true, value: 1, bonus: { spell_maximize: 1 } },
-        { label: 'No', isUse: false, value: 0 },
+        { label: 'Sim', isUse: true, value: 1, bonus: { spell_maximize: 1 } },
+        { label: 'Não', isUse: false, value: 0 },
       ],
     },
     {
@@ -311,8 +311,8 @@ export class Warlock extends HighWizard {
       name: 'Comet Amp',
       isDebuff: true,
       dropdown: [
-        { label: 'Yes', isUse: true, value: 1, bonus: { comet: 50 } },
-        { label: 'No', isUse: false, value: 0 },
+        { label: 'Sim', isUse: true, value: 1, bonus: { comet: 50 } },
+        { label: 'Não', isUse: false, value: 0 },
       ],
     },
     {
@@ -333,8 +333,8 @@ export class Warlock extends HighWizard {
       name: 'Released',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', isUse: true, value: 1, bonus: { releasedSkill: 1 } },
-        { label: 'No', isUse: false, value: 0 },
+        { label: 'Sim', isUse: true, value: 1, bonus: { releasedSkill: 1 } },
+        { label: 'Não', isUse: false, value: 0 },
       ],
     },
   ];

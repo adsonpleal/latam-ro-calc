@@ -212,8 +212,8 @@ export class Biolo extends Genetic {
       label: 'Research Report',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 1, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {

@@ -19,8 +19,8 @@ export class RawJob extends Swordman {
       inputType: 'selectButton',
       isEquipAtk: true,
       dropdown: [
-        { label: 'Yes', value: 10, skillLv: 10, isUse: true, bonus: { dex: 10 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 10, skillLv: 10, isUse: true, bonus: { dex: 10 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];
@@ -48,8 +48,8 @@ export class RawJob extends Swordman {
       name: 'Two hand Quicken',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 10, skillLv: 10, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 10, skillLv: 10, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {

@@ -132,8 +132,8 @@ export class Paladin extends Swordman {
       inputType: 'selectButton',
       isMasteryAtk: true,
       dropdown: [
-        { label: 'Yes', value: 10, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 10, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

@@ -44,6 +44,7 @@ import {
 } from 'src/app/utils';
 import { waitRxjs } from 'src/app/utils/wait-rxjs';
 import { importReplayBuffer } from '../../../replay/replay-to-model';
+import { makeBuffGate } from '../../../replay/skill-status.map';
 import { MainModel } from '../../../models/main.model';
 import { environment } from 'src/environments/environment';
 import { getClassDropdownList } from '../../../jobs/_class-list';
@@ -1232,9 +1233,14 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    * setSkillModelArray() (run inside loadItemSet) applies these maps to the actual
    * dropdowns, which is what produces the passive-skill stat bonuses.
    */
-  private applyLearnedSkills(model: MainModel, learnedSkills: Record<number, number>) {
+  private applyLearnedSkills(model: MainModel, learnedSkills: Record<number, number>, activeStatuses: number[] = []) {
     const char = this.characterList.find((c) => c.value === model.class)?.['instant'] as CharacterBase | undefined;
     if (!char) return;
+
+    // A buff/effect skill is only imported if its EFST status was actually up
+    // during the replay — learning it doesn't switch it on. Unmapped skills (whose
+    // active state we can't confirm) are skipped too.
+    const gate = makeBuffGate(activeStatuses);
 
     // Resolve the dropdown value that represents a given learned level. Most
     // skills use the level as the value; the skillLv/closest fallbacks cover the
@@ -1253,12 +1259,17 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       return ranked.length ? ranked[0].value : 0;
     };
 
-    const build = (skills: { name: string; dropdown: SkillModel[] }[]) => {
+    // `gate` (when given) blocks a skill unless its buff was actually up in the
+    // replay. The passive "Aprenda para ganhar bônus" list is NOT gated: those
+    // entries just carry the *learned* level (e.g. endow feeds learnLv('Frost
+    // Weapon') into damage formulas), which applies whether or not the buff was up.
+    const build = (skills: { name: string; dropdown: SkillModel[] }[], gate?: (name: string) => boolean) => {
       const out: Record<string, number> = {};
       for (const s of skills) {
         const id = SKILL_ID_BY_NAME[s.name];
         const level = id ? learnedSkills[id] : 0;
         if (!level) continue;
+        if (gate && !gate(s.name)) continue;
         const value = pick(s.dropdown, level);
         if (value) out[s.name] = value;
       }
@@ -1266,8 +1277,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     };
 
     model.passiveSkillMap = { ...model.passiveSkillMap, ...build(char.passiveSkills) };
-    model.activeSkillMap = { ...model.activeSkillMap, ...build(char.activeSkills) };
-    model.skillBuffMap = { ...model.skillBuffMap, ...build(this.skillBuffs) };
+    model.activeSkillMap = { ...model.activeSkillMap, ...build(char.activeSkills, gate) };
+    model.skillBuffMap = { ...model.skillBuffMap, ...build(this.skillBuffs, gate) };
   }
 
   async importReplay(file: File) {
@@ -1275,7 +1286,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.replayBusy = true;
     try {
       const buf = await file.arrayBuffer();
-      const { model, summary, learnedSkills } = importReplayBuffer(buf, this.items);
+      const { model, summary, learnedSkills, activeStatuses } = importReplayBuffer(buf, this.items);
       // The replay carries the real sprite/job id (e.g. 4073 Royal Guard); the
       // calc models classes by internal id (11), so translate it back so the
       // class dropdown + icon select the right class.
@@ -1301,7 +1312,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       }
       // Map the replay's learned skill tree onto the model's skill panels before
       // loadItemSet — setSkillModelArray() (run inside it) applies these maps.
-      this.applyLearnedSkills(model, learnedSkills);
+      this.applyLearnedSkills(model, learnedSkills, activeStatuses);
       this.loadItemSet(model as any).subscribe({
         complete: () => {
           // Switching to a class with a different level range can leave the
@@ -1420,7 +1431,24 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // and render no icon (the template guards on `icon`).
     const localize = <T extends { name: string }>(skill: T) => {
       const pt = this.resolveSkill(skill.name);
-      return pt ? { ...skill, label: pt.name, icon: pt.id, iconType: pt.iconType } : skill;
+      const base = pt ? { ...skill, label: pt.name, icon: pt.id, iconType: pt.iconType } : skill;
+      // A skill whose level-list entries are really *other* skills (Fist Spell
+      // casts Fire/Cold/Lightning Bolt) exposes a `treatedAsSkillNameFn`. Relabel
+      // each entry with the underlying bolt's pt-BR name + icon so the picker drops
+      // the repeated parent prefix ("Punho Arcano ... (Lanças de Fogo)" -> "Lanças de Fogo").
+      const treatedFn = (skill as any).treatedAsSkillNameFn;
+      const levelList = (skill as any).levelList;
+      if (typeof treatedFn === 'function' && Array.isArray(levelList)) {
+        return {
+          ...base,
+          levelList: levelList.map((entry: { label: string; value: string }) => {
+            const treatedName = treatedFn(entry.value)?.split('==')[0];
+            const ptEntry = treatedName ? this.resolveSkill(treatedName) : undefined;
+            return ptEntry ? { ...entry, label: ptEntry.name, icon: ptEntry.id, iconType: ptEntry.iconType } : entry;
+          }),
+        };
+      }
+      return base;
     };
     // Buffs keep their curated (already pt-BR) labels — only attach the icon id.
     // A buff may pin its own `icon` (e.g. a generic buff that shouldn't use the

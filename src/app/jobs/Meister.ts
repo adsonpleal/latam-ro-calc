@@ -205,8 +205,8 @@ export class Meister extends Mechanic {
       icon: 5296, // Rush Quake skill icon, whose description documents [Avanço] (and the [Sismo] debuff)
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 10, isUse: true, bonus: { range: 10 * 5, melee: 10 * 5 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 10, isUse: true, bonus: { range: 10 * 5, melee: 10 * 5 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     // ABR summon split into two mutually-exclusive toggles (only one ABR can be
@@ -219,8 +219,8 @@ export class Meister extends Mechanic {
       exclusiveGroup: 'meister_abr',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 1, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -230,8 +230,8 @@ export class Meister extends Mechanic {
       exclusiveGroup: 'meister_abr',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 1, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -239,8 +239,8 @@ export class Meister extends Mechanic {
       label: 'Axe Stomp',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

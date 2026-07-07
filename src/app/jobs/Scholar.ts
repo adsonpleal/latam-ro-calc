@@ -88,8 +88,8 @@ export class Scholar extends Mage {
       label: 'Foresight',
       name: 'Foresight',
       dropdown: [
-        { label: 'Yes', isUse: true, value: 1 },
-        { label: 'No', isUse: false, value: 0 },
+        { label: 'Sim', isUse: true, value: 1 },
+        { label: 'Não', isUse: false, value: 0 },
       ],
     },
     // {

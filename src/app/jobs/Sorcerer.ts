@@ -262,11 +262,13 @@ export class Sorcerer extends Scholar {
       label: 'Espírito Elemental',
       inputType: 'dropdown',
       dropdown: [
+        // icons are the Summon Elemental Spirit skill ids (rAthena e_skill): Agni 2457,
+        // Aqua 2458, Ventus 2459, Tera 2460.
         { label: '-', isUse: false, value: 0 },
-        { label: 'Agni Lv 2', isUse: true, value: ElementalSpiritValue.Agni_2, },
-        { label: 'Aqua Lv 2', isUse: true, value: ElementalSpiritValue.Aqua_2 },
-        { label: 'Ventus Lv 2', isUse: true, value: ElementalSpiritValue.Ventus_2 },
-        { label: 'Tera Lv 2', isUse: true, value: ElementalSpiritValue.Tera_2, },
+        { label: 'Agni', isUse: true, value: ElementalSpiritValue.Agni_2, icon: 2457 },
+        { label: 'Varuna', isUse: true, value: ElementalSpiritValue.Aqua_2, icon: 2458 },
+        { label: 'Vayu', isUse: true, value: ElementalSpiritValue.Ventus_2, icon: 2459 },
+        { label: 'Chandra', isUse: true, value: ElementalSpiritValue.Tera_2, icon: 2460 },
       ],
     },
   ];

@@ -103,6 +103,17 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.11-beta',
+      date: '07-07-2026',
+      logs: [
+        'A classe Elementalista (Elemental Master) foi validada: as fórmulas de dano das habilidades (Execução Aurora, Conflagração, Tormenta, Tremor de Terra, Poço Venenoso e Círculo Elemental) foram conferidas contra os danos reais registrados em jogo. Obrigado ao Ted por compartilhar os replays.',
+        'Habilidade Punho Arcano traduzida; no seletor, cada variação agora mostra o nome e o ícone da magia lançada (Lanças de Fogo, Lanças de Gelo e Relâmpago) em vez do prefixo repetido.',
+        'Seletor de Espírito Elemental agora exibe os ícones e os nomes corretos das invocações (Agni, Varuna, Vayu e Chandra; e Diluvium, Ardor, Procella, Terremotus e Serpens).',
+        'Importação de replay: buffs e habilidades ativas (como Encantar com Fogo/Gelo/Terra) agora só são importados quando o efeito estava realmente ativo no replay — antes vinham ligados apenas por estarem aprendidos.',
+        'Botões Yes/No traduzidos para Sim/Não em todo o simulador.',
+      ],
+    },
+    {
       v: '0.1.10-beta',
       date: '06-07-2026',
       logs: [

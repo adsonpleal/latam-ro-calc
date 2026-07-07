@@ -214,8 +214,8 @@ export class GuillotineCross extends AssassinCross {
       label: 'Cloaking Exceed 5',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', isUse: true, value: 5 },
-        { label: 'No', isUse: false, value: 0 },
+        { label: 'Sim', isUse: true, value: 5 },
+        { label: 'Não', isUse: false, value: 0 },
       ],
     },
   ];

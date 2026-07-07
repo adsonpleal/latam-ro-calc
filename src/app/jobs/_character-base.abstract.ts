@@ -108,6 +108,8 @@ export interface SkillModel {
   isUse: boolean;
   skillLv?: number;
   bonus?: any;
+  /** ragassets skill-icon id shown next to this option in the dropdown (optional). */
+  icon?: number;
 }
 
 export interface ActiveSkillModel {

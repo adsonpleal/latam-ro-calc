@@ -156,6 +156,11 @@ export type ReplayImportResult = {
   /** Learned skill tree from the replay — client skill id → level (level > 0).
    *  Mapped onto the model's skill panels by the importer. */
   learnedSkills: Record<number, number>;
+  /** EFST status ids that were active on the recording player at any point (buffs
+   *  that actually turned on). Used to gate the import of buff skills so that
+   *  merely *learning* an endow/self-buff doesn't switch it on — only a buff that
+   *  was really up during the recording is imported. */
+  activeStatuses: number[];
 };
 
 /** A minimal view of the calculator's item map (`item.json` keyed by id). */
@@ -219,6 +224,11 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
   const learnedSkills: Record<number, number> = {};
   for (const [id, lvl] of replay.learnedSkills) learnedSkills[id] = lvl;
 
+  // Buffs that were actually up on the recording player (isOn), keyed by EFST id.
+  const activeStatuses = [
+    ...new Set((replay.statusEvents ?? []).filter((e) => e.aid === s.aid && e.isOn).map((e) => e.statusId)),
+  ];
+
   return {
     model,
     summary: {
@@ -234,6 +244,7 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
       learnedSkillCount: Object.keys(learnedSkills).length,
     },
     learnedSkills,
+    activeStatuses,
   };
 
   /**

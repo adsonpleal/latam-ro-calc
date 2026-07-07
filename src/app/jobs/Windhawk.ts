@@ -238,8 +238,8 @@ export class Windhawk extends Ranger {
       label: 'Calamity Gale',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 1, isUse: true, bonus: { range: 350 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, isUse: true, bonus: { range: 350 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

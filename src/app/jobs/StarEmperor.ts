@@ -208,8 +208,8 @@ export class StarEmperor extends StarGladiator {
       name: 'Fusion of Sun, Moon and Star',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 1, skillLv: 1, isUse: true, bonus: { forceCri: 1 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, skillLv: 1, isUse: true, bonus: { forceCri: 1 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {

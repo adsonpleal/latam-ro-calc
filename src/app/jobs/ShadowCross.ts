@@ -352,8 +352,8 @@ export class ShadowCross extends GuillotineCross {
       label: 'Shadow Exceed 10',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 10, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 10, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

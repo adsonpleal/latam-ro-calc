@@ -200,8 +200,8 @@ export class HighWizard extends Mage {
       name: 'Mystical Amplification',
       isEquipAtk: true,
       dropdown: [
-        { label: 'Yes', isUse: true, value: 10, bonus: { mysticAmp: 50 } },
-        { label: 'No', isUse: false, value: 0 },
+        { label: 'Sim', isUse: true, value: 10, bonus: { mysticAmp: 50 } },
+        { label: 'Não', isUse: false, value: 0 },
       ],
     },
   ];

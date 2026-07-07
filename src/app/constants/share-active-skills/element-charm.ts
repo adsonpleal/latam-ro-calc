@@ -15,7 +15,7 @@ export const ElementCharm: ActiveSkillModel[] = [
     inputType: 'selectButton',
     dropdown: [
       {
-        label: 'Yes',
+        label: 'Sim',
         value: 10,
         isUse: true,
         bonus: {
@@ -25,7 +25,7 @@ export const ElementCharm: ActiveSkillModel[] = [
           p_element_earth: 30,
         },
       },
-      { label: 'No', value: 0, isUse: false },
+      { label: 'Não', value: 0, isUse: false },
     ],
   },
   {
@@ -35,8 +35,8 @@ export const ElementCharm: ActiveSkillModel[] = [
     exclusiveGroup: 'charm',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Yes', value: 20, isUse: true, bonus: { weaponAtkPercent: 150, p_element_wind: 30 } },
-      { label: 'No', value: 0, isUse: false },
+      { label: 'Sim', value: 20, isUse: true, bonus: { weaponAtkPercent: 150, p_element_wind: 30 } },
+      { label: 'Não', value: 0, isUse: false },
     ],
   },
   {
@@ -47,7 +47,7 @@ export const ElementCharm: ActiveSkillModel[] = [
     inputType: 'selectButton',
     dropdown: [
       {
-        label: 'Yes',
+        label: 'Sim',
         value: 30,
         isUse: true,
         bonus: {
@@ -56,7 +56,7 @@ export const ElementCharm: ActiveSkillModel[] = [
           p_element_fire: 30,
         },
       },
-      { label: 'No', value: 0, isUse: false },
+      { label: 'Não', value: 0, isUse: false },
     ],
   },
   {
@@ -67,7 +67,7 @@ export const ElementCharm: ActiveSkillModel[] = [
     inputType: 'selectButton',
     dropdown: [
       {
-        label: 'Yes',
+        label: 'Sim',
         value: 40,
         isUse: true,
         bonus: {
@@ -77,7 +77,7 @@ export const ElementCharm: ActiveSkillModel[] = [
           p_element_water: 30,
         },
       },
-      { label: 'No', value: 0, isUse: false },
+      { label: 'Não', value: 0, isUse: false },
     ],
   },
 ];

@@ -345,8 +345,8 @@ export class SuperNovice extends CharacterBase {
       inputType: 'selectButton',
       isMasteryAtk: true,
       dropdown: [
-        { label: 'Yes', value: 1, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -354,8 +354,8 @@ export class SuperNovice extends CharacterBase {
       label: 'EDP',
       name: 'Enchant Deadly Poison',
       dropdown: [
-        { label: 'Yes', value: 1, isUse: true, bonus: { edp: 1 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, isUse: true, bonus: { edp: 1 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

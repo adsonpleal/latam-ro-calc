@@ -6,7 +6,7 @@ export const ShadowWarrior: ActiveSkillModel = {
   inputType: 'selectButton',
   dropdown: [
     {
-      label: 'Yes',
+      label: 'Sim',
       value: 1,
       isUse: true,
       bonus: {
@@ -16,6 +16,6 @@ export const ShadowWarrior: ActiveSkillModel = {
         'Swirling Petal': 20,
       },
     },
-    { label: 'No', value: 0, isUse: false },
+    { label: 'Não', value: 0, isUse: false },
   ],
 };

@@ -342,8 +342,8 @@ export class Inquisitor extends Sura {
       exclusiveGroup: 'faith',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -352,8 +352,8 @@ export class Inquisitor extends Sura {
       exclusiveGroup: 'faith',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -362,8 +362,8 @@ export class Inquisitor extends Sura {
       exclusiveGroup: 'faith',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -372,8 +372,8 @@ export class Inquisitor extends Sura {
       isDebuff: true,
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true, bonus: { oleumSanctum: 5 * 3 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true, bonus: { oleumSanctum: 5 * 3 } },
+        { label: 'Não', value: 0, isUse: false },
         // { label: 'Lv 1', value: 1, isUse: true, bonus: { oleumSanctum: 1 * 3 } },
         // { label: 'Lv 2', value: 2, isUse: true, bonus: { oleumSanctum: 2 * 3 } },
         // { label: 'Lv 3', value: 3, isUse: true, bonus: { oleumSanctum: 3 * 3 } },

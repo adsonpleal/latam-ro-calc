@@ -24,8 +24,10 @@
       <strong>faltando ou com valores imprecisos</strong>.
     </p>
     <p class="m-0">
-      Até o momento, a única classe <strong>totalmente validada</strong> é a
-      <strong>Falcão do Vento</strong>. As demais classes podem apresentar divergências.
+      Até o momento, as classes <strong>totalmente validadas</strong> são a
+      <strong>Falcão do Vento</strong> e a <strong>Elementalista</strong> (validada com os
+      replays compartilhados pelo <strong>Ted</strong> — obrigado!). As demais classes podem
+      apresentar divergências.
     </p>
     <p class="m-0">
       Encontrou algo errado? Conte pra gente! Seu feedback é o que faz o projeto evoluir.
@@ -1792,7 +1794,20 @@
                         (onChange)="onSkillClassChange(i)"
                         styleClass="'width: 50%'"
                         scrollHeight="380px"
-                      ></p-dropdown>
+                      >
+                        <ng-template let-option pTemplate="selectedItem">
+                          <div class="flex align-items-center gap-1">
+                            <img *ngIf="option?.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                            <span>{{ option?.label }}</span>
+                          </div>
+                        </ng-template>
+                        <ng-template let-option pTemplate="item">
+                          <div class="flex align-items-center gap-1">
+                            <img *ngIf="option.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                            <span>{{ option.label }}</span>
+                          </div>
+                        </ng-template>
+                      </p-dropdown>
                     </div>
                   </div>
                   <div *ngSwitchDefault>

@@ -272,8 +272,8 @@ export class RoyalGuard extends Paladin {
       inputType: 'selectButton',
       isMasteryAtk: true,
       dropdown: [
-        { label: 'Yes', value: 5, skillLv: 5, isUse: true, bonus: { p_pene_class_all: 25 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, skillLv: 5, isUse: true, bonus: { p_pene_class_all: 25 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -281,8 +281,8 @@ export class RoyalGuard extends Paladin {
       name: 'Ride Peco',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 1, skillLv: 1, isUse: true, bonus: { ridePeco: 1 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, skillLv: 1, isUse: true, bonus: { ridePeco: 1 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -292,13 +292,13 @@ export class RoyalGuard extends Paladin {
       isEquipAtk: true,
       dropdown: [
         {
-          label: 'Yes',
+          label: 'Sim',
           value: 1,
           skillLv: 1,
           isUse: true,
           bonus: { atk: 200, matk: 200, allStatus: 30, hit: 60, hpPercent: 20 },
         },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -307,8 +307,8 @@ export class RoyalGuard extends Paladin {
       inputType: 'selectButton',
       isMasteryAtk: true,
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

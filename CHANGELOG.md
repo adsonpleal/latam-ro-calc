@@ -3,6 +3,23 @@
 > As notas detalhadas por versão também aparecem no app, em **Novidades** (a lista
 > `updates` em `app.topbar.component.ts` é a fonte canônica voltada ao usuário).
 
+## 0.1.11-beta — 2026-07-07
+
+- A classe **Elementalista** (Elemental Master) foi **validada**: as fórmulas de
+  dano das habilidades (Execução Aurora, Conflagração, Tormenta, Tremor de Terra,
+  Poço Venenoso e Círculo Elemental) foram conferidas contra os danos reais
+  registrados em jogo. Obrigado ao **Ted** por compartilhar os replays.
+- Habilidade **Punho Arcano** traduzida; no seletor, cada variação passa a mostrar
+  o nome e o ícone da magia lançada (Lanças de Fogo/Gelo, Relâmpago) sem o prefixo
+  repetido.
+- Seletor de **Espírito Elemental** agora exibe os ícones e os nomes corretos das
+  invocações (Agni, Varuna, Vayu, Chandra; Diluvium, Ardor, Procella, Terremotus,
+  Serpens).
+- **Importação de replay:** buffs e habilidades ativas (ex.: Encantar com
+  Fogo/Gelo/Terra) só são importados quando o efeito estava realmente ativo no
+  replay — antes vinham ligados apenas por estarem aprendidos.
+- Botões **Yes/No** traduzidos para **Sim/Não** em todo o simulador.
+
 ## 0.1.4-beta — 2026-07-02
 
 - Adicionados **206 Equipamentos Sombrios** (Shadow Gear) que faltavam no banco de

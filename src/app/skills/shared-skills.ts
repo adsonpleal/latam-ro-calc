@@ -111,8 +111,8 @@ export const CROSS_WOUND: ActiveSkillModel = {
   isDebuff: true,
   inputType: 'selectButton',
   dropdown: [
-    { label: 'Yes', value: 1, isUse: true },
-    { label: 'No', value: 0, isUse: false },
+    { label: 'Sim', value: 1, isUse: true },
+    { label: 'Não', value: 0, isUse: false },
   ],
 };
 

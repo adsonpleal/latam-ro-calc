@@ -282,8 +282,8 @@ export class DragonKnight extends RuneKnight {
       name: 'Dragonic Aura',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 10, isUse: true, bonus: { 'Dragon Breath': 100, 'Dragon Breath - WATER': 100 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 10, isUse: true, bonus: { 'Dragon Breath': 100, 'Dragon Breath - WATER': 100 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

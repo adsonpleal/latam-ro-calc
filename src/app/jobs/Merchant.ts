@@ -163,8 +163,8 @@ export class Merchant extends CharacterBase {
       inputType: 'selectButton',
       isMasteryAtk: true,
       dropdown: [
-        { label: 'Yes', value: 1, skillLv: 1, isUse: true, bonus: { str: 4, atk: 30 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, skillLv: 1, isUse: true, bonus: { str: 4, atk: 30 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

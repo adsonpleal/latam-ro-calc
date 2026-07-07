@@ -274,8 +274,8 @@ export class RuneKnight extends LordKnight {
       label: 'Enchant Blade 10',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 10, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 10, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -283,8 +283,8 @@ export class RuneKnight extends LordKnight {
       label: 'Ride Dragon',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -307,8 +307,8 @@ export class RuneKnight extends LordKnight {
       label: 'Rune: Turisus',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 1, isUse: true, bonus: { flatBasicDmg: 250, str: 30, melee: 15 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, isUse: true, bonus: { flatBasicDmg: 250, str: 30, melee: 15 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -317,12 +317,12 @@ export class RuneKnight extends LordKnight {
       inputType: 'selectButton',
       dropdown: [
         {
-          label: 'Yes',
+          label: 'Sim',
           value: 2,
           isUse: true,
           bonus: { p_size_all: 30, criDmg: 30, melee: 30, range: 30, hpPercent: 30, spPercent: 30 },
         },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -331,8 +331,8 @@ export class RuneKnight extends LordKnight {
       inputType: 'selectButton',
       isMasteryAtk: true,
       dropdown: [
-        { label: 'Yes', value: 1, isUse: true, bonus: { atk: 70 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, isUse: true, bonus: { atk: 70 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

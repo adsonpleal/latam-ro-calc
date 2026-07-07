@@ -258,8 +258,8 @@ export class ImperialGuard extends RoyalGuard {
       label: 'Grand Judgement',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 10, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 10, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -267,8 +267,8 @@ export class ImperialGuard extends RoyalGuard {
       label: 'Shield Shooting',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

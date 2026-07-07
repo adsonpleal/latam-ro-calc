@@ -7,8 +7,8 @@ export const ShieldSpellFn = (): ActiveSkillModel => {
     inputType: 'selectButton',
     isEquipAtk: true,
     dropdown: [
-      { label: 'Yes', value: 150, isUse: true, bonus: { atk: 150, matk: 150 } },
-      { label: 'No', value: 0, isUse: false },
+      { label: 'Sim', value: 150, isUse: true, bonus: { atk: 150, matk: 150 } },
+      { label: 'Não', value: 0, isUse: false },
     ],
   };
 };

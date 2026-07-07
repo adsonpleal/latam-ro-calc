@@ -201,8 +201,8 @@ export class Rebellion extends Gunslinger {
       label: 'Platinum Altar 10',
       name: 'Platinum Altar',
       dropdown: [
-        { label: 'Yes', value: 1, isUse: true, bonus: { atk: 150 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, isUse: true, bonus: { atk: 150 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -211,8 +211,8 @@ export class Rebellion extends Gunslinger {
       name: 'Hot Barrel',
       isEquipAtk: true,
       dropdown: [
-        { label: 'Yes', value: 5, isUse: true, bonus: { flatDmg: 160, aspd: 5 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 5, isUse: true, bonus: { flatDmg: 160, aspd: 5 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -221,8 +221,8 @@ export class Rebellion extends Gunslinger {
       label: "Rich's Coin",
       name: "Rich's Coin",
       dropdown: [
-        { label: 'Yes', value: 1, isUse: true, bonus: { atk: 30 } },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, isUse: true, bonus: { atk: 30 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -230,8 +230,8 @@ export class Rebellion extends Gunslinger {
       name: 'Shatter Storm',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 1, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
     {
@@ -239,8 +239,8 @@ export class Rebellion extends Gunslinger {
       name: 'Crimson Marker',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Yes', value: 1, isUse: true },
-        { label: 'No', value: 0, isUse: false },
+        { label: 'Sim', value: 1, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];

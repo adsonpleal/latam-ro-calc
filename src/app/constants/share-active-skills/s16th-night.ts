@@ -6,7 +6,7 @@ export const S16thNight: ActiveSkillModel = {
   name: '16th Night',
   isEquipAtk: true,
   dropdown: [
-    { label: 'Yes', isUse: true, value: 5, bonus: { vctBySkill: 50, fctPercent: 100 } },
-    { label: 'No', isUse: false, value: 0 },
+    { label: 'Sim', isUse: true, value: 5, bonus: { vctBySkill: 50, fctPercent: 100 } },
+    { label: 'Não', isUse: false, value: 0 },
   ],
 };
