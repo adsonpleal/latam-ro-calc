@@ -59,7 +59,7 @@ import { LayoutService } from '../../service/app.layout.service';
 import { ItemShopService } from './item-shop.service';
 import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
-import { CalculatorController, collectBuffBonuses, collectConsumables } from 'src/app/core/calculator-controller';
+import { applyGuaranaCandy, CalculatorController, collectBuffBonuses, collectConsumables } from 'src/app/core/calculator-controller';
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { parseOptionScripts } from 'src/app/core/option-scripts';
 import {
@@ -649,9 +649,16 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       })
       .getSkillBonusAndName();
 
-    const { aspdPotion } = this.model;
     const { scripts: consumeData, usedHpL } = collectConsumables(this.model, this.items);
-    const { equipAtk: buffEquips, masteryAtk: buffMasterys } = collectBuffBonuses(this.skillBuffs, this.model.skillBuffs, activeSkillNames);
+    const { aspdPotion, buffBonuses } = applyGuaranaCandy({
+      consumables: this.model.consumables,
+      aspdPotion: this.model.aspdPotion,
+      buffDefs: this.skillBuffs,
+      selectedBuffValues: this.model.skillBuffs,
+      activeSkillNames,
+      buffBonuses: collectBuffBonuses(this.skillBuffs, this.model.skillBuffs, activeSkillNames),
+    });
+    const { equipAtk: buffEquips, masteryAtk: buffMasterys } = buffBonuses;
 
     const calc = calculator.setClass(this.selectedCharacter);
     const rawOptionTxts = [...this.model.rawOptionTxts];

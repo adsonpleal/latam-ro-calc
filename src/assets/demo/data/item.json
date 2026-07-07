@@ -15858,7 +15858,7 @@
     "resName": "과라나사탕",
     "description": "ลูกอมที่ทำจากผล guarana อย่ากินมากในครั้งเดียวเพราะผลของมันค่อนข้างแรง\nเพิ่ม attack speed เล็กน้อย\nน้ำหนัก : ^7777771^000000",
     "slots": 0,
-    "itemTypeId": 3333,
+    "itemTypeId": 3,
     "itemSubTypeId": 768,
     "itemLevel": null,
     "attack": null,
@@ -15867,14 +15867,7 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": null,
-    "script": {
-      "agi": [
-        "7"
-      ],
-      "aspdPercent": [
-        "15"
-      ]
-    }
+    "script": {}
   },
   "12418": {
     "id": 12418,

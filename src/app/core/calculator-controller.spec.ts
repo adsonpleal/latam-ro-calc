@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { Calculator } from './calculator';
-import { BuffDef, CalcChainInput, CalculatorController, collectBuffBonuses, collectConsumables } from './calculator-controller';
+import {
+  applyGuaranaCandy,
+  BuffDef,
+  CalcChainInput,
+  CalculatorController,
+  collectBuffBonuses,
+  collectConsumables,
+  GUARANA_CANDY,
+} from './calculator-controller';
 
 const items = {
   100: { script: 'a' },
@@ -61,6 +69,66 @@ describe('collectBuffBonuses', () => {
   it('skips dropdown values not marked isUse, or with no matching selection', () => {
     expect(collectBuffBonuses(defs, [0, 0, 0], new Set())).toEqual({ equipAtk: {}, masteryAtk: {} });
     expect(collectBuffBonuses(defs, [99, 99, 99], new Set())).toEqual({ equipAtk: {}, masteryAtk: {} });
+  });
+});
+
+describe('applyGuaranaCandy', () => {
+  const AWAKENING_POTION = 656;
+  const incAgiDefs: BuffDef[] = [
+    {
+      name: 'Cantocandidus',
+      dropdown: [
+        { value: 0, isUse: false },
+        { value: 3, isUse: true, bonus: { agi: 5, aspdPercent: 3 } },
+        { value: 10, isUse: true, bonus: { agi: 12, aspdPercent: 10 } },
+      ],
+    },
+  ];
+  const base = (over: Partial<Parameters<typeof applyGuaranaCandy>[0]> = {}) =>
+    applyGuaranaCandy({
+      consumables: [GUARANA_CANDY],
+      aspdPotion: undefined,
+      buffDefs: incAgiDefs,
+      selectedBuffValues: [0],
+      activeSkillNames: new Set<string>(),
+      buffBonuses: { equipAtk: {}, masteryAtk: {} },
+      ...over,
+    });
+
+  it('does nothing when the candy is not consumed', () => {
+    const buffBonuses = { equipAtk: {}, masteryAtk: {} };
+    const out = base({ consumables: [], buffBonuses });
+    expect(out.aspdPotion).toBeUndefined();
+    expect(out.buffBonuses).toBe(buffBonuses);
+  });
+
+  it('grants the Concentration Potion effect when no ASPD potion is selected', () => {
+    expect(base().aspdPotion).toBe(645);
+  });
+
+  it('lets a selected ASPD potion replace the Concentration part', () => {
+    expect(base({ aspdPotion: AWAKENING_POTION }).aspdPotion).toBe(AWAKENING_POTION);
+  });
+
+  it('applies Increase Agility Lv 5 when no (or a lower) buff level is selected', () => {
+    expect(base().buffBonuses.equipAtk).toEqual({ Cantocandidus: { agi: 7, aspdPercent: 5 } });
+
+    // Lv 3 selected → replaced (not stacked) by the candy's Lv 5
+    const lv3 = base({ selectedBuffValues: [3], buffBonuses: { equipAtk: { Cantocandidus: { agi: 5, aspdPercent: 3 } }, masteryAtk: {} } });
+    expect(lv3.buffBonuses.equipAtk).toEqual({ Cantocandidus: { agi: 7, aspdPercent: 5 } });
+  });
+
+  it('yields to a higher-level Increase Agility buff', () => {
+    const lv10Bonuses = { equipAtk: { Cantocandidus: { agi: 12, aspdPercent: 10 } }, masteryAtk: {} };
+    const out = base({ selectedBuffValues: [10], buffBonuses: lv10Bonuses });
+    expect(out.buffBonuses).toBe(lv10Bonuses);
+    expect(out.aspdPotion).toBe(645); // Concentration part still applies
+  });
+
+  it('yields when the character casts Increase Agility itself', () => {
+    const buffBonuses = { equipAtk: {}, masteryAtk: {} };
+    const out = base({ activeSkillNames: new Set(['Cantocandidus']), buffBonuses });
+    expect(out.buffBonuses).toBe(buffBonuses);
   });
 });
 

@@ -59,6 +59,48 @@ export interface BuffDef {
   dropdown: { value: any; isUse?: boolean; bonus?: any }[];
 }
 
+/** Guarana Candy — on use it casts Increase Agility Lv 5 and applies the
+ *  Concentration Potion effect. Neither part stacks with a stronger source:
+ *  a selected ASPD potion replaces the Concentration part, and a higher-level
+ *  "Aumentar Agilidade" buff (or the character casting it) replaces the
+ *  Increase Agility part. */
+export const GUARANA_CANDY = 12414;
+const CONCENTRATION_POTION = 645;
+/** The `JobBuffs` row that models "Aumentar Agilidade". */
+const INC_AGI_BUFF = 'Cantocandidus';
+const GUARANA_INC_AGI_LEVEL = 5;
+/** Increase Agility Lv 5 on the job-buff table's scale (agi = 2 + lv, aspd% = lv). */
+const GUARANA_INC_AGI_BONUS = { agi: 7, aspdPercent: 5 };
+
+/**
+ * Layer Guarana Candy's two effects onto the already-collected buff bonuses
+ * and the selected ASPD potion, applying the no-stack rules above. Pure:
+ * returns the (possibly new) buff bonuses and the effective potion id.
+ */
+export function applyGuaranaCandy(input: {
+  consumables: number[];
+  aspdPotion: number | undefined;
+  buffDefs: BuffDef[];
+  selectedBuffValues: any[];
+  activeSkillNames: Set<string>;
+  buffBonuses: BuffBonuses;
+}): { aspdPotion: number | undefined; buffBonuses: BuffBonuses } {
+  const { consumables, aspdPotion, buffDefs, selectedBuffValues, activeSkillNames, buffBonuses } = input;
+  if (!(consumables ?? []).includes(GUARANA_CANDY)) return { aspdPotion, buffBonuses };
+
+  const i = buffDefs.findIndex((b) => b.name === INC_AGI_BUFF);
+  const selected = i >= 0 ? buffDefs[i].dropdown.find((d) => d.value === selectedBuffValues?.[i]) : undefined;
+  const selectedLevel = selected?.isUse ? selected.value : 0;
+  const outranked = activeSkillNames.has(INC_AGI_BUFF) || selectedLevel >= GUARANA_INC_AGI_LEVEL;
+
+  return {
+    aspdPotion: aspdPotion || CONCENTRATION_POTION,
+    buffBonuses: outranked
+      ? buffBonuses
+      : { ...buffBonuses, equipAtk: { ...buffBonuses.equipAtk, [INC_AGI_BUFF]: GUARANA_INC_AGI_BONUS } },
+  };
+}
+
 export interface BuffBonuses {
   /** Buffs applied as equipment-style atk bonuses. */
   equipAtk: Record<string, any>;
