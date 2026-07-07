@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://simulador.latam-tools.com.br/sitemap.xml

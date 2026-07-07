@@ -28,6 +28,9 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
+              "src/robots.txt",
+              "src/sitemap.xml",
+              "src/manifest.webmanifest",
               "src/assets"
             ],
             "styles": [
@@ -85,6 +88,9 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
+              "src/robots.txt",
+              "src/sitemap.xml",
+              "src/manifest.webmanifest",
               "src/assets"
             ],
             "styles": [
@@ -166,6 +172,9 @@
             "scripts": [],
             "assets": [
               "src/favicon.ico",
+              "src/robots.txt",
+              "src/sitemap.xml",
+              "src/manifest.webmanifest",
               "src/assets"
             ]
           }
