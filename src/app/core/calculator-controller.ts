@@ -25,6 +25,10 @@ const HP_INCREASE_POTION_L = 12424;
 export interface ConsumableSelection {
   /** The item scripts to feed into `Calculator.setConsumables`. */
   scripts: any[];
+  /** Per-consumable numeric bonus maps for the bonus-breakdown modal, keyed
+   *  `consumable_<itemId>`. Only plain numeric script entries are kept —
+   *  conditional tokens don't apply to consumables. */
+  sources: Record<string, Record<string, number>>;
   /** Whether HP Increase Potion (L) is active (drives the HP/SP calc). */
   usedHpL: boolean;
   /** Whether the Superior Battle Pill is active (suppresses the regular one). */
@@ -43,13 +47,24 @@ export function collectConsumables(
   const usedSupBattlePill = consumables.includes(SUPERIOR_BATTLE_PILL);
   const usedHpL = consumables.includes(HP_INCREASE_POTION_L);
 
-  const scripts = [...consumables, ...(model.consumables2 ?? []), ...(model.aspdPotions ?? [])]
+  const ids = [...consumables, ...(model.consumables2 ?? []), ...(model.aspdPotions ?? [])]
     .filter(Boolean)
     // when the superior pill is on, drop the regular pill so they don't stack
-    .filter((id: ConsumableId) => !usedSupBattlePill || id !== REGULAR_BATTLE_PILL)
-    .map((id: ConsumableId) => items[id].script);
+    .filter((id: ConsumableId) => !usedSupBattlePill || id !== REGULAR_BATTLE_PILL);
 
-  return { scripts, usedHpL, usedSupBattlePill };
+  const sources: Record<string, Record<string, number>> = {};
+  for (const id of ids) {
+    const script = items[id]?.script;
+    if (!script || typeof script !== 'object') continue;
+    const bonus: Record<string, number> = {};
+    for (const [attr, value] of Object.entries(script)) {
+      const num = Number(value); // script values are single-entry arrays, e.g. ["7"]
+      if (Number.isFinite(num) && num !== 0) bonus[attr] = num;
+    }
+    if (Object.keys(bonus).length) sources[`consumable_${id}`] = bonus;
+  }
+
+  return { scripts: ids.map((id: ConsumableId) => items[id].script), sources, usedHpL, usedSupBattlePill };
 }
 
 /** One selectable buff row (a subset of `JobBuffs`). */

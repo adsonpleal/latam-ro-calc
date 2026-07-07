@@ -82,7 +82,7 @@
   [style]="{ width: '420px', 'max-width': '92vw' }"
 >
   <div *ngIf="bonusBreakdownRows.length === 0" class="p-2 text-center">
-    Sem contribuição de itens — este valor vem de atributos base/classe.
+    Sem contribuição de itens, consumíveis, buffs ou habilidades — este valor vem de atributos base/classe.
   </div>
   <ul *ngIf="bonusBreakdownRows.length" class="bonus_breakdown_list">
     <li *ngFor="let r of bonusBreakdownRows" class="flex align-items-center justify-content-between py-2 px-1">
@@ -407,7 +407,7 @@
                   </div>
                   <div class="col-12">
                     VelAtq:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['aspd'])" (click)="showBonusBreakdown({ label: 'VelAtq', keys: ['aspd'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.calc?.totalAspd || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['aspd', 'aspdPercent', 'skillAspd', 'skillAspdPercent'])" (click)="showBonusBreakdown({ label: 'VelAtq', keys: ['aspd', 'aspdPercent', 'skillAspd', 'skillAspdPercent'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.calc?.totalAspd || 0 }}</span>
                     <span class="font-semibold px-1 summary_highlight">( {{ totalSummary?.calc?.hitPerSecs || 0 }} Hits/s )</span>
                   </div>
                   <div class="col-12">

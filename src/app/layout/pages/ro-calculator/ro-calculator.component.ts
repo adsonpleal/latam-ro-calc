@@ -774,9 +774,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     const modelSummary = calc.getModelSummary() as any;
     this.modelSummary = { ...modelSummary, rawOptionTxts: modelSummary.rawOptionTxts.filter(Boolean) };
     const x = calc.getItemSummary();
-    this.bonusBreakdownSources = x;
+    // engine sources (equips, skills, buffs) + per-consumable maps, so the breakdown
+    // modal can attribute consumables/buffs/skills alongside item slots
+    this.bonusBreakdownSources = { ...x, ...collectConsumables(this.model, this.items).sources };
     const contributingKeys = new Set<string>();
-    for (const map of Object.values(x)) {
+    for (const map of Object.values(this.bonusBreakdownSources)) {
       if (!map || typeof map !== 'object') continue;
       for (const [k, v] of Object.entries(map)) {
         if (typeof v === 'number' && v !== 0) contributingKeys.add(k);
@@ -2561,8 +2563,15 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   /** Map a breakdown source key to a display row: an equipped item (slot/card/enchant),
-   *  a skill, or a labelled catch-all (extras/consumables). */
+   *  a consumable (`consumable_<id>`), a job buff, a skill (id- or name-keyed), or a
+   *  labelled catch-all (extras). */
   private resolveBonusSource(srcKey: string, value: number): { label: string; icon?: number; iconType: 'item' | 'skill'; value: number } {
+    if (srcKey.startsWith('consumable_')) {
+      const consumableId = Number(srcKey.slice('consumable_'.length));
+      if (this.items[consumableId]) {
+        return { label: this.items[consumableId].name, icon: consumableId, iconType: 'item', value };
+      }
+    }
     const itemId = this.equipItemIdItemTypeMap.get(srcKey as any);
     if (itemId && this.items[itemId]) {
       return { label: this.items[itemId].name, icon: itemId, iconType: 'item', value };
@@ -2570,6 +2579,16 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     const skill = this.resolveSkillKey(srcKey);
     if (skill) {
       return { label: skill.name, icon: skill.id, iconType: skill.iconType ?? 'skill', value };
+    }
+    // job buffs carry a curated pt-BR label (and icon, attached by setClassSkill)
+    const buff = this.skillBuffs.find((b) => b.name === srcKey);
+    if (buff) {
+      return { label: buff.label, icon: buff.icon, iconType: 'skill', value };
+    }
+    // active/passive skill bonuses are keyed by the English skill name
+    const namedSkill = this.resolveSkill(srcKey);
+    if (namedSkill) {
+      return { label: namedSkill.name, icon: namedSkill.id, iconType: namedSkill.iconType ?? 'skill', value };
     }
     const fallback: Record<string, string> = { extra: 'Extras', consumableBonuses: 'Consumíveis' };
     return { label: fallback[srcKey] ?? srcKey, iconType: 'item', value };

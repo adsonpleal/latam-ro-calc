@@ -46,6 +46,35 @@ describe('collectConsumables', () => {
     const sel = collectConsumables({ consumables: [0, 100] as any, consumables2: undefined as any, aspdPotions: undefined as any }, items);
     expect(sel.scripts).toEqual(['a']);
   });
+
+  describe('per-consumable breakdown sources', () => {
+    const numericItems = {
+      500: { script: { agi: ['7'], aspdPercent: ['5'] } },
+      501: { script: { atk: ['30'], hpPercent: ['-3'] } },
+      502: { script: {} },
+      503: { script: { atk: ['EQUIP_ID[1]10'] } },
+      12791: { script: { matkPercent: ['5'] } },
+      12792: { script: { matkPercent: ['10'] } },
+    } as Record<number, { script?: any }>;
+
+    it('exposes each consumable as a `consumable_<id>` numeric map', () => {
+      const sel = collectConsumables({ consumables: [500], consumables2: [501], aspdPotions: [] }, numericItems);
+      expect(sel.sources).toEqual({
+        consumable_500: { agi: 7, aspdPercent: 5 },
+        consumable_501: { atk: 30, hpPercent: -3 },
+      });
+    });
+
+    it('skips empty scripts and non-numeric entries', () => {
+      const sel = collectConsumables({ consumables: [502, 503], consumables2: [], aspdPotions: [] }, numericItems);
+      expect(sel.sources).toEqual({});
+    });
+
+    it('applies the Superior Battle Pill suppression to sources too', () => {
+      const sel = collectConsumables({ consumables: [12792, 12791], consumables2: [], aspdPotions: [] }, numericItems);
+      expect(sel.sources).toEqual({ consumable_12792: { matkPercent: 10 } });
+    });
+  });
 });
 
 describe('collectBuffBonuses', () => {

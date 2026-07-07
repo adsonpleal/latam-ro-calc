@@ -1608,6 +1608,10 @@ export class Calculator {
       ...obj,
       ...this.equipAtkSkillBonus,
       ...this.masteryAtkSkillBonus,
+      // job buffs (Bênção, Aumentar Agilidade, …) — name-keyed numeric maps, so the
+      // bonus-breakdown modal can attribute their contribution like any other source
+      ...this.buffEquipAtkBonus,
+      ...this.buffMasteryAtkBonus,
       ...{ extra: this.getObjSummary(this.equipStatus['extra']) },
       consumableBonuses: this.consumableBonuses,
     };

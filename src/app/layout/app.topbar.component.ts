@@ -103,6 +103,13 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.10-beta',
+      date: '06-07-2026',
+      logs: [
+        'O detalhamento de bônus (ao clicar em um valor do resumo) agora mostra também as contribuições de consumíveis, buffs e habilidades passivas — antes só os equipamentos apareciam.',
+      ],
+    },
+    {
       v: '0.1.9-beta',
       date: '06-07-2026',
       logs: [
