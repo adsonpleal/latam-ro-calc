@@ -17,8 +17,10 @@ const makeReplay = (records: any[], over: Partial<any> = {}): Replay =>
     ...over,
   } as any);
 
-// A small calculator item DB. 9999 is intentionally absent (unknown id).
-const itemMap = { 1101: { id: 1101 }, 2301: { id: 2301 }, 4001: { id: 4001 }, 4002: { id: 4002 } };
+// A small calculator item DB. 9999 is intentionally absent (unknown id). 1101 is
+// the generic weapon; it carries 2 card slots so its socketed cards import as
+// cards (a weapon holding cards necessarily has that many slots).
+const itemMap = { 1101: { id: 1101, slots: 2 }, 2301: { id: 2301 }, 4001: { id: 4001 }, 4002: { id: 4002 } };
 
 describe('replayToModel', () => {
   it('maps session info -> model class, levels and base stats', () => {
@@ -124,6 +126,41 @@ describe('replayToModel', () => {
     });
     const { model } = replayToModel(replay, itemMap);
     expect(model).toMatchObject({ sex: 0, hairStyle: 12, hairColor: 3, clothesColor: 5 });
+  });
+
+  it('splits a weapon\'s sockets into cards then enchants by the weapon\'s slot count', () => {
+    // A 2-slot weapon carried as [card, card, enchant, enchant] (mirrors the Sharp
+    // Star [2] replay: 2x White Knight Card, then Cecil's Memory + Sharp 2Lv). The
+    // first `slots` positions fill weaponCard1..N; the rest are weapon enchants and
+    // must land in weaponEnchant<pos>, not the card fields (which the picker can't
+    // display and the calc would double-count).
+    const WEAPON = 0x2;
+    const dbWithSlots = { ...itemMap, 5001: { id: 5001, slots: 2 } } as any;
+    const replay = makeReplay([rec({ itemId: 5001, equipped: WEAPON, cards: [4001, 4002, 1101, 2301] })]);
+    const { model } = replayToModel(replay, dbWithSlots) as any;
+    expect(model.weaponCard1).toBe(4001);
+    expect(model.weaponCard2).toBe(4002);
+    expect(model.weaponEnchant2).toBe(1101); // socket 2 -> weaponEnchant2
+    expect(model.weaponEnchant3).toBe(2301); // socket 3 -> weaponEnchant3
+    expect(model.weaponCard3).toBeUndefined();
+    expect(model.weaponCard4).toBeUndefined();
+  });
+
+  it('reads a costume-head enchant from its fixed slot position (mid=cards[1], low=cards[2])', () => {
+    // A mid-only and a low-only costume each carry their visual enchant at the
+    // card index that matches the head slot, not packed from 0. Verified against
+    // real replays: a mid costume's enchant sits at cards[1], a low at cards[2].
+    const COSTUME_MID = 0x800;
+    const COSTUME_LOW = 0x1000;
+    const replay = makeReplay([
+      rec({ itemId: 4001, equipped: COSTUME_MID, cards: [0, 4002, 0, 0] }),
+      rec({ itemId: 2301, equipped: COSTUME_LOW, cards: [0, 0, 1101, 0] }),
+    ]);
+    const { model } = replayToModel(replay, itemMap) as any;
+    expect(model.costumeMiddle).toBe(4001);
+    expect(model.costumeEnchantMiddle).toBe(4002);
+    expect(model.costumeLower).toBe(2301);
+    expect(model.costumeEnchantLower).toBe(1101);
   });
 
   it('ignores non-equipped inventory records', () => {

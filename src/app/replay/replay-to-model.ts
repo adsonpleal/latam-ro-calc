@@ -84,6 +84,27 @@ const SLOTS: Record<SlotKey, { item: string; refine?: string; cards: string[] }>
  */
 type ResolvedSlot = { key: SlotKey; cardOffset: number };
 
+/**
+ * Field names for a weapon's 4 socket positions, split by the weapon's real card
+ * slot count. Unlike other gear (one card + dedicated enchant fields), a weapon
+ * can carry up to 4 *cards* AND stores its enchants in the same `cards[]` array:
+ * the first `slots` positions are cards, the rest are enchants. The calculator
+ * models those as separate fields — `weaponCard1..4` (socket pickers, only shown
+ * up to the weapon's slot count) and `weaponEnchant0..3` (enchant pickers, indexed
+ * by socket position, matching the kRO enchant table). So position `p` maps to
+ * `weaponCard{p+1}` when it's a card slot, else `weaponEnchant{p}`.
+ *
+ * This is why a replay-imported weapon enchant (e.g. Cecil's Memory on a 2-slot
+ * Sharp Star, at position 2) must land in `weaponEnchant2`, not `weaponCard3`: the
+ * card slot picker doesn't list enchants (so it can't show the value, and the
+ * calc double-counts it if the user re-adds it through the enchant picker), while
+ * the enchant picker lists it in the right pool.
+ */
+function weaponFields(slots: number): string[] {
+  const cardCount = Math.min(Math.max(slots, 0), 4);
+  return [0, 1, 2, 3].map((p) => (p < cardCount ? `weaponCard${p + 1}` : `weaponEnchant${p}`));
+}
+
 /** Resolve the worn slot(s) for an item's `equipped` bitmask. */
 function resolveSlots(loc: number): ResolvedSlot[] {
   const slots: ResolvedSlot[] = [];
@@ -113,14 +134,17 @@ function resolveSlots(loc: number): ResolvedSlot[] {
   // A costume headgear can occupy several costume-head slots at once (e.g. a
   // top+mid+low "hood" costume). It's ONE physical inventory record, but the
   // calculator models each costume-head position separately, each with its own
-  // enchant. The record's shared `cards[]` array lists the per-slot enchant
-  // stones in slot order (upper, then middle, then lower) — so emit every slot
-  // the mask covers and hand each one the next card position. A single-slot
-  // costume still lands on cards[0], matching the previous behaviour.
-  let costumeCard = 0;
-  if (loc & EQP.COSTUME_TOP) push('costumeUpper', costumeCard++);
-  if (loc & EQP.COSTUME_MID) push('costumeMiddle', costumeCard++);
-  if (loc & EQP.COSTUME_LOW) push('costumeLower', costumeCard++);
+  // "visual enchant" stone. The record's shared `cards[]` array places each
+  // slot's enchant at a FIXED position keyed by the head slot — upper→cards[0],
+  // mid→cards[1], low→cards[2] — NOT packed sequentially. (Verified against
+  // replays: a mid-only costume carries its enchant at cards[1] and a low-only
+  // costume at cards[2], with cards[0] empty.) So a hood spanning all three
+  // reads [upperEnchant, midEnchant, lowEnchant], and a single mid/low costume
+  // still finds its enchant at the matching index — where packing from 0 wrongly
+  // read the empty cards[0] and dropped the enchant.
+  if (loc & EQP.COSTUME_TOP) push('costumeUpper', 0);
+  if (loc & EQP.COSTUME_MID) push('costumeMiddle', 1);
+  if (loc & EQP.COSTUME_LOW) push('costumeLower', 2);
   if (loc & EQP.COSTUME_GARMENT) push('costumeGarment');
   if (loc & EQP.SHADOW_WEAPON) push('shadowWeapon');
   if (loc & EQP.SHADOW_ARMOR) push('shadowArmor');
@@ -209,7 +233,8 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
       }
       (model as any)[def.item] = rec.itemId;
       if (def.refine) (model as any)[def.refine] = rec.refine || 0;
-      writeCards(model, def.cards, rec, cardOffset, () => skippedCards++);
+      const fields = key === 'weapon' ? weaponFields(itemMap[rec.itemId]?.['slots'] ?? 0) : def.cards;
+      writeCards(model, fields, rec, cardOffset, () => skippedCards++);
       equippedCount++;
     }
     // Random options live on the item, not a card slot — apply them once per

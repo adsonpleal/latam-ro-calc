@@ -3,6 +3,22 @@
 > As notas detalhadas por versão também aparecem no app, em **Novidades** (a lista
 > `updates` em `app.topbar.component.ts` é a fonte canônica voltada ao usuário).
 
+## 0.1.12-beta — 2026-07-08
+
+- **Importação de replay:** mais de **1.000 trajes visuais (Visuais)** LATAM que
+  faltavam no banco de dados foram adicionados, extraídos do cliente — agora
+  aparecem nos seletores e são importados dos replays. (Reportado pelo **William**.)
+- **Importação de replay:** corrigida a leitura dos **encantos dos trajes visuais**
+  nas posições **Meio** e **Baixo**, que não estavam sendo importados do replay —
+  o encanto fica numa posição de carta fixa por slot (Topo/Meio/Baixo) e a leitura
+  sequencial pulava o de Meio/Baixo. (Reportado pelo **William**.)
+- **Importação de replay:** os **encantos de arma** (ex.: **Memória de Cecil**)
+  agora são importados no campo de encanto correto (`weaponEnchant`), em vez de
+  caírem num slot de carta oculto. As posições da arma são divididas pela sua
+  quantidade de slots: as primeiras são cartas, as demais são encantos. Antes o
+  encanto aparecia no resumo mas não no seletor da arma — e podia ser contado em
+  dobro ao ser adicionado de novo. (Reportado pelo **Breviglieri**.)
+
 ## 0.1.11-beta — 2026-07-07
 
 - A classe **Elementalista** (Elemental Master) foi **validada**: as fórmulas de
