@@ -1199,6 +1199,7 @@
       <div class="col-12 grid grid-nogutter item_label_costume">
         <div class="col-3">
           <app-equipment-cos-enchant
+            [items]="items"
             [itemType]="'costumeUpper'"
             [placeholder]="'Visual Topo'"
             [itemList]="costumeUpperList"
@@ -1208,6 +1209,7 @@
         </div>
         <div class="col-3">
           <app-equipment-cos-enchant
+            [items]="items"
             [itemType]="'costumeEnchantUpper'"
             [placeholder]="'Encantamento Topo'"
             [itemList]="costumeEnhUpperList"
@@ -1231,13 +1233,13 @@
             placeholder="Pet"
           >
             <ng-template let-item pTemplate="selectedItem">
-              <div class="flex gap-1 item_template" *ngIf="model.pet">
+              <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="model.pet">
                 <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
                 <div>{{ item.label }}</div>
               </div>
             </ng-template>
             <ng-template let-item pTemplate="item">
-              <div class="flex gap-1">
+              <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
                 <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
                 <div>{{ item.label }}</div>
               </div>
@@ -1250,6 +1252,7 @@
       <div class="col-9 grid grid-nogutter item_label_costume">
         <div class="col-4">
           <app-equipment-cos-enchant
+            [items]="items"
             [itemType]="'costumeMiddle'"
             [placeholder]="'Visual Meio'"
             [itemList]="costumeMiddleList"
@@ -1259,6 +1262,7 @@
         </div>
         <div class="col-4">
           <app-equipment-cos-enchant
+            [items]="items"
             [itemType]="'costumeEnchantMiddle'"
             [placeholder]="'Encantamento Meio'"
             [itemList]="costumeEnhMiddleList"
@@ -1272,6 +1276,7 @@
       <div class="col-9 grid grid-nogutter item_label_costume">
         <div class="col-4">
           <app-equipment-cos-enchant
+            [items]="items"
             [itemType]="'costumeLower'"
             [placeholder]="'Visual Baixo'"
             [itemList]="costumeLowerList"
@@ -1281,6 +1286,7 @@
         </div>
         <div class="col-4">
           <app-equipment-cos-enchant
+            [items]="items"
             [itemType]="'costumeEnchantLower'"
             [placeholder]="'Encantamento Baixo'"
             [itemList]="costumeEnhLowerList"
@@ -1294,6 +1300,7 @@
       <div class="col-12 grid grid-nogutter mt-2 item_label_costume">
         <div class="col-3">
           <app-equipment-cos-enchant
+            [items]="items"
             [itemType]="'costumeGarment'"
             [placeholder]="'Visual Capa'"
             [itemList]="costumeGarmentList"
@@ -1303,6 +1310,7 @@
         </div>
         <div class="col-3">
           <app-equipment-cos-enchant
+            [items]="items"
             [itemType]="'costumeEnchantGarment'"
             [placeholder]="'Encantamento Capa'"
             [itemList]="costumeEnhGarmentList"
@@ -1312,6 +1320,7 @@
         </div>
         <div class="col-3">
           <app-equipment-cos-enchant
+            [items]="items"
             [itemType]="'costumeEnchantGarment2'"
             [placeholder]="'Encantamento Capa 2'"
             [itemList]="costumeEnhGarment2List"
@@ -1321,6 +1330,7 @@
         </div>
         <div class="col-3">
           <app-equipment-cos-enchant
+            [items]="items"
             [itemType]="'costumeEnchantGarment4'"
             [placeholder]="'Encantamento Capa 4'"
             [itemList]="costumeEnhGarment4List"
@@ -1333,6 +1343,7 @@
       <div class="col-9 col-offset-3 grid grid-nogutter item_label_costume flex flex-column">
         <div class="col-4 item_label_compare" *ngIf="showCompareItemMap.costumeEnchantUpper">
           <app-equipment-cos-enchant
+            [items]="items"
             [itemType]="'costumeEnchantUpper'"
             [placeholder]="'Encantamento Topo'"
             [itemList]="costumeEnhUpperList"
@@ -1342,6 +1353,7 @@
         </div>
         <div class="col-4 item_label_compare" *ngIf="showCompareItemMap.costumeEnchantMiddle">
           <app-equipment-cos-enchant
+            [items]="items"
             [itemType]="'costumeEnchantMiddle'"
             [placeholder]="'Encantamento Meio'"
             [itemList]="costumeEnhMiddleList"
@@ -1351,6 +1363,7 @@
         </div>
         <div class="col-4 item_label_compare" *ngIf="showCompareItemMap.costumeEnchantLower">
           <app-equipment-cos-enchant
+            [items]="items"
             [itemType]="'costumeEnchantLower'"
             [placeholder]="'Encantamento Baixo'"
             [itemList]="costumeEnhLowerList"
@@ -1361,6 +1374,7 @@
         <div class="col-12 grid grid-nogutter item_label_compare">
           <div class="col-4" *ngIf="showCompareItemMap.costumeEnchantGarment">
             <app-equipment-cos-enchant
+              [items]="items"
               [itemType]="'costumeEnchantGarment'"
               [placeholder]="'Encantamento Capa'"
               [itemList]="costumeEnhGarmentList"
@@ -1370,6 +1384,7 @@
           </div>
           <div class="col-4" *ngIf="showCompareItemMap.costumeEnchantGarment2">
             <app-equipment-cos-enchant
+              [items]="items"
               [itemType]="'costumeEnchantGarment2'"
               [placeholder]="'Encantamento Capa 2'"
               [itemList]="costumeEnhGarment2List"
@@ -1379,6 +1394,7 @@
           </div>
           <div class="col-4" *ngIf="showCompareItemMap.costumeEnchantGarment4">
             <app-equipment-cos-enchant
+              [items]="items"
               [itemType]="'costumeEnchantGarment4'"
               [placeholder]="'Encantamento Capa 4'"
               [itemList]="costumeEnhGarment4List"

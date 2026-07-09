@@ -36,6 +36,7 @@ import {
   createExtraOptionList,
   createMainModel,
   createNumberDropdownList,
+  itemDescPopoverHtml,
   prettyItemDesc,
   sortObj,
   toDropdownList,
@@ -2397,10 +2398,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     if (!id || !this.items) return '';
     const cached = this.itemDescCache.get(id);
     if (cached !== undefined) return cached;
-    const item = this.items[id];
-    const desc = prettyItemDesc(item?.description) || '';
-    const title = item?.name ? `<div class="item_desc_title"><b>${item.name}</b></div><br>` : '';
-    const html = title || desc ? `${title}${desc}` : '';
+    const html = itemDescPopoverHtml(this.items[id]);
     this.itemDescCache.set(id, html);
     return html;
   }

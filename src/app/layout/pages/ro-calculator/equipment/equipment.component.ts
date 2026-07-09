@@ -3,7 +3,7 @@ import { DropdownModel } from '../../../../models/dropdown.model';
 import { ItemModel } from '../../../../models/item.model';
 import { ItemTypeEnum, OptionableItemTypeSet } from '../../../../constants/item-type.enum';
 import { ExtraOptionTable } from '../../../../constants/extra-option-table';
-import { createNumberDropdownList, getGradeList, prettyItemDesc } from '../../../../utils';
+import { createNumberDropdownList, getGradeList, itemDescPopoverHtml } from '../../../../utils';
 import { getEnchants } from 'src/app/constants/enchant_item';
 
 interface EventEmitterResultModel {
@@ -180,10 +180,7 @@ export class EquipmentComponent implements OnChanges, OnInit {
     if (!id || !this.items) return '';
     const cached = this.descTooltipCache.get(id);
     if (cached !== undefined) return cached;
-    const item = this.items[id];
-    const desc = prettyItemDesc(item?.description) || '';
-    const title = item?.name ? `<div class="item_desc_title"><b>${item.name}</b></div><br>` : '';
-    const html = title || desc ? `${title}${desc}` : '';
+    const html = itemDescPopoverHtml(this.items[id]);
     this.descTooltipCache.set(id, html);
     return html;
   }

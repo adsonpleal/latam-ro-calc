@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import { DropdownModel } from '../../../../models/dropdown.model';
+import { ItemModel } from '../../../../models/item.model';
 
 @Component({
   selector: 'app-equipment-cos-enchant',
@@ -9,6 +10,7 @@ import { DropdownModel } from '../../../../models/dropdown.model';
 export class EquipmentCosEnchantComponent implements AfterViewInit {
   @Input({ required: true }) itemType!: string;
   @Input({ required: true }) placeholder: string;
+  @Input() items: Record<number, ItemModel> | undefined;
 
   @Input() disabled = false;
 
