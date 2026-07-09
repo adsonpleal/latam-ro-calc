@@ -106,17 +106,17 @@ export class AppTopBarComponent {
       v: '0.1.13-beta',
       date: '09-07-2026',
       logs: [
-        'Adicionada a habilidade Encantar com Chama (encanto de Fogo do Professor/Feiticeiro/Elementalista), que faltava nas listas "Aprenda para ganhar bônus" e "Habilidades/efeitos ativos" — as outras três (Geada, Ventania e Terremoto) já existiam. Ela também passa a ser importada dos replays. (Reportado pelo Ted.)',
-        'O popover de descrição dos itens não é mais cortado nas bordas da janela — agora ele é reposicionado para ficar sempre visível. (Reportado pelo Ted.)',
+        'Adicionada a habilidade Encantar com Chama (encanto de Fogo do Professor/Feiticeiro/Elementalista), que faltava nas listas "Aprenda para ganhar bônus" e "Habilidades/efeitos ativos" — as outras três (Geada, Ventania e Terremoto) já existiam. Ela também passa a ser importada dos replays. (Reportado por Ted.)',
+        'O popover de descrição dos itens não é mais cortado nas bordas da janela — agora ele é reposicionado para ficar sempre visível. (Reportado por Ted.)',
       ],
     },
     {
       v: '0.1.12-beta',
       date: '08-07-2026',
       logs: [
-        'Importação de replay: mais de 1.000 trajes visuais (Visuais) LATAM que faltavam no banco de dados foram adicionados, extraídos do cliente — agora aparecem nos seletores e são importados dos replays. (Reportado pelo William.)',
-        'Importação de replay: corrigida a leitura dos encantos dos trajes visuais nas posições Meio e Baixo, que não estavam sendo importados do replay. (Reportado pelo William.)',
-        'Importação de replay: os encantos de arma (ex.: Memória de Cecil) agora são importados no campo de encanto correto, em vez de num slot de carta oculto. Antes o encanto aparecia no resumo mas não no seletor da arma, e podia ser contado em dobro ao ser adicionado novamente. (Reportado pelo Breviglieri.)',
+        'Importação de replay: mais de 1.000 trajes visuais (Visuais) LATAM que faltavam no banco de dados foram adicionados, extraídos do cliente — agora aparecem nos seletores e são importados dos replays. (Reportado por William.)',
+        'Importação de replay: corrigida a leitura dos encantos dos trajes visuais nas posições Meio e Baixo, que não estavam sendo importados do replay. (Reportado por William.)',
+        'Importação de replay: os encantos de arma (ex.: Memória de Cecil) agora são importados no campo de encanto correto, em vez de num slot de carta oculto. Antes o encanto aparecia no resumo mas não no seletor da arma, e podia ser contado em dobro ao ser adicionado novamente. (Reportado por Breviglieri.)',
       ],
     },
     {
