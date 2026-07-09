@@ -1,6 +1,6 @@
 {
     "name": "ro-calculator",
-    "version": "0.1.12-beta",
+    "version": "0.1.13-beta",
     "scripts": {
         "ng": "ng",
         "prepare": "node scripts/setup-hooks.mjs",

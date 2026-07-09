@@ -10,8 +10,13 @@ describe('makeBuffGate — positive-confirmation buff/effect import gating', () 
   it('imports a mapped buff only when its EFST status is active', () => {
     const gateWithWater = makeBuffGate([91]); // Geada (Frost Weapon) active
     expect(gateWithWater('Frost Weapon')).toBe(true);
+    expect(gateWithWater('Endow Blaze')).toBe(false); // Chamas (90) not up
     expect(gateWithWater('Lightning Loader')).toBe(false); // Ventania (92) not up
     expect(gateWithWater('Seismic Weapon')).toBe(false); // Terremoto (93) not up
+
+    const gateWithFire = makeBuffGate([90]); // Chamas (Endow Blaze) active
+    expect(gateWithFire('Endow Blaze')).toBe(true);
+    expect(gateWithFire('Frost Weapon')).toBe(false);
   });
 
   it('skips anything whose active state cannot be confirmed', () => {

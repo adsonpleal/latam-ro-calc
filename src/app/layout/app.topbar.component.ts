@@ -103,6 +103,14 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.13-beta',
+      date: '09-07-2026',
+      logs: [
+        'Adicionada a habilidade Encantar com Chama (encanto de Fogo do Professor/Feiticeiro/Elementalista), que faltava nas listas "Aprenda para ganhar bônus" e "Habilidades/efeitos ativos" — as outras três (Geada, Ventania e Terremoto) já existiam. Ela também passa a ser importada dos replays. (Reportado pelo Ted.)',
+        'O popover de descrição dos itens não é mais cortado nas bordas da janela — agora ele é reposicionado para ficar sempre visível. (Reportado pelo Ted.)',
+      ],
+    },
+    {
       v: '0.1.12-beta',
       date: '08-07-2026',
       logs: [

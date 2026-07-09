@@ -9,6 +9,7 @@
  *
  * EFST ids are the LATAM client's, sourced from ragreplaystats' public/db/status.json
  * (id → pt-BR status name) — NOT rAthena master, whose numeric ids can differ:
+ *   90  Chamas                    (Endow Blaze / Flame Launcher — fire endow)
  *   91  Geada                     (Frost Weapon — water endow)
  *   92  Ventania                  (Lightning Loader — wind endow)
  *   93  Terremoto                 (Seismic Weapon — earth endow)
@@ -18,6 +19,7 @@
  * against status.json before adding — a wrong id silently drops a real buff).
  */
 export const SKILL_EFST: Record<string, number> = {
+  'Endow Blaze': 90,
   'Frost Weapon': 91,
   'Lightning Loader': 92,
   'Seismic Weapon': 93,

@@ -31,6 +31,7 @@ import { TreeSelectModule } from 'primeng/treeselect';
 import { TooltipModule } from 'primeng/tooltip';
 
 import { RoCalculatorComponent } from './ro-calculator.component';
+import { TooltipClampDirective } from './tooltip-clamp.directive';
 import { PrettyJsonPipe } from '../../prettier-json.pipe';
 import { RoCalculatorRoutingModule } from './ro-calculator-routing.module';
 import { EquipmentComponent } from './equipment/equipment.component';
@@ -107,6 +108,7 @@ import { CharSpritePipe } from '../../../pipes/char-sprite.pipe';
     BattleMonsterSummaryComponent,
     EquipmentCosEnchantComponent,
     StatusInputComponent,
+    TooltipClampDirective,
   ],
   exports: [CalcValueComponent],
 })
