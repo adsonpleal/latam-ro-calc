@@ -108,7 +108,7 @@ export class AppTopBarComponent {
       logs: [
         'Adicionada a habilidade Encantar com Chama (encanto de Fogo do Professor/Feiticeiro/Elementalista), que faltava nas listas "Aprenda para ganhar bônus" e "Habilidades/efeitos ativos" — as outras três (Geada, Ventania e Terremoto) já existiam. Ela também passa a ser importada dos replays. (Reportado por Ted.)',
         'O popover de descrição dos itens não é mais cortado nas bordas da janela — agora ele é reposicionado para ficar sempre visível. (Reportado por Ted.)',
-        'O popover de descrição agora também aparece nos equipamentos Sombrios (e seus encantamentos), nos trajes visuais, nos encantamentos de traje e no Pet — antes esses slots não mostravam a descrição ao passar o mouse. (Reportado por Ted.)',
+        'O popover de descrição agora também aparece nos equipamentos Sombrios (e seus encantamentos), nos trajes visuais, nos encantamentos de traje e no Pet — antes esses slots não mostravam a descrição ao passar o mouse.',
       ],
     },
     {
