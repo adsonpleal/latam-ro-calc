@@ -103,6 +103,14 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.14-beta',
+      date: '10-07-2026',
+      logs: [
+        'A classe Inquisidor (Inquisitor) foi validada: as fórmulas de dano de Técnica da Mão Explosiva e Punho Labareda foram conferidas contra os danos reais registrados em jogo — a reconstrução completa do ATQ a partir do replay reproduz exatamente os valores observados (inclusive o bônus de ATQ das Esferas Espirituais). Obrigado Luís por compartilhar os replays.',
+        'Corrigido o bônus de dano de Punho Labareda contra as raças Bruto e Demônio, que por engano verificava a raça Humanoide no lugar de Demônio.',
+      ],
+    },
+    {
       v: '0.1.13-beta',
       date: '09-07-2026',
       logs: [

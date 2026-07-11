@@ -327,7 +327,7 @@ export class Inquisitor extends Sura {
         const { model, skillLevel, status, monster } = input;
         const { totalPow } = status;
         const baseLevel = model.level;
-        const raceBonus = monster.isRace('demihuman', 'brute') ? 300 : 0;
+        const raceBonus = monster.isRace('demon', 'brute') ? 300 : 0;
 
         return (skillLevel * (800 + raceBonus) + totalPow * 10) * (baseLevel / 100);
       },

@@ -3,21 +3,44 @@
 > As notas detalhadas por versão também aparecem no app, em **Novidades** (a lista
 > `updates` em `app.topbar.component.ts` é a fonte canônica voltada ao usuário).
 
+## 0.1.14-beta — 2026-07-10
+
+- **Inquisidor validado:** as fórmulas de dano de **Técnica da Mão Explosiva**
+  (Explosion Blaster) e **Punho Labareda** (Massive Flame Blaster) foram conferidas
+  contra os danos reais registrados em jogo — a reconstrução completa do ATQ a
+  partir do replay reproduz exatamente os valores observados (inclusive o bônus de
+  ATQ das Esferas Espirituais). (Replays compartilhados por **Luís** — obrigado!)
+- **Correção:** o bônus de dano de **Punho Labareda** contra as raças **Bruto** e
+  **Demônio** verificava por engano a raça **Humanoide** no lugar de Demônio.
+
+## 0.1.13-beta — 2026-07-09
+
+- **Habilidades:** adicionada a habilidade **Encantar com Chama** (encanto de Fogo
+  do Professor/Feiticeiro/Elementalista), que faltava nas listas "Aprenda para
+  ganhar bônus" e "Habilidades/efeitos ativos" — as outras três (Geada, Ventania e
+  Terremoto) já existiam. Também passa a ser importada dos replays. (Reportado por
+  **Ted**.)
+- **Interface:** o popover de descrição dos itens não é mais cortado nas bordas da
+  janela — agora é reposicionado para ficar sempre visível. (Reportado por **Ted**.)
+- **Interface:** o popover de descrição agora também aparece nos equipamentos
+  Sombrios (e seus encantamentos), nos trajes visuais, nos encantamentos de traje e
+  no Pet — antes esses slots não mostravam a descrição ao passar o mouse.
+
 ## 0.1.12-beta — 2026-07-08
 
 - **Importação de replay:** mais de **1.000 trajes visuais (Visuais)** LATAM que
   faltavam no banco de dados foram adicionados, extraídos do cliente — agora
-  aparecem nos seletores e são importados dos replays. (Reportado pelo **William**.)
+  aparecem nos seletores e são importados dos replays. (Reportado por **William**.)
 - **Importação de replay:** corrigida a leitura dos **encantos dos trajes visuais**
   nas posições **Meio** e **Baixo**, que não estavam sendo importados do replay —
   o encanto fica numa posição de carta fixa por slot (Topo/Meio/Baixo) e a leitura
-  sequencial pulava o de Meio/Baixo. (Reportado pelo **William**.)
+  sequencial pulava o de Meio/Baixo. (Reportado por **William**.)
 - **Importação de replay:** os **encantos de arma** (ex.: **Memória de Cecil**)
   agora são importados no campo de encanto correto (`weaponEnchant`), em vez de
   caírem num slot de carta oculto. As posições da arma são divididas pela sua
   quantidade de slots: as primeiras são cartas, as demais são encantos. Antes o
   encanto aparecia no resumo mas não no seletor da arma — e podia ser contado em
-  dobro ao ser adicionado de novo. (Reportado pelo **Breviglieri**.)
+  dobro ao ser adicionado de novo. (Reportado por **Breviglieri**.)
 
 ## 0.1.11-beta — 2026-07-07
 
@@ -48,14 +71,14 @@
 
 - Adicionadas as **Essências de Morroc** (FOR, AGI, VIT, INT, DES e SOR, níveis 1
   a 3), que podem ser combinadas em qualquer equipamento ou arma com slot.
-  (Sugerido pelo Ted.)
+  (Sugerido por Ted.)
 
 ## 0.1.2-beta — 2026-06-26
 
 - Adicionados os **Bônus Aleatórios** ao conjunto Selo de Loki: o Selo de Loki e
   os selos de Copas, Espadas, Ouros e Paus agora aceitam 2 bônus aleatórios cada.
   Bônus aleatórios também foram habilitados para elmos de posição **Baixo**.
-  (Correção sugerida pelo Ted.)
+  (Correção sugerida por Ted.)
 - Corrigida a tradução do bônus de dano mágico por propriedade: "Meu Elemento
   Mágico" → "Dano Mágico por Propriedade" (ex.: "Dano mágico Fogo +N%"),
   alinhada ao texto oficial do cliente.
