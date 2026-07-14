@@ -35,8 +35,8 @@ export class RoService {
   constructor(private http: HttpClient) {
     this.cachedMonster$ = forkJoin({
       monsters: this.http.get<any>('assets/demo/data/monster.json'),
-      // pt-BR monster names from ragreplaystats' Divine Pride scrape
-      // (tools/build-latam-monsters.mjs).
+      // pt-BR monster names from ragassets' mobs.json (GRF string table +
+      // navi spawn data, see tools/build-latam-monsters.mjs).
       latam: this.http.get<Record<string, string>>('assets/demo/data/latam-monsters.json'),
     }).pipe(
       map(({ monsters, latam }) => {
