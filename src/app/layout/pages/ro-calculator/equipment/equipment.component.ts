@@ -185,7 +185,7 @@ export class EquipmentComponent implements OnChanges, OnInit {
     return html;
   }
 
-  private setEnchantList() {
+  private setEnchantList(isEmitItemChange: boolean) {
     const { aegisName, name, canGrade } = this.getItem();
     const enchants = getEnchants(aegisName) ?? getEnchants(name);
 
@@ -202,8 +202,10 @@ export class EquipmentComponent implements OnChanges, OnInit {
           // LATAM item legitimately carries (e.g. a replay-imported U-Mental on an
           // Illusion accessory). If the set value is a real enchant item, surface
           // it in this slot's list instead of wiping the import; only clear values
-          // that aren't a real enchant.
-          const ench = this.items?.[currentEnchantValue as unknown as number];
+          // that aren't a real enchant. Only applies on data hydration/import
+          // (isEmitItemChange === false) — a genuine user-driven item swap always
+          // clears an enchant that isn't valid for the newly selected item.
+          const ench = !isEmitItemChange ? this.items?.[currentEnchantValue as unknown as number] : undefined;
           if (ench && this.mapEnchant?.has(ench.aegisName)) {
             this[listKey] = [...enchantList, { label: ench.name, value: ench.id }];
           } else {
@@ -229,7 +231,7 @@ export class EquipmentComponent implements OnChanges, OnInit {
     if (itemType === 'itemId') {
       const item = this.getItem(itemId);
       this.totalCardSlots = item?.slots || 0;
-      this.setEnchantList();
+      this.setEnchantList(isEmitItemChange);
       this.itemIdChange.emit(this.itemId);
       this.itemRefineChange.emit(this.itemRefine);
 

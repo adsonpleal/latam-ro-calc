@@ -103,7 +103,7 @@ export class EquipmentShadowComponent implements OnInit, OnChanges {
     return this.items?.[mainItemId || this.itemId] ?? ({} as ItemModel);
   }
 
-  private setEnchantList() {
+  private setEnchantList(isEmit: boolean) {
     const { aegisName, name } = this.getItem();
     const enchants = getEnchants(aegisName) ?? getEnchants(name);
 
@@ -117,8 +117,10 @@ export class EquipmentShadowComponent implements OnInit, OnChanges {
         const currentEnchantValue = this[property];
         if (this.itemId && currentEnchantValue != null && !enchantList.find((a) => a.value === currentEnchantValue)) {
           // Keep a real enchant the item legitimately carries (e.g. replay-imported)
-          // even when the kRO-derived enchant table omits it; only clear non-enchants.
-          const ench = this.items?.[currentEnchantValue as unknown as number];
+          // even when the kRO-derived enchant table omits it; only on data hydration
+          // (isEmit === false) — a genuine user-driven item swap always clears an
+          // enchant that isn't valid for the newly selected item.
+          const ench = !isEmit ? this.items?.[currentEnchantValue as unknown as number] : undefined;
           if (ench && this.mapEnchant?.has(ench.aegisName)) {
             this[listKey] = [...enchantList, { label: ench.name, value: ench.id }];
           } else {
@@ -137,7 +139,7 @@ export class EquipmentShadowComponent implements OnInit, OnChanges {
 
   onSelectItem(itemType: string, itemId = 0, refine = 0, isEmit = true) {
     if (itemType === 'itemId') {
-      this.setEnchantList();
+      this.setEnchantList(isEmit);
       this.itemIdChange.emit(this.itemId);
       this.itemRefineChange.emit(this.itemRefine);
     } else {
