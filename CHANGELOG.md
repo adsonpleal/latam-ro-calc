@@ -3,6 +3,22 @@
 > As notas detalhadas por versão também aparecem no app, em **Novidades** (a lista
 > `updates` em `app.topbar.component.ts` é a fonte canônica voltada ao usuário).
 
+## 0.1.15-beta — 2026-07-14
+
+- **Correção:** os checkboxes de **Efeitos** mostravam o código interno do bônus
+  (ex.: `m_size_all`) em vez do nome traduzido — agora exibem o texto em pt-BR
+  (ex.: "Dano Mágico (Tamanho: Todos)"). (Reportado por **Ted**.)
+- **Correção:** vários **nomes de monstros** em português estavam genéricos ou
+  errados (ex.: variações de Goblin e Kobold por tipo de arma, cores de Pitaya e
+  Dimik agrupadas sob um único nome) — corrigidos usando uma extração mais
+  precisa dos dados do cliente.
+- **Correção:** trocar o item equipado em um slot agora limpa os encantamentos
+  que não são válidos para o novo item — antes um encantamento do item anterior
+  podia continuar selecionado por engano.
+- **Correção:** na **Comparação**, quando um Efeito selecionado pertence só a um
+  dos itens comparados, o outro lado agora mostra o dano base corretamente em vez
+  de "0" (e a porcentagem não aparece mais como "NaN%"). (Reportado por **Ted**.)
+
 ## 0.1.14-beta — 2026-07-10
 
 - **Inquisidor validado:** as fórmulas de dano de **Técnica da Mão Explosiva**
