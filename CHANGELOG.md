@@ -7,7 +7,7 @@
 
 - **Correção:** os checkboxes de **Efeitos** mostravam o código interno do bônus
   (ex.: `m_size_all`) em vez do nome traduzido — agora exibem o texto em pt-BR
-  (ex.: "Dano Mágico (Tamanho: Todos)"). (Reportado por **Ted**.)
+  (ex.: "Dano Mágico (Tamanho: Todos)").
 - **Correção:** vários **nomes de monstros** em português estavam genéricos ou
   errados (ex.: variações de Goblin e Kobold por tipo de arma, cores de Pitaya e
   Dimik agrupadas sob um único nome) — corrigidos usando uma extração mais

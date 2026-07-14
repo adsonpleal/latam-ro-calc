@@ -106,7 +106,7 @@ export class AppTopBarComponent {
       v: '0.1.15-beta',
       date: '14-07-2026',
       logs: [
-        'Os checkboxes de Efeitos agora mostram o nome traduzido do bônus (ex.: "Dano Mágico (Tamanho: Todos)") em vez do código interno (ex.: "m_size_all"). (Reportado por Ted.)',
+        'Os checkboxes de Efeitos agora mostram o nome traduzido do bônus (ex.: "Dano Mágico (Tamanho: Todos)") em vez do código interno (ex.: "m_size_all").',
         'Corrigidos nomes de monstros em português que estavam genéricos ou errados (ex.: variações de Goblin e Kobold por tipo de arma, cores de Pitaya e Dimik), usando uma extração mais precisa dos dados do cliente.',
         'Trocar o item de um slot agora limpa os encantamentos que não valem para o novo item — antes um encantamento do item anterior podia continuar selecionado por engano.',
         'Corrigido o cálculo da Comparação quando um Efeito selecionado pertence só a um dos itens comparados: o outro lado agora mostra o dano base corretamente, em vez de "0" (e a porcentagem não aparece mais como "NaN%"). (Reportado por Ted.)',
