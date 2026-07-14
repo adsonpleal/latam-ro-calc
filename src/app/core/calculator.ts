@@ -1385,9 +1385,10 @@ export class Calculator {
     this.miscSummary = misc;
     this.basicAspd = basicAspd;
 
-    if (this.selectedChanceList.length > 0) {
-      this.recalcExtraBonus(skillValue);
-    }
+    // Always resolve effected* (compare mode feeds the same selectedChances into
+    // every build, including ones that don't carry the chance's source item — see
+    // recalcExtraBonus's own build-has-no-match fallback below).
+    this.recalcExtraBonus(skillValue);
 
     return this;
   }
@@ -1416,6 +1417,26 @@ export class Calculator {
     const c = this.getChanceBonus();
     if (c.length === 0) {
       this.selectedChanceList = [];
+      // Compare mode applies the same selectedChances to every build (see
+      // ro-calculator.component.ts prepare()/refreshChanceList()), so a chance
+      // whose source item this build doesn't carry lands here. effected* must
+      // fall back to this build's own base damage — not stay unset — or the UI
+      // renders a bare 0 (no fallback exists for the main/non-compare column)
+      // and the diff-percent calc divides by an undefined max, producing NaN%.
+      this.damageSummary = {
+        ...this.damageSummary,
+        effectedBasicDamageMin: this.damageSummary.basicMinDamage,
+        effectedBasicDamageMax: this.damageSummary.basicMaxDamage,
+        effectedBasicCriDamageMin: this.damageSummary.criMinDamage,
+        effectedBasicCriDamageMax: this.damageSummary.criMaxDamage,
+        effectedBasicDps: this.damageSummary.basicDps,
+        effectedBasicHitsPerSec: this.basicAspd?.hitsPerSec || 0,
+
+        effectedSkillDamageMin: this.damageSummary.skillMinDamage || 0,
+        effectedSkillDamageMax: this.damageSummary.skillMaxDamage || 0,
+        effectedSkillDps: this.damageSummary.skillDps || 0,
+        effectedSkillHitsPerSec: this.skillFrequency?.totalHitPerSec || 0,
+      };
       return this;
     }
 
