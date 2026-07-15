@@ -20,27 +20,34 @@
   <!-- 1. Efeitos -->
   <div class="hud-buffs" *ngIf="chanceList?.length">
     <span class="cap">Efeitos</span>
-    <button
-      type="button"
-      class="hud-buff"
-      *ngFor="let c of chanceList"
-      [class.on]="isChanceSelected(c.name)"
-      [pTooltip]="c.label2"
-      tooltipPosition="top"
-      (click)="onToggleChance(c.name)"
+    <p-selectButton
+      [options]="chanceList"
+      optionValue="name"
+      [multiple]="true"
+      [ngModel]="selectedChances"
+      (ngModelChange)="selectedChancesChange.emit($event)"
+      styleClass="hud-buffs-select"
     >
-      <img *ngIf="c.itemId" [src]="c.itemId | iconUrl" alt="" class="hud-buff-icon" />
-      {{ c.label }}
-    </button>
+      <ng-template let-item pTemplate="item">
+        <span [pTooltip]="item.label2" tooltipPosition="top" class="hud-buff-item">
+          <img *ngIf="item.itemId" [src]="item.itemId | iconUrl" alt="" class="hud-buff-icon" />
+          {{ item.label }}
+        </span>
+      </ng-template>
+    </p-selectButton>
   </div>
 
   <!-- 2. Flags (only rendered when active) -->
   <div class="hud-flags">
-    <button type="button" class="hud-flag" *ngIf="dmg?.requireTxt" [pTooltip]="dmg?.requireTxt" tooltipPosition="top">⚠ Requer</button>
-    <button type="button" class="hud-flag" *ngIf="showLeftWeapon && model?.leftWeapon" pTooltip="ATK da mão esquerda ainda não calculado" tooltipPosition="top">
-      ⚠ Mão esq.
-    </button>
-    <button type="button" class="hud-flag" *ngIf="dmg?.isAutoSpell" pTooltip="DPS não exibido para autospell" tooltipPosition="top">Autospell</button>
+    <p-tag *ngIf="dmg?.requireTxt" severity="danger" value="⚠ Requer" [pTooltip]="dmg?.requireTxt" tooltipPosition="top"></p-tag>
+    <p-tag
+      *ngIf="showLeftWeapon && model?.leftWeapon"
+      severity="danger"
+      value="⚠ Mão esq."
+      pTooltip="ATK da mão esquerda ainda não calculado"
+      tooltipPosition="top"
+    ></p-tag>
+    <p-tag *ngIf="dmg?.isAutoSpell" severity="warning" value="Autospell" pTooltip="DPS não exibido para autospell" tooltipPosition="top"></p-tag>
   </div>
 
   <!-- 3. Compare ribbon -->
@@ -57,11 +64,15 @@
         <div class="hud-monster-info">
           <div class="np-name">
             {{ selectedMonsterName }}
-            <span class="hud-badge" style="background: var(--red-900); color: var(--red-300)" *ngIf="totalSummary?.monster?.typeUpper">{{
-              totalSummary?.monster?.typeUpper | monsterTerm: 'type'
-            }}</span>
-            <span class="hud-badge mvp" *ngIf="totalSummary?.monster?.isMvp">MVP</span>
-            <span class="hud-badge aura" *ngIf="totalSummary?.monster?.isRedAura" pTooltip="Aura vermelha: redução de 99,9% do dano final." tooltipPosition="top">AURA</span>
+            <p-tag *ngIf="totalSummary?.monster?.typeUpper" severity="danger" [value]="totalSummary?.monster?.typeUpper | monsterTerm: 'type'"></p-tag>
+            <p-tag *ngIf="totalSummary?.monster?.isMvp" severity="warning" value="MVP"></p-tag>
+            <p-tag
+              *ngIf="totalSummary?.monster?.isRedAura"
+              severity="danger"
+              value="AURA"
+              pTooltip="Aura vermelha: redução de 99,9% do dano final."
+              tooltipPosition="top"
+            ></p-tag>
           </div>
           <div class="hud-hp-line">HP {{ totalSummary?.monster?.hp | number }}</div>
         </div>
@@ -78,9 +89,10 @@
       </div>
 
       <div class="hud-sub">
-        <span class="hud-badge el-badge {{ 'property_' + totalSummary?.monster?.elementUpper }}">{{
-          totalSummary?.monster?.elementLevelUpper | monsterTerm: 'element'
-        }}</span>
+        <p-tag
+          [value]="totalSummary?.monster?.elementLevelUpper | monsterTerm: 'element'"
+          [styleClass]="elementTagClass(totalSummary?.monster?.elementUpper)"
+        ></p-tag>
         <button
           pButton
           type="button"
@@ -207,7 +219,14 @@
       <div class="hud-castbar">
         <div class="cap">
           Conjuração
-          <button type="button" class="pop-btn" (click)="castHelpPanel.toggle($event)" aria-label="como o ritmo é calculado">?</button>
+          <button
+            pButton
+            type="button"
+            class="p-button-rounded p-button-text p-button-sm"
+            icon="pi pi-question-circle"
+            (click)="castHelpPanel.toggle($event)"
+            aria-label="como a conjuração é calculada"
+          ></button>
           <button
             pButton
             type="button"
@@ -260,7 +279,7 @@
   </div>
 
   <p-overlayPanel #castHelpPanel>
-    <div class="ptitle">Ritmo da habilidade</div>
+    <div class="ptitle">Conjuração da habilidade</div>
     <div style="font-size: 11.5px; max-width: 260px; line-height: 1.5">
       Fixa e variável correm <b>em sequência</b>. Depois, pós-conjuração e recarga contam <b>ao mesmo tempo</b> — a maior define o bloqueio.<br />
       (fixa + variável) + max(pós, recarga) = {{ castbar.hitPeriod | number: '1.0-3' }}s → {{ castbar.totalHitPerSec | number: '1.0-2' }} usos/s.

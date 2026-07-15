@@ -208,7 +208,7 @@ export function buildOptimizeInfo(input: {
       key: 'pos',
       label: 'Pós',
       seconds: reducedAcd,
-      hint: 'reduz com −Pós-conjuração (ACD%) e ASPD',
+      hint: 'reduz com −Pós-conjuração e ASPD',
       doneText: posZero ? 'já zerada ✓' : null,
     },
     {
@@ -221,7 +221,7 @@ export function buildOptimizeInfo(input: {
   ];
 
   const headline = isOptimized
-    ? 'Ritmo já otimizado — nada relevante a melhorar.'
+    ? 'Conjuração já otimizada — nada relevante a melhorar.'
     : `Gargalo atual: ${components.find((c) => c.key === bottleneck)!.label}`;
 
   return { isOptimized, headline, bottleneck, components, whatIf };

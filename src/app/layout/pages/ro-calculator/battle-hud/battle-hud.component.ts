@@ -47,18 +47,18 @@ export class BattleHudComponent {
     return this.dmgTypePtBr[type] ?? type;
   }
 
+  // Elements without a `property_*` rule in styles.scss (Neutral is the only one —
+  // it never had a color, by design) must not fall through to p-tag's own default
+  // background. 'el-tag-neutral' (battle-hud.component.css) reproduces the old
+  // outlined/neutral badge look instead of an arbitrary PrimeNG color.
+  private static readonly ELEMENT_COLOR_CLASSES = new Set(['Water', 'Earth', 'Fire', 'Wind', 'Poison', 'Holy', 'Dark', 'Ghost', 'Undead']);
+
+  elementTagClass(elementUpper: string | undefined): string {
+    return elementUpper && BattleHudComponent.ELEMENT_COLOR_CLASSES.has(elementUpper) ? 'property_' + elementUpper : 'el-tag-neutral';
+  }
+
   onShowElementalTableClick(): void {
     this.showElementTableClick.emit(1);
-  }
-
-  isChanceSelected(name: string): boolean {
-    return this.selectedChances?.includes(name);
-  }
-
-  onToggleChance(name: string): void {
-    const current = this.selectedChances || [];
-    const next = current.includes(name) ? current.filter((n) => n !== name) : [...current, name];
-    this.selectedChancesChange.emit(next);
   }
 
   get dmg(): any {

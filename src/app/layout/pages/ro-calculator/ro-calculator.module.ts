@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { TableModule } from 'primeng/table';
@@ -66,6 +67,7 @@ import { CharSpritePipe } from '../../../pipes/char-sprite.pipe';
     CheckboxModule,
     CommonModule,
     ConfirmDialogModule,
+    FormsModule,
     DividerModule,
     DropdownModule,
     InputNumberModule,

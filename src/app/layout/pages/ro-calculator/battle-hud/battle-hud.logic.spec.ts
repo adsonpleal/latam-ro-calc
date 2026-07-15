@@ -159,7 +159,7 @@ describe('buildOptimizeInfo', () => {
       sumDex2Int1: 0,
     });
     expect(info.isOptimized).toBe(true);
-    expect(info.headline).toBe('Ritmo já otimizado — nada relevante a melhorar.');
+    expect(info.headline).toBe('Conjuração já otimizada — nada relevante a melhorar.');
     expect(info.whatIf).toBeNull();
     expect(info.components.find((c) => c.key === 'fixa')!.doneText).toBe('já zerada ✓');
     expect(info.components.find((c) => c.key === 'variavel')!.doneText).toBe('já zerada ✓');
