@@ -29,6 +29,7 @@ import { BlockUIModule } from 'primeng/blockui';
 import { DataViewModule } from 'primeng/dataview';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { TooltipModule } from 'primeng/tooltip';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 import { RoCalculatorComponent } from './ro-calculator.component';
 import { ItemDescTooltipPipe } from './item-desc-tooltip.pipe';
@@ -47,6 +48,7 @@ import { ElementalTableComponent } from './elemental-table/elemental-table.compo
 import { ElementalTableRawComponent } from './elemental-table-raw/elemental-table-raw.component';
 import { BattleDmgSummaryComponent } from './battle-dmg-summary/battle-dmg-summary.component';
 import { BattleMonsterSummaryComponent } from './battle-monster-summary/battle-monster-summary.component';
+import { BattleHudComponent } from './battle-hud/battle-hud.component';
 import { EquipmentCosEnchantComponent } from './equipment-cos-enchant/equipment-cos-enchant.component';
 import { StatusInputComponent } from './status-input/status-input.component';
 import { IconUrlPipe } from '../../../pipes/icon-url.pipe';
@@ -88,6 +90,7 @@ import { CharSpritePipe } from '../../../pipes/char-sprite.pipe';
     TooltipModule,
     FieldsetModule,
     DialogModule,
+    OverlayPanelModule,
     RoCalculatorRoutingModule,
     IconUrlPipe,
     MonsterSpritePipe,
@@ -107,6 +110,7 @@ import { CharSpritePipe } from '../../../pipes/char-sprite.pipe';
     ElementalTableRawComponent,
     BattleDmgSummaryComponent,
     BattleMonsterSummaryComponent,
+    BattleHudComponent,
     EquipmentCosEnchantComponent,
     StatusInputComponent,
     ItemDescTooltipPipe,

@@ -1,0 +1,325 @@
+<!-- Compare-aware "current -> simulado" pair, reused across the popovers below.
+     `hidden` lets a caller suppress a row the same way the legacy [hidden] did. -->
+<ng-template #kvPair let-label="label" let-cur="cur" let-sim="sim" let-unit="unit" let-hidden="hidden">
+  <div class="kv" *ngIf="!hidden">
+    <span>{{ label }}</span>
+    <span>
+      {{ cur | number }}{{ cur != null ? unit : '' }}
+      <ng-container *ngIf="isComparing">
+        <span class="arr">→</span><span class="sim">{{ sim | number }}{{ sim != null ? unit : '' }}</span>
+      </ng-container>
+    </span>
+  </div>
+</ng-template>
+
+<div class="hud">
+  <div class="loading_block" *ngIf="isCalculating">
+    <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+  </div>
+
+  <!-- 1. Target frame -->
+  <div class="hud-target">
+    <div class="sprite lg">
+      <img [src]="selectedMonster | monsterSprite" alt="" />
+    </div>
+    <div style="flex: 1; min-width: 0">
+      <div class="np-name">
+        {{ selectedMonsterName }}
+        <span class="hud-badge" style="background: #6b1520; color: #ff8f9a" *ngIf="totalSummary?.monster?.typeUpper">{{
+          totalSummary?.monster?.typeUpper | monsterTerm: 'type'
+        }}</span>
+        <span class="hud-badge mvp" *ngIf="totalSummary?.monster?.isMvp">MVP</span>
+        <span class="hud-badge aura" *ngIf="totalSummary?.monster?.isRedAura" pTooltip="Aura vermelha: redução de 99,9% do dano final." tooltipPosition="top">AURA</span>
+      </div>
+      <div class="hud-hpbar">
+        <div class="fill"></div>
+        <div class="txt">HP {{ totalSummary?.monster?.hp | number }}</div>
+      </div>
+      <div class="hud-sub">
+        <span class="el {{ 'property_' + totalSummary?.monster?.elementUpper }}">{{ totalSummary?.monster?.elementLevelUpper | monsterTerm: 'element' }}</span>
+        <button type="button" class="lupa" [disabled]="isInProcessingPreset" (click)="onShowElementalTableClick()" title="Tabela elemental do monstro">🔍</button>
+        · {{ totalSummary?.monster?.raceUpper | monsterTerm: 'race' }}
+        · {{ totalSummary?.monster?.sizeFullUpper | monsterTerm: 'size' }}
+        <button type="button" class="pop-btn" (click)="fichaPanel.toggle($event)" aria-label="ficha do monstro">?</button>
+        <a class="dplink" [href]="'https://www.divine-pride.net/database/monster/' + selectedMonster" target="_blank" rel="noopener noreferrer">↗ {{ selectedMonster }}</a>
+      </div>
+    </div>
+  </div>
+
+  <p-overlayPanel #fichaPanel>
+    <div class="ptitle">Ficha · ID {{ selectedMonster }}</div>
+    <div class="pstats">
+      <div class="kv"><span>DEF</span><span>{{ totalSummary?.monster?.softDef }} + {{ totalSummary?.monster?.def }}</span></div>
+      <div class="kv"><span>DEFM</span><span>{{ totalSummary?.monster?.softMDef }} + {{ totalSummary?.monster?.mdef }}</span></div>
+      <div class="kv"><span>HIT p/100%</span><span>{{ totalSummary?.monster?.hitRequireFor100 }}</span></div>
+      <div class="kv"><span>RES / RESM</span><span>{{ totalSummary?.monster?.res }} / {{ totalSummary?.monster?.mres }}</span></div>
+      <div class="kv"><span>FOR / DES</span><span>{{ totalSummary?.monster?.str }} / {{ totalSummary?.monster?.dex }}</span></div>
+      <div class="kv"><span>VIT / INT</span><span>{{ totalSummary?.monster?.vit }} / {{ totalSummary?.monster?.int }}</span></div>
+      <div class="kv"><span>AGI / SOR</span><span>{{ totalSummary?.monster?.agi }} / {{ totalSummary?.monster?.luk }}</span></div>
+    </div>
+    <a class="dplink" [href]="'https://www.divine-pride.net/database/monster/' + selectedMonster" target="_blank" rel="noopener noreferrer">Ver no divine-pride ↗</a>
+  </p-overlayPanel>
+
+  <!-- 2. Efeitos -->
+  <div class="hud-buffs" *ngIf="chanceList?.length">
+    <span class="cap">Efeitos</span>
+    <button
+      type="button"
+      class="hud-buff"
+      *ngFor="let c of chanceList"
+      [class.on]="isChanceSelected(c.name)"
+      [pTooltip]="c.label2"
+      tooltipPosition="top"
+      (click)="onToggleChance(c.name)"
+    >
+      {{ c.label }}
+    </button>
+  </div>
+
+  <!-- 3. Flags (only rendered when active) -->
+  <div class="hud-flags">
+    <button type="button" class="hud-flag" *ngIf="dmg?.requireTxt" [pTooltip]="dmg?.requireTxt" tooltipPosition="top">⚠ Requer</button>
+    <button type="button" class="hud-flag" *ngIf="showLeftWeapon && model?.leftWeapon" pTooltip="ATK da mão esquerda ainda não calculado" tooltipPosition="top">
+      ⚠ Mão esq.
+    </button>
+    <button type="button" class="hud-flag" *ngIf="dmg?.isAutoSpell" pTooltip="DPS não exibido para autospell" tooltipPosition="top">Autospell</button>
+  </div>
+
+  <!-- 4. Hero (hidden while the skill can't fire, same as the legacy tab) -->
+  <ng-container *ngIf="!dmg?.requireTxt">
+    <div class="hud-cmp-ribbon" *ngIf="isComparing">⇄ Comparando: {{ compareItemNames?.join(', ') }}</div>
+
+    <div class="hud-hero">
+      <div class="cap2">{{ isAutoSpell ? 'Dano por ativação' : 'DPS · dano por uso' }}</div>
+      <div class="pairs">
+        <div class="pcol">
+          <div class="plabel">Atual</div>
+          <div class="pnum" *ngIf="!isAutoSpell" [class.big]="heroBiggerSide !== 'simulated'" [class.small]="heroBiggerSide === 'simulated'">
+            {{ heroCurrent.dps | number: '1.0-0' }}
+          </div>
+          <div class="pdano" [class.primary]="isAutoSpell">{{ calcSkill?.totalHits }}× {{ heroCurrent.min | number }} – {{ heroCurrent.max | number }}</div>
+        </div>
+        <ng-container *ngIf="isComparing">
+          <div class="vsarrow">→</div>
+          <div class="pcol sim">
+            <div class="plabel">Simulado</div>
+            <div class="pnum" *ngIf="!isAutoSpell" [class.big]="heroBiggerSide === 'simulated'" [class.small]="heroBiggerSide !== 'simulated'">
+              {{ heroSimulated?.dps | number: '1.0-0' }}
+            </div>
+            <div class="pdano" [class.primary]="isAutoSpell">
+              {{ totalSummary2?.calcSkill?.totalHits }}× {{ heroSimulated?.min | number }} – {{ heroSimulated?.max | number }}
+            </div>
+            <div class="pdelta" *ngIf="heroDelta !== null" [class.neg]="heroDelta < 0" [class.pos]="heroDelta >= 0">
+              {{ heroDelta >= 0 ? '+' : '' }}{{ heroDelta | number: '1.0-1' }}%
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="sub">
+        {{ dmgTypeLabel(calcSkill?.dmgType) }} ·
+        <span class="{{ 'property_' + calcSkill?.propertySkill }}">{{ calcSkill?.propertySkill | monsterTerm: 'element' }}</span>
+        ×{{ dmg?.skillPropertyMultiplier }}
+        <button type="button" class="lupa" [disabled]="isInProcessingPreset" (click)="onShowElementalTableClick()" title="Tabela elemental">🔍</button>
+        · Hab./s {{ dmg?.effectedSkillHitsPerSec || calcSkill?.totalHitPerSec | number: '1.0-2' }}
+        <span class="mut" *ngIf="heroShowsBaseFallback">· sem efeitos: {{ calcSkill?.totalHits }}× {{ dmg?.skillMinDamage | number }}–{{ dmg?.skillMaxDamage | number }}</span>
+      </div>
+
+      <div class="hud-subrows">
+        <div class="hud-subrow" *ngIf="dmg?.skillCanCri">
+          Tx. Crít. <span class="v">{{ dmg?.skillCriRateToMonster | number: '1.0-1' }}%</span>
+          <ng-container *ngIf="isComparing">→ <span class="v sim">{{ dmg2?.skillCriRateToMonster | number: '1.0-1' }}%</span></ng-container>
+          · Dano Crít. <span class="v">{{ dmg?.skillCriDmgToMonster | number: '1.0-1' }}%</span>
+          <ng-container *ngIf="isComparing">→ <span class="v sim">{{ dmg2?.skillCriDmgToMonster | number: '1.0-1' }}%</span></ng-container>
+        </div>
+        <div class="hud-subrow" *ngIf="dmg?.skillCanCri && dmg?.skillCriRateToMonster < 100">
+          Dano sem crít. <span class="v">{{ calcSkill?.totalHits }}× {{ dmg?.skillMinDamageNoCri | number }}–{{ dmg?.skillMaxDamageNoCri | number }}</span>
+        </div>
+        <div class="hud-subrow" *ngIf="dmg?.maxStack">
+          {{ dmg?.skillNoStackDamageLabel }} <span class="v">{{ calcSkill?.totalHits }}× {{ dmg?.noStackMinCriDamage | number }}–{{ dmg?.noStackMaxCriDamage | number }}</span>
+        </div>
+        <div class="hud-subrow" *ngIf="dmg?.skillPart2Label && dmg?.skillMaxDamage2">
+          {{ dmg?.skillPart2Label }} <span class="v">{{ dmg?.skillMinDamage2 | number }}–{{ dmg?.skillMaxDamage2 | number }}</span>
+          <ng-container *ngIf="isComparing">→ <span class="v sim">{{ dmg2?.skillMinDamage2 | number }}–{{ dmg2?.skillMaxDamage2 | number }}</span></ng-container>
+        </div>
+        <div class="hud-subrow" *ngIf="dmg?.isUsedCurrentHP">
+          HP Atual <span class="v">{{ dmg?.currentHp | number }}</span>
+          <ng-container *ngIf="isComparing">→ <span class="v sim">{{ dmg2?.currentHp | number }}</span></ng-container>
+        </div>
+        <div class="hud-subrow" *ngIf="dmg?.isUsedCurrentSP">
+          SP Atual <span class="v">{{ dmg?.currentSp | number }}</span>
+          <ng-container *ngIf="isComparing">→ <span class="v sim">{{ dmg2?.currentSp | number }}</span></ng-container>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- 5. Castbar -->
+  <div class="hud-castbar">
+    <div class="cap">
+      Conjuração
+      <button type="button" class="pop-btn" (click)="castHelpPanel.toggle($event)" aria-label="como o ritmo é calculado">?</button>
+      <button type="button" class="optbtn" (click)="optimizePanel.toggle($event)">⚙ otimizar</button>
+    </div>
+
+    <ng-container *ngIf="castbar.mode === 'sequential'; else singleBar">
+      <div class="bar2">
+        <div class="seg fixa" [style.flex]="(castbar.fixed?.percent || 0) + ' 0 0%'" [title]="'Conjuração fixa ' + (castbar.fixed?.seconds | number: '1.0-3') + 's'">
+          {{ castbar.fixed?.seconds | number: '1.0-3' }}
+        </div>
+        <div class="seg varv" [style.flex]="(castbar.variable?.percent || 0) + ' 0 0%'" [title]="'Conjuração variável ' + (castbar.variable?.seconds | number: '1.0-3') + 's'">
+          {{ castbar.variable?.seconds | number: '1.0-3' }}
+        </div>
+        <div class="par" [style.flex]="(castbar.parallel?.blockPercent || 0) + ' 0 0%'">
+          <div class="lane pos" [title]="'Pós-conjuração ' + (castbar.parallel?.posSeconds | number: '1.0-3') + 's — a maior das duas define o bloqueio'">
+            <span>pós-conj. {{ castbar.parallel?.posSeconds | number: '1.0-3' }}s</span>
+          </div>
+          <div class="lane rec" [title]="'Recarga ' + (castbar.parallel?.recSeconds | number: '1.0-3') + 's — corre em paralelo com a pós-conjuração'">
+            <span class="fill" [style.width.%]="castbar.parallel?.recFillPercent || 0"></span>
+            <span class="ltxt">recarga {{ castbar.parallel?.recSeconds | number: '1.0-3' }}s</span>
+          </div>
+        </div>
+      </div>
+      <div class="blegend">
+        fixa {{ castbar.fixed?.seconds | number: '1.0-3' }} <span class="op">+</span> variável {{ castbar.variable?.seconds | number: '1.0-3' }}
+        <span class="op">+</span> ( pós {{ castbar.parallel?.posSeconds | number: '1.0-3' }} <span class="op">∥</span> recarga
+        {{ castbar.parallel?.recSeconds | number: '1.0-3' }} ) <span class="op">=</span> {{ castbar.hitPeriod | number: '1.0-3' }}s/uso ·
+        {{ castbar.totalHitPerSec | number: '1.0-2' }} usos/s
+      </div>
+    </ng-container>
+    <ng-template #singleBar>
+      <div class="bar2">
+        <div class="seg single" [title]="'Ciclo ' + (castbar.single?.seconds | number: '1.0-3') + 's (canalizado)'">{{ castbar.single?.seconds | number: '1.0-3' }}s</div>
+      </div>
+      <div class="blegend">{{ castbar.single?.seconds | number: '1.0-3' }}s/uso (canalizado) <span class="op">=</span> {{ castbar.totalHitPerSec | number: '1.0-2' }} usos/s</div>
+    </ng-template>
+  </div>
+
+  <p-overlayPanel #castHelpPanel>
+    <div class="ptitle">Ritmo da habilidade</div>
+    <div style="font-size: 11.5px; max-width: 260px; line-height: 1.5">
+      Fixa e variável correm <b>em sequência</b>. Depois, pós-conjuração e recarga contam <b>ao mesmo tempo</b> — a maior define o bloqueio.<br />
+      (fixa + variável) + max(pós, recarga) = {{ castbar.hitPeriod | number: '1.0-3' }}s → {{ castbar.totalHitPerSec | number: '1.0-2' }} usos/s.
+    </div>
+    <div class="pstats">
+      <div class="kv"><span>Conj. Variável</span><span>{{ calcSkill?.vct | number: '1.0-3' }} → {{ calcSkill?.reducedVct | number: '1.0-3' }}</span></div>
+      <div class="kv"><span>Conj. Fixa</span><span>{{ calcSkill?.fct | number: '1.0-3' }} → {{ calcSkill?.reducedFct | number: '1.0-3' }}</span></div>
+      <div class="kv"><span>Recarga</span><span>{{ calcSkill?.cd | number: '1.0-3' }} → {{ calcSkill?.reducedCd | number: '1.0-3' }}</span></div>
+      <div class="kv"><span>Pós-conj.</span><span>{{ calcSkill?.acd | number: '1.0-3' }} → {{ calcSkill?.reducedAcd | number: '1.0-3' }}</span></div>
+    </div>
+  </p-overlayPanel>
+
+  <p-overlayPanel #optimizePanel>
+    <div class="ptitle">O que dá para melhorar</div>
+    <div class="optimize-bottleneck" style="font-size: 11.5px">
+      Gargalo atual: <b style="color: #ffd479">{{ optimizeComponentLabel(optimizeInfo.bottleneck) }}</b>
+    </div>
+    <div class="optimize-component" *ngFor="let c of optimizeInfo.components" [class.is-bottleneck]="c.key === optimizeInfo.bottleneck">
+      <b>{{ c.label }} {{ c.seconds | number: '1.0-3' }}s</b> — {{ c.hint }}
+    </div>
+    <div class="optimize-whatif" *ngIf="optimizeInfo.whatIf as w">
+      Zerando a pós-conjuração: DPS iria a <b>{{ w.newDps | number: '1.0-0' }}</b> ({{ w.gainPercent >= 0 ? '+' : '' }}{{ w.gainPercent | number: '1.0-1' }}%)
+    </div>
+  </p-overlayPanel>
+
+  <!-- 6. Menu -->
+  <div class="hud-menu">
+    <button type="button" class="mbtn" (click)="detailsPanel.toggle($event)">Detalhes da habilidade</button>
+    <button type="button" class="mbtn" *ngIf="!hideBasicAtk" (click)="basicPanel.toggle($event)">Ataque básico</button>
+  </div>
+
+  <p-overlayPanel #detailsPanel>
+    <div class="ptitle">Detalhes da habilidade</div>
+    <div class="pstats">
+      <ng-container *ngTemplateOutlet="kvPair; context: { label: 'Hab. Base', cur: calcSkill?.baseSkillDamage, sim: totalSummary2?.calcSkill?.baseSkillDamage, unit: '%' }"></ng-container>
+      <ng-container *ngTemplateOutlet="kvPair; context: { label: 'Bônus Hab.', cur: dmg?.skillBonusFromEquipment, sim: dmg2?.skillBonusFromEquipment, unit: '%' }"></ng-container>
+      <ng-container
+        *ngTemplateOutlet="kvPair; context: { label: dmg?.skillTotalPeneLabel || 'Pen.', cur: dmg?.skillTotalPene, sim: dmg2?.skillTotalPene, unit: '%' }"
+      ></ng-container>
+      <ng-container
+        *ngTemplateOutlet="kvPair; context: { label: dmg?.skillTotalPeneResLabel || 'Pen. Res.', cur: dmg?.skillTotalPeneRes, sim: dmg2?.skillTotalPeneRes, unit: '%' }"
+      ></ng-container>
+      <ng-container
+        *ngTemplateOutlet="kvPair; context: { label: 'VelAtq', cur: totalSummary?.calc?.hitPerSecs, sim: totalSummary2?.calc?.hitPerSecs, unit: ' Hits/s' }"
+      ></ng-container>
+      <ng-container
+        *ngTemplateOutlet="
+          kvPair;
+          context: { label: 'Penal. Tam.', cur: dmg?.skillSizePenalty, sim: dmg2?.skillSizePenalty, unit: '%', hidden: calcSkill?.dmgType === 'Magical' }
+        "
+      ></ng-container>
+      <ng-container
+        *ngTemplateOutlet="kvPair; context: { label: 'Prec.', cur: dmg?.skillAccuracy, sim: dmg2?.skillAccuracy, unit: '%', hidden: calcSkill?.dmgType === 'Magical' }"
+      ></ng-container>
+    </div>
+    <div class="psec">Conjuração</div>
+    <div class="pstats">
+      <div class="kv"><span>Conj. Variável</span><span>{{ calcSkill?.vct | number: '1.0-3' }} → {{ calcSkill?.reducedVct | number: '1.0-3' }}</span></div>
+      <div class="kv"><span>Conj. Fixa</span><span>{{ calcSkill?.fct | number: '1.0-3' }} → {{ calcSkill?.reducedFct | number: '1.0-3' }}</span></div>
+      <div class="kv"><span>Recarga</span><span>{{ calcSkill?.cd | number: '1.0-3' }} → {{ calcSkill?.reducedCd | number: '1.0-3' }}</span></div>
+      <div class="kv"><span>Pós-conj.</span><span>{{ calcSkill?.acd | number: '1.0-3' }} → {{ calcSkill?.reducedAcd | number: '1.0-3' }}</span></div>
+    </div>
+    <ng-container *ngIf="dmg?.isUsedCurrentHP || dmg?.isUsedCurrentSP">
+      <div class="psec">Consumo</div>
+      <div class="pstats">
+        <ng-container *ngTemplateOutlet="kvPair; context: { label: 'HP Atual', cur: dmg?.currentHp, sim: dmg2?.currentHp, hidden: !dmg?.isUsedCurrentHP }"></ng-container>
+        <ng-container *ngTemplateOutlet="kvPair; context: { label: 'SP Atual', cur: dmg?.currentSp, sim: dmg2?.currentSp, hidden: !dmg?.isUsedCurrentSP }"></ng-container>
+      </div>
+    </ng-container>
+  </p-overlayPanel>
+
+  <!-- Not gated by *ngIf: the trigger button above already hides when hideBasicAtk
+       is set, and a template reference declared on a *ngIf host isn't visible to
+       sibling elements outside that structural view. -->
+  <p-overlayPanel #basicPanel>
+    <div class="ptitle">Ataque básico</div>
+    <div class="pstats">
+      <div class="kv">
+        <span>Elemento</span>
+        <span>
+          <span class="{{ 'property_' + totalSummary?.propertyAtk }}">{{ totalSummary?.propertyAtk | monsterTerm: 'element' }}</span>
+          ×{{ dmg?.propertyMultiplier }}
+          <button type="button" class="lupa" [disabled]="isInProcessingPreset" (click)="onShowElementalTableClick()" title="Tabela elemental">🔍</button>
+        </span>
+      </div>
+      <ng-container
+        *ngTemplateOutlet="kvPair; context: { label: 'Pen.', cur: dmg?.totalPene, sim: dmg2?.totalPene, unit: '%', hidden: dmg?.totalPene === dmg?.skillTotalPene }"
+      ></ng-container>
+      <ng-container
+        *ngTemplateOutlet="kvPair; context: { label: 'Prec.', cur: dmg?.accuracy, sim: dmg2?.accuracy, unit: '%', hidden: dmg?.accuracy === dmg?.skillAccuracy }"
+      ></ng-container>
+    </div>
+    <div class="psec">Dano</div>
+    <div class="pstats one">
+      <div class="kv">
+        <span>Básico</span>
+        <span>
+          {{ dmg?.basicMinDamage | number }} – {{ dmg?.basicMaxDamage | number }}
+          <ng-container *ngIf="isComparing">
+            <span class="arr">→</span> <span class="sim">{{ dmg2?.basicMinDamage | number }} – {{ dmg2?.basicMaxDamage | number }}</span>
+          </ng-container>
+        </span>
+      </div>
+      <ng-container *ngTemplateOutlet="kvPair; context: { label: 'Tx. Crít.', cur: dmg?.criRateToMonster, sim: dmg2?.criRateToMonster, unit: '%' }"></ng-container>
+      <div class="kv">
+        <span>Dano Crít.</span>
+        <span>
+          {{ dmg?.criMinDamage | number }} – {{ dmg?.criMaxDamage | number }}
+          <ng-container *ngIf="isComparing">
+            <span class="arr">→</span> <span class="sim">{{ dmg2?.criMinDamage | number }} – {{ dmg2?.criMaxDamage | number }}</span>
+          </ng-container>
+        </span>
+      </div>
+      <ng-container *ngTemplateOutlet="kvPair; context: { label: 'DPS', cur: dmg?.basicDps, sim: dmg2?.basicDps }"></ng-container>
+      <ng-container *ngIf="dmg?.effectedBasicDamageMin > 0 && selectedChances?.length">
+        <div class="kv"><span>Acionado Crít.</span><span>{{ dmg?.effectedBasicCriDamageMin | number }} – {{ dmg?.effectedBasicCriDamageMax | number }}</span></div>
+        <ng-container
+          *ngTemplateOutlet="kvPair; context: { label: 'DPS acionado', cur: dmg?.effectedBasicDps, sim: dmg2?.effectedBasicDps || dmg2?.basicDps }"
+        ></ng-container>
+      </ng-container>
+    </div>
+    <div *ngIf="showLeftWeapon && model?.leftWeapon" style="color: #ff8f9a; font-size: 11px; font-weight: 700; margin-top: 6px">
+      *** ATK da mão esquerda ainda não calculado
+    </div>
+  </p-overlayPanel>
+</div>

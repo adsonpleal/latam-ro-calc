@@ -1662,7 +1662,7 @@
 
   <!-- Right Side -->
   <div class="p-fluid col-5">
-    <p-accordion [multiple]="true" [activeIndex]="[2, 7]">
+    <p-accordion [multiple]="true" [activeIndex]="[2, 8]">
       <p-accordionTab header="Consumíveis" class="consumable">
         <div class="grid grid-nogutter">
           <!-- Consumable -->
@@ -1846,6 +1846,178 @@
       </p-accordionTab>
 
       <p-accordionTab header="Resumo de Batalha">
+        <div class="grid grid-nogutter battle_summary">
+          <!-- Monster -->
+          <div class="col-6">
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon monster_hilight_label">Monstro</span>
+              <p-dropdown
+                inputId="monsterOpponentHud"
+                [autoDisplayFirst]="false"
+                [resetFilterOnHide]="true"
+                [options]="groupMonsterList"
+                [filter]="true"
+                filterBy="label,searchVal"
+                filterPlaceholder="Buscar por nome ou ID (ex: 21361)"
+                [group]="true"
+                scrollHeight="400px"
+                [(ngModel)]="selectedMonster"
+                (onChange)="onMonsterChange()"
+              >
+                <ng-template let-group pTemplate="group">
+                  <div class="flex align-items-center font-bold dropdown_monster_group_label">
+                    <span>{{ group.label }}</span>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+
+          <!-- Skill -->
+          <div class="col-6" style="position: relative">
+            <div class="skill-selection" [hidden]="isShowSelectableSkillLevel">
+              <div class="p-inputgroup">
+                <span class="p-inputgroup-addon skill_hilight_label">Habilidade</span>
+                <p-dropdown
+                  inputId="skillHud"
+                  [autoDisplayFirst]="false"
+                  [resetFilterOnHide]="true"
+                  [options]="atkSkills"
+                  scrollHeight="400px"
+                  [(ngModel)]="model.selectedAtkSkill"
+                  (onChange)="onAtkSkillChange()"
+                >
+                  <ng-template let-skill pTemplate="selectedItem">
+                    <div class="flex align-items-center gap-1">
+                      <img *ngIf="skill?.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                      <span>{{ skill?.label }}</span>
+                    </div>
+                  </ng-template>
+                  <ng-template let-skill pTemplate="item">
+                    <div class="flex align-items-center gap-1">
+                      <img *ngIf="skill.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                      <span>{{ skill.label }}</span>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+            </div>
+            <div class="skill-selection" [hidden]="!isShowSelectableSkillLevel">
+              <div class="p-inputgroup">
+                <span class="p-inputgroup-addon skill_hilight_label">Habilidade</span>
+                <p-cascadeSelect
+                  inputId="skillHud"
+                  [(ngModel)]="model.selectedAtkSkill"
+                  [options]="atkSkillCascades"
+                  optionValue="value"
+                  optionLabel="label"
+                  optionGroupLabel="label"
+                  [optionGroupChildren]="['levelList']"
+                  placeholder="-"
+                  (onChange)="onAtkSkillChange()"
+                >
+                  <ng-template pTemplate="option" let-option>
+                    <div class="flex align-items-center gap-1">
+                      <img *ngIf="option?.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                      <span>{{ option.label }}</span>
+                    </div>
+                  </ng-template>
+                </p-cascadeSelect>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <app-battle-hud
+              [totalSummary]="totalSummary"
+              [totalSummary2]="totalSummary2"
+              [isEnableCompare]="isEnableCompare"
+              [isCalculating]="isCalculating"
+              [isInProcessingPreset]="isInProcessingPreset"
+              [selectedChances]="selectedChances"
+              (selectedChancesChange)="selectedChances = $event; onSelecteChance($event)"
+              [chanceList]="chanceList"
+              [model]="model"
+              [hideBasicAtk]="hideBasicAtk"
+              [showLeftWeapon]="showLeftWeapon"
+              [selectedMonster]="selectedMonster"
+              [selectedMonsterName]="selectedMonsterName"
+              [compareItemNames]="compareItemNames"
+              (showElementTableClick)="onShowElementalTableClick()"
+            ></app-battle-hud>
+          </div>
+
+          <!-- Table -->
+          <div class="col-12 damage_table">
+            <p-table
+              styleClass="p-datatable-striped"
+              filterValue="label"
+              [columns]="selectedColumns"
+              [value]="calcDamages"
+              [loading]="isCalculating"
+              [tableStyle]="{ 'min-width': '40rem' }"
+            >
+              <ng-template pTemplate="caption">
+                <div class="grid grid-nogutter">
+                  <div class="col-6">
+                    <p-multiSelect
+                      [options]="groupMonsterList"
+                      [group]="true"
+                      [(ngModel)]="selectedMonsterIds"
+                      [filter]="true"
+                      filterBy="label,searchVal"
+                      [showClear]="true"
+                      [showToggleAll]="false"
+                      scrollHeight="400px"
+                      selectedItemsLabel="{0} monsters selected"
+                      placeholder="Escolher Monstros"
+                      [maxSelectedLabels]="2"
+                      (onChange)="onMonsterListChange()"
+                      (onClear)="onMonsterListChange()"
+                    >
+                      <ng-template let-group pTemplate="group">
+                        <div class="flex align-items-center font-bold dropdown_monster_group_label">
+                          <span>{{ group.label }}</span>
+                        </div>
+                      </ng-template>
+                    </p-multiSelect>
+                  </div>
+                  <div class="col-6">
+                    <p-multiSelect
+                      [options]="cols"
+                      [(ngModel)]="selectedColumns"
+                      optionLabel="header"
+                      selectedItemsLabel="{0} columns selected"
+                      placeholder="Escolher Colunas"
+                      [maxSelectedLabels]="5"
+                      (onChange)="onSelectedColChange()"
+                      (onClear)="onSelectedColChange()"
+                    ></p-multiSelect>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th>Nome</th>
+                  <th *ngFor="let col of columns">
+                    {{ col.header }}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-item let-columns="columns">
+                <tr>
+                  <td class="{{ 'property_' + item.elementName }}">{{ item.label }}</td>
+                  <td *ngFor="let col of columns" class="battle_row_{{ col.field }}">
+                    {{ item[col.field] > 0 ? (item[col.field] | number) : item[col.field] }}
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </p-accordionTab>
+
+      <p-accordionTab header="Resumo de Batalha (antigo)">
         <div class="grid grid-nogutter battle_summary">
           <div class="col-12" [hidden]="!chanceList?.length">
             <p-fieldset legend="Efeitos" [toggleable]="true">
