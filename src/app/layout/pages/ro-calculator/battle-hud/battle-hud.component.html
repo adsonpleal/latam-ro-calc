@@ -25,7 +25,7 @@
     <div style="flex: 1; min-width: 0">
       <div class="np-name">
         {{ selectedMonsterName }}
-        <span class="hud-badge" style="background: #6b1520; color: #ff8f9a" *ngIf="totalSummary?.monster?.typeUpper">{{
+        <span class="hud-badge" style="background: var(--red-900); color: var(--red-300)" *ngIf="totalSummary?.monster?.typeUpper">{{
           totalSummary?.monster?.typeUpper | monsterTerm: 'type'
         }}</span>
         <span class="hud-badge mvp" *ngIf="totalSummary?.monster?.isMvp">MVP</span>
@@ -36,28 +36,64 @@
         <div class="txt">HP {{ totalSummary?.monster?.hp | number }}</div>
       </div>
       <div class="hud-sub">
-        <span class="el {{ 'property_' + totalSummary?.monster?.elementUpper }}">{{ totalSummary?.monster?.elementLevelUpper | monsterTerm: 'element' }}</span>
-        <button type="button" class="lupa" [disabled]="isInProcessingPreset" (click)="onShowElementalTableClick()" title="Tabela elemental do monstro">🔍</button>
+        <span class="hud-badge el-badge {{ 'property_' + totalSummary?.monster?.elementUpper }}">{{
+          totalSummary?.monster?.elementLevelUpper | monsterTerm: 'element'
+        }}</span>
+        <button
+          pButton
+          type="button"
+          class="p-button-text p-button-warning py-0"
+          icon="pi pi-search"
+          [disabled]="isInProcessingPreset"
+          (click)="onShowElementalTableClick()"
+        ></button>
         · {{ totalSummary?.monster?.raceUpper | monsterTerm: 'race' }}
         · {{ totalSummary?.monster?.sizeFullUpper | monsterTerm: 'size' }}
         <button type="button" class="pop-btn" (click)="fichaPanel.toggle($event)" aria-label="ficha do monstro">?</button>
-        <a class="dplink" [href]="'https://www.divine-pride.net/database/monster/' + selectedMonster" target="_blank" rel="noopener noreferrer">↗ {{ selectedMonster }}</a>
+        <a
+          *ngIf="selectedMonster"
+          class="monster_id_link"
+          [href]="'https://www.divine-pride.net/database/monster/' + selectedMonster"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ID: {{ selectedMonster }}<i class="pi pi-external-link ml-1" style="font-size: 0.7rem"></i>
+        </a>
       </div>
     </div>
   </div>
 
   <p-overlayPanel #fichaPanel>
-    <div class="ptitle">Ficha · ID {{ selectedMonster }}</div>
-    <div class="pstats">
-      <div class="kv"><span>DEF</span><span>{{ totalSummary?.monster?.softDef }} + {{ totalSummary?.monster?.def }}</span></div>
-      <div class="kv"><span>DEFM</span><span>{{ totalSummary?.monster?.softMDef }} + {{ totalSummary?.monster?.mdef }}</span></div>
-      <div class="kv"><span>HIT p/100%</span><span>{{ totalSummary?.monster?.hitRequireFor100 }}</span></div>
-      <div class="kv"><span>RES / RESM</span><span>{{ totalSummary?.monster?.res }} / {{ totalSummary?.monster?.mres }}</span></div>
-      <div class="kv"><span>FOR / DES</span><span>{{ totalSummary?.monster?.str }} / {{ totalSummary?.monster?.dex }}</span></div>
-      <div class="kv"><span>VIT / INT</span><span>{{ totalSummary?.monster?.vit }} / {{ totalSummary?.monster?.int }}</span></div>
-      <div class="kv"><span>AGI / SOR</span><span>{{ totalSummary?.monster?.agi }} / {{ totalSummary?.monster?.luk }}</span></div>
+    <div class="ficha-panel">
+      <div class="ptitle">Ficha · ID {{ selectedMonster }}</div>
+
+      <div class="ficha-hp-row">
+        <span>HP</span>
+        <span class="ficha-hp-value">{{ totalSummary?.monster?.hp | number }}</span>
+      </div>
+
+      <div class="psec">Defesa</div>
+      <div class="pstats ficha-stats">
+        <div class="kv"><span>DEF</span><span class="v-def">{{ totalSummary?.monster?.softDef }} + {{ totalSummary?.monster?.def }}</span></div>
+        <div class="kv"><span>DEFM</span><span class="v-def">{{ totalSummary?.monster?.softMDef }} + {{ totalSummary?.monster?.mdef }}</span></div>
+        <div class="kv"><span>HIT p/100%</span><span class="v-def">{{ totalSummary?.monster?.hitRequireFor100 }}</span></div>
+        <div class="kv"><span>RES / RESM</span><span class="v-def">{{ totalSummary?.monster?.res }} / {{ totalSummary?.monster?.mres }}</span></div>
+      </div>
+
+      <div class="psec">Atributos</div>
+      <div class="pstats ficha-stats">
+        <div class="kv"><span>FOR</span><span class="v-for">{{ totalSummary?.monster?.str }}</span></div>
+        <div class="kv"><span>INT</span><span class="v-int">{{ totalSummary?.monster?.int }}</span></div>
+        <div class="kv"><span>DES</span><span class="v-des">{{ totalSummary?.monster?.dex }}</span></div>
+        <div class="kv"><span>AGI</span><span class="v-des">{{ totalSummary?.monster?.agi }}</span></div>
+        <div class="kv"><span>VIT</span><span class="v-vit">{{ totalSummary?.monster?.vit }}</span></div>
+        <div class="kv"><span>SOR</span><span class="v-vit">{{ totalSummary?.monster?.luk }}</span></div>
+      </div>
+
+      <a class="monster_id_link" [href]="'https://www.divine-pride.net/database/monster/' + selectedMonster" target="_blank" rel="noopener noreferrer">
+        Ver no divine-pride<i class="pi pi-external-link ml-1" style="font-size: 0.7rem"></i>
+      </a>
     </div>
-    <a class="dplink" [href]="'https://www.divine-pride.net/database/monster/' + selectedMonster" target="_blank" rel="noopener noreferrer">Ver no divine-pride ↗</a>
   </p-overlayPanel>
 
   <!-- 2. Efeitos -->
@@ -72,6 +108,7 @@
       tooltipPosition="top"
       (click)="onToggleChance(c.name)"
     >
+      <img *ngIf="c.itemId" [src]="c.itemId | iconUrl" alt="" class="hud-buff-icon" />
       {{ c.label }}
     </button>
   </div>
@@ -87,26 +124,40 @@
 
   <!-- 4. Hero (hidden while the skill can't fire, same as the legacy tab) -->
   <ng-container *ngIf="!dmg?.requireTxt">
-    <div class="hud-cmp-ribbon" *ngIf="isComparing">⇄ Comparando: {{ compareItemNames?.join(', ') }}</div>
+    <div class="hud-cmp-ribbon" *ngIf="isComparing">⇄ Comparando: {{ compareRibbonText }}</div>
 
     <div class="hud-hero">
       <div class="cap2">{{ isAutoSpell ? 'Dano por ativação' : 'DPS · dano por uso' }}</div>
       <div class="pairs">
         <div class="pcol">
-          <div class="plabel">Atual</div>
-          <div class="pnum" *ngIf="!isAutoSpell" [class.big]="heroBiggerSide !== 'simulated'" [class.small]="heroBiggerSide === 'simulated'">
+          <div
+            class="pnum"
+            *ngIf="!isAutoSpell"
+            [class.big]="heroBiggerSide !== 'simulated'"
+            [class.small]="heroBiggerSide === 'simulated'"
+            pTooltip="DPS atual"
+            tooltipPosition="top"
+          >
             {{ heroCurrent.dps | number: '1.0-0' }}
           </div>
-          <div class="pdano" [class.primary]="isAutoSpell">{{ calcSkill?.totalHits }}× {{ heroCurrent.min | number }} – {{ heroCurrent.max | number }}</div>
+          <div class="pdano" [class.primary]="isAutoSpell" pTooltip="Dano atual" tooltipPosition="top">
+            {{ calcSkill?.totalHits }}× {{ heroCurrent.min | number }} – {{ heroCurrent.max | number }}
+          </div>
         </div>
         <ng-container *ngIf="isComparing">
           <div class="vsarrow">→</div>
           <div class="pcol sim">
-            <div class="plabel">Simulado</div>
-            <div class="pnum" *ngIf="!isAutoSpell" [class.big]="heroBiggerSide === 'simulated'" [class.small]="heroBiggerSide !== 'simulated'">
+            <div
+              class="pnum"
+              *ngIf="!isAutoSpell"
+              [class.big]="heroBiggerSide === 'simulated'"
+              [class.small]="heroBiggerSide !== 'simulated'"
+              pTooltip="DPS da comparação"
+              tooltipPosition="top"
+            >
               {{ heroSimulated?.dps | number: '1.0-0' }}
             </div>
-            <div class="pdano" [class.primary]="isAutoSpell">
+            <div class="pdano" [class.primary]="isAutoSpell" pTooltip="Dano da comparação" tooltipPosition="top">
               {{ totalSummary2?.calcSkill?.totalHits }}× {{ heroSimulated?.min | number }} – {{ heroSimulated?.max | number }}
             </div>
             <div class="pdelta" *ngIf="heroDelta !== null" [class.neg]="heroDelta < 0" [class.pos]="heroDelta >= 0">
@@ -120,8 +171,15 @@
         {{ dmgTypeLabel(calcSkill?.dmgType) }} ·
         <span class="{{ 'property_' + calcSkill?.propertySkill }}">{{ calcSkill?.propertySkill | monsterTerm: 'element' }}</span>
         ×{{ dmg?.skillPropertyMultiplier }}
-        <button type="button" class="lupa" [disabled]="isInProcessingPreset" (click)="onShowElementalTableClick()" title="Tabela elemental">🔍</button>
-        · Hab./s {{ dmg?.effectedSkillHitsPerSec || calcSkill?.totalHitPerSec | number: '1.0-2' }}
+        <button
+          pButton
+          type="button"
+          class="p-button-text p-button-warning py-0"
+          icon="pi pi-search"
+          [disabled]="isInProcessingPreset"
+          (click)="onShowElementalTableClick()"
+        ></button>
+        · Hab./s {{ heroHitsPerSec | number: '1.0-2' }}
         <span class="mut" *ngIf="heroShowsBaseFallback">· sem efeitos: {{ calcSkill?.totalHits }}× {{ dmg?.skillMinDamage | number }}–{{ dmg?.skillMaxDamage | number }}</span>
       </div>
 
@@ -159,7 +217,14 @@
     <div class="cap">
       Conjuração
       <button type="button" class="pop-btn" (click)="castHelpPanel.toggle($event)" aria-label="como o ritmo é calculado">?</button>
-      <button type="button" class="optbtn" (click)="optimizePanel.toggle($event)">⚙ otimizar</button>
+      <button
+        pButton
+        type="button"
+        class="p-button-text p-button-sm p-button-warning optbtn"
+        icon="pi pi-cog"
+        label="otimizar"
+        (click)="optimizePanel.toggle($event)"
+      ></button>
     </div>
 
     <ng-container *ngIf="castbar.mode === 'sequential'; else singleBar">
@@ -211,11 +276,11 @@
 
   <p-overlayPanel #optimizePanel>
     <div class="ptitle">O que dá para melhorar</div>
-    <div class="optimize-bottleneck" style="font-size: 11.5px">
-      Gargalo atual: <b style="color: #ffd479">{{ optimizeComponentLabel(optimizeInfo.bottleneck) }}</b>
-    </div>
-    <div class="optimize-component" *ngFor="let c of optimizeInfo.components" [class.is-bottleneck]="c.key === optimizeInfo.bottleneck">
-      <b>{{ c.label }} {{ c.seconds | number: '1.0-3' }}s</b> — {{ c.hint }}
+    <div class="optimize-bottleneck" [class.is-optimized]="optimizeInfo.isOptimized">{{ optimizeInfo.headline }}</div>
+    <div class="optimize-component" *ngFor="let c of optimizeInfo.components" [class.is-bottleneck]="!optimizeInfo.isOptimized && c.key === optimizeInfo.bottleneck">
+      <b>{{ c.label }} {{ c.seconds | number: '1.0-3' }}s</b> —
+      <span *ngIf="c.doneText; else showHint" class="optimize-done">{{ c.doneText }}</span>
+      <ng-template #showHint>{{ c.hint }}</ng-template>
     </div>
     <div class="optimize-whatif" *ngIf="optimizeInfo.whatIf as w">
       Zerando a pós-conjuração: DPS iria a <b>{{ w.newDps | number: '1.0-0' }}</b> ({{ w.gainPercent >= 0 ? '+' : '' }}{{ w.gainPercent | number: '1.0-1' }}%)
@@ -224,8 +289,8 @@
 
   <!-- 6. Menu -->
   <div class="hud-menu">
-    <button type="button" class="mbtn" (click)="detailsPanel.toggle($event)">Detalhes da habilidade</button>
-    <button type="button" class="mbtn" *ngIf="!hideBasicAtk" (click)="basicPanel.toggle($event)">Ataque básico</button>
+    <button pButton type="button" class="p-button-text p-button-sm" label="Detalhes da habilidade" (click)="detailsPanel.toggle($event)"></button>
+    <button pButton type="button" class="p-button-text p-button-sm" *ngIf="!hideBasicAtk" label="Ataque básico" (click)="basicPanel.toggle($event)"></button>
   </div>
 
   <p-overlayPanel #detailsPanel>
@@ -279,7 +344,14 @@
         <span>
           <span class="{{ 'property_' + totalSummary?.propertyAtk }}">{{ totalSummary?.propertyAtk | monsterTerm: 'element' }}</span>
           ×{{ dmg?.propertyMultiplier }}
-          <button type="button" class="lupa" [disabled]="isInProcessingPreset" (click)="onShowElementalTableClick()" title="Tabela elemental">🔍</button>
+          <button
+            pButton
+            type="button"
+            class="p-button-text p-button-warning py-0"
+            icon="pi pi-search"
+            [disabled]="isInProcessingPreset"
+            (click)="onShowElementalTableClick()"
+          ></button>
         </span>
       </div>
       <ng-container
@@ -318,8 +390,6 @@
         ></ng-container>
       </ng-container>
     </div>
-    <div *ngIf="showLeftWeapon && model?.leftWeapon" style="color: #ff8f9a; font-size: 11px; font-weight: 700; margin-top: 6px">
-      *** ATK da mão esquerda ainda não calculado
-    </div>
+    <div *ngIf="showLeftWeapon && model?.leftWeapon" class="hud-left-weapon-warn">*** ATK da mão esquerda ainda não calculado</div>
   </p-overlayPanel>
 </div>

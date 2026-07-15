@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { itemSlotLabelPtBr } from '../../../../constants/item-slot-i18n';
 import {
   buildOptimizeInfo,
   CastbarResult,
@@ -80,14 +81,34 @@ export class BattleHudComponent {
     return !!this.dmg?.isAutoSpell;
   }
 
+  // pt-BR item-slot labels for the compare ribbon, e.g. ['boot'] -> 'Bota' — same
+  // util the compare-slot picker uses (ro-calculator.component.ts line ~341).
+  get compareRibbonText(): string {
+    return (this.compareItemNames || []).map((v) => itemSlotLabelPtBr(v)).join(', ');
+  }
+
   // --- Hero (DPS / dano por uso) ---------------------------------------------
 
+  // Fix 10: when the last Efeito is unselected, the parent pipeline never refreshes
+  // totalSummary, so dmg.effectedSkillDamageMin/effectedSkillHitsPerSec can stay
+  // stale. Every effected-value read in this component must gate on this flag,
+  // mirroring the legacy template's `selectedChances?.length` guards.
+  private get hasSelectedChances(): boolean {
+    return (this.selectedChances?.length ?? 0) > 0;
+  }
+
   get heroCurrent(): HeroDamage {
-    return pickHeroDamage(this.dmg);
+    return pickHeroDamage(this.dmg, this.hasSelectedChances);
   }
 
   get heroSimulated(): HeroDamage | null {
-    return this.isComparing ? pickHeroDamage(this.dmg2) : null;
+    return this.isComparing ? pickHeroDamage(this.dmg2, this.hasSelectedChances) : null;
+  }
+
+  // "Hab./s" sub-line: same effected||base fallback as the hero DPS, gated the same way.
+  get heroHitsPerSec(): number {
+    const effected = this.hasSelectedChances ? this.dmg?.effectedSkillHitsPerSec : null;
+    return effected || this.calcSkill?.totalHitPerSec || 0;
   }
 
   private get heroPrimaryCurrent(): number {
@@ -144,20 +165,5 @@ export class BattleHudComponent {
       dps: this.heroPrimaryCurrent || 0,
       sumDex2Int1: c.sumDex2Int1 || 0,
     });
-  }
-
-  optimizeComponentLabel(key: string): string {
-    switch (key) {
-      case 'fixa':
-        return 'Fixa';
-      case 'variavel':
-        return 'Variável';
-      case 'pos':
-        return 'Pós';
-      case 'recarga':
-        return 'Recarga';
-      default:
-        return key;
-    }
   }
 }

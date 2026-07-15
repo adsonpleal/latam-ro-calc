@@ -1100,6 +1100,7 @@ export class Calculator {
         label: `${item.name}`,
         label2: `[ ${chances.map((c) => `${resolveSkillById(Number(c))?.name ?? bonusKeyLabel(c)} ${c.startsWith('cd__') ? '-' : '+'}${chance[c]}`).join(', ')} ]`,
         bonus: chance,
+        itemId: item.id,
       });
     }
 

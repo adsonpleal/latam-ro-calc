@@ -136,16 +136,29 @@ export interface CastComponentInfo {
   key: CastComponentKey;
   label: string;
   seconds: number;
+  /** Reduction hint shown when there's still something to gain from this component. */
   hint: string;
+  /** Overrides `hint` when the component has nothing left to reduce (e.g. "já zerada ✓"). Null when still improvable. */
+  doneText: string | null;
 }
 
 export interface OptimizeInfo {
+  /** True when neither the pós what-if nor fixa/variável offer anything worth chasing (recarga is never reducible, so it never counts). */
+  isOptimized: boolean;
+  /** Headline for the popover: either the bottleneck callout or the "nothing to improve" message. */
+  headline: string;
   bottleneck: CastComponentKey;
   components: CastComponentInfo[];
+  /** Null both when zeroing pós is degenerate (see computeZeroPosWhatIf) and when the gain is under 1% (not worth showing). */
   whatIf: ZeroPosWhatIf | null;
 }
 
-/** Assembles the "⚙ otimizar" popover data: bottleneck + per-component hints + the zero-pós what-if. */
+/** A component "counts" as already-optimal once it contributes less than this many seconds. */
+const ZERO_SECONDS_EPS = 0.005;
+/** Below this, the zero-pós what-if isn't worth surfacing as an actionable suggestion. */
+const MIN_MEANINGFUL_GAIN_PERCENT = 1;
+
+/** Assembles the "otimizar" popover data: bottleneck + per-component hints + the zero-pós what-if. */
 export function buildOptimizeInfo(input: {
   reducedFct: number;
   reducedVct: number;
@@ -160,16 +173,58 @@ export function buildOptimizeInfo(input: {
   const bottleneck = identifyCastBottleneck({ reducedFct, reducedVct, reducedAcd, reducedCd });
   const toZero = Math.max(0, 530 - sumDex2Int1);
 
+  const fixaZero = reducedFct < ZERO_SECONDS_EPS;
+  // The variável cast is zeroed either by hitting the 530 DEX*2+INT stat threshold
+  // (server-side rule, independent of float rounding) or by the reduced seconds
+  // themselves already being ~0 (e.g. equipment -VCT%).
+  const variavelStatsMet = sumDex2Int1 >= 530;
+  const variavelZero = variavelStatsMet || reducedVct < ZERO_SECONDS_EPS;
+  const posZero = reducedAcd < ZERO_SECONDS_EPS;
+
+  const rawWhatIf = computeZeroPosWhatIf({ dps, hitPeriod, castPeriod, reducedCd });
+  const whatIfMeaningful = !!rawWhatIf && rawWhatIf.gainPercent >= MIN_MEANINGFUL_GAIN_PERCENT;
+  const whatIf = whatIfMeaningful ? rawWhatIf : null;
+
+  // Recarga is fixed per-skill and never reducible, so it never contributes to
+  // "is there anything left to optimize" — only fixa/variável (and the pós what-if) do.
+  const isOptimized = !whatIfMeaningful && fixaZero && variavelZero;
+
   const components: CastComponentInfo[] = [
-    { key: 'fixa', label: 'Fixa', seconds: reducedFct, hint: 'reduz com −conj. fixa / −FCT% de equipamentos' },
-    { key: 'variavel', label: 'Variável', seconds: reducedVct, hint: `DES×2+INT: ${sumDex2Int1} / 530 para zerar (faltam ${toZero}) — ou −VCT%` },
-    { key: 'pos', label: 'Pós', seconds: reducedAcd, hint: 'reduz com −ACD% e ASPD' },
-    { key: 'recarga', label: 'Recarga', seconds: reducedCd, hint: 'fixa da habilidade — não reduzível' },
+    {
+      key: 'fixa',
+      label: 'Fixa',
+      seconds: reducedFct,
+      hint: 'reduz com −Conj. Fixa de equipamentos',
+      doneText: fixaZero ? 'já zerada ✓' : null,
+    },
+    {
+      key: 'variavel',
+      label: 'Variável',
+      seconds: reducedVct,
+      hint: `DES×2+INT: ${sumDex2Int1} / 530 para zerar (faltam ${toZero}) — ou −Conj. Variável %`,
+      doneText: variavelStatsMet ? 'stats já zeram a conjuração variável ✓' : reducedVct < ZERO_SECONDS_EPS ? 'já zerada ✓' : null,
+    },
+    {
+      key: 'pos',
+      label: 'Pós',
+      seconds: reducedAcd,
+      hint: 'reduz com −Pós-conjuração (ACD%) e ASPD',
+      doneText: posZero ? 'já zerada ✓' : null,
+    },
+    {
+      key: 'recarga',
+      label: 'Recarga',
+      seconds: reducedCd,
+      hint: 'fixa da habilidade — não reduzível',
+      doneText: null,
+    },
   ];
 
-  const whatIf = computeZeroPosWhatIf({ dps, hitPeriod, castPeriod, reducedCd });
+  const headline = isOptimized
+    ? 'Ritmo já otimizado — nada relevante a melhorar.'
+    : `Gargalo atual: ${components.find((c) => c.key === bottleneck)!.label}`;
 
-  return { bottleneck, components, whatIf };
+  return { isOptimized, headline, bottleneck, components, whatIf };
 }
 
 export type DpsSide = 'current' | 'simulated' | 'tie';
@@ -192,17 +247,26 @@ export interface HeroDamage {
  * Hero DPS/damage-per-use selection: use the "effected" (chance-triggered)
  * figures when present, otherwise the base skill figures — same effected||base
  * fallback the legacy template applies per-field.
+ *
+ * `hasSelectedChances` gates the effected figures even when they're numerically
+ * present: when the last Efeito is unselected, the parent pipeline's needCalc=false
+ * branch never refreshes totalSummary, so dmg.effectedSkillDamageMin can stay stale
+ * (nonzero) after unselecting. Legacy avoids this by gating every "Acionado" row on
+ * `selectedChances?.length` in the template; this mirrors that at the source.
  */
-export function pickHeroDamage(dmg: {
-  skillDps?: number;
-  skillMinDamage?: number;
-  skillMaxDamage?: number;
-  effectedSkillDps?: number;
-  effectedSkillDamageMin?: number;
-  effectedSkillDamageMax?: number;
-} | null | undefined): HeroDamage {
+export function pickHeroDamage(
+  dmg: {
+    skillDps?: number;
+    skillMinDamage?: number;
+    skillMaxDamage?: number;
+    effectedSkillDps?: number;
+    effectedSkillDamageMin?: number;
+    effectedSkillDamageMax?: number;
+  } | null | undefined,
+  hasSelectedChances: boolean,
+): HeroDamage {
   if (!dmg) return { dps: 0, min: 0, max: 0, effected: false };
-  const hasEffected = (dmg.effectedSkillDamageMin ?? 0) > 0;
+  const hasEffected = hasSelectedChances && (dmg.effectedSkillDamageMin ?? 0) > 0;
   return {
     dps: (hasEffected ? dmg.effectedSkillDps : dmg.skillDps) || 0,
     min: (hasEffected ? dmg.effectedSkillDamageMin : dmg.skillMinDamage) || 0,

@@ -142,6 +142,62 @@ describe('buildOptimizeInfo', () => {
     expect(info.components.map((c) => c.key)).toEqual(['fixa', 'variavel', 'pos', 'recarga']);
     expect(info.whatIf).not.toBeNull();
     expect(info.components.find((c) => c.key === 'variavel')!.hint).toContain('985 / 530');
+    expect(info.isOptimized).toBe(false);
+  });
+
+  it('flags nothing to improve when fixa/variável/pós are all ~0 and the what-if gain is negligible', () => {
+    // castPeriod (fixa+variável) = 0, blockPeriod = max(acd, cd) = recarga = 0.5 -> hitPeriod 0.5.
+    // Zeroing pós (already 0) can't change hitPeriod, so the what-if reports 0% gain.
+    const info = buildOptimizeInfo({
+      reducedFct: 0,
+      reducedVct: 0,
+      reducedAcd: 0,
+      reducedCd: 0.5,
+      castPeriod: 0,
+      hitPeriod: 0.5,
+      dps: 1000,
+      sumDex2Int1: 0,
+    });
+    expect(info.isOptimized).toBe(true);
+    expect(info.headline).toBe('Ritmo já otimizado — nada relevante a melhorar.');
+    expect(info.whatIf).toBeNull();
+    expect(info.components.find((c) => c.key === 'fixa')!.doneText).toBe('já zerada ✓');
+    expect(info.components.find((c) => c.key === 'variavel')!.doneText).toBe('já zerada ✓');
+    expect(info.components.find((c) => c.key === 'pos')!.doneText).toBe('já zerada ✓');
+    // Recarga is never reducible, so it never gets a "done" checkmark of its own.
+    expect(info.components.find((c) => c.key === 'recarga')!.doneText).toBeNull();
+  });
+
+  it('shows the stats-met message for variável once DEX*2+INT reaches 530, regardless of leftover seconds', () => {
+    const info = buildOptimizeInfo({
+      reducedFct: 0.2,
+      reducedVct: 0.01,
+      reducedAcd: 0.3,
+      reducedCd: 0.1,
+      castPeriod: 0.21,
+      hitPeriod: 0.51,
+      dps: 1000,
+      sumDex2Int1: 530,
+    });
+    const variavel = info.components.find((c) => c.key === 'variavel')!;
+    expect(variavel.doneText).toBe('stats já zeram a conjuração variável ✓');
+    expect(variavel.hint).toContain('530 / 530');
+  });
+
+  it('suppresses the what-if line when the projected DPS gain from zeroing pós is under 1%', () => {
+    // Recarga (3.0) and pós (3.02) are nearly tied, so zeroing pós barely moves hitPeriod
+    // (3.22 -> 3.2): ~0.625% gain, below the 1% threshold worth surfacing.
+    const info = buildOptimizeInfo({
+      reducedFct: 0.1,
+      reducedVct: 0.1,
+      reducedAcd: 3.02,
+      reducedCd: 3.0,
+      castPeriod: 0.2,
+      hitPeriod: 3.22,
+      dps: 1000,
+      sumDex2Int1: 0,
+    });
+    expect(info.whatIf).toBeNull();
   });
 });
 
@@ -161,24 +217,45 @@ describe('pickBiggerDpsSide', () => {
 
 describe('pickHeroDamage', () => {
   it('uses base skill figures when no effected damage is present', () => {
-    const r = pickHeroDamage({ skillDps: 1000, skillMinDamage: 100, skillMaxDamage: 200, effectedSkillDamageMin: 0 });
+    const r = pickHeroDamage({ skillDps: 1000, skillMinDamage: 100, skillMaxDamage: 200, effectedSkillDamageMin: 0 }, true);
     expect(r).toEqual({ dps: 1000, min: 100, max: 200, effected: false });
   });
 
-  it('switches to effected figures when present', () => {
-    const r = pickHeroDamage({
-      skillDps: 1000,
-      skillMinDamage: 100,
-      skillMaxDamage: 200,
-      effectedSkillDps: 1200,
-      effectedSkillDamageMin: 150,
-      effectedSkillDamageMax: 250,
-    });
+  it('switches to effected figures when present and a chance is selected', () => {
+    const r = pickHeroDamage(
+      {
+        skillDps: 1000,
+        skillMinDamage: 100,
+        skillMaxDamage: 200,
+        effectedSkillDps: 1200,
+        effectedSkillDamageMin: 150,
+        effectedSkillDamageMax: 250,
+      },
+      true,
+    );
     expect(r).toEqual({ dps: 1200, min: 150, max: 250, effected: true });
   });
 
   it('handles a missing dmg object', () => {
-    expect(pickHeroDamage(undefined)).toEqual({ dps: 0, min: 0, max: 0, effected: false });
+    expect(pickHeroDamage(undefined, true)).toEqual({ dps: 0, min: 0, max: 0, effected: false });
+  });
+
+  // Fix 10: unselecting the last Efeito leaves totalSummary.dmg.effectedSkillDamageMin
+  // stale (parent pipeline skips the refresh) — hasSelectedChances=false must force the
+  // base figures regardless of what's still sitting in the effected fields.
+  it('falls back to base figures when no chance is selected, even if effected damage is still present', () => {
+    const r = pickHeroDamage(
+      {
+        skillDps: 1000,
+        skillMinDamage: 100,
+        skillMaxDamage: 200,
+        effectedSkillDps: 1200,
+        effectedSkillDamageMin: 150,
+        effectedSkillDamageMax: 250,
+      },
+      false,
+    );
+    expect(r).toEqual({ dps: 1000, min: 100, max: 200, effected: false });
   });
 });
 

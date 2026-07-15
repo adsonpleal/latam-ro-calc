@@ -1,13 +1,16 @@
-/* Ported from the "F — HUD" mock (battle-summary-a-audit-plus5.html). Deliberately
-   dark-only, like the game client itself — no light-theme variant. */
+/* Ported from the "F — HUD" mock (battle-summary-a-audit-plus5.html), then restyled
+   onto the app's own PrimeNG theme (vela-green) instead of the original bespoke
+   GitHub-dark palette — see ro-calculator.component.css's summary_* classes for the
+   color conventions reused here (surface-card/#121212 backgrounds, orange highlight,
+   yellow compare, teal damage, red monster/alerts). No glow/text-shadow effects. */
 
 .hud {
   --hud-font-num: 'Cascadia Mono', 'SF Mono', ui-monospace, Consolas, monospace;
-  background: #0d1117;
-  border: 1px solid #2c3a4f;
-  border-radius: 12px;
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius);
   padding: 14px;
-  color: #dbe4f0;
+  color: var(--text-color);
   position: relative;
 }
 
@@ -20,7 +23,7 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
+  border-radius: var(--border-radius);
 }
 
 /* ---- target frame ------------------------------------------------------ */
@@ -29,37 +32,40 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0a0e14;
-  border: 1px solid #3d4f6b;
-  border-radius: 8px;
+  background: #121212;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius);
   flex-shrink: 0;
-  overflow: hidden;
+  /* Sprites may be taller than the box (RO sprites are anchored bottom-center) —
+     let them overflow gracefully instead of clipping, like .monster_sprite_container. */
+  overflow: visible;
 }
 
 .sprite.lg {
-  width: 64px;
-  height: 64px;
+  width: 116px;
+  height: 116px;
 }
 
 .sprite img {
   max-width: 100%;
   max-height: 100%;
+  object-fit: contain;
 }
 
 .hud-target {
   display: flex;
   gap: 12px;
   align-items: center;
-  border: 1px solid #2c3a4f;
-  background: #131a24;
-  border-radius: 10px;
+  border: 1px solid var(--surface-border);
+  background: #121212;
+  border-radius: var(--border-radius);
   padding: 10px 12px;
 }
 
 .np-name {
   font-weight: 700;
   font-size: 14px;
-  color: #ffd479;
+  color: var(--orange-300);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -75,21 +81,34 @@
 }
 
 .hud-badge.mvp {
-  background: #6b5a15;
-  color: #ffe58f;
+  background: var(--yellow-900);
+  color: var(--yellow-300);
 }
 
 .hud-badge.aura {
-  background: #c9313d;
+  background: var(--red-500);
   color: #fff;
   cursor: help;
+}
+
+/* Element pill (fix 11): same shape as the type/mvp/aura badges above; the
+   property_* classes (styles.scss) already carry each element's own background +
+   text color — a higher-specificity selector here just wins the background so the
+   pill still reads as a dark chip like its siblings, while property_* keeps
+   control of the (already-legible) text color. Neutral has no property_* class,
+   so it falls back to this rule's own text color. */
+.hud-badge.el-badge {
+  /* !important + higher specificity than the single-class property_* selectors:
+     wins the background-color even though property_* also sets it !important. */
+  background-color: #121212 !important;
+  color: var(--text-color-secondary);
 }
 
 .hud-hpbar {
   height: 13px;
   border-radius: 4px;
-  background: #0a0e14;
-  border: 1px solid #2c3a4f;
+  background: #121212;
+  border: 1px solid var(--surface-border);
   overflow: hidden;
   margin-top: 6px;
   position: relative;
@@ -115,42 +134,12 @@
 
 .hud-sub {
   font-size: 10.5px;
-  color: #8fa2bd;
+  color: var(--text-color-secondary);
   margin-top: 5px;
   display: flex;
   gap: 8px;
   align-items: center;
   flex-wrap: wrap;
-}
-
-.hud-sub .el {
-  font-weight: 700;
-}
-
-.lupa {
-  appearance: none;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 12px;
-  padding: 0 2px;
-  color: #8fa2bd;
-}
-
-.lupa:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.dplink {
-  font-size: 11.5px;
-  color: #6fa8ff;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.dplink:hover {
-  text-decoration: underline;
 }
 
 /* ---- generic popover button -------------------------------------------- */
@@ -159,9 +148,9 @@
   width: 17px;
   height: 17px;
   border-radius: 50%;
-  border: 1px solid #2c3a4f;
-  background: #131a24;
-  color: #8fa2bd;
+  border: 1px solid var(--surface-border);
+  background: #121212;
+  color: var(--text-color-secondary);
   font-size: 10.5px;
   line-height: 1;
   cursor: pointer;
@@ -173,8 +162,8 @@
 }
 
 .pop-btn:hover {
-  color: #dbe4f0;
-  border-color: #8fa2bd;
+  color: var(--text-color);
+  border-color: var(--text-color-secondary);
 }
 
 .pstats {
@@ -199,16 +188,16 @@
 .pstats .kv span:last-child {
   font-family: var(--hud-font-num);
   font-variant-numeric: tabular-nums;
-  color: #e8edf4;
+  color: var(--text-color);
   text-align: right;
 }
 
 .pstats .kv .sim {
-  color: #facc15;
+  color: var(--yellow-200);
 }
 
 .pstats .kv .arr {
-  color: #5c6f8c;
+  color: var(--text-color-secondary);
   padding: 0 3px;
 }
 
@@ -216,16 +205,74 @@
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #5c6f8c;
+  color: var(--text-color-secondary);
   margin: 10px 0 4px;
   font-weight: 700;
 }
 
 .ptitle {
   font-weight: 700;
-  color: #ffd479;
+  color: var(--orange-300);
   margin-bottom: 6px;
   font-size: 12.5px;
+}
+
+/* ---- ficha popover (fix 4) ---------------------------------------------- */
+
+.ficha-panel {
+  min-width: 340px;
+  max-width: 360px;
+}
+
+.ficha-hp-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  background: #121212;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius);
+  padding: 6px 10px;
+  margin: 6px 0 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ficha-hp-value {
+  font-family: var(--hud-font-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 16px;
+  color: var(--teal-300);
+}
+
+.ficha-stats {
+  min-width: 0;
+  row-gap: 6px;
+}
+
+.ficha-stats .kv {
+  padding: 1px 0;
+}
+
+/* !important: `.pstats .kv span:last-child` (higher specificity: 2 classes + a
+   pseudo-class + the span type selector) would otherwise win over these. */
+.v-for {
+  color: var(--red-300) !important;
+}
+
+.v-int {
+  color: var(--blue-300) !important;
+}
+
+.v-des {
+  color: var(--green-300) !important;
+}
+
+.v-vit {
+  color: var(--yellow-300) !important;
+}
+
+.v-def {
+  color: var(--red-300) !important;
 }
 
 /* ---- efeitos (buffs) ----------------------------------------------------- */
@@ -242,7 +289,7 @@
   font-size: 9.5px;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: #8fa2bd;
+  color: var(--text-color-secondary);
   margin-right: 4px;
 }
 
@@ -250,20 +297,31 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  border: 1px solid #2c3a4f;
-  background: #131a24;
-  border-radius: 8px;
+  border: 1px solid var(--surface-border);
+  background: #121212;
+  border-radius: var(--border-radius);
   padding: 5px 11px;
   cursor: pointer;
-  color: #5c6f8c;
+  color: var(--text-color-secondary);
   font-size: 11.5px;
   font-weight: 600;
 }
 
 .hud-buff.on {
-  border-color: #ffd479;
-  color: #ffd479;
-  box-shadow: 0 0 8px rgba(255, 212, 121, 0.18);
+  border-color: var(--orange-300);
+  color: var(--orange-300);
+}
+
+.hud-buff-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  opacity: 0.55;
+  vertical-align: middle;
+}
+
+.hud-buff.on .hud-buff-icon {
+  opacity: 1;
 }
 
 /* ---- flags ---------------------------------------------------------------- */
@@ -281,16 +339,23 @@
   gap: 5px;
   font-size: 10px;
   font-weight: 700;
-  color: #ff8f9a;
-  background: #2a1218;
-  border: 1px solid #6b1520;
+  color: var(--red-300);
+  background: #121212;
+  border: 1px solid var(--surface-border);
   border-radius: 999px;
   padding: 2px 10px;
   cursor: pointer;
 }
 
 .hud-flag:hover {
-  border-color: #ff8f9a;
+  border-color: var(--red-300);
+}
+
+.hud-left-weapon-warn {
+  color: var(--red-300);
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 6px;
 }
 
 /* ---- hero (dps / dano) ---------------------------------------------------- */
@@ -304,7 +369,7 @@
   font-size: 9.5px;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: #8fa2bd;
+  color: var(--text-color-secondary);
   margin-bottom: 10px;
 }
 
@@ -322,37 +387,21 @@
   gap: 4px;
 }
 
-.hud-hero .plabel {
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #ffb347;
-  border: 1px solid #6b4a15;
-  border-radius: 999px;
-  padding: 1px 9px;
-  font-weight: 700;
-}
-
-.hud-hero .pcol.sim .plabel {
-  color: #facc15;
-  border-color: #6b5a15;
-}
-
 .hud-hero .pnum {
   font-family: var(--hud-font-num);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   line-height: 1;
-  color: #ffb347;
+  color: var(--orange-300);
+  cursor: default;
 }
 
 .hud-hero .pcol.sim .pnum {
-  color: #facc15;
+  color: var(--yellow-200);
 }
 
 .hud-hero .pnum.big {
   font-size: 46px;
-  text-shadow: 0 2px 12px rgba(255, 179, 71, 0.35);
 }
 
 .hud-hero .pnum.small {
@@ -362,7 +411,8 @@
 .hud-hero .pdano {
   font-family: var(--hud-font-num);
   font-size: 12px;
-  color: #66e2cf;
+  color: var(--teal-300);
+  cursor: default;
 }
 
 .hud-hero .pdelta {
@@ -372,29 +422,30 @@
 }
 
 .hud-hero .pdelta.neg {
-  color: #ff6b6b;
+  color: var(--red-400);
 }
 
 .hud-hero .pdelta.pos {
-  color: #52d17c;
+  color: var(--green-400);
 }
 
 .hud-hero .vsarrow {
-  color: #5c6f8c;
+  color: var(--text-color-secondary);
   font-size: 16px;
-  padding-bottom: 30px;
+  padding-bottom: 8px;
 }
 
 .hud-hero .sub {
   font-family: var(--hud-font-num);
   font-size: 11px;
-  color: #8fa2bd;
+  color: var(--text-color-secondary);
   margin-top: 10px;
 }
 
 .hud-hero .sub .mut {
-  color: #5c6f8c;
+  color: var(--text-color-secondary);
   font-family: inherit;
+  opacity: 0.75;
 }
 
 .hud-subrows {
@@ -410,49 +461,29 @@
   flex-wrap: wrap;
   gap: 4px;
   font-size: 11px;
-  color: #8fa2bd;
+  color: var(--text-color-secondary);
 }
 
 .hud-subrow .v {
   font-family: var(--hud-font-num);
-  color: #66e2cf;
+  color: var(--teal-300);
   font-weight: 700;
 }
 
 .hud-subrow .v.sim {
-  color: #facc15;
-}
-
-.hud-extra-row {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  font-size: 11px;
-  color: #8fa2bd;
-  margin-top: 2px;
-}
-
-.hud-extra-row .v {
-  font-family: var(--hud-font-num);
-  color: #66e2cf;
-  font-weight: 700;
-}
-
-.hud-extra-row .v.sim {
-  color: #facc15;
+  color: var(--yellow-200);
 }
 
 .hud-cmp-ribbon {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #2c250a;
-  border: 1px solid #6b5a15;
-  border-radius: 8px;
+  background: #121212;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius);
   padding: 6px 12px;
   font-size: 12px;
-  color: #facc15;
+  color: var(--yellow-200);
   font-weight: 600;
   margin: 8px 0;
   flex-wrap: wrap;
@@ -468,7 +499,7 @@
   font-size: 9.5px;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: #8fa2bd;
+  color: var(--text-color-secondary);
   margin-bottom: 5px;
   display: flex;
   align-items: center;
@@ -494,16 +525,16 @@
 }
 
 .hud-castbar .seg.fixa {
-  background: #8fb4ef;
+  background: var(--blue-300);
 }
 
 .hud-castbar .seg.varv {
-  background: #4f83d6;
+  background: var(--blue-600);
   color: #dbe9ff;
 }
 
 .hud-castbar .seg.single {
-  background: #4f83d6;
+  background: var(--blue-600);
   color: #dbe9ff;
   flex: 1;
 }
@@ -530,14 +561,14 @@
 }
 
 .hud-castbar .lane.pos {
-  background: #2fa38f;
+  background: var(--teal-400);
   color: #04231d;
 }
 
 .hud-castbar .lane.rec {
-  background: #16202d;
-  color: #8fa2bd;
-  border: 1px dashed #2c3a4f;
+  background: #121212;
+  color: var(--text-color-secondary);
+  border: 1px dashed var(--surface-border);
   font-weight: 400;
 }
 
@@ -546,7 +577,7 @@
   left: 0;
   top: 0;
   bottom: 0;
-  background: #24425f;
+  background: var(--surface-border);
 }
 
 .hud-castbar .lane.rec .ltxt {
@@ -556,34 +587,29 @@
 .hud-castbar .blegend {
   font-family: var(--hud-font-num);
   font-size: 10px;
-  color: #8fa2bd;
+  color: var(--text-color-secondary);
   margin-top: 5px;
 }
 
 .hud-castbar .blegend .op {
-  color: #5c6f8c;
+  color: var(--text-color-secondary);
   padding: 0 2px;
+  opacity: 0.7;
 }
 
 .optbtn {
-  appearance: none;
-  border: 1px solid #6b5a15;
-  background: #1c1809;
-  color: #ffd479;
-  border-radius: 6px;
-  font-size: 9.5px;
-  font-weight: 700;
-  padding: 2px 9px;
-  cursor: pointer;
   margin-left: auto;
-}
-
-.optbtn:hover {
-  border-color: #ffd479;
 }
 
 .optimize-bottleneck {
   margin-bottom: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--orange-300);
+}
+
+.optimize-bottleneck.is-optimized {
+  color: var(--green-400);
 }
 
 .optimize-component {
@@ -593,23 +619,28 @@
 }
 
 .optimize-component b {
-  color: #e8edf4;
+  color: var(--text-color);
 }
 
 .optimize-component.is-bottleneck b {
-  color: #ffd479;
+  color: var(--orange-300);
+}
+
+.optimize-done {
+  color: var(--green-400);
+  font-weight: 700;
 }
 
 .optimize-whatif {
   margin-top: 8px;
   padding-top: 8px;
-  border-top: 1px solid #2c3a4f;
+  border-top: 1px solid var(--surface-border);
   font-size: 11.5px;
-  color: #8fa2bd;
+  color: var(--text-color-secondary);
 }
 
 .optimize-whatif b {
-  color: #52d17c;
+  color: var(--green-400);
 }
 
 /* ---- menu / bottom action row ------------------------------------------ */
@@ -619,26 +650,4 @@
   gap: 6px;
   flex-wrap: wrap;
   margin-top: 10px;
-}
-
-.hud-menu .mbtn {
-  appearance: none;
-  border: 1px solid #2c3a4f;
-  background: #131a24;
-  color: #b9c8dd;
-  border-radius: 7px;
-  font-size: 10.5px;
-  font-weight: 600;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.hud-menu .mbtn:hover {
-  border-color: #ffd479;
-  color: #ffd479;
-}
-
-.hud-menu .mbtn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
 }
