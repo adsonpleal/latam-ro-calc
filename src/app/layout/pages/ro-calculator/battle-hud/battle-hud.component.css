@@ -1,15 +1,11 @@
-/* Ported from the "F — HUD" mock (battle-summary-a-audit-plus5.html), then restyled
-   onto the app's own PrimeNG theme (vela-green) instead of the original bespoke
-   GitHub-dark palette — see ro-calculator.component.css's summary_* classes for the
-   color conventions reused here (surface-card/#121212 backgrounds, orange highlight,
-   yellow compare, teal damage, red monster/alerts). No glow/text-shadow effects. */
+/* Reworked into a legacy-style two-column layout (monster | skill result) sitting
+   directly on the accordion/page background — no dark #121212/--surface-card
+   panels. Chips/flags keep only a thin var(--surface-border) outline; the small
+   semantic type/MVP/Aura pills stay colored (they're badges, not dark panels). */
 
 .hud {
   --hud-font-num: 'Cascadia Mono', 'SF Mono', ui-monospace, Consolas, monospace;
-  background: var(--surface-card);
-  border: 1px solid var(--surface-border);
-  border-radius: var(--border-radius);
-  padding: 14px;
+  background: transparent;
   color: var(--text-color);
   position: relative;
 }
@@ -26,24 +22,29 @@
   border-radius: var(--border-radius);
 }
 
-/* ---- target frame ------------------------------------------------------ */
+/* ---- monster column ----------------------------------------------------- */
+
+.hud-monster-col {
+  padding-right: 14px;
+}
+
+.hud-monster-head {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 8px;
+}
 
 .sprite {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #121212;
-  border: 1px solid var(--surface-border);
-  border-radius: var(--border-radius);
   flex-shrink: 0;
+  width: 104px;
+  height: 104px;
   /* Sprites may be taller than the box (RO sprites are anchored bottom-center) —
      let them overflow gracefully instead of clipping, like .monster_sprite_container. */
   overflow: visible;
-}
-
-.sprite.lg {
-  width: 116px;
-  height: 116px;
 }
 
 .sprite img {
@@ -52,14 +53,9 @@
   object-fit: contain;
 }
 
-.hud-target {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  border: 1px solid var(--surface-border);
-  background: #121212;
-  border-radius: var(--border-radius);
-  padding: 10px 12px;
+.hud-monster-info {
+  flex: 1;
+  min-width: 0;
 }
 
 .np-name {
@@ -91,45 +87,83 @@
   cursor: help;
 }
 
-/* Element pill (fix 11): same shape as the type/mvp/aura badges above; the
-   property_* classes (styles.scss) already carry each element's own background +
-   text color — a higher-specificity selector here just wins the background so the
-   pill still reads as a dark chip like its siblings, while property_* keeps
-   control of the (already-legible) text color. Neutral has no property_* class,
-   so it falls back to this rule's own text color. */
+/* Element pill: transparent fill + thin outline, colored text via property_*
+   (styles.scss). Neutral has no property_* class, so it falls back to the
+   secondary text color. */
 .hud-badge.el-badge {
-  /* !important + higher specificity than the single-class property_* selectors:
-     wins the background-color even though property_* also sets it !important. */
-  background-color: #121212 !important;
+  background-color: transparent !important;
+  border: 1px solid var(--surface-border);
   color: var(--text-color-secondary);
 }
 
-.hud-hpbar {
-  height: 13px;
-  border-radius: 4px;
-  background: #121212;
-  border: 1px solid var(--surface-border);
-  overflow: hidden;
-  margin-top: 6px;
-  position: relative;
-}
-
-.hud-hpbar .fill {
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg, #3fae5a, #7ed957);
-}
-
-.hud-hpbar .txt {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.hud-hp-line {
   font-family: var(--hud-font-num);
-  font-size: 9.5px;
-  color: #05130a;
   font-weight: 700;
+  font-size: 14px;
+  color: var(--green-400);
+  margin-top: 4px;
+}
+
+/* ---- monster stat rows (DEF/DEFM/HIT/RES, FOR-INT-DES-AGI-VIT-SOR) ------- */
+
+.hud-mstats,
+.hud-attrs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px 16px;
+  margin: 8px 0;
+}
+
+.hud-mstats .kv,
+.hud-attrs .kv {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  gap: 8px;
+}
+
+.hud-mstats .kv span:last-child,
+.hud-attrs .kv span:last-child {
+  font-family: var(--hud-font-num);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-align: right;
+}
+
+.v-res {
+  color: var(--orange-300) !important;
+}
+
+.v-resm {
+  color: var(--blue-300) !important;
+}
+
+.v-race {
+  color: var(--yellow-300) !important;
+}
+
+.v-size {
+  color: var(--cyan-300) !important;
+}
+
+.v-for {
+  color: var(--red-300) !important;
+}
+
+.v-int {
+  color: var(--blue-300) !important;
+}
+
+.v-des {
+  color: var(--green-300) !important;
+}
+
+.v-vit {
+  color: var(--yellow-300) !important;
+}
+
+.v-def {
+  color: var(--red-300) !important;
 }
 
 .hud-sub {
@@ -149,7 +183,7 @@
   height: 17px;
   border-radius: 50%;
   border: 1px solid var(--surface-border);
-  background: #121212;
+  background: transparent;
   color: var(--text-color-secondary);
   font-size: 10.5px;
   line-height: 1;
@@ -217,70 +251,12 @@
   font-size: 12.5px;
 }
 
-/* ---- ficha popover (fix 4) ---------------------------------------------- */
-
-.ficha-panel {
-  min-width: 340px;
-  max-width: 360px;
-}
-
-.ficha-hp-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  background: #121212;
-  border: 1px solid var(--surface-border);
-  border-radius: var(--border-radius);
-  padding: 6px 10px;
-  margin: 6px 0 10px;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.ficha-hp-value {
-  font-family: var(--hud-font-num);
-  font-variant-numeric: tabular-nums;
-  font-size: 16px;
-  color: var(--teal-300);
-}
-
-.ficha-stats {
-  min-width: 0;
-  row-gap: 6px;
-}
-
-.ficha-stats .kv {
-  padding: 1px 0;
-}
-
-/* !important: `.pstats .kv span:last-child` (higher specificity: 2 classes + a
-   pseudo-class + the span type selector) would otherwise win over these. */
-.v-for {
-  color: var(--red-300) !important;
-}
-
-.v-int {
-  color: var(--blue-300) !important;
-}
-
-.v-des {
-  color: var(--green-300) !important;
-}
-
-.v-vit {
-  color: var(--yellow-300) !important;
-}
-
-.v-def {
-  color: var(--red-300) !important;
-}
-
 /* ---- efeitos (buffs) ----------------------------------------------------- */
 
 .hud-buffs {
   display: flex;
   gap: 6px;
-  margin: 12px 0;
+  margin: 0 0 12px;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -298,7 +274,7 @@
   align-items: center;
   gap: 7px;
   border: 1px solid var(--surface-border);
-  background: #121212;
+  background: transparent;
   border-radius: var(--border-radius);
   padding: 5px 11px;
   cursor: pointer;
@@ -329,7 +305,7 @@
 .hud-flags {
   display: flex;
   gap: 6px;
-  margin: 8px 0 2px;
+  margin: 0 0 10px;
   flex-wrap: wrap;
 }
 
@@ -340,7 +316,7 @@
   font-size: 10px;
   font-weight: 700;
   color: var(--red-300);
-  background: #121212;
+  background: transparent;
   border: 1px solid var(--surface-border);
   border-radius: 999px;
   padding: 2px 10px;
@@ -361,8 +337,8 @@
 /* ---- hero (dps / dano) ---------------------------------------------------- */
 
 .hud-hero {
-  text-align: center;
-  padding: 14px 0 10px;
+  text-align: left;
+  padding: 0 0 10px;
 }
 
 .hud-hero .cap2 {
@@ -376,14 +352,14 @@
 .hud-hero .pairs {
   display: flex;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 18px;
 }
 
 .hud-hero .pcol {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 4px;
 }
 
@@ -401,11 +377,11 @@
 }
 
 .hud-hero .pnum.big {
-  font-size: 46px;
+  font-size: 34px;
 }
 
 .hud-hero .pnum.small {
-  font-size: 29px;
+  font-size: 22px;
 }
 
 .hud-hero .pdano {
@@ -457,7 +433,7 @@
 
 .hud-subrow {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: 4px;
   font-size: 11px;
@@ -478,14 +454,14 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #121212;
+  background: transparent;
   border: 1px solid var(--surface-border);
   border-radius: var(--border-radius);
   padding: 6px 12px;
   font-size: 12px;
   color: var(--yellow-200);
   font-weight: 600;
-  margin: 8px 0;
+  margin: 0 0 10px;
   flex-wrap: wrap;
 }
 
@@ -566,7 +542,7 @@
 }
 
 .hud-castbar .lane.rec {
-  background: #121212;
+  background: transparent;
   color: var(--text-color-secondary);
   border: 1px dashed var(--surface-border);
   font-weight: 400;
