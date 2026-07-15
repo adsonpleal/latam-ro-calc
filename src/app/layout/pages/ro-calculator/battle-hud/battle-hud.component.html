@@ -53,10 +53,11 @@
   <!-- 3. Compare ribbon -->
   <div class="hud-cmp-ribbon" *ngIf="isComparing">⇄ Comparando: {{ compareRibbonText }}</div>
 
-  <!-- 4. Two-column layout: monster (legacy-style) | skill result -->
-  <div class="grid grid-nogutter">
-    <!-- Monster column -->
-    <div class="col-12 lg:col-5 hud-monster-col">
+  <!-- 4. Two-card layout: monster (legacy-style) | skill result -->
+  <div class="grid">
+    <!-- Monster card -->
+    <div class="col-12 lg:col-5">
+      <p-card styleClass="hud-card">
       <div class="hud-monster-head">
         <div class="sprite">
           <img [src]="selectedMonster | monsterSprite" alt="" />
@@ -123,10 +124,12 @@
       >
         ID: {{ selectedMonster }}<i class="pi pi-external-link ml-1" style="font-size: 0.7rem"></i>
       </a>
+      </p-card>
     </div>
 
-    <!-- Skill result column -->
-    <div class="col-12 lg:col-7 hud-skill-col">
+    <!-- Skill result card -->
+    <div class="col-12 lg:col-7">
+      <p-card styleClass="hud-card">
       <!-- Hero (hidden while the skill can't fire, same as the legacy tab) -->
       <ng-container *ngIf="!dmg?.requireTxt">
         <div class="hud-hero">
@@ -172,7 +175,7 @@
 
           <div class="sub">
             {{ dmgTypeLabel(calcSkill?.dmgType) }} ·
-            <span class="{{ 'property_' + calcSkill?.propertySkill }}">{{ calcSkill?.propertySkill | monsterTerm: 'element' }}</span>
+            <p-tag [value]="calcSkill?.propertySkill | monsterTerm: 'element'" [styleClass]="elementTagClass(calcSkill?.propertySkill)"></p-tag>
             ×{{ dmg?.skillPropertyMultiplier }}
             <button
               pButton
@@ -275,6 +278,7 @@
         <button pButton type="button" class="p-button-text p-button-sm" label="Detalhes da habilidade" (click)="detailsPanel.toggle($event)"></button>
         <button pButton type="button" class="p-button-text p-button-sm" *ngIf="!hideBasicAtk" label="Ataque básico" (click)="basicPanel.toggle($event)"></button>
       </div>
+      </p-card>
     </div>
   </div>
 
@@ -357,7 +361,7 @@
       <div class="kv">
         <span>Elemento</span>
         <span>
-          <span class="{{ 'property_' + totalSummary?.propertyAtk }}">{{ totalSummary?.propertyAtk | monsterTerm: 'element' }}</span>
+          <p-tag [value]="totalSummary?.propertyAtk | monsterTerm: 'element'" [styleClass]="elementTagClass(totalSummary?.propertyAtk)"></p-tag>
           ×{{ dmg?.propertyMultiplier }}
           <button
             pButton

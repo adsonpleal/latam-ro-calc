@@ -22,11 +22,24 @@
   border-radius: var(--border-radius);
 }
 
-/* ---- monster column ----------------------------------------------------- */
+/* ---- two-card layout ---------------------------------------------------- */
 
-.hud-monster-col {
-  padding-right: 14px;
+/* Each column is a PrimeNG p-card. Tighten the default card padding and make
+   both cards stretch to equal height regardless of content length. */
+:host ::ng-deep .hud-card.p-card {
+  height: 100%;
+  background: var(--surface-card);
 }
+
+:host ::ng-deep .hud-card .p-card-body {
+  padding: 12px 14px;
+}
+
+:host ::ng-deep .hud-card .p-card-content {
+  padding: 0;
+}
+
+/* ---- monster column ----------------------------------------------------- */
 
 .hud-monster-head {
   display: flex;
