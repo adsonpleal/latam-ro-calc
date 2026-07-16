@@ -90,10 +90,6 @@
       </div>
 
       <div class="hud-sub">
-        <p-tag
-          [value]="totalSummary?.monster?.elementLevelUpper | monsterTerm: 'element'"
-          [styleClass]="elementTagClass(totalSummary?.monster?.elementUpper)"
-        ></p-tag>
         <button
           pButton
           type="button"
@@ -102,6 +98,10 @@
           [disabled]="isInProcessingPreset"
           (click)="onShowElementalTableClick()"
         ></button>
+        <p-tag
+          [value]="totalSummary?.monster?.elementLevelUpper | monsterTerm: 'element'"
+          [styleClass]="elementTagClass(totalSummary?.monster?.elementUpper)"
+        ></p-tag>
         <span class="v-race">{{ totalSummary?.monster?.raceUpper | monsterTerm: 'race' }}</span>
         <span class="v-size">{{ totalSummary?.monster?.sizeFullUpper | monsterTerm: 'size' }}</span>
       </div>
