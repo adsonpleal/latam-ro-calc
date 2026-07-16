@@ -4,7 +4,6 @@
    semantic type/MVP/Aura pills stay colored (they're badges, not dark panels). */
 
 .hud {
-  --hud-font-num: 'Cascadia Mono', 'SF Mono', ui-monospace, Consolas, monospace;
   /* Single source of truth for the vertical rhythm between sections. */
   --hud-gap: 14px;
   background: transparent;
@@ -115,7 +114,6 @@
 }
 
 .hud-hp-line {
-  font-family: var(--hud-font-num);
   font-weight: 700;
   font-size: 14px;
   color: var(--green-400);
@@ -142,7 +140,6 @@
 
 .hud-mstats .kv span:last-child,
 .hud-attrs .kv span:last-child {
-  font-family: var(--hud-font-num);
   font-variant-numeric: tabular-nums;
   font-weight: 700;
   text-align: right;
@@ -225,7 +222,6 @@
 }
 
 .pstats .kv span:last-child {
-  font-family: var(--hud-font-num);
   font-variant-numeric: tabular-nums;
   color: var(--text-color);
   text-align: right;
@@ -362,7 +358,6 @@
 }
 
 .hud-hero .pnum {
-  font-family: var(--hud-font-num);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   line-height: 1;
@@ -383,14 +378,12 @@
 }
 
 .hud-hero .pdano {
-  font-family: var(--hud-font-num);
   font-size: 12px;
   color: var(--teal-300);
   cursor: default;
 }
 
 .hud-hero .pdelta {
-  font-family: var(--hud-font-num);
   font-size: 11px;
   font-weight: 700;
 }
@@ -410,7 +403,6 @@
 }
 
 .hud-hero .sub {
-  font-family: var(--hud-font-num);
   font-size: 11px;
   color: var(--text-color-secondary);
   margin-top: 10px;
@@ -439,7 +431,6 @@
 }
 
 .hud-subrow .v {
-  font-family: var(--hud-font-num);
   color: var(--teal-300);
   font-weight: 700;
 }
@@ -499,7 +490,6 @@
   align-items: center;
   justify-content: center;
   border-radius: 3px;
-  font-family: var(--hud-font-num);
   font-size: 9px;
   font-weight: 700;
   color: #0a1526;
@@ -536,7 +526,6 @@
   display: flex;
   align-items: center;
   padding-left: 8px;
-  font-family: var(--hud-font-num);
   font-size: 9px;
   font-weight: 700;
   overflow: hidden;
@@ -568,7 +557,6 @@
 
 /* The formula breakdown now lives inside the "?" help popover, not the castbar. */
 .blegend {
-  font-family: var(--hud-font-num);
   font-size: 11px;
   color: var(--text-color-secondary);
   line-height: 1.5;
