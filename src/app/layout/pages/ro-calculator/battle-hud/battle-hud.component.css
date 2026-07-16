@@ -248,15 +248,32 @@
 
 /* p-selectButton (multiple mode) container: wrap on narrow widths like the old
    hand-rolled list did. */
-.hud-buffs-select {
+/* ::ng-deep: the .p-selectbutton element carrying this class is rendered by
+   PrimeNG, so it lacks this component's encapsulation attribute. */
+:host ::ng-deep .hud-buffs-select {
   display: flex;
   flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Render each effect as its own content-width chip: separate rounded corners,
+   tighter padding, and no fixed width (so the label never wraps and the whole
+   set wraps to the next line when it overflows). !important on flex beats
+   PrimeNG's higher-specificity equal-width rule. */
+:host ::ng-deep .hud-buffs-select .p-button {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  padding: 4px 9px;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius) !important;
+  white-space: nowrap;
 }
 
 .hud-buff-item {
   display: inline-flex;
   align-items: center;
   gap: 7px;
+  white-space: nowrap;
 }
 
 .hud-buff-icon {
