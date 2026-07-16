@@ -293,6 +293,26 @@ a.skill_link:hover {
   white-space: nowrap;
 }
 
+/* HUD tab: Monstro / Habilidade selectors — controlled flex row so the gap
+   between them and the gap below (to the summary cards) are both small. */
+.hud-selectors-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.hud-selectors-col {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .hud-selectors-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
 .dropdown_monster_group_label {
   background-color: var(--green-900);
   color: white;

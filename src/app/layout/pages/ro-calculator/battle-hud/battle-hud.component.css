@@ -564,9 +564,7 @@
   border: 1px dashed var(--surface-border);
 }
 
-.optbtn {
-  margin-left: auto;
-}
+/* otimizar sits right after the "?" (both in the cap's flex gap). */
 
 .optimize-bottleneck {
   margin-bottom: 8px;
@@ -615,6 +613,13 @@
 .hud-menu {
   display: flex;
   gap: 6px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   margin-top: 0;
+}
+
+/* The two action buttons render full-width by default; split the row 50/50
+   so they sit side by side instead of stacking. */
+.hud-menu button {
+  flex: 1 1 0;
+  min-width: 0;
 }

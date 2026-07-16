@@ -1848,9 +1848,9 @@
       <p-accordionTab header="Resumo de Batalha">
         <div class="grid grid-nogutter battle_summary">
           <div class="col-12">
-            <div class="grid hud-selectors mb-3">
+            <div class="hud-selectors-row">
               <!-- Monster -->
-              <div class="col-12 md:col-6">
+              <div class="hud-selectors-col">
                 <div class="p-inputgroup">
                   <p-dropdown
                     inputId="monsterOpponentHud"
@@ -1876,7 +1876,7 @@
               </div>
 
               <!-- Skill -->
-              <div class="col-12 md:col-6" style="position: relative">
+              <div class="hud-selectors-col" style="position: relative">
                 <div class="skill-selection" [hidden]="isShowSelectableSkillLevel">
                   <div class="p-inputgroup">
                     <p-dropdown
