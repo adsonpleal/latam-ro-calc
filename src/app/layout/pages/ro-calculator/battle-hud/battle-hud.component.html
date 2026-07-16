@@ -54,9 +54,9 @@
   <div class="hud-cmp-ribbon" *ngIf="isComparing">⇄ Comparando: {{ compareRibbonText }}</div>
 
   <!-- 4. Two-card layout: monster (legacy-style) | skill result -->
-  <div class="grid">
+  <div class="hud-cards">
     <!-- Monster card -->
-    <div class="col-12 lg:col-5">
+    <div class="hud-card-col hud-card-col--monster">
       <p-card styleClass="hud-card">
       <div class="hud-monster-head">
         <div class="sprite">
@@ -69,7 +69,7 @@
             <p-tag *ngIf="totalSummary?.monster?.isMvp" severity="warning" value="MVP"></p-tag>
             <p-tag
               *ngIf="totalSummary?.monster?.isRedAura"
-              severity="danger"
+              styleClass="tag-aura"
               value="AURA"
               pTooltip="Aura vermelha: redução de 99,9% do dano final."
               tooltipPosition="top"
@@ -128,7 +128,7 @@
     </div>
 
     <!-- Skill result card -->
-    <div class="col-12 lg:col-7">
+    <div class="hud-card-col hud-card-col--skill">
       <p-card styleClass="hud-card">
       <!-- Hero (hidden while the skill can't fire, same as the legacy tab) -->
       <ng-container *ngIf="!dmg?.requireTxt">

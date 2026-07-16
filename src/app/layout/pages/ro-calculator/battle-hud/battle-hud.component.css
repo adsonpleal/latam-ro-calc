@@ -26,6 +26,34 @@
 
 /* ---- two-card layout ---------------------------------------------------- */
 
+/* Flex row (not PrimeFlex grid) so the gap between the cards is exactly
+   --hud-gap, matching the panel padding and every other section gap. The 5/7
+   flex ratio keeps the old col-5 / col-7 proportions. */
+.hud-cards {
+  display: flex;
+  gap: var(--hud-gap);
+  /* Same gap below the cards (to the monster table) as everywhere else. */
+  margin-bottom: var(--hud-gap);
+}
+
+.hud-card-col {
+  min-width: 0;
+}
+
+.hud-card-col--monster {
+  flex: 5 1 0;
+}
+
+.hud-card-col--skill {
+  flex: 7 1 0;
+}
+
+@media (max-width: 991px) {
+  .hud-cards {
+    flex-direction: column;
+  }
+}
+
 /* Each column is a PrimeNG p-card. Tighten the default card padding and make
    both cards stretch to equal height regardless of content length. */
 :host ::ng-deep .hud-card.p-card {
@@ -246,10 +274,15 @@
   margin-right: 4px;
 }
 
+/* AURA badge: vivid red, distinct from the pink "Chefe" danger tag. */
+:host ::ng-deep .tag-aura.p-tag {
+  background: #e11414 !important;
+  color: #fff !important;
+}
+
 /* p-selectButton (multiple mode) container: wrap on narrow widths like the old
-   hand-rolled list did. */
-/* ::ng-deep: the .p-selectbutton element carrying this class is rendered by
-   PrimeNG, so it lacks this component's encapsulation attribute. */
+   hand-rolled list did. ::ng-deep because the .p-selectbutton element carrying
+   this class is rendered by PrimeNG and lacks this component's attribute. */
 :host ::ng-deep .hud-buffs-select {
   display: flex;
   flex-wrap: wrap;

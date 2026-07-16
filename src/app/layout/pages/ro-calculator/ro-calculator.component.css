@@ -297,8 +297,8 @@ a.skill_link:hover {
    between them and the gap below (to the summary cards) are both small. */
 .hud-selectors-row {
   display: flex;
-  gap: 12px;
-  margin-bottom: 8px;
+  gap: 14px;
+  margin-bottom: 14px;
 }
 
 .hud-selectors-col {
