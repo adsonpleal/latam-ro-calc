@@ -1847,82 +1847,85 @@
 
       <p-accordionTab header="Resumo de Batalha">
         <div class="grid grid-nogutter battle_summary">
-          <!-- Monster -->
-          <div class="col-6">
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon monster_hilight_label">Monstro</span>
-              <p-dropdown
-                inputId="monsterOpponentHud"
-                [autoDisplayFirst]="false"
-                [resetFilterOnHide]="true"
-                [options]="groupMonsterList"
-                [filter]="true"
-                filterBy="label,searchVal"
-                filterPlaceholder="Buscar por nome ou ID (ex: 21361)"
-                [group]="true"
-                scrollHeight="400px"
-                [(ngModel)]="selectedMonster"
-                (onChange)="onMonsterChange()"
-              >
-                <ng-template let-group pTemplate="group">
-                  <div class="flex align-items-center font-bold dropdown_monster_group_label">
-                    <span>{{ group.label }}</span>
-                  </div>
-                </ng-template>
-              </p-dropdown>
-            </div>
-          </div>
-
-          <!-- Skill -->
-          <div class="col-6" style="position: relative">
-            <div class="skill-selection" [hidden]="isShowSelectableSkillLevel">
-              <div class="p-inputgroup">
-                <span class="p-inputgroup-addon skill_hilight_label">Habilidade</span>
-                <p-dropdown
-                  inputId="skillHud"
-                  [autoDisplayFirst]="false"
-                  [resetFilterOnHide]="true"
-                  [options]="atkSkills"
-                  scrollHeight="400px"
-                  [(ngModel)]="model.selectedAtkSkill"
-                  (onChange)="onAtkSkillChange()"
-                >
-                  <ng-template let-skill pTemplate="selectedItem">
-                    <div class="flex align-items-center gap-1">
-                      <img *ngIf="skill?.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
-                      <span>{{ skill?.label }}</span>
-                    </div>
-                  </ng-template>
-                  <ng-template let-skill pTemplate="item">
-                    <div class="flex align-items-center gap-1">
-                      <img *ngIf="skill.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
-                      <span>{{ skill.label }}</span>
-                    </div>
-                  </ng-template>
-                </p-dropdown>
+          <div class="col-12">
+            <div class="grid hud-selectors mb-3">
+              <!-- Monster -->
+              <div class="col-12 md:col-6">
+                <div class="p-inputgroup">
+                  <p-dropdown
+                    inputId="monsterOpponentHud"
+                    [autoDisplayFirst]="false"
+                    [resetFilterOnHide]="true"
+                    [options]="groupMonsterList"
+                    [filter]="true"
+                    filterBy="label,searchVal"
+                    filterPlaceholder="Buscar por nome ou ID (ex: 21361)"
+                    [group]="true"
+                    scrollHeight="400px"
+                    placeholder="Monstro"
+                    [(ngModel)]="selectedMonster"
+                    (onChange)="onMonsterChange()"
+                  >
+                    <ng-template let-group pTemplate="group">
+                      <div class="flex align-items-center font-bold dropdown_monster_group_label">
+                        <span>{{ group.label }}</span>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
               </div>
-            </div>
-            <div class="skill-selection" [hidden]="!isShowSelectableSkillLevel">
-              <div class="p-inputgroup">
-                <span class="p-inputgroup-addon skill_hilight_label">Habilidade</span>
-                <p-cascadeSelect
-                  inputId="skillHud"
-                  [(ngModel)]="model.selectedAtkSkill"
-                  [options]="atkSkillCascades"
-                  optionValue="value"
-                  optionLabel="label"
-                  optionGroupLabel="label"
-                  [optionGroupChildren]="['levelList']"
-                  placeholder="-"
-                  (onChange)="onAtkSkillChange()"
-                >
-                  <ng-template pTemplate="option" let-option>
-                    <div class="flex align-items-center gap-1">
-                      <img *ngIf="option?.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
-                      <span>{{ option.label }}</span>
-                    </div>
-                  </ng-template>
-                </p-cascadeSelect>
+
+              <!-- Skill -->
+              <div class="col-12 md:col-6" style="position: relative">
+                <div class="skill-selection" [hidden]="isShowSelectableSkillLevel">
+                  <div class="p-inputgroup">
+                    <p-dropdown
+                      inputId="skillHud"
+                      [autoDisplayFirst]="false"
+                      [resetFilterOnHide]="true"
+                      [options]="atkSkills"
+                      scrollHeight="400px"
+                      placeholder="Habilidade"
+                      [(ngModel)]="model.selectedAtkSkill"
+                      (onChange)="onAtkSkillChange()"
+                    >
+                      <ng-template let-skill pTemplate="selectedItem">
+                        <div class="flex align-items-center gap-1">
+                          <img *ngIf="skill?.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                          <span>{{ skill?.label }}</span>
+                        </div>
+                      </ng-template>
+                      <ng-template let-skill pTemplate="item">
+                        <div class="flex align-items-center gap-1">
+                          <img *ngIf="skill.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                          <span>{{ skill.label }}</span>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="skill-selection" [hidden]="!isShowSelectableSkillLevel">
+                  <div class="p-inputgroup">
+                    <p-cascadeSelect
+                      inputId="skillHud"
+                      [(ngModel)]="model.selectedAtkSkill"
+                      [options]="atkSkillCascades"
+                      optionValue="value"
+                      optionLabel="label"
+                      optionGroupLabel="label"
+                      [optionGroupChildren]="['levelList']"
+                      placeholder="Habilidade"
+                      (onChange)="onAtkSkillChange()"
+                    >
+                      <ng-template pTemplate="option" let-option>
+                        <div class="flex align-items-center gap-1">
+                          <img *ngIf="option?.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                          <span>{{ option.label }}</span>
+                        </div>
+                      </ng-template>
+                    </p-cascadeSelect>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

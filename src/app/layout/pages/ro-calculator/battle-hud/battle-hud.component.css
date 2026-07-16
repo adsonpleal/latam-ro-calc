@@ -5,6 +5,8 @@
 
 .hud {
   --hud-font-num: 'Cascadia Mono', 'SF Mono', ui-monospace, Consolas, monospace;
+  /* Single source of truth for the vertical rhythm between sections. */
+  --hud-gap: 14px;
   background: transparent;
   color: var(--text-color);
   position: relative;
@@ -228,7 +230,7 @@
 .hud-buffs {
   display: flex;
   gap: 6px;
-  margin: 0 0 12px;
+  margin: 0 0 var(--hud-gap);
   align-items: center;
   flex-wrap: wrap;
 }
@@ -266,7 +268,7 @@
 .hud-flags {
   display: flex;
   gap: 6px;
-  margin: 0 0 10px;
+  margin: 0 0 var(--hud-gap);
   flex-wrap: wrap;
 }
 
@@ -281,7 +283,7 @@
 
 .hud-hero {
   text-align: left;
-  padding: 0 0 10px;
+  margin: 0 0 var(--hud-gap);
 }
 
 .hud-hero .cap2 {
@@ -404,14 +406,14 @@
   font-size: 12px;
   color: var(--yellow-200);
   font-weight: 600;
-  margin: 0 0 10px;
+  margin: 0 0 var(--hud-gap);
   flex-wrap: wrap;
 }
 
 /* ---- castbar ---------------------------------------------------------- */
 
 .hud-castbar {
-  margin: 12px 0 4px;
+  margin: 0 0 var(--hud-gap);
 }
 
 .hud-castbar .cap {
@@ -503,17 +505,60 @@
   position: relative;
 }
 
-.hud-castbar .blegend {
+/* The formula breakdown now lives inside the "?" help popover, not the castbar. */
+.blegend {
   font-family: var(--hud-font-num);
-  font-size: 10px;
+  font-size: 11px;
   color: var(--text-color-secondary);
-  margin-top: 5px;
+  line-height: 1.5;
+  margin: 6px 0;
 }
 
-.hud-castbar .blegend .op {
+.blegend .op {
   color: var(--text-color-secondary);
   padding: 0 2px;
   opacity: 0.7;
+}
+
+/* Colored-square legend under the castbar: which color is which component. */
+.hud-castbar .castbar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 8px;
+  font-size: 10px;
+  color: var(--text-color-secondary);
+}
+
+.hud-castbar .castbar-legend .li {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.hud-castbar .castbar-legend .sq {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.hud-castbar .castbar-legend .sq.fixa {
+  background: var(--blue-300);
+}
+
+.hud-castbar .castbar-legend .sq.varv,
+.hud-castbar .castbar-legend .sq.single {
+  background: var(--blue-600);
+}
+
+.hud-castbar .castbar-legend .sq.pos {
+  background: var(--teal-400);
+}
+
+.hud-castbar .castbar-legend .sq.rec {
+  background: transparent;
+  border: 1px dashed var(--surface-border);
 }
 
 .optbtn {
@@ -568,5 +613,5 @@
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  margin-top: 10px;
+  margin-top: 0;
 }

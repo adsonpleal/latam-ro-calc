@@ -38,7 +38,7 @@
   </div>
 
   <!-- 2. Flags (only rendered when active) -->
-  <div class="hud-flags">
+  <div class="hud-flags" *ngIf="dmg?.requireTxt || (showLeftWeapon && model?.leftWeapon) || dmg?.isAutoSpell">
     <p-tag *ngIf="dmg?.requireTxt" severity="danger" value="⚠ Requer" [pTooltip]="dmg?.requireTxt" tooltipPosition="top"></p-tag>
     <p-tag
       *ngIf="showLeftWeapon && model?.leftWeapon"
@@ -233,10 +233,12 @@
           <button
             pButton
             type="button"
-            class="p-button-text p-button-sm p-button-warning optbtn"
+            class="p-button-rounded p-button-text p-button-sm p-button-warning optbtn"
             icon="pi pi-cog"
-            label="otimizar"
             (click)="optimizePanel.toggle($event)"
+            pTooltip="otimizar a conjuração"
+            tooltipPosition="top"
+            aria-label="otimizar a conjuração"
           ></button>
         </div>
 
@@ -250,26 +252,28 @@
             </div>
             <div class="par" [style.flex]="(castbar.parallel?.blockPercent || 0) + ' 0 0%'">
               <div class="lane pos" [title]="'Pós-conjuração ' + (castbar.parallel?.posSeconds | number: '1.0-3') + 's — a maior das duas define o bloqueio'">
-                <span>pós-conj. {{ castbar.parallel?.posSeconds | number: '1.0-3' }}s</span>
+                <span>{{ castbar.parallel?.posSeconds | number: '1.0-3' }}</span>
               </div>
               <div class="lane rec" [title]="'Recarga ' + (castbar.parallel?.recSeconds | number: '1.0-3') + 's — corre em paralelo com a pós-conjuração'">
                 <span class="fill" [style.width.%]="castbar.parallel?.recFillPercent || 0"></span>
-                <span class="ltxt">recarga {{ castbar.parallel?.recSeconds | number: '1.0-3' }}s</span>
+                <span class="ltxt">{{ castbar.parallel?.recSeconds | number: '1.0-3' }}</span>
               </div>
             </div>
           </div>
-          <div class="blegend">
-            fixa {{ castbar.fixed?.seconds | number: '1.0-3' }} <span class="op">+</span> variável {{ castbar.variable?.seconds | number: '1.0-3' }}
-            <span class="op">+</span> ( pós {{ castbar.parallel?.posSeconds | number: '1.0-3' }} <span class="op">∥</span> recarga
-            {{ castbar.parallel?.recSeconds | number: '1.0-3' }} ) <span class="op">=</span> {{ castbar.hitPeriod | number: '1.0-3' }}s/uso ·
-            {{ castbar.totalHitPerSec | number: '1.0-2' }} usos/s
+          <div class="castbar-legend">
+            <span class="li"><span class="sq fixa"></span>Fixa</span>
+            <span class="li"><span class="sq varv"></span>Variável</span>
+            <span class="li"><span class="sq pos"></span>Pós-conjuração</span>
+            <span class="li"><span class="sq rec"></span>Recarga</span>
           </div>
         </ng-container>
         <ng-template #singleBar>
           <div class="bar2">
-            <div class="seg single" [title]="'Ciclo ' + (castbar.single?.seconds | number: '1.0-3') + 's (canalizado)'">{{ castbar.single?.seconds | number: '1.0-3' }}s</div>
+            <div class="seg single" [title]="'Ciclo ' + (castbar.single?.seconds | number: '1.0-3') + 's (canalizado)'">{{ castbar.single?.seconds | number: '1.0-3' }}</div>
           </div>
-          <div class="blegend">{{ castbar.single?.seconds | number: '1.0-3' }}s/uso (canalizado) <span class="op">=</span> {{ castbar.totalHitPerSec | number: '1.0-2' }} usos/s</div>
+          <div class="castbar-legend">
+            <span class="li"><span class="sq single"></span>Ciclo canalizado</span>
+          </div>
         </ng-template>
       </div>
 
@@ -285,8 +289,16 @@
   <p-overlayPanel #castHelpPanel>
     <div class="ptitle">Conjuração da habilidade</div>
     <div style="font-size: 11.5px; max-width: 260px; line-height: 1.5">
-      Fixa e variável correm <b>em sequência</b>. Depois, pós-conjuração e recarga contam <b>ao mesmo tempo</b> — a maior define o bloqueio.<br />
-      (fixa + variável) + max(pós, recarga) = {{ castbar.hitPeriod | number: '1.0-3' }}s → {{ castbar.totalHitPerSec | number: '1.0-2' }} usos/s.
+      Fixa e variável correm <b>em sequência</b>. Depois, pós-conjuração e recarga contam <b>ao mesmo tempo</b> — a maior define o bloqueio.
+    </div>
+    <div class="blegend" *ngIf="castbar.mode === 'sequential'">
+      fixa {{ castbar.fixed?.seconds | number: '1.0-3' }} <span class="op">+</span> variável {{ castbar.variable?.seconds | number: '1.0-3' }}
+      <span class="op">+</span> ( pós {{ castbar.parallel?.posSeconds | number: '1.0-3' }} <span class="op">∥</span> recarga
+      {{ castbar.parallel?.recSeconds | number: '1.0-3' }} ) <span class="op">=</span> {{ castbar.hitPeriod | number: '1.0-3' }}s/uso ·
+      {{ castbar.totalHitPerSec | number: '1.0-2' }} usos/s
+    </div>
+    <div class="blegend" *ngIf="castbar.mode !== 'sequential'">
+      {{ castbar.single?.seconds | number: '1.0-3' }}s/uso (canalizado) <span class="op">=</span> {{ castbar.totalHitPerSec | number: '1.0-2' }} usos/s
     </div>
     <div class="pstats">
       <div class="kv"><span>Conj. Variável</span><span>{{ calcSkill?.vct | number: '1.0-3' }} → {{ calcSkill?.reducedVct | number: '1.0-3' }}</span></div>
