@@ -164,6 +164,7 @@ export class BattleHudComponent {
       hitPeriod: c.hitPeriod || 0,
       dps: this.heroPrimaryCurrent || 0,
       sumDex2Int1: c.sumDex2Int1 || 0,
+      aspdHitsPerSec: this.totalSummary?.calc?.hitPerSecs || 0,
     });
   }
 }

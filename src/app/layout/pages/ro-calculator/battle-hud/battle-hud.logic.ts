@@ -4,7 +4,7 @@
 // engine already produced (calcSkillAspd via totalSummary.calcSkill) into
 // display-ready segments — they never re-derive game-truth timing math.
 
-export type CastComponentKey = 'fixa' | 'variavel' | 'pos' | 'recarga';
+export type CastComponentKey = 'fixa' | 'variavel' | 'pos' | 'recarga' | 'aspd';
 
 export interface CastbarSegment {
   seconds: number;
@@ -118,17 +118,36 @@ export interface ZeroPosWhatIf {
  * What-if: DPS if the after-cast delay (pós-conjuração / reducedAcd) were
  * zeroed out, leaving only sequential cast time plus whatever recarga is left
  * running in parallel. Guards against a degenerate (<=0) new hit period.
+ *
+ * The real per-use rate is capped by ASPD (engine truth, damage-calculator.ts:1422:
+ * `Math.min(skillAspd.totalHitPerSec, basicAspd.hitsPerSec)`), so both the "current"
+ * baseline and the "new" (post what-if) rate must go through that same min() against
+ * `aspdHitsPerSec` — otherwise this would suggest gains ASPD won't actually let through.
  */
-export function computeZeroPosWhatIf(input: { dps: number; hitPeriod: number; castPeriod: number; reducedCd: number }): ZeroPosWhatIf | null {
-  const { dps, hitPeriod, castPeriod, reducedCd } = input;
+export function computeZeroPosWhatIf(input: {
+  dps: number;
+  hitPeriod: number;
+  castPeriod: number;
+  reducedCd: number;
+  aspdHitsPerSec: number;
+}): ZeroPosWhatIf | null {
+  const { dps, hitPeriod, castPeriod, reducedCd, aspdHitsPerSec } = input;
   const newHitPeriod = castPeriod + Math.max(reducedCd, 0);
   if (newHitPeriod <= 0) return null;
 
-  const ratio = hitPeriod / newHitPeriod;
+  const castRate = hitPeriod > 0 ? 1 / hitPeriod : 0;
+  const effectiveRate = aspdHitsPerSec > 0 ? Math.min(castRate, aspdHitsPerSec) : castRate;
+
+  const newCastRate = 1 / newHitPeriod;
+  const newEffectiveRate = aspdHitsPerSec > 0 ? Math.min(newCastRate, aspdHitsPerSec) : newCastRate;
+
+  const gainPercent = effectiveRate > 0 ? (newEffectiveRate / effectiveRate - 1) * 100 : 0;
+  const newDps = dps * (effectiveRate > 0 ? newEffectiveRate / effectiveRate : 1);
+
   return {
-    newDps: dps * ratio,
+    newDps,
     newHitPeriod,
-    gainPercent: (ratio - 1) * 100,
+    gainPercent,
   };
 }
 
@@ -140,6 +159,8 @@ export interface CastComponentInfo {
   hint: string;
   /** Overrides `hint` when the component has nothing left to reduce (e.g. "já zerada ✓"). Null when still improvable. */
   doneText: string | null;
+  /** True for the ASPD row: it has no meaningful "seconds" figure, so the template skips that span. */
+  hideSeconds?: boolean;
 }
 
 export interface OptimizeInfo {
@@ -158,6 +179,8 @@ const ZERO_SECONDS_EPS = 0.005;
 /** Below this, the zero-pós what-if isn't worth surfacing as an actionable suggestion. */
 const MIN_MEANINGFUL_GAIN_PERCENT = 1;
 
+const fmtRate = (v: number): string => v.toFixed(1);
+
 /** Assembles the "otimizar" popover data: bottleneck + per-component hints + the zero-pós what-if. */
 export function buildOptimizeInfo(input: {
   reducedFct: number;
@@ -168,10 +191,17 @@ export function buildOptimizeInfo(input: {
   hitPeriod: number;
   dps: number;
   sumDex2Int1: number;
+  /** ASPD-supported uses/sec — the exact ceiling the engine caps with (basicAspd.hitsPerSec, i.e. totalSummary.calc.hitPerSecs). */
+  aspdHitsPerSec: number;
 }): OptimizeInfo {
-  const { reducedFct, reducedVct, reducedAcd, reducedCd, castPeriod, hitPeriod, dps, sumDex2Int1 } = input;
-  const bottleneck = identifyCastBottleneck({ reducedFct, reducedVct, reducedAcd, reducedCd });
+  const { reducedFct, reducedVct, reducedAcd, reducedCd, castPeriod, hitPeriod, dps, sumDex2Int1, aspdHitsPerSec } = input;
   const toZero = Math.max(0, 530 - sumDex2Int1);
+
+  // Cast mechanics alone can potentially fire faster than ASPD allows — the engine
+  // caps the real rate at min(castRate, aspdHitsPerSec) (damage-calculator.ts:1422).
+  // aspdHitsPerSec <= 0 means "no ASPD data" -> treat as uncapped.
+  const castRate = hitPeriod > 0 ? 1 / hitPeriod : 0;
+  const aspdLimits = aspdHitsPerSec > 0 && aspdHitsPerSec < castRate - EPSILON;
 
   const fixaZero = reducedFct < ZERO_SECONDS_EPS;
   // The variável cast is zeroed either by hitting the 530 DEX*2+INT stat threshold
@@ -181,13 +211,19 @@ export function buildOptimizeInfo(input: {
   const variavelZero = variavelStatsMet || reducedVct < ZERO_SECONDS_EPS;
   const posZero = reducedAcd < ZERO_SECONDS_EPS;
 
-  const rawWhatIf = computeZeroPosWhatIf({ dps, hitPeriod, castPeriod, reducedCd });
+  const rawWhatIf = computeZeroPosWhatIf({ dps, hitPeriod, castPeriod, reducedCd, aspdHitsPerSec });
   const whatIfMeaningful = !!rawWhatIf && rawWhatIf.gainPercent >= MIN_MEANINGFUL_GAIN_PERCENT;
   const whatIf = whatIfMeaningful ? rawWhatIf : null;
 
   // Recarga is fixed per-skill and never reducible, so it never contributes to
   // "is there anything left to optimize" — only fixa/variável (and the pós what-if) do.
-  const isOptimized = !whatIfMeaningful && fixaZero && variavelZero;
+  // When ASPD is the limiter there's always something to improve (raise ASPD), so it
+  // forces isOptimized false regardless of the cast components' own state.
+  const isOptimized = !aspdLimits && !whatIfMeaningful && fixaZero && variavelZero;
+
+  // Bottleneck is ASPD itself when it can't keep up with what the cast mechanics allow;
+  // otherwise fall back to the usual largest-cast-component logic.
+  const bottleneck: CastComponentKey = aspdLimits ? 'aspd' : identifyCastBottleneck({ reducedFct, reducedVct, reducedAcd, reducedCd });
 
   const components: CastComponentInfo[] = [
     {
@@ -208,7 +244,7 @@ export function buildOptimizeInfo(input: {
       key: 'pos',
       label: 'Pós',
       seconds: reducedAcd,
-      hint: 'reduz com −Pós-conjuração e ASPD',
+      hint: 'reduz com −Pós-conjuração',
       doneText: posZero ? 'já zerada ✓' : null,
     },
     {
@@ -218,11 +254,23 @@ export function buildOptimizeInfo(input: {
       hint: 'fixa da habilidade — não reduzível',
       doneText: null,
     },
+    {
+      key: 'aspd',
+      label: 'ASPD',
+      seconds: 0,
+      hideSeconds: true,
+      hint: aspdLimits
+        ? `limita a conjuração — aumente o ASPD (VelAtq): o cast permite ${fmtRate(castRate)}/s, mas o ASPD só suporta ${fmtRate(aspdHitsPerSec)}/s`
+        : '',
+      doneText: aspdLimits ? null : `suporta a conjuração ✓ (${fmtRate(aspdHitsPerSec)}/s ≥ ${fmtRate(castRate)}/s)`,
+    },
   ];
 
-  const headline = isOptimized
-    ? 'Conjuração já otimizada — nada relevante a melhorar.'
-    : `Gargalo atual: ${components.find((c) => c.key === bottleneck)!.label}`;
+  const headline = aspdLimits
+    ? 'ASPD limita a conjuração — aumente o ASPD para ganhar DPS.'
+    : isOptimized
+      ? 'Conjuração já otimizada — nada relevante a melhorar.'
+      : `Gargalo atual: ${components.find((c) => c.key === bottleneck)!.label}`;
 
   return { isOptimized, headline, bottleneck, components, whatIf };
 }

@@ -107,27 +107,40 @@ describe('identifyCastBottleneck', () => {
 });
 
 describe('computeZeroPosWhatIf', () => {
-  it('computes the DPS gain from zeroing the after-cast delay', () => {
+  it('computes the DPS gain from zeroing the after-cast delay (ASPD has headroom, so it never binds)', () => {
     // hitPeriod 3.22 -> newHitPeriod = castPeriod(0.7) + reducedCd(1.0) = 1.7
-    const r = computeZeroPosWhatIf({ dps: 17480, hitPeriod: 3.22, castPeriod: 0.7, reducedCd: 1.0 })!;
+    const r = computeZeroPosWhatIf({ dps: 17480, hitPeriod: 3.22, castPeriod: 0.7, reducedCd: 1.0, aspdHitsPerSec: 99 })!;
     expect(r.newHitPeriod).toBeCloseTo(1.7, 5);
     expect(r.gainPercent).toBeCloseTo((3.22 / 1.7 - 1) * 100, 5);
     expect(r.newDps).toBeCloseTo(17480 * (3.22 / 1.7), 5);
   });
 
   it('returns null when the new hit period would be non-positive', () => {
-    expect(computeZeroPosWhatIf({ dps: 100, hitPeriod: 1, castPeriod: 0, reducedCd: 0 })).toBeNull();
+    expect(computeZeroPosWhatIf({ dps: 100, hitPeriod: 1, castPeriod: 0, reducedCd: 0, aspdHitsPerSec: 99 })).toBeNull();
   });
 
   it('reports zero gain when pós was never the bottleneck (recarga unchanged)', () => {
-    const r = computeZeroPosWhatIf({ dps: 500, hitPeriod: 2, castPeriod: 1, reducedCd: 1 })!;
+    const r = computeZeroPosWhatIf({ dps: 500, hitPeriod: 2, castPeriod: 1, reducedCd: 1, aspdHitsPerSec: 99 })!;
     expect(r.newHitPeriod).toBe(2);
     expect(r.gainPercent).toBe(0);
+  });
+
+  it('clamps the post-what-if rate at the ASPD ceiling when zeroing pós would otherwise exceed it', () => {
+    // castRate = 1/3.22 ≈ 0.3106/s (below the 2/s ASPD ceiling, so the "current" baseline
+    // is uncapped). newCastRate = 1/1.7 ≈ 0.588/s — still below 2/s, so ASPD wouldn't
+    // bind here either; use a tighter aspdHitsPerSec (0.4) so the new rate is clamped.
+    const r = computeZeroPosWhatIf({ dps: 17480, hitPeriod: 3.22, castPeriod: 0.7, reducedCd: 1.0, aspdHitsPerSec: 0.4 })!;
+    const castRate = 1 / 3.22;
+    const newCastRate = 1 / 1.7;
+    expect(newCastRate).toBeGreaterThan(0.4); // sanity: the uncapped new rate would exceed the ceiling
+    // effectiveRate = min(castRate, 0.4) = castRate (0.3106 < 0.4); newEffectiveRate clamps to 0.4.
+    expect(r.gainPercent).toBeCloseTo((0.4 / castRate - 1) * 100, 5);
+    expect(r.newDps).toBeCloseTo(17480 * (0.4 / castRate), 5);
   });
 });
 
 describe('buildOptimizeInfo', () => {
-  it('bundles bottleneck, per-component hints, and the what-if together', () => {
+  it('bundles bottleneck, per-component hints, and the what-if together (ASPD has headroom)', () => {
     const info = buildOptimizeInfo({
       reducedFct: 0.2,
       reducedVct: 0.5,
@@ -137,15 +150,19 @@ describe('buildOptimizeInfo', () => {
       hitPeriod: 3.22,
       dps: 17480,
       sumDex2Int1: 985,
+      aspdHitsPerSec: 99,
     });
     expect(info.bottleneck).toBe('pos');
-    expect(info.components.map((c) => c.key)).toEqual(['fixa', 'variavel', 'pos', 'recarga']);
+    expect(info.components.map((c) => c.key)).toEqual(['fixa', 'variavel', 'pos', 'recarga', 'aspd']);
     expect(info.whatIf).not.toBeNull();
     expect(info.components.find((c) => c.key === 'variavel')!.hint).toContain('985 / 530');
     expect(info.isOptimized).toBe(false);
+    const aspd = info.components.find((c) => c.key === 'aspd')!;
+    expect(aspd.hideSeconds).toBe(true);
+    expect(aspd.doneText).toContain('suporta a conjuração ✓');
   });
 
-  it('flags nothing to improve when fixa/variável/pós are all ~0 and the what-if gain is negligible', () => {
+  it('flags nothing to improve when fixa/variável/pós are all ~0, ASPD keeps up, and the what-if gain is negligible', () => {
     // castPeriod (fixa+variável) = 0, blockPeriod = max(acd, cd) = recarga = 0.5 -> hitPeriod 0.5.
     // Zeroing pós (already 0) can't change hitPeriod, so the what-if reports 0% gain.
     const info = buildOptimizeInfo({
@@ -157,6 +174,7 @@ describe('buildOptimizeInfo', () => {
       hitPeriod: 0.5,
       dps: 1000,
       sumDex2Int1: 0,
+      aspdHitsPerSec: 99,
     });
     expect(info.isOptimized).toBe(true);
     expect(info.headline).toBe('Conjuração já otimizada — nada relevante a melhorar.');
@@ -178,6 +196,7 @@ describe('buildOptimizeInfo', () => {
       hitPeriod: 0.51,
       dps: 1000,
       sumDex2Int1: 530,
+      aspdHitsPerSec: 99,
     });
     const variavel = info.components.find((c) => c.key === 'variavel')!;
     expect(variavel.doneText).toBe('stats já zeram a conjuração variável ✓');
@@ -196,8 +215,77 @@ describe('buildOptimizeInfo', () => {
       hitPeriod: 3.22,
       dps: 1000,
       sumDex2Int1: 0,
+      aspdHitsPerSec: 99,
     });
     expect(info.whatIf).toBeNull();
+  });
+
+  it('ASPD-limited: bottleneck flips to aspd, headline mentions ASPD, and the zero-pós what-if is suppressed', () => {
+    // castRate = 1/3.22 ≈ 0.3106/s; aspdHitsPerSec 0.2/s can't keep up, so ASPD is the real cap
+    // even though pós is nominally the largest cast component.
+    const info = buildOptimizeInfo({
+      reducedFct: 0.2,
+      reducedVct: 0.5,
+      reducedAcd: 2.52,
+      reducedCd: 1.0,
+      castPeriod: 0.7,
+      hitPeriod: 3.22,
+      dps: 17480,
+      sumDex2Int1: 985,
+      aspdHitsPerSec: 0.2,
+    });
+    expect(info.bottleneck).toBe('aspd');
+    expect(info.headline).toBe('ASPD limita a conjuração — aumente o ASPD para ganhar DPS.');
+    expect(info.isOptimized).toBe(false);
+    const aspd = info.components.find((c) => c.key === 'aspd')!;
+    expect(aspd.doneText).toBeNull();
+    expect(aspd.hint).toContain('limita a conjuração');
+    expect(aspd.hint).toContain('0.3/s');
+    expect(aspd.hint).toContain('0.2/s');
+    // Zeroing pós only raises the cast-mechanics rate, which ASPD still caps at 0.2/s —
+    // the effective rate (already 0.2/s) doesn't move, so the what-if gain is ~0%.
+    expect(info.whatIf).toBeNull();
+  });
+
+  it('ASPD-headroom: aspd component shows the "suporta" checkmark and bottleneck stays a cast component', () => {
+    const info = buildOptimizeInfo({
+      reducedFct: 0.2,
+      reducedVct: 0.5,
+      reducedAcd: 2.52,
+      reducedCd: 1.0,
+      castPeriod: 0.7,
+      hitPeriod: 3.22,
+      dps: 17480,
+      sumDex2Int1: 985,
+      aspdHitsPerSec: 2, // castRate ≈ 0.31/s, well within a 2/s ASPD ceiling
+    });
+    expect(info.bottleneck).toBe('pos');
+    const aspd = info.components.find((c) => c.key === 'aspd')!;
+    expect(aspd.doneText).toContain('suporta a conjuração ✓');
+    expect(aspd.doneText).toContain('2.0/s');
+    // The what-if still fires (pós is real, and 2/s headroom doesn't clamp the new rate: 1/1.7 ≈ 0.59/s).
+    expect(info.whatIf).not.toBeNull();
+    expect(info.whatIf!.gainPercent).toBeCloseTo((3.22 / 1.7 - 1) * 100, 5);
+  });
+
+  it('what-if capped: zeroing pós would exceed the ASPD rate, so the gain reflects the clamp instead of the raw cast-time ratio', () => {
+    // newCastRate = 1/1.7 ≈ 0.588/s would normally give ~89% gain, but aspdHitsPerSec 0.4/s
+    // clamps the new effective rate — the surfaced gain must reflect the clamp, not 89%.
+    const info = buildOptimizeInfo({
+      reducedFct: 0.2,
+      reducedVct: 0.5,
+      reducedAcd: 2.52,
+      reducedCd: 1.0,
+      castPeriod: 0.7,
+      hitPeriod: 3.22,
+      dps: 17480,
+      sumDex2Int1: 985,
+      aspdHitsPerSec: 0.4,
+    });
+    const castRate = 1 / 3.22;
+    expect(info.whatIf).not.toBeNull();
+    expect(info.whatIf!.gainPercent).toBeCloseTo((0.4 / castRate - 1) * 100, 5);
+    expect(info.whatIf!.gainPercent).toBeLessThan(((1 / 1.7) / castRate - 1) * 100); // less than the uncapped gain
   });
 });
 

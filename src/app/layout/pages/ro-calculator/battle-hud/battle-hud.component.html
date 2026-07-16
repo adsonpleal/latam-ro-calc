@@ -300,7 +300,7 @@
     <div class="ptitle">O que dá para melhorar</div>
     <div class="optimize-bottleneck" [class.is-optimized]="optimizeInfo.isOptimized">{{ optimizeInfo.headline }}</div>
     <div class="optimize-component" *ngFor="let c of optimizeInfo.components" [class.is-bottleneck]="!optimizeInfo.isOptimized && c.key === optimizeInfo.bottleneck">
-      <b>{{ c.label }} {{ c.seconds | number: '1.0-3' }}s</b> —
+      <b>{{ c.label }}<span *ngIf="!c.hideSeconds"> {{ c.seconds | number: '1.0-3' }}s</span></b> —
       <span *ngIf="c.doneText; else showHint" class="optimize-done">{{ c.doneText }}</span>
       <ng-template #showHint>{{ c.hint }}</ng-template>
     </div>
