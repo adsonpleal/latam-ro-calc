@@ -477,7 +477,15 @@
   margin-bottom: 5px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 3px;
+}
+
+/* Compact the "?" and "otimizar" icon buttons so they sit close together
+   (default rounded p-buttons carry wide horizontal padding). */
+:host ::ng-deep .hud-castbar .cap .p-button {
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0;
 }
 
 .hud-castbar .bar2 {
