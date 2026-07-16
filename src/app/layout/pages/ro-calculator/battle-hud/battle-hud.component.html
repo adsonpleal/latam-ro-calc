@@ -102,8 +102,8 @@
           [disabled]="isInProcessingPreset"
           (click)="onShowElementalTableClick()"
         ></button>
-        · <span class="v-race">{{ totalSummary?.monster?.raceUpper | monsterTerm: 'race' }}</span>
-        · <span class="v-size">{{ totalSummary?.monster?.sizeFullUpper | monsterTerm: 'size' }}</span>
+        <span class="v-race">{{ totalSummary?.monster?.raceUpper | monsterTerm: 'race' }}</span>
+        <span class="v-size">{{ totalSummary?.monster?.sizeFullUpper | monsterTerm: 'size' }}</span>
       </div>
 
       <div class="hud-attrs">
