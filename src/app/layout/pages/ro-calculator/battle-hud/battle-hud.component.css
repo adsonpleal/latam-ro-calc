@@ -30,7 +30,10 @@
    both cards stretch to equal height regardless of content length. */
 :host ::ng-deep .hud-card.p-card {
   height: 100%;
-  background: var(--surface-card);
+  /* Border-only, like the legacy monster panel — no filled surface. */
+  background: transparent;
+  border: 1px solid var(--surface-border);
+  box-shadow: none;
 }
 
 :host ::ng-deep .hud-card .p-card-body {
