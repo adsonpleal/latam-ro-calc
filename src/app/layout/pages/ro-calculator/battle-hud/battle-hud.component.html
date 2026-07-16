@@ -172,16 +172,16 @@
 
           <div class="sub">
             {{ dmgTypeLabel(calcSkill?.dmgType) }} ·
-            <p-tag [value]="calcSkill?.propertySkill | monsterTerm: 'element'" [styleClass]="elementTagClass(calcSkill?.propertySkill)"></p-tag>
-            ×{{ dmg?.skillPropertyMultiplier }}
-            <button
-              pButton
-              type="button"
-              class="p-button-text p-button-warning py-0"
+            <p-tag
+              class="el-tag-clickable"
               icon="pi pi-search"
-              [disabled]="isInProcessingPreset"
-              (click)="onShowElementalTableClick()"
-            ></button>
+              [value]="calcSkill?.propertySkill | monsterTerm: 'element'"
+              [styleClass]="elementTagClass(calcSkill?.propertySkill)"
+              pTooltip="Ver tabela elemental"
+              tooltipPosition="top"
+              (click)="isInProcessingPreset ? null : onShowElementalTableClick()"
+            ></p-tag>
+            ×{{ dmg?.skillPropertyMultiplier }}
             · Hab./s {{ heroHitsPerSec | number: '1.0-2' }}
             <span class="mut" *ngIf="heroShowsBaseFallback">· sem efeitos: {{ calcSkill?.totalHits }}× {{ dmg?.skillMinDamage | number }}–{{ dmg?.skillMaxDamage | number }}</span>
           </div>
