@@ -107,10 +107,19 @@
   font-weight: 700;
   font-size: 14px;
   color: var(--orange-300);
+}
+
+/* All badges (Chefe/MVP/Aura) on their own row below the name. */
+.np-badges {
   display: flex;
-  align-items: center;
   gap: 6px;
   flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+/* Element pill doubles as the "open elemental table" button. */
+.el-tag-clickable {
+  cursor: pointer;
 }
 
 .hud-hp-line {

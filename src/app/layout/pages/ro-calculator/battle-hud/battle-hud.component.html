@@ -63,8 +63,8 @@
           <img [src]="selectedMonster | monsterSprite" alt="" />
         </div>
         <div class="hud-monster-info">
-          <div class="np-name">
-            {{ selectedMonsterName }}
+          <div class="np-name">{{ selectedMonsterName }}</div>
+          <div class="np-badges">
             <p-tag *ngIf="totalSummary?.monster?.typeUpper" severity="danger" [value]="totalSummary?.monster?.typeUpper | monsterTerm: 'type'"></p-tag>
             <p-tag *ngIf="totalSummary?.monster?.isMvp" severity="warning" value="MVP"></p-tag>
             <p-tag
@@ -90,17 +90,14 @@
       </div>
 
       <div class="hud-sub">
-        <button
-          pButton
-          type="button"
-          class="p-button-text p-button-warning py-0"
-          icon="pi pi-search"
-          [disabled]="isInProcessingPreset"
-          (click)="onShowElementalTableClick()"
-        ></button>
         <p-tag
+          class="el-tag-clickable"
+          icon="pi pi-search"
           [value]="totalSummary?.monster?.elementLevelUpper | monsterTerm: 'element'"
           [styleClass]="elementTagClass(totalSummary?.monster?.elementUpper)"
+          pTooltip="Ver tabela elemental"
+          tooltipPosition="top"
+          (click)="isInProcessingPreset ? null : onShowElementalTableClick()"
         ></p-tag>
         <span class="v-race">{{ totalSummary?.monster?.raceUpper | monsterTerm: 'race' }}</span>
         <span class="v-size">{{ totalSummary?.monster?.sizeFullUpper | monsterTerm: 'size' }}</span>

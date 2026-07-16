@@ -1961,8 +1961,8 @@
               [tableStyle]="{ 'min-width': '40rem' }"
             >
               <ng-template pTemplate="caption">
-                <div class="grid grid-nogutter">
-                  <div class="col-6">
+                <div class="hud-selectors-row">
+                  <div class="hud-selectors-col">
                     <p-multiSelect
                       [options]="groupMonsterList"
                       [group]="true"
@@ -1985,7 +1985,7 @@
                       </ng-template>
                     </p-multiSelect>
                   </div>
-                  <div class="col-6">
+                  <div class="hud-selectors-col">
                     <p-multiSelect
                       [options]="cols"
                       [(ngModel)]="selectedColumns"
