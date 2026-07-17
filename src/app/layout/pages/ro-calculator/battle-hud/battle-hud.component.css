@@ -297,12 +297,16 @@
 /* Render each effect as its own content-width chip: separate rounded corners,
    tighter padding, and no fixed width (so the label never wraps and the whole
    set wraps to the next line when it overflows). !important on flex beats
-   PrimeNG's higher-specificity equal-width rule. */
+   PrimeNG's higher-specificity equal-width rule. PrimeNG also styles
+   p-selectButton as a connected segmented control by default — it strips the
+   border between adjacent buttons (`.p-buttonset .p-button:not(:last-child)`
+   sets `border-right: 0`) so they read as one fused pill-group instead of
+   separate chips. !important on border restores every side on every chip. */
 :host ::ng-deep .hud-buffs-select .p-button {
   flex: 0 0 auto !important;
   width: auto !important;
   padding: 4px 9px;
-  border: 1px solid var(--surface-border);
+  border: 1px solid var(--surface-border) !important;
   border-radius: var(--border-radius) !important;
   white-space: nowrap;
 }
