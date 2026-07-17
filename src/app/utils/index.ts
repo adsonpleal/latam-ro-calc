@@ -10,6 +10,7 @@ export * from './create-extra-option-list';
 export * from './create-main-model';
 export * from './create-number-dropdown-list';
 export * from './create-raw-total-bonus';
+export * from './dmg-type-label';
 export * from './first-upper-case';
 export * from './floor';
 export * from './is-number';

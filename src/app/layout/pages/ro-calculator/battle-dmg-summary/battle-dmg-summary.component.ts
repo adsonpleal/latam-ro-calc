@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { dmgTypeLabel as dmgTypeLabelUtil } from '../../../../utils';
 
 @Component({
   selector: 'app-battle-dmg-summary',
@@ -18,17 +19,11 @@ export class BattleDmgSummaryComponent {
 
   @Output() showElementTableClick = new EventEmitter<any>();
 
-  // Display-only pt-BR for the skill damage type (the raw value drives logic).
-  private readonly dmgTypePtBr: Record<string, string> = {
-    Melee: 'Corpo a corpo',
-    Range: 'À distância',
-    Magical: 'Mágico',
-  };
-
   constructor() {}
 
+  // Display-only pt-BR for the skill damage type (the raw value drives logic).
   dmgTypeLabel(type: string): string {
-    return this.dmgTypePtBr[type] ?? type;
+    return dmgTypeLabelUtil(type);
   }
 
   onShowElementalTableClick() {

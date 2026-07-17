@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ElementType } from '../../../../constants/element-type.const';
 import { itemSlotLabelPtBr } from '../../../../constants/item-slot-i18n';
+import { dmgTypeLabel as dmgTypeLabelUtil } from '../../../../utils';
 import {
   buildOptimizeInfo,
   CastbarResult,
@@ -37,21 +39,15 @@ export class BattleHudComponent {
 
   // Display-only pt-BR for the skill damage type (same map as battle-dmg-summary;
   // the raw value still drives the [hidden] logic elsewhere, e.g. Magical-only chips).
-  private readonly dmgTypePtBr: Record<string, string> = {
-    Melee: 'Corpo a corpo',
-    Range: 'À distância',
-    Magical: 'Mágico',
-  };
-
   dmgTypeLabel(type: string): string {
-    return this.dmgTypePtBr[type] ?? type;
+    return dmgTypeLabelUtil(type);
   }
 
   // Elements without a `property_*` rule in styles.scss (Neutral is the only one —
   // it never had a color, by design) must not fall through to p-tag's own default
   // background. 'el-tag-neutral' (battle-hud.component.css) reproduces the old
   // outlined/neutral badge look instead of an arbitrary PrimeNG color.
-  private static readonly ELEMENT_COLOR_CLASSES = new Set(['Water', 'Earth', 'Fire', 'Wind', 'Poison', 'Holy', 'Dark', 'Ghost', 'Undead']);
+  private static readonly ELEMENT_COLOR_CLASSES: Set<string> = new Set(Object.values(ElementType).filter((e) => e !== ElementType.Neutral));
 
   elementTagClass(elementUpper: string | undefined): string {
     return elementUpper && BattleHudComponent.ELEMENT_COLOR_CLASSES.has(elementUpper) ? 'property_' + elementUpper : 'el-tag-neutral';
@@ -105,52 +101,63 @@ export class BattleHudComponent {
     return (this.selectedChances?.length ?? 0) > 0;
   }
 
-  get heroCurrent(): HeroDamage {
-    return pickHeroDamage(this.dmg, this.hasSelectedChances);
-  }
-
-  get heroSimulated(): HeroDamage | null {
-    return this.isComparing ? pickHeroDamage(this.dmg2, this.hasSelectedChances) : null;
-  }
-
   // "Hab./s" sub-line: same effected||base fallback as the hero DPS, gated the same way.
   get heroHitsPerSec(): number {
     const effected = this.hasSelectedChances ? this.dmg?.effectedSkillHitsPerSec : null;
     return effected || this.calcSkill?.totalHitPerSec || 0;
   }
 
+  // heroPrimaryCurrent/heroPrimarySimulated stay standalone (not folded into the
+  // `hero` getter below) because optimizeInfo needs `dps` on its own, outside any
+  // template-driven amplification — no *ngIf="hero as h" scope to piggyback on there.
   private get heroPrimaryCurrent(): number {
-    const h = this.heroCurrent;
+    const h = pickHeroDamage(this.dmg, this.hasSelectedChances);
     return this.isAutoSpell ? (h.min + h.max) / 2 : h.dps;
   }
 
   private get heroPrimarySimulated(): number {
-    const h = this.heroSimulated;
-    if (!h) return 0;
+    if (!this.isComparing) return 0;
+    const h = pickHeroDamage(this.dmg2, this.hasSelectedChances);
     return this.isAutoSpell ? (h.min + h.max) / 2 : h.dps;
   }
 
-  get heroDelta(): number | null {
-    if (!this.isComparing) return null;
-    return deltaPercent(this.heroPrimaryCurrent, this.heroPrimarySimulated);
-  }
+  // Single consolidated read of the hero (DPS / dano por uso) section — the template
+  // binds this once via `*ngIf="hero as h"` instead of re-invoking five separate
+  // getters (which themselves used to re-derive heroCurrent/heroSimulated multiple
+  // times each) on every CD pass.
+  get hero(): { current: HeroDamage; simulated: HeroDamage | null; biggerSide: DpsSide; delta: number | null; showsBaseFallback: boolean } {
+    const current = pickHeroDamage(this.dmg, this.hasSelectedChances);
+    const simulated = this.isComparing ? pickHeroDamage(this.dmg2, this.hasSelectedChances) : null;
 
-  get heroBiggerSide(): DpsSide {
-    if (!this.isComparing) return 'current';
-    return pickBiggerDpsSide(this.heroPrimaryCurrent, this.heroPrimarySimulated);
-  }
+    const primaryCurrent = this.isAutoSpell ? (current.min + current.max) / 2 : current.dps;
+    const primarySimulated = simulated ? (this.isAutoSpell ? (simulated.min + simulated.max) / 2 : simulated.dps) : 0;
 
-  // "sem efeitos: Nx base–range" only makes sense when the hero switched to the
-  // effected (chance-triggered) figures, so the base range is a different number.
-  get heroShowsBaseFallback(): boolean {
-    return this.heroCurrent.effected;
+    return {
+      current,
+      simulated,
+      biggerSide: this.isComparing ? pickBiggerDpsSide(primaryCurrent, primarySimulated) : 'current',
+      delta: this.isComparing ? deltaPercent(primaryCurrent, primarySimulated) : null,
+      // "sem efeitos: Nx base–range" only makes sense when the hero switched to the
+      // effected (chance-triggered) figures, so the base range is a different number.
+      showsBaseFallback: current.effected,
+    };
   }
 
   // --- Castbar -----------------------------------------------------------
 
-  get castbar(): CastbarResult {
+  // Single normalization of calcSkill's cast timings, shared by castbar and
+  // optimizeInfo below (both used to repeat the identical `c.X || 0` fallback chain).
+  private get normalizedCastTimings(): {
+    reducedFct: number;
+    reducedVct: number;
+    reducedAcd: number;
+    reducedCd: number;
+    castPeriod: number;
+    hitPeriod: number;
+    totalHitPerSec: number;
+  } {
     const c = this.calcSkill || {};
-    return computeCastbar({
+    return {
       reducedFct: c.reducedFct || 0,
       reducedVct: c.reducedVct || 0,
       reducedAcd: c.reducedAcd || 0,
@@ -158,20 +165,24 @@ export class BattleHudComponent {
       castPeriod: c.castPeriod || 0,
       hitPeriod: c.hitPeriod || 0,
       totalHitPerSec: c.totalHitPerSec || 0,
-    });
+    };
+  }
+
+  get castbar(): CastbarResult {
+    return computeCastbar(this.normalizedCastTimings);
   }
 
   get optimizeInfo(): OptimizeInfo {
-    const c = this.calcSkill || {};
+    const { reducedFct, reducedVct, reducedAcd, reducedCd, castPeriod, hitPeriod } = this.normalizedCastTimings;
     return buildOptimizeInfo({
-      reducedFct: c.reducedFct || 0,
-      reducedVct: c.reducedVct || 0,
-      reducedAcd: c.reducedAcd || 0,
-      reducedCd: c.reducedCd || 0,
-      castPeriod: c.castPeriod || 0,
-      hitPeriod: c.hitPeriod || 0,
+      reducedFct,
+      reducedVct,
+      reducedAcd,
+      reducedCd,
+      castPeriod,
+      hitPeriod,
       dps: this.heroPrimaryCurrent || 0,
-      sumDex2Int1: c.sumDex2Int1 || 0,
+      sumDex2Int1: this.calcSkill?.sumDex2Int1 || 0,
       aspdHitsPerSec: this.totalSummary?.calc?.hitPerSecs || 0,
     });
   }

@@ -12,6 +12,16 @@
   </div>
 </ng-template>
 
+<!-- Fixa/Variável/Recarga/Pós-conj. timing rows, identical in both #castHelpPanel
+     and #detailsPanel — reads calcSkill directly, same as the pre-existing #singleBar
+     ng-template below reads castbar directly (no explicit context needed). -->
+<ng-template #castTimings>
+  <div class="kv"><span>Conj. Variável</span><span>{{ calcSkill?.vct | number: '1.0-3' }} → {{ calcSkill?.reducedVct | number: '1.0-3' }}</span></div>
+  <div class="kv"><span>Conj. Fixa</span><span>{{ calcSkill?.fct | number: '1.0-3' }} → {{ calcSkill?.reducedFct | number: '1.0-3' }}</span></div>
+  <div class="kv"><span>Recarga</span><span>{{ calcSkill?.cd | number: '1.0-3' }} → {{ calcSkill?.reducedCd | number: '1.0-3' }}</span></div>
+  <div class="kv"><span>Pós-conj.</span><span>{{ calcSkill?.acd | number: '1.0-3' }} → {{ calcSkill?.reducedAcd | number: '1.0-3' }}</span></div>
+</ng-template>
+
 <div class="hud">
   <div class="loading_block" *ngIf="isCalculating">
     <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
@@ -38,7 +48,7 @@
   </div>
 
   <!-- 2. Flags (only rendered when active) -->
-  <div class="hud-flags" *ngIf="dmg?.requireTxt || (showLeftWeapon && model?.leftWeapon) || dmg?.isAutoSpell">
+  <div class="hud-flags" *ngIf="dmg?.requireTxt || (showLeftWeapon && model?.leftWeapon) || isAutoSpell">
     <p-tag *ngIf="dmg?.requireTxt" severity="danger" value="⚠ Requer" [pTooltip]="dmg?.requireTxt" tooltipPosition="top"></p-tag>
     <p-tag
       *ngIf="showLeftWeapon && model?.leftWeapon"
@@ -47,7 +57,7 @@
       pTooltip="ATK da mão esquerda ainda não calculado"
       tooltipPosition="top"
     ></p-tag>
-    <p-tag *ngIf="dmg?.isAutoSpell" severity="warning" value="Autospell" pTooltip="DPS não exibido para autospell" tooltipPosition="top"></p-tag>
+    <p-tag *ngIf="isAutoSpell" severity="warning" value="Autospell" pTooltip="DPS não exibido para autospell" tooltipPosition="top"></p-tag>
   </div>
 
   <!-- 3. Compare ribbon -->
@@ -128,7 +138,7 @@
     <div class="hud-card-col hud-card-col--skill">
       <p-card styleClass="hud-card">
       <!-- Hero (hidden while the skill can't fire, same as the legacy tab) -->
-      <ng-container *ngIf="!dmg?.requireTxt">
+      <ng-container *ngIf="!dmg?.requireTxt && hero as h">
         <div class="hud-hero">
           <div class="cap2">{{ isAutoSpell ? 'Dano por ativação' : 'DPS' }}</div>
           <div class="pairs">
@@ -136,15 +146,15 @@
               <div
                 class="pnum"
                 *ngIf="!isAutoSpell"
-                [class.big]="heroBiggerSide !== 'simulated'"
-                [class.small]="heroBiggerSide === 'simulated'"
+                [class.big]="h.biggerSide !== 'simulated'"
+                [class.small]="h.biggerSide === 'simulated'"
                 pTooltip="DPS atual"
                 tooltipPosition="top"
               >
-                {{ heroCurrent.dps | number: '1.0-0' }}
+                {{ h.current.dps | number: '1.0-0' }}
               </div>
-              <div class="pdano" [class.primary]="isAutoSpell" pTooltip="Dano atual" tooltipPosition="top">
-                {{ calcSkill?.totalHits }}× {{ heroCurrent.min | number }} – {{ heroCurrent.max | number }}
+              <div class="pdano" pTooltip="Dano atual" tooltipPosition="top">
+                {{ calcSkill?.totalHits }}× {{ h.current.min | number }} – {{ h.current.max | number }}
               </div>
             </div>
             <ng-container *ngIf="isComparing">
@@ -153,18 +163,18 @@
                 <div
                   class="pnum"
                   *ngIf="!isAutoSpell"
-                  [class.big]="heroBiggerSide === 'simulated'"
-                  [class.small]="heroBiggerSide !== 'simulated'"
+                  [class.big]="h.biggerSide === 'simulated'"
+                  [class.small]="h.biggerSide !== 'simulated'"
                   pTooltip="DPS da comparação"
                   tooltipPosition="top"
                 >
-                  {{ heroSimulated?.dps | number: '1.0-0' }}
+                  {{ h.simulated?.dps | number: '1.0-0' }}
                 </div>
-                <div class="pdano" [class.primary]="isAutoSpell" pTooltip="Dano da comparação" tooltipPosition="top">
-                  {{ totalSummary2?.calcSkill?.totalHits }}× {{ heroSimulated?.min | number }} – {{ heroSimulated?.max | number }}
+                <div class="pdano" pTooltip="Dano da comparação" tooltipPosition="top">
+                  {{ totalSummary2?.calcSkill?.totalHits }}× {{ h.simulated?.min | number }} – {{ h.simulated?.max | number }}
                 </div>
-                <div class="pdelta" *ngIf="heroDelta !== null" [class.neg]="heroDelta < 0" [class.pos]="heroDelta >= 0">
-                  {{ heroDelta >= 0 ? '+' : '' }}{{ heroDelta | number: '1.0-1' }}%
+                <div class="pdelta" *ngIf="h.delta !== null" [class.neg]="h.delta < 0" [class.pos]="h.delta >= 0">
+                  {{ h.delta >= 0 ? '+' : '' }}{{ h.delta | number: '1.0-1' }}%
                 </div>
               </div>
             </ng-container>
@@ -183,7 +193,7 @@
             ></p-tag>
             ×{{ dmg?.skillPropertyMultiplier }}
             · Hab./s {{ heroHitsPerSec | number: '1.0-2' }}
-            <span class="mut" *ngIf="heroShowsBaseFallback">· sem efeitos: {{ calcSkill?.totalHits }}× {{ dmg?.skillMinDamage | number }}–{{ dmg?.skillMaxDamage | number }}</span>
+            <span class="mut" *ngIf="h.showsBaseFallback">· sem efeitos: {{ calcSkill?.totalHits }}× {{ dmg?.skillMinDamage | number }}–{{ dmg?.skillMaxDamage | number }}</span>
           </div>
 
           <div class="hud-subrows">
@@ -230,7 +240,7 @@
           <button
             pButton
             type="button"
-            class="p-button-rounded p-button-text p-button-sm p-button-warning optbtn"
+            class="p-button-rounded p-button-text p-button-sm p-button-warning"
             icon="pi pi-cog"
             (click)="optimizePanel.toggle($event)"
             pTooltip="otimizar a conjuração"
@@ -239,63 +249,65 @@
           ></button>
         </div>
 
-        <ng-container *ngIf="castbar.mode === 'sequential'; else singleBar">
-          <div class="bar2">
-            <div
-              class="seg fixa"
-              [style.flex]="(castbar.fixed?.percent || 0) + ' 0 0%'"
-              [pTooltip]="'Conjuração fixa: ' + (castbar.fixed?.seconds | number: '1.0-3') + 's'"
-              tooltipPosition="top"
-            >
-              {{ castbar.fixed?.seconds | number: '1.0-3' }}
-            </div>
-            <div
-              class="seg varv"
-              [style.flex]="(castbar.variable?.percent || 0) + ' 0 0%'"
-              [pTooltip]="'Conjuração variável: ' + (castbar.variable?.seconds | number: '1.0-3') + 's'"
-              tooltipPosition="top"
-            >
-              {{ castbar.variable?.seconds | number: '1.0-3' }}
-            </div>
-            <div class="par" [style.flex]="(castbar.parallel?.blockPercent || 0) + ' 0 0%'">
+        <ng-container *ngIf="castbar as cb">
+          <ng-container *ngIf="cb.mode === 'sequential'; else singleBar">
+            <div class="bar2">
               <div
-                class="lane pos"
-                [pTooltip]="'Pós-conjuração: ' + (castbar.parallel?.posSeconds | number: '1.0-3') + 's — a maior das duas define o bloqueio'"
+                class="seg fixa"
+                [style.flex]="(cb.fixed?.percent || 0) + ' 0 0%'"
+                [pTooltip]="'Conjuração fixa: ' + (cb.fixed?.seconds | number: '1.0-3') + 's'"
                 tooltipPosition="top"
               >
-                <span>{{ castbar.parallel?.posSeconds | number: '1.0-3' }}</span>
+                {{ cb.fixed?.seconds | number: '1.0-3' }}
               </div>
               <div
-                class="lane rec"
-                [pTooltip]="'Recarga: ' + (castbar.parallel?.recSeconds | number: '1.0-3') + 's — corre em paralelo com a pós-conjuração'"
+                class="seg varv"
+                [style.flex]="(cb.variable?.percent || 0) + ' 0 0%'"
+                [pTooltip]="'Conjuração variável: ' + (cb.variable?.seconds | number: '1.0-3') + 's'"
                 tooltipPosition="top"
               >
-                <span class="fill" [style.width.%]="castbar.parallel?.recFillPercent || 0"></span>
-                <span class="ltxt">{{ castbar.parallel?.recSeconds | number: '1.0-3' }}</span>
+                {{ cb.variable?.seconds | number: '1.0-3' }}
+              </div>
+              <div class="par" [style.flex]="(cb.parallel?.blockPercent || 0) + ' 0 0%'">
+                <div
+                  class="lane pos"
+                  [pTooltip]="'Pós-conjuração: ' + (cb.parallel?.posSeconds | number: '1.0-3') + 's — a maior das duas define o bloqueio'"
+                  tooltipPosition="top"
+                >
+                  <span>{{ cb.parallel?.posSeconds | number: '1.0-3' }}</span>
+                </div>
+                <div
+                  class="lane rec"
+                  [pTooltip]="'Recarga: ' + (cb.parallel?.recSeconds | number: '1.0-3') + 's — corre em paralelo com a pós-conjuração'"
+                  tooltipPosition="top"
+                >
+                  <span class="fill" [style.width.%]="cb.parallel?.recFillPercent || 0"></span>
+                  <span class="ltxt">{{ cb.parallel?.recSeconds | number: '1.0-3' }}</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="castbar-legend">
-            <span class="li"><span class="sq fixa"></span>Fixa</span>
-            <span class="li"><span class="sq varv"></span>Variável</span>
-            <span class="li"><span class="sq pos"></span>Pós-conjuração</span>
-            <span class="li"><span class="sq rec"></span>Recarga</span>
-          </div>
+            <div class="castbar-legend">
+              <span class="li"><span class="sq fixa"></span>Fixa</span>
+              <span class="li"><span class="sq varv"></span>Variável</span>
+              <span class="li"><span class="sq pos"></span>Pós-conjuração</span>
+              <span class="li"><span class="sq rec"></span>Recarga</span>
+            </div>
+          </ng-container>
+          <ng-template #singleBar>
+            <div class="bar2">
+              <div
+                class="seg single"
+                [pTooltip]="'Ciclo: ' + (cb.single?.seconds | number: '1.0-3') + 's (canalizado)'"
+                tooltipPosition="top"
+              >
+                {{ cb.single?.seconds | number: '1.0-3' }}
+              </div>
+            </div>
+            <div class="castbar-legend">
+              <span class="li"><span class="sq single"></span>Ciclo canalizado</span>
+            </div>
+          </ng-template>
         </ng-container>
-        <ng-template #singleBar>
-          <div class="bar2">
-            <div
-              class="seg single"
-              [pTooltip]="'Ciclo: ' + (castbar.single?.seconds | number: '1.0-3') + 's (canalizado)'"
-              tooltipPosition="top"
-            >
-              {{ castbar.single?.seconds | number: '1.0-3' }}
-            </div>
-          </div>
-          <div class="castbar-legend">
-            <span class="li"><span class="sq single"></span>Ciclo canalizado</span>
-          </div>
-        </ng-template>
       </div>
 
       <!-- 6. Menu -->
@@ -312,34 +324,35 @@
     <div style="font-size: 11.5px; max-width: 260px; line-height: 1.5">
       Fixa e variável correm <b>em sequência</b>. Depois, pós-conjuração e recarga contam <b>ao mesmo tempo</b> — a maior define o bloqueio.
     </div>
-    <div class="blegend" *ngIf="castbar.mode === 'sequential'">
-      fixa {{ castbar.fixed?.seconds | number: '1.0-3' }} <span class="op">+</span> variável {{ castbar.variable?.seconds | number: '1.0-3' }}
-      <span class="op">+</span> ( pós {{ castbar.parallel?.posSeconds | number: '1.0-3' }} <span class="op">∥</span> recarga
-      {{ castbar.parallel?.recSeconds | number: '1.0-3' }} ) <span class="op">=</span> {{ castbar.hitPeriod | number: '1.0-3' }}s/uso ·
-      {{ castbar.totalHitPerSec | number: '1.0-2' }} usos/s
-    </div>
-    <div class="blegend" *ngIf="castbar.mode !== 'sequential'">
-      {{ castbar.single?.seconds | number: '1.0-3' }}s/uso (canalizado) <span class="op">=</span> {{ castbar.totalHitPerSec | number: '1.0-2' }} usos/s
-    </div>
+    <ng-container *ngIf="castbar as cb">
+      <div class="blegend" *ngIf="cb.mode === 'sequential'">
+        fixa {{ cb.fixed?.seconds | number: '1.0-3' }} <span class="op">+</span> variável {{ cb.variable?.seconds | number: '1.0-3' }}
+        <span class="op">+</span> ( pós {{ cb.parallel?.posSeconds | number: '1.0-3' }} <span class="op">∥</span> recarga
+        {{ cb.parallel?.recSeconds | number: '1.0-3' }} ) <span class="op">=</span> {{ cb.hitPeriod | number: '1.0-3' }}s/uso ·
+        {{ cb.totalHitPerSec | number: '1.0-2' }} usos/s
+      </div>
+      <div class="blegend" *ngIf="cb.mode !== 'sequential'">
+        {{ cb.single?.seconds | number: '1.0-3' }}s/uso (canalizado) <span class="op">=</span> {{ cb.totalHitPerSec | number: '1.0-2' }} usos/s
+      </div>
+    </ng-container>
     <div class="pstats">
-      <div class="kv"><span>Conj. Variável</span><span>{{ calcSkill?.vct | number: '1.0-3' }} → {{ calcSkill?.reducedVct | number: '1.0-3' }}</span></div>
-      <div class="kv"><span>Conj. Fixa</span><span>{{ calcSkill?.fct | number: '1.0-3' }} → {{ calcSkill?.reducedFct | number: '1.0-3' }}</span></div>
-      <div class="kv"><span>Recarga</span><span>{{ calcSkill?.cd | number: '1.0-3' }} → {{ calcSkill?.reducedCd | number: '1.0-3' }}</span></div>
-      <div class="kv"><span>Pós-conj.</span><span>{{ calcSkill?.acd | number: '1.0-3' }} → {{ calcSkill?.reducedAcd | number: '1.0-3' }}</span></div>
+      <ng-container *ngTemplateOutlet="castTimings"></ng-container>
     </div>
   </p-overlayPanel>
 
   <p-overlayPanel #optimizePanel>
     <div class="ptitle">O que dá para melhorar</div>
-    <div class="optimize-bottleneck" [class.is-optimized]="optimizeInfo.isOptimized">{{ optimizeInfo.headline }}</div>
-    <div class="optimize-component" *ngFor="let c of optimizeInfo.components" [class.is-bottleneck]="!optimizeInfo.isOptimized && c.key === optimizeInfo.bottleneck">
-      <b>{{ c.label }}<span *ngIf="!c.hideSeconds"> {{ c.seconds | number: '1.0-3' }}s</span></b> —
-      <span *ngIf="c.doneText; else showHint" class="optimize-done">{{ c.doneText }}</span>
-      <ng-template #showHint>{{ c.hint }}</ng-template>
-    </div>
-    <div class="optimize-whatif" *ngIf="optimizeInfo.whatIf as w">
-      Zerando a pós-conjuração: DPS iria a <b>{{ w.newDps | number: '1.0-0' }}</b> ({{ w.gainPercent >= 0 ? '+' : '' }}{{ w.gainPercent | number: '1.0-1' }}%)
-    </div>
+    <ng-container *ngIf="optimizeInfo as info">
+      <div class="optimize-bottleneck" [class.is-optimized]="info.isOptimized">{{ info.headline }}</div>
+      <div class="optimize-component" *ngFor="let c of info.components" [class.is-bottleneck]="!info.isOptimized && c.key === info.bottleneck">
+        <b>{{ c.label }}<span *ngIf="!c.hideSeconds"> {{ c.seconds | number: '1.0-3' }}s</span></b> —
+        <span *ngIf="c.doneText; else showHint" class="optimize-done">{{ c.doneText }}</span>
+        <ng-template #showHint>{{ c.hint }}</ng-template>
+      </div>
+      <div class="optimize-whatif" *ngIf="info.whatIf as w">
+        Zerando a pós-conjuração: DPS iria a <b>{{ w.newDps | number: '1.0-0' }}</b> ({{ w.gainPercent >= 0 ? '+' : '' }}{{ w.gainPercent | number: '1.0-1' }}%)
+      </div>
+    </ng-container>
   </p-overlayPanel>
 
   <p-overlayPanel #detailsPanel>
@@ -371,10 +384,7 @@
     </div>
     <div class="psec">Conjuração</div>
     <div class="pstats">
-      <div class="kv"><span>Conj. Variável</span><span>{{ calcSkill?.vct | number: '1.0-3' }} → {{ calcSkill?.reducedVct | number: '1.0-3' }}</span></div>
-      <div class="kv"><span>Conj. Fixa</span><span>{{ calcSkill?.fct | number: '1.0-3' }} → {{ calcSkill?.reducedFct | number: '1.0-3' }}</span></div>
-      <div class="kv"><span>Recarga</span><span>{{ calcSkill?.cd | number: '1.0-3' }} → {{ calcSkill?.reducedCd | number: '1.0-3' }}</span></div>
-      <div class="kv"><span>Pós-conj.</span><span>{{ calcSkill?.acd | number: '1.0-3' }} → {{ calcSkill?.reducedAcd | number: '1.0-3' }}</span></div>
+      <ng-container *ngTemplateOutlet="castTimings"></ng-container>
     </div>
     <ng-container *ngIf="dmg?.isUsedCurrentHP || dmg?.isUsedCurrentSP">
       <div class="psec">Consumo</div>
