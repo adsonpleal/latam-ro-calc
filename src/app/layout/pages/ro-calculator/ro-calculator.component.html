@@ -1662,6 +1662,26 @@
 
   <!-- Right Side -->
   <div class="p-fluid col-5">
+    <!-- Shared column header/body for the damage table, byte-identical between the
+         "Resumo de Batalha" and "Resumo de Batalha (antigo)" tabs below — only their
+         pTemplate="caption" wrapper markup differs, so that stays per-tab. -->
+    <ng-template #damageTableHeader let-columns>
+      <tr>
+        <th>Nome</th>
+        <th *ngFor="let col of columns">
+          {{ col.header }}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template #damageTableBody let-item let-columns="columns">
+      <tr>
+        <td class="{{ 'property_' + item.elementName }}">{{ item.label }}</td>
+        <td *ngFor="let col of columns" class="battle_row_{{ col.field }}">
+          {{ item[col.field] > 0 ? (item[col.field] | number) : item[col.field] }}
+        </td>
+      </tr>
+    </ng-template>
+
     <p-accordion [multiple]="true" [activeIndex]="[2, 8]">
       <p-accordionTab header="Consumíveis" class="consumable">
         <div class="grid grid-nogutter">
@@ -2000,20 +2020,10 @@
                 </div>
               </ng-template>
               <ng-template pTemplate="header" let-columns>
-                <tr>
-                  <th>Nome</th>
-                  <th *ngFor="let col of columns">
-                    {{ col.header }}
-                  </th>
-                </tr>
+                <ng-container *ngTemplateOutlet="damageTableHeader; context: { $implicit: columns }"></ng-container>
               </ng-template>
               <ng-template pTemplate="body" let-item let-columns="columns">
-                <tr>
-                  <td class="{{ 'property_' + item.elementName }}">{{ item.label }}</td>
-                  <td *ngFor="let col of columns" class="battle_row_{{ col.field }}">
-                    {{ item[col.field] > 0 ? (item[col.field] | number) : item[col.field] }}
-                  </td>
-                </tr>
+                <ng-container *ngTemplateOutlet="damageTableBody; context: { $implicit: item, columns: columns }"></ng-container>
               </ng-template>
             </p-table>
           </div>
@@ -2225,20 +2235,10 @@
                 </div>
               </ng-template>
               <ng-template pTemplate="header" let-columns>
-                <tr>
-                  <th>Nome</th>
-                  <th *ngFor="let col of columns">
-                    {{ col.header }}
-                  </th>
-                </tr>
+                <ng-container *ngTemplateOutlet="damageTableHeader; context: { $implicit: columns }"></ng-container>
               </ng-template>
               <ng-template pTemplate="body" let-item let-columns="columns">
-                <tr>
-                  <td class="{{ 'property_' + item.elementName }}">{{ item.label }}</td>
-                  <td *ngFor="let col of columns" class="battle_row_{{ col.field }}">
-                    {{ item[col.field] > 0 ? (item[col.field] | number) : item[col.field] }}
-                  </td>
-                </tr>
+                <ng-container *ngTemplateOutlet="damageTableBody; context: { $implicit: item, columns: columns }"></ng-container>
               </ng-template>
             </p-table>
           </div>
