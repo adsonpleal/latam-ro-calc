@@ -61,6 +61,14 @@ export class BattleHudComponent {
     this.showElementTableClick.emit(1);
   }
 
+  // ChanceModel.label2 is built (calculator.ts) as "[ DES +200 ]" for the legacy
+  // "label → label2" line, where the brackets read as a list delimiter. Here it's
+  // shown alone in a tooltip, so the brackets are just noise — strip them for
+  // display only; the underlying label2 (shared with the legacy tab) is untouched.
+  effectTooltip(label2: string): string {
+    return (label2 || '').replace(/^\s*\[\s*/, '').replace(/\s*\]\s*$/, '');
+  }
+
   get dmg(): any {
     return this.totalSummary?.dmg;
   }

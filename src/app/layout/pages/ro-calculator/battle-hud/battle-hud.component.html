@@ -29,7 +29,7 @@
       styleClass="hud-buffs-select"
     >
       <ng-template let-item pTemplate="item">
-        <span [pTooltip]="item.label2" tooltipPosition="top" class="hud-buff-item">
+        <span [pTooltip]="effectTooltip(item.label2)" tooltipPosition="top" class="hud-buff-item">
           <img *ngIf="item.itemId" [src]="item.itemId | iconUrl" alt="" class="hud-buff-icon" />
           {{ item.label }}
         </span>
