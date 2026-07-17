@@ -3,6 +3,16 @@
 > As notas detalhadas por versão também aparecem no app, em **Novidades** (a lista
 > `updates` em `app.topbar.component.ts` é a fonte canônica voltada ao usuário).
 
+## 0.1.17-beta — 2026-07-17
+
+- **Correção:** o HP (e DEF/DEFM/resistências/atributos) de 4 monstros da
+  instância **Amicitia 2** (Chimera Lava Eter, Fulgor, Napeo e Galensis)
+  estava bem abaixo do valor real — a extração de dados do divine-pride
+  pegava por engano o bloco de estatísticas do servidor **iRO** em vez do
+  **LATAM** (Default), quando a página tem ambos. O script de extração
+  (`extract.mjs`) foi corrigido para não repetir o erro em futuras
+  atualizações de monstros. (Reportado por **Luís**.)
+
 ## 0.1.16-beta — 2026-07-17
 
 - **Novo Resumo de Batalha:** o card do monstro e o da habilidade agora ficam

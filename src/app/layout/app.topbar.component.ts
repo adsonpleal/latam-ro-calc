@@ -103,6 +103,13 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.17-beta',
+      date: '17-07-2026',
+      logs: [
+        'Corrigido o HP (e DEF/DEFM/resistências/atributos) de 4 monstros da instância Amicitia 2 (Chimera Lava Eter, Fulgor, Napeo e Galensis), que estavam bem abaixo do valor real — a extração de dados do divine-pride estava pegando o bloco de estatísticas do servidor errado (iRO) em vez do LATAM. (Reportado por Luís.)',
+      ],
+    },
+    {
       v: '0.1.16-beta',
       date: '17-07-2026',
       logs: [

@@ -109,7 +109,16 @@ async function fetchMob(id, dbname) {
   const name = og.slice(og.indexOf(":") + 1).trim();
   const koreanName = /[ㄱ-힝]/.test(name);
 
-  const bi = html.slice(html.indexOf("Basic Info"), html.indexOf("Basic Info") + 700)
+  // DP renders one stat block per server/episode (iRO 17.1, kRO EP 20, ..., Default),
+  // all in the DOM but hidden except the one matching <option value="default" selected>.
+  // A plain indexOf("Basic Info")/"Secondary stats" grabs whichever block comes FIRST
+  // in the DOM (usually iRO), not the selected LATAM "Default" one — scope to the
+  // div#alternatestats_default block, which always exists and is listed last.
+  const defStart = html.indexOf('id="alternatestats_default"');
+  if (defStart < 0) throw new Error(`${id}: no alternatestats_default block found on the page`);
+  const scope = html.slice(defStart);
+
+  const bi = scope.slice(scope.indexOf("Basic Info"), scope.indexOf("Basic Info") + 700)
     .replace(/<[^>]+>/g, "|").replace(/\|+/g, "|").split("|").map((x) => dec(x).trim()).filter(Boolean);
   // bi: ["Basic Info", "<id>", "Lv.", "<lvl>", "<Race>", "<Size>", "<Element L>"]
   const level = n(bi[3]);
@@ -121,13 +130,13 @@ async function fetchMob(id, dbname) {
 
   const prim = {};
   let pm, pre = /<span style="font-weight: ?bold;?">\s*([\d.,]+)\s*<\/span>\s*(STR|AGI|VIT|INT|DEX|LUK)/g;
-  const pStart = html.indexOf("Primary stats");
-  while ((pm = pre.exec(html.slice(pStart, pStart + 1400)))) prim[pm[2]] = n(pm[1]);
+  const pStart = scope.indexOf("Primary stats");
+  while ((pm = pre.exec(scope.slice(pStart, pStart + 1400)))) prim[pm[2]] = n(pm[1]);
 
   const cells = [];
   let m, re = /<td[^>]*>([\s\S]*?)<\/td>/gi;
-  const sStart = html.indexOf("Secondary stats");
-  while ((m = re.exec(html.slice(sStart, sStart + 4200)))) {
+  const sStart = scope.indexOf("Secondary stats");
+  while ((m = re.exec(scope.slice(sStart, sStart + 4200)))) {
     const t = dec(m[1]).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
     if (t) cells.push(t);
   }
