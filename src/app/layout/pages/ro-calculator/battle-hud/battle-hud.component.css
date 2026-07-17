@@ -39,12 +39,9 @@
   min-width: 0;
 }
 
-.hud-card-col--monster {
-  flex: 5 1 0;
-}
-
+.hud-card-col--monster,
 .hud-card-col--skill {
-  flex: 7 1 0;
+  flex: 1 1 0;
 }
 
 @media (max-width: 991px) {
