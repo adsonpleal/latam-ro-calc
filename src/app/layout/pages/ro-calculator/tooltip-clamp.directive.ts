@@ -38,6 +38,19 @@ export class TooltipClampDirective {
    * Suppress hide() calls that land within a short grace window right after
    * show(), unless the user actually moved the mouse off the target
    * (mouseleave -> deactivate() -> hide(), which is always let through).
+   *
+   * This guard applies globally to every [pTooltip] in the app by design, not just
+   * the scrollable-picker-list case that motivated it — PrimeNG exposes no public
+   * API to scope or disable the scroll-hide behavior per-instance (verified: there
+   * is no `hideOnScroll`/equivalent input on PrimeNG's Tooltip; `autoHide` only
+   * controls whether hovering over the tooltip's own content keeps it open, which
+   * is a different, unrelated behavior). Since PrimeNG gives no per-instance hook,
+   * the only place to intercept the spurious hide is here, on every tooltip.
+   *
+   * The 250ms `graceMs` value is a deliberately short "long enough to absorb a
+   * self-inflicted scroll-into-view nudge, short enough that a genuine scroll-away
+   * still hides promptly" tradeoff. It is not a measured/derived constant — it
+   * hasn't been tuned against real scroll-nudge timings, it's a reasonable guess.
    */
   private guardSpuriousHide(tooltip: Tooltip) {
     const graceMs = 250;
