@@ -3,6 +3,25 @@
 > As notas detalhadas por versão também aparecem no app, em **Novidades** (a lista
 > `updates` em `app.topbar.component.ts` é a fonte canônica voltada ao usuário).
 
+## 0.1.16-beta — 2026-07-17
+
+- **Novo Resumo de Batalha:** o card do monstro e o da habilidade agora ficam
+  lado a lado, com a mesma largura, mostrando a ficha completa do alvo (HP,
+  DEF/DEFM, atributos, elemento, raça, tamanho), os efeitos com o ícone do
+  item, o **DPS atual** e o **da comparação** alinhados lado a lado, e uma
+  visualização do ritmo da habilidade (conjuração fixa + variável em
+  sequência, depois pós-conjuração e recarga em paralelo — vale a maior). A
+  tela anterior continua disponível na aba **"Resumo de Batalha (antigo)"**.
+- **Novo:** o botão **"otimizar"** no Resumo de Batalha aponta o gargalo do
+  ritmo da habilidade, incluindo quando é o **ASPD (VelAtq)** — antes o
+  cálculo tratava o ASPD por engano como se reduzisse a pós-conjuração, em
+  vez de ser um teto separado sobre a taxa de uso da habilidade.
+- **Correção:** em listas de itens compridas (ex.: Botas), passar o mouse
+  sobre uma opção perto do fim da lista às vezes fechava a descrição sozinha
+  (um scroll interno da lista disparava o auto-hide do tooltip).
+- **Correção:** os seletores de **Encantamento** não mostravam a descrição do
+  item ao passar o mouse na lista de opções — só no item já selecionado.
+
 ## 0.1.15-beta — 2026-07-14
 
 - **Correção:** os checkboxes de **Efeitos** mostravam o código interno do bônus

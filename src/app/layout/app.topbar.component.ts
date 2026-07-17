@@ -103,6 +103,16 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.16-beta',
+      date: '17-07-2026',
+      logs: [
+        'Novo Resumo de Batalha: o card do monstro e o da habilidade agora ficam lado a lado (mesma largura), com a ficha completa do alvo, os efeitos mostrando o ícone do item, o DPS atual e o da comparação alinhados um do lado do outro, e uma visualização do ritmo da habilidade (conjuração fixa e variável, depois pós-conjuração e recarga). A tela anterior continua disponível na aba "Resumo de Batalha (antigo)".',
+        'O botão "otimizar" no novo Resumo de Batalha aponta o que está limitando o DPS da habilidade, incluindo quando é o ASPD (VelAtq) — antes o cálculo tratava o ASPD por engano como se ele reduzisse a pós-conjuração.',
+        'Corrigido: em listas de itens compridas (ex.: Botas), passar o mouse sobre uma opção perto do fim da lista às vezes fechava a descrição sozinha logo depois de abrir.',
+        'Corrigido: os seletores de Encantamento não mostravam a descrição do item ao passar o mouse na lista de opções — só no item já selecionado.',
+      ],
+    },
+    {
       v: '0.1.15-beta',
       date: '14-07-2026',
       logs: [
