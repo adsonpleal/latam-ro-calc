@@ -1,3 +1,14 @@
+<!-- Shared "item" row markup for the 4 enchant dropdowns below (encantamento 1-4).
+     PrimeNG's pTemplate="item" must stay a direct child of each p-dropdown, so only
+     this inner row is deduplicated via ngTemplateOutlet — `let-item` here mirrors
+     pTemplate="item"'s own implicit-context convention (the option is passed as $implicit). -->
+<ng-template #enchantItemRow let-item>
+  <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
+    <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
+    <div>{{ item.label }}</div>
+  </div>
+</ng-template>
+
 <div class="grid grid-nogutter">
   <div class="col-3">
     <div class="grid grid-nogutter {{ !gradeList.length ? 'flex-row-reverse' : 'justify-content-end' }}">
@@ -234,10 +245,7 @@
                 </div>
               </ng-template>
               <ng-template let-item pTemplate="item">
-                <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
-                  <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
-                  <div>{{ item.label }}</div>
-                </div>
+                <ng-container *ngTemplateOutlet="enchantItemRow; context: { $implicit: item }"></ng-container>
               </ng-template>
             </p-dropdown>
           </div>
@@ -263,10 +271,7 @@
                 </div>
               </ng-template>
               <ng-template let-item pTemplate="item">
-                <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
-                  <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
-                  <div>{{ item.label }}</div>
-                </div>
+                <ng-container *ngTemplateOutlet="enchantItemRow; context: { $implicit: item }"></ng-container>
               </ng-template>
             </p-dropdown>
           </div>
@@ -292,10 +297,7 @@
                 </div>
               </ng-template>
               <ng-template let-item pTemplate="item">
-                <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
-                  <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
-                  <div>{{ item.label }}</div>
-                </div>
+                <ng-container *ngTemplateOutlet="enchantItemRow; context: { $implicit: item }"></ng-container>
               </ng-template>
             </p-dropdown>
           </div>
@@ -321,10 +323,7 @@
                 </div>
               </ng-template>
               <ng-template let-item pTemplate="item">
-                <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
-                  <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
-                  <div>{{ item.label }}</div>
-                </div>
+                <ng-container *ngTemplateOutlet="enchantItemRow; context: { $implicit: item }"></ng-container>
               </ng-template>
             </p-dropdown>
           </div>
