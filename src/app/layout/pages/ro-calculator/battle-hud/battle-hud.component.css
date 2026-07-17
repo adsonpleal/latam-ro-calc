@@ -355,7 +355,7 @@
 
 .hud-hero .pairs {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: flex-start;
   gap: 18px;
 }
@@ -409,7 +409,9 @@
 .hud-hero .vsarrow {
   color: var(--text-color-secondary);
   font-size: 16px;
-  padding-bottom: 8px;
+  /* Nudge down to sit centered on the DPS number's line, not its own top edge,
+     now that .pairs top-aligns instead of bottom-aligns. */
+  padding-top: 8px;
 }
 
 .hud-hero .sub {
