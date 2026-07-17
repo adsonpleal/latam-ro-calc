@@ -17,6 +17,51 @@ export class TooltipClampDirective {
       align();
       this.clampIntoViewport(tooltip.container as HTMLElement);
     };
+
+    this.guardSpuriousHide(tooltip);
+  }
+
+  /**
+   * PrimeNG's Tooltip hides unconditionally on any `window` resize
+   * (onWindowResize -> hide()) and on any `scroll` of an ancestor of the
+   * hover target (its ConnectedOverlayScrollHandler -> hide()) — including
+   * the scrollable list the hovered option itself lives in (e.g. a long
+   * item picker). Hovering an option near the bottom edge of such a list
+   * can, on its own, nudge that list's scrollTop a moment after the tooltip
+   * appears (the browser/PrimeNG bringing the hovered/focused row into
+   * view), which immediately fires that scroll handler and closes the
+   * tooltip before it's readable — it "blinks" and vanishes. Scrolling the
+   * list so the option sits further from the edge removes that self-nudge,
+   * which is why the tooltip then shows fine — confirming the hide is
+   * spurious, not a genuine "user scrolled away".
+   *
+   * Suppress hide() calls that land within a short grace window right after
+   * show(), unless the user actually moved the mouse off the target
+   * (mouseleave -> deactivate() -> hide(), which is always let through).
+   */
+  private guardSpuriousHide(tooltip: Tooltip) {
+    const graceMs = 250;
+    let shownAt = 0;
+    let userLeaving = false;
+
+    const show = tooltip.show.bind(tooltip);
+    tooltip.show = () => {
+      shownAt = Date.now();
+      show();
+    };
+
+    const deactivate = tooltip.deactivate.bind(tooltip);
+    tooltip.deactivate = () => {
+      userLeaving = true;
+      deactivate();
+      userLeaving = false;
+    };
+
+    const hide = tooltip.hide.bind(tooltip);
+    tooltip.hide = () => {
+      if (!userLeaving && Date.now() - shownAt < graceMs) return;
+      hide();
+    };
   }
 
   private clampIntoViewport(container: HTMLElement | null | undefined) {
