@@ -350,6 +350,44 @@ a.skill_link:hover {
   border-bottom: 1px solid var(--surface-border);
 }
 
+/* "Cálculo" section of the bonus-breakdown dialog: the derivation of a damage-graph
+   node whose value is a formula rather than a sum of equipment bonuses. Rendered above
+   the equipment rows, so it gets a separator when both are present. */
+.bonus_breakdown_calc {
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--surface-border);
+  font-size: 0.85rem;
+}
+
+.bonus_breakdown_calc_title {
+  font-weight: 700;
+  color: var(--orange-300);
+  margin-bottom: 0.25rem;
+}
+
+/* The final row is the node's own value — set apart so the arithmetic above it reads
+   as leading somewhere. */
+.bonus_breakdown_calc .calc_total {
+  border-top: 1px solid var(--surface-border);
+  font-weight: 700;
+  color: var(--orange-300);
+}
+
+/* Qualifier after a source name in the Cálculo rows ("contra Bruto") — secondary to the
+   name it modifies, so it must not compete with it. */
+.bonus_breakdown_calc .calc_hint {
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+  white-space: nowrap;
+}
+
+.bonus_breakdown_calc_note {
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+}
+
 /* item-bonus panel value (matches the orange the old JSON dump used for numbers) */
 .item_bonus_value {
   color: #f2b619;

@@ -1,13 +1,165 @@
 import { describe, expect, it } from 'vitest';
 import {
+  buildGraphClusters,
   buildOptimizeInfo,
   computeCastbar,
+  computeTimeToKill,
   computeZeroPosWhatIf,
   deltaPercent,
   identifyCastBottleneck,
   pickBiggerDpsSide,
   pickHeroDamage,
 } from './battle-hud.logic';
+import { DamageFormulaNode } from '../../../../models/damage-summary.model';
+
+describe('buildGraphClusters', () => {
+  /** The engine-emitted chips only — drops the "%"/"Adicional" chips buildGraphClusters
+   *  synthesizes, which have their own tests below. */
+  const engineInputs = (cluster: { inputs: DamageFormulaNode[] }) => cluster.inputs.filter((i) => !i.id.endsWith('_pct') && !i.id.endsWith('_delta'));
+
+  it('returns one cluster per stage node, in order', () => {
+    const nodes: DamageFormulaNode[] = [
+      { id: 'a', label: 'A', value: 10, inputs: [], kind: 'stage' },
+      { id: 'b', label: 'B', value: 20, inputs: ['a'], kind: 'stage' },
+    ];
+    const clusters = buildGraphClusters({ nodes });
+    expect(clusters).toHaveLength(2);
+    expect(clusters.map((c) => c.stage)).toEqual(nodes);
+    expect(engineInputs(clusters[0])).toEqual([]);
+    expect(engineInputs(clusters[1])).toEqual([]);
+  });
+
+  it('attaches an `input`-kind dependency as a chip on the stage that consumes it', () => {
+    const statusAtk: DamageFormulaNode = { id: 'statusAtk', label: 'Status', value: 100, inputs: [], kind: 'input' };
+    const weaponAtk: DamageFormulaNode = { id: 'weaponAtk', label: 'Arma', value: 50, inputs: [], kind: 'input' };
+    const atkBase: DamageFormulaNode = { id: 'atkBase', label: 'Base', value: 50, inputs: ['weaponAtk'], kind: 'stage' };
+    const atk: DamageFormulaNode = { id: 'atk', label: 'ATQ', value: 150, inputs: ['statusAtk', 'atkBase'], kind: 'stage' };
+    const clusters = buildGraphClusters({ nodes: [statusAtk, weaponAtk, atkBase, atk] });
+
+    expect(clusters).toHaveLength(2);
+    // atkBase depends on weaponAtk (input) -> chip; statusAtk isn't one of its inputs
+    expect(clusters[0].stage).toBe(atkBase);
+    expect(engineInputs(clusters[0])).toEqual([weaponAtk]);
+    // atk depends on statusAtk (input) and atkBase (stage, no chip)
+    expect(clusters[1].stage).toBe(atk);
+    expect(engineInputs(clusters[1])).toEqual([statusAtk]);
+  });
+
+  it('never attaches the same input node to two clusters', () => {
+    const shared: DamageFormulaNode = { id: 'shared', label: 'Shared', value: 5, inputs: [], kind: 'input' };
+    const stageA: DamageFormulaNode = { id: 'stageA', label: 'A', value: 5, inputs: ['shared'], kind: 'stage' };
+    const stageB: DamageFormulaNode = { id: 'stageB', label: 'B', value: 5, inputs: ['shared', 'stageA'], kind: 'stage' };
+    const clusters = buildGraphClusters({ nodes: [shared, stageA, stageB] });
+
+    expect(engineInputs(clusters[0])).toEqual([shared]);
+    expect(engineInputs(clusters[1])).toEqual([]); // already consumed by stageA's cluster
+  });
+
+  it('returns an empty array for an undefined/empty graph', () => {
+    expect(buildGraphClusters(undefined)).toEqual([]);
+    expect(buildGraphClusters({ nodes: [] })).toEqual([]);
+  });
+});
+
+describe('buildGraphClusters synthesized chips', () => {
+  const chain = (...stages: Array<Partial<DamageFormulaNode> & { id: string; value: number }>): DamageFormulaNode[] =>
+    stages.map((s, i) => ({ label: s.id, inputs: i ? [stages[i - 1].id] : [], kind: 'stage', ...s } as DamageFormulaNode));
+
+  const chip = (cluster: { inputs: DamageFormulaNode[] }, suffix: '_pct' | '_delta') => cluster.inputs.find((i) => i.id.endsWith(suffix));
+
+  it('adds a "%" chip carrying the stage\'s percent and its source keys', () => {
+    const nodes = chain({ id: 'atk', value: 1000 }, { id: 'atkPercentStage', value: 1250, percent: 25, keys: ['atkPercent'] });
+    const [, stage] = buildGraphClusters({ nodes });
+
+    expect(chip(stage, '_pct')).toMatchObject({ id: 'atkPercentStage_pct', value: 25, unit: 'percent', keys: ['atkPercent'], kind: 'input' });
+  });
+
+  it('strips the percentage the stage label already carries, so chips do not read "Hab. Base 2475% %"', () => {
+    const nodes = chain(
+      { id: 'atk', value: 100, label: 'ATQ' },
+      { id: 'baseSkillDmg', value: 2475, label: 'Hab. Base 2475%', percent: 2375, keys: ['flatDmg'] },
+    );
+    const [, stage] = buildGraphClusters({ nodes });
+
+    expect(chip(stage, '_pct')!.label).toBe('Hab. Base %');
+    expect(chip(stage, '_delta')!.label).toBe('Hab. Base Adicional');
+  });
+
+  it('strips a signed percentage too ("ATQ +25%")', () => {
+    const nodes = chain({ id: 'atk', value: 100 }, { id: 'atkPercentStage', value: 125, label: 'ATQ +25%', percent: 25, keys: ['atkPercent'] });
+    expect(chip(buildGraphClusters({ nodes })[1], '_pct')!.label).toBe('ATQ %');
+  });
+
+  it('omits the "%" chip for additive stages that carry no percent', () => {
+    const nodes = chain({ id: 'atk', value: 1000 }, { id: 'atkMastery', value: 1100 });
+    const [, stage] = buildGraphClusters({ nodes });
+
+    expect(chip(stage, '_pct')).toBeUndefined();
+    // ...but the delta chip still shows what the step added
+    expect(chip(stage, '_delta')).toMatchObject({ value: 100 });
+  });
+
+  it('makes anterior + adicional equal the stage total exactly, even when floor() breaks anterior x %', () => {
+    // 1000 * 1.25 = 1250, but the engine floored an intermediate to 1249 — the chip must
+    // report the real difference (249), not the 250 the percentage implies.
+    const nodes = chain({ id: 'atk', value: 1000 }, { id: 'atkPercentStage', value: 1249, percent: 25, keys: ['atkPercent'] });
+    const [prev, stage] = buildGraphClusters({ nodes });
+
+    const delta = chip(stage, '_delta')!;
+    expect(delta.value).toBe(249);
+    expect(prev.stage.value + delta.value).toBe(stage.stage.value);
+    expect(delta.calc?.rows.at(-1)).toEqual({ label: 'Resultado (atkPercentStage)', display: '1.249', emphasis: true });
+    expect(delta.calc?.note).toContain('arredonda');
+  });
+
+  it('omits the "Adicional" chip on the first stage and whenever the value did not move', () => {
+    const nodes = chain({ id: 'first', value: 1000 }, { id: 'noop', value: 1000, percent: 0, keys: ['x'] });
+    const [first, noop] = buildGraphClusters({ nodes });
+
+    expect(chip(first, '_delta')).toBeUndefined(); // nothing precedes it
+    expect(chip(noop, '_delta')).toBeUndefined(); // delta is 0
+    expect(chip(noop, '_pct')).toBeDefined(); // the % chip is still there
+  });
+
+  it('reports a negative adicional for reduction stages', () => {
+    const nodes = chain({ id: 'atk', value: 1000 }, { id: 'defReduction', value: 700, percent: -30, keys: ['pene_res'] });
+    const [, stage] = buildGraphClusters({ nodes });
+
+    const delta = chip(stage, '_delta')!;
+    expect(delta.value).toBe(-300);
+    expect(delta.calc?.rows).toContainEqual({ label: 'Adicional', display: '-300' });
+    expect(delta.calc?.rows).toContainEqual({ label: 'Multiplicador', display: '-30%' });
+  });
+});
+
+describe('computeTimeToKill', () => {
+  it('divides HP by DPS and keeps tenths for sub-minute fights', () => {
+    const r = computeTimeToKill(10_000, 800)!;
+    expect(r.seconds).toBeCloseTo(12.5, 5);
+    expect(r.text).toBe('12,5s'); // pt-BR decimal separator
+  });
+
+  it('switches to min/s past a minute, zero-padding the seconds', () => {
+    expect(computeTimeToKill(125_000, 1000)!.text).toBe('2min 05s');
+    expect(computeTimeToKill(60_000, 1000)!.text).toBe('1min 00s');
+  });
+
+  it('switches to h/min past an hour', () => {
+    expect(computeTimeToKill(3_600_000, 1000)!.text).toBe('1h 00min');
+    expect(computeTimeToKill(5_000_000, 1000)!.text).toBe('1h 23min');
+  });
+
+  it('caps absurd durations rather than printing a precise-looking number', () => {
+    // the practice Dummy: 2 billion HP at a modest DPS runs to hundreds of hours
+    expect(computeTimeToKill(2_000_000_000, 927)!.text).toBe('> 24h');
+  });
+
+  it('returns null when there is nothing to divide (autospell shows no DPS, or no HP)', () => {
+    expect(computeTimeToKill(10_000, 0)).toBeNull();
+    expect(computeTimeToKill(0, 800)).toBeNull();
+    expect(computeTimeToKill(10_000, -5)).toBeNull();
+  });
+});
 
 describe('computeCastbar', () => {
   it('splits sequential + parallel segment proportions relative to hitPeriod', () => {
@@ -240,8 +392,8 @@ describe('buildOptimizeInfo', () => {
     const aspd = info.components.find((c) => c.key === 'aspd')!;
     expect(aspd.doneText).toBeNull();
     expect(aspd.hint).toContain('limita a conjuração');
-    expect(aspd.hint).toContain('0.3/s');
-    expect(aspd.hint).toContain('0.2/s');
+    expect(aspd.hint).toContain('0,3/s'); // pt-BR decimal separator
+    expect(aspd.hint).toContain('0,2/s');
     // Zeroing pós only raises the cast-mechanics rate, which ASPD still caps at 0.2/s —
     // the effective rate (already 0.2/s) doesn't move, so the what-if gain is ~0%.
     expect(info.whatIf).toBeNull();
@@ -262,7 +414,7 @@ describe('buildOptimizeInfo', () => {
     expect(info.bottleneck).toBe('pos');
     const aspd = info.components.find((c) => c.key === 'aspd')!;
     expect(aspd.doneText).toContain('suporta a conjuração ✓');
-    expect(aspd.doneText).toContain('2.0/s');
+    expect(aspd.doneText).toContain('2,0/s'); // pt-BR decimal separator
     // The what-if still fires (pós is real, and 2/s headroom doesn't clamp the new rate: 1/1.7 ≈ 0.59/s).
     expect(info.whatIf).not.toBeNull();
     expect(info.whatIf!.gainPercent).toBeCloseTo((3.22 / 1.7 - 1) * 100, 5);

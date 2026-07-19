@@ -142,6 +142,35 @@ describe('Windhawk atk-skill formulas (smoke)', () => {
     expect(whDmg(wh, 'Gale Storm', { level: 200, skillLevel: 10, con: 100 })).toBe(6000);
   });
 
+  // Ventos Sinistros (Calamity Gale) replaces Ilimitar's (No Limits) ranged bonus rather
+  // than stacking. The damage side always got this right, but the bonus-breakdown modal
+  // reads its own per-source map and kept listing both at +350%, so the listed sources
+  // summed to 350 more than the ranged bonus the damage actually used.
+  describe('Calamity Gale supersedes No Limits ranged bonus', () => {
+    const setup = (activeSkills: string[], noLimitLv: number) => {
+      const wh = new Windhawk();
+      (wh as any).bonuses = stubBonuses(activeSkills);
+      (wh as any).bonuses.usedSkillMap = new Map([['No Limits', noLimitLv]]); // activeSkillLv reads this
+      const totalBonus: any = { range: 400 }; // 350 from No Limits Lv5 + 50 from gear
+      const bonusSources: any = { 'No Limits': { range: 350 }, 'Calamity Gale': { range: 350 } };
+      wh.setAdditionalBonus({ totalBonus, bonusSources, skillName: 'Gale Storm', model: {}, monster: {}, weapon: {} } as any);
+      return { totalBonus, bonusSources };
+    };
+
+    it('removes No Limits from the breakdown sources, not just from the running total', () => {
+      const { totalBonus, bonusSources } = setup(['Calamity Gale'], 5);
+      expect(totalBonus.range).toBe(50); // 400 - 350, unchanged behaviour
+      expect(bonusSources['No Limits'].range).toBe(0); // no longer double-counted in the modal
+      expect(bonusSources['Calamity Gale'].range).toBe(350); // the one that actually applies
+    });
+
+    it('leaves both intact when Calamity Gale is inactive', () => {
+      const { totalBonus, bonusSources } = setup([], 5);
+      expect(totalBonus.range).toBe(400);
+      expect(bonusSources['No Limits'].range).toBe(350);
+    });
+  });
+
   describe('Hawk Rush — scales with Nature Friendly learn level', () => {
     // (5*200 + 100*5) * (1 + 0) * (200/100) = 1500 * 2 = 3000
     it('Lv5 @ base 200, CON 100, no Nature Friendly', () => {

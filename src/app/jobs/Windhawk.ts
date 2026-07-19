@@ -277,9 +277,14 @@ export class Windhawk extends Ranger {
     if (this.isSkillActive('Calamity Gale')) {
       // if (race === '' || elementUpper === ElementType.Water) {
       // }
+      // Ventos Sinistros replaces Ilimitar's ranged bonus instead of stacking with it,
+      // so Ilimitar's whole contribution comes back out (100 + lv*50 is exactly the
+      // `range` its dropdown added — see share-active-skills/no-limit-fn.ts).
       const noLimitLv = this.activeSkillLv('No Limits');
       if (noLimitLv > 0) {
         totalBonus.range -= 100 + noLimitLv * 50;
+        // ...and out of the breakdown modal's source list too, which reads its own map.
+        this.clearSupersededBonusSource(params, 'No Limits', 'range');
       }
 
       if (skillName === 'Crescive Bolt' || skillName === 'Gale Storm') {

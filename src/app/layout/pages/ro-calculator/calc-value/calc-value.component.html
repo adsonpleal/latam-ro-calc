@@ -6,7 +6,7 @@
       <span>x</span>
     </span>
     <span *ngIf="displayRaw && raw > 0"
-      ><span class="text-lg px-1 summary_compare">{{ raw }}</span
+      ><span class="text-lg px-1 summary_compare">{{ raw | number }}</span
       >-></span
     >
     <span *ngIf="isDisplayRangeDmg" class="text-lg font-medium px-1 {{ styleClass }}"

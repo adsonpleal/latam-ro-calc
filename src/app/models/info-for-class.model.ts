@@ -39,4 +39,7 @@ export interface AdditionalBonusInput {
   model: Partial<MainModel>;
   totalBonus: EquipmentSummaryModel;
   skillName: SKILL_NAME;
+  /** Per-skill bonus map backing the bonus-breakdown modal, keyed by skill name.
+   *  Only touch it via CharacterBase.clearSupersededBonusSource. */
+  bonusSources?: Record<string, Record<string, any>>;
 }

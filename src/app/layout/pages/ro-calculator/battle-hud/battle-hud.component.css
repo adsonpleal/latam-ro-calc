@@ -39,9 +39,12 @@
   min-width: 0;
 }
 
-.hud-card-col--monster,
+.hud-card-col--monster {
+  flex: 40 1 0;
+}
+
 .hud-card-col--skill {
-  flex: 1 1 0;
+  flex: 60 1 0;
 }
 
 @media (max-width: 991px) {
@@ -220,6 +223,17 @@
   grid-template-columns: 1fr;
 }
 
+/* For short label/value pairs in a wide popover, .kv's space-between stretches
+   the value all the way to the row's far edge, leaving a huge gap after a short
+   label like "Hab./s". .tight keeps the value snug next to its label instead. */
+.pstats.tight .kv {
+  justify-content: flex-start;
+}
+
+.pstats.tight .kv span:last-child {
+  text-align: left;
+}
+
 .pstats .kv {
   display: flex;
   justify-content: space-between;
@@ -242,6 +256,17 @@
   padding: 0 3px;
 }
 
+.pstats .kv.total {
+  border-top: 1px solid var(--surface-border);
+  margin-top: 4px;
+  padding-top: 6px;
+  font-weight: 700;
+}
+
+.pstats .kv.total span:last-child {
+  color: var(--orange-300);
+}
+
 .psec {
   font-size: 11.9px;
   text-transform: uppercase;
@@ -249,6 +274,115 @@
   color: var(--text-color-secondary);
   margin: 10px 0 4px;
   font-weight: 700;
+}
+
+.mut-note {
+  font-size: 11.5px;
+  color: var(--text-color-secondary);
+  max-width: 260px;
+  margin-bottom: 6px;
+}
+
+/* One scroll for the whole formula popover (min + max + comparison sections) —
+   a full physical/magical chain can run 12-15 rows each, so this caps the total
+   popover height instead of nesting a separate scrollbar per section. A fixed
+   width keeps the popover itself from growing to fit the node-graph below (which
+   can run 10+ columns wide) — it clips at `width` and scrolls horizontally instead. */
+.formula-trace-scroll {
+  width: 960px;
+  max-width: 80vw;
+  max-height: 380px;
+  overflow-y: auto;
+  overflow-x: auto;
+  padding-right: 4px;
+}
+
+/* Node-graph view of the damage formula (see damage-calculator.ts DamageFormulaNode):
+   one column ("cluster") per stage, flowing left→right; a stage's contributing
+   `input` nodes (statusAtk, extraAtk's sub-parts, etc.) stack above it as chips. */
+.graph-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  margin: 4px 0 10px;
+  width: max-content;
+}
+
+.graph-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 96px;
+  max-width: 130px;
+  flex-shrink: 0;
+}
+
+/* The chips feeding a stage read as one group — the dashed border belongs to the
+   container, not to each chip, so a stage's "%" + "Adicional" + engine inputs are
+   visibly the things that produced the solid stage box below them. */
+.graph-inputs {
+  display: flex;
+  flex-direction: column;
+  border: 1px dashed var(--surface-border);
+  border-radius: 4px;
+}
+
+.graph-input,
+.graph-stage {
+  display: flex;
+  flex-direction: column;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 1.3;
+  gap: 1px;
+}
+
+.graph-input {
+  background: transparent;
+  color: var(--text-color-secondary);
+  border-radius: 0;
+}
+
+.graph-input:not(:last-child) {
+  border-bottom: 1px dashed var(--surface-border);
+}
+
+.graph-stage {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.graph-input span:last-child,
+.graph-stage span:last-child {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-color);
+}
+
+.graph-stage span:last-child {
+  color: var(--orange-300);
+}
+
+.graph-input .sim,
+.graph-stage .sim {
+  color: var(--yellow-200);
+}
+
+/* The graph's nodes are clickable but nothing about a value says so until you hover it —
+   this states it once, up front. */
+.graph-hint {
+  font-size: 11px;
+  color: var(--text-color-secondary);
+  margin-bottom: 6px;
+}
+
+.graph-arrow {
+  color: var(--text-color-secondary);
+  font-size: 13px;
+  padding: 0 1px 8px;
+  flex-shrink: 0;
 }
 
 .ptitle {
@@ -375,6 +509,15 @@
   cursor: default;
 }
 
+.hud-hero .clickable {
+  cursor: pointer;
+}
+
+.hud-hero .clickable:hover {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
 .hud-hero .pcol.sim .pnum {
   color: var(--yellow-200);
 }
@@ -388,9 +531,20 @@
 }
 
 .hud-hero .pdano {
-  font-size: 14px;
+  /* ~70% of the DPS number's font-size, same big/small split as .pnum.
+     No cursor here — it's always rendered with .clickable (pointer), and this
+     rule comes after .clickable in source order so its own cursor would win. */
+  font-size: 19px;
+  font-weight: 700;
   color: var(--teal-300);
-  cursor: default;
+}
+
+.hud-hero .pdano.big {
+  font-size: 24px;
+}
+
+.hud-hero .pdano.small {
+  font-size: 19px;
 }
 
 .hud-hero .pdelta {
@@ -418,6 +572,31 @@
   font-size: 11.9px;
   color: var(--text-color-secondary);
   margin-top: 10px;
+}
+
+/* Promoted stat: bigger and brighter than the rest of the .sub line it leads. */
+.hud-hero .sub .habps {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--orange-300);
+}
+
+/* Time to kill sits on the same line as Hab./s but reads as supporting context, so only
+   its value is emphasised — not the whole item, which would compete with the promoted
+   Hab./s next to it. */
+.hud-hero .sub .ttk b {
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+.hud-hero .sub .ttk .arr {
+  margin: 0 3px;
+  color: var(--text-color-secondary);
+}
+
+.hud-hero .sub .ttk .sim {
+  color: var(--yellow-200);
+  font-weight: 700;
 }
 
 .hud-hero .sub .mut {
@@ -496,6 +675,21 @@
   gap: 2px;
   height: 34px;
 }
+
+.hud-castbar .bar2 + .bar2 {
+  margin-top: 4px;
+}
+
+.cmp-castbar-label {
+  font-size: 11.9px;
+  color: var(--yellow-200);
+  font-weight: 600;
+  margin: 8px 0 4px;
+}
+
+/* Comparison bar: same fixa/varv/pos colors as the main bar (so the legend
+   still applies to both) — the "⇄ Comparação" label above is what marks it
+   as the second bar, not a recolor. */
 
 .hud-castbar .seg {
   display: flex;

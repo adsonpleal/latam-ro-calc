@@ -37,6 +37,7 @@ import {
   createExtraOptionList,
   createMainModel,
   createNumberDropdownList,
+  formatSignedNumber,
   itemDescPopoverHtml,
   prettyItemDesc,
   sortObj,
@@ -53,7 +54,7 @@ import { getClassDropdownList } from '../../../jobs/_class-list';
 import { racePtBr, sizePtBr, elementPtBr } from '../../../constants/monster-i18n';
 import { itemSlotLabelPtBr } from '../../../constants/item-slot-i18n';
 import { ChanceModel } from '../../../models/chance-model';
-import { BasicDamageSummaryModel, SkillDamageSummaryModel } from '../../../models/damage-summary.model';
+import { BasicDamageSummaryModel, DamageFormulaCalc, SkillDamageSummaryModel } from '../../../models/damage-summary.model';
 import { DropdownModel, ItemDropdownModel } from '../../../models/dropdown.model';
 import { HpSpTable } from '../../../models/hp-sp-table.model';
 import { ItemListModel } from '../../../models/item-list.model';
@@ -121,11 +122,6 @@ const HideHpSp = {
   providers: [ConfirmationService, MessageService, DialogService],
 })
 export class RoCalculatorComponent implements OnInit, OnDestroy {
-  // Beta notice shown on every simulator load (for now, no dismissal persistence).
-  showBetaModal = true;
-  readonly feedbackFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSc5wsk9KOLOmPbALe-Cww1dG4AYmjrSraEuBXcrweeyriSoLQ/viewform';
-  readonly discordUrl = 'https://discord.gg/JCXTqqWq9Q';
-
   updateItemEvent = new Subject();
   updateMonsterListEvent = new Subject();
   updateCompareEvent = new Subject();
@@ -268,6 +264,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   bonusBreakdownTitle = '';
   bonusBreakdownValueClass = 'summary_damage';
   bonusBreakdownRows: { label: string; icon?: number; iconType: 'item' | 'skill'; value: number; display: string }[] = [];
+  /** Derivation of the clicked damage-graph node, when it has one — see showBonusBreakdown. */
+  bonusBreakdownCalc: DamageFormulaCalc | null = null;
   modelSummary: any;
   totalSummary: any;
 
@@ -2361,9 +2359,22 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   /** Open the breakdown modal for a clicked summary value: list every source
    *  (equip slot/card/enchant + skill) whose contribution to `keys` is non-zero. */
   /** True when at least one equipped source contributes to `keys`; drives whether a
-   *  summary value renders as clickable (no point opening an empty breakdown). */
-  canBreakdown(keys: string[]): boolean {
-    return keys.some((k) => this.bonusBreakdownKeys.has(k));
+   *  summary value renders as clickable (no point opening an empty breakdown).
+   *  Arrow property (not a prototype method) because it's also passed by reference
+   *  into <app-battle-hud>'s canBreakdownFn input — same reason as buffTooltipForMultiplier. */
+  canBreakdown = (keys: string[]): boolean => {
+    // Trait-derived stats (P.ATQ/S.ATQM/T.CRÍT, ATQ) always have something to say even
+    // with no equipment behind them: showBonusBreakdown adds the "Atributos (…)" row for
+    // the attribute-sourced remainder. Without this they render inert whenever the value
+    // comes purely from stats — which is precisely when the user most wants to be told so.
+    return keys.some((k) => this.bonusBreakdownKeys.has(k)) || !!this.traitDerivedDef(keys);
+  };
+
+  /** The trait-derived definition for a lookup, if it has one. Single source of the
+   *  "only single-key lookups can carry an attribute remainder" rule — canBreakdown
+   *  (clickability) and showBonusBreakdown (the row itself) must never disagree on it. */
+  private traitDerivedDef(keys: string[]): { total?: () => number; label: string } | null {
+    return keys.length === 1 ? this.traitDerivedBreakdownKeys[keys[0]] ?? null : null;
   }
 
   private readonly mainStats = new Set(['str', 'agi', 'vit', 'int', 'dex', 'luk']);
@@ -2400,7 +2411,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   /** "+12", "-25%", "0%": a leading "+" only for positives (negatives already carry their
    *  own "-"), with an optional trailing "%". */
   private formatSignedValue(value: number, isPercent: boolean): string {
-    return `${value > 0 ? '+' : ''}${value}${isPercent ? '%' : ''}`;
+    return `${formatSignedNumber(value)}${isPercent ? '%' : ''}`;
   }
 
   /** Format a numeric equip/item bonus for display: percent bonuses get a trailing "%"
@@ -2412,7 +2423,22 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     return this.formatSignedValue(shown, this.isPercentKey(key));
   }
 
-  showBonusBreakdown(event: { label: string; keys: string[]; valueClass: string }): void {
+  /** Keys whose full displayed value is never just an equipment sum, so bonusBreakdownSources
+   *  can only ever surface the equip-sourced slice — showBonusBreakdown shows the remainder
+   *  as its own row instead of silently under-counting. `total`, when given, reads the real
+   *  combined value directly (P.ATQ/S.ATQM/T.CRÍT blend in POD/CON/FEI/CRV trait stats via
+   *  DamageCalculator's `traitBonus` getter, not `totalBonus`, so there's a single dedicated
+   *  field for it on totalSummary.dmg). Without a `total` getter, the *clicked row's own
+   *  value* is used instead (event.total) — that's the case for "ATQ", which also carries
+   *  character stats, weapon base, refine, etc. beyond any one summable equip key. */
+  private readonly traitDerivedBreakdownKeys: Record<string, { total?: () => number; label: string }> = {
+    pAtk: { total: () => this.totalSummary?.dmg?.pAtk || 0, label: 'Atributos (POD/CON)' },
+    sMatk: { total: () => this.totalSummary?.dmg?.sMatk || 0, label: 'Atributos (FEI/CON)' },
+    cRate: { total: () => this.totalSummary?.dmg?.cRate || 0, label: 'Atributos (CRV)' },
+    atk: { label: 'Base (arma/atributos/outros)' },
+  };
+
+  showBonusBreakdown(event: { label: string; keys: string[]; valueClass: string; total?: number; calc?: DamageFormulaCalc }): void {
     const rows: typeof this.bonusBreakdownRows = [];
     // The summary value being broken down is a reduction (and so shown negated) when every
     // queried key is one — cast/delay stats are always queried alone (e.g. ['acd']).
@@ -2435,11 +2461,45 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       const display = this.formatSignedValue(isReduction ? -sum : sum, pct > 0 && flat === 0);
       rows.push({ ...this.resolveBonusSource(srcKey, sum), display });
     }
+
+    // Trait stats (P.ATQ/S.ATQM/T.CRÍT) mix POD/CON/FEI/CRV attributes into the same
+    // number equip bonuses feed, and "ATQ" mixes in weapon base/refine/character stats —
+    // without this, the dialog's rows would visibly add up to less than the value the
+    // user clicked on.
+    {
+      const traitDef = this.traitDerivedDef(event.keys);
+      const total = traitDef?.total ? traitDef.total() : event.total;
+      if (traitDef && total != null) {
+        const equipSum = rows.reduce((sum, r) => sum + r.value, 0);
+        const baseAmount = total - equipSum;
+        if (baseAmount !== 0) {
+          rows.push({ label: traitDef.label, iconType: 'skill', value: baseAmount, display: this.formatSignedValue(baseAmount, false) });
+        }
+      }
+    }
+
     rows.sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
 
     this.bonusBreakdownTitle = event.label;
     this.bonusBreakdownValueClass = event.valueClass || 'summary_damage';
     this.bonusBreakdownRows = rows;
+    // Formula-derived nodes in the damage graph (ATQ Status, ATQ da Arma, the "Adicional"
+    // chips) carry their own derivation — the dialog shows it above the equipment rows.
+    // A node can have both: e.g. a "%" chip lists the equipment behind the percentage.
+    //
+    // Rows naming a bonus source arrive keyed by the engine's raw English key (the engine
+    // has no access to the pt-BR names or icon ids); resolve them here so they render like
+    // the equipment rows below them.
+    this.bonusBreakdownCalc = event.calc
+      ? {
+          ...event.calc,
+          rows: event.calc.rows.map((r) => {
+            if (!r.sourceKey) return r;
+            const resolved = this.resolveBonusSource(r.sourceKey, 0);
+            return { ...r, label: resolved.label, icon: resolved.icon, iconType: resolved.iconType };
+          }),
+        }
+      : null;
     this.isShowBonusBreakdown = true;
   }
 

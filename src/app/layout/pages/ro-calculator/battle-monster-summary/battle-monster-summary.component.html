@@ -5,27 +5,27 @@
   </div>
   <div class="col-12">
     DEF
-    <span class="summary_monster_value px-1 font-semibold">{{ totalSummary?.monster?.softDef }} + {{ totalSummary?.monster?.def }}</span>
+    <span class="summary_monster_value px-1 font-semibold">{{ totalSummary?.monster?.softDef | number }} + {{ totalSummary?.monster?.def | number }}</span>
   </div>
   <div class="col-12">
     DEFM
-    <span class="summary_monster_value px-1 font-semibold">{{ totalSummary?.monster?.softMDef }} + {{ totalSummary?.monster?.mdef }}</span>
+    <span class="summary_monster_value px-1 font-semibold">{{ totalSummary?.monster?.softMDef | number }} + {{ totalSummary?.monster?.mdef | number }}</span>
   </div>
   <div class="col-12">
     HIT p/ 100%
-    <span class="summary_monster_value px-1 font-semibold">{{ totalSummary?.monster?.hitRequireFor100 }}</span>
+    <span class="summary_monster_value px-1 font-semibold">{{ totalSummary?.monster?.hitRequireFor100 | number }}</span>
   </div>
   <div class="col-12 flex justify-content-around">
     <div>
       RES
       <span class="summary_monster_value px-1 font-semibold" style="color: var(--orange-300)">
-        {{ totalSummary?.monster?.res }}
+        {{ totalSummary?.monster?.res | number }}
       </span>
     </div>
     <div>
       RESM
       <span class="summary_monster_value px-1 font-semibold" style="color: var(--blue-300)">
-        {{ totalSummary?.monster?.mres }}
+        {{ totalSummary?.monster?.mres | number }}
       </span>
     </div>
   </div>
@@ -64,13 +64,13 @@
     <div>
       FOR
       <span class="summary_monster_value px-1 font-semibold" style="color: var(--red-300)">
-        {{ totalSummary?.monster?.str }}
+        {{ totalSummary?.monster?.str | number }}
       </span>
     </div>
     <div>
       INT
       <span class="summary_monster_value px-1 font-semibold" style="color: var(--blue-300)">
-        {{ totalSummary?.monster?.int }}
+        {{ totalSummary?.monster?.int | number }}
       </span>
     </div>
   </div>
@@ -78,13 +78,13 @@
     <div>
       DES
       <span class="summary_monster_value px-1 font-semibold" style="color: var(--green-300)">
-        {{ totalSummary?.monster?.dex }}
+        {{ totalSummary?.monster?.dex | number }}
       </span>
     </div>
     <div>
       AGI
       <span class="summary_monster_value px-1 font-semibold" style="color: var(--green-300)">
-        {{ totalSummary?.monster?.agi }}
+        {{ totalSummary?.monster?.agi | number }}
       </span>
     </div>
   </div>
@@ -92,13 +92,13 @@
     <div>
       VIT
       <span class="summary_monster_value px-1 font-semibold" style="color: var(--yellow-300)">
-        {{ totalSummary?.monster?.vit }}
+        {{ totalSummary?.monster?.vit | number }}
       </span>
     </div>
     <div>
       SOR
       <span class="summary_monster_value px-1 font-semibold" style="color: var(--yellow-300)">
-        {{ totalSummary?.monster?.luk }}
+        {{ totalSummary?.monster?.luk | number }}
       </span>
     </div>
   </div>

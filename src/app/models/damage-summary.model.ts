@@ -25,6 +25,93 @@ export enum SkillType {
   MAGICAL = 'Magical',
 }
 
+/** One multiplier/subtraction applied by the engine's per-hit damage formula,
+ *  in the exact order it was applied — `value` is the running total right
+ *  after this step. See damage-calculator.ts calcPhysicalSkillDamage/calcMagicalSkillDamage. */
+export interface DamageFormulaStep {
+  label: string;
+  value: number;
+  /** totalBonus/EquipmentSummaryModel keys this step's multiplier is sourced from —
+   *  when present, the UI can offer the same "which equipment affects this" breakdown
+   *  the top stat summary already has (ro-calculator.component.ts canBreakdown/showBonusBreakdown).
+   *  Omitted for steps driven by the monster itself or by non-equipment class logic. */
+  keys?: string[];
+}
+
+export interface DamageFormulaTrace {
+  min: DamageFormulaStep[];
+  max: DamageFormulaStep[];
+}
+
+/** One value in the node-graph view of the damage formula. `stage` nodes are the
+ *  same running-total mutations as `DamageFormulaStep` (one per multiplier/subtraction
+ *  applied by skillFormula, in engine order). `input` nodes are additional, non-chained
+ *  quantities that feed a stage — verbatim internal engine values (statusAtk, extraAtk's
+ *  sub-parts, etc.), never independently re-derived or re-floored for display. See
+ *  damage-calculator.ts buildAtkGraphNodes/buildAtkGroupBSteps and calcPhysicalSkillDamage/
+ *  calcMagicalSkillDamage. */
+export interface DamageFormulaNode {
+  id: string;
+  label: string;
+  value: number;
+  keys?: string[];
+  /** ids of the nodes (stage or input) that feed this node */
+  inputs: string[];
+  kind: 'stage' | 'input';
+
+  /** For a `stage` that applies a percentage multiplier: the bonus expressed as a
+   *  percentage (25 for +25%, -30 for a 30% reduction). Drives the synthesized "%" chip,
+   *  which sources its equipment breakdown from this same node's `keys` — see
+   *  battle-hud.logic.ts buildGraphClusters. Absent on additive/structural stages
+   *  (Maestria, contagem de golpes, aura), which get only the "Adicional" chip. */
+  percent?: number;
+
+  /** Renders `value` with a `%` suffix instead of as a plain number. */
+  unit?: 'percent';
+
+  /** Renders a leading `+` on positive values. Set on the synthesized "%"/"Adicional"
+   *  chips, whose whole point is the *change* they represent rather than an absolute. */
+  showSign?: boolean;
+
+  /** "How this number was produced", for values that come from a formula rather than
+   *  a sum of equipment bonuses (ATQ Status, ATQ da Arma, ATQ Munição, and the
+   *  synthesized "Adicional" chips). The equipment-breakdown dialog has nothing to say
+   *  about those, so it renders this instead — see ro-calculator.component.ts
+   *  showBonusBreakdown. Rows carry verbatim engine values; the last row equals `value`. */
+  calc?: DamageFormulaCalc;
+}
+
+export interface DamageFormulaCalcRow {
+  label: string;
+  /** Pre-formatted so the engine keeps control of precision (a raw `value` would let
+   *  the template round `2.5` down to `3` and stop reconciling with real damage). */
+  display: string;
+  /** Set on the resulting/total row so the dialog can visually separate it. */
+  emphasis?: boolean;
+  /** Raw bonus-source key (an English skill name, an equip slot, `consumable_<id>`…).
+   *  The engine only knows these keys — it has no access to the pt-BR names or the icon
+   *  ids — so when this is set the dialog resolves it through the same
+   *  ro-calculator.component.ts resolveBonusSource() the equipment rows use, and falls
+   *  back to `label` when nothing matches. */
+  sourceKey?: string;
+  /** Short qualifier shown muted after the name, e.g. which race the bonus applies to. */
+  hint?: string;
+  /** Filled in by the dialog when it resolves `sourceKey` — never set by the engine. */
+  icon?: number;
+  iconType?: 'item' | 'skill';
+}
+
+export interface DamageFormulaCalc {
+  rows: DamageFormulaCalcRow[];
+  /** Caveat shown under the rows, e.g. that engine floor() rounding can make the
+   *  adicional differ slightly from `anterior × %`. */
+  note?: string;
+}
+
+export interface DamageFormulaGraph {
+  nodes: DamageFormulaNode[];
+}
+
 export interface SkillDamageSummaryModel {
   skillDamageLabel: string;
   skillNoStackDamageLabel: string;
@@ -50,6 +137,9 @@ export interface SkillDamageSummaryModel {
   skillHitKill: number;
   skillCriRateToMonster: number;
   skillCriDmgToMonster: number;
+  /** Fraction of the character's crit-damage bonus this skill actually applies
+   *  (1 = full bonus; e.g. 0.5 for skills like Sonic Blow that only get half). */
+  skillCriDmgPercentage: number;
   skillPart2Label: string;
   skillMinDamage2: number;
   skillMaxDamage2: number;
@@ -58,6 +148,29 @@ export interface SkillDamageSummaryModel {
   isUsedCurrentSP: boolean;
   currentHp: number;
   currentSp: number;
+
+  /** Step-by-step trace of the per-hit damage formula that produced skillMinDamage/
+   *  skillMaxDamage. Undefined for the handful of skills with a fully custom formula
+   *  (customFormula/Fist Spell rewrite) that don't run through the traced code path. */
+  skillFormulaTrace?: DamageFormulaTrace;
+
+  /** Same, but for skillMinDamageNoCri/skillMaxDamageNoCri (the "Dano sem crít." row) —
+   *  only populated when skillCanCri is true (that's the only case the row is shown). */
+  skillFormulaTraceNoCri?: DamageFormulaTrace;
+
+  /** Node-graph view of the same per-hit formula as skillFormulaTrace, with ATK/MATK/
+   *  DEF/RES internals broken out as additional `input` nodes. min/max are separate
+   *  graphs (see plan: no merged min/max node values). */
+  skillFormulaGraph?: { min: DamageFormulaGraph; max: DamageFormulaGraph };
+
+  /** Same, but for the no-crit variant — only populated when skillCanCri is true. */
+  skillFormulaGraphNoCri?: { min: DamageFormulaGraph; max: DamageFormulaGraph };
+
+  /** Verbatim inputs to the engine's calcDmgDps() call — see damage-calculator.ts. */
+  skillDpsInputMin: number;
+  skillDpsInputMax: number;
+  skillDpsInputCriDmg: number;
+  skillDpsInputHitsPerSec: number;
 
   maxStack: number;
   noStackMinDamage: number;

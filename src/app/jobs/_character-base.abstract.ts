@@ -561,6 +561,21 @@ export abstract class CharacterBase {
     return params.totalBonus;
   }
 
+  /**
+   * Companion to the `totalBonus[attr] -= ...` a job writes when one effect supersedes
+   * another (RO's "these two don't stack" rules). That subtraction keeps the *damage*
+   * right, but the bonus-breakdown modal reads the per-source map instead, so without
+   * this the modal keeps listing the superseded skill's full contribution — e.g. a
+   * Windhawk with Ventos Sinistros + Ilimitar showed both at +350% when only one applies.
+   *
+   * Zeroes the entry rather than deleting it so the source still resolves for any other
+   * attribute it carries. Safe to call when the skill contributed nothing.
+   */
+  protected clearSupersededBonusSource(params: AdditionalBonusInput, sourceName: string, attr: string): void {
+    const source = params.bonusSources?.[sourceName];
+    if (source && source[attr]) source[attr] = 0;
+  }
+
   protected inheritSkills(params: { atkSkillList: AtkSkillModel[]; activeSkillList: ActiveSkillModel[]; passiveSkillList: ActiveSkillModel[]; classNames: ClassName[]; }) {
     const { activeSkillList, atkSkillList, classNames, passiveSkillList } = params;
 

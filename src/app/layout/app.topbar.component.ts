@@ -103,6 +103,19 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.18-beta',
+      date: '18-07-2026',
+      logs: [
+        'A fórmula do dano (clique em "Dano atual") agora é um diagrama: cada etapa mostra a % aplicada, quanto ela somou em valor absoluto e o total resultante — e "anterior + adicional" sempre fecha com o total exibido.',
+        'Clique em qualquer valor do diagrama para ver de onde ele vem. Valores que não vêm de equipamento (ATQ Status, ATQ da Arma, ATQ Munição, Maestria) abrem um "Cálculo" explicando a conta, com o nome e o ícone da habilidade de origem.',
+        'O multiplicador elemental do ataque virou uma etapa própria do diagrama. Antes ele ficava embutido na etapa "ATQ", que somava o ATQ Status e aplicava o elemento ao mesmo tempo — fazendo o valor adicional não bater com o ATQ Status mostrado ao lado.',
+        'Corrigido: em Windhawk com Ventos Sinistros e Ilimitar ativos ao mesmo tempo, a lista de bônus mostrava os dois somando +350% de dano à distância cada. Só um dos dois vale (o cálculo do dano já estava certo) — agora a lista mostra apenas o que realmente se aplica.',
+        'O Resumo de Batalha mostra o tempo para matar o alvo ("Morre em"), na linha logo abaixo do DPS: é o HP do monstro dividido pelo DPS exibido ali mesmo. Na comparação aparecem os dois tempos, e o tooltip traz também os golpes para matar.',
+        'Todos os números do app agora usam o padrão brasileiro: 1.234,5 em vez de 1,234.5.',
+        'Tecle Esc para fechar: primeiro o detalhamento aberto, depois o diagrama — sem perder o diagrama ao consultar um valor.',
+      ],
+    },
+    {
       v: '0.1.17-beta',
       date: '17-07-2026',
       logs: [

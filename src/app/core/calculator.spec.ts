@@ -203,4 +203,22 @@ describe('Calculator', () => {
       expect(internalRefineMap.get(ItemTypeEnum.armor)).toBe(4);
     });
   });
+
+  // The values passed in are the skill catalog's own dropdown `bonus` objects (see
+  // _character-base.abstract.ts getSkillBonusAndName), which live for the whole session.
+  // Anything that writes to the calculator's copy — CharacterBase.clearSupersededBonusSource
+  // zeroing a superseded bonus, for one — would otherwise permanently delete that skill's
+  // bonus from the catalog and from every later calculation.
+  describe('setEquipAtkSkillAtk isolates the caller"s bonus objects', () => {
+    it('does not write through to the source map when the stored copy is mutated', () => {
+      const catalogBonus = { range: 350 };
+      const source = { 'No Limits': catalogBonus };
+
+      calculator.setEquipAtkSkillAtk(source);
+      (calculator as any).equipAtkSkillBonus['No Limits'].range = 0;
+
+      expect(catalogBonus.range).toBe(350);
+      expect(source['No Limits'].range).toBe(350);
+    });
+  });
 });

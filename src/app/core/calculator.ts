@@ -322,6 +322,11 @@ export class Calculator {
       weapon: this.weaponData,
       skillName: this.skillName,
       ammoElement: this.equipItem.get(ItemTypeEnum.ammo)?.propertyAtk,
+      // Live reference (not a copy) to the per-skill bonus map getItemSummary() feeds
+      // the bonus-breakdown modal. A job that cancels a superseded bonus needs to clear
+      // it here too, or the modal keeps listing a contribution the damage never got —
+      // see CharacterBase.clearSupersededBonusSource.
+      bonusSources: this.equipAtkSkillBonus,
     };
   }
 
@@ -456,7 +461,14 @@ export class Calculator {
   }
 
   setEquipAtkSkillAtk(equipSkillBonus: Record<string, any>) {
-    this.equipAtkSkillBonus = { ...equipSkillBonus };
+    // Copy each skill's bonus map, not just the outer record: the values handed in are
+    // the *skill catalog's own* dropdown `bonus` objects (see _character-base.abstract.ts
+    // getSkillBonusAndName -> `equipAtks[skill.name] = bonus`, whose source is a const
+    // like no-limit-fn.ts's `{ range: 350 }`). A shallow spread would leave those shared,
+    // so anything writing to this map — e.g. CharacterBase.clearSupersededBonusSource
+    // zeroing a superseded bonus — would permanently edit the catalog for the whole
+    // session, silently deleting that skill's bonus from every later calculation.
+    this.equipAtkSkillBonus = Object.fromEntries(Object.entries(equipSkillBonus).map(([skillName, bonus]) => [skillName, { ...bonus }]));
 
     return this;
   }

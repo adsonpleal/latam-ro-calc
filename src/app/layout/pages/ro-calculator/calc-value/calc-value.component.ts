@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { floor } from '../../../../utils';
+import { floor, formatNumber } from '../../../../utils';
 
 @Component({
   selector: 'app-calc-value',
@@ -74,6 +74,6 @@ export class CalcValueComponent {
     const percentage = ((avg2 - avg1) * 100) / avg1;
     const prefix = percentage > 0 ? '+' : '';
 
-    return `(${prefix}${floor(percentage, 1)} %)`;
+    return `(${prefix}${formatNumber(floor(percentage, 1), 0, 1)} %)`;
   }
 }

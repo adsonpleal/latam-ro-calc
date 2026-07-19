@@ -3,6 +3,38 @@
 > As notas detalhadas por versão também aparecem no app, em **Novidades** (a lista
 > `updates` em `app.topbar.component.ts` é a fonte canônica voltada ao usuário).
 
+## 0.1.18-beta — 2026-07-18
+
+- **Novo:** a fórmula do dano (clique em **"Dano atual"**) virou um **diagrama por
+  etapas**. Cada etapa mostra a **% aplicada**, o **valor absoluto que ela somou**
+  e o **total resultante** — e "anterior + adicional" sempre fecha exatamente com
+  o total exibido, mesmo com os arredondamentos que o jogo faz a cada passo.
+- **Novo:** qualquer valor do diagrama é clicável. Os que vêm de equipamento abrem
+  a lista de itens de sempre; os que vêm de fórmula (**ATQ Status**, **ATQ da
+  Arma**, **ATQ Munição**, **Maestria**) abrem um bloco **"Cálculo"** com a conta
+  passo a passo, mostrando o nome em pt-BR e o ícone da habilidade de origem.
+- **Correção:** o **multiplicador elemental** do ataque não tinha etapa própria no
+  diagrama — ficava embutido na etapa "ATQ", que somava o ATQ Status *e* aplicava
+  o elemento ao mesmo tempo. Contra alvos com resistência elemental, o valor
+  adicional dessa etapa não batia com o **ATQ Status** mostrado ao lado. Agora é
+  uma etapa separada.
+- **Correção:** em **Windhawk** com **Ventos Sinistros** e **Ilimitar** ativos ao
+  mesmo tempo, o detalhamento de bônus listava os dois contribuindo **+350% de
+  dano à distância cada**, somando 767% quando o valor real é 417%. Só um dos dois
+  se aplica — o cálculo do dano já estava correto, apenas a lista mostrava a
+  contribuição cancelada.
+- **Correção:** valores que vêm só de atributos (ex.: **Crítico base + T.Crít**)
+  apareciam sem ser clicáveis — justamente quando é mais útil saber que a origem
+  são os atributos, e não equipamentos.
+- **Novo:** o Resumo de Batalha mostra o **tempo para matar** o alvo ("Morre em"),
+  na linha logo abaixo do DPS — o HP do monstro dividido pelo DPS exibido ali
+  mesmo, então os dois sempre batem. Na comparação os dois tempos aparecem lado a
+  lado, e o tooltip traz também os **golpes para matar** (pelo dano mínimo).
+- **Novidade:** todos os números do app passam a usar o **padrão brasileiro**
+  (`1.234,5` em vez de `1,234.5`).
+- **Novidade:** **Esc** fecha uma camada por vez — primeiro o detalhamento aberto,
+  depois o diagrama — em vez de fechar tudo de uma vez.
+
 ## 0.1.17-beta — 2026-07-17
 
 - **Correção:** o HP (e DEF/DEFM/resistências/atributos) de 4 monstros da

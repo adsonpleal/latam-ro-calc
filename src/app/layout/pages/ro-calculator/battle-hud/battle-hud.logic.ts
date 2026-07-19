@@ -4,6 +4,10 @@
 // engine already produced (calcSkillAspd via totalSummary.calcSkill) into
 // display-ready segments — they never re-derive game-truth timing math.
 
+import { calcDmgDpsDetailed } from '../../../../utils/calc-dmg-dps';
+import { formatCalcNumber, formatNumber, formatSignedCalcNumber } from '../../../../utils/format-number';
+import { DamageFormulaCalcRow, DamageFormulaGraph, DamageFormulaNode } from '../../../../models/damage-summary.model';
+
 export type CastComponentKey = 'fixa' | 'variavel' | 'pos' | 'recarga' | 'aspd';
 
 export interface CastbarSegment {
@@ -179,7 +183,7 @@ const ZERO_SECONDS_EPS = 0.005;
 /** Below this, the zero-pós what-if isn't worth surfacing as an actionable suggestion. */
 const MIN_MEANINGFUL_GAIN_PERCENT = 1;
 
-const fmtRate = (v: number): string => v.toFixed(1);
+const fmtRate = (v: number): string => formatNumber(v, 1, 1);
 
 /** Assembles the "otimizar" popover data: bottleneck + per-component hints + the zero-pós what-if. */
 export function buildOptimizeInfo(input: {
@@ -327,4 +331,198 @@ export function pickHeroDamage(
 export function deltaPercent(current: number, simulated: number): number | null {
   if (!current) return null;
   return ((simulated - current) / current) * 100;
+}
+
+export interface TimeToKill {
+  /** Raw seconds — kept alongside `text` so callers can compare the two sides. */
+  seconds: number;
+  text: string;
+}
+
+/** Past this the figure stops being useful (the practice Dummy has 2 billion HP, which
+ *  runs to hundreds of hours) — show a bound instead of a precise-looking number. */
+const TTK_CAP_SECONDS = 24 * 60 * 60;
+
+/** `12,3s` / `2min 05s` / `1h 23min` — the unit shrinks as the duration grows, so short
+ *  fights keep their tenths and long ones don't read as a wall of seconds. */
+function formatDuration(seconds: number): string {
+  if (seconds < 60) return `${formatNumber(seconds, 0, 1)}s`;
+  if (seconds < 3600) {
+    const mins = Math.floor(seconds / 60);
+    return `${mins}min ${String(Math.floor(seconds % 60)).padStart(2, '0')}s`;
+  }
+  const hours = Math.floor(seconds / 3600);
+  return `${hours}h ${String(Math.floor((seconds % 3600) / 60)).padStart(2, '0')}min`;
+}
+
+/**
+ * How long this build takes to kill the target: the monster's HP divided by the DPS
+ * already shown in the HUD, so the two always reconcile. `dps` is the same
+ * effected-or-base figure pickHeroDamage selects — it's accuracy- and crit-weighted and
+ * ASPD-capped by the engine, so this inherits all of that rather than re-deriving it.
+ *
+ * Null when there's nothing meaningful to show: no DPS (autospell builds display none)
+ * or no HP.
+ */
+export function computeTimeToKill(hp: number, dps: number): TimeToKill | null {
+  if (!(dps > 0) || !(hp > 0)) return null;
+  const seconds = hp / dps;
+  return { seconds, text: seconds > TTK_CAP_SECONDS ? '> 24h' : formatDuration(seconds) };
+}
+
+export interface FormulaGraphCluster {
+  stage: DamageFormulaNode;
+  inputs: DamageFormulaNode[];
+}
+
+const fmtCalc = formatCalcNumber;
+const fmtSigned = formatSignedCalcNumber;
+
+/** Most stage labels already end in the percentage they apply ("Hab. Base 2475%",
+ *  "ATQ +25%"), so naming the chips after them verbatim would read "Hab. Base 2475% %".
+ *  Strip that trailing figure — the chip's own value carries it. */
+const stripTrailingPercent = (label: string): string => label.replace(/\s*[+-]?[\d.,]+\s*%\s*$/, '');
+
+/**
+ * Every stage is a mutation of a running total, so on its own it only answers "what is
+ * the value now" — not "what did this step actually do". These two synthesized chips
+ * answer that: the percentage that was applied, and the absolute amount it added.
+ *
+ * The "Adicional" chip is deliberately `stage.value - prev.value` rather than any
+ * engine-side increment (e.g. getAtkGroupA's `aVal`): only the difference of the two
+ * real, already-verified stage totals guarantees `anterior + adicional = resultado`
+ * exactly. `aVal` doesn't — floor() and the property multiplier sit between it and the
+ * stage total — so showing it here would produce an identity that visibly fails to add up.
+ * That same floor() is why `anterior × %` can differ slightly from the adicional, which
+ * the note on the calc spells out.
+ */
+function synthesizeChips(stage: DamageFormulaNode, prev: DamageFormulaNode | null): DamageFormulaNode[] {
+  const chips: DamageFormulaNode[] = [];
+
+  if (stage.percent != null) {
+    chips.push({
+      id: `${stage.id}_pct`,
+      label: `${stripTrailingPercent(stage.label)} %`,
+      value: stage.percent,
+      unit: 'percent',
+      // Always signed: the percentage is what this stage added *on top of* the running
+      // total, so "+2375%" can't be misread as "this stage's total is 2375%" (the stage
+      // box itself already shows the skill's own 2475% ratio).
+      showSign: true,
+      keys: stage.keys,
+      inputs: [],
+      kind: 'input',
+    });
+  }
+
+  const delta = prev ? stage.value - prev.value : 0;
+  if (prev && delta !== 0) {
+    const rows: DamageFormulaCalcRow[] = [{ label: `Valor anterior (${prev.label})`, display: fmtCalc(prev.value) }];
+    if (stage.percent != null) rows.push({ label: 'Multiplicador', display: `${fmtSigned(stage.percent)}%` });
+    rows.push({ label: 'Adicional', display: fmtSigned(delta) });
+    rows.push({ label: `Resultado (${stage.label})`, display: fmtCalc(stage.value), emphasis: true });
+
+    chips.push({
+      id: `${stage.id}_delta`,
+      label: `${stripTrailingPercent(stage.label)} Adicional`,
+      value: delta,
+      showSign: true,
+      inputs: [],
+      kind: 'input',
+      calc: {
+        rows,
+        note:
+          stage.percent != null
+            ? 'O jogo arredonda para baixo a cada etapa, então o adicional pode diferir levemente de anterior × %.'
+            : undefined,
+      },
+    });
+  }
+
+  return chips;
+}
+
+/**
+ * Groups a flat DamageFormulaGraph node list into left-to-right clusters: one per
+ * `stage` node, with any `input`-kind nodes it directly depends on attached as
+ * contributing chips. Stage-to-stage dependencies need no chip — they're just the
+ * next cluster in the sequence. See damage-calculator.ts buildAtkNodes/buildMatkNodes
+ * for how nodes are constructed (each input pushed immediately before the stage
+ * that consumes it, so a single left-to-right pass is enough — no topological sort).
+ *
+ * On top of the engine's own input nodes, each cluster gets the synthesized "%" and
+ * "Adicional" chips described on synthesizeChips — they're derived purely from the
+ * stage list, so they live here rather than in the engine.
+ */
+export function buildGraphClusters(graph: DamageFormulaGraph | undefined | null): FormulaGraphCluster[] {
+  if (!graph?.nodes?.length) return [];
+  const byId = new Map(graph.nodes.map((n) => [n.id, n]));
+  const consumed = new Set<string>();
+  const clusters: FormulaGraphCluster[] = [];
+  let prevStage: DamageFormulaNode | null = null;
+
+  for (const node of graph.nodes) {
+    if (node.kind !== 'stage') continue;
+    const inputs: DamageFormulaNode[] = [];
+    for (const inputId of node.inputs) {
+      const inputNode = byId.get(inputId);
+      if (inputNode?.kind === 'input' && !consumed.has(inputId)) {
+        inputs.push(inputNode);
+        consumed.add(inputId);
+      }
+    }
+    inputs.push(...synthesizeChips(node, prevStage));
+    clusters.push({ stage: node, inputs });
+    prevStage = node;
+  }
+
+  return clusters;
+}
+
+export interface DpsSteps {
+  avgBasicDamage: number;
+  criRate: number;
+  accuracy: number;
+  avgDamagePerHit: number;
+  hitsPerSec: number;
+  oneHitDps: number;
+  totalHit: number;
+  totalDps: number;
+}
+
+/**
+ * Rebuilds the "step by step" arithmetic behind a skill's DPS, from the exact
+ * values the engine fed into calcDmgDps() (dmg.skillDpsInput*, damage-calculator.ts)
+ * plus the hit count — so this always reconciles with the displayed skillDps,
+ * instead of approximating a formula the UI doesn't otherwise have visibility into.
+ */
+export function buildDpsSteps(dmg: {
+  skillDpsInputMin?: number;
+  skillDpsInputMax?: number;
+  skillDpsInputCriDmg?: number;
+  skillDpsInputHitsPerSec?: number;
+  skillCriRateToMonster?: number;
+  skillAccuracy?: number;
+  skillTotalHit?: number;
+} | null | undefined): DpsSteps | null {
+  if (!dmg) return null;
+  const detailed = calcDmgDpsDetailed({
+    min: dmg.skillDpsInputMin || 0,
+    max: dmg.skillDpsInputMax || 0,
+    cri: dmg.skillCriRateToMonster || 0,
+    criDmg: dmg.skillDpsInputCriDmg || 0,
+    hitsPerSec: dmg.skillDpsInputHitsPerSec || 0,
+    accRate: dmg.skillAccuracy || 0,
+  });
+  const totalHit = dmg.skillTotalHit || 0;
+  return {
+    avgBasicDamage: detailed.avgBasicDamage,
+    criRate: detailed.limitedCriRate,
+    accuracy: detailed.limitedAccuracy,
+    avgDamagePerHit: detailed.totalDamage,
+    hitsPerSec: dmg.skillDpsInputHitsPerSec || 0,
+    oneHitDps: detailed.oneHitDps,
+    totalHit,
+    totalDps: Math.floor(totalHit * detailed.oneHitDps),
+  };
 }

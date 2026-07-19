@@ -11,7 +11,7 @@
   <div class="col-7">
     Elemento:
     <span class="{{ 'property_' + totalSummary?.calcSkill?.propertySkill }} px-1 font-semibold">{{ totalSummary?.calcSkill?.propertySkill | monsterTerm: 'element' }}</span
-    ><span class="summary_highlight px-2">( x {{ totalSummary?.dmg?.skillPropertyMultiplier }})</span>
+    ><span class="summary_highlight px-2">( x {{ totalSummary?.dmg?.skillPropertyMultiplier | number: '1.0-2' }})</span>
     <span>
       <button
         pButton
@@ -365,7 +365,7 @@
       <div class="col-12">
         Elemento:
         <span class="{{ 'property_' + totalSummary?.propertyAtk }} px-1 font-semibold">{{ totalSummary?.propertyAtk | monsterTerm: 'element' }}</span
-        ><span class="summary_highlight px-2">( x {{ totalSummary?.dmg?.propertyMultiplier }})</span>
+        ><span class="summary_highlight px-2">( x {{ totalSummary?.dmg?.propertyMultiplier | number: '1.0-2' }})</span>
         <span class="summary_monster_value px-1 font-bold" style="color: var(--red-500)" [hidden]="!showLeftWeapon || !model.leftWeapon">*** ATK da mão esquerda ainda não calculado</span>
       </div>
       <div class="col-6" [hidden]="totalSummary?.dmg?.totalPene === totalSummary?.dmg?.skillTotalPene">
