@@ -103,6 +103,23 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.19-beta',
+      date: '19-07-2026',
+      logs: [
+        'Equipamentos de cabeça que ocupam mais de uma posição (ex.: Máscara de Odium, em Meio e Baixo) agora aparecem em todos os slots que ocupam. Ao escolher um deles, os outros slots ficam marcados como "(ocupado)" — como no jogo, onde a peça toma as duas posições e não dá para usar outra junto. Foram 118 itens corrigidos, entre equipamentos e trajes. (Reportado por Luís.)',
+        'O slot Baixo mostrava um seletor de Carta que não fazia nada — a posição não tinha campo de carta em lugar nenhum. Agora qualquer equipamento de cabeça de posição baixa com slot aceita carta, e a escolha é guardada ao salvar e ao compartilhar por link.',
+        'Corrigido o Conjunto do Diadema Radiante, que não estava dando bônus nenhum: ATQ e ATQM +50, +8% de dano contra Chefes e +10% contra as propriedades Sombrio e Maldito, com o anel e o colar Radiantes da mesma pedra. (Reportado por Luís.)',
+        'Corrigido o Conjunto Sombrio Inicial, que só computava os 20% de bypass: agora entram também +1% por refino somado das 6 peças (até o +30) e +3% ao chegar no nível 125 e outros +3% no 130 — 56% no total. (Reportado anonimamente.)',
+        'Os escudos Escudo Sanguinário e Sanguinário Purificado agora aceitam Bônus Aleatórios (só o Sanguinário Maldito aceitava). (Reportado por Luís.)',
+        'O Bônus Aleatório de HP agora vai até 5.000 (antes parava em 1.000). (Reportado por Luís.)',
+        'A Sobrepeliz e a Capa do Lobo Cinzento ganharam os 6 encantamentos que faltavam no primeiro slot: Orbe Lupino - Total 1 a 3 e Espelho 1 a 3. (Reportado por Luís.)',
+        'Superaprendiz agora tem Telecinesia nas habilidades ativas e Impacto Espiritual no Resumo de Batalha. (Reportado por bernardoolimpio.)',
+        'Passar o mouse na habilidade escolhida no Resumo de Batalha agora mostra a descrição dela, como já acontecia na aba Habilidades.',
+        'Corrigido: em Windhawk com Ilimitar e Ventos Sinistros, marcar qualquer Efeito (ex.: Instinto) derrubava o dano em vez de aumentá-lo — o bônus de dano à distância era descontado uma vez a cada recálculo.',
+        'No Resumo de Batalha, "Hab./s" e "Morre em" agora ficam numa linha própria, e o "Hab./s" também mostra o valor da comparação quando ele muda.',
+      ],
+    },
+    {
       v: '0.1.18-beta',
       date: '18-07-2026',
       logs: [

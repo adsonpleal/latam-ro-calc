@@ -3,16 +3,9 @@
   "configurations": [
     {
       "name": "ro-calc-dev",
-      "runtimeExecutable": "docker",
-      "runtimeArgs": ["compose", "--profile", "dev", "up", "--build"],
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["start"],
       "port": 4200,
-      "autoPort": false
-    },
-    {
-      "name": "ro-calc-prod",
-      "runtimeExecutable": "docker",
-      "runtimeArgs": ["compose", "--profile", "prod", "up", "--build"],
-      "port": 8090,
       "autoPort": false
     }
   ]

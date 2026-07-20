@@ -3,6 +3,68 @@
 > As notas detalhadas por versão também aparecem no app, em **Novidades** (a lista
 > `updates` em `app.topbar.component.ts` é a fonte canônica voltada ao usuário).
 
+## 0.1.19-beta — 2026-07-19
+
+- **Correção:** equipamentos de cabeça que ocupam **mais de uma posição** (ex.:
+  **Máscara de Odium**, que equipa em Meio *e* Baixo) apareciam em apenas um dos
+  slots. Agora aparecem em **todos** os que ocupam, e escolher a peça em um deles
+  marca os outros como **"(ocupado)"** — como no jogo, onde ela toma as duas
+  posições e não permite outra peça junto. Uma varredura na base pela linha
+  "Equipa em:" das descrições encontrou **118 itens** nessa situação (33
+  equipamentos e 85 trajes); nenhum apontava para a posição errada, só de menos.
+  (Reportado por **Luís**.)
+- **Correção:** o slot **Baixo** mostrava um seletor de **Carta** que não fazia
+  nada — a posição não tinha campo de carta em lugar nenhum (nem no modelo, nem
+  nas simulações salvas, nem na importação de replay), então o seletor aparecia
+  mas não guardava nada. Agora qualquer equipamento de cabeça de posição baixa
+  **com slot** aceita carta normalmente, e a escolha é preservada ao salvar e ao
+  compartilhar por link.
+- **Correção:** o **Conjunto do Diadema Radiante** não dava bônus nenhum — a
+  importação em massa dos itens LATAM trouxe só a linha de +2% do próprio diadema
+  e descartou o bloco do conjunto. Agora concede **ATQ e ATQM +50**, **+8% de dano
+  contra Chefes** e **+10% contra as propriedades Sombrio e Maldito**, com o anel e
+  o colar Radiantes **da mesma pedra**. O par **Radiante Topázio** citado na
+  descrição não existe no cliente LATAM, então ficou de fora. (Reportado por
+  **Luís**.)
+- **Correção:** o **Conjunto Sombrio Inicial** (6 peças) computava apenas os 20%
+  de bypass. Faltavam **+1% por refino somado do conjunto** (limitado ao +30) e os
+  degraus de **+3% no nível base 125** e **+3% no 130** — 20 + 30 + 3 + 3 = **56%**
+  com o conjunto todo refinado. (Reportado anonimamente.)
+- **Correção:** os escudos **Escudo Sanguinário** e **Sanguinário Purificado** não
+  ofereciam **Bônus Aleatórios** — só o **Sanguinário Maldito** estava cadastrado,
+  embora os três sejam a mesma peça em versões diferentes. (Reportado por **Luís**.)
+- **Correção:** o **Bônus Aleatório de HP** parava em **1.000**; agora vai até
+  **5.000**, de 50 em 50. (Reportado por **Luís**.)
+- **Correção:** a **Sobrepeliz** e a **Capa do Lobo Cinzento** ofereciam só 3 dos 9
+  encantamentos do primeiro slot. Entraram os **Orbe Lupino - Total 1 a 3** e
+  **Espelho 1 a 3**. Esses seis só concedem resistência a dano recebido, que a
+  calculadora não modela — aparecem na lista para registrar o que está equipado,
+  mas não alteram o dano. (Reportado por **Luís**.)
+- **Novo:** **Superaprendiz** ganhou **Telecinesia** nas habilidades ativas e
+  **Impacto Espiritual** no Resumo de Batalha, como já existiam em Magus. As duas
+  andam juntas: Telecinesia aumenta dano da propriedade Fantasma, que é a de
+  Impacto Espiritual. (Reportado por **bernardoolimpio**.)
+- **Novo:** passar o mouse na habilidade escolhida no **Resumo de Batalha** mostra
+  a descrição dela, como já acontecia na aba **Habilidades**.
+- **Correção:** em **Windhawk** com **Ilimitar** e **Ventos Sinistros**, marcar
+  qualquer **Efeito** (ex.: Instinto) *derrubava* o dano em vez de aumentá-lo — o
+  bônus de dano à distância do Ilimitar era descontado de novo a cada recálculo,
+  e o Efeito recalculava por cima do estado já degradado.
+- **Novidade:** no Resumo de Batalha, **"Hab./s"** e **"Morre em"** passam a ocupar
+  uma linha própria, e o "Hab./s" também mostra o valor **da comparação** quando
+  ele muda.
+
+### Interno
+
+- Ambiente de desenvolvimento saiu do **Docker** e passou a rodar localmente com
+  **pnpm** (`Dockerfile`, `docker-compose.yml` e `nginx.conf` removidos). As
+  configurações necessárias do pnpm ficam em `pnpm-workspace.yaml`, e há um
+  `CLAUDE.md` na raiz com as instruções. O `bun.lock` obsoleto saiu do repositório
+  em favor do `pnpm-lock.yaml`.
+- Nova gramática em `item.json`: `REFINE[slots==N(C)]---Y` limita a soma de refinos
+  a `C`, para conjuntos do tipo "a cada refino de cada peça (até o +C)".
+- Novo campo `locations` em `item.json` para equipamentos de cabeça multi-posição.
+
 ## 0.1.18-beta — 2026-07-18
 
 - **Novo:** a fórmula do dano (clique em **"Dano atual"**) virou um **diagrama por

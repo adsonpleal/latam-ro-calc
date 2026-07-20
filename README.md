@@ -26,32 +26,25 @@ turugrura.
 - [Angular 16](https://angular.io/) + [PrimeNG 16](https://primeng.org/)
 - TypeScript, RxJS
 - [Vitest](https://vitest.dev/) para testes unitários da engine de cálculo
-- Docker para dev/prod; deploy via Firebase Hosting
+- Node 22 + [pnpm](https://pnpm.io/); deploy via Firebase Hosting
 
 ## Como rodar
 
-O ambiente recomendado é via **Docker** (evita problemas de versão de Node e binários
-nativos). Há dois profiles que nunca sobem juntos por acidente:
-
-```bash
-# Desenvolvimento — ng serve com hot reload em http://localhost:4200
-docker compose --profile dev up --build
-
-# Produção local — build estático servido pelo nginx em http://localhost:8090
-docker compose --profile prod up --build
-```
-
-> O dev server usa o **webpack** (não o esbuild/Vite), pois o HMR via WebSocket do esbuild
-> não atravessa proxies reversos. `ng build` (imagem de prod) continua usando esbuild.
-
-### Sem Docker
-
-Requer Node 22 e [pnpm](https://pnpm.io/) (ou `bun`, ver `bun.lock`):
+Requer **Node 22** (testado na v22.16) e **pnpm** (v11):
 
 ```bash
 pnpm install
 pnpm start          # ng serve em http://localhost:4200
 ```
+
+> O dev server usa o **webpack** (não o esbuild/Vite), pois o HMR via WebSocket do esbuild
+> não atravessa proxies reversos. `ng build` continua usando esbuild.
+
+> As configurações do pnpm ficam em `pnpm-workspace.yaml` (o pnpm 11 não lê mais o campo
+> `"pnpm"` do `package.json` nem as chaves equivalentes do `.npmrc`): `allowBuilds`
+> libera os build scripts de `esbuild`/`@parcel/watcher`/`nx`, e `publicHoistPattern`
+> eleva `@babel/*` para a raiz do `node_modules` — o build do Angular 16 resolve
+> `@babel/runtime` por caminho absoluto e não funciona com o layout estrito do pnpm.
 
 ## Scripts úteis
 

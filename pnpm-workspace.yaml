@@ -1,0 +1,19 @@
+# pnpm settings. pnpm 10+ reads them here — neither package.json's "pnpm" field nor the
+# equivalent .npmrc keys are honoured any more.
+
+# pnpm blocks dependency build scripts by default. These three need theirs to run:
+# esbuild and @parcel/watcher fetch/compile a native binary in postinstall, and `ng build`
+# fails without esbuild's. Without this, `pnpm install` ends in ERR_PNPM_IGNORED_BUILDS
+# and leaves the toolchain half-installed.
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  nx: true
+
+# Angular 16's webpack dev build resolves some transitive deps by absolute path into the
+# top-level node_modules, which pnpm's strict layout does not provide. Without this the
+# dev server fails to compile with:
+#   Can't resolve '.../node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js'
+# Hoisting the babel packages to the root keeps the rest of the tree strict.
+publicHoistPattern:
+  - '@babel/*'
