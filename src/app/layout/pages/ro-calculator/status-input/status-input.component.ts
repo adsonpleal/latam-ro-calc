@@ -24,6 +24,12 @@ export class StatusInputComponent {
 
   constructor() {}
 
+  /** The "+N" badge only behaves as a button when there is a breakdown to open.
+   *  Drives role/tabindex too, so it isn't announced as a button when inert. */
+  get isExtraClickable(): boolean {
+    return !!this.extraValue && this.extraClickable;
+  }
+
   onBaseStatusChange() {
     this.valueChange.emit(this.value);
   }

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService, SelectItemGroup } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Observable, Subject, Subscription, catchError, debounceTime, filter, finalize, forkJoin, mergeMap, of, switchMap, take, tap, throwError } from 'rxjs';
+import { Subject, Subscription, debounceTime, filter, finalize, forkJoin, mergeMap, switchMap, take, tap } from 'rxjs';
 import { PresetModel } from 'src/app/api-services';
 import { RoService } from 'src/app/api-services/ro.service';
 import { SKILL_DESC_BY_ID, SKILL_ID_BY_NAME, resolveSkillMeta } from 'src/app/skills';
@@ -54,6 +54,7 @@ import { makeBuffGate } from '../../../replay/skill-status.map';
 import { MainModel } from '../../../models/main.model';
 import { environment } from 'src/environments/environment';
 import { getClassDropdownList } from '../../../jobs/_class-list';
+import { EXPANDED_4TH_AHEAD_OF_GRF_IDS } from '../../../jobs/expanded-4th-ahead-of-grf';
 import { racePtBr, sizePtBr, elementPtBr } from '../../../constants/monster-i18n';
 import { itemSlotLabelPtBr } from '../../../constants/item-slot-i18n';
 import { ChanceModel } from '../../../models/chance-model';
@@ -580,9 +581,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         this.monsterDataMap = monsters;
         this.hpSpTable = hpSpTable;
 
-        // Hide classes unreleased on LATAM (no job icon in the client GRF).
+        // Hide classes unreleased on LATAM (no job icon in the client GRF), except the
+        // Expanded 4th classes we deliberately surface ahead of the GRF (see the module).
         const latamClassSet = new Set(latamClasses);
-        this.characterList = Characters.filter((c) => latamClassSet.has(c.icon));
+        this.characterList = Characters.filter(
+          (c) => latamClassSet.has(c.icon) || EXPANDED_4TH_AHEAD_OF_GRF_IDS.has(c.icon),
+        );
 
         this.selectedMonsterName = this.monsterDataMap[this.selectedMonster]?.name;
 

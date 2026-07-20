@@ -1,3 +1,7 @@
+<!-- Clickable stat/value cells use the keyActivate directive (pipes/key-activate.directive.ts)
+     for keyboard operation. These two a11y rules are static and can't see the directive, so they
+     false-positive on every element that uses it — disabled file-wide here, still enforced elsewhere. -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
 <p-toast></p-toast>
 <p-blockUI [blocked]="isInProcessingPreset"></p-blockUI>
 <p-confirmDialog [position]="'top'" [style]="{ width: '25vw' }"></p-confirmDialog>
@@ -351,6 +355,7 @@
                       class="font-semibold px-1 summary_stat_atk"
                       [class.bonus_clickable]="canBreakdown(['atk'])"
                       (click)="showBonusBreakdown({ label: 'ATQ', keys: ['atk'], valueClass: 'summary_stat_atk' })"
+                      keyActivate
                     >
                       {{ totalSummary?.calc?.totalStatusAtk || 0 }} +
                       {{
@@ -363,53 +368,53 @@
                   </div>
                   <div [hidden]="env.production" class="col-12">
                     ATQ Equip:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['atk'])" (click)="showBonusBreakdown({ label: 'ATQ (equip)', keys: ['atk'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.atk || 0 }}</span> +
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['atkPercent'])" (click)="showBonusBreakdown({ label: 'ATQ %', keys: ['atkPercent'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.atkPercent || 0 }} %</span>
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['atk'])" (click)="showBonusBreakdown({ label: 'ATQ (equip)', keys: ['atk'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.atk || 0 }}</span> +
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['atkPercent'])" (click)="showBonusBreakdown({ label: 'ATQ %', keys: ['atkPercent'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.atkPercent || 0 }} %</span>
                   </div>
                   <div class="col-6">
                     P.ATQ:
-                    <span class="font-semibold px-1 summary_stat_atk2" [class.bonus_clickable]="(totalSummary?.dmg?.pAtk || 0) !== 0" (click)="showBonusBreakdown({ label: 'P.ATQ', keys: ['pAtk'], valueClass: 'summary_stat_atk2' })">{{ totalSummary?.dmg?.pAtk || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_atk2" [class.bonus_clickable]="(totalSummary?.dmg?.pAtk || 0) !== 0" (click)="showBonusBreakdown({ label: 'P.ATQ', keys: ['pAtk'], valueClass: 'summary_stat_atk2' })" keyActivate>{{ totalSummary?.dmg?.pAtk || 0 }}</span>
                   </div>
                   <div class="col-6">
                     T.CRÍT:
-                    <span class="font-semibold px-1 summary_stat_atk2" [class.bonus_clickable]="(totalSummary?.dmg?.cRate || 0) !== 0" (click)="showBonusBreakdown({ label: 'T.CRÍT', keys: ['cRate'], valueClass: 'summary_stat_atk2' })">{{ totalSummary?.dmg?.cRate || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_atk2" [class.bonus_clickable]="(totalSummary?.dmg?.cRate || 0) !== 0" (click)="showBonusBreakdown({ label: 'T.CRÍT', keys: ['cRate'], valueClass: 'summary_stat_atk2' })" keyActivate>{{ totalSummary?.dmg?.cRate || 0 }}</span>
                   </div>
                   <div class="col-12">
                     VelAtq:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['aspd', 'aspdPercent', 'skillAspd', 'skillAspdPercent'])" (click)="showBonusBreakdown({ label: 'VelAtq', keys: ['aspd', 'aspdPercent', 'skillAspd', 'skillAspdPercent'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.calc?.totalAspd || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['aspd', 'aspdPercent', 'skillAspd', 'skillAspdPercent'])" (click)="showBonusBreakdown({ label: 'VelAtq', keys: ['aspd', 'aspdPercent', 'skillAspd', 'skillAspdPercent'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.calc?.totalAspd || 0 }}</span>
                     <span class="font-semibold px-1 summary_highlight">( {{ totalSummary?.calc?.hitPerSecs || 0 }} Hits/s )</span>
                   </div>
                   <div class="col-12">
                     Precisão:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['hit'])" (click)="showBonusBreakdown({ label: 'Precisão', keys: ['hit'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.calc?.totalHit || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['hit'])" (click)="showBonusBreakdown({ label: 'Precisão', keys: ['hit'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.calc?.totalHit || 0 }}</span>
                     Perfeita:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="(totalSummary?.calc?.totalPerfectHit || 0) !== 0" (click)="showBonusBreakdown({ label: 'Precisão Perfeita', keys: ['perfectHit'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.calc?.totalPerfectHit || 0 }} %</span>
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="(totalSummary?.calc?.totalPerfectHit || 0) !== 0" (click)="showBonusBreakdown({ label: 'Precisão Perfeita', keys: ['perfectHit'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.calc?.totalPerfectHit || 0 }} %</span>
                   </div>
                   <div class="col-12">
                     Crítico:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['cri'])" (click)="showBonusBreakdown({ label: 'Crítico', keys: ['cri'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.calc?.totalCri || 0 }} %</span>
-                    Dano: <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['criDmg'])" (click)="showBonusBreakdown({ label: 'Dano crítico', keys: ['criDmg'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.criDmg || 0 }} %</span>
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['cri'])" (click)="showBonusBreakdown({ label: 'Crítico', keys: ['cri'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.calc?.totalCri || 0 }} %</span>
+                    Dano: <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['criDmg'])" (click)="showBonusBreakdown({ label: 'Dano crítico', keys: ['criDmg'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.criDmg || 0 }} %</span>
                   </div>
                   <div class="col-12">
                     Corpo a corpo:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['melee'])" (click)="showBonusBreakdown({ label: 'Corpo a corpo', keys: ['melee'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.melee || 0 }} %</span> À distância:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['range'])" (click)="showBonusBreakdown({ label: 'À distância', keys: ['range'], valueClass: 'summary_stat_atk' })">{{ totalSummary?.range || 0 }} %</span>
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['melee'])" (click)="showBonusBreakdown({ label: 'Corpo a corpo', keys: ['melee'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.melee || 0 }} %</span> À distância:
+                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['range'])" (click)="showBonusBreakdown({ label: 'À distância', keys: ['range'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.range || 0 }} %</span>
                   </div>
                   <div class="col-12">
                     DEF:
-                    <span class="font-semibold px-1 summary_stat_def" [class.bonus_clickable]="canBreakdown(['def'])" (click)="showBonusBreakdown({ label: 'DEF', keys: ['def'], valueClass: 'summary_stat_def' })">{{ totalSummary?.calc?.softDef || 0 }} + {{ totalSummary?.calc?.def || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_def" [class.bonus_clickable]="canBreakdown(['def'])" (click)="showBonusBreakdown({ label: 'DEF', keys: ['def'], valueClass: 'summary_stat_def' })" keyActivate>{{ totalSummary?.calc?.softDef || 0 }} + {{ totalSummary?.calc?.def || 0 }}</span>
                     RES:
-                    <span class="font-semibold px-1 summary_stat_def2" [class.bonus_clickable]="(totalSummary?.calc?.res || 0) !== 0" (click)="showBonusBreakdown({ label: 'RES', keys: ['res'], valueClass: 'summary_stat_def2' })">{{ totalSummary?.calc?.res || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_def2" [class.bonus_clickable]="(totalSummary?.calc?.res || 0) !== 0" (click)="showBonusBreakdown({ label: 'RES', keys: ['res'], valueClass: 'summary_stat_def2' })" keyActivate>{{ totalSummary?.calc?.res || 0 }}</span>
                   </div>
                   <div class="col-12">
                     DEFM:
-                    <span class="font-semibold px-1 summary_stat_def" [class.bonus_clickable]="canBreakdown(['mdef'])" (click)="showBonusBreakdown({ label: 'DEFM', keys: ['mdef'], valueClass: 'summary_stat_def' })">{{ totalSummary?.calc?.softMdef || 0 }} + {{ totalSummary?.calc?.mdef || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_def" [class.bonus_clickable]="canBreakdown(['mdef'])" (click)="showBonusBreakdown({ label: 'DEFM', keys: ['mdef'], valueClass: 'summary_stat_def' })" keyActivate>{{ totalSummary?.calc?.softMdef || 0 }} + {{ totalSummary?.calc?.mdef || 0 }}</span>
                     RESM:
-                    <span class="font-semibold px-1 summary_stat_def2" [class.bonus_clickable]="(totalSummary?.calc?.mres || 0) !== 0" (click)="showBonusBreakdown({ label: 'RESM', keys: ['mres'], valueClass: 'summary_stat_def2' })">{{ totalSummary?.calc?.mres || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_def2" [class.bonus_clickable]="(totalSummary?.calc?.mres || 0) !== 0" (click)="showBonusBreakdown({ label: 'RESM', keys: ['mres'], valueClass: 'summary_stat_def2' })" keyActivate>{{ totalSummary?.calc?.mres || 0 }}</span>
                   </div>
                   <div class="col-12">
                     ESQV:
-                    <span class="font-semibold px-1 summary_stat_def" [class.bonus_clickable]="canBreakdown(['flee', 'perfectDodge'])" (click)="showBonusBreakdown({ label: 'Esquiva', keys: ['flee', 'perfectDodge'], valueClass: 'summary_stat_def' })">{{ totalSummary?.calc?.totalFlee || 0 }} + {{ totalSummary?.calc?.totalPerfectDodge || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_def" [class.bonus_clickable]="canBreakdown(['flee', 'perfectDodge'])" (click)="showBonusBreakdown({ label: 'Esquiva', keys: ['flee', 'perfectDodge'], valueClass: 'summary_stat_def' })" keyActivate>{{ totalSummary?.calc?.totalFlee || 0 }} + {{ totalSummary?.calc?.totalPerfectDodge || 0 }}</span>
                   </div>
                 </div>
               </div>
@@ -421,6 +426,7 @@
                       class="font-semibold px-1 summary_stat_matk"
                       [class.bonus_clickable]="canBreakdown(['matk'])"
                       (click)="showBonusBreakdown({ label: 'ATQM', keys: ['matk'], valueClass: 'summary_stat_matk' })"
+                      keyActivate
                       >{{ totalSummary?.calc?.totalStatusMatk || 0 }} +
                       {{
                         totalSummary?.weapon?.baseWeaponMatk +
@@ -432,26 +438,26 @@
                   </div>
                   <div [hidden]="env.production" class="col-12">
                     ATQM Equip:
-                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['matk'])" (click)="showBonusBreakdown({ label: 'ATQM (equip)', keys: ['matk'], valueClass: 'summary_stat_matk' })">{{ totalSummary?.matk || 0 }}</span> +
-                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['matkPercent'])" (click)="showBonusBreakdown({ label: 'ATQM %', keys: ['matkPercent'], valueClass: 'summary_stat_matk' })">{{ totalSummary?.matkPercent || 0 }} %</span>
+                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['matk'])" (click)="showBonusBreakdown({ label: 'ATQM (equip)', keys: ['matk'], valueClass: 'summary_stat_matk' })" keyActivate>{{ totalSummary?.matk || 0 }}</span> +
+                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['matkPercent'])" (click)="showBonusBreakdown({ label: 'ATQM %', keys: ['matkPercent'], valueClass: 'summary_stat_matk' })" keyActivate>{{ totalSummary?.matkPercent || 0 }} %</span>
                   </div>
                   <div class="col-12">
                     ATQM
-                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['matkPercent'])" (click)="showBonusBreakdown({ label: 'ATQM %', keys: ['matkPercent'], valueClass: 'summary_stat_matk' })">{{ totalSummary?.matkPercent || 0 }} %</span>
+                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['matkPercent'])" (click)="showBonusBreakdown({ label: 'ATQM %', keys: ['matkPercent'], valueClass: 'summary_stat_matk' })" keyActivate>{{ totalSummary?.matkPercent || 0 }} %</span>
                     S.ATQM:
-                    <span class="font-semibold px-1 summary_stat_matk2" [class.bonus_clickable]="(totalSummary?.dmg?.sMatk || 0) !== 0" (click)="showBonusBreakdown({ label: 'S.ATQM', keys: ['sMatk'], valueClass: 'summary_stat_matk2' })">{{ totalSummary?.dmg?.sMatk || 0 }}</span>
+                    <span class="font-semibold px-1 summary_stat_matk2" [class.bonus_clickable]="(totalSummary?.dmg?.sMatk || 0) !== 0" (click)="showBonusBreakdown({ label: 'S.ATQM', keys: ['sMatk'], valueClass: 'summary_stat_matk2' })" keyActivate>{{ totalSummary?.dmg?.sMatk || 0 }}</span>
                   </div>
                   <div class="col-12">
                     Pós-conjuração:
-                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['acd'])" (click)="showBonusBreakdown({ label: 'Pós-conjuração', keys: ['acd'], valueClass: 'summary_stat_matk' })">{{ bonusValueText('acd', totalSummary?.acd) }}</span>
+                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['acd'])" (click)="showBonusBreakdown({ label: 'Pós-conjuração', keys: ['acd'], valueClass: 'summary_stat_matk' })" keyActivate>{{ bonusValueText('acd', totalSummary?.acd) }}</span>
                   </div>
                   <div class="col-12">
                     Conj. Fixa:
-                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['fct'])" (click)="showBonusBreakdown({ label: 'Conj. Fixa', keys: ['fct'], valueClass: 'summary_stat_matk' })">{{ bonusValueText('fct', totalSummary?.fct) }}</span>
+                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['fct'])" (click)="showBonusBreakdown({ label: 'Conj. Fixa', keys: ['fct'], valueClass: 'summary_stat_matk' })" keyActivate>{{ bonusValueText('fct', totalSummary?.fct) }}</span>
                   </div>
                   <div class="col-12">
                     Conj. Variável:
-                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['vct'])" (click)="showBonusBreakdown({ label: 'Conj. Variável', keys: ['vct'], valueClass: 'summary_stat_matk' })">{{ bonusValueText('vct', totalSummary?.vct) }}</span>
+                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['vct'])" (click)="showBonusBreakdown({ label: 'Conj. Variável', keys: ['vct'], valueClass: 'summary_stat_matk' })" keyActivate>{{ bonusValueText('vct', totalSummary?.vct) }}</span>
                   </div>
                   <div class="col-12">
                     DES2 INT1:
@@ -462,7 +468,7 @@
                     <div class="grid grid-nogutter">
                       <div class="col-12 flex gap-1">
                         HP:
-                        <span class="font-semibold px-1 summary_stat_yellow" [class.bonus_clickable]="canBreakdown(['hp', 'hpPercent'])" (click)="showBonusBreakdown({ label: 'HP máx.', keys: ['hp', 'hpPercent'], valueClass: 'summary_stat_yellow' })">{{ totalSummary?.calc?.maxHp || 0 | number }}</span>
+                        <span class="font-semibold px-1 summary_stat_yellow" [class.bonus_clickable]="canBreakdown(['hp', 'hpPercent'])" (click)="showBonusBreakdown({ label: 'HP máx.', keys: ['hp', 'hpPercent'], valueClass: 'summary_stat_yellow' })" keyActivate>{{ totalSummary?.calc?.maxHp || 0 | number }}</span>
                         <!-- <p-cascadeSelect
                           [(ngModel)]="model.rawOptionTxts[itemOptionNumber.X_HP]"
                           [options]="baseHpOptions"
@@ -478,7 +484,7 @@
                       </div>
                       <div class="col-12 flex gap-1">
                         SP:
-                        <span class="font-semibold px-1 summary_stat_yellow" [class.bonus_clickable]="canBreakdown(['sp', 'spPercent'])" (click)="showBonusBreakdown({ label: 'SP máx.', keys: ['sp', 'spPercent'], valueClass: 'summary_stat_yellow' })">{{ totalSummary?.calc?.maxSp || 0 | number }}</span>
+                        <span class="font-semibold px-1 summary_stat_yellow" [class.bonus_clickable]="canBreakdown(['sp', 'spPercent'])" (click)="showBonusBreakdown({ label: 'SP máx.', keys: ['sp', 'spPercent'], valueClass: 'summary_stat_yellow' })" keyActivate>{{ totalSummary?.calc?.maxSp || 0 | number }}</span>
                         <!-- <p-cascadeSelect
                           [(ngModel)]="model.rawOptionTxts[itemOptionNumber.X_SP]"
                           [options]="baseSpOptions"
@@ -2364,6 +2370,7 @@
     (dragleave)="onReplayDragLeave($event)"
     (drop)="onReplayDrop($event)"
     (click)="replayInput.click()"
+    keyActivate
   >
     <i class="pi pi-upload replay-dropzone-icon"></i>
     <p class="m-0">Arraste um arquivo <b>.rrf</b> aqui</p>
@@ -2437,7 +2444,7 @@
 
   <div class="grid" *ngIf="savedSims.length">
     <div class="col-12 sm:col-6 lg:col-4 p-2" *ngFor="let sim of savedSims">
-      <div class="border_default px-3 py-2 flex flex-column align-items-center gap-1 cursor-pointer" style="height: 100%" (click)="loadSavedSim(sim)">
+      <div class="border_default px-3 py-2 flex flex-column align-items-center gap-1 cursor-pointer" style="height: 100%" (click)="loadSavedSim(sim)" keyActivate>
         <img
           [src]="charSpriteUrl(sim.preset)"
           [alt]="sim.name"

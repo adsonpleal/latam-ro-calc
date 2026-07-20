@@ -677,8 +677,16 @@ a.skill_link:hover {
   background: var(--indigo-800) !important; */
 }
 
+/* Party-emblem job icons are natively 25x25. The Expanded 4th classes have no
+   emblem yet and fall back to a sprite head render (see the sprite-head fallback in icon-url.pipe.ts), which comes back 44x40 — so pin the box and let the sprite
+   scale into it, or those rows render oversized and misaligned. Mirrors
+   .class-icon in ../ragcalc (src/styles/exp.css). */
 .job_img {
-  height: fit-content;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 auto;
+  object-fit: contain;
+  image-rendering: pixelated;
 }
 
 :host ::ng-deep .dropdown-joblist .p-dropdown {

@@ -1,8 +1,29 @@
 #!/usr/bin/env sh
-# Pre-push hook: run the full test suite and block the push if anything fails.
+# Pre-push hook: run lint and the full test suite, blocking the push if either fails.
 # Wired up via `core.hooksPath=.githooks` (set by the `prepare` script).
 # In a genuine emergency you can bypass with `git push --no-verify`.
+#
+# Lint runs first: it's the cheaper of the two, so a style/a11y slip fails fast
+# instead of waiting out the suite.
+#
+# Deliberately `lint:check`, not `lint`: the latter is `ng lint --fix`, which would
+# rewrite source files mid-push — the fixes wouldn't be in the commit being pushed.
+# `lint:check` is read-only and adds `--max-warnings 0`, since `ng lint` exits 0 on
+# warnings and they would otherwise accumulate unnoticed (as they had).
 
+echo "▶ pre-push: running lint (pnpm lint:check)…"
+
+pnpm lint:check
+status=$?
+
+if [ "$status" -ne 0 ]; then
+  echo ""
+  echo "✖ pre-push: lint failed — push aborted."
+  echo "  Fix the problems above, or bypass with 'git push --no-verify' (use sparingly)."
+  exit 1
+fi
+
+echo "✓ pre-push: lint passed."
 echo "▶ pre-push: running tests (pnpm test)…"
 
 pnpm test
@@ -15,5 +36,5 @@ if [ "$status" -ne 0 ]; then
   exit 1
 fi
 
-echo "✓ pre-push: tests passed."
+echo "✓ pre-push: lint and tests passed."
 exit 0

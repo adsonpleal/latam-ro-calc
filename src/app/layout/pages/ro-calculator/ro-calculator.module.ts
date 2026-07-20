@@ -56,6 +56,8 @@ import { IconUrlPipe } from '../../../pipes/icon-url.pipe';
 import { MonsterSpritePipe } from '../../../pipes/monster-sprite.pipe';
 import { MonsterTermPipe } from '../../../pipes/monster-term.pipe';
 import { CharSpritePipe } from '../../../pipes/char-sprite.pipe';
+import { MissingSkillIconDirective } from '../../../pipes/missing-skill-icon.directive';
+import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
 
 @NgModule({
   imports: [
@@ -98,6 +100,8 @@ import { CharSpritePipe } from '../../../pipes/char-sprite.pipe';
     MonsterSpritePipe,
     MonsterTermPipe,
     CharSpritePipe,
+    MissingSkillIconDirective,
+    KeyActivateDirective,
   ],
   declarations: [
     RoCalculatorComponent,

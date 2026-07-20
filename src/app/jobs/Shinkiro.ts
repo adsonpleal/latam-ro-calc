@@ -184,8 +184,8 @@ export class Shinkiro extends Kagerou {
       label: '[V2] Shadow Dance Lv10',
       value: 'Shadow Dance==10',
       acd: 0.25,
-      fct: 1,
-      vct: 1,
+      fct: 0,
+      vct: 0,
       cd: 0.5,
       isMelee: true,
       hit: 5,
@@ -205,7 +205,7 @@ export class Shinkiro extends Kagerou {
       acd: 0.25,
       fct: 0,
       vct: 0,
-      cd: 1,
+      cd: 0.5,
       isMelee: true,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
@@ -224,7 +224,7 @@ export class Shinkiro extends Kagerou {
       fct: 1,
       vct: 1.2,
       cd: 1,
-      hit: 20,
+      totalHit: 20,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalPow } = status;
@@ -242,7 +242,7 @@ export class Shinkiro extends Kagerou {
       fct: 1,
       vct: 1.2,
       cd: 1,
-      hit: 20,
+      hit: 9,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalPow } = status;

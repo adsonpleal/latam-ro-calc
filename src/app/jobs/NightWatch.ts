@@ -190,7 +190,7 @@ export class NightWatch extends Rebellion {
           return (skillLevel * (300 + aimningCnt * 100) + totalCon * 2) * (baseLevel / 100);
         }
 
-        return (800 + skillLevel * (700 + aimningCnt * 200) + totalCon * 5) * (baseLevel / 100);
+        return (800 + skillLevel * (700 + aimningCnt * 200) + totalCon * 3) * (baseLevel / 100);
       },
     },
     {

@@ -3,6 +3,45 @@
 > As notas detalhadas por versão também aparecem no app, em **Novidades** (a lista
 > `updates` em `app.topbar.component.ts` é a fonte canônica voltada ao usuário).
 
+## 0.1.20-beta — 2026-07-20
+
+- **Novidade:** as **Classes Expandidas de Classe 4** agora aparecem no seletor de
+  classe: **Mestre Celestial**, **Asceta das Almas**, **Shinkiro**, **Shiranui**,
+  **Guerrilheiro** e **Hiperaprendiz**. As fórmulas delas já existiam no simulador,
+  mas as classes ficavam escondidas porque o cliente LATAM ainda não traz o ícone
+  de classe delas. Enquanto o ícone não chega, o seletor mostra a **cabeça do
+  sprite** no lugar. **Druida** (Spirit Handler) segue fora — as habilidades dela
+  ainda não estão modeladas.
+- **Correção (Guerrilheiro):** **Vigília Noturna** com **Espingarda** somava
+  **CON x 5** em vez de **CON x 3**, inflando o dano.
+- **Correção (Asceta das Almas):** **Exorcizar Assombração** estava com os
+  coeficientes **invertidos** — ficar no **Totem de Tutela** *enfraquecia* a
+  habilidade (150) em vez de fortalecê-la (250). O **Talismã do Jabuti**
+  reforçado usava base 1.850 em vez de 2.300. Também acertadas as recargas do
+  **Talismã da Fênix** (0,45s) e do **Jabuti** (0,7s) e as conjurações variáveis
+  do **Exorcizar Assombração** (3s) e do **Talismã das Divindades** (2s).
+- **Correção (Hiperaprendiz):** **Cortar em Espiral** aplicava o multiplicador de
+  tamanho do alvo só à parte da fórmula que varia por nível, e não ao termo
+  inteiro. **Tempestade de Júpiter** usava 1.600 no lugar de 1.800 por nível.
+  **Golpe de Tyr** estava sem a conjuração fixa de 0,35s.
+- **Correção (Mestre Celestial):** **Explosão Galática** tinha recarga de 0,3s e
+  conjuração variável de 1s; o correto é **5s de recarga** e **sem conjuração
+  variável**.
+- **Correção (Shinkiro e Shiranui):** **Huuma Aderente** tratava os **20 golpes**
+  como repetição de tela, e não como golpes de verdade — o DPS saía 20x menor.
+  **Dança das Trevas** estava com 1s de conjuração fixa e variável (o correto é
+  instantânea) e **Centelha das Trevas** com 1s de recarga em vez de 0,5s.
+- **Acessibilidade:** os números e distintivos clicáveis do simulador (DPS, dano,
+  bônus "+N", linhas das tabelas de resumo) agora respondem ao **teclado** — dá
+  para chegar neles com **Tab** e abrir o detalhamento com **Enter** ou **Espaço**,
+  não só com o mouse. São 56 elementos, em toda a calculadora e no Resumo de
+  Batalha. Quem só usa mouse não vê diferença.
+- **Correção de nomes:** **Asceta** virou **Asceta das Almas**, **Crepúsculo
+  Explosivo** virou **Crepúsculo do Poente** e o **Talismã da Fênix** estava
+  grafado "Talimã", tudo conforme a bROWiki. As descrições dessas seis classes
+  ainda aparecem em inglês porque o cliente LATAM não traz o texto em português
+  delas.
+
 ## 0.1.19-beta — 2026-07-19
 
 - **Correção:** equipamentos de cabeça que ocupam **mais de uma posição** (ex.:

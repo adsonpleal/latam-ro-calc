@@ -166,7 +166,7 @@ export class HyperNovice extends SuperNovice {
       label: '[V2] Double Bowling Bash Lv10',
       value: 'Double Bowling Bash==10',
       acd: 1,
-      fct: 0,
+      fct: 0.35,
       vct: 0,
       cd: 0.7,
       totalHit: 3,
@@ -243,7 +243,8 @@ export class HyperNovice extends SuperNovice {
         };
         const sizeModifier = sizeMap[monster.size];
 
-        return (550 + skillLevel * (350 + skillBonusLv * 3) * sizeModifier + totalPow * 3) * (baseLevel / 100);
+        // The size multiplier scales the whole skill term, not just the per-level part.
+        return ((550 + skillLevel * (350 + skillBonusLv * 3)) * sizeModifier + totalPow * 3) * (baseLevel / 100);
       },
     },
     {
@@ -283,7 +284,7 @@ export class HyperNovice extends SuperNovice {
         const baseLevel = model.level;
         const skillBonusLv = this.learnLv('Self Study Sorcery');
 
-        return (skillLevel * (1600 + skillBonusLv * 3) + totalSpl * 3) * (baseLevel / 100);
+        return (skillLevel * (1800 + skillBonusLv * 3) + totalSpl * 3) * (baseLevel / 100);
       },
     },
     {

@@ -1,3 +1,7 @@
+<!-- Clickable stat/value cells use the keyActivate directive (pipes/key-activate.directive.ts)
+     for keyboard operation. These two a11y rules are static and can't see the directive, so they
+     false-positive on every element that uses it — disabled file-wide here, still enforced elsewhere. -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
 <div class="flex align-items-center status_input">
   <div class="p-inputgroup">
     <span class="p-inputgroup-addon" style="width: 32px">{{ label }}</span>
@@ -21,16 +25,18 @@
   <span
     *ngIf="badgeSeverity === 'info'"
     class="_font-medium text-lg text-cyan-300 mr-1"
-    [class.bonus_clickable]="extraValue && extraClickable"
-    (click)="extraValue && extraClickable && extraClick.emit()"
+    [class.bonus_clickable]="isExtraClickable"
+    [keyActivate]="isExtraClickable"
+    (click)="isExtraClickable && extraClick.emit()"
     style="min-width: 35px; position: relative; z-index: 1"
     >+{{ extraValue }}</span
   >
   <span
     *ngIf="badgeSeverity !== 'info'"
     class="_font-medium text-lg text-yellow-400"
-    [class.bonus_clickable]="extraValue && extraClickable"
-    (click)="extraValue && extraClickable && extraClick.emit()"
+    [class.bonus_clickable]="isExtraClickable"
+    [keyActivate]="isExtraClickable"
+    (click)="isExtraClickable && extraClick.emit()"
     style="min-width: 35px; position: relative; z-index: 1"
     >+{{ extraValue }}</span
   >

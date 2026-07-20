@@ -176,7 +176,7 @@ export class SoulAscetic extends SoulReaper {
       value: 'Exorcism of Malicious Soul==5',
       acd: 0,
       fct: 1.5,
-      vct: 2.2,
+      vct: 3,
       cd: 1,
       isMatk: true,
       hit: 5,
@@ -187,12 +187,13 @@ export class SoulAscetic extends SoulReaper {
         const soulMasteryLv = this.learnLv('Soul Mastery');
         const totalSoul = this.activeSkillLv('Total Soul') || 1;
 
+        // Totem of Tutelary (or the target carrying Dead Spirit's Curse, which the
+        // calc doesn't model) *enhances* the skill to the 250 coefficient.
         if (this.isSkillActive('Totem of Tutelary')) {
-          return (150 * skillLevel + soulMasteryLv * 2 + totalSpl) * totalSoul * (baseLevel / 100);
-
+          return (250 * skillLevel + soulMasteryLv * 2 + totalSpl) * totalSoul * (baseLevel / 100);
         }
 
-        return (250 * skillLevel + soulMasteryLv * 2 + totalSpl) * totalSoul * (baseLevel / 100);
+        return (150 * skillLevel + soulMasteryLv * 2 + totalSpl) * totalSoul * (baseLevel / 100);
       },
     },
     {
@@ -249,7 +250,7 @@ export class SoulAscetic extends SoulReaper {
       acd: 0,
       fct: 1.5,
       vct: 1,
-      cd: 0.5,
+      cd: 0.45,
       isMatk: true,
       hit: 3,
       formula: (input: AtkSkillFormulaInput): number => {
@@ -273,7 +274,7 @@ export class SoulAscetic extends SoulReaper {
       acd: 0,
       fct: 1.5,
       vct: 1,
-      cd: 0.75,
+      cd: 0.7,
       isMatk: true,
       hit: 3,
       formula: (input: AtkSkillFormulaInput): number => {
@@ -283,7 +284,7 @@ export class SoulAscetic extends SoulReaper {
         const talisMaster = this.learnLv('Talisman Mastery');
 
         if (this.isSkillActive('Talisman of Five Elements')) {
-          return (1850 + skillLevel * (1850 + talisMaster * 15) + totalSpl * 5) * (baseLevel / 100);
+          return (2300 + skillLevel * (1850 + talisMaster * 15) + totalSpl * 5) * (baseLevel / 100);
 
         }
 
@@ -296,7 +297,7 @@ export class SoulAscetic extends SoulReaper {
       value: 'Talisman of Four Bearing God==5',
       acd: 0,
       fct: 1.5,
-      vct: 1.5,
+      vct: 2,
       cd: 1,
       isMatk: true,
       totalHit: () => {

@@ -1,3 +1,7 @@
+<!-- Clickable stat/value cells use the keyActivate directive (pipes/key-activate.directive.ts)
+     for keyboard operation. These two a11y rules are static and can't see the directive, so they
+     false-positive on every element that uses it — disabled file-wide here, still enforced elsewhere. -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
 <!-- Compare-aware "current -> simulado" pair, reused across the popovers below.
      `hidden` lets a caller suppress a row the same way the legacy [hidden] did. -->
 <ng-template #kvPair let-label="label" let-cur="cur" let-sim="sim" let-unit="unit" let-hidden="hidden">
@@ -160,6 +164,7 @@
                 pTooltip="DPS atual — clique para ver o cálculo"
                 tooltipPosition="top"
                 (click)="dpsStepsPanel.toggle($event)"
+                keyActivate
               >
                 {{ h.current.dps | number: '1.0-0' }}
               </div>
@@ -170,6 +175,7 @@
                 pTooltip="Dano atual — clique para ver a fórmula"
                 tooltipPosition="top"
                 (click)="damageFormulaPanel.toggle($event)"
+                keyActivate
               >
                 {{ calcSkill?.totalHits }}× {{ h.current.min | number
                 }}<ng-container *ngIf="h.current.min !== h.current.max"> – {{ h.current.max | number }}</ng-container>
@@ -186,6 +192,7 @@
                   pTooltip="DPS da comparação — clique para ver o cálculo"
                   tooltipPosition="top"
                   (click)="dpsStepsPanel.toggle($event)"
+                  keyActivate
                 >
                   {{ h.simulated?.dps | number: '1.0-0' }}
                 </div>
@@ -196,6 +203,7 @@
                   pTooltip="Dano da comparação — clique para ver a fórmula"
                   tooltipPosition="top"
                   (click)="damageFormulaPanel.toggle($event)"
+                  keyActivate
                 >
                   {{ totalSummary2?.calcSkill?.totalHits }}× {{ h.simulated?.min | number
                   }}<ng-container *ngIf="h.simulated?.min !== h.simulated?.max"> – {{ h.simulated?.max | number }}</ng-container>
@@ -213,6 +221,7 @@
               pTooltip="Habilidades por segundo — clique para ver o cálculo"
               tooltipPosition="top"
               (click)="castHelpPanel.toggle($event)"
+              keyActivate
               >Hab./s {{ heroHitsPerSec | number: '1.0-2' }}<ng-container *ngIf="heroHitsPerSecSim !== null"
                 ><span class="arr">→</span
                 ><span class="sim">{{ heroHitsPerSecSim | number: '1.0-2' }}</span></ng-container
@@ -260,6 +269,7 @@
                 class="v"
                 [class.bonus_clickable]="isBreakdownClickable(['cri'])"
                 (click)="openBreakdown('Tx. Crítico', ['cri'], 'summary_stat_atk')"
+                keyActivate
                 >{{ dmg?.skillCriRateToMonster | number: '1.0-1' }}%</span
               >
               <ng-container *ngIf="isComparing">→ <span class="v sim">{{ dmg2?.skillCriRateToMonster | number: '1.0-1' }}%</span></ng-container>
@@ -268,6 +278,7 @@
                 class="v"
                 [class.bonus_clickable]="isBreakdownClickable(['criDmg'])"
                 (click)="openBreakdown('Dano crítico', ['criDmg'], 'summary_stat_atk')"
+                keyActivate
                 [pTooltip]="criDmgPercentageTooltip(dmg)"
                 tooltipPosition="top"
                 >{{ dmg?.skillCriDmgToMonster | number: '1.0-1' }}%</span
@@ -281,6 +292,7 @@
                 pTooltip="Clique para ver a fórmula"
                 tooltipPosition="top"
                 (click)="damageFormulaNoCriPanel.toggle($event)"
+                keyActivate
                 >{{ calcSkill?.totalHits }}× {{ dmg?.skillMinDamageNoCri | number
                 }}<ng-container *ngIf="dmg?.skillMinDamageNoCri !== dmg?.skillMaxDamageNoCri">–{{ dmg?.skillMaxDamageNoCri | number }}</ng-container></span
               >
@@ -339,6 +351,7 @@
                 [pTooltip]="'Conjuração fixa: ' + (cb.fixed?.seconds | number: '1.0-3') + 's'"
                 tooltipPosition="top"
                 (click)="cmp ? null : openBreakdown('Conj. Fixa', ['fct'], 'summary_stat_matk')"
+                [keyActivate]="!cmp"
               >
                 {{ cb.fixed?.seconds | number: '1.0-3' }}
               </div>
@@ -350,6 +363,7 @@
                 [pTooltip]="'Conjuração variável: ' + (cb.variable?.seconds | number: '1.0-3') + 's'"
                 tooltipPosition="top"
                 (click)="cmp ? null : openBreakdown('Conj. Variável', ['vct'], 'summary_stat_matk')"
+                [keyActivate]="!cmp"
               >
                 {{ cb.variable?.seconds | number: '1.0-3' }}
               </div>
@@ -360,6 +374,7 @@
                   [pTooltip]="'Pós-conjuração: ' + (cb.parallel?.posSeconds | number: '1.0-3') + 's — a maior das duas define o bloqueio'"
                   tooltipPosition="top"
                   (click)="cmp ? null : openBreakdown('Pós-conjuração', ['acd'], 'summary_stat_matk')"
+                  [keyActivate]="!cmp"
                 >
                   <span>{{ cb.parallel?.posSeconds | number: '1.0-3' }}</span>
                 </div>
@@ -498,6 +513,7 @@
           *ngFor="let inp of c.inputs"
           [class.bonus_clickable]="!sim && isNodeClickable(inp)"
           (click)="!sim ? openBreakdown(inp.label, inp.keys, 'summary_stat_matk', inp.value, inp.calc) : null"
+          keyActivate
         >
           <span>{{ inp.label }}</span>
           <span [class.sim]="sim">{{ inp.showSign && inp.value > 0 ? '+' : '' }}{{ inp.value | number }}{{ inp.unit === 'percent' ? '%' : '' }}</span>
@@ -507,6 +523,7 @@
         class="graph-stage"
         [class.bonus_clickable]="!sim && isNodeClickable(c.stage)"
         (click)="!sim ? openBreakdown(c.stage.label, c.stage.keys, 'summary_stat_matk', c.stage.value, c.stage.calc) : null"
+        keyActivate
       >
         <span>{{ c.stage.label }}</span><span [class.sim]="sim">{{ c.stage.value | number }}</span>
       </div>

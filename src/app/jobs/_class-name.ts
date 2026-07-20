@@ -227,7 +227,7 @@ export const ClassNamePtBr: Partial<Record<ClassIDEnum, string>> = {
   [ClassIDEnum.StarEmperor]: 'Mestre Estelar',
   [ClassIDEnum.SkyEmperor]: 'Mestre Celestial',
   [ClassIDEnum.SoulReaper]: 'Ceifador de Almas',
-  [ClassIDEnum.SoulAscetic]: 'Asceta',
+  [ClassIDEnum.SoulAscetic]: 'Asceta das Almas',
   [ClassIDEnum.Kagerou]: 'Kagerou',
   [ClassIDEnum.Shinkiro]: 'Shinkiro',
   [ClassIDEnum.Oboro]: 'Oboro',

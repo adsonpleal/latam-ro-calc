@@ -1,6 +1,6 @@
 {
     "name": "ro-calculator",
-    "version": "0.1.19-beta",
+    "version": "0.1.20-beta",
     "scripts": {
         "ng": "ng",
         "prepare": "node scripts/setup-hooks.mjs",
@@ -12,6 +12,7 @@
         "test:cov": "vitest run --coverage",
         "test:ng": "ng test",
         "lint": "ng lint --fix",
+        "lint:check": "ng lint --max-warnings 0",
         "e2e": "ng e2e",
         "predeploy": "ng build --output-hashing all --output-path ../tong-calc-ro-host/docs --base-href ../tong-calc-ro-host/",
         "deploy": "cp ../tong-calc-ro-host/docs/index.html ../tong-calc-ro-host/docs/404.html"

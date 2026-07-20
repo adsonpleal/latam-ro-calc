@@ -103,6 +103,20 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.20-beta',
+      date: '20-07-2026',
+      logs: [
+        'As Classes Expandidas de Classe 4 agora aparecem no seletor de classe: Mestre Celestial, Asceta das Almas, Shinkiro, Shiranui, Guerrilheiro e Hiperaprendiz. As fórmulas já existiam, mas as classes ficavam escondidas porque o cliente LATAM ainda não traz o ícone delas — enquanto isso, o seletor mostra a cabeça do sprite no lugar. Druida segue fora, porque as habilidades dela ainda não estão modeladas.',
+        'Guerrilheiro: Vigília Noturna com Espingarda somava CON x 5 em vez de CON x 3, inflando o dano.',
+        'Asceta das Almas: Exorcizar Assombração estava com os coeficientes invertidos — ficar no Totem de Tutela enfraquecia a habilidade em vez de fortalecê-la. O Talismã do Jabuti reforçado usava base 1.850 em vez de 2.300, e foram acertadas as recargas do Talismã da Fênix e do Jabuti e as conjurações do Exorcizar Assombração e do Talismã das Divindades.',
+        'Hiperaprendiz: Cortar em Espiral aplicava o multiplicador de tamanho do alvo só à parte da fórmula que varia por nível, e não ao termo inteiro. Tempestade de Júpiter usava 1.600 no lugar de 1.800 por nível, e Golpe de Tyr estava sem a conjuração fixa de 0,35s.',
+        'Mestre Celestial: Explosão Galática tinha recarga de 0,3s e conjuração variável de 1s; o correto é 5s de recarga e sem conjuração variável.',
+        'Shinkiro e Shiranui: Huuma Aderente tratava os 20 golpes como repetição de tela, e não como golpes de verdade — o DPS saía 20x menor. Dança das Trevas virou instantânea e Centelha das Trevas teve a recarga corrigida para 0,5s.',
+        'Acessibilidade: os números e distintivos clicáveis do simulador (DPS, dano, bônus "+N", linhas das tabelas de resumo) agora respondem ao teclado — dá para chegar neles com Tab e abrir o detalhamento com Enter ou Espaço, não só com o mouse. Quem só usa mouse não vê diferença.',
+        'Nomes em português acertados pela bROWiki: Asceta virou Asceta das Almas, Crepúsculo Explosivo virou Crepúsculo do Poente e o Talismã da Fênix estava grafado "Talimã". As descrições dessas seis classes ainda aparecem em inglês porque o cliente LATAM não traz o texto em português delas.',
+      ],
+    },
+    {
       v: '0.1.19-beta',
       date: '19-07-2026',
       logs: [

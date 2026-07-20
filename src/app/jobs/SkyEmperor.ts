@@ -271,8 +271,8 @@ export class SkyEmperor extends StarEmperor {
       value: 'Star Cannon==5',
       acd: 0,
       fct: 0.5,
-      vct: 1,
-      cd: 0.3,
+      vct: 0,
+      cd: 5,
       isMelee: true,
       criDmgPercentage: 0.5,
       formula: (input: AtkSkillFormulaInput): number => {

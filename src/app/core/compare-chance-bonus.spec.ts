@@ -1,4 +1,4 @@
-import { ItemTypeEnum, ItemTypeId } from 'src/app/constants';
+import { ItemTypeId } from 'src/app/constants';
 import { ActiveSkillModel, AtkSkillModel, CharacterBase, ClassIDEnum, ClassName } from 'src/app/jobs';
 import { HpSpTable } from 'src/app/models/hp-sp-table.model';
 import { ItemModel } from 'src/app/models/item.model';

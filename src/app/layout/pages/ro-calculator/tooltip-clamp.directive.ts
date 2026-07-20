@@ -8,7 +8,11 @@ import { Tooltip } from 'primeng/tooltip';
  * partially off-screen — it never clamps. This companion directive (same
  * selector, so it rides along on every pTooltip) shifts the container back
  * into the viewport after each PrimeNG alignment pass.
+ *
+ * The selector is PrimeNG's own, not an app-prefixed one, precisely so it attaches
+ * to every existing pTooltip without touching them — hence the rule exemption.
  */
+// eslint-disable-next-line @angular-eslint/directive-selector
 @Directive({ selector: '[pTooltip]' })
 export class TooltipClampDirective {
   constructor(tooltip: Tooltip) {
