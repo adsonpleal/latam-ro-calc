@@ -134,13 +134,20 @@ export const grayWolfGarment_slot3 = [
   'Wolf_Orb_Guide_2',
   'Wolf_Orb_Guide_3',
 ];
+// Slot 1 of the Gray Wolf garments (480090 / 480091). "Total" and "Espelho" only grant
+// damage-*taken* resistance, which the engine has no bonus key for, so they contribute
+// nothing to the numbers — they are listed anyway so a build can record what is actually
+// socketed. Their item.json scripts are deliberately empty; see the Espelho entries.
 export const grayWolfGarment_slot2 = [
-  // 'Wolf_Orb_Above_1',
-  // 'Wolf_Orb_Above_2',
-  // 'Wolf_Orb_Above_3',
+  'Wolf_Orb_Above_1',
+  'Wolf_Orb_Above_2',
+  'Wolf_Orb_Above_3',
   'Wolf_Orb_P_Full_1',
   'Wolf_Orb_P_Full_2',
   'Wolf_Orb_P_Full_3',
+  'Wolf_Orb_M_Counter_1',
+  'Wolf_Orb_M_Counter_2',
+  'Wolf_Orb_M_Counter_3',
 ];
 
 export const grayWolfBoot_slot4 = [

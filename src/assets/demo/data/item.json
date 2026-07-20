@@ -92433,14 +92433,7 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {
-      "agi": [
-        "3",
-        "7===3",
-        "9===3",
-        "11===3"
-      ]
-    }
+    "script": {}
   },
   "310580": {
     "id": 310580,
@@ -92459,14 +92452,7 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {
-      "agi": [
-        "5",
-        "7===5",
-        "9===5",
-        "11===5"
-      ]
-    }
+    "script": {}
   },
   "310581": {
     "id": 310581,
@@ -92485,14 +92471,7 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {
-      "agi": [
-        "7",
-        "7===7",
-        "9===7",
-        "11===7"
-      ]
-    }
+    "script": {}
   },
   "310582": {
     "id": 310582,
@@ -92607,6 +92586,63 @@
         "11===3"
       ]
     }
+  },
+  "310585": {
+    "id": 310585,
+    "aegisName": "Wolf_Orb_M_Counter_1",
+    "name": "Orbe Lupino - Espelho 1",
+    "unidName": "Orbe Lupino - Espelho 1",
+    "resName": "Wolf_Orb_M_Counter_1",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
+  },
+  "310586": {
+    "id": 310586,
+    "aegisName": "Wolf_Orb_M_Counter_2",
+    "name": "Orbe Lupino - Espelho 2",
+    "unidName": "Orbe Lupino - Espelho 2",
+    "resName": "Wolf_Orb_M_Counter_2",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
+  },
+  "310587": {
+    "id": 310587,
+    "aegisName": "Wolf_Orb_M_Counter_3",
+    "name": "Orbe Lupino - Espelho 3",
+    "unidName": "Orbe Lupino - Espelho 3",
+    "resName": "Wolf_Orb_M_Counter_3",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
   },
   "310588": {
     "id": 310588,
