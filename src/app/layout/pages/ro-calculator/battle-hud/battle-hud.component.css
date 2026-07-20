@@ -581,6 +581,13 @@
   color: var(--orange-300);
 }
 
+/* Second .sub row (tipo · elemento · sem efeitos) follows its own rate/duration row, so
+   it only needs enough separation to read as a new line — not the 10px that spaces the
+   whole block away from the DPS figure above it. */
+.hud-hero .sub-meta {
+  margin-top: 4px;
+}
+
 /* Time to kill sits on the same line as Hab./s but reads as supporting context, so only
    its value is emphasised — not the whole item, which would compete with the promoted
    Hab./s next to it. */
@@ -589,12 +596,16 @@
   font-weight: 700;
 }
 
-.hud-hero .sub .ttk .arr {
+/* Compare arrow/value — shared by Hab./s and "Morre em", the two figures on this row
+   that carry a simulated counterpart, so both read the same as the compare values
+   elsewhere in the HUD. */
+.hud-hero .sub .arr {
   margin: 0 3px;
   color: var(--text-color-secondary);
+  font-weight: 400;
 }
 
-.hud-hero .sub .ttk .sim {
+.hud-hero .sub .sim {
   color: var(--yellow-200);
   font-weight: 700;
 }

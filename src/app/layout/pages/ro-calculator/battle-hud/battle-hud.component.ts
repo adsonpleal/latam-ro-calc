@@ -18,8 +18,12 @@ import {
   OptimizeInfo,
   pickBiggerDpsSide,
   pickHeroDamage,
+  pickHitsPerSec,
   TimeToKill,
 } from './battle-hud.logic';
+
+/** Hab./s is rendered to 2 decimals, so anything below this reads as "no change". */
+const HITS_PER_SEC_EPSILON = 0.005;
 import { DamageFormulaCalc, DamageFormulaNode } from '../../../../models/damage-summary.model';
 import { formatNumber } from '../../../../utils/format-number';
 
@@ -108,7 +112,7 @@ export class BattleHudComponent implements OnDestroy {
   @Input({ required: true }) selectedMonsterName: string;
   @Input({ required: true }) compareItemNames: any[];
   // Bound arrow property on the parent (ro-calculator.component.ts), same pattern as
-  // buffTooltipForMultiplier — a plain method reference would lose its `this` once
+  // skillTooltip — a plain method reference would lose its `this` once
   // called from here.
   @Input() canBreakdownFn: (keys: string[]) => boolean;
 
@@ -216,16 +220,23 @@ export class BattleHudComponent implements OnDestroy {
     return (this.selectedChances?.length ?? 0) > 0;
   }
 
-  // "Hab./s" sub-line: same effected||base fallback as the hero DPS, gated the same way.
-  // Capped by VelAtq (basicAspd.hitsPerSec) — the engine's own DPS math applies this
-  // same cap (skillHitsPerSec = min(castRate, aspdRate), damage-calculator.ts), and
-  // buildOptimizeInfo already flags when ASPD is the bottleneck; showing the uncapped
-  // cast rate here would promise a rate the character can't actually reach.
+  // "Hab./s" sub-line — see pickHitsPerSec for the effected||base fallback and the
+  // VelAtq cap it applies.
   get heroHitsPerSec(): number {
-    const effected = this.hasSelectedChances ? this.dmg?.effectedSkillHitsPerSec : null;
-    const raw = effected || this.calcSkill?.totalHitPerSec || 0;
-    const aspdCap = this.totalSummary?.calc?.hitPerSecs || 0;
-    return aspdCap > 0 ? Math.min(raw, aspdCap) : raw;
+    return pickHitsPerSec(this.totalSummary, this.hasSelectedChances);
+  }
+
+  // Compare build's "Hab./s", shown as `6 → 7,2` next to the current one. Null unless
+  // we're comparing AND the rate actually moved: unlike DPS/"Morre em" (which shift on
+  // any damage change), swapping most items leaves the cast/ASPD rate untouched, and
+  // rendering `6 → 6` on every comparison is noise rather than information.
+  // Null is the only "hide me" signal — 0 is a real answer (a compare build that cannot
+  // attack at all), so the template tests `!== null` rather than truthiness.
+  get heroHitsPerSecSim(): number | null {
+    if (!this.isComparing) return null;
+    const sim = pickHitsPerSec(this.totalSummary2, this.hasSelectedChances);
+
+    return Math.abs(sim - this.heroHitsPerSec) < HITS_PER_SEC_EPSILON ? null : sim;
   }
 
   // heroPrimaryCurrent/heroPrimarySimulated stay standalone (not folded into the

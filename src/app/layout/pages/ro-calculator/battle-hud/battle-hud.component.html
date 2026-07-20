@@ -213,7 +213,10 @@
               pTooltip="Habilidades por segundo — clique para ver o cálculo"
               tooltipPosition="top"
               (click)="castHelpPanel.toggle($event)"
-              >Hab./s {{ heroHitsPerSec | number: '1.0-2' }}</span
+              >Hab./s {{ heroHitsPerSec | number: '1.0-2' }}<ng-container *ngIf="heroHitsPerSecSim !== null"
+                ><span class="arr">→</span
+                ><span class="sim">{{ heroHitsPerSecSim | number: '1.0-2' }}</span></ng-container
+              ></span
             >
             <!-- Time to kill ("Morre em", i.e. when the target dies): the target's HP
                  divided by the DPS shown right above, so the two always reconcile. Hidden
@@ -227,7 +230,12 @@
                 </ng-container>
               </span>
             </ng-container>
-            ·
+          </div>
+
+          <!-- Rate/duration above, skill nature (type, element, unaffected damage) below —
+               the two read as separate thoughts and the combined line grew long enough to
+               wrap unpredictably once both carried a compare arrow. -->
+          <div class="sub sub-meta">
             {{ dmgTypeLabel(calcSkill?.dmgType) }} ·
             <p-tag
               class="el-tag-clickable"

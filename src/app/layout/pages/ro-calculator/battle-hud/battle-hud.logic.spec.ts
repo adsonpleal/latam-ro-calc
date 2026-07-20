@@ -9,6 +9,7 @@ import {
   identifyCastBottleneck,
   pickBiggerDpsSide,
   pickHeroDamage,
+  pickHitsPerSec,
 } from './battle-hud.logic';
 import { DamageFormulaNode } from '../../../../models/damage-summary.model';
 
@@ -510,5 +511,31 @@ describe('deltaPercent', () => {
 
   it('returns null when current is 0', () => {
     expect(deltaPercent(0, 50)).toBeNull();
+  });
+});
+
+describe('pickHitsPerSec', () => {
+  it('uses the base cast rate when no Efeito is selected', () => {
+    expect(pickHitsPerSec({ calcSkill: { totalHitPerSec: 6 }, calc: { hitPerSecs: 10 } }, false)).toBe(6);
+  });
+
+  it('prefers the effected rate when an Efeito is selected', () => {
+    expect(pickHitsPerSec({ dmg: { effectedSkillHitsPerSec: 7 }, calcSkill: { totalHitPerSec: 6 }, calc: { hitPerSecs: 10 } }, true)).toBe(7);
+  });
+
+  it('ignores a stale effected rate when no Efeito is selected', () => {
+    expect(pickHitsPerSec({ dmg: { effectedSkillHitsPerSec: 7 }, calcSkill: { totalHitPerSec: 6 }, calc: { hitPerSecs: 10 } }, false)).toBe(6);
+  });
+
+  it('caps the rate at what VelAtq (ASPD) actually supports', () => {
+    expect(pickHitsPerSec({ calcSkill: { totalHitPerSec: 9 }, calc: { hitPerSecs: 4 } }, false)).toBe(4);
+  });
+
+  it('treats a missing ASPD figure as uncapped', () => {
+    expect(pickHitsPerSec({ calcSkill: { totalHitPerSec: 9 }, calc: { hitPerSecs: 0 } }, false)).toBe(9);
+  });
+
+  it('returns 0 for a missing summary, so the compare side stays blank', () => {
+    expect(pickHitsPerSec(undefined, true)).toBe(0);
   });
 });

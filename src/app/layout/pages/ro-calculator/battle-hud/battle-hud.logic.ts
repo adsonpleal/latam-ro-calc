@@ -327,6 +327,38 @@ export function pickHeroDamage(
   };
 }
 
+/**
+ * "Hab./s" for one side of the HUD (the current build or the compare build).
+ *
+ * Same effected||base fallback as {@link pickHeroDamage}, gated on the same
+ * `hasSelectedChances` flag for the same reason: unselecting the last Efeito
+ * doesn't refresh totalSummary, so effectedSkillHitsPerSec can stay stale.
+ *
+ * Capped by VelAtq (calc.hitPerSecs) — the engine's own DPS math applies this
+ * same cap (skillHitsPerSec = min(castRate, aspdRate), damage-calculator.ts),
+ * and buildOptimizeInfo already flags when ASPD is the bottleneck; showing the
+ * uncapped cast rate here would promise a rate the character can't reach.
+ * A missing/zero cap means "no ASPD data" -> treat as uncapped.
+ */
+export function pickHitsPerSec(
+  summary:
+    | {
+        dmg?: { effectedSkillHitsPerSec?: number };
+        calcSkill?: { totalHitPerSec?: number };
+        calc?: { hitPerSecs?: number };
+      }
+    | null
+    | undefined,
+  hasSelectedChances: boolean,
+): number {
+  if (!summary) return 0;
+  const effected = hasSelectedChances ? summary.dmg?.effectedSkillHitsPerSec : null;
+  const raw = effected || summary.calcSkill?.totalHitPerSec || 0;
+  const aspdCap = summary.calc?.hitPerSecs || 0;
+
+  return aspdCap > 0 ? Math.min(raw, aspdCap) : raw;
+}
+
 /** Percent delta of `simulated` vs `current`; null when `current` is 0 (can't express a ratio). */
 export function deltaPercent(current: number, simulated: number): number | null {
   if (!current) return null;
