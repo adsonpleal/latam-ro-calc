@@ -70,9 +70,18 @@ node -e "const it=require('./src/assets/demo/data/item.json');const la=require('
 Replace `PHRASE` (e.g. `Pós-conjuração`). Match the key it uses and the sign. **Never guess a key that isn't in `create-raw-total-bonus.ts`** — leaving an effect out is better than a wrong key.
 
 ### 4. Combos — only this item's own, matched by id
+
+> **The pt-BR description is the source of truth.** It decides **which pieces** the set
+> needs and **what bonus** it grants. Divine-pride is the lookup for **ids** — never the
+> authority on the effect. When the two disagree, encode the description and say so in the
+> report so the user can arbitrate.
+
 - Encode **only the combos that appear in THIS item's description** (`Conjunto [Partner]`). The partner item declares its own combos in its own description — don't duplicate.
-- Get the partner **ids** + exact bonus from divine-pride (`https://www.divine-pride.net/database/item/<id>` — the "Item Combo / Set" section lists each set's member ids and bonus). The GRF description can be incomplete; divine-pride is the combo source of truth. For LATAM-only items use the **authenticated LATAM fetch** below — an anonymous request returns "Item is not available on this server" and renders no name/stats/slots.
+- Read the set off the pt-BR description in `latam-items.json`, minding how it groups the pieces: partners listed together are **all required**; an `ou` line separates **alternative** groups. `[A] [B] ou [C] [D]` = `EQUIP_ID[A&&B]` plus `EQUIP_ID[C&&D]` (one entry per alternative — `||` only ORs *within* one group, so an or-of-pairs cannot be a single token).
+- Resolve the partner **ids** on divine-pride's **"Combina com"** tab (`https://www.divine-pride.net/database/item/<id>`, LATAM server — use the authenticated fetch in §4b). Each row is named `<id>_<id>[_<id>]` — that is the set's member ids. **Match the row whose membership matches the description**, then take its ids.
+- ⚠ That tab commonly lists **more rows than the description describes**: for a 3-piece set it also lists every 2-piece subset, each showing the full bonus. Those extras are not separate, weaker sets — do **not** widen the condition to fire on a subset. Real example: 410183 Diadema Radiante shows 18 rows — 6 three-piece rows matching the description's gem pairs, plus 12 two-piece rows (circlet + one accessory). Only the 6 are real; encoding the 12 makes the set fire on half a set.
 - Encode with `EQUIP_ID[<partnerId>]<value>` (implemented in `calculator.ts` — `equipItemIdSet` + the `EQUIP_ID[...]` branch in `validateCondition`). Using the **id** avoids the pt-BR rename / `[Apoio]` bracket problem that breaks name-based `EQUIP[...]`.
+- A partner the description names but that has **no item** in `latam-items.json` has no id to gate on — leave that alternative unencoded and report it (e.g. the "Radiante Topázio" pair, absent from the LATAM client). Don't invent an id.
 
 Example — 450147 (Colete Ilusión A), description combos with 480062 (ATQ +50) and 480063 (cast delay −10%):
 ```json
@@ -84,7 +93,7 @@ Example — 450147 (Colete Ilusión A), description combos with 480062 (ATQ +50)
 ```
 
 ### 4b. Fetching LATAM divine-pride (authoritative slots / names / stats)
-LATAM (bRO) items are **not in divine-pride's anonymous view** — a plain GET shows a `account/login` link, `Unknown Item name`, and "Item is not available on this server". You only get the real GRF data (correct name **with its `[N]` slot suffix**, defense, weight, level, combos) when the request carries a logged-in divine-pride session whose account server has the item, plus `lang=pt`.
+LATAM (bRO) items are **not in divine-pride's anonymous view** — a plain GET shows a `account/login` link, `Unknown Item name`, and "Item is not available on this server". You only get the real GRF data (correct name **with its `[N]` slot suffix**, defense, weight, level, and the "Combina com" member **ids**) when the request carries a logged-in divine-pride session whose account server has the item, plus `lang=pt`. Confirm you landed on LATAM before trusting the page — the markup carries `server="LATAM"` and the images resolve under `/img/items/item/LATAM/<id>`.
 
 ```powershell
 $s = New-Object Microsoft.PowerShell.Commands.WebRequestSession
