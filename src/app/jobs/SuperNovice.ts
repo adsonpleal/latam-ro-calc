@@ -1,4 +1,5 @@
 import { ElementType } from '../constants/element-type.const';
+import { IntensificationFn } from '../constants/share-active-skills';
 import { BeastBaneFn, DemonBane, DoubleAttackFn, FaithFn, HiltBindingFn, ImproveDodgeFn, IncreaseSPRecoveryFn, SnatcherFn } from '../constants/share-passive-skills';
 import { InfoForClass } from '../models/info-for-class.model';
 import { floor } from '../utils';
@@ -318,8 +319,31 @@ export class SuperNovice extends CharacterBase {
         return damage + bonusDamge;
       },
     },
+    // Impacto Espiritual — same skill the Magus line gets (see Warlock's copy); the Super
+    // Novice learns it too, so it belongs in the battle summary here as well.
+    {
+      name: 'Soul Expansion',
+      label: 'Soul Expansion Lv5',
+      value: 'Soul Expansion==5',
+      acd: 0.5,
+      fct: 0,
+      vct: 2,
+      cd: 0,
+      isMatk: true,
+      element: ElementType.Ghost,
+      hit: 2,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { model, skillLevel, status } = input;
+        const baseLevel = model.level;
+
+        return (1000 + skillLevel * 200 + status.totalInt) * (baseLevel / 100);
+      },
+    },
   ];
   protected readonly _activeSkillList: ActiveSkillModel[] = [
+    // Telecinesia — boosts Ghost-element damage, so it only does anything alongside
+    // Impacto Espiritual above; the two were added together.
+    IntensificationFn(),
     {
       name: 'Improve Concentration',
       label: 'Improve Con',

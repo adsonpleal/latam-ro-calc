@@ -1,4 +1,5 @@
 import { ElementType } from '../constants/element-type.const';
+import { IntensificationFn } from '../constants/share-active-skills';
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { HighWizard } from './HighWizard';
@@ -315,19 +316,7 @@ export class Warlock extends HighWizard {
         { label: 'Não', isUse: false, value: 0 },
       ],
     },
-    {
-      inputType: 'dropdown',
-      label: 'Intensification',
-      name: 'Intensification',
-      dropdown: [
-        { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1, bonus: { final_ghost: 40, vct: 10 } },
-        { label: 'Lv 2', isUse: true, value: 2, bonus: { final_ghost: 80, vct: 20 } },
-        { label: 'Lv 3', isUse: true, value: 3, bonus: { final_ghost: 120, vct: 30 } },
-        { label: 'Lv 4', isUse: true, value: 4, bonus: { final_ghost: 160, vct: 40 } },
-        { label: 'Lv 5', isUse: true, value: 5, bonus: { final_ghost: 200, vct: 50 } },
-      ],
-    },
+    IntensificationFn(),
     {
       label: 'Released',
       name: 'Released',

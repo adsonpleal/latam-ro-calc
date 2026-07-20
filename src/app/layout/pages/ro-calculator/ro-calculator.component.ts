@@ -2425,18 +2425,25 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     return html;
   }
 
-  /** Reuses the buff popover for the skill-multiplier rows rendered by <app-misc-detail>.
-   *  Those rows carry { name, displayName, icon } but no dropdown, so the popover shows
-   *  the pt-BR client description (or just the skill name when none exists). */
-  buffTooltipForMultiplier = (skill: { name: string; displayName?: string; icon?: number }): string =>
-    this.buffTooltip({ name: skill.name, label: skill.displayName || skill.name, icon: skill.icon, dropdown: [] });
+  /** Reuses the buff popover for anything that names a skill but carries no dropdown: the
+   *  multiplier rows in <app-misc-detail>/<app-battle-hud> (which label via `displayName`)
+   *  and the "Resumo de Batalha" skill picker (which labels via `label`). With no dropdown
+   *  buffTooltip falls through to the pt-BR client description.
+   *  Arrow property, not a prototype method — it is passed by reference as an @Input. */
+  skillTooltip = (skill: { name?: string; label?: string; displayName?: string; icon?: number }): string =>
+    this.buffTooltip({
+      name: skill?.name,
+      label: skill?.label || skill?.displayName || skill?.name,
+      icon: skill?.icon,
+      dropdown: [],
+    });
 
   /** Open the breakdown modal for a clicked summary value: list every source
    *  (equip slot/card/enchant + skill) whose contribution to `keys` is non-zero. */
   /** True when at least one equipped source contributes to `keys`; drives whether a
    *  summary value renders as clickable (no point opening an empty breakdown).
    *  Arrow property (not a prototype method) because it's also passed by reference
-   *  into <app-battle-hud>'s canBreakdownFn input — same reason as buffTooltipForMultiplier. */
+   *  into <app-battle-hud>'s canBreakdownFn input — same reason as skillTooltip. */
   canBreakdown = (keys: string[]): boolean => {
     // Trait-derived stats (P.ATQ/S.ATQM/T.CRÍT, ATQ) always have something to say even
     // with no equipment behind them: showBonusBreakdown adds the "Atributos (…)" row for

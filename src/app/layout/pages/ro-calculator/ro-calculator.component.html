@@ -1883,14 +1883,15 @@
                       [(ngModel)]="model.selectedAtkSkill"
                       (onChange)="onAtkSkillChange()"
                     >
+                      <!-- Same pt-BR client description the "Habilidades" panel shows on hover. -->
                       <ng-template let-skill pTemplate="selectedItem">
-                        <div class="flex align-items-center gap-1">
+                        <div class="flex align-items-center gap-1" [pTooltip]="skillTooltip(skill)" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip">
                           <img *ngIf="skill?.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
                           <span>{{ skill?.label }}</span>
                         </div>
                       </ng-template>
                       <ng-template let-skill pTemplate="item">
-                        <div class="flex align-items-center gap-1">
+                        <div class="flex align-items-center gap-1" [pTooltip]="skillTooltip(skill)" [escape]="false" tooltipPosition="right" [showDelay]="400" tooltipStyleClass="item_desc_tooltip">
                           <img *ngIf="skill.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
                           <span>{{ skill.label }}</span>
                         </div>
@@ -1911,8 +1912,11 @@
                       placeholder="Habilidade"
                       (onChange)="onAtkSkillChange()"
                     >
+                      <!-- Only the skill rows get a popover. Level rows under a skill are
+                           `{ label, value }` with no name, and buffTooltip caches by name —
+                           they would all share one entry and show the wrong description. -->
                       <ng-template pTemplate="option" let-option>
-                        <div class="flex align-items-center gap-1">
+                        <div class="flex align-items-center gap-1" [pTooltip]="option?.icon ? skillTooltip(option) : ''" [escape]="false" tooltipPosition="right" [showDelay]="400" tooltipStyleClass="item_desc_tooltip">
                           <img *ngIf="option?.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
                           <span>{{ option.label }}</span>
                         </div>
@@ -2230,7 +2234,7 @@
           [classTable]="classTable"
           [atkTypeTable]="atkTypeTable"
           [skillMultiplierTable]="skillMultiplierTable"
-          [skillTooltip]="buffTooltipForMultiplier"
+          [skillTooltip]="skillTooltip"
           (valueClick)="showBonusBreakdown($event)"
         ></app-misc-detail>
       </p-accordionTab>

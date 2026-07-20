@@ -118,7 +118,12 @@ export const ExtraOptionTable = {
   Ring_Of_Spell_Explosion: 2,
   Body_Power_Up_Ring: 2,
 
-  Bloody_Knight_Shield_: 2,
+  // Escudos do Cavaleiro Sanguinário — the three share one description template and
+  // differ only in magnitude, so they take the same two Bônus Aleatórios. Only the
+  // "Maldito" was listed before, which is why the other two offered no option slots.
+  Bloody_Knight_Shield: 2, // 28942 Escudo Sanguinário
+  Bloody_Knight_Shield_: 2, // 28945 Sanguinário Maldito
+  Bloody_Knight_Shield__: 2, // 28946 Sanguinário Purificado
   Gambler_Seal: 2,
 
   // Selo de Loki set (Gambler's Seal). Each rolls two Bônus Aleatórios via its

@@ -202,7 +202,10 @@ export const createExtraOptionList = () => {
     ['Delay', 'acd', 1, 30, 1, ' %'],
     ['VCT', 'vct', 1, 30, 1, ' %'],
     ['HP %', 'hpPercent', 1, 20, 1, ' %'],
-    ['HP', 'hp', 1, 20, 50],
+    // Rolls up to 5000, not the 1000 this used to stop at. Past 20 steps the generator
+    // buckets the range into submenus of 10 (same as Def below), so the picker stays
+    // usable at 100 entries.
+    ['HP', 'hp', 1, 100, 50],
     ['SP %', 'spPercent', 1, 20, 1, ' %'],
     ['SP', 'sp', 1, 20, 20],
     // Defensive / accuracy rolls — not in the original list, added so replay
