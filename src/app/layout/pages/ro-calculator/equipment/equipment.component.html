@@ -9,7 +9,17 @@
   </div>
 </ng-template>
 
-<div class="grid grid-nogutter">
+<!-- Slot filled by a multi-slot head gear worn elsewhere: a disabled look-alike so the
+     row keeps its place and says what is in it. -->
+<div class="grid grid-nogutter" *ngIf="occupiedBy">
+  <div class="col-3">
+    <p-dropdown [options]="[]" [disabled]="true" placeholder="{{ occupiedBy }} (ocupado)"></p-dropdown>
+  </div>
+</div>
+
+<!-- Hidden via inline style, not [hidden]: `.grid` sets `display: flex`, which beats the
+     user-agent rule behind the hidden attribute and leaves the picker on screen. -->
+<div class="grid grid-nogutter" [style.display]="occupiedBy ? 'none' : null">
   <div class="col-3">
     <div class="grid grid-nogutter {{ !gradeList.length ? 'flex-row-reverse' : 'justify-content-end' }}">
       <div class="col-12" style="display: block; position: relative">

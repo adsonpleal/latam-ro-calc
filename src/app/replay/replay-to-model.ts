@@ -62,7 +62,7 @@ const SLOTS: Record<SlotKey, { item: string; refine?: string; cards: string[] }>
   accRight: { item: 'accRight', refine: 'accRightRefine', cards: ['accRightCard', 'accRightEnchant1', 'accRightEnchant2', 'accRightEnchant3'] },
   headUpper: { item: 'headUpper', refine: 'headUpperRefine', cards: ['headUpperCard', 'headUpperEnchant1', 'headUpperEnchant2', 'headUpperEnchant3'] },
   headMiddle: { item: 'headMiddle', cards: ['headMiddleCard', 'headMiddleEnchant1', 'headMiddleEnchant2', 'headMiddleEnchant3'] },
-  headLower: { item: 'headLower', cards: ['headLowerEnchant1', 'headLowerEnchant2', 'headLowerEnchant3'] },
+  headLower: { item: 'headLower', cards: ['headLowerCard', 'headLowerEnchant1', 'headLowerEnchant2', 'headLowerEnchant3'] },
   ammo: { item: 'ammo', cards: [] },
   costumeUpper: { item: 'costumeUpper', cards: ['costumeEnchantUpper'] },
   costumeMiddle: { item: 'costumeMiddle', cards: ['costumeEnchantMiddle'] },

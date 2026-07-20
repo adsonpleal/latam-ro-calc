@@ -13,6 +13,8 @@ export class EquipmentCosEnchantComponent implements AfterViewInit {
   @Input() items: Record<number, ItemModel> | undefined;
 
   @Input() disabled = false;
+  /** Name of a multi-slot costume worn in another slot that already fills this one. */
+  @Input() occupiedBy: string | null = null;
 
   @Input() itemList: DropdownModel[] = [];
   @Output() selectItemChange = new EventEmitter<any>();

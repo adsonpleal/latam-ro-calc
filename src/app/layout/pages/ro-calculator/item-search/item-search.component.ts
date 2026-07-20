@@ -159,6 +159,10 @@ export class ItemSearchComponent implements OnInit, OnDestroy {
     const selectedPositions = new Set([...(this.selectedItemPositions || []).filter(Boolean)]);
 
     const displayItems = [];
+    // A head gear that fills several slots is registered once per slot, so it would show
+    // up two or three times in an unfiltered search. Listing it once is enough — the
+    // position filter still works, because only matching entries get this far.
+    const alreadyListed = new Set<number>();
     for (const equipableItem of this.equipableItems) {
       const item = this.items[equipableItem.value] as ItemModel;
       if (!item?.script) {
@@ -166,6 +170,10 @@ export class ItemSearchComponent implements OnInit, OnDestroy {
         continue;
       }
       if (selectedPositions.size > 0 && !selectedPositions.has(equipableItem.position)) continue;
+      // Checked after the position filter, so filtering by "Baixo" still surfaces a
+      // Middle+Lower mask, and before the bonus matching below, so the ~200 duplicate
+      // entries skip the whole body instead of being built and thrown away at the push.
+      if (alreadyListed.has(equipableItem.id)) continue;
       let isFoundCD = false;
       if (this.selectedOffensiveSkills?.length > 0) {
         // item.script keys skill bonuses by id; selected skills are names.
@@ -204,6 +212,7 @@ export class ItemSearchComponent implements OnInit, OnDestroy {
       //     ? isFoundCD && selectedBonus.every((bonus) => item.script[bonus])
       //     : isFoundCD || selectedBonus.length === 0 || selectedBonus.some((bonus) => item.script[bonus]);
       if (foundBonus) {
+        alreadyListed.add(equipableItem.id);
         displayItems.push(equipableItem);
       }
     }

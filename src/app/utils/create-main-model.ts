@@ -76,6 +76,7 @@ export const createMainModel = (): MainModel => ({
   headMiddleEnchant2: undefined,
   headMiddleEnchant3: undefined,
   headLower: undefined,
+  headLowerCard: undefined,
   headLowerGrade: undefined,
   headLowerEnchant1: undefined,
   headLowerEnchant2: undefined,

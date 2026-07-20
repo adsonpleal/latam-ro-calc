@@ -13,7 +13,7 @@ import { Monster, Weapon } from 'src/app/domain';
 import { CharacterBase } from 'src/app/jobs';
 import { resolveSkillById, SKILL_ID_BY_NAME } from 'src/app/skills';
 import { bonusKeyLabel } from 'src/app/core/bonus-key-label';
-import { createRawTotalBonus, floor, isNumber, round } from 'src/app/utils';
+import { createRawTotalBonus, floor, HEAD_SLOTS, isNumber, round } from 'src/app/utils';
 import { ChanceModel } from 'src/app/models/chance-model';
 import { BasicAspdModel, BasicDamageSummaryModel, MiscModel, SkillAspdModel, SkillDamageSummaryModel } from 'src/app/models/damage-summary.model';
 import { EquipmentSummaryModel } from 'src/app/models/equipment-summary.model';
@@ -99,6 +99,7 @@ export class Calculator {
     headMiddleEnchant2: undefined,
     headMiddleEnchant3: undefined,
     headLower: undefined,
+    headLowerCard: undefined,
     headLowerEnchant1: undefined,
     headLowerEnchant2: undefined,
     headLowerEnchant3: undefined,
@@ -192,6 +193,7 @@ export class Calculator {
     headMiddleEnchant2: { ...this.allStatus },
     headMiddleEnchant3: { ...this.allStatus },
     headLower: { ...this.allStatus },
+    headLowerCard: { ...this.allStatus },
     headLowerEnchant1: { ...this.allStatus },
     headLowerEnchant2: { ...this.allStatus },
     headLowerEnchant3: { ...this.allStatus },
@@ -524,9 +526,23 @@ export class Calculator {
 
     const items = Object.entries(MainItemWithRelations) as [ItemTypeEnum, ItemTypeEnum[]][];
 
+    // A head gear that spans several positions (a Middle+Lower mask) is ONE physical item,
+    // but producers legitimately write its id into every slot it covers: replay import
+    // fans out the equipped bitmask that way, and share links saved before the UI enforced
+    // occupancy can too. Equipping it once per slot would apply its whole script twice and
+    // double-count `REFINE[headMiddle,headLower==N]` style conditions, so keep the first
+    // slot and drop the repeats. Two different head gears are unaffected — only a repeated
+    // id is collapsed, and no two head slots can legitimately hold the same item.
+    const seenHeadGear = new Set<number>();
+
     for (const [mainItemType, itemRelations] of items) {
       const itemId = model[mainItemType];
       if (!isNumber(itemId)) continue;
+
+      if (HEAD_SLOTS.includes(mainItemType)) {
+        if (seenHeadGear.has(itemId)) continue;
+        seenHeadGear.add(itemId);
+      }
 
       const refine = model[`${mainItemType}Refine`];
       const grade = model[`${mainItemType}Grade`];
@@ -997,7 +1013,9 @@ export class Calculator {
     }
 
     // REFINE[headUpper,garment==22] — slot-based sum
-    const [unusedSlot, slotNames, slotRefineCond] = restCondition.match(/^REFINE\[(\D+?)==(\d+)]/) ?? [];
+    // The optional `(N)` cap is only meaningful for the `---` step form (calcStepBonus
+    // applies it); it is accepted here so the condition still parses and hands off below.
+    const [unusedSlot, slotNames, slotRefineCond] = restCondition.match(/^REFINE\[(\D+?)==(\d+)(?:\(\d+\))?]/) ?? [];
     if (slotNames) {
       if (restCondition.includes(`${unusedSlot}---`)) return { isValid: true, restCondition };
       const totalRefine = slotNames

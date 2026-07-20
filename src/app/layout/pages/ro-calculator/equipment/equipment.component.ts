@@ -23,6 +23,12 @@ export class EquipmentComponent implements OnChanges, OnInit {
   @Input({ required: true }) readonly placeholder: string;
   @Input() isEndWithSpace = false;
   @Input() readonly overlayLabel!: string;
+  /**
+   * Name of a multi-slot head gear worn in another slot that already fills this one.
+   * When set the whole picker is replaced by a read-only stand-in — there is nothing to
+   * choose here, and the cards/enchants belong to whichever slot actually holds the item.
+   */
+  @Input() occupiedBy: string | null = null;
 
   @Input() readonly items!: Record<number, ItemModel>;
   @Input() itemList: DropdownModel[] = [];

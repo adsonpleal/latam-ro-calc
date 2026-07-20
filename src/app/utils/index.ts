@@ -14,6 +14,7 @@ export * from './dmg-type-label';
 export * from './first-upper-case';
 export * from './floor';
 export * from './format-number';
+export * from './head-gear-slots';
 export * from './is-number';
 export * from './is-skill-can-edp';
 export * from './pretty-item-desc';

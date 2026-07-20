@@ -38,8 +38,11 @@ import {
   createMainModel,
   createNumberDropdownList,
   formatSignedNumber,
+  getHeadGearLocations,
+  HEAD_SLOTS,
   itemDescPopoverHtml,
   prettyItemDesc,
+  resolveHeadSlotOccupancy,
   sortObj,
   toDropdownList,
   toRawOptionTxtList,
@@ -327,6 +330,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   private allSubs: Subscription[] = [];
 
   hiddenMap = { ammu: true, shield: true };
+  /**
+   * Head slots swallowed by a multi-slot item worn elsewhere -> that item's name. A
+   * Middle+Lower mask fills both positions in game, so only one of the two pickers stays
+   * live and the other shows what is already sitting there.
+   */
+  headSlotOccupiedBy: Partial<Record<ItemTypeEnum, string>> = {};
   isAllowLeftWeaponByClass = false;
   showLeftWeapon = false;
   isWeaponCanGrade = false;
@@ -418,6 +427,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           this.model.leftWeapon = undefined;
           this.onSelectItem(ItemTypeEnum.leftWeapon);
           this.onClearItem(ItemTypeEnum.leftWeapon);
+          return;
+        }
+
+        // Same clear-and-bail idiom as the two rules above: emptying a slot re-fires
+        // updateItemEvent, and the next pass sees a build with no overlap left.
+        if (this.refreshHeadSlotOccupancy(itemChanges)) {
           return;
         }
 
@@ -673,7 +688,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       [ItemTypeEnum.shadowPendant]: true,
     };
     if (compareModel) {
-      const model2 = { ...this.model, ...compareModel };
+      const model2 = this.resolveCompareHeadSlots({ ...this.model, ...compareModel });
       calc.loadItemFromModel(model2);
 
       // if compare the item, should get options from its.
@@ -1715,7 +1730,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       .filter((item: any) => item.presentInLatam)
       .sort(sortObj('name'));
     for (const item of sortedItems) {
-      const { itemTypeId, itemSubTypeId, compositionPos, location } = item;
+      const { itemTypeId, itemSubTypeId, compositionPos } = item;
 
       switch (itemTypeId) {
         case ItemTypeId.WEAPON:
@@ -1735,14 +1750,16 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       }
 
       switch (itemSubTypeId) {
+        // A head gear is offered in every slot it occupies — a Middle+Lower mask shows up
+        // under both Meio and Baixo, and picking it in one marks the other as occupied
+        // (see refreshHeadSlotOccupancy). Which one the player chooses matters: only
+        // headUpper/headMiddle carry a card socket, so a masks's slot is unreachable if
+        // the calculator confines it to Baixo.
         case ItemSubTypeId.Upper:
-          if (location === HeadGearLocation.Middle) {
-            headMiddleList.push(item);
-          } else if (location === HeadGearLocation.Lower) {
-            headLowerList.push(item);
-          } else {
-            // if (!item.name.startsWith('Furious')) continue;
-            headUpperList.push(item);
+          for (const slot of getHeadGearLocations(item)) {
+            if (slot === HeadGearLocation.Middle) headMiddleList.push(item);
+            else if (slot === HeadGearLocation.Lower) headLowerList.push(item);
+            else headUpperList.push(item);
           }
           continue;
         case ItemSubTypeId.Shield:
@@ -1791,14 +1808,16 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         case ItemSubTypeId.ShadowWeapon:
           shadowWeaponList.push(item);
           continue;
+        // Same multi-slot rule as real head gear above; the costume family has its own
+        // three slots, and 85 of these span more than one of them.
         case ItemSubTypeId.CostumeUpper:
-          costumeUpperList.push(item);
-          continue;
         case ItemSubTypeId.CostumeMiddle:
-          costumeMiddleList.push(item);
-          continue;
         case ItemSubTypeId.CostumeLower:
-          costumeLowerList.push(item);
+          for (const slot of getHeadGearLocations(item)) {
+            if (slot === HeadGearLocation.Middle) costumeMiddleList.push(item);
+            else if (slot === HeadGearLocation.Lower) costumeLowerList.push(item);
+            else costumeUpperList.push(item);
+          }
           continue;
         case ItemSubTypeId.CostumeGarment:
           costumeGarmentList.push(item);
@@ -2189,6 +2208,62 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     }
 
     this.updateItemEvent.next(itemType);
+  }
+
+  /** The head gear (real and costume) a build is wearing, keyed by the slot holding it. */
+  private collectHeadGear(model: Record<string, any>) {
+    const equipped: Partial<Record<ItemTypeEnum, ItemModel>> = {};
+    for (const slot of HEAD_SLOTS) {
+      const item = this.items[model[slot]];
+      if (item) equipped[slot] = item;
+    }
+
+    return equipped;
+  }
+
+  /**
+   * Applies the multi-slot head gear rule to the main build: mark the slots a spanning
+   * item takes over, and empty whatever collides with it.
+   *
+   * Returns true when something was cleared, so the caller can bail out and let the
+   * follow-up event recalculate against the settled build.
+   */
+  private refreshHeadSlotOccupancy(changed: ReadonlySet<ItemTypeEnum>): boolean {
+    const equipped = this.collectHeadGear(this.model);
+    const { occupiedBy, toClear } = resolveHeadSlotOccupancy(equipped, changed);
+
+    this.headSlotOccupiedBy = Object.fromEntries(
+      Object.entries(occupiedBy).map(([slot, holder]) => [slot, equipped[holder]?.name]),
+    );
+
+    for (const slot of toClear) {
+      this.model[slot] = undefined;
+      this.onSelectItem(slot);
+      this.onClearItem(slot);
+    }
+
+    return toClear.length > 0;
+  }
+
+  /**
+   * Same rule for a comparison build. It inherits every slot the comparison does not
+   * override, so swapping a hat into Meio can land on top of a mask the main build wears
+   * in Baixo — that has to resolve here or the mask's bonuses get counted twice. The
+   * compared slots win, since they are what the player is asking about.
+   */
+  private resolveCompareHeadSlots<T extends Record<string, any>>(model: T): T {
+    const { toClear } = resolveHeadSlotOccupancy(this.collectHeadGear(model), new Set(this.compareItemNames));
+    if (!toClear.length) return model;
+
+    const resolved = { ...model };
+    for (const slot of toClear) {
+      resolved[slot as keyof T] = null;
+      for (const related of MainItemWithRelations[slot] ?? []) {
+        resolved[related as keyof T] = null;
+      }
+    }
+
+    return resolved;
   }
 
   onJobLevelChange() {

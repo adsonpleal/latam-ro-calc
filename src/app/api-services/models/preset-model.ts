@@ -67,6 +67,7 @@ export interface PresetModel {
   headMiddleEnchant2: number;
   headMiddleEnchant3: number;
   headLower: number;
+  headLowerCard: number;
   headLowerEnchant1: number;
   headLowerEnchant2: number;
   headLowerEnchant3: number;

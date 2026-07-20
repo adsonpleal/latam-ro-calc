@@ -225362,6 +225362,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Upper",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -226916,6 +226917,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -228016,6 +228018,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Upper",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -240689,6 +240692,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -241017,6 +241021,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -241210,6 +241215,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -241268,6 +241274,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -241364,6 +241371,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -242081,6 +242089,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -242569,6 +242578,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -242595,6 +242605,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -242709,6 +242720,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -242885,6 +242897,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "Merchant"
@@ -242951,6 +242964,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -243143,6 +243157,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -243279,6 +243294,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -243301,6 +243317,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -243433,6 +243450,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -243455,6 +243473,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -243883,6 +243902,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -244049,6 +244069,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -244222,6 +244243,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -244439,6 +244461,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -245016,6 +245039,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "Ranger"
@@ -245190,6 +245214,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "GuillotineCross"
@@ -245245,6 +245270,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "RoyalGuard"
@@ -246578,6 +246604,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -247425,6 +247452,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -247451,6 +247479,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -247477,6 +247506,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -247503,6 +247533,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -247529,6 +247560,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -247587,6 +247619,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -247690,6 +247723,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -248000,6 +248034,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -248062,6 +248097,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -277897,6 +277933,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -278447,6 +278484,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -278762,6 +278800,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -280985,6 +281024,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -281117,6 +281157,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -281139,6 +281180,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -281513,6 +281555,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -283514,6 +283557,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -286367,6 +286411,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -286719,6 +286764,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -286807,6 +286853,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -286961,6 +287008,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -286983,6 +287031,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -287027,6 +287076,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -287225,6 +287275,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -287379,6 +287430,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -287951,6 +288003,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -288039,6 +288092,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -288325,6 +288379,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -288633,6 +288688,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -288655,6 +288711,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -288787,6 +288844,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -288853,6 +288911,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -289073,6 +289132,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -289293,6 +289353,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -289557,6 +289618,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -289799,6 +289861,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -289887,6 +289950,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -290019,6 +290083,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -290041,6 +290106,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -290217,6 +290283,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -290239,6 +290306,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -290371,6 +290439,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -290393,6 +290462,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -290415,6 +290485,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -290503,6 +290574,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -290613,6 +290685,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -291339,6 +291412,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -291471,6 +291545,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -292021,6 +292096,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -292637,6 +292713,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -293099,6 +293176,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -293143,6 +293221,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -293297,6 +293376,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -293341,6 +293421,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -293385,6 +293466,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -293407,6 +293489,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -293649,6 +293732,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -293781,6 +293865,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -293869,6 +293954,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -294507,6 +294593,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -294903,6 +294990,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -295651,6 +295739,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -295673,6 +295762,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -295695,6 +295785,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -295717,6 +295808,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -296135,6 +296227,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -296399,6 +296492,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -296421,6 +296515,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -296465,6 +296560,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -296619,6 +296715,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -297103,6 +297200,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -297125,6 +297223,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -297653,6 +297752,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -298731,6 +298831,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -298753,6 +298854,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -299831,6 +299933,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -300337,6 +300440,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -300821,6 +300925,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -300843,6 +300948,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -301327,6 +301433,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -307905,6 +308012,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -307927,6 +308035,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -307949,6 +308058,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -307971,6 +308081,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -307993,6 +308104,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -308015,6 +308127,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Middle",
+    "locations": ["Upper", "Middle"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -308037,6 +308150,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -308059,6 +308173,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -308081,6 +308196,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -308103,6 +308219,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -308125,6 +308242,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"

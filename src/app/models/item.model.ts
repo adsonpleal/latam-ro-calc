@@ -19,6 +19,8 @@ export interface ItemModel {
   weight: number;
   requiredLevel: any;
   location: any;
+  /** Every head slot the item fills, when it fills more than one (see getHeadGearSlots). */
+  locations?: string[];
   compositionPos: number;
   isRefinable?: boolean;
   cardPrefix?: string;

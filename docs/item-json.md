@@ -69,6 +69,7 @@ O arquivo é um objeto cuja **chave é o id do item**. Exemplo mínimo:
 | `weight`         | número          | Peso. |
 | `requiredLevel`  | número          | Nível mínimo para usar. |
 | `location`       | string \| null  | Posição para itens de topo/meio/base (ex.: `Upper`, `Lower`). |
+| `locations`      | string[] \| —   | **Só para equipamentos de cabeça que ocupam mais de uma posição.** Ver abaixo. |
 | `compositionPos` | string \| null  | Posições combináveis (chapéus multi-slot). |
 | `usableClass`    | string[]        | Classes que podem equipar (nomes internos, ex.: `Swordman`). |
 | `script`         | objeto          | Os bônus do item — o coração deste documento (seções 2–5). |
@@ -78,6 +79,28 @@ armadura `513`, escudo `514`, capa `515`, calçado `516`, acessório `517` (ou `
 `511` esquerdo se o bônus for específico do lado). Trajes/`[Visual]` usam `itemTypeId: 9` e
 subtipos `519`/`520`/`521`/`522`. Armas usam `itemTypeId: 1` e o `itemSubTypeId` é a classe
 da arma. **Não** copie os subtipos `526`–`530`: são equipamentos de sombra.
+
+### Equipamentos de cabeça que ocupam várias posições
+
+Uma máscara "Equipa em: ^777777Meio e Baixo^000000" ocupa **as duas** posições no jogo —
+não dá para usar outro item de meio junto. Registre isso em `locations`:
+
+```jsonc
+"436003": {
+  "itemSubTypeId": 512,
+  "location": "Lower",                      // mantido: posição "principal", legado
+  "locations": ["Middle", "Lower"],         // todas as posições ocupadas
+}
+```
+
+- Valores válidos: `"Upper"`, `"Middle"`, `"Lower"` (a ordem no arquivo não importa).
+- **Só preencha quando houver duas ou mais posições.** Com uma só, `location` (ou, em
+  trajes, o próprio `itemSubTypeId`) já resolve.
+- Vale igual para trajes (`519`/`520`/`521`).
+
+O item passa a aparecer no dropdown de **todas** as posições listadas; escolhendo uma, as
+outras ficam marcadas como *(ocupado)*. A fonte da verdade é a linha `Equipa em:` da
+descrição pt-BR — `head-gear-locations.data.spec.ts` compara as duas e falha se divergirem.
 
 ---
 

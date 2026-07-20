@@ -1,4 +1,12 @@
-<div class="grid grid-nogutter">
+<!-- Slot filled by a multi-slot costume worn elsewhere — see EquipmentComponent for the
+     equipment-side twin of this stand-in. -->
+<div class="grid grid-nogutter" *ngIf="occupiedBy">
+  <div class="col-12">
+    <p-dropdown [options]="[]" [disabled]="true" placeholder="{{ occupiedBy }} (ocupado)"></p-dropdown>
+  </div>
+</div>
+
+<div class="grid grid-nogutter" [style.display]="occupiedBy ? 'none' : null">
   <div class="col-12">
     <p-dropdown
       [autoDisplayFirst]="false"
