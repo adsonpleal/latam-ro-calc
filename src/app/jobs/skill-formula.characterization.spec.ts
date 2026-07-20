@@ -169,6 +169,30 @@ describe('Windhawk atk-skill formulas (smoke)', () => {
       expect(totalBonus.range).toBe(400);
       expect(bonusSources['No Limits'].range).toBe(350);
     });
+
+    // prepareAllItemBonus() — which ends in setAdditionalBonus() — runs several times
+    // per solve (calculateToSelectedMonsters re-prepares per target). `bonusSources` is
+    // the long-lived equipAtkSkillBonus map, so once the first pass zeroes No Limits it
+    // no longer feeds `range` on later passes; subtracting again would eat the build's
+    // real ranged bonus. Reported as "Instinto lowers my damage" (see
+    // core/instinto-dex-chance.spec.ts) because the recalc ran off the degraded state.
+    it('backs No Limits out only once, however many times it is applied', () => {
+      const wh = new Windhawk();
+      (wh as any).bonuses = stubBonuses(['Calamity Gale']);
+      (wh as any).bonuses.usedSkillMap = new Map([['No Limits', 5]]);
+      const bonusSources: any = { 'No Limits': { range: 350 }, 'Calamity Gale': { range: 350 } };
+      const apply = () => {
+        // each pass rebuilds totalBonus from the (live) sources, as prepareAllItemBonus does
+        const range = (bonusSources['No Limits'].range || 0) + (bonusSources['Calamity Gale'].range || 0) + 50;
+        const totalBonus: any = { range };
+        wh.setAdditionalBonus({ totalBonus, bonusSources, skillName: 'Gale Storm', model: {}, monster: {}, weapon: {} } as any);
+        return totalBonus.range;
+      };
+
+      expect(apply()).toBe(400); // 350 (Calamity Gale) + 50 gear
+      expect(apply()).toBe(400);
+      expect(apply()).toBe(400);
+    });
   });
 
   describe('Hawk Rush — scales with Nature Friendly learn level', () => {

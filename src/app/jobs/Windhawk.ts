@@ -278,13 +278,22 @@ export class Windhawk extends Ranger {
       // if (race === '' || elementUpper === ElementType.Water) {
       // }
       // Ventos Sinistros replaces Ilimitar's ranged bonus instead of stacking with it,
-      // so Ilimitar's whole contribution comes back out (100 + lv*50 is exactly the
-      // `range` its dropdown added — see share-active-skills/no-limit-fn.ts).
-      const noLimitLv = this.activeSkillLv('No Limits');
-      if (noLimitLv > 0) {
-        totalBonus.range -= 100 + noLimitLv * 50;
-        // ...and out of the breakdown modal's source list too, which reads its own map.
-        this.clearSupersededBonusSource(params, 'No Limits', 'range');
+      // so Ilimitar's whole contribution comes back out — but take it from the source
+      // map rather than recomputing 100 + lv*50, because clearSupersededBonusSource
+      // below zeroes that source and `params.bonusSources` is the long-lived
+      // equipAtkSkillBonus map. prepareAllItemBonus() (which ends here) runs several
+      // times per solve — see ro-calculator.component.ts calculateToSelectedMonsters()
+      // — so from the second pass on Ilimitar contributes 0 to `range`, and
+      // subtracting a fixed 350 again would eat the build's real ranged bonus.
+      // That is what made "Instinto" look like it LOWERED damage: the Efeitos
+      // checkbox recalculated off the degraded state (see instinto-dex-chance.spec.ts).
+      if (this.activeSkillLv('No Limits') > 0) {
+        const contributed = params.bonusSources?.['No Limits']?.['range'] ?? 0;
+        if (contributed) {
+          totalBonus.range -= contributed;
+          // ...and out of the breakdown modal's source list too, which reads its own map.
+          this.clearSupersededBonusSource(params, 'No Limits', 'range');
+        }
       }
 
       if (skillName === 'Crescive Bolt' || skillName === 'Gale Storm') {
