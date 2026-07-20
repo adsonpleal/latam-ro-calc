@@ -205,6 +205,7 @@ Formas que o valor de uma entrada pode assumir (depois que as condições passam
 | `"level:N(min-max)---Y"`   | A cada `N` níveis dentro da faixa: escala por `(min(max, nível) − min + 1)`. | `"level:1(1-125)---1"` |
 | `"SUM[a,b==N]---Y"`        | `floor((soma dos status a,b) / N) · Y`. | `"SUM[str,luk==80]---6"` |
 | `"REFINE[slot==N]---Y"`    | `floor((refino somado dos slots) / N) · Y`. | `"REFINE[boot==1]---2"` |
+| `"REFINE[slot==N(C)]---Y"` | Como acima, mas o refino somado é **limitado a C** — para conjuntos do tipo "a cada refino de cada peça do conjunto (**até o +C**)". | `"REFINE[shadowWeapon,shadowArmor==1(30)]---1"` |
 | `"REFINE_NAME[Nome==N]---Y"` | Como acima, mas o slot é identificado por **nome** do item. *(por nome — ver Legado)* | `"REFINE_NAME[Judgment Slasher==3]---5"` |
 | `"GVALUE[slot==N]---Y"`    | `floor((valor do grau do slot) / N) · Y` (D=1, C=2, B=3, A=4). | `"GVALUE[weapon==1]---2"` |
 

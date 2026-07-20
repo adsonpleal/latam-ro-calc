@@ -697,7 +697,10 @@ export class Calculator {
     }
 
     // REFINE[boot==1]---2
-    const [, refineCombo, refineCond] = condition.match(/^REFINE\[(\D*?)=*=*(\d+)]/) ?? [];
+    // REFINE[shadowWeapon,shadowArmor==1(30)]---1  — the optional (N) caps the summed
+    // refine, for sets worded "a cada refino de cada peça do conjunto (até o +30)".
+    // Same shape as the `level:1(1-125)---1` cap above.
+    const [, refineCombo, refineCond, refineCap] = condition.match(/^REFINE\[(\D*?)=*=*(\d+)(?:\((\d+)\))?]/) ?? [];
     // console.log({ condition, refineCombo, refineCond });
     if (refineCombo) {
       const totalRefine = refineCombo
@@ -705,7 +708,7 @@ export class Calculator {
         .map((itemType) => this.mapRefine.get(itemType as ItemTypeEnum))
         .reduce((sum, cur) => sum + (cur || 0), 0);
 
-      return calc(totalRefine, Number(refineCond));
+      return calc(refineCap ? Math.min(totalRefine, Number(refineCap)) : totalRefine, Number(refineCond));
     }
 
     // REFINE_NAME[Judgment Slasher,Repent Slasher==3]---5

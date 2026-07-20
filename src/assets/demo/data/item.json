@@ -231205,10 +231205,16 @@
         "1---10"
       ],
       "p_pene_race_all": [
-        "EQUIP_ID[24390&&24389&&24392&&24391&&24388]20"
+        "EQUIP_ID[24390&&24389&&24392&&24391&&24388]20",
+        "EQUIP_ID[24390&&24389&&24392&&24391&&24388]REFINE[shadowWeapon,shadowArmor,shadowShield,shadowBoot,shadowEarring,shadowPendant==1(30)]---1",
+        "EQUIP_ID[24390&&24389&&24392&&24391&&24388]LEVEL[125]3",
+        "EQUIP_ID[24390&&24389&&24392&&24391&&24388]LEVEL[130]3"
       ],
       "m_pene_race_all": [
-        "EQUIP_ID[24390&&24389&&24392&&24391&&24388]20"
+        "EQUIP_ID[24390&&24389&&24392&&24391&&24388]20",
+        "EQUIP_ID[24390&&24389&&24392&&24391&&24388]REFINE[shadowWeapon,shadowArmor,shadowShield,shadowBoot,shadowEarring,shadowPendant==1(30)]---1",
+        "EQUIP_ID[24390&&24389&&24392&&24391&&24388]LEVEL[125]3",
+        "EQUIP_ID[24390&&24389&&24392&&24391&&24388]LEVEL[130]3"
       ]
     }
   },
