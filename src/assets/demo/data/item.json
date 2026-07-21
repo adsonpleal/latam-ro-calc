@@ -242719,6 +242719,9 @@
     "script": {
       "hpPercent": [
         "5"
+      ],
+      "dmg_taken_all": [
+        "5"
       ]
     }
   },

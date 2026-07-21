@@ -111,6 +111,10 @@ export class BattleHudComponent implements OnDestroy {
   @Input({ required: true }) selectedMonster: number;
   @Input({ required: true }) selectedMonsterName: string;
   @Input({ required: true }) compareItemNames: any[];
+  // PVP: when the target is a player, override the monster sprite with the
+  // target's paper-doll (and a bare-job fallback if that image fails to load).
+  @Input() spriteUrlOverride: string | null = null;
+  @Input() spriteFallbackUrl: string | null = null;
   // Bound arrow property on the parent (ro-calculator.component.ts), same pattern as
   // skillTooltip — a plain method reference would lose its `this` once
   // called from here.
@@ -124,6 +128,11 @@ export class BattleHudComponent implements OnDestroy {
   // the raw value still drives the [hidden] logic elsewhere, e.g. Magical-only chips).
   dmgTypeLabel(type: string): string {
     return dmgTypeLabelUtil(type);
+  }
+
+  /** PVP paper-doll: swap to the bare-job fallback if the composed sprite 404s. */
+  onSpriteOverrideError(event: Event): void {
+    if (this.spriteFallbackUrl) (event.target as HTMLImageElement).src = this.spriteFallbackUrl;
   }
 
   // Elements without a `property_*` rule in styles.scss (Neutral is the only one —

@@ -83,7 +83,14 @@
       <p-card styleClass="hud-card">
       <div class="hud-monster-head">
         <div class="sprite">
-          <img [src]="selectedMonster | monsterSprite" alt="" />
+          <img
+            *ngIf="spriteUrlOverride"
+            [src]="spriteUrlOverride"
+            (error)="onSpriteOverrideError($event)"
+            alt=""
+            style="image-rendering: pixelated; max-height: 100%; max-width: 100%; object-fit: contain"
+          />
+          <img *ngIf="!spriteUrlOverride" [src]="selectedMonster | monsterSprite" alt="" />
         </div>
         <div class="hud-monster-info">
           <div class="np-name">{{ selectedMonsterName }}</div>

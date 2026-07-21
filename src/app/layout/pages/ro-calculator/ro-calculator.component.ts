@@ -85,6 +85,7 @@ import {
 } from 'src/app/core/summary-tables';
 import { MonsterDataViewComponent } from './monster-data-view/monster-data-view.component';
 import { SavedSimulation, SavedSimulationStore } from 'src/app/core/saved-simulations';
+import { PlayerTargetProfile, PvpMode } from 'src/app/core/pvp';
 import { encodeBuild, decodeBuild } from 'src/app/core/share-codec';
 import { buildCharSpriteUrl, bareJobSprite } from 'src/app/pipes/char-sprite.pipe';
 
@@ -149,6 +150,32 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   showSavesDialog = false;
   showSaveDialog = false;
   saveName = '';
+
+  // --- PVP -----------------------------------------------------------------
+  /** Mode selector for the PVP tab (open PVP / normal castle / TE castle). */
+  pvpMode: PvpMode = 'pvp';
+  pvpModeOptions = [
+    {
+      label: 'PVP',
+      value: 'pvp' as PvpMode,
+      tooltip: 'PVP aberto: dano cheio (1:1). Valem só as defesas e reduções do próprio alvo — sem a redução da guerra. A esquiva do alvo é a normal.',
+    },
+    {
+      label: 'WOE',
+      value: 'woe' as PvpMode,
+      tooltip: 'Guerra do Emperium: todo o dano cai para 30% (−70%) — físico normal, à distância e habilidades. A esquiva do alvo cai 20%.',
+    },
+    {
+      label: 'WOE TE',
+      value: 'woe-te' as PvpMode,
+      tooltip: 'Guerra TE: corpo a corpo fica cheio (100%), ataque à distância cai para 80% (−20%) e habilidades para 60% (−40%). A esquiva do alvo cai 20%.',
+    },
+  ];
+  /** Saved sims usable as PVP targets (those carrying a cached targetProfile). */
+  pvpTargets: SavedSimulation[] = [];
+  selectedPvpTargetId: string | null = null;
+  /** The solved attacker-vs-target summary that feeds the PVP battle HUD. */
+  pvpSummary: any = null;
   showShareDialog = false;
   shareUrl = '';
   shareShortening = false;
@@ -250,6 +277,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   isCalculating = false;
   private calculator = new Calculator();
   private calculator2 = new Calculator();
+  private calculatorPvp = new Calculator();
   private controller = new CalculatorController();
   private calcStorage = new CalcStorage(localStorage);
   private stateCalculator = new BaseStateCalculator();
@@ -592,6 +620,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
         this.calculator.setMasterItems(items).setHpSpTable(hpSpTable);
         this.calculator2.setMasterItems(items).setHpSpTable(hpSpTable);
+        this.calculatorPvp.setMasterItems(items).setHpSpTable(hpSpTable);
+        this.refreshPvpTargets();
 
         const ens = [] as DropdownModel[];
         this.mapEnchant = new Map(
@@ -661,7 +691,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.selectedColumns = defaultCols;
   }
 
-  private prepare(calculator: Calculator, compareModel?: any) {
+  private prepare(calculator: Calculator, compareModel?: any, pvpTarget?: PlayerTargetProfile, pvpMode?: PvpMode) {
     const { activeSkills, passiveSkills, selectedAtkSkill } = this.model;
     const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = this.selectedCharacter
       .setLearnSkills({
@@ -771,6 +801,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
     this.controller.runChain(calc, {
       monster: this.monsterDataMap[this.selectedMonster],
+      playerTarget: pvpTarget,
+      pvpMode,
       equipAtks,
       masteryAtks,
       buffEquips,
@@ -829,6 +861,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // this.possiblyDamages = calc.getPossiblyDamages().map((a) => ({ label: `${a}`, value: a }));
 
     this.calculateToSelectedMonsters();
+
+    // Keep the PVP tab live as the attacker build changes.
+    if (this.selectedPvpTargetId) this.calculatePvp();
   }
 
   private calcCompare() {
@@ -1076,7 +1111,16 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       const ok = await this.waitConfirm(`Já existe uma simulação chamada "${name}". Substituir?`);
       if (!ok) return;
     }
-    this.savedSimStore.upsert(name, this.currentPreset());
+    // Cache the build's PVP defensive profile from the already-solved calculator
+    // so it can be picked as an enemy target without re-solving (docs/pvp.md §3).
+    let targetProfile: PlayerTargetProfile | undefined;
+    try {
+      targetProfile = this.calculator.getAsPlayerTarget(name);
+    } catch (err) {
+      console.error('Falha ao computar o perfil de alvo PVP', err);
+    }
+    this.savedSimStore.upsert(name, this.currentPreset(), targetProfile);
+    this.refreshPvpTargets();
     this.showSaveDialog = false;
     this.messageService.add({ severity: 'success', summary: 'Simulação salva', detail: name });
   }
@@ -1108,6 +1152,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     if (!ok) return;
     this.savedSimStore.remove(sim.id);
     this.savedSims = this.savedSimStore.list();
+    // Keep the PVP target list in sync — refreshPvpTargets clears the selection
+    // and the HUD if the deleted sim was the current target.
+    this.refreshPvpTargets();
     this.messageService.add({ severity: 'info', summary: 'Simulação excluída', detail: sim.name });
   }
 
@@ -1121,6 +1168,100 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         this.messageService.add({ severity: 'success', summary: 'Nova simulação', detail: 'Tudo foi limpo.' });
       },
     });
+  }
+
+  // --- PVP ------------------------------------------------------------------
+  /** Every saved sim is a possible PVP target. Ones saved before profiles were
+   *  cached get their profile solved on demand when selected (buildProfileFromPreset). */
+  refreshPvpTargets(): void {
+    this.pvpTargets = this.savedSimStore.list();
+    if (this.selectedPvpTargetId && !this.pvpTargets.some((t) => t.id === this.selectedPvpTargetId)) {
+      this.selectedPvpTargetId = null;
+      this.pvpSummary = null;
+    }
+  }
+
+  /** Solve an old saved sim on demand to produce its PVP target profile (for sims
+   *  saved before profiles were cached). Mirrors prepare()'s non-compare solve,
+   *  but for the preset's OWN class/build on the throwaway calculatorPvp — so the
+   *  main build is untouched. Returns null if the class/build can't be resolved. */
+  private buildProfileFromPreset(sim: SavedSimulation): PlayerTargetProfile | null {
+    try {
+      const classInstance = Characters.find((c) => c.value === Number(sim.preset.class))?.['instant'] as CharacterBase;
+      if (!classInstance) return null;
+      const model = { ...createMainModel(), ...sim.preset } as any;
+      const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = classInstance
+        .setLearnSkills({ activeSkillIds: model.activeSkills ?? [], passiveSkillIds: model.passiveSkills ?? [] })
+        .getSkillBonusAndName();
+      const { scripts: consumeData, usedHpL } = collectConsumables(model, this.items);
+      const { aspdPotion, buffBonuses } = applyGuaranaCandy({
+        consumables: model.consumables,
+        aspdPotion: model.aspdPotion,
+        buffDefs: this.skillBuffs,
+        selectedBuffValues: model.skillBuffs,
+        activeSkillNames,
+        buffBonuses: collectBuffBonuses(this.skillBuffs, model.skillBuffs, activeSkillNames),
+      });
+      const { equipAtk: buffEquips, masteryAtk: buffMasterys } = buffBonuses;
+      model.rawOptionTxts = toRawOptionTxtList(model, this.items);
+      this.calculatorPvp.setClass(classInstance).loadItemFromModel(model);
+      this.controller.runChain(this.calculatorPvp, {
+        monster: this.monsterDataMap[this.selectedMonster],
+        equipAtks, masteryAtks, buffEquips, buffMasterys, consumeData, aspdPotion,
+        extraOptionScripts: parseOptionScripts(model.rawOptionTxts),
+        activeSkillNames, learnedSkillMap,
+        selectedAtkSkill: model.selectedAtkSkill, selectedChances: [], usedHpL,
+      });
+      return this.calculatorPvp.getAsPlayerTarget(sim.name);
+    } catch (err) {
+      console.error('Falha ao solver o alvo PVP', err);
+      return null;
+    }
+  }
+
+  get selectedPvpTarget(): SavedSimulation | undefined {
+    return this.pvpTargets.find((t) => t.id === this.selectedPvpTargetId);
+  }
+
+  /** Paper-doll URL for the selected PVP target (its saved build's appearance). */
+  get pvpTargetSpriteUrl(): string | null {
+    const t = this.selectedPvpTarget;
+    return t ? this.charSpriteUrl(t.preset) : null;
+  }
+
+  /** Bare-job fallback if the composed target paper-doll fails to load. */
+  get pvpTargetFallbackSprite(): string | null {
+    const t = this.selectedPvpTarget;
+    return t ? bareJobSprite(t.classId) : null;
+  }
+
+  /** Recompute the PVP damage for the current attacker build vs the selected
+   *  target + mode. Uses a dedicated calculator so the main build is untouched. */
+  calculatePvp(): void {
+    const sim = this.selectedPvpTarget;
+    if (!sim) {
+      this.pvpSummary = null;
+      return;
+    }
+    // Old sims lack a cached profile — solve it once, on demand, and cache it
+    // back WITHOUT re-timestamping/reordering the sim (setTargetProfile, not upsert).
+    let profile = sim.targetProfile;
+    if (!profile) {
+      profile = this.buildProfileFromPreset(sim);
+      if (profile) {
+        this.savedSimStore.setTargetProfile(sim.id, profile);
+        sim.targetProfile = profile;
+      }
+    }
+    if (!profile) {
+      this.pvpSummary = null;
+      this.messageService.add({ severity: 'warn', summary: 'Não foi possível carregar o alvo', detail: 'Abra essa simulação e salve de novo.' });
+      return;
+    }
+    // buildProfileFromPreset above may have left the shared class instance /
+    // calculatorPvp in the target's state — prepare() re-sets both to the attacker.
+    const calc = this.prepare(this.calculatorPvp, undefined, profile, this.pvpMode);
+    this.pvpSummary = calc.getTotalSummary();
   }
 
   openShareDialog(): void {

@@ -117,6 +117,36 @@ describe('Calculator', () => {
     expect(calculator).toBeTruthy();
   });
 
+  // Phase 1 (PVP): the defender-side reduction keys must aggregate on
+  // totalEquipStatus just like any other script bonus. No application logic yet
+  // — this only guards that the namespace exists and sums. See docs/pvp.md §4.
+  describe('defender-side reduction bonuses (PVP namespace)', () => {
+    const defenderItems = (): Record<number, Partial<ItemModel>> => ({
+      // headgear granting "reduces phys+magic damage from players by 5%" (Thanatos-mask shape)
+      500: { id: 500, name: 'Reduc Head', itemTypeId: ItemTypeId.ARMOR, defense: 3, script: { dmg_taken_all: ['5'] } },
+      // armor stacking a race + element reduction
+      501: { id: 501, name: 'Reduc Armor', itemTypeId: ItemTypeId.ARMOR, defense: 10, script: { subrace_player_human: ['7'], subele_neutral: ['4'] } },
+      // a second piece adding more of the same key, to prove summation
+      502: { id: 502, name: 'Reduc Garment', itemTypeId: ItemTypeId.ARMOR, defense: 5, script: { dmg_taken_all: ['3'], subele_neutral: ['6'] } },
+    });
+
+    it('aggregates dmg_taken_all / subrace / subele across pieces', () => {
+      const calc = new Calculator();
+      calc.setMasterItems(defenderItems() as any).setHpSpTable(mockHpSpTable).setClass(mockCharacter).setMonster(mockMonster);
+      const model = createMainModel();
+      model.level = 100;
+      model.headUpper = 500;
+      model.armor = 501;
+      model.garment = 502;
+      calc.loadItemFromModel(model).prepareAllItemBonus();
+
+      const total = (calc as any).totalEquipStatus;
+      expect(total.dmg_taken_all).toBe(8); // 5 + 3
+      expect(total.subrace_player_human).toBe(7);
+      expect(total.subele_neutral).toBe(10); // 4 + 6
+    });
+  });
+
   // Sigrun shadow set: Malha (24326, armor) + Escudo (24327, shield). Loads the
   // REAL scripts from item.json so it guards the shipped data. For a Swordman/
   // Thief/Taekwon-line class with both pieces equipped and set refine sum >= 17,

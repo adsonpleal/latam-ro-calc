@@ -87,7 +87,19 @@ html {
   font-weight: 700;
   font-size: 0.95rem;
 }
-.item_desc_tooltip.p-tooltip .p-tooltip-arrow {
+/* Colour ONLY the border that forms the arrow for each tooltip position. The
+   arrow is a CSS border-triangle, so the two perpendicular borders must stay
+   transparent — colouring them (as a blanket left+right rule did) turns the
+   triangle into a square whenever the tooltip sits above/below its target. */
+.item_desc_tooltip.p-tooltip-right .p-tooltip-arrow {
   border-right-color: #ffffff;
+}
+.item_desc_tooltip.p-tooltip-left .p-tooltip-arrow {
   border-left-color: #ffffff;
+}
+.item_desc_tooltip.p-tooltip-top .p-tooltip-arrow {
+  border-top-color: #ffffff;
+}
+.item_desc_tooltip.p-tooltip-bottom .p-tooltip-arrow {
+  border-bottom-color: #ffffff;
 }

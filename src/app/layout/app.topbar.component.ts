@@ -103,6 +103,14 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.21-beta',
+      date: '20-07-2026',
+      logs: [
+        'Nova seção PVP: escolha o modo (PVP, WOE ou WOE TE) e um oponente a partir das suas simulações salvas para ver o dano de verdade contra outro jogador. Diferente do dano contra monstro, aqui entram as defesas do alvo pelas fórmulas de jogador (DEF suave, RES, esquiva) e as reduções que o equipamento dele concede. Dentro dos castelos vale ainda a redução da guerra: no castelo normal todo o dano cai para 30%; no TE, o corpo a corpo fica cheio, o ataque à distância cai para 80% e as habilidades para 60%, e a esquiva do alvo cai 20% nos dois. Todas as suas simulações salvas já aparecem como alvo. (Fórmulas e testes em campo por Luís.)',
+        'Passei a mapear reduções de dano recebido que antes eram ignoradas: a Máscara de Odium, por exemplo, reduz em 5% o dano físico e mágico recebido de jogadores. Esse tipo de efeito só importa no PVP e vai sendo cadastrado aos poucos. (Por Luís.)',
+      ],
+    },
+    {
       v: '0.1.20-beta',
       date: '20-07-2026',
       logs: [

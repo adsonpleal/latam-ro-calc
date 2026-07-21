@@ -9,6 +9,7 @@
  */
 import { PresetModel } from '../api-services/models/preset-model';
 import { StorageLike } from './calc-storage';
+import { PlayerTargetProfile } from './pvp';
 
 const SAVES_KEY = 'ro-saves';
 
@@ -19,6 +20,12 @@ export interface SavedSimulation {
   classId: number;
   savedAt: number;
   preset: PresetModel;
+  /**
+   * PVP: the build's defensive profile as an enemy player, computed from the
+   * solved build at save time (see docs/pvp.md §3). Absent on sims saved before
+   * the PVP feature — those must be re-saved to be usable as a PVP target.
+   */
+  targetProfile?: PlayerTargetProfile;
 }
 
 const newId = (): string => {
@@ -52,7 +59,7 @@ export class SavedSimulationStore {
   }
 
   /** Create or overwrite (by case-insensitive name) and return the saved entry. */
-  upsert(name: string, preset: PresetModel): SavedSimulation {
+  upsert(name: string, preset: PresetModel, targetProfile?: PlayerTargetProfile): SavedSimulation {
     const trimmed = name.trim();
     const n = trimmed.toLowerCase();
     const list = this.list();
@@ -63,10 +70,24 @@ export class SavedSimulationStore {
       classId: Number(preset.class) || 0,
       savedAt: Date.now(),
       preset,
+      targetProfile,
     };
     const next = existing ? list.map((s) => (s.id === existing.id ? entry : s)) : [entry, ...list];
     this.writeAll(next);
     return entry;
+  }
+
+  /**
+   * Attach/replace a sim's cached PVP target profile WITHOUT touching its
+   * `savedAt` or ordering — used when a profile is solved lazily on selection,
+   * which must not re-timestamp or reorder the sim. No-op if the id is gone.
+   */
+  setTargetProfile(id: string, targetProfile: PlayerTargetProfile): void {
+    const list = this.list();
+    const entry = list.find((s) => s.id === id);
+    if (!entry) return;
+    entry.targetProfile = targetProfile;
+    this.writeAll(list);
   }
 
   remove(id: string): void {

@@ -1845,6 +1845,147 @@
         </div>
       </p-accordionTab>
 
+      <p-accordionTab header="PVP">
+        <div class="grid grid-nogutter battle_summary">
+          <div class="col-12">
+            <div class="hud-selectors-row">
+              <!-- Mode -->
+              <div class="hud-selectors-col">
+                <p-selectButton
+                  [options]="pvpModeOptions"
+                  [(ngModel)]="pvpMode"
+                  optionLabel="label"
+                  optionValue="value"
+                  (onChange)="calculatePvp()"
+                >
+                  <ng-template let-item pTemplate="item">
+                    <span
+                      [pTooltip]="item.tooltip"
+                      [escape]="false"
+                      tooltipPosition="top"
+                      [showDelay]="300"
+                      tooltipStyleClass="item_desc_tooltip"
+                      style="display: block; width: 100%; text-align: center"
+                      >{{ item.label }}</span
+                    >
+                  </ng-template>
+                </p-selectButton>
+              </div>
+
+              <!-- Target (saved simulation) -->
+              <div class="hud-selectors-col">
+                <div class="p-inputgroup">
+                  <p-dropdown
+                    inputId="pvpTargetHud"
+                    [autoDisplayFirst]="false"
+                    [resetFilterOnHide]="true"
+                    [options]="pvpTargets"
+                    optionLabel="name"
+                    optionValue="id"
+                    [filter]="true"
+                    filterBy="name"
+                    filterPlaceholder="Buscar alvo"
+                    scrollHeight="400px"
+                    placeholder="Selecione um alvo salvo"
+                    [showClear]="true"
+                    [(ngModel)]="selectedPvpTargetId"
+                    (onChange)="calculatePvp()"
+                  ></p-dropdown>
+                </div>
+              </div>
+
+              <!-- Skill -->
+              <div class="hud-selectors-col" style="position: relative">
+                <div class="skill-selection" [hidden]="isShowSelectableSkillLevel">
+                  <div class="p-inputgroup">
+                    <p-dropdown
+                      inputId="skillPvpHud"
+                      [autoDisplayFirst]="false"
+                      [resetFilterOnHide]="true"
+                      [options]="atkSkills"
+                      scrollHeight="400px"
+                      placeholder="Habilidade"
+                      [(ngModel)]="model.selectedAtkSkill"
+                      (onChange)="onAtkSkillChange()"
+                    >
+                      <ng-template let-skill pTemplate="selectedItem">
+                        <div class="flex align-items-center gap-1" [pTooltip]="skillTooltip(skill)" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip">
+                          <img *ngIf="skill?.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                          <span>{{ skill?.label }}</span>
+                        </div>
+                      </ng-template>
+                      <ng-template let-skill pTemplate="item">
+                        <div class="flex align-items-center gap-1" [pTooltip]="skillTooltip(skill)" [escape]="false" tooltipPosition="right" [showDelay]="400" tooltipStyleClass="item_desc_tooltip">
+                          <img *ngIf="skill.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                          <span>{{ skill.label }}</span>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="skill-selection" [hidden]="!isShowSelectableSkillLevel">
+                  <div class="p-inputgroup">
+                    <p-cascadeSelect
+                      inputId="skillPvpHudLevel"
+                      [(ngModel)]="model.selectedAtkSkill"
+                      [options]="atkSkillCascades"
+                      optionValue="value"
+                      optionLabel="label"
+                      optionGroupLabel="label"
+                      [optionGroupChildren]="['levelList']"
+                      placeholder="Habilidade"
+                      (onChange)="onAtkSkillChange()"
+                    >
+                      <ng-template pTemplate="option" let-option>
+                        <div class="flex align-items-center gap-1" [pTooltip]="option?.icon ? skillTooltip(option) : ''" [escape]="false" tooltipPosition="right" [showDelay]="400" tooltipStyleClass="item_desc_tooltip">
+                          <img *ngIf="option?.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                          <span>{{ option.label }}</span>
+                        </div>
+                      </ng-template>
+                    </p-cascadeSelect>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Empty state -->
+          <div class="col-12" *ngIf="pvpTargets.length === 0">
+            <p class="pvp-empty-message">
+              Nenhuma simulação salva pode ser usada como alvo ainda. Monte a build do oponente, use
+              <b>Salvar</b> na barra superior e ela aparecerá aqui. Simulações salvas antes desta atualização
+              precisam ser salvas de novo para virarem alvo de PVP.
+            </p>
+          </div>
+
+          <!-- Battle HUD (only when a target is solved) -->
+          <div class="col-12" *ngIf="pvpSummary">
+            <app-battle-hud
+              [totalSummary]="pvpSummary"
+              [totalSummary2]="null"
+              [isEnableCompare]="false"
+              [isCalculating]="isCalculating"
+              [isInProcessingPreset]="isInProcessingPreset"
+              [selectedChances]="selectedChances"
+              (selectedChancesChange)="selectedChances = $event; onSelecteChance($event)"
+              [chanceList]="chanceList"
+              [model]="model"
+              [hideBasicAtk]="hideBasicAtk"
+              [showLeftWeapon]="showLeftWeapon"
+              [selectedMonster]="0"
+              [selectedMonsterName]="selectedPvpTarget?.name"
+              [spriteUrlOverride]="pvpTargetSpriteUrl"
+              [spriteFallbackUrl]="pvpTargetFallbackSprite"
+              [compareItemNames]="compareItemNames"
+              [canBreakdownFn]="canBreakdown"
+              [isBreakdownOpen]="isShowBonusBreakdown"
+              (showElementTableClick)="onShowElementalTableClick()"
+              (showBonusBreakdownClick)="showBonusBreakdown($event)"
+            ></app-battle-hud>
+          </div>
+        </div>
+      </p-accordionTab>
+
       <p-accordionTab header="Resumo de Batalha">
         <div class="grid grid-nogutter battle_summary">
           <div class="col-12">

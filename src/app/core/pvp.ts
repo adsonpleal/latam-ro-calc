@@ -1,0 +1,145 @@
+import { EquipmentSummaryModel } from '../models/equipment-summary.model';
+
+/**
+ * PVP damage math — pure functions, no engine state. See docs/pvp.md.
+ *
+ * Two independent layers reduce vs-player damage on top of the normal
+ * attack/DEF/RES pipeline:
+ *   1. The DEFENDER's own gear reductions (subrace/subele/subsize/subclass +
+ *      flat dmg_taken) — always apply, in every mode.
+ *   2. The WoE-castle global reduction — only inside a castle, per damage
+ *      channel. Validated by Luís vs bROwiki + hours of in-castle testing.
+ * rAthena is only a secondary naming reference here, never the authority.
+ */
+
+export type PvpMode = 'none' | 'pvp' | 'woe' | 'woe-te';
+
+/**
+ * A player used as a damage TARGET. Carries the defender's already-computed
+ * defensive stats (player formulas, not monster formulas — see docs/pvp.md §1)
+ * plus the aggregated reduction bonuses from its gear. Produced by the headless
+ * target builder from a saved simulation.
+ */
+export interface PlayerTargetProfile {
+  name: string;
+  level: number;
+  hp: number;
+  def: number;
+  softDef: number;
+  mdef: number;
+  softMdef: number;
+  res: number;
+  mres: number;
+  /** The target's total flee (esquiva) before any castle reduction. */
+  flee: number;
+  str: number;
+  agi: number;
+  dex: number;
+  vit: number;
+  int: number;
+  luk: number;
+  /** The target's aggregated defender-side reductions (its totalEquipStatus). */
+  defenderBonus: Partial<EquipmentSummaryModel>;
+}
+
+/**
+ * The active PVP context threaded into the damage pipeline. `mode: 'none'` means
+ * the normal vs-monster path — the reduction stages are skipped entirely.
+ */
+export interface PvpContext {
+  mode: PvpMode;
+  /** The ATTACKER's race, for the defender's subrace_* lookup. */
+  attackerRace: 'player_human' | 'player_doram';
+  defenderBonus: Partial<EquipmentSummaryModel>;
+}
+
+export const DEFAULT_PVP_CONTEXT: PvpContext = { mode: 'none', attackerRace: 'player_human', defenderBonus: {} };
+
+/** Key prefixes that make up the defender-reduction namespace (docs/pvp.md §4). */
+const DEFENDER_KEY_PREFIXES = ['subrace_', 'subele_', 'subsize_', 'subclass_', 'dmg_taken_'];
+
+/** Extract only the defender-reduction bonuses from an aggregated bonus map. */
+export function pickDefenderBonus(totalBonus: Record<string, number>): Partial<EquipmentSummaryModel> {
+  const out: Record<string, number> = {};
+  for (const [key, value] of Object.entries(totalBonus)) {
+    if (value && DEFENDER_KEY_PREFIXES.some((p) => key.startsWith(p))) out[key] = value;
+  }
+  return out as Partial<EquipmentSummaryModel>;
+}
+
+/**
+ * Luís: "dano físico normal" = basic melee (atq básico, golpe titânico, duplo…);
+ * "ataque a distância" = basic BOW attack only; "habilidade" = every skill
+ * (physical OR magical). So only basic attacks split melee/ranged — all skills
+ * fall in the `skill` bucket regardless of range.
+ */
+export type PvpDamageChannel = 'phys_melee' | 'phys_ranged' | 'skill';
+
+/**
+ * Global castle-reduction layer, as a fraction of the damage dealt (1 = no
+ * reduction). This is the "última linha" Luís described: "asuro 1kk no PVP →
+ * 300k dentro do castelo" (skill ×0,30 in a normal castle). See docs/pvp.md §2.
+ */
+const WOE_LAYER: Record<Exclude<PvpMode, 'none'>, Record<PvpDamageChannel, number>> = {
+  // Open PVP: no castle aura — only the target's own gear reductions apply.
+  pvp: { phys_melee: 1, phys_ranged: 1, skill: 1 },
+  // Normal castle: −70% across the board.
+  woe: { phys_melee: 0.3, phys_ranged: 0.3, skill: 0.3 },
+  // TE castle: melee full, ranged −20%, skills −40%.
+  'woe-te': { phys_melee: 1, phys_ranged: 0.8, skill: 0.6 },
+};
+
+/** The WoE-castle global multiplier for a mode + channel (1 = no reduction). */
+export function woeGlobalMultiplier(mode: PvpMode, channel: PvpDamageChannel): number {
+  if (mode === 'none') return 1;
+  return WOE_LAYER[mode][channel];
+}
+
+/** Flee reduction applied to the target inside castle modes (−20% esquiva). */
+export function woeFleeMultiplier(mode: PvpMode): number {
+  return mode === 'woe' || mode === 'woe-te' ? 0.8 : 1;
+}
+
+/** Classify an outgoing hit into its PVP channel. */
+export function pvpChannelOf(params: { isSkill: boolean; isMelee: boolean }): PvpDamageChannel {
+  if (params.isSkill) return 'skill';
+  return params.isMelee ? 'phys_melee' : 'phys_ranged';
+}
+
+export interface DefenderReductionInput {
+  /** The defender's aggregated gear bonuses (target's totalEquipStatus). */
+  bonus: Partial<EquipmentSummaryModel>;
+  dmgType: 'physical' | 'magical';
+  /** The ATTACKER's race for subrace lookup (player_human / player_doram). */
+  attackerRace: string;
+  /** The property element of the incoming attack (neutral, fire, …). */
+  attackerElement: string;
+  /** Players are Medium. */
+  attackerSize: 's' | 'm' | 'l';
+  /** Players are Normal class. */
+  attackerType: 'normal' | 'boss';
+}
+
+/**
+ * Combined defender-gear reduction, as a fraction of damage dealt (1 = none).
+ *
+ * Within a category the matching values sum (e.g. `subele_all + subele_neutral`);
+ * across categories they combine multiplicatively — matching how Luís lists them
+ * as separate reductions on the player (raça / elemento / tamanho / …). Each
+ * category is clamped to ≤100% so a single category can't flip damage negative.
+ * The cross-category model is a V1 assumption to revisit with Luís (docs/pvp.md §6).
+ */
+export function defenderReductionMultiplier(input: DefenderReductionInput): number {
+  const b = input.bonus as Record<string, number | undefined>;
+  const v = (key: string) => b[key] || 0;
+
+  const race = v('subrace_all') + v(`subrace_${input.attackerRace}`);
+  const ele = v('subele_all') + v(`subele_${input.attackerElement}`);
+  const size = v('subsize_all') + v(`subsize_${input.attackerSize}`);
+  const cls = v('subclass_all') + v(`subclass_${input.attackerType}`);
+  const flat = v('dmg_taken_all') + v(input.dmgType === 'physical' ? 'dmg_taken_physical' : 'dmg_taken_magical');
+
+  const factor = (pct: number) => 1 - Math.min(pct, 100) / 100;
+
+  return factor(race) * factor(ele) * factor(size) * factor(cls) * factor(flat);
+}

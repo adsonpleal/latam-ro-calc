@@ -1,4 +1,5 @@
 import { ElementType, RED_AURA_MVP_IDS } from '../constants';
+import { PlayerTargetProfile } from '../core/pvp';
 import { MonsterModel } from '../models/monster.model';
 import { firstUppercase, floor } from '../utils';
 
@@ -186,6 +187,54 @@ export class Monster {
       luk,
       res,
       mres,
+    };
+
+    return this;
+  }
+
+  /**
+   * Configure this target as a PLAYER (PVP). Unlike setData, the defensive stats
+   * are NOT recomputed from monster formulas — they arrive already computed with
+   * the player formulas (see calculator.calcAllDefs / HpSpCalculator). Players
+   * are fixed as Normal / Medium / Neutral; the race is left as DemiHuman so the
+   * attacker's existing anti-DemiHuman offensive gear applies (V1 — the RC_Player
+   * distinction is a pending refinement, see docs/pvp.md §6). `hitRequireFor100`
+   * is the target's effective flee (already castle-adjusted by the caller).
+   */
+  setPlayerTargetData(profile: PlayerTargetProfile, hitRequireFor100: number) {
+    this._monster = { id: -1, name: profile.name, spawn: '' } as any;
+    this._monsterData = {
+      name: profile.name,
+      level: profile.level,
+      element: 'neutral',
+      elementUpper: ElementType.Neutral,
+      elementName: 'Neutral 1',
+      elementLevelN: 1,
+      elementLevelUpper: 'Neutral 1',
+      race: 'demihuman',
+      raceUpper: 'DemiHuman',
+      size: 'm',
+      sizeUpper: 'M',
+      sizeFullUpper: 'Medium',
+      type: 'normal',
+      isMvp: false,
+      isRedAura: false,
+      typeUpper: 'Normal',
+      hp: profile.hp,
+      def: profile.def,
+      softDef: profile.softDef,
+      mdef: profile.mdef,
+      softMDef: profile.softMdef,
+      criShield: floor(profile.luk / 5),
+      hitRequireFor100,
+      str: profile.str,
+      agi: profile.agi,
+      dex: profile.dex,
+      vit: profile.vit,
+      int: profile.int,
+      luk: profile.luk,
+      res: profile.res,
+      mres: profile.mres,
     };
 
     return this;

@@ -211,6 +211,50 @@ export interface EquipmentSummaryModel {
   pene_mres_race_angel: number;
   pene_mres_race_dragon: number;
 
+  // --- Defender-side reductions (PVP) --------------------------------------
+  // These describe the reduction the DEFENDER's gear grants against incoming
+  // damage. They aggregate on the target's own totalEquipStatus and are only
+  // consumed when a player target is active (see docs/pvp.md §4). The suffix is
+  // the ATTACKER's race/element/size/class. Percentages (0-100).
+  dmg_taken_physical: number;
+  dmg_taken_magical: number;
+  dmg_taken_all: number;
+
+  subele_all: number;
+  subele_neutral: number;
+  subele_water: number;
+  subele_earth: number;
+  subele_fire: number;
+  subele_wind: number;
+  subele_poison: number;
+  subele_holy: number;
+  subele_dark: number;
+  subele_ghost: number;
+  subele_undead: number;
+
+  subsize_all: number;
+  subsize_s: number;
+  subsize_m: number;
+  subsize_l: number;
+
+  subclass_all: number;
+  subclass_normal: number;
+  subclass_boss: number;
+
+  subrace_all: number;
+  subrace_formless: number;
+  subrace_undead: number;
+  subrace_brute: number;
+  subrace_plant: number;
+  subrace_insect: number;
+  subrace_fish: number;
+  subrace_demon: number;
+  subrace_demihuman: number;
+  subrace_angel: number;
+  subrace_dragon: number;
+  subrace_player_human: number;
+  subrace_player_doram: number;
+
   // Other from skill
   forceCri?: number;
   magnumBreakPsedoBonus?: number;

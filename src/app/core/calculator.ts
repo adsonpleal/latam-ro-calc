@@ -10,8 +10,9 @@ import {
 } from 'src/app/constants';
 import { SKILL_NAME } from 'src/app/constants/skill-name';
 import { Monster, Weapon } from 'src/app/domain';
-import { CharacterBase } from 'src/app/jobs';
+import { CharacterBase, Doram } from 'src/app/jobs';
 import { resolveSkillById, SKILL_ID_BY_NAME } from 'src/app/skills';
+import { DEFAULT_PVP_CONTEXT, pickDefenderBonus, PlayerTargetProfile, PvpContext, PvpMode, woeFleeMultiplier } from './pvp';
 import { bonusKeyLabel } from 'src/app/core/bonus-key-label';
 import { createRawTotalBonus, floor, HEAD_SLOTS, isNumber, round } from 'src/app/utils';
 import { ChanceModel } from 'src/app/models/chance-model';
@@ -171,6 +172,7 @@ export class Calculator {
   private skillName: SKILL_NAME = '' as any;
   private allStatus = createRawTotalBonus();
   private totalEquipStatus = createRawTotalBonus();
+  private pvpContext: PvpContext = { ...DEFAULT_PVP_CONTEXT };
   private equipStatus: Partial<Record<ItemTypeEnum, EquipmentSummaryModel>> = {
     weapon: { ...this.allStatus },
     weaponCard1: { ...this.allStatus },
@@ -381,6 +383,23 @@ export class Calculator {
 
   setMonster(monster: MonsterModel) {
     this.monster.setData(monster);
+    // Leaving PVP: the vs-monster path must never carry a stale PVP context.
+    this.pvpContext = { ...DEFAULT_PVP_CONTEXT };
+
+    return this;
+  }
+
+  /**
+   * Configure the target as another player (PVP). The profile carries the
+   * target's already-computed defenses (see docs/pvp.md); `mode` selects the
+   * castle reduction layer. The attacker's own race (player_human/doram) is
+   * derived from the equipped class for the defender's subrace_* lookup.
+   */
+  setPlayerTarget(profile: PlayerTargetProfile, mode: PvpMode) {
+    const effectiveFlee = Math.round(profile.flee * woeFleeMultiplier(mode));
+    this.monster.setPlayerTargetData(profile, effectiveFlee);
+    const attackerRace = this._class instanceof Doram ? 'player_doram' : 'player_human';
+    this.pvpContext = { mode, attackerRace, defenderBonus: profile.defenderBonus };
 
     return this;
   }
@@ -603,6 +622,7 @@ export class Calculator {
         weaponData: this.weaponData,
         aspdPotion: this.aspdPotion,
         leftWeaponData: this.leftWeaponData,
+        pvp: this.pvpContext,
       })
       .setAmmoPropertyAtk(this.equipItem.get(ItemTypeEnum.ammo)?.propertyAtk);
 
@@ -1593,6 +1613,36 @@ export class Calculator {
   getMonsterSummary() {
     return {
       monster: { ...this.monster.data }
+    };
+  }
+
+  /**
+   * Turn THIS fully-solved build into a PVP target profile — the bridge from a
+   * saved simulation to an enemy player (see docs/pvp.md §3). Reads the build's
+   * own computed defenses (player formulas via calcAllDefs / HpSpCalculator), its
+   * flee, and the defender-reduction bonuses its gear grants. Call after a full
+   * solve (e.g. via CalculatorController.runChain against any monster).
+   */
+  getAsPlayerTarget(name: string): PlayerTargetProfile {
+    const s = this.dmgCalculator.status;
+    return {
+      name,
+      level: this.model.level ?? 1,
+      hp: this.maxHp,
+      def: this.def,
+      softDef: this.softDef,
+      mdef: this.mdef,
+      softMdef: this.softMdef,
+      res: this.res,
+      mres: this.mres,
+      flee: (this.miscSummary as any)?.totalFlee ?? 0,
+      str: s.totalStr,
+      agi: s.totalAgi,
+      dex: s.totalDex,
+      vit: s.totalVit,
+      int: s.totalInt,
+      luk: s.totalLuk,
+      defenderBonus: pickDefenderBonus(this.totalEquipStatus as unknown as Record<string, number>),
     };
   }
 

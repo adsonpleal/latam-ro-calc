@@ -1,6 +1,7 @@
 import { MainModel } from 'src/app/models/main.model';
 import { MonsterModel } from 'src/app/models/monster.model';
 import { Calculator } from './calculator';
+import { PlayerTargetProfile, PvpMode } from './pvp';
 
 /**
  * Framework-free orchestration for the calculator.
@@ -169,6 +170,10 @@ export function collectBuffBonuses(buffDefs: BuffDef[], selectedValues: any[], a
 /** Everything the fluent solve pipeline needs once items are loaded. */
 export interface CalcChainInput {
   monster: MonsterModel;
+  /** PVP: when set, the target is a player and this profile replaces `monster`. */
+  playerTarget?: PlayerTargetProfile;
+  /** PVP mode selecting the castle reduction layer (defaults to open PVP). */
+  pvpMode?: PvpMode;
   equipAtks: Record<string, any>;
   masteryAtks: Record<string, any>;
   buffEquips: Record<string, any>;
@@ -190,8 +195,14 @@ export class CalculatorController {
    * This is the single place the whole computed state is produced.
    */
   runChain(calc: Calculator, input: CalcChainInput): Calculator {
+    // PVP: a player target replaces the monster (setPlayerTarget also arms the
+    // reduction context). Otherwise the normal vs-monster path.
+    if (input.playerTarget) {
+      calc.setPlayerTarget(input.playerTarget, input.pvpMode ?? 'pvp');
+    } else {
+      calc.setMonster(input.monster);
+    }
     return calc
-      .setMonster(input.monster)
       .setEquipAtkSkillAtk(input.equipAtks)
       .setBuffBonus({ masteryAtk: input.buffMasterys, equipAtk: input.buffEquips })
       .setMasterySkillAtk(input.masteryAtks)

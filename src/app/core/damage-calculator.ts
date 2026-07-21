@@ -10,6 +10,7 @@ import { MainModel } from 'src/app/models/main.model';
 import { StatusSummary } from 'src/app/models/status-summary.model';
 import { SKILL_ID_BY_NAME } from 'src/app/skills';
 import { calcDmgDps, calcSkillAspd, floor, formatCalcNumber, isSkillCanEDP, round } from 'src/app/utils';
+import { DEFAULT_PVP_CONTEXT, PvpContext, defenderReductionMultiplier, pvpChannelOf, woeGlobalMultiplier } from './pvp';
 
 interface DamageResultModel {
   minDamage: number;
@@ -44,6 +45,9 @@ export class DamageCalculator {
   totalBonus: EquipmentSummaryModel;
   private _totalEquipStatus: EquipmentSummaryModel;
   private model: Partial<MainModel>;
+  private pvp: PvpContext = { ...DEFAULT_PVP_CONTEXT };
+  /** The resolved element of the basic attack, for the PVP subele lookup. */
+  private basicPropertyAtk: ElementType = ElementType.Neutral;
 
   private equipAtkSkillBonus: Record<string, any> = {};
   private buffMasteryAtkBonus: Record<string, any> = {};
@@ -123,6 +127,7 @@ export class DamageCalculator {
     weaponData: Weapon;
     leftWeaponData: Weapon;
     aspdPotion: number;
+    pvp?: PvpContext;
   }) {
     const {
       equipStatus,
@@ -139,7 +144,9 @@ export class DamageCalculator {
       weaponData,
       leftWeaponData,
       aspdPotion,
+      pvp,
     } = params;
+    this.pvp = pvp ?? { ...DEFAULT_PVP_CONTEXT };
     this.equipStatus = equipStatus;
     this._totalEquipStatus = totalEquipStatus;
     this.totalBonus = { ...totalEquipStatus };
@@ -595,6 +602,28 @@ export class DamageCalculator {
     const mresReduction = (2000 + restMres) / (2000 + restMres * 5);
 
     return { dmgReductionByMHardDef, mresReduction, mDefBypassed, restMres };
+  }
+
+  /**
+   * The final vs-player reduction multiplier (1 = no reduction), combining the
+   * target's own gear reductions with the WoE-castle global layer. Applied as
+   * the "última linha" of the per-hit formula (see docs/pvp.md §2/§4). Returns 1
+   * whenever no player target is active, so the vs-monster path is untouched.
+   */
+  private getPvpFinalMultiplier(params: { dmgType: 'physical' | 'magical'; isSkill: boolean; isMelee: boolean; attackElement: string }): number {
+    if (this.pvp.mode === 'none') return 1;
+
+    const defender = defenderReductionMultiplier({
+      bonus: this.pvp.defenderBonus,
+      dmgType: params.dmgType,
+      attackerRace: this.pvp.attackerRace,
+      attackerElement: (params.attackElement || 'neutral').toLowerCase(),
+      attackerSize: 'm', // players are Medium
+      attackerType: 'normal', // players are Normal class
+    });
+    const channel = pvpChannelOf({ isSkill: params.isSkill, isMelee: params.isMelee });
+
+    return defender * woeGlobalMultiplier(this.pvp.mode, channel);
   }
 
   private getSkillBonus(skillName: string) {
@@ -1345,7 +1374,18 @@ export class DamageCalculator {
       total = this.toPreventNegativeDmg(total);
 
       if (!!finalDmgFormula && typeof finalDmgFormula === 'function') {
-        return finalDmgFormula({ damage: total, ...formulaParams });
+        total = finalDmgFormula({ damage: total, ...formulaParams });
+      }
+
+      // PVP: the target's own reductions + the WoE-castle global layer are the
+      // "última linha" (docs/pvp.md §2) — applied AFTER any custom finalDmgFormula,
+      // which may recompute from HP and ignore `damage`, so the cut can't be
+      // bypassed. This method only runs for skills, so the channel is "habilidade".
+      if (this.pvp.mode !== 'none') {
+        const pvpMult = this.getPvpFinalMultiplier({ dmgType: 'physical', isSkill: true, isMelee, attackElement: propertyAtk });
+        total = floor(total * pvpMult);
+        push('Redução PVP', total, ['dmg_taken_all', 'dmg_taken_physical']);
+        emit('pvpReduction', 'Redução PVP', total, ['dmg_taken_all', 'dmg_taken_physical'], { multiplier: pvpMult });
       }
 
       return total;
@@ -1371,7 +1411,13 @@ export class DamageCalculator {
     });
 
     const extraDmg = this._class.getAdditionalDmg(infoForClass);
-    const extraDmgCri = canCri ? floor(extraDmg * criMultiplier) : extraDmg;
+    let extraDmgCri = canCri ? floor(extraDmg * criMultiplier) : extraDmg;
+    // PVP: this class "additional damage" is added to the skillFormula result
+    // (which already carries the reduction), so it must take the same última-linha
+    // cut — otherwise it stays at 100% inside a castle. No-op vs monsters.
+    if (this.pvp.mode !== 'none') {
+      extraDmgCri = floor(extraDmgCri * this.getPvpFinalMultiplier({ dmgType: 'physical', isSkill: true, isMelee, attackElement: propertyAtk }));
+    }
 
     const pushGraphStage = (graphNodes: DamageFormulaNode[], id: string, label: string, value: number) => {
       const prevId = graphNodes.length ? graphNodes[graphNodes.length - 1].id : undefined;
@@ -1723,10 +1769,22 @@ export class DamageCalculator {
       }
 
       if (!!finalDmgFormula && typeof finalDmgFormula === 'function') {
-        return finalDmgFormula({ damage: total, ...formulaParams });
+        total = finalDmgFormula({ damage: total, ...formulaParams });
+      } else {
+        total = this.toPreventNegativeDmg(total);
       }
 
-      return this.toPreventNegativeDmg(total);
+      // PVP: magic is always the "habilidade" channel (docs/pvp.md §2). Applied
+      // AFTER any custom finalDmgFormula (which may recompute from HP and ignore
+      // `damage`) so the última-linha cut can't be bypassed.
+      if (this.pvp.mode !== 'none') {
+        const pvpMult = this.getPvpFinalMultiplier({ dmgType: 'magical', isSkill: true, isMelee: false, attackElement: skillPropertyAtk });
+        total = floor(total * pvpMult);
+        push('Redução PVP', total, ['dmg_taken_all', 'dmg_taken_magical']);
+        emit('pvpReduction', 'Redução PVP', total, ['dmg_taken_all', 'dmg_taken_magical'], { multiplier: pvpMult });
+      }
+
+      return total;
     };
 
     const totalStatusMatk = this.getStatusMatk();
@@ -1858,6 +1916,8 @@ export class DamageCalculator {
     const hardDef = finalDmgReduction;
     const softDef = finalSoftDef;
 
+    const pvpMult = this.getPvpFinalMultiplier({ dmgType: 'physical', isSkill: false, isMelee: !isRangeType, attackElement: this.basicPropertyAtk });
+
     const formula = (totalAtk: number, isCalcDef = true) => {
       let total = floor(totalAtk * rangedMultiplier);
       total = floor(total * dmgMultiplier);
@@ -1866,6 +1926,7 @@ export class DamageCalculator {
       if (isCalcDef) total = total - softDef;
       total = floor(total * advKatarMultiplier);
       total = floor(total * debuffMultiplier);
+      total = floor(total * pvpMult); // PVP: última linha (1 when no player target)
 
       return this.toPreventNegativeDmg(total);
     };
@@ -1895,6 +1956,8 @@ export class DamageCalculator {
     const hardDef = finalDmgReduction;
     const softDef = finalSoftDef;
 
+    const pvpMult = this.getPvpFinalMultiplier({ dmgType: 'physical', isSkill: false, isMelee: !isRangeType, attackElement: this.basicPropertyAtk });
+
     const formula = (totalAtk: number, isCalcDef = true) => {
       let total = floor(totalAtk * bonusCriDmgMultiplier);
       total = floor(total * rangedMultiplier);
@@ -1905,18 +1968,22 @@ export class DamageCalculator {
       if (isCalcDef) total = total - softDef;
       total = floor(total * this.criMultiplier);
       total = floor(total * debuffMultiplier);
+      total = floor(total * pvpMult); // PVP: última linha (1 when no player target)
 
       return this.toPreventNegativeDmg(total);
     };
 
-    const criMinDamage = this.applyAuraReduction(formula(totalMaxAtk) + extraDmg + formula(extraBasic, false));
-    const criMaxDamage = this.applyAuraReduction(formula(totalMaxAtkOver) + extraDmg + formula(extraBasic, false));
+    // extraDmg is added outside `formula`, so it must take the PVP última-linha
+    // cut too (pvpMult is exactly 1 vs monsters, so this is a no-op there).
+    const criMinDamage = this.applyAuraReduction(formula(totalMaxAtk) + extraDmg * pvpMult + formula(extraBasic, false));
+    const criMaxDamage = this.applyAuraReduction(formula(totalMaxAtkOver) + extraDmg * pvpMult + formula(extraBasic, false));
 
     return { criMinDamage, criMaxDamage, sizePenalty: 100 };
   }
 
   calculateAllDamages(args: { skillValue: string; propertyAtk: ElementType; maxHp: number; maxSp: number; }): DamageSummaryModel {
     const { skillValue, propertyAtk, maxHp, maxSp } = args;
+    this.basicPropertyAtk = propertyAtk;
     const sizePenalty = this.getSizePenalty();
     const { totalMin, totalMax, totalMaxOver, propertyMultiplier } = this.calcTotalAtk({
       propertyAtk,

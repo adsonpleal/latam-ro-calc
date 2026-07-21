@@ -213,5 +213,45 @@ export const createRawTotalBonus = (): EquipmentSummaryModel => {
     m_pene_race_demihuman: 0,
     m_pene_race_brute: 0,
     m_pene_race_angel: 0,
+
+    // Defender-side reductions (PVP) — see docs/pvp.md §4
+    dmg_taken_physical: 0,
+    dmg_taken_magical: 0,
+    dmg_taken_all: 0,
+
+    subele_all: 0,
+    subele_neutral: 0,
+    subele_water: 0,
+    subele_earth: 0,
+    subele_fire: 0,
+    subele_wind: 0,
+    subele_poison: 0,
+    subele_holy: 0,
+    subele_dark: 0,
+    subele_ghost: 0,
+    subele_undead: 0,
+
+    subsize_all: 0,
+    subsize_s: 0,
+    subsize_m: 0,
+    subsize_l: 0,
+
+    subclass_all: 0,
+    subclass_normal: 0,
+    subclass_boss: 0,
+
+    subrace_all: 0,
+    subrace_formless: 0,
+    subrace_undead: 0,
+    subrace_brute: 0,
+    subrace_plant: 0,
+    subrace_insect: 0,
+    subrace_fish: 0,
+    subrace_demon: 0,
+    subrace_demihuman: 0,
+    subrace_angel: 0,
+    subrace_dragon: 0,
+    subrace_player_human: 0,
+    subrace_player_doram: 0,
   };
 };
