@@ -103,3 +103,55 @@ html {
 .item_desc_tooltip.p-tooltip-bottom .p-tooltip-arrow {
   border-bottom-color: #ffffff;
 }
+/* "Redução de dano" popover (main stats + PVP HUD) — global because the p-overlayPanel
+   content is body-appended, so component-scoped styles from two different components
+   wouldn't both reach it. */
+.reduction-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--green-400, #4ade80);
+  font-weight: 600;
+}
+.reduction-label .pi-shield {
+  font-size: 0.9rem;
+}
+.reduction-pop {
+  min-width: 15rem;
+  max-width: 22rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.reduction-empty {
+  color: var(--text-color-secondary);
+  font-size: 0.85rem;
+}
+.reduction-cat-title {
+  font-weight: 600;
+  font-size: 0.78rem;
+  color: var(--text-color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.2rem;
+}
+.reduction-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.12rem 0.3rem;
+  border-radius: 4px;
+}
+.reduction-row.bonus_clickable {
+  cursor: pointer;
+}
+.reduction-row.bonus_clickable:hover {
+  background: var(--surface-hover);
+}
+.reduction-val {
+  font-weight: 700;
+  color: var(--green-400, #4ade80);
+}
+.reduction-val.neg {
+  color: var(--red-400, #f87171);
+}

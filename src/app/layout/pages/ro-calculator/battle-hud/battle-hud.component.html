@@ -142,6 +142,31 @@
         <div class="kv"><span>SOR</span><span class="v-vit">{{ totalSummary?.monster?.luk | number }}</span></div>
       </div>
 
+      <!-- PVP only: the target's damage reduction vs players, per category (docs/pvp.md §4).
+           Rows drill into the OPPONENT's gear; WoE rows are the castle aura (not clickable). -->
+      <div class="hud-reduction" *ngIf="reductionCategories?.length">
+        <span class="reduction-label bonus_clickable" (click)="hudReductionPanel.toggle($event)" keyActivate>
+          <i class="pi pi-shield"></i> Redução de dano
+        </span>
+        <p-overlayPanel #hudReductionPanel styleClass="reduction-panel">
+          <div class="reduction-pop">
+            <div *ngFor="let cat of reductionCategories" class="reduction-cat">
+              <div class="reduction-cat-title">{{ cat.label }}</div>
+              <div
+                *ngFor="let row of cat.rows"
+                class="reduction-row"
+                [class.bonus_clickable]="reductionRowClickable(row)"
+                (click)="reductionRowClickable(row) ? reductionRowClick.emit(row) : null"
+                keyActivate
+              >
+                <span class="reduction-row-label">{{ row.label }}</span>
+                <span class="reduction-val" [class.neg]="row.percent < 0">{{ row.percent }}%</span>
+              </div>
+            </div>
+          </div>
+        </p-overlayPanel>
+      </div>
+
       <a
         *ngIf="selectedMonster"
         class="monster_id_link"

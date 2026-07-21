@@ -85,7 +85,8 @@ import {
 } from 'src/app/core/summary-tables';
 import { MonsterDataViewComponent } from './monster-data-view/monster-data-view.component';
 import { SavedSimulation, SavedSimulationStore } from 'src/app/core/saved-simulations';
-import { PlayerTargetProfile, PvpMode } from 'src/app/core/pvp';
+import { isDefenderKey, PlayerTargetProfile, PvpMode } from 'src/app/core/pvp';
+import { buildReductionCategories, ReductionCategory, ReductionRow, reductionRowClickable as reductionRowClickableFn, sourcesContributeAnyKey } from './reduction-breakdown';
 import { encodeBuild, decodeBuild } from 'src/app/core/share-codec';
 import { buildCharSpriteUrl, bareJobSprite } from 'src/app/pipes/char-sprite.pipe';
 
@@ -176,6 +177,19 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   selectedPvpTargetId: string | null = null;
   /** The solved attacker-vs-target summary that feeds the PVP battle HUD. */
   pvpSummary: any = null;
+  /** "Redução de dano" popover data: the current build's own reductions (main stats,
+   *  mode-independent) and the selected PVP target's reductions (HUD, with the WoE
+   *  layer for the active mode). Recomputed on each calculate()/calculatePvp(). */
+  selfReductionCategories: ReductionCategory[] = [];
+  targetReductionCategories: ReductionCategory[] = [];
+  /** The target build's own per-item bonus sources, so the HUD popover drills into
+   *  the OPPONENT's gear. Captured per selected target (keyed by id). Public so the
+   *  PVP HUD can bind it as reductionSources. */
+  pvpTargetSources: Record<string, any> = {};
+  /** The target build's slot→itemId map, so the HUD drill-down names the OPPONENT's
+   *  gear (not the attacker's item in the same slot). */
+  pvpTargetItemMap = new Map<string, number>();
+  private pvpTargetSourcesId: string | null = null;
   showShareDialog = false;
   shareUrl = '';
   shareShortening = false;
@@ -286,8 +300,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   itemSummary: any;
   itemSummary2: any;
   /** Full per-source bonus breakdown (every equip slot/card/enchant + skills) from
-   *  the last calc; powers the "which items contribute to this value" modal. */
-  private bonusBreakdownSources: Record<string, any> = {};
+   *  the last calc; powers the "which items contribute to this value" modal. Public so
+   *  the reduction popover template can pass it as the self drill-down source map. */
+  bonusBreakdownSources: Record<string, any> = {};
   /** Every bonus key that at least one source contributes to (non-zero) in the last
    *  calc. A summary value is only worth a breakdown — and thus only clickable — when
    *  one of its keys is here; base/trait-derived stats (no item source) are excluded. */
@@ -843,6 +858,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       }
     }
     this.bonusBreakdownKeys = contributingKeys;
+    // "Redução de dano" popover for the main stats — the build's own gear reductions
+    // vs players (no castle layer; mode-independent). See docs/pvp.md §4.
+    this.selfReductionCategories = buildReductionCategories(this.calculator.getDefenderBonus(), 'pvp');
     const splitNumber = Object.keys(x).length / 2;
     const part1 = Object.entries(x).filter((a, index) => {
       return index < splitNumber;
@@ -1212,9 +1230,19 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         activeSkillNames, learnedSkillMap,
         selectedAtkSkill: model.selectedAtkSkill, selectedChances: [], usedHpL,
       });
+      // Capture the target's own defender-side sources + slot→id map so the HUD
+      // reduction drill-down lists and names the OPPONENT's gear.
+      this.pvpTargetSources = this.pickDefenderSources(this.calculatorPvp.getItemSummary());
+      this.pvpTargetItemMap = new Map<string, number>();
+      for (const slot of Object.values(ItemTypeEnum)) {
+        const id = (model as any)[slot];
+        if (typeof id === 'number' && id > 0) this.pvpTargetItemMap.set(slot, id);
+      }
       return this.calculatorPvp.getAsPlayerTarget(sim.name);
     } catch (err) {
       console.error('Falha ao solver o alvo PVP', err);
+      this.pvpTargetSources = {};
+      this.pvpTargetItemMap = new Map<string, number>();
       return null;
     }
   }
@@ -1241,23 +1269,32 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     const sim = this.selectedPvpTarget;
     if (!sim) {
       this.pvpSummary = null;
+      this.targetReductionCategories = [];
       return;
     }
-    // Old sims lack a cached profile — solve it once, on demand, and cache it
-    // back WITHOUT re-timestamping/reordering the sim (setTargetProfile, not upsert).
+    // Solve the target build once per selected target — even when a cached profile
+    // exists — so we capture its per-item bonus sources (pvpTargetSources) for the
+    // reduction popover's drill-down. On attacker-only changes (same target) this is
+    // skipped. buildProfileFromPreset caches pvpTargetSources as a side effect.
     let profile = sim.targetProfile;
-    if (!profile) {
-      profile = this.buildProfileFromPreset(sim);
-      if (profile) {
-        this.savedSimStore.setTargetProfile(sim.id, profile);
-        sim.targetProfile = profile;
+    if (this.pvpTargetSourcesId !== sim.id || !profile) {
+      const solved = this.buildProfileFromPreset(sim);
+      this.pvpTargetSourcesId = sim.id;
+      if (solved && !profile) {
+        // Old sim without a cached profile — persist it WITHOUT re-timestamping.
+        this.savedSimStore.setTargetProfile(sim.id, solved);
+        sim.targetProfile = solved;
+        profile = solved;
       }
+      if (!solved) this.pvpTargetSources = {};
     }
     if (!profile) {
       this.pvpSummary = null;
+      this.targetReductionCategories = [];
       this.messageService.add({ severity: 'warn', summary: 'Não foi possível carregar o alvo', detail: 'Abra essa simulação e salve de novo.' });
       return;
     }
+    this.targetReductionCategories = buildReductionCategories(profile.defenderBonus, this.pvpMode);
     // buildProfileFromPreset above may have left the shared class instance /
     // calculatorPvp in the target's state — prepare() re-sets both to the attacker.
     const calc = this.prepare(this.calculatorPvp, undefined, profile, this.pvpMode);
@@ -2590,12 +2627,21 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    *  Arrow property (not a prototype method) because it's also passed by reference
    *  into <app-battle-hud>'s canBreakdownFn input — same reason as skillTooltip. */
   canBreakdown = (keys: string[]): boolean => {
+    // A pure defender-reduction lookup (the PVP reduction graph nodes) is sourced by
+    // the TARGET's gear, not the attacker's — check the target map.
+    if (this.isAllDefenderKeys(keys)) return sourcesContributeAnyKey(this.pvpTargetSources, keys);
     // Trait-derived stats (P.ATQ/S.ATQM/T.CRÍT, ATQ) always have something to say even
     // with no equipment behind them: showBonusBreakdown adds the "Atributos (…)" row for
     // the attribute-sourced remainder. Without this they render inert whenever the value
     // comes purely from stats — which is precisely when the user most wants to be told so.
     return keys.some((k) => this.bonusBreakdownKeys.has(k)) || !!this.traitDerivedDef(keys);
   };
+
+  /** All keys are defender-reduction keys (subrace_/subele_/…) — such a lookup is
+   *  always target-sourced (these keys only exist on a player target). */
+  private isAllDefenderKeys(keys: string[]): boolean {
+    return keys.length > 0 && keys.every(isDefenderKey);
+  }
 
   /** The trait-derived definition for a lookup, if it has one. Single source of the
    *  "only single-key lookups can carry an attribute remainder" rule — canBreakdown
@@ -2622,6 +2668,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       /Percent$/.test(k) ||
       /^(p|m)_/.test(k) ||
       /^pene_/.test(k) ||
+      isDefenderKey(k) ||
       /^(vct|acd|fctPercent)__/.test(k) ||
       ['range', 'melee', 'criDmg', 'cri', 'perfectHit', 'acd', 'vct', 'vct_inc', 'vctBySkill'].includes(k)
     );
@@ -2665,12 +2712,49 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     atk: { label: 'Base (arma/atributos/outros)' },
   };
 
-  showBonusBreakdown(event: { label: string; keys: string[]; valueClass: string; total?: number; calc?: DamageFormulaCalc }): void {
+  /** Keep only the defender-reduction slice of each source's bonus map (and drop
+   *  sources left with nothing) — the target reduction popover never needs the rest. */
+  private pickDefenderSources(all: Record<string, any>): Record<string, any> {
+    const out: Record<string, any> = {};
+    for (const [src, map] of Object.entries(all || {})) {
+      if (!map || typeof map !== 'object') continue;
+      const slice: Record<string, number> = {};
+      for (const [k, v] of Object.entries(map)) {
+        if (typeof v === 'number' && v !== 0 && isDefenderKey(k)) slice[k] = v;
+      }
+      if (Object.keys(slice).length) out[src] = slice;
+    }
+    return out;
+  }
+
+  /** Whether a reduction row is drillable in a given source map (template binding —
+   *  delegates to the shared predicate so self/target stay in lockstep). */
+  reductionRowClickable(row: ReductionRow, sources: Record<string, any>): boolean {
+    return reductionRowClickableFn(row, sources);
+  }
+
+  /** Open the bonus-breakdown modal for a clicked reduction row against the right
+   *  source map (self = attacker gear; target = opponent gear). */
+  openReductionRow(row: ReductionRow, target: boolean): void {
+    if (!row.keys.length) return;
+    const sources = target ? this.pvpTargetSources : this.bonusBreakdownSources;
+    if (!this.reductionRowClickable(row, sources)) return;
+    const itemMap = target ? this.pvpTargetItemMap : this.equipItemIdItemTypeMap;
+    this.showBonusBreakdown({ label: `Redução: ${row.label}`, keys: row.keys, valueClass: 'summary_stat_def2', sources, itemMap });
+  }
+
+  showBonusBreakdown(event: { label: string; keys: string[]; valueClass: string; total?: number; calc?: DamageFormulaCalc; sources?: Record<string, any>; itemMap?: Map<any, number> }): void {
     const rows: typeof this.bonusBreakdownRows = [];
     // The summary value being broken down is a reduction (and so shown negated) when every
     // queried key is one — cast/delay stats are always queried alone (e.g. ['acd']).
     const isReduction = event.keys.length > 0 && event.keys.every((k) => this.isReductionKey(k));
-    for (const [srcKey, bonusMap] of Object.entries(this.bonusBreakdownSources || {})) {
+    // Defaults to the attacker build's sources/item-map; the PVP reduction popover
+    // passes them explicitly, and a pure defender-key lookup (the "Redução por equip."
+    // graph node, which carries no explicit sources) resolves against the TARGET's gear.
+    const targetScoped = !event.sources && this.isAllDefenderKeys(event.keys);
+    const sources = event.sources ?? (targetScoped ? this.pvpTargetSources : this.bonusBreakdownSources);
+    const itemMap = event.itemMap ?? (targetScoped ? this.pvpTargetItemMap : this.equipItemIdItemTypeMap);
+    for (const [srcKey, bonusMap] of Object.entries(sources || {})) {
       if (!bonusMap || typeof bonusMap !== 'object') continue;
       let sum = 0;
       let pct = 0;
@@ -2686,7 +2770,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       if (!sum) continue;
       // a source contributes via one unit type in practice; only flag "%" when it's purely percent
       const display = this.formatSignedValue(isReduction ? -sum : sum, pct > 0 && flat === 0);
-      rows.push({ ...this.resolveBonusSource(srcKey, sum), display });
+      rows.push({ ...this.resolveBonusSource(srcKey, sum, itemMap), display });
     }
 
     // Trait stats (P.ATQ/S.ATQM/T.CRÍT) mix POD/CON/FEI/CRV attributes into the same
@@ -2722,7 +2806,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           ...event.calc,
           rows: event.calc.rows.map((r) => {
             if (!r.sourceKey) return r;
-            const resolved = this.resolveBonusSource(r.sourceKey, 0);
+            const resolved = this.resolveBonusSource(r.sourceKey, 0, itemMap);
             return { ...r, label: resolved.label, icon: resolved.icon, iconType: resolved.iconType };
           }),
         }
@@ -2733,14 +2817,21 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   /** Map a breakdown source key to a display row: an equipped item (slot/card/enchant),
    *  a consumable (`consumable_<id>`), a job buff, a skill (id- or name-keyed), or a
    *  labelled catch-all (extras). */
-  private resolveBonusSource(srcKey: string, value: number): { label: string; icon?: number; iconType: 'item' | 'skill'; value: number } {
+  private resolveBonusSource(
+    srcKey: string,
+    value: number,
+    itemMap: Map<any, number> = this.equipItemIdItemTypeMap,
+  ): { label: string; icon?: number; iconType: 'item' | 'skill'; value: number } {
     if (srcKey.startsWith('consumable_')) {
       const consumableId = Number(srcKey.slice('consumable_'.length));
       if (this.items[consumableId]) {
         return { label: this.items[consumableId].name, icon: consumableId, iconType: 'item', value };
       }
     }
-    const itemId = this.equipItemIdItemTypeMap.get(srcKey as any);
+    // A slot key (headUpper/armor/…) resolves against the relevant build's equipment —
+    // the PVP target popover passes the target's own slot→id map so its rows name the
+    // OPPONENT's gear, not the attacker's item in the same slot.
+    const itemId = itemMap.get(srcKey as any);
     if (itemId && this.items[itemId]) {
       return { label: this.items[itemId].name, icon: itemId, iconType: 'item', value };
     }

@@ -1646,6 +1646,12 @@ export class Calculator {
     };
   }
 
+  /** The current build's own defender-side reductions (subrace_/subele_/…), for the
+   *  "Redução de dano" popover. Same extraction getAsPlayerTarget caches per target. */
+  getDefenderBonus() {
+    return pickDefenderBonus(this.totalEquipStatus as unknown as Record<string, number>);
+  }
+
   getTotalSummary() {
     const { baseWeaponAtk = 0, refineBonus = 0 } = this.leftWeaponData?.data || {};
     const { totalBuffAtk, totalEquipAtk, totalHideMasteryAtk, totalMasteryAtk, totalStatusAtk, totalStatusMatk } = this.dmgCalculator.atkSummaryForUI;

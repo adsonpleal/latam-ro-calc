@@ -26,6 +26,10 @@ export const ITEM_BONUS_LABELS: Record<string, string> = {
   perfectDodge: 'Esquiva perfeita', flee: 'Esquiva', forceCri: 'Força crítico',
   ignore_size_penalty: 'Ignora penalidade de tamanho', p_infiltration: 'Infiltração física',
   p_final: 'Dano físico final', m_final: 'Dano mágico final', mildwind: 'Vento Suave',
+  // Defender-side reductions vs players (PVP) — see docs/pvp.md §4
+  dmg_taken_all: 'Redução de dano recebido de jogadores',
+  dmg_taken_physical: 'Redução de dano físico recebido de jogadores',
+  dmg_taken_magical: 'Redução de dano mágico recebido de jogadores',
 };
 
 /** pt-BR labels for buff bonus keys (skill descriptions aren't in the local
@@ -57,6 +61,7 @@ const BONUS_KEY_PARTS = {
     poison: 'Veneno', holy: 'Sagrado', dark: 'Sombrio', ghost: 'Fantasma', undead: 'Morto-vivo',
     formless: 'Sem Forma', brute: 'Bruto', plant: 'Planta', insect: 'Inseto', fish: 'Peixe',
     demon: 'Demônio', demihuman: 'Semi-humano', angel: 'Anjo', dragon: 'Dragão',
+    player_human: 'Humano', player_doram: 'Doram',
   } as Record<string, string>,
 };
 
@@ -78,6 +83,11 @@ export function decodeStructuredBonusKey(key: string): string | undefined {
   // p_/m_ damage vs a category subtype
   if ((m = key.match(/^([pm])_(size|element|race|class)_(\w+)$/))) {
     return `Dano ${atk[m[1]]} (${cat[m[2]]}: ${sub[m[3]] ?? m[3]})`;
+  }
+  // Defender-side PVP reductions: sub{race,element,size,class}_X → "Resistência (Cat.: X)"
+  if ((m = key.match(/^sub(race|ele|size|class)_(\w+)$/))) {
+    const catKey = { race: 'race', ele: 'element', size: 'size', class: 'class' }[m[1]] as string;
+    return `Resistência (${cat[catKey]}: ${sub[m[2]] ?? m[2]})`;
   }
   // RES/MRES penetration vs a race
   if ((m = key.match(/^pene_(res|mres)_race_(\w+)$/))) {

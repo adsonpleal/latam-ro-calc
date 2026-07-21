@@ -4,6 +4,28 @@
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
 <p-toast></p-toast>
 <p-blockUI [blocked]="isInProcessingPreset"></p-blockUI>
+
+<!-- "Redução de dano" popover body — shared by the main stats (self gear) and the
+     PVP HUD (target gear). Each row drills into the contributing items via the
+     bonus-breakdown modal; WoE rows (no keys) are the castle aura and aren't clickable. -->
+<ng-template #reductionPop let-cats="cats" let-sources="sources" let-target="target">
+  <div class="reduction-pop">
+    <div *ngIf="!cats?.length" class="reduction-empty">Sem reduções de dano vs jogadores.</div>
+    <div *ngFor="let cat of cats" class="reduction-cat">
+      <div class="reduction-cat-title">{{ cat.label }}</div>
+      <div
+        *ngFor="let row of cat.rows"
+        class="reduction-row"
+        [class.bonus_clickable]="reductionRowClickable(row, sources)"
+        (click)="openReductionRow(row, target)"
+        keyActivate
+      >
+        <span class="reduction-row-label">{{ row.label }}</span>
+        <span class="reduction-val" [class.neg]="row.percent < 0">{{ row.percent }}%</span>
+      </div>
+    </div>
+  </div>
+</ng-template>
 <p-confirmDialog [position]="'top'" [style]="{ width: '25vw' }"></p-confirmDialog>
 
 <app-item-search
@@ -464,7 +486,7 @@
                     <span class="font-semibold px-1 summary_stat_yellow">{{ totalSummary?.calc?.dex2int1 || 0 }}</span>
                     <span [hidden]="totalSummary?.calc?.to530 <= 0">{{ '( faltam ' + totalSummary?.calc?.to530 + ' )' }}</span>
                   </div>
-                  <div class="col-12 px-1 border_default hp-sp-section" [hidden]="hideHpSp[selectedCharacter?.className]">
+                  <div class="col-12 hp-sp-section" [hidden]="hideHpSp[selectedCharacter?.className]">
                     <div class="grid grid-nogutter">
                       <div class="col-12 flex gap-1">
                         HP:
@@ -500,6 +522,14 @@
                       </div>
                       <!-- <div [hidden]="model?.level < 176" class="summary_monster_value px-1" style="color: var(--red-500)">*** Lv > 175 ไม่ตรง</div> -->
                     </div>
+                  </div>
+                  <div class="col-12">
+                    <span class="reduction-label bonus_clickable" (click)="reductionPanel.toggle($event)" keyActivate>
+                      <i class="pi pi-shield"></i> Redução de dano
+                    </span>
+                    <p-overlayPanel #reductionPanel styleClass="reduction-panel">
+                      <ng-container *ngTemplateOutlet="reductionPop; context: { cats: selfReductionCategories, sources: bonusBreakdownSources, target: false }"></ng-container>
+                    </p-overlayPanel>
                   </div>
                 </div>
               </div>
@@ -1979,8 +2009,11 @@
               [compareItemNames]="compareItemNames"
               [canBreakdownFn]="canBreakdown"
               [isBreakdownOpen]="isShowBonusBreakdown"
+              [reductionCategories]="targetReductionCategories"
+              [reductionSources]="pvpTargetSources"
               (showElementTableClick)="onShowElementalTableClick()"
               (showBonusBreakdownClick)="showBonusBreakdown($event)"
+              (reductionRowClick)="openReductionRow($event, true)"
             ></app-battle-hud>
           </div>
         </div>

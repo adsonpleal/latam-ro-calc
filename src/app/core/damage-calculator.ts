@@ -10,7 +10,7 @@ import { MainModel } from 'src/app/models/main.model';
 import { StatusSummary } from 'src/app/models/status-summary.model';
 import { SKILL_ID_BY_NAME } from 'src/app/skills';
 import { calcDmgDps, calcSkillAspd, floor, formatCalcNumber, isSkillCanEDP, round } from 'src/app/utils';
-import { DEFAULT_PVP_CONTEXT, PvpContext, defenderReductionMultiplier, pvpChannelOf, woeGlobalMultiplier } from './pvp';
+import { DEFAULT_PVP_CONTEXT, DefenderReductionStep, PvpContext, defenderReductionSteps, pvpChannelOf, woeGlobalMultiplier } from './pvp';
 
 interface DamageResultModel {
   minDamage: number;
@@ -605,15 +605,22 @@ export class DamageCalculator {
   }
 
   /**
-   * The final vs-player reduction multiplier (1 = no reduction), combining the
-   * target's own gear reductions with the WoE-castle global layer. Applied as
-   * the "última linha" of the per-hit formula (see docs/pvp.md §2/§4). Returns 1
-   * whenever no player target is active, so the vs-monster path is untouched.
+   * The vs-player reduction, split for the formula graph (see docs/pvp.md §2/§4):
+   *   - `steps`: ONE per gear-reduction category that applies (race/element/size/
+   *     class/flat), each with its pt-BR label + keys, so the graph shows a named,
+   *     clickable node per kind ("Redução Humano", "Redução Neutro", …).
+   *   - `defender`: their combined multiplier (for paths without a graph to split).
+   *   - `woe`: the WoE-castle global layer (mode + channel), not gear.
+   * All are empty/1 whenever no player target is active.
    */
-  private getPvpFinalMultiplier(params: { dmgType: 'physical' | 'magical'; isSkill: boolean; isMelee: boolean; attackElement: string }): number {
-    if (this.pvp.mode === 'none') return 1;
+  private getPvpReductionParts(params: { dmgType: 'physical' | 'magical'; isSkill: boolean; isMelee: boolean; attackElement: string }): {
+    steps: DefenderReductionStep[];
+    defender: number;
+    woe: number;
+  } {
+    if (this.pvp.mode === 'none') return { steps: [], defender: 1, woe: 1 };
 
-    const defender = defenderReductionMultiplier({
+    const steps = defenderReductionSteps({
       bonus: this.pvp.defenderBonus,
       dmgType: params.dmgType,
       attackerRace: this.pvp.attackerRace,
@@ -621,9 +628,35 @@ export class DamageCalculator {
       attackerSize: 'm', // players are Medium
       attackerType: 'normal', // players are Normal class
     });
+    const defender = steps.reduce((mult, s) => mult * s.factor, 1);
     const channel = pvpChannelOf({ isSkill: params.isSkill, isMelee: params.isMelee });
+    const woe = woeGlobalMultiplier(this.pvp.mode, channel);
+    return { steps, defender, woe };
+  }
 
-    return defender * woeGlobalMultiplier(this.pvp.mode, channel);
+  /**
+   * Apply the PVP reduction to a skill's running total AND record it in the formula
+   * graph: one node per gear-reduction category (named + clickable into the target's
+   * gear) plus the WoE-castle step. Shared by the physical and magical skill formulas.
+   * Returns the new running total.
+   */
+  private applyPvpReduction(
+    total: number,
+    parts: { steps: DefenderReductionStep[]; woe: number },
+    push: (label: string, value: number, keys?: string[]) => void,
+    emit: (id: string, label: string, value: number, keys?: string[], opts?: { extraInputs?: string[]; multiplier?: number }) => void,
+  ): number {
+    for (const s of parts.steps) {
+      total = floor(total * s.factor);
+      push(s.label, total, s.keys);
+      emit(`pvpRed_${s.keys[0]}`, s.label, total, s.keys, { multiplier: s.factor });
+    }
+    if (parts.woe !== 1) {
+      total = floor(total * parts.woe);
+      push('Redução da guerra', total);
+      emit('pvpWoeReduction', 'Redução da guerra', total, [], { multiplier: parts.woe });
+    }
+    return total;
   }
 
   private getSkillBonus(skillName: string) {
@@ -1381,17 +1414,17 @@ export class DamageCalculator {
       // "última linha" (docs/pvp.md §2) — applied AFTER any custom finalDmgFormula,
       // which may recompute from HP and ignore `damage`, so the cut can't be
       // bypassed. This method only runs for skills, so the channel is "habilidade".
-      if (this.pvp.mode !== 'none') {
-        const pvpMult = this.getPvpFinalMultiplier({ dmgType: 'physical', isSkill: true, isMelee, attackElement: propertyAtk });
-        total = floor(total * pvpMult);
-        push('Redução PVP', total, ['dmg_taken_all', 'dmg_taken_physical']);
-        emit('pvpReduction', 'Redução PVP', total, ['dmg_taken_all', 'dmg_taken_physical'], { multiplier: pvpMult });
-      }
+      if (pvpParts) total = this.applyPvpReduction(total, pvpParts, push, emit);
 
       return total;
     };
 
     const propertyAtk = element || weaponPropertyAtk;
+    // Built once (not per min/max/noCri call of skillFormula, nor per hit) — its inputs
+    // are fixed for this skill calc. Also reused by the extraDmgCri cut below.
+    const pvpParts = this.pvp.mode !== 'none'
+      ? this.getPvpReductionParts({ dmgType: 'physical', isSkill: true, isMelee, attackElement: propertyAtk })
+      : null;
     const {
       totalMin,
       totalMax,
@@ -1415,8 +1448,8 @@ export class DamageCalculator {
     // PVP: this class "additional damage" is added to the skillFormula result
     // (which already carries the reduction), so it must take the same última-linha
     // cut — otherwise it stays at 100% inside a castle. No-op vs monsters.
-    if (this.pvp.mode !== 'none') {
-      extraDmgCri = floor(extraDmgCri * this.getPvpFinalMultiplier({ dmgType: 'physical', isSkill: true, isMelee, attackElement: propertyAtk }));
+    if (pvpParts) {
+      extraDmgCri = floor(extraDmgCri * pvpParts.defender * pvpParts.woe);
     }
 
     const pushGraphStage = (graphNodes: DamageFormulaNode[], id: string, label: string, value: number) => {
@@ -1640,6 +1673,10 @@ export class DamageCalculator {
     const { softMDef } = this.monster.data;
 
     const skillPropertyAtk = element || weaponPropertyAtk;
+    // Built once for all min/max invocations of the magic skillFormula below.
+    const pvpPartsMagic = this.pvp.mode !== 'none'
+      ? this.getPvpReductionParts({ dmgType: 'magical', isSkill: true, isMelee: false, attackElement: skillPropertyAtk })
+      : null;
     const { dmgReductionByMHardDef, mresReduction, mDefBypassed, restMres } = this.getMagicalDefData();
     const hardDef = isIgnoreDef ? 1 : dmgReductionByMHardDef;
 
@@ -1777,12 +1814,7 @@ export class DamageCalculator {
       // PVP: magic is always the "habilidade" channel (docs/pvp.md §2). Applied
       // AFTER any custom finalDmgFormula (which may recompute from HP and ignore
       // `damage`) so the última-linha cut can't be bypassed.
-      if (this.pvp.mode !== 'none') {
-        const pvpMult = this.getPvpFinalMultiplier({ dmgType: 'magical', isSkill: true, isMelee: false, attackElement: skillPropertyAtk });
-        total = floor(total * pvpMult);
-        push('Redução PVP', total, ['dmg_taken_all', 'dmg_taken_magical']);
-        emit('pvpReduction', 'Redução PVP', total, ['dmg_taken_all', 'dmg_taken_magical'], { multiplier: pvpMult });
-      }
+      if (pvpPartsMagic) total = this.applyPvpReduction(total, pvpPartsMagic, push, emit);
 
       return total;
     };
@@ -1916,7 +1948,10 @@ export class DamageCalculator {
     const hardDef = finalDmgReduction;
     const softDef = finalSoftDef;
 
-    const pvpMult = this.getPvpFinalMultiplier({ dmgType: 'physical', isSkill: false, isMelee: !isRangeType, attackElement: this.basicPropertyAtk });
+    // Basic damage has no formula graph to split into, so combine the two PVP
+    // reduction layers into a single multiplier (1 when no player target).
+    const pvpParts = this.getPvpReductionParts({ dmgType: 'physical', isSkill: false, isMelee: !isRangeType, attackElement: this.basicPropertyAtk });
+    const pvpMult = pvpParts.defender * pvpParts.woe;
 
     const formula = (totalAtk: number, isCalcDef = true) => {
       let total = floor(totalAtk * rangedMultiplier);
@@ -1956,7 +1991,10 @@ export class DamageCalculator {
     const hardDef = finalDmgReduction;
     const softDef = finalSoftDef;
 
-    const pvpMult = this.getPvpFinalMultiplier({ dmgType: 'physical', isSkill: false, isMelee: !isRangeType, attackElement: this.basicPropertyAtk });
+    // Basic damage has no formula graph to split into, so combine the two PVP
+    // reduction layers into a single multiplier (1 when no player target).
+    const pvpParts = this.getPvpReductionParts({ dmgType: 'physical', isSkill: false, isMelee: !isRangeType, attackElement: this.basicPropertyAtk });
+    const pvpMult = pvpParts.defender * pvpParts.woe;
 
     const formula = (totalAtk: number, isCalcDef = true) => {
       let total = floor(totalAtk * bonusCriDmgMultiplier);

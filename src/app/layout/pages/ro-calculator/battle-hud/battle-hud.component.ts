@@ -26,6 +26,7 @@ import {
 const HITS_PER_SEC_EPSILON = 0.005;
 import { DamageFormulaCalc, DamageFormulaNode } from '../../../../models/damage-summary.model';
 import { formatNumber } from '../../../../utils/format-number';
+import { ReductionCategory, ReductionRow, reductionRowClickable as reductionRowClickableFn } from '../reduction-breakdown';
 
 @Component({
   selector: 'app-battle-hud',
@@ -120,9 +121,21 @@ export class BattleHudComponent implements OnDestroy {
   // called from here.
   @Input() canBreakdownFn: (keys: string[]) => boolean;
 
+  // "Redução de dano" popover (PVP only): the target's reduction categories + its own
+  // per-item sources (for the drill-down clickability). Empty on the vs-monster HUD.
+  @Input() reductionCategories: ReductionCategory[] = [];
+  @Input() reductionSources: Record<string, any> = {};
+
   @Output() selectedChancesChange = new EventEmitter<string[]>();
   @Output() showElementTableClick = new EventEmitter<any>();
   @Output() showBonusBreakdownClick = new EventEmitter<{ label: string; keys: string[]; valueClass: string; total?: number; calc?: DamageFormulaCalc }>();
+  @Output() reductionRowClick = new EventEmitter<ReductionRow>();
+
+  /** A reduction row is drillable when the target's gear sources one of its keys (WoE
+   *  rows carry no keys). Template binding — delegates to the shared predicate. */
+  reductionRowClickable(row: ReductionRow): boolean {
+    return reductionRowClickableFn(row, this.reductionSources);
+  }
 
   // Display-only pt-BR for the skill damage type (same map as battle-dmg-summary;
   // the raw value still drives the [hidden] logic elsewhere, e.g. Magical-only chips).

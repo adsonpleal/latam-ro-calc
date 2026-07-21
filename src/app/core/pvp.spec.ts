@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { defenderReductionMultiplier, pvpChannelOf, woeFleeMultiplier, woeGlobalMultiplier } from './pvp';
+import { defenderReductionMultiplier, defenderReductionSteps, pvpChannelOf, woeFleeMultiplier, woeGlobalMultiplier } from './pvp';
 
 describe('pvp reduction math', () => {
   describe('woeGlobalMultiplier — Luís validated table (docs/pvp.md §2)', () => {
@@ -84,6 +84,28 @@ describe('pvp reduction math', () => {
 
     it('a single category is clamped so it cannot flip damage negative', () => {
       expect(defenderReductionMultiplier({ ...base, bonus: { dmg_taken_all: 150 } })).toBe(0);
+    });
+  });
+
+  describe('defenderReductionSteps — one named step per applied category', () => {
+    const base = { dmgType: 'physical' as const, attackerRace: 'player_human', attackerElement: 'neutral', attackerSize: 'm' as const, attackerType: 'normal' as const };
+
+    it('emits only nonzero categories, named + keyed, factors multiplying to the combined value', () => {
+      const steps = defenderReductionSteps({ ...base, bonus: { subrace_player_human: 10, subele_neutral: 20, dmg_taken_all: 5 } });
+      expect(steps.map((s) => s.label)).toEqual(['Redução Humano', 'Redução Neutro', 'Redução plana']);
+      expect(steps.find((s) => s.label === 'Redução Humano')).toMatchObject({ keys: ['subrace_all', 'subrace_player_human'], factor: 0.9 });
+      expect(steps.find((s) => s.label === 'Redução Neutro')).toMatchObject({ keys: ['subele_all', 'subele_neutral'], factor: 0.8 });
+      const combined = steps.reduce((m, s) => m * s.factor, 1);
+      expect(combined).toBeCloseTo(defenderReductionMultiplier({ ...base, bonus: { subrace_player_human: 10, subele_neutral: 20, dmg_taken_all: 5 } }), 10);
+    });
+
+    it('names the element by the attack element and the race by the attacker', () => {
+      expect(defenderReductionSteps({ ...base, attackerElement: 'fire', bonus: { subele_fire: 15 } })[0].label).toBe('Redução Fogo');
+      expect(defenderReductionSteps({ ...base, attackerRace: 'player_doram', bonus: { subrace_player_doram: 12 } })[0].label).toBe('Redução Doram');
+    });
+
+    it('is empty when nothing applies', () => {
+      expect(defenderReductionSteps({ ...base, bonus: {} })).toEqual([]);
     });
   });
 });

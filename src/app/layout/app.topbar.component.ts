@@ -103,6 +103,15 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.22-beta',
+      date: '21-07-2026',
+      logs: [
+        'Novo atalho "Redução de dano" nos atributos e no HUD do alvo PVP: abre uma janela com as reduções do build por categoria — raça (Humano/Doram), elemento, tamanho, classe, redução plana e, no alvo, a redução da guerra. Cada linha é clicável e mostra quais equipamentos concedem aquela redução. (por Luís.)',
+        'No gráfico "Como o dano é calculado", a redução do PVP deixou de ser um passo único: agora aparece um passo por tipo (Redução Humano, Redução Neutro, Redução plana…) mais o passo da Redução da guerra. Cada passo de equipamento é clicável e mostra os itens do oponente que causam aquela redução.',
+        'Continuei cadastrando as reduções de dano recebido de jogadores que faltavam: resistências por raça (Humano/Doram) e por elemento, reduções planas, e agora também os bônus por refino e de conjunto — como os sets de Cerco (+15% contra Humano), dos Malditos, de Cinzas, de Goibne e das Marés, além de cartas como Sapo de Thara e Raydric. Corrigi também o elemento "Maldito", que é a propriedade Morto-Vivo, e não Sombrio. Esse tipo de efeito só vale no PVP. (por Luís.)',
+      ],
+    },
+    {
       v: '0.1.21-beta',
       date: '20-07-2026',
       logs: [

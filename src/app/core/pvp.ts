@@ -56,13 +56,18 @@ export interface PvpContext {
 export const DEFAULT_PVP_CONTEXT: PvpContext = { mode: 'none', attackerRace: 'player_human', defenderBonus: {} };
 
 /** Key prefixes that make up the defender-reduction namespace (docs/pvp.md §4). */
-const DEFENDER_KEY_PREFIXES = ['subrace_', 'subele_', 'subsize_', 'subclass_', 'dmg_taken_'];
+export const DEFENDER_KEY_PREFIXES = ['subrace_', 'subele_', 'subsize_', 'subclass_', 'dmg_taken_'];
+
+/** True when a bonus key belongs to the defender-reduction namespace. */
+export function isDefenderKey(key: string): boolean {
+  return DEFENDER_KEY_PREFIXES.some((p) => key.startsWith(p));
+}
 
 /** Extract only the defender-reduction bonuses from an aggregated bonus map. */
 export function pickDefenderBonus(totalBonus: Record<string, number>): Partial<EquipmentSummaryModel> {
   const out: Record<string, number> = {};
   for (const [key, value] of Object.entries(totalBonus)) {
-    if (value && DEFENDER_KEY_PREFIXES.some((p) => key.startsWith(p))) out[key] = value;
+    if (value && isDefenderKey(key)) out[key] = value;
   }
   return out as Partial<EquipmentSummaryModel>;
 }
@@ -130,16 +135,53 @@ export interface DefenderReductionInput {
  * The cross-category model is a V1 assumption to revisit with Luís (docs/pvp.md §6).
  */
 export function defenderReductionMultiplier(input: DefenderReductionInput): number {
+  // Single source of the reduction math: the per-category steps (zero categories
+  // are omitted, and their factor is 1, so the product is unchanged).
+  return defenderReductionSteps(input).reduce((mult, s) => mult * s.factor, 1);
+}
+
+/** A single defender-reduction category applied as its own step (for the formula
+ *  graph): its pt-BR label, the engine keys behind it, and its multiplier. */
+export interface DefenderReductionStep {
+  label: string;
+  keys: string[];
+  /** Multiplier as a fraction of damage dealt (1 = no reduction). */
+  factor: number;
+}
+
+const RACE_PT: Record<string, string> = {
+  player_human: 'Humano', player_doram: 'Doram', formless: 'Amorfo', undead: 'Morto-vivo',
+  brute: 'Bruto', plant: 'Planta', insect: 'Inseto', fish: 'Peixe', demon: 'Demônio',
+  demihuman: 'Humanoide', angel: 'Anjo', dragon: 'Dragão',
+};
+/** pt-BR element names in canonical order (also the source for the reduction popover). */
+export const ELE_PT: Record<string, string> = {
+  neutral: 'Neutro', water: 'Água', earth: 'Terra', fire: 'Fogo', wind: 'Vento',
+  poison: 'Veneno', holy: 'Sagrado', dark: 'Sombrio', ghost: 'Fantasma', undead: 'Maldito',
+};
+const SIZE_PT: Record<string, string> = { s: 'Pequeno', m: 'Médio', l: 'Grande' };
+const CLASS_PT: Record<string, string> = { normal: 'Normal', boss: 'Chefe' };
+
+/**
+ * The same reduction as `defenderReductionMultiplier`, but split into ONE step per
+ * category that actually applies — so the damage graph can name each ("Redução
+ * Humano", "Redução Neutro", …) and drill into the items behind it. Empty steps
+ * (0% for that category) are omitted. Their factors multiply back to the combined
+ * value, so the running damage is unchanged.
+ */
+export function defenderReductionSteps(input: DefenderReductionInput): DefenderReductionStep[] {
   const b = input.bonus as Record<string, number | undefined>;
   const v = (key: string) => b[key] || 0;
-
-  const race = v('subrace_all') + v(`subrace_${input.attackerRace}`);
-  const ele = v('subele_all') + v(`subele_${input.attackerElement}`);
-  const size = v('subsize_all') + v(`subsize_${input.attackerSize}`);
-  const cls = v('subclass_all') + v(`subclass_${input.attackerType}`);
-  const flat = v('dmg_taken_all') + v(input.dmgType === 'physical' ? 'dmg_taken_physical' : 'dmg_taken_magical');
-
   const factor = (pct: number) => 1 - Math.min(pct, 100) / 100;
+  const flatKey = input.dmgType === 'physical' ? 'dmg_taken_physical' : 'dmg_taken_magical';
 
-  return factor(race) * factor(ele) * factor(size) * factor(cls) * factor(flat);
+  const cats: { pct: number; label: string; keys: string[] }[] = [
+    { pct: v('subrace_all') + v(`subrace_${input.attackerRace}`), label: `Redução ${RACE_PT[input.attackerRace] ?? input.attackerRace}`, keys: ['subrace_all', `subrace_${input.attackerRace}`] },
+    { pct: v('subele_all') + v(`subele_${input.attackerElement}`), label: `Redução ${ELE_PT[input.attackerElement] ?? input.attackerElement}`, keys: ['subele_all', `subele_${input.attackerElement}`] },
+    { pct: v('subsize_all') + v(`subsize_${input.attackerSize}`), label: `Redução ${SIZE_PT[input.attackerSize] ?? input.attackerSize}`, keys: ['subsize_all', `subsize_${input.attackerSize}`] },
+    { pct: v('subclass_all') + v(`subclass_${input.attackerType}`), label: `Redução ${CLASS_PT[input.attackerType] ?? input.attackerType}`, keys: ['subclass_all', `subclass_${input.attackerType}`] },
+    { pct: v('dmg_taken_all') + v(flatKey), label: 'Redução plana', keys: ['dmg_taken_all', flatKey] },
+  ];
+
+  return cats.filter((c) => c.pct !== 0).map((c) => ({ label: c.label, keys: c.keys, factor: factor(c.pct) }));
 }

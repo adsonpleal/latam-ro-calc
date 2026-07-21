@@ -3514,6 +3514,18 @@
       ],
       "def": [
         "2"
+      ],
+      "subele_fire": [
+        "20"
+      ],
+      "subele_water": [
+        "20"
+      ],
+      "subele_undead": [
+        "20"
+      ],
+      "subele_dark": [
+        "20"
       ]
     }
   },
@@ -4058,6 +4070,9 @@
       ],
       "hpPercent": [
         "EQUIP[Diabolus Boots]6"
+      ],
+      "subele_neutral": [
+        "5"
       ]
     }
   },
@@ -4081,7 +4096,23 @@
     "usableClass": [
       "Hi-Class"
     ],
-    "script": {}
+    "script": {
+      "subrace_brute": [
+        "5"
+      ],
+      "subrace_player_doram": [
+        "5"
+      ],
+      "subrace_plant": [
+        "5"
+      ],
+      "subele_earth": [
+        "5"
+      ],
+      "subele_water": [
+        "5"
+      ]
+    }
   },
   "2554": {
     "id": 2554,
@@ -4684,6 +4715,12 @@
       ],
       "acd": [
         "EQUIP[Geffen Magic Robe]===5"
+      ],
+      "subrace_player_human": [
+        "EQUIP_ID[15074]===5"
+      ],
+      "subrace_demihuman": [
+        "EQUIP_ID[15074]===5"
       ]
     }
   },
@@ -4716,6 +4753,12 @@
       ],
       "acd": [
         "EQUIP[Anti-Magic Suit]===5"
+      ],
+      "subrace_player_human": [
+        "EQUIP_ID[15073]===5"
+      ],
+      "subrace_demihuman": [
+        "EQUIP_ID[15073]===5"
       ]
     }
   },
@@ -5712,7 +5755,11 @@
     "location": null,
     "compositionPos": 4,
     "cardPrefix": "Immune",
-    "script": {}
+    "script": {
+      "subele_neutral": [
+        "20"
+      ]
+    }
   },
   "4137": {
     "id": 4137,
@@ -7196,6 +7243,9 @@
     "script": {
       "p_element_holy": [
         "5"
+      ],
+      "subele_holy": [
+        "20"
       ]
     }
   },
@@ -8858,7 +8908,18 @@
     "location": null,
     "compositionPos": 32,
     "cardPrefix": "Invisible Horror Orb",
-    "script": {}
+    "script": {
+      "subrace_formless": [
+        "25",
+        "EQUIP_ID[4626]===5",
+        "EQUIP_ID[4627]===5"
+      ],
+      "subrace_demon": [
+        "25",
+        "EQUIP_ID[4626]===5",
+        "EQUIP_ID[4627]===5"
+      ]
+    }
   },
   "4629": {
     "id": 4629,
@@ -8881,6 +8942,10 @@
     "script": {
       "m_my_element_earth": [
         "1---3"
+      ],
+      "subele_neutral": [
+        "15",
+        "EQUIP_ID[4630]===5"
       ]
     }
   },
@@ -8985,6 +9050,12 @@
       ],
       "matkPercent": [
         "10"
+      ],
+      "subele_dark": [
+        "EQUIP_ID[4635]===100"
+      ],
+      "subele_undead": [
+        "EQUIP_ID[4635]===100"
       ]
     }
   },
@@ -9233,6 +9304,16 @@
       ],
       "p_pene_race_undead": [
         "EQUIP[Nightmare Minorous Card]50"
+      ],
+      "subrace_brute": [
+        "20",
+        "EQUIP_ID[4654]===5",
+        "EQUIP_ID[4655]===5"
+      ],
+      "subrace_undead": [
+        "20",
+        "EQUIP_ID[4654]===5",
+        "EQUIP_ID[4655]===5"
       ]
     }
   },
@@ -9317,6 +9398,10 @@
     "script": {
       "m_my_element_fire": [
         "1---3"
+      ],
+      "subele_neutral": [
+        "15",
+        "EQUIP_ID[4656]===5"
       ]
     }
   },
@@ -18076,6 +18161,12 @@
       ],
       "mdef": [
         "10"
+      ],
+      "subrace_demon": [
+        "10"
+      ],
+      "subrace_undead": [
+        "10"
       ]
     }
   },
@@ -19225,6 +19316,12 @@
       ],
       "acd": [
         "EQUIP[King Schmidt's Manteau]REFINE[armor,garment==22]15"
+      ],
+      "subrace_dragon": [
+        "9===15"
+      ],
+      "subrace_formless": [
+        "9===15"
       ]
     }
   },
@@ -19272,6 +19369,12 @@
       ],
       "m_race_formless": [
         "11===15"
+      ],
+      "subrace_dragon": [
+        "7===5"
+      ],
+      "subrace_formless": [
+        "7===5"
       ]
     }
   },
@@ -19753,6 +19856,12 @@
       ],
       "mdef": [
         "EQUIP[Clergy's Boots&&Clergy's Manteau]15"
+      ],
+      "subrace_angel": [
+        "EQUIP_ID[20947&&22209]===15"
+      ],
+      "subrace_demon": [
+        "EQUIP_ID[20947&&22209]===15"
       ]
     }
   },
@@ -19811,6 +19920,12 @@
       ],
       "mdef": [
         "EQUIP[Clergy's Boots&&Clergy's Manteau]15"
+      ],
+      "subrace_angel": [
+        "EQUIP_ID[20947&&22209]===15"
+      ],
+      "subrace_demon": [
+        "EQUIP_ID[20947&&22209]===15"
       ]
     }
   },
@@ -19881,6 +19996,12 @@
       ],
       "mdef": [
         "EQUIP[Clergy's Boots&&Clergy's Manteau]20"
+      ],
+      "subrace_angel": [
+        "EQUIP_ID[20947&&22209]===20"
+      ],
+      "subrace_demon": [
+        "EQUIP_ID[20947&&22209]===20"
       ]
     }
   },
@@ -19952,6 +20073,12 @@
       ],
       "mdef": [
         "EQUIP[Clergy's Boots&&Clergy's Manteau]15"
+      ],
+      "subrace_angel": [
+        "EQUIP_ID[20947&&22209]===15"
+      ],
+      "subrace_demon": [
+        "EQUIP_ID[20947&&22209]===15"
       ]
     }
   },
@@ -20016,6 +20143,12 @@
       ],
       "mdef": [
         "EQUIP[Clergy's Boots&&Clergy's Manteau]15"
+      ],
+      "subrace_angel": [
+        "EQUIP_ID[20947&&22209]===15"
+      ],
+      "subrace_demon": [
+        "EQUIP_ID[20947&&22209]===15"
       ]
     }
   },
@@ -20079,6 +20212,12 @@
       ],
       "mdef": [
         "EQUIP[Clergy's Boots&&Clergy's Manteau]15"
+      ],
+      "subrace_angel": [
+        "EQUIP_ID[20947&&22209]===15"
+      ],
+      "subrace_demon": [
+        "EQUIP_ID[20947&&22209]===15"
       ]
     }
   },
@@ -23146,6 +23285,12 @@
       ],
       "atk": [
         "jobLevel:7---2"
+      ],
+      "subrace_demihuman": [
+        "12"
+      ],
+      "subrace_player_human": [
+        "12"
       ]
     }
   },
@@ -23477,7 +23622,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_neutral": [
+        "5"
+      ]
+    }
   },
   "18936": {
     "id": 18936,
@@ -27436,6 +27585,9 @@
       "acd": [
         "10",
         "9===10"
+      ],
+      "subele_neutral": [
+        "7===10"
       ]
     }
   },
@@ -27468,6 +27620,9 @@
         "7===10",
         "9===10",
         "12===5"
+      ],
+      "subele_neutral": [
+        "10"
       ]
     }
   },
@@ -27514,6 +27669,10 @@
       "criDmg": [
         "SUM[luk==90]===5",
         "SUM[luk==90]1---1"
+      ],
+      "subele_neutral": [
+        "8===3",
+        "10===4"
       ]
     }
   },
@@ -27566,6 +27725,10 @@
       "criDmg": [
         "SUM[luk==90]===5",
         "SUM[luk==90]1---1"
+      ],
+      "subele_neutral": [
+        "8===3",
+        "10===4"
       ]
     }
   },
@@ -28316,6 +28479,10 @@
       ],
       "mdef": [
         "2"
+      ],
+      "subrace_dragon": [
+        "7===2",
+        "11===3"
       ]
     }
   },
@@ -28355,6 +28522,12 @@
       ],
       "m_race_demon": [
         "2---1"
+      ],
+      "subrace_angel": [
+        "3---1"
+      ],
+      "subrace_demon": [
+        "3---1"
       ]
     }
   },
@@ -30903,6 +31076,10 @@
       ],
       "vct": [
         "7"
+      ],
+      "subrace_dragon": [
+        "7===2",
+        "11===3"
       ]
     }
   },
@@ -30942,6 +31119,12 @@
       ],
       "p_race_demon": [
         "2---1"
+      ],
+      "subrace_angel": [
+        "3---1"
+      ],
+      "subrace_demon": [
+        "3---1"
       ]
     }
   },
@@ -52759,6 +52942,18 @@
       ],
       "range": [
         "EQUIP[Illusion Shoes]REFINE[weapon,boot==18]===10"
+      ],
+      "subele_dark": [
+        "10",
+        "2---3"
+      ],
+      "subrace_demon": [
+        "10",
+        "2---3"
+      ],
+      "subrace_undead": [
+        "10",
+        "2---3"
       ]
     }
   },
@@ -54163,6 +54358,9 @@
       ],
       "chance__m_element_neutral": [
         "EQUIP[Singing Pere Card&&Playing Pere Card]===200"
+      ],
+      "subele_neutral": [
+        "10"
       ]
     }
   },
@@ -54900,6 +55098,10 @@
     "script": {
       "m_my_element_water": [
         "1---3"
+      ],
+      "subele_neutral": [
+        "15",
+        "EQUIP_ID[27166]===5"
       ]
     }
   },
@@ -55786,6 +55988,12 @@
       ],
       "m_element_undead": [
         "30"
+      ],
+      "subele_undead": [
+        "EQUIP_ID[27264]===15"
+      ],
+      "subele_dark": [
+        "EQUIP_ID[27264]===15"
       ]
     }
   },
@@ -56599,6 +56807,9 @@
       ],
       "m_element_fire": [
         "EQUIP[Brinaranea Card]10"
+      ],
+      "subele_fire": [
+        "30"
       ]
     }
   },
@@ -56698,6 +56909,18 @@
       ],
       "def": [
         "EQUIP[Megalodon Card]100"
+      ],
+      "subrace_angel": [
+        "-50"
+      ],
+      "subele_neutral": [
+        "EQUIP_ID[4375]===5"
+      ],
+      "subrace_player_human": [
+        "EQUIP_ID[4066]===15"
+      ],
+      "subrace_demihuman": [
+        "EQUIP_ID[4066]===15"
       ]
     }
   },
@@ -56800,6 +57023,9 @@
     "script": {
       "atkPercent": [
         "25"
+      ],
+      "subrace_demon": [
+        "-5"
       ]
     }
   },
@@ -57068,6 +57294,9 @@
       "atkPercent": [
         "5",
         "EQUIP[Raydric Card]5"
+      ],
+      "subele_neutral": [
+        "EQUIP_ID[4133]===10"
       ]
     }
   },
@@ -61602,6 +61831,11 @@
         "10"
       ],
       "aspdPercent": [
+        "5",
+        "7===2",
+        "9===3"
+      ],
+      "subele_neutral": [
         "5",
         "7===2",
         "9===3"
@@ -74136,6 +74370,9 @@
     "script": {
       "m_my_element_holy": [
         "1---3"
+      ],
+      "subele_neutral": [
+        "15"
       ]
     }
   },
@@ -74160,6 +74397,9 @@
     "script": {
       "m_my_element_neutral": [
         "1---3"
+      ],
+      "subele_neutral": [
+        "15"
       ]
     }
   },
@@ -74482,6 +74722,9 @@
       ],
       "matkPercent": [
         "EQUIP[Swordfish Card]===3"
+      ],
+      "subele_water": [
+        "10"
       ]
     }
   },
@@ -74545,6 +74788,10 @@
     "script": {
       "m_my_element_wind": [
         "1---3"
+      ],
+      "subele_neutral": [
+        "15",
+        "EQUIP_ID[300141]===5"
       ]
     }
   },
@@ -75656,6 +75903,9 @@
     "script": {
       "m_race_angel": [
         "75"
+      ],
+      "subrace_angel": [
+        "-25"
       ]
     }
   },
@@ -75680,6 +75930,9 @@
     "script": {
       "m_race_demon": [
         "75"
+      ],
+      "subrace_demon": [
+        "-25"
       ]
     }
   },
@@ -75707,6 +75960,9 @@
       ],
       "p_race_insect": [
         "EQUIP[Diligent Andre Larva Card]===20"
+      ],
+      "subrace_insect": [
+        "20"
       ]
     }
   },
@@ -75788,6 +76044,9 @@
       ],
       "m_race_insect": [
         "EQUIP[Diligent Andre Larva Card]===20"
+      ],
+      "subrace_insect": [
+        "20"
       ]
     }
   },
@@ -143655,6 +143914,12 @@
       ],
       "m_race_demihuman": [
         "EQUIP[Aegirnian Armor&&Aegirnian Manteau&&Aegirnian Shoes]50"
+      ],
+      "subele_wind": [
+        "EQUIP_ID[450164&&470070&&480083]===25"
+      ],
+      "subele_water": [
+        "EQUIP_ID[450164&&470070&&480083]===25"
       ]
     }
   },
@@ -162511,6 +162776,9 @@
       ],
       "acd": [
         "EQUIP[Illusion Combo Battle Glove]REFINE[armor,weapon==22]===10"
+      ],
+      "subrace_fish": [
+        "9===15"
       ]
     }
   },
@@ -162718,6 +162986,14 @@
       "spPercent": [
         "5",
         "9===2"
+      ],
+      "subrace_demihuman": [
+        "EQUIP_ID[400097]===10",
+        "EQUIP_ID[400097]REFINE[armor==1]---1"
+      ],
+      "subrace_fish": [
+        "EQUIP_ID[400097]===10",
+        "EQUIP_ID[400097]REFINE[armor==1]---1"
       ]
     }
   },
@@ -174194,6 +174470,9 @@
       ],
       "acd": [
         "EQUIP[Victorious Wing Ears]===15"
+      ],
+      "subele_neutral": [
+        "9===7"
       ]
     }
   },
@@ -174240,6 +174519,9 @@
       ],
       "acd": [
         "EQUIP[Victorious Wing Ears]===15"
+      ],
+      "subele_neutral": [
+        "9===7"
       ]
     }
   },
@@ -174858,6 +175140,9 @@
       ],
       "acd": [
         "EQUIP[Victorious Wing Ears]===15"
+      ],
+      "subele_neutral": [
+        "9===7"
       ]
     }
   },
@@ -175095,6 +175380,12 @@
       ],
       "sp": [
         "level:1---2"
+      ],
+      "subele_neutral": [
+        "20"
+      ],
+      "subele_holy": [
+        "5===80"
       ]
     }
   },
@@ -229414,7 +229705,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_fish": [
+        "30"
+      ]
+    }
   },
   "24391": {
     "id": 24391,
@@ -231353,7 +231648,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_player_human": [
+        "30"
+      ],
+      "subrace_demihuman": [
+        "30"
+      ]
+    }
   },
   "4198": {
     "id": 4198,
@@ -232535,7 +232837,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_water": [
+        "5"
+      ]
+    }
   },
   "20717": {
     "id": 20717,
@@ -232579,7 +232885,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_undead": [
+        "10"
+      ]
+    }
   },
   "2865": {
     "id": 2865,
@@ -232678,7 +232988,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_dark": [
+        "15"
+      ],
+      "subele_undead": [
+        "15"
+      ]
+    }
   },
   "4381": {
     "id": 4381,
@@ -232864,6 +233181,9 @@
     "script": {
       "flee": [
         "12"
+      ],
+      "subele_neutral": [
+        "10"
       ]
     }
   },
@@ -232937,6 +233257,10 @@
       ],
       "acd": [
         "EQUIP[Angel Poring Shoes]REFINE[boot==12]5"
+      ],
+      "subele_neutral": [
+        "EQUIP_ID[22101]XREFINEX[boot==7]===2",
+        "EQUIP_ID[22101]XREFINEX[boot==9]===3"
       ]
     }
   },
@@ -233078,6 +233402,10 @@
     "script": {
       "mdef": [
         "3---1"
+      ],
+      "subele_holy": [
+        "30",
+        "1---1"
       ]
     }
   },
@@ -234240,6 +234568,9 @@
       ],
       "def": [
         "EQUIP_ID[24026]REFINE[shadowArmor,shadowShield==1]---1"
+      ],
+      "subele_neutral": [
+        "1"
       ]
     }
   },
@@ -234815,6 +235146,9 @@
       "def": [
         "10",
         "7===10"
+      ],
+      "subele_neutral": [
+        "EQUIP_ID[24046]===1"
       ]
     }
   },
@@ -234841,6 +235175,16 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subrace_player_human": [
+        "1",
+        "7===1",
+        "9===1"
+      ],
+      "subrace_demihuman": [
+        "1",
+        "7===1",
+        "9===1"
       ]
     }
   },
@@ -234867,6 +235211,16 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subrace_brute": [
+        "1",
+        "7===1",
+        "9===1"
+      ],
+      "subrace_player_doram": [
+        "1",
+        "7===1",
+        "9===1"
       ]
     }
   },
@@ -234893,6 +235247,11 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subrace_insect": [
+        "1",
+        "7===1",
+        "9===1"
       ]
     }
   },
@@ -234919,6 +235278,11 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subrace_fish": [
+        "1",
+        "7===1",
+        "9===1"
       ]
     }
   },
@@ -234945,6 +235309,11 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subrace_dragon": [
+        "1",
+        "7===1",
+        "9===1"
       ]
     }
   },
@@ -234971,6 +235340,11 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subrace_angel": [
+        "1",
+        "7===1",
+        "9===1"
       ]
     }
   },
@@ -234997,6 +235371,11 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subrace_formless": [
+        "1",
+        "7===1",
+        "9===1"
       ]
     }
   },
@@ -235023,6 +235402,11 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subrace_undead": [
+        "1",
+        "7===1",
+        "9===1"
       ]
     }
   },
@@ -235049,6 +235433,11 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subrace_plant": [
+        "1",
+        "7===1",
+        "9===1"
       ]
     }
   },
@@ -237834,6 +238223,12 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subele_neutral": [
+        "1",
+        "7===1",
+        "9===1",
+        "EQUIP_ID[24186]===2"
       ]
     }
   },
@@ -237860,6 +238255,12 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subele_dark": [
+        "1",
+        "7===1",
+        "9===1",
+        "EQUIP_ID[24187]===2"
       ]
     }
   },
@@ -237886,6 +238287,12 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subele_water": [
+        "1",
+        "7===1",
+        "9===1",
+        "EQUIP_ID[24188]===2"
       ]
     }
   },
@@ -237912,6 +238319,12 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subele_earth": [
+        "1",
+        "7===1",
+        "9===1",
+        "EQUIP_ID[24189]===2"
       ]
     }
   },
@@ -237938,6 +238351,11 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subele_fire": [
+        "1",
+        "7===1",
+        "9===1"
       ]
     }
   },
@@ -237964,6 +238382,11 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subele_wind": [
+        "1",
+        "7===1",
+        "9===1"
       ]
     }
   },
@@ -237990,6 +238413,11 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subele_poison": [
+        "1",
+        "7===1",
+        "9===1"
       ]
     }
   },
@@ -238016,6 +238444,12 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subele_holy": [
+        "1",
+        "7===1",
+        "9===1",
+        "EQUIP_ID[24193]===2"
       ]
     }
   },
@@ -238042,6 +238476,12 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subele_ghost": [
+        "1",
+        "7===1",
+        "9===1",
+        "EQUIP_ID[24194]===2"
       ]
     }
   },
@@ -238068,6 +238508,12 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subele_undead": [
+        "1",
+        "7===1",
+        "9===1",
+        "EQUIP_ID[24195]===2"
       ]
     }
   },
@@ -240291,6 +240737,9 @@
       ],
       "luk": [
         "1"
+      ],
+      "subrace_demon": [
+        "3"
       ]
     }
   },
@@ -240317,6 +240766,9 @@
     "script": {
       "str": [
         "1"
+      ],
+      "subrace_angel": [
+        "3"
       ]
     }
   },
@@ -240806,6 +241258,12 @@
     "script": {
       "p_race_demihuman": [
         "5"
+      ],
+      "subrace_player_human": [
+        "5"
+      ],
+      "subrace_demihuman": [
+        "5"
       ]
     }
   },
@@ -240832,6 +241290,12 @@
     "script": {
       "agi": [
         "2"
+      ],
+      "subrace_brute": [
+        "10"
+      ],
+      "subrace_player_doram": [
+        "10"
       ]
     }
   },
@@ -240884,6 +241348,12 @@
     "script": {
       "vit": [
         "1"
+      ],
+      "subrace_brute": [
+        "7"
+      ],
+      "subrace_player_doram": [
+        "7"
       ]
     }
   },
@@ -240971,6 +241441,12 @@
         "5"
       ],
       "m_race_undead": [
+        "5"
+      ],
+      "subrace_player_human": [
+        "5"
+      ],
+      "subrace_demihuman": [
         "5"
       ]
     }
@@ -241164,6 +241640,9 @@
       ],
       "flee": [
         "3"
+      ],
+      "subele_water": [
+        "10"
       ]
     }
   },
@@ -241199,6 +241678,9 @@
       ],
       "atk": [
         "7===15"
+      ],
+      "subele_wind": [
+        "5"
       ]
     }
   },
@@ -241234,6 +241716,9 @@
       ],
       "atk": [
         "7===15"
+      ],
+      "subele_wind": [
+        "5"
       ]
     }
   },
@@ -241269,6 +241754,9 @@
       ],
       "p_class_boss": [
         "7===2"
+      ],
+      "subele_water": [
+        "5"
       ]
     }
   },
@@ -241302,6 +241790,9 @@
       ],
       "atk": [
         "7===10"
+      ],
+      "subele_wind": [
+        "5"
       ]
     }
   },
@@ -241361,6 +241852,9 @@
       ],
       "m_final": [
         "7===2"
+      ],
+      "subele_water": [
+        "5"
       ]
     }
   },
@@ -241388,6 +241882,9 @@
     "script": {
       "hit": [
         "5"
+      ],
+      "subele_neutral": [
+        "3"
       ]
     }
   },
@@ -241423,6 +241920,9 @@
       ],
       "flee": [
         "7===10"
+      ],
+      "subele_fire": [
+        "5"
       ]
     }
   },
@@ -241458,6 +241958,9 @@
       ],
       "aspdPercent": [
         "7===3"
+      ],
+      "subele_fire": [
+        "5"
       ]
     }
   },
@@ -241490,6 +241993,12 @@
         "10"
       ],
       "acd": [
+        "3"
+      ],
+      "subrace_player_human": [
+        "3"
+      ],
+      "subrace_demihuman": [
         "3"
       ]
     }
@@ -241555,6 +242064,9 @@
       ],
       "aspdPercent": [
         "1"
+      ],
+      "subele_earth": [
+        "7===3"
       ]
     }
   },
@@ -241729,6 +242241,9 @@
       "m_final": [
         "7===3",
         "9===2"
+      ],
+      "subele_wind": [
+        "7"
       ]
     }
   },
@@ -241799,6 +242314,9 @@
       ],
       "m_final": [
         "9===3"
+      ],
+      "subele_fire": [
+        "7"
       ]
     }
   },
@@ -241860,6 +242378,9 @@
       ],
       "vct": [
         "8===3"
+      ],
+      "subele_earth": [
+        "5"
       ]
     }
   },
@@ -241947,6 +242468,9 @@
     "script": {
       "m_race_formless": [
         "4"
+      ],
+      "subele_neutral": [
+        "5"
       ]
     }
   },
@@ -242002,6 +242526,9 @@
     "script": {
       "m_race_dragon": [
         "4"
+      ],
+      "subrace_dragon": [
+        "5"
       ]
     }
   },
@@ -242060,6 +242587,12 @@
       ],
       "mdef": [
         "3"
+      ],
+      "subrace_player_human": [
+        "10"
+      ],
+      "subrace_demihuman": [
+        "10"
       ]
     }
   },
@@ -242203,6 +242736,9 @@
     "script": {
       "p_race_undead": [
         "7===10"
+      ],
+      "subrace_undead": [
+        "10"
       ]
     }
   },
@@ -242385,6 +242921,9 @@
     "script": {
       "p_race_angel": [
         "5"
+      ],
+      "subrace_angel": [
+        "5"
       ]
     }
   },
@@ -242551,6 +243090,9 @@
     "script": {
       "p_race_angel": [
         "5"
+      ],
+      "subrace_angel": [
+        "5"
       ]
     }
   },
@@ -242692,6 +243234,12 @@
     "script": {
       "hpPercent": [
         "5"
+      ],
+      "subrace_player_human": [
+        "5"
+      ],
+      "subrace_player_doram": [
+        "5"
       ]
     }
   },
@@ -242720,7 +243268,10 @@
       "hpPercent": [
         "5"
       ],
-      "dmg_taken_all": [
+      "subrace_player_human": [
+        "5"
+      ],
+      "subrace_player_doram": [
         "5"
       ]
     }
@@ -242745,7 +243296,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_plant": [
+        "10"
+      ]
+    }
   },
   "2218": {
     "id": 2218,
@@ -242834,7 +243389,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_undead": [
+        "10"
+      ]
+    }
   },
   "2265": {
     "id": 2265,
@@ -242878,7 +243437,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_insect": [
+        "3"
+      ]
+    }
   },
   "2268": {
     "id": 2268,
@@ -242900,7 +243463,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_insect": [
+        "3"
+      ]
+    }
   },
   "2269": {
     "id": 2269,
@@ -242922,7 +243489,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_plant": [
+        "3"
+      ]
+    }
   },
   "2270": {
     "id": 2270,
@@ -242944,7 +243515,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_plant": [
+        "3"
+      ]
+    }
   },
   "2282": {
     "id": 2282,
@@ -242966,7 +243541,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_holy": [
+        "15"
+      ]
+    }
   },
   "2283": {
     "id": 2283,
@@ -243011,7 +243590,11 @@
     "usableClass": [
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "subele_fire": [
+        "10"
+      ]
+    }
   },
   "5001": {
     "id": 5001,
@@ -243101,7 +243684,11 @@
       "Swordman",
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "subele_dark": [
+        "-15"
+      ]
+    }
   },
   "5031": {
     "id": 5031,
@@ -243359,7 +243946,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_player_human": [
+        "10"
+      ],
+      "subrace_demihuman": [
+        "10"
+      ]
+    }
   },
   "5135": {
     "id": 5135,
@@ -243453,7 +244047,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_demihuman": [
+        "10"
+      ],
+      "subrace_player_human": [
+        "10"
+      ]
+    }
   },
   "5172": {
     "id": 5172,
@@ -243475,7 +244076,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_player_human": [
+        "10"
+      ],
+      "subrace_demihuman": [
+        "10"
+      ]
+    }
   },
   "5173": {
     "id": 5173,
@@ -243689,6 +244297,9 @@
       ],
       "cri": [
         "3"
+      ],
+      "subrace_angel": [
+        "-20"
       ]
     }
   },
@@ -243715,6 +244326,18 @@
     "script": {
       "luk": [
         "2"
+      ],
+      "subrace_demihuman": [
+        "3"
+      ],
+      "subrace_player_human": [
+        "3"
+      ],
+      "subrace_brute": [
+        "3"
+      ],
+      "subrace_player_doram": [
+        "3"
       ]
     }
   },
@@ -243770,6 +244393,10 @@
       ],
       "matk": [
         "7===15"
+      ],
+      "subele_fire": [
+        "5",
+        "7===5"
       ]
     }
   },
@@ -243844,6 +244471,12 @@
     "script": {
       "str": [
         "2"
+      ],
+      "subrace_player_human": [
+        "5"
+      ],
+      "subrace_demihuman": [
+        "5"
       ]
     }
   },
@@ -243870,6 +244503,12 @@
     "script": {
       "int": [
         "2"
+      ],
+      "subrace_player_human": [
+        "5"
+      ],
+      "subrace_demihuman": [
+        "5"
       ]
     }
   },
@@ -243896,6 +244535,12 @@
     "script": {
       "dex": [
         "2"
+      ],
+      "subrace_player_human": [
+        "5"
+      ],
+      "subrace_demihuman": [
+        "5"
       ]
     }
   },
@@ -243922,6 +244567,12 @@
     "script": {
       "agi": [
         "2"
+      ],
+      "subrace_player_human": [
+        "5"
+      ],
+      "subrace_demihuman": [
+        "5"
       ]
     }
   },
@@ -243948,6 +244599,12 @@
     "script": {
       "vit": [
         "2"
+      ],
+      "subrace_player_human": [
+        "5"
+      ],
+      "subrace_demihuman": [
+        "5"
       ]
     }
   },
@@ -244016,7 +244673,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_demon": [
+        "10"
+      ]
+    }
   },
   "5374": {
     "id": 5374,
@@ -244160,7 +244821,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_fire": [
+        "10"
+      ]
+    }
   },
   "5420": {
     "id": 5420,
@@ -244192,6 +244857,12 @@
       ],
       "m_my_element_fire": [
         "10"
+      ],
+      "subele_fire": [
+        "10"
+      ],
+      "subele_water": [
+        "-10"
       ]
     }
   },
@@ -244439,6 +245110,9 @@
       ],
       "agi": [
         "2"
+      ],
+      "subele_water": [
+        "10"
       ]
     }
   },
@@ -244468,6 +245142,12 @@
       ],
       "vit": [
         "1"
+      ],
+      "subele_fire": [
+        "-5"
+      ],
+      "subele_earth": [
+        "5"
       ]
     }
   },
@@ -244500,6 +245180,9 @@
       ],
       "m_final": [
         "7===2"
+      ],
+      "subele_water": [
+        "5"
       ]
     }
   },
@@ -244523,7 +245206,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_demihuman": [
+        "12"
+      ],
+      "subrace_player_human": [
+        "12"
+      ]
+    }
   },
   "5536": {
     "id": 5536,
@@ -244603,6 +245293,9 @@
       ],
       "def": [
         "7===2"
+      ],
+      "subele_fire": [
+        "5"
       ]
     }
   },
@@ -244632,6 +245325,9 @@
       ],
       "perfectDodge": [
         "7===2"
+      ],
+      "subele_fire": [
+        "5"
       ]
     }
   },
@@ -244773,6 +245469,9 @@
       ],
       "flee": [
         "5"
+      ],
+      "subele_wind": [
+        "5"
       ]
     }
   },
@@ -244808,6 +245507,9 @@
       ],
       "atk": [
         "7===15"
+      ],
+      "subele_water": [
+        "5"
       ]
     }
   },
@@ -244831,7 +245533,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_demon": [
+        "3"
+      ]
+    }
   },
   "5595": {
     "id": 5595,
@@ -244878,6 +245584,9 @@
     "script": {
       "aspdPercent": [
         "1"
+      ],
+      "subele_earth": [
+        "5"
       ]
     }
   },
@@ -245039,6 +245748,9 @@
       ],
       "int": [
         "1"
+      ],
+      "subele_water": [
+        "7"
       ]
     }
   },
@@ -245071,6 +245783,9 @@
       ],
       "range": [
         "7===3"
+      ],
+      "subele_fire": [
+        "7"
       ]
     }
   },
@@ -245490,7 +246205,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_fish": [
+        "1"
+      ]
+    }
   },
   "5796": {
     "id": 5796,
@@ -245593,6 +246312,12 @@
     "script": {
       "allStatus": [
         "5"
+      ],
+      "subrace_dragon": [
+        "5"
+      ],
+      "subele_neutral": [
+        "5"
       ]
     }
   },
@@ -245642,7 +246367,12 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_demihuman": [
+        "5===5",
+        "7===5"
+      ]
+    }
   },
   "5978": {
     "id": 5978,
@@ -245737,7 +246467,17 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_plant": [
+        "5"
+      ],
+      "subrace_brute": [
+        "5"
+      ],
+      "subrace_player_doram": [
+        "5"
+      ]
+    }
   },
   "18523": {
     "id": 18523,
@@ -245852,6 +246592,12 @@
       ],
       "range": [
         "1---1"
+      ],
+      "subrace_player_human": [
+        "7===2"
+      ],
+      "subrace_demihuman": [
+        "7===2"
       ]
     }
   },
@@ -246004,7 +246750,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_water": [
+        "15"
+      ]
+    }
   },
   "18752": {
     "id": 18752,
@@ -246146,7 +246896,16 @@
       "Swordman",
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "subele_dark": [
+        "-15"
+      ],
+      "subele_neutral": [
+        "2",
+        "7===2",
+        "9===2"
+      ]
+    }
   },
   "18772": {
     "id": 18772,
@@ -246252,7 +247011,12 @@
     "usableClass": [
       "Only 3rd Cls"
     ],
-    "script": {}
+    "script": {
+      "subele_holy": [
+        "3",
+        "2---1"
+      ]
+    }
   },
   "18833": {
     "id": 18833,
@@ -246366,7 +247130,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_player_human": [
+        "5"
+      ]
+    }
   },
   "18907": {
     "id": 18907,
@@ -246388,7 +247156,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_player_human": [
+        "5"
+      ],
+      "subrace_demihuman": [
+        "5"
+      ]
+    }
   },
   "18908": {
     "id": 18908,
@@ -246416,6 +247191,9 @@
       ],
       "hpPercent": [
         "5"
+      ],
+      "subele_fire": [
+        "10"
       ]
     }
   },
@@ -247170,7 +247948,23 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_holy": [
+        "9===7"
+      ],
+      "subele_poison": [
+        "9===7"
+      ],
+      "subele_dark": [
+        "9===7"
+      ],
+      "subele_ghost": [
+        "9===7"
+      ],
+      "subele_undead": [
+        "9===7"
+      ]
+    }
   },
   "19238": {
     "id": 19238,
@@ -247330,6 +248124,9 @@
       ],
       "m_race_formless": [
         "9===10"
+      ],
+      "subrace_formless": [
+        "7===5"
       ]
     }
   },
@@ -248014,6 +248811,18 @@
     "script": {
       "vit": [
         "3"
+      ],
+      "subele_wind": [
+        "EQUIP_ID[2354&&2419&&2520]===10"
+      ],
+      "subele_fire": [
+        "EQUIP_ID[2354&&2419&&2520]===10"
+      ],
+      "subele_water": [
+        "EQUIP_ID[2354&&2419&&2520]===10"
+      ],
+      "subele_earth": [
+        "EQUIP_ID[2354&&2419&&2520]===10"
       ]
     }
   },
@@ -248095,6 +248904,9 @@
       ],
       "dex": [
         "2"
+      ],
+      "subrace_dragon": [
+        "EQUIP_ID[2399&&2553]===20"
       ]
     }
   },
@@ -248124,6 +248936,9 @@
       ],
       "dex": [
         "1"
+      ],
+      "subele_wind": [
+        "7"
       ]
     }
   },
@@ -248470,6 +249285,9 @@
     "script": {
       "vit": [
         "3"
+      ],
+      "subele_water": [
+        "EQUIP_ID[15138&&20756&&22059]===50"
       ]
     }
   },
@@ -248649,6 +249467,9 @@
       ],
       "matk": [
         "20"
+      ],
+      "subrace_fish": [
+        "5"
       ]
     }
   },
@@ -250415,7 +251236,17 @@
       "SoulLinker",
       "Ninja"
     ],
-    "script": {}
+    "script": {
+      "subrace_demon": [
+        "-10"
+      ],
+      "subrace_player_human": [
+        "10"
+      ],
+      "subrace_demihuman": [
+        "10"
+      ]
+    }
   },
   "1229": {
     "id": 1229,
@@ -250476,7 +251307,14 @@
       "SoulLinker",
       "Ninja"
     ],
-    "script": {}
+    "script": {
+      "subrace_player_human": [
+        "-10"
+      ],
+      "subrace_demihuman": [
+        "-10"
+      ]
+    }
   },
   "1234": {
     "id": 1234,
@@ -250957,7 +251795,14 @@
       "Swordman",
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "subrace_demihuman": [
+        "5"
+      ],
+      "subrace_player_human": [
+        "5"
+      ]
+    }
   },
   "1306": {
     "id": 1306,
@@ -252451,6 +253296,15 @@
     "script": {
       "p_race_demon": [
         "20"
+      ],
+      "subele_dark": [
+        "10"
+      ],
+      "subrace_undead": [
+        "10"
+      ],
+      "subrace_demon": [
+        "10"
       ]
     }
   },
@@ -252819,7 +253673,11 @@
       "Taekwondo",
       "Priest"
     ],
-    "script": {}
+    "script": {
+      "subele_holy": [
+        "-5"
+      ]
+    }
   },
   "1558": {
     "id": 1558,
@@ -261302,6 +262160,9 @@
     "script": {
       "range": [
         "EQUIP_ID[1752]25"
+      ],
+      "subele_fire": [
+        "10"
       ]
     }
   },
@@ -261509,6 +262370,14 @@
       ],
       "matk": [
         "210"
+      ],
+      "subrace_undead": [
+        "15",
+        "EQUIP_ID[2677]===10"
+      ],
+      "subrace_demon": [
+        "15",
+        "EQUIP_ID[2677]===10"
       ]
     }
   },
@@ -261538,6 +262407,9 @@
       ],
       "matk": [
         "230"
+      ],
+      "subele_earth": [
+        "EQUIP_ID[2467&&2859&&15025]===-50"
       ]
     }
   },
@@ -261625,6 +262497,9 @@
       ],
       "matk": [
         "230"
+      ],
+      "subele_fire": [
+        "EQUIP_ID[2470&&2862&&15028]===-50"
       ]
     }
   },
@@ -261654,6 +262529,9 @@
       ],
       "matk": [
         "270"
+      ],
+      "subele_earth": [
+        "EQUIP_ID[2467&&2859&&15025]===-50"
       ]
     }
   },
@@ -261741,6 +262619,9 @@
       ],
       "matk": [
         "270"
+      ],
+      "subele_fire": [
+        "EQUIP_ID[2470&&2862&&15028]===-50"
       ]
     }
   },
@@ -262122,7 +263003,11 @@
       "Taekwondo",
       "Priest"
     ],
-    "script": {}
+    "script": {
+      "subele_holy": [
+        "-30"
+      ]
+    }
   },
   "28616": {
     "id": 28616,
@@ -262432,7 +263317,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_demon": [
+        "4"
+      ],
+      "subrace_undead": [
+        "4"
+      ]
+    }
   },
   "2616": {
     "id": 2616,
@@ -263335,6 +264227,9 @@
       ],
       "vit": [
         "1"
+      ],
+      "subele_fire": [
+        "10"
       ]
     }
   },
@@ -263490,7 +264385,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_undead": [
+        "1"
+      ]
+    }
   },
   "2716": {
     "id": 2716,
@@ -264279,6 +265178,18 @@
       ],
       "vct": [
         "3"
+      ],
+      "subele_water": [
+        "10"
+      ],
+      "subele_wind": [
+        "10"
+      ],
+      "subele_earth": [
+        "10"
+      ],
+      "subele_fire": [
+        "10"
       ]
     }
   },
@@ -264415,6 +265326,9 @@
     "script": {
       "hpPercent": [
         "1"
+      ],
+      "subele_water": [
+        "5"
       ]
     }
   },
@@ -265077,6 +265991,9 @@
       ],
       "m_my_element_fire": [
         "10"
+      ],
+      "subele_water": [
+        "-30"
       ]
     }
   },
@@ -265125,6 +266042,9 @@
     "script": {
       "int": [
         "1"
+      ],
+      "subele_wind": [
+        "15"
       ]
     }
   },
@@ -265151,6 +266071,9 @@
     "script": {
       "int": [
         "1"
+      ],
+      "subele_water": [
+        "15"
       ]
     }
   },
@@ -265177,6 +266100,9 @@
     "script": {
       "int": [
         "1"
+      ],
+      "subele_fire": [
+        "15"
       ]
     }
   },
@@ -265203,6 +266129,9 @@
     "script": {
       "int": [
         "1"
+      ],
+      "subele_earth": [
+        "15"
       ]
     }
   },
@@ -266001,6 +266930,9 @@
       ],
       "vit": [
         "2"
+      ],
+      "subele_fire": [
+        "10"
       ]
     }
   },
@@ -266229,6 +267161,9 @@
     "script": {
       "m_final": [
         "6"
+      ],
+      "subele_holy": [
+        "5"
       ]
     }
   },
@@ -266258,6 +267193,9 @@
       ],
       "p_class_boss": [
         "6"
+      ],
+      "subele_dark": [
+        "5"
       ]
     }
   },
@@ -268044,7 +268982,14 @@
     "usableClass": [
       "Novice"
     ],
-    "script": {}
+    "script": {
+      "subrace_demon": [
+        "15"
+      ],
+      "subele_dark": [
+        "10"
+      ]
+    }
   },
   "2330": {
     "id": 2330,
@@ -268540,7 +269485,14 @@
     "usableClass": [
       "Novice"
     ],
-    "script": {}
+    "script": {
+      "subrace_demon": [
+        "15"
+      ],
+      "subele_dark": [
+        "10"
+      ]
+    }
   },
   "2376": {
     "id": 2376,
@@ -268567,6 +269519,12 @@
     "script": {
       "hp": [
         "150"
+      ],
+      "subrace_player_human": [
+        "2"
+      ],
+      "subrace_demihuman": [
+        "2"
       ]
     }
   },
@@ -268593,6 +269551,12 @@
     "script": {
       "hp": [
         "150"
+      ],
+      "subrace_player_human": [
+        "2"
+      ],
+      "subrace_demihuman": [
+        "2"
       ]
     }
   },
@@ -268620,6 +269584,12 @@
     "script": {
       "hp": [
         "150"
+      ],
+      "subrace_player_human": [
+        "2"
+      ],
+      "subrace_demihuman": [
+        "2"
       ]
     }
   },
@@ -268647,6 +269617,12 @@
     "script": {
       "hp": [
         "150"
+      ],
+      "subrace_player_human": [
+        "2"
+      ],
+      "subrace_demihuman": [
+        "2"
       ]
     }
   },
@@ -268673,6 +269649,12 @@
     "script": {
       "hp": [
         "150"
+      ],
+      "subrace_player_human": [
+        "2"
+      ],
+      "subrace_demihuman": [
+        "2"
       ]
     }
   },
@@ -268699,6 +269681,12 @@
     "script": {
       "hp": [
         "150"
+      ],
+      "subrace_player_human": [
+        "2"
+      ],
+      "subrace_demihuman": [
+        "2"
       ]
     }
   },
@@ -268725,6 +269713,12 @@
     "script": {
       "hp": [
         "150"
+      ],
+      "subrace_player_human": [
+        "2"
+      ],
+      "subrace_demihuman": [
+        "2"
       ]
     }
   },
@@ -268959,6 +269953,12 @@
     "script": {
       "hpPercent": [
         "20"
+      ],
+      "subrace_demihuman": [
+        "7"
+      ],
+      "subrace_player_human": [
+        "7"
       ]
     }
   },
@@ -269541,6 +270541,15 @@
     "script": {
       "hpPercent": [
         "1---1"
+      ],
+      "subrace_formless": [
+        "5"
+      ],
+      "subrace_demihuman": [
+        "5"
+      ],
+      "subrace_player_human": [
+        "5"
       ]
     }
   },
@@ -269704,6 +270713,10 @@
     "script": {
       "hpPercent": [
         "9===25"
+      ],
+      "subrace_player_human": [
+        "2",
+        "EQUIP_ID[2483&&2586]===15"
       ]
     }
   },
@@ -269738,6 +270751,10 @@
       ],
       "hpPercent": [
         "9===15"
+      ],
+      "subrace_player_human": [
+        "2",
+        "EQUIP_ID[2484&&2586]===15"
       ]
     }
   },
@@ -269772,6 +270789,10 @@
       ],
       "sp": [
         "9===100"
+      ],
+      "subrace_player_human": [
+        "2",
+        "EQUIP_ID[2485&&2587]===15"
       ]
     }
   },
@@ -270042,7 +271063,12 @@
       "Thief",
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "subele_holy": [
+        "10",
+        "1---2"
+      ]
+    }
   },
   "15091": {
     "id": 15091,
@@ -270065,7 +271091,15 @@
       "Mage",
       "Novice"
     ],
-    "script": {}
+    "script": {
+      "subele_holy": [
+        "10",
+        "1---2"
+      ],
+      "subele_neutral": [
+        "EQUIP_ID[18820&&20721&&22033]===15"
+      ]
+    }
   },
   "15093": {
     "id": 15093,
@@ -270480,6 +271514,10 @@
       ],
       "sp": [
         "50"
+      ],
+      "subrace_fish": [
+        "EQUIP_ID[19026]===10",
+        "EQUIP_ID[19026]REFINE[armor==1]---1"
       ]
     }
   },
@@ -270769,6 +271807,18 @@
     "script": {
       "vit": [
         "5"
+      ],
+      "subele_fire": [
+        "1---3",
+        "EQUIP_ID[2524]===10"
+      ],
+      "subele_dark": [
+        "1---3",
+        "EQUIP_ID[2524]===10"
+      ],
+      "subele_neutral": [
+        "EQUIP_ID[2524]===10",
+        "EQUIP_ID[2524]XREFINEX[armor==10]===10"
       ]
     }
   },
@@ -271922,7 +272972,11 @@
     "usableClass": [
       "Novice"
     ],
-    "script": {}
+    "script": {
+      "subele_water": [
+        "5"
+      ]
+    }
   },
   "2425": {
     "id": 2425,
@@ -272025,6 +273079,12 @@
     "script": {
       "hp": [
         "100"
+      ],
+      "subrace_player_human": [
+        "1"
+      ],
+      "subrace_demihuman": [
+        "1"
       ]
     }
   },
@@ -272054,6 +273114,12 @@
     "script": {
       "hp": [
         "100"
+      ],
+      "subrace_player_human": [
+        "1"
+      ],
+      "subrace_demihuman": [
+        "1"
       ]
     }
   },
@@ -272080,6 +273146,12 @@
     "script": {
       "hp": [
         "100"
+      ],
+      "subrace_player_human": [
+        "1"
+      ],
+      "subrace_demihuman": [
+        "1"
       ]
     }
   },
@@ -272361,6 +273433,9 @@
     "script": {
       "hp": [
         "500"
+      ],
+      "subele_wind": [
+        "15"
       ]
     }
   },
@@ -272387,6 +273462,9 @@
     "script": {
       "hp": [
         "500"
+      ],
+      "subele_water": [
+        "15"
       ]
     }
   },
@@ -272413,6 +273491,9 @@
     "script": {
       "hp": [
         "500"
+      ],
+      "subele_fire": [
+        "15"
       ]
     }
   },
@@ -272439,6 +273520,9 @@
     "script": {
       "hp": [
         "500"
+      ],
+      "subele_earth": [
+        "15"
       ]
     }
   },
@@ -272465,6 +273549,12 @@
     "script": {
       "hp": [
         "500"
+      ],
+      "subrace_player_human": [
+        "10"
+      ],
+      "subrace_demihuman": [
+        "10"
       ]
     }
   },
@@ -272632,7 +273722,11 @@
       "Swordman",
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "subrace_player_human": [
+        "2"
+      ]
+    }
   },
   "2484": {
     "id": 2484,
@@ -272659,7 +273753,11 @@
       "Taekwondo",
       "Ninja"
     ],
-    "script": {}
+    "script": {
+      "subrace_player_human": [
+        "1"
+      ]
+    }
   },
   "2485": {
     "id": 2485,
@@ -272683,7 +273781,11 @@
       "Novice",
       "SoulLinker"
     ],
-    "script": {}
+    "script": {
+      "subrace_player_human": [
+        "1"
+      ]
+    }
   },
   "2486": {
     "id": 2486,
@@ -272861,7 +273963,12 @@
     "usableClass": [
       "Only 3rd Cls"
     ],
-    "script": {}
+    "script": {
+      "subele_holy": [
+        "2",
+        "3---1"
+      ]
+    }
   },
   "22035": {
     "id": 22035,
@@ -273078,7 +274185,13 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_earth": [
+        "5",
+        "EQUIP_ID[2165]===5",
+        "EQUIP_ID[2165]REFINE[shield==1]---2"
+      ]
+    }
   },
   "22051": {
     "id": 22051,
@@ -273100,7 +274213,15 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_undead": [
+        "5"
+      ],
+      "subrace_undead": [
+        "EQUIP_ID[2158]===5",
+        "EQUIP_ID[2158]REFINE[shield==1]---2"
+      ]
+    }
   },
   "22055": {
     "id": 22055,
@@ -273128,6 +274249,9 @@
       ],
       "spPercent": [
         "1---1"
+      ],
+      "subele_fire": [
+        "5"
       ]
     }
   },
@@ -273151,7 +274275,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_water": [
+        "5"
+      ]
+    }
   },
   "22059": {
     "id": 22059,
@@ -273202,7 +274330,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_holy": [
+        "5"
+      ]
+    }
   },
   "22069": {
     "id": 22069,
@@ -273224,7 +274356,13 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_neutral": [
+        "5",
+        "EQUIP_ID[2195]===5",
+        "EQUIP_ID[2195]REFINE[shield==1]---1"
+      ]
+    }
   },
   "22075": {
     "id": 22075,
@@ -274176,7 +275314,11 @@
     "usableClass": [
       "Novice"
     ],
-    "script": {}
+    "script": {
+      "subele_neutral": [
+        "10"
+      ]
+    }
   },
   "2515": {
     "id": 2515,
@@ -274250,7 +275392,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_neutral": [
+        "15"
+      ]
+    }
   },
   "2518": {
     "id": 2518,
@@ -274419,7 +275565,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_dragon": [
+        "15"
+      ]
+    }
   },
   "2529": {
     "id": 2529,
@@ -274577,6 +275727,12 @@
     "script": {
       "hp": [
         "50"
+      ],
+      "subrace_player_human": [
+        "1"
+      ],
+      "subrace_demihuman": [
+        "1"
       ]
     }
   },
@@ -274606,6 +275762,12 @@
     "script": {
       "hp": [
         "50"
+      ],
+      "subrace_player_human": [
+        "1"
+      ],
+      "subrace_demihuman": [
+        "1"
       ]
     }
   },
@@ -274632,6 +275794,12 @@
     "script": {
       "hp": [
         "50"
+      ],
+      "subrace_player_human": [
+        "1"
+      ],
+      "subrace_demihuman": [
+        "1"
       ]
     }
   },
@@ -274759,7 +275927,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_neutral": [
+        "10"
+      ]
+    }
   },
   "2568": {
     "id": 2568,
@@ -274837,6 +276009,9 @@
     "script": {
       "hpPercent": [
         "2"
+      ],
+      "subele_neutral": [
+        "10"
       ]
     }
   },
@@ -274967,7 +276142,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_player_human": [
+        "2"
+      ]
+    }
   },
   "2587": {
     "id": 2587,
@@ -274989,7 +276168,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_player_human": [
+        "1"
+      ]
+    }
   },
   "2589": {
     "id": 2589,
@@ -275037,7 +276220,20 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_fire": [
+        "10"
+      ],
+      "subele_earth": [
+        "10"
+      ],
+      "subele_water": [
+        "10"
+      ],
+      "subele_wind": [
+        "10"
+      ]
+    }
   },
   "2591": {
     "id": 2591,
@@ -275059,7 +276255,20 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_fire": [
+        "10"
+      ],
+      "subele_earth": [
+        "10"
+      ],
+      "subele_water": [
+        "10"
+      ],
+      "subele_wind": [
+        "10"
+      ]
+    }
   },
   "2593": {
     "id": 2593,
@@ -275081,7 +276290,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_brute": [
+        "-5"
+      ],
+      "subele_water": [
+        "5"
+      ]
+    }
   },
   "2596": {
     "id": 2596,
@@ -275103,7 +276319,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_demon": [
+        "-5"
+      ],
+      "subele_fire": [
+        "5"
+      ]
+    }
   },
   "2598": {
     "id": 2598,
@@ -275125,7 +276348,19 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_player_human": [
+        "-5",
+        "EQUIP_ID[2158]REFINE[garment==1]---1"
+      ],
+      "subrace_demihuman": [
+        "-5",
+        "EQUIP_ID[2158]REFINE[garment==1]---1"
+      ],
+      "subele_undead": [
+        "5"
+      ]
+    }
   },
   "20701": {
     "id": 20701,
@@ -275147,7 +276382,15 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_fish": [
+        "-5",
+        "EQUIP_ID[2165]REFINE[garment==1]---1"
+      ],
+      "subele_earth": [
+        "5"
+      ]
+    }
   },
   "20705": {
     "id": 20705,
@@ -275169,7 +276412,15 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_dragon": [
+        "-5",
+        "EQUIP_ID[2174]REFINE[garment==1]---1"
+      ],
+      "subele_holy": [
+        "5"
+      ]
+    }
   },
   "20710": {
     "id": 20710,
@@ -275213,7 +276464,12 @@
     "usableClass": [
       "Only 3rd Cls"
     ],
-    "script": {}
+    "script": {
+      "subele_holy": [
+        "5",
+        "2---1"
+      ]
+    }
   },
   "20732": {
     "id": 20732,
@@ -275268,6 +276524,9 @@
       ],
       "vct": [
         "20"
+      ],
+      "subele_neutral": [
+        "10"
       ]
     }
   },
@@ -275291,7 +276550,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_formless": [
+        "-5"
+      ],
+      "subele_neutral": [
+        "5"
+      ]
+    }
   },
   "20756": {
     "id": 20756,
@@ -275476,6 +276742,9 @@
       ],
       "perfectDodge": [
         "3---1"
+      ],
+      "subele_neutral": [
+        "2"
       ]
     }
   },
@@ -275508,6 +276777,9 @@
       ],
       "perfectDodge": [
         "3---1"
+      ],
+      "subele_neutral": [
+        "3"
       ]
     }
   },
@@ -275546,6 +276818,9 @@
       ],
       "perfectDodge": [
         "2---1"
+      ],
+      "subele_neutral": [
+        "5"
       ]
     }
   },
@@ -275575,6 +276850,9 @@
       ],
       "perfectDodge": [
         "5"
+      ],
+      "subele_neutral": [
+        "15"
       ]
     }
   },
@@ -275842,6 +277120,9 @@
       ],
       "aspdPercent": [
         "9===5"
+      ],
+      "subele_neutral": [
+        "10"
       ]
     }
   },
@@ -275905,6 +277186,9 @@
       ],
       "perfectDodge": [
         "7===2"
+      ],
+      "subele_neutral": [
+        "10"
       ]
     }
   },
@@ -275938,6 +277222,10 @@
       ],
       "perfectDodge": [
         "2"
+      ],
+      "subele_neutral": [
+        "10",
+        "9===5"
       ]
     }
   },
@@ -275970,6 +277258,9 @@
       ],
       "perfectDodge": [
         "2"
+      ],
+      "subele_neutral": [
+        "7===5"
       ]
     }
   },
@@ -275993,7 +277284,13 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_neutral": [
+        "20",
+        "7===5",
+        "9===5"
+      ]
+    }
   },
   "20835": {
     "id": 20835,
@@ -276071,7 +277368,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_neutral": [
+        "15"
+      ],
+      "subele_water": [
+        "15"
+      ]
+    }
   },
   "20856": {
     "id": 20856,
@@ -276231,6 +277535,9 @@
     "script": {
       "vct": [
         "5"
+      ],
+      "subele_neutral": [
+        "20"
       ]
     }
   },
@@ -276289,6 +277596,12 @@
       ],
       "vct": [
         "3---2"
+      ],
+      "subrace_brute": [
+        "7"
+      ],
+      "subrace_insect": [
+        "7"
       ]
     }
   },
@@ -276605,7 +277918,35 @@
     "usableClass": [
       "Novice"
     ],
-    "script": {}
+    "script": {
+      "subele_fire": [
+        "20"
+      ],
+      "subele_water": [
+        "20"
+      ],
+      "subele_earth": [
+        "20"
+      ],
+      "subele_wind": [
+        "20"
+      ],
+      "subele_ghost": [
+        "20"
+      ],
+      "subele_undead": [
+        "20"
+      ],
+      "subele_dark": [
+        "20"
+      ],
+      "subele_holy": [
+        "20"
+      ],
+      "subele_poison": [
+        "20"
+      ]
+    }
   },
   "2116": {
     "id": 2116,
@@ -276627,7 +277968,11 @@
     "usableClass": [
       "Novice"
     ],
-    "script": {}
+    "script": {
+      "subrace_demon": [
+        "5"
+      ]
+    }
   },
   "2121": {
     "id": 2121,
@@ -277032,7 +278377,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_demihuman": [
+        "-5"
+      ],
+      "subele_undead": [
+        "5"
+      ]
+    }
   },
   "2160": {
     "id": 2160,
@@ -277076,7 +278428,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_undead": [
+        "-5"
+      ],
+      "subele_dark": [
+        "5"
+      ]
+    }
   },
   "2165": {
     "id": 2165,
@@ -277098,7 +278457,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_plant": [
+        "-5"
+      ],
+      "subele_earth": [
+        "5"
+      ]
+    }
   },
   "2168": {
     "id": 2168,
@@ -277120,7 +278486,23 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subele_neutral": [
+        "7===5"
+      ],
+      "subele_fire": [
+        "9===5"
+      ],
+      "subele_water": [
+        "9===5"
+      ],
+      "subele_earth": [
+        "9===5"
+      ],
+      "subele_wind": [
+        "9===5"
+      ]
+    }
   },
   "2169": {
     "id": 2169,
@@ -277260,7 +278642,15 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_dragon": [
+        "-5"
+      ],
+      "subele_holy": [
+        "5",
+        "EQUIP_ID[22061]REFINE[shield==1]---2"
+      ]
+    }
   },
   "2181": {
     "id": 2181,
@@ -277330,7 +278720,41 @@
     "usableClass": [
       "Novice"
     ],
-    "script": {}
+    "script": {
+      "subrace_demon": [
+        "5"
+      ],
+      "subele_fire": [
+        "5"
+      ],
+      "subele_water": [
+        "5"
+      ],
+      "subele_earth": [
+        "5"
+      ],
+      "subele_wind": [
+        "5"
+      ],
+      "subele_ghost": [
+        "5"
+      ],
+      "subele_undead": [
+        "5"
+      ],
+      "subele_dark": [
+        "5"
+      ],
+      "subele_holy": [
+        "5"
+      ],
+      "subele_poison": [
+        "5"
+      ],
+      "subele_neutral": [
+        "EQUIP_ID[22015]===5"
+      ]
+    }
   },
   "2185": {
     "id": 2185,
@@ -277374,7 +278798,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "subrace_formless": [
+        "-5"
+      ],
+      "subele_neutral": [
+        "5"
+      ]
+    }
   },
   "28904": {
     "id": 28904,
@@ -277451,6 +278882,9 @@
     "script": {
       "hp": [
         "500"
+      ],
+      "subele_neutral": [
+        "15"
       ]
     }
   },
