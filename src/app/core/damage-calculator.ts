@@ -986,9 +986,11 @@ export class DamageCalculator {
   /** Reductions to the target's elemental resistance, added (in percentage points)
    *  to the property modifier — lowering the target's resistance makes that property
    *  land for more, exactly as rAthena's `ele_fix += ...`. Oratio lowers Holy
-   *  resistance (−2% per level, −20% at Lv 10). */
+   *  resistance (−2% per level, −20% at Lv 10); Infecção (from Maldição de Jormungand)
+   *  lowers Poison resistance (−5% per Killing Cloud level, −25% at Lv 5). */
   private getElementResistReduction(propertyAtk: ElementType) {
     if (propertyAtk === ElementType.Holy) return this.totalBonus['oratio'] || 0;
+    if (propertyAtk === ElementType.Poison) return this.totalBonus['infection'] || 0;
 
     return 0;
   }
@@ -1139,7 +1141,7 @@ export class DamageCalculator {
           id: 'atkElemental',
           label: 'Multiplicador elemental',
           value: bValElement,
-          keys: ['vi', 'oratio'],
+          keys: ['vi', 'oratio', 'infection'],
           percent: this.toPercentBonus(propertyMultiplier),
           inputs: [lastBId],
           kind: 'stage',
@@ -1786,8 +1788,8 @@ export class DamageCalculator {
         emit('equipSkillBonus', `Bônus Hab. equip ${this.fmtCalc(equipSkillBonus)}%`, total, [skillBonusKey], { multiplier: equipSkillMultiplier });
       }
       total = floor(total * propertyMultiplier); //tested
-      push('Multiplicador elemental', total, ['vi', 'oratio']);
-      emit('elementalMultiplier', 'Multiplicador elemental', total, ['vi', 'oratio'], { multiplier: propertyMultiplier });
+      push('Multiplicador elemental', total, ['vi', 'oratio', 'infection']);
+      emit('elementalMultiplier', 'Multiplicador elemental', total, ['vi', 'oratio', 'infection'], { multiplier: propertyMultiplier });
       total = floor(total * finalDmgMultiplier);
       if (finalDmgMultiplier !== 1) {
         push('Dano final por elemento', total, [`final_${skillPropertyAtk?.toLowerCase()}`]);

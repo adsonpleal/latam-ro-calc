@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { RESIST_REDUCTION_KEY_BY_ELE } from 'src/app/core/summary-tables';
 
 @Component({
   selector: 'app-misc-detail',
@@ -16,10 +17,13 @@ export class MiscDetailComponent {
   @Input() skillTooltip?: (skill: any) => string;
   /** These tables show penetration values, so the bonus keys are the `*_pene_*` variants. */
   @Input() isPene = false;
+  /** When comparing, each row also carries a `<field>2` value from the compared build;
+   *  a changed cell renders a "main → simulado" arrow (see showArrow). */
+  @Input() isComparing = false;
   /** Clicking a value asks the parent to open the "which items contribute" breakdown.
    *  `keys` are the engine summary keys whose sum equals the clicked value;
    *  `valueClass` is the source cell's colour class so the modal matches it. */
-  @Output() valueClick = new EventEmitter<{ label: string; keys: string[]; valueClass: string }>();
+  @Output() valueClick = new EventEmitter<{ label: string; keys: string[]; valueClass: string; compare?: boolean }>();
 
   constructor() {}
 
@@ -36,44 +40,76 @@ export class MiscDetailComponent {
     return kind === 'physical' ? MiscDetailComponent.PHYS : MiscDetailComponent.MAGIC;
   }
 
-  onElementClick(val: any, kind: 'physical' | 'magical' | 'myElement'): void {
-    const e = String(val.name).toLowerCase();
-    const name = val.displayName || val.name;
-    if (kind === 'physical') return this.valueClick.emit({ label: this.fmLabel(name, 'physical'), keys: ['p_element_all', `p_element_${e}`], valueClass: this.toneOf('physical') });
-    if (kind === 'magical') return this.valueClick.emit({ label: this.fmLabel(name, 'magical'), keys: ['m_element_all', `m_element_${e}`], valueClass: this.toneOf('magical') });
-    return this.valueClick.emit({ label: `${name} (Elem. Mágico)`, keys: ['m_my_element_all', `m_my_element_${e}`], valueClass: MiscDetailComponent.MAGIC });
+  /** Emit a breakdown request. When `compare`, it targets the compared build — the modal
+   *  title gains "(simulado)" and showBonusBreakdown drills into the compare sources. */
+  private emitValue(label: string, keys: string[], valueClass: string, compare: boolean): void {
+    this.valueClick.emit({ label: compare ? `${label} (simulado)` : label, keys, valueClass, compare });
   }
 
-  onRaceClick(val: any, kind: 'physical' | 'magical'): void {
+  onElementClick(val: any, kind: 'physical' | 'magical' | 'myElement' | 'resist', compare = false): void {
+    const e = String(val.name).toLowerCase();
+    const name = val.displayName || val.name;
+    if (kind === 'physical') return this.emitValue(this.fmLabel(name, 'physical'), ['p_element_all', `p_element_${e}`], this.toneOf('physical'), compare);
+    if (kind === 'magical') return this.emitValue(this.fmLabel(name, 'magical'), ['m_element_all', `m_element_${e}`], this.toneOf('magical'), compare);
+    // R.R. Elem.: the target elemental-resistance reduction (Oratio/Infecção), keyed by element.
+    if (kind === 'resist') {
+      const key = RESIST_REDUCTION_KEY_BY_ELE[e];
+      return this.emitValue(`R.R. Elemental (${name})`, key ? [key] : [], MiscDetailComponent.MAGIC, compare);
+    }
+    return this.emitValue(`${name} (Elem. Mágico)`, ['m_my_element_all', `m_my_element_${e}`], MiscDetailComponent.MAGIC, compare);
+  }
+
+  onRaceClick(val: any, kind: 'physical' | 'magical', compare = false): void {
     const r = String(val.name).toLowerCase();
     const base = this.isPene ? 'pene_race' : 'race';
     const prefix = `${kind === 'physical' ? 'p' : 'm'}_${base}_`;
-    this.valueClick.emit({ label: this.fmLabel(val.displayName || val.name, kind), keys: [`${prefix}all`, `${prefix}${r}`], valueClass: this.toneOf(kind) });
+    this.emitValue(this.fmLabel(val.displayName || val.name, kind), [`${prefix}all`, `${prefix}${r}`], this.toneOf(kind), compare);
   }
 
-  onClassClick(val: any, kind: 'physical' | 'magical'): void {
+  onClassClick(val: any, kind: 'physical' | 'magical', compare = false): void {
     const c = String(val.name).toLowerCase();
     const base = this.isPene ? 'pene_class' : 'class';
     const prefix = `${kind === 'physical' ? 'p' : 'm'}_${base}_`;
-    this.valueClick.emit({ label: this.fmLabel(val.displayName || val.name, kind), keys: [`${prefix}all`, `${prefix}${c}`], valueClass: this.toneOf(kind) });
+    this.emitValue(this.fmLabel(val.displayName || val.name, kind), [`${prefix}all`, `${prefix}${c}`], this.toneOf(kind), compare);
   }
 
-  onSizeClick(val: any, kind: 'physical' | 'magical'): void {
+  onSizeClick(val: any, kind: 'physical' | 'magical', compare = false): void {
     const s = MiscDetailComponent.SIZE_SHORT[val.name as string] ?? String(val.name).toLowerCase();
     const prefix = `${kind === 'physical' ? 'p' : 'm'}_size_`;
-    this.valueClick.emit({ label: this.fmLabel(val.displayName || val.name, kind), keys: [`${prefix}all`, `${prefix}${s}`], valueClass: this.toneOf(kind) });
+    this.emitValue(this.fmLabel(val.displayName || val.name, kind), [`${prefix}all`, `${prefix}${s}`], this.toneOf(kind), compare);
   }
 
-  onAtkTypeClick(val: any): void {
+  onAtkTypeClick(val: any, compare = false): void {
     const map: Record<string, string[]> = { Melee: ['melee'], Range: ['range'], MATK: ['matkPercent'] };
     const valueClass = val.name === 'MATK' ? MiscDetailComponent.MAGIC : MiscDetailComponent.PHYS;
-    this.valueClick.emit({ label: val.displayName || val.name, keys: map[val.name as string] ?? [], valueClass });
+    this.emitValue(val.displayName || val.name, map[val.name as string] ?? [], valueClass, compare);
   }
 
-  onSkillClick(val: any, kind: 'value' | 'cd'): void {
-    const name = val.displayName || val.name;
-    if (kind === 'cd') return this.valueClick.emit({ label: `${name} (CD)`, keys: [`cd__${val.name}`], valueClass: 'summary_damage' });
-    this.valueClick.emit({ label: name, keys: [val.name], valueClass: 'summary_damage' });
+  /** `compare` targets the compared build: the breakdown drills into its items/buffs and
+   *  the modal title is suffixed "(simulado)" to match the "→ simulado" cell that was clicked. */
+  onSkillClick(val: any, kind: 'value' | 'cd', compare = false): void {
+    const name = `${val.displayName || val.name}${compare ? ' (simulado)' : ''}`;
+    if (kind === 'cd') return this.valueClick.emit({ label: `${name} (CD)`, keys: [`cd__${val.name}`], valueClass: 'summary_damage', compare });
+    this.valueClick.emit({ label: name, keys: [val.name], valueClass: 'summary_damage', compare });
+  }
+
+  /** Every numeric cell in these tables is a percentage bonus, so render the value with a
+   *  trailing "%" (negatives keep their sign: "-5%"); a zero/absent value shows "-", matching
+   *  the previous `value || '-'` behavior. Not used for the cooldown (CD) column. */
+  pct(v: number | undefined): string {
+    return v ? `${v}%` : '-';
+  }
+
+  /** Show the "main → simulado" arrow for `field` when comparing and the compared
+   *  build's `<field>2` value differs from the current one. Handles numeric cells
+   *  (default 0) and the skill cooldown string column (default ''). */
+  showArrow(val: any, field: string): boolean {
+    if (!this.isComparing) return false;
+    const sim = val[`${field}2`];
+    if (sim === undefined) return false;
+    const cur = val[field];
+    if (typeof sim === 'string' || typeof cur === 'string') return (cur ?? '') !== (sim ?? '');
+    return (cur ?? 0) !== (sim ?? 0);
   }
 
   get isShowElementTable() {

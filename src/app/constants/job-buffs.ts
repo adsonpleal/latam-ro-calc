@@ -356,6 +356,25 @@ const JobBuffsList: ActiveSkillModel[] = [
     ],
   },
   {
+    // Infecção — the debuff Maldição de Jormungand (Killing Cloud, SO_CLOUD_KILL)
+    // leaves on the target: it lowers Poison property resistance by 5% per skill
+    // level (−25% at Lv 5), so every Poison attack lands for that much more (see
+    // getElementResistReduction). browiki.org/wiki/Maldição_de_Jormungand
+    name: 'Infection',
+    label: 'Infecção',
+    icon: 2450,
+    inputType: 'dropdown',
+    isDebuff: true,
+    dropdown: [
+      { label: '-', isUse: false, value: 0 },
+      { label: 'Lv 1', isUse: true, value: 1, bonus: { infection: 5 } },
+      { label: 'Lv 2', isUse: true, value: 2, bonus: { infection: 10 } },
+      { label: 'Lv 3', isUse: true, value: 3, bonus: { infection: 15 } },
+      { label: 'Lv 4', isUse: true, value: 4, bonus: { infection: 20 } },
+      { label: 'Lv 5', isUse: true, value: 5, bonus: { infection: 25 } },
+    ],
+  },
+  {
     name: '_Meister_Quake',
     label: 'Avanço Sísmico',
     icon: 5296,

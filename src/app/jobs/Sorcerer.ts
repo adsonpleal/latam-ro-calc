@@ -255,6 +255,29 @@ export class Sorcerer extends Scholar {
         return (1000 + skillLevel * 300 + totalInt) * (baseLevel / 100) + summonerBonus;
       },
     },
+    {
+      // Killing Cloud (SO_CLOUD_KILL) — "Maldição de Jormungand". Ground poison
+      // cloud that ticks magic Poison damage every 0.5s for 5s. Per-tick MATK is
+      // {[skillLv*40 + INT*3] * (baseLevel/100)}% (wiki: 40/80/120/160/200% base).
+      // Improved by the Chandra (Tera) elemental spirit, same as Poison Burst.
+      name: 'Killing Cloud',
+      label: 'Killing Cloud Lv5',
+      value: 'Killing Cloud==5',
+      fct: 0,
+      vct: 3.1,
+      cd: 5,
+      acd: 1,
+      element: ElementType.Poison,
+      isMatk: true,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { model, skillLevel, status } = input;
+        const baseLevel = model.level;
+        const totalInt = status.totalInt;
+        const summonerBonus = this.isSummon(ElementalSpiritValue.Tera_2) ? model.jobLevel * 5 : 0
+
+        return (skillLevel * 40 + totalInt * 3) * (baseLevel / 100) + summonerBonus;
+      },
+    },
   ];
   private readonly activeSkillList3rd: ActiveSkillModel[] = [
     {

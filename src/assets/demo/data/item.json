@@ -91412,7 +91412,7 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "739": [
+      "2450": [
         "15",
         "7===15",
         "9===15",
@@ -98280,7 +98280,7 @@
       "fct": [
         "LEARN_SKILL[Striking==1]---0.1"
       ],
-      "cd__739": [
+      "cd__2450": [
         "EQUIP[Sorcerer Stone (Garment)]===2"
       ],
       "2446": [
@@ -101637,7 +101637,7 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "739": [
+      "2450": [
         "15",
         "7===15",
         "9===15",
@@ -232246,7 +232246,7 @@
       "Windhawk"
     ],
     "script": {
-      "739": [
+      "2450": [
         "EQUIP_ID[1762]10"
       ],
       "2038": [

@@ -332,6 +332,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    */
   totalSummary2: any;
   compareItemSummaryModel: any;
+  /** The compare build's equivalents of bonusBreakdownSources / bonusBreakdownTooltips,
+   *  so clicking a "→ simulado" value opens the breakdown against the compared build. */
+  private bonusBreakdownSources2: Record<string, any> = {};
+  private bonusBreakdownTooltips2: Record<string, string> = {};
   selectedCompareItemDesc: ItemTypeEnum;
   private equipCompareItemIdItemTypeMap = new Map<ItemTypeEnum, number>();
   equipCompareItems: DropdownModel[] = [];
@@ -564,7 +568,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           this.calcCompare();
         } else {
           this.resetModel2();
+          this.totalSummary2 = undefined;
         }
+        // Rebuild the summary tables so the "Bônus de Habilidade / Multiplicadores"
+        // cells pick up (or drop) the compared build's "main → simulado" arrows.
+        this.applySummaryTables();
         // Refresh the Efeitos list so an activation that only exists on the item being
         // compared (e.g. its card's Instinto) shows up alongside the main build's.
         this.refreshChanceList();
@@ -896,6 +904,17 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       const calc2 = this.prepare(this.calculator2, m2);
       this.totalSummary2 = calc2.getTotalSummary();
       this.compareItemSummaryModel = calc2.getItemSummary();
+      // Mirror calculate()'s bonusBreakdownSources for the compared build, so a click on a
+      // "→ simulado" summary value drills into the compare column's own gear. Consumables and
+      // ASPD potions are global toggles (only on the main MainModel, shared by both columns),
+      // so reuse those from this.model — but scale the potions by the compare build's AGI.
+      const potion2 = collectAspdPotionSources(this.model, AspdPotionFixBonus, this.totalSummary2?.calc?.totalAgi ?? 0);
+      this.bonusBreakdownSources2 = {
+        ...this.compareItemSummaryModel,
+        ...collectConsumables(this.model, this.items).sources,
+        ...potion2.sources,
+      };
+      this.bonusBreakdownTooltips2 = potion2.tooltips;
     }
   }
 
@@ -925,12 +944,21 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    * this just wires the pure builders to the bound view fields.
    */
   private applySummaryTables(): void {
-    this.elementTable = buildElementTable(this.totalSummary);
-    ({ raceTable: this.raceTable, peneRaceTable: this.peneRaceTable } = buildRaceTables(this.totalSummary));
-    this.sizeTable = buildSizeTable(this.totalSummary);
-    ({ classTable: this.classTable, peneClassTable: this.peneClassTable } = buildMonsterTypeTables(this.totalSummary));
-    this.atkTypeTable = buildAtkTypeTable(this.totalSummary);
-    this.skillMultiplierTable = buildSkillMultiplierTable(this.totalSummary, (key) => resolveSkillKey(key));
+    // While comparing, feed the compared build's summary so each table row carries a
+    // `*2` value and the misc-detail template can render the "main → simulado" arrow.
+    const cmp = this.isComparing ? this.totalSummary2 : undefined;
+    this.elementTable = buildElementTable(this.totalSummary, cmp);
+    ({ raceTable: this.raceTable, peneRaceTable: this.peneRaceTable } = buildRaceTables(this.totalSummary, cmp));
+    this.sizeTable = buildSizeTable(this.totalSummary, cmp);
+    ({ classTable: this.classTable, peneClassTable: this.peneClassTable } = buildMonsterTypeTables(this.totalSummary, cmp));
+    this.atkTypeTable = buildAtkTypeTable(this.totalSummary, cmp);
+    this.skillMultiplierTable = buildSkillMultiplierTable(this.totalSummary, (key) => resolveSkillKey(key), cmp);
+  }
+
+  /** True when a compare build is active and its summary has been computed — gates
+   *  the "main → simulado" arrows in the "Bônus de Habilidade / Multiplicadores" tables. */
+  get isComparing(): boolean {
+    return this.isEnableCompare && !!this.totalSummary2;
   }
 
   calculateToSelectedMonsters(needCalcAll = true) {
@@ -2676,7 +2704,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       /^pene_/.test(k) ||
       isDefenderKey(k) ||
       /^(vct|acd|fctPercent)__/.test(k) ||
-      ['range', 'melee', 'criDmg', 'cri', 'perfectHit', 'acd', 'vct', 'vct_inc', 'vctBySkill'].includes(k)
+      ['range', 'melee', 'criDmg', 'cri', 'perfectHit', 'acd', 'vct', 'vct_inc', 'vctBySkill', 'oratio', 'infection'].includes(k)
     );
   }
 
@@ -2749,17 +2777,19 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.showBonusBreakdown({ label: `Redução: ${row.label}`, keys: row.keys, valueClass: 'summary_stat_def2', sources, itemMap });
   }
 
-  showBonusBreakdown(event: { label: string; keys: string[]; valueClass: string; total?: number; calc?: DamageFormulaCalc; sources?: Record<string, any>; itemMap?: Map<any, number> }): void {
+  showBonusBreakdown(event: { label: string; keys: string[]; valueClass: string; total?: number; calc?: DamageFormulaCalc; sources?: Record<string, any>; itemMap?: Map<any, number>; compare?: boolean }): void {
     const rows: typeof this.bonusBreakdownRows = [];
     // The summary value being broken down is a reduction (and so shown negated) when every
     // queried key is one — cast/delay stats are always queried alone (e.g. ['acd']).
     const isReduction = event.keys.length > 0 && event.keys.every((k) => this.isReductionKey(k));
     // Defaults to the attacker build's sources/item-map; the PVP reduction popover
-    // passes them explicitly, and a pure defender-key lookup (the "Redução por equip."
-    // graph node, which carries no explicit sources) resolves against the TARGET's gear.
-    const targetScoped = !event.sources && this.isAllDefenderKeys(event.keys);
-    const sources = event.sources ?? (targetScoped ? this.pvpTargetSources : this.bonusBreakdownSources);
-    const itemMap = event.itemMap ?? (targetScoped ? this.pvpTargetItemMap : this.equipItemIdItemTypeMap);
+    // passes them explicitly, a "→ simulado" compare click resolves against the compared
+    // build, and a pure defender-key lookup (the "Redução por equip." graph node, which
+    // carries no explicit sources) resolves against the TARGET's gear.
+    const targetScoped = !event.sources && !event.compare && this.isAllDefenderKeys(event.keys);
+    const sources = event.sources ?? (event.compare ? this.bonusBreakdownSources2 : targetScoped ? this.pvpTargetSources : this.bonusBreakdownSources);
+    const itemMap = event.itemMap ?? (event.compare ? this.equipCompareItemIdItemTypeMap : targetScoped ? this.pvpTargetItemMap : this.equipItemIdItemTypeMap);
+    const tooltips = event.compare ? this.bonusBreakdownTooltips2 : this.bonusBreakdownTooltips;
     for (const [srcKey, bonusMap] of Object.entries(sources || {})) {
       if (!bonusMap || typeof bonusMap !== 'object') continue;
       // A single source can contribute BOTH a flat and a percent bonus for the same
@@ -2780,7 +2810,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       const parts: string[] = [];
       if (flatSum) parts.push(this.formatSignedValue(isReduction ? -flatSum : flatSum, false));
       if (pctSum) parts.push(this.formatSignedValue(isReduction ? -pctSum : pctSum, true));
-      rows.push({ ...this.resolveBonusSource(srcKey, flatSum + pctSum, itemMap), display: parts.join(' '), tooltip: this.bonusBreakdownTooltips[srcKey] });
+      rows.push({ ...this.resolveBonusSource(srcKey, flatSum + pctSum, itemMap), display: parts.join(' '), tooltip: tooltips[srcKey] });
     }
 
     // Trait stats (P.ATQ/S.ATQM/T.CRÍT) mix POD/CON/FEI/CRV attributes into the same

@@ -3,6 +3,7 @@ import { AtkSkillModel } from './_character-base.abstract';
 import { Minstrel } from './Minstrel';
 import { Oboro } from './Oboro';
 import { Ranger } from './Ranger';
+import { Sorcerer } from './Sorcerer';
 import { Windhawk } from './Windhawk';
 
 /**
@@ -84,6 +85,36 @@ describe('Minstrel atk-skill formulas (shared Maestro/Wanderer consts)', () => {
     (minstrel as any).bonuses.learnedSkillMap.set('Lesson', 10);
     // (skillLevel*120 + lessonLv*60) * (level/100) = (10*120 + 10*60) * 2 = 3600
     expect(dmgOf(minstrel, 'Metalic Sound', { level: 200, skillLevel: 10 })).toBe(3600);
+  });
+});
+
+describe('Sorcerer Killing Cloud (Maldição de Jormungand)', () => {
+  // reads status.totalInt + model.level/jobLevel and the Chandra (Tera) spirit summon,
+  // none of which the shared dmgOf helper passes — invoke the formula directly.
+  const kcDmg = (
+    so: Sorcerer,
+    input: { level: number; jobLevel?: number; skillLevel: number; int: number },
+  ) =>
+    findSkill(so, 'Killing Cloud').formula({
+      model: { level: input.level, jobLevel: input.jobLevel ?? 70 },
+      skillLevel: input.skillLevel,
+      status: { totalInt: input.int },
+      skills: (so as any).skillState,
+    } as any);
+
+  // (skillLevel*40 + INT*3) * (baseLevel/100) = (5*40 + 100*3) * (200/100) = 1000
+  it('Lv5 @ base 200, INT 100, no elemental spirit', () => {
+    const so = new Sorcerer();
+    (so as any).bonuses = stubBonuses();
+    expect(kcDmg(so, { level: 200, skillLevel: 5, int: 100 })).toBe(1000);
+  });
+
+  // Chandra (Tera_2 = 42) summoned adds jobLevel*5: 1000 + 70*5 = 1350
+  it('Lv5 @ base 200, INT 100, Chandra summoned (+jobLevel*5)', () => {
+    const so = new Sorcerer();
+    (so as any).bonuses = stubBonuses();
+    (so as any).bonuses.usedSkillMap = new Map<string, number>([['_Sorcerer_Elemental_Spirit', 42]]);
+    expect(kcDmg(so, { level: 200, jobLevel: 70, skillLevel: 5, int: 100 })).toBe(1350);
   });
 });
 

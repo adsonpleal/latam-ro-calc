@@ -2422,11 +2422,12 @@
           [atkTypeTable]="atkTypeTable"
           [skillMultiplierTable]="skillMultiplierTable"
           [skillTooltip]="skillTooltip"
+          [isComparing]="isComparing"
           (valueClick)="showBonusBreakdown($event)"
         ></app-misc-detail>
       </p-accordionTab>
       <p-accordionTab header="Resumo de Penetração">
-        <app-misc-detail [elementTable]="[]" [raceTable]="peneRaceTable" [sizeTable]="[]" [classTable]="peneClassTable" [skillMultiplierTable]="[]" [isPene]="true" (valueClick)="showBonusBreakdown($event)"></app-misc-detail>
+        <app-misc-detail [elementTable]="[]" [raceTable]="peneRaceTable" [sizeTable]="[]" [classTable]="peneClassTable" [skillMultiplierTable]="[]" [isPene]="true" [isComparing]="isComparing" (valueClick)="showBonusBreakdown($event)"></app-misc-detail>
       </p-accordionTab>
 
       <!-- Hidden for now (code kept): flip *ngIf back to true to restore the "Resumo" tab. -->

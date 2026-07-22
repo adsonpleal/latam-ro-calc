@@ -103,6 +103,15 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.24-beta',
+      date: '22-07-2026',
+      logs: [
+        'Adicionada a habilidade Maldição de Jormungand (Killing Cloud) do Feiticeiro e do Elementalista: uma nuvem venenosa que causa dano mágico de propriedade Veneno a cada 0,5s. O efeito [Infecção] que ela aplica no alvo foi colocado entre os debuffs e reduz a resistência do alvo à propriedade Veneno em 5% por nível (−25% no Lv 5), aumentando o dano de qualquer ataque de Veneno. Essa redução passou a aparecer numa coluna própria, "R.R. Elem.", na tabela de Elemento, e o ícone da habilidade foi corrigido. (reportado por Ted.)',
+        'Na aba "Bônus de Habilidade / Multiplicadores", ao comparar dois builds cada tabela agora mostra a diferença com uma seta "atual → simulado" nos valores que mudam, e o valor simulado é clicável para ver quais itens do build comparado o concedem. (reportado por Ted.)',
+        'Os valores das tabelas de resumo (Classe, Raça, Tamanho, Elemento e Multiplicadores) passaram a exibir o sinal de porcentagem, deixando claro que são bônus percentuais.',
+      ],
+    },
+    {
       v: '0.1.23-beta',
       date: '22-07-2026',
       logs: [

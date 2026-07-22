@@ -40,10 +40,18 @@
                     </span>
                   </td>
                   <td>
-                    <span class="{{ !!val.value ? 'summary_damage bonus_clickable' : '' }}" (click)="val.value && onSkillClick(val, 'value')" [keyActivate]="val.value">{{ val.value || '-' }}</span>
+                    <span class="{{ !!val.value ? 'summary_damage bonus_clickable' : '' }}" (click)="val.value && onSkillClick(val, 'value')" [keyActivate]="val.value">{{ pct(val.value) }}</span>
+                    <ng-container *ngIf="showArrow(val, 'value')"
+                      ><span class="summary_arrow">→</span
+                      ><span class="{{ !!val.value2 ? 'summary_damage2 bonus_clickable' : 'summary_damage2' }}" (click)="val.value2 && onSkillClick(val, 'value', true)" [keyActivate]="val.value2">{{ pct(val.value2) }}</span></ng-container
+                    >
                   </td>
                   <td>
                     <span class="{{ !!val.cd ? 'summary_damage bonus_clickable' : '' }}" (click)="val.cd && onSkillClick(val, 'cd')" [keyActivate]="val.cd">{{ val.cd || '-' }}</span>
+                    <ng-container *ngIf="showArrow(val, 'cd')"
+                      ><span class="summary_arrow">→</span
+                      ><span class="{{ !!val.cd2 ? 'summary_damage2 bonus_clickable' : 'summary_damage2' }}" (click)="val.cd2 && onSkillClick(val, 'cd', true)" [keyActivate]="val.cd2">{{ val.cd2 || '-' }}</span></ng-container
+                    >
                   </td>
                 </tr>
               </ng-template>
@@ -62,10 +70,12 @@
                 <tr>
                   <td>{{ val.displayName || val.name }}</td>
                   <td>
-                    <span class="{{ val.physical != 0 ? 'summary_stat_atk bonus_clickable' : '' }}" (click)="val.physical && onClassClick(val, 'physical')" [keyActivate]="val.physical">{{ val.physical || '-' }}</span>
+                    <span class="{{ val.physical != 0 ? 'summary_stat_atk bonus_clickable' : '' }}" (click)="val.physical && onClassClick(val, 'physical')" [keyActivate]="val.physical">{{ pct(val.physical) }}</span>
+                    <ng-container *ngIf="showArrow(val, 'physical')"><span class="summary_arrow">→</span><span class="{{ val.physical2 != 0 ? 'summary_stat_atk2 bonus_clickable' : 'summary_stat_atk2' }}" (click)="val.physical2 && onClassClick(val, 'physical', true)" [keyActivate]="val.physical2">{{ pct(val.physical2) }}</span></ng-container>
                   </td>
                   <td>
-                    <span class="{{ val.magical != 0 ? 'summary_stat_matk bonus_clickable' : '' }}" (click)="val.magical && onClassClick(val, 'magical')" [keyActivate]="val.magical">{{ val.magical || '-' }}</span>
+                    <span class="{{ val.magical != 0 ? 'summary_stat_matk bonus_clickable' : '' }}" (click)="val.magical && onClassClick(val, 'magical')" [keyActivate]="val.magical">{{ pct(val.magical) }}</span>
+                    <ng-container *ngIf="showArrow(val, 'magical')"><span class="summary_arrow">→</span><span class="{{ val.magical2 != 0 ? 'summary_stat_matk2 bonus_clickable' : 'summary_stat_matk2' }}" (click)="val.magical2 && onClassClick(val, 'magical', true)" [keyActivate]="val.magical2">{{ pct(val.magical2) }}</span></ng-container>
                   </td>
                 </tr>
               </ng-template>
@@ -84,10 +94,12 @@
                 <tr>
                   <td>{{ val.displayName || val.name }}</td>
                   <td>
-                    <span class="{{ val.physical != 0 ? 'summary_stat_atk bonus_clickable' : '' }}" (click)="val.physical && onSizeClick(val, 'physical')" [keyActivate]="val.physical">{{ val.physical || '-' }}</span>
+                    <span class="{{ val.physical != 0 ? 'summary_stat_atk bonus_clickable' : '' }}" (click)="val.physical && onSizeClick(val, 'physical')" [keyActivate]="val.physical">{{ pct(val.physical) }}</span>
+                    <ng-container *ngIf="showArrow(val, 'physical')"><span class="summary_arrow">→</span><span class="{{ val.physical2 != 0 ? 'summary_stat_atk2 bonus_clickable' : 'summary_stat_atk2' }}" (click)="val.physical2 && onSizeClick(val, 'physical', true)" [keyActivate]="val.physical2">{{ pct(val.physical2) }}</span></ng-container>
                   </td>
                   <td>
-                    <span class="{{ val.magical != 0 ? 'summary_stat_matk bonus_clickable' : '' }}" (click)="val.magical && onSizeClick(val, 'magical')" [keyActivate]="val.magical">{{ val.magical || '-' }}</span>
+                    <span class="{{ val.magical != 0 ? 'summary_stat_matk bonus_clickable' : '' }}" (click)="val.magical && onSizeClick(val, 'magical')" [keyActivate]="val.magical">{{ pct(val.magical) }}</span>
+                    <ng-container *ngIf="showArrow(val, 'magical')"><span class="summary_arrow">→</span><span class="{{ val.magical2 != 0 ? 'summary_stat_matk2 bonus_clickable' : 'summary_stat_matk2' }}" (click)="val.magical2 && onSizeClick(val, 'magical', true)" [keyActivate]="val.magical2">{{ pct(val.magical2) }}</span></ng-container>
                   </td>
                 </tr>
               </ng-template>
@@ -113,7 +125,16 @@
                       }}"
                       (click)="val.value && onAtkTypeClick(val)"
                       [keyActivate]="val.value"
-                      >{{ val.value || '-' }}</span
+                      >{{ pct(val.value) }}</span
+                    >
+                    <ng-container *ngIf="showArrow(val, 'value')"
+                      ><span class="summary_arrow">→</span
+                      ><span
+                        class="{{ (val.name == 'Melee' || val.name == 'Range' ? 'summary_stat_atk2' : 'summary_stat_matk2') + (val.value2 != 0 ? ' bonus_clickable' : '') }}"
+                        (click)="val.value2 && onAtkTypeClick(val, true)"
+                        [keyActivate]="val.value2"
+                        >{{ pct(val.value2) }}</span
+                      ></ng-container
                     >
                   </td>
                 </tr>
@@ -135,10 +156,12 @@
             <tr>
               <td>{{ val.displayName || val.name }}</td>
               <td>
-                <span class="{{ val.physical != 0 ? 'summary_stat_atk bonus_clickable' : '' }}" (click)="val.physical && onRaceClick(val, 'physical')" [keyActivate]="val.physical">{{ val.physical || '-' }}</span>
+                <span class="{{ val.physical != 0 ? 'summary_stat_atk bonus_clickable' : '' }}" (click)="val.physical && onRaceClick(val, 'physical')" [keyActivate]="val.physical">{{ pct(val.physical) }}</span>
+                <ng-container *ngIf="showArrow(val, 'physical')"><span class="summary_arrow">→</span><span class="{{ val.physical2 != 0 ? 'summary_stat_atk2 bonus_clickable' : 'summary_stat_atk2' }}" (click)="val.physical2 && onRaceClick(val, 'physical', true)" [keyActivate]="val.physical2">{{ pct(val.physical2) }}</span></ng-container>
               </td>
               <td>
-                <span class="{{ val.magical != 0 ? 'summary_stat_matk bonus_clickable' : '' }}" (click)="val.magical && onRaceClick(val, 'magical')" [keyActivate]="val.magical">{{ val.magical || '-' }}</span>
+                <span class="{{ val.magical != 0 ? 'summary_stat_matk bonus_clickable' : '' }}" (click)="val.magical && onRaceClick(val, 'magical')" [keyActivate]="val.magical">{{ pct(val.magical) }}</span>
+                <ng-container *ngIf="showArrow(val, 'magical')"><span class="summary_arrow">→</span><span class="{{ val.magical2 != 0 ? 'summary_stat_matk2 bonus_clickable' : 'summary_stat_matk2' }}" (click)="val.magical2 && onRaceClick(val, 'magical', true)" [keyActivate]="val.magical2">{{ pct(val.magical2) }}</span></ng-container>
               </td>
             </tr>
           </ng-template>
@@ -148,13 +171,14 @@
   </div>
 
   <div class="col-5" *ngIf="isShowElementTable">
-    <p-table [value]="elementTable" styleClass="p-datatable-sm" [tableStyle]="{ 'min-width': '15rem' }">
+    <p-table [value]="elementTable" styleClass="p-datatable-sm" [tableStyle]="{ 'min-width': '18rem' }">
       <ng-template pTemplate="header">
         <tr>
           <th class="color_highlight">Elemento</th>
           <th title="Físico">F</th>
           <th title="Mágico">M</th>
           <th>Elem. Mágico</th>
+          <th pTooltip="Redução de Resistência Elemental" tooltipPosition="top" [showDelay]="300">R.R. Elem.</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-val>
@@ -164,16 +188,23 @@
           </td>
           <td>
             <span class="{{ val.physicalElementToMonster != 0 ? 'summary_stat_atk bonus_clickable' : '' }}" (click)="val.physicalElementToMonster && onElementClick(val, 'physical')" [keyActivate]="val.physicalElementToMonster">{{
-              val.physicalElementToMonster || '-'
+              pct(val.physicalElementToMonster)
             }}</span>
+            <ng-container *ngIf="showArrow(val, 'physicalElementToMonster')"><span class="summary_arrow">→</span><span class="{{ val.physicalElementToMonster2 != 0 ? 'summary_stat_atk2 bonus_clickable' : 'summary_stat_atk2' }}" (click)="val.physicalElementToMonster2 && onElementClick(val, 'physical', true)" [keyActivate]="val.physicalElementToMonster2">{{ pct(val.physicalElementToMonster2) }}</span></ng-container>
           </td>
           <td>
             <span class="{{ val.magicalElementToMonster != 0 ? 'summary_stat_matk bonus_clickable' : '' }}" (click)="val.magicalElementToMonster && onElementClick(val, 'magical')" [keyActivate]="val.magicalElementToMonster">{{
-              val.magicalElementToMonster || '-'
+              pct(val.magicalElementToMonster)
             }}</span>
+            <ng-container *ngIf="showArrow(val, 'magicalElementToMonster')"><span class="summary_arrow">→</span><span class="{{ val.magicalElementToMonster2 != 0 ? 'summary_stat_matk2 bonus_clickable' : 'summary_stat_matk2' }}" (click)="val.magicalElementToMonster2 && onElementClick(val, 'magical', true)" [keyActivate]="val.magicalElementToMonster2">{{ pct(val.magicalElementToMonster2) }}</span></ng-container>
           </td>
           <td>
-            <span class="{{ val.myElement != 0 ? 'summary_stat_matk bonus_clickable' : '' }}" (click)="val.myElement && onElementClick(val, 'myElement')" [keyActivate]="val.myElement">{{ val.myElement || '-' }}</span>
+            <span class="{{ val.myElement != 0 ? 'summary_stat_matk bonus_clickable' : '' }}" (click)="val.myElement && onElementClick(val, 'myElement')" [keyActivate]="val.myElement">{{ pct(val.myElement) }}</span>
+            <ng-container *ngIf="showArrow(val, 'myElement')"><span class="summary_arrow">→</span><span class="{{ val.myElement2 != 0 ? 'summary_stat_matk2 bonus_clickable' : 'summary_stat_matk2' }}" (click)="val.myElement2 && onElementClick(val, 'myElement', true)" [keyActivate]="val.myElement2">{{ pct(val.myElement2) }}</span></ng-container>
+          </td>
+          <td>
+            <span class="{{ val.elementResistReduction != 0 ? 'summary_stat_matk bonus_clickable' : '' }}" (click)="val.elementResistReduction && onElementClick(val, 'resist')" [keyActivate]="val.elementResistReduction">{{ pct(val.elementResistReduction) }}</span>
+            <ng-container *ngIf="showArrow(val, 'elementResistReduction')"><span class="summary_arrow">→</span><span class="{{ val.elementResistReduction2 != 0 ? 'summary_stat_matk2 bonus_clickable' : 'summary_stat_matk2' }}" (click)="val.elementResistReduction2 && onElementClick(val, 'resist', true)" [keyActivate]="val.elementResistReduction2">{{ pct(val.elementResistReduction2) }}</span></ng-container>
           </td>
         </tr>
       </ng-template>

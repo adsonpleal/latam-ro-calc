@@ -45,6 +45,7 @@ export const BUFF_BONUS_LABELS: Record<string, string> = {
   p_pene_race_all: 'Penetração Física (Raça)', m_pene_race_all: 'Penetração Mágica (Raça)',
   pene_res: 'Penetrar Res', pene_mres: 'Penetrar MRes',
   monster_res: 'Res do alvo', monster_mres: 'MRes do alvo', oratio: 'Reduz Res. Sagrado do alvo',
+  infection: 'Reduz Res. Veneno do alvo',
   comet: 'Dano Cometa', raid: 'Dano físico recebido', darkClaw: 'Garra Sombria',
   sporeExplosion: 'Dano recebido', quake: 'Dano físico recebido', oleumSanctum: 'Oleum Sanctum',
   mysticAmp: 'Ampl. Mística', magnumBreakPsedoBonus: 'Impacto Explosivo', magnumBreakClearEDP: 'Limpar EDP',

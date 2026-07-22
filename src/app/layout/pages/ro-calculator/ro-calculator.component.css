@@ -223,6 +223,16 @@ a.skill_link:hover {
   background-color: #121212;
   color: var(--teal-300);
 }
+.summary_damage2 {
+  background-color: #121212;
+  color: var(--teal-200);
+}
+
+/* Compare arrow between a cell's current value and the compared build's value. */
+.summary_arrow {
+  margin: 0 0.15rem;
+  opacity: 0.6;
+}
 
 .summary_chance {
   /* background-color: var(--surface-0); */

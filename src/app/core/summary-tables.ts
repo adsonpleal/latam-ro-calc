@@ -18,6 +18,9 @@ export interface ElementDataModel {
   physicalElementToMonster: number;
   magicalElementToMonster: number;
   myElement: number;
+  /** Target elemental-resistance reduction (Oratio / Infecção) for this element — shown
+   *  in its own "R.R. Elem." column, since it boosts my attacks of that property. */
+  elementResistReduction: number;
 }
 
 export interface RaceDataModel {
@@ -71,82 +74,100 @@ const SIZE_PT: Record<string, string> = { Small: 'Pequeno', Medium: 'Médio', La
 const MONSTER_TYPE_PT: Record<string, string> = { Boss: 'Chefe', Normal: 'Normal' };
 const ATK_TYPE_PT: Record<string, string> = { Melee: 'Corpo a corpo', Range: 'À distância', MATK: 'MATK' };
 
-export function buildElementTable(totalSummary: DamageSummaryLike): ElementDataModel[] {
-  const p_element_all = totalSummary['p_element_all'] || 0;
-  const m_element_all = totalSummary['m_element_all'] || 0;
-  const m_my_element_all = totalSummary['m_my_element_all'] || 0;
+// Each numeric cell gets an optional `<field>2` compare counterpart, sourced from
+// `compareSummary` (the build being compared). The template shows a `main → sim`
+// arrow when the two differ. Passing no `compareSummary` keeps the old shape (no
+// `*2` keys), so non-comparison callers — and their `toEqual` tests — are unchanged.
 
-  return elements.map(([eleShow, ele]) => ({
-    name: eleShow,
-    displayName: ELEMENT_PT[eleShow] ?? eleShow,
-    physicalElementToMonster: p_element_all + (totalSummary[`p_element_${ele}`] || 0),
-    magicalElementToMonster: m_element_all + (totalSummary[`m_element_${ele}`] || 0),
-    myElement: m_my_element_all + (totalSummary[`m_my_element_${ele}`] || 0),
-  }));
+/** Target elemental-resistance reductions that make MY attacks of that property land for
+ *  more. The engine adds these straight onto the property modifier (see damage-calculator
+ *  `getElementResistReduction`): Oratio → Sagrado, Infecção (Maldição de Jormungand) →
+ *  Veneno. They affect both physical and magical attacks of that element (so NOT a magic-
+ *  only "Elem. Mágico" bonus) — hence their own "R.R. Elem." column. Keyed by lowercase element. */
+export const RESIST_REDUCTION_KEY_BY_ELE: Record<string, string> = { holy: 'oratio', poison: 'infection' };
+
+function elementCell(summary: DamageSummaryLike, ele: string) {
+  const reductionKey = RESIST_REDUCTION_KEY_BY_ELE[ele];
+  return {
+    physicalElementToMonster: (summary['p_element_all'] || 0) + (summary[`p_element_${ele}`] || 0),
+    magicalElementToMonster: (summary['m_element_all'] || 0) + (summary[`m_element_${ele}`] || 0),
+    myElement: (summary['m_my_element_all'] || 0) + (summary[`m_my_element_${ele}`] || 0),
+    elementResistReduction: reductionKey ? summary[reductionKey] || 0 : 0,
+  };
 }
 
-export function buildRaceTables(totalSummary: DamageSummaryLike): { raceTable: RaceDataModel[]; peneRaceTable: RaceDataModel[] } {
-  const p_race_all = totalSummary['p_race_all'] || 0;
-  const m_race_all = totalSummary['m_race_all'] || 0;
-  const raceTable = races.map(([raceShow, race]) => ({
-    name: raceShow,
-    displayName: RACE_PT[raceShow] ?? raceShow,
-    physical: p_race_all + (totalSummary[`p_race_${race}`] || 0),
-    magical: m_race_all + (totalSummary[`m_race_${race}`] || 0),
-  }));
+export function buildElementTable(totalSummary: DamageSummaryLike, compareSummary?: DamageSummaryLike): ElementDataModel[] {
+  return elements.map(([eleShow, ele]) => {
+    const row: any = { name: eleShow, displayName: ELEMENT_PT[eleShow] ?? eleShow, ...elementCell(totalSummary, ele) };
+    if (compareSummary) {
+      const c = elementCell(compareSummary, ele);
+      row.physicalElementToMonster2 = c.physicalElementToMonster;
+      row.magicalElementToMonster2 = c.magicalElementToMonster;
+      row.myElement2 = c.myElement;
+      row.elementResistReduction2 = c.elementResistReduction;
+    }
+    return row;
+  });
+}
 
-  const p_pene_race_all = totalSummary['p_pene_race_all'] || 0;
-  const m_pene_race_all = totalSummary['m_pene_race_all'] || 0;
-  const peneRaceTable = races.map(([classShow, race]) => ({
-    name: classShow,
-    displayName: RACE_PT[classShow] ?? classShow,
-    physical: p_pene_race_all + (totalSummary[`p_pene_race_${race}`] || 0),
-    magical: m_pene_race_all + (totalSummary[`m_pene_race_${race}`] || 0),
-  }));
+/** Sum the `<prefix>all` bonus with the category-specific `<prefix><key>` bonus. */
+function sumBonus(summary: DamageSummaryLike, prefix: string, key: string): number {
+  return (summary[`${prefix}all`] || 0) + (summary[`${prefix}${key}`] || 0);
+}
+
+/** A `{ physical, magical }` row for a `p_`/`m_` bonus family, with optional `*2` compare. */
+function physMagRow(
+  name: string,
+  displayName: string,
+  key: string,
+  base: string,
+  totalSummary: DamageSummaryLike,
+  compareSummary?: DamageSummaryLike,
+): RaceDataModel {
+  const row: any = {
+    name,
+    displayName,
+    physical: sumBonus(totalSummary, `p_${base}_`, key),
+    magical: sumBonus(totalSummary, `m_${base}_`, key),
+  };
+  if (compareSummary) {
+    row.physical2 = sumBonus(compareSummary, `p_${base}_`, key);
+    row.magical2 = sumBonus(compareSummary, `m_${base}_`, key);
+  }
+  return row;
+}
+
+export function buildRaceTables(
+  totalSummary: DamageSummaryLike,
+  compareSummary?: DamageSummaryLike,
+): { raceTable: RaceDataModel[]; peneRaceTable: RaceDataModel[] } {
+  const raceTable = races.map(([raceShow, race]) => physMagRow(raceShow, RACE_PT[raceShow] ?? raceShow, race, 'race', totalSummary, compareSummary));
+  const peneRaceTable = races.map(([raceShow, race]) => physMagRow(raceShow, RACE_PT[raceShow] ?? raceShow, race, 'pene_race', totalSummary, compareSummary));
 
   return { raceTable, peneRaceTable };
 }
 
-export function buildSizeTable(totalSummary: DamageSummaryLike): RaceDataModel[] {
-  const p_size_all = totalSummary['p_size_all'] || 0;
-  const m_size_all = totalSummary['m_size_all'] || 0;
-
-  return sizes.map(([sizeShow, size]) => ({
-    name: sizeShow,
-    displayName: SIZE_PT[sizeShow] ?? sizeShow,
-    physical: p_size_all + (totalSummary[`p_size_${size}`] || 0),
-    magical: m_size_all + (totalSummary[`m_size_${size}`] || 0),
-  }));
+export function buildSizeTable(totalSummary: DamageSummaryLike, compareSummary?: DamageSummaryLike): RaceDataModel[] {
+  return sizes.map(([sizeShow, size]) => physMagRow(sizeShow, SIZE_PT[sizeShow] ?? sizeShow, size, 'size', totalSummary, compareSummary));
 }
 
-export function buildMonsterTypeTables(totalSummary: DamageSummaryLike): { classTable: RaceDataModel[]; peneClassTable: RaceDataModel[] } {
-  const p_class_all = totalSummary['p_class_all'] || 0;
-  const m_class_all = totalSummary['m_class_all'] || 0;
-  const classTable = monsterTypes.map(([classShow, _class]) => ({
-    name: classShow,
-    displayName: MONSTER_TYPE_PT[classShow] ?? classShow,
-    physical: p_class_all + (totalSummary[`p_class_${_class}`] || 0),
-    magical: m_class_all + (totalSummary[`m_class_${_class}`] || 0),
-  }));
-
-  const p_pene_class_all = totalSummary['p_pene_class_all'] || 0;
-  const m_pene_class_all = totalSummary['m_pene_class_all'] || 0;
-  const peneClassTable = monsterTypes.map(([classShow, _class]) => ({
-    name: classShow,
-    displayName: MONSTER_TYPE_PT[classShow] ?? classShow,
-    physical: p_pene_class_all + (totalSummary[`p_pene_class_${_class}`] || 0),
-    magical: m_pene_class_all + (totalSummary[`m_pene_class_${_class}`] || 0),
-  }));
+export function buildMonsterTypeTables(
+  totalSummary: DamageSummaryLike,
+  compareSummary?: DamageSummaryLike,
+): { classTable: RaceDataModel[]; peneClassTable: RaceDataModel[] } {
+  const classTable = monsterTypes.map(([classShow, _class]) => physMagRow(classShow, MONSTER_TYPE_PT[classShow] ?? classShow, _class, 'class', totalSummary, compareSummary));
+  const peneClassTable = monsterTypes.map(([classShow, _class]) => physMagRow(classShow, MONSTER_TYPE_PT[classShow] ?? classShow, _class, 'pene_class', totalSummary, compareSummary));
 
   return { classTable, peneClassTable };
 }
 
-export function buildAtkTypeTable(totalSummary: DamageSummaryLike): AtkTypeDataModel[] {
-  return [
-    { name: 'Melee', displayName: ATK_TYPE_PT['Melee'], value: totalSummary['melee'] || 0 },
-    { name: 'Range', displayName: ATK_TYPE_PT['Range'], value: totalSummary['range'] || 0 },
-    { name: 'MATK', displayName: ATK_TYPE_PT['MATK'], value: totalSummary['matkPercent'] || 0 },
-  ];
+export function buildAtkTypeTable(totalSummary: DamageSummaryLike, compareSummary?: DamageSummaryLike): AtkTypeDataModel[] {
+  const attr: Record<string, string> = { Melee: 'melee', Range: 'range', MATK: 'matkPercent' };
+  return ['Melee', 'Range', 'MATK'].map((name) => {
+    const row: any = { name, displayName: ATK_TYPE_PT[name], value: totalSummary[attr[name]] || 0 };
+    if (compareSummary) row.value2 = compareSummary[attr[name]] || 0;
+    return row;
+  });
 }
 
 /**
@@ -155,16 +176,14 @@ export function buildAtkTypeTable(totalSummary: DamageSummaryLike): AtkTypeDataM
  * row. `resolveSkill` overlays the pt-BR name + icon when the row maps to a
  * known LATAM skill.
  */
-export function buildSkillMultiplierTable(
-  totalSummary: DamageSummaryLike,
-  resolveSkill: (name: string) => { id: number; name: string } | undefined,
-): SkillMultiplierModel[] {
+/** Collect the skill-multiplier rows (name -> { value?, cd? }) from one summary. */
+function collectSkillMultipliers(summary: DamageSummaryLike): Map<string, any> {
   const dMap = new Map<string, any>();
   const addValue = (key: string, val: Partial<SkillMultiplierModel>) => {
     dMap.set(key, dMap.has(key) ? { ...dMap.get(key), ...val } : val);
   };
 
-  for (const [attr, value] of Object.entries(totalSummary)) {
+  for (const [attr, value] of Object.entries(summary)) {
     if (!isNumber(value)) continue;
 
     const firstCap = attr.charAt(0);
@@ -182,7 +201,28 @@ export function buildSkillMultiplierTable(
     }
   }
 
-  return [...dMap.values()].map((row) => {
+  return dMap;
+}
+
+export function buildSkillMultiplierTable(
+  totalSummary: DamageSummaryLike,
+  resolveSkill: (name: string) => { id: number; name: string } | undefined,
+  compareSummary?: DamageSummaryLike,
+): SkillMultiplierModel[] {
+  const dMap = collectSkillMultipliers(totalSummary);
+  // Comparing: union the compare build's skills so a multiplier that only the
+  // compared item grants (or one it removes) still gets a row with a `*2` value.
+  const compareMap = compareSummary ? collectSkillMultipliers(compareSummary) : undefined;
+  const names = [...dMap.keys()];
+  if (compareMap) for (const name of compareMap.keys()) if (!dMap.has(name)) names.push(name);
+
+  return names.map((name) => {
+    const row: any = { ...(dMap.get(name) ?? { name }) };
+    if (compareMap) {
+      const c = compareMap.get(name);
+      row.value2 = c?.value ?? 0;
+      row.cd2 = c?.cd ?? '';
+    }
     const pt = resolveSkill(row.name);
     return pt ? { ...row, displayName: pt.name, icon: pt.id } : row;
   });

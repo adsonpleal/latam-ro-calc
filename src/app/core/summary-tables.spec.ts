@@ -24,6 +24,15 @@ describe('buildElementTable', () => {
     // an element with no specific bonus just gets the all-element value
     expect(row(table, 'Water').physicalElementToMonster).toBe(5);
   });
+
+  it('surfaces target elemental-resistance reductions in their own column (not my-element)', () => {
+    // Infecção lowers the target's Poison resistance, Oratio its Holy resistance. They live
+    // in elementResistReduction and must NOT bleed into myElement (m_my_element damage %).
+    const table = buildElementTable({ infection: 25, oratio: 20, m_my_element_poison: 5 });
+    expect(row(table, 'Poison')).toMatchObject({ elementResistReduction: 25, myElement: 5 });
+    expect(row(table, 'Holy')).toMatchObject({ elementResistReduction: 20, myElement: 0 });
+    expect(row(table, 'Fire').elementResistReduction).toBe(0); // elements with no mapped reduction
+  });
 });
 
 describe('buildRaceTables', () => {
@@ -92,5 +101,30 @@ describe('buildSkillMultiplierTable', () => {
     const resolve = (name: string) => (name === 'Cross Impact' ? { id: 42, name: 'Impacto Cruzado' } : undefined);
     const table = buildSkillMultiplierTable({ 'Cross Impact': 500 }, resolve);
     expect(table[0]).toMatchObject({ name: 'Cross Impact', displayName: 'Impacto Cruzado', icon: 42 });
+  });
+
+  it('attaches the compared build value and unions compare-only skills', () => {
+    const table = buildSkillMultiplierTable({ 'Cross Impact': 500 }, noResolve, { 'Cross Impact': 700, 'Rolling Cutter': 300 });
+    expect(row(table, 'Cross Impact')).toMatchObject({ value: 500, value2: 700 });
+    // a skill only the compared build grants still gets a row (main value absent, compare value set)
+    expect(row(table, 'Rolling Cutter')).toMatchObject({ value2: 300 });
+    expect(row(table, 'Rolling Cutter').value).toBeUndefined();
+  });
+});
+
+describe('compare (*2) columns', () => {
+  it('buildElementTable attaches per-field compared values', () => {
+    const table = buildElementTable({ p_element_fire: 10 }, { p_element_fire: 25 });
+    expect(row(table, 'Fire')).toMatchObject({ physicalElementToMonster: 10, physicalElementToMonster2: 25 });
+    // no compare arg -> no *2 keys
+    expect(row(buildElementTable({ p_element_fire: 10 }), 'Fire').physicalElementToMonster2).toBeUndefined();
+  });
+
+  it('buildRaceTables and buildAtkTypeTable attach compared values', () => {
+    const { raceTable } = buildRaceTables({ p_race_demon: 8 }, { p_race_demon: 12 });
+    expect(row(raceTable, 'Demon')).toMatchObject({ physical: 8, physical2: 12 });
+
+    const atk = buildAtkTypeTable({ melee: 10 }, { melee: 40 });
+    expect(atk[0]).toMatchObject({ value: 10, value2: 40 });
   });
 });
