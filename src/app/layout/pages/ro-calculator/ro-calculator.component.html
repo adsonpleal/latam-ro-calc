@@ -85,7 +85,14 @@
         <img *ngIf="r.icon" [src]="r.icon | iconUrl: r.iconType" alt="" class="skill_icon" />
         <span>{{ r.label }}</span>
       </span>
-      <span class="{{ bonusBreakdownValueClass }} font-semibold ml-2">{{ r.display }}</span>
+      <span
+        class="{{ bonusBreakdownValueClass }} font-semibold ml-2"
+        [class.bonus_tip]="r.tooltip"
+        [pTooltip]="r.tooltip"
+        tooltipPosition="left"
+        [showDelay]="150"
+        >{{ r.display }}</span
+      >
     </li>
   </ul>
 </p-dialog>

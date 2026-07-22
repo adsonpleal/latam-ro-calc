@@ -210,6 +210,32 @@ export function decodeReplay(buf: ArrayBuffer): Replay {
     }
   }
 
+  // Persistent buffs active at recording start (Bênção, Aumentar Agilidade, ASPD
+  // potions, food…) live in the EfstList container, NOT the packet stream — they
+  // never generate a status-change packet during the recording. Seed each as a
+  // synthetic "on" status event at t=0 for the local player so buff import sees it.
+  const efstListContainer = containers.find(
+    (c): c is GenericContainer =>
+      c.kind === "generic" && c.type === ContainerType.EfstList,
+  );
+  if (efstListContainer && session.aid) {
+    for (const chunk of efstListContainer.chunks) {
+      // Each record is 28 bytes; the first u32 (LE) is the EFST id. Empty
+      // begin/end markers (len 0) and any short chunk are skipped.
+      if (chunk.data.length < 4) continue;
+      const efst = new DataView(chunk.data.buffer, chunk.data.byteOffset, 4).getUint32(0, true);
+      if (efst <= 0 || efst > 3000) continue; // guard against non-record chunks
+      statusEvents.push({
+        time: 0,
+        statusId: efst,
+        aid: session.aid,
+        isOn: true,
+        totalMs: 0,
+        leftMs: 0,
+      });
+    }
+  }
+
   function ensureEntity(aid: number, kind: EntityKind, time: number): Entity {
     let e = entities.get(aid);
     if (!e) {

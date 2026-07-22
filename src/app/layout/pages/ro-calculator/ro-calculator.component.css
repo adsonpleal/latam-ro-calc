@@ -350,6 +350,13 @@ a.skill_link:hover {
   border-bottom: 1px solid var(--surface-border);
 }
 
+/* Value carries an explanation (e.g. the AGI-scaled ASPD-potion formula) on hover. */
+.bonus_tip {
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
 /* "Cálculo" section of the bonus-breakdown dialog: the derivation of a damage-graph
    node whose value is a formula rather than a sum of equipment bonuses. Rendered above
    the equipment rows, so it gets a separator when both are present. */

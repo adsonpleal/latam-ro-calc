@@ -82,19 +82,25 @@ describe('collectAspdPotionSources', () => {
   // Concentração 4, Despertar 6, Fúria 9, Poção de Ouro 3
   const fixBonus = new Map([[645, 4], [656, 6], [657, 9], [12684, 3]]);
 
-  it('exposes the single-select potion under aspdPercent, keyed consumable_<id>', () => {
-    expect(collectAspdPotionSources({ aspdPotion: 656, aspdPotions: [] }, fixBonus)).toEqual({
-      consumable_656: { aspdPercent: 6 },
-    });
+  it('exposes the single-select potion as its AGI-scaled aspd, keyed consumable_<id>', () => {
+    // AGI 200 → × AGI/200 = ×1, so the scaled value equals the nominal bonus.
+    const { sources } = collectAspdPotionSources({ aspdPotion: 656, aspdPotions: [] }, fixBonus, 200);
+    expect(sources).toEqual({ consumable_656: { aspd: 6 } });
+  });
+
+  it('scales the potion aspd by AGI/200 (with a formula tooltip)', () => {
+    const { sources, tooltips } = collectAspdPotionSources({ aspdPotion: 656, aspdPotions: [] }, fixBonus, 100);
+    expect(sources).toEqual({ consumable_656: { aspd: 3 } }); // 6 × 100/200 = 3
+    expect(tooltips.consumable_656).toContain('6 × AGI 100 ÷ 200 ≈ 3');
   });
 
   it('includes multi-select potions and ignores ids without a fixed bonus', () => {
-    const sources = collectAspdPotionSources({ aspdPotion: 645, aspdPotions: [12684, 12437] }, fixBonus);
-    expect(sources).toEqual({ consumable_645: { aspdPercent: 4 }, consumable_12684: { aspdPercent: 3 } });
+    const { sources } = collectAspdPotionSources({ aspdPotion: 645, aspdPotions: [12684, 12437] }, fixBonus, 200);
+    expect(sources).toEqual({ consumable_645: { aspd: 4 }, consumable_12684: { aspd: 3 } });
   });
 
   it('is empty when nothing is selected', () => {
-    expect(collectAspdPotionSources({ aspdPotion: undefined, aspdPotions: [] }, fixBonus)).toEqual({});
+    expect(collectAspdPotionSources({ aspdPotion: undefined, aspdPotions: [] }, fixBonus, 200).sources).toEqual({});
   });
 });
 

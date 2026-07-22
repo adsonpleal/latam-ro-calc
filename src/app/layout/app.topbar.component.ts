@@ -103,6 +103,16 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.23-beta',
+      date: '22-07-2026',
+      logs: [
+        'Corrigida a Velocidade de Ataque (VelAtq) do Superaprendiz: a tabela de VelAtq base por tipo de arma estava errada e, mais visível, o Cajado (Bastão) não aplicava a redução de −25, deixando o ASPD alto demais. Os valores foram conferidos contra a tabela do jogo e o servidor de referência (Adaga −15, Espada −17, Maça −10, Machado −10, Cajado −25). (reportado por Reny.)',
+        'Tabela de VelAtq base de todas as classes conferida contra o bROWiki, com correção das que estavam erradas: Insurgente e Guerrilheiro usavam a tabela do Justiceiro (agora Sem arma 151, Espingarda −30, Lança-Granada −35, Escudo −10, etc.); o Inquisidor passa a usar a mesma tabela do Shura (Sem arma 158, Maça −5, Cajado de 2 mãos −12); Mestre Estelar e Mestre Celestial tinham −10 genérico em toda arma, quando só o Livro (−5) e o Escudo (−3) contam; Feiticeiro e Elementalista com Livro −5 (era −3; o Escudo do Elementalista é −4); Musa e Diva com Chicote −5; e Kagerou, Oboro, Shinkiro e Shiranui com a Adaga na mão esquerda em −11.',
+        'No detalhamento da VelAtq, itens que dão bônus fixo e percentual ao mesmo tempo (ex.: S-Rapidez, Joia Temporal AGI) mostravam os dois somados num número só, parecendo "+7". Agora aparecem separados, na unidade certa: "+1 +6%". A Poção do Despertar deixou de aparecer como "+6%" (é bônus fixo) e a seção "Extras" virou "Bônus Aleatórios". O cálculo do ASPD já estava certo; a mudança é só no detalhamento.',
+        'Importação de replay: os buffs que já estavam ativos no começo da gravação (Bênção, Aumentar Agilidade, poções de VelAtq como a do Despertar, e ainda Impositio, Expiatio, Competentia, Religio, Benedictum, Grito de Guerra, Força Violenta, Manejo Perfeito, Adrenalina, Encanto de Órion, Marcha de Prontera e Chuva de Mariscos) agora são importados, além de habilidades ativas de efeito próprio como Concentrar e Telecinesia. Eles ficam num contêiner de status do arquivo que o leitor ignorava — antes só entravam os buffs reativados durante a gravação. Buffs que variam por nível entram no nível base; é só ajustar se precisar. Um efeito só é ligado quando o status dele foi mesmo registrado na gravação.',
+      ],
+    },
+    {
       v: '0.1.22-beta',
       date: '21-07-2026',
       logs: [
@@ -130,7 +140,7 @@ export class AppTopBarComponent {
         'Mestre Celestial: Explosão Galática tinha recarga de 0,3s e conjuração variável de 1s; o correto é 5s de recarga e sem conjuração variável.',
         'Shinkiro e Shiranui: Huuma Aderente tratava os 20 golpes como repetição de tela, e não como golpes de verdade — o DPS saía 20x menor. Dança das Trevas virou instantânea e Centelha das Trevas teve a recarga corrigida para 0,5s.',
         'Acessibilidade: os números e distintivos clicáveis do simulador (DPS, dano, bônus "+N", linhas das tabelas de resumo) agora respondem ao teclado — dá para chegar neles com Tab e abrir o detalhamento com Enter ou Espaço, não só com o mouse. Quem só usa mouse não vê diferença.',
-        'Nomes em português acertados pela bROWiki: Asceta virou Asceta das Almas, Crepúsculo Explosivo virou Crepúsculo do Poente e o Talismã da Fênix estava grafado "Talimã". As descrições dessas seis classes ainda aparecem em inglês porque o cliente LATAM não traz o texto em português delas.',
+        'Nomes em português acertados pelo bROWiki: Asceta virou Asceta das Almas, Crepúsculo Explosivo virou Crepúsculo do Poente e o Talismã da Fênix estava grafado "Talimã". As descrições dessas seis classes ainda aparecem em inglês porque o cliente LATAM não traz o texto em português delas.',
       ],
     },
     {

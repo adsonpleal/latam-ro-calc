@@ -25,6 +25,17 @@ describe('makeBuffGate — positive-confirmation buff/effect import gating', () 
     expect(gate('Magic Book Mastery')).toBe(false); // unmapped → cannot confirm → skip
     expect(gate('Foresight')).toBe(false); // unmapped → skip
   });
+
+  it('imports Concentrar (Improve Concentration) when EFST 3 is up', () => {
+    expect(makeBuffGate([3])('Improve Concentration')).toBe(true);
+    expect(makeBuffGate([10, 12])('Improve Concentration')).toBe(false); // 3 not up
+  });
+
+  it('imports Telecinesia (Intensification) under either client status id', () => {
+    expect(makeBuffGate([717])('Intensification')).toBe(true);
+    expect(makeBuffGate([1152])('Intensification')).toBe(true);
+    expect(makeBuffGate([3])('Intensification')).toBe(false); // neither id up
+  });
 });
 
 /**

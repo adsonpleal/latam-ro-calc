@@ -48,6 +48,10 @@ export const ExtraOptionTable = {
   Imperial_Attack_Manteau: 1,
   Imperial_Magic_Manteau: 1,
 
+  // White Knight's Mantle (Manto do Cavaleiro Branco) — 2 Bônus Aleatório slots.
+  WM_Physical_LT: 2,
+  WM_Magical_LT: 2,
+
   Grace_Breath_Armor: 1,
   Grace_Knight_Armor: 1,
   Grace_Spear_Armor: 1,

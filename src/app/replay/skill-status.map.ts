@@ -18,12 +18,14 @@
  * Extend this map with any other self-buff whose "learned ≠ active" (verify the id
  * against status.json before adding — a wrong id silently drops a real buff).
  */
-export const SKILL_EFST: Record<string, number> = {
+export const SKILL_EFST: Record<string, number | number[]> = {
   'Endow Blaze': 90,
   'Frost Weapon': 91,
   'Lightning Loader': 92,
   'Seismic Weapon': 93,
   'Enchant Deadly Poison': 114,
+  'Improve Concentration': 3, // Concentrar
+  'Intensification': [717, 1152], // Telecinesia (two client status ids)
 };
 
 /**
@@ -40,6 +42,9 @@ export function makeBuffGate(activeStatuses: Iterable<number>): (skillName: stri
   const set = new Set(activeStatuses);
   return (skillName: string) => {
     const efst = SKILL_EFST[skillName];
-    return efst !== undefined && set.has(efst);
+    if (efst === undefined) return false;
+    // A skill may surface under more than one client status id (e.g. Telecinesia
+    // is 717 or 1152) — the buff is up if any of them is active.
+    return Array.isArray(efst) ? efst.some((id) => set.has(id)) : set.has(efst);
   };
 }

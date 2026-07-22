@@ -3,6 +3,51 @@
 > As notas detalhadas por versão também aparecem no app, em **Novidades** (a lista
 > `updates` em `app.topbar.component.ts` é a fonte canônica voltada ao usuário).
 
+## 0.1.23-beta — 2026-07-22
+
+- **Correção (Superaprendiz):** a **Velocidade de Ataque (VelAtq)** saía **alta
+  demais**. A tabela de VelAtq base por tipo de arma da classe estava errada e,
+  o mais visível, o **Cajado (Bastão)** não aplicava a redução de **−25** (a
+  entrada da arma faltava, então nenhuma penalidade era somada). Os valores foram
+  conferidos contra a tabela do jogo e o servidor de referência (rAthena) e
+  acertados: **Adaga −15, Espada −17, Maça −10, Machado −10, Cajado −25**.
+  (reportado por **Reny.**)
+- **Correção (VelAtq base de várias classes):** tabela de VelAtq base por tipo de
+  arma de todas as classes conferida contra o **bROWiki**, com correção das que
+  divergiam:
+  - **Insurgente / Guerrilheiro** usavam a tabela do **Justiceiro** (arma e Sem
+    arma erradas) — agora **Sem arma 151**, Escudo −10, Pistola −5, Rifle −10,
+    Metralhadora −3, Espingarda −30, Lança-Granada −35;
+  - **Inquisidor** passa a usar a mesma tabela do **Shura**: **Sem arma 158**,
+    Maça −5, Cajado de 2 mãos −12 (antes 156 / −10 / −10);
+  - **Mestre Estelar / Mestre Celestial** tinham **−10 genérico em toda arma**;
+    o bROWiki só define **Livro −5** e **Escudo −3**, o resto usa a base;
+  - **Feiticeiro / Elementalista:** **Livro −5** (era −3) e o **Escudo do
+    Elementalista** é **−4**;
+  - **Musa / Diva:** **Chicote −5** (era −4);
+  - **Kagerou / Oboro / Shinkiro / Shiranui:** **Adaga na mão esquerda −11**
+    (era −10).
+
+  Todas as demais classes já batiam com o bROWiki.
+- **Correção (importação de replay — buffs e poções):** os buffs já ativos no
+  começo da gravação — **Bênção**, **Aumentar Agilidade**, **poções de VelAtq**
+  (Concentração, Despertar, Fúria Selvagem, Ouro) e outros (Impositio, Expiatio,
+  Competentia, Religio, Benedictum, Grito de Guerra, Força Violenta, Manejo
+  Perfeito, Adrenalina, Encanto de Órion, Marcha de Prontera, Chuva de Mariscos),
+  além de habilidades ativas de efeito próprio (**Concentrar**, **Telecinesia**) —
+  não eram importados. Esses buffs ficam no contêiner **EfstList** do arquivo `.rrf`
+  (o leitor não lia esse contêiner); só os buffs reaplicados **durante** a gravação
+  geravam pacote e entravam. O contêiner agora é lido e os status viram poção e
+  buffs no modelo. Buffs que variam por nível entram no nível base (o replay não
+  guarda o nível do lançador de forma confiável).
+- **Correção (detalhamento da VelAtq):** itens que dão bônus **fixo e percentual**
+  ao mesmo tempo (ex.: **S-Rapidez**, **Joia Temporal AGI**) mostravam os dois
+  somados num número só, parecendo "**+7**". Agora aparecem separados, cada um na
+  sua unidade: "**+1 +6%**". A **Poção do Despertar** deixou de aparecer como
+  "+6%" (é bônus fixo, não percentual) e a seção "**Extras**" virou "**Bônus
+  Aleatórios**". O cálculo do ASPD já estava correto — a mudança é só no
+  detalhamento.
+
 ## 0.1.20-beta — 2026-07-20
 
 - **Novidade:** as **Classes Expandidas de Classe 4** agora aparecem no seletor de
@@ -38,7 +83,7 @@
   Batalha. Quem só usa mouse não vê diferença.
 - **Correção de nomes:** **Asceta** virou **Asceta das Almas**, **Crepúsculo
   Explosivo** virou **Crepúsculo do Poente** e o **Talismã da Fênix** estava
-  grafado "Talimã", tudo conforme a bROWiki. As descrições dessas seis classes
+  grafado "Talimã", tudo conforme o bROWiki. As descrições dessas seis classes
   ainda aparecem em inglês porque o cliente LATAM não traz o texto em português
   delas.
 

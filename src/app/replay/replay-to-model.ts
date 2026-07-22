@@ -3,6 +3,7 @@ import { ItemTypeEnum } from '../constants/item-type.enum';
 import { MainModel } from '../models/main.model';
 import { createMainModel } from '../utils/create-main-model';
 import { randomOptionToScript } from './random-option-map';
+import { resolveAspdPotionFromStatus, resolveBuffsFromStatus } from './replay-buffs';
 import { decodeReplay } from './rrf/decode';
 import { InventoryRecord, RandomOption, Replay } from './rrf/types';
 
@@ -253,6 +254,14 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
   const activeStatuses = [
     ...new Set((replay.statusEvents ?? []).filter((e) => e.aid === s.aid && e.isOn).map((e) => e.statusId)),
   ];
+
+  // Turn the active-status snapshot into model fields: ASPD potion (single-select
+  // + stackable) and job/party buffs (Bênção, Aumentar Agilidade, …) that a player
+  // receives without learning them, so they can't come from the learned tree.
+  const potion = resolveAspdPotionFromStatus(activeStatuses);
+  if (potion.aspdPotion) model.aspdPotion = potion.aspdPotion;
+  if (potion.aspdPotions.length) model.aspdPotions = [...(model.aspdPotions ?? []), ...potion.aspdPotions];
+  model.skillBuffMap = { ...model.skillBuffMap, ...resolveBuffsFromStatus(activeStatuses) };
 
   return {
     model,

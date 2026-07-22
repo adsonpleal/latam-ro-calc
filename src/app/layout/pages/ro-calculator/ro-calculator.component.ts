@@ -310,7 +310,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   isShowBonusBreakdown = false;
   bonusBreakdownTitle = '';
   bonusBreakdownValueClass = 'summary_damage';
-  bonusBreakdownRows: { label: string; icon?: number; iconType: 'item' | 'skill'; value: number; display: string }[] = [];
+  bonusBreakdownRows: { label: string; icon?: number; iconType: 'item' | 'skill'; value: number; display: string; tooltip?: string }[] = [];
+  /** Per-source hover explanations (e.g. the AGI-scaled ASPD-potion formula), keyed by source key. */
+  bonusBreakdownTooltips: Record<string, string> = {};
   /** Derivation of the clicked damage-graph node, when it has one — see showBonusBreakdown. */
   bonusBreakdownCalc: DamageFormulaCalc | null = null;
   modelSummary: any;
@@ -845,11 +847,15 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // engine sources (equips, skills, buffs) + per-consumable maps + the selected
     // ASPD potions (display-only), so the breakdown modal can attribute
     // consumables/buffs/skills/potions alongside item slots
+    // Potions apply a flat ASPD bonus scaled by the character's final AGI (× AGI /
+    // 200) — feed that same AGI so the breakdown shows the real value, not nominal.
+    const potionBreakdown = collectAspdPotionSources(this.model, AspdPotionFixBonus, this.totalSummary?.calc?.totalAgi ?? 0);
     this.bonusBreakdownSources = {
       ...x,
       ...collectConsumables(this.model, this.items).sources,
-      ...collectAspdPotionSources(this.model, AspdPotionFixBonus),
+      ...potionBreakdown.sources,
     };
+    this.bonusBreakdownTooltips = potionBreakdown.tooltips;
     const contributingKeys = new Set<string>();
     for (const map of Object.values(this.bonusBreakdownSources)) {
       if (!map || typeof map !== 'object') continue;
@@ -2756,21 +2762,25 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     const itemMap = event.itemMap ?? (targetScoped ? this.pvpTargetItemMap : this.equipItemIdItemTypeMap);
     for (const [srcKey, bonusMap] of Object.entries(sources || {})) {
       if (!bonusMap || typeof bonusMap !== 'object') continue;
-      let sum = 0;
-      let pct = 0;
-      let flat = 0;
+      // A single source can contribute BOTH a flat and a percent bonus for the same
+      // summary value — an ASPD enchant is "+1" and "+6%", HP máx is "+1000" and "+5%".
+      // Flat and percent are different units and combine differently (the "%" is a
+      // diminishing multiplier, not added to the flat), so summing them into one number
+      // is wrong and misleading. Keep them apart and show each part in its own unit.
+      let flatSum = 0;
+      let pctSum = 0;
       for (const k of event.keys) {
         const v = (bonusMap as any)[k];
         if (typeof v === 'number' && v !== 0) {
-          sum += v;
-          if (this.isPercentKey(k)) pct++;
-          else flat++;
+          if (this.isPercentKey(k)) pctSum += v;
+          else flatSum += v;
         }
       }
-      if (!sum) continue;
-      // a source contributes via one unit type in practice; only flag "%" when it's purely percent
-      const display = this.formatSignedValue(isReduction ? -sum : sum, pct > 0 && flat === 0);
-      rows.push({ ...this.resolveBonusSource(srcKey, sum, itemMap), display });
+      if (!flatSum && !pctSum) continue;
+      const parts: string[] = [];
+      if (flatSum) parts.push(this.formatSignedValue(isReduction ? -flatSum : flatSum, false));
+      if (pctSum) parts.push(this.formatSignedValue(isReduction ? -pctSum : pctSum, true));
+      rows.push({ ...this.resolveBonusSource(srcKey, flatSum + pctSum, itemMap), display: parts.join(' '), tooltip: this.bonusBreakdownTooltips[srcKey] });
     }
 
     // Trait stats (P.ATQ/S.ATQM/T.CRÍT) mix POD/CON/FEI/CRV attributes into the same
@@ -2849,7 +2859,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     if (namedSkill) {
       return { label: namedSkill.name, icon: namedSkill.id, iconType: namedSkill.iconType ?? 'skill', value };
     }
-    const fallback: Record<string, string> = { extra: 'Extras', consumableBonuses: 'Consumíveis' };
+    const fallback: Record<string, string> = { extra: 'Bônus Aleatórios', consumableBonuses: 'Consumíveis' };
     return { label: fallback[srcKey] ?? srcKey, iconType: 'item', value };
   }
 

@@ -80,15 +80,24 @@ export function collectConsumables(
 export function collectAspdPotionSources(
   model: Pick<MainModel, 'aspdPotion' | 'aspdPotions'>,
   fixBonus: Map<number, number>,
-): Record<string, Record<string, number>> {
+  totalAgi: number,
+): { sources: Record<string, Record<string, number>>; tooltips: Record<string, string> } {
   const sources: Record<string, Record<string, number>> = {};
+  const tooltips: Record<string, string> = {};
   const add = (id?: number) => {
     const bonus = id ? fixBonus.get(id) : undefined;
-    if (bonus) sources[`consumable_${id}`] = { aspdPercent: bonus };
+    if (!bonus) return;
+    // An ASPD potion is a flat bonus fed through `potionAspds` and scaled by AGI
+    // (× AGI / 200), NOT an ASPD% multiplier. Surface that real AGI-scaled value in
+    // the breakdown (the nominal bonus would over-state it), with the formula in a
+    // tooltip so the AGI dependency is clear.
+    const scaled = Math.round((bonus * totalAgi) / 200);
+    sources[`consumable_${id}`] = { aspd: scaled };
+    tooltips[`consumable_${id}`] = `VelAtq da poção é baseada na AGI: ${bonus} × AGI ${totalAgi} ÷ 200 ≈ ${scaled}.`;
   };
   add(model.aspdPotion);
   for (const id of model.aspdPotions ?? []) add(id);
-  return sources;
+  return { sources, tooltips };
 }
 
 /** One selectable buff row (a subset of `JobBuffs`). */

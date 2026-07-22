@@ -18,6 +18,15 @@ export const ContainerType = {
    */
   InitialEntities: 15,
   Efst: 17,
+  /**
+   * Snapshot of the buffs/debuffs the player already had at recording start
+   * (Bênção, Aumentar Agilidade, ASPD potions, food, EXP/drop boosts…). These
+   * were applied *before* recording began, so they never emit a status-change
+   * packet in the stream — this container is the only place they appear. Each
+   * data chunk is a 28-byte record whose first u32 (LE) is the EFST id, bracketed
+   * by empty begin/end markers. (Container 17 "Efst" is the newer, empty slot.)
+   */
+  EfstList: 18,
 } as const;
 
 export type PacketChunk = {

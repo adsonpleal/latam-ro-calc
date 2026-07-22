@@ -1685,6 +1685,9 @@ export class Calculator {
         res: this.res,
         mres: this.mres,
         totalAspd: this.basicAspd.totalAspd,
+        // The character's final AGI (base + job + equip + buffs) — the same value
+        // the ASPD formula scales potion/skill bonuses by (× AGI / 200).
+        totalAgi: this.dmgCalculator.status.totalAgi,
         hitPerSecs: this.basicAspd.hitsPerSec,
         totalCri: this.damageSummary.basicCriRate,
         ...this.miscSummary,
