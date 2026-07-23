@@ -20,6 +20,10 @@ export const MVP_IDS: ReadonlySet<number> = new Set([
   2319, 2942, 2189, 2190, 2529, 2322, 3000, 3029, 3659, 2564, 3473, 2241,
   2240, 2237, 2236, 2235, 2239, 2238, 3190, 2996, 3254, 3097, 20387, 3151,
   3150, 20536, 20621, 20573, 20572, 20668, 20785,
+  // Synthetic "Miragem de Amdarais" per-level targets (levels 1-9; level 10 is
+  // the real mob 20573 above). Not from the browiki list — grouped under "MVPs"
+  // so all ten Mirage levels sit together. See miragem-amdarais-levels.
+  205731, 205732, 205733, 205734, 205735, 205736, 205737, 205738, 205739,
 ]);
 
 /**

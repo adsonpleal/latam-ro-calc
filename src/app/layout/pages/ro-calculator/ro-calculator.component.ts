@@ -1847,7 +1847,14 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   private setMonsterDropdownList() {
     const groupMap = new Map<string, MonsterSelectItemGroup>();
     const monsters: DropdownModel[] = [];
-    const rawMonsters = Object.values(this.monsterDataMap).sort((a, b) => (a.stats.level > b.stats.level ? 1 : -1));
+    const rawMonsters = Object.values(this.monsterDataMap).sort((a, b) => {
+      // Sort by level, then by name with NATURAL numeric ordering so leveled
+      // targets like "Miragem de Amdarais - Nível 1..10" read 1,2,…,10 instead
+      // of the lexicographic 1,10,2,… (or the scrambled order the old
+      // equal-level comparator produced).
+      if (a.stats.level !== b.stats.level) return a.stats.level - b.stats.level;
+      return a.name.localeCompare(b.name, 'pt-BR', { numeric: true, sensitivity: 'base' });
+    });
     const classMap = {
       0: 'Normal',
       1: 'Boss',

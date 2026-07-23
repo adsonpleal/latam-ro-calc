@@ -103,6 +103,14 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.25-beta',
+      date: '22-07-2026',
+      logs: [
+        'Adicionados os dez níveis da Miragem de Amdarais como alvos (Nível 1 ao 10), agrupados na seção MVPs e na ordem Nível 1 → 10. Os níveis se diferenciam apenas pelo HP (de 600 milhões no Nível 1 a 2 bilhões no Nível 10); as demais estatísticas seguem as do Amdarais. O "Dano Absorvido" da tabela do jogo é uma cura da própria Miragem (ela recupera o HP perdido nos últimos 2 segundos), e não uma redução de dano recebido, por isso não entra no cálculo. (reportado por Ted.)',
+        'A aba "Resumo de Batalha" passou a abrir expandida por padrão ao carregar o simulador.',
+      ],
+    },
+    {
       v: '0.1.24-beta',
       date: '22-07-2026',
       logs: [
