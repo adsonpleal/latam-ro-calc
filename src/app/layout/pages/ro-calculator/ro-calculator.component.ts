@@ -1695,9 +1695,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       if (seenLabel.has(s.label)) dupLabels.add(s.label);
       seenLabel.add(s.label);
     }
-    this.atkSkills = localizedAtkSkills.map((s) =>
-      dupLabels.has(s.label) && s.element ? { ...s, label: `${s.label} - ${elementPtBr(s.element)}` } : s,
-    );
+    this.atkSkills = localizedAtkSkills.map((s) => {
+      // An explicit labelSuffix always wins — it disambiguates same-name/same-element
+      // variants (e.g. a ground skill's Inicial burst vs its Contínuo field) that the
+      // element-based fallback below can't tell apart.
+      if ((s as any).labelSuffix) return { ...s, label: `${s.label} (${(s as any).labelSuffix})` };
+      return dupLabels.has(s.label) && s.element ? { ...s, label: `${s.label} - ${elementPtBr(s.element)}` } : s;
+    });
     this.offensiveSkills = [...new Set(this.selectedCharacter.atkSkills.map((a) => a.name)).values()].map((name) => {
       const pt = this.resolveSkill(name);
       return { label: pt?.name ?? name, value: name, icon: pt?.id };
@@ -2711,7 +2715,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       /^pene_/.test(k) ||
       isDefenderKey(k) ||
       /^(vct|acd|fctPercent)__/.test(k) ||
-      ['range', 'melee', 'criDmg', 'cri', 'perfectHit', 'acd', 'vct', 'vct_inc', 'vctBySkill', 'oratio', 'infection'].includes(k)
+      ['range', 'melee', 'criDmg', 'cri', 'perfectHit', 'acd', 'vct', 'vct_inc', 'vctBySkill', 'oratio', 'infection', 'intoxication', 'bitterCold', 'gravitation'].includes(k)
     );
   }
 

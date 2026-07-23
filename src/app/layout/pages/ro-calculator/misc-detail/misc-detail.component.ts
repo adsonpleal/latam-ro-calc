@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { RESIST_REDUCTION_KEY_BY_ELE } from 'src/app/core/summary-tables';
+import { RESIST_REDUCTION_KEYS_BY_ELE } from 'src/app/core/summary-tables';
 
 @Component({
   selector: 'app-misc-detail',
@@ -51,10 +51,10 @@ export class MiscDetailComponent {
     const name = val.displayName || val.name;
     if (kind === 'physical') return this.emitValue(this.fmLabel(name, 'physical'), ['p_element_all', `p_element_${e}`], this.toneOf('physical'), compare);
     if (kind === 'magical') return this.emitValue(this.fmLabel(name, 'magical'), ['m_element_all', `m_element_${e}`], this.toneOf('magical'), compare);
-    // R.R. Elem.: the target elemental-resistance reduction (Oratio/Infecção), keyed by element.
+    // R.R. Elem.: the target elemental-resistance reduction (Oratio/Infecção/Intoxicação), keyed by element.
     if (kind === 'resist') {
-      const key = RESIST_REDUCTION_KEY_BY_ELE[e];
-      return this.emitValue(`R.R. Elemental (${name})`, key ? [key] : [], MiscDetailComponent.MAGIC, compare);
+      const keys = RESIST_REDUCTION_KEYS_BY_ELE[e] ?? [];
+      return this.emitValue(`R.R. Elemental (${name})`, keys, MiscDetailComponent.MAGIC, compare);
     }
     return this.emitValue(`${name} (Elem. Mágico)`, ['m_my_element_all', `m_my_element_${e}`], MiscDetailComponent.MAGIC, compare);
   }

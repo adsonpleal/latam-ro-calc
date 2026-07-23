@@ -30,6 +30,11 @@ export interface AtkSkillModel {
   label: string;
   name: SKILL_NAME;
   value: string;
+  /** Optional disambiguator appended to the (localized) picker label as " (suffix)".
+   *  Use when a skill has several atk entries under one name — e.g. a ground skill's
+   *  initial burst vs its continuous field — so they don't collapse to the same pt-BR
+   *  name (the element-based dedup can't split same-element variants). */
+  labelSuffix?: string;
   /** ragassets skill-icon id, attached at runtime from the LATAM skill map. */
   icon?: number;
   values?: string[];

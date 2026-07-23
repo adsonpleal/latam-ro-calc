@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { Monster } from '../domain';
 import { MonsterModel } from '../models/monster.model';
+import { SkillType } from '../models/damage-summary.model';
 import { DamageCalculator } from './damage-calculator';
 
 const monsterModel = (id: number): MonsterModel =>
@@ -137,5 +138,67 @@ describe('DamageCalculator DEF/RES internals exposed for the graph view', () => 
     expect(mDefBypassed).toBe(200); // no magical penetration configured
     expect(restMres).toBe(50);
     expect(mresReduction).toBeCloseTo((2000 + restMres) / (2000 + restMres * 5), 10);
+  });
+});
+
+// Intoxicação (from Poço Venenoso / Cultivar Fada) drops the target's physical DEF to
+// zero — browiki.org/wiki/Efeitos_negativos#Intoxicação. Modeled like Infiltration's
+// def-bypass but WITHOUT its pseudo-ATK buff / 100% pene: it only zeroes hard + soft DEF
+// on the physical path. MDEF (magical) is untouched, matching the in-game status.
+describe('DamageCalculator Intoxicação zeroes the target physical DEF', () => {
+  const PENE_OFF = { p_pene_race_all: 0, p_pene_class_all: 0, monster_res: 0 };
+
+  it('drops both the hard-DEF reduction and the flat soft DEF to zero when intoxicated', () => {
+    const dc = makeCalc({ ...PENE_OFF, intoxication: 25 });
+    (dc as any).monster.data.def = 100;
+    (dc as any).monster.data.softDef = 50;
+    const { finalDmgReduction, finalSoftDef } = (dc as any).getPhisicalDefData();
+    expect(finalDmgReduction).toBe(1); // no % hard-DEF damage reduction
+    expect(finalSoftDef).toBe(0); // no flat soft-DEF subtraction
+  });
+
+  it('leaves the target DEF intact when the debuff is off', () => {
+    const dc = makeCalc({ ...PENE_OFF });
+    (dc as any).monster.data.def = 100;
+    (dc as any).monster.data.softDef = 50;
+    const { finalDmgReduction, finalSoftDef, dmgReductionByHardDef } = (dc as any).getPhisicalDefData();
+    expect(finalDmgReduction).toBe(dmgReductionByHardDef);
+    expect(finalDmgReduction).toBeLessThan(1); // def=100 → 4100/5000 = 0.82
+    expect(finalSoftDef).toBe(50);
+  });
+
+  it('does not touch the magical path — MDEF is unaffected by Intoxicação', () => {
+    const dc = makeCalc({ intoxication: 25, monster_mres: 0, m_pene_race_all: 0, m_pene_class_all: 0 });
+    (dc as any).monster.data.mdef = 200;
+    (dc as any).monster.data.mres = 50;
+    const { mDefBypassed } = (dc as any).getMagicalDefData();
+    expect(mDefBypassed).toBe(200); // MDEF still fully applies
+  });
+});
+
+// Gravitação (Ground Gravitation's [Gravitational Field]) makes the target take +10% both
+// physical and magical damage — rAthena battle.cpp: `damage += damage * 10 / 100` gated on
+// BF_WEAPON|BF_MAGIC. It has no effect on boss monsters.
+describe('DamageCalculator Gravitação increases damage taken (+10%, phys & magic)', () => {
+  it('applies +10% to melee, ranged and magical damage on a normal target', () => {
+    const dc = makeCalc({ gravitation: 10 });
+    (dc as any).monster.data.type = 'normal';
+    for (const t of [SkillType.MELEE, SkillType.RANGE, SkillType.MAGICAL]) {
+      expect((dc as any).getDebuffMultiplier(t)).toBeCloseTo(1.1, 10);
+    }
+  });
+
+  it('has no effect on boss monsters', () => {
+    const dc = makeCalc({ gravitation: 10 });
+    (dc as any).monster.data.type = 'boss';
+    for (const t of [SkillType.MELEE, SkillType.RANGE, SkillType.MAGICAL]) {
+      expect((dc as any).getDebuffMultiplier(t)).toBe(1);
+    }
+  });
+
+  it('is a no-op when the debuff is off', () => {
+    const dc = makeCalc({});
+    (dc as any).monster.data.type = 'normal';
+    expect((dc as any).getDebuffMultiplier(SkillType.MAGICAL)).toBe(1);
   });
 });

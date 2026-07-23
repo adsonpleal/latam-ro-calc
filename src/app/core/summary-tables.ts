@@ -81,18 +81,20 @@ const ATK_TYPE_PT: Record<string, string> = { Melee: 'Corpo a corpo', Range: 'À
 
 /** Target elemental-resistance reductions that make MY attacks of that property land for
  *  more. The engine adds these straight onto the property modifier (see damage-calculator
- *  `getElementResistReduction`): Oratio → Sagrado, Infecção (Maldição de Jormungand) →
- *  Veneno. They affect both physical and magical attacks of that element (so NOT a magic-
- *  only "Elem. Mágico" bonus) — hence their own "R.R. Elem." column. Keyed by lowercase element. */
-export const RESIST_REDUCTION_KEY_BY_ELE: Record<string, string> = { holy: 'oratio', poison: 'infection' };
+ *  `getElementResistReduction`): Oratio → Sagrado; Infecção (Maldição de Jormungand) and
+ *  Intoxicação (Poço Venenoso) → Veneno (they stack); Geladinho (Jack Frost Nova) → Água.
+ *  They affect both physical and magical attacks of that element (so NOT a magic-only
+ *  "Elem. Mágico" bonus) — hence their own "R.R. Elem." column. Keyed by lowercase element;
+ *  each element lists every bonus key that feeds the column. */
+export const RESIST_REDUCTION_KEYS_BY_ELE: Record<string, string[]> = { holy: ['oratio'], poison: ['infection', 'intoxication'], water: ['bitterCold'] };
 
 function elementCell(summary: DamageSummaryLike, ele: string) {
-  const reductionKey = RESIST_REDUCTION_KEY_BY_ELE[ele];
+  const reductionKeys = RESIST_REDUCTION_KEYS_BY_ELE[ele] ?? [];
   return {
     physicalElementToMonster: (summary['p_element_all'] || 0) + (summary[`p_element_${ele}`] || 0),
     magicalElementToMonster: (summary['m_element_all'] || 0) + (summary[`m_element_${ele}`] || 0),
     myElement: (summary['m_my_element_all'] || 0) + (summary[`m_my_element_${ele}`] || 0),
-    elementResistReduction: reductionKey ? summary[reductionKey] || 0 : 0,
+    elementResistReduction: reductionKeys.reduce((sum, k) => sum + (summary[k] || 0), 0),
   };
 }
 

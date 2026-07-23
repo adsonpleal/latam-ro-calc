@@ -307,6 +307,102 @@ export class HyperNovice extends SuperNovice {
         return (1500 + skillLevel * (700 + skillBonusLv * 4) + totalSpl * 3) * (baseLevel / 100);
       },
     },
+    {
+      // Jack Frost Nova (HN_JACK_FROST_NOVA) — ground Water magic. A single "dmg หลัก"
+      // sphere plus a repeating "dmg รอง" cold burst every 0.3s. We model the repeating
+      // per-hit burst (10 hits at Lv10), like Venom Swamp; the one-shot sphere isn't
+      // modeled separately. Leaves [Geladinho] on the target (constants/job-buffs.ts).
+      name: 'Jack Frost Nova',
+      label: '[V2] Jack Frost Nova Lv10',
+      labelSuffix: 'Contínuo',
+      value: 'Jack Frost Nova==10',
+      acd: 0.3,
+      fct: 1.5,
+      vct: 2.5,
+      cd: 3,
+      totalHit: 10,
+      isMatk: true,
+      element: ElementType.Water,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { model, skillLevel, status } = input;
+        const { totalSpl } = status;
+        const baseLevel = model.level;
+        const skillBonusLv = this.learnLv('Self Study Sorcery');
+
+        return (400 + skillLevel * (500 + skillBonusLv * 5) + totalSpl * 4) * (baseLevel / 100);
+      },
+    },
+    {
+      // Jack Frost Nova — the initial "dmg หลัก" sphere hit (single hit), separate from the
+      // repeating field burst above. Same skill name so item bonuses apply to both.
+      name: 'Jack Frost Nova',
+      label: '[V2] Jack Frost Nova Lv10',
+      labelSuffix: 'Inicial',
+      value: 'Jack Frost Nova (Inicial)==10',
+      acd: 0.3,
+      fct: 1.5,
+      vct: 2.5,
+      cd: 3,
+      hit: 1,
+      isMatk: true,
+      element: ElementType.Water,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { model, skillLevel, status } = input;
+        const { totalSpl } = status;
+        const baseLevel = model.level;
+        const skillBonusLv = this.learnLv('Self Study Sorcery');
+
+        return (skillLevel * (200 + skillBonusLv * 3) + totalSpl * 2) * (baseLevel / 100);
+      },
+    },
+    {
+      // Ground Gravitation (HN_GROUND_GRAVITATION) — Neutral magic field around the caster.
+      // A "dmg หลัก" initial burst plus a repeating "dmg รอง" gravitational tick every 0.5s
+      // (10 continuous hits). We model the repeating tick, like Venom Swamp; the initial
+      // burst isn't modeled separately. Leaves [Gravitação] on the target (job-buffs.ts).
+      name: 'Ground Gravitation',
+      label: '[V2] Ground Gravitation Lv10',
+      labelSuffix: 'Contínuo',
+      value: 'Ground Gravitation==10',
+      acd: 1,
+      fct: 1.5,
+      vct: 5,
+      cd: 5,
+      totalHit: 10,
+      isMatk: true,
+      element: ElementType.Neutral,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { model, skillLevel, status } = input;
+        const { totalSpl } = status;
+        const baseLevel = model.level;
+        const skillBonusLv = this.learnLv('Self Study Sorcery');
+
+        return (800 + skillLevel * (700 + skillBonusLv * 4) + totalSpl * 2) * (baseLevel / 100);
+      },
+    },
+    {
+      // Ground Gravitation — the initial "dmg หลัก" burst, shown as 2 hits, separate from
+      // the repeating gravitational field above. Same skill name so item bonuses match.
+      name: 'Ground Gravitation',
+      label: '[V2] Ground Gravitation Lv10',
+      labelSuffix: 'Inicial',
+      value: 'Ground Gravitation (Inicial)==10',
+      acd: 1,
+      fct: 1.5,
+      vct: 5,
+      cd: 5,
+      hit: 2,
+      isMatk: true,
+      element: ElementType.Neutral,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { model, skillLevel, status } = input;
+        const { totalSpl } = status;
+        const baseLevel = model.level;
+        const skillBonusLv = this.learnLv('Self Study Sorcery');
+
+        return (3000 + skillLevel * (1500 + skillBonusLv * 4) + totalSpl * 10) * (baseLevel / 100);
+      },
+    },
   ];
   private readonly activeSkillList4th: ActiveSkillModel[] = [];
   private readonly passiveSkillList4th: PassiveSkillModel[] = [
@@ -330,6 +426,8 @@ export class HyperNovice extends SuperNovice {
         sMatk: lv,
         'Jupitel Thunderstorm': lv,
         "Hell's Drive": lv,
+        'Jack Frost Nova': lv,
+        'Ground Gravitation': lv,
         'Napalm Vulcan Strike': lv * 2,
       }))
     },

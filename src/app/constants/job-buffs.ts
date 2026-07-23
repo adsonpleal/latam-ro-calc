@@ -375,6 +375,54 @@ const JobBuffsList: ActiveSkillModel[] = [
     ],
   },
   {
+    // Intoxicação — the debuff Poço Venenoso (Venom Swamp, EM_VENOM_SWAMP) and Cultivar
+    // Fada can leave on the target. Two effects are modeled off this single `intoxication`
+    // flag: +25% Poison-property damage taken (as a −25% Poison resistance reduction, see
+    // getElementResistReduction) and the target's physical DEF dropped to zero (see the
+    // isIntoxicated getter). Its 10%/s HP drain isn't modeled (irrelevant to a hit's damage).
+    // browiki.org/wiki/Poço_Venenoso · browiki.org/wiki/Efeitos_negativos#Intoxicação
+    name: 'Intoxication',
+    label: 'Intoxicação',
+    icon: 5371,
+    inputType: 'selectButton',
+    isDebuff: true,
+    dropdown: [
+      { label: 'Sim', isUse: true, value: 10, bonus: { intoxication: 25 } },
+      { label: 'Não', isUse: false, value: 0 },
+    ],
+  },
+  {
+    // Geladinho (Bitter Cold) — the debuff Jack Frost Nova (HN_JACK_FROST_NOVA) leaves on
+    // the target: it takes +15% Water-property damage for 5s, modeled as a −15% Water
+    // resistance reduction (see getElementResistReduction). In-game it doesn't affect boss
+    // monsters; as with the other element-RR debuffs (Oratio/Infecção) that boss exclusion
+    // isn't modeled. blog: sigmathefallen … Hyper Novice 2nd version.
+    name: 'Bitter Cold',
+    label: 'Geladinho',
+    icon: 5457,
+    inputType: 'selectButton',
+    isDebuff: true,
+    dropdown: [
+      { label: 'Sim', isUse: true, value: 10, bonus: { bitterCold: 15 } },
+      { label: 'Não', isUse: false, value: 0 },
+    ],
+  },
+  {
+    // Gravitação (Gravitational Field) — the debuff Ground Gravitation (HN_GROUND_GRAVITATION)
+    // leaves on the target: it takes +10% physical AND magical damage (rAthena battle.cpp:
+    // `damage += damage * 10 / 100` on BF_WEAPON|BF_MAGIC). Boss monsters are immune (modeled,
+    // see _getGravitationBonus). Its −30% move-speed part is irrelevant to a hit's damage.
+    name: 'Gravitation',
+    label: 'Gravitação',
+    icon: 5459,
+    inputType: 'selectButton',
+    isDebuff: true,
+    dropdown: [
+      { label: 'Sim', isUse: true, value: 10, bonus: { gravitation: 10 } },
+      { label: 'Não', isUse: false, value: 0 },
+    ],
+  },
+  {
     name: '_Meister_Quake',
     label: 'Avanço Sísmico',
     icon: 5296,

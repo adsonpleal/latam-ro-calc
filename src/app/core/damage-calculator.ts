@@ -284,6 +284,15 @@ export class DamageCalculator {
     return this.totalBonus.p_infiltration >= 1;
   }
 
+  /** Intoxicação (from Poço Venenoso / Cultivar Fada) drops the target's physical DEF to
+   *  zero — browiki.org/wiki/Efeitos_negativos#Intoxicação. The same toggle also feeds the
+   *  −25% Poison resistance via `intoxication` (see getElementResistReduction); its presence
+   *  flags the whole status. Unlike Infiltration, it grants no pseudo-ATK buff / 100% pene —
+   *  it only zeroes hard + soft DEF on the physical path (MDEF is untouched). */
+  private get isIntoxicated() {
+    return (this.totalBonus['intoxication'] || 0) > 0;
+  }
+
   private get isActiveMildwind() {
     return this.totalBonus.mildwind >= 1;
   }
@@ -388,10 +397,22 @@ export class DamageCalculator {
     return this.monster.isBoss ? 115 : 130;
   }
 
+  /** Gravitação (Ground Gravitation's [Gravitational Field]) — the target takes +10% both
+   *  physical and magical damage (rAthena battle.cpp `damage += damage * 10 / 100` on
+   *  BF_WEAPON|BF_MAGIC). No effect on boss monsters. Unlike quake/darkClaw/sporeExplosion
+   *  it isn't gated by atkType — it hits every damage kind. */
+  private _getGravitationBonus() {
+    const bonus = this.totalBonus['gravitation'] || 0;
+    if (!bonus || this.monster.isBoss) return 0;
+
+    return 100 + bonus;
+  }
+
   private getDebuffMultiplier(atkType: SkillType) {
     let totalBonus = 0;
 
     totalBonus += this._getRaidMultiplier();
+    totalBonus += this._getGravitationBonus();
     totalBonus += this._getQuakeBonus(atkType);
 
     switch (atkType) {
@@ -578,9 +599,11 @@ export class DamageCalculator {
     const reducedHardDef = def * ((100 - p_pene) / 100);
     const dmgReductionByHardDef = (4000 + def * ((100 - p_pene) / 100)) / (4000 + def * ((100 - p_pene) / 100) * 10);
 
-    const isActiveInfilltration = this.isActiveInfilltration;
-    const finalDmgReduction = isActiveInfilltration ? 1 : dmgReductionByHardDef;
-    const finalSoftDef = isActiveInfilltration ? 0 : softDef;
+    // Both Infiltration and Intoxicação bypass the target's physical DEF entirely; only
+    // Infiltration also converts it into pseudo-ATK / 100% pene (handled at its own sites).
+    const isDefZeroed = this.isActiveInfilltration || this.isIntoxicated;
+    const finalDmgReduction = isDefZeroed ? 1 : dmgReductionByHardDef;
+    const finalSoftDef = isDefZeroed ? 0 : softDef;
 
     const { monster_res } = this.totalBonus;
     const { effected_pene_res } = this.getPeneResMres();
@@ -987,10 +1010,14 @@ export class DamageCalculator {
    *  to the property modifier — lowering the target's resistance makes that property
    *  land for more, exactly as rAthena's `ele_fix += ...`. Oratio lowers Holy
    *  resistance (−2% per level, −20% at Lv 10); Infecção (from Maldição de Jormungand)
-   *  lowers Poison resistance (−5% per Killing Cloud level, −25% at Lv 5). */
+   *  lowers Poison resistance (−5% per Killing Cloud level, −25% at Lv 5); Intoxicação
+   *  (from Poço Venenoso) makes the target take +25% Poison damage, i.e. −25% Poison
+   *  resistance — the two poison debuffs stack; Geladinho (Bitter Cold, from Jack Frost
+   *  Nova) makes the target take +15% Water damage, i.e. −15% Water resistance. */
   private getElementResistReduction(propertyAtk: ElementType) {
     if (propertyAtk === ElementType.Holy) return this.totalBonus['oratio'] || 0;
-    if (propertyAtk === ElementType.Poison) return this.totalBonus['infection'] || 0;
+    if (propertyAtk === ElementType.Poison) return (this.totalBonus['infection'] || 0) + (this.totalBonus['intoxication'] || 0);
+    if (propertyAtk === ElementType.Water) return this.totalBonus['bitterCold'] || 0;
 
     return 0;
   }
@@ -1141,7 +1168,7 @@ export class DamageCalculator {
           id: 'atkElemental',
           label: 'Multiplicador elemental',
           value: bValElement,
-          keys: ['vi', 'oratio', 'infection'],
+          keys: ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold'],
           percent: this.toPercentBonus(propertyMultiplier),
           inputs: [lastBId],
           kind: 'stage',
@@ -1285,7 +1312,7 @@ export class DamageCalculator {
     // skillMinDamage/skillMaxDamage, so the HUD can show the real per-hit formula
     // instead of an approximation. Every other call (rawMinNoCri/rawMaxNoCri) omits it.
     const skillBonusKey = String(SKILL_ID_BY_NAME[skillName] ?? skillName);
-    const debuffKeys = ['raid', ...(isMelee ? ['quake', 'darkClaw'] : ['quake', 'sporeExplosion', 'oleumSanctum'])];
+    const debuffKeys = ['raid', 'gravitation', ...(isMelee ? ['quake', 'darkClaw'] : ['quake', 'sporeExplosion', 'oleumSanctum'])];
 
     // Also builds the node-graph view (`graphNodes`) when passed — a 1:1 mirror of the
     // `trace` steps below, `emit()` recording both at once so they can never drift.
@@ -1788,8 +1815,8 @@ export class DamageCalculator {
         emit('equipSkillBonus', `Bônus Hab. equip ${this.fmtCalc(equipSkillBonus)}%`, total, [skillBonusKey], { multiplier: equipSkillMultiplier });
       }
       total = floor(total * propertyMultiplier); //tested
-      push('Multiplicador elemental', total, ['vi', 'oratio', 'infection']);
-      emit('elementalMultiplier', 'Multiplicador elemental', total, ['vi', 'oratio', 'infection'], { multiplier: propertyMultiplier });
+      push('Multiplicador elemental', total, ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold']);
+      emit('elementalMultiplier', 'Multiplicador elemental', total, ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold'], { multiplier: propertyMultiplier });
       total = floor(total * finalDmgMultiplier);
       if (finalDmgMultiplier !== 1) {
         push('Dano final por elemento', total, [`final_${skillPropertyAtk?.toLowerCase()}`]);
@@ -1803,8 +1830,8 @@ export class DamageCalculator {
       }
       total = floor(total * debuffMultiplier);
       if (debuffMultiplier !== 1) {
-        push('Debuff no monstro', total, ['raid']);
-        emit('debuff', 'Debuff no monstro', total, ['raid'], { multiplier: debuffMultiplier });
+        push('Debuff no monstro', total, ['raid', 'gravitation']);
+        emit('debuff', 'Debuff no monstro', total, ['raid', 'gravitation'], { multiplier: debuffMultiplier });
       }
 
       if (!!finalDmgFormula && typeof finalDmgFormula === 'function') {

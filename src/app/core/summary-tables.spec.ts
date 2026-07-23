@@ -33,6 +33,17 @@ describe('buildElementTable', () => {
     expect(row(table, 'Holy')).toMatchObject({ elementResistReduction: 20, myElement: 0 });
     expect(row(table, 'Fire').elementResistReduction).toBe(0); // elements with no mapped reduction
   });
+
+  it('stacks both Poison debuffs (Infecção + Intoxicação) in the reduction column', () => {
+    const table = buildElementTable({ infection: 25, intoxication: 25 });
+    expect(row(table, 'Poison').elementResistReduction).toBe(50); // 25 (Infecção) + 25 (Intoxicação)
+  });
+
+  it('surfaces Geladinho (Bitter Cold) as a Water resistance reduction', () => {
+    const table = buildElementTable({ bitterCold: 15 });
+    expect(row(table, 'Water').elementResistReduction).toBe(15); // Jack Frost Nova's debuff
+    expect(row(table, 'Poison').elementResistReduction).toBe(0); // scoped to Water only
+  });
 });
 
 describe('buildRaceTables', () => {

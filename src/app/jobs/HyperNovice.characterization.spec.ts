@@ -53,6 +53,23 @@ const findSkill = (char: HyperNovice, name: string): AtkSkillModel => {
   return skill;
 };
 
+// Some skills have two atk entries under the same `name` (e.g. a ground skill's initial
+// burst vs its repeating field tick); find those by their unique `value`.
+const findSkillByValue = (char: HyperNovice, value: string): AtkSkillModel => {
+  const skill = char.atkSkills.find((s) => s.value === value);
+  if (!skill) throw new Error(`atk skill not found by value: ${value}`);
+  return skill;
+};
+
+const ratioOfValue = (char: HyperNovice, value: string, skillLevel: number) =>
+  Math.floor(
+    findSkillByValue(char, value).formula({
+      model: { level: BASE_LEVEL },
+      skillLevel,
+      status: { totalPow: TOTAL_POW, totalSpl: TOTAL_SPL },
+    } as any),
+  );
+
 // Only Spiral Pierce Max reads monster.size; the rest ignore the monster entirely.
 const monsterOfSize = (size: 's' | 'm' | 'l') => ({ size, isRace: () => false, isMVP: false });
 
@@ -133,8 +150,43 @@ describe('Hyper Novice magic ratios @ base 250, SPL 100, Self Study Sorcery 10',
     expect(ratioOf(hn(), "Hell's Drive", 10)).toBe(magic(1500, 700, 4, 3, 10));
   });
 
+  // Jack Frost Nova & Ground Gravitation are ground DoT skills: a single "dmg หลัก"
+  // burst plus a repeating "dmg รอง" field tick. We model the repeating per-hit tick
+  // (the dominant, sustained damage) with its hit-count, exactly as Venom Swamp is
+  // modeled; the one-shot burst is not modeled separately.
+  it('Jack Frost Nova Lv10 matches the published dmg-รอง (field-tick) per-hit formula', () => {
+    // (400 + (SkillLv x (500 + Sorcery x 5)) + SPL x 4) x baseLv/100
+    expect(ratioOf(hn(), 'Jack Frost Nova', 10)).toBe(magic(400, 500, 5, 4, 10));
+  });
+
+  it('Ground Gravitation Lv10 matches the published dmg-รอง (field-tick) per-hit formula', () => {
+    // (800 + (SkillLv x (700 + Sorcery x 4)) + SPL x 2) x baseLv/100
+    expect(ratioOf(hn(), 'Ground Gravitation', 10)).toBe(magic(800, 700, 4, 2, 10));
+  });
+
+  it('deals the field damage over 10 continuous hits', () => {
+    expect(findSkill(hn(), 'Jack Frost Nova').totalHit).toBe(10);
+    expect(findSkill(hn(), 'Ground Gravitation').totalHit).toBe(10);
+  });
+
+  // The one-shot "dmg หลัก" burst is a separate atk entry sharing the skill name, so its
+  // item bonuses match the field tick's. Located by value.
+  it('Jack Frost Nova initial burst matches the published dmg-หลัก formula (1 hit)', () => {
+    // ((SkillLv x (200 + Sorcery x 3)) + SPL x 2) x baseLv/100 — no flat base term
+    expect(ratioOfValue(hn(), 'Jack Frost Nova (Inicial)==10', 10)).toBe(magic(0, 200, 3, 2, 10));
+    expect(findSkillByValue(hn(), 'Jack Frost Nova (Inicial)==10').hit).toBe(1);
+    expect(findSkillByValue(hn(), 'Jack Frost Nova (Inicial)==10').isMatk).toBe(true);
+  });
+
+  it('Ground Gravitation initial burst matches the published dmg-หลัก formula (displays 2 hits)', () => {
+    // (3000 + (SkillLv x (1500 + Sorcery x 4)) + SPL x 10) x baseLv/100
+    expect(ratioOfValue(hn(), 'Ground Gravitation (Inicial)==10', 10)).toBe(magic(3000, 1500, 4, 10, 10));
+    expect(findSkillByValue(hn(), 'Ground Gravitation (Inicial)==10').hit).toBe(2);
+    expect(findSkillByValue(hn(), 'Ground Gravitation (Inicial)==10').isMatk).toBe(true);
+  });
+
   it('marks the magic tree as isMatk and leaves the physical tree unmarked', () => {
-    for (const name of ['Napalm Vulcan Strike', 'Jupitel Thunderstorm', "Hell's Drive"]) {
+    for (const name of ['Napalm Vulcan Strike', 'Jupitel Thunderstorm', "Hell's Drive", 'Jack Frost Nova', 'Ground Gravitation']) {
       expect(findSkill(hn(), name).isMatk, `${name} should be MATK`).toBe(true);
     }
     for (const name of ['Double Bowling Bash', 'Mega Sonic Blow', 'Shield Chain Rush', 'Spiral Pierce Max']) {
@@ -157,6 +209,10 @@ describe('Hyper Novice cast/cooldown metadata (2nd version)', () => {
     { name: 'Jupitel Thunderstorm', vct: 2, fct: 1, cd: 1.8 },
     // Hell's Drive: cooldown is 2.7 - (Lv x 0.2) -> 0.7 at Lv10
     { name: "Hell's Drive", vct: 1.2, fct: 1, cd: 0.7 },
+    // Jack Frost Nova: variable cast is 1.5 + (Lv x 0.1) -> 2.5 at Lv10
+    { name: 'Jack Frost Nova', vct: 2.5, fct: 1.5, cd: 3 },
+    // Ground Gravitation: variable cast tops out at 5 at Lv10
+    { name: 'Ground Gravitation', vct: 5, fct: 1.5, cd: 5 },
   ];
 
   it.each(cases)('$name has vct $vct, fct $fct, cd $cd', ({ name, vct, fct, cd }) => {

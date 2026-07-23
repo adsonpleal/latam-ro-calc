@@ -103,6 +103,16 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.26-beta',
+      date: '23-07-2026',
+      logs: [
+        'Adicionado o efeito [Intoxicação] que a habilidade Poço Venenoso (Elementalista) aplica no alvo, disponível entre os debuffs: o alvo passa a receber +25% de dano da propriedade Veneno — uma redução de −25% na resistência a Veneno, que aparece na coluna "R.R. Elem." da tabela de Elemento e soma com a [Infecção] — e tem a DEF física zerada. (reportado por Ted.)',
+        'Adicionadas as habilidades Esquife Congelante (Jack Frost Nova) e Zona Gravitacional (Ground Gravitation) do Hiperaprendiz, ambas mágicas. Cada uma aparece na lista de habilidades em duas entradas: "(Inicial)", o golpe único de impacto, e "(Contínuo)", o dano que se repete na área. (reportado por Reny.)',
+        'Adicionado o efeito [Geladinho] do Esquife Congelante entre os debuffs: reduz em 15% a resistência do alvo à propriedade Água (coluna "R.R. Elem."), aumentando o dano de qualquer ataque de Água. (reportado por Reny.)',
+        'Adicionado o efeito [Gravitação] da Zona Gravitacional entre os debuffs: o alvo passa a receber +10% de dano físico e mágico. Não tem efeito em monstros do tipo Chefe. (reportado por Reny.)',
+      ],
+    },
+    {
       v: '0.1.25-beta',
       date: '22-07-2026',
       logs: [
