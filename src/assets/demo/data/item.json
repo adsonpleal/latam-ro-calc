@@ -301734,13 +301734,13 @@
     "description": "",
     "slots": 0,
     "itemTypeId": 9,
-    "itemSubTypeId": 520,
+    "itemSubTypeId": 521,
     "itemLevel": null,
     "attack": null,
     "defense": 0,
     "weight": 0,
     "requiredLevel": 1,
-    "location": "Middle",
+    "location": "Lower",
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -309896,6 +309896,457 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5841": {
+    "id": 5841,
+    "aegisName": "Shaman_Hat_",
+    "name": "Chapéu do Xamã",
+    "unidName": "Chapéu do Xamã",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 1,
+    "weight": 10,
+    "requiredLevel": 30,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "19052": {
+    "id": 19052,
+    "aegisName": "사이그룬의날개",
+    "name": "Asas de Saigrun",
+    "unidName": "Asas de Saigrun",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 2,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "400511": {
+    "id": 400511,
+    "aegisName": "Q_Scaraba_Crown_TW",
+    "name": "Coroa Scaraba",
+    "unidName": "Coroa Scaraba",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 1,
+    "requiredLevel": 130,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "pow": [
+        "3"
+      ],
+      "con": [
+        "3"
+      ],
+      "crt": [
+        "3"
+      ],
+      "atk": [
+        "2---20"
+      ],
+      "cri": [
+        "2---4"
+      ],
+      "criDmg": [
+        "3---10"
+      ],
+      "p_final": [
+        "7===10"
+      ],
+      "acd": [
+        "9===10"
+      ],
+      "range": [
+        "11===15"
+      ],
+      "melee": [
+        "11===15"
+      ],
+      "p_race_all": [
+        "12===15"
+      ],
+      "fct": [
+        "13===0.5"
+      ]
+    }
+  },
+  "510049": {
+    "id": 510049,
+    "aegisName": "Rotten_Garden_knife",
+    "name": "Punhal Enferrujado",
+    "unidName": "Punhal Enferrujado",
+    "resName": "",
+    "description": "",
+    "slots": 2,
+    "itemTypeId": 1,
+    "itemSubTypeId": 256,
+    "itemLevel": 5,
+    "attack": 117,
+    "defense": null,
+    "weight": 30,
+    "requiredLevel": 210,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "ShadowChaser"
+    ],
+    "script": {
+      "matk": [
+        "190"
+      ],
+      "m_my_element_all": [
+        "7===15",
+        "GRADE[weapon==B]===15"
+      ],
+      "m_size_s": [
+        "9===10"
+      ],
+      "m_size_m": [
+        "9===10"
+      ],
+      "m_my_element_poison": [
+        "11===15"
+      ],
+      "sMatk": [
+        "GRADE[weapon==D]===2",
+        "GRADE[weapon==C]===1"
+      ],
+      "spl": [
+        "GRADE[weapon==C]===3"
+      ]
+    }
+  },
+  "310662": {
+    "id": 310662,
+    "aegisName": "묘안석",
+    "name": "Absorção de HP (Dual)",
+    "unidName": "Absorção de HP (Dual)",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 76,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "310663": {
+    "id": 310663,
+    "aegisName": "푸른묘안석",
+    "name": "Absorção de SP (Dual)",
+    "unidName": "Absorção de SP (Dual)",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 76,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "20077": {
+    "id": 20077,
+    "aegisName": "C_Wing_Form_Spectacle",
+    "name": "[Visual] Óculos Alados",
+    "unidName": "[Visual] Óculos Alados",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "20460": {
+    "id": 20460,
+    "aegisName": "C_Thornbush_Hairband",
+    "name": "[Visual] Tiara de Rosas Espinhosas",
+    "unidName": "[Visual] Tiara de Rosas Espinhosas",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "31304": {
+    "id": 31304,
+    "aegisName": "풍신의부채",
+    "name": "[Visual] Leque de Veraneio",
+    "unidName": "[Visual] Leque de Veraneio",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "31410": {
+    "id": 31410,
+    "aegisName": "C_Gods_Helm",
+    "name": "[Visual] Elmo de Detardeurus",
+    "unidName": "[Visual] Elmo de Detardeurus",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "400160": {
+    "id": 400160,
+    "aegisName": "Wave_Noodle",
+    "name": "[Visual] Festa Macarrônica",
+    "unidName": "[Visual] Festa Macarrônica",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "30"
+      ],
+      "matk": [
+        "30"
+      ],
+      "range": [
+        "7"
+      ],
+      "melee": [
+        "7"
+      ],
+      "m_my_element_all": [
+        "7"
+      ]
+    }
+  },
+  "400729": {
+    "id": 400729,
+    "aegisName": "C_Drops_Mascot_Costume",
+    "name": "[Visual] Capuz de Drops",
+    "unidName": "[Visual] Capuz de Drops",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "400739": {
+    "id": 400739,
+    "aegisName": "C_Marin_Pattern_Hat",
+    "name": "[Visual] Boina de Marin",
+    "unidName": "[Visual] Boina de Marin",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "420774": {
+    "id": 420774,
+    "aegisName": "Poporing_Soap_Pipe",
+    "name": "[Visual] Sopra-Poporing de Sabão",
+    "unidName": "[Visual] Sopra-Poporing de Sabão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 521,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "420775": {
+    "id": 420775,
+    "aegisName": "C_Petal_Twin",
+    "name": "[Visual] Peruca de Petal",
+    "unidName": "[Visual] Peruca de Petal",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 521,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480802": {
+    "id": 480802,
+    "aegisName": "C_Joyful_Taogunka",
+    "name": "[Visual] Tao Gunka Flutuante",
+    "unidName": "[Visual] Tao Gunka Flutuante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480807": {
+    "id": 480807,
+    "aegisName": "C_Cynic_Guard_CP",
+    "name": "[Visual] Escudo Petulante",
+    "unidName": "[Visual] Escudo Petulante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": "Garment",
     "compositionPos": null,
     "usableClass": [
       "all"

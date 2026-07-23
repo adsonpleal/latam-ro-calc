@@ -12,7 +12,7 @@ import { HyperNovice } from './HyperNovice';
  * labels in HyperNovice.ts mark.
  *
  * No replay exists for this class yet — it is only now being surfaced in the UI
- * (see EXPANDED_4TH_AHEAD_OF_GRF in jobs/expanded-4th-ahead-of-grf.ts), so these assertions
+ * (the class now ships in the LATAM GRF), so these assertions
  * encode the published formulas rather than observed damage packets.
  *
  * Hyper Novice is the only Expanded 4th job that is half physical / half magic: the

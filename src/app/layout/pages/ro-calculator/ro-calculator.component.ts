@@ -54,7 +54,7 @@ import { makeBuffGate } from '../../../replay/skill-status.map';
 import { MainModel } from '../../../models/main.model';
 import { environment } from 'src/environments/environment';
 import { getClassDropdownList } from '../../../jobs/_class-list';
-import { EXPANDED_4TH_AHEAD_OF_GRF_IDS } from '../../../jobs/expanded-4th-ahead-of-grf';
+import { HIDDEN_CLASS_IDS } from '../../../jobs/hidden-classes';
 import { racePtBr, sizePtBr, elementPtBr } from '../../../constants/monster-i18n';
 import { itemSlotLabelPtBr } from '../../../constants/item-slot-i18n';
 import { ChanceModel } from '../../../models/chance-model';
@@ -634,11 +634,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         this.monsterDataMap = monsters;
         this.hpSpTable = hpSpTable;
 
-        // Hide classes unreleased on LATAM (no job icon in the client GRF), except the
-        // Expanded 4th classes we deliberately surface ahead of the GRF (see the module).
+        // Show only classes released on LATAM (job icon present in the client GRF),
+        // minus the few we keep hidden because the calc doesn't model them yet (4308).
         const latamClassSet = new Set(latamClasses);
         this.characterList = Characters.filter(
-          (c) => latamClassSet.has(c.icon) || EXPANDED_4TH_AHEAD_OF_GRF_IDS.has(c.icon),
+          (c) => latamClassSet.has(c.icon) && !HIDDEN_CLASS_IDS.has(c.icon),
         );
 
         this.selectedMonsterName = this.monsterDataMap[this.selectedMonster]?.name;

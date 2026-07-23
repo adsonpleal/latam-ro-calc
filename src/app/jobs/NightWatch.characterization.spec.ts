@@ -12,7 +12,7 @@ import { NightWatch } from './NightWatch';
  * labels in NightWatch.ts mark.
  *
  * No replay exists for this class yet — it is only now being surfaced in the UI
- * (see EXPANDED_4TH_AHEAD_OF_GRF in jobs/expanded-4th-ahead-of-grf.ts), so these assertions
+ * (the class now ships in the LATAM GRF), so these assertions
  * encode the published formulas rather than observed damage packets.
  *
  * Night Watch is the most weapon-sensitive job in the calc: nearly every skill

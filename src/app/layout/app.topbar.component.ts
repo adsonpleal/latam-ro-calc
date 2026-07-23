@@ -103,6 +103,14 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.27-beta',
+      date: '23-07-2026',
+      logs: [
+        'Os itens que chegaram na última atualização do cliente agora aparecem no simulador — novos equipamentos (como a Coroa Scaraba e o Punhal Enferrujado), equipamentos sombrios, cartas, encantos e trajes.',
+        'As classes de 4ª expandida (Mestre Celestial, Asceta das Almas, Shinkiro, Shiranui, Guerrilheiro e Hiperaprendiz) passaram a ser reconhecidas pela atualização do cliente.',
+      ],
+    },
+    {
       v: '0.1.26-beta',
       date: '23-07-2026',
       logs: [

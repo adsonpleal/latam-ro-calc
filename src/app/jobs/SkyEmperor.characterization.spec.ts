@@ -12,7 +12,7 @@ import { SkyEmperor } from './SkyEmperor';
  * labels in SkyEmperor.ts mark.
  *
  * No replay exists for this class yet — it is only now being surfaced in the UI
- * (see EXPANDED_4TH_AHEAD_OF_GRF in jobs/expanded-4th-ahead-of-grf.ts), so these assertions
+ * (the class now ships in the LATAM GRF), so these assertions
  * encode the published formulas rather than observed damage packets. Replace the
  * expectations with replay-derived values if a recording turns up.
  *

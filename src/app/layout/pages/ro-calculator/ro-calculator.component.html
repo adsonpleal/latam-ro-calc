@@ -142,13 +142,13 @@
               >
                 <ng-template let-job pTemplate="selectedItem">
                   <div class="flex gap-2 py-0 align-items-center" *ngIf="model.class">
-                    <img [src]="job.icon | iconUrl: 'job'" alt="" class="job_img" />
+                    <img [src]="job.icon | iconUrl: 'job'" alt="" class="job_img" (error)="onCharSpriteError($event, job.icon)" />
                     <div class="text_ellips">{{ job.label }}</div>
                   </div>
                 </ng-template>
                 <ng-template let-job pTemplate="item">
                   <div class="flex gap-2 py-0">
-                    <img [src]="job.icon | iconUrl: 'job'" alt="" class="job_img" />
+                    <img [src]="job.icon | iconUrl: 'job'" alt="" class="job_img" (error)="onCharSpriteError($event, job.icon)" />
                     <div class="text_ellips">{{ job.label }}</div>
                   </div>
                 </ng-template>

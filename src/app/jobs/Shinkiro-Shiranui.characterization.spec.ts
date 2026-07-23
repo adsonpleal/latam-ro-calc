@@ -13,7 +13,7 @@ import { Shiranui } from './Shiranui';
  * labels in Shinkiro.ts / Shiranui.ts mark.
  *
  * No replay exists for either class yet — they are only now being surfaced in the UI
- * (see EXPANDED_4TH_AHEAD_OF_GRF in jobs/expanded-4th-ahead-of-grf.ts), so these assertions
+ * (the class now ships in the LATAM GRF), so these assertions
  * encode the published formulas rather than observed damage packets.
  *
  * The two are the male/female halves of one job: the blog publishes a single skill

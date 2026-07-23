@@ -11,8 +11,7 @@
  * HP/SP data fails here instead of degrading silently in the UI.
  *
  * Added alongside unhiding the Expanded 4th classes (Sky Emperor, Soul Ascetic,
- * Shinkiro, Shiranui, Night Watch, Hyper Novice) — see EXPANDED_4TH_AHEAD_OF_GRF in
- * jobs/expanded-4th-ahead-of-grf.ts.
+ * Shinkiro, Shiranui, Night Watch, Hyper Novice), which now ship in the LATAM GRF.
  *
  * The table is read with fs rather than imported: tsconfig has no resolveJsonModule.
  */
