@@ -237,6 +237,7 @@ export class SpiritHandler extends Doram {
       fct: 1.5,
       vct: 3,
       cd: 4.5,
+      totalHit: 16, // ground field: the per-hit formula lands 16 continuous times
       isMatk: true,
       getElement: () => ColorOfHyunrokValue[this.activeSkillLv('Colors of Hynrok')] || ElementType.Neutral,
       formula: (input: AtkSkillFormulaInput): number => {

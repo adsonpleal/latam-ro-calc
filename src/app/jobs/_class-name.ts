@@ -237,6 +237,7 @@ export const ClassNamePtBr: Partial<Record<ClassIDEnum, string>> = {
   [ClassIDEnum.SuperNovice]: 'Superaprendiz',
   [ClassIDEnum.HyperNovice]: 'Hiperaprendiz',
   [ClassIDEnum.Doram]: 'Invocador',
+  [ClassIDEnum.SpiritHandler]: 'Animista',
 } as const;
 
 /**

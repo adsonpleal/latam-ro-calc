@@ -103,6 +103,13 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.28-beta',
+      date: '23-07-2026',
+      logs: [
+        'Adicionada a classe Animista, a 4ª classe do Invocador, com suas habilidades de ataque (Chulho Sonic Claw, Howling of Chulho, Hogogong Strike, Hyunrok Breeze e Hyunrok Cannon). As fórmulas de dano seguem a 2ª versão publicada por Sigma the Fallen.',
+      ],
+    },
+    {
       v: '0.1.27-beta',
       date: '23-07-2026',
       logs: [
