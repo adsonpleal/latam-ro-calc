@@ -103,6 +103,13 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.30-beta',
+      date: '24-07-2026',
+      logs: [
+        'Corrigidos os conjuntos do Espinho Violeta e do Núcleo Concentrado com os Fones (Amplificadores e Danificados), as Asas de Sigrún e a Venda Sombria: os bônus de conjunto do Núcleo Concentrado não estavam sendo aplicados e foram refeitos para casar as peças por id, em vez do nome. No conjunto com as Asas de Sigrún, o dano físico corpo a corpo com a Capa em refino +9 passou a somar +10% (antes somava +5% por engano). Também foi adicionada a Venda Sombria (sem fenda), que faltava no simulador. Reportado por Shummuy.',
+      ],
+    },
+    {
       v: '0.1.29-beta',
       date: '23-07-2026',
       logs: [

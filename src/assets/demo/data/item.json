@@ -28356,19 +28356,19 @@
       "range": [
         "3",
         "3---3",
-        "EQUIP[Crimson Booster]===14"
+        "EQUIP_ID[19245]14"
       ],
       "criDmg": [
         "3",
         "3---3",
-        "EQUIP[Sigrun's Wing||Sigrun's Wing_]===14"
+        "EQUIP_ID[5592||19085]14"
       ],
       "acd": [
         "11===4",
-        "EQUIP[Dark Blinkers]===6"
+        "EQUIP_ID[18609||5104]6"
       ],
       "vct": [
-        "EQUIP[Magical Booster K]===30"
+        "EQUIP_ID[19241]30"
       ]
     }
   },
@@ -181798,37 +181798,37 @@
       ],
       "cri": [
         "10",
-        "EQUIP[Violet Halo&&Crimson Booster]REFINE[garment==7]===10"
+        "EQUIP_ID[20940&&19245]REFINE[garment==7]===10"
       ],
       "vct": [
         "10"
       ],
       "m_my_element_all": [
-        "EQUIP[Violet Halo&&Magical Booster K]===5",
-        "EQUIP[Violet Halo&&Magical Booster K]REFINE[garment==9]===5"
+        "EQUIP_ID[20940&&19241]5",
+        "EQUIP_ID[20940&&19241]REFINE[garment==9]===5"
       ],
       "m_class_boss": [
-        "EQUIP[Violet Halo&&Magical Booster K]REFINE[garment==7]===15"
+        "EQUIP_ID[20940&&19241]REFINE[garment==7]===15"
       ],
       "range": [
-        "EQUIP[Violet Halo&&Crimson Booster]===5",
-        "EQUIP[Violet Halo&&Crimson Booster]REFINE[garment==9]===5"
+        "EQUIP_ID[20940&&19245]5",
+        "EQUIP_ID[20940&&19245]REFINE[garment==9]===5"
       ],
       "melee": [
-        "EQUIP[Violet Halo&&Sigrun's Wing_]===5",
-        "EQUIP[Violet Halo&&Sigrun's Wing_]REFINE[garment==9]===5"
+        "EQUIP_ID[20940&&19085]5",
+        "EQUIP_ID[20940&&19085]REFINE[garment==9]===10"
       ],
       "perfectHit": [
-        "EQUIP[Violet Halo&&Sigrun's Wing_]REFINE[garment==7]===10"
+        "EQUIP_ID[20940&&19085]REFINE[garment==7]===10"
       ],
       "acd": [
-        "EQUIP[Violet Halo&&Dark Blinkers]===5"
+        "EQUIP_ID[20940&&18609]5"
       ],
       "p_class_boss": [
-        "EQUIP[Violet Halo&&Dark Blinkers]REFINE[garment==7]===15"
+        "EQUIP_ID[20940&&18609]REFINE[garment==7]===15"
       ],
       "fct": [
-        "EQUIP[Violet Halo&&Dark Blinkers]REFINE[garment==9]===0.2"
+        "EQUIP_ID[20940&&18609]REFINE[garment==9]===0.2"
       ]
     }
   },
@@ -310432,5 +310432,27 @@
         "1---5"
       ]
     }
+  },
+  "5104": {
+    "id": 5104,
+    "aegisName": "검은눈가리개",
+    "name": "Dark Blinder",
+    "unidName": "Venda Sombria",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
   }
 }
