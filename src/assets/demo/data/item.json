@@ -309983,7 +309983,8 @@
         "2---4"
       ],
       "criDmg": [
-        "3---10"
+        "3---10",
+        "EQUIP_ID[4509]1---10"
       ],
       "p_final": [
         "7===10"
@@ -310002,6 +310003,12 @@
       ],
       "fct": [
         "13===0.5"
+      ],
+      "pAtk": [
+        "EQUIP_ID[4509]20"
+      ],
+      "p_class_boss": [
+        "EQUIP_ID[4507]35"
       ]
     }
   },
@@ -310450,6 +310457,80 @@
     "requiredLevel": 1,
     "location": "Middle",
     "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "4507": {
+    "id": 4507,
+    "aegisName": "이름없는카드",
+    "name": "Carta Rainha Scaraba",
+    "unidName": "Carta Rainha Scaraba",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "4509": {
+    "id": 4509,
+    "aegisName": "이름없는카드",
+    "name": "Carta Rainha Scaraba Dourada",
+    "unidName": "Carta Rainha Scaraba Dourada",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 769,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "3"
+      ],
+      "subrace_insect": [
+        "10",
+        "9===5"
+      ]
+    }
+  },
+  "27209": {
+    "id": 27209,
+    "aegisName": "SLD_Q_Scaraba_Card",
+    "name": "Carta Rainha Scaraba Selada",
+    "unidName": "Carta Rainha Scaraba Selada",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
     "usableClass": [
       "all"
     ],

@@ -103,6 +103,13 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.32-beta',
+      date: '24-07-2026',
+      logs: [
+        'Adicionadas as cartas do conjunto da Coroa Scaraba (Carta Rainha Scaraba, Carta Rainha Scaraba Dourada e Carta Rainha Scaraba Selada), que faltavam no simulador, e ativados os bônus de conjunto da coroa: com a Carta Rainha Scaraba, Dano físico contra Chefes +35%; com a Carta Rainha Scaraba Dourada, P.ATQ. +20 e Dano crítico +10% por refino da coroa. A Carta Rainha Scaraba Dourada também concede INT +3 e resistência à raça Inseto. Reportado por Guto.',
+      ],
+    },
+    {
       v: '0.1.31-beta',
       date: '24-07-2026',
       logs: [
