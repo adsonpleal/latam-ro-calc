@@ -650,6 +650,7 @@ export class DamageCalculator {
       attackerElement: (params.attackElement || 'neutral').toLowerCase(),
       attackerSize: 'm', // players are Medium
       attackerType: 'normal', // players are Normal class
+      isRanged: !params.isMelee, // ranged bow / ranged skill gates dmg_taken_range
     });
     const defender = steps.reduce((mult, s) => mult * s.factor, 1);
     const channel = pvpChannelOf({ isSkill: params.isSkill, isMelee: params.isMelee });

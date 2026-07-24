@@ -310352,5 +310352,85 @@
       "all"
     ],
     "script": {}
+  },
+  "27110": {
+    "id": 27110,
+    "aegisName": "이름없는카드",
+    "name": "Carta Gazeti de Cristal",
+    "unidName": "Carta Gazeti de Cristal",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dmg_taken_range": ["20"]
+    }
+  },
+  "27111": {
+    "id": 27111,
+    "aegisName": "이름없는카드",
+    "name": "Carta Yeti de Cristal",
+    "unidName": "Carta Yeti de Cristal",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 136,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "subsize_m": [
+        "EQUIP_ID[27112]20"
+      ],
+      "subsize_s": [
+        "EQUIP_ID[27110]20"
+      ]
+    }
+  },
+  "27112": {
+    "id": 27112,
+    "aegisName": "이름없는카드",
+    "name": "Carta Titã de Cristal",
+    "unidName": "Carta Titã de Cristal",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "def": [
+        "5",
+        "1---5"
+      ]
+    }
   }
 }

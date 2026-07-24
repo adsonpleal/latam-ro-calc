@@ -30,6 +30,7 @@ export const ITEM_BONUS_LABELS: Record<string, string> = {
   dmg_taken_all: 'Redução de dano recebido de jogadores',
   dmg_taken_physical: 'Redução de dano físico recebido de jogadores',
   dmg_taken_magical: 'Redução de dano mágico recebido de jogadores',
+  dmg_taken_range: 'Redução de dano físico à distância recebido de jogadores',
 };
 
 /** pt-BR labels for buff bonus keys (skill descriptions aren't in the local

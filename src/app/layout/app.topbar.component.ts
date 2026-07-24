@@ -103,6 +103,14 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.29-beta',
+      date: '23-07-2026',
+      logs: [
+        'Adicionadas as Cartas de Cristal Yeti (efeitos de conjunto de redução por tamanho: Médio com a Titã, Pequeno com a Gazeti), Titã (DEF +5 e +5 por refino) e Gazeti. Reportado por Luís.',
+        'Modelada a redução de dano físico à distância (Carta Gazeti de Cristal), que reduz o dano recebido de ataques físicos à distância — ataque básico com arco ou habilidades à distância — na seção de PVP.',
+      ],
+    },
+    {
       v: '0.1.28-beta',
       date: '23-07-2026',
       logs: [

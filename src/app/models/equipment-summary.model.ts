@@ -219,6 +219,9 @@ export interface EquipmentSummaryModel {
   dmg_taken_physical: number;
   dmg_taken_magical: number;
   dmg_taken_all: number;
+  /** Long-ranged physical damage reduction (Gazeti-card family). Only applied
+   *  vs a ranged physical hit (see core/pvp.ts `isRanged`). Percentage (0-100). */
+  dmg_taken_range: number;
 
   subele_all: number;
   subele_neutral: number;

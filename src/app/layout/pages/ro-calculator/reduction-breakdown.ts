@@ -70,6 +70,11 @@ export function buildReductionCategories(
     { label: 'Normal', keys: ['subclass_normal'], percent: v('subclass_normal') },
   ]);
 
+  // Distância — só contra ataques físicos à distância (família Carta Gazeti).
+  push('Distância', [
+    { label: 'Físico à distância', keys: ['dmg_taken_range'], percent: v('dmg_taken_range') },
+  ]);
+
   // Redução plana — flat cut regardless of race/element.
   push('Redução plana', [
     { label: 'Todo o dano', keys: ['dmg_taken_all'], percent: v('dmg_taken_all') },

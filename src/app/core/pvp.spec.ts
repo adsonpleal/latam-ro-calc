@@ -85,6 +85,16 @@ describe('pvp reduction math', () => {
     it('a single category is clamped so it cannot flip damage negative', () => {
       expect(defenderReductionMultiplier({ ...base, bonus: { dmg_taken_all: 150 } })).toBe(0);
     });
+
+    it('dmg_taken_range (Gazeti) only applies to physical ranged hits', () => {
+      const bonus = { dmg_taken_range: 20 };
+      // physical + ranged → applies
+      expect(defenderReductionMultiplier({ ...base, isRanged: true, bonus })).toBeCloseTo(0.8, 10);
+      // physical + melee → no effect
+      expect(defenderReductionMultiplier({ ...base, isRanged: false, bonus })).toBe(1);
+      // magical ranged → no effect (physical-only)
+      expect(defenderReductionMultiplier({ ...base, dmgType: 'magical', isRanged: true, bonus })).toBe(1);
+    });
   });
 
   describe('defenderReductionSteps — one named step per applied category', () => {
@@ -106,6 +116,14 @@ describe('pvp reduction math', () => {
 
     it('is empty when nothing applies', () => {
       expect(defenderReductionSteps({ ...base, bonus: {} })).toEqual([]);
+    });
+
+    it('emits the ranged step only for a ranged physical hit', () => {
+      const bonus = { dmg_taken_range: 20 };
+      expect(defenderReductionSteps({ ...base, isRanged: true, bonus })).toMatchObject([
+        { label: 'Redução à distância', keys: ['dmg_taken_range'], factor: 0.8 },
+      ]);
+      expect(defenderReductionSteps({ ...base, isRanged: false, bonus })).toEqual([]);
     });
   });
 });

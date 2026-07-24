@@ -151,6 +151,7 @@ qualquer outra chave de `script`:
 | `dmg_taken_physical` | redução plana % de todo dano físico recebido |
 | `dmg_taken_magical` | redução plana % de todo dano mágico recebido |
 | `dmg_taken_all` | redução plana % de físico **e** mágico |
+| `dmg_taken_range` | redução % de dano físico **à distância** (família Carta Gazeti) — só contra golpe físico com `isRanged` |
 
 Raças enumeradas hoje: `formless, undead, brute, plant, insect, fish, demon,
 demihuman, angel, dragon` — a lista de raça é estendida com `player_human` e
@@ -312,10 +313,11 @@ de acerto do atacante (não ao dano).
     shadow) + ~13 travadas por classe/status/proc.
   - **Itens fora do `item.json`** (~94, ex.: equipamentos [Aluguel]/TE) têm
     cláusula defensiva mas não estão no banco — entram quando/se forem portados.
-  - **Novo tipo de efeito visto e ainda sem chave:** "Resistência a danos físicos
-    **a distância** +N%" (redução só de ranged) — hoje só aparece em bônus de
-    conjunto; se virar comum, criar `dmg_taken_ranged` no namespace + estágio no
-    canal `phys_ranged`.
+  - ~~**Novo tipo de efeito visto e ainda sem chave:** "Resistência a danos físicos
+    **a distância** +N%"~~ — **modelado** (0.1.29-beta) como `dmg_taken_range`:
+    categoria própria em `defenderReductionSteps`, aplicada só quando o golpe é
+    físico **e** `isRanged` (arco básico ou skill à distância). Ex.: Carta Gazeti
+    de Cristal (27110).
 - **Detecção de elemento por armadura elemental do alvo** (V1 é só Neutro).
   *Decisão a registrar:* ler card/encantamento da armadura → elemento nível 1.
 - **Nuance Human/Doram e separação classe-vs-raça** que o Luís sinalizou ("Raça é

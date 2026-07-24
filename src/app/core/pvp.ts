@@ -123,6 +123,9 @@ export interface DefenderReductionInput {
   attackerSize: 's' | 'm' | 'l';
   /** Players are Normal class. */
   attackerType: 'normal' | 'boss';
+  /** True when the incoming attack is long-ranged (basic bow or a ranged skill).
+   *  Gates the physical-ranged reduction (Gazeti-card family). */
+  isRanged?: boolean;
 }
 
 /**
@@ -180,6 +183,8 @@ export function defenderReductionSteps(input: DefenderReductionInput): DefenderR
     { pct: v('subele_all') + v(`subele_${input.attackerElement}`), label: `Redução ${ELE_PT[input.attackerElement] ?? input.attackerElement}`, keys: ['subele_all', `subele_${input.attackerElement}`] },
     { pct: v('subsize_all') + v(`subsize_${input.attackerSize}`), label: `Redução ${SIZE_PT[input.attackerSize] ?? input.attackerSize}`, keys: ['subsize_all', `subsize_${input.attackerSize}`] },
     { pct: v('subclass_all') + v(`subclass_${input.attackerType}`), label: `Redução ${CLASS_PT[input.attackerType] ?? input.attackerType}`, keys: ['subclass_all', `subclass_${input.attackerType}`] },
+    // Long-ranged physical reduction (Gazeti-card family) — only vs a ranged physical hit.
+    { pct: input.dmgType === 'physical' && input.isRanged ? v('dmg_taken_range') : 0, label: 'Redução à distância', keys: ['dmg_taken_range'] },
     { pct: v('dmg_taken_all') + v(flatKey), label: 'Redução plana', keys: ['dmg_taken_all', flatKey] },
   ];
 

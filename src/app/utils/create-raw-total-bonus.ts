@@ -218,6 +218,7 @@ export const createRawTotalBonus = (): EquipmentSummaryModel => {
     dmg_taken_physical: 0,
     dmg_taken_magical: 0,
     dmg_taken_all: 0,
+    dmg_taken_range: 0,
 
     subele_all: 0,
     subele_neutral: 0,
