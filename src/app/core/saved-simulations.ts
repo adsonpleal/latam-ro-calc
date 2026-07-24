@@ -9,6 +9,7 @@
  */
 import { PresetModel } from '../api-services/models/preset-model';
 import { StorageLike } from './calc-storage';
+import { CompareState } from './compare-state';
 import { PlayerTargetProfile } from './pvp';
 
 const SAVES_KEY = 'ro-saves';
@@ -26,6 +27,11 @@ export interface SavedSimulation {
    * the PVP feature — those must be re-saved to be usable as a PVP target.
    */
   targetProfile?: PlayerTargetProfile;
+  /**
+   * The "comparar slot" comparison active when the sim was saved, restored on
+   * load. Absent on sims saved without a comparison (or before this feature).
+   */
+  compare?: CompareState;
 }
 
 const newId = (): string => {
@@ -59,7 +65,12 @@ export class SavedSimulationStore {
   }
 
   /** Create or overwrite (by case-insensitive name) and return the saved entry. */
-  upsert(name: string, preset: PresetModel, targetProfile?: PlayerTargetProfile): SavedSimulation {
+  upsert(
+    name: string,
+    preset: PresetModel,
+    targetProfile?: PlayerTargetProfile,
+    compare?: CompareState | null,
+  ): SavedSimulation {
     const trimmed = name.trim();
     const n = trimmed.toLowerCase();
     const list = this.list();
@@ -71,6 +82,7 @@ export class SavedSimulationStore {
       savedAt: Date.now(),
       preset,
       targetProfile,
+      compare: compare ?? undefined,
     };
     const next = existing ? list.map((s) => (s.id === existing.id ? entry : s)) : [entry, ...list];
     this.writeAll(next);

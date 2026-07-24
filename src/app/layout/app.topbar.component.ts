@@ -103,6 +103,13 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.31-beta',
+      date: '24-07-2026',
+      logs: [
+        'A comparação de peças (Comparar peça) agora é salva junto com a simulação e permanece ao atualizar a página. Ao salvar uma simulação, a peça em comparação e seus valores são guardados e restaurados quando ela é carregada de novo; a comparação em andamento também sobrevive a um recarregamento do navegador.',
+      ],
+    },
+    {
       v: '0.1.30-beta',
       date: '24-07-2026',
       logs: [

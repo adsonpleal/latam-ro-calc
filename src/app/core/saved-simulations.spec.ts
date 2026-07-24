@@ -43,3 +43,26 @@ describe('SavedSimulationStore.setTargetProfile', () => {
     expect(store.list()[0].targetProfile).toBeUndefined();
   });
 });
+
+describe('SavedSimulationStore — compare state', () => {
+  const compare = { itemNames: ['weapon'], model2: { weapon: 1201, rawOptionTxts: [] } };
+
+  it('persists the comparison and round-trips it through list()', () => {
+    const store = new SavedSimulationStore(fakeStorage());
+    store.upsert('A', preset(), undefined, compare);
+    expect(store.list()[0].compare).toEqual(compare);
+  });
+
+  it('leaves compare undefined when none is passed', () => {
+    const store = new SavedSimulationStore(fakeStorage());
+    store.upsert('A', preset());
+    expect(store.list()[0].compare).toBeUndefined();
+  });
+
+  it('drops the comparison when re-saved (overwrite) without one', () => {
+    const store = new SavedSimulationStore(fakeStorage());
+    store.upsert('A', preset(), undefined, compare);
+    store.upsert('A', preset(), undefined, null);
+    expect(store.list()[0].compare).toBeUndefined();
+  });
+});

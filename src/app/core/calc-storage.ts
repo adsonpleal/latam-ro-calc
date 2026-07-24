@@ -4,6 +4,8 @@
  * interface so the parsing/validation can be unit-tested with a fake store and
  * so the engine layer never references the `localStorage` global directly.
  */
+import { CompareState, sanitizeCompareState } from './compare-state';
+
 export interface StorageLike {
   getItem(key: string): string | null;
   setItem(key: string, value: string): void;
@@ -11,6 +13,7 @@ export interface StorageLike {
 
 const MONSTER_IDS_KEY = 'monsterIds';
 const BATTLE_COLS_KEY = 'battle_cols';
+const COMPARE_STATE_KEY = 'ro-set-compare';
 
 export class CalcStorage {
   constructor(private readonly storage: StorageLike) {}
@@ -45,5 +48,24 @@ export class CalcStorage {
 
   writeBattleColNames(fields: string[]): void {
     this.storage.setItem(BATTLE_COLS_KEY, JSON.stringify(fields));
+  }
+
+  /**
+   * The "comparar slot" comparison paired with the current autosave, so it can be
+   * restored on refresh. `null` when nothing valid is stored (or the comparison
+   * was cleared).
+   */
+  readCompareState(): CompareState | null {
+    try {
+      return sanitizeCompareState(JSON.parse(this.storage.getItem(COMPARE_STATE_KEY) as string));
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  /** Persist (or clear, when passed a null/empty state) the current comparison. */
+  writeCompareState(state: CompareState | null): void {
+    this.storage.setItem(COMPARE_STATE_KEY, JSON.stringify(sanitizeCompareState(state)));
   }
 }

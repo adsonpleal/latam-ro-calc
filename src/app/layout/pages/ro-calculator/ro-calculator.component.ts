@@ -70,6 +70,7 @@ import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
 import { applyGuaranaCandy, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectConsumables } from 'src/app/core/calculator-controller';
 import { CalcStorage } from 'src/app/core/calc-storage';
+import { CompareState } from 'src/app/core/compare-state';
 import { parseOptionScripts } from 'src/app/core/option-scripts';
 import {
   AtkTypeDataModel,
@@ -431,6 +432,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         if (sharedBuild) {
           this.messageService.add({ severity: 'success', summary: 'Simulação carregada', detail: 'Carregada a partir do link compartilhado.' });
+        } else {
+          // Restore the comparison that was active before the refresh (share links
+          // carry no comparison, so only do this for the local autosave).
+          this.restoreCompareState(this.calcStorage.readCompareState());
         }
       });
 
@@ -577,6 +582,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         // compared (e.g. its card's Instinto) shows up alongside the main build's.
         this.refreshChanceList();
         this.onSelectItemDescription(this.isEnableCompare && Boolean(this.selectedCompareItemDesc));
+
+        // Persist the comparison alongside the autosave so it survives a refresh.
+        this.calcStorage.writeCompareState(this.currentCompareState());
 
         this.isCalculatingEvent.next(false);
       });
@@ -1142,6 +1150,34 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     return toUpsertPresetModel(this.model, this.selectedCharacter) as unknown as PresetModel;
   }
 
+  /**
+   * A JSON-safe snapshot of the active "comparar slot" comparison, or `null` when
+   * nothing is being compared. Shared by the autosave (survive-refresh) and the
+   * named saves (restore-on-load).
+   */
+  private currentCompareState(): CompareState | null {
+    if (!this.compareItemNames?.length) return null;
+    return {
+      itemNames: [...this.compareItemNames],
+      model2: JSON.parse(JSON.stringify(this.model2 ?? { rawOptionTxts: [] })),
+    };
+  }
+
+  /**
+   * Apply a stored comparison to the live state and recompute. A `null` state
+   * clears any active comparison — so loading a sim saved without one drops the
+   * current comparison too. Slots no longer comparable are dropped.
+   */
+  private restoreCompareState(state: CompareState | null): void {
+    const names = (state?.itemNames ?? []).filter((n) =>
+      this.compareItemList.includes(n as keyof typeof ItemTypeEnum),
+    ) as ItemTypeEnum[];
+    this.model2 = state ? ({ rawOptionTxts: [], ...state.model2 } as ClassModel) : { rawOptionTxts: [] };
+    this.compareItemNames = names;
+    this.isEnableCompare = names.length > 0;
+    this.updateCompareEvent.next(1);
+  }
+
   /** Display label for a class id, for the preview cards / save name prefill. */
   classLabel(classId: number): string {
     return Characters.find((c) => c.value === classId)?.label ?? '';
@@ -1171,7 +1207,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     } catch (err) {
       console.error('Falha ao computar o perfil de alvo PVP', err);
     }
-    this.savedSimStore.upsert(name, this.currentPreset(), targetProfile);
+    this.savedSimStore.upsert(name, this.currentPreset(), targetProfile, this.currentCompareState());
     this.refreshPvpTargets();
     this.showSaveDialog = false;
     this.messageService.add({ severity: 'success', summary: 'Simulação salva', detail: name });
@@ -1187,6 +1223,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     if (!ok) return;
     this.loadItemSet(sim.preset).subscribe({
       complete: () => {
+        // Restore (or clear) the comparison the sim was saved with.
+        this.restoreCompareState(sim.compare ?? null);
         this.showSavesDialog = false;
         this.onBaseStatusChange();
         this.messageService.add({ severity: 'success', summary: 'Simulação carregada', detail: sim.name });
@@ -1215,6 +1253,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     if (!ok) return;
     this.loadItemSet(createMainModel() as any).subscribe({
       complete: () => {
+        this.restoreCompareState(null);
         this.showSavesDialog = false;
         this.onBaseStatusChange();
         this.messageService.add({ severity: 'success', summary: 'Nova simulação', detail: 'Tudo foi limpo.' });

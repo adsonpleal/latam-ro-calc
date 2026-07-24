@@ -63,3 +63,34 @@ describe('CalcStorage — battle columns', () => {
     expect(store.readBattleColNames()).toEqual(['dps', 'avg']);
   });
 });
+
+describe('CalcStorage — compare state', () => {
+  let errSpy: any;
+  beforeEach(() => (errSpy = vi.spyOn(console, 'error').mockImplementation(() => {})));
+
+  it('returns null when nothing is stored', () => {
+    expect(new CalcStorage(fakeStorage()).readCompareState()).toBeNull();
+  });
+
+  it('round-trips a valid comparison', () => {
+    const storage = fakeStorage();
+    const store = new CalcStorage(storage);
+    const state = { itemNames: ['weapon'], model2: { weapon: 1201, rawOptionTxts: [] } };
+    store.writeCompareState(state);
+    expect(store.readCompareState()).toEqual(state);
+  });
+
+  it('writes null (clears) for an empty or null state', () => {
+    const storage = fakeStorage();
+    const store = new CalcStorage(storage);
+    store.writeCompareState({ itemNames: [], model2: {} });
+    expect(storage.getItem('ro-set-compare')).toBe('null');
+    store.writeCompareState(null);
+    expect(store.readCompareState()).toBeNull();
+  });
+
+  it('returns null for corrupt JSON, swallowing the error', () => {
+    expect(new CalcStorage(fakeStorage({ 'ro-set-compare': 'not json' })).readCompareState()).toBeNull();
+    errSpy.mockRestore();
+  });
+});
