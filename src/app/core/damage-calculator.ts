@@ -1765,6 +1765,16 @@ export class DamageCalculator {
         }
       }
 
+      // The elemental multiplier (attack property vs the target's defence property,
+      // including resist reductions such as [Infecção] / [Intoxicação] / Oratio)
+      // scales **MATK**, ahead of the skill ratio — it is not a multiplier on the
+      // final damage. Two consequences the in-game numbers confirm: the ratio is
+      // applied to the already-boosted MATK, and the target's soft MDEF is taken off
+      // *once*, after the boost, instead of being scaled along with it. Locked to the
+      // unit by ElementalMaster.poison-replay.spec.ts.
+      total = floor(total * propertyMultiplier);
+      push('Multiplicador elemental', total, ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold']);
+      emit('elementalMultiplier', 'Multiplicador elemental', total, ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold'], { multiplier: propertyMultiplier });
       total = floor(total * sMatkMultiplier);
       push('S.ATQM', total, ['sMatk']);
       emit('sMatk', 'S.ATQM', total, ['sMatk'], { multiplier: sMatkMultiplier });
@@ -1815,9 +1825,6 @@ export class DamageCalculator {
         push(`Bônus Hab. equip ${this.fmtCalc(equipSkillBonus)}%`, total, [skillBonusKey]);
         emit('equipSkillBonus', `Bônus Hab. equip ${this.fmtCalc(equipSkillBonus)}%`, total, [skillBonusKey], { multiplier: equipSkillMultiplier });
       }
-      total = floor(total * propertyMultiplier); //tested
-      push('Multiplicador elemental', total, ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold']);
-      emit('elementalMultiplier', 'Multiplicador elemental', total, ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold'], { multiplier: propertyMultiplier });
       total = floor(total * finalDmgMultiplier);
       if (finalDmgMultiplier !== 1) {
         push('Dano final por elemento', total, [`final_${skillPropertyAtk?.toLowerCase()}`]);

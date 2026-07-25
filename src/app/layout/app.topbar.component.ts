@@ -103,6 +103,14 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.33-beta',
+      date: '24-07-2026',
+      logs: [
+        'A Implosão Tóxica passou a usar a taxa maior quando o alvo está sofrendo de [Infecção], como descreve a habilidade no jogo: 1.500%, 2.000%, 2.500%, 3.000% e 3.500% de ATQM do Lv 1 ao Lv 5, no lugar dos 1.300% a 2.500% aplicados a um alvo sem o efeito. Antes o simulador usava sempre a taxa menor, mesmo dentro da nuvem da Maldição de Jormungand. Gravações por Ted.',
+        'Corrigida a ordem do cálculo do dano mágico: o multiplicador elemental — elemento do ataque contra o elemento do alvo, incluindo as reduções de resistência [Infecção], [Intoxicação], [Geladinho] e Oratio — passou a multiplicar o ATQM antes da taxa da habilidade, e não mais o dano final. Com isso a DEFM branda do alvo é descontada uma única vez, depois do aumento, e o dano deixa de sair abaixo do real sempre que há vantagem elemental ou redução de resistência. Gravações por Ted.',
+      ],
+    },
+    {
       v: '0.1.32-beta',
       date: '24-07-2026',
       logs: [

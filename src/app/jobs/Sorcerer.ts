@@ -237,6 +237,13 @@ export class Sorcerer extends Scholar {
       },
     },
     {
+      // Poison Burst (SO_POISON_BUSTER) — "Implosão Tóxica". Against a target
+      // suffering [Infecção] (left by Maldição de Jormungand) it uses a higher
+      // ratio, per the pt-BR description: "Se o alvo estiver sofrendo de
+      // [Infecção], causa um dano ainda maior" — ATQM 1.300/1.600/1.900/2.200/
+      // 2.500% normally vs ATQM (Infecção) 1.500/2.000/2.500/3.000/3.500%, i.e.
+      // base 1000 + lv*300 becomes 1000 + lv*500. Validated against the replays
+      // in ElementalMaster.poison-replay.spec.ts.
       name: 'Poison Burst',
       label: 'Poison Burst Lv5',
       value: 'Poison Burst==5',
@@ -247,12 +254,13 @@ export class Sorcerer extends Scholar {
       element: ElementType.Poison,
       isMatk: true,
       formula: (input: AtkSkillFormulaInput): number => {
-        const { model, skillLevel, status } = input;
+        const { model, skillLevel, status, totalBonus } = input;
         const baseLevel = model.level;
         const totalInt = status.totalInt;
         const summonerBonus = this.isSummon(ElementalSpiritValue.Tera_2) ? model.jobLevel * 5 : 0
+        const baseRatio = totalBonus['infection'] ? 1000 + skillLevel * 500 : 1000 + skillLevel * 300;
 
-        return (1000 + skillLevel * 300 + totalInt) * (baseLevel / 100) + summonerBonus;
+        return (baseRatio + totalInt) * (baseLevel / 100) + summonerBonus;
       },
     },
     {
