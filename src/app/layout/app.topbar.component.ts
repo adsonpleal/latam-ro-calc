@@ -143,6 +143,14 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.34-beta',
+      date: '27-07-2026',
+      logs: [
+        'Adicionado o servidor MCP, que permite conectar uma IA (Claude, ChatGPT e outras) ao simulador: dá para pedir que ela procure itens, calcule o dano de uma build, compare builds ou teste as peças de um slot atrás do maior DPS. Todo cálculo passa pelo mesmo motor desta página, então os números batem com os daqui. O caminho mais direto é colar o link da sua build na conversa — a IA lê classe, níveis, atributos e cada peça com refino, cartas e encantes, e devolve outro link pronto para abrir de volta no simulador, já com a peça sugerida na comparação. A busca de itens também enxerga o que existe no LATAM mas ainda não foi cadastrado aqui, marcando esses casos. O endereço e as instruções de conexão estão no botão MCP, na barra de cima. Recurso altamente experimental: pode mudar, sair do ar ou errar sem aviso.',
+        'O link de compartilhamento passou a levar também a comparação de peças: se houver uma comparação ativa quando o link for gerado, quem abrir cai direto na visão peça atual → simulado, e não apenas na build. Links gerados antes desta versão continuam funcionando como antes.',
+      ],
+    },
+    {
       v: '0.1.33-beta',
       date: '24-07-2026',
       logs: [
