@@ -10,12 +10,13 @@
 import { z } from 'zod';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { CompareState } from 'src/app/core/compare-state';
+import { collectConsumables } from 'src/app/core/calculator-controller';
 import { round } from 'src/app/utils';
 import { config } from '../config';
 import { Dataset } from '../data/dataset';
 import { SLOT_TAGS } from '../data/slot-classifier';
 import { plainItemDesc } from '../data/text';
-import { BuildInput, buildInputSchema, ResolvedBuild, resolveBuild } from '../engine/build-input';
+import { BuildInput, buildInputSchema, ITEM_ID_KEYS, MAIN_ITEM_SLOTS, relatedItemKeys, ResolvedBuild, resolveBuild } from '../engine/build-input';
 import { projectResult } from '../engine/project';
 import { buildShareUrl, parseShare, resolveIfShort, shortenShareUrl, toPreset } from '../engine/share';
 import { solve } from '../engine/solve';
@@ -89,12 +90,21 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
     return withSolveSlot(() => {
       const rb = resolveBuild(input, dataset);
       const skillValue = rb.model.selectedAtkSkill;
+      // Same flag solve() feeds runChain: HP Increase Potion (L) changes max HP, so
+      // hardcoding false here would make this tool disagree with `calculate`.
+      const { usedHpL } = collectConsumables(rb.model, dataset.items);
       const budget = createBudget();
       const rows: any[] = [];
 
+      // Seed the solve with the first id we actually have data for: the loop reports
+      // unknown ids as per-row errors, so an unknown one in position 0 must not throw
+      // away every other row.
+      const seedId = monsterIds.find((id) => dataset.monsters[id]);
+      if (seedId === undefined) throw new Error('Nenhum dos monstros informados tem bloco de atributos no calculador.');
+
       // One full solve, then re-target cheaply — changing the monster does not
       // invalidate the gear bonus pass, so runChain per target would be wasteful.
-      const calc = solve(rb, dataset, resolveTarget(dataset, monsterIds[0]).monster);
+      const calc = solve(rb, dataset, dataset.monsters[seedId]);
       for (const id of monsterIds) {
         if (budget.expired()) break;
         const monster = dataset.monsters[id];
@@ -102,7 +112,7 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
           rows.push({ id, error: 'sem bloco de atributos no calculador' });
           continue;
         }
-        const dmg: any = calc.setMonster(monster).prepareAllItemBonus().calcDmgWithExtraBonus({ skillValue, isUseHpL: false });
+        const dmg: any = calc.setMonster(monster).prepareAllItemBonus().calcDmgWithExtraBonus({ skillValue, isUseHpL: usedHpL });
         rows.push({
           id,
           name: monster.name,
@@ -185,6 +195,12 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
   }, async ({ build, slot, candidates, slotTag, query, target, limit = 10 }) => {
     const input = await normalizeShare(build);
     return withSolveSlot(() => {
+      if (!ITEM_ID_KEYS.includes(slot)) {
+        // Without this the override is silently skipped and every candidate solves to
+        // the baseline, producing a confident ranking of identical numbers.
+        throw new Error(`"${slot}" não é um slot de equipamento. Use um destes: ${MAIN_ITEM_SLOTS.join(', ')}.`);
+      }
+
       const baseRb = resolveBuild(input, dataset);
       const classId = baseRb.model.class;
       const { monster } = resolveTarget(dataset, target?.monsterId);
@@ -218,9 +234,22 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
       const currentId = baseRb.model[slot];
 
       // Arm the comparison so the link opens on the app's current → simulado view.
-      const compare: CompareState | null = winner
-        ? { itemNames: [slot], model2: { [slot]: winner.id, [`${slot}Refine`]: baseRb.model[`${slot}Refine`] ?? 0 } }
-        : null;
+      // The app rebuilds a compared slot's related fields from model2 alone and merges
+      // the result over the main model, so any card/enchant left out here would come
+      // back as null — and the simulated side would not match the DPS ranked above.
+      // Only main slots can be compared; the picker has no row for a card slot.
+      const compare: CompareState | null =
+        winner && MAIN_ITEM_SLOTS.includes(slot)
+          ? {
+              itemNames: [slot],
+              model2: {
+                [slot]: winner.id,
+                [`${slot}Refine`]: baseRb.model[`${slot}Refine`] ?? 0,
+                [`${slot}Grade`]: baseRb.model[`${slot}Grade`] ?? null,
+                ...Object.fromEntries(relatedItemKeys(slot).map((k) => [k, baseRb.model[k] ?? null])),
+              },
+            }
+          : null;
 
       return json({
         slot,
@@ -266,12 +295,13 @@ export function registerBridgeTools(server: McpServer, dataset: Dataset): void {
     const model = rb.model;
 
     const nameOf = (id: number) => dataset.itemIndex.get(id)?.name ?? `#${id} (desconhecido)`;
+    // Only the keys that actually hold equipment — a numeric-key sweep would also
+    // report `aspdPotion` and `pet` as equipped pieces.
     const gear: Record<string, any> = {};
-    for (const [key, value] of Object.entries(model)) {
-      if (typeof value === 'number' && value > 0 && dataset.itemIndex.get(value) && !/Refine$|Grade$|^(class|level|jobLevel)$/.test(key)) {
-        const refine = model[`${key}Refine`];
-        gear[key] = compact({ id: value, name: nameOf(value), refine: refine || undefined });
-      }
+    for (const key of ITEM_ID_KEYS) {
+      const value = model[key];
+      if (typeof value !== 'number' || value <= 0 || !dataset.itemIndex.get(value)) continue;
+      gear[key] = compact({ id: value, name: nameOf(value), refine: model[`${key}Refine`] || undefined });
     }
 
     const compare = decoded.compare

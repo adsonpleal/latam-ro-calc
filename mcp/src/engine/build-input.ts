@@ -18,13 +18,19 @@ export const STAT_KEYS = ['str', 'agi', 'vit', 'int', 'dex', 'luk', 'pow', 'sta'
 /** Every model field name, taken from the model factory itself. */
 const MODEL_KEYS = new Set(Object.keys(createMainModel()));
 
+/** The main equipment slots — the ones the app can compare, each with its own relations. */
+export const MAIN_ITEM_SLOTS: readonly string[] = Object.keys(MainItemWithRelations);
+
+/** A main slot's card/enchant keys, empty for slots that have none. */
+export const relatedItemKeys = (slot: string): readonly string[] => (MainItemWithRelations as Record<string, string[]>)[slot] ?? [];
+
 /**
  * The model keys that hold an item id — every main slot plus its cards/enchants.
  * Taken from `MainItemWithRelations` rather than pattern-matched, so a new slot is
  * picked up automatically and `*Refine`/`*Grade` are excluded by construction.
  */
-const ITEM_ID_KEYS: readonly string[] = [
-  ...Object.keys(MainItemWithRelations),
+export const ITEM_ID_KEYS: readonly string[] = [
+  ...MAIN_ITEM_SLOTS,
   ...Object.values(MainItemWithRelations).flat(),
 ] as string[];
 

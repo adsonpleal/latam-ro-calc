@@ -166,6 +166,70 @@ describe('optimize_slot', () => {
   });
 });
 
+describe('regressions', () => {
+  const windhawk = {
+    class: 4257,
+    level: 200,
+    jobLevel: 50,
+    stats: { agi: 100, dex: 130, pow: 60, con: 40 },
+    gear: { weapon: 700016, weaponRefine: 11, weaponCard1: 4628, ammo: 1773 },
+    atkSkill: 'Focused Arrow Strike==5',
+  };
+
+  it('damage_table honours HP Increase Potion (L) like calculate does', async () => {
+    // Tiger Cannon's base damage is literally a function of maxHp (Sura.ts:232), so
+    // it is the skill that exposes the flag. The per-target recompute used to hardcode
+    // isUseHpL:false, making this tool disagree with `calculate` for the same build.
+    const build = { class: 13, level: 200, jobLevel: 50, stats: { str: 110, vit: 100, dex: 90 }, atkSkill: 'Tiger Cannon==10', consumables: [12424] };
+    const single = await call('calculate', { build, target: { monsterId: 21077 } });
+    const table = await call('damage_table', { build, monsterIds: [21077] });
+
+    // Guard that the fixture actually exercises the flag: without the potion the
+    // damage must differ, otherwise this test could never fail.
+    const noPotion = await call('calculate', { build: { ...build, consumables: [] }, target: { monsterId: 21077 } });
+    expect(single.data.damage.skill.max).not.toBe(noPotion.data.damage.skill.max);
+
+    expect(table.data.rows[0].max).toBe(single.data.damage.skill.max);
+  });
+
+  it('damage_table survives an unknown id in the first position', async () => {
+    const { data } = await call('damage_table', { build: windhawk, monsterIds: [999999, 21077] });
+    expect(data.rows).toHaveLength(2);
+    expect(data.rows[0]).toMatchObject({ id: 999999, error: expect.any(String) });
+    expect(data.rows[1].max).toBeGreaterThan(0);
+  });
+
+  it('optimize_slot rejects a slot that is not an equipment field', async () => {
+    // Previously this silently scored every candidate as the untouched base build.
+    const { data, isError } = await call('optimize_slot', { build: windhawk, slot: 'boots', candidates: [700016], target: { monsterId: 21077 } });
+    expect(isError).toBe(true);
+    expect(data.error).toMatch(/não é um slot de equipamento/);
+  });
+
+  it('optimize_slot carries the slot cards into the emitted comparison', async () => {
+    // The app rebuilds a compared slot's related fields from model2 alone, so a card
+    // left out here comes back as null and the simulated side stops matching the rank.
+    const { data } = await call('optimize_slot', { build: windhawk, slot: 'weapon', candidates: [18186], target: { monsterId: 21077 }, limit: 1 });
+    const parsed = await call('parse_share_link', { share: data.share });
+    expect(parsed.data.compare.items.weapon.id).toBe(18186);
+    expect(parsed.data.compare.items.weaponCard1.id).toBe(4628);
+  });
+
+  it('parse_share_link does not report consumables as equipped gear', async () => {
+    const { data: made } = await call('share_link', { build: { ...windhawk, aspdPotion: 645 } });
+    const { data } = await call('parse_share_link', { share: made.url });
+    expect(data.gear.weapon.id).toBe(700016);
+    expect(data.gear.aspdPotion).toBeUndefined();
+  });
+
+  it('search_monsters does not invent a type for monsters with no stat block', async () => {
+    const { data } = await call('search_monsters', { query: 'poring', hasStats: false, limit: 25 });
+    const statless = data.monsters.find((m: any) => m.hasStats === false);
+    expect(statless).toBeTruthy();
+    expect(statless.type).toBeUndefined();
+  });
+});
+
 describe('bridge', () => {
   it('parse_share_link resolves ids to names and summarises the build', async () => {
     const { data: calc } = await call('calculate', {

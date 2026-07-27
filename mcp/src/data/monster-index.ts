@@ -90,13 +90,14 @@ export class MonsterIndex {
     return this.monsters[id];
   }
 
-  /** pt-BR labels shared with the calculation result's `target` block. */
+  /** pt-BR labels shared with the calculation result's `target` block. Everything is
+   *  omitted rather than guessed for a monster with no stat block. */
   labels(row: MonsterRow, elementName?: string) {
     return {
       element: elementName ? elementPtBr(elementName) : undefined,
       race: row.race ? racePtBr(row.race) : undefined,
       size: row.size ? sizePtBr(row.size) : undefined,
-      type: monsterTypePtBr(row.boss ? 'Boss' : 'Normal'),
+      type: row.hasStats ? monsterTypePtBr(row.boss ? 'Boss' : 'Normal') : undefined,
     };
   }
 

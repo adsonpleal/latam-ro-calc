@@ -56,12 +56,12 @@ export const resolveIfShort = async (share: string, shortenerUrl: string): Promi
  * that's what the app's share dialog hands them.
  */
 export async function resolveShortLink(url: string, timeoutMs = 3000): Promise<string> {
-  const signal = AbortSignal.timeout(timeoutMs);
-  const res = await fetch(url, { redirect: 'follow', signal });
-  // The token lives in the fragment, which fetch does not expose via res.url on a
-  // redirect, so fall back to the Location header when needed.
+  // `redirect: 'manual'` is load-bearing. The token lives in the URL fragment, which
+  // fetch strips from `res.url` when it follows a redirect — and once followed there is
+  // no Location header left to recover it from, so 'follow' loses the token every time.
+  const res = await fetch(url, { redirect: 'manual', signal: AbortSignal.timeout(timeoutMs) });
   const location = res.headers.get('location');
-  const candidate = TOKEN_IN_URL.test(res.url) ? res.url : location ?? res.url;
+  const candidate = location ? new URL(location, url).href : res.url;
   if (!TOKEN_IN_URL.test(candidate)) throw new Error(`O link curto ${url} não aponta para uma simulação.`);
   return candidate;
 }
