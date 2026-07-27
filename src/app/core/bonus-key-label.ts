@@ -12,10 +12,14 @@ export const ITEM_BONUS_LABELS: Record<string, string> = {
   def: 'DEF', defPercent: 'DEF %', softDef: 'DEF Suave', softDefPercent: 'DEF Suave %',
   mdef: 'DEFM', mdefPercent: 'DEFM %', softMdef: 'DEFM Suave', softMdefPercent: 'DEFM Suave %',
   res: 'RES', mres: 'RESM',
-  allStatus: 'Todos os atributos', allTrait: 'Todos os traços',
+  allStatus: 'Todos os atributos', allTrait: 'Todos os talentos',
   range: 'Dano à distância', melee: 'Dano corpo a corpo', bowRange: 'Alcance do arco',
-  atk: 'ATQ', x_atk: 'ATQ (extra)', cannonballAtk: 'ATQ Bala de Canhão', atkPercent: 'ATQ %',
-  matk: 'ATQM', matkPercent: 'ATQM %', flatDmg: 'Dano fixo', dmg: 'Dano',
+  // The client renamed these: what it used to print as "ATQ +N%" / "ATQ da arma +N%" is now
+  // "Dano físico +N%", and "ATQM +N%" is now "Dano mágico +N%". The old wording survives on
+  // 3 items each, the new one on 455 / 422 — so the labels follow the new text. The flat
+  // ATQ/ATQM lines below keep their names; only the percentages were renamed.
+  atk: 'ATQ', x_atk: 'ATQ (extra)', cannonballAtk: 'ATQ Bala de Canhão', atkPercent: 'Dano físico %',
+  matk: 'ATQM', matkPercent: 'Dano mágico %', flatDmg: 'Dano fixo', dmg: 'Dano',
   pAtk: 'P.ATQ', sMatk: 'S.ATQM', cRate: 'T.CRÍT',
   aspd: 'VelAtq', aspdPercent: 'VelAtq %',
   skillAspd: 'VelAtq (hab.)', skillAspdPercent: 'VelAtq % (hab.)', decreaseSkillAspdPercent: 'Reduz VelAtq (hab.)',

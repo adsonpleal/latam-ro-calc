@@ -968,6 +968,9 @@ export class DamageCalculator {
       return floor(round(total, 3));
     };
 
+    // Absolute multiplier, 100 = neutral. Only the Amuleto de Terra sets it (150 = x1,5);
+    // it is not an item-bonus key — item scripts phrased "ATQ da arma +N%" use atkPercent
+    // (see 400053 Morrigane Ilusional, 313366 Encanto de Poder).
     const weaPercent = (this.totalBonus['weaponAtkPercent'] || 100) / 100;
 
     const totalMin = formula(-variant, 0) * weaPercent;

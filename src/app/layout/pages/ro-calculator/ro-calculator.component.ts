@@ -12,6 +12,7 @@ import {
   AspdPotionFixBonus,
   AspdPotionList,
   AspdPotionList2,
+  ACC_SIDE_PREFIX,
   CardPosition,
   ElementConverterList,
   EnchantTable,
@@ -2132,7 +2133,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           case CardPosition.AccL:
             accLeftCardList.push({
               ...item,
-              name: '[Left] ' + item.name,
+              name: `${ACC_SIDE_PREFIX.left} ${item.name}`,
               isHilight: true,
             });
             accCardList.push(item);
@@ -2140,7 +2141,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           case CardPosition.AccR:
             accRightCardList.push({
               ...item,
-              name: '[Right] ' + item.name,
+              name: `${ACC_SIDE_PREFIX.right} ${item.name}`,
               isHilight: true,
             });
             accCardList.push(item);

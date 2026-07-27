@@ -12,3 +12,14 @@ export enum CardPosition {
   // e.g. the Essências de Morroc. Routed into every card picker.
   All = -1,
 }
+
+/**
+ * Tag prepended to a side-locked accessory card in the card pickers, so a card that only
+ * fits one hand is recognisable in the list it is offered in. The client calls the slots
+ * "Aces. Direito" / "Aces. Esquerdo"; these used to read "[Right]" / "[Left]", the only
+ * untranslated strings left in those dropdowns.
+ */
+export const ACC_SIDE_PREFIX = {
+  right: '[Direito]',
+  left: '[Esquerdo]',
+} as const;

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as yaml from 'js-yaml';
 import { Observable, forkJoin, map, shareReplay, tap } from 'rxjs';
-import { createRawTotalBonus } from 'src/app/utils';
+import { canGradeItem, createRawTotalBonus } from 'src/app/utils';
 import { environment } from 'src/environments/environment';
 import { VALID_SKILL_IDS } from '../skills';
 import { validClassNameSet } from './valid-bonuses';
@@ -59,6 +59,10 @@ export class RoService {
           const item = items[id];
           const pt = latam[id];
           item.presentInLatam = !!pt;
+          // Derived, not read from item.json: the stored flag was hand-maintained and drifted
+          // (the Armas Decadentes shipped as level-5 weapons with no flag, so the calculator
+          // greyed out their grade dropdown). itemLevel is the only input the rule needs.
+          item.canGrade = canGradeItem(item);
           if (pt) {
             // Set/combo scripts (EQUIP[...], POS_SPECIFIC[...], REFINE_NAME[...]) match
             // partner items by their English display name. Preserve it before swapping

@@ -22317,7 +22317,7 @@
     "slots": 2,
     "itemTypeId": 1,
     "itemSubTypeId": 267,
-    "itemLevel": 3,
+    "itemLevel": 4,
     "attack": 140,
     "defense": null,
     "weight": 100,
@@ -26254,27 +26254,40 @@
       "vit": [
         "3",
         "7===5",
-        "EQUIP[Illusion Goibne's Armor&&Illusion Goibne's Spaulders&&Illusion Goibne's Greaves]===5"
+        "EQUIP_ID[15348&&20923&&22192]===5"
       ],
       "mdef": [
         "3",
-        "EQUIP[Illusion Goibne's Armor&&Illusion Goibne's Spaulders&&Illusion Goibne's Greaves]===15"
+        "EQUIP_ID[15348&&20923&&22192]===15"
       ],
       "acd": [
         "9===12",
-        "EQUIP[Illusion Goibne's Armor&&Illusion Goibne's Spaulders&&Illusion Goibne's Greaves]REFINE[headUpper,armor,garment,boot==40]20"
+        "EQUIP_ID[15348&&20923&&22192]REFINE[headUpper,armor,garment,boot==40]20"
       ],
       "hpPercent": [
-        "EQUIP[Illusion Goibne's Armor&&Illusion Goibne's Spaulders&&Illusion Goibne's Greaves]===15"
+        "EQUIP_ID[15348&&20923&&22192]===15",
+        "EQUIP_ID[15348&&20923&&22192]REFINE[headUpper==7]REFINE[armor==7]REFINE[garment==7]REFINE[boot==7]10"
       ],
       "spPercent": [
-        "EQUIP[Illusion Goibne's Armor&&Illusion Goibne's Spaulders&&Illusion Goibne's Greaves]===5"
+        "EQUIP_ID[15348&&20923&&22192]===5"
       ],
       "def": [
-        "EQUIP[Illusion Goibne's Armor&&Illusion Goibne's Spaulders&&Illusion Goibne's Greaves]===5"
+        "EQUIP_ID[15348&&20923&&22192]===5"
       ],
       "fct": [
-        "EQUIP[Illusion Goibne's Armor&&Illusion Goibne's Spaulders&&Illusion Goibne's Greaves]REFINE[headUpper,armor,garment,boot==36]0.7"
+        "EQUIP_ID[15348&&20923&&22192]REFINE[headUpper,armor,garment,boot==36]0.7"
+      ],
+      "subele_wind": [
+        "EQUIP_ID[15348&&20923&&22192]===10"
+      ],
+      "subele_fire": [
+        "EQUIP_ID[15348&&20923&&22192]===10"
+      ],
+      "subele_water": [
+        "EQUIP_ID[15348&&20923&&22192]===10"
+      ],
+      "subele_earth": [
+        "EQUIP_ID[15348&&20923&&22192]===10"
       ]
     }
   },
@@ -85542,7 +85555,7 @@
       "m_my_element_all": [
         "2",
         "9===1",
-        "11===2"
+        "11===1"
       ]
     }
   },
@@ -138865,19 +138878,11 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "atkPercent": [
-        "5"
-      ],
       "atk": [
-        "75"
+        "2---5"
       ],
-      "melee": [
-        "9===2",
-        "11===3"
-      ],
-      "range": [
-        "9===2",
-        "11===3"
+      "matk": [
+        "2---5"
       ]
     }
   },
@@ -138899,13 +138904,11 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "matkPercent": [
-        "5",
-        "9===2",
-        "11===3"
+      "atkPercent": [
+        "2---1"
       ],
-      "matk": [
-        "75"
+      "matkPercent": [
+        "2---1"
       ]
     }
   },
@@ -138927,16 +138930,8 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "matk": [
-        "20"
-      ],
-      "m_my_element_all": [
-        "20"
-      ],
-      "m_size_all": [
-        "3",
-        "9===1",
-        "11===1"
+      "fct": [
+        "0.25"
       ]
     }
   },
@@ -138958,19 +138953,8 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "atk": [
-        "20"
-      ],
-      "melee": [
-        "10"
-      ],
-      "cd__2006": [
-        "0.5"
-      ],
-      "p_size_all": [
-        "3",
-        "9===1",
-        "11===1"
+      "allTrait": [
+        "1"
       ]
     }
   },
@@ -138992,23 +138976,51 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "atk": [
-        "20"
+      "5321": [
+        "EQUIP_ID[510026]15"
       ],
-      "range": [
-        "15"
+      "5283": [
+        "EQUIP_ID[590015]15"
       ],
-      "p_size_all": [
-        "3",
-        "9===1",
-        "11===1"
+      "5340": [
+        "EQUIP_ID[500018]15"
       ],
-      "5283": ["EQUIP_ID[590015]15"],
-      "5292": ["EQUIP_ID[610015]15"],
-      "5295": ["EQUIP_ID[620005]15"],
-      "5321": ["EQUIP_ID[510026]15"],
-      "5340": ["EQUIP_ID[500018]15"],
-      "5341": ["EQUIP_ID[500018]15"]
+      "5341": [
+        "EQUIP_ID[500018]15"
+      ],
+      "5292": [
+        "EQUIP_ID[610015]15"
+      ],
+      "cd__5001": [
+        "EQUIP_ID[610015]10"
+      ],
+      "5295": [
+        "EQUIP_ID[620005]15"
+      ],
+      "cd__2280": [
+        "EQUIP_ID[620005]1"
+      ],
+      "5436": [
+        "EQUIP_ID[550058]15"
+      ],
+      "cd__5028": [
+        "EQUIP_ID[550058]2"
+      ],
+      "cd__5036": [
+        "EQUIP_ID[550058]2"
+      ],
+      "5466": [
+        "EQUIP_ID[540043]15"
+      ],
+      "criDmg": [
+        "EQUIP_ID[540043]10"
+      ],
+      "5481": [
+        "EQUIP_ID[510055]15"
+      ],
+      "cd__3004": [
+        "EQUIP_ID[510055]2"
+      ]
     }
   },
   "313370": {
@@ -139029,22 +139041,45 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "cri": [
-        "5"
+      "5266": [
+        "EQUIP_ID[530009]15"
       ],
-      "criDmg": [
-        "40"
+      "perfectHit": [
+        "EQUIP_ID[530009]20"
       ],
-      "p_size_all": [
-        "3",
-        "9===1",
-        "11===1"
+      "5372": [
+        "EQUIP_ID[540013]15"
       ],
-      "5213": ["EQUIP_ID[600013]15"],
-      "5225": ["EQUIP_ID[640013]15"],
-      "5266": ["EQUIP_ID[530009]15"],
-      "5372": ["EQUIP_ID[540013]15"],
-      "perfectHit": ["EQUIP_ID[530009]20"]
+      "cd__2449": [
+        "EQUIP_ID[540013]1.5"
+      ],
+      "5213": [
+        "EQUIP_ID[600013]15"
+      ],
+      "5225": [
+        "EQUIP_ID[640013]15"
+      ],
+      "cd__2211": [
+        "EQUIP_ID[640013]1"
+      ],
+      "5451": [
+        "EQUIP_ID[510054]15"
+      ],
+      "5459": [
+        "EQUIP_ID[550057]15"
+      ],
+      "5430": [
+        "EQUIP_ID[550059]15"
+      ],
+      "5490": [
+        "EQUIP_ID[510053]15"
+      ],
+      "5491": [
+        "EQUIP_ID[510053]15"
+      ],
+      "m_my_element_all": [
+        "EQUIP_ID[510053]10"
+      ]
     }
   },
   "313371": {
@@ -139065,14 +139100,48 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "acd": [
-        "4",
-        "9===6",
-        "11===6"
+      "5244": [
+        "EQUIP_ID[560011]15"
       ],
-      "5244": ["EQUIP_ID[560011]15"],
-      "5330": ["EQUIP_ID[700021]15"],
-      "5353": ["EQUIP_ID[580012||570012]15"]
+      "cd__2330": [
+        "EQUIP_ID[560011]1"
+      ],
+      "5353": [
+        "EQUIP_ID[580012||570012]15"
+      ],
+      "cd__2418": [
+        "EQUIP_ID[580012||570012]2.5"
+      ],
+      "5330": [
+        "EQUIP_ID[700021]15"
+      ],
+      "cd__2233": [
+        "EQUIP_ID[700021]2.5"
+      ],
+      "5408": [
+        "EQUIP_ID[830009]15"
+      ],
+      "5405": [
+        "EQUIP_ID[820005]15"
+      ],
+      "cd__2557": [
+        "EQUIP_ID[820005]1"
+      ],
+      "5407": [
+        "EQUIP_ID[810006]15"
+      ],
+      "5406": [
+        "EQUIP_ID[800010]15"
+      ],
+      "criDmg": [
+        "EQUIP_ID[810006||800010]20"
+      ],
+      "5483": [
+        "EQUIP_ID[650020]15"
+      ],
+      "cd__3009": [
+        "EQUIP_ID[650020]2.5"
+      ]
     }
   },
   "313406": {
@@ -145602,7 +145671,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 512,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 10,
     "weight": 10,
@@ -167411,7 +167480,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 514,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 100,
     "weight": 50,
@@ -168301,7 +168370,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 514,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 60,
     "weight": 100,
@@ -169111,7 +169180,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 60,
     "weight": 70,
@@ -169155,7 +169224,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 60,
     "weight": 70,
@@ -169199,7 +169268,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 65,
     "weight": 75,
@@ -169249,7 +169318,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 50,
     "weight": 65,
@@ -169293,7 +169362,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 60,
     "weight": 70,
@@ -169340,7 +169409,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 65,
     "weight": 72,
@@ -170691,7 +170760,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 25,
     "weight": 25,
@@ -171961,7 +172030,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 20,
     "weight": 100,
@@ -173057,7 +173126,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 60,
     "weight": 120,
@@ -173132,7 +173201,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 60,
     "weight": 120,
@@ -173206,7 +173275,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 60,
     "weight": 120,
@@ -173285,7 +173354,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 60,
     "weight": 120,
@@ -181533,7 +181602,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 517,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 10,
     "weight": 20,
@@ -181597,7 +181666,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 517,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 10,
     "weight": 20,
@@ -181653,7 +181722,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 517,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 10,
     "weight": 20,
@@ -181717,7 +181786,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 517,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 10,
     "weight": 20,
@@ -181964,7 +182033,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 517,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 10,
     "weight": 20,
@@ -182020,7 +182089,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 517,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 10,
     "weight": 20,
@@ -182084,7 +182153,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 517,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 10,
     "weight": 20,
@@ -182146,7 +182215,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 517,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 10,
     "weight": 20,
@@ -182216,7 +182285,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 517,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 10,
     "weight": 20,
@@ -182280,7 +182349,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 517,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 10,
     "weight": 20,
@@ -182461,7 +182530,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 517,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 10,
     "weight": 20,
@@ -182519,7 +182588,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 517,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 10,
     "weight": 20,
@@ -232224,7 +232293,7 @@
     "slots": 2,
     "itemTypeId": 1,
     "itemSubTypeId": 267,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": null,
     "defense": null,
     "weight": 200,
@@ -232298,7 +232367,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 267,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": null,
     "defense": null,
     "weight": 0,
@@ -250914,7 +250983,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 258,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": 220,
     "defense": null,
     "weight": 0,
@@ -251061,7 +251130,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 258,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 280,
     "defense": null,
     "weight": 40,
@@ -251872,7 +251941,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 261,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": 130,
     "defense": null,
     "weight": 0,
@@ -251926,7 +251995,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 261,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 100,
     "defense": null,
     "weight": 0,
@@ -252599,7 +252668,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 262,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 100,
     "defense": null,
     "weight": 0,
@@ -252849,7 +252918,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 259,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": 130,
     "defense": null,
     "weight": 0,
@@ -252949,7 +253018,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 259,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 100,
     "defense": null,
     "weight": 0,
@@ -253472,7 +253541,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 260,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": 220,
     "defense": null,
     "weight": 0,
@@ -253591,7 +253660,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 260,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 150,
     "defense": null,
     "weight": 0,
@@ -254147,7 +254216,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 271,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 120,
     "defense": null,
     "weight": 0,
@@ -255304,7 +255373,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 265,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 50,
     "defense": null,
     "weight": 0,
@@ -256395,7 +256464,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 269,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": 50,
     "defense": null,
     "weight": 0,
@@ -256475,7 +256544,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 269,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 100,
     "defense": null,
     "weight": 0,
@@ -257048,7 +257117,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 270,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": 50,
     "defense": null,
     "weight": 0,
@@ -257155,7 +257224,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 270,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 100,
     "defense": null,
     "weight": 0,
@@ -257356,7 +257425,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 266,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 50,
     "defense": null,
     "weight": 0,
@@ -257562,7 +257631,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 256,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": 148,
     "defense": null,
     "weight": 70,
@@ -257591,7 +257660,7 @@
     "slots": 1,
     "itemTypeId": 1,
     "itemSubTypeId": 256,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 80,
     "defense": null,
     "weight": 70,
@@ -257617,7 +257686,7 @@
     "slots": 2,
     "itemTypeId": 1,
     "itemSubTypeId": 256,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 80,
     "defense": null,
     "weight": 70,
@@ -257940,7 +258009,7 @@
     "slots": 1,
     "itemTypeId": 1,
     "itemSubTypeId": 256,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": 148,
     "defense": null,
     "weight": 70,
@@ -258215,7 +258284,7 @@
     "slots": 3,
     "itemTypeId": 1,
     "itemSubTypeId": 256,
-    "itemLevel": null,
+    "itemLevel": 1,
     "attack": 50,
     "defense": null,
     "weight": 0,
@@ -258244,7 +258313,7 @@
     "slots": 3,
     "itemTypeId": 1,
     "itemSubTypeId": 256,
-    "itemLevel": null,
+    "itemLevel": 1,
     "attack": 63,
     "defense": null,
     "weight": 0,
@@ -258273,7 +258342,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 256,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": 120,
     "defense": null,
     "weight": 0,
@@ -258496,7 +258565,7 @@
     "slots": 1,
     "itemTypeId": 1,
     "itemSubTypeId": 256,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 107,
     "defense": null,
     "weight": 70,
@@ -258743,7 +258812,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 256,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 100,
     "defense": null,
     "weight": 0,
@@ -259217,7 +259286,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 274,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": 90,
     "defense": null,
     "weight": 0,
@@ -259243,7 +259312,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 277,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": 330,
     "defense": null,
     "weight": 0,
@@ -259269,7 +259338,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 274,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 80,
     "defense": null,
     "weight": 0,
@@ -259291,7 +259360,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 277,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 100,
     "defense": null,
     "weight": 0,
@@ -259462,7 +259531,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 257,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 115,
     "defense": null,
     "weight": 0,
@@ -259491,7 +259560,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 257,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 115,
     "defense": null,
     "weight": 0,
@@ -259523,7 +259592,7 @@
     "slots": 3,
     "itemTypeId": 1,
     "itemSubTypeId": 257,
-    "itemLevel": null,
+    "itemLevel": 1,
     "attack": 59,
     "defense": null,
     "weight": 0,
@@ -259548,7 +259617,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 257,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": 130,
     "defense": null,
     "weight": 0,
@@ -259613,7 +259682,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 257,
-    "itemLevel": null,
+    "itemLevel": 4,
     "attack": 130,
     "defense": null,
     "weight": 0,
@@ -259715,7 +259784,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 257,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 180,
     "defense": null,
     "weight": 220,
@@ -259767,7 +259836,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 257,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 120,
     "defense": null,
     "weight": 0,
@@ -260202,7 +260271,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 267,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 120,
     "defense": null,
     "weight": 0,
@@ -260467,7 +260536,7 @@
     "slots": 0,
     "itemTypeId": 1,
     "itemSubTypeId": 258,
-    "itemLevel": null,
+    "itemLevel": 3,
     "attack": 150,
     "defense": null,
     "weight": 0,
@@ -272390,7 +272459,8 @@
         "10"
       ],
       "def": [
-        "7===50"
+        "7===50",
+        "9===100"
       ]
     }
   },
@@ -272498,7 +272568,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 513,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 0,
     "weight": 0,
@@ -277564,6 +277634,22 @@
     "script": {
       "vit": [
         "1"
+      ],
+      "p_element_fire": [
+        "7===5",
+        "9===10"
+      ],
+      "p_element_earth": [
+        "7===5",
+        "9===10"
+      ],
+      "p_element_water": [
+        "7===5",
+        "9===10"
+      ],
+      "p_element_wind": [
+        "7===5",
+        "9===10"
       ]
     }
   },
@@ -277670,7 +277756,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 515,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 60,
     "weight": 50,
@@ -286912,7 +286998,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 513,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 105,
     "weight": 50,
@@ -286945,7 +287031,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 513,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 135,
     "weight": 150,
@@ -286982,7 +287068,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 513,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 175,
     "weight": 250,
@@ -287508,7 +287594,7 @@
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 510,
-    "itemLevel": null,
+    "itemLevel": 2,
     "attack": null,
     "defense": 0,
     "weight": 50,
@@ -310531,6 +310617,114 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "4229": {
+    "id": 4229,
+    "aegisName": "이름없는카드",
+    "name": "Carta Gerente",
+    "unidName": "Carta Gerente",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 769,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ],
+      "vct": [
+        "5"
+      ],
+      "def": [
+        "EQUIP_ID[4244&&4299&&4313]===3"
+      ],
+      "mdef": [
+        "EQUIP_ID[4244&&4299&&4313]===3"
+      ]
+    }
+  },
+  "4244": {
+    "id": 4244,
+    "aegisName": "이름없는카드",
+    "name": "Carta Alarme",
+    "unidName": "Carta Alarme",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 64,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ],
+      "hp": [
+        "300"
+      ]
+    }
+  },
+  "4299": {
+    "id": 4299,
+    "aegisName": "이름없는카드",
+    "name": "Carta Relógio",
+    "unidName": "Carta Relógio",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "4313": {
+    "id": 4313,
+    "aegisName": "이름없는카드",
+    "name": "Carta Punk",
+    "unidName": "Carta Punk",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 4,
     "usableClass": [
       "all"
     ],

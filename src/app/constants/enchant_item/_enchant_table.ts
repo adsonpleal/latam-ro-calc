@@ -627,6 +627,27 @@ const bp5Armor = [
 ];
 const bp5Mask = ['Essence_of_Sin_Fate_Lv1', 'Essence_of_Sin_Fate_Lv2', 'Essence_of_Sin_Fate_Lv3'];
 
+/**
+ * Encantos dos Capacetes (Passe de Batalha) — Capacete Fortificado / Decadente / Descartado.
+ * Same pool on slots 2, 3 and 4 ("Ordem do encanto: Slot 4 > Slot 3 > Slot 2").
+ *
+ * The same seven `Battle_Pass_*` ids as bp5Armor, plus P-Mágico (Automatic_Orb24) — LATAM
+ * reuses the ids under different pt-BR names, so read them as: Encanto de Ataque, Encanto de
+ * Poder, P-Mágico, Encanto de Conjuração, Encanto de Talento, Encanto Decadente, Encanto
+ * Fortificado, Encanto de Sucata. The wiki's "Limite" column (x2/x1) caps copies per
+ * capacete; nothing here models a cross-slot limit.
+ */
+const capaceteBP = [
+  'Battle_Pass_ATK',
+  'Battle_Pass_MATK',
+  'Automatic_Orb24',
+  'Battle_Pass_Magical Force',
+  'Battle_Pass_Attacker Force',
+  'Battle_Pass_Range Force',
+  'Battle_Pass_Critical Force',
+  'Battle_Pass_Global Cooldown',
+];
+
 const nebular2 = [
   'Star_Cluster_Of_Pow1',
   'Star_Cluster_Of_Pow2',
@@ -1020,6 +1041,11 @@ export const EnchantTable: EntTable[] = [
   { name: 'Ice_Flame_Dress', enchants: [null, bp5Armor, bp5Armor, bp5Armor] },
   { name: 'Red_Serpent_Dress', enchants: [null, bp5Armor, bp5Armor, bp5Armor] },
   { name: 'Mask_of_Sin_Fate', enchants: [null, null, null, bp5Mask] },
+
+  // Capacete Decadente / Fortificado / Descartado (401433-401435).
+  { name: 'RTC3등투구', enchants: [null, capaceteBP, capaceteBP, capaceteBP] },
+  { name: 'RTC준우승자투구', enchants: [null, capaceteBP, capaceteBP, capaceteBP] },
+  { name: 'RTC우승자투구', enchants: [null, capaceteBP, capaceteBP, capaceteBP] },
 
   { name: "Poenetentia_D_Crown_TH", enchants: [null, bp7_2, bp7_4, bp7_4] },
   { name: "Poenetentia_P_Crown_TH", enchants: [null, bp7_2, bp7_4, bp7_4] },

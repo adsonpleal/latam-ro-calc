@@ -143,10 +143,22 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.35-beta',
+      date: '27-07-2026',
+      logs: [
+        'O seletor de grau voltou a aparecer em todas as armas de nível 5 e equipamentos de nível 2 — entre eles as armas Decadentes, Fortificadas, Descartadas e -OSAD, que não ofereciam grau nenhum. O grau agora sai do nível do equipamento, e não mais de uma marcação preenchida à mão que ficava para trás a cada atualização do banco. Reportado por williamcms.',
+        'Corrigido o nível de 74 equipamentos que estava em branco ou errado no cadastro. É o nível da arma que define o bônus de ATQ e ATQM por refino, então peças como a Claymore Gloriosa, a Espada Cromada, as Ginnungagap e as armas de aluguel TE não ganhavam nada ao refinar, e o Arco Vigilante rendia o bônus de nível 3 no lugar do de nível 4. Equipamentos de nível 2 também voltaram a receber a DEF extra e os +2 de RES e RESM por refino. A tabela de refino e os multiplicadores de grau (+10% no D, +30% no C, +50% no B e +100% no A) foram conferidos nível a nível e batem com o jogo.',
+        'Os Capacetes Fortificado, Decadente e Descartado passaram a aceitar encantamentos nos slots 2, 3 e 4. Os oito encantamentos do Passe de Batalha também foram corrigidos: o cadastro trazia os efeitos da versão coreana, e não os do LATAM. Os encantamentos Decadente, Fortificado e de Sucata têm a descrição cortada no jogo — só aparecem os primeiros conjuntos de armas —, então a lista completa dos oito conjuntos de cada um veio da bROWiki. Reportado por williamcms.',
+        'Corrigido o Conjunto Goibne Ilusional, que não concedia nada: o elmo procurava as outras três peças pelo nome em inglês, que deixou de existir quando o banco passou para o português. Entraram junto os efeitos do conjunto que faltavam no cadastro — resistência às propriedades Vento, Fogo, Água e Terra +10% e HP máx. +10% adicional com as quatro peças no +7 —, a DEF do refino +9 da Armadura Goibne Ilusional e o dano físico contra oponentes de propriedade Fogo, Terra, Água e Vento da Ombreira Goibne Ilusional. Reportado anonimamente.',
+        'Adicionada a Carta Gerente (INT +1 e Conjuração variável -5%), junto das Cartas Alarme, Relógio e Punk, para que o conjunto das quatro — DEF e DEFM +3 — possa ser montado no simulador.',
+        'Nas listas de cartas de acessório, as marcações [Right] e [Left] passaram a ser [Direito] e [Esquerdo].',
+      ],
+    },
+    {
       v: '0.1.34-beta',
       date: '27-07-2026',
       logs: [
-        'Adicionado o servidor MCP, que permite conectar uma IA (Claude, ChatGPT e outras) ao simulador: dá para pedir que ela procure itens, calcule o dano de uma build, compare builds ou teste as peças de um slot atrás do maior DPS. Todo cálculo passa pelo mesmo motor desta página, então os números batem com os daqui. O caminho mais direto é colar o link da sua build na conversa — a IA lê classe, níveis, atributos e cada peça com refino, cartas e encantes, e devolve outro link pronto para abrir de volta no simulador, já com a peça sugerida na comparação. A busca de itens também enxerga o que existe no LATAM mas ainda não foi cadastrado aqui, marcando esses casos. O endereço e as instruções de conexão estão no botão MCP, na barra de cima. Recurso altamente experimental: pode mudar, sair do ar ou errar sem aviso.',
+        'Adicionado o servidor MCP, que permite conectar uma IA (Claude, ChatGPT e outras) ao simulador: dá para pedir que ela procure itens, calcule o dano de uma build, compare builds ou teste as peças de um slot atrás do maior DPS. Todo cálculo passa pelo mesmo motor desta página, então os números batem com os daqui. O caminho mais direto é colar o link da sua build na conversa — a IA lê classe, níveis, atributos e cada peça com refino, cartas e encantamentos, e devolve outro link pronto para abrir de volta no simulador, já com a peça sugerida na comparação. A busca de itens também enxerga o que existe no LATAM mas ainda não foi cadastrado aqui, marcando esses casos. O endereço e as instruções de conexão estão no botão MCP, na barra de cima. Recurso altamente experimental: pode mudar, sair do ar ou errar sem aviso.',
         'O link de compartilhamento passou a levar também a comparação de peças: se houver uma comparação ativa quando o link for gerado, quem abrir cai direto na visão peça atual → simulado, e não apenas na build. Links gerados antes desta versão continuam funcionando como antes.',
       ],
     },
@@ -452,10 +464,10 @@ export class AppTopBarComponent {
         'Habilidades repetidas com propriedades diferentes agora exibem o elemento no nome (ex.: "Adoramus - Sagrado" e "Adoramus - Neutro").',
         // Importação de replay
         'Importação de Bônus Aleatórios e da aparência do personagem a partir do replay (.rrf).',
-        'Replay: leitura do sexo do personagem, mensagens separadas de carregamento e de aviso de traços, e preservação de encantes ausentes na tabela kRO.',
+        'Replay: leitura do sexo do personagem, mensagens separadas de carregamento e de aviso de talentos, e preservação de encantamentos ausentes na tabela kRO.',
         // Itens & monstros
         'Mais de 282 itens LATAM adicionados ao banco de dados (preenchimento via replays).',
-        'Novos itens: Manto Branco (Físico e Mágico), Cachecol Mágico de Schmidt, Selo de Paus, Selo de Ouros, Pingente da Celine e os encantes do Automatron B-Básico (DEF/DEFM).',
+        'Novos itens: Manto Branco (Físico e Mágico), Cachecol Mágico de Schmidt, Selo de Paus, Selo de Ouros, Pingente da Celine e os encantamentos do Automatron B-Básico (DEF/DEFM).',
         'Novos monstros: Glastheim Infernal, Werner e Villa, além dos MVPs do browiki (com grupo de MVPs e redução de dano por aura vermelha).',
         'Contagem de slots dos itens e banco de itens/monstros LATAM atualizados após a atualização do jogo.',
         // Correções

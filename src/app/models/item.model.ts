@@ -24,6 +24,7 @@ export interface ItemModel {
   compositionPos: number;
   isRefinable?: boolean;
   cardPrefix?: string;
+  /** Derived from itemLevel by RoService (see canGradeItem) — not read from item.json. */
   canGrade?: boolean;
   script: Record<string, any[]>;
 }

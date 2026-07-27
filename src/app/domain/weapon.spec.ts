@@ -36,9 +36,10 @@ describe('Weapon', () => {
   });
 
   it('adds the grade bonus on top of the refine bonus', () => {
-    // Grade A => 8% * refineLevel, floored. +10 => floor(80) = 80 extra.
-    const w = new Weapon().set({ itemData: item({ itemLevel: 4 }), refineLevel: 10, grade: 'A' });
-    expect(w.data.refineBonus).toBe(70 + 80);
+    // Only level-5 weapons take a grade (canGradeItem). Grade A doubles the refine ATK:
+    // +10 => 80 + 80. The whole grade/level table lives in weapon-refine.spec.ts.
+    const w = new Weapon().set({ itemData: item({ itemLevel: 5 }), refineLevel: 10, grade: 'A' });
+    expect(w.data.refineBonus).toBe(80 + 80);
   });
 
   it('exposes pAtk/sMatk for level-5 weapons', () => {

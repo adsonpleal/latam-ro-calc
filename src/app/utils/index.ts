@@ -2,6 +2,7 @@
 export * from './add-bonus';
 export * from './calc-dmg-dps';
 export * from './calc-skill-aspd';
+export * from './can-grade';
 export * from './can-used-by-class';
 export * from './create-base-hp-sp-option-list';
 export * from './create-base-stat-option-list';
