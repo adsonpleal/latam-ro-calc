@@ -20,6 +20,7 @@ import { AppLayoutComponent } from './app.layout.component';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ChipModule } from 'primeng/chip';
+import { AccordionModule } from 'primeng/accordion';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 
@@ -48,6 +49,7 @@ import { ToastModule } from 'primeng/toast';
     ButtonModule,
     DialogModule,
     ChipModule,
+    AccordionModule,
     ConfirmDialogModule,
     ToastModule,
   ],

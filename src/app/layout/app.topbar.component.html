@@ -32,6 +32,10 @@
   </div>
 
   <div class="topbar-actions flex align-items-center gap-2">
+    <button pButton class="p-button-help p-button-raised px-2" aria-label="Servidor MCP" (click)="showMcpDialog()">
+      <i class="pi pi-sparkles"></i>
+      <span class="pl-1">MCP</span>
+    </button>
     <button pButton class="p-button-info p-button-raised px-2" (click)="openItemSearch()">
       <i class="pi pi-search"></i>
       <span class="pl-1">Itens</span>
@@ -102,6 +106,95 @@
 
     <div class="mt-3 text-center">
       <a [href]="originalChangelogUrl" target="_blank" rel="noreferrer noopener">Histórico original (pré-fork) →</a>
+    </div>
+  </p-dialog>
+
+  <p-dialog
+    [draggable]="false"
+    [resizable]="false"
+    [modal]="true"
+    [(visible)]="visibleMcp"
+    [style]="{ width: '46rem', maxWidth: '95vw' }"
+    [contentStyle]="{ maxHeight: '75vh' }"
+  >
+    <ng-template pTemplate="header">
+      <div class="flex align-items-center gap-2">
+        <i class="pi pi-sparkles text-xl"></i>
+        <span class="text-xl font-medium">Conecte sua IA ao simulador</span>
+      </div>
+    </ng-template>
+
+    <p class="mt-0 line-height-3">
+      O simulador tem um servidor <b>MCP</b> aberto: você conecta uma IA (Claude, ChatGPT e outras) e ela passa a usar o mesmo motor de cálculo
+      desta página — os mesmos itens, monstros e fórmulas. Os números que ela responder são idênticos aos daqui.
+    </p>
+
+    <div class="flex align-items-center gap-2 mb-3 p-2 border-round surface-100">
+      <i class="pi pi-link"></i>
+      <code class="flex-1 text-sm" style="word-break: break-all">{{ mcpUrl }}</code>
+      <button
+        pButton
+        class="p-button-sm"
+        [class.p-button-success]="mcpUrlCopied"
+        [icon]="mcpUrlCopied ? 'pi pi-check' : 'pi pi-copy'"
+        [label]="mcpUrlCopied ? 'Copiado' : 'Copiar'"
+        (click)="copyMcpUrl()"
+      ></button>
+    </div>
+
+    <h3 class="mt-0 mb-2 text-lg">O que dá para pedir</h3>
+    <div class="flex flex-column gap-2 mb-3">
+      <div *ngFor="let example of mcpExamples" class="p-2 border-round surface-50">
+        <div class="flex align-items-center gap-2 font-medium">
+          <i class="pi {{ example.icon }}"></i>
+          <span>{{ example.title }}</span>
+        </div>
+        <p class="my-1 font-italic text-primary">“{{ example.prompt }}”</p>
+        <small class="line-height-3">{{ example.note }}</small>
+      </div>
+    </div>
+
+    <h3 class="mt-0 mb-2 text-lg">Como conectar</h3>
+    <p-accordion>
+      <p-accordionTab header="Claude">
+        <p class="mt-0 line-height-3"><b>Claude.ai / Claude Desktop</b></p>
+        <ol class="mt-0 line-height-3">
+          <li>Configurações → <b>Conectores</b>.</li>
+          <li><b>Adicionar conector personalizado</b>.</li>
+          <li>Cole a URL acima e salve. Não precisa de login nem de chave.</li>
+        </ol>
+        <p class="mb-1 line-height-3"><b>Claude Code</b>, pelo terminal:</p>
+        <pre class="p-2 border-round surface-100 text-sm" style="white-space: pre-wrap; word-break: break-all"
+>claude mcp add --transport http ro-calc {{ mcpUrl }}</pre>
+      </p-accordionTab>
+
+      <p-accordionTab header="ChatGPT">
+        <p class="mt-0 line-height-3">
+          Conectores personalizados ficam no <b>modo desenvolvedor</b>, hoje em beta e disponível nos planos <b>Plus e Pro</b>.
+        </p>
+        <ol class="mt-0 line-height-3">
+          <li>Configurações → <b>Conectores</b> → <b>Configurações avançadas</b>.</li>
+          <li>Ative o <b>modo desenvolvedor</b>.</li>
+          <li>Volte em Conectores e crie um conector personalizado com a URL acima.</li>
+          <li>Em autenticação, escolha <b>sem autenticação</b>.</li>
+        </ol>
+      </p-accordionTab>
+
+      <p-accordionTab header="Dúvidas comuns">
+        <ul class="mt-0 line-height-3">
+          <li><b>Precisa pagar ou criar conta?</b> Não. O servidor é público e só lê dados — ele não altera nada.</li>
+          <li><b>Minha build vai para algum lugar?</b> Só o que você mandar para a IA. O servidor não guarda nada.</li>
+          <li><b>A IA erra a conta?</b> Ela não faz a conta: quem calcula é o simulador. Se um número parecer estranho, abra o link que ela devolve e confira aqui.</li>
+          <li><b>Item “fora do banco de dados”?</b> Existe no LATAM mas ainda não foi cadastrado aqui, então não entra nos cálculos. Avise no Discord que a gente adiciona.</li>
+        </ul>
+      </p-accordionTab>
+    </p-accordion>
+
+    <div class="mt-3 flex gap-2 flex-wrap justify-content-center align-items-center">
+      <span>Deu problema?</span>
+      <a [href]="discordUrl" target="_blank" rel="noreferrer noopener">
+        <p-chip label="Discord" icon="pi pi-discord"></p-chip>
+      </a>
     </div>
   </p-dialog>
 

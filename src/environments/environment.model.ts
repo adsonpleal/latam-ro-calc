@@ -3,4 +3,6 @@ export interface EnvironmentModel {
   roBackendUrl: string;
   ragassetsUrl: string;
   shortenerUrl: string;
+  /** Public MCP endpoint agents connect to (see mcp/). */
+  mcpUrl: string;
 }

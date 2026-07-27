@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { LayoutService } from './service/app.layout.service';
 
 @Component({
@@ -11,6 +12,45 @@ export class AppTopBarComponent {
 
   visibleInfo: boolean = false;
   visibleReference = false;
+  visibleMcp = false;
+  mcpUrlCopied = false;
+
+  /** Public MCP endpoint. Agents connect here; the browser never calls it. */
+  readonly mcpUrl = environment.mcpUrl;
+
+  /** What the server is good at, phrased the way someone would actually ask. */
+  readonly mcpExamples: { icon: string; title: string; prompt: string; note: string }[] = [
+    {
+      icon: 'pi-search',
+      title: 'Procurar itens',
+      prompt: 'Quais chapéus dão dano de longa distância para Falcão do Vento?',
+      note: 'Busca por nome (sem se importar com acentos), por bônus, por habilidade ou por slot. Inclui itens que existem no LATAM mas ainda não foram cadastrados aqui — esses vêm marcados.',
+    },
+    {
+      icon: 'pi-bolt',
+      title: 'Calcular dano',
+      prompt: 'Quanto de dano essa build faz em Implosão Tóxica contra o boneco neutro?',
+      note: 'Usa o mesmo motor do simulador, então o número é idêntico ao que você vê na tela.',
+    },
+    {
+      icon: 'pi-sort-amount-up',
+      title: 'Otimizar uma peça',
+      prompt: 'Qual a melhor arma para essa build? Testa as opções e me diz o ganho de DPS.',
+      note: 'Testa vários candidatos e devolve um link que já abre o simulador na comparação atual → simulado.',
+    },
+    {
+      icon: 'pi-link',
+      title: 'Analisar a sua build',
+      prompt: 'Cole aqui o link do simulador — o que dá para melhorar?',
+      note: 'Qualquer link de compartilhamento (inclusive o encurtado) pode ser lido e devolvido com alterações.',
+    },
+    {
+      icon: 'pi-table',
+      title: 'Comparar alvos e builds',
+      prompt: 'Compara o dano dessa build contra Osíris, Bafomé e Doppelganger.',
+      note: 'Também dá para pôr duas ou mais builds lado a lado contra o mesmo alvo.',
+    },
+  ];
 
   readonly feedbackFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSc5wsk9KOLOmPbALe-Cww1dG4AYmjrSraEuBXcrweeyriSoLQ/viewform';
   readonly feedbackSheetUrl = 'https://docs.google.com/spreadsheets/d/1mWGbu4CpMYPnPfipjNfmD37u7xutvurPd_CeE-O67vw/edit';
@@ -459,6 +499,22 @@ export class AppTopBarComponent {
 
   showInfoDialog() {
     this.visibleInfo = true;
+  }
+
+  showMcpDialog() {
+    this.mcpUrlCopied = false;
+    this.visibleMcp = true;
+  }
+
+  async copyMcpUrl() {
+    try {
+      await navigator.clipboard.writeText(this.mcpUrl);
+      this.mcpUrlCopied = true;
+    } catch (error) {
+      // Clipboard access can be denied (insecure context, permissions); the URL is
+      // on screen and selectable, so this is not worth interrupting the user for.
+      console.error(error);
+    }
   }
 
   openItemSearch() {
