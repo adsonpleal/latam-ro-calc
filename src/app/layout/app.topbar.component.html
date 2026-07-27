@@ -121,12 +121,27 @@
       <div class="flex align-items-center gap-2">
         <i class="pi pi-sparkles text-xl"></i>
         <span class="text-xl font-medium">Conecte sua IA ao simulador</span>
+        <p-chip label="Experimental" styleClass="text-sm"></p-chip>
       </div>
     </ng-template>
+
+    <div class="flex align-items-start gap-2 mb-3 p-2 border-round" style="background: var(--yellow-100); color: var(--yellow-900)">
+      <i class="pi pi-exclamation-triangle mt-1"></i>
+      <div class="line-height-3">
+        <b>Recurso altamente experimental.</b> Acabou de sair do forno, pode mudar, sair do ar ou responder besteira sem aviso. Trate como
+        curiosidade, não como fonte final — na dúvida, confira o resultado aqui no simulador.
+      </div>
+    </div>
 
     <p class="mt-0 line-height-3">
       O simulador tem um servidor <b>MCP</b> aberto: você conecta uma IA (Claude, ChatGPT e outras) e ela passa a usar o mesmo motor de cálculo
       desta página — os mesmos itens, monstros e fórmulas. Os números que ela responder são idênticos aos daqui.
+    </p>
+
+    <p class="line-height-3">
+      O caminho mais simples é <b>colar o link da sua build</b>: monte tudo aqui, clique em <b>Link</b> na barra de cima e cole o endereço na
+      conversa. A IA lê a build inteira — classe, níveis, atributos e cada peça com refino, cartas e encantes — e devolve outro link com o que
+      ela sugerir, já pronto para abrir de volta no simulador. O link encurtado também funciona.
     </p>
 
     <div class="flex align-items-center gap-2 mb-3 p-2 border-round surface-100">
