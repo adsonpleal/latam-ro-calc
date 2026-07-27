@@ -88,7 +88,7 @@ import { MonsterDataViewComponent } from './monster-data-view/monster-data-view.
 import { SavedSimulation, SavedSimulationStore } from 'src/app/core/saved-simulations';
 import { isDefenderKey, PlayerTargetProfile, PvpMode } from 'src/app/core/pvp';
 import { buildReductionCategories, ReductionCategory, ReductionRow, reductionRowClickable as reductionRowClickableFn, sourcesContributeAnyKey } from './reduction-breakdown';
-import { encodeBuild, decodeBuild } from 'src/app/core/share-codec';
+import { encodeBuild, decodeShared } from 'src/app/core/share-codec';
 import { buildCharSpriteUrl, bareJobSprite } from 'src/app/pipes/char-sprite.pipe';
 
 interface MonsterSelectItemGroup extends SelectItemGroup {
@@ -426,16 +426,16 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initCalcTableColumns();
     // A share link (?b=...) wins over the local autosave; falls back to it when absent.
-    const sharedBuild = this.consumeSharedBuild();
+    const shared = this.consumeSharedBuild();
     this.initData()
-      .pipe(switchMap(() => this.loadItemSet(sharedBuild ?? localStorage.getItem('ro-set'))))
+      .pipe(switchMap(() => this.loadItemSet(shared?.preset ?? localStorage.getItem('ro-set'))))
       .subscribe(() => {
-        if (sharedBuild) {
+        // Restore the comparison the link carried, or — for the autosave path — the one
+        // that was active before the refresh. Either way a `null` clears any active
+        // comparison, matching how loading a saved sim behaves.
+        this.restoreCompareState(shared ? shared.compare : this.calcStorage.readCompareState());
+        if (shared) {
           this.messageService.add({ severity: 'success', summary: 'Simulação carregada', detail: 'Carregada a partir do link compartilhado.' });
-        } else {
-          // Restore the comparison that was active before the refresh (share links
-          // carry no comparison, so only do this for the local autosave).
-          this.restoreCompareState(this.calcStorage.readCompareState());
         }
       });
 
@@ -1425,23 +1425,24 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   private buildShareUrl(): string {
-    const token = encodeBuild(this.currentPreset() as unknown as Record<string, any>);
+    const token = encodeBuild(this.currentPreset() as unknown as Record<string, any>, this.currentCompareState());
     const { origin, pathname } = window.location;
     return `${origin}${pathname}#/?b=${token}`;
   }
 
   /** Read & consume a shared build (?b=...) from the URL (query or hash query),
    *  then strip the param so a refresh/copy doesn't re-apply or leak the token. */
-  private consumeSharedBuild(): PresetModel | null {
+  private consumeSharedBuild(): { preset: PresetModel; compare: CompareState | null } | null {
     try {
       // Read the token raw — NOT via URLSearchParams, which would turn any '+'
       // into a space. The token lives in the hash query (#/?b=...) or the search.
       const match = window.location.href.match(/[?&]b=([^&#]+)/);
       const token = match?.[1];
       if (!token) return null;
-      const build = decodeBuild(token) as PresetModel | null;
+      const shared = decodeShared(token);
       this.stripBuildParamFromUrl();
-      return build;
+      if (!shared) return null;
+      return { preset: shared.preset as PresetModel, compare: shared.compare };
     } catch (error) {
       console.error(error);
       return null;

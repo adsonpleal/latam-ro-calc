@@ -1,0 +1,25 @@
+# MCP server for the RO LATAM damage calculator (ro-mcp.service, port 8787).
+# Deployed to /etc/caddy/conf.d/ro-mcp.caddy — the main Caddyfile is a stub that
+# imports conf.d/*.caddy, so each project owns its own site block.
+mcp.simulador.latam-tools.com.br {
+	encode zstd gzip {
+		# Never compress an event stream — it would defeat incremental flushing.
+		match {
+			header Content-Type application/json*
+		}
+	}
+
+	request_body {
+		max_size 256KB
+	}
+
+	reverse_proxy 127.0.0.1:8787 {
+		# The transport runs in stateless JSON mode today, so there is nothing to
+		# flush incrementally; kept so a later switch to SSE doesn't silently buffer.
+		flush_interval -1
+		transport http {
+			read_timeout 60s
+			write_timeout 60s
+		}
+	}
+}

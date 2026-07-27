@@ -7,14 +7,26 @@ import { defineConfig } from 'vitest/config';
 // for any component-level specs; Vitest owns the fast unit tests.
 export default defineConfig({
   resolve: {
-    // The codebase imports with the tsconfig `baseUrl: "./"` style, e.g.
-    // `import { floor } from 'src/app/utils'`. Map that prefix to the real dir.
-    alias: [{ find: /^src\//, replacement: resolve(process.cwd(), 'src') + '/' }],
+    // Order matters — first match wins.
+    alias: [
+      // Mirror angular.json's production `fileReplacements`, which only the Angular
+      // builder applies. CharacterBase's atkSkills/activeSkills/passiveSkills getters
+      // branch on `environment.production` to hide dev-only skills, so without this the
+      // suite would exercise a skill universe the site never ships — and the MCP
+      // server, which bundles with the same swap, would be tested against the wrong one.
+      {
+        find: /^src\/environments\/environment$/,
+        replacement: resolve(process.cwd(), 'src/environments/environment.prod.ts'),
+      },
+      // The codebase imports with the tsconfig `baseUrl: "./"` style, e.g.
+      // `import { floor } from 'src/app/utils'`. Map that prefix to the real dir.
+      { find: /^src\//, replacement: resolve(process.cwd(), 'src') + '/' },
+    ],
   },
   test: {
     globals: true,
     environment: 'node',
-    include: ['src/**/*.spec.ts'],
+    include: ['src/**/*.spec.ts', 'mcp/**/*.spec.ts'],
     coverage: {
       provider: 'v8',
       reportsDirectory: 'coverage',

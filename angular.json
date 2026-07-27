@@ -184,7 +184,8 @@
           "options": {
             "lintFilePatterns": [
               "src/**/*.ts",
-              "src/**/*.html"
+              "src/**/*.html",
+              "mcp/**/*.ts"
             ]
           }
         }

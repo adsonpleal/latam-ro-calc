@@ -62,6 +62,33 @@
       }
     },
     {
+      "files": ["mcp/**/*.ts"],
+      "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+      "rules": {
+        // The server has no decorators for the Angular selector rules to inspect.
+        "@angular-eslint/directive-selector": "off",
+        "@angular-eslint/component-selector": "off",
+        // Matches the project-wide choice: the engine's item/monster records are
+        // untyped JSON, so `any` is the honest type at that boundary.
+        "@typescript-eslint/no-explicit-any": "off",
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@angular/*", "@angular/**", "primeng", "primeng/**", "rxjs", "rxjs/**"],
+                "message": "The MCP server runs in plain Node and bundles the framework-free engine only. Angular/PrimeNG/RxJS imports would break the bundle."
+              },
+              {
+                "group": ["**/layout/**", "src/app/layout/**"],
+                "message": "The MCP server must not import from the UI layer (src/app/layout). Port the logic into mcp/src instead."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended", "plugin:@angular-eslint/template/accessibility"],
       "rules": {

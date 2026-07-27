@@ -44,57 +44,74 @@ import { Windhawk } from './Windhawk';
 
 const toClassItem = (id: number) => ({ label: ClassNamePtBr[id] ?? ClassID[id], value: id, icon: ClassIcon[id] });
 
-export const getClassDropdownList = (): (DropdownModel & { icon: number; instant: CharacterBase })[] => {
-  return [
-    { ...toClassItem(11), instant: new RoyalGuard() },
-    { ...toClassItem(4258), instant: new ImperialGuard() },
-    { ...toClassItem(12), instant: new RuneKnight() },
-    { ...toClassItem(4252), instant: new DragonKnight() },
+export type CharacterCtor = new () => CharacterBase;
 
-    { ...toClassItem(7), instant: new ArchBishop() },
-    { ...toClassItem(4256), instant: new Cardinal() },
-    { ...toClassItem(13), instant: new Sura() },
-    { ...toClassItem(4262), instant: new Inquisitor() },
+/**
+ * Every playable class, in dropdown order: each 3rd job followed by its 4th-job
+ * promotion, grouped by archetype. The single source of truth for both the picker
+ * and `CLASS_CTOR_BY_ID` — adding a class here is enough.
+ */
+const CLASS_ORDER: ReadonlyArray<readonly [id: number, ctor: CharacterCtor]> = [
+  [11, RoyalGuard],
+  [4258, ImperialGuard],
+  [12, RuneKnight],
+  [4252, DragonKnight],
 
-    { ...toClassItem(2), instant: new Ranger() },
-    { ...toClassItem(4257), instant: new Windhawk() },
-    { ...toClassItem(21), instant: new Minstrel() },
-    { ...toClassItem(4263), instant: new Troubadour() },
-    { ...toClassItem(22), instant: new Wanderer() },
-    { ...toClassItem(4264), instant: new Trouvere() },
+  [7, ArchBishop],
+  [4256, Cardinal],
+  [13, Sura],
+  [4262, Inquisitor],
 
-    { ...toClassItem(5), instant: new GuillotineCross() },
-    { ...toClassItem(4254), instant: new ShadowCross() },
-    { ...toClassItem(4), instant: new ShadowChaser() },
-    { ...toClassItem(4260), instant: new AbyssChaser() },
+  [2, Ranger],
+  [4257, Windhawk],
+  [21, Minstrel],
+  [4263, Troubadour],
+  [22, Wanderer],
+  [4264, Trouvere],
 
-    { ...toClassItem(6), instant: new Warlock() },
-    { ...toClassItem(4255), instant: new ArchMage() },
-    { ...toClassItem(8), instant: new Sorcerer() },
-    { ...toClassItem(4261), instant: new ElementalMaster() },
+  [5, GuillotineCross],
+  [4254, ShadowCross],
+  [4, ShadowChaser],
+  [4260, AbyssChaser],
 
-    { ...toClassItem(10), instant: new Mechanic() },
-    { ...toClassItem(4253), instant: new Meister() },
-    { ...toClassItem(9), instant: new Genetic() },
-    { ...toClassItem(4259), instant: new Biolo() },
+  [6, Warlock],
+  [4255, ArchMage],
+  [8, Sorcerer],
+  [4261, ElementalMaster],
 
-    { ...toClassItem(33), instant: new StarEmperor() },
-    { ...toClassItem(4302), instant: new SkyEmperor() },
-    { ...toClassItem(3), instant: new SoulReaper() },
-    { ...toClassItem(4303), instant: new SoulAscetic() },
+  [10, Mechanic],
+  [4253, Meister],
+  [9, Genetic],
+  [4259, Biolo],
 
-    { ...toClassItem(18), instant: new Kagerou() },
-    { ...toClassItem(4304), instant: new Shinkiro() },
-    { ...toClassItem(17), instant: new Oboro() },
-    { ...toClassItem(4305), instant: new Shiranui() },
+  [33, StarEmperor],
+  [4302, SkyEmperor],
+  [3, SoulReaper],
+  [4303, SoulAscetic],
 
-    { ...toClassItem(1), instant: new Rebellion() },
-    { ...toClassItem(4306), instant: new NightWatch() },
+  [18, Kagerou],
+  [4304, Shinkiro],
+  [17, Oboro],
+  [4305, Shiranui],
 
-    { ...toClassItem(30), instant: new SuperNovice() },
-    { ...toClassItem(4307), instant: new HyperNovice() },
+  [1, Rebellion],
+  [4306, NightWatch],
 
-    { ...toClassItem(31), instant: new Doram() },
-    { ...toClassItem(4308), instant: new SpiritHandler() },
-  ];
-};
+  [30, SuperNovice],
+  [4307, HyperNovice],
+
+  [31, Doram],
+  [4308, SpiritHandler],
+];
+
+/**
+ * Class id → constructor, for callers that need one class rather than the whole list.
+ *
+ * Always `new` a fresh instance per use: `setLearnSkills()` / `getSkillBonusAndName()`
+ * mutate the instance, so sharing one across concurrent calculations would leak state
+ * between them.
+ */
+export const CLASS_CTOR_BY_ID: Readonly<Record<number, CharacterCtor>> = Object.fromEntries(CLASS_ORDER) as Record<number, CharacterCtor>;
+
+export const getClassDropdownList = (): (DropdownModel & { icon: number; instant: CharacterBase })[] =>
+  CLASS_ORDER.map(([id, Ctor]) => ({ ...toClassItem(id), instant: new Ctor() }));
