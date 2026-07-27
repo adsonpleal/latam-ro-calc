@@ -247,8 +247,6 @@ export class Calculator {
   private propertyWindmind: ElementType;
   private baseEquipmentStat: Record<string, number> = {};
   private finalMultipliers = [] as number[];
-  private finalPhyMultipliers = [] as number[];
-  private finalMagicMultipliers = [] as number[];
 
   private maxHp = 0;
   private maxSp = 0;
@@ -615,8 +613,6 @@ export class Calculator {
         buffMasteryAtkBonus: this.buffMasteryAtkBonus,
         masteryAtkSkillBonus: this.masteryAtkSkillBonus,
         finalMultipliers: this.finalMultipliers,
-        finalPhyMultipliers: this.finalPhyMultipliers,
-        finalMagicMultipliers: this.finalMagicMultipliers,
         _class: this._class,
         monster: this.monster,
         weaponData: this.weaponData,
@@ -1240,8 +1236,6 @@ export class Calculator {
 
     this.baseEquipmentStat = {};
     this.finalMultipliers = [];
-    this.finalPhyMultipliers = [];
-    this.finalMagicMultipliers = [];
     for (const [itemType, itemData] of this.equipItem) {
       this.equipStatus[itemType] = { ...this.allStatus };
       if (!itemData) {
@@ -1277,13 +1271,6 @@ export class Calculator {
 
       const calculatedItem = this.calcItemStatus({ itemType, itemRefine: refine, item: itemData });
       for (const [attr, value] of Object.entries(calculatedItem)) {
-        if (attr === 'p_final') {
-          this.finalPhyMultipliers.push(value);
-        }
-        if (attr === 'm_final') {
-          this.finalMagicMultipliers.push(value);
-        }
-
         this.equipStatus[itemType][attr] = value;
 
         updateTotalStatus(attr as any, value);
@@ -1301,10 +1288,6 @@ export class Calculator {
         if (attr === 'atk') val = 0;
         if (attr === 'final') {
           this.finalMultipliers.push(val);
-          continue;
-        }
-        if (attr === 'p_final') {
-          this.finalPhyMultipliers.push(val);
           continue;
         }
 
@@ -1325,11 +1308,6 @@ export class Calculator {
         const val = Number(value);
         if (attr === 'atk') continue;
         if (attr === 'matk') continue;
-
-        if (attr === 'p_final') {
-          this.finalPhyMultipliers.push(val);
-          continue;
-        }
 
         this.equipStatus[skillName] = { ...this.allStatus, [attr]: val };
 

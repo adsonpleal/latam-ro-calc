@@ -62,8 +62,6 @@ const makeCalc = (totalBonus: Record<string, any> = {}): DamageCalculator => {
   (dc as any).monster = new Monster().setData(monsterModel(1002));
   (dc as any).totalBonus = totalBonus;
   (dc as any).finalMultipliers = [];
-  (dc as any).finalPhyMultipliers = [];
-  (dc as any).finalMagicMultipliers = [];
   return dc;
 };
 

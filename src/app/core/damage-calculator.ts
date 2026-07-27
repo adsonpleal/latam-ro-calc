@@ -54,8 +54,6 @@ export class DamageCalculator {
   private masteryAtkSkillBonus: Record<string, any> = {};
 
   private finalMultipliers = [] as number[];
-  private finalPhyMultipliers = [] as number[];
-  private finalMagicMultipliers = [] as number[];
 
   private _class: CharacterBase;
   private monster: Monster;
@@ -120,8 +118,6 @@ export class DamageCalculator {
     buffMasteryAtkBonus: Record<string, any>;
     masteryAtkSkillBonus: Record<string, any>;
     finalMultipliers: number[];
-    finalPhyMultipliers: number[];
-    finalMagicMultipliers: number[];
     _class: CharacterBase;
     monster: Monster;
     weaponData: Weapon;
@@ -137,8 +133,6 @@ export class DamageCalculator {
       buffMasteryAtkBonus,
       masteryAtkSkillBonus,
       finalMultipliers,
-      finalPhyMultipliers,
-      finalMagicMultipliers,
       _class,
       monster,
       weaponData,
@@ -155,8 +149,6 @@ export class DamageCalculator {
     this.buffMasteryAtkBonus = buffMasteryAtkBonus;
     this.masteryAtkSkillBonus = masteryAtkSkillBonus;
     this.finalMultipliers = finalMultipliers;
-    this.finalPhyMultipliers = finalPhyMultipliers;
-    this.finalMagicMultipliers = finalMagicMultipliers;
     this._class = _class;
     this.monster = monster;
     this.weaponData = weaponData;
@@ -174,12 +166,6 @@ export class DamageCalculator {
           totalBonus[attr] += val;
         } else {
           totalBonus[attr] = val;
-        }
-
-        if (attr === 'p_final') {
-          this.finalPhyMultipliers.push(val);
-        } else if (attr === 'm_final') {
-          this.finalMagicMultipliers.push(val);
         }
       }
     }
@@ -740,7 +726,7 @@ export class DamageCalculator {
     total = floor(total * comet);
     if (comet !== 1) push('comet', 'Cometa', total, ['comet'], comet);
     const beforeFinalMultiplier = total;
-    total = this.applyFinalMultiplier(total, 'phy');
+    total = this.applyFinalMultiplier(total);
     // Final-multiplier delta (rare) folds silently into the last node, same convention
     // used for masteryAtk below — avoids an opaque node with no attributable source.
     if (nodes.length) {
@@ -1254,16 +1240,10 @@ export class DamageCalculator {
     };
   }
 
-  private applyFinalMultiplier(rawDamage: number, atkType: 'phy' | 'magic') {
-    const allFinalApplied = this.finalMultipliers.reduce((dmg, finalMultiplier) => {
+  private applyFinalMultiplier(rawDamage: number) {
+    return this.finalMultipliers.reduce((dmg, finalMultiplier) => {
       return floor(dmg * this.toPercent(finalMultiplier + 100));
     }, rawDamage);
-
-    const finals = atkType === 'phy' ? this.finalPhyMultipliers : this.finalMagicMultipliers;
-
-    return finals.reduce((dmg, finalMultiplier) => {
-      return floor(dmg * this.toPercent(finalMultiplier + 100));
-    }, allFinalApplied);
   }
 
   private calcPhysicalSkillDamage(params: {
@@ -1834,7 +1814,7 @@ export class DamageCalculator {
         emit('finalDmgByElement', 'Dano final por elemento', total, [`final_${skillPropertyAtk?.toLowerCase()}`], { multiplier: finalDmgMultiplier });
       }
       const beforeFinalMultipliers = total;
-      total = this.applyFinalMultiplier(total, 'magic');
+      total = this.applyFinalMultiplier(total);
       if (total !== beforeFinalMultipliers) {
         push('Multiplicadores finais', total);
         emit('finalMultipliers', 'Multiplicadores finais', total);

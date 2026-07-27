@@ -77,7 +77,6 @@ export const createRawTotalBonus = (): EquipmentSummaryModel => {
     ignore_size_penalty: 0,
     p_infiltration: 0,
 
-    p_final: 0,
     p_size_all: 0,
     p_size_s: 0,
     p_size_m: 0,
@@ -152,7 +151,6 @@ export const createRawTotalBonus = (): EquipmentSummaryModel => {
     p_pene_race_angel: 0,
     p_pene_race_dragon: 0,
 
-    m_final: 0,
     m_size_all: 0,
     m_size_s: 0,
     m_size_m: 0,

@@ -75,7 +75,6 @@ export interface EquipmentSummaryModel {
   ignore_size_penalty: number;
   p_infiltration: number;
 
-  p_final: number;
   p_size_all: number;
   p_size_s: number;
   p_size_m: number;
@@ -137,7 +136,6 @@ export interface EquipmentSummaryModel {
   pene_res_race_angel: number;
   pene_res_race_dragon: number;
 
-  m_final: number;
   m_size_all: number;
   m_size_s: number;
   m_size_m: number;

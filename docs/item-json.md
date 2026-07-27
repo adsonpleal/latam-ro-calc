@@ -138,7 +138,7 @@ melhor que uma chave errada. Categorias principais:
 |----------------------|-------------------|
 | Atributos            | `str` `agi` `vit` `int` `dex` `luk`; todos → `allStatus` |
 | Atributos de 4ª      | `pow` `sta` `wis` `spl` `con` `crt`; todos → `allTrait` |
-| ATQ / ATQM           | `atk` `atkPercent` · `matk` `matkPercent` |
+| ATQ / ATQM           | `atk` `atkPercent` · `matk` `matkPercent` — a linha pelada `Dano físico/mágico +N%` (tradução nova de `ATQ/ATQM +N%`) é `atkPercent`/`matkPercent`; as chaves `p_final`/`m_final` foram removidas da engine |
 | HP / SP              | `hp` `hpPercent` · `sp` `spPercent` |
 | Defesas              | `def` `mdef` `res` `mres` |
 | Conjuração / pós     | `aspd` `aspdPercent` · `vct` (conj. variável) · `fctPercent` (conj. fixa) · `acd` (pós-conj.) |

@@ -20708,10 +20708,10 @@
       "matk": [
         "30"
       ],
-      "p_final": [
+      "atkPercent": [
         "SPAWN[tur_d03_i||tur_d04_i]50"
       ],
-      "m_final": [
+      "matkPercent": [
         "SPAWN[tur_d03_i||tur_d04_i]50"
       ]
     }
@@ -178248,7 +178248,7 @@
         "EQUIP[Spirit of Knight Lv.5]===10",
         "EQUIP[Spirit of Knight Lv.7]===10"
       ],
-      "chance__p_final": [
+      "chance__atkPercent": [
         "EQUIP[Spirit of Knight Lv.7]SPAWN[MD_BETELGEUSE]===20"
       ]
     }
@@ -178303,7 +178303,7 @@
         "EQUIP[Spirit of Knight Lv.5]===10",
         "EQUIP[Spirit of Knight Lv.7]===10"
       ],
-      "chance__m_final": [
+      "chance__matkPercent": [
         "EQUIP[Spirit of Knight Lv.7]SPAWN[MD_BETELGEUSE]===20"
       ]
     }
@@ -178364,7 +178364,7 @@
         "EQUIP[Spirit of Knight Lv.5]===15",
         "EQUIP[Spirit of Knight Lv.7]===15"
       ],
-      "chance__p_final": [
+      "chance__atkPercent": [
         "EQUIP[Spirit of Knight Lv.7]SPAWN[MD_BETELGEUSE]===40"
       ],
       "atkPercent": [
@@ -178427,7 +178427,7 @@
         "EQUIP[Spirit of Knight Lv.5]===15",
         "EQUIP[Spirit of Knight Lv.7]===15"
       ],
-      "chance__m_final": [
+      "chance__matkPercent": [
         "EQUIP[Spirit of Knight Lv.7]SPAWN[MD_BETELGEUSE]===40"
       ],
       "spl": [
@@ -241919,7 +241919,7 @@
       "int": [
         "2"
       ],
-      "m_final": [
+      "matkPercent": [
         "7===2"
       ],
       "subele_water": [
@@ -242277,7 +242277,7 @@
       "int": [
         "1"
       ],
-      "m_final": [
+      "matkPercent": [
         "2",
         "9===5"
       ]
@@ -242307,7 +242307,7 @@
       "dex": [
         "3"
       ],
-      "m_final": [
+      "matkPercent": [
         "7===3",
         "9===2"
       ],
@@ -242381,7 +242381,7 @@
       "vct": [
         "7===3"
       ],
-      "m_final": [
+      "matkPercent": [
         "9===3"
       ],
       "subele_fire": [
@@ -242890,7 +242890,7 @@
       "hp": [
         "100"
       ],
-      "m_final": [
+      "matkPercent": [
         "2"
       ]
     }
@@ -243189,7 +243189,7 @@
       "Novice"
     ],
     "script": {
-      "p_final": [
+      "atkPercent": [
         "1"
       ],
       "atk": [
@@ -245247,7 +245247,7 @@
       "mdef": [
         "7===1"
       ],
-      "m_final": [
+      "matkPercent": [
         "7===2"
       ],
       "subele_water": [
@@ -245465,7 +245465,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "2",
         "7===1"
       ],
@@ -245757,7 +245757,7 @@
       "int": [
         "2"
       ],
-      "m_final": [
+      "matkPercent": [
         "7===5"
       ]
     }
@@ -246656,7 +246656,7 @@
       "p_class_boss": [
         "2---1"
       ],
-      "m_final": [
+      "matkPercent": [
         "2---1"
       ],
       "range": [
@@ -248129,7 +248129,7 @@
       "aspd": [
         "1"
       ],
-      "p_final": [
+      "atkPercent": [
         "9===2",
         "12===3"
       ],
@@ -248433,7 +248433,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "3"
       ]
     }
@@ -248460,7 +248460,7 @@
       "all"
     ],
     "script": {
-      "p_final": [
+      "atkPercent": [
         "3"
       ]
     }
@@ -248487,7 +248487,7 @@
       "all"
     ],
     "script": {
-      "p_final": [
+      "atkPercent": [
         "3"
       ]
     }
@@ -248514,7 +248514,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "3"
       ]
     }
@@ -249232,7 +249232,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "9===7",
         "12===5"
       ]
@@ -249505,7 +249505,7 @@
       "matk": [
         "2---10"
       ],
-      "m_final": [
+      "matkPercent": [
         "10===5"
       ]
     }
@@ -249667,7 +249667,7 @@
       "matk": [
         "2---10"
       ],
-      "p_final": [
+      "atkPercent": [
         "7===5"
       ],
       "aspdPercent": [
@@ -249676,7 +249676,7 @@
       "acd": [
         "11===15"
       ],
-      "m_final": [
+      "matkPercent": [
         "EQUIP_ID[13093]5"
       ],
       "melee": [
@@ -249720,7 +249720,7 @@
       "acd": [
         "11===15"
       ],
-      "m_final": [
+      "matkPercent": [
         "EQUIP_ID[2023]7"
       ]
     }
@@ -249758,7 +249758,7 @@
       "acd": [
         "11===15"
       ],
-      "m_final": [
+      "matkPercent": [
         "EQUIP_ID[1669]5"
       ],
       "melee": [
@@ -249796,7 +249796,7 @@
       "matk": [
         "2---10"
       ],
-      "p_final": [
+      "atkPercent": [
         "7===5"
       ],
       "aspdPercent": [
@@ -249837,7 +249837,7 @@
       "matk": [
         "2---10"
       ],
-      "p_final": [
+      "atkPercent": [
         "7===5"
       ],
       "aspdPercent": [
@@ -250038,7 +250038,7 @@
       "all"
     ],
     "script": {
-      "p_final": [
+      "atkPercent": [
         "3"
       ]
     }
@@ -250064,7 +250064,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "3"
       ]
     }
@@ -254111,7 +254111,7 @@
       "p_race_demihuman": [
         "80"
       ],
-      "m_final": [
+      "matkPercent": [
         "9===5"
       ],
       "acd": [
@@ -254750,7 +254750,7 @@
       "sp": [
         "9===300"
       ],
-      "m_final": [
+      "matkPercent": [
         "9===3"
       ],
       "matk": [
@@ -255075,7 +255075,7 @@
       "m_race_demihuman": [
         "15"
       ],
-      "m_final": [
+      "matkPercent": [
         "9===5"
       ],
       "acd": [
@@ -255443,7 +255443,7 @@
       "m_race_undead": [
         "10"
       ],
-      "m_final": [
+      "matkPercent": [
         "9===5",
         "12===7"
       ],
@@ -257341,7 +257341,7 @@
       "m_race_demihuman": [
         "15"
       ],
-      "m_final": [
+      "matkPercent": [
         "1---1"
       ],
       "matk": [
@@ -257370,7 +257370,7 @@
       "Novice"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "2---1"
       ],
       "matk": [
@@ -257401,7 +257401,7 @@
       "SoulLinker"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "6===15"
       ],
       "vct": [
@@ -257818,7 +257818,7 @@
       "Ninja"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "10"
       ],
       "matk": [
@@ -257847,7 +257847,7 @@
       "Ninja"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "10"
       ],
       "matk": [
@@ -260676,7 +260676,7 @@
       "range": [
         "2---3"
       ],
-      "p_final": [
+      "atkPercent": [
         "7===5"
       ]
     }
@@ -262747,7 +262747,7 @@
       "Warlock"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "5"
       ],
       "matk": [
@@ -263043,7 +263043,7 @@
       "aspdPercent": [
         "3---3"
       ],
-      "m_final": [
+      "matkPercent": [
         "7===5"
       ],
       "aspd": [
@@ -263262,7 +263262,7 @@
       "criDmg": [
         "2---3"
       ],
-      "p_final": [
+      "atkPercent": [
         "7===5"
       ],
       "aspdPercent": [
@@ -263782,7 +263782,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "5"
       ],
       "p_class_normal": [
@@ -264403,7 +264403,7 @@
       "dex": [
         "2"
       ],
-      "m_final": [
+      "matkPercent": [
         "3"
       ]
     }
@@ -264593,7 +264593,7 @@
       "sp": [
         "50"
       ],
-      "m_final": [
+      "matkPercent": [
         "5"
       ],
       "p_class_normal": [
@@ -264635,7 +264635,7 @@
       "sp": [
         "80"
       ],
-      "m_final": [
+      "matkPercent": [
         "5"
       ],
       "p_class_normal": [
@@ -264670,7 +264670,7 @@
       "hp": [
         "600"
       ],
-      "m_final": [
+      "matkPercent": [
         "5"
       ],
       "p_class_normal": [
@@ -264706,7 +264706,7 @@
       "hp": [
         "600"
       ],
-      "m_final": [
+      "matkPercent": [
         "5"
       ],
       "p_class_normal": [
@@ -264747,7 +264747,7 @@
       "sp": [
         "80"
       ],
-      "m_final": [
+      "matkPercent": [
         "5"
       ],
       "p_class_normal": [
@@ -264785,7 +264785,7 @@
       "sp": [
         "50"
       ],
-      "m_final": [
+      "matkPercent": [
         "5"
       ],
       "p_class_normal": [
@@ -264997,7 +264997,7 @@
       "sp": [
         "80"
       ],
-      "m_final": [
+      "matkPercent": [
         "5"
       ],
       "p_class_normal": [
@@ -267228,7 +267228,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "6"
       ],
       "subele_holy": [
@@ -267812,7 +267812,7 @@
       "all"
     ],
     "script": {
-      "p_final": [
+      "atkPercent": [
         "2"
       ]
     }
@@ -267864,7 +267864,7 @@
       "all"
     ],
     "script": {
-      "p_final": [
+      "atkPercent": [
         "3"
       ]
     }
@@ -267916,7 +267916,7 @@
       "all"
     ],
     "script": {
-      "p_final": [
+      "atkPercent": [
         "4"
       ]
     }
@@ -267968,7 +267968,7 @@
       "all"
     ],
     "script": {
-      "p_final": [
+      "atkPercent": [
         "5"
       ]
     }
@@ -268020,7 +268020,7 @@
       "all"
     ],
     "script": {
-      "p_final": [
+      "atkPercent": [
         "5"
       ]
     }
@@ -268072,7 +268072,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "2"
       ]
     }
@@ -268124,7 +268124,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "3"
       ]
     }
@@ -268176,7 +268176,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "4"
       ]
     }
@@ -268228,7 +268228,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "5"
       ]
     }
@@ -268280,7 +268280,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "5"
       ]
     }
@@ -268919,7 +268919,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "5",
         "EQUIP_ID[4913]5"
       ],
@@ -269812,7 +269812,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "10"
       ],
       "p_class_normal": [
@@ -271848,7 +271848,7 @@
       "all"
     ],
     "script": {
-      "m_final": [
+      "matkPercent": [
         "5"
       ]
     }
@@ -272284,7 +272284,7 @@
       "all"
     ],
     "script": {
-      "p_final": [
+      "atkPercent": [
         "8===5",
         "11===2",
         "13===4",
@@ -272663,7 +272663,7 @@
       "atk": [
         "50"
       ],
-      "p_final": [
+      "atkPercent": [
         "5"
       ],
       "aspdPercent": [
@@ -272695,7 +272695,7 @@
       "matk": [
         "50"
       ],
-      "m_final": [
+      "matkPercent": [
         "5"
       ],
       "aspdPercent": [
@@ -275923,7 +275923,7 @@
       "hpPercent": [
         "5"
       ],
-      "m_final": [
+      "matkPercent": [
         "1"
       ]
     }
@@ -310072,7 +310072,7 @@
         "3---10",
         "EQUIP_ID[4509]1---10"
       ],
-      "p_final": [
+      "atkPercent": [
         "7===10"
       ],
       "acd": [

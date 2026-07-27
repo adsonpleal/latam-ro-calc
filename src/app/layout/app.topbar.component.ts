@@ -143,6 +143,14 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.36-beta',
+      date: '27-07-2026',
+      logs: [
+        'Corrigida a Coroa Scaraba, que aplicava o "Dano físico +10%" do refino +7 como um multiplicador sobre o dano já reduzido pela DEF do alvo, em vez de somar ao ATQ. Reportado por Lorigan.',
+        'O mesmo erro foi corrigido em outros 65 equipamentos com a linha "Dano físico +N%" ou "Dano mágico +N%" — entre eles os Anéis Forte e Mágico do Éden, as Luvas de Orleans, as Medalhas de Honra, a Armadura de Brynhildr, os Diademas e Coroas do zodíaco, os Elmos de Cinzas e as Cotas Evolutivas. A porcentagem dessas peças agora entra no ATQ e no ATQM, como nos outros ~690 equipamentos que já traziam a mesma frase, e o dano deles muda de valor.',
+      ],
+    },
+    {
       v: '0.1.35-beta',
       date: '27-07-2026',
       logs: [

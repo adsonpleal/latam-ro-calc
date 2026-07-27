@@ -103,11 +103,8 @@ describe('Encantos dos Capacetes — efeitos', () => {
       }
     });
 
-    it('does not carry the kRO flat MATK, nor a final-damage multiplier', () => {
-      // m_final ("Dano mágico final") is a different effect from matkPercent, and only
-      // 48 items use it for this phrase against 300 that use matkPercent.
+    it('does not carry the kRO flat MATK', () => {
       expect(deltaOf({ enchant: PODER, refine: 11 })['matk']).toBe(0);
-      expect(deltaOf({ enchant: PODER, refine: 11 })['m_final'] || 0).toBe(0);
     });
   });
 

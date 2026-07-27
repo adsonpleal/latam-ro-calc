@@ -29,7 +29,7 @@ export const ITEM_BONUS_LABELS: Record<string, string> = {
   hit: 'Precisão', perfectHit: 'Precisão Perfeita', cri: 'Crítico', criDmg: 'Dano crítico',
   perfectDodge: 'Esquiva perfeita', flee: 'Esquiva', forceCri: 'Força crítico',
   ignore_size_penalty: 'Ignora penalidade de tamanho', p_infiltration: 'Infiltração física',
-  p_final: 'Dano físico final', m_final: 'Dano mágico final', mildwind: 'Vento Suave',
+  mildwind: 'Vento Suave',
   // Defender-side reductions vs players (PVP) — see docs/pvp.md §4
   dmg_taken_all: 'Redução de dano recebido de jogadores',
   dmg_taken_physical: 'Redução de dano físico recebido de jogadores',
