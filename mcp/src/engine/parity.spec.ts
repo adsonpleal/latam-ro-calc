@@ -38,8 +38,8 @@ const EM_SKILLS_REPLAY = {
 
 function damageOf(base: BuildInput, atkSkill: string, extra: Partial<BuildInput> = {}): number {
   const rb = resolveBuild({ ...base, ...extra, atkSkill }, dataset);
-  const calc = solve(rb, dataset, { monster: dataset.monsters[DUMMY_NEUTRAL] });
-  const out = projectResult(calc, rb, dataset.classes.get(4261));
+  const calc = solve(rb, dataset, dataset.monsters[DUMMY_NEUTRAL]);
+  const out = projectResult(calc, rb);
   return out['damage'].skill.max;
 }
 

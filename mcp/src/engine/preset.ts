@@ -21,8 +21,9 @@ export function applyPreset(saved: Record<string, any> | null | undefined): Main
   const model = createMainModel() as any;
   if (!saved) return model as MainModel;
 
-  const defaults = createMainModel() as any;
-  for (const [key, initialValue] of Object.entries(defaults)) {
+  // Object.entries snapshots the keys, so reassigning into `model` while iterating
+  // its own entries is safe — no second factory call needed for the defaults.
+  for (const [key, initialValue] of Object.entries(model)) {
     const savedValue = saved[key];
     model[key] = Array.isArray(initialValue) ? (Array.isArray(savedValue) ? savedValue : []) : savedValue ?? initialValue;
   }

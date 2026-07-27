@@ -3,18 +3,30 @@
  * or a build from scratch.
  */
 import { z } from 'zod';
+import { MainItemWithRelations } from 'src/app/constants/item-type.enum';
 import { CharacterBase } from 'src/app/jobs/_character-base.abstract';
 import { MainModel } from 'src/app/models/main.model';
 import { createMainModel, toRawOptionTxtList } from 'src/app/utils';
+import { ClassInfo } from '../data/class-registry';
 import { Dataset } from '../data/dataset';
 import { applyJobBonus, applySkillMaps, clampLevels, resolveAtkSkill } from './derive';
 import { applyPreset } from './preset';
 import { parseShare } from './share';
 
-const STAT_KEYS = ['str', 'agi', 'vit', 'int', 'dex', 'luk', 'pow', 'sta', 'wis', 'spl', 'con', 'crt'] as const;
+export const STAT_KEYS = ['str', 'agi', 'vit', 'int', 'dex', 'luk', 'pow', 'sta', 'wis', 'spl', 'con', 'crt'] as const;
 
-/** Every equipment/refine/card/enchant field name, taken from the model factory itself. */
+/** Every model field name, taken from the model factory itself. */
 const MODEL_KEYS = new Set(Object.keys(createMainModel()));
+
+/**
+ * The model keys that hold an item id — every main slot plus its cards/enchants.
+ * Taken from `MainItemWithRelations` rather than pattern-matched, so a new slot is
+ * picked up automatically and `*Refine`/`*Grade` are excluded by construction.
+ */
+const ITEM_ID_KEYS: readonly string[] = [
+  ...Object.keys(MainItemWithRelations),
+  ...Object.values(MainItemWithRelations).flat(),
+] as string[];
 
 export const buildInputSchema = z
   .object({
@@ -62,8 +74,9 @@ export const buildInputSchema = z
 export type BuildInput = z.infer<typeof buildInputSchema>;
 
 export interface ResolvedBuild {
-  model: MainModel;
+  model: MainModel & Record<string, any>;
   char: CharacterBase;
+  classInfo: ClassInfo | undefined;
   /** Non-fatal problems worth telling the agent about (unknown item ids, etc.). */
   warnings: string[];
 }
@@ -107,19 +120,15 @@ function applyOverrides(model: any, input: BuildInput, warnings: string[], datas
 
   // An id the calculator has no record for is silently ignored by loadItemFromModel,
   // and 7.7k LATAM items legitimately fall in that bucket — so say so out loud.
-  for (const key of MODEL_KEYS) {
+  for (const key of ITEM_ID_KEYS) {
     const id = model[key];
-    if (typeof id === 'number' && id > 0 && /^(weapon|leftWeapon|ammo|head|armor|shield|garment|boot|acc|shadow|costume|pet)/.test(key)) {
-      if (/Refine$|Grade$/.test(key)) continue;
-      if (!dataset.items[id]) {
-        const latamName = dataset.latamItems[id]?.name;
-        warnings.push(
-          latamName
-            ? `Item ${id} ("${latamName}") existe no LATAM mas ainda não está no banco do calculador — ignorado em ${key}.`
-            : `Item ${id} desconhecido — ignorado em ${key}.`,
-        );
-      }
-    }
+    if (typeof id !== 'number' || id <= 0 || dataset.items[id]) continue;
+    const latamName = dataset.latamItems[id]?.name;
+    warnings.push(
+      latamName
+        ? `Item ${id} ("${latamName}") existe no LATAM mas ainda não está no banco do calculador — ignorado em ${key}.`
+        : `Item ${id} desconhecido — ignorado em ${key}.`,
+    );
   }
 }
 
@@ -148,8 +157,8 @@ export function resolveBuild(input: BuildInput, dataset: Dataset): ResolvedBuild
   clampLevels(model, char);
   applyJobBonus(model, char);
   applySkillMaps(model, char);
-  resolveAtkSkill(model, char, input.atkSkill);
+  resolveAtkSkill(model, char);
   model.rawOptionTxts = toRawOptionTxtList(model, dataset.items);
 
-  return { model: model as MainModel, char, warnings };
+  return { model: model as ResolvedBuild['model'], char, classInfo: dataset.classes.get(model.class), warnings };
 }

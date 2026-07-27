@@ -16,8 +16,8 @@ const ORIGIN = 'https://simulador.latam-tools.com.br';
 
 const project = (input: BuildInput) => {
   const rb = resolveBuild(input, dataset);
-  const calc = solve(rb, dataset, { monster: dataset.monsters[DUMMY_NEUTRAL] });
-  return { rb, out: projectResult(calc, rb, dataset.classes.get((rb.model as any).class)) };
+  const calc = solve(rb, dataset, dataset.monsters[DUMMY_NEUTRAL]);
+  return { rb, out: projectResult(calc, rb) };
 };
 
 /** Solve, encode, decode, solve again — the projected result must be identical. */

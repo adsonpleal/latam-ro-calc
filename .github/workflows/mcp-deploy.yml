@@ -54,7 +54,7 @@ jobs:
           mkdir -p stage/data
           cp dist/mcp/server.mjs stage/
           for f in item.json latam-items.json monster.json latam-monsters.json \
-                   hp_sp_table.json latam-classes.json item-views.json; do
+                   hp_sp_table.json latam-classes.json; do
             cp "src/assets/demo/data/$f" stage/data/
           done
           tar -czf ro-mcp.tar.gz -C stage .

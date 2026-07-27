@@ -34,8 +34,5 @@ export async function withSolveSlot<T>(fn: () => T | Promise<T>): Promise<T> {
  */
 export function createBudget(ms = config.limits.solveBudgetMs) {
   const deadline = Date.now() + ms;
-  return {
-    expired: () => Date.now() > deadline,
-    remainingMs: () => Math.max(0, deadline - Date.now()),
-  };
+  return { expired: () => Date.now() > deadline };
 }

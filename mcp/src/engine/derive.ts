@@ -77,10 +77,10 @@ export function applySkillMaps(model: MainModel, char: CharacterBase): void {
  * the class default. Accepts the three forms the picker produces: a skill's own
  * `value`, one of its `values[]` variants, or an entry from its `levelList[]`.
  */
-export function resolveAtkSkill(model: MainModel, char: CharacterBase, requested?: string): void {
+export function resolveAtkSkill(model: MainModel, char: CharacterBase): void {
   const atkSkills = char.atkSkills;
   const fallback = atkSkills[0]?.value;
-  const wanted = model.selectedAtkSkill || requested;
+  const wanted = model.selectedAtkSkill;
   if (!wanted) {
     model.selectedAtkSkill = fallback;
     return;

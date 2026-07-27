@@ -42,10 +42,14 @@ export function parseShare(input: string): DecodedShare {
 }
 
 /** Whether a string looks like a shortened link that needs resolving first. */
-export const isShortLink = (input: string, shortenerUrl: string): boolean => {
+const isShortLink = (input: string, shortenerUrl: string): boolean => {
   const s = (input ?? '').trim();
   return s.startsWith(shortenerUrl) && !TOKEN_IN_URL.test(s);
 };
+
+/** Expand a shortened link, or pass anything else through untouched. */
+export const resolveIfShort = async (share: string, shortenerUrl: string): Promise<string> =>
+  isShortLink(share, shortenerUrl) ? resolveShortLink(share) : share;
 
 /**
  * Follow a short link to the real share URL. People paste the shortened form because

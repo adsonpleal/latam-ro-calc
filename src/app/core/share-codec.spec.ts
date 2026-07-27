@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { compressToEncodedURIComponent } from 'lz-string';
+import { createMainModel } from 'src/app/utils';
 import { decodeBuild, decodeShared, dropDefaults, encodeBuild } from './share-codec';
 
 const preset = { class: 4261, level: 230, jobLevel: 50, weapon: 700016, weaponRefine: 11, str: 0, agi: 0 };
@@ -22,6 +23,14 @@ describe('dropDefaults', () => {
   it('tolerates null/undefined input', () => {
     expect(dropDefaults(null)).toEqual({});
     expect(dropDefaults(undefined)).toEqual({});
+  });
+});
+
+describe('the reserved comparison key', () => {
+  it('cannot collide with a real model field', () => {
+    // The forward-compat guarantee rests on `__cmp` being invisible to
+    // setModelByJSONString, which iterates createMainModel()'s own keys.
+    expect(Object.keys(createMainModel())).not.toContain('__cmp');
   });
 });
 

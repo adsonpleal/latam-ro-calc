@@ -19,7 +19,6 @@ export interface Dataset {
   latamItems: Record<string, LatamItem>;
   monsters: ItemMap;
   hpSpTable: any;
-  itemViews: Record<string, [number, number]>;
   classes: ClassRegistry;
   itemIndex: ItemIndex;
   monsterIndex: MonsterIndex;
@@ -34,7 +33,6 @@ export function loadDataset(dataDir: string): Dataset {
   const latamMonsters = readJson<Record<string, string>>(dataDir, 'latam-monsters.json');
   const hpSpTable = readJson<any>(dataDir, 'hp_sp_table.json');
   const latamClasses = readJson<number[]>(dataDir, 'latam-classes.json');
-  const itemViews = readJson<Record<string, [number, number]>>(dataDir, 'item-views.json');
 
   mergeLatamItems(items, latamItems);
   mergeLatamMonsters(monsters, latamMonsters);
@@ -44,7 +42,6 @@ export function loadDataset(dataDir: string): Dataset {
     latamItems,
     monsters,
     hpSpTable,
-    itemViews,
     classes: new ClassRegistry(latamClasses),
     itemIndex: new ItemIndex(items, latamItems),
     monsterIndex: new MonsterIndex(monsters, latamMonsters),

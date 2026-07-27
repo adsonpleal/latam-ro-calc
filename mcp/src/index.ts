@@ -17,7 +17,7 @@ console.log(
 
 const server = createHttpServer(dataset);
 server.listen(config.port, () => {
-  console.log(`[ro-mcp] ouvindo em http://127.0.0.1:${config.port}${''} (MCP em /mcp, saúde em /healthz)`);
+  console.log(`[ro-mcp] ouvindo em http://127.0.0.1:${config.port} (MCP em /mcp, saúde em /healthz)`);
 });
 
 for (const signal of ['SIGINT', 'SIGTERM'] as const) {

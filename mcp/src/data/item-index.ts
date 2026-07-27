@@ -17,20 +17,19 @@ import { foldAccents, tokenize } from './text';
 export interface ItemRow {
   id: number;
   name: string;
-  enName?: string;
   /** Folded name + English name + aegis name, for accent-insensitive matching. */
   norm: string;
   inCalcDb: boolean;
   latam: boolean;
   slots?: number;
   slotTags?: SlotTag[];
-  typeId?: number;
-  subTypeId?: number;
   reqLv?: number;
-  weaponLv?: number;
   atk?: number;
   def?: number;
 }
+
+/** Hoisted: constructing a collator per sort dominated the whole search. */
+const COLLATOR = new Intl.Collator('pt-BR');
 
 export interface SearchFilters {
   query?: string;
@@ -74,16 +73,12 @@ export class ItemIndex {
       const row: ItemRow = {
         id: record.id,
         name: record.name,
-        enName: record.enName && record.enName !== record.name ? record.enName : undefined,
         norm: foldAccents([record.name, record.enName, record.aegisName].filter(Boolean).join(' ')),
         inCalcDb: true,
         latam: !!latam,
         slots: record.slots || undefined,
         slotTags: tags.length ? tags : undefined,
-        typeId: record.itemTypeId,
-        subTypeId: record.itemSubTypeId,
         reqLv: record.requiredLevel ?? undefined,
-        weaponLv: record.itemLevel ?? undefined,
         atk: record.attack ?? undefined,
         def: record.defense ?? undefined,
       };
@@ -151,10 +146,15 @@ export class ItemIndex {
     const classFilter = char ? canUsedByClass(char) : undefined;
     const skillKeys = skill ? skillKeyPrefixes(skill) : [];
 
-    const matched: ItemRow[] = [];
+    // Bounded top-k rather than sorting every match: an unfiltered search matches all
+    // ~14k LATAM rows, and sorting them to return 20 cost ~36ms of blocked event loop.
+    const keep = offset + limit;
+    const compare = rankBy(query ? foldAccents(query) : '');
+    const top: ItemRow[] = [];
+    let total = 0;
+
     for (const row of this.rows) {
-      if (requireCalcDb === true && !row.inCalcDb) continue;
-      if (requireCalcDb === false && row.inCalcDb) continue;
+      if (requireCalcDb !== undefined && row.inCalcDb !== requireCalcDb) continue;
       if (latamOnly && !row.latam) continue;
       if (terms.length && !terms.every((t) => row.norm.includes(t))) continue;
       if (slot && !row.slotTags?.includes(slot)) continue;
@@ -174,11 +174,21 @@ export class ItemIndex {
         if (skillKeys.length && !skillKeys.some((key) => script[key] !== undefined)) continue;
       }
 
-      matched.push(row);
+      total++;
+      // Insertion into a k-sized buffer; k is at most offset+limit (≤100).
+      if (top.length < keep) {
+        let i = top.length;
+        while (i > 0 && compare(row, top[i - 1]) < 0) i--;
+        top.splice(i, 0, row);
+      } else if (compare(row, top[keep - 1]) < 0) {
+        let i = keep - 1;
+        while (i > 0 && compare(row, top[i - 1]) < 0) i--;
+        top.splice(i, 0, row);
+        top.length = keep;
+      }
     }
 
-    matched.sort(rankBy(query ? foldAccents(query) : ''));
-    return { total: matched.length, rows: matched.slice(offset, offset + limit) };
+    return { total, rows: top.slice(offset) };
   }
 }
 
@@ -194,5 +204,5 @@ function rankBy(folded: string) {
     score(a) - score(b) ||
     Number(b.inCalcDb) - Number(a.inCalcDb) ||
     Number(b.latam) - Number(a.latam) ||
-    a.name.localeCompare(b.name, 'pt-BR');
+    COLLATOR.compare(a.name, b.name);
 }

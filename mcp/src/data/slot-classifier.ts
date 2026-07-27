@@ -13,20 +13,9 @@ import { ItemSubTypeId } from 'src/app/constants/item-sub-type.enum';
 import { ItemTypeId } from 'src/app/constants/item.const';
 import { getHeadGearLocations } from 'src/app/utils';
 
-export type SlotTag =
-  | 'weapon' | 'leftWeapon' | 'ammo' | 'consumable'
-  | 'headUpper' | 'headMiddle' | 'headLower'
-  | 'shield' | 'armor' | 'garment' | 'boot'
-  | 'accLeft' | 'accRight' | 'pet'
-  | 'shadowWeapon' | 'shadowArmor' | 'shadowShield' | 'shadowBoot' | 'shadowEarring' | 'shadowPendant'
-  | 'costumeUpper' | 'costumeMiddle' | 'costumeLower' | 'costumeGarment'
-  | 'costumeEnchantUpper' | 'costumeEnchantMiddle' | 'costumeEnchantLower'
-  | 'costumeEnchantGarment' | 'costumeEnchantGarment2' | 'costumeEnchantGarment4'
-  | 'enchant'
-  | 'weaponCard' | 'headCard' | 'shieldCard' | 'armorCard' | 'garmentCard' | 'bootCard' | 'accCard';
-
-/** Every tag, for tool schemas. */
-export const SLOT_TAGS: SlotTag[] = [
+/** Every slot an item can be offered for. Single source of truth: the `SlotTag`
+ *  union below is derived from it, so the two can never drift. */
+export const SLOT_TAGS = [
   'weapon', 'leftWeapon', 'ammo', 'consumable',
   'headUpper', 'headMiddle', 'headLower',
   'shield', 'armor', 'garment', 'boot',
@@ -37,7 +26,9 @@ export const SLOT_TAGS: SlotTag[] = [
   'costumeEnchantGarment', 'costumeEnchantGarment2', 'costumeEnchantGarment4',
   'enchant',
   'weaponCard', 'headCard', 'shieldCard', 'armorCard', 'garmentCard', 'bootCard', 'accCard',
-];
+] as const;
+
+export type SlotTag = (typeof SLOT_TAGS)[number];
 
 const SUBTYPE_TAG: Record<number, SlotTag> = {
   [ItemSubTypeId.Shield]: 'shield',

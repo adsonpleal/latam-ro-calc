@@ -16,15 +16,8 @@ import { JobBuffs } from 'src/app/constants/job-buffs';
 import { Calculator } from 'src/app/core/calculator';
 import { applyGuaranaCandy, CalculatorController, collectBuffBonuses, collectConsumables } from 'src/app/core/calculator-controller';
 import { parseOptionScripts } from 'src/app/core/option-scripts';
-import { PlayerTargetProfile, PvpMode } from 'src/app/core/pvp';
 import { Dataset } from '../data/dataset';
 import { ResolvedBuild } from './build-input';
-
-export interface Target {
-  monster?: any;
-  playerTarget?: PlayerTargetProfile;
-  pvpMode?: PvpMode;
-}
 
 const controller = new CalculatorController();
 
@@ -36,7 +29,7 @@ const controller = new CalculatorController();
  * effects only exist on `calc.chanceList` *after* a solve, so a caller wanting them
  * applied re-solves with `effects`.
  */
-export function solve(rb: ResolvedBuild, dataset: Dataset, target: Target, effects: string[] = []): Calculator {
+export function solve(rb: ResolvedBuild, dataset: Dataset, monster: any, effects: string[] = []): Calculator {
   const { model, char } = rb;
 
   const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = char
@@ -60,9 +53,7 @@ export function solve(rb: ResolvedBuild, dataset: Dataset, target: Target, effec
     .loadItemFromModel(model as any);
 
   controller.runChain(calc, {
-    monster: target.monster,
-    playerTarget: target.playerTarget,
-    pvpMode: target.pvpMode,
+    monster,
     equipAtks,
     masteryAtks,
     buffEquips: buffBonuses.equipAtk,

@@ -107,12 +107,8 @@ export function createHttpServer(dataset: Dataset): Server {
       return;
     }
 
-    // Stateless mode has no stream to resume and no session to delete.
-    if (req.method === 'GET' || req.method === 'DELETE') {
-      res.writeHead(405, { 'content-type': 'application/json', allow: 'POST, OPTIONS' }).end(jsonRpcError(-32000, 'Method not allowed.'));
-      return;
-    }
-
+    // Stateless mode has no stream to resume and no session to delete, so GET and
+    // DELETE are as unsupported as anything else that isn't a POST.
     if (req.method !== 'POST') {
       res.writeHead(405, { 'content-type': 'application/json', allow: 'POST, OPTIONS' }).end(jsonRpcError(-32000, 'Method not allowed.'));
       return;

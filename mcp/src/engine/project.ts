@@ -15,8 +15,10 @@ import {
   buildRaceTables,
   buildSizeTable,
 } from 'src/app/core/summary-tables';
-import { elementPtBr, racePtBr, sizePtBr } from 'src/app/constants/monster-i18n';
-import { ClassInfo } from '../data/class-registry';
+import { elementPtBr, monsterTypePtBr, racePtBr, sizePtBr } from 'src/app/constants/monster-i18n';
+import { round } from 'src/app/utils';
+import { compact } from '../tools/helpers';
+import { STAT_KEYS } from './build-input';
 import { ResolvedBuild } from './build-input';
 
 export type IncludeSection = 'bonuses' | 'tables';
@@ -24,21 +26,17 @@ export type IncludeSection = 'bonuses' | 'tables';
 const num = (v: unknown): number | undefined => (typeof v === 'number' && Number.isFinite(v) ? v : undefined);
 const round2 = (v: unknown): number | undefined => {
   const n = num(v);
-  return n === undefined ? undefined : Math.round(n * 100) / 100;
+  return n === undefined ? undefined : round(n, 2);
 };
-
-/** Strip undefined so they don't serialize as noise. */
-const compact = <T extends Record<string, any>>(o: T): T => Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined)) as T;
 
 export interface ProjectOptions {
   include?: IncludeSection[];
-  warnings?: string[];
   share?: string;
   /** The prepared monster carries no id, so the caller supplies the one it targeted. */
   targetId?: number;
 }
 
-export function projectResult(calc: Calculator, rb: ResolvedBuild, classInfo: ClassInfo | undefined, opts: ProjectOptions = {}) {
+export function projectResult(calc: Calculator, rb: ResolvedBuild, opts: ProjectOptions = {}) {
   const summary = calc.getTotalSummary() as any;
   const { calcSkill = {}, calc: c = {}, dmg = {}, monster } = summary;
   const model = rb.model as any;
@@ -47,13 +45,10 @@ export function projectResult(calc: Calculator, rb: ResolvedBuild, classInfo: Cl
   const result: Record<string, any> = {
     build: compact({
       class: model.class,
-      className: classInfo?.name,
+      className: rb.classInfo?.name,
       level: model.level,
       jobLevel: model.jobLevel,
-      stats: compact({
-        str: model.str, agi: model.agi, vit: model.vit, int: model.int, dex: model.dex, luk: model.luk,
-        pow: model.pow, sta: model.sta, wis: model.wis, spl: model.spl, con: model.con, crt: model.crt,
-      }),
+      stats: compact(Object.fromEntries(STAT_KEYS.map((k) => [k, model[k]]))),
       atkSkill: model.selectedAtkSkill,
     }),
 
@@ -65,10 +60,11 @@ export function projectResult(calc: Calculator, rb: ResolvedBuild, classInfo: Cl
           name: monster.name,
           level: num(monster.level),
           hp: num(monster.hp),
-          element: monster.elementName ? `${elementPtBr(String(monster.elementName).split(' ')[0])} ${String(monster.elementName).split(' ')[1] ?? ''}`.trim() : undefined,
+          // elementPtBr already translates the head word and keeps the level suffix.
+          element: monster.elementName ? elementPtBr(String(monster.elementName)) : undefined,
           race: monster.raceUpper ? racePtBr(monster.raceUpper) : undefined,
           size: monster.sizeFullUpper ? sizePtBr(monster.sizeFullUpper) : undefined,
-          type: monster.typeUpper === 'Boss' ? 'Chefe' : 'Normal',
+          type: monsterTypePtBr(monster.typeUpper),
           mvp: monster.isMvp || undefined,
           def: num(monster.def),
           mdef: num(monster.mdef),
@@ -140,8 +136,7 @@ export function projectResult(calc: Calculator, rb: ResolvedBuild, classInfo: Cl
   }
 
   if (opts.share) result['share'] = opts.share;
-  const warnings = [...(opts.warnings ?? []), ...rb.warnings];
-  if (warnings.length) result['warnings'] = warnings;
+  if (rb.warnings.length) result['warnings'] = rb.warnings;
 
   return result;
 }

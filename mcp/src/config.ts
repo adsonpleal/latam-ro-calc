@@ -19,6 +19,10 @@ export const config = {
   /** URL shortener, mirroring the app's share dialog. */
   shortenerUrl: env('SHORTENER_URL', 'https://short.latam-tools.com.br'),
 
+  /** Dummy - Neutro: neutral defence, so the element table cancels out and a bare
+   *  comparison isn't distorted by resistances. */
+  defaultTargetId: envInt('DEFAULT_TARGET_ID', 21077),
+
   /** Hostname this server is served as. Validating it — not Origin — is what actually
    *  defends against DNS rebinding. */
   allowedHosts: env('ALLOWED_HOSTS', 'mcp.simulador.latam-tools.com.br,localhost')

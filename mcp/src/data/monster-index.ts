@@ -4,8 +4,7 @@
  * as a target. Rows are flagged `hasStats` and searches default to requiring it, so an
  * agent doesn't pick a target `calculate` would reject.
  */
-import { getMonsterSpawnMap } from 'src/app/constants/monster-spawn-mapper';
-import { elementPtBr, racePtBr, sizePtBr } from 'src/app/constants/monster-i18n';
+import { elementPtBr, monsterTypePtBr, racePtBr, sizePtBr } from 'src/app/constants/monster-i18n';
 import { MVP_IDS } from 'src/app/constants/mvp';
 import { ItemMap } from './merge-items';
 import { foldAccents, tokenize } from './text';
@@ -23,8 +22,10 @@ export interface MonsterRow {
   size?: string;
   boss?: boolean;
   mvp?: boolean;
-  spawn?: string;
 }
+
+/** Hoisted: a per-sort collator dominated the sort itself. */
+const COLLATOR = new Intl.Collator('pt-BR');
 
 export interface MonsterFilters {
   query?: string;
@@ -63,7 +64,6 @@ export class MonsterIndex {
         size: s.scaleName,
         boss: s.class === 1 || undefined,
         mvp: MVP_IDS.has(record.id) || undefined,
-        spawn: record.spawn ? getMonsterSpawnMap(record.spawn) : undefined,
       };
       this.rows.push(row);
       this.byId.set(row.id, row);
@@ -90,6 +90,16 @@ export class MonsterIndex {
     return this.monsters[id];
   }
 
+  /** pt-BR labels shared with the calculation result's `target` block. */
+  labels(row: MonsterRow, elementName?: string) {
+    return {
+      element: elementName ? elementPtBr(elementName) : undefined,
+      race: row.race ? racePtBr(row.race) : undefined,
+      size: row.size ? sizePtBr(row.size) : undefined,
+      type: monsterTypePtBr(row.boss ? 'Boss' : 'Normal'),
+    };
+  }
+
   /** Full stat block, pt-BR labelled, for `get_monster`. */
   detail(id: number): Record<string, any> | undefined {
     const row = this.byId.get(id);
@@ -102,10 +112,7 @@ export class MonsterIndex {
       name: row.name,
       level: s.level,
       hp: s.health,
-      element: `${elementPtBr(row.element!)} ${String(s.elementName).split(' ')[1] ?? ''}`.trim(),
-      race: racePtBr(s.raceName),
-      size: sizePtBr(s.scaleName),
-      type: s.class === 1 ? 'Chefe' : 'Normal',
+      ...this.labels(row, s.elementName),
       mvp: MVP_IDS.has(id),
       def: s.defense,
       mdef: s.magicDefense,
@@ -137,7 +144,7 @@ export class MonsterIndex {
       return true;
     });
 
-    matched.sort((a, b) => (a.level ?? 0) - (b.level ?? 0) || a.name.localeCompare(b.name, 'pt-BR'));
+    matched.sort((a, b) => (a.level ?? 0) - (b.level ?? 0) || COLLATOR.compare(a.name, b.name));
     return { total: matched.length, rows: matched.slice(offset, offset + limit) };
   }
 }
