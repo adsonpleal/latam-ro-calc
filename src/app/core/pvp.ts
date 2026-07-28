@@ -131,7 +131,8 @@ export interface DefenderReductionInput {
 /**
  * Combined defender-gear reduction, as a fraction of damage dealt (1 = none).
  *
- * Within a category the matching values sum (e.g. `subele_all + subele_neutral`);
+ * Within a category the matching values sum (e.g. `subele_all + subele_neutral`, and the
+ * size category also picks up the `_physical`/`_magical` pair for the incoming damage type);
  * across categories they combine multiplicatively — matching how Luís lists them
  * as separate reductions on the player (raça / elemento / tamanho / …). Each
  * category is clamped to ≤100% so a single category can't flip damage negative.
@@ -177,11 +178,15 @@ export function defenderReductionSteps(input: DefenderReductionInput): DefenderR
   const v = (key: string) => b[key] || 0;
   const factor = (pct: number) => 1 - Math.min(pct, 100) / 100;
   const flatKey = input.dmgType === 'physical' ? 'dmg_taken_physical' : 'dmg_taken_magical';
+  // "Resistência física/mágica a oponentes de tamanho X" — same size category, but only
+  // against its own damage type, so it needs its own pair of keys next to the untyped ones.
+  const sizeType = input.dmgType === 'physical' ? '_physical' : '_magical';
+  const sizeKeys = ['subsize_all', `subsize_${input.attackerSize}`, `subsize_all${sizeType}`, `subsize_${input.attackerSize}${sizeType}`];
 
   const cats: { pct: number; label: string; keys: string[] }[] = [
     { pct: v('subrace_all') + v(`subrace_${input.attackerRace}`), label: `Redução ${RACE_PT[input.attackerRace] ?? input.attackerRace}`, keys: ['subrace_all', `subrace_${input.attackerRace}`] },
     { pct: v('subele_all') + v(`subele_${input.attackerElement}`), label: `Redução ${ELE_PT[input.attackerElement] ?? input.attackerElement}`, keys: ['subele_all', `subele_${input.attackerElement}`] },
-    { pct: v('subsize_all') + v(`subsize_${input.attackerSize}`), label: `Redução ${SIZE_PT[input.attackerSize] ?? input.attackerSize}`, keys: ['subsize_all', `subsize_${input.attackerSize}`] },
+    { pct: sizeKeys.reduce((total, key) => total + v(key), 0), label: `Redução ${SIZE_PT[input.attackerSize] ?? input.attackerSize}`, keys: sizeKeys },
     { pct: v('subclass_all') + v(`subclass_${input.attackerType}`), label: `Redução ${CLASS_PT[input.attackerType] ?? input.attackerType}`, keys: ['subclass_all', `subclass_${input.attackerType}`] },
     // Long-ranged physical reduction (Gazeti-card family) — only vs a ranged physical hit.
     { pct: input.dmgType === 'physical' && input.isRanged ? v('dmg_taken_range') : 0, label: 'Redução à distância', keys: ['dmg_taken_range'] },

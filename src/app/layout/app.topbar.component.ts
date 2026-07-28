@@ -143,6 +143,16 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.38-beta',
+      date: '28-07-2026',
+      logs: [
+        'A resistência por tamanho voltou a somar na Redução de dano. Das 65 peças cuja descrição concede "Resistência a oponentes de tamanho...", apenas a Carta Yeti de Cristal tinha o efeito cadastrado, então a linha "Todos os tamanhos" nunca aparecia e o resumo mostrava só o tamanho da carta. Foram cadastradas 48 peças, entre elas a Autopeça - Carburador, a Chave Maxi, a Memória de Howard, a Manopla e o Escudo Sombrio do Infinito, a Malha Sombria Perfeita, o Colar Sombrio Infinito, o Escudo Gigante, o Escudo de Platina, as Blasti-OS e OSAD, a Bastarda e o Arco Primordial-LT e as Cartas Hodremlin, Tirfing, Mysteltainn, Executor, Marechal Tartaruga, Gárgula Congelada e Khalitzburg. Reportado por Luís.',
+        'O conjunto das armas da Mina de Einbech com a Medalha Rubra ou Azul e a Dragona Rubra ou Azul passou a conceder os 3% de resistência a todos os tamanhos, em qualquer uma das 18 armas do conjunto.',
+        'Os Orbes Lupinos - Total 1, 2 e 3 e o encantamento U-Total estavam sem efeito nenhum no cadastro. Agora concedem a resistência descrita a monstros normais e chefes, a todas as propriedades, a todos os tamanhos e a todas as raças, cada uma no seu degrau de refino. A Tiara de Astrea também ganhou os quatro degraus de resistência que faltavam, do +9 ao +12.',
+        'Resistência apenas física ou apenas mágica a um tamanho passou a ser tratada à parte, já que só vale contra o seu tipo de dano. Com isso entraram a Capa de Astrea, as Botas de Astrea e a Carta Grote, e o resumo passou a separar essas linhas das que valem para os dois tipos.',
+      ],
+    },
+    {
       v: '0.1.37-beta',
       date: '28-07-2026',
       logs: [

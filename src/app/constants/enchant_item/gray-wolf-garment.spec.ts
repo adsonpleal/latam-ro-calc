@@ -52,18 +52,32 @@ describe.each([
 });
 
 describe('resistance-only Wolf Orbs', () => {
-  // Both families grant only damage-taken resistance, which has no bonus key. An empty
-  // script is the honest encoding; anything else invents a bonus the item does not give.
+  // Reflected-damage resistance has no bonus key. An empty script is the honest encoding;
+  // anything else invents a bonus the item does not give.
   it.each([
-    ['310579', 'Wolf_Orb_Above_1'],
-    ['310580', 'Wolf_Orb_Above_2'],
-    ['310581', 'Wolf_Orb_Above_3'],
     ['310585', 'Wolf_Orb_M_Counter_1'],
     ['310586', 'Wolf_Orb_M_Counter_2'],
     ['310587', 'Wolf_Orb_M_Counter_3'],
   ])('%s %s grants no modelled bonus', (id, aegis) => {
     expect(items[id]?.aegisName).toBe(aegis);
     expect(items[id]?.script).toEqual({});
+  });
+
+  // The "Total" orbs, on the other hand, land squarely on the defender-reduction keys the
+  // PVP work added (docs/pvp.md §4) — class, element, size and race, each at its own refine
+  // step. They were left empty back when nothing read those keys. See size-resistance.spec.
+  it.each([
+    ['310579', 'Wolf_Orb_Above_1', 3],
+    ['310580', 'Wolf_Orb_Above_2', 5],
+    ['310581', 'Wolf_Orb_Above_3', 7],
+  ])('%s %s reduces damage taken by %i%% per step', (id, aegis, percent) => {
+    expect(items[id]?.aegisName).toBe(aegis);
+    expect(items[id]?.script).toEqual({
+      subclass_all: [`${percent}`],
+      subele_all: [`7===${percent}`],
+      subsize_all: [`9===${percent}`],
+      subrace_all: [`11===${percent}`],
+    });
   });
 
   it('does not hand out AGI, which the Total orbs never mentioned', () => {

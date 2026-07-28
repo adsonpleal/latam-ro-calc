@@ -86,6 +86,28 @@ describe('pvp reduction math', () => {
       expect(defenderReductionMultiplier({ ...base, bonus: { dmg_taken_all: 150 } })).toBe(0);
     });
 
+    it('subsize matches the attacker size and sums _all with the size', () => {
+      expect(defenderReductionMultiplier({ ...base, bonus: { subsize_all: 10, subsize_m: 15 } })).toBeCloseTo(0.75, 10);
+      expect(defenderReductionMultiplier({ ...base, bonus: { subsize_l: 25 } })).toBe(1);
+    });
+
+    it('subsize_*_physical / _magical only apply to their own damage type', () => {
+      const phys = { subsize_m_physical: 10 };
+      expect(defenderReductionMultiplier({ ...base, bonus: phys })).toBeCloseTo(0.9, 10);
+      expect(defenderReductionMultiplier({ ...base, dmgType: 'magical', bonus: phys })).toBe(1);
+
+      const magic = { subsize_all_magical: 20 };
+      expect(defenderReductionMultiplier({ ...base, dmgType: 'magical', bonus: magic })).toBeCloseTo(0.8, 10);
+      expect(defenderReductionMultiplier({ ...base, bonus: magic })).toBe(1);
+    });
+
+    it('the typed size keys sum into the same size category as the untyped ones', () => {
+      const bonus = { subsize_all: 5, subsize_m: 10, subsize_m_physical: 10, subsize_all_physical: 5 };
+      // one category: 5 + 10 + 10 + 5 = 30
+      expect(defenderReductionMultiplier({ ...base, bonus })).toBeCloseTo(0.7, 10);
+      expect(defenderReductionMultiplier({ ...base, dmgType: 'magical', bonus })).toBeCloseTo(0.85, 10);
+    });
+
     it('dmg_taken_range (Gazeti) only applies to physical ranged hits', () => {
       const bonus = { dmg_taken_range: 20 };
       // physical + ranged → applies
@@ -112,6 +134,20 @@ describe('pvp reduction math', () => {
     it('names the element by the attack element and the race by the attacker', () => {
       expect(defenderReductionSteps({ ...base, attackerElement: 'fire', bonus: { subele_fire: 15 } })[0].label).toBe('Redução Fogo');
       expect(defenderReductionSteps({ ...base, attackerRace: 'player_doram', bonus: { subrace_player_doram: 12 } })[0].label).toBe('Redução Doram');
+    });
+
+    it('keys the size step with the untyped pair plus the pair of the damage type', () => {
+      const bonus = { subsize_m: 10, subsize_m_physical: 5 };
+      expect(defenderReductionSteps({ ...base, bonus })).toMatchObject([
+        {
+          label: 'Redução Médio',
+          keys: ['subsize_all', 'subsize_m', 'subsize_all_physical', 'subsize_m_physical'],
+          factor: 0.85,
+        },
+      ]);
+      expect(defenderReductionSteps({ ...base, dmgType: 'magical', bonus })).toMatchObject([
+        { label: 'Redução Médio', keys: ['subsize_all', 'subsize_m', 'subsize_all_magical', 'subsize_m_magical'], factor: 0.9 },
+      ]);
     });
 
     it('is empty when nothing applies', () => {

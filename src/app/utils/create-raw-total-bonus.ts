@@ -235,6 +235,16 @@ export const createRawTotalBonus = (): EquipmentSummaryModel => {
     subsize_m: 0,
     subsize_l: 0,
 
+    subsize_all_physical: 0,
+    subsize_s_physical: 0,
+    subsize_m_physical: 0,
+    subsize_l_physical: 0,
+
+    subsize_all_magical: 0,
+    subsize_s_magical: 0,
+    subsize_m_magical: 0,
+    subsize_l_magical: 0,
+
     subclass_all: 0,
     subclass_normal: 0,
     subclass_boss: 0,

@@ -238,6 +238,18 @@ export interface EquipmentSummaryModel {
   subsize_m: number;
   subsize_l: number;
 
+  /** Size resistance that only cuts physical damage ("Resistência física a ... tamanho"). */
+  subsize_all_physical: number;
+  subsize_s_physical: number;
+  subsize_m_physical: number;
+  subsize_l_physical: number;
+
+  /** Size resistance that only cuts magical damage ("Resistência mágica a ... tamanho"). */
+  subsize_all_magical: number;
+  subsize_s_magical: number;
+  subsize_m_magical: number;
+  subsize_l_magical: number;
+
   subclass_all: number;
   subclass_normal: number;
   subclass_boss: number;

@@ -3181,6 +3181,9 @@
       ],
       "acd": [
         "13===15"
+      ],
+      "subsize_all": [
+        "11===20"
       ]
     }
   },
@@ -3247,6 +3250,12 @@
       ],
       "acd": [
         "EQUIP[Illusion Survivor's Manteau]REFINE[weapon,garment==22]===15"
+      ],
+      "subsize_s": [
+        "9===15"
+      ],
+      "subsize_m": [
+        "9===15"
       ]
     }
   },
@@ -3351,6 +3360,9 @@
       "ArchBishop"
     ],
     "script": {
+      "2040": [
+        "9===30"
+      ],
       "matk": [
         "240",
         "1---4"
@@ -3358,8 +3370,8 @@
       "m_my_element_holy": [
         "5"
       ],
-      "2040": [
-        "9===30"
+      "subsize_all": [
+        "11===25"
       ]
     }
   },
@@ -3483,7 +3495,11 @@
     "unusableClass": [
       "Novice"
     ],
-    "script": {}
+    "script": {
+      "subsize_l": [
+        "5"
+      ]
+    }
   },
   "2115": {
     "id": 2115,
@@ -6096,6 +6112,9 @@
     "script": {
       "def": [
         "1"
+      ],
+      "subsize_s": [
+        "25"
       ]
     }
   },
@@ -6147,6 +6166,9 @@
     "script": {
       "def": [
         "1"
+      ],
+      "subsize_l": [
+        "25"
       ]
     }
   },
@@ -6171,6 +6193,9 @@
     "script": {
       "def": [
         "1"
+      ],
+      "subsize_m": [
+        "25"
       ]
     }
   },
@@ -6992,7 +7017,11 @@
     "location": null,
     "compositionPos": 32,
     "cardPrefix": "Resistant",
-    "script": {}
+    "script": {
+      "subsize_all": [
+        "15"
+      ]
+    }
   },
   "4416": {
     "id": 4416,
@@ -8777,6 +8806,14 @@
       ],
       "p_size_l": [
         "EQUIP[White Knight Card]15"
+      ],
+      "subsize_m": [
+        "25",
+        "EQUIP_ID[4608]5"
+      ],
+      "subsize_l": [
+        "25",
+        "EQUIP_ID[4608]5"
       ]
     }
   },
@@ -19322,6 +19359,12 @@
       ],
       "subrace_formless": [
         "9===15"
+      ],
+      "subsize_m": [
+        "11===10"
+      ],
+      "subsize_l": [
+        "11===10"
       ]
     }
   },
@@ -19577,6 +19620,16 @@
       ],
       "mdef": [
         "EQUIP[Dragon Scale Boots&&Dragon Scale Hood]15"
+      ],
+      "subsize_m": [
+        "EQUIP_ID[22208&&20946]vit:30---1"
+      ],
+      "subsize_l": [
+        "EQUIP_ID[22208&&20946]vit:30---1"
+      ],
+      "chance__subsize_all": [
+        "EQUIP_ID[22208&&20946]7",
+        "EQUIP_ID[22208&&20946]vit:120===5"
       ]
     }
   },
@@ -30729,6 +30782,10 @@
       ],
       "perfectDodge": [
         "REFINE[10]SUM[luk==120]===1"
+      ],
+      "subsize_m_physical": [
+        "REFINE[10]SUM[vit==100]===10",
+        "REFINE[10]SUM[vit==120]===5"
       ]
     }
   },
@@ -31866,6 +31923,11 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "subsize_all": [
+        "1",
+        "7===1",
+        "9===1"
       ]
     }
   },
@@ -37167,6 +37229,9 @@
       ],
       "ignore_size_penalty": [
         "10===1"
+      ],
+      "subsize_all": [
+        "3---1"
       ]
     }
   },
@@ -38255,6 +38320,11 @@
       ],
       "def": [
         "1---10"
+      ],
+      "subsize_all": [
+        "2",
+        "7===2",
+        "9===3"
       ]
     }
   },
@@ -48370,6 +48440,9 @@
       ],
       "ignore_size_penalty": [
         "10===1"
+      ],
+      "subsize_all": [
+        "3---1"
       ]
     }
   },
@@ -54591,6 +54664,10 @@
       ],
       "p_size_all": [
         "EQUIP[Turtle General Card]20"
+      ],
+      "subsize_all": [
+        "25",
+        "EQUIP_ID[4305]5"
       ]
     }
   },
@@ -57359,6 +57436,15 @@
     "script": {
       "def": [
         "20"
+      ],
+      "subsize_s": [
+        "-5"
+      ],
+      "subsize_m": [
+        "25"
+      ],
+      "subsize_l": [
+        "25"
       ]
     }
   },
@@ -57648,6 +57734,14 @@
       ],
       "m_size_l": [
         "EQUIP[Mutating White Knight Card]5"
+      ],
+      "subsize_m": [
+        "25",
+        "EQUIP_ID[27384]5"
+      ],
+      "subsize_l": [
+        "25",
+        "EQUIP_ID[27384]5"
       ]
     }
   },
@@ -58900,6 +58994,14 @@
       ],
       "acd": [
         "11===10"
+      ],
+      "subsize_m": [
+        "10",
+        "7===15"
+      ],
+      "subsize_l": [
+        "10",
+        "7===15"
       ]
     }
   },
@@ -58924,6 +59026,9 @@
       "Mechanic"
     ],
     "script": {
+      "2280": [
+        "11===15"
+      ],
       "atk": [
         "1---4"
       ],
@@ -58933,8 +59038,11 @@
       "cd__5006": [
         "9===1"
       ],
-      "2280": [
-        "11===15"
+      "subsize_s": [
+        "10"
+      ],
+      "subsize_m": [
+        "10"
       ]
     }
   },
@@ -59003,17 +59111,17 @@
       "Mechanic"
     ],
     "script": {
-      "atkPercent": [
-        "5"
-      ],
-      "range": [
-        "1---1"
-      ],
       "2280": [
         "9===20"
       ],
       "5006": [
         "9===20"
+      ],
+      "atkPercent": [
+        "5"
+      ],
+      "range": [
+        "1---1"
       ],
       "cd__2280": [
         "9===1"
@@ -59035,6 +59143,12 @@
       ],
       "chance__range": [
         "EQUIP[King Schmidt's Suit&&King Schmidt's Manteau]===10"
+      ],
+      "subsize_m": [
+        "10"
+      ],
+      "subsize_l": [
+        "10"
       ]
     }
   },
@@ -62164,6 +62278,9 @@
       ],
       "aspd": [
         "9===1"
+      ],
+      "subsize_all": [
+        "3---2"
       ]
     }
   },
@@ -67608,7 +67725,17 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": null,
-    "script": {}
+    "script": {
+      "subele_all": [
+        "5"
+      ],
+      "subsize_all": [
+        "7===5"
+      ],
+      "subrace_all": [
+        "9===5"
+      ]
+    }
   },
   "29547": {
     "id": 29547,
@@ -68143,20 +68270,23 @@
     "location": null,
     "compositionPos": null,
     "script": {
-      "2279": [
-        "REFINE_NAME[Golden Wrench==3]---7"
-      ],
-      "2278": [
-        "REFINE_NAME[Golden Wrench==3]---5"
-      ],
       "2256": [
         "REFINE_NAME[Engine Pilebunker==3]---7"
       ],
       "2261": [
         "REFINE_NAME[Engine Pilebunker==3]---5"
       ],
+      "2278": [
+        "REFINE_NAME[Golden Wrench==3]---5"
+      ],
+      "2279": [
+        "REFINE_NAME[Golden Wrench==3]---7"
+      ],
       "2280": [
         "REFINE_NAME[Maxi Spanner==3]---7"
+      ],
+      "subsize_all": [
+        "REFINE_NAME[Maxi Spanner==3]---5"
       ]
     }
   },
@@ -71499,6 +71629,9 @@
       ],
       "acd": [
         "EQUIP[Safety Epaulet R||Safety Epaulet B&&Safety Knuckle||Detecting Staff||Grinder Huuma Shuriken||Rubber Hammer||Bolt Shooter||Claw Sword||Welding Wand||Safety Whip||Bolt Crusher||Saw Axe||Safety Manual||Metal Detector Mk47||Jewel Detector Mk47||Blocking Spear||Safety Lute||Bolt Revolver||Safety Saber||Safety Foxtail]7"
+      ],
+      "subsize_all": [
+        "EQUIP[Safety Epaulet R||Safety Epaulet B&&Safety Knuckle||Detecting Staff||Grinder Huuma Shuriken||Rubber Hammer||Bolt Shooter||Claw Sword||Welding Wand||Safety Whip||Bolt Crusher||Saw Axe||Safety Manual||Metal Detector Mk47||Jewel Detector Mk47||Blocking Spear||Safety Lute||Bolt Revolver||Safety Saber||Safety Foxtail]3"
       ]
     }
   },
@@ -71542,6 +71675,9 @@
       ],
       "acd": [
         "EQUIP[Safety Epaulet R||Safety Epaulet B&&Safety Knuckle||Detecting Staff||Grinder Huuma Shuriken||Rubber Hammer||Bolt Shooter||Claw Sword||Welding Wand||Safety Whip||Bolt Crusher||Saw Axe||Safety Manual||Metal Detector Mk47||Jewel Detector Mk47||Blocking Spear||Safety Lute||Bolt Revolver||Safety Saber||Safety Foxtail]7"
+      ],
+      "subsize_all": [
+        "EQUIP[Safety Epaulet R||Safety Epaulet B&&Safety Knuckle||Detecting Staff||Grinder Huuma Shuriken||Rubber Hammer||Bolt Shooter||Claw Sword||Welding Wand||Safety Whip||Bolt Crusher||Saw Axe||Safety Manual||Metal Detector Mk47||Jewel Detector Mk47||Blocking Spear||Safety Lute||Bolt Revolver||Safety Saber||Safety Foxtail]3"
       ]
     }
   },
@@ -71702,26 +71838,32 @@
       "Gunslinger"
     ],
     "script": {
+      "516": [
+        "7===40"
+      ],
+      "2561": [
+        "11===30"
+      ],
       "hit": [
         "10"
       ],
       "range": [
         "2---3"
       ],
-      "516": [
-        "7===40"
-      ],
       "cd__2568": [
         "9===5"
-      ],
-      "2561": [
-        "11===30"
       ],
       "atk": [
         "EQUIP[Illusion Hot-blooded Headband]===30"
       ],
       "atkPercent": [
         "EQUIP[Illusion Hot-blooded Headband]REFINE[weapon==7]REFINE[headUpper==7]5"
+      ],
+      "subsize_s": [
+        "EQUIP_ID[19344]REFINE[weapon,headUpper==18]===20"
+      ],
+      "subsize_m": [
+        "EQUIP_ID[19344]REFINE[weapon,headUpper==18]===20"
       ]
     }
   },
@@ -76420,6 +76562,10 @@
       ],
       "mdef": [
         "9===8"
+      ],
+      "subsize_s_magical": [
+        "9===1",
+        "11===2"
       ]
     }
   },
@@ -92705,7 +92851,20 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "subclass_all": [
+        "3"
+      ],
+      "subele_all": [
+        "7===3"
+      ],
+      "subsize_all": [
+        "9===3"
+      ],
+      "subrace_all": [
+        "11===3"
+      ]
+    }
   },
   "310580": {
     "id": 310580,
@@ -92724,7 +92883,20 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "subclass_all": [
+        "5"
+      ],
+      "subele_all": [
+        "7===5"
+      ],
+      "subsize_all": [
+        "9===5"
+      ],
+      "subrace_all": [
+        "11===5"
+      ]
+    }
   },
   "310581": {
     "id": 310581,
@@ -92743,7 +92915,20 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "subclass_all": [
+        "7"
+      ],
+      "subele_all": [
+        "7===7"
+      ],
+      "subsize_all": [
+        "9===7"
+      ],
+      "subrace_all": [
+        "11===7"
+      ]
+    }
   },
   "310582": {
     "id": 310582,
@@ -143237,6 +143422,9 @@
       "all"
     ],
     "script": {
+      "2477": [
+        "EQUIP[Saphir Mace-OS]===4"
+      ],
       "atk": [
         "2---20",
         "EQUIP[Saphir Mace-OS]===30"
@@ -143257,14 +143445,14 @@
       "fct": [
         "11===0.2"
       ],
-      "2477": [
-        "EQUIP[Saphir Mace-OS]===4"
-      ],
       "cd__2233": [
         "EQUIP[Virtual Bow-OS]===2.5"
       ],
       "hpPercent": [
         "EQUIP[Blasti-OS]===5"
+      ],
+      "subsize_s": [
+        "EQUIP_ID[28136]REFINE[weapon==2]---3"
       ]
     }
   },
@@ -182164,6 +182352,18 @@
       "DragonKnight"
     ],
     "script": {
+      "2008": [
+        "EQUIP[Dragonic Slayer-LT]REFINE[weapon==10]===10",
+        "EQUIP[Dragonic Slayer-LT]GRADE[weapon==C]===10"
+      ],
+      "5004": [
+        "EQUIP[Dragonic Slayer-LT]REFINE[weapon==10]===10",
+        "EQUIP[Dragonic Slayer-LT]GRADE[weapon==C]===10"
+      ],
+      "5201": [
+        "EQUIP[Oriental Sword-LT]REFINE[weapon==10]===10",
+        "EQUIP[Oriental Sword-LT]GRADE[weapon==C]===10"
+      ],
       "atkPercent": [
         "10"
       ],
@@ -182183,10 +182383,6 @@
         "EQUIP[Oriental Sword-LT]REFINE[weapon==10]===10",
         "EQUIP[Dragonic Slayer-LT]REFINE[weapon==10]===10"
       ],
-      "5201": [
-        "EQUIP[Oriental Sword-LT]REFINE[weapon==10]===10",
-        "EQUIP[Oriental Sword-LT]GRADE[weapon==C]===10"
-      ],
       "pow": [
         "EQUIP[Oriental Sword-LT]GRADE[weapon==C]===5",
         "EQUIP[Dragonic Slayer-LT]GRADE[weapon==C]===5"
@@ -182195,13 +182391,8 @@
         "EQUIP[Oriental Sword-LT]GRADE[weapon==C]===5",
         "EQUIP[Dragonic Slayer-LT]GRADE[weapon==C]===5"
       ],
-      "2008": [
-        "EQUIP[Dragonic Slayer-LT]REFINE[weapon==10]===10",
-        "EQUIP[Dragonic Slayer-LT]GRADE[weapon==C]===10"
-      ],
-      "5004": [
-        "EQUIP[Dragonic Slayer-LT]REFINE[weapon==10]===10",
-        "EQUIP[Dragonic Slayer-LT]GRADE[weapon==C]===10"
+      "subsize_all": [
+        "EQUIP_ID[600024]10"
       ]
     }
   },
@@ -213210,6 +213401,12 @@
       "RuneKnight"
     ],
     "script": {
+      "2008": [
+        "3---7"
+      ],
+      "5004": [
+        "3---7"
+      ],
       "hpPercent": [
         "5",
         "SUM[level==210]===5",
@@ -213223,12 +213420,6 @@
         "11===5",
         "EQUIP[Hero Boots-LT]===5",
         "GRADE[weapon==D]===3"
-      ],
-      "2008": [
-        "3---7"
-      ],
-      "5004": [
-        "3---7"
       ],
       "acd": [
         "7===10",
@@ -213246,6 +213437,9 @@
       ],
       "mres": [
         "GRADE[weapon==C]===30"
+      ],
+      "subsize_all": [
+        "9===15"
       ]
     }
   },
@@ -215560,14 +215754,22 @@
       "Mechanic"
     ],
     "script": {
-      "range": [
-        "9===15"
-      ],
       "2261": [
         "9===25"
       ],
+      "range": [
+        "9===15"
+      ],
       "acd": [
         "11===15"
+      ],
+      "subsize_m": [
+        "15",
+        "7===15"
+      ],
+      "subsize_l": [
+        "15",
+        "7===15"
       ]
     }
   },
@@ -220806,6 +221008,10 @@
       "Rogue"
     ],
     "script": {
+      "2418": [
+        "7===25",
+        "9===30"
+      ],
       "atkPercent": [
         "5",
         "EQUIP[Hero Boots-LT]===10",
@@ -220828,10 +221034,6 @@
         "3---4",
         "GRADE[weapon==C]===15"
       ],
-      "2418": [
-        "7===25",
-        "9===30"
-      ],
       "cd__2418": [
         "7===2"
       ],
@@ -220840,6 +221042,9 @@
       ],
       "p_element_all": [
         "11===15"
+      ],
+      "subsize_all": [
+        "11===20"
       ]
     }
   },
@@ -232957,6 +233162,12 @@
     "script": {
       "subrace_undead": [
         "10"
+      ],
+      "subsize_m": [
+        "15"
+      ],
+      "subsize_l": [
+        "15"
       ]
     }
   },
@@ -235863,6 +236074,11 @@
       ],
       "spPercent": [
         "EQUIP_ID[24075]1"
+      ],
+      "subsize_l": [
+        "2",
+        "7===1",
+        "9===2"
       ]
     }
   },
@@ -235895,6 +236111,11 @@
       ],
       "spPercent": [
         "EQUIP_ID[24076]1"
+      ],
+      "subsize_m": [
+        "2",
+        "7===1",
+        "9===2"
       ]
     }
   },
@@ -235927,6 +236148,11 @@
       ],
       "spPercent": [
         "EQUIP_ID[24077]1"
+      ],
+      "subsize_s": [
+        "2",
+        "7===1",
+        "9===2"
       ]
     }
   },
@@ -249601,6 +249827,18 @@
       ],
       "fct": [
         "EQUIP_ID[22167]0.5"
+      ],
+      "subele_all": [
+        "9===5"
+      ],
+      "subsize_all": [
+        "10===5"
+      ],
+      "subclass_all": [
+        "11===5"
+      ],
+      "subrace_all": [
+        "12===5"
       ]
     }
   },
@@ -252245,7 +252483,14 @@
       "Swordman",
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "subsize_m": [
+        "13"
+      ],
+      "subsize_l": [
+        "15"
+      ]
+    }
   },
   "1376": {
     "id": 1376,
@@ -252301,6 +252546,10 @@
     ],
     "script": {
       "aspdPercent": [
+        "1---1"
+      ],
+      "subsize_m": [
+        "10",
         "1---1"
       ]
     }
@@ -271393,7 +271642,19 @@
     "usableClass": [
       "Mechanic"
     ],
-    "script": {}
+    "script": {
+      "subsize_s": [
+        "10",
+        "9===5"
+      ],
+      "subsize_m": [
+        "10",
+        "9===5"
+      ],
+      "subsize_l": [
+        "7===10"
+      ]
+    }
   },
   "15116": {
     "id": 15116,
@@ -272432,7 +272693,19 @@
     "usableClass": [
       "Mechanic"
     ],
-    "script": {}
+    "script": {
+      "subsize_s": [
+        "10",
+        "9===5"
+      ],
+      "subsize_m": [
+        "10",
+        "9===5"
+      ],
+      "subsize_l": [
+        "7===10"
+      ]
+    }
   },
   "15348": {
     "id": 15348,
@@ -277579,6 +277852,9 @@
       ],
       "allStatus": [
         "EQUIP_ID[22167]1"
+      ],
+      "subsize_m_physical": [
+        "EQUIP_ID[22167&&15367]5"
       ]
     }
   },
@@ -278492,7 +278768,12 @@
     "usableClass": [
       "Swordman"
     ],
-    "script": {}
+    "script": {
+      "subsize_l": [
+        "5",
+        "9===5"
+      ]
+    }
   },
   "2164": {
     "id": 2164,

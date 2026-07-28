@@ -25,6 +25,12 @@ export interface ReductionCategory {
 // Reuses the canonical element names/order from core/pvp.ts (same source the graph uses).
 const ELEMENTS: { key: string; label: string }[] = Object.entries(ELE_PT).map(([key, label]) => ({ key, label }));
 
+/** Players are Médio, so only "todos os tamanhos" and "Médio" can ever reduce damage taken. */
+const SIZE_ROWS: { key: string; label: string }[] = [
+  { key: 'all', label: 'Todos os tamanhos' },
+  { key: 'm', label: 'Médio' },
+];
+
 const WOE_CHANNELS: { channel: PvpDamageChannel; label: string }[] = [
   { channel: 'phys_melee', label: 'Físico corpo a corpo' },
   { channel: 'phys_ranged', label: 'Físico à distância' },
@@ -58,10 +64,14 @@ export function buildReductionCategories(
     ...ELEMENTS.map((e) => ({ label: e.label, keys: [`subele_${e.key}`], percent: v(`subele_${e.key}`) })),
   ]);
 
-  // Tamanho — players are Médio.
+  // Tamanho — players are Médio. As linhas `_physical`/`_magical` valem só contra o seu tipo
+  // de dano, então aparecem separadas em vez de somadas na linha de cima.
   push('Tamanho', [
-    { label: 'Todos os tamanhos', keys: ['subsize_all'], percent: v('subsize_all') },
-    { label: 'Médio', keys: ['subsize_m'], percent: v('subsize_m') },
+    ...SIZE_ROWS.flatMap(({ key, label }) => [
+      { label, keys: [`subsize_${key}`], percent: v(`subsize_${key}`) },
+      { label: `${label} (físico)`, keys: [`subsize_${key}_physical`], percent: v(`subsize_${key}_physical`) },
+      { label: `${label} (mágico)`, keys: [`subsize_${key}_magical`], percent: v(`subsize_${key}_magical`) },
+    ]),
   ]);
 
   // Classe — players are Normal.

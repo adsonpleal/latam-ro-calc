@@ -32,6 +32,31 @@ describe('buildReductionCategories', () => {
     ]);
   });
 
+  it('lists "todos os tamanhos" and "Médio" as separate size rows', () => {
+    // Reported by Luís: only "Médio" ever showed. `subsize_all` was zero on every build
+    // because no item.json entry carried the key — see core/__tests__/size-resistance.spec.
+    const tamanho = buildReductionCategories({ subsize_all: 43, subsize_m: 25 } as any, 'pvp')
+      .find((c) => c.label === 'Tamanho');
+
+    expect(tamanho?.rows).toEqual([
+      { label: 'Todos os tamanhos', keys: ['subsize_all'], percent: 43 },
+      { label: 'Médio', keys: ['subsize_m'], percent: 25 },
+    ]);
+  });
+
+  it('labels the physical-only and magical-only size rows apart', () => {
+    const tamanho = buildReductionCategories(
+      { subsize_m: 25, subsize_m_physical: 15, subsize_all_magical: 3 } as any,
+      'pvp',
+    ).find((c) => c.label === 'Tamanho');
+
+    expect(tamanho?.rows).toEqual([
+      { label: 'Todos os tamanhos (mágico)', keys: ['subsize_all_magical'], percent: 3 },
+      { label: 'Médio', keys: ['subsize_m'], percent: 25 },
+      { label: 'Médio (físico)', keys: ['subsize_m_physical'], percent: 15 },
+    ]);
+  });
+
   it('keeps negative resistances (vulnerabilities) as negative rows', () => {
     const cats = buildReductionCategories({ subrace_angel: -20 } as any, 'pvp');
     // subrace_angel is not a player race, so it never appears in the player-facing rows
