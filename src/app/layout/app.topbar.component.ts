@@ -143,6 +143,15 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.37-beta',
+      date: '28-07-2026',
+      logs: [
+        'A Centelha das Trevas passou a critar. A habilidade sai como crítico na mesma taxa de crítico do personagem, e o multiplicador é aplicado golpe a golpe — são 4 golpes, e não 1 como o simulador contava. Nem a descrição no jogo nem a bROWiki mencionam o crítico: ele foi identificado nas gravações, em que 41% das usadas saem exatamente no multiplicador de crítico das demais, com o personagem marcando 41 de crítico. Reportado por Ted.',
+        'Corrigida a taxa da Centelha das Trevas, que estava abaixo da do jogo. A tabela passa a ser a da descrição da habilidade — 2.500% de ATQ no Lv 1 até 9.700% no Lv 10, mais o nível da Dança das Trevas × 100 por nível da habilidade —, no lugar da tabela da 2ª versão do rebalanceamento, que o LATAM não usa. Com a taxa e o crítico acertados, o dano do simulador bate número a número com o das gravações, com e sem crítico. Gravações por Ted.',
+        'Corrigidas as tabelas de bônus de classe e de talentos do Shinkiro e da Shiranui, que davam atributos a mais em quase todos os níveis de classe: no nível 46, por exemplo, FOR +12 e POD +9 no lugar de FOR +10 e POD +8. Nos talentos, a Shiranui ainda usava a tabela do Shinkiro, o que lhe dava POD +11 e SAB +2 no máximo, quando a classe é justamente a metade de SAB (POD +3 e SAB +10). As duas foram refeitas a partir da iROwiki e conferidas contra os atributos que o cliente grava no replay — ATQ base, P.ATQ e T.Crít batem nos três. Isso muda o ATQ, o ATQM e o dano de qualquer build das duas classes.',
+      ],
+    },
+    {
       v: '0.1.36-beta',
       date: '27-07-2026',
       logs: [

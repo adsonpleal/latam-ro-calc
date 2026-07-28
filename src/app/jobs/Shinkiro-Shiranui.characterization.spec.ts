@@ -101,8 +101,10 @@ describe.each(twins)('%s atk-skill ratios @ base 250, POW/SPL 100, sibling skill
       ['Shadow Hunting', 500, 400, 5, 3, 10],
       // (400 + (Lv x (550 + Shadow Hunting Lv x 50)) + POW x 4)
       ['Shadow Dance', 400, 550, 50, 4, 10],
-      // (1600 + (Lv x (700 + Shadow Dance Lv x 100)) + POW x 5)
-      ['Shadow Flash', 1600, 700, 100, 5, 10],
+      // (1700 + (Lv x (800 + Shadow Dance Lv x 100)) + POW x 5) — matches the pt-BR
+      // client description (ATQ 2.500%..9.700%) and the in-game replay; see
+      // Shinkiro.shadow-flash-replay.spec.ts.
+      ['Shadow Flash', 1700, 800, 100, 5, 10],
       // (700 + (Lv x (200 + Construct Lv x 5)) + POW x 3) per hit
       ['Huuma Shuriken - Grasp', 700, 200, 5, 3, 10],
       // (300 + (Lv x (600 + Refraction Lv x 10)) + POW x 3)
