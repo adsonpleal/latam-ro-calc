@@ -1,6 +1,7 @@
 {
     "name": "ro-calculator",
     "version": "0.1.40-beta",
+    "license": "MIT",
     "scripts": {
         "ng": "ng",
         "prepare": "node scripts/setup-hooks.mjs",
