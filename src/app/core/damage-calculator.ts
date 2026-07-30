@@ -9,7 +9,7 @@ import { InfoForClass } from 'src/app/models/info-for-class.model';
 import { MainModel } from 'src/app/models/main.model';
 import { StatusSummary } from 'src/app/models/status-summary.model';
 import { SKILL_ID_BY_NAME } from 'src/app/skills';
-import { calcDmgDps, calcSkillAspd, floor, formatCalcNumber, isSkillCanEDP, round } from 'src/app/utils';
+import { calcDmgDps, calcSkillAspd, engineHitsPerSec, floor, formatCalcNumber, isSkillCanEDP, round } from 'src/app/utils';
 import { DEFAULT_PVP_CONTEXT, DefenderReductionStep, PvpContext, defenderReductionSteps, pvpChannelOf, woeGlobalMultiplier } from './pvp';
 
 interface DamageResultModel {
@@ -484,9 +484,11 @@ export class DamageCalculator {
       decreaseSkillAspdPercent: this.totalBonus.decreaseSkillAspdPercent,
     });
 
-    const hitsPerSec = floor(50 / (200 - totalAspd));
-
-    return { totalAspd, hitsPerSec: Math.max(hitsPerSec, 1) };
+    // Continuous, not stepped — see engineHitsPerSec for the formula and the recording
+    // evidence behind it. This used to floor to an integer and clamp to >= 1; the clamp
+    // only existed because the floor produced 0 below VelAtq 150, which divided into
+    // Infinity downstream. VelAtq is capped at ASPD_CAP, so the divisor stays >= 7.
+    return { totalAspd, hitsPerSec: engineHitsPerSec(totalAspd) };
   }
 
   private getMiscData(): MiscModel {

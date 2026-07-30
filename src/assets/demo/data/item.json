@@ -311010,5 +311010,168 @@
       "all"
     ],
     "script": {}
+  },
+  "410093": {
+    "id": 410093,
+    "aegisName": "금제의사슬",
+    "name": "Correntes Sagradas",
+    "unidName": "Correntes Sagradas",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 10,
+    "requiredLevel": 150,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "8"
+      ],
+      "range": [
+        "8"
+      ],
+      "melee": [
+        "8"
+      ],
+      "criDmg": [
+        "EQUIP_ID[420076]7"
+      ]
+    }
+  },
+  "410094": {
+    "id": 410094,
+    "aegisName": "금제의사슬",
+    "name": "Correntes Sagradas",
+    "unidName": "Correntes Sagradas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 10,
+    "requiredLevel": 150,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "5"
+      ],
+      "range": [
+        "5"
+      ],
+      "melee": [
+        "5"
+      ],
+      "criDmg": [
+        "EQUIP_ID[420076]5"
+      ]
+    }
+  },
+  "420076": {
+    "id": 420076,
+    "aegisName": "Vassalage_Necklace",
+    "name": "Coleira de Espinhos",
+    "unidName": "Coleira de Espinhos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 1,
+    "requiredLevel": 150,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "3"
+      ],
+      "criDmg": [
+        "5"
+      ]
+    }
+  },
+  "410091": {
+    "id": 410091,
+    "aegisName": "Cor_Core_Headset",
+    "name": "Fones COR",
+    "unidName": "Fones COR",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 10,
+    "requiredLevel": 150,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "acd": [
+        "8"
+      ],
+      "vct": [
+        "8"
+      ],
+      "m_my_element_all": [
+        "EQUIP_ID[420003]7"
+      ]
+    }
+  },
+  "410092": {
+    "id": 410092,
+    "aegisName": "Cor_Core_Headset",
+    "name": "Fones COR",
+    "unidName": "Fones COR",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 150,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "acd": [
+        "5"
+      ],
+      "vct": [
+        "5"
+      ],
+      "m_my_element_all": [
+        "EQUIP_ID[420003]5"
+      ]
+    }
   }
 }

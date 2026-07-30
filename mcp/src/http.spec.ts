@@ -30,7 +30,7 @@ describe('health', () => {
   it('reports the loaded dataset', async () => {
     const res = await fetch(`${base}/healthz`);
     expect(res.status).toBe(200);
-    await expect(res.json()).resolves.toMatchObject({ ok: true, items: 17303, classes: 40 });
+    await expect(res.json()).resolves.toMatchObject({ ok: true, items: 17309, classes: 40 });
   });
 });
 

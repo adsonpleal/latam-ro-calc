@@ -8,6 +8,34 @@ import { MonsterModel } from 'src/app/models/monster.model';
 import { createMainModel } from 'src/app/utils';
 import { Calculator } from './calculator';
 
+// The real item DB, read once — it is ~11 MB, and three describe blocks below need it.
+const itemDb: Record<string, ItemModel> = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
+
+/**
+ * Equip `slots` on a fresh calculator loaded with `items`, and return the summed
+ * equipment bonuses. Shared by the set-combo blocks below, which all need the same
+ * setMasterItems / loadItemFromModel / prepareAllItemBonus chain.
+ */
+const equipTotals = (
+  cls: CharacterBase,
+  items: Record<number, Partial<ItemModel>>,
+  slots: Partial<MainModel>,
+  hpSpTable: HpSpTable,
+  monster: MonsterModel,
+): Record<string, number> => {
+  // initialise the character's skill bonuses (needed by setAdditionalBonus)
+  cls.setLearnSkills({ activeSkillIds: [], passiveSkillIds: [] }).getSkillBonusAndName();
+  const calc = new Calculator();
+  calc.setMasterItems(items as any).setHpSpTable(hpSpTable).setClass(cls).setMonster(monster);
+  const model = Object.assign(createMainModel(), slots);
+  calc.loadItemFromModel(model).prepareAllItemBonus();
+  return (calc as any).totalEquipStatus;
+};
+
+/** Pick `keys` out of the totals, defaulting absent bonuses to 0 so tests can assert them. */
+const pick = (totals: Record<string, number>, keys: string[]): Record<string, number> =>
+  Object.fromEntries(keys.map((k) => [k, totals[k] || 0]));
+
 // Mock CharacterBase for testing purposes
 class MockCharacter extends CharacterBase {
   protected override CLASS_NAME: ClassName;
@@ -153,10 +181,9 @@ describe('Calculator', () => {
   // the set grants ATQ +15 "adicional" (on top of the armor's own USED[...]15
   // base) AND ATQ-speed +1 that STACKS with the shield's own +1 (so ASPD +2).
   describe('Sigrun shadow set combo (24326 Malha + 24327 Escudo)', () => {
-    const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
     const sigrunItems = (): Record<number, Partial<ItemModel>> => ({
-      24326: { ...db['24326'], itemTypeId: 10, itemSubTypeId: 526 },
-      24327: { ...db['24327'], itemTypeId: 10, itemSubTypeId: 527 },
+      24326: { ...itemDb['24326'], itemTypeId: 10, itemSubTypeId: 526 },
+      24327: { ...itemDb['24327'], itemTypeId: 10, itemSubTypeId: 527 },
     });
 
     const statsFor = (
@@ -164,21 +191,19 @@ describe('Calculator', () => {
       opts: { armorRefine: number; shieldRefine?: number; withShield?: boolean },
     ): { atk: number; aspd: number } => {
       const { armorRefine, shieldRefine = 0, withShield = true } = opts;
-      // initialise the character's skill bonuses (needed by setAdditionalBonus)
-      cls.setLearnSkills({ activeSkillIds: [], passiveSkillIds: [] }).getSkillBonusAndName();
-      const calc = new Calculator();
-      calc.setMasterItems(sigrunItems() as any).setHpSpTable(mockHpSpTable).setClass(cls).setMonster(mockMonster);
-      const model = createMainModel();
-      model.level = 100;
-      model.shadowArmor = 24326;
-      model.shadowArmorRefine = armorRefine;
-      if (withShield) {
-        model.shadowShield = 24327;
-        model.shadowShieldRefine = shieldRefine;
-      }
-      calc.loadItemFromModel(model).prepareAllItemBonus();
-      const total = (calc as any).totalEquipStatus;
-      return { atk: total.atk as number, aspd: total.aspd as number };
+      const totals = equipTotals(
+        cls,
+        sigrunItems(),
+        {
+          level: 100,
+          shadowArmor: 24326,
+          shadowArmorRefine: armorRefine,
+          ...(withShield ? { shadowShield: 24327, shadowShieldRefine: shieldRefine } : {}),
+        },
+        mockHpSpTable,
+        mockMonster,
+      );
+      return pick(totals, ['atk', 'aspd']) as { atk: number; aspd: number };
     };
 
     it('Swordman line, both equipped, set refine >= 17: ATQ +30 (15 base + 15 combo), ASPD +2 (1 shield + 1 combo)', () => {
@@ -203,6 +228,84 @@ describe('Calculator', () => {
 
     it('non-matching class (Warlock/Mage line): no ATQ, no ASPD from this set', () => {
       expect(statsFor(new Warlock(), { armorRefine: 9, shieldRefine: 8 })).toEqual({ atk: 0, aspd: 0 });
+    });
+  });
+
+  // Reported missing by Ted; the ids only reached latam-items.json after re-extracting
+  // the patched client. Both head pieces declare the set on their own side, the necklace
+  // declares none — so the combo must fire once, from whichever chain is equipped.
+  describe('Correntes Sagradas + Coleira de Espinhos set (410093/410094 + 420076)', () => {
+    const setItems = { 410093: { ...itemDb['410093'] }, 410094: { ...itemDb['410094'] }, 420076: { ...itemDb['420076'] } };
+
+    const statsFor = (opts: { chain?: number; necklace?: boolean }): Record<string, number> =>
+      pick(
+        equipTotals(
+          new RuneKnight(),
+          setItems,
+          { level: 150, ...(opts.chain ? { headMiddle: opts.chain } : {}), ...(opts.necklace ? { headLower: 420076 } : {}) },
+          mockHpSpTable,
+          mockMonster,
+        ),
+        ['cri', 'criDmg', 'melee', 'range'],
+      );
+
+    it('410093 alone: its own bonuses, no set', () => {
+      expect(statsFor({ chain: 410093 })).toEqual({ cri: 8, criDmg: 0, melee: 8, range: 8 });
+    });
+
+    it('420076 alone: its own bonuses, no set', () => {
+      expect(statsFor({ necklace: true })).toEqual({ cri: 3, criDmg: 5, melee: 0, range: 0 });
+    });
+
+    it('410093 + 420076: set adds +7% crit damage on top of both bases', () => {
+      expect(statsFor({ chain: 410093, necklace: true })).toEqual({ cri: 11, criDmg: 12, melee: 8, range: 8 });
+    });
+
+    it('410094 (the slotted, weaker version) + 420076: set adds +5% instead', () => {
+      expect(statsFor({ chain: 410094, necklace: true })).toEqual({ cri: 8, criDmg: 10, melee: 5, range: 5 });
+    });
+
+    it('removing the necklace drops the set bonus', () => {
+      expect(statsFor({ chain: 410094 }).criDmg).toBe(0);
+    });
+  });
+
+  // Same patch as the Correntes Sagradas pair. The partner (420003 CD Antiquado) was
+  // already in the DB and already grants m_my_element_all +5 on its own, so the set
+  // bonus has to stack on top of the partner's own line rather than replace it.
+  describe('Fones COR + CD Antiquado set (410091/410092 + 420003)', () => {
+    const setItems = { 410091: { ...itemDb['410091'] }, 410092: { ...itemDb['410092'] }, 420003: { ...itemDb['420003'] } };
+
+    const statsFor = (opts: { headset?: number; cd?: boolean }): Record<string, number> =>
+      pick(
+        equipTotals(
+          new Warlock(),
+          setItems,
+          { level: 150, ...(opts.headset ? { headMiddle: opts.headset } : {}), ...(opts.cd ? { headLower: 420003 } : {}) },
+          mockHpSpTable,
+          mockMonster,
+        ),
+        ['acd', 'vct', 'm_my_element_all'],
+      );
+
+    it('410091 alone: cast reductions only, no set', () => {
+      expect(statsFor({ headset: 410091 })).toEqual({ acd: 8, vct: 8, m_my_element_all: 0 });
+    });
+
+    it('420003 alone: its own +5% all-property magic damage', () => {
+      expect(statsFor({ cd: true })).toEqual({ acd: 0, vct: 0, m_my_element_all: 5 });
+    });
+
+    it('410091 + 420003: set +7% stacks on the CD own +5% = 12%', () => {
+      expect(statsFor({ headset: 410091, cd: true })).toEqual({ acd: 8, vct: 8, m_my_element_all: 12 });
+    });
+
+    it('410092 (slotted, weaker) + 420003: set +5% on top of the CD own +5% = 10%', () => {
+      expect(statsFor({ headset: 410092, cd: true })).toEqual({ acd: 5, vct: 5, m_my_element_all: 10 });
+    });
+
+    it('removing the CD drops the set bonus but keeps the cast reductions', () => {
+      expect(statsFor({ headset: 410092 })).toEqual({ acd: 5, vct: 5, m_my_element_all: 0 });
     });
   });
 

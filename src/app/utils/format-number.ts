@@ -45,4 +45,12 @@ export const formatSignedNumber = (value: number, min?: number, max?: number): s
 // land side-by-side in the same dialog — they have to agree on precision.
 export const formatCalcNumber = (value: number): string => formatNumber(value, 0, 2);
 
+/**
+ * Hits/uses per second, at the 2 decimals the engine stores them with (see
+ * engineHitsPerSec). Shared because the same rate is printed by the VelAtq summary, the
+ * "otimizar a conjuração" popover and the golpes/s chart — at two different precisions
+ * before this existed, so a 5 hits/s build read "5,0/s" in one and "5" in the other.
+ */
+export const formatRate = (value: number): string => formatNumber(value, 0, 2);
+
 export const formatSignedCalcNumber = (value: number): string => formatSignedNumber(value, 0, 2);

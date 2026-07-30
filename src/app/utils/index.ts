@@ -1,5 +1,6 @@
 // export * from './generate-job-script'
 export * from './add-bonus';
+export * from './aspd-hits-per-sec';
 export * from './calc-dmg-dps';
 export * from './calc-skill-aspd';
 export * from './can-grade';

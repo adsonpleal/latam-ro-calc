@@ -143,6 +143,17 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.40-beta',
+      date: '30-07-2026',
+      logs: [
+        'Os golpes por segundo deixaram de ser arredondados para baixo. O simulador guardava só a parte inteira, então VelAtq 151 e VelAtq 174 rendiam 1 golpe/s e exatamente o mesmo DPS — os 24 pontos entre uma e outra não valiam nada. Agora vale a curva do jogo, 50 ÷ (200 − VelAtq): 151 dá 1,02 golpes/s, 174 dá 1,92 e o teto de 193 dá 7,14. O número foi conferido em 61.320 ataques comuns de 358 gravações, cujos pacotes trazem o tempo de ataque que o servidor manda ao cliente: 99,6% deles caem em frações, e não em números inteiros. O DPS de ataque básico e o de habilidade mudam em qualquer build; quem estava em VelAtq intermediária via até 22% a menos do que o jogo entrega.',
+        'A dica de otimizar a conjuração parou de culpar a VelAtq sem motivo. Como ela comparava o ritmo da conjuração com aquele número arredondado, uma build em VelAtq 174 aparecia com teto de 1 uso por segundo no lugar de 1,92, e toda habilidade entre esses dois valores era marcada como limitada pela VelAtq — mandando atrás de velocidade de ataque que já existia.',
+        'O valor de Hits/s no resumo virou um gráfico. Clicando nele abre a curva de golpes por segundo com a posição da build marcada, quanto renderiam mais 10 de VelAtq a partir dali e a tabela de referência de VelAtq de cada golpe/s cheio. Como a curva é hiperbólica, o mesmo punhado de pontos vale pouco embaixo e muito perto do teto: +10 saindo de 150 rende 25% mais golpes, e saindo de 180 rende 100%.',
+        'Adicionadas as Correntes Sagradas e a Coleira de Espinhos, que formam conjunto: dano crítico +7% com as Correntes sem slot e +5% com a de um slot. Reportado por Ted.',
+        'Adicionados os Fones COR, que formam conjunto com o CD Antiquado: dano mágico de todas as propriedades +7% com os Fones sem slot e +5% com o de um slot. Esses itens e os acima entraram na atualização do cliente de 24 de julho e ainda não constavam no banco.',
+      ],
+    },
+    {
       v: '0.1.39-beta',
       date: '30-07-2026',
       logs: [

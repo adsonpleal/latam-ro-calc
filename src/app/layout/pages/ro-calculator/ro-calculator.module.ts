@@ -50,6 +50,7 @@ import { ElementalTableRawComponent } from './elemental-table-raw/elemental-tabl
 import { BattleDmgSummaryComponent } from './battle-dmg-summary/battle-dmg-summary.component';
 import { BattleMonsterSummaryComponent } from './battle-monster-summary/battle-monster-summary.component';
 import { BattleHudComponent } from './battle-hud/battle-hud.component';
+import { AspdCurveComponent } from './aspd-curve/aspd-curve.component';
 import { EquipmentCosEnchantComponent } from './equipment-cos-enchant/equipment-cos-enchant.component';
 import { StatusInputComponent } from './status-input/status-input.component';
 import { IconUrlPipe } from '../../../pipes/icon-url.pipe';
@@ -117,6 +118,7 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
     BattleDmgSummaryComponent,
     BattleMonsterSummaryComponent,
     BattleHudComponent,
+    AspdCurveComponent,
     EquipmentCosEnchantComponent,
     StatusInputComponent,
     ItemDescTooltipPipe,

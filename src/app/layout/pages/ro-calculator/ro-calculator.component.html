@@ -97,6 +97,24 @@
   </ul>
 </p-dialog>
 
+<p-dialog
+  header="Golpes por segundo"
+  [(visible)]="isShowAspdCurve"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '560px', 'max-width': '92vw' }"
+>
+  <!-- The *ngIf is load-bearing: PrimeNG projects dialog content with the declaring view,
+       so without it the chart would be built at page load and recompute on every calc. -->
+  <app-aspd-curve
+    *ngIf="isShowAspdCurve"
+    [aspd]="totalSummary?.calc?.totalAspd || 0"
+    [aspd2]="isEnableCompare ? totalSummary2?.calc?.totalAspd : null"
+  ></app-aspd-curve>
+</p-dialog>
+
 <div class="grid grid-nogutter" style="min-width: 1500px">
   <!-- Left Side -->
   <div class="p-fluid col-7">
@@ -408,10 +426,13 @@
                     T.CRÍT:
                     <span class="font-semibold px-1 summary_stat_atk2" [class.bonus_clickable]="(totalSummary?.dmg?.cRate || 0) !== 0" (click)="showBonusBreakdown({ label: 'T.CRÍT', keys: ['cRate'], valueClass: 'summary_stat_atk2' })" keyActivate>{{ totalSummary?.dmg?.cRate || 0 }}</span>
                   </div>
+                  <!-- The Hits/s value opens the iRO Wiki hits-per-second curve with this
+                       build plotted on it (app-aspd-curve). The two spans sit flush; the
+                       gap between them is their own px-1 padding. -->
                   <div class="col-12">
                     VelAtq:
                     <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['aspd', 'aspdPercent', 'skillAspd', 'skillAspdPercent'])" (click)="showBonusBreakdown({ label: 'VelAtq', keys: ['aspd', 'aspdPercent', 'skillAspd', 'skillAspdPercent'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.calc?.totalAspd || 0 }}</span>
-                    <span class="font-semibold px-1 summary_highlight">( {{ totalSummary?.calc?.hitPerSecs || 0 }} Hits/s )</span>
+                    <span class="font-semibold px-1 summary_highlight bonus_clickable" (click)="showAspdCurve()" pTooltip="Ver a curva de golpes por segundo" [showDelay]="300" keyActivate>( {{ totalSummary?.calc?.hitPerSecs || 0 | number }} Hits/s )</span>
                   </div>
                   <div class="col-12">
                     Precisão:

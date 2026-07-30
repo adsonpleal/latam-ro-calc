@@ -23,11 +23,11 @@ describe('mergeLatamItems', () => {
   });
 
   it('flags exactly the LATAM intersection', () => {
-    // Regression guard on the overlay: 6623 of item.json's 9549 records exist in the
+    // Regression guard on the overlay: 6628 of item.json's 9554 records exist in the
     // LATAM client. The rest are hidden from the app's pickers.
     const flagged = Object.values(items).filter((i: any) => i.presentInLatam).length;
-    expect(flagged).toBe(6623);
-    expect(Object.keys(items)).toHaveLength(9549);
+    expect(flagged).toBe(6628);
+    expect(Object.keys(items)).toHaveLength(9554);
   });
 
   it('re-lists item 4807 under three keys but one id', () => {
@@ -35,7 +35,7 @@ describe('mergeLatamItems', () => {
     // Anything indexing by key rather than by record id would double-count it.
     for (const key of ['4807', '48079999', '480799999']) expect(items[key].id).toBe(4807);
     const unique = new Set(Object.values(items).map((i: any) => i.id));
-    expect(unique.size).toBe(9547);
+    expect(unique.size).toBe(9552);
   });
 });
 

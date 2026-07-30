@@ -5,7 +5,7 @@
 // display-ready segments — they never re-derive game-truth timing math.
 
 import { calcDmgDpsDetailed } from '../../../../utils/calc-dmg-dps';
-import { formatCalcNumber, formatNumber, formatSignedCalcNumber } from '../../../../utils/format-number';
+import { formatCalcNumber, formatNumber, formatRate, formatSignedCalcNumber } from '../../../../utils/format-number';
 import { DamageFormulaCalcRow, DamageFormulaGraph, DamageFormulaNode } from '../../../../models/damage-summary.model';
 
 export type CastComponentKey = 'fixa' | 'variavel' | 'pos' | 'recarga' | 'aspd';
@@ -183,7 +183,11 @@ const ZERO_SECONDS_EPS = 0.005;
 /** Below this, the zero-pós what-if isn't worth surfacing as an actionable suggestion. */
 const MIN_MEANINGFUL_GAIN_PERCENT = 1;
 
-const fmtRate = (v: number): string => formatNumber(v, 1, 1);
+// Shared with the golpes/s chart — one decision about how a rate is printed. One decimal
+// used to be enough when the ASPD ceiling was a floored integer; now that it is the real
+// 50/(200-VelAtq) rate, rounding to 7,1 would render "7,1/s >= 7,1/s" for two rates that
+// differ.
+const fmtRate = formatRate;
 
 /** Assembles the "otimizar" popover data: bottleneck + per-component hints + the zero-pós what-if. */
 export function buildOptimizeInfo(input: {

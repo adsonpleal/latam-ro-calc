@@ -393,7 +393,7 @@ describe('buildOptimizeInfo', () => {
     const aspd = info.components.find((c) => c.key === 'aspd')!;
     expect(aspd.doneText).toBeNull();
     expect(aspd.hint).toContain('limita a conjuração');
-    expect(aspd.hint).toContain('0,3/s'); // pt-BR decimal separator
+    expect(aspd.hint).toContain('0,31/s'); // pt-BR decimal separator, 2 decimals (fmtRate)
     expect(aspd.hint).toContain('0,2/s');
     // Zeroing pós only raises the cast-mechanics rate, which ASPD still caps at 0.2/s —
     // the effective rate (already 0.2/s) doesn't move, so the what-if gain is ~0%.
@@ -415,10 +415,33 @@ describe('buildOptimizeInfo', () => {
     expect(info.bottleneck).toBe('pos');
     const aspd = info.components.find((c) => c.key === 'aspd')!;
     expect(aspd.doneText).toContain('suporta a conjuração ✓');
-    expect(aspd.doneText).toContain('2,0/s'); // pt-BR decimal separator
+    expect(aspd.doneText).toContain('2/s'); // formatRate: no forced decimal on a whole rate
     // The what-if still fires (pós is real, and 2/s headroom doesn't clamp the new rate: 1/1.7 ≈ 0.59/s).
     expect(info.whatIf).not.toBeNull();
     expect(info.whatIf!.gainPercent).toBeCloseTo((3.22 / 1.7 - 1) * 100, 5);
+  });
+
+  it('stops blaming ASPD for a rate the old floored ceiling was hiding', () => {
+    // Regression for the `floor(50 / (200 - VelAtq))` the engine used to apply. A build
+    // at VelAtq 174 really supports 50/26 = 1,92 uses/s, but the floor reported 1/s — so
+    // every skill casting between 1 and 1,92/s was told "ASPD limita a conjuração" and
+    // sent chasing attack speed it did not need.
+    const build = {
+      reducedFct: 0,
+      reducedVct: 0,
+      reducedAcd: 0.2,
+      reducedCd: 0.466,
+      castPeriod: 0.2,
+      hitPeriod: 1 / 1.5, // the cast mechanics allow 1,5 uses/s
+      dps: 1000,
+      sumDex2Int1: 985,
+    };
+
+    expect(buildOptimizeInfo({ ...build, aspdHitsPerSec: 1 }).bottleneck).toBe('aspd');
+
+    const fixed = buildOptimizeInfo({ ...build, aspdHitsPerSec: 1.92 });
+    expect(fixed.bottleneck).not.toBe('aspd');
+    expect(fixed.components.find((c) => c.key === 'aspd')!.doneText).toContain('suporta a conjuração ✓');
   });
 
   it('what-if capped: zeroing pós would exceed the ASPD rate, so the gain reflects the clamp instead of the raw cast-time ratio', () => {

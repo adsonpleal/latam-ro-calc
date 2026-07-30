@@ -1,0 +1,163 @@
+.aspd_curve {
+  font-size: 0.8rem;
+}
+
+.aspd_curve_svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.curve_grid {
+  stroke: var(--surface-border);
+  stroke-width: 1;
+  opacity: 0.45;
+}
+
+.curve_axis {
+  stroke: var(--surface-border);
+  stroke-width: 1.5;
+}
+
+.curve_tick_label,
+.curve_axis_title {
+  fill: var(--text-color-secondary);
+  font-size: 11px;
+}
+
+.curve_axis_title {
+  font-size: 12px;
+}
+
+.curve_line {
+  fill: none;
+  stroke: var(--orange-400);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.curve_drop {
+  stroke: var(--orange-400);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  opacity: 0.7;
+}
+
+.curve_dot {
+  fill: var(--orange-300);
+  stroke: #121212;
+  stroke-width: 2;
+}
+
+/* soft ring so the current build's marker reads against the curve it sits on */
+.curve_dot_halo {
+  fill: var(--orange-400);
+  opacity: 0.22;
+}
+
+.curve_dot_label {
+  fill: var(--orange-300);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* the compared build: same marker, second colour */
+.curve_drop.is_compare {
+  stroke: var(--blue-400);
+}
+
+.curve_dot.is_compare {
+  fill: var(--blue-400);
+}
+
+.curve_dot_label.is_compare {
+  fill: var(--blue-400);
+}
+
+.curve_legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-top: 0.35rem;
+  color: var(--text-color-secondary);
+  font-size: 0.75rem;
+}
+
+.curve_legend_item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.swatch {
+  width: 14px;
+  height: 0;
+  border-top: 3px solid currentColor;
+  display: inline-block;
+}
+
+.swatch_line {
+  color: var(--orange-400);
+}
+
+.swatch_dot {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--orange-300);
+}
+
+.swatch_dot.is_compare {
+  background-color: var(--blue-400);
+}
+
+.curve_caption {
+  margin-top: 0.6rem;
+}
+
+.curve_caption_main {
+  font-weight: 600;
+  color: var(--orange-300);
+}
+
+.curve_caption_next {
+  margin-top: 0.15rem;
+  color: var(--text-color-secondary);
+}
+
+.curve_table {
+  width: 100%;
+  margin-top: 0.75rem;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.curve_table caption {
+  text-align: left;
+  padding-bottom: 0.25rem;
+  color: var(--text-color-secondary);
+  font-size: 0.75rem;
+}
+
+.curve_table th,
+.curve_table td {
+  padding: 0.15rem 0.4rem;
+  border-bottom: 1px solid var(--surface-border);
+  text-align: left;
+}
+
+.curve_table th {
+  color: var(--text-color-secondary);
+  font-weight: 500;
+}
+
+.curve_table .row_done td {
+  color: var(--orange-300);
+}
+
+.curve_note {
+  margin-top: 0.6rem;
+  font-size: 0.72rem;
+  color: var(--text-color-secondary);
+}

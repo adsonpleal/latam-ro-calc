@@ -1,0 +1,61 @@
+<div class="aspd_curve">
+  <svg [attr.viewBox]="viewBox" class="aspd_curve_svg" role="img" [attr.aria-label]="summaryText">
+    <!-- horizontal gridline per whole hit/s -->
+    <line *ngFor="let t of yTicks" class="curve_grid" [attr.x1]="plotLeft" [attr.x2]="plotRight" [attr.y1]="t.y" [attr.y2]="t.y" />
+
+    <!-- axes -->
+    <line class="curve_axis" [attr.x1]="plotLeft" [attr.x2]="plotRight" [attr.y1]="plotBottom" [attr.y2]="plotBottom" />
+    <line class="curve_axis" [attr.x1]="plotLeft" [attr.x2]="plotLeft" [attr.y1]="plotTop" [attr.y2]="plotBottom" />
+
+    <g class="curve_tick_label">
+      <text *ngFor="let t of yTicks" [attr.x]="t.x - 8" [attr.y]="t.y + 4" text-anchor="end">{{ t.label }}</text>
+      <text *ngFor="let t of xTicks" [attr.x]="t.x" [attr.y]="t.y + 16" text-anchor="middle">{{ t.label }}</text>
+    </g>
+
+    <path class="curve_line" [attr.d]="curvePath" />
+
+    <!-- Compare marker first, current build last so it draws on top. -->
+    <ng-container *ngFor="let m of markers">
+      <line class="curve_drop" [class.is_compare]="m.isCompare" [attr.x1]="m.x" [attr.x2]="m.x" [attr.y1]="m.y" [attr.y2]="plotBottom" />
+      <circle *ngIf="!m.isCompare" class="curve_dot_halo" [attr.cx]="m.x" [attr.cy]="m.y" r="9" />
+      <circle class="curve_dot" [class.is_compare]="m.isCompare" [attr.cx]="m.x" [attr.cy]="m.y" r="5" />
+      <text class="curve_dot_label" [class.is_compare]="m.isCompare" [attr.x]="m.labelX" [attr.y]="m.labelY" [attr.text-anchor]="m.labelAnchor">{{ m.label }}</text>
+    </ng-container>
+
+    <text class="curve_axis_title" [attr.x]="(plotLeft + plotRight) / 2" [attr.y]="plotBottom + 32" text-anchor="middle">VelAtq</text>
+  </svg>
+
+  <div class="curve_legend">
+    <span class="curve_legend_item"><i class="swatch swatch_line"></i>Golpes/s = 50 ÷ (200 − VelAtq)</span>
+    <span class="curve_legend_item"><i class="swatch swatch_dot"></i>Sua velocidade de ataque</span>
+    <span class="curve_legend_item" *ngIf="markers.length > 1"><i class="swatch swatch_dot is_compare"></i>Simulada</span>
+  </div>
+
+  <div class="curve_caption">
+    <div class="curve_caption_main">{{ summaryText }}</div>
+    <div class="curve_caption_next">{{ gainText }}</div>
+  </div>
+
+  <table class="curve_table">
+    <caption>
+      Referência: VelAtq de cada golpe/s cheio
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Golpes/s</th>
+        <th scope="col">VelAtq</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let l of rows" [class.row_done]="l.reached">
+        <td>{{ l.hits }}</td>
+        <td>{{ l.aspd }}{{ l.aspd === cap ? ' (teto)' : '' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="curve_note">
+    A VelAtq é hiperbólica: cada ponto vale mais que o anterior, então não há degraus a alcançar — todo ponto rende golpes/s. A tabela é só referência; o teto é
+    {{ cap }}.
+  </div>
+</div>

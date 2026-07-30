@@ -6,7 +6,7 @@ import { WeaponTypeName } from '../constants/weapon-type-mapper';
 import { Weapon } from '../domain';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput, InfoForClass, SkillRef, SkillStateCtx } from '../models/info-for-class.model';
-import { sortSkill } from '../utils';
+import { ASPD_CAP, sortSkill } from '../utils';
 import { AspdTable } from './_aspd-table';
 import { ClassName } from './_class-name';
 
@@ -477,7 +477,7 @@ export abstract class CharacterBase {
 
     const baseAspd2 = Math.floor((baseAspd + leftWeapon + rawCalcAspd) * (100 - a.decreaseSkillAspdPercent) * 0.01);
     const equip = Math.floor((195 - baseAspd2) * (aspdPercent * 0.01));
-    const final = Math.min(baseAspd2 + equip + aspd, 193);
+    const final = Math.min(baseAspd2 + equip + aspd, ASPD_CAP);
 
     // console.log({
     //   weapon,

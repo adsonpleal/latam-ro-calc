@@ -310,6 +310,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    *  one of its keys is here; base/trait-derived stats (no item source) are excluded. */
   private bonusBreakdownKeys = new Set<string>();
   isShowBonusBreakdown = false;
+  isShowAspdCurve = false;
   bonusBreakdownTitle = '';
   bonusBreakdownValueClass = 'summary_damage';
   bonusBreakdownRows: { label: string; icon?: number; iconType: 'item' | 'skill'; value: number; display: string; tooltip?: string }[] = [];
@@ -2904,6 +2905,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         }
       : null;
     this.isShowBonusBreakdown = true;
+  }
+
+  /** Opens the hits-per-second curve with this build plotted on it. VelAtq is a hyperbola,
+   *  so "is +10 VelAtq worth it?" can only be answered against the breakpoint table — see
+   *  aspd-curve.logic. */
+  showAspdCurve(): void {
+    this.isShowAspdCurve = true;
   }
 
   /** Map a breakdown source key to a display row: an equipped item (slot/card/enchant),
