@@ -143,6 +143,19 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.39-beta',
+      date: '30-07-2026',
+      logs: [
+        'As habilidades do Mestre Celestial foram refeitas a partir da descrição do cliente. Cinco das seis usavam a tabela da 2ª versão do rebalanceamento, que o LATAM não usa. As taxas passam a ser as da descrição de cada uma — Entardecer 6.000% de ATQ no Nv 5, Explosão Crepuscular 2.400%, Chute Meia-Lua 5.500% e 7.500% em Meia-Noite, Alvorada 2.300% e 3.300% em Pôr da Lua —, sempre somadas ao nível de Maestria Celestial e ao POD. A Explosão Galática já estava certa. Gravações por Ted.',
+        'A Constelação e o Colapso Estelar entraram na lista de habilidades ofensivas; nenhuma das duas existia no simulador. A Constelação pode ser escolhida em qualquer nível, já que costuma ficar baixa por ser só o pré-requisito da Explosão Galática.',
+        'Os seletores Rising Sun e Rising Moon viraram um só, o Espaço Celeste, com os seis estados e o Elo Celestial. Os seis nunca podem estar ativos ao mesmo tempo, e o Elo Celestial cancela todos eles e libera o Entardecer, a Explosão Crepuscular, o Chute Meia-Lua e a Alvorada no efeito máximo — inclusive o crítico das duas primeiras. Quem tiver um link salvo de Mestre Celestial precisa reescolher o estado.',
+        'A Corrida passou a somar ATQ com as mãos livres, +10 por nível da habilidade, o que dá +100 no Nv 10. Vale para toda a linha Taekwon, e some ao equipar qualquer arma. Era o que faltava para o dano do simulador bater com o das gravações: sem arma o ATQ sobe de 4.008 para 4.193 na build gravada, e com arma continua onde estava.',
+        'A Explosão Galática passou a repartir o dano em 3 golpes, e não em 1. O total muda pouco, mas o valor por golpe e o arredondamento mudam.',
+        'Corrigida a tabela de bônus de talentos do Mestre Celestial, cuja coluna de STA dava pontos a mais em todos os níveis de classe: no nível 46 eram STA +12 no lugar de +7. Refeita a partir da iROwiki e conferida contra a janela de Talentos no jogo, que confere nos doze atributos. Muda a TEN e o HP das builds da classe.',
+        'O Kihop passou a multiplicar o ATQ já arredondado, e não a fração que o P.ATQ deixa para trás. Altera em uma unidade o ATQ de algumas builds de Mestre Estelar, Mestre Celestial e Espiritualista.',
+      ],
+    },
+    {
       v: '0.1.38-beta',
       date: '28-07-2026',
       logs: [

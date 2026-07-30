@@ -1,6 +1,7 @@
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
 import { ElementType } from '../constants/element-type.const';
+import { InfoForClass } from '../models/info-for-class.model';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [1, 0, 0, 0, 0, 0],
@@ -155,4 +156,22 @@ export class Taekwondo extends CharacterBase {
       ],
     },
   ];
+
+  /**
+   * Corrida (Run, TK_RUN) dá **+10 de ATQ por nível, só com as mãos livres** — a coluna
+   * "Dano" da descrição do cliente (data.grf), que a própria descrição condiciona a
+   * "enquanto estiver sem arma". Vale para toda a linha Taekwon, que herda daqui.
+   *
+   * Entra como ATQ de Maestria porque é aí que o valor cai na cadeia real: somado
+   * depois do P.ATQ e antes do Kihop (que multiplica o ATQ inteiro, em
+   * StarEmperor.modifyFinalAtk). Medido em duas gravações do mesmo Mestre Celestial —
+   * ver SkyEmperor.replay.spec.ts:
+   *   sem arma  ⌊(2167 + 100) × 1,85⌋ = 4193 ✓ (ATQ exigido pelos pacotes)
+   *   com arma  o +100 some, e a faixa 4480..4555 cobre os 52 valores observados
+   */
+  override getMasteryAtk(info: InfoForClass): number {
+    if (info.weapon?.data?.typeName) return 0; // só desarmado
+
+    return this.learnLv('Run') * 10;
+  }
 }
