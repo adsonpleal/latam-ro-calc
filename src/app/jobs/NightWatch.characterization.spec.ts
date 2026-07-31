@@ -5,15 +5,15 @@ import { NightWatch } from './NightWatch';
 /**
  * Night Watch (Guerrilheiro) 4th-job attack-skill validation.
  *
- * Ground truth: the LATAM 2nd-version skill tables published by Sigma the Fallen,
- *   https://sigmathefallen.blogspot.com/2025/02/night-watch-2nd-version.html
- * reached from that blog's "Supplemental Class (2nd version)" selector. LATAM ships
- * the 2nd version of the Expanded 4th-class rebalance, which is what the `[V2]`
- * labels in NightWatch.ts mark.
+ * Ground truth: the pt-BR **client** skill descriptions (skill-meta.generated.ts),
+ * cross-checked against five LATAM replays — see NightWatch.replay.spec.ts, which
+ * validates the same coefficients end-to-end against real damage packets.
  *
- * No replay exists for this class yet — it is only now being surfaced in the UI
- * (the class now ships in the LATAM GRF), so these assertions
- * encode the published formulas rather than observed damage packets.
+ * These tables used to come from Sigma the Fallen's "Night Watch (2nd version)" blog
+ * post. The replays showed that post to be stale for six of the seven attack skills
+ * (only The Vigilante at Night matched), so the `[V2]` labels are gone and the numbers
+ * below are the client's. Each client row is linear in the skill level, which is why
+ * they collapse to `base + perLv x Lv + aim x aimPerLv x Lv`.
  *
  * Night Watch is the most weapon-sensitive job in the calc: nearly every skill
  * branches on the gun subtype (Gatling Gun / Shotgun / Rifle / Revolver / Grenade
@@ -106,26 +106,26 @@ describe('Night Watch gun ratios @ base 250, CON 100, aiming count 10', () => {
   });
 
   describe('Only One Bullet (id 5406)', () => {
-    // Rifle:   (800 + (SkillLv x (1350 + aim x 350)) + CON x 3) x baseLv/100
-    // Handgun: (800 + (SkillLv x (1500 + aim x 350)) + CON x 3) x baseLv/100
+    // Rifle:   ( 500 + (SkillLv x ( 850 + aim x 250)) + CON x 3) x baseLv/100  (client Lv1 1350 -> Lv5 4750)
+    // Handgun: (1500 + (SkillLv x (1000 + aim x 250)) + CON x 3) x baseLv/100  (client Lv1 2500 -> Lv5 6500)
     it('Lv5 with a Rifle matches the published formula', () => {
-      expect(ratioOf(nw(), 'Only One Bullet', 5, 'Rifle')).toBe(gunRatio(800, 1350, 350, 3, 5));
+      expect(ratioOf(nw(), 'Only One Bullet', 5, 'Rifle')).toBe(gunRatio(500, 850, 250, 3, 5));
     });
 
     it('Lv5 with a Revolver (handgun) matches the published formula', () => {
-      expect(ratioOf(nw(), 'Only One Bullet', 5, 'Revolver')).toBe(gunRatio(800, 1500, 350, 3, 5));
+      expect(ratioOf(nw(), 'Only One Bullet', 5, 'Revolver')).toBe(gunRatio(1500, 1000, 250, 3, 5));
     });
   });
 
   describe('Spiral Shooting (id 5407)', () => {
-    // Grenade Launcher: (1000 + (SkillLv x (1500 + aim x 150)) + CON x 3), 2 hits
-    // Rifle:            (1200 + (SkillLv x (1700 + aim x 150)) + CON x 3), 1 hit
+    // Grenade Launcher: (1000 + (SkillLv x (1000 + aim x 150)) + CON x 3), 2 hits  (client Lv1 2000 -> Lv5 6000)
+    // Rifle:            ( 400 + (SkillLv x ( 900 + aim x 150)) + CON x 3), 1 hit   (client Lv1 1300 -> Lv5 4900)
     it('Lv5 with a Grenade Launcher matches the published formula', () => {
-      expect(ratioOf(nw(), 'Spiral Shooting', 5, 'Grenade Launcher')).toBe(gunRatio(1000, 1500, 150, 3, 5));
+      expect(ratioOf(nw(), 'Spiral Shooting', 5, 'Grenade Launcher')).toBe(gunRatio(1000, 1000, 150, 3, 5));
     });
 
     it('Lv5 with a Rifle matches the published formula', () => {
-      expect(ratioOf(nw(), 'Spiral Shooting', 5, 'Rifle')).toBe(gunRatio(1200, 1700, 150, 3, 5));
+      expect(ratioOf(nw(), 'Spiral Shooting', 5, 'Rifle')).toBe(gunRatio(400, 900, 150, 3, 5));
     });
 
     it('hits twice with a Grenade Launcher and once with a Rifle', () => {
@@ -135,14 +135,14 @@ describe('Night Watch gun ratios @ base 250, CON 100, aiming count 10', () => {
   });
 
   describe('Magazine for One (id 5408)', () => {
-    // Gatling: (200 + (SkillLv x (350 + aim x 100)) + CON x 2), 10 hits
-    // Handgun: (150 + (SkillLv x (450 + aim x 100)) + CON x 2),  6 hits
+    // Gatling: (200 + (SkillLv x (300 + aim x 50)) + CON x 2), 10 hits  (client Lv1 500 -> Lv5 1700)
+    // Handgun: (100 + (SkillLv x (400 + aim x 50)) + CON x 2),  6 hits  (client Lv1 500 -> Lv5 2100)
     it('Lv5 with a Gatling Gun matches the published formula', () => {
-      expect(ratioOf(nw(), 'Magazine for One', 5, 'Gatling Gun')).toBe(gunRatio(200, 350, 100, 2, 5));
+      expect(ratioOf(nw(), 'Magazine for One', 5, 'Gatling Gun')).toBe(gunRatio(200, 300, 50, 2, 5));
     });
 
     it('Lv5 with a Revolver (handgun) matches the published formula', () => {
-      expect(ratioOf(nw(), 'Magazine for One', 5, 'Revolver')).toBe(gunRatio(150, 450, 100, 2, 5));
+      expect(ratioOf(nw(), 'Magazine for One', 5, 'Revolver')).toBe(gunRatio(100, 400, 50, 2, 5));
     });
 
     it('hits 10 times with a Gatling Gun and 6 with a handgun', () => {
@@ -152,14 +152,14 @@ describe('Night Watch gun ratios @ base 250, CON 100, aiming count 10', () => {
   });
 
   describe('Wild Fire (id 5409)', () => {
-    // Shotgun:          (1000 + (SkillLv x (2450 + aim x 500)) + CON x 3)
-    // Grenade Launcher: (1000 + (SkillLv x (2300 + aim x 500)) + CON x 3)
+    // Shotgun:          (500 + (SkillLv x (1500 + aim x 500)) + CON x 3)  (client Lv1 2000 -> Lv5 8000)
+    // Grenade Launcher: (500 + (SkillLv x (1300 + aim x 500)) + CON x 3)  (client Lv1 1800 -> Lv5 7000)
     it('Lv5 with a Shotgun matches the published formula', () => {
-      expect(ratioOf(nw(), 'Wild Fire', 5, 'Shotgun')).toBe(gunRatio(1000, 2450, 500, 3, 5));
+      expect(ratioOf(nw(), 'Wild Fire', 5, 'Shotgun')).toBe(gunRatio(500, 1500, 500, 3, 5));
     });
 
     it('Lv5 with a Grenade Launcher matches the published formula', () => {
-      expect(ratioOf(nw(), 'Wild Fire', 5, 'Grenade Launcher')).toBe(gunRatio(1000, 2300, 500, 3, 5));
+      expect(ratioOf(nw(), 'Wild Fire', 5, 'Grenade Launcher')).toBe(gunRatio(500, 1300, 500, 3, 5));
     });
   });
 });
@@ -172,13 +172,13 @@ describe('Night Watch grenade ratios @ base 250, CON 100, Grenade Mastery 10', (
     );
 
   it('Basic Grenade Lv5 matches the published formula', () => {
-    // (1000 + (SkillLv x 950) + (Grenade Mastery x 50) + CON x 5) x baseLv/100
-    expect(ratioOf(nw(), 'Basic Grenade', 5, 'Grenade Launcher')).toBe(grenade(1000, 950, 50, 5, 5));
+    // (1000 + (SkillLv x 900) + (Grenade Mastery x 50) + CON x 5) x baseLv/100  (client Lv1 1900 -> Lv5 5500)
+    expect(ratioOf(nw(), 'Basic Grenade', 5, 'Grenade Launcher')).toBe(grenade(1000, 900, 50, 5, 5));
   });
 
   it('Hasty Fire in the Hole Lv5 matches the published per-hit formula', () => {
-    // (1500 + (SkillLv x 1050) + (Grenade Mastery x 20) + CON x 3) x baseLv/100
-    expect(ratioOf(nw(), 'Hasty Fire in the Hole', 5, 'Grenade Launcher')).toBe(grenade(1500, 1050, 20, 3, 5));
+    // (1500 + (SkillLv x 900) + (Grenade Mastery x 20) + CON x 3) x baseLv/100  (client Lv1 2400 -> Lv5 6000)
+    expect(ratioOf(nw(), 'Hasty Fire in the Hole', 5, 'Grenade Launcher')).toBe(grenade(1500, 900, 20, 3, 5));
   });
 
   it('is unaffected by the aiming count', () => {

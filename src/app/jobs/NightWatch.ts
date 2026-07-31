@@ -7,9 +7,23 @@ import { Rebellion } from './Rebellion';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
 
+/**
+ * Todas as habilidades de ataque do Guarda Noturno têm os níveis selecionáveis: as
+ * gravações que validam as fórmulas (NightWatch.replay.spec.ts) foram feitas com as
+ * habilidades no Nv. 1, e uma build de verdade raramente sobe todas ao máximo.
+ */
+const levelList = (name: string, maxLv: number) =>
+  Array.from({ length: maxLv }, (_, i) => ({ label: `${name} Lv${i + 1}`, value: `${name}==${i + 1}` }));
+
+/**
+ * Bônus de classe (FOR/AGI/VIT/INT/DES/SOR) — irowiki.org/wiki/Night_Watch, seção
+ * "Job & Talent Bonuses". A tabela de lá lista, por atributo, os níveis de classe em que
+ * ele chega a +1, +2, +3...; aqui ela está expandida por nível.
+ * Conferida linha a linha em NightWatch.job-bonus.spec.ts.
+ */
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [1, 0, 0, 0, 0, 0],
-  2: [2, 1, 0, 0, 0, 0],
+  2: [2, 1, 0, 0, 0, 1],
   3: [2, 1, 1, 0, 0, 1],
   4: [2, 1, 1, 1, 0, 2],
   5: [2, 1, 2, 2, 0, 2],
@@ -32,13 +46,13 @@ const jobBonusTable: Record<number, [number, number, number, number, number, num
   22: [2, 5, 5, 6, 9, 6],
   23: [2, 6, 5, 6, 9, 6],
   24: [2, 7, 5, 6, 9, 6],
-  25: [2, 8, 5, 6, 9, 7],
-  26: [2, 8, 5, 7, 9, 7],
-  27: [2, 8, 5, 7, 10, 7],
-  28: [2, 8, 5, 7, 10, 7],
-  29: [2, 8, 6, 7, 10, 7],
-  30: [3, 8, 6, 8, 10, 7],
-  31: [3, 8, 6, 8, 11, 7],
+  25: [2, 7, 5, 6, 9, 7],
+  26: [2, 7, 5, 7, 9, 7],
+  27: [2, 7, 5, 7, 10, 7],
+  28: [2, 7, 5, 7, 10, 7],
+  29: [2, 7, 6, 7, 10, 7],
+  30: [3, 7, 6, 8, 10, 7],
+  31: [3, 7, 6, 8, 11, 7],
   32: [3, 8, 6, 8, 11, 7],
   33: [3, 8, 6, 8, 11, 7],
   34: [3, 8, 6, 8, 11, 7],
@@ -162,11 +176,20 @@ export class NightWatch extends Rebellion {
   protected override maxJob = JOB_4_MAX_JOB_LEVEL;
 
   private readonly classNames4th = [ClassName.Only_4th, ClassName.NightWatch];
+  /**
+   * As porcentagens por nível saem da **descrição do cliente** (skill-meta.generated.ts),
+   * não do blog do Sigma: as tabelas `[V2]` estavam desatualizadas em seis das sete
+   * habilidades — só a Vigília Noturna batia. Cada linha do cliente é linear no
+   * nível, então a fórmula é `base + porNível × Nv + mira × porMira × Nv`, e o termo de
+   * CON (que a descrição cita sem número) é o medido pelas gravações.
+   * Validado em NightWatch.replay.spec.ts.
+   */
   private readonly atkSkillList4th: AtkSkillModel[] = [
     {
       name: 'The Vigilante at Night',
-      label: '[V2] The Vigilante at Night Lv5',
+      label: 'The Vigilante at Night Lv5',
       value: 'The Vigilante at Night==5',
+      levelList: levelList('The Vigilante at Night', 5),
       acd: 1,
       fct: 1.5,
       vct: 0,
@@ -195,8 +218,9 @@ export class NightWatch extends Rebellion {
     },
     {
       name: 'Only One Bullet',
-      label: '[V2] Only One Bullet Lv5',
+      label: 'Only One Bullet Lv5',
       value: 'Only One Bullet==5',
+      levelList: levelList('Only One Bullet', 5),
       acd: 0.5,
       fct: 1,
       vct: 0,
@@ -218,16 +242,17 @@ export class NightWatch extends Rebellion {
         const aimningCnt = this.activeSkillLv('_NightWatch_Aiming Count');
 
         if (weapon.isSubType('Revolver')) {
-          return (800 + skillLevel * (1500 + aimningCnt * 350) + totalCon * 3) * (baseLevel / 100);
+          return (1500 + skillLevel * (1000 + aimningCnt * 250) + totalCon * 3) * (baseLevel / 100);
         }
 
-        return (800 + skillLevel * (1350 + aimningCnt * 350) + totalCon * 3) * (baseLevel / 100);
+        return (500 + skillLevel * (850 + aimningCnt * 250) + totalCon * 3) * (baseLevel / 100);
       },
     },
     {
       name: 'Spiral Shooting',
-      label: '[V2] Spiral Shooting Lv5',
+      label: 'Spiral Shooting Lv5',
       value: 'Spiral Shooting==5',
+      levelList: levelList('Spiral Shooting', 5),
       acd: 1,
       fct: 1.5,
       vct: 0,
@@ -249,16 +274,17 @@ export class NightWatch extends Rebellion {
         const aimningCnt = this.activeSkillLv('_NightWatch_Aiming Count');
 
         if (weapon.isSubType('Rifle')) {
-          return (1200 + skillLevel * (1700 + aimningCnt * 150) + totalCon * 3) * (baseLevel / 100);
+          return (400 + skillLevel * (900 + aimningCnt * 150) + totalCon * 3) * (baseLevel / 100);
         }
 
-        return (1000 + skillLevel * (1500 + aimningCnt * 150) + totalCon * 3) * (baseLevel / 100);
+        return (1000 + skillLevel * (1000 + aimningCnt * 150) + totalCon * 3) * (baseLevel / 100);
       },
     },
     {
       name: 'Magazine for One',
-      label: '[V2] Magazine for One Lv5',
+      label: 'Magazine for One Lv5',
       value: 'Magazine for One==5',
+      levelList: levelList('Magazine for One', 5),
       acd: 1,
       fct: 1,
       vct: 0,
@@ -279,16 +305,17 @@ export class NightWatch extends Rebellion {
         const aimningCnt = this.activeSkillLv('_NightWatch_Aiming Count');
 
         if (weapon.isSubType('Revolver')) {
-          return (150 + skillLevel * (450 + aimningCnt * 100) + totalCon * 2) * (baseLevel / 100);
+          return (100 + skillLevel * (400 + aimningCnt * 50) + totalCon * 2) * (baseLevel / 100);
         }
 
-        return (200 + skillLevel * (350 + aimningCnt * 100) + totalCon * 2) * (baseLevel / 100);
+        return (200 + skillLevel * (300 + aimningCnt * 50) + totalCon * 2) * (baseLevel / 100);
       },
     },
     {
       name: 'Wild Fire',
-      label: '[V2] Wild Fire Lv5',
+      label: 'Wild Fire Lv5',
       value: 'Wild Fire==5',
+      levelList: levelList('Wild Fire', 5),
       acd: 1,
       fct: 1,
       vct: 0,
@@ -307,16 +334,17 @@ export class NightWatch extends Rebellion {
         const aimningCnt = this.activeSkillLv('_NightWatch_Aiming Count');
 
         if (weapon.isSubType('Shotgun')) {
-          return (1000 + skillLevel * (2450 + aimningCnt * 500) + totalCon * 3) * (baseLevel / 100);
+          return (500 + skillLevel * (1500 + aimningCnt * 500) + totalCon * 3) * (baseLevel / 100);
         }
 
-        return (1000 + skillLevel * (2300 + aimningCnt * 500) + totalCon * 3) * (baseLevel / 100);
+        return (500 + skillLevel * (1300 + aimningCnt * 500) + totalCon * 3) * (baseLevel / 100);
       },
     },
     {
       name: 'Basic Grenade',
-      label: '[V2] Basic Grenade Lv5',
+      label: 'Basic Grenade Lv5',
       value: 'Basic Grenade==5',
+      levelList: levelList('Basic Grenade', 5),
       acd: 0,
       fct: 1,
       vct: 0,
@@ -329,13 +357,14 @@ export class NightWatch extends Rebellion {
 
         const grenadeMaster = this.learnLv('Grenade Mastery');
 
-        return (1000 + skillLevel * 950 + grenadeMaster * 50 + totalCon * 5) * (baseLevel / 100);
+        return (1000 + skillLevel * 900 + grenadeMaster * 50 + totalCon * 5) * (baseLevel / 100);
       },
     },
     {
       name: 'Hasty Fire in the Hole',
-      label: '[V2] Hasty Fire in the Hole Lv5',
+      label: 'Hasty Fire in the Hole Lv5',
       value: 'Hasty Fire in the Hole==5',
+      levelList: levelList('Hasty Fire in the Hole', 5),
       acd: 0,
       fct: 1,
       vct: 0,
@@ -348,7 +377,7 @@ export class NightWatch extends Rebellion {
 
         const grenadeMaster = this.learnLv('Grenade Mastery');
 
-        return (1500 + skillLevel * 1050 + grenadeMaster * 20 + totalCon * 3) * (baseLevel / 100);
+        return (1500 + skillLevel * 900 + grenadeMaster * 20 + totalCon * 3) * (baseLevel / 100);
       },
     },
     // {
@@ -505,7 +534,11 @@ export class NightWatch extends Rebellion {
     },
     {
       name: '_NightWatch_Aiming Count',
-      label: 'Aiming Count',
+      // "Pontos de Foco" é como o cliente chama a contagem: a Mira Focalizada "acumula
+      // 1 ponto a cada 0,5 segundo até um máximo de 10 pontos de foco", e as fórmulas
+      // das habilidades falam em "(Pts. x250)%". Não é uma habilidade de verdade — é um
+      // seletor da calculadora —, então não tem id nem ícone no catálogo.
+      label: 'Pontos de Foco',
       inputType: 'dropdown',
       dropdown: genSkillListWithLabel(10, lv => (`${lv}`))
     },

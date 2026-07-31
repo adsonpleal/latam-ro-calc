@@ -12,6 +12,12 @@ export const ITEM_BONUS_LABELS: Record<string, string> = {
   def: 'DEF', defPercent: 'DEF %', softDef: 'DEF Suave', softDefPercent: 'DEF Suave %',
   mdef: 'DEFM', mdefPercent: 'DEFM %', softMdef: 'DEFM Suave', softMdefPercent: 'DEFM Suave %',
   res: 'RES', mres: 'RESM',
+  // Atributos e talentos com o nome pt-BR da janela de status. Sem estas linhas a lista
+  // caía nos rótulos de buff, que são as siglas internacionais — era assim que a Manopla
+  // Sombria POD aparecia com "POW +4" no painel do item.
+  str: 'FOR', agi: 'AGI', vit: 'VIT', int: 'INT', dex: 'DES', luk: 'SOR',
+  pow: 'POD', sta: 'STA', wis: 'SAB', spl: 'FEI', con: 'CON', crt: 'CRV',
+  hplus: 'C.Mais',
   allStatus: 'Todos os atributos', allTrait: 'Todos os talentos',
   range: 'Dano à distância', melee: 'Dano corpo a corpo', bowRange: 'Alcance do arco',
   // The client renamed these: what it used to print as "ATQ +N%" / "ATQ da arma +N%" is now
@@ -93,10 +99,17 @@ export function decodeStructuredBonusKey(key: string): string | undefined {
   if ((m = key.match(/^([pm])_(size|element|race|class)_(\w+)$/))) {
     return `Dano ${atk[m[1]]} (${cat[m[2]]}: ${sub[m[3]] ?? m[3]})`;
   }
-  // Defender-side PVP reductions: sub{race,element,size,class}_X → "Resistência (Cat.: X)"
-  if ((m = key.match(/^sub(race|ele|size|class)_(\w+)$/))) {
+  // Defender-side PVP reductions: sub{race,element,size,class}_X → "Resistência (Cat.: X)".
+  // Só as de tamanho têm a variante por tipo de dano (subsize_m_physical), e o sufixo
+  // precisa sair antes do lookup — senão o alvo vira "m_physical" e o rótulo sai cru.
+  if ((m = key.match(/^sub(race|ele|size|class)_(\w+?)(_physical|_magical)?$/))) {
     const catKey = { race: 'race', ele: 'element', size: 'size', class: 'class' }[m[1]] as string;
-    return `Resistência (${cat[catKey]}: ${sub[m[2]] ?? m[2]})`;
+    const tipo = m[3] === '_physical' ? ', físico' : m[3] === '_magical' ? ', mágico' : '';
+    return `Resistência (${cat[catKey]}: ${sub[m[2]] ?? m[2]}${tipo})`;
+  }
+  // Crítico contra uma raça
+  if ((m = key.match(/^cri_race_(\w+)$/))) {
+    return `Crítico (Raça: ${sub[m[1]] ?? m[1]})`;
   }
   // RES/MRES penetration vs a race
   if ((m = key.match(/^pene_(res|mres)_race_(\w+)$/))) {
@@ -107,10 +120,13 @@ export function decodeStructuredBonusKey(key: string): string | undefined {
     const determinedBonus = BUFF_BONUS_LABELS[m[1]] ?? decodeStructuredBonusKey(m[1]);
     return `Chance de ${determinedBonus ?? m[1].toUpperCase()}`;
   }
-  // Combo bonuses
-  if ((m = key.match(/^(vct|fct|cd)__(.+)$/))) {
+  // Reduções por habilidade. As seis chaves são as que calc-skill-aspd.ts lê:
+  // cd__, vct__, fix_vct__, fct__, fctPercent__ e acd__ — antes só as três primeiras
+  // tinham rótulo e as outras apareciam cruas ("acd__156").
+  if ((m = key.match(/^(vct|fix_vct|fct|fctPercent|acd|cd)__(.+)$/))) {
     const resolvedSkill = resolveSkillKey(m[2]);
-    return `Redução de ${ITEM_BONUS_LABELS[m[1]]} de ${resolvedSkill ? resolvedSkill.name : m[2]}`;
+    const label = m[1] === 'fix_vct' ? 'Conj. Variável (fixa)' : ITEM_BONUS_LABELS[m[1]];
+    return `Redução de ${label} de ${resolvedSkill ? resolvedSkill.name : m[2]}`;
   }
   return undefined;
 }

@@ -9,6 +9,13 @@ export const ContainerType = {
   Quests: 6,
   GroupAndFriends: 7,
   Items: 8,
+  /**
+   * Companheiros do personagem, um campo por chunk, em faixas: 51xx e 52xx são
+   * homúnculo/mercenário e **53xx é o mascote** — 5301 aid, 5303 nome, 5305 job id,
+   * 5306 nível, 5307 fome e **5308 intimidade** (0 a 1000). A intimidade não aparece em
+   * pacote nenhum do fluxo, então este é o único lugar de onde ela sai; é daqui que o
+   * cliente monta a Janela de Mascote ao reproduzir o replay. Ver `extractPet`.
+   */
   UnknownContainingPet: 9,
   InitialPackets: 14,
   /**

@@ -207,8 +207,28 @@ export type InventoryRecord = {
   options: RandomOption[];
 };
 
+/**
+ * Estado do mascote no início da gravação, lido do contêiner 9 (chunks 53xx). É a única
+ * fonte da **intimidade** — nenhum pacote do fluxo a carrega (o 0x01a4 só manda fome), e é
+ * daqui que o cliente monta a Janela de Mascote ao reproduzir o replay.
+ */
+export type PetSnapshot = {
+  aid: number;
+  /** Nome dado ao bicho (ou o nome padrão da espécie). */
+  name: string;
+  /** Job id do mascote; liga ao ovo pela tabela do cliente. `-1` quando não estava na tela. */
+  view: number;
+  level: number;
+  /** 0 a 100. */
+  hunger: number;
+  /** 0 a 1000 — a escala de lealdade do cliente (ver `PET_LOYALTY_BY_INTIMACY`). */
+  intimacy: number;
+};
+
 export type Replay = {
   sessionInfo: SessionInfo;
+  /** Mascote que estava fora no início da gravação, ou undefined. */
+  pet?: PetSnapshot;
   /**
    * Learned skill tree from the recording's `ZC_SKILLINFO_LIST` (0x010f)
    * snapshot — client skill id → learned level (only levels > 0). The client

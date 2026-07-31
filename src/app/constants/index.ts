@@ -17,6 +17,7 @@ export * from './item-type.enum';
 export * from './item.const';
 export * from './job-buffs';
 export * from './monster-spawn-mapper';
+export * from './pet-loyalty';
 export * from './mvp';
 export * from './race-type.const';
 export * from './size-penalty-mapper';

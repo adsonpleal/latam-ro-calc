@@ -27,6 +27,7 @@ import {
   JobBuffs,
   MAX_OPTION_NUMBER,
   MainItemWithRelations,
+  PetLoyaltyList,
   WeaponTypeName,
   WeaponTypeNameMapBySubTypeId,
   getMonsterSpawnMap,
@@ -239,6 +240,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   accRightList: DropdownModel[] = [];
   accRightCardList: DropdownModel[] = [];
   petList: DropdownModel[] = [];
+  readonly petLoyaltyList = PetLoyaltyList;
 
   costumeUpperList: DropdownModel[] = [];
   costumeMiddleList: DropdownModel[] = [];
@@ -264,6 +266,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   isShowSelectableSkillLevel = true;
   atkSkills: AtkSkillModel[] = [];
   atkSkillCascades: any[] = [];
+  /** Memo de `selectedAtkSkillDisplay`, invalidado quando a classe troca. */
+  private atkSkillDisplayMemo?: { value: string; label: string; icon?: number };
   passiveSkills: PassiveSkillModel[] = [];
   activeSkills: ActiveSkillModel[] = [];
   consumableList: DropdownModel[] = [];
@@ -1715,6 +1719,19 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           }),
         };
       }
+      // A picker de nível é um cascade: a entrada escolhida é o que fica visível quando
+      // ele fecha, então ela precisa carregar o nome da habilidade — em pt-BR, como o
+      // grupo acima dela. As entradas são escritas em inglês na classe ("Wild Fire Lv1");
+      // aqui só o prefixo é trocado, preservando o resto do rótulo (p.ex. o "(1 estrela)"
+      // da Constelação).
+      if (pt && Array.isArray(levelList)) {
+        return {
+          ...base,
+          levelList: levelList.map((entry: { label: string; value: string }) =>
+            entry.label.startsWith(skill.name) ? { ...entry, label: pt.name + entry.label.slice(skill.name.length) } : entry,
+          ),
+        };
+      }
       return base;
     };
     // Buffs keep their curated (already pt-BR) labels — only attach the icon id.
@@ -1749,7 +1766,31 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       return { label: pt?.name ?? name, value: name, icon: pt?.id };
     });
     this.atkSkillCascades = this.atkSkills;
+    this.atkSkillDisplayMemo = undefined;
     this.isShowSelectableSkillLevel = this.selectedCharacter.atkSkills.some((a) => a.levelList?.length > 0);
+  }
+
+  /**
+   * Rótulo + ícone da habilidade escolhida, para o p-cascadeSelect dos níveis.
+   *
+   * O cascade só entrega o **valor cru** ao template de exibição (`$implicit: value`,
+   * "Wild Fire==1"), diferente do p-dropdown, que entrega a opção inteira. Sem isso o
+   * ícone sumia assim que a habilidade era escolhida: aparecia na lista aberta e não na
+   * linha fechada. As entradas de nível não carregam ícone próprio, então herdam o da
+   * habilidade acima delas.
+   */
+  get selectedAtkSkillDisplay(): { label: string; icon?: number } | undefined {
+    const value = this.model.selectedAtkSkill;
+    if (!value) return undefined;
+    if (this.atkSkillDisplayMemo?.value === value) return this.atkSkillDisplayMemo;
+
+    for (const skill of this.atkSkillCascades) {
+      const entry = skill.value === value ? skill : skill.levelList?.find((l: any) => l.value === value);
+      if (!entry) continue;
+      this.atkSkillDisplayMemo = { value, label: entry.label, icon: entry.icon ?? skill.icon };
+      return this.atkSkillDisplayMemo;
+    }
+    return undefined;
   }
 
   private setClassMinMaxLvl() {

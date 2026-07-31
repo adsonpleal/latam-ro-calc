@@ -58,4 +58,11 @@ export interface MainModel extends Partial<EquipmentModel> {
   consumables2: number[];
   aspdPotion?: number;
   aspdPotions: number[];
+
+  /**
+   * Faixa de intimidade do mascote (ver `PetLoyalty`), que decide qual linha da descrição
+   * do ovo vale. Ausente nas simulações salvas antes do campo existir — quem lê deve cair
+   * em `DEFAULT_PET_LOYALTY`, não em 0.
+   */
+  petLoyalty?: number;
 }

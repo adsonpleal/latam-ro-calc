@@ -1,4 +1,5 @@
 import { MainModel } from '../models/main.model';
+import { DEFAULT_PET_LOYALTY } from '../constants/pet-loyalty';
 
 export const createMainModel = (): MainModel => ({
   class: 1,
@@ -124,6 +125,7 @@ export const createMainModel = (): MainModel => ({
   accRightEnchant2: undefined,
   accRightEnchant3: undefined,
   pet: undefined,
+  petLoyalty: DEFAULT_PET_LOYALTY,
 
   costumeUpper: undefined,
   costumeMiddle: undefined,

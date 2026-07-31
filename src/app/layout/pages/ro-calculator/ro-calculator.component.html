@@ -1282,6 +1282,18 @@
               </div>
             </ng-template>
           </p-dropdown>
+          <!-- Cada faixa de lealdade dá um bônus diferente, e o replay não carrega a
+               intimidade do bicho — por isso o campo é manual. -->
+          <p-dropdown
+            *ngIf="model.pet"
+            inputId="petLoyalty"
+            class="mt-1 block"
+            [autoDisplayFirst]="false"
+            [options]="petLoyaltyList"
+            [(ngModel)]="model.petLoyalty"
+            (onChange)="onOptionChange()"
+            placeholder="Lealdade"
+          ></p-dropdown>
         </div>
       </div>
 
@@ -1994,6 +2006,12 @@
                       placeholder="Habilidade"
                       (onChange)="onAtkSkillChange()"
                     >
+                      <ng-template pTemplate="value" let-placeholder="placeholder">
+                        <div class="flex align-items-center gap-1">
+                          <img *ngIf="selectedAtkSkillDisplay?.icon" [src]="selectedAtkSkillDisplay.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                          <span>{{ selectedAtkSkillDisplay?.label || placeholder }}</span>
+                        </div>
+                      </ng-template>
                       <ng-template pTemplate="option" let-option>
                         <div class="flex align-items-center gap-1" [pTooltip]="option?.icon ? skillTooltip(option) : ''" [escape]="false" tooltipPosition="right" [showDelay]="400" tooltipStyleClass="item_desc_tooltip">
                           <img *ngIf="option?.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
@@ -2120,6 +2138,12 @@
                       placeholder="Habilidade"
                       (onChange)="onAtkSkillChange()"
                     >
+                      <ng-template pTemplate="value" let-placeholder="placeholder">
+                        <div class="flex align-items-center gap-1">
+                          <img *ngIf="selectedAtkSkillDisplay?.icon" [src]="selectedAtkSkillDisplay.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                          <span>{{ selectedAtkSkillDisplay?.label || placeholder }}</span>
+                        </div>
+                      </ng-template>
                       <!-- Only the skill rows get a popover. Level rows under a skill are
                            `{ label, value }` with no name, and buffTooltip caches by name —
                            they would all share one entry and show the wrong description. -->
@@ -2348,6 +2372,12 @@
                     placeholder="-"
                     (onChange)="onAtkSkillChange()"
                   >
+                    <ng-template pTemplate="value" let-placeholder="placeholder">
+                      <div class="flex align-items-center gap-1">
+                        <img *ngIf="selectedAtkSkillDisplay?.icon" [src]="selectedAtkSkillDisplay.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                        <span>{{ selectedAtkSkillDisplay?.label || placeholder }}</span>
+                      </div>
+                    </ng-template>
                     <ng-template pTemplate="option" let-option>
                       <div class="flex align-items-center gap-1">
                         <img *ngIf="option?.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />

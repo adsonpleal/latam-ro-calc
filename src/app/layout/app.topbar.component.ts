@@ -143,6 +143,21 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.41-beta',
+      date: '31-07-2026',
+      logs: [
+        'O crítico base deixou de ganhar um ponto de graça. A conta era 1 + SOR ÷ 3 e o certo é só SOR ÷ 3: com SOR 107 o simulador mostrava Crítico 36 e o servidor manda 35. Vale para toda classe e muda a taxa de crítico, o DPS e a chance de crítico contra o alvo de qualquer build.',
+        'As habilidades de ataque do Guarda Noturno foram refeitas a partir da descrição do cliente. Seis das sete usavam a tabela da 2ª versão do rebalanceamento, que o LATAM não usa, e erravam de 25% a 55%. No Nv 1 passam a ser Tiro Único 1.350% com rifle e 2.500% com pistola, Atirar em Espiral 1.300% com rifle e 2.000% com lança-granadas, Artilharia Pesada 500% por golpe, Fogo de Supressão 2.000% com espingarda e 1.800% com lança-granadas, Arremessar Explosivo 1.900% e Explosão Gradual 2.400% por golpe — sempre somadas aos pontos de foco, ao CON e ao nível de base. A Vigília Noturna já estava certa. Os cinco níveis de cada uma passaram a ser selecionáveis, já que raramente ficam no máximo. Gravações por shummuy.',
+        'A Cesta de Mascotes ganhou os quatro conjuntos por família de mascote que faltavam no cadastro: dano físico a distância +10% com Orc Herói, Bafomé ou Abelha-Rainha; corpo a corpo +10% com Kiel-D-01, Freeoni ou Flor do Luar; dano mágico de todas as propriedades +10% com Lady Branca, Pesar Noturno ou Senhor das Trevas; e pós-conjuração e conjuração variável -5% com Patinho ou Unicórnio. É o único conjunto do banco cujo parceiro é o mascote, e sozinho ele respondia por 5% do dano que faltava nas gravações.',
+        'O Ovo de Orc Herói passou a ter as quatro faixas de lealdade da descrição, com um seletor próprio: dano físico +1% na Baixa, +2% na Nenhuma, +4% e dano crítico +1% na Normal, +7% e +3% na Alta. O cadastro guardava só a faixa mais alta. Atenção ao rótulo do cliente: "Lealdade Nenhuma" é a segunda faixa, não a ausência de mascote. Os outros 37 mascotes seguem na faixa máxima por enquanto.',
+        'A importação de replay passou a trazer o mascote e a lealdade dele. O bicho chega como criatura, não como item do inventário, e a intimidade vem gravada no arquivo numa escala de 0 a 1.000 — a mesma que o jogo usa para escrever a linha "Lealdade" na Janela de Mascote: até 249 é Baixa ou Baixíssima, até 749 é Nenhuma, até 909 é Normal e daí para cima é Alta. Não precisa mais escolher a faixa à mão depois de importar. Gravações por shummuy.',
+        'A Manopla Sombria POD passou a conceder ATQ e ATQM +1 por refino, a primeira linha da descrição, que não estava no cadastro — no +9 são 9 de cada. Cadastrada também a Pistola Aprimorável, que faltava no banco.',
+        'As descrições das habilidades das classes 4ª Expandida saíram do inglês. O cliente passou a trazer o texto em pt-BR, e as 97 descrições que estavam desatualizadas foram trocadas por ele. Vieram junto 17 nomes que o cliente mudou desde o cadastro original, entre eles Tiro Único, Fogo de Supressão, Arremessar Explosivo, Explosão Gradual e Perícia com Explosivos no Guarda Noturno, Explosão Crepuscular no Mestre Celestial e Pacto com Tigre, Unhas de Tigre e Rugido do Tigre no Espiritualista.',
+        'O painel de bônus do item passou a mostrar os talentos em pt-BR — POD, SAB, FEI e CRV no lugar de POW, WIS, SPL e CRT —, além de C.Mais, da resistência por tamanho separada por tipo de dano, do crítico por raça e das reduções de pós-conjuração e de conjuração fixa por habilidade, que apareciam como "acd__156".',
+        'O ícone da habilidade voltou a aparecer ao lado do nome depois de escolhida, nos seletores que têm nível. A contagem de mira do Guarda Noturno passou a se chamar Pontos de Foco, como no cliente, e a tabela de bônus de atributos da classe foi corrigida: a SOR chegava um nível de classe cedo demais e a AGI ficava um ponto atrás entre os níveis 25 e 31.',
+      ],
+    },
+    {
       v: '0.1.40-beta',
       date: '30-07-2026',
       logs: [

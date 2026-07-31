@@ -456,12 +456,26 @@ export class DamageCalculator {
     return mysticAmp;
   }
 
+  /**
+   * Crítico base. Sem constante somada: é `⌊SOR/3⌋` mais o que vier de equipamento.
+   *
+   * Havia um `1 +` aqui até 31/07/2026. As gravações do Guarda Noturno (tra_fild,
+   * 31/07/2026) anunciam SP_CRITICAL = 35 sem equipamento nenhum — e ⌊107/3⌋ = 35, com o
+   * `1 +` daria 36. O valor vem do servidor, no ZC_PAR_CHANGE tipo 52, não do cálculo do
+   * cliente, então é o número do jogo mesmo.
+   *
+   * **Ainda em aberto:** com equipamento a mesma gravação dá 65 e o simulador dá 66, e é 1
+   * ponto de SOR de diferença — a calculadora chega a SOR 108 (100 alocada + 7 do bônus de
+   * classe + 1 do encante 4750) e o crítico do jogo pede 107. Só que o ATQ base da mesma
+   * gravação (SP_ATK1 = 846) exige 108: as duas faixas não se cruzam, então uma das duas
+   * fórmulas ainda está errada. Ver NightWatch.replay.spec.ts.
+   */
   private getBaseCriRate(isActual = false) {
     const { cri } = this.totalBonus;
     const { totalLuk } = this.status;
 
     const criFromLuk = isActual ? floor(totalLuk * 0.3) : floor(totalLuk / 3);
-    const base = 1 + cri + criFromLuk;
+    const base = cri + criFromLuk;
 
     return this.weaponData.data?.typeName === 'katar' ? base * 2 : base;
   }

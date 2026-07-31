@@ -21,6 +21,7 @@ import type {
   MapChange,
   MobHpUpdate,
   ParamChangeEvent,
+  PetSnapshot,
   RandomOption,
   Replay,
   SkillCast,
@@ -465,6 +466,7 @@ export function decodeReplay(buf: ArrayBuffer): Replay {
 
   return {
     sessionInfo: { ...session, durationMs },
+    pet: extractPet(containers),
     learnedSkills,
     entities,
     damage,
@@ -507,6 +509,50 @@ function dedupeNear<T extends { time: number }>(
     result.push(e);
   }
   return result;
+}
+
+/**
+ * Mascote, do contêiner 9 (`UnknownContainingPet`). O contêiner guarda os companheiros do
+ * personagem em faixas de chunk — 51xx e 52xx são homúnculo/mercenário — e a faixa **53xx**
+ * é o mascote, um campo por chunk:
+ *
+ *   5301 aid · 5303 nome (32 bytes) · 5305 job id · 5306 nível · 5307 fome · 5308 intimidade
+ *
+ * A **intimidade não existe em pacote nenhum** do fluxo (o 0x01a4 que aparece nas gravações
+ * é `type=2`, fome), e é ela que o cliente usa para escrever a linha "Lealdade" da Janela de
+ * Mascote quando reproduz o replay. Conferido em 34 gravações do RagnaRecap com mascote: o
+ * 5308 varia de 237 a 1000 e nunca passa de 1000, que é o teto da escala do servidor.
+ */
+function extractPet(containers: AnyContainer[]): PetSnapshot | undefined {
+  const c = containers.find(
+    (x): x is GenericContainer =>
+      x.kind === "generic" && x.type === ContainerType.UnknownContainingPet,
+  );
+  if (!c) return undefined;
+
+  const chunk = (id: number) => c.chunks.find((ch) => ch.id === id)?.data;
+  const u32 = (id: number) => {
+    const d = chunk(id);
+    if (!d || d.length < 4) return undefined;
+    return new DataView(d.buffer, d.byteOffset, d.byteLength).getUint32(0, true);
+  };
+
+  const aid = u32(5301);
+  if (!aid) return undefined; // nenhum mascote fora quando a gravação começou
+
+  const nomeBytes = chunk(5303);
+  const name = nomeBytes ? readKoreanZ(nomeBytes) : "";
+  // `view` vem 0xffffffff quando o bicho não estava na tela; devolve -1 nesse caso.
+  const viewRaw = u32(5305) ?? 0;
+
+  return {
+    aid,
+    name,
+    view: viewRaw === 0xffffffff ? -1 : viewRaw,
+    level: u32(5306) ?? 0,
+    hunger: u32(5307) ?? 0,
+    intimacy: u32(5308) ?? 0,
+  };
 }
 
 function extractSessionInfo(containers: AnyContainer[], recordedAt: Date) {

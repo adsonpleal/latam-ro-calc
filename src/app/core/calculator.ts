@@ -1,6 +1,7 @@
 import {
   AllowAmmoMapper,
   ClassAmmoMapper,
+  DEFAULT_PET_LOYALTY,
   ElementType,
   ItemSubTypeId,
   ItemTypeEnum,
@@ -790,6 +791,20 @@ export class Calculator {
       if (!isValid) return { isValid, restCondition };
 
       restCondition = restCondition.replace(toRemoveA, '');
+      if (restCondition.startsWith('===')) return { isValid, restCondition: restCondition.replace('===', '') };
+    }
+
+    // LOYALTY[3]===4  — faixa de intimidade do mascote (ver PetLoyalty).
+    // Casa por **igualdade**: as faixas da descrição do ovo se substituem, não somam
+    // ("Na Lealdade Normal: Dano físico +4%" e "Na Lealdade Alta: Dano físico +7%" são
+    // 4% OU 7%, nunca 11%). Só os ovos usam esta condição; para todo o resto do
+    // item.json o match falha e o script segue inalterado.
+    const [toRemoveLoyalty, loyaltyCond] = restCondition.match(/LOYALTY\[(\d+)]/) ?? [];
+    if (loyaltyCond) {
+      const isValid = (this.model.petLoyalty ?? DEFAULT_PET_LOYALTY) === Number(loyaltyCond);
+      if (!isValid) return { isValid, restCondition };
+
+      restCondition = restCondition.replace(toRemoveLoyalty, '');
       if (restCondition.startsWith('===')) return { isValid, restCondition: restCondition.replace('===', '') };
     }
 

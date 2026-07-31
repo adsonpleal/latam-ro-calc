@@ -15353,10 +15353,14 @@
     ],
     "script": {
       "atkPercent": [
-        "7"
+       "LOYALTY[1]===1",
+       "LOYALTY[2]===2",
+       "LOYALTY[3]===4",
+       "LOYALTY[4]===7"
       ],
       "criDmg": [
-        "3"
+       "LOYALTY[3]===1",
+       "LOYALTY[4]===3"
       ]
     }
   },
@@ -49250,13 +49254,19 @@
       "all"
     ],
     "script": {
+      "atk": [
+       "1---1"
+      ],
+      "matk": [
+       "1---1"
+      ],
       "pow": [
-        "2---1"
+       "2---1"
       ],
       "pAtk": [
-        "7===3",
-        "9===3",
-        "EQUIP[Physical Power Shadow Shield]===3"
+       "7===3",
+       "9===3",
+       "EQUIP[Physical Power Shadow Shield]===3"
       ]
     }
   },
@@ -229783,6 +229793,21 @@
       ],
       "matkPercent": [
         "5"
+      ],
+      "range": [
+        "EQUIP_ID[9121||9137||9193]10"
+      ],
+      "melee": [
+        "EQUIP_ID[9126||9111||9112]10"
+      ],
+      "m_my_element_all": [
+        "EQUIP_ID[9115||9122||9148]10"
+      ],
+      "acd": [
+        "EQUIP_ID[9125||9068]5"
+      ],
+      "vct": [
+        "EQUIP_ID[9125||9068]5"
       ]
     }
   },
@@ -311171,6 +311196,36 @@
       ],
       "m_my_element_all": [
         "EQUIP_ID[420003]5"
+      ]
+    }
+  },
+  "13115": {
+    "id": 13115,
+    "aegisName": "Upg_Revolver",
+    "name": "Pistola Aprimorável",
+    "unidName": "Revolver",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 1,
+    "itemSubTypeId": 273,
+    "itemLevel": 3,
+    "attack": 35,
+    "defense": null,
+    "weight": 50,
+    "requiredLevel": 1,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Gunslinger"
+    ],
+    "script": {
+      "atk": [
+        "1---5",
+        "level:10(71-999)---5"
+      ],
+      "range": [
+        "1---2"
       ]
     }
   }
