@@ -6,9 +6,9 @@ export interface ItemModel {
    *  is swapped to pt-BR. Item-name script conditions (EQUIP[...], POS_SPECIFIC[...],
    *  REFINE_NAME[...]) are authored against this, so matching uses it. */
   enName?: string;
-  unidName: string;
-  resName: string;
-  description: string;
+  /** Present on the LATAM server. Precomputed by tools/build-web-data.mjs from
+   *  the latam-items.json key set; the dropdowns list only these. */
+  presentInLatam?: boolean;
   slots: number;
   itemTypeId: number;
   itemSubTypeId: number;
@@ -17,7 +17,6 @@ export interface ItemModel {
   propertyAtk?: any;
   defense: any;
   weight: number;
-  requiredLevel: any;
   location: any;
   /** Every head slot the item fills, when it fills more than one (see getHeadGearSlots). */
   locations?: string[];

@@ -5,6 +5,7 @@ import { ItemTypeEnum, OptionableItemTypeSet } from '../../../../constants/item-
 import { ExtraOptionTable } from '../../../../constants/extra-option-table';
 import { createNumberDropdownList, getGradeList, itemDescPopoverHtml } from '../../../../utils';
 import { getEnchants } from 'src/app/constants/enchant_item';
+import { ItemDescriptionStore } from 'src/app/api-services/item-description.store';
 
 interface EventEmitterResultModel {
   itemType: string;
@@ -96,7 +97,7 @@ export class EquipmentComponent implements OnChanges, OnInit {
   private readonly requireSet = new Set(['items', 'itemList', 'mapEnchant',])
   private isInternalItemIdChange = false;
 
-  constructor() { }
+  constructor(private readonly itemDescriptions: ItemDescriptionStore) { }
 
   ngOnInit(): void {
     this.itemTypeMap = {
@@ -178,15 +179,24 @@ export class EquipmentComponent implements OnChanges, OnInit {
   }
 
   private readonly descTooltipCache = new Map<number, string>();
+  private descTooltipVersion = -1;
 
   /** pt-BR description (HTML) for an item's hover popover, memoised — same content
    *  as the "Descrições dos Itens" panel. Used by the base item, card and enchant
    *  dropdowns (both the selected value and the option list). */
   itemDescTooltip(id: number): string {
     if (!id || !this.items) return '';
+
+    // As descrições chegam depois do mapa de itens; descarta o que foi memoizado
+    // antes disso, senão o popover fica só com o nome para sempre.
+    if (this.descTooltipVersion !== this.itemDescriptions.version) {
+      this.descTooltipCache.clear();
+      this.descTooltipVersion = this.itemDescriptions.version;
+    }
+
     const cached = this.descTooltipCache.get(id);
     if (cached !== undefined) return cached;
-    const html = itemDescPopoverHtml(this.items[id]);
+    const html = itemDescPopoverHtml(this.items[id], this.itemDescriptions.get(id));
     this.descTooltipCache.set(id, html);
     return html;
   }

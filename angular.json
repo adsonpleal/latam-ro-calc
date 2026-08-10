@@ -31,7 +31,7 @@
               "src/robots.txt",
               "src/sitemap.xml",
               "src/manifest.webmanifest",
-              "src/assets"
+              { "glob": "**/*", "input": "src/assets", "output": "assets", "ignore": ["demo/data/**"] }
             ],
             "styles": [
               "src/styles.scss"
@@ -91,7 +91,7 @@
               "src/robots.txt",
               "src/sitemap.xml",
               "src/manifest.webmanifest",
-              "src/assets"
+              { "glob": "**/*", "input": "src/assets", "output": "assets", "ignore": ["demo/data/**"] }
             ],
             "styles": [
               "src/styles.scss"
@@ -175,7 +175,7 @@
               "src/robots.txt",
               "src/sitemap.xml",
               "src/manifest.webmanifest",
-              "src/assets"
+              { "glob": "**/*", "input": "src/assets", "output": "assets", "ignore": ["demo/data/**"] }
             ]
           }
         },

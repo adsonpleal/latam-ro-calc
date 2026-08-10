@@ -1,149 +1,98 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import * as yaml from 'js-yaml';
-import { Observable, forkJoin, map, shareReplay, tap } from 'rxjs';
-import { canGradeItem, createRawTotalBonus } from 'src/app/utils';
-import { environment } from 'src/environments/environment';
-import { VALID_SKILL_IDS } from '../skills';
-import { validClassNameSet } from './valid-bonuses';
+import { Observable, from, of, shareReplay, switchMap, tap } from 'rxjs';
+import { ItemDescriptionStore } from './item-description.store';
 
-type baseStat = 'Str' | 'Agi' | 'Int' | 'Dex' | 'Luk' | 'Vit' | 'Pow' | 'Con' | 'Crt' | 'Spl' | 'Sta' | 'Wis';
+/**
+ * Data keys emitted by tools/build-web-data.mjs. See data-manifest.json.
+ */
+type DataKey = 'itemsCore' | 'itemsDesc' | 'monsters' | 'hpsp' | 'classes' | 'itemViews';
 
-interface JobStatBody {
-  Jobs: Record<string, boolean>;
-  BonusStats: ({ Level: number; } & Partial<Record<baseStat, number>>)[];
-  HpFactor: number;
-  SpIncrease: number;
-  MaxWeight: number;
+interface DataManifest {
+  v: number;
+  base: string;
+  files: Record<DataKey, string>;
 }
 
-interface HpSpTable {
-  Jobs: Record<string, boolean>;
-  BaseSp: { Level: number; Sp: number; }[];
-  BaseHp: { Level: number; Hp: number; }[];
+/**
+ * Fetches of the artifacts the production index.html already kicked off during
+ * HTML parse (see tools/inject-data-manifest.mjs). Absent under `ng serve`.
+ */
+declare global {
+  interface Window {
+    __RO_DATA__?: DataManifest;
+    __RO_BOOT__?: Partial<Record<DataKey, Promise<unknown>>>;
+  }
 }
 
 @Injectable()
 export class RoService {
-  private cachedMonster$: Observable<any>;
-  private cachedItems$: Observable<any>;
-  private cachedHpSpTable$: Observable<any>;
-  private cachedLatamClasses$: Observable<number[]>;
-  private cachedItemViews$: Observable<Record<string, [number, number]>>;
-  private _isFirst = true;
+  private readonly manifest$: Observable<DataManifest>;
+  private readonly cachedItems$: Observable<any>;
+  private readonly cachedMonster$: Observable<any>;
+  private readonly cachedHpSpTable$: Observable<any>;
+  private readonly cachedLatamClasses$: Observable<number[]>;
+  private readonly cachedItemViews$: Observable<Record<string, [number, number]>>;
+  private readonly cachedItemDescriptions$: Observable<Record<string, string>>;
 
-  constructor(private http: HttpClient) {
-    this.cachedMonster$ = forkJoin({
-      monsters: this.http.get<any>('assets/demo/data/monster.json'),
-      // pt-BR monster names from ragassets' mobs.json (GRF string table +
-      // navi spawn data, see tools/build-latam-monsters.mjs).
-      latam: this.http.get<Record<string, string>>('assets/demo/data/latam-monsters.json'),
-    }).pipe(
-      map(({ monsters, latam }) => {
-        for (const id of Object.keys(monsters)) {
-          const pt = latam[id];
-          if (pt) monsters[id].name = pt;
-        }
-        return monsters;
-      }),
+  constructor(private http: HttpClient, private itemDescriptions: ItemDescriptionStore) {
+    // The injected manifest is authoritative when present; otherwise fetch it.
+    // It is tiny and served `no-cache`, while everything it points at is
+    // content-hashed and immutable.
+    this.manifest$ = (window.__RO_DATA__ ? of(window.__RO_DATA__) : this.http.get<DataManifest>('assets/data-manifest.json')).pipe(
       shareReplay(1),
     );
-    this.cachedItems$ = forkJoin({
-      items: this.http.get<any>('assets/demo/data/item.json'),
-      // LATAM overlay: pt-BR name/description + the "present in LATAM" set,
-      // extracted from the client by tools/build-latam-db.mjs.
-      latam: this.http.get<Record<string, { name: string; description?: string }>>('assets/demo/data/latam-items.json'),
-    }).pipe(
-      map(({ items, latam }) => {
-        for (const id of Object.keys(items)) {
-          const item = items[id];
-          const pt = latam[id];
-          item.presentInLatam = !!pt;
-          // Derived, not read from item.json: the stored flag was hand-maintained and drifted
-          // (the Armas Decadentes shipped as level-5 weapons with no flag, so the calculator
-          // greyed out their grade dropdown). itemLevel is the only input the rule needs.
-          item.canGrade = canGradeItem(item);
-          if (pt) {
-            // Set/combo scripts (EQUIP[...], POS_SPECIFIC[...], REFINE_NAME[...]) match
-            // partner items by their English display name. Preserve it before swapping
-            // in the pt-BR name so those bonuses keep resolving after localization.
-            item.enName = item.name;
-            item.name = pt.name;
-            if (pt.description) item.description = pt.description;
-          }
-        }
-        return items;
-      }),
-      shareReplay(1),
-      tap((items) => {
-        if (!this._isFirst || environment.production) return;
 
-        this._isFirst = false;
-
-        const validBonus = createRawTotalBonus();
-        const validStatusSet = new Set(Object.keys(validBonus));
-
-        const its = Object.values(items) as any[];
-        const invalidBonusSet = new Set();
-        const invalidClassNameSet = new Set();
-
-        for (const item of its) {
-          const script = item.script as Record<string, string[]>;
-          if (Array.isArray(item.usableClass)) {
-            item.usableClass.filter((c) => !validClassNameSet.has(c)).forEach((c) => invalidClassNameSet.add(c));
-          }
-          if (Array.isArray(item.unusableClass)) {
-            item.unusableClass.filter((c) => !validClassNameSet.has(c)).forEach((c) => invalidClassNameSet.add(c));
-          }
-
-          if (!script) continue;
-          for (const bonusKey of Object.keys(script)) {
-            const realKey = bonusKey
-              .replace('fix_vct__', '')
-              .replace('vct__', '')
-              .replace('chance__', '')
-              .replace('fctPercent__', '')
-              .replace('fct__', '')
-              .replace('acd__', '')
-              .replace('cd__', '');
-            if (validStatusSet.has(realKey)) continue;
-            if (invalidBonusSet.has(realKey)) continue;
-            // skill bonus keys are now in-game skill ids (see Skill Catalog)
-            if (/^\d+$/.test(realKey) && VALID_SKILL_IDS.has(Number(realKey))) continue;
-
-            invalidBonusSet.add(realKey);
-          }
-
-          // for (const lineScript of Object.values(script).flat()) {
-          //   const [_, jobStr] = lineScript.match(/USED\[(.+?)\]/i) || []
-          //   if (jobStr) {
-          //     jobStr.split('||').filter(jobName => !validClassNameSet.has(jobName as any)).forEach((c) => invalidClassNameSet.add(c))
-          //   }
-          // }
-        }
-
-        if (invalidBonusSet.size > 0) console.error('invalidBonusSet', [...invalidBonusSet]);
-        if (invalidClassNameSet.size > 0) console.error('invalidClassNameSet', invalidClassNameSet);
-      }),
-    );
-    this.cachedHpSpTable$ = this.http.get<any>('assets/demo/data/hp_sp_table.json').pipe(shareReplay(1));
+    // item.json + latam-items.json used to be merged here, on every page load:
+    // presentInLatam, canGrade, enName and the pt-BR name/description swap. That
+    // all happens at build time now (tools/build-web-data.mjs), so this is a
+    // plain fetch. The dev-only script/class validation moved to
+    // item-script-keys.spec.ts, where it runs once in CI instead of on every
+    // reload.
+    this.cachedItems$ = this.boot<any>('itemsCore');
+    this.cachedMonster$ = this.boot<any>('monsters');
+    this.cachedHpSpTable$ = this.boot<any>('hpsp');
     // Job-icon ids present in the LATAM client GRF (from tools/build-latam-db.mjs);
     // classes whose icon isn't here are unreleased on LATAM and hidden in the UI.
-    this.cachedLatamClasses$ = this.http.get<number[]>('assets/demo/data/latam-classes.json').pipe(shareReplay(1));
-    // skill localization (id, pt-BR name, description) now lives in the static
-    // Skill Catalog (src/app/skills), not in fetched JSON.
+    this.cachedLatamClasses$ = this.boot<number[]>('classes');
     // item id -> sprite "view" id (client ClassNum) for rendering equipped gear
     // (headgear/garment) on the character paper-doll (from tools/build-item-views.mjs).
-    this.cachedItemViews$ = this.http
-      .get<Record<string, [number, number]>>('assets/demo/data/item-views.json')
-      .pipe(shareReplay(1));
+    this.cachedItemViews$ = this.boot<Record<string, [number, number]>>('itemViews');
 
-    // this.doX();
-    // this.generateHpSp()
+    // Descriptions are ~half the payload and are only read on hover and in the
+    // item-search preview, so they wait for the core to land before competing
+    // for bandwidth. Everything renders fine without them (the popover shows the
+    // item name alone until they arrive).
+    this.cachedItemDescriptions$ = this.cachedItems$.pipe(
+      switchMap(() => this.boot<Record<string, string>>('itemsDesc')),
+      tap((descriptions) => this.itemDescriptions.set(descriptions)),
+      shareReplay(1),
+    );
+  }
+
+  /**
+   * In production index.html already started this fetch during HTML parse —
+   * roughly 1,4 MB of JS earlier than the lazy route chunk could have. Adopt
+   * that in-flight promise instead of issuing a second request. Under
+   * `ng serve` there is no injection, so fall back to the manifest.
+   */
+  private boot<T>(key: DataKey): Observable<T> {
+    const inFlight = window.__RO_BOOT__?.[key] as Promise<T> | undefined;
+    if (inFlight) return from(inFlight).pipe(shareReplay(1));
+
+    return this.manifest$.pipe(
+      switchMap((manifest) => this.http.get<T>(manifest.base + manifest.files[key])),
+      shareReplay(1),
+    );
   }
 
   getItems<T>(): Observable<T> {
     return this.cachedItems$;
+  }
+
+  /** pt-BR item descriptions, loaded after the core item map. */
+  getItemDescriptions(): Observable<Record<string, string>> {
+    return this.cachedItemDescriptions$;
   }
 
   /** item id -> [sprite view id (ClassNum), visual-slot mask], for the paper-doll. */
@@ -161,134 +110,5 @@ export class RoService {
 
   getLatamClasses(): Observable<number[]> {
     return this.cachedLatamClasses$;
-  }
-
-  private generateHpSp() {
-    const a = [] as any[];
-    const expandedJobs = [
-      // 'Sky_Emperor', 'Soul_Ascetic', 'Shinkiro', 'Shiranui',
-      // 'Night_Watch', 'Hyper_Novice', 'Spirit_Handler',
-    ];
-    const targetJobs = [
-      'Dragon_Knight', 'Meister', 'Shadow_Cross', 'Arch_Mage', 'Cardinal', 'Windhawk', 'Imperial_Guard', 'Biolo',
-      'Abyss_Chaser', 'Elemental_Master', 'Inquisitor', 'Troubadour', 'Trouvere', ...expandedJobs];
-
-    this.fetchYaml<{ Body: HpSpTable[]; }>('job_basepoints.yml').subscribe(({ Body: data }) => {
-      console.log({ data });
-      for (const rec of data) {
-        const curJob = rec.Jobs;
-        // console.log({ curJob })
-        const jobNames = Object.keys(curJob);
-        if (jobNames.length > 3 || !jobNames.some(n => targetJobs.includes(n))) continue;
-
-        const divider = jobNames.some(n => expandedJobs.includes(n)) ? 1 : 1.25;
-
-        const found = a.find(({ jobs }) => {
-          // if (jobs['Novice'] && curJob['Super_Novice']) {
-          //   console.log('compare ', { jobs: { ...jobs }, curJob: { ...curJob } });
-          // }
-
-          return jobNames.some((job) => jobs[job] === true);
-        });
-
-        if (found) {
-          found.jobs = { ...found.jobs, ...rec.Jobs };
-          found.baseHp = {
-            ...(found.baseHp || {}),
-            ...rec.BaseHp?.reduce((s, { Hp, Level }) => {
-              s[Level] = Math.floor(Hp / divider);
-              return s;
-            }, {}),
-          };
-          found.baseSp = {
-            ...(found.baseSp || {}),
-            ...rec.BaseSp?.reduce((s, { Sp, Level }) => {
-              s[Level] = Math.floor(Sp / divider);
-              return s;
-            }, {}),
-          };
-        } else {
-          a.push({
-            jobs: rec.Jobs,
-            baseHp:
-              rec.BaseHp?.filter(a => a.Level >= 200).reduce((s, { Hp, Level }) => {
-                s[Level] = Math.floor(Hp / divider);
-                // if (Level === 250) console.log([jobNames[0]], s[Level], 'before', Hp)
-                return s;
-              }, {}) || undefined,
-            baseSp:
-              rec.BaseSp?.reduce((s, { Sp, Level }) => {
-                s[Level] = Math.floor(Sp / divider);
-                // if (Level === 250) console.log([jobNames[0]], s[Level], 'before', Sp)
-                return s;
-              }, {}) || undefined,
-          });
-        }
-      }
-      console.log(a);
-    }, err => console.error({ err }));
-
-    // this.getHpSpTable<any[]>().subscribe((data) => {
-    //   const ls = {};
-    //   for (const cName of Object.values(ClassName)) {
-    //     const i = data.findIndex((a) => {
-    //       return a.jobs[cName] === true;
-    //     });
-    //     ls[cName] = i;
-    //   }
-    //   console.log(ls);
-    // });
-  }
-
-  // 1: [0, 0, 0, 0, 0, 1],
-  // 2: [1, 0, 0, 0, 0, 1],
-  doX() {
-    this.fetchYaml<{ Body: JobStatBody[]; }>('job_stats.yml').subscribe(({ Body }) => {
-      console.log({ Body });
-      for (const job of Body) {
-        const bastStat = {} as any;
-        const traitStat = {} as any;
-        for (let i = 1; i <= 70; i++) {
-          let [str, agi, vit, int, dex, luk] = i === 1 ? [0, 0, 0, 0, 0, 0] : bastStat[i - 1];
-          let [pow, sta, wis, spl, con, crt] = i === 1 ? [0, 0, 0, 0, 0, 0] : traitStat[i - 1];
-
-          if (!job.BonusStats) {
-            console.error({ ...job });
-            break;
-          }
-
-          const { Level, Str, Agi, Vit, Int, Dex, Luk, Pow, Con, Crt, Spl, Sta, Wis } = job.BonusStats.find((a) => a.Level === i) || {};
-          if (i === Level) {
-            if (Str && Str > 0) str++;
-            if (Agi && Agi > 0) agi++;
-            if (Vit && Vit > 0) vit++;
-            if (Int && Int > 0) int++;
-            if (Dex && Dex > 0) dex++;
-            if (Luk && Luk > 0) luk++;
-
-            if (Pow && Pow > 0) pow++;
-            if (Sta && Sta > 0) sta++;
-            if (Wis && Wis > 0) wis++;
-            if (Spl && Spl > 0) spl++;
-            if (Con && Con > 0) con++;
-            if (Crt && Crt > 0) crt++;
-          }
-
-          bastStat[i] = [str, agi, vit, int, dex, luk];
-          traitStat[i] = [pow, sta, wis, spl, con, crt];
-        }
-
-        const jobNames = Object.keys(job.Jobs).join(',');
-        if (traitStat[70]?.[0] === 0 && traitStat[70]?.[1] === 0 && traitStat[70]?.[2] === 0 && traitStat[70]?.[3] === 0) {
-          console.log(jobNames, { bastStat });
-        } else {
-          console.log(jobNames, { bastStat, traitStat });
-        }
-      }
-    });
-  }
-
-  private fetchYaml<T>(fileName: string): Observable<T> {
-    return this.http.get(`/assets/demo/data/${fileName}`, { responseType: 'text' }).pipe(map(yaml.load));
   }
 }

@@ -4,6 +4,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, Subscription, debounceTime, filter, finalize, forkJoin, mergeMap, switchMap, take, tap } from 'rxjs';
 import { PresetModel } from 'src/app/api-services';
 import { RoService } from 'src/app/api-services/ro.service';
+import { ItemDescriptionStore } from 'src/app/api-services/item-description.store';
 import { SKILL_DESC_BY_ID, SKILL_ID_BY_NAME, resolveSkillMeta } from 'src/app/skills';
 import { BUFF_BONUS_LABELS, bonusKeyLabel, resolveSkillKey } from 'src/app/core/bonus-key-label';
 import { AllowedCompareItemTypes } from 'src/app/app-config';
@@ -376,6 +377,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
   /** memoised pt-BR item descriptions (HTML) for the consumable hover popovers */
   private itemDescCache = new Map<number, string>();
+  private itemDescVersion = -1;
 
   itemOptionNumber = ItemOptionNumber;
 
@@ -431,6 +433,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private readonly layoutService: LayoutService,
     private readonly itemShop: ItemShopService,
+    private readonly itemDescriptionStore: ItemDescriptionStore,
   ) { }
 
   ngOnInit() {
@@ -472,6 +475,18 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.allSubs.push(laySub);
 
     this.allSubs.push(this.roService.getItemViews().subscribe((views) => (this.itemViews = views || {})));
+
+    // Fora do forkJoin da carga inicial de propósito: as descrições são quase
+    // metade do peso e só aparecem em hover e na prévia da busca. Quando chegam,
+    // o painel aberto é reescrito (os tooltips se invalidam sozinhos pela versão
+    // do store).
+    this.allSubs.push(
+      this.roService.getItemDescriptions().subscribe(() => {
+        if (this.selectedItemDesc || this.selectedCompareItemDesc) {
+          this.onSelectItemDescription(!!this.selectedCompareItemDesc);
+        }
+      }),
+    );
 
     const isCalcSubs = this.isCalculatingEvent.pipe(debounceTime(100)).subscribe(() => (this.isCalculating = false));
     this.allSubs.push(isCalcSubs);
@@ -2680,7 +2695,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.itemId = itemId;
     this.itemBonus = bonus; //{ script, bonus };
     this.itemBonusRows = this.buildItemBonusRows(bonus);
-    this.itemDescription = prettyItemDesc(this.items[itemId]?.description);
+    this.itemDescription = prettyItemDesc(this.itemDescriptionStore.get(itemId));
   }
 
   /** Turn a flat item-bonus summary ({ key: value }) into display rows. Skill-named
@@ -2718,9 +2733,16 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   /** pt-BR description (HTML) for a consumable's hover popover, memoised. */
   itemDescTooltip(id: number): string {
     if (!id || !this.items) return '';
+
+    // Ver ItemDescriptionStore: as descrições chegam depois do mapa de itens.
+    if (this.itemDescVersion !== this.itemDescriptionStore.version) {
+      this.itemDescCache.clear();
+      this.itemDescVersion = this.itemDescriptionStore.version;
+    }
+
     const cached = this.itemDescCache.get(id);
     if (cached !== undefined) return cached;
-    const html = itemDescPopoverHtml(this.items[id]);
+    const html = itemDescPopoverHtml(this.items[id], this.itemDescriptionStore.get(id));
     this.itemDescCache.set(id, html);
     return html;
   }

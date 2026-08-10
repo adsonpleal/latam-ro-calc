@@ -6,6 +6,7 @@ import { Observable, Subject, Subscription, debounceTime, tap } from 'rxjs';
 import { LayoutService } from '../../../service/app.layout.service';
 import { ItemShopService } from '../item-shop.service';
 import { SKILL_ID_BY_NAME } from 'src/app/skills';
+import { ItemDescriptionStore } from 'src/app/api-services/item-description.store';
 
 const positions: DropdownModel[] = [
   { value: 'weaponList', label: 'Arma' },
@@ -66,6 +67,7 @@ export class ItemSearchComponent implements OnInit, OnDestroy {
   constructor(
     private layoutService: LayoutService,
     private readonly itemShop: ItemShopService,
+    private readonly itemDescriptions: ItemDescriptionStore,
   ) {}
 
   // Shop server selector (shared state with the "Descrições dos Itens" section).
@@ -231,7 +233,9 @@ export class ItemSearchComponent implements OnInit, OnDestroy {
     // console.log({ item });
     this.selectItemSource.next((item as (typeof this.equipableItems)[0]).value as number);
 
-    this.activeFilteredItemDesc = prettyItemDesc(this.items[this.activeFilteredItem?.id]?.description);
+    // O filtro da busca lê item.script, não a descrição — buscar funciona mesmo
+    // antes de items-desc chegar; só esta prévia fica vazia até lá.
+    this.activeFilteredItemDesc = prettyItemDesc(this.itemDescriptions.get(this.activeFilteredItem?.id));
   }
 
   private clearItemSearch() {

@@ -48,8 +48,15 @@ testes e bloqueia o push se algo falhar.
 
 ## Dados dos itens
 
-`src/assets/demo/data/item.json` é a fonte dos itens; `latam-items.json` sobrepõe nome e
-descrição em pt-BR em runtime. Ao cadastrar bônus e conjuntos, a **descrição pt-BR é a
+`src/assets/demo/data/item.json` é a fonte dos itens; `latam-items.json` traz nome e
+descrição em pt-BR.
+
+> **O browser não lê mais esses arquivos.** `tools/build-web-data.mjs` mescla os dois em
+> build time e emite `src/assets/data/` (fora do git). Depois de editar o `item.json`,
+> rode `pnpm data:dev` — ou reinicie o `pnpm start`, que já o executa — senão a mudança
+> não aparece na tela. O `pnpm build` roda o gerador com `--hash` e, no fim, o
+> `tools/inject-data-manifest.mjs`, que injeta os nomes hasheados no `index.html`.
+> O servidor MCP continua lendo os arquivos crus de `src/assets/demo/data/`. Ao cadastrar bônus e conjuntos, a **descrição pt-BR é a
 fonte da verdade** — divine-pride serve para resolver *ids*, não para decidir o efeito.
 Detalhes do formato em [`docs/item-json.md`](docs/item-json.md); para adicionar itens,
 use a skill `add-ro-item`.
