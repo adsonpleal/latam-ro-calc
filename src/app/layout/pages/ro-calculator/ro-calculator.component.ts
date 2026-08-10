@@ -145,6 +145,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   skillBuffs = JobBuffs;
 
   isInProcessingPreset = false;
+  /** Cobre a carga inicial dos dados (itens, monstros, tabelas), que acontece antes de
+   *  `isInProcessingPreset` ligar. Sem isso o template pinta a tela inteira com os
+   *  dropdowns vazios e o usuário encara uma UI morta até o JSON terminar de chegar. */
+  isLoadingData = true;
 
   // --- Save / preview / share simulations (browser localStorage) ----------
   private savedSimStore = new SavedSimulationStore(localStorage);
@@ -434,15 +438,32 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // A share link (?b=...) wins over the local autosave; falls back to it when absent.
     const shared = this.consumeSharedBuild();
     this.initData()
-      .pipe(switchMap(() => this.loadItemSet(shared?.preset ?? localStorage.getItem('ro-set'))))
-      .subscribe(() => {
-        // Restore the comparison the link carried, or — for the autosave path — the one
-        // that was active before the refresh. Either way a `null` clears any active
-        // comparison, matching how loading a saved sim behaves.
-        this.restoreCompareState(shared ? shared.compare : this.calcStorage.readCompareState());
-        if (shared) {
-          this.messageService.add({ severity: 'success', summary: 'Simulação carregada', detail: 'Carregada a partir do link compartilhado.' });
-        }
+      .pipe(
+        // Libera o overlay assim que os dados chegam — daí em diante quem cobre a tela é
+        // `isInProcessingPreset`, que o `loadItemSet` liga na sequência. No `finalize` para
+        // que uma falha de rede também destrave (senão o overlay ficaria preso para sempre).
+        finalize(() => (this.isLoadingData = false)),
+        switchMap(() => this.loadItemSet(shared?.preset ?? localStorage.getItem('ro-set'))),
+      )
+      .subscribe({
+        next: () => {
+          // Restore the comparison the link carried, or — for the autosave path — the one
+          // that was active before the refresh. Either way a `null` clears any active
+          // comparison, matching how loading a saved sim behaves.
+          this.restoreCompareState(shared ? shared.compare : this.calcStorage.readCompareState());
+          if (shared) {
+            this.messageService.add({ severity: 'success', summary: 'Simulação carregada', detail: 'Carregada a partir do link compartilhado.' });
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Falha ao carregar os dados',
+            detail: 'Não foi possível baixar a base de itens. Recarregue a página.',
+            life: 10000,
+          });
+        },
       });
 
     const laySub = this.layoutService.configUpdate$.pipe(debounceTime(300)).subscribe((c) => {
@@ -1138,7 +1159,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           console.error(error);
         }
 
-        return waitRxjs(1);
+        // Um hop de macrotask basta para o overlay repintar antes do cálculo final; o
+        // 1 s original era margem arbitrária e era o maior custo fixo da carga inicial.
+        return waitRxjs(0.05);
       }),
       finalize(() => {
         this.isInProcessingPreset = false;

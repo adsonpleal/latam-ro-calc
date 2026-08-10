@@ -5,6 +5,16 @@
 <p-toast></p-toast>
 <p-blockUI [blocked]="isInProcessingPreset"></p-blockUI>
 
+<!-- Carga inicial dos dados. Não usa p-blockUI de propósito: o `blocked` do PrimeNG chega
+     antes do ngAfterViewInit quando já começa ligado, e nesse caminho ele grava `_blocked`
+     sem chamar block() — a máscara nunca é registrada e fica presa sobre a tela. Este é o
+     mesmo markup do splash pré-bootstrap do index.html (CSS global), então a transição de
+     um para o outro é contínua. -->
+<div class="ro-splash" *ngIf="isLoadingData">
+  <div class="ro-splash-ring"></div>
+  <div class="ro-splash-text">Carregando dados dos itens…</div>
+</div>
+
 <!-- "Redução de dano" popover body — shared by the main stats (self gear) and the
      PVP HUD (target gear). Each row drills into the contributing items via the
      bonus-breakdown modal; WoE rows (no keys) are the castle aura and aren't clickable. -->

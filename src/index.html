@@ -46,6 +46,48 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link id="theme-css" rel="stylesheet" type="text/css" href="assets/layout/styles/theme/vela-green/theme.css" />
 
+    <!-- Splash pré-bootstrap. Fica dentro de <app-root>; o Angular substitui os filhos do
+         elemento ao inicializar, então ele some sozinho e não precisa de teardown. Cores
+         fixas (vela-green) e spinner em CSS puro de propósito: cobre justamente a janela em
+         que nenhum stylesheet de tema, webfont ou bundle JS chegou ainda. -->
+    <style>
+      .ro-splash {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+        background: #17212f;
+        color: rgba(255, 255, 255, 0.87);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      }
+      .ro-splash-ring {
+        width: 44px;
+        height: 44px;
+        border: 4px solid rgba(255, 255, 255, 0.15);
+        border-top-color: #81c784;
+        border-radius: 50%;
+        animation: ro-splash-spin 0.9s linear infinite;
+      }
+      .ro-splash-text {
+        font-size: 0.95rem;
+        letter-spacing: 0.02em;
+        opacity: 0.75;
+      }
+      @keyframes ro-splash-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ro-splash-ring {
+          animation-duration: 2.4s;
+        }
+      }
+    </style>
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -63,6 +105,11 @@
   </head>
 
   <body>
-    <app-root></app-root>
+    <app-root>
+      <div class="ro-splash">
+        <div class="ro-splash-ring"></div>
+        <div class="ro-splash-text">Carregando o simulador…</div>
+      </div>
+    </app-root>
   </body>
 </html>
