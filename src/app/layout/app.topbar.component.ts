@@ -143,6 +143,17 @@ export class AppTopBarComponent {
 
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.42-beta',
+      date: '10-08-2026',
+      logs: [
+        'A abertura do simulador ficou bem mais leve. O banco de itens era baixado cru a cada visita — 18 MB de JSON, com mais da metade do peso em descrições que eram descartadas e reescritas em pt-BR assim que chegavam —, e o download só começava depois que o pacote da página terminava de baixar e executar. Agora esses dados são preparados na publicação, já mesclados e sem os campos que a tela não usa: o que precisa chegar antes da primeira conta caiu de 1.281 KB para 319 KB, e começa a baixar junto com o resto da página em vez de esperar por ela.',
+        'Voltar ao simulador deixou de baixar tudo de novo. Os arquivos de dados passaram a levar a versão no próprio nome, o que permite ao navegador guardá-los sem prazo: da segunda visita em diante nenhum deles é pedido ao servidor enquanto a base de itens não mudar. Antes cada visita revalidava os seis arquivos, mesmo sem nada ter mudado. As descrições dos itens, que só aparecem ao passar o mouse, ficaram num arquivo à parte que carrega depois que a tela já está pronta.',
+        'O carregamento inicial virou uma tela só. Antes a abertura piscava entre três estados — a tela de espera, um intervalo em branco enquanto a página montava e outro indicador enquanto a build era remontada —, e no fim ainda apareciam os indicadores de cada painel. Agora é um único indicador do primeiro instante até os números aparecerem, e a barra de rolagem deixou de surgir e sumir no meio do processo.',
+        'Abrir o simulador e trocar de classe deixaram de esperar à toa. As duas rotinas tinham pausas fixas somando cerca de 1,3 s na abertura e 0,9 s na troca de classe, herdadas de quando a tela precisava de folga para se redesenhar entre as etapas. Ficaram em 0,05 s cada.',
+        'O popover de descrição do item deixou de sumir. Eram três causas distintas. Descrições longas ficavam mais altas que a janela e o popover era jogado para o canto com o resto fora da tela — o Chapéu de Kiwawa, com 56 linhas, ocupava 885 px numa janela de 720 px; descrições acima de 28 linhas passam a ser distribuídas em colunas. Itens perto do rodapé recebiam o popover colado logo abaixo deles, inteiro fora da tela, porque a última posição tentada era aplicada sem conferência. E a mais difícil de perceber: o popover podia ficar montado, posicionado e com o texto certo, mas com opacidade 0 — invisível, sem nada de errado para investigar —, quando a animação de entrada não chegava a rodar. Era esta que fazia o problema desaparecer com o DevTools aberto.',
+      ],
+    },
+    {
       v: '0.1.41-beta',
       date: '31-07-2026',
       logs: [
