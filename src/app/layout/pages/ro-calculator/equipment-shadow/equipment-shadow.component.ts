@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { getEnchants } from 'src/app/constants';
 import { ItemModel } from 'src/app/models/item.model';
 import { DropdownModel } from '../../../../models/dropdown.model';
+import { ItemDescriptionStore } from 'src/app/api-services/item-description.store';
 
 interface EventEmitterResultModel {
   itemType: string;
@@ -54,7 +55,9 @@ export class EquipmentShadowComponent implements OnInit, OnChanges {
   enchant3List: DropdownModel[] = [];
   enchant4List: DropdownModel[] = [];
 
-  constructor() { }
+  /** Público porque o template passa `itemDescriptions.version` ao itemDescTooltip —
+   *  é o que faz o pipe puro reavaliar quando as descrições terminam de carregar. */
+  constructor(public readonly itemDescriptions: ItemDescriptionStore) { }
 
   ngOnInit(): void {
     this.itemTypeMap = {

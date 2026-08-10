@@ -160,6 +160,30 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   isBooting = true;
   private bootChainDone = false;
 
+  /**
+   * Tira de cena o #ro-splash do index.html. Ele vive fora do <app-root> para
+   * sobreviver ao bootstrap do Angular, então some por remoção explícita, uma vez
+   * só — é o mesmo elemento desde o primeiro paint, sem troca de dono no meio.
+   */
+  private hideBootSplash() {
+    const el = document.getElementById('ro-splash');
+    if (!el) return;
+    el.classList.add('ro-splash--hide');
+    // Por timer, não por transitionend: aba em segundo plano não compõe quadros,
+    // a transição não roda e o evento nunca chega. A rolagem é liberada junto com a
+    // remoção, e não no início do fade, para a barra não surgir durante a transição.
+    setTimeout(() => {
+      el.remove();
+      document.documentElement.classList.remove('ro-booting');
+    }, 250);
+  }
+
+  private finishBoot() {
+    if (!this.isBooting) return;
+    this.isBooting = false;
+    this.hideBootSplash();
+  }
+
   // --- Save / preview / share simulations (browser localStorage) ----------
   private savedSimStore = new SavedSimulationStore(localStorage);
   /** item id -> [sprite view id (ClassNum), visual-slot mask], for the paper-doll. */
@@ -458,7 +482,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         // dá a última palavra é o `isCalculatingEvent` abaixo.
         finalize(() => {
           this.bootChainDone = true;
-          if (!this.isCalculating) this.isBooting = false;
+          if (!this.isCalculating) this.finishBoot();
         }),
       )
       .subscribe({
@@ -504,7 +528,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     const isCalcSubs = this.isCalculatingEvent.pipe(debounceTime(100)).subscribe(() => {
       this.isCalculating = false;
       // Fim do primeiro cálculo: a tela já tem números, então a abertura acabou.
-      if (this.bootChainDone) this.isBooting = false;
+      if (this.bootChainDone) this.finishBoot();
     });
     this.allSubs.push(isCalcSubs);
 
@@ -681,6 +705,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // Rede de segurança: o splash não pertence ao template, então sair da tela no
+    // meio da abertura o deixaria pendurado sobre a app.
+    this.finishBoot();
     for (const ob of this.allSubs) {
       ob?.unsubscribe();
     }

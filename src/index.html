@@ -1,5 +1,8 @@
 <!doctype html>
-<html lang="pt-BR">
+<!-- `ro-booting` trava a rolagem durante a abertura: o template do simulador é montado
+     atrás do splash e faz o documento crescer, o que fazia a barra de rolagem aparecer e
+     mudar de tamanho no meio do carregamento. Removida junto com o splash. -->
+<html lang="pt-BR" class="ro-booting">
   <head>
     <meta charset="utf-8" />
     <title>Simulador de Dano RO LATAM — Ragnarok Online (Beta)</title>
@@ -51,6 +54,10 @@
          fixas (vela-green) e spinner em CSS puro de propósito: cobre justamente a janela em
          que nenhum stylesheet de tema, webfont ou bundle JS chegou ainda. -->
     <style>
+      html.ro-booting,
+      html.ro-booting body {
+        overflow: hidden;
+      }
       .ro-splash {
         position: fixed;
         inset: 0;
@@ -84,9 +91,20 @@
           transform: rotate(360deg);
         }
       }
+      /* Saída suave. A remoção do elemento é agendada por setTimeout, não por
+         transitionend: numa aba em segundo plano o navegador não compõe quadros, a
+         transição não roda e o evento nunca dispara — o splash ficaria preso. */
+      .ro-splash.ro-splash--hide {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
       @media (prefers-reduced-motion: reduce) {
         .ro-splash-ring {
           animation-duration: 2.4s;
+        }
+        .ro-splash.ro-splash--hide {
+          transition: none;
         }
       }
     </style>
@@ -108,11 +126,15 @@
   </head>
 
   <body>
-    <app-root>
-      <div class="ro-splash">
-        <div class="ro-splash-ring"></div>
-        <div class="ro-splash-text">Carregando o simulador…</div>
-      </div>
-    </app-root>
+    <!-- Fica FORA do <app-root> de propósito. Dentro dele, o Angular substitui os filhos
+         ao inicializar e o splash sumiria antes de o componente da rota (lazy) renderizar
+         o seu — dando um piscar de tela vazia no meio da abertura. Aqui ele é um elemento
+         só, do primeiro paint até o fim do carregamento, removido uma única vez pelo
+         RoCalculatorComponent. -->
+    <div class="ro-splash" id="ro-splash">
+      <div class="ro-splash-ring"></div>
+      <div class="ro-splash-text">Carregando o simulador…</div>
+    </div>
+    <app-root></app-root>
   </body>
 </html>

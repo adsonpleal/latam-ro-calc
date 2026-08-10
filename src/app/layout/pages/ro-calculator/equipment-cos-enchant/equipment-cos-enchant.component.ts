@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import { DropdownModel } from '../../../../models/dropdown.model';
 import { ItemModel } from '../../../../models/item.model';
+import { ItemDescriptionStore } from 'src/app/api-services/item-description.store';
 
 @Component({
   selector: 'app-equipment-cos-enchant',
@@ -25,7 +26,9 @@ export class EquipmentCosEnchantComponent implements AfterViewInit {
 
   private itemTypeMap = {};
 
-  constructor() { }
+  /** Público porque o template passa `itemDescriptions.version` ao itemDescTooltip —
+   *  é o que faz o pipe puro reavaliar quando as descrições terminam de carregar. */
+  constructor(public readonly itemDescriptions: ItemDescriptionStore) { }
 
   ngAfterViewInit(): void {
     setTimeout(() => {

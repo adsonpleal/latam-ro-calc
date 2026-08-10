@@ -22,13 +22,13 @@
       [placeholder]="placeholder"
     >
       <ng-template let-item pTemplate="selectedItem">
-        <div class="flex gap-1 item_template" [pTooltip]="item.value | itemDescTooltip: items" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="itemId">
+        <div class="flex gap-1 item_template" [pTooltip]="item.value | itemDescTooltip: items : itemDescriptions.version" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="itemId">
           <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
           <div>{{ item.label }}</div>
         </div>
       </ng-template>
       <ng-template let-item pTemplate="item">
-        <div class="flex gap-1" [pTooltip]="item.value | itemDescTooltip: items" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
+        <div class="flex gap-1" [pTooltip]="item.value | itemDescTooltip: items : itemDescriptions.version" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
           <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
           <div>{{ item.label }}</div>
         </div>

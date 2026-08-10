@@ -9,16 +9,10 @@
      e carga de preset. -->
 <p-blockUI [blocked]="isInProcessingPreset && !isBooting"></p-blockUI>
 
-<!-- Indicador único da abertura: dados, preset e primeiro cálculo. É o mesmo markup do
-     splash pré-bootstrap do index.html (CSS global), com o mesmo texto, então os dois
-     são indistinguíveis e a tela mostra um carregamento só do início ao fim.
-     Não usa p-blockUI de propósito: quando o `blocked` já chega ligado, o input é
-     atribuído antes do ngAfterViewInit e o setter grava `_blocked` sem chamar block() —
-     a máscara nunca é registrada nem recebe z-index. -->
-<div class="ro-splash" *ngIf="isBooting">
-  <div class="ro-splash-ring"></div>
-  <div class="ro-splash-text">Carregando o simulador…</div>
-</div>
+<!-- O indicador da abertura é o #ro-splash do index.html, fora do <app-root>. Não é
+     replicado aqui: um segundo elemento só apareceria quando este componente (lazy)
+     renderizasse, e o intervalo entre um e outro é justamente o piscar de tela vazia
+     que queremos evitar. Quem o remove é o hideBootSplash(), no fim da abertura. -->
 
 <!-- "Redução de dano" popover body — shared by the main stats (self gear) and the
      PVP HUD (target gear). Each row drills into the contributing items via the

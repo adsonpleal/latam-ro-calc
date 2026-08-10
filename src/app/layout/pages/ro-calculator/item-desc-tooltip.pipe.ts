@@ -16,11 +16,17 @@ export class ItemDescTooltipPipe implements PipeTransform {
 
   constructor(private readonly descriptions: ItemDescriptionStore) {}
 
-  transform(id: number | undefined, items: Record<number, ItemModel> | undefined): string {
+  /**
+   * `descVersion` existe só para o Angular saber que precisa reavaliar: este pipe é
+   * puro, então ele só reexecuta quando alguma referência de entrada muda — e a
+   * chegada das descrições não muda nem o `id` nem o `items`. Sem esse argumento o
+   * tooltip fica congelado no valor calculado antes de items-desc chegar, ou seja,
+   * só com o nome do item. Passe `itemDescriptions.version` do componente.
+   */
+  transform(id: number | undefined, items: Record<number, ItemModel> | undefined, descVersion?: number): string {
+    void descVersion;
     if (!id || !items) return '';
 
-    // As descrições chegam depois do mapa de itens. Sem isto, um item cujo
-    // tooltip foi montado antes disso ficaria memoizado só com o nome.
     if (this.cachedVersion !== this.descriptions.version) {
       this.cache.clear();
       this.cachedVersion = this.descriptions.version;
