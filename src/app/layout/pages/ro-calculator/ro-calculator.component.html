@@ -3,16 +3,21 @@
      false-positive on every element that uses it — disabled file-wide here, still enforced elsewhere. -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
 <p-toast></p-toast>
-<p-blockUI [blocked]="isInProcessingPreset"></p-blockUI>
+<!-- Durante a abertura quem cobre a tela é o splash; sem esta guarda a máscara do
+     p-blockUI apareceria por cima dele no meio do loadItemSet, piscando uma segunda
+     tela de carregamento. Depois disso o p-blockUI segue normal, para troca de classe
+     e carga de preset. -->
+<p-blockUI [blocked]="isInProcessingPreset && !isBooting"></p-blockUI>
 
-<!-- Carga inicial dos dados. Não usa p-blockUI de propósito: o `blocked` do PrimeNG chega
-     antes do ngAfterViewInit quando já começa ligado, e nesse caminho ele grava `_blocked`
-     sem chamar block() — a máscara nunca é registrada e fica presa sobre a tela. Este é o
-     mesmo markup do splash pré-bootstrap do index.html (CSS global), então a transição de
-     um para o outro é contínua. -->
-<div class="ro-splash" *ngIf="isLoadingData">
+<!-- Indicador único da abertura: dados, preset e primeiro cálculo. É o mesmo markup do
+     splash pré-bootstrap do index.html (CSS global), com o mesmo texto, então os dois
+     são indistinguíveis e a tela mostra um carregamento só do início ao fim.
+     Não usa p-blockUI de propósito: quando o `blocked` já chega ligado, o input é
+     atribuído antes do ngAfterViewInit e o setter grava `_blocked` sem chamar block() —
+     a máscara nunca é registrada nem recebe z-index. -->
+<div class="ro-splash" *ngIf="isBooting">
   <div class="ro-splash-ring"></div>
-  <div class="ro-splash-text">Carregando dados dos itens…</div>
+  <div class="ro-splash-text">Carregando o simulador…</div>
 </div>
 
 <!-- "Redução de dano" popover body — shared by the main stats (self gear) and the

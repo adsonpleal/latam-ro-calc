@@ -54,6 +54,9 @@
       .ro-splash {
         position: fixed;
         inset: 0;
+        /* Acima das camadas do PrimeNG (máscara modal fica em 1101), para que nenhum
+           overlay dele apareça por cima durante a abertura. */
+        z-index: 2000;
         display: flex;
         flex-direction: column;
         align-items: center;

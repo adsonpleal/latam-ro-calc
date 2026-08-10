@@ -146,10 +146,19 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   skillBuffs = JobBuffs;
 
   isInProcessingPreset = false;
-  /** Cobre a carga inicial dos dados (itens, monstros, tabelas), que acontece antes de
-   *  `isInProcessingPreset` ligar. Sem isso o template pinta a tela inteira com os
-   *  dropdowns vazios e o usuário encara uma UI morta até o JSON terminar de chegar. */
-  isLoadingData = true;
+
+  /**
+   * Um único indicador para toda a abertura: baixar os dados, montar o preset e
+   * rodar o primeiro cálculo. Antes eram três telas de carregamento em sequência
+   * (splash, máscara do p-blockUI, spinners de cada painel), o que dava a
+   * impressão de que a página carregava várias vezes.
+   *
+   * Só desliga quando as duas pontas terminam — a cadeia do ngOnInit e o cálculo
+   * inicial —, porque elas acabam fora de ordem: o cálculo é disparado no fim do
+   * loadItemSet mas roda depois, atrás de dois debounces.
+   */
+  isBooting = true;
+  private bootChainDone = false;
 
   // --- Save / preview / share simulations (browser localStorage) ----------
   private savedSimStore = new SavedSimulationStore(localStorage);
@@ -442,11 +451,15 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     const shared = this.consumeSharedBuild();
     this.initData()
       .pipe(
-        // Libera o overlay assim que os dados chegam — daí em diante quem cobre a tela é
-        // `isInProcessingPreset`, que o `loadItemSet` liga na sequência. No `finalize` para
-        // que uma falha de rede também destrave (senão o overlay ficaria preso para sempre).
-        finalize(() => (this.isLoadingData = false)),
         switchMap(() => this.loadItemSet(shared?.preset ?? localStorage.getItem('ro-set'))),
+        // No `finalize` para que uma falha de rede também destrave — senão o splash
+        // ficaria preso para sempre. Se nada chegou a disparar cálculo (erro, ou
+        // nenhum preset salvo), encerra a abertura aqui mesmo; do contrário quem
+        // dá a última palavra é o `isCalculatingEvent` abaixo.
+        finalize(() => {
+          this.bootChainDone = true;
+          if (!this.isCalculating) this.isBooting = false;
+        }),
       )
       .subscribe({
         next: () => {
@@ -488,7 +501,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       }),
     );
 
-    const isCalcSubs = this.isCalculatingEvent.pipe(debounceTime(100)).subscribe(() => (this.isCalculating = false));
+    const isCalcSubs = this.isCalculatingEvent.pipe(debounceTime(100)).subscribe(() => {
+      this.isCalculating = false;
+      // Fim do primeiro cálculo: a tela já tem números, então a abertura acabou.
+      if (this.bootChainDone) this.isBooting = false;
+    });
     this.allSubs.push(isCalcSubs);
 
     const itemChanges = new Set<ItemTypeEnum>();
