@@ -9,7 +9,8 @@ turugrura.
 🔗 **Acesse online:** https://simulador.latam-tools.com.br
 
 > ⚠️ **Beta.** Alguns itens podem estar faltando ou imprecisos. A classe totalmente
-> validada até agora é **Falcão do Vento**. Veja o [CHANGELOG](CHANGELOG.md).
+> validada até agora é **Falcão do Vento**. As notas de cada versão ficam em
+> **Novidades**, no próprio app (botão da versão, na barra superior).
 
 ## Recursos
 

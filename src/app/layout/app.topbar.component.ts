@@ -141,6 +141,19 @@ export class AppTopBarComponent {
     },
   ];
 
+  /**
+   * Notas de versão — fonte única, sem changelog paralelo (o CHANGELOG.md foi
+   * removido depois de ficar parado no 0.1.23-beta enquanto as versões seguiam
+   * saindo por aqui).
+   *
+   * Alimenta o diálogo "Novidades" e, na publicação, o anúncio no Discord:
+   * tools/post-novidades.mjs lê estas entradas direto do arquivo, casando
+   * `v: '<versão>'` com a versão do package.json. Ao acrescentar uma versão,
+   * mantenha a mais recente no topo e as strings entre aspas simples, e confira
+   * com `node tools/post-novidades.mjs --dry-run`.
+   *
+   * Texto em voz impessoal, descrevendo o que mudou para quem usa.
+   */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
       v: '0.1.42-beta',
