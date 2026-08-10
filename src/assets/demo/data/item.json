@@ -75503,17 +75503,17 @@
       "19": [
         "15",
         "WEAPON_TYPE[book]20",
-        "14===30"
+        "WEAPON_TYPE[book]14===30"
       ],
       "14": [
         "15",
         "WEAPON_TYPE[book]20",
-        "14===30"
+        "WEAPON_TYPE[book]14===30"
       ],
       "20": [
         "15",
         "WEAPON_TYPE[book]20",
-        "14===30"
+        "WEAPON_TYPE[book]14===30"
       ]
     }
   },
@@ -174163,7 +174163,7 @@
         "1500"
       ],
       "hpPercent": [
-        "1---1"
+        "2---1"
       ],
       "aspdPercent": [
         "3---2",
@@ -174209,7 +174209,7 @@
         "1500"
       ],
       "hpPercent": [
-        "1---1"
+        "2---1"
       ],
       "vct": [
         "3---2",
@@ -174257,7 +174257,7 @@
         "1200"
       ],
       "hpPercent": [
-        "1---1"
+        "2---1"
       ],
       "aspdPercent": [
         "3---2",
@@ -174303,7 +174303,7 @@
         "2000"
       ],
       "hpPercent": [
-        "1---1"
+        "2---1"
       ],
       "aspdPercent": [
         "3---1",
@@ -287563,6 +287563,7 @@
     "weight": 0,
     "requiredLevel": 201,
     "location": "Middle",
+    "locations": ["Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -295023,6 +295024,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Upper",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -295045,6 +295047,7 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Upper",
+    "locations": ["Upper", "Middle", "Lower"],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -311226,6 +311229,287 @@
       ],
       "range": [
         "1---2"
+      ]
+    }
+  },
+  "300172": {
+    "id": 300172,
+    "aegisName": "",
+    "name": "Brain Sucker Card",
+    "unidName": "Brain Sucker Card",
+    "resName": "이름없는카드",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "script": {
+      "hpPercent": [
+        "-15"
+      ]
+    }
+  },
+  "300176": {
+    "id": 300176,
+    "aegisName": "",
+    "name": "Unidentified Life Form Card",
+    "unidName": "Unidentified Life Form Card",
+    "resName": "이름없는카드",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "script": {
+      "melee": [
+        "WEAPON_TYPE[twohandSword||twohandAxe]===10",
+        "2---1"
+      ],
+      "aspd": [
+        "WEAPON_TYPE[twohandSword||twohandAxe]===1"
+      ]
+    }
+  },
+  "460181": {
+    "id": 460181,
+    "aegisName": "Poenitentia_Mid_LT",
+    "name": "Poenitentia Protector",
+    "unidName": "Poenitentia Protector",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 50,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_size_all": [
+        "5"
+      ],
+      "m_size_all": [
+        "5"
+      ],
+      "acd": [
+        "EQUIP_ID[500019||500020||500046||510027||510028||510056||510057||530010||540014||540015||540044||550019||550020||550060||550061||550062||560012||560013||570013||580013||590016||590017||600014||610016||620006||630009||640014||640015||700022||700023||700024||700025||800011||810007||830010||840006]10"
+      ]
+    }
+  },
+  "470458": {
+    "id": 470458,
+    "aegisName": "Anony_Shoes_LT",
+    "name": "Spring Boots",
+    "unidName": "Spring Boots",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": 2,
+    "attack": null,
+    "defense": 16,
+    "weight": 100,
+    "requiredLevel": 210,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "2---1"
+      ],
+      "spPercent": [
+        "2---1"
+      ],
+      "atkPercent": [
+        "7===7"
+      ],
+      "cri": [
+        "9===5"
+      ],
+      "perfectHit": [
+        "9===10"
+      ],
+      "fct": [
+        "11===0.5",
+        "EQUIP_ID[4352]0.5"
+      ],
+      "res": [
+        "GRADE[me==D]===50"
+      ],
+      "mres": [
+        "GRADE[me==D]===50"
+      ],
+      "sta": [
+        "GRADE[me==C]===5"
+      ],
+      "wis": [
+        "GRADE[me==C]===5"
+      ],
+      "pAtk": [
+        "GRADE[me==B]===7"
+      ],
+      "p_element_all": [
+        "EQUIP_ID[4352]10"
+      ],
+      "p_race_all": [
+        "EQUIP_ID[300266]10"
+      ]
+    }
+  },
+  "470459": {
+    "id": 470459,
+    "aegisName": "One_Shoes_LT",
+    "name": "Chimera Shoes",
+    "unidName": "Chimera Shoes",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": 2,
+    "attack": null,
+    "defense": 16,
+    "weight": 100,
+    "requiredLevel": 240,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "spl": [
+        "5",
+        "GRADE[me==D]===5",
+        "GRADE[me==A]2---8"
+      ],
+      "wis": [
+        "5"
+      ],
+      "acd": [
+        "3"
+      ],
+      "matk": [
+        "3---7"
+      ],
+      "sMatk": [
+        "7===3",
+        "GRADE[me==B]===7"
+      ],
+      "matkPercent": [
+        "7===5",
+        "GRADE[me==D]===5"
+      ],
+      "vct": [
+        "9===10"
+      ],
+      "m_size_s": [
+        "11===15"
+      ],
+      "m_size_m": [
+        "11===15"
+      ],
+      "fct": [
+        "GRADE[me==C]===1"
+      ],
+      "m_element_undead": [
+        "EQUIP_ID[300262]15"
+      ]
+    }
+  },
+  "491084": {
+    "id": 491084,
+    "aegisName": "Wolf_Amulet1_LT",
+    "name": "Physical Wolf Amulet",
+    "unidName": "Physical Wolf Amulet",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 20,
+    "requiredLevel": 190,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "5"
+      ],
+      "perfectHit": [
+        "10"
+      ],
+      "aspd": [
+        "1"
+      ],
+      "range": [
+        "5"
+      ],
+      "melee": [
+        "5"
+      ],
+      "acd": [
+        "EQUIP_ID[490107||490106]5"
+      ]
+    }
+  },
+  "491085": {
+    "id": 491085,
+    "aegisName": "Wolf_Amulet2_LT",
+    "name": "Magical Wolf Amulet",
+    "unidName": "Magical Wolf Amulet",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 20,
+    "requiredLevel": 190,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vct": [
+        "5"
+      ],
+      "aspd": [
+        "1"
+      ],
+      "m_my_element_all": [
+        "5"
+      ],
+      "acd": [
+        "EQUIP_ID[490109||490108]5"
       ]
     }
   }

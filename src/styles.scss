@@ -92,22 +92,18 @@ html {
   font-size: 0.85rem;
   line-height: 1.25;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-  /* Rede de segurança: havia max-width mas nenhum limite de altura, então uma
-     descrição bem longa ficava mais alta que a janela e o PrimeNG prendia o
-     popover no canto, com o resto para fora da tela. Rolar um tooltip é ruim
-     (ele some quando o ponteiro sai do gatilho), por isso quem resolve de fato é
-     o .item_desc_long abaixo; isto só evita que algo escape da tela. */
+  /* Uma descrição bem longa (o Chapéu de Kiwawa tem 56 linhas) passa da altura da
+     janela. Aqui ela rola na vertical: o popover para de crescer em 85vh e o resto
+     é alcançado com a roda do mouse. Rolar só é possível porque o popover sobrevive
+     ao ponteiro saindo do gatilho — ver ItemDescTooltipHoverDirective.
+
+     `overscroll-behavior: contain` impede o encadeamento: ao chegar no fim da
+     descrição a rolagem para aqui em vez de continuar na página. Além de ser o
+     comportamento esperado, rolar a página faria o PrimeNG esconder o popover (ele
+     escuta o scroll dos ancestrais do gatilho). */
   max-height: 85vh;
   overflow-y: auto;
-}
-/* Descrições longas (> 28 linhas, ver itemDescPopoverHtml) fluem para uma segunda
-   coluna em vez de crescerem para fora da tela — assim continuam inteiras e
-   visíveis, sem precisar rolar. */
-.item_desc_tooltip .item_desc_long {
-  max-height: 82vh;
-  column-width: 22rem;
-  column-gap: 1.5rem;
-  column-rule: 1px solid rgba(0, 0, 0, 0.12);
+  overscroll-behavior: contain;
 }
 .item_desc_tooltip .item_desc_title {
   font-weight: 700;

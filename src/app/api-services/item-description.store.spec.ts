@@ -53,22 +53,22 @@ describe('itemDescPopoverHtml sem descrição', () => {
 });
 
 describe('itemDescPopoverHtml com descrição longa', () => {
-  const curta = Array.from({ length: 10 }, (_, i) => `linha ${i}`).join('\n');
   const longa = Array.from({ length: 56 }, (_, i) => `linha ${i}`).join('\n');
 
-  it('não colunar descrições curtas — senão qualquer uma larga se partiria ao meio', () => {
-    expect(itemDescPopoverHtml({ name: 'X' }, curta)).not.toContain('item_desc_long');
+  it('não diagrama em colunas — o popover rola na vertical', () => {
+    // As longas já fluíram para uma segunda coluna, o que partia a leitura no meio.
+    // Hoje quem cuida da altura é o `overflow-y: auto` do popover, e o
+    // ItemDescTooltipHoverDirective o mantém aberto para a rolagem ser alcançável.
+    const html = itemDescPopoverHtml({ name: 'X' }, longa);
+    expect(html).not.toContain('item_desc_long');
+    expect(html).not.toContain('column');
   });
 
-  it('colunar as longas, que ficariam mais altas que a janela', () => {
-    // Regressão do Chapéu de Kiwawa (401147): 56 linhas rendiam 885px numa
-    // viewport de 720px, e o popover ia parar fora da tela.
-    expect(itemDescPopoverHtml({ name: 'X' }, longa)).toContain('item_desc_long');
-  });
-
-  it('preserva nome e descrição dentro do wrapper', () => {
+  it('entrega nome e descrição inteiros, do início ao fim', () => {
+    // Regressão do Chapéu de Kiwawa (401147), o caso das 56 linhas.
     const html = itemDescPopoverHtml({ name: 'Chapéu de Kiwawa' }, longa);
     expect(html).toContain('Chapéu de Kiwawa');
+    expect(html).toContain('linha 0');
     expect(html).toContain('linha 55');
   });
 });

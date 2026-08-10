@@ -38,13 +38,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Secrets — Divine-Pride logged-in session for LATAM-gated fetches. NEVER commit.
-.dp-cookies.json
+# Secrets
 .env
 .env.local
-
-# Divine-Pride scratch HTML dumps (add-ro-item / add-ro-monster skills)
-.dp_*.html
 
 # Artefatos derivados de src/assets/demo/data/ (tools/build-web-data.mjs).
 # Regerados por `pnpm data:dev` / `pnpm data:build`; ficam fora do git para não

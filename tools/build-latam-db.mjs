@@ -117,9 +117,9 @@ function extractItems(lubPath, aegisMap = {}) {
     if (desc) rec.description = desc;
     // aegisName reference (a label only — it doesn't affect calculations; handy
     // when adding a missing item to item.json). Prefer the real item_db aegis
-    // name from data/itemmoveinfov5.txt (correct prefixes like E_Illusion_Armor_A,
-    // matches divine-pride), and fall back to the client sprite-resource name for
-    // items the move-info table doesn't cover.
+    // name from data/itemmoveinfov5.txt (correct prefixes like E_Illusion_Armor_A),
+    // and fall back to the client sprite-resource name for items the move-info
+    // table doesn't cover.
     const aegisName = aegisMap[id] ?? decodeClientString(entry.get("identifiedResourceName"));
     if (aegisName) rec.aegisName = aegisName;
     // Card/enchant slot count — the GRF-authoritative source. The LATAM display

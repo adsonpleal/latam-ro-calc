@@ -57,6 +57,24 @@ descrição em pt-BR.
 > não aparece na tela. O `pnpm build` roda o gerador com `--hash` e, no fim, o
 > `tools/inject-data-manifest.mjs`, que injeta os nomes hasheados no `index.html`.
 > O servidor MCP continua lendo os arquivos crus de `src/assets/demo/data/`. Ao cadastrar bônus e conjuntos, a **descrição pt-BR é a
-fonte da verdade** — divine-pride serve para resolver *ids*, não para decidir o efeito.
+fonte da verdade** — o `latam-items.json` serve para resolver *ids*, não para decidir o efeito.
 Detalhes do formato em [`docs/item-json.md`](docs/item-json.md); para adicionar itens,
 use a skill `add-ro-item`.
+
+## Dados dos monstros
+
+A fonte é um arquivo público do projeto **ragassets**, sem autenticação:
+
+    https://raw.githubusercontent.com/adsonpleal/ragassets/main/mobs.json
+
+O ragassets o gera a partir da RagnaPlace Public API (gateway laro-pt), ou seja, valores
+do servidor LATAM. **Este repositório só baixa o arquivo — nunca chama a API.**
+
+- `tools/mob-source.mjs` — leitura, mapeamento de campos, normalização de raça e a
+  política de nulos. Comece por aqui.
+- `tools/sync-monster-db.mjs` — atualiza as estatísticas dos registros que já existem no
+  `monster.json`. Nunca adiciona nem remove ids, e preserva o `spawn` (que é mantido à
+  mão: a fonte não tem mapa de spawn).
+- `tools/build-latam-monsters.mjs` — gera o overlay de nomes pt-BR
+  (`latam-monsters.json`) a partir do mesmo arquivo.
+- Para **adicionar** um monstro, use a skill `add-ro-monster`.

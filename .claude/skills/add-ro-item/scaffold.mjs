@@ -113,7 +113,6 @@ function scaffold(id) {
   out.push(`slots:       ${slots}${lt.slots != null ? "  (GRF slotCount)" : "  (from name suffix — verify; GRF slotCount not in latam-items.json)"}`);
   if (slot === "Weapon") out.push(`  ⚠ weapon: itemTypeId=1, itemSubTypeId = the weapon class — copy from a same-class weapon already in item.json.`);
   if (slot === "Accessory") out.push(`  ⚠ accessory: itemSubTypeId 517 = both sides; use 510 (right) / 511 (left) if side-specific.`);
-  out.push(`divine-pride: https://www.divine-pride.net/database/item/${id}   (combos / verify script)`);
   out.push(`\n--- EFFECT / COMBO LINES (map each to a bonus key per SKILL.md) ---`);
   for (const b of effectBlocks(desc)) out.push(b.split("\n").map((l) => "  " + l).join("\n"));
 

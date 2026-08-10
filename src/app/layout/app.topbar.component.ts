@@ -60,7 +60,7 @@ export class AppTopBarComponent {
     'https://github.com/turugrura/tong-calc-ro/blob/ba4312f/src/app/layout/app.topbar.component.ts';
 
   infos = [
-    'Todos os dados de itens, monstros e habilidades vêm do site "divine-pride".',
+    'Os dados de itens e habilidades vêm do cliente do RO LATAM; os de monstros, da API pública do RagnaPlace. Os links de itens, monstros e habilidades levam ao divine-pride para consulta.',
     'Mude o tema pelo botão Config, no centro à direita.',
     'Os dados salvos ficam no navegador; se você limpar os dados do navegador, eles também serão apagados.',
     'Condições que dizem "a cada nível de habilidade aprendido" exigem subir o nível no campo "Learn to get bonuses" para receber o bônus; se não houver onde subir, o bônus é contado como Lv MÁX.',
@@ -155,6 +155,18 @@ export class AppTopBarComponent {
    * Texto em voz impessoal, descrevendo o que mudou para quem usa.
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
+    {
+      v: '0.1.43-beta',
+      date: '10-08-2026',
+      logs: [
+        'As estatísticas dos monstros passaram a vir do servidor LATAM, e 35 alvos mudaram. Doze tiveram o HP corrigido — entre eles o R48-85-Bestia, que estava com 8.885.000 e tem 4.885.000, e a dupla Acidus/Ferus de Lago Abissal. Lorde Seyren, Algoz Eremes e Desordeira Gertie eram tratados como Humanoide e são Demônio, o que muda todo bônus de raça usado contra eles. Vinte alvos tiveram a marcação de Chefe ou de MVP acertada: a Miragem de Himmelmez, a Miragem de Amdarais, o Fragmento de Thanatos, a Espadachim Anônima e o Schmidt Corrompido do modo difícil passaram a contar como MVP; os quatro Thanatos, o Duque e o Barão Corvo e o Orc Falso deixaram de receber a proteção de Chefe que não têm.',
+        'A base de itens foi refeita a partir do cliente atualizado. Entraram as cartas da Arena de Geffen, os dez Elmos da Fé e mais 79 itens novos; alguns nomes trocados no cliente foram acertados, como Esboço de Shuriken e Esboço de Huuma, que estavam invertidos. O Gorro de Carneirinho (e a versão rosa) e a Máscara de Pesar ocupavam só uma posição de cabeça no simulador e ocupam mais de uma no jogo — agora bloqueiam as posições certas.',
+        'Sete equipamentos que faltavam foram cadastrados: Botas da Fonte, Sapato Quimera, Protetor Pænitentia, Amuleto de Lobo Físico, Amuleto de Lobo Mágico e as cartas Sugador de Cérebro e Forma de Vida Não Identificada — com os degraus de refino, os bônus por grau e os conjuntos de cada um.',
+        'Corrigida a Carta Ju da Arena: os +30% de dano em Fire Bolt, Cold Bolt e Lightning Bolt do refino +14 valiam em qualquer arma, mas a descrição os prende à condição de livro da mesma frase.',
+        'Corrigidos os quatro mantos e cachecóis Barreira Mágica e Ravage Mágico, que somavam 1% de HP máximo a cada refino em vez de a cada 2 refinos — no +15 davam 15% em vez de 7%.',
+        'O popover de descrição do item voltou a ser uma coluna só. Descrições longas eram distribuídas em duas colunas para caber na tela, o que partia a leitura no meio; agora elas rolam na vertical. Para a rolagem ser alcançável, o popover deixou de sumir quando o ponteiro sai do item: dá para levar o cursor até ele, rolar até o fim e fechar saindo dos dois ou apertando Esc.',
+      ],
+    },
     {
       v: '0.1.42-beta',
       date: '10-08-2026',

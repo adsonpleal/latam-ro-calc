@@ -16,13 +16,13 @@ One or more numeric item ids. The pt-BR name, description and `aegisName` are al
 ```
 node .claude/skills/add-ro-item/scaffold.mjs <id> [<id> ...]
 ```
-For each id it prints: pt name, aegisName, inferred `location`/`itemTypeId`/`itemSubTypeId` (from item.json), parsed `defense`/`weight`/`requiredLevel`, the isolated **effect/combo lines**, a divine-pride URL, and a **record skeleton** with `script: {}`. (Skips ids already in item.json.)
+For each id it prints: pt name, aegisName, inferred `location`/`itemTypeId`/`itemSubTypeId` (from item.json), parsed `defense`/`weight`/`requiredLevel`, the isolated **effect/combo lines**, and a **record skeleton** with `script: {}`. (Skips ids already in item.json.)
 
 ### 2. Structural fields — the scaffold fills these; verify a couple
 The scaffold maps the slot to **authoritative** `itemTypeId`/`itemSubTypeId`/`location` (these route the calc's equip dropdowns in `setItemDropdownList`):
 - Normal gear: `itemTypeId: 2` + ItemSubTypeId enum — head 512 (+`location` Upper/Middle/Lower), Armor 513, Shield 514, Garment 515, Boot/Shoes 516, Acc 517. **Do NOT copy the `location`-tagged 526-530 items — those are shadow gear.**
 - **Costume / `[Visual]`**: `itemTypeId: 9`, subtype 519 (Upper) / 520 (Middle) / 521 (Lower) / 522 (Garment). The scaffold detects "Tipo: Visual".
-- `slots`: the scaffold now fills this from the **GRF-authoritative `slots`** field in `latam-items.json` (the client `slotCount` from `iteminfo_new.lub`, via `build-latam-db.mjs`) — trust it. The LATAM display name drops the `[1]` suffix, so do **not** infer slots from the name. The scaffold falls back to the name-suffix parse only for entries predating the slots extraction (it flags this in its output); in that case cross-check with **LATAM divine-pride** (recipe below) — the header reads e.g. `Manto Branco Físico [1]` → `slots: 1`. Garments/armor/etc. cap at 1; weapons can have more. A slotted item left at `slots: 0` silently hides its card slot in the calc.
+- `slots`: the scaffold now fills this from the **GRF-authoritative `slots`** field in `latam-items.json` (the client `slotCount` from `iteminfo_new.lub`, via `build-latam-db.mjs`) — trust it. The LATAM display name drops the `[1]` suffix, so do **not** infer slots from the name. The scaffold falls back to the name-suffix parse only for entries predating the slots extraction (it flags this in its output); in that case re-run `node tools/build-latam-db.mjs` so the entry gets the client's `slotCount`, and if it still has none, ask the user rather than guessing. Garments/armor/etc. cap at 1; weapons can have more. A slotted item left at `slots: 0` silently hides its card slot in the calc.
 - **Weapons**: scaffold leaves them blank — set `itemTypeId: 1` and copy `itemSubTypeId` (the weapon class) from a same-class weapon in item.json.
 - **Accessories**: subtype `517` works both sides; use `510` (right) / `511` (left) only if the bonus is side-specific.
 - Leave `name` as the pt name and `description: ""` — `RoService` overlays pt name/description and sets `presentInLatam` at runtime from `latam-items.json`.
@@ -72,16 +72,17 @@ Replace `PHRASE` (e.g. `Pós-conjuração`). Match the key it uses and the sign.
 ### 4. Combos — only this item's own, matched by id
 
 > **The pt-BR description is the source of truth.** It decides **which pieces** the set
-> needs and **what bonus** it grants. Divine-pride is the lookup for **ids** — never the
-> authority on the effect. When the two disagree, encode the description and say so in the
-> report so the user can arbitrate.
+> needs and **what bonus** it grants. `latam-items.json` is the lookup for **ids** —
+> never the authority on the effect. When the two disagree, encode the description and
+> say so in the report so the user can arbitrate.
 
 - Encode **only the combos that appear in THIS item's description** (`Conjunto [Partner]`). The partner item declares its own combos in its own description — don't duplicate.
 - Read the set off the pt-BR description in `latam-items.json`, minding how it groups the pieces: partners listed together are **all required**; an `ou` line separates **alternative** groups. `[A] [B] ou [C] [D]` = `EQUIP_ID[A&&B]` plus `EQUIP_ID[C&&D]` (one entry per alternative — `||` only ORs *within* one group, so an or-of-pairs cannot be a single token).
-- Resolve the partner **ids** on divine-pride's **"Combina com"** tab (`https://www.divine-pride.net/database/item/<id>`, LATAM server — use the authenticated fetch in §4b). Each row is named `<id>_<id>[_<id>]` — that is the set's member ids. **Match the row whose membership matches the description**, then take its ids.
-- ⚠ That tab commonly lists **more rows than the description describes**: for a 3-piece set it also lists every 2-piece subset, each showing the full bonus. Those extras are not separate, weaker sets — do **not** widen the condition to fire on a subset. Real example: 410183 Diadema Radiante shows 18 rows — 6 three-piece rows matching the description's gem pairs, plus 12 two-piece rows (circlet + one accessory). Only the 6 are real; encoding the 12 makes the set fire on half a set.
+- Resolve the partner **ids** by looking the partner's pt-BR name up in `latam-items.json` (the GRF-derived name↔id table — the same file the description came from). Match the **exact** name the description prints, brackets included.
+  - A name that matches **several ids** (re-releases, `[Apoio]`/costume variants) is ambiguous — narrow it by slot/type against `item.json`, and if it's still ambiguous, **report the candidates to the user** instead of picking one.
+  - A partner name that matches **nothing** has no id to gate on: leave that alternative unencoded and report it. Don't invent an id.
+- ⚠ Encode exactly the groups the description describes — **do not widen the condition to fire on a subset**. For a 3-piece set, equipping any 2 of the 3 must NOT grant the bonus. Real example: 410183 Diadema Radiante has 6 real three-piece sets (circlet + a gem pair); encoding the 12 circlet-plus-one-accessory pairs would make it fire on half a set.
 - Encode with `EQUIP_ID[<partnerId>]<value>` (implemented in `calculator.ts` — `equipItemIdSet` + the `EQUIP_ID[...]` branch in `validateCondition`). Using the **id** avoids the pt-BR rename / `[Apoio]` bracket problem that breaks name-based `EQUIP[...]`.
-- A partner the description names but that has **no item** in `latam-items.json` has no id to gate on — leave that alternative unencoded and report it (e.g. the "Radiante Topázio" pair, absent from the LATAM client). Don't invent an id.
 
 Example — 450147 (Colete Ilusión A), description combos with 480062 (ATQ +50) and 480063 (cast delay −10%):
 ```json
@@ -92,23 +93,12 @@ Example — 450147 (Colete Ilusión A), description combos with 480062 (ATQ +50)
 }
 ```
 
-### 4b. Fetching LATAM divine-pride (authoritative slots / names / stats)
-LATAM (bRO) items are **not in divine-pride's anonymous view** — a plain GET shows a `account/login` link, `Unknown Item name`, and "Item is not available on this server". You only get the real GRF data (correct name **with its `[N]` slot suffix**, defense, weight, level, and the "Combina com" member **ids**) when the request carries a logged-in divine-pride session whose account server has the item, plus `lang=pt`. Confirm you landed on LATAM before trusting the page — the markup carries `server="LATAM"` and the images resolve under `/img/items/item/LATAM/<id>`.
-
-```powershell
-$s = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-$s.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/149 Safari/537.36"
-# All three cookies on the PARENT domain ".divine-pride.net" (not "www."), or auth/server won't apply.
-# Get the values from a logged-in browser: DevTools > Application > Cookies > divine-pride.net.
-$s.Cookies.Add((New-Object System.Net.Cookie("lang","pt","/",".divine-pride.net")))
-$s.Cookies.Add((New-Object System.Net.Cookie("ASP.NET_SessionId","<SESSION_ID>","/",".divine-pride.net")))
-$s.Cookies.Add((New-Object System.Net.Cookie(".ASPXAUTH","<ASPXAUTH>","/",".divine-pride.net")))
-$r = Invoke-WebRequest -UseBasicParsing -Uri "https://www.divine-pride.net/database/item/<id>" -WebSession $s
-# The "[N]" in the header name is the slot count:
-[regex]::Match($r.Content,'(?s)<legend class="entry-title">(.*?)</legend>').Groups[1].Value -replace '<[^>]+>',' '
-# e.g. -> "Manto Branco Físico [1] 480812 WM_Physical_LT"  => slots: 1
-```
-**⚠ Never commit the cookie values** — `.ASPXAUTH`/`ASP.NET_SessionId` are the user's live credentials and this repo is public. Ask the user to paste them at call time (or read from a git-ignored file); keep placeholders in any saved snippet. Delete any `.dp_*.html` scratch files when done.
+### 4b. When the client text is truncated
+The GRF description occasionally cuts off (e.g. the Passe de Batalha enchants). In that
+case **bROWiki** (browiki.org) carries the complete pt-BR text — `WebFetch` gets a 403,
+so open it in the in-app browser and read `textContent` off the collapsed tables. It is a
+fallback for *text the client truncated*, never a replacement for the client as the
+authority on names, ids or slots. See [[browiki-source]].
 
 ### 5. Apply
 Write the finished record(s) to a temp JSON file (array of full records), then:
@@ -121,7 +111,7 @@ It appends them to `item.json` with a minimal diff and skips ids already present
 - The dev preview rebuilds; confirm "Compiled successfully" in its logs.
 - Re-run `scaffold.mjs <id>` → it should now report "ALREADY in item.json".
 - In the calculator: pick the item in its slot, check the bonus shows; for combos, equip both partners and confirm the set bonus applies (and disappears when one is removed).
-- **Slots:** confirm `slots` matches the `[N]` from LATAM divine-pride and that the calc shows that many card slots on the equipped item — a slotted item left at `slots: 0` silently hides its card slot.
+- **Slots:** confirm `slots` matches the client's `slotCount` (the `slots` field in `latam-items.json`) and that the calc shows that many card slots on the equipped item — a slotted item left at `slots: 0` silently hides its card slot.
 
 ## Rules & gotchas
 - One record per id; `id` + a `script` object are required (the script may be `{}` for a pure-stat/vanity item).
