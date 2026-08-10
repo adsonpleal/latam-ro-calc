@@ -72,6 +72,16 @@ html {
    "Descrições dos Itens" panel so the in-game colour codes stay legible. */
 .item_desc_tooltip.p-tooltip {
   max-width: 90vw;
+  /* O PrimeNG revela o tooltip com DomHandler.fadeIn: ele zera o opacity inline e
+     sobe até 1 num laço de requestAnimationFrame. Quando esse laço não roda — aba
+     em segundo plano, janela encoberta, economia de energia —, o popover fica
+     montado, posicionado e com o conteúdo certo, só que em opacity 0: invisível,
+     sem nada de errado no DOM. Era o caso em que abrir o DevTools "consertava" o
+     problema, porque muda o agendamento do renderizador.
+
+     `!important` vence o estilo inline do fadeIn e torna a exibição determinística.
+     Custa a animação de 250ms, que num tooltip não faz falta. */
+  opacity: 1 !important;
 }
 .item_desc_tooltip .p-tooltip-text {
   background: #ffffff;

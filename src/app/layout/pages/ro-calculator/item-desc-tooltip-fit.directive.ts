@@ -49,6 +49,11 @@ export class ItemDescTooltipFitDirective implements OnInit, OnDestroy {
     const rect = container.getBoundingClientRect();
     const { innerWidth: larguraJanela, innerHeight: alturaJanela } = window;
 
+    // Viewport degenerada (aba oculta, iframe de tamanho zero): sem referência
+    // confiável, qualquer conta aqui jogaria o popover para o canto. Melhor deixar
+    // como o PrimeNG posicionou.
+    if (larguraJanela < 1 || alturaJanela < 1) return;
+
     // Corrige primeiro o excesso à direita/embaixo e depois o lado oposto, para que
     // um popover maior que a janela encoste na borda superior/esquerda em vez de
     // sumir — o topo é o que interessa ler.
