@@ -51,3 +51,24 @@ describe('itemDescPopoverHtml sem descrição', () => {
     expect(itemDescPopoverHtml(undefined, undefined)).toBe('');
   });
 });
+
+describe('itemDescPopoverHtml com descrição longa', () => {
+  const curta = Array.from({ length: 10 }, (_, i) => `linha ${i}`).join('\n');
+  const longa = Array.from({ length: 56 }, (_, i) => `linha ${i}`).join('\n');
+
+  it('não colunar descrições curtas — senão qualquer uma larga se partiria ao meio', () => {
+    expect(itemDescPopoverHtml({ name: 'X' }, curta)).not.toContain('item_desc_long');
+  });
+
+  it('colunar as longas, que ficariam mais altas que a janela', () => {
+    // Regressão do Chapéu de Kiwawa (401147): 56 linhas rendiam 885px numa
+    // viewport de 720px, e o popover ia parar fora da tela.
+    expect(itemDescPopoverHtml({ name: 'X' }, longa)).toContain('item_desc_long');
+  });
+
+  it('preserva nome e descrição dentro do wrapper', () => {
+    const html = itemDescPopoverHtml({ name: 'Chapéu de Kiwawa' }, longa);
+    expect(html).toContain('Chapéu de Kiwawa');
+    expect(html).toContain('linha 55');
+  });
+});

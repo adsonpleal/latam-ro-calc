@@ -82,6 +82,22 @@ html {
   font-size: 0.85rem;
   line-height: 1.25;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  /* Rede de segurança: havia max-width mas nenhum limite de altura, então uma
+     descrição bem longa ficava mais alta que a janela e o PrimeNG prendia o
+     popover no canto, com o resto para fora da tela. Rolar um tooltip é ruim
+     (ele some quando o ponteiro sai do gatilho), por isso quem resolve de fato é
+     o .item_desc_long abaixo; isto só evita que algo escape da tela. */
+  max-height: 85vh;
+  overflow-y: auto;
+}
+/* Descrições longas (> 28 linhas, ver itemDescPopoverHtml) fluem para uma segunda
+   coluna em vez de crescerem para fora da tela — assim continuam inteiras e
+   visíveis, sem precisar rolar. */
+.item_desc_tooltip .item_desc_long {
+  max-height: 82vh;
+  column-width: 22rem;
+  column-gap: 1.5rem;
+  column-rule: 1px solid rgba(0, 0, 0, 0.12);
 }
 .item_desc_tooltip .item_desc_title {
   font-weight: 700;
