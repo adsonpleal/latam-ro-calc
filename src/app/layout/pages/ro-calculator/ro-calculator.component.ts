@@ -3085,7 +3085,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
             this.setDefaultSkill();
             this.setItemDropdownList();
             this.setAmmoDropdownList();
-            return waitRxjs(0.5);
+            // Mesmo motivo do loadItemSet: um hop de macrotask basta para o
+            // overlay repintar; o meio segundo era margem arbitrária.
+            return waitRxjs(0.05);
           }),
           take(1),
           finalize(() => (this.isInProcessingPreset = false)),
