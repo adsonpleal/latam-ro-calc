@@ -103,6 +103,11 @@ html {
   font-weight: 700;
   font-size: 0.95rem;
 }
+/* Popover reposicionado para caber na janela (ItemDescTooltipFitDirective): a seta
+   ficou apontando para o lugar errado, então some. */
+.item_desc_tooltip--encaixado .p-tooltip-arrow {
+  display: none;
+}
 /* Colour ONLY the border that forms the arrow for each tooltip position. The
    arrow is a CSS border-triangle, so the two perpendicular borders must stay
    transparent — colouring them (as a blanket left+right rule did) turns the

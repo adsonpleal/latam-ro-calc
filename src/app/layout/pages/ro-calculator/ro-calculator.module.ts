@@ -34,6 +34,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 import { RoCalculatorComponent } from './ro-calculator.component';
 import { ItemDescTooltipPipe } from './item-desc-tooltip.pipe';
+import { ItemDescTooltipFitDirective } from './item-desc-tooltip-fit.directive';
 import { TooltipClampDirective } from './tooltip-clamp.directive';
 import { PrettyJsonPipe } from '../../prettier-json.pipe';
 import { RoCalculatorRoutingModule } from './ro-calculator-routing.module';
@@ -122,6 +123,7 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
     EquipmentCosEnchantComponent,
     StatusInputComponent,
     ItemDescTooltipPipe,
+    ItemDescTooltipFitDirective,
     TooltipClampDirective,
   ],
   exports: [CalcValueComponent],
