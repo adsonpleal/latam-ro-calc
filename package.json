@@ -8,6 +8,8 @@
         "start": "ng serve  --host 0.0.0.0 --hmr --port 4200",
         "start2": "ng serve",
         "build": "ng build",
+    "data:build": "node tools/build-web-data.mjs --hash --report",
+    "data:dev": "node tools/build-web-data.mjs",
         "build:mcp": "node mcp/build.mjs",
         "typecheck:mcp": "tsc -p mcp/tsconfig.json",
         "start:mcp": "node mcp/build.mjs && node dist/mcp/server.mjs",

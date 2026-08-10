@@ -46,6 +46,12 @@ Thumbs.db
 # Divine-Pride scratch HTML dumps (add-ro-item / add-ro-monster skills)
 .dp_*.html
 
+# Artefatos derivados de src/assets/demo/data/ (tools/build-web-data.mjs).
+# Regerados por `pnpm data:dev` / `pnpm data:build`; ficam fora do git para não
+# commitar vários MB a cada edição do item.json.
+/src/assets/data/
+/src/assets/data-manifest.json
+
 # Compiled files
 layout.css
 src/assets/demo/styles/badges.css
