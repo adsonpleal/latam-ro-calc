@@ -100,8 +100,8 @@ function scaffold(id) {
   const def = fieldNum(desc, "DEF");
   const weight = fieldNum(desc, "Peso");
   const reqLvl = fieldNum(desc, "N[ií]vel necess[aá]rio") ?? fieldNum(desc, "Nivel necessario");
-  // Slot count: prefer the GRF-authoritative `slots` field carried in
-  // latam-items.json (from iteminfo_new.lub slotCount via build-latam-db.mjs).
+  // Slot count: prefer the client-authoritative `slots` field carried in
+  // latam-items.json (the client slotCount, via tools/sync-latam-db.mjs).
   // The LATAM display name usually drops the "[N]" suffix, so the name-parse is
   // only a fallback for entries built before slots were extracted.
   const slots = lt.slots != null ? String(lt.slots) : (lt.name.match(/\[(\d)\]\s*$/) || [])[1] ?? "0";
@@ -110,7 +110,7 @@ function scaffold(id) {
   out.push(`aegisName:   ${lt.aegisName ?? "(none)"}`);
   out.push(`Tipo/Slot:   ${field(desc, "Tipo")} / ${field(desc, "Equipa em") ?? "-"}`);
   out.push(`slot:        ${slot ?? "(could not infer — set itemTypeId/itemSubTypeId/location by hand)"}${f ? `  → itemTypeId=${f.itemTypeId}, itemSubTypeId=${f.itemSubTypeId}, location=${JSON.stringify(f.location)}` : ""}`);
-  out.push(`slots:       ${slots}${lt.slots != null ? "  (GRF slotCount)" : "  (from name suffix — verify; GRF slotCount not in latam-items.json)"}`);
+  out.push(`slots:       ${slots}${lt.slots != null ? "  (client slotCount)" : "  (from name suffix — verify; client slotCount not in latam-items.json)"}`);
   if (slot === "Weapon") out.push(`  ⚠ weapon: itemTypeId=1, itemSubTypeId = the weapon class — copy from a same-class weapon already in item.json.`);
   if (slot === "Accessory") out.push(`  ⚠ accessory: itemSubTypeId 517 = both sides; use 510 (right) / 511 (left) if side-specific.`);
   out.push(`\n--- EFFECT / COMBO LINES (map each to a bonus key per SKILL.md) ---`);

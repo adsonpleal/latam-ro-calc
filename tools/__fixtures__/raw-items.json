@@ -1,0 +1,126 @@
+[
+  {
+    "id": 501,
+    "name": "Poção Vermelha",
+    "slots": 0,
+    "aegisName": null,
+    "resourceName": "빨간포션",
+    "description": "Poção feita de ervas vermelhas.",
+    "view": 0,
+    "equipSlots": [],
+    "costume": false
+  },
+  {
+    "id": 583,
+    "name": "KETUPAT SAYUR",
+    "slots": 0,
+    "aegisName": null,
+    "resourceName": "빨간포",
+    "description": "",
+    "view": 0,
+    "equipSlots": [],
+    "costume": false
+  },
+  {
+    "id": 1101,
+    "name": "Espada",
+    "slots": 3,
+    "aegisName": null,
+    "resourceName": "소드",
+    "description": "Espada simples, de uma mão só. Arraste esta arma para sua janela de equipamento para usar.",
+    "view": 2,
+    "equipSlots": [],
+    "costume": false
+  },
+  {
+    "id": 1174,
+    "name": null,
+    "slots": 0,
+    "aegisName": null,
+    "resourceName": "액서큐셔너",
+    "description": "",
+    "view": 49,
+    "equipSlots": [],
+    "costume": false
+  },
+  {
+    "id": 1292,
+    "name": "Katar Aprimorável",
+    "slots": 1,
+    "aegisName": "Upg_Katar",
+    "resourceName": "강화카타르",
+    "description": "Arma especial revestida de Oridecon e Ouro em uma combinação perfeita.",
+    "view": 16,
+    "equipSlots": [],
+    "costume": false
+  },
+  {
+    "id": 2218,
+    "name": "Máscara Cirúrgica",
+    "slots": 0,
+    "aegisName": null,
+    "resourceName": "마스크",
+    "description": "Aparato usado sobre o nariz e a boca para facilitar a respiração.",
+    "view": 8,
+    "equipSlots": [
+      "low"
+    ],
+    "costume": false
+  },
+  {
+    "id": 2224,
+    "name": "Óculos de Proteção",
+    "slots": 0,
+    "aegisName": null,
+    "resourceName": "고글",
+    "description": "Óculos largos para prevenir ferimentos nos olhos. Aumenta a defesa.",
+    "view": 1,
+    "equipSlots": [
+      "top",
+      "mid"
+    ],
+    "costume": false
+  },
+  {
+    "id": 2225,
+    "name": "Óculos de Proteção",
+    "slots": 1,
+    "aegisName": null,
+    "resourceName": "고글",
+    "description": "Óculos largos para prevenir ferimentos nos olhos. Aumenta a defesa. Arraste para a janela de equipamento para usar.",
+    "view": 1,
+    "equipSlots": [
+      "top",
+      "mid"
+    ],
+    "costume": false
+  },
+  {
+    "id": 2264,
+    "name": "Chapéu de Munak",
+    "slots": 0,
+    "aegisName": null,
+    "resourceName": "무낙모자",
+    "description": "Grande turbante chinês de cor vermelha usado pela Munak. Há uma fita com um talismã desconhecido presa a ele.",
+    "view": 51,
+    "equipSlots": [
+      "top",
+      "mid",
+      "low"
+    ],
+    "costume": false
+  },
+  {
+    "id": 20502,
+    "name": "[Visual] Asa de Morcego Mutante",
+    "slots": 0,
+    "aegisName": "C_Devil_Wing",
+    "resourceName": "소악마날개",
+    "description": "Só de olhar pra essas asas já dá medo do antigo proprietário. Usar uma dessas envolve coragem e muita vontade de voar.",
+    "view": 12,
+    "equipSlots": [
+      "garment"
+    ],
+    "costume": true
+  }
+]

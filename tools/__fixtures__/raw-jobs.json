@@ -1,0 +1,20 @@
+[
+  {
+    "id": 0,
+    "jt": "JT_NOVICE",
+    "name": "Aprendiz",
+    "hasIcon": true
+  },
+  {
+    "id": 22,
+    "jt": "JT_MARRIED",
+    "name": null,
+    "hasIcon": false
+  },
+  {
+    "id": 4308,
+    "jt": null,
+    "name": null,
+    "hasIcon": true
+  }
+]

@@ -44,7 +44,7 @@ const ORDER = [HeadGearLocation.Upper, HeadGearLocation.Middle, HeadGearLocation
  *
  * The label and colour code both vary across the client's own text — `Equipa em:`,
  * `Equipado em:` and `Posição:` all occur, and a few entries are truncated mid-word (one
- * costume's line reads just `ixo`, the tail of `Baixo`). `tools/build-item-views.mjs`
+ * costume's line reads just `ixo`, the tail of `Baixo`). ragassets' `equipSlots` parse
  * already tolerates these; matching its grammar keeps this check from silently skipping
  * the items it claims to cover.
  */

@@ -70,9 +70,12 @@ src/app/
 tools/           # scripts de build da base LATAM (itens, monstros, habilidades, ícones)
 ```
 
-A pasta `tools/` contém os scripts que geram a base de dados LATAM (`build-latam-db.mjs`,
-`build-latam-monsters.mjs`, etc.) a partir das fontes do jogo. As habilidades (nomes,
-descrições e ids) ficam no catálogo estático em `src/app/skills/`.
+A pasta `tools/` contém os scripts que geram a base de dados LATAM
+(`sync-latam-db.mjs`, `sync-monster-db.mjs`, `build-latam-monsters.mjs`) a partir das
+tabelas que o [ragassets](https://github.com/adsonpleal/ragassets) publica em
+`https://assets.latam-tools.com.br/raw/` — é ele que lê os arquivos do jogo; aqui só se
+baixa o JSON pronto. As habilidades (nomes, descrições e ids) ficam no catálogo estático
+em `src/app/skills/`.
 
 ## Base de dados de itens
 

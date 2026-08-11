@@ -12,7 +12,7 @@ the ragassets feed, grouped under its spawn map in the picker.
 ## The source
 Everything except the spawn map comes from one public file, no auth:
 
-    https://raw.githubusercontent.com/adsonpleal/ragassets/main/mobs.json
+    https://assets.latam-tools.com.br/raw/mobs.json
 
 ragassets generates it from the RagnaPlace Public API (laro-pt gateway) — LATAM
 server values. **This repo only downloads the file; it never calls the API.** The
@@ -59,9 +59,10 @@ The key is the spawn code; the value is the pt-BR label shown as the picker grou
 header (`getMonsterSpawnMap` maps code → label; an unmapped code renders as "undefined").
 Confirm the **map code** and **label** with the user — neither is reliably derivable.
 
-`System/mapInfo.lub` in the client GRF gives candidate codes and their pt-BR display
-names (decode it with [tools/lua51.mjs](tools/lua51.mjs)), but it can't tell instance
-variants apart, so it is a hint, not an answer.
+`System/mapInfo.lub` in the client lists candidate codes with their pt-BR display names,
+but this repo no longer carries a Lua decoder (all client reading moved to ragassets, and
+it doesn't publish a map table yet) — and it can't tell instance variants apart anyway.
+Ask the user.
 
 ### 3. Name
 The displayed name comes from the **`latam-monsters.json`** overlay, which

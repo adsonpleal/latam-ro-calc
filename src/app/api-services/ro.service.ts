@@ -52,11 +52,11 @@ export class RoService {
     this.cachedItems$ = this.boot<any>('itemsCore');
     this.cachedMonster$ = this.boot<any>('monsters');
     this.cachedHpSpTable$ = this.boot<any>('hpsp');
-    // Job-icon ids present in the LATAM client GRF (from tools/build-latam-db.mjs);
+    // Job-icon ids present in the LATAM client (from tools/sync-latam-db.mjs);
     // classes whose icon isn't here are unreleased on LATAM and hidden in the UI.
     this.cachedLatamClasses$ = this.boot<number[]>('classes');
     // item id -> sprite "view" id (client ClassNum) for rendering equipped gear
-    // (headgear/garment) on the character paper-doll (from tools/build-item-views.mjs).
+    // (headgear/garment) on the character paper-doll (from tools/sync-latam-db.mjs).
     this.cachedItemViews$ = this.boot<Record<string, [number, number]>>('itemViews');
 
     // Descriptions are ~half the payload and are only read on hover and in the

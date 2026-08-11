@@ -60,7 +60,7 @@ O arquivo é um objeto cuja **chave é o id do item**. Exemplo mínimo:
 | `unidName`       | string          | Nome genérico do tipo (ex.: `Armor`). |
 | `resName`        | string          | Nome do recurso gráfico (sprite). |
 | `description`    | string          | Deixe `""`; a descrição pt-BR vem de `latam-items.json`. |
-| `slots`          | número          | Quantidade de cartas. Vem do GRF; **não** infira pelo `[1]` do nome. `0` esconde o slot. |
+| `slots`          | número          | Quantidade de cartas. Vem do cliente, via `latam-items.json`; **não** infira pelo `[1]` do nome. `0` esconde o slot. |
 | `itemTypeId`     | número          | Categoria: `1` arma, `2` equipamento, `9` traje/visual. |
 | `itemSubTypeId`  | número          | Subtipo — define onde o item entra nos dropdowns (ver abaixo). |
 | `itemLevel`      | número \| null  | Nível do item (usado pela condição `ITEM_LV`). |

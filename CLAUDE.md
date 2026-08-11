@@ -61,20 +61,27 @@ fonte da verdade** — o `latam-items.json` serve para resolver *ids*, não para
 Detalhes do formato em [`docs/item-json.md`](docs/item-json.md); para adicionar itens,
 use a skill `add-ro-item`.
 
-## Dados dos monstros
+## Dados extraídos do cliente: tudo vem do ragassets
 
-A fonte é um arquivo público do projeto **ragassets**, sem autenticação:
+Toda leitura de arquivo de jogo mora no projeto **ragassets**, que publica o resultado
+como JSON público, sem autenticação:
 
-    https://raw.githubusercontent.com/adsonpleal/ragassets/main/mobs.json
+    https://assets.latam-tools.com.br/raw/<tabela>.json
 
-O ragassets o gera a partir da RagnaPlace Public API (gateway laro-pt), ou seja, valores
-do servidor LATAM. **Este repositório só baixa o arquivo — nunca chama a API.**
+**Este repositório só baixa esses arquivos.** Nunca abra uma GRF, nunca decodifique um
+`.lub` e nunca chame a API da RagnaPlace daqui — se falta um dado, o lugar de gerá-lo é
+o ragassets. O passo a passo (quando rodar, como conferir o diff) está na skill
+`sync-with-ragassets`.
 
-- `tools/mob-source.mjs` — leitura, mapeamento de campos, normalização de raça e a
-  política de nulos. Comece por aqui.
+- `tools/raw-source.mjs` — a URL base e o leitor das tabelas (com `--src` para rodar
+  offline a partir de uma cópia local).
+- `tools/sync-latam-db.mjs` — refaz `latam-items.json`, `item-views.json` e
+  `latam-classes.json` a partir de `items.json` + `jobs.json`.
+- `tools/mob-source.mjs` — leitura do `mobs.json`, mapeamento de campos, normalização de
+  raça e a política de nulos. Comece por aqui para monstros.
 - `tools/sync-monster-db.mjs` — atualiza as estatísticas dos registros que já existem no
   `monster.json`. Nunca adiciona nem remove ids, e preserva o `spawn` (que é mantido à
   mão: a fonte não tem mapa de spawn).
 - `tools/build-latam-monsters.mjs` — gera o overlay de nomes pt-BR
-  (`latam-monsters.json`) a partir do mesmo arquivo.
-- Para **adicionar** um monstro, use a skill `add-ro-monster`.
+  (`latam-monsters.json`) a partir do mesmo `mobs.json`.
+- Para **adicionar** um monstro, use a skill `add-ro-monster`; para um item, `add-ro-item`.
