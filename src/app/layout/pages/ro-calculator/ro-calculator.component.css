@@ -86,9 +86,10 @@
   height: 100%;
 }
 
-:host ::ng-deep .select_skill .p-accordion-content {
-  padding: 0;
-}
+/* The Habilidades panel used to zero its padding, which left the three columns flush
+   against the border — every other panel but Consumíveis has the theme's 14px. The
+   Consumíveis one drops it on purpose, so its item list can span the full width; this
+   one had no such reason, so it just inherits. */
 
 .item_template {
   position: relative;
@@ -714,9 +715,22 @@ a.skill_link:hover {
   padding-bottom: 0.25rem !important;
 }
 
-:host ::ng-deep .skill-selection .p-cascadeselect-sublist {
-  left: -70% !important;
-  min-width: 70%;
+/* The level submenu opened at the top of the panel, far from the row the pointer was
+   on. PrimeNG only makes `.p-cascadeselect-item-content` a positioning context, not
+   the `.p-cascadeselect-item` itself, so the absolutely positioned sublist anchored to
+   the panel and its `top: 0` landed at the top of the whole list. Giving the item the
+   context back makes the submenu sit against the row that opened it, like a menu. It
+   opens to the left because these pickers live in the right-hand column. */
+:host ::ng-deep .skill-selection .p-cascadeselect-item {
+  position: relative;
+}
+
+:host ::ng-deep .skill-selection .p-cascadeselect-item-active > .p-cascadeselect-sublist {
+  left: auto !important;
+  right: 100%;
+  min-width: max-content;
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
 :host ::ng-deep .skill-selection .p-inputgroup .p-cascadeselect {

@@ -49324,6 +49324,12 @@
       "all"
     ],
     "script": {
+      "atk": [
+        "1---1"
+      ],
+      "matk": [
+        "1---1"
+      ],
       "spl": [
         "2---1"
       ],
@@ -166867,7 +166873,7 @@
     "itemSubTypeId": 514,
     "itemLevel": null,
     "attack": null,
-    "defense": 60,
+    "defense": 20,
     "weight": 40,
     "requiredLevel": 100,
     "location": null,
@@ -166876,18 +166882,18 @@
       "all"
     ],
     "script": {
-      "hpPercent": [
-        "10"
+      "p_class_boss": [
+        "5",
+        "2---2"
       ],
-      "spPercent": [
-        "10"
+      "m_class_boss": [
+        "5",
+        "2---2"
       ],
       "atk": [
-        "3---15",
         "EQUIP_ID[32208]30"
       ],
       "matk": [
-        "3---15",
         "EQUIP_ID[32210]30"
       ]
     }

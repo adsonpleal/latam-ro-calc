@@ -156,6 +156,20 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.45-beta',
+      date: '11-08-2026',
+      logs: [
+        'As habilidades do Hiperaprendiz foram refeitas a partir da descrição do cliente. Só a Tempestade de Júpiter estava certa; as outras nove usavam a tabela da 2ª versão do rebalanceamento, que o LATAM não usa. No Nv 1 passam a ser Golpe de Tyr 300%, Lâminas Devastadoras 950%, Choque Violento 700% e Cortar em Espiral 750% na árvore física, e Ira da Terra 1.550%, Espectro Napalm 500%, Esquife Congelante 200% na esfera e 400% na explosão e Zona Gravitacional 4.500% no impacto e 700% no campo na mágica — sempre somadas ao nível do Autodidata, ao POD ou à FEI e ao nível de base. Os dez níveis de cada uma passaram a ser selecionáveis, já que raramente ficam no máximo. Obrigado Asbrun pela gravação.',
+        'A Chuva de Meteoritos entrou na lista de habilidades ofensivas; ela não existia no simulador. Estão as duas partes que o jogo manda em pacotes separados: a queda do meteoro e a explosão que vem depois.',
+        'O Anjo da Magia, a ultimate mágica, foi cadastrado. Com ele ligado o dano sobe ×1,70 na Tempestade de Júpiter, na Ira da Terra e no Esquife Congelante, ×1,50 na Chuva de Meteoritos e na Zona Gravitacional e ×2,00 no Espectro Napalm. O cliente não publica descrição para essa habilidade, então as porcentagens são as medidas na gravação. O Anjo do Poder, a ultimate física, segue de fora por falta de gravação.',
+        'O bônus de dano do Físico Autodidata e do Mágico Autodidata passou a valer. As duas passivas somam +1% de dano por nível às habilidades da sua árvore, e +2% no Choque Violento e no Espectro Napalm; esse trecho estava cadastrado de um jeito que o cálculo não enxergava, então valia zero em qualquer build. A gravação também mostrou que o bônus alcança o dano repetido das habilidades de área, mas não o primeiro golpe delas.',
+        'As tabelas de bônus de atributos e de talentos do Hiperaprendiz foram refeitas a partir da iROwiki. A coluna de STA dava pontos a mais em todos os níveis de classe — no 50 eram +10 no lugar de +4 —, a DES parava em +5 e chega a +6, e a SOR começava três níveis tarde. Muda a TEN, o HP, o ATQ e o ATQM de qualquer build da classe.',
+        'A velocidade de ataque do Hiperaprendiz não tinha tabela própria e caía na de mãos livres, sem as penalidades de arma e de escudo. Com cajado e escudo o simulador mostrava VelAtq 178 onde o jogo mostra 145. Passou a usar a tabela do Superaprendiz, a classe base.',
+        'O Escudo Ilusión B ainda trazia os efeitos do item de mesmo número no servidor tailandês: ATQ e ATQM +15 a cada 3 refinos e HP e SP máx. +10%, que não existem na versão do LATAM, além de DEF base 60 no lugar de 20. Agora vale o que está na descrição em pt-BR — dano físico e mágico contra Chefes +5%, mais 2% a cada 2 refinos, e os conjuntos com o Soquete e a Turbina Ilusión B. No +9 o simulador vinha somando 45 de ATQ e 45 de ATQM que a peça não dá.',
+        'A Manopla Sombria FEI passou a conceder ATQ e ATQM +1 por refino, a primeira linha da descrição, que não estava no cadastro — no +9 são 9 de cada. A mesma correção já tinha sido feita na versão POD.',
+      ],
+    },
+    {
       v: '0.1.44-beta',
       date: '11-08-2026',
       logs: [

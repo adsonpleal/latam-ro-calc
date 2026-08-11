@@ -3,24 +3,21 @@ import { AtkSkillModel } from './_character-base.abstract';
 import { HyperNovice } from './HyperNovice';
 
 /**
- * Hyper Novice (Hiperaprendiz) 4th-job attack-skill validation.
+ * Hyper Novice — the per-level percentages of the 4th-job attack skills.
  *
- * Ground truth: the LATAM 2nd-version skill tables published by Sigma the Fallen,
- *   https://sigmathefallen.blogspot.com/2025/02/hyper-novice-2nd-version.html
- * reached from that blog's "Supplemental Class (2nd version)" selector. LATAM ships
- * the 2nd version of the Expanded 4th-class rebalance, which is what the `[V2]`
- * labels in HyperNovice.ts mark.
+ * Source: the **client description** (`SKILL_META[...].description`, taken from the GRF's
+ * `skilldescript.lub`), transcribed level by level in the tables below. It replaced the
+ * `[V2]` tables from Sigma's blog that this file used to encode: the `hn-magic-lv1.rrf`
+ * recording showed those were wrong, the same way the Night Watch recordings did (see
+ * NightWatch.replay.spec.ts). `HyperNovice.replay.spec.ts` is what pins the measured
+ * damage; this file only checks the table.
  *
- * No replay exists for this class yet — it is only now being surfaced in the UI
- * (the class now ships in the LATAM GRF), so these assertions
- * encode the published formulas rather than observed damage packets.
+ * Every description carries two columns per level: the ATK/MATK and the "Nv. de
+ * Físico/Mágico Autodidata" one, which adds `N x skill level x passive level`. The
+ * POW/SPL term is not in the description — that coefficient is the measured one.
  *
- * Hyper Novice is the only Expanded 4th job that is half physical / half magic: the
- * physical tree scales off the Self Study Tactics passive and POW, the magic tree
- * off Self Study Sorcery and SPL. Both passives are pinned in the fixtures.
- *
- * Assertions lock the skill *ratio*, floored, because the server int-casts the
- * coefficient — deliberately plain Math.floor, not the repo's float helper.
+ * The passive's own "+N% damage" column is folded into the ratio too (see HyperNovice),
+ * so the fixtures below keep both passives at 0 to isolate the table itself.
  */
 
 const BASE_LEVEL = 250;
@@ -29,21 +26,27 @@ const TOTAL_SPL = 100;
 const TACTICS = 10; // Self Study Tactics
 const SORCERY = 10; // Self Study Sorcery
 
-const stubBonuses = () =>
+const stubBonuses = (tactics: number, sorcery: number) =>
   ({
     activeSkillNames: new Set<string>(),
     equipAtks: {},
     masteryAtks: {},
     learnedSkillMap: new Map<string, number>([
-      ['Self Study Tactics', TACTICS],
-      ['Self Study Sorcery', SORCERY],
+      ['Self Study Tactics', tactics],
+      ['Self Study Sorcery', sorcery],
     ]),
     usedSkillMap: new Map<string, number>(),
   } as any);
 
-const hn = (): HyperNovice => {
+const hn = (opts: { damageBonus?: boolean } = {}): HyperNovice => {
   const c = new HyperNovice();
-  (c as any).bonuses = stubBonuses();
+  // The mastery levels feed the skill table's own "Nv. de Autodidata" column, so they stay
+  // at their real value; `damageBonus` is what switches the passive's +N% damage on.
+  (c as any).bonuses = stubBonuses(TACTICS, SORCERY);
+  if (!opts.damageBonus) {
+    const noBonus = (c as any).withPassiveBonus.bind(c);
+    (c as any).withPassiveBonus = (raw: number, _percent: number, ult = 1) => noBonus(raw, 0, ult);
+  }
   return c;
 };
 
@@ -53,29 +56,20 @@ const findSkill = (char: HyperNovice, name: string): AtkSkillModel => {
   return skill;
 };
 
-// Some skills have two atk entries under the same `name` (e.g. a ground skill's initial
-// burst vs its repeating field tick); find those by their unique `value`.
+// A few skills have two atk entries under the same `name` (the first damage and the
+// repeating one); those are found by `value`, which is unique.
 const findSkillByValue = (char: HyperNovice, value: string): AtkSkillModel => {
   const skill = char.atkSkills.find((s) => s.value === value);
   if (!skill) throw new Error(`atk skill not found by value: ${value}`);
   return skill;
 };
 
-const ratioOfValue = (char: HyperNovice, value: string, skillLevel: number) =>
-  Math.floor(
-    findSkillByValue(char, value).formula({
-      model: { level: BASE_LEVEL },
-      skillLevel,
-      status: { totalPow: TOTAL_POW, totalSpl: TOTAL_SPL },
-    } as any),
-  );
-
-// Only Spiral Pierce Max reads monster.size; the rest ignore the monster entirely.
+// Only Spiral Pierce Max reads monster.size; every other skill ignores the target.
 const monsterOfSize = (size: 's' | 'm' | 'l') => ({ size, isRace: () => false, isMVP: false });
 
-const ratioOf = (char: HyperNovice, name: string, skillLevel: number, monster?: unknown) =>
+const ratioOfValue = (char: HyperNovice, value: string, skillLevel: number, monster?: unknown) =>
   Math.floor(
-    findSkill(char, name).formula({
+    findSkillByValue(char, value).formula({
       model: { level: BASE_LEVEL },
       skillLevel,
       status: { totalPow: TOTAL_POW, totalSpl: TOTAL_SPL },
@@ -83,135 +77,156 @@ const ratioOf = (char: HyperNovice, name: string, skillLevel: number, monster?: 
     } as any),
   );
 
-describe('Hyper Novice physical ratios @ base 250, POW 100, Self Study Tactics 10', () => {
-  // (base + skillLv * (perLv + Tactics * masteryPerLv) + POW * powMul) * baseLv/100
-  const physical = (base: number, perLv: number, masteryPerLv: number, powMul: number, skillLevel: number) =>
-    Math.floor((base + skillLevel * (perLv + TACTICS * masteryPerLv) + TOTAL_POW * powMul) * (BASE_LEVEL / 100));
+/**
+ * The client tables, level by level. `atk[i]` is the Lv i+1 percentage and `mastery` is
+ * the multiplier of the "Nv. de Autodidata" column (which the description spells out as
+ * `x3`, `x6`, `x9`… = `mastery x level`). `stat` is the POW/SPL coefficient.
+ */
+type SkillTable = { value: string; atk: number[]; mastery: number; stat: number };
 
-  it('Double Bowling Bash Lv10 matches the published per-hit formula', () => {
-    // (150 + (SkillLv x (250 + Tactics x 3)) + POW x 2) x baseLv/100
-    expect(ratioOf(hn(), 'Double Bowling Bash', 10)).toBe(physical(150, 250, 3, 2, 10));
+const PHYSICAL: SkillTable[] = [
+  // Golpe de Tyr
+  { value: 'Double Bowling Bash==10', atk: [300, 500, 700, 900, 1100, 1300, 1500, 1700, 1900, 2100], mastery: 3, stat: 2 },
+  // Lâminas Devastadoras
+  { value: 'Mega Sonic Blow==10', atk: [950, 1100, 1250, 1400, 1550, 1700, 1850, 2000, 2150, 2300], mastery: 5, stat: 4 },
+  // Choque Violento
+  { value: 'Shield Chain Rush==10', atk: [700, 1000, 1300, 1600, 1900, 2200, 2500, 2800, 3100, 3400], mastery: 3, stat: 3 },
+];
+
+const MAGIC: SkillTable[] = [
+  // Chuva de Meteoritos — the landing (1º ATQM) and the explosion (2º ATQM)
+  { value: 'Meteor Storm Buster==10', atk: [600, 900, 1200, 1500, 1800, 2100, 2400, 2700, 3000, 3300], mastery: 5, stat: 3 },
+  { value: 'Meteor Storm Buster (Explosão)==10', atk: [600, 750, 900, 1050, 1200, 1350, 1500, 1650, 1800, 1950], mastery: 5, stat: 3 },
+  // Espectro Napalm
+  { value: 'Napalm Vulcan Strike==10', atk: [500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750], mastery: 4, stat: 3 },
+  // Tempestade de Júpiter
+  { value: 'Jupitel Thunderstorm==10', atk: [1800, 3600, 5400, 7200, 9000, 10800, 12600, 14400, 16200, 18000], mastery: 3, stat: 3 },
+  // Ira da Terra
+  { value: "Hell's Drive==10", atk: [1550, 2100, 2650, 3200, 3750, 4300, 4850, 5400, 5950, 6500], mastery: 4, stat: 3 },
+  // Esquife Congelante — the sphere (1º) and the repeating explosion (2º)
+  { value: 'Jack Frost Nova (Inicial)==10', atk: [200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000], mastery: 3, stat: 2 },
+  { value: 'Jack Frost Nova==10', atk: [400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200], mastery: 3, stat: 4 },
+  // Zona Gravitacional — the initial burst (1º) and the repeating field (2º)
+  { value: 'Ground Gravitation (Inicial)==10', atk: [4500, 6000, 7500, 9000, 10500, 12000, 13500, 15000, 16500, 18000], mastery: 4, stat: 5 },
+  { value: 'Ground Gravitation==10', atk: [700, 1000, 1300, 1600, 1900, 2200, 2500, 2800, 3100, 3400], mastery: 2, stat: 2 },
+];
+
+const expected = (t: SkillTable, lv: number, masteryLv: number, statTotal: number, sizeMultiplier = 1) =>
+  Math.floor(((t.atk[lv - 1] + t.mastery * lv * masteryLv) * sizeMultiplier + statTotal * t.stat) * (BASE_LEVEL / 100));
+
+describe('Hyper Novice — per-level percentage vs the client description', () => {
+  it.each(PHYSICAL)('$value: all 10 levels match the client table', (t) => {
+    for (let lv = 1; lv <= 10; lv++) {
+      expect(ratioOfValue(hn(), t.value, lv), `${t.value} Lv${lv}`).toBe(expected(t, lv, TACTICS, TOTAL_POW));
+    }
   });
 
-  it('Mega Sonic Blow Lv10 matches the published formula', () => {
-    // (850 + (SkillLv x (450 + Tactics x 5)) + POW x 4) x baseLv/100
-    expect(ratioOf(hn(), 'Mega Sonic Blow', 10)).toBe(physical(850, 450, 5, 4, 10));
-  });
-
-  it('Shield Chain Rush Lv10 matches the published formula', () => {
-    // (600 + (SkillLv x (450 + Tactics x 3)) + POW x 3) x baseLv/100
-    expect(ratioOf(hn(), 'Shield Chain Rush', 10)).toBe(physical(600, 450, 3, 3, 10));
+  it.each(MAGIC)('$value: all 10 levels match the client table', (t) => {
+    for (let lv = 1; lv <= 10; lv++) {
+      expect(ratioOfValue(hn(), t.value, lv), `${t.value} Lv${lv}`).toBe(expected(t, lv, SORCERY, TOTAL_SPL));
+    }
   });
 
   describe('Spiral Pierce Max', () => {
-    // ((550 + (SkillLv x (350 + Tactics x 3))) x SizeMultiplier + POW x 3) x baseLv/100
-    // The size multiplier scales the whole skill term, not just the per-level part.
-    const spiral = (sizeMultiplier: number, skillLevel: number) =>
-      Math.floor(
-        ((550 + skillLevel * (350 + TACTICS * 3)) * sizeMultiplier + TOTAL_POW * 3) * (BASE_LEVEL / 100),
-      );
-
+    // The description gives the usual table plus "Pequeno: x1,5 Médio: x1,3 Grande: x1,2".
+    // The multiplier scales the whole skill term, not only the per-level part.
+    const spiral: SkillTable = {
+      value: 'Spiral Pierce Max==10',
+      atk: [750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000],
+      mastery: 3,
+      stat: 3,
+    };
     const sizes: [string, 's' | 'm' | 'l', number][] = [
       ['small', 's', 1.5],
       ['medium', 'm', 1.3],
       ['large', 'l', 1.2],
     ];
 
-    it.each(sizes)('Lv10 vs a %s target applies a x%s size multiplier', (_label, size, mult) => {
-      expect(ratioOf(hn(), 'Spiral Pierce Max', 10, monsterOfSize(size))).toBe(spiral(mult, 10));
+    it.each(sizes)('applies x%s against a %s target at every level', (_label, size, mult) => {
+      for (let lv = 1; lv <= 10; lv++) {
+        expect(ratioOfValue(hn(), spiral.value, lv, monsterOfSize(size)), `Lv${lv}`).toBe(
+          expected(spiral, lv, TACTICS, TOTAL_POW, mult),
+        );
+      }
     });
 
     it('deals strictly more to smaller targets', () => {
-      const small = ratioOf(hn(), 'Spiral Pierce Max', 10, monsterOfSize('s'));
-      const medium = ratioOf(hn(), 'Spiral Pierce Max', 10, monsterOfSize('m'));
-      const large = ratioOf(hn(), 'Spiral Pierce Max', 10, monsterOfSize('l'));
+      const small = ratioOfValue(hn(), spiral.value, 10, monsterOfSize('s'));
+      const medium = ratioOfValue(hn(), spiral.value, 10, monsterOfSize('m'));
+      const large = ratioOfValue(hn(), spiral.value, 10, monsterOfSize('l'));
       expect(small).toBeGreaterThan(medium);
       expect(medium).toBeGreaterThan(large);
     });
   });
 });
 
-describe('Hyper Novice magic ratios @ base 250, SPL 100, Self Study Sorcery 10', () => {
-  const magic = (base: number, perLv: number, masteryPerLv: number, splMul: number, skillLevel: number) =>
-    Math.floor((base + skillLevel * (perLv + SORCERY * masteryPerLv) + TOTAL_SPL * splMul) * (BASE_LEVEL / 100));
-
-  it('Napalm Vulcan Strike Lv10 matches the published formula', () => {
-    // (350 + (SkillLv x (650 + Sorcery x 4)) + SPL x 3) x baseLv/100
-    expect(ratioOf(hn(), 'Napalm Vulcan Strike', 10)).toBe(magic(350, 650, 4, 3, 10));
+describe('Hyper Novice — the passives own damage column', () => {
+  // Self Study Tactics/Sorcery add "+N% damage", doubled on Shield Chain Rush and Napalm
+  // Vulcan Strike. It is applied on top of the already-truncated table value.
+  it.each([
+    { label: 'Double Bowling Bash', value: 'Double Bowling Bash==10', percent: TACTICS },
+    { label: 'Shield Chain Rush (doubled)', value: 'Shield Chain Rush==10', percent: TACTICS * 2 },
+    { label: 'Jupitel Thunderstorm', value: 'Jupitel Thunderstorm==10', percent: SORCERY },
+    { label: 'Napalm Vulcan Strike (doubled)', value: 'Napalm Vulcan Strike==10', percent: SORCERY * 2 },
+  ])('$label: adds $percent% on top of the table', ({ value, percent }) => {
+    const base = ratioOfValue(hn(), value, 10);
+    expect(ratioOfValue(hn({ damageBonus: true }), value, 10)).toBe(Math.floor(base * (1 + percent / 100)));
   });
 
-  it('Jupitel Thunderstorm Lv10 matches the published formula', () => {
-    // ((SkillLv x (1800 + Sorcery x 3)) + SPL x 3) x baseLv/100 — no flat base term
-    expect(ratioOf(hn(), 'Jupitel Thunderstorm', 10)).toBe(magic(0, 1800, 3, 3, 10));
+  it('leaves the first hit of the ground skills alone', () => {
+    for (const value of ['Meteor Storm Buster==10', 'Jack Frost Nova (Inicial)==10', 'Ground Gravitation (Inicial)==10']) {
+      expect(ratioOfValue(hn({ damageBonus: true }), value, 10), value).toBe(ratioOfValue(hn(), value, 10));
+    }
   });
+});
 
-  it("Hell's Drive Lv10 matches the published formula", () => {
-    // (1500 + (SkillLv x (700 + Sorcery x 4)) + SPL x 3) x baseLv/100
-    expect(ratioOf(hn(), "Hell's Drive", 10)).toBe(magic(1500, 700, 4, 3, 10));
-  });
-
-  // Jack Frost Nova & Ground Gravitation are ground DoT skills: a single "dmg หลัก"
-  // burst plus a repeating "dmg รอง" field tick. We model the repeating per-hit tick
-  // (the dominant, sustained damage) with its hit-count, exactly as Venom Swamp is
-  // modeled; the one-shot burst is not modeled separately.
-  it('Jack Frost Nova Lv10 matches the published dmg-รอง (field-tick) per-hit formula', () => {
-    // (400 + (SkillLv x (500 + Sorcery x 5)) + SPL x 4) x baseLv/100
-    expect(ratioOf(hn(), 'Jack Frost Nova', 10)).toBe(magic(400, 500, 5, 4, 10));
-  });
-
-  it('Ground Gravitation Lv10 matches the published dmg-รอง (field-tick) per-hit formula', () => {
-    // (800 + (SkillLv x (700 + Sorcery x 4)) + SPL x 2) x baseLv/100
-    expect(ratioOf(hn(), 'Ground Gravitation', 10)).toBe(magic(800, 700, 4, 2, 10));
-  });
-
-  it('deals the field damage over 10 continuous hits', () => {
-    expect(findSkill(hn(), 'Jack Frost Nova').totalHit).toBe(10);
-    expect(findSkill(hn(), 'Ground Gravitation').totalHit).toBe(10);
-  });
-
-  // The one-shot "dmg หลัก" burst is a separate atk entry sharing the skill name, so its
-  // item bonuses match the field tick's. Located by value.
-  it('Jack Frost Nova initial burst matches the published dmg-หลัก formula (1 hit)', () => {
-    // ((SkillLv x (200 + Sorcery x 3)) + SPL x 2) x baseLv/100 — no flat base term
-    expect(ratioOfValue(hn(), 'Jack Frost Nova (Inicial)==10', 10)).toBe(magic(0, 200, 3, 2, 10));
-    expect(findSkillByValue(hn(), 'Jack Frost Nova (Inicial)==10').hit).toBe(1);
-    expect(findSkillByValue(hn(), 'Jack Frost Nova (Inicial)==10').isMatk).toBe(true);
-  });
-
-  it('Ground Gravitation initial burst matches the published dmg-หลัก formula (displays 2 hits)', () => {
-    // (3000 + (SkillLv x (1500 + Sorcery x 4)) + SPL x 10) x baseLv/100
-    expect(ratioOfValue(hn(), 'Ground Gravitation (Inicial)==10', 10)).toBe(magic(3000, 1500, 4, 10, 10));
-    expect(findSkillByValue(hn(), 'Ground Gravitation (Inicial)==10').hit).toBe(2);
-    expect(findSkillByValue(hn(), 'Ground Gravitation (Inicial)==10').isMatk).toBe(true);
+describe('Hyper Novice — skill structure', () => {
+  it('exposes every level in the picker, like Night Watch does', () => {
+    const cls = hn();
+    for (const value of [...PHYSICAL, ...MAGIC].map((t) => t.value).concat('Spiral Pierce Max==10')) {
+      const skill = findSkillByValue(cls, value);
+      const name = value.replace(/==\d+$/, '');
+      expect(skill.levelList?.map((l) => l.value), value).toEqual(
+        Array.from({ length: 10 }, (_, i) => `${name}==${i + 1}`),
+      );
+    }
   });
 
   it('marks the magic tree as isMatk and leaves the physical tree unmarked', () => {
-    for (const name of ['Napalm Vulcan Strike', 'Jupitel Thunderstorm', "Hell's Drive", 'Jack Frost Nova', 'Ground Gravitation']) {
-      expect(findSkill(hn(), name).isMatk, `${name} should be MATK`).toBe(true);
+    for (const t of MAGIC) {
+      expect(findSkillByValue(hn(), t.value).isMatk, `${t.value} should be magic`).toBe(true);
     }
     for (const name of ['Double Bowling Bash', 'Mega Sonic Blow', 'Shield Chain Rush', 'Spiral Pierce Max']) {
       expect(findSkill(hn(), name).isMatk, `${name} should be physical`).toBeFalsy();
     }
   });
+
+  // The recording shows Ground Gravitation's field landing 10 times (5s every 0.5s, as the
+  // description says) and Jack Frost Nova exploding 4 times at Lv1 — that one the
+  // description does not quantify, so the number comes from the recording.
+  it('repeats the continuous damage as many times as the recording shows', () => {
+    expect(findSkillByValue(hn(), 'Ground Gravitation==10').totalHit).toBe(10);
+    expect(findSkillByValue(hn(), 'Jack Frost Nova==10').totalHit).toBe(4);
+  });
+
+  it('carries Meteor Storm Buster (5455), which the class was missing', () => {
+    expect(findSkillByValue(hn(), 'Meteor Storm Buster==10').element).toBe('Fire');
+    expect(findSkillByValue(hn(), 'Meteor Storm Buster (Explosão)==10').name).toBe('Meteor Storm Buster');
+  });
 });
 
-describe('Hyper Novice cast/cooldown metadata (2nd version)', () => {
-  // Published as "variable cast / fixed cast | cooldown"; the model stores
-  // vct = variable, fct = fixed, cd = cooldown, all in seconds. Level-dependent
-  // values are pinned at the max level the skill entry is defined for.
+describe('Hyper Novice — cast time and cooldown', () => {
+  // Published as "variable cast / fixed cast | cooldown"; the model stores vct = variable,
+  // fct = fixed, cd = cooldown, all in seconds.
   const cases: { name: string; vct: number; fct: number; cd: number }[] = [
     { name: 'Double Bowling Bash', vct: 0, fct: 0.35, cd: 0.7 },
     { name: 'Mega Sonic Blow', vct: 0, fct: 0, cd: 0.3 },
     { name: 'Shield Chain Rush', vct: 1.2, fct: 0.3, cd: 0.3 },
     { name: 'Spiral Pierce Max', vct: 1, fct: 0.3, cd: 0.3 },
     { name: 'Napalm Vulcan Strike', vct: 0.5, fct: 1, cd: 0.3 },
-    // Jupitel: variable cast is 1 + (Lv x 0.1) -> 2 at Lv10
     { name: 'Jupitel Thunderstorm', vct: 2, fct: 1, cd: 1.8 },
-    // Hell's Drive: cooldown is 2.7 - (Lv x 0.2) -> 0.7 at Lv10
     { name: "Hell's Drive", vct: 1.2, fct: 1, cd: 0.7 },
-    // Jack Frost Nova: variable cast is 1.5 + (Lv x 0.1) -> 2.5 at Lv10
     { name: 'Jack Frost Nova', vct: 2.5, fct: 1.5, cd: 3 },
-    // Ground Gravitation: variable cast tops out at 5 at Lv10
     { name: 'Ground Gravitation', vct: 5, fct: 1.5, cd: 5 },
   ];
 

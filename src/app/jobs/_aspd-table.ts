@@ -46,6 +46,11 @@ export const AspdTable: Partial<Record<ClassName, XX>> = {
 
   [ClassName.Doram]: { base: 156, shield: -7, Rod: -20 },
   [ClassName.SuperNovice]: { base: 156, shield: -10, Dagger: -15, Sword: -17, Mace: -10, Axe: -10, Rod: -25 },
+  // Hyper Novice had no row at all and fell through to the unarmed default (base 156,
+  // no weapon or shield penalty), which put a rod-and-shield build 33 ASPD above the
+  // game. It shares the Super Novice table: with the rod + shield of hn-magic-lv1.rrf
+  // this reproduces the recorded amotion of 550 (ASPD 145) exactly.
+  [ClassName.HyperNovice]: { base: 156, shield: -10, Dagger: -15, Sword: -17, Mace: -10, Axe: -10, Rod: -25 },
   [ClassName.SoulReaper]: { base: 151, shield: -5, Dagger: -7, 'Two-Handed Rod': -11, Rod: -5 },
   [ClassName.SoulAscetic]: { base: 151, shield: -5, Dagger: -7, 'Two-Handed Rod': -11, Rod: -5 },
 
