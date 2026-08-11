@@ -156,6 +156,13 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.44-beta',
+      date: '11-08-2026',
+      logs: [
+        'A base do simulador passou a vir pronta de uma fonte única, que acompanha o cliente do jogo. Os nomes e as descrições em pt-BR dos itens, a quantidade de slots de cada equipamento, a lista de classes disponíveis, os sprites usados no boneco do personagem e as estatísticas dos monstros eram lidos de uma instalação do jogo na máquina de quem mantém o simulador, e só chegavam aqui quando essa cópia era atualizada à mão. Agora tudo isso vem do ragassets — o mesmo serviço que já entrega os ícones e o desenho do personagem —, então uma atualização do jogo passa a se refletir no simulador em uma etapa só. Os dados desta versão são exatamente os mesmos de antes: o que muda é o caminho por onde eles chegam.',
+      ],
+    },
+    {
       v: '0.1.43-beta',
       date: '10-08-2026',
       logs: [

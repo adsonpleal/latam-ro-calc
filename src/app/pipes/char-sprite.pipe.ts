@@ -6,7 +6,7 @@ import { ClassIcon } from '../jobs/_class-name';
  * Character paper-doll URL built for the ragassets (zrenderer) gateway, the same
  * way ragreplaystats' CharacterViewer does it: the job body + hair, plus the
  * equipped headgears / garment composited on top by their sprite *view* ids
- * (the client's `ClassNum`, from tools/build-item-views.mjs -> item-views.json).
+ * (the client's `ClassNum`, from tools/sync-latam-db.mjs -> item-views.json).
  *
  *   /image?job=4257&gender=male&head=1&headgear=1085,856,1041&garment=51&action=0&canvas=...
  *
@@ -47,7 +47,7 @@ const resolveSex = (jobView: number, reported?: number): 0 | 1 => {
   return reported === 0 ? 0 : 1;
 };
 
-// Visual-slot bits emitted by tools/build-item-views.mjs (the item's view + the
+// Visual-slot bits emitted by tools/sync-latam-db.mjs (the item's view + the
 // slots it covers); a multi-slot costume (e.g. a "Topo, Meio e Baixo" hood) hides
 // the equipped headgears underneath it.
 const SLOT_BIT = [1, 2, 4]; // [top, mid, low]

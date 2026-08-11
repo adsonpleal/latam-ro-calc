@@ -91,8 +91,12 @@ Manopla Sombria POD's "ATQ e ATQM +1 por refino" was found). Fix the build befor
 
 - **Weapon**: initial weapon from `importReplayBuffer`, then every `equipChanges` entry with
   `location === 34` and `equipped`. Refine and cards come on the change event.
-- **Counters/toggles**: the EFST id is in `statusEvents`. Resolve unknown ids from the GRF:
-  `stateicon/efstids.lub` via `tools/grf.mjs` + `tools/lua51.mjs` (`runChunk`). Do not guess.
+- **Counters/toggles**: the EFST id is in `statusEvents`. Resolve unknown ids from ragassets'
+  status table — `{id, name}` for every EFST the client knows, pt-BR names. Do not guess.
+  ```bash
+  curl -s https://assets.latam-tools.com.br/raw/status.json > /tmp/status.json
+  node -e 'const s=require("/tmp/status.json");for(const id of process.argv.slice(1))console.log(id, s.find(e=>e.id==+id)?.name ?? "(unknown)")' 156 158
+  ```
 - **Stacking counters** (Pontos de Foco / aiming count) tick on their own EFST every 500 ms,
   and the reset arrives on the **same millisecond** as the damage. Count the ticks between
   one damage packet and the next — and remember the recording usually **starts with the
