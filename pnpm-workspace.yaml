@@ -10,6 +10,14 @@ allowBuilds:
   esbuild: true
   nx: true
 
+# O pnpm segura pacotes publicados há pouco tempo, como defesa contra um pacote
+# comprometido que acabou de subir. O rrfparser é nosso e foi publicado agora, então
+# sem esta exceção o `pnpm install` local se recusa a instalar. (O CI usa bun, que não
+# lê esta configuração.) A exceção é presa à versão de propósito: ao subir para a
+# 1.0.0 esta linha sai, em vez de virar um passe livre permanente para o pacote.
+minimumReleaseAgeExclude:
+  - rrfparser@1.0.0-rc.1
+
 # Angular 16's webpack dev build resolves some transitive deps by absolute path into the
 # top-level node_modules, which pnpm's strict layout does not provide. Without this the
 # dev server fails to compile with:
