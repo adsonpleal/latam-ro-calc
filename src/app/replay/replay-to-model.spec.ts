@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Replay } from './rrf/types';
+import { Replay } from 'rrfparser';
 import { replayToModel } from './replay-to-model';
 
 // rAthena e_equip_pos bits used by the importer.

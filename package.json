@@ -1,6 +1,6 @@
 {
     "name": "ro-calculator",
-    "version": "0.1.45-beta",
+    "version": "0.1.46-beta",
     "license": "MIT",
     "scripts": {
         "ng": "ng",
@@ -49,7 +49,8 @@
         "quill": "^1.3.7",
         "rxjs": "~7.8.0",
         "tslib": "^2.3.0",
-        "zone.js": "~0.13.0"
+        "zone.js": "~0.13.0",
+        "rrfparser": "~1.0.0-rc.1"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "^16.1.5",

@@ -74,6 +74,9 @@ importers:
       quill:
         specifier: ^1.3.7
         version: 1.3.7
+      rrfparser:
+        specifier: ~1.0.0-rc.1
+        version: 1.0.0-rc.1
       rxjs:
         specifier: ~7.8.0
         version: 7.8.2
@@ -4644,6 +4647,10 @@ packages:
   router@2.2.0:
     resolution: {integrity: sha512-nLTrUKm2UyiL7rlhapu/Zl45FwNgkZGaCpZbIHajDYgwlJCOzLSk+cIPAnsEqV955GjILJnKbdQC1nVPz+gAYQ==}
     engines: {node: '>= 18'}
+
+  rrfparser@1.0.0-rc.1:
+    resolution: {integrity: sha512-7S37PslgY+uPZEPVhbBawvsl12N9jM8uBFm2sx6PJKOAqYkzRdYwRhOaXDELxanGY+kZ7Fwqc6b2yoTMXMfTMQ==}
+    engines: {node: '>=18'}
 
   run-async@2.4.1:
     resolution: {integrity: sha512-tvVnVv01b8c1RrA6Ep7JkStj85Guv/YrMcwqYQnwjsAS2cTmmPGBBjAjpCW7RrSodNSoE2/qg9O4bceNvUuDgQ==}
@@ -10718,6 +10725,8 @@ snapshots:
       path-to-regexp: 8.4.2
     transitivePeerDependencies:
       - supports-color
+
+  rrfparser@1.0.0-rc.1: {}
 
   run-async@2.4.1: {}
 

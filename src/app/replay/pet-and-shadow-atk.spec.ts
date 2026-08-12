@@ -7,7 +7,7 @@ import { DEFAULT_PET_LOYALTY, PetLoyalty, petLoyaltyFromIntimacy } from 'src/app
 import { NightWatch } from 'src/app/jobs/NightWatch';
 import { SKILL_ID_BY_NAME } from 'src/app/skills';
 import { loadReplayFixture } from './__tests__/load-fixture';
-import { decodeReplay } from './rrf/decode';
+import { decodeReplay } from 'rrfparser';
 import { importReplayBuffer } from './replay-to-model';
 
 /**

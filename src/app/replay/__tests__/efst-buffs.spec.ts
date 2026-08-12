@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { decodeReplay } from '../rrf/decode';
+import { decodeReplay } from 'rrfparser';
 import { importReplayBuffer } from '../replay-to-model';
-import { Replay } from '../rrf/types';
+import { Replay } from 'rrfparser';
 import { loadReplayFixture } from './load-fixture';
 
 // Ground truth: a Super Novice ("Reny.") recording whose pre-cast buffs — Bênção

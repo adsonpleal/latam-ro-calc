@@ -156,6 +156,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.46-beta',
+      date: '12-08-2026',
+      logs: [
+        'Munição guardada no carrinho não é mais importada como munição equipada. Ao ler uma gravação, mochila, carrinho e equipamento entravam numa lista só; como cada um numera suas posições a partir do zero, uma pilha de balas de canhão parada no carrinho podia ocupar o espaço de Munição da build importada, somando o ATQ dela no cálculo de quem não estava com munição nenhuma equipada. Agora cada container é lido separado.',
+        'O leitor de arquivos .rrf virou um projeto à parte, o rrfparser (github.com/adsonpleal/rrfparser), compartilhado com o RagnaRecap e o mercado. Eram três cópias do mesmo leitor seguindo caminhos diferentes, cada uma sabendo ler algo que as outras não sabiam; agora é uma só, com o melhor das três. Fora a correção da munição, a build importada de uma gravação sai idêntica: a troca foi conferida decodificando 566 gravações reais com o leitor antigo e o novo lado a lado, exigindo que toda diferença tivesse explicação.',
+      ],
+    },
+    {
       v: '0.1.45-beta',
       date: '11-08-2026',
       logs: [
