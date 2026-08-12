@@ -1,4 +1,4 @@
-import { RandomOption } from './rrf/types';
+import { RandomOption } from 'rrfparser';
 
 /**
  * Maps a replay's random options ("Bônus Aleatórios") onto the calculator's

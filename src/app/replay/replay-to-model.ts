@@ -6,8 +6,8 @@ import { createMainModel } from '../utils/create-main-model';
 import { PET_EGG_BY_VIEW } from './pet-egg-map';
 import { randomOptionToScript } from './random-option-map';
 import { resolveAspdPotionFromStatus, resolveBuffsFromStatus } from './replay-buffs';
-import { decodeReplay } from './rrf/decode';
-import { InventoryRecord, RandomOption, Replay } from './rrf/types';
+import { decodeReplay } from 'rrfparser';
+import { InventoryRecord, RandomOption, Replay } from 'rrfparser';
 
 /**
  * rAthena `e_equip_pos` bits — the `equipped` bitmask each inventory record

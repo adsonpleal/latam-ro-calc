@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { decodeReplay } from '../rrf/decode';
-import { Replay } from '../rrf/types';
+import { decodeReplay } from 'rrfparser';
+import { Replay } from 'rrfparser';
 import { loadReplayFixture } from './load-fixture';
 
 // Ground truth: a real `.rrf` recording of a Windhawk ("Preá") on tra_fild.
@@ -46,7 +46,10 @@ describe('decodeReplay (Mergulho test.rrf)', () => {
 
   it('reports packet totals (handled <= seen)', () => {
     expect(replay.totals.packetCount).toBe(26);
-    expect(replay.totals.handledPackets).toBe(21);
+    // 25, e não os 21 de quando o leitor vivia aqui dentro: esta gravação tem
+    // quatro pacotes 0x07fb (início de conjuração) que só a cópia do RagnaRecap
+    // sabia ler. O rrfparser junta as duas, então esses agora entram.
+    expect(replay.totals.handledPackets).toBe(25);
     expect(replay.totals.handledPackets).toBeLessThanOrEqual(replay.totals.packetCount);
   });
 
