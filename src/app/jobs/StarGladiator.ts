@@ -85,14 +85,15 @@ export class StarGladiator extends Taekwondo {
   protected readonly atkSkillListHi: AtkSkillModel[] = [];
 
   protected readonly activeSkillListHi: ActiveSkillModel[] = [
-    // O Kihop NÃO entra aqui: o cliente o descreve como "Tipo: Passiva", e ele já existe
-    // na lista de passivas abaixo. Enquanto estava duplicado, o +85% de ATQ só saía se a
-    // pessoa marcasse o Kihop na aba de habilidades ativas — e a importação de replay
-    // nunca conseguia: ela filtra as ativas por EFST ligado, e uma passiva não tem EFST.
-    // As três Fúrias. Cada uma só vale no tamanho de alvo que a Oposição (434) marca com
-    // aquele alinhamento — Solar/Pequeno, Lunar/Médio, Estelar/Grande —, então ligar as
-    // três de uma vez é inofensivo: contra um alvo qualquer, no máximo uma se aplica.
-    // A trava fica em StarEmperor.getWrathAtkBonus, que é quem conhece o alvo.
+    // Kihop does NOT belong here: the client describes it as "Tipo: Passiva" and it
+    // already exists in the passive list below. While it was duplicated, the +85% ATK
+    // only applied when picked on the active-skills tab — and replay import could never
+    // do that, since it filters actives by an EFST being up and a passive has no EFST.
+    //
+    // The three Wrath skills: each one only applies to the target size that Oposição
+    // (434) marks with that alignment — Sun/Small, Moon/Medium, Star/Large — so leaving
+    // all three switched on is harmless, as at most one applies to any given target.
+    // The gate lives in StarEmperor.getWrathAtkBonus, which is what knows the target.
     {
       label: 'Wrath of Sun',
       name: 'Wrath of Sun',

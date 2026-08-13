@@ -78,7 +78,7 @@ Gotchas that cost time:
 Never touch a formula before the character matches. Every `ZC_PAR_CHANGE` is a free
 assertion, and they're the game's own numbers:
 
-| SP | campo | SP | campo |
+| SP | field | SP | field |
 |----|-------|----|-------|
 | 41 | ATQ (status) | 225 | P.ATQ |
 | 42 | ATQ Equip. | 226 | S.ATQM |
@@ -146,8 +146,8 @@ When every status field matches and damage is still off by a constant-ish factor
 **stage** before hunting the cause. Method: add a candidate bonus to an item that is
 equipped in every recording, and see how the residual moves across *different buff states*.
 
-- residual **constant** across buff states → a plain multiplier (dano físico %, à distância,
-  por tamanho/raça/elemento, dano crítico…)
+- residual **constant** across buff states → a plain multiplier (`dano físico %`,
+  `à distância`, `por tamanho/raça/elemento`, `dano crítico`…)
 - residual **shrinks when ATK grows** → a flat ATK term
 - residual **shrinks when P.ATQ grows** (and only then) → it sits *after* the P.ATQ
   multiplier — the mastery-ATK stage in `calcTotalAtk`

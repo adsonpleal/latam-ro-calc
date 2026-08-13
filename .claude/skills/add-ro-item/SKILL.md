@@ -47,7 +47,7 @@ Each script value is `"<key>": ["<entry>", ...]`. An entry is one of:
 
 - Stats: `FOR→str AGI→agi VIT→vit INT→int DES→dex SOR→luk`, all → `allStatus`.
 - Traits: `POD→pow STA→sta SAB→wis FEI→spl CON→con CRV→crt`, all → `allTrait`.
-- `ATQ→atk`, **`Dano físico +N%`→`atkPercent`**; `ATQM / ATK Mágico→matk`, **`Dano mágico +N%`→`matkPercent`**. A linha *pelada* de porcentagem (sem `contra`, `a distância`, `corpo a corpo`, `crítico`) é a tradução nova do que o cliente imprimia como `ATQ +N%` / `ATQ da arma +N%`; os nomes antigos ainda aparecem em 3 itens. As chaves `p_final`/`m_final` ("dano final", multiplicador aplicado depois da DEF) **não existem mais** — foram removidas da engine em 27/07/2026 porque o cliente não imprime "dano final" em lugar nenhum e as 68 entradas que as usavam eram esta mesma linha (ver `src/app/core/__tests__/dano-fisico-percent.spec.ts`).
+- `ATQ→atk`, **`Dano físico +N%`→`atkPercent`**; `ATQM / ATK Mágico→matk`, **`Dano mágico +N%`→`matkPercent`**. The *bare* percentage line (no `contra`, `a distância`, `corpo a corpo`, `crítico`) is the new translation of what the client used to print as `ATQ +N%` / `ATQ da arma +N%`; the old wording still shows up on 3 items. The `p_final`/`m_final` keys ("dano final", a multiplier applied after DEF) **no longer exist** — they were removed from the engine on 27/07/2026, because the client prints "dano final" nowhere and all 68 entries using them were this same line (see `src/app/core/__tests__/dano-fisico-percent.spec.ts`).
 - `HP máx→hp`, `+N%→hpPercent`; `SP máx→sp`, `+N%→spPercent`.
 - `DEF→def DEFM→mdef RES→res RESM/M.RES→mres`.
 - `Velocidade de ataque +N%→aspdPercent`, `ASPD +N→aspd`.

@@ -1,119 +1,125 @@
 ---
 name: triage-rrf-uploads
-description: Puxa as gravações .rrf que a comunidade enviou pelo modal "Ajude o simulador", separa o que vale conferir e entrega cada uma pronta para o review-rrf-class (com os talentos que quem gravou informou). Use quando alguém pedir para ver os envios novos, para conferir a fila de replays da comunidade, ou depois de anunciar o pedido de gravações.
+description: Pulls the .rrf recordings the community submitted through the "Ajude o simulador" dialog, sorts out which are worth checking, and hands each one over ready for review-rrf-class (with the traits the recorder reported). Use when someone asks to see new submissions, to go through the community replay queue, or after announcing a call for recordings.
 ---
 
-# Triagem das gravações enviadas pela comunidade
+# Triage of community-submitted recordings
 
-O modal **Ajude o simulador** (botão vermelho na barra de cima) recebe uma gravação `.rrf`,
-valida na hora e grava no Firestore do projeto `simulador-latam-ro`, coleção
-`replay_submissions`. Este skill é a outra ponta: buscar, escolher e encaminhar.
+The **Ajude o simulador** dialog (the red button in the top bar) takes a `.rrf` recording,
+validates it on the spot and writes it to the Firestore of project `simulador-latam-ro`,
+collection `replay_submissions`. This skill is the other end: fetch, choose, forward.
 
-**Este skill não confere fórmula nenhuma.** Ele para no momento em que o arquivo está no
-disco com os talentos em mãos; a conferência é do [`review-rrf-class`](../review-rrf-class/SKILL.md).
+**This skill checks no formulas.** It stops the moment the file is on disk with the traits
+in hand; the checking belongs to [`review-rrf-class`](../review-rrf-class/SKILL.md).
 
-## 0. O que já foi validado no navegador
+## 0. What the browser already validated
 
-Não repita esses testes — se o envio existe, ele já passou por eles
-(`src/app/replay/validate-submission.ts`, com testes em `validate-submission.spec.ts`):
+Do not repeat these checks — if the submission exists, it already passed them
+(`src/app/replay/validate-submission.ts`, tested in `validate-submission.spec.ts`):
 
-- o arquivo abre no `rrfparser` e tem menos de 900 KB;
-- a classe existe na calculadora (o filtro mais forte contra gravação de outro servidor);
-- **a árvore de habilidades está no arquivo** (`learnedSkills` não vazio);
-- quem gravou marcou que é do RO LATAM e autorizou o uso do arquivo como teste no
-  repositório público.
+- the file opens in `rrfparser` and is under 900 KB;
+- the class exists in the calculator (the strongest filter against another server's
+  recording);
+- **the skill tree is in the file** (`learnedSkills` is not empty);
+- the recorder confirmed it is from RO LATAM and authorised using the file as a test in
+  the public repository.
 
-O que **não** dá para validar de fora e você ainda precisa julgar: se a gravação é mesmo do
-LATAM (o `.rrf` não diz o servidor), e se ela tem material suficiente.
+What you still have to judge, because it cannot be validated from outside: whether the
+recording really is from LATAM (the `.rrf` does not name the server), and whether it has
+enough material.
 
-## 1. Credencial
+## 1. Credential
 
-Leitura pelo cliente é negada nas regras (`firestore.rules`), então o script usa uma conta
-de serviço:
+Client reads are denied by the rules (`firestore.rules`), so the script uses a service
+account:
 
-1. Console do Firebase → projeto **simulador-latam-ro** → Configurações do projeto → Contas
-   de serviço → **Gerar nova chave**.
-2. Salve como `.firebase-admin.json` na raiz do repositório. Já está no `.gitignore`.
+1. Firebase console → project **simulador-latam-ro** → Project settings → Service
+   accounts → **Generate new private key**.
+2. Save it as `.firebase-admin.json` at the repo root. It is already in `.gitignore`.
 
-## 2. Listar o que chegou
+## 2. List what came in
 
 ```
 node .claude/skills/triage-rrf-uploads/fetch-submissions.mjs --list
 ```
 
-Mostra os envios com `status: new`, do mais novo para o mais antigo, sem baixar os bytes.
-Por envio: personagem, classe, níveis, duração, número de golpes, **trocas de equipamento**,
-habilidades aprendidas, talentos, nick/Discord, a observação de quem gravou e os itens que
-ficaram fora do banco.
+Shows the submissions with `status: new`, newest first, without downloading the bytes.
+Per submission: character, class, levels, duration, hit count, **equipment changes**,
+learned skills, traits, nick/Discord, the recorder's note and the items that fell outside
+the database.
 
-`--status reviewed|rejected` e `--limit N` também existem.
+`--status reviewed|rejected` and `--limit N` also exist.
 
-### Como escolher
+### How to choose
 
-Priorize, nesta ordem:
+Prioritise, in this order:
 
-1. **Classe pouco testada.** Veja quais já têm `*.replay.spec.ts` em `src/app/jobs/` — o que
-   não tem vale muito mais do que a décima gravação de Guarda Noturno.
-2. **Trocas de equipamento > 0.** É o que permite separar "a fórmula da classe está errada"
-   de "falta um item no banco": o mesmo personagem, com e sem cada peça, na mesma gravação.
-   Zero trocas ainda serve, mas rende menos.
-3. **Muitos golpes.** Repetição é o que traz os críticos, que são determinísticos e é por
-   eles que a conferência fecha (ver `review-rrf-class` §6).
-4. **Observação de quem gravou apontando um número específico.** "Implosão Tóxica parece 10%
-   maior no jogo" já é a hipótese pronta.
+1. **A rarely tested class.** Check which ones already have a `*.replay.spec.ts` in
+   `src/app/jobs/` — one that has none is worth far more than the tenth Night Watch
+   recording.
+2. **Equipment changes > 0.** That is what separates "the class formula is wrong" from
+   "an item is missing from the database": the same character, with and without each
+   piece, in one recording. Zero changes still helps, but yields less.
+3. **Many hits.** Repetition is what produces criticals, which are deterministic and are
+   what closes the check (see `review-rrf-class` §6).
+4. **A recorder note pointing at a specific number.** "Implosão Tóxica looks 10% higher
+   in game" is a ready-made hypothesis.
 
-Sinais de que provavelmente **não** é LATAM, apesar do checkbox: muitos itens fora do banco
-somados a habilidades que a classe não tem aqui. Nesse caso marque `rejected` com a nota.
+Signs it is probably **not** LATAM despite the checkbox: many items outside the database
+combined with skills the class does not have here. In that case mark it `rejected` with
+the note.
 
-## 3. Baixar
+## 3. Download
 
 ```
 node .claude/skills/triage-rrf-uploads/fetch-submissions.mjs --get <id>
 ```
 
-Grava em `.scratch/<id>.rrf` (git-ignorado) e imprime o cabeçalho — inclusive os
-**TALENTOS**, que é a informação que o `review-rrf-class` §0 normalmente manda perguntar ao
-jogador. Aqui ela já veio junto: use exatamente esses números, são o valor investido (0-100),
-sem o bônus de classe.
+Writes to `.scratch/<id>.rrf` (git-ignored) and prints the header — including the
+**TRAITS**, which is the information `review-rrf-class` §0 normally tells you to ask the
+player for. Here it arrived with the submission: use exactly those numbers, they are the
+invested value (0-100), without the job bonus.
 
-Para promover a gravação a fixture depois que ela provar seu valor:
-
-```
-node .claude/skills/triage-rrf-uploads/fetch-submissions.mjs --get <id> --out src/app/replay/__tests__/fixtures/<classe>-<cenário>.rrf
-```
-
-O padrão do nome é `<sigla da classe>-<cenário>.rrf` (`nw-ult.rrf`, `hn-magic-lv1.rrf`).
-
-## 4. Conferir
-
-Chame o `review-rrf-class` com o caminho do arquivo e os talentos. Pule a parte dele de
-"pergunte os talentos ao jogador" — você já tem.
-
-Uma coisa a fazer antes, se a listagem apontou **itens fora do banco**: rode a skill
-`add-ro-item` com esses ids. Sem eles, a build importada fica incompleta e o resíduo de dano
-vai parecer erro de fórmula.
-
-## 5. Fechar o ciclo
+To promote the recording to a fixture once it has proved its worth:
 
 ```
-node .claude/skills/triage-rrf-uploads/fetch-submissions.mjs --mark <id> --status reviewed --note "virou a fixture nw-ult; achou o buraco de maestria"
-node .claude/skills/triage-rrf-uploads/fetch-submissions.mjs --mark <id> --status rejected --note "gravação de outro servidor: 40 itens fora do banco"
+node .claude/skills/triage-rrf-uploads/fetch-submissions.mjs --get <id> --out src/app/replay/__tests__/fixtures/<class>-<scenario>.rrf
 ```
 
-Se a gravação levou a uma correção e quem enviou deixou um **nick**, credite na Novidades
-(`src/app/layout/app.topbar.component.ts`, array `updates`): voz impessoal, e "por Fulano" —
-não "pelo Fulano". Ver [[changelog-passive-voice]] e [[novidades-reportado-por]].
+The naming pattern is `<class abbreviation>-<scenario>.rrf` (`nw-ult.rrf`,
+`hn-magic-lv1.rrf`).
 
-## Formato do documento
+## 4. Check
 
-Coleção `replay_submissions`, id de 10 caracteres escolhido pelo cliente.
+Call `review-rrf-class` with the file path and the traits. Skip its "ask the player for
+the traits" part — you already have them.
 
-| campo | o que é |
+One thing to do first, if the listing reported **items outside the database**: run the
+`add-ro-item` skill with those ids. Without them the imported build is incomplete and the
+damage residual will look like a formula error.
+
+## 5. Close the loop
+
+```
+node .claude/skills/triage-rrf-uploads/fetch-submissions.mjs --mark <id> --status reviewed --note "became the nw-ult fixture; found the mastery gap"
+node .claude/skills/triage-rrf-uploads/fetch-submissions.mjs --mark <id> --status rejected --note "recording from another server: 40 items outside the database"
+```
+
+If the recording led to a fix and the sender left a **nick**, credit them in the Novidades
+entry (`src/app/layout/app.topbar.component.ts`, `updates` array): impersonal voice, and
+"por Fulano" — not "pelo Fulano". See [[changelog-passive-voice]] and
+[[novidades-reportado-por]].
+
+## Document format
+
+Collection `replay_submissions`, 10-character id chosen by the client.
+
+| field | what it is |
 |---|---|
-| `bytes` | o `.rrf` cru (≤ 900 KB — um documento do Firestore cabe 1 MiB) |
-| `fileName`, `uploadedAt`, `appVersion`, `latamConfirmed` | procedência |
-| `status` | `new` na criação; `reviewed`/`rejected` depois, por este skill |
-| `traits` | `{pow,sta,wis,spl,con,crt}`, valor investido 0-100. Ausente em classe sem talentos |
-| `nick`, `discord`, `notes` | opcionais, de quem enviou |
-| `summary` | o que o parser leu, desnormalizado para a listagem não baixar os bytes |
-| `triagedAt`, `triageNote` | escritos por `--mark` |
+| `bytes` | the raw `.rrf` (≤ 900 KB — a Firestore document holds 1 MiB) |
+| `fileName`, `uploadedAt`, `appVersion`, `latamConfirmed` | provenance |
+| `status` | `new` on creation; `reviewed`/`rejected` afterwards, set by this skill |
+| `traits` | `{pow,sta,wis,spl,con,crt}`, invested value 0-100. Absent for a class without traits |
+| `nick`, `discord`, `notes` | optional, from the sender |
+| `summary` | what the parser read, denormalised so the listing need not download the bytes |
+| `triagedAt`, `triageNote` | written by `--mark` |

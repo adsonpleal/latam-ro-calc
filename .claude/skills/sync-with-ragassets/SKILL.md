@@ -8,7 +8,7 @@ description: Refresh the calculator's client-derived data (latam-items.json, ite
 Every byte this repo derives from the game comes from **ragassets**, which reads the
 client once and republishes the result as public JSON, no auth:
 
-    https://assets.latam-tools.com.br/raw/<tabela>.json
+    https://assets.latam-tools.com.br/raw/<table>.json
 
 **This repo never opens a GRF, never decodes a `.lub` and never calls an upstream API.**
 It used to (`build-latam-db.mjs`, `build-item-views.mjs`, `grf.mjs`, `lua51.mjs`) — that
@@ -17,13 +17,13 @@ or missing, the fix belongs upstream in ragassets, not here.
 
 ## The tables and what they feed
 
-| /raw | script | arquivo gerado |
+| /raw | script | generated file |
 |---|---|---|
 | `items.json` | `tools/sync-latam-db.mjs` | `latam-items.json`, `item-views.json` |
 | `jobs.json` | `tools/sync-latam-db.mjs` | `latam-classes.json` |
-| `mobs.json` | `tools/sync-monster-db.mjs` | `monster.json` (só as stats) |
+| `mobs.json` | `tools/sync-monster-db.mjs` | `monster.json` (stats only) |
 | `mobs.json` | `tools/build-latam-monsters.mjs` | `latam-monsters.json` |
-| `status.json` | — | consultada à mão (ids de EFST; ver `review-rrf-class`) |
+| `status.json` | — | queried by hand (EFST ids; see `review-rrf-class`) |
 
 All of them land in `src/assets/demo/data/`. What the browser actually downloads is built
 from those by `tools/build-web-data.mjs` (`pnpm data:dev`), which is a separate step.
@@ -32,8 +32,8 @@ from those by `tools/build-web-data.mjs` (`pnpm data:dev`), which is a separate 
 
 ```bash
 node tools/sync-latam-db.mjs        # items + views + classes
-node tools/sync-monster-db.mjs      # stats dos monstros já cadastrados
-node tools/build-latam-monsters.mjs # overlay de nomes pt-BR
+node tools/sync-monster-db.mjs      # stats of monsters already registered
+node tools/build-latam-monsters.mjs # pt-BR name overlay
 git diff --stat src/assets/demo/data/
 pnpm test && pnpm build
 ```

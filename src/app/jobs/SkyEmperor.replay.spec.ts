@@ -120,7 +120,7 @@ function danoDe(
     .getSkillBonusAndName();
   learnedSkillMap.set('Sky Mastery', SKY_MASTERY);
   if (corrida) learnedSkillMap.set('Run', corrida);
-  // Kihop é passivo: entra pelo nível aprendido, não pela aba de habilidades ativas.
+  // Kihop is passive: it comes from the learned level, not the active-skills tab.
   if (kihop) learnedSkillMap.set('Power', kihop);
   activeSkillNames.add('_SkyEmperor_Celestial_Space');
   usedSkillMap.set('_SkyEmperor_Celestial_Space', space);

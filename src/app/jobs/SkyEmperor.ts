@@ -365,17 +365,18 @@ export class SkyEmperor extends StarEmperor {
       name: 'All in the Sky',
       label: 'All in the Sky Lv10',
       value: 'All in the Sky==10',
-      // Tempos de conjuração/recarga: NÃO medidos. O bloco pt-BR do cliente só traz o
-      // custo de AP, e as três fontes externas discordam entre si (e do LATAM) até no
-      // ATQ por nível. Só o dano está validado — ver SkyEmperor.firmamento.spec.ts.
+      // Cast/cooldown times are NOT measured. The client's description block only lists
+      // the AP cost, and the three external sources disagree with each other (and with
+      // LATAM) even on the ATK-per-level table. Only the damage is validated — see
+      // SkyEmperor.firmamento.spec.ts.
       acd: 0,
       fct: 0.5,
       vct: 0,
       cd: 2,
       isMelee: true,
-      // 3 golpes CHEIOS contra Humanoide/Demônio (não é um pacote repartido como as
-      // irmãs, que usam `hit`): a gravação só fecha como 3 × o dano inteiro, e a tabela
-      // da divine-pride rotula a coluna como "ATK per Hit". Contra as demais raças, 1.
+      // 3 FULL hits against DemiHuman/Demon — not one packet split for display the way
+      // the sibling skills use `hit`. The recording only solves as 3 × the whole damage,
+      // and divine-pride labels the table column "ATK per Hit". Any other race: 1 hit.
       totalHit: ({ monster }: AtkSkillFormulaInput) =>
         monster.race === 'demihuman' || monster.race === 'demon' ? 3 : 1,
       canCri: () => true,
@@ -386,11 +387,11 @@ export class SkyEmperor extends StarEmperor {
         const { totalPow } = status;
         const baseLevel = model.level;
 
-        // Sem termo de Maestria Celestial de propósito: a tabela do cliente para esta
-        // habilidade não tem a coluna "Nv. Maestria" que todas as irmãs têm (é dela que
-        // sai o `skillLevel * mastery * 5` delas), e a gravação confirma — com Maestria
-        // 10, o único inteiro que fecha é 2.000×Nv + POD×10. A linha "afetado pelo nível
-        // de Maestria Celestial" da descrição é texto padrão repetido em toda a classe.
+        // No Sky Mastery term, deliberately. This skill's client table is the only one
+        // in the class without the "Nv. Maestria" column that produces the sibling
+        // skills' `skillLevel * mastery * 5`, and the recording agrees: with Sky Mastery
+        // at 10, the only integer that fits is 2000×Lv + POW×10. The description's
+        // "affected by Sky Mastery" line is boilerplate repeated across the whole class.
         return (skillLevel * 2000 + totalPow * 10) * (baseLevel / 100);
       },
     },

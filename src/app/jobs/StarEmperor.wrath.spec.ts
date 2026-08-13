@@ -3,24 +3,25 @@ import { InfoForClass } from 'src/app/models/info-for-class.model';
 import { StarEmperor } from './StarEmperor';
 
 /**
- * As três Fúrias — Solar (435), Lunar (436) e Estelar (437) — e o alinhamento por
- * tamanho que decide qual delas vale.
+ * The three Wrath skills — Fúria Solar (435), Fúria Lunar (436) and Fúria Estelar (437)
+ * — and the size-based alignment that decides which one applies.
  *
- * A Oposição Solar, Lunar e Estelar (434) "marca permanentemente o alvo com um
- * alinhamento solar, lunar ou estelar **de acordo com o Tamanho dele**":
+ * Oposição Solar, Lunar e Estelar (434) permanently marks the target with a sun, moon or
+ * star alignment *according to its Size*:
  *
- *   [Nv 1] Solar l Pequeno l HP mín. —        [Nv 2] Lunar l Médio l HP mín. 6.000
- *   [Nv 3] Estelar l Grande l HP mín. 20.000
+ *   [Lv 1] Sun l Small l min HP —        [Lv 2] Moon l Medium l min HP 6,000
+ *   [Lv 3] Star l Large l min HP 20,000
  *
- * Daí as três Fúrias não se sobreporem: contra um alvo qualquer, no máximo uma se aplica.
- * A FOR só entra na Estelar — Solar e Lunar dizem "baseado na sua SOR, DES e nível base",
- * a Estelar diz "baseado na FOR, SOR, DES e nível base".
+ * That is why the three never overlap: at most one applies to any given target. STR
+ * enters only the Star one — Sun and Moon read "based on your LUK, DEX and base level",
+ * Star reads "based on STR, LUK, DEX and base level".
  *
- * Tudo aqui é leitura de descrição, não medição: não existe gravação com Fúria ligada.
- * Se um `.rrf` de Gladiador Estelar aparecer, é neste arquivo que ele encosta.
+ * Everything here is a reading of the client description, not a measurement: there is no
+ * recording with any Wrath active. If a Star Gladiator `.rrf` ever shows up, this is the
+ * file it attaches to.
  */
 
-const alvo = (size: string, hp = 1_000_000, isPlayerTarget = false) => ({ size, data: { hp }, isPlayerTarget });
+const target = (size: string, hp = 1_000_000, isPlayerTarget = false) => ({ size, data: { hp }, isPlayerTarget });
 
 const info = (opts: { level: number; str: number; dex: number; luk: number; monster: any }): InfoForClass =>
   ({
@@ -29,12 +30,12 @@ const info = (opts: { level: number; str: number; dex: number; luk: number; mons
     monster: opts.monster,
   } as any);
 
-/** Instancia a classe com as Fúrias indicadas ligadas. */
-const star = (...ligadas: string[]): StarEmperor => {
+/** Builds the class with the given Wrath skills switched on. */
+const star = (...active: string[]): StarEmperor => {
   const c = new StarEmperor();
   (c as any).bonuses = {
-    activeSkillNames: new Set<string>(ligadas),
-    usedSkillMap: new Map<string, number>(ligadas.map((s) => [s, 3])),
+    activeSkillNames: new Set<string>(active),
+    usedSkillMap: new Map<string, number>(active.map((s) => [s, 3])),
     learnedSkillMap: new Map<string, number>(),
     equipAtks: {},
     masteryAtks: {},
@@ -43,89 +44,90 @@ const star = (...ligadas: string[]): StarEmperor => {
 };
 
 const BASE = { level: 239, str: 132, dex: 129, luk: 128 };
-/** (239 + 128 + 129 + 132) / 3 = 209 — com FOR. */
-const COM_FOR = 209;
-/** (239 + 128 + 129) / 3 = 165 — sem FOR. */
-const SEM_FOR = 165;
+/** (239 + 128 + 129 + 132) / 3 = 209 — with STR. */
+const WITH_STR = 209;
+/** (239 + 128 + 129) / 3 = 165 — without STR. */
+const WITHOUT_STR = 165;
 
-describe('Fúrias — nenhuma ligada', () => {
-  it('não dá bônus nenhum', () => {
-    expect(star().getWrathAtkBonus(info({ ...BASE, monster: alvo('l') }))).toBe(0);
+describe('Wrath skills — none active', () => {
+  it('gives no bonus at all', () => {
+    expect(star().getWrathAtkBonus(info({ ...BASE, monster: target('l') }))).toBe(0);
   });
 });
 
-describe('Fúria Estelar — só alvo Grande, e é a única que soma a FOR', () => {
-  it('contra Grande soma nível base + SOR + DES + FOR', () => {
-    expect(star('Wrath of').getWrathAtkBonus(info({ ...BASE, monster: alvo('l') }))).toBe(COM_FOR);
+describe('Fúria Estelar — Large targets only, and the only one that adds STR', () => {
+  it('adds base level + LUK + DEX + STR against a Large target', () => {
+    expect(star('Wrath of').getWrathAtkBonus(info({ ...BASE, monster: target('l') }))).toBe(WITH_STR);
   });
 
-  it('contra Médio e Pequeno não vale nada — esses alvos não são Estelares', () => {
+  it('gives nothing against Medium or Small — those are not Star targets', () => {
     const s = star('Wrath of');
-    expect(s.getWrathAtkBonus(info({ ...BASE, monster: alvo('m') }))).toBe(0);
-    expect(s.getWrathAtkBonus(info({ ...BASE, monster: alvo('s') }))).toBe(0);
+    expect(s.getWrathAtkBonus(info({ ...BASE, monster: target('m') }))).toBe(0);
+    expect(s.getWrathAtkBonus(info({ ...BASE, monster: target('s') }))).toBe(0);
   });
 
-  it('alvo Grande com menos de 20.000 de HP não pode ser marcado Estelar', () => {
-    expect(star('Wrath of').getWrathAtkBonus(info({ ...BASE, monster: alvo('l', 19_999) }))).toBe(0);
-    expect(star('Wrath of').getWrathAtkBonus(info({ ...BASE, monster: alvo('l', 20_000) }))).toBe(COM_FOR);
+  it('cannot mark a Large target below 20,000 HP as Star', () => {
+    expect(star('Wrath of').getWrathAtkBonus(info({ ...BASE, monster: target('l', 19_999) }))).toBe(0);
+    expect(star('Wrath of').getWrathAtkBonus(info({ ...BASE, monster: target('l', 20_000) }))).toBe(WITH_STR);
   });
 });
 
-describe('Fúria Lunar — só alvo Médio, e sem a FOR', () => {
-  it('contra Médio soma nível base + SOR + DES, sem FOR', () => {
-    expect(star('Wrath of Moon').getWrathAtkBonus(info({ ...BASE, monster: alvo('m') }))).toBe(SEM_FOR);
+describe('Fúria Lunar — Medium targets only, and without STR', () => {
+  it('adds base level + LUK + DEX against a Medium target, no STR', () => {
+    expect(star('Wrath of Moon').getWrathAtkBonus(info({ ...BASE, monster: target('m') }))).toBe(WITHOUT_STR);
   });
 
-  it('contra Grande e Pequeno não vale nada', () => {
+  it('gives nothing against Large or Small', () => {
     const s = star('Wrath of Moon');
-    expect(s.getWrathAtkBonus(info({ ...BASE, monster: alvo('l') }))).toBe(0);
-    expect(s.getWrathAtkBonus(info({ ...BASE, monster: alvo('s') }))).toBe(0);
+    expect(s.getWrathAtkBonus(info({ ...BASE, monster: target('l') }))).toBe(0);
+    expect(s.getWrathAtkBonus(info({ ...BASE, monster: target('s') }))).toBe(0);
   });
 
-  it('alvo Médio com menos de 6.000 de HP não pode ser marcado Lunar', () => {
-    expect(star('Wrath of Moon').getWrathAtkBonus(info({ ...BASE, monster: alvo('m', 5_999) }))).toBe(0);
-    expect(star('Wrath of Moon').getWrathAtkBonus(info({ ...BASE, monster: alvo('m', 6_000) }))).toBe(SEM_FOR);
+  it('cannot mark a Medium target below 6,000 HP as Moon', () => {
+    expect(star('Wrath of Moon').getWrathAtkBonus(info({ ...BASE, monster: target('m', 5_999) }))).toBe(0);
+    expect(star('Wrath of Moon').getWrathAtkBonus(info({ ...BASE, monster: target('m', 6_000) }))).toBe(WITHOUT_STR);
   });
 });
 
-describe('Fúria Solar — só alvo Pequeno, sem a FOR e sem HP mínimo', () => {
-  it('contra Pequeno soma nível base + SOR + DES, sem FOR', () => {
-    expect(star('Wrath of Sun').getWrathAtkBonus(info({ ...BASE, monster: alvo('s', 1) }))).toBe(SEM_FOR);
+describe('Fúria Solar — Small targets only, without STR and with no minimum HP', () => {
+  it('adds base level + LUK + DEX against a Small target, no STR', () => {
+    expect(star('Wrath of Sun').getWrathAtkBonus(info({ ...BASE, monster: target('s', 1) }))).toBe(WITHOUT_STR);
   });
 
-  it('contra Médio e Grande não vale nada', () => {
+  it('gives nothing against Medium or Large', () => {
     const s = star('Wrath of Sun');
-    expect(s.getWrathAtkBonus(info({ ...BASE, monster: alvo('m') }))).toBe(0);
-    expect(s.getWrathAtkBonus(info({ ...BASE, monster: alvo('l') }))).toBe(0);
+    expect(s.getWrathAtkBonus(info({ ...BASE, monster: target('m') }))).toBe(0);
+    expect(s.getWrathAtkBonus(info({ ...BASE, monster: target('l') }))).toBe(0);
   });
 });
 
-describe('Fúrias — as três ligadas ao mesmo tempo', () => {
-  // Ligar as três é o caso normal de quem tem a Oposição no Nv.3: o alvo escolhe.
-  const todas = () => star('Wrath of Sun', 'Wrath of Moon', 'Wrath of');
+describe('Wrath skills — all three active at once', () => {
+  // Having all three on is the normal state for anyone with Oposição at Lv3: the target
+  // is what selects between them.
+  const all = () => star('Wrath of Sun', 'Wrath of Moon', 'Wrath of');
 
   it.each([
-    { tamanho: 'Pequeno', size: 's', esperado: SEM_FOR },
-    { tamanho: 'Médio', size: 'm', esperado: SEM_FOR },
-    { tamanho: 'Grande', size: 'l', esperado: COM_FOR },
-  ])('alvo $tamanho → $esperado', ({ size, esperado }) => {
-    expect(todas().getWrathAtkBonus(info({ ...BASE, monster: alvo(size) }))).toBe(esperado);
+    { label: 'Small', size: 's', expected: WITHOUT_STR },
+    { label: 'Medium', size: 'm', expected: WITHOUT_STR },
+    { label: 'Large', size: 'l', expected: WITH_STR },
+  ])('$label target → $expected', ({ size, expected }) => {
+    expect(all().getWrathAtkBonus(info({ ...BASE, monster: target(size) }))).toBe(expected);
   });
 
-  it('nunca somam entre si — o alvo tem um alinhamento só', () => {
-    const grande = todas().getWrathAtkBonus(info({ ...BASE, monster: alvo('l') }));
-    expect(grande).toBe(COM_FOR);
-    expect(grande).toBeLessThan(COM_FOR + SEM_FOR);
+  it('never stack with each other — a target has exactly one alignment', () => {
+    const large = all().getWrathAtkBonus(info({ ...BASE, monster: target('l') }));
+    expect(large).toBe(WITH_STR);
+    expect(large).toBeLessThan(WITH_STR + WITHOUT_STR);
   });
 });
 
-describe('Fúrias — alvo jogador', () => {
-  // "É possível alinhar outros personagens, sem restrição de tamanho e HP." O alvo de
-  // PVP entra como id -1 e tamanho Médio (Calculator.setPlayerTarget).
-  const jogador = alvo('m', 300_000, true);
+describe('Wrath skills — player target', () => {
+  // Other characters can be aligned "with no size or HP restriction". A PVP target comes
+  // in as id -1 and Medium size (Calculator.setPlayerTarget).
+  const player = target('m', 300_000, true);
 
-  it('aceita qualquer alinhamento, inclusive o Estelar', () => {
-    expect(star('Wrath of').getWrathAtkBonus(info({ ...BASE, monster: jogador }))).toBe(COM_FOR);
-    expect(star('Wrath of Sun').getWrathAtkBonus(info({ ...BASE, monster: jogador }))).toBe(SEM_FOR);
+  it('accepts any alignment, including the Star one', () => {
+    expect(star('Wrath of').getWrathAtkBonus(info({ ...BASE, monster: player }))).toBe(WITH_STR);
+    expect(star('Wrath of Sun').getWrathAtkBonus(info({ ...BASE, monster: player }))).toBe(WITHOUT_STR);
   });
 });

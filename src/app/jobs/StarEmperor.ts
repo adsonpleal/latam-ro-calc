@@ -286,32 +286,31 @@ export class StarEmperor extends StarGladiator {
   }
 
   /**
-   * As três Fúrias (Solar 435, Lunar 436, Estelar 437) — multiplicador de ATQ aplicado
-   * em modifyFinalAtk.
+   * The three Wrath skills (Fúria Solar 435, Fúria Lunar 436, Fúria Estelar 437) — an
+   * ATK multiplier applied in modifyFinalAtk.
    *
-   * **Elas não são três variantes do mesmo bônus: cada uma só alcança um tamanho de
-   * alvo.** Quem decide isso é a Oposição Solar, Lunar e Estelar (434), que "marca
-   * permanentemente o alvo com um alinhamento solar, lunar ou estelar **de acordo com o
-   * Tamanho dele**":
+   * **They are not three flavours of one bonus: each reaches only one target size.**
+   * That is decided by Oposição Solar, Lunar e Estelar (434), which permanently marks
+   * the target with a sun/moon/star alignment *according to its Size*:
    *
-   *   [Nv 1] Solar   l Pequeno l HP mín. —
-   *   [Nv 2] Lunar   l Médio   l HP mín. 6.000
-   *   [Nv 3] Estelar l Grande  l HP mín. 20.000
+   *   [Lv 1] Sun  l Small  l min HP —
+   *   [Lv 2] Moon l Medium l min HP 6,000
+   *   [Lv 3] Star l Large  l min HP 20,000
    *
-   * Então um boss de tamanho Médio é alvo Lunar, e é a Fúria Lunar que vale nele — não a
-   * Estelar. Contra outros jogadores não há trava: "É possível alinhar outros
-   * personagens, sem restrição de tamanho e HP".
+   * So a Medium-sized boss is a Moon target and Fúria Lunar is what applies to it, not
+   * Fúria Estelar. Against players there is no gate at all — the description says other
+   * characters can be aligned "with no size or HP restriction".
    *
-   * A FOR só entra na Estelar. As descrições são explícitas e diferentes entre si:
-   * Solar e Lunar dizem "baseado na sua SOR, DES e nível base"; a Estelar diz "baseado
-   * na FOR, SOR, DES e nível base".
+   * STR enters only the Star one. The descriptions are explicit and differ: Sun and Moon
+   * read "based on your LUK, DEX and base level"; Star reads "based on STR, LUK, DEX and
+   * base level".
    *
-   * O divisor 3 é o do Nv.3, o único que os seletores oferecem (Sim/Não). As fontes
-   * externas dão (12 − 3×nível) para os três níveis — 9, 6, 3.
+   * The divisor 3 is the Lv3 one, the only level the toggles offer (yes/no). External
+   * sources give (12 − 3×level) across the three levels — 9, 6, 3.
    *
-   * Nada disto foi medido em gravação: não existe `.rrf` de Gladiador Estelar / Mestre
-   * Celestial com Fúria ligada. Uma gravação batendo em alvo Pequeno, Médio e Grande com
-   * as três é o que fecharia o assunto.
+   * None of this is measured: there is no `.rrf` of a Star Gladiator / Sky Emperor with
+   * any Wrath active. A recording hitting Small, Medium and Large targets with the three
+   * of them is what would settle it.
    */
   private static readonly WRATH_BY_ALIGNMENT = [
     { skill: 'Wrath of Sun' as const, size: 's', minHp: 0, withStr: false },
@@ -323,7 +322,7 @@ export class StarEmperor extends StarGladiator {
     const { model, status, monster } = info;
     const { level } = model;
     const { totalLuk, totalDex, totalStr } = status;
-    // Contra jogador qualquer alinhamento serve, então nenhuma trava de tamanho/HP.
+    // Any alignment is allowed on a player, so no size/HP gate.
     const isPlayerTarget = !!monster?.isPlayerTarget;
 
     for (const { skill, size, minHp, withStr } of StarEmperor.WRATH_BY_ALIGNMENT) {
@@ -337,7 +336,7 @@ export class StarEmperor extends StarGladiator {
   }
 
   override modifyFinalAtk(currentAtk: number, _params: InfoForClass) {
-    // Nível APRENDIDO: o Kihop é passivo (ver StarGladiator.passiveSkillListHi).
+    // LEARNED level: Kihop is passive (see StarGladiator.passiveSkillListHi).
     const powerLv = this.learnLv('Power');
     const wratBonus = (100 + this.getWrathAtkBonus(_params)) / 100;
 

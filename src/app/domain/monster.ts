@@ -141,7 +141,7 @@ export class Monster {
     return this._monster.spawn || '';
   }
 
-  /** Alvo de PVP em vez de monstro — setPlayerTargetData grava o id -1. */
+  /** A PVP target rather than a monster — setPlayerTargetData writes id -1. */
   get isPlayerTarget() {
     return this._monster?.id === -1;
   }
