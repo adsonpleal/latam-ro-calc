@@ -286,28 +286,54 @@ export class StarEmperor extends StarGladiator {
   }
 
   /**
-   * Fúria Estelar (id 437) — multiplicador de ATQ, aplicado em modifyFinalAtk.
+   * As três Fúrias (Solar 435, Lunar 436, Estelar 437) — multiplicador de ATQ aplicado
+   * em modifyFinalAtk.
    *
-   * A FOR entra SEMPRE. A descrição pt-BR do cliente é explícita e não condiciona a
-   * nada: "Aumentar o nv. da habilidade melhora o ATQ baseado na FOR, SOR, DES e nível
-   * base". Antes daqui a FOR só era somada contra alvos de tamanho Grande, o que
-   * derrubava o bônus contra qualquer boss de tamanho Médio.
+   * **Elas não são três variantes do mesmo bônus: cada uma só alcança um tamanho de
+   * alvo.** Quem decide isso é a Oposição Solar, Lunar e Estelar (434), que "marca
+   * permanentemente o alvo com um alinhamento solar, lunar ou estelar **de acordo com o
+   * Tamanho dele**":
    *
-   * O divisor 3 é o do Nv.3, que é o único que o seletor oferece (Sim/Não). As fontes
+   *   [Nv 1] Solar   l Pequeno l HP mín. —
+   *   [Nv 2] Lunar   l Médio   l HP mín. 6.000
+   *   [Nv 3] Estelar l Grande  l HP mín. 20.000
+   *
+   * Então um boss de tamanho Médio é alvo Lunar, e é a Fúria Lunar que vale nele — não a
+   * Estelar. Contra outros jogadores não há trava: "É possível alinhar outros
+   * personagens, sem restrição de tamanho e HP".
+   *
+   * A FOR só entra na Estelar. As descrições são explícitas e diferentes entre si:
+   * Solar e Lunar dizem "baseado na sua SOR, DES e nível base"; a Estelar diz "baseado
+   * na FOR, SOR, DES e nível base".
+   *
+   * O divisor 3 é o do Nv.3, o único que os seletores oferecem (Sim/Não). As fontes
    * externas dão (12 − 3×nível) para os três níveis — 9, 6, 3.
    *
-   * Não medido em gravação: não há `.rrf` de Gladiador Estelar / Mestre Celestial com a
-   * Fúria ligada. Uma gravação batendo em alvo Médio e Grande com ela ligada é o que
-   * fecharia isso de vez.
+   * Nada disto foi medido em gravação: não existe `.rrf` de Gladiador Estelar / Mestre
+   * Celestial com Fúria ligada. Uma gravação batendo em alvo Pequeno, Médio e Grande com
+   * as três é o que fecharia o assunto.
    */
-  getWrathAtkBonus(info: InfoForClass): number {
-    if (!this.isSkillActive('Wrath of')) return 0;
+  private static readonly WRATH_BY_ALIGNMENT = [
+    { skill: 'Wrath of Sun' as const, size: 's', minHp: 0, withStr: false },
+    { skill: 'Wrath of Moon' as const, size: 'm', minHp: 6000, withStr: false },
+    { skill: 'Wrath of' as const, size: 'l', minHp: 20000, withStr: true },
+  ];
 
-    const { model, status } = info;
+  getWrathAtkBonus(info: InfoForClass): number {
+    const { model, status, monster } = info;
     const { level } = model;
     const { totalLuk, totalDex, totalStr } = status;
+    // Contra jogador qualquer alinhamento serve, então nenhuma trava de tamanho/HP.
+    const isPlayerTarget = !!monster?.isPlayerTarget;
 
-    return Math.floor((level + totalLuk + totalDex + totalStr) / 3);
+    for (const { skill, size, minHp, withStr } of StarEmperor.WRATH_BY_ALIGNMENT) {
+      if (!this.isSkillActive(skill)) continue;
+      if (!isPlayerTarget && (monster?.size !== size || (monster?.data?.hp ?? 0) < minHp)) continue;
+
+      return Math.floor((level + totalLuk + totalDex + (withStr ? totalStr : 0)) / 3);
+    }
+
+    return 0;
   }
 
   override modifyFinalAtk(currentAtk: number, _params: InfoForClass) {

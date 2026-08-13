@@ -89,6 +89,28 @@ export class StarGladiator extends Taekwondo {
     // na lista de passivas abaixo. Enquanto estava duplicado, o +85% de ATQ só saía se a
     // pessoa marcasse o Kihop na aba de habilidades ativas — e a importação de replay
     // nunca conseguia: ela filtra as ativas por EFST ligado, e uma passiva não tem EFST.
+    // As três Fúrias. Cada uma só vale no tamanho de alvo que a Oposição (434) marca com
+    // aquele alinhamento — Solar/Pequeno, Lunar/Médio, Estelar/Grande —, então ligar as
+    // três de uma vez é inofensivo: contra um alvo qualquer, no máximo uma se aplica.
+    // A trava fica em StarEmperor.getWrathAtkBonus, que é quem conhece o alvo.
+    {
+      label: 'Wrath of Sun',
+      name: 'Wrath of Sun',
+      inputType: 'selectButton',
+      dropdown: [
+        { label: 'Sim', value: 3, skillLv: 3, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
+      ],
+    },
+    {
+      label: 'Wrath of Moon',
+      name: 'Wrath of Moon',
+      inputType: 'selectButton',
+      dropdown: [
+        { label: 'Sim', value: 3, skillLv: 3, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
+      ],
+    },
     {
       label: 'Wrath of',
       name: 'Wrath of',
