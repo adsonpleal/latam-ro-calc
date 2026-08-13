@@ -156,6 +156,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.51-beta',
+      date: '13-08-2026',
+      logs: [
+        'O Bloqueio entrou na lista "Aprenda para ganhar bônus" do Superaprendiz — e, por herança, do Hiperaprendiz. A habilidade é do Templário, mas o Superaprendiz EX também a aprende, e sem ela o conjunto da Guardião Real II (Capa) com o Paladino II (Topo) não entregava nada: a linha "A cada 2 níveis de [Bloqueio]: Conjuração fixa -0,1 segundo" precisa ler o nível aprendido, e não havia onde marcá-lo. Com Bloqueio 10 são 0,5 segundo a menos de conjuração fixa. Reportado por Paracelso.',
+        'O resto do conjunto foi conferido junto e já estava certo. A capa sozinha dá os 15% de dano da Luz da Criação, o Paladino II (Meio) soma os 5% de dano mágico Sagrado e o Paladino II (Baixo) soma os outros 15% da Luz da Criação. A linha de dano Sagrado do próprio Paladino II (Baixo) depende de Crux Magnum, que não está no acervo do Superaprendiz — só o Crux Divinum está —, então ela continua, corretamente, sem valer para ele.',
+      ],
+    },
+    {
       v: '0.1.50-beta',
       date: '13-08-2026',
       logs: [

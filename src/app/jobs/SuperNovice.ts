@@ -510,6 +510,31 @@ export class SuperNovice extends CharacterBase {
         { label: 'Lv 5', value: 5, isUse: true },
       ],
     },
+    // Bloqueio — a Crusader skill the Super Novice EX pool also carries (bROWiki's
+    // "O Eterno Aprendizado" box lists it under Superaprendizes EX). No bonus of its
+    // own; it is here so `LEARN_SKILL[Auto Guard==N]` items can read the learned
+    // level, which is what the Guardião Real II (Capa) set needs. Appended at the end
+    // on purpose: `passiveSkillIds` is positional, so inserting higher up would shift
+    // every saved selection below it — including Hyper Novice's, which are pushed onto
+    // this same list by `inheritSkills`.
+    {
+      label: 'Auto Guard',
+      name: 'Auto Guard',
+      inputType: 'dropdown',
+      dropdown: [
+        { label: '-', value: 0, isUse: false },
+        { label: 'Lv 1', value: 1, isUse: true },
+        { label: 'Lv 2', value: 2, isUse: true },
+        { label: 'Lv 3', value: 3, isUse: true },
+        { label: 'Lv 4', value: 4, isUse: true },
+        { label: 'Lv 5', value: 5, isUse: true },
+        { label: 'Lv 6', value: 6, isUse: true },
+        { label: 'Lv 7', value: 7, isUse: true },
+        { label: 'Lv 8', value: 8, isUse: true },
+        { label: 'Lv 9', value: 9, isUse: true },
+        { label: 'Lv 10', value: 10, isUse: true },
+      ],
+    },
   ];
 
   override getMasteryAtk(info: InfoForClass): number {
