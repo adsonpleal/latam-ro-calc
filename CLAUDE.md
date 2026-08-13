@@ -99,4 +99,10 @@ o ragassets. O passo a passo (quando rodar, como conferir o diff) está na skill
   mão: a fonte não tem mapa de spawn).
 - `tools/build-latam-monsters.mjs` — gera o overlay de nomes pt-BR
   (`latam-monsters.json`) a partir do mesmo `mobs.json`.
+- `skills.json` — `{id, name, description}` de toda habilidade que o cliente conhece, com o
+  texto pt-BR cru (códigos `^RRGGBB` e quebras de linha preservados, igual ao `items.json`).
+  É daqui que sai uma entrada nova do catálogo em
+  `src/app/skills/skill-meta.generated.ts`, que é editado à mão: **não** extraia do GRF nem
+  peça o texto ao usuário. A descrição pt-BR é a fonte de verdade do efeito — acima da
+  divine-pride e do blog do Sigma, que discordam entre si e do LATAM.
 - Para **adicionar** um monstro, use a skill `add-ro-monster`; para um item, `add-ro-item`.
