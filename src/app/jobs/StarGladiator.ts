@@ -85,19 +85,10 @@ export class StarGladiator extends Taekwondo {
   protected readonly atkSkillListHi: AtkSkillModel[] = [];
 
   protected readonly activeSkillListHi: ActiveSkillModel[] = [
-    {
-      label: 'Power',
-      name: 'Power',
-      inputType: 'dropdown',
-      dropdown: [
-        { label: '-', value: 0, isUse: false },
-        // { label: 'Lv 1', value: 1, isUse: true },
-        // { label: 'Lv 2', value: 2, isUse: true },
-        // { label: 'Lv 3', value: 3, isUse: true },
-        // { label: 'Lv 4', value: 4, isUse: true },
-        { label: 'Lv 5', value: 5, isUse: true },
-      ],
-    },
+    // O Kihop NÃO entra aqui: o cliente o descreve como "Tipo: Passiva", e ele já existe
+    // na lista de passivas abaixo. Enquanto estava duplicado, o +85% de ATQ só saía se a
+    // pessoa marcasse o Kihop na aba de habilidades ativas — e a importação de replay
+    // nunca conseguia: ela filtra as ativas por EFST ligado, e uma passiva não tem EFST.
     {
       label: 'Wrath of',
       name: 'Wrath of',

@@ -298,7 +298,8 @@ export class StarEmperor extends StarGladiator {
   }
 
   override modifyFinalAtk(currentAtk: number, _params: InfoForClass) {
-    const powerLv = this.bonuses.usedSkillMap.get('Power');
+    // Nível APRENDIDO: o Kihop é passivo (ver StarGladiator.passiveSkillListHi).
+    const powerLv = this.learnLv('Power');
     const wratBonus = (100 + this.getWrathAtkBonus(_params)) / 100;
 
     // O ATQ é inteiro em jogo antes das etapas percentuais: o Kihop multiplica o ATQ já

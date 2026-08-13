@@ -157,6 +157,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.49-beta',
+      date: '13-08-2026',
+      logs: [
+        'O Firmamento entrou na lista de habilidades do Mestre Celestial — faltava. A fórmula foi medida numa gravação sem nenhum equipamento, em que cada golpe é um número fixo: os 6.576.267 de dano do pacote gravado saem exatos, como 3 golpes de 2.192.089. Contra Humanoide e Demônio são 3 golpes cheios, e não um dano repartido em três mostradores como nas outras habilidades da classe; contra as demais raças é 1. A Maestria Celestial não entra no cálculo, apesar de a descrição dizer que entra: a tabela do cliente para o Firmamento é a única da classe sem a coluna "Nv. Maestria", que é de onde sai esse termo nas outras. Obrigado Ted pela gravação.',
+        'O Kihop estava duplicado, aparecendo tanto como habilidade ativa quanto como passiva, e o +85% de ATQ só valia quando marcado na aba de ativas. O cliente o descreve como passiva, e é assim que ele fica agora — o que também conserta a importação de replay, que nunca conseguia trazê-lo: ela só importa habilidades ativas cujo efeito estava ligado na gravação, e uma passiva não tem efeito para ligar. Quem tinha o Kihop marcado na aba de ativas precisa marcá-lo na de passivas.',
+        'O ataque básico ignorava o ajuste de ATQ da classe, que valia só para as habilidades. Na linha do Taekwon isso deixava o básico 1,85 vez menor do que o do jogo, porque o Kihop ficava de fora: a mesma gravação marca 4.295 de ataque básico e o simulador mostrava 2.299.',
+      ],
+    },
+    {
       v: '0.1.48-beta',
       date: '13-08-2026',
       logs: [

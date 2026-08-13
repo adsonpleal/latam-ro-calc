@@ -2002,8 +2002,15 @@ export class DamageCalculator {
       return this.toPreventNegativeDmg(total);
     };
 
-    const basicMinDamage = this.applyAuraReduction(formula(totalMin + extraDmg + extraBasicDmg));
-    const basicMaxDamage = this.applyAuraReduction(formula(totalMax + extraDmg + extraBasicDmg));
+    // O ajuste de ATQ da classe vale para o ataque básico também — o caminho das
+    // habilidades já o aplica (ver `modifyFinalAtk` em calcPhysicalSkillDamage). Sem esta
+    // linha o Kihop (×1,85 no ATQ inteiro) só aparecia nas habilidades: a gravação sem
+    // equipamento do Mestre Celestial marca básico 4.295 e o motor devolvia 2.299
+    // (= 4.295 ÷ 1,85). Ver SkyEmperor.firmamento.spec.ts.
+    const classAtk = (totalAtk: number) => floor(this._class.modifyFinalAtk(totalAtk, this.infoForClass));
+
+    const basicMinDamage = this.applyAuraReduction(formula(classAtk(totalMin) + extraDmg + extraBasicDmg));
+    const basicMaxDamage = this.applyAuraReduction(formula(classAtk(totalMax) + extraDmg + extraBasicDmg));
 
     return { basicMinDamage, basicMaxDamage };
   }

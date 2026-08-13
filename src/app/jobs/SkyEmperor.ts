@@ -361,6 +361,39 @@ export class SkyEmperor extends StarEmperor {
         return (200 + skillLevel * (500 + skillBonusLv * 5) + totalPow * 5) * (baseLevel / 100);
       },
     },
+    {
+      name: 'All in the Sky',
+      label: 'All in the Sky Lv10',
+      value: 'All in the Sky==10',
+      // Tempos de conjuração/recarga: NÃO medidos. O bloco pt-BR do cliente só traz o
+      // custo de AP, e as três fontes externas discordam entre si (e do LATAM) até no
+      // ATQ por nível. Só o dano está validado — ver SkyEmperor.firmamento.spec.ts.
+      acd: 0,
+      fct: 0.5,
+      vct: 0,
+      cd: 2,
+      isMelee: true,
+      // 3 golpes CHEIOS contra Humanoide/Demônio (não é um pacote repartido como as
+      // irmãs, que usam `hit`): a gravação só fecha como 3 × o dano inteiro, e a tabela
+      // da divine-pride rotula a coluna como "ATK per Hit". Contra as demais raças, 1.
+      totalHit: ({ monster }: AtkSkillFormulaInput) =>
+        monster.race === 'demihuman' || monster.race === 'demon' ? 3 : 1,
+      canCri: () => true,
+      criDmgPercentage: 0.5,
+      baseCriPercentage: 1,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { model, skillLevel, status } = input;
+        const { totalPow } = status;
+        const baseLevel = model.level;
+
+        // Sem termo de Maestria Celestial de propósito: a tabela do cliente para esta
+        // habilidade não tem a coluna "Nv. Maestria" que todas as irmãs têm (é dela que
+        // sai o `skillLevel * mastery * 5` delas), e a gravação confirma — com Maestria
+        // 10, o único inteiro que fecha é 2.000×Nv + POD×10. A linha "afetado pelo nível
+        // de Maestria Celestial" da descrição é texto padrão repetido em toda a classe.
+        return (skillLevel * 2000 + totalPow * 10) * (baseLevel / 100);
+      },
+    },
   ];
   private readonly activeSkillList4th: ActiveSkillModel[] = [
     {
