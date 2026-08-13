@@ -9,18 +9,18 @@ describe('pvp reduction math', () => {
       expect(woeGlobalMultiplier('pvp', 'skill')).toBe(1);
     });
 
-    it("normal castle: −70% across the board (the '1kk → 300k' anchor)", () => {
-      expect(woeGlobalMultiplier('woe', 'phys_melee')).toBe(0.3);
-      expect(woeGlobalMultiplier('woe', 'phys_ranged')).toBe(0.3);
-      expect(woeGlobalMultiplier('woe', 'skill')).toBe(0.3);
-      // 1kk asura → 300k inside a normal castle
-      expect(1_000_000 * woeGlobalMultiplier('woe', 'skill')).toBe(300_000);
+    it('normal castle: melee −90%, ranged −95%, skills −90% (18/08/2026 patch)', () => {
+      expect(woeGlobalMultiplier('woe', 'phys_melee')).toBe(0.1);
+      expect(woeGlobalMultiplier('woe', 'phys_ranged')).toBe(0.05);
+      expect(woeGlobalMultiplier('woe', 'skill')).toBe(0.1);
+      // 1kk asura → 100k inside a castle (it was 300k before the patch)
+      expect(1_000_000 * woeGlobalMultiplier('woe', 'skill')).toBe(100_000);
     });
 
-    it('TE castle: melee full, ranged −20%, skills −40%', () => {
-      expect(woeGlobalMultiplier('woe-te', 'phys_melee')).toBe(1);
-      expect(woeGlobalMultiplier('woe-te', 'phys_ranged')).toBe(0.8);
-      expect(woeGlobalMultiplier('woe-te', 'skill')).toBe(0.6);
+    it('TE castle: same numbers as the normal castle since the patch', () => {
+      expect(woeGlobalMultiplier('woe-te', 'phys_melee')).toBe(0.1);
+      expect(woeGlobalMultiplier('woe-te', 'phys_ranged')).toBe(0.05);
+      expect(woeGlobalMultiplier('woe-te', 'skill')).toBe(0.1);
     });
 
     it('mode none is a no-op', () => {

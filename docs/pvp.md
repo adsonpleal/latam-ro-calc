@@ -61,13 +61,18 @@ semântica `RC_Player_*`), nunca a autoridade.
 
 | Canal | PVP (aberto) | WOE (castelo normal) | WOE-TE (castelo) |
 |---|---|---|---|
-| Físico normal ("dano físico normal": atq básico, golpe titânico, duplo…) | 100% | **30%** (−70%) | 100% |
-| Físico à distância ("ataque a distância": atq básico de **arco**) | 100% | **30%** (−70%) | **80%** (−20%) |
-| Habilidades (qualquer skill, física ou mágica) | 100% | **30%** (−70%) | **60%** (−40%) |
+| Físico normal ("dano físico normal": atq básico, golpe titânico, duplo…) | 100% | **10%** (−90%) | **10%** (−90%) |
+| Físico à distância ("ataque a distância": atq básico de **arco**) | 100% | **5%** (−95%) | **5%** (−95%) |
+| Habilidades (qualquer skill, física ou mágica) | 100% | **10%** (−90%) | **10%** (−90%) |
 | Esquiva (flee) | 100% | **−20%** | **−20%** |
 
-Âncora de validação do Luís: *"se eu asuro 1kk no PVP, no mesmo player nas mesmas
-condições, asuro 300k dentro do castelo"* → skill ×0,30 no castelo normal.
+**Atualização de 18/08/2026** (anunciada pela Staff, reportada por Luís): as duas
+guerras passaram a usar os mesmos números — −90% no ataque básico corpo a corpo,
+−95% no ataque básico à distância e −90% nas habilidades. A tabela acima já é a
+nova; a anterior era 30% em tudo no castelo normal (a âncora do Luís *"se eu asuro
+1kk no PVP, no mesmo player nas mesmas condições, asuro 300k dentro do castelo"*,
+que agora dá 100k) e, no TE, corpo a corpo cheio, à distância 80% e habilidades
+60%. A redução de esquiva não mudou.
 
 **Classificação de canal no motor:** *é skill?* → balde de habilidade. Senão é
 atq básico: `isMelee` → balde físico-melee; à distância → balde à distância. O
@@ -101,6 +106,25 @@ PVP (nunca dispara contra atacante-jogador), mas é registrada por fidelidade.
 Cartas de resistência clássicas ("de Humanoide") que a galera lembra reduzindo
 dano de player continuam funcionando porque **sempre** vêm pareadas com a parte
 *Humano* na descrição LATAM.
+
+**O mesmo vale do lado do atacante (feito).** O alvo-jogador nascia com
+`race: 'demihuman'`, o que entregava ao atacante todo bônus anti-Humanoide do
+jogo contra um alvo que eles não tocam no jogo — o Tempestivo e o Penetrante
+distorciam o cálculo, e o buff **Sinfonia Mística** (que a descrição limita a
+"raças Peixe e Humanoide") dobrava dano em PVP. Reportado por Luís. Agora:
+
+- o alvo é `player_human`, ou `player_doram` quando o perfil traz `isDoram`
+  (`Monster.setPlayerTargetData`, alimentado por `Calculator.getAsPlayerTarget`);
+- as chaves de atacante ganharam o par de raças de jogador em todas as famílias:
+  `p_race_`, `m_race_`, `p_pene_race_`, `m_pene_race_`, `pene_res_race_` e
+  `pene_mres_race_` (`create-raw-total-bonus.ts` + `equipment-summary.model.ts`);
+- os 105 itens que tinham `*_race_demihuman` foram reclassificados pela descrição
+  pt-BR: **64** ganharam o espelho `_player_human` ("raças Humano e Humanoide"),
+  **2** ganharam também `_player_doram` (Katar Ancestral 28039 e Katar Primordial
+  610008, "Bruto, Doram, Humano e Humanoide"), **1** virou só `_player_human`
+  (Lança de Vellum 1436, "raça Humano" sem Humanoide) e **16** ficaram como
+  estavam por serem de fato só-Humanoide. Os **24** restantes não existem no
+  cliente LATAM (sem descrição pt-BR) e não foram tocados.
 
 ---
 
@@ -320,9 +344,22 @@ de acerto do atacante (não ao dano).
     de Cristal (27110).
 - **Detecção de elemento por armadura elemental do alvo** (V1 é só Neutro).
   *Decisão a registrar:* ler card/encantamento da armadura → elemento nível 1.
-- **Nuance Human/Doram e separação classe-vs-raça** que o Luís sinalizou ("Raça é
-  a que costuma dar problema" — o que afeta player vs o que não afeta). Registrar
-  casos de borda conforme validados.
+- ~~**Nuance Human/Doram e separação classe-vs-raça**~~ — **resolvida** (§2): o
+  alvo é `player_human`/`player_doram` e os itens foram reclassificados pela
+  descrição. **O que sobrou:** itens cuja cláusula de raça de atacante nunca foi
+  cadastrada, e que portanto não valem nem contra mob nem contra player — as
+  linhas "raças Humano e Doram" das armas/equipamentos TE ([Aluguel]), a Máscara
+  de Despero/Maero (436000/436001/436004/436005), a Peixeira (510207), o Elmo do
+  Lobo Errante (5498) e a Armadura de Placas de Ossos (15000), entre outros. É a
+  passada de itens do lado do **atacante**, espelho das passadas 1–5 do lado do
+  defensor. Registrar aqui conforme for feita.
+- **Tamanho do alvo Doram.** O alvo-jogador é sempre Médio; a nota do Luís diz
+  que baby e doram são Pequenos. O perfil já carrega `isDoram`, então falta só
+  validar e trocar o `size`.
+- **Lança de Vellum (1436) e as cláusulas travadas por mapa.** A descrição abre
+  com "Em mapas de GdE e PvP:", portão que o motor não tem — hoje o item entrega
+  o +30% do refino +9 em qualquer lugar e ignora o +60% da base. Com os modos PVP
+  na tela, dá para modelar.
 - **Tabela multi-alvo** na aba PVP (comparar vários alvos salvos numa `p-table`,
   como o `Resumo de Batalha` faz com monstros). A V1 entrega só o HUD de um alvo
   por vez. Reaproveitar `calcDamages`/`selectedColumns` com `playerTarget` por

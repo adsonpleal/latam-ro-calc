@@ -402,6 +402,9 @@
       "p_race_demihuman": [
         "50"
       ],
+      "p_race_player_human": [
+        "50"
+      ],
       "2022": [
         "30"
       ]
@@ -5084,6 +5087,9 @@
     "script": {
       "p_race_demihuman": [
         "20"
+      ],
+      "p_race_player_human": [
+        "20"
       ]
     }
   },
@@ -7251,6 +7257,9 @@
       "m_race_demihuman": [
         "50"
       ],
+      "m_race_player_human": [
+        "50"
+      ],
       "m_race_angel": [
         "50"
       ],
@@ -7466,6 +7475,9 @@
     "cardPrefix": "Mortal",
     "script": {
       "m_race_demihuman": [
+        "10"
+      ],
+      "m_race_player_human": [
         "10"
       ]
     }
@@ -7997,6 +8009,10 @@
         "-50"
       ],
       "m_race_demihuman": [
+        "25",
+        "15===8"
+      ],
+      "m_race_player_human": [
         "25",
         "15===8"
       ],
@@ -18511,6 +18527,11 @@
         "EQUIP[Morrigane's Manteau]===15",
         "EQUIP[Valkyrian Manteau]===15"
       ],
+      "p_pene_race_player_human": [
+        "1---4",
+        "EQUIP[Morrigane's Manteau]===15",
+        "EQUIP[Valkyrian Manteau]===15"
+      ],
       "p_pene_race_demon": [
         "1---4",
         "EQUIP[Morrigane's Manteau]===15",
@@ -23346,6 +23367,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "12"
+      ],
+      "p_race_player_human": [
         "12"
       ],
       "atk": [
@@ -56817,6 +56841,9 @@
       "p_race_demihuman": [
         "30"
       ],
+      "p_race_player_human": [
+        "30"
+      ],
       "hpPercent": [
         "-50"
       ]
@@ -58546,6 +58573,9 @@
       "p_race_demihuman": [
         "60"
       ],
+      "p_race_player_human": [
+        "60"
+      ],
       "p_class_all": [
         "10===5"
       ],
@@ -58625,6 +58655,14 @@
         "11===10"
       ],
       "p_race_demihuman": [
+        "7===15",
+        "11===20"
+      ],
+      "p_race_player_human": [
+        "7===15",
+        "11===20"
+      ],
+      "p_race_player_doram": [
         "7===15",
         "11===20"
       ],
@@ -71524,6 +71562,9 @@
         "EQUIP[Celine's Ribbon]0.3"
       ],
       "m_race_demihuman": [
+        "EQUIP[Celine's Ribbon]REFINE[headUpper==7]===10"
+      ],
+      "m_race_player_human": [
         "EQUIP[Celine's Ribbon]REFINE[headUpper==7]===10"
       ],
       "m_race_demon": [
@@ -213967,6 +214008,12 @@
       "p_race_demihuman": [
         "9===25"
       ],
+      "p_race_player_human": [
+        "9===25"
+      ],
+      "p_race_player_doram": [
+        "9===25"
+      ],
       "p_race_brute": [
         "9===25"
       ],
@@ -235789,7 +235836,17 @@
         "7===1",
         "9===2"
       ],
+      "p_race_player_human": [
+        "2",
+        "7===1",
+        "9===2"
+      ],
       "m_race_demihuman": [
+        "2",
+        "7===1",
+        "9===2"
+      ],
+      "m_race_player_human": [
         "2",
         "7===1",
         "9===2"
@@ -241207,6 +241264,9 @@
     "script": {
       "p_race_demihuman": [
         "3"
+      ],
+      "p_race_player_human": [
+        "3"
       ]
     }
   },
@@ -241591,6 +241651,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "5"
+      ],
+      "p_race_player_human": [
         "5"
       ],
       "subrace_player_human": [
@@ -242437,7 +242500,13 @@
       "p_race_demihuman": [
         "10"
       ],
+      "p_race_player_human": [
+        "10"
+      ],
       "m_race_demihuman": [
+        "10"
+      ],
+      "m_race_player_human": [
         "10"
       ]
     }
@@ -242475,7 +242544,13 @@
       "p_race_demihuman": [
         "5"
       ],
+      "p_race_player_human": [
+        "5"
+      ],
       "m_race_demihuman": [
+        "5"
+      ],
+      "m_race_player_human": [
         "5"
       ]
     }
@@ -242513,7 +242588,13 @@
       "p_race_demihuman": [
         "3"
       ],
+      "p_race_player_human": [
+        "3"
+      ],
       "m_race_demihuman": [
+        "3"
+      ],
+      "m_race_player_human": [
         "3"
       ]
     }
@@ -243397,6 +243478,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "3"
+      ],
+      "p_race_player_human": [
         "3"
       ]
     }
@@ -245035,6 +245119,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "12"
+      ],
+      "p_race_player_human": [
         "12"
       ]
     }
@@ -247034,6 +247121,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "10"
+      ],
+      "p_race_player_human": [
         "10"
       ]
     }
@@ -250427,6 +250517,9 @@
     "script": {
       "p_race_demihuman": [
         "5"
+      ],
+      "p_race_player_human": [
+        "5"
       ]
     }
   },
@@ -250997,6 +251090,9 @@
     "script": {
       "p_race_demihuman": [
         "20"
+      ],
+      "p_race_player_human": [
+        "20"
       ]
     }
   },
@@ -251119,6 +251215,9 @@
     "script": {
       "p_race_demihuman": [
         "20"
+      ],
+      "p_race_player_human": [
+        "20"
       ]
     }
   },
@@ -251196,6 +251295,9 @@
       ],
       "p_race_demihuman": [
         "55"
+      ],
+      "p_race_player_human": [
+        "55"
       ]
     }
   },
@@ -251224,6 +251326,9 @@
         "20"
       ],
       "p_race_demihuman": [
+        "55"
+      ],
+      "p_race_player_human": [
         "55"
       ]
     }
@@ -251272,6 +251377,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "70"
+      ],
+      "p_race_player_human": [
         "70"
       ]
     }
@@ -252233,6 +252341,9 @@
       "p_race_demihuman": [
         "75"
       ],
+      "p_race_player_human": [
+        "75"
+      ],
       "aspdPercent": [
         "6===5",
         "9===5"
@@ -252620,6 +252731,9 @@
       ],
       "p_race_demihuman": [
         "55"
+      ],
+      "p_race_player_human": [
+        "55"
       ]
     }
   },
@@ -252649,6 +252763,9 @@
         "3"
       ],
       "p_race_demihuman": [
+        "55"
+      ],
+      "p_race_player_human": [
         "55"
       ]
     }
@@ -252699,6 +252816,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "70"
+      ],
+      "p_race_player_human": [
         "70"
       ]
     }
@@ -253142,6 +253262,9 @@
     "script": {
       "p_race_demihuman": [
         "20"
+      ],
+      "p_race_player_human": [
+        "20"
       ]
     }
   },
@@ -253193,6 +253316,9 @@
       ],
       "p_race_demihuman": [
         "95"
+      ],
+      "p_race_player_human": [
+        "95"
       ]
     }
   },
@@ -253218,6 +253344,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "95"
+      ],
+      "p_race_player_human": [
         "95"
       ],
       "aspdPercent": [
@@ -253291,7 +253420,7 @@
       "Swordman"
     ],
     "script": {
-      "p_race_demihuman": [
+      "p_race_player_human": [
         "9===30"
       ]
     }
@@ -253417,6 +253546,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "5"
+      ],
+      "p_race_player_human": [
         "5"
       ]
     }
@@ -253688,6 +253820,9 @@
     "script": {
       "p_race_demihuman": [
         "10"
+      ],
+      "p_race_player_human": [
+        "10"
       ]
     }
   },
@@ -253760,6 +253895,9 @@
         "2"
       ],
       "p_race_demihuman": [
+        "25"
+      ],
+      "p_race_player_human": [
         "25"
       ]
     }
@@ -253841,6 +253979,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "70"
+      ],
+      "p_race_player_human": [
         "70"
       ]
     }
@@ -254303,6 +254444,9 @@
       "p_race_demihuman": [
         "75"
       ],
+      "p_race_player_human": [
+        "75"
+      ],
       "matk": [
         "125"
       ]
@@ -254339,6 +254483,9 @@
       "p_race_demihuman": [
         "75"
       ],
+      "p_race_player_human": [
+        "75"
+      ],
       "matk": [
         "125"
       ]
@@ -254369,6 +254516,9 @@
       "p_race_demihuman": [
         "80"
       ],
+      "p_race_player_human": [
+        "80"
+      ],
       "matk": [
         "115"
       ]
@@ -254397,6 +254547,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "80"
+      ],
+      "p_race_player_human": [
         "80"
       ],
       "matkPercent": [
@@ -255198,6 +255351,9 @@
       "m_race_demihuman": [
         "15"
       ],
+      "m_race_player_human": [
+        "15"
+      ],
       "matk": [
         "125"
       ]
@@ -255361,6 +255517,9 @@
     ],
     "script": {
       "m_race_demihuman": [
+        "15"
+      ],
+      "m_race_player_human": [
         "15"
       ],
       "matkPercent": [
@@ -256266,6 +256425,9 @@
       ],
       "p_race_demihuman": [
         "55"
+      ],
+      "p_race_player_human": [
+        "55"
       ]
     }
   },
@@ -256298,6 +256460,9 @@
         "10"
       ],
       "p_race_demihuman": [
+        "55"
+      ],
+      "p_race_player_human": [
         "55"
       ]
     }
@@ -256370,6 +256535,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "55"
+      ],
+      "p_race_player_human": [
         "55"
       ]
     }
@@ -256653,6 +256821,9 @@
       ],
       "p_race_demihuman": [
         "95"
+      ],
+      "p_race_player_human": [
+        "95"
       ]
     }
   },
@@ -256683,6 +256854,9 @@
         "2"
       ],
       "p_race_demihuman": [
+        "95"
+      ],
+      "p_race_player_human": [
         "95"
       ]
     }
@@ -256766,6 +256940,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "95"
+      ],
+      "p_race_player_human": [
         "95"
       ]
     }
@@ -257302,6 +257479,9 @@
       ],
       "p_race_demihuman": [
         "95"
+      ],
+      "p_race_player_human": [
+        "95"
       ]
     }
   },
@@ -257332,6 +257512,9 @@
         "2"
       ],
       "p_race_demihuman": [
+        "95"
+      ],
+      "p_race_player_human": [
         "95"
       ]
     }
@@ -257419,6 +257602,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "95"
+      ],
+      "p_race_player_human": [
         "95"
       ]
     }
@@ -257627,6 +257813,9 @@
     ],
     "script": {
       "m_race_demihuman": [
+        "15"
+      ],
+      "m_race_player_human": [
         "15"
       ],
       "matkPercent": [
@@ -258434,6 +258623,9 @@
       ],
       "p_race_demihuman": [
         "75"
+      ],
+      "p_race_player_human": [
+        "75"
       ]
     }
   },
@@ -258472,6 +258664,9 @@
         "1"
       ],
       "p_race_demihuman": [
+        "75"
+      ],
+      "p_race_player_human": [
         "75"
       ]
     }
@@ -258649,6 +258844,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "75"
+      ],
+      "p_race_player_human": [
         "75"
       ]
     }
@@ -259532,6 +259730,9 @@
       ],
       "p_race_demihuman": [
         "75"
+      ],
+      "p_race_player_human": [
+        "75"
       ]
     }
   },
@@ -259561,6 +259762,9 @@
       ],
       "p_race_demihuman": [
         "35"
+      ],
+      "p_race_player_human": [
+        "35"
       ]
     }
   },
@@ -259587,6 +259791,9 @@
     "script": {
       "p_race_demihuman": [
         "75"
+      ],
+      "p_race_player_human": [
+        "75"
       ]
     }
   },
@@ -259612,6 +259819,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "35"
+      ],
+      "p_race_player_human": [
         "35"
       ]
     }
@@ -259835,6 +260045,9 @@
     "script": {
       "p_race_demihuman": [
         "75"
+      ],
+      "p_race_player_human": [
+        "75"
       ]
     }
   },
@@ -259863,6 +260076,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "75"
+      ],
+      "p_race_player_human": [
         "75"
       ],
       "matk": [
@@ -259920,6 +260136,9 @@
     ],
     "script": {
       "p_race_demihuman": [
+        "75"
+      ],
+      "p_race_player_human": [
         "75"
       ],
       "aspdPercent": [
@@ -278118,19 +278337,40 @@
     ],
     "script": {
       "atk": [
-        "2---8"
+        "2---8",
+        "USED[Dancer||Gypsy||Wanderer||Trouvere||Rogue||Stalker||ShadowChaser||AbyssChaser||Monk||Champion||Sura||Inquisitor||Assassin||AssassinCross||GuillotineCross||ShadowCross]2---8"
       ],
       "matk": [
-        "2---8"
+        "2---8",
+        "USED[Dancer||Gypsy||Wanderer||Trouvere||Rogue||Stalker||ShadowChaser||AbyssChaser||Monk||Champion||Sura||Inquisitor||Assassin||AssassinCross||GuillotineCross||ShadowCross]2---8"
+      ],
+      "atkPercent": [
+        "7===4",
+        "USED[Dancer||Gypsy||Wanderer||Trouvere||Rogue||Stalker||ShadowChaser||AbyssChaser||Monk||Champion||Sura||Inquisitor||Assassin||AssassinCross||GuillotineCross||ShadowCross]7===4"
+      ],
+      "matkPercent": [
+        "7===4",
+        "USED[Dancer||Gypsy||Wanderer||Trouvere||Rogue||Stalker||ShadowChaser||AbyssChaser||Monk||Champion||Sura||Inquisitor||Assassin||AssassinCross||GuillotineCross||ShadowCross]7===4"
       ],
       "range": [
-        "9===7"
+        "9===7",
+        "USED[Dancer||Gypsy||Wanderer||Trouvere||Rogue||Stalker||ShadowChaser||AbyssChaser||Monk||Champion||Sura||Inquisitor||Assassin||AssassinCross||GuillotineCross||ShadowCross]9===7"
       ],
       "melee": [
-        "9===7"
+        "9===7",
+        "USED[Dancer||Gypsy||Wanderer||Trouvere||Rogue||Stalker||ShadowChaser||AbyssChaser||Monk||Champion||Sura||Inquisitor||Assassin||AssassinCross||GuillotineCross||ShadowCross]9===7"
       ],
       "m_my_element_all": [
-        "9===7"
+        "9===7",
+        "USED[Dancer||Gypsy||Wanderer||Trouvere||Rogue||Stalker||ShadowChaser||AbyssChaser||Monk||Champion||Sura||Inquisitor||Assassin||AssassinCross||GuillotineCross||ShadowCross]9===7"
+      ],
+      "p_pene_class_normal": [
+        "13===10",
+        "USED[Dancer||Gypsy||Wanderer||Trouvere||Rogue||Stalker||ShadowChaser||AbyssChaser||Monk||Champion||Sura||Inquisitor||Assassin||AssassinCross||GuillotineCross||ShadowCross]13===10"
+      ],
+      "m_pene_class_normal": [
+        "13===10",
+        "USED[Dancer||Gypsy||Wanderer||Trouvere||Rogue||Stalker||ShadowChaser||AbyssChaser||Monk||Champion||Sura||Inquisitor||Assassin||AssassinCross||GuillotineCross||ShadowCross]13===10"
       ]
     }
   },

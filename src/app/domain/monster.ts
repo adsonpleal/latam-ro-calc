@@ -7,13 +7,14 @@ interface PreparedMonsterModel {
   name: string;
   level: number;
   /**
-   * lowercase
+   * lowercase. `player_human`/`player_doram` belong to a PVP target only — no
+   * monster carries them, and no player carries `demihuman` (docs/pvp.md §2).
    */
-  race: 'formless' | 'undead' | 'brute' | 'plant' | 'insect' | 'fish' | 'demon' | 'demihuman' | 'angel' | 'dragon';
+  race: 'formless' | 'undead' | 'brute' | 'plant' | 'insect' | 'fish' | 'demon' | 'demihuman' | 'angel' | 'dragon' | 'player_human' | 'player_doram';
   /**
    * "Formless"
    */
-  raceUpper: 'Formless' | 'Undead' | 'Brute' | 'Plant' | 'Insect' | 'Fish' | 'Demon' | 'DemiHuman' | 'Angel' | 'Dragon';
+  raceUpper: 'Formless' | 'Undead' | 'Brute' | 'Plant' | 'Insect' | 'Fish' | 'Demon' | 'DemiHuman' | 'Angel' | 'Dragon' | 'Human' | 'Doram';
   size: 's' | 'm' | 'l';
   sizeUpper: 'S' | 'M' | 'L';
   /**
@@ -200,11 +201,17 @@ export class Monster {
   /**
    * Configure this target as a PLAYER (PVP). Unlike setData, the defensive stats
    * are NOT recomputed from monster formulas — they arrive already computed with
-   * the player formulas (see calculator.calcAllDefs / HpSpCalculator). Players
-   * are fixed as Normal / Medium / Neutral; the race is left as DemiHuman so the
-   * attacker's existing anti-DemiHuman offensive gear applies (V1 — the RC_Player
-   * distinction is a pending refinement, see docs/pvp.md §6). `hitRequireFor100`
-   * is the target's effective flee (already castle-adjusted by the caller).
+   * the player formulas (see calculator.calcAllDefs / HpSpCalculator).
+   *
+   * A player is Normal / Medium / Neutral, and of race **Humano** (`player_human`)
+   * — `player_doram` for a Doram. Reported by Luís: the race used to be DemiHuman,
+   * which handed the attacker every anti-Humanoide bonus in the game (Tempestivo,
+   * Penetrante, the Sinfonia Mística buff…) against a player they do not touch in
+   * game. "Humano" and "Humanoide" are different races and the pt-BR description
+   * names them apart — see docs/pvp.md §2.
+   *
+   * `hitRequireFor100` is the target's effective flee (already castle-adjusted by
+   * the caller).
    */
   setPlayerTargetData(profile: PlayerTargetProfile, hitRequireFor100: number) {
     this._monster = { id: -1, name: profile.name, spawn: '' } as any;
@@ -216,8 +223,8 @@ export class Monster {
       elementName: 'Neutral 1',
       elementLevelN: 1,
       elementLevelUpper: 'Neutral 1',
-      race: 'demihuman',
-      raceUpper: 'DemiHuman',
+      race: profile.isDoram ? 'player_doram' : 'player_human',
+      raceUpper: profile.isDoram ? 'Doram' : 'Human',
       size: 'm',
       sizeUpper: 'M',
       sizeFullUpper: 'Medium',

@@ -104,12 +104,12 @@ describe('PVP damage pipeline (Windhawk / Focused Arrow Strike, skill channel)',
     expect(skillMax('pvp')).toBeGreaterThan(0);
   });
 
-  it("normal castle reduces skill damage to ~30% (the '1kk → 300k' anchor)", () => {
-    expect(skillMax('woe') / skillMax('pvp')).toBeCloseTo(0.3, 2);
+  it("normal castle reduces skill damage to ~10% (the '1kk → 100k' anchor)", () => {
+    expect(skillMax('woe') / skillMax('pvp')).toBeCloseTo(0.1, 2);
   });
 
-  it('TE castle reduces skill damage to ~60%', () => {
-    expect(skillMax('woe-te') / skillMax('pvp')).toBeCloseTo(0.6, 2);
+  it('TE castle reduces skill damage to ~10% as well', () => {
+    expect(skillMax('woe-te') / skillMax('pvp')).toBeCloseTo(0.1, 2);
   });
 
   it("a defender's dmg_taken_all 50% halves incoming damage on top of the mode", () => {
@@ -117,9 +117,9 @@ describe('PVP damage pipeline (Windhawk / Focused Arrow Strike, skill channel)',
   });
 
   // Basic bow attack = the "ataque a distância" (phys_ranged) channel.
-  it('basic ranged attack: normal castle −70%, TE castle −20%', () => {
-    expect(basicMax('woe') / basicMax('pvp')).toBeCloseTo(0.3, 2);
-    expect(basicMax('woe-te') / basicMax('pvp')).toBeCloseTo(0.8, 2);
+  it('basic ranged attack: −95% in both castles', () => {
+    expect(basicMax('woe') / basicMax('pvp')).toBeCloseTo(0.05, 2);
+    expect(basicMax('woe-te') / basicMax('pvp')).toBeCloseTo(0.05, 2);
   });
 });
 

@@ -14,6 +14,9 @@ export const RaceNamePtBr: Record<string, string> = {
   'Demi-Human': 'Humanoide',
   Angel: 'Anjo',
   Dragon: 'Dragão',
+  // PVP targets only: a player is Humano (or Doram), never Humanoide. See docs/pvp.md §2.
+  Human: 'Humano',
+  Doram: 'Doram',
 };
 
 export const SizeNamePtBr: Record<string, string> = {

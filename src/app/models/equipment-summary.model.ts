@@ -92,6 +92,11 @@ export interface EquipmentSummaryModel {
   p_element_ghost: number;
   p_element_undead: number;
 
+  // The attacker-side mirror of the subrace_* namespace: `player_human`/`player_doram`
+  // are the races a PLAYER target carries, and `demihuman` only ever a monster. The
+  // pt-BR description tells the two apart — "Humano" is the player race and
+  // "Humanoide" the monster one, so "contra as raças Humano e Humanoide +55%" is both
+  // keys at 55. See docs/pvp.md §2.
   p_race_all: number;
   p_race_formless: number;
   p_race_undead: number;
@@ -103,6 +108,8 @@ export interface EquipmentSummaryModel {
   p_race_demihuman: number;
   p_race_angel: number;
   p_race_dragon: number;
+  p_race_player_human: number;
+  p_race_player_doram: number;
 
   p_class_all: number;
   p_class_normal: number;
@@ -123,6 +130,8 @@ export interface EquipmentSummaryModel {
   p_pene_race_demihuman: number;
   p_pene_race_angel: number;
   p_pene_race_dragon: number;
+  p_pene_race_player_human: number;
+  p_pene_race_player_doram: number;
 
   pene_res: number;
   pene_res_race_formless: number;
@@ -135,6 +144,8 @@ export interface EquipmentSummaryModel {
   pene_res_race_demihuman: number;
   pene_res_race_angel: number;
   pene_res_race_dragon: number;
+  pene_res_race_player_human: number;
+  pene_res_race_player_doram: number;
 
   m_size_all: number;
   m_size_s: number;
@@ -176,6 +187,8 @@ export interface EquipmentSummaryModel {
   m_race_demihuman: number;
   m_race_angel: number;
   m_race_dragon: number;
+  m_race_player_human: number;
+  m_race_player_doram: number;
 
   m_class_all: number;
   m_class_normal: number;
@@ -192,6 +205,8 @@ export interface EquipmentSummaryModel {
   m_pene_race_formless: number;
   m_pene_race_fish: number;
   m_pene_race_dragon: number;
+  m_pene_race_player_human: number;
+  m_pene_race_player_doram: number;
   m_pene_race_demon: number;
   m_pene_race_demihuman: number;
   m_pene_race_brute: number;
@@ -208,6 +223,8 @@ export interface EquipmentSummaryModel {
   pene_mres_race_demihuman: number;
   pene_mres_race_angel: number;
   pene_mres_race_dragon: number;
+  pene_mres_race_player_human: number;
+  pene_mres_race_player_doram: number;
 
   // --- Defender-side reductions (PVP) --------------------------------------
   // These describe the reduction the DEFENDER's gear grants against incoming

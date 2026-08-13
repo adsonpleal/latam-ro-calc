@@ -40,6 +40,12 @@ export interface PlayerTargetProfile {
   luk: number;
   /** The target's aggregated defender-side reductions (its totalEquipStatus). */
   defenderBonus: Partial<EquipmentSummaryModel>;
+  /**
+   * True when the target is a Doram — its race is `player_doram` rather than
+   * `player_human`. Optional: profiles cached in simulations saved before this
+   * existed have no flag, and default to Humano.
+   */
+  isDoram?: boolean;
 }
 
 /**
@@ -82,16 +88,20 @@ export type PvpDamageChannel = 'phys_melee' | 'phys_ranged' | 'skill';
 
 /**
  * Global castle-reduction layer, as a fraction of the damage dealt (1 = no
- * reduction). This is the "última linha" Luís described: "asuro 1kk no PVP →
- * 300k dentro do castelo" (skill ×0,30 in a normal castle). See docs/pvp.md §2.
+ * reduction). See docs/pvp.md §2.
+ *
+ * The 18/08/2026 patch raised both castles to the same numbers, announced by the
+ * staff and reported by Luís: melee basic attack −90%, ranged basic attack −95%,
+ * skills −90%. Before it the normal castle was −70% across the board (Luís's
+ * "asuro 1kk no PVP → 300k dentro do castelo") and the TE castle was melee full,
+ * ranged −20%, skills −40%.
  */
 const WOE_LAYER: Record<Exclude<PvpMode, 'none'>, Record<PvpDamageChannel, number>> = {
   // Open PVP: no castle aura — only the target's own gear reductions apply.
   pvp: { phys_melee: 1, phys_ranged: 1, skill: 1 },
-  // Normal castle: −70% across the board.
-  woe: { phys_melee: 0.3, phys_ranged: 0.3, skill: 0.3 },
-  // TE castle: melee full, ranged −20%, skills −40%.
-  'woe-te': { phys_melee: 1, phys_ranged: 0.8, skill: 0.6 },
+  // Both castles: melee −90%, ranged −95%, skills −90%.
+  woe: { phys_melee: 0.1, phys_ranged: 0.05, skill: 0.1 },
+  'woe-te': { phys_melee: 0.1, phys_ranged: 0.05, skill: 0.1 },
 };
 
 /** The WoE-castle global multiplier for a mode + channel (1 = no reduction). */

@@ -105,6 +105,8 @@ export const createRawTotalBonus = (): EquipmentSummaryModel => {
     p_race_demihuman: 0,
     p_race_angel: 0,
     p_race_dragon: 0,
+    p_race_player_human: 0,
+    p_race_player_doram: 0,
 
     p_class_all: 0,
     p_class_normal: 0,
@@ -121,6 +123,8 @@ export const createRawTotalBonus = (): EquipmentSummaryModel => {
     pene_res_race_demihuman: 0,
     pene_res_race_angel: 0,
     pene_res_race_dragon: 0,
+    pene_res_race_player_human: 0,
+    pene_res_race_player_doram: 0,
 
     pene_mres: 0,
     pene_mres_race_formless: 0,
@@ -133,6 +137,8 @@ export const createRawTotalBonus = (): EquipmentSummaryModel => {
     pene_mres_race_demihuman: 0,
     pene_mres_race_angel: 0,
     pene_mres_race_dragon: 0,
+    pene_mres_race_player_human: 0,
+    pene_mres_race_player_doram: 0,
 
 
     p_pene_class_all: 0,
@@ -150,6 +156,8 @@ export const createRawTotalBonus = (): EquipmentSummaryModel => {
     p_pene_race_demihuman: 0,
     p_pene_race_angel: 0,
     p_pene_race_dragon: 0,
+    p_pene_race_player_human: 0,
+    p_pene_race_player_doram: 0,
 
     m_size_all: 0,
     m_size_s: 0,
@@ -191,6 +199,8 @@ export const createRawTotalBonus = (): EquipmentSummaryModel => {
     m_race_demihuman: 0,
     m_race_angel: 0,
     m_race_dragon: 0,
+    m_race_player_human: 0,
+    m_race_player_doram: 0,
 
     m_class_all: 0,
     m_class_normal: 0,
@@ -207,6 +217,8 @@ export const createRawTotalBonus = (): EquipmentSummaryModel => {
     m_pene_race_formless: 0,
     m_pene_race_fish: 0,
     m_pene_race_dragon: 0,
+    m_pene_race_player_human: 0,
+    m_pene_race_player_doram: 0,
     m_pene_race_demon: 0,
     m_pene_race_demihuman: 0,
     m_pene_race_brute: 0,

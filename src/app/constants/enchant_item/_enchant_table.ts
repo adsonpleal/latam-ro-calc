@@ -125,6 +125,7 @@ import {
 import { heroBadge2, heroBootLt2, heroBootLt3, heroBootLt4 } from './hero_boots_lt';
 import { heroicHead3, heroicHead4 } from './heroic_hairband';
 import { madBunnyLt4 } from './mad_bunny_lt';
+import { MALANGDO_WEAPON_IDS } from './malangdo_weapons';
 import { mShadow3, mShadow4, mShadowABC3, mShadowAM3, mShadowAllClass4, mShadowBIO3, mShadowCAR3, mShadowDK3, mShadowEM3, mShadowHYPER3, mShadowIG3, mShadowIQ3, mShadowMEI3, mShadowNW3, mShadowSA3, mShadowSH3, mShadowSHC3, mShadowSKY3, mShadowSS3, mShadowTVTB3, mShadowWH3 } from './master_shadow';
 import { muqaddas3, muqaddas4 } from './muqaddas';
 import { nebularShadow2, nebularShadow34 } from './nebula_shadow';
@@ -1837,4 +1838,20 @@ const map = new Map(EnchantTable.map((a) => [a.name, a.enchants]));
 
 export const getEnchants = (name) => {
   return map.get(name);
+};
+
+/** Every weapon Snow enchants in Malangdo, as a set of item ids (see MALANGDO_WEAPON_IDS). */
+const malangdoWeapons = new Set(Object.values(MALANGDO_WEAPON_IDS).flat());
+
+/**
+ * The Malangdo enchant slots for a weapon, or undefined when Snow does not take it.
+ *
+ * Two enchants, in the last two positions — except a 3-slot weapon, which the wiki
+ * says "receberá somente 1 encanto". Matching by id rather than by aegisName is what
+ * makes this reach the ~1000 items whose aegisName is the client's Korean resource
+ * name; see malangdo_weapons.ts.
+ */
+export const getMalangdoEnchants = (id: number, slots = 0): EntTable['enchants'] | undefined => {
+  if (!malangdoWeapons.has(id)) return undefined;
+  return slots >= 3 ? [null, null, null, malangdo] : [null, null, malangdo, malangdo];
 };

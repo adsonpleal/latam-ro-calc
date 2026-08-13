@@ -156,6 +156,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.50-beta',
+      date: '13-08-2026',
+      logs: [
+        'As reduções de dano das guerras foram atualizadas para os valores que entram no jogo em 18/08: 90% de redução no ataque básico corpo a corpo, 95% no ataque básico à distância e 90% nas habilidades — e agora valem igual nas duas, tanto na guerra normal quanto na TE. Antes a guerra normal cortava 70% em tudo e a TE deixava o corpo a corpo cheio, cortando 20% à distância e 40% nas habilidades. O simulador já está com os números novos, então até o dia 18 ele mostra menos dano dentro do castelo do que o servidor: a âncora do "asuro 1kk no PVP" sai 100k na guerra em vez dos 300k de hoje. A redução de 20% na esquiva não mudou. Anunciado pela Staff, reportado por Luís.',
+        'O alvo da aba PVP deixou de ser da raça Humanoide e passou a ser Humano — Doram, se a simulação salva for de Invocador. As duas são raças diferentes, e o jogador nunca é Humanoide: com o alvo cadastrado errado, todo bônus anti-Humanoide do equipamento entrava no cálculo contra ele. O Tempestivo e o Penetrante eram os que mais distorciam a conta, e a Sinfonia Mística, que a descrição limita às raças Peixe e Humanoide, dobrava dano em cima de player. Nenhum dos três vale mais contra jogador. Reportado por Luís.',
+        'Os itens foram reclassificados junto, porque a separação está na própria descrição: "Humano" é a raça do jogador e "Humanoide" a do monstro. Dos 105 itens que davam dano ou perfuração contra Humanoide, 64 diziam "contra as raças Humano e Humanoide" e agora contam nos dois; o Katar Ancestral e o Katar Primordial dizem "Bruto, Doram, Humano e Humanoide" e ganharam também a parte Doram; a Lança de Vellum diz só "raça Humano" e deixou de valer contra mob Humanoide; e 16 são de fato só contra Humanoide e ficaram como estavam. Os que continuam sem cadastro nenhum de raça — as armas TE de aluguel, a Máscara de Despero, a Peixeira — entram numa próxima passada.',
+        'As Asas de Garuda estavam com metade da descrição de fora. Faltavam o "Dano físico e mágico +4%" do refino +7 e a linha inteira do +13, que ignora 10% da DEF e da DEFM de monstros normais. Também faltava a duplicação: para Odaliscas, Arruaceiros, Monges, Mercenários e evoluções — ou seja, Musa, Diva, Renegado, Mandraque, Sicário, Executor, Shura e Inquisidor — todos os efeitos da capa valem em dobro, o que num +13 significa ATQ e ATQM +96 em vez de +48, corpo a corpo, à distância e dano mágico de todas as propriedades +14% em vez de +7%. Reportado por Luís.',
+        'Os encantamentos de Malangdo apareceram em 166 armas que não ofereciam a opção, entre elas a Faca de Combate e o Rondel com slot. A lista do NPC Snow foi cadastrada inteira a partir da bROWiki, em todas as versões de cada arma, com ou sem slot, como o NPC aceita — dois encantos por arma, ou um só nas de 3 slots. O que travava a maioria delas era o nome interno: mais de mil itens do banco guardam o nome do recurso do cliente, em coreano, e a tabela de encantos procurava pelo nome do item_db, que nunca batia. Agora a busca é pelo id. Reportado por Luís.',
+      ],
+    },
+    {
       v: '0.1.49-beta',
       date: '13-08-2026',
       logs: [

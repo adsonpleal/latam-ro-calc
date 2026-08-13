@@ -4,7 +4,7 @@ import { ItemModel } from '../../../../models/item.model';
 import { ItemTypeEnum, OptionableItemTypeSet } from '../../../../constants/item-type.enum';
 import { ExtraOptionTable } from '../../../../constants/extra-option-table';
 import { createNumberDropdownList, getGradeList, itemDescPopoverHtml } from '../../../../utils';
-import { getEnchants } from 'src/app/constants/enchant_item';
+import { getEnchants, getMalangdoEnchants } from 'src/app/constants/enchant_item';
 import { ItemDescriptionStore } from 'src/app/api-services/item-description.store';
 
 interface EventEmitterResultModel {
@@ -202,8 +202,10 @@ export class EquipmentComponent implements OnChanges, OnInit {
   }
 
   private setEnchantList(isEmitItemChange: boolean) {
-    const { aegisName, name, canGrade } = this.getItem();
-    const enchants = getEnchants(aegisName) ?? getEnchants(name);
+    const { id, aegisName, name, canGrade, slots } = this.getItem();
+    // The Malangdo list matches by id and comes last, so an item already covered by
+    // the aegisName-keyed table keeps the enchant slots that table gives it.
+    const enchants = getEnchants(aegisName) ?? getEnchants(name) ?? getMalangdoEnchants(id, slots);
 
     const [e1, e2, e3, e4] = Array.isArray(enchants) ? enchants : [];
     // console.log({ mainItemId, e2, e3, e4 });

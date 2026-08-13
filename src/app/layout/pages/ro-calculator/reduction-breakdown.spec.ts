@@ -14,21 +14,22 @@ describe('buildReductionCategories', () => {
     expect(byLabel['Redução plana'].rows).toEqual([{ label: 'Todo o dano', keys: ['dmg_taken_all'], percent: 5 }]);
   });
 
-  it('adds the WoE castle layer in woe mode (skill -70%)', () => {
+  it('adds the WoE castle layer in woe mode (melee 90, ranged 95, skill 90)', () => {
     const cats = buildReductionCategories({}, 'woe');
     const woe = cats.find((c) => c.label === 'Guerra (WoE)');
     expect(woe?.rows).toEqual([
-      { label: 'Físico corpo a corpo', keys: [], percent: 70 },
-      { label: 'Físico à distância', keys: [], percent: 70 },
-      { label: 'Habilidade', keys: [], percent: 70 },
+      { label: 'Físico corpo a corpo', keys: [], percent: 90 },
+      { label: 'Físico à distância', keys: [], percent: 95 },
+      { label: 'Habilidade', keys: [], percent: 90 },
     ]);
   });
 
-  it('woe-te: melee 0, ranged 20, skill 40', () => {
+  it('woe-te: the same numbers as woe since the 18/08/2026 patch', () => {
     const woe = buildReductionCategories({}, 'woe-te').find((c) => c.label === 'Guerra (WoE)');
     expect(woe?.rows).toEqual([
-      { label: 'Físico à distância', keys: [], percent: 20 },
-      { label: 'Habilidade', keys: [], percent: 40 },
+      { label: 'Físico corpo a corpo', keys: [], percent: 90 },
+      { label: 'Físico à distância', keys: [], percent: 95 },
+      { label: 'Habilidade', keys: [], percent: 90 },
     ]);
   });
 

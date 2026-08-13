@@ -205,12 +205,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     {
       label: 'WOE',
       value: 'woe' as PvpMode,
-      tooltip: 'Guerra do Emperium: todo o dano cai para 30% (−70%) — físico normal, à distância e habilidades. A esquiva do alvo cai 20%.',
+      tooltip: 'Guerra do Emperium: o ataque básico corpo a corpo cai para 10% (−90%), o ataque básico à distância para 5% (−95%) e as habilidades para 10% (−90%). A esquiva do alvo cai 20%.',
     },
     {
       label: 'WOE TE',
       value: 'woe-te' as PvpMode,
-      tooltip: 'Guerra TE: corpo a corpo fica cheio (100%), ataque à distância cai para 80% (−20%) e habilidades para 60% (−40%). A esquiva do alvo cai 20%.',
+      tooltip: 'Guerra TE: mesmos valores da guerra normal desde a atualização de 18/08 — corpo a corpo 10% (−90%), à distância 5% (−95%) e habilidades 10% (−90%). A esquiva do alvo cai 20%.',
     },
   ];
   /** Saved sims usable as PVP targets (those carrying a cached targetProfile). */

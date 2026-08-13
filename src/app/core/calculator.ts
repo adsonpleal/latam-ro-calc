@@ -1635,6 +1635,7 @@ export class Calculator {
       vit: s.totalVit,
       int: s.totalInt,
       luk: s.totalLuk,
+      isDoram: this._class instanceof Doram,
       defenderBonus: pickDefenderBonus(this.totalEquipStatus as unknown as Record<string, number>),
     };
   }
