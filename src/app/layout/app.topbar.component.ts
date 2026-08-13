@@ -156,6 +156,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.47-beta',
+      date: '12-08-2026',
+      logs: [
+        'A árvore mágica do Hiperaprendiz foi conferida pacote a pacote contra uma gravação nova, bem mais completa que a anterior: cada habilidade lançada no Nv 1 e no Nv 5, sem nenhum equipamento, depois só com a arma e por fim com o equipamento inteiro, com e sem a ultimate. Sem equipamento não existe variação de ATQM, então cada golpe é um número fixo — e os 36 números batem exatamente com o que o servidor mandou. Com equipamento, todos os 2.987 golpes gravados caem dentro da faixa que o simulador calcula. Obrigado Asbrun pela gravação.',
+        'A Chuva de Meteoritos estava com as duas partes trocadas: a queda usava a porcentagem da explosão e a explosão a da queda. As duas colunas da descrição do cliente marcam 600% no Nv 1, então a troca era invisível numa gravação só de Nv 1; no Nv 5 a queda é 1.800% e a explosão 1.200%. O bônus de dano do Mágico Autodidata também mudou de lado: ele alcança a queda e não a explosão, ao contrário do que acontece no Esquife Congelante e na Zona Gravitacional.',
+        'O Grácil, o Ilustre e o Nobre Anel Mágico entregavam menos dano mágico do que deviam — na build da gravação, cerca de 5%. Os três dão "dano mágico contra oponentes de todas as propriedades", que é um multiplicador separado, e estavam cadastrados como "dano mágico de todas as propriedades", que entra numa soma única com a de todos os outros equipamentos. A diferença crescia junto com o resto da build: quanto mais bônus de propriedade já havia somado, menos o anel rendia.',
+        'A mesma troca foi corrigida no Feitiço Primordial-LT, no refino +7, e no Bastão Ilusional, na linha do conjunto com o Sobrevivente Ilusional que pede soma de refinos 18. No Bastão vale reparar: por serem "contra oponentes de propriedade Água, Vento, Terra e Fogo", esses 15% agora só valem contra alvos dessas quatro propriedades, e não mais contra qualquer alvo.',
+        'Na aba Habilidades, as três colunas — Buffs, Aprenda para ganhar bônus e Habilidades/efeitos ativos — ficavam coladas uma na outra e ganharam espaço entre si.',
+      ],
+    },
+    {
       v: '0.1.46-beta',
       date: '12-08-2026',
       logs: [

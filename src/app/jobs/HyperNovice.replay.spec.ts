@@ -46,37 +46,19 @@ const JOB_LEVEL = 50;
 const SORCERY = 5;
 
 /**
- * The status packets read ATQ Equip. = 100 and ATQM Equip. = 100 with **nothing**
- * equipped, so the character carried a flat +100 ATK / +100 MATK from a buff.
+ * The status packets read ATQ Equip. = 100 and ATQM Equip. = 100 with **nothing** equipped.
+ * This was chased as an unidentified buff for a while; it is neither a buff nor a mystery —
+ * it is the character's own two Super Novice passives, both learned at Lv5 in the replay's
+ * skill tree (5075 and 5077):
+ *   Crescimento (Break Through) Lv5      ATQ +100
+ *   Transcendência (Transcendence) Lv5   ATQM +100
  *
- * Which buff is still open, but the candidates are down to one. The recording's t=0 status
- * list is 673, 802, 942, 983, 984, 461, 1316 and 1409; resolving those ids against
- * rAthena's `efst_type` enum (src/map/status.hpp) gives:
- *   673  EFST_ON_PUSH_CART           the cart being out — no combat effect
- *   802  EFST_PLAYTIME_STATISTICS    playtime tracker — no combat effect
- *   942/983/984  EFST_AID_PERIOD_*   account-period store/drop/exp bonuses
- *   461  EFST_GN_CARTBOOST           Propulsão do Carrinho
- *   1316 EFST_SHIELDSPELL            Aegis Domini — Lv3 is ATQ/ATQM +150, not +100, and it
- *                                    needs a shield, which the bare runs do not have
- *   1409 (unnamed)                   rAthena's enum has a gap at 1404-1414 and the LATAM
- *                                    client's own status-name table skips the range too
- * so 1409 is the only one left that can be carrying it.
- *
- * It is NOT "Poder de Odin": that is EFST_ODINS_POWER = 583, which never appears in the
- * recording. Its Lv2 numbers happen to be ATK +100 / MATK +100 (constants/job-buffs.ts),
- * but it also carries -40 DEF / -40 MDEF, and equip DEF and equip MDEF only reconcile
- * without that penalty (see the geared status describe). So the two positives are injected
- * on their own.
- *
- * Whatever it is, it grants **only** those two flat numbers: the bare runs below are
- * packet-exact with nothing else added, so it carries no magic-damage percentage, no
- * element or size bonus and no S.MATK. That narrows the search a lot. The recording's own
- * inventory holds no consumable that fits either — the Battle Pass items in it are access
- * tokens with no script, and every +100/+100 item in the database is equipment, all of
- * which was removed for these runs.
- *
- * It is a property of this recording, not of the class, which is why it is injected here
- * instead of modelled in HyperNovice.
+ * They are injected here rather than switched on through `setLearnSkills` for one reason:
+ * the calculator books Break Through's ATK as **mastery** ATK (`isMasteryAtk`), which lands
+ * after the P.ATQ multiplier and therefore does not show up in ATQ Equip., while the client
+ * clearly prints it there. Which of the two stages the server uses cannot be settled from a
+ * pure magic build, so the class is left alone and this file reproduces the status window.
+ * Transcendence is already `isEquipAtk` and needs no such care.
  */
 const RECORDING_BUFF = { atk: 100, matk: 100 };
 
@@ -145,8 +127,8 @@ function simulate(skillValue: string, opts: { ultimate?: boolean } = {}) {
  * equality the right comparison.
  */
 const PACKETS: { label: string; value: string; noUltimate: number; withUltimate: number }[] = [
-  { label: 'Meteor Storm Buster (landing)', value: 'Meteor Storm Buster==1', noUltimate: 30691, withUltimate: 46043 },
-  { label: 'Meteor Storm Buster (explosion)', value: 'Meteor Storm Buster (Explosão)==1', noUltimate: 32214, withUltimate: 48336 },
+  { label: 'Meteor Storm Buster (landing)', value: 'Meteor Storm Buster==1', noUltimate: 32214, withUltimate: 48336 },
+  { label: 'Meteor Storm Buster (explosion)', value: 'Meteor Storm Buster (Explosão)==1', noUltimate: 30691, withUltimate: 46043 },
   { label: 'Jupitel Thunderstorm', value: 'Jupitel Thunderstorm==1', noUltimate: 72672, withUltimate: 123552 },
   { label: "Hell's Drive", value: "Hell's Drive==1", noUltimate: 64347, withUltimate: 109404 },
   { label: 'Jack Frost Nova (sphere)', value: 'Jack Frost Nova (Inicial)==1', noUltimate: 13923, withUltimate: 23676 },
@@ -229,16 +211,19 @@ describe('Hyper Novice — the "Anjo da Magia" ultimate (5462)', () => {
 
 describe('Hyper Novice — Self Study Sorcery', () => {
   /**
-   * The passive's "+N% damage" column reaches the repeating damage of the three ground
-   * skills but not their first hit — the recording shows the landing of Meteor Storm
-   * Buster and its explosion sharing one percentage (600% each at Lv1) yet differing by
-   * exactly 5% in damage, with Self Study Sorcery at Lv5.
+   * The passive's "+N% damage" column reaches only one of Meteor Storm Buster's two hits:
+   * both read 600% at Lv1 in the client table, yet the recorded packets differ by exactly
+   * 5% with Self Study Sorcery at Lv5.
+   *
+   * *Which* of the two takes it is not decidable from this file — at Lv1 the two columns
+   * are equal, so swapping them reproduces the same pair of numbers. The Lv5 runs in
+   * `HyperNovice.magic-matrix.replay.spec.ts` are what settled it: the bonus rides the
+   * **landing**, the opposite of Jack Frost Nova and Ground Gravitation.
    */
-  it.each([
-    { label: 'Meteor Storm Buster', first: 'Meteor Storm Buster==1', repeating: 'Meteor Storm Buster (Explosão)==1' },
-  ])('$label: the passive bonus reaches the repeating damage, not the first hit', ({ first, repeating }) => {
-    // Both are 600% at Lv1 in the client table, so the ratios would be equal without it.
-    expect(simulate(repeating).ratio).toBe(Math.floor(simulate(first).ratio * (1 + SORCERY / 100)));
+  it('the bonus separates the two Meteor Storm Buster hits by exactly 5%', () => {
+    expect(simulate('Meteor Storm Buster==1').ratio).toBe(
+      Math.floor(simulate('Meteor Storm Buster (Explosão)==1').ratio * (1 + SORCERY / 100)),
+    );
   });
 
   it('grants S.MATK +1 per level, which the status packets confirm', () => {
@@ -417,49 +402,44 @@ describe('Hyper Novice — geared status window vs ZC_PAR_CHANGE', () => {
  * Geared damage. Unlike the bare runs this one has a weapon, so MATK rolls and the
  * comparison is a range: every recorded packet must sit inside [min, max].
  *
- * Three skills already do. The rest are short at the top by 3-5%, evenly across elements
- * and both rounds — inverting every packet to the MATK that would have produced it puts the
- * whole distribution ~100 MATK (~5%) above what the build can reach, with a spread that
- * matches the weapon roll (310) to within sampling. So what is missing is one multiplicative
- * magic bonus on the equipment, not a formula: the bare runs are packet-exact with the same
- * skills, and every flat number in the status window above now matches.
+ * This used to be short at the top by 3-5% on five of the eight entries, and the residual
+ * was pinned here as "one missing equipment multiplier". It was **Grácil Anel Mágico
+ * (490020)**: its "Dano mágico contra oponentes de todas as propriedades +10%" was scripted
+ * as `m_my_element_all` (the caster's element, which composes additively with the other
+ * +% element lines) when the "contra oponentes de" wording means `m_element_all` — the
+ * target's element, a stage of its own. The two siblings 490015 and 490018 carried the same
+ * mistake. `HyperNovice.magic-matrix.replay.spec.ts` is what isolated it: with the residual
+ * measured per element, it grew with the build's own `m_my_element` total instead of staying
+ * flat, which is only possible if 10 of those points belong to a different stage.
  *
  * Ruled out along the way: the weapon has no Enchant Grade (a grade would move refineBonus
  * and SP_MATK1 off 1017, and grade D alone would push status MATK to 929); the target is a
  * boss (Gravitação and Geladinho never land, and both are boss-immune), so the shield's
- * boss clause does apply; matkPercent (44), m_my_element_all (98), m_size_all (19) and
- * m_race_all (2) each sum exactly to their pt-BR descriptions.
+ * boss clause does apply.
  */
-describe('Hyper Novice — geared damage still misses one equipment multiplier', () => {
-  const GEARED: { label: string; value: string; r1: number[] }[] = [
-    { label: "Hell's Drive", value: "Hell's Drive==1", r1: [820941] },
-    { label: 'Ground Gravitation (burst)', value: 'Ground Gravitation (Inicial)==1', r1: [1784230] },
-    { label: 'Jack Frost Nova (sphere)', value: 'Jack Frost Nova (Inicial)==1', r1: [163011] },
+describe('Hyper Novice — geared damage', () => {
+  const GEARED: { label: string; value: string; packets: number[] }[] = [
+    { label: "Hell's Drive", value: "Hell's Drive==1", packets: [820941] },
+    { label: 'Ground Gravitation (burst)', value: 'Ground Gravitation (Inicial)==1', packets: [1784230] },
+    { label: 'Jack Frost Nova (sphere)', value: 'Jack Frost Nova (Inicial)==1', packets: [163011] },
+    { label: 'Jupitel Thunderstorm', value: 'Jupitel Thunderstorm==1', packets: [1505274] },
+    { label: 'Ground Gravitation (field)', value: 'Ground Gravitation==1', packets: [381835] },
+    { label: 'Jack Frost Nova (explosion)', value: 'Jack Frost Nova==1', packets: [364794] },
+    { label: 'Meteor Storm Buster (landing)', value: 'Meteor Storm Buster==1', packets: [652857] },
+    { label: 'Meteor Storm Buster (explosion)', value: 'Meteor Storm Buster (Explosão)==1', packets: [625492] },
   ];
 
-  it.each(GEARED)('$label: every packet of round 1 is inside the range', ({ value, r1 }) => {
+  it.each(GEARED)('$label: every recorded packet is inside the range', ({ value, packets }) => {
     const r = simulateGeared(value);
-    for (const packet of r1) {
+    for (const packet of packets) {
       expect(packet).toBeGreaterThanOrEqual(r.min);
       expect(packet).toBeLessThanOrEqual(r.max);
     }
   });
 
-  /**
-   * The open residual, pinned so it cannot silently drift. `shortfall` is
-   * `recorded max / simulated max` for the skills that still fall short; if a future item
-   * fix closes the gap these numbers go to 1 and this test starts failing, which is the
-   * signal to delete it.
-   */
-  it.each([
-    { label: 'Jupitel Thunderstorm', value: 'Jupitel Thunderstorm==1', packet: 1505274 },
-    { label: 'Ground Gravitation (field)', value: 'Ground Gravitation==1', packet: 381835 },
-    { label: 'Jack Frost Nova (explosion)', value: 'Jack Frost Nova==1', packet: 364794 },
-    { label: 'Meteor Storm Buster (landing)', value: 'Meteor Storm Buster==1', packet: 625492 },
-    { label: 'Meteor Storm Buster (explosion)', value: 'Meteor Storm Buster (Explosão)==1', packet: 652857 },
-  ])('$label: the simulator is 2-5% under the recorded maximum', ({ value, packet }) => {
-    const shortfall = packet / simulateGeared(value).max;
-    expect(shortfall).toBeGreaterThan(1);
-    expect(shortfall).toBeLessThan(1.05);
+  /** A range wide enough to swallow anything would make the test above meaningless. */
+  it.each(GEARED)('$label: the weapon roll keeps the range under 18% wide', ({ value }) => {
+    const r = simulateGeared(value);
+    expect(r.max / r.min).toBeLessThan(1.18);
   });
 });

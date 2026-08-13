@@ -290,16 +290,20 @@ export class HyperNovice extends SuperNovice {
       fct: 1.5,
       vct: 2,
       cd: 1,
-      hit: 1,
+      hit: 3,
       isMatk: true,
       element: ElementType.Fire,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const sorceryLv = this.learnLv('Self Study Sorcery');
 
-        // First damage: the recording shows it does NOT take the passive's damage bonus.
-        return this.withUltimate(
+        // "ATQM" in the client table (600% -> 1.800%), and — unlike the first hit of Jack
+        // Frost Nova and Ground Gravitation — this one DOES take the passive's damage
+        // bonus. SKILL HA MAGICO.rrf settles it: at Lv1 both columns read 600%, so only a
+        // Lv5 recording could tell the pair apart.
+        return this.withPassiveBonus(
           (300 + skillLevel * (300 + sorceryLv * 5) + status.totalSpl * 3) * (model.level / 100),
+          sorceryLv,
           1.5,
         );
       },
@@ -315,16 +319,16 @@ export class HyperNovice extends SuperNovice {
       fct: 1.5,
       vct: 2,
       cd: 1,
-      hit: 3,
+      hit: 1,
       isMatk: true,
       element: ElementType.Fire,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const sorceryLv = this.learnLv('Self Study Sorcery');
 
-        return this.withPassiveBonus(
+        // "2º ATQM" (600% -> 1.200%), and the one that does NOT take the passive bonus.
+        return this.withUltimate(
           (450 + skillLevel * (150 + sorceryLv * 5) + status.totalSpl * 3) * (model.level / 100),
-          sorceryLv,
           1.5,
         );
       },

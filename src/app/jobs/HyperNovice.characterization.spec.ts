@@ -173,10 +173,25 @@ describe('Hyper Novice — the passives own damage column', () => {
     expect(ratioOfValue(hn({ damageBonus: true }), value, 10)).toBe(Math.floor(base * (1 + percent / 100)));
   });
 
-  it('leaves the first hit of the ground skills alone', () => {
-    for (const value of ['Meteor Storm Buster==10', 'Jack Frost Nova (Inicial)==10', 'Ground Gravitation (Inicial)==10']) {
+  it('leaves the first hit of Jack Frost Nova and Ground Gravitation alone', () => {
+    for (const value of ['Jack Frost Nova (Inicial)==10', 'Ground Gravitation (Inicial)==10']) {
       expect(ratioOfValue(hn({ damageBonus: true }), value, 10), value).toBe(ratioOfValue(hn(), value, 10));
     }
+  });
+
+  /**
+   * Meteor Storm Buster is the exception to the rule above: the bonus reaches its landing
+   * and skips its explosion, the other way round from the two ground skills. Both columns
+   * read 600% at Lv1, so only a Lv5 recording could tell them apart — see the Lv5 runs in
+   * `HyperNovice.magic-matrix.replay.spec.ts`.
+   */
+  it('reaches the landing of Meteor Storm Buster but not its explosion', () => {
+    const landing = 'Meteor Storm Buster==10';
+    const explosion = 'Meteor Storm Buster (Explosão)==10';
+    expect(ratioOfValue(hn({ damageBonus: true }), landing, 10)).toBe(
+      Math.floor(ratioOfValue(hn(), landing, 10) * (1 + SORCERY / 100)),
+    );
+    expect(ratioOfValue(hn({ damageBonus: true }), explosion, 10)).toBe(ratioOfValue(hn(), explosion, 10));
   });
 });
 

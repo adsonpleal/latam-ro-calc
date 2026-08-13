@@ -1801,9 +1801,9 @@
       <p-accordionTab header="Habilidades" class="select_skill">
         <div class="grid grid-nogutter">
           <!--  Buffs -->
-          <div class="col-4">
+          <div class="col-4 pr-2">
             <p-tag severity="info" value="Buffs"></p-tag>
-            <span class="skill_debuff pl-2">Vermelho = debuff no monstro</span>
+            <span class="skill_debuff pl-2">Vermelho = debuff no mob</span>
             <div class="grid grid-nogutter">
               <div *ngFor="let bishopBuff of skillBuffs; let i = index" class="col-12">
                 <div [ngSwitch]="bishopBuff.inputType">
@@ -1838,7 +1838,7 @@
           </div>
 
           <!-- Learned Skills -->
-          <div class="col-4" [hidden]="passiveSkills.length === 0">
+          <div class="col-4 pr-2" [hidden]="passiveSkills.length === 0">
             <p-tag severity="warning" value="Aprenda para ganhar bônus"></p-tag>
             <div class="grid grid-nogutter">
               <div *ngFor="let passiveSkill of passiveSkills; let i = index" class="col-12">

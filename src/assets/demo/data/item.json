@@ -3233,19 +3233,27 @@
         "7===15"
       ],
       "m_my_element_water": [
-        "EQUIP[Illusion Survivor's Manteau]REFINE[garment==7]7===10",
+        "EQUIP[Illusion Survivor's Manteau]REFINE[garment==7]7===10"
+      ],
+      "m_element_water": [
         "EQUIP[Illusion Survivor's Manteau]REFINE[weapon,garment==18]===15"
       ],
       "m_my_element_wind": [
-        "EQUIP[Illusion Survivor's Manteau]REFINE[garment==7]7===10",
+        "EQUIP[Illusion Survivor's Manteau]REFINE[garment==7]7===10"
+      ],
+      "m_element_wind": [
         "EQUIP[Illusion Survivor's Manteau]REFINE[weapon,garment==18]===15"
       ],
       "m_my_element_earth": [
-        "EQUIP[Illusion Survivor's Manteau]REFINE[garment==7]7===10",
+        "EQUIP[Illusion Survivor's Manteau]REFINE[garment==7]7===10"
+      ],
+      "m_element_earth": [
         "EQUIP[Illusion Survivor's Manteau]REFINE[weapon,garment==18]===15"
       ],
       "m_my_element_fire": [
-        "EQUIP[Illusion Survivor's Manteau]REFINE[garment==7]7===10",
+        "EQUIP[Illusion Survivor's Manteau]REFINE[garment==7]7===10"
+      ],
+      "m_element_fire": [
         "EQUIP[Illusion Survivor's Manteau]REFINE[weapon,garment==18]===15"
       ],
       "acd": [
@@ -179311,7 +179319,7 @@
       "vct": [
         "5"
       ],
-      "m_my_element_all": [
+      "m_element_all": [
         "5"
       ]
     }
@@ -179375,7 +179383,7 @@
       "vct": [
         "7"
       ],
-      "m_my_element_all": [
+      "m_element_all": [
         "7"
       ]
     }
@@ -179439,7 +179447,7 @@
       "vct": [
         "10"
       ],
-      "m_my_element_all": [
+      "m_element_all": [
         "10"
       ]
     }
@@ -203628,7 +203636,7 @@
       "2447": [
         "3---12"
       ],
-      "m_my_element_all": [
+      "m_element_all": [
         "7===15"
       ],
       "2454": [
