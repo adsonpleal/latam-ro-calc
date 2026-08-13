@@ -148,30 +148,30 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   isInProcessingPreset = false;
 
   /**
-   * Um único indicador para toda a abertura: baixar os dados, montar o preset e
-   * rodar o primeiro cálculo. Antes eram três telas de carregamento em sequência
-   * (splash, máscara do p-blockUI, spinners de cada painel), o que dava a
-   * impressão de que a página carregava várias vezes.
+   * One single indicator for the whole boot: download the data, build the preset and
+   * run the first calculation. It used to be three loading screens in a row (splash,
+   * the p-blockUI mask, each panel's spinner), which gave the impression the page was
+   * loading several times over.
    *
-   * Só desliga quando as duas pontas terminam — a cadeia do ngOnInit e o cálculo
-   * inicial —, porque elas acabam fora de ordem: o cálculo é disparado no fim do
-   * loadItemSet mas roda depois, atrás de dois debounces.
+   * It only switches off once both ends finish — the ngOnInit chain and the initial
+   * calculation — because they complete out of order: the calculation is triggered at
+   * the end of loadItemSet but runs later, behind two debounces.
    */
   isBooting = true;
   private bootChainDone = false;
 
   /**
-   * Tira de cena o #ro-splash do index.html. Ele vive fora do <app-root> para
-   * sobreviver ao bootstrap do Angular, então some por remoção explícita, uma vez
-   * só — é o mesmo elemento desde o primeiro paint, sem troca de dono no meio.
+   * Takes index.html's #ro-splash off screen. It lives outside <app-root> so it can
+   * survive Angular's bootstrap, so it goes away by explicit removal, exactly once — it
+   * is the same element since the first paint, with no change of owner in between.
    */
   private hideBootSplash() {
     const el = document.getElementById('ro-splash');
     if (!el) return;
     el.classList.add('ro-splash--hide');
-    // Por timer, não por transitionend: aba em segundo plano não compõe quadros,
-    // a transição não roda e o evento nunca chega. A rolagem é liberada junto com a
-    // remoção, e não no início do fade, para a barra não surgir durante a transição.
+    // On a timer, not transitionend: a background tab composites no frames, so the
+    // transition never runs and the event never arrives. Scrolling is released together
+    // with the removal, not at the start of the fade, so the bar cannot appear mid-fade.
     setTimeout(() => {
       el.remove();
       document.documentElement.classList.remove('ro-booting');
@@ -304,7 +304,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   isShowSelectableSkillLevel = true;
   atkSkills: AtkSkillModel[] = [];
   atkSkillCascades: any[] = [];
-  /** Memo de `selectedAtkSkillDisplay`, invalidado quando a classe troca. */
+  /** Memo for `selectedAtkSkillDisplay`, invalidated when the class changes. */
   private atkSkillDisplayMemo?: { value: string; label: string; icon?: number };
   passiveSkills: PassiveSkillModel[] = [];
   activeSkills: ActiveSkillModel[] = [];
@@ -476,10 +476,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.initData()
       .pipe(
         switchMap(() => this.loadItemSet(shared?.preset ?? localStorage.getItem('ro-set'))),
-        // No `finalize` para que uma falha de rede também destrave — senão o splash
-        // ficaria preso para sempre. Se nada chegou a disparar cálculo (erro, ou
-        // nenhum preset salvo), encerra a abertura aqui mesmo; do contrário quem
-        // dá a última palavra é o `isCalculatingEvent` abaixo.
+        // In `finalize` so a network failure also releases it — otherwise the splash
+        // would hang forever. If nothing ever triggered a calculation (an error, or no
+        // saved preset), end the boot right here; otherwise `isCalculatingEvent` below
+        // has the last word.
         finalize(() => {
           this.bootChainDone = true;
           if (!this.isCalculating) this.finishBoot();
@@ -513,10 +513,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
     this.allSubs.push(this.roService.getItemViews().subscribe((views) => (this.itemViews = views || {})));
 
-    // Fora do forkJoin da carga inicial de propósito: as descrições são quase
-    // metade do peso e só aparecem em hover e na prévia da busca. Quando chegam,
-    // o painel aberto é reescrito (os tooltips se invalidam sozinhos pela versão
-    // do store).
+    // Deliberately outside the initial forkJoin: the descriptions are nearly half the
+    // payload and only show on hover and in the search preview. When they arrive, the
+    // open panel is rewritten (the tooltips invalidate themselves off the store version).
     this.allSubs.push(
       this.roService.getItemDescriptions().subscribe(() => {
         if (this.selectedItemDesc || this.selectedCompareItemDesc) {
@@ -527,7 +526,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
     const isCalcSubs = this.isCalculatingEvent.pipe(debounceTime(100)).subscribe(() => {
       this.isCalculating = false;
-      // Fim do primeiro cálculo: a tela já tem números, então a abertura acabou.
+      // End of the first calculation: the screen has numbers, so the boot is over.
       if (this.bootChainDone) this.finishBoot();
     });
     this.allSubs.push(isCalcSubs);
@@ -705,8 +704,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Rede de segurança: o splash não pertence ao template, então sair da tela no
-    // meio da abertura o deixaria pendurado sobre a app.
+    // Safety net: the splash is not part of the template, so leaving the screen mid-boot
+    // would leave it hanging over the app.
     this.finishBoot();
     for (const ob of this.allSubs) {
       ob?.unsubscribe();
@@ -1218,8 +1217,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           console.error(error);
         }
 
-        // Um hop de macrotask basta para o overlay repintar antes do cálculo final; o
-        // 1 s original era margem arbitrária e era o maior custo fixo da carga inicial.
+        // One macrotask hop is enough for the overlay to repaint before the final
+        // calculation; the original 1 s was an arbitrary margin and the single largest
+        // fixed cost of the initial load.
         return waitRxjs(0.05);
       }),
       finalize(() => {
@@ -1801,11 +1801,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           }),
         };
       }
-      // A picker de nível é um cascade: a entrada escolhida é o que fica visível quando
-      // ele fecha, então ela precisa carregar o nome da habilidade — em pt-BR, como o
-      // grupo acima dela. As entradas são escritas em inglês na classe ("Wild Fire Lv1");
-      // aqui só o prefixo é trocado, preservando o resto do rótulo (p.ex. o "(1 estrela)"
-      // da Constelação).
+      // The level picker is a cascade: the chosen entry is what stays visible once it
+      // closes, so it has to carry the skill name — in pt-BR, like the group above it.
+      // The entries are written in English in the class ("Wild Fire Lv1"); here only the
+      // prefix is swapped, preserving the rest of the label (e.g. Constelação's
+      // "(1 estrela)").
       if (pt && Array.isArray(levelList)) {
         return {
           ...base,
@@ -1853,13 +1853,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Rótulo + ícone da habilidade escolhida, para o p-cascadeSelect dos níveis.
+   * Label + icon of the chosen skill, for the levels p-cascadeSelect.
    *
-   * O cascade só entrega o **valor cru** ao template de exibição (`$implicit: value`,
-   * "Wild Fire==1"), diferente do p-dropdown, que entrega a opção inteira. Sem isso o
-   * ícone sumia assim que a habilidade era escolhida: aparecia na lista aberta e não na
-   * linha fechada. As entradas de nível não carregam ícone próprio, então herdam o da
-   * habilidade acima delas.
+   * The cascade hands the display template only the **raw value** (`$implicit: value`,
+   * "Wild Fire==1"), unlike p-dropdown, which hands over the whole option. Without this
+   * the icon vanished as soon as the skill was picked: it showed in the open list but not
+   * on the closed row. Level entries carry no icon of their own, so they inherit the one
+   * from the skill above them.
    */
   get selectedAtkSkillDisplay(): { label: string; icon?: number } | undefined {
     const value = this.model.selectedAtkSkill;
@@ -2778,7 +2778,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   itemDescTooltip(id: number): string {
     if (!id || !this.items) return '';
 
-    // Ver ItemDescriptionStore: as descrições chegam depois do mapa de itens.
+    // See ItemDescriptionStore: the descriptions arrive after the item map.
     if (this.itemDescVersion !== this.itemDescriptionStore.version) {
       this.itemDescCache.clear();
       this.itemDescVersion = this.itemDescriptionStore.version;
@@ -3129,8 +3129,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
             this.setDefaultSkill();
             this.setItemDropdownList();
             this.setAmmoDropdownList();
-            // Mesmo motivo do loadItemSet: um hop de macrotask basta para o
-            // overlay repintar; o meio segundo era margem arbitrária.
+            // Same reason as loadItemSet: one macrotask hop is enough for the overlay
+            // to repaint; the half second was an arbitrary margin.
             return waitRxjs(0.05);
           }),
           take(1),

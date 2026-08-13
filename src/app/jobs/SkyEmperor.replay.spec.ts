@@ -7,28 +7,27 @@ import { AtkSkillModel } from './_character-base.abstract';
 import { SkyEmperor } from './SkyEmperor';
 
 /**
- * Mestre Celestial (Sky Emperor) — razões de habilidade validadas contra uma gravação
- * LATAM em jogo.
+ * Sky Emperor — skill ratios validated against an in-game LATAM recording.
  *
- * Fonte: https://recap.latam-tools.com.br/?r=ghbGkHpHjy  (MestreCelestialSemArma.rrf,
- * gravada por Ted em tra_fild contra o "Dummy - Amorfo", 30/07/2026).
+ * Source: https://recap.latam-tools.com.br/?r=ghbGkHpHjy  (MestreCelestialSemArma.rrf,
+ * recorded by Ted on tra_fild against "Dummy - Amorfo", 30/07/2026).
  *
- * A gravação é **sem arma e sem nenhum equipamento** — sem variância de ATQ da arma,
- * cada pacote repete o mesmo inteiro. Nenhum EFST ativo no início afeta dano (Armazém,
- * Bônus de DROP/EXP, Manual de Mascar).
+ * The recording is **weaponless and with no equipment at all** — no weapon ATK variance,
+ * so every packet repeats the same integer. None of the EFSTs active at the start affect
+ * damage (Armazém, DROP/EXP bonuses, Manual de Mascar).
  *
- * Estado do personagem (snapshot da sessão + os talentos que Ted confirmou):
+ * Character state (session snapshot + the traits Ted confirmed):
  *
- *   nível base 229, nível de classe 46, classe 4302 (Mestre Celestial)
- *   status base FOR 120, AGI 1, VIT 120, INT 50, DES 100, SOR 120
- *   talentos    POD 100 alocado; STA/SAB/FEI/CON/CRV 0 alocados
- *   Maestria Celestial Nv. 10 (ZC_SKILLINFO_LIST)
+ *   base level 229, job level 46, class 4302 (Sky Emperor)
+ *   base stats STR 120, AGI 1, VIT 120, INT 50, DEX 100, LUK 120
+ *   traits     POW 100 allocated; STA/WIS/SPL/CON/CRT 0 allocated
+ *   Maestria Celestial Lv10 (ZC_SKILLINFO_LIST)
  *
- * Em t=22,8 s o personagem usa Elo Celestial; o estado [União Celestial] (EFST 1392)
- * fica ativo até o fim, e é sob ele que Entardecer, Explosão Crepuscular, Chute
- * Meia-Lua e Alvorada foram usadas.
+ * At t=22.8 s the character uses Elo Celestial; the [União Celestial] state (EFST 1392)
+ * stays active to the end, and it is under that state that Entardecer, Explosão
+ * Crepuscular, Chute Meia-Lua and Alvorada were used.
  *
- * Pacotes de dano (`div` = golpes do pacote, dano é o total dos golpes):
+ * Damage packets (`div` = hits in the packet, damage is the total across them):
  *
  *   5473 Explosão Galática Nv.5    335.514 × 86        div 3
  *   5469 Chute Meia-Lua    Nv.5    796.410 × 3         div 2
@@ -38,34 +37,35 @@ import { SkyEmperor } from './SkyEmperor';
  *   5471 Constelação       Nv.1     91.818 × 4         div 3
  *   (ataque básico crítico: 5.883, div 1)
  *
- * **Como as razões abaixo foram medidas.** O dano segue
- *   dano = ⌊ATQ × razão ÷ 100⌋ − DEF suave 50, depois repartido em ⌊total÷div⌋ × div.
- * Com seis equações e razões obrigatoriamente inteiras, (ATQ, razão) tem solução única
- * numa varredura de ATQ de 200 a 60.000: **ATQ 4.193** e as seis razões afirmadas aqui.
- * O ataque básico fecha por fora: ⌊(4.193 − 50) × 1,42⌋ = 5.883 ✓ (1,42 = 1,40 base +
- * T.Crít 2%, de CRV 6 do bônus de classe). As razões batem exatamente com a descrição
- * pt-BR do cliente (ver src/app/skills) e com browiki.org — as tabelas do blog do Sigma
- * ("V2"), que esta classe usava, estão desatualizadas para o LATAM.
+ * **How the ratios below were measured.** Damage follows
+ *   damage = ⌊ATK × ratio ÷ 100⌋ − soft DEF 50, then split as ⌊total÷div⌋ × div.
+ * With six equations and necessarily integer ratios, (ATK, ratio) has a unique solution
+ * over an ATK sweep from 200 to 60,000: **ATK 4,193** and the six ratios asserted here.
+ * The basic attack closes it from the outside: ⌊(4,193 − 50) × 1.42⌋ = 5,883 ✓ (1.42 =
+ * 1.40 base + C.Rate 2%, from the job bonus's CRT 6). The ratios match the client's pt-BR
+ * description exactly (see src/app/skills) and browiki.org — the Sigma blog tables ("V2"),
+ * which this class used to use, are out of date for LATAM.
  *
- * **De onde sai o ATQ 4.193.** ATQ Status 797 (o próprio snapshot da gravação, e a
- * janela de Atributos em jogo) × 2 × P.ATQ 36% = 2.167. Somam-se então duas passivas da
- * linha Taekwon, nesta ordem:
+ * **Where ATK 4,193 comes from.** Status ATK 797 (the recording's own snapshot, and the
+ * in-game stats window) × 2 × P.ATK 36% = 2,167. Then two Taekwon-line passives are added,
+ * in this order:
  *
- *   Corrida Nv.10  +100 de ATQ, **só com as mãos livres**   ->  2.267
- *   Kihop Nv.5     +85% sobre o ATQ inteiro                 ->  ⌊2.267 × 1,85⌋ = 4.193
+ *   Corrida Lv10  +100 ATK, **bare-handed only**        ->  2,267
+ *   Kihop Lv5     +85% over the whole ATK               ->  ⌊2,267 × 1.85⌋ = 4,193
  *
- * A segunda gravação, com arma, é o que separa as duas: lá o +100 da Corrida some e o
- * Kihop sozinho explica os números (ver SkyEmperor.replay-arma.spec.ts). O Kihop já
- * estava no motor (StarEmperor.modifyFinalAtk, `powerLv × 15 + 10` = 85 no Nv.5); a
- * Corrida é que faltava, e entrou como ATQ de Maestria em Taekwondo.getMasteryAtk.
+ * The second recording, with a weapon, is what separates the two: there Corrida's +100
+ * disappears and Kihop alone explains the numbers (see SkyEmperor.replay-arma.spec.ts).
+ * Kihop was already in the engine (StarEmperor.modifyFinalAtk, `powerLv × 15 + 10` = 85
+ * at Lv5); Corrida was the missing one, and went in as mastery ATK in
+ * Taekwondo.getMasteryAtk.
  */
 
 const BASE_LEVEL = 229;
-/** POD 100 alocado + 9 do bônus de talento no nível de classe 46. */
+/** POW 100 allocated + 9 from the trait bonus at job level 46. */
 const TOTAL_POW = 109;
 const SKY_MASTERY = 10;
 
-/** Elo Celestial — ver CelestialSpace em SkyEmperor.ts. */
+/** Elo Celestial — see CelestialSpace in SkyEmperor.ts. */
 const CELESTIAL_UNITY = 7;
 
 const sky = (celestialSpace = 0): SkyEmperor => {
@@ -82,11 +82,11 @@ const sky = (celestialSpace = 0): SkyEmperor => {
 
 const findSkill = (char: SkyEmperor, name: string): AtkSkillModel => {
   const skill = char.atkSkills.find((s) => s.name === name);
-  if (!skill) throw new Error(`habilidade não encontrada: ${name}`);
+  if (!skill) throw new Error(`skill not found: ${name}`);
   return skill;
 };
 
-/** A razão como o servidor a usa: Math.floor puro (int cast), não o floor do repo. */
+/** The ratio as the server uses it: plain Math.floor (int cast), not the repo floor. */
 const ratioOf = (char: SkyEmperor, name: string, skillLevel: number) =>
   Math.floor(
     findSkill(char, name).formula({
@@ -102,12 +102,12 @@ const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'))
 const monsters = JSON.parse(readFileSync('src/assets/demo/data/monster.json', 'utf8'));
 const hpSpTable = JSON.parse(readFileSync('src/assets/demo/data/hp_sp_table.json', 'utf8'));
 
-/** "Dummy - Amorfo", o alvo da gravação sem arma. */
+/** "Dummy - Amorfo", the weaponless recording's target. */
 const DUMMY_AMORFO = '21067';
 
 /**
- * Roda a cadeia inteira, como a página. `corrida`/`kihop` existem para o teste que
- * mostra que o ATQ só fecha com as duas passivas ligadas.
+ * Runs the whole chain, the way the page does. `corrida`/`kihop` exist for the test that
+ * shows ATK only closes with both passives active.
  */
 function danoDe(
   skillValue: string,
@@ -156,46 +156,46 @@ function danoDe(
   return { max: s.skillMaxDamage as number, min: s.skillMinDamage as number, noCri: s.skillMaxDamageNoCri as number };
 }
 
-describe('Mestre Celestial — razões medidas na gravação (Elo Celestial ativo)', () => {
-  it('Entardecer Nv.5 → 15560', () => {
+describe('Sky Emperor — ratios measured in the recording (Elo Celestial active)', () => {
+  it('Entardecer Lv5 → 15560', () => {
     expect(ratioOf(sky(CELESTIAL_UNITY), 'Noon Blast', 5)).toBe(15560);
   });
 
-  it('Explosão Crepuscular Nv.5 → 7316', () => {
+  it('Explosão Crepuscular Lv5 → 7316', () => {
     expect(ratioOf(sky(CELESTIAL_UNITY), 'Sunset Blast', 5)).toBe(7316);
   });
 
-  it('Chute Meia-Lua Nv.5 → 18995 (usa o valor de Meia-Noite)', () => {
+  it('Chute Meia-Lua Lv5 → 18995 (uses the Meia-Noite value)', () => {
     expect(ratioOf(sky(CELESTIAL_UNITY), 'Midnight Kick', 5)).toBe(18995);
   });
 
-  it('Alvorada Nv.5 → 9377 (usa o valor de Pôr da Lua)', () => {
+  it('Alvorada Lv5 → 9377 (uses the Pôr da Lua value)', () => {
     expect(ratioOf(sky(CELESTIAL_UNITY), 'Dawn Break', 5)).toBe(9377);
   });
 
-  it('Constelação Nv.1 → 2191', () => {
+  it('Constelação Lv1 → 2191', () => {
     expect(ratioOf(sky(CELESTIAL_UNITY), 'Twinkling Galaxy', 1)).toBe(2191);
   });
 
-  it('Explosão Galática Nv.5 → 8003', () => {
+  it('Explosão Galática Lv5 → 8003', () => {
     expect(ratioOf(sky(CELESTIAL_UNITY), 'Star Cannon', 5)).toBe(8003);
   });
 });
 
 /**
- * As tabelas do blog do Sigma "Sky Emperor (3rd version)" (fev/2026) **não** descrevem o
- * LATAM: nenhum ATQ entre 1 e 60.000, em nenhuma DEF suave (0 a 126), reproduz os seis
- * pacotes com elas. Elas dariam Entardecer 19.797 / Crepuscular 8.576 / Meia-Lua 21.972 /
- * Alvorada 9.606 / Constelação 2.649 / Galática 8.690. Se essa versão chegar ao LATAM um
- * dia, é este spec que vai acusar.
+ * The Sigma blog's "Sky Emperor (3rd version)" tables (Feb 2026) do **not** describe
+ * LATAM: no ATK between 1 and 60,000, at any soft DEF (0 to 126), reproduces the six
+ * packets with them. They would give Entardecer 19,797 / Crepuscular 8,576 / Meia-Lua
+ * 21,972 / Alvorada 9,606 / Constelação 2,649 / Galática 8,690. If that version ever
+ * reaches LATAM, this spec is what will catch it.
  *
- * O post V3 confirma, por outro lado, duas coisas que valem: os golpes por pacote
- * ("1 hit, dmg exibido 2 vezes" nas quatro de estado; 3 vezes em Constelação e Explosão
- * Galática), e que a chance de crítico é o CRIT CHEIO do usuário — não a metade, como diz
- * a tradução pt-BR do cliente. A gravação concorda com o CRIT cheio: 7 críticos em 17
- * lançamentos (41%) com Crítico 40 no painel; se fosse metade (20%), P(X>=7) seria 3,8%.
+ * The V3 post does confirm two things worth keeping: the hits per packet ("1 hit, dmg
+ * displayed 2 times" on the four state skills; 3 times on Constelação and Explosão
+ * Galática), and that the crit chance is the user's FULL CRIT — not half, as the client's
+ * pt-BR translation says. The recording agrees with full CRIT: 7 criticals in 17 casts
+ * (41%) at Crit 40 on the panel; at half (20%), P(X>=7) would be 3.8%.
  */
-describe('Mestre Celestial — golpes por pacote, como o `div` da gravação', () => {
+describe('Sky Emperor — hits per packet, matching the recording `div`', () => {
   const cases: { name: string; hit: number }[] = [
     { name: 'Noon Blast', hit: 2 },
     { name: 'Sunset Blast', hit: 2 },
@@ -205,33 +205,33 @@ describe('Mestre Celestial — golpes por pacote, como o `div` da gravação', (
     { name: 'Star Cannon', hit: 3 },
   ];
 
-  it.each(cases)('$name reparte em $hit golpes', ({ name, hit }) => {
+  it.each(cases)('$name splits into $hit hits', ({ name, hit }) => {
     expect(findSkill(sky(), name).hit).toBe(hit);
   });
 });
 
-describe('Mestre Celestial — o Elo Celestial libera o efeito máximo', () => {
-  // Entardecer e Explosão Crepuscular só criticam no seu próprio estado; na gravação
-  // ambas criticaram sob Elo Celestial, sem nenhum Amanhecer no meio.
-  it('Entardecer critica no Meio-Dia e sob Elo Celestial', () => {
+describe('Sky Emperor — Elo Celestial unlocks the maximum effect', () => {
+  // Entardecer and Explosão Crepuscular only crit in their own state; in the recording
+  // both crit under Elo Celestial, with no Amanhecer in between.
+  it('lets Entardecer crit at Meio-Dia and under Elo Celestial', () => {
     expect(canCriOf(sky(2), 'Noon Blast')).toBe(true);
     expect(canCriOf(sky(CELESTIAL_UNITY), 'Noon Blast')).toBe(true);
     expect(canCriOf(sky(1), 'Noon Blast')).toBe(false);
   });
 
-  it('Explosão Crepuscular critica no Pôr do Sol e sob Elo Celestial', () => {
+  it('lets Explosão Crepuscular crit at Pôr do Sol and under Elo Celestial', () => {
     expect(canCriOf(sky(3), 'Sunset Blast')).toBe(true);
     expect(canCriOf(sky(CELESTIAL_UNITY), 'Sunset Blast')).toBe(true);
     expect(canCriOf(sky(2), 'Sunset Blast')).toBe(false);
   });
 
-  it('Chute Meia-Lua fora de Meia-Noite/Elo Celestial cai no valor normal', () => {
+  it('drops Chute Meia-Lua to its normal value outside Meia-Noite/Elo Celestial', () => {
     expect(ratioOf(sky(4), 'Midnight Kick', 5)).toBe(
       Math.floor((500 + 5 * (1000 + SKY_MASTERY * 5) + TOTAL_POW * 5) * (BASE_LEVEL / 100)),
     );
   });
 
-  it('Alvorada fora de Pôr da Lua/Elo Celestial cai no valor normal', () => {
+  it('drops Alvorada to its normal value outside Pôr da Lua/Elo Celestial', () => {
     expect(ratioOf(sky(5), 'Dawn Break', 5)).toBe(
       Math.floor((300 + 5 * (400 + SKY_MASTERY * 5) + TOTAL_POW * 5) * (BASE_LEVEL / 100)),
     );
@@ -239,29 +239,30 @@ describe('Mestre Celestial — o Elo Celestial libera o efeito máximo', () => {
 });
 
 /**
- * Os doze bônus abaixo vêm da janela "Atributos"/"Talentos" do MESMO personagem, no
- * mesmo nível de classe (print enviado por Ted): FOR 120+12, AGI 1+10, VIT 120+6,
- * INT 50+3, DES 100+9, SOR 120+3 / POD 100+9, STA 0+7, SAB 0+1, FEI 0, CON 0+4, CRV 0+6.
- * Batem, um a um, com a tabela por nível de irowiki.org/wiki/Sky_Emperor. A gravação
- * confirma POD 9 por um terceiro caminho: o ATQ Status do snapshot (797) e as seis
- * razões só fecham com POD total 109 — 100 alocados + 9 de bônus.
+ * The twelve bonuses below come from the "Atributos"/"Talentos" window of the SAME
+ * character, at the same job level (screenshot sent by Ted): STR 120+12, AGI 1+10,
+ * VIT 120+6, INT 50+3, DEX 100+9, LUK 120+3 / POW 100+9, STA 0+7, WIS 0+1, SPL 0, CON 0+4,
+ * CRT 0+6. They match, one by one, the per-level table at irowiki.org/wiki/Sky_Emperor.
+ * The recording confirms POW 9 by a third route: the snapshot's status ATK (797) and the
+ * six ratios only close at total POW 109 — 100 allocated + 9 from the bonus.
  *
- * Foi este print que pegou a coluna STA da tabela de talentos errada (dava 12 no nv. 46).
+ * It was this screenshot that caught the trait table's STA column being wrong (it gave 12
+ * at job level 46).
  */
-describe('Mestre Celestial — bônus de classe/talento no nível de classe 46', () => {
+describe('Sky Emperor — job/trait bonus at job level 46', () => {
   const bonus = new SkyEmperor().getJobBonusStatus(46);
 
-  it('bônus de classe → FOR 12 / AGI 10 / VIT 6 / INT 3 / DES 9 / SOR 3', () => {
+  it('job bonus → STR 12 / AGI 10 / VIT 6 / INT 3 / DEX 9 / LUK 3', () => {
     expect([bonus.str, bonus.agi, bonus.vit, bonus.int, bonus.dex, bonus.luk]).toEqual([12, 10, 6, 3, 9, 3]);
   });
 
-  it('bônus de talento → POD 9 / STA 7 / SAB 1 / FEI 0 / CON 4 / CRV 6', () => {
+  it('trait bonus → POW 9 / STA 7 / WIS 1 / SPL 0 / CON 4 / CRT 6', () => {
     expect([bonus.pow, bonus.sta, bonus.wis, bonus.spl, bonus.con, bonus.crt]).toEqual([9, 7, 1, 0, 4, 6]);
   });
 
-  it('P.ATQ 36 e T.CRÍT 2, como a janela de Talentos mostra', () => {
-    // P.ATQ = ⌊POD 109 / 3⌋ + ⌊CON 4 / 5⌋ = 36;  T.CRÍT = ⌊CRV 6 / 3⌋ = 2.
-    // O 2 do T.CRÍT é o que dá o multiplicador de crítico 1,42 medido na gravação.
+  it('gives P.ATK 36 and C.Rate 2, as the Talentos window shows', () => {
+    // P.ATK = ⌊POW 109 / 3⌋ + ⌊CON 4 / 5⌋ = 36;  C.Rate = ⌊CRT 6 / 3⌋ = 2.
+    // That C.Rate 2 is what produces the 1.42 crit multiplier measured in the recording.
     const totalPow = 100 + bonus.pow;
     const totalCon = 0 + bonus.con;
     const totalCrt = 0 + bonus.crt;
@@ -271,15 +272,15 @@ describe('Mestre Celestial — bônus de classe/talento no nível de classe 46',
 });
 
 /**
- * Dano absoluto, ponta a ponta: a mesma cadeia que a página usa (classe + modelo + alvo)
- * contra os pacotes da gravação. É este bloco que trava o ATQ 4.193 e, com ele, as duas
- * passivas da linha Taekwon que o produzem — Corrida Nv.10 (+100, mãos livres) e
- * Kihop Nv.5 (+85%).
+ * Absolute damage, end to end: the same chain the page uses (class + model + target)
+ * against the recording's packets. This block is what pins ATK 4,193 and, with it, the two
+ * Taekwon-line passives that produce it — Corrida Lv10 (+100, bare-handed) and Kihop Lv5
+ * (+85%).
  */
-describe('Mestre Celestial — dano absoluto vs "Dummy - Amorfo", gravação sem arma', () => {
-  // `skillMaxDamageNoCri` pula a repartição em golpes de propósito (convenção do motor,
-  // ver damage-calculator.ts), então o não-crítico é medido num Espaço Celeste em que a
-  // habilidade não crita — que é exatamente o número não-crítico dos pacotes.
+describe('Sky Emperor — absolute damage vs "Dummy - Amorfo", weaponless recording', () => {
+  // `skillMaxDamageNoCri` deliberately skips the hit split (engine convention, see
+  // damage-calculator.ts), so the non-crit is measured in a Celestial Space where the
+  // skill cannot crit — which is exactly the packets' non-crit number.
   const SEM_CRIT = { Entardecer: 1 /* Nascer do Sol */, Crepuscular: 2 /* Meio-Dia */ };
   const casos: { nome: string; skill: string; dano: number; espacoSemCrit?: number; cri?: number }[] = [
     { nome: 'Explosão Galática Nv.5', skill: 'Star Cannon==5', dano: 335514 },
@@ -295,7 +296,7 @@ describe('Mestre Celestial — dano absoluto vs "Dummy - Amorfo", gravação sem
     if (cri !== undefined) expect(danoDe(skill).max).toBe(cri);
   });
 
-  it('as duas passivas juntas produzem o ATQ 4.193 — tirar qualquer uma quebra', () => {
+  it('produces ATK 4,193 from both passives together — removing either one breaks it', () => {
     const comAmbas = danoDe('Star Cannon==5');
     const semCorrida = danoDe('Star Cannon==5', { corrida: 0 });
     const semKihop = danoDe('Star Cannon==5', { kihop: 0 });

@@ -6,7 +6,7 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
 /**
  * "Dano físico +N%" / "Dano mágico +N%" always map to `atkPercent` / `matkPercent`.
  *
- * Reported on 400511 Coroa Scaraba: the +7 line "Dano físico +10%" was cadastrada as
+ * Reported on 400511 Coroa Scaraba: the +7 line "Dano físico +10%" was registered as
  * `p_final`, so the crown multiplied the damage *after* DEF instead of raising ATK.
  *
  * That line is the client's current wording for what it used to print as "ATQ +N%" /
@@ -48,8 +48,8 @@ function crownBonus(refine: number): Record<string, number> {
   return equipStatusOf(calc, model);
 }
 
-describe('as chaves p_final / m_final não existem mais', () => {
-  it('não há entradas dessas chaves no item.json, nem na forma chance__', () => {
+describe('the p_final / m_final keys no longer exist', () => {
+  it('has no entries for those keys in item.json, nor in the chance__ form', () => {
     const offenders = Object.entries<any>(items)
       .filter(([, item]) => Object.keys(item.script || {}).some((key) => /p_final|m_final/.test(key)))
       .map(([id, item]) => `${id} ${item.name}`);
@@ -57,7 +57,7 @@ describe('as chaves p_final / m_final não existem mais', () => {
     expect(offenders).toEqual([]);
   });
 
-  it('a lista autoritativa de chaves não as declara', () => {
+  it('does not declare them in the authoritative key list', () => {
     const keys = Object.keys(createRawTotalBonus());
 
     expect(keys).not.toContain('p_final');
@@ -65,9 +65,9 @@ describe('as chaves p_final / m_final não existem mais', () => {
   });
 });
 
-describe('a descrição pt-BR "Dano físico/mágico +N%" cai em atkPercent/matkPercent', () => {
-  // Bare percentage line only: "contra <raça>", "a distância", "corpo a corpo" e "crítico"
-  // são outras chaves.
+describe('the pt-BR "Dano físico/mágico +N%" line maps to atkPercent/matkPercent', () => {
+  // Bare percentage line only: "contra <raça>", "a distância", "corpo a corpo" and
+  // "crítico" are different keys.
   const bare = (kind: 'físico' | 'mágico') =>
     new RegExp(`^Dano ${kind === 'físico' ? 'f[ií]sico' : 'm[áa]gico'} \\+ ?\\d+(?:[.,]\\d+)?%( adicional)?\\.?$`, 'i');
 
@@ -76,14 +76,14 @@ describe('a descrição pt-BR "Dano físico/mágico +N%" cai em atkPercent/matkP
       .filter((id) => items[id])
       .filter((id) => plain(latam[id].description).split('\n').some((line: string) => bare(kind).test(line.trim())));
 
-  it('os itens com a linha física não guardam o efeito em p_final', () => {
+  it('keeps no physical-line item storing its effect in p_final', () => {
     const ids = withBareLine('físico');
-    expect(ids.length).toBeGreaterThan(350); // guarda contra o filtro casar zero item
+    expect(ids.length).toBeGreaterThan(350); // guards against the filter matching nothing
 
     expect(ids.filter((id) => items[id].script?.p_final)).toEqual([]);
   });
 
-  it('os itens com a linha mágica não guardam o efeito em m_final', () => {
+  it('keeps no magic-line item storing its effect in m_final', () => {
     const ids = withBareLine('mágico');
     expect(ids.length).toBeGreaterThan(350);
     expect(ids.filter((id) => items[id].script?.m_final)).toEqual([]);
@@ -91,23 +91,23 @@ describe('a descrição pt-BR "Dano físico/mágico +N%" cai em atkPercent/matkP
 });
 
 describe('400511 Coroa Scaraba — "Refino +7 ou mais: Dano físico +10%"', () => {
-  it('rende atkPercent 10 a partir do +7', () => {
+  it('yields atkPercent 10 from +7 onwards', () => {
     expect(crownBonus(7)['atkPercent']).toBe(10);
     expect(crownBonus(12)['atkPercent']).toBe(10);
   });
 
-  it('não rende nada abaixo do +7', () => {
+  it('yields nothing below +7', () => {
     expect(crownBonus(6)['atkPercent'] ?? 0).toBe(0);
   });
 
-  it('os outros degraus de refino continuam nos mesmos valores', () => {
+  it('leaves the other refine steps at the same values', () => {
     const at12 = crownBonus(12);
-    expect(at12['atk']).toBe(120); // a cada 2 refinos: ATQ +20
-    expect(at12['cri']).toBe(24); // a cada 2 refinos: CRIT +4
-    expect(at12['criDmg']).toBe(40); // a cada 3 refinos: Dano crítico +10%
+    expect(at12['atk']).toBe(120); // per 2 refines: ATQ +20
+    expect(at12['cri']).toBe(24); // per 2 refines: CRIT +4
+    expect(at12['criDmg']).toBe(40); // per 3 refines: Dano crítico +10%
     expect(at12['acd']).toBe(10); // +9: Pós-conjuração -10%
     expect(at12['range']).toBe(15); // +11: Dano físico a distância +15%
     expect(at12['melee']).toBe(15); // +11: Dano físico corpo a corpo +15%
-    expect(at12['p_race_all']).toBe(15); // +12: Dano físico contra todas as raças +15%
+    expect(at12['p_race_all']).toBe(15); // +12: "Dano físico contra todas as raças +15%"
   });
 });

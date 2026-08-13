@@ -10,51 +10,52 @@ import { loadReplayFixture } from './__tests__/load-fixture';
 import { importReplayBuffer } from './replay-to-model';
 
 /**
- * **O resíduo em aberto do Guarda Noturno, medido.**
+ * **The Night Watch's open residual, measured.**
  *
- * Depois que o conjunto da Cesta de Mascotes entrou (ver `nw-mira-damage.spec.ts`), sobrou
- * uma diferença de 0,33% a 0,48%: o dano gravado é sempre um pouco **maior** que o
- * simulado. Este arquivo não corrige nada — ele mede o buraco com precisão, para que a
- * próxima tentativa de explicá-lo tenha contra o que se validar.
+ * Once the Cesta de Mascotes set was added (see `nw-mira-damage.spec.ts`), a 0.33% to
+ * 0.48% difference was left over: the recorded damage is always slightly **higher** than
+ * the simulated one. This file fixes nothing — it measures the gap precisely, so the next
+ * attempt to explain it has something to validate against.
  *
- * As três gravações equipadas do shummuy têm **o mesmo equipamento** e diferem só nos
- * buffs, o que dá quatro combinações de multiplicador sobre a mesma build:
+ * shummuy's three geared recordings use **the same equipment** and differ only in buffs,
+ * which gives four multiplier combinations over one build:
  *
- *   nw-mira-pet.rrf   Mira Focalizada (ATQ +150, contagem de mira 10)
- *   nw-ult.rrf        Carta na Manga Nv.10 (dano à distância +100%, P.ATQ +30), sem mira
- *   nw-ult-mira.rrf   as duas
+ *   nw-mira-pet.rrf   Mira Focalizada (ATK +150, aiming count 10)
+ *   nw-ult.rrf        Carta na Manga Lv10 (ranged damage +100%, P.ATK +30), no aim
+ *   nw-ult-mira.rrf   both
  *
- * Os oito pacotes usados aqui são **críticos**, e um crítico é determinístico: ele usa o
- * ATQ máximo da arma, sem variância nenhuma. Cada um é uma equação exata.
+ * The eight packets used here are **criticals**, and a critical is deterministic: it uses
+ * the weapon's maximum ATK, with no variance at all. Each one is an exact equation.
  *
- * **O que a medição diz.** O buraco não é uma porcentagem: se fosse, a razão
- * gravado/simulado seria a mesma nas quatro combinações, e ela varia (0,48% com só a mira,
- * 0,33% com as duas). O tamanho encolhe exatamente na proporção em que o ATQ total cresce
- * — é um valor **fixo somado ao ATQ**, e somado **depois** do multiplicador de P.ATQ (por
- * isso encolhe quando a Carta na Manga entra, que só mexe em P.ATQ e alcance). Esse é o
- * estágio do "ATQ de maestria" na engine (`calcTotalAtk`: `... * pAtkMultiplier +
- * masteryAtk`), e medido por lá o valor é **~30**, igual nas quatro combinações, nas duas
- * armas e nas três habilidades.
+ * **What the measurement says.** The gap is not a percentage: if it were, the
+ * recorded/simulated ratio would be the same across all four combinations, and it varies
+ * (0.48% with aim only, 0.33% with both). Its size shrinks exactly in proportion to the
+ * growth of total ATK — so it is a **fixed value added to ATK**, added **after** the
+ * P.ATK multiplier (which is why it shrinks when Carta na Manga comes in, since that only
+ * touches P.ATK and range). That is the engine's "mastery ATK" stage (`calcTotalAtk`:
+ * `... * pAtkMultiplier + masteryAtk`), and measured there the value is **~30**, the same
+ * across all four combinations, both weapons and all three skills.
  *
- * **O que já foi descartado**, cada um por medição e não por opinião:
- *   - qualquer bônus percentual (dano físico %, à distância, por tamanho/raça/elemento/
- *     classe, dano crítico, T.CRÍT): dariam razão constante, e ela não é;
- *   - ATQ de equipamento e ATQ da arma: passam pelo multiplicador de P.ATQ, então a razão
- *     também ficaria constante;
- *   - alcance (`range`): a gravação com Carta na Manga e a com as duas têm o mesmo total de
- *     alcance e resíduos diferentes;
- *   - POD/CON/FOR/DES/SOR: POD +1 sairia em SP_ATK1 (851 contra os 846 que o pacote traz);
- *   - o mascote e a munição: iguais em todas as cinco gravações;
- *   - as duas cartas que faltam no item.json (310991 "MHP 2Lv" e 29013 "Absorção de HP 3"):
- *     as descrições pt-BR só dão HP;
- *   - buff escondido: os EFST ativos no início das gravações são 802/942/983/984/1084/1085
- *     (contadores de tempo de jogo e de período de item/EXP da conta), 695 (ícone de
- *     munição equipada) e 1345/1346 (a própria Mira Focalizada) — nenhum mexe em dano.
+ * **What has already been ruled out**, each by measurement rather than opinion:
+ *   - any percentage bonus (physical damage %, ranged, by size/race/element/class, crit
+ *     damage, C.Rate): those would give a constant ratio, and it is not constant;
+ *   - equipment ATK and weapon ATK: they pass through the P.ATK multiplier, so the ratio
+ *     would also stay constant;
+ *   - range: the Carta na Manga recording and the both-buffs one have the same total range
+ *     and different residuals;
+ *   - POW/CON/STR/DEX/LUK: POW +1 would show in SP_ATK1 (851 against the 846 the packet
+ *     carries);
+ *   - the pet and the ammo: identical across all five recordings;
+ *   - the two cards missing from item.json (310991 "MHP 2Lv" and 29013 "Absorção de HP 3"):
+ *     their pt-BR descriptions only give HP;
+ *   - a hidden buff: the EFSTs active at the start of the recordings are
+ *     802/942/983/984/1084/1085 (play-time and account item/EXP period counters), 695
+ *     (equipped-ammo icon) and 1345/1346 (Mira Focalizada itself) — none touches damage.
  *
- * **O controle que fecha o cerco**: a gravação **sem equipamento** bate exato
- * (`NightWatch.replay.spec.ts` compara os críticos por igualdade). O que falta, portanto,
- * vem do equipamento — e nenhuma das peças equipadas tem, na descrição pt-BR, uma linha de
- * ATQ que a engine não esteja aplicando.
+ * **The control that closes the net**: the **gearless** recording matches exactly
+ * (`NightWatch.replay.spec.ts` compares the criticals by equality). What is missing
+ * therefore comes from the equipment — and none of the worn pieces has, in its pt-BR
+ * description, an ATK line the engine is not already applying.
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
@@ -62,13 +63,13 @@ const monsters = JSON.parse(readFileSync('src/assets/demo/data/monster.json', 'u
 const hpSpTable = JSON.parse(readFileSync('src/assets/demo/data/hp_sp_table.json', 'utf8'));
 
 const DUMMY_MORTO_VIVO = '21076';
-/** Peça equipada nas três gravações — usada como ponto de injeção da sonda de maestria. */
+/** A piece worn in all three recordings — used as the injection point for the mastery probe. */
 const CESTA_DE_MASCOTES = '410599';
 
 const FUZIL = { id: 810005, refine: 0, cards: [] as number[], nome: 'Atirador Consertado +0' };
 const PISTOLA = { id: 13115, refine: 7, cards: [] as number[], nome: 'Pistola Aprimorável +7' };
 
-/** Estados de buff das três gravações. */
+/** Buff states of the three recordings. */
 const MIRA = { mira: 1, aim: 10, ult: 0 };
 const ULT = { mira: 0, aim: 0, ult: 10 };
 const AMBOS = { mira: 1, aim: 10, ult: 10 };
@@ -79,8 +80,8 @@ type Caso = {
 };
 
 /**
- * Os oito críticos determinísticos. Cada valor aparece repetido na sua gravação (é o que
- * prova que são críticos: dano idêntico em disparos diferentes).
+ * The eight deterministic criticals. Each value repeats within its recording, which is
+ * what proves they are criticals: identical damage on different shots.
  */
 const CRITICOS: Caso[] = [
   { nome: 'mira · Disparo Único', fixture: 'nw-mira-pet.rrf', skill: 'Only One Bullet', arma: FUZIL, buffs: MIRA, gravado: 2628657 },
@@ -136,8 +137,8 @@ function simular(c: Caso, maestriaExtra = 0) {
     activeSkillNames, learnedSkillMap, selectedAtkSkill: skillValue, selectedChances: [], usedHpL: false,
   } as any);
 
-  // `skillMaxDamage` já é por golpe — os valores gravados da tabela também (o total do
-  // pacote dividido pelo número de golpes).
+  // `skillMaxDamage` is already per hit — so are the recorded values in the table (the
+  // packet total divided by its hit count).
   const s = (calc as any).damageSummary;
   return {
     critico: s.skillMaxDamage as number,
@@ -146,15 +147,15 @@ function simular(c: Caso, maestriaExtra = 0) {
   };
 }
 
-/** Quanto de ATQ de maestria zeraria a diferença deste caso. */
+/** How much mastery ATK would close this case's gap. */
 function maestriaNecessaria(c: Caso) {
   const base = simular(c).critico;
   const comSonda = simular(c, 100).critico;
   return (c.gravado - base) / ((comSonda - base) / 100);
 }
 
-describe('resíduo do Guarda Noturno — direção e tamanho', () => {
-  it.each(CRITICOS)('$nome: o gravado passa do simulado por menos de 0,5%', (c) => {
+describe('Night Watch residual — direction and size', () => {
+  it.each(CRITICOS)('$nome: recorded exceeds simulated by less than 0.5%', (c) => {
     const r = simular(c);
     expect(r.podeCritar).toBe(true);
     expect(c.gravado).toBeGreaterThan(r.critico);
@@ -162,14 +163,15 @@ describe('resíduo do Guarda Noturno — direção e tamanho', () => {
   });
 });
 
-describe('resíduo do Guarda Noturno — não é uma porcentagem', () => {
+describe('Night Watch residual — it is not a percentage', () => {
   /**
-   * Se faltasse um bônus percentual (dano físico, à distância, por tamanho…), a razão
-   * gravado/simulado seria a mesma nas três gravações, porque o equipamento é o mesmo. Ela
-   * não é: com só a Mira Focalizada sobra bem mais do que com as duas ligadas. É esta
-   * diferença que exclui, de uma vez, toda a família de bônus multiplicativos.
+   * If a percentage bonus were missing (physical, ranged, by size…), the
+   * recorded/simulated ratio would be the same across the three recordings, because the
+   * equipment is the same. It is not: with Mira Focalizada alone far more is left over
+   * than with both active. That difference rules out the whole family of multiplicative
+   * bonuses in one go.
    */
-  it('a razão cai quando os buffs entram, em vez de ficar parada', () => {
+  it('drops the ratio when the buffs come in, instead of holding steady', () => {
     const razao = (nome: string) => {
       const c = CRITICOS.find((x) => x.nome === nome)!;
       return c.gravado / simular(c).critico;
@@ -180,16 +182,16 @@ describe('resíduo do Guarda Noturno — não é uma porcentagem', () => {
 
     expect(soMira).toBeGreaterThan(soUlt);
     expect(soUlt).toBeGreaterThan(asDuas);
-    // A queda é grande demais para ser arredondamento: 0,38% -> 0,33% é 1/7 do buraco.
+    // The drop is far too large to be rounding: 0.38% -> 0.33% is 1/7 of the gap.
     expect((soMira - 1) / (asDuas - 1)).toBeGreaterThan(1.1);
   });
 
   /**
-   * E não é alcance: a Carta na Manga dá "dano físico à distância +100%", então as
-   * gravações `ult` e `ult+mira` têm o **mesmo** total de alcance. Um `range` faltando
-   * deixaria as duas com o mesmo resíduo — e elas têm resíduos diferentes.
+   * Nor is it range: Carta na Manga gives "dano físico à distância +100%", so the `ult`
+   * and `ult+mira` recordings have the **same** range total. A missing `range` would leave
+   * both with the same residual — and their residuals differ.
    */
-  it('não é alcance: mesmo total de alcance, resíduos diferentes', () => {
+  it('is not range: same range total, different residuals', () => {
     const ult = CRITICOS.find((c) => c.nome === 'ult · Disparo Único')!;
     const ambos = CRITICOS.find((c) => c.nome === 'ambos · Disparo Único')!;
     expect(simular(ult).range).toBe(simular(ambos).range);
@@ -197,21 +199,21 @@ describe('resíduo do Guarda Noturno — não é uma porcentagem', () => {
   });
 });
 
-describe('resíduo do Guarda Noturno — ~30 de ATQ no estágio da maestria', () => {
+describe('Night Watch residual — ~30 ATK at the mastery stage', () => {
   /**
-   * O estágio da maestria (`calcTotalAtk`: `(status + grupos) * pAtkMultiplier +
-   * masteryAtk`) é o único da engine que fica **fora** do multiplicador de P.ATQ e
-   * **dentro** da porcentagem da habilidade. Medido por lá, o buraco dá o mesmo número nas
-   * quatro combinações de buff, nas duas armas e nas três habilidades — que é a assinatura
-   * de um valor fixo, e o que aponta o estágio.
+   * The mastery stage (`calcTotalAtk`: `(status + groups) * pAtkMultiplier +
+   * masteryAtk`) is the only one in the engine that sits **outside** the P.ATK multiplier
+   * and **inside** the skill percentage. Measured there, the gap gives the same number
+   * across all four buff combinations, both weapons and all three skills — which is the
+   * signature of a fixed value, and what points at the stage.
    */
-  it.each(CRITICOS)('$nome: precisa de ~30 de ATQ de maestria', (c) => {
+  it.each(CRITICOS)('$nome: needs ~30 mastery ATK', (c) => {
     const n = maestriaNecessaria(c);
     expect(n).toBeGreaterThan(29.5);
     expect(n).toBeLessThan(31.5);
   });
 
-  it('os oito casos concordam entre si dentro de 4%', () => {
+  it('has all eight cases agreeing within 4%', () => {
     const ns = CRITICOS.map(maestriaNecessaria);
     expect(Math.max(...ns) / Math.min(...ns)).toBeLessThan(1.04);
   });

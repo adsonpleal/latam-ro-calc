@@ -2,33 +2,33 @@ import { Directive, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/co
 import { Tooltip } from 'primeng/tooltip';
 
 /**
- * Janela em que o popover continua aberto depois que o ponteiro deixa o gatilho.
+ * How long the popover stays open after the pointer leaves the trigger.
  *
- * O popover não encosta no gatilho: o `.p-tooltip` tem padding e ainda existe a
- * seta, então atravessar de um para o outro passa por alguns pixels que não são
- * de ninguém. Sem essa folga o popover fecharia no meio do caminho.
+ * The popover does not touch the trigger: `.p-tooltip` has padding and there is also
+ * the arrow, so crossing from one to the other passes over a few pixels that belong to
+ * neither. Without this grace period the popover would close halfway across.
  */
 const FOLGA_MS = 150;
 
 /**
- * Faz o popover de descrição sobreviver ao ponteiro — é o que permite rolar uma
- * descrição longa, que agora rola na vertical em vez de virar duas colunas.
+ * Keeps the description popover alive under the pointer — this is what makes a long
+ * description scrollable, now that it scrolls vertically instead of splitting into two
+ * columns.
  *
- * O `pTooltip` padrão fecha no `mouseleave` do gatilho, o que torna a barra de
- * rolagem do popover inalcançável: o ponteiro some com ele antes de chegar lá.
- * Aqui:
+ * The stock `pTooltip` closes on the trigger's `mouseleave`, which puts the popover's
+ * scrollbar out of reach: the pointer dismisses it before ever getting there. Here:
  *
- *  - `autoHide: false` faz o PrimeNG ignorar a saída do gatilho quando o destino é
- *    o próprio popover, e amarrar um `mouseleave` no container;
- *  - o fechamento vira um agendamento com {@link FOLGA_MS} de folga, cancelado se o
- *    ponteiro entrar no popover (ou voltar para o gatilho) nesse meio tempo;
- *  - Esc fecha na hora, sem folga.
+ *  - `autoHide: false` makes PrimeNG ignore leaving the trigger when the destination is
+ *    the popover itself, and binds a `mouseleave` on the container;
+ *  - closing becomes a scheduled call with {@link FOLGA_MS} of grace, cancelled if the
+ *    pointer enters the popover (or returns to the trigger) in the meantime;
+ *  - Esc closes immediately, with no grace period.
  *
- * Resultado: só fecha ao sair para fora dos dois, ou no Esc.
+ * Net effect: it only closes when the pointer leaves both, or on Esc.
  */
-// Sem prefixo "app" de propósito: casando com o atributo que os tooltips de item já
-// têm, o comportamento vale para todos eles — inclusive os que forem criados depois.
-// Mesmo critério da ItemDescTooltipFitDirective, que compartilha este seletor.
+// No "app" prefix, deliberately: by matching the attribute the item tooltips already
+// carry, the behaviour applies to all of them — including any created later.
+// Same reasoning as ItemDescTooltipFitDirective, which shares this selector.
 // eslint-disable-next-line @angular-eslint/directive-selector
 @Directive({ selector: '[pTooltip][tooltipStyleClass="item_desc_tooltip"]' })
 export class ItemDescTooltipHoverDirective implements OnInit, OnDestroy {
@@ -47,8 +47,8 @@ export class ItemDescTooltipHoverDirective implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // `setOption` em vez de `tooltip.autoHide = false`: o Tooltip lê tudo pelo
-    // `getOption`, e o input só chega às opções passando pelo ngOnChanges.
+    // `setOption` rather than `tooltip.autoHide = false`: Tooltip reads everything via
+    // `getOption`, and the input only reaches the options by going through ngOnChanges.
     this.tooltip.setOption({ autoHide: false });
 
     this.deactivateOriginal = this.tooltip.deactivate.bind(this.tooltip);
@@ -56,10 +56,9 @@ export class ItemDescTooltipHoverDirective implements OnInit, OnDestroy {
     this.hideOriginal = this.tooltip.hide.bind(this.tooltip);
 
     this.tooltip.deactivate = () => {
-      // Sem popover na tela não há travessia a proteger, e o original ainda
-      // precisa rodar na hora para cancelar uma exibição agendada (o showDelay de
-      // 400ms) — adiar isso faria o popover piscar depois de o ponteiro já ter ido
-      // embora.
+      // With no popover on screen there is no crossing to protect, and the original
+      // still has to run immediately to cancel a scheduled show (the 400ms showDelay) —
+      // deferring that would make the popover blink after the pointer had already left.
       if (!this.tooltip.container) {
         this.deactivateOriginal?.();
         return;
@@ -79,9 +78,9 @@ export class ItemDescTooltipHoverDirective implements OnInit, OnDestroy {
       this.hideOriginal?.();
     };
 
-    // Esc fecha na hora. O `onPressEscape` do PrimeNG chama `deactivate()`, que aqui
-    // é adiado — sem isto o popover só sumiria uma folga depois, e a tecla pareceria
-    // não ter funcionado.
+    // Esc closes immediately. PrimeNG's `onPressEscape` calls `deactivate()`, which here
+    // is deferred — without this the popover would only vanish one grace period later, and
+    // the key would look like it had not worked.
     this.pressEscapeOriginal = this.tooltip.onPressEscape.bind(this.tooltip);
     this.tooltip.onPressEscape = () => {
       if (!this.tooltip.hideOnEscape) return;
@@ -89,8 +88,8 @@ export class ItemDescTooltipHoverDirective implements OnInit, OnDestroy {
       this.deactivateOriginal?.();
     };
 
-    // O `onMouseEnter` do PrimeNG só reage quando não há container, então voltar do
-    // popover para o gatilho durante a folga não cancelaria nada por conta própria.
+    // PrimeNG's `onMouseEnter` only reacts when there is no container, so returning from
+    // the popover to the trigger during the grace period would cancel nothing by itself.
     this.desinscrever.push(this.renderer.listen(this.host.nativeElement, 'mouseenter', () => this.cancelarSaida()));
   }
 
@@ -98,9 +97,9 @@ export class ItemDescTooltipHoverDirective implements OnInit, OnDestroy {
     this.cancelarSaida();
     this.soltarContainer();
     for (const fn of this.desinscrever.splice(0)) fn();
-    // Os patches são propriedades próprias por cima dos métodos do protótipo;
-    // apagá-las devolve os originais de verdade. Reatribuir a versão `bind`ada
-    // deixaria uma cópia no lugar, que parece igual mas não é o mesmo método.
+    // The patches are own properties sitting on top of the prototype methods; deleting
+    // them restores the real originals. Reassigning the `bind`ed version would leave a
+    // copy in place, which looks the same but is not the same method.
     const instancia = this.tooltip as unknown as Record<string, unknown>;
     for (const metodo of ['deactivate', 'show', 'hide', 'onPressEscape']) delete instancia[metodo];
   }
@@ -110,9 +109,8 @@ export class ItemDescTooltipHoverDirective implements OnInit, OnDestroy {
     if (!container) return;
 
     this.soltarContainer();
-    // `mouseenter` dispara também nos ancestrais que estão sendo entrados, então
-    // cair direto no `.p-tooltip-text` (sem passar pela borda do container) também
-    // cancela a saída.
+    // `mouseenter` also fires on the ancestors being entered, so landing straight on
+    // `.p-tooltip-text` (without crossing the container border) cancels the exit too.
     this.desinscreverContainer = [
       this.renderer.listen(container, 'mouseenter', () => this.cancelarSaida()),
       this.renderer.listen(container, 'mouseleave', () => this.agendarSaida()),

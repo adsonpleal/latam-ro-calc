@@ -11,22 +11,23 @@ import { decodeReplay } from 'rrfparser';
 import { importReplayBuffer } from './replay-to-model';
 
 /**
- * `nw-mira-pet.rrf` — a gravação "Armas + Mira" do shummuy (Guarda Noturno nível 241 /
- * classe 50, tra_fild, 31/07/2026), importada inteira e conferida contra os pacotes
- * ZC_PAR_CHANGE que ela própria carrega. É a fixture que fecha dois furos encontrados no
- * mapeamento equipamento-a-equipamento:
+ * `nw-mira-pet.rrf` — shummuy's "Armas + Mira" recording (Night Watch base level 241 /
+ * job 50, tra_fild, 31/07/2026), imported whole and checked against the ZC_PAR_CHANGE
+ * packets it carries itself. This is the fixture that closes two gaps found while mapping
+ * the gear piece by piece:
  *
- *  1. **Manopla Sombria POD (24751)** — a descrição pt-BR abre com "ATQ e ATQM +1 por
- *     refino" e o script não tinha essa linha. No +9 são 9 de ATQ e 9 de ATQM, e era
- *     exatamente o que faltava: a gravação anuncia ATQ Equip. 9 acima do simulador com
- *     **todas** as cinco armas, e ATQM equip. 9 contra 0.
- *  2. **Mascote** — o replay traz o bicho como entidade (não como item de inventário), e
- *     o importador não olhava para lá. Agora olha, pela tabela do próprio cliente.
+ *  1. **Manopla Sombria POD (24751)** — the pt-BR description opens with "ATQ e ATQM +1
+ *     por refino" and the script had no such line. At +9 that is 9 ATK and 9 MATK, which
+ *     is exactly what was missing: the recording reports equip ATK 9 above the simulator
+ *     with **all** five weapons, and equip MATK 9 against 0.
+ *  2. **The pet** — the replay carries the animal as an entity (not as an inventory
+ *     item), and the importer never looked there. It does now, via the client's own table.
  *
- * A **intimidade** também sai daqui, mas não de pacote nenhum: ela mora no bloco do
- * mascote (contêiner 9, chunk 5308), que é de onde o cliente monta a Janela de Mascote ao
- * reproduzir o replay. Nesta gravação vale 850, que a escala do cliente chama de "Normal"
- * — a mesma faixa que shummuy relatou e a que faz os críticos baterem exato.
+ * **Intimacy** comes from here too, but from no packet at all: it lives in the pet block
+ * (container 9, chunk 5308), which is what the client builds the Pet Window from when
+ * replaying the file. In this recording it is 850, which the client's scale calls
+ * "Normal" — the same tier shummuy reported, and the one that makes the criticals land
+ * exactly.
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
@@ -36,12 +37,12 @@ const hpSpTable = JSON.parse(readFileSync('src/assets/demo/data/hp_sp_table.json
 const OVO_ORC_HEROI = 9121;
 const MANOPLA_SOMBRIA_POD = 24751;
 
-/** Monta a build da gravação e devolve o painel de status do simulador. */
+/** Builds the recording's build and returns the simulator status panel. */
 function painel(opts: { weapon: number; refine: number; cards?: number[]; mira?: boolean; loyalty?: PetLoyalty }) {
   const { model, learnedSkills, summary } = importReplayBuffer(loadReplayFixture('nw-mira-pet.rrf'), items);
   const m: any = model;
   m.class = 4306;
-  // Talentos não vêm no replay; são os que o shummuy confirmou.
+  // Traits do not travel in the replay; these are the ones shummuy confirmed.
   m.pow = 100; m.sta = 0; m.wis = 0; m.spl = 0; m.con = 62; m.crt = 0;
   m.weapon = opts.weapon; m.weaponRefine = opts.refine;
   m.weaponCard1 = opts.cards?.[0] ?? 0; m.weaponCard2 = opts.cards?.[1] ?? 0;
@@ -78,7 +79,7 @@ function painel(opts: { weapon: number; refine: number; cards?: number[]; mira?:
   return {
     model: m,
     summary,
-    /** "ATQ Equip." da janela de status (SP_ATK2): arma + refino + equipamento. */
+    /** The status window's "ATQ Equip." (SP_ATK2): weapon + refine + gear. */
     atkEquip: (t.weapon?.baseWeaponAtk ?? 0) + (t.weapon?.refineBonus ?? 0) + t.calc.totalEquipAtk,
     atkStatus: t.calc.totalStatusAtk as number,
     criticoBase: t.calc.totalCri as number,
@@ -87,8 +88,8 @@ function painel(opts: { weapon: number; refine: number; cards?: number[]; mira?:
   };
 }
 
-describe('import do replay — mascote', () => {
-  it('traz o Ovo de Orc Herói a partir da entidade do bicho', () => {
+describe('replay import — pet', () => {
+  it('brings in the Ovo de Orc Herói from the animal entity', () => {
     const { model, summary } = painel({ weapon: 810005, refine: 0 });
     expect(model.pet).toBe(OVO_ORC_HEROI);
     expect(summary.pet).toEqual({
@@ -101,12 +102,12 @@ describe('import do replay — mascote', () => {
   });
 
   /**
-   * A gravação traz intimidade **850**. Na escala do cliente (`msgstringtable_ml.csv`)
-   * 750..909 é `MSI_FRIENDLY`, "Normal" em pt-BR — e é exatamente o que a Janela de
-   * Mascote mostra quando o replay é reproduzido no jogo. A faixa importada tem que ser
-   * essa, não o padrão.
+   * The recording carries intimacy **850**. On the client scale
+   * (`msgstringtable_ml.csv`) 750..909 is `MSI_FRIENDLY`, "Normal" in pt-BR — and that is
+   * exactly what the Pet Window shows when the replay is played back in game. The
+   * imported tier has to be that one, not the default.
    */
-  it('a intimidade 850 do arquivo vira a Lealdade Normal', () => {
+  it('turns the file\'s intimacy 850 into the Normal loyalty tier', () => {
     const { model, summary } = painel({ weapon: 810005, refine: 0 });
     expect(summary.pet?.intimacy).toBe(850);
     expect(model.petLoyalty).toBe(PetLoyalty.Normal);
@@ -115,31 +116,31 @@ describe('import do replay — mascote', () => {
 });
 
 /**
- * A escala crua (0 a 1000) e os limiares do servidor. Os rótulos são os do cliente:
+ * The raw scale (0 to 1000) and the server thresholds. The labels are the client's:
  * MSI_VERY_AWKWARD "Baixíssima", MSI_AWKWARD "Baixa", MSI_NORMAL "Nenhuma",
- * MSI_FRIENDLY "Normal", MSI_VERY_FRIENDLY "Alta" — as duas primeiras entram juntas na
- * faixa `Baixa`, porque a descrição dos ovos as escreve numa linha só.
+ * MSI_FRIENDLY "Normal", MSI_VERY_FRIENDLY "Alta" — the first two collapse into the
+ * `Baixa` tier, because the egg descriptions write them on a single line.
  */
-describe('intimidade crua → faixa', () => {
+describe('raw intimacy → tier', () => {
   it.each([
     [0, PetLoyalty.Baixa], [1, PetLoyalty.Baixa], [99, PetLoyalty.Baixa],
     [100, PetLoyalty.Baixa], [249, PetLoyalty.Baixa],
     [250, PetLoyalty.Nenhuma], [749, PetLoyalty.Nenhuma],
     [750, PetLoyalty.Normal], [850, PetLoyalty.Normal], [909, PetLoyalty.Normal],
     [910, PetLoyalty.Alta], [1000, PetLoyalty.Alta],
-  ])('%i → faixa %i', (intimidade, faixa) => {
+  ])('%i → tier %i', (intimidade, faixa) => {
     expect(petLoyaltyFromIntimacy(intimidade)).toBe(faixa);
   });
 });
 
-describe('bloco do mascote nas outras gravações', () => {
-  // Mesmo personagem e mesmo bicho nas três: nível 50, intimidade 850. A fome cai ao
-  // longo da sessão, o que confirma que os campos são do bloco e não de um pacote fixo.
+describe('the pet block in the other recordings', () => {
+  // Same character and same animal in all three: level 50, intimacy 850. Hunger drops
+  // over the session, which confirms the fields come from the block and not a fixed packet.
   it.each([
     ['nw-mira-pet.rrf', 41],
     ['nw-ult.rrf', 47],
     ['nw-ult-mira.rrf', 44],
-  ])('%s: intimidade 850, nível 50, fome %i', (fixture, fome) => {
+  ])('%s: intimacy 850, level 50, hunger %i', (fixture, fome) => {
     const pet = decodeReplay(loadReplayFixture(fixture)).pet!;
     expect(pet.name).toBe('Orc Herói');
     expect(pet.view).toBe(20571);
@@ -157,63 +158,63 @@ describe('faixas de lealdade do mascote', () => {
     { faixa: PetLoyalty.Nenhuma, atkPercent: 2, criDmg: 0 },
     { faixa: PetLoyalty.Normal, atkPercent: 4, criDmg: 1 },
     { faixa: PetLoyalty.Alta, atkPercent: 7, criDmg: 3 },
-  ])('faixa $faixa: ATQ +$atkPercent% e Dano crít. +$criDmg%', ({ faixa, atkPercent, criDmg }) => {
+  ])('tier $faixa: ATK +$atkPercent% and crit damage +$criDmg%', ({ faixa, atkPercent, criDmg }) => {
     const base = painel({ weapon: 810005, refine: 0, loyalty: PetLoyalty.Alta }).totalBonus;
     const alvo = painel({ weapon: 810005, refine: 0, loyalty: faixa }).totalBonus;
-    // Só o mascote muda entre as duas builds, então a diferença é o efeito da faixa.
+    // Only the pet changes between the two builds, so the difference is the tier effect.
     expect(alvo['atkPercent'] - base['atkPercent']).toBe(atkPercent - 7);
     expect(alvo['criDmg'] - base['criDmg']).toBe(criDmg - 3);
   });
 
-  it('as faixas se substituem, não somam', () => {
+  it('replaces tiers rather than stacking them', () => {
     const alta = painel({ weapon: 810005, refine: 0, loyalty: PetLoyalty.Alta }).totalBonus;
     const baixa = painel({ weapon: 810005, refine: 0, loyalty: PetLoyalty.Baixa }).totalBonus;
-    // Se somassem, a Alta traria 1+2+4+7 = 14 pontos a mais que a build sem as faixas.
+    // If they stacked, Alta would bring 1+2+4+7 = 14 points more than the tier-less build.
     expect(alta['atkPercent'] - baixa['atkPercent']).toBe(6);
   });
 });
 
 /**
- * ATQ Equip. (SP_ATK2) por arma, como a gravação anuncia a cada troca. Sem arma são 219;
- * com a Mira Focalizada ligada, 369 (os +150 de ATQ da habilidade). O valor por arma é a
- * soma desses 219 com o ATQ da arma e o que o script dela dá.
+ * Equip ATK (SP_ATK2) per weapon, as the recording reports on every swap. With no weapon
+ * it is 219; with Mira Focalizada active, 369 (the skill's +150 ATK). The per-weapon value
+ * is those 219 plus the weapon's ATK and whatever its script grants.
  */
-describe('ATQ Equip. conferido contra os pacotes da gravação', () => {
+describe('equip ATK checked against the recording packets', () => {
   it.each([
     { nome: 'Atirador Consertado +0', weapon: 810005, refine: 0, cards: [], spAtk2: 669 },
     { nome: 'Aspersor Consertado +0', weapon: 830008, refine: 0, cards: [], spAtk2: 659 },
     { nome: 'Lança-Granadas Primordial +8', weapon: 840001, refine: 8, cards: [300241, 300240], spAtk2: 845 },
     { nome: 'Pistola Aprimorável +7', weapon: 13115, refine: 7, cards: [], spAtk2: 559 },
-  ])('com Mira Focalizada e $nome: SP_ATK2 = $spAtk2', ({ weapon, refine, cards, spAtk2 }) => {
+  ])('with Mira Focalizada and $nome: SP_ATK2 = $spAtk2', ({ weapon, refine, cards, spAtk2 }) => {
     expect(painel({ weapon, refine, cards, mira: true }).atkEquip).toBe(spAtk2);
   });
 
-  it('SP_ATK1 (ATQ base) = 846', () => {
+  it('SP_ATK1 (base ATK) = 846', () => {
     expect(painel({ weapon: 810005, refine: 0, mira: true }).atkStatus).toBe(846);
   });
 
   /**
-   * **Divergência conhecida, de 1 ponto de SOR.** A gravação anuncia SP_CRITICAL = 65 com
-   * a Mira Focalizada ligada (+30 de Crítico); o simulador dá 66. O crítico base é
-   * ⌊SOR/3⌋ e a calculadora chega a SOR 108 — 100 alocada, +7 do bônus de classe e +1 do
-   * encante 4750 "SOR +1" da armadura. O jogo se comporta como SOR 107.
+   * **A known 1-point LUK divergence.** The recording reports SP_CRITICAL = 65 with Mira
+   * Focalizada active (+30 Crit); the simulator gives 66. Base crit is ⌊LUK/3⌋ and the
+   * calculator arrives at LUK 108 — 100 allocated, +7 from the job bonus and +1 from the
+   * armour's enchant 4750 "SOR +1". The game behaves as if LUK were 107.
    *
-   * O que impede de simplesmente tirar um ponto: **o ATQ base da mesma gravação exige
-   * 108**. SP_ATK1 = 846 só sai com SOR 108..110; SP_CRITICAL = 65 só sai com SOR 105..107.
-   * As faixas não se cruzam, então ou a fórmula do ATQ base ou a do crítico ainda está
-   * errada, e nenhuma das cinco gravações separa os casos. Aguarda a SOR real do
-   * personagem.
+   * What stops us simply dropping a point: **the base ATK of the same recording demands
+   * 108**. SP_ATK1 = 846 only comes out at LUK 108..110; SP_CRITICAL = 65 only at LUK
+   * 105..107. The ranges do not overlap, so either the base-ATK formula or the crit one is
+   * still wrong, and none of the five recordings separates the cases. Waiting on the
+   * character's real LUK.
    */
-  it('SP_CRITICAL: o simulador dá 66 e a gravação 65 — 1 ponto de SOR em aberto', () => {
+  it('SP_CRITICAL: simulator gives 66 and the recording 65 — 1 LUK point still open', () => {
     const r = painel({ weapon: 810005, refine: 0, mira: true });
     expect(r.luk).toBe(108);
     expect(r.criticoBase).toBe(66);
     expect(r.criticoBase - 65).toBe(1);
   });
 
-  // O que o item 24751 acrescenta, isolado: sem a linha "ATQ e ATQM +1 por refino" cada
-  // um dos números acima ficava 9 abaixo do que a gravação anuncia.
-  it('a Manopla Sombria POD +9 dá 9 de ATQ e 9 de ATQM', () => {
+  // What item 24751 adds, in isolation: without the "ATQ e ATQM +1 por refino" line each
+  // of the numbers above sat 9 below what the recording reports.
+  it('gives 9 ATK and 9 MATK from Manopla Sombria POD +9', () => {
     const { totalBonus } = painel({ weapon: 810005, refine: 0 });
     const script = items[MANOPLA_SOMBRIA_POD].script;
     expect(script.atk).toEqual(['1---1']);

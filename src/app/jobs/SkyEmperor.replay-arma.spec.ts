@@ -6,40 +6,41 @@ import { createMainModel } from 'src/app/utils';
 import { SkyEmperor } from './SkyEmperor';
 
 /**
- * Mestre Celestial — segunda gravação, **com arma**. É ela que separa as duas passivas
- * da linha Taekwon que a primeira gravação só conseguia medir somadas.
+ * Sky Emperor — second recording, **with a weapon**. This is what separates the two
+ * Taekwon-line passives that the first recording could only measure summed together.
  *
- * Fonte: https://recap.latam-tools.com.br/?r=HdHAKyBShW  (TKtestearma.rrf, gravada por
- * Ted em tra_fild contra o "Dummy - Neutro", 30/07/2026). Mesmo personagem da gravação
- * sem arma (SkyEmperor.replay.spec.ts): nível base 229, classe 46, POD 100 alocado,
- * Maestria Celestial Nv.10, Kihop Nv.5, Corrida Nv.10.
+ * Source: https://recap.latam-tools.com.br/?r=HdHAKyBShW  (TKtestearma.rrf, recorded by
+ * Ted on tra_fild against "Dummy - Neutro", 30/07/2026). Same character as the weaponless
+ * recording (SkyEmperor.replay.spec.ts): base level 229, job 46, POW 100 allocated,
+ * Maestria Celestial Lv10, Kihop Lv5, Corrida Lv10.
  *
- * Único equipamento: **Livro Metálico (1588) +7**, sem cartas e sem bônus aleatórios.
- * O Elo Celestial (EFST 1392) já está ativo desde o início, então as quatro habilidades
- * de estado saem no efeito máximo, como na primeira gravação.
+ * Only equipment: **Livro Metálico (1588) +7**, no cards and no random options. Elo
+ * Celestial (EFST 1392) is already active from the start, so the four state skills come
+ * out at maximum effect, as in the first recording.
  *
- * **Por que ela decide.** A Corrida só dá o +100 de ATQ com as mãos livres; o Kihop vale
- * sempre. Sem arma as duas se somam e são indistinguíveis de um fator único; com arma
- * sobra só o Kihop:
+ * **Why it settles it.** Corrida only grants its +100 ATK bare-handed; Kihop always
+ * applies. Weaponless the two add up and are indistinguishable from a single factor; with
+ * a weapon only Kihop is left:
  *
- *   sem arma   ⌊(2.167 + 100) × 1,85⌋ = 4.193   (ATQ exigido pelos pacotes, exato)
- *   com arma   ⌊[2.422..2.462] × 1,85⌋ = 4.480..4.555
+ *   weaponless   ⌊(2,167 + 100) × 1.85⌋ = 4,193   (the ATK the packets demand, exactly)
+ *   with weapon  ⌊[2,422..2,462] × 1.85⌋ = 4,480..4,555
  *
- * Um fator único de 1,935 (o que a primeira gravação sozinha sugeria) daria 4.686..4.763
- * com arma, e um valor fixo único daria 4.448..4.488 — os dois caem fora dos pacotes.
+ * A single 1.935 factor (what the first recording alone suggested) would give 4,686..4,763
+ * with a weapon, and a single flat value would give 4,448..4,488 — both fall outside the
+ * packets.
  *
- * Como a arma tem variância de ATQ, cada pacote é um rolo diferente e o teste é de
- * **contenção**: todo dano observado tem que estar entre o mínimo e o máximo do
- * simulador. Isso é mais forte do que parece — os valores alcançáveis formam um conjunto
- * esparso (41 ATQ possíveis numa faixa de 75 inteiros), e os 52 valores distintos de
- * dano da gravação caem todos nele.
+ * Because the weapon has ATK variance, each packet is a different roll and the test is one
+ * of **containment**: every observed damage has to sit between the simulator's minimum and
+ * maximum. That is stronger than it sounds — the reachable values form a sparse set (41
+ * possible ATK values across a span of 75 integers), and all 52 distinct damage values in
+ * the recording land inside it.
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
 const monsters = JSON.parse(readFileSync('src/assets/demo/data/monster.json', 'utf8'));
 const hpSpTable = JSON.parse(readFileSync('src/assets/demo/data/hp_sp_table.json', 'utf8'));
 
-/** "Dummy - Neutro" (view 21077), o alvo da gravação. */
+/** "Dummy - Neutro" (view 21077), the recording's target. */
 const DUMMY_NEUTRO = '21077';
 const LIVRO_METALICO = 1588;
 const REFINO = 7;
@@ -90,9 +91,9 @@ function faixaDe(skillValue: string, opts: { comArma?: boolean; space?: number }
 }
 
 /**
- * Valores distintos de dano NÃO crítico observados, por habilidade. Entardecer e
- * Explosão Crepuscular criticam sob Elo Celestial, então o não-crítico delas é medido
- * num Espaço Celeste em que não criticam (`espacoSemCrit`) — a razão é a mesma.
+ * Distinct NON-critical damage values observed, per skill. Entardecer and Explosão
+ * Crepuscular do crit under Elo Celestial, so their non-crit is measured in a Celestial
+ * Space where they cannot crit (`espacoSemCrit`) — the ratio is the same.
  */
 const PACOTES: { nome: string; skill: string; danos: number[]; espacoSemCrit?: number }[] = [
   { nome: 'Entardecer Nv.5', skill: 'Noon Blast==5', espacoSemCrit: 1 /* Nascer do Sol */, danos: [698748, 699682, 702794] },
@@ -113,43 +114,44 @@ const PACOTES: { nome: string; skill: string; danos: number[]; espacoSemCrit?: n
   },
 ];
 
-describe('Mestre Celestial — dano com Livro Metálico +7 vs "Dummy - Neutro"', () => {
-  it.each(PACOTES)('$nome: os $danos.length valores da gravação caem na faixa do simulador', ({ skill, danos, espacoSemCrit }) => {
+describe('Sky Emperor — damage with Livro Metálico +7 vs "Dummy - Neutro"', () => {
+  it.each(PACOTES)('$nome: all $danos.length recorded values fall in the simulator range', ({ skill, danos, espacoSemCrit }) => {
     const { min, max } = faixaDe(skill, espacoSemCrit ? { space: espacoSemCrit } : {});
     for (const d of danos) {
-      expect(d, `${d} fora de [${min}, ${max}]`).toBeGreaterThanOrEqual(min);
-      expect(d, `${d} fora de [${min}, ${max}]`).toBeLessThanOrEqual(max);
+      expect(d, `${d} outside [${min}, ${max}]`).toBeGreaterThanOrEqual(min);
+      expect(d, `${d} outside [${min}, ${max}]`).toBeLessThanOrEqual(max);
     }
   });
 
-  // Os críticos da gravação, sob Elo Celestial, com o mesmo multiplicador 1,42.
+  // The recording's criticals, under Elo Celestial, with the same 1.42 multiplier.
   it.each([
     { nome: 'Entardecer Nv.5', skill: 'Noon Blast==5', danos: [1000398, 1004596] },
     { nome: 'Explosão Crepuscular Nv.5', skill: 'Sunset Blast==5', danos: [469808] },
-  ])('$nome: os críticos caem na faixa do simulador', ({ skill, danos }) => {
+  ])('$nome: the criticals fall in the simulator range', ({ skill, danos }) => {
     const { min, max } = faixaDe(skill);
     for (const d of danos) {
-      expect(d, `${d} fora de [${min}, ${max}]`).toBeGreaterThanOrEqual(min);
-      expect(d, `${d} fora de [${min}, ${max}]`).toBeLessThanOrEqual(max);
+      expect(d, `${d} outside [${min}, ${max}]`).toBeGreaterThanOrEqual(min);
+      expect(d, `${d} outside [${min}, ${max}]`).toBeLessThanOrEqual(max);
     }
   });
 
-  // Sem esta guarda o teste de contenção passaria com uma faixa larga demais.
-  it('a faixa é justa: os extremos observados encostam nos do simulador', () => {
+  // Without this guard the containment test would pass with too wide a range.
+  it('keeps the range tight: the observed extremes touch the simulator\'s', () => {
     const { min, max } = faixaDe('Star Cannon==5');
     const obs = PACOTES.find((p) => p.skill === 'Star Cannon==5')!.danos;
-    expect(max - min).toBeLessThan(0.02 * max); // variância da arma, ~1,7%
+    expect(max - min).toBeLessThan(0.02 * max); // weapon variance, ~1.7%
     expect(Math.min(...obs) - min).toBeLessThan(0.005 * max);
     expect(max - Math.max(...obs)).toBeLessThan(0.005 * max);
   });
 
-  it('a Corrida não conta com arma na mão — o mesmo build desarmado dá mais ATQ por golpe', () => {
-    // Desarmado o ATQ é 4.193 (fixo); armado a faixa é 4.480..4.555. O +100 da Corrida
-    // vale só desarmado, então a arma tem que subir MENOS do que subiria se ele contasse.
+  it('does not count Corrida with a weapon in hand — the same build bare-handed gives more ATK per hit', () => {
+    // Bare-handed the ATK is 4,193 (fixed); armed the range is 4,480..4,555. Corrida's
+    // +100 only applies bare-handed, so the weapon has to raise it LESS than it would if
+    // that +100 counted.
     const comArma = faixaDe('Star Cannon==5');
     const semArma = faixaDe('Star Cannon==5', { comArma: false });
-    expect(semArma.min).toBe(semArma.max); // sem arma não há variância
-    expect(semArma.max).toBe(335514); // o mesmo número da primeira gravação
+    expect(semArma.min).toBe(semArma.max); // weaponless there is no variance
+    expect(semArma.max).toBe(335514); // the same number as the first recording
     expect(comArma.max).toBeGreaterThan(semArma.max);
   });
 });

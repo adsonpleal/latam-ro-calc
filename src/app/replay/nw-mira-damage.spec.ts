@@ -10,19 +10,19 @@ import { loadReplayFixture } from './__tests__/load-fixture';
 import { importReplayBuffer } from './replay-to-model';
 
 /**
- * `nw-mira-pet.rrf` ("Armas + Mira" do shummuy) conferida **pelo dano**, com a build
- * inteira importada do próprio replay — o oposto de `NightWatch.replay.spec.ts`, que usa a
- * gravação sem equipamento para isolar as porcentagens das habilidades.
+ * `nw-mira-pet.rrf` (shummuy's "Armas + Mira") checked **by damage**, with the whole
+ * build imported from the replay itself — the opposite of `NightWatch.replay.spec.ts`,
+ * which uses the gearless recording to isolate the skill percentages.
  *
- * O personagem passa por quatro armas e dispara cinco habilidades no Nv.1, sempre com a
- * Mira Focalizada ligada e a contagem de mira em 10 (os ticks de 500 ms do EFST 1346
- * chegam sempre a dez entre um disparo e o seguinte).
+ * The character goes through four weapons and fires five skills at Lv1, always with Mira
+ * Focalizada active and the aiming count at 10 (the EFST 1346 ticks every 500 ms always
+ * reach ten between one shot and the next).
  *
- * Foi este conjunto que achou o conjunto que faltava na **Cesta de Mascotes (410599)**:
- * a descrição pt-BR dá "Dano físico a distância +10%" quando o mascote é Orc Herói,
- * Bafomé ou Abelha-Rainha, e o script só tinha o "Dano físico e mágico +5%" incondicional.
- * Sem essa linha o simulador ficava ~5% abaixo em **todos** os dezoito pacotes, com quatro
- * deles estourando o teto da faixa.
+ * This set is what found the missing combo on the **Cesta de Mascotes (410599)**: the
+ * pt-BR description grants "Dano físico a distância +10%" when the pet is Orc Herói,
+ * Bafomé or Abelha-Rainha, and the script only had the unconditional "Dano físico e
+ * mágico +5%". Without that line the simulator sat ~5% low on **all** eighteen packets,
+ * with four of them overshooting the top of the range.
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
@@ -32,7 +32,7 @@ const hpSpTable = JSON.parse(readFileSync('src/assets/demo/data/hp_sp_table.json
 const DUMMY_MORTO_VIVO = '21076';
 const CESTA_DE_MASCOTES = 410599;
 
-/** As quatro armas da gravação, na ordem em que os pacotes de equipamento as trocam. */
+/** The recording's weapons, in the order the equipment packets swap them. */
 const ARMAS = {
   escopeta: { id: 820004, refine: 8, cards: [4115, 4115], nome: 'Retalhador Consertado +8' },
   metralhadora: { id: 830008, refine: 0, cards: [] as number[], nome: 'Aspersor Consertado +0' },
@@ -46,7 +46,7 @@ function simular(skillName: string, arma: Arma, opts: { pet?: number } = {}) {
   const { model, learnedSkills } = importReplayBuffer(loadReplayFixture('nw-mira-pet.rrf'), items);
   const m: any = model;
   m.class = 4306;
-  // Talentos não vêm no replay; são os que o shummuy confirmou.
+  // Traits do not travel in the replay; these are the ones shummuy confirmed.
   m.pow = 100; m.sta = 0; m.wis = 0; m.spl = 0; m.con = 62; m.crt = 0;
   m.petLoyalty = PetLoyalty.Normal;
   if (opts.pet !== undefined) m.pet = opts.pet;
@@ -95,13 +95,13 @@ function simular(skillName: string, arma: Arma, opts: { pet?: number } = {}) {
 }
 
 /**
- * O conjunto da Cesta de Mascotes é o único caso do item.json em que o parceiro do
- * `EQUIP_ID` é o **mascote** — ele entra no `equipItem` como qualquer outra peça, então a
- * condição funciona igual. Os deltas abaixo são contra a mesma build sem mascote nenhum, e
- * por isso incluem o que o próprio ovo dá (o Bafomé, por exemplo, já traz "Dano físico a
- * distância +5%" sozinho, daí o 15 em vez de 10).
+ * The Cesta de Mascotes combo is the only case in item.json where the `EQUIP_ID` partner
+ * is the **pet** — it enters `equipItem` like any other piece, so the condition works the
+ * same. The deltas below are against the same build with no pet at all, and therefore
+ * include whatever the egg itself grants (Bafomé, for instance, already brings "Dano
+ * físico a distância +5%" on its own, hence 15 instead of 10).
  */
-describe('Cesta de Mascotes — o conjunto muda com a família do mascote', () => {
+describe('Cesta de Mascotes — the combo changes with the pet family', () => {
   const semMascote = () => simular('The Vigilante at Night', ARMAS.metralhadora, { pet: 0 }).bonus;
 
   it.each([
@@ -117,14 +117,14 @@ describe('Cesta de Mascotes — o conjunto muda com a família do mascote', () =
     expect(com[chave] - base[chave]).toBe(delta);
   });
 
-  it('o mascote da família da conjuração dá Pós-conj. e Conj. variável -5%', () => {
+  it('gives after-cast and variable cast -5% for the casting-family pet', () => {
     const base = semMascote();
     const com = simular('The Vigilante at Night', ARMAS.metralhadora, { pet: 9125 }).bonus; // Patinho
     expect(com['acd'] - base['acd']).toBe(5);
     expect(com['vct'] - base['vct']).toBe(5);
   });
 
-  it('as famílias não se misturam — o Orc Herói não dá dano corpo a corpo nem mágico', () => {
+  it('keeps the families apart — Orc Herói grants neither melee nor magic damage', () => {
     const base = semMascote();
     const com = simular('The Vigilante at Night', ARMAS.metralhadora, { pet: 9121 }).bonus;
     expect(com['melee'] - base['melee']).toBe(0);
@@ -133,12 +133,12 @@ describe('Cesta de Mascotes — o conjunto muda com a família do mascote', () =
   });
 
   /**
-   * Quatro dos mascotes que a descrição cita não têm registro no item.json e por isso
-   * ficaram de fora das condições: 9109 Quinding, 9113 Esqueleão, 9114 Pouring e
-   * 9171 Vigia do Tempo. Como não dá para equipá-los na calculadora, a falta não muda
-   * resultado nenhum — mas o dia em que forem cadastrados, o conjunto precisa crescer.
+   * Four of the pets the description names have no item.json record and were therefore
+   * left out of the conditions: 9109 Quinding, 9113 Esqueleão, 9114 Pouring and 9171 Vigia
+   * do Tempo. Since they cannot be equipped in the calculator, their absence changes no
+   * result — but the day they are added, the combo has to grow.
    */
-  it('as condições citam só mascotes que existem no item.json', () => {
+  it('names only pets that exist in item.json in its conditions', () => {
     const script = items[CESTA_DE_MASCOTES].script;
     const ids = JSON.stringify(script).match(/\d{4,}/g)!.map(Number);
     expect(ids.filter((id) => !items[String(id)])).toEqual([]);
@@ -147,7 +147,7 @@ describe('Cesta de Mascotes — o conjunto muda com a família do mascote', () =
 });
 
 /**
- * Os dezoito pacotes 0x01de da gravação. `dano` é o total do pacote; `golpesPacote` é o
+ * The recording's eighteen 0x01de packets. `dano` is the packet total; `golpesPacote` is the
  * `count` que ele carrega, que **não** é sempre o número de golpes lógicos — o Tiroteio
  * chega com 3 (a engine modela isso como `hit: 3`, três golpes de exibição para um golpe
  * de dano). Por isso a divisão usa o `skillTotalHit` do simulador, e um teste separado
@@ -175,29 +175,29 @@ const PACOTES: { ms: number; skill: string; arma: Arma; dano: number; golpesPaco
 ];
 
 /**
- * **Folga de 0,5%, e ela ainda mede um buraco de verdade.** Com o conjunto da Cesta no
- * lugar os oito críticos — que são determinísticos, porque um crítico usa o ATQ **máximo**
- * da arma — ficam 0,38% (fuzil) a 0,48% (revólver) acima do simulador, e três pacotes
- * não-críticos passam do teto por 0,12% a 0,36%. É o resíduo que sobrou depois do conjunto
- * e ainda não tem explicação; duas cartas da build seguem fora do item.json (310991
- * "MHP 2Lv" e 29013 "Absorção de HP 3"), mas as duas são só HP.
+ * **A 0.5% tolerance, and it still measures a real gap.** With the Cesta combo in place
+ * the eight criticals — deterministic, since a critical uses the weapon's **maximum** ATK
+ * — sit 0.38% (rifle) to 0.48% (revolver) above the simulator, and three non-critical
+ * packets overshoot the ceiling by 0.12% to 0.36%. That is the residual left after the
+ * combo and it still has no explanation; two of the build's cards remain outside item.json
+ * (310991 "MHP 2Lv" and 29013 "Absorção de HP 3"), but both are HP only.
  */
 const FOLGA = 1.005;
 
-describe('dano da gravação Armas + Mira', () => {
+describe('damage from the Armas + Mira recording', () => {
   it.each(PACOTES.filter((p) => !p.critico))(
-    '$skill @$ms ($arma.nome): $dano cai na faixa do simulador',
+    '$skill @$ms ($arma.nome): $dano falls in the simulator range',
     ({ skill, arma, dano }) => {
       const r = simular(skill, arma);
       const porGolpe = dano / r.golpes;
-      expect(Number.isInteger(porGolpe), `${dano} não divide por ${r.golpes}`).toBe(true);
+      expect(Number.isInteger(porGolpe), `${dano} does not divide by ${r.golpes}`).toBe(true);
       expect(porGolpe).toBeGreaterThanOrEqual(r.min);
       expect(porGolpe).toBeLessThanOrEqual(Math.floor(r.max * FOLGA));
     },
   );
 
   it.each(PACOTES.filter((p) => p.critico))(
-    '$skill @$ms ($arma.nome): o crítico $dano bate o máximo determinístico',
+    '$skill @$ms ($arma.nome): the critical $dano matches the deterministic maximum',
     ({ skill, arma, dano }) => {
       const r = simular(skill, arma);
       expect(r.podeCritar).toBe(true);
@@ -207,15 +207,15 @@ describe('dano da gravação Armas + Mira', () => {
     },
   );
 
-  // Sem esta guarda o teste acima passaria com uma faixa larga demais.
-  it('a faixa é justa — a variação é a do ATQ da arma, não uma margem larga', () => {
+  // Without this guard the test above would pass with too wide a range.
+  it('keeps the range tight — the spread is the weapon ATK\'s, not a wide margin', () => {
     for (const { skill, arma } of PACOTES) {
       const r = simular(skill, arma);
       expect(r.max / r.min, `${skill} ${arma.nome}`).toBeLessThan(1.12);
     }
   });
 
-  it('o count do pacote é o número de golpes, menos no Tiroteio (3 de exibição, 1 de dano)', () => {
+  it('treats the packet count as the hit count, except on Tiroteio (3 shown, 1 of damage)', () => {
     for (const p of PACOTES) {
       const esperado = p.skill === 'Wild Fire' ? 1 : p.golpesPacote;
       expect(simular(p.skill, p.arma).golpes, `${p.skill} @${p.ms}`).toBe(esperado);
@@ -224,15 +224,15 @@ describe('dano da gravação Armas + Mira', () => {
 });
 
 /**
- * O tamanho do resíduo que sobrou, fixado de propósito: se alguém achar o que falta, este
- * teste quebra e é o sinal de que a folga acima pode encolher.
+ * The size of the remaining residual, pinned on purpose: if anyone finds what is missing,
+ * this test breaks, and that is the signal that the tolerance above can shrink.
  */
-describe('resíduo em aberto', () => {
+describe('open residual', () => {
   it.each([
     { skill: 'Only One Bullet', arma: ARMAS.fuzil, dano: 2628657, razao: 1.0038 },
     { skill: 'Spiral Shooting', arma: ARMAS.fuzil, dano: 1954171, razao: 1.0038 },
     { skill: 'Magazine for One', arma: ARMAS.pistola, dano: 3674718 / 6, razao: 1.0048 },
-  ])('$skill: o crítico gravado é $razao× o simulado', ({ skill, arma, dano, razao }) => {
+  ])('$skill: the recorded critical is $razao× the simulated one', ({ skill, arma, dano, razao }) => {
     expect(dano / simular(skill, arma).critico).toBeCloseTo(razao, 4);
   });
 });

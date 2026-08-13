@@ -4,16 +4,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ItemDescTooltipHoverDirective } from './item-desc-tooltip-hover.directive';
 
 /**
- * O popover de descrição precisa sobreviver ao ponteiro saindo do gatilho, senão a
- * barra de rolagem de uma descrição longa é inalcançável — some antes de o ponteiro
- * chegar nela. Aqui se exercita a máquina de estados da diretiva com dublês do
- * Tooltip e do Renderer2; o que a `deactivate` original faz não interessa, só
- * *quando* ela é chamada.
+ * The description popover has to survive the pointer leaving the trigger, otherwise a
+ * long description's scrollbar is unreachable — it disappears before the pointer gets
+ * there. This exercises the directive's state machine with stand-ins for Tooltip and
+ * Renderer2; what the original `deactivate` does is irrelevant, only *when* it is called.
  */
 
 type Ouvinte = (evento: Event) => void;
 
-/** Renderer2 mínimo: guarda os ouvintes por (alvo, evento) para disparo manual. */
+/** Minimal Renderer2: keeps listeners by (target, event) so they can be fired by hand. */
 function fakeRenderer() {
   const ouvintes = new Map<string, Set<Ouvinte>>();
   const chave = (alvo: unknown, evento: string) => `${(alvo as { id?: string })?.id ?? 'anon'}:${evento}`;
@@ -39,9 +38,9 @@ function fakeRenderer() {
 }
 
 /**
- * Dublê do Tooltip com os métodos no PROTÓTIPO, como na classe real: a diretiva
- * remenda propriedades próprias por cima deles, e é isso que o teste de restauração
- * verifica. Um objeto literal esconderia esse detalhe.
+ * A Tooltip stand-in with its methods on the PROTOTYPE, as in the real class: the
+ * directive patches own properties on top of them, and that is what the restore test
+ * checks. An object literal would hide that detail.
  */
 class FakeTooltip {
   container: unknown = undefined;
@@ -62,7 +61,7 @@ class FakeTooltip {
     this.chamadas.hide++;
   }
   onPressEscape() {
-    /* o real chama deactivate(); aqui só interessa que a diretiva o substitua */
+    /* the real one calls deactivate(); here all that matters is the directive replaces it */
   }
 }
 
@@ -75,7 +74,7 @@ function montar() {
   const dir = new ItemDescTooltipHoverDirective(tooltip, host, r.renderer);
   dir.ngOnInit();
 
-  /** Abre o popover como o PrimeNG faria: cria o container e chama show(). */
+  /** Opens the popover the way PrimeNG would: creates the container and calls show(). */
   const abrir = () => {
     fake.container = { id: 'popover' };
     tooltip.show();
@@ -88,12 +87,12 @@ describe('ItemDescTooltipHoverDirective', () => {
   beforeEach(() => vi.useFakeTimers());
   afterEach(() => vi.useRealTimers());
 
-  it('desliga o autoHide do PrimeNG, que fecharia ao sair do gatilho', () => {
+  it('turns off PrimeNG autoHide, which would close on leaving the trigger', () => {
     const { opcoes } = montar();
     expect(opcoes['autoHide']).toBe(false);
   });
 
-  it('não fecha na hora ao sair do gatilho — dá folga para atravessar até o popover', () => {
+  it('does not close immediately on leaving the trigger — it allows time to cross over', () => {
     const { tooltip, chamadas, abrir } = montar();
     abrir();
 
@@ -104,7 +103,7 @@ describe('ItemDescTooltipHoverDirective', () => {
     expect(chamadas.deactivate).toBe(1);
   });
 
-  it('cancela o fechamento quando o ponteiro entra no popover', () => {
+  it('cancels the close when the pointer enters the popover', () => {
     const { tooltip, chamadas, r, abrir } = montar();
     abrir();
 
@@ -115,7 +114,7 @@ describe('ItemDescTooltipHoverDirective', () => {
     expect(chamadas.deactivate).toBe(0);
   });
 
-  it('cancela o fechamento quando o ponteiro volta para o gatilho', () => {
+  it('cancels the close when the pointer returns to the trigger', () => {
     const { tooltip, chamadas, r, abrir } = montar();
     abrir();
 
@@ -126,7 +125,7 @@ describe('ItemDescTooltipHoverDirective', () => {
     expect(chamadas.deactivate).toBe(0);
   });
 
-  it('fecha ao sair do popover para fora', () => {
+  it('closes when the pointer leaves the popover outwards', () => {
     const { chamadas, r, abrir } = montar();
     abrir();
 
@@ -137,7 +136,7 @@ describe('ItemDescTooltipHoverDirective', () => {
     expect(chamadas.deactivate).toBe(1);
   });
 
-  it('sem popover na tela, fecha na hora — para cancelar uma exibição agendada', () => {
+  it('closes immediately with no popover on screen — to cancel a scheduled show', () => {
     const { tooltip, chamadas } = montar();
 
     tooltip.deactivate();
@@ -145,7 +144,7 @@ describe('ItemDescTooltipHoverDirective', () => {
     expect(chamadas.deactivate).toBe(1);
   });
 
-  it('Esc fecha imediatamente, sem esperar a folga', () => {
+  it('closes immediately on Esc, without waiting for the grace period', () => {
     const { tooltip, chamadas, abrir } = montar();
     abrir();
 
@@ -154,7 +153,7 @@ describe('ItemDescTooltipHoverDirective', () => {
     expect(chamadas.deactivate).toBe(1);
   });
 
-  it('Esc não fecha quando hideOnEscape está desligado', () => {
+  it('does not close on Esc when hideOnEscape is off', () => {
     const { tooltip, chamadas, abrir } = montar();
     abrir();
     (tooltip as unknown as { hideOnEscape: boolean }).hideOnEscape = false;
@@ -165,18 +164,18 @@ describe('ItemDescTooltipHoverDirective', () => {
     expect(chamadas.deactivate).toBe(0);
   });
 
-  it('não deixa um fechamento agendado sobreviver ao popover que o originou', () => {
+  it('does not let a scheduled close outlive the popover that scheduled it', () => {
     const { tooltip, chamadas, abrir } = montar();
     abrir();
 
-    tooltip.deactivate(); // agenda
-    tooltip.hide(); // o popover foi embora por outro caminho (scroll, resize…)
+    tooltip.deactivate(); // schedules
+    tooltip.hide(); // the popover went away by another route (scroll, resize…)
     vi.advanceTimersByTime(1000);
 
     expect(chamadas.deactivate).toBe(0);
   });
 
-  it('reamarra os ouvintes a cada exibição, sem acumular no container antigo', () => {
+  it('rebinds the listeners on every show, without piling up on the old container', () => {
     const { r, abrir } = montar();
 
     abrir();
@@ -186,12 +185,12 @@ describe('ItemDescTooltipHoverDirective', () => {
     expect(r.contar('popover', 'mouseleave')).toBe(1);
   });
 
-  it('devolve os métodos originais ao destruir', () => {
+  it('restores the original methods on destroy', () => {
     const { dir, tooltip } = montar();
 
     dir.ngOnDestroy();
 
-    // Os métodos do protótipo de volta, não cópias `bind`adas por cima deles.
+    // The prototype methods back, not `bind`ed copies sitting on top of them.
     for (const metodo of ['deactivate', 'show', 'hide', 'onPressEscape'] as const) {
       expect(Object.prototype.hasOwnProperty.call(tooltip, metodo)).toBe(false);
       expect(tooltip[metodo]).toBe(FakeTooltip.prototype[metodo]);

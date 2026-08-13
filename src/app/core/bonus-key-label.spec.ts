@@ -4,58 +4,58 @@ import { createRawTotalBonus } from 'src/app/utils';
 import { bonusKeyLabel, resolveSkillKey } from './bonus-key-label';
 
 /**
- * Rótulos pt-BR do painel de bônus do item (o que aparece ao clicar numa peça, junto com
- * a descrição e o preço do Mercado).
+ * pt-BR labels for the item bonus panel (what shows when you click a piece, next to the
+ * description and the Mercado price).
  *
- * `bonusKeyLabel` tenta ITEM_BONUS_LABELS, depois BUFF_BONUS_LABELS e por fim o decodifica-
- * dor das chaves estruturadas. O segundo passo é o perigoso: os rótulos de buff são siglas
- * internacionais (ATK, POW, WIS...), então toda chave que falta no primeiro mapa vaza em
- * inglês sem quebrar nada. Foi assim que a Manopla Sombria POD +9 apareceu no painel com
- * "POW +4" em vez de "POD +4".
+ * `bonusKeyLabel` tries ITEM_BONUS_LABELS, then BUFF_BONUS_LABELS, and finally the
+ * structured-key decoder. The second step is the dangerous one: buff labels are the
+ * international abbreviations (ATK, POW, WIS...), so any key missing from the first map
+ * leaks through in English without breaking anything. That is how Manopla Sombria POD +9
+ * ended up in the panel as "POW +4" instead of "POD +4".
  *
- * O teste de varredura no fim é o que segura isso: ele passa por **todas** as chaves de
- * bônus que existem no item.json e reprova qualquer uma que ainda saia em inglês ou com a
- * chave crua.
+ * The sweep test at the end is what holds the line: it walks **every** bonus key present
+ * in item.json and fails any that still comes out in English or as the raw key.
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
 
-describe('bonusKeyLabel — atributos e talentos', () => {
+describe('bonusKeyLabel — stats and traits', () => {
   it.each([
     ['str', 'FOR'], ['agi', 'AGI'], ['vit', 'VIT'],
     ['int', 'INT'], ['dex', 'DES'], ['luk', 'SOR'],
   ])('%s → %s', (key, label) => expect(bonusKeyLabel(key)).toBe(label));
 
-  // Os talentos são os que estavam vazando: POD/SAB/FEI/CRV têm sigla própria em pt-BR,
-  // enquanto STA e CON são iguais nos dois idiomas e por isso não chamavam atenção.
+  // The traits are the ones that were leaking: POD/SAB/FEI/CRV have their own pt-BR
+  // abbreviations, while STA and CON read the same in both languages and so drew no
+  // attention.
   it.each([
     ['pow', 'POD'], ['sta', 'STA'], ['wis', 'SAB'],
     ['spl', 'FEI'], ['con', 'CON'], ['crt', 'CRV'],
   ])('%s → %s', (key, label) => expect(bonusKeyLabel(key)).toBe(label));
 
-  it('hplus usa o nome do cliente (C.Mais), não a sigla', () => {
+  it('uses the client name for hplus (C.Mais), not the abbreviation', () => {
     expect(bonusKeyLabel('hplus')).toBe('C.Mais');
   });
 });
 
-describe('bonusKeyLabel — chaves estruturadas', () => {
-  it('a resistência por tamanho separa o tipo de dano em vez de engolir o sufixo', () => {
+describe('bonusKeyLabel — structured keys', () => {
+  it('splits out the damage type on size resistance instead of swallowing the suffix', () => {
     expect(bonusKeyLabel('subsize_m')).toBe('Resistência (Tamanho: Médio)');
     expect(bonusKeyLabel('subsize_m_physical')).toBe('Resistência (Tamanho: Médio, físico)');
     expect(bonusKeyLabel('subsize_all_magical')).toBe('Resistência (Tamanho: Todos, mágico)');
   });
 
-  it('resistência por raça/elemento/classe segue sem sufixo', () => {
+  it('leaves race/element/class resistance without a suffix', () => {
     expect(bonusKeyLabel('subrace_demon')).toBe('Resistência (Raça: Demônio)');
     expect(bonusKeyLabel('subele_fire')).toBe('Resistência (Elemento: Fogo)');
   });
 
-  it('crítico por raça', () => {
+  it('handles per-race crit', () => {
     expect(bonusKeyLabel('cri_race_dragon')).toBe('Crítico (Raça: Dragão)');
   });
 
-  // calc-skill-aspd.ts lê seis famílias de redução por habilidade; antes só três tinham
-  // rótulo e as outras apareciam como "acd__156".
+  // calc-skill-aspd.ts reads six families of per-skill reduction; only three used to have
+  // a label, and the rest showed up as "acd__156".
   it.each([
     ['cd__2008', 'Redução de Recarga de'],
     ['vct__2008', 'Redução de Conj. Variável de'],
@@ -63,41 +63,41 @@ describe('bonusKeyLabel — chaves estruturadas', () => {
     ['fctPercent__2008', 'Redução de Conj. Fixa % de'],
     ['acd__2008', 'Redução de Pós-conjuração de'],
     ['fix_vct__2008', 'Redução de Conj. Variável (fixa) de'],
-  ])('%s começa com "%s" e resolve o nome da habilidade', (key, prefixo) => {
+  ])('%s starts with "%s" and resolves the skill name', (key, prefixo) => {
     const label = bonusKeyLabel(key);
     expect(label.startsWith(prefixo)).toBe(true);
     expect(label).not.toContain('__');
-    expect(label).not.toMatch(/\b2008\b/); // resolveu para o nome pt-BR da habilidade
+    expect(label).not.toMatch(/\b2008\b/); // resolved to the skill's pt-BR name
   });
 });
 
-describe('bonusKeyLabel — varredura', () => {
-  /** Chaves de bônus que aparecem de fato em algum script do item.json. */
+describe('bonusKeyLabel — sweep', () => {
+  /** Bonus keys that actually appear in some item.json script. */
   const chavesDoItemJson = [...new Set(
     Object.values<any>(items).flatMap((it) => Object.keys(it.script ?? {})),
   )];
 
-  /** Uma chave numérica é id de habilidade: ela vira nome pelo catálogo, não por aqui. */
+  /** A numeric key is a skill id: it becomes a name through the catalog, not through here. */
   const semRotulo = (key: string) => {
     if (resolveSkillKey(key)) return false;
-    if (/^\d+$/.test(key)) return false; // habilidade fora do catálogo — outro problema
+    if (/^\d+$/.test(key)) return false; // skill outside the catalog — a different problem
     const label = bonusKeyLabel(key);
     if (label === key) return true;
-    if (/[a-z]+_[a-z]+/.test(label)) return true; // sobrou pedaço de chave no rótulo
+    if (/[a-z]+_[a-z]+/.test(label)) return true; // a chunk of the key survived in the label
     return /^(ATK|MATK|P\.ATK|S\.MATK|C\.RATE|HIT|ASPD|VCT|MDEF|POW|WIS|SPL|CRT)\b/.test(label);
   };
 
-  it('toda chave não numérica do item.json tem rótulo pt-BR', () => {
+  it('gives every non-numeric item.json key a pt-BR label', () => {
     const faltando = chavesDoItemJson.filter(semRotulo).map((k) => `${k} -> "${bonusKeyLabel(k)}"`);
-    // `dmg__<nome de monstro>` não é chave de bônus válida — a engine já a rejeita em
-    // invalidBonusSet; está aqui só para o dia em que for removida do item.json.
+    // `dmg__<monster name>` is not a valid bonus key — the engine already rejects it in
+    // invalidBonusSet; it is listed here only until it is removed from item.json.
     expect(faltando).toEqual(['dmg__Lucifer Morocc -> "dmg__Lucifer Morocc"']);
   });
 
-  it('as chaves canônicas do somatório de bônus também têm rótulo', () => {
+  it('also labels the canonical keys of the bonus total', () => {
     const faltando = Object.keys(createRawTotalBonus()).filter(semRotulo);
-    // `refine` e `weight` moram no somatório mas não são bônus de item — nenhum script os
-    // usa, então nunca chegam ao painel. Ficam sem rótulo de propósito.
+    // `refine` and `weight` live in the total but are not item bonuses — no script uses
+    // them, so they never reach the panel. They are deliberately left unlabelled.
     expect(faltando).toEqual(['refine', 'weight']);
   });
 });
