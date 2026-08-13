@@ -90,7 +90,7 @@ export class Sura extends Champion {
       value: 'Dragon Combo==10',
       fct: 0,
       vct: 0,
-      acd: 1,
+      acd: 0,
       cd: 0,
       hit: 2,
       isMelee: true,
@@ -107,7 +107,7 @@ export class Sura extends Champion {
       value: 'Fallen Empire==10',
       fct: 0,
       vct: 0,
-      acd: 1,
+      acd: 0,
       cd: 0,
       hit: 2,
       isMelee: true,
@@ -146,10 +146,10 @@ export class Sura extends Champion {
       name: 'Lion Howling',
       label: 'Lion Howling Lv5',
       value: 'Lion Howling==5',
-      fct: 0,
-      vct: 0,
-      acd: 1,
-      cd: 0,
+      fct: 0.5,
+      vct: 1,
+      acd: 0,
+      cd: 10,
       isMelee: true,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel } = input;
@@ -298,7 +298,7 @@ export class Sura extends Champion {
       value: 'Lightning Ride==5',
       fct: 0,
       vct: 1,
-      acd: 1,
+      acd: 0,
       cd: 0.5,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, weapon } = input;

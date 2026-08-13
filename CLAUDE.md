@@ -118,10 +118,16 @@ the `sync-with-ragassets` skill.
   the source has no spawn map).
 - `tools/build-latam-monsters.mjs` — generates the pt-BR name overlay
   (`latam-monsters.json`) from the same `mobs.json`.
-- `skills.json` — `{id, name, description}` for every skill the client knows, with the raw
-  pt-BR text (`^RRGGBB` codes and line breaks preserved, same as `items.json`). This is
-  where a new entry in `src/app/skills/skill-meta.generated.ts` comes from — that catalog
-  is hand-maintained, so **do not** extract from the GRF and do not ask the user to paste
-  the text. The pt-BR description is the source of truth for the effect, outranking
-  divine-pride and the Sigma blog, which disagree with each other and with LATAM.
+- `skills.json` — `{id, name, maxLevel, description, delay}` for every skill the client
+  knows, with the raw pt-BR text (`^RRGGBB` codes and line breaks preserved, same as
+  `items.json`). This is where a new entry in `src/app/skills/skill-meta.generated.ts`
+  comes from — that catalog is hand-maintained, so **do not** extract from the GRF and do
+  not ask the user to paste the text. The pt-BR description is the source of truth for the
+  effect, outranking divine-pride and the Sigma blog, which disagree with each other and
+  with LATAM.
+- `delay` is the game's own **Conjuração / Espera** window (`castFixed`, `castVariable`,
+  `afterCast`, `cooldown`, per level, in ms) — the four numbers `AtkSkillModel` keeps as
+  `fct`, `vct`, `acd`, `cd` in seconds. `tools/build-skill-delays.mjs` mirrors it into
+  `skill-delay.json` and `src/app/skills/skill-delay.spec.ts` holds every class to it, so
+  these are never typed from a blog. See the `review-rrf-class` skill, §8.
 - To **add** a monster use the `add-ro-monster` skill; for an item, `add-ro-item`.

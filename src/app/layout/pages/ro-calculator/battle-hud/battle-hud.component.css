@@ -267,6 +267,94 @@
   color: var(--orange-300);
 }
 
+/* Popover tables. `.cast` is the game's own "Informação de Conjuração / Espera"
+   window: a Nv. column, then two column groups — Conjuração (Fixa, Variável) and
+   Espera (Pós, Recarga). Both cast tables share this layout so the reduced values
+   and the base ones sit in exactly the same positions, one above the other. */
+.ptable {
+  border-collapse: collapse;
+  margin: 8px 0;
+  min-width: 220px;
+  width: 100%;
+  font-size: 13px;
+}
+
+.ptable th,
+.ptable td {
+  padding: 3px 10px;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-color);
+}
+
+/* Row headers are labels, not data — keep them quiet and flush left. */
+.ptable tbody th[scope='row'] {
+  text-align: left;
+  padding-left: 0;
+  font-weight: 400;
+  color: var(--text-color-secondary);
+}
+
+.ptable thead th {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-color-secondary);
+}
+
+.ptable thead tr:last-child th,
+.ptable thead tr:last-child td {
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.ptable .sim {
+  color: var(--yellow-200);
+}
+
+/* The game draws this one as a closed grid: a border all the way round and a rule
+   between every cell. The vertical lines are what make "Fixa | Variável" read as
+   one group and "Pós | Recarga" as the other. */
+.ptable.cast {
+  border: 1px solid var(--surface-border);
+}
+
+.ptable.cast th,
+.ptable.cast td {
+  text-align: center;
+  padding: 3px 8px;
+}
+
+/* Rule between stacked body rows, so a comparison row is bounded like the rest. */
+.ptable.cast tbody tr + tr th,
+.ptable.cast tbody tr + tr td {
+  border-top: 1px solid var(--surface-border);
+}
+
+.ptable.cast tbody th[scope='row'] {
+  text-align: center;
+  padding-left: 8px;
+  color: var(--text-color);
+}
+
+.ptable.cast thead th[colspan] {
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.ptable.cast th + th,
+.ptable.cast td + td,
+.ptable.cast td + th,
+.ptable.cast th + td {
+  border-left: 1px solid var(--surface-border);
+}
+
+/* The base row is the reference the row above is reduced from, so it reads a step
+   back from the build's own numbers. */
+.ptable.cast tr.base td {
+  color: var(--text-color-secondary);
+}
+
 .psec {
   font-size: 11.9px;
   text-transform: uppercase;

@@ -164,10 +164,10 @@ export class Meister extends Mechanic {
       name: 'Axe Stomp',
       label: '[V2] Axe Stomp Lv5',
       value: 'Axe Stomp==5',
-      acd: 0.25,
-      fct: 0,
+      acd: 0.5,
+      fct: 0.5,
       vct: 0,
-      cd: 0.7,
+      cd: 1,
       isMelee: true,
       totalHit: ({ weapon }) => (weapon.isType('twohandAxe') ? 3 : 1),
       formula: (input: AtkSkillFormulaInput): number => {

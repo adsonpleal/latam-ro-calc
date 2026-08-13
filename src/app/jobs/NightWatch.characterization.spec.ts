@@ -192,14 +192,18 @@ describe('Night Watch grenade ratios @ base 250, CON 100, Grenade Mastery 10', (
   });
 });
 
-describe('Night Watch cast/cooldown metadata (2nd version)', () => {
+describe('Night Watch cast/cooldown metadata', () => {
   // Published as "cast | cooldown"; the model stores vct = variable, fct = fixed,
   // cd = cooldown, all in seconds. Every Night Watch skill is fixed-cast only.
+  //
+  // First written from the "2nd version" blog tables; only Magazine for One's cooldown
+  // disagreed with the client and now follows it (0.75s, not 0.5s). The authority is
+  // skills/skill-delay.spec.ts.
   const cases: { name: string; vct: number; fct: number; cd: number }[] = [
     { name: 'The Vigilante at Night', vct: 0, fct: 1.5, cd: 0.5 },
     { name: 'Only One Bullet', vct: 0, fct: 1, cd: 0.3 },
     { name: 'Spiral Shooting', vct: 0, fct: 1.5, cd: 0.5 },
-    { name: 'Magazine for One', vct: 0, fct: 1, cd: 0.5 },
+    { name: 'Magazine for One', vct: 0, fct: 1, cd: 0.75 },
     { name: 'Wild Fire', vct: 0, fct: 1, cd: 0.5 },
     { name: 'Basic Grenade', vct: 0, fct: 1, cd: 0.3 },
     { name: 'Hasty Fire in the Hole', vct: 0, fct: 1, cd: 1 },

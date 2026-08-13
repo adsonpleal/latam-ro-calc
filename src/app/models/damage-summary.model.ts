@@ -205,6 +205,15 @@ export interface SkillAspdModel {
   reducedFct: number;
   acd: number;
   reducedAcd: number;
+  /** The level the row below was read at — the game's "Nv." column. */
+  skillLevel: number;
+  /** The client's own cast/delay row for this skill and level, untouched by any reduction
+   *  — the four numbers the game shows in "Informação de Conjuração / Espera". Unlike the
+   *  fields above, these survive `releasedSkill`, so the UI can show what is reduced from. */
+  clientFct: number;
+  clientVct: number;
+  clientAcd: number;
+  clientCd: number;
   castPeriod: number;
   hitPeriod: number;
   totalHitPerSec: number;

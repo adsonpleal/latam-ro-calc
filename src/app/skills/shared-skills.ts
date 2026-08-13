@@ -96,8 +96,8 @@ export const REVERBERATION: AtkSkillModel = {
   values: ['[Improved] Reverberation==5'],
   acd: 0.5,
   fct: 0.5,
-  vct: 1.5,
-  cd: 0,
+  vct: 1,
+  cd: 0.15,
   isMatk: true,
   formula: ({ skillLevel, model }) => (700 + skillLevel * 300) * (model.level / 100),
 };

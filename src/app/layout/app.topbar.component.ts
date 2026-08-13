@@ -156,6 +156,18 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.52-beta',
+      date: '13-08-2026',
+      logs: [
+        'Os tempos de conjuração e de espera de todas as habilidades ofensivas foram conferidos contra a janela "Informação de Conjuração" do próprio cliente, que passou a ser publicada junto com o resto dos dados do jogo. São as quatro colunas que aparecem no jogo — Fixa, Variável, Pós e Recarga —, e o simulador guarda exatamente essas quatro. De 216 habilidades, 136 já estavam certas e 80 não; as 80 foram acertadas. Quase todas vinham erradas desde o projeto de origem, algumas ainda com o nome em tailandês do lado: a Ira de Thor, por exemplo, estava com 1,68 de conjuração fixa e 6,72 de variável, que são os números de outro servidor, contra 1,5 e 4,5 do cliente daqui.',
+        'A mudança mais sentida é nas habilidades definitivas, que estavam com recarga de 2 a 5 segundos e no cliente têm 60: Meteoro Ômega, Círculo Elemental, Punho Labareda e Firmamento. Como a recarga é o que separa um uso do outro, o dano por segundo dessas quatro cai bastante — e agora corresponde ao que o jogo faz. Na direção oposta, o Punho do Dragão, a Ruína e a Tempestade Espiritual perderam 1 segundo de espera pós-conjuração que não existe no cliente, e as Lanças de Fogo, as Lanças de Gelo e o Relâmpago passaram de 2,8 para 1,4 segundo.',
+        'Habilidades cujo tempo muda a cada nível deixaram de ter um valor único. Na linha do Hiperaprendiz isso pega quase tudo: a Chuva de Meteoritos tem recarga de 2,1 segundos no nível 1 subindo até 3 no nível 10, a Ira da Terra faz o caminho inverso, de 2,5 para 0,7, e a Tempestade de Júpiter, o Esquife Congelante e a Zona Gravitacional têm conjuração variável própria em cada nível. Antes o simulador usava o valor do nível 10 em todos os níveis, o que deixava a conta errada para quem não usa a habilidade no máximo.',
+        'Dois erros antigos apareceram na conferência. O Disparo Rítmico da Diva estava com a espera pós-conjuração e a recarga trocadas de lugar em relação ao do Maestro, que é a mesma habilidade com os mesmos números. E a Ressonância, usada por Trovador, Musa, Maestro e Diva, estava com 1,5 de conjuração variável em vez de 1 e sem os 0,15 segundo de recarga.',
+        'Para os valores não voltarem a se perder, a tabela do cliente passou a ser guardada no projeto e um teste automático cobra dela todas as habilidades de todas as classes, em cada nível que o simulador oferece. Se uma atualização do jogo mexer em algum tempo, o teste aponta qual habilidade e qual coluna mudaram.',
+        'A barra passou a se chamar "Conjuração/Espera", como no jogo, e o "Detalhes da habilidade" foi refeito em tabelas de verdade. As de conjuração são duas, uma embaixo da outra e com as colunas na mesma ordem da janela do jogo — Nv., Conjuração (Fixa e Variável) e Espera (Pós e Recarga). A de cima, "Conjuração/Espera", traz o que a build realmente paga; a de baixo, "Conjuração/Espera - Base", traz o que o cliente publica para aquele nível, sem redução nenhuma. Dá para ver de onde cada desconto saiu: o Esquife Congelante nível 5 tem 2 segundos de conjuração variável na tabela base e cai para 0,495 com DES e INT altos. A base continua aparecendo mesmo com a Liberação Mágica do Arcano ligada, que zera a conjuração — antes esse caso mostrava só zero contra zero.',
+      ],
+    },
+    {
       v: '0.1.51-beta',
       date: '13-08-2026',
       logs: [

@@ -151,13 +151,17 @@ describe('Exorcism of Malicious Soul (id 5425)', () => {
   });
 });
 
-describe('Soul Ascetic cast/cooldown metadata (2nd version)', () => {
+describe('Soul Ascetic cast/cooldown metadata', () => {
   // Published as "variable cast / fixed cast | cooldown"; the model stores
   // vct = variable, fct = fixed, cd = cooldown, all in seconds.
+  //
+  // First written from the "2nd version" blog tables; only Talisman of White Tiger's
+  // cooldown disagreed with the client and now follows it. The authority is
+  // skills/skill-delay.spec.ts.
   const cases: { name: string; vct: number; fct: number; cd: number }[] = [
     { name: 'Exorcism of Malicious Soul', vct: 3, fct: 1.5, cd: 1 },
     { name: 'Talisman of Blue Dragon', vct: 1, fct: 1.5, cd: 0.3 },
-    { name: 'Talisman of White Tiger', vct: 1, fct: 1.5, cd: 0.4 },
+    { name: 'Talisman of White Tiger', vct: 1, fct: 1.5, cd: 0.3 },
     { name: 'Talisman of Red Phoenix', vct: 1, fct: 1.5, cd: 0.45 },
     { name: 'Talisman of Black Tortoise', vct: 1, fct: 1.5, cd: 0.7 },
     { name: 'Talisman of Four Bearing God', vct: 2, fct: 1.5, cd: 1 },

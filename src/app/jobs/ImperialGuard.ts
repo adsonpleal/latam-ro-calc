@@ -170,7 +170,7 @@ export class ImperialGuard extends RoyalGuard {
       acd: 0.5,
       fct: 0.5,
       vct: 0,
-      cd: 0.7,
+      cd: 1,
       isMelee: true,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
@@ -188,7 +188,7 @@ export class ImperialGuard extends RoyalGuard {
       acd: 0.5,
       fct: 0.5,
       vct: 0.5,
-      cd: 0.7,
+      cd: 1,
       hit: 7,
       verifyItemFn: ({ model }) => !model.shield ? 'Shield' : '',
       formula: (input: AtkSkillFormulaInput): number => {
@@ -205,10 +205,10 @@ export class ImperialGuard extends RoyalGuard {
       name: 'Cross Rain',
       label: '[V2] Cross Rain Lv10',
       value: 'Cross Rain==10',
-      acd: 0.15,
+      acd: 0.5,
       fct: 1.5,
       vct: 4,
-      cd: 4.5,
+      cd: 5,
       isMatk: true,
       element: ElementType.Holy,
       totalHit: 15,

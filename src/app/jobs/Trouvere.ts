@@ -168,10 +168,10 @@ export class Trouvere extends Wanderer {
       name: 'Rhythm Shooting',
       label: '[V2] Rhythm Shooting Lv5',
       value: 'Rhythm Shooting==5',
-      acd: 0,
+      acd: 0.15,
       fct: 0,
       vct: 2,
-      cd: 0.15,
+      cd: 0,
       totalHit: 3,
       verifyItemFn: ({ weapon }) => {
         const requires: WeaponTypeName[] = ['bow', 'instrument', 'whip'];
@@ -199,8 +199,8 @@ export class Trouvere extends Wanderer {
       value: 'Rose Blossom==5',
       acd: 0.15,
       fct: 0.5,
-      vct: 1,
-      cd: 0.7,
+      vct: 2,
+      cd: 0.5,
       totalHit: 1,
       verifyItemFn: ({ weapon }) => {
         const requires: WeaponTypeName[] = ['bow', 'instrument', 'whip'];

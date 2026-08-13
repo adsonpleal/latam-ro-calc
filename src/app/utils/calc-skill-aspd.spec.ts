@@ -57,6 +57,45 @@ describe('calcSkillAspd', () => {
     expect(r.reducedFct).toBe(0);
   });
 
+  it('keeps the client row intact through releasedSkill, so the UI can show what was reduced', () => {
+    const skillData = skill({ acd: 1, cd: 5, fct: 2, vct: 3 });
+    const plain = calcSkillAspd({ skillData, totalEquipStatus: equip, status, skillLevel: 5 });
+    const released = calcSkillAspd({ skillData, totalEquipStatus: { ...equip, releasedSkill: 1 }, status, skillLevel: 5 });
+    const clientRow = { clientAcd: 1, clientCd: 5, clientFct: 2, clientVct: 3 };
+
+    expect(plain).toMatchObject(clientRow);
+    expect(released).toMatchObject(clientRow);
+  });
+
+  // What the "Detalhes da habilidade" popover puts side by side: the client's published
+  // row against the same skill after this character's reductions.
+  it('reports the client row untouched while the reduced values shrink around it', () => {
+    equip.acd = 50;
+    equip.vct = 20;
+    status.totalDex = 120;
+    status.totalInt = 100;
+    const r = calcSkillAspd({ skillData: skill({ acd: 1, cd: 5, fct: 2, vct: 3 }), totalEquipStatus: equip, status, skillLevel: 5 });
+
+    expect({ clientAcd: r.clientAcd, clientVct: r.clientVct, clientFct: r.clientFct, clientCd: r.clientCd })
+      .toEqual({ clientAcd: 1, clientVct: 3, clientFct: 2, clientCd: 5 });
+    expect(r.reducedAcd).toBe(0.5);
+    expect(r.reducedVct).toBeLessThan(r.clientVct);
+    expect(r.reducedVct).toBeGreaterThan(0);
+  });
+
+  it('reports the client row at the requested level, not at level 1', () => {
+    const r = calcSkillAspd({
+      skillData: skill({ cd: (lv: number) => [2.5, 2.3, 2.1, 1.9, 1.7][lv - 1] }),
+      totalEquipStatus: equip,
+      status,
+      skillLevel: 4,
+    });
+
+    // The level travels with the row so the popover can label it, like the game's "Nv." column.
+    expect(r.clientCd).toBe(1.9);
+    expect(r.skillLevel).toBe(4);
+  });
+
   it('resolves function-valued timings against the skill level', () => {
     const r = calcSkillAspd({
       skillData: skill({ acd: (lv: number) => lv * 0.4 }),

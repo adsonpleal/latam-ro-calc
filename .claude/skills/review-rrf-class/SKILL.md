@@ -140,7 +140,49 @@ pt-BR text with the per-level table. It outranks the Sigma blog — the `[V2]` t
 See [[sigma-v2-vs-client-tables]]. Ratios are `Math.floor`ed by the server, never rounded —
 see [[skill-ratio-truncation]].
 
-## 8. Triage a leftover percentage
+## 8. Cast and delay: the client table wins
+
+Every skill you add or touch has four more numbers besides the ratio — the ones the game
+shows in its own **Informação de Conjuração / Espera** window, which `AtkSkillModel` stores
+in seconds:
+
+| in game | ragassets `delay` | model |
+|---|---|---|
+| Conjuração / Fixa | `castFixed` | `fct` |
+| Conjuração / Variável | `castVariable` | `vct` |
+| Espera / Pós | `afterCast` | `acd` |
+| Espera / Recarga | `cooldown` | `cd` |
+
+`src/assets/demo/data/skill-delay.json` is that table, mirrored from the ragassets
+`skills.json` feed. **Never type these from the blog** — the `[V2]` tables were wrong on the
+whole Shinkiro cannon tree, and a fork-inherited value survived in 79 skills until the check
+below existed. Regenerate and run it:
+
+```bash
+node tools/build-skill-delays.mjs
+npx vitest run src/app/skills/skill-delay.spec.ts
+```
+
+The spec checks every class's atk skills at every level the picker offers, and prints
+`<skill> Lv<n> <field>: <ours> should be <client>` for each disagreement. Fix the job file,
+not the test. Three things it will make you deal with:
+
+- **A skill whose value varies by level** takes a curve, copied from the client row verbatim:
+  `cd: (lv) => [2.5, 2.3, 2.1, 1.9, 1.7, 1.5, 1.3, 1.1, 0.9, 0.7][lv - 1]`. Do not fit a
+  formula — `2.7 - lv * 0.2` is a claim the client never made, and it is not even exact in
+  binary at Lv10.
+- **A skill defined more than once** — in two job files, or twice in one class for a ground
+  skill's burst and field — has to be changed in every copy. The spec deliberately does not
+  dedupe by name, which is how Trouvere's Rhythm Shooting was caught with `acd` and `cd`
+  swapped against Troubadour's.
+- **A genuine divergence** goes in the spec's `EXCEPTIONS` with the reason, never a silent
+  edit to the expected value. There is exactly one today: Servant Weapon, whose client
+  cooldown is the cost of *summoning* the servants, not the rate of the hit being modelled.
+
+If the client has no delay row for the skill at all (`delay: null` in the feed), add its id
+to `NO_CLIENT_ROW` with the pt-BR name in a comment.
+
+## 9. Triage a leftover percentage
 
 When every status field matches and damage is still off by a constant-ish factor, find the
 **stage** before hunting the cause. Method: add a candidate bonus to an item that is
@@ -158,7 +200,7 @@ recording cannot separate the stages. And always keep the gearless recording as 
 if it is exact, the cause is in the equipment, and the next step is reading every equipped
 item's pt-BR description against its `script` in `item.json` — see [[ptbr-description-source-of-truth]].
 
-## 9. Land it as tests
+## 10. Land it as tests
 
 Commit the `.rrf` under `src/app/replay/__tests__/fixtures/` (the folder already versions
 several; they never change, so the binary blob is stored once) and write a spec that:

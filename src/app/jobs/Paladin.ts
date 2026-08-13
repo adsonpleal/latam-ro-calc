@@ -90,7 +90,7 @@ export class Paladin extends Swordman {
       name: 'Gloria Domini',
       value: 'Gloria Domini==5',
       acd: 1,
-      fct: 1,
+      fct: 0.4,
       vct: 1,
       cd: 0,
       isMatk: true,

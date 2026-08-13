@@ -23,6 +23,14 @@ export const calcSkillAspd = (params: {
   skillCd = floor(skillCd, 3)
   skillFct = floor(skillFct, 3)
   skillVct = floor(skillVct, 3)
+
+  // The skill's own row in the client's "Informação de Conjuração / Espera" window, kept
+  // aside before anything touches it so the UI can always show what the reductions start
+  // from. `releasedSkill` (Warlock's Release) zeroes the working values below, which would
+  // otherwise leave the display comparing 0 against 0. The engine's fct/vct/acd/cd are the
+  // client's own numbers — src/app/skills/skill-delay.spec.ts holds every class to them.
+  const client = { fct: skillFct, vct: skillVct, acd: skillAcd, cd: skillCd };
+
   if (totalEquipStatus['releasedSkill']) {
     skillCd = 0;
     skillFct = 0;
@@ -72,6 +80,11 @@ export const calcSkillAspd = (params: {
     reducedFct,
     acd: skillAcd,
     reducedAcd,
+    skillLevel,
+    clientFct: client.fct,
+    clientVct: client.vct,
+    clientAcd: client.acd,
+    clientCd: client.cd,
     castPeriod: castPeriod,
     hitPeriod,
     totalHitPerSec: floor(1 / hitPeriod, 1),

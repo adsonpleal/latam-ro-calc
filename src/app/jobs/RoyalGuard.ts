@@ -112,7 +112,7 @@ export class RoyalGuard extends Paladin {
       values: ['[Improved] Genesis Ray==10'],
       acd: 1,
       fct: 0.5,
-      vct: 6.5,
+      vct: (lv) => [2, 2, 3, 3, 4, 4, 5, 5, 6, 6][lv - 1],
       cd: 2,
       hit: 7,
       isMatk: true,

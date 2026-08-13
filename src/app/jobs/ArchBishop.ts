@@ -90,8 +90,8 @@ export class ArchBishop extends HighPriest {
       value: 'Holy Light==1',
       acd: 0,
       cd: 0,
-      fct: 0,
-      vct: 0,
+      fct: 0.2,
+      vct: 0.8,
       isMatk: true,
       element: ElementType.Holy,
       formula: (): number => {

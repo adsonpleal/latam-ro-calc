@@ -226,7 +226,7 @@ export class SoulAscetic extends SoulReaper {
       acd: 0,
       fct: 1.5,
       vct: 1,
-      cd: 0.4,
+      cd: 0.3,
       isMatk: true,
       hit: 2,
       formula: (input: AtkSkillFormulaInput): number => {

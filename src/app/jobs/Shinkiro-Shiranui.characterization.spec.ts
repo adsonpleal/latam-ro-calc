@@ -78,6 +78,11 @@ const findSkill = (char: Twin, name: string): AtkSkillModel => {
   return skill;
 };
 
+/** A delay field is either a constant or a per-level curve; these read it either way. */
+type Delay = AtkSkillModel['cd'];
+const at10 = (value: Delay) => (typeof value === 'function' ? value(10) : value);
+const curve = (value: Delay) => Array.from({ length: 10 }, (_, i) => (typeof value === 'function' ? value(i + 1) : value));
+
 const ratioOf = (char: Twin, name: string, skillLevel: number) =>
   Math.floor(
     findSkill(char, name).formula({
@@ -174,28 +179,34 @@ describe.each(twins)('%s atk-skill ratios @ base 250, POW/SPL 100, sibling skill
     });
   });
 
-  describe('cast/cooldown metadata (2nd version)', () => {
+  describe('cast/cooldown metadata', () => {
     // Published as "variable cast / fixed cast | cooldown"; the model stores
     // vct = variable, fct = fixed, cd = cooldown, all in seconds.
+    //
+    // These were first written from the "2nd version" blog tables, which disagreed with
+    // the client for the whole cannon tree and for Shadow Dance / Shadow Flash. They now
+    // carry the client's own numbers; the authority is skills/skill-delay.spec.ts.
+    // Shadow Dance and Shadow Flash cast faster at higher levels, so their vct is a
+    // curve rather than a constant; these cases pin the pair at their own Lv10.
     const cases: { name: string; vct: number; fct: number; cd: number }[] = [
       { name: 'Shadow Hunting', vct: 0, fct: 0, cd: 0.3 },
-      { name: 'Shadow Dance', vct: 0, fct: 0, cd: 0.5 },
-      { name: 'Shadow Flash', vct: 0, fct: 0, cd: 0.5 },
+      { name: 'Shadow Dance', vct: 1, fct: 0, cd: 1 },
+      { name: 'Shadow Flash', vct: 1, fct: 0.5, cd: 1 },
       { name: 'Huuma Shuriken - Grasp', vct: 1.2, fct: 1, cd: 1 },
       { name: 'Huuma Shuriken - Construct', vct: 1.2, fct: 1, cd: 1 },
       { name: 'Kunai - Distortion', vct: 0.2, fct: 0, cd: 0.35 },
       { name: 'Kunai - Rotation', vct: 0, fct: 0, cd: 2 },
       { name: 'Kunai - Refraction', vct: 1.5, fct: 0.5, cd: 2 },
-      { name: 'Red Flame Cannon', vct: 2, fct: 1, cd: 0.7 },
-      { name: 'Cold Blooded Cannon', vct: 3, fct: 1, cd: 0.5 },
-      { name: 'Thundering Cannon', vct: 2, fct: 1, cd: 0.7 },
-      { name: 'Golden Dragon Cannon', vct: 3, fct: 1, cd: 0.3 },
-      { name: 'Darkening Cannon', vct: 3, fct: 1, cd: 0.5 },
+      { name: 'Red Flame Cannon', vct: 2, fct: 1.5, cd: 1 },
+      { name: 'Cold Blooded Cannon', vct: 3, fct: 1.5, cd: 0.5 },
+      { name: 'Thundering Cannon', vct: 2, fct: 1.5, cd: 1 },
+      { name: 'Golden Dragon Cannon', vct: 3, fct: 1.5, cd: 0.3 },
+      { name: 'Darkening Cannon', vct: 3, fct: 1.5, cd: 0.5 },
     ];
 
     it.each(cases)('$name has vct $vct, fct $fct, cd $cd', ({ name, vct, fct, cd }) => {
       const skill = findSkill(char(), name);
-      expect({ vct: skill.vct, fct: skill.fct, cd: skill.cd }).toEqual({ vct, fct, cd });
+      expect({ vct: at10(skill.vct), fct: at10(skill.fct), cd: at10(skill.cd) }).toEqual({ vct, fct, cd });
     });
   });
 });
@@ -208,10 +219,12 @@ describe('Shinkiro and Shiranui share one skill table', () => {
     char.atkSkills.filter((s) => s.label?.startsWith('[V2]')).map((s) => ({
       name: s.name,
       value: s.value,
-      acd: s.acd,
-      fct: s.fct,
-      vct: s.vct,
-      cd: s.cd,
+      // Delays that follow the client's per-level curve are functions, and two instances
+      // build two distinct closures — compare the curve they produce, not the closure.
+      acd: curve(s.acd),
+      fct: curve(s.fct),
+      vct: curve(s.vct),
+      cd: curve(s.cd),
       hit: s.hit,
       totalHit: typeof s.totalHit === 'function' ? 'fn' : s.totalHit,
       isMatk: s.isMatk,

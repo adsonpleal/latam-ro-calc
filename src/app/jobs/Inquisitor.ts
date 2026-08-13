@@ -169,7 +169,7 @@ export class Inquisitor extends Sura {
       acd: 0,
       fct: 0,
       vct: 0,
-      cd: 0.3,
+      cd: 0.5,
       isMelee: true,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
@@ -186,7 +186,7 @@ export class Inquisitor extends Sura {
       acd: 0,
       fct: 0,
       vct: 0,
-      cd: 0.7,
+      cd: 1,
       isMelee: true,
       hit: 2,
       formula: (input: AtkSkillFormulaInput): number => {
@@ -204,7 +204,7 @@ export class Inquisitor extends Sura {
       acd: 0,
       fct: 0,
       vct: 0,
-      cd: 1,
+      cd: 2,
       isMelee: true,
       canCri: true,
       baseCriPercentage: 1,
@@ -225,7 +225,7 @@ export class Inquisitor extends Sura {
       acd: 0,
       fct: 0,
       vct: 0,
-      cd: 0.7,
+      cd: 1,
       isMelee: true,
       hit: 3,
       formula: (input: AtkSkillFormulaInput): number => {
@@ -243,7 +243,7 @@ export class Inquisitor extends Sura {
       acd: 0,
       fct: 0,
       vct: 0,
-      cd: 1,
+      cd: 2,
       isMelee: true,
       totalHit: 5,
       formula: (input: AtkSkillFormulaInput): number => {
@@ -261,7 +261,7 @@ export class Inquisitor extends Sura {
       acd: 0,
       fct: 0,
       vct: 0,
-      cd: 0.7,
+      cd: 1,
       isMelee: true,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
@@ -278,7 +278,7 @@ export class Inquisitor extends Sura {
       acd: 0,
       fct: 0,
       vct: 0,
-      cd: 1,
+      cd: 2,
       totalHit: 3,
       isMelee: true,
       formula: (input: AtkSkillFormulaInput): number => {
@@ -296,7 +296,7 @@ export class Inquisitor extends Sura {
       acd: 0,
       fct: 0,
       vct: 0,
-      cd: 0.7,
+      cd: 1,
       canCri: true,
       baseCriPercentage: 1,
       criDmgPercentage: 0.5,
@@ -319,7 +319,7 @@ export class Inquisitor extends Sura {
       acd: 1,
       fct: 0,
       vct: 0,
-      cd: 5,
+      cd: 60,
       canCri: true,
       baseCriPercentage: 1,
       criDmgPercentage: 0.5,

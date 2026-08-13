@@ -369,10 +369,10 @@ export class SkyEmperor extends StarEmperor {
       // the AP cost, and the three external sources disagree with each other (and with
       // LATAM) even on the ATK-per-level table. Only the damage is validated — see
       // SkyEmperor.firmamento.spec.ts.
-      acd: 0,
-      fct: 0.5,
+      acd: 0.5,
+      fct: 1,
       vct: 0,
-      cd: 2,
+      cd: 60,
       isMelee: true,
       // 3 FULL hits against DemiHuman/Demon — not one packet split for display the way
       // the sibling skills use `hit`. The recording only solves as 3 × the whole damage,

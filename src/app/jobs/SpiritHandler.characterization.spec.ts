@@ -164,17 +164,21 @@ describe('Spirit Handler hit counts (2nd version)', () => {
   });
 });
 
-describe('Spirit Handler cast/cooldown metadata (2nd version)', () => {
+describe('Spirit Handler cast/cooldown metadata', () => {
   // Published as "variable cast / fixed cast | cooldown | global cooldown"; the model
   // stores vct = variable, fct = fixed, cd = cooldown, acd = after-cast delay, all in
   // seconds. Level-dependent values are pinned at Lv7 (Chulho Sonic Claw's cooldown is
   // 1.3 - Lv x 0.15 -> 0.25 at Lv7).
+  //
+  // First written from the "2nd version" blog tables; Hogogong Strike's cooldown and
+  // Hyunrok Cannon's after-cast delay disagreed with the client and now follow it.
+  // The authority is skills/skill-delay.spec.ts.
   const cases: { name: string; acd: number; vct: number; fct: number; cd: number }[] = [
     { name: 'Chulho Sonic Claw', acd: 0.5, vct: 0, fct: 0, cd: 0.25 },
     { name: 'Howling of Chulho', acd: 0, vct: 0, fct: 1, cd: 1 },
-    { name: 'Hogogong Strike', acd: 0, vct: 0, fct: 1, cd: 0.35 },
+    { name: 'Hogogong Strike', acd: 0, vct: 0, fct: 1, cd: 0.5 },
     { name: 'Hyunrok Breeze', acd: 0.5, vct: 3, fct: 1.5, cd: 4.5 },
-    { name: 'Hyunrok Cannon', acd: 0, vct: 2, fct: 1.5, cd: 0.3 },
+    { name: 'Hyunrok Cannon', acd: 0.5, vct: 2, fct: 1.5, cd: 0.3 },
   ];
 
   it.each(cases)('$name has acd $acd, vct $vct, fct $fct, cd $cd', ({ name, acd, vct, fct, cd }) => {

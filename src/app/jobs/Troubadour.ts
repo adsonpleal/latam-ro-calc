@@ -199,8 +199,8 @@ export class Troubadour extends Minstrel {
       value: 'Rose Blossom==5',
       acd: 0.15,
       fct: 0.5,
-      vct: 1,
-      cd: 0.7,
+      vct: 2,
+      cd: 0.5,
       totalHit: 1,
       verifyItemFn: ({ weapon }) => {
         const requires: WeaponTypeName[] = ['bow', 'instrument', 'whip'];

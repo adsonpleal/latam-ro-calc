@@ -114,7 +114,7 @@ export class ShadowChaser extends Stalker {
       label: 'Triangle Shot Lv10',
       value: 'Triangle Shot==10',
       values: ['[Improved] Triangle Shot==10'],
-      acd: 0.32,
+      acd: 0.35,
       fct: 0,
       vct: 0,
       cd: 0.2,
@@ -286,8 +286,8 @@ export class ShadowChaser extends Stalker {
       value: 'Reverberation==5',
       acd: 0.5,
       fct: 0.5,
-      vct: 1.5,
-      cd: 0,
+      vct: 1,
+      cd: 0.15,
       isMatk: true,
       formula: (input: AtkSkillFormulaInput): number => {
         const { skillLevel, model } = input;
@@ -302,7 +302,7 @@ export class ShadowChaser extends Stalker {
       value: 'Genesis Ray==10',
       acd: 1,
       fct: 0.5,
-      vct: 6.5,
+      vct: (lv) => [2, 2, 3, 3, 4, 4, 5, 5, 6, 6][lv - 1],
       cd: 2,
       hit: 7,
       isMatk: true,

@@ -190,7 +190,7 @@ export class Windhawk extends Ranger {
       acd: 0.15,
       fct: 0.5,
       vct: 1,
-      cd: 1.5,
+      cd: 2,
       hit: 5,
       canCri: () => this.isSkillActive('Calamity Gale'),
       // Gale Storm crits apply only half of the crit-damage gear (like Hawk Rush's 0.25).

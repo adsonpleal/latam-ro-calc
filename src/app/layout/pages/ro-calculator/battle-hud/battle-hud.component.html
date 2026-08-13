@@ -25,14 +25,44 @@
   <div class="kv"><span>Pós-conj.</span><span>{{ calcSkill?.acd | number: '1.0-3' }} → {{ calcSkill?.reducedAcd | number: '1.0-3' }}</span></div>
 </ng-template>
 
-<!-- Same rows for #detailsPanel, but current-vs-comparison (already-reduced
-     seconds on both sides) via #kvPair, matching every other stat row there —
-     instead of the raw->reduced explainer above. -->
-<ng-template #castTimingsCompare>
-  <ng-container *ngTemplateOutlet="kvPair; context: { label: 'Conj. Variável', cur: calcSkill?.reducedVct, sim: totalSummary2?.calcSkill?.reducedVct, unit: 's' }"></ng-container>
-  <ng-container *ngTemplateOutlet="kvPair; context: { label: 'Conj. Fixa', cur: calcSkill?.reducedFct, sim: totalSummary2?.calcSkill?.reducedFct, unit: 's' }"></ng-container>
-  <ng-container *ngTemplateOutlet="kvPair; context: { label: 'Recarga', cur: calcSkill?.reducedCd, sim: totalSummary2?.calcSkill?.reducedCd, unit: 's' }"></ng-container>
-  <ng-container *ngTemplateOutlet="kvPair; context: { label: 'Pós-conj.', cur: calcSkill?.reducedAcd, sim: totalSummary2?.calcSkill?.reducedAcd, unit: 's' }"></ng-container>
+<!-- Table rows for #detailsPanel. #statRow is #kvPair's shape as a real row: the
+     comparison is a column instead of an inline "→ simulado", so the numbers line up
+     down the table. The `sim` cell only exists while comparing, matching the header. -->
+<ng-template #statRow let-label="label" let-cur="cur" let-sim="sim" let-unit="unit" let-hidden="hidden">
+  <tr *ngIf="!hidden">
+    <th scope="row">{{ label }}</th>
+    <td>{{ cur | number }}{{ cur != null ? unit : '' }}</td>
+    <td class="sim" *ngIf="isComparing">{{ sim | number }}{{ sim != null ? unit : '' }}</td>
+  </tr>
+</ng-template>
+
+<!-- One row of a cast/delay table, in the game's own column order: the level, then
+     Conjuração (fixa, variável) and Espera (pós, recarga). -->
+<ng-template #castRow let-lv="lv" let-fct="fct" let-vct="vct" let-acd="acd" let-cd="cd" let-cls="cls">
+  <tr [class]="cls">
+    <th scope="row">{{ lv }}</th>
+    <td>{{ fct | number: '1.0-3' }}s</td>
+    <td>{{ vct | number: '1.0-3' }}s</td>
+    <td>{{ acd | number: '1.0-3' }}s</td>
+    <td>{{ cd | number: '1.0-3' }}s</td>
+  </tr>
+</ng-template>
+
+<!-- The two header rows the game uses, identical in both cast tables so the columns
+     line up between them. -->
+<ng-template #castHead>
+  <tr>
+    <td class="corner"></td>
+    <th colspan="2" scope="colgroup">Conjuração</th>
+    <th colspan="2" scope="colgroup">Espera</th>
+  </tr>
+  <tr class="cols">
+    <th scope="col">Nv.</th>
+    <th scope="col">Fixa</th>
+    <th scope="col">Variável</th>
+    <th scope="col">Pós</th>
+    <th scope="col">Recarga</th>
+  </tr>
 </ng-template>
 
 <div class="hud">
@@ -351,7 +381,7 @@
       <!-- 5. Castbar -->
       <div class="hud-castbar">
         <div class="cap">
-          Conjuração
+          Conjuração/Espera
           <button
             pButton
             type="button"
@@ -466,7 +496,7 @@
   </div>
 
   <p-overlayPanel #castHelpPanel>
-    <div class="ptitle">Conjuração da habilidade</div>
+    <div class="ptitle">Conjuração/Espera da habilidade</div>
     <div style="font-size: 11.5px; max-width: 260px; line-height: 1.5">
       Fixa e variável correm <b>em sequência</b>. Depois, pós-conjuração e recarga contam <b>ao mesmo tempo</b> — a maior define o bloqueio.
     </div>
@@ -647,41 +677,107 @@
 
   <p-overlayPanel #detailsPanel>
     <div class="ptitle">Detalhes da habilidade</div>
-    <div class="pstats">
-      <ng-container *ngTemplateOutlet="kvPair; context: { label: 'Hab. Base', cur: calcSkill?.baseSkillDamage, sim: totalSummary2?.calcSkill?.baseSkillDamage, unit: '%' }"></ng-container>
-      <ng-container *ngTemplateOutlet="kvPair; context: { label: 'Bônus Hab.', cur: dmg?.skillBonusFromEquipment, sim: dmg2?.skillBonusFromEquipment, unit: '%' }"></ng-container>
-      <ng-container
-        *ngTemplateOutlet="kvPair; context: { label: dmg?.skillTotalPeneLabel || 'Pen.', cur: dmg?.skillTotalPene, sim: dmg2?.skillTotalPene, unit: '%' }"
-      ></ng-container>
-      <ng-container
-        *ngTemplateOutlet="kvPair; context: { label: dmg?.skillTotalPeneResLabel || 'Pen. Res.', cur: dmg?.skillTotalPeneRes, sim: dmg2?.skillTotalPeneRes, unit: '%' }"
-      ></ng-container>
-      <ng-container
-        *ngTemplateOutlet="
-          kvPair;
-          context: { label: 'VelAtq', cur: totalSummary?.calc?.hitPerSecs, sim: totalSummary2?.calc?.hitPerSecs, unit: ' Hits/s' }
-        "
-      ></ng-container>
-      <ng-container
-        *ngTemplateOutlet="
-          kvPair;
-          context: { label: 'Penal. Tam.', cur: dmg?.skillSizePenalty, sim: dmg2?.skillSizePenalty, unit: '%', hidden: calcSkill?.dmgType === 'Magical' }
-        "
-      ></ng-container>
-      <ng-container
-        *ngTemplateOutlet="kvPair; context: { label: 'Prec.', cur: dmg?.skillAccuracy, sim: dmg2?.skillAccuracy, unit: '%', hidden: calcSkill?.dmgType === 'Magical' }"
-      ></ng-container>
-    </div>
-    <div class="psec">Conjuração</div>
-    <div class="pstats">
-      <ng-container *ngTemplateOutlet="castTimingsCompare"></ng-container>
-    </div>
+    <table class="ptable">
+      <thead *ngIf="isComparing">
+        <tr>
+          <td class="corner"></td>
+          <th scope="col">Atual</th>
+          <th scope="col" class="sim">Simulado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngTemplateOutlet="statRow; context: { label: 'Hab. Base', cur: calcSkill?.baseSkillDamage, sim: totalSummary2?.calcSkill?.baseSkillDamage, unit: '%' }"></ng-container>
+        <ng-container *ngTemplateOutlet="statRow; context: { label: 'Bônus Hab.', cur: dmg?.skillBonusFromEquipment, sim: dmg2?.skillBonusFromEquipment, unit: '%' }"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="statRow; context: { label: dmg?.skillTotalPeneLabel || 'Pen.', cur: dmg?.skillTotalPene, sim: dmg2?.skillTotalPene, unit: '%' }"
+        ></ng-container>
+        <ng-container
+          *ngTemplateOutlet="statRow; context: { label: dmg?.skillTotalPeneResLabel || 'Pen. Res.', cur: dmg?.skillTotalPeneRes, sim: dmg2?.skillTotalPeneRes, unit: '%' }"
+        ></ng-container>
+        <ng-container
+          *ngTemplateOutlet="
+            statRow;
+            context: { label: 'VelAtq', cur: totalSummary?.calc?.hitPerSecs, sim: totalSummary2?.calc?.hitPerSecs, unit: ' Hits/s' }
+          "
+        ></ng-container>
+        <ng-container
+          *ngTemplateOutlet="
+            statRow;
+            context: { label: 'Penal. Tam.', cur: dmg?.skillSizePenalty, sim: dmg2?.skillSizePenalty, unit: '%', hidden: calcSkill?.dmgType === 'Magical' }
+          "
+        ></ng-container>
+        <ng-container
+          *ngTemplateOutlet="statRow; context: { label: 'Prec.', cur: dmg?.skillAccuracy, sim: dmg2?.skillAccuracy, unit: '%', hidden: calcSkill?.dmgType === 'Magical' }"
+        ></ng-container>
+      </tbody>
+    </table>
+
+    <!-- Two tables, same columns in the same order as the game's own window, so the pair
+         can be read straight down: what this build actually gets, then what the skill
+         costs before any reduction. -->
+    <div class="psec">Conjuração/Espera</div>
+    <table class="ptable cast">
+      <thead>
+        <ng-container *ngTemplateOutlet="castHead"></ng-container>
+      </thead>
+      <tbody>
+        <ng-container
+          *ngTemplateOutlet="
+            castRow;
+            context: {
+              lv: calcSkill?.skillLevel,
+              fct: calcSkill?.reducedFct,
+              vct: calcSkill?.reducedVct,
+              acd: calcSkill?.reducedAcd,
+              cd: calcSkill?.reducedCd
+            }
+          "
+        ></ng-container>
+        <ng-container
+          *ngIf="isComparing"
+          [ngTemplateOutlet]="castRow"
+          [ngTemplateOutletContext]="{
+            lv: totalSummary2?.calcSkill?.skillLevel,
+            fct: totalSummary2?.calcSkill?.reducedFct,
+            vct: totalSummary2?.calcSkill?.reducedVct,
+            acd: totalSummary2?.calcSkill?.reducedAcd,
+            cd: totalSummary2?.calcSkill?.reducedCd,
+            cls: 'sim'
+          }"
+        ></ng-container>
+      </tbody>
+    </table>
+
+    <div class="psec">Conjuração/Espera - Base</div>
+    <table class="ptable cast">
+      <thead>
+        <ng-container *ngTemplateOutlet="castHead"></ng-container>
+      </thead>
+      <tbody>
+        <ng-container
+          *ngTemplateOutlet="
+            castRow;
+            context: {
+              lv: calcSkill?.skillLevel,
+              fct: calcSkill?.clientFct,
+              vct: calcSkill?.clientVct,
+              acd: calcSkill?.clientAcd,
+              cd: calcSkill?.clientCd,
+              cls: 'base'
+            }
+          "
+        ></ng-container>
+      </tbody>
+    </table>
+
     <ng-container *ngIf="dmg?.isUsedCurrentHP || dmg?.isUsedCurrentSP">
       <div class="psec">Consumo</div>
-      <div class="pstats">
-        <ng-container *ngTemplateOutlet="kvPair; context: { label: 'HP Atual', cur: dmg?.currentHp, sim: dmg2?.currentHp, hidden: !dmg?.isUsedCurrentHP }"></ng-container>
-        <ng-container *ngTemplateOutlet="kvPair; context: { label: 'SP Atual', cur: dmg?.currentSp, sim: dmg2?.currentSp, hidden: !dmg?.isUsedCurrentSP }"></ng-container>
-      </div>
+      <table class="ptable">
+        <tbody>
+          <ng-container *ngTemplateOutlet="statRow; context: { label: 'HP Atual', cur: dmg?.currentHp, sim: dmg2?.currentHp, hidden: !dmg?.isUsedCurrentHP }"></ng-container>
+          <ng-container *ngTemplateOutlet="statRow; context: { label: 'SP Atual', cur: dmg?.currentSp, sim: dmg2?.currentSp, hidden: !dmg?.isUsedCurrentSP }"></ng-container>
+        </tbody>
+      </table>
     </ng-container>
   </p-overlayPanel>
 

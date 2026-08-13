@@ -103,7 +103,7 @@ export class Sorcerer extends Scholar {
       fct: 0,
       vct: 0,
       cd: 0,
-      acd: 0,
+      acd: 1,
       isMatk: true,
       getElement(skillValue) {
         const map = {

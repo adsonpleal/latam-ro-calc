@@ -233,6 +233,12 @@ describe('Hyper Novice — skill structure', () => {
 describe('Hyper Novice — cast time and cooldown', () => {
   // Published as "variable cast / fixed cast | cooldown"; the model stores vct = variable,
   // fct = fixed, cd = cooldown, all in seconds.
+  //
+  // These pin the class at its own Lv10; the authority for the numbers themselves is the
+  // client's cast/delay table, enforced for every class in skills/skill-delay.spec.ts.
+  // Several of these are level curves rather than constants, so resolve before comparing.
+  const at10 = (value: number | ((level: number) => number)) => (typeof value === 'function' ? value(10) : value);
+
   const cases: { name: string; vct: number; fct: number; cd: number }[] = [
     { name: 'Double Bowling Bash', vct: 0, fct: 0.35, cd: 0.7 },
     { name: 'Mega Sonic Blow', vct: 0, fct: 0, cd: 0.3 },
@@ -247,6 +253,6 @@ describe('Hyper Novice — cast time and cooldown', () => {
 
   it.each(cases)('$name has vct $vct, fct $fct, cd $cd', ({ name, vct, fct, cd }) => {
     const skill = findSkill(hn(), name);
-    expect({ vct: skill.vct, fct: skill.fct, cd: skill.cd }).toEqual({ vct, fct, cd });
+    expect({ vct: at10(skill.vct), fct: at10(skill.fct), cd: at10(skill.cd) }).toEqual({ vct, fct, cd });
   });
 });

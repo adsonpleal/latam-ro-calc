@@ -23,6 +23,7 @@ or missing, the fix belongs upstream in ragassets, not here.
 | `jobs.json` | `tools/sync-latam-db.mjs` | `latam-classes.json` |
 | `mobs.json` | `tools/sync-monster-db.mjs` | `monster.json` (stats only) |
 | `mobs.json` | `tools/build-latam-monsters.mjs` | `latam-monsters.json` |
+| `skills.json` | `tools/build-skill-delays.mjs` | `skill-delay.json` |
 | `status.json` | — | queried by hand (EFST ids; see `review-rrf-class`) |
 
 All of them land in `src/assets/demo/data/`. What the browser actually downloads is built
@@ -34,6 +35,7 @@ from those by `tools/build-web-data.mjs` (`pnpm data:dev`), which is a separate 
 node tools/sync-latam-db.mjs        # items + views + classes
 node tools/sync-monster-db.mjs      # stats of monsters already registered
 node tools/build-latam-monsters.mjs # pt-BR name overlay
+node tools/build-skill-delays.mjs   # cast/delay table
 git diff --stat src/assets/demo/data/
 pnpm test && pnpm build
 ```
@@ -72,6 +74,12 @@ node tools/sync-latam-db.mjs --src ../ragassets/resources/raw --dry
   one's.
 - **`sync-monster-db.mjs` never adds or removes ids**, because a new monster needs a
   hand-set `spawn`. Use `add-ro-monster` for that.
+- **`skill-delay.json` is validation data, not runtime data.** Nothing in the browser
+  bundle reads it; `src/app/skills/skill-delay.spec.ts` holds every class's atk skills to
+  it, so a client retune shows up as that spec failing rather than as a silent diff. Its
+  arrays are milliseconds and are zero-padded past `maxLevel` in the source — the
+  generator trims them, so never index the raw feed by level yourself. `review-rrf-class`
+  §8 has the workflow for reconciling a failure.
 
 ## Publishing
 
