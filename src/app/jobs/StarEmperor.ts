@@ -285,16 +285,29 @@ export class StarEmperor extends StarGladiator {
     });
   }
 
+  /**
+   * Fúria Estelar (id 437) — multiplicador de ATQ, aplicado em modifyFinalAtk.
+   *
+   * A FOR entra SEMPRE. A descrição pt-BR do cliente é explícita e não condiciona a
+   * nada: "Aumentar o nv. da habilidade melhora o ATQ baseado na FOR, SOR, DES e nível
+   * base". Antes daqui a FOR só era somada contra alvos de tamanho Grande, o que
+   * derrubava o bônus contra qualquer boss de tamanho Médio.
+   *
+   * O divisor 3 é o do Nv.3, que é o único que o seletor oferece (Sim/Não). As fontes
+   * externas dão (12 − 3×nível) para os três níveis — 9, 6, 3.
+   *
+   * Não medido em gravação: não há `.rrf` de Gladiador Estelar / Mestre Celestial com a
+   * Fúria ligada. Uma gravação batendo em alvo Médio e Grande com ela ligada é o que
+   * fecharia isso de vez.
+   */
   getWrathAtkBonus(info: InfoForClass): number {
     if (!this.isSkillActive('Wrath of')) return 0;
 
-    const { model, status, monster } = info;
+    const { model, status } = info;
     const { level } = model;
     const { totalLuk, totalDex, totalStr } = status;
-    const { size } = monster;
-    const bonusSize = size === 'l' ? totalStr : 0;
 
-    return Math.floor((level + totalLuk + totalDex + bonusSize) / 3);
+    return Math.floor((level + totalLuk + totalDex + totalStr) / 3);
   }
 
   override modifyFinalAtk(currentAtk: number, _params: InfoForClass) {
