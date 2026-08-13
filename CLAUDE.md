@@ -39,6 +39,21 @@ pnpm lint       # ESLint --fix
 > proposital: o HMR via WebSocket do esbuild não atravessa o proxy do preview e a
 > página não renderiza. `ng build` continua usando esbuild normalmente.
 
+## Firebase
+
+O deploy do site é automático (GitHub Actions → Firebase Hosting, projeto
+`simulador-latam-ro`). O que **não** é automático são as regras e os índices do Firestore —
+a action de hosting não os publica. Depois de mexer em `firestore.rules` ou
+`firestore.indexes.json`:
+
+```bash
+firebase deploy --only firestore
+```
+
+O Firestore guarda só as gravações `.rrf` enviadas pela comunidade (coleção
+`replay_submissions`, alimentada pelo modal "Ajude o simulador"). O navegador **só escreve**;
+para ler use a skill `triage-rrf-uploads`, que autentica como administrador.
+
 ## Testes
 
 `pnpm test` roda a suíte inteira (Vitest, ~15s). Os testes de lógica ficam ao lado do

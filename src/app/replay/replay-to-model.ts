@@ -42,6 +42,8 @@ const EQP = {
  * Per-slot target field names in the calculator's MainModel.
  *   item   — the equipment id field
  *   refine — refine field (omitted for slots the model can't refine, e.g. mid/low headgear, costumes)
+ *   grade  — Enchant Grade field (omitted for the slots the model can't grade: ammo,
+ *            costumes and shadow gear)
  *   cards  — the item's up-to-4 socket positions, mapped POSITIONALLY from the
  *            replay `cards[]` array. The client stores cards AND socket-enchants
  *            in the same 4-slot array, so position 0 → the card field and the
@@ -55,17 +57,17 @@ type SlotKey =
   | 'shadowWeapon' | 'shadowArmor' | 'shadowShield' | 'shadowBoot'
   | 'shadowEarring' | 'shadowPendant';
 
-const SLOTS: Record<SlotKey, { item: string; refine?: string; cards: string[] }> = {
-  weapon: { item: 'weapon', refine: 'weaponRefine', cards: ['weaponCard1', 'weaponCard2', 'weaponCard3', 'weaponCard4'] },
-  shield: { item: 'shield', refine: 'shieldRefine', cards: ['shieldCard', 'shieldEnchant1', 'shieldEnchant2', 'shieldEnchant3'] },
-  armor: { item: 'armor', refine: 'armorRefine', cards: ['armorCard', 'armorEnchant1', 'armorEnchant2', 'armorEnchant3'] },
-  garment: { item: 'garment', refine: 'garmentRefine', cards: ['garmentCard', 'garmentEnchant1', 'garmentEnchant2', 'garmentEnchant3'] },
-  boot: { item: 'boot', refine: 'bootRefine', cards: ['bootCard', 'bootEnchant1', 'bootEnchant2', 'bootEnchant3'] },
-  accLeft: { item: 'accLeft', refine: 'accLeftRefine', cards: ['accLeftCard', 'accLeftEnchant1', 'accLeftEnchant2', 'accLeftEnchant3'] },
-  accRight: { item: 'accRight', refine: 'accRightRefine', cards: ['accRightCard', 'accRightEnchant1', 'accRightEnchant2', 'accRightEnchant3'] },
-  headUpper: { item: 'headUpper', refine: 'headUpperRefine', cards: ['headUpperCard', 'headUpperEnchant1', 'headUpperEnchant2', 'headUpperEnchant3'] },
-  headMiddle: { item: 'headMiddle', cards: ['headMiddleCard', 'headMiddleEnchant1', 'headMiddleEnchant2', 'headMiddleEnchant3'] },
-  headLower: { item: 'headLower', cards: ['headLowerCard', 'headLowerEnchant1', 'headLowerEnchant2', 'headLowerEnchant3'] },
+const SLOTS: Record<SlotKey, { item: string; refine?: string; grade?: string; cards: string[] }> = {
+  weapon: { item: 'weapon', refine: 'weaponRefine', grade: 'weaponGrade', cards: ['weaponCard1', 'weaponCard2', 'weaponCard3', 'weaponCard4'] },
+  shield: { item: 'shield', refine: 'shieldRefine', grade: 'shieldGrade', cards: ['shieldCard', 'shieldEnchant1', 'shieldEnchant2', 'shieldEnchant3'] },
+  armor: { item: 'armor', refine: 'armorRefine', grade: 'armorGrade', cards: ['armorCard', 'armorEnchant1', 'armorEnchant2', 'armorEnchant3'] },
+  garment: { item: 'garment', refine: 'garmentRefine', grade: 'garmentGrade', cards: ['garmentCard', 'garmentEnchant1', 'garmentEnchant2', 'garmentEnchant3'] },
+  boot: { item: 'boot', refine: 'bootRefine', grade: 'bootGrade', cards: ['bootCard', 'bootEnchant1', 'bootEnchant2', 'bootEnchant3'] },
+  accLeft: { item: 'accLeft', refine: 'accLeftRefine', grade: 'accLeftGrade', cards: ['accLeftCard', 'accLeftEnchant1', 'accLeftEnchant2', 'accLeftEnchant3'] },
+  accRight: { item: 'accRight', refine: 'accRightRefine', grade: 'accRightGrade', cards: ['accRightCard', 'accRightEnchant1', 'accRightEnchant2', 'accRightEnchant3'] },
+  headUpper: { item: 'headUpper', refine: 'headUpperRefine', grade: 'headUpperGrade', cards: ['headUpperCard', 'headUpperEnchant1', 'headUpperEnchant2', 'headUpperEnchant3'] },
+  headMiddle: { item: 'headMiddle', grade: 'headMiddleGrade', cards: ['headMiddleCard', 'headMiddleEnchant1', 'headMiddleEnchant2', 'headMiddleEnchant3'] },
+  headLower: { item: 'headLower', grade: 'headLowerGrade', cards: ['headLowerCard', 'headLowerEnchant1', 'headLowerEnchant2', 'headLowerEnchant3'] },
   ammo: { item: 'ammo', cards: [] },
   costumeUpper: { item: 'costumeUpper', cards: ['costumeEnchantUpper'] },
   costumeMiddle: { item: 'costumeMiddle', cards: ['costumeEnchantMiddle'] },
@@ -197,6 +199,13 @@ export type ReplayImportResult = {
   activeStatuses: number[];
 };
 
+/**
+ * rAthena's `enchantgrade` (what `rec.grade` carries) → the letter the calculator's
+ * `GRADE[...]` conditions read. 0 is "no grade" and maps to the empty string, the same
+ * value the "Sem Grau" option uses.
+ */
+const GRADE_LETTER: Record<number, string> = { 1: 'D', 2: 'C', 3: 'B', 4: 'A' };
+
 /** A minimal view of the calculator's item map (`item.json` keyed by id). */
 type ItemMap = Record<number, { id: number } & Record<string, any>>;
 
@@ -243,6 +252,7 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
       }
       (model as any)[def.item] = rec.itemId;
       if (def.refine) (model as any)[def.refine] = rec.refine || 0;
+      if (def.grade) (model as any)[def.grade] = GRADE_LETTER[rec.grade] ?? '';
       const fields = key === 'weapon' ? weaponFields(itemMap[rec.itemId]?.['slots'] ?? 0) : def.cards;
       writeCards(model, fields, rec, cardOffset, () => skippedCards++);
       equippedCount++;

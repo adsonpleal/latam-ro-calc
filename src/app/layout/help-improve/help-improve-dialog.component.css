@@ -1,0 +1,46 @@
+/* Same dropzone as the calculator's "Importar Replay" dialog. */
+.replay-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 1.75rem 1rem;
+  border: 2px dashed var(--surface-400);
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.replay-dropzone:hover,
+.replay-dropzone:focus-visible,
+.replay-dropzone.dragover {
+  border-color: var(--primary-color);
+}
+.replay-dropzone.dragover {
+  background-color: var(--surface-100);
+}
+.replay-dropzone-icon {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+  opacity: 0.7;
+}
+
+/* Label on the left, value on the right, one line per reading. */
+.submission-summary > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.15rem 0;
+}
+.submission-summary span {
+  opacity: 0.75;
+}
+
+/* Three per row on the dialog's usual width, dropping to two if it gets narrow —
+   six across would squeeze the pickers past the point of being readable. */
+.trait-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0.5rem;
+}

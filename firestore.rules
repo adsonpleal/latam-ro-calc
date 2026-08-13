@@ -1,0 +1,59 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Community .rrf recordings sent from the "Ajude o simulador" dialog.
+    //
+    // Write-only from the browser: anyone may create a submission, nobody can
+    // read, edit or delete one. Triage runs with an admin credential (the
+    // triage-rrf-uploads skill), which bypasses these rules entirely — so the
+    // uploads never sit behind a guessable public URL the way the RagnaRecap
+    // replays do.
+    match /replay_submissions/{submissionId} {
+      allow read, update, delete: if false;
+      allow create: if isWellFormedSubmission(request.resource.data);
+    }
+
+    function isWellFormedSubmission(d) {
+      return d.keys().hasOnly([
+               'bytes', 'fileName', 'uploadedAt', 'status', 'appVersion',
+               'latamConfirmed', 'summary', 'traits', 'nick', 'discord', 'notes'
+             ])
+             && d.keys().hasAll([
+               'bytes', 'fileName', 'uploadedAt', 'status', 'appVersion',
+               'latamConfirmed', 'summary'
+             ])
+             && d.status == 'new'
+             && d.latamConfirmed == true
+             // A Firestore document caps at 1 MiB; leave headroom for the rest.
+             && d.bytes is bytes && d.bytes.size() > 0 && d.bytes.size() <= 921600
+             && d.fileName is string && d.fileName.size() <= 200
+             && d.appVersion is string && d.appVersion.size() <= 20
+             && d.summary is map && d.summary.size() <= 24
+             // Client clock, so only loosely checked — it exists to keep the
+             // triage list in order, not to prove anything.
+             && d.uploadedAt is timestamp
+             && d.uploadedAt > request.time - duration.value(10, 'm')
+             && d.uploadedAt < request.time + duration.value(10, 'm')
+             && (!d.keys().hasAny(['traits']) || areTraits(d.traits))
+             && (!d.keys().hasAny(['nick']) || (d.nick is string && d.nick.size() <= 40))
+             && (!d.keys().hasAny(['discord']) || (d.discord is string && d.discord.size() <= 60))
+             && (!d.keys().hasAny(['notes']) || (d.notes is string && d.notes.size() <= 1000));
+    }
+
+    // The six trait stats, as the *invested* value the calculator stores (0-100);
+    // the job bonus is added on top by the engine, not recorded here.
+    function areTraits(t) {
+      return t is map
+             && t.keys().hasOnly(['pow', 'sta', 'wis', 'spl', 'con', 'crt'])
+             && t.keys().hasAll(['pow', 'sta', 'wis', 'spl', 'con', 'crt'])
+             && isTrait(t.pow) && isTrait(t.sta) && isTrait(t.wis)
+             && isTrait(t.spl) && isTrait(t.con) && isTrait(t.crt);
+    }
+
+    function isTrait(v) {
+      return v is int && v >= 0 && v <= 100;
+    }
+  }
+}

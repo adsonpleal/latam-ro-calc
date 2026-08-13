@@ -41,6 +41,12 @@ Thumbs.db
 # Secrets
 .env
 .env.local
+# Service-account key used by .claude/skills/triage-rrf-uploads to read the
+# community .rrf submissions with admin credentials.
+.firebase-admin.json
+
+# Downloads and dumps from the replay skills (.rrf files, decoded output).
+/.scratch/
 
 # Artefatos derivados de src/assets/demo/data/ (tools/build-web-data.mjs).
 # Regerados por `pnpm data:dev` / `pnpm data:build`; ficam fora do git para não

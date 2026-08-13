@@ -1,0 +1,258 @@
+<p-dialog
+  [visible]="visible"
+  (visibleChange)="!$event && onHide()"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '46rem', maxWidth: '95vw' }"
+  [contentStyle]="{ maxHeight: '75vh' }"
+>
+  <ng-template pTemplate="header">
+    <div class="flex align-items-center gap-2">
+      <i class="pi pi-heart-fill text-xl"></i>
+      <span class="text-xl font-medium">Ajude o simulador a acertar as contas</span>
+    </div>
+  </ng-template>
+
+  <p class="mt-0 line-height-3">
+    Cada fórmula daqui é conferida contra o jogo de verdade: pegamos uma <b>gravação</b> sua, lemos os pacotes de dano um por um e
+    comparamos com o que o simulador calcula. Quando um número não bate, é assim que o erro aparece — e é assim que ele é corrigido.
+  </p>
+  <p class="line-height-3">
+    Gravar leva uns <b>10 minutos</b> e ajuda principalmente as classes menos testadas. Se a sua gravação levar a alguma correção, seu
+    nome entra nas Novidades.
+  </p>
+
+  <p-accordion>
+    <p-accordionTab header="1. Como abrir o gravador">
+      <ul class="mt-0 line-height-3">
+        <li>O gravador fica num botão dentro da <b>janela de informações do personagem</b>.</li>
+        <li>Ele tem os botões <b>Início/Fim</b>, <b>Pausa</b> e <b>Opções</b>.</li>
+        <li>É preciso dar um <b>nome</b> ao vídeo antes de gravar.</li>
+        <li>O arquivo sai em <b>.rrf</b>, na pasta <b>Replay</b> de onde o jogo está instalado.</li>
+      </ul>
+      <a [href]="browikiUrl" target="_blank" rel="noreferrer noopener">Passo a passo completo no bROWiki →</a>
+    </p-accordionTab>
+
+    <p-accordionTab header="2. Antes de apertar Início — confira as Opções">
+      <div class="flex align-items-start gap-2 mb-3 p-2 border-round" style="background: var(--yellow-100); color: var(--yellow-900)">
+        <i class="pi pi-exclamation-triangle mt-1"></i>
+        <div class="line-height-3">
+          A caixa <b>Skill</b> é o que põe a <b>árvore de habilidades</b> dentro do arquivo — sem ela não dá para conferir nada, e o envio
+          é recusado. As caixas só podem ser mexidas <b>antes</b> de começar a gravar.
+        </div>
+      </div>
+      <ul class="mt-0 line-height-3">
+        <li>Marque <b>Basic Info</b>, <b>Equip</b>, <b>Item</b> e <b>Skill</b> — o mais fácil é marcar <b>All</b>.</li>
+        <li>
+          <b>Privacidade:</b> com <b>Chatting</b> marcado, a gravação leva junto o chat público e as <b>conversas particulares</b>.
+          Recomendamos <b>desmarcar</b> — nada da conferência depende do chat.
+        </li>
+      </ul>
+    </p-accordionTab>
+
+    <p-accordionTab header="3. O que fazer durante a gravação">
+      <p class="mt-0 line-height-3">
+        Tudo numa <b>gravação só</b>. As trocas de equipamento ficam registradas com a hora, então dá para separar as fases depois — o que
+        importa é comparar o mesmo personagem com e sem cada peça.
+      </p>
+      <ol class="mt-0 line-height-3">
+        <li>Vá ao <b>dummy no campo de testes</b> e comece a gravar.</li>
+        <li><b>Sem nenhum equipamento:</b> use cada habilidade de ataque umas 10 vezes (as repetições garantem críticos, que é o que dá para conferir com precisão).</li>
+        <li><b>Só com a arma:</b> repita as mesmas habilidades.</li>
+        <li><b>Com o equipamento completo:</b> repita de novo.</li>
+        <li>Ligue seus <b>buffs</b> e repita.</li>
+        <li>Use a <b>habilidade suprema</b>.</li>
+        <li>Bata em alguns <b>monstros de verdade</b>, de raças e elementos diferentes.</li>
+        <li>Não mexa nos <b>talentos</b> durante a gravação.</li>
+      </ol>
+      <ul class="mt-0 line-height-3">
+        <li>Só gravações do <b>RO LATAM</b> — o arquivo não diz de qual servidor veio, então isso fica na sua palavra.</li>
+        <li>Um personagem por gravação, e poucos minutos (o limite é 900 KB).</li>
+      </ul>
+    </p-accordionTab>
+  </p-accordion>
+
+  <!-- Drop the file (parsed and checked here, nothing leaves the browser yet) -->
+  <div
+    *ngIf="!sentId"
+    class="replay-dropzone mt-3"
+    [class.dragover]="dragOver"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+    (click)="replayInput.click()"
+    (keydown.enter)="replayInput.click()"
+    tabindex="0"
+  >
+    <i class="pi pi-upload replay-dropzone-icon"></i>
+    <p class="m-0">Arraste sua gravação <b>.rrf</b> aqui</p>
+    <p class="my-2 text-sm">ou</p>
+    <button
+      type="button"
+      pButton
+      class="p-button-sm p-button-outlined"
+      icon="pi pi-folder-open"
+      label="Selecionar arquivo"
+      (click)="$event.stopPropagation(); replayInput.click()"
+    ></button>
+    <input #replayInput type="file" accept=".rrf" hidden (change)="onInputChange($event)" />
+  </div>
+
+  <div *ngIf="parsing" class="mt-3 text-center"><i class="pi pi-spin pi-spinner mr-2"></i>Conferindo a gravação…</div>
+
+  <!-- Rejected: say why, and what to change when recording again -->
+  <div
+    *ngIf="rejected as bad"
+    class="mt-3 p-3 border-round line-height-3"
+    style="background: var(--red-100); color: var(--red-900)"
+  >
+    <div class="flex align-items-start gap-2">
+      <i class="pi pi-times-circle mt-1"></i>
+      <div>
+        <b>Essa gravação não serve.</b>
+        <div class="mt-1">{{ bad.message }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accepted: show what was read, then the rest of the form -->
+  <ng-container *ngIf="accepted as good">
+    <div *ngIf="!sentId" class="mt-3">
+      <h3 class="mt-0 mb-2 text-lg">Confira se é isso mesmo</h3>
+      <div class="submission-summary p-3 border-round surface-100">
+        <div><span>Personagem</span><b>{{ good.summary.player || '—' }}</b></div>
+        <div><span>Classe</span><b>{{ good.summary.className }}</b></div>
+        <div><span>Nível</span><b>{{ good.summary.baseLevel }} / {{ good.summary.jobLevel }}</b></div>
+        <div><span>Mapa</span><b>{{ good.summary.map || '—' }}</b></div>
+        <div><span>Duração</span><b>{{ formatDuration(good.summary.durationMs) }}</b></div>
+        <div><span>Habilidades</span><b>{{ good.summary.learnedSkillCount }}</b></div>
+        <div><span>Equipamentos</span><b>{{ good.summary.equippedCount }}</b></div>
+        <div><span>Trocas de equip.</span><b>{{ good.summary.equipChangeCount }}</b></div>
+        <div><span>Golpes gravados</span><b>{{ good.summary.damageEvents }}</b></div>
+        <div *ngIf="good.summary.skippedItems.length">
+          <span>Itens fora do banco</span><b>{{ good.summary.skippedItems.length }}</b>
+        </div>
+      </div>
+
+      <div *ngIf="good.warnings.length" class="mt-2 p-2 border-round line-height-3" style="background: var(--yellow-100); color: var(--yellow-900)">
+        <div *ngIf="good.warnings.includes('no-damage')">
+          <i class="pi pi-exclamation-triangle mr-1"></i>Não há nenhum golpe gravado — sem dano não dá para conferir fórmula nenhuma.
+        </div>
+        <div *ngIf="good.warnings.includes('no-equip-change')">
+          <i class="pi pi-exclamation-triangle mr-1"></i>Você não trocou de equipamento durante a gravação. Ela ainda ajuda, mas a
+          comparação fica bem mais fácil com as fases “sem equipamento / só arma / completo”.
+        </div>
+        <div *ngIf="good.warnings.includes('many-unknown-items')">
+          <i class="pi pi-exclamation-triangle mr-1"></i>Vários itens não estão no nosso banco. Se a gravação for mesmo do LATAM, ótimo —
+          é justamente o tipo de coisa que precisamos cadastrar.
+        </div>
+      </div>
+
+      <!-- Traits: the recording genuinely does not carry them -->
+      <div *ngIf="good.needsTraits" class="mt-3">
+        <h3 class="mt-0 mb-1 text-lg">Seus talentos</h3>
+        <p class="mt-0 mb-2 line-height-3 text-sm">
+          A gravação <b>não</b> guarda os talentos, e sem eles o teste dá errado. Abra a janela de status e copie o
+          <b>primeiro número</b> de cada um — <b>sem</b> o valor entre parênteses, que é o bônus de classe. Em
+          <span class="font-italic">POD 90 (+15)</span>, o que vale aqui é <b>90</b>.
+        </p>
+        <div class="trait-grid">
+          <!-- The calculator's own field (app-status-input), same 0-100 list, so the
+               two look and behave alike. No equipment here, hence no "+N" badge. -->
+          <app-status-input
+            *ngFor="let key of traitKeys"
+            [label]="traitLabels[key]"
+            [dropdownList]="traitStatusList"
+            [(value)]="traits[key]"
+            [showExtra]="false"
+          ></app-status-input>
+        </div>
+        <div *ngIf="traitsUntouched" class="mt-2 p-2 border-round line-height-3 text-sm" style="background: var(--yellow-100); color: var(--yellow-900)">
+          <i class="pi pi-exclamation-triangle mr-1"></i>Os seis talentos estão em zero. Preencha com os valores da sua janela de status —
+          uma gravação com talentos errados leva a conferência para o lado errado.
+        </div>
+      </div>
+
+      <h3 class="mt-3 mb-2 text-lg">Sobre você (opcional)</h3>
+      <div class="grid">
+        <div class="col-6">
+          <label class="block mb-1 text-sm" for="helpImproveNick">Nick para os créditos</label>
+          <input pInputText id="helpImproveNick" class="w-full" maxlength="40" [(ngModel)]="nick" placeholder="como você quer ser citado" />
+        </div>
+        <div class="col-6">
+          <label class="block mb-1 text-sm" for="helpImproveDiscord">Discord</label>
+          <input
+            pInputText
+            id="helpImproveDiscord"
+            class="w-full"
+            maxlength="60"
+            [(ngModel)]="discord"
+            placeholder="caso a gente precise perguntar algo"
+          />
+        </div>
+        <div class="col-12">
+          <label class="block mb-1 text-sm" for="helpImproveNotes">O que você gravou / o que achou estranho (opcional)</label>
+          <textarea
+            pInputTextarea
+            id="helpImproveNotes"
+            class="w-full"
+            rows="3"
+            maxlength="1000"
+            [(ngModel)]="notes"
+            placeholder="ex.: usei Implosão Tóxica nível 5 no dummy; o dano no jogo parece uns 10% maior que aqui"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="mt-2 flex align-items-start gap-2 p-2 border-round surface-100 line-height-3">
+        <p-checkbox [(ngModel)]="consent" [binary]="true" inputId="helpImproveConsent"></p-checkbox>
+        <label for="helpImproveConsent" class="text-sm">
+          Confirmo que esta gravação é do <b>RO LATAM</b> e autorizo o envio do arquivo para os servidores do simulador. Ele pode virar um
+          <b>teste no código</b>, que é aberto — ou seja, o arquivo pode ficar público junto com o repositório.
+        </label>
+      </div>
+
+      <div *ngIf="sendError" class="mt-2 p-2 border-round line-height-3" style="background: var(--red-100); color: var(--red-900)">
+        {{ sendError }}
+      </div>
+
+      <div class="mt-3 flex justify-content-end">
+        <button
+          pButton
+          class="p-button-success"
+          [disabled]="!canSend"
+          [icon]="sending ? 'pi pi-spin pi-spinner' : 'pi pi-send'"
+          [label]="sending ? 'Enviando…' : 'Enviar gravação'"
+          (click)="send()"
+        ></button>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Sent -->
+  <div *ngIf="sentId" class="mt-3 p-3 border-round line-height-3" style="background: var(--green-100); color: var(--green-900)">
+    <div class="flex align-items-start gap-2">
+      <i class="pi pi-check-circle mt-1"></i>
+      <div>
+        <b>Recebido, obrigado!</b>
+        <div class="mt-1">
+          A gravação entrou na fila de conferência. Se ela levar a alguma correção, aparece nas Novidades — com o seu nick, se você deixou
+          um.
+        </div>
+        <div class="mt-1 text-sm">Código do envio: <code>{{ sentId }}</code></div>
+        <button pButton class="p-button-sm p-button-text mt-2" icon="pi pi-plus" label="Enviar outra" (click)="startAnother()"></button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex align-items-center justify-content-between w-full">
+      <div class="flex align-items-center gap-2">
+        <p-checkbox [(ngModel)]="dontShowAgain" [binary]="true" inputId="helpImproveSnooze"></p-checkbox>
+        <label for="helpImproveSnooze" class="text-sm">Não mostrar de novo pelos próximos {{ snoozeDays }} dias</label>
+      </div>
+      <button pButton class="p-button-text" label="Fechar" (click)="onHide()"></button>
+    </div>
+  </ng-template>
+</p-dialog>

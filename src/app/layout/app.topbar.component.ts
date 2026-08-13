@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { isHelpImproveSnoozed } from './help-improve/help-improve-snooze';
 import { LayoutService } from './service/app.layout.service';
 
 @Component({
@@ -155,6 +156,18 @@ export class AppTopBarComponent {
    * Texto em voz impessoal, descrevendo o que mudou para quem usa.
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
+    {
+      v: '0.1.48-beta',
+      date: '13-08-2026',
+      logs: [
+        'A importação de replay passou a trazer o Grau de Encantamento das peças. Ele estava sendo perdido em silêncio: uma gravação de Falcão do Vento mostrou o tamanho do estrago, com o Gakkung Primordial-LT Grau C entrando sem grau nenhum e a build perdendo ATQ +3%, P.ATQ +1 e dano à distância +15% — 12% de dano a menos sem buff e 6% a menos com Ilimitar. O grau sempre esteve no arquivo (quem assiste à gravação no cliente lê "+11 [C] Gakkung Primordial-LT"); o que faltava era o leitor enxergá-lo. O leitor de .rrf foi refeito para percorrer a cadeia de campos do registro de equipamento em vez dos endereços fixos herdados do leitor de referência, que paravam antes do grau. Obrigado Shummuy pela gravação.',
+        'As fórmulas do Falcão do Vento foram conferidas contra essa mesma gravação e estão corretas. Tiro Preciso, Vendaval de Flechas e Tiro Crescente, cada um em dois estados — sem buff e com Ilimitar 5 mais Ventos Sinistros —, batem exatamente nos cinco críticos gravados, na unidade; os três disparos sem crítico do Vendaval caem dentro da faixa calculada. O acúmulo do Tiro Crescente também confere: os quatro disparos em sequência sobem de +190.020 em +190.020. É a primeira classe da linha do Arqueiro com gravação conferida no simulador.',
+        'Um pedido de ajuda passou a abrir junto com a página, e o botão "Ajude o simulador" na barra de cima o traz de volta a qualquer momento: ele recebe gravações .rrf da comunidade. Toda fórmula daqui é conferida contra os pacotes de dano que o servidor mandou numa gravação de verdade, e as classes menos jogadas simplesmente não têm gravação nenhuma — conseguir uma dependia de pedir no Discord e combinar o resto por mensagem. O arquivo é lido no próprio navegador antes de sair dele: gravação de classe que o simulador não conhece, sem a árvore de habilidades ou maior que 900 KB é recusada na hora, com o motivo na tela. Antes do envio aparece o que foi lido — personagem, classe, níveis, duração, quantos golpes e quantas trocas de equipamento — para conferência.',
+        'O arquivo enviado vai para os servidores do simulador e pode virar um teste no código, que é aberto; isso está escrito na tela e precisa ser confirmado para o envio liberar. Também dá para deixar um nick, que entra aqui nas Novidades se a gravação levar a alguma correção, e um contato do Discord. Marcando a caixa no rodapé, o pedido para de abrir sozinho por três dias.',
+        'As instruções de como gravar vieram junto, no mesmo modal. A parte que mais custa a descobrir é que as Opções do gravador decidem o que entra no arquivo: sem a caixa "Skill" marcada a árvore de habilidades não é gravada, e sem ela não há como conferir fórmula nenhuma. As caixas só podem ser mexidas antes de começar a gravar, então uma gravação assim está perdida. Vale também desmarcar "Chatting", que leva junto o chat público e as conversas particulares. O roteiro sugerido é uma gravação só: bater no dummy do campo de testes sem nenhum equipamento, depois só com a arma e por fim com tudo, já que cada troca de equipamento fica registrada com a hora e as fases são separadas depois.',
+        'Os talentos são pedidos no formulário, porque a gravação não os guarda — o jogo só exibe os da última sessão. O campo é o mesmo seletor usado na tela do simulador e pede o valor investido, o primeiro número da janela de status, sem o bônus de classe entre parênteses: em POD 90 (+15), o que vale é 90.',
+      ],
+    },
     {
       v: '0.1.47-beta',
       date: '12-08-2026',
@@ -639,6 +652,15 @@ export class AppTopBarComponent {
 
   // Don't auto-open the changelog on load; it's still reachable via the "what's new" button.
   visibleUpdate = false;
+
+  // The call for .rrf recordings, on the other hand, *does* open on load — it is
+  // the only way most people hear about it. Ticking its checkbox hides it for a
+  // few days; just closing it doesn't.
+  visibleHelpImprove = !isHelpImproveSnoozed();
+
+  showHelpImproveDialog() {
+    this.visibleHelpImprove = true;
+  }
 
   showUpdateDialog() {
     this.visibleUpdate = true;

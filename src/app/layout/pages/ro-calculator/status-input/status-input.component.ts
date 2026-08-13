@@ -12,7 +12,10 @@ export class StatusInputComponent {
   @Input({ required: true }) value = undefined;
   @Output() valueChange = new EventEmitter<number>();
 
-  @Input({ required: true }) extraValue: number;
+  @Input() extraValue = 0;
+  /** Hides the "+N" equip-bonus badge. The "Ajude o simulador" dialog reuses this
+   *  field to collect raw trait values, where there is no equipment to add. */
+  @Input() showExtra = true;
   @Input() badgeSeverity: 'success' | 'info' | 'warning' | 'danger' = 'info';
   @Input() disabled = false;
   /** When false the "+N" badge isn't clickable (no equipped item contributes to this

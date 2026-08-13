@@ -10,7 +10,7 @@
  */
 import { readFileSync } from 'node:fs';
 import { it } from 'vitest';
-import { decodeReplay } from '../rrf/decode';
+import { decodeReplay } from 'rrfparser';
 import { importReplayBuffer } from '../replay-to-model';
 
 const ARQUIVO = 'C:/Users/adson/Downloads/TROQUE-AQUI.rrf';

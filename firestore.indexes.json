@@ -1,0 +1,19 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "replay_submissions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "uploadedAt", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": [
+    {
+      "collectionGroup": "replay_submissions",
+      "fieldPath": "bytes",
+      "indexes": []
+    }
+  ]
+}

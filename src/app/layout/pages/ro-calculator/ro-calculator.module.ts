@@ -54,7 +54,7 @@ import { BattleMonsterSummaryComponent } from './battle-monster-summary/battle-m
 import { BattleHudComponent } from './battle-hud/battle-hud.component';
 import { AspdCurveComponent } from './aspd-curve/aspd-curve.component';
 import { EquipmentCosEnchantComponent } from './equipment-cos-enchant/equipment-cos-enchant.component';
-import { StatusInputComponent } from './status-input/status-input.component';
+import { StatusInputModule } from './status-input/status-input.module';
 import { IconUrlPipe } from '../../../pipes/icon-url.pipe';
 import { MonsterSpritePipe } from '../../../pipes/monster-sprite.pipe';
 import { MonsterTermPipe } from '../../../pipes/monster-term.pipe';
@@ -99,6 +99,7 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
     DialogModule,
     OverlayPanelModule,
     RoCalculatorRoutingModule,
+    StatusInputModule,
     IconUrlPipe,
     MonsterSpritePipe,
     MonsterTermPipe,
@@ -122,7 +123,6 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
     BattleHudComponent,
     AspdCurveComponent,
     EquipmentCosEnchantComponent,
-    StatusInputComponent,
     ItemDescTooltipPipe,
     ItemDescTooltipFitDirective,
     ItemDescTooltipHoverDirective,

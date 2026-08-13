@@ -13,7 +13,8 @@ A replay is the only ground truth this project has: the packets carry the damage
 
 Ask before starting; guessing these wastes a whole pass:
 
-- **Traits** (POD/STA/SAB/FEI/CON/CRV). Not in the replay. Ask for the numbers.
+- **Traits** (POD/STA/SAB/FEI/CON/CRV). Not in the replay. Ask for the numbers — unless the
+  recording came through `triage-rrf-uploads`, which already carries them.
 - **Skill levels.** The `skillLevel` in the damage packet is reliable, but passive and
   toggle levels are not — ask (`learnedSkills` in the import gives the learned tree, which
   usually settles it).
@@ -35,13 +36,17 @@ file in the set: it separates "the class formula is wrong" from "an item is miss
 
 ## 1. Get the file
 
-Players share the recording in one of two ways, and both end up as the same bytes:
+Players share the recording in one of three ways, and all end up as the same bytes:
 
 - **The `.rrf` itself**, usually dropped in `~/Downloads`. Use it as is.
 - **A RagnaRecap link**, `https://recap.latam-tools.com.br/?r=<ID>`. The `<ID>` **is the
   Firestore doc id** in project `ragreplaystats`, collection `replays`; reads are public, so
   it downloads with no login. Don't try WebFetch or the browser — the page is client-rendered
   and returns nothing useful.
+- **Sent through the simulator's own "Ajude o simulador" dialog.** Those land in Firestore
+  and are picked up with the [`triage-rrf-uploads`](../triage-rrf-uploads/SKILL.md) skill —
+  use it instead of the steps below, and note that it hands you **the traits §0 tells you to
+  ask for**, because the dialog collected them at upload time.
 
 ```
 node .claude/skills/review-rrf-class/fetch-recap.mjs "https://recap.latam-tools.com.br/?r=HdHAKyBShW"

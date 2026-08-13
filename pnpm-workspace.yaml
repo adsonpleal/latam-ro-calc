@@ -11,12 +11,17 @@ allowBuilds:
   nx: true
 
 # O pnpm segura pacotes publicados há pouco tempo, como defesa contra um pacote
-# comprometido que acabou de subir. O rrfparser é nosso e foi publicado agora, então
-# sem esta exceção o `pnpm install` local se recusa a instalar. (O CI usa bun, que não
-# lê esta configuração.) A exceção é presa à versão de propósito: ao subir para a
-# 1.0.0 esta linha sai, em vez de virar um passe livre permanente para o pacote.
+# comprometido que acabou de subir. O rrfparser é nosso e costuma ser consumido no mesmo
+# dia em que sobe, então sem esta exceção o `pnpm install` local se recusa a instalar.
+# (O CI usa bun, que não lê esta configuração.)
+#
+# A lista casa por **nome de pacote**, não por `nome@versão`: uma entrada presa à versão
+# é aceita sem reclamar e simplesmente não filtra nada — foi o que aconteceu com o
+# `rrfparser@1.0.0-rc.1` que ficou aqui, que só parecia funcionar porque a rc.1 já tinha
+# passado da idade mínima sozinha. Ou seja, isto é um passe livre para o pacote inteiro;
+# vale porque o pacote é nosso.
 minimumReleaseAgeExclude:
-  - rrfparser@1.0.0-rc.1
+  - rrfparser
 
 # Angular 16's webpack dev build resolves some transitive deps by absolute path into the
 # top-level node_modules, which pnpm's strict layout does not provide. Without this the

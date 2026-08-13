@@ -32,6 +32,10 @@
   </div>
 
   <div class="topbar-actions flex align-items-center gap-2">
+    <button pButton class="p-button-danger p-button-raised px-2" aria-label="Ajude o simulador" (click)="showHelpImproveDialog()">
+      <i class="pi pi-heart-fill"></i>
+      <span class="pl-1">Ajude o simulador</span>
+    </button>
     <button pButton class="p-button-help p-button-raised px-2" aria-label="Servidor MCP" (click)="showMcpDialog()">
       <i class="pi pi-sparkles"></i>
       <span class="pl-1">MCP</span>
@@ -212,6 +216,8 @@
       </a>
     </div>
   </p-dialog>
+
+  <app-help-improve [(visible)]="visibleHelpImprove" [appVersion]="lastestVersion"></app-help-improve>
 
   <p-dialog header="Referências" [draggable]="false" [resizable]="false" [modal]="true" [(visible)]="visibleReference" [style]="{ width: '50vw', height: '70vh' }">
     <ul>

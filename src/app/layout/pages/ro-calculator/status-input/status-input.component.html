@@ -23,7 +23,7 @@
     </p-dropdown>
   </div>
   <span
-    *ngIf="badgeSeverity === 'info'"
+    *ngIf="showExtra && badgeSeverity === 'info'"
     class="_font-medium text-lg text-cyan-300 mr-1"
     [class.bonus_clickable]="isExtraClickable"
     [keyActivate]="isExtraClickable"
@@ -32,7 +32,7 @@
     >+{{ extraValue }}</span
   >
   <span
-    *ngIf="badgeSeverity !== 'info'"
+    *ngIf="showExtra && badgeSeverity !== 'info'"
     class="_font-medium text-lg text-yellow-400"
     [class.bonus_clickable]="isExtraClickable"
     [keyActivate]="isExtraClickable"

@@ -23,6 +23,10 @@ import { ChipModule } from 'primeng/chip';
 import { AccordionModule } from 'primeng/accordion';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { HelpImproveDialogComponent } from './help-improve/help-improve-dialog.component';
+import { StatusInputModule } from './pages/ro-calculator/status-input/status-input.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +36,7 @@ import { ToastModule } from 'primeng/toast';
     AppMenuComponent,
     AppSidebarComponent,
     AppLayoutComponent,
+    HelpImproveDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +57,9 @@ import { ToastModule } from 'primeng/toast';
     AccordionModule,
     ConfirmDialogModule,
     ToastModule,
+    CheckboxModule,
+    InputTextareaModule,
+    StatusInputModule,
   ],
   exports: [AppLayoutComponent],
 })
