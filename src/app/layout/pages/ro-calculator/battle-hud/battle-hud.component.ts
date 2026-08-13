@@ -232,7 +232,7 @@ export class BattleHudComponent implements OnDestroy {
     return (this.compareItemNames || []).map((v) => itemSlotLabelPtBr(v)).join(', ');
   }
 
-  // --- Hero (DPS / dano por uso) ---------------------------------------------
+  // --- Hero (DPS / damage per use) -------------------------------------------
 
   // Fix 10: when the last Efeito is unselected, the parent pipeline never refreshes
   // totalSummary, so dmg.effectedSkillDamageMin/effectedSkillHitsPerSec can stay
@@ -275,7 +275,7 @@ export class BattleHudComponent implements OnDestroy {
     return this.isAutoSpell ? (h.min + h.max) / 2 : h.dps;
   }
 
-  // Single consolidated read of the hero (DPS / dano por uso) section — the template
+  // Single consolidated read of the hero (DPS / damage per use) section — the template
   // binds this once via `*ngIf="hero as h"` instead of re-invoking five separate
   // getters (which themselves used to re-derive heroCurrent/heroSimulated multiple
   // times each) on every CD pass.

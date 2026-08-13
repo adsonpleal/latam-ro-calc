@@ -1,11 +1,11 @@
 /**
- * Faixas de intimidade do mascote, na ordem e com os nomes que o cliente pt-BR usa nas
- * descrições dos ovos ("Na Lealdade Alta: ..."). Cada faixa **substitui** a anterior —
- * elas não somam —, e é por isso que a condição `LOYALTY[n]` do script casa por
- * igualdade e não por "n ou mais".
+ * Pet intimacy tiers, in order and under the names the pt-BR client uses in the egg
+ * descriptions ("Na Lealdade Alta: ..."). Each tier **replaces** the previous one — they
+ * do not stack — which is why the script's `LOYALTY[n]` condition matches by equality and
+ * not by "n or above".
  *
- * Os nomes são os mesmos que a Janela de Mascote mostra na linha "Lealdade"; saem do
- * `msgstringtable_ml.csv` do cliente, que traz a escala inteira:
+ * The names are the same ones the Pet Window shows on its "Lealdade" row; they come from
+ * the client's `msgstringtable_ml.csv`, which carries the whole scale:
  *
  *   MSI_VERY_AWKWARD  "Awkward"  → "Baixíssima"
  *   MSI_AWKWARD       "Shy"      → "Baixa"
@@ -13,9 +13,9 @@
  *   MSI_FRIENDLY      "Cordial"  → "Normal"
  *   MSI_VERY_FRIENDLY "Loyal"    → "Alta"
  *
- * Ou seja, "Lealdade Nenhuma" **não** quer dizer ausência de mascote: é a faixa do meio.
- * As descrições dos ovos juntam as duas primeiras numa linha só ("Baixa ou Baixíssima"),
- * que é por isso que aqui são quatro faixas e não cinco.
+ * So "Lealdade Nenhuma" does **not** mean the absence of a pet: it is the middle tier.
+ * The egg descriptions merge the first two into a single line ("Baixa ou Baixíssima"),
+ * which is why there are four tiers here rather than five.
  */
 export enum PetLoyalty {
   Baixa = 1,
@@ -25,15 +25,15 @@ export enum PetLoyalty {
 }
 
 /**
- * Converte a intimidade crua da gravação (0 a 1000, contêiner 9 chunk 5308) na faixa.
- * Os limiares são os do servidor (rAthena `PET_INTIMATE_*`), e o cliente usa os mesmos
- * para escolher o rótulo: 1..99 Baixíssima, 100..249 Baixa, 250..749 Nenhuma,
+ * Converts the recording's raw intimacy (0 to 1000, container 9 chunk 5308) into a tier.
+ * The thresholds are the server's (rAthena `PET_INTIMATE_*`), and the client uses the
+ * same ones to pick the label: 1..99 Baixíssima, 100..249 Baixa, 250..749 Nenhuma,
  * 750..909 Normal, 910..1000 Alta.
  *
- * Conferido ponta a ponta numa gravação só: a "Armas + Mira" traz intimidade 850 e a
- * Janela de Mascote do cliente, reproduzindo o replay, escreve "Lealdade Normal" — que é
- * também a faixa cujo bônus (dano físico +4%, dano crítico +1%) faz os críticos da
- * gravação sem equipamento baterem exato.
+ * Checked end to end on a single recording: "Armas + Mira" carries intimacy 850 and the
+ * client's Pet Window, replaying the file, writes "Lealdade Normal" — which is also the
+ * tier whose bonus (physical damage +4%, crit damage +1%) makes the gearless recording's
+ * criticals land exactly.
  */
 export function petLoyaltyFromIntimacy(intimacy: number): PetLoyalty {
   if (intimacy >= 910) return PetLoyalty.Alta;
@@ -43,10 +43,10 @@ export function petLoyaltyFromIntimacy(intimacy: number): PetLoyalty {
 }
 
 /**
- * Faixa assumida quando a simulação não diz qual é — inclusive nas que foram salvas
- * antes de o campo existir. É a Alta porque até então todo script de pet no item.json
- * era a faixa máxima, sem condição: qualquer outro padrão mudaria o dano de build salva
- * sem o usuário ter mexido em nada.
+ * The tier assumed when the simulation does not say which — including simulations saved
+ * before the field existed. It is Alta because until then every pet script in item.json
+ * was the maximum tier, unconditionally: any other default would change the damage of a
+ * saved build without the user touching anything.
  */
 export const DEFAULT_PET_LOYALTY = PetLoyalty.Alta;
 

@@ -55,8 +55,8 @@ export class EquipmentShadowComponent implements OnInit, OnChanges {
   enchant3List: DropdownModel[] = [];
   enchant4List: DropdownModel[] = [];
 
-  /** Público porque o template passa `itemDescriptions.version` ao itemDescTooltip —
-   *  é o que faz o pipe puro reavaliar quando as descrições terminam de carregar. */
+  /** Public because the template passes `itemDescriptions.version` to itemDescTooltip —
+   *  that is what makes the pure pipe re-evaluate once the descriptions finish loading. */
   constructor(public readonly itemDescriptions: ItemDescriptionStore) { }
 
   ngOnInit(): void {

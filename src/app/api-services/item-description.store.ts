@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
 
 /**
- * Descrições pt-BR dos itens, mantidas fora dos objetos de item.
+ * pt-BR item descriptions, kept outside the item objects.
  *
- * Elas chegam depois do resto (items-desc é quase metade do peso e só é usada em
- * tooltip de hover e na prévia da busca, ambos disparados pelo usuário), então
- * quem renderiza precisa de duas coisas: ler a descrição de um id e saber que a
- * carga chegou, para descartar o que memoizou enquanto o mapa ainda estava
- * vazio — sem isso um item passado com o mouse cedo demais ficaria com o popover
- * vazio para sempre.
+ * They arrive after everything else (items-desc is nearly half the payload and is only
+ * used in the hover tooltip and the search preview, both user-triggered), so whatever
+ * renders needs two things: to read a description by id, and to know the load has
+ * arrived, so it can discard whatever it memoized while the map was still empty — without
+ * that, an item hovered too early would keep an empty popover forever.
  *
- * Um mapa à parte, e não um campo em cada item: mexer em 6.630 objetos que o
- * `Calculator.getItem()` lê em laço quente força transição de hidden class, e um
- * pipe puro não reexecuta quando só o conteúdo do objeto muda.
+ * A separate map, rather than a field on each item: touching 6,630 objects that
+ * `Calculator.getItem()` reads in a hot loop forces a hidden-class transition, and a pure
+ * pipe does not re-run when only an object's contents change.
  */
 @Injectable({ providedIn: 'root' })
 export class ItemDescriptionStore {
   private map: Record<string, string> = {};
 
-  /** Incrementa a cada carga. Caches memoizados comparam contra isto. */
+  /** Increments on every load. Memoized caches compare against this. */
   version = 0;
 
   set(descriptions: Record<string, string> | null | undefined) {

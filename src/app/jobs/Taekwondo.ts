@@ -158,19 +158,21 @@ export class Taekwondo extends CharacterBase {
   ];
 
   /**
-   * Corrida (Run, TK_RUN) dá **+10 de ATQ por nível, só com as mãos livres** — a coluna
-   * "Dano" da descrição do cliente (data.grf), que a própria descrição condiciona a
-   * "enquanto estiver sem arma". Vale para toda a linha Taekwon, que herda daqui.
+   * Corrida (Run, TK_RUN) grants **+10 ATK per level, bare-handed only** — the "Dano"
+   * column of the client description (data.grf), which the description itself conditions
+   * on "enquanto estiver sem arma". It applies to the whole Taekwon line, which inherits
+   * from here.
    *
-   * Entra como ATQ de Maestria porque é aí que o valor cai na cadeia real: somado
-   * depois do P.ATQ e antes do Kihop (que multiplica o ATQ inteiro, em
-   * StarEmperor.modifyFinalAtk). Medido em duas gravações do mesmo Mestre Celestial —
-   * ver SkyEmperor.replay.spec.ts:
-   *   sem arma  ⌊(2167 + 100) × 1,85⌋ = 4193 ✓ (ATQ exigido pelos pacotes)
-   *   com arma  o +100 some, e a faixa 4480..4555 cobre os 52 valores observados
+   * It enters as mastery ATK because that is where the value lands in the real chain:
+   * added after P.ATK and before Kihop (which multiplies the whole ATK, in
+   * StarEmperor.modifyFinalAtk). Measured across two recordings of the same Sky Emperor —
+   * see SkyEmperor.replay.spec.ts:
+   *   weaponless  ⌊(2167 + 100) × 1.85⌋ = 4193 ✓ (the ATK the packets demand)
+   *   with weapon the +100 disappears, and the 4480..4555 range covers the 52 observed
+   *               values
    */
   override getMasteryAtk(info: InfoForClass): number {
-    if (info.weapon?.data?.typeName) return 0; // só desarmado
+    if (info.weapon?.data?.typeName) return 0; // bare-handed only
 
     return this.learnLv('Run') * 10;
   }

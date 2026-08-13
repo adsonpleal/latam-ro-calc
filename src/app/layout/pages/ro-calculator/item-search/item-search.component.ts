@@ -233,8 +233,8 @@ export class ItemSearchComponent implements OnInit, OnDestroy {
     // console.log({ item });
     this.selectItemSource.next((item as (typeof this.equipableItems)[0]).value as number);
 
-    // O filtro da busca lê item.script, não a descrição — buscar funciona mesmo
-    // antes de items-desc chegar; só esta prévia fica vazia até lá.
+    // The search filter reads item.script, not the description — searching works even
+    // before items-desc arrives; only this preview stays empty until then.
     this.activeFilteredItemDesc = prettyItemDesc(this.itemDescriptions.get(this.activeFilteredItem?.id));
   }
 

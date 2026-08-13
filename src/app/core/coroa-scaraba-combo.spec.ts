@@ -4,22 +4,22 @@ import { createMainModel } from 'src/app/utils';
 import { Calculator } from './calculator';
 
 /**
- * 400511 Coroa Scaraba (Queen Scaraba Crown) — Guto: os cards do conjunto (Carta Rainha
- * Scaraba 4507, Carta Rainha Scaraba Dourada 4509, Carta Rainha Scaraba Selada 27209)
- * não estavam no banco, então o combo da coroa não entrava.
+ * 400511 Coroa Scaraba (Queen Scaraba Crown) — reported by Guto: the set's cards (Carta
+ * Rainha Scaraba 4507, Carta Rainha Scaraba Dourada 4509, Carta Rainha Scaraba Selada
+ * 27209) were not in the database, so the crown's combo never fired.
  *
- * pt-BR (fonte da verdade) — a descrição da coroa lista DOIS conjuntos:
+ * pt-BR (the source of truth) — the crown's description lists TWO sets:
  *   [Carta Rainha Scaraba] (4507)          -> Dano físico contra Chefes +35%.
  *   [Carta Rainha Scaraba Dourada] (4509)  -> P.ATQ. +20; a cada refino, Dano crítico +10%.
- * A Carta Selada (27209) NÃO aparece em nenhum conjunto da coroa — é card avulso.
+ * The Carta Selada (27209) appears in NO set on the crown — it is a standalone card.
  *
- * Efeitos próprios dos cards:
- *   4507  / 27209 -> "Dano físico contra Scarabas +N%": dano por monstro específico, que a
- *                    engine não modela, então o script fica vazio (só o combo conta).
- *   4509          -> INT +3; Resistência a raça Inseto +10% (+5% a mais no refino +9 da coroa).
+ * The cards' own effects:
+ *   4507  / 27209 -> "Dano físico contra Scarabas +N%": per-monster damage, which the
+ *                    engine does not model, so the script stays empty (only the set counts).
+ *   4509          -> INT +3; Insect-race resistance +10% (+5% more at crown refine +9).
  *
- * Os cards são encaixados na coroa (4509, card de cabeça) e na arma (4507/27209, card de
- * arma); EQUIP_ID casa o combo pelo id do card equipado.
+ * The cards slot into the crown (4509, a headgear card) and the weapon (4507/27209,
+ * weapon cards); EQUIP_ID matches the combo by the equipped card's id.
  */
 
 const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
@@ -65,70 +65,70 @@ function totals(opts: { crownRefine?: number; headCard?: number | null; weaponCa
 
 const stat = (key: string, opts: Parameters<typeof totals>[0]) => totals(opts)[key] ?? 0;
 
-describe('Coroa Scaraba 400511 — cards do conjunto existem no banco', () => {
-  it('os três cards estão cadastrados com tipo Carta e posição de encaixe correta', () => {
+describe('Coroa Scaraba 400511 — the set cards exist in the database', () => {
+  it('registers all three cards with the Card type and the right slot position', () => {
     for (const id of [CARD_QUEEN, CARD_GOLD, CARD_SEALED]) {
       expect(db[id], `card ${id}`).toBeDefined();
       expect(db[id].itemTypeId, `card ${id} itemTypeId`).toBe(6);
     }
-    // 4507 e 27209 são cards de arma (compositionPos 0); 4509 é card de cabeça (769).
+    // 4507 and 27209 are weapon cards (compositionPos 0); 4509 is a headgear card (769).
     expect(db[CARD_QUEEN].compositionPos).toBe(0);
     expect(db[CARD_SEALED].compositionPos).toBe(0);
     expect(db[CARD_GOLD].compositionPos).toBe(769);
   });
 });
 
-describe('Efeitos próprios dos cards', () => {
-  it('Carta Rainha Scaraba Dourada (4509): INT +3 e Resistência a Inseto (10 → 15 no refino +9 da coroa)', () => {
+describe('The cards\' own effects', () => {
+  it('Carta Rainha Scaraba Dourada (4509): INT +3 and Insect resistance (10 → 15 at crown refine +9)', () => {
     expect(stat('int', { headCard: CARD_GOLD, crownRefine: 0 })).toBe(3);
     expect(stat('subrace_insect', { headCard: CARD_GOLD, crownRefine: 0 })).toBe(10);
     expect(stat('subrace_insect', { headCard: CARD_GOLD, crownRefine: 9 })).toBe(15);
   });
 
-  it('Cartas de dano vs Scarabas (4507, 27209) não têm script — dano por monstro não é modelado', () => {
+  it('leaves the Scaraba damage cards (4507, 27209) scriptless — per-monster damage is not modelled', () => {
     expect(db[CARD_QUEEN].script).toEqual({});
     expect(db[CARD_SEALED].script).toEqual({});
   });
 });
 
 describe('Conjunto [Carta Rainha Scaraba] (4507): Dano físico contra Chefes +35%', () => {
-  it('coroa + 4507 → p_class_boss 35 (independente do refino)', () => {
+  it('crown + 4507 → p_class_boss 35 (regardless of refine)', () => {
     expect(stat('p_class_boss', { weaponCard: CARD_QUEEN, crownRefine: 0 })).toBe(35);
     expect(stat('p_class_boss', { weaponCard: CARD_QUEEN, crownRefine: 12 })).toBe(35);
   });
-  it('não entra sem o card', () => {
+  it('does not apply without the card', () => {
     expect(stat('p_class_boss', { crownRefine: 12 })).toBe(0);
   });
-  it('não entra sem a coroa', () => {
+  it('does not apply without the crown', () => {
     expect(stat('p_class_boss', { weaponCard: CARD_QUEEN, withCrown: false })).toBe(0);
   });
 });
 
-describe('Conjunto [Carta Rainha Scaraba Dourada] (4509): P.ATQ +20, Dano crítico +10% por refino', () => {
-  it('coroa + 4509 → pAtk +20', () => {
+describe('Set [Carta Rainha Scaraba Dourada] (4509): P.ATK +20, crit damage +10% per refine', () => {
+  it('crown + 4509 → pAtk +20', () => {
     expect(stat('pAtk', { headCard: CARD_GOLD, crownRefine: 5 })).toBe(20);
   });
-  it('criDmg = próprio da coroa (floor(refino/3)*10) + combo (refino*10)', () => {
-    // refino +5: coroa própria floor(5/3)*10 = 10; combo 5*10 = 50 → 60
+  it('gives criDmg = the crown\'s own (floor(refine/3)*10) + the combo (refine*10)', () => {
+    // refine +5: crown floor(5/3)*10 = 10; combo 5*10 = 50 → 60
     expect(stat('criDmg', { headCard: CARD_GOLD, crownRefine: 5 })).toBe(60);
-    // refino +0: própria 0; combo 0 → 0
+    // refine +0: crown 0; combo 0 → 0
     expect(stat('criDmg', { headCard: CARD_GOLD, crownRefine: 0 })).toBe(0);
   });
-  it('sem o card, só o crítico próprio da coroa entra', () => {
+  it('applies only the crown\'s own crit damage without the card', () => {
     expect(stat('pAtk', { crownRefine: 5 })).toBe(0);
     expect(stat('criDmg', { crownRefine: 5 })).toBe(10); // floor(5/3)*10
   });
 });
 
-describe('Carta Rainha Scaraba Selada (27209): sem conjunto na coroa', () => {
-  it('coroa + 27209 não concede bônus de conjunto', () => {
+describe('Carta Rainha Scaraba Selada (27209): no set on the crown', () => {
+  it('grants no set bonus for crown + 27209', () => {
     expect(stat('p_class_boss', { weaponCard: CARD_SEALED, crownRefine: 12 })).toBe(0);
     expect(stat('pAtk', { weaponCard: CARD_SEALED, crownRefine: 12 })).toBe(0);
   });
 });
 
-describe('O conjunto é declarado só na coroa', () => {
-  it('os cards não referenciam o id da coroa no próprio script', () => {
+describe('The set is declared only on the crown', () => {
+  it('keeps the crown id out of the cards\' own scripts', () => {
     for (const id of [CARD_QUEEN, CARD_GOLD, CARD_SEALED]) {
       expect(JSON.stringify(db[id].script), `card ${id}`).not.toContain(String(CROWN));
     }

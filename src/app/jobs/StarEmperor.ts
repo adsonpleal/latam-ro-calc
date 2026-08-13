@@ -340,10 +340,10 @@ export class StarEmperor extends StarGladiator {
     const powerLv = this.learnLv('Power');
     const wratBonus = (100 + this.getWrathAtkBonus(_params)) / 100;
 
-    // O ATQ é inteiro em jogo antes das etapas percentuais: o Kihop multiplica o ATQ já
-    // arredondado, não a fração que o P.ATQ deixa para trás (calcTotalAtk não arredonda
-    // esse passo de propósito). Sem este piso a gravação sem arma sai 4.194 em vez de
-    // 4.193 — ver SkyEmperor.replay.spec.ts.
+    // ATK is an integer in game before the percentage stages: Kihop multiplies the
+    // already-floored ATK, not the fraction P.ATK leaves behind (calcTotalAtk deliberately
+    // does not round that step). Without this floor the weaponless recording comes out at
+    // 4,194 instead of 4,193 — see SkyEmperor.replay.spec.ts.
     let totalAtk = floor(currentAtk);
     if (powerLv >= 1) totalAtk = totalAtk + floor(totalAtk * (powerLv * 15 + 10) * 0.01);
     totalAtk = totalAtk * wratBonus;

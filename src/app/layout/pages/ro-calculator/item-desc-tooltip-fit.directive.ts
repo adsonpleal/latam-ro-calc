@@ -1,28 +1,27 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { Tooltip } from 'primeng/tooltip';
 
-/** Folga mínima entre o popover e a borda da janela. */
+/** Minimum gap between the popover and the window edge. */
 const MARGEM = 8;
 
 /**
- * Encaixa o popover de descrição na janela quando o PrimeNG desiste.
+ * Fits the description popover into the window when PrimeNG gives up.
  *
- * O `align()` do Tooltip tenta as quatro posições em ordem e, a cada uma, checa
- * `isOutOfBounds()` — que reprova se o popover ultrapassar *qualquer* borda. O
- * problema é a última tentativa: ela é aplicada sem checagem nenhuma. Para
- * `tooltipPosition="right"` a ordem é direita, esquerda, cima e por fim baixo,
- * então um gatilho perto do rodapé (as Turbinas Ilusión, por exemplo) acaba com o
- * popover colado abaixo dele, inteiro fora da tela — some sem deixar rastro. Um
- * gatilho na coluna da esquerda com popover largo cai no mesmo buraco, porque
- * esquerda e cima ficam com `left` negativo.
+ * The Tooltip's `align()` tries the four positions in order and, on each, checks
+ * `isOutOfBounds()` — which rejects the popover if it crosses *any* edge. The problem is
+ * the last attempt: it is applied with no check at all. For `tooltipPosition="right"` the
+ * order is right, left, top and finally bottom, so a trigger near the footer (the Turbinas
+ * Ilusión, for instance) ends up with the popover pinned below it, entirely off screen —
+ * gone without a trace. A trigger in the left column with a wide popover falls into the
+ * same hole, because left and top both end up with a negative `left`.
  *
- * Aqui não se troca a posição escolhida: só se desloca o que ficou para fora de
- * volta para dentro, depois que o PrimeNG terminou.
+ * This does not change the chosen position: it only nudges whatever ended up outside back
+ * inside, after PrimeNG has finished.
  */
-// Sem prefixo "app" de propósito: casando com o atributo que os tooltips de item já
-// têm, a correção vale para todos eles — inclusive os que forem criados depois — sem
-// precisar lembrar de marcar cada elemento. Um seletor próprio exigiria repetir o
-// atributo nas ~20 ocorrências e silenciosamente não pegaria as próximas.
+// No "app" prefix, deliberately: by matching the attribute the item tooltips already
+// carry, the fix applies to all of them — including any created later — without having to
+// remember to tag each element. A dedicated selector would mean repeating the attribute
+// across ~20 occurrences and would silently miss the next ones.
 // eslint-disable-next-line @angular-eslint/directive-selector
 @Directive({ selector: '[pTooltip][tooltipStyleClass="item_desc_tooltip"]' })
 export class ItemDescTooltipFitDirective implements OnInit, OnDestroy {
@@ -49,14 +48,14 @@ export class ItemDescTooltipFitDirective implements OnInit, OnDestroy {
     const rect = container.getBoundingClientRect();
     const { innerWidth: larguraJanela, innerHeight: alturaJanela } = window;
 
-    // Viewport degenerada (aba oculta, iframe de tamanho zero): sem referência
-    // confiável, qualquer conta aqui jogaria o popover para o canto. Melhor deixar
-    // como o PrimeNG posicionou.
+    // Degenerate viewport (hidden tab, zero-sized iframe): with no reliable reference,
+    // any arithmetic here would throw the popover into the corner. Better to leave it
+    // where PrimeNG put it.
     if (larguraJanela < 1 || alturaJanela < 1) return;
 
-    // Corrige primeiro o excesso à direita/embaixo e depois o lado oposto, para que
-    // um popover maior que a janela encoste na borda superior/esquerda em vez de
-    // sumir — o topo é o que interessa ler.
+    // Fix the right/bottom overflow first and the opposite side after, so that a popover
+    // larger than the window rests against the top/left edge instead of disappearing —
+    // the top is the part worth reading.
     let dx = 0;
     let dy = 0;
     if (rect.right > larguraJanela - MARGEM) dx = larguraJanela - MARGEM - rect.right;
@@ -66,14 +65,14 @@ export class ItemDescTooltipFitDirective implements OnInit, OnDestroy {
 
     if (!dx && !dy) return;
 
-    // O delta vem de coordenadas de viewport e é somado ao inline style, então
-    // funciona tanto com posicionamento absoluto quanto fixo.
+    // The delta comes from viewport coordinates and is added to the inline style, so it
+    // works with both absolute and fixed positioning.
     container.style.left = `${parseFloat(container.style.left || '0') + dx}px`;
     container.style.top = `${parseFloat(container.style.top || '0') + dy}px`;
 
-    // A seta aponta para onde o PrimeNG achou que o popover ficaria; depois do
-    // deslocamento ela mente. O preAlign da próxima exibição reescreve o className
-    // e limpa esta marca sozinho.
+    // The arrow points where PrimeNG thought the popover would land; after the nudge it
+    // lies. The next show's preAlign rewrites the className and clears this marker by
+    // itself.
     container.classList.add('item_desc_tooltip--encaixado');
   }
 }

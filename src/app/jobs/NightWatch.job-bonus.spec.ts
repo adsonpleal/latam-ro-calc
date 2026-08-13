@@ -3,24 +3,24 @@ import { JOB_4_MAX_JOB_LEVEL } from '../app-config';
 import { NightWatch } from './NightWatch';
 
 /**
- * Bônus de classe e de talento do Guarda Noturno, conferidos contra
- * **irowiki.org/wiki/Night_Watch**, seção "Job & Talent Bonuses".
+ * Night Watch job and trait bonuses, checked against **irowiki.org/wiki/Night_Watch**,
+ * "Job & Talent Bonuses" section.
  *
- * A tabela de lá é transposta em relação ao código: para cada atributo ela lista os
- * níveis de classe em que ele chega a +1, +2, +3... É essa lista que está reproduzida
- * aqui, e o teste expande-a por nível e compara com a tabela do arquivo da classe — assim
- * a fonte fica legível do lado do teste e não some dentro de 140 linhas de array.
+ * That table is transposed relative to the code: per stat, it lists the job levels at
+ * which the stat reaches +1, +2, +3... That list is what is reproduced here, and the test
+ * expands it per level and compares against the table in the class file — so the source
+ * stays readable on the test side instead of disappearing into 140 lines of array.
  *
- * Isto pegou dois erros: SOR chegava um nível tarde (irowiki dá +1 já no nível 2) e AGI
- * chegava a +8 no nível 25 em vez do 32.
+ * This caught two errors: LUK arrived one level late (irowiki gives +1 already at level
+ * 2) and AGI reached +8 at level 25 instead of 32.
  *
- * O nível 50 tem uma segunda confirmação, independente do irowiki: a gravação
- * `Armas + Mira.rrf` traz `SP_PATK = 70` sem arma, e P.ATQ é ⌊POD/3⌋ + ⌊CON/5⌋ + 15 do
- * conjunto sombrio POD, o que só fecha com POD 117 e CON 81 — exatamente 100 + 9 e
- * 62 + 9 + 10, os bônus desta tabela no nível 50.
+ * Level 50 has a second confirmation, independent of irowiki: the `Armas + Mira.rrf`
+ * recording reports `SP_PATK = 70` with no weapon, and P.ATK is ⌊POW/3⌋ + ⌊CON/5⌋ + 15
+ * from the shadow POW set, which only closes at POW 117 and CON 81 — exactly 100 + 9 and
+ * 62 + 9 + 10, this table's bonuses at level 50.
  */
 
-/** Para cada atributo, os níveis de classe em que ele chega a +1, +2, +3, ... */
+/** Per stat, the job levels at which it reaches +1, +2, +3, ... */
 const IROWIKI_JOB = {
   str: [1, 2, 30],
   agi: [2, 8, 12, 13, 20, 23, 24, 32],
@@ -39,7 +39,7 @@ const IROWIKI_TRAIT = {
   crt: [27, 33, 34, 36, 43],
 };
 
-/** Quantos degraus da lista já passaram no nível `lv`. */
+/** How many steps of the list have been passed at level `lv`. */
 const at = (niveis: number[], lv: number) => niveis.filter((n) => n <= lv).length;
 
 const NIVEIS = Array.from({ length: JOB_4_MAX_JOB_LEVEL }, (_, i) => i + 1);
@@ -61,8 +61,8 @@ describe('Guarda Noturno — bônus de classe e talento vs. irowiki', () => {
     ]);
   });
 
-  // O topo é o que toda build real usa, então vale a pena estar escrito por extenso.
-  it('no nível 50 (máximo da 4ª Expandida) os bônus são os da gravação', () => {
+  // The top is what every real build uses, so it is worth spelling out.
+  it('matches the recording at level 50 (the Expanded 4th maximum)', () => {
     const b = new NightWatch().getJobBonusStatus(50);
     expect({ str: b.str, agi: b.agi, vit: b.vit, int: b.int, dex: b.dex, luk: b.luk })
       .toEqual({ str: 3, agi: 8, vit: 6, int: 8, dex: 11, luk: 7 });

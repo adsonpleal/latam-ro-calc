@@ -64,8 +64,8 @@ export function buildReductionCategories(
     ...ELEMENTS.map((e) => ({ label: e.label, keys: [`subele_${e.key}`], percent: v(`subele_${e.key}`) })),
   ]);
 
-  // Tamanho — players are Médio. As linhas `_physical`/`_magical` valem só contra o seu tipo
-  // de dano, então aparecem separadas em vez de somadas na linha de cima.
+  // Size — players are Medium. The `_physical`/`_magical` rows apply only against their own
+  // damage type, so they show separately instead of folded into the row above.
   push('Tamanho', [
     ...SIZE_ROWS.flatMap(({ key, label }) => [
       { label, keys: [`subsize_${key}`], percent: v(`subsize_${key}`) },
@@ -80,7 +80,7 @@ export function buildReductionCategories(
     { label: 'Normal', keys: ['subclass_normal'], percent: v('subclass_normal') },
   ]);
 
-  // Distância — só contra ataques físicos à distância (família Carta Gazeti).
+  // Distance — only against ranged physical attacks (the Carta Gazeti family).
   push('Distância', [
     { label: 'Físico à distância', keys: ['dmg_taken_range'], percent: v('dmg_taken_range') },
   ]);

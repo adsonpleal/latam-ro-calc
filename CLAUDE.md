@@ -14,15 +14,9 @@ only applies to Large targets" is English with a proper noun in it. Quoting a ch
 pt-BR client text inside an English comment is fine too; put it in `"quotes"` or
 `` `backticks` ``.
 
-`src/app/code-language.spec.ts` enforces this on every `pnpm test` (and therefore on
-`pre-push`). It scans comments and test names for Portuguese function words and fails
-with the file, line and offending word. It carries a `LEGACY` allowlist of files that
-predate the rule — **that list only shrinks**. If a file you touch is on it, translate
-the file and drop its line; never add a new entry.
-
-```bash
-npx vitest run src/app/code-language.spec.ts -t backlog   # what is left to translate
-```
+The whole codebase was swept to English on 13/08/2026 — there is no pt-BR prose left in
+comments or test names, and no backlog to work through. Keep it that way: this is not a
+convention to match against surrounding code, it is the rule for every file.
 
 ## Environment: local, no Docker
 

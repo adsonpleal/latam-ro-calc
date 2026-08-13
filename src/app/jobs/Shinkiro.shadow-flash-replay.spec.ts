@@ -23,12 +23,12 @@ import { Shinkiro } from './Shinkiro';
  *
  * Three independent facts identify the bigger number as a **critical hit**:
  *
- *  1. 335116 / 191496 is exactly the crit multiplier — 1,40 base + T.Crít 35%. The
- *     recording's own ZC_PAR_CHANGE carries SP_CRATE = 35, so 1,75 is not a coincidence.
- *  2. It shows up in 18 of the 44 packets across both recordings (40,9%), and the same
+ *  1. 335116 / 191496 is exactly the crit multiplier — 1.40 base + C.Rate 35%. The
+ *     recording's own ZC_PAR_CHANGE carries SP_CRATE = 35, so 1.75 is no coincidence.
+ *  2. It shows up in 18 of the 44 packets across both recordings (40.9%), and the same
  *     packet stream reports SP_CRITICAL = 41.
  *  3. The rounding only works per hit: the packets carry `count = 4`, and
- *     4 × floor(191496 / 4 × 1,75) = 335116, whereas floor(191496 × 1,75) = 335118.
+ *     4 × floor(191496 / 4 × 1.75) = 335116, whereas floor(191496 × 1.75) = 335118.
  *
  * Neither the pt-BR client description nor browiki.org/wiki/Centelha_das_Trevas mentions
  * a critical or the 4 hits, so the recordings are the only source for both — hence this
@@ -39,15 +39,15 @@ import { Shinkiro } from './Shinkiro';
  * skill does not use, and no damage-affecting buff in the recording):
  *
  *   base level 230, job level 46, class 4304 (Shinkiro)
- *   base stats  FOR 125, AGI 1, VIT 1, INT 1, DES 1, SOR 125
- *   talentos    CRV 100 alocado; POD/STA/SAB/FEI/CON 0 alocados
- *   habilidades Dança das Trevas Nv. 5, Centelha das Trevas Nv. 10
+ *   base stats  STR 125, AGI 1, VIT 1, INT 1, DEX 1, LUK 125
+ *   traits      CRT 100 allocated; POW/STA/WIS/SPL/CON 0 allocated
+ *   skills      Dança das Trevas Lv5, Centelha das Trevas Lv10
  *
  * Derivation these lock in:
- *   ATQ base   = ⌊230/4 + DES 10/5 + FOR 135 + SOR 128/3⌋ + POD 8 × 5 = 277  (= SP_ATK1)
- *   ATQ        = 277 × 2 = 554  ->  P.ATQ 2%  ->  ⌊554 × 1,02⌋ = 565
- *   Hab. base  = (9.700 + Dança 5 × 1.000 + POD 8 × 5) × 230/100 = 33.902%
- *   dano       = ⌊565 × 339,02⌋ − 50 (soft DEF do boneco) = 191.496
+ *   base ATK   = ⌊230/4 + DEX 10/5 + STR 135 + LUK 128/3⌋ + POW 8 × 5 = 277  (= SP_ATK1)
+ *   ATK        = 277 × 2 = 554  ->  P.ATK 2%  ->  ⌊554 × 1.02⌋ = 565
+ *   skill base = (9,700 + Dança 5 × 1,000 + POW 8 × 5) × 230/100 = 33,902%
+ *   damage     = ⌊565 × 339.02⌋ − 50 (the dummy's soft DEF) = 191,496
  *   crítico    = ⌊191.496 × 1,75⌋ arredondado para baixo a múltiplo de 4 = 335.116
  *
  * **O termo de POD não é provado por esta gravação.** O que ela fixa é a razão inteira

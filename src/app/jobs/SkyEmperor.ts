@@ -153,9 +153,9 @@ const traitBonusTable: Record<number, [number, number, number, number, number, n
 };
 
 /**
- * Espaço Celeste — o estado único que Amanhecer/Anoitecer alternam em sequência, mais
- * o Elo Celestial. Os seis estados de sol/lua são mutuamente exclusivos entre si, e o
- * Elo Celestial cancela todos eles, então tudo cabe em um seletor só.
+ * Celestial Space — the single state that Amanhecer/Anoitecer cycle through, plus Elo
+ * Celestial. The six sun/moon states are mutually exclusive, and Elo Celestial cancels
+ * all of them, so the whole thing fits in one selector.
  */
 const CelestialSpace = {
   Sunrise: 1,
@@ -183,7 +183,7 @@ export class SkyEmperor extends StarEmperor {
     return this.activeSkillLv('_SkyEmperor_Celestial_Space');
   }
 
-  /** O estado pedido, ou o Elo Celestial, que libera o efeito máximo dos quatro. */
+  /** The requested state, or Elo Celestial, which unlocks the maximum effect of all four. */
   private isCelestialSpace(space: number): boolean {
     const current = this.celestialSpace();
 
@@ -191,13 +191,13 @@ export class SkyEmperor extends StarEmperor {
   }
 
   /**
-   * Valores por nível: descrição do PRÓPRIO CLIENTE (data.grf, skilldescript.lub), com
-   * browiki.org concordando, e validados pacote a pacote contra uma gravação em jogo —
-   * ver SkyEmperor.replay.spec.ts.
+   * Per-level values: the CLIENT's OWN description (data.grf, skilldescript.lub), with
+   * browiki.org agreeing, validated packet by packet against an in-game recording — see
+   * SkyEmperor.replay.spec.ts.
    *
-   * NÃO troque pelas tabelas do blog do Sigma (as "[V2]" que estavam aqui, nem as do
-   * "3rd version" de fev/2026). Nenhuma das duas reproduz a gravação: para as do V3 não
-   * existe ATQ nenhum, em nenhuma DEF suave, que feche os seis pacotes.
+   * Do NOT swap these for the Sigma blog tables (neither the "[V2]" ones that used to be
+   * here, nor the "3rd version" ones from Feb 2026). Neither reproduces the recording:
+   * for the V3 ones there is no ATK at all, at any soft DEF, that closes the six packets.
    */
   private readonly atkSkillList4th: AtkSkillModel[] = [
     {
@@ -296,8 +296,8 @@ export class SkyEmperor extends StarEmperor {
       name: 'Twinkling Galaxy',
       label: 'Twinkling Galaxy Lv5 (1 estrela)',
       value: 'Twinkling Galaxy==5',
-      // Diferente das outras, a Constelação costuma ficar em nível baixo (é só o
-      // habilitador da Explosão Galática), então os cinco níveis são selecionáveis.
+      // Unlike the others, Constelação is usually kept at a low level (it is just the
+      // enabler for Explosão Galática), so all five levels are selectable.
       levelList: [
         { label: 'Twinkling Galaxy Lv1 (1 estrela)', value: 'Twinkling Galaxy==1' },
         { label: 'Twinkling Galaxy Lv2 (1 estrela)', value: 'Twinkling Galaxy==2' },

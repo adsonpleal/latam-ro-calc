@@ -8,18 +8,18 @@ import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillMode
 import { ClassName } from './_class-name';
 
 /**
- * Todas as habilidades de ataque do Guarda Noturno têm os níveis selecionáveis: as
- * gravações que validam as fórmulas (NightWatch.replay.spec.ts) foram feitas com as
- * habilidades no Nv. 1, e uma build de verdade raramente sobe todas ao máximo.
+ * Every Night Watch attack skill exposes its levels: the recordings that validate the
+ * formulas (NightWatch.replay.spec.ts) were made with the skills at Lv1, and a real build
+ * rarely maxes all of them.
  */
 const levelList = (name: string, maxLv: number) =>
   Array.from({ length: maxLv }, (_, i) => ({ label: `${name} Lv${i + 1}`, value: `${name}==${i + 1}` }));
 
 /**
- * Bônus de classe (FOR/AGI/VIT/INT/DES/SOR) — irowiki.org/wiki/Night_Watch, seção
- * "Job & Talent Bonuses". A tabela de lá lista, por atributo, os níveis de classe em que
- * ele chega a +1, +2, +3...; aqui ela está expandida por nível.
- * Conferida linha a linha em NightWatch.job-bonus.spec.ts.
+ * Job bonus (STR/AGI/VIT/INT/DEX/LUK) — irowiki.org/wiki/Night_Watch, "Job & Talent
+ * Bonuses" section. That table lists, per stat, the job levels at which it reaches +1,
+ * +2, +3...; here it is expanded per level.
+ * Checked line by line in NightWatch.job-bonus.spec.ts.
  */
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [1, 0, 0, 0, 0, 0],
@@ -177,12 +177,12 @@ export class NightWatch extends Rebellion {
 
   private readonly classNames4th = [ClassName.Only_4th, ClassName.NightWatch];
   /**
-   * As porcentagens por nível saem da **descrição do cliente** (skill-meta.generated.ts),
-   * não do blog do Sigma: as tabelas `[V2]` estavam desatualizadas em seis das sete
-   * habilidades — só a Vigília Noturna batia. Cada linha do cliente é linear no
-   * nível, então a fórmula é `base + porNível × Nv + mira × porMira × Nv`, e o termo de
-   * CON (que a descrição cita sem número) é o medido pelas gravações.
-   * Validado em NightWatch.replay.spec.ts.
+   * The per-level percentages come from the **client description**
+   * (skill-meta.generated.ts), not the Sigma blog: the `[V2]` tables were out of date on
+   * six of the seven skills — only Vigília Noturna matched. Each client row is linear in
+   * the level, so the formula is `base + perLevel × Lv + aim × perAim × Lv`, and the CON
+   * term (which the description mentions without a number) is the one the recordings
+   * measured. Validated in NightWatch.replay.spec.ts.
    */
   private readonly atkSkillList4th: AtkSkillModel[] = [
     {
@@ -534,10 +534,10 @@ export class NightWatch extends Rebellion {
     },
     {
       name: '_NightWatch_Aiming Count',
-      // "Pontos de Foco" é como o cliente chama a contagem: a Mira Focalizada "acumula
-      // 1 ponto a cada 0,5 segundo até um máximo de 10 pontos de foco", e as fórmulas
-      // das habilidades falam em "(Pts. x250)%". Não é uma habilidade de verdade — é um
-      // seletor da calculadora —, então não tem id nem ícone no catálogo.
+      // "Pontos de Foco" is what the client calls the counter: Mira Focalizada "acumula
+      // 1 ponto a cada 0,5 segundo até um máximo de 10 pontos de foco", and the skill
+      // formulas talk about "(Pts. x250)%". It is not a real skill — it is a calculator
+      // selector — so it has no id or icon in the catalog.
       label: 'Pontos de Foco',
       inputType: 'dropdown',
       dropdown: genSkillListWithLabel(10, lv => (`${lv}`))

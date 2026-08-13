@@ -187,8 +187,8 @@ export class EquipmentComponent implements OnChanges, OnInit {
   itemDescTooltip(id: number): string {
     if (!id || !this.items) return '';
 
-    // As descrições chegam depois do mapa de itens; descarta o que foi memoizado
-    // antes disso, senão o popover fica só com o nome para sempre.
+    // The descriptions arrive after the item map; discard anything memoized before that,
+    // otherwise the popover keeps showing only the name forever.
     if (this.descTooltipVersion !== this.itemDescriptions.version) {
       this.descTooltipCache.clear();
       this.descTooltipVersion = this.itemDescriptions.version;

@@ -85,7 +85,7 @@ const SCALAR_MAP: Record<number, string> = {
   171: 'acd', // Pós-conjuração -n%
   204: 'range', // Dano físico a distância +n% (alt id)
   219: 'melee', // Dano físico corpo a corpo +n%
-  231: 'm_my_element_all', // Dano mágico todas as prop. n%
+  231: 'm_my_element_all', // "Dano mágico todas as prop. n%"
   243: 'pow',
   244: 'spl',
   245: 'sta',

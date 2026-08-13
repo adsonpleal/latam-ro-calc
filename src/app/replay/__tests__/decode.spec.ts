@@ -46,9 +46,9 @@ describe('decodeReplay (Mergulho test.rrf)', () => {
 
   it('reports packet totals (handled <= seen)', () => {
     expect(replay.totals.packetCount).toBe(26);
-    // 25, e não os 21 de quando o leitor vivia aqui dentro: esta gravação tem
-    // quatro pacotes 0x07fb (início de conjuração) que só a cópia do RagnaRecap
-    // sabia ler. O rrfparser junta as duas, então esses agora entram.
+    // 25, not the 21 from when the parser lived in this repo: this recording has four
+    // 0x07fb packets (cast start) that only the RagnaRecap copy knew how to read. The
+    // rrfparser merges the two, so those now count.
     expect(replay.totals.handledPackets).toBe(25);
     expect(replay.totals.handledPackets).toBeLessThanOrEqual(replay.totals.packetCount);
   });

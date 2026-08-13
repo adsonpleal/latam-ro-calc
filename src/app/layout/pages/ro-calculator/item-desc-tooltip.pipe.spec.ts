@@ -5,7 +5,7 @@ import { ItemDescTooltipPipe } from './item-desc-tooltip.pipe';
 const items = { 1101: { name: 'Espada' } } as any;
 
 describe('ItemDescTooltipPipe', () => {
-  it('mostra só o nome enquanto as descrições não chegaram', () => {
+  it('shows just the name while the descriptions have not arrived', () => {
     const store = new ItemDescriptionStore();
     const pipe = new ItemDescTooltipPipe(store);
 
@@ -14,10 +14,10 @@ describe('ItemDescTooltipPipe', () => {
     expect(html).not.toContain('Uma espada');
   });
 
-  it('passa a incluir a descrição quando ela chega', () => {
-    // Regressão: o pipe é puro e memoiza por id. Sem descartar o cache na troca de
-    // versão, o tooltip ficava preso no valor calculado antes do items-desc — era
-    // exatamente o sintoma nos slots de visual e de sombra.
+  it('starts including the description once it arrives', () => {
+    // Regression: the pipe is pure and memoizes by id. Without discarding the cache on a
+    // version change, the tooltip stayed stuck on the value computed before items-desc —
+    // exactly the symptom seen on the costume and shadow slots.
     const store = new ItemDescriptionStore();
     const pipe = new ItemDescTooltipPipe(store);
 

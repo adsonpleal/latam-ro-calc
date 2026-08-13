@@ -1,24 +1,24 @@
 /**
- * Id de visual do mascote (o `view` que o replay traz na entidade do pet) -> id do ovo
- * no item.json, que é como a calculadora modela o mascote.
+ * Pet view id (the `view` the replay carries on the pet entity) -> egg id in item.json,
+ * which is how the calculator models a pet.
  *
- * Fonte: a própria tabela do cliente, `PetEggItemID_PetJobID` em
- * `data/luafiles514/lua files/datainfo/petinfo.lub` (a chave é o ovo, o valor é o view;
- * aqui está invertida). Ela só resolve depois de rodar `npcidentity.lub` no mesmo
- * ambiente, senão as constantes `JT_*` ficam nil e a tabela sai vazia:
+ * Source: the client's own table, `PetEggItemID_PetJobID` in
+ * `data/luafiles514/lua files/datainfo/petinfo.lub` (there the key is the egg and the
+ * value the view; here it is inverted). It only resolves after running `npcidentity.lub`
+ * in the same environment, otherwise the `JT_*` constants are nil and the table comes out
+ * empty:
  *
  *   const G = runChunk(npcidentityLub); runChunkInto(petinfoLub, G);
  *   G.get('PetEggItemID_PetJobID')
  *
- * Os ovos que ainda não estão no item.json ficam aqui de propósito — o importador
- * checa o item antes de usar, então eles passam a funcionar sozinhos quando forem
- * cadastrados.
+ * Eggs not yet in item.json are kept here on purpose — the importer checks the item
+ * before using it, so they start working on their own once they are added.
  */
 export const PET_EGG_BY_VIEW: Record<number, number> = {
-  1002: 9001, // Ovo de Poring (fora do item.json)
+  1002: 9001, // Ovo de Poring (not in item.json)
   1005: 9138, // Ovo de Familiar
-  1010: 9103, // Ovo de Salgueiro (fora do item.json)
-  1011: 9006, // Ovo de Chonchon (fora do item.json)
+  1010: 9103, // Ovo de Salgueiro (not in item.json)
+  1011: 9006, // Ovo de Chonchon (not in item.json)
   1014: 9012, // Ovo de Esporo (fora do item.json)
   1019: 9014, // Ovo de PecoPeco (fora do item.json)
   1023: 9017, // Ovo de Guerreiro Orc (fora do item.json)

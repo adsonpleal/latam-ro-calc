@@ -6,25 +6,25 @@ import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillMode
 import { ClassName } from './_class-name';
 
 /**
- * Bônus de classe e de talentos — irowiki.org/wiki/Shiranui#Job_&_Talent_Bonuses.
+ * Job and trait bonuses — irowiki.org/wiki/Shiranui#Job_&_Talent_Bonuses.
  *
- * Mesma origem e mesmo formato da tabela do Shinkiro (veja o comentário em Shinkiro.ts);
- * a wiki publica o *nível de classe em que cada atributo chega a +N* e estas tabelas são
- * a expansão por nível. Limiares (FOR/AGI/VIT/INT/DES/SOR):
+ * Same source and same format as the Shinkiro table (see the comment in Shinkiro.ts); the
+ * wiki publishes the *job level at which each stat reaches +N* and these tables are that
+ * expanded per level. Thresholds (STR/AGI/VIT/INT/DEX/LUK):
  *   FOR 1,4,13,16,56,59   AGI 5,8,17,20,22,27,28,32   VIT 11,13,24,26,32,57
  *   INT 1,3,7,9,11,12,16,19,22,39   DES 2,5,7,9,15,18,21,24,26,28   SOR 6,23,29
- * e (POD/STA/SAB/FEI/CON/CRV):
+ * and (POW/STA/WIS/SPL/CON/CRT):
  *   POD 33,42,47   STA 14,33,36,38,40,42,44,45   SAB 3,15,27,31,34,36,39,41,47,50
  *   FEI —   CON 25,29,35,37,48   CRV 10,30,36,43,44,46,49
  *
- * As tabelas anteriores estavam trocadas em relação à irmã: davam POD +11 / SAB +2 no
- * máximo, quando o Shiranui é justamente a metade de SAB (POD +3 / SAB +10). A tabela de
- * talentos era, byte a byte, a mesma do Shinkiro.
+ * The previous tables were swapped relative to the sister class: they gave POW +11 /
+ * WIS +2 at maximum, when Shiranui is precisely the WIS half (POW +3 / WIS +10). The trait
+ * table was, byte for byte, the same as Shinkiro's.
  *
- * Ressalva da fonte: o resumo da iROwiki diz CON +6 no máximo e a tabela de limiares para
- * em +5 (o limiar restante fica acima do teto de classe 50 do simulador, então não muda
- * nada aqui). Sem gravação de Shiranui para conferir — o Shinkiro é que foi validado, em
- * Shinkiro.shadow-flash-replay.spec.ts.
+ * Caveat about the source: iROwiki's summary says CON +6 at maximum and the threshold
+ * table stops at +5 (the remaining threshold sits above the simulator's job-50 ceiling, so
+ * it changes nothing here). There is no Shiranui recording to check against — Shinkiro is
+ * the one that was validated, in Shinkiro.shadow-flash-replay.spec.ts.
  */
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [1, 0, 0, 1, 0, 0],
@@ -238,8 +238,8 @@ export class Shiranui extends Oboro {
         const baseLevel = model.level;
         const skillBonusLv = this.learnLv('Shadow Dance');
 
-        // ATQ 1.700 + Nv × 800, + Dança das Trevas Nv × 100 por nível da habilidade
-        // (descrição pt-BR do cliente e browiki.org/wiki/Centelha_das_Trevas).
+        // ATK 1,700 + Lv × 800, + Dança das Trevas Lv × 100 per skill level (the pt-BR
+        // client description and browiki.org/wiki/Centelha_das_Trevas).
         return (1700 + skillLevel * (800 + skillBonusLv * 100) + totalPow * 5) * (baseLevel / 100);
       },
     },

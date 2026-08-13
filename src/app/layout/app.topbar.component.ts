@@ -143,17 +143,16 @@ export class AppTopBarComponent {
   ];
 
   /**
-   * Notas de versão — fonte única, sem changelog paralelo (o CHANGELOG.md foi
-   * removido depois de ficar parado no 0.1.23-beta enquanto as versões seguiam
-   * saindo por aqui).
+   * Release notes — the single source, with no parallel changelog (CHANGELOG.md was
+   * removed after it stalled at 0.1.23-beta while releases kept going out through here).
    *
-   * Alimenta o diálogo "Novidades" e, na publicação, o anúncio no Discord:
-   * tools/post-novidades.mjs lê estas entradas direto do arquivo, casando
-   * `v: '<versão>'` com a versão do package.json. Ao acrescentar uma versão,
-   * mantenha a mais recente no topo e as strings entre aspas simples, e confira
-   * com `node tools/post-novidades.mjs --dry-run`.
+   * Feeds the "Novidades" dialog and, on publish, the Discord announcement:
+   * tools/post-novidades.mjs reads these entries straight out of the file, matching
+   * `v: '<version>'` against the package.json version. When adding a release, keep the
+   * newest one at the top and the strings in single quotes, and check it with
+   * `node tools/post-novidades.mjs --dry-run`.
    *
-   * Texto em voz impessoal, descrevendo o que mudou para quem usa.
+   * The entries are written in impersonal voice, describing what changed for the user.
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {

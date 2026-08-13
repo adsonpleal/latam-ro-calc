@@ -178,10 +178,10 @@ export type ReplayImportSummary = {
   /** Number of learned skills (level > 0) read from the skill-tree snapshot. */
   learnedSkillCount: number;
   /**
-   * Ovo do mascote que estava fora, quando o replay tem um. A **intimidade vem no
-   * arquivo** (contêiner 9, chunk 5308) e vira a faixa de lealdade do modelo, então
-   * `loyaltyKnown` é verdadeiro sempre que o bloco existir. Ausente quando não havia
-   * mascote ou quando o ovo não está no item.json.
+   * The egg of the pet that was out, when the replay has one. **Intimacy comes in the
+   * file** (container 9, chunk 5308) and becomes the model's loyalty tier, so
+   * `loyaltyKnown` is true whenever the block exists. Absent when there was no pet, or
+   * when the egg is not in item.json.
    */
   pet?: { itemId: number; view: number; loyaltyKnown: boolean; intimacy?: number; loyalty?: PetLoyalty };
 };
@@ -266,13 +266,13 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
     }
   }
 
-  // O mascote não é uma peça de equipamento no protocolo — ele é uma *entidade* na tela,
-  // então não aparece no inventário e sim entre os `entities`. O `view` dela é o job id do
-  // bicho, que a tabela do cliente liga ao ovo (ver PET_EGG_BY_VIEW).
+  // In the protocol the pet is not a piece of equipment — it is an *entity* on screen, so
+  // it shows up among the `entities` rather than in the inventory. Its `view` is the
+  // animal's job id, which the client table maps to the egg (see PET_EGG_BY_VIEW).
   //
-  // A **intimidade** vem do bloco do mascote (contêiner 9), não de pacote nenhum, e é ela
-  // que decide a faixa de lealdade — e portanto o bônus do ovo. `replay.pet.view` também
-  // serve de reserva para achar o ovo quando o bicho não chegou a aparecer na tela.
+  // **Intimacy** comes from the pet block (container 9), from no packet at all, and it is
+  // what decides the loyalty tier — and therefore the egg's bonus. `replay.pet.view` also
+  // serves as a fallback for finding the egg when the animal never appeared on screen.
   let pet: ReplayImportSummary['pet'];
   const views = [...(replay.entities?.values() ?? [])].filter((e) => e.kind === 'pet').map((e) => e.view);
   if (replay.pet?.view !== undefined && replay.pet.view >= 0) views.push(replay.pet.view);

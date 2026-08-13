@@ -85,8 +85,8 @@ export function validateReplaySubmission(buf: ArrayBuffer, itemMap: Record<numbe
   try {
     replay = decodeReplay(buf);
   } catch (e) {
-    // Unlike the build importer, show the parser's own message — "versão não
-    // suportada" and "arquivo truncado" call for different fixes.
+    // Unlike the build importer, show the parser's own message — an unsupported version
+    // and a truncated file call for different fixes.
     return reject('unreadable', `Não foi possível ler o arquivo .rrf (${(e as Error).message}).`);
   }
 

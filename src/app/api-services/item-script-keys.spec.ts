@@ -1,13 +1,13 @@
 /**
- * Valida as chaves de bônus e os nomes de classe declarados no item.json.
+ * Validates the bonus keys and class names declared in item.json.
  *
- * Isto era uma varredura dev-only dentro do RoService, que re-percorria os 9.555
- * itens a cada reload em desenvolvimento e despejava `console.error` que ninguém
- * lia. Como spec, roda no pre-push e falha de verdade quando a base de itens
- * ganha uma chave que o motor não conhece.
+ * This used to be a dev-only sweep inside RoService, which re-walked all 9,555 items on
+ * every reload in development and dumped `console.error` output nobody read. As a spec it
+ * runs on pre-push and genuinely fails when the item database gains a key the engine does
+ * not know.
  *
- * Chaves com valor: um bônus escrito errado no item.json não dá erro em lugar
- * nenhum — o item simplesmente não faz nada no cálculo.
+ * Why the keys matter: a bonus misspelled in item.json raises an error nowhere — the item
+ * simply does nothing in the calculation.
  */
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
@@ -20,10 +20,10 @@ const items: Record<string, any> = JSON.parse(
   readFileSync(join(process.cwd(), 'src/assets/demo/data/item.json'), 'utf8'),
 );
 
-/** Modificadores de tempo/cooldown prefixados sobre uma chave já válida. */
+/** Time/cooldown modifiers prefixed onto an already valid key. */
 const PREFIXES = ['fix_vct__', 'vct__', 'chance__', 'fctPercent__', 'fct__', 'acd__', 'cd__'];
 
-/** Os prefixos empilham — `chance__cd__2447` é chance de redução de recarga da skill 2447. */
+/** Prefixes stack — `chance__cd__2447` is a cooldown-reduction chance for skill 2447. */
 const stripPrefix = (key: string) => {
   let out = key;
   for (let changed = true; changed; ) {
@@ -40,21 +40,21 @@ const stripPrefix = (key: string) => {
 };
 
 /**
- * Famílias de chave montadas dinamicamente em runtime, que por isso não aparecem
- * no createRawTotalBonus() estático:
+ * Key families assembled dynamically at runtime, which is why they do not appear in the
+ * static createRawTotalBonus():
  *
- *   cri_race_<raça>  — lido em damage-calculator.ts:538 (`cri_race_${race}`).
+ *   cri_race_<race>  — read in damage-calculator.ts:538 (`cri_race_${race}`).
  */
 const DYNAMIC_KEY_PATTERNS = [/^cri_race_\w+$/];
 
 /**
- * Chaves que a base declara e o motor NÃO consome. Não são erro de digitação:
- * são bônus ainda não modelados. Ficam fixados aqui para que a spec passe hoje e
- * ainda assim quebre se a base ganhar uma chave desconhecida nova. Ao modelar um
- * bônus, apague a linha correspondente.
+ * Keys the database declares and the engine does NOT consume. These are not typos: they
+ * are bonuses not yet modelled. They are pinned here so the spec passes today and still
+ * breaks if the database gains a new unknown key. When a bonus gets modelled, delete its
+ * line.
  *
- *   dmg__<monstro> — dano contra um monstro específico. Só o Diabolus Manteau
- *                    (2537) e o Diabolus Ring (2729) usam, contra Lucifer Morocc.
+ *   dmg__<monster> — damage against one specific monster. Only Diabolus Manteau (2537)
+ *                    and Diabolus Ring (2729) use it, against Lucifer Morocc.
  */
 const CHAVES_NAO_MODELADAS = ['dmg__Lucifer Morocc'];
 
@@ -70,7 +70,7 @@ describe('item.json: chaves de bônus', () => {
     for (const bonusKey of Object.keys(script)) {
       const realKey = stripPrefix(bonusKey);
       if (validStatusSet.has(realKey)) continue;
-      // chaves de bônus de habilidade são ids de skill do jogo (ver Skill Catalog)
+      // skill bonus keys are the game's skill ids (see the Skill Catalog)
       if (/^\d+$/.test(realKey) && VALID_SKILL_IDS.has(Number(realKey))) continue;
       if (DYNAMIC_KEY_PATTERNS.some((re) => re.test(realKey))) continue;
 
@@ -80,20 +80,20 @@ describe('item.json: chaves de bônus', () => {
     }
   }
 
-  it('não introduz chaves que o motor desconhece', () => {
+  it('introduces no keys the engine does not know', () => {
     const inesperadas = [...desconhecidas.keys()].filter((k) => !CHAVES_NAO_MODELADAS.includes(k));
     expect(inesperadas).toEqual([]);
   });
 
-  it('mantém a lista de bônus não modelados sem crescer', () => {
-    // Se um destes sumir da base (ou passar a ser modelado), apague-o da
-    // constante — a spec avisa em vez de deixar a lista apodrecer.
+  it('keeps the unmodelled-bonus list from growing', () => {
+    // If one of these leaves the database (or becomes modelled), delete it from the
+    // constant — the spec warns rather than letting the list rot.
     expect([...desconhecidas.keys()].sort()).toEqual([...CHAVES_NAO_MODELADAS].sort());
   });
 });
 
-describe('item.json: nomes de classe', () => {
-  it('usa apenas nomes de classe conhecidos em usableClass/unusableClass', () => {
+describe('item.json: class names', () => {
+  it('uses only known class names in usableClass/unusableClass', () => {
     const invalidas = new Set<string>();
 
     for (const key of Object.keys(items)) {

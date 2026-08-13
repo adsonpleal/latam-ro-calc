@@ -794,11 +794,11 @@ export class Calculator {
       if (restCondition.startsWith('===')) return { isValid, restCondition: restCondition.replace('===', '') };
     }
 
-    // LOYALTY[3]===4  — faixa de intimidade do mascote (ver PetLoyalty).
-    // Casa por **igualdade**: as faixas da descrição do ovo se substituem, não somam
-    // ("Na Lealdade Normal: Dano físico +4%" e "Na Lealdade Alta: Dano físico +7%" são
-    // 4% OU 7%, nunca 11%). Só os ovos usam esta condição; para todo o resto do
-    // item.json o match falha e o script segue inalterado.
+    // LOYALTY[3]===4  — the pet intimacy tier (see PetLoyalty).
+    // Matches by **equality**: the egg description's tiers replace one another, they do
+    // not stack ("Na Lealdade Normal: Dano físico +4%" and "Na Lealdade Alta: Dano físico
+    // +7%" are 4% OR 7%, never 11%). Only the eggs use this condition; for everything else
+    // in item.json the match fails and the script goes through unchanged.
     const [toRemoveLoyalty, loyaltyCond] = restCondition.match(/LOYALTY\[(\d+)]/) ?? [];
     if (loyaltyCond) {
       const isValid = (this.model.petLoyalty ?? DEFAULT_PET_LOYALTY) === Number(loyaltyCond);

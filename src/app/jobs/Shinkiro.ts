@@ -6,28 +6,28 @@ import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillMode
 import { ClassName } from './_class-name';
 
 /**
- * Bônus de classe e de talentos — irowiki.org/wiki/Shinkiro#Job_&_Talent_Bonuses.
+ * Job and trait bonuses — irowiki.org/wiki/Shinkiro#Job_&_Talent_Bonuses.
  *
- * A wiki publica o *nível de classe em que cada atributo chega a +N*; estas duas tabelas
- * são a expansão disso por nível. Limiares (FOR/AGI/VIT/INT/DES/SOR):
+ * The wiki publishes the *job level at which each stat reaches +N*; these two tables are
+ * that expanded per level. Thresholds (STR/AGI/VIT/INT/DEX/LUK):
  *   FOR 1,4,7,12,13,16,17,19,22,39   AGI 5,8,17,20,22,27,32   VIT 11,13,24,28,32
  *   INT 1,3,9,11,56,59               DES 2,5,7,9,15,18,21,24,26,56   SOR 6,23,29
- * e (POD/STA/SAB/FEI/CON/CRV):
+ * and (POW/STA/WIS/SPL/CON/CRT):
  *   POD 3,27,31,33,36,39,41,42,47,50   STA 14,33,35,38,40,42,44,45   SAB 15,34,47
  *   FEI —   CON 25,29,35,37,48   CRV 10,30,43,44,46,49
  *
- * Conferidas contra o replay de Centelha das Trevas (Shinkiro.shadow-flash-replay.spec.ts):
- * no nível de classe 46 elas dão FOR +10 / DES +9 / SOR +3 / POD +8 / CON +4, que
- * reproduzem exatamente o ATQ base 277, o P.ATQ 2 e o T.Crít 35 que o cliente enviou na
- * gravação. As tabelas anteriores (FOR +12 / POD +9) davam 284 e 3.
+ * Checked against the Centelha das Trevas replay (Shinkiro.shadow-flash-replay.spec.ts):
+ * at job level 46 they give STR +10 / DEX +9 / LUK +3 / POW +8 / CON +4, which reproduce
+ * exactly the base ATK 277, the P.ATK 2 and the C.Rate 35 the client reported in the
+ * recording. The previous tables (STR +12 / POW +9) gave 284 and 3.
  *
- * Ressalvas da fonte, a resolver se alguém confirmar em jogo:
- * - a caixa-resumo da própria iROwiki diz AGI +8 / VIT +6 / CON +6 / CRV +7 no máximo,
- *   enquanto a tabela de limiares acima para em +7 / +5 / +5 / +6. Mantivemos a tabela
- *   (o dado mais específico). Para AGI e CRV o limiar faltante provavelmente é o do
- *   Shiranui (28 e 36), o que mudaria CRV para +6 entre as classes 36 e 48;
- * - a linha FEI da página do Shinkiro é uma cópia da de CON. A página do Shiranui tem a
- *   linha FEI vazia e ambos os resumos dizem FEI +0, então FEI fica 0 em todos os níveis.
+ * Caveats about the source, to resolve if anyone confirms in game:
+ * - iROwiki's own summary box says AGI +8 / VIT +6 / CON +6 / CRT +7 at maximum, while the
+ *   threshold table above stops at +7 / +5 / +5 / +6. We kept the table (the more specific
+ *   data). For AGI and CRT the missing threshold is probably Shiranui's (28 and 36), which
+ *   would change CRT to +6 between job levels 36 and 48;
+ * - the SPL row on the Shinkiro page is a copy of the CON one. The Shiranui page has an
+ *   empty SPL row and both summaries say SPL +0, so SPL stays 0 at every level.
  */
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [1, 0, 0, 1, 0, 0],
@@ -243,8 +243,8 @@ export class Shinkiro extends Kagerou {
         const baseLevel = model.level;
         const skillBonusLv = this.learnLv('Shadow Dance');
 
-        // ATQ 1.700 + Nv × 800, + Dança das Trevas Nv × 100 por nível da habilidade
-        // (descrição pt-BR do cliente e browiki.org/wiki/Centelha_das_Trevas).
+        // ATK 1,700 + Lv × 800, + Dança das Trevas Lv × 100 per skill level (the pt-BR
+        // client description and browiki.org/wiki/Centelha_das_Trevas).
         return (1700 + skillLevel * (800 + skillBonusLv * 100) + totalPow * 5) * (baseLevel / 100);
       },
     },

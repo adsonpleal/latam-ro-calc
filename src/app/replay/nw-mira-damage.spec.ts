@@ -147,11 +147,11 @@ describe('Cesta de Mascotes — the combo changes with the pet family', () => {
 });
 
 /**
- * The recording's eighteen 0x01de packets. `dano` is the packet total; `golpesPacote` is the
- * `count` que ele carrega, que **não** é sempre o número de golpes lógicos — o Tiroteio
- * chega com 3 (a engine modela isso como `hit: 3`, três golpes de exibição para um golpe
- * de dano). Por isso a divisão usa o `skillTotalHit` do simulador, e um teste separado
- * confere que os dois batem onde devem bater.
+ * The recording's eighteen 0x01de packets. `dano` is the packet total; `golpesPacote` is
+ * the `count` it carries, which is **not** always the logical hit count — Tiroteio arrives
+ * with 3 (the engine models that as `hit: 3`, three display hits for one damage hit). That
+ * is why the division uses the simulator's `skillTotalHit`, and a separate test checks
+ * that the two agree where they should.
  */
 const PACOTES: { ms: number; skill: string; arma: Arma; dano: number; golpesPacote: number; critico?: boolean }[] = [
   { ms: 1912, skill: 'The Vigilante at Night', arma: ARMAS.escopeta, dano: 8883184, golpesPacote: 4 },

@@ -457,18 +457,18 @@ export class DamageCalculator {
   }
 
   /**
-   * Crítico base. Sem constante somada: é `⌊SOR/3⌋` mais o que vier de equipamento.
+   * Base crit. No added constant: it is `⌊LUK/3⌋` plus whatever comes from equipment.
    *
-   * Havia um `1 +` aqui até 31/07/2026. As gravações do Guarda Noturno (tra_fild,
-   * 31/07/2026) anunciam SP_CRITICAL = 35 sem equipamento nenhum — e ⌊107/3⌋ = 35, com o
-   * `1 +` daria 36. O valor vem do servidor, no ZC_PAR_CHANGE tipo 52, não do cálculo do
-   * cliente, então é o número do jogo mesmo.
+   * There was a `1 +` here until 31/07/2026. The Night Watch recordings (tra_fild,
+   * 31/07/2026) report SP_CRITICAL = 35 with no equipment at all — and ⌊107/3⌋ = 35, where
+   * the `1 +` would give 36. The value comes from the server, in ZC_PAR_CHANGE type 52,
+   * not from the client's own maths, so it is the game's real number.
    *
-   * **Ainda em aberto:** com equipamento a mesma gravação dá 65 e o simulador dá 66, e é 1
-   * ponto de SOR de diferença — a calculadora chega a SOR 108 (100 alocada + 7 do bônus de
-   * classe + 1 do encante 4750) e o crítico do jogo pede 107. Só que o ATQ base da mesma
-   * gravação (SP_ATK1 = 846) exige 108: as duas faixas não se cruzam, então uma das duas
-   * fórmulas ainda está errada. Ver NightWatch.replay.spec.ts.
+   * **Still open:** with equipment the same recording gives 65 and the simulator gives 66,
+   * a 1-point LUK difference — the calculator arrives at LUK 108 (100 allocated + 7 from
+   * the job bonus + 1 from enchant 4750) and the game's crit demands 107. Except the base
+   * ATK of the same recording (SP_ATK1 = 846) demands 108: the two ranges do not overlap,
+   * so one of the two formulas is still wrong. See NightWatch.replay.spec.ts.
    */
   private getBaseCriRate(isActual = false) {
     const { cri } = this.totalBonus;

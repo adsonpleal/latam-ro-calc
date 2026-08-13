@@ -240,8 +240,8 @@ export class Sorcerer extends Scholar {
       // Poison Burst (SO_POISON_BUSTER) — "Implosão Tóxica". Against a target
       // suffering [Infecção] (left by Maldição de Jormungand) it uses a higher
       // ratio, per the pt-BR description: "Se o alvo estiver sofrendo de
-      // [Infecção], causa um dano ainda maior" — ATQM 1.300/1.600/1.900/2.200/
-      // 2.500% normally vs ATQM (Infecção) 1.500/2.000/2.500/3.000/3.500%, i.e.
+      // [Infecção], causa um dano ainda maior" — MATK 1,300/1,600/1,900/2,200/
+      // 2,500% normally vs MATK under Infecção 1,500/2,000/2,500/3,000/3,500%, i.e.
       // base 1000 + lv*300 becomes 1000 + lv*500. Validated against the replays
       // in ElementalMaster.poison-replay.spec.ts.
       name: 'Poison Burst',

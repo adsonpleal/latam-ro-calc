@@ -60,9 +60,9 @@ export interface MainModel extends Partial<EquipmentModel> {
   aspdPotions: number[];
 
   /**
-   * Faixa de intimidade do mascote (ver `PetLoyalty`), que decide qual linha da descrição
-   * do ovo vale. Ausente nas simulações salvas antes do campo existir — quem lê deve cair
-   * em `DEFAULT_PET_LOYALTY`, não em 0.
+   * The pet intimacy tier (see `PetLoyalty`), which decides which line of the egg's
+   * description applies. Absent in simulations saved before the field existed — readers
+   * should fall back to `DEFAULT_PET_LOYALTY`, not 0.
    */
   petLoyalty?: number;
 }
