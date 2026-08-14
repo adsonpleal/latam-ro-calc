@@ -25811,7 +25811,8 @@
         "2---20"
       ],
       "vct": [
-        "7===10"
+        "7===10",
+        "EQUIP_ID[13078&&13076]REFINE[weapon,leftWeapon==1]---1"
       ],
       "m_my_element_neutral": [
         "9===10"
@@ -25833,6 +25834,15 @@
       ],
       "2449": [
         "EQUIP[Mental Stick]REFINE[weapon==2]---5"
+      ],
+      "534": [
+        "EQUIP_ID[13078&&13076]REFINE[weapon,leftWeapon==2]---5"
+      ],
+      "537": [
+        "EQUIP_ID[13078&&13076]REFINE[weapon,leftWeapon==2]---5"
+      ],
+      "540": [
+        "EQUIP_ID[13078&&13076]REFINE[weapon,leftWeapon==2]---5"
       ],
       "2212": [
         "EQUIP[Kronos]REFINE[weapon==2]---10"
@@ -230365,6 +230375,36 @@
       ],
       "acd": [
         "11===15"
+      ],
+      "spPercent": [
+        "EQUIP_ID[28242]2"
+      ],
+      "cd__2554": [
+        "EQUIP_ID[28242]REFINE[weapon==10]===1.5"
+      ],
+      "cri": [
+        "EQUIP_ID[28240]REFINE[weapon==2]---4"
+      ],
+      "criDmg": [
+        "EQUIP_ID[28240]REFINE[weapon==2]---3"
+      ],
+      "aspdPercent": [
+        "EQUIP_ID[28243]REFINE[weapon==2]---3"
+      ],
+      "cd__2566": [
+        "EQUIP_ID[28243]REFINE[weapon==10]===3"
+      ],
+      "perfectDodge": [
+        "EQUIP_ID[28241]REFINE[weapon==2]---3"
+      ],
+      "subclass_normal": [
+        "EQUIP_ID[28241]REFINE[weapon==10]===15"
+      ],
+      "p_class_boss": [
+        "EQUIP_ID[13146]REFINE[weapon==2]---3"
+      ],
+      "subclass_boss": [
+        "EQUIP_ID[13146]REFINE[weapon==10]===15"
       ]
     }
   },
@@ -250004,6 +250044,18 @@
       ],
       "fct": [
         "11===0.2"
+      ],
+      "m_size_s": [
+        "11===15"
+      ],
+      "m_size_m": [
+        "11===15"
+      ],
+      "m_my_element_fire": [
+        "EQUIP_ID[26151]REFINE[weapon==2]---3"
+      ],
+      "2212": [
+        "EQUIP_ID[13493]REFINE[weapon==2]---4"
       ]
     }
   },
@@ -250048,6 +250100,27 @@
       ],
       "melee": [
         "EQUIP_ID[28000]5"
+      ],
+      "2284": [
+        "EQUIP_ID[13093]REFINE[weapon==2]---5"
+      ],
+      "2054": [
+        "EQUIP_ID[13093]REFINE[weapon==2]---5"
+      ],
+      "cd__2418": [
+        "EQUIP_ID[18119]2"
+      ],
+      "2288": [
+        "EQUIP_ID[18119]REFINE[weapon==2]---5"
+      ],
+      "2418": [
+        "EQUIP_ID[18119]REFINE[weapon==2]---5"
+      ],
+      "2036": [
+        "EQUIP_ID[28000]REFINE[weapon==2]---5"
+      ],
+      "2029": [
+        "EQUIP_ID[28000]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -250148,6 +250221,24 @@
       ],
       "range": [
         "EQUIP_ID[1836]5"
+      ],
+      "2038": [
+        "EQUIP_ID[1669]REFINE[weapon==2]---5"
+      ],
+      "2040": [
+        "EQUIP_ID[1669]REFINE[weapon==2]---5"
+      ],
+      "2054": [
+        "EQUIP_ID[16028]REFINE[weapon==2]---5"
+      ],
+      "2327": [
+        "EQUIP_ID[16028]REFINE[weapon==2]---5"
+      ],
+      "2336": [
+        "EQUIP_ID[1836]REFINE[weapon==2]---5"
+      ],
+      "2518": [
+        "EQUIP_ID[1836]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -250189,6 +250280,21 @@
       ],
       "range": [
         "EQUIP_ID[16028]5"
+      ],
+      "cd__2280": [
+        "EQUIP_ID[28100]1"
+      ],
+      "2258": [
+        "EQUIP_ID[28100]REFINE[weapon==2]---5"
+      ],
+      "2280": [
+        "EQUIP_ID[28100]REFINE[weapon==2]---5"
+      ],
+      "2481": [
+        "EQUIP_ID[16028]REFINE[weapon==2]---5"
+      ],
+      "2477": [
+        "EQUIP_ID[16028]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -250230,6 +250336,30 @@
       ],
       "range": [
         "EQUIP_ID[1496]5"
+      ],
+      "cd__2006": [
+        "EQUIP_ID[21009]1"
+      ],
+      "2006": [
+        "EQUIP_ID[21009]REFINE[weapon==2]---5"
+      ],
+      "2002": [
+        "EQUIP_ID[21009]REFINE[weapon==2]---5"
+      ],
+      "cd__2323": [
+        "EQUIP_ID[1438]2"
+      ],
+      "2323": [
+        "EQUIP_ID[1438]REFINE[weapon==2]---5"
+      ],
+      "2310": [
+        "EQUIP_ID[1438]REFINE[weapon==2]---5"
+      ],
+      "2308": [
+        "EQUIP_ID[1496]REFINE[weapon==2]---5"
+      ],
+      "2004": [
+        "EQUIP_ID[1496]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -250271,6 +250401,27 @@
       ],
       "perfectDodge": [
         "EQUIP_ID[13093]20"
+      ],
+      "cd__2233": [
+        "EQUIP_ID[18119]2.5"
+      ],
+      "2233": [
+        "EQUIP_ID[18119]REFINE[weapon==2]---5"
+      ],
+      "2236": [
+        "EQUIP_ID[18119]REFINE[weapon==2]---5"
+      ],
+      "2239": [
+        "EQUIP_ID[13093]REFINE[weapon==2]---5"
+      ],
+      "cd__2418": [
+        "EQUIP_ID[1988||1933]2"
+      ],
+      "2418": [
+        "EQUIP_ID[1988||1933]REFINE[weapon==2]---5"
+      ],
+      "2426": [
+        "EQUIP_ID[1988||1933]REFINE[weapon==2]---5"
       ]
     }
   },
