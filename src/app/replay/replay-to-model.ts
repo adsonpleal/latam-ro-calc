@@ -266,25 +266,34 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
     }
   }
 
-  // In the protocol the pet is not a piece of equipment — it is an *entity* on screen, so
-  // it shows up among the `entities` rather than in the inventory. Its `view` is the
-  // animal's job id, which the client table maps to the egg (see PET_EGG_BY_VIEW).
+  // The recording player's pet is the one in the **pet block** (container 9), exposed as
+  // `replay.pet` — and only that one. Its `view` is the animal's job id, which the client
+  // table maps to the egg (see PET_EGG_BY_VIEW), and its **intimacy** comes from no packet
+  // at all: it is what decides the loyalty tier, and therefore the egg's bonus.
   //
-  // **Intimacy** comes from the pet block (container 9), from no packet at all, and it is
-  // what decides the loyalty tier — and therefore the egg's bonus. `replay.pet.view` also
-  // serves as a fallback for finding the egg when the animal never appeared on screen.
+  // Do *not* go looking through `replay.entities`. In the protocol a pet is an entity on
+  // screen rather than a piece of equipment, so the entity list holds every pet in view —
+  // including the ones belonging to the other players standing around — and `Entity` has no
+  // owner field to tell them apart. Reading it imported a stranger's animal: a recording
+  // whose own player had no pet, taken on a map with 23 other players, picked up the first
+  // pet entity it saw and equipped the build with an Ovo de Abelha-Rainha it never had, at
+  // DEFAULT_PET_LOYALTY (the top tier) because no intimacy came with it.
+  //
+  // The block's `view` is -1 when the animal was never on screen; the entity carrying the
+  // block's own `aid` is then the fallback, which is still the player's pet and no one
+  // else's. When neither has it the species is simply not in the file (the block stores
+  // 0xffffffff in chunk 5305) and the pet is left out rather than guessed at.
   let pet: ReplayImportSummary['pet'];
-  const views = [...(replay.entities?.values() ?? [])].filter((e) => e.kind === 'pet').map((e) => e.view);
-  if (replay.pet?.view !== undefined && replay.pet.view >= 0) views.push(replay.pet.view);
-  for (const view of views) {
+  const snapshot = replay.pet;
+  if (snapshot) {
+    const view = snapshot.view >= 0 ? snapshot.view : replay.entities?.get(snapshot.aid)?.view ?? -1;
     const eggId = PET_EGG_BY_VIEW[view];
-    if (!known(eggId)) continue;
-    model.pet = eggId;
-    const intimacy = replay.pet?.intimacy;
-    const loyalty = intimacy === undefined ? undefined : petLoyaltyFromIntimacy(intimacy);
-    if (loyalty !== undefined) model.petLoyalty = loyalty;
-    pet = { itemId: eggId, view, loyaltyKnown: loyalty !== undefined, intimacy, loyalty };
-    break;
+    if (known(eggId)) {
+      const loyalty = petLoyaltyFromIntimacy(snapshot.intimacy);
+      model.pet = eggId;
+      model.petLoyalty = loyalty;
+      pet = { itemId: eggId, view, loyaltyKnown: true, intimacy: snapshot.intimacy, loyalty };
+    }
   }
 
   const learnedSkills: Record<number, number> = {};

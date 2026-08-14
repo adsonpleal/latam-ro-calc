@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { Replay } from 'rrfparser';
+import { PetLoyalty } from '../constants/pet-loyalty';
 import { replayToModel } from './replay-to-model';
 
 // rAthena e_equip_pos bits used by the importer.
@@ -168,5 +169,78 @@ describe('replayToModel', () => {
     const { model, summary } = replayToModel(replay, itemMap);
     expect(model.weapon).toBeUndefined();
     expect(summary.equippedCount).toBe(0);
+  });
+});
+
+/**
+ * The pet comes from the pet block (container 9) and from nowhere else.
+ *
+ * A pet is an entity on screen, so `replay.entities` holds every pet in view — the other
+ * players' included — and `Entity` carries no owner. Resolving the egg from that list
+ * imported animals the recording player never owned: in the community queue 2 of 11
+ * submissions were affected, one of them a character with no pet at all who came out with
+ * an Ovo de Abelha-Rainha at the top loyalty tier, on a map with 23 players around.
+ */
+describe('replayToModel — pet', () => {
+  const ANGELING_VIEW = 1096;
+  const OVO_ANGELING = 9088;
+  const ABELHA_VIEW = 22405;
+  const OVO_ABELHA = 9193;
+  const eggMap = { ...itemMap, [OVO_ANGELING]: { id: OVO_ANGELING }, [OVO_ABELHA]: { id: OVO_ABELHA } };
+
+  const petEntity = (aid: number, view: number) => [aid, { aid, kind: 'pet', view, name: 'x' }] as const;
+  /** Pet block for the local player, as container 9 fills it. */
+  const block = (over: Partial<any> = {}) => ({ aid: 500, name: 'Abelha-Rainha', view: ABELHA_VIEW, level: 78, hunger: 90, intimacy: 962, ...over });
+
+  it('takes the species from the block, not from whichever pet stands nearest', () => {
+    const replay = makeReplay([], {
+      pet: block(),
+      entities: new Map([petEntity(999, ANGELING_VIEW), petEntity(500, ABELHA_VIEW)]),
+    });
+    const { model, summary } = replayToModel(replay, eggMap) as any;
+    expect(model.pet).toBe(OVO_ABELHA);
+    expect(summary.pet).toEqual({ itemId: OVO_ABELHA, view: ABELHA_VIEW, loyaltyKnown: true, intimacy: 962, loyalty: PetLoyalty.Alta });
+  });
+
+  it('imports no pet when the player had none, however many are on screen', () => {
+    const replay = makeReplay([], {
+      pet: undefined,
+      entities: new Map([petEntity(999, ANGELING_VIEW), petEntity(998, ABELHA_VIEW)]),
+    });
+    const { model, summary } = replayToModel(replay, eggMap) as any;
+    expect(model.pet).toBeUndefined();
+    expect(summary.pet).toBeUndefined();
+    // `petLoyalty` keeps the model default here — with no pet equipped no script reads it.
+  });
+
+  it('falls back to the entity carrying the block aid when the block has no view', () => {
+    const replay = makeReplay([], {
+      pet: block({ view: -1 }),
+      entities: new Map([petEntity(999, ANGELING_VIEW), petEntity(500, ABELHA_VIEW)]),
+    });
+    const { model } = replayToModel(replay, eggMap) as any;
+    expect(model.pet).toBe(OVO_ABELHA);
+  });
+
+  /**
+   * `view` is -1 in the file itself (chunk 5305 holds 0xffffffff) whenever the animal was
+   * never on screen — one real submission has exactly this. The species is then simply not
+   * recorded, and leaving the pet out is the only honest answer; the old code would reach
+   * for a bystander's animal instead.
+   */
+  it('leaves the pet out when the species is in neither the block nor the entities', () => {
+    const replay = makeReplay([], {
+      pet: block({ view: -1 }),
+      entities: new Map([petEntity(999, ANGELING_VIEW)]),
+    });
+    const { model, summary } = replayToModel(replay, eggMap) as any;
+    expect(model.pet).toBeUndefined();
+    expect(summary.pet).toBeUndefined();
+  });
+
+  it('turns the block intimacy into the loyalty tier', () => {
+    const replay = makeReplay([], { pet: block({ intimacy: 560 }), entities: new Map() });
+    const { model } = replayToModel(replay, eggMap) as any;
+    expect(model.petLoyalty).toBe(PetLoyalty.Nenhuma);
   });
 });
