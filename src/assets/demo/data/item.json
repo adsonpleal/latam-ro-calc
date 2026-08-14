@@ -312249,5 +312249,117 @@
         "EQUIP_ID[490109||490108]5"
       ]
     }
+  },
+  "4534": {
+    "id": 4534,
+    "aegisName": "이름없는카드",
+    "name": "Carta Polvo Gigante",
+    "unidName": "Carta Polvo Gigante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "script": {
+      "hpPercent": [
+        "12"
+      ]
+    }
+  },
+  "13119": {
+    "id": 13119,
+    "aegisName": "Freedom_Flame",
+    "name": "Chama da Liberdade",
+    "unidName": "Chama da Liberdade",
+    "resName": "",
+    "description": "",
+    "slots": 2,
+    "itemTypeId": 1,
+    "itemSubTypeId": 273,
+    "itemLevel": 3,
+    "attack": 100,
+    "defense": null,
+    "weight": 10,
+    "requiredLevel": 99,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Gunslinger"
+    ],
+    "script": {}
+  },
+  "13221": {
+    "id": 13221,
+    "aegisName": "실버블릿",
+    "name": "Projétil de Prata",
+    "unidName": "Projétil de Prata",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1027,
+    "itemLevel": null,
+    "attack": 15,
+    "propertyAtk": "Holy",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "313560": {
+    "id": 313560,
+    "aegisName": "Panda_Color_Foot",
+    "name": "Pegada: Pandas Coloridos",
+    "unidName": "Pegada: Pandas Coloridos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "314198": {
+    "id": 314198,
+    "aegisName": "Golden_Aura_TW",
+    "name": "Gráfico: Ventania",
+    "unidName": "Gráfico: Ventania",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
   }
 }
