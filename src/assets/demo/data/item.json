@@ -144190,46 +144190,43 @@
     "script": {
       "matkPercent": [
         "2---2",
-        "EQUIP[Boltigin]===10"
-      ],
-      "matk": [
-        "2---10"
+        "EQUIP_ID[28633]2"
       ],
       "allStatus": [
         "7===3"
       ],
-      "aspdPercent": [
+      "vct": [
         "9===10"
       ],
       "m_my_element_neutral": [
-        "11===20"
+        "11===20",
+        "EQUIP_ID[26159]3"
       ],
       "m_my_element_earth": [
-        "11===20"
+        "11===20",
+        "EQUIP_ID[26160]3"
       ],
       "m_my_element_water": [
-        "11===20"
+        "11===20",
+        "EQUIP_ID[26160]3"
+      ],
+      "m_my_element_wind": [
+        "EQUIP_ID[26159]3"
       ],
       "19": [
-        "EQUIP[Boltigin]REFINE[weapon==1]---10"
+        "EQUIP_ID[28633]REFINE[weapon==1]---3"
       ],
       "14": [
-        "EQUIP[Boltigin]REFINE[weapon==1]---10"
+        "EQUIP_ID[28633]REFINE[weapon==1]---3"
       ],
       "20": [
-        "EQUIP[Boltigin]REFINE[weapon==1]---10"
+        "EQUIP_ID[28633]REFINE[weapon==1]---3"
       ],
-      "cd__2449": [
-        "EQUIP[Psychic Spear Rod]===1"
+      "2447": [
+        "EQUIP_ID[26160]REFINE[weapon==1]---3"
       ],
-      "2449": [
-        "EQUIP[Psychic Spear Rod]REFINE[weapon==1]---3"
-      ],
-      "fct": [
-        "EQUIP[Dust Grave]===0.5"
-      ],
-      "2446": [
-        "EQUIP[Dust Grave]REFINE[weapon==1]---10"
+      "2454": [
+        "EQUIP_ID[26159]REFINE[weapon==1]---3"
       ]
     }
   },
