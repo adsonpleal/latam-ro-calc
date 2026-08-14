@@ -336,6 +336,20 @@ const automaticBoot = [
   'Automatic_Orb44',
   'Automatic_Orb45',
 ];
+/**
+ * The Escudo column of browiki's Automódulo table. Two of the nine it accepts are left
+ * out because the calculator has no key for them and they are not in item.json either:
+ * M-Cura (310098, "Efetividade de cura +17%") and P-Refletor (310179, "Resistência a
+ * danos refletidos +9%"). The other pieces omit the same two.
+ */
+const automaticShield = [
+  ...automaticBasicDef, // B-DEF x3, B-DEFM x3
+  'Automatic_Orb15', // M-HPMax x2
+  'Automatic_Orb16', // M-SPMax x2
+  'Automatic_Orb21', // M-Rapidez x1
+  'Automatic_Orb37', // P-Robusto x1
+  'Automatic_Orb38', // P-Dano x1
+];
 const automaticAcc = ['Automatic_Orb39', 'Automatic_Orb11', 'Automatic_Orb12', 'Automatic_Orb13', 'Automatic_Orb14', 'Automatic_Orb3', 'Automatic_Orb4'];
 const automaticAccR = [...automaticAcc, 'Automatic_Orb5', 'Automatic_Orb6'];
 const automaticAccL = [...automaticAcc, 'Automatic_Orb7', 'Automatic_Orb8'];
@@ -811,6 +825,8 @@ export const EnchantTable: EntTable[] = [
   { name: 'Auto_Engine_B', enchants: [null, automaticGarment, automaticGarment, automaticGarment] },
   { name: 'Auto_Leg_A', enchants: [null, automaticBoot, automaticBoot, automaticBoot] },
   { name: 'Auto_Leg_B', enchants: [null, automaticBoot, automaticBoot, automaticBoot] },
+  { name: 'Auto_Shield_A_LT', enchants: [null, automaticShield, automaticShield, automaticShield] },
+  { name: 'Auto_Shield_B_LT', enchants: [null, automaticShield, automaticShield, automaticShield] },
   { name: 'Auto_B_R', enchants: [null, automaticAccR, automaticAccR, automaticAccR] },
   { name: 'Auto_B_L', enchants: [null, automaticAccL, automaticAccL, automaticAccL] },
   { name: 'Auto_BC_R', enchants: [null, automaticAccR, automaticAccR, automaticAccR] },
