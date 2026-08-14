@@ -105,9 +105,21 @@ export const ExtraOptionTable = {
   DragonA_Blue: 3,
   DragonA_Silver: 3,
 
-  Victory_Wing_Ear_: 2,
-  Deepblue_Sunglasses_: 2,
-  Battle_Processor_: 2,
+  // Elmo - Meio, one combiner each (bROWiki "Bônus Aleatórios" §Elmo - Meio). Only the
+  // slotted "(1)" variant takes them, which is why the aegisNames carry the `_` suffix —
+  // the exception is the booster pair, which ships in a single slotted version.
+  Victory_Wing_Ear_: 2, // 400002 Asas Vitoriosas (1) — Coração Vitorioso
+  Deepblue_Sunglasses_: 2, // 410080 Óculos Neon (1) — Joia Neon
+  Battle_Processor_: 2, // 410017 Chip de Batalha (1) — Bateria JET-01
+  EXP_Processor_: 2, // 410013 Comunicador Avançado (1) — Processador Avançado
+  Poring_Sunglasses_K_: 1, // 19118 Super Óculos Poring (1) — Pano para Lentes (1st bonus only)
+
+  // Amplificador de Fone rolls two bonuses on the Fones Amplificadores and has a 4,7619%
+  // chance of turning them into Fones Danificados. The combiner cannot be used on the
+  // damaged pair afterwards, but the pair keeps the two bonuses it was rolled with, so
+  // both share the same slot count.
+  Magical_Booster_K: 2, // 19241 Fones Amplificadores
+  Crimson_Booster: 2, // 19245 Fones Danificados
 
   Bag_Of_Antonio_Melee: 2,
   Bag_Of_Antonio_Range: 2,

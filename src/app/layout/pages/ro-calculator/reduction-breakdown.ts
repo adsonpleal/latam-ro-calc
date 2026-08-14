@@ -25,11 +25,57 @@ export interface ReductionCategory {
 // Reuses the canonical element names/order from core/pvp.ts (same source the graph uses).
 const ELEMENTS: { key: string; label: string }[] = Object.entries(ELE_PT).map(([key, label]) => ({ key, label }));
 
-/** Players are Médio, so only "todos os tamanhos" and "Médio" can ever reduce damage taken. */
-const SIZE_ROWS: { key: string; label: string }[] = [
+/**
+ * Who the reductions are being read against.
+ *
+ * `pvp` is the target HUD: the attacker is a player, so only the rows a player can ever
+ * match are worth listing — Médio, the two player races, class Normal.
+ *
+ * `self` is the main-stats popover, which answers "what does this build resist?" with no
+ * attacker in mind. Restricting it to the player-shaped rows is what hid the Grande half
+ * of the Carta Cavaleiro Branco + Carta Cavaleira Khalitzburg reduction.
+ */
+export type ReductionScope = 'self' | 'pvp';
+
+const ALL_SIZE_ROWS: { key: string; label: string }[] = [
   { key: 'all', label: 'Todos os tamanhos' },
+  { key: 's', label: 'Pequeno' },
   { key: 'm', label: 'Médio' },
+  { key: 'l', label: 'Grande' },
 ];
+
+/** Players are Médio, so those are the only size rows the PVP HUD can ever fill. */
+const PVP_SIZE_ROWS = ALL_SIZE_ROWS.filter((row) => row.key === 'all' || row.key === 'm');
+
+const ALL_RACE_ROWS: { key: string; label: string }[] = [
+  { key: 'all', label: 'Todas as raças' },
+  { key: 'formless', label: 'Amorfo' },
+  { key: 'undead', label: 'Morto-vivo' },
+  { key: 'brute', label: 'Bruto' },
+  { key: 'plant', label: 'Planta' },
+  { key: 'insect', label: 'Inseto' },
+  { key: 'fish', label: 'Peixe' },
+  { key: 'demon', label: 'Demônio' },
+  { key: 'demihuman', label: 'Humanoide' },
+  { key: 'angel', label: 'Anjo' },
+  { key: 'dragon', label: 'Dragão' },
+  { key: 'player_human', label: 'Humano' },
+  { key: 'player_doram', label: 'Doram' },
+];
+
+/** Only player races fire vs a player attacker (docs/pvp.md §2). */
+const PVP_RACE_ROWS = ALL_RACE_ROWS.filter(
+  (row) => row.key === 'all' || row.key === 'player_human' || row.key === 'player_doram',
+);
+
+const ALL_CLASS_ROWS: { key: string; label: string }[] = [
+  { key: 'all', label: 'Todas as classes' },
+  { key: 'normal', label: 'Normal' },
+  { key: 'boss', label: 'Chefe' },
+];
+
+/** Players are Normal. */
+const PVP_CLASS_ROWS = ALL_CLASS_ROWS.filter((row) => row.key !== 'boss');
 
 const WOE_CHANNELS: { channel: PvpDamageChannel; label: string }[] = [
   { channel: 'phys_melee', label: 'Físico corpo a corpo' },
@@ -41,22 +87,27 @@ const WOE_CHANNELS: { channel: PvpDamageChannel; label: string }[] = [
 export function buildReductionCategories(
   bonus: Partial<EquipmentSummaryModel> | null | undefined,
   mode: PvpMode,
+  scope: ReductionScope = 'pvp',
 ): ReductionCategory[] {
   const b = (bonus || {}) as Record<string, number | undefined>;
   const v = (key: string) => b[key] || 0;
   const cats: ReductionCategory[] = [];
+  const isSelf = scope === 'self';
+  const raceRows = isSelf ? ALL_RACE_ROWS : PVP_RACE_ROWS;
+  const sizeRows = isSelf ? ALL_SIZE_ROWS : PVP_SIZE_ROWS;
+  const classRows = isSelf ? ALL_CLASS_ROWS : PVP_CLASS_ROWS;
 
   const push = (label: string, rows: ReductionRow[]) => {
     const nonzero = rows.filter((r) => r.percent !== 0);
     if (nonzero.length) cats.push({ label, rows: nonzero });
   };
 
-  // Raça — only player races fire vs a player attacker (docs/pvp.md §2).
-  push('Raça', [
-    { label: 'Todas as raças', keys: ['subrace_all'], percent: v('subrace_all') },
-    { label: 'Humano', keys: ['subrace_player_human'], percent: v('subrace_player_human') },
-    { label: 'Doram', keys: ['subrace_player_doram'], percent: v('subrace_player_doram') },
-  ]);
+  // Raça — one row per race the defender resists.
+  push('Raça', raceRows.map((r) => ({
+    label: r.label,
+    keys: [`subrace_${r.key}`],
+    percent: v(`subrace_${r.key}`),
+  })));
 
   // Elemento — one row per element the defender resists.
   push('Elemento', [
@@ -64,21 +115,22 @@ export function buildReductionCategories(
     ...ELEMENTS.map((e) => ({ label: e.label, keys: [`subele_${e.key}`], percent: v(`subele_${e.key}`) })),
   ]);
 
-  // Size — players are Medium. The `_physical`/`_magical` rows apply only against their own
-  // damage type, so they show separately instead of folded into the row above.
+  // Size — the `_physical`/`_magical` rows apply only against their own damage type, so
+  // they show separately instead of folded into the row above.
   push('Tamanho', [
-    ...SIZE_ROWS.flatMap(({ key, label }) => [
+    ...sizeRows.flatMap(({ key, label }) => [
       { label, keys: [`subsize_${key}`], percent: v(`subsize_${key}`) },
       { label: `${label} (físico)`, keys: [`subsize_${key}_physical`], percent: v(`subsize_${key}_physical`) },
       { label: `${label} (mágico)`, keys: [`subsize_${key}_magical`], percent: v(`subsize_${key}_magical`) },
     ]),
   ]);
 
-  // Classe — players are Normal.
-  push('Classe', [
-    { label: 'Todas as classes', keys: ['subclass_all'], percent: v('subclass_all') },
-    { label: 'Normal', keys: ['subclass_normal'], percent: v('subclass_normal') },
-  ]);
+  // Classe — Normal/Chefe.
+  push('Classe', classRows.map((c) => ({
+    label: c.label,
+    keys: [`subclass_${c.key}`],
+    percent: v(`subclass_${c.key}`),
+  })));
 
   // Distance — only against ranged physical attacks (the Carta Gazeti family).
   push('Distância', [

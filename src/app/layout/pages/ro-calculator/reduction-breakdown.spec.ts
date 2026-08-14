@@ -63,4 +63,50 @@ describe('buildReductionCategories', () => {
     // subrace_angel is not a player race, so it never appears in the player-facing rows
     expect(cats).toEqual([]);
   });
+
+  describe("scope 'self' — the main-stats popover", () => {
+    it('lists Grande alongside Médio', () => {
+      // Reported anonymously: Carta Cavaleiro Branco + Carta Cavaleira Khalitzburg grant
+      // 25% + 5% against Médio AND Grande, but the popover only ever showed Médio — the
+      // row list was the PVP one, where the attacker is always a player (Médio).
+      const tamanho = buildReductionCategories({ subsize_m: 30, subsize_l: 30 } as any, 'pvp', 'self')
+        .find((c) => c.label === 'Tamanho');
+
+      expect(tamanho?.rows).toEqual([
+        { label: 'Médio', keys: ['subsize_m'], percent: 30 },
+        { label: 'Grande', keys: ['subsize_l'], percent: 30 },
+      ]);
+    });
+
+    it('lists Pequeno too, in size order', () => {
+      const tamanho = buildReductionCategories(
+        { subsize_all: 7, subsize_s: 10, subsize_m: 10, subsize_l: 10 } as any,
+        'pvp',
+        'self',
+      ).find((c) => c.label === 'Tamanho');
+
+      expect(tamanho?.rows.map((r) => r.label)).toEqual(['Todos os tamanhos', 'Pequeno', 'Médio', 'Grande']);
+    });
+
+    it('surfaces monster races the PVP rows drop', () => {
+      const raca = buildReductionCategories({ subrace_angel: -20, subrace_demon: 15 } as any, 'pvp', 'self')
+        .find((c) => c.label === 'Raça');
+
+      expect(raca?.rows).toEqual([
+        { label: 'Demônio', keys: ['subrace_demon'], percent: 15 },
+        { label: 'Anjo', keys: ['subrace_angel'], percent: -20 },
+      ]);
+    });
+
+    it('surfaces the Chefe class row', () => {
+      const classe = buildReductionCategories({ subclass_boss: 20 } as any, 'pvp', 'self')
+        .find((c) => c.label === 'Classe');
+
+      expect(classe?.rows).toEqual([{ label: 'Chefe', keys: ['subclass_boss'], percent: 20 }]);
+    });
+
+    it('still hides them in the default (pvp) scope', () => {
+      expect(buildReductionCategories({ subsize_l: 30, subclass_boss: 20 } as any, 'pvp')).toEqual([]);
+    });
+  });
 });

@@ -156,6 +156,16 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.53-beta',
+      date: '13-08-2026',
+      logs: [
+        'O Escudo Automatron B não ignorava DEFM nenhuma. A peça estava cadastrada sem efeito algum: os 15% de DEFM ignorada de todas as raças, os 5% a mais a cada 2 refinos e os 10% de dano mágico contra Chefes do refino +7 não existiam no cálculo. No +10 são 40% de DEFM ignorada que a build vinha deixando na mesa. O Escudo Automatron A, o irmão físico, já estava correto e serviu de referência. Reportado por junior.zkt.',
+        'O conjunto do Elmo Mágico de Cinzas com o Cajado de Cinzas passou a valer. Do conjunto só existia o "Dano mágico +7%" do Cajado Duplo; a recarga de Onda Psíquica -1,5 segundo e o bônus por refino da arma — Onda Psíquica e Pó de Diamante +5% a cada 2 refinos — não estavam cadastrados, então refinar o cajado não mudava nada. Entrou junto o degrau que faltava no conjunto com o Cajado Duplo, Impacto Espiritual e Corrente Elétrica +5% a cada 2 refinos. Com o cajado no +10 são 25% de dano a mais em cada uma dessas habilidades.',
+        'Os Fones Danificados e os Fones Amplificadores voltaram a aceitar Bônus Aleatórios, que os dois recebem do Amplificador de Fone. Faltavam também o Comunicador Avançado e o Super Óculos Poring, este último com um bônus só. Reportado por Lobbo.',
+        'A janela de Redução de dano dos atributos mostrava só a linha de tamanho Médio. Ela reaproveitava a lista montada para o alvo PVP, onde o atacante é sempre um jogador e por isso só Médio pode valer — mas nos atributos a pergunta é o que a build resiste contra qualquer coisa. Agora aparecem Pequeno, Médio e Grande, as raças de monstro e a linha de Chefe. Quem usa a Carta Cavaleiro Branco com a Carta Cavaleira Khalitzburg via 30% contra Médio e nada contra Grande, quando os 30% valem para os dois. A janela do alvo PVP continua como estava. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.52-beta',
       date: '13-08-2026',
       logs: [

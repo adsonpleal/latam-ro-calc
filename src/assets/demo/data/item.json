@@ -250089,6 +250089,21 @@
       ],
       "matkPercent": [
         "EQUIP_ID[2023]7"
+      ],
+      "cd__2449": [
+        "EQUIP_ID[1669]1.5"
+      ],
+      "2449": [
+        "EQUIP_ID[1669]REFINE[weapon==2]---5"
+      ],
+      "2447": [
+        "EQUIP_ID[1669]REFINE[weapon==2]---5"
+      ],
+      "2202": [
+        "EQUIP_ID[2023]REFINE[weapon==2]---5"
+      ],
+      "2214": [
+        "EQUIP_ID[2023]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -279554,7 +279569,15 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "m_pene_race_all": [
+        "15",
+        "2---5"
+      ],
+      "m_class_boss": [
+        "7===10"
+      ]
+    }
   },
   "5979": {
     "id": 5979,

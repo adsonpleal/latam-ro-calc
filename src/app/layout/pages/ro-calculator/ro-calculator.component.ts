@@ -966,8 +966,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     }
     this.bonusBreakdownKeys = contributingKeys;
     // "Redução de dano" popover for the main stats — the build's own gear reductions
-    // vs players (no castle layer; mode-independent). See docs/pvp.md §4.
-    this.selfReductionCategories = buildReductionCategories(this.calculator.getDefenderBonus(), 'pvp');
+    // against anything, not just a player attacker (no castle layer; mode-independent),
+    // hence the 'self' scope. See docs/pvp.md §4.
+    this.selfReductionCategories = buildReductionCategories(this.calculator.getDefenderBonus(), 'pvp', 'self');
     const splitNumber = Object.keys(x).length / 2;
     const part1 = Object.entries(x).filter((a, index) => {
       return index < splitNumber;
