@@ -21426,6 +21426,21 @@
       ],
       "2040": [
         "EQUIP[Robe Of Judgement&&Shoes Of Judgement&&Shawl Of Judgement]200"
+      ],
+      "vct__79": [
+        "EQUIP_ID[2570&&15030&&2472]50"
+      ],
+      "vct__77": [
+        "EQUIP_ID[2570&&15030&&2472]50"
+      ],
+      "vct__2040": [
+        "EQUIP_ID[2570&&15030&&2472]50"
+      ],
+      "vct__2038": [
+        "EQUIP_ID[2570&&15030&&2472]50"
+      ],
+      "vct__156": [
+        "EQUIP_ID[2570&&15030&&2472]50"
       ]
     }
   },
@@ -43677,7 +43692,7 @@
       "cd__2476": [
         "EQUIP[Booster Shadow Armor&&Booster Shadow Shield&&Booster Shadow Shoes&&Booster Shadow Earring&&Booster Shadow Pendant]1"
       ],
-      "2476": [
+      "2477": [
         "EQUIP[Booster Shadow Armor&&Booster Shadow Shield&&Booster Shadow Shoes&&Booster Shadow Earring&&Booster Shadow Pendant]15"
       ],
       "range": [
@@ -44904,6 +44919,9 @@
       ],
       "matk": [
         "1---1"
+      ],
+      "3006": [
+        "EQUIP[Kunai Shadow Shield&&Kunai Shadow Armor]REFINE[shadowWeapon,shadowShield,shadowArmor==2]---1"
       ]
     }
   },
@@ -45213,6 +45231,15 @@
       "m_pene_race_all": [
         "EQUIP[Oboro Shadow Armor]40",
         "EQUIP[Oboro Shadow Armor]REFINE[shadowEarring,shadowArmor==1]---1"
+      ],
+      "536": [
+        "EQUIP_ID[24632&&24633]REFINE[shadowEarring,shadowPendant,shadowBoot==2]---1"
+      ],
+      "539": [
+        "EQUIP_ID[24632&&24633]REFINE[shadowEarring,shadowPendant,shadowBoot==2]---1"
+      ],
+      "542": [
+        "EQUIP_ID[24632&&24633]REFINE[shadowEarring,shadowPendant,shadowBoot==2]---1"
       ]
     }
   },
@@ -45991,6 +46018,9 @@
       ],
       "matk": [
         "1---1"
+      ],
+      "2602": [
+        "EQUIP[Es Shadow Shield&&Es Shadow Armor]REFINE[shadowWeapon,shadowShield,shadowArmor==1]---1"
       ]
     }
   },
@@ -69606,6 +69636,9 @@
       ],
       "cd__5028": [
         "EQUIP[Doram Stone (Lower)]1"
+      ],
+      "5026": [
+        "EQUIP_ID[29668]20"
       ]
     }
   },
@@ -229660,6 +229693,9 @@
       ],
       "cd__2607": [
         "EQUIP_ID[19397]10"
+      ],
+      "vct__5026": [
+        "EQUIP_ID[19205]100"
       ]
     }
   },
@@ -229698,6 +229734,9 @@
       ],
       "cri": [
         "EQUIP_ID[19204]5"
+      ],
+      "vct__2477": [
+        "EQUIP_ID[19190]100"
       ]
     }
   },
@@ -230511,6 +230550,12 @@
       ],
       "perfectDodge": [
         "EQUIP_ID[19202]8"
+      ],
+      "vct__2233": [
+        "EQUIP_ID[19199]100"
+      ],
+      "vct__5033": [
+        "EQUIP_ID[19205]100"
       ]
     }
   },
@@ -263087,7 +263132,11 @@
     "usableClass": [
       "Wanderer"
     ],
-    "script": {}
+    "script": {
+      "394": [
+        "EQUIP_ID[2989]200"
+      ]
+    }
   },
   "2001": {
     "id": 2001,
@@ -263435,6 +263484,12 @@
       ],
       "matk": [
         "250"
+      ],
+      "2211": [
+        "EQUIP_ID[20847]10"
+      ],
+      "2212": [
+        "EQUIP_ID[20847]XREFINEX[weapon==7]XREFINEX[garment==7]40"
       ]
     }
   },
@@ -264035,6 +264090,12 @@
     "script": {
       "matk": [
         "100"
+      ],
+      "536": [
+        "EQUIP_ID[28755]REFINE[weapon,leftWeapon==2]---10"
+      ],
+      "539": [
+        "EQUIP_ID[28755]REFINE[weapon,leftWeapon==2]---10"
       ]
     }
   },
@@ -265006,6 +265067,12 @@
       ],
       "dex": [
         "1"
+      ],
+      "28": [
+        "EQUIP_ID[2626]50"
+      ],
+      "79": [
+        "EQUIP_ID[2626]30"
       ]
     }
   },
@@ -268323,6 +268390,9 @@
     "script": {
       "int": [
         "1"
+      ],
+      "5028": [
+        "EQUIP_ID[15126&&20788&&22083&&28382]100"
       ]
     }
   },
@@ -268349,6 +268419,9 @@
     "script": {
       "int": [
         "2"
+      ],
+      "5028": [
+        "EQUIP_ID[15129&&20789&&22084&&28382]150"
       ]
     }
   },
@@ -268375,6 +268448,9 @@
     "script": {
       "int": [
         "3"
+      ],
+      "5028": [
+        "EQUIP_ID[15156&&20790&&22085&&28382]200"
       ]
     }
   },
@@ -268401,6 +268477,9 @@
     "script": {
       "dex": [
         "1"
+      ],
+      "5036": [
+        "EQUIP_ID[15126&&20788&&22083&&28380]100"
       ]
     }
   },
@@ -268427,6 +268506,9 @@
     "script": {
       "dex": [
         "2"
+      ],
+      "5036": [
+        "EQUIP_ID[15129&&20789&&22084&&28380]150"
       ]
     }
   },
@@ -268453,6 +268535,9 @@
     "script": {
       "dex": [
         "3"
+      ],
+      "5036": [
+        "EQUIP_ID[15156&&20790&&22085&&28380]200"
       ]
     }
   },
@@ -270368,6 +270453,45 @@
       ],
       "subrace_demihuman": [
         "2"
+      ],
+      "42": [
+        "EQUIP_ID[2435&&2538]20"
+      ],
+      "str": [
+        "EQUIP_ID[2435&&2538]3"
+      ],
+      "hpPercent": [
+        "EQUIP_ID[2435&&2538]12"
+      ],
+      "subrace_formless": [
+        "EQUIP_ID[2435&&2538]-200"
+      ],
+      "subrace_undead": [
+        "EQUIP_ID[2435&&2538]-200"
+      ],
+      "subrace_brute": [
+        "EQUIP_ID[2435&&2538]-200"
+      ],
+      "subrace_plant": [
+        "EQUIP_ID[2435&&2538]-200"
+      ],
+      "subrace_insect": [
+        "EQUIP_ID[2435&&2538]-200"
+      ],
+      "subrace_fish": [
+        "EQUIP_ID[2435&&2538]-200"
+      ],
+      "subrace_demon": [
+        "EQUIP_ID[2435&&2538]-200"
+      ],
+      "subrace_angel": [
+        "EQUIP_ID[2435&&2538]-200"
+      ],
+      "subrace_dragon": [
+        "EQUIP_ID[2435&&2538]-200"
+      ],
+      "subrace_player_doram": [
+        "EQUIP_ID[2435&&2538]-200"
       ]
     }
   },
@@ -270466,6 +270590,45 @@
       ],
       "subrace_demihuman": [
         "2"
+      ],
+      "int": [
+        "EQUIP_ID[2437&&2539]3"
+      ],
+      "hpPercent": [
+        "EQUIP_ID[2437&&2539]12"
+      ],
+      "vct__156": [
+        "EQUIP_ID[2437&&2539]50"
+      ],
+      "subrace_formless": [
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_undead": [
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_brute": [
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_plant": [
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_insect": [
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_fish": [
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_demon": [
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_angel": [
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_dragon": [
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_player_doram": [
+        "EQUIP_ID[2437&&2539]-200"
       ]
     }
   },
@@ -271361,6 +271524,9 @@
       ],
       "subrace_player_human": [
         "5"
+      ],
+      "2004": [
+        "EQUIP_ID[2883&&2475&&2574]50"
       ]
     }
   },
@@ -271387,6 +271553,9 @@
     "script": {
       "luk": [
         "3"
+      ],
+      "2022": [
+        "EQUIP_ID[2886&&2477&&2577]20"
       ]
     }
   },
@@ -271467,6 +271636,21 @@
       ],
       "atk": [
         "1---3"
+      ],
+      "2239": [
+        "EQUIP_ID[2891&&2480&&2581]20"
+      ],
+      "hpPercent": [
+        "EQUIP_ID[2891&&2480&&2581]15"
+      ],
+      "perfectDodge": [
+        "EQUIP_ID[2891&&2480&&2581]20"
+      ],
+      "aspd": [
+        "EQUIP_ID[2891&&2480&&2581]-7"
+      ],
+      "range": [
+        "EQUIP_ID[2891&&2480&&2581]-30"
       ]
     }
   },
@@ -272112,6 +272296,12 @@
       "p_class_boss": [
         "5",
         "4---1"
+      ],
+      "2278": [
+        "EQUIP_ID[2995]100"
+      ],
+      "cd__2278": [
+        "EQUIP_ID[2995]2"
       ]
     }
   },
@@ -272146,6 +272336,9 @@
       ],
       "subsize_l": [
         "7===10"
+      ],
+      "2261": [
+        "EQUIP_ID[20733&&2996&&22044]50"
       ]
     }
   },
@@ -273197,6 +273390,9 @@
       ],
       "subsize_l": [
         "7===10"
+      ],
+      "2261": [
+        "EQUIP_ID[20733&&2996&&22044]50"
       ]
     }
   },
@@ -275969,6 +276165,31 @@
       ],
       "melee": [
         "EQUIP_ID[28116]5"
+      ],
+      "46": [
+        "15",
+        "1---2"
+      ],
+      "316": [
+        "15",
+        "1---2"
+      ],
+      "324": [
+        "15",
+        "1---2"
+      ],
+      "382": [
+        "EQUIP_ID[18145]REFINE[weapon,boot==18]15"
+      ],
+      "524": [
+        "15",
+        "1---2"
+      ],
+      "3006": [
+        "EQUIP_ID[28721]REFINE[weapon,boot==18]15"
+      ],
+      "cd__3006": [
+        "EQUIP_ID[28721]REFINE[weapon,boot==12]1"
       ]
     }
   },
@@ -277347,6 +277568,9 @@
       "hpPercent": [
         "6",
         "2---1"
+      ],
+      "2280": [
+        "EQUIP_ID[15110||15343]25"
       ]
     }
   },
@@ -279013,6 +279237,9 @@
     "script": {
       "int": [
         "1"
+      ],
+      "79": [
+        "EQUIP_ID[1631]20"
       ]
     }
   },
