@@ -320,15 +320,19 @@ describe('Hyper Novice — status window vs ZC_PAR_CHANGE', () => {
   });
 
   /**
-   * SP_ATK2 is 100 short in all three states, which is exactly Crescimento Lv5. The calc
-   * books that +100 as **mastery** ATK, a stage after the P.ATQ multiplier, while the client
-   * prints it in the ATQ Equip. column. A pure magic build cannot say which stage the server
-   * uses for damage, so the class is left alone and the difference is pinned here.
+   * SP_ATK2 used to read 100 short in all three states — exactly Crescimento Lv5, which was
+   * booked as **mastery** ATK (a stage after the P.ATQ multiplier) while the client prints it
+   * in the ATQ Equip. column. A pure magic build cannot say which stage the server uses for
+   * damage, so this file could only pin the difference.
+   *
+   * `hn-physical-matrix.rrf` settled it on 14/08/2026: moving it to equip ATK takes that
+   * recording's deterministic packet from 3,0% under to 0,14% over. The column now matches
+   * here too, which is the check that the move did not cost the magic build anything.
    */
-  it('SP_ATK2 is short by Crescimento Lv5, which the calc books as mastery ATK', () => {
-    expect(read('bare').equipAtk).toBe(100 - 100);
-    expect(read('weapon').equipAtk).toBe(310 - 100);
-    expect(read('full').equipAtk).toBe(319 - 100);
+  it('SP_ATK2 matches the client once Crescimento is booked as equip ATK', () => {
+    expect(read('bare').equipAtk).toBe(100);
+    expect(read('weapon').equipAtk).toBe(310);
+    expect(read('full').equipAtk).toBe(319);
   });
 
   /**

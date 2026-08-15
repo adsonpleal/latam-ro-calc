@@ -142,47 +142,43 @@ describe('Hyper Novice físico — Choque Violento, gravação por estado', () =
   });
 
   /**
-   * OPEN: the simulator is 3,0% under the deterministic packet — 331.250 against 341.560,
-   * with no roll on either side, so this is an exact shortfall and not noise.
+   * OPEN, and now small: the simulator lands 0,14% **over** the deterministic packet —
+   * 342.027 against 341.560, no roll on either side, so the 467 is exact rather than noise.
    *
-   * Ruled out: the skill ratio, which matches the client's own table (Nv10 = 3.400% plus
-   * 30 per level of Físico Autodidata, and `formula` composes exactly that); the target,
-   * which is a 0 DEF / 0 RES dummy; and external buffs, of which this recording has none
-   * that BUFF_EFST knows.
+   * It used to be 3,0% *under*. What closed it was Crescimento Lv5: it was booked as
+   * mastery ATK (after the P.ATQ multiplier) and the client's own SP_ATK2 says the server
+   * counts it as equip ATK, before. See the note on Break Through in SuperNovice.ts.
    *
-   * The live suspect is the same one `HyperNovice.magic-matrix.replay.spec.ts` already
-   * pins: SP_ATK2 reads 100 higher in game than in the calculator, because Crescimento Lv5
-   * is booked as **mastery** ATK here (a stage after the P.ATQ multiplier) and as **equip**
-   * ATK by the server. On a magic build that difference cannot be measured; on this one it
-   * moves the damage, which is what makes this recording worth keeping.
+   * Ruled out for what is left: the skill ratio, which matches the client's table (Nv10 =
+   * 3.400% plus 30 per level of Físico Autodidata); the target, a 0 DEF / 0 RES dummy; and
+   * external buffs, of which this recording has none that BUFF_EFST knows.
    */
-  it('pins the 3,0% shortfall on the deterministic state', () => {
+  it('pins the remaining 0,14% overshoot on the deterministic state', () => {
     const s = sim(SHIELD_ONLY.at);
     const game = 341_560;
 
-    expect(Math.round(s.max)).toBe(331_250);
-    expect(s.max / game).toBeCloseTo(0.9698, 4);
+    expect(Math.round(s.max)).toBe(342_027);
+    expect(s.max / game).toBeCloseTo(1.0014, 4);
   });
 
-  it('reads the isolated status window back exactly, bar the pinned SP_ATK2', () => {
+  it('reads the isolated status window back exactly', () => {
     const s = sim(SHIELD_ONLY.at);
     // Straight from the ZC_PAR_CHANGE burst at t=7.686, the shield-only window.
     expect(s.def).toBe(55);
     expect(s.res).toBe(9);
     expect(s.amotion).toBe(350);
     expect(s.pAtk).toBe(59);
-    // SP_ATK2 is the known Crescimento Lv5 gap: the game prints 150, we book 100 of it
-    // as mastery ATK instead of equip ATK.
-    expect(s.equipAtk).toBe(150 - 100);
+    // Crescimento Lv5's +100 is part of this column, as the client prints it.
+    expect(s.equipAtk).toBe(150);
   });
 
-  it('keeps the geared states inside the recorded range', () => {
+  it('keeps the geared states within a hair of the recorded range', () => {
     const pk = packets(SHIELD_AND_WEAPON.from, SHIELD_AND_WEAPON.to);
     const s = sim(SHIELD_AND_WEAPON.at);
     expect(pk).toHaveLength(13);
-    // Same ~4% shortfall as the bare state, carried through the weapon's roll.
-    expect(s.max / pk[pk.length - 1]).toBeGreaterThan(0.94);
-    expect(s.max / pk[pk.length - 1]).toBeLessThan(1);
+    // The same sub-1% overshoot as the bare state, carried through the weapon's roll.
+    expect(s.max / pk[pk.length - 1]).toBeGreaterThan(0.99);
+    expect(s.max / pk[pk.length - 1]).toBeLessThan(1.02);
   });
 });
 

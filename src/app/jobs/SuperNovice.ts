@@ -389,7 +389,13 @@ export class SuperNovice extends CharacterBase {
       label: 'Break Through',
       name: 'Break Through',
       inputType: 'dropdown',
-      isMasteryAtk: true,
+      // NOT mastery ATK, though it was booked that way until 14/08/2026. The client's own
+      // status window settles it: with nothing but a shield on, the game prints SP_ATK2
+      // (ATQ Equip.) = 150 and Crescimento Lv5 is 100 of that, so the server counts it
+      // before the P.ATQ multiplier, not after. A magic build cannot tell the two stages
+      // apart, which is why `HyperNovice.magic-matrix.replay.spec.ts` could only pin the
+      // difference; the physical recording `hn-physical-matrix.rrf` measures it, and the
+      // move takes its deterministic packet from 3,0% under to 0,14% over.
       dropdown: [
         { label: '-', value: 0, isUse: false },
         { label: 'Lv 1', value: 1, isUse: true, bonus: { atk: 15, hp: 350, sp: 30 } },
