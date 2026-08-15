@@ -150,7 +150,7 @@ export function checkReplay(replay: Replay, itemMap: Record<number, any>): Submi
     return reject(
       'wrong-map',
       `Esta gravação é no mapa "${session.map || 'desconhecido'}", e nesta etapa só servem gravações no ` +
-        `campo de treinamento (${TRAINING_MAP}), batendo nos bonecos. Fora dali o alvo tem DEF e RES próprias ` +
+        `campo de treinamento (${TRAINING_MAP}), batendo nos dummies. Fora dali o alvo tem DEF e RES próprias ` +
         `e revida, e aí não dá para saber se a diferença veio de um item errado ou de uma fórmula errada.`,
     );
   }
@@ -159,8 +159,8 @@ export function checkReplay(replay: Replay, itemMap: Record<number, any>): Submi
   if (dummyHits === 0) {
     return reject(
       'no-dummy-damage',
-      'Não há nenhum golpe seu em um boneco de treino nesta gravação. É o dano nos bonecos que a conferência ' +
-        'compara pacote a pacote — sem ele não há o que medir. Vá até os bonecos e use cada habilidade umas 10 vezes.',
+      'Não há nenhum golpe seu em um dummy de treino nesta gravação. É o dano nos dummies que a conferência ' +
+        'compara pacote a pacote — sem ele não há o que medir. Vá até os dummies e use cada habilidade umas 10 vezes.',
     );
   }
 

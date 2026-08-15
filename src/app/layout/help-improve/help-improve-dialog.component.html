@@ -26,7 +26,7 @@
   <div class="flex align-items-start gap-2 mb-3 p-3 border-round" style="background: var(--yellow-100); color: var(--yellow-900)">
     <i class="pi pi-exclamation-triangle mt-1"></i>
     <div class="line-height-3">
-      <b>1. No campo de treinamento</b> (<code>tra_fild</code>), <b>batendo nos bonecos</b>. Os bonecos têm DEF e RES zeradas, ficam
+      <b>1. No campo de treinamento</b> (<code>tra_fild</code>), <b>batendo nos dummies</b>. Os dummies têm DEF e RES zeradas, ficam
       parados e não revidam — é o único alvo cujos números são todos conhecidos. Em qualquer outro lugar o monstro tem defesas próprias e
       a conta passa a ter duas incógnitas ao mesmo tempo.<br />
       <b>2. Sem buffs de fora.</b> Nada de Bênção, Agilidade, Bragi, Poema, comidas ou buffs de outro jogador. Eles inflam todos os
@@ -73,23 +73,23 @@
         importa é comparar o mesmo personagem com e sem cada peça.
       </p>
       <ol class="mt-0 line-height-3">
-        <li>Vá ao <b>campo de treinamento</b> (<code>tra_fild</code>), fique de frente para um <b>boneco</b> e comece a gravar.</li>
+        <li>Vá ao <b>campo de treinamento</b> (<code>tra_fild</code>), fique de frente para um <b>dummy</b> e comece a gravar.</li>
         <li><b>Espere seus buffs de fora acabarem</b> antes de bater — ou vá para o campo sem eles.</li>
         <li><b>Sem nenhum equipamento:</b> use cada habilidade de ataque umas 10 vezes (as repetições garantem críticos, que é o que dá para conferir com precisão).</li>
         <li><b>Só com a arma:</b> repita as mesmas habilidades.</li>
         <li><b>Com o equipamento completo:</b> repita de novo.</li>
-        <li>Use a <b>habilidade suprema</b>, ainda no boneco.</li>
+        <li>Use a <b>habilidade suprema</b>, ainda no dummy.</li>
         <li>Não mexa nos <b>talentos</b> durante a gravação.</li>
       </ol>
       <p class="mt-0 line-height-3">
-        Se quiser ajudar mais, repita a sequência nos bonecos de <b>tamanhos</b> e <b>elementos</b> diferentes — eles ficam no mesmo
+        Se quiser ajudar mais, repita a sequência nos dummies de <b>tamanhos</b> e <b>elementos</b> diferentes — eles ficam no mesmo
         campo, e é assim que dá para conferir os bônus por tamanho e por elemento.
       </p>
       <ul class="mt-0 line-height-3">
         <li>Só gravações do <b>RO LATAM</b> — o arquivo não diz de qual servidor veio, então isso fica na sua palavra.</li>
         <li>Um personagem por gravação, e poucos minutos (o limite é 900 KB).</li>
         <li>
-          Bater em monstros de verdade fica para uma etapa seguinte: enquanto os itens e as fórmulas não estiverem certos no boneco,
+          Bater em monstros de verdade fica para uma etapa seguinte: enquanto os itens e as fórmulas não estiverem certos no dummy,
           não há como interpretar o que acontece fora dele.
         </li>
       </ul>
@@ -153,7 +153,7 @@
         <div><span>Equipamentos</span><b>{{ good.summary.equippedCount }}</b></div>
         <div><span>Trocas de equip.</span><b>{{ good.summary.equipChangeCount }}</b></div>
         <div><span>Golpes gravados</span><b>{{ good.summary.damageEvents }}</b></div>
-        <div><span>Golpes nos bonecos</span><b>{{ good.summary.dummyHits }}</b></div>
+        <div><span>Golpes nos dummies</span><b>{{ good.summary.dummyHits }}</b></div>
         <div *ngIf="good.summary.skippedItems.length">
           <span>Itens fora do banco</span><b>{{ good.summary.skippedItems.length }}</b>
         </div>
