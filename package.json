@@ -1,6 +1,6 @@
 {
     "name": "ro-calculator",
-    "version": "0.1.53-beta",
+    "version": "0.1.54-beta",
     "license": "MIT",
     "scripts": {
         "ng": "ng",

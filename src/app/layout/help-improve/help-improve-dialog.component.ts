@@ -4,6 +4,7 @@ import { ReplaySubmissionService } from 'src/app/api-services/replay-submission.
 import { RoService } from 'src/app/api-services/ro.service';
 import { SubmissionCheck, validateReplaySubmission } from 'src/app/replay/validate-submission';
 import { createNumberDropdownList } from 'src/app/utils/create-number-dropdown-list';
+import { HELP_IMPROVE_DIALOG_STYLE } from '../dialog-geometry';
 import { snoozeHelpImprove, SNOOZE_DAYS } from './help-improve-snooze';
 
 /** The six trait fields, in the order the game's status window lists them. */
@@ -25,6 +26,8 @@ export class HelpImproveDialogComponent {
   @Input() appVersion = '';
 
   readonly snoozeDays = SNOOZE_DAYS;
+
+  readonly dialogStyle = HELP_IMPROVE_DIALOG_STYLE;
   readonly traitKeys = TRAIT_KEYS;
   /** The calculator's own trait range, so the two pickers offer the same values. */
   readonly traitStatusList = createNumberDropdownList({ from: 0, to: 100 });

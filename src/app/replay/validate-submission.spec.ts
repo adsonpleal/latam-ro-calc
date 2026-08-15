@@ -2,17 +2,44 @@ import { Replay } from 'rrfparser';
 import { describe, expect, it } from 'vitest';
 import itemJson from '../../assets/demo/data/item.json';
 import { loadReplayFixture } from './__tests__/load-fixture';
-import { MAX_REPLAY_BYTES, checkReplay, validateReplaySubmission } from './validate-submission';
+import {
+  DUMMY_ID_RANGE,
+  MAX_REPLAY_BYTES,
+  TRAINING_MAP,
+  checkReplay,
+  isTrainingDummy,
+  normalizeMap,
+  validateReplaySubmission,
+} from './validate-submission';
 
 const items = itemJson as unknown as Record<number, any>;
 
-/** A parsed replay with only the fields the check reads. */
+const ME = 100;
+const DUMMY_AID = 200;
+const MOB_AID = 300;
+
+/** Entity snapshot with one training dummy and one ordinary monster on screen. */
+const entities = () =>
+  new Map<number, any>([
+    [DUMMY_AID, { aid: DUMMY_AID, kind: 'mob', view: 21065 }],
+    [MOB_AID, { aid: MOB_AID, kind: 'mob', view: 1002 }],
+  ]);
+
+const hit = (target: number) => ({ source: ME, target, skillId: 0, damage: 100, hits: 1 });
+
+/**
+ * A parsed replay with only the fields the check reads. The default is an *acceptable*
+ * submission — training field, hitting a dummy — so each test only has to break the one
+ * rule it is about.
+ */
 const makeReplay = (over: Partial<Replay> = {}): Replay =>
   ({
-    sessionInfo: { player: 'Tester', map: 'prontera', job: 4307, baseLevel: 240, jobLevel: 50, durationMs: 60_000 },
+    sessionInfo: { player: 'Tester', map: 'tra_fild', aid: ME, job: 4307, baseLevel: 240, jobLevel: 50, durationMs: 60_000 },
     learnedSkills: new Map<number, number>([[1, 5]]),
     initialInventory: new Map(),
-    damage: [],
+    entities: entities(),
+    damage: [hit(DUMMY_AID)],
+    statusEvents: [],
     equipChanges: [],
     totals: { packetCount: 10, handledPackets: 10, knownPacketIds: [] },
     ...over,
@@ -35,12 +62,28 @@ describe('validateReplaySubmission', () => {
     expect(result.warnings).toEqual([]);
   });
 
-  it('warns, but still accepts, a recording with no damage and no gear swap', () => {
+  /**
+   * `sn-buffs-potion.rrf` is a town recording with no damage at all — exactly what this
+   * pass stopped accepting. It used to come through with warnings.
+   */
+  it('rejects a real recording taken in town', () => {
     const result = validateReplaySubmission(loadReplayFixture('sn-buffs-potion.rrf'), items);
 
+    expect(result).toMatchObject({ ok: false, blocker: 'wrong-map' });
+    expect(result.message).toContain('wolfvill');
+  });
+
+  /** Every other fixture is already a training-field recording — the rule is what the
+   *  usable recordings have always looked like, now written down. */
+  it.each([
+    ['hn-magic-lv1.rrf', 104],
+    ['nw-ult.rrf', 55],
+    ['wh-ilimitar.rrf', 26],
+  ])('%s is accepted and counts its dummy hits (%i)', (fixture, dummyHits) => {
+    const result = validateReplaySubmission(loadReplayFixture(fixture), items);
+
     expect(result.ok).toBe(true);
-    expect(result.warnings).toContain('no-damage');
-    expect(result.warnings).toContain('no-equip-change');
+    expect(result.summary?.dummyHits).toBe(dummyHits);
   });
 
   it('rejects a file bigger than a Firestore document can hold', () => {
@@ -78,5 +121,96 @@ describe('checkReplay', () => {
 
     expect(result.ok).toBe(true);
     expect(result.needsTraits).toBe(false);
+  });
+});
+
+/**
+ * The first pass only fixes wrong items and wrong formulas, and both need a target whose
+ * numbers are known: the dummies have 0 DEF and 0 RES, stand still and do not hit back.
+ * Anywhere else the target's own defence is an unknown being solved for at the same time
+ * as the thing being measured, which is what made the first batch of community
+ * recordings unusable.
+ */
+describe('checkReplay — training field only', () => {
+  it('rejects a recording taken anywhere but the training field', () => {
+    const replay = makeReplay({ sessionInfo: { ...makeReplay().sessionInfo, map: 'prontera' } as any });
+    const result = checkReplay(replay, items);
+
+    expect(result).toMatchObject({ ok: false, blocker: 'wrong-map' });
+    expect(result.message).toContain('prontera');
+    expect(result.message).toContain(TRAINING_MAP);
+  });
+
+  it('accepts the training field behind an instance prefix', () => {
+    const replay = makeReplay({ sessionInfo: { ...makeReplay().sessionInfo, map: `3@${TRAINING_MAP}` } as any });
+
+    expect(checkReplay(replay, items).ok).toBe(true);
+  });
+
+  it('rejects a training-field recording that never hit a dummy', () => {
+    // On the right map, but every packet landed on an ordinary monster.
+    const replay = makeReplay({ damage: [hit(MOB_AID), hit(MOB_AID)] as any });
+    const result = checkReplay(replay, items);
+
+    expect(result).toMatchObject({ ok: false, blocker: 'no-dummy-damage' });
+  });
+
+  it('rejects a training-field recording with no damage at all', () => {
+    expect(checkReplay(makeReplay({ damage: [] }), items)).toMatchObject({ ok: false, blocker: 'no-dummy-damage' });
+  });
+
+  it('does not count someone else hitting the dummy', () => {
+    const replay = makeReplay({ damage: [{ ...hit(DUMMY_AID), source: 999 }] as any });
+
+    expect(checkReplay(replay, items)).toMatchObject({ ok: false, blocker: 'no-dummy-damage' });
+  });
+
+  it('counts only the dummy hits, not every packet', () => {
+    const replay = makeReplay({ damage: [hit(DUMMY_AID), hit(MOB_AID), hit(DUMMY_AID)] as any });
+    const result = checkReplay(replay, items);
+
+    expect(result.ok).toBe(true);
+    expect(result.summary?.dummyHits).toBe(2);
+    expect(result.summary?.damageEvents).toBe(3);
+  });
+
+  it('covers the whole dummy block and nothing either side of it', () => {
+    expect(isTrainingDummy(DUMMY_ID_RANGE.first)).toBe(true);
+    expect(isTrainingDummy(DUMMY_ID_RANGE.last)).toBe(true);
+    expect(isTrainingDummy(DUMMY_ID_RANGE.first - 1)).toBe(false);
+    expect(isTrainingDummy(DUMMY_ID_RANGE.last + 1)).toBe(false);
+  });
+
+  it('strips only the instance prefix from a map name', () => {
+    expect(normalizeMap('tra_fild')).toBe('tra_fild');
+    expect(normalizeMap('0eo1@advs')).toBe('advs');
+    expect(normalizeMap('')).toBe('');
+  });
+});
+
+/**
+ * External buffs are noise, not grounds for rejection: they inflate every number without
+ * saying which stage they moved, but a Bênção left over from town is not worth throwing a
+ * recording away for. The sender is told before sending instead.
+ */
+describe('checkReplay — external buffs', () => {
+  /** 10 = Bênção, one of the party buffs BUFF_EFST resolves. */
+  const blessing = (aid: number) => ({ statusId: 10, aid, isOn: true, time: 0, totalMs: 0, leftMs: 0 });
+
+  it('warns when a party buff was running on the player', () => {
+    const result = checkReplay(makeReplay({ statusEvents: [blessing(ME)] as any }), items);
+
+    expect(result.ok).toBe(true);
+    expect(result.warnings).toContain('external-buffs');
+  });
+
+  it('ignores a buff running on somebody else', () => {
+    const result = checkReplay(makeReplay({ statusEvents: [blessing(999)] as any }), items);
+
+    expect(result.warnings).not.toContain('external-buffs');
+  });
+
+  it('stays quiet on a clean recording', () => {
+    expect(checkReplay(makeReplay(), items).warnings).not.toContain('external-buffs');
   });
 });

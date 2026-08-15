@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { UPDATE_DIALOG_STYLE } from './dialog-geometry';
 import { isHelpImproveSnoozed } from './help-improve/help-improve-snooze';
 import { LayoutService } from './service/app.layout.service';
 
@@ -155,6 +156,15 @@ export class AppTopBarComponent {
    * The entries are written in impersonal voice, describing what changed for the user.
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
+    {
+      v: '0.1.54-beta',
+      date: '14-08-2026',
+      logs: [
+        'O simulador vinha importando mascotes que não eram do personagem. No protocolo o mascote é uma criatura na tela e não uma peça de equipamento, então a gravação lista todos os que estavam à vista — inclusive os dos outros jogadores em volta — e nada no registro diz de quem é cada um. A importação pegava o primeiro da lista. Numa das gravações, feita num mapa com 23 jogadores por perto, o personagem não tinha mascote nenhum e mesmo assim a build entrou com um Ovo de Abelha-Rainha na lealdade mais alta, que é o padrão quando não vem intimidade junto. Em outra, a espécie veio do Angeling de um estranho enquanto a intimidade vinha do mascote do próprio jogador. Agora o mascote sai do bloco que o jogo grava para a Janela de Mascote, que é só de quem gravou; quando a espécie não está no arquivo — o que acontece se o bicho nunca apareceu na tela — o mascote fica de fora em vez de ser adivinhado. De 11 gravações conferidas, 2 vinham com o mascote errado. Encontrado nas gravações enviadas por Ted e por um usuário anônimo.',
+        'Cinco itens que apareciam equipados nas gravações da comunidade não existiam no banco e por isso sumiam da build importada: a Carta Polvo Gigante (HP máx. +12%), a Chama da Liberdade (Pistola, ATQ 100, nível de arma 3), o Projétil de Prata (Munição, ATQ 15, propriedade Sagrado) e os dois gráficos de traje Pegada: Pandas Coloridos e Gráfico: Ventania. Dos 315 itens equipados no conjunto de gravações conferido eram os únicos que faltavam — os outros 310 já estavam cadastrados e nenhum deles prometia efeito na descrição sem ter o efeito cadastrado. A Carta Polvo Gigante também concede [Esfera D\'água] nível 5, que é uma habilidade e não um atributo, então essa parte fica de fora da conta. Gravações enviadas por Naitok e por usuários anônimos.',
+        'O Schulang entrou na lista de alvos. É o Chefe de nível 224 que faltava na Villa of Deception, ao lado do Twisted God Freyja que já estava lá. Junto com ele veio uma correção que vale para o cadastro de monstros em geral: a fonte de dados do cliente não publica RES nem RESM, então todo monstro cadastrado por ela entrava com os dois zerados, ou seja, sem resistência alguma. Para o Schulang são 205 de RES e 368 de RESM. Sem eles o dano simulado contra ele ficava mais de três vezes acima do que o servidor realmente causou na gravação; com eles a diferença cai para um quarto disso. Gravação enviada por Ynk.',
+      ],
+    },
     {
       v: '0.1.53-beta',
       date: '13-08-2026',
@@ -704,6 +714,9 @@ export class AppTopBarComponent {
     },
   ];
   localVersion = localStorage.getItem('version') || '';
+  /** Reading width for the changelog; see dialog-geometry.ts. */
+  readonly updateDialogStyle = UPDATE_DIALOG_STYLE;
+
   lastestVersion = this.updates[0].v;
 
   unreadVersion = this.updates.findIndex((a) => a.v === this.localVersion);
