@@ -19,6 +19,18 @@ import { Weapon } from './weapon';
  * The ungraded rows follow the classic renewal table: +2/+3/+5/+7/+8 ATK per refine for
  * weapon levels 1..5. Levels 1-4 add an over-refine bonus past their safe limit and a "high
  * refine" bonus from +16; level 5 has neither, and grants P.ATQ/S.ATQM instead.
+ *
+ * That last row reads like a gap in the table, and it is not — it is the rule. bROWiki
+ * `/wiki/Refinamento` prints the same five rows with the "Bônus de Over" and "Bônus
+ * adicional" columns empty for Nv.5 and "P.ATQ/S.ATQM por refino" set to 2, and the grade
+ * rows match williamcms's table to the last digit. It is worth saying out loud because the
+ * safe limit for a level-5 weapon is only **+3**: such a weapon is normally many refines
+ * past safe and still collects no over-refine bonus at all.
+ *
+ * A replay agrees independently. `hn-physical-matrix.rrf`'s shield+weapon window is 13 hits
+ * with a +11 grade-A level-5 sword and no other source of variance; fitting its packets
+ * against their order-statistic positions puts the over-refine bonus at 1,2 +/- 4,4 ATK
+ * (95% upper bound 9,8). The level-4 row would be 98 at that refine.
  */
 
 const ATK_PER_REFINE: Record<number, number> = { 1: 2, 2: 3, 3: 5, 4: 7, 5: 8 };
