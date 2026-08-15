@@ -81,7 +81,8 @@ function sim(t: number, ultimate = false) {
     const sid = SKILL_ID_BY_NAME[p.name];
     return sid ? learned[sid] ?? 0 : 0;
   });
-  const activeIds = cls.activeSkills.map((p: any) => (p.name === 'Angel of Magic' && ultimate ? 1 : 0));
+  // The physical skills are gated on Anjo do Poder, not on the magic angel.
+  const activeIds = cls.activeSkills.map((p: any) => (p.name === 'Angel of Power' && ultimate ? 1 : 0));
   const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = cls
     .setLearnSkills({ activeSkillIds: activeIds, passiveSkillIds: passiveIds })
     .getSkillBonusAndName();
@@ -186,23 +187,19 @@ describe('Hyper Novice físico — Choque Violento, gravação por estado', () =
 });
 
 /**
- * OPEN, and the clearest finding in this recording: **the physical ultimate is not
- * modelled at all.**
+ * The physical ultimate, **Anjo do Poder (5461)**, which the class did not model at all
+ * until this recording turned up: it had a single `Angel of Magic` toggle, and the four
+ * physical skills passed no `ultimateMultiplier`, so they took the default of 1 and gained
+ * nothing however the toggle was set.
  *
- * The gear does not change between the two windows below — the last equip change is at
- * 53.565 and the first ultimate packet at 71.927 — so their ratio is the ultimate alone.
- * It comes out at exactly 1,5 on the maxima, which are the deterministic ends of each
- * roll.
+ * Two independent sources agree on the number, which is why it is wired rather than
+ * merely pinned:
  *
- * What the engine has instead is a single `Angel of Magic` toggle (skill 5462), and
- * `withUltimate` gates on that name. Choque Violento calls `withPassiveBonus` without an
- * `ultimateMultiplier`, so it takes the default of 1 and gains nothing even when the
- * toggle is on — which is why the simulated damage below is identical either way.
- *
- * The physical ultimate is a separate skill, **5461 Anjo do Poder (Angel of Power)**, and
- * it has no entry in the class. Worth knowing before wiring it: SKILL_META's description
- * for 5461 is a verbatim copy of 5462's magic text, title included, so the catalog cannot
- * be trusted for its per-skill percentages — this recording measures one of them.
+ *  - the **client description** (ragassets `skills.json`) lists "Choque Violento: +50%";
+ *  - this **recording** measures 1,5 exactly. The gear does not change between the two
+ *    windows — the last equip change is at 53.565, the first ultimate packet at 71.927 —
+ *    so their ratio is the ultimate alone, taken on the maxima, which are the
+ *    deterministic end of each roll.
  */
 describe('Hyper Novice físico — o supremo físico (Anjo do Poder)', () => {
   it('the recording puts the ultimate at exactly x1,5 on Choque Violento', () => {
@@ -215,13 +212,29 @@ describe('Hyper Novice físico — o supremo físico (Anjo do Poder)', () => {
     expect(ratio).toBeCloseTo(1.5, 4);
   });
 
-  it('the simulator does not move when the ultimate is switched on', () => {
+  it('the simulator now moves by the same 1,5 when the ultimate goes on', () => {
     const off = sim(FULL.at, false);
     const on = sim(FULL.at, true);
 
-    expect(on.max).toBe(off.max);
-    // And so it falls to ~60% of what the game did with the ultimate up.
+    expect(on.max / off.max).toBeCloseTo(1.5, 2);
+  });
+
+  /**
+   * The ultimate state keeps the same ~3% shortfall as every other state — it does not
+   * add one of its own, which is what says the multiplier itself is right and the
+   * remaining gap is the SP_ATK2 stage question pinned above.
+   */
+  it('leaves the ultimate state with the same shortfall as the rest', () => {
     const game = packets(FULL_ULTIMATE.from, FULL_ULTIMATE.to);
-    expect(on.max / game[game.length - 1]).toBeLessThan(0.65);
+    const s = sim(FULL.at, true);
+
+    expect(s.max / game[game.length - 1]).toBeGreaterThan(0.88);
+    expect(s.max / game[game.length - 1]).toBeLessThan(1);
+  });
+
+  it('is gated on its own angel, not on the magic one', () => {
+    const cls: any = new HyperNovice();
+    expect(cls.activeSkills.map((a: any) => a.name)).toContain('Angel of Power');
+    expect(cls.activeSkills.map((a: any) => a.name)).toContain('Angel of Magic');
   });
 });

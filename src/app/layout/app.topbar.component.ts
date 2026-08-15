@@ -157,6 +157,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.55-beta',
+      date: '14-08-2026',
+      logs: [
+        'O Hiperaprendiz tem dois supremos, um para cada tipo de dano, e só o mágico existia aqui. O Anjo do Poder não estava cadastrado: quem monta o Hiperaprendiz físico via o dano do simulador parar em dois terços do que o jogo faz com o supremo ligado. Agora os dois aparecem separados, cada um valendo só para as suas quatro habilidades, com as porcentagens que a descrição do cliente informa — Anjo do Poder: Golpe de Tyr +50%, Choque Violento +50%, Cortar em Espiral +100% e Lâminas Devastadoras +100%; Anjo da Magia como já estava. A descrição do Anjo do Poder também faltava no catálogo de habilidades e foi preenchida.',
+        'O número foi conferido contra o jogo antes de entrar. Numa gravação em que o equipamento não muda entre um trecho e o outro, o dano de Choque Violento sobe exatamente 1,5 vez quando o Anjo do Poder é ativado — o mesmo +50% que o cliente informa. A mesma gravação virou teste automático: ela começa sem nenhum equipamento, veste o escudo sozinho, depois a arma e depois o resto peça por peça, o que permite conferir cada etapa isoladamente. Sem arma o dano não tem variação, e os nove golpes desse trecho saem todos com o mesmo número, o que dá uma conta exata em vez de uma faixa. Obrigado Cafe Underground pela gravação.',
+      ],
+    },
+    {
       v: '0.1.54-beta',
       date: '14-08-2026',
       logs: [

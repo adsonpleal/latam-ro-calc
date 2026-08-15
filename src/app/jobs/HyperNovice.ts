@@ -170,6 +170,25 @@ const traitBonusTable: Record<number, [number, number, number, number, number, n
   70: [8, 4, 4, 8, 6, 3],
 };
 
+/**
+ * The class has **two** guardian-angel ultimates, one per damage type, and each boosts
+ * only its own four skills — so a skill's ultimate multiplier has to say which angel
+ * unlocks it. Both last 300 seconds and cost 150 AP.
+ *
+ *   Anjo da Magia (5462) — Ira da Terra +70%, Espectro Napalm +100%, Esquife Congelante
+ *                          +70%, Zona Gravitacional +50%, Chuva de Meteoritos +50%,
+ *                          Tempestade de Júpiter +70%
+ *   Anjo do Poder (5461) — Golpe de Tyr +50%, Choque Violento +50%,
+ *                          Cortar em Espiral +100%, Lâminas Devastadoras +100%
+ *
+ * Both lists are the client's own description text, from the ragassets `skills.json`
+ * feed. The physical angel was missing from this class entirely until
+ * `hn-physical-matrix.rrf` turned up: the "+50% on Choque Violento" the client states is
+ * exactly the ratio that recording measures between two windows whose gear is identical
+ * (see `HyperNovice.physical-replay.spec.ts`).
+ */
+type Angel = 'Angel of Magic' | 'Angel of Power';
+
 export class HyperNovice extends SuperNovice {
   protected override CLASS_NAME = ClassName.HyperNovice;
   protected override JobBonusTable = jobBonusTable;
@@ -210,6 +229,8 @@ export class HyperNovice extends SuperNovice {
         return this.withPassiveBonus(
           (100 + skillLevel * (200 + tacticsLv * 3) + status.totalPow * 2) * (model.level / 100),
           tacticsLv,
+          1.5,
+          'Angel of Power',
         );
       },
     },
@@ -233,6 +254,8 @@ export class HyperNovice extends SuperNovice {
         return this.withPassiveBonus(
           (800 + skillLevel * (150 + tacticsLv * 5) + status.totalPow * 4) * (model.level / 100),
           tacticsLv,
+          2,
+          'Angel of Power',
         );
       },
     },
@@ -254,6 +277,8 @@ export class HyperNovice extends SuperNovice {
         return this.withPassiveBonus(
           (400 + skillLevel * (300 + tacticsLv * 3) + status.totalPow * 3) * (model.level / 100),
           tacticsLv * 2,
+          1.5,
+          'Angel of Power',
         );
       },
     },
@@ -275,6 +300,8 @@ export class HyperNovice extends SuperNovice {
         return this.withPassiveBonus(
           ((500 + skillLevel * (250 + tacticsLv * 3)) * sizeModifier + status.totalPow * 3) * (model.level / 100),
           tacticsLv,
+          2,
+          'Angel of Power',
         );
       },
     },
@@ -531,6 +558,15 @@ export class HyperNovice extends SuperNovice {
         { label: 'Não', value: 0, isUse: false },
       ],
     },
+    {
+      name: 'Angel of Power',
+      label: 'Angel of Power',
+      inputType: 'selectButton',
+      dropdown: [
+        { label: 'Sim', value: 1, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
+      ],
+    },
   ];
   /**
    * Both passives read "P.ATK/S.MATK +N, skill damage +N% (+2N% on one of them)" in the
@@ -559,14 +595,23 @@ export class HyperNovice extends SuperNovice {
    * recording: the skill table is truncated first, then the passive's "+N% damage"
    * column is applied to that truncated value, and the ultimate multiplies last.
    */
-  private withPassiveBonus(rawRatio: number, passiveBonusPercent: number, ultimateMultiplier = 1) {
-    return this.withUltimate(Math.floor(Math.floor(rawRatio) * (1 + passiveBonusPercent / 100)), ultimateMultiplier);
+  private withPassiveBonus(
+    rawRatio: number,
+    passiveBonusPercent: number,
+    ultimateMultiplier = 1,
+    angel: Angel = 'Angel of Magic',
+  ) {
+    return this.withUltimate(
+      Math.floor(Math.floor(rawRatio) * (1 + passiveBonusPercent / 100)),
+      ultimateMultiplier,
+      angel,
+    );
   }
 
   /** The ultimate's share alone — used by the first hit of the ground skills, which the
    *  recording shows the passive's damage bonus does not reach. */
-  private withUltimate(rawRatio: number, ultimateMultiplier: number) {
-    if (!this.isSkillActive('Angel of Magic')) return Math.floor(rawRatio);
+  private withUltimate(rawRatio: number, ultimateMultiplier: number, angel: Angel = 'Angel of Magic') {
+    if (!this.isSkillActive(angel)) return Math.floor(rawRatio);
 
     return Math.floor(Math.floor(rawRatio) * ultimateMultiplier);
   }
