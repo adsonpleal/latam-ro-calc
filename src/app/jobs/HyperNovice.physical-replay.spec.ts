@@ -63,7 +63,7 @@ function stateAt(t: number) {
   return replayToModel(synthetic as any, items).model as any;
 }
 
-function sim(t: number, ultimate = false) {
+function sim(t: number, ultimate = false, withChances = false) {
   const m = stateAt(t);
   // Traits are not in the recording; these are the ones the sender reported on upload.
   Object.assign(m, { pow: 100, sta: 0, wis: 0, spl: 0, con: 59, crt: 0 });
@@ -101,12 +101,20 @@ function sim(t: number, ultimate = false) {
     selectedChances: [], usedHpL: false,
   } as any);
 
+  // Chance ("proc") bonuses are opt-in: the app prices them in with a second pass and
+  // reports the result in `effectedSkill*`, leaving skillMin/MaxDamage as the proc-off
+  // figure. This build has exactly one — see the Orbe Lupino block below.
+  if (withChances) {
+    (calc as any).setSelectedChances(calc.chanceList.map((c: any) => c.name)).recalcExtraBonus(value);
+  }
+
   const ds: any = (calc as any).damageSummary;
   const tot: any = calc.getTotalSummary();
   const dmg: any = (calc as any).dmgCalculator;
   return {
-    min: ds.skillMinDamage as number,
-    max: ds.skillMaxDamage as number,
+    min: (withChances ? ds.effectedSkillDamageMin : ds.skillMinDamage) as number,
+    max: (withChances ? ds.effectedSkillDamageMax : ds.skillMaxDamage) as number,
+    chanceNames: calc.chanceList.map((c: any) => c.name) as string[],
     atkStatus: tot.calc.totalStatusAtk as number,
     equipAtk: ((tot.weapon?.baseWeaponAtk ?? 0) + (tot.weapon?.refineBonus ?? 0) + tot.calc.totalEquipAtk) as number,
     pAtk: dmg.traitBonus.pAtk as number,
@@ -183,6 +191,57 @@ describe('Hyper Novice físico — Choque Violento, gravação por estado', () =
 });
 
 /**
+ * **The full-gear window is not one state.** It looked 5,9% short of the game for a long
+ * while, and the reason is not a formula: at t=50.227 the character puts on
+ *
+ *   310609 **Orbe Lupino - Eternidade** — "Ao realizar ataques físicos: 3% de chance de
+ *   ativar [Eternidade] por 10 segundos. Eternidade: VIT +50, dano físico +25%."
+ *
+ * a ten-second proc worn in this state and in no other. `skillMaxDamage` is the proc-**off**
+ * max, so comparing it against a recorded packet that happened to land while [Eternidade]
+ * was up is comparing two different things.
+ *
+ * What exposed it was the *shape* of the window rather than its top: regressing each
+ * window's sorted packets on their order-statistic positions recovers the true range, and
+ * the full-gear window is 56% wider than the calculator's — 4,9σ. A wider spread with an
+ * only-3,75% higher centre cannot come from any multiplier; it takes a second random
+ * source, and a proc is the only second random source there is.
+ *
+ * Left open, and now small: the top packet sits **0,70%** above the proc-on ceiling. The
+ * sign flips against the deterministic shield-only state (0,137% *over*), so it is a
+ * sub-1% composition residual that only shows up once the multipliers are large. Settling
+ * it needs another weaponless state with full gear, which this recording does not have.
+ */
+describe('Hyper Novice físico — o proc do Orbe Lupino', () => {
+  const WOLF_ORB = 'Wolf Orb (Unlimited Vital)';
+
+  it('is the one chance bonus, and only the full-gear state carries it', () => {
+    expect(sim(SHIELD_ONLY.at).chanceNames).toEqual([]);
+    expect(sim(SHIELD_AND_WEAPON.at).chanceNames).toEqual([]);
+    expect(sim(FULL.at).chanceNames).toEqual([WOLF_ORB]);
+  });
+
+  it('accounts for every full-gear packet once both states are on the table', () => {
+    const pk = packets(FULL.from, FULL.to);
+    const off = sim(FULL.at);
+    const on = sim(FULL.at, false, true);
+    expect(pk).toHaveLength(12);
+
+    // The proc is worth ~5,2% at the top: atkPercent 64 -> 89.
+    expect(Math.round(off.max)).toBe(4_673_950);
+    expect(Math.round(on.max)).toBe(4_915_198);
+
+    // Nothing falls below the floor, and the five lowest never needed the proc at all.
+    expect(pk[0]).toBeGreaterThanOrEqual(off.min);
+    expect(pk[4]).toBeLessThanOrEqual(off.max);
+    // Everything else fits under the proc-on ceiling — bar the documented 0,70% on the top
+    // packet, which is the whole of what is still unexplained.
+    expect(pk[10]).toBeLessThanOrEqual(on.max);
+    expect(pk[11] / on.max).toBeCloseTo(1.007, 3);
+  });
+});
+
+/**
  * The physical ultimate, **Anjo do Poder (5461)**, which the class did not model at all
  * until this recording turned up: it had a single `Angel of Magic` toggle, and the four
  * physical skills passed no `ultimateMultiplier`, so they took the default of 1 and gained
@@ -196,6 +255,12 @@ describe('Hyper Novice físico — Choque Violento, gravação por estado', () =
  *    windows — the last equip change is at 53.565, the first ultimate packet at 71.927 —
  *    so their ratio is the ultimate alone, taken on the maxima, which are the
  *    deterministic end of each roll.
+ *
+ * The maxima line up as cleanly as they do because **both** are Orbe Lupino proc-on hits
+ * (see the block above); the ultimate's two early packets land ~6 s after the last
+ * proc-on hit of the full-gear window, well inside [Eternidade]'s ten seconds. Its five
+ * late packets, from 78,6 s on, are proc-off — and they are the ones that pin the
+ * multiplier against a state the calculator models exactly.
  */
 describe('Hyper Novice físico — o supremo físico (Anjo do Poder)', () => {
   it('the recording puts the ultimate at exactly x1,5 on Choque Violento', () => {
@@ -216,16 +281,26 @@ describe('Hyper Novice físico — o supremo físico (Anjo do Poder)', () => {
   });
 
   /**
-   * The ultimate state keeps the same ~3% shortfall as every other state — it does not
-   * add one of its own, which is what says the multiplier itself is right and the
-   * remaining gap is the SP_ATK2 stage question pinned above.
+   * The independent check on the multiplier. Split the ultimate window the way the proc
+   * splits it and the late, proc-off packets sit just **under** the calculator's own
+   * proc-off ceiling — 6.971.895 against 7.010.760, a 0,56% undershoot, which is the
+   * sampling slack of five draws and nothing else. Only the two early packets need
+   * [Eternidade], and they stay under the proc-on ceiling bar the same 0,70% as the
+   * full-gear top packet.
    */
-  it('leaves the ultimate state with the same shortfall as the rest', () => {
+  it('has the proc-off ultimate packets land just under the proc-off ceiling', () => {
     const game = packets(FULL_ULTIMATE.from, FULL_ULTIMATE.to);
-    const s = sim(FULL.at, true);
+    const off = sim(FULL.at, true);
+    const on = sim(FULL.at, true, true);
 
-    expect(s.max / game[game.length - 1]).toBeGreaterThan(0.88);
-    expect(s.max / game[game.length - 1]).toBeLessThan(1);
+    // 71.927 and 72.763 are the two proc-on hits; the rest are 78,6 s or later.
+    const late = game.filter((d) => d < 7_000_000);
+    expect(late).toHaveLength(5);
+    expect(late[late.length - 1]).toBe(6_971_895);
+    expect(late[late.length - 1] / off.max).toBeGreaterThan(0.99);
+    expect(late[late.length - 1] / off.max).toBeLessThanOrEqual(1);
+
+    expect(game[game.length - 1] / on.max).toBeCloseTo(1.007, 3);
   });
 
   it('is gated on its own angel, not on the magic one', () => {
