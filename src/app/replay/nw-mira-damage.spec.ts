@@ -111,15 +111,23 @@ describe('Cesta de Mascotes — the combo changes with the pet family', () => {
     { nome: 'Flor do Luar', pet: 9112, chave: 'melee', delta: 10 },
     { nome: 'Pesar Noturno', pet: 9122, chave: 'm_my_element_all', delta: 10 },
     { nome: 'Senhor das Trevas', pet: 9148, chave: 'm_my_element_all', delta: 10 },
+    // Added to item.json along with the other missing eggs; its own lines are
+    // matkPercent and the Neutro/Sagrado boost, so the delta here is the combo's alone.
+    { nome: 'Vigia do Tempo', pet: 9171, chave: 'm_my_element_all', delta: 10 },
   ])('$nome: $chave +$delta', ({ pet, chave, delta }) => {
     const base = semMascote();
     const com = simular('The Vigilante at Night', ARMAS.metralhadora, { pet }).bonus;
     expect(com[chave] - base[chave]).toBe(delta);
   });
 
-  it('gives after-cast and variable cast -5% for the casting-family pet', () => {
+  it.each([
+    { nome: 'Patinho', pet: 9125 },
+    { nome: 'Pouring', pet: 9114 },
+    { nome: 'Quinding', pet: 9109 },
+    { nome: 'Esqueleão', pet: 9113 },
+  ])('gives after-cast and variable cast -5% for $nome, of the casting family', ({ pet }) => {
     const base = semMascote();
-    const com = simular('The Vigilante at Night', ARMAS.metralhadora, { pet: 9125 }).bonus; // Patinho
+    const com = simular('The Vigilante at Night', ARMAS.metralhadora, { pet }).bonus;
     expect(com['acd'] - base['acd']).toBe(5);
     expect(com['vct'] - base['vct']).toBe(5);
   });
@@ -133,16 +141,17 @@ describe('Cesta de Mascotes — the combo changes with the pet family', () => {
   });
 
   /**
-   * Four of the pets the description names have no item.json record and were therefore
-   * left out of the conditions: 9109 Quinding, 9113 Esqueleão, 9114 Pouring and 9171 Vigia
-   * do Tempo. Since they cannot be equipped in the calculator, their absence changes no
-   * result — but the day they are added, the combo has to grow.
+   * Four of the pets the description names had no item.json record and were left out of
+   * the conditions while they could not be equipped: 9109 Quinding, 9113 Esqueleão, 9114
+   * Pouring and 9171 Vigia do Tempo. They were added to the DB, so the combo grew with
+   * them — all fifteen pets the description lists are now named.
    */
-  it('names only pets that exist in item.json in its conditions', () => {
+  it('names every pet its description lists, and all of them exist in item.json', () => {
     const script = items[CESTA_DE_MASCOTES].script;
     const ids = JSON.stringify(script).match(/\d{4,}/g)!.map(Number);
     expect(ids.filter((id) => !items[String(id)])).toEqual([]);
-    expect([9109, 9113, 9114, 9171].filter((id) => items[String(id)])).toEqual([]);
+    expect([9109, 9113, 9114, 9171].filter((id) => !ids.includes(id))).toEqual([]);
+    expect(new Set(ids).size).toBe(15);
   });
 });
 

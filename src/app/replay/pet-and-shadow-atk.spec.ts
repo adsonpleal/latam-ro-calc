@@ -6,6 +6,7 @@ import { parseOptionScripts } from 'src/app/core/option-scripts';
 import { DEFAULT_PET_LOYALTY, PetLoyalty, petLoyaltyFromIntimacy } from 'src/app/constants';
 import { NightWatch } from 'src/app/jobs/NightWatch';
 import { SKILL_ID_BY_NAME } from 'src/app/skills';
+import { PET_EGG_BY_VIEW } from './pet-egg-map';
 import { loadReplayFixture } from './__tests__/load-fixture';
 import { decodeReplay } from 'rrfparser';
 import { importReplayBuffer } from './replay-to-model';
@@ -117,6 +118,25 @@ describe('replay import — pet', () => {
 });
 
 /**
+ * The importer resolves the pet through `PET_EGG_BY_VIEW` and then drops it if the egg
+ * is not in item.json, so an egg missing from the DB silently costs the build its pet.
+ * Everything that table points at and the LATAM client actually ships now has a record.
+ */
+describe('every LATAM pet egg the client table names is in item.json', () => {
+  const latam = JSON.parse(readFileSync('src/assets/demo/data/latam-items.json', 'utf8'));
+  const isLatamPetEgg = (egg: number) =>
+    /Tipo:\s*Ovo de Mascote/.test((latam[egg]?.description ?? '').replace(/\^[0-9a-fA-F]{6}/g, ''));
+
+  it('leaves no mapped view pointing at an egg the DB does not have', () => {
+    const mapped = Object.values(PET_EGG_BY_VIEW);
+    const withoutRecord = mapped.filter((egg) => isLatamPetEgg(egg) && !items[egg]);
+    expect(withoutRecord).toEqual([]);
+    // Guards against the check passing because the table went empty.
+    expect(mapped.filter(isLatamPetEgg).length).toBeGreaterThan(100);
+  });
+});
+
+/**
  * The raw scale (0 to 1000) and the server thresholds. The labels are the client's:
  * MSI_VERY_AWKWARD "Baixíssima", MSI_AWKWARD "Baixa", MSI_NORMAL "Nenhuma",
  * MSI_FRIENDLY "Normal", MSI_VERY_FRIENDLY "Alta" — the first two collapse into the
@@ -220,6 +240,16 @@ describe('pet egg loyalty tiers across item.json', () => {
     { egg: 9148, name: 'Ovo de Senhor das Trevas', key: 'm_my_element_dark', tiers: [3, 5, 7, 7] },
     { egg: 9128, name: 'Ovo de Sacerdote Maldito', key: 'm_element_holy', tiers: [0, 0, 2, 3] },
     { egg: 9111, name: 'Ovo de Freeoni', key: 'hit', tiers: [6, 10, 14, 18] },
+
+    // Eggs the LATAM client has and item.json did not, added with the tiers already
+    // encoded. Same shapes as above: four tiers, a bonus that starts partway up, two
+    // equal top tiers, one Alta-only line, and one whose value drops on a lower tier.
+    { egg: 9071, name: 'Ovo de Grand Peco', key: 'hp', tiers: [150, 200, 300, 400] },
+    { egg: 9098, name: 'Ovo de Deletério', key: 'agi', tiers: [0, 1, 2, 3] },
+    { egg: 9108, name: 'Ovo de Ursinho Abominável', key: 'sp', tiers: [50, 100, 150, 150] },
+    { egg: 9113, name: 'Ovo de Esqueleão', key: 'atk', tiers: [0, 0, 0, 20] },
+    { egg: 9133, name: 'Ovo de Cavaleiro Mutante', key: 'atkPercent', tiers: [0, 0, 1, 2] },
+    { egg: 9169, name: 'Ovo de Gerente', key: 'flee', tiers: [0, 3, 6, 10] },
   ])('$egg $name — $key', ({ egg, key, tiers }) => {
     it.each([
       [PetLoyalty.Baixa, tiers[0]], [PetLoyalty.Nenhuma, tiers[1]],
@@ -229,11 +259,13 @@ describe('pet egg loyalty tiers across item.json', () => {
     });
 
     it('replaces tiers rather than stacking them', () => {
-      // Stacking would show the four lines added together on the top tier.
+      // Stacking would show the tiers added together on the top one.
       const allTiersSummed = tiers.reduce((a, b) => a + b, 0);
       const alta = petBonus(egg, PetLoyalty.Alta, key);
       expect(alta).toBe(tiers[3]);
-      expect(alta).toBeLessThan(allTiersSummed);
+      // Only tells the two apart when more than one tier grants the bonus — an
+      // Alta-only line has nothing below it to be added to.
+      if (tiers.filter((v) => v !== 0).length > 1) expect(alta).toBeLessThan(allTiersSummed);
     });
   });
 });

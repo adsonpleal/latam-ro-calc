@@ -230066,13 +230066,13 @@
         "EQUIP_ID[9126||9111||9112]10"
       ],
       "m_my_element_all": [
-        "EQUIP_ID[9115||9122||9148]10"
+        "EQUIP_ID[9115||9122||9148||9171]10"
       ],
       "acd": [
-        "EQUIP_ID[9125||9068]5"
+        "EQUIP_ID[9125||9114||9109||9113||9068]5"
       ],
       "vct": [
-        "EQUIP_ID[9125||9068]5"
+        "EQUIP_ID[9125||9114||9109||9113||9068]5"
       ]
     }
   },
@@ -312519,5 +312519,2046 @@
       "all"
     ],
     "script": {}
+  },
+  "9001": {
+    "id": 9001,
+    "aegisName": "수속성알",
+    "name": "Ovo de Poring",
+    "unidName": "Ovo de Poring",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===3"
+      ],
+      "cri": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===1"
+      ]
+    }
+  },
+  "9002": {
+    "id": 9002,
+    "aegisName": "화속성알",
+    "name": "Ovo de Drops",
+    "unidName": "Ovo de Drops",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===5"
+      ],
+      "hit": [
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===5"
+      ]
+    }
+  },
+  "9003": {
+    "id": 9003,
+    "aegisName": "독속성알",
+    "name": "Ovo de Poporing",
+    "unidName": "Ovo de Poporing",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "LOYALTY[3]===2"
+      ]
+    }
+  },
+  "9004": {
+    "id": 9004,
+    "aegisName": "무속성알",
+    "name": "Ovo de Lunático",
+    "unidName": "Ovo de Lunático",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "LOYALTY[3]===2"
+      ],
+      "atk": [
+        "LOYALTY[3]===2"
+      ]
+    }
+  },
+  "9005": {
+    "id": 9005,
+    "aegisName": "화속성알",
+    "name": "Ovo de Picky",
+    "unidName": "Ovo de Picky",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "LOYALTY[3]===1"
+      ],
+      "atk": [
+        "LOYALTY[3]===5"
+      ]
+    }
+  },
+  "9006": {
+    "id": 9006,
+    "aegisName": "풍속성알",
+    "name": "Ovo de Chonchon",
+    "unidName": "Ovo de Chonchon",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "LOYALTY[3]===1"
+      ],
+      "flee": [
+        "LOYALTY[3]===2"
+      ]
+    }
+  },
+  "9007": {
+    "id": 9007,
+    "aegisName": "풍속성알",
+    "name": "Ovo de Chonchon de Aço",
+    "unidName": "Ovo de Chonchon de Aço",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "LOYALTY[3]===-1"
+      ],
+      "flee": [
+        "LOYALTY[3]===6"
+      ]
+    }
+  },
+  "9009": {
+    "id": 9009,
+    "aegisName": "지속성알",
+    "name": "Ovo de Bebê Selvagem",
+    "unidName": "Ovo de Bebê Selvagem",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===2"
+      ],
+      "hp": [
+        "LOYALTY[3]===50",
+        "LOYALTY[4]===75"
+      ]
+    }
+  },
+  "9010": {
+    "id": 9010,
+    "aegisName": "지속성알",
+    "name": "Ovo de Filhote de Lobo",
+    "unidName": "Ovo de Filhote de Lobo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "LOYALTY[3]===1"
+      ],
+      "sp": [
+        "LOYALTY[3]===20"
+      ]
+    }
+  },
+  "9011": {
+    "id": 9011,
+    "aegisName": "지속성알",
+    "name": "Ovo de Rocker",
+    "unidName": "Ovo de Rocker",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "LOYALTY[3]===25"
+      ]
+    }
+  },
+  "9012": {
+    "id": 9012,
+    "aegisName": "수속성알",
+    "name": "Ovo de Esporo",
+    "unidName": "Ovo de Esporo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "LOYALTY[3]===-2"
+      ],
+      "hit": [
+        "LOYALTY[3]===5"
+      ]
+    }
+  },
+  "9013": {
+    "id": 9013,
+    "aegisName": "독속성알",
+    "name": "Ovo de Esporo Venenoso",
+    "unidName": "Ovo de Esporo Venenoso",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "LOYALTY[3]===1"
+      ],
+      "int": [
+        "LOYALTY[3]===1"
+      ]
+    }
+  },
+  "9014": {
+    "id": 9014,
+    "aegisName": "화속성알",
+    "name": "Ovo de PecoPeco",
+    "unidName": "Ovo de PecoPeco",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "LOYALTY[3]===150",
+        "LOYALTY[4]===200"
+      ]
+    }
+  },
+  "9015": {
+    "id": 9015,
+    "aegisName": "지속성알",
+    "name": "Ovo de Fumacento",
+    "unidName": "Ovo de Fumacento",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "LOYALTY[3]===1"
+      ],
+      "perfectDodge": [
+        "LOYALTY[3]===1"
+      ]
+    }
+  },
+  "9017": {
+    "id": 9017,
+    "aegisName": "지속성알",
+    "name": "Ovo de Guerreiro Orc",
+    "unidName": "Ovo de Guerreiro Orc",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "LOYALTY[3]===10",
+        "LOYALTY[4]===15"
+      ]
+    }
+  },
+  "9018": {
+    "id": 9018,
+    "aegisName": "언데드알",
+    "name": "Ovo de Munak",
+    "unidName": "Ovo de Munak",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "LOYALTY[3]===1"
+      ],
+      "def": [
+        "LOYALTY[3]===1"
+      ]
+    }
+  },
+  "9019": {
+    "id": 9019,
+    "aegisName": "암속성알",
+    "name": "Ovo de Dokebi",
+    "unidName": "Ovo de Dokebi",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===2"
+      ]
+    }
+  },
+  "9020": {
+    "id": 9020,
+    "aegisName": "수속성알",
+    "name": "Ovo de Sohee",
+    "unidName": "Ovo de Sohee",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "LOYALTY[3]===1"
+      ],
+      "dex": [
+        "LOYALTY[3]===1"
+      ]
+    }
+  },
+  "9021": {
+    "id": 9021,
+    "aegisName": "암속성알",
+    "name": "Ovo de Ísis",
+    "unidName": "Ovo de Ísis",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_class_all": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===2"
+      ]
+    }
+  },
+  "9022": {
+    "id": 9022,
+    "aegisName": "지속성알",
+    "name": "Ovo de Petite",
+    "unidName": "Ovo de Petite",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspdPercent": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===1"
+      ],
+      "agi": [
+        "LOYALTY[4]===1"
+      ]
+    }
+  },
+  "9023": {
+    "id": 9023,
+    "aegisName": "암속성알",
+    "name": "Ovo de Deviruchi",
+    "unidName": "Ovo de Deviruchi",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===1"
+      ],
+      "p_class_all": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===1"
+      ],
+      "hpPercent": [
+        "LOYALTY[4]===1"
+      ],
+      "spPercent": [
+        "LOYALTY[4]===1"
+      ]
+    }
+  },
+  "9024": {
+    "id": 9024,
+    "aegisName": "암속성알",
+    "name": "Ovo de Bafomé Jr.",
+    "unidName": "Ovo de Bafomé Jr.",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "def": [
+        "LOYALTY[3]===1"
+      ],
+      "mdef": [
+        "LOYALTY[3]===1"
+      ]
+    }
+  },
+  "9025": {
+    "id": 9025,
+    "aegisName": "암속성알",
+    "name": "Ovo de Bongun",
+    "unidName": "Ovo de Bongun",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===2"
+      ]
+    }
+  },
+  "9026": {
+    "id": 9026,
+    "aegisName": "무속성알",
+    "name": "Ovo de Jirtas",
+    "unidName": "Ovo de Jirtas",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_demihuman": [
+        "LOYALTY[3]===2"
+      ],
+      "m_race_demihuman": [
+        "LOYALTY[3]===2"
+      ]
+    }
+  },
+  "9027": {
+    "id": 9027,
+    "aegisName": "무속성알",
+    "name": "Ovo de Alice",
+    "unidName": "Ovo de Alice",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "LOYALTY[3]===1"
+      ],
+      "subrace_player_human": [
+        "LOYALTY[3]===1"
+      ],
+      "subrace_demihuman": [
+        "LOYALTY[3]===1"
+      ]
+    }
+  },
+  "9030": {
+    "id": 9030,
+    "aegisName": "무속성알",
+    "name": "Ovo de Chung E",
+    "unidName": "Ovo de Chung E",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "def": [
+        "LOYALTY[3]===1"
+      ],
+      "subrace_player_human": [
+        "LOYALTY[3]===1"
+      ],
+      "subrace_demihuman": [
+        "LOYALTY[3]===1"
+      ]
+    }
+  },
+  "9037": {
+    "id": 9037,
+    "aegisName": "풍속성알",
+    "name": "Ovo de Andarilho",
+    "unidName": "Ovo de Andarilho",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "LOYALTY[3]===3"
+      ],
+      "dex": [
+        "LOYALTY[3]===-1"
+      ]
+    }
+  },
+  "9040": {
+    "id": 9040,
+    "aegisName": "풍속성알",
+    "name": "Ovo de Mao Guai",
+    "unidName": "Ovo de Mao Guai",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "LOYALTY[3]===10"
+      ]
+    }
+  },
+  "9041": {
+    "id": 9041,
+    "aegisName": "지속성알",
+    "name": "Ovo de Gato de Folha",
+    "unidName": "Ovo de Gato de Folha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "subrace_brute": [
+        "LOYALTY[3]===3"
+      ]
+    }
+  },
+  "9042": {
+    "id": 9042,
+    "aegisName": "암속성알",
+    "name": "Ovo de Loli Ruri",
+    "unidName": "Ovo de Loli Ruri",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "LOYALTY[3]===3"
+      ]
+    }
+  },
+  "9043": {
+    "id": 9043,
+    "aegisName": "염속성알",
+    "name": "Ovo de Marionete",
+    "unidName": "Ovo de Marionete",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "9044": {
+    "id": 9044,
+    "aegisName": "Shinobi_Egg",
+    "name": "Ovo de Shinobi",
+    "unidName": "Ovo de Shinobi",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===3"
+      ]
+    }
+  },
+  "9045": {
+    "id": 9045,
+    "aegisName": "염속성알",
+    "name": "Ovo de Sussurro",
+    "unidName": "Ovo de Sussurro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "LOYALTY[3]===7"
+      ],
+      "def": [
+        "LOYALTY[3]===-3"
+      ]
+    }
+  },
+  "9046": {
+    "id": 9046,
+    "aegisName": "풍속성알",
+    "name": "Ovo de Líder Goblin",
+    "unidName": "Ovo de Líder Goblin",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_player_human": [
+        "LOYALTY[3]===3"
+      ],
+      "p_race_demihuman": [
+        "LOYALTY[3]===3"
+      ]
+    }
+  },
+  "9047": {
+    "id": 9047,
+    "aegisName": "암속성알",
+    "name": "Ovo de Ninfa Perversa",
+    "unidName": "Ovo de Ninfa Perversa",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "LOYALTY[3]===30"
+      ]
+    }
+  },
+  "9048": {
+    "id": 9048,
+    "aegisName": "암속성알",
+    "name": "Ovo de Miyabi Ningyo",
+    "unidName": "Ovo de Miyabi Ningyo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "LOYALTY[3]===1"
+      ],
+      "vct": [
+        "LOYALTY[3]===3"
+      ]
+    }
+  },
+  "9049": {
+    "id": 9049,
+    "aegisName": "언데드알",
+    "name": "Ovo de Dullahan",
+    "unidName": "Ovo de Dullahan",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "criDmg": [
+        "LOYALTY[3]===5"
+      ]
+    }
+  },
+  "9050": {
+    "id": 9050,
+    "aegisName": "무속성알",
+    "name": "Ovo de Medusa",
+    "unidName": "Ovo de Medusa",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "LOYALTY[3]===1"
+      ]
+    }
+  },
+  "9051": {
+    "id": 9051,
+    "aegisName": "201204_Stone_Shooter_Egg",
+    "name": "Ovo do Atirador de Pedras",
+    "unidName": "Ovo do Atirador de Pedras",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "subele_fire": [
+        "LOYALTY[3]===3"
+      ]
+    }
+  },
+  "9052": {
+    "id": 9052,
+    "aegisName": "암속성알",
+    "name": "Ovo de Incubus",
+    "unidName": "Ovo de Incubus",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "spPercent": [
+        "LOYALTY[3]===5"
+      ]
+    }
+  },
+  "9053": {
+    "id": 9053,
+    "aegisName": "Golem_Egg",
+    "name": "Ovo de Golem",
+    "unidName": "Ovo de Golem",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "LOYALTY[3]===100",
+        "LOYALTY[4]===150"
+      ]
+    }
+  },
+  "9054": {
+    "id": 9054,
+    "aegisName": "Nightmare_Terror_Egg",
+    "name": "Ovo de Pesadelo Sombrio",
+    "unidName": "Ovo de Pesadelo Sombrio",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "LOYALTY[4]===1"
+      ]
+    }
+  },
+  "9055": {
+    "id": 9055,
+    "aegisName": "Succubus_Egg",
+    "name": "Ovo de Succubus",
+    "unidName": "Ovo de Succubus",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "9056": {
+    "id": 9056,
+    "aegisName": "무속성알",
+    "name": "Ovo de Imp",
+    "unidName": "Ovo de Imp",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "subele_fire": [
+        "LOYALTY[3]===2"
+      ],
+      "p_element_fire": [
+        "LOYALTY[3]===1"
+      ]
+    }
+  },
+  "9059": {
+    "id": 9059,
+    "aegisName": "암속성알",
+    "name": "Ovo de Tikbalang",
+    "unidName": "Ovo de Tikbalang",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "LOYALTY[3]===3"
+      ]
+    }
+  },
+  "9062": {
+    "id": 9062,
+    "aegisName": "Novice_Poring_Egg",
+    "name": "Ovo de Bebê Poring",
+    "unidName": "Ovo de Bebê Poring",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "9069": {
+    "id": 9069,
+    "aegisName": "Mastering_Egg",
+    "name": "Ovo de Mastering",
+    "unidName": "Ovo de Mastering",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "LOYALTY[1]===2",
+        "LOYALTY[2]===3",
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===3"
+      ],
+      "cri": [
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===3"
+      ]
+    }
+  },
+  "9070": {
+    "id": 9070,
+    "aegisName": "지속성알",
+    "name": "Ovo de Selvagem",
+    "unidName": "Ovo de Selvagem",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===2",
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===2"
+      ],
+      "hp": [
+        "LOYALTY[1]===50",
+        "LOYALTY[2]===50",
+        "LOYALTY[3]===100",
+        "LOYALTY[4]===200"
+      ]
+    }
+  },
+  "9071": {
+    "id": 9071,
+    "aegisName": "화속성알",
+    "name": "Ovo de Grand Peco",
+    "unidName": "Ovo de Grand Peco",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "LOYALTY[1]===150",
+        "LOYALTY[2]===200",
+        "LOYALTY[3]===300",
+        "LOYALTY[4]===400"
+      ]
+    }
+  },
+  "9090": {
+    "id": 9090,
+    "aegisName": "암속성알",
+    "name": "Ovo de Bebê Ísis",
+    "unidName": "Ovo de Bebê Ísis",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_class_all": [
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===2",
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===4"
+      ]
+    }
+  },
+  "9096": {
+    "id": 9096,
+    "aegisName": "Cat_O_Nine_Tail_Egg",
+    "name": "Ovo de Gato de Nove Caudas",
+    "unidName": "Ovo de Gato de Nove Caudas",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "LOYALTY[1]===2",
+        "LOYALTY[2]===3",
+        "LOYALTY[3]===4",
+        "LOYALTY[4]===5"
+      ],
+      "hit": [
+        "LOYALTY[1]===2",
+        "LOYALTY[2]===3",
+        "LOYALTY[3]===4",
+        "LOYALTY[4]===5"
+      ]
+    }
+  },
+  "9098": {
+    "id": 9098,
+    "aegisName": "화속성알",
+    "name": "Ovo de Deletério",
+    "unidName": "Ovo de Deletério",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspdPercent": [
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===3"
+      ],
+      "agi": [
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===3"
+      ]
+    }
+  },
+  "9099": {
+    "id": 9099,
+    "aegisName": "Teddy_Bear_Egg",
+    "name": "Ovo de Ursinho",
+    "unidName": "Ovo de Ursinho",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "LOYALTY[3]===50",
+        "LOYALTY[4]===100"
+      ]
+    }
+  },
+  "9100": {
+    "id": 9100,
+    "aegisName": "Gremlin_Egg",
+    "name": "Ovo de Gremlin",
+    "unidName": "Ovo de Gremlin",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===2"
+      ],
+      "hit": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===2"
+      ]
+    }
+  },
+  "9101": {
+    "id": 9101,
+    "aegisName": "스캣레톤이동장",
+    "name": "Gaiola do Zumbichano",
+    "unidName": "Gaiola do Zumbichano",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "LOYALTY[4]===10"
+      ],
+      "matk": [
+        "LOYALTY[4]===10"
+      ]
+    }
+  },
+  "9102": {
+    "id": 9102,
+    "aegisName": "Mummy_Egg",
+    "name": "Ovo de Múmia",
+    "unidName": "Ovo de Múmia",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hit": [
+        "LOYALTY[3]===4",
+        "LOYALTY[4]===5"
+      ]
+    }
+  },
+  "9103": {
+    "id": 9103,
+    "aegisName": "Wilow_Egg",
+    "name": "Ovo de Salgueiro",
+    "unidName": "Ovo de Salgueiro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===3"
+      ]
+    }
+  },
+  "9104": {
+    "id": 9104,
+    "aegisName": "Roween_Egg",
+    "name": "Ovo de Roween",
+    "unidName": "Ovo de Roween",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_my_element_wind": [
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===3"
+      ]
+    }
+  },
+  "9106": {
+    "id": 9106,
+    "aegisName": "Metaller_Egg",
+    "name": "Ovo de Metaller",
+    "unidName": "Ovo de Metaller",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "LOYALTY[1]===25",
+        "LOYALTY[2]===38",
+        "LOYALTY[3]===55",
+        "LOYALTY[4]===70"
+      ],
+      "p_race_plant": [
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===6"
+      ],
+      "m_race_plant": [
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===6"
+      ]
+    }
+  },
+  "9108": {
+    "id": 9108,
+    "aegisName": "Xm_Teddybear_Egg",
+    "name": "Ovo de Ursinho Abominável",
+    "unidName": "Ovo de Ursinho Abominável",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "LOYALTY[1]===50",
+        "LOYALTY[2]===100",
+        "LOYALTY[3]===150",
+        "LOYALTY[4]===150"
+      ]
+    }
+  },
+  "9109": {
+    "id": 9109,
+    "aegisName": "Sweets_Drops_Egg",
+    "name": "Ovo de Quinding",
+    "unidName": "Ovo de Quinding",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "9113": {
+    "id": 9113,
+    "aegisName": "Roost_Of_Skelion",
+    "name": "Ovo de Esqueleão",
+    "unidName": "Ovo de Esqueleão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "LOYALTY[4]===20"
+      ],
+      "matk": [
+        "LOYALTY[4]===20"
+      ]
+    }
+  },
+  "9114": {
+    "id": 9114,
+    "aegisName": "푸른해양스크롤",
+    "name": "Ovo de Pouring",
+    "unidName": "Ovo de Pouring",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "LOYALTY[2]===80",
+        "LOYALTY[3]===160",
+        "LOYALTY[4]===240"
+      ],
+      "sp": [
+        "LOYALTY[2]===20",
+        "LOYALTY[3]===30",
+        "LOYALTY[4]===40"
+      ]
+    }
+  },
+  "9123": {
+    "id": 9123,
+    "aegisName": "Ep_17_2_C_Admin1_Egg",
+    "name": "Ovo de Mini Beta",
+    "unidName": "Ovo de Mini Beta",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "9124": {
+    "id": 9124,
+    "aegisName": "Ep_17_2_C_Admin2_Egg",
+    "name": "Ovo de Mini Alpha",
+    "unidName": "Ovo de Mini Alpha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "9130": {
+    "id": 9130,
+    "aegisName": "Chaos_Bapho_Jr_Egg",
+    "name": "Ovo de Bafinho Caótico",
+    "unidName": "Ovo de Bafinho Caótico",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "LOYALTY[1]===6",
+        "LOYALTY[2]===9",
+        "LOYALTY[3]===12",
+        "LOYALTY[4]===15"
+      ],
+      "spPercent": [
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===3"
+      ]
+    }
+  },
+  "9133": {
+    "id": 9133,
+    "aegisName": "암속성알",
+    "name": "Ovo de Cavaleiro Mutante",
+    "unidName": "Ovo de Cavaleiro Mutante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atkPercent": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===2"
+      ],
+      "matkPercent": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===2"
+      ]
+    }
+  },
+  "9156": {
+    "id": 9156,
+    "aegisName": "Sonic_Chao_Egg",
+    "name": "Ovo de Chao",
+    "unidName": "Ovo de Chao",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "LOYALTY[3]===200",
+        "LOYALTY[4]===300"
+      ],
+      "sp": [
+        "LOYALTY[3]===20",
+        "LOYALTY[4]===30"
+      ]
+    }
+  },
+  "9169": {
+    "id": 9169,
+    "aegisName": "무속성알",
+    "name": "Ovo de Gerente",
+    "unidName": "Ovo de Gerente",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspdPercent": [
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===2",
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===3"
+      ],
+      "flee": [
+        "LOYALTY[2]===3",
+        "LOYALTY[3]===6",
+        "LOYALTY[4]===10"
+      ]
+    }
+  },
+  "9171": {
+    "id": 9171,
+    "aegisName": "Timeholder_Egg",
+    "name": "Ovo de Vigia do Tempo",
+    "unidName": "Ovo de Vigia do Tempo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "LOYALTY[1]===3",
+        "LOYALTY[2]===4",
+        "LOYALTY[3]===5",
+        "LOYALTY[4]===6"
+      ],
+      "m_my_element_neutral": [
+        "LOYALTY[3]===5",
+        "LOYALTY[4]===5"
+      ],
+      "m_my_element_holy": [
+        "LOYALTY[3]===5",
+        "LOYALTY[4]===5"
+      ]
+    }
+  },
+  "9187": {
+    "id": 9187,
+    "aegisName": "성속성알",
+    "name": "Ovo de Skeggiold",
+    "unidName": "Ovo de Skeggiold",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 518,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vct": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===2"
+      ],
+      "m_my_element_holy": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===2"
+      ]
+    }
   }
 }
