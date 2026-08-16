@@ -65,7 +65,9 @@ function stateAt(t: number) {
 
 function sim(t: number, ultimate = false, withChances = false) {
   const m = stateAt(t);
-  // Traits are not in the recording; these are the ones the sender reported on upload.
+  // These are the traits the sender reported on upload — and the ones the recording
+  // itself carries, since this session changed map: `replay.traits` reads back exactly
+  // this, which is what replay-traits.spec.ts holds the parser to.
   Object.assign(m, { pow: 100, sta: 0, wis: 0, spl: 0, con: 59, crt: 0 });
 
   const cls: any = new HyperNovice();

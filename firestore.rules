@@ -18,7 +18,7 @@ service cloud.firestore {
     function isWellFormedSubmission(d) {
       return d.keys().hasOnly([
                'bytes', 'fileName', 'uploadedAt', 'status', 'appVersion',
-               'latamConfirmed', 'summary', 'traits', 'nick', 'discord', 'notes'
+               'latamConfirmed', 'summary', 'traits', 'traitsSource', 'nick', 'discord', 'notes'
              ])
              && d.keys().hasAll([
                'bytes', 'fileName', 'uploadedAt', 'status', 'appVersion',
@@ -37,6 +37,10 @@ service cloud.firestore {
              && d.uploadedAt > request.time - duration.value(10, 'm')
              && d.uploadedAt < request.time + duration.value(10, 'm')
              && (!d.keys().hasAny(['traits']) || areTraits(d.traits))
+             // Where the traits came from — off the recording, or typed into the
+             // form. Only meaningful alongside them, so it travels with them.
+             && (!d.keys().hasAny(['traitsSource'])
+                 || (d.keys().hasAll(['traits']) && d.traitsSource in ['replay', 'form']))
              && (!d.keys().hasAny(['nick']) || (d.nick is string && d.nick.size() <= 40))
              && (!d.keys().hasAny(['discord']) || (d.discord is string && d.discord.size() <= 60))
              && (!d.keys().hasAny(['notes']) || (d.notes is string && d.notes.size() <= 1000));

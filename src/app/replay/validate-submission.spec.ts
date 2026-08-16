@@ -121,6 +121,48 @@ describe('checkReplay', () => {
 
     expect(result.ok).toBe(true);
     expect(result.needsTraits).toBe(false);
+    expect(result.traits).toBeNull();
+  });
+});
+
+/**
+ * The form only ever asks for what the file could not say. A recording that changed
+ * map carries the six traits, and asking for them again is how a right number gets
+ * retyped as a wrong one.
+ */
+describe('checkReplay — traits', () => {
+  const allSix = { pow: 100, sta: 0, wis: 0, spl: 0, con: 59, crt: 0 };
+
+  it('takes the traits off the recording and stops asking for them', () => {
+    const result = checkReplay(makeReplay({ traits: allSix } as any), items);
+
+    expect(result.ok).toBe(true);
+    expect(result.traits).toEqual(allSix);
+    expect(result.needsTraits).toBe(false);
+  });
+
+  it('still asks when the recording carried only some of them', () => {
+    const result = checkReplay(makeReplay({ traits: { spl: 100 } } as any), items);
+
+    expect(result.traits).toBeNull();
+    expect(result.needsTraits).toBe(true);
+  });
+
+  it('still asks when the recording carried none', () => {
+    const result = checkReplay(makeReplay(), items);
+
+    expect(result.traits).toBeNull();
+    expect(result.needsTraits).toBe(true);
+  });
+
+  /** The server sends a 3rd-job character six zeros. Recording them would read in
+   *  triage as an allocation instead of "this class has no traits". */
+  it('reports nothing for a class without traits, whatever the stream said', () => {
+    const replay = makeReplay({ sessionInfo: { ...makeReplay().sessionInfo, job: 4190 } as any, traits: allSix } as any);
+    const result = checkReplay(replay, items);
+
+    expect(result.needsTraits).toBe(false);
+    expect(result.traits).toBeNull();
   });
 });
 

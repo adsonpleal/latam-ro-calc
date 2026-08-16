@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { MAX_REPLAY_BYTES, ReplaySubmissionSummary, ReplayTraits } from 'src/app/replay/validate-submission';
+import { ReplayTraits, ReplayTraitsSource } from 'src/app/replay/replay-traits';
+import { MAX_REPLAY_BYTES, ReplaySubmissionSummary } from 'src/app/replay/validate-submission';
 import { environment } from 'src/environments/environment';
 
 /**
@@ -17,6 +18,14 @@ export interface ReplaySubmission {
   summary: ReplaySubmissionSummary;
   /** Null for classes without traits (pre-4th job). */
   traits: ReplayTraits | null;
+  /**
+   * Where `traits` came from — `'replay'` when the recording carried them,
+   * `'form'` when the sender typed them in. Triage needs the difference: numbers
+   * off the wire are the server's own, numbers off the form are somebody reading
+   * their status window, which is where a wrong trait comes from. Null whenever
+   * `traits` is.
+   */
+  traitsSource: ReplayTraitsSource | null;
   nick: string;
   discord: string;
   notes: string;
@@ -54,7 +63,10 @@ export class ReplaySubmissionService {
     };
     // Optional fields are omitted rather than sent empty — the rules accept
     // either, and an absent key reads better than an empty string in triage.
-    if (submission.traits) fields['traits'] = submission.traits;
+    if (submission.traits) {
+      fields['traits'] = submission.traits;
+      fields['traitsSource'] = submission.traitsSource ?? 'form';
+    }
     if (submission.nick.trim()) fields['nick'] = submission.nick.trim().slice(0, 40);
     if (submission.discord.trim()) fields['discord'] = submission.discord.trim().slice(0, 60);
     if (submission.notes.trim()) fields['notes'] = submission.notes.trim().slice(0, 1000);

@@ -244,3 +244,32 @@ describe('replayToModel — pet', () => {
     expect(model.petLoyalty).toBe(PetLoyalty.Nenhuma);
   });
 });
+
+/**
+ * The traits reach the model only when the recording carried all six. They ride on
+ * ZC_COUPLESTATUS, which the server sends on every map load, so a session that
+ * changed map has them and one that stayed put does not — see replay-traits.ts.
+ */
+describe('replayToModel — traits', () => {
+  const traited = (traits: any) => makeReplay([], { traits });
+
+  it('writes the six traits the recording carried', () => {
+    const allSix = { pow: 100, sta: 0, wis: 0, spl: 0, con: 59, crt: 0 };
+    const { model, summary } = replayToModel(traited(allSix), itemMap);
+
+    expect(model).toMatchObject(allSix);
+    expect(summary.traits).toEqual(allSix);
+  });
+
+  it('leaves the model defaults alone on a partial set, and reports nothing', () => {
+    const { model, summary } = replayToModel(traited({ spl: 100 }), itemMap);
+
+    // Not 100: a partial set is refused whole, so the untouched default stands.
+    expect(model.spl).toBe(0);
+    expect(summary.traits).toBeNull();
+  });
+
+  it('reports no traits for a recording that carried none', () => {
+    expect(replayToModel(makeReplay([]), itemMap).summary.traits).toBeNull();
+  });
+});

@@ -157,6 +157,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.56-beta',
+      date: '16-08-2026',
+      logs: [
+        'A importação de replay passou a trazer os talentos (POD/STA/SAB/FEI/CON/CRV). Até agora o simulador avisava que era preciso preenchê-los à mão, porque nenhum dos blocos do arquivo os guarda. Eles existem em um lugar só: um pacote que o servidor manda sempre que o personagem entra num mapa — o mesmo que preenche a janela de status ao entrar no jogo. Quem gravou depois de se teleportar tem os seis dentro do arquivo; quem ficou o tempo todo parado no mesmo mapa não tem nenhum. O caminho para ler esse pacote foi compartilhado por Kiulg, que mantém o rocalc.',
+        'Os seis entram juntos ou não entra nenhum. Quando uma habilidade mexe num talento no meio da gravação, o servidor manda só aquele, e aproveitar um valor solto deixaria os outros cinco em zero se passando por alocação de verdade. Numa das gravações usadas nos testes o arquivo traz apenas FEI 100, enquanto a janela de status do mesmo personagem marca também STA 31 e SAB 31 — importar o que estava ali teria zerado 62 pontos investidos sem dizer nada. Nesses casos o aviso continua aparecendo e os talentos seguem para ajuste manual.',
+        'A leitura foi conferida contra uma gravação cujos talentos já eram conhecidos por outro caminho: quem a enviou tinha digitado POD 100 e CON 59 no formulário, e é exatamente isso que sai do pacote, campo por campo. Essa comparação virou teste automático.',
+        'O "Ajude o simulador" parou de pedir os talentos quando a gravação já os traz. O formulário perguntava sempre; agora eles aparecem no bloco de conferência junto com o resto do que foi lido, e o campo só é mostrado quando o arquivo de fato não os tem — pedir de novo um número que já se tem é como um número certo vira errado. Cada envio também registra de onde eles vieram, da gravação ou do formulário, o que separa o que o servidor informou do que alguém copiou da tela.',
+        'O roteiro de gravação ganhou um passo por causa disso: sair do campo de treinamento e voltar, uma vez, ainda gravando. É essa volta que registra os talentos no arquivo. A gravação precisa começar dentro do campo, porque é o mapa de início que o envio confere — quem começar a gravar fora dele continua tendo o envio recusado.',
+      ],
+    },
+    {
       v: '0.1.55-beta',
       date: '14-08-2026',
       logs: [

@@ -79,6 +79,11 @@
         <li><b>Só com a arma:</b> repita as mesmas habilidades.</li>
         <li><b>Com o equipamento completo:</b> repita de novo.</li>
         <li>Use a <b>habilidade suprema</b>, ainda no dummy.</li>
+        <li>
+          <b>Saia do campo e volte, uma vez, ainda gravando.</b> É ao entrar num mapa que o jogo grava seus <b>talentos</b> no arquivo —
+          sem isso eles não vão junto e o formulário vai pedir que você os digite. Comece a gravar <b>já dentro do campo</b>: a gravação
+          é recusada se o mapa onde ela começa não for o <code>tra_fild</code>.
+        </li>
         <li>Não mexa nos <b>talentos</b> durante a gravação.</li>
       </ol>
       <p class="mt-0 line-height-3">
@@ -157,6 +162,16 @@
         <div *ngIf="good.summary.skippedItems.length">
           <span>Itens fora do banco</span><b>{{ good.summary.skippedItems.length }}</b>
         </div>
+        <!-- Read off the recording itself, so it is shown for conference like everything
+             else here — not asked for again below. -->
+        <div *ngIf="importedTraits as t">
+          <span>Talentos</span>
+          <b>
+            <ng-container *ngFor="let key of traitKeys; let last = last"
+              >{{ traitLabels[key] }} {{ t[key] }}<span *ngIf="!last">&nbsp;·&nbsp;</span></ng-container
+            >
+          </b>
+        </div>
       </div>
 
       <div *ngIf="good.warnings.length" class="mt-2 p-2 border-round line-height-3" style="background: var(--yellow-100); color: var(--yellow-900)">
@@ -175,13 +190,17 @@
         </div>
       </div>
 
-      <!-- Traits: the recording genuinely does not carry them -->
+      <!-- Traits: only asked for when this particular recording did not carry them.
+           The server sends them on every map load, so a session recorded entirely
+           inside the training field arrives without any. -->
       <div *ngIf="good.needsTraits" class="mt-3">
         <h3 class="mt-0 mb-1 text-lg">Seus talentos</h3>
         <p class="mt-0 mb-2 line-height-3 text-sm">
-          A gravação <b>não</b> guarda os talentos, e sem eles o teste dá errado. Abra a janela de status e copie o
-          <b>primeiro número</b> de cada um — <b>sem</b> o valor entre parênteses, que é o bônus de classe. Em
-          <span class="font-italic">POD 90 (+15)</span>, o que vale aqui é <b>90</b>.
+          Esta gravação <b>não</b> trouxe os talentos, e sem eles o teste dá errado. O jogo só os grava quando o personagem
+          <b>entra num mapa</b>, e esta ficou o tempo todo parada no mesmo lugar. Da próxima vez eles vêm sozinhos se você
+          <b>começar a gravar já no campo de treinamento, sair dele e voltar</b> — a volta é a entrada no mapa que os registra.
+          Por ora, abra a janela de status e copie o <b>primeiro número</b> de cada um — <b>sem</b> o valor entre parênteses, que é o
+          bônus de classe. Em <span class="font-italic">POD 90 (+15)</span>, o que vale aqui é <b>90</b>.
         </p>
         <div class="trait-grid">
           <!-- The calculator's own field (app-status-input), same 0-100 list, so the

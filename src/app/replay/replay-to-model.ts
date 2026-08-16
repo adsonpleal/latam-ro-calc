@@ -6,6 +6,7 @@ import { createMainModel } from '../utils/create-main-model';
 import { PET_EGG_BY_VIEW } from './pet-egg-map';
 import { randomOptionToScript } from './random-option-map';
 import { resolveAspdPotionFromStatus, resolveBuffsFromStatus } from './replay-buffs';
+import { ReplayTraits, TRAIT_KEYS, readReplayTraits } from './replay-traits';
 import { decodeReplay } from 'rrfparser';
 import { InventoryRecord, RandomOption, Replay } from 'rrfparser';
 
@@ -178,6 +179,12 @@ export type ReplayImportSummary = {
   /** Number of learned skills (level > 0) read from the skill-tree snapshot. */
   learnedSkillCount: number;
   /**
+   * The six traits, when the recording carried all of them, else `null` — see
+   * `readReplayTraits`. `null` is "the file cannot say", not "all zero", so the
+   * caller has to tell the player to fill them in by hand.
+   */
+  traits: ReplayTraits | null;
+  /**
    * The egg of the pet that was out, when the replay has one. **Intimacy comes in the
    * file** (container 9, chunk 5308) and becomes the model's loyalty tier, so
    * `loyaltyKnown` is true whenever the block exists. Absent when there was no pet, or
@@ -213,8 +220,9 @@ type ItemMap = Record<number, { id: number } & Record<string, any>>;
  * Build a calculator MainModel from a parsed replay + the calculator's item map.
  * Sets class, levels, allocated base stats and every equipped piece (refine +
  * cards + socket-enchants + random options). Items absent from the LATAM DB are
- * skipped and reported. 4th-job traits are not present in the replay and are left
- * at their defaults.
+ * skipped and reported. The 4th-job traits are set only when the recording
+ * carried all six (see `readReplayTraits`); otherwise they stay at their
+ * defaults and `summary.traits` is null so the caller can say so.
  */
 export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportResult {
   const s = replay.sessionInfo;
@@ -228,6 +236,10 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
   model.int = s.int || 0;
   model.dex = s.dex || 0;
   model.luk = s.luk || 0;
+  // The traits, when the stream carried them. A 0 here is a real allocation the
+  // server reported, so it is written like any other value.
+  const traits = readReplayTraits(replay);
+  if (traits) for (const k of TRAIT_KEYS) model[k] = traits[k];
   // Character appearance, for the saved-sim paper-doll (undefined = use defaults).
   model.sex = s.sex === 0 || s.sex === 1 ? s.sex : undefined;
   model.hairStyle = s.hairStyle || undefined;
@@ -325,6 +337,7 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
       appliedOptions,
       skippedOptions,
       learnedSkillCount: Object.keys(learnedSkills).length,
+      traits,
       pet,
     },
     learnedSkills,
