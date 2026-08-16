@@ -1688,10 +1688,22 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
             `${summary.player || 'Personagem'} — nível ${summary.baseLevel}, ${summary.equippedCount} equipamentos` +
             (summary.appliedOptions ? `, ${summary.appliedOptions} bônus aleatórios` : '') +
             (summary.learnedSkillCount ? `, ${summary.learnedSkillCount} habilidades` : '') +
+            (summary.traits ? ', talentos' : '') +
             (skipped ? `, ${skipped} ignorado(s) (fora do banco de dados)` : '') + '.';
-          const traitsWarn = '⚠️ Talentos (POD/STA/SAB/FEI/CON/CRV) não são gravados no replay — ajuste-os manualmente.'
           this.messageService.add({ severity: 'success', summary: 'Replay importado', detail, life: 9000 });
-          this.messageService.add({ severity: 'warn', summary: 'Talentos', detail: traitsWarn, life: 9000 });
+          // The traits ride on a packet the server only sends on a map load, so a
+          // recording that never changed map arrives without them — say so, and only
+          // then. On a class that has no traits at all there is nothing to warn about.
+          if (!summary.traits && this.isAllowTraitStat) {
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Talentos',
+              detail:
+                '⚠️ Esta gravação não trouxe os talentos (POD/STA/SAB/FEI/CON/CRV) — ajuste-os manualmente. ' +
+                'Eles só entram no arquivo quando o personagem troca de mapa durante a gravação.',
+              life: 9000,
+            });
+          }
         },
         error: (err) => {
           this.replayBusy = false;

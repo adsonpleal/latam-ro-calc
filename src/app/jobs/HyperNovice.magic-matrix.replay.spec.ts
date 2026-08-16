@@ -92,8 +92,10 @@ function sim(skillValue: string, st: State) {
   model.level = BASE_LEVEL;
   model.jobLevel = JOB_LEVEL;
   model.str = 31; model.agi = 100; model.vit = 120; model.int = 120; model.dex = 94; model.luk = 100;
-  // Traits as the player reported them (the replay does not carry them); the status window
-  // corroborates: RES 90 and RESM 90 need STA 35 and WIS 35 = 31 allocated + 4 at job 50.
+  // Traits as the player reported them. This recording never changed map, so the stream
+  // carries only `spl` — a partial set the importer refuses outright, which is exactly why
+  // the numbers still come from the sender here. The status window corroborates them:
+  // RES 90 and RESM 90 need STA 35 and WIS 35 = 31 allocated + 4 at job 50.
   model.pow = 0; model.sta = 31; model.wis = 31; model.spl = 100; model.con = 0; model.crt = 0;
   model.jobStr = bonus.str; model.jobAgi = bonus.agi; model.jobVit = bonus.vit;
   model.jobInt = bonus.int; model.jobDex = bonus.dex; model.jobLuk = bonus.luk;

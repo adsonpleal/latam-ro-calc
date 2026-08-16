@@ -80,6 +80,12 @@ Writes to `.scratch/<id>.rrf` (git-ignored) and prints the header — including 
 player for. Here it arrived with the submission: use exactly those numbers, they are the
 invested value (0-100), without the job bonus.
 
+The header says where they came from. **`lidos da própria gravação`** is the server's own
+`ZC_COUPLESTATUS`, and is as good as the numbers get. **`informados por quem gravou`** is
+somebody reading their own status window into a form, which is where a wrong trait comes
+from — if a residual will not close and the traits are from the form, that is a thing worth
+doubting, and worth asking the sender to confirm.
+
 To promote the recording to a fixture once it has proved its worth:
 
 ```
@@ -120,6 +126,7 @@ Collection `replay_submissions`, 10-character id chosen by the client.
 | `fileName`, `uploadedAt`, `appVersion`, `latamConfirmed` | provenance |
 | `status` | `new` on creation; `reviewed`/`rejected` afterwards, set by this skill |
 | `traits` | `{pow,sta,wis,spl,con,crt}`, invested value 0-100. Absent for a class without traits |
+| `traitsSource` | `replay` when the recording carried them, `form` when the sender typed them in. Travels with `traits`; absent on submissions sent before the import existed |
 | `nick`, `discord`, `notes` | optional, from the sender |
 | `summary` | what the parser read, denormalised so the listing need not download the bytes |
 | `triagedAt`, `triageNote` | written by `--mark` |

@@ -129,6 +129,7 @@ async function listar() {
     'appVersion',
     'summary',
     'traits',
+    'traitsSource',
     'triageNote',
   ];
   const resposta = await api(':runQuery', {
@@ -158,8 +159,12 @@ async function listar() {
         `  ${Math.round((s.durationMs ?? 0) / 1000)}s  ${s.damageEvents ?? 0} golpes` +
         `  ${s.equipChangeCount ?? 0} trocas de equip.  ${s.learnedSkillCount ?? 0} habilidades`,
     );
-    if (d.traits) console.log(`   talentos: ${['pow', 'sta', 'wis', 'spl', 'con', 'crt'].map((k) => `${k} ${d.traits[k]}`).join('  ')}`);
-    else console.log('   talentos: (classe sem talentos)');
+    if (d.traits) {
+      const origem = d.traitsSource === 'replay' ? 'da gravação' : 'informados por quem gravou';
+      console.log(
+        `   talentos (${origem}): ${['pow', 'sta', 'wis', 'spl', 'con', 'crt'].map((k) => `${k} ${d.traits[k]}`).join('  ')}`,
+      );
+    } else console.log('   talentos: (classe sem talentos)');
     if (d.nick || d.discord) console.log(`   por: ${d.nick ?? '—'}${d.discord ? `  (discord: ${d.discord})` : ''}`);
     if (d.notes) console.log(`   obs.: ${d.notes}`);
     if (s.skippedItems?.length) console.log(`   itens fora do banco: ${s.skippedItems.join(', ')}`);
@@ -186,9 +191,8 @@ async function baixar() {
   console.log(`golpes: ${s.damageEvents}  trocas de equipamento: ${s.equipChangeCount}  equipamentos: ${s.equippedCount}`);
   console.log(
     d.traits
-      ? `TALENTOS (informados por quem gravou): ${['pow', 'sta', 'wis', 'spl', 'con', 'crt']
-          .map((k) => `${k.toUpperCase()} ${d.traits[k]}`)
-          .join('  ')}`
+      ? `TALENTOS (${d.traitsSource === 'replay' ? 'lidos da própria gravação' : 'informados por quem gravou'}): ` +
+          ['pow', 'sta', 'wis', 'spl', 'con', 'crt'].map((k) => `${k.toUpperCase()} ${d.traits[k]}`).join('  ')
       : 'TALENTOS: classe sem talentos.',
   );
   if (d.nick || d.discord) console.log(`por: ${d.nick ?? '—'}${d.discord ? `  (discord: ${d.discord})` : ''}`);

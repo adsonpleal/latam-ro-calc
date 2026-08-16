@@ -1,6 +1,7 @@
 import { decodeReplay, Replay } from 'rrfparser';
 import { ClassIdBySpriteJob, getClassDropdownList } from '../jobs';
 import { BUFF_EFST } from './replay-buffs';
+import { ReplayTraits } from './replay-traits';
 import { replayToModel } from './replay-to-model';
 
 /**
@@ -34,15 +35,7 @@ export const isTrainingDummy = (mobId: number): boolean =>
 /** `0eo1@advs` and `1@advs` are the same map; the prefix is the instance's party id. */
 export const normalizeMap = (map: string): string => (map || '').replace(/^[^@]*@/, '');
 
-/** The six trait stats, as the *invested* value (0-100) the calculator stores. */
-export interface ReplayTraits {
-  pow: number;
-  sta: number;
-  wis: number;
-  spl: number;
-  con: number;
-  crt: number;
-}
+export { ReplayTraits };
 
 /**
  * What the parser read out of the recording. Shown to the sender for a sanity
@@ -91,13 +84,22 @@ export interface SubmissionCheck {
   blocker: SubmissionBlockerCode | null;
   message: string;
   summary: ReplaySubmissionSummary | null;
-  /** True when the class has trait stats, so the sender must type them in. */
+  /**
+   * The six traits read straight out of the recording, or null when it did not
+   * carry them (most recordings don't — see `readReplayTraits`).
+   */
+  traits: ReplayTraits | null;
+  /**
+   * True when the class has trait stats *and* the recording did not carry them,
+   * so the sender has to type them in. False once `traits` is filled: asking for
+   * numbers we already have is how they get typed in wrong.
+   */
   needsTraits: boolean;
   warnings: SubmissionWarningCode[];
 }
 
 function reject(blocker: SubmissionBlockerCode, message: string): SubmissionCheck {
-  return { ok: false, blocker, message, summary: null, needsTraits: false, warnings: [] };
+  return { ok: false, blocker, message, summary: null, traits: null, needsTraits: false, warnings: [] };
 }
 
 export function validateReplaySubmission(buf: ArrayBuffer, itemMap: Record<number, any>): SubmissionCheck {
@@ -165,6 +167,7 @@ export function checkReplay(replay: Replay, itemMap: Record<number, any>): Submi
   }
 
   const { summary: importSummary } = replayToModel(replay, itemMap);
+  const hasTraits = klass['instant'].isAllowTraitStat();
 
   const warnings: SubmissionWarningCode[] = [];
   if (replay.equipChanges.length === 0) warnings.push('no-equip-change');
@@ -178,7 +181,11 @@ export function checkReplay(replay: Replay, itemMap: Record<number, any>): Submi
     ok: true,
     blocker: null,
     message: '',
-    needsTraits: klass['instant'].isAllowTraitStat(),
+    // A class with no trait table has nothing to report either way: the server
+    // does send it six zeros, but recording them would read in triage as an
+    // allocation rather than as "this class has no traits".
+    traits: hasTraits ? importSummary.traits : null,
+    needsTraits: hasTraits && !importSummary.traits,
     warnings,
     summary: {
       player: session.player || '',

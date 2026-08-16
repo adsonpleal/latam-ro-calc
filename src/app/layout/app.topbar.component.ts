@@ -157,7 +157,7 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
-      v: '0.1.56-beta',
+      v: '0.1.57-beta',
       date: '16-08-2026',
       logs: [
         'Os ovos de mascote entregavam a faixa de Lealdade Alta em qualquer lealdade. Cada ovo concede um bônus diferente conforme a intimidade do bicho — Baixa ou Baixíssima, Nenhuma, Normal e Alta — e as faixas se substituem, não se somam. De 38 ovos cadastrados, 37 tinham só a linha da Alta no cálculo, sem condição alguma: quem escolhia uma lealdade menor no seletor ao lado do mascote continuava recebendo o bônus máximo. Agora as quatro faixas de cada ovo estão cadastradas, cada uma com o valor que a descrição em português do próprio ovo informa. No Ovo de Grand Orc, por exemplo, são ATQ +10 na Lealdade Baixa e +25 na Alta, e não +25 sempre. O Ovo de Abelha-Rainha era o caso mais visível: "Anula a penalidade de tamanho da arma" só existe na Lealdade Alta e valia em todas.',
@@ -165,6 +165,17 @@ export class AppTopBarComponent {
         'O Ovo de Unicórnio ficou sem efeito nenhum. Ele estava concedendo P.ATQ e S.ATQM +5, dano físico e mágico contra todas as raças +5% e contra Chefes +20% — nada disso aparece na descrição em português, que promete apenas regeneração de HP e SP ao derrotar monstros, na Lealdade Alta. Era um bloco de bônus herdado do banco de origem, de um item que na versão latino-americana é outro, e foi removido. Quem usava esse ovo perde bastante dano, mas era dano que o jogo não dava.',
         'Entraram 71 ovos de mascote que o cliente tem e o simulador não, já com as faixas de lealdade cadastradas. Eram ovos que não apareciam na lista de mascotes de jeito nenhum — entre eles os básicos, como o Ovo de Poring, o de PecoPeco, o de Guerreiro Orc e o de Golem, e também o Ovo de Vigia do Tempo, o de Metaller e o de Bafinho Caótico. Com isso a importação de gravação passa a reconhecer o mascote em 109 das 141 espécies que o cliente lista, contra 38 antes: a importação já sabia de que ovo era cada bicho, mas descartava o mascote quando o ovo não estava cadastrado. Seis dos ovos novos entraram sem efeito no cálculo — um não promete efeito nenhum na descrição, e os outros cinco só prometem coisas que o simulador não modela: regeneração natural de HP e SP, chance de converter dano causado em HP, e dano contra os monstros de mapas específicos.',
         'A Cesta de Mascotes cresceu junto. O conjunto dela muda conforme a família do mascote equipado, e quatro dos quinze bichos que a descrição lista estavam de fora das condições justamente porque os ovos não existiam no banco: o Vigia do Tempo, que fecha o conjunto de Dano mágico de todas as propriedades +10%, e o Pouring, o Quinding e o Esqueleão, que fecham o de Pós-conjuração e Conjuração variável -5%. Agora os quinze valem.',
+      ],
+    },
+    {
+      v: '0.1.56-beta',
+      date: '16-08-2026',
+      logs: [
+        'A importação de replay passou a trazer os talentos (POD/STA/SAB/FEI/CON/CRV). Até agora o simulador avisava que era preciso preenchê-los à mão, porque nenhum dos blocos do arquivo os guarda. Eles existem em um lugar só: um pacote que o servidor manda sempre que o personagem entra num mapa — o mesmo que preenche a janela de status ao entrar no jogo. Quem gravou depois de se teleportar tem os seis dentro do arquivo; quem ficou o tempo todo parado no mesmo mapa não tem nenhum. O caminho para ler esse pacote foi compartilhado por Kiulg, que mantém o rocalc.',
+        'Os seis entram juntos ou não entra nenhum. Quando uma habilidade mexe num talento no meio da gravação, o servidor manda só aquele, e aproveitar um valor solto deixaria os outros cinco em zero se passando por alocação de verdade. Numa das gravações usadas nos testes o arquivo traz apenas FEI 100, enquanto a janela de status do mesmo personagem marca também STA 31 e SAB 31 — importar o que estava ali teria zerado 62 pontos investidos sem dizer nada. Nesses casos o aviso continua aparecendo e os talentos seguem para ajuste manual.',
+        'A leitura foi conferida contra uma gravação cujos talentos já eram conhecidos por outro caminho: quem a enviou tinha digitado POD 100 e CON 59 no formulário, e é exatamente isso que sai do pacote, campo por campo. Essa comparação virou teste automático.',
+        'O "Ajude o simulador" parou de pedir os talentos quando a gravação já os traz. O formulário perguntava sempre; agora eles aparecem no bloco de conferência junto com o resto do que foi lido, e o campo só é mostrado quando o arquivo de fato não os tem — pedir de novo um número que já se tem é como um número certo vira errado. Cada envio também registra de onde eles vieram, da gravação ou do formulário, o que separa o que o servidor informou do que alguém copiou da tela.',
+        'O roteiro de gravação ganhou um passo por causa disso: sair do campo de treinamento e voltar, uma vez, ainda gravando. É essa volta que registra os talentos no arquivo. A gravação precisa começar dentro do campo, porque é o mapa de início que o envio confere — quem começar a gravar fora dele continua tendo o envio recusado.',
       ],
     },
     {

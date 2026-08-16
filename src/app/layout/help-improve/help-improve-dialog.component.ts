@@ -2,16 +2,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ReplaySubmissionService } from 'src/app/api-services/replay-submission.service';
 import { RoService } from 'src/app/api-services/ro.service';
+import { ReplayTraits, TRAIT_KEYS, TRAIT_LABELS } from 'src/app/replay/replay-traits';
 import { SubmissionCheck, validateReplaySubmission } from 'src/app/replay/validate-submission';
 import { createNumberDropdownList } from 'src/app/utils/create-number-dropdown-list';
 import { HELP_IMPROVE_DIALOG_STYLE } from '../dialog-geometry';
 import { snoozeHelpImprove, SNOOZE_DAYS } from './help-improve-snooze';
 
-/** The six trait fields, in the order the game's status window lists them. */
-const TRAIT_KEYS = ['pow', 'sta', 'wis', 'spl', 'con', 'crt'] as const;
-type TraitKey = (typeof TRAIT_KEYS)[number];
-
-const ZERO_TRAITS: Record<TraitKey, number> = { pow: 0, sta: 0, wis: 0, spl: 0, con: 0, crt: 0 };
+const ZERO_TRAITS: ReplayTraits = { pow: 0, sta: 0, wis: 0, spl: 0, con: 0, crt: 0 };
 
 @Component({
   selector: 'app-help-improve',
@@ -31,14 +28,7 @@ export class HelpImproveDialogComponent {
   readonly traitKeys = TRAIT_KEYS;
   /** The calculator's own trait range, so the two pickers offer the same values. */
   readonly traitStatusList = createNumberDropdownList({ from: 0, to: 100 });
-  readonly traitLabels: Record<TraitKey, string> = {
-    pow: 'POD',
-    sta: 'STA',
-    wis: 'SAB',
-    spl: 'FEI',
-    con: 'CON',
-    crt: 'CRV',
-  };
+  readonly traitLabels = TRAIT_LABELS;
 
   readonly browikiUrl = 'https://browiki.org/wiki/Replay';
   readonly discordUrl = 'https://discord.gg/JCXTqqWq9Q';
@@ -53,7 +43,7 @@ export class HelpImproveDialogComponent {
   /** Kept aside so the send doesn't have to re-read the file. */
   private bytes: Uint8Array | null = null;
 
-  traits: Record<TraitKey, number> = { ...ZERO_TRAITS };
+  traits: ReplayTraits = { ...ZERO_TRAITS };
   nick = '';
   discord = '';
   notes = '';
@@ -73,10 +63,16 @@ export class HelpImproveDialogComponent {
     return this.check && !this.check.ok ? this.check : null;
   }
 
+  /** The traits the recording itself carried, when it carried all six. */
+  get importedTraits(): ReplayTraits | null {
+    return this.accepted?.traits ?? null;
+  }
+
   /**
    * Every field still at zero on a class that has traits. Any single stat may
    * legitimately be 0, but all six at once means the form was left untouched —
-   * and traits nobody filled in would silently wreck the comparison.
+   * and traits nobody filled in would silently wreck the comparison. Only ever
+   * asked about the form: a recording that reports six zeros is reporting a fact.
    */
   get traitsUntouched(): boolean {
     if (!this.accepted?.needsTraits) return false;
@@ -138,6 +134,7 @@ export class HelpImproveDialogComponent {
         blocker: 'unreadable',
         message: 'Não foi possível ler o arquivo.',
         summary: null,
+        traits: null,
         needsTraits: false,
         warnings: [],
       };
@@ -158,7 +155,9 @@ export class HelpImproveDialogComponent {
         fileName: this.fileName,
         appVersion: this.appVersion,
         summary: accepted.summary,
-        traits: accepted.needsTraits ? this.traits : null,
+        // The recording's own traits win; the form only fills the gap it leaves.
+        traits: accepted.traits ?? (accepted.needsTraits ? this.traits : null),
+        traitsSource: accepted.traits ? 'replay' : accepted.needsTraits ? 'form' : null,
         nick: this.nick,
         discord: this.discord,
         notes: this.notes,

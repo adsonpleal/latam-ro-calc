@@ -2630,8 +2630,9 @@
   <div *ngIf="replayBusy" class="mt-3 text-center"><i class="pi pi-spin pi-spinner mr-2"></i>Lendo replay…</div>
   <p class="mt-3 mb-0 text-sm" style="opacity: 0.7">
     Importa classe, nível, atributos base (FOR/AGI/VIT/INT/DES/SOR) e equipamentos (refino, grau, cartas e encantos) do replay.
-    <b>Talentos (POD/STA/SAB/FEI/CON/CRV) não são gravados no replay</b> — o jogo apenas exibe os da última sessão, então ajuste-os manualmente.
-    Itens fora do banco de dados são ignorados.
+    Os <b>talentos (POD/STA/SAB/FEI/CON/CRV)</b> vêm junto quando a gravação os traz: eles chegam num pacote que o servidor manda a
+    cada troca de mapa, então basta que o personagem entre num mapa depois de começar a gravar. Se a gravação não os trouxer, o
+    simulador avisa e eles ficam para ajustar à mão. Itens fora do banco de dados são ignorados.
   </p>
 </p-dialog>
 

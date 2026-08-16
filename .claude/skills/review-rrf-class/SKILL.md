@@ -13,8 +13,13 @@ A replay is the only ground truth this project has: the packets carry the damage
 
 Ask before starting; guessing these wastes a whole pass:
 
-- **Traits** (POD/STA/SAB/FEI/CON/CRV). Not in the replay. Ask for the numbers — unless the
-  recording came through `triage-rrf-uploads`, which already carries them.
+- **Traits** (POD/STA/SAB/FEI/CON/CRV). **Check the file before asking.** They ride on
+  `ZC_COUPLESTATUS`, which the server sends on every map load, so a recording that
+  teleported or warped carries all six and `decodeReplay` hands them over as
+  `replay.traits` — the importer writes them into the model on its own. Only ask when that
+  comes back empty or partial, which is what a session recorded entirely inside one map
+  looks like. A **partial** set is not usable: the missing fields are unknown, not zero.
+  (A recording that came through `triage-rrf-uploads` carries them either way.)
 - **Skill levels.** The `skillLevel` in the damage packet is reliable, but passive and
   toggle levels are not — ask (`learnedSkills` in the import gives the learned tree, which
   usually settles it).
@@ -46,7 +51,8 @@ Players share the recording in one of three ways, and all end up as the same byt
 - **Sent through the simulator's own "Ajude o simulador" dialog.** Those land in Firestore
   and are picked up with the [`triage-rrf-uploads`](../triage-rrf-uploads/SKILL.md) skill —
   use it instead of the steps below, and note that it hands you **the traits §0 tells you to
-  ask for**, because the dialog collected them at upload time.
+  ask for** — read off the recording when it carried them, collected in the dialog when it
+  did not, and the listing says which.
 
 ```
 node .claude/skills/review-rrf-class/fetch-recap.mjs "https://recap.latam-tools.com.br/?r=HdHAKyBShW"

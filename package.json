@@ -1,6 +1,6 @@
 {
     "name": "ro-calculator",
-    "version": "0.1.56-beta",
+    "version": "0.1.57-beta",
     "license": "MIT",
     "scripts": {
         "ng": "ng",
@@ -47,7 +47,7 @@
         "primeng": "16.0.2",
         "prismjs": "^1.29.0",
         "quill": "^1.3.7",
-        "rrfparser": "~1.0.0",
+        "rrfparser": "~1.3.0",
         "rxjs": "~7.8.0",
         "tslib": "^2.3.0",
         "zone.js": "~0.13.0"
