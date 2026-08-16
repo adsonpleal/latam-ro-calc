@@ -354,4 +354,23 @@ describe('Calculator', () => {
       expect(source['No Limits'].range).toBe(350);
     });
   });
+
+  // Every Calculator instance has to be seeded with the item DB before a model is loaded
+  // onto it. A missing seed used to surface as `Cannot read properties of undefined
+  // (reading '700016')` from deep inside setWeapon, which names neither the calculator
+  // nor the setup step it skipped — this cost real debugging time when a fourth
+  // calculator was added to ro-calculator.component.ts and left unseeded.
+  describe('loadItemFromModel without setMasterItems', () => {
+    it('names the missing setup instead of failing on an undefined lookup', () => {
+      const bare = new Calculator();
+
+      expect(() => bare.loadItemFromModel({ weapon: 700016 } as any)).toThrowError(/setMasterItems/);
+    });
+
+    it('loads normally once the item DB is set', () => {
+      const seeded = new Calculator().setMasterItems(itemDb);
+
+      expect(() => seeded.loadItemFromModel({ weapon: 700016 } as any)).not.toThrow();
+    });
+  });
 });

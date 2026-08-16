@@ -31,6 +31,7 @@ import { DataViewModule } from 'primeng/dataview';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { TooltipModule } from 'primeng/tooltip';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { RoCalculatorComponent } from './ro-calculator.component';
 import { ItemDescTooltipPipe } from './item-desc-tooltip.pipe';
@@ -52,6 +53,8 @@ import { ElementalTableRawComponent } from './elemental-table-raw/elemental-tabl
 import { BattleDmgSummaryComponent } from './battle-dmg-summary/battle-dmg-summary.component';
 import { BattleMonsterSummaryComponent } from './battle-monster-summary/battle-monster-summary.component';
 import { BattleHudComponent } from './battle-hud/battle-hud.component';
+import { RotationListComponent } from './battle-hud/rotation-list/rotation-list.component';
+import { RotationTimelineComponent } from './battle-hud/rotation-timeline/rotation-timeline.component';
 import { AspdCurveComponent } from './aspd-curve/aspd-curve.component';
 import { EquipmentCosEnchantComponent } from './equipment-cos-enchant/equipment-cos-enchant.component';
 import { StatusInputModule } from './status-input/status-input.module';
@@ -98,6 +101,7 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
     FieldsetModule,
     DialogModule,
     OverlayPanelModule,
+    DragDropModule,
     RoCalculatorRoutingModule,
     StatusInputModule,
     IconUrlPipe,
@@ -121,6 +125,8 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
     BattleDmgSummaryComponent,
     BattleMonsterSummaryComponent,
     BattleHudComponent,
+    RotationListComponent,
+    RotationTimelineComponent,
     AspdCurveComponent,
     EquipmentCosEnchantComponent,
     ItemDescTooltipPipe,

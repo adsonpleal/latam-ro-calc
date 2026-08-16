@@ -1,0 +1,218 @@
+/* The cycle flowchart. Blocks are absolutely positioned by time inside a relative
+   track, so the whole chart is fluid and the two comparison charts share one scale
+   simply by sharing one denominator (see rotation-timeline.logic.ts). */
+
+.tl {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tl-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 3px; /* lane gap */
+}
+
+/* The comparison chart sits under a rule, as its own complete reading. */
+.tl-chart--cmp {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--surface-border);
+}
+
+.tl-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--orange-300, #f9ae61);
+}
+
+.tl-title--cmp {
+  color: var(--yellow-200, #fde4a5);
+}
+
+.tl-lane-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Also the popover trigger for its step, same as the row icon in ROTAÇÃO. */
+.tl-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  object-fit: contain;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.tl-icon:hover {
+  outline: 1px solid var(--primary-color);
+}
+
+.tl-icon:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 1px;
+}
+
+.tl-track {
+  position: relative;
+  flex: 1;
+  height: 22px;
+  background: var(--surface-ground);
+  border-radius: 3px;
+  /* A recarga that outlasts the cycle is normal — clip it at the lane instead of
+     letting it run out over the panel's padding. */
+  overflow: hidden;
+}
+
+/* "Recarga não fecha": the lane the rotation waited on. */
+.tl-track--invalid {
+  border: 1px solid var(--red-300, #ff8980);
+}
+
+.tl-block {
+  position: absolute;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-size: 9.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Cast blocks fill the lane; the two stripes share it. */
+.tl-block--fixa,
+.tl-block--variavel,
+.tl-block--aspd {
+  top: 0;
+  bottom: 0;
+}
+
+.tl-block--fixa {
+  background: var(--blue-300, #75bef8);
+  color: #0a1526;
+}
+
+.tl-block--variavel {
+  background: var(--blue-600, #1c80cf);
+  color: #dbe9ff;
+}
+
+/* Pós-conjuração rides the top of the lane, recarga the bottom — they start at the
+   same instant, which is the whole point of drawing them as parallel stripes. */
+.tl-block--pos {
+  top: 0;
+  height: 10px;
+  background: var(--teal-400, #30aa9f);
+  color: #04231d;
+}
+
+.tl-block--recarga {
+  bottom: 0;
+  height: 10px;
+  background: transparent;
+  border: 1px dashed #446e8c;
+  color: var(--text-color-secondary);
+}
+
+.tl-block--aspd {
+  border: 1px solid var(--surface-border);
+  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.18) 0 3px, transparent 3px 6px);
+}
+
+.tl-block-label {
+  padding: 0 3px;
+}
+
+.tl-axis {
+  position: relative;
+  height: 14px;
+  margin-left: 24px; /* clears the icon gutter */
+}
+
+.tl-tick {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 11.5px;
+  color: var(--text-color-secondary);
+}
+
+/* The end labels would otherwise hang half their width past the chart. */
+.tl-tick.tl-anchor-start {
+  transform: translateX(0);
+}
+
+.tl-tick.tl-anchor-end {
+  transform: translateX(-100%);
+}
+
+.tl-tick--end {
+  font-weight: 700;
+  color: var(--orange-300, #f9ae61);
+}
+
+.tl-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--text-color-secondary);
+}
+
+.tl-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tl-sw {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.tl-sw--fixa {
+  background: var(--blue-300, #75bef8);
+}
+
+.tl-sw--variavel {
+  background: var(--blue-600, #1c80cf);
+}
+
+/* The two stripe keys are drawn at their real height, so the legend reads as a key
+   to the shapes on the lanes rather than a second set of colours. */
+.tl-sw--pos {
+  background: var(--teal-400, #30aa9f);
+}
+
+.tl-sw--recarga {
+  background: transparent;
+  border: 1px dashed #446e8c;
+}
+
+.tl-sw--aspd {
+  border: 1px solid var(--surface-border);
+  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.18) 0 3px, transparent 3px 6px);
+}
+
+.tl-note {
+  margin: 2px 0 0;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+
+/* Pós or recarga alone on a lane takes its whole height. */
+.tl-block--full {
+  top: 0;
+  bottom: 0;
+  height: auto;
+}

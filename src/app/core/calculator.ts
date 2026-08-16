@@ -303,6 +303,11 @@ export class Calculator {
   }
 
   private getItem(id: number) {
+    // Without the item DB this reads through undefined and reports only the id it was
+    // looking for, from deep inside setWeapon — naming neither the calculator nor the
+    // setup that was skipped. Every instance must be seeded before a model is loaded.
+    if (!this.items) throw new Error(`Calculator: setMasterItems() was never called, so item ${id} cannot be resolved.`);
+
     return this.items[id];
   }
 
@@ -1488,6 +1493,18 @@ export class Calculator {
         effectedSkillDamageMax: this.damageSummary.skillMaxDamage || 0,
         effectedSkillDps: this.damageSummary.skillDps || 0,
         effectedSkillHitsPerSec: this.skillFrequency?.totalHitPerSec || 0,
+
+        // Same verbatim calcDmgDps() inputs as skillDpsInput*, for the effected pass.
+        // The rotation panel needs damage-per-use, which it recomputes from these;
+        // deriving it from the already-floored effectedSkillDps instead would bake in
+        // the engine's DPS truncation (docs/combo.md §3).
+        effectedSkillDpsInputMin: this.damageSummary.skillDpsInputMin || 0,
+        effectedSkillDpsInputMax: this.damageSummary.skillDpsInputMax || 0,
+        effectedSkillDpsInputCriDmg: this.damageSummary.skillDpsInputCriDmg || 0,
+        effectedSkillDpsInputHitsPerSec: this.damageSummary.skillDpsInputHitsPerSec || 0,
+        effectedSkillCriRateToMonster: this.damageSummary.skillCriRateToMonster || 0,
+        effectedSkillAccuracy: this.damageSummary.skillAccuracy || 0,
+        effectedSkillTotalHit: this.damageSummary.skillTotalHit || 0,
       };
       return this;
     }
@@ -1514,6 +1531,16 @@ export class Calculator {
       effectedSkillDamageMax: skillDmg?.skillMaxDamage || 0,
       effectedSkillDps: skillDmg?.skillDps || 0,
       effectedSkillHitsPerSec: skillAspd?.totalHitPerSec || 0,
+
+      // See the no-chance branch above: the rotation recomputes damage-per-use from
+      // these rather than un-flooring effectedSkillDps.
+      effectedSkillDpsInputMin: skillDmg?.skillDpsInputMin || 0,
+      effectedSkillDpsInputMax: skillDmg?.skillDpsInputMax || 0,
+      effectedSkillDpsInputCriDmg: skillDmg?.skillDpsInputCriDmg || 0,
+      effectedSkillDpsInputHitsPerSec: skillDmg?.skillDpsInputHitsPerSec || 0,
+      effectedSkillCriRateToMonster: skillDmg?.skillCriRateToMonster || 0,
+      effectedSkillAccuracy: skillDmg?.skillAccuracy || 0,
+      effectedSkillTotalHit: skillDmg?.skillTotalHit || 0,
     };
 
     return this;

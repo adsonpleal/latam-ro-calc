@@ -4,9 +4,18 @@
 // engine already produced (calcSkillAspd via totalSummary.calcSkill) into
 // display-ready segments — they never re-derive game-truth timing math.
 
+import { ElementType } from '../../../../constants/element-type.const';
 import { calcDmgDpsDetailed } from '../../../../utils/calc-dmg-dps';
 import { formatCalcNumber, formatNumber, formatRate, formatSignedCalcNumber } from '../../../../utils/format-number';
 import { DamageFormulaCalcRow, DamageFormulaGraph, DamageFormulaNode } from '../../../../models/damage-summary.model';
+
+/** Neutro has no colour of its own; everything else gets the theme's property_* class. */
+const ELEMENT_COLOR_CLASSES: Set<string> = new Set(Object.values(ElementType).filter((e) => e !== ElementType.Neutral));
+
+/** `styleClass` for the element p-tag. Shared so the HUD and the rotation rows can't drift. */
+export function elementTagClass(elementUpper: string | undefined): string {
+  return elementUpper && ELEMENT_COLOR_CLASSES.has(elementUpper) ? 'property_' + elementUpper : 'el-tag-neutral';
+}
 
 export type CastComponentKey = 'fixa' | 'variavel' | 'pos' | 'recarga' | 'aspd';
 

@@ -229,16 +229,19 @@ describe('CalculatorController.runChain', () => {
     const result = new CalculatorController().runChain(spy, input);
 
     expect(result).toBe(spy);
+    // setEquipAtkSkillAtk/setMasterySkillAtk sit inside solveSkill rather than with the
+    // other setters, so a rotation re-seeds them per skill (see solveSkill's comment).
+    // Every setter here is a plain assignment, so the reorder is behaviour-neutral.
     expect(calls.map((c) => c.method)).toEqual([
       'setMonster',
-      'setEquipAtkSkillAtk',
       'setBuffBonus',
-      'setMasterySkillAtk',
       'setConsumables',
       'setAspdPotion',
       'setExtraOptions',
       'setUsedSkillNames',
       'setLearnedSkills',
+      'setEquipAtkSkillAtk',
+      'setMasterySkillAtk',
       'setOffensiveSkill',
       'prepareAllItemBonus',
       'calcAllAtk',

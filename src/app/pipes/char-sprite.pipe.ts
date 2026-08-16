@@ -31,8 +31,15 @@ const spriteJobId = (classId: number): number => (ClassIcon as Record<number, nu
 // Fixed render canvas (WxH+anchorX+anchorY) so the figure is centred and the
 // feet stay put. URLSearchParams encodes the '+' as %2B, which the gateway wants.
 // Cropped tighter than ragreplaystats' 200x169+100+124 (less empty space above
-// the head and below the feet) so the figure fills the saved-sim card.
-const CANVAS = '150x140+75+126';
+// the head and below the feet) so the figure fills the card.
+//
+// Width measured against the gateway rather than guessed: across bare / caped /
+// three-headgear renders on several jobs, the figure never reached further than 24px
+// left or 34px right of the anchor, while a 150-wide canvas offered 75 each way — over
+// two thirds of every render was transparent padding, which no CSS can crop away. 55px
+// per side keeps 21px of headroom over the widest case measured. The height is
+// unchanged: a tall headgear already reaches 111px above the anchor of 126.
+const CANVAS = '110x140+55+126';
 
 // Gender-locked classes by real sprite/job id; the calc has no character sex, so
 // force the only valid one (everything else defaults to male). Covers the

@@ -43,8 +43,9 @@ const monster = {
 } as any;
 
 /** Solves a Windhawk bow build carrying the Instinto enchant, exactly the way
- *  ro-calculator.component.ts's prepare() does. */
-const solve = (selectedChances: string[]) => {
+ *  ro-calculator.component.ts's prepare() does. Returns the chain input too, so a
+ *  test can re-solve the same loaded build for another skill (the rotation path). */
+const solveWithInput = (selectedChances: string[]) => {
   const items: any = {
     700016: { ...db['700016'] },   // bow
     1773: { ...db['1773'] },       // arrow
@@ -84,7 +85,7 @@ const solve = (selectedChances: string[]) => {
 
   calc.loadItemFromModel(model);
 
-  new CalculatorController().runChain(calc, {
+  const input = {
     monster,
     equipAtks,
     masteryAtks,
@@ -98,10 +99,14 @@ const solve = (selectedChances: string[]) => {
     selectedAtkSkill: model.selectedAtkSkill,
     selectedChances,
     usedHpL: false,
-  });
+  };
 
-  return calc;
+  new CalculatorController().runChain(calc, input);
+
+  return { calc, input };
 };
+
+const solve = (selectedChances: string[]) => solveWithInput(selectedChances).calc;
 
 const rangeOf = (calc: Calculator) => (calc as any).totalEquipStatus.range as number;
 
@@ -122,6 +127,27 @@ describe('Instinto (chance__dex +200) on a Windhawk bow build', () => {
 
     calc.prepareAllItemBonus().calcAllAtk();
     expect(rangeOf(calc)).toBe(solved);
+  });
+
+  it('keeps the ranged bonus stable across repeated solveSkill() passes', () => {
+    // The attack-rotation path: one loaded build re-solved once per skill in the
+    // rotation, reaching the same compounding-mutation hazard as the test above through
+    // CalculatorController.solveSkill instead of a bare prepareAllItemBonus().
+    //
+    // A guard, not a reproduction: this passes with or without solveSkill's bonus-source
+    // re-seed, because Windhawk reads the source map instead of re-subtracting a fixed
+    // 350. It exists so that stops being luck — a job that regresses to the fixed-amount
+    // form fails here, and the rotation is what makes that regression expensive.
+    const { calc, input } = solveWithInput([]);
+    const controller = new CalculatorController();
+    const solved = rangeOf(calc);
+
+    // Alternate skills the way a real rotation does; Ilimitar's ranged bonus can only
+    // be superseded once, no matter how many skills the rotation walks through.
+    for (const skill of ['Aimed Bolt==5', 'Focused Arrow Strike==5', 'Arrow Storm==10', 'Focused Arrow Strike==5']) {
+      controller.solveSkill(calc, input, skill);
+      expect(rangeOf(calc)).toBe(solved);
+    }
   });
 
   it('raises Tiro Preciso damage instead of lowering it', () => {

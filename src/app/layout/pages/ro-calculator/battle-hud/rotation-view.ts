@@ -1,0 +1,248 @@
+// Turns the engine's per-skill solves into everything the rotation panel draws.
+// Pure (no Angular imports), like battle-hud.logic.ts, so it is unit-testable with
+// plain Vitest. It only reshapes numbers the engine already produced — it never
+// re-derives game truth. The timing itself lives in src/app/core/rotation-schedule.ts.
+
+import { BASIC_ATTACK_VALUE, isBasicAttack } from '../../../../core/rotation';
+import { RotationCycle, RotationLane, RotationScheduleStep, simulateRotation } from '../../../../core/rotation-schedule';
+import { dmgTypeLabel } from '../../../../utils/dmg-type-label';
+import { buildDpsSteps, computeTimeToKill, TimeToKill } from './battle-hud.logic';
+
+/** The catalog fields a rotation row needs to render itself. */
+export interface RotationSkillMeta {
+  value?: string;
+  values?: string[];
+  label?: string;
+  icon?: number;
+  levelList?: { label: string; value: any }[];
+  /** `boolean` when the skill always (or never) crits; a function when it depends on
+   *  the character's state — which is what makes the row's crit reading conditional. */
+  canCri?: boolean | ((input: any) => boolean);
+}
+
+export interface RotationEntryView {
+  index: number;
+  /** The `"Name==Level"` value, or BASIC_ATTACK_VALUE. */
+  value: string;
+  isBasic: boolean;
+  /** Skill name without the level, e.g. "Chute Solar". */
+  name: string;
+  /** "Nv7", or empty for ataque básico and for skills that carry no level. */
+  levelLabel: string;
+  icon?: number;
+  /** Levels this entry can be switched between; empty when the catalog fixes the level.
+   *  Only 7 job files declare `levelList`, so most rows show a static level. */
+  levelList: { label: string; value: any }[];
+  /** Total damage for one use, summed over every hit. */
+  damage: number;
+  contributionPercent: number;
+  /** "Corpo a corpo" / "À distância" / "Mágico". */
+  dmgTypeLabel: string;
+  element: string;
+  propertyMultiplier: number;
+  /** Set when the build cannot cast this skill (weapon gating). Damage is then 0. */
+  requireTxt: string;
+  /**
+   * Crit state, which every row states explicitly — silence would read as missing data.
+   * `canCrit` false renders "Sem crít."; true renders the rate.
+   */
+  canCrit: boolean;
+  critRate: number;
+  /**
+   * Whether that reading depends on the character's state. Derived from the catalog
+   * entry's `canCri` being a *function* rather than a flag — the only honest signal
+   * available, since no skill declares which state it needs (see docs/combo.md §7).
+   * The condition itself therefore cannot be named, only flagged.
+   */
+  critConditional: boolean;
+  /** How many times this same skill appears before this entry — drives the "2ª vez" note. */
+  occurrence: number;
+  /** The full `getTotalSummary()` this entry was solved with, for its (i) popover. */
+  summary: any;
+  lane: RotationLane;
+}
+
+export interface RotationView {
+  entries: RotationEntryView[];
+  cycle: RotationCycle;
+  /** Null when nothing can die — zero DPS, or an immune target. */
+  ttk: TimeToKill | null;
+  /** Cycles needed to kill the target. */
+  cyclesToKill: number;
+  /** Entries the build cannot actually cast. */
+  blocked: { name: string; requireTxt: string }[];
+  /** Seconds per action imposed by VelAtq. */
+  aspdPeriod: number;
+}
+
+const splitValue = (value: string): { name: string; level: string } => {
+  const [, name, level] = value?.match(/(.+)==(\d+)/) ?? [];
+  return { name: name ?? value ?? '', level: level ?? '' };
+};
+
+/**
+ * The effected pass's DPS inputs when Efeitos are ticked, the base ones otherwise —
+ * the same effected-or-base rule {@link pickHeroDamage} applies to the hero figure, and
+ * gated on the same flag for the same reason (unticking the last Efeito can leave
+ * `effected*` stale).
+ *
+ * Without this the rows read the un-effected inputs, so ticking an Efeito moved the hero
+ * DPS and the (i) popover but left every row and the cycle total untouched.
+ */
+function effectedDpsInputs(dmg: any, hasSelectedChances: boolean): any {
+  if (!dmg) return dmg;
+  const hasEffected = hasSelectedChances && (dmg.effectedSkillDpsInputMin ?? 0) > 0;
+  if (!hasEffected) return dmg;
+
+  return {
+    ...dmg,
+    skillDpsInputMin: dmg.effectedSkillDpsInputMin,
+    skillDpsInputMax: dmg.effectedSkillDpsInputMax,
+    skillDpsInputCriDmg: dmg.effectedSkillDpsInputCriDmg,
+    skillDpsInputHitsPerSec: dmg.effectedSkillDpsInputHitsPerSec,
+    skillCriRateToMonster: dmg.effectedSkillCriRateToMonster,
+    skillAccuracy: dmg.effectedSkillAccuracy,
+    skillTotalHit: dmg.effectedSkillTotalHit,
+  };
+}
+
+/**
+ * Per-use damage for one skill: the engine's own damage arithmetic (accuracy- and
+ * crit-weighted, summed over every hit), with no rate applied.
+ *
+ * DELIBERATE DIVERGENCE from `dmg.skillDps`. The engine derives its DPS through two
+ * truncations that are invisible at high rates and brutal at low ones:
+ * `totalHitPerSec = floor(1 / hitPeriod, 1)` (calc-skill-aspd.ts) and
+ * `oneHitDps = floor(hitsPerSec * totalDamage)` (calc-dmg-dps.ts). On a 5,56s skill
+ * dealing 26 per hit over 10 hits, that is `floor(0,1798, 1) = 0,1`, then
+ * `floor(0,1 x 26) = 2`, then `10 x 2 = 20` — against a true 260 / 5,56 = 46,8.
+ *
+ * The rotation divides real damage by real time, so it reports the true rate. The
+ * engine's own numbers are left exactly as they were (the "Resumo de Batalha (antigo)"
+ * tab still shows 20), which does mean the two panels disagree on slow skills.
+ * See docs/combo.md.
+ */
+function skillDamagePerUse(dmg: any): number {
+  const steps = buildDpsSteps(dmg);
+  if (!steps) return 0;
+
+  return steps.totalHit * steps.avgDamagePerHit;
+}
+
+/** Per-use damage for ataque básico. `basicDps` is already damage x rate, so dividing by
+ *  the rate recovers the damage exactly rather than re-deriving it from min/max/crit. */
+function basicDamagePerUse(summary: any, hasSelectedChances: boolean): number {
+  const dmg = summary?.dmg;
+  const rate = summary?.calc?.hitPerSecs || 0;
+  if (!dmg || rate <= 0) return 0;
+
+  const dps = (hasSelectedChances ? dmg.effectedBasicDps : 0) || dmg.basicDps || 0;
+  return dps / rate;
+}
+
+/**
+ * Map one solved summary onto the scheduler's per-step timing.
+ *
+ * `castPeriod` is used rather than `reducedFct + reducedVct` so that `hitEveryNSec`
+ * skills come through the way calc-skill-aspd already treats them: the channel time is
+ * the cast and the block period is zero. `blockPeriod === 0` is exactly that signal.
+ */
+export function toScheduleStep(input: { value: string; summary: any; damage: number }): RotationScheduleStep {
+  const { value, summary, damage } = input;
+  if (isBasicAttack(value)) {
+    return { key: BASIC_ATTACK_VALUE, cast: 0, acd: 0, cd: 0, damage };
+  }
+
+  const calcSkill = summary?.calcSkill ?? {};
+  const cast = calcSkill.castPeriod || 0;
+  const blockPeriod = Math.max(0, (calcSkill.hitPeriod || 0) - cast);
+  const channelled = blockPeriod <= 0 && (calcSkill.reducedAcd > 0 || calcSkill.reducedCd > 0);
+
+  return {
+    // Recarga is per skill, shared across its levels, so the name is the identity.
+    key: splitValue(value).name,
+    cast,
+    acd: channelled ? 0 : calcSkill.reducedAcd || 0,
+    cd: channelled ? 0 : calcSkill.reducedCd || 0,
+    damage,
+  };
+}
+
+export function buildRotationView(input: {
+  rotation: string[];
+  /** One solved `getTotalSummary()` per distinct rotation value. */
+  summaryByValue: Map<string, any>;
+  /** Any solved summary — ataque básico and the VelAtq floor read from it. */
+  baseSummary: any;
+  hasSelectedChances: boolean;
+  atkSkills: RotationSkillMeta[];
+}): RotationView {
+  const { rotation, summaryByValue, baseSummary, hasSelectedChances, atkSkills } = input;
+
+  const metaFor = (value: string): RotationSkillMeta | undefined =>
+    atkSkills?.find((s) => s.value === value || s.values?.includes(value) || s.levelList?.some((l) => l.value === value));
+
+  const aspdPeriod = baseSummary?.calc?.hitPerSecs > 0 ? 1 / baseSummary.calc.hitPerSecs : 0;
+
+  const seen = new Map<string, number>();
+  const partial = (rotation ?? []).map((value, index) => {
+    const basic = isBasicAttack(value);
+    const summary = basic ? baseSummary : summaryByValue.get(value) ?? baseSummary;
+    const dmg = summary?.dmg;
+    const { name, level } = splitValue(value);
+    const meta = metaFor(value);
+
+    // One effected-or-base view of this skill's numbers, so the crit the row prints is
+    // the crit its damage was computed with.
+    const edmg = basic ? dmg : effectedDpsInputs(dmg, hasSelectedChances);
+    const requireTxt = basic ? '' : dmg?.requireTxt || '';
+    const damage = requireTxt ? 0 : basic ? basicDamagePerUse(summary, hasSelectedChances) : skillDamagePerUse(edmg);
+
+    const occurrence = seen.get(value) ?? 0;
+    seen.set(value, occurrence + 1);
+
+    return {
+      index,
+      value,
+      isBasic: basic,
+      name: basic ? 'Ataque básico' : meta?.label?.replace(/\s*Lv\d+.*$/, '') || name,
+      levelLabel: basic || !level ? '' : `Nv${level}`,
+      icon: meta?.icon,
+      levelList: meta?.levelList ?? [],
+      damage,
+      contributionPercent: 0,
+      dmgTypeLabel: basic ? dmgTypeLabel('Melee') : dmgTypeLabel(summary?.calcSkill?.dmgType ?? ''),
+      element: basic ? summary?.propertyAtk ?? '' : summary?.calcSkill?.propertySkill ?? '',
+      propertyMultiplier: basic ? 1 : dmg?.skillPropertyMultiplier ?? 1,
+      requireTxt,
+      // Ataque básico always rolls crit; a skill only where the engine says so.
+      canCrit: basic ? (dmg?.criRateToMonster ?? 0) > 0 : !!dmg?.skillCanCri,
+      critRate: basic ? dmg?.criRateToMonster ?? 0 : edmg?.skillCriRateToMonster ?? 0,
+      critConditional: !basic && typeof meta?.canCri === 'function',
+      occurrence,
+      summary,
+    };
+  });
+
+  const cycle = simulateRotation({
+    steps: partial.map((entry) => toScheduleStep({ value: entry.value, summary: entry.summary, damage: entry.damage })),
+    aspdPeriod,
+  });
+
+  const entries: RotationEntryView[] = partial.map((entry, i) => ({
+    ...entry,
+    contributionPercent: cycle.lanes[i]?.contributionPercent ?? 0,
+    lane: cycle.lanes[i],
+  }));
+
+  const monsterHp = baseSummary?.monster?.hp || 0;
+
+  return {
+    entries,
+    cycle,
+    ttk: computeTimeToKill(monsterHp, cycle.sustainedDps),
+    cyclesToKill: cycle.damagePerCycle > 0 ? Math.ceil(monsterHp / cycle.damagePerCycle) : 0,
+    blocked: entries.filter((e) => e.requireTxt).map((e) => ({ name: e.name, requireTxt: e.requireTxt })),
+    aspdPeriod,
+  };
+}

@@ -204,6 +204,18 @@ export class CalculatorController {
    * This is the single place the whole computed state is produced.
    */
   runChain(calc: Calculator, input: CalcChainInput): Calculator {
+    this.applySetters(calc, input);
+
+    return this.solveSkill(calc, input, input.selectedAtkSkill);
+  }
+
+  /**
+   * The skill-independent half of the solve: target, buffs, consumables and the
+   * learned/active skill sets. Everything here is a plain assignment, so it is
+   * applied once and then reused by every {@link CalculatorController.solveSkill}
+   * pass over the same calculator.
+   */
+  private applySetters(calc: Calculator, input: CalcChainInput): Calculator {
     // PVP: a player target replaces the monster (setPlayerTarget also arms the
     // reduction context). Otherwise the normal vs-monster path.
     if (input.playerTarget) {
@@ -211,21 +223,48 @@ export class CalculatorController {
     } else {
       calc.setMonster(input.monster);
     }
+
     return calc
-      .setEquipAtkSkillAtk(input.equipAtks)
       .setBuffBonus({ masteryAtk: input.buffMasterys, equipAtk: input.buffEquips })
-      .setMasterySkillAtk(input.masteryAtks)
       .setConsumables(input.consumeData)
       .setAspdPotion(input.aspdPotion)
       .setExtraOptions(input.extraOptionScripts)
       .setUsedSkillNames(input.activeSkillNames)
-      .setLearnedSkills(input.learnedSkillMap)
-      .setOffensiveSkill(input.selectedAtkSkill)
+      .setLearnedSkills(input.learnedSkillMap);
+  }
+
+  /**
+   * Solve an already-prepared calculator (see {@link CalculatorController.applySetters},
+   * plus the caller's own item loading) for one offensive skill. Split out of
+   * `runChain` so an attack rotation can solve several skills against the same
+   * loaded build without paying for `loadItemFromModel`/`setItem` again.
+   *
+   * The two re-seeds at the top make each pass independent. `prepareAllItemBonus()` ends
+   * in `setAdditionalBonus`, which receives a *live reference* to `equipAtkSkillBonus`
+   * (see Calculator.additionalBonusInput) and lets a job mutate it —
+   * `clearSupersededBonusSource` zeroes a superseded bonus there — while
+   * `prepareAllItemBonus()` rebuilds `totalEquipStatus` from those same (now mutated)
+   * sources. Getting a second pass right therefore depends on the job reading the source
+   * map rather than re-subtracting a fixed amount; when Windhawk did the latter its
+   * `range` went 767 -> 417 (correct) -> 67 (wrong), the bug instinto-dex-chance.spec.ts
+   * was written for.
+   *
+   * Every job in the tree gets this right today, so the re-seed fixes no live bug. It is
+   * here because a rotation multiplies the pass count by the number of skills, and
+   * `setEquipAtkSkillAtk` already deep-copies each skill's bonus map out of the catalog:
+   * restoring pristine sources per pass costs one object rebuild and removes per-job
+   * idempotence from the set of things a correct rotation depends on.
+   */
+  solveSkill(calc: Calculator, input: CalcChainInput, skillValue: string): Calculator {
+    return calc
+      .setEquipAtkSkillAtk(input.equipAtks)
+      .setMasterySkillAtk(input.masteryAtks)
+      .setOffensiveSkill(skillValue)
       .prepareAllItemBonus()
       .calcAllAtk()
       .setSelectedChances(input.selectedChances)
       .calcAllDefs()
       .calculateHpSp({ isUseHpL: input.usedHpL })
-      .calculateAllDamages(input.selectedAtkSkill);
+      .calculateAllDamages(skillValue);
   }
 }

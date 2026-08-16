@@ -191,6 +191,14 @@ export interface SkillDamageSummaryModel {
   effectedSkillDamageMax?: number;
   effectedSkillHitsPerSec?: number;
   effectedSkillDps?: number;
+  /** The effected pass's own calcDmgDps() inputs — the skillDpsInput* counterparts. */
+  effectedSkillDpsInputMin?: number;
+  effectedSkillDpsInputMax?: number;
+  effectedSkillDpsInputCriDmg?: number;
+  effectedSkillDpsInputHitsPerSec?: number;
+  effectedSkillCriRateToMonster?: number;
+  effectedSkillAccuracy?: number;
+  effectedSkillTotalHit?: number;
 }
 
 export interface SkillAspdModel {

@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { OverlayPanel } from 'primeng/overlaypanel';
-import { ElementType } from '../../../../constants/element-type.const';
 import { itemSlotLabelPtBr } from '../../../../constants/item-slot-i18n';
 import { dmgTypeLabel as dmgTypeLabelUtil } from '../../../../utils';
+import { RotationCycle } from '../../../../core/rotation-schedule';
+import { RotationEntryView, RotationView } from './rotation-view';
 import {
   buildDpsSteps,
   buildGraphClusters,
@@ -13,6 +14,7 @@ import {
   deltaPercent,
   DpsSide,
   DpsSteps,
+  elementTagClass as elementTagClassFn,
   FormulaGraphCluster,
   HeroDamage,
   OptimizeInfo,
@@ -106,6 +108,9 @@ export class BattleHudComponent implements OnDestroy {
   @Input({ required: true }) isInProcessingPreset: boolean;
   @Input({ required: true }) selectedChances: string[];
   @Input({ required: true }) chanceList: any[];
+  /** The compared build's own Efeitos list and selection (comparison mode only). */
+  @Input() chanceList2: any[] = [];
+  @Input() selectedChances2: string[] = [];
   @Input({ required: true }) model = {} as any;
   @Input({ required: true }) hideBasicAtk: boolean;
   @Input({ required: true }) showLeftWeapon: boolean;
@@ -126,9 +131,32 @@ export class BattleHudComponent implements OnDestroy {
   @Input() reductionCategories: ReductionCategory[] = [];
   @Input() reductionSources: Record<string, any> = {};
 
+  // --- Rotation ---------------------------------------------------------------
+  /** Everything the rotation draws: per-entry damage/timing plus the solved cycle. */
+  @Input() rotationView: RotationView | null = null;
+  /** The compared build's rotation, positionally aligned with `rotationView`. */
+  @Input() rotationView2: RotationView | null = null;
+  /** The raw ordered values — the list edits this, not the view. */
+  @Input() rotation: string[] = [];
+  /** The class's offensive skills, for the add picker and the level chips. */
+  @Input() atkSkills: any[] = [];
+  @Input() isShowSelectableSkillLevel = false;
+
+  @Output() rotationChange = new EventEmitter<string[]>();
+  @Output() optimizeClick = new EventEmitter<void>();
+
   @Output() selectedChancesChange = new EventEmitter<string[]>();
+  @Output() selectedChances2Change = new EventEmitter<string[]>();
   @Output() showElementTableClick = new EventEmitter<any>();
-  @Output() showBonusBreakdownClick = new EventEmitter<{ label: string; keys: string[]; valueClass: string; total?: number; calc?: DamageFormulaCalc }>();
+  @Output() showBonusBreakdownClick = new EventEmitter<{
+    label: string;
+    keys: string[];
+    valueClass: string;
+    total?: number;
+    calc?: DamageFormulaCalc;
+    /** Read the compared build's sources instead of the current one's. */
+    compare?: boolean;
+  }>();
   @Output() reductionRowClick = new EventEmitter<ReductionRow>();
 
   /** A reduction row is drillable when the target's gear sources one of its keys (WoE
@@ -152,11 +180,8 @@ export class BattleHudComponent implements OnDestroy {
   // it never had a color, by design) must not fall through to p-tag's own default
   // background. 'el-tag-neutral' (battle-hud.component.css) reproduces the old
   // outlined/neutral badge look instead of an arbitrary PrimeNG color.
-  private static readonly ELEMENT_COLOR_CLASSES: Set<string> = new Set(Object.values(ElementType).filter((e) => e !== ElementType.Neutral));
-
-  elementTagClass(elementUpper: string | undefined): string {
-    return elementUpper && BattleHudComponent.ELEMENT_COLOR_CLASSES.has(elementUpper) ? 'property_' + elementUpper : 'el-tag-neutral';
-  }
+  // The rule itself lives in battle-hud.logic.ts, shared with the rotation rows.
+  elementTagClass = elementTagClassFn;
 
   onShowElementalTableClick(): void {
     this.showElementTableClick.emit(1);
@@ -178,9 +203,33 @@ export class BattleHudComponent implements OnDestroy {
   // equipment bonuses, so they open the dialog on the strength of the calc alone —
   // isBreakdownClickable would (correctly) reject them, since no equipped source
   // contributes to their keys.
-  openBreakdown(label: string, keys: string[] = [], valueClass = 'summary_stat_matk', total?: number, calc?: DamageFormulaCalc): void {
+  //
+  // `compare` resolves the rows against the compared build's own equipment instead of the
+  // current one's — every "→ simulado" value drills into the build it actually belongs to.
+  openBreakdown(
+    label: string,
+    keys: string[] = [],
+    valueClass = 'summary_stat_matk',
+    total?: number,
+    calc?: DamageFormulaCalc,
+    compare = false,
+  ): void {
     if (!calc && !this.isBreakdownClickable(keys)) return;
-    this.showBonusBreakdownClick.emit({ label, keys, valueClass, total, calc });
+    this.showBonusBreakdownClick.emit({ label: compare ? `${label} (comparação)` : label, keys, valueClass, total, calc, compare });
+  }
+
+  /** A kvPair's simulated column: the same breakdown, read from the compared build. */
+  openBreakdownCompare(label: string, keys: string[] = []): void {
+    this.openBreakdown(label, keys, 'summary_stat_atk', undefined, undefined, true);
+  }
+
+  /**
+   * The crit rate behind a rotation row. `compare` drills into the compared build's own
+   * equipment rather than the current one's — clicking the simulated number and being
+   * shown the current build's sources would be actively misleading.
+   */
+  openCritBreakdown(compare = false): void {
+    this.openBreakdown('Tx. Crítico', ['cri'], 'summary_stat_atk', undefined, undefined, compare);
   }
 
   /** A graph node is clickable when it has a derivation to show or equipment behind it. */
@@ -196,8 +245,102 @@ export class BattleHudComponent implements OnDestroy {
     return (label2 || '').replace(/^\s*\[\s*/, '').replace(/\s*\]\s*$/, '');
   }
 
+  /**
+   * Which rotation entry the per-skill popovers are describing. Set by a row's `(i)`;
+   * -1 means "no row picked", and the panels fall back to the build's own summary.
+   *
+   * One overlay panel is reused for every row rather than one panel per row: with up to
+   * 20 entries carrying the full details/formula markup, per-row instances would be a
+   * lot of DOM for something only ever open one at a time.
+   */
+  activeStepIndex = -1;
+
+  private get activeStep(): RotationEntryView | null {
+    return this.rotationView?.entries?.[this.activeStepIndex] ?? null;
+  }
+
+  /** The rotation entry the (i) popover is describing — its header reads from this. */
+  get activeEntry(): RotationEntryView | null {
+    return this.activeStep;
+  }
+
+  /** Per-hit range behind a multi-hit total: the design's "soma de N golpes · X – Y cada". */
+  get activePerHit(): { hits: number; min: number; max: number } | null {
+    const hits = this.dmg?.skillTotalHit ?? 0;
+    if (!(hits > 1)) return null;
+    const h = pickHeroDamage(this.dmg, this.hasSelectedChances);
+
+    return { hits, min: h.min / hits, max: h.max / hits };
+  }
+
+  /** The summary every per-skill panel reads: the picked rotation entry's own solve,
+   *  or the build's when no row is picked. */
+  private get activeSummary(): any {
+    return this.activeStep?.summary ?? this.totalSummary;
+  }
+
+  private get activeSummary2(): any {
+    return this.rotationView2?.entries?.[this.activeStepIndex]?.summary ?? this.totalSummary2;
+  }
+
+  /** Opens the details popover for a row — the basic-attack variant for ataque básico. */
+  openStepDetails(payload: { index: number; event: Event }, detailsPanel: any, basicPanel: any) {
+    this.activeStepIndex = payload.index;
+    const panel = this.activeStep?.isBasic ? basicPanel : detailsPanel;
+    panel?.toggle(payload.event);
+  }
+
+  /**
+   * A row's damage figure opens the same formula the (i) popover's figure does, for that
+   * row's own step — ataque básico has no skill formula, so it gets its own panel.
+   */
+  openStepDamageFormula(payload: { index: number; event: Event }, formulaPanel: any, basicPanel: any) {
+    this.activeStepIndex = payload.index;
+    const panel = this.activeStep?.isBasic ? basicPanel : formulaPanel;
+    panel?.toggle(payload.event);
+  }
+
+  trackByIndex(index: number): number {
+    return index;
+  }
+
+  get cycle(): RotationCycle | null {
+    return this.rotationView?.cycle ?? null;
+  }
+
+  get cycle2(): RotationCycle | null {
+    return this.isComparing ? this.rotationView2?.cycle ?? null : null;
+  }
+
+  /** A one-entry rotation reads as "spam this skill", so the panel promotes Hab./s and
+   *  labels the damage "por uso" instead of "por ciclo". */
+  get isSingleEntryRotation(): boolean {
+    return this.rotation?.length === 1;
+  }
+
+  /**
+   * Whether the first pass is worth calling out. Compared with a half-a-centisecond
+   * slack rather than `<`: the two are computed from the same float additions in a
+   * different order, so a rotation with no stall at all lands a hair apart and would
+   * otherwise render "1º ciclo 11,12s" next to "Ciclo 11,12s".
+   */
+  get showsFirstCycle(): boolean {
+    const c = this.cycle;
+    if (!c || this.isSingleEntryRotation) return false;
+
+    return c.cycleDuration - c.firstCycleDuration > 0.005;
+  }
+
+  get dpsDeltaPercent(): number | null {
+    const before = this.cycle?.sustainedDps ?? 0;
+    const after = this.cycle2?.sustainedDps ?? 0;
+    if (!(before > 0) || !this.isComparing) return null;
+
+    return ((after - before) / before) * 100;
+  }
+
   get dmg(): any {
-    return this.totalSummary?.dmg;
+    return this.activeSummary?.dmg;
   }
 
   // "Dano Crít." tooltip: some skills only apply a fraction of the character's
@@ -211,11 +354,11 @@ export class BattleHudComponent implements OnDestroy {
   }
 
   get dmg2(): any {
-    return this.totalSummary2?.dmg;
+    return this.activeSummary2?.dmg;
   }
 
   get calcSkill(): any {
-    return this.totalSummary?.calcSkill;
+    return this.activeSummary?.calcSkill;
   }
 
   get isComparing(): boolean {
@@ -242,6 +385,13 @@ export class BattleHudComponent implements OnDestroy {
     return (this.selectedChances?.length ?? 0) > 0;
   }
 
+  /** The same flag for the compared build, which ticks its own Efeitos. Reading the main
+   *  build's flag for a `dmg2` value left the comparison column on base damage whenever
+   *  the two selections differed. */
+  private get hasSelectedChances2(): boolean {
+    return (this.selectedChances2?.length ?? 0) > 0;
+  }
+
   // "Hab./s" sub-line — see pickHitsPerSec for the effected||base fallback and the
   // VelAtq cap it applies.
   get heroHitsPerSec(): number {
@@ -256,7 +406,7 @@ export class BattleHudComponent implements OnDestroy {
   // attack at all), so the template tests `!== null` rather than truthiness.
   get heroHitsPerSecSim(): number | null {
     if (!this.isComparing) return null;
-    const sim = pickHitsPerSec(this.totalSummary2, this.hasSelectedChances);
+    const sim = pickHitsPerSec(this.totalSummary2, this.hasSelectedChances2);
 
     return Math.abs(sim - this.heroHitsPerSec) < HITS_PER_SEC_EPSILON ? null : sim;
   }
@@ -271,7 +421,7 @@ export class BattleHudComponent implements OnDestroy {
 
   private get heroPrimarySimulated(): number {
     if (!this.isComparing) return 0;
-    const h = pickHeroDamage(this.dmg2, this.hasSelectedChances);
+    const h = pickHeroDamage(this.dmg2, this.hasSelectedChances2);
     return this.isAutoSpell ? (h.min + h.max) / 2 : h.dps;
   }
 
@@ -289,7 +439,7 @@ export class BattleHudComponent implements OnDestroy {
     ttkSim: TimeToKill | null;
   } {
     const current = pickHeroDamage(this.dmg, this.hasSelectedChances);
-    const simulated = this.isComparing ? pickHeroDamage(this.dmg2, this.hasSelectedChances) : null;
+    const simulated = this.isComparing ? pickHeroDamage(this.dmg2, this.hasSelectedChances2) : null;
 
     const primaryCurrent = this.isAutoSpell ? (current.min + current.max) / 2 : current.dps;
     const primarySimulated = simulated ? (this.isAutoSpell ? (simulated.min + simulated.max) / 2 : simulated.dps) : 0;
@@ -486,3 +636,4 @@ export class BattleHudComponent implements OnDestroy {
     });
   }
 }
+

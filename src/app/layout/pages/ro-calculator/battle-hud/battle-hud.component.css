@@ -92,10 +92,23 @@
   overflow: visible;
 }
 
+/* A PVP target's paper-doll is constrained by HEIGHT, matching the monster sprite's box
+   so the two cards line up; the width then follows the render, which differs between the
+   fixed 110x140 canvas and the canvas-less `bareJobSprite` fallback. */
+.sprite--doll {
+  width: auto;
+  height: 104px;
+}
+
 .sprite img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+}
+
+/* Its own line under the HP, not a chip floating at the far end of the band. */
+.hud-monster-info .hud-reduction {
+  margin-top: 6px;
 }
 
 .hud-monster-info {
@@ -482,12 +495,14 @@
 
 /* ---- efeitos (buffs) ----------------------------------------------------- */
 
+/* Caption on its own line, chips beneath it: side by side the caption pushed the first
+   chip out of line with the rest once the set wrapped. */
 .hud-buffs {
   display: flex;
-  gap: 6px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
   margin: 0 0 var(--hud-gap);
-  align-items: center;
-  flex-wrap: wrap;
 }
 
 .hud-buffs .cap {
@@ -495,7 +510,6 @@
   text-transform: uppercase;
   letter-spacing: 0.07em;
   color: var(--text-color-secondary);
-  margin-right: 4px;
 }
 
 /* AURA badge: vivid red, distinct from the pink "Chefe" danger tag. */
@@ -662,8 +676,10 @@
   margin-top: 10px;
 }
 
-/* Promoted stat: bigger and brighter than the rest of the .sub line it leads. */
-.hud-hero .sub .habps {
+/* Promoted stat: bigger and brighter than the rest of the .sub line it leads.
+   The hero strip reuses it in place of "Ciclo Xs" for a single-skill rotation. */
+.hud-hero .sub .habps,
+.hud-hero-meta .habps {
   font-size: 15px;
   font-weight: 700;
   color: var(--orange-300);
@@ -973,4 +989,743 @@
 .hud-menu button {
   flex: 1 1 0;
   min-width: 0;
+}
+
+/* --- Target band (legacy layout, still the live one at this panel width) ---- */
+
+/* One bordered row: sprite | identity | divider | (elemento/raça/tamanho, DEF grid,
+   atributos grid stacked).
+   
+   The earlier five-section band with four dividers measured ~830px and did not fit the
+   panel's ~742px of content, so the right half stacks instead. Sized by CONTAINER width,
+   never the viewport, so the same component degrades correctly in the PVP tab and any
+   other embed. */
+.hud {
+  container-type: inline-size;
+}
+
+.hud-cards {
+  flex-direction: column;
+}
+
+.hud-card-col--monster,
+.hud-card-col--skill {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+/* `stretch`, not `flex-start`: the divider is the right column's own border-left, so it
+   only reaches the band's top and bottom edges if that column is full height. The card
+   padding moves onto the two columns for the same reason — padding on the shared parent
+   would hold the divider away from the borders. */
+.hud-card-col--monster ::ng-deep .p-card-content {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+.hud-card-col--monster .hud-monster-head {
+  flex-shrink: 0;
+  /* Full height, contents centred against it. */
+  align-items: center;
+  margin-bottom: 0;
+  padding: 8px 12px;
+}
+
+.hud-card-col--monster .hud-monster-info {
+  flex: 0 0 206px;
+  width: 206px;
+}
+
+.hud-card-col--monster .sprite {
+  width: 64px;
+  height: 64px;
+}
+
+/* Same height as the monster sprite in this band — must repeat the band's own two-class
+   specificity, or the 64px above wins for width and the doll keeps a square box. */
+.hud-card-col--monster .sprite--doll {
+  width: auto;
+  height: 64px;
+}
+
+/* Fit by height, not by the box: `contain` inside a square would letterbox the render
+   and leave the figure smaller than the monster beside it. */
+.sprite--doll img {
+  width: auto;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+}
+
+/* Everything to the right of the divider, stacked. */
+.hud-band-right {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  border-left: 1px solid var(--surface-border);
+  padding: 8px 12px;
+}
+
+.hud-band-right .hud-sub {
+  order: 1;
+  font-size: 13px;
+}
+
+.hud-band-right .hud-mstats {
+  order: 2;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Atributos as 3 columns x 2 rows — FOR/DES/VIT over INT/AGI/SOR. The DOM order is
+   FOR, INT, DES, AGI, VIT, SOR, so filling by column produces exactly that grid. */
+.hud-band-right .hud-attrs {
+  order: 3;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  grid-auto-flow: column;
+  border-top: 1px solid var(--surface-border);
+  /* Pulled out over the column's own padding so the rule runs edge to edge — from the
+     vertical divider to the band's right border — instead of floating inside. */
+  margin: 0 -12px;
+  padding: 6px 12px 0;
+}
+
+.hud-card-col--monster .hud-reduction,
+.hud-card-col--monster .monster_id_link {
+  order: 5;
+}
+
+/* Below ~420px of container the band stacks completely — the PVP tab and any narrow
+   embed (see the handoff's "Tela estreita" mock). */
+@container (max-width: 420px) {
+  .hud-card-col--monster ::ng-deep .p-card-content {
+    display: block;
+  }
+
+  .hud-card-col--monster .hud-monster-info {
+    width: auto;
+  }
+
+  .hud-band-right {
+    border-left: none;
+    padding-left: 0;
+    margin-top: 8px;
+  }
+}
+
+/* --- Rotation panel -------------------------------------------------------- */
+
+/* Rotação on the left at a fixed width, DPS + timeline taking the rest. Collapses
+   to one column on narrow screens, matching .hud-cards' own breakpoint. */
+/* Stacked by default; side by side only when the panel is actually wide enough for a
+   330px rotation column plus a DPS panel that can hold a 34px number and the timeline.
+   Container-based for the same reason as the target band above. */
+.hud-rot-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hud-gap, 14px);
+  align-items: stretch;
+}
+
+.hud-rot-col {
+  width: 100%;
+}
+
+.hud-dps-col {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--surface-border);
+  border-radius: 3px;
+  padding: 12px;
+}
+
+/* No two-column split any more. The revised design gives the flowchart the panel's
+   full width on purpose: at ~742px of content the short segments (a 0,30s pós) still
+   fit their labels, which they cannot in a 400px right-hand column. */
+
+.hud-hero-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 16px;
+}
+
+.hud-hero-main {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.hud-hero-cycle {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.hud-percycle {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--teal-300, #61beb5);
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-percycle.sim {
+  color: var(--yellow-200, #fde4a5);
+}
+
+.hud-percycle-cap {
+  font-size: 14px;
+  color: var(--text-color-secondary);
+}
+
+.hud-meta {
+  margin-top: 2px;
+  font-size: 11.9px;
+  color: var(--text-color-secondary);
+}
+
+.hud-cycle-len {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--orange-300, #f9ae61);
+}
+
+.hud-sep {
+  margin: 0 4px;
+}
+
+/* `align-self`, not `display: inline-block`: the parent is a column flex container, which
+   blockifies the child and stretches it — so the dashed rule ran the full width of the
+   column instead of sitting under its own text. */
+.hud-meta.dotted {
+  border-bottom: 1px dotted var(--text-color-secondary);
+  align-self: flex-start;
+  cursor: pointer;
+}
+
+/* Handoff: flex row, gap 8px, margin 14px 0 6px. The caption keeps its line and the
+   chips keep their labels' width — nothing here stretches. */
+.hud-tl-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+
+.hud-tl-head .cap2 {
+  white-space: nowrap;
+}
+
+/* 1.6rem is the BUTTON's box, not the glyph: the design is a 22px circular hit area
+   around a 14px icon. Setting font-size to 1.6rem drew a 22px question mark instead. */
+.hud-help {
+  width: 1.6rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 14px;
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.hud-help:hover {
+  background: var(--highlight-bg);
+}
+
+.hud-warn-chip.p-button,
+.hud-invalid-chip {
+  /* A flex item at auto width stretches to fill the row; both chips are exactly as wide
+     as their label, and never wrap it. */
+  width: auto;
+  flex-shrink: 0;
+  white-space: nowrap;
+  border-radius: 3px;
+  padding: 0.15rem 0.5rem;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.hud-warn-chip.p-button {
+  background: transparent;
+  border: 1px solid var(--surface-border);
+  color: var(--yellow-300, #ffe082);
+}
+
+.hud-warn-chip.p-button:enabled:hover {
+  background: rgba(255, 224, 130, 0.08);
+  border-color: var(--surface-border);
+  color: var(--yellow-300, #ffe082);
+}
+
+.hud-invalid-chip {
+  border: 1px solid var(--red-300, #ff8980);
+  color: var(--red-300, #ff8980);
+}
+
+/* The comparison Efeitos row: same geometry as the main one, "simulado" colouring. */
+.cap--cmp {
+  color: var(--yellow-200, #fde4a5);
+}
+
+/* The compare-only marker was an outlined chip; the "Efeitos - comparação" caption
+   already says which build the row belongs to, so the outline was only noise. */
+
+/* Value colours inside the popovers: damage reads teal, rates read orange — the same
+   roles they carry in the panel itself. */
+.pstats .teal {
+  color: var(--teal-300, #61beb5);
+}
+
+.pstats .orange {
+  color: var(--orange-300, #f9ae61);
+}
+
+.pstats .mut {
+  color: var(--text-color-secondary);
+}
+
+/* --- Target band ----------------------------------------------------------- */
+
+/* The panel is one column: the target reads as a band across the top, with the rotation
+   and the DPS below it.
+   
+   Sized by CONTAINER width, not viewport. The mock is drawn at ~900px, but this panel
+   lives in the calculator's right-hand column and renders at ~595px, so a viewport media
+   query would promise room the panel does not have. `@container` asks the only question
+   that matters — how wide is the panel — so the same component degrades correctly here,
+   in the PVP tab, and anywhere it is embedded later. */
+.hud {
+  container-type: inline-size;
+}
+
+.hud-cards {
+  flex-direction: column;
+}
+
+.hud-card-col--monster,
+.hud-card-col--skill {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+/* Identity column holds its width so badges and HP don't reflow mid-band. */
+.hud-card-col--monster .hud-monster-info {
+  min-width: 210px;
+}
+
+/* Wide enough for the band: sprite | identity | elemento/raça/tamanho | DEF | atributos,
+   separated by 1px dividers. Below this it stays stacked, which is what the ~595px the
+   panel actually gets looks like today. */
+/* 1040px, not the mock's ~900: the band's five sections measure ~950px with the markup
+   the vertical card already uses, and `nowrap` means it is a single clean row or it does
+   not engage at all — never a wrapped stack with dividers hanging off the left. The
+   panel renders at ~595px today, so in practice this stays off; see docs/combo.md §6. */
+@container (min-width: 1040px) {
+  .hud-card-col--monster ::ng-deep .p-card-content {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 16px;
+  }
+
+  .hud-card-col--monster ::ng-deep .p-card-content > * {
+    border-left: 1px solid var(--surface-border);
+    padding-left: 16px;
+  }
+
+  .hud-card-col--monster ::ng-deep .p-card-content > *:first-child {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  /* The DOM keeps the old vertical order (head, mstats, sub, attrs); the band wants
+     elemento/raça/tamanho before the DEF grid. */
+  .hud-card-col--monster .hud-monster-head { order: 1; }
+  .hud-card-col--monster .hud-sub { order: 2; }
+  .hud-card-col--monster .hud-mstats { order: 3; }
+  .hud-card-col--monster .hud-attrs { order: 4; }
+  .hud-card-col--monster .hud-reduction { order: 5; }
+  .hud-card-col--monster .monster_id_link { order: 6; }
+
+  .hud-card-col--monster .hud-monster-head,
+  .hud-card-col--monster .hud-monster-info {
+    white-space: nowrap;
+  }
+}
+
+/* --- Efeitos + flags on one row -------------------------------------------- */
+
+/* Efeitos and Efeitos - comparação each get their own line: side by side, two long chip
+   sets read as one run and it stops being obvious which build a chip belongs to. */
+.hud-efeitos-row {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  margin-bottom: var(--hud-gap);
+}
+
+/* The container owns the spacing between the two blocks; each block's own bottom
+   margin stacked on top of it and made the gap read as a section break. */
+.hud-efeitos-row .hud-buffs {
+  margin-bottom: 0;
+}
+
+/* Each row keeps its own trailing flags right-aligned. */
+.hud-efeitos-row .hud-flags {
+  margin-left: auto;
+}
+
+/* --- DPS hero strip -------------------------------------------------------- */
+
+.hud-hero-strip {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.hud-hero-fig {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hud-hero-nums {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.hud-hero-divider {
+  align-self: stretch;
+  width: 1px;
+  background: var(--surface-border);
+}
+
+.hud-hero-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+/* The strip's own caps sit above their figure rather than beside it. */
+.hud-hero-fig .cap2 {
+  font-size: 11.9px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-color-secondary);
+}
+
+/* "Por ciclo" keeps sentence case; only "DPS DO COMBO" is set in caps. Scoped to beat
+   the .hud-hero-fig .cap2 rule above it. */
+.hud-hero-fig .cap2--plain {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* --- Hero strip figures ------------------------------------------------------
+   The DPS number's styling lived under `.hud-hero`, which the strip replaced, so it
+   has to be restated here rather than inherited. */
+.hud-hero-strip .pnum {
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--orange-300, #f9ae61);
+}
+
+.hud-hero-strip .pnum.sim {
+  color: var(--yellow-200, #fde4a5);
+}
+
+.hud-hero-strip .clickable {
+  cursor: pointer;
+}
+
+.hud-hero-strip .clickable:hover {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+/* The compared DPS is the emphasised one, so the current reads a touch smaller. */
+/* A gain is green and a loss is red — this used to be green unconditionally, so a
+   comparison that lost DPS still read as an improvement. */
+.hud-hero-strip .pdelta {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-color-secondary);
+}
+
+.hud-hero-strip .pdelta.pos {
+  color: var(--green-400, #6ebe71);
+}
+
+.hud-hero-strip .pdelta.neg {
+  color: var(--red-400, #ff8980);
+}
+
+.hud-hero-strip .vsarrow {
+  color: var(--text-color-secondary);
+}
+
+/* --- Band density ------------------------------------------------------------
+   The two grids carry `margin: 8px 0` from the vertical card. Inside the band the
+   flex column already spaces them, and the stacked margins made it twice the mock's
+   height. */
+.hud-band-right .hud-mstats,
+.hud-band-right .hud-attrs {
+  gap: 2px 16px;
+}
+
+.hud-band-right .hud-mstats {
+  margin: 0;
+}
+
+/* NB: keeps the negative side margins set above — resetting `margin: 0` here would
+   pull the atributos rule back inside the column's padding. */
+.hud-band-right .hud-attrs {
+  margin: 0 -12px;
+}
+
+.hud-band-right .hud-sub {
+  margin-top: 0;
+}
+
+.hud-band-right .hud-mstats .kv,
+.hud-band-right .hud-attrs .kv {
+  font-size: 13px;
+}
+
+/* The band is one compact bordered row, not a card with card padding. */
+.hud-card-col--monster ::ng-deep .p-card-body,
+.hud-card-col--monster ::ng-deep .p-card-content {
+  padding: 0;
+}
+
+
+
+
+/* --- Rotação and DPS as two separate cards ---------------------------------
+   The skill column's p-card is only a wrapper now: the rotation and the DPS block are
+   each their own card, so the DPS no longer reads as nested inside the rotation. */
+.hud-card-col--skill ::ng-deep .p-card,
+.hud-card-col--skill ::ng-deep .p-card .p-card-body,
+.hud-card-col--skill ::ng-deep .p-card .p-card-content {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.hud-rot-col,
+.hud-dps-col {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: 3px;
+  padding: 12px;
+}
+
+/* Nothing in the rotation to report on yet. */
+.hud-dps-col--empty {
+  opacity: 0.5;
+}
+
+/* The per-row (i) reuses one overlay panel, retargeted on each open. PrimeNG's caret is
+   positioned for the anchor it was first shown against, so it ends up drawn over the
+   next row's icon — drop it and let the panel stand on its own. */
+/* No `:host` prefix on purpose: PrimeNG portals the panel to <body>, so a host-scoped
+   rule would never match it. Bare ::ng-deep emits a global rule, which does. */
+::ng-deep .rot-details-panel.p-overlaypanel:after,
+::ng-deep .rot-details-panel.p-overlaypanel:before {
+  display: none;
+}
+
+/* --- (i) details popover ---------------------------------------------------- */
+
+.pd-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--text-color-secondary);
+}
+
+.pd-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.pd-name {
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+.pd-sep {
+  color: var(--text-color-secondary);
+}
+
+.pd-cap {
+  margin-top: 10px;
+  margin-bottom: 3px;
+  font-size: 11.9px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-color-secondary);
+}
+
+/* Same affordance as the DPS figure in the hero strip: nothing at rest, a dotted
+   underline on hover. A permanent rule read as a static divider under the number.
+   The hover lives on each figure, not the row, so only the number being pointed at
+   underlines — both still open the same formula panel. */
+.pd-dmg {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--teal-300, #61beb5);
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+}
+
+.pd-dmg-val {
+  cursor: pointer;
+}
+
+.pd-dmg-val:hover {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+.pd-dmg-val:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.pd-perhit {
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--text-color-secondary);
+}
+
+.pd-note {
+  margin-top: 6px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--text-color-secondary);
+}
+
+/* --- (i) details popover ---------------------------------------------------- */
+
+.pd-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--text-color-secondary);
+}
+
+.pd-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.pd-name {
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+.pd-cap {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 3px;
+  font-size: 11.9px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-color-secondary);
+}
+
+/* Same affordance as the DPS figure in the hero strip: nothing at rest, a dotted
+   underline on hover. A permanent rule read as a static divider under the number.
+   The hover lives on each figure, not the row, so only the number being pointed at
+   underlines — both still open the same formula panel. */
+.pd-dmg {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--teal-300, #61beb5);
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+}
+
+.pd-dmg-val {
+  cursor: pointer;
+}
+
+.pd-dmg-val:hover {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+.pd-dmg-val:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* "atual → simulado" on the headline figure, coloured the way every other compared
+   value in these popovers is. */
+.pd-dmg-arrow {
+  margin: 0 6px;
+  color: var(--text-color-secondary);
+}
+
+.pd-dmg-sim {
+  color: var(--yellow-200, #fde4a5);
+}
+
+.pd-perhit {
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--text-color-secondary);
+}
+
+.pd-note {
+  margin-top: 6px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--text-color-secondary);
+}
+
+/* The popover header's element tag, sized down the same way the rotation rows size
+   theirs — component-scoped styles mean each needs its own copy. */
+::ng-deep .rot-details-panel .pd-head .p-tag {
+  padding: 1px 5px;
+  font-size: 10.5px;
+  line-height: 1.35;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+::ng-deep .rot-details-panel .pd-head .p-tag .p-tag-icon {
+  font-size: 9px;
+  margin-right: 3px;
+}
+
+::ng-deep .rot-details-panel .pd-head .p-tag.el-tag-neutral {
+  background: transparent;
+  border: 1px solid var(--surface-border);
+  color: var(--text-color);
 }

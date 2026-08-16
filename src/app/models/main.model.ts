@@ -43,7 +43,20 @@ export interface MainModel extends Partial<EquipmentModel> {
   crt: number;
   jobCrt: number;
 
+  /**
+   * The single skill the "Resumo de Batalha (antigo)" tab and the engine solve against.
+   * Also a write-through mirror of the first real skill in {@link MainModel.rotation} —
+   * keep the two in sync through `syncRotationMirror()`, never by hand, or the two
+   * panels disagree about what is being calculated.
+   */
   selectedAtkSkill?: string;
+  /**
+   * The attack rotation the "Resumo de Batalha" panel cycles through: ordered,
+   * duplicates allowed, `"<Name>==<level>"` values plus `BASIC_ATTACK_VALUE`.
+   * See src/app/core/rotation.ts. Empty on a build saved before rotations existed,
+   * which `normalizeRotation` migrates to `[selectedAtkSkill]`.
+   */
+  rotation: string[];
   propertyAtk?: ElementType;
   rawOptionTxts: string[];
 

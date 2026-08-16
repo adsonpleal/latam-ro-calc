@@ -1,0 +1,283 @@
+<!--
+  Clickable non-button elements here are made keyboard-operable by the shared
+  keyActivate directive, which the two a11y template rules cannot see.
+-->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+
+<div class="rot">
+  <div class="rot-head">
+    <span class="cap2">ROTAÇÃO<ng-container *ngIf="rotation.length"> · {{ rotation.length }} {{ rotation.length === 1 ? 'HABILIDADE' : 'HABILIDADES' }}</ng-container></span>
+    <span class="rot-head-actions">
+    <button
+      pButton
+      type="button"
+      class="rot-clear"
+      icon="pi pi-trash"
+      label="Limpar"
+      [disabled]="!entries.length || isInProcessingPreset"
+      pTooltip="Remove todas as habilidades da rotação."
+      tooltipPosition="top"
+      (click)="clearClick.emit()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      class="rot-optimize"
+      icon="pi pi-sort-alt"
+      label="Otimizar"
+      [disabled]="!canOptimize"
+      pTooltip="Reordena a rotação buscando o maior DPS: encaixa as habilidades sem conjuração dentro da pós-conjuração das outras e adia as de recarga longa."
+      tooltipPosition="top"
+      (click)="optimizeClick.emit()"
+    ></button>
+    </span>
+  </div>
+
+  <!-- Empty state -->
+  <div class="rot-empty" *ngIf="!entries.length && addingAt === null">
+    <p class="rot-empty-text">Nenhuma habilidade na rotação.</p>
+    <button pButton type="button" label="Adicionar habilidade" icon="pi pi-plus" (click)="startAdding()"></button>
+  </div>
+
+  <div class="rot-rows" cdkDropList (cdkDropListDropped)="onDrop($event)">
+    <!-- No *cdkDragPlaceholder template: CDK's default clone of the dragged row is what
+         makes the landing slot exactly the right height, and rows are not all the same
+         height (a stalled recarga adds a line). It is emptied out in CSS. -->
+    <div class="rot-row" *ngFor="let entry of entries; let i = index; trackBy: trackByIndex" cdkDrag [cdkDragDisabled]="entries.length < 2">
+      <span class="rot-step">{{ i + 1 }}</span>
+
+      <!-- The icon is a second trigger for the same popover the (i) opens. -->
+      <img
+        class="rot-icon rot-icon--btn"
+        *ngIf="entry.isBasic; else skillIcon"
+        [src]="basicAttackIcon"
+        [alt]="entry.name"
+        role="button"
+        tabindex="0"
+        keyActivate
+        pTooltip="Detalhes da habilidade"
+        tooltipPosition="top"
+        (click)="detailsClick.emit({ index: i, event: $event })"
+      />
+      <ng-template #skillIcon>
+        <img
+          class="rot-icon rot-icon--btn"
+          [src]="entry.icon | iconUrl: 'skill'"
+          [alt]="entry.name"
+          missingSkillIcon
+          role="button"
+          tabindex="0"
+          keyActivate
+          pTooltip="Detalhes da habilidade"
+          tooltipPosition="top"
+          (click)="detailsClick.emit({ index: i, event: $event })"
+        />
+      </ng-template>
+
+      <div class="rot-body">
+        <div class="rot-line1">
+          <span class="rot-name" [pTooltip]="entry.name" tooltipPosition="top">{{ entry.name }}</span>
+
+          <!-- A level picker only where the catalog offers levels; otherwise a plain label. -->
+          <p-dropdown
+            *ngIf="entry.levelList.length > 1; else levelText"
+            styleClass="rot-level-dd"
+            appendTo="body"
+            [options]="entry.levelList"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="entry.value"
+            (onChange)="changeLevel(i, $event.value)"
+          >
+            <ng-template pTemplate="selectedItem">
+              <span class="rot-level">{{ entry.levelLabel }}</span>
+            </ng-template>
+          </p-dropdown>
+          <ng-template #levelText>
+            <span class="rot-level rot-level--static" *ngIf="entry.levelLabel">{{ entry.levelLabel }}</span>
+          </ng-template>
+
+          <span class="rot-repeat" *ngIf="entry.occurrence > 0">{{ entry.occurrence + 1 }}ª vez</span>
+
+        </div>
+
+        <div class="rot-line2">
+          <span>{{ entry.dmgTypeLabel }}</span>
+          <p-tag
+            class="el-tag-clickable"
+            icon="pi pi-search"
+            [value]="entry.element | monsterTerm: 'element'"
+            [styleClass]="elementTagClass(entry.element)"
+            pTooltip="Ver tabela elemental"
+            tooltipPosition="top"
+            (click)="isInProcessingPreset ? null : elementTableClick.emit()"
+          ></p-tag>
+          <span class="rot-mult">×{{ entry.propertyMultiplier | number: '1.2-2' }}</span>
+
+          <!-- Crit state, on every row without exception: a rate where the skill can
+               crit, "Sem crít." where it cannot. Silence would read as missing data. -->
+          <span class="rot-crit" *ngIf="entry.canCrit">
+            • Crít.
+            <b
+              class="rot-crit-val"
+              [class.bonus_clickable]="isCritClickable"
+              (click)="critBreakdownClick.emit(false)"
+              keyActivate
+              tabindex="0"
+              role="button"
+              >{{ entry.critRate | number: '1.1-1' }}%</b
+            >
+            <span
+              class="rot-crit-cond"
+              *ngIf="entry.critConditional"
+              pTooltip="O crítico desta habilidade depende do estado atual do personagem — veja a condição em (i)."
+              tooltipPosition="top"
+              >*</span
+            >
+            <ng-container *ngIf="compareOf(i) as sim">
+              <ng-container *ngIf="sim.critRate !== entry.critRate">
+                <span class="rot-arrow">→</span>
+                <span
+                  class="rot-crit-sim"
+                  [class.bonus_clickable]="isCritClickable"
+                  (click)="critBreakdownClick.emit(true)"
+                  keyActivate
+                  tabindex="0"
+                  role="button"
+                  >{{ sim.critRate | number: '1.1-1' }}%</span
+                >
+              </ng-container>
+            </ng-container>
+          </span>
+          <span class="rot-crit rot-crit--none" *ngIf="!entry.canCrit">• Sem crít.</span>
+
+          <span class="rot-require" *ngIf="entry.requireTxt">⚠ Requer {{ entry.requireTxt }}</span>
+        </div>
+
+        <!-- "Recarga não fecha": the rotation idled waiting on this entry's own recarga. -->
+        <div class="rot-stall" *ngIf="entry.lane?.cdWait > 0.001">
+          Recarga não fecha — faltam {{ entry.lane.cdWait | number: '1.2-2' }}s
+        </div>
+      </div>
+
+      <span class="rot-dmg">
+        <span
+          class="rot-dmg-val"
+          role="button"
+          tabindex="0"
+          keyActivate
+          pTooltip="Ver a fórmula do dano"
+          tooltipPosition="top"
+          (click)="damageClick.emit({ index: i, event: $event })"
+          >{{ entry.damage | number: '1.0-0' }}</span
+        >
+        <ng-container *ngIf="compareOf(i) as sim">
+          <span class="rot-arrow" *ngIf="sim.damage !== entry.damage">→</span>
+          <span
+            class="rot-dmg-sim"
+            *ngIf="sim.damage !== entry.damage"
+            role="button"
+            tabindex="0"
+            keyActivate
+            pTooltip="Ver a fórmula do dano"
+            tooltipPosition="top"
+            (click)="damageClick.emit({ index: i, event: $event })"
+            >{{ sim.damage | number: '1.0-0' }}</span
+          >
+        </ng-container>
+        <span class="rot-sep">·</span>
+        <span class="rot-pct" [pTooltip]="contributionTooltip(entry)" tooltipPosition="top"
+          >{{ entry.contributionPercent | number: '1.1-1' }}%</span
+        >
+      </span>
+
+      <i
+        class="pi pi-info-circle rot-info"
+        role="button"
+        tabindex="0"
+        keyActivate
+        aria-label="Detalhes da habilidade"
+        pTooltip="Detalhes da habilidade"
+        tooltipPosition="top"
+        (click)="detailsClick.emit({ index: i, event: $event })"
+      ></i>
+
+      <i
+        class="pi pi-times rot-remove"
+        role="button"
+        tabindex="0"
+        keyActivate
+        [attr.aria-label]="'Remover ' + entry.name"
+        pTooltip="Remover"
+        tooltipPosition="top"
+        (click)="remove(i)"
+      ></i>
+
+      <i
+        class="pi pi-bars rot-handle"
+        [class.rot-handle--idle]="entries.length < 2"
+        cdkDragHandle
+        role="button"
+        [attr.tabindex]="entries.length > 1 ? 0 : null"
+        [attr.aria-label]="'Reordenar ' + entry.name + '. Use as setas para cima e para baixo.'"
+        (keydown.arrowup)="moveBy(i, -1, $event)"
+        (keydown.arrowdown)="moveBy(i, 1, $event)"
+      ></i>
+    </div>
+  </div>
+
+  <!-- The placeholder row while the picker is open. -->
+  <div class="rot-row rot-row--adding" *ngIf="addingAt !== null">
+    <span class="rot-step">{{ addingAt + 1 }}</span>
+    <p-dropdown
+      styleClass="rot-add-dd"
+      panelStyleClass="rot-add-dd-panel"
+      appendTo="body"
+      (onShow)="markFilterAsPlainText()"
+      [options]="skillOptions"
+      optionLabel="label"
+      optionValue="value"
+      [filter]="true"
+      filterBy="label,value"
+      filterPlaceholder="Buscar por nome ou ID"
+      placeholder="Habilidade"
+      [autofocus]="true"
+      [ngModel]="pendingValue"
+      (onChange)="commitAdding($event.value)"
+      (onHide)="pendingValue ? null : cancelAdding()"
+    >
+      <ng-template let-option pTemplate="item">
+        <div class="rot-opt">
+          <img class="rot-icon" *ngIf="option.isBasic" [src]="basicAttackIcon" alt="" aria-hidden="true" />
+          <img class="rot-icon" *ngIf="!option.isBasic" [src]="option.icon | iconUrl: 'skill'" alt="" missingSkillIcon />
+          <span>{{ option.label }}</span>
+          <span class="rot-opt-flag" *ngIf="isInRotation(option.value)">já na rotação</span>
+        </div>
+      </ng-template>
+    </p-dropdown>
+    <i class="pi pi-times rot-remove" role="button" tabindex="0" keyActivate aria-label="Cancelar" (click)="cancelAdding()"></i>
+  </div>
+
+  <!-- The button never stretches; what repeats are allowed is said on hover. -->
+  <div class="rot-addline" *ngIf="entries.length && addingAt === null">
+    <button
+      pButton
+      type="button"
+      class="rot-add"
+      icon="pi pi-plus"
+      label="Adicionar habilidade"
+      [disabled]="isFull"
+      [pTooltip]="
+        isFull
+          ? 'A rotação chegou ao limite de ' + maxLength + ' habilidades.'
+          : 'A mesma habilidade pode entrar mais de uma vez'
+      "
+      tooltipPosition="top"
+      (click)="startAdding()"
+    ></button>
+  </div>
+
+  <!-- Keyboard reordering feedback for screen readers. -->
+  <span class="sr-only" aria-live="polite">{{ moveAnnouncement }}</span>
+</div>

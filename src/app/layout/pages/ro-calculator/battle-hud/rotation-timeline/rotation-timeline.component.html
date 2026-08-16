@@ -1,0 +1,77 @@
+<!--
+  The lane icons are popover triggers, made keyboard-operable by the shared keyActivate
+  directive, which the a11y template rule cannot see.
+-->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+
+<div class="tl">
+  <div class="tl-chart" *ngFor="let chart of charts; let ci = index; trackBy: trackByIndex" [class.tl-chart--cmp]="chart.isCompare">
+    <div class="tl-title" *ngIf="chart.title" [class.tl-title--cmp]="chart.isCompare">{{ chart.title }}</div>
+
+    <div class="tl-lane-row" *ngFor="let lane of chart.lanes; let li = index; trackBy: trackByIndex">
+      <img
+        class="tl-icon"
+        *ngIf="lane.isBasic"
+        [src]="basicAttackIcon"
+        [alt]="lane.name"
+        role="button"
+        tabindex="0"
+        keyActivate
+        pTooltip="Detalhes da habilidade"
+        tooltipPosition="top"
+        (click)="iconClick.emit({ index: li, event: $event })"
+      />
+      <img
+        class="tl-icon"
+        *ngIf="!lane.isBasic"
+        [src]="lane.icon | iconUrl: 'skill'"
+        [alt]="lane.name"
+        missingSkillIcon
+        role="button"
+        tabindex="0"
+        keyActivate
+        pTooltip="Detalhes da habilidade"
+        tooltipPosition="top"
+        (click)="iconClick.emit({ index: li, event: $event })"
+      />
+
+      <div class="tl-track" [class.tl-track--invalid]="lane.invalid">
+        <div
+          *ngFor="let block of lane.blocks; trackBy: trackByIndex"
+          class="tl-block"
+          [ngClass]="'tl-block--' + block.kind"
+          [class.tl-block--full]="block.isFullHeight"
+          [style.left.%]="block.leftPercent"
+          [style.width.%]="block.widthPercent"
+          [pTooltip]="block.tooltip"
+          tooltipPosition="top"
+        >
+          <span class="tl-block-label" *ngIf="block.label">{{ block.label }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-axis">
+      <span
+        *ngFor="let tick of chart.ticks; trackBy: trackByIndex"
+        class="tl-tick"
+        [class.tl-tick--end]="tick.isCycleEnd"
+        [ngClass]="'tl-anchor-' + tick.anchor"
+        [style.left.%]="tick.leftPercent"
+        >{{ tick.label }}</span
+      >
+    </div>
+  </div>
+
+  <div class="tl-legend">
+    <span class="tl-key"><i class="tl-sw tl-sw--fixa"></i>Conj. fixa</span>
+    <span class="tl-key"><i class="tl-sw tl-sw--variavel"></i>Conj. variável</span>
+    <span class="tl-key"><i class="tl-sw tl-sw--pos"></i>Pós-conjuração</span>
+    <span class="tl-key"><i class="tl-sw tl-sw--recarga"></i>Recarga</span>
+    <span class="tl-key"><i class="tl-sw tl-sw--aspd"></i>Espera por VelAtq</span>
+  </div>
+
+  <p class="tl-note" *ngIf="charts.length > 1">
+    Os dois gráficos são completos e independentes: mesma escala de tempo, cada um com o seu próprio marcador de fim de ciclo.
+  </p>
+</div>

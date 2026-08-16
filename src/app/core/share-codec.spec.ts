@@ -96,3 +96,38 @@ describe('decodeBuild', () => {
     expect(decodeBuild(legacy)).toEqual({ class: 4261, level: 230, jobLevel: 50 });
   });
 });
+
+describe('the attack rotation in a share token', () => {
+  const withRotation = { ...preset, selectedAtkSkill: 'Solar Kick==7', rotation: ['Solar Kick==7', 'Sunset Blast==5', '__basic'] };
+
+  it('carries a real rotation through the round trip, order and duplicates intact', () => {
+    const rotation = ['Lunar Eclipse==7', 'Solar Kick==7', 'Sunset Blast==5', 'Solar Kick==7', '__basic'];
+    const build = decodeBuild(encodeBuild({ ...preset, rotation }));
+
+    expect(build?.['rotation']).toEqual(rotation);
+  });
+
+  it('keeps ataque básico, which is not a catalog value', () => {
+    expect(decodeBuild(encodeBuild(withRotation))?.['rotation']).toEqual(withRotation.rotation);
+  });
+
+  it('leaves the rotation out entirely when it is empty', () => {
+    // createMainModel defaults it to [], and dropDefaults strips empty arrays — so a
+    // build that never touched the rotation costs the token nothing.
+    const build = decodeBuild(encodeBuild({ ...preset, rotation: [] }));
+
+    expect(build).not.toHaveProperty('rotation');
+  });
+
+  it('a token written before rotations existed still decodes', () => {
+    const legacy = compressToEncodedURIComponent(
+      JSON.stringify({ class: 4261, level: 230, jobLevel: 50, selectedAtkSkill: 'Solar Kick==7' }),
+    ).replace(/\+/g, '.');
+
+    const build = decodeBuild(legacy);
+    expect(build).not.toHaveProperty('rotation');
+    // setModelByJSONString then migrates the missing key to a rotation of one; see
+    // rotation.spec.ts for normalizeRotation's half of that contract.
+    expect(build?.['selectedAtkSkill']).toBe('Solar Kick==7');
+  });
+});

@@ -21,6 +21,10 @@ export interface PresetModel {
   luk: number;
   jobLuk: number;
   selectedAtkSkill: string;
+  /** The attack rotation (src/app/core/rotation.ts). Absent on presets saved before
+   *  rotations existed, and dropped from share tokens when it is just
+   *  `[selectedAtkSkill]` — `normalizeRotation` rebuilds it either way. */
+  rotation?: string[];
   rawOptionTxts: any[];
   propertyAtk: string;
 

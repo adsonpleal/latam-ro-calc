@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService, SelectItemGroup } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Subject, Subscription, debounceTime, filter, finalize, forkJoin, mergeMap, switchMap, take, tap } from 'rxjs';
+import { Subject, Subscription, debounceTime, finalize, forkJoin, mergeMap, switchMap, take, tap } from 'rxjs';
 import { PresetModel } from 'src/app/api-services';
 import { RoService } from 'src/app/api-services/ro.service';
 import { ItemDescriptionStore } from 'src/app/api-services/item-description.store';
@@ -71,9 +71,13 @@ import { LayoutService } from '../../service/app.layout.service';
 import { ItemShopService } from './item-shop.service';
 import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
-import { applyGuaranaCandy, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectConsumables } from 'src/app/core/calculator-controller';
+import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectConsumables } from 'src/app/core/calculator-controller';
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { CompareState } from 'src/app/core/compare-state';
+import { compactRotationForShare, firstRealSkill, isBasicAttack, normalizeRotation, pruneRotationForClass } from 'src/app/core/rotation';
+import { RotationScheduleStep } from 'src/app/core/rotation-schedule';
+import { optimizeRotation } from 'src/app/core/rotation-optimize';
+import { buildRotationView, RotationView, toScheduleStep } from './battle-hud/rotation-view';
 import { parseOptionScripts } from 'src/app/core/option-scripts';
 import {
   AtkTypeDataModel,
@@ -218,6 +222,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   selectedPvpTargetId: string | null = null;
   /** The solved attacker-vs-target summary that feeds the PVP battle HUD. */
   pvpSummary: any = null;
+  /** The compared build against the same PVP target; null when not comparing. */
+  pvpSummary2: any = null;
   /** "Redução de dano" popover data: the current build's own reductions (main stats,
    *  mode-independent) and the selected PVP target's reductions (HUD, with the WoE
    *  layer for the active mode). Recomputed on each calculate()/calculatePvp(). */
@@ -330,12 +336,28 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   allSelectedMonsterIds: number[];
 
   chanceList = [] as ChanceModel[];
+  /** The compared build's own "Efeitos" list; empty unless comparing. */
+  chanceList2 = [] as ChanceModel[];
+  /** Procs ticked on the compared build. Separate from selectedChances: the two builds
+   *  carry different gear, so a proc can exist on one side only. */
+  selectedChances2 = [] as string[];
   selectedChances = [] as string[];
 
   isCalculating = false;
+  /** The rotation as the panel sees it: per-entry damage/timing plus the solved cycle. */
+  rotationView: RotationView | null = null;
+  rotationView2: RotationView | null = null;
+  rotationViewPvp: RotationView | null = null;
+  /** The compared build's PVP rotation, positionally aligned with rotationViewPvp. */
+  rotationViewPvp2: RotationView | null = null;
+  /** The chain input prepare() last built, reused by the rotation pass. */
+  private lastChainInput: CalcChainInput | null = null;
+
   private calculator = new Calculator();
   private calculator2 = new Calculator();
   private calculatorPvp = new Calculator();
+  /** The compared build's PVP pass — its own instance, like calculator2 for the monster panel. */
+  private calculatorPvp2 = new Calculator();
   private controller = new CalculatorController();
   private calcStorage = new CalcStorage(localStorage);
   private stateCalculator = new BaseStateCalculator();
@@ -656,6 +678,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         } else {
           this.resetModel2();
           this.totalSummary2 = undefined;
+          // Drop the PVP tab's comparison too, or turning it off leaves a stale
+          // "→ simulado" column behind over there.
+          this.pvpSummary2 = null;
+          this.rotationViewPvp2 = null;
         }
         // Rebuild the summary tables so the "Bônus de Habilidade / Multiplicadores"
         // cells pick up (or drop) the compared build's "main → simulado" arrows.
@@ -672,28 +698,21 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       });
     this.allSubs.push(x);
 
+    // Ticking an Efeito used to take a fast path: setSelectedChances(...) +
+    // recalcExtraBonus(selectedAtkSkill) on the main calculator, for that one skill.
+    // A rotation has N skills to refresh (and the compare column has its own list), so
+    // that shortcut cannot produce a correct panel any more — re-solve properly instead.
+    // The full pass costs about what the old one did once the multi-monster loop is
+    // taken out of the same tick, and it also retires the stale-`effected*` hazard the
+    // fast path created (see pickHeroDamage in battle-hud.logic.ts).
     const cObs = this.updateChanceEvent
       .pipe(
         tap(() => (this.isCalculating = true)),
         debounceTime(300),
-        filter(() => {
-          const needCalc = this.selectedChances?.length > 0;
-          if (!needCalc) {
-            this.isCalculatingEvent.next(false);
-            this.calculator.setSelectedChances([]);
-            this.calculateToSelectedMonsters();
-          }
-
-          return needCalc;
-        }),
         tap(() => {
-          this.calculator.setSelectedChances(this.selectedChances).recalcExtraBonus(this.model.selectedAtkSkill);
-          this.totalSummary = this.calculator.getTotalSummary();
-          this.calculateToSelectedMonsters();
-
-          if (this.isEnableCompare) {
-            this.onCompareItemChange();
-          }
+          this.calculate();
+          if (this.isEnableCompare) this.calcCompare();
+          this.applySummaryTables();
         }),
         debounceTime(100),
       )
@@ -736,9 +755,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
         this.selectedMonsterName = this.monsterDataMap[this.selectedMonster]?.name;
 
-        this.calculator.setMasterItems(items).setHpSpTable(hpSpTable);
-        this.calculator2.setMasterItems(items).setHpSpTable(hpSpTable);
-        this.calculatorPvp.setMasterItems(items).setHpSpTable(hpSpTable);
+        // Seeded from one list on purpose: three separate statements are how the PVP
+        // compare calculator was added without one, which made every compare pass in the
+        // PVP tab die inside setWeapon. A new instance is one entry away from working.
+        for (const calc of [this.calculator, this.calculator2, this.calculatorPvp, this.calculatorPvp2]) {
+          calc.setMasterItems(items).setHpSpTable(hpSpTable);
+        }
         this.refreshPvpTargets();
 
         const ens = [] as DropdownModel[];
@@ -917,7 +939,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       calc.loadItemFromModel(this.model);
     }
 
-    this.controller.runChain(calc, {
+    const chainInput: CalcChainInput = {
       monster: this.monsterDataMap[this.selectedMonster],
       playerTarget: pvpTarget,
       pvpMode,
@@ -931,17 +953,112 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       activeSkillNames,
       learnedSkillMap,
       selectedAtkSkill,
-      selectedChances: this.selectedChances,
+      // Each build ticks its own procs; the compare column is not the main one.
+      selectedChances: compareModel ? this.selectedChances2 : this.selectedChances,
       usedHpL,
-    });
+    };
+
+    this.controller.runChain(calc, chainInput);
+    // Stashed for the rotation pass, which re-solves this same loaded calculator once
+    // per distinct skill. Read immediately by the caller — prepare() is synchronous and
+    // never interleaves, so a single slot is enough.
+    this.lastChainInput = chainInput;
 
     return calc;
+  }
+
+  /**
+   * Solve every distinct skill in the rotation on an already-prepared calculator and
+   * build the panel's view model.
+   *
+   * Solves are memoised by skill value: a skill's damage does not depend on where it
+   * sits in the rotation (nothing in the catalog gates on position), so a repeat reuses
+   * the first solve. Ataque básico needs no pass at all — its numbers live in
+   * `dmg.basic*` / `calc.hitPerSecs`, which no offensive skill affects.
+   */
+  private solveRotation(calc: Calculator, input: CalcChainInput, baseSummary: any): RotationView {
+    const summaryByValue = new Map<string, any>();
+
+    for (const value of this.model.rotation ?? []) {
+      if (isBasicAttack(value) || summaryByValue.has(value)) continue;
+      summaryByValue.set(value, this.controller.solveSkill(calc, input, value).getTotalSummary());
+    }
+
+    // Leave the calculator on the skill the rest of the app expects to find it on.
+    this.controller.solveSkill(calc, input, input.selectedAtkSkill);
+
+    return buildRotationView({
+      rotation: this.model.rotation ?? [],
+      summaryByValue,
+      baseSummary,
+      // This build's own ticked procs, not the main build's: prepare() already picks
+      // selectedChances2 for the compared build, so reading `this.selectedChances` here
+      // meant a proc ticked only on the comparison never reached its rows.
+      hasSelectedChances: (input.selectedChances?.length ?? 0) > 0,
+      atkSkills: this.atkSkills,
+    });
+  }
+
+  /** Applies a new rotation order/content from the panel and recalculates. */
+  onRotationChange(rotation: string[]) {
+    this.model.rotation = rotation;
+    this.syncRotationMirror();
+    this.updateItemEvent.next(true);
+  }
+
+  /**
+   * Reorder for the shortest cycle. Damage per cycle is permutation-invariant, so this
+   * is purely about the recarga stalls — see core/rotation-optimize.ts.
+   */
+  onOptimizeRotation() {
+    const cycle = this.rotationView?.cycle;
+    if (!cycle) return;
+
+    const stepByValue = new Map<string, RotationScheduleStep>();
+    for (const entry of this.rotationView.entries) {
+      if (stepByValue.has(entry.value)) continue;
+      stepByValue.set(entry.value, toScheduleStep({ value: entry.value, summary: entry.summary, damage: entry.damage }));
+    }
+
+    const result = optimizeRotation({
+      rotation: this.model.rotation ?? [],
+      stepByValue,
+      aspdPeriod: this.rotationView.aspdPeriod,
+    });
+
+    if (!result.changed) {
+      this.messageService.add({ severity: 'info', summary: 'Otimizar', detail: 'Já está na melhor ordem que encontrei.' });
+      return;
+    }
+
+    // Snapshot for the undo — the old panel only ever diagnosed, this one rewrites the
+    // user's rotation, so the change has to be reversible in one click.
+    const previous = (this.model.rotation ?? []).slice();
+    const gain = result.dpsBefore > 0 ? ((result.dpsAfter - result.dpsBefore) / result.dpsBefore) * 100 : 0;
+    const fmt = (v: number) => v.toFixed(2).replace('.', ',');
+
+    this.onRotationChange(result.order);
+    this.messageService.add({
+      key: 'rotation-optimize',
+      severity: 'success',
+      summary: 'Ordem otimizada',
+      detail: `Ciclo ${fmt(result.cycleBefore)}s → ${fmt(result.cycleAfter)}s (+${gain.toFixed(1).replace('.', ',')}% de DPS).`,
+      life: 8000,
+      data: { previous },
+    });
+  }
+
+  /** Undo for the optimiser toast. */
+  undoOptimize(previous: string[]) {
+    this.messageService.clear('rotation-optimize');
+    this.onRotationChange(previous);
   }
 
   private calculate() {
     const calc = this.prepare(this.calculator);
 
     this.totalSummary = calc.getTotalSummary();
+    this.rotationView = this.lastChainInput ? this.solveRotation(calc, this.lastChainInput, this.totalSummary) : null;
     const modelSummary = calc.getModelSummary() as any;
     this.modelSummary = { ...modelSummary, rawOptionTxts: modelSummary.rawOptionTxts.filter(Boolean) };
     const x = calc.getItemSummary();
@@ -997,6 +1114,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       const m2 = JSON.parse(JSON.stringify(this.model2));
       const calc2 = this.prepare(this.calculator2, m2);
       this.totalSummary2 = calc2.getTotalSummary();
+      this.rotationView2 = this.lastChainInput ? this.solveRotation(calc2, this.lastChainInput, this.totalSummary2) : null;
       this.compareItemSummaryModel = calc2.getItemSummary();
       // Mirror calculate()'s bonusBreakdownSources for the compared build, so a click on a
       // "→ simulado" summary value drills into the compare column's own gear. Consumables and
@@ -1009,6 +1127,22 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         ...potion2.sources,
       };
       this.bonusBreakdownTooltips2 = potion2.tooltips;
+
+      // The PVP tab's comparison column reads model2, which is only settled here.
+      // calculate() already solved PVP, but it ran before this — and enabling the
+      // comparison at all never goes through calculate(), so without this the PVP panel
+      // keeps its single-build result until something else happens to recalculate.
+      //
+      // Guarded because this is the compare pipeline's subscriber: it clears the loading
+      // overlay as its last statement, so anything thrown here would strand the spinner
+      // and unsubscribe the comparison control entirely.
+      if (this.selectedPvpTargetId) {
+        try {
+          this.calculatePvp();
+        } catch (err) {
+          console.error('Falha ao atualizar o PVP após a comparação', err);
+        }
+      }
     }
   }
 
@@ -1017,19 +1151,22 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    *  the item being compared still appears (deduped by name). A compare-only chance,
    *  when toggled on, applies to the compare column (calc2 filters it back in) and is a
    *  no-op on the main column. Prunes selections that no longer have a matching chance. */
+  /**
+   * Rebuild the "Efeitos" lists — one per build, no longer one shared list.
+   *
+   * The two builds carry different gear, so they offer different procs; the design's
+   * comparison mode shows both rows and lets each be ticked on its own. Each list is
+   * also a *union over the rotation's steps*: `prepareAllItemBonus()` rebuilds
+   * `_chanceList` on every pass and item conditions can read the skill name, so a proc
+   * offered for step 1 may be absent for step 3. A proc that applies to only some steps
+   * is simply a no-op on the others — the same tolerance `recalcExtraBonus` already has.
+   */
   private refreshChanceList() {
-    const merged = [...this.calculator.chanceList];
-    if (this.isEnableCompare) {
-      const seen = new Set(merged.map((c) => c.name));
-      for (const c of this.calculator2.chanceList) {
-        if (!seen.has(c.name)) {
-          seen.add(c.name);
-          merged.push(c);
-        }
-      }
-    }
-    this.chanceList = merged;
-    this.selectedChances = this.selectedChances.filter((name) => merged.some((c) => c.name === name));
+    this.chanceList = this.calculator.chanceList.slice();
+    this.chanceList2 = this.isEnableCompare ? this.calculator2.chanceList.slice() : [];
+
+    this.selectedChances = this.selectedChances.filter((name) => this.chanceList.some((c) => c.name === name));
+    this.selectedChances2 = this.selectedChances2.filter((name) => this.chanceList2.some((c) => c.name === name));
   }
 
   /**
@@ -1162,7 +1299,24 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       }
     }
 
+    // Every restore path lands here — share token, the 'ro-set' autosave, a named save
+    // and the .rrf import — so this one line is the whole rotation migration: a build
+    // saved before rotations existed carries no `rotation` key, arrives as [], and
+    // becomes a rotation of one holding its selectedAtkSkill.
+    rawModel.rotation = normalizeRotation(rawModel.rotation, rawModel.selectedAtkSkill);
+
     this.model = rawModel;
+  }
+
+  /**
+   * Keep `selectedAtkSkill` pointing at the rotation's first real skill. Call after any
+   * rotation mutation — add, remove, reorder, level change, optimise, class change.
+   * An all-basic rotation has no skill to mirror and keeps the previous value, because
+   * the engine always needs some valid skill string to solve against.
+   */
+  private syncRotationMirror() {
+    const mirrored = firstRealSkill(this.model.rotation);
+    if (mirrored) this.model.selectedAtkSkill = mirrored;
   }
 
   loadItemSet(presetStrOrModel: string | PresetModel, isSetMinLevel = false) {
@@ -1358,6 +1512,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     if (this.selectedPvpTargetId && !this.pvpTargets.some((t) => t.id === this.selectedPvpTargetId)) {
       this.selectedPvpTargetId = null;
       this.pvpSummary = null;
+      this.pvpSummary2 = null;
+      this.rotationViewPvp2 = null;
     }
   }
 
@@ -1431,6 +1587,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     const sim = this.selectedPvpTarget;
     if (!sim) {
       this.pvpSummary = null;
+      this.pvpSummary2 = null;
+      this.rotationViewPvp2 = null;
       this.targetReductionCategories = [];
       return;
     }
@@ -1452,6 +1610,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     }
     if (!profile) {
       this.pvpSummary = null;
+      this.pvpSummary2 = null;
+      this.rotationViewPvp2 = null;
       this.targetReductionCategories = [];
       this.messageService.add({ severity: 'warn', summary: 'Não foi possível carregar o alvo', detail: 'Abra essa simulação e salve de novo.' });
       return;
@@ -1461,6 +1621,32 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // calculatorPvp in the target's state — prepare() re-sets both to the attacker.
     const calc = this.prepare(this.calculatorPvp, undefined, profile, this.pvpMode);
     this.pvpSummary = calc.getTotalSummary();
+    // The PVP panel reads the same rotation, solved against the player target.
+    this.rotationViewPvp = this.lastChainInput ? this.solveRotation(calc, this.lastChainInput, this.pvpSummary) : null;
+
+    // The compared build against the same target, exactly as calcCompare() does it for
+    // the monster panel. Solved after the main pass so each rotation reads the chain
+    // input its own prepare() produced — including that build's own Efeitos.
+    if (this.isEnableCompare && this.compareItemNames?.length > 0) {
+      // Guarded like buildProfileFromPreset: this runs inside the compare pipeline's
+      // subscriber, whose last statement clears the loading overlay. An exception here
+      // would skip that AND kill the subscription — the panel would sit on the spinner
+      // for good and the comparison control would stop responding. A failed compare pass
+      // costs the "→ simulado" column; it must never cost the app.
+      try {
+        const m2 = JSON.parse(JSON.stringify(this.model2));
+        const calc2 = this.prepare(this.calculatorPvp2, m2, profile, this.pvpMode);
+        this.pvpSummary2 = calc2.getTotalSummary();
+        this.rotationViewPvp2 = this.lastChainInput ? this.solveRotation(calc2, this.lastChainInput, this.pvpSummary2) : null;
+      } catch (err) {
+        console.error('Falha ao solver a comparação no PVP', err);
+        this.pvpSummary2 = null;
+        this.rotationViewPvp2 = null;
+      }
+    } else {
+      this.pvpSummary2 = null;
+      this.rotationViewPvp2 = null;
+    }
   }
 
   openShareDialog(): void {
@@ -1514,7 +1700,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   private buildShareUrl(): string {
-    const token = encodeBuild(this.currentPreset() as unknown as Record<string, any>, this.currentCompareState());
+    // Drop a rotation that is just [selectedAtkSkill]: decoding rebuilds it, so a
+    // single-skill build's token stays exactly what it was before rotations existed.
+    const preset = compactRotationForShare(this.currentPreset() as unknown as Record<string, any>);
+    const token = encodeBuild(preset, this.currentCompareState());
     const { origin, pathname } = window.location;
     return `${origin}${pathname}#/?b=${token}`;
   }
@@ -1938,6 +2127,25 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     } else {
       this.model.selectedAtkSkill = defaultAtkSkill;
     }
+
+    this.setDefaultRotation();
+  }
+
+  /**
+   * Bring the rotation in line with the class that is now loaded: drop entries this
+   * class cannot cast (a class switch, or a share link built on another class) and
+   * reseed an empty one from the skill `setDefaultSkill` just settled on.
+   *
+   * Runs after `selectedAtkSkill` is validated, then hands authority back to the
+   * rotation — from here on the mirror follows the rotation, not the other way round.
+   */
+  private setDefaultRotation() {
+    this.model.rotation = pruneRotationForClass(this.model.rotation ?? [], this.atkSkills);
+    if (!this.model.rotation.length && this.model.selectedAtkSkill) {
+      this.model.rotation = [this.model.selectedAtkSkill];
+    }
+
+    this.syncRotationMirror();
   }
 
   private setAspdPotionList() {
@@ -2984,7 +3192,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // carries no explicit sources) resolves against the TARGET's gear.
     const targetScoped = !event.sources && !event.compare && this.isAllDefenderKeys(event.keys);
     const sources = event.sources ?? (event.compare ? this.bonusBreakdownSources2 : targetScoped ? this.pvpTargetSources : this.bonusBreakdownSources);
-    const itemMap = event.itemMap ?? (event.compare ? this.equipCompareItemIdItemTypeMap : targetScoped ? this.pvpTargetItemMap : this.equipItemIdItemTypeMap);
+    // The compared build is the main gear with only the compared slots swapped, so its
+    // item map is the main one with those slots overridden. `equipCompareItemIdItemTypeMap`
+    // alone holds just the swapped slots, which left every row from an untouched slot
+    // unresolved and printed as its raw engine key ("headUpperEnchant1", "armorCard"...).
+    const compareItemMap = new Map([...this.equipItemIdItemTypeMap, ...this.equipCompareItemIdItemTypeMap]);
+    const itemMap = event.itemMap ?? (event.compare ? compareItemMap : targetScoped ? this.pvpTargetItemMap : this.equipItemIdItemTypeMap);
     const tooltips = event.compare ? this.bonusBreakdownTooltips2 : this.bonusBreakdownTooltips;
     for (const [srcKey, bonusMap] of Object.entries(sources || {})) {
       if (!bonusMap || typeof bonusMap !== 'object') continue;

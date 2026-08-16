@@ -46,12 +46,15 @@
   [onClassChanged]="onClassChanged$"
 ></app-item-search>
 
+<!-- A centred modal, not a side sheet: `position="left"` is what gave it the slide-in
+     animation and pinned it to the edge. Without it PrimeNG centres the dialog and uses
+     its own scale/fade. The height is capped rather than 100vh so it reads as a dialog
+     sitting over the page instead of a full-height panel. -->
 <p-dialog
   header=""
-  position="left"
   [modal]="true"
   [(visible)]="isShowMonsterEle"
-  [style]="{ width: '50vw', 'min-width': '1500px', height: '100vh', 'min-height': '500px' }"
+  [style]="{ width: '92vw', 'max-width': '1600px', height: '85vh', 'min-height': '500px' }"
   [draggable]="false"
   [resizable]="false"
 >
@@ -1972,65 +1975,6 @@
                   ></p-dropdown>
                 </div>
               </div>
-
-              <!-- Skill -->
-              <div class="hud-selectors-col" style="position: relative">
-                <div class="skill-selection" [hidden]="isShowSelectableSkillLevel">
-                  <div class="p-inputgroup">
-                    <p-dropdown
-                      inputId="skillPvpHud"
-                      [autoDisplayFirst]="false"
-                      [resetFilterOnHide]="true"
-                      [options]="atkSkills"
-                      scrollHeight="400px"
-                      placeholder="Habilidade"
-                      [(ngModel)]="model.selectedAtkSkill"
-                      (onChange)="onAtkSkillChange()"
-                    >
-                      <ng-template let-skill pTemplate="selectedItem">
-                        <div class="flex align-items-center gap-1" [pTooltip]="skillTooltip(skill)" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip">
-                          <img *ngIf="skill?.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
-                          <span>{{ skill?.label }}</span>
-                        </div>
-                      </ng-template>
-                      <ng-template let-skill pTemplate="item">
-                        <div class="flex align-items-center gap-1" [pTooltip]="skillTooltip(skill)" [escape]="false" tooltipPosition="right" [showDelay]="400" tooltipStyleClass="item_desc_tooltip">
-                          <img *ngIf="skill.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
-                          <span>{{ skill.label }}</span>
-                        </div>
-                      </ng-template>
-                    </p-dropdown>
-                  </div>
-                </div>
-                <div class="skill-selection" [hidden]="!isShowSelectableSkillLevel">
-                  <div class="p-inputgroup">
-                    <p-cascadeSelect
-                      inputId="skillPvpHudLevel"
-                      [(ngModel)]="model.selectedAtkSkill"
-                      [options]="atkSkillCascades"
-                      optionValue="value"
-                      optionLabel="label"
-                      optionGroupLabel="label"
-                      [optionGroupChildren]="['levelList']"
-                      placeholder="Habilidade"
-                      (onChange)="onAtkSkillChange()"
-                    >
-                      <ng-template pTemplate="value" let-placeholder="placeholder">
-                        <div class="flex align-items-center gap-1">
-                          <img *ngIf="selectedAtkSkillDisplay?.icon" [src]="selectedAtkSkillDisplay.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
-                          <span>{{ selectedAtkSkillDisplay?.label || placeholder }}</span>
-                        </div>
-                      </ng-template>
-                      <ng-template pTemplate="option" let-option>
-                        <div class="flex align-items-center gap-1" [pTooltip]="option?.icon ? skillTooltip(option) : ''" [escape]="false" tooltipPosition="right" [showDelay]="400" tooltipStyleClass="item_desc_tooltip">
-                          <img *ngIf="option?.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
-                          <span>{{ option.label }}</span>
-                        </div>
-                      </ng-template>
-                    </p-cascadeSelect>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -2047,13 +1991,16 @@
           <div class="col-12" *ngIf="pvpSummary">
             <app-battle-hud
               [totalSummary]="pvpSummary"
-              [totalSummary2]="null"
-              [isEnableCompare]="false"
+              [totalSummary2]="pvpSummary2"
+              [isEnableCompare]="isEnableCompare"
               [isCalculating]="isCalculating"
               [isInProcessingPreset]="isInProcessingPreset"
               [selectedChances]="selectedChances"
               (selectedChancesChange)="selectedChances = $event; onSelecteChance($event)"
               [chanceList]="chanceList"
+              [chanceList2]="chanceList2"
+              [selectedChances2]="selectedChances2"
+              (selectedChances2Change)="selectedChances2 = $event; onSelecteChance($event)"
               [model]="model"
               [hideBasicAtk]="hideBasicAtk"
               [showLeftWeapon]="showLeftWeapon"
@@ -2066,6 +2013,13 @@
               [isBreakdownOpen]="isShowBonusBreakdown"
               [reductionCategories]="targetReductionCategories"
               [reductionSources]="pvpTargetSources"
+              [rotationView]="rotationViewPvp"
+              [rotationView2]="rotationViewPvp2"
+              [rotation]="model.rotation"
+              [atkSkills]="atkSkills"
+              [isShowSelectableSkillLevel]="isShowSelectableSkillLevel"
+              (rotationChange)="onRotationChange($event)"
+              (optimizeClick)="onOptimizeRotation()"
               (showElementTableClick)="onShowElementalTableClick()"
               (showBonusBreakdownClick)="showBonusBreakdown($event)"
               (reductionRowClick)="openReductionRow($event, true)"
@@ -2104,68 +2058,8 @@
                 </div>
               </div>
 
-              <!-- Skill -->
-              <div class="hud-selectors-col" style="position: relative">
-                <div class="skill-selection" [hidden]="isShowSelectableSkillLevel">
-                  <div class="p-inputgroup">
-                    <p-dropdown
-                      inputId="skillHud"
-                      [autoDisplayFirst]="false"
-                      [resetFilterOnHide]="true"
-                      [options]="atkSkills"
-                      scrollHeight="400px"
-                      placeholder="Habilidade"
-                      [(ngModel)]="model.selectedAtkSkill"
-                      (onChange)="onAtkSkillChange()"
-                    >
-                      <!-- Same pt-BR client description the "Habilidades" panel shows on hover. -->
-                      <ng-template let-skill pTemplate="selectedItem">
-                        <div class="flex align-items-center gap-1" [pTooltip]="skillTooltip(skill)" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip">
-                          <img *ngIf="skill?.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
-                          <span>{{ skill?.label }}</span>
-                        </div>
-                      </ng-template>
-                      <ng-template let-skill pTemplate="item">
-                        <div class="flex align-items-center gap-1" [pTooltip]="skillTooltip(skill)" [escape]="false" tooltipPosition="right" [showDelay]="400" tooltipStyleClass="item_desc_tooltip">
-                          <img *ngIf="skill.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
-                          <span>{{ skill.label }}</span>
-                        </div>
-                      </ng-template>
-                    </p-dropdown>
-                  </div>
-                </div>
-                <div class="skill-selection" [hidden]="!isShowSelectableSkillLevel">
-                  <div class="p-inputgroup">
-                    <p-cascadeSelect
-                      inputId="skillHud"
-                      [(ngModel)]="model.selectedAtkSkill"
-                      [options]="atkSkillCascades"
-                      optionValue="value"
-                      optionLabel="label"
-                      optionGroupLabel="label"
-                      [optionGroupChildren]="['levelList']"
-                      placeholder="Habilidade"
-                      (onChange)="onAtkSkillChange()"
-                    >
-                      <ng-template pTemplate="value" let-placeholder="placeholder">
-                        <div class="flex align-items-center gap-1">
-                          <img *ngIf="selectedAtkSkillDisplay?.icon" [src]="selectedAtkSkillDisplay.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
-                          <span>{{ selectedAtkSkillDisplay?.label || placeholder }}</span>
-                        </div>
-                      </ng-template>
-                      <!-- Only the skill rows get a popover. Level rows under a skill are
-                           `{ label, value }` with no name, and buffTooltip caches by name —
-                           they would all share one entry and show the wrong description. -->
-                      <ng-template pTemplate="option" let-option>
-                        <div class="flex align-items-center gap-1" [pTooltip]="option?.icon ? skillTooltip(option) : ''" [escape]="false" tooltipPosition="right" [showDelay]="400" tooltipStyleClass="item_desc_tooltip">
-                          <img *ngIf="option?.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
-                          <span>{{ option.label }}</span>
-                        </div>
-                      </ng-template>
-                    </p-cascadeSelect>
-                  </div>
-                </div>
-              </div>
+              <!-- The skill picker moved into the rotation rows: each entry has its own level chip,
+                   and "Adicionar habilidade" opens this same list. -->
             </div>
           </div>
 
@@ -2179,12 +2073,22 @@
               [selectedChances]="selectedChances"
               (selectedChancesChange)="selectedChances = $event; onSelecteChance($event)"
               [chanceList]="chanceList"
+              [chanceList2]="chanceList2"
+              [selectedChances2]="selectedChances2"
+              (selectedChances2Change)="selectedChances2 = $event; onSelecteChance($event)"
               [model]="model"
               [hideBasicAtk]="hideBasicAtk"
               [showLeftWeapon]="showLeftWeapon"
               [selectedMonster]="selectedMonster"
               [selectedMonsterName]="selectedMonsterName"
               [compareItemNames]="compareItemNames"
+              [rotationView]="rotationView"
+              [rotationView2]="rotationView2"
+              [rotation]="model.rotation"
+              [atkSkills]="atkSkills"
+              [isShowSelectableSkillLevel]="isShowSelectableSkillLevel"
+              (rotationChange)="onRotationChange($event)"
+              (optimizeClick)="onOptimizeRotation()"
               [canBreakdownFn]="canBreakdown"
               [isBreakdownOpen]="isShowBonusBreakdown"
               (showElementTableClick)="onShowElementalTableClick()"
@@ -2192,63 +2096,10 @@
             ></app-battle-hud>
           </div>
 
-          <!-- Table -->
-          <div class="col-12 damage_table">
-            <p-table
-              styleClass="p-datatable-striped"
-              filterValue="label"
-              [columns]="selectedColumns"
-              [value]="calcDamages"
-              [loading]="isCalculating"
-              [tableStyle]="{ 'min-width': '40rem' }"
-            >
-              <ng-template pTemplate="caption">
-                <div class="hud-selectors-row">
-                  <div class="hud-selectors-col">
-                    <p-multiSelect
-                      [options]="groupMonsterList"
-                      [group]="true"
-                      [(ngModel)]="selectedMonsterIds"
-                      [filter]="true"
-                      filterBy="label,searchVal"
-                      [showClear]="true"
-                      [showToggleAll]="false"
-                      scrollHeight="400px"
-                      selectedItemsLabel="{0} monsters selected"
-                      placeholder="Escolher Monstros"
-                      [maxSelectedLabels]="2"
-                      (onChange)="onMonsterListChange()"
-                      (onClear)="onMonsterListChange()"
-                    >
-                      <ng-template let-group pTemplate="group">
-                        <div class="flex align-items-center font-bold dropdown_monster_group_label">
-                          <span>{{ group.label }}</span>
-                        </div>
-                      </ng-template>
-                    </p-multiSelect>
-                  </div>
-                  <div class="hud-selectors-col">
-                    <p-multiSelect
-                      [options]="cols"
-                      [(ngModel)]="selectedColumns"
-                      optionLabel="header"
-                      selectedItemsLabel="{0} columns selected"
-                      placeholder="Escolher Colunas"
-                      [maxSelectedLabels]="5"
-                      (onChange)="onSelectedColChange()"
-                      (onClear)="onSelectedColChange()"
-                    ></p-multiSelect>
-                  </div>
-                </div>
-              </ng-template>
-              <ng-template pTemplate="header" let-columns>
-                <ng-container *ngTemplateOutlet="damageTableHeader; context: { $implicit: columns }"></ng-container>
-              </ng-template>
-              <ng-template pTemplate="body" let-item let-columns="columns">
-                <ng-container *ngTemplateOutlet="damageTableBody; context: { $implicit: item, columns: columns }"></ng-container>
-              </ng-template>
-            </p-table>
-          </div>
+          <!-- The multi-target damage table was dropped here when this panel became a
+               rotation: it reports one skill against many monsters, which no longer
+               matches what the panel calculates. The "Resumo de Batalha (antigo)" tab
+               below still carries it, and a multi-target rotation table is planned. -->
         </div>
       </p-accordionTab>
 

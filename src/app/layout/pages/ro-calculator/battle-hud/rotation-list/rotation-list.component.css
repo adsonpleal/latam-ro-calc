@@ -1,0 +1,503 @@
+/* The "ROTAÇÃO" column. Sizes come from the handoff; colours are the vela-green
+   theme's own variables, so a theme change carries through. 1rem = 14px. */
+
+.rot {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rot-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* "ROTAÇÃO · N HABILIDADES" stays on one line. */
+.rot-head .cap2 {
+  white-space: nowrap;
+}
+
+.cap2 {
+  font-size: 11.9px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-color-secondary);
+}
+
+/* Transparent, bordered text button — not a filled primary, so it never competes with
+   the DPS number for attention. Otimizar and Limpar share one treatment; the handoff
+   specifies it for Otimizar and Limpar follows the same standard. */
+/* Values taken from the handoff's own markup for this button:
+   inline-flex, gap .3rem, transparent, 1px solid #304562, radius 3px,
+   padding .2rem .5rem, font-size 11.5px, icon 11x11 — and NO font-weight, which is
+   what made the earlier bold version read so much heavier than the design. */
+.rot-optimize.p-button,
+.rot-clear.p-button {
+  background: transparent;
+  border: 1px solid var(--surface-border);
+  padding: 0.2rem 0.5rem;
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.rot-optimize.p-button,
+.rot-clear.p-button {
+  /* Hold each button to its label: they are flex items in a space-between row and were
+     otherwise filling everything the heading left over. */
+  width: auto;
+  flex-shrink: 0;
+}
+
+/* The handoff names the literal #FFE082, not --yellow-300 (#fdd87d) — that token is the
+   dimmer yellow used for raça. Only Otimizar is yellow; Limpar stays neutral. */
+.rot-optimize.p-button {
+  color: #ffe082;
+}
+
+.rot-clear.p-button {
+  color: var(--text-color-secondary);
+}
+
+/* PrimeNG renders button icons at 14px and spaces them at .5rem, which swamps an 11.5px
+   label. The handoff's icon is 11x11 with a .3rem gap. */
+:host ::ng-deep .rot-optimize.p-button .p-button-icon,
+:host ::ng-deep .rot-clear.p-button .p-button-icon {
+  font-size: 11px;
+  font-weight: 400;
+}
+
+:host ::ng-deep .rot-optimize.p-button .p-button-icon-left,
+:host ::ng-deep .rot-clear.p-button .p-button-icon-left {
+  margin-right: 0.3rem;
+}
+
+.rot-optimize.p-button:enabled:hover {
+  background: rgba(255, 224, 130, 0.08);
+  border-color: var(--surface-border);
+  color: #ffe082;
+}
+
+/* Limpar throws work away, so it says so on hover. */
+.rot-clear.p-button:enabled:hover {
+  background: rgba(255, 137, 128, 0.08);
+  border-color: var(--surface-border);
+  color: var(--red-300, #ff8980);
+}
+
+/* Adicionar habilidade is NOT the compact treatment above — the handoff gives it a
+   full-size dashed button: gap .4rem, padding .45rem .75rem, .875rem text, 12x12 icon. */
+.rot-add.p-button {
+  background: transparent;
+  border: 1px dashed var(--surface-border);
+  padding: 0.45rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--primary-color);
+  justify-content: center;
+  width: 100%;
+}
+
+:host ::ng-deep .rot-add.p-button .p-button-icon {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+:host ::ng-deep .rot-add.p-button .p-button-icon-left {
+  margin-right: 0.4rem;
+}
+
+.rot-add.p-button:enabled:hover {
+  background: var(--highlight-bg);
+  border-color: var(--surface-border);
+  color: var(--primary-color);
+}
+
+.rot-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rot-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--surface-ground);
+  border: 1px solid var(--surface-border);
+  border-radius: 3px;
+  /* Not `grab`: dragging is the handle's job, so the row must not advertise itself as
+     draggable (cdkDragHandle already restricts what actually initiates a drag). */
+  cursor: default;
+}
+
+.rot-row--adding {
+  cursor: default;
+  /* The focused ring the design asks for while the picker is open. */
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+/* CDK drag states. */
+.rot-row.cdk-drag-preview {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  opacity: 0.9;
+}
+
+/* The landing slot: the dragged row's own box, emptied out and outlined, so the gap that
+   opens up shows exactly where and how big the drop will be. */
+.rot-row.cdk-drag-placeholder {
+  background: var(--highlight-bg);
+  border: 1px dashed var(--primary-color);
+}
+
+.rot-row.cdk-drag-placeholder > * {
+  visibility: hidden;
+}
+
+.rot-rows.cdk-drop-list-dragging .rot-row:not(.cdk-drag-placeholder) {
+  transition: transform 180ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.rot-step {
+  width: 12px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 11.9px;
+  font-weight: 700;
+  color: var(--orange-300, #f9ae61);
+}
+
+.rot-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+/* Row icons open the details popover; the picker's option icons are not interactive. */
+.rot-icon--btn {
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.rot-icon--btn:hover {
+  outline: 1px solid var(--primary-color);
+}
+
+.rot-icon--btn:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 1px;
+}
+
+.rot-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.rot-line1 {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.rot-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rot-level,
+.rot-level--static {
+  border: 1px solid var(--surface-border);
+  border-radius: 3px;
+  padding: 0 3px;
+  font-size: 10.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.rot-repeat {
+  font-size: 11.5px;
+  color: var(--text-color-secondary);
+  white-space: nowrap;
+}
+
+/* Its own column, not part of line 1 — vertically centred against both text lines. */
+.rot-dmg {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  flex-shrink: 0;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* Opens that step's damage formula, the same one the (i) popover's figure opens. */
+.rot-dmg-val {
+  font-weight: 700;
+  color: var(--teal-300, #61beb5);
+  cursor: pointer;
+}
+
+.rot-dmg-val:hover,
+.rot-crit-val.bonus_clickable:hover {
+  text-decoration: underline;
+}
+
+.rot-dmg-val:focus-visible,
+.rot-crit-val:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+
+.rot-dmg-sim {
+  font-weight: 700;
+  color: var(--yellow-200, #fde4a5);
+  cursor: pointer;
+}
+
+.rot-dmg-sim:hover {
+  text-decoration: underline;
+}
+
+.rot-dmg-sim:focus-visible,
+.rot-crit-sim:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+
+.rot-arrow,
+.rot-sep {
+  color: var(--text-color-secondary);
+}
+
+/* Explains itself on hover; the cursor is hint enough without an underline. */
+.rot-pct {
+  cursor: help;
+}
+
+.rot-crit-val {
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+.rot-line2 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* The element p-tag, sized down to the row: PrimeNG's default is built for the monster
+   card's 14px band and swamps an 11.5px line. Same tag, same colours, less of it. */
+:host ::ng-deep .rot-line2 .p-tag {
+  padding: 1px 5px;
+  font-size: 10.5px;
+  line-height: 1.35;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+:host ::ng-deep .rot-line2 .p-tag .p-tag-icon {
+  font-size: 9px;
+  margin-right: 3px;
+}
+
+/* Neutro carries no property_* colour of its own — outline it instead. */
+:host ::ng-deep .rot-line2 .p-tag.el-tag-neutral {
+  background: transparent;
+  border: 1px solid var(--surface-border);
+  color: var(--text-color);
+}
+
+.rot-require {
+  color: var(--red-300, #ff8980);
+  font-weight: 700;
+}
+
+.rot-stall {
+  margin-top: 2px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--red-300, #ff8980);
+  white-space: nowrap;
+}
+
+.rot-info {
+  font-size: 14px;
+  color: var(--primary-color);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.rot-remove {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.rot-remove:hover {
+  color: var(--red-300, #ff8980);
+}
+
+.rot-handle {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.3);
+  cursor: grab;
+  flex-shrink: 0;
+}
+
+.rot-handle:active {
+  cursor: grabbing;
+}
+
+/* A single-entry rotation has nothing to reorder — the handle says so rather than
+   inviting a drag that cdkDragDisabled would refuse. */
+.rot-handle--idle {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.rot-handle:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.rot-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 12px;
+  border: 1px dashed var(--surface-border);
+  border-radius: 3px;
+}
+
+.rot-empty-text {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-color-secondary);
+}
+
+.rot-opt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rot-opt-flag {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: var(--text-color-secondary);
+}
+
+/* The level chip is a dropdown wearing the chip's clothes. */
+:host ::ng-deep .rot-level-dd.p-dropdown {
+  background: transparent;
+  border: none;
+  min-width: 0;
+  height: auto;
+}
+
+:host ::ng-deep .rot-level-dd.p-dropdown .p-dropdown-trigger {
+  width: 10px;
+  color: var(--text-color-secondary);
+}
+
+:host ::ng-deep .rot-level-dd.p-dropdown .p-dropdown-label {
+  padding: 0;
+}
+
+/* The flex child is the <p-dropdown> host element; `styleClass` only reaches the inner
+   .p-dropdown, so both have to be told to fill the row. */
+.rot-row--adding p-dropdown {
+  flex: 1;
+  min-width: 0;
+}
+
+:host ::ng-deep .rot-add-dd.p-dropdown {
+  width: 100%;
+}
+
+/* The filter input is switched to type="search" (see markFilterAsPlainText), which makes
+   Chrome draw its own clear button on top of PrimeNG's search icon. The panel is portaled
+   to <body>, so `:host ::ng-deep` would never reach it — this rule has to be global. */
+::ng-deep .rot-add-dd-panel .p-dropdown-filter::-webkit-search-cancel-button,
+::ng-deep .rot-add-dd-panel .p-dropdown-filter::-webkit-search-decoration {
+  display: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* Crit state — stated on every row. */
+.rot-crit {
+  white-space: nowrap;
+}
+
+.rot-crit b {
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+/* The reading is state-dependent; the condition itself is in the (i). */
+.rot-crit-cond {
+  color: var(--yellow-300, #ffe082);
+  font-weight: 700;
+  cursor: help;
+}
+
+.rot-crit-sim {
+  color: var(--yellow-200, #fde4a5);
+  font-weight: 700;
+}
+
+.rot-crit--none {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* The add button sits at the start of its own line, at its label's width. */
+.rot-addline {
+  display: flex;
+}
+
+.rot-addline .rot-add.p-button {
+  align-self: flex-start;
+  width: auto;
+  flex-shrink: 0;
+}
+
+
+
+.rot-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+

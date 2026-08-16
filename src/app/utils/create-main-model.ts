@@ -38,6 +38,9 @@ export const createMainModel = (): MainModel => ({
   jobCrt: 0,
 
   selectedAtkSkill: undefined,
+  // An array default, so setModelByJSONString's array branch restores it and
+  // share-codec's dropDefaults leaves an empty rotation out of the token.
+  rotation: [],
   rawOptionTxts: [],
   propertyAtk: undefined,
   weapon: undefined,
