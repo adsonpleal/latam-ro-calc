@@ -157,6 +157,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.58-beta',
+      date: '16-08-2026',
+      logs: [
+        'O Resumo de Batalha passou a calcular uma rotação inteira, e não uma habilidade de cada vez. A rotação é uma lista ordenada: dá para colocar quantas habilidades quiser, repetir a mesma habilidade mais de uma vez, incluir o ataque básico como um passo e arrastar pela alça para mudar a ordem. O número em destaque deixou de ser o dano de uma habilidade e passou a ser o DPS do ciclo completo — o dano somado de uma volta inteira dividido pelo tempo que essa volta leva. Cada linha mostra o dano daquele passo e quanto ele representa do dano do ciclo. A rotação foi baseada no trabalho de Kiulg no rocalc.',
+        'Abaixo da rotação há uma linha do tempo do ciclo, com uma faixa por habilidade na mesma escala de tempo. Cada faixa separa conjuração fixa, conjuração variável, pós-conjuração e recarga, e as faixas hachuradas são a espera imposta pela velocidade de ataque — o tempo em que o personagem está pronto mas ainda não pode agir. É por ali que se vê por que uma habilidade não sai logo depois da anterior: ou a pós-conjuração da anterior ainda está correndo, ou a recarga dela própria não fechou, ou o VelAtq está segurando. Quando a recarga de uma habilidade não fecha dentro do ciclo, a faixa fica marcada e a linha diz quanto tempo falta.',
+        'O botão Otimizar reordena a rotação procurando o maior DPS. Como o dano de cada habilidade não depende da posição dela na fila, a única coisa que a ordem muda é o tempo parado: o que o Otimizar faz é encaixar as habilidades sem conjuração dentro da pós-conjuração das outras e adiar as de recarga longa. A ordem anterior pode ser desfeita logo depois, e a rotação entra no link de compartilhamento e nas simulações salvas junto com o resto da build.',
+        'O ícone de cada habilidade, na lista e na linha do tempo, abre os detalhes daquele passo: dano, taxa e dano de crítico, tempos de conjuração e espera, e a fórmula passo a passo. O dano e a taxa de crítico da própria linha também são clicáveis e abrem de onde aquele número vem. Comparando duas builds, cada número aparece como "atual → simulado", e as duas linhas do tempo são desenhadas na mesma escala. A seção de dano contra jogadores recebeu a rotação também.',
+        'Um aviso sobre os números: o DPS da rotação é o dano real dividido pelo tempo real, sem os arredondamentos que o cálculo antigo aplica em duas etapas. Em habilidades rápidas os dois valores coincidem; em habilidades lentas o cálculo antigo arredonda para baixo e chega a mostrar bem menos do que a habilidade realmente causa por segundo. A aba "Resumo de Batalha (antigo)" continua exatamente como estava, com a tabela de vários alvos e os números de sempre, para quem quiser comparar.',
+      ],
+    },
+    {
       v: '0.1.57-beta',
       date: '16-08-2026',
       logs: [
