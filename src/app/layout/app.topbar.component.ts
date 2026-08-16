@@ -157,6 +157,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.56-beta',
+      date: '16-08-2026',
+      logs: [
+        'Os ovos de mascote entregavam a faixa de Lealdade Alta em qualquer lealdade. Cada ovo concede um bônus diferente conforme a intimidade do bicho — Baixa ou Baixíssima, Nenhuma, Normal e Alta — e as faixas se substituem, não se somam. De 38 ovos cadastrados, 37 tinham só a linha da Alta no cálculo, sem condição alguma: quem escolhia uma lealdade menor no seletor ao lado do mascote continuava recebendo o bônus máximo. Agora as quatro faixas de cada ovo estão cadastradas, cada uma com o valor que a descrição em português do próprio ovo informa. No Ovo de Grand Orc, por exemplo, são ATQ +10 na Lealdade Baixa e +25 na Alta, e não +25 sempre. O Ovo de Abelha-Rainha era o caso mais visível: "Anula a penalidade de tamanho da arma" só existe na Lealdade Alta e valia em todas.',
+        'Isso derruba o dano de quem tem o mascote fora da Lealdade Alta. Builds salvas antes desta versão e importações de gravação sem intimidade seguem entrando na Lealdade Alta, que é o padrão, e por isso não mudam de número; o que muda é escolher uma faixa menor, que antes não fazia diferença nenhuma. O Ovo de Orc Herói já estava cadastrado com as quatro faixas e serviu de molde para os outros 37.',
+      ],
+    },
+    {
       v: '0.1.55-beta',
       date: '14-08-2026',
       logs: [

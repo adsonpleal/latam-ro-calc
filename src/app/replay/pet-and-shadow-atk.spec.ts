@@ -38,7 +38,7 @@ const OVO_ORC_HEROI = 9121;
 const MANOPLA_SOMBRIA_POD = 24751;
 
 /** Builds the recording's build and returns the simulator status panel. */
-function painel(opts: { weapon: number; refine: number; cards?: number[]; mira?: boolean; loyalty?: PetLoyalty }) {
+function painel(opts: { weapon: number; refine: number; cards?: number[]; mira?: boolean; loyalty?: PetLoyalty; pet?: number }) {
   const { model, learnedSkills, summary } = importReplayBuffer(loadReplayFixture('nw-mira-pet.rrf'), items);
   const m: any = model;
   m.class = 4306;
@@ -47,6 +47,7 @@ function painel(opts: { weapon: number; refine: number; cards?: number[]; mira?:
   m.weapon = opts.weapon; m.weaponRefine = opts.refine;
   m.weaponCard1 = opts.cards?.[0] ?? 0; m.weaponCard2 = opts.cards?.[1] ?? 0;
   if (opts.loyalty) m.petLoyalty = opts.loyalty;
+  if (opts.pet !== undefined) m.pet = opts.pet;
 
   const cls = new NightWatch();
   const b = cls.getJobBonusStatus(m.jobLevel);
@@ -171,6 +172,69 @@ describe('faixas de lealdade do mascote', () => {
     const baixa = painel({ weapon: 810005, refine: 0, loyalty: PetLoyalty.Baixa }).totalBonus;
     // If they stacked, Alta would bring 1+2+4+7 = 14 points more than the tier-less build.
     expect(alta['atkPercent'] - baixa['atkPercent']).toBe(6);
+  });
+});
+
+/**
+ * The same tier encoding on the rest of the eggs. Every one of them used to hand out its
+ * top line unconditionally, so a pet below Lealdade Alta was over-credited.
+ *
+ * Each case swaps only the egg and the tier on the fixture's build, and measures against
+ * the same build with no pet at all — so the numbers below are the egg's whole
+ * contribution, not a difference between two tiers.
+ */
+describe('pet egg loyalty tiers across item.json', () => {
+  /** What the egg alone adds to `key`, at that tier. */
+  function petBonus(pet: number, loyalty: PetLoyalty, key: string): number {
+    const withoutPet = painel({ weapon: 810005, refine: 0, pet: 0 }).totalBonus;
+    const withPet = painel({ weapon: 810005, refine: 0, pet, loyalty }).totalBonus;
+
+    return (withPet[key] ?? 0) - (withoutPet[key] ?? 0);
+  }
+
+  /**
+   * 9193 Ovo de Abelha-Rainha, the one non-numeric case: "Anula a penalidade de tamanho
+   * da arma" is written on the Alta line only, and the script granted it flat.
+   */
+  describe('9193 Ovo de Abelha-Rainha', () => {
+    it.each([
+      [PetLoyalty.Baixa, 1], [PetLoyalty.Nenhuma, 3], [PetLoyalty.Normal, 5], [PetLoyalty.Alta, 7],
+    ])('tier %i: physical damage vs Normal monsters +%i%%', (loyalty, expected) => {
+      expect(petBonus(9193, loyalty, 'p_class_normal')).toBe(expected);
+    });
+
+    it.each([
+      [PetLoyalty.Baixa, 0], [PetLoyalty.Nenhuma, 0], [PetLoyalty.Normal, 0], [PetLoyalty.Alta, 1],
+    ])('tier %i: cancels the weapon size penalty = %i', (loyalty, expected) => {
+      expect(petBonus(9193, loyalty, 'ignore_size_penalty')).toBe(expected);
+    });
+  });
+
+  // One egg per shape found in the descriptions: a bonus present on all four tiers, one
+  // that only starts at a middle tier, one whose top two tiers are equal, and one whose
+  // description names no tier below Normal.
+  describe.each([
+    { egg: 9087, name: 'Ovo de Grand Orc', key: 'atk', tiers: [10, 15, 20, 25] },
+    { egg: 9091, name: 'Ovo de Choco', key: 'cri', tiers: [3, 5, 7, 9] },
+    { egg: 9091, name: 'Ovo de Choco', key: 'range', tiers: [0, 1, 2, 3] },
+    { egg: 9148, name: 'Ovo de Senhor das Trevas', key: 'm_my_element_dark', tiers: [3, 5, 7, 7] },
+    { egg: 9128, name: 'Ovo de Sacerdote Maldito', key: 'm_element_holy', tiers: [0, 0, 2, 3] },
+    { egg: 9111, name: 'Ovo de Freeoni', key: 'hit', tiers: [6, 10, 14, 18] },
+  ])('$egg $name — $key', ({ egg, key, tiers }) => {
+    it.each([
+      [PetLoyalty.Baixa, tiers[0]], [PetLoyalty.Nenhuma, tiers[1]],
+      [PetLoyalty.Normal, tiers[2]], [PetLoyalty.Alta, tiers[3]],
+    ])('tier %i grants %i', (loyalty, expected) => {
+      expect(petBonus(egg, loyalty, key)).toBe(expected);
+    });
+
+    it('replaces tiers rather than stacking them', () => {
+      // Stacking would show the four lines added together on the top tier.
+      const allTiersSummed = tiers.reduce((a, b) => a + b, 0);
+      const alta = petBonus(egg, PetLoyalty.Alta, key);
+      expect(alta).toBe(tiers[3]);
+      expect(alta).toBeLessThan(allTiersSummed);
+    });
   });
 });
 

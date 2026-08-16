@@ -14724,10 +14724,10 @@
     ],
     "script": {
       "perfectDodge": [
-        "2"
+        "LOYALTY[3]===2"
       ],
-      "hit": [
-        "1"
+      "flee": [
+        "LOYALTY[3]===-5"
       ]
     }
   },
@@ -14753,7 +14753,8 @@
     ],
     "script": {
       "cri": [
-        "5"
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===5"
       ]
     }
   },
@@ -14779,22 +14780,22 @@
     ],
     "script": {
       "pAtk": [
-        "5"
+        "LOYALTY[4]===5"
       ],
       "sMatk": [
-        "5"
+        "LOYALTY[4]===5"
       ],
       "p_race_all": [
-        "5"
+        "LOYALTY[4]===5"
       ],
       "m_race_all": [
-        "5"
+        "LOYALTY[4]===5"
       ],
       "p_class_boss": [
-        "20"
+        "LOYALTY[4]===20"
       ],
       "m_class_boss": [
-        "20"
+        "LOYALTY[4]===20"
       ]
     }
   },
@@ -14820,7 +14821,10 @@
     ],
     "script": {
       "atk": [
-        "25"
+        "LOYALTY[1]===10",
+        "LOYALTY[2]===15",
+        "LOYALTY[3]===20",
+        "LOYALTY[4]===25"
       ]
     }
   },
@@ -14846,7 +14850,10 @@
     ],
     "script": {
       "hpPercent": [
-        "2"
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===2"
       ]
     }
   },
@@ -14872,7 +14879,10 @@
     ],
     "script": {
       "matkPercent": [
-        "4"
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===2",
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===4"
       ]
     }
   },
@@ -14898,10 +14908,15 @@
     ],
     "script": {
       "cri": [
-        "9"
+        "LOYALTY[1]===3",
+        "LOYALTY[2]===5",
+        "LOYALTY[3]===7",
+        "LOYALTY[4]===9"
       ],
       "range": [
-        "3"
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===3"
       ]
     }
   },
@@ -14927,10 +14942,16 @@
     ],
     "script": {
       "hit": [
-        "9"
+        "LOYALTY[1]===3",
+        "LOYALTY[2]===5",
+        "LOYALTY[3]===7",
+        "LOYALTY[4]===9"
       ],
       "atk": [
-        "9"
+        "LOYALTY[1]===3",
+        "LOYALTY[2]===5",
+        "LOYALTY[3]===7",
+        "LOYALTY[4]===9"
       ]
     }
   },
@@ -14956,7 +14977,10 @@
     ],
     "script": {
       "vit": [
-        "4"
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===2",
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===4"
       ]
     }
   },
@@ -14982,16 +15006,24 @@
     ],
     "script": {
       "cri": [
-        "5"
+        "LOYALTY[1]===2",
+        "LOYALTY[2]===3",
+        "LOYALTY[3]===4",
+        "LOYALTY[4]===5"
       ],
       "atk": [
-        "5"
+        "LOYALTY[1]===2",
+        "LOYALTY[2]===3",
+        "LOYALTY[3]===4",
+        "LOYALTY[4]===5"
       ],
       "p_race_formless": [
-        "6"
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===6"
       ],
       "m_race_formless": [
-        "6"
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===6"
       ]
     }
   },
@@ -15017,10 +15049,12 @@
     ],
     "script": {
       "cri": [
-        "3"
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===3"
       ],
       "hit": [
-        "3"
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===3"
       ]
     }
   },
@@ -15046,16 +15080,26 @@
     ],
     "script": {
       "p_class_all": [
-        "2"
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===2"
       ],
       "matkPercent": [
-        "2"
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===2"
       ],
       "hpPercent": [
-        "2"
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===2"
       ],
       "spPercent": [
-        "2"
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===2"
       ]
     }
   },
@@ -15081,13 +15125,20 @@
     ],
     "script": {
       "dex": [
-        "2"
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===2",
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===2"
       ],
       "hit": [
-        "2"
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===2"
       ],
       "criDmg": [
-        "9"
+        "LOYALTY[3]===7",
+        "LOYALTY[4]===9"
       ]
     }
   },
@@ -15113,13 +15164,18 @@
     ],
     "script": {
       "hit": [
-        "6"
+        "LOYALTY[1]===4",
+        "LOYALTY[2]===5",
+        "LOYALTY[3]===6",
+        "LOYALTY[4]===6"
       ],
       "p_race_dragon": [
-        "6"
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===6"
       ],
       "m_race_dragon": [
-        "6"
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===6"
       ]
     }
   },
@@ -15145,10 +15201,15 @@
     ],
     "script": {
       "hit": [
-        "18"
+        "LOYALTY[1]===6",
+        "LOYALTY[2]===10",
+        "LOYALTY[3]===14",
+        "LOYALTY[4]===18"
       ],
       "perfectHit": [
-        "15"
+        "LOYALTY[2]===5",
+        "LOYALTY[3]===10",
+        "LOYALTY[4]===15"
       ]
     }
   },
@@ -15174,10 +15235,16 @@
     ],
     "script": {
       "cri": [
-        "6"
+        "LOYALTY[1]===3",
+        "LOYALTY[2]===4",
+        "LOYALTY[3]===5",
+        "LOYALTY[4]===6"
       ],
       "hit": [
-        "6"
+        "LOYALTY[1]===3",
+        "LOYALTY[2]===4",
+        "LOYALTY[3]===5",
+        "LOYALTY[4]===6"
       ]
     }
   },
@@ -15203,10 +15270,15 @@
     ],
     "script": {
       "spPercent": [
-        "5"
+        "LOYALTY[1]===2",
+        "LOYALTY[2]===3",
+        "LOYALTY[3]===4",
+        "LOYALTY[4]===5"
       ],
       "acd": [
-        "3"
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===3"
       ]
     }
   },
@@ -15232,10 +15304,14 @@
     ],
     "script": {
       "int": [
-        "4"
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===2",
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===4"
       ],
       "spPercent": [
-        "3"
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===3"
       ]
     }
   },
@@ -15258,13 +15334,19 @@
     "compositionPos": null,
     "script": {
       "agi": [
-        "4"
+        "LOYALTY[1]===4",
+        "LOYALTY[2]===4",
+        "LOYALTY[3]===4",
+        "LOYALTY[4]===4"
       ],
       "cri": [
-        "3"
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===3"
       ],
       "criDmg": [
-        "7"
+        "LOYALTY[3]===5",
+        "LOYALTY[4]===7"
       ]
     },
     "usableClass": [
@@ -15293,10 +15375,15 @@
     ],
     "script": {
       "aspdPercent": [
-        "5"
+        "LOYALTY[1]===2",
+        "LOYALTY[2]===3",
+        "LOYALTY[3]===4",
+        "LOYALTY[4]===5"
       ],
       "hit": [
-        "12"
+        "LOYALTY[2]===6",
+        "LOYALTY[3]===9",
+        "LOYALTY[4]===12"
       ]
     }
   },
@@ -15322,10 +15409,14 @@
     ],
     "script": {
       "vct": [
-        "5"
+        "LOYALTY[1]===2",
+        "LOYALTY[2]===3",
+        "LOYALTY[3]===4",
+        "LOYALTY[4]===5"
       ],
       "m_my_element_neutral": [
-        "5"
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===5"
       ]
     }
   },
@@ -15351,7 +15442,10 @@
     ],
     "script": {
       "mdef": [
-        "7"
+        "LOYALTY[1]===4",
+        "LOYALTY[2]===5",
+        "LOYALTY[3]===6",
+        "LOYALTY[4]===7"
       ]
     }
   },
@@ -15410,13 +15504,18 @@
     ],
     "script": {
       "matk": [
-        "40"
+        "LOYALTY[1]===10",
+        "LOYALTY[2]===20",
+        "LOYALTY[3]===30",
+        "LOYALTY[4]===40"
       ],
       "m_my_element_ghost": [
-        "7"
+        "LOYALTY[3]===5",
+        "LOYALTY[4]===7"
       ],
       "m_my_element_fire": [
-        "7"
+        "LOYALTY[3]===5",
+        "LOYALTY[4]===7"
       ]
     }
   },
@@ -15442,7 +15541,8 @@
     ],
     "script": {
       "perfectHit": [
-        "10"
+        "LOYALTY[3]===5",
+        "LOYALTY[4]===10"
       ]
     }
   },
@@ -15468,13 +15568,21 @@
     ],
     "script": {
       "aspdPercent": [
-        "7"
+        "LOYALTY[1]===4",
+        "LOYALTY[2]===5",
+        "LOYALTY[3]===6",
+        "LOYALTY[4]===7"
       ],
       "hit": [
-        "18"
+        "LOYALTY[1]===9",
+        "LOYALTY[2]===12",
+        "LOYALTY[3]===15",
+        "LOYALTY[4]===18"
       ],
       "melee": [
-        "5"
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===5"
       ]
     }
   },
@@ -15500,10 +15608,12 @@
     ],
     "script": {
       "int": [
-        "2"
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===2"
       ],
       "m_element_holy": [
-        "5"
+        "LOYALTY[3]===2",
+        "LOYALTY[4]===3"
       ]
     }
   },
@@ -15529,13 +15639,20 @@
     ],
     "script": {
       "int": [
-        "4"
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===2",
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===4"
       ],
       "sp": [
-        "130"
+        "LOYALTY[1]===50",
+        "LOYALTY[2]===75",
+        "LOYALTY[3]===105",
+        "LOYALTY[4]===130"
       ],
       "m_my_element_earth": [
-        "5"
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===5"
       ]
     }
   },
@@ -15561,10 +15678,14 @@
     ],
     "script": {
       "hp": [
-        "500"
+        "LOYALTY[1]===200",
+        "LOYALTY[2]===300",
+        "LOYALTY[3]===400",
+        "LOYALTY[4]===500"
       ],
       "m_my_element_fire": [
-        "5"
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===5"
       ]
     }
   },
@@ -15654,13 +15775,21 @@
     ],
     "script": {
       "flee": [
-        "20"
+        "LOYALTY[1]===8",
+        "LOYALTY[2]===12",
+        "LOYALTY[3]===16",
+        "LOYALTY[4]===20"
       ],
       "spPercent": [
-        "7"
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===3",
+        "LOYALTY[3]===5",
+        "LOYALTY[4]===7"
       ],
       "range": [
-        "5"
+        "LOYALTY[2]===1",
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===5"
       ]
     }
   },
@@ -15686,7 +15815,8 @@
     ],
     "script": {
       "int": [
-        "5"
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===5"
       ]
     }
   },
@@ -15712,10 +15842,14 @@
     ],
     "script": {
       "vct": [
-        "5"
+        "LOYALTY[1]===2",
+        "LOYALTY[2]===3",
+        "LOYALTY[3]===4",
+        "LOYALTY[4]===5"
       ],
       "m_my_element_dark": [
-        "5"
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===5"
       ]
     }
   },
@@ -15741,10 +15875,16 @@
     ],
     "script": {
       "vit": [
-        "4"
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===2",
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===4"
       ],
       "hpPercent": [
-        "5"
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===2",
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===5"
       ]
     }
   },
@@ -15770,10 +15910,14 @@
     ],
     "script": {
       "cri": [
-        "7"
+        "LOYALTY[1]===2",
+        "LOYALTY[2]===3",
+        "LOYALTY[3]===5",
+        "LOYALTY[4]===7"
       ],
       "aspdPercent": [
-        "5"
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===5"
       ]
     }
   },
@@ -15799,10 +15943,14 @@
     ],
     "script": {
       "cri": [
-        "8"
+        "LOYALTY[1]===5",
+        "LOYALTY[2]===6",
+        "LOYALTY[3]===7",
+        "LOYALTY[4]===8"
       ],
       "cRate": [
-        "3"
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===3"
       ]
     }
   },
@@ -15828,7 +15976,10 @@
     ],
     "script": {
       "m_my_element_dark": [
-        "7"
+        "LOYALTY[1]===3",
+        "LOYALTY[2]===5",
+        "LOYALTY[3]===7",
+        "LOYALTY[4]===7"
       ]
     }
   },
@@ -15941,10 +16092,14 @@
     ],
     "script": {
       "vct": [
-        "5"
+        "LOYALTY[1]===2",
+        "LOYALTY[2]===3",
+        "LOYALTY[3]===4",
+        "LOYALTY[4]===5"
       ],
       "m_my_element_wind": [
-        "5"
+        "LOYALTY[3]===3",
+        "LOYALTY[4]===5"
       ]
     }
   },
@@ -15970,10 +16125,13 @@
     ],
     "script": {
       "p_class_normal": [
-        "7"
+        "LOYALTY[1]===1",
+        "LOYALTY[2]===3",
+        "LOYALTY[3]===5",
+        "LOYALTY[4]===7"
       ],
       "ignore_size_penalty": [
-        "1"
+        "LOYALTY[4]===1"
       ]
     }
   },
