@@ -14778,26 +14778,7 @@
     "usableClass": [
       "all"
     ],
-    "script": {
-      "pAtk": [
-        "LOYALTY[4]===5"
-      ],
-      "sMatk": [
-        "LOYALTY[4]===5"
-      ],
-      "p_race_all": [
-        "LOYALTY[4]===5"
-      ],
-      "m_race_all": [
-        "LOYALTY[4]===5"
-      ],
-      "p_class_boss": [
-        "LOYALTY[4]===20"
-      ],
-      "m_class_boss": [
-        "LOYALTY[4]===20"
-      ]
-    }
+    "script": {}
   },
   "9087": {
     "id": 9087,
