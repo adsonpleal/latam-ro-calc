@@ -4,12 +4,21 @@ import { MAX_REPLAY_BYTES, ReplaySubmissionSummary } from 'src/app/replay/valida
 import { environment } from 'src/environments/environment';
 
 /**
- * Sends a community `.rrf` recording to Firestore.
+ * Sends a community `.rrf` recording to the shared issue tracker
+ * (issues.latam-tools.com.br), as a card of `tipo: 'replay'` with the recording
+ * attached and the parser's summary denormalised alongside it.
+ *
+ * It used to write to this project's own `replay_submissions` collection. The
+ * tracker replaced it so every product's queue lives in one place — but the
+ * privacy posture of the old collection is preserved: the card is created
+ * **archived**, which the tracker's rules translate into "not on the public
+ * board, and the attachment is unreadable". Triage is what makes one public,
+ * by moving it to backlog once the recording proves useful.
  *
  * Deliberately talks to the REST API with `fetch` instead of pulling in the
  * Firebase SDK: the whole feature is a single write, and the SDK would cost
  * ~90 KB gzip in the main bundle for it. The security rules apply to REST calls
- * the same way (see firestore.rules) — the API key only identifies the project.
+ * the same way — the API key only identifies the project.
  */
 export interface ReplaySubmission {
   bytes: Uint8Array;
@@ -43,39 +52,91 @@ export class ReplaySubmissionService {
     }
 
     const id = generateSubmissionId();
-    const url =
-      `https://firestore.googleapis.com/v1/projects/${environment.firebaseProjectId}` +
-      `/databases/(default)/documents/replay_submissions` +
-      `?documentId=${id}&key=${environment.firebaseApiKey}`;
+    const raiz = `projects/${environment.issuesProjectId}/databases/(default)`;
+    const doc = (caminho: string) => `${raiz}/documents/${caminho}`;
 
-    const fields: Record<string, unknown> = {
-      bytes: submission.bytes,
-      fileName: submission.fileName.slice(0, 200),
-      uploadedAt: new Date(),
-      status: 'new',
+    const nick = submission.nick.trim().slice(0, 40);
+    const discord = submission.discord.trim().slice(0, 60);
+    const notes = submission.notes.trim().slice(0, 1000);
+
+    // O resumo do parser vai desnormalizado no card para a triagem ranquear sem
+    // baixar o .rrf, que tem centenas de kB.
+    const replay: Record<string, unknown> = {
+      ...submission.summary,
+      // Capped so a replay full of foreign items can't bloat the document.
+      skippedItems: submission.summary.skippedItems.slice(0, 100),
       appVersion: submission.appVersion.slice(0, 20),
-      latamConfirmed: true,
-      summary: {
-        ...submission.summary,
-        // Capped so a replay full of foreign items can't bloat the document.
-        skippedItems: submission.summary.skippedItems.slice(0, 100),
-      },
+      fileName: submission.fileName.slice(0, 200),
     };
-    // Optional fields are omitted rather than sent empty — the rules accept
-    // either, and an absent key reads better than an empty string in triage.
     if (submission.traits) {
-      fields['traits'] = submission.traits;
-      fields['traitsSource'] = submission.traitsSource ?? 'form';
+      replay['traits'] = submission.traits;
+      replay['traitsSource'] = submission.traitsSource ?? 'form';
     }
-    if (submission.nick.trim()) fields['nick'] = submission.nick.trim().slice(0, 40);
-    if (submission.discord.trim()) fields['discord'] = submission.discord.trim().slice(0, 60);
-    if (submission.notes.trim()) fields['notes'] = submission.notes.trim().slice(0, 1000);
 
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fields: encodeFields(fields) }),
-    });
+    const card: Record<string, unknown> = {
+      projeto: 'simulador',
+      titulo: tituloDaGravacao(submission.summary),
+      descricao: descricaoDaGravacao(submission.summary, notes),
+      tipo: 'replay',
+      status: 'reportado',
+      // Chega escondida do quadro público. Ver o comentário no topo.
+      arquivado: true,
+      upvotes: 0,
+      comentarios: 0,
+      anexos: 1,
+      replay,
+    };
+    // O nick foi pedido como crédito ("como você quer ser citado"), então é o
+    // único dado de identificação que pode aparecer no card. O Discord é
+    // contato: vai para um subdocumento que só o admin lê.
+    if (nick) card['autor'] = nick;
+
+    // Uma escrita só, atômica: ou entram o card, o anexo e o contato, ou não
+    // entra nada. Três POSTs soltos poderiam deixar um card sem a gravação.
+    //
+    // `:commit` com `setToServerValue` também é a única forma de satisfazer as
+    // regras do rastreador, que exigem `criadoEm == request.time` — um POST
+    // comum só consegue mandar o relógio de quem envia.
+    const writes: unknown[] = [
+      {
+        update: { name: doc(`issues/${id}`), fields: encodeFields(card) },
+        updateTransforms: [
+          { fieldPath: 'criadoEm', setToServerValue: 'REQUEST_TIME' },
+          { fieldPath: 'atualizadoEm', setToServerValue: 'REQUEST_TIME' },
+        ],
+        currentDocument: { exists: false },
+      },
+      {
+        update: {
+          name: doc(`issues/${id}/anexos/gravacao`),
+          fields: encodeFields({
+            nome: submission.fileName.slice(0, 200),
+            tipo: 'rrf',
+            tamanho: submission.bytes.byteLength,
+            bytes: submission.bytes,
+          }),
+        },
+        updateTransforms: [{ fieldPath: 'criadoEm', setToServerValue: 'REQUEST_TIME' }],
+      },
+    ];
+    if (discord) {
+      writes.push({
+        update: {
+          name: doc(`issues/${id}/privado/contato`),
+          fields: encodeFields({ contato: discord }),
+        },
+        updateTransforms: [{ fieldPath: 'criadoEm', setToServerValue: 'REQUEST_TIME' }],
+      });
+    }
+
+    const res = await fetch(
+      `https://firestore.googleapis.com/v1/${raiz}/documents:commit?key=${environment.issuesApiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ writes }),
+      },
+    );
 
     if (!res.ok) {
       const body = await res.text().catch(() => '');
@@ -84,6 +145,29 @@ export class ReplaySubmissionService {
 
     return id;
   }
+}
+
+/** "Gravação: Executor nv 240/50 — Erin_J" — o que a triagem lê na listagem. */
+export function tituloDaGravacao(s: ReplaySubmissionSummary): string {
+  const classe = s.className || 'Classe desconhecida';
+  const nivel = s.baseLevel ? ` nv ${s.baseLevel}/${s.jobLevel ?? '?'}` : '';
+  const quem = s.player ? ` — ${s.player}` : '';
+  return `Gravação: ${classe}${nivel}${quem}`.slice(0, 120);
+}
+
+/** A observação de quem gravou primeiro; o que o parser leu, depois. */
+export function descricaoDaGravacao(s: ReplaySubmissionSummary, notes: string): string {
+  const partes: string[] = [];
+  if (notes) partes.push(notes);
+  const duracao = s.durationMs ? `${Math.round(s.durationMs / 1000)}s` : '?';
+  partes.push(
+    `Gravação de ${duracao} com ${s.dummyHits} golpes em dummy ` +
+      `(${s.damageEvents} eventos de dano no total), ` +
+      `${s.equipChangeCount} trocas de equipamento e ` +
+      `${s.learnedSkillCount} habilidades aprendidas. ` +
+      `Mapa ${s.map}.`,
+  );
+  return partes.join('\n\n').slice(0, 4000);
 }
 
 /**

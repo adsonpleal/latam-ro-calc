@@ -11,16 +11,16 @@
   <button pButton class="pl-2 p-button-text p-button-info p-button-raised" (click)="showReferenceDialog()">Referências</button>
 
   <div class="flex align-items-center gap-2 ml-2">
-    <a [href]="feedbackFormUrl" target="_blank" rel="noreferrer noopener">
-      <button pButton class="p-button-warning p-button-raised px-2" aria-label="Feedback">
+    <a [href]="issuesReportUrl" target="_blank" rel="noreferrer noopener">
+      <button pButton class="p-button-warning p-button-raised px-2" aria-label="Reportar">
         <i class="pi pi-comment"></i>
-        <span class="pl-1">Feedback</span>
+        <span class="pl-1">Reportar</span>
       </button>
     </a>
-    <a [href]="feedbackSheetUrl" target="_blank" rel="noreferrer noopener">
-      <button pButton class="p-button-help p-button-raised px-2" aria-label="Backlog">
+    <a [href]="issuesBoardUrl" target="_blank" rel="noreferrer noopener">
+      <button pButton class="p-button-help p-button-raised px-2" aria-label="Acompanhar">
         <i class="pi pi-list"></i>
-        <span class="pl-1">Backlog</span>
+        <span class="pl-1">Acompanhar</span>
       </button>
     </a>
     <a [href]="discordUrl" target="_blank" rel="noreferrer noopener">
@@ -61,8 +61,11 @@
 
       <div class="flex gap-2 flex-wrap justify-content-center">
         Reportar problema
-        <a [href]="feedbackFormUrl" target="_blank" rel="noreferrer noopener">
-          <p-chip label="Feedback" icon="pi pi-comment"></p-chip>
+        <a [href]="issuesReportUrl" target="_blank" rel="noreferrer noopener">
+          <p-chip label="Reportar" icon="pi pi-comment"></p-chip>
+        </a>
+        <a [href]="issuesBoardUrl" target="_blank" rel="noreferrer noopener">
+          <p-chip label="Acompanhar" icon="pi pi-list"></p-chip>
         </a>
         <a [href]="discordUrl" target="_blank" rel="noreferrer noopener">
           <p-chip label="Discord" icon="pi pi-discord"></p-chip>

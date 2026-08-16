@@ -3,16 +3,22 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Community .rrf recordings sent from the "Ajude o simulador" dialog.
+    // Coleção aposentada. As gravações do "Ajude o simulador" agora vão para o
+    // rastreador compartilhado (projeto `issues-latam-tools`, fichas de
+    // `tipo: "replay"`), e as 24 que estavam aqui foram migradas para lá com os
+    // mesmos ids.
     //
-    // Write-only from the browser: anyone may create a submission, nobody can
-    // read, edit or delete one. Triage runs with an admin credential (the
-    // triage-rrf-uploads skill), which bypasses these rules entirely — so the
-    // uploads never sit behind a guessable public URL the way the RagnaRecap
-    // replays do.
+    // O bloco fica de pé, com tudo negado: os documentos continuam aqui como
+    // histórico, legíveis só por credencial de administrador, e nenhum cliente
+    // antigo em cache consegue mais escrever. O validador abaixo sobrevive como
+    // registro do formato que existiu.
+    //
+    // A leitura sempre foi negada de propósito — assim os envios nunca ficaram
+    // atrás de uma URL adivinhável, como acontece com os replays do RagnaRecap.
+    // O rastreador preserva isso: a ficha nasce arquivada, e enquanto estiver
+    // assim as regras de lá negam o anexo.
     match /replay_submissions/{submissionId} {
-      allow read, update, delete: if false;
-      allow create: if isWellFormedSubmission(request.resource.data);
+      allow read, create, update, delete: if false;
     }
 
     function isWellFormedSubmission(d) {

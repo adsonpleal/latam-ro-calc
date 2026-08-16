@@ -54,8 +54,10 @@ export class AppTopBarComponent {
     },
   ];
 
-  readonly feedbackFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSc5wsk9KOLOmPbALe-Cww1dG4AYmjrSraEuBXcrweeyriSoLQ/viewform';
-  readonly feedbackSheetUrl = 'https://docs.google.com/spreadsheets/d/1mWGbu4CpMYPnPfipjNfmD37u7xutvurPd_CeE-O67vw/edit';
+  // O formulário e a planilha do Google saíram de cena: tudo virou ficha no
+  // rastreador compartilhado, e o que já estava na planilha foi migrado.
+  readonly issuesReportUrl = `${environment.issuesUrl}/novo?projeto=simulador`;
+  readonly issuesBoardUrl = `${environment.issuesUrl}/?projeto=simulador`;
   readonly discordUrl = 'https://discord.gg/JCXTqqWq9Q';
   // Original changelog/history at the fork point (last upstream release v3.2.19).
   readonly originalChangelogUrl =
@@ -156,6 +158,14 @@ export class AppTopBarComponent {
    * The entries are written in impersonal voice, describing what changed for the user.
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
+    {
+      v: '0.1.59-beta',
+      date: '16-08-2026',
+      logs: [
+        'Os botões Feedback e Backlog viraram Reportar e Acompanhar, e levam ao rastreador de issues das ferramentas do RO LATAM em issues.latam-tools.com.br, já filtrado no simulador. O formulário do Google e a planilha saíram de cena: o que era enviado por ali agora vira uma ficha num quadro, com as colunas Reportado, Backlog, Em progresso, Resolvido e Não será feito. Dá para votar no que já foi reportado, e o que estava na planilha foi migrado — inclusive o que já tinha sido resolvido.',
+        'As gravações enviadas pelo "Ajude o simulador a acertar as contas" passaram a ir para esse mesmo lugar, junto com as 24 que já tinham sido enviadas. Elas entram na fila de conferência sem aparecer no quadro público, e o arquivo continua ilegível para quem não administra — só quando uma gravação é aproveitada é que a ficha dela vai para o Backlog e fica visível. Quem enviar um nick continua sendo creditado nas Novidades se a gravação levar a alguma correção; o Discord informado nunca aparece no site.',
+      ],
+    },
     {
       v: '0.1.58-beta',
       date: '16-08-2026',

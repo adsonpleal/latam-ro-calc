@@ -11,8 +11,9 @@ export const environment: EnvironmentModel = {
   ragassetsUrl: 'https://assets.latam-tools.com.br',
   shortenerUrl: 'https://short.latam-tools.com.br',
   mcpUrl: 'https://mcp.simulador.latam-tools.com.br/mcp',
-  firebaseProjectId: 'simulador-latam-ro',
-  firebaseApiKey: 'AIzaSyDelJVFFRHEt4EG4jm0ra7Bh9qcrKLyo54',
+  issuesProjectId: 'issues-latam-tools',
+  issuesApiKey: 'AIzaSyCcBw2edbq0x15csy4h4w_ZBZOGnpNvBro',
+  issuesUrl: 'https://issues.latam-tools.com.br',
 };
 
 /*

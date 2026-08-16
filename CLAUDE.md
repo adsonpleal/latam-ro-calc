@@ -68,9 +68,15 @@ the hosting action does not publish them. After touching `firestore.rules` or
 firebase deploy --only firestore
 ```
 
-Firestore only holds the `.rrf` recordings submitted by the community (collection
-`replay_submissions`, fed by the "Ajude o simulador" dialog). The browser **only writes**;
-to read, use the `triage-rrf-uploads` skill, which authenticates as an administrator.
+This project's own Firestore no longer receives anything. The `.rrf` recordings from the
+"Ajude o simulador" dialog now go to the shared issue tracker (project
+`issues-latam-tools`, cards of `tipo: "replay"`), and the retired `replay_submissions`
+collection is kept read-only as history. To go through the queue, use the
+`triage-rrf-uploads` skill, which authenticates as an administrator.
+
+A recording arrives **archived** — off the public board, attachment unreadable — which is
+the same privacy the write-only collection gave it. Promoting a card to `backlog` is what
+publishes it, and that is a triage decision.
 
 ## Tests
 
