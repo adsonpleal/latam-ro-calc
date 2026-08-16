@@ -5,12 +5,15 @@ service cloud.firestore {
 
     // Retired collection. The "Ajude o simulador" recordings now go to the shared
     // tracker (project `issues-latam-tools`, cards of `tipo: "replay"`), and the
-    // 24 that were here were migrated over keeping their ids.
+    // 24 that were here were migrated over keeping their ids. No client writes to
+    // this project any more.
     //
     // The block stays, with everything denied: the documents remain here as
-    // history, readable only with an admin credential, and no stale cached client
-    // can write any more. The validator below survives as a record of the format
-    // that existed.
+    // history, readable only with an admin credential, and not even a stale open
+    // tab can write again. The format that existed is described in the
+    // `triage-rrf-uploads` skill and in the git history — it is not worth keeping
+    // the validator here just for that, because a dead rule is still compiled and
+    // warned about on every deploy.
     //
     // Reads were always denied on purpose — that is why the submissions never sat
     // behind a guessable URL the way the RagnaRecap replays do. The tracker keeps
@@ -18,51 +21,6 @@ service cloud.firestore {
     // rules over there deny the attachment.
     match /replay_submissions/{submissionId} {
       allow read, create, update, delete: if false;
-    }
-
-    function isWellFormedSubmission(d) {
-      return d.keys().hasOnly([
-               'bytes', 'fileName', 'uploadedAt', 'status', 'appVersion',
-               'latamConfirmed', 'summary', 'traits', 'traitsSource', 'nick', 'discord', 'notes'
-             ])
-             && d.keys().hasAll([
-               'bytes', 'fileName', 'uploadedAt', 'status', 'appVersion',
-               'latamConfirmed', 'summary'
-             ])
-             && d.status == 'new'
-             && d.latamConfirmed == true
-             // A Firestore document caps at 1 MiB; leave headroom for the rest.
-             && d.bytes is bytes && d.bytes.size() > 0 && d.bytes.size() <= 921600
-             && d.fileName is string && d.fileName.size() <= 200
-             && d.appVersion is string && d.appVersion.size() <= 20
-             && d.summary is map && d.summary.size() <= 24
-             // Client clock, so only loosely checked — it exists to keep the
-             // triage list in order, not to prove anything.
-             && d.uploadedAt is timestamp
-             && d.uploadedAt > request.time - duration.value(10, 'm')
-             && d.uploadedAt < request.time + duration.value(10, 'm')
-             && (!d.keys().hasAny(['traits']) || areTraits(d.traits))
-             // Where the traits came from — off the recording, or typed into the
-             // form. Only meaningful alongside them, so it travels with them.
-             && (!d.keys().hasAny(['traitsSource'])
-                 || (d.keys().hasAll(['traits']) && d.traitsSource in ['replay', 'form']))
-             && (!d.keys().hasAny(['nick']) || (d.nick is string && d.nick.size() <= 40))
-             && (!d.keys().hasAny(['discord']) || (d.discord is string && d.discord.size() <= 60))
-             && (!d.keys().hasAny(['notes']) || (d.notes is string && d.notes.size() <= 1000));
-    }
-
-    // The six trait stats, as the *invested* value the calculator stores (0-100);
-    // the job bonus is added on top by the engine, not recorded here.
-    function areTraits(t) {
-      return t is map
-             && t.keys().hasOnly(['pow', 'sta', 'wis', 'spl', 'con', 'crt'])
-             && t.keys().hasAll(['pow', 'sta', 'wis', 'spl', 'con', 'crt'])
-             && isTrait(t.pow) && isTrait(t.sta) && isTrait(t.wis)
-             && isTrait(t.spl) && isTrait(t.con) && isTrait(t.crt);
-    }
-
-    function isTrait(v) {
-      return v is int && v >= 0 && v <= 100;
     }
   }
 }
