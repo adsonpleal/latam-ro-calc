@@ -522,8 +522,13 @@ export class RuneKnight extends LordKnight {
     const { totalBonus, weapon } = params;
 
     if (this.isSkillActive('Asir Runestone')) {
-      const asirRuneAspdBonus = 4 * this.learnLv('Rune Mastery');
-      totalBonus.aspdPercent = (totalBonus.aspdPercent || 0) + asirRuneAspdBonus;
+      // Aura de Combate hands out a *flat* ASPD bonus, not a percentage, and it shrinks as
+      // the gear's own ASPD% grows: 4 × (100 − ASPD% from equipment), floored. browiki's
+      // worked examples: 24% of gear ASPD leaves +3, 40% leaves +2. Rune Mastery is the
+      // skill's prerequisite, never a multiplier — reading it as one was worth +40% ASPD.
+      const equipAspdPercent = totalBonus.aspdPercent || 0;
+      const asirRuneAspd = Math.max(0, Math.floor((4 * (100 - equipAspdPercent)) / 100));
+      totalBonus.aspd = (totalBonus.aspd || 0) + asirRuneAspd;
     }
 
     const wType = weapon.data?.typeName;

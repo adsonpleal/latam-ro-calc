@@ -62278,17 +62278,17 @@
   "28941": {
     "id": 28941,
     "aegisName": "Excelion_Shield",
-    "name": "Excelion Shield [1]",
+    "name": "Escudo Excelion",
     "unidName": "Shield",
     "resName": "엑셀리온쉴드",
-    "description": "MDEF + 5\nMaxHP+1%, MaxSP+1%\n--------------------------\nเมื่อ BaseLv130 ขึ้นไป, \nMaxHP+1%, MaxSP+1% เพิ่มเติม\n--------------------------\nทุก ๆ การอัพเกรด 3 ขั้น\nMaxHP+1%, MaxSP+1% เพิ่มเติม\nประเภท : ^777777Shield^000000 พลังป้องกัน : ^77777795^000000\nน้ำหนัก : ^777777120^000000 \nเลเวลที่ต้องการ : ^777777100^000000 \nอาชีพที่ใส่ได้ : ^777777ทุกอาชีพ^000000",
+    "description": "",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 514,
     "itemLevel": null,
     "attack": null,
-    "defense": 95,
-    "weight": 120,
+    "defense": 50,
+    "weight": 100,
     "requiredLevel": 100,
     "location": null,
     "compositionPos": null,
@@ -62296,18 +62296,11 @@
       "all"
     ],
     "script": {
-      "mdef": [
-        "5"
+      "vct": [
+        "10"
       ],
-      "hpPercent": [
-        "1",
-        "SUM[level==130]===1",
-        "3---1"
-      ],
-      "spPercent": [
-        "1",
-        "SUM[level==130]===1",
-        "3---1"
+      "acd": [
+        "level:130===5"
       ]
     }
   },
@@ -230721,6 +230714,12 @@
       ],
       "atk": [
         "EQUIP_ID[32230]===25"
+      ],
+      "ignore_size_penalty": [
+        "EQUIP_ID[32228]str:125&&0===1"
+      ],
+      "melee": [
+        "EQUIP_ID[32230]luk:125&&0===10"
       ]
     }
   },
@@ -232500,7 +232499,7 @@
     "weight": 1,
     "requiredLevel": null,
     "location": null,
-    "compositionPos": 2,
+    "compositionPos": 0,
     "usableClass": [
       "all"
     ],
@@ -314539,6 +314538,64 @@
       "m_my_element_holy": [
         "LOYALTY[3]===1",
         "LOYALTY[4]===2"
+      ]
+    }
+  },
+  "490150": {
+    "id": 490150,
+    "aegisName": "North_Zongzi_Charm_TW",
+    "name": "Amuleto Oriental",
+    "unidName": "Amuleto Oriental",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 511,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 1,
+    "requiredLevel": 1,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atkPercent": [
+        "5"
+      ],
+      "matkPercent": [
+        "5"
+      ]
+    }
+  },
+  "490151": {
+    "id": 490151,
+    "aegisName": "South_Zongzi_Charm_TW",
+    "name": "Amuleto Ocidental",
+    "unidName": "Amuleto Ocidental",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 510,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 1,
+    "requiredLevel": 1,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atkPercent": [
+        "5"
+      ],
+      "matkPercent": [
+        "5"
       ]
     }
   }

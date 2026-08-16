@@ -439,8 +439,22 @@ export const matkP35 = [MATK_P._3, MATK_P._4, MATK_P._5];
 
 export const mhp14 = [MHP._1, MHP._2, MHP._3, MHP._4];
 
+/**
+ * Illusion Caverns equipment enchant, from browiki's Cavernas Ilusionais page
+ * (§ Encantamentos Ilusionais). The two slots are rolled off the *same* table, so this
+ * one list stands for both — and the equipment table only rolls FOR, VIT, INT and SOR;
+ * AGI and DES belong to the accessory table (`illusionDunAcc`), which is why they are
+ * absent here. The runes are the 0.1% row (Poder, Saúde, Magia, Visão, Lábia, Acaso).
+ *
+ * Absorção de HP/SP is in the same 0.1% row but has no enchant item in the database,
+ * so it cannot be offered.
+ */
 export const illusionDunArmor = [
   ...mhp14,
+  ...str(1, 4),
+  ...vit(1, 4),
+  ...int(1, 4),
+  ...luk(1, 4),
   RuneStr._1,
   RuneStr._2,
   RuneDex._1,

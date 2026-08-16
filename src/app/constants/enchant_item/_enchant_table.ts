@@ -75,7 +75,6 @@ import {
   matk12,
   matk13,
   matkP35,
-  mhp14,
   mhp34,
   mhp35,
   perfectD12,
@@ -366,7 +365,13 @@ const kingSmithMan = [EA._3, EA._4, EA._5, FS._5, FS._6, FS._7, Spell._3, Spell.
 const twinCannon = [Fatal._3, AttackDelay._3, Spell._4, EA._3, ...BaseState._3];
 
 const whiteWingSuit = [...tempOpts._1_3, ...BaseState._1_3];
-const excelion = ['Reactor_A_DEF', 'Reactor_A_AVOI', 'Reactor_A_ATK', 'Reactor_A_MATK', 'Reactor_A_MHP', 'Reactor_A_MSP', 'Reactor_A_ASPD'];
+// Excelion "Diagramas", by the table on browiki's Equipamento Excelion page. The four
+// pieces share one pool of three slots but not the same entries: A-ESQV is armour/garment
+// only, A-FOR and A-INT are the Colete's alone, and the shield and the boot take neither.
+// The E-/I-/R-/C- categories are element, freeze immunity, resistance and regen — none of
+// them exist as items here, so they cannot be offered.
+const excelionGear = ['Reactor_A_DEF', 'Reactor_A_ATK', 'Reactor_A_MATK', 'Reactor_A_MHP', 'Reactor_A_MSP', 'Reactor_A_ASPD'];
+const excelion = ['Reactor_A_AVOI', ...excelionGear];
 const excelionSuit = ['Reactor_A_STR', 'Reactor_A_INT', ...excelion];
 
 const racingShoes = [...ea45, FS._6, ...sp45, ...aspd34, ...critical34, ...BaseState._1_3];
@@ -771,6 +776,8 @@ export const EnchantTable: EntTable[] = [
 
   { name: 'Excelion_Suit', enchants: [null, excelionSuit, excelionSuit, excelionSuit] },
   { name: 'Excelion_Wing', enchants: [null, excelion, excelion, excelion] },
+  { name: 'Excelion_Shield', enchants: [null, excelionGear, excelionGear, excelionGear] },
+  { name: 'Excelion_Boots', enchants: [null, excelionGear, excelionGear, excelionGear] },
 
   { name: 'Racing_C_Mecha', enchants: [null, ['Racing_E_Mecha1', 'Racing_E_Mecha2', 'Racing_E_Mecha3', ...racing3rd], BaseState._1_4, BaseState._1_3] },
   { name: 'Racing_C_Gene', enchants: [null, ['Racing_E_Gene1', 'Racing_E_Gene2', 'Racing_E_Gene3', ...racing3rd], BaseState._1_4, BaseState._1_3] },
@@ -979,18 +986,18 @@ export const EnchantTable: EntTable[] = [
   { name: 'Platinum_Dagger', enchants: [null, null, edda3, edda4] },
   { name: 'Black_Circle', enchants: [null, null, edda3, edda4] },
 
-  { name: 'Headband_Of_Power_IL', enchants: [null, null, [...mhp14, ...BaseState._1_4], illusionDunArmor] },
-  { name: 'Apple_Of_Archer_IL', enchants: [null, null, [...mhp14, ...BaseState._1_4], illusionDunArmor] },
-  { name: 'Fancy_Flower_IL', enchants: [null, null, [...mhp14, ...BaseState._1_4], illusionDunArmor] },
-  { name: 'Goibne_Helmet_IL', enchants: [null, null, [...mhp14, ...BaseState._1_4], illusionDunArmor] },
-  { name: 'Herald_Of_GOD_IL', enchants: [null, null, [...mhp14, ...BaseState._1_4], illusionDunArmor] },
-  { name: 'Morpheus_Hood_IL', enchants: [null, null, [...mhp14, ...BaseState._1_4], illusionDunArmor] },
-  { name: 'Boots_IL', enchants: [null, null, [...mhp14, ...BaseState._1_4], illusionDunArmor] },
-  { name: 'Shoes_IL', enchants: [null, null, [...mhp14, ...BaseState._1_4], illusionDunArmor] },
-  { name: 'Muffler_IL', enchants: [null, null, [...mhp14, ...BaseState._1_4], illusionDunArmor] },
-  { name: 'Siver_Guard_IL', enchants: [null, null, [...mhp14, ...BaseState._1_4], illusionDunArmor] },
-  { name: "Sprint_Mail_IL", enchants: [null, null, [...mhp14, ...BaseState._1_4], illusionDunArmor] },
-  { name: "Sprint_Shoes_IL", enchants: [null, null, [...mhp14, ...BaseState._1_4], illusionDunArmor] },
+  { name: 'Headband_Of_Power_IL', enchants: [null, null, illusionDunArmor, illusionDunArmor] },
+  { name: 'Apple_Of_Archer_IL', enchants: [null, null, illusionDunArmor, illusionDunArmor] },
+  { name: 'Fancy_Flower_IL', enchants: [null, null, illusionDunArmor, illusionDunArmor] },
+  { name: 'Goibne_Helmet_IL', enchants: [null, null, illusionDunArmor, illusionDunArmor] },
+  { name: 'Herald_Of_GOD_IL', enchants: [null, null, illusionDunArmor, illusionDunArmor] },
+  { name: 'Morpheus_Hood_IL', enchants: [null, null, illusionDunArmor, illusionDunArmor] },
+  { name: 'Boots_IL', enchants: [null, null, illusionDunArmor, illusionDunArmor] },
+  { name: 'Shoes_IL', enchants: [null, null, illusionDunArmor, illusionDunArmor] },
+  { name: 'Muffler_IL', enchants: [null, null, illusionDunArmor, illusionDunArmor] },
+  { name: 'Siver_Guard_IL', enchants: [null, null, illusionDunArmor, illusionDunArmor] },
+  { name: "Sprint_Mail_IL", enchants: [null, null, illusionDunArmor, illusionDunArmor] },
+  { name: "Sprint_Shoes_IL", enchants: [null, null, illusionDunArmor, illusionDunArmor] },
 
   { name: "Sprint_Glove_IL", enchants: [null, null, illusionDunAcc, illusionDunAcc] },
   { name: "Sprint_Ring_IL", enchants: [null, null, illusionDunAcc, illusionDunAcc] },
