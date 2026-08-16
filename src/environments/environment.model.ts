@@ -6,16 +6,16 @@ export interface EnvironmentModel {
   /** Public MCP endpoint agents connect to (see mcp/). */
   mcpUrl: string;
   /**
-   * Rastreador de issues compartilhado (issues.latam-tools.com.br). É para lá
-   * que vão as gravações do "Ajude o simulador" — antes elas ficavam na coleção
-   * `replay_submissions` deste próprio projeto.
+   * Shared issue tracker (issues.latam-tools.com.br). This is where the "Ajude o
+   * simulador" recordings go — they used to live in this project's own
+   * `replay_submissions` collection.
    */
   issuesProjectId: string;
   /**
-   * Chave web do Firebase. Pública por natureza — ela só identifica o projeto;
-   * o que o navegador pode fazer é decidido pelas regras de segurança.
+   * Firebase web API key. Public by design — it only identifies the project;
+   * what the browser may do is decided by the security rules.
    */
   issuesApiKey: string;
-  /** Base do rastreador, para montar os links de reportar e acompanhar. */
+  /** Tracker base URL, used to build the report and follow links. */
   issuesUrl: string;
 }

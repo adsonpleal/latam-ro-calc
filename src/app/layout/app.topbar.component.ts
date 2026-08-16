@@ -54,8 +54,8 @@ export class AppTopBarComponent {
     },
   ];
 
-  // O formulário e a planilha do Google saíram de cena: tudo virou ficha no
-  // rastreador compartilhado, e o que já estava na planilha foi migrado.
+  // The Google form and spreadsheet are gone: everything became a card on the
+  // shared tracker, and what the spreadsheet held was migrated over.
   readonly issuesReportUrl = `${environment.issuesUrl}/novo?projeto=simulador`;
   readonly issuesBoardUrl = `${environment.issuesUrl}/?projeto=simulador`;
   readonly discordUrl = 'https://discord.gg/JCXTqqWq9Q';

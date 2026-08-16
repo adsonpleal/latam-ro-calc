@@ -52,15 +52,15 @@ export class ReplaySubmissionService {
     }
 
     const id = generateSubmissionId();
-    const raiz = `projects/${environment.issuesProjectId}/databases/(default)`;
-    const doc = (caminho: string) => `${raiz}/documents/${caminho}`;
+    const root = `projects/${environment.issuesProjectId}/databases/(default)`;
+    const doc = (path: string) => `${root}/documents/${path}`;
 
     const nick = submission.nick.trim().slice(0, 40);
     const discord = submission.discord.trim().slice(0, 60);
     const notes = submission.notes.trim().slice(0, 1000);
 
-    // O resumo do parser vai desnormalizado no card para a triagem ranquear sem
-    // baixar o .rrf, que tem centenas de kB.
+    // The parser's summary rides denormalised on the card so triage can rank
+    // without downloading the .rrf, which runs to hundreds of kB.
     const replay: Record<string, unknown> = {
       ...submission.summary,
       // Capped so a replay full of foreign items can't bloat the document.
@@ -73,30 +73,32 @@ export class ReplaySubmissionService {
       replay['traitsSource'] = submission.traitsSource ?? 'form';
     }
 
+    // The keys below are the tracker's own schema, hence pt-BR.
     const card: Record<string, unknown> = {
       projeto: 'simulador',
-      titulo: tituloDaGravacao(submission.summary),
-      descricao: descricaoDaGravacao(submission.summary, notes),
+      titulo: recordingTitle(submission.summary),
+      descricao: recordingDescription(submission.summary, notes),
       tipo: 'replay',
       status: 'reportado',
-      // Chega escondida do quadro público. Ver o comentário no topo.
+      // Arrives hidden from the public board. See the comment at the top.
       arquivado: true,
       upvotes: 0,
       comentarios: 0,
       anexos: 1,
       replay,
     };
-    // O nick foi pedido como crédito ("como você quer ser citado"), então é o
-    // único dado de identificação que pode aparecer no card. O Discord é
-    // contato: vai para um subdocumento que só o admin lê.
+    // The nick was asked for as credit ("how do you want to be named"), so it is
+    // the only identifying detail allowed to show on the card. The Discord handle
+    // is contact info: it goes to a subdocument only the admin can read.
     if (nick) card['autor'] = nick;
 
-    // Uma escrita só, atômica: ou entram o card, o anexo e o contato, ou não
-    // entra nada. Três POSTs soltos poderiam deixar um card sem a gravação.
+    // One atomic write: either the card, the attachment and the contact all land,
+    // or none of them do. Three loose POSTs could leave a card without its
+    // recording.
     //
-    // `:commit` com `setToServerValue` também é a única forma de satisfazer as
-    // regras do rastreador, que exigem `criadoEm == request.time` — um POST
-    // comum só consegue mandar o relógio de quem envia.
+    // `:commit` with `setToServerValue` is also the only way to satisfy the
+    // tracker's rules, which require `criadoEm == request.time` — a plain POST
+    // can only send the sender's own clock.
     const writes: unknown[] = [
       {
         update: { name: doc(`issues/${id}`), fields: encodeFields(card) },
@@ -130,7 +132,7 @@ export class ReplaySubmissionService {
     }
 
     const res = await fetch(
-      `https://firestore.googleapis.com/v1/${raiz}/documents:commit?key=${environment.issuesApiKey}`,
+      `https://firestore.googleapis.com/v1/${root}/documents:commit?key=${environment.issuesApiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -147,27 +149,27 @@ export class ReplaySubmissionService {
   }
 }
 
-/** "Gravação: Executor nv 240/50 — Erin_J" — o que a triagem lê na listagem. */
-export function tituloDaGravacao(s: ReplaySubmissionSummary): string {
-  const classe = s.className || 'Classe desconhecida';
-  const nivel = s.baseLevel ? ` nv ${s.baseLevel}/${s.jobLevel ?? '?'}` : '';
-  const quem = s.player ? ` — ${s.player}` : '';
-  return `Gravação: ${classe}${nivel}${quem}`.slice(0, 120);
+/** "Gravação: Executor nv 240/50 — Erin_J" — what triage reads in the listing. */
+export function recordingTitle(s: ReplaySubmissionSummary): string {
+  const className = s.className || 'Classe desconhecida';
+  const level = s.baseLevel ? ` nv ${s.baseLevel}/${s.jobLevel ?? '?'}` : '';
+  const who = s.player ? ` — ${s.player}` : '';
+  return `Gravação: ${className}${level}${who}`.slice(0, 120);
 }
 
-/** A observação de quem gravou primeiro; o que o parser leu, depois. */
-export function descricaoDaGravacao(s: ReplaySubmissionSummary, notes: string): string {
-  const partes: string[] = [];
-  if (notes) partes.push(notes);
-  const duracao = s.durationMs ? `${Math.round(s.durationMs / 1000)}s` : '?';
-  partes.push(
-    `Gravação de ${duracao} com ${s.dummyHits} golpes em dummy ` +
+/** The sender's own note first; what the parser read, after it. */
+export function recordingDescription(s: ReplaySubmissionSummary, notes: string): string {
+  const parts: string[] = [];
+  if (notes) parts.push(notes);
+  const duration = s.durationMs ? `${Math.round(s.durationMs / 1000)}s` : '?';
+  parts.push(
+    `Gravação de ${duration} com ${s.dummyHits} golpes em dummy ` +
       `(${s.damageEvents} eventos de dano no total), ` +
       `${s.equipChangeCount} trocas de equipamento e ` +
       `${s.learnedSkillCount} habilidades aprendidas. ` +
       `Mapa ${s.map}.`,
   );
-  return partes.join('\n\n').slice(0, 4000);
+  return parts.join('\n\n').slice(0, 4000);
 }
 
 /**

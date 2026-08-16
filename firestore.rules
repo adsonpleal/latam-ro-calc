@@ -3,20 +3,19 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Coleção aposentada. As gravações do "Ajude o simulador" agora vão para o
-    // rastreador compartilhado (projeto `issues-latam-tools`, fichas de
-    // `tipo: "replay"`), e as 24 que estavam aqui foram migradas para lá com os
-    // mesmos ids.
+    // Retired collection. The "Ajude o simulador" recordings now go to the shared
+    // tracker (project `issues-latam-tools`, cards of `tipo: "replay"`), and the
+    // 24 that were here were migrated over keeping their ids.
     //
-    // O bloco fica de pé, com tudo negado: os documentos continuam aqui como
-    // histórico, legíveis só por credencial de administrador, e nenhum cliente
-    // antigo em cache consegue mais escrever. O validador abaixo sobrevive como
-    // registro do formato que existiu.
+    // The block stays, with everything denied: the documents remain here as
+    // history, readable only with an admin credential, and no stale cached client
+    // can write any more. The validator below survives as a record of the format
+    // that existed.
     //
-    // A leitura sempre foi negada de propósito — assim os envios nunca ficaram
-    // atrás de uma URL adivinhável, como acontece com os replays do RagnaRecap.
-    // O rastreador preserva isso: a ficha nasce arquivada, e enquanto estiver
-    // assim as regras de lá negam o anexo.
+    // Reads were always denied on purpose — that is why the submissions never sat
+    // behind a guessable URL the way the RagnaRecap replays do. The tracker keeps
+    // that property: a card is born archived, and while it stays that way the
+    // rules over there deny the attachment.
     match /replay_submissions/{submissionId} {
       allow read, create, update, delete: if false;
     }
