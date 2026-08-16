@@ -159,6 +159,19 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.60-beta',
+      date: '16-08-2026',
+      logs: [
+        'O Escudo Excelion ainda trazia os efeitos do item de mesmo número no servidor de origem, e nenhum deles é o que a peça faz aqui: estavam cadastrados DEFM +5 e HP e SP máximos por refino, quando a descrição em português concede conjuração variável -10%, custo de SP das habilidades -1% a cada 2 refinos e pós-conjuração -5% a partir do nível de base 130. A DEF base e o peso também eram os de lá, 95 e 120 no lugar de 50 e 100. Agora o escudo reduz conjuração e pós-conjuração como deveria. O custo de SP fica de fora porque o simulador não calcula gasto de SP. Reportado por usuário anônimo.',
+        'O Escudo Excelion e a Perna Excelion voltaram a aceitar Diagramas. O Colete e o Motor já tinham a lista de encantos cadastrada e as outras duas peças ficaram de fora, com os três espaços vazios. Agora oferecem a coluna delas na tabela de Diagramas: A-DEF, A-ATQ, A-ATQM, A-HP, A-SP e A-VdA. O A-ESQV segue fora porque no jogo só o Colete e o Motor o aceitam, e as categorias E-, I-, R- e C- — propriedade, imunidade a congelamento, resistência e regeneração — não têm item cadastrado no banco. Reportado por usuário anônimo.',
+        'A Runa Othila inflava a velocidade de ataque. A [Aura de Combate] estava somando 4% de VelAtq por nível de [Perícia em Runas], o que no nível 10 dava 40%, e a habilidade não concede porcentagem nenhuma: ela dá um valor fixo, que encolhe conforme o VelAtq que o equipamento já entrega, pela conta 4 × (100 − VelAtq% do equipamento). Com 24% vindos do equipamento são +3 de VelAtq; com 40%, +2; sem nada, o teto de +4. [Perícia em Runas] é pré-requisito para usar a runa e não multiplica o bônus. Reportado por usuário anônimo.',
+        'Os encantos dos equipamentos das Cavernas Ilusionais estavam repartidos entre os dois espaços: o primeiro oferecia atributos e HP máximo, o segundo só as Runas. No jogo os dois espaços sorteiam da mesma tabela, e agora os dois oferecem a lista inteira — FOR, VIT, INT e SOR de +1 a +4, HP +1% a +4% e as seis Runas. Saíram AGI e DES, que a tabela de equipamento não sorteia: são da tabela de acessório, que continua como estava. Vale para as doze peças ilusionais de elmo, armadura, capa, escudo e calçado, entre elas o Sapato Corredor Ilusional. Reportado por usuário anônimo.',
+        'O Cachecol Físico de Schmidt não anulava a penalidade de tamanho da arma. Do conjunto com o Brasão de Schmidt FOR só a Esquiva perfeita +25 estava cadastrada, e a anulação, que vale a partir de FOR base 125, não. Ao conjunto com o Brasão SOR faltava a outra metade também: Dano físico corpo a corpo +10% a partir de SOR base 125, ao lado do ATQ +25 que já valia. O CRIT à distância +25 do conjunto com o Brasão AGI continua de fora, porque o cálculo não separa crítico à distância de crítico em geral. Reportado por usuário anônimo.',
+        'O Amuleto Oriental e o Amuleto Ocidental não existiam no banco, e por isso não apareciam para classe nenhuma. Cada um dá Dano físico e mágico +5% e eles ocupam lados opostos — o Oriental no acessório esquerdo, o Ocidental no direito —, então valem juntos, 10% de cada. O conjunto dos dois habilita [Bolas de Fogo] nível 3 e dá chance de petrificar quem ataca, que são efeitos fora do que o simulador calcula. Reportado por usuário anônimo.',
+        'A Carta Mosca Caçadora não aparecia na lista de cartas de arma. Ela estava cadastrada, mas com a posição de encaixe no formato do servidor em vez do que a lista de cartas usa, e assim não entrava em lista nenhuma. Agora aparece entre as cartas de arma. O efeito dela — 3% de chance de converter 15% do dano físico causado em HP — não entra na conta, porque o simulador não calcula absorção de HP. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.59-beta',
       date: '16-08-2026',
       logs: [
