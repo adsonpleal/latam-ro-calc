@@ -64,6 +64,9 @@ export interface EquipmentSummaryModel {
   fct: number;
   fctPercent: number;
   cri: number;
+  /** "CRIT à distância": crit rate the ranged BASIC attack alone takes — never `cri`,
+   *  which the skill crit rate reads too. See DamageCalculator.getRangedCriRate(). */
+  criRange: number;
   criDmg: number;
   perfectHit: number;
   hit: number;

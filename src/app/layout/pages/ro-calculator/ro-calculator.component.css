@@ -406,6 +406,13 @@ a.skill_link:hover {
   color: var(--text-color-secondary);
 }
 
+/* Caveat about the clicked value itself, above the source rows (see bonusBreakdownNote). */
+.bonus_breakdown_note {
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-color-secondary);
+}
+
 /* item-bonus panel value (matches the orange the old JSON dump used for numbers) */
 .item_bonus_value {
   color: #f2b619;

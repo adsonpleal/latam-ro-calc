@@ -32,7 +32,7 @@ export const ITEM_BONUS_LABELS: Record<string, string> = {
   acd: 'Pós-conjuração', fct: 'Conj. Fixa', fctPercent: 'Conj. Fixa %',
   vct: 'Conj. Variável', vct_inc: 'Conj. Variável (aumento)', vctBySkill: 'Conj. Variável (hab.)',
   cd: 'Recarga',
-  hit: 'Precisão', perfectHit: 'Precisão Perfeita', cri: 'Crítico', criDmg: 'Dano crítico',
+  hit: 'Precisão', perfectHit: 'Precisão Perfeita', cri: 'Crítico', criRange: 'CRIT à distância', criDmg: 'Dano crítico',
   perfectDodge: 'Esquiva perfeita', flee: 'Esquiva', forceCri: 'Força crítico',
   ignore_size_penalty: 'Ignora penalidade de tamanho', p_infiltration: 'Infiltração física',
   mildwind: 'Vento Suave',

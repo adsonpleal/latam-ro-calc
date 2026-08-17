@@ -533,6 +533,13 @@ export class DamageCalculator {
     };
   }
 
+  /** "CRIT à distância" (Cachecol Físico de Schmidt + Brasão AGI, Carta Drosera): crit rate
+   *  the game grants only to the ranged BASIC attack. Skills never take it, which is why it
+   *  rides its own key instead of `cri` — `cri` is read by the skill crit rate as well. */
+  private getRangedCriRate() {
+    return this.isRangeAtk() ? this.totalBonus.criRange || 0 : 0;
+  }
+
   private getExtraCriRateToMonster() {
     const { race, element, size } = this.monster;
     const toRace = this.totalBonus[`cri_race_${race}`] || 0;
@@ -2083,7 +2090,10 @@ export class DamageCalculator {
     const misc = this.getMiscData();
     const actualBasicCriRate = this.getBaseCriRate(true);
     const basicAspd = this.getBasicAspd();
-    const criRateToMonster = Math.max(0, actualBasicCriRate + this.getExtraCriRateToMonster() - criShield);
+    // `getRangedCriRate()` enters here and nowhere else: this is the basic attack's rate.
+    // The skill branch below builds its own rate from `actualBasicCriRate` and must not see it.
+    const rangedCriRate = this.getRangedCriRate();
+    const criRateToMonster = Math.max(0, actualBasicCriRate + rangedCriRate + this.getExtraCriRateToMonster() - criShield);
     const basicDps = calcDmgDps({
       accRate: misc.accuracy,
       cri: criRateToMonster,
@@ -2102,7 +2112,11 @@ export class DamageCalculator {
       sizePenalty: floor(sizePenalty * 100, 0),
       propertyAtk,
       propertyMultiplier,
+      // Deliberately the plain rate: the ranged-only bonus is NOT folded in here, so the
+      // character-sheet crit keeps meaning "the crit every attack takes". The UI marks the
+      // value with a "*" from `criRangeBonus` instead, and explains it on click.
       basicCriRate: this.getBaseCriRate(),
+      criRangeBonus: rangedCriRate,
       criRateToMonster,
       totalPene: this.isActiveInfilltration ? 100 : this.getTotalPhysicalPene(),
       accuracy: misc.accuracy,

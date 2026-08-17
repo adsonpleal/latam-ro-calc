@@ -65,6 +65,10 @@ export const createRawTotalBonus = (): EquipmentSummaryModel => {
     fct: 0,
     fctPercent: 0,
     cri: 0,
+    // "CRIT à distância": crit rate that only counts on the BASIC attack, and only with a
+    // ranged weapon. Kept apart from `cri` because `cri` feeds the skill crit rate too
+    // (see damage-calculator getBaseCriRate / the skill branch), and this one must not.
+    criRange: 0,
     criDmg: 0,
     perfectHit: 0,
     hit: 0,

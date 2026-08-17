@@ -90,6 +90,7 @@ describe('Amuleto Oriental (490150) and Ocidental (490151)', () => {
 describe('Cachecol Físico de Schmidt (420748) — the set clauses', () => {
   const BRASAO_STR = 32228;
   const BRASAO_LUK = 32230;
+  const BRASAO_AGI = 32232;
 
   it('nullifies the weapon size penalty with the Brasão FOR at base FOR 125', () => {
     expect(totals({ headLower: 420748, accLeft: BRASAO_STR }, { str: 125 })['ignore_size_penalty']).toBe(1);
@@ -109,6 +110,35 @@ describe('Cachecol Físico de Schmidt (420748) — the set clauses', () => {
   it('adds melee +10% with the Brasão SOR at base SOR 125', () => {
     expect(totals({ headLower: 420748, accLeft: BRASAO_LUK }, { luk: 125 })['melee']).toBe(10);
     expect(totals({ headLower: 420748, accLeft: BRASAO_LUK }, { luk: 124 })['melee'] ?? 0).toBe(0);
+  });
+
+  it('adds CRIT à distância +25 with the Brasão AGI, on its own key', () => {
+    const t = totals({ headLower: 420748, accLeft: BRASAO_AGI });
+
+    expect(t['criRange']).toBe(25);
+    // Never folded into `cri`: the skill crit rate reads `cri`, and this bonus is the
+    // ranged BASIC attack's only (damage-calculator getRangedCriRate).
+    expect(t['cri'] ?? 0).toBe(0);
+  });
+
+  it('gives no CRIT à distância without the Brasão AGI', () => {
+    expect(totals({ headLower: 420748 })['criRange'] ?? 0).toBe(0);
+    expect(totals({ headLower: 420748, accLeft: BRASAO_LUK })['criRange'] ?? 0).toBe(0);
+  });
+
+  // Left out on purpose: the AGI set's second clause is "Aumenta a velocidade de
+  // movimento", which the engine does not model for any item — there is no move-speed
+  // stage in the damage formula to hang it on.
+});
+
+describe('Carta Lobo (27390) reaches the weapon-card list', () => {
+  it('carries a weapon compositionPos instead of null', () => {
+    // Found while auditing the missing cards, not reported: the record was in the database
+    // with `compositionPos: null`, which matches no branch of the card router — registered
+    // and unreachable, in every picker's blind spot. CardPosition.Weapon is 0, and the
+    // pt-BR description's "Equipa em: Arma" agrees with RagnaPlace's `weapon`.
+    expect(db[27390].itemTypeId).toBe(6);
+    expect(db[27390].compositionPos).toBe(0);
   });
 });
 

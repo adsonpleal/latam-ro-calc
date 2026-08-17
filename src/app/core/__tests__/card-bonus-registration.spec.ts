@@ -1,0 +1,299 @@
+import { readFileSync } from 'node:fs';
+import { describe, expect, it } from 'vitest';
+import { CardPosition } from 'src/app/constants/card-position.enum';
+import { createMainModel, createRawTotalBonus } from 'src/app/utils';
+import { equipStatusOf, makeCalculator } from './make-calculator';
+
+/**
+ * The second batch of the "Faltam 470 cartas no banco" tracker card.
+ *
+ * a54f32e6 registered the 64 cards whose **every** description line mapped to a bonus key
+ * the engine already had, and left the rest carded. `tools/classify-missing-cards.mjs`
+ * rebuilt that classification as a committed script and found 35 more that clear the same
+ * bar — they were left out only because the phrase table behind the first batch did not
+ * know their wordings ("a oponentes de propriedade X", plural element/race lists, two
+ * bonuses comma-joined on one line, "Resistência a danos físicos a distância", "monstros
+ * Normais e Chefes", "X e Y +N" sharing one magnitude, "Crítico" for CRIT).
+ *
+ * Same rule as the first batch, and the reason the number is 35 rather than 204: a card
+ * registered with a script that quietly drops half its description is worse than one still
+ * missing, because the first reads as modelled.
+ *
+ * Nothing here was hand-typed. The keys come from rules each witnessed against an item
+ * ALREADY in item.json carrying the same phrase (`--witness` in that script proves all 43:
+ * "Resistência a oponentes de propriedade" off Livro do Apocalipse (1557), "Resistência a
+ * danos físicos a distância" off Carta Gazeti de Cristal (27110), "monstros Normais e
+ * Chefes" off Escudo de Torneio (2133), "Resistência a oponentes de tamanho" off Bardiche
+ * Dentilhado (1375), the negative sign off Faca de Combate (1228)). The magnitudes come
+ * from the pt-BR line itself, and the slot was confirmed twice over — by the description's
+ * own "Equipa em:" line and by the RagnaPlace API — before any record was written.
+ *
+ * This spec re-checks the result from both ends: the engine actually surfaces each script
+ * through `loadItemFromModel().prepareAllItemBonus()`, and the data still says what the
+ * pt-BR text says.
+ */
+
+const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
+const latam = JSON.parse(readFileSync('src/assets/demo/data/latam-items.json', 'utf8'));
+
+/** Strip the client's ^RRGGBB colour codes. */
+const plain = (description: string) => (description || '').replace(/\^[0-9a-fA-F]{6}/g, '');
+
+/** The 35 ids this batch added. */
+const ADDED = [
+  4009, 4018, 4019, 4021, 4026, 4029, 4045, 4066, 4071, 4102, 4125, 4174, 4252, 4442,
+  4443, 4444, 4445, 4447, 4449, 4639, 4660, 4661, 4668, 27027, 27029, 27158, 27316,
+  27336, 27337, 27341, 27346, 27349, 27353, 27358, 300143,
+];
+
+/**
+ * Where a card position is actually worn, plus an inert host to carry it there.
+ *
+ * `loadItemFromModel` only reads `<slot>Card` when the slot itself holds an item
+ * (`this.equipItem.get(mainItemType) ? model[itemRelation] : 0`), so a card with no host
+ * reaches the engine as a zero. Every host below has an empty `script`, which keeps the
+ * "without the card" baseline honest; the assertions still work off the delta so a host
+ * that ever gains a bonus cannot quietly be counted as the card's.
+ */
+const WORN: Record<number, { slot: string; cardField: string; host: number }> = {
+  [CardPosition.Weapon]: { slot: 'weapon', cardField: 'weaponCard1', host: 1201 }, // Knife [3]
+  [CardPosition.Head]: { slot: 'headUpper', cardField: 'headUpperCard', host: 5171 }, // Elmo das Valquírias
+  [CardPosition.Armor]: { slot: 'armor', cardField: 'armorCard', host: 2319 }, // Jaqueta Brilhante
+  [CardPosition.Shield]: { slot: 'shield', cardField: 'shieldCard', host: 2123 }, // Travessa de Orleans
+  [CardPosition.Garment]: { slot: 'garment', cardField: 'garmentCard', host: 2515 }, // Asa de Águia
+  [CardPosition.Boot]: { slot: 'boot', cardField: 'bootCard', host: 2421 }, // Sapatos das Valquírias
+  [CardPosition.Acc]: { slot: 'accRight', cardField: 'accRightCard', host: 2971 }, // Relógio de Bolso
+};
+
+/** Equip the host at `position`, optionally with `cardId` in its socket, and run the engine. */
+function bonusAt(position: number, cardId?: number): Record<string, number> {
+  const { slot, cardField, host } = WORN[position];
+
+  const db: Record<number, any> = { [host]: { ...items[host] } };
+  if (cardId !== undefined) db[cardId] = { ...items[cardId] };
+
+  const model = createMainModel();
+  model.level = 200;
+  model[slot] = host;
+  model[`${slot}Refine`] = 0;
+  if (cardId !== undefined) model[cardField] = cardId;
+
+  return equipStatusOf(makeCalculator(db), model);
+}
+
+/** What the card, and only the card, adds to the equipment bonus. */
+function grantedBy(id: number): Record<string, number> {
+  const position = items[id].compositionPos;
+  const without = bonusAt(position);
+  const withCard = bonusAt(position, id);
+
+  const granted: Record<string, number> = {};
+  for (const key of new Set([...Object.keys(without), ...Object.keys(withCard)])) {
+    const delta = (withCard[key] || 0) - (without[key] || 0);
+    if (delta !== 0) granted[key] = delta;
+  }
+
+  return granted;
+}
+
+/** The card's registered script, as the numbers the engine should hand back. */
+const scriptOf = (id: number): Record<string, number> =>
+  Object.fromEntries(Object.entries(items[id].script as Record<string, string[]>).map(([key, values]) => [key, Number(values[0])]));
+
+describe('every card added in this batch reaches the engine', () => {
+  it('is registered as a card, in the LATAM client, at a real card position', () => {
+    const valid = new Set(Object.values(CardPosition).filter((v): v is number => typeof v === 'number'));
+
+    for (const id of ADDED) {
+      expect(items[id], `${id} missing from item.json`).toBeTruthy();
+      expect(items[id].itemTypeId, `${id} itemTypeId`).toBe(6);
+      expect(items[id].itemSubTypeId, `${id} itemSubTypeId`).toBe(0);
+      expect(latam[id], `${id} missing from latam-items.json`).toBeTruthy();
+      expect(valid.has(items[id].compositionPos), `${id} compositionPos ${items[id].compositionPos}`).toBe(true);
+      expect(Object.keys(items[id].script).length, `${id} has an empty script`).toBeGreaterThan(0);
+    }
+  });
+
+  it('hands its whole script back through loadItemFromModel().prepareAllItemBonus()', () => {
+    // The end-to-end check: a record can be perfectly shaped and still reach nothing, which
+    // is how Carta Mosca Caçadora sat in the database while appearing in no picker.
+    for (const id of ADDED) {
+      expect(grantedBy(id), `${id} ${latam[id].name}`).toEqual(scriptOf(id));
+    }
+  });
+
+  it('grants nothing at all when its slot is empty', () => {
+    // The negative half of the test above: without the host the socket is not read, so a
+    // non-zero delta there would mean the "with card" run was measuring something else.
+    for (const position of Object.keys(WORN).map(Number)) {
+      const { slot, cardField, host } = WORN[position];
+      const cards = ADDED.filter((id) => items[id].compositionPos === position);
+
+      for (const id of cards) {
+        const db = { [host]: { ...items[host] }, [id]: { ...items[id] } };
+        const model = createMainModel();
+        model.level = 200;
+        model[cardField] = id; // card in the socket, nothing wearing it
+        const orphan = equipStatusOf(makeCalculator(db), model);
+
+        for (const key of Object.keys(items[id].script)) {
+          expect(orphan[key] || 0, `${id} ${latam[id].name} leaked "${key}" with no ${slot}`).toBe(0);
+        }
+      }
+    }
+  });
+});
+
+describe('the data still says what the pt-BR description says', () => {
+  it('only uses bonus keys the engine actually reads', () => {
+    // Never invent a key: an unknown one lands where nothing looks. See CLAUDE.md.
+    const known = new Set(Object.keys(createRawTotalBonus()));
+
+    for (const id of ADDED) {
+      for (const key of Object.keys(items[id].script)) {
+        expect(known.has(key), `${id} uses unknown key "${key}"`).toBe(true);
+      }
+    }
+  });
+
+  it('routes to the slot its own "Equipa em:" line names', () => {
+    // A compositionPos no branch of the card router matches is how Carta Mosca Caçadora
+    // vanished from every picker — see the 0.1.60-beta entry.
+    const BY_SLOT: Record<string, number> = {
+      Arma: CardPosition.Weapon,
+      Armadura: CardPosition.Armor,
+      Escudo: CardPosition.Shield,
+      Capa: CardPosition.Garment,
+      Calçado: CardPosition.Boot,
+      Acessório: CardPosition.Acc,
+      'Aces. Direito': CardPosition.AccR,
+      'Aces. Esquerdo': CardPosition.AccL,
+      // The client prints the head slot both ways; this batch uses the long spelling.
+      'Equip. para Cabeça': CardPosition.Head,
+      'Equipamento para Cabeça': CardPosition.Head,
+    };
+
+    for (const id of ADDED) {
+      const slot = /Equipa em:\s*([^\n]*)/.exec(plain(latam[id].description))?.[1].trim();
+      expect(BY_SLOT[slot!], `${id} "${slot}"`).toBe(items[id].compositionPos);
+    }
+  });
+
+  it('carries no number that is not in its own description', () => {
+    // The guard against a mis-parsed line: every magnitude in the script has to appear in
+    // the pt-BR text it was read from.
+    for (const id of ADDED) {
+      const description = plain(latam[id].description).replace(/\./g, '');
+
+      for (const values of Object.values(items[id].script) as string[][]) {
+        for (const value of values) {
+          expect(description.includes(String(Math.abs(Number(value)))), `${id} value ${value}`).toBe(true);
+        }
+      }
+    }
+  });
+
+  it('never widens a named race, element or size into its "all" key', () => {
+    // "Resistência as raças Bruto e Doram" is two keys, not subrace_all. The wide keys are
+    // a different effect and would apply against every target.
+    const WIDE = ['subele_all', 'subrace_all', 'subsize_all', 'subclass_all', 'p_element_all', 'p_race_all', 'p_size_all', 'p_class_all'];
+
+    for (const id of ADDED) {
+      for (const key of WIDE) {
+        expect(items[id].script[key], `${id} ${latam[id].name} uses "${key}"`).toBeUndefined();
+      }
+    }
+  });
+});
+
+describe('the wordings this batch is the first to register', () => {
+  it('4442 Carta Tatacho — resistance and damage against the same element are two keys', () => {
+    // "Resistência a oponentes de propriedade Neutro +20%" is damage taken (subele_), and
+    // "Dano físico contra oponentes de propriedade Neutro +5%" is damage dealt
+    // (p_element_) — Livro do Apocalipse (1557) and Carta Anaconda (4062) respectively.
+    expect(grantedBy(4442)).toEqual({ subele_neutral: 20, p_element_neutral: 5 });
+  });
+
+  it('27158 Carta Les — a resistance line alone grants no damage', () => {
+    // Its only line is "Resistência a oponentes de propriedade Vento +30%", so the
+    // damage-dealt twin must stay untouched.
+    const granted = grantedBy(27158);
+
+    expect(granted['subele_wind']).toBe(30);
+    expect(granted['p_element_wind']).toBeUndefined();
+  });
+
+  it('4102 Carta Sussurro — a resistance penalty stays negative', () => {
+    // "Esquiva +20" and "Resistência a propriedade Fantasma -50%": the second is a weakness,
+    // and flipping its sign would turn the game's worst trade into a bonus. Faca de Combate
+    // (1228) is the precedent for storing it as written.
+    expect(grantedBy(4102)).toEqual({ flee: 20, subele_ghost: -50 });
+  });
+
+  it('4174 Carta Deviling — +50% Neutro against -50% on the other nine elements', () => {
+    const granted = grantedBy(4174);
+
+    expect(granted['subele_neutral']).toBe(50);
+    for (const element of ['fire', 'water', 'earth', 'wind', 'undead', 'ghost', 'dark', 'holy', 'poison']) {
+      expect(granted[`subele_${element}`], `subele_${element}`).toBe(-50);
+    }
+  });
+
+  it('4661 Carta Basilisco Guerreiro — two sizes up, the third down', () => {
+    expect(grantedBy(4661)).toEqual({ subsize_m: 20, subsize_l: 20, subsize_s: -15 });
+  });
+
+  it('4125 Carta Deviace — one magnitude shared by a six-race list', () => {
+    // "Dano físico contra as raças Humano, Humanoide, Bruto, Doram, Planta e Inseto +7%":
+    // the same +7 on each, the way Nagan (1130) splits its two-race line.
+    expect(grantedBy(4125)).toEqual({
+      p_race_player_human: 7,
+      p_race_demihuman: 7,
+      p_race_brute: 7,
+      p_race_player_doram: 7,
+      p_race_plant: 7,
+      p_race_insect: 7,
+    });
+  });
+
+  it('4029 Carta Lobo — "Crítico" on a comma-joined line is CRIT, not crit damage', () => {
+    // "ATQ +15, Crítico +1". Fatal 1 (4863) carries the same word as `cri`; `criDmg` is
+    // spelled "Dano crítico".
+    expect(grantedBy(4029)).toEqual({ atk: 15, cri: 1 });
+  });
+
+  it('4045 and 4252 — "danos físicos a distância" is damage taken, not damage dealt', () => {
+    // dmg_taken_range, off Carta Gazeti de Cristal (27110). `range` is the dealt side.
+    expect(grantedBy(4045)).toEqual({ dmg_taken_range: 35 });
+    expect(grantedBy(4252)).toEqual({ dmg_taken_range: 5 });
+    expect(grantedBy(4045)['range']).toBeUndefined();
+  });
+
+  it('4639 Carta Tappy — "monstros Normais e Chefes" is both class keys', () => {
+    // Escudo de Torneio (2133) prints the identical line and carries both.
+    expect(grantedBy(4639)).toEqual({ p_class_normal: 1, p_class_boss: 1 });
+  });
+
+  it('4668 Carta Esporo de Água Doce — "VIT e INT +1" is +1 each, and it is a head card', () => {
+    // Desejo dos Deuses (5747) is the witness for the shared-magnitude wording.
+    expect(grantedBy(4668)).toEqual({ vit: 1, int: 1 });
+    expect(items[4668].compositionPos).toBe(CardPosition.Head);
+  });
+
+  it('27336 Carta Sorrateiro Caótico — a race pair and an element on the same card', () => {
+    expect(grantedBy(27336)).toEqual({ subrace_brute: 15, subrace_player_doram: 15, subele_poison: 15 });
+  });
+
+  it('27358 Carta Foragido — three elements at -100% and five at +30%', () => {
+    expect(grantedBy(27358)).toEqual({
+      subele_holy: -100,
+      subele_ghost: -100,
+      subele_fire: -100,
+      subele_poison: 30,
+      subele_earth: 30,
+      subele_wind: 30,
+      subele_dark: 30,
+      subele_undead: 30,
+    });
+  });
+});

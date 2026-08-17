@@ -376,6 +376,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   isShowBonusBreakdown = false;
   isShowAspdCurve = false;
   bonusBreakdownTitle = '';
+  /** A caveat about the value itself, shown above the source rows — for a bonus whose rows
+   *  alone would read as if it applied everywhere (CRIT à distância counts on the basic
+   *  attack only). Empty for the ordinary case. */
+  bonusBreakdownNote = '';
   bonusBreakdownValueClass = 'summary_damage';
   bonusBreakdownRows: { label: string; icon?: number; iconType: 'item' | 'skill'; value: number; display: string; tooltip?: string }[] = [];
   /** Per-source hover explanations (e.g. the AGI-scaled ASPD-potion formula), keyed by source key. */
@@ -3108,7 +3112,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       /^pene_/.test(k) ||
       isDefenderKey(k) ||
       /^(vct|acd|fctPercent)__/.test(k) ||
-      ['range', 'melee', 'criDmg', 'cri', 'perfectHit', 'acd', 'vct', 'vct_inc', 'vctBySkill', 'oratio', 'infection', 'intoxication', 'bitterCold', 'gravitation'].includes(k)
+      ['range', 'melee', 'criDmg', 'cri', 'criRange', 'perfectHit', 'acd', 'vct', 'vct_inc', 'vctBySkill', 'oratio', 'infection', 'intoxication', 'bitterCold', 'gravitation'].includes(k)
     );
   }
 
@@ -3181,7 +3185,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.showBonusBreakdown({ label: `Redução: ${row.label}`, keys: row.keys, valueClass: 'summary_stat_def2', sources, itemMap });
   }
 
-  showBonusBreakdown(event: { label: string; keys: string[]; valueClass: string; total?: number; calc?: DamageFormulaCalc; sources?: Record<string, any>; itemMap?: Map<any, number>; compare?: boolean }): void {
+  showBonusBreakdown(event: { label: string; keys: string[]; valueClass: string; note?: string; total?: number; calc?: DamageFormulaCalc; sources?: Record<string, any>; itemMap?: Map<any, number>; compare?: boolean }): void {
     const rows: typeof this.bonusBreakdownRows = [];
     // The summary value being broken down is a reduction (and so shown negated) when every
     // queried key is one — cast/delay stats are always queried alone (e.g. ['acd']).
@@ -3241,6 +3245,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     rows.sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
 
     this.bonusBreakdownTitle = event.label;
+    this.bonusBreakdownNote = event.note ?? '';
     this.bonusBreakdownValueClass = event.valueClass || 'summary_damage';
     this.bonusBreakdownRows = rows;
     // Formula-derived nodes in the damage graph (ATQ Status, ATQ da Arma, the "Adicional"

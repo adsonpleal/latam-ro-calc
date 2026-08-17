@@ -1716,6 +1716,9 @@ export class Calculator {
         totalAgi: this.dmgCalculator.status.totalAgi,
         hitPerSecs: this.basicAspd.hitsPerSec,
         totalCri: this.damageSummary.basicCriRate,
+        // Not added to totalCri on purpose — it only counts on the ranged basic attack.
+        // The summary shows it as a "*" beside the value; the breakdown says why.
+        criRangeBonus: this.damageSummary.criRangeBonus,
         ...this.miscSummary,
         hitRate: this.miscSummary.accuracy,
         dps: this.damageSummary.basicDps,

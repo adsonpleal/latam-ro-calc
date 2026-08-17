@@ -54,6 +54,12 @@ Thumbs.db
 /src/assets/data/
 /src/assets/data-manifest.json
 
+# Reference dumps from the card scripts (tools/classify-missing-cards.mjs and
+# tools/resolve-card-slots.mjs). Both are regenerated on demand from
+# latam-items.json + item.json, and one of them is a RagnaPlace copy, so they
+# stay local for reference instead of being committed.
+/tools/data/
+
 # Compiled files
 layout.css
 src/assets/demo/styles/badges.css

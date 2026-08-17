@@ -9,6 +9,10 @@ export interface BasicDamageSummaryModel {
   propertyAtk: ElementType;
   propertyMultiplier: number;
   basicCriRate: number;
+  /** "CRIT à distância" already counted into `criRateToMonster` but kept out of
+   *  `basicCriRate` — non-zero only with a ranged weapon. Drives the "*" the summary puts
+   *  next to the crit value. */
+  criRangeBonus: number;
   criRateToMonster: number;
   totalPene: number;
   accuracy: number;

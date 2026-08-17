@@ -85,6 +85,16 @@ publishes it, and that is a triage decision.
 `pre-push` hook (`.githooks/pre-push`, wired by the `prepare` script) runs the tests and
 blocks the push if anything fails.
 
+**A spec's file name says what it tests, not where the work came from.** Name it after the
+subject — `wolf-poe-combo.spec.ts`, `card-bonus-registration.spec.ts`, `size-resistance.spec.ts`
+— so that finding the tests for a piece of behaviour is a matter of reading the file list.
+Never name a spec after its provenance or the date it was written: `backlog-2026-08`,
+`bug-reports-2026-08` and `missing-cards-2026-08` are the mistake, not the pattern to copy.
+A month bucket turns into a grab-bag of unrelated items, and the tests for one item end up
+wherever that item happened to be reported. When a fix comes out of the backlog or a
+report, put its tests in the file named after the thing being fixed (creating it if need
+be), and record the tracker card in a comment — that is what comments are for.
+
 ## Item data
 
 `src/assets/demo/data/item.json` is the item source; `latam-items.json` carries the pt-BR

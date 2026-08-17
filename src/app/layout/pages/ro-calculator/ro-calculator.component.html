@@ -70,6 +70,10 @@
   [resizable]="false"
   [style]="{ width: '420px', 'max-width': '92vw' }"
 >
+  <!-- A caveat about the value itself (where it applies), as opposed to where it comes
+       from — the source rows below answer the second question, not the first. -->
+  <div *ngIf="bonusBreakdownNote" class="bonus_breakdown_note">{{ bonusBreakdownNote }}</div>
+
   <!-- Derivation of a damage-graph node whose value is a formula rather than a sum of
        equipment bonuses (ATQ Status, ATQ da Arma, the "Adicional" chips). Shown above the
        equipment rows; a node can carry both (e.g. a "%" chip lists the gear behind it). -->
@@ -454,7 +458,21 @@
                   </div>
                   <div class="col-12">
                     Crítico:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['cri'])" (click)="showBonusBreakdown({ label: 'Crítico', keys: ['cri'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.calc?.totalCri || 0 }} %</span>
+                    <!-- The value is the crit EVERY attack takes; "CRIT à distância" is not
+                         summed into it because it only counts on the ranged basic attack. When
+                         the build has some, the value carries a "*" and the breakdown says so. -->
+                    <span
+                      class="font-semibold px-1 summary_stat_atk"
+                      [class.bonus_clickable]="canBreakdown(['cri', 'criRange'])"
+                      (click)="showBonusBreakdown({ label: 'Crítico', keys: ['cri', 'criRange'], valueClass: 'summary_stat_atk', note: (totalSummary?.calc?.criRangeBonus ? 'CRIT à distância +' + totalSummary?.calc?.criRangeBonus + ' conta só no ataque básico com arma de longo alcance — habilidades não recebem, por isso ele não entra no valor acima.' : '') })"
+                      keyActivate
+                      >{{ totalSummary?.calc?.totalCri || 0 }} %<span
+                        *ngIf="totalSummary?.calc?.criRangeBonus"
+                        pTooltip="Mais CRIT à distância, que só vale no ataque básico"
+                        [showDelay]="300"
+                        >*</span
+                      ></span
+                    >
                     Dano: <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['criDmg'])" (click)="showBonusBreakdown({ label: 'Dano crítico', keys: ['criDmg'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.criDmg || 0 }} %</span>
                   </div>
                   <div class="col-12">
