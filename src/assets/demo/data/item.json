@@ -314598,5 +314598,1774 @@
         "5"
       ]
     }
+  },
+  "4002": {
+    "id": 4002,
+    "aegisName": "이름없는카드",
+    "name": "Carta Fabre",
+    "unidName": "Carta Fabre",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ],
+      "hp": [
+        "100"
+      ]
+    }
+  },
+  "4003": {
+    "id": 4003,
+    "aegisName": "이름없는카드",
+    "name": "Carta Pupa",
+    "unidName": "Carta Pupa",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "700"
+      ]
+    }
+  },
+  "4004": {
+    "id": 4004,
+    "aegisName": "이름없는카드",
+    "name": "Carta Drops",
+    "unidName": "Carta Drops",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ],
+      "hit": [
+        "3"
+      ]
+    }
+  },
+  "4006": {
+    "id": 4006,
+    "aegisName": "이름없는카드",
+    "name": "Carta Lunático",
+    "unidName": "Carta Lunático",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "1"
+      ],
+      "cri": [
+        "1"
+      ],
+      "perfectDodge": [
+        "1"
+      ]
+    }
+  },
+  "4008": {
+    "id": 4008,
+    "aegisName": "이름없는카드",
+    "name": "Carta Picky",
+    "unidName": "Carta Picky",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "atk": [
+        "10"
+      ]
+    }
+  },
+  "4011": {
+    "id": 4011,
+    "aegisName": "이름없는카드",
+    "name": "Carta Picky com casca",
+    "unidName": "Carta Picky com casca",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ],
+      "hp": [
+        "100"
+      ]
+    }
+  },
+  "4012": {
+    "id": 4012,
+    "aegisName": "이름없는카드",
+    "name": "Carta Ovo de Besouro-Ladrão",
+    "unidName": "Carta Ovo de Besouro-Ladrão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 32,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "400"
+      ]
+    }
+  },
+  "4013": {
+    "id": 4013,
+    "aegisName": "이름없는카드",
+    "name": "Carta Ovo de Andre",
+    "unidName": "Carta Ovo de Andre",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 32,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ]
+    }
+  },
+  "4014": {
+    "id": 4014,
+    "aegisName": "이름없는카드",
+    "name": "Carta Sapo de Rodda",
+    "unidName": "Carta Sapo de Rodda",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "400"
+      ],
+      "sp": [
+        "50"
+      ]
+    }
+  },
+  "4015": {
+    "id": 4015,
+    "aegisName": "이름없는카드",
+    "name": "Carta Condor",
+    "unidName": "Carta Condor",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 4,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "10"
+      ]
+    }
+  },
+  "4016": {
+    "id": 4016,
+    "aegisName": "이름없는카드",
+    "name": "Carta Besouro-Ladrão",
+    "unidName": "Carta Besouro-Ladrão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ]
+    }
+  },
+  "4023": {
+    "id": 4023,
+    "aegisName": "이름없는카드",
+    "name": "Carta Filhote de Lobo do Deserto",
+    "unidName": "Carta Filhote de Lobo do Deserto",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ]
+    }
+  },
+  "4027": {
+    "id": 4027,
+    "aegisName": "이름없는카드",
+    "name": "Carta Kukre",
+    "unidName": "Carta Kukre",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 136,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ]
+    }
+  },
+  "4028": {
+    "id": 4028,
+    "aegisName": "이름없는카드",
+    "name": "Carta Tarou",
+    "unidName": "Carta Tarou",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 136,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ]
+    }
+  },
+  "4030": {
+    "id": 4030,
+    "aegisName": "이름없는카드",
+    "name": "Carta Mandrágora",
+    "unidName": "Carta Mandrágora",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_element_wind": [
+        "20"
+      ]
+    }
+  },
+  "4032": {
+    "id": 4032,
+    "aegisName": "이름없는카드",
+    "name": "Carta Ambernite",
+    "unidName": "Carta Ambernite",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 32,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "def": [
+        "2"
+      ]
+    }
+  },
+  "4042": {
+    "id": 4042,
+    "aegisName": "이름없는카드",
+    "name": "Carta Chonchon de Aço",
+    "unidName": "Carta Chonchon de Aço",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "def": [
+        "2"
+      ],
+      "subele_wind": [
+        "5"
+      ]
+    }
+  },
+  "4043": {
+    "id": 4043,
+    "aegisName": "이름없는카드",
+    "name": "Carta Andre",
+    "unidName": "Carta Andre",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "20"
+      ]
+    }
+  },
+  "4049": {
+    "id": 4049,
+    "aegisName": "이름없는카드",
+    "name": "Carta Vadon",
+    "unidName": "Carta Vadon",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_element_fire": [
+        "20"
+      ]
+    }
+  },
+  "4050": {
+    "id": 4050,
+    "aegisName": "이름없는카드",
+    "name": "Carta Besouro-Ladrão Macho",
+    "unidName": "Carta Besouro-Ladrão Macho",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 64,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ]
+    }
+  },
+  "4052": {
+    "id": 4052,
+    "aegisName": "이름없는카드",
+    "name": "Carta Salgueiro Ancião",
+    "unidName": "Carta Salgueiro Ancião",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 769,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ]
+    }
+  },
+  "4056": {
+    "id": 4056,
+    "aegisName": "이름없는카드",
+    "name": "Carta Poeira",
+    "unidName": "Carta Poeira",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 4,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "5"
+      ],
+      "subele_wind": [
+        "30"
+      ]
+    }
+  },
+  "4059": {
+    "id": 4059,
+    "aegisName": "이름없는카드",
+    "name": "Carta Soldado Andre",
+    "unidName": "Carta Soldado Andre",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 32,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "subrace_plant": [
+        "30"
+      ]
+    }
+  },
+  "4068": {
+    "id": 4068,
+    "aegisName": "이름없는카드",
+    "name": "Carta Escorpião",
+    "unidName": "Carta Escorpião",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_race_plant": [
+        "20"
+      ]
+    }
+  },
+  "4074": {
+    "id": 4074,
+    "aegisName": "이름없는카드",
+    "name": "Carta Pé-Grande",
+    "unidName": "Carta Pé-Grande",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 32,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "subrace_insect": [
+        "30"
+      ]
+    }
+  },
+  "4078": {
+    "id": 4078,
+    "aegisName": "이름없는카드",
+    "name": "Carta Selvagem",
+    "unidName": "Carta Selvagem",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "3"
+      ]
+    }
+  },
+  "4081": {
+    "id": 4081,
+    "aegisName": "이름없는카드",
+    "name": "Carta Hode",
+    "unidName": "Carta Hode",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 4,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "5"
+      ],
+      "subele_earth": [
+        "30"
+      ]
+    }
+  },
+  "4095": {
+    "id": 4095,
+    "aegisName": "이름없는카드",
+    "name": "Carta Marse",
+    "unidName": "Carta Marse",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 4,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "5"
+      ],
+      "subele_water": [
+        "30"
+      ]
+    }
+  },
+  "4097": {
+    "id": 4097,
+    "aegisName": "이름없는카드",
+    "name": "Carta Matyr",
+    "unidName": "Carta Matyr",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 64,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ],
+      "hpPercent": [
+        "10"
+      ]
+    }
+  },
+  "4106": {
+    "id": 4106,
+    "aegisName": "이름없는카드",
+    "name": "Carta Múmia",
+    "unidName": "Carta Múmia",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hit": [
+        "20"
+      ]
+    }
+  },
+  "4108": {
+    "id": 4108,
+    "aegisName": "이름없는카드",
+    "name": "Carta Névoa",
+    "unidName": "Carta Névoa",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 4,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "5"
+      ],
+      "subele_poison": [
+        "30"
+      ]
+    }
+  },
+  "4109": {
+    "id": 4109,
+    "aegisName": "이름없는카드",
+    "name": "Carta Jakk",
+    "unidName": "Carta Jakk",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 4,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "5"
+      ],
+      "subele_fire": [
+        "30"
+      ]
+    }
+  },
+  "4113": {
+    "id": 4113,
+    "aegisName": "이름없는카드",
+    "name": "Carta Marionete",
+    "unidName": "Carta Marionete",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 4,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "5"
+      ],
+      "subele_ghost": [
+        "30"
+      ]
+    }
+  },
+  "4116": {
+    "id": 4116,
+    "aegisName": "이름없는카드",
+    "name": "Carta Ísis",
+    "unidName": "Carta Ísis",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 4,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "5"
+      ],
+      "subele_dark": [
+        "30"
+      ]
+    }
+  },
+  "4120": {
+    "id": 4120,
+    "aegisName": "이름없는카드",
+    "name": "Carta Petite Voador",
+    "unidName": "Carta Petite Voador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 32,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "subrace_dragon": [
+        "30"
+      ]
+    }
+  },
+  "4136": {
+    "id": 4136,
+    "aegisName": "이름없는카드",
+    "name": "Carta Khalitzburg",
+    "unidName": "Carta Khalitzburg",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 32,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "subrace_demon": [
+        "30"
+      ]
+    }
+  },
+  "4138": {
+    "id": 4138,
+    "aegisName": "이름없는카드",
+    "name": "Carta Anubis",
+    "unidName": "Carta Anubis",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 32,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "subrace_angel": [
+        "30"
+      ]
+    }
+  },
+  "4142": {
+    "id": 4142,
+    "aegisName": "이름없는카드",
+    "name": "Carta Doppelganger",
+    "unidName": "Carta Doppelganger",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspdPercent": [
+        "10"
+      ]
+    }
+  },
+  "4272": {
+    "id": 4272,
+    "aegisName": "이름없는카드",
+    "name": "Carta Zhu Po Long",
+    "unidName": "Carta Zhu Po Long",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 136,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ],
+      "cri": [
+        "3"
+      ]
+    }
+  },
+  "4309": {
+    "id": 4309,
+    "aegisName": "이름없는카드",
+    "name": "Carta Parasita",
+    "unidName": "Carta Parasita",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 32,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "def": [
+        "1"
+      ],
+      "subele_neutral": [
+        "5"
+      ]
+    }
+  },
+  "4314": {
+    "id": 4314,
+    "aegisName": "이름없는카드",
+    "name": "Carta Penomena",
+    "unidName": "Carta Penomena",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 32,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "subrace_formless": [
+        "30"
+      ]
+    }
+  },
+  "4328": {
+    "id": 4328,
+    "aegisName": "이름없는카드",
+    "name": "Carta Yao Jun",
+    "unidName": "Carta Yao Jun",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 4,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "1"
+      ],
+      "flee": [
+        "15"
+      ]
+    }
+  },
+  "4340": {
+    "id": 4340,
+    "aegisName": "이름없는카드",
+    "name": "Carta Ursinho",
+    "unidName": "Carta Ursinho",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 32,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "subrace_undead": [
+        "30"
+      ]
+    }
+  },
+  "4362": {
+    "id": 4362,
+    "aegisName": "이름없는카드",
+    "name": "Carta Howard",
+    "unidName": "Carta Howard",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hit": [
+        "30"
+      ],
+      "aspdPercent": [
+        "-5"
+      ]
+    }
+  },
+  "4450": {
+    "id": 4450,
+    "aegisName": "이름없는카드",
+    "name": "Carta Banshee Master",
+    "unidName": "Carta Banshee Master",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ],
+      "matk": [
+        "10"
+      ]
+    }
+  },
+  "4452": {
+    "id": 4452,
+    "aegisName": "이름없는카드",
+    "name": "Carta Larva de Centopeia",
+    "unidName": "Carta Larva de Centopeia",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ],
+      "matk": [
+        "3"
+      ]
+    }
+  },
+  "4453": {
+    "id": 4453,
+    "aegisName": "이름없는카드",
+    "name": "Carta Leão da Montanha",
+    "unidName": "Carta Leão da Montanha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "25"
+      ]
+    }
+  },
+  "4505": {
+    "id": 4505,
+    "aegisName": "이름없는카드",
+    "name": "Carta Scaraba",
+    "unidName": "Carta Scaraba",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 136,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matk": [
+        "20"
+      ],
+      "spPercent": [
+        "-1"
+      ]
+    }
+  },
+  "4515": {
+    "id": 4515,
+    "aegisName": "이름없는카드",
+    "name": "Carta Rafflesia Alnoldi",
+    "unidName": "Carta Rafflesia Alnoldi",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 32,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "subrace_plant": [
+        "30"
+      ]
+    }
+  },
+  "4516": {
+    "id": 4516,
+    "aegisName": "이름없는카드",
+    "name": "Carta Comodo",
+    "unidName": "Carta Comodo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "def": [
+        "50"
+      ],
+      "flee": [
+        "-25"
+      ]
+    }
+  },
+  "4526": {
+    "id": 4526,
+    "aegisName": "이름없는카드",
+    "name": "Carta Celacanto Cruel",
+    "unidName": "Carta Celacanto Cruel",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "spPercent": [
+        "5"
+      ],
+      "mdef": [
+        "50"
+      ]
+    }
+  },
+  "4527": {
+    "id": 4527,
+    "aegisName": "이름없는카드",
+    "name": "Carta Celacanto Sombrio",
+    "unidName": "Carta Celacanto Sombrio",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "10"
+      ],
+      "def": [
+        "100"
+      ]
+    }
+  },
+  "4545": {
+    "id": 4545,
+    "aegisName": "이름없는카드",
+    "name": "Carta Bebê Poring",
+    "unidName": "Carta Bebê Poring",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 769,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "1"
+      ]
+    }
+  },
+  "4640": {
+    "id": 4640,
+    "aegisName": "이름없는카드",
+    "name": "Carta Lobo de Gelo",
+    "unidName": "Carta Lobo de Gelo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 136,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "1"
+      ]
+    }
+  },
+  "4659": {
+    "id": 4659,
+    "aegisName": "이름없는카드",
+    "name": "Carta Omeleting",
+    "unidName": "Carta Omeleting",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "2"
+      ],
+      "hp": [
+        "50"
+      ]
+    }
+  },
+  "4663": {
+    "id": 4663,
+    "aegisName": "이름없는카드",
+    "name": "Carta Lunático Folhado",
+    "unidName": "Carta Lunático Folhado",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 64,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "5"
+      ]
+    }
+  },
+  "4664": {
+    "id": 4664,
+    "aegisName": "이름없는카드",
+    "name": "Carta Fabre Gramíneo",
+    "unidName": "Carta Fabre Gramíneo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "1"
+      ],
+      "hp": [
+        "100"
+      ]
+    }
+  },
+  "4665": {
+    "id": 4665,
+    "aegisName": "이름없는카드",
+    "name": "Carta Zangão Selvagem",
+    "unidName": "Carta Zangão Selvagem",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "5"
+      ]
+    }
+  },
+  "4666": {
+    "id": 4666,
+    "aegisName": "이름없는카드",
+    "name": "Carta Sapo de Rodda Doce",
+    "unidName": "Carta Sapo de Rodda Doce",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "300"
+      ],
+      "sp": [
+        "10"
+      ]
+    }
+  },
+  "4667": {
+    "id": 4667,
+    "aegisName": "이름없는카드",
+    "name": "Carta Filhote de Lobo Caçador",
+    "unidName": "Carta Filhote de Lobo Caçador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 64,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "30"
+      ]
+    }
+  },
+  "27291": {
+    "id": 27291,
+    "aegisName": "이름없는카드",
+    "name": "Carta Trilobita Ancestral",
+    "unidName": "Carta Trilobita Ancestral",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "30"
+      ],
+      "hpPercent": [
+        "-1"
+      ]
+    }
+  },
+  "27342": {
+    "id": 27342,
+    "aegisName": "이름없는카드",
+    "name": "Carta Talo Caótico",
+    "unidName": "Carta Talo Caótico",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 4,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hit": [
+        "10"
+      ],
+      "subele_earth": [
+        "20"
+      ],
+      "subele_neutral": [
+        "10"
+      ]
+    }
+  },
+  "31016": {
+    "id": 31016,
+    "aegisName": "이름없는카드",
+    "name": "Carta Árvore Maldita Decorada",
+    "unidName": "Carta Árvore Maldita Decorada",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "-25"
+      ],
+      "hp": [
+        "1000"
+      ],
+      "sp": [
+        "150"
+      ]
+    }
+  },
+  "31021": {
+    "id": 31021,
+    "aegisName": "이름없는카드",
+    "name": "Carta Marionete Demoníaca",
+    "unidName": "Carta Marionete Demoníaca",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atkPercent": [
+        "-3"
+      ],
+      "aspdPercent": [
+        "10"
+      ]
+    }
   }
 }
