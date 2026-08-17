@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { itemSlotLabelPtBr } from '../../../../constants/item-slot-i18n';
+import { DropdownModel } from '../../../../models/dropdown.model';
 import { dmgTypeLabel as dmgTypeLabelUtil } from '../../../../utils';
 import { RotationCycle } from '../../../../core/rotation-schedule';
 import { RotationEntryView, RotationView } from './rotation-view';
@@ -142,7 +143,16 @@ export class BattleHudComponent implements OnDestroy {
   /** The class's offensive skills, for the add picker and the level chips. */
   @Input() atkSkills: any[] = [];
   @Input() isShowSelectableSkillLevel = false;
+  /**
+   * Whether the target casts Aliviar (constants/monster-relieve). Only then does the level
+   * picker appear on the monster card; every other target's card is unchanged. Left false
+   * on the PVP tab, where the target is a player and no monster skill applies.
+   */
+  @Input() isRelieveTarget = false;
+  @Input() relieveLevelOptions: DropdownModel[] = [];
+  @Input() relieveLevel = 0;
 
+  @Output() relieveLevelChange = new EventEmitter<number>();
   @Output() rotationChange = new EventEmitter<string[]>();
   @Output() optimizeClick = new EventEmitter<void>();
 

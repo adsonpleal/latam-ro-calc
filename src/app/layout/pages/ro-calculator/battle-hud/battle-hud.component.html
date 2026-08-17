@@ -202,6 +202,30 @@
           </div>
           <div class="hud-hp-line">HP {{ totalSummary?.monster?.hp | number }}</div>
 
+          <!-- Aliviar: only for the monsters that cast it, so every other card is
+               unchanged. The level is the player's to pick because the game's is
+               situational — in Jardim Secreto it tracks the Escudo de Energia, which the
+               party lowers by killing the four Peças de Guardião. See
+               constants/monster-relieve. -->
+          <div class="hud-relieve" *ngIf="isRelieveTarget">
+            <span
+              class="hud-relieve-label"
+              pTooltip="Aliviar reduz todo o dano físico e mágico recebido pelo monstro. Em Jardim Secreto o nível acompanha o Escudo de Energia: derrube as 4 Peças de Guardião para baixá-lo."
+              tooltipPosition="top"
+              >Aliviar</span
+            >
+            <p-dropdown
+              styleClass="hud-relieve-dd"
+              appendTo="body"
+              [options]="relieveLevelOptions"
+              optionLabel="label"
+              optionValue="value"
+              [disabled]="isInProcessingPreset"
+              [(ngModel)]="relieveLevel"
+              (ngModelChange)="relieveLevelChange.emit(relieveLevel)"
+            ></p-dropdown>
+          </div>
+
           <!-- PVP only: the target's damage reduction vs players, per category (docs/pvp.md §4).
                Rows drill into the OPPONENT's gear; WoE rows are the castle aura (not clickable). -->
           <div class="hud-reduction" *ngIf="reductionCategories?.length">
