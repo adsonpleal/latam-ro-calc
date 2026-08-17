@@ -159,9 +159,15 @@
   cursor: help;
 }
 
+/* Sized to the longest option ("Nv. 10 — 99%") rather than to a round number, so there is
+   no dead space to its right. The floor lives on the label and is what keeps the control
+   from resizing as the selection changes — `max-content` alone made it breathe between
+   112px and 122px. It is expressed in `ch` so it tracks the theme font rather than a
+   pixel measurement: 13.5ch, not 12ch, because the label's widest character is an em dash
+   and `ch` measures a digit. */
 :host ::ng-deep .hud-relieve-dd.p-dropdown {
   height: 24px;
-  min-width: 132px;
+  width: max-content;
 }
 
 /* Centre the selected text with flex, like PrimeNG's own .p-dropdown-trigger does.
@@ -170,6 +176,7 @@
 :host ::ng-deep .hud-relieve-dd .p-dropdown-label {
   display: flex;
   align-items: center;
+  min-width: 13.5ch;
   padding: 0 6px;
   font-size: 12px;
   line-height: 1;
