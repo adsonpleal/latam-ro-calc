@@ -232,6 +232,9 @@ export class Shiranui extends Oboro {
       // Shinkiro.shadow-flash-replay.spec.ts for the in-game evidence.
       hit: 4,
       canCri: true,
+      // Half of the equipment "Dano Crítico +N%", same as Shinkiro's copy — see the note
+      // there and Shinkiro.shadow-flash-crit-damage.spec.ts, which holds both classes.
+      criDmgPercentage: 0.5,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalPow } = status;

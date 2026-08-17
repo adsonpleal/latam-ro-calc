@@ -237,6 +237,12 @@ export class Shinkiro extends Kagerou {
       // casts come out at exactly criMultiplier (1,40 + T.Crít 35%) times the others.
       hit: 4,
       canCri: true,
+      // Skill criticals take only half of the *equipment* "Dano Crítico +N%" — the rule
+      // every other can-crit 4th-job skill here follows, measured in game on the Night
+      // Watch recording (NightWatch.replay.spec.ts: a pet's crit damage +1% lands as
+      // ×1.005). The replays above have no gear, so they pin the base 1,40 + T.Crít leg
+      // and say nothing about this one. See Shinkiro.shadow-flash-crit-damage.spec.ts.
+      criDmgPercentage: 0.5,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalPow } = status;

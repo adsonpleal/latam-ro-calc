@@ -159,6 +159,13 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.61-beta',
+      date: '17-08-2026',
+      logs: [
+        'A Centelha das Trevas contava o "Dano Crítico +N%" do equipamento inteiro, e no jogo a habilidade aproveita só metade dele. Com Dano Crítico +15% no equipamento o crítico subia 15%, quando deveria subir 7,5%. É a mesma regra que todas as outras habilidades de 4ª que critam já seguiam aqui, e ela não foi inventada: numa gravação do Guerrilheiro sem equipamento nenhum, o mascote dava Dano Crítico +1% e o crítico saiu multiplicado por 1,005, e não por 1,01. Vale para o Shiranui e para o Shinkiro, que dividem a habilidade. A outra metade do multiplicador — os 140% de base mais a T.Crít que vem da CRV — não muda: essa parte nunca foi pela metade, e é a que as gravações da Centelha já tinham medido. Elas não pegaram o erro porque o personagem gravado estava sem equipamento, então não havia Dano Crítico nenhum para contar errado. Builds de crítico do Shiranui e do Shinkiro vão ver o dano crítico cair conforme o Dano Crítico que o equipamento entrega. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.60-beta',
       date: '16-08-2026',
       logs: [
