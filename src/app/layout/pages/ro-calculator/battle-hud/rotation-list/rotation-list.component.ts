@@ -1,20 +1,12 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BASIC_ATTACK_VALUE, MAX_ROTATION_LENGTH } from '../../../../../core/rotation';
-import { elementTagClass as elementTagClassFn } from '../battle-hud.logic';
+import { buildRotationPickerOptions, elementTagClass as elementTagClassFn, RotationPickerOption } from '../battle-hud.logic';
 import { RotationEntryView } from '../rotation-view';
 
 /** The synthetic option for ataque básico. ragassets serves no `/icons/skill` entry for
  *  the in-game sword cursor, so the picker points straight at the map asset. */
 export const BASIC_ATTACK_ICON = 'https://assets.latam-tools.com.br/maps/_u/4680d9e5597cb23d.png';
-
-interface SkillOption {
-  label: string;
-  value: string;
-  icon?: number;
-  isBasic?: boolean;
-  levelList?: { label: string; value: any }[];
-}
 
 /**
  * The "ROTAÇÃO" column: the ordered skill list, its drag/keyboard reordering, the add
@@ -36,13 +28,14 @@ export class RotationListComponent {
   /** The class's offensive skills, for the add picker. */
   @Input() atkSkills: any[] = [];
   @Input() isShowSelectableSkillLevel = false;
-  /** Hides ataque básico from the picker, following the app-config switch. */
-  @Input() hideBasicAtk = false;
   @Input() isInProcessingPreset = false;
   /** Total damage of one cycle, for the contribution tooltip. */
   @Input() damagePerCycle = 0;
-  /** Whether the crit rate has equipment sources behind it worth opening. */
+  /** Whether a skill row's crit rate has equipment sources behind it worth opening. */
   @Input() isCritClickable = false;
+  /** The same for an ataque básico row, whose rate also draws on CRIT à distância — a build
+   *  can have that bonus and no plain `cri` source at all, and the row must still open. */
+  @Input() isCritClickableBasic = false;
 
   @Output() rotationChange = new EventEmitter<string[]>();
   @Output() optimizeClick = new EventEmitter<void>();
@@ -51,8 +44,9 @@ export class RotationListComponent {
   /** The element tag was clicked — the parent opens the elemental table. */
   @Output() elementTableClick = new EventEmitter<void>();
   /** A crit rate was clicked — `compare` marks the simulated one, which drills into the
-   *  compared build's own sources. */
-  @Output() critBreakdownClick = new EventEmitter<boolean>();
+   *  compared build's own sources; `isBasic` says whether the row is ataque básico, whose
+   *  rate is the only one carrying CRIT à distância. */
+  @Output() critBreakdownClick = new EventEmitter<{ compare: boolean; isBasic: boolean }>();
   /** The damage figure was clicked — the parent opens that step's damage formula. */
   @Output() damageClick = new EventEmitter<{ index: number; event: Event }>();
 
@@ -76,17 +70,9 @@ export class RotationListComponent {
     return this.rotation.length > 1 && !this.isInProcessingPreset;
   }
 
-  /** Flat options for the add picker, with ataque básico first so it is always reachable. */
-  get skillOptions(): SkillOption[] {
-    const options: SkillOption[] = this.hideBasicAtk
-      ? []
-      : [{ label: 'Ataque básico', value: BASIC_ATTACK_VALUE, isBasic: true }];
-
-    for (const skill of this.atkSkills ?? []) {
-      options.push({ label: skill.label, value: skill.value, icon: skill.icon, levelList: skill.levelList });
-    }
-
-    return options;
+  /** Flat options for the add picker — ataque básico first, then the class's own skills. */
+  get skillOptions(): RotationPickerOption[] {
+    return buildRotationPickerOptions(BASIC_ATTACK_VALUE, this.atkSkills);
   }
 
   contributionTooltip(entry: RotationEntryView): string {

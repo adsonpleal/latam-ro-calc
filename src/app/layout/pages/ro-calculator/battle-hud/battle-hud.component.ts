@@ -11,6 +11,8 @@ import {
   CastbarResult,
   computeCastbar,
   computeTimeToKill,
+  CRIT_KEYS_BASIC,
+  CRIT_KEYS_SKILL,
   deltaPercent,
   DpsSide,
   DpsSteps,
@@ -112,7 +114,6 @@ export class BattleHudComponent implements OnDestroy {
   @Input() chanceList2: any[] = [];
   @Input() selectedChances2: string[] = [];
   @Input({ required: true }) model = {} as any;
-  @Input({ required: true }) hideBasicAtk: boolean;
   @Input({ required: true }) showLeftWeapon: boolean;
   @Input({ required: true }) selectedMonster: number;
   @Input({ required: true }) selectedMonsterName: string;
@@ -154,6 +155,8 @@ export class BattleHudComponent implements OnDestroy {
     valueClass: string;
     total?: number;
     calc?: DamageFormulaCalc;
+    /** Line printed above the source rows, for a value the sum alone would misrepresent. */
+    note?: string;
     /** Read the compared build's sources instead of the current one's. */
     compare?: boolean;
   }>();
@@ -182,6 +185,9 @@ export class BattleHudComponent implements OnDestroy {
   // outlined/neutral badge look instead of an arbitrary PrimeNG color.
   // The rule itself lives in battle-hud.logic.ts, shared with the rotation rows.
   elementTagClass = elementTagClassFn;
+
+  /** For the basic-attack popover's Tx. Crít. row, which drills into both crit keys. */
+  readonly critKeysBasic = CRIT_KEYS_BASIC;
 
   onShowElementalTableClick(): void {
     this.showElementTableClick.emit(1);
@@ -213,23 +219,46 @@ export class BattleHudComponent implements OnDestroy {
     total?: number,
     calc?: DamageFormulaCalc,
     compare = false,
+    note?: string,
   ): void {
     if (!calc && !this.isBreakdownClickable(keys)) return;
-    this.showBonusBreakdownClick.emit({ label: compare ? `${label} (comparação)` : label, keys, valueClass, total, calc, compare });
+    this.showBonusBreakdownClick.emit({ label: compare ? `${label} (comparação)` : label, keys, valueClass, total, calc, note, compare });
   }
 
   /** A kvPair's simulated column: the same breakdown, read from the compared build. */
-  openBreakdownCompare(label: string, keys: string[] = []): void {
-    this.openBreakdown(label, keys, 'summary_stat_atk', undefined, undefined, true);
+  openBreakdownCompare(label: string, keys: string[] = [], note?: string): void {
+    this.openBreakdown(label, keys, 'summary_stat_atk', undefined, undefined, true, note);
   }
 
   /**
    * The crit rate behind a rotation row. `compare` drills into the compared build's own
    * equipment rather than the current one's — clicking the simulated number and being
    * shown the current build's sources would be actively misleading.
+   *
+   * `isBasic` decides whether CRIT à distância is one of the sources: the ranged bonus is in
+   * a basic-attack row's rate and in no skill's, so listing it for a skill would name a
+   * source that did not contribute to the number clicked.
    */
-  openCritBreakdown(compare = false): void {
-    this.openBreakdown('Tx. Crítico', ['cri'], 'summary_stat_atk', undefined, undefined, compare);
+  openCritBreakdown(compare = false, isBasic = false): void {
+    this.openBreakdown(
+      'Tx. Crítico',
+      isBasic ? CRIT_KEYS_BASIC : CRIT_KEYS_SKILL,
+      'summary_stat_atk',
+      undefined,
+      undefined,
+      compare,
+      isBasic ? this.criRangeNote() : undefined,
+    );
+  }
+
+  /** Says how much of a basic attack's crit rate is the ranged-only bonus, when there is any. */
+  criRangeNote(): string | undefined {
+    const bonus = this.totalSummary?.calc?.criRangeBonus || 0;
+
+    return bonus
+      ? `Inclui CRIT à distância +${bonus}, que só conta no ataque básico com arma de longo alcance — ` +
+          'nenhuma habilidade o recebe, e por isso ele fica fora do CRIT da ficha do personagem.'
+      : undefined;
   }
 
   /** A graph node is clickable when it has a derivation to show or equipment behind it. */

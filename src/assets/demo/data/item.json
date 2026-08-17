@@ -317430,5 +317430,31 @@
         "15"
       ]
     }
+  },
+  "4421": {
+    "id": 4421,
+    "aegisName": "이름없는카드",
+    "name": "Carta Drosera",
+    "unidName": "Carta Drosera",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "criRange": [
+        "15"
+      ]
+    }
   }
 }

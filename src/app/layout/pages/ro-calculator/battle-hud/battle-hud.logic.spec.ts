@@ -2,7 +2,10 @@ import { describe, expect, it } from 'vitest';
 import {
   buildGraphClusters,
   buildOptimizeInfo,
+  buildRotationPickerOptions,
   computeCastbar,
+  CRIT_KEYS_BASIC,
+  CRIT_KEYS_SKILL,
   computeTimeToKill,
   computeZeroPosWhatIf,
   deltaPercent,
@@ -560,5 +563,58 @@ describe('pickHitsPerSec', () => {
 
   it('returns 0 for a missing summary, so the compare side stays blank', () => {
     expect(pickHitsPerSec(undefined, true)).toBe(0);
+  });
+});
+
+describe('buildRotationPickerOptions', () => {
+  /**
+   * Ataque básico is offered to every class, unconditionally. It used to follow the app-config
+   * "Ocultar Ataque Básico" switch — a 2023 preference about the old summary's basic-attack
+   * PANEL — which defaults to on, so a rotation could not include the basic attack at all
+   * until someone found and turned that switch off.
+   */
+  const BASIC = '__basic__';
+  const BOWLING_BASH = { label: 'Bowling Bash', value: 'Bowling Bash==10', icon: 62, levelList: [] };
+  const MAGNUM_BREAK = { label: 'Magnum Break', value: 'Magnum Break==10', icon: 7, levelList: [] };
+
+  it('offers ataque básico first, ahead of the class skills', () => {
+    const options = buildRotationPickerOptions(BASIC, [BOWLING_BASH, MAGNUM_BREAK]);
+
+    expect(options[0]).toEqual({ label: 'Ataque básico', value: BASIC, isBasic: true });
+    expect(options.map((o) => o.value)).toEqual([BASIC, BOWLING_BASH.value, MAGNUM_BREAK.value]);
+  });
+
+  it('offers it to a class with no offensive skills at all', () => {
+    // The floor of the guarantee: whatever the class, the picker is never empty.
+    for (const atkSkills of [[], null, undefined]) {
+      const options = buildRotationPickerOptions(BASIC, atkSkills);
+
+      expect(options).toHaveLength(1);
+      expect(options[0].value).toBe(BASIC);
+    }
+  });
+
+  it('flags only ataque básico as basic', () => {
+    // `isBasic` is what makes the row render the sword icon and read its damage off
+    // `dmg.basic*` instead of a skill solve.
+    const options = buildRotationPickerOptions(BASIC, [BOWLING_BASH]);
+
+    expect(options.filter((o) => o.isBasic)).toHaveLength(1);
+    expect(options[1].isBasic).toBeUndefined();
+  });
+});
+
+describe('CRIT_KEYS_BASIC / CRIT_KEYS_SKILL', () => {
+  it('offers CRIT à distância as a source for the basic attack only', () => {
+    // The rate a basic-attack row shows already includes criRange (damage-calculator
+    // getRangedCriRate), and no skill's rate ever does — so a skill row that listed it would
+    // name a source that did not contribute to the number clicked.
+    expect(CRIT_KEYS_BASIC).toContain('criRange');
+    expect(CRIT_KEYS_SKILL).not.toContain('criRange');
+  });
+
+  it('drills into plain cri on both', () => {
+    expect(CRIT_KEYS_BASIC).toContain('cri');
+    expect(CRIT_KEYS_SKILL).toContain('cri');
   });
 });

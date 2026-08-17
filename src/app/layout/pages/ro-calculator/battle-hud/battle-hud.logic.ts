@@ -571,3 +571,47 @@ export function buildDpsSteps(dmg: {
     totalDps: Math.floor(totalHit * detailed.oneHitDps),
   };
 }
+
+/** One entry of the rotation's add picker. `isBasic` marks the classless ataque básico. */
+export interface RotationPickerOption {
+  label: string;
+  value: string;
+  icon?: number;
+  isBasic?: boolean;
+  levelList?: { label: string; value: any }[];
+}
+
+/**
+ * The rotation add picker's options: ataque básico first, then the class's offensive skills.
+ *
+ * Ataque básico is offered unconditionally, to every class. It used to follow the app-config
+ * "Ocultar Ataque Básico" switch, which is from 2023 and means "hide the basic-attack panel in
+ * the old Resumo de Batalha" — there the basic attack is a panel, here it is a choice. Since
+ * that switch defaults to on, reusing it made a rotation unable to include the basic attack at
+ * all until someone found and turned it off.
+ *
+ * `basicAttackValue` is passed in rather than imported so this module stays free of the core
+ * rotation import; the component supplies BASIC_ATTACK_VALUE.
+ */
+export function buildRotationPickerOptions(
+  basicAttackValue: string,
+  atkSkills: { label: string; value: string; icon?: number; levelList?: any[] }[] | null | undefined,
+): RotationPickerOption[] {
+  const options: RotationPickerOption[] = [{ label: 'Ataque básico', value: basicAttackValue, isBasic: true }];
+
+  for (const skill of atkSkills ?? []) {
+    options.push({ label: skill.label, value: skill.value, icon: skill.icon, levelList: skill.levelList });
+  }
+
+  return options;
+}
+
+/**
+ * Which bonus keys a crit rate is drilled into, per row kind.
+ *
+ * `criRange` ("CRIT à distância") is in the ranged BASIC attack's rate and in no skill's —
+ * see DamageCalculator.getRangedCriRate — so a skill row that offered it would name a source
+ * that did not contribute to the number the user clicked.
+ */
+export const CRIT_KEYS_BASIC = ['cri', 'criRange'];
+export const CRIT_KEYS_SKILL = ['cri'];

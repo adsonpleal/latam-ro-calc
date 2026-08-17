@@ -17,6 +17,7 @@
   let-fmt="fmt"
   let-bdLabel="bdLabel"
   let-bdKeys="bdKeys"
+  let-bdNote="bdNote"
   let-tip="tip"
   let-panel="panel"
 >
@@ -27,7 +28,7 @@
         *ngIf="bdKeys || panel; else plainValue"
         class="v"
         [class.bonus_clickable]="panel || isBreakdownClickable(bdKeys)"
-        (click)="panel ? panel.toggle($event) : openBreakdown(bdLabel || label, bdKeys, 'summary_stat_atk')"
+        (click)="panel ? panel.toggle($event) : openBreakdown(bdLabel || label, bdKeys, 'summary_stat_atk', undefined, undefined, false, bdNote)"
         keyActivate
         [pTooltip]="tip || ''"
         tooltipPosition="top"
@@ -43,7 +44,7 @@
           *ngIf="bdKeys || panel; else plainSim"
           class="sim"
           [class.bonus_clickable]="panel || isBreakdownClickable(bdKeys)"
-          (click)="panel ? panel.toggle($event) : openBreakdownCompare(bdLabel || label, bdKeys)"
+          (click)="panel ? panel.toggle($event) : openBreakdownCompare(bdLabel || label, bdKeys, bdNote)"
           keyActivate
           >{{ sim | number: fmt }}{{ sim != null ? unit : '' }}</span
         >
@@ -291,16 +292,16 @@
             [rotation]="rotation"
             [atkSkills]="atkSkills"
             [isShowSelectableSkillLevel]="isShowSelectableSkillLevel"
-            [hideBasicAtk]="hideBasicAtk"
             [isInProcessingPreset]="isInProcessingPreset"
             [damagePerCycle]="cycle?.damagePerCycle || 0"
             [isCritClickable]="isBreakdownClickable(['cri'])"
+            [isCritClickableBasic]="isBreakdownClickable(critKeysBasic)"
             (rotationChange)="rotationChange.emit($event)"
             (optimizeClick)="optimizeClick.emit()"
             (clearClick)="rotationChange.emit([])"
             (detailsClick)="openStepDetails($event, detailsPanel, basicPanel)"
             (elementTableClick)="onShowElementalTableClick()"
-            (critBreakdownClick)="openCritBreakdown($event)"
+            (critBreakdownClick)="openCritBreakdown($event.compare, $event.isBasic)"
             (damageClick)="openStepDamageFormula($event, damageFormulaPanel, basicPanel)"
           ></app-rotation-list>
 
@@ -926,9 +927,9 @@
     </ng-container>
   </p-overlayPanel>
 
-  <!-- Not gated by *ngIf: the trigger button above already hides when hideBasicAtk
-       is set, and a template reference declared on a *ngIf host isn't visible to
-       sibling elements outside that structural view. -->
+  <!-- Not gated by *ngIf: it only opens from a basic-attack row's own trigger, so there is
+       nothing to gate on, and a template reference declared on a *ngIf host isn't visible
+       to sibling elements outside that structural view. -->
   <p-overlayPanel #basicPanel styleClass="rot-details-panel">
     <div class="ptitle">Ataque básico</div>
     <div class="pstats">
@@ -965,7 +966,23 @@
           </ng-container>
         </span>
       </div>
-      <ng-container *ngTemplateOutlet="kvPair; context: { label: 'Tx. Crít.', cur: dmg?.criRateToMonster, sim: dmg2?.criRateToMonster, unit: '%' }"></ng-container>
+      <!-- Drills into both crit keys: this row IS the basic attack, so CRIT à distância is
+           part of the number, unlike the skill rows' Tx. Crít. above. -->
+      <ng-container
+        *ngTemplateOutlet="
+          kvPair;
+          context: {
+            label: 'Tx. Crít.',
+            cur: dmg?.criRateToMonster,
+            sim: dmg2?.criRateToMonster,
+            unit: '%',
+            bdLabel: 'Tx. Crítico',
+            bdKeys: critKeysBasic,
+            bdNote: criRangeNote(),
+            tip: 'Ver de onde vem a taxa de crítico'
+          }
+        "
+      ></ng-container>
       <div class="kv">
         <span>Dano Crít.</span>
         <span>
