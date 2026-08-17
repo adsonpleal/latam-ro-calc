@@ -1324,6 +1324,47 @@
             (onChange)="onOptionChange()"
             placeholder="Lealdade"
           ></p-dropdown>
+
+          <!-- The compared egg, with its own loyalty tier: the tiers replace one another,
+               so comparing two eggs at one tier would answer the wrong question. -->
+          <div class="item_label_compare mt-2" *ngIf="showCompareItemMap.pet">
+            <p-dropdown
+              inputId="petCompare"
+              [autoDisplayFirst]="false"
+              [resetFilterOnHide]="true"
+              [options]="petList"
+              [filter]="true"
+              filterBy="label,value"
+              scrollHeight="350px"
+              [(ngModel)]="model2.pet"
+              [showClear]="true"
+              (onChange)="onCompareItemChange()"
+              placeholder="Pet"
+            >
+              <ng-template let-item pTemplate="selectedItem">
+                <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="model2.pet">
+                  <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
+                  <div>{{ item.label }}</div>
+                </div>
+              </ng-template>
+              <ng-template let-item pTemplate="item">
+                <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
+                  <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
+                  <div>{{ item.label }}</div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+            <p-dropdown
+              *ngIf="model2.pet"
+              inputId="petLoyaltyCompare"
+              class="mt-1 block"
+              [autoDisplayFirst]="false"
+              [options]="petLoyaltyList"
+              [(ngModel)]="model2.petLoyalty"
+              (onChange)="onCompareItemChange()"
+              placeholder="Lealdade"
+            ></p-dropdown>
+          </div>
         </div>
       </div>
 

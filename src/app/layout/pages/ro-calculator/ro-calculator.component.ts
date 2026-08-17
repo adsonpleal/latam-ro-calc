@@ -31,6 +31,8 @@ import {
   hasRelieve,
   relieveReductionPercent,
   MainItemWithRelations,
+  DEFAULT_PET_LOYALTY,
+  PetLoyalty,
   PetLoyaltyList,
   WeaponTypeName,
   WeaponTypeNameMapBySubTypeId,
@@ -120,6 +122,8 @@ interface ClassModel extends Partial<Record<ItemTypeEnum, number>> {
   bootGrade?: any;
   accLeftGrade?: any;
   accRightGrade?: any;
+  /** Not a slot id: the pet's loyalty tier, which travels with `pet` when it is compared. */
+  petLoyalty?: PetLoyalty;
 }
 
 const HideHpSp = {
@@ -679,6 +683,15 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
               if (relatedVal) {
                 equipItemIdItemTypeMap2.set(relatedItemType, relatedVal);
               }
+            }
+
+            // The pet's loyalty tier is not a related *item*, it is a model field the
+            // condition parser reads (LOYALTY[n] in calculator.ts), so it has to be
+            // carried across by hand or the compared egg would be priced at the main
+            // build's tier. The tiers replace one another rather than stacking, so that
+            // would not be a small error — it would be the wrong bonus entirely.
+            if (itemTypeName === ItemTypeEnum.pet) {
+              model2.petLoyalty = hasMainItem ? this.model2.petLoyalty || DEFAULT_PET_LOYALTY : null;
             }
 
             if (!hasMainItem) {

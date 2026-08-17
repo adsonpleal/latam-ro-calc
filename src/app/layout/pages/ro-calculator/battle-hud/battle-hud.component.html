@@ -367,6 +367,13 @@
                       tooltipPosition="top"
                       >{{ c2.damagePerCycle | number: '1.0-0' }}</span
                     >
+                    <span
+                      class="pdelta"
+                      *ngIf="perCycleDeltaPercent !== null"
+                      [class.pos]="perCycleDeltaPercent > 0"
+                      [class.neg]="perCycleDeltaPercent < 0"
+                      >{{ perCycleDeltaPercent > 0 ? '+' : '' }}{{ perCycleDeltaPercent | number: '1.1-1' }}%</span
+                    >
                   </ng-container>
                 </div>
               </div>

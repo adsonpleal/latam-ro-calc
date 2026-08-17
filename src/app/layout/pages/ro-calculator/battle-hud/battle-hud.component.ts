@@ -360,12 +360,30 @@ export class BattleHudComponent implements OnDestroy {
     return c.cycleDuration - c.firstCycleDuration > 0.005;
   }
 
-  get dpsDeltaPercent(): number | null {
-    const before = this.cycle?.sustainedDps ?? 0;
-    const after = this.cycle2?.sustainedDps ?? 0;
+  /**
+   * How much a compared build moves one of the hero figures, in percent. `null` when
+   * there is nothing to compare against, so the label simply does not render.
+   */
+  private deltaPercent(before: number, after: number): number | null {
     if (!(before > 0) || !this.isComparing) return null;
 
     return ((after - before) / before) * 100;
+  }
+
+  get dpsDeltaPercent(): number | null {
+    return this.deltaPercent(this.cycle?.sustainedDps ?? 0, this.cycle2?.sustainedDps ?? 0);
+  }
+
+  /**
+   * The same figure for "Por uso" / "Por ciclo". It had the arrow and the two numbers but
+   * not the percentage the DPS line above it carries, which left the reader subtracting
+   * two nine-digit numbers by eye to answer the question the comparison exists for
+   * (suggested by Ynk). It is its own delta, not the DPS one: the two only agree while
+   * the compared build keeps the same rate, and any change to cast or recarga separates
+   * them.
+   */
+  get perCycleDeltaPercent(): number | null {
+    return this.deltaPercent(this.cycle?.damagePerCycle ?? 0, this.cycle2?.damagePerCycle ?? 0);
   }
 
   get dmg(): any {

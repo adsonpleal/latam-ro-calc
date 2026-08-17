@@ -13,6 +13,7 @@ export const ItemSlotLabelPtBr: Record<string, string> = {
   boot: 'Botas',
   accRight: 'Acess. Dir.',
   accLeft: 'Acess. Esq.',
+  pet: 'Pet',
   costumeEnchantUpper: 'Encantamento Topo',
   costumeEnchantMiddle: 'Encantamento Meio',
   costumeEnchantLower: 'Encantamento Baixo',
