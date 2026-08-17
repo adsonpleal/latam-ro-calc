@@ -1,4 +1,4 @@
-import { ElementType, RED_AURA_MVP_IDS } from '../constants';
+import { ElementType, RED_AURA_MVP_IDS, hasRelieve, relieveMultiplier } from '../constants';
 import { PlayerTargetProfile } from '../core/pvp';
 import { MonsterModel } from '../models/monster.model';
 import { firstUppercase, floor } from '../utils';
@@ -42,6 +42,13 @@ interface PreparedMonsterModel {
    * the final damage dealt to the monster by 99.9%.
    */
   isRedAura: boolean;
+  /**
+   * Whether this monster casts Aliviar (see RELIEVE_MONSTER_IDS) — the calculator only
+   * offers the level picker when it does.
+   */
+  hasRelieve: boolean;
+  /** The chosen Aliviar level, 0 when it is off. Only meaningful with `hasRelieve`. */
+  relieveLevel: number;
   typeUpper: 'Normal' | 'Boss';
   softDef: number;
   softMDef: number;
@@ -78,6 +85,8 @@ export class Monster {
     type: 'normal',
     isMvp: false,
     isRedAura: false,
+    hasRelieve: false,
+    relieveLevel: 0,
     typeUpper: 'Normal',
     softDef: 1,
     softMDef: 1,
@@ -137,6 +146,15 @@ export class Monster {
   get isRedAura() {
     return this._monsterData.isRedAura;
   }
+  /**
+   * Damage multiplier from the target's own Aliviar, 1 when the monster does not cast it
+   * or the level is 0. A player target never has it.
+   */
+  get relieveMultiplier() {
+    const { hasRelieve: casts, relieveLevel } = this._monsterData;
+
+    return casts ? relieveMultiplier(relieveLevel) : 1;
+  }
 
   get spawn() {
     return this._monster.spawn || '';
@@ -147,7 +165,12 @@ export class Monster {
     return this._monster?.id === -1;
   }
 
-  setData(monster: MonsterModel) {
+  /**
+   * @param relieveLevel the Aliviar level the user picked for this target, 0 = off. It is
+   *   only honoured for a monster that actually casts Aliviar, so a level left over from a
+   *   previously selected boss cannot follow the user onto the next target.
+   */
+  setData(monster: MonsterModel, relieveLevel = 0) {
     // "elementName": "Ghost 3",
     // "elementShortName": "Ghost",
     // "scaleName": "Large",
@@ -177,6 +200,8 @@ export class Monster {
       type: _class,
       isMvp: mvp === 1,
       isRedAura: RED_AURA_MVP_IDS.has(monster.id),
+      hasRelieve: hasRelieve(monster.id),
+      relieveLevel: hasRelieve(monster.id) ? relieveLevel : 0,
       typeUpper: firstUppercase(_class) as any,
       hp: health,
       def: defense,
@@ -231,6 +256,8 @@ export class Monster {
       type: 'normal',
       isMvp: false,
       isRedAura: false,
+      hasRelieve: false,
+      relieveLevel: 0,
       typeUpper: 'Normal',
       hp: profile.hp,
       def: profile.def,

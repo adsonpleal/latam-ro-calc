@@ -44,7 +44,6 @@ const NO_CLIENT_ROW = new Set([
   720, // Esquife de Gelo (Jack Frost)
   2308, // Toque do Oblívio (Banishing Point)
   2593, // Chute Solar (Blaze Kick)
-  6001, // Dragonic Breath — engine-only id, absent from the client skill list
 ]);
 
 const at = (value: number | number[], level: number): number => (Array.isArray(value) ? value[level - 1] : value);

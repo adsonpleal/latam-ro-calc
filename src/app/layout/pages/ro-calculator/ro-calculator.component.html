@@ -2198,6 +2198,10 @@
                 <app-battle-monster-summary
                   [totalSummary]="totalSummary"
                   [isInProcessingPreset]="isInProcessingPreset"
+                  [isRelieveTarget]="isRelieveTarget"
+                  [relieveLevelOptions]="relieveLevelOptions"
+                  [(relieveLevel)]="relieveLevel"
+                  (relieveLevelChange)="onRelieveLevelChange()"
                   (showElementTableClick)="onShowElementalTableClick()"
                 ></app-battle-monster-summary>
               </div>

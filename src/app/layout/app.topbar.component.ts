@@ -159,6 +159,16 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.64-beta',
+      date: '17-08-2026',
+      logs: [
+        'A segunda arma parou de sumir ao importar replay. Quem luta com uma arma em cada mão via a arma da mão esquerda desaparecer: ela não aparecia nem no lugar dela nem em lugar nenhum. O replay não diz o que está na mão esquerda — o mesmo sinal marca escudo e segunda arma —, e a importação lia tudo como escudo. Daí o sumiço em dobro: a lista de escudos não mostra adagas nem katares, então o campo ficava em branco, e um escudo preenchido é justamente o que faz o simulador esconder o campo da segunda arma. Agora quem decide é o item: arma vai para a segunda arma, com refino, grau, cartas e encantes no lugar certo, e escudo continua indo para o escudo. Arma de duas mãos, que marca as duas mãos no mesmo registro, segue contando como uma só. Foi relatado numa Oboro, mas valia para todas as classes que usam duas armas — Algoz, Renegado, Kagerou, Shiranui e Shinkiro junto com ela. Reportado por usuário anônimo.',
+        'O monstro agora pode entrar em Aliviar, e o dano por segundo passa a fechar contra os chefes do Jardim Secreto. Aliviar reduz todo o dano físico e mágico que o monstro recebe, de 10% no nível 1 a 99% no nível 10, e sem ele os números do simulador contra a Pimentinha Kappa e o Pimentão Lambda não tinham como bater com o jogo. No Resumo de Batalha, na ficha do monstro, aparece um seletor de nível — só para os monstros que usam a habilidade; para todos os outros a ficha continua igual. O nível é escolhido à mão porque no jogo ele é situacional: abaixo de 90% de HP o chefe tem 40% de chance de ligar Aliviar, e o nível acompanha o Escudo de Energia, que o grupo derruba matando as quatro Peças de Guardião dos cantos. A escolha fica guardada como o próprio alvo fica, e é ignorada ao trocar para um monstro que não usa a habilidade. Sugerido por Ynk.',
+        'O Sopro Draconiano saiu da lista de habilidades do Cavaleiro Draconiano. A habilidade existe no jogo coreano e é de verdade — não é a Aura Draconiana com outro nome —, mas não é uma das que o servidor latino-americano recebeu: ela não está na tabela de habilidades do cliente, a bROWiki não a lista na árvore da classe, e os vinte itens que dão bônus para ela são todos itens que não existem por aqui. Era a única habilidade da classe sem a descrição do jogo, porque o nome em português tinha sido inventado, e era por isso também que o ícone dela vinha quebrado no seletor. Nada que dava para usar se perdeu: o dano de dragão do Cavaleiro Draconiano vem do Sopro do Dragão e do Bafo do Dragão lançados sob a Aura Draconiana, e os dois continuam na lista, com o bônus da aura contando neles.',
+        'O punho de arrastar da rotação de ataques passou para antes do número do passo. Ele ficava no fim da linha, longe do que numera a ordem que ele serve para mudar.',
+      ],
+    },
+    {
       v: '0.1.63-beta',
       date: '17-08-2026',
       logs: [

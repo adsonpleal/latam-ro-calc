@@ -4,6 +4,7 @@
  * interface so the parsing/validation can be unit-tested with a fake store and
  * so the engine layer never references the `localStorage` global directly.
  */
+import { MAX_RELIEVE_LEVEL } from '../constants/monster-relieve';
 import { CompareState, sanitizeCompareState } from './compare-state';
 
 export interface StorageLike {
@@ -12,6 +13,7 @@ export interface StorageLike {
 }
 
 const MONSTER_IDS_KEY = 'monsterIds';
+const RELIEVE_LEVEL_KEY = 'monsterRelieve';
 const BATTLE_COLS_KEY = 'battle_cols';
 const COMPARE_STATE_KEY = 'ro-set-compare';
 
@@ -32,6 +34,23 @@ export class CalcStorage {
 
   writeMonsterIds(ids: number[]): void {
     this.storage.setItem(MONSTER_IDS_KEY, JSON.stringify(ids));
+  }
+
+  /**
+   * The Aliviar level chosen for the target, 0 when off. Lives here rather than on the
+   * build model because it describes the *target*, like the selected monster itself —
+   * the same reason `monster` is a plain localStorage key and not a preset field.
+   * Anything outside 0..MAX_RELIEVE_LEVEL reads back as 0.
+   */
+  readRelieveLevel(): number {
+    const level = Number(this.storage.getItem(RELIEVE_LEVEL_KEY));
+    if (!Number.isInteger(level) || level < 0 || level > MAX_RELIEVE_LEVEL) return 0;
+
+    return level;
+  }
+
+  writeRelieveLevel(level: number): void {
+    this.storage.setItem(RELIEVE_LEVEL_KEY, String(level));
   }
 
   /** Field names of the battle-summary columns the user kept visible (strings only). */

@@ -1,5 +1,6 @@
 import { ItemOptionMap } from '../constants/item-options-table';
 import { ItemTypeEnum } from '../constants/item-type.enum';
+import { ItemTypeId } from '../constants/item.const';
 import { PetLoyalty, petLoyaltyFromIntimacy } from '../constants/pet-loyalty';
 import { MainModel } from '../models/main.model';
 import { createMainModel } from '../utils/create-main-model';
@@ -52,7 +53,7 @@ const EQP = {
  *            regardless of which field it lands in.
  */
 type SlotKey =
-  | 'weapon' | 'shield' | 'armor' | 'garment' | 'boot'
+  | 'weapon' | 'leftWeapon' | 'shield' | 'armor' | 'garment' | 'boot'
   | 'accLeft' | 'accRight' | 'headUpper' | 'headMiddle' | 'headLower' | 'ammo'
   | 'costumeUpper' | 'costumeMiddle' | 'costumeLower' | 'costumeGarment'
   | 'shadowWeapon' | 'shadowArmor' | 'shadowShield' | 'shadowBoot'
@@ -60,6 +61,7 @@ type SlotKey =
 
 const SLOTS: Record<SlotKey, { item: string; refine?: string; grade?: string; cards: string[] }> = {
   weapon: { item: 'weapon', refine: 'weaponRefine', grade: 'weaponGrade', cards: ['weaponCard1', 'weaponCard2', 'weaponCard3', 'weaponCard4'] },
+  leftWeapon: { item: 'leftWeapon', refine: 'leftWeaponRefine', grade: 'leftWeaponGrade', cards: ['leftWeaponCard1', 'leftWeaponCard2', 'leftWeaponCard3', 'leftWeaponCard4'] },
   shield: { item: 'shield', refine: 'shieldRefine', grade: 'shieldGrade', cards: ['shieldCard', 'shieldEnchant1', 'shieldEnchant2', 'shieldEnchant3'] },
   armor: { item: 'armor', refine: 'armorRefine', grade: 'armorGrade', cards: ['armorCard', 'armorEnchant1', 'armorEnchant2', 'armorEnchant3'] },
   garment: { item: 'garment', refine: 'garmentRefine', grade: 'garmentGrade', cards: ['garmentCard', 'garmentEnchant1', 'garmentEnchant2', 'garmentEnchant3'] },
@@ -106,19 +108,33 @@ type ResolvedSlot = { key: SlotKey; cardOffset: number };
  * calc double-counts it if the user re-adds it through the enchant picker), while
  * the enchant picker lists it in the right pool.
  */
-function weaponFields(slots: number): string[] {
+function weaponFields(slots: number, prefix: 'weapon' | 'leftWeapon' = 'weapon'): string[] {
   const cardCount = Math.min(Math.max(slots, 0), 4);
-  return [0, 1, 2, 3].map((p) => (p < cardCount ? `weaponCard${p + 1}` : `weaponEnchant${p}`));
+  return [0, 1, 2, 3].map((p) => (p < cardCount ? `${prefix}Card${p + 1}` : `${prefix}Enchant${p}`));
 }
 
-/** Resolve the worn slot(s) for an item's `equipped` bitmask. */
-function resolveSlots(loc: number): ResolvedSlot[] {
+/**
+ * Resolve the worn slot(s) for an item's `equipped` bitmask.
+ *
+ * @param isWeapon whether the record is a weapon (`itemTypeId === WEAPON`). It decides
+ *   what the bare HAND_L bit means, and nothing else — see below.
+ */
+function resolveSlots(loc: number, isWeapon = false): ResolvedSlot[] {
   const slots: ResolvedSlot[] = [];
   const push = (key: SlotKey, cardOffset = 0) => slots.push({ key, cardOffset });
   // A two-handed weapon sets HAND_R | HAND_L on the SAME item — keep it as the
   // weapon, don't duplicate it into the shield slot.
+  //
+  // HAND_L on its own is the off hand, and the protocol does not say what is in it: the
+  // bit is the same whether the player is holding a shield or dual-wielding. The item
+  // itself is what tells them apart, so a weapon there goes to `leftWeapon` and anything
+  // else to `shield`. Sending every off-hand item to `shield` — as this did until
+  // 17/08/2026 — hid the second weapon twice over: the shield dropdown lists no daggers,
+  // so it rendered blank, and a filled `model.shield` is precisely what hides the
+  // left-weapon picker (ro-calculator.component.html, `!!model.shield`). Reported for an
+  // Oboro, but it applied to every dual-wielding class (tracker card gmp3jNDKQrna1N1G338f).
   if (loc & EQP.HAND_R) push('weapon');
-  else if (loc & EQP.HAND_L) push('shield');
+  else if (loc & EQP.HAND_L) push(isWeapon ? 'leftWeapon' : 'shield');
   if (loc & EQP.ARMOR) push('armor');
   if (loc & EQP.GARMENT) push('garment');
   if (loc & EQP.SHOES) push('boot');
@@ -256,7 +272,8 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
   for (const rec of replay.initialInventory.values()) {
     if (!rec.equipped) continue;
     const itemKnown = known(rec.itemId);
-    for (const { key, cardOffset } of resolveSlots(rec.equipped)) {
+    const isWeapon = itemMap[rec.itemId]?.['itemTypeId'] === ItemTypeId.WEAPON;
+    for (const { key, cardOffset } of resolveSlots(rec.equipped, isWeapon)) {
       const def = SLOTS[key];
       if (!itemKnown) {
         skippedItems.push({ slot: key, itemId: rec.itemId });
@@ -265,14 +282,16 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
       (model as any)[def.item] = rec.itemId;
       if (def.refine) (model as any)[def.refine] = rec.refine || 0;
       if (def.grade) (model as any)[def.grade] = GRADE_LETTER[rec.grade] ?? '';
-      const fields = key === 'weapon' ? weaponFields(itemMap[rec.itemId]?.['slots'] ?? 0) : def.cards;
+      // Both hands split their sockets into cards-then-enchants by the weapon's real
+      // slot count; every other slot has fixed card/enchant fields.
+      const fields = key === 'weapon' || key === 'leftWeapon' ? weaponFields(itemMap[rec.itemId]?.['slots'] ?? 0, key) : def.cards;
       writeCards(model, fields, rec, cardOffset, () => skippedCards++);
       equippedCount++;
     }
     // Random options live on the item, not a card slot — apply them once per
     // known item (an unknown item is already wholly skipped above).
     if (itemKnown && rec.options.length) {
-      const r = applyOptions(model, rec.equipped, rec.options);
+      const r = applyOptions(model, rec.equipped, rec.options, isWeapon);
       appliedOptions += r.applied;
       skippedOptions += r.skipped;
     }
@@ -353,9 +372,9 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
    * to a calc option-script and dropped (counted) when unsupported or when the
    * slot has no remaining option positions.
    */
-  function applyOptions(m: MainModel, equippedMask: number, options: RandomOption[]) {
+  function applyOptions(m: MainModel, equippedMask: number, options: RandomOption[], isWeapon: boolean) {
     let slotNumbers: number[] | undefined;
-    for (const { key } of resolveSlots(equippedMask)) {
+    for (const { key } of resolveSlots(equippedMask, isWeapon)) {
       const sn = ItemOptionMap.get(key as unknown as ItemTypeEnum);
       if (sn && sn.length) {
         slotNumbers = sn;

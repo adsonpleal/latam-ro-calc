@@ -390,8 +390,12 @@ export class Calculator {
     return this;
   }
 
-  setMonster(monster: MonsterModel) {
-    this.monster.setData(monster);
+  /**
+   * @param relieveLevel the target's Aliviar level (0 = off). Ignored for a monster that
+   *   does not cast Aliviar — see Monster.setData.
+   */
+  setMonster(monster: MonsterModel, relieveLevel = 0) {
+    this.monster.setData(monster, relieveLevel);
     // Leaving PVP: the vs-monster path must never carry a stale PVP context.
     this.pvpContext = { ...DEFAULT_PVP_CONTEXT };
 

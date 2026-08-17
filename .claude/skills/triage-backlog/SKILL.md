@@ -32,6 +32,10 @@ anônimo."** No exceptions, and no lifting a name out of the contact field becau
 happens to look like a nick. If it seems a shame to lose a credit, the fix is to ask the
 person and, if they agree, put the nick in `autor` — not to publish the contact.
 
+**One exception: `autor: "Adson"` is the maintainer** — the person you are working for.
+Those cards get **no credit line at all**; the Novidades entry just says what changed.
+"Reportado por Adson" reads as a stranger thanking themselves.
+
 ## 1. Read the board
 
 ```

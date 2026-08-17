@@ -45,6 +45,19 @@
          makes the landing slot exactly the right height, and rows are not all the same
          height (a stalled recarga adds a line). It is emptied out in CSS. -->
     <div class="rot-row" *ngFor="let entry of entries; let i = index; trackBy: trackByIndex" cdkDrag [cdkDragDisabled]="entries.length < 2">
+      <!-- The handle leads the row: it grabs the whole step, so it reads as belonging to
+           the number rather than trailing the row's contents. -->
+      <i
+        class="pi pi-bars rot-handle"
+        [class.rot-handle--idle]="entries.length < 2"
+        cdkDragHandle
+        role="button"
+        [attr.tabindex]="entries.length > 1 ? 0 : null"
+        [attr.aria-label]="'Reordenar ' + entry.name + '. Use as setas para cima e para baixo.'"
+        (keydown.arrowup)="moveBy(i, -1, $event)"
+        (keydown.arrowdown)="moveBy(i, 1, $event)"
+      ></i>
+
       <span class="rot-step">{{ i + 1 }}</span>
 
       <!-- The icon is a second trigger for the same popover the (i) opens. -->
@@ -213,22 +226,14 @@
         tooltipPosition="top"
         (click)="remove(i)"
       ></i>
-
-      <i
-        class="pi pi-bars rot-handle"
-        [class.rot-handle--idle]="entries.length < 2"
-        cdkDragHandle
-        role="button"
-        [attr.tabindex]="entries.length > 1 ? 0 : null"
-        [attr.aria-label]="'Reordenar ' + entry.name + '. Use as setas para cima e para baixo.'"
-        (keydown.arrowup)="moveBy(i, -1, $event)"
-        (keydown.arrowdown)="moveBy(i, 1, $event)"
-      ></i>
     </div>
   </div>
 
   <!-- The placeholder row while the picker is open. -->
   <div class="rot-row rot-row--adding" *ngIf="addingAt !== null">
+    <!-- Nothing to drag yet, but the row still has to line its number up with the rows
+         above, which now lead with the handle. Same element, made invisible. -->
+    <i class="pi pi-bars rot-handle rot-handle--spacer" aria-hidden="true"></i>
     <span class="rot-step">{{ addingAt + 1 }}</span>
     <p-dropdown
       styleClass="rot-add-dd"

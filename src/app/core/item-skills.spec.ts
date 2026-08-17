@@ -18,6 +18,19 @@ const items: Record<string, { script?: Record<string, unknown> }> = JSON.parse(
   readFileSync(resolve(process.cwd(), 'src/assets/demo/data/item.json'), 'utf8'),
 );
 
+/**
+ * Skill ids item.json legitimately references that the LATAM catalog does not carry.
+ *
+ *   6001 — Dragonic Breath (DK_DRAGONIC_BREATH), a genuine kRO Dragon Knight skill that
+ *          LATAM never received; removed from the catalog on 17/08/2026, see
+ *          jobs/DragonKnight.ts. Every one of the 20 items keying it is
+ *          `presentInLatam: false`, so no reachable item points at a missing skill.
+ *
+ * This is deliberately an id list and not a "skip anything numeric" escape hatch — the
+ * whole point of the check is that a typo'd id gets caught.
+ */
+const NOT_IN_LATAM_SKILL_IDS = new Set([6001]);
+
 // Prefixes can stack, e.g. `chance__cd__<skill>`. Strip them all to reach the base.
 const SKILL_PREFIXES = ['fix_vct__', 'vct__', 'chance__', 'fctPercent__', 'fct__', 'acd__', 'cd__'];
 const stripPrefixes = (key: string): string => {
@@ -39,7 +52,7 @@ describe('item.json skill references', () => {
       for (const key of Object.keys(item.script)) {
         const base = stripPrefixes(key);
         if (/^\d+$/.test(base)) {
-          if (!VALID_SKILL_IDS.has(Number(base))) invalidIds.push(`${itemId}: "${key}"`);
+          if (!VALID_SKILL_IDS.has(Number(base)) && !NOT_IN_LATAM_SKILL_IDS.has(Number(base))) invalidIds.push(`${itemId}: "${key}"`);
         } else if (base in SKILL_ID_BY_NAME) {
           unmigrated.push(`${itemId}: "${key}"`);
         }

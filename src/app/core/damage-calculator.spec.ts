@@ -34,9 +34,9 @@ const monsterModel = (id: number): MonsterModel =>
 // through (physical/magical skills + basic/crit autoattacks), so testing it in
 // isolation pins the red-aura 99.9% reduction without standing up the whole
 // damage pipeline.
-const reduceWith = (id: number, damage: number) => {
+const reduceWith = (id: number, damage: number, relieveLevel = 0) => {
   const dc = new DamageCalculator();
-  (dc as any).monster = new Monster().setData(monsterModel(id));
+  (dc as any).monster = new Monster().setData(monsterModel(id), relieveLevel);
   return (dc as any).applyAuraReduction(damage) as number;
 };
 
@@ -52,6 +52,51 @@ describe('DamageCalculator red-aura reduction', () => {
 
   it('leaves damage untouched for an ordinary monster (Poring 1002)', () => {
     expect(reduceWith(1002, 1_000_000)).toBe(1_000_000);
+  });
+});
+
+/**
+ * Aliviar (NPC_RELIEVE_ON, 771) — https://browiki.org/wiki/Aliviar. It shares the
+ * applyAuraReduction chokepoint with the red aura, so the same harness pins it. Requested
+ * by Ynk for the Jardim Secreto bosses, whose DPS is unreadable without it.
+ */
+describe('DamageCalculator Aliviar reduction', () => {
+  const KAPPA = 20620; // Pimentinha Kappa, the normal-mode Jardim Secreto MVP
+  const LAMBDA = 20621; // Pimentão Lambda, hard mode
+
+  it('applies the level\'s reduction on a monster that casts Aliviar', () => {
+    expect(reduceWith(KAPPA, 1_000_000, 1)).toBe(900_000); // 10%
+    expect(reduceWith(KAPPA, 1_000_000, 5)).toBe(500_000); // 50%
+    expect(reduceWith(KAPPA, 1_000_000, 9)).toBe(100_000); // 90%
+    expect(reduceWith(KAPPA, 1_000_000, 10)).toBe(10_000); // 99%, not 100%
+    expect(reduceWith(LAMBDA, 1_000_000, 10)).toBe(10_000);
+  });
+
+  it('is off at level 0, which is where every target starts', () => {
+    expect(reduceWith(KAPPA, 1_000_000, 0)).toBe(1_000_000);
+    expect(reduceWith(KAPPA, 1_000_000)).toBe(1_000_000);
+  });
+
+  /*
+   * The level is target state, and the picker only exists for the monsters in
+   * RELIEVE_MONSTER_IDS — so a level left over from a previous target must not follow the
+   * user onto a boss that does not cast it. Monster.setData drops it rather than the UI
+   * having to remember to clear it.
+   */
+  it('ignores a level set on a monster that does not cast it', () => {
+    expect(reduceWith(1002, 1_000_000, 10)).toBe(1_000_000); // Poring
+    expect(reduceWith(3505, 1_000_000, 10)).toBe(1_000_000); // Gemaring, an MVP
+  });
+
+  it('floors, and multiplies with the red aura rather than replacing it', () => {
+    // No monster is both today; this pins the composition so that if one ever is, the two
+    // stack instead of one silently winning.
+    expect(reduceWith(KAPPA, 1_234_567, 3)).toBe(864_196); // floor(1_234_567 * 0.7)
+    const dc = new DamageCalculator();
+    const both = new Monster().setData(monsterModel(20620), 10);
+    (both as any)._monsterData.isRedAura = true;
+    (dc as any).monster = both;
+    expect((dc as any).applyAuraReduction(1_000_000)).toBe(10); // 0.001 * 0.01
   });
 });
 

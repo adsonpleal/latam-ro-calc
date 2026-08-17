@@ -4,7 +4,7 @@ import { PetLoyalty } from '../constants/pet-loyalty';
 import { replayToModel } from './replay-to-model';
 
 // rAthena e_equip_pos bits used by the importer.
-const EQP = { WEAPON: 0x2, ACC_L: 0x8, ARMOR: 0x10, SHOES: 0x40, ACC_R: 0x80 };
+const EQP = { WEAPON: 0x2, ACC_L: 0x8, ARMOR: 0x10, HAND_L: 0x20, SHOES: 0x40, ACC_R: 0x80 };
 
 const rec = (over: Partial<any> = {}) => ({ itemId: 0, qty: 1, equipped: 0, refine: 0, cards: [0, 0, 0, 0], options: [], ...over });
 
@@ -271,5 +271,70 @@ describe('replayToModel — traits', () => {
 
   it('reports no traits for a recording that carried none', () => {
     expect(replayToModel(makeReplay([]), itemMap).summary.traits).toBeNull();
+  });
+});
+
+/**
+ * The off hand. `HAND_L` on its own is the same bit whether the player is holding a
+ * shield or dual-wielding, so only the item says which it is — and until 17/08/2026 the
+ * importer always read it as a shield. Reported for an Oboro whose second weapon never
+ * turned up (tracker card gmp3jNDKQrna1N1G338f); the item landed in `model.shield`, where
+ * the shield dropdown does not list it AND a filled `shield` is exactly what hides the
+ * left-weapon picker, so it disappeared twice over.
+ */
+describe('replayToModel — off-hand weapon vs shield', () => {
+  // itemTypeId 1 = WEAPON, 2 = ARMOR (see constants/item.const ItemTypeId).
+  const dualMap = {
+    ...itemMap,
+    1250: { id: 1250, slots: 3, itemTypeId: 1 }, // a katar-shaped 3-slot weapon
+    2101: { id: 2101, itemTypeId: 2 }, // a shield
+  } as any;
+
+  it('sends a weapon in the off hand to leftWeapon, with its refine, grade and cards', () => {
+    const replay = makeReplay([
+      rec({ itemId: 1250, equipped: EQP.HAND_L, refine: 9, grade: 1, cards: [4001, 4002, 0, 1101] }),
+    ]);
+    const { model, summary } = replayToModel(replay, dualMap) as any;
+
+    expect(model.leftWeapon).toBe(1250);
+    expect(model.leftWeaponRefine).toBe(9);
+    expect(model.leftWeaponCard1).toBe(4001);
+    expect(model.leftWeaponCard2).toBe(4002);
+    // Position 3 is past the weapon's 3 card slots, so it is an enchant, not a 4th card.
+    expect(model.leftWeaponEnchant3).toBe(1101);
+    expect(model.leftWeaponCard4).toBeUndefined();
+    // and nothing leaked into the shield slot
+    expect(model.shield).toBeUndefined();
+    expect(summary.equippedCount).toBe(1);
+  });
+
+  it('still sends a shield in the off hand to shield', () => {
+    const { model } = replayToModel(makeReplay([rec({ itemId: 2101, equipped: EQP.HAND_L, refine: 4 })]), dualMap) as any;
+
+    expect(model.shield).toBe(2101);
+    expect(model.shieldRefine).toBe(4);
+    expect(model.leftWeapon).toBeUndefined();
+  });
+
+  /*
+   * A two-handed weapon sets HAND_R | HAND_L on the one record. The HAND_R branch wins
+   * before the off-hand question is even asked, so it must not also fill leftWeapon —
+   * which would have the calculator hold three weapons.
+   */
+  it('keeps a two-handed weapon in the main hand only', () => {
+    const replay = makeReplay([rec({ itemId: 1250, equipped: EQP.WEAPON | EQP.HAND_L, refine: 10 })]);
+    const { model } = replayToModel(replay, dualMap) as any;
+
+    expect(model.weapon).toBe(1250);
+    expect(model.leftWeapon).toBeUndefined();
+    expect(model.shield).toBeUndefined();
+  });
+
+  it('gives the off-hand weapon its own random-option positions, not the shield\'s', () => {
+    const replay = makeReplay([rec({ itemId: 1250, equipped: EQP.HAND_L, options: [ba(17, 65)] })]);
+    const { summary } = replayToModel(replay, dualMap);
+
+    expect(summary.appliedOptions).toBe(1);
+    expect(summary.skippedOptions).toBe(0);
   });
 });

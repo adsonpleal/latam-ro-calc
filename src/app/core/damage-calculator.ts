@@ -303,15 +303,28 @@ export class DamageCalculator {
   }
 
   /**
-   * Red-aura MVPs reduce the final damage dealt to them by 99.9% (only 0.1%
-   * lands). Applied to each final damage number (physical/magical skills and
-   * basic/crit autoattacks) right before it is returned. No-op for every other
-   * monster, so non-red targets are unaffected.
+   * The target's own damage reduction, applied to each final damage number (physical and
+   * magical skills, basic and crit autoattacks) right before it is returned. Two sources,
+   * both belonging to the monster rather than to the attacker's bonuses:
+   *
+   * - the **red aura** an MVP spawns with (see RED_AURA_MVP_IDS), which leaves 0.1% of
+   *   the damage;
+   * - **Aliviar** (https://browiki.org/wiki/Aliviar), the monster skill that cuts all
+   *   physical and magic damage taken by 10% to 99% depending on its level. Off unless
+   *   the user picked a level for a monster that casts it — see constants/monster-relieve.
+   *
+   * They multiply: a red-aura MVP under Aliviar 10 leaves 0.1% of 1%. Nothing in the game
+   * is both today (the two Jardim Secreto bosses have no red aura), so the order between
+   * them is unobservable; multiplying is what keeps it that way if one ever is.
+   *
+   * A no-op for every ordinary target, which is why it can sit on every damage path.
    */
   private applyAuraReduction(n: number) {
-    if (!this.monster?.data?.isRedAura) return n;
+    const auraMultiplier = this.monster?.data?.isRedAura ? 0.001 : 1;
+    const multiplier = auraMultiplier * (this.monster?.relieveMultiplier ?? 1);
+    if (multiplier === 1) return n;
 
-    return floor(n * 0.001);
+    return floor(n * multiplier);
   }
 
   private isRangeAtk() {

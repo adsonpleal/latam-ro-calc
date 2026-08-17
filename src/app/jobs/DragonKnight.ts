@@ -258,23 +258,20 @@ export class DragonKnight extends RuneKnight {
         return (skillLevel * 600 + totalPow * 5 + weight * baseWeaponLevel) * (baseLevel / 100);
       },
     },
-    {
-      name: 'Dragonic Breath',
-      label: '[V2] Dragonic Breath Lv10',
-      value: 'Dragonic Breath==10',
-      acd: 0.15,
-      fct: 0.5,
-      vct: 2,
-      cd: 0.5,
-      hit: 2,
-      isIgnoreDef: true,
-      isIgnoreSDef: true,
-      currentHpFn: (maxHp) => this.getCurrentHp(maxHp),
-      // 2nd version: shares the Dragon Breath formula —
-      // (floor(curHP/50) + floor(maxSP/4)) x skillLv x (baseLv/100)
-      // x (90 + DragonTraining x 10 + [if Dragonic Aura learned: (POW/5) x (1 + PAtk/100)]).
-      formula: (input: AtkSkillFormulaInput): number => this.calcDragonBreathFormula(input),
-    },
+    // Dragonic Breath (DK_DRAGONIC_BREATH, 6001) used to sit here, and was removed on
+    // 17/08/2026: LATAM does not have it. It is a genuine kRO skill — distinct from both
+    // Aura Draconiana (5210) and the Rune Knight's Sopro do Dragão (2008), which is why
+    // skill-catalog.spec.ts insisted on the separate id — but it arrived in a later kRO
+    // rebalance that this client has not received. Three independent checks agree: the
+    // ragassets skill feed carries 1558 skills and none is 6001; bROWiki has no page for
+    // it and leaves it out of the Cavaleiro Draconiano tree; and all 20 item.json records
+    // that key a bonus on "6001" are `presentInLatam: false`. Its catalog entry was the
+    // only dragon skill with no client `description`, because the pt-BR label
+    // ("Sopro Draconiano") had been invented rather than read off the GRF — which is also
+    // why its icon 404'd on ragassets and the picker showed a blank slot (tracker card
+    // Os9aJKTI1icMvZqAOsup). A LATAM Dragon Knight's dragon damage comes from Sopro do
+    // Dragão / Bafo do Dragão cast under the Aura buff; both are inherited from RuneKnight
+    // and take the +100% wired in below, so nothing castable was lost.
   ];
   private readonly activeSkillList4th: ActiveSkillModel[] = [
     {

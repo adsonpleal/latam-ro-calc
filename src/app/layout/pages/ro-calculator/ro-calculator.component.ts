@@ -27,6 +27,9 @@ import {
   ItemTypeId,
   JobBuffs,
   MAX_OPTION_NUMBER,
+  MAX_RELIEVE_LEVEL,
+  hasRelieve,
+  relieveReductionPercent,
   MainItemWithRelations,
   PetLoyaltyList,
   WeaponTypeName,
@@ -328,10 +331,28 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   availableTraitPoints = 0;
   appropriateLevelForTrait = 0;
 
+  // Declared above the target fields on purpose: class fields initialise in source order,
+  // and `relieveLevel` below seeds itself from it.
+  private calcStorage = new CalcStorage(localStorage);
+
   groupMonsterList: MonsterSelectItemGroup[] = [];
   monsterList: DropdownModel[] = [];
   selectedMonsterName = '';
   selectedMonster = Number(localStorage.getItem('monster')) || 21067;
+  /**
+   * Aliviar level for the current target (0 = off). Only the monsters that cast it offer
+   * the picker; see constants/monster-relieve. Target state like `selectedMonster`, so it
+   * is persisted the same way and is not part of the saved build.
+   */
+  relieveLevel = this.calcStorage.readRelieveLevel();
+  /** Levels the Aliviar picker offers, each labelled with the reduction it applies. */
+  relieveLevelOptions: DropdownModel[] = [
+    { label: 'Desativado', value: 0 },
+    ...Array.from({ length: MAX_RELIEVE_LEVEL }, (_, i) => ({
+      label: `Nv. ${i + 1} — ${relieveReductionPercent(i + 1)}%`,
+      value: i + 1,
+    })),
+  ];
   isShowMonsterEle = false;
   allSelectedMonsterIds: number[];
 
@@ -359,7 +380,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   /** The compared build's PVP pass — its own instance, like calculator2 for the monster panel. */
   private calculatorPvp2 = new Calculator();
   private controller = new CalculatorController();
-  private calcStorage = new CalcStorage(localStorage);
   private stateCalculator = new BaseStateCalculator();
 
   possiblyDamages: DropdownModel[];
@@ -945,6 +965,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
     const chainInput: CalcChainInput = {
       monster: this.monsterDataMap[this.selectedMonster],
+      relieveLevel: this.relieveLevel,
       playerTarget: pvpTarget,
       pvpMode,
       equipAtks,
@@ -1212,7 +1233,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     const isUseHpL = this.model.consumables.includes(12424);
     this.calcDamages = selectedMonsterIds.map((monsterId) => {
       const monster = this.monsterDataMap[monsterId];
-      const calculated = this.calculator.setMonster(monster).prepareAllItemBonus().calcDmgWithExtraBonus({ skillValue: this.model.selectedAtkSkill, isUseHpL });
+      // The chosen Aliviar level applies to every monster in the table that casts it, not
+      // only to the main target — setMonster ignores it for the ones that do not.
+      const calculated = this.calculator.setMonster(monster, this.relieveLevel).prepareAllItemBonus().calcDmgWithExtraBonus({ skillValue: this.model.selectedAtkSkill, isUseHpL });
 
       const {
         id,
@@ -1231,7 +1254,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     });
 
     // reset to main selected monster
-    this.calculator.setMonster(this.monsterDataMap[this.selectedMonster]).prepareAllItemBonus().calcAllAtk();
+    this.calculator.setMonster(this.monsterDataMap[this.selectedMonster], this.relieveLevel).prepareAllItemBonus().calcAllAtk();
   }
 
   private resetModel() {
@@ -1547,6 +1570,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       this.calculatorPvp.setClass(classInstance).loadItemFromModel(model);
       this.controller.runChain(this.calculatorPvp, {
         monster: this.monsterDataMap[this.selectedMonster],
+        relieveLevel: this.relieveLevel,
         equipAtks, masteryAtks, buffEquips, buffMasterys, consumeData, aspdPotion,
         extraOptionScripts: parseOptionScripts(model.rawOptionTxts),
         activeSkillNames, learnedSkillMap,
@@ -2937,6 +2961,16 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   onMonsterChange() {
     localStorage.setItem('monster', this.selectedMonster.toString());
     this.selectedMonsterName = this.monsterDataMap?.[this.selectedMonster]?.name;
+    this.updateItemEvent.next(1);
+  }
+
+  /** Whether the current target casts Aliviar, and so whether the level picker shows. */
+  get isRelieveTarget(): boolean {
+    return hasRelieve(this.selectedMonster);
+  }
+
+  onRelieveLevelChange() {
+    this.calcStorage.writeRelieveLevel(this.relieveLevel);
     this.updateItemEvent.next(1);
   }
 

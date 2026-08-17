@@ -41,6 +41,30 @@
       >Aura</span
     >
   </div>
+  <!--
+    Aliviar: only for the monsters that cast it, so the card is unchanged for every other
+    target. The level is the player's to pick because the game's is situational — in
+    Jardim Secreto it tracks the Escudo de Energia, which the party lowers by killing the
+    four Peças de Guardião. See constants/monster-relieve.
+  -->
+  <div class="col-12 relieve_row" *ngIf="isRelieveTarget">
+    <span
+      class="relieve_label"
+      pTooltip="Aliviar reduz todo o dano físico e mágico recebido pelo monstro. Em Jardim Secreto o nível acompanha o Escudo de Energia: derrube as 4 Peças de Guardião para baixá-lo."
+      tooltipPosition="top"
+      >Aliviar</span
+    >
+    <p-dropdown
+      styleClass="relieve_dd"
+      appendTo="body"
+      [options]="relieveLevelOptions"
+      optionLabel="label"
+      optionValue="value"
+      [disabled]="isInProcessingPreset"
+      [(ngModel)]="relieveLevel"
+      (ngModelChange)="relieveLevelChange.emit(relieveLevel)"
+    ></p-dropdown>
+  </div>
   <div class="col-12">
     <span class="{{ 'property_' + totalSummary?.monster?.elementUpper }} summary_monster_value px-1 font-semibold">{{ totalSummary?.monster?.elementLevelUpper | monsterTerm: 'element' }}</span>
     <span>

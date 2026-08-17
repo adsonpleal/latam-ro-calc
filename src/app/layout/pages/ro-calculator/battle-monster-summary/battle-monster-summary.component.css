@@ -1,0 +1,27 @@
+/* The Aliviar row: label on the left, level picker filling what is left, matching the
+   label/value rhythm the rest of the monster card is laid out on. */
+.relieve_row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 2px 0;
+}
+
+.relieve_label {
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--orange-300, #f9ae61);
+  cursor: help;
+}
+
+:host ::ng-deep .relieve_dd.p-dropdown {
+  flex: 1;
+  min-width: 0;
+  height: 26px;
+}
+
+:host ::ng-deep .relieve_dd .p-dropdown-label {
+  padding: 2px 6px;
+  font-size: 12px;
+  line-height: 22px;
+}

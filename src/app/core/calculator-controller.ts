@@ -179,6 +179,11 @@ export function collectBuffBonuses(buffDefs: BuffDef[], selectedValues: any[], a
 /** Everything the fluent solve pipeline needs once items are loaded. */
 export interface CalcChainInput {
   monster: MonsterModel;
+  /**
+   * The target's Aliviar level (0 = off). Only the monsters in RELIEVE_MONSTER_IDS can
+   * carry one; for anything else it is ignored.
+   */
+  relieveLevel?: number;
   /** PVP: when set, the target is a player and this profile replaces `monster`. */
   playerTarget?: PlayerTargetProfile;
   /** PVP mode selecting the castle reduction layer (defaults to open PVP). */
@@ -221,7 +226,7 @@ export class CalculatorController {
     if (input.playerTarget) {
       calc.setPlayerTarget(input.playerTarget, input.pvpMode ?? 'pvp');
     } else {
-      calc.setMonster(input.monster);
+      calc.setMonster(input.monster, input.relieveLevel ?? 0);
     }
 
     return calc

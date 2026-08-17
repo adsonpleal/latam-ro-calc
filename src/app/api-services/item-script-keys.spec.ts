@@ -55,8 +55,18 @@ const DYNAMIC_KEY_PATTERNS = [/^cri_race_\w+$/];
  *
  *   dmg__<monster> — damage against one specific monster. Only Diabolus Manteau (2537)
  *                    and Diabolus Ring (2729) use it, against Lucifer Morocc.
+ *
+ *   6001           — Dragonic Breath (DK_DRAGONIC_BREATH). A real kRO Dragon Knight
+ *                    skill, so this is not a typo, but not one LATAM has: it is absent
+ *                    from the client skill feed and bROWiki leaves it out of the
+ *                    Cavaleiro Draconiano tree. The skill was dropped from the catalog on
+ *                    17/08/2026 (see jobs/DragonKnight.ts), which left these keys behind.
+ *                    All 20 items carrying one are `presentInLatam: false`, so nothing a
+ *                    player can equip references it — deleting the keys would mean
+ *                    editing upstream records the calculator never shows. Delete this
+ *                    line if LATAM ever receives the skill.
  */
-const CHAVES_NAO_MODELADAS = ['dmg__Lucifer Morocc'];
+const CHAVES_NAO_MODELADAS = ['dmg__Lucifer Morocc', '6001'];
 
 describe('item.json: chaves de bônus', () => {
   const validStatusSet = new Set(Object.keys(createRawTotalBonus()));

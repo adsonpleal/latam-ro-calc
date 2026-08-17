@@ -371,6 +371,12 @@
   cursor: default;
 }
 
+/* Holds the handle's width in the "adding" row so its step number stays in column. */
+.rot-handle--spacer {
+  visibility: hidden;
+  cursor: default;
+}
+
 .rot-handle:focus-visible {
   outline: 2px solid var(--primary-color);
   outline-offset: 2px;
