@@ -159,6 +159,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.63-beta',
+      date: '17-08-2026',
+      logs: [
+        'Entraram 13 cartas que estavam na fila como se não tivessem onde encaixar, e tinham: a Carta Raggler, a Carta Mao Guai, a Carta Solidificador, a Carta Atirador de Pedras, a Carta Mineral, a Carta Alicel e as sete cartas de dano mágico por raça, entre elas a Carta Naga, a Carta Nepenthes e a Carta Ovo de Draco. Não faltava conta nenhuma para elas: cada linha da descrição já cabia no que o simulador calcula. O que faltava era ler a peça em que a carta entra, porque o levantamento procurava a linha "Equipa em:" e essas cartas, mais antigas, escrevem "Utilização:" ou "Equipado em:". Carta sem peça não existe — toda carta encaixa em algo —, então uma carta que parece não ter posição é falha da leitura, não da carta.',
+        'A fila de cartas faltando também parou de contar o que não é carta. Eram 18 registros que começam com "Carta" e não são equipamento: cartas no sentido de correspondência, como a Carta da Mamãe e a Carta de Lugen, três letras de um evento de Halloween, a Carta de Amor, que é isca de mascote, e a Carta Fenris Fenrir, que é consumível. Nenhuma delas tem peça onde encaixar, e era justamente por isso que apareciam na conta como cartas sem posição. O cliente traz 1.065 cartas de verdade, 662 já estão cadastradas e restam 403 — 182 misturam um efeito que dá para calcular com outro que não dá, e 221 são só efeito de proc ou de utilidade.',
+        'As duas cartas cuja descrição realmente não diz onde encaixam ficaram resolvidas pelo divine-pride: a Carta Rastreador vai no escudo e a Carta Titã de Gelo no calçado. As duas seguem fora do cálculo por outro motivo — cada uma promete, além do bônus fixo, um efeito que o simulador não modela: habilitar [Petrificar] e tolerância a Petrificação numa, e uma chance ao ser atingido na outra.',
+      ],
+    },
+    {
       v: '0.1.62-beta',
       date: '17-08-2026',
       logs: [

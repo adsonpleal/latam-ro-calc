@@ -317456,5 +317456,358 @@
         "15"
       ]
     }
+  },
+  "4186": {
+    "id": 4186,
+    "aegisName": "이름없는카드",
+    "name": "Carta Raggler",
+    "unidName": "Carta Raggler",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 64,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "vit": [
+        "1"
+      ]
+    }
+  },
+  "4202": {
+    "id": 4202,
+    "aegisName": "이름없는카드",
+    "name": "Carta Mao Guai",
+    "unidName": "Carta Mao Guai",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "p_element_ghost": [
+        "20"
+      ]
+    }
+  },
+  "4220": {
+    "id": 4220,
+    "aegisName": "이름없는카드",
+    "name": "Carta Solidificador",
+    "unidName": "Carta Solidificador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "def": [
+        "2"
+      ],
+      "mdef": [
+        "2"
+      ]
+    }
+  },
+  "4225": {
+    "id": 4225,
+    "aegisName": "이름없는카드",
+    "name": "Carta Atirador de Pedras",
+    "unidName": "Carta Atirador de Pedras",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hit": [
+        "10"
+      ],
+      "atk": [
+        "10"
+      ]
+    }
+  },
+  "4339": {
+    "id": 4339,
+    "aegisName": "이름없는카드",
+    "name": "Carta Mineral",
+    "unidName": "Carta Mineral",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "-25"
+      ],
+      "def": [
+        "3"
+      ]
+    }
+  },
+  "4401": {
+    "id": 4401,
+    "aegisName": "이름없는카드",
+    "name": "Carta Alicel",
+    "unidName": "Carta Alicel",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 16,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "flee": [
+        "10"
+      ],
+      "def": [
+        "-5"
+      ]
+    }
+  },
+  "4469": {
+    "id": 4469,
+    "aegisName": "이름없는카드",
+    "name": "Carta Naga",
+    "unidName": "Carta Naga",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_race_fish": [
+        "10"
+      ]
+    }
+  },
+  "4470": {
+    "id": 4470,
+    "aegisName": "이름없는카드",
+    "name": "Carta Nepenthes",
+    "unidName": "Carta Nepenthes",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_race_plant": [
+        "10"
+      ]
+    }
+  },
+  "4471": {
+    "id": 4471,
+    "aegisName": "이름없는카드",
+    "name": "Carta Ovo de Draco",
+    "unidName": "Carta Ovo de Draco",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_race_dragon": [
+        "10"
+      ]
+    }
+  },
+  "4473": {
+    "id": 4473,
+    "aegisName": "이름없는카드",
+    "name": "Carta Árvore Anciã",
+    "unidName": "Carta Árvore Anciã",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_race_undead": [
+        "10"
+      ]
+    }
+  },
+  "4475": {
+    "id": 4475,
+    "aegisName": "이름없는카드",
+    "name": "Carta Cobalto",
+    "unidName": "Carta Cobalto",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_race_formless": [
+        "10"
+      ]
+    }
+  },
+  "4476": {
+    "id": 4476,
+    "aegisName": "이름없는카드",
+    "name": "Carta Pinguicula",
+    "unidName": "Carta Pinguicula",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_race_insect": [
+        "10"
+      ]
+    }
+  },
+  "4477": {
+    "id": 4477,
+    "aegisName": "이름없는카드",
+    "name": "Carta Apocalipse Infernal",
+    "unidName": "Carta Apocalipse Infernal",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "m_race_demon": [
+        "10"
+      ]
+    }
   }
 }

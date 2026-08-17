@@ -159,6 +159,53 @@ const CARD_POSITION = {
   'Equipamento para Cabeça': POS.Head,
 };
 
+/**
+ * "Carta" is also the pt-BR word for a letter, and the name test below cannot tell the two
+ * apart: these 18 records are correspondence, quest props, pet bait and a consumable, not
+ * equipment cards. Their own descriptions say so — "Uma carta para o bom amigo Otto",
+ * "Tipo: Isca", "Temporariamente encanta o usuário" — and none of them prints a slot line,
+ * which is how they came to sit in the slotless pile pretending to be a backlog.
+ *
+ * Excluded from the queue outright rather than filed as unplaceable cards: the real card
+ * count is 1065, not 1083, and a queue that counts letters overstates the work left.
+ */
+const NOT_A_CARD = new Map([
+  [6043, 'letter — "Uma carta para o bom amigo Otto"'],
+  [6044, 'letter — Otto\'s reply to Lugen'],
+  [6546, 'letter — from a brother'],
+  [6925, 'letter — from a prisoner'],
+  [6929, 'letter — sealed with the Walther family crest'],
+  [7148, 'letter — from a mother to her conscripted son'],
+  [7183, 'letter — from a girl to her older brother'],
+  [7416, 'letter of recommendation — Merchant Guild quest'],
+  [7468, 'Halloween event prop — the letter "P"'],
+  [7469, 'Halloween event prop — the letter "U"'],
+  [7471, 'Halloween event prop — the letter "Y"'],
+  [7490, 'letter — addressed to Elly'],
+  [7501, 'letter — from "K.H."'],
+  [7643, 'bloodstained letter — quest prop'],
+  [12370, 'pet bait — prints "Tipo: Isca"'],
+  [22511, 'consumable — temporarily grants the Power of Fenrir'],
+  [25167, 'ancient letter — quest prop'],
+  [25627, 'golden letter — quest prop'],
+]);
+
+/**
+ * Slots for the cards whose own description names none, from divine-pride's "Compound on"
+ * field (the id is the same on both databases; the English name is kept so the lookup can be
+ * repeated).
+ *
+ * There is no such thing as a card without a slot — every card compounds onto something, so
+ * a card the client's text does not place is a gap in the text, not a property of the card.
+ * The client feed cannot fill it either: ragassets' items.json ships `equipSlots: []` for
+ * every card. These two are the whole list, and both turn out to be `mixed` once placed, so
+ * neither is registrable today.
+ */
+const SLOT_FROM_DIVINE_PRIDE = new Map([
+  [4414, { label: 'Escudo', enName: 'Seeker Card', dp: 'Compounds On: Shield' }],
+  [4417, { label: 'Calçado', enName: 'Ice Titan Card', dp: 'Compounds On: Shoes' }],
+]);
+
 const NUM = String.raw`[+-]\s*\d[\d.,]*`;
 const alt = (o) => Object.keys(o).map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
 const E = alt(ELEMENT), R = alt(RACE), Z = alt(SIZE);
@@ -347,20 +394,47 @@ function mapLine(text) {
 
 // ── classification ───────────────────────────────────────────────────────────────────
 
-const isCard = (rec) => /^Carta /.test(rec?.name || '');
+const isCard = (rec, id) => /^Carta /.test(rec?.name || '') && !NOT_A_CARD.has(Number(id));
+
+/**
+ * Where the card goes, from whichever wording the client used — plus divine-pride for the
+ * two it does not place at all.
+ *
+ * Every spelling is treated as equal evidence rather than "Equipa em:" being the only real
+ * one. The older forms were verified against the RagnaPlace API when resolve-card-slots.mjs
+ * ran: all 29 cards that use them agree, so preferring the modern spelling bought nothing
+ * and cost a group of 50 cards that read as unplaceable while their slot was printed on
+ * screen the whole time.
+ *
+ * `\s*:` — 300277 (Carta Rancor de Thanatos) prints "Equipa em : Escudo", with a space
+ * before the colon, and a strict "Equipa em:" dropped it as if no slot had been named.
+ *
+ * "Classes:" is accepted last and only when its value is a slot: on a card the client uses
+ * that line for the equipment type (4421 Carta Drosera prints "Classes: Arma"), but on
+ * ordinary gear the same label lists job classes, so a value outside CardPosition is left
+ * for the `undefined` group to report instead of being read as a slot.
+ */
+function resolveSlot(desc, id) {
+  const modern = /Equipa em\s*:\s*([^\n]*)/.exec(desc)?.[1].trim();
+  if (modern) return { label: modern, source: 'Equipa em' };
+
+  const older = /(?:Utiliza[cç][aã]o|Equipado em|Localiza[cç][aã]o)\s*:\s*([^\n]*)/.exec(desc)?.[1].trim();
+  if (older) return { label: older, source: 'older spelling' };
+
+  const classes = /Classes\s*:\s*([^\n]*)/.exec(desc)?.[1].trim();
+  if (classes && classes in CARD_POSITION) return { label: classes, source: 'Classes' };
+
+  const dp = SLOT_FROM_DIVINE_PRIDE.get(Number(id));
+  if (dp) return { label: dp.label, source: `divine-pride (${dp.enName}, ${dp.dp})` };
+
+  return null;
+}
 
 function classify(id) {
   const rec = latam[id];
   const desc = plain(rec.description);
-  // `\s*:` — 300277 (Carta Rancor de Thanatos) prints "Equipa em : Escudo", with a space
-  // before the colon, and a strict "Equipa em:" dropped it into noSlot as if the client
-  // had never named a slot for it.
-  const slotLabel = /Equipa em\s*:\s*([^\n]*)/.exec(desc)?.[1].trim() ?? null;
-  // The pre-"Equipa em:" spellings. 29 of the 51 cards with no "Equipa em:" line do name
-  // their slot this way, so they are not unplaceable — only unreachable by the regex
-  // a54f32e6's spec routes with. Recorded, not acted on: the group stays defined the way
-  // the commit defined it, and whoever picks the backlog up gets the label for free.
-  const altSlot = /(?:Utiliza[cç][aã]o|Equipado em|Localiza[cç][aã]o):\s*([^\n]*)/.exec(desc)?.[1].trim() ?? null;
+  const slot = resolveSlot(desc, id);
+  const slotLabel = slot?.label ?? null;
   const lines = effectLines(rec.description);
   const mapped = [], blocked = [];
   for (const { text, gated } of lines) {
@@ -368,18 +442,15 @@ function classify(id) {
     if (keys) mapped.push({ text, keys });
     else blocked.push(text);
   }
-  const base = { id: Number(id), name: rec.name, slotLabel };
+  const base = { id: Number(id), name: rec.name, slotLabel, slotSource: slot?.source ?? null };
 
   if (items[id]) return { ...base, group: 'registered' };
-  // Checked before anything else: a card no slot routes cannot be registered whatever
-  // its text says, so its effect lines are not the reason it is missing.
-  if (!slotLabel) {
-    return {
-      ...base, group: 'noSlot',
-      ...(altSlot ? { altSlotLabel: altSlot, altCompositionPos: CARD_POSITION[altSlot] ?? null } : {}),
-      mapped, blocked,
-    };
-  }
+  // Should be unreachable: a card always compounds onto something, and resolveSlot reads
+  // every wording the client uses plus a divine-pride entry for the two it leaves out. Kept
+  // as a guard, not as a bucket — if a client update ships a card this cannot place, that is
+  // a new wording to teach resolveSlot (or one more id to look up), and the run says so
+  // instead of quietly parking it.
+  if (!slotLabel) return { ...base, group: 'noSlot', mapped, blocked };
   if (!(slotLabel in CARD_POSITION)) {
     return { ...base, group: 'undefined', reason: `slot label "${slotLabel}" is not a CardPosition`, mapped, blocked };
   }
@@ -453,7 +524,7 @@ assertKeysExist();
 if (args.has('--witness')) { runWitness(); process.exit(process.exitCode ?? 0); }
 assertBatchStillMaps();
 
-const cardIds = Object.keys(latam).filter((id) => isCard(latam[id])).sort((a, b) => a - b);
+const cardIds = Object.keys(latam).filter((id) => isCard(latam[id], id)).sort((a, b) => a - b);
 const results = cardIds.map(classify);
 
 const GROUPS = ['registered', 'ready', 'mixed', 'proc', 'noSlot', 'undefined'];
@@ -475,10 +546,12 @@ const payload = {
         r.id,
         {
           name: r.name, group: r.group, slotLabel: r.slotLabel,
+          // Which wording placed it: "Equipa em", an older spelling, "Classes", or a
+          // divine-pride lookup. Recorded so a slot can be audited without re-deriving it.
+          ...(r.slotSource ? { slotSource: r.slotSource } : {}),
           // `!= null`, not a truth test: CardPosition.Weapon is 0, and a truth test drops
           // the field for every weapon card — the largest slot in the catalogue.
           ...(r.compositionPos != null ? { compositionPos: r.compositionPos } : {}),
-          ...(r.altSlotLabel ? { altSlotLabel: r.altSlotLabel, altCompositionPos: r.altCompositionPos } : {}),
           ...(r.reason ? { reason: r.reason } : {}),
           mapped: r.mapped.map((m) => ({ line: m.text, keys: m.keys })),
           blocked: r.blocked,

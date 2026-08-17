@@ -62,8 +62,18 @@ const SECOND_WAVE = [
   27336, 27337, 27341, 27346, 27349, 27353, 27358, 300143,
 ];
 
+/**
+ * The 13 that followed once the slot stopped being read off one spelling only.
+ *
+ * Nothing about their effects was ever the problem — every line maps, and always did. They
+ * were filed as "slotless" because the classifier looked for "Equipa em:" and these print the
+ * older "Utilização:" / "Equipado em:". A card always compounds onto something, so a card the
+ * text does not seem to place is a gap in the reading, not a property of the card.
+ */
+const THIRD_WAVE = [4186, 4202, 4220, 4225, 4339, 4401, 4469, 4470, 4471, 4473, 4475, 4476, 4477];
+
 /** Every card registered this way. The guards below hold for all of them, wave or no wave. */
-const ADDED = [...FIRST_WAVE, ...SECOND_WAVE];
+const ADDED = [...FIRST_WAVE, ...SECOND_WAVE, ...THIRD_WAVE];
 
 /**
  * Where a card position is actually worn, plus an inert host to carry it there.
@@ -175,9 +185,16 @@ describe('the data still says what the pt-BR description says', () => {
     }
   });
 
-  it('routes to the slot its own "Equipa em:" line names', () => {
+  it('routes to the slot its own description names, in whichever wording', () => {
     // A compositionPos no branch of the card router matches is how Carta Mosca Caçadora
     // vanished from every picker — see the 0.1.60-beta entry.
+    //
+    // Four wordings, treated as equal evidence, matching tools/classify-missing-cards.mjs
+    // resolveSlot: "Equipa em:", the older "Utilização:" / "Equipado em:" / "Localização:",
+    // and "Classes:" — which on a card names the equipment type (4421 Carta Drosera prints
+    // "Classes: Arma") though on ordinary gear the same label lists job classes. Reading only
+    // the modern spelling is what left 50 placeable cards looking slotless.
+    const SLOT_LINE = /(?:Equipa em|Equipado em|Utiliza[cç][aã]o|Localiza[cç][aã]o|Classes)\s*:\s*([^\n]*)/;
     const BY_SLOT: Record<string, number> = {
       Arma: CardPosition.Weapon,
       Armadura: CardPosition.Armor,
@@ -193,8 +210,8 @@ describe('the data still says what the pt-BR description says', () => {
     };
 
     for (const id of ADDED) {
-      const slot = /Equipa em:\s*([^\n]*)/.exec(plain(latam[id].description))?.[1].trim();
-      expect(BY_SLOT[slot!], `${id} "${slot}"`).toBe(items[id].compositionPos);
+      const slot = SLOT_LINE.exec(plain(latam[id].description))?.[1].trim();
+      expect(BY_SLOT[slot!], `${id} ${latam[id].name} "${slot}"`).toBe(items[id].compositionPos);
     }
   });
 
