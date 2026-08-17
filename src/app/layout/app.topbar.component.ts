@@ -235,7 +235,7 @@ export class AppTopBarComponent {
       v: '0.1.53-beta',
       date: '13-08-2026',
       logs: [
-        'O Escudo Automatron B não ignorava DEFM nenhuma. A peça estava cadastrada sem efeito algum: os 15% de DEFM ignorada de todas as raças, os 5% a mais a cada 2 refinos e os 10% de dano mágico contra Chefes do refino +7 não existiam no cálculo. No +10 são 40% de DEFM ignorada que a build vinha deixando na mesa. O Escudo Automatron A, o irmão físico, já estava correto e serviu de referência. Reportado por junior.zkt.',
+        'O Escudo Automatron B não ignorava DEFM nenhuma. A peça estava cadastrada sem efeito algum: os 15% de DEFM ignorada de todas as raças, os 5% a mais a cada 2 refinos e os 10% de dano mágico contra Chefes do refino +7 não existiam no cálculo. No +10 são 40% de DEFM ignorada que a build vinha deixando na mesa. O Escudo Automatron A, o irmão físico, já estava correto e serviu de referência. Reportado por usuário anônimo.',
         'Os Escudos Automatron A e B voltaram a aceitar Automódulos. Todas as outras peças Automatron — Colete, Motor, Perna, Soquete e Turbina — já tinham a lista de encantos cadastrada, e só os dois escudos ficaram de fora, com os três espaços vazios. Agora oferecem a coluna do Escudo da tabela de Automódulos: B-DEF, B-DEFM, M-HPMax, M-SPMax, M-Rapidez, P-Robusto e P-Dano. O M-Cura e o P-Refletor, que o escudo também aceita no jogo, seguem fora porque o simulador não calcula efetividade de cura nem resistência a dano refletido — as demais peças Automatron também não os oferecem.',
         'O conjunto do Elmo Mágico de Cinzas com o Cajado de Cinzas passou a valer. Do conjunto só existia o "Dano mágico +7%" do Cajado Duplo; a recarga de Onda Psíquica -1,5 segundo e o bônus por refino da arma — Onda Psíquica e Pó de Diamante +5% a cada 2 refinos — não estavam cadastrados, então refinar o cajado não mudava nada. Entrou junto o degrau que faltava no conjunto com o Cajado Duplo, Impacto Espiritual e Corrente Elétrica +5% a cada 2 refinos. Com o cajado no +10 são 25% de dano a mais em cada uma dessas habilidades.',
         'Os outros cinco Elmos de Cinzas tinham a mesma falha e foram corrigidos junto: o Mortal, o Divino, o Cobiçado, o Bravio e o Certeiro. Todos seguiam o mesmo molde — a linha fixa do conjunto cadastrada e o degrau por refino da arma faltando — somando 13 conjuntos e 30 bônus de perícia que não valiam nada. Entraram também as recargas que faltavam, como a de [Tempestade de Flechas] -2,5 segundos do Elmo Certeiro com o Arco de Cinzas.',
@@ -245,7 +245,7 @@ export class AppTopBarComponent {
         'O Espólio de Celia ainda trazia os efeitos do item de mesmo número no servidor de origem, e quase nenhum número batia com a descrição em pt-BR. A conjuração variável -10% do refino +9 estava cadastrada como velocidade de ataque, então nunca reduziu conjuração nenhuma. Os degraus por refino da arma davam 10% onde a descrição diz 3%, e o dano mágico do conjunto com o Lançarin dava 10% onde a descrição diz 2%. O conjunto com o Castigo Diamante somava dano em [Castigo de Nerthus] no lugar de [Pó de Diamante], e o com a Lança Psíquica em [Onda Psíquica] no lugar de [Lanças dos Aesir]. Faltavam ainda os 3% de dano mágico por propriedade dos dois conjuntos. Saíram os efeitos que a descrição não concede: ATQM por refino, a conjuração fixa do Castigo Diamante e a recarga de [Onda Psíquica] da Lança Psíquica. No geral a peça perde dano em builds que contavam com os degraus de 10%, e ganha a redução de conjuração que deveria ter desde sempre.',
         'A Manopla Sombria de Apoio Químico dava os 15% de dano do conjunto na habilidade errada: o bônus estava em [Tornado de Carrinho], que é a habilidade da linha de recarga logo abaixo, e a descrição o dá em [Canhão de Prótons].',
         'As Botas de Cowboy não davam nada das quatro habilidades que a descrição promete — [Rajada de Flechas], [Arremessar Kunai], [Estilingue] e [Flecha Melódica], 15% mais 2% por refino, o que no +10 são 35% em cada uma — nem os conjuntos com o Arco Vigilante e o Monokage.',
-        'Os Fones Danificados e os Fones Amplificadores voltaram a aceitar Bônus Aleatórios, que os dois recebem do Amplificador de Fone. Faltavam também o Comunicador Avançado e o Super Óculos Poring, este último com um bônus só. Reportado por Lobbo.',
+        'Os Fones Danificados e os Fones Amplificadores voltaram a aceitar Bônus Aleatórios, que os dois recebem do Amplificador de Fone. Faltavam também o Comunicador Avançado e o Super Óculos Poring, este último com um bônus só. Reportado por usuário anônimo.',
         'A janela de Redução de dano dos atributos mostrava só a linha de tamanho Médio. Ela reaproveitava a lista montada para o alvo PVP, onde o atacante é sempre um jogador e por isso só Médio pode valer — mas nos atributos a pergunta é o que a build resiste contra qualquer coisa. Agora aparecem Pequeno, Médio e Grande, as raças de monstro e a linha de Chefe. Quem usa a Carta Cavaleiro Branco com a Carta Cavaleira Khalitzburg via 30% contra Médio e nada contra Grande, quando os 30% valem para os dois. A janela do alvo PVP continua como estava. Reportado por usuário anônimo.',
       ],
     },
@@ -436,9 +436,9 @@ export class AppTopBarComponent {
       v: '0.1.35-beta',
       date: '27-07-2026',
       logs: [
-        'O seletor de grau voltou a aparecer em todas as armas de nível 5 e equipamentos de nível 2 — entre eles as armas Decadentes, Fortificadas, Descartadas e -OSAD, que não ofereciam grau nenhum. O grau agora sai do nível do equipamento, e não mais de uma marcação preenchida à mão que ficava para trás a cada atualização do banco. Reportado por williamcms.',
+        'O seletor de grau voltou a aparecer em todas as armas de nível 5 e equipamentos de nível 2 — entre eles as armas Decadentes, Fortificadas, Descartadas e -OSAD, que não ofereciam grau nenhum. O grau agora sai do nível do equipamento, e não mais de uma marcação preenchida à mão que ficava para trás a cada atualização do banco. Reportado por usuário anônimo.',
         'Corrigido o nível de 74 equipamentos que estava em branco ou errado no cadastro. É o nível da arma que define o bônus de ATQ e ATQM por refino, então peças como a Claymore Gloriosa, a Espada Cromada, as Ginnungagap e as armas de aluguel TE não ganhavam nada ao refinar, e o Arco Vigilante rendia o bônus de nível 3 no lugar do de nível 4. Equipamentos de nível 2 também voltaram a receber a DEF extra e os +2 de RES e RESM por refino. A tabela de refino e os multiplicadores de grau (+10% no D, +30% no C, +50% no B e +100% no A) foram conferidos nível a nível e batem com o jogo.',
-        'Os Capacetes Fortificado, Decadente e Descartado passaram a aceitar encantamentos nos slots 2, 3 e 4. Os oito encantamentos do Passe de Batalha também foram corrigidos: o cadastro trazia os efeitos da versão coreana, e não os do LATAM. Os encantamentos Decadente, Fortificado e de Sucata têm a descrição cortada no jogo — só aparecem os primeiros conjuntos de armas —, então a lista completa dos oito conjuntos de cada um veio da bROWiki. Reportado por williamcms.',
+        'Os Capacetes Fortificado, Decadente e Descartado passaram a aceitar encantamentos nos slots 2, 3 e 4. Os oito encantamentos do Passe de Batalha também foram corrigidos: o cadastro trazia os efeitos da versão coreana, e não os do LATAM. Os encantamentos Decadente, Fortificado e de Sucata têm a descrição cortada no jogo — só aparecem os primeiros conjuntos de armas —, então a lista completa dos oito conjuntos de cada um veio da bROWiki. Reportado por usuário anônimo.',
         'Corrigido o Conjunto Goibne Ilusional, que não concedia nada: o elmo procurava as outras três peças pelo nome em inglês, que deixou de existir quando o banco passou para o português. Entraram junto os efeitos do conjunto que faltavam no cadastro — resistência às propriedades Vento, Fogo, Água e Terra +10% e HP máx. +10% adicional com as quatro peças no +7 —, a DEF do refino +9 da Armadura Goibne Ilusional e o dano físico contra oponentes de propriedade Fogo, Terra, Água e Vento da Ombreira Goibne Ilusional. Reportado anonimamente.',
         'Adicionada a Carta Gerente (INT +1 e Conjuração variável -5%), junto das Cartas Alarme, Relógio e Punk, para que o conjunto das quatro — DEF e DEFM +3 — possa ser montado no simulador.',
         'Nas listas de cartas de acessório, as marcações [Right] e [Left] passaram a ser [Direito] e [Esquerdo].',
@@ -583,7 +583,7 @@ export class AppTopBarComponent {
         'Os escudos Escudo Sanguinário e Sanguinário Purificado agora aceitam Bônus Aleatórios (só o Sanguinário Maldito aceitava). (Reportado por Luís.)',
         'O Bônus Aleatório de HP agora vai até 5.000 (antes parava em 1.000). (Reportado por Luís.)',
         'A Sobrepeliz e a Capa do Lobo Cinzento ganharam os 6 encantamentos que faltavam no primeiro slot: Orbe Lupino - Total 1 a 3 e Espelho 1 a 3. (Reportado por Luís.)',
-        'Superaprendiz agora tem Telecinesia nas habilidades ativas e Impacto Espiritual no Resumo de Batalha. (Reportado por bernardoolimpio.)',
+        'Superaprendiz agora tem Telecinesia nas habilidades ativas e Impacto Espiritual no Resumo de Batalha. (Reportado por usuário anônimo.)',
         'Passar o mouse na habilidade escolhida no Resumo de Batalha agora mostra a descrição dela, como já acontecia na aba Habilidades.',
         'Corrigido: em Windhawk com Ilimitar e Ventos Sinistros, marcar qualquer Efeito (ex.: Instinto) derrubava o dano em vez de aumentá-lo — o bônus de dano à distância era descontado uma vez a cada recálculo.',
         'No Resumo de Batalha, "Hab./s" e "Morre em" agora ficam numa linha própria, e o "Hab./s" também mostra o valor da comparação quando ele muda.',
@@ -681,7 +681,7 @@ export class AppTopBarComponent {
       v: '0.1.9-beta',
       date: '06-07-2026',
       logs: [
-        'Adicionada a Bala de Guaraná aos consumíveis: ativa [Aumentar Agilidade] nv. 5 e o efeito da Poção da Concentração. Os efeitos não acumulam com fontes mais fortes — uma poção de ASPD selecionada substitui o efeito de Concentração, e um [Aumentar Agilidade] de nível maior substitui o da bala. Obrigado ao luishviana por sugerir.',
+        'Adicionada a Bala de Guaraná aos consumíveis: ativa [Aumentar Agilidade] nv. 5 e o efeito da Poção da Concentração. Os efeitos não acumulam com fontes mais fortes — uma poção de ASPD selecionada substitui o efeito de Concentração, e um [Aumentar Agilidade] de nível maior substitui o da bala. Sugerido por usuário anônimo.',
       ],
     },
     {
@@ -743,12 +743,12 @@ export class AppTopBarComponent {
       date: '25-06-2026',
       logs: [
         // Calculadora & interface
-        'Descrições dos Itens: bônus percentuais agora exibem "%". Obrigado ao luishviana por reportar.',
+        'Descrições dos Itens: bônus percentuais agora exibem "%". Reportado por usuário anônimo.',
         'Reduções de conjuração agora aparecem como negativas — Pós-conjuração e Conj. Variável em -x% e Conj. Fixa em segundos negativos.',
         'Novo debuff no monstro: Oratio (reduz a resistência à propriedade Sagrado do alvo).',
         'A comparação de itens agora inclui o slot de Escudo.',
         'Na comparação, as ativações (Efeitos) do item comparado também passam a aparecer.',
-        'Pós-conjuração de Tiro Crescente (Crescive Bolt) ajustada para 0,5s. Obrigado ao vinicius_mdantas por reportar.',
+        'Pós-conjuração de Tiro Crescente (Crescive Bolt) ajustada para 0,5s. Reportado por usuário anônimo.',
         'Rótulos e descrições para os bônus de ativação (chance) e para os combos de itens.',
         'Resumo de Batalha: rótulos de conjuração padronizados em pt-BR (Conj. Fixa, Conj. Variável, Recarga, VelAtq).',
         'Habilidades repetidas com propriedades diferentes agora exibem o elemento no nome (ex.: "Adoramus - Sagrado" e "Adoramus - Neutro").',
