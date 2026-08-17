@@ -5,15 +5,18 @@ import { environment } from 'src/environments/environment';
 
 /**
  * Sends a community `.rrf` recording to the shared issue tracker
- * (issues.latam-tools.com.br), as a card of `tipo: 'replay'` with the recording
- * attached and the parser's summary denormalised alongside it.
+ * (issues.latam-tools.com.br), into its `gravacoes` collection — an inbox only
+ * the tracker's admin can read, with the parser's summary denormalised on the
+ * document and the recording itself in a subdocument.
  *
- * It used to write to this project's own `replay_submissions` collection. The
- * tracker replaced it so every product's queue lives in one place — but the
- * privacy posture of the old collection is preserved: the card is created
- * **archived**, which the tracker's rules translate into "not on the public
- * board, and the attachment is unreadable". Triage is what makes one public,
- * by moving it to backlog once the recording proves useful.
+ * It used to write to this project's own `replay_submissions` collection, and
+ * then, for a while, straight onto the tracker's board as a card born
+ * `arquivado`. A recording is not a ticket: it becomes one when triage decides
+ * it is worth checking, and promoting it over there is what creates the public
+ * card with this file attached. Until that happens no URL returns any of it —
+ * the same privacy the write-only collection had, and what the sender's consent
+ * promises (the file may become a test in the open repository, not a page on a
+ * public board).
  *
  * Deliberately talks to the REST API with `fetch` instead of pulling in the
  * Firebase SDK: the whole feature is a single write, and the SDK would cost
@@ -59,9 +62,9 @@ export class ReplaySubmissionService {
     const discord = submission.discord.trim().slice(0, 60);
     const notes = submission.notes.trim().slice(0, 1000);
 
-    // The parser's summary rides denormalised on the card so triage can rank
+    // The parser's summary rides denormalised on the document so triage can rank
     // without downloading the .rrf, which runs to hundreds of kB.
-    const replay: Record<string, unknown> = {
+    const resumo: Record<string, unknown> = {
       ...submission.summary,
       // Capped so a replay full of foreign items can't bloat the document.
       skippedItems: submission.summary.skippedItems.slice(0, 100),
@@ -69,48 +72,51 @@ export class ReplaySubmissionService {
       fileName: submission.fileName.slice(0, 200),
     };
     if (submission.traits) {
-      replay['traits'] = submission.traits;
-      replay['traitsSource'] = submission.traitsSource ?? 'form';
+      resumo['traits'] = submission.traits;
+      resumo['traitsSource'] = submission.traitsSource ?? 'form';
     }
 
     // The keys below are the tracker's own schema, hence pt-BR.
-    const card: Record<string, unknown> = {
-      projeto: 'simulador',
+    //
+    // No `descricao` here: the card's wording belongs to the board, and the
+    // tracker composes it from `notas` + `resumo` when it promotes. This end
+    // sends what happened, not how it should read.
+    const gravacao: Record<string, unknown> = {
       titulo: recordingTitle(submission.summary),
-      descricao: recordingDescription(submission.summary, notes),
-      tipo: 'replay',
-      status: 'reportado',
-      // Arrives hidden from the public board. See the comment at the top.
-      arquivado: true,
-      upvotes: 0,
-      comentarios: 0,
-      anexos: 1,
-      replay,
+      notas: notes,
+      resumo,
+      nome: submission.fileName.slice(0, 200),
+      tamanho: submission.bytes.byteLength,
+      // Waiting for triage. The other states are its own stamps.
+      estado: 'fila',
     };
     // The nick was asked for as credit ("how do you want to be named"), so it is
-    // the only identifying detail allowed to show on the card. The Discord handle
-    // is contact info: it goes to a subdocument only the admin can read.
-    if (nick) card['autor'] = nick;
+    // the only detail allowed to show in public — and only if the recording is
+    // ever promoted. Both live on the document because the whole collection is
+    // admin-only; the card is what needs a separate private subdocument.
+    if (nick) gravacao['nick'] = nick;
+    if (discord) gravacao['contato'] = discord;
 
-    // One atomic write: either the card, the attachment and the contact all land,
-    // or none of them do. Three loose POSTs could leave a card without its
-    // recording.
+    // One atomic write: either the recording and its file both land, or neither
+    // does. Two loose POSTs could leave an entry without the .rrf that is the
+    // entire point of it.
     //
     // `:commit` with `setToServerValue` is also the only way to satisfy the
     // tracker's rules, which require `criadoEm == request.time` — a plain POST
     // can only send the sender's own clock.
     const writes: unknown[] = [
       {
-        update: { name: doc(`issues/${id}`), fields: encodeFields(card) },
-        updateTransforms: [
-          { fieldPath: 'criadoEm', setToServerValue: 'REQUEST_TIME' },
-          { fieldPath: 'atualizadoEm', setToServerValue: 'REQUEST_TIME' },
-        ],
+        update: { name: doc(`gravacoes/${id}`), fields: encodeFields(gravacao) },
+        updateTransforms: [{ fieldPath: 'criadoEm', setToServerValue: 'REQUEST_TIME' }],
         currentDocument: { exists: false },
       },
       {
+        // Same shape as an attachment over there, so promoting is a field copy
+        // instead of a conversion. Apart from the listing: keeping the bytes out
+        // of the document above is what lets triage list the queue without
+        // pulling megabytes.
         update: {
-          name: doc(`issues/${id}/anexos/gravacao`),
+          name: doc(`gravacoes/${id}/arquivo/rrf`),
           fields: encodeFields({
             nome: submission.fileName.slice(0, 200),
             tipo: 'rrf',
@@ -121,15 +127,6 @@ export class ReplaySubmissionService {
         updateTransforms: [{ fieldPath: 'criadoEm', setToServerValue: 'REQUEST_TIME' }],
       },
     ];
-    if (discord) {
-      writes.push({
-        update: {
-          name: doc(`issues/${id}/privado/contato`),
-          fields: encodeFields({ contato: discord }),
-        },
-        updateTransforms: [{ fieldPath: 'criadoEm', setToServerValue: 'REQUEST_TIME' }],
-      });
-    }
 
     const res = await fetch(
       `https://firestore.googleapis.com/v1/${root}/documents:commit?key=${environment.issuesApiKey}`,
@@ -155,21 +152,6 @@ export function recordingTitle(s: ReplaySubmissionSummary): string {
   const level = s.baseLevel ? ` nv ${s.baseLevel}/${s.jobLevel ?? '?'}` : '';
   const who = s.player ? ` — ${s.player}` : '';
   return `Gravação: ${className}${level}${who}`.slice(0, 120);
-}
-
-/** The sender's own note first; what the parser read, after it. */
-export function recordingDescription(s: ReplaySubmissionSummary, notes: string): string {
-  const parts: string[] = [];
-  if (notes) parts.push(notes);
-  const duration = s.durationMs ? `${Math.round(s.durationMs / 1000)}s` : '?';
-  parts.push(
-    `Gravação de ${duration} com ${s.dummyHits} golpes em dummy ` +
-      `(${s.damageEvents} eventos de dano no total), ` +
-      `${s.equipChangeCount} trocas de equipamento e ` +
-      `${s.learnedSkillCount} habilidades aprendidas. ` +
-      `Mapa ${s.map}.`,
-  );
-  return parts.join('\n\n').slice(0, 4000);
 }
 
 /**

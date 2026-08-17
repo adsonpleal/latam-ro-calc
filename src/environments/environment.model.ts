@@ -6,9 +6,9 @@ export interface EnvironmentModel {
   /** Public MCP endpoint agents connect to (see mcp/). */
   mcpUrl: string;
   /**
-   * Shared issue tracker (issues.latam-tools.com.br). This is where the "Ajude o
-   * simulador" recordings go — they used to live in this project's own
-   * `replay_submissions` collection.
+   * Shared issue tracker (issues.latam-tools.com.br). Its `gravacoes` collection
+   * is where the "Ajude o simulador" recordings go — they used to live in this
+   * project's own `replay_submissions` collection.
    */
   issuesProjectId: string;
   /**

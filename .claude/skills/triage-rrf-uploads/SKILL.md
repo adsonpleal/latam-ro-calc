@@ -1,37 +1,41 @@
 ---
 name: triage-rrf-uploads
-description: Pulls the .rrf recordings the community submitted through the "Ajude o simulador" dialog, sorts out which are worth checking, and hands each one over ready for review-rrf-class (with the traits the recorder reported). Use when someone asks to see new submissions, to go through the community replay queue, or after announcing a call for recordings.
+description: Pulls the .rrf recordings the community submitted through the "Ajude o simulador" dialog from the tracker's private inbox, sorts out which are worth checking, and hands each one over ready for review-rrf-class (with the traits the recorder reported). Use when someone asks to see new submissions, to go through the community replay queue, or after announcing a call for recordings.
 ---
 
 # Triage of community-submitted recordings
 
 The **Ajude o simulador** dialog (the red button in the top bar) takes a `.rrf` recording,
 validates it on the spot and files it in the shared issue tracker
-(**issues.latam-tools.com.br**, Firebase project `issues-latam-tools`) as a card of
-`tipo: "replay"`, with the recording as an attachment. This skill is the other end:
-fetch, choose, forward.
+(**issues.latam-tools.com.br**, Firebase project `issues-latam-tools`), in its `gravacoes`
+collection — an inbox, not the board. This skill is the other end: fetch, choose, forward.
 
-It used to write to this repo's own `replay_submissions` collection. That collection is
-retired; the 24 recordings it held were migrated, keeping their ids.
+It used to write to this repo's own `replay_submissions` collection, and then, for a
+while, straight onto the tracker's board as a card born `arquivado`. Both are retired; the
+recordings kept their ids through every move.
 
 **This skill checks no formulas.** It stops the moment the file is on disk with the traits
 in hand; the checking belongs to [`review-rrf-class`](../review-rrf-class/SKILL.md).
 
 ## 0. The one thing to get right
 
-**A recording arrives archived, and archived means invisible.** It is not on the public
-board and the tracker's rules refuse to serve its `.rrf` to anyone who is not the admin —
-deliberately, because that is the privacy the old write-only collection had, and because
-the consent the sender ticked promises the file may become public *as a test in the open
-repository*, not that it gets published on a board.
+**A recording is not a card, and nothing in the inbox is public.** `gravacoes` is
+admin-read-only, so no URL returns the entry or the file — deliberately, because that is
+the privacy the old write-only collection had, and because the consent the sender ticked
+promises the file may become public *as a test in the open repository*, not that it gets
+published on a board.
 
-Moving a card to **`backlog` is what publishes it** — card, description, nick and the
-`.rrf` all become world-readable. Do that only for a recording that is genuinely going to
-be used. Every other status leaves it archived.
+**`--promover` is what publishes**, and it does it by *creating* a card: ticket in backlog,
+`.rrf` attached, nick credited, all world-readable from that moment. Do it only for a
+recording that is genuinely going to be used. Every other decision (`--marcar`) stays
+inside the inbox, and can be taken back.
+
+The same button exists on the tracker's `/admin/gravacoes` page, for when the triage is
+being done by hand instead of from here.
 
 ## 1. What the browser already validated
 
-Do not repeat these checks — if the card exists, it already passed them
+Do not repeat these checks — if the entry exists, it already passed them
 (`src/app/replay/validate-submission.ts`, tested in `validate-submission.spec.ts`):
 
 - the file opens in `rrfparser` and is under 900 KB;
@@ -61,14 +65,13 @@ If you are decommissioning: the old `.firebase-admin.json` at the repo root was 
 node .claude/skills/triage-rrf-uploads/fetch-submissions.mjs --list
 ```
 
-Shows the recordings still waiting (`status: reportado`), newest first, without
-downloading any bytes — the `.rrf` lives in a subcollection now, so the listing never
-touches it. Per card: character, class, levels, duration, hit count, **equipment
-changes**, learned skills, traits, the credit nick, the recorder's note and the items that
-fell outside the database. A `[no quadro público]` marker means that one is already
-published.
+Shows the recordings still waiting (`estado: fila`), newest first, without downloading any
+bytes — the `.rrf` lives in a subdocument, so the listing never touches it. Per entry:
+character, class, levels, duration, hit count, **equipment changes**, learned skills,
+traits, the credit nick, the recorder's note, any triage note, and the items that fell
+outside the database. A `[card <id>]` marker means that one was promoted.
 
-`--status backlog|em_progresso|resolvido|nao_sera_feito|todas` and `--limit N` also exist.
+`--estado conferida|descartada|promovida|todas` and `--limit N` also exist.
 
 ### How to choose
 
@@ -86,8 +89,8 @@ Prioritise, in this order:
    in game" is a ready-made hypothesis.
 
 Signs it is probably **not** LATAM despite the checkbox: many items outside the database
-combined with skills the class does not have here. In that case mark it `nao_sera_feito`
-with the note — it stays archived.
+combined with skills the class does not have here. In that case mark it `descartada` with
+the note — nothing about it ever leaves the inbox.
 
 ## 4. Download
 
@@ -127,19 +130,23 @@ damage residual will look like a formula error.
 ## 6. Close the loop
 
 ```
-node .claude/skills/triage-rrf-uploads/fetch-submissions.mjs --mark <id> --status backlog --note "boa gravação: virou a fixture nw-ult, achou o buraco na maestria"
-node .claude/skills/triage-rrf-uploads/fetch-submissions.mjs --mark <id> --status nao_sera_feito --note "gravação de outro servidor: 40 itens fora do banco"
+node .claude/skills/triage-rrf-uploads/fetch-submissions.mjs --promover <id> --nota "boa gravação: virou a fixture nw-ult, achou o buraco na maestria"
+node .claude/skills/triage-rrf-uploads/fetch-submissions.mjs --marcar <id> --estado descartada --nota "gravação de outro servidor: 40 itens fora do banco"
 ```
 
-| what you decided | status | what happens |
+| what you decided | command | what happens |
 |---|---|---|
-| good recording, worth using | `backlog` | **published**: goes onto the public board with the `.rrf` downloadable |
-| already used and done | `resolvido` | stays archived — move it on from backlog once the check is finished |
-| not usable | `nao_sera_feito` | stays archived |
-| not looked at yet | `reportado` | stays archived (the default it arrives in) |
+| good recording, worth using | `--promover` | **publishes**: creates the card in backlog with the `.rrf` downloadable, and stamps the entry `promovida` |
+| already used as a test, not worth a card | `--marcar --estado conferida` | stays in the inbox |
+| not usable | `--marcar --estado descartada` | stays in the inbox |
+| not looked at yet | `fila` | the state it arrives in |
 
-`--note` becomes a comment on the card, which is public from the moment the card is. Write
-it as something a stranger can read.
+`--nota` on `--marcar` is a **private** annotation on the entry. `--nota` on `--promover`
+becomes a comment on the card, public from the moment the card is — write that one as
+something a stranger can read.
+
+The card takes the recording's id and its upload date, so `/t/<id>` is the same id you
+triaged, and the board credits the day it was recorded.
 
 If the recording led to a fix and the sender left a **nick**, credit them in the Novidades
 entry (`src/app/layout/app.topbar.component.ts`, `updates` array): impersonal voice, and
@@ -148,18 +155,23 @@ entry (`src/app/layout/app.topbar.component.ts`, `updates` array): impersonal vo
 
 ## Document format
 
-Collection `issues` in project `issues-latam-tools`, 10-character id still chosen by the
-client, so an id from the old collection still resolves.
+Collection `gravacoes` in project `issues-latam-tools`, 10-character id still chosen by
+the client, so an id from the old collection still resolves.
 
 | field | what it is |
 |---|---|
-| `tipo` | always `replay` for these — this is the tag that separates them from the bug/suggestion cards people file by hand |
-| `projeto` | always `simulador` |
-| `status` | `reportado` on arrival; `backlog`/`resolvido`/`nao_sera_feito` afterwards, set by this skill |
-| `arquivado` | `true` on arrival. `false` only once promoted to `backlog` — this is the switch that publishes |
-| `titulo`, `descricao` | derived from the parser's summary; the sender's note is the first paragraph of the description |
-| `autor` | the credit nick, if the sender gave one. Public once the card is |
-| `replay` | the parser's summary, denormalised so the listing need not download the recording: class, levels, duration, hits, equip changes, skills, `skippedItems`, `appVersion`, `fileName`, plus `traits` and `traitsSource` |
-| `anexos` | count; the recording itself is at `issues/<id>/anexos/gravacao` as a `bytes` field (≤ 900 KB — a Firestore document holds 1 MiB) |
-| `privado/contato` | the sender's Discord, in a subdocument only the admin can read. Never published |
-| `comentarios` | count of triage notes, in `issues/<id>/comentarios` |
+| `estado` | `fila` on arrival; `conferida`/`descartada` by `--marcar`; `promovida` by `--promover` |
+| `issueId` | the card `--promover` created. Present only once promoted, and equal to the entry's own id |
+| `titulo` | derived from the parser's summary |
+| `notas` | what the sender typed in the dialog. The card's wording is composed by the tracker at promotion — this end sends what happened, not how it should read |
+| `resumo` | the parser's summary, denormalised so the listing need not download the recording: class, levels, duration, hits, equip changes, skills, `skippedItems`, `appVersion`, `fileName`, plus `traits` and `traitsSource` |
+| `nick` | the credit nick, if the sender gave one. Reaches the public only as the promoted card's `autor` |
+| `contato` | the sender's Discord. Never published; it rides the document because the whole collection is admin-only |
+| `nome`, `tamanho` | the file's name and size, so the listing can show them without reading the bytes |
+| `notaTriagem` | private annotation from `--marcar --nota` |
+| `arquivo/rrf` | the recording, in a subdocument: `bytes` (≤ 900 KB — a Firestore document holds 1 MiB), `nome`, `tipo: "rrf"`, `tamanho`. Same shape as an attachment on a card, so promoting is a field copy |
+
+The promoted card is an ordinary ticket in `issues`: `tipo: "replay"`, `projeto:
+"simulador"`, `status: "backlog"`, the summary denormalised in `replay`, the file at
+`issues/<id>/anexos/gravacao` and the Discord at `issues/<id>/privado/contato`. From there
+on it moves around the board like any other card.

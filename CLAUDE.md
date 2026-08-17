@@ -70,13 +70,14 @@ firebase deploy --only firestore
 
 This project's own Firestore no longer receives anything. The `.rrf` recordings from the
 "Ajude o simulador" dialog now go to the shared issue tracker (project
-`issues-latam-tools`, cards of `tipo: "replay"`), and the retired `replay_submissions`
-collection is kept read-only as history. To go through the queue, use the
-`triage-rrf-uploads` skill, which authenticates as an administrator.
+`issues-latam-tools`), into its `gravacoes` collection, and the retired
+`replay_submissions` collection is kept read-only as history. To go through the queue, use
+the `triage-rrf-uploads` skill, which authenticates as an administrator.
 
-A recording arrives **archived** — off the public board, attachment unreadable — which is
-the same privacy the write-only collection gave it. Promoting a card to `backlog` is what
-publishes it, and that is a triage decision.
+**A recording is not a card.** It lands in an inbox only the tracker's admin can read, and
+nothing about it is reachable by URL. Promoting one — from the skill or from the tracker's
+`/admin/gravacoes` — is what *creates* the public card, with the `.rrf` attached. That is
+a triage decision, and the only step that publishes anything.
 
 ## Tests
 

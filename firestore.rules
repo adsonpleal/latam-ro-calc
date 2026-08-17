@@ -4,8 +4,8 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     // Retired collection. The "Ajude o simulador" recordings now go to the shared
-    // tracker (project `issues-latam-tools`, cards of `tipo: "replay"`), and the
-    // 24 that were here were migrated over keeping their ids. No client writes to
+    // tracker (project `issues-latam-tools`, collection `gravacoes`), and the 24
+    // that were here were migrated over keeping their ids. No client writes to
     // this project any more.
     //
     // The block stays, with everything denied: the documents remain here as
@@ -17,8 +17,8 @@ service cloud.firestore {
     //
     // Reads were always denied on purpose — that is why the submissions never sat
     // behind a guessable URL the way the RagnaRecap replays do. The tracker keeps
-    // that property: a card is born archived, and while it stays that way the
-    // rules over there deny the attachment.
+    // that property: `gravacoes` is admin-read-only, and a recording only reaches
+    // the public board as a card that triage deliberately created from it.
     match /replay_submissions/{submissionId} {
       allow read, create, update, delete: if false;
     }
