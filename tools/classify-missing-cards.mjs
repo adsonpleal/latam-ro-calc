@@ -15,8 +15,8 @@
 //
 // `src/assets/demo/data/latam-items.json` and `src/assets/demo/data/item.json` are both
 // plain objects keyed by the item id, so the join is `latam[id]` <-> `items[id]` and
-// nothing else. That is also the join a54f32e6's own spec uses
-// (src/app/core/__tests__/missing-cards-2026-08.spec.ts reads `latam[id].description`
+// nothing else. That is also the join the cards' own spec uses
+// (src/app/core/__tests__/card-bonus-registration.spec.ts reads `latam[id].description`
 // straight off the id), which is the evidence that it is the intended one.
 //
 // The two name-ish fields both fail, and it is worth writing down why so nobody retries:

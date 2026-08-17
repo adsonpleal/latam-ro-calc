@@ -5,32 +5,30 @@ import { createMainModel, createRawTotalBonus } from 'src/app/utils';
 import { equipStatusOf, makeCalculator } from './make-calculator';
 
 /**
- * The second batch of the "Faltam 470 cartas no banco" tracker card.
+ * Cards registered straight from their pt-BR description, and the guards that keep them
+ * honest — every card the calculator gained out of the "Faltam 470 cartas no banco" queue.
  *
- * a54f32e6 registered the 64 cards whose **every** description line mapped to a bonus key
- * the engine already had, and left the rest carded. `tools/classify-missing-cards.mjs`
- * rebuilt that classification as a committed script and found 35 more that clear the same
- * bar — they were left out only because the phrase table behind the first batch did not
- * know their wordings ("a oponentes de propriedade X", plural element/race lists, two
- * bonuses comma-joined on one line, "Resistência a danos físicos a distância", "monstros
- * Normais e Chefes", "X e Y +N" sharing one magnitude, "Crítico" for CRIT).
- *
- * Same rule as the first batch, and the reason the number is 35 rather than 204: a card
- * registered with a script that quietly drops half its description is worse than one still
- * missing, because the first reads as modelled.
+ * The bar for registering one at all: **every** line of its description has to map to a
+ * bonus key the engine already reads. A card registered with a script that quietly drops
+ * half its description is worse than one still missing, because the first reads as
+ * modelled. That rule is why 99 of the 1083 the client ships are here and the other 435 are
+ * still carded.
  *
  * Nothing here was hand-typed. The keys come from rules each witnessed against an item
- * ALREADY in item.json carrying the same phrase (`--witness` in that script proves all 43:
- * "Resistência a oponentes de propriedade" off Livro do Apocalipse (1557), "Resistência a
- * danos físicos a distância" off Carta Gazeti de Cristal (27110), "monstros Normais e
- * Chefes" off Escudo de Torneio (2133), "Resistência a oponentes de tamanho" off Bardiche
- * Dentilhado (1375), the negative sign off Faca de Combate (1228)). The magnitudes come
- * from the pt-BR line itself, and the slot was confirmed twice over — by the description's
- * own "Equipa em:" line and by the RagnaPlace API — before any record was written.
+ * ALREADY in item.json carrying the same phrase (`--witness` in
+ * `tools/classify-missing-cards.mjs` proves all 43: "Resistência a oponentes de propriedade"
+ * off Livro do Apocalipse (1557), "Resistência a danos físicos a distância" off Carta
+ * Gazeti de Cristal (27110), "monstros Normais e Chefes" off Escudo de Torneio (2133),
+ * "Resistência a oponentes de tamanho" off Bardiche Dentilhado (1375), the negative sign off
+ * Faca de Combate (1228)). The magnitudes come from the pt-BR line itself, and the slot was
+ * confirmed twice over — by the description's own "Equipa em:" line and by the RagnaPlace
+ * API — before any record was written.
  *
- * This spec re-checks the result from both ends: the engine actually surfaces each script
+ * This spec checks the result from both ends: the engine actually surfaces each script
  * through `loadItemFromModel().prepareAllItemBonus()`, and the data still says what the
- * pt-BR text says.
+ * pt-BR text says. The per-wording blocks at the bottom pin the readings that were decided
+ * once and must not drift — a resistance line is not a damage line, a penalty stays
+ * negative, a named race is never widened into its "all" key.
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
@@ -39,12 +37,33 @@ const latam = JSON.parse(readFileSync('src/assets/demo/data/latam-items.json', '
 /** Strip the client's ^RRGGBB colour codes. */
 const plain = (description: string) => (description || '').replace(/\^[0-9a-fA-F]{6}/g, '');
 
-/** The 35 ids this batch added. */
-const ADDED = [
+/**
+ * The 64 registered first, off the two the community named ("Marionete Demoníaca,
+ * Doppelganger e etc.") and the wider gap the report exposed.
+ */
+const FIRST_WAVE = [
+  4002, 4003, 4004, 4006, 4008, 4011, 4012, 4013, 4014, 4015, 4016, 4023, 4027, 4028,
+  4030, 4032, 4042, 4043, 4049, 4050, 4052, 4056, 4059, 4068, 4074, 4078, 4081, 4095,
+  4097, 4106, 4108, 4109, 4113, 4116, 4120, 4136, 4138, 4142, 4272, 4309, 4314, 4328,
+  4340, 4362, 4450, 4452, 4453, 4505, 4515, 4516, 4526, 4527, 4545, 4640, 4659, 4663,
+  4664, 4665, 4666, 4667, 27291, 27342, 31016, 31021,
+];
+
+/**
+ * The 35 that followed, once the classification became a committed script: they cleared the
+ * same bar all along and were held back only because the first wave's phrase table did not
+ * know their wordings ("a oponentes de propriedade X", plural element/race lists, two
+ * bonuses comma-joined on one line, "Resistência a danos físicos a distância", "monstros
+ * Normais e Chefes", "X e Y +N" sharing one magnitude, "Crítico" for CRIT).
+ */
+const SECOND_WAVE = [
   4009, 4018, 4019, 4021, 4026, 4029, 4045, 4066, 4071, 4102, 4125, 4174, 4252, 4442,
   4443, 4444, 4445, 4447, 4449, 4639, 4660, 4661, 4668, 27027, 27029, 27158, 27316,
   27336, 27337, 27341, 27346, 27349, 27353, 27358, 300143,
 ];
+
+/** Every card registered this way. The guards below hold for all of them, wave or no wave. */
+const ADDED = [...FIRST_WAVE, ...SECOND_WAVE];
 
 /**
  * Where a card position is actually worn, plus an inert host to carry it there.
@@ -100,7 +119,7 @@ function grantedBy(id: number): Record<string, number> {
 const scriptOf = (id: number): Record<string, number> =>
   Object.fromEntries(Object.entries(items[id].script as Record<string, string[]>).map(([key, values]) => [key, Number(values[0])]));
 
-describe('every card added in this batch reaches the engine', () => {
+describe('every registered card reaches the engine', () => {
   it('is registered as a card, in the LATAM client, at a real card position', () => {
     const valid = new Set(Object.values(CardPosition).filter((v): v is number => typeof v === 'number'));
 
@@ -206,7 +225,43 @@ describe('the data still says what the pt-BR description says', () => {
   });
 });
 
-describe('the wordings this batch is the first to register', () => {
+describe('the two cards the community named', () => {
+  // Reported as "Marionete Demoníaca, Doppelganger e etc." — the two named ones, which is
+  // where the whole queue started.
+  it('4142 Carta Doppelganger — "Velocidade de ataque +10%"', () => {
+    expect(items[4142].script).toEqual({ aspdPercent: ['10'] });
+    expect(items[4142].compositionPos).toBe(CardPosition.Weapon);
+  });
+
+  it('31021 Carta Marionete Demoníaca — "ATQ da arma -3%" and "Velocidade de ataque +10%"', () => {
+    // "ATQ da arma +N%" is the old wording of today's "Dano físico +N%", i.e. atkPercent
+    // — see dano-fisico-percent.spec.ts. The -3% is a penalty, so it stays negative.
+    expect(items[31021].script).toEqual({ atkPercent: ['-3'], aspdPercent: ['10'] });
+    expect(items[31021].compositionPos).toBe(CardPosition.Weapon);
+  });
+});
+
+describe('the readings the first wave settled', () => {
+  it('reads "Resistência a raça X" as damage taken (subrace_), not damage dealt', () => {
+    // 4059 Carta Soldado Andre: "Reduz em 30% o dano causado por monstros da raça Planta."
+    // Same effect as the modern "Resistência a raça +N%" wording, which Batina (2327) and
+    // Asas de Anjo (2254) already carry as subrace_.
+    expect(items[4059].script).toEqual({ subrace_plant: ['30'] });
+  });
+
+  it('reads "Dano físico contra a propriedade X" as damage dealt (p_element_)', () => {
+    // 4030 Carta Mandrágora: "Dano físico contra a propriedade Vento +20%."
+    expect(items[4030].script).toEqual({ p_element_wind: ['20'] });
+  });
+
+  it('keeps a cast-time penalty negative, since the key stores reductions positive', () => {
+    // Carta Fen (4077, already in the DB) is the precedent: "Conjuração variável +25%"
+    // is registered as vct -25.
+    expect(items[4077].script.vct).toEqual(['-25']);
+  });
+});
+
+describe('the wordings the second wave was the first to register', () => {
   it('4442 Carta Tatacho — resistance and damage against the same element are two keys', () => {
     // "Resistência a oponentes de propriedade Neutro +20%" is damage taken (subele_), and
     // "Dano físico contra oponentes de propriedade Neutro +5%" is damage dealt

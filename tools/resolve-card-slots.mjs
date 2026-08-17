@@ -204,7 +204,7 @@ const SUBCATEGORY_TO_POSITION = {
  */
 const TOLERANT_SLOT = /(?:Equipa em|Equipado em|Utiliza[cç][aã]o|Localiza[cç][aã]o)\s*:\s*([^\n]*)/i;
 
-/** The description's slot label -> CardPosition member, as missing-cards-2026-08.spec.ts asserts it. */
+/** The description's slot label -> CardPosition member, as card-bonus-registration.spec.ts asserts it. */
 const LABEL_TO_POSITION = {
   'Arma': 'Weapon',
   'Armadura': 'Armor',

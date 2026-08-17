@@ -119,6 +119,29 @@ describe.each(SETS)('%s', (_label, helm, weapon, skillIds, cooldown) => {
   }
 });
 
+describe('401252 Elmo Mágico de Cinzas — its two sets stay apart', () => {
+  // The reported helm is also the one whose two sets could most easily bleed into each
+  // other: both partners are staves, and each pays a different pair of skills.
+  const CAJADO = 1669;
+  const CAJADO_DUPLO = 2023;
+  const [ONDA_PSIQUICA, PO_DE_DIAMANTE] = ['2449', '2447'];
+  const [IMPACTO_ESPIRITUAL, CORRENTE_ELETRICA] = ['2202', '2214'];
+
+  it('never pays one set\'s skills with the other set\'s staff', () => {
+    const withCajado = bonusOf(401252, CAJADO, 10);
+    const withDuplo = bonusOf(401252, CAJADO_DUPLO, 10);
+
+    expect([withCajado[IMPACTO_ESPIRITUAL] || 0, withCajado[CORRENTE_ELETRICA] || 0]).toEqual([0, 0]);
+    expect([withDuplo[ONDA_PSIQUICA] || 0, withDuplo[PO_DE_DIAMANTE] || 0]).toEqual([0, 0]);
+  });
+
+  it('keeps the flat "Dano mágico +7%" to the [Cajado Duplo de Cinzas] set', () => {
+    // The one leg of these two sets that was already registered before the fix.
+    expect(bonusOf(401252, CAJADO_DUPLO, 0)['matkPercent']).toBe(7);
+    expect(bonusOf(401252, CAJADO, 10)['matkPercent'] || 0).toBe(0);
+  });
+});
+
 describe('19249 Chapéu Símbolo da Magia — [Mikatsuki] + [Adaga Raksasa]', () => {
   // "A cada refino de cada arma: Conjuração variável -1%.
   //  A cada 2 refinos das armas: Dano de [Pétalas Flamejantes] [Lança Congelante] e
