@@ -159,6 +159,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.65-beta',
+      date: '17-08-2026',
+      logs: [
+        'A Postura do Universo entrou na lista de habilidades ativas, e com ela o Mestre Celestial ganha os atributos que faltavam: todos eles sobem +3 no nível 1, +4 no nível 2 e +5 no nível 3, como diz a descrição da habilidade no jogo. Ela é uma habilidade do Mestre Estelar — a bROWiki lista a Postura do Universo na árvore dos Mestres Estelares, e a dos Mestres Celestiais não tem postura nenhuma —, então foi cadastrada ali e o Mestre Celestial a recebe por herança, que é como ele já recebe a Postura Solar e a Postura Estelar. Reportado por Ted.',
+        'As posturas passaram a ser exclusivas entre si, como são no jogo. Antes dava para deixar a Postura Solar e a Postura Estelar ligadas ao mesmo tempo e somar os dois bônus, o que nenhum personagem consegue fazer: a descrição de cada uma diz que não pode ser usada em conjunto com as outras. Agora ligar uma desliga a que estiver ligada. A Postura do Universo entra na mesma regra — a descrição dela no cliente não traz a frase, mas a bROWiki traz, e vale para as três. A Postura Lunar continua fora da lista: ela só aumenta o HP máximo, que não entra em nenhuma conta de dano, e um seletor que não muda número nenhum só ocupa espaço.',
+        'A Pedra de Corpo (Dual) entrou nas opções de Encantamento Capa 2. Ela concede dano físico corpo a corpo +4%, mais 2% para cada Pedra de Corpo equipada no topo, no meio e embaixo. O que existia no cadastro era o registro tailandês da mesma pedra, com outro código, e esse código o servidor latino-americano nunca recebeu — por isso a pedra não aparecia em lugar nenhum, mesmo com a peça estando no jogo há tempos. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.64-beta',
       date: '17-08-2026',
       logs: [

@@ -10,9 +10,11 @@ collection `issues`), filtered to `projeto: "simulador"`. This skill owns the ca
 file by hand — `tipo: "bug"` and `tipo: "feature"`. The `tipo: "replay"` cards are
 recordings and belong to [`triage-rrf-uploads`](../triage-rrf-uploads/SKILL.md).
 
-The work has four steps and **a stop in the middle**: read, judge, report, and only then —
-on the word — fix. A backlog reading that ends in six commits nobody asked for is worse
-than one that ends in a table.
+The work runs read → judge → **report and stop** → plan → **stop again** → build, and the
+two stops are the point. A backlog reading that ends in six commits nobody asked for is
+worse than one that ends in a table, and a batch built straight off an approved triage
+table is how cards get fixed at the wrong size. Nothing is written to the repo or to the
+board until the report is approved; nothing is built until the plan on top of it is.
 
 ## 0. The two credit fields — get this right before writing any release note
 
@@ -90,16 +92,61 @@ The recurring families, and where to look:
 3. Nothing else. **Never invent a bonus key or a multiplier stage** — report the gap and
    let the user judge. See [[no-new-damage-modifiers]] and [[no-guessing-translations]].
 
-### Then stop and report
+### Then stop and report — gate 1
 
 One table, one row per card: verdict, root cause with the `file:line`, and rough size.
-Verdicts worth having: **confirmed**, **confirmed but wider than reported**, **already
-fixed**, **misdiagnosed** (real bug, wrong cause), **not modellable**. Say when two cards
-are the same bug — the Excelion pair was one job.
+The verdicts:
 
-Note what you would leave out and why, so the scope is agreed before it is built.
+| verdict | means |
+|---|---|
+| **confirmed** | reproduced in the code, cause located, fixable as reported |
+| **confirmed but wider** | real, and the same cause hits things the card does not mention |
+| **already fixed** | landed before the card, or by a later sweep — check `criadoEm` |
+| **misdiagnosed** | real bug, wrong cause; say what the cause actually is |
+| **needs more context** | cannot be judged without something only a person can supply |
+| **not modellable** | the engine has no measure for it; see [[no-new-damage-modifiers]] |
 
-## 3. Collect the credits
+**"Needs more context" is a verdict, not a failure** — and it is the one that must never be
+papered over with a guess. Reach it only after the code has been read: the row still owes a
+`file:line` for how far you got. What it may ask for: a replay or a screenshot of the status
+window, the item id or the exact in-game name, which server/episode, a share link of the
+build, or a client description the repo does not carry. What it may **not** do is invent the
+missing half — no guessed ids, no guessed pt-BR names, no bonus key that does not exist
+([[no-guessing-translations]]). Ask the question in the report; if the answer has to come
+from the reporter rather than the maintainer, say so, because that is a comment on the card
+and a card that goes back to waiting.
+
+Say when two cards are the same bug — the Excelion pair was one job. Note what you would
+leave out and why, so the scope is agreed before it is built.
+
+Then **stop**. Do not touch the repo, do not comment on the board, do not start the plan.
+
+## 3. Plan the approved batch — gate 2
+
+Once the report comes back approved, the approved rows — and only those — become a written
+plan, before any edit. Cards parked at "needs more context" stay parked; a card the user
+dropped is dropped.
+
+The plan is per card, and each entry says:
+
+- **the change** — the file, and the shape of the edit (which `item.json` record, which
+  `script` clause, which class hook, which picker branch);
+- **the source** that decides it, quoted or linked — the pt-BR description, the browiki
+  page, the replay. A plan entry with no source behind its numbers is not ready to build;
+- **the spec** — file and the cases, positive *and* negative;
+- **the blast radius** — the counters in `mcp/src/data/merge-items.spec.ts`, a shared combo,
+  anything else the edit is known to move;
+- **what stays out**, and whether it becomes its own card.
+
+Close with the batch-level pieces: the order to do them in, the version bump and the
+Novidades lines (credits already resolved in §4), and how it gets verified in the preview.
+
+Then **stop again** and let the user approve the plan. Build only what the approved plan
+says; if the code turns out to disagree with the plan mid-way — the cause is not where the
+triage said, the fix is three times the size — stop and re-report rather than improvising a
+bigger change than was agreed.
+
+## 4. Collect the credits
 
 ```
 node .claude/skills/triage-backlog/backlog.mjs --credits --status resolvido
@@ -112,19 +159,22 @@ Phrasing, when you get to the Novidades: impersonal voice, never first person, a
 "por Fulano" — not "pelo Fulano". See [[changelog-passive-voice]] and
 [[novidades-reportado-por]].
 
-## 4. Fix — once told to
+## 5. Build — once the plan is approved
 
-Per card:
+Per card, following the plan:
 
 - **Data before code.** Most of these are `item.json`; `docs/item-json.md` is the format,
   and the condition grammar (`EQUIP_ID[id]`, `str:125&&0===1`, `level:130===5`) is worth
   re-reading rather than guessed at. Missing items go through `add-ro-item`, which fills
   `slots` from the client instead of from the name.
-- **Every fix gets a spec.** Group the batch in one file
-  (`src/app/core/__tests__/backlog-<yyyy-mm>.spec.ts` is the shape used before), driving
-  the real `Calculator` through `loadItemFromModel().prepareAllItemBonus()` and asserting
-  on `totalEquipStatus`; a class fix goes next to its class. Assert the negative case too —
-  below the level gate, without the combo partner.
+- **Every fix gets a spec, named after its subject** — `wolf-poe-combo.spec.ts`,
+  `size-resistance.spec.ts` — never after the backlog or the month. `backlog-<yyyy-mm>.spec.ts`
+  was the old shape here and it is now banned: four such grab-bags were split by subject on
+  17/08/2026. Put the card id in a comment instead; that is what comments are for. See
+  CLAUDE.md and [[spec-names-describe-subject]]. Drive the real `Calculator` through
+  `loadItemFromModel().prepareAllItemBonus()` and assert on `totalEquipStatus`; a class fix
+  goes next to its class. Assert the negative case too — below the level gate, without the
+  combo partner.
 - **Adding items breaks three counters** in `mcp/src/data/merge-items.spec.ts` (total keys,
   unique ids, `presentInLatam`). Update them, don't work around them.
 - `pnpm test` and `pnpm lint`, both green.

@@ -189,6 +189,13 @@ export class StarEmperor extends StarGladiator {
       label: 'Solar Stance',
       name: 'Solar Stance',
       inputType: 'dropdown',
+      // The four stances are mutually exclusive: each one's client description says it
+      // cannot be combined with the other two basic stances, and Postura do Universo —
+      // whose own description omits the clause — is held to the same rule by
+      // browiki.org/wiki/Postura_do_Universo ("Não pode ser usada simultaneamente com a
+      // Postura Solar, Postura Lunar e Postura Estelar"). Postura Lunar is not offered
+      // here: it grants only HP máx +%, which this calculator does not measure.
+      exclusiveGroup: 'sje_stance',
       dropdown: [
         { label: '-', value: 0, isUse: false },
         { label: 'Lv 3', value: 3, skillLv: 3, isUse: true, bonus: { atkPercent: 5 } },
@@ -216,9 +223,27 @@ export class StarEmperor extends StarGladiator {
       label: 'Stellar Stance',
       name: 'Stellar Stance',
       inputType: 'dropdown',
+      exclusiveGroup: 'sje_stance',
       dropdown: [
         { label: '-', value: 0, isUse: false },
         { label: 'Lv 3', value: 3, skillLv: 3, isUse: true, bonus: { aspdPercent: 10 } },
+      ],
+    },
+    {
+      // Postura do Universo (SJ_UNIVERSESTANCE, 2583). A Mestre Estelar skill — the
+      // bROWiki "Mestres Estelares" navbox lists it, and "Mestres Celestiais" carries no
+      // stance at all — so the Mestre Celestial reaches it by inheriting this list.
+      // "Todos os atributos +3/+4/+5" per level, from the client description and the
+      // level table on browiki.org/wiki/Postura_do_Universo.
+      label: 'Universe Stance',
+      name: 'Universe Stance',
+      inputType: 'dropdown',
+      exclusiveGroup: 'sje_stance',
+      dropdown: [
+        { label: '-', value: 0, isUse: false },
+        { label: 'Lv 1', value: 1, skillLv: 1, isUse: true, bonus: { str: 3, agi: 3, vit: 3, int: 3, dex: 3, luk: 3 } },
+        { label: 'Lv 2', value: 2, skillLv: 2, isUse: true, bonus: { str: 4, agi: 4, vit: 4, int: 4, dex: 4, luk: 4 } },
+        { label: 'Lv 3', value: 3, skillLv: 3, isUse: true, bonus: { str: 5, agi: 5, vit: 5, int: 5, dex: 5, luk: 5 } },
       ],
     },
     {

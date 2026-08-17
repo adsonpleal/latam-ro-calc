@@ -225346,6 +225346,32 @@
       ]
     }
   },
+  "1000524": {
+    "id": 1000524,
+    "aegisName": null,
+    "name": "Melee Stone (Dual)",
+    "unidName": "Melee Stone (Dual)",
+    "resName": "영혼의조각",
+    "description": "Leve essa pedra para a <NAVI>[Loja Fashion]<INFO>mal_in01,20,107,0,100,0,0</INFO></NAVI>\n--------------------------\n[^CD3278Efeito^000000]\n^0000ffDano físico corpo a corpo +4%.^000000\n-\n^fa4e09Conjunto^000000\n^fa4e09Corpo (Topo)^000000\n^0000ffDano físico corpo a corpo +2% adicional.^000000\n-\n^fa4e09Conjunto^000000\n^fa4e09Corpo (Meio)^000000\n^0000ffDano físico corpo a corpo +2% adicional.^000000\n-\n^fa4e09Conjunto^000000\n^fa4e09Corpo (Baixo)^000000\n^0000ffDano físico corpo a corpo +2% adicional.^000000\n--------------------------\nPeso: ^77777710^000000",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 76,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "melee": [
+        "4",
+        "EQUIP_ID[310327]===2",
+        "EQUIP_ID[310328]===2",
+        "EQUIP_ID[310329]===2"
+      ]
+    }
+  },
   "1220001": {
     "id": 1220001,
     "aegisName": "Kunai",
