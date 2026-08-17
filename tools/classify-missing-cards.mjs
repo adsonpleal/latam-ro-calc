@@ -34,10 +34,15 @@
 //
 // ── What "a card" is ─────────────────────────────────────────────────────────────────
 //
-// `latam[id].name` starting with "Carta " — exactly 1083 records, the number the tracker
-// card reports. The footer's "Tipo: Carta" line is the near-miss at 1063: 17 cards print
-// no "Tipo:" line at all, and 3 print something else ("Equip. para Cabeça", "Isca",
-// and one lowercase "carta").
+// `latam[id].name` starting with "Carta ", MINUS the ids in NOT_A_CARD — 1065 records.
+//
+// The name test alone gives 1083, which is the number the original tracker card reported,
+// and 18 of those are not equipment: "Carta" is also the pt-BR word for a letter, so the
+// list pulled in correspondence, Halloween event props, pet bait and a consumable. They
+// have no slot, which is precisely why they pooled in the old "slotless" group and read
+// as backlog. The footer's "Tipo: Carta" line does not separate them either — 17 real
+// cards print no "Tipo:" line at all — so the exclusions are listed by id instead, each
+// with what it actually is.
 //
 // ── The groups ───────────────────────────────────────────────────────────────────────
 //
@@ -48,14 +53,20 @@
 //   mixed       at least one mappable line AND at least one that is not (a proc, a
 //               refine/base-attribute gate, a Conjunto block, or an unmodelled effect).
 //   proc        no mappable line at all: proc/utility only.
-//   noSlot      prints no "Equipa em:" line, so nothing routes it to a card slot. Checked
-//               FIRST, because a card nothing can place is not worth reading further.
-//               29 of the 51 do name a slot under the older "Utilização:" / "Equipado em:"
-//               spelling; those carry `altSlotLabel` and `altCompositionPos`, so most of
-//               this group is a regex away from being placeable, not genuinely slotless.
-//   undefined   has an "Equipa em:" line but nothing this script can stand behind — no
-//               effect text at all, or a slot label outside CardPosition. Reported, never
-//               guessed at.
+//   noSlot      a guard, and empty: every card compounds onto something, so a card this
+//               cannot place is a gap in the reading. resolveSlot takes "Equipa em:", the
+//               older "Utilização:" / "Equipado em:" / "Localização:", "Classes:" when its
+//               value is a real slot, and finally SLOT_FROM_DIVINE_PRIDE for the two cards
+//               whose text names no slot at all. A hit here means a new wording to teach
+//               resolveSlot (or one more id to look up), not a card to park.
+//   undefined   has a slot line but nothing this script can stand behind — no effect text
+//               at all, or a slot label outside CardPosition. Reported, never guessed at.
+//
+// Every non-registered card also carries `gatedMappable`: the lines that WOULD map if they
+// were not under a condition. That is the difference between "the engine cannot express
+// this" and "the engine expresses it, but as a conditional entry" — "ATQ +20" under
+// "A cada 2 refinos:" is the `2---20` form, while "5% de chance de" is nothing at all. Both
+// sit in `blocked`, and only one of them is waiting on engine work.
 //
 // A line is mappable only if its every phrase matches a rule in RULES below, and every
 // rule's target key is checked against createRawTotalBonus at startup — an invented key
@@ -71,14 +82,21 @@
 //
 // ── How this lines up with a54f32e6's own numbers ────────────────────────────────────
 //
-// Everything that does not depend on the phrase table reproduces exactly:
+// It reproduced them exactly when written, which is what established that the two counts
+// were measuring the same thing:
 //
-//                                 a54f32e6   here
+//                                 a54f32e6   as written
 //   cards the client ships           1083     1083
 //   registered before the commit      549      549   (git show a54f32e6^:…/item.json)
 //   registered by the commit           64       64
 //   still missing after it            470      470
 //   of those, no "Equipa em:" line     51       51
+//
+// Two of those rows moved since, on purpose, and the run no longer reproduces them: the
+// catalogue is 1065 (18 non-cards excluded) and the slotless group is 0 (every card placed).
+// Both were corrections, not drift — the old numbers counted letters as cards and called
+// placeable cards unplaceable. Anyone re-deriving the 1083/51 pair should read the two
+// sections above before assuming this file regressed.
 //
 // The mixed/proc boundary does not reproduce, and cannot: it is a pure function of how
 // many pt-BR wordings the phrase table knows, and a54f32e6's table was never committed.
@@ -352,9 +370,13 @@ function effectLines(description) {
     // A Conjunto block is a set bonus: it needs the partner item equipped, so none of it
     // is a flat script entry.
     let gated = /^Conjunto$/i.test(lines[0]);
+    // The line that opened the gate, carried down the block so a report can say WHAT the
+    // condition is — a refine step and a job restriction are both "gated" and only one of
+    // them is something item.json's script grammar can express.
+    let gate = gated ? lines[0] : null;
     for (const text of lines) {
-      out.push({ text, gated });
-      if (/:$/.test(text)) gated = true;
+      out.push({ text, gated, gate });
+      if (/:$/.test(text)) { gated = true; gate = text; }
     }
   }
   return out;
@@ -436,11 +458,20 @@ function classify(id) {
   const slot = resolveSlot(desc, id);
   const slotLabel = slot?.label ?? null;
   const lines = effectLines(rec.description);
-  const mapped = [], blocked = [];
-  for (const { text, gated } of lines) {
-    const keys = gated || /:$/.test(text) ? null : mapLine(text);
-    if (keys) mapped.push({ text, keys });
-    else blocked.push(text);
+  const mapped = [], blocked = [], gatedMappable = [];
+  for (const { text, gated, gate } of lines) {
+    const isHeader = /:$/.test(text);
+    const keys = gated || isHeader ? null : mapLine(text);
+    if (keys) { mapped.push({ text, keys }); continue; }
+    blocked.push(text);
+    // A gated line that WOULD map if it stood alone. The distinction the group names hide:
+    // "ATQ +20" under "A cada 2 refinos:" is a bonus the engine expresses perfectly well
+    // (the "2---20" entry form), while "5% de chance de" is not expressible at all. Both
+    // land in `blocked`, and only one of them is waiting on engine work.
+    if (gated && !isHeader) {
+      const gatedKeys = mapLine(text);
+      if (gatedKeys) gatedMappable.push({ text, keys: gatedKeys, gate });
+    }
   }
   const base = { id: Number(id), name: rec.name, slotLabel, slotSource: slot?.source ?? null };
 
@@ -450,17 +481,17 @@ function classify(id) {
   // as a guard, not as a bucket — if a client update ships a card this cannot place, that is
   // a new wording to teach resolveSlot (or one more id to look up), and the run says so
   // instead of quietly parking it.
-  if (!slotLabel) return { ...base, group: 'noSlot', mapped, blocked };
+  if (!slotLabel) return { ...base, group: 'noSlot', mapped, blocked, gatedMappable };
   if (!(slotLabel in CARD_POSITION)) {
-    return { ...base, group: 'undefined', reason: `slot label "${slotLabel}" is not a CardPosition`, mapped, blocked };
+    return { ...base, group: 'undefined', reason: `slot label "${slotLabel}" is not a CardPosition`, mapped, blocked, gatedMappable };
   }
   if (!lines.length) {
-    return { ...base, group: 'undefined', reason: 'no effect text at all, only a footer', mapped, blocked };
+    return { ...base, group: 'undefined', reason: 'no effect text at all, only a footer', mapped, blocked, gatedMappable };
   }
   const compositionPos = CARD_POSITION[slotLabel];
-  if (mapped.length && !blocked.length) return { ...base, compositionPos, group: 'ready', mapped, blocked };
-  if (mapped.length) return { ...base, compositionPos, group: 'mixed', mapped, blocked };
-  return { ...base, compositionPos, group: 'proc', mapped, blocked };
+  if (mapped.length && !blocked.length) return { ...base, compositionPos, group: 'ready', mapped, blocked, gatedMappable };
+  if (mapped.length) return { ...base, compositionPos, group: 'mixed', mapped, blocked, gatedMappable };
+  return { ...base, compositionPos, group: 'proc', mapped, blocked, gatedMappable };
 }
 
 // ── --witness: re-derive every rule from item.json instead of trusting the table ─────
@@ -555,6 +586,7 @@ const payload = {
           ...(r.reason ? { reason: r.reason } : {}),
           mapped: r.mapped.map((m) => ({ line: m.text, keys: m.keys })),
           blocked: r.blocked,
+          ...(r.gatedMappable?.length ? { gatedMappable: r.gatedMappable.map((m) => ({ line: m.text, keys: m.keys, gate: m.gate })) } : {}),
         },
       ]),
     ),
