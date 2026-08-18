@@ -201,6 +201,75 @@ export class SkyEmperor extends StarEmperor {
    */
   private readonly atkSkillList4th: AtkSkillModel[] = [
     {
+      /**
+       * Amanhecer (5465) — the sun-side state opener: the 1st cast sets [Nascer do Sol],
+       * the 2nd [Meio-Dia], the 3rd [Pôr do Sol]. Single-target, and the damage does not
+       * depend on the state.
+       *
+       * The per-level table and the "Nv. de Maestria" column are the client's own
+       * (900/1.300/1.700/2.100/2.500 and x5..x25). **The POD coefficient is the one number
+       * this class has no measurement for**: no recording in the repo casts Amanhecer. It
+       * is set to POD x 3 by symmetry with Anoitecer, its moon-side twin, whose x 3 IS
+       * measured to the unit (see the sibling entry). The blast skills use POD x 5, so if
+       * a recording ever contradicts this, this is the line to change.
+       */
+      name: 'Rising Sun',
+      label: 'Rising Sun Lv5',
+      value: 'Rising Sun==5',
+      levelList: [1, 2, 3, 4, 5].map((lv) => ({ label: `Rising Sun Lv${lv}`, value: `Rising Sun==${lv}` })),
+      acd: 0.5,
+      fct: 0,
+      vct: 0,
+      cd: 0.5,
+      isMelee: true,
+      hit: 2,
+      criDmgPercentage: 0.5,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { model, skillLevel, status } = input;
+        const { totalPow } = status;
+        const baseLevel = model.level;
+        const skillBonusLv = this.learnLv('Sky Mastery');
+
+        return (500 + skillLevel * (400 + skillBonusLv * 5) + totalPow * 3) * (baseLevel / 100);
+      },
+    },
+    {
+      /**
+       * Anoitecer (5468) — the moon-side state opener: the 1st cast sets [Nascer da Lua],
+       * the 2nd [Meia-Noite], the 3rd [Pôr da Lua]. Area of effect, and the damage does
+       * not depend on the state — the recording prints the same 135.776 in all three.
+       *
+       * Measured on Zonnor's recording (see SkyEmperor.moon-states.spec.ts): naked at
+       * base 238 with POD 111 and Maestria Celestial 10, the packet fixes the ratio at
+       * exactly 3.053, i.e. a base of 1.283. The client's table gives 900 at Lv1 and the
+       * mastery column x5 gives 50, so the remaining 333 is POD 111 x 3 to the unit —
+       * POD x 5 would need a base of 728 and is arithmetically impossible here.
+       *
+       * No critical: the client text carries none of the "possibilidade do ataque ser
+       * crítico" line its sibling blasts have, and all 28 packets in the recording are
+       * ordinary hits.
+       */
+      name: 'Rising Moon',
+      label: 'Rising Moon Lv5',
+      value: 'Rising Moon==5',
+      levelList: [1, 2, 3, 4, 5].map((lv) => ({ label: `Rising Moon Lv${lv}`, value: `Rising Moon==${lv}` })),
+      acd: 0.5,
+      fct: 0,
+      vct: 0,
+      cd: 0.5,
+      isMelee: true,
+      hit: 2,
+      criDmgPercentage: 0.5,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { model, skillLevel, status } = input;
+        const { totalPow } = status;
+        const baseLevel = model.level;
+        const skillBonusLv = this.learnLv('Sky Mastery');
+
+        return (600 + skillLevel * (300 + skillBonusLv * 5) + totalPow * 3) * (baseLevel / 100);
+      },
+    },
+    {
       name: 'Noon Blast',
       label: 'Noon Blast Lv5',
       value: 'Noon Blast==5',
@@ -365,10 +434,12 @@ export class SkyEmperor extends StarEmperor {
       name: 'All in the Sky',
       label: 'All in the Sky Lv10',
       value: 'All in the Sky==10',
-      // Cast/cooldown times are NOT measured. The client's description block only lists
-      // the AP cost, and the three external sources disagree with each other (and with
-      // LATAM) even on the ATK-per-level table. Only the damage is validated — see
-      // SkyEmperor.firmamento.spec.ts.
+      // The four times below now come from the client's own Conjuração/Espera table, which
+      // the ragassets feed ships and skill-delay.spec.ts holds this class to; they used to
+      // be unmeasured, and the feed agrees with what was here. The damage is validated
+      // separately — see SkyEmperor.firmamento.spec.ts and SkyEmperor.moon-states.spec.ts.
+      // The ATK-per-level table still comes from the client alone: the three external
+      // sources disagree with each other, and with LATAM, on it.
       acd: 0.5,
       fct: 1,
       vct: 0,
