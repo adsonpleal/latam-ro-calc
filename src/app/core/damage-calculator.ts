@@ -11,6 +11,7 @@ import { StatusSummary } from 'src/app/models/status-summary.model';
 import { SKILL_ID_BY_NAME } from 'src/app/skills';
 import { calcDmgDps, calcSkillAspd, engineHitsPerSec, floor, formatCalcNumber, isSkillCanEDP, round } from 'src/app/utils';
 import { computeBasicCritRate, computeSkillCritRate, EMPTY_CRIT_RATE } from './crit-rate';
+import { targetReduction } from './target-reduction';
 import { DEFAULT_PVP_CONTEXT, DefenderReductionStep, PvpContext, defenderReductionSteps, pvpChannelOf, woeGlobalMultiplier } from './pvp';
 
 interface DamageResultModel {
@@ -321,9 +322,21 @@ export class DamageCalculator {
    *
    * A no-op for every ordinary target, which is why it can sit on every damage path.
    */
+  private get targetReduction() {
+    return targetReduction({
+      isRedAura: !!this.monster?.data?.isRedAura,
+      relieveLevel: this.monster?.data?.relieveLevel ?? 0,
+    });
+  }
+
+  /** What the trace calls this step — it names whichever source is actually reducing the
+   *  damage, and carries that source's own percentage. */
+  private get auraReductionLabel(): string {
+    return this.targetReduction.label;
+  }
+
   private applyAuraReduction(n: number) {
-    const auraMultiplier = this.monster?.data?.isRedAura ? 0.001 : 1;
-    const multiplier = auraMultiplier * (this.monster?.relieveMultiplier ?? 1);
+    const { multiplier } = this.targetReduction;
     if (multiplier === 1) return n;
 
     return floor(n * multiplier);
@@ -1524,8 +1537,8 @@ export class DamageCalculator {
         pushGraphStage(graphNodes, 'hitAdjust', 'Ajuste por golpes', hitAdjusted);
       }
       if (finalDamage !== hitAdjusted) {
-        trace.push({ label: 'Redução de aura (99,9%)', value: finalDamage });
-        pushGraphStage(graphNodes, 'auraReduction', 'Redução de aura (99,9%)', finalDamage);
+        trace.push({ label: this.auraReductionLabel, value: finalDamage });
+        pushGraphStage(graphNodes, 'auraReduction', this.auraReductionLabel, finalDamage);
       }
     };
 
@@ -1572,8 +1585,8 @@ export class DamageCalculator {
       }
       rawMinNoCri = this.applyAuraReduction(minNoCriFormula);
       if (rawMinNoCri !== minNoCriFormula) {
-        minNoCriTrace.push({ label: 'Redução de aura (99,9%)', value: rawMinNoCri });
-        pushGraphStage(minNoCriGraph, 'auraReduction', 'Redução de aura (99,9%)', rawMinNoCri);
+        minNoCriTrace.push({ label: this.auraReductionLabel, value: rawMinNoCri });
+        pushGraphStage(minNoCriGraph, 'auraReduction', this.auraReductionLabel, rawMinNoCri);
       }
 
       const maxNoCriFormula = skillFormula(totalMaxOver, false, maxNoCriTrace, maxOverAtkSteps, maxNoCriGraph, maxOverAtkNodes) + extraDmgCri;
@@ -1583,8 +1596,8 @@ export class DamageCalculator {
       }
       rawMaxNoCri = this.applyAuraReduction(maxNoCriFormula);
       if (rawMaxNoCri !== maxNoCriFormula) {
-        maxNoCriTrace.push({ label: 'Redução de aura (99,9%)', value: rawMaxNoCri });
-        pushGraphStage(maxNoCriGraph, 'auraReduction', 'Redução de aura (99,9%)', rawMaxNoCri);
+        maxNoCriTrace.push({ label: this.auraReductionLabel, value: rawMaxNoCri });
+        pushGraphStage(maxNoCriGraph, 'auraReduction', this.auraReductionLabel, rawMaxNoCri);
       }
     }
 
@@ -1936,8 +1949,8 @@ export class DamageCalculator {
         pushGraphStage('hitAdjust', 'Ajuste por golpes', hitAdjusted);
       }
       if (finalDamage !== hitAdjusted) {
-        trace.push({ label: 'Redução de aura (99,9%)', value: finalDamage });
-        pushGraphStage('auraReduction', 'Redução de aura (99,9%)', finalDamage);
+        trace.push({ label: this.auraReductionLabel, value: finalDamage });
+        pushGraphStage('auraReduction', this.auraReductionLabel, finalDamage);
       }
     };
 

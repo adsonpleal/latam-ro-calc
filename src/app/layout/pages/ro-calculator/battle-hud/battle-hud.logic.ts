@@ -660,3 +660,35 @@ export function alignCritRateSteps(current: CritRateBreakdown | null | undefined
 
   return steps.map((step, i) => ({ step, sim: sameShape ? simSteps[i].value : null }));
 }
+
+/**
+ * Holds the aligned rows steady while the breakdown behind them is unchanged.
+ *
+ * Not an optimisation. The rows feed an `*ngFor`, which diffs by object identity, and the
+ * getter behind them is read on every change-detection pass. Building fresh rows there makes
+ * every row "new" each pass, so Angular tears the list down and rebuilds it constantly —
+ * including on the `mousedown` that precedes a click, which detaches the very node the user
+ * is about to click before the `click` can reach it. That is what stopped "CRIT de
+ * equipamentos" opening its sources, and it is the same failure the formula graph's cluster
+ * cache exists for (see toClusterPair in battle-hud.component.ts).
+ *
+ * Keyed on object identity rather than contents: the engine hands back a fresh summary
+ * whenever anything is recalculated, so a new object is exactly the signal to rebuild.
+ */
+export class CritRateRowCache {
+  private current: CritRateBreakdown | null | undefined;
+  private compare: CritRateBreakdown | null | undefined;
+  private rows: CritRateRow[] = [];
+  private primed = false;
+
+  get(current: CritRateBreakdown | null | undefined, compare: CritRateBreakdown | null | undefined): CritRateRow[] {
+    if (this.primed && current === this.current && compare === this.compare) return this.rows;
+
+    this.current = current;
+    this.compare = compare;
+    this.rows = alignCritRateSteps(current, compare);
+    this.primed = true;
+
+    return this.rows;
+  }
+}

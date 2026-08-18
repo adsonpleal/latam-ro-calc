@@ -8,7 +8,6 @@ import { RotationEntryView, RotationView } from './rotation-view';
 import { DamageBranch } from './rotation-list/rotation-list.component';
 import { CritRateBreakdown, CritRateStep } from '../../../../core/crit-rate';
 import {
-  alignCritRateSteps,
   buildDpsSteps,
   buildGraphClusters,
   buildOptimizeInfo,
@@ -16,6 +15,7 @@ import {
   computeCastbar,
   computeTimeToKill,
   CritRateRow,
+  CritRateRowCache,
   deltaPercent,
   DpsSide,
   DpsSteps,
@@ -243,15 +243,6 @@ export class BattleHudComponent implements OnDestroy {
   }
 
   /**
-   * The crit rate behind a rotation row. `compare` drills into the compared build's own
-   * equipment rather than the current one's — clicking the simulated number and being
-   * shown the current build's sources would be actively misleading.
-   *
-   * `isBasic` decides whether CRIT à distância is one of the sources: the ranged bonus is in
-   * a basic-attack row's rate and in no skill's, so listing it for a skill would name a
-   * source that did not contribute to the number clicked.
-   */
-  /**
    * The whole derivation of the crit rate the active row rolls with — LUK, equipment, the
    * skill's own flat crit and its share of the character's, and the target's shield.
    *
@@ -274,8 +265,16 @@ export class BattleHudComponent implements OnDestroy {
     return (this.activeStep?.isBasic ? dmg2.criRateBreakdown : dmg2.skillCriRateBreakdown) ?? null;
   }
 
+  /** Held steady across change-detection passes — see CritRateRowCache for why that is a
+   *  correctness requirement here and not a performance one. */
+  private readonly critRateRowCache = new CritRateRowCache();
+
   get critRateRows(): CritRateRow[] {
-    return alignCritRateSteps(this.critRate, this.critRateSim);
+    return this.critRateRowCache.get(this.critRate, this.critRateSim);
+  }
+
+  trackByCritStep(_: number, row: CritRateRow): string {
+    return row.step.key;
   }
 
   /** Whether the popover is describing an ataque básico row — it carries two terms

@@ -6,6 +6,7 @@ import {
   buildRotationPickerOptions,
   computeCastbar,
   alignCritRateSteps,
+  CritRateRowCache,
   computeTimeToKill,
   computeZeroPosWhatIf,
   deltaPercent,
@@ -680,5 +681,56 @@ describe('alignCritRateSteps', () => {
   it('has no comparison column with nothing to compare against', () => {
     expect(alignCritRateSteps(cur, null).every((r) => r.sim === null)).toBe(true);
     expect(alignCritRateSteps(null, null)).toEqual([]);
+  });
+});
+
+describe('CritRateRowCache', () => {
+  const cur = { steps: [{ key: 'luk', label: 'CRIT por SOR', value: 40, kind: 'add' }, { key: 'total', label: 'Tx. Crítico', value: 99, kind: 'total' }] } as any;
+  const sim = { steps: [{ key: 'luk', value: 45 }, { key: 'total', value: 104 }] } as any;
+
+  // Not an optimisation. The rows feed an *ngFor, which diffs by object identity, and the
+  // getter behind them runs on every change-detection pass — including the one the mousedown
+  // before a click triggers. Rebuilding the rows there tears the list down and puts the node
+  // the user is about to click out of the document before the click can reach it, which is
+  // exactly what stopped "CRIT de equipamentos" from opening its sources.
+  it('hands back the very same rows while the breakdown is unchanged', () => {
+    const cache = new CritRateRowCache();
+
+    expect(cache.get(cur, null)).toBe(cache.get(cur, null));
+  });
+
+  it('keeps each row identical too, not just the array', () => {
+    const cache = new CritRateRowCache();
+    const first = cache.get(cur, null);
+
+    expect(cache.get(cur, null)[0]).toBe(first[0]);
+  });
+
+  it('rebuilds once the breakdown is a different object', () => {
+    const cache = new CritRateRowCache();
+    const first = cache.get(cur, null);
+    const next = { steps: [{ key: 'luk', value: 41, kind: 'add', label: 'CRIT por SOR' }] } as any;
+
+    expect(cache.get(next, null)).not.toBe(first);
+    expect(cache.get(next, null)[0].step.value).toBe(41);
+  });
+
+  it('rebuilds when only the compared build moved', () => {
+    const cache = new CritRateRowCache();
+    const alone = cache.get(cur, null);
+
+    expect(cache.get(cur, sim)).not.toBe(alone);
+    expect(cache.get(cur, sim)[0].sim).toBe(45);
+  });
+
+  it('returns what alignCritRateSteps would have', () => {
+    expect(new CritRateRowCache().get(cur, sim)).toEqual(alignCritRateSteps(cur, sim));
+  });
+
+  it('survives having nothing to align', () => {
+    const cache = new CritRateRowCache();
+
+    expect(cache.get(null, null)).toEqual([]);
+    expect(cache.get(null, null)).toBe(cache.get(null, null));
   });
 });

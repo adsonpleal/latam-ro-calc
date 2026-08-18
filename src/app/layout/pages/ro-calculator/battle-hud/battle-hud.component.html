@@ -815,7 +815,7 @@
 
     <ng-container *ngIf="critRate as c">
       <div class="pstats one tight">
-        <div class="kv" *ngFor="let row of critRateRows" [class.total]="row.step.kind === 'total'" [class.crit-sub]="row.step.kind === 'subtotal'">
+        <div class="kv" *ngFor="let row of critRateRows; trackBy: trackByCritStep" [class.total]="row.step.kind === 'total'" [class.crit-sub]="row.step.kind === 'subtotal'">
           <span>
             <span class="crit-op" *ngIf="row.step.kind === 'add'">+</span>
             <span class="crit-op" *ngIf="row.step.kind === 'subtract'">−</span>
