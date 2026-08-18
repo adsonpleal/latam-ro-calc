@@ -1676,6 +1676,15 @@
   color: var(--text-color-secondary);
 }
 
+/* Names the headline figure when it is one of three readings on the card. */
+.pd-dmg-cap {
+  margin-top: 1px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-color-secondary);
+}
+
 .pd-note {
   margin-top: 6px;
   font-size: 11.5px;

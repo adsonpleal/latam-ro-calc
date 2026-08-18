@@ -326,7 +326,7 @@
             (detailsClick)="openStepDetails($event, detailsPanel, basicPanel)"
             (elementTableClick)="onShowElementalTableClick()"
             (critBreakdownClick)="openCritBreakdown($event.compare, $event.isBasic)"
-            (damageClick)="openStepDamageFormula($event, damageFormulaPanel, basicPanel)"
+            (damageClick)="openStepDamageFormula($event, damageFormulaPanel, basicPanel, critMeanPanel)"
           ></app-rotation-list>
 
           <!-- DPS + the cycle timeline -->
@@ -433,7 +433,7 @@
                 <div class="hud-meta" *ngIf="rotationView?.ttk as ttk">
                   Morre em <b>{{ ttk.text }}</b>
                   <span class="hud-sep">·</span>
-                  <span>{{ rotationView.cyclesToKill | number: '1.0-0' }} {{ isSingleEntryRotation ? 'usos' : 'ciclos' }}</span>
+                  <span>{{ rotationView.cyclesToKill | number: '1.0-0' }} {{ killCountLabel }}</span>
                 </div>
                 <div class="hud-meta" *ngIf="!rotationView?.ttk">Morre em <b>—</b></div>
 
@@ -562,9 +562,9 @@
             role="button"
             tabindex="0"
             keyActivate
-            pTooltip="Ver a fórmula do dano"
+            [pTooltip]="entry.critWeighted ? 'Ver como a média por crítico é calculada' : 'Ver a fórmula do dano'"
             tooltipPosition="top"
-            (click)="openStepDamageFormula({ index: i, event: $event }, damageFormulaPanel, basicPanel)"
+            (click)="openStepDamageFormula({ index: i, event: $event }, damageFormulaPanel, basicPanel, critMeanPanel)"
             >{{ entry.damage | number: '1.0-0' }}</span
           >
         </div>
@@ -738,6 +738,68 @@
     </ng-template>
   </p-overlayPanel>
 
+  <!-- The third reading's own explanation: how the two above it are averaged into the one
+       number the rotação row and the DPS actually use. The arithmetic is read straight off
+       calc-dmg-dps.ts (via buildDpsSteps), so this popover cannot drift from the figure it
+       is explaining. -->
+  <p-overlayPanel #critMeanPanel>
+    <div class="ptitle">Como a média por crítico é calculada</div>
+    <div class="graph-hint" style="max-width: 320px">
+      Cada uso rola crítico com a taxa da habilidade. O dano da rotação é a média dos dois desfechos,
+      pesada por essa taxa — não é o dano crítico, nem o dano sem crítico.
+    </div>
+
+    <ng-container *ngIf="critMean as m">
+      <div class="pstats one tight">
+        <div class="kv">
+          <span>Dano sem crít. (média mín–máx)</span>
+          <span class="v">{{ m.avgBasicDamage | number: '1.0-0' }}</span>
+        </div>
+        <div class="kv">
+          <span>Dano crít.</span>
+          <span class="v">{{ m.criDmg | number: '1.0-0' }}</span>
+        </div>
+        <div class="kv">
+          <span>Tx. Crít.</span>
+          <span class="v">{{ m.criRate | number: '1.0-1' }}%</span>
+        </div>
+        <!-- Precisão only weighs on the non-crit leg: a critical hit never misses. -->
+        <div class="kv">
+          <span>Precisão (só sem crít.)</span>
+          <span class="v">{{ m.accuracy | number: '1.0-1' }}%</span>
+        </div>
+      </div>
+
+      <div class="pstats one">
+        <div class="kv">
+          <span>Parte com crít. — dano crít. × {{ m.criRate | number: '1.0-1' }}%</span>
+          <span>{{ m.criPart | number: '1.0-0' }}</span>
+        </div>
+        <div class="kv">
+          <span>Parte sem crít. — dano sem crít. × {{ 100 - m.criRate | number: '1.0-1' }}% × precisão</span>
+          <span>{{ m.noCriPart | number: '1.0-0' }}</span>
+        </div>
+        <div class="kv total">
+          <span>= Dano médio por golpe</span>
+          <span class="teal">{{ m.avgDamagePerHit | number: '1.0-0' }}</span>
+        </div>
+        <div class="kv" *ngIf="m.totalHit > 1">
+          <span>× Golpes</span>
+          <span>{{ m.totalHit | number: '1.0-0' }}</span>
+        </div>
+        <div class="kv total">
+          <span>= Dano médio por uso</span>
+          <span class="orange">
+            {{ m.damagePerUse | number: '1.0-0' }}
+            <ng-container *ngIf="critMeanSim as s"><span class="arr">→</span><span class="sim">{{ s.damagePerUse | number: '1.0-0' }}</span></ng-container>
+          </span>
+        </div>
+      </div>
+
+      <div class="mut-note">O jogo arredonda o dano médio por golpe para baixo, então as duas partes podem somar alguns pontos a mais.</div>
+    </ng-container>
+  </p-overlayPanel>
+
   <p-overlayPanel #detailsPanel styleClass="rot-details-panel">
     <div class="ptitle">Detalhes da habilidade</div>
 
@@ -779,6 +841,10 @@
           >
         </ng-container>
       </div>
+      <!-- The headline is the crit. That goes without saying while every use crits, and
+           misleads the moment only some of them do — which is exactly when the two rows
+           below it hold the other two readings. -->
+      <div class="pd-dmg-cap" *ngIf="isCritWeighted">com crítico</div>
       <div class="pd-perhit" *ngIf="activePerHit as ph">
         soma de {{ ph.hits }} golpes · {{ ph.min | number: '1.0-0' }} – {{ ph.max | number: '1.0-0' }} cada
       </div>
@@ -793,6 +859,22 @@
               sim: dmg2?.skillMinDamageNoCri,
               hidden: !dmg?.skillCanCri,
               panel: damageFormulaNoCriPanel
+            }
+          "
+        ></ng-container>
+        <!-- The third reading: the mean of the two above, weighted by the rate below it.
+             This is the one the rotação row and the DPS use, so it is the one that has to
+             be on the card — without it the panel showed two numbers and used a third. -->
+        <ng-container
+          *ngTemplateOutlet="
+            kvPair;
+            context: {
+              label: 'Dano médio',
+              cur: critMean?.damagePerUse,
+              sim: critMeanSim?.damagePerUse,
+              hidden: !isCritWeighted,
+              panel: critMeanPanel,
+              tip: 'Média entre o dano sem crítico e o dano crítico, pesada pela taxa de crítico — o valor usado na rotação e no DPS.'
             }
           "
         ></ng-container>

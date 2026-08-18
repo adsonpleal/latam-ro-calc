@@ -2317,6 +2317,11 @@ export class DamageCalculator {
 
     const totalHit = typeof _totalHit === 'function' ? _totalHit(formulaParams) : _totalHit;
     const isAutoSpell = autoSpellChance != 1;
+    // The `||` is the "skill has no cast data at all" fallback. It used to fire on every
+    // slow skill too — `totalHitPerSec` was floored to one decimal, so anything past a 10s
+    // hit period read 0 and silently borrowed the basic ASPD rate (Firmamento's 61s cycle
+    // came out at 2 uses/s). calc-skill-aspd.ts now keeps enough decimals that a real cast
+    // always reports a real rate, which leaves this fallback to the case it was written for.
     const skillHitsPerSec = Math.min(skillAspd.totalHitPerSec || basicAspd.hitsPerSec, basicAspd.hitsPerSec);
     const skillDpsInputMin = avgNoCriDamage || minDamage + skillMinDamage2;
     const skillDpsInputMax = avgNoCriDamage || maxDamage + skillMaxDamage2;

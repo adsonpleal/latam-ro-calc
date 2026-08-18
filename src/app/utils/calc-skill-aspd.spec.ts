@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
+import { calcDmgDps } from './calc-dmg-dps';
 import { calcSkillAspd } from './calc-skill-aspd';
 
 // Build a fully-zeroed equipment summary; the function reads acd/vct/fct/etc as
@@ -130,6 +131,39 @@ describe('calcSkillAspd', () => {
       skillLevel: 5,
     });
     expect(r.reducedCd).toBe(3);
+  });
+
+  // Reported by Ted: Firmamento (All in the Sky, recarga 60s) read its DPS at the basic
+  // ASPD rate. `totalHitPerSec` was floored to one decimal, so 1/61 came out as 0 — and a
+  // falsy rate is what damage-calculator.ts treats as "no cast data", substituting
+  // basicAspd.hitsPerSec (2/s for a skill that fires once a minute).
+  it('reports a real rate for a skill on a one-minute recarga', () => {
+    const r = calcSkillAspd({ skillData: skill({ acd: 0, cd: 60, fct: 1 }), totalEquipStatus: equip, status, skillLevel: 10 });
+
+    expect(r.hitPeriod).toBe(61);
+    expect(r.totalHitPerSec).toBeGreaterThan(0);
+    expect(r.totalHitPerSec).toBeCloseTo(1 / 61, 4);
+  });
+
+  // The rate exists to divide a skill's damage over its own cycle. Pinned end to end
+  // through calcDmgDps, which is what damage-calculator.ts feeds it into: a 58,7M burst
+  // once every 61s is ~962k/s, not the 117M the ASPD fallback produced.
+  it('divides the damage of a long-recarga skill over its own cycle', () => {
+    const r = calcSkillAspd({ skillData: skill({ acd: 0, cd: 60, fct: 1 }), totalEquipStatus: equip, status, skillLevel: 10 });
+    const damage = 58_722_564;
+    const dps = calcDmgDps({ min: damage, max: damage, cri: 0, criDmg: 0, hitsPerSec: r.totalHitPerSec, accRate: 100 });
+
+    expect(dps).toBeCloseTo(damage / r.hitPeriod, -3);
+  });
+
+  // The same precision that rescues the slow skills also stops understating the fast
+  // ones: a 0,35s hit period is 2,857 uses/s, which one decimal reported as 2,8.
+  it('keeps a fast rate exact instead of truncating it to a tenth', () => {
+    equip.acd = 65;
+    const r = calcSkillAspd({ skillData: skill({ acd: 1 }), totalEquipStatus: equip, status, skillLevel: 5 });
+
+    expect(r.hitPeriod).toBe(0.35);
+    expect(r.totalHitPerSec).toBeCloseTo(1 / 0.35, 4);
   });
 
   // Characterization: locks every per-skill timing reduction, each keyed by the

@@ -292,6 +292,20 @@
   color: var(--text-color-secondary);
 }
 
+/* Quiet enough not to compete with the figure it qualifies, legible enough to be read
+   before the number is acted on. */
+.rot-dmg-mean {
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-color-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 3px;
+  padding: 0 3px;
+  cursor: help;
+  white-space: nowrap;
+}
+
 /* Explains itself on hover; the cursor is hint enough without an underline. */
 .rot-pct {
   cursor: help;

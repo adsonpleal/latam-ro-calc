@@ -6,7 +6,7 @@
 import { BASIC_ATTACK_VALUE, isBasicAttack } from '../../../../core/rotation';
 import { RotationCycle, RotationLane, RotationScheduleStep, simulateRotation } from '../../../../core/rotation-schedule';
 import { dmgTypeLabel } from '../../../../utils/dmg-type-label';
-import { buildDpsSteps, computeTimeToKill, TimeToKill } from './battle-hud.logic';
+import { buildDpsSteps, formatDuration, isCritWeighted, TimeToKill, TTK_CAP_SECONDS } from './battle-hud.logic';
 
 /** The catalog fields a rotation row needs to render itself. */
 export interface RotationSkillMeta {
@@ -55,6 +55,23 @@ export interface RotationEntryView {
    * The condition itself therefore cannot be named, only flagged.
    */
   critConditional: boolean;
+  /**
+   * True when {@link damage} is a crit-weighted *mean* rather than a single outcome —
+   * the skill crits some of the time, so the row's figure sits between the sem-crít. and
+   * com-crít. readings the skill card shows. The row labels itself on this, because a
+   * bare number next to "Crít. 38,0%" reads as an invitation to apply the 38% again.
+   */
+  critWeighted: boolean;
+  /**
+   * The rotation idled on *this* entry's own recarga — the red "Recarga não fecha" state.
+   *
+   * Always false for a one-entry rotation: there the skill simply repeats on its own
+   * timer and the wait *is* the cycle, so every skill with a cooldown would be flagged
+   * (Firmamento reported 59,53s missing on a perfectly normal rotation). This mirrors
+   * `isSingleEntryRotation` in battle-hud.component.ts, which suppresses `showsFirstCycle`
+   * for the same reason.
+   */
+  stalled: boolean;
   /** How many times this same skill appears before this entry — drives the "2ª vez" note. */
   occurrence: number;
   /** The full `getTotalSummary()` this entry was solved with, for its (i) popover. */
@@ -110,23 +127,22 @@ function effectedDpsInputs(dmg: any, hasSelectedChances: boolean): any {
  * Per-use damage for one skill: the engine's own damage arithmetic (accuracy- and
  * crit-weighted, summed over every hit), with no rate applied.
  *
- * DELIBERATE DIVERGENCE from `dmg.skillDps`. The engine derives its DPS through two
- * truncations that are invisible at high rates and brutal at low ones:
- * `totalHitPerSec = floor(1 / hitPeriod, 1)` (calc-skill-aspd.ts) and
- * `oneHitDps = floor(hitsPerSec * totalDamage)` (calc-dmg-dps.ts). On a 5,56s skill
- * dealing 26 per hit over 10 hits, that is `floor(0,1798, 1) = 0,1`, then
- * `floor(0,1 x 26) = 2`, then `10 x 2 = 20` — against a true 260 / 5,56 = 46,8.
+ * DELIBERATE DIVERGENCE from `dmg.skillDps`. The engine derives its DPS through
+ * truncations that are invisible at high rates and lossy at low ones:
+ * `totalHitPerSec = floor(1 / hitPeriod, 6)` (calc-skill-aspd.ts) and
+ * `oneHitDps = floor(hitsPerSec * totalDamage)` (calc-dmg-dps.ts) — that second floor
+ * takes a slow skill's per-second damage down to whole units before the hit count
+ * multiplies it back up.
  *
- * The rotation divides real damage by real time, so it reports the true rate. The
- * engine's own numbers are left exactly as they were (the "Resumo de Batalha (antigo)"
- * tab still shows 20), which does mean the two panels disagree on slow skills.
- * See docs/combo.md.
+ * The rotation divides real damage by real time, so it reports the true rate, and it is
+ * why this panel was already correct while the one-decimal `totalHitPerSec` had the old
+ * tab reporting 60s-cooldown skills 122x too high. See docs/combo.md.
  */
 function skillDamagePerUse(dmg: any): number {
   const steps = buildDpsSteps(dmg);
   if (!steps) return 0;
 
-  return steps.totalHit * steps.avgDamagePerHit;
+  return steps.damagePerUse;
 }
 
 /** Per-use damage for ataque básico. `basicDps` is already damage x rate, so dividing by
@@ -166,6 +182,41 @@ export function toScheduleStep(input: { value: string; summary: any; damage: num
     cd: channelled ? 0 : calcSkill.reducedCd || 0,
     damage,
   };
+}
+
+/**
+ * When the target actually dies, walked off the schedule instead of divided out of the
+ * sustained DPS.
+ *
+ * `hp / sustainedDps` smears one burst across the whole cycle, which for a 60s-recarga
+ * skill answers a question nobody asked: Firmamento reported "Morre em 24,6s" next to
+ * "1 usos" for a target that one cast overkills at ~1s. Damage is discrete — it lands
+ * when a cast ends — so the honest reading is the moment the running total passes the
+ * target's HP.
+ *
+ * The steady cycle is repeated for every pass, including the first. That is slightly
+ * pessimistic (the first pass has every recarga clear and closes sooner), which the
+ * panel already reports separately as "PRIMEIRO CICLO" rather than folding in here.
+ */
+export function computeRotationTimeToKill(hp: number, cycle: RotationCycle): TimeToKill | null {
+  if (!(hp > 0) || !(cycle?.damagePerCycle > 0) || !(cycle.cycleDuration > 0)) return null;
+
+  const cycles = Math.ceil(hp / cycle.damagePerCycle);
+  let dealt = 0;
+
+  for (let c = 0; c < cycles; c++) {
+    for (const lane of cycle.lanes) {
+      if (!(lane.damage > 0)) continue;
+      dealt += lane.damage;
+      if (dealt >= hp) {
+        // The blow lands when its cast ends, not when the step was scheduled.
+        const seconds = c * cycle.cycleDuration + lane.castEnd;
+        return { seconds, text: seconds > TTK_CAP_SECONDS ? '> 24h' : formatDuration(seconds) };
+      }
+    }
+  }
+
+  return null;
 }
 
 export function buildRotationView(input: {
@@ -219,6 +270,12 @@ export function buildRotationView(input: {
       canCrit: basic ? (dmg?.criRateToMonster ?? 0) > 0 : !!dmg?.skillCanCri,
       critRate: basic ? dmg?.criRateToMonster ?? 0 : edmg?.skillCriRateToMonster ?? 0,
       critConditional: !basic && typeof meta?.canCri === 'function',
+      // Ataque básico's own damage figure is recovered from basicDps, which is averaged
+      // the same way, so both kinds of row answer this the same question.
+      critWeighted: isCritWeighted(
+        basic ? (dmg?.criRateToMonster ?? 0) > 0 : !!dmg?.skillCanCri,
+        basic ? dmg?.criRateToMonster ?? 0 : edmg?.skillCriRateToMonster ?? 0,
+      ),
       occurrence,
       summary,
     };
@@ -229,10 +286,13 @@ export function buildRotationView(input: {
     aspdPeriod,
   });
 
+  // A one-entry rotation cannot stall on itself — see RotationEntryView.stalled.
+  const isSingleEntry = partial.length < 2;
   const entries: RotationEntryView[] = partial.map((entry, i) => ({
     ...entry,
     contributionPercent: cycle.lanes[i]?.contributionPercent ?? 0,
     lane: cycle.lanes[i],
+    stalled: !isSingleEntry && (cycle.lanes[i]?.cdWait ?? 0) > 1e-3,
   }));
 
   const monsterHp = baseSummary?.monster?.hp || 0;
@@ -240,7 +300,7 @@ export function buildRotationView(input: {
   return {
     entries,
     cycle,
-    ttk: computeTimeToKill(monsterHp, cycle.sustainedDps),
+    ttk: computeRotationTimeToKill(monsterHp, cycle),
     cyclesToKill: cycle.damagePerCycle > 0 ? Math.ceil(monsterHp / cycle.damagePerCycle) : 0,
     blocked: entries.filter((e) => e.requireTxt).map((e) => ({ name: e.name, requireTxt: e.requireTxt })),
     aspdPeriod,

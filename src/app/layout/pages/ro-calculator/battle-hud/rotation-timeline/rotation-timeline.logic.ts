@@ -12,6 +12,27 @@ export const MIN_LABEL_PERCENT = 6;
  *  never overprint each other. */
 export const TICK_COLLISION_PERCENT = 7;
 
+/** How many axis labels the chart will carry before the tick step has to grow. */
+export const MAX_AXIS_TICKS = 12;
+
+/** Round steps the axis climbs through as the cycle gets longer. They are the intervals a
+ *  reader already thinks in (seconds, quarter-minutes, minutes), so the labels stay
+ *  mentally cheap however far apart they end up. */
+const TICK_STEP_BANDS = [1, 2, 5, 10, 15, 30, 60, 120, 300, 600, 900, 1800, 3600];
+
+/**
+ * Seconds between axis ticks for a cycle of `scale` seconds.
+ *
+ * One tick per second only ever worked because rotations were short. A 61s Firmamento
+ * cycle drew 62 labels into the axis, which rendered as "0s1s2s3s…" and read as the skill
+ * repeating dozens of times — the lanes were right all along, the axis was not.
+ */
+export function pickTickStep(scale: number): number {
+  const banded = TICK_STEP_BANDS.find((step) => scale / step <= MAX_AXIS_TICKS);
+  // Past the last band, divide the cycle up directly so the count still cannot run away.
+  return banded ?? Math.ceil(scale / MAX_AXIS_TICKS);
+}
+
 export interface TimelineBlock {
   kind: 'fixa' | 'variavel' | 'pos' | 'recarga' | 'aspd';
   leftPercent: number;
@@ -129,17 +150,21 @@ export function buildTimelineChart(input: TimelineSource & { scale: number; titl
       isBasic: !!entry?.isBasic,
       name: entry?.name ?? '',
       blocks,
-      invalid: lane.cdWait > 1e-3,
+      // A one-lane chart has nothing to stall against: the skill repeats on its own
+      // timer and that wait *is* the cycle. Same rule as RotationEntryView.stalled, so
+      // the track never goes red while the row's own "Recarga não fecha" text is gone.
+      invalid: cycle.lanes.length > 1 && lane.cdWait > 1e-3,
       missingSeconds: lane.cdWait,
     };
   });
 
-  // Whole-second ticks, plus the cycle end. A whole second sitting almost on top of the
-  // cycle-end marker is dropped rather than drawn through it — a 4,02s cycle would
-  // otherwise print "4s" and "4,02s" over each other.
+  // Round ticks, plus the cycle end. A tick sitting almost on top of the cycle-end
+  // marker is dropped rather than drawn through it — a 4,02s cycle would otherwise print
+  // "4s" and "4,02s" over each other.
   const endPercent = pct(cycle.cycleDuration);
   const ticks: TimelineAxisTick[] = [];
-  for (let s = 0; s <= Math.floor(scale); s++) {
+  const tickStep = pickTickStep(scale);
+  for (let s = 0; s <= Math.floor(scale); s += tickStep) {
     const leftPercent = pct(s);
     if (Math.abs(leftPercent - endPercent) < TICK_COLLISION_PERCENT) continue;
     ticks.push({ leftPercent, label: `${s}s`, isCycleEnd: false, anchor: anchorFor(leftPercent) });

@@ -168,8 +168,10 @@
           <span class="rot-require" *ngIf="entry.requireTxt">⚠ Requer {{ entry.requireTxt }}</span>
         </div>
 
-        <!-- "Recarga não fecha": the rotation idled waiting on this entry's own recarga. -->
-        <div class="rot-stall" *ngIf="entry.lane?.cdWait > 0.001">
+        <!-- "Recarga não fecha": the rotation idled waiting on this entry's own recarga.
+             `stalled` (not cdWait itself) is what gates it — a one-entry rotation waits on
+             its own recarga by definition, and that wait is the cycle, not a stall. -->
+        <div class="rot-stall" *ngIf="entry.stalled">
           Recarga não fecha — faltam {{ entry.lane.cdWait | number: '1.2-2' }}s
         </div>
       </div>
@@ -180,10 +182,20 @@
           role="button"
           tabindex="0"
           keyActivate
-          pTooltip="Ver a fórmula do dano"
+          [pTooltip]="damageTooltip(entry)"
           tooltipPosition="top"
           (click)="damageClick.emit({ index: i, event: $event })"
           >{{ entry.damage | number: '1.0-0' }}</span
+        >
+        <!-- The crit rate on the line above is already baked into this figure. Saying so
+             is the whole point of the tag: without it the two read as "damage" and "now
+             multiply by 38%", which is the same 38% counted twice. -->
+        <span
+          class="rot-dmg-mean"
+          *ngIf="entry.critWeighted"
+          [pTooltip]="MEAN_TAG_TOOLTIP"
+          tooltipPosition="top"
+          >média</span
         >
         <ng-container *ngIf="compareOf(i) as sim">
           <span class="rot-arrow" *ngIf="sim.damage !== entry.damage">→</span>

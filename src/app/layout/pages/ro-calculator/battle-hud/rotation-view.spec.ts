@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { BASIC_ATTACK_VALUE } from '../../../../core/rotation';
-import { buildRotationView, RotationSkillMeta, toScheduleStep } from './rotation-view';
+import { buildRotationView, computeRotationTimeToKill, RotationSkillMeta, toScheduleStep } from './rotation-view';
 
 /** A solved getTotalSummary() with just the fields the rotation view reads. */
 const summaryOf = (over: {
@@ -16,6 +16,9 @@ const summaryOf = (over: {
   basicDps?: number;
   hitPerSecs?: number;
   hp?: number;
+  canCri?: boolean;
+  criRate?: number;
+  criDmg?: number;
 }) => ({
   calcSkill: {
     castPeriod: over.castPeriod ?? 0,
@@ -33,9 +36,10 @@ const summaryOf = (over: {
     // buildDpsSteps reads these; min === max keeps the per-use damage exact.
     skillDpsInputMin: over.perHit ?? 1000,
     skillDpsInputMax: over.perHit ?? 1000,
-    skillDpsInputCriDmg: 0,
+    skillDpsInputCriDmg: over.criDmg ?? 0,
     skillDpsInputHitsPerSec: 1,
-    skillCriRateToMonster: 0,
+    skillCanCri: over.canCri ?? false,
+    skillCriRateToMonster: over.criRate ?? 0,
     skillAccuracy: 100,
     skillTotalHit: over.hits ?? 1,
     skillPropertyMultiplier: 1,
@@ -227,5 +231,98 @@ describe('buildRotationView', () => {
     expect(empty.entries).toEqual([]);
     expect(empty.cycle.sustainedDps).toBe(0);
     expect(empty.ttk).toBeNull();
+  });
+});
+
+describe('stall reporting', () => {
+  // A one-entry rotation waits on its own recarga by definition: the skill repeats on its
+  // own timer and that wait *is* the cycle. Flagging it put "Recarga não fecha — faltam
+  // 59,53s" in red under a perfectly normal Firmamento rotation.
+  it('never stalls a one-entry rotation on its own recarga', () => {
+    const long = summaryOf({ castPeriod: 1, reducedCd: 60, perHit: 1000, hits: 1 });
+    const view = buildRotationView({
+      rotation: ['Solar Kick==7'],
+      summaryByValue: new Map([['Solar Kick==7', long]]),
+      baseSummary: long,
+      hasSelectedChances: false,
+      atkSkills,
+    });
+
+    expect(view.entries[0].lane.cdWait).toBeGreaterThan(1);
+    expect(view.entries[0].stalled).toBe(false);
+  });
+
+  it('still stalls the entry a multi-skill rotation really waits on', () => {
+    // B is quick, so coming back round to A leaves A's own 10s recarga still running.
+    const slow = summaryOf({ castPeriod: 0.2, reducedAcd: 0.2, reducedCd: 10, perHit: 1000, hits: 1 });
+    const quick = summaryOf({ castPeriod: 0.2, reducedAcd: 0.2, reducedCd: 0.2, perHit: 1000, hits: 1 });
+    const view = buildRotationView({
+      rotation: ['Solar Kick==7', 'Sunset Blast==5'],
+      summaryByValue: new Map([['Solar Kick==7', slow], ['Sunset Blast==5', quick]]),
+      baseSummary: slow,
+      hasSelectedChances: false,
+      atkSkills,
+    });
+
+    expect(view.entries[0].stalled).toBe(true);
+    expect(view.entries[1].stalled).toBe(false);
+  });
+});
+
+describe('crit-weighted rows', () => {
+  const viewFor = (over: { canCri?: boolean; criRate?: number }) => {
+    const summary = summaryOf({ perHit: 1_114_048, hits: 1, criDmg: 1_760_192, ...over });
+    return buildRotationView({
+      rotation: ['Solar Kick==7'],
+      summaryByValue: new Map([['Solar Kick==7', summary]]),
+      baseSummary: summary,
+      hasSelectedChances: false,
+      atkSkills,
+    });
+  };
+
+  it('flags a row whose damage is a mean of two outcomes', () => {
+    const entry = viewFor({ canCri: true, criRate: 38 }).entries[0];
+
+    expect(entry.critWeighted).toBe(true);
+    // 0,62 x 1.114.048 + 0,38 x 1.760.192 — neither of the two numbers the card headlines.
+    expect(entry.damage).toBe(1_359_582);
+  });
+
+  it('leaves a row alone when every use crits, or none does', () => {
+    expect(viewFor({ canCri: true, criRate: 100 }).entries[0].critWeighted).toBe(false);
+    expect(viewFor({ canCri: true, criRate: 0 }).entries[0].critWeighted).toBe(false);
+    expect(viewFor({ canCri: false, criRate: 38 }).entries[0].critWeighted).toBe(false);
+  });
+});
+
+describe('computeRotationTimeToKill', () => {
+  // Firmamento: one 58,7M cast against a 23,6M target, on a 61s cycle. Dividing HP by the
+  // sustained DPS smeared that burst over the whole minute and answered "24,6s" next to
+  // "1 uso" — the target is already dead when the first cast lands.
+  const burstCycle = (over: { damage?: number; castEnd?: number; cycleDuration?: number } = {}) =>
+    ({
+      lanes: [{ start: 0, castEnd: over.castEnd ?? 1, posEnd: 1, recEnd: 61, aspdWait: 0, cdWait: 0, damage: over.damage ?? 58_722_564, contributionPercent: 100 }],
+      cycleDuration: over.cycleDuration ?? 61,
+      damagePerCycle: over.damage ?? 58_722_564,
+      sustainedDps: (over.damage ?? 58_722_564) / (over.cycleDuration ?? 61),
+    } as any);
+
+  it('kills the target when the blow that finishes it lands', () => {
+    const ttk = computeRotationTimeToKill(23_600_000, burstCycle())!;
+
+    expect(ttk.seconds).toBeCloseTo(1, 5);
+  });
+
+  it('carries the running total across cycles', () => {
+    // Three casts needed, so the kill lands on the third cycle, not the first.
+    const ttk = computeRotationTimeToKill(3 * 58_722_564, burstCycle())!;
+
+    expect(ttk.seconds).toBeCloseTo(2 * 61 + 1, 5);
+  });
+
+  it('reports nothing when nothing can die', () => {
+    expect(computeRotationTimeToKill(0, burstCycle())).toBeNull();
+    expect(computeRotationTimeToKill(1000, burstCycle({ damage: 0 }))).toBeNull();
   });
 });

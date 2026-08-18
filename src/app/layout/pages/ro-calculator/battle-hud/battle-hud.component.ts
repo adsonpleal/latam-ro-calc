@@ -19,6 +19,7 @@ import {
   DpsSteps,
   elementTagClass as elementTagClassFn,
   FormulaGraphCluster,
+  isCritWeighted,
   HeroDamage,
   OptimizeInfo,
   pickBiggerDpsSide,
@@ -330,12 +331,18 @@ export class BattleHudComponent implements OnDestroy {
   }
 
   /**
-   * A row's damage figure opens the same formula the (i) popover's figure does, for that
-   * row's own step — ataque básico has no skill formula, so it gets its own panel.
+   * A row's damage figure opens the explanation of *that* figure, for that row's own step.
+   *
+   * Which explanation depends on what the figure is. The formula graph traces one
+   * outcome — the crit — so it only explains the row when every use crits (or none does).
+   * In between, the row shows the crit-weighted mean of two different numbers, and the
+   * graph would answer with a third; the mean's own derivation is the honest target.
+   * Ataque básico has no skill formula either way, so it keeps its own panel.
    */
-  openStepDamageFormula(payload: { index: number; event: Event }, formulaPanel: any, basicPanel: any) {
+  openStepDamageFormula(payload: { index: number; event: Event }, formulaPanel: any, basicPanel: any, meanPanel: any) {
     this.activeStepIndex = payload.index;
-    const panel = this.activeStep?.isBasic ? basicPanel : formulaPanel;
+    const entry = this.activeStep;
+    const panel = entry?.isBasic ? basicPanel : entry?.critWeighted ? meanPanel : formulaPanel;
     panel?.toggle(payload.event);
   }
 
@@ -355,6 +362,14 @@ export class BattleHudComponent implements OnDestroy {
    *  labels the damage "por uso" instead of "por ciclo". */
   get isSingleEntryRotation(): boolean {
     return this.rotation?.length === 1;
+  }
+
+  /** Unit for the kill count next to "Morre em" — "1 usos" was the one place the panel
+   *  printed a plural for a single thing. */
+  get killCountLabel(): string {
+    const one = this.rotationView?.cyclesToKill === 1;
+    if (this.isSingleEntryRotation) return one ? 'uso' : 'usos';
+    return one ? 'ciclo' : 'ciclos';
   }
 
   /**
@@ -536,6 +551,27 @@ export class BattleHudComponent implements OnDestroy {
 
   get dpsStepsSim(): DpsSteps | null {
     return this.isComparing ? buildDpsSteps(this.dmg2) : null;
+  }
+
+  /**
+   * Whether this skill's per-use damage is a crit-weighted mean — see isCritWeighted.
+   * When it is, the card owes three readings (sem crít., com crít., média) instead of the
+   * single headline it used to show, because those are three different numbers and the
+   * rotation, the DPS and the formula graph each use a different one of them.
+   */
+  get isCritWeighted(): boolean {
+    return isCritWeighted(this.dmg?.skillCanCri, this.dmg?.skillCriRateToMonster);
+  }
+
+  /** The mean's own derivation, straight out of calc-dmg-dps so the popover can never
+   *  disagree with the figure the rotation rows print. Null unless there is a mean to
+   *  explain. */
+  get critMean(): DpsSteps | null {
+    return this.isCritWeighted ? this.dpsSteps : null;
+  }
+
+  get critMeanSim(): DpsSteps | null {
+    return this.isComparing && isCritWeighted(this.dmg2?.skillCanCri, this.dmg2?.skillCriRateToMonster) ? this.dpsStepsSim : null;
   }
 
   // True when VelAtq (ASPD) caps the achieved Hab./s below what the cast timings

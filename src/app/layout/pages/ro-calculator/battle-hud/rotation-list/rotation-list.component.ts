@@ -62,6 +62,16 @@ export class RotationListComponent {
   readonly basicAttackIcon = BASIC_ATTACK_ICON;
   readonly maxLength = MAX_ROTATION_LENGTH;
 
+  /** Hover note for the "média" tag — see the template for why the tag exists at all. */
+  readonly MEAN_TAG_TOOLTIP =
+    'A taxa de crítico já está embutida neste número: ele é a média entre o dano sem crítico e o dano crítico, pesada por essa taxa. Não multiplique pelo crítico de novo.';
+
+  /** A crit-weighted row's figure is explained by the average, not by the formula of one
+   *  of the two outcomes — which is also where its click lands. */
+  damageTooltip(entry: RotationEntryView): string {
+    return entry.critWeighted ? 'Ver como a média por crítico é calculada' : 'Ver a fórmula do dano';
+  }
+
   get isFull(): boolean {
     return this.rotation.length >= MAX_ROTATION_LENGTH;
   }

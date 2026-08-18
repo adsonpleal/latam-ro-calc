@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { simulateRotation } from '../../../../../core/rotation-schedule';
-import { buildTimelineChart, buildTimelineCharts, MIN_LABEL_PERCENT } from './rotation-timeline.logic';
+import { buildTimelineChart, buildTimelineCharts, MAX_AXIS_TICKS, MIN_LABEL_PERCENT, pickTickStep } from './rotation-timeline.logic';
 
 const cycleOf = (steps: { key: string; cast?: number; acd?: number; cd?: number }[], aspdPeriod = 0) =>
   simulateRotation({
@@ -183,5 +183,59 @@ describe('buildTimelineCharts', () => {
     // marker sits mid-axis and stays centred on its own instant.
     expect(currentEnd.anchor).toBe('end');
     expect(compareEnd.anchor).toBe('middle');
+  });
+});
+
+// Reported by Ted, from a Firmamento screenshot: a 61s cycle drew one label per second,
+// which ran together as "0s1s2s3s…" and read as the skill firing dozens of times.
+describe('axis ticks', () => {
+  it('keeps the label count bounded however long the cycle is', () => {
+    for (const scale of [0.5, 1, 4.02, 12, 61, 180, 600, 3600, 20000]) {
+      const cycle = cycleOf([{ key: 'A', cast: 0.2, cd: scale }]);
+      const chart = buildTimelineChart({ cycle, entries: entriesOf(1), scale });
+
+      // The cycle-end marker rides along on top of the round ticks.
+      expect(chart.ticks.length).toBeLessThanOrEqual(MAX_AXIS_TICKS + 2);
+    }
+  });
+
+  it('leaves a short cycle on its whole-second ticks', () => {
+    expect(pickTickStep(4.02)).toBe(1);
+    expect(pickTickStep(12)).toBe(1);
+  });
+
+  it('climbs to a round step as the cycle grows', () => {
+    expect(pickTickStep(61)).toBe(10);
+    expect(pickTickStep(600)).toBe(60);
+  });
+
+  it('spaces the ticks by the step it picked', () => {
+    const cycle = cycleOf([{ key: 'A', cast: 1, cd: 60 }]);
+    const chart = buildTimelineChart({ cycle, entries: entriesOf(1), scale: cycle.cycleDuration });
+    const round = chart.ticks.filter((t) => !t.isCycleEnd).map((t) => t.label);
+
+    expect(round[0]).toBe('0s');
+    expect(round[1]).toBe('10s');
+  });
+});
+
+describe('stalled track', () => {
+  // A one-entry rotation waits on its own recarga by definition — that wait *is* the
+  // cycle. Flagging it painted every cooldown skill's track red (Firmamento, cd 60).
+  it('never marks a one-lane chart invalid', () => {
+    const cycle = cycleOf([{ key: 'A', cast: 1, acd: 0.5, cd: 60 }]);
+    const chart = buildTimelineChart({ cycle, entries: entriesOf(1), scale: cycle.cycleDuration });
+
+    expect(cycle.lanes[0].cdWait).toBeGreaterThan(1);
+    expect(chart.lanes[0].invalid).toBe(false);
+  });
+
+  it('still marks a genuine multi-skill stall', () => {
+    // B is quick, so coming back round to A leaves A's own 10s recarga still running.
+    const cycle = cycleOf([{ key: 'A', cast: 0.2, acd: 0.2, cd: 10 }, { key: 'B', cast: 0.2, acd: 0.2, cd: 0.2 }]);
+    const chart = buildTimelineChart({ cycle, entries: entriesOf(2), scale: cycle.cycleDuration });
+
+    expect(chart.lanes[0].invalid).toBe(true);
+    expect(chart.lanes[1].invalid).toBe(false);
   });
 });

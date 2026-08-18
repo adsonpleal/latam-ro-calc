@@ -6,6 +6,19 @@ import { SKILL_ID_BY_NAME } from '../skills';
 import { floor } from './floor';
 import { round, roundUp } from './round';
 
+/**
+ * Decimals kept on the uses-per-second rate. One decimal used to be enough while every
+ * modelled skill fired at least once every ten seconds; the 4th-job skills with a 60s
+ * recarga broke it, because `floor(1 / 61, 1)` is 0 — and damage-calculator.ts reads a
+ * falsy rate as "no cast data" and substitutes the basic ASPD rate, which reported
+ * Firmamento's DPS about 122x too high (reported by Ted).
+ *
+ * Six is the most `floor()` can carry (it rounds to six digits before truncating), and a
+ * slow skill needs every one of them: at four decimals a 61s cycle still lost 0,6% of its
+ * DPS to the truncation. Flooring is kept, so the rate is never overstated.
+ */
+const HIT_PER_SEC_PRECISION = 6;
+
 export const calcSkillAspd = (params: {
   skillData: AtkSkillModel;
   totalEquipStatus: EquipmentSummaryModel;
@@ -87,6 +100,6 @@ export const calcSkillAspd = (params: {
     clientCd: client.cd,
     castPeriod: castPeriod,
     hitPeriod,
-    totalHitPerSec: floor(1 / hitPeriod, 1),
+    totalHitPerSec: floor(1 / hitPeriod, HIT_PER_SEC_PRECISION),
   };
 };

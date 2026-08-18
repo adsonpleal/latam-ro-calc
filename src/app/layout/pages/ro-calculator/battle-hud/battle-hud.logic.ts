@@ -386,11 +386,11 @@ export interface TimeToKill {
 
 /** Past this the figure stops being useful (the practice Dummy has 2 billion HP, which
  *  runs to hundreds of hours) — show a bound instead of a precise-looking number. */
-const TTK_CAP_SECONDS = 24 * 60 * 60;
+export const TTK_CAP_SECONDS = 24 * 60 * 60;
 
 /** `12,3s` / `2min 05s` / `1h 23min` — the unit shrinks as the duration grows, so short
  *  fights keep their tenths and long ones don't read as a wall of seconds. */
-function formatDuration(seconds: number): string {
+export function formatDuration(seconds: number): string {
   if (seconds < 60) return `${formatNumber(seconds, 0, 1)}s`;
   if (seconds < 3600) {
     const mins = Math.floor(seconds / 60);
@@ -528,11 +528,34 @@ export interface DpsSteps {
   avgBasicDamage: number;
   criRate: number;
   accuracy: number;
+  /** The crit damage one hit deals — the other outcome `avgDamagePerHit` averages. */
+  criDmg: number;
+  /** `criDmg x criRate`, expressed in damage (calc-dmg-dps works in percent units and
+   *  divides by 100 at the end; these two are already divided, so they sum to the mean). */
+  criPart: number;
+  /** `avgBasicDamage x (100 - criRate)`, accuracy applied — the non-crit leg. */
+  noCriPart: number;
   avgDamagePerHit: number;
   hitsPerSec: number;
   oneHitDps: number;
   totalHit: number;
+  /** Damage for one use, summed over every hit and with no rate applied. This is the
+   *  figure the rotation rows show — see skillDamagePerUse in rotation-view.ts. */
+  damagePerUse: number;
   totalDps: number;
+}
+
+/**
+ * Whether a skill's per-use damage is a crit-weighted *mean* of two different outcomes
+ * rather than a single number — which is exactly when the panel owes the reader all
+ * three readings (sem crít., com crít., média) instead of one unlabelled figure.
+ *
+ * At 0% the skill never crits and at 100% it always does; either way the three collapse
+ * to one and printing them three times would say nothing.
+ */
+export function isCritWeighted(canCri: boolean | undefined, criRate: number | undefined): boolean {
+  const rate = criRate ?? 0;
+  return !!canCri && rate > 0 && rate < 100;
 }
 
 /**
@@ -564,10 +587,14 @@ export function buildDpsSteps(dmg: {
     avgBasicDamage: detailed.avgBasicDamage,
     criRate: detailed.limitedCriRate,
     accuracy: detailed.limitedAccuracy,
+    criDmg: dmg.skillDpsInputCriDmg || 0,
+    criPart: detailed.criHit / 100,
+    noCriPart: detailed.nonCriHit / 100,
     avgDamagePerHit: detailed.totalDamage,
     hitsPerSec: dmg.skillDpsInputHitsPerSec || 0,
     oneHitDps: detailed.oneHitDps,
     totalHit,
+    damagePerUse: totalHit * detailed.totalDamage,
     totalDps: Math.floor(totalHit * detailed.oneHitDps),
   };
 }

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  buildDpsSteps,
   buildGraphClusters,
   buildOptimizeInfo,
   buildRotationPickerOptions,
@@ -10,6 +11,7 @@ import {
   computeZeroPosWhatIf,
   deltaPercent,
   identifyCastBottleneck,
+  isCritWeighted,
   pickBiggerDpsSide,
   pickHeroDamage,
   pickHitsPerSec,
@@ -616,5 +618,60 @@ describe('CRIT_KEYS_BASIC / CRIT_KEYS_SKILL', () => {
   it('drills into plain cri on both', () => {
     expect(CRIT_KEYS_BASIC).toContain('cri');
     expect(CRIT_KEYS_SKILL).toContain('cri');
+  });
+});
+
+describe('isCritWeighted', () => {
+  it('is true only while the skill crits on some uses but not all', () => {
+    expect(isCritWeighted(true, 38)).toBe(true);
+    expect(isCritWeighted(true, 0)).toBe(false);
+    expect(isCritWeighted(true, 100)).toBe(false);
+    expect(isCritWeighted(false, 38)).toBe(false);
+  });
+
+  it('treats missing state as not weighted', () => {
+    expect(isCritWeighted(undefined, undefined)).toBe(false);
+  });
+});
+
+describe('buildDpsSteps crit-weighted mean', () => {
+  // Centelha das Trevas Nv10 at 38% crit, the case that started this: the card showed
+  // 1.760.192 (the crit), the "sem crít." row 1.114.048, and the rotação row 1.359.582 —
+  // which is neither of the first two, and had nothing on screen explaining it.
+  const dmg = {
+    skillDpsInputMin: 1_114_048,
+    skillDpsInputMax: 1_114_048,
+    skillDpsInputCriDmg: 1_760_192,
+    skillDpsInputHitsPerSec: 1,
+    skillCriRateToMonster: 38,
+    skillAccuracy: 100,
+    skillTotalHit: 1,
+  };
+
+  it('averages the two outcomes by the crit rate', () => {
+    const steps = buildDpsSteps(dmg)!;
+
+    expect(steps.avgDamagePerHit).toBe(1_359_582);
+    expect(steps.damagePerUse).toBe(1_359_582);
+  });
+
+  it('splits the mean into the two parts that make it up', () => {
+    const steps = buildDpsSteps(dmg)!;
+
+    expect(steps.criPart).toBeCloseTo(0.38 * 1_760_192, 2);
+    expect(steps.noCriPart).toBeCloseTo(0.62 * 1_114_048, 2);
+    // The parts sum to the mean before the engine floors it.
+    expect(steps.criPart + steps.noCriPart - steps.avgDamagePerHit).toBeLessThan(1);
+  });
+
+  it('sums the mean over every hit for the per-use figure', () => {
+    const steps = buildDpsSteps({ ...dmg, skillTotalHit: 3 })!;
+
+    expect(steps.damagePerUse).toBe(3 * 1_359_582);
+  });
+
+  it('collapses to the single outcome at 0% and at 100% crit', () => {
+    expect(buildDpsSteps({ ...dmg, skillCriRateToMonster: 0 })!.avgDamagePerHit).toBe(1_114_048);
+    expect(buildDpsSteps({ ...dmg, skillCriRateToMonster: 100 })!.avgDamagePerHit).toBe(1_760_192);
   });
 });
