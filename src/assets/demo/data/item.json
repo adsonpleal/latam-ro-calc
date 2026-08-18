@@ -34494,6 +34494,14 @@
         "9===1",
         "10===1",
         "EQUIP[Blacksmith Shadow Shoes]USED[Blacksmith]3"
+      ],
+      "m_size_all": [
+        "5",
+        "7===1",
+        "8===1",
+        "9===1",
+        "10===1",
+        "EQUIP[Blacksmith Shadow Shoes]USED[Blacksmith]3"
       ]
     }
   },
@@ -45322,9 +45330,12 @@
       "Ninja"
     ],
     "script": {
-      "m_element_all": [
+      "m_my_element_all": [
         "5",
         "2---1"
+      ],
+      "hp": [
+        "1---10"
       ]
     }
   },
@@ -61752,11 +61763,11 @@
         "7",
         "9===8"
       ],
-      "chance__p_size_all": [
-        "9===15"
-      ],
       "acd": [
         "11===20"
+      ],
+      "chance__m_size_all": [
+        "9===15"
       ]
     }
   },
@@ -65315,6 +65326,9 @@
     "script": {
       "cri": [
         "ACTIVE_SKILL[Adrenaline Rush]10"
+      ],
+      "chance__p_size_all": [
+        "10"
       ]
     }
   },
@@ -65341,6 +65355,9 @@
       ],
       "criDmg": [
         "ACTIVE_SKILL[Adrenaline Rush]10"
+      ],
+      "chance__p_size_all": [
+        "20"
       ]
     }
   },
@@ -221274,11 +221291,11 @@
       "vct": [
         "9===10"
       ],
-      "p_element_all": [
-        "11===15"
-      ],
       "subsize_all": [
         "11===20"
+      ],
+      "p_size_all": [
+        "11===15"
       ]
     }
   },
@@ -248911,6 +248928,12 @@
       ],
       "fct": [
         "13===0.3"
+      ],
+      "perfectHit": [
+        "7===10"
+      ],
+      "p_size_all": [
+        "11===20"
       ]
     }
   },
@@ -248946,6 +248969,9 @@
       ],
       "m_my_element_all": [
         "9===20"
+      ],
+      "m_size_all": [
+        "11===20"
       ]
     }
   },
@@ -261909,6 +261935,15 @@
     "script": {
       "atk": [
         "2---10"
+      ],
+      "2279": [
+        "3---10"
+      ],
+      "cd__2280": [
+        "7===1"
+      ],
+      "p_size_all": [
+        "9===15"
       ]
     }
   },
@@ -264218,13 +264253,21 @@
         "90"
       ],
       "criDmg": [
-        "2---3"
+        "2---3",
+        "EQUIP_ID[20847]XREFINEX[weapon==7]XREFINEX[garment==7]15"
       ],
       "atkPercent": [
         "7===5"
       ],
       "aspdPercent": [
-        "EQUIP_ID[20847]10"
+        "EQUIP_ID[20847]10",
+        "EQUIP_ID[20847]REFINE[weapon,garment==18]15"
+      ],
+      "p_size_all": [
+        "9===20"
+      ],
+      "p_element_all": [
+        "11===20"
       ]
     }
   },
@@ -264250,13 +264293,35 @@
     ],
     "script": {
       "matk": [
-        "100"
+        "100",
+        "EQUIP_ID[28755]REFINE[weapon,leftWeapon==3]---15"
       ],
       "536": [
         "EQUIP_ID[28755]REFINE[weapon,leftWeapon==2]---10"
       ],
       "539": [
         "EQUIP_ID[28755]REFINE[weapon,leftWeapon==2]---10"
+      ],
+      "m_race_all": [
+        "EQUIP_ID[28755]REFINE[weapon,leftWeapon==5]---3"
+      ],
+      "matkPercent": [
+        "EQUIP_ID[28755]REFINE[weapon,leftWeapon==16]===7"
+      ],
+      "m_size_all": [
+        "EQUIP_ID[28755]REFINE[weapon,leftWeapon==18]===10"
+      ],
+      "m_class_boss": [
+        "EQUIP_ID[28755]REFINE[weapon,leftWeapon==20]===15"
+      ],
+      "m_my_element_fire": [
+        "EQUIP_ID[28755]REFINE[weapon,leftWeapon==22]===20"
+      ],
+      "m_my_element_water": [
+        "EQUIP_ID[28755]REFINE[weapon,leftWeapon==22]===20"
+      ],
+      "m_my_element_wind": [
+        "EQUIP_ID[28755]REFINE[weapon,leftWeapon==22]===20"
       ]
     }
   },
@@ -317842,6 +317907,206 @@
     "script": {
       "m_race_demon": [
         "10"
+      ]
+    }
+  },
+  "20435": {
+    "id": 20435,
+    "aegisName": "C_Camellia_Hair_Pin",
+    "name": "[Visual] Ornamento de Camélias",
+    "unidName": "[Visual] Ornamento de Camélias",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "20504": {
+    "id": 20504,
+    "aegisName": "C_Cupid_Wing_Pink",
+    "name": "[Visual] Asas de Cupido Rosa",
+    "unidName": "[Visual] Asas de Cupido Rosa",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "31939": {
+    "id": 31939,
+    "aegisName": "C_Carnation_Corolla",
+    "name": "[Visual] Coroa de Flores Vermelhas",
+    "unidName": "[Visual] Coroa de Flores Vermelhas",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "400794": {
+    "id": 400794,
+    "aegisName": "C_Many_Flowers_Love",
+    "name": "[Visual] Coroa de Mil Rosas",
+    "unidName": "[Visual] Coroa de Mil Rosas",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "420500": {
+    "id": 420500,
+    "aegisName": "C_CB_Fullb_Twosideup",
+    "name": "[Visual] Peruca Longa de Pétalas",
+    "unidName": "[Visual] Peruca Longa de Pétalas",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 521,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480295": {
+    "id": 480295,
+    "aegisName": "C_Sakura_Branch",
+    "name": "[Visual] Ramo de Cerejeira",
+    "unidName": "[Visual] Ramo de Cerejeira",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410705": {
+    "id": 410705,
+    "aegisName": "Gioia_Floating_LT",
+    "name": "Amigo Gioia",
+    "unidName": "Amigo Gioia",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 201,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "acd": [
+        "5"
+      ],
+      "m_my_element_ghost": [
+        "7"
+      ],
+      "m_element_ghost": [
+        "EQUIP_ID[4576]10"
+      ]
+    }
+  },
+  "410706": {
+    "id": 410706,
+    "aegisName": "Worg_Mouth_LT",
+    "name": "Bebê Lobo",
+    "unidName": "Bebê Lobo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "acd": [
+        "5"
+      ],
+      "perfectHit": [
+        "10"
+      ],
+      "aspd": [
+        "EQUIP_ID[27152]1"
+      ],
+      "p_class_boss": [
+        "EQUIP_ID[27152]15",
+        "EQUIP_ID[4425]15"
       ]
     }
   }

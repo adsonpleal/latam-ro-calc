@@ -31,6 +31,7 @@ export interface Worn {
   headUpper?: number;
   headUpperRefine?: number;
   headMiddle?: number;
+  headLower?: number;
   boot?: number;
   bootRefine?: number;
   bootGrade?: string;
@@ -65,6 +66,10 @@ export function wornBonus(worn: Worn): Record<string, number> {
   if (worn.headMiddle) {
     items[worn.headMiddle] = withSlot(worn.headMiddle, 2, 512);
     model.headMiddle = worn.headMiddle;
+  }
+  if (worn.headLower) {
+    items[worn.headLower] = withSlot(worn.headLower, 2, 512);
+    model.headLower = worn.headLower;
   }
   if (worn.boot) {
     items[worn.boot] = withSlot(worn.boot, 2, 516);
