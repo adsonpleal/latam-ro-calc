@@ -933,10 +933,20 @@ export class DamageCalculator {
     return this.totalBonus.atk;
   }
 
-  private getExtraAtk() {
+  /**
+   * @param isAmmoAttack whether this attack actually fires the equipped ammunition.
+   *   Only then does its ATK count — a melee blow throws nothing, however full the
+   *   quiver. It matters because the ammo slot is not gated on the weapon: the
+   *   Kagerou line keeps kunai equipped for its throwing skills (ClassAmmoMapper)
+   *   while hitting with a dagger, and counting the kunai's ATK there inflated
+   *   Centelha das Trevas by 30 ATK against the recording that measures it
+   *   (Shinkiro.shadow-flash-gear-states.spec.ts). Same for a Mechanic's cannonball,
+   *   which `isExcludeCannanball` has always excluded on the same grounds.
+   */
+  private getExtraAtk(isAmmoAttack = true) {
     const { reducedHardDef } = this.getPhisicalDefData();
     const equipAtk = this.getEquipAtk();
-    const ammoAtk = this.equipStatus.ammo?.atk || 0;
+    const ammoAtk = isAmmoAttack ? this.equipStatus.ammo?.atk || 0 : 0;
     const pseudoBuffATK = this.isActiveInfilltration ? reducedHardDef / 2 : 0;
     const skillAtk = this.getEquipAtkFromSkills();
     const striking = this.getStrikingAtk();
@@ -1071,11 +1081,11 @@ export class DamageCalculator {
     return this.toPercent(pMultiplier);
   }
 
-  private calcTotalAtk(params: { propertyAtk: ElementType; isEDP: boolean; sizePenalty: number; isExcludeCannanball: boolean; }) {
-    const { propertyAtk, isEDP, sizePenalty, isExcludeCannanball } = params;
+  private calcTotalAtk(params: { propertyAtk: ElementType; isEDP: boolean; sizePenalty: number; isExcludeCannanball: boolean; isAmmoAttack: boolean; }) {
+    const { propertyAtk, isEDP, sizePenalty, isExcludeCannanball, isAmmoAttack } = params;
     const propertyMultiplier = this.getPropertyMultiplier(propertyAtk);
 
-    const extraAtkDetail = this.getExtraAtk();
+    const extraAtkDetail = this.getExtraAtk(isAmmoAttack);
     const extraAtk = extraAtkDetail.total;
     const cannonBallAtk = isExcludeCannanball ? 0 : this.totalBonus.cannonballAtk || 0;
     const masteryAtkDetail = this.getMasteryAtk();
@@ -1507,6 +1517,7 @@ export class DamageCalculator {
       sizePenalty,
       isEDP: this.isActiveEDP(skillName),
       isExcludeCannanball,
+      isAmmoAttack: !isMelee,
     });
 
     const extraDmg = this._class.getAdditionalDmg(infoForClass);
@@ -2108,6 +2119,8 @@ export class DamageCalculator {
       sizePenalty,
       isEDP: this.isActiveEDP(''),
       isExcludeCannanball: true,
+      // The basic attack fires ammunition only with a weapon that takes it.
+      isAmmoAttack: this.isRangeAtk(),
     });
 
     const { basicMinDamage, basicMaxDamage } = this.calcBasicDamage({ totalMin: totalMin, totalMax: totalMaxOver });

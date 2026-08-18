@@ -211,8 +211,36 @@ export class Kagerou extends Ninja {
     });
   }
 
+  /**
+   * The name of the passive that carries this tree's only conditional `x_atk`,
+   * **Perícia com Shuriken** (Dagger Practice, 522). The client is explicit that it
+   * is not a flat mastery — "Aumenta o ATQ ao usar Shuriken e Kunai" — while the
+   * dropdown books it as a plain `x_atk`, which lands on every attack.
+   */
+  private static readonly SHURIKEN_PRACTICE = 'Dagger Throwing Practice';
+
+  /**
+   * True when this attack throws something, so Perícia com Shuriken counts.
+   *
+   * A melee blow throws neither shuriken nor kunai, and the recording that measures
+   * it says so: at Lv10 the passive's +30 ATK put Centelha das Trevas 1,4% over the
+   * game with no gear at all, and removing it lands the packet to the unit
+   * (Shinkiro.shadow-flash-gear-states.spec.ts). The Kunai and Huuma throwing skills
+   * are all ranged, so they keep it; the basic attack follows the weapon.
+   */
+  private isThrowingAttack(info: InfoForClass): boolean {
+    const skill = this.atkSkills.find((s) => s.name === info.skillName);
+    if (!skill) return info.weapon?.data?.rangeType === 'range';
+    const isMelee = typeof skill.isMelee === 'function' ? skill.isMelee(info.weapon?.data?.typeName) : !!skill.isMelee;
+
+    return !isMelee;
+  }
+
   override getMasteryAtk(info: InfoForClass): number {
-    return this.calcHiddenMasteryAtk(info).totalAtk;
+    const total = this.calcHiddenMasteryAtk(info).totalAtk;
+    if (this.isThrowingAttack(info)) return total;
+
+    return total - (this.bonuses?.equipAtks?.[Kagerou.SHURIKEN_PRACTICE]?.['x_atk'] || 0);
   }
 
   override getMasteryMatk(info: InfoForClass): number {

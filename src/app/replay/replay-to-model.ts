@@ -89,8 +89,12 @@ const SLOTS: Record<SlotKey, { item: string; refine?: string; grade?: string; ca
  * array where this slot's enchant(s) begin. `cardOffset` is 0 for every normal
  * slot; it only matters for a single item that spans multiple costume-head
  * slots (see `resolveSlots`).
+ *
+ * `packed` drops the positional reading altogether and takes the record's
+ * non-zero cards in order — for slots whose card array is filled from 0 rather
+ * than keyed by position (see `resolveSlots`).
  */
-type ResolvedSlot = { key: SlotKey; cardOffset: number };
+type ResolvedSlot = { key: SlotKey; cardOffset: number; packed?: boolean };
 
 /**
  * Field names for a weapon's 4 socket positions, split by the weapon's real card
@@ -121,7 +125,7 @@ function weaponFields(slots: number, prefix: 'weapon' | 'leftWeapon' = 'weapon')
  */
 function resolveSlots(loc: number, isWeapon = false): ResolvedSlot[] {
   const slots: ResolvedSlot[] = [];
-  const push = (key: SlotKey, cardOffset = 0) => slots.push({ key, cardOffset });
+  const push = (key: SlotKey, cardOffset = 0, packed = false) => slots.push({ key, cardOffset, packed });
   // A two-handed weapon sets HAND_R | HAND_L on the SAME item — keep it as the
   // weapon, don't duplicate it into the shield slot.
   //
@@ -156,17 +160,27 @@ function resolveSlots(loc: number, isWeapon = false): ResolvedSlot[] {
   // A costume headgear can occupy several costume-head slots at once (e.g. a
   // top+mid+low "hood" costume). It's ONE physical inventory record, but the
   // calculator models each costume-head position separately, each with its own
-  // "visual enchant" stone. The record's shared `cards[]` array places each
-  // slot's enchant at a FIXED position keyed by the head slot — upper→cards[0],
-  // mid→cards[1], low→cards[2] — NOT packed sequentially. (Verified against
-  // replays: a mid-only costume carries its enchant at cards[1] and a low-only
-  // costume at cards[2], with cards[0] empty.) So a hood spanning all three
-  // reads [upperEnchant, midEnchant, lowEnchant], and a single mid/low costume
-  // still finds its enchant at the matching index — where packing from 0 wrongly
-  // read the empty cards[0] and dropped the enchant.
-  if (loc & EQP.COSTUME_TOP) push('costumeUpper', 0);
-  if (loc & EQP.COSTUME_MID) push('costumeMiddle', 1);
-  if (loc & EQP.COSTUME_LOW) push('costumeLower', 2);
+  // "visual enchant" stone — so the shared `cards[]` array has to say which
+  // enchant belongs to which head slot.
+  //
+  // **Where it says so depends on the packet the record came from**, which is
+  // why reading it positionally is only safe when there is more than one slot to
+  // tell apart:
+  //   - the inventory snapshot keys each enchant to a FIXED index — upper→cards[0],
+  //     mid→cards[1], low→cards[2] — so a low-only costume there reads
+  //     [0, 0, enchant] with cards[0] empty;
+  //   - an equip event packs them from 0 instead, so the same costume reads
+  //     [enchant]. Both layouts are in the fixtures, for the same item in the same
+  //     recording (hn-magic-lv1.rrf, Cachecol do Eremes).
+  // A costume worn in exactly ONE head slot therefore takes whichever card the
+  // record carries, at whatever index — position carries no information there.
+  // Only a hood spanning several slots needs the fixed index, and that is the
+  // snapshot's layout by construction (an equip event for it would be ambiguous).
+  const costumeHeads = [EQP.COSTUME_TOP, EQP.COSTUME_MID, EQP.COSTUME_LOW].filter((bit) => loc & bit).length;
+  const single = costumeHeads === 1;
+  if (loc & EQP.COSTUME_TOP) push('costumeUpper', 0, single);
+  if (loc & EQP.COSTUME_MID) push('costumeMiddle', 1, single);
+  if (loc & EQP.COSTUME_LOW) push('costumeLower', 2, single);
   if (loc & EQP.COSTUME_GARMENT) push('costumeGarment');
   if (loc & EQP.SHADOW_WEAPON) push('shadowWeapon');
   if (loc & EQP.SHADOW_ARMOR) push('shadowArmor');
@@ -273,7 +287,7 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
     if (!rec.equipped) continue;
     const itemKnown = known(rec.itemId);
     const isWeapon = itemMap[rec.itemId]?.['itemTypeId'] === ItemTypeId.WEAPON;
-    for (const { key, cardOffset } of resolveSlots(rec.equipped, isWeapon)) {
+    for (const { key, cardOffset, packed } of resolveSlots(rec.equipped, isWeapon)) {
       const def = SLOTS[key];
       if (!itemKnown) {
         skippedItems.push({ slot: key, itemId: rec.itemId });
@@ -285,7 +299,7 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
       // Both hands split their sockets into cards-then-enchants by the weapon's real
       // slot count; every other slot has fixed card/enchant fields.
       const fields = key === 'weapon' || key === 'leftWeapon' ? weaponFields(itemMap[rec.itemId]?.['slots'] ?? 0, key) : def.cards;
-      writeCards(model, fields, rec, cardOffset, () => skippedCards++);
+      writeCards(model, fields, rec, cardOffset, () => skippedCards++, packed);
       equippedCount++;
     }
     // Random options live on the item, not a card slot — apply them once per
@@ -398,13 +412,24 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
     return { applied, skipped };
   }
 
-  function writeCards(m: MainModel, fields: string[], rec: InventoryRecord, cardOffset: number, onSkip: () => void) {
+  function writeCards(
+    m: MainModel,
+    fields: string[],
+    rec: InventoryRecord,
+    cardOffset: number,
+    onSkip: () => void,
+    packed = false,
+  ) {
     // Map the replay's socket positions onto this slot's card/enchant fields
     // positionally, starting at `cardOffset` (non-zero only for the later slots
     // of a multi-slot costume head sharing one `cards[]` array). Ids not in the
     // LATAM DB can't be applied, so they're dropped.
-    for (let i = 0; i < fields.length && cardOffset + i < rec.cards.length; i++) {
-      const id = rec.cards[cardOffset + i];
+    //
+    // `packed` slots carry no positional information, so the non-zero cards are
+    // taken in order instead — see `resolveSlots` on costume heads.
+    const ids = packed ? rec.cards.filter(Boolean) : rec.cards.slice(cardOffset);
+    for (let i = 0; i < fields.length && i < ids.length; i++) {
+      const id = ids[i];
       if (!id) continue;
       if (known(id)) (m as any)[fields[i]] = id;
       else onSkip();

@@ -147,12 +147,13 @@ describe('replayToModel', () => {
     expect(model.weaponCard4).toBeUndefined();
   });
 
-  it('reads a costume-head enchant from its fixed slot position (mid=cards[1], low=cards[2])', () => {
-    // A mid-only and a low-only costume each carry their visual enchant at the
-    // card index that matches the head slot, not packed from 0. Verified against
-    // real replays: a mid costume's enchant sits at cards[1], a low at cards[2].
-    const COSTUME_MID = 0x800;
-    const COSTUME_LOW = 0x1000;
+  const COSTUME_TOP = 0x400;
+  const COSTUME_MID = 0x800;
+  const COSTUME_LOW = 0x1000;
+
+  it('reads a single-slot costume enchant from the fixed slot position (mid=cards[1], low=cards[2])', () => {
+    // The layout an inventory snapshot uses: each head slot's visual enchant sits at the
+    // card index that matches it, with the earlier positions empty.
     const replay = makeReplay([
       rec({ itemId: 4001, equipped: COSTUME_MID, cards: [0, 4002, 0, 0] }),
       rec({ itemId: 2301, equipped: COSTUME_LOW, cards: [0, 0, 1101, 0] }),
@@ -162,6 +163,32 @@ describe('replayToModel', () => {
     expect(model.costumeEnchantMiddle).toBe(4002);
     expect(model.costumeLower).toBe(2301);
     expect(model.costumeEnchantLower).toBe(1101);
+  });
+
+  it('also reads it when the record packs the cards from 0', () => {
+    // The layout an equip event uses — the same costume, the same recording, a different
+    // packet (hn-magic-lv1.rrf carries both for its Cachecol do Eremes). A costume in one
+    // head slot has a single enchant, so its index says nothing and reading it positionally
+    // dropped it: shinkiro-gear-states.rrf lost Mortal 1 and Mortal 3 that way.
+    const replay = makeReplay([
+      rec({ itemId: 4001, equipped: COSTUME_MID, cards: [4002] }),
+      rec({ itemId: 2301, equipped: COSTUME_LOW, cards: [1101] }),
+    ]);
+    const { model } = replayToModel(replay, itemMap) as any;
+    expect(model.costumeEnchantMiddle).toBe(4002);
+    expect(model.costumeEnchantLower).toBe(1101);
+  });
+
+  it('keeps the fixed positions for a costume spanning several head slots', () => {
+    // With more than one slot on one `cards[]`, the index is the only thing that says which
+    // enchant belongs where — so a hood keeps reading [upper, mid, low].
+    const replay = makeReplay([
+      rec({ itemId: 4001, equipped: COSTUME_TOP | COSTUME_MID | COSTUME_LOW, cards: [4002, 1101, 2301, 0] }),
+    ]);
+    const { model } = replayToModel(replay, itemMap) as any;
+    expect(model.costumeEnchantUpper).toBe(4002);
+    expect(model.costumeEnchantMiddle).toBe(1101);
+    expect(model.costumeEnchantLower).toBe(2301);
   });
 
   it('ignores non-equipped inventory records', () => {
