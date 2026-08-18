@@ -4,6 +4,10 @@ import { BASIC_ATTACK_VALUE, MAX_ROTATION_LENGTH } from '../../../../../core/rot
 import { buildRotationPickerOptions, elementTagClass as elementTagClassFn, RotationPickerOption } from '../battle-hud.logic';
 import { RotationEntryView } from '../rotation-view';
 
+/** Which of a row's three damage readings was clicked: the crit-weighted mean, or one of
+ *  the two outcomes it averages. */
+export type DamageBranch = 'mean' | 'nocri' | 'cri';
+
 /** The synthetic option for ataque básico. ragassets serves no `/icons/skill` entry for
  *  the in-game sword cursor, so the picker points straight at the map asset. */
 export const BASIC_ATTACK_ICON = 'https://assets.latam-tools.com.br/maps/_u/4680d9e5597cb23d.png';
@@ -47,8 +51,9 @@ export class RotationListComponent {
    *  compared build's own sources; `isBasic` says whether the row is ataque básico, whose
    *  rate is the only one carrying CRIT à distância. */
   @Output() critBreakdownClick = new EventEmitter<{ compare: boolean; isBasic: boolean }>();
-  /** The damage figure was clicked — the parent opens that step's damage formula. */
-  @Output() damageClick = new EventEmitter<{ index: number; event: Event }>();
+  /** A damage figure was clicked — the parent opens the explanation of *that* figure.
+   *  `branch` says which of the row's three readings it was. */
+  @Output() damageClick = new EventEmitter<{ index: number; event: Event; branch: DamageBranch }>();
 
   /** Same rule the HUD's own element tags use. */
   elementTagClass = elementTagClassFn;

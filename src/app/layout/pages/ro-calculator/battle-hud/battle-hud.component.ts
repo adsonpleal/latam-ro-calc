@@ -5,6 +5,7 @@ import { DropdownModel } from '../../../../models/dropdown.model';
 import { dmgTypeLabel as dmgTypeLabelUtil } from '../../../../utils';
 import { RotationCycle } from '../../../../core/rotation-schedule';
 import { RotationEntryView, RotationView } from './rotation-view';
+import { DamageBranch } from './rotation-list/rotation-list.component';
 import {
   buildDpsSteps,
   buildGraphClusters,
@@ -339,10 +340,15 @@ export class BattleHudComponent implements OnDestroy {
    * graph would answer with a third; the mean's own derivation is the honest target.
    * Ataque básico has no skill formula either way, so it keeps its own panel.
    */
-  openStepDamageFormula(payload: { index: number; event: Event }, formulaPanel: any, basicPanel: any, meanPanel: any) {
+  openStepDamageFormula(payload: { index: number; event: Event; branch?: DamageBranch }, panels: { formula: any; noCri: any; basic: any; mean: any }) {
     this.activeStepIndex = payload.index;
     const entry = this.activeStep;
-    const panel = entry?.isBasic ? basicPanel : entry?.critWeighted ? meanPanel : formulaPanel;
+    if (entry?.isBasic) return panels.basic?.toggle(payload.event);
+
+    // A row states which figure was clicked; without one (the DPS popover's per-step list)
+    // fall back to the row's headline, which is the mean exactly when there is one.
+    const branch = payload.branch ?? (entry?.critWeighted ? 'mean' : 'cri');
+    const panel = branch === 'nocri' ? panels.noCri : branch === 'mean' ? panels.mean : panels.formula;
     panel?.toggle(payload.event);
   }
 

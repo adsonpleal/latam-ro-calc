@@ -6,6 +6,7 @@
 import { BASIC_ATTACK_VALUE, isBasicAttack } from '../../../../core/rotation';
 import { RotationCycle, RotationLane, RotationScheduleStep, simulateRotation } from '../../../../core/rotation-schedule';
 import { dmgTypeLabel } from '../../../../utils/dmg-type-label';
+import { floor } from '../../../../utils/floor';
 import { buildDpsSteps, formatDuration, isCritWeighted, TimeToKill, TTK_CAP_SECONDS } from './battle-hud.logic';
 
 /** The catalog fields a rotation row needs to render itself. */
@@ -63,6 +64,13 @@ export interface RotationEntryView {
    */
   critWeighted: boolean;
   /**
+   * The two outcomes {@link damage} is the mean of, on the same per-use scale, so the row
+   * can show all three the way the skill card does. Both 0 when the skill cannot crit —
+   * there is only one outcome then, and it is `damage` itself.
+   */
+  damageNoCri: number;
+  damageCri: number;
+  /**
    * The rotation idled on *this* entry's own recarga — the red "Recarga não fecha" state.
    *
    * Always false for a one-entry rotation: there the skill simply repeats on its own
@@ -96,6 +104,18 @@ const splitValue = (value: string): { name: string; level: string } => {
   const [, name, level] = value?.match(/(.+)==(\d+)/) ?? [];
   return { name: name ?? value ?? '', level: level ?? '' };
 };
+
+/**
+ * One row's three damage readings. `damage` is the crit-weighted mean — the figure the
+ * rotation and the DPS run on — and the other two are the outcomes it averages.
+ */
+interface DamageReadings {
+  damage: number;
+  noCri: number;
+  cri: number;
+}
+
+const NO_DAMAGE: DamageReadings = { damage: 0, noCri: 0, cri: 0 };
 
 /**
  * The effected pass's DPS inputs when Efeitos are ticked, the base ones otherwise —
@@ -138,22 +158,35 @@ function effectedDpsInputs(dmg: any, hasSelectedChances: boolean): any {
  * why this panel was already correct while the one-decimal `totalHitPerSec` had the old
  * tab reporting 60s-cooldown skills 122x too high. See docs/combo.md.
  */
-function skillDamagePerUse(dmg: any): number {
+function skillDamagePerUse(dmg: any): DamageReadings {
   const steps = buildDpsSteps(dmg);
-  if (!steps) return 0;
+  if (!steps) return NO_DAMAGE;
 
-  return steps.damagePerUse;
+  return {
+    damage: steps.damagePerUse,
+    // The same two legs the mean averages, scaled by the hit count so all three readings
+    // are per use and the mean visibly sits between them.
+    noCri: steps.totalHit * steps.avgBasicDamage,
+    cri: steps.totalHit * steps.criDmg,
+  };
 }
 
 /** Per-use damage for ataque básico. `basicDps` is already damage x rate, so dividing by
  *  the rate recovers the damage exactly rather than re-deriving it from min/max/crit. */
-function basicDamagePerUse(summary: any, hasSelectedChances: boolean): number {
+function basicDamagePerUse(summary: any, hasSelectedChances: boolean): DamageReadings {
   const dmg = summary?.dmg;
   const rate = summary?.calc?.hitPerSecs || 0;
-  if (!dmg || rate <= 0) return 0;
+  if (!dmg || rate <= 0) return NO_DAMAGE;
 
   const dps = (hasSelectedChances ? dmg.effectedBasicDps : 0) || dmg.basicDps || 0;
-  return dps / rate;
+
+  return {
+    damage: dps / rate,
+    // Exactly the two values damage-calculator.ts hands calcDmgDps for basicDps, so the
+    // pair the row prints is the pair the mean was actually built from.
+    noCri: floor(((dmg.basicMinDamage || 0) + (dmg.basicMaxDamage || 0)) / 2),
+    cri: floor(((dmg.criMinDamage || 0) + (dmg.criMaxDamage || 0)) / 2),
+  };
 }
 
 /**
@@ -247,7 +280,7 @@ export function buildRotationView(input: {
     // the crit its damage was computed with.
     const edmg = basic ? dmg : effectedDpsInputs(dmg, hasSelectedChances);
     const requireTxt = basic ? '' : dmg?.requireTxt || '';
-    const damage = requireTxt ? 0 : basic ? basicDamagePerUse(summary, hasSelectedChances) : skillDamagePerUse(edmg);
+    const readings = requireTxt ? NO_DAMAGE : basic ? basicDamagePerUse(summary, hasSelectedChances) : skillDamagePerUse(edmg);
 
     const occurrence = seen.get(value) ?? 0;
     seen.set(value, occurrence + 1);
@@ -260,7 +293,9 @@ export function buildRotationView(input: {
       levelLabel: basic || !level ? '' : `Nv${level}`,
       icon: meta?.icon,
       levelList: meta?.levelList ?? [],
-      damage,
+      damage: readings.damage,
+      damageNoCri: readings.noCri,
+      damageCri: readings.cri,
       contributionPercent: 0,
       dmgTypeLabel: basic ? dmgTypeLabel('Melee') : dmgTypeLabel(summary?.calcSkill?.dmgType ?? ''),
       element: basic ? summary?.propertyAtk ?? '' : summary?.calcSkill?.propertySkill ?? '',

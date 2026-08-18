@@ -241,14 +241,46 @@
   white-space: nowrap;
 }
 
-/* Its own column, not part of line 1 — vertically centred against both text lines. */
+/* Its own column, not part of line 1 — vertically centred against both text lines. The
+   mean and its share sit on the first line; the two outcomes it averages go underneath,
+   right-aligned so the figures stack against the same edge. */
 .rot-dmg {
   display: flex;
-  align-items: baseline;
-  gap: 3px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
   flex-shrink: 0;
   font-size: 14px;
   white-space: nowrap;
+}
+
+.rot-dmg-main {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+/* Deliberately two steps quieter than the mean: same information, secondary billing. */
+.rot-dmg-split {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 10.5px;
+  color: var(--text-color-secondary);
+}
+
+.rot-dmg-branch {
+  cursor: pointer;
+}
+
+.rot-dmg-branch:hover {
+  text-decoration: underline;
+}
+
+.rot-dmg-branch:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 1px;
+  border-radius: 2px;
 }
 
 /* Opens that step's damage formula, the same one the (i) popover's figure opens. */

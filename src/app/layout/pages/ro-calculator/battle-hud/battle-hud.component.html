@@ -326,7 +326,7 @@
             (detailsClick)="openStepDetails($event, detailsPanel, basicPanel)"
             (elementTableClick)="onShowElementalTableClick()"
             (critBreakdownClick)="openCritBreakdown($event.compare, $event.isBasic)"
-            (damageClick)="openStepDamageFormula($event, damageFormulaPanel, basicPanel, critMeanPanel)"
+            (damageClick)="openStepDamageFormula($event, { formula: damageFormulaPanel, noCri: damageFormulaNoCriPanel, basic: basicPanel, mean: critMeanPanel })"
           ></app-rotation-list>
 
           <!-- DPS + the cycle timeline -->
@@ -564,7 +564,7 @@
             keyActivate
             [pTooltip]="entry.critWeighted ? 'Ver como a média por crítico é calculada' : 'Ver a fórmula do dano'"
             tooltipPosition="top"
-            (click)="openStepDamageFormula({ index: i, event: $event }, damageFormulaPanel, basicPanel, critMeanPanel)"
+            (click)="openStepDamageFormula({ index: i, event: $event }, { formula: damageFormulaPanel, noCri: damageFormulaNoCriPanel, basic: basicPanel, mean: critMeanPanel })"
             >{{ entry.damage | number: '1.0-0' }}</span
           >
         </div>

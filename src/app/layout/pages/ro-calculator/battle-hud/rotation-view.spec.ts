@@ -19,6 +19,11 @@ const summaryOf = (over: {
   canCri?: boolean;
   criRate?: number;
   criDmg?: number;
+  basicMin?: number;
+  basicMax?: number;
+  basicCriMin?: number;
+  basicCriMax?: number;
+  basicCriRate?: number;
 }) => ({
   calcSkill: {
     castPeriod: over.castPeriod ?? 0,
@@ -44,6 +49,12 @@ const summaryOf = (over: {
     skillTotalHit: over.hits ?? 1,
     skillPropertyMultiplier: 1,
     basicDps: over.basicDps ?? 4760, // 2000 per use at 2,38 hits/s
+    // The two legs damage-calculator.ts averages into basicDps.
+    basicMinDamage: over.basicMin ?? 0,
+    basicMaxDamage: over.basicMax ?? 0,
+    criMinDamage: over.basicCriMin ?? 0,
+    criMaxDamage: over.basicCriMax ?? 0,
+    criRateToMonster: over.basicCriRate ?? 0,
   },
 });
 
@@ -287,6 +298,47 @@ describe('crit-weighted rows', () => {
     expect(entry.critWeighted).toBe(true);
     // 0,62 x 1.114.048 + 0,38 x 1.760.192 — neither of the two numbers the card headlines.
     expect(entry.damage).toBe(1_359_582);
+  });
+
+  it('carries the two outcomes the mean sits between', () => {
+    const entry = viewFor({ canCri: true, criRate: 38 }).entries[0];
+
+    expect(entry.damageNoCri).toBe(1_114_048);
+    expect(entry.damageCri).toBe(1_760_192);
+    expect(entry.damage).toBeGreaterThan(entry.damageNoCri);
+    expect(entry.damage).toBeLessThan(entry.damageCri);
+  });
+
+  it('scales both outcomes by the hit count, like the mean', () => {
+    const summary = summaryOf({ perHit: 1000, hits: 3, criDmg: 4000, canCri: true, criRate: 50 });
+    const entry = buildRotationView({
+      rotation: ['Solar Kick==7'],
+      summaryByValue: new Map([['Solar Kick==7', summary]]),
+      baseSummary: summary,
+      hasSelectedChances: false,
+      atkSkills,
+    }).entries[0];
+
+    expect(entry.damageNoCri).toBe(3000);
+    expect(entry.damageCri).toBe(12_000);
+    expect(entry.damage).toBe(3 * 2500);
+  });
+
+  it('splits ataque básico from the same two legs the engine averaged', () => {
+    // basicDps 4760 at 2,38/s recovers a 2000 mean; the legs are the min/max averages
+    // damage-calculator.ts feeds calcDmgDps.
+    const summary = summaryOf({ basicMin: 1400, basicMax: 1600, basicCriMin: 2900, basicCriMax: 3100, basicCriRate: 40 });
+    const entry = buildRotationView({
+      rotation: [BASIC_ATTACK_VALUE],
+      summaryByValue: new Map(),
+      baseSummary: summary,
+      hasSelectedChances: false,
+      atkSkills,
+    }).entries[0];
+
+    expect(entry.critWeighted).toBe(true);
+    expect(entry.damageNoCri).toBe(1500);
+    expect(entry.damageCri).toBe(3000);
   });
 
   it('leaves a row alone when every use crits, or none does', () => {
