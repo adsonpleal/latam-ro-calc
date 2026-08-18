@@ -361,9 +361,10 @@ a.skill_link:hover {
   border-bottom: 1px solid var(--surface-border);
 }
 
-/* Value carries an explanation (e.g. the AGI-scaled ASPD-potion formula) on hover. */
+/* Value carries an explanation (e.g. the AGI-scaled ASPD-potion formula) on hover; the
+   dotted underline is what advertises it. */
 .bonus_tip {
-  cursor: help;
+  cursor: default;
   text-decoration: underline dotted;
   text-underline-offset: 3px;
 }

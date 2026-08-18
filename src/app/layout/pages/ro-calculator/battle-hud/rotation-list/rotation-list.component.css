@@ -365,7 +365,7 @@
    filled chip at this size competes with the figure it labels. */
 .rot-tag--mean {
   font-size: 10px;
-  cursor: help;
+  cursor: default;
   color: var(--teal-300, #61beb5);
   border-color: rgba(97, 190, 181, 0.45);
 }
@@ -392,9 +392,10 @@
   padding: 2px 3px;
 }
 
-/* Explains itself on hover; the cursor is hint enough without an underline. */
+/* Explains itself on hover, and that hover note is the whole affordance — no underline,
+   and the plain arrow rather than a help cursor. */
 .rot-pct {
-  cursor: help;
+  cursor: default;
 }
 
 .rot-crit-val {
@@ -592,7 +593,7 @@
 .rot-crit-cond {
   color: var(--yellow-300, #ffe082);
   font-weight: 700;
-  cursor: help;
+  cursor: default;
 }
 
 .rot-crit-sim {

@@ -11,7 +11,7 @@
   flex-shrink: 0;
   font-weight: 600;
   color: var(--orange-300, #f9ae61);
-  cursor: help;
+  cursor: default;
 }
 
 :host ::ng-deep .relieve_dd.p-dropdown {

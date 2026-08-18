@@ -156,7 +156,7 @@
   font-size: 13px;
   font-weight: 700;
   color: var(--orange-300, #f9ae61);
-  cursor: help;
+  cursor: default;
 }
 
 /* Sized to the longest option ("Nv. 10 — 99%") rather than to a round number, so there is
