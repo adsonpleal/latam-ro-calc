@@ -549,16 +549,35 @@
 }
 
 /* The level chip is a dropdown wearing the chip's clothes. */
+/* The badge is drawn by the dropdown itself, not by the .rot-level span inside it: the
+   chevron is a sibling of the label, so a border on the span alone left it hanging off
+   the right edge of the box it belongs to. Chrome here, none on the inner span — the
+   static (non-picker) case keeps its own badge from the shared .rot-level rule. */
 :host ::ng-deep .rot-level-dd.p-dropdown {
+  display: inline-flex;
+  align-items: center;
   background: transparent;
-  border: none;
+  border: 1px solid var(--surface-border);
+  border-radius: 3px;
+  padding: 0 2px 0 3px;
   min-width: 0;
   height: auto;
 }
 
+:host ::ng-deep .rot-level-dd.p-dropdown .rot-level {
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+
 :host ::ng-deep .rot-level-dd.p-dropdown .p-dropdown-trigger {
-  width: 10px;
+  width: 12px;
   color: var(--text-color-secondary);
+}
+
+:host ::ng-deep .rot-level-dd.p-dropdown .p-dropdown-trigger .p-icon {
+  width: 10px;
+  height: 10px;
 }
 
 :host ::ng-deep .rot-level-dd.p-dropdown .p-dropdown-label {

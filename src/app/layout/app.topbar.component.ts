@@ -165,6 +165,7 @@ export class AppTopBarComponent {
         'O Estudo de Livros voltou a valer para Feiticeiro e Elementalista. A habilidade promete ATQ de perícia e velocidade de ataque com Livro equipado, e a velocidade de ataque nunca chegava ao cálculo: estava guardada sob um nome que nenhuma parte do simulador lia, de modo que só o ATQ era aplicado. Agora, no Nv 10 e com Livro na mão, são +30 de ATQ de perícia e +5% de velocidade de ataque, e nada com qualquer outra arma. Reportado por Ted.',
         'A Sinfonia Mística passou a somar seus 100% de dano junto com os bônus dos equipamentos, em vez de multiplicar por fora deles. A descrição da habilidade aumenta em 100% o dano de Disparo Rítmico, Atirar Rosas e Arranjo Musical, e essa parcela entra na mesma conta em que entram os equipamentos que também aumentam essas habilidades. Um Chicote Consertado que já vale +35% no Disparo Rítmico passa a somar 135%, e 235% com a ultimate ligada — antes a ultimate dobrava o total, valesse o que valesse o chicote. Vale para Diva e Maestro. Reportado por usuário anônimo.',
         'Os níveis de habilidade passaram a aparecer como "Nv" em toda a interface. Parte das listas ainda dizia "Lv", que convivia com o "Nv" já usado na barra de combate, nas simulações salvas e na lista de alvos.',
+        'No seletor de nível da habilidade, na barra de combate, a setinha ficava do lado de fora da moldura do nível. A moldura passou a envolver o conjunto, nível e setinha.',
       ],
     },
     {
