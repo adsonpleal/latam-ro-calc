@@ -179,6 +179,8 @@
              type: context for that figure rather than competitors to it. Only where they are
              two different numbers — at 0% or 100% crit the three collapse into one. Each
              opens its own formula, the same two the skill card offers. -->
+        <!-- Two grid columns, so the figures right-align against each other and the tags
+             left-align against each other — the same value-then-tag reading as the mean. -->
         <span class="rot-dmg-split" *ngIf="entry.critWeighted">
           <span
             class="rot-dmg-branch"
@@ -188,8 +190,9 @@
             pTooltip="Ver a fórmula do dano sem crítico"
             tooltipPosition="top"
             (click)="damageClick.emit({ index: i, event: $event, branch: 'nocri' })"
-            >sem crít. {{ entry.damageNoCri | number: '1.0-0' }}</span
+            >{{ entry.damageNoCri | number: '1.0-0' }}</span
           >
+          <span class="rot-tag rot-tag--sm">sem crít.</span>
           <span
             class="rot-dmg-branch"
             role="button"
@@ -198,8 +201,9 @@
             pTooltip="Ver a fórmula do dano crítico"
             tooltipPosition="top"
             (click)="damageClick.emit({ index: i, event: $event, branch: 'cri' })"
-            >crít. {{ entry.damageCri | number: '1.0-0' }}</span
+            >{{ entry.damageCri | number: '1.0-0' }}</span
           >
+          <span class="rot-tag rot-tag--sm">crít.</span>
         </span>
 
         <span class="rot-dmg-main">
@@ -217,7 +221,7 @@
                is the whole point of the tag: without it the two read as "damage" and "now
                multiply by 38%", which is the same 38% counted twice. -->
           <span
-            class="rot-dmg-mean"
+            class="rot-tag rot-tag--mean"
             *ngIf="entry.critWeighted"
             [pTooltip]="MEAN_TAG_TOOLTIP"
             tooltipPosition="top"

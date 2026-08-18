@@ -446,10 +446,14 @@
    popover height instead of nesting a separate scrollbar per section. A fixed
    width keeps the popover itself from growing to fit the node-graph below (which
    can run 10+ columns wide) — it clips at `width` and scrolls horizontally instead. */
+/* The height grows with the screen instead of stopping at a flat 380px. A skill whose min
+   and max damage differ draws two graph sections, which runs to roughly 420px and scrolled
+   even on a monitor with hundreds of spare pixels. Still bounded at the top end: the panel
+   is anchored to whatever was clicked, so an unbounded one could not be positioned. */
 .formula-trace-scroll {
   width: 960px;
   max-width: 80vw;
-  max-height: 380px;
+  max-height: min(calc(100vh - 240px), 760px);
   overflow-y: auto;
   overflow-x: auto;
   padding-right: 4px;
