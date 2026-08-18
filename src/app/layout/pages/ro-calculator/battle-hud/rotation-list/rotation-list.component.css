@@ -253,7 +253,23 @@
   white-space: nowrap;
 }
 
+/* The figures stack in their own column and the tag and share sit beside the pair, centred
+   against it — so a comparison adds a line under the figure rather than running the row on
+   sideways, and the share stays level with both. */
 .rot-dmg-main {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.rot-dmg-figs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+
+.rot-dmg-meta {
   display: flex;
   /* Centred, not baseline-aligned: the tag is half the figure's size, so sharing a baseline
      with it drops the label visibly below the number it labels. */

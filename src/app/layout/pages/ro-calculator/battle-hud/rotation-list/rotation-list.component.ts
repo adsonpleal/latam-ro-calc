@@ -85,6 +85,20 @@ export class RotationListComponent {
     return entry.hasDamageSpread ? 'Ver como o dano médio é calculado' : 'Ver a fórmula do dano';
   }
 
+  /** The compared build's figure sits directly under the current one, and since the arrow
+   *  between them went away only its colour says which is which. The tooltip says it too. */
+  compareDamageTooltip(entry: RotationEntryView): string {
+    const how = entry.hasDamageSpread ? 'ver como o dano médio é calculado' : 'ver a fórmula do dano';
+
+    return `Dano da comparação — ${how}`;
+  }
+
+  /** A one-skill rotation is all of the damage by definition, so its "100,0%" states the
+   *  obvious. The share only earns its place once there is something to share it with. */
+  get showsContribution(): boolean {
+    return this.entries.length > 1;
+  }
+
   get isFull(): boolean {
     return this.rotation.length >= MAX_ROTATION_LENGTH;
   }
