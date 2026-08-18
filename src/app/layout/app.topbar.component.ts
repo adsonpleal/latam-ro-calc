@@ -159,6 +159,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.70-beta',
+      date: '18-08-2026',
+      logs: [
+        'O Projétil Venenoso entrou no banco de itens. A falta dele aparecia de um jeito indireto: ao importar a gravação de quem usava esse projétil, a munição caía no outro maço da bolsa e a build vinha com ATQ 40 no lugar dos 20 que o Projétil Venenoso tem, inflando o dano em cerca de 1%. Os 20 de ATQ estão presos por duas fontes independentes que não se apoiam uma na outra: a descrição do cliente e os críticos da própria gravação, que só fecham exatos com esse número e erram com 19 ou com 21.',
+        'A importação de replay passou a escolher a munição certa quando a gravação declara mais de um maço equipado. O jogo só deixa equipar um, mas o retrato guardado no arquivo às vezes marca vários — dois maços de projétil numa gravação de Guerrilheiro, quatro maços de flecha numa de Falcão do Vento —, e antes valia o último da lista, que era o errado nas duas. Quem atira gasta o maço carregado, e o arquivo registra esse consumo por posição da bolsa: é isso que decide agora. A conta fecha sozinha na gravação do Guerrilheiro, que gasta 210 projéteis, exatamente os 30 disparos de Fogo de Supressão a 5 mais os 10 de Artilharia Pesada a 6. A ordem na bolsa virou apenas o critério de desempate, porque sozinha ela não diz nada: o maço certo é o primeiro numa das gravações e o último na outra.',
+        'A classe em si não precisou de mudança. A gravação foi conferida pacote a pacote nos quatro estados que ela mostra — quase sem equipamento, equipada, e depois trocando o Lança-Granadas pela Espingarda e pelo Revólver —, e a janela de status bate com o jogo em todos os campos: ATQ, ATQ de equipamento, P.ATQ, S.ATQM, RES, RESM, C.Mais, T.CRÍT e VelAtq. O crítico da Artilharia Pesada, único número determinístico do arquivo, sai exato na unidade, e os 40 pacotes gravados caem dentro da faixa calculada. O Fogo de Supressão não crita, então dele só dá para afirmar que nada escapa da faixa — uma gravação com mais disparos apertaria essa margem. Obrigado Nicolas pela gravação.',
+      ],
+    },
+    {
       v: '0.1.69-beta',
       date: '18-08-2026',
       logs: [
