@@ -49,7 +49,9 @@ it('despejo', () => {
   out.push('bônus aleatórios: ' + j(model.rawOptionTxts?.filter(Boolean)));
 
   out.push('\n### armas ao longo do tempo');
-  const trocas = (r.equipChanges ?? []).filter((e: any) => e.location === 34);
+  // EQP_HAND_R é o bit 0x02: uma arma de duas mãos chega como 34 (0x02|0x20, com o escudo),
+  // mas uma de uma mão chega como 2. Testar `=== 34` perde a segunda e a seção sai vazia.
+  const trocas = (r.equipChanges ?? []).filter((e: any) => (e.location & 0x02) !== 0);
   for (const e of trocas) out.push(`${e.time} ${e.equipped ? 'EQUIPA ' : 'RETIRA '} ${e.itemId} +${e.refine} cartas=[${e.cards.join(',')}] ${latam[String(e.itemId)]?.name ?? ''}`);
 
   out.push('\n### dano');

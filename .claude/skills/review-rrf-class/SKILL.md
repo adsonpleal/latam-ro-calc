@@ -144,8 +144,13 @@ Manopla Sombria POD's "ATQ e ATQM +1 por refino" was found). Fix the build befor
 
 ## 4. Rebuild the timeline
 
-- **Weapon**: initial weapon from `importReplayBuffer`, then every `equipChanges` entry with
-  `location === 34` and `equipped`. Refine and cards come on the change event.
+- **Weapon**: initial weapon from `importReplayBuffer`, then every `equipChanges` entry
+  whose `location` carries `EQP_HAND_R` (`location & 0x02`) and is `equipped`. Refine and
+  cards come on the change event. Match on the **bit**, not on `=== 34`: 34 is `0x02|0x20`,
+  a two-handed weapon that also fills the shield slot, and a one-handed one arrives as
+  plain `2`. Testing for 34 silently prints an empty weapon timeline for the one-handed
+  case, which reads as "the character never swapped weapons" — a Sky Emperor recording that
+  equips a book mid-session was misread that way.
 - **Counters/toggles**: the EFST id is in `statusEvents`. Resolve unknown ids from ragassets'
   status table — `{id, name}` for every EFST the client knows, pt-BR names. Do not guess.
   ```bash
