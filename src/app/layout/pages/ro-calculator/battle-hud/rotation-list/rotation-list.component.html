@@ -198,7 +198,13 @@
                 – {{ range.max | number: '1.0-0' }}</ng-container
               ></span
             >
-            <span class="rot-tag rot-tag--sm" [pTooltip]="rangeTagTooltip(range)" tooltipPosition="top">{{ range.label }}</span>
+            <span
+              class="rot-tag rot-tag--sm"
+              [ngClass]="'rot-tag--' + range.kind"
+              [pTooltip]="rangeTagTooltip(range)"
+              tooltipPosition="top"
+              >{{ range.label }}</span
+            >
           </ng-container>
         </span>
 
