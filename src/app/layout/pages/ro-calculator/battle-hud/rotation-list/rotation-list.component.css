@@ -241,14 +241,13 @@
   white-space: nowrap;
 }
 
-/* Its own column, not part of line 1 — vertically centred against both text lines. The
-   mean and its share sit on the first line; the two outcomes it averages go underneath,
-   right-aligned so the figures stack against the same edge. */
+/* Its own column, not part of line 1 — vertically centred against both text lines. The two
+   outcomes lead, stacked, and the mean follows at full size: the eye lands on the figure the
+   row is about, with its two ends already in view beside it. */
 .rot-dmg {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 1px;
+  align-items: center;
+  gap: 8px;
   flex-shrink: 0;
   font-size: 14px;
   white-space: nowrap;
@@ -260,11 +259,13 @@
   gap: 3px;
 }
 
-/* Deliberately two steps quieter than the mean: same information, secondary billing. */
+/* Deliberately two steps quieter than the mean: same information, secondary billing.
+   Right-aligned so the two figures stack against the edge nearest the mean. */
 .rot-dmg-split {
   display: flex;
-  align-items: baseline;
-  gap: 4px;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.3;
   font-size: 10.5px;
   color: var(--text-color-secondary);
 }

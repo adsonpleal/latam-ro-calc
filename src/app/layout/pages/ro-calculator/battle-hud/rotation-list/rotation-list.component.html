@@ -175,6 +175,33 @@
       </div>
 
       <span class="rot-dmg">
+        <!-- The two outcomes the mean is made of, stacked to its left in a smaller, quieter
+             type: context for that figure rather than competitors to it. Only where they are
+             two different numbers — at 0% or 100% crit the three collapse into one. Each
+             opens its own formula, the same two the skill card offers. -->
+        <span class="rot-dmg-split" *ngIf="entry.critWeighted">
+          <span
+            class="rot-dmg-branch"
+            role="button"
+            tabindex="0"
+            keyActivate
+            pTooltip="Ver a fórmula do dano sem crítico"
+            tooltipPosition="top"
+            (click)="damageClick.emit({ index: i, event: $event, branch: 'nocri' })"
+            >sem crít. {{ entry.damageNoCri | number: '1.0-0' }}</span
+          >
+          <span
+            class="rot-dmg-branch"
+            role="button"
+            tabindex="0"
+            keyActivate
+            pTooltip="Ver a fórmula do dano crítico"
+            tooltipPosition="top"
+            (click)="damageClick.emit({ index: i, event: $event, branch: 'cri' })"
+            >crít. {{ entry.damageCri | number: '1.0-0' }}</span
+          >
+        </span>
+
         <span class="rot-dmg-main">
           <span
             class="rot-dmg-val"
@@ -216,33 +243,6 @@
           >
         </span>
 
-        <!-- The two outcomes the mean above is made of, kept small and underneath: they are
-             context for that figure, not competitors to it. Only where they are two
-             different numbers — at 0% or 100% crit the three collapse into one. Each opens
-             its own formula, the same two the skill card offers. -->
-        <span class="rot-dmg-split" *ngIf="entry.critWeighted">
-          <span
-            class="rot-dmg-branch"
-            role="button"
-            tabindex="0"
-            keyActivate
-            pTooltip="Ver a fórmula do dano sem crítico"
-            tooltipPosition="top"
-            (click)="damageClick.emit({ index: i, event: $event, branch: 'nocri' })"
-            >sem crít. {{ entry.damageNoCri | number: '1.0-0' }}</span
-          >
-          <span class="rot-sep">·</span>
-          <span
-            class="rot-dmg-branch"
-            role="button"
-            tabindex="0"
-            keyActivate
-            pTooltip="Ver a fórmula do dano crítico"
-            tooltipPosition="top"
-            (click)="damageClick.emit({ index: i, event: $event, branch: 'cri' })"
-            >crít. {{ entry.damageCri | number: '1.0-0' }}</span
-          >
-        </span>
       </span>
 
       <i
