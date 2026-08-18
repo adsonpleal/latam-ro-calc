@@ -133,9 +133,8 @@
           <span class="rot-crit" *ngIf="entry.canCrit">
             • Crít.
             <b
-              class="rot-crit-val"
-              [class.bonus_clickable]="entry.isBasic ? isCritClickableBasic : isCritClickable"
-              (click)="critBreakdownClick.emit({ compare: false, isBasic: !!entry.isBasic })"
+              class="rot-crit-val bonus_clickable"
+              (click)="critBreakdownClick.emit({ index: i, event: $event })"
               keyActivate
               tabindex="0"
               role="button"
@@ -152,9 +151,8 @@
               <ng-container *ngIf="sim.critRate !== entry.critRate">
                 <span class="rot-arrow">→</span>
                 <span
-                  class="rot-crit-sim"
-                  [class.bonus_clickable]="entry.isBasic ? isCritClickableBasic : isCritClickable"
-                  (click)="critBreakdownClick.emit({ compare: true, isBasic: !!entry.isBasic })"
+                  class="rot-crit-sim bonus_clickable"
+                  (click)="critBreakdownClick.emit({ index: i, event: $event })"
                   keyActivate
                   tabindex="0"
                   role="button"

@@ -5,6 +5,7 @@
 // display-ready segments — they never re-derive game-truth timing math.
 
 import { ElementType } from '../../../../constants/element-type.const';
+import { CritRateBreakdown, CritRateStep } from '../../../../core/crit-rate';
 import { calcDmgDpsDetailed } from '../../../../utils/calc-dmg-dps';
 import { formatCalcNumber, formatNumber, formatRate, formatSignedCalcNumber } from '../../../../utils/format-number';
 import { DamageFormulaCalcRow, DamageFormulaGraph, DamageFormulaNode } from '../../../../models/damage-summary.model';
@@ -633,12 +634,29 @@ export function buildRotationPickerOptions(
   return options;
 }
 
+
+
+/** One row of the "Tx. Crítico" popover: a step of the current build's derivation, with
+ *  the compared build's figure for the same step when the two line up. */
+export interface CritRateRow {
+  step: CritRateStep;
+  /** Null when there is nothing to compare, or when the two derivations do not match. */
+  sim: number | null;
+}
+
 /**
- * Which bonus keys a crit rate is drilled into, per row kind.
+ * Pairs the two builds' crit derivations row by row.
  *
- * `criRange` ("CRIT à distância") is in the ranged BASIC attack's rate and in no skill's —
- * see DamageCalculator.getRangedCriRate — so a skill row that offered it would name a source
- * that did not contribute to the number the user clicked.
+ * Only when they are step-for-step the same shape. They can genuinely differ — swapping to
+ * a katar doubles the character crit and moves the target's shield ahead of the skill's
+ * percentage, so the two sides stop being the same calculation — and pairing those rows by
+ * position would put a number under a label that did not produce it. In that case the
+ * comparison column is simply dropped; the totals still sit side by side above.
  */
-export const CRIT_KEYS_BASIC = ['cri', 'criRange'];
-export const CRIT_KEYS_SKILL = ['cri'];
+export function alignCritRateSteps(current: CritRateBreakdown | null | undefined, compare: CritRateBreakdown | null | undefined): CritRateRow[] {
+  const steps = current?.steps ?? [];
+  const simSteps = compare?.steps ?? [];
+  const sameShape = simSteps.length === steps.length && steps.every((s, i) => s.key === simSteps[i].key);
+
+  return steps.map((step, i) => ({ step, sim: sameShape ? simSteps[i].value : null }));
+}

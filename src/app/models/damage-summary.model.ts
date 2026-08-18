@@ -1,3 +1,4 @@
+import { CritRateBreakdown } from '../core/crit-rate';
 import { ElementType } from '../constants/element-type.const';
 
 export interface BasicDamageSummaryModel {
@@ -14,6 +15,8 @@ export interface BasicDamageSummaryModel {
    *  next to the crit value. */
   criRangeBonus: number;
   criRateToMonster: number;
+  /** Every term behind `criRateToMonster`, in the order the engine applies them. */
+  criRateBreakdown: CritRateBreakdown;
   totalPene: number;
   accuracy: number;
   basicDps: number;
@@ -140,6 +143,9 @@ export interface SkillDamageSummaryModel {
   skillDps: number;
   skillHitKill: number;
   skillCriRateToMonster: number;
+  /** Every term behind `skillCriRateToMonster`, including the skill's own flat crit and
+   *  the share of the character's crit it applies. */
+  skillCriRateBreakdown: CritRateBreakdown;
   skillCriDmgToMonster: number;
   /** Fraction of the character's crit-damage bonus this skill actually applies
    *  (1 = full bonus; e.g. 0.5 for skills like Sonic Blow that only get half). */

@@ -35,22 +35,16 @@ export class RotationListComponent {
   @Input() isInProcessingPreset = false;
   /** Total damage of one cycle, for the contribution tooltip. */
   @Input() damagePerCycle = 0;
-  /** Whether a skill row's crit rate has equipment sources behind it worth opening. */
-  @Input() isCritClickable = false;
-  /** The same for an ataque básico row, whose rate also draws on CRIT à distância — a build
-   *  can have that bonus and no plain `cri` source at all, and the row must still open. */
-  @Input() isCritClickableBasic = false;
-
   @Output() rotationChange = new EventEmitter<string[]>();
   @Output() optimizeClick = new EventEmitter<void>();
   @Output() clearClick = new EventEmitter<void>();
   @Output() detailsClick = new EventEmitter<{ index: number; event: Event }>();
   /** The element tag was clicked — the parent opens the elemental table. */
   @Output() elementTableClick = new EventEmitter<void>();
-  /** A crit rate was clicked — `compare` marks the simulated one, which drills into the
-   *  compared build's own sources; `isBasic` says whether the row is ataque básico, whose
-   *  rate is the only one carrying CRIT à distância. */
-  @Output() critBreakdownClick = new EventEmitter<{ compare: boolean; isBasic: boolean }>();
+  /** A crit rate was clicked — the parent opens that row's full derivation. `index` says
+   *  which row, since the skill's own flat crit and its share of the character's crit are
+   *  part of the answer and differ per skill. */
+  @Output() critBreakdownClick = new EventEmitter<{ index: number; event: Event }>();
   /** A damage figure was clicked — the parent opens the explanation of *that* figure.
    *  `branch` says which of the row's three readings it was. */
   @Output() damageClick = new EventEmitter<{ index: number; event: Event; branch: DamageBranch }>();

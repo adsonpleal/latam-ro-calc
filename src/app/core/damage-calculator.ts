@@ -10,6 +10,7 @@ import { MainModel } from 'src/app/models/main.model';
 import { StatusSummary } from 'src/app/models/status-summary.model';
 import { SKILL_ID_BY_NAME } from 'src/app/skills';
 import { calcDmgDps, calcSkillAspd, engineHitsPerSec, floor, formatCalcNumber, isSkillCanEDP, round } from 'src/app/utils';
+import { computeBasicCritRate, computeSkillCritRate, EMPTY_CRIT_RATE } from './crit-rate';
 import { DEFAULT_PVP_CONTEXT, DefenderReductionStep, PvpContext, defenderReductionSteps, pvpChannelOf, woeGlobalMultiplier } from './pvp';
 
 interface DamageResultModel {
@@ -64,6 +65,7 @@ export class DamageCalculator {
   private ammoPropertyAtk: ElementType;
 
   private zeroSkillDmg: SkillDamageSummaryModel = {
+    skillCriRateBreakdown: EMPTY_CRIT_RATE,
     skillDamageLabel: '',
     skillNoStackDamageLabel: '',
     baseSkillDamage: 0,
@@ -482,13 +484,15 @@ export class DamageCalculator {
    * the job bonus + 1 from enchant 4750) and the game's crit demands 107. Except the base
    * ATK of the same recording (SP_ATK1 = 846) demands 108: the two ranges do not overlap,
    * so one of the two formulas is still wrong. See NightWatch.replay.spec.ts.
+   *
+   * This is the character-sheet figure. The rate actually rolled against a target uses
+   * `⌊LUK × 0,3⌋` instead and then answers to the skill and the target as well — that whole
+   * derivation lives in core/crit-rate.ts, which is also what the UI reads.
    */
-  private getBaseCriRate(isActual = false) {
+  private getBaseCriRate() {
     const { cri } = this.totalBonus;
     const { totalLuk } = this.status;
-
-    const criFromLuk = isActual ? floor(totalLuk * 0.3) : floor(totalLuk / 3);
-    const base = cri + criFromLuk;
+    const base = cri + floor(totalLuk / 3);
 
     return this.weaponData.data?.typeName === 'katar' ? base * 2 : base;
   }
@@ -2101,12 +2105,22 @@ export class DamageCalculator {
 
     const criShield = this.monster.data.criShield;
     const misc = this.getMiscData();
-    const actualBasicCriRate = this.getBaseCriRate(true);
     const basicAspd = this.getBasicAspd();
     // `getRangedCriRate()` enters here and nowhere else: this is the basic attack's rate.
-    // The skill branch below builds its own rate from `actualBasicCriRate` and must not see it.
+    // The skill branch below builds its own rate and must not see it.
     const rangedCriRate = this.getRangedCriRate();
-    const criRateToMonster = Math.max(0, actualBasicCriRate + rangedCriRate + this.getExtraCriRateToMonster() - criShield);
+    // Every term named, in the engine's own order — the popover reads the same object the
+    // rate itself comes out of, so the two cannot disagree. See core/crit-rate.ts.
+    const criRateBreakdown = computeBasicCritRate({
+      totalLuk: this.status.totalLuk,
+      equipCri: this.totalBonus.cri || 0,
+      isKatar: this.weaponData.data?.typeName === 'katar',
+      rangedCri: rangedCriRate,
+      extraCri: this.getExtraCriRateToMonster(),
+      criShield,
+      targetLuk: this.monster.data.luk,
+    });
+    const criRateToMonster = criRateBreakdown.total;
     const basicDps = calcDmgDps({
       accRate: misc.accuracy,
       cri: criRateToMonster,
@@ -2131,6 +2145,7 @@ export class DamageCalculator {
       basicCriRate: this.getBaseCriRate(),
       criRangeBonus: rangedCriRate,
       criRateToMonster,
+      criRateBreakdown,
       totalPene: this.isActiveInfilltration ? 100 : this.getTotalPhysicalPene(),
       accuracy: misc.accuracy,
       basicDps,
@@ -2301,16 +2316,18 @@ export class DamageCalculator {
 
     const skillAspd = calcSkillAspd({ skillData, status: this.status, totalEquipStatus: this.totalBonus, skillLevel });
 
-    const isKatar = this.weaponData.data?.typeName === 'katar';
-    let actualCri = calculated.canCri
-      ? isKatar
-        ? Math.max(0, floor(actualBasicCriRate + baseSkillCri - criShield) * baseCriPercentage)
-        : Math.max(0, floor((actualBasicCriRate + baseSkillCri) * baseCriPercentage) - criShield)
-      : 0;
-    if (this.isForceSkillCri || forceCri) {
-      actualCri = 100;
-    }
-    actualCri = floor(actualCri);
+    const skillCriRateBreakdown = computeSkillCritRate({
+      totalLuk: this.status.totalLuk,
+      equipCri: this.totalBonus.cri || 0,
+      isKatar: this.weaponData.data?.typeName === 'katar',
+      canCri: calculated.canCri,
+      forceCri: this.isForceSkillCri || forceCri,
+      skillCri: baseSkillCri,
+      skillCriPercentage: baseCriPercentage,
+      criShield,
+      targetLuk: this.monster.data.luk,
+    });
+    const actualCri = skillCriRateBreakdown.total;
 
     const skillAccRate = isHit100 || isMatk ? 100 : basicDmg.accuracy;
     const { avgCriDamage, avgNoCriDamage } = calculated;
@@ -2368,6 +2385,7 @@ export class DamageCalculator {
       skillDps,
       skillHitKill: hitKill,
       skillCriRateToMonster: actualCri,
+      skillCriRateBreakdown,
       skillCriDmgToMonster: calculated.criDmgToMonster,
       // Some skills only apply a fraction of the character's crit-damage bonus
       // (e.g. Sonic Blow's criDmgPercentage: 0.5) — exposed so the UI can flag when

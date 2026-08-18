@@ -6,15 +6,16 @@ import { dmgTypeLabel as dmgTypeLabelUtil } from '../../../../utils';
 import { RotationCycle } from '../../../../core/rotation-schedule';
 import { RotationEntryView, RotationView } from './rotation-view';
 import { DamageBranch } from './rotation-list/rotation-list.component';
+import { CritRateBreakdown, CritRateStep } from '../../../../core/crit-rate';
 import {
+  alignCritRateSteps,
   buildDpsSteps,
   buildGraphClusters,
   buildOptimizeInfo,
   CastbarResult,
   computeCastbar,
   computeTimeToKill,
-  CRIT_KEYS_BASIC,
-  CRIT_KEYS_SKILL,
+  CritRateRow,
   deltaPercent,
   DpsSide,
   DpsSteps,
@@ -199,7 +200,6 @@ export class BattleHudComponent implements OnDestroy {
   elementTagClass = elementTagClassFn;
 
   /** For the basic-attack popover's Tx. Crít. row, which drills into both crit keys. */
-  readonly critKeysBasic = CRIT_KEYS_BASIC;
 
   onShowElementalTableClick(): void {
     this.showElementTableClick.emit(1);
@@ -251,26 +251,54 @@ export class BattleHudComponent implements OnDestroy {
    * a basic-attack row's rate and in no skill's, so listing it for a skill would name a
    * source that did not contribute to the number clicked.
    */
-  openCritBreakdown(compare = false, isBasic = false): void {
-    this.openBreakdown(
-      'Tx. Crítico',
-      isBasic ? CRIT_KEYS_BASIC : CRIT_KEYS_SKILL,
-      'summary_stat_atk',
-      undefined,
-      undefined,
-      compare,
-      isBasic ? this.criRangeNote() : undefined,
-    );
+  /**
+   * The whole derivation of the crit rate the active row rolls with — LUK, equipment, the
+   * skill's own flat crit and its share of the character's, and the target's shield.
+   *
+   * Read off the engine's own result object (core/crit-rate.ts), which is where the rate
+   * itself comes from, so the popover cannot show a sum that disagrees with the figure
+   * that was clicked. Falls back to the build's own solve when no row is picked.
+   */
+  get critRate(): CritRateBreakdown | null {
+    const dmg = this.dmg;
+    if (!dmg) return null;
+
+    return (this.activeStep?.isBasic ? dmg.criRateBreakdown : dmg.skillCriRateBreakdown) ?? null;
   }
 
-  /** Says how much of a basic attack's crit rate is the ranged-only bonus, when there is any. */
-  criRangeNote(): string | undefined {
-    const bonus = this.totalSummary?.calc?.criRangeBonus || 0;
+  private get critRateSim(): CritRateBreakdown | null {
+    if (!this.isComparing) return null;
+    const dmg2 = this.dmg2;
+    if (!dmg2) return null;
 
-    return bonus
-      ? `Inclui CRIT à distância +${bonus}, que só conta no ataque básico com arma de longo alcance — ` +
-          'nenhuma habilidade o recebe, e por isso ele fica fora do CRIT da ficha do personagem.'
-      : undefined;
+    return (this.activeStep?.isBasic ? dmg2.criRateBreakdown : dmg2.skillCriRateBreakdown) ?? null;
+  }
+
+  get critRateRows(): CritRateRow[] {
+    return alignCritRateSteps(this.critRate, this.critRateSim);
+  }
+
+  /** Whether the popover is describing an ataque básico row — it carries two terms
+   *  (CRIT à distância, CRIT contra o alvo) that no skill receives. */
+  get isCritRateBasic(): boolean {
+    return !!this.activeStep?.isBasic;
+  }
+
+  /**
+   * How one crit-rate row prints its number: a factor as a percentage, and everything else
+   * unsigned — the operator column on the left already carries the sign, so a subtraction
+   * would otherwise read "− ... -10".
+   */
+  critStepText(step: CritRateStep, value: number): string {
+    if (step.kind === 'multiply') return `${formatNumber(value * 100, 0, 1)}%`;
+
+    return formatNumber(Math.abs(value), 0, 1);
+  }
+
+  /** A row's crit rate was clicked: point the popover at that row before opening it. */
+  openStepCritRate(payload: { index: number; event: Event }, panel: any) {
+    this.activeStepIndex = payload.index;
+    panel?.toggle(payload.event);
   }
 
   /** A graph node is clickable when it has a derivation to show or equipment behind it. */

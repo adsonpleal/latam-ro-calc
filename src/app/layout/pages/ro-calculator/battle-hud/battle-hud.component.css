@@ -1676,6 +1676,26 @@
   color: var(--text-color-secondary);
 }
 
+/* The crit-rate popover: the operator column, and the arithmetic behind a row. */
+.crit-op {
+  display: inline-block;
+  width: 10px;
+  color: var(--text-color-secondary);
+}
+
+.crit-detail {
+  display: block;
+  padding-left: 10px;
+  font-size: 10.5px;
+  color: var(--text-color-secondary);
+}
+
+/* The character subtotal closes a group, so it gets a rule above it. */
+.kv.crit-sub {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 600;
+}
+
 /* Names the headline figure when it is one of three readings on the card. */
 .pd-dmg-cap {
   margin-top: 1px;

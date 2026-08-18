@@ -5,8 +5,7 @@ import {
   buildOptimizeInfo,
   buildRotationPickerOptions,
   computeCastbar,
-  CRIT_KEYS_BASIC,
-  CRIT_KEYS_SKILL,
+  alignCritRateSteps,
   computeTimeToKill,
   computeZeroPosWhatIf,
   deltaPercent,
@@ -606,21 +605,6 @@ describe('buildRotationPickerOptions', () => {
   });
 });
 
-describe('CRIT_KEYS_BASIC / CRIT_KEYS_SKILL', () => {
-  it('offers CRIT à distância as a source for the basic attack only', () => {
-    // The rate a basic-attack row shows already includes criRange (damage-calculator
-    // getRangedCriRate), and no skill's rate ever does — so a skill row that listed it would
-    // name a source that did not contribute to the number clicked.
-    expect(CRIT_KEYS_BASIC).toContain('criRange');
-    expect(CRIT_KEYS_SKILL).not.toContain('criRange');
-  });
-
-  it('drills into plain cri on both', () => {
-    expect(CRIT_KEYS_BASIC).toContain('cri');
-    expect(CRIT_KEYS_SKILL).toContain('cri');
-  });
-});
-
 describe('isCritWeighted', () => {
   it('is true only while the skill crits on some uses but not all', () => {
     expect(isCritWeighted(true, 38)).toBe(true);
@@ -673,5 +657,28 @@ describe('buildDpsSteps crit-weighted mean', () => {
   it('collapses to the single outcome at 0% and at 100% crit', () => {
     expect(buildDpsSteps({ ...dmg, skillCriRateToMonster: 0 })!.avgDamagePerHit).toBe(1_114_048);
     expect(buildDpsSteps({ ...dmg, skillCriRateToMonster: 100 })!.avgDamagePerHit).toBe(1_760_192);
+  });
+});
+
+describe('alignCritRateSteps', () => {
+  const cur = { steps: [{ key: 'luk', label: 'CRIT por SOR', value: 40, kind: 'add' }, { key: 'total', label: 'Tx. Crítico', value: 99, kind: 'total' }] } as any;
+
+  it('pairs the two builds row by row when the derivation has the same shape', () => {
+    const sim = { steps: [{ key: 'luk', value: 45 }, { key: 'total', value: 104 }] } as any;
+
+    expect(alignCritRateSteps(cur, sim).map((r) => r.sim)).toEqual([45, 104]);
+  });
+
+  it('drops the comparison when the two are not the same calculation', () => {
+    // A katar on one side only: the character crit doubles and the target shield moves ahead
+    // of the skill percentage, so pairing by position would mislabel every row.
+    const sim = { steps: [{ key: 'luk', value: 45 }, { key: 'katar', value: 2 }, { key: 'total', value: 190 }] } as any;
+
+    expect(alignCritRateSteps(cur, sim).every((r) => r.sim === null)).toBe(true);
+  });
+
+  it('has no comparison column with nothing to compare against', () => {
+    expect(alignCritRateSteps(cur, null).every((r) => r.sim === null)).toBe(true);
+    expect(alignCritRateSteps(null, null)).toEqual([]);
   });
 });

@@ -318,14 +318,12 @@
             [isShowSelectableSkillLevel]="isShowSelectableSkillLevel"
             [isInProcessingPreset]="isInProcessingPreset"
             [damagePerCycle]="cycle?.damagePerCycle || 0"
-            [isCritClickable]="isBreakdownClickable(['cri'])"
-            [isCritClickableBasic]="isBreakdownClickable(critKeysBasic)"
             (rotationChange)="rotationChange.emit($event)"
             (optimizeClick)="optimizeClick.emit()"
             (clearClick)="rotationChange.emit([])"
             (detailsClick)="openStepDetails($event, detailsPanel, basicPanel)"
             (elementTableClick)="onShowElementalTableClick()"
-            (critBreakdownClick)="openCritBreakdown($event.compare, $event.isBasic)"
+            (critBreakdownClick)="openStepCritRate($event, critRatePanel)"
             (damageClick)="openStepDamageFormula($event, { formula: damageFormulaPanel, noCri: damageFormulaNoCriPanel, basic: basicPanel, mean: critMeanPanel })"
           ></app-rotation-list>
 
@@ -800,6 +798,61 @@
     </ng-container>
   </p-overlayPanel>
 
+  <!-- Every term behind the crit rate, in the order the engine applies them. The rows come
+       straight off the object the rate itself is computed into (core/crit-rate.ts), so this
+       cannot show a sum that disagrees with the number that was clicked. The equipment row
+       still opens the per-item sources, which is all this used to offer. -->
+  <p-overlayPanel #critRatePanel>
+    <div class="ptitle">Como a Tx. Crítico é calculada</div>
+    <div class="graph-hint" style="max-width: 330px">
+      O CRIT do personagem vem do SOR e dos equipamentos; a habilidade pode somar um valor fixo e
+      aplicar só uma parte dele; e o alvo desconta o próprio escudo de crítico.
+    </div>
+
+    <ng-container *ngIf="critRate as c">
+      <div class="pstats one tight">
+        <div class="kv" *ngFor="let row of critRateRows" [class.total]="row.step.kind === 'total'" [class.crit-sub]="row.step.kind === 'subtotal'">
+          <span>
+            <span class="crit-op" *ngIf="row.step.kind === 'add'">+</span>
+            <span class="crit-op" *ngIf="row.step.kind === 'subtract'">−</span>
+            <span class="crit-op" *ngIf="row.step.kind === 'multiply'">×</span>
+            <span class="crit-op" *ngIf="row.step.kind === 'subtotal' || row.step.kind === 'total'">=</span>
+            {{ row.step.label }}
+            <span class="crit-detail" *ngIf="row.step.detail">{{ row.step.detail }}</span>
+          </span>
+          <span>
+            <!-- Only the equipment rows have per-item sources to drill into. -->
+            <span
+              *ngIf="row.step.keys && isBreakdownClickable(row.step.keys); else critPlain"
+              class="v bonus_clickable"
+              role="button"
+              tabindex="0"
+              keyActivate
+              pTooltip="Ver de quais itens vem"
+              tooltipPosition="top"
+              (click)="openBreakdown(row.step.label, row.step.keys, 'summary_stat_atk')"
+              >{{ critStepText(row.step, row.step.value) }}</span
+            >
+            <ng-template #critPlain>
+              <span class="v">{{ critStepText(row.step, row.step.value) }}</span>
+            </ng-template>
+            <ng-container *ngIf="row.sim !== null">
+              <span class="arr">→</span>
+              <span class="sim">{{ critStepText(row.step, row.sim) }}</span>
+            </ng-container>
+          </span>
+        </div>
+      </div>
+
+      <div class="mut-note" *ngIf="c.isCapped">
+        ⚠ A taxa passa de 100%: todo uso já acerta crítico, e o excedente ({{ c.total - 100 | number: '1.0-0' }}) não rende nada.
+      </div>
+      <div class="mut-note" *ngIf="isCritRateBasic">
+        CRIT à distância e o CRIT por raça/elemento/tamanho só entram no ataque básico — nenhuma habilidade os recebe.
+      </div>
+    </ng-container>
+  </p-overlayPanel>
+
   <p-overlayPanel #detailsPanel styleClass="rot-details-panel">
     <div class="ptitle">Detalhes da habilidade</div>
 
@@ -888,8 +941,8 @@
               unit: '%',
               fmt: '1.0-1',
               hidden: !dmg?.skillCanCri,
-              bdLabel: 'Tx. Crítico',
-              bdKeys: ['cri']
+              panel: critRatePanel,
+              tip: 'Ver como a taxa de crítico é calculada'
             }
           "
         ></ng-container>
@@ -1089,10 +1142,8 @@
             cur: dmg?.criRateToMonster,
             sim: dmg2?.criRateToMonster,
             unit: '%',
-            bdLabel: 'Tx. Crítico',
-            bdKeys: critKeysBasic,
-            bdNote: criRangeNote(),
-            tip: 'Ver de onde vem a taxa de crítico'
+            panel: critRatePanel,
+            tip: 'Ver como a taxa de crítico é calculada'
           }
         "
       ></ng-container>
