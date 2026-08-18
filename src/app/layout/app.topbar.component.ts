@@ -159,6 +159,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.67-beta',
+      date: '18-08-2026',
+      logs: [
+        'A Centelha das Trevas saía 3% acima do jogo, e a causa eram dois bônus de ATQ somados em golpe que não os recebe. A Perícia com Shuriken dá +30 de ATQ no nível 10, mas só "ao usar Shuriken e Kunai", como diz a descrição no jogo; estava entrando em qualquer ataque do Kagerou e do Shinkiro. E o ATQ da munição equipada entrava do mesmo jeito, em todo mundo: quem é da linha do Kagerou mantém kunai equipada para as habilidades de arremesso e bate de adaga, então os 30 de ATQ da Kunai Ardente iam junto no golpe corpo a corpo. Agora os dois contam só quando o ataque de fato arremessa alguma coisa — as habilidades de Kunai e de Huuma continuam recebendo os dois, e o ataque básico segue a arma. A munição vale para qualquer classe: habilidade corpo a corpo não usa flecha, bala nem kunai. Medido numa gravação enviada por Oden.',
+        'Os encantos visuais dos trajes do meio e de baixo sumiam ao importar replay. O traje do topo entrava com o encanto dele, os outros dois entravam vazios — e como um deles costuma ser metade de um conjunto, junto com o encanto ia embora o bônus do conjunto também. Na gravação que mostrou o problema eram Mortal 1, Mortal 3 e, por tabela, o conjunto do Mortal 2: 12% de Dano Crítico que a build tinha e o simulador não via. O replay diz em que traje cada encanto está de duas maneiras diferentes, conforme o momento em que a peça foi vista, e a importação só entendia uma delas. Agora entende as duas.',
+        'Com as três correções, a Centelha das Trevas fecha com o jogo até a unidade nos três estados da gravação — sem equipamento, só com a arma e com o equipamento inteiro. De quebra, a gravação resolveu uma dúvida antiga da fórmula: o termo "+ POD × 5" da habilidade era medido em um personagem com POD 8, onde POD e STA davam o mesmo número e não dava para saber qual dos dois era. Este tem POD 100 e STA 0, e o dano só bate com POD. Obrigado Oden pela gravação.',
+      ],
+    },
+    {
       v: '0.1.66-beta',
       date: '18-08-2026',
       logs: [
