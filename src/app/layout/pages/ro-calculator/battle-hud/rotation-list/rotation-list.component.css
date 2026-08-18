@@ -280,8 +280,10 @@
   justify-self: end;
 }
 
+/* Stretched to the column, so the two chips are the same width whatever their labels are;
+   the centring already on .rot-tag then centres the shorter one's text. */
 .rot-dmg-split .rot-tag {
-  justify-self: start;
+  justify-self: stretch;
 }
 
 .rot-dmg-branch {

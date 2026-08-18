@@ -6,7 +6,11 @@
      `hidden` lets a caller suppress a row the same way the legacy [hidden] did. -->
 <!-- `bdKeys` opts a row into the bonus breakdown, the same click the value had before it
      moved into this popover; `tip` is its hover note. Rows that pass neither render the
-     plain number they always did. -->
+     plain number they always did.
+
+     `curMax`/`simMax` turn the value into a range, for a row whose reading is a roll rather
+     than a point (the no-crit damage). Left out, or equal to the value, and the row prints
+     the single number it always has. -->
 <ng-template
   #kvPair
   let-label="label"
@@ -20,6 +24,8 @@
   let-bdNote="bdNote"
   let-tip="tip"
   let-panel="panel"
+  let-curMax="curMax"
+  let-simMax="simMax"
 >
   <div class="kv" *ngIf="!hidden">
     <span>{{ label }}</span>
@@ -32,9 +38,15 @@
         keyActivate
         [pTooltip]="tip || ''"
         tooltipPosition="top"
-        >{{ cur | number: fmt }}{{ cur != null ? unit : '' }}</span
+        >{{ cur | number: fmt }}<ng-container *ngIf="curMax != null && curMax !== cur">
+          – {{ curMax | number: fmt }}</ng-container
+        >{{ cur != null ? unit : '' }}</span
       >
-      <ng-template #plainValue>{{ cur | number: fmt }}{{ cur != null ? unit : '' }}</ng-template>
+      <ng-template #plainValue
+        >{{ cur | number: fmt }}<ng-container *ngIf="curMax != null && curMax !== cur">
+          – {{ curMax | number: fmt }}</ng-container
+        >{{ cur != null ? unit : '' }}</ng-template
+      >
 
       <ng-container *ngIf="isComparing">
         <span class="arr">→</span>
@@ -46,9 +58,17 @@
           [class.bonus_clickable]="panel || isBreakdownClickable(bdKeys)"
           (click)="panel ? panel.toggle($event) : openBreakdownCompare(bdLabel || label, bdKeys, bdNote)"
           keyActivate
-          >{{ sim | number: fmt }}{{ sim != null ? unit : '' }}</span
+          >{{ sim | number: fmt }}<ng-container *ngIf="simMax != null && simMax !== sim">
+            – {{ simMax | number: fmt }}</ng-container
+          >{{ sim != null ? unit : '' }}</span
         >
-        <ng-template #plainSim><span class="sim">{{ sim | number: fmt }}{{ sim != null ? unit : '' }}</span></ng-template>
+        <ng-template #plainSim
+          ><span class="sim"
+            >{{ sim | number: fmt }}<ng-container *ngIf="simMax != null && simMax !== sim">
+              – {{ simMax | number: fmt }}</ng-container
+            >{{ sim != null ? unit : '' }}</span
+          ></ng-template
+        >
       </ng-container>
     </span>
   </div>
@@ -913,7 +933,9 @@
             context: {
               label: 'Dano sem crít.',
               cur: dmg?.skillMinDamageNoCri,
+              curMax: dmg?.skillMaxDamageNoCri,
               sim: dmg2?.skillMinDamageNoCri,
+              simMax: dmg2?.skillMaxDamageNoCri,
               hidden: !dmg?.skillCanCri,
               panel: damageFormulaNoCriPanel
             }
