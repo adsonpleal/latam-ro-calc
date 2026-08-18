@@ -159,6 +159,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.69-beta',
+      date: '18-08-2026',
+      logs: [
+        'O Mestre Celestial ganhou as duas habilidades que faltavam: Amanhecer e Anoitecer. São as que abrem os estados do Espaço Celeste — o primeiro golpe ativa Nascer do Sol ou Nascer da Lua, o segundo Meio-Dia ou Meia-Noite, o terceiro Pôr do Sol ou Pôr da Lua — e são pré-requisito do Firmamento, então todo Mestre Celestial tem as duas. Nenhuma estava na lista de habilidades do simulador, e o Anoitecer não estava nem no catálogo de nomes. As duas agora aparecem no seletor, nos cinco níveis.',
+        'O dano do Anoitecer foi medido numa gravação em que o personagem começa sem equipamento nenhum: sem arma não há variação de ATQ, e cada golpe repete o mesmo número inteiro. Com isso o ATQ do personagem e a defesa do boneco ficam determinados, e a razão da habilidade sai exata — a tabela do cliente dá 900% no nível 1, e o que sobra é POD × 3, não o POD × 5 das habilidades de explosão. O Amanhecer ficou com o mesmo POD × 3 do irmão, por simetria: nenhuma gravação recebida até hoje usa o Amanhecer, então esse é o único número da dupla que ainda não foi medido, e uma gravação com ele resolveria a questão.',
+        'O resto da classe foi conferido golpe a golpe contra a mesma gravação, nos três estados de equipamento que ela mostra — sem nada, só com a arma e com o equipamento completo —, e fecha com o jogo. A gravação também mediu pela primeira vez os ramos reforçados do Chute Meia-Lua e da Alvorada: a anterior tinha sido feita sob Elo Celestial, que libera as quatro habilidades de estado ao mesmo tempo e por isso não separava o dano dentro do estado do dano fora dele. Nesta, a Alvorada aparece nos dois estados no mesmo arquivo, com 1,32x de diferença — exatamente o que as duas linhas da descrição do jogo dizem. Obrigado Zonnor pela gravação.',
+      ],
+    },
+    {
       v: '0.1.68-beta',
       date: '18-08-2026',
       logs: [
