@@ -19,7 +19,11 @@ Ask before starting; guessing these wastes a whole pass:
   `replay.traits` — the importer writes them into the model on its own. Only ask when that
   comes back empty or partial, which is what a session recorded entirely inside one map
   looks like. A **partial** set is not usable: the missing fields are unknown, not zero.
-  (A recording that came through `triage-rrf-uploads` carries them either way.)
+  **A recording that reached you as a tracker card already carries them** — the dialog
+  collects them by hand precisely because a single-map session has none, and
+  `triage-backlog --get <id>` prints them in the card's `gravação` block. Finding
+  `traits: null` in the decoded file is the signal to read the card, not to ask the
+  reporter. (A recording still sitting in the inbox carries them via `triage-rrf-uploads`.)
 - **Skill levels.** The `skillLevel` in the damage packet is reliable, but passive and
   toggle levels are not — ask (`learnedSkills` in the import gives the learned tree, which
   usually settles it).
@@ -79,6 +83,46 @@ Gotchas that cost time:
 - The importer needs the item DB: `importReplayBuffer(buffer, items)`.
 - `decodeReplay` wants an `ArrayBuffer`; `loadReplayFixture` already does the slicing.
 
+## 2b. Build the character with the importer, never by hand
+
+**`replayToModel` is the only thing that should ever set a slot.** It already knows the
+`e_equip_pos` bitmask, which off-hand item is a shield and which is a second weapon, how a
+weapon's sockets split into cards-then-enchants by its real slot count, where an accessory's
+enchants sit in the shared `cards[]`, the costume-head positions, grades and random options.
+Retyping any of that into a spec re-implements it, badly and silently: a hand-built copy of
+one recording's gear came out **44% over** the same build read by the importer, and it looked
+plausible the whole way.
+
+The importer reads `replay.initialInventory`, which is the snapshot at t=0 — so a recording
+that gears up on camera imports as whatever it was wearing at the start. To reach a later
+state, **fold the equip events onto the snapshot and hand that to the same importer**. Both
+sides carry `slot`, the inventory index, so it is an overwrite and not a mapping:
+
+```ts
+function modelAt(replay, items, untilMs) {
+  const inv = new Map([...replay.initialInventory].map(([k, r]) => [k, { ...r, cards: [...r.cards] }]));
+  for (const e of replay.equipChanges ?? []) {
+    if (e.time > untilMs) break;
+    const rec = inv.get(e.slot) ?? { slot: e.slot, qty: 1, options: [] };
+    inv.set(e.slot, {
+      ...rec, itemId: e.itemId, refine: e.refine, grade: e.grade,
+      cards: [...(e.cards ?? [])], options: e.options?.length ? e.options : rec.options ?? [],
+      equipped: e.equipped ? e.location : 0,
+    });
+  }
+  return replayToModel({ ...replay, initialInventory: inv }, items);
+}
+```
+
+That turns a gear-up recording into as many builds as it has states — the gearless control,
+weapon-only, full gear — from one file, which is the matrix §9 wants and normally costs three
+recordings to get.
+
+**Then, and only then, check by hand** (§3): the importer can only place what the packets
+carried, so a build it produced still has to reproduce the recording's own status window
+before any formula is read off it. Hand-checking is for resolving an inconsistency the
+importer surfaced — never for producing the build in the first place.
+
 ## 3. Cross-check the status window FIRST
 
 Never touch a formula before the character matches. Every `ZC_PAR_CHANGE` is a free
@@ -136,7 +180,13 @@ interval. Non-crits only give you a bound (a low roll proves nothing).
 
 The engine exposes both on `damageSummary`: `skillMaxDamage` is the crit when
 `skillCanCri`, and `skillMinDamageNoCri`/`skillMaxDamageNoCri` are the non-crit range.
-All of them are **per hit**.
+
+**They are per *packet*, on the same terms as §5** — compare them to the recorded `damage`
+directly, and divide neither side. "Per hit" is only true for a skill whose `totalHit` is
+the packet's `count`; for a display-only `hit: N` skill (Centelha das Trevas, `hit: 4`) the
+engine's figure already covers the whole packet, and multiplying it by `count` to "match"
+inflates it fourfold. `Shinkiro.shadow-flash-replay.spec.ts` asserts `skillMaxDamageNoCri`
+against the raw packet value — copy that comparison rather than reasoning about it.
 
 ## 7. Skill ratios: the client description wins
 

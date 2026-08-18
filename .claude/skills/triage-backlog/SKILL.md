@@ -6,9 +6,50 @@ description: Works the simulator's bug/suggestion backlog on the shared issue tr
 # Triage of the reported bugs and suggestions
 
 The board is **issues.latam-tools.com.br** (Firebase project `issues-latam-tools`,
-collection `issues`), filtered to `projeto: "simulador"`. This skill owns the cards people
-file by hand — `tipo: "bug"` and `tipo: "feature"`. The `tipo: "replay"` cards are
-recordings and belong to [`triage-rrf-uploads`](../triage-rrf-uploads/SKILL.md).
+collection `issues`), filtered to `projeto: "simulador"`. This skill owns every card on the
+board — `tipo: "bug"`, `tipo: "feature"` **and `tipo: "replay"`**.
+
+The recording cards used to be filtered out here, handed wholesale to
+[`triage-rrf-uploads`](../triage-rrf-uploads/SKILL.md). That split was drawn in the wrong
+place. What belongs to that skill is the **inbox**: the private queue of submitted `.rrf`
+files, which are not cards and never reach this query. A replay card is something a human
+already promoted *out* of that inbox and onto the board — it has a title, a status and a
+credit, and if it sits in `backlog` it is an accepted item of this queue like any other.
+
+Filtering it out cost a real triage run. A Shinkiro crit bug was filed twice on the same
+day, once as a bug card and once as the recording that proved it; `--list` showed only the
+bug card, and the report went out asking for evidence that was sitting in the next row.
+
+So: **judge a replay card exactly like a bug card** — it states a symptom and you trace it
+into the code. The difference is only where its evidence lives, and the script hands you
+both halves:
+
+```
+node .claude/skills/triage-backlog/backlog.mjs --anexos <id> --out .scratch/<id>.rrf
+```
+
+The `.rrf` is stored **inline on the card**, as a Firestore `bytesValue` under
+`anexos/gravacao` — there is no download URL and nothing to ask the reporter for. `--get`
+prints the card's `gravação` block above the description: file, class, level, map, duration,
+and **the talent allocation**.
+
+Those talents are the part to actually read. A session recorded inside a single map never
+fires `ZC_COUPLESTATUS`, so the `.rrf` itself carries **no traits** — `review-rrf-class` §0
+is explicit that a build cannot be rebuilt without them, and the "Ajude o simulador" dialog
+collects them by hand for exactly that reason. The block says which it is: *lidos da
+gravação* (the game's own) or *informados por quem gravou* (typed by a human, so worth
+sanity-checking against the status window). Reading the decoded file and finding
+`traits: null` means **look at the card**, not ask the reporter — that mistake cost a full
+review pass on the Shinkiro crit card, which was one query away from six numbers already
+sitting on it.
+
+Decoding the packets is still [`review-rrf-class`](../review-rrf-class/SKILL.md)'s job. A
+replay card whose verdict turns on the recording is a card that needs that skill run — say
+so in its row rather than guessing at what the packets would have shown.
+
+**It works one column: `status: "backlog"`.** That is the queue — what has already been
+read and accepted and is waiting to be built. `reportado` is unsorted intake and is **not**
+part of a triage run. See §1 before reading a single card.
 
 The work runs read → judge → **report and stop** → plan → **stop again** → build, and the
 two stops are the point. A backlog reading that ends in six commits nobody asked for is
@@ -45,9 +86,25 @@ node .claude/skills/triage-backlog/backlog.mjs --list
 node .claude/skills/triage-backlog/backlog.mjs --get <id>
 ```
 
-`--list` defaults to `--status backlog` (accepted, waiting); `--status reportado` is the
-unsorted intake, and `todas` is everything. `--get` prints the full description, every
-comment and the credit block.
+`--list` with no flags **is** the run: it defaults to `--status backlog`, and that default
+is the scope of the skill, not a convenience. Whatever it prints is the complete set of
+cards to judge — one card, or none, is a complete set.
+
+**Never widen it on your own initiative.** `--status reportado` is unsorted intake: cards
+nobody has accepted yet, which may be duplicates, may be wrong, and may be things the
+maintainer has already weighed and parked. Triaging them produces a report about work that
+was never agreed to exist, and it buries the cards that were — one accepted card in a table
+of eight reads as one row out of eight. `--status todas` is worse for the same reason.
+
+Reach for either only when the user names the intake in so many words ("olha a intake",
+"triagem das fichas em reportado") or names a card by id. Then work what they named, and
+nothing besides.
+
+If a backlog card cannot be judged without an intake card — a duplicate, a card that
+replaces it, the comment that carries its reference — read that one with `--get <id>` and
+say in its row why you went there. Reading one named neighbour is not triaging the column.
+
+`--get` prints the full description, every comment and the credit block.
 
 Read the comments — a maintainer comment often carries the reference that decides the card
 (the Illusion enchant card had the browiki link that held the real table).

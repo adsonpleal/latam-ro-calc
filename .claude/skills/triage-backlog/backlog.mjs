@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // The bug/suggestion side of the shared tracker (issues.latam-tools.com.br).
 //
-//   node .claude/skills/triage-backlog/backlog.mjs --list
+//   node .claude/skills/triage-backlog/backlog.mjs --list                        (the triage queue)
 //   node .claude/skills/triage-backlog/backlog.mjs --list --status reportado --limit 10
+//       ^ intake, NOT the triage queue — only when the person asked for the intake
 //   node .claude/skills/triage-backlog/backlog.mjs --get simulador-runa-othila-aumenta-a-aspd-de-forma-irreal
 //   node .claude/skills/triage-backlog/backlog.mjs --credits            (one line per card, for the Novidades entry)
 //   node .claude/skills/triage-backlog/backlog.mjs --mark <id> --status resolvido --note "..."
@@ -23,7 +24,7 @@
 // tracker's own schema and the operator's reading material, not code.
 
 import { createSign } from 'node:crypto';
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
@@ -122,6 +123,9 @@ function decode(v) {
   if ('booleanValue' in v) return v.booleanValue;
   if ('timestampValue' in v) return v.timestampValue;
   if ('nullValue' in v) return null;
+  // A recording card stores its .rrf inline, so this is the one field that is not
+  // display text — hand back the bytes rather than a string nobody can decode.
+  if ('bytesValue' in v) return Buffer.from(v.bytesValue, 'base64');
   if ('arrayValue' in v) return (v.arrayValue.values ?? []).map(decode);
   if ('mapValue' in v) return decodeFields(v.mapValue.fields ?? {});
   return null;
@@ -157,7 +161,20 @@ const flagValue = (f) => {
   return i > -1 ? args[i + 1] : undefined;
 };
 
-/** Every card of the project that is not a recording — recordings are triage-rrf-uploads'. */
+/**
+ * Every card of the project, recordings included.
+ *
+ * `tipo: "replay"` used to be filtered out here, on the grounds that recordings are
+ * triage-rrf-uploads'. That is true of the *inbox* — an unpromoted submission is not a
+ * card and never appears in this query. It is not true of a replay card that a human
+ * already promoted into `backlog`: that is an accepted item in the triage queue, and
+ * hiding it made `--list` under-report the column. It cost a real triage run once —
+ * a Shinkiro crit bug was filed twice, as a bug card and as the recording that proved
+ * it, and only the bug card was listed, so the report asked for evidence that was
+ * sitting in the next row.
+ *
+ * They are listed, not decoded. See {@link replayNote}.
+ */
 async function fetchCards() {
   const projeto = flagValue('--projeto') ?? 'simulador';
   const response = await api(':runQuery', {
@@ -174,10 +191,57 @@ async function fetchCards() {
   return response
     .filter((x) => x.document)
     .map((x) => ({ id: x.document.name.split('/').pop(), d: decodeFields(x.document.fields ?? {}) }))
-    .filter((c) => c.d.projeto === projeto && c.d.tipo !== 'replay');
+    .filter((c) => c.d.projeto === projeto);
 }
 
 const byStatus = (cards, status) => (status === 'todas' ? cards : cards.filter((c) => c.d.status === status));
+
+/**
+ * The pointer a recording card carries in `--list` and `--get`. A replay card is judged
+ * like any other — it states a bug and it holds the evidence — but the evidence is a
+ * `.rrf`, and decoding one is `review-rrf-class`'s job, not this skill's. Saying so on
+ * the row is what keeps the card visible without pretending this script can open it.
+ */
+const replayNote = (d) => {
+  if (d.tipo !== 'replay') return '';
+  const t = d.replay?.traits;
+  const talentos = t
+    ? `POD ${t.pow ?? '?'} STA ${t.sta ?? '?'} SAB ${t.wis ?? '?'} FEI ${t.spl ?? '?'} CON ${t.con ?? '?'} CRV ${t.crt ?? '?'}`
+    : 'NÃO INFORMADOS';
+  return `  ↳ gravação (.rrf com review-rrf-class) · talentos: ${talentos}`;
+};
+
+/**
+ * The `replay` block a recording card carries, printed in full by `--get`.
+ *
+ * This exists because leaving it out cost a whole review pass. The `.rrf` of a session
+ * recorded inside a single map carries no `ZC_COUPLESTATUS`, so it has no traits at all —
+ * and review-rrf-class §0 says a build cannot be reconstructed without them. The uploader
+ * types them into the "Ajude o simulador" dialog for exactly that reason and they are
+ * stored right here, but `--get` printed only the description, so the triage read the card,
+ * decoded the file, found `traits: null` and was about to ask the reporter to re-send six
+ * numbers that were already on his own card. Print them where the card is read.
+ *
+ * `traitsSource` matters as much as the values: `replay` means they came off the recording
+ * and are the game's own, `form` means a human typed them.
+ */
+function printReplayBlock(d) {
+  const r = d.replay;
+  if (!r) return;
+  console.log('--- gravação');
+  console.log(`arquivo: ${r.fileName ?? '?'}  ·  ${r.className ?? '?'} nv ${r.baseLevel ?? '?'}/${r.jobLevel ?? '?'}  ·  mapa ${r.map ?? '?'}`);
+  console.log(`${Math.round((r.durationMs ?? 0) / 1000)}s  ·  ${r.dummyHits ?? 0} golpes em dummy  ·  ${r.equipChangeCount ?? 0} trocas de equipamento  ·  simulador ${r.appVersion ?? '?'}`);
+  const t = r.traits;
+  if (t) {
+    const origem = r.traitsSource === 'form' ? 'informados por quem gravou' : 'lidos da gravação';
+    console.log(`talentos (${origem}): POD ${t.pow} STA ${t.sta} SAB ${t.wis} FEI ${t.spl} CON ${t.con} CRV ${t.crt}`);
+  } else {
+    console.log('talentos: NÃO INFORMADOS — sem eles review-rrf-class não reconstrói a build (§0)');
+  }
+  if (r.skippedItems?.length) console.log(`itens fora do banco: ${r.skippedItems.join(', ')}`);
+  console.log(`o .rrf: node .claude/skills/triage-backlog/backlog.mjs --anexos <id> --out arquivo.rrf`);
+  console.log('');
+}
 
 // --- commands --------------------------------------------------------------
 
@@ -186,6 +250,18 @@ async function list() {
   const status = flagValue('--status') ?? 'backlog';
   const limit = Number(flagValue('--limit') ?? 50);
   const cards = byStatus(await fetchCards(), status).slice(0, limit);
+
+  // A triage run is the backlog column and nothing else (SKILL.md §1). Any other status is
+  // a deliberate detour, so say so in the output — the agent reading this is the one who
+  // has to decide whether the user actually asked for it.
+  if (status !== 'backlog') {
+    console.log(
+      `AVISO: --status ${status} não é a fila de triagem. A triagem é a coluna backlog; ` +
+        `"reportado" é intake não aceita e "todas" é o board inteiro. Só trate estas fichas ` +
+        `se a pessoa tiver pedido a intake por extenso ou nomeado a ficha.
+`,
+    );
+  }
 
   if (!cards.length) {
     console.log(`Nenhuma ficha com status ${status}.`);
@@ -201,6 +277,8 @@ async function list() {
     );
     const firstLine = String(d.descricao ?? '').split('\n').find((l) => l.trim());
     if (firstLine) console.log(`  ${firstLine.trim().slice(0, 150)}`);
+    const note = replayNote(d);
+    if (note) console.log(note);
   }
   console.log(`\n${cards.length} ficha(s) com status ${status}.`);
 }
@@ -219,7 +297,8 @@ async function get() {
 
   console.log(`${id}`);
   console.log(`${d.titulo}`);
-  console.log(`${d.projeto} · ${d.tipo} · ${d.status} · ▲${d.upvotes ?? 0} · criada em ${String(d.criadoEm ?? '').slice(0, 10)}\n`);
+  console.log(`${d.projeto} · ${d.tipo} · ${d.status} · ▲${d.upvotes ?? 0} · criada em ${String(d.criadoEm ?? '').slice(0, 10)}`);
+  printReplayBlock(d);
   console.log(d.descricao ?? '');
 
   for (const c of (comments?.documents ?? []).map((x) => decodeFields(x.fields ?? {}))) {
@@ -337,9 +416,63 @@ async function create() {
   console.log(`https://issues.latam-tools.com.br/t/${id}`);
 }
 
+/**
+ * The `.rrf` a replay card carries.
+ *
+ * A recording card is only worth as much as its attachment, and until this existed the
+ * skill could read the card's text but not the one thing that decides it — the triage
+ * either guessed or asked the reporter to re-send a file that was already on the board.
+ * Prints the `anexos` subcollection and every field that looks like a pointer, then
+ * downloads to `--out` when one resolves. Decoding the bytes is review-rrf-class's job.
+ */
+async function anexos() {
+  const id = flagValue('--anexos');
+  const out = flagValue('--out');
+  const doc = await api(`/issues/${id}`);
+  if (!doc) {
+    console.error(`${id} não existe.`);
+    process.exit(1);
+  }
+
+  const subs = await api(`/issues/${id}:listCollectionIds`, { method: 'POST', body: '{}' });
+  console.log(`subcoleções: ${(subs?.collectionIds ?? []).join(', ') || '(nenhuma)'}`);
+
+  // Everything, not a hand-picked few: a recording card carries fields the bug cards do
+  // not (the traits the uploader typed into the dialog, the client version, the file
+  // name), and picking made this miss exactly those.
+  const d = decodeFields(doc.fields ?? {});
+  console.log('');
+  console.log('campos da ficha:');
+  for (const [k, v] of Object.entries(d)) {
+    if (k === 'descricao') continue;
+    console.log(`  ${k}: ${Buffer.isBuffer(v) ? `<${v.length} bytes>` : JSON.stringify(v)}`);
+  }
+
+  for (const col of subs?.collectionIds ?? []) {
+    if (!/anexo|gravac|replay|arquivo/i.test(col)) continue;
+    const docs = await api(`/issues/${id}/${col}`);
+    for (const x of docs?.documents ?? []) {
+      const a = decodeFields(x.fields ?? {});
+      const bytes = Buffer.isBuffer(a.bytes) ? a.bytes : null;
+      console.log(`
+${col}/${x.name.split('/').pop()}`);
+      for (const [k, v] of Object.entries(a)) {
+        console.log(`  ${k}: ${Buffer.isBuffer(v) ? `<${v.length} bytes>` : JSON.stringify(v)}`);
+      }
+      if (bytes && out) {
+        writeFileSync(out, bytes);
+        console.log(`  gravado em ${out}`);
+      } else if (bytes) {
+        console.log('  passe --out <caminho.rrf> para gravar o arquivo');
+      }
+    }
+  }
+}
+
 if (hasFlag('--list')) await list();
 else if (flagValue('--get')) await get();
 else if (hasFlag('--credits')) await credits();
+else if (flagValue('--anexos')) await anexos();
 else if (flagValue('--mark')) await mark();
 else if (hasFlag('--new')) await create();
 else {
@@ -347,6 +480,7 @@ else {
   --list [--status ${STATUSES.join('|')}|todas] [--limit N] [--projeto simulador]
   --get <id>
   --credits [--status resolvido]
+  --anexos <id> [--out arquivo.rrf]   (o .rrf de uma ficha de gravação)
   --mark <id> --status <status> [--note "..."]
   --new --titulo "..." --descricao "..." [--tipo bug|feature]`);
   process.exit(2);
