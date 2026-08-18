@@ -283,11 +283,39 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
   let appliedOptions = 0;
   let skippedOptions = 0;
 
-  for (const rec of replay.initialInventory.values()) {
-    if (!rec.equipped) continue;
+  // The game allows one item per position, but a recording's snapshot does not always
+  // agree: `nw-supressao-gear-states.rrf` flags **two** ammo stacks as equipped, and
+  // `wh-ilimitar.rrf` flags **four**. Only one of each was really loaded, and the snapshot
+  // does not say which — so the first record to claim a position keeps it, and the order
+  // below is what decides "first".
+  //
+  // **The stack the recording spends is the one that was loaded.** Firing consumes
+  // ammunition, so the worn stack loses quantity and the idle ones do not; `itemDeletes`
+  // carries exactly that, per inventory slot. It is decisive on both fixtures and it
+  // checks out against the skills' own costs: the Night Watch recording spends 210 rounds
+  // from slot 83, which is its 30 casts of Fogo de Supressão at 5 each plus 10 of
+  // Artilharia Pesada at 6. Slot order cannot stand in for this — the right answer is the
+  // lowest slot in one recording (83 of 83/103) and the highest in the other (106 of
+  // 82/96/97/106), so it carries no signal at all; it is only the tie-break of last resort,
+  // for a dispute the recording never spends its way out of.
+  //
+  // A position claimed by an item missing from the DB stays claimed: it is still occupied
+  // in game, and importing the runner-up would quietly gear the build with something the
+  // character was not wearing.
+  const spentSlots = new Set((replay.itemDeletes ?? []).map((d) => d.slot));
+  // The map is keyed by inventory slot, which is the same number `itemDeletes` reports.
+  const equippedRecords = [...replay.initialInventory.entries()]
+    .filter(([, rec]) => rec.equipped)
+    .sort(([a], [b]) => (Number(spentSlots.has(b)) - Number(spentSlots.has(a))) || a - b)
+    .map(([, rec]) => rec);
+  const takenSlots = new Set<SlotKey>();
+
+  for (const rec of equippedRecords) {
     const itemKnown = known(rec.itemId);
     const isWeapon = itemMap[rec.itemId]?.['itemTypeId'] === ItemTypeId.WEAPON;
     for (const { key, cardOffset, packed } of resolveSlots(rec.equipped, isWeapon)) {
+      if (takenSlots.has(key)) continue;
+      takenSlots.add(key);
       const def = SLOTS[key];
       if (!itemKnown) {
         skippedItems.push({ slot: key, itemId: rec.itemId });

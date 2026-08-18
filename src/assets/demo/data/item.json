@@ -318138,5 +318138,28 @@
         "100"
       ]
     }
+  },
+  "13231": {
+    "id": 13231,
+    "aegisName": "포이즌블릿",
+    "name": "Projétil Venenoso",
+    "unidName": "Projétil Venenoso",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1027,
+    "itemLevel": null,
+    "attack": 20,
+    "propertyAtk": "Poison",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
   }
 }

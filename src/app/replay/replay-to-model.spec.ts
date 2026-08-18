@@ -200,6 +200,45 @@ describe('replayToModel', () => {
 });
 
 /**
+ * Recordings do flag more than one stack as equipped in the same position — two ammo
+ * stacks in `nw-supressao-gear-states.rrf`, four in `wh-ilimitar.rrf` — and only one of
+ * them was really loaded. Firing spends the loaded one, so `itemDeletes` names it; slot
+ * order is only the fallback, and on its own it is wrong (the right stack is the lowest
+ * slot in one of those recordings and the highest in the other).
+ */
+describe('replayToModel — two records claiming one position', () => {
+  const AMMO = 0x8000;
+  const del = (slot: number, amount = 5) => ({ time: 1, slot, amount, reason: 0, itemId: 0 });
+
+  it('keeps the stack the recording spends, wherever its slot sits', () => {
+    const replay = makeReplay(
+      [rec({ itemId: 4001, equipped: AMMO, qty: 900 }), rec({ itemId: 4002, equipped: AMMO, qty: 500 })],
+      { itemDeletes: [del(1), del(1)] },
+    );
+    const { model } = replayToModel(replay, itemMap) as any;
+    expect(model.ammo).toBe(4002);
+  });
+
+  it('falls back to the lowest slot when neither stack is ever spent', () => {
+    const replay = makeReplay([rec({ itemId: 4001, equipped: AMMO }), rec({ itemId: 4002, equipped: AMMO })]);
+    const { model } = replayToModel(replay, itemMap) as any;
+    expect(model.ammo).toBe(4001);
+  });
+
+  it('leaves the position empty when the spent stack is missing from the item DB', () => {
+    // The runner-up is not a substitute: importing it would gear the build with ammunition
+    // the character was not firing, and silently.
+    const replay = makeReplay(
+      [rec({ itemId: 4001, equipped: AMMO }), rec({ itemId: 9999, equipped: AMMO })],
+      { itemDeletes: [del(1)] },
+    );
+    const { model, summary } = replayToModel(replay, itemMap) as any;
+    expect(model.ammo).toBeUndefined();
+    expect(summary.skippedItems).toEqual([{ slot: 'ammo', itemId: 9999 }]);
+  });
+});
+
+/**
  * The pet comes from the pet block (container 9) and from nowhere else.
  *
  * A pet is an entity on screen, so `replay.entities` holds every pet in view — the other
