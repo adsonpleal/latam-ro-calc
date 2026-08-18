@@ -318109,5 +318109,34 @@
         "EQUIP_ID[4425]15"
       ]
     }
+  },
+  "4425": {
+    "id": 4425,
+    "aegisName": "이름없는카드",
+    "name": "Carta Atroce",
+    "unidName": "Carta Atroce",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 0,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "25"
+      ],
+      "chance__aspdPercent": [
+        "100"
+      ]
+    }
   }
 }

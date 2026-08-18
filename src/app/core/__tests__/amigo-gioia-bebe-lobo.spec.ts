@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { BASE_PERFECT_HIT, wornBonus } from './worn-bonus';
+import { BASE_PERFECT_HIT, ESPADA_1H, wornBonus } from './worn-bonus';
 
 /**
  * Amigo Gioia (410705) and Bebê Lobo (410706), the two lower head gears the LATAM client
@@ -17,6 +17,7 @@ const AMIGO_GIOIA = 410705;
 const BEBE_LOBO = 410706;
 const CARTA_GIOIA = 4576;
 const CARTA_FOFINHO = 27152;
+const CARTA_ATROCE = 4425;
 
 describe('410705 Amigo Gioia', () => {
   it('grants the flat lines on its own, and no set multiplier', () => {
@@ -51,5 +52,24 @@ describe('410706 Bebê Lobo', () => {
 
     expect(bonus['aspd']).toBe(1);
     expect(bonus['p_class_boss']).toBe(15);
+  });
+
+  // Carta Atroce is a weapon card, so it only registers with a weapon to sit in.
+  it('adds the Carta Atroce set with the card equipped', () => {
+    const bonus = wornBonus({ headLower: BEBE_LOBO, weapon: ESPADA_1H, weaponCard: CARTA_ATROCE });
+
+    expect(bonus['p_class_boss']).toBe(15);
+    expect(bonus['aspd'] ?? 0).toBe(0);
+  });
+
+  it('stacks the two sets when both cards are worn', () => {
+    const bonus = wornBonus({
+      headLower: BEBE_LOBO,
+      accRight: CARTA_FOFINHO,
+      weapon: ESPADA_1H,
+      weaponCard: CARTA_ATROCE,
+    });
+
+    expect(bonus['p_class_boss']).toBe(30);
   });
 });
