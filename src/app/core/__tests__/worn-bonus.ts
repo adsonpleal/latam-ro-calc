@@ -28,6 +28,8 @@ export interface Worn {
   weapon?: number;
   weaponRefine?: number;
   weaponCard?: number;
+  headUpper?: number;
+  headUpperRefine?: number;
   headMiddle?: number;
   boot?: number;
   bootRefine?: number;
@@ -54,6 +56,11 @@ export function wornBonus(worn: Worn): Record<string, number> {
   if (worn.weaponCard) {
     items[worn.weaponCard] = withSlot(worn.weaponCard, 6, 0);
     model.weaponCard1 = worn.weaponCard;
+  }
+  if (worn.headUpper) {
+    items[worn.headUpper] = withSlot(worn.headUpper, 2, 512);
+    model.headUpper = worn.headUpper;
+    model.headUpperRefine = worn.headUpperRefine ?? 0;
   }
   if (worn.headMiddle) {
     items[worn.headMiddle] = withSlot(worn.headMiddle, 2, 512);

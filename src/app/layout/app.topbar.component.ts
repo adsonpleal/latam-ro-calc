@@ -159,6 +159,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.68-beta',
+      date: '18-08-2026',
+      logs: [
+        'A base de itens foi sincronizada com o cliente. O jogo deixou de trazer nome e descrição para 833 itens — quase todos peças antigas, de aluguel ou de eventos fora de circulação —, e eles saíram das listas do simulador junto com o cliente; outros 111 ganharam nome e entraram. Boa parte do que ficou veio retraduzida: cartas, encantos e conjuntos que apareciam com texto do servidor tailandês ou com tradução automática estão agora em português, e vários nomes mudaram — a Carta Madeira Podre virou Carta Árvore Decaída, as cartas "da Arena" viraram "Noturnal", o Traje Anti Conjure virou Uniforme Anti-Magia.',
+        'Com o texto novo, três Capacetes revelaram um conjunto pela metade. O Capacete Decadente, o Fortificado e o Descartado dão dano físico e mágico contra todos os tamanhos +10% com qualquer arma da família, mas o cadastro só reconhecia as quatro ou cinco primeiras: a descrição antiga nomeava o resto com nomes que não existiam no jogo ("Cetro Fortificado", "Cauda de Gato Decandente", "Pulverizador Descartado") e não havia como resolver o código da peça. As três listas estão completas — 8, 8 e 10 armas —, então quem usa Lâmina Decadente, Punhal Fortificado ou Revólver Descartado deixou de perder 10% nos dois canais.',
+        'O Elmo da Fé Felina II ganhou o bônus do refino +7, que nunca esteve cadastrado: dano mágico contra todos os tamanhos +5%. O cliente descrevia a linha como dano físico, o que não combina com nenhuma outra linha da peça, e o texto novo a corrige para mágico.',
+        'O Revólver Primordial-LT e o Gatling Primordial-LT ganharam a resistência a todos os tamanhos +20% que a descrição sempre trouxe — no +7 e no +11, respectivamente. E o Sobrepeliz Mágico de Geffen passou a dar 2% de velocidade de ataque a cada 3 refinos, e não 1%, acompanhando as outras três peças da mesma família.',
+        'Três visuais mudaram de posição no cliente e foram acertados: o Leque de Veraneio saiu do topo para baixo, o Laço Alado Gótico saiu do meio para baixo, e o Bebum — que se chamava Marcas do Envergonhado — saiu de baixo para o meio.',
+      ],
+    },
+    {
       v: '0.1.67-beta',
       date: '18-08-2026',
       logs: [

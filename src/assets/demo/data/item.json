@@ -148022,6 +148022,9 @@
       "vct": [
         "7===10"
       ],
+      "m_size_all": [
+        "7===5"
+      ],
       "fct": [
         "9===0.2",
         "11===0.3"
@@ -174521,7 +174524,7 @@
         "2---1"
       ],
       "aspdPercent": [
-        "3---1",
+        "3---2",
         "EQUIP[Anti Conjurer Suit]REFINE[armor==11]===10"
       ],
       "vct": [
@@ -222439,6 +222442,9 @@
       ],
       "p_size_all": [
         "11===15"
+      ],
+      "subsize_all": [
+        "7===20"
       ]
     }
   },
@@ -224456,6 +224462,9 @@
       ],
       "p_size_all": [
         "11===15"
+      ],
+      "subsize_all": [
+        "11===20"
       ],
       "atkPercent": [
         "EQUIP[Hero Boots-LT]===10",
@@ -283889,13 +283898,13 @@
     "description": "",
     "slots": 0,
     "itemTypeId": 9,
-    "itemSubTypeId": 520,
+    "itemSubTypeId": 521,
     "itemLevel": null,
     "attack": null,
     "defense": 0,
     "weight": 0,
     "requiredLevel": 1,
-    "location": "Middle",
+    "location": "Lower",
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -288332,10 +288341,10 @@
         "11===15"
       ],
       "p_size_all": [
-        "EQUIP_ID[500018||510026||590015||610015||620005]10"
+        "EQUIP_ID[500018||510026||510055||540043||550058||590015||610015||620005]10"
       ],
       "m_size_all": [
-        "EQUIP_ID[500018||510026||590015||610015||620005]10"
+        "EQUIP_ID[500018||510026||510055||540043||550058||590015||610015||620005]10"
       ]
     }
   },
@@ -288382,10 +288391,10 @@
         "11===15"
       ],
       "p_size_all": [
-        "EQUIP_ID[530009||540013||600013||640013]10"
+        "EQUIP_ID[510053||510054||530009||540013||550057||550059||600013||640013]10"
       ],
       "m_size_all": [
-        "EQUIP_ID[530009||540013||600013||640013]10"
+        "EQUIP_ID[510053||510054||530009||540013||550057||550059||600013||640013]10"
       ]
     }
   },
@@ -288432,10 +288441,10 @@
         "11===15"
       ],
       "p_size_all": [
-        "EQUIP_ID[560011||570012||580012||700021]10"
+        "EQUIP_ID[560011||570012||580012||650020||700021||800010||810006||820005||830009||840005]10"
       ],
       "m_size_all": [
-        "EQUIP_ID[560011||570012||580012||700021]10"
+        "EQUIP_ID[560011||570012||580012||650020||700021||800010||810006||820005||830009||840005]10"
       ]
     }
   },
@@ -302933,13 +302942,13 @@
     "description": "",
     "slots": 0,
     "itemTypeId": 9,
-    "itemSubTypeId": 521,
+    "itemSubTypeId": 520,
     "itemLevel": null,
     "attack": null,
     "defense": 0,
     "weight": 0,
     "requiredLevel": 1,
-    "location": "Lower",
+    "location": "Middle",
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -311442,13 +311451,13 @@
     "description": "",
     "slots": 0,
     "itemTypeId": 9,
-    "itemSubTypeId": 519,
+    "itemSubTypeId": 521,
     "itemLevel": null,
     "attack": null,
     "defense": null,
     "weight": null,
     "requiredLevel": null,
-    "location": "Upper",
+    "location": "Lower",
     "compositionPos": null,
     "usableClass": [
       "all"

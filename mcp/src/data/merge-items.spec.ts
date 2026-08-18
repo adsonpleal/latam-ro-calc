@@ -23,10 +23,10 @@ describe('mergeLatamItems', () => {
   });
 
   it('flags exactly the LATAM intersection', () => {
-    // Regression guard on the overlay: 6874 of item.json's 9754 records exist in the
+    // Regression guard on the overlay: 6462 of item.json's 9754 records exist in the
     // LATAM client. The rest are hidden from the app's pickers.
     const flagged = Object.values(items).filter((i: any) => i.presentInLatam).length;
-    expect(flagged).toBe(6874);
+    expect(flagged).toBe(6462);
     expect(Object.keys(items)).toHaveLength(9754);
   });
 
