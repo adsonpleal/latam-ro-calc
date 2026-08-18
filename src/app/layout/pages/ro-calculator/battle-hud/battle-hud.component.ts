@@ -373,11 +373,15 @@ export class BattleHudComponent implements OnDestroy {
     const entry = this.activeStep;
     if (entry?.isBasic) return panels.basic?.toggle(payload.event);
 
-    // A row states which figure was clicked; without one (the DPS popover's per-step list)
-    // fall back to the row's headline, which is the mean exactly when there is one.
-    const branch = payload.branch ?? (entry?.critWeighted ? 'mean' : 'cri');
-    const panel = branch === 'nocri' ? panels.noCri : branch === 'mean' ? panels.mean : panels.formula;
-    panel?.toggle(payload.event);
+    // Each figure opens its own branch and no more: the no-crit roll explains the no-crit
+    // formula, the crit roll the crit one. The mean is the only figure with an explanation
+    // of its own — and only where there *is* a mean; a skill with one flat roll has none, and
+    // sending it to that popover opened an empty box.
+    const branch = payload.branch ?? 'mean';
+    if (branch === 'nocri') return panels.noCri?.toggle(payload.event);
+
+    const wantsMean = branch === 'mean' && !!entry?.hasDamageSpread;
+    (wantsMean ? panels.mean : panels.formula)?.toggle(payload.event);
   }
 
   trackByIndex(index: number): number {
@@ -597,15 +601,25 @@ export class BattleHudComponent implements OnDestroy {
     return isCritWeighted(this.dmg?.skillCanCri, this.dmg?.skillCriRateToMonster);
   }
 
-  /** The mean's own derivation, straight out of calc-dmg-dps so the popover can never
-   *  disagree with the figure the rotation rows print. Null unless there is a mean to
-   *  explain. */
+  /**
+   * The mean's own derivation, straight out of calc-dmg-dps so the popover can never
+   * disagree with the figure the rotation rows print.
+   *
+   * Not gated on the crit: a skill that never crits still has a mean — of its min and max
+   * rolls — and that is just as much the figure the rotation runs on. Null only where the
+   * active row has no spread at all, which is the case that has nothing to average.
+   */
   get critMean(): DpsSteps | null {
-    return this.isCritWeighted ? this.dpsSteps : null;
+    return this.activeStep?.hasDamageSpread ? this.dpsSteps : null;
   }
 
   get critMeanSim(): DpsSteps | null {
-    return this.isComparing && isCritWeighted(this.dmg2?.skillCanCri, this.dmg2?.skillCriRateToMonster) ? this.dpsStepsSim : null;
+    return this.isComparing && this.critMean ? this.dpsStepsSim : null;
+  }
+
+  /** The popover explains two different averages, so it says which one it is showing. */
+  get meanPanelTitle(): string {
+    return this.isCritWeighted ? 'Como a média por crítico é calculada' : 'Como o dano médio é calculado';
   }
 
   // True when VelAtq (ASPD) caps the achieved Hab./s below what the cast timings

@@ -180,30 +180,26 @@
              two different numbers — at 0% or 100% crit the three collapse into one. Each
              opens its own formula, the same two the skill card offers. -->
         <!-- Two grid columns, so the figures right-align against each other and the tags
-             left-align against each other — the same value-then-tag reading as the mean. -->
-        <span class="rot-dmg-split" *ngIf="entry.critWeighted">
-          <span
-            class="rot-dmg-branch"
-            role="button"
-            tabindex="0"
-            keyActivate
-            pTooltip="Ver a fórmula do dano sem crítico"
-            tooltipPosition="top"
-            (click)="damageClick.emit({ index: i, event: $event, branch: 'nocri' })"
-            >{{ entry.damageNoCri | number: '1.0-0' }}</span
-          >
-          <span class="rot-tag rot-tag--sm">sem crít.</span>
-          <span
-            class="rot-dmg-branch"
-            role="button"
-            tabindex="0"
-            keyActivate
-            pTooltip="Ver a fórmula do dano crítico"
-            tooltipPosition="top"
-            (click)="damageClick.emit({ index: i, event: $event, branch: 'cri' })"
-            >{{ entry.damageCri | number: '1.0-0' }}</span
-          >
-          <span class="rot-tag rot-tag--sm">crít.</span>
+             left-align against each other — the same value-then-tag reading as the mean.
+             Each row is one outcome's whole roll, not a point on it: a skill that crits some
+             of the time shows the non-crit roll over the crit one, a skill that never crits
+             shows the one roll it has. -->
+        <span class="rot-dmg-split" *ngIf="entry.hasDamageSpread">
+          <ng-container *ngFor="let range of entry.damageRanges">
+            <span
+              class="rot-dmg-branch"
+              role="button"
+              tabindex="0"
+              keyActivate
+              pTooltip="Ver como o dano é calculado"
+              tooltipPosition="top"
+              (click)="damageClick.emit({ index: i, event: $event, branch: range.kind })"
+              >{{ range.min | number: '1.0-0' }}<ng-container *ngIf="range.max !== range.min">
+                – {{ range.max | number: '1.0-0' }}</ng-container
+              ></span
+            >
+            <span class="rot-tag rot-tag--sm" [pTooltip]="rangeTagTooltip(range)" tooltipPosition="top">{{ range.label }}</span>
+          </ng-container>
         </span>
 
         <span class="rot-dmg-main">
@@ -222,8 +218,8 @@
                multiply by 38%", which is the same 38% counted twice. -->
           <span
             class="rot-tag rot-tag--mean"
-            *ngIf="entry.critWeighted"
-            [pTooltip]="MEAN_TAG_TOOLTIP"
+            *ngIf="entry.hasDamageSpread"
+            [pTooltip]="meanTagTooltip(entry)"
             tooltipPosition="top"
             >média</span
           >

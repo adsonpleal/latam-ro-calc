@@ -662,35 +662,44 @@
     </div>
   </ng-template>
 
+  <!-- One branch of the damage formula: its min and max rolls, or a single "Dano" section
+       when they cannot differ. Shared by the two panels below so the crit branch and the
+       no-crit one can never drift apart in how they are drawn. -->
+  <ng-template #formulaBranch let-graph="graph" let-graphSim="graphSim" let-flat="flat">
+    <ng-container *ngIf="!flat; else flatBranch">
+      <div class="psec">Dano mínimo</div>
+      <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graph.min }"></ng-container>
+      <ng-container *ngIf="isComparing && graphSim?.min?.length">
+        <div class="cmp-castbar-label">⇄ Comparação</div>
+        <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graphSim.min, sim: true }"></ng-container>
+      </ng-container>
+
+      <div class="psec">Dano máximo</div>
+      <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graph.max }"></ng-container>
+      <ng-container *ngIf="isComparing && graphSim?.max?.length">
+        <div class="cmp-castbar-label">⇄ Comparação</div>
+        <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graphSim.max, sim: true }"></ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-template #flatBranch>
+      <div class="psec">Dano</div>
+      <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graph.max }"></ng-container>
+      <ng-container *ngIf="isComparing && graphSim?.max?.length">
+        <div class="cmp-castbar-label">⇄ Comparação</div>
+        <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graphSim.max, sim: true }"></ng-container>
+      </ng-container>
+    </ng-template>
+  </ng-template>
+
   <p-overlayPanel #damageFormulaPanel>
     <div class="ptitle">Como o dano é calculado</div>
     <div class="graph-hint">Clique em qualquer valor para ver de onde ele vem.</div>
     <div class="mut-note" *ngIf="hero?.showsBaseFallback">Fórmula da rolagem base (sem os efeitos acionados).</div>
     <ng-container *ngIf="formulaGraph; else noFormulaTrace">
       <div class="formula-trace-scroll">
-        <ng-container *ngIf="!damageIsFlat; else flatFormula">
-          <div class="psec">Dano mínimo</div>
-          <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: formulaGraph.min }"></ng-container>
-          <ng-container *ngIf="isComparing && formulaGraphSim?.min?.length">
-            <div class="cmp-castbar-label">⇄ Comparação</div>
-            <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: formulaGraphSim.min, sim: true }"></ng-container>
-          </ng-container>
-
-          <div class="psec">Dano máximo</div>
-          <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: formulaGraph.max }"></ng-container>
-          <ng-container *ngIf="isComparing && formulaGraphSim?.max?.length">
-            <div class="cmp-castbar-label">⇄ Comparação</div>
-            <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: formulaGraphSim.max, sim: true }"></ng-container>
-          </ng-container>
-        </ng-container>
-        <ng-template #flatFormula>
-          <div class="psec">Dano</div>
-          <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: formulaGraph.max }"></ng-container>
-          <ng-container *ngIf="isComparing && formulaGraphSim?.max?.length">
-            <div class="cmp-castbar-label">⇄ Comparação</div>
-            <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: formulaGraphSim.max, sim: true }"></ng-container>
-          </ng-container>
-        </ng-template>
+        <ng-container
+          *ngTemplateOutlet="formulaBranch; context: { graph: formulaGraph, graphSim: formulaGraphSim, flat: damageIsFlat }"
+        ></ng-container>
       </div>
     </ng-container>
     <ng-template #noFormulaTrace>
@@ -698,37 +707,17 @@
     </ng-template>
   </p-overlayPanel>
 
-  <!-- Same structure as #damageFormulaPanel above, but for "Dano sem crít." — only
-       triggerable when skillCanCri is true (see the hud-subrow's *ngIf), which is
-       exactly when skillFormulaGraphNoCri is populated. -->
+  <!-- The same, for "Dano sem crít." — only reachable when skillCanCri is true, which is
+       exactly when skillFormulaGraphNoCri is populated. Each figure on the row opens its own
+       branch and no more: the crit one explains the crit, this one explains the other. -->
   <p-overlayPanel #damageFormulaNoCriPanel>
     <div class="ptitle">Como o dano sem crítico é calculado</div>
     <div class="graph-hint">Clique em qualquer valor para ver de onde ele vem.</div>
     <ng-container *ngIf="formulaGraphNoCri; else noFormulaTraceNoCri">
       <div class="formula-trace-scroll">
-        <ng-container *ngIf="!damageNoCriIsFlat; else flatFormulaNoCri">
-          <div class="psec">Dano mínimo</div>
-          <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: formulaGraphNoCri.min }"></ng-container>
-          <ng-container *ngIf="isComparing && formulaGraphNoCriSim?.min?.length">
-            <div class="cmp-castbar-label">⇄ Comparação</div>
-            <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: formulaGraphNoCriSim.min, sim: true }"></ng-container>
-          </ng-container>
-
-          <div class="psec">Dano máximo</div>
-          <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: formulaGraphNoCri.max }"></ng-container>
-          <ng-container *ngIf="isComparing && formulaGraphNoCriSim?.max?.length">
-            <div class="cmp-castbar-label">⇄ Comparação</div>
-            <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: formulaGraphNoCriSim.max, sim: true }"></ng-container>
-          </ng-container>
-        </ng-container>
-        <ng-template #flatFormulaNoCri>
-          <div class="psec">Dano</div>
-          <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: formulaGraphNoCri.max }"></ng-container>
-          <ng-container *ngIf="isComparing && formulaGraphNoCriSim?.max?.length">
-            <div class="cmp-castbar-label">⇄ Comparação</div>
-            <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: formulaGraphNoCriSim.max, sim: true }"></ng-container>
-          </ng-container>
-        </ng-template>
+        <ng-container
+          *ngTemplateOutlet="formulaBranch; context: { graph: formulaGraphNoCri, graphSim: formulaGraphNoCriSim, flat: damageNoCriIsFlat }"
+        ></ng-container>
       </div>
     </ng-container>
     <ng-template #noFormulaTraceNoCri>
@@ -736,47 +725,60 @@
     </ng-template>
   </p-overlayPanel>
 
-  <!-- The third reading's own explanation: how the two above it are averaged into the one
-       number the rotação row and the DPS actually use. The arithmetic is read straight off
-       calc-dmg-dps.ts (via buildDpsSteps), so this popover cannot drift from the figure it
-       is explaining. -->
   <p-overlayPanel #critMeanPanel>
-    <div class="ptitle">Como a média por crítico é calculada</div>
+    <div class="ptitle">{{ meanPanelTitle }}</div>
     <div class="graph-hint" style="max-width: 320px">
-      Cada uso rola crítico com a taxa da habilidade. O dano da rotação é a média dos dois desfechos,
-      pesada por essa taxa — não é o dano crítico, nem o dano sem crítico.
+      <ng-container *ngIf="isCritWeighted; else plainMeanHint">
+        Cada uso rola crítico com a taxa da habilidade. O dano da rotação é a média dos dois desfechos,
+        pesada por essa taxa — não é o dano crítico, nem o dano sem crítico.
+      </ng-container>
+      <ng-template #plainMeanHint>
+        Cada golpe rola entre um mínimo e um máximo. O dano da rotação é a média dos dois.
+      </ng-template>
     </div>
 
     <ng-container *ngIf="critMean as m">
       <div class="pstats one tight">
         <div class="kv">
-          <span>Dano sem crít. (média mín–máx)</span>
+          <span>{{ isCritWeighted ? 'Dano sem crít. (média mín–máx)' : 'Média entre o mínimo e o máximo' }}</span>
           <span class="v">{{ m.avgBasicDamage | number: '1.0-0' }}</span>
         </div>
-        <div class="kv">
-          <span>Dano crít.</span>
-          <span class="v">{{ m.criDmg | number: '1.0-0' }}</span>
-        </div>
-        <div class="kv">
-          <span>Tx. Crít.</span>
-          <span class="v">{{ m.criRate | number: '1.0-1' }}%</span>
-        </div>
+        <!-- The crit rows exist only where there is a crit. On a skill that never crits they
+             would all read 0 and send the reader looking for a crit that is not there. -->
+        <ng-container *ngIf="isCritWeighted">
+          <div class="kv">
+            <span>Dano crít.</span>
+            <span class="v">{{ m.criDmg | number: '1.0-0' }}</span>
+          </div>
+          <div class="kv">
+            <span>Tx. Crít.</span>
+            <span class="v">{{ m.criRate | number: '1.0-1' }}%</span>
+          </div>
+        </ng-container>
         <!-- Precisão only weighs on the non-crit leg: a critical hit never misses. -->
         <div class="kv">
-          <span>Precisão (só sem crít.)</span>
+          <span>{{ isCritWeighted ? 'Precisão (só sem crít.)' : 'Precisão' }}</span>
           <span class="v">{{ m.accuracy | number: '1.0-1' }}%</span>
         </div>
       </div>
 
       <div class="pstats one">
-        <div class="kv">
-          <span>Parte com crít. — dano crít. × {{ m.criRate | number: '1.0-1' }}%</span>
-          <span>{{ m.criPart | number: '1.0-0' }}</span>
-        </div>
-        <div class="kv">
-          <span>Parte sem crít. — dano sem crít. × {{ 100 - m.criRate | number: '1.0-1' }}% × precisão</span>
-          <span>{{ m.noCriPart | number: '1.0-0' }}</span>
-        </div>
+        <ng-container *ngIf="isCritWeighted; else plainMeanParts">
+          <div class="kv">
+            <span>Parte com crít. — dano crít. × {{ m.criRate | number: '1.0-1' }}%</span>
+            <span>{{ m.criPart | number: '1.0-0' }}</span>
+          </div>
+          <div class="kv">
+            <span>Parte sem crít. — dano sem crít. × {{ 100 - m.criRate | number: '1.0-1' }}% × precisão</span>
+            <span>{{ m.noCriPart | number: '1.0-0' }}</span>
+          </div>
+        </ng-container>
+        <ng-template #plainMeanParts>
+          <div class="kv">
+            <span>× Precisão</span>
+            <span>{{ m.accuracy | number: '1.0-1' }}%</span>
+          </div>
+        </ng-template>
         <div class="kv total">
           <span>= Dano médio por golpe</span>
           <span class="teal">{{ m.avgDamagePerHit | number: '1.0-0' }}</span>
@@ -789,12 +791,14 @@
           <span>= Dano médio por uso</span>
           <span class="orange">
             {{ m.damagePerUse | number: '1.0-0' }}
-            <ng-container *ngIf="critMeanSim as s"><span class="arr">→</span><span class="sim">{{ s.damagePerUse | number: '1.0-0' }}</span></ng-container>
+            <ng-container *ngIf="critMeanSim as sim"><span class="arr">→</span><span class="sim">{{ sim.damagePerUse | number: '1.0-0' }}</span></ng-container>
           </span>
         </div>
       </div>
 
-      <div class="mut-note">O jogo arredonda o dano médio por golpe para baixo, então as duas partes podem somar alguns pontos a mais.</div>
+      <div class="mut-note" *ngIf="isCritWeighted">
+        O jogo arredonda o dano médio por golpe para baixo, então as duas partes podem somar alguns pontos a mais.
+      </div>
     </ng-container>
   </p-overlayPanel>
 

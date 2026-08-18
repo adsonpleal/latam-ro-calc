@@ -6,7 +6,6 @@
 import { BASIC_ATTACK_VALUE, isBasicAttack } from '../../../../core/rotation';
 import { RotationCycle, RotationLane, RotationScheduleStep, simulateRotation } from '../../../../core/rotation-schedule';
 import { dmgTypeLabel } from '../../../../utils/dmg-type-label';
-import { floor } from '../../../../utils/floor';
 import { buildDpsSteps, formatDuration, isCritWeighted, TimeToKill, TTK_CAP_SECONDS } from './battle-hud.logic';
 
 /** The catalog fields a rotation row needs to render itself. */
@@ -64,12 +63,17 @@ export interface RotationEntryView {
    */
   critWeighted: boolean;
   /**
-   * The two outcomes {@link damage} is the mean of, on the same per-use scale, so the row
-   * can show all three the way the skill card does. Both 0 when the skill cannot crit —
-   * there is only one outcome then, and it is `damage` itself.
+   * The outcomes {@link damage} averages, each as the min–max roll it actually is: the
+   * non-crit roll and the crit one where the skill crits some of the time, a single roll
+   * where it does not. The same figures the skill card prints.
    */
-  damageNoCri: number;
-  damageCri: number;
+  damageRanges: DamageRange[];
+  /**
+   * Whether those rolls say anything the mean does not. False for a single roll that never
+   * varies — three copies of one number is not a reading — and it is also what decides
+   * whether the row's figure has a mean to explain at all.
+   */
+  hasDamageSpread: boolean;
   /**
    * The rotation idled on *this* entry's own recarga — the red "Recarga não fecha" state.
    *
@@ -106,16 +110,29 @@ const splitValue = (value: string): { name: string; level: string } => {
 };
 
 /**
- * One row's three damage readings. `damage` is the crit-weighted mean — the figure the
- * rotation and the DPS run on — and the other two are the outcomes it averages.
+ * One outcome a row's damage can take, as the roll it is rather than a single point.
+ *
+ * `kind` names the formula branch that explains it, which is what a click on the figure has
+ * to open; `label` is the tag the row prints beside it.
  */
-interface DamageReadings {
-  damage: number;
-  noCri: number;
-  cri: number;
+export interface DamageRange {
+  kind: 'nocri' | 'cri' | 'flat';
+  label: string;
+  min: number;
+  max: number;
 }
 
-const NO_DAMAGE: DamageReadings = { damage: 0, noCri: 0, cri: 0 };
+/** One row's damage readings: the mean, and the rolls it is a mean of. */
+interface DamageReadings {
+  damage: number;
+  ranges: DamageRange[];
+}
+
+const NO_DAMAGE: DamageReadings = { damage: 0, ranges: [] };
+
+/** A roll earns its place on the row when it is a real span, or when there is a sibling to
+ *  contrast it with. One roll that never varies is already the mean. */
+const isSpread = (ranges: DamageRange[]): boolean => ranges.length > 1 || ranges.some((r) => r.min !== r.max);
 
 /**
  * The effected pass's DPS inputs when Efeitos are ticked, the base ones otherwise —
@@ -162,13 +179,28 @@ function skillDamagePerUse(dmg: any): DamageReadings {
   const steps = buildDpsSteps(dmg);
   if (!steps) return NO_DAMAGE;
 
-  return {
-    damage: steps.damagePerUse,
-    // The same two legs the mean averages, scaled by the hit count so all three readings
-    // are per use and the mean visibly sits between them.
-    noCri: steps.totalHit * steps.avgBasicDamage,
-    cri: steps.totalHit * steps.criDmg,
-  };
+  const damage = steps.damagePerUse;
+  const canCrit = !!dmg?.skillCanCri;
+  const rate = dmg?.skillCriRateToMonster ?? 0;
+  // skillMin/MaxDamage are already per-use totals — the card divides them by the hit count
+  // to get its "cada" line — so these sit on the same scale as the mean.
+  const cri: DamageRange = { kind: 'cri', label: 'crít.', min: dmg?.skillMinDamage ?? 0, max: dmg?.skillMaxDamage ?? 0 };
+
+  if (isCritWeighted(canCrit, rate)) {
+    const noCri: DamageRange = {
+      kind: 'nocri',
+      label: 'sem crít.',
+      min: dmg?.skillMinDamageNoCri ?? 0,
+      max: dmg?.skillMaxDamageNoCri ?? 0,
+    };
+
+    return { damage, ranges: [noCri, cri] };
+  }
+  // Every use crits, so the crit roll is the only outcome there is; the no-crit figures are
+  // rolls this build never actually takes, and naming them would be a lie.
+  if (canCrit && rate >= 100) return { damage, ranges: [cri] };
+
+  return { damage, ranges: [{ ...cri, kind: 'flat', label: 'dano' }] };
 }
 
 /** Per-use damage for ataque básico. `basicDps` is already damage x rate, so dividing by
@@ -179,14 +211,16 @@ function basicDamagePerUse(summary: any, hasSelectedChances: boolean): DamageRea
   if (!dmg || rate <= 0) return NO_DAMAGE;
 
   const dps = (hasSelectedChances ? dmg.effectedBasicDps : 0) || dmg.basicDps || 0;
+  const damage = dps / rate;
+  // The same two rolls damage-calculator.ts hands calcDmgDps for basicDps, so the pair the
+  // row prints is the pair the mean was actually built from.
+  const plain: DamageRange = { kind: 'nocri', label: 'sem crít.', min: dmg.basicMinDamage || 0, max: dmg.basicMaxDamage || 0 };
 
-  return {
-    damage: dps / rate,
-    // Exactly the two values damage-calculator.ts hands calcDmgDps for basicDps, so the
-    // pair the row prints is the pair the mean was actually built from.
-    noCri: floor(((dmg.basicMinDamage || 0) + (dmg.basicMaxDamage || 0)) / 2),
-    cri: floor(((dmg.criMinDamage || 0) + (dmg.criMaxDamage || 0)) / 2),
-  };
+  if (isCritWeighted((dmg.criRateToMonster ?? 0) > 0, dmg.criRateToMonster)) {
+    return { damage, ranges: [plain, { kind: 'cri', label: 'crít.', min: dmg.criMinDamage || 0, max: dmg.criMaxDamage || 0 }] };
+  }
+
+  return { damage, ranges: [{ ...plain, kind: 'flat', label: 'dano' }] };
 }
 
 /**
@@ -294,8 +328,8 @@ export function buildRotationView(input: {
       icon: meta?.icon,
       levelList: meta?.levelList ?? [],
       damage: readings.damage,
-      damageNoCri: readings.noCri,
-      damageCri: readings.cri,
+      damageRanges: readings.ranges,
+      hasDamageSpread: isSpread(readings.ranges),
       contributionPercent: 0,
       dmgTypeLabel: basic ? dmgTypeLabel('Melee') : dmgTypeLabel(summary?.calcSkill?.dmgType ?? ''),
       element: basic ? summary?.propertyAtk ?? '' : summary?.calcSkill?.propertySkill ?? '',

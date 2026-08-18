@@ -24,6 +24,10 @@ const summaryOf = (over: {
   basicCriMin?: number;
   basicCriMax?: number;
   basicCriRate?: number;
+  critMin?: number;
+  critMax?: number;
+  noCriMin?: number;
+  noCriMax?: number;
 }) => ({
   calcSkill: {
     castPeriod: over.castPeriod ?? 0,
@@ -45,6 +49,14 @@ const summaryOf = (over: {
     skillDpsInputHitsPerSec: 1,
     skillCanCri: over.canCri ?? false,
     skillCriRateToMonster: over.criRate ?? 0,
+    // The rolls the row prints, per use. Default to the flat per-hit figure so the existing
+    // cases keep their single reading.
+    // For a crit-capable skill the engine's skillMin/MaxDamage ARE the crit roll, and the
+    // no-crit one rides its own pair of fields.
+    skillMinDamage: over.critMin ?? (over.canCri ? over.criDmg ?? 0 : over.perHit ?? 1000),
+    skillMaxDamage: over.critMax ?? (over.canCri ? over.criDmg ?? 0 : over.perHit ?? 1000),
+    skillMinDamageNoCri: over.noCriMin ?? over.perHit ?? 1000,
+    skillMaxDamageNoCri: over.noCriMax ?? over.perHit ?? 1000,
     skillAccuracy: 100,
     skillTotalHit: over.hits ?? 1,
     skillPropertyMultiplier: 1,
@@ -300,17 +312,30 @@ describe('crit-weighted rows', () => {
     expect(entry.damage).toBe(1_359_582);
   });
 
-  it('carries the two outcomes the mean sits between', () => {
+  it('carries the two rolls the mean sits between', () => {
     const entry = viewFor({ canCri: true, criRate: 38 }).entries[0];
 
-    expect(entry.damageNoCri).toBe(1_114_048);
-    expect(entry.damageCri).toBe(1_760_192);
-    expect(entry.damage).toBeGreaterThan(entry.damageNoCri);
-    expect(entry.damage).toBeLessThan(entry.damageCri);
+    expect(entry.damageRanges.map((r) => [r.kind, r.min, r.max])).toEqual([
+      ['nocri', 1_114_048, 1_114_048],
+      ['cri', 1_760_192, 1_760_192],
+    ]);
+    expect(entry.hasDamageSpread).toBe(true);
+    // 0,62 x 1.114.048 + 0,38 x 1.760.192 - neither of the two the card headlines.
+    expect(entry.damage).toBe(1_359_582);
   });
 
-  it('scales both outcomes by the hit count, like the mean', () => {
-    const summary = summaryOf({ perHit: 1000, hits: 3, criDmg: 4000, canCri: true, criRate: 50 });
+  it('shows each roll as the span it is, not as a point on it', () => {
+    const summary = summaryOf({
+      perHit: 1000,
+      hits: 1,
+      criDmg: 2000,
+      canCri: true,
+      criRate: 50,
+      noCriMin: 900,
+      noCriMax: 1100,
+      critMin: 1800,
+      critMax: 2200,
+    });
     const entry = buildRotationView({
       rotation: ['Solar Kick==7'],
       summaryByValue: new Map([['Solar Kick==7', summary]]),
@@ -319,14 +344,13 @@ describe('crit-weighted rows', () => {
       atkSkills,
     }).entries[0];
 
-    expect(entry.damageNoCri).toBe(3000);
-    expect(entry.damageCri).toBe(12_000);
-    expect(entry.damage).toBe(3 * 2500);
+    expect(entry.damageRanges).toEqual([
+      { kind: 'nocri', label: 'sem crít.', min: 900, max: 1100 },
+      { kind: 'cri', label: 'crít.', min: 1800, max: 2200 },
+    ]);
   });
 
-  it('splits ataque básico from the same two legs the engine averaged', () => {
-    // basicDps 4760 at 2,38/s recovers a 2000 mean; the legs are the min/max averages
-    // damage-calculator.ts feeds calcDmgDps.
+  it('splits ataque básico into the same two rolls the engine averaged', () => {
     const summary = summaryOf({ basicMin: 1400, basicMax: 1600, basicCriMin: 2900, basicCriMax: 3100, basicCriRate: 40 });
     const entry = buildRotationView({
       rotation: [BASIC_ATTACK_VALUE],
@@ -336,15 +360,40 @@ describe('crit-weighted rows', () => {
       atkSkills,
     }).entries[0];
 
-    expect(entry.critWeighted).toBe(true);
-    expect(entry.damageNoCri).toBe(1500);
-    expect(entry.damageCri).toBe(3000);
+    expect(entry.damageRanges).toEqual([
+      { kind: 'nocri', label: 'sem crít.', min: 1400, max: 1600 },
+      { kind: 'cri', label: 'crít.', min: 2900, max: 3100 },
+    ]);
   });
 
-  it('leaves a row alone when every use crits, or none does', () => {
-    expect(viewFor({ canCri: true, criRate: 100 }).entries[0].critWeighted).toBe(false);
-    expect(viewFor({ canCri: true, criRate: 0 }).entries[0].critWeighted).toBe(false);
-    expect(viewFor({ canCri: false, criRate: 38 }).entries[0].critWeighted).toBe(false);
+  it('shows one roll, and no mean to explain, when the damage never varies', () => {
+    // Three copies of one number is not a reading. The row's figure then opens the formula
+    // itself rather than an average of a single value.
+    const flat = viewFor({ canCri: false, criRate: 0 }).entries[0];
+
+    expect(flat.damageRanges).toEqual([{ kind: 'flat', label: 'dano', min: 1_114_048, max: 1_114_048 }]);
+    expect(flat.hasDamageSpread).toBe(false);
+  });
+
+  it('shows the min-max roll of a skill that cannot crit', () => {
+    const summary = summaryOf({ perHit: 1000, hits: 1, critMin: 900, critMax: 1100 });
+    const entry = buildRotationView({
+      rotation: ['Solar Kick==7'],
+      summaryByValue: new Map([['Solar Kick==7', summary]]),
+      baseSummary: summary,
+      hasSelectedChances: false,
+      atkSkills,
+    }).entries[0];
+
+    expect(entry.damageRanges).toEqual([{ kind: 'flat', label: 'dano', min: 900, max: 1100 }]);
+    expect(entry.hasDamageSpread).toBe(true);
+  });
+
+  it('names only the crit roll when every single use crits', () => {
+    // The no-crit figures are rolls the build never takes; printing them would be a lie.
+    const every = viewFor({ canCri: true, criRate: 100 }).entries[0];
+
+    expect(every.damageRanges.map((r) => r.kind)).toEqual(['cri']);
   });
 });
 

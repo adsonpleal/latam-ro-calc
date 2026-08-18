@@ -2,11 +2,11 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BASIC_ATTACK_VALUE, MAX_ROTATION_LENGTH } from '../../../../../core/rotation';
 import { buildRotationPickerOptions, elementTagClass as elementTagClassFn, RotationPickerOption } from '../battle-hud.logic';
-import { RotationEntryView } from '../rotation-view';
+import { DamageRange, RotationEntryView } from '../rotation-view';
 
 /** Which of a row's three damage readings was clicked: the crit-weighted mean, or one of
  *  the two outcomes it averages. */
-export type DamageBranch = 'mean' | 'nocri' | 'cri';
+export type DamageBranch = 'mean' | 'nocri' | 'cri' | 'flat';
 
 /** The synthetic option for ataque básico. ragassets serves no `/icons/skill` entry for
  *  the in-game sword cursor, so the picker points straight at the map asset. */
@@ -61,14 +61,28 @@ export class RotationListComponent {
   readonly basicAttackIcon = BASIC_ATTACK_ICON;
   readonly maxLength = MAX_ROTATION_LENGTH;
 
-  /** Hover note for the "média" tag — see the template for why the tag exists at all. */
-  readonly MEAN_TAG_TOOLTIP =
-    'A taxa de crítico já está embutida neste número: ele é a média entre o dano sem crítico e o dano crítico, pesada por essa taxa. Não multiplique pelo crítico de novo.';
+  /** Hover note for a roll's tag. Each says what the roll *is* and, where it matters, what
+   *  it is not: "sem crít." is a roll the build takes most of the time, not a floor. */
+  rangeTagTooltip(range: DamageRange): string {
+    if (range.kind === 'nocri') return 'O golpe quando não sai crítico — varia entre o mínimo e o máximo.';
+    if (range.kind === 'cri') return 'O golpe quando sai crítico — acontece na taxa de crítico mostrada ao lado.';
 
-  /** A crit-weighted row's figure is explained by the average, not by the formula of one
-   *  of the two outcomes — which is also where its click lands. */
+    return 'O golpe desta habilidade, que varia entre o mínimo e o máximo.';
+  }
+
+  /** Hover note for the "média" tag. A crit row needs the warning — the rate is on screen
+   *  right beside the figure and reads as something still to apply; a plain min–max row only
+   *  needs saying what the number is. */
+  meanTagTooltip(entry: RotationEntryView): string {
+    return entry.damageRanges.length > 1
+      ? 'A taxa de crítico já está embutida neste número: ele é a média entre o dano sem crítico e o dano crítico, pesada por essa taxa. Não multiplique pelo crítico de novo.'
+      : 'Média entre o dano mínimo e o máximo — é o valor usado na rotação e no DPS.';
+  }
+
+  /** A row's figure is explained by whatever it is: the average where there is a roll to
+   *  average, the formula itself where the damage never varies. */
   damageTooltip(entry: RotationEntryView): string {
-    return entry.critWeighted ? 'Ver como a média por crítico é calculada' : 'Ver a fórmula do dano';
+    return entry.hasDamageSpread ? 'Ver como o dano médio é calculado' : 'Ver a fórmula do dano';
   }
 
   get isFull(): boolean {
