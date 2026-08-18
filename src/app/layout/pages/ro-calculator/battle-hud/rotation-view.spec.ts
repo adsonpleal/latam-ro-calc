@@ -177,6 +177,27 @@ describe('buildRotationView', () => {
     expect(view.entries[2].damage).toBeCloseTo(view.entries[0].damage, 5);
   });
 
+  it('flags a magic row, which has no crit reading worth stating', () => {
+    // Magic never crits, so "Sem crít." on a magic row describes the damage type rather
+    // than the skill; the row leaves it out. A physical skill that cannot crit still says so.
+    const magic = summaryOf({ dmgType: 'Magical' });
+    const melee = summaryOf({ dmgType: 'Melee' });
+    const view3 = buildRotationView({
+      rotation: ['Solar Kick==7', 'Sunset Blast==5'],
+      summaryByValue: new Map([['Solar Kick==7', magic], ['Sunset Blast==5', melee]]),
+      baseSummary: melee,
+      hasSelectedChances: false,
+      atkSkills,
+    });
+
+    expect(view3.entries[0]).toMatchObject({ isMagic: true, canCrit: false });
+    expect(view3.entries[1]).toMatchObject({ isMagic: false, canCrit: false });
+  });
+
+  it('never calls ataque básico magic, whatever the build is holding', () => {
+    expect(view.entries[3]).toMatchObject({ isBasic: true, isMagic: false });
+  });
+
   it('states the crit reading on every entry', () => {
     // The design requires it explicitly: silence would read as missing data.
     expect(view.entries.every((e) => typeof e.canCrit === 'boolean')).toBe(true);

@@ -128,8 +128,10 @@
           ></p-tag>
           <span class="rot-mult">×{{ entry.propertyMultiplier | number: '1.2-2' }}</span>
 
-          <!-- Crit state, on every row without exception: a rate where the skill can
-               crit, "Sem crít." where it cannot. Silence would read as missing data. -->
+          <!-- Crit state on every row that has one to state: a rate where the skill can crit,
+               "Sem crít." where it cannot. Silence would read as missing data — except on a
+               magic row, where not critting is a property of the damage type and naming it
+               would be noise on every magic skill in the game. -->
           <span class="rot-crit" *ngIf="entry.canCrit">
             • Crít.
             <b
@@ -161,7 +163,7 @@
               </ng-container>
             </ng-container>
           </span>
-          <span class="rot-crit rot-crit--none" *ngIf="!entry.canCrit">• Sem crít.</span>
+          <span class="rot-crit rot-crit--none" *ngIf="!entry.canCrit && !entry.isMagic">• Sem crít.</span>
 
           <span class="rot-require" *ngIf="entry.requireTxt">⚠ Requer {{ entry.requireTxt }}</span>
         </div>

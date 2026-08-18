@@ -5,6 +5,7 @@
 
 import { BASIC_ATTACK_VALUE, isBasicAttack } from '../../../../core/rotation';
 import { RotationCycle, RotationLane, RotationScheduleStep, simulateRotation } from '../../../../core/rotation-schedule';
+import { SkillType } from '../../../../models/damage-summary.model';
 import { dmgTypeLabel } from '../../../../utils/dmg-type-label';
 import { buildDpsSteps, formatDuration, isCritWeighted, TimeToKill, TTK_CAP_SECONDS } from './battle-hud.logic';
 
@@ -48,6 +49,12 @@ export interface RotationEntryView {
    */
   canCrit: boolean;
   critRate: number;
+  /**
+   * Magic never crits in this game, so a magic row saying "Sem crít." is stating a property
+   * of the whole damage type rather than anything about this skill. The row leaves it out —
+   * unlike a physical skill that cannot crit, where the absence really is worth naming.
+   */
+  isMagic: boolean;
   /**
    * Whether that reading depends on the character's state. Derived from the catalog
    * entry's `canCri` being a *function* rather than a flag — the only honest signal
@@ -336,6 +343,7 @@ export function buildRotationView(input: {
       propertyMultiplier: basic ? 1 : dmg?.skillPropertyMultiplier ?? 1,
       requireTxt,
       // Ataque básico always rolls crit; a skill only where the engine says so.
+      isMagic: !basic && summary?.calcSkill?.dmgType === SkillType.MAGICAL,
       canCrit: basic ? (dmg?.criRateToMonster ?? 0) > 0 : !!dmg?.skillCanCri,
       critRate: basic ? dmg?.criRateToMonster ?? 0 : edmg?.skillCriRateToMonster ?? 0,
       critConditional: !basic && typeof meta?.canCri === 'function',
