@@ -5,10 +5,10 @@ export const genSkillList = (maxLevel: number, bonusFn?: (skillLevel: number) =>
     if (index === 0) return { label: '-', value: 0, isUse: false };
 
     if (!!bonusFn && typeof bonusFn === 'function') {
-      return { label: `Lv ${index}`, value: index, isUse: true, bonus: bonusFn(index) };
+      return { label: `Nv ${index}`, value: index, isUse: true, bonus: bonusFn(index) };
     }
 
-    return { label: `Lv ${index}`, value: index, isUse: true };
+    return { label: `Nv ${index}`, value: index, isUse: true };
   });
 };
 

@@ -7,6 +7,6 @@ export const OwlsEyeFn = (): PassiveSkillModel => ({
   isEquipAtk: true,
   dropdown: [
     { label: '-', value: 0, isUse: false },
-    { label: 'Lv 10', value: 10, skillLv: 10, isUse: true, bonus: { dex: 10 } },
+    { label: 'Nv 10', value: 10, skillLv: 10, isUse: true, bonus: { dex: 10 } },
   ],
 });

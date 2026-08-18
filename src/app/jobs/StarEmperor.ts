@@ -182,7 +182,7 @@ export class StarEmperor extends StarGladiator {
       inputType: 'dropdown',
       dropdown: [
         { label: '-', value: 0, isUse: false },
-        { label: 'Lv 5', value: 5, skillLv: 5, isUse: true },
+        { label: 'Nv 5', value: 5, skillLv: 5, isUse: true },
       ],
     },
     {
@@ -198,7 +198,7 @@ export class StarEmperor extends StarGladiator {
       exclusiveGroup: 'sje_stance',
       dropdown: [
         { label: '-', value: 0, isUse: false },
-        { label: 'Lv 3', value: 3, skillLv: 3, isUse: true, bonus: { atkPercent: 5 } },
+        { label: 'Nv 3', value: 3, skillLv: 3, isUse: true, bonus: { atkPercent: 5 } },
       ],
     },
     {
@@ -207,7 +207,7 @@ export class StarEmperor extends StarGladiator {
       inputType: 'dropdown',
       dropdown: [
         { label: '-', value: 0, isUse: false },
-        { label: 'Lv 5', value: 5, skillLv: 5, isUse: true },
+        { label: 'Nv 5', value: 5, skillLv: 5, isUse: true },
       ],
     },
     {
@@ -226,7 +226,7 @@ export class StarEmperor extends StarGladiator {
       exclusiveGroup: 'sje_stance',
       dropdown: [
         { label: '-', value: 0, isUse: false },
-        { label: 'Lv 3', value: 3, skillLv: 3, isUse: true, bonus: { aspdPercent: 10 } },
+        { label: 'Nv 3', value: 3, skillLv: 3, isUse: true, bonus: { aspdPercent: 10 } },
       ],
     },
     {
@@ -241,9 +241,9 @@ export class StarEmperor extends StarGladiator {
       exclusiveGroup: 'sje_stance',
       dropdown: [
         { label: '-', value: 0, isUse: false },
-        { label: 'Lv 1', value: 1, skillLv: 1, isUse: true, bonus: { str: 3, agi: 3, vit: 3, int: 3, dex: 3, luk: 3 } },
-        { label: 'Lv 2', value: 2, skillLv: 2, isUse: true, bonus: { str: 4, agi: 4, vit: 4, int: 4, dex: 4, luk: 4 } },
-        { label: 'Lv 3', value: 3, skillLv: 3, isUse: true, bonus: { str: 5, agi: 5, vit: 5, int: 5, dex: 5, luk: 5 } },
+        { label: 'Nv 1', value: 1, skillLv: 1, isUse: true, bonus: { str: 3, agi: 3, vit: 3, int: 3, dex: 3, luk: 3 } },
+        { label: 'Nv 2', value: 2, skillLv: 2, isUse: true, bonus: { str: 4, agi: 4, vit: 4, int: 4, dex: 4, luk: 4 } },
+        { label: 'Nv 3', value: 3, skillLv: 3, isUse: true, bonus: { str: 5, agi: 5, vit: 5, int: 5, dex: 5, luk: 5 } },
       ],
     },
     {
@@ -252,7 +252,7 @@ export class StarEmperor extends StarGladiator {
       inputType: 'dropdown',
       dropdown: [
         { label: '-', value: 0, isUse: false },
-        { label: 'Lv 5', value: 5, skillLv: 5, isUse: true },
+        { label: 'Nv 5', value: 5, skillLv: 5, isUse: true },
       ],
     },
   ];
@@ -264,11 +264,11 @@ export class StarEmperor extends StarGladiator {
       inputType: 'dropdown',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1 },
-        { label: 'Lv 2', isUse: true, value: 2 },
-        { label: 'Lv 3', isUse: true, value: 3 },
-        { label: 'Lv 4', isUse: true, value: 4 },
-        { label: 'Lv 5', isUse: true, value: 5 },
+        { label: 'Nv 1', isUse: true, value: 1 },
+        { label: 'Nv 2', isUse: true, value: 2 },
+        { label: 'Nv 3', isUse: true, value: 3 },
+        { label: 'Nv 4', isUse: true, value: 4 },
+        { label: 'Nv 5', isUse: true, value: 5 },
       ],
     },
     {
@@ -277,11 +277,11 @@ export class StarEmperor extends StarGladiator {
       inputType: 'dropdown',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1 },
-        { label: 'Lv 2', isUse: true, value: 2 },
-        { label: 'Lv 3', isUse: true, value: 3 },
-        { label: 'Lv 4', isUse: true, value: 4 },
-        { label: 'Lv 5', isUse: true, value: 5 },
+        { label: 'Nv 1', isUse: true, value: 1 },
+        { label: 'Nv 2', isUse: true, value: 2 },
+        { label: 'Nv 3', isUse: true, value: 3 },
+        { label: 'Nv 4', isUse: true, value: 4 },
+        { label: 'Nv 5', isUse: true, value: 5 },
       ],
     },
     {
@@ -290,11 +290,11 @@ export class StarEmperor extends StarGladiator {
       inputType: 'dropdown',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1 },
-        { label: 'Lv 2', isUse: true, value: 2 },
-        { label: 'Lv 3', isUse: true, value: 3 },
-        { label: 'Lv 4', isUse: true, value: 4 },
-        { label: 'Lv 5', isUse: true, value: 5 },
+        { label: 'Nv 1', isUse: true, value: 1 },
+        { label: 'Nv 2', isUse: true, value: 2 },
+        { label: 'Nv 3', isUse: true, value: 3 },
+        { label: 'Nv 4', isUse: true, value: 4 },
+        { label: 'Nv 5', isUse: true, value: 5 },
       ],
     },
   ];

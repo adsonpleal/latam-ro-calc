@@ -7,7 +7,7 @@ import { ClassName } from './_class-name';
 
 /** Every level of a skill, for the level picker in the UI. */
 const levelList = (name: string, maxLv = 10) =>
-  Array.from({ length: maxLv }, (_, i) => ({ label: `${name} Lv${i + 1}`, value: `${name}==${i + 1}` }));
+  Array.from({ length: maxLv }, (_, i) => ({ label: `${name} Nv${i + 1}`, value: `${name}==${i + 1}` }));
 
 /**
  * Job bonuses, from the "Job & Talent Bonuses" grid on irowiki.org/wiki/Hyper_Novice

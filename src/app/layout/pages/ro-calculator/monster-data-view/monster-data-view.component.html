@@ -45,7 +45,7 @@
         <div class="flex flex-wrap align-items-center justify-content-between gap-2">
           <span class="flex align-items-center gap-2">
             <!-- <i class="pi pi-tag"></i> -->
-            <span>{{ 'Lv ' + product.level }}</span>
+            <span>{{ 'Nv ' + product.level }}</span>
           </span>
           <p-tag *ngIf="product.className === 'Boss'" [value]="product.className | monsterTerm: 'type'" severity="danger"></p-tag>
           <span *ngIf="product.className !== 'Boss'">{{ product.className | monsterTerm: 'type' }}</span>

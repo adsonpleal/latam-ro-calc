@@ -16,10 +16,10 @@ export const IntensificationFn = (): ActiveSkillModel => ({
   name: 'Intensification',
   dropdown: [
     { label: '-', isUse: false, value: 0 },
-    { label: 'Lv 1', isUse: true, value: 1, bonus: { final_ghost: 40, vct: 10 } },
-    { label: 'Lv 2', isUse: true, value: 2, bonus: { final_ghost: 80, vct: 20 } },
-    { label: 'Lv 3', isUse: true, value: 3, bonus: { final_ghost: 120, vct: 30 } },
-    { label: 'Lv 4', isUse: true, value: 4, bonus: { final_ghost: 160, vct: 40 } },
-    { label: 'Lv 5', isUse: true, value: 5, bonus: { final_ghost: 200, vct: 50 } },
+    { label: 'Nv 1', isUse: true, value: 1, bonus: { final_ghost: 40, vct: 10 } },
+    { label: 'Nv 2', isUse: true, value: 2, bonus: { final_ghost: 80, vct: 20 } },
+    { label: 'Nv 3', isUse: true, value: 3, bonus: { final_ghost: 120, vct: 30 } },
+    { label: 'Nv 4', isUse: true, value: 4, bonus: { final_ghost: 160, vct: 40 } },
+    { label: 'Nv 5', isUse: true, value: 5, bonus: { final_ghost: 200, vct: 50 } },
   ],
 });

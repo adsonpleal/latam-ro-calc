@@ -299,7 +299,7 @@ export class SpiritHandler extends Doram {
       inputType: 'dropdown',
       dropdown: [
         { label: '-', value: 0, isUse: false },
-        { label: 'Lv 1', value: 1, isUse: true },
+        { label: 'Nv 1', value: 1, isUse: true },
       ],
     },
     {
@@ -308,7 +308,7 @@ export class SpiritHandler extends Doram {
       inputType: 'dropdown',
       dropdown: [
         { label: '-', value: 0, isUse: false },
-        { label: 'Lv 1', value: 1, isUse: true },
+        { label: 'Nv 1', value: 1, isUse: true },
       ],
     },
     {

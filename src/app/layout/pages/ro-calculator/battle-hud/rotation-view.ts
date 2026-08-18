@@ -330,7 +330,7 @@ export function buildRotationView(input: {
       index,
       value,
       isBasic: basic,
-      name: basic ? 'Ataque básico' : meta?.label?.replace(/\s*Lv\d+.*$/, '') || name,
+      name: basic ? 'Ataque básico' : meta?.label?.replace(/\s*Nv\d+.*$/, '') || name,
       levelLabel: basic || !level ? '' : `Nv${level}`,
       icon: meta?.icon,
       levelList: meta?.levelList ?? [],

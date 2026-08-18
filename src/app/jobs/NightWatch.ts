@@ -13,7 +13,7 @@ import { ClassName } from './_class-name';
  * rarely maxes all of them.
  */
 const levelList = (name: string, maxLv: number) =>
-  Array.from({ length: maxLv }, (_, i) => ({ label: `${name} Lv${i + 1}`, value: `${name}==${i + 1}` }));
+  Array.from({ length: maxLv }, (_, i) => ({ label: `${name} Nv${i + 1}`, value: `${name}==${i + 1}` }));
 
 /**
  * Job bonus (STR/AGI/VIT/INT/DEX/LUK) — irowiki.org/wiki/Night_Watch, "Job & Talent

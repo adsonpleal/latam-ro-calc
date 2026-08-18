@@ -1,5 +1,5 @@
 import { ElementType, ElementalMasterSpirit } from '../constants/element-type.const';
-import { AdditionalBonusInput, InfoForClass } from '../models/info-for-class.model';
+import { AdditionalBonusInput } from '../models/info-for-class.model';
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { Scholar } from './Scholar';
@@ -96,9 +96,9 @@ export class Sorcerer extends Scholar {
       label: 'Fist Spell Lv10',
       value: 'Fist Spell==10',
       levelList: [
-        { label: 'Fist Spell Lv10 (Fire Bolt Lv10)', value: 'Fist Spell Fire Bolt==10' },
-        { label: 'Fist Spell Lv10 (Cold Bolt Lv10)', value: 'Fist Spell Cold Bolt==10' },
-        { label: 'Fist Spell Lv10 (Lightening Bolt Lv10)', value: 'Fist Spell Lightening Bolt==10' },
+        { label: 'Fist Spell Nv10 (Fire Bolt Nv10)', value: 'Fist Spell Fire Bolt==10' },
+        { label: 'Fist Spell Nv10 (Cold Bolt Nv10)', value: 'Fist Spell Cold Bolt==10' },
+        { label: 'Fist Spell Nv10 (Lightening Bolt Nv10)', value: 'Fist Spell Lightening Bolt==10' },
       ],
       fct: 0,
       vct: 0,
@@ -310,11 +310,11 @@ export class Sorcerer extends Scholar {
       inputType: 'dropdown',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1 },
-        { label: 'Lv 2', isUse: true, value: 2 },
-        { label: 'Lv 3', isUse: true, value: 3 },
-        { label: 'Lv 4', isUse: true, value: 4 },
-        { label: 'Lv 5', isUse: true, value: 5 },
+        { label: 'Nv 1', isUse: true, value: 1 },
+        { label: 'Nv 2', isUse: true, value: 2 },
+        { label: 'Nv 3', isUse: true, value: 3 },
+        { label: 'Nv 4', isUse: true, value: 4 },
+        { label: 'Nv 5', isUse: true, value: 5 },
       ],
     },
     {
@@ -323,11 +323,11 @@ export class Sorcerer extends Scholar {
       inputType: 'dropdown',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1 },
-        { label: 'Lv 2', isUse: true, value: 2 },
-        { label: 'Lv 3', isUse: true, value: 3 },
-        { label: 'Lv 4', isUse: true, value: 4 },
-        { label: 'Lv 5', isUse: true, value: 5 },
+        { label: 'Nv 1', isUse: true, value: 1 },
+        { label: 'Nv 2', isUse: true, value: 2 },
+        { label: 'Nv 3', isUse: true, value: 3 },
+        { label: 'Nv 4', isUse: true, value: 4 },
+        { label: 'Nv 5', isUse: true, value: 5 },
       ],
     },
     {
@@ -336,11 +336,11 @@ export class Sorcerer extends Scholar {
       inputType: 'dropdown',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1 },
-        { label: 'Lv 2', isUse: true, value: 2 },
-        { label: 'Lv 3', isUse: true, value: 3 },
-        { label: 'Lv 4', isUse: true, value: 4 },
-        { label: 'Lv 5', isUse: true, value: 5 },
+        { label: 'Nv 1', isUse: true, value: 1 },
+        { label: 'Nv 2', isUse: true, value: 2 },
+        { label: 'Nv 3', isUse: true, value: 3 },
+        { label: 'Nv 4', isUse: true, value: 4 },
+        { label: 'Nv 5', isUse: true, value: 5 },
       ],
     },
   ];
@@ -356,33 +356,12 @@ export class Sorcerer extends Scholar {
     });
   }
 
-  override getMasteryAtk(params: InfoForClass): number {
-    if (!this.bonuses?.masteryAtks) return 0;
-
-    const { weapon } = params;
-    const { typeName } = weapon.data;
-
-    let atk = 0;
-    for (const [_skillName, bonus] of Object.entries(this.bonuses.masteryAtks)) {
-      atk += bonus[`${typeName}_atk`] || 0;
-    }
-
-    return atk;
-  }
-
   override setAdditionalBonus(params: AdditionalBonusInput) {
-    if (!this.bonuses?.masteryAtks) return params.totalBonus;
+    // Scholar owns the weapon-gated Estudo de Livros payout (mastery ATK + ASPD%);
+    // what is left here is the elemental spirit, which is this class's own.
+    super.setAdditionalBonus(params);
 
-    const { totalBonus, weapon } = params;
-    const { typeName } = weapon.data;
-
-    const { masteryAtks, equipAtks } = this.bonuses;
-
-    let aspdPercent = 0;
-    for (const [_skillName, bonus] of Object.entries({ ...masteryAtks, ...equipAtks })) {
-      aspdPercent += bonus[`${typeName}_aspdPercent`] || 0;
-    }
-    totalBonus.aspdPercent = (totalBonus.aspdPercent || 0) + aspdPercent;
+    const { totalBonus } = params;
 
     if (!this.activeSkillLv('_ElementalMaster_spirit')) {
       if (this.isSummon(ElementalSpiritValue.Agni_2)) {

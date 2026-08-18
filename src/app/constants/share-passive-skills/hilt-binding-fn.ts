@@ -7,6 +7,6 @@ export const HiltBindingFn = (): PassiveSkillModel => ({
   isMasteryAtk: true,
   dropdown: [
     { label: '-', value: 0, isUse: false },
-    { label: 'Lv 1', value: 1, isUse: true, bonus: { str: 1, x_atk: 4 } },
+    { label: 'Nv 1', value: 1, isUse: true, bonus: { str: 1, x_atk: 4 } },
   ],
 });

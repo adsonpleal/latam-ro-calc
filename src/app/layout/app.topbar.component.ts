@@ -67,7 +67,7 @@ export class AppTopBarComponent {
     'Os dados de itens e habilidades vêm do cliente do RO LATAM; os de monstros, da API pública do RagnaPlace. Os links de itens, monstros e habilidades levam ao divine-pride para consulta.',
     'Mude o tema pelo botão Config, no centro à direita.',
     'Os dados salvos ficam no navegador; se você limpar os dados do navegador, eles também serão apagados.',
-    'Condições que dizem "a cada nível de habilidade aprendido" exigem subir o nível no campo "Learn to get bonuses" para receber o bônus; se não houver onde subir, o bônus é contado como Lv MÁX.',
+    'Condições que dizem "a cada nível de habilidade aprendido" exigem subir o nível no campo "Learn to get bonuses" para receber o bônus; se não houver onde subir, o bônus é contado como Nv MÁX.',
     'As opções na linha da arma ficam sempre disponíveis e podem ser usadas como "e se" (What if).',
     'My Magical Element nas opções = aumenta o dano mágico do elemento...',
     'A comparação de armas de duas mãos ainda não suporta troca da mão esquerda.',
@@ -158,6 +158,15 @@ export class AppTopBarComponent {
    * The entries are written in impersonal voice, describing what changed for the user.
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
+    {
+      v: '0.1.71-beta',
+      date: '18-08-2026',
+      logs: [
+        'O Estudo de Livros voltou a valer para Feiticeiro e Elementalista. A habilidade promete ATQ de perícia e velocidade de ataque com Livro equipado, e a velocidade de ataque nunca chegava ao cálculo: estava guardada sob um nome que nenhuma parte do simulador lia, de modo que só o ATQ era aplicado. Agora, no Nv 10 e com Livro na mão, são +30 de ATQ de perícia e +5% de velocidade de ataque, e nada com qualquer outra arma. Reportado por Ted.',
+        'A Sinfonia Mística passou a somar seus 100% de dano junto com os bônus dos equipamentos, em vez de multiplicar por fora deles. A descrição da habilidade aumenta em 100% o dano de Disparo Rítmico, Atirar Rosas e Arranjo Musical, e essa parcela entra na mesma conta em que entram os equipamentos que também aumentam essas habilidades. Um Chicote Consertado que já vale +35% no Disparo Rítmico passa a somar 135%, e 235% com a ultimate ligada — antes a ultimate dobrava o total, valesse o que valesse o chicote. Vale para Diva e Maestro. Reportado por usuário anônimo.',
+        'Os níveis de habilidade passaram a aparecer como "Nv" em toda a interface. Parte das listas ainda dizia "Lv", que convivia com o "Nv" já usado na barra de combate, nas simulações salvas e na lista de alvos.',
+      ],
+    },
     {
       v: '0.1.70-beta',
       date: '18-08-2026',

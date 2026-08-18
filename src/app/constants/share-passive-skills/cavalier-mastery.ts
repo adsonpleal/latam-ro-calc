@@ -6,6 +6,6 @@ export const CavalierMastery: PassiveSkillModel = {
   inputType: 'dropdown',
   dropdown: [
     { label: '-', value: 0, isUse: false },
-    { label: 'Lv 5', value: 5, skillLv: 5, isUse: true },
+    { label: 'Nv 5', value: 5, skillLv: 5, isUse: true },
   ],
 };

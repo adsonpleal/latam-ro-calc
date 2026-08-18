@@ -71,8 +71,8 @@ const summaryOf = (over: {
 });
 
 const atkSkills: RotationSkillMeta[] = [
-  { value: 'Solar Kick==7', label: 'Chute Solar Lv7', icon: 2593 },
-  { value: 'Sunset Blast==5', label: 'Entardecer Lv5', icon: 5466, levelList: [{ label: 'Entardecer Lv5', value: 'Sunset Blast==5' }] },
+  { value: 'Solar Kick==7', label: 'Chute Solar Nv7', icon: 2593 },
+  { value: 'Sunset Blast==5', label: 'Entardecer Nv5', icon: 5466, levelList: [{ label: 'Entardecer Nv5', value: 'Sunset Blast==5' }] },
 ];
 
 describe('toScheduleStep', () => {
@@ -207,8 +207,8 @@ describe('buildRotationView', () => {
     // A catalog entry whose `canCri` is a *function* is state-dependent by definition —
     // the only honest signal available, since no skill declares which state it needs.
     const atkSkillsWithConditional = [
-      { value: 'Sunset Blast==5', label: 'Entardecer Lv5', canCri: () => true },
-      { value: 'Solar Kick==7', label: 'Chute Solar Lv7', canCri: true },
+      { value: 'Sunset Blast==5', label: 'Entardecer Nv5', canCri: () => true },
+      { value: 'Solar Kick==7', label: 'Chute Solar Nv7', canCri: true },
     ];
     const crit = buildRotationView({
       rotation: ['Sunset Blast==5', 'Solar Kick==7'],

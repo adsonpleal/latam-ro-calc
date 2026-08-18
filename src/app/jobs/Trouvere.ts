@@ -183,14 +183,13 @@ export class Trouvere extends Wanderer {
         const { model, skillLevel, status } = input;
         const baseLevel = model.level;
         const stageMannerLv = this.learnLv('Stage Manner');
-        const mysticMult = this.isSkillActive('Mystic Symphony') ? 2 : 1; // 2nd version: Mystic Symphony doubles the skill's power
 
         const con = status.totalCon * 2 * stageMannerLv;
         const ratio = this.isSkillActive('_Debuf_Sonic_Brand')
           ? skillLevel * 156 + con
           : skillLevel * 120 + con;
 
-        return mysticMult * ratio * (baseLevel / 100);
+        return ratio * (baseLevel / 100);
       },
     },
     {
@@ -212,7 +211,6 @@ export class Trouvere extends Wanderer {
         const { model, skillLevel, status } = input;
         const baseLevel = model.level;
         const stageMannerLv = this.learnLv('Stage Manner');
-        const mysticMult = this.isSkillActive('Mystic Symphony') ? 2 : 1; // 2nd version: Mystic Symphony doubles the skill's power
 
         // 2nd version: main dmg displays 2 hits + 1 secondary AoE hit. Higher coefficients vs a Sonic Brand-marked target.
         const main = this.isSkillActive('_Debuf_Sonic_Brand')
@@ -222,7 +220,7 @@ export class Trouvere extends Wanderer {
           ? skillLevel * 750 + status.totalCon * 2 * stageMannerLv
           : skillLevel * 350 + status.totalCon * 2 * stageMannerLv;
 
-        return mysticMult * (main * 2 + second) * (baseLevel / 100);
+        return (main * 2 + second) * (baseLevel / 100);
       },
     },
   ];

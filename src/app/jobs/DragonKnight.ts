@@ -291,7 +291,7 @@ export class DragonKnight extends RuneKnight {
       inputType: 'dropdown',
       dropdown: [
         { label: '-', value: 0, isUse: false },
-        { label: 'Lv 10', value: 10, isUse: true },
+        { label: 'Nv 10', value: 10, isUse: true },
       ],
     },
   ];

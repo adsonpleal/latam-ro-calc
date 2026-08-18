@@ -1,3 +1,4 @@
+import { AdditionalBonusInput, InfoForClass } from '../models/info-for-class.model';
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { Mage } from './Mage';
@@ -100,11 +101,11 @@ export class Scholar extends Mage {
       name: 'Endow Blaze',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1, bonus: { m_my_element_fire: 1 } },
-        { label: 'Lv 2', isUse: true, value: 2, bonus: { m_my_element_fire: 2 } },
-        { label: 'Lv 3', isUse: true, value: 3, bonus: { m_my_element_fire: 3 } },
-        { label: 'Lv 4', isUse: true, value: 4, bonus: { m_my_element_fire: 4 } },
-        { label: 'Lv 5', isUse: true, value: 5, bonus: { m_my_element_fire: 5 } },
+        { label: 'Nv 1', isUse: true, value: 1, bonus: { m_my_element_fire: 1 } },
+        { label: 'Nv 2', isUse: true, value: 2, bonus: { m_my_element_fire: 2 } },
+        { label: 'Nv 3', isUse: true, value: 3, bonus: { m_my_element_fire: 3 } },
+        { label: 'Nv 4', isUse: true, value: 4, bonus: { m_my_element_fire: 4 } },
+        { label: 'Nv 5', isUse: true, value: 5, bonus: { m_my_element_fire: 5 } },
       ],
     },
     {
@@ -113,11 +114,11 @@ export class Scholar extends Mage {
       name: 'Lightning Loader',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1, bonus: { m_my_element_wind: 1 } },
-        { label: 'Lv 2', isUse: true, value: 2, bonus: { m_my_element_wind: 2 } },
-        { label: 'Lv 3', isUse: true, value: 3, bonus: { m_my_element_wind: 3 } },
-        { label: 'Lv 4', isUse: true, value: 4, bonus: { m_my_element_wind: 4 } },
-        { label: 'Lv 5', isUse: true, value: 5, bonus: { m_my_element_wind: 5 } },
+        { label: 'Nv 1', isUse: true, value: 1, bonus: { m_my_element_wind: 1 } },
+        { label: 'Nv 2', isUse: true, value: 2, bonus: { m_my_element_wind: 2 } },
+        { label: 'Nv 3', isUse: true, value: 3, bonus: { m_my_element_wind: 3 } },
+        { label: 'Nv 4', isUse: true, value: 4, bonus: { m_my_element_wind: 4 } },
+        { label: 'Nv 5', isUse: true, value: 5, bonus: { m_my_element_wind: 5 } },
       ],
     },
     {
@@ -126,11 +127,11 @@ export class Scholar extends Mage {
       name: 'Frost Weapon',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1, bonus: { m_my_element_water: 1 } },
-        { label: 'Lv 2', isUse: true, value: 2, bonus: { m_my_element_water: 2 } },
-        { label: 'Lv 3', isUse: true, value: 3, bonus: { m_my_element_water: 3 } },
-        { label: 'Lv 4', isUse: true, value: 4, bonus: { m_my_element_water: 4 } },
-        { label: 'Lv 5', isUse: true, value: 5, bonus: { m_my_element_water: 5 } },
+        { label: 'Nv 1', isUse: true, value: 1, bonus: { m_my_element_water: 1 } },
+        { label: 'Nv 2', isUse: true, value: 2, bonus: { m_my_element_water: 2 } },
+        { label: 'Nv 3', isUse: true, value: 3, bonus: { m_my_element_water: 3 } },
+        { label: 'Nv 4', isUse: true, value: 4, bonus: { m_my_element_water: 4 } },
+        { label: 'Nv 5', isUse: true, value: 5, bonus: { m_my_element_water: 5 } },
       ],
     },
 
@@ -140,11 +141,11 @@ export class Scholar extends Mage {
       name: 'Seismic Weapon',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1, bonus: { m_my_element_earth: 1 } },
-        { label: 'Lv 2', isUse: true, value: 2, bonus: { m_my_element_earth: 2 } },
-        { label: 'Lv 3', isUse: true, value: 3, bonus: { m_my_element_earth: 3 } },
-        { label: 'Lv 4', isUse: true, value: 4, bonus: { m_my_element_earth: 4 } },
-        { label: 'Lv 5', isUse: true, value: 5, bonus: { m_my_element_earth: 5 } },
+        { label: 'Nv 1', isUse: true, value: 1, bonus: { m_my_element_earth: 1 } },
+        { label: 'Nv 2', isUse: true, value: 2, bonus: { m_my_element_earth: 2 } },
+        { label: 'Nv 3', isUse: true, value: 3, bonus: { m_my_element_earth: 3 } },
+        { label: 'Nv 4', isUse: true, value: 4, bonus: { m_my_element_earth: 4 } },
+        { label: 'Nv 5', isUse: true, value: 5, bonus: { m_my_element_earth: 5 } },
       ],
     },
   ];
@@ -156,16 +157,16 @@ export class Scholar extends Mage {
       isMasteryAtk: true,
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1, bonus: { book_atk: 3, book_skillAspd: 0.5 } },
-        { label: 'Lv 2', isUse: true, value: 2, bonus: { book_atk: 6, book_skillAspd: 1 } },
-        { label: 'Lv 3', isUse: true, value: 3, bonus: { book_atk: 9, book_skillAspd: 1.5 } },
-        { label: 'Lv 4', isUse: true, value: 4, bonus: { book_atk: 12, book_skillAspd: 2 } },
-        { label: 'Lv 5', isUse: true, value: 5, bonus: { book_atk: 15, book_skillAspd: 2.5 } },
-        { label: 'Lv 6', isUse: true, value: 6, bonus: { book_atk: 18, book_skillAspd: 3 } },
-        { label: 'Lv 7', isUse: true, value: 7, bonus: { book_atk: 21, book_skillAspd: 3.5 } },
-        { label: 'Lv 8', isUse: true, value: 8, bonus: { book_atk: 24, book_skillAspd: 4 } },
-        { label: 'Lv 9', isUse: true, value: 9, bonus: { book_atk: 27, book_skillAspd: 4.5 } },
-        { label: 'Lv 10', isUse: true, value: 10, bonus: { book_atk: 30, book_skillAspd: 5 } },
+        { label: 'Nv 1', isUse: true, value: 1, bonus: { book_atk: 3, book_aspdPercent: 0.5 } },
+        { label: 'Nv 2', isUse: true, value: 2, bonus: { book_atk: 6, book_aspdPercent: 1 } },
+        { label: 'Nv 3', isUse: true, value: 3, bonus: { book_atk: 9, book_aspdPercent: 1.5 } },
+        { label: 'Nv 4', isUse: true, value: 4, bonus: { book_atk: 12, book_aspdPercent: 2 } },
+        { label: 'Nv 5', isUse: true, value: 5, bonus: { book_atk: 15, book_aspdPercent: 2.5 } },
+        { label: 'Nv 6', isUse: true, value: 6, bonus: { book_atk: 18, book_aspdPercent: 3 } },
+        { label: 'Nv 7', isUse: true, value: 7, bonus: { book_atk: 21, book_aspdPercent: 3.5 } },
+        { label: 'Nv 8', isUse: true, value: 8, bonus: { book_atk: 24, book_aspdPercent: 4 } },
+        { label: 'Nv 9', isUse: true, value: 9, bonus: { book_atk: 27, book_aspdPercent: 4.5 } },
+        { label: 'Nv 10', isUse: true, value: 10, bonus: { book_atk: 30, book_aspdPercent: 5 } },
       ],
     },
     {
@@ -176,31 +177,31 @@ export class Scholar extends Mage {
       dropdown: [
         { label: '-', isUse: false, value: 0 },
         {
-          label: 'Lv 1',
+          label: 'Nv 1',
           isUse: true,
           value: 1,
           bonus: { atkPercent_race_dragon: 4, matkPercent_race_dragon: 2, int: 1 },
         },
         {
-          label: 'Lv 2',
+          label: 'Nv 2',
           isUse: true,
           value: 2,
           bonus: { atkPercent_race_dragon: 8, matkPercent_race_dragon: 4, int: 1 },
         },
         {
-          label: 'Lv 3',
+          label: 'Nv 3',
           isUse: true,
           value: 3,
           bonus: { atkPercent_race_dragon: 12, matkPercent_race_dragon: 6, int: 2 },
         },
         {
-          label: 'Lv 4',
+          label: 'Nv 4',
           isUse: true,
           value: 4,
           bonus: { atkPercent_race_dragon: 16, matkPercent_race_dragon: 8, int: 2 },
         },
         {
-          label: 'Lv 5',
+          label: 'Nv 5',
           isUse: true,
           value: 5,
           bonus: { atkPercent_race_dragon: 20, matkPercent_race_dragon: 10, int: 3 },
@@ -213,11 +214,11 @@ export class Scholar extends Mage {
       name: 'Indulge',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1 },
-        { label: 'Lv 2', isUse: true, value: 2 },
-        { label: 'Lv 3', isUse: true, value: 3 },
-        { label: 'Lv 4', isUse: true, value: 4 },
-        { label: 'Lv 5', isUse: true, value: 5 },
+        { label: 'Nv 1', isUse: true, value: 1 },
+        { label: 'Nv 2', isUse: true, value: 2 },
+        { label: 'Nv 3', isUse: true, value: 3 },
+        { label: 'Nv 4', isUse: true, value: 4 },
+        { label: 'Nv 5', isUse: true, value: 5 },
       ],
     },
     {
@@ -226,16 +227,16 @@ export class Scholar extends Mage {
       name: 'Auto Spell',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1 },
-        { label: 'Lv 2', isUse: true, value: 2 },
-        { label: 'Lv 3', isUse: true, value: 3 },
-        { label: 'Lv 4', isUse: true, value: 4 },
-        { label: 'Lv 5', isUse: true, value: 5 },
-        { label: 'Lv 6', isUse: true, value: 6 },
-        { label: 'Lv 7', isUse: true, value: 7 },
-        { label: 'Lv 8', isUse: true, value: 8 },
-        { label: 'Lv 9', isUse: true, value: 9 },
-        { label: 'Lv 10', isUse: true, value: 10 },
+        { label: 'Nv 1', isUse: true, value: 1 },
+        { label: 'Nv 2', isUse: true, value: 2 },
+        { label: 'Nv 3', isUse: true, value: 3 },
+        { label: 'Nv 4', isUse: true, value: 4 },
+        { label: 'Nv 5', isUse: true, value: 5 },
+        { label: 'Nv 6', isUse: true, value: 6 },
+        { label: 'Nv 7', isUse: true, value: 7 },
+        { label: 'Nv 8', isUse: true, value: 8 },
+        { label: 'Nv 9', isUse: true, value: 9 },
+        { label: 'Nv 10', isUse: true, value: 10 },
       ],
     },
     {
@@ -244,11 +245,11 @@ export class Scholar extends Mage {
       name: 'Endow Blaze',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1 },
-        { label: 'Lv 2', isUse: true, value: 2 },
-        { label: 'Lv 3', isUse: true, value: 3 },
-        { label: 'Lv 4', isUse: true, value: 4 },
-        { label: 'Lv 5', isUse: true, value: 5 },
+        { label: 'Nv 1', isUse: true, value: 1 },
+        { label: 'Nv 2', isUse: true, value: 2 },
+        { label: 'Nv 3', isUse: true, value: 3 },
+        { label: 'Nv 4', isUse: true, value: 4 },
+        { label: 'Nv 5', isUse: true, value: 5 },
       ],
     },
     {
@@ -257,11 +258,11 @@ export class Scholar extends Mage {
       name: 'Lightning Loader',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1 },
-        { label: 'Lv 2', isUse: true, value: 2 },
-        { label: 'Lv 3', isUse: true, value: 3 },
-        { label: 'Lv 4', isUse: true, value: 4 },
-        { label: 'Lv 5', isUse: true, value: 5 },
+        { label: 'Nv 1', isUse: true, value: 1 },
+        { label: 'Nv 2', isUse: true, value: 2 },
+        { label: 'Nv 3', isUse: true, value: 3 },
+        { label: 'Nv 4', isUse: true, value: 4 },
+        { label: 'Nv 5', isUse: true, value: 5 },
       ],
     },
     {
@@ -270,11 +271,11 @@ export class Scholar extends Mage {
       name: 'Frost Weapon',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1 },
-        { label: 'Lv 2', isUse: true, value: 2 },
-        { label: 'Lv 3', isUse: true, value: 3 },
-        { label: 'Lv 4', isUse: true, value: 4 },
-        { label: 'Lv 5', isUse: true, value: 5 },
+        { label: 'Nv 1', isUse: true, value: 1 },
+        { label: 'Nv 2', isUse: true, value: 2 },
+        { label: 'Nv 3', isUse: true, value: 3 },
+        { label: 'Nv 4', isUse: true, value: 4 },
+        { label: 'Nv 5', isUse: true, value: 5 },
       ],
     },
     {
@@ -283,11 +284,11 @@ export class Scholar extends Mage {
       name: 'Seismic Weapon',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1 },
-        { label: 'Lv 2', isUse: true, value: 2 },
-        { label: 'Lv 3', isUse: true, value: 3 },
-        { label: 'Lv 4', isUse: true, value: 4 },
-        { label: 'Lv 5', isUse: true, value: 5 },
+        { label: 'Nv 1', isUse: true, value: 1 },
+        { label: 'Nv 2', isUse: true, value: 2 },
+        { label: 'Nv 3', isUse: true, value: 3 },
+        { label: 'Nv 4', isUse: true, value: 4 },
+        { label: 'Nv 5', isUse: true, value: 5 },
       ],
     },
 
@@ -297,11 +298,11 @@ export class Scholar extends Mage {
       name: 'Land Protector',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Lv 1', isUse: true, value: 1 },
-        { label: 'Lv 2', isUse: true, value: 2 },
-        { label: 'Lv 3', isUse: true, value: 3 },
-        { label: 'Lv 4', isUse: true, value: 4 },
-        { label: 'Lv 5', isUse: true, value: 5 },
+        { label: 'Nv 1', isUse: true, value: 1 },
+        { label: 'Nv 2', isUse: true, value: 2 },
+        { label: 'Nv 3', isUse: true, value: 3 },
+        { label: 'Nv 4', isUse: true, value: 4 },
+        { label: 'Nv 5', isUse: true, value: 5 },
       ],
     },
   ];
@@ -315,5 +316,45 @@ export class Scholar extends Mage {
       passiveSkillList: this.passiveSkillListHi,
       classNames: this.classNamesHi,
     });
+  }
+
+  /**
+   * Estudo de Livros (Advanced Book) pays out only with a Book equipped, so both halves
+   * are stored prefixed with the weapon type and read back here: `book_atk` as mastery
+   * ATK, `book_aspdPercent` as ASPD%. The client table is +3 ATK and +0,5% per level,
+   * so Nv 10 with a Book is +30 and +5%.
+   *
+   * These live on Scholar rather than on Sorcerer because the skill belongs to the Sage
+   * line: Professor learns it too, and while the consumers sat one class lower the
+   * Professor got neither half. Tracker card weX1HzsAlZeMhsnRgSzJ.
+   */
+  override getMasteryAtk(params: InfoForClass): number {
+    if (!this.bonuses?.masteryAtks) return 0;
+
+    const { weapon } = params;
+    const typeName = weapon?.data?.typeName;
+
+    let atk = 0;
+    for (const [_skillName, bonus] of Object.entries(this.bonuses.masteryAtks)) {
+      atk += bonus[`${typeName}_atk`] || 0;
+    }
+
+    return atk;
+  }
+
+  override setAdditionalBonus(params: AdditionalBonusInput) {
+    const { totalBonus, weapon } = params;
+    if (!this.bonuses?.masteryAtks) return totalBonus;
+
+    const typeName = weapon?.data?.typeName;
+    const { masteryAtks, equipAtks } = this.bonuses;
+
+    let aspdPercent = 0;
+    for (const [_skillName, bonus] of Object.entries({ ...masteryAtks, ...equipAtks })) {
+      aspdPercent += bonus[`${typeName}_aspdPercent`] || 0;
+    }
+    totalBonus.aspdPercent = (totalBonus.aspdPercent || 0) + aspdPercent;
+
+    return totalBonus;
   }
 }

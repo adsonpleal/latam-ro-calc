@@ -368,11 +368,11 @@ export class SkyEmperor extends StarEmperor {
       // Unlike the others, Constelação is usually kept at a low level (it is just the
       // enabler for Explosão Galática), so all five levels are selectable.
       levelList: [
-        { label: 'Twinkling Galaxy Lv1 (1 estrela)', value: 'Twinkling Galaxy==1' },
-        { label: 'Twinkling Galaxy Lv2 (1 estrela)', value: 'Twinkling Galaxy==2' },
-        { label: 'Twinkling Galaxy Lv3 (1 estrela)', value: 'Twinkling Galaxy==3' },
-        { label: 'Twinkling Galaxy Lv4 (1 estrela)', value: 'Twinkling Galaxy==4' },
-        { label: 'Twinkling Galaxy Lv5 (1 estrela)', value: 'Twinkling Galaxy==5' },
+        { label: 'Twinkling Galaxy Nv1 (1 estrela)', value: 'Twinkling Galaxy==1' },
+        { label: 'Twinkling Galaxy Nv2 (1 estrela)', value: 'Twinkling Galaxy==2' },
+        { label: 'Twinkling Galaxy Nv3 (1 estrela)', value: 'Twinkling Galaxy==3' },
+        { label: 'Twinkling Galaxy Nv4 (1 estrela)', value: 'Twinkling Galaxy==4' },
+        { label: 'Twinkling Galaxy Nv5 (1 estrela)', value: 'Twinkling Galaxy==5' },
       ],
       acd: 0,
       fct: 0.5,

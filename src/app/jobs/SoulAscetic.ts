@@ -359,7 +359,7 @@ export class SoulAscetic extends SoulReaper {
       inputType: 'dropdown',
       dropdown: [
         { label: '-', value: 0, isUse: false },
-        { label: 'Lv 5', value: 1, isUse: true },
+        { label: 'Nv 5', value: 1, isUse: true },
       ],
     },
   ];
