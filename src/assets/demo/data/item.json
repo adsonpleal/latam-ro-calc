@@ -157100,6 +157100,28 @@
       ]
     }
   },
+  "420074": {
+    "id": 420074,
+    "aegisName": "Limesoda_In_Mouth",
+    "name": "Caipirinha",
+    "unidName": "Caipirinha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 1,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
   "420065": {
     "id": 420065,
     "aegisName": "Angeling_Balloon_TW",
@@ -252607,6 +252629,37 @@
     ],
     "script": {}
   },
+  "1296": {
+    "id": 1296,
+    "aegisName": "Metal_Katar",
+    "name": "Katar Metálico",
+    "unidName": "Katar Metálico",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 1,
+    "itemSubTypeId": 272,
+    "itemLevel": 3,
+    "attack": 75,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Assassin"
+    ],
+    "script": {
+      "atk": [
+        "1---5",
+        "level:20===-10",
+        "level:10(1-120)---5"
+      ],
+      "criDmg": [
+        "1---1"
+      ]
+    }
+  },
   "1297": {
     "id": 1297,
     "aegisName": "인버스스케어",
@@ -271782,6 +271835,15 @@
       ],
       "2022": [
         "EQUIP_ID[2886&&2477&&2577]20"
+      ],
+      "criDmg": [
+        "EQUIP_ID[2886&&2477&&2577]40"
+      ],
+      "cri": [
+        "EQUIP_ID[2886&&2477&&2577]15"
+      ],
+      "flee": [
+        "EQUIP_ID[2886&&2477&&2577]10"
       ]
     }
   },
