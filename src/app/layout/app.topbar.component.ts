@@ -159,6 +159,16 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.74-beta',
+      date: '19-08-2026',
+      logs: [
+        'A Perícia com Katar Avançada passou a entrar antes da DEF do alvo, e não no fim da conta. O bônus da perícia — 20% no Nv 5 — era o último multiplicador da fórmula, aplicado depois de a DEF do alvo já ter sido descontada. Com isso a própria DEF era ampliada na mesma proporção: contra um alvo com 50 de DEF suave, o desconto custava 60. O dano saía, portanto, um pouco abaixo do que o jogo entrega, e tanto mais quanto maior a DEF do alvo e menor o golpe. A correção vale para o ataque básico e para as habilidades, e alcança toda a linha do Sicário que aprende a perícia.',
+        'A ordem certa veio de uma gravação de Executor nível 240 batendo nos dummies. Ela carrega dois estados do mesmo equipamento — com e sem o efeito da Manopla Sombria do Katar, que tem 30% de chance de conceder dano crítico e dano por tamanho por 5 segundos —, e os dois saíam 35 pontos abaixo do gravado, sempre os mesmos 35. Uma diferença fixa nos dois estados não é multiplicador faltando; é etapa fora de lugar. Das quatro posições possíveis para o bônus do katar, só uma reproduz os dois pacotes, e é a mesma que o servidor usa. Agora os nove pacotes do arquivo batem exatos, sem sobra de um ponto.',
+        'As Lâminas Retalhadoras em si não precisaram de mudança. A razão da habilidade vem da tabela do cliente — 2.150% no Nv 5, multiplicados pelo nível de base — e reproduz o arquivo, assim como a taxa de crítico, que passa de 100% nessa build e explica por que todos os golpes gravados são críticos. Obrigado Merda Miserável pela gravação.',
+        'O Impacto Brutal voltou a oferecer todos os seus níveis. A habilidade vai até o Nv 10 no cliente, e a lista do simulador parava no Nv 5 — era a única habilidade ofensiva do Executor limitada abaixo do que o jogo permite. Agora dá para escolher do Nv 1 ao Nv 10, e as builds já salvas no Nv 5 continuam abrindo no mesmo nível.',
+      ],
+    },
+    {
       v: '0.1.73-beta',
       date: '19-08-2026',
       logs: [
