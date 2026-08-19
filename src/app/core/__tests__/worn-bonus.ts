@@ -38,6 +38,8 @@ export interface Worn {
   boot?: number;
   bootRefine?: number;
   bootGrade?: string;
+  /** Enchant slots 1-3 of the shoes, by enchant item id. */
+  bootEnchants?: number[];
   bootCard?: number;
   accRight?: number;
   accLeft?: number;
@@ -85,6 +87,11 @@ export function wornBonus(worn: Worn): Record<string, number> {
     model.boot = worn.boot;
     model.bootRefine = worn.bootRefine ?? 0;
     if (worn.bootGrade) model.bootGrade = worn.bootGrade;
+    // Enchants ride the same slot, one model field per position (1-based, like the UI).
+    (worn.bootEnchants ?? []).forEach((enchant, i) => {
+      items[enchant] = db[enchant];
+      model[`bootEnchant${i + 1}`] = enchant;
+    });
   }
   if (worn.bootCard) {
     items[worn.bootCard] = withSlot(worn.bootCard, 6, 0);

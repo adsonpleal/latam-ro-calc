@@ -1,0 +1,10080 @@
+[
+ {
+  "stone": 6943,
+  "pt": "Pedra de ATQ (Topo)",
+  "en": "ATK + 1% (Upper)",
+  "partners": [],
+  "expect": {
+   "atkPercent": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 6943,
+  "pt": "Pedra de ATQ (Topo)",
+  "en": "ATK + 1% (Upper)",
+  "partners": [
+   4882,
+   25016
+  ],
+  "expect": {
+   "atkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 6943,
+  "pt": "Pedra de ATQ (Topo)",
+  "en": "ATK + 1% (Upper)",
+  "partners": [
+   4882,
+   29029
+  ],
+  "expect": {
+   "atkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 6943,
+  "pt": "Pedra de ATQ (Topo)",
+  "en": "ATK + 1% (Upper)",
+  "partners": [
+   6642,
+   25016
+  ],
+  "expect": {
+   "atkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 6943,
+  "pt": "Pedra de ATQ (Topo)",
+  "en": "ATK + 1% (Upper)",
+  "partners": [
+   6642,
+   29029
+  ],
+  "expect": {
+   "atkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 6944,
+  "pt": "Pedra de ATQM (Topo)",
+  "en": "MATK + 1% (Upper)",
+  "partners": [],
+  "expect": {
+   "matkPercent": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 6944,
+  "pt": "Pedra de ATQM (Topo)",
+  "en": "MATK + 1% (Upper)",
+  "partners": [
+   25017,
+   4883
+  ],
+  "expect": {
+   "matkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 6944,
+  "pt": "Pedra de ATQM (Topo)",
+  "en": "MATK + 1% (Upper)",
+  "partners": [
+   25017,
+   6643
+  ],
+  "expect": {
+   "matkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 6944,
+  "pt": "Pedra de ATQM (Topo)",
+  "en": "MATK + 1% (Upper)",
+  "partners": [
+   29031,
+   4883
+  ],
+  "expect": {
+   "matkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 6944,
+  "pt": "Pedra de ATQM (Topo)",
+  "en": "MATK + 1% (Upper)",
+  "partners": [
+   29031,
+   6643
+  ],
+  "expect": {
+   "matkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25008,
+  "pt": "Pedra de Mudança de VIT (Baixo)",
+  "en": "VIT+3 LUK-3",
+  "partners": [],
+  "expect": {
+   "luk": -3,
+   "perfectHit": 5,
+   "vit": 3
+  }
+ },
+ {
+  "stone": 25008,
+  "pt": "Pedra de Mudança de VIT (Baixo)",
+  "en": "VIT+3 LUK-3",
+  "partners": [
+   25006
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vit": 6
+  }
+ },
+ {
+  "stone": 25008,
+  "pt": "Pedra de Mudança de VIT (Baixo)",
+  "en": "VIT+3 LUK-3",
+  "partners": [
+   29020
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vit": 6
+  }
+ },
+ {
+  "stone": 25009,
+  "pt": "Pedra de Mudança de AGI (Baixo)",
+  "en": "AGI+3 STR-3",
+  "partners": [],
+  "expect": {
+   "agi": 3,
+   "perfectHit": 5,
+   "str": -3
+  }
+ },
+ {
+  "stone": 25009,
+  "pt": "Pedra de Mudança de AGI (Baixo)",
+  "en": "AGI+3 STR-3",
+  "partners": [
+   25004
+  ],
+  "expect": {
+   "agi": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25009,
+  "pt": "Pedra de Mudança de AGI (Baixo)",
+  "en": "AGI+3 STR-3",
+  "partners": [
+   29022
+  ],
+  "expect": {
+   "agi": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25010,
+  "pt": "Pedra de Mudança de DES (Baixo)",
+  "en": "DEX+3 AGI-3",
+  "partners": [],
+  "expect": {
+   "agi": -3,
+   "dex": 3,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25010,
+  "pt": "Pedra de Mudança de DES (Baixo)",
+  "en": "DEX+3 AGI-3",
+  "partners": [
+   25007
+  ],
+  "expect": {
+   "dex": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25010,
+  "pt": "Pedra de Mudança de DES (Baixo)",
+  "en": "DEX+3 AGI-3",
+  "partners": [
+   29018
+  ],
+  "expect": {
+   "dex": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25011,
+  "pt": "Pedra de Mudança de SOR (Baixo)",
+  "en": "LUK+3 INT-3",
+  "partners": [],
+  "expect": {
+   "int": -3,
+   "luk": 3,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25011,
+  "pt": "Pedra de Mudança de SOR (Baixo)",
+  "en": "LUK+3 INT-3",
+  "partners": [
+   25002
+  ],
+  "expect": {
+   "luk": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25011,
+  "pt": "Pedra de Mudança de SOR (Baixo)",
+  "en": "LUK+3 INT-3",
+  "partners": [
+   29024
+  ],
+  "expect": {
+   "luk": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25012,
+  "pt": "Pedra de Mudança de FOR (Baixo)",
+  "en": "STR+3 DEX-3",
+  "partners": [],
+  "expect": {
+   "dex": -3,
+   "perfectHit": 5,
+   "str": 3
+  }
+ },
+ {
+  "stone": 25012,
+  "pt": "Pedra de Mudança de FOR (Baixo)",
+  "en": "STR+3 DEX-3",
+  "partners": [
+   25003
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "str": 6
+  }
+ },
+ {
+  "stone": 25012,
+  "pt": "Pedra de Mudança de FOR (Baixo)",
+  "en": "STR+3 DEX-3",
+  "partners": [
+   29014
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "str": 6
+  }
+ },
+ {
+  "stone": 25013,
+  "pt": "Pedra de Mudança de INT (Baixo)",
+  "en": "INT+3 VIT-3",
+  "partners": [],
+  "expect": {
+   "int": 3,
+   "perfectHit": 5,
+   "vit": -3
+  }
+ },
+ {
+  "stone": 25013,
+  "pt": "Pedra de Mudança de INT (Baixo)",
+  "en": "INT+3 VIT-3",
+  "partners": [
+   25005
+  ],
+  "expect": {
+   "int": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25013,
+  "pt": "Pedra de Mudança de INT (Baixo)",
+  "en": "INT+3 VIT-3",
+  "partners": [
+   29016
+  ],
+  "expect": {
+   "int": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25069,
+  "pt": "Pedra de Demora 1 (Topo)",
+  "en": "Reload Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "acd": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25069,
+  "pt": "Pedra de Demora 1 (Topo)",
+  "en": "Reload Stone (Upper)",
+  "partners": [
+   25070,
+   25071
+  ],
+  "expect": {
+   "acd": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25069,
+  "pt": "Pedra de Demora 1 (Topo)",
+  "en": "Reload Stone (Upper)",
+  "partners": [
+   25070,
+   29055
+  ],
+  "expect": {
+   "acd": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25069,
+  "pt": "Pedra de Demora 1 (Topo)",
+  "en": "Reload Stone (Upper)",
+  "partners": [
+   29054,
+   25071
+  ],
+  "expect": {
+   "acd": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25069,
+  "pt": "Pedra de Demora 1 (Topo)",
+  "en": "Reload Stone (Upper)",
+  "partners": [
+   29054,
+   29055
+  ],
+  "expect": {
+   "acd": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25172,
+  "pt": "Pedra de Variável -3% (Topo)",
+  "en": "Variable Cast Reduction Upper",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 3
+  }
+ },
+ {
+  "stone": 25172,
+  "pt": "Pedra de Variável -3% (Topo)",
+  "en": "Variable Cast Reduction Upper",
+  "partners": [
+   25173,
+   25174
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 25172,
+  "pt": "Pedra de Variável -3% (Topo)",
+  "en": "Variable Cast Reduction Upper",
+  "partners": [
+   25173,
+   29158
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 25172,
+  "pt": "Pedra de Variável -3% (Topo)",
+  "en": "Variable Cast Reduction Upper",
+  "partners": [
+   29157,
+   25174
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 25172,
+  "pt": "Pedra de Variável -3% (Topo)",
+  "en": "Variable Cast Reduction Upper",
+  "partners": [
+   29157,
+   29158
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 25303,
+  "pt": "Pedra de Mortal 4 (Capa)",
+  "en": "Fatal (Garment)",
+  "partners": [],
+  "expect": {
+   "criDmg": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25303,
+  "pt": "Pedra de Mortal 4 (Capa)",
+  "en": "Fatal (Garment)",
+  "partners": [
+   25060,
+   25305,
+   25304
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25303,
+  "pt": "Pedra de Mortal 4 (Capa)",
+  "en": "Fatal (Garment)",
+  "partners": [
+   25060,
+   25305,
+   29359
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25303,
+  "pt": "Pedra de Mortal 4 (Capa)",
+  "en": "Fatal (Garment)",
+  "partners": [
+   25060,
+   29360,
+   25304
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25303,
+  "pt": "Pedra de Mortal 4 (Capa)",
+  "en": "Fatal (Garment)",
+  "partners": [
+   25060,
+   29360,
+   29359
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25303,
+  "pt": "Pedra de Mortal 4 (Capa)",
+  "en": "Fatal (Garment)",
+  "partners": [
+   29047,
+   25305,
+   25304
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25303,
+  "pt": "Pedra de Mortal 4 (Capa)",
+  "en": "Fatal (Garment)",
+  "partners": [
+   29047,
+   25305,
+   29359
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25303,
+  "pt": "Pedra de Mortal 4 (Capa)",
+  "en": "Fatal (Garment)",
+  "partners": [
+   29047,
+   29360,
+   25304
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25303,
+  "pt": "Pedra de Mortal 4 (Capa)",
+  "en": "Fatal (Garment)",
+  "partners": [
+   29047,
+   29360,
+   29359
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25304,
+  "pt": "Pedra de Mortal 2 (Topo)",
+  "en": "Fatal (Upper)",
+  "partners": [],
+  "expect": {
+   "criDmg": 3,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25304,
+  "pt": "Pedra de Mortal 2 (Topo)",
+  "en": "Fatal (Upper)",
+  "partners": [
+   25060,
+   25305
+  ],
+  "expect": {
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25304,
+  "pt": "Pedra de Mortal 2 (Topo)",
+  "en": "Fatal (Upper)",
+  "partners": [
+   25060,
+   29360
+  ],
+  "expect": {
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25304,
+  "pt": "Pedra de Mortal 2 (Topo)",
+  "en": "Fatal (Upper)",
+  "partners": [
+   29047,
+   25305
+  ],
+  "expect": {
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25304,
+  "pt": "Pedra de Mortal 2 (Topo)",
+  "en": "Fatal (Upper)",
+  "partners": [
+   29047,
+   29360
+  ],
+  "expect": {
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25306,
+  "pt": "Pedra de Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 10
+  }
+ },
+ {
+  "stone": 25306,
+  "pt": "Pedra de Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   25172,
+   25173,
+   25174
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 25306,
+  "pt": "Pedra de Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   25172,
+   25173,
+   29158
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 25306,
+  "pt": "Pedra de Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   25172,
+   29157,
+   25174
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 25306,
+  "pt": "Pedra de Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   25172,
+   29157,
+   29158
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 25306,
+  "pt": "Pedra de Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   29156,
+   25173,
+   25174
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 25306,
+  "pt": "Pedra de Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   29156,
+   25173,
+   29158
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 25306,
+  "pt": "Pedra de Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   29156,
+   29157,
+   25174
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 25306,
+  "pt": "Pedra de Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   29156,
+   29157,
+   29158
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 25412,
+  "pt": "Pedra de Shura (Capa)",
+  "en": "Sura Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2332": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25412,
+  "pt": "Pedra de Shura (Capa)",
+  "en": "Sura Stone (Garment)",
+  "partners": [
+   25409
+  ],
+  "expect": {
+   "2332": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25412,
+  "pt": "Pedra de Shura (Capa)",
+  "en": "Sura Stone (Garment)",
+  "partners": [
+   29423
+  ],
+  "expect": {
+   "2332": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25416,
+  "pt": "Pedra de Sentinela (Capa)",
+  "en": "Ranger Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2233": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25416,
+  "pt": "Pedra de Sentinela (Capa)",
+  "en": "Ranger Stone (Garment)",
+  "partners": [
+   25413
+  ],
+  "expect": {
+   "2233": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25416,
+  "pt": "Pedra de Sentinela (Capa)",
+  "en": "Ranger Stone (Garment)",
+  "partners": [
+   25414
+  ],
+  "expect": {
+   "2233": 10,
+   "fct__382": 0.5,
+   "perfectHit": 5,
+   "vct": 10
+  }
+ },
+ {
+  "stone": 25416,
+  "pt": "Pedra de Sentinela (Capa)",
+  "en": "Ranger Stone (Garment)",
+  "partners": [
+   25415
+  ],
+  "expect": {
+   "47": 20,
+   "2233": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25416,
+  "pt": "Pedra de Sentinela (Capa)",
+  "en": "Ranger Stone (Garment)",
+  "partners": [
+   29428
+  ],
+  "expect": {
+   "2233": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25416,
+  "pt": "Pedra de Sentinela (Capa)",
+  "en": "Ranger Stone (Garment)",
+  "partners": [
+   29429
+  ],
+  "expect": {
+   "2233": 10,
+   "fct__382": 0.5,
+   "perfectHit": 5,
+   "vct": 10
+  }
+ },
+ {
+  "stone": 25416,
+  "pt": "Pedra de Sentinela (Capa)",
+  "en": "Ranger Stone (Garment)",
+  "partners": [
+   29430
+  ],
+  "expect": {
+   "47": 20,
+   "2233": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25420,
+  "pt": "Pedra de Feiticeiro (Capa)",
+  "en": "Sorcerer Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2449": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25420,
+  "pt": "Pedra de Feiticeiro (Capa)",
+  "en": "Sorcerer Stone (Garment)",
+  "partners": [
+   25417
+  ],
+  "expect": {
+   "2449": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25420,
+  "pt": "Pedra de Feiticeiro (Capa)",
+  "en": "Sorcerer Stone (Garment)",
+  "partners": [
+   25418
+  ],
+  "expect": {
+   "2449": 10,
+   "cd__2452": 15,
+   "fct__482": 0.4,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25420,
+  "pt": "Pedra de Feiticeiro (Capa)",
+  "en": "Sorcerer Stone (Garment)",
+  "partners": [
+   25419
+  ],
+  "expect": {
+   "14": 20,
+   "19": 20,
+   "20": 20,
+   "2449": 10,
+   "cd__2449": 2,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25420,
+  "pt": "Pedra de Feiticeiro (Capa)",
+  "en": "Sorcerer Stone (Garment)",
+  "partners": [
+   29432
+  ],
+  "expect": {
+   "2449": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25420,
+  "pt": "Pedra de Feiticeiro (Capa)",
+  "en": "Sorcerer Stone (Garment)",
+  "partners": [
+   29433
+  ],
+  "expect": {
+   "2449": 10,
+   "cd__2452": 15,
+   "fct__482": 0.4,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25420,
+  "pt": "Pedra de Feiticeiro (Capa)",
+  "en": "Sorcerer Stone (Garment)",
+  "partners": [
+   29434
+  ],
+  "expect": {
+   "14": 20,
+   "19": 20,
+   "20": 20,
+   "2449": 10,
+   "cd__2449": 2,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25448,
+  "pt": "Pedra de Cavaleiro Rúnico (Capa)",
+  "en": "Rune Knight Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25448,
+  "pt": "Pedra de Cavaleiro Rúnico (Capa)",
+  "en": "Rune Knight Stone (Garment)",
+  "partners": [
+   25445
+  ],
+  "expect": {
+   "2008": 10,
+   "5004": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25448,
+  "pt": "Pedra de Cavaleiro Rúnico (Capa)",
+  "en": "Rune Knight Stone (Garment)",
+  "partners": [
+   25447
+  ],
+  "expect": {
+   "acd": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25448,
+  "pt": "Pedra de Cavaleiro Rúnico (Capa)",
+  "en": "Rune Knight Stone (Garment)",
+  "partners": [
+   29460
+  ],
+  "expect": {
+   "2008": 10,
+   "5004": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25448,
+  "pt": "Pedra de Cavaleiro Rúnico (Capa)",
+  "en": "Rune Knight Stone (Garment)",
+  "partners": [
+   29462
+  ],
+  "expect": {
+   "acd": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25449,
+  "pt": "Pedra de Bioquímico (Capa)",
+  "en": "Genetic Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2477": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25449,
+  "pt": "Pedra de Bioquímico (Capa)",
+  "en": "Genetic Stone (Garment)",
+  "partners": [
+   25450
+  ],
+  "expect": {
+   "2477": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25449,
+  "pt": "Pedra de Bioquímico (Capa)",
+  "en": "Genetic Stone (Garment)",
+  "partners": [
+   25451
+  ],
+  "expect": {
+   "2477": 10,
+   "cd__2492": 3,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25449,
+  "pt": "Pedra de Bioquímico (Capa)",
+  "en": "Genetic Stone (Garment)",
+  "partners": [
+   25452
+  ],
+  "expect": {
+   "230": 20,
+   "2477": 10,
+   "perfectHit": 5,
+   "range": 5
+  }
+ },
+ {
+  "stone": 25449,
+  "pt": "Pedra de Bioquímico (Capa)",
+  "en": "Genetic Stone (Garment)",
+  "partners": [
+   29464
+  ],
+  "expect": {
+   "2477": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25449,
+  "pt": "Pedra de Bioquímico (Capa)",
+  "en": "Genetic Stone (Garment)",
+  "partners": [
+   29465
+  ],
+  "expect": {
+   "2477": 10,
+   "cd__2492": 3,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25449,
+  "pt": "Pedra de Bioquímico (Capa)",
+  "en": "Genetic Stone (Garment)",
+  "partners": [
+   29466
+  ],
+  "expect": {
+   "230": 20,
+   "2477": 10,
+   "perfectHit": 5,
+   "range": 5
+  }
+ },
+ {
+  "stone": 25456,
+  "pt": "Pedra de Arcano (Capa)",
+  "en": "Warlock Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2211": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25456,
+  "pt": "Pedra de Arcano (Capa)",
+  "en": "Warlock Stone (Garment)",
+  "partners": [
+   25453
+  ],
+  "expect": {
+   "2211": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25456,
+  "pt": "Pedra de Arcano (Capa)",
+  "en": "Warlock Stone (Garment)",
+  "partners": [
+   25454
+  ],
+  "expect": {
+   "83": 20,
+   "2211": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25456,
+  "pt": "Pedra de Arcano (Capa)",
+  "en": "Warlock Stone (Garment)",
+  "partners": [
+   25455
+  ],
+  "expect": {
+   "80": 20,
+   "2211": 10,
+   "m_my_element_fire": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25456,
+  "pt": "Pedra de Arcano (Capa)",
+  "en": "Warlock Stone (Garment)",
+  "partners": [
+   29468
+  ],
+  "expect": {
+   "2211": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25456,
+  "pt": "Pedra de Arcano (Capa)",
+  "en": "Warlock Stone (Garment)",
+  "partners": [
+   29469
+  ],
+  "expect": {
+   "83": 20,
+   "2211": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25456,
+  "pt": "Pedra de Arcano (Capa)",
+  "en": "Warlock Stone (Garment)",
+  "partners": [
+   29470
+  ],
+  "expect": {
+   "80": 20,
+   "2211": 10,
+   "m_my_element_fire": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25493,
+  "pt": "Pedra de Renegado (Capa)",
+  "en": "Shadow Chaser Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2288": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25493,
+  "pt": "Pedra de Renegado (Capa)",
+  "en": "Shadow Chaser Stone (Garment)",
+  "partners": [
+   25490
+  ],
+  "expect": {
+   "2288": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25493,
+  "pt": "Pedra de Renegado (Capa)",
+  "en": "Shadow Chaser Stone (Garment)",
+  "partners": [
+   25491
+  ],
+  "expect": {
+   "2288": 15,
+   "perfectHit": 5,
+   "range": 10
+  }
+ },
+ {
+  "stone": 25493,
+  "pt": "Pedra de Renegado (Capa)",
+  "en": "Shadow Chaser Stone (Garment)",
+  "partners": [
+   29477
+  ],
+  "expect": {
+   "2288": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25493,
+  "pt": "Pedra de Renegado (Capa)",
+  "en": "Shadow Chaser Stone (Garment)",
+  "partners": [
+   29478
+  ],
+  "expect": {
+   "2288": 15,
+   "perfectHit": 5,
+   "range": 10
+  }
+ },
+ {
+  "stone": 25497,
+  "pt": "Pedra de Mecânico (Capa)",
+  "en": "Mechanic Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2280": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25497,
+  "pt": "Pedra de Mecânico (Capa)",
+  "en": "Mechanic Stone (Garment)",
+  "partners": [
+   25495
+  ],
+  "expect": {
+   "2280": 15,
+   "cd__2280": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25497,
+  "pt": "Pedra de Mecânico (Capa)",
+  "en": "Mechanic Stone (Garment)",
+  "partners": [
+   25496
+  ],
+  "expect": {
+   "485": 20,
+   "2280": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25497,
+  "pt": "Pedra de Mecânico (Capa)",
+  "en": "Mechanic Stone (Garment)",
+  "partners": [
+   29482
+  ],
+  "expect": {
+   "2280": 15,
+   "cd__2280": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25497,
+  "pt": "Pedra de Mecânico (Capa)",
+  "en": "Mechanic Stone (Garment)",
+  "partners": [
+   29483
+  ],
+  "expect": {
+   "485": 20,
+   "2280": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25501,
+  "pt": "Pedra de Músicos (Capa)",
+  "en": "Wanderer Minstrel Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2418": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25501,
+  "pt": "Pedra de Músicos (Capa)",
+  "en": "Wanderer Minstrel Stone (Garment)",
+  "partners": [
+   25498
+  ],
+  "expect": {
+   "2418": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25501,
+  "pt": "Pedra de Músicos (Capa)",
+  "en": "Wanderer Minstrel Stone (Garment)",
+  "partners": [
+   25499
+  ],
+  "expect": {
+   "316": 20,
+   "324": 20,
+   "2418": 15,
+   "cd__2418": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25501,
+  "pt": "Pedra de Músicos (Capa)",
+  "en": "Wanderer Minstrel Stone (Garment)",
+  "partners": [
+   25500
+  ],
+  "expect": {
+   "394": 20,
+   "2418": 15,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25501,
+  "pt": "Pedra de Músicos (Capa)",
+  "en": "Wanderer Minstrel Stone (Garment)",
+  "partners": [
+   29485
+  ],
+  "expect": {
+   "2418": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25501,
+  "pt": "Pedra de Músicos (Capa)",
+  "en": "Wanderer Minstrel Stone (Garment)",
+  "partners": [
+   29486
+  ],
+  "expect": {
+   "316": 20,
+   "324": 20,
+   "2418": 15,
+   "cd__2418": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25501,
+  "pt": "Pedra de Músicos (Capa)",
+  "en": "Wanderer Minstrel Stone (Garment)",
+  "partners": [
+   29487
+  ],
+  "expect": {
+   "394": 20,
+   "2418": 15,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25709,
+  "pt": "Pedra de Arcebispo (Capa)",
+  "en": "Archbishop Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2040": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25709,
+  "pt": "Pedra de Arcebispo (Capa)",
+  "en": "Archbishop Stone (Garment)",
+  "partners": [
+   25706
+  ],
+  "expect": {
+   "2040": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25709,
+  "pt": "Pedra de Arcebispo (Capa)",
+  "en": "Archbishop Stone (Garment)",
+  "partners": [
+   25707
+  ],
+  "expect": {
+   "2040": 15,
+   "cd__2040": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25709,
+  "pt": "Pedra de Arcebispo (Capa)",
+  "en": "Archbishop Stone (Garment)",
+  "partners": [
+   25708
+  ],
+  "expect": {
+   "79": 20,
+   "2040": 15,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25709,
+  "pt": "Pedra de Arcebispo (Capa)",
+  "en": "Archbishop Stone (Garment)",
+  "partners": [
+   29513
+  ],
+  "expect": {
+   "2040": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25709,
+  "pt": "Pedra de Arcebispo (Capa)",
+  "en": "Archbishop Stone (Garment)",
+  "partners": [
+   29514
+  ],
+  "expect": {
+   "2040": 15,
+   "cd__2040": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25709,
+  "pt": "Pedra de Arcebispo (Capa)",
+  "en": "Archbishop Stone (Garment)",
+  "partners": [
+   29515
+  ],
+  "expect": {
+   "79": 20,
+   "2040": 15,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25713,
+  "pt": "Pedra de Guardião Real (Capa)",
+  "en": "Royal Guard Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2308": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25713,
+  "pt": "Pedra de Guardião Real (Capa)",
+  "en": "Royal Guard Stone (Garment)",
+  "partners": [
+   25711
+  ],
+  "expect": {
+   "2308": 15,
+   "cd__2307": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25713,
+  "pt": "Pedra de Guardião Real (Capa)",
+  "en": "Royal Guard Stone (Garment)",
+  "partners": [
+   25712
+  ],
+  "expect": {
+   "253": 20,
+   "2308": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25713,
+  "pt": "Pedra de Guardião Real (Capa)",
+  "en": "Royal Guard Stone (Garment)",
+  "partners": [
+   29518
+  ],
+  "expect": {
+   "2308": 15,
+   "cd__2307": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25713,
+  "pt": "Pedra de Guardião Real (Capa)",
+  "en": "Royal Guard Stone (Garment)",
+  "partners": [
+   29519
+  ],
+  "expect": {
+   "253": 20,
+   "2308": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25717,
+  "pt": "Pedra de Sicário (Capa)",
+  "en": "Guillotine Cross Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2036": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25717,
+  "pt": "Pedra de Sicário (Capa)",
+  "en": "Guillotine Cross Stone (Garment)",
+  "partners": [
+   25715
+  ],
+  "expect": {
+   "2036": 15,
+   "2037": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25717,
+  "pt": "Pedra de Sicário (Capa)",
+  "en": "Guillotine Cross Stone (Garment)",
+  "partners": [
+   25716
+  ],
+  "expect": {
+   "136": 20,
+   "2036": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25717,
+  "pt": "Pedra de Sicário (Capa)",
+  "en": "Guillotine Cross Stone (Garment)",
+  "partners": [
+   29522
+  ],
+  "expect": {
+   "2036": 15,
+   "2037": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25717,
+  "pt": "Pedra de Sicário (Capa)",
+  "en": "Guillotine Cross Stone (Garment)",
+  "partners": [
+   29523
+  ],
+  "expect": {
+   "136": 20,
+   "2036": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25797,
+  "pt": "Pedra de Shura II (Capa)",
+  "en": "Sura Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2336": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25797,
+  "pt": "Pedra de Shura II (Capa)",
+  "en": "Sura Stone II (Garment)",
+  "partners": [
+   25798
+  ],
+  "expect": {
+   "2330": 15,
+   "2336": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25797,
+  "pt": "Pedra de Shura II (Capa)",
+  "en": "Sura Stone II (Garment)",
+  "partners": [
+   25799
+  ],
+  "expect": {
+   "273": 15,
+   "2336": 15,
+   "hpPercent": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25797,
+  "pt": "Pedra de Shura II (Capa)",
+  "en": "Sura Stone II (Garment)",
+  "partners": [
+   25800
+  ],
+  "expect": {
+   "372": 15,
+   "2330": 15,
+   "2336": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25797,
+  "pt": "Pedra de Shura II (Capa)",
+  "en": "Sura Stone II (Garment)",
+  "partners": [
+   29611
+  ],
+  "expect": {
+   "2330": 15,
+   "2336": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25797,
+  "pt": "Pedra de Shura II (Capa)",
+  "en": "Sura Stone II (Garment)",
+  "partners": [
+   29612
+  ],
+  "expect": {
+   "273": 15,
+   "2336": 15,
+   "hpPercent": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25797,
+  "pt": "Pedra de Shura II (Capa)",
+  "en": "Sura Stone II (Garment)",
+  "partners": [
+   29613
+  ],
+  "expect": {
+   "372": 15,
+   "2330": 15,
+   "2336": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25801,
+  "pt": "Pedra de Feiticeiro II (Capa)",
+  "en": "Sorcerer Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2447": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25801,
+  "pt": "Pedra de Feiticeiro II (Capa)",
+  "en": "Sorcerer Stone II (Garment)",
+  "partners": [
+   25802
+  ],
+  "expect": {
+   "2447": 15,
+   "cd__2454": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25801,
+  "pt": "Pedra de Feiticeiro II (Capa)",
+  "en": "Sorcerer Stone II (Garment)",
+  "partners": [
+   25803
+  ],
+  "expect": {
+   "14": 20,
+   "19": 20,
+   "20": 20,
+   "2446": 20,
+   "2447": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25801,
+  "pt": "Pedra de Feiticeiro II (Capa)",
+  "en": "Sorcerer Stone II (Garment)",
+  "partners": [
+   25804
+  ],
+  "expect": {
+   "90": 20,
+   "91": 20,
+   "2447": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25801,
+  "pt": "Pedra de Feiticeiro II (Capa)",
+  "en": "Sorcerer Stone II (Garment)",
+  "partners": [
+   29615
+  ],
+  "expect": {
+   "2447": 15,
+   "cd__2454": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25801,
+  "pt": "Pedra de Feiticeiro II (Capa)",
+  "en": "Sorcerer Stone II (Garment)",
+  "partners": [
+   29616
+  ],
+  "expect": {
+   "14": 20,
+   "19": 20,
+   "20": 20,
+   "2446": 20,
+   "2447": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25801,
+  "pt": "Pedra de Feiticeiro II (Capa)",
+  "en": "Sorcerer Stone II (Garment)",
+  "partners": [
+   29617
+  ],
+  "expect": {
+   "90": 20,
+   "91": 20,
+   "2447": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25805,
+  "pt": "Pedra de Renegado II (Capa)",
+  "en": "Shadow Chaser Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2284": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25805,
+  "pt": "Pedra de Renegado II (Capa)",
+  "en": "Shadow Chaser Stone II (Garment)",
+  "partners": [
+   25808
+  ],
+  "expect": {
+   "2284": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25805,
+  "pt": "Pedra de Renegado II (Capa)",
+  "en": "Shadow Chaser Stone II (Garment)",
+  "partners": [
+   29621
+  ],
+  "expect": {
+   "2284": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25842,
+  "pt": "Pedra de Ceifador de Alma (Capa)",
+  "en": "Soul Reaper Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2604": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25842,
+  "pt": "Pedra de Ceifador de Alma (Capa)",
+  "en": "Soul Reaper Stone (Garment)",
+  "partners": [
+   25843
+  ],
+  "expect": {
+   "2604": 40,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25842,
+  "pt": "Pedra de Ceifador de Alma (Capa)",
+  "en": "Soul Reaper Stone (Garment)",
+  "partners": [
+   25844
+  ],
+  "expect": {
+   "469": 20,
+   "2602": 20,
+   "2604": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25842,
+  "pt": "Pedra de Ceifador de Alma (Capa)",
+  "en": "Soul Reaper Stone (Garment)",
+  "partners": [
+   25845
+  ],
+  "expect": {
+   "2604": 20,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25842,
+  "pt": "Pedra de Ceifador de Alma (Capa)",
+  "en": "Soul Reaper Stone (Garment)",
+  "partners": [
+   29651
+  ],
+  "expect": {
+   "2604": 40,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25842,
+  "pt": "Pedra de Ceifador de Alma (Capa)",
+  "en": "Soul Reaper Stone (Garment)",
+  "partners": [
+   29652
+  ],
+  "expect": {
+   "469": 20,
+   "2602": 20,
+   "2604": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25842,
+  "pt": "Pedra de Ceifador de Alma (Capa)",
+  "en": "Soul Reaper Stone (Garment)",
+  "partners": [
+   29653
+  ],
+  "expect": {
+   "2604": 20,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25849,
+  "pt": "Pedra de Mestre Estelar (Capa)",
+  "en": "Star Emperor Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2576": 20,
+   "2584": 20,
+   "2592": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25849,
+  "pt": "Pedra de Mestre Estelar (Capa)",
+  "en": "Star Emperor Stone (Garment)",
+  "partners": [
+   25846
+  ],
+  "expect": {
+   "2576": 20,
+   "2584": 20,
+   "2592": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25849,
+  "pt": "Pedra de Mestre Estelar (Capa)",
+  "en": "Star Emperor Stone (Garment)",
+  "partners": [
+   25847
+  ],
+  "expect": {
+   "2576": 20,
+   "2584": 35,
+   "2592": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25849,
+  "pt": "Pedra de Mestre Estelar (Capa)",
+  "en": "Star Emperor Stone (Garment)",
+  "partners": [
+   29655
+  ],
+  "expect": {
+   "2576": 20,
+   "2584": 20,
+   "2592": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25849,
+  "pt": "Pedra de Mestre Estelar (Capa)",
+  "en": "Star Emperor Stone (Garment)",
+  "partners": [
+   29656
+  ],
+  "expect": {
+   "2576": 20,
+   "2584": 35,
+   "2592": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25853,
+  "pt": "Pedra de Kagerou (Capa)",
+  "en": "Kagerou Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "3009": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25853,
+  "pt": "Pedra de Kagerou (Capa)",
+  "en": "Kagerou Stone (Garment)",
+  "partners": [
+   25850
+  ],
+  "expect": {
+   "3004": 25,
+   "3009": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25853,
+  "pt": "Pedra de Kagerou (Capa)",
+  "en": "Kagerou Stone (Garment)",
+  "partners": [
+   25851
+  ],
+  "expect": {
+   "525": 20,
+   "3006": 25,
+   "3009": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25853,
+  "pt": "Pedra de Kagerou (Capa)",
+  "en": "Kagerou Stone (Garment)",
+  "partners": [
+   29659
+  ],
+  "expect": {
+   "3004": 25,
+   "3009": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25853,
+  "pt": "Pedra de Kagerou (Capa)",
+  "en": "Kagerou Stone (Garment)",
+  "partners": [
+   29660
+  ],
+  "expect": {
+   "525": 20,
+   "3006": 25,
+   "3009": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25854,
+  "pt": "Pedra de Oboro (Capa)",
+  "en": "Oboro Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "534": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25854,
+  "pt": "Pedra de Oboro (Capa)",
+  "en": "Oboro Stone (Garment)",
+  "partners": [
+   25850
+  ],
+  "expect": {
+   "534": 20,
+   "536": 30,
+   "539": 30,
+   "542": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25854,
+  "pt": "Pedra de Oboro (Capa)",
+  "en": "Oboro Stone (Garment)",
+  "partners": [
+   25851
+  ],
+  "expect": {
+   "525": 20,
+   "534": 20,
+   "537": 20,
+   "540": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25854,
+  "pt": "Pedra de Oboro (Capa)",
+  "en": "Oboro Stone (Garment)",
+  "partners": [
+   25852
+  ],
+  "expect": {
+   "534": 20,
+   "536": 20,
+   "539": 20,
+   "542": 20,
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 25854,
+  "pt": "Pedra de Oboro (Capa)",
+  "en": "Oboro Stone (Garment)",
+  "partners": [
+   29659
+  ],
+  "expect": {
+   "534": 20,
+   "536": 30,
+   "539": 30,
+   "542": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25854,
+  "pt": "Pedra de Oboro (Capa)",
+  "en": "Oboro Stone (Garment)",
+  "partners": [
+   29660
+  ],
+  "expect": {
+   "525": 20,
+   "534": 20,
+   "537": 20,
+   "540": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25854,
+  "pt": "Pedra de Oboro (Capa)",
+  "en": "Oboro Stone (Garment)",
+  "partners": [
+   29661
+  ],
+  "expect": {
+   "534": 20,
+   "536": 20,
+   "539": 20,
+   "542": 20,
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 25858,
+  "pt": "Pedra de Insurgente (Capa)",
+  "en": "Rebellion Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2565": 20,
+   "2571": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25858,
+  "pt": "Pedra de Insurgente (Capa)",
+  "en": "Rebellion Stone (Garment)",
+  "partners": [
+   25855
+  ],
+  "expect": {
+   "2565": 35,
+   "2571": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25858,
+  "pt": "Pedra de Insurgente (Capa)",
+  "en": "Rebellion Stone (Garment)",
+  "partners": [
+   25856
+  ],
+  "expect": {
+   "516": 20,
+   "2565": 20,
+   "2571": 40,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25858,
+  "pt": "Pedra de Insurgente (Capa)",
+  "en": "Rebellion Stone (Garment)",
+  "partners": [
+   25857
+  ],
+  "expect": {
+   "2554": 25,
+   "2565": 20,
+   "2571": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25858,
+  "pt": "Pedra de Insurgente (Capa)",
+  "en": "Rebellion Stone (Garment)",
+  "partners": [
+   29664
+  ],
+  "expect": {
+   "2565": 35,
+   "2571": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25858,
+  "pt": "Pedra de Insurgente (Capa)",
+  "en": "Rebellion Stone (Garment)",
+  "partners": [
+   29665
+  ],
+  "expect": {
+   "516": 20,
+   "2565": 20,
+   "2571": 40,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25858,
+  "pt": "Pedra de Insurgente (Capa)",
+  "en": "Rebellion Stone (Garment)",
+  "partners": [
+   29666
+  ],
+  "expect": {
+   "2554": 25,
+   "2565": 20,
+   "2571": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25862,
+  "pt": "Pedra de Invocador (Capa)",
+  "en": "Doram Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "5028": 20,
+   "5033": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25862,
+  "pt": "Pedra de Invocador (Capa)",
+  "en": "Doram Stone (Garment)",
+  "partners": [
+   25859
+  ],
+  "expect": {
+   "5026": 20,
+   "5028": 20,
+   "5033": 20,
+   "5036": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25862,
+  "pt": "Pedra de Invocador (Capa)",
+  "en": "Doram Stone (Garment)",
+  "partners": [
+   25860
+  ],
+  "expect": {
+   "5028": 20,
+   "5033": 20,
+   "5036": 20,
+   "cd__5046": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25862,
+  "pt": "Pedra de Invocador (Capa)",
+  "en": "Doram Stone (Garment)",
+  "partners": [
+   25861
+  ],
+  "expect": {
+   "5026": 20,
+   "5028": 20,
+   "5033": 20,
+   "cd__5028": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25862,
+  "pt": "Pedra de Invocador (Capa)",
+  "en": "Doram Stone (Garment)",
+  "partners": [
+   29668
+  ],
+  "expect": {
+   "5026": 20,
+   "5028": 20,
+   "5033": 20,
+   "5036": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25862,
+  "pt": "Pedra de Invocador (Capa)",
+  "en": "Doram Stone (Garment)",
+  "partners": [
+   29669
+  ],
+  "expect": {
+   "5028": 20,
+   "5033": 20,
+   "5036": 20,
+   "cd__5046": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 25862,
+  "pt": "Pedra de Invocador (Capa)",
+  "en": "Doram Stone (Garment)",
+  "partners": [
+   29670
+  ],
+  "expect": {
+   "5026": 20,
+   "5028": 20,
+   "5033": 20,
+   "cd__5028": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29015,
+  "pt": "Mudança de FOR",
+  "en": "STR+3 DEX-3",
+  "partners": [],
+  "expect": {
+   "dex": -3,
+   "perfectHit": 5,
+   "str": 3
+  }
+ },
+ {
+  "stone": 29015,
+  "pt": "Mudança de FOR",
+  "en": "STR+3 DEX-3",
+  "partners": [
+   25003
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "str": 6
+  }
+ },
+ {
+  "stone": 29015,
+  "pt": "Mudança de FOR",
+  "en": "STR+3 DEX-3",
+  "partners": [
+   29014
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "str": 6
+  }
+ },
+ {
+  "stone": 29017,
+  "pt": "Mudança de INT",
+  "en": "INT+3 VIT-3",
+  "partners": [],
+  "expect": {
+   "int": 3,
+   "perfectHit": 5,
+   "vit": -3
+  }
+ },
+ {
+  "stone": 29017,
+  "pt": "Mudança de INT",
+  "en": "INT+3 VIT-3",
+  "partners": [
+   25005
+  ],
+  "expect": {
+   "int": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29017,
+  "pt": "Mudança de INT",
+  "en": "INT+3 VIT-3",
+  "partners": [
+   29016
+  ],
+  "expect": {
+   "int": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29019,
+  "pt": "Mudança de DES",
+  "en": "DEX+3 AGI-3",
+  "partners": [],
+  "expect": {
+   "agi": -3,
+   "dex": 3,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29019,
+  "pt": "Mudança de DES",
+  "en": "DEX+3 AGI-3",
+  "partners": [
+   25007
+  ],
+  "expect": {
+   "dex": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29019,
+  "pt": "Mudança de DES",
+  "en": "DEX+3 AGI-3",
+  "partners": [
+   29018
+  ],
+  "expect": {
+   "dex": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29021,
+  "pt": "Mudança de VIT",
+  "en": "VIT+3 LUK-3",
+  "partners": [],
+  "expect": {
+   "luk": -3,
+   "perfectHit": 5,
+   "vit": 3
+  }
+ },
+ {
+  "stone": 29021,
+  "pt": "Mudança de VIT",
+  "en": "VIT+3 LUK-3",
+  "partners": [
+   25006
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vit": 6
+  }
+ },
+ {
+  "stone": 29021,
+  "pt": "Mudança de VIT",
+  "en": "VIT+3 LUK-3",
+  "partners": [
+   29020
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vit": 6
+  }
+ },
+ {
+  "stone": 29023,
+  "pt": "Mudança de AGI",
+  "en": "AGI+3 STR-3",
+  "partners": [],
+  "expect": {
+   "agi": 3,
+   "perfectHit": 5,
+   "str": -3
+  }
+ },
+ {
+  "stone": 29023,
+  "pt": "Mudança de AGI",
+  "en": "AGI+3 STR-3",
+  "partners": [
+   25004
+  ],
+  "expect": {
+   "agi": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29023,
+  "pt": "Mudança de AGI",
+  "en": "AGI+3 STR-3",
+  "partners": [
+   29022
+  ],
+  "expect": {
+   "agi": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29025,
+  "pt": "Mudança de SOR",
+  "en": "LUK+3 INT-3",
+  "partners": [],
+  "expect": {
+   "int": -3,
+   "luk": 3,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29025,
+  "pt": "Mudança de SOR",
+  "en": "LUK+3 INT-3",
+  "partners": [
+   25002
+  ],
+  "expect": {
+   "luk": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29025,
+  "pt": "Mudança de SOR",
+  "en": "LUK+3 INT-3",
+  "partners": [
+   29024
+  ],
+  "expect": {
+   "luk": 6,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29028,
+  "pt": "ATQ +1% (Topo)",
+  "en": "ATK + 1% (Upper)",
+  "partners": [],
+  "expect": {
+   "atkPercent": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29028,
+  "pt": "ATQ +1% (Topo)",
+  "en": "ATK + 1% (Upper)",
+  "partners": [
+   4882,
+   25016
+  ],
+  "expect": {
+   "atkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29028,
+  "pt": "ATQ +1% (Topo)",
+  "en": "ATK + 1% (Upper)",
+  "partners": [
+   4882,
+   29029
+  ],
+  "expect": {
+   "atkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29028,
+  "pt": "ATQ +1% (Topo)",
+  "en": "ATK + 1% (Upper)",
+  "partners": [
+   6642,
+   25016
+  ],
+  "expect": {
+   "atkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29028,
+  "pt": "ATQ +1% (Topo)",
+  "en": "ATK + 1% (Upper)",
+  "partners": [
+   6642,
+   29029
+  ],
+  "expect": {
+   "atkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29030,
+  "pt": "ATQM +1% (Topo)",
+  "en": "MATK + 1% (Upper)",
+  "partners": [],
+  "expect": {
+   "matkPercent": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29030,
+  "pt": "ATQM +1% (Topo)",
+  "en": "MATK + 1% (Upper)",
+  "partners": [
+   25017,
+   4883
+  ],
+  "expect": {
+   "matkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29030,
+  "pt": "ATQM +1% (Topo)",
+  "en": "MATK + 1% (Upper)",
+  "partners": [
+   25017,
+   6643
+  ],
+  "expect": {
+   "matkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29030,
+  "pt": "ATQM +1% (Topo)",
+  "en": "MATK + 1% (Upper)",
+  "partners": [
+   29031,
+   4883
+  ],
+  "expect": {
+   "matkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29030,
+  "pt": "ATQM +1% (Topo)",
+  "en": "MATK + 1% (Upper)",
+  "partners": [
+   29031,
+   6643
+  ],
+  "expect": {
+   "matkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29053,
+  "pt": "Demora 1",
+  "en": "Reload Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "acd": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29053,
+  "pt": "Demora 1",
+  "en": "Reload Stone (Upper)",
+  "partners": [
+   25070,
+   25071
+  ],
+  "expect": {
+   "acd": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29053,
+  "pt": "Demora 1",
+  "en": "Reload Stone (Upper)",
+  "partners": [
+   25070,
+   29055
+  ],
+  "expect": {
+   "acd": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29053,
+  "pt": "Demora 1",
+  "en": "Reload Stone (Upper)",
+  "partners": [
+   29054,
+   25071
+  ],
+  "expect": {
+   "acd": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29053,
+  "pt": "Demora 1",
+  "en": "Reload Stone (Upper)",
+  "partners": [
+   29054,
+   29055
+  ],
+  "expect": {
+   "acd": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29156,
+  "pt": "Variável -3% (Topo)",
+  "en": "Variable Cast Reduction Upper",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 3
+  }
+ },
+ {
+  "stone": 29156,
+  "pt": "Variável -3% (Topo)",
+  "en": "Variable Cast Reduction Upper",
+  "partners": [
+   25173,
+   25174
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 29156,
+  "pt": "Variável -3% (Topo)",
+  "en": "Variable Cast Reduction Upper",
+  "partners": [
+   25173,
+   29158
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 29156,
+  "pt": "Variável -3% (Topo)",
+  "en": "Variable Cast Reduction Upper",
+  "partners": [
+   29157,
+   25174
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 29156,
+  "pt": "Variável -3% (Topo)",
+  "en": "Variable Cast Reduction Upper",
+  "partners": [
+   29157,
+   29158
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 29358,
+  "pt": "Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 10
+  }
+ },
+ {
+  "stone": 29358,
+  "pt": "Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   25172,
+   25173,
+   25174
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 29358,
+  "pt": "Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   25172,
+   25173,
+   29158
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 29358,
+  "pt": "Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   25172,
+   29157,
+   25174
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 29358,
+  "pt": "Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   25172,
+   29157,
+   29158
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 29358,
+  "pt": "Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   29156,
+   25173,
+   25174
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 29358,
+  "pt": "Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   29156,
+   25173,
+   29158
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 29358,
+  "pt": "Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   29156,
+   29157,
+   25174
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 29358,
+  "pt": "Variável -10% (Capa)",
+  "en": "Variable Cast Reduction Garment",
+  "partners": [
+   29156,
+   29157,
+   29158
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 30
+  }
+ },
+ {
+  "stone": 29359,
+  "pt": "Mortal 2",
+  "en": "Fatal (Upper)",
+  "partners": [],
+  "expect": {
+   "criDmg": 3,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29359,
+  "pt": "Mortal 2",
+  "en": "Fatal (Upper)",
+  "partners": [
+   25060,
+   25305
+  ],
+  "expect": {
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29359,
+  "pt": "Mortal 2",
+  "en": "Fatal (Upper)",
+  "partners": [
+   25060,
+   29360
+  ],
+  "expect": {
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29359,
+  "pt": "Mortal 2",
+  "en": "Fatal (Upper)",
+  "partners": [
+   29047,
+   25305
+  ],
+  "expect": {
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29359,
+  "pt": "Mortal 2",
+  "en": "Fatal (Upper)",
+  "partners": [
+   29047,
+   29360
+  ],
+  "expect": {
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29361,
+  "pt": "Mortal 4",
+  "en": "Fatal (Garment)",
+  "partners": [],
+  "expect": {
+   "criDmg": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29361,
+  "pt": "Mortal 4",
+  "en": "Fatal (Garment)",
+  "partners": [
+   25060,
+   25305,
+   25304
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29361,
+  "pt": "Mortal 4",
+  "en": "Fatal (Garment)",
+  "partners": [
+   25060,
+   25305,
+   29359
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29361,
+  "pt": "Mortal 4",
+  "en": "Fatal (Garment)",
+  "partners": [
+   25060,
+   29360,
+   25304
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29361,
+  "pt": "Mortal 4",
+  "en": "Fatal (Garment)",
+  "partners": [
+   25060,
+   29360,
+   29359
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29361,
+  "pt": "Mortal 4",
+  "en": "Fatal (Garment)",
+  "partners": [
+   29047,
+   25305,
+   25304
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29361,
+  "pt": "Mortal 4",
+  "en": "Fatal (Garment)",
+  "partners": [
+   29047,
+   25305,
+   29359
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29361,
+  "pt": "Mortal 4",
+  "en": "Fatal (Garment)",
+  "partners": [
+   29047,
+   29360,
+   25304
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29361,
+  "pt": "Mortal 4",
+  "en": "Fatal (Garment)",
+  "partners": [
+   29047,
+   29360,
+   29359
+  ],
+  "expect": {
+   "cri": 10,
+   "criDmg": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29426,
+  "pt": "Shura (Capa)",
+  "en": "Sura Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2332": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29426,
+  "pt": "Shura (Capa)",
+  "en": "Sura Stone (Garment)",
+  "partners": [
+   25409
+  ],
+  "expect": {
+   "2332": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29426,
+  "pt": "Shura (Capa)",
+  "en": "Sura Stone (Garment)",
+  "partners": [
+   29423
+  ],
+  "expect": {
+   "2332": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29427,
+  "pt": "Shura II (Capa)",
+  "en": "Sura Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2336": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29427,
+  "pt": "Shura II (Capa)",
+  "en": "Sura Stone II (Garment)",
+  "partners": [
+   25798
+  ],
+  "expect": {
+   "2330": 15,
+   "2336": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29427,
+  "pt": "Shura II (Capa)",
+  "en": "Sura Stone II (Garment)",
+  "partners": [
+   25799
+  ],
+  "expect": {
+   "273": 15,
+   "2336": 15,
+   "hpPercent": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29427,
+  "pt": "Shura II (Capa)",
+  "en": "Sura Stone II (Garment)",
+  "partners": [
+   25800
+  ],
+  "expect": {
+   "372": 15,
+   "2330": 15,
+   "2336": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29427,
+  "pt": "Shura II (Capa)",
+  "en": "Sura Stone II (Garment)",
+  "partners": [
+   29611
+  ],
+  "expect": {
+   "2330": 15,
+   "2336": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29427,
+  "pt": "Shura II (Capa)",
+  "en": "Sura Stone II (Garment)",
+  "partners": [
+   29612
+  ],
+  "expect": {
+   "273": 15,
+   "2336": 15,
+   "hpPercent": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29427,
+  "pt": "Shura II (Capa)",
+  "en": "Sura Stone II (Garment)",
+  "partners": [
+   29613
+  ],
+  "expect": {
+   "372": 15,
+   "2330": 15,
+   "2336": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29431,
+  "pt": "Sentinela (Capa)",
+  "en": "Ranger Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2233": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29431,
+  "pt": "Sentinela (Capa)",
+  "en": "Ranger Stone (Garment)",
+  "partners": [
+   25413
+  ],
+  "expect": {
+   "2233": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29431,
+  "pt": "Sentinela (Capa)",
+  "en": "Ranger Stone (Garment)",
+  "partners": [
+   25414
+  ],
+  "expect": {
+   "2233": 10,
+   "fct__382": 0.5,
+   "perfectHit": 5,
+   "vct": 10
+  }
+ },
+ {
+  "stone": 29431,
+  "pt": "Sentinela (Capa)",
+  "en": "Ranger Stone (Garment)",
+  "partners": [
+   25415
+  ],
+  "expect": {
+   "47": 20,
+   "2233": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29431,
+  "pt": "Sentinela (Capa)",
+  "en": "Ranger Stone (Garment)",
+  "partners": [
+   29428
+  ],
+  "expect": {
+   "2233": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29431,
+  "pt": "Sentinela (Capa)",
+  "en": "Ranger Stone (Garment)",
+  "partners": [
+   29429
+  ],
+  "expect": {
+   "2233": 10,
+   "fct__382": 0.5,
+   "perfectHit": 5,
+   "vct": 10
+  }
+ },
+ {
+  "stone": 29431,
+  "pt": "Sentinela (Capa)",
+  "en": "Ranger Stone (Garment)",
+  "partners": [
+   29430
+  ],
+  "expect": {
+   "47": 20,
+   "2233": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29435,
+  "pt": "Feiticeiro (Capa)",
+  "en": "Sorcerer Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2449": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29435,
+  "pt": "Feiticeiro (Capa)",
+  "en": "Sorcerer Stone (Garment)",
+  "partners": [
+   25417
+  ],
+  "expect": {
+   "2449": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29435,
+  "pt": "Feiticeiro (Capa)",
+  "en": "Sorcerer Stone (Garment)",
+  "partners": [
+   25418
+  ],
+  "expect": {
+   "2449": 10,
+   "cd__2452": 15,
+   "fct__482": 0.4,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29435,
+  "pt": "Feiticeiro (Capa)",
+  "en": "Sorcerer Stone (Garment)",
+  "partners": [
+   25419
+  ],
+  "expect": {
+   "14": 20,
+   "19": 20,
+   "20": 20,
+   "2449": 10,
+   "cd__2449": 2,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29435,
+  "pt": "Feiticeiro (Capa)",
+  "en": "Sorcerer Stone (Garment)",
+  "partners": [
+   29432
+  ],
+  "expect": {
+   "2449": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29435,
+  "pt": "Feiticeiro (Capa)",
+  "en": "Sorcerer Stone (Garment)",
+  "partners": [
+   29433
+  ],
+  "expect": {
+   "2449": 10,
+   "cd__2452": 15,
+   "fct__482": 0.4,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29435,
+  "pt": "Feiticeiro (Capa)",
+  "en": "Sorcerer Stone (Garment)",
+  "partners": [
+   29434
+  ],
+  "expect": {
+   "14": 20,
+   "19": 20,
+   "20": 20,
+   "2449": 10,
+   "cd__2449": 2,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29463,
+  "pt": "Cavaleiro Rúnico (Capa)",
+  "en": "Rune Knight Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29463,
+  "pt": "Cavaleiro Rúnico (Capa)",
+  "en": "Rune Knight Stone (Garment)",
+  "partners": [
+   25445
+  ],
+  "expect": {
+   "2008": 10,
+   "5004": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29463,
+  "pt": "Cavaleiro Rúnico (Capa)",
+  "en": "Rune Knight Stone (Garment)",
+  "partners": [
+   25447
+  ],
+  "expect": {
+   "acd": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29463,
+  "pt": "Cavaleiro Rúnico (Capa)",
+  "en": "Rune Knight Stone (Garment)",
+  "partners": [
+   29460
+  ],
+  "expect": {
+   "2008": 10,
+   "5004": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29463,
+  "pt": "Cavaleiro Rúnico (Capa)",
+  "en": "Rune Knight Stone (Garment)",
+  "partners": [
+   29462
+  ],
+  "expect": {
+   "acd": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29467,
+  "pt": "Bioquímico (Capa)",
+  "en": "Genetic Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2477": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29467,
+  "pt": "Bioquímico (Capa)",
+  "en": "Genetic Stone (Garment)",
+  "partners": [
+   25450
+  ],
+  "expect": {
+   "2477": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29467,
+  "pt": "Bioquímico (Capa)",
+  "en": "Genetic Stone (Garment)",
+  "partners": [
+   25451
+  ],
+  "expect": {
+   "2477": 10,
+   "cd__2492": 3,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29467,
+  "pt": "Bioquímico (Capa)",
+  "en": "Genetic Stone (Garment)",
+  "partners": [
+   25452
+  ],
+  "expect": {
+   "230": 20,
+   "2477": 10,
+   "perfectHit": 5,
+   "range": 5
+  }
+ },
+ {
+  "stone": 29467,
+  "pt": "Bioquímico (Capa)",
+  "en": "Genetic Stone (Garment)",
+  "partners": [
+   29464
+  ],
+  "expect": {
+   "2477": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29467,
+  "pt": "Bioquímico (Capa)",
+  "en": "Genetic Stone (Garment)",
+  "partners": [
+   29465
+  ],
+  "expect": {
+   "2477": 10,
+   "cd__2492": 3,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29467,
+  "pt": "Bioquímico (Capa)",
+  "en": "Genetic Stone (Garment)",
+  "partners": [
+   29466
+  ],
+  "expect": {
+   "230": 20,
+   "2477": 10,
+   "perfectHit": 5,
+   "range": 5
+  }
+ },
+ {
+  "stone": 29471,
+  "pt": "Arcano (Capa)",
+  "en": "Warlock Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2211": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29471,
+  "pt": "Arcano (Capa)",
+  "en": "Warlock Stone (Garment)",
+  "partners": [
+   25453
+  ],
+  "expect": {
+   "2211": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29471,
+  "pt": "Arcano (Capa)",
+  "en": "Warlock Stone (Garment)",
+  "partners": [
+   25454
+  ],
+  "expect": {
+   "83": 20,
+   "2211": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29471,
+  "pt": "Arcano (Capa)",
+  "en": "Warlock Stone (Garment)",
+  "partners": [
+   25455
+  ],
+  "expect": {
+   "80": 20,
+   "2211": 10,
+   "m_my_element_fire": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29471,
+  "pt": "Arcano (Capa)",
+  "en": "Warlock Stone (Garment)",
+  "partners": [
+   29468
+  ],
+  "expect": {
+   "2211": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29471,
+  "pt": "Arcano (Capa)",
+  "en": "Warlock Stone (Garment)",
+  "partners": [
+   29469
+  ],
+  "expect": {
+   "83": 20,
+   "2211": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29471,
+  "pt": "Arcano (Capa)",
+  "en": "Warlock Stone (Garment)",
+  "partners": [
+   29470
+  ],
+  "expect": {
+   "80": 20,
+   "2211": 10,
+   "m_my_element_fire": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29480,
+  "pt": "Renegado (Capa)",
+  "en": "Shadow Chaser Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2288": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29480,
+  "pt": "Renegado (Capa)",
+  "en": "Shadow Chaser Stone (Garment)",
+  "partners": [
+   25490
+  ],
+  "expect": {
+   "2288": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29480,
+  "pt": "Renegado (Capa)",
+  "en": "Shadow Chaser Stone (Garment)",
+  "partners": [
+   25491
+  ],
+  "expect": {
+   "2288": 15,
+   "perfectHit": 5,
+   "range": 10
+  }
+ },
+ {
+  "stone": 29480,
+  "pt": "Renegado (Capa)",
+  "en": "Shadow Chaser Stone (Garment)",
+  "partners": [
+   29477
+  ],
+  "expect": {
+   "2288": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29480,
+  "pt": "Renegado (Capa)",
+  "en": "Shadow Chaser Stone (Garment)",
+  "partners": [
+   29478
+  ],
+  "expect": {
+   "2288": 15,
+   "perfectHit": 5,
+   "range": 10
+  }
+ },
+ {
+  "stone": 29484,
+  "pt": "Mecânico (Capa)",
+  "en": "Mechanic Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2280": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29484,
+  "pt": "Mecânico (Capa)",
+  "en": "Mechanic Stone (Garment)",
+  "partners": [
+   25495
+  ],
+  "expect": {
+   "2280": 15,
+   "cd__2280": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29484,
+  "pt": "Mecânico (Capa)",
+  "en": "Mechanic Stone (Garment)",
+  "partners": [
+   25496
+  ],
+  "expect": {
+   "485": 20,
+   "2280": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29484,
+  "pt": "Mecânico (Capa)",
+  "en": "Mechanic Stone (Garment)",
+  "partners": [
+   29482
+  ],
+  "expect": {
+   "2280": 15,
+   "cd__2280": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29484,
+  "pt": "Mecânico (Capa)",
+  "en": "Mechanic Stone (Garment)",
+  "partners": [
+   29483
+  ],
+  "expect": {
+   "485": 20,
+   "2280": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29488,
+  "pt": "Músicos (Capa)",
+  "en": "Wanderer Minstrel Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2418": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29488,
+  "pt": "Músicos (Capa)",
+  "en": "Wanderer Minstrel Stone (Garment)",
+  "partners": [
+   25498
+  ],
+  "expect": {
+   "2418": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29488,
+  "pt": "Músicos (Capa)",
+  "en": "Wanderer Minstrel Stone (Garment)",
+  "partners": [
+   25499
+  ],
+  "expect": {
+   "316": 20,
+   "324": 20,
+   "2418": 15,
+   "cd__2418": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29488,
+  "pt": "Músicos (Capa)",
+  "en": "Wanderer Minstrel Stone (Garment)",
+  "partners": [
+   25500
+  ],
+  "expect": {
+   "394": 20,
+   "2418": 15,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29488,
+  "pt": "Músicos (Capa)",
+  "en": "Wanderer Minstrel Stone (Garment)",
+  "partners": [
+   29485
+  ],
+  "expect": {
+   "2418": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29488,
+  "pt": "Músicos (Capa)",
+  "en": "Wanderer Minstrel Stone (Garment)",
+  "partners": [
+   29486
+  ],
+  "expect": {
+   "316": 20,
+   "324": 20,
+   "2418": 15,
+   "cd__2418": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29488,
+  "pt": "Músicos (Capa)",
+  "en": "Wanderer Minstrel Stone (Garment)",
+  "partners": [
+   29487
+  ],
+  "expect": {
+   "394": 20,
+   "2418": 15,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29516,
+  "pt": "Arcebispo (Capa)",
+  "en": "Archbishop Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2040": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29516,
+  "pt": "Arcebispo (Capa)",
+  "en": "Archbishop Stone (Garment)",
+  "partners": [
+   25706
+  ],
+  "expect": {
+   "2040": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29516,
+  "pt": "Arcebispo (Capa)",
+  "en": "Archbishop Stone (Garment)",
+  "partners": [
+   25707
+  ],
+  "expect": {
+   "2040": 15,
+   "cd__2040": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29516,
+  "pt": "Arcebispo (Capa)",
+  "en": "Archbishop Stone (Garment)",
+  "partners": [
+   25708
+  ],
+  "expect": {
+   "79": 20,
+   "2040": 15,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29516,
+  "pt": "Arcebispo (Capa)",
+  "en": "Archbishop Stone (Garment)",
+  "partners": [
+   29513
+  ],
+  "expect": {
+   "2040": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29516,
+  "pt": "Arcebispo (Capa)",
+  "en": "Archbishop Stone (Garment)",
+  "partners": [
+   29514
+  ],
+  "expect": {
+   "2040": 15,
+   "cd__2040": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29516,
+  "pt": "Arcebispo (Capa)",
+  "en": "Archbishop Stone (Garment)",
+  "partners": [
+   29515
+  ],
+  "expect": {
+   "79": 20,
+   "2040": 15,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29520,
+  "pt": "Guardião Real (Capa)",
+  "en": "Royal Guard Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2308": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29520,
+  "pt": "Guardião Real (Capa)",
+  "en": "Royal Guard Stone (Garment)",
+  "partners": [
+   25711
+  ],
+  "expect": {
+   "2308": 15,
+   "cd__2307": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29520,
+  "pt": "Guardião Real (Capa)",
+  "en": "Royal Guard Stone (Garment)",
+  "partners": [
+   25712
+  ],
+  "expect": {
+   "253": 20,
+   "2308": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29520,
+  "pt": "Guardião Real (Capa)",
+  "en": "Royal Guard Stone (Garment)",
+  "partners": [
+   29518
+  ],
+  "expect": {
+   "2308": 15,
+   "cd__2307": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29520,
+  "pt": "Guardião Real (Capa)",
+  "en": "Royal Guard Stone (Garment)",
+  "partners": [
+   29519
+  ],
+  "expect": {
+   "253": 20,
+   "2308": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29524,
+  "pt": "Sicário (Capa)",
+  "en": "Guillotine Cross Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2036": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29524,
+  "pt": "Sicário (Capa)",
+  "en": "Guillotine Cross Stone (Garment)",
+  "partners": [
+   25715
+  ],
+  "expect": {
+   "2036": 15,
+   "2037": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29524,
+  "pt": "Sicário (Capa)",
+  "en": "Guillotine Cross Stone (Garment)",
+  "partners": [
+   25716
+  ],
+  "expect": {
+   "136": 20,
+   "2036": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29524,
+  "pt": "Sicário (Capa)",
+  "en": "Guillotine Cross Stone (Garment)",
+  "partners": [
+   29522
+  ],
+  "expect": {
+   "2036": 15,
+   "2037": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29524,
+  "pt": "Sicário (Capa)",
+  "en": "Guillotine Cross Stone (Garment)",
+  "partners": [
+   29523
+  ],
+  "expect": {
+   "136": 20,
+   "2036": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29614,
+  "pt": "Feiticeiro II (Capa)",
+  "en": "Sorcerer Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2447": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29614,
+  "pt": "Feiticeiro II (Capa)",
+  "en": "Sorcerer Stone II (Garment)",
+  "partners": [
+   25802
+  ],
+  "expect": {
+   "2447": 15,
+   "cd__2454": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29614,
+  "pt": "Feiticeiro II (Capa)",
+  "en": "Sorcerer Stone II (Garment)",
+  "partners": [
+   25803
+  ],
+  "expect": {
+   "14": 20,
+   "19": 20,
+   "20": 20,
+   "2446": 20,
+   "2447": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29614,
+  "pt": "Feiticeiro II (Capa)",
+  "en": "Sorcerer Stone II (Garment)",
+  "partners": [
+   25804
+  ],
+  "expect": {
+   "90": 20,
+   "91": 20,
+   "2447": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29614,
+  "pt": "Feiticeiro II (Capa)",
+  "en": "Sorcerer Stone II (Garment)",
+  "partners": [
+   29615
+  ],
+  "expect": {
+   "2447": 15,
+   "cd__2454": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29614,
+  "pt": "Feiticeiro II (Capa)",
+  "en": "Sorcerer Stone II (Garment)",
+  "partners": [
+   29616
+  ],
+  "expect": {
+   "14": 20,
+   "19": 20,
+   "20": 20,
+   "2446": 20,
+   "2447": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29614,
+  "pt": "Feiticeiro II (Capa)",
+  "en": "Sorcerer Stone II (Garment)",
+  "partners": [
+   29617
+  ],
+  "expect": {
+   "90": 20,
+   "91": 20,
+   "2447": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29618,
+  "pt": "Renegado II (Capa)",
+  "en": "Shadow Chaser Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2284": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29618,
+  "pt": "Renegado II (Capa)",
+  "en": "Shadow Chaser Stone II (Garment)",
+  "partners": [
+   25808
+  ],
+  "expect": {
+   "2284": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29618,
+  "pt": "Renegado II (Capa)",
+  "en": "Shadow Chaser Stone II (Garment)",
+  "partners": [
+   29621
+  ],
+  "expect": {
+   "2284": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29654,
+  "pt": "Ceifador de Alma (Capa)",
+  "en": "Soul Reaper Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2604": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29654,
+  "pt": "Ceifador de Alma (Capa)",
+  "en": "Soul Reaper Stone (Garment)",
+  "partners": [
+   25843
+  ],
+  "expect": {
+   "2604": 40,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29654,
+  "pt": "Ceifador de Alma (Capa)",
+  "en": "Soul Reaper Stone (Garment)",
+  "partners": [
+   25844
+  ],
+  "expect": {
+   "469": 20,
+   "2602": 20,
+   "2604": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29654,
+  "pt": "Ceifador de Alma (Capa)",
+  "en": "Soul Reaper Stone (Garment)",
+  "partners": [
+   25845
+  ],
+  "expect": {
+   "2604": 20,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29654,
+  "pt": "Ceifador de Alma (Capa)",
+  "en": "Soul Reaper Stone (Garment)",
+  "partners": [
+   29651
+  ],
+  "expect": {
+   "2604": 40,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29654,
+  "pt": "Ceifador de Alma (Capa)",
+  "en": "Soul Reaper Stone (Garment)",
+  "partners": [
+   29652
+  ],
+  "expect": {
+   "469": 20,
+   "2602": 20,
+   "2604": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29654,
+  "pt": "Ceifador de Alma (Capa)",
+  "en": "Soul Reaper Stone (Garment)",
+  "partners": [
+   29653
+  ],
+  "expect": {
+   "2604": 20,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29658,
+  "pt": "Mestre Estelar (Capa)",
+  "en": "Star Emperor Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2576": 20,
+   "2584": 20,
+   "2592": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29658,
+  "pt": "Mestre Estelar (Capa)",
+  "en": "Star Emperor Stone (Garment)",
+  "partners": [
+   25846
+  ],
+  "expect": {
+   "2576": 20,
+   "2584": 20,
+   "2592": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29658,
+  "pt": "Mestre Estelar (Capa)",
+  "en": "Star Emperor Stone (Garment)",
+  "partners": [
+   25847
+  ],
+  "expect": {
+   "2576": 20,
+   "2584": 35,
+   "2592": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29658,
+  "pt": "Mestre Estelar (Capa)",
+  "en": "Star Emperor Stone (Garment)",
+  "partners": [
+   29655
+  ],
+  "expect": {
+   "2576": 20,
+   "2584": 20,
+   "2592": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29658,
+  "pt": "Mestre Estelar (Capa)",
+  "en": "Star Emperor Stone (Garment)",
+  "partners": [
+   29656
+  ],
+  "expect": {
+   "2576": 20,
+   "2584": 35,
+   "2592": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29662,
+  "pt": "Kagerou (Capa)",
+  "en": "Kagerou Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "3009": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29662,
+  "pt": "Kagerou (Capa)",
+  "en": "Kagerou Stone (Garment)",
+  "partners": [
+   25850
+  ],
+  "expect": {
+   "3004": 25,
+   "3009": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29662,
+  "pt": "Kagerou (Capa)",
+  "en": "Kagerou Stone (Garment)",
+  "partners": [
+   25851
+  ],
+  "expect": {
+   "525": 20,
+   "3006": 25,
+   "3009": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29662,
+  "pt": "Kagerou (Capa)",
+  "en": "Kagerou Stone (Garment)",
+  "partners": [
+   29659
+  ],
+  "expect": {
+   "3004": 25,
+   "3009": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29662,
+  "pt": "Kagerou (Capa)",
+  "en": "Kagerou Stone (Garment)",
+  "partners": [
+   29660
+  ],
+  "expect": {
+   "525": 20,
+   "3006": 25,
+   "3009": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29663,
+  "pt": "Oboro (Capa)",
+  "en": "Oboro Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "534": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29663,
+  "pt": "Oboro (Capa)",
+  "en": "Oboro Stone (Garment)",
+  "partners": [
+   25850
+  ],
+  "expect": {
+   "534": 20,
+   "536": 30,
+   "539": 30,
+   "542": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29663,
+  "pt": "Oboro (Capa)",
+  "en": "Oboro Stone (Garment)",
+  "partners": [
+   25851
+  ],
+  "expect": {
+   "525": 20,
+   "534": 20,
+   "537": 20,
+   "540": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29663,
+  "pt": "Oboro (Capa)",
+  "en": "Oboro Stone (Garment)",
+  "partners": [
+   25852
+  ],
+  "expect": {
+   "534": 20,
+   "536": 20,
+   "539": 20,
+   "542": 20,
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 29663,
+  "pt": "Oboro (Capa)",
+  "en": "Oboro Stone (Garment)",
+  "partners": [
+   29659
+  ],
+  "expect": {
+   "534": 20,
+   "536": 30,
+   "539": 30,
+   "542": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29663,
+  "pt": "Oboro (Capa)",
+  "en": "Oboro Stone (Garment)",
+  "partners": [
+   29660
+  ],
+  "expect": {
+   "525": 20,
+   "534": 20,
+   "537": 20,
+   "540": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29663,
+  "pt": "Oboro (Capa)",
+  "en": "Oboro Stone (Garment)",
+  "partners": [
+   29661
+  ],
+  "expect": {
+   "534": 20,
+   "536": 20,
+   "539": 20,
+   "542": 20,
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 29667,
+  "pt": "Insurgente (Capa)",
+  "en": "Rebellion Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "2565": 20,
+   "2571": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29667,
+  "pt": "Insurgente (Capa)",
+  "en": "Rebellion Stone (Garment)",
+  "partners": [
+   25855
+  ],
+  "expect": {
+   "2565": 35,
+   "2571": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29667,
+  "pt": "Insurgente (Capa)",
+  "en": "Rebellion Stone (Garment)",
+  "partners": [
+   25856
+  ],
+  "expect": {
+   "516": 20,
+   "2565": 20,
+   "2571": 40,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29667,
+  "pt": "Insurgente (Capa)",
+  "en": "Rebellion Stone (Garment)",
+  "partners": [
+   25857
+  ],
+  "expect": {
+   "2554": 25,
+   "2565": 20,
+   "2571": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29667,
+  "pt": "Insurgente (Capa)",
+  "en": "Rebellion Stone (Garment)",
+  "partners": [
+   29664
+  ],
+  "expect": {
+   "2565": 35,
+   "2571": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29667,
+  "pt": "Insurgente (Capa)",
+  "en": "Rebellion Stone (Garment)",
+  "partners": [
+   29665
+  ],
+  "expect": {
+   "516": 20,
+   "2565": 20,
+   "2571": 40,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29667,
+  "pt": "Insurgente (Capa)",
+  "en": "Rebellion Stone (Garment)",
+  "partners": [
+   29666
+  ],
+  "expect": {
+   "2554": 25,
+   "2565": 20,
+   "2571": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29671,
+  "pt": "Invocador (Capa)",
+  "en": "Doram Stone (Garment)",
+  "partners": [],
+  "expect": {
+   "5028": 20,
+   "5033": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29671,
+  "pt": "Invocador (Capa)",
+  "en": "Doram Stone (Garment)",
+  "partners": [
+   25859
+  ],
+  "expect": {
+   "5026": 20,
+   "5028": 20,
+   "5033": 20,
+   "5036": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29671,
+  "pt": "Invocador (Capa)",
+  "en": "Doram Stone (Garment)",
+  "partners": [
+   25860
+  ],
+  "expect": {
+   "5028": 20,
+   "5033": 20,
+   "5036": 20,
+   "cd__5046": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29671,
+  "pt": "Invocador (Capa)",
+  "en": "Doram Stone (Garment)",
+  "partners": [
+   25861
+  ],
+  "expect": {
+   "5026": 20,
+   "5028": 20,
+   "5033": 20,
+   "cd__5028": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29671,
+  "pt": "Invocador (Capa)",
+  "en": "Doram Stone (Garment)",
+  "partners": [
+   29668
+  ],
+  "expect": {
+   "5026": 20,
+   "5028": 20,
+   "5033": 20,
+   "5036": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29671,
+  "pt": "Invocador (Capa)",
+  "en": "Doram Stone (Garment)",
+  "partners": [
+   29669
+  ],
+  "expect": {
+   "5028": 20,
+   "5033": 20,
+   "5036": 20,
+   "cd__5046": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 29671,
+  "pt": "Invocador (Capa)",
+  "en": "Doram Stone (Garment)",
+  "partners": [
+   29670
+  ],
+  "expect": {
+   "5026": 20,
+   "5028": 20,
+   "5033": 20,
+   "cd__5028": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310003,
+  "pt": "Sentinela II (Capa)",
+  "en": "Ranger Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2236": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310003,
+  "pt": "Sentinela II (Capa)",
+  "en": "Ranger Stone II (Garment)",
+  "partners": [
+   1000008
+  ],
+  "expect": {
+   "2236": 30,
+   "aspdPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310003,
+  "pt": "Sentinela II (Capa)",
+  "en": "Ranger Stone II (Garment)",
+  "partners": [
+   1000009
+  ],
+  "expect": {
+   "2236": 15,
+   "fix_vct__2236": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310003,
+  "pt": "Sentinela II (Capa)",
+  "en": "Ranger Stone II (Garment)",
+  "partners": [
+   1000010
+  ],
+  "expect": {
+   "2236": 15,
+   "cd__5002": 45,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310003,
+  "pt": "Sentinela II (Capa)",
+  "en": "Ranger Stone II (Garment)",
+  "partners": [
+   310000
+  ],
+  "expect": {
+   "2236": 30,
+   "aspdPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310003,
+  "pt": "Sentinela II (Capa)",
+  "en": "Ranger Stone II (Garment)",
+  "partners": [
+   310001
+  ],
+  "expect": {
+   "2236": 15,
+   "fix_vct__2236": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310003,
+  "pt": "Sentinela II (Capa)",
+  "en": "Ranger Stone II (Garment)",
+  "partners": [
+   310002
+  ],
+  "expect": {
+   "2236": 15,
+   "cd__5002": 45,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310007,
+  "pt": "Mecânico II (Capa)",
+  "en": "Mechanic Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2261": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310007,
+  "pt": "Mecânico II (Capa)",
+  "en": "Mechanic Stone II (Garment)",
+  "partners": [
+   1000012
+  ],
+  "expect": {
+   "2261": 15,
+   "cd__2278": 0.5,
+   "perfectHit": 5,
+   "range": 10
+  }
+ },
+ {
+  "stone": 310007,
+  "pt": "Mecânico II (Capa)",
+  "en": "Mechanic Stone II (Garment)",
+  "partners": [
+   1000013
+  ],
+  "expect": {
+   "485": 15,
+   "2258": 20,
+   "2261": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310007,
+  "pt": "Mecânico II (Capa)",
+  "en": "Mechanic Stone II (Garment)",
+  "partners": [
+   1000014
+  ],
+  "expect": {
+   "2256": 20,
+   "2261": 15,
+   "perfectHit": 5,
+   "range": 5
+  }
+ },
+ {
+  "stone": 310007,
+  "pt": "Mecânico II (Capa)",
+  "en": "Mechanic Stone II (Garment)",
+  "partners": [
+   310004
+  ],
+  "expect": {
+   "2261": 15,
+   "cd__2278": 0.5,
+   "perfectHit": 5,
+   "range": 10
+  }
+ },
+ {
+  "stone": 310007,
+  "pt": "Mecânico II (Capa)",
+  "en": "Mechanic Stone II (Garment)",
+  "partners": [
+   310005
+  ],
+  "expect": {
+   "485": 15,
+   "2258": 20,
+   "2261": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310007,
+  "pt": "Mecânico II (Capa)",
+  "en": "Mechanic Stone II (Garment)",
+  "partners": [
+   310006
+  ],
+  "expect": {
+   "2256": 20,
+   "2261": 15,
+   "perfectHit": 5,
+   "range": 5
+  }
+ },
+ {
+  "stone": 310011,
+  "pt": "Arcebispo II (Capa)",
+  "en": "Archbishop Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2038": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310011,
+  "pt": "Arcebispo II (Capa)",
+  "en": "Archbishop Stone II (Garment)",
+  "partners": [
+   1000016
+  ],
+  "expect": {
+   "79": 15,
+   "2038": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310011,
+  "pt": "Arcebispo II (Capa)",
+  "en": "Archbishop Stone II (Garment)",
+  "partners": [
+   1000018
+  ],
+  "expect": {
+   "2038": 15,
+   "m_my_element_holy": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310011,
+  "pt": "Arcebispo II (Capa)",
+  "en": "Archbishop Stone II (Garment)",
+  "partners": [
+   310008
+  ],
+  "expect": {
+   "79": 15,
+   "2038": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310011,
+  "pt": "Arcebispo II (Capa)",
+  "en": "Archbishop Stone II (Garment)",
+  "partners": [
+   310010
+  ],
+  "expect": {
+   "2038": 15,
+   "m_my_element_holy": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310180,
+  "pt": "Arcano II (Capa)",
+  "en": "Warlock Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2213": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310180,
+  "pt": "Arcano II (Capa)",
+  "en": "Warlock Stone II (Garment)",
+  "partners": [
+   1000214
+  ],
+  "expect": {
+   "83": 20,
+   "2213": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310180,
+  "pt": "Arcano II (Capa)",
+  "en": "Warlock Stone II (Garment)",
+  "partners": [
+   1000215
+  ],
+  "expect": {
+   "2213": 15,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310180,
+  "pt": "Arcano II (Capa)",
+  "en": "Warlock Stone II (Garment)",
+  "partners": [
+   1000216
+  ],
+  "expect": {
+   "2213": 15,
+   "m_my_element_neutral": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310180,
+  "pt": "Arcano II (Capa)",
+  "en": "Warlock Stone II (Garment)",
+  "partners": [
+   310181
+  ],
+  "expect": {
+   "83": 20,
+   "2213": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310180,
+  "pt": "Arcano II (Capa)",
+  "en": "Warlock Stone II (Garment)",
+  "partners": [
+   310182
+  ],
+  "expect": {
+   "2213": 15,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310180,
+  "pt": "Arcano II (Capa)",
+  "en": "Warlock Stone II (Garment)",
+  "partners": [
+   310183
+  ],
+  "expect": {
+   "2213": 15,
+   "m_my_element_neutral": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310184,
+  "pt": "Guardião Real II (Capa)",
+  "en": "Royal Guard Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2321": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310184,
+  "pt": "Guardião Real II (Capa)",
+  "en": "Royal Guard Stone II (Garment)",
+  "partners": [
+   1000218
+  ],
+  "expect": {
+   "2321": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310184,
+  "pt": "Guardião Real II (Capa)",
+  "en": "Royal Guard Stone II (Garment)",
+  "partners": [
+   1000219
+  ],
+  "expect": {
+   "367": 20,
+   "2321": 15,
+   "m_my_element_holy": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310184,
+  "pt": "Guardião Real II (Capa)",
+  "en": "Royal Guard Stone II (Garment)",
+  "partners": [
+   1000220
+  ],
+  "expect": {
+   "2321": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310184,
+  "pt": "Guardião Real II (Capa)",
+  "en": "Royal Guard Stone II (Garment)",
+  "partners": [
+   310185
+  ],
+  "expect": {
+   "2321": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310184,
+  "pt": "Guardião Real II (Capa)",
+  "en": "Royal Guard Stone II (Garment)",
+  "partners": [
+   310186
+  ],
+  "expect": {
+   "367": 20,
+   "2321": 15,
+   "m_my_element_holy": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310184,
+  "pt": "Guardião Real II (Capa)",
+  "en": "Royal Guard Stone II (Garment)",
+  "partners": [
+   310187
+  ],
+  "expect": {
+   "2321": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310188,
+  "pt": "Sicário II (Capa)",
+  "en": "Guillotine Cross Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310188,
+  "pt": "Sicário II (Capa)",
+  "en": "Guillotine Cross Stone II (Garment)",
+  "partners": [
+   1000222
+  ],
+  "expect": {
+   "atkPercent": 5,
+   "criDmg": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310188,
+  "pt": "Sicário II (Capa)",
+  "en": "Guillotine Cross Stone II (Garment)",
+  "partners": [
+   1000223
+  ],
+  "expect": {
+   "136": 20,
+   "2029": 20,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310188,
+  "pt": "Sicário II (Capa)",
+  "en": "Guillotine Cross Stone II (Garment)",
+  "partners": [
+   1000224
+  ],
+  "expect": {
+   "acd": 5,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310188,
+  "pt": "Sicário II (Capa)",
+  "en": "Guillotine Cross Stone II (Garment)",
+  "partners": [
+   310189
+  ],
+  "expect": {
+   "acd": 5,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310188,
+  "pt": "Sicário II (Capa)",
+  "en": "Guillotine Cross Stone II (Garment)",
+  "partners": [
+   310190
+  ],
+  "expect": {
+   "136": 20,
+   "2029": 20,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310188,
+  "pt": "Sicário II (Capa)",
+  "en": "Guillotine Cross Stone II (Garment)",
+  "partners": [
+   310191
+  ],
+  "expect": {
+   "atkPercent": 5,
+   "criDmg": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310257,
+  "pt": "Cavaleiro Rúnico II (Capa)",
+  "en": "Rune Knight Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310257,
+  "pt": "Cavaleiro Rúnico II (Capa)",
+  "en": "Rune Knight Stone II (Garment)",
+  "partners": [
+   1000297
+  ],
+  "expect": {
+   "2002": 20,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310257,
+  "pt": "Cavaleiro Rúnico II (Capa)",
+  "en": "Rune Knight Stone II (Garment)",
+  "partners": [
+   1000298
+  ],
+  "expect": {
+   "62": 20,
+   "2006": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310257,
+  "pt": "Cavaleiro Rúnico II (Capa)",
+  "en": "Rune Knight Stone II (Garment)",
+  "partners": [
+   1000299
+  ],
+  "expect": {
+   "397": 20,
+   "2004": 30,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310257,
+  "pt": "Cavaleiro Rúnico II (Capa)",
+  "en": "Rune Knight Stone II (Garment)",
+  "partners": [
+   310258
+  ],
+  "expect": {
+   "2002": 20,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310257,
+  "pt": "Cavaleiro Rúnico II (Capa)",
+  "en": "Rune Knight Stone II (Garment)",
+  "partners": [
+   310259
+  ],
+  "expect": {
+   "62": 20,
+   "2006": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310257,
+  "pt": "Cavaleiro Rúnico II (Capa)",
+  "en": "Rune Knight Stone II (Garment)",
+  "partners": [
+   310260
+  ],
+  "expect": {
+   "397": 20,
+   "2004": 30,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310261,
+  "pt": "Bioquímico II (Capa)",
+  "en": "Genetic Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310261,
+  "pt": "Bioquímico II (Capa)",
+  "en": "Genetic Stone II (Garment)",
+  "partners": [
+   1000301
+  ],
+  "expect": {
+   "2483": 20,
+   "cd__2476": 0.7,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310261,
+  "pt": "Bioquímico II (Capa)",
+  "en": "Genetic Stone II (Garment)",
+  "partners": [
+   1000302
+  ],
+  "expect": {
+   "490": 25,
+   "2481": 20,
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310261,
+  "pt": "Bioquímico II (Capa)",
+  "en": "Genetic Stone II (Garment)",
+  "partners": [
+   1000303
+  ],
+  "expect": {
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310261,
+  "pt": "Bioquímico II (Capa)",
+  "en": "Genetic Stone II (Garment)",
+  "partners": [
+   310262
+  ],
+  "expect": {
+   "2483": 20,
+   "cd__2476": 0.7,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310261,
+  "pt": "Bioquímico II (Capa)",
+  "en": "Genetic Stone II (Garment)",
+  "partners": [
+   310263
+  ],
+  "expect": {
+   "490": 25,
+   "2481": 20,
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310261,
+  "pt": "Bioquímico II (Capa)",
+  "en": "Genetic Stone II (Garment)",
+  "partners": [
+   310264
+  ],
+  "expect": {
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310265,
+  "pt": "Músicos II (Capa)",
+  "en": "Wanderer Minstrel Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2414": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310265,
+  "pt": "Músicos II (Capa)",
+  "en": "Wanderer Minstrel Stone II (Garment)",
+  "partners": [
+   1000305
+  ],
+  "expect": {
+   "394": 15,
+   "2414": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310265,
+  "pt": "Músicos II (Capa)",
+  "en": "Wanderer Minstrel Stone II (Garment)",
+  "partners": [
+   1000307
+  ],
+  "expect": {
+   "316": 20,
+   "324": 20,
+   "2413": 20,
+   "2414": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310265,
+  "pt": "Músicos II (Capa)",
+  "en": "Wanderer Minstrel Stone II (Garment)",
+  "partners": [
+   310266
+  ],
+  "expect": {
+   "394": 15,
+   "2414": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310265,
+  "pt": "Músicos II (Capa)",
+  "en": "Wanderer Minstrel Stone II (Garment)",
+  "partners": [
+   310268
+  ],
+  "expect": {
+   "316": 20,
+   "324": 20,
+   "2413": 20,
+   "2414": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310325,
+  "pt": "Alcance (Topo)",
+  "en": "Range Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5,
+   "range": 3
+  }
+ },
+ {
+  "stone": 310325,
+  "pt": "Alcance (Topo)",
+  "en": "Range Stone (Upper)",
+  "partners": [
+   25061,
+   1000376
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 15
+  }
+ },
+ {
+  "stone": 310325,
+  "pt": "Alcance (Topo)",
+  "en": "Range Stone (Upper)",
+  "partners": [
+   25061,
+   310326
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 15
+  }
+ },
+ {
+  "stone": 310325,
+  "pt": "Alcance (Topo)",
+  "en": "Range Stone (Upper)",
+  "partners": [
+   310330,
+   1000376
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 15
+  }
+ },
+ {
+  "stone": 310325,
+  "pt": "Alcance (Topo)",
+  "en": "Range Stone (Upper)",
+  "partners": [
+   310330,
+   310326
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 15
+  }
+ },
+ {
+  "stone": 310327,
+  "pt": "Corpo (Topo)",
+  "en": "Melee Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "melee": 3,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310327,
+  "pt": "Corpo (Topo)",
+  "en": "Melee Stone (Upper)",
+  "partners": [
+   1000378,
+   1000379
+  ],
+  "expect": {
+   "melee": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310327,
+  "pt": "Corpo (Topo)",
+  "en": "Melee Stone (Upper)",
+  "partners": [
+   1000378,
+   310329
+  ],
+  "expect": {
+   "melee": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310327,
+  "pt": "Corpo (Topo)",
+  "en": "Melee Stone (Upper)",
+  "partners": [
+   310328,
+   1000379
+  ],
+  "expect": {
+   "melee": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310327,
+  "pt": "Corpo (Topo)",
+  "en": "Melee Stone (Upper)",
+  "partners": [
+   310328,
+   310329
+  ],
+  "expect": {
+   "melee": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310658,
+  "pt": "Fixa -0,1 (Dual)",
+  "en": "Minor Fixed Cast Reduction (Dual)",
+  "partners": [],
+  "expect": {
+   "fct": 0.1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310658,
+  "pt": "Fixa -0,1 (Dual)",
+  "en": "Minor Fixed Cast Reduction (Dual)",
+  "partners": [
+   25170
+  ],
+  "expect": {
+   "fct": 0.7,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310658,
+  "pt": "Fixa -0,1 (Dual)",
+  "en": "Minor Fixed Cast Reduction (Dual)",
+  "partners": [
+   29154
+  ],
+  "expect": {
+   "fct": 0.7,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310659,
+  "pt": null,
+  "en": "Variable Cast Reduction (Dual)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 5
+  }
+ },
+ {
+  "stone": 310659,
+  "pt": null,
+  "en": "Variable Cast Reduction (Dual)",
+  "partners": [
+   25306
+  ],
+  "expect": {
+   "fct": 0.5,
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 310659,
+  "pt": null,
+  "en": "Variable Cast Reduction (Dual)",
+  "partners": [
+   29358
+  ],
+  "expect": {
+   "fct": 0.5,
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 310660,
+  "pt": "Alcance (Dual)",
+  "en": "Range Stone (Dual)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5,
+   "range": 4
+  }
+ },
+ {
+  "stone": 310660,
+  "pt": "Alcance (Dual)",
+  "en": "Range Stone (Dual)",
+  "partners": [
+   1000375
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 9
+  }
+ },
+ {
+  "stone": 310660,
+  "pt": "Alcance (Dual)",
+  "en": "Range Stone (Dual)",
+  "partners": [
+   1000376
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 9
+  }
+ },
+ {
+  "stone": 310660,
+  "pt": "Alcance (Dual)",
+  "en": "Range Stone (Dual)",
+  "partners": [
+   25061
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 9
+  }
+ },
+ {
+  "stone": 310660,
+  "pt": "Alcance (Dual)",
+  "en": "Range Stone (Dual)",
+  "partners": [
+   310325
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 9
+  }
+ },
+ {
+  "stone": 310660,
+  "pt": "Alcance (Dual)",
+  "en": "Range Stone (Dual)",
+  "partners": [
+   310326
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 9
+  }
+ },
+ {
+  "stone": 310660,
+  "pt": "Alcance (Dual)",
+  "en": "Range Stone (Dual)",
+  "partners": [
+   310330
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 9
+  }
+ },
+ {
+  "stone": 310661,
+  "pt": null,
+  "en": "Melee Stone (Dual)",
+  "partners": [],
+  "expect": {
+   "melee": 4,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310661,
+  "pt": null,
+  "en": "Melee Stone (Dual)",
+  "partners": [
+   1000377
+  ],
+  "expect": {
+   "melee": 9,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310661,
+  "pt": null,
+  "en": "Melee Stone (Dual)",
+  "partners": [
+   1000378
+  ],
+  "expect": {
+   "melee": 9,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310661,
+  "pt": null,
+  "en": "Melee Stone (Dual)",
+  "partners": [
+   1000379
+  ],
+  "expect": {
+   "melee": 9,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310661,
+  "pt": null,
+  "en": "Melee Stone (Dual)",
+  "partners": [
+   310327
+  ],
+  "expect": {
+   "melee": 9,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310661,
+  "pt": null,
+  "en": "Melee Stone (Dual)",
+  "partners": [
+   310328
+  ],
+  "expect": {
+   "melee": 9,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310661,
+  "pt": null,
+  "en": "Melee Stone (Dual)",
+  "partners": [
+   310329
+  ],
+  "expect": {
+   "melee": 9,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310664,
+  "pt": null,
+  "en": "Magic Power Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "m_my_element_all": 3,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310664,
+  "pt": null,
+  "en": "Magic Power Stone (Upper)",
+  "partners": [
+   310665,
+   310666
+  ],
+  "expect": {
+   "m_my_element_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310667,
+  "pt": null,
+  "en": "Magic Power Stone (Dual)",
+  "partners": [],
+  "expect": {
+   "m_my_element_all": 4,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310667,
+  "pt": null,
+  "en": "Magic Power Stone (Dual)",
+  "partners": [
+   310664
+  ],
+  "expect": {
+   "m_my_element_all": 9,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310667,
+  "pt": null,
+  "en": "Magic Power Stone (Dual)",
+  "partners": [
+   310665
+  ],
+  "expect": {
+   "m_my_element_all": 9,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310667,
+  "pt": null,
+  "en": "Magic Power Stone (Dual)",
+  "partners": [
+   310666
+  ],
+  "expect": {
+   "m_my_element_all": 9,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310881,
+  "pt": "Cavaleiro Rúnico (Topo)",
+  "en": "Rune Knight Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310881,
+  "pt": "Cavaleiro Rúnico (Topo)",
+  "en": "Rune Knight Stone (Upper)",
+  "partners": [
+   1000296
+  ],
+  "expect": {
+   "2004": 15,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310881,
+  "pt": "Cavaleiro Rúnico (Topo)",
+  "en": "Rune Knight Stone (Upper)",
+  "partners": [
+   25448
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 10
+  }
+ },
+ {
+  "stone": 310881,
+  "pt": "Cavaleiro Rúnico (Topo)",
+  "en": "Rune Knight Stone (Upper)",
+  "partners": [
+   29463
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 10
+  }
+ },
+ {
+  "stone": 310881,
+  "pt": "Cavaleiro Rúnico (Topo)",
+  "en": "Rune Knight Stone (Upper)",
+  "partners": [
+   310257
+  ],
+  "expect": {
+   "2004": 15,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310882,
+  "pt": "Cavaleiro Rúnico (Meio)",
+  "en": "Rune Knight Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310882,
+  "pt": "Cavaleiro Rúnico (Meio)",
+  "en": "Rune Knight Stone (Middle)",
+  "partners": [
+   1000296
+  ],
+  "expect": {
+   "2002": 15,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310882,
+  "pt": "Cavaleiro Rúnico (Meio)",
+  "en": "Rune Knight Stone (Middle)",
+  "partners": [
+   25448
+  ],
+  "expect": {
+   "2008": 15,
+   "5004": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310882,
+  "pt": "Cavaleiro Rúnico (Meio)",
+  "en": "Rune Knight Stone (Middle)",
+  "partners": [
+   29463
+  ],
+  "expect": {
+   "2008": 15,
+   "5004": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310882,
+  "pt": "Cavaleiro Rúnico (Meio)",
+  "en": "Rune Knight Stone (Middle)",
+  "partners": [
+   310257
+  ],
+  "expect": {
+   "2002": 15,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310883,
+  "pt": "Cavaleiro Rúnico (Baixo)",
+  "en": "Rune Knight Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310883,
+  "pt": "Cavaleiro Rúnico (Baixo)",
+  "en": "Rune Knight Stone (Lower)",
+  "partners": [
+   1000296
+  ],
+  "expect": {
+   "2006": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310883,
+  "pt": "Cavaleiro Rúnico (Baixo)",
+  "en": "Rune Knight Stone (Lower)",
+  "partners": [
+   25448
+  ],
+  "expect": {
+   "hpPercent": 10,
+   "perfectHit": 5,
+   "spPercent": 10
+  }
+ },
+ {
+  "stone": 310883,
+  "pt": "Cavaleiro Rúnico (Baixo)",
+  "en": "Rune Knight Stone (Lower)",
+  "partners": [
+   29463
+  ],
+  "expect": {
+   "hpPercent": 10,
+   "perfectHit": 5,
+   "spPercent": 10
+  }
+ },
+ {
+  "stone": 310883,
+  "pt": "Cavaleiro Rúnico (Baixo)",
+  "en": "Rune Knight Stone (Lower)",
+  "partners": [
+   310257
+  ],
+  "expect": {
+   "2006": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310884,
+  "pt": "Arcano (Topo)",
+  "en": "Warlock Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310884,
+  "pt": "Arcano (Topo)",
+  "en": "Warlock Stone (Upper)",
+  "partners": [
+   1000213
+  ],
+  "expect": {
+   "720": 15,
+   "2213": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310884,
+  "pt": "Arcano (Topo)",
+  "en": "Warlock Stone (Upper)",
+  "partners": [
+   25456
+  ],
+  "expect": {
+   "2202": 15,
+   "2211": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310884,
+  "pt": "Arcano (Topo)",
+  "en": "Warlock Stone (Upper)",
+  "partners": [
+   29471
+  ],
+  "expect": {
+   "2202": 15,
+   "2211": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310884,
+  "pt": "Arcano (Topo)",
+  "en": "Warlock Stone (Upper)",
+  "partners": [
+   310180
+  ],
+  "expect": {
+   "720": 15,
+   "2213": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310885,
+  "pt": "Arcano (Meio)",
+  "en": "Warlock Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310885,
+  "pt": "Arcano (Meio)",
+  "en": "Warlock Stone (Middle)",
+  "partners": [
+   1000213
+  ],
+  "expect": {
+   "720": 15,
+   "2213": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310885,
+  "pt": "Arcano (Meio)",
+  "en": "Warlock Stone (Middle)",
+  "partners": [
+   25456
+  ],
+  "expect": {
+   "2211": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310885,
+  "pt": "Arcano (Meio)",
+  "en": "Warlock Stone (Middle)",
+  "partners": [
+   29471
+  ],
+  "expect": {
+   "2211": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310885,
+  "pt": "Arcano (Meio)",
+  "en": "Warlock Stone (Middle)",
+  "partners": [
+   310180
+  ],
+  "expect": {
+   "720": 15,
+   "2213": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310886,
+  "pt": "Arcano (Baixo)",
+  "en": "Warlock Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310886,
+  "pt": "Arcano (Baixo)",
+  "en": "Warlock Stone (Lower)",
+  "partners": [
+   1000213
+  ],
+  "expect": {
+   "2213": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310886,
+  "pt": "Arcano (Baixo)",
+  "en": "Warlock Stone (Lower)",
+  "partners": [
+   25456
+  ],
+  "expect": {
+   "2211": 10,
+   "2214": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310886,
+  "pt": "Arcano (Baixo)",
+  "en": "Warlock Stone (Lower)",
+  "partners": [
+   29471
+  ],
+  "expect": {
+   "2211": 10,
+   "2214": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310886,
+  "pt": "Arcano (Baixo)",
+  "en": "Warlock Stone (Lower)",
+  "partners": [
+   310180
+  ],
+  "expect": {
+   "2213": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310887,
+  "pt": "Guardião Real (Topo)",
+  "en": "Royal Guard Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310887,
+  "pt": "Guardião Real (Topo)",
+  "en": "Royal Guard Stone (Upper)",
+  "partners": [
+   1000217
+  ],
+  "expect": {
+   "2321": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310887,
+  "pt": "Guardião Real (Topo)",
+  "en": "Royal Guard Stone (Upper)",
+  "partners": [
+   25713
+  ],
+  "expect": {
+   "2307": 15,
+   "2308": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310887,
+  "pt": "Guardião Real (Topo)",
+  "en": "Royal Guard Stone (Upper)",
+  "partners": [
+   29520
+  ],
+  "expect": {
+   "2307": 15,
+   "2308": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310887,
+  "pt": "Guardião Real (Topo)",
+  "en": "Royal Guard Stone (Upper)",
+  "partners": [
+   310184
+  ],
+  "expect": {
+   "2321": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310888,
+  "pt": "Guardião Real (Meio)",
+  "en": "Royal Guard Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310888,
+  "pt": "Guardião Real (Meio)",
+  "en": "Royal Guard Stone (Middle)",
+  "partners": [
+   25713
+  ],
+  "expect": {
+   "2308": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310888,
+  "pt": "Guardião Real (Meio)",
+  "en": "Royal Guard Stone (Middle)",
+  "partners": [
+   29520
+  ],
+  "expect": {
+   "2308": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310889,
+  "pt": "Guardião Real (Baixo)",
+  "en": "Royal Guard Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310889,
+  "pt": "Guardião Real (Baixo)",
+  "en": "Royal Guard Stone (Lower)",
+  "partners": [
+   1000217
+  ],
+  "expect": {
+   "2321": 15,
+   "m_size_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310889,
+  "pt": "Guardião Real (Baixo)",
+  "en": "Royal Guard Stone (Lower)",
+  "partners": [
+   25713
+  ],
+  "expect": {
+   "2307": 15,
+   "2308": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310889,
+  "pt": "Guardião Real (Baixo)",
+  "en": "Royal Guard Stone (Lower)",
+  "partners": [
+   29520
+  ],
+  "expect": {
+   "2307": 15,
+   "2308": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 310889,
+  "pt": "Guardião Real (Baixo)",
+  "en": "Royal Guard Stone (Lower)",
+  "partners": [
+   310184
+  ],
+  "expect": {
+   "2321": 15,
+   "m_size_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311005,
+  "pt": null,
+  "en": "Wanderer Minstrel Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311005,
+  "pt": null,
+  "en": "Wanderer Minstrel Stone (Upper)",
+  "partners": [
+   1000304
+  ],
+  "expect": {
+   "2413": 15,
+   "2414": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311005,
+  "pt": null,
+  "en": "Wanderer Minstrel Stone (Upper)",
+  "partners": [
+   310265
+  ],
+  "expect": {
+   "2413": 15,
+   "2414": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311006,
+  "pt": null,
+  "en": "Wanderer Minstrel Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311006,
+  "pt": null,
+  "en": "Wanderer Minstrel Stone (Middle)",
+  "partners": [
+   1000304
+  ],
+  "expect": {
+   "2414": 15,
+   "m_my_element_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311006,
+  "pt": null,
+  "en": "Wanderer Minstrel Stone (Middle)",
+  "partners": [
+   25501
+  ],
+  "expect": {
+   "2418": 15,
+   "p_size_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311006,
+  "pt": null,
+  "en": "Wanderer Minstrel Stone (Middle)",
+  "partners": [
+   29488
+  ],
+  "expect": {
+   "2418": 15,
+   "p_size_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311006,
+  "pt": null,
+  "en": "Wanderer Minstrel Stone (Middle)",
+  "partners": [
+   310265
+  ],
+  "expect": {
+   "2414": 15,
+   "m_my_element_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311007,
+  "pt": null,
+  "en": "Wanderer Minstrel Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311007,
+  "pt": null,
+  "en": "Wanderer Minstrel Stone (Lower)",
+  "partners": [
+   1000304
+  ],
+  "expect": {
+   "2414": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311007,
+  "pt": null,
+  "en": "Wanderer Minstrel Stone (Lower)",
+  "partners": [
+   25501
+  ],
+  "expect": {
+   "2418": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311007,
+  "pt": null,
+  "en": "Wanderer Minstrel Stone (Lower)",
+  "partners": [
+   29488
+  ],
+  "expect": {
+   "2418": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311007,
+  "pt": null,
+  "en": "Wanderer Minstrel Stone (Lower)",
+  "partners": [
+   310265
+  ],
+  "expect": {
+   "2414": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311008,
+  "pt": null,
+  "en": "Genetic Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311008,
+  "pt": null,
+  "en": "Genetic Stone (Upper)",
+  "partners": [
+   1000300
+  ],
+  "expect": {
+   "2481": 15,
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311008,
+  "pt": null,
+  "en": "Genetic Stone (Upper)",
+  "partners": [
+   25449
+  ],
+  "expect": {
+   "490": 15,
+   "2477": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311008,
+  "pt": null,
+  "en": "Genetic Stone (Upper)",
+  "partners": [
+   29467
+  ],
+  "expect": {
+   "490": 15,
+   "2477": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311008,
+  "pt": null,
+  "en": "Genetic Stone (Upper)",
+  "partners": [
+   310261
+  ],
+  "expect": {
+   "2481": 15,
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311009,
+  "pt": null,
+  "en": "Genetic Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311009,
+  "pt": null,
+  "en": "Genetic Stone (Middle)",
+  "partners": [
+   1000300
+  ],
+  "expect": {
+   "2476": 15,
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311009,
+  "pt": null,
+  "en": "Genetic Stone (Middle)",
+  "partners": [
+   25449
+  ],
+  "expect": {
+   "2477": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311009,
+  "pt": null,
+  "en": "Genetic Stone (Middle)",
+  "partners": [
+   29467
+  ],
+  "expect": {
+   "2477": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311009,
+  "pt": null,
+  "en": "Genetic Stone (Middle)",
+  "partners": [
+   310261
+  ],
+  "expect": {
+   "2476": 15,
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311010,
+  "pt": null,
+  "en": "Genetic Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311010,
+  "pt": null,
+  "en": "Genetic Stone (Lower)",
+  "partners": [
+   1000300
+  ],
+  "expect": {
+   "2476": 15,
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311010,
+  "pt": null,
+  "en": "Genetic Stone (Lower)",
+  "partners": [
+   25449
+  ],
+  "expect": {
+   "490": 15,
+   "2477": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311010,
+  "pt": null,
+  "en": "Genetic Stone (Lower)",
+  "partners": [
+   29467
+  ],
+  "expect": {
+   "490": 15,
+   "2477": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311010,
+  "pt": null,
+  "en": "Genetic Stone (Lower)",
+  "partners": [
+   310261
+  ],
+  "expect": {
+   "2476": 15,
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311011,
+  "pt": null,
+  "en": "Sorcerer Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311011,
+  "pt": null,
+  "en": "Sorcerer Stone (Upper)",
+  "partners": [
+   25420
+  ],
+  "expect": {
+   "2449": 10,
+   "cd__2450": 2,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311011,
+  "pt": null,
+  "en": "Sorcerer Stone (Upper)",
+  "partners": [
+   25801
+  ],
+  "expect": {
+   "2446": 15,
+   "2447": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311011,
+  "pt": null,
+  "en": "Sorcerer Stone (Upper)",
+  "partners": [
+   29435
+  ],
+  "expect": {
+   "2449": 10,
+   "cd__2450": 2,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311011,
+  "pt": null,
+  "en": "Sorcerer Stone (Upper)",
+  "partners": [
+   29614
+  ],
+  "expect": {
+   "2446": 15,
+   "2447": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311012,
+  "pt": null,
+  "en": "Sorcerer Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311012,
+  "pt": null,
+  "en": "Sorcerer Stone (Middle)",
+  "partners": [
+   25420
+  ],
+  "expect": {
+   "2449": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311012,
+  "pt": null,
+  "en": "Sorcerer Stone (Middle)",
+  "partners": [
+   25801
+  ],
+  "expect": {
+   "2447": 15,
+   "2454": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311012,
+  "pt": null,
+  "en": "Sorcerer Stone (Middle)",
+  "partners": [
+   29435
+  ],
+  "expect": {
+   "2449": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311012,
+  "pt": null,
+  "en": "Sorcerer Stone (Middle)",
+  "partners": [
+   29614
+  ],
+  "expect": {
+   "2447": 15,
+   "2454": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311013,
+  "pt": null,
+  "en": "Sorcerer Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311013,
+  "pt": null,
+  "en": "Sorcerer Stone (Lower)",
+  "partners": [
+   25420
+  ],
+  "expect": {
+   "2448": 15,
+   "2449": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311013,
+  "pt": null,
+  "en": "Sorcerer Stone (Lower)",
+  "partners": [
+   25801
+  ],
+  "expect": {
+   "2447": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311013,
+  "pt": null,
+  "en": "Sorcerer Stone (Lower)",
+  "partners": [
+   29435
+  ],
+  "expect": {
+   "2448": 15,
+   "2449": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311013,
+  "pt": null,
+  "en": "Sorcerer Stone (Lower)",
+  "partners": [
+   29614
+  ],
+  "expect": {
+   "2447": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311356,
+  "pt": null,
+  "en": "Archbishop Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311356,
+  "pt": null,
+  "en": "Archbishop Stone (Upper)",
+  "partners": [
+   1000019
+  ],
+  "expect": {
+   "2038": 15,
+   "m_size_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311356,
+  "pt": null,
+  "en": "Archbishop Stone (Upper)",
+  "partners": [
+   25709
+  ],
+  "expect": {
+   "2040": 15,
+   "m_my_element_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311356,
+  "pt": null,
+  "en": "Archbishop Stone (Upper)",
+  "partners": [
+   29516
+  ],
+  "expect": {
+   "2040": 15,
+   "m_my_element_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311356,
+  "pt": null,
+  "en": "Archbishop Stone (Upper)",
+  "partners": [
+   310011
+  ],
+  "expect": {
+   "2038": 15,
+   "m_size_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311357,
+  "pt": null,
+  "en": "Archbishop Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311357,
+  "pt": null,
+  "en": "Archbishop Stone (Middle)",
+  "partners": [
+   1000019
+  ],
+  "expect": {
+   "2038": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311357,
+  "pt": null,
+  "en": "Archbishop Stone (Middle)",
+  "partners": [
+   25709
+  ],
+  "expect": {
+   "2040": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311357,
+  "pt": null,
+  "en": "Archbishop Stone (Middle)",
+  "partners": [
+   29516
+  ],
+  "expect": {
+   "2040": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311357,
+  "pt": null,
+  "en": "Archbishop Stone (Middle)",
+  "partners": [
+   310011
+  ],
+  "expect": {
+   "2038": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311358,
+  "pt": null,
+  "en": "Archbishop Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311358,
+  "pt": null,
+  "en": "Archbishop Stone (Lower)",
+  "partners": [
+   1000019
+  ],
+  "expect": {
+   "2038": 15,
+   "m_my_element_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311358,
+  "pt": null,
+  "en": "Archbishop Stone (Lower)",
+  "partners": [
+   25709
+  ],
+  "expect": {
+   "2040": 15,
+   "m_race_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311358,
+  "pt": null,
+  "en": "Archbishop Stone (Lower)",
+  "partners": [
+   29516
+  ],
+  "expect": {
+   "2040": 15,
+   "m_race_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311358,
+  "pt": null,
+  "en": "Archbishop Stone (Lower)",
+  "partners": [
+   310011
+  ],
+  "expect": {
+   "2038": 15,
+   "m_my_element_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311359,
+  "pt": null,
+  "en": "Ranger Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311359,
+  "pt": null,
+  "en": "Ranger Stone (Upper)",
+  "partners": [
+   1000011
+  ],
+  "expect": {
+   "382": 15,
+   "2236": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311359,
+  "pt": null,
+  "en": "Ranger Stone (Upper)",
+  "partners": [
+   25416
+  ],
+  "expect": {
+   "2233": 10,
+   "cd__5002": 45,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311359,
+  "pt": null,
+  "en": "Ranger Stone (Upper)",
+  "partners": [
+   29431
+  ],
+  "expect": {
+   "2233": 10,
+   "cd__5002": 45,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311359,
+  "pt": null,
+  "en": "Ranger Stone (Upper)",
+  "partners": [
+   310003
+  ],
+  "expect": {
+   "382": 15,
+   "2236": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311360,
+  "pt": null,
+  "en": "Ranger Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311360,
+  "pt": null,
+  "en": "Ranger Stone (Middle)",
+  "partners": [
+   1000011
+  ],
+  "expect": {
+   "2236": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311360,
+  "pt": null,
+  "en": "Ranger Stone (Middle)",
+  "partners": [
+   25416
+  ],
+  "expect": {
+   "2233": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311360,
+  "pt": null,
+  "en": "Ranger Stone (Middle)",
+  "partners": [
+   29431
+  ],
+  "expect": {
+   "2233": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311360,
+  "pt": null,
+  "en": "Ranger Stone (Middle)",
+  "partners": [
+   310003
+  ],
+  "expect": {
+   "2236": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311361,
+  "pt": null,
+  "en": "Ranger Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311361,
+  "pt": null,
+  "en": "Ranger Stone (Lower)",
+  "partners": [
+   1000011
+  ],
+  "expect": {
+   "2236": 15,
+   "p_size_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311361,
+  "pt": null,
+  "en": "Ranger Stone (Lower)",
+  "partners": [
+   310003
+  ],
+  "expect": {
+   "2236": 15,
+   "p_size_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311362,
+  "pt": null,
+  "en": "Shadow Chaser Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311362,
+  "pt": null,
+  "en": "Shadow Chaser Stone (Upper)",
+  "partners": [
+   25493
+  ],
+  "expect": {
+   "2288": 15,
+   "2304": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311362,
+  "pt": null,
+  "en": "Shadow Chaser Stone (Upper)",
+  "partners": [
+   29480
+  ],
+  "expect": {
+   "2288": 15,
+   "2304": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311363,
+  "pt": null,
+  "en": "Shadow Chaser Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311363,
+  "pt": null,
+  "en": "Shadow Chaser Stone (Middle)",
+  "partners": [
+   25493
+  ],
+  "expect": {
+   "2288": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311363,
+  "pt": null,
+  "en": "Shadow Chaser Stone (Middle)",
+  "partners": [
+   25805
+  ],
+  "expect": {
+   "2284": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311363,
+  "pt": null,
+  "en": "Shadow Chaser Stone (Middle)",
+  "partners": [
+   29480
+  ],
+  "expect": {
+   "2288": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311363,
+  "pt": null,
+  "en": "Shadow Chaser Stone (Middle)",
+  "partners": [
+   29618
+  ],
+  "expect": {
+   "2284": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311364,
+  "pt": null,
+  "en": "Shadow Chaser Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311364,
+  "pt": null,
+  "en": "Shadow Chaser Stone (Lower)",
+  "partners": [
+   25493
+  ],
+  "expect": {
+   "2288": 15,
+   "p_element_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311364,
+  "pt": null,
+  "en": "Shadow Chaser Stone (Lower)",
+  "partners": [
+   25805
+  ],
+  "expect": {
+   "2284": 15,
+   "p_size_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311364,
+  "pt": null,
+  "en": "Shadow Chaser Stone (Lower)",
+  "partners": [
+   29480
+  ],
+  "expect": {
+   "2288": 15,
+   "p_element_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311364,
+  "pt": null,
+  "en": "Shadow Chaser Stone (Lower)",
+  "partners": [
+   29618
+  ],
+  "expect": {
+   "2284": 15,
+   "p_size_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311427,
+  "pt": null,
+  "en": "Sura Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311427,
+  "pt": null,
+  "en": "Sura Stone (Upper)",
+  "partners": [
+   25412
+  ],
+  "expect": {
+   "2332": 15,
+   "2518": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311427,
+  "pt": null,
+  "en": "Sura Stone (Upper)",
+  "partners": [
+   25797
+  ],
+  "expect": {
+   "2336": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311427,
+  "pt": null,
+  "en": "Sura Stone (Upper)",
+  "partners": [
+   29426
+  ],
+  "expect": {
+   "2332": 15,
+   "2518": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311427,
+  "pt": null,
+  "en": "Sura Stone (Upper)",
+  "partners": [
+   29427
+  ],
+  "expect": {
+   "2336": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311428,
+  "pt": null,
+  "en": "Sura Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311428,
+  "pt": null,
+  "en": "Sura Stone (Middle)",
+  "partners": [
+   25412
+  ],
+  "expect": {
+   "2332": 15,
+   "2518": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311428,
+  "pt": null,
+  "en": "Sura Stone (Middle)",
+  "partners": [
+   25797
+  ],
+  "expect": {
+   "2330": 15,
+   "2336": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311428,
+  "pt": null,
+  "en": "Sura Stone (Middle)",
+  "partners": [
+   29426
+  ],
+  "expect": {
+   "2332": 15,
+   "2518": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311428,
+  "pt": null,
+  "en": "Sura Stone (Middle)",
+  "partners": [
+   29427
+  ],
+  "expect": {
+   "2330": 15,
+   "2336": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311429,
+  "pt": null,
+  "en": "Sura Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311429,
+  "pt": null,
+  "en": "Sura Stone (Lower)",
+  "partners": [
+   25412
+  ],
+  "expect": {
+   "2332": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311429,
+  "pt": null,
+  "en": "Sura Stone (Lower)",
+  "partners": [
+   25797
+  ],
+  "expect": {
+   "2336": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311429,
+  "pt": null,
+  "en": "Sura Stone (Lower)",
+  "partners": [
+   29426
+  ],
+  "expect": {
+   "2332": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311429,
+  "pt": null,
+  "en": "Sura Stone (Lower)",
+  "partners": [
+   29427
+  ],
+  "expect": {
+   "2336": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311430,
+  "pt": null,
+  "en": "Mechanic Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311430,
+  "pt": null,
+  "en": "Mechanic Stone (Upper)",
+  "partners": [
+   1000015
+  ],
+  "expect": {
+   "2256": 15,
+   "2261": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311430,
+  "pt": null,
+  "en": "Mechanic Stone (Upper)",
+  "partners": [
+   25497
+  ],
+  "expect": {
+   "2280": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311430,
+  "pt": null,
+  "en": "Mechanic Stone (Upper)",
+  "partners": [
+   29484
+  ],
+  "expect": {
+   "2280": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311430,
+  "pt": null,
+  "en": "Mechanic Stone (Upper)",
+  "partners": [
+   310007
+  ],
+  "expect": {
+   "2256": 15,
+   "2261": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311431,
+  "pt": null,
+  "en": "Mechanic Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311431,
+  "pt": null,
+  "en": "Mechanic Stone (Middle)",
+  "partners": [
+   1000015
+  ],
+  "expect": {
+   "2261": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311431,
+  "pt": null,
+  "en": "Mechanic Stone (Middle)",
+  "partners": [
+   25497
+  ],
+  "expect": {
+   "2278": 15,
+   "2280": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311431,
+  "pt": null,
+  "en": "Mechanic Stone (Middle)",
+  "partners": [
+   29484
+  ],
+  "expect": {
+   "2278": 15,
+   "2280": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311431,
+  "pt": null,
+  "en": "Mechanic Stone (Middle)",
+  "partners": [
+   310007
+  ],
+  "expect": {
+   "2261": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311432,
+  "pt": null,
+  "en": "Mechanic Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311432,
+  "pt": null,
+  "en": "Mechanic Stone (Lower)",
+  "partners": [
+   1000015
+  ],
+  "expect": {
+   "2258": 15,
+   "2261": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311432,
+  "pt": null,
+  "en": "Mechanic Stone (Lower)",
+  "partners": [
+   25497
+  ],
+  "expect": {
+   "2279": 15,
+   "2280": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311432,
+  "pt": null,
+  "en": "Mechanic Stone (Lower)",
+  "partners": [
+   29484
+  ],
+  "expect": {
+   "2279": 15,
+   "2280": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311432,
+  "pt": null,
+  "en": "Mechanic Stone (Lower)",
+  "partners": [
+   310007
+  ],
+  "expect": {
+   "2258": 15,
+   "2261": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311433,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311433,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Upper)",
+  "partners": [
+   1000221
+  ],
+  "expect": {
+   "2029": 15,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311433,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Upper)",
+  "partners": [
+   25717
+  ],
+  "expect": {
+   "2036": 15,
+   "2037": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311433,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Upper)",
+  "partners": [
+   29524
+  ],
+  "expect": {
+   "2036": 15,
+   "2037": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311433,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Upper)",
+  "partners": [
+   310188
+  ],
+  "expect": {
+   "2029": 15,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311434,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311434,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Middle)",
+  "partners": [
+   1000221
+  ],
+  "expect": {
+   "2022": 15,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311434,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Middle)",
+  "partners": [
+   25717
+  ],
+  "expect": {
+   "2036": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311434,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Middle)",
+  "partners": [
+   29524
+  ],
+  "expect": {
+   "2036": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311434,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Middle)",
+  "partners": [
+   310188
+  ],
+  "expect": {
+   "2022": 15,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311435,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311435,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Lower)",
+  "partners": [
+   1000221
+  ],
+  "expect": {
+   "criDmg": 15,
+   "p_race_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311435,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Lower)",
+  "partners": [
+   25717
+  ],
+  "expect": {
+   "2036": 15,
+   "2037": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311435,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Lower)",
+  "partners": [
+   29524
+  ],
+  "expect": {
+   "2036": 15,
+   "2037": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311435,
+  "pt": null,
+  "en": "Guillotine Cross Stone (Lower)",
+  "partners": [
+   310188
+  ],
+  "expect": {
+   "criDmg": 15,
+   "p_race_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311460,
+  "pt": null,
+  "en": "Star Emperor Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311460,
+  "pt": null,
+  "en": "Star Emperor Stone (Upper)",
+  "partners": [
+   25849
+  ],
+  "expect": {
+   "2576": 20,
+   "2579": 15,
+   "2584": 20,
+   "2592": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311460,
+  "pt": null,
+  "en": "Star Emperor Stone (Upper)",
+  "partners": [
+   29658
+  ],
+  "expect": {
+   "2576": 20,
+   "2579": 15,
+   "2584": 20,
+   "2592": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311461,
+  "pt": null,
+  "en": "Star Emperor Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311461,
+  "pt": null,
+  "en": "Star Emperor Stone (Middle)",
+  "partners": [
+   25849
+  ],
+  "expect": {
+   "2576": 20,
+   "2584": 20,
+   "2592": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311461,
+  "pt": null,
+  "en": "Star Emperor Stone (Middle)",
+  "partners": [
+   29658
+  ],
+  "expect": {
+   "2576": 20,
+   "2584": 20,
+   "2592": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311463,
+  "pt": null,
+  "en": "Rebellion Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311463,
+  "pt": null,
+  "en": "Rebellion Stone (Upper)",
+  "partners": [
+   25858
+  ],
+  "expect": {
+   "2554": 15,
+   "2565": 20,
+   "2571": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311463,
+  "pt": null,
+  "en": "Rebellion Stone (Upper)",
+  "partners": [
+   29667
+  ],
+  "expect": {
+   "2554": 15,
+   "2565": 20,
+   "2571": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311464,
+  "pt": null,
+  "en": "Rebellion Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311464,
+  "pt": null,
+  "en": "Rebellion Stone (Middle)",
+  "partners": [
+   25858
+  ],
+  "expect": {
+   "2565": 35,
+   "2571": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311464,
+  "pt": null,
+  "en": "Rebellion Stone (Middle)",
+  "partners": [
+   29667
+  ],
+  "expect": {
+   "2565": 35,
+   "2571": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311465,
+  "pt": null,
+  "en": "Rebellion Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311465,
+  "pt": null,
+  "en": "Rebellion Stone (Lower)",
+  "partners": [
+   25858
+  ],
+  "expect": {
+   "2565": 20,
+   "2571": 20,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311465,
+  "pt": null,
+  "en": "Rebellion Stone (Lower)",
+  "partners": [
+   29667
+  ],
+  "expect": {
+   "2565": 20,
+   "2571": 20,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311467,
+  "pt": null,
+  "en": "Soul Reaper Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311467,
+  "pt": null,
+  "en": "Soul Reaper Stone (Middle)",
+  "partners": [
+   25842
+  ],
+  "expect": {
+   "2604": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311467,
+  "pt": null,
+  "en": "Soul Reaper Stone (Middle)",
+  "partners": [
+   29654
+  ],
+  "expect": {
+   "2604": 35,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311468,
+  "pt": null,
+  "en": "Soul Reaper Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311468,
+  "pt": null,
+  "en": "Soul Reaper Stone (Lower)",
+  "partners": [
+   25842
+  ],
+  "expect": {
+   "2604": 20,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311468,
+  "pt": null,
+  "en": "Soul Reaper Stone (Lower)",
+  "partners": [
+   29654
+  ],
+  "expect": {
+   "2604": 20,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311912,
+  "pt": null,
+  "en": "Kagerou Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311912,
+  "pt": null,
+  "en": "Kagerou Stone (Upper)",
+  "partners": [
+   25853
+  ],
+  "expect": {
+   "3009": 50,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311912,
+  "pt": null,
+  "en": "Kagerou Stone (Upper)",
+  "partners": [
+   29662
+  ],
+  "expect": {
+   "3009": 50,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311913,
+  "pt": null,
+  "en": "Kagerou Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311913,
+  "pt": null,
+  "en": "Kagerou Stone (Middle)",
+  "partners": [
+   25853
+  ],
+  "expect": {
+   "3004": 25,
+   "3009": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311913,
+  "pt": null,
+  "en": "Kagerou Stone (Middle)",
+  "partners": [
+   29662
+  ],
+  "expect": {
+   "3004": 25,
+   "3009": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311914,
+  "pt": null,
+  "en": "Kagerou Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311914,
+  "pt": null,
+  "en": "Kagerou Stone (Lower)",
+  "partners": [
+   25853
+  ],
+  "expect": {
+   "3007": 25,
+   "3009": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311914,
+  "pt": null,
+  "en": "Kagerou Stone (Lower)",
+  "partners": [
+   29662
+  ],
+  "expect": {
+   "3007": 25,
+   "3009": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311915,
+  "pt": null,
+  "en": "Oboro Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311915,
+  "pt": null,
+  "en": "Oboro Stone (Upper)",
+  "partners": [
+   25854
+  ],
+  "expect": {
+   "534": 20,
+   "537": 25,
+   "540": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311915,
+  "pt": null,
+  "en": "Oboro Stone (Upper)",
+  "partners": [
+   29663
+  ],
+  "expect": {
+   "534": 20,
+   "537": 25,
+   "540": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311916,
+  "pt": null,
+  "en": "Oboro Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311916,
+  "pt": null,
+  "en": "Oboro Stone (Middle)",
+  "partners": [
+   25854
+  ],
+  "expect": {
+   "534": 20,
+   "536": 30,
+   "539": 30,
+   "542": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311916,
+  "pt": null,
+  "en": "Oboro Stone (Middle)",
+  "partners": [
+   29663
+  ],
+  "expect": {
+   "534": 20,
+   "536": 30,
+   "539": 30,
+   "542": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311917,
+  "pt": null,
+  "en": "Oboro Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311917,
+  "pt": null,
+  "en": "Oboro Stone (Lower)",
+  "partners": [
+   25854
+  ],
+  "expect": {
+   "534": 20,
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 311917,
+  "pt": null,
+  "en": "Oboro Stone (Lower)",
+  "partners": [
+   29663
+  ],
+  "expect": {
+   "534": 20,
+   "perfectHit": 5,
+   "vct": 15
+  }
+ },
+ {
+  "stone": 311918,
+  "pt": null,
+  "en": "Summoner Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311918,
+  "pt": null,
+  "en": "Summoner Stone (Upper)",
+  "partners": [
+   25862
+  ],
+  "expect": {
+   "5028": 20,
+   "5033": 20,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311918,
+  "pt": null,
+  "en": "Summoner Stone (Upper)",
+  "partners": [
+   29671
+  ],
+  "expect": {
+   "5028": 20,
+   "5033": 20,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311919,
+  "pt": null,
+  "en": "Summoner Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311919,
+  "pt": null,
+  "en": "Summoner Stone (Middle)",
+  "partners": [
+   25862
+  ],
+  "expect": {
+   "5028": 45,
+   "5033": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311919,
+  "pt": null,
+  "en": "Summoner Stone (Middle)",
+  "partners": [
+   29671
+  ],
+  "expect": {
+   "5028": 45,
+   "5033": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311920,
+  "pt": null,
+  "en": "Summoner Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311920,
+  "pt": null,
+  "en": "Summoner Stone (Lower)",
+  "partners": [
+   25862
+  ],
+  "expect": {
+   "5028": 20,
+   "5033": 20,
+   "5036": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 311920,
+  "pt": null,
+  "en": "Summoner Stone (Lower)",
+  "partners": [
+   29671
+  ],
+  "expect": {
+   "5028": 20,
+   "5033": 20,
+   "5036": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000011,
+  "pt": "Pedra de Sentinela II (Capa)",
+  "en": "Ranger Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2236": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000011,
+  "pt": "Pedra de Sentinela II (Capa)",
+  "en": "Ranger Stone II (Garment)",
+  "partners": [
+   1000008
+  ],
+  "expect": {
+   "2236": 30,
+   "aspdPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000011,
+  "pt": "Pedra de Sentinela II (Capa)",
+  "en": "Ranger Stone II (Garment)",
+  "partners": [
+   1000009
+  ],
+  "expect": {
+   "2236": 15,
+   "fix_vct__2236": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000011,
+  "pt": "Pedra de Sentinela II (Capa)",
+  "en": "Ranger Stone II (Garment)",
+  "partners": [
+   1000010
+  ],
+  "expect": {
+   "2236": 15,
+   "cd__5002": 45,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000011,
+  "pt": "Pedra de Sentinela II (Capa)",
+  "en": "Ranger Stone II (Garment)",
+  "partners": [
+   310000
+  ],
+  "expect": {
+   "2236": 30,
+   "aspdPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000011,
+  "pt": "Pedra de Sentinela II (Capa)",
+  "en": "Ranger Stone II (Garment)",
+  "partners": [
+   310001
+  ],
+  "expect": {
+   "2236": 15,
+   "fix_vct__2236": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000011,
+  "pt": "Pedra de Sentinela II (Capa)",
+  "en": "Ranger Stone II (Garment)",
+  "partners": [
+   310002
+  ],
+  "expect": {
+   "2236": 15,
+   "cd__5002": 45,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000015,
+  "pt": "Pedra de Mecânico II (Capa)",
+  "en": "Mechanic Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2261": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000015,
+  "pt": "Pedra de Mecânico II (Capa)",
+  "en": "Mechanic Stone II (Garment)",
+  "partners": [
+   1000012
+  ],
+  "expect": {
+   "2261": 15,
+   "cd__2278": 0.5,
+   "perfectHit": 5,
+   "range": 10
+  }
+ },
+ {
+  "stone": 1000015,
+  "pt": "Pedra de Mecânico II (Capa)",
+  "en": "Mechanic Stone II (Garment)",
+  "partners": [
+   1000013
+  ],
+  "expect": {
+   "485": 15,
+   "2258": 20,
+   "2261": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000015,
+  "pt": "Pedra de Mecânico II (Capa)",
+  "en": "Mechanic Stone II (Garment)",
+  "partners": [
+   1000014
+  ],
+  "expect": {
+   "2256": 20,
+   "2261": 15,
+   "perfectHit": 5,
+   "range": 5
+  }
+ },
+ {
+  "stone": 1000015,
+  "pt": "Pedra de Mecânico II (Capa)",
+  "en": "Mechanic Stone II (Garment)",
+  "partners": [
+   310004
+  ],
+  "expect": {
+   "2261": 15,
+   "cd__2278": 0.5,
+   "perfectHit": 5,
+   "range": 10
+  }
+ },
+ {
+  "stone": 1000015,
+  "pt": "Pedra de Mecânico II (Capa)",
+  "en": "Mechanic Stone II (Garment)",
+  "partners": [
+   310005
+  ],
+  "expect": {
+   "485": 15,
+   "2258": 20,
+   "2261": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000015,
+  "pt": "Pedra de Mecânico II (Capa)",
+  "en": "Mechanic Stone II (Garment)",
+  "partners": [
+   310006
+  ],
+  "expect": {
+   "2256": 20,
+   "2261": 15,
+   "perfectHit": 5,
+   "range": 5
+  }
+ },
+ {
+  "stone": 1000019,
+  "pt": "Pedra de Arcebispo II (Capa)",
+  "en": "Archbishop Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2038": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000019,
+  "pt": "Pedra de Arcebispo II (Capa)",
+  "en": "Archbishop Stone II (Garment)",
+  "partners": [
+   1000016
+  ],
+  "expect": {
+   "79": 15,
+   "2038": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000019,
+  "pt": "Pedra de Arcebispo II (Capa)",
+  "en": "Archbishop Stone II (Garment)",
+  "partners": [
+   1000018
+  ],
+  "expect": {
+   "2038": 15,
+   "m_my_element_holy": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000019,
+  "pt": "Pedra de Arcebispo II (Capa)",
+  "en": "Archbishop Stone II (Garment)",
+  "partners": [
+   310008
+  ],
+  "expect": {
+   "79": 15,
+   "2038": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000019,
+  "pt": "Pedra de Arcebispo II (Capa)",
+  "en": "Archbishop Stone II (Garment)",
+  "partners": [
+   310010
+  ],
+  "expect": {
+   "2038": 15,
+   "m_my_element_holy": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000213,
+  "pt": "Pedra de Arcano II (Capa)",
+  "en": "Warlock Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2213": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000213,
+  "pt": "Pedra de Arcano II (Capa)",
+  "en": "Warlock Stone II (Garment)",
+  "partners": [
+   1000214
+  ],
+  "expect": {
+   "83": 20,
+   "2213": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000213,
+  "pt": "Pedra de Arcano II (Capa)",
+  "en": "Warlock Stone II (Garment)",
+  "partners": [
+   1000215
+  ],
+  "expect": {
+   "2213": 15,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000213,
+  "pt": "Pedra de Arcano II (Capa)",
+  "en": "Warlock Stone II (Garment)",
+  "partners": [
+   1000216
+  ],
+  "expect": {
+   "2213": 15,
+   "m_my_element_neutral": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000213,
+  "pt": "Pedra de Arcano II (Capa)",
+  "en": "Warlock Stone II (Garment)",
+  "partners": [
+   310181
+  ],
+  "expect": {
+   "83": 20,
+   "2213": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000213,
+  "pt": "Pedra de Arcano II (Capa)",
+  "en": "Warlock Stone II (Garment)",
+  "partners": [
+   310182
+  ],
+  "expect": {
+   "2213": 15,
+   "fct": 0.5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000213,
+  "pt": "Pedra de Arcano II (Capa)",
+  "en": "Warlock Stone II (Garment)",
+  "partners": [
+   310183
+  ],
+  "expect": {
+   "2213": 15,
+   "m_my_element_neutral": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000217,
+  "pt": "Pedra de Guardião Real II (Capa)",
+  "en": "Royal Guard Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2321": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000217,
+  "pt": "Pedra de Guardião Real II (Capa)",
+  "en": "Royal Guard Stone II (Garment)",
+  "partners": [
+   1000218
+  ],
+  "expect": {
+   "2321": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000217,
+  "pt": "Pedra de Guardião Real II (Capa)",
+  "en": "Royal Guard Stone II (Garment)",
+  "partners": [
+   1000219
+  ],
+  "expect": {
+   "367": 20,
+   "2321": 15,
+   "m_my_element_holy": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000217,
+  "pt": "Pedra de Guardião Real II (Capa)",
+  "en": "Royal Guard Stone II (Garment)",
+  "partners": [
+   1000220
+  ],
+  "expect": {
+   "2321": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000217,
+  "pt": "Pedra de Guardião Real II (Capa)",
+  "en": "Royal Guard Stone II (Garment)",
+  "partners": [
+   310185
+  ],
+  "expect": {
+   "2321": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000217,
+  "pt": "Pedra de Guardião Real II (Capa)",
+  "en": "Royal Guard Stone II (Garment)",
+  "partners": [
+   310186
+  ],
+  "expect": {
+   "367": 20,
+   "2321": 15,
+   "m_my_element_holy": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000217,
+  "pt": "Pedra de Guardião Real II (Capa)",
+  "en": "Royal Guard Stone II (Garment)",
+  "partners": [
+   310187
+  ],
+  "expect": {
+   "2321": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000221,
+  "pt": "Pedra de Sicário II (Capa)",
+  "en": "Guillotine Cross Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000221,
+  "pt": "Pedra de Sicário II (Capa)",
+  "en": "Guillotine Cross Stone II (Garment)",
+  "partners": [
+   1000222
+  ],
+  "expect": {
+   "atkPercent": 5,
+   "criDmg": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000221,
+  "pt": "Pedra de Sicário II (Capa)",
+  "en": "Guillotine Cross Stone II (Garment)",
+  "partners": [
+   1000223
+  ],
+  "expect": {
+   "136": 20,
+   "2029": 20,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000221,
+  "pt": "Pedra de Sicário II (Capa)",
+  "en": "Guillotine Cross Stone II (Garment)",
+  "partners": [
+   1000224
+  ],
+  "expect": {
+   "acd": 5,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000221,
+  "pt": "Pedra de Sicário II (Capa)",
+  "en": "Guillotine Cross Stone II (Garment)",
+  "partners": [
+   310189
+  ],
+  "expect": {
+   "acd": 5,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000221,
+  "pt": "Pedra de Sicário II (Capa)",
+  "en": "Guillotine Cross Stone II (Garment)",
+  "partners": [
+   310190
+  ],
+  "expect": {
+   "136": 20,
+   "2029": 20,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000221,
+  "pt": "Pedra de Sicário II (Capa)",
+  "en": "Guillotine Cross Stone II (Garment)",
+  "partners": [
+   310191
+  ],
+  "expect": {
+   "atkPercent": 5,
+   "criDmg": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000296,
+  "pt": "Pedra de Cavaleiro Rúnico II (Capa)",
+  "en": "Rune Knight Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000296,
+  "pt": "Pedra de Cavaleiro Rúnico II (Capa)",
+  "en": "Rune Knight Stone II (Garment)",
+  "partners": [
+   1000297
+  ],
+  "expect": {
+   "2002": 20,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000296,
+  "pt": "Pedra de Cavaleiro Rúnico II (Capa)",
+  "en": "Rune Knight Stone II (Garment)",
+  "partners": [
+   1000298
+  ],
+  "expect": {
+   "62": 20,
+   "2006": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000296,
+  "pt": "Pedra de Cavaleiro Rúnico II (Capa)",
+  "en": "Rune Knight Stone II (Garment)",
+  "partners": [
+   1000299
+  ],
+  "expect": {
+   "397": 20,
+   "2004": 30,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000296,
+  "pt": "Pedra de Cavaleiro Rúnico II (Capa)",
+  "en": "Rune Knight Stone II (Garment)",
+  "partners": [
+   310258
+  ],
+  "expect": {
+   "2002": 20,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000296,
+  "pt": "Pedra de Cavaleiro Rúnico II (Capa)",
+  "en": "Rune Knight Stone II (Garment)",
+  "partners": [
+   310259
+  ],
+  "expect": {
+   "62": 20,
+   "2006": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000296,
+  "pt": "Pedra de Cavaleiro Rúnico II (Capa)",
+  "en": "Rune Knight Stone II (Garment)",
+  "partners": [
+   310260
+  ],
+  "expect": {
+   "397": 20,
+   "2004": 30,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000300,
+  "pt": "Pedra de Bioquímico II (Capa)",
+  "en": "Genetic Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000300,
+  "pt": "Pedra de Bioquímico II (Capa)",
+  "en": "Genetic Stone II (Garment)",
+  "partners": [
+   1000301
+  ],
+  "expect": {
+   "2483": 20,
+   "cd__2476": 0.7,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000300,
+  "pt": "Pedra de Bioquímico II (Capa)",
+  "en": "Genetic Stone II (Garment)",
+  "partners": [
+   1000302
+  ],
+  "expect": {
+   "490": 25,
+   "2481": 20,
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000300,
+  "pt": "Pedra de Bioquímico II (Capa)",
+  "en": "Genetic Stone II (Garment)",
+  "partners": [
+   1000303
+  ],
+  "expect": {
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000300,
+  "pt": "Pedra de Bioquímico II (Capa)",
+  "en": "Genetic Stone II (Garment)",
+  "partners": [
+   310262
+  ],
+  "expect": {
+   "2483": 20,
+   "cd__2476": 0.7,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000300,
+  "pt": "Pedra de Bioquímico II (Capa)",
+  "en": "Genetic Stone II (Garment)",
+  "partners": [
+   310263
+  ],
+  "expect": {
+   "490": 25,
+   "2481": 20,
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000300,
+  "pt": "Pedra de Bioquímico II (Capa)",
+  "en": "Genetic Stone II (Garment)",
+  "partners": [
+   310264
+  ],
+  "expect": {
+   "2483": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000304,
+  "pt": "Pedra de Músicos II (Capa)",
+  "en": "Wanderer Minstrel Stone II (Garment)",
+  "partners": [],
+  "expect": {
+   "2414": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000304,
+  "pt": "Pedra de Músicos II (Capa)",
+  "en": "Wanderer Minstrel Stone II (Garment)",
+  "partners": [
+   1000305
+  ],
+  "expect": {
+   "394": 15,
+   "2414": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000304,
+  "pt": "Pedra de Músicos II (Capa)",
+  "en": "Wanderer Minstrel Stone II (Garment)",
+  "partners": [
+   1000307
+  ],
+  "expect": {
+   "316": 20,
+   "324": 20,
+   "2413": 20,
+   "2414": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000304,
+  "pt": "Pedra de Músicos II (Capa)",
+  "en": "Wanderer Minstrel Stone II (Garment)",
+  "partners": [
+   310266
+  ],
+  "expect": {
+   "394": 15,
+   "2414": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000304,
+  "pt": "Pedra de Músicos II (Capa)",
+  "en": "Wanderer Minstrel Stone II (Garment)",
+  "partners": [
+   310268
+  ],
+  "expect": {
+   "316": 20,
+   "324": 20,
+   "2413": 20,
+   "2414": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000375,
+  "pt": "Pedra de Alcance (Topo)",
+  "en": "Range Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5,
+   "range": 3
+  }
+ },
+ {
+  "stone": 1000375,
+  "pt": "Pedra de Alcance (Topo)",
+  "en": "Range Stone (Upper)",
+  "partners": [
+   25061,
+   1000376
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 15
+  }
+ },
+ {
+  "stone": 1000375,
+  "pt": "Pedra de Alcance (Topo)",
+  "en": "Range Stone (Upper)",
+  "partners": [
+   25061,
+   310326
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 15
+  }
+ },
+ {
+  "stone": 1000375,
+  "pt": "Pedra de Alcance (Topo)",
+  "en": "Range Stone (Upper)",
+  "partners": [
+   310330,
+   1000376
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 15
+  }
+ },
+ {
+  "stone": 1000375,
+  "pt": "Pedra de Alcance (Topo)",
+  "en": "Range Stone (Upper)",
+  "partners": [
+   310330,
+   310326
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 15
+  }
+ },
+ {
+  "stone": 1000377,
+  "pt": "Pedra de Corpo (Topo)",
+  "en": "Melee Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "melee": 3,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000377,
+  "pt": "Pedra de Corpo (Topo)",
+  "en": "Melee Stone (Upper)",
+  "partners": [
+   1000378,
+   1000379
+  ],
+  "expect": {
+   "melee": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000377,
+  "pt": "Pedra de Corpo (Topo)",
+  "en": "Melee Stone (Upper)",
+  "partners": [
+   1000378,
+   310329
+  ],
+  "expect": {
+   "melee": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000377,
+  "pt": "Pedra de Corpo (Topo)",
+  "en": "Melee Stone (Upper)",
+  "partners": [
+   310328,
+   1000379
+  ],
+  "expect": {
+   "melee": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000377,
+  "pt": "Pedra de Corpo (Topo)",
+  "en": "Melee Stone (Upper)",
+  "partners": [
+   310328,
+   310329
+  ],
+  "expect": {
+   "melee": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000521,
+  "pt": "Pedra de Fixa -0,1 (Dual)",
+  "en": "Minor Fixed Cast Reduction (Dual)",
+  "partners": [],
+  "expect": {
+   "fct": 0.1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000521,
+  "pt": "Pedra de Fixa -0,1 (Dual)",
+  "en": "Minor Fixed Cast Reduction (Dual)",
+  "partners": [
+   25170
+  ],
+  "expect": {
+   "fct": 0.7,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000521,
+  "pt": "Pedra de Fixa -0,1 (Dual)",
+  "en": "Minor Fixed Cast Reduction (Dual)",
+  "partners": [
+   29154
+  ],
+  "expect": {
+   "fct": 0.7,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000523,
+  "pt": "Pedra de Alcance (Dual)",
+  "en": "Range Stone (Dual)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5,
+   "range": 4
+  }
+ },
+ {
+  "stone": 1000523,
+  "pt": "Pedra de Alcance (Dual)",
+  "en": "Range Stone (Dual)",
+  "partners": [
+   1000375
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 9
+  }
+ },
+ {
+  "stone": 1000523,
+  "pt": "Pedra de Alcance (Dual)",
+  "en": "Range Stone (Dual)",
+  "partners": [
+   1000376
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 9
+  }
+ },
+ {
+  "stone": 1000523,
+  "pt": "Pedra de Alcance (Dual)",
+  "en": "Range Stone (Dual)",
+  "partners": [
+   25061
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 9
+  }
+ },
+ {
+  "stone": 1000523,
+  "pt": "Pedra de Alcance (Dual)",
+  "en": "Range Stone (Dual)",
+  "partners": [
+   310325
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 9
+  }
+ },
+ {
+  "stone": 1000523,
+  "pt": "Pedra de Alcance (Dual)",
+  "en": "Range Stone (Dual)",
+  "partners": [
+   310326
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 9
+  }
+ },
+ {
+  "stone": 1000523,
+  "pt": "Pedra de Alcance (Dual)",
+  "en": "Range Stone (Dual)",
+  "partners": [
+   310330
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "range": 9
+  }
+ },
+ {
+  "stone": 1000610,
+  "pt": "Pedra de Cavaleiro Rúnico (Topo)",
+  "en": "Rune Knight Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000610,
+  "pt": "Pedra de Cavaleiro Rúnico (Topo)",
+  "en": "Rune Knight Stone (Upper)",
+  "partners": [
+   1000296
+  ],
+  "expect": {
+   "2004": 15,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000610,
+  "pt": "Pedra de Cavaleiro Rúnico (Topo)",
+  "en": "Rune Knight Stone (Upper)",
+  "partners": [
+   25448
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 10
+  }
+ },
+ {
+  "stone": 1000610,
+  "pt": "Pedra de Cavaleiro Rúnico (Topo)",
+  "en": "Rune Knight Stone (Upper)",
+  "partners": [
+   29463
+  ],
+  "expect": {
+   "perfectHit": 5,
+   "vct": 10
+  }
+ },
+ {
+  "stone": 1000610,
+  "pt": "Pedra de Cavaleiro Rúnico (Topo)",
+  "en": "Rune Knight Stone (Upper)",
+  "partners": [
+   310257
+  ],
+  "expect": {
+   "2004": 15,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000611,
+  "pt": "Pedra de Cavaleiro Rúnico (Meio)",
+  "en": "Rune Knight Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000611,
+  "pt": "Pedra de Cavaleiro Rúnico (Meio)",
+  "en": "Rune Knight Stone (Middle)",
+  "partners": [
+   1000296
+  ],
+  "expect": {
+   "2002": 15,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000611,
+  "pt": "Pedra de Cavaleiro Rúnico (Meio)",
+  "en": "Rune Knight Stone (Middle)",
+  "partners": [
+   25448
+  ],
+  "expect": {
+   "2008": 15,
+   "5004": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000611,
+  "pt": "Pedra de Cavaleiro Rúnico (Meio)",
+  "en": "Rune Knight Stone (Middle)",
+  "partners": [
+   29463
+  ],
+  "expect": {
+   "2008": 15,
+   "5004": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000611,
+  "pt": "Pedra de Cavaleiro Rúnico (Meio)",
+  "en": "Rune Knight Stone (Middle)",
+  "partners": [
+   310257
+  ],
+  "expect": {
+   "2002": 15,
+   "2006": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000612,
+  "pt": "Pedra de Cavaleiro Rúnico (Baixo)",
+  "en": "Rune Knight Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000612,
+  "pt": "Pedra de Cavaleiro Rúnico (Baixo)",
+  "en": "Rune Knight Stone (Lower)",
+  "partners": [
+   1000296
+  ],
+  "expect": {
+   "2006": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000612,
+  "pt": "Pedra de Cavaleiro Rúnico (Baixo)",
+  "en": "Rune Knight Stone (Lower)",
+  "partners": [
+   25448
+  ],
+  "expect": {
+   "hpPercent": 10,
+   "perfectHit": 5,
+   "spPercent": 10
+  }
+ },
+ {
+  "stone": 1000612,
+  "pt": "Pedra de Cavaleiro Rúnico (Baixo)",
+  "en": "Rune Knight Stone (Lower)",
+  "partners": [
+   29463
+  ],
+  "expect": {
+   "hpPercent": 10,
+   "perfectHit": 5,
+   "spPercent": 10
+  }
+ },
+ {
+  "stone": 1000612,
+  "pt": "Pedra de Cavaleiro Rúnico (Baixo)",
+  "en": "Rune Knight Stone (Lower)",
+  "partners": [
+   310257
+  ],
+  "expect": {
+   "2006": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000613,
+  "pt": "Pedra de Arcano (Topo)",
+  "en": "Warlock Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000613,
+  "pt": "Pedra de Arcano (Topo)",
+  "en": "Warlock Stone (Upper)",
+  "partners": [
+   1000213
+  ],
+  "expect": {
+   "720": 15,
+   "2213": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000613,
+  "pt": "Pedra de Arcano (Topo)",
+  "en": "Warlock Stone (Upper)",
+  "partners": [
+   25456
+  ],
+  "expect": {
+   "2202": 15,
+   "2211": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000613,
+  "pt": "Pedra de Arcano (Topo)",
+  "en": "Warlock Stone (Upper)",
+  "partners": [
+   29471
+  ],
+  "expect": {
+   "2202": 15,
+   "2211": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000613,
+  "pt": "Pedra de Arcano (Topo)",
+  "en": "Warlock Stone (Upper)",
+  "partners": [
+   310180
+  ],
+  "expect": {
+   "720": 15,
+   "2213": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000614,
+  "pt": "Pedra de Arcano (Meio)",
+  "en": "Warlock Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000614,
+  "pt": "Pedra de Arcano (Meio)",
+  "en": "Warlock Stone (Middle)",
+  "partners": [
+   1000213
+  ],
+  "expect": {
+   "720": 15,
+   "2213": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000614,
+  "pt": "Pedra de Arcano (Meio)",
+  "en": "Warlock Stone (Middle)",
+  "partners": [
+   25456
+  ],
+  "expect": {
+   "2211": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000614,
+  "pt": "Pedra de Arcano (Meio)",
+  "en": "Warlock Stone (Middle)",
+  "partners": [
+   29471
+  ],
+  "expect": {
+   "2211": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000614,
+  "pt": "Pedra de Arcano (Meio)",
+  "en": "Warlock Stone (Middle)",
+  "partners": [
+   310180
+  ],
+  "expect": {
+   "720": 15,
+   "2213": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000615,
+  "pt": "Pedra de Arcano (Baixo)",
+  "en": "Warlock Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000615,
+  "pt": "Pedra de Arcano (Baixo)",
+  "en": "Warlock Stone (Lower)",
+  "partners": [
+   1000213
+  ],
+  "expect": {
+   "2213": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000615,
+  "pt": "Pedra de Arcano (Baixo)",
+  "en": "Warlock Stone (Lower)",
+  "partners": [
+   25456
+  ],
+  "expect": {
+   "2211": 10,
+   "2214": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000615,
+  "pt": "Pedra de Arcano (Baixo)",
+  "en": "Warlock Stone (Lower)",
+  "partners": [
+   29471
+  ],
+  "expect": {
+   "2211": 10,
+   "2214": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000615,
+  "pt": "Pedra de Arcano (Baixo)",
+  "en": "Warlock Stone (Lower)",
+  "partners": [
+   310180
+  ],
+  "expect": {
+   "2213": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000616,
+  "pt": "Pedra de Guardião Real (Topo)",
+  "en": "Royal Guard Stone (Upper)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000616,
+  "pt": "Pedra de Guardião Real (Topo)",
+  "en": "Royal Guard Stone (Upper)",
+  "partners": [
+   1000217
+  ],
+  "expect": {
+   "2321": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000616,
+  "pt": "Pedra de Guardião Real (Topo)",
+  "en": "Royal Guard Stone (Upper)",
+  "partners": [
+   25713
+  ],
+  "expect": {
+   "2307": 15,
+   "2308": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000616,
+  "pt": "Pedra de Guardião Real (Topo)",
+  "en": "Royal Guard Stone (Upper)",
+  "partners": [
+   29520
+  ],
+  "expect": {
+   "2307": 15,
+   "2308": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000616,
+  "pt": "Pedra de Guardião Real (Topo)",
+  "en": "Royal Guard Stone (Upper)",
+  "partners": [
+   310184
+  ],
+  "expect": {
+   "2321": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000617,
+  "pt": "Pedra de Guardião Real (Meio)",
+  "en": "Royal Guard Stone (Middle)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000617,
+  "pt": "Pedra de Guardião Real (Meio)",
+  "en": "Royal Guard Stone (Middle)",
+  "partners": [
+   25713
+  ],
+  "expect": {
+   "2308": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000617,
+  "pt": "Pedra de Guardião Real (Meio)",
+  "en": "Royal Guard Stone (Middle)",
+  "partners": [
+   29520
+  ],
+  "expect": {
+   "2308": 30,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000618,
+  "pt": "Pedra de Guardião Real (Baixo)",
+  "en": "Royal Guard Stone (Lower)",
+  "partners": [],
+  "expect": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000618,
+  "pt": "Pedra de Guardião Real (Baixo)",
+  "en": "Royal Guard Stone (Lower)",
+  "partners": [
+   1000217
+  ],
+  "expect": {
+   "2321": 15,
+   "m_size_all": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000618,
+  "pt": "Pedra de Guardião Real (Baixo)",
+  "en": "Royal Guard Stone (Lower)",
+  "partners": [
+   25713
+  ],
+  "expect": {
+   "2307": 15,
+   "2308": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000618,
+  "pt": "Pedra de Guardião Real (Baixo)",
+  "en": "Royal Guard Stone (Lower)",
+  "partners": [
+   29520
+  ],
+  "expect": {
+   "2307": 15,
+   "2308": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "stone": 1000618,
+  "pt": "Pedra de Guardião Real (Baixo)",
+  "en": "Royal Guard Stone (Lower)",
+  "partners": [
+   310184
+  ],
+  "expect": {
+   "2321": 15,
+   "m_size_all": 15,
+   "perfectHit": 5
+  }
+ }
+]

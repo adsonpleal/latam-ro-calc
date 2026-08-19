@@ -23,13 +23,14 @@ const items: Record<string, { script?: Record<string, unknown> }> = JSON.parse(
  *
  *   6001 — Dragonic Breath (DK_DRAGONIC_BREATH), a genuine kRO Dragon Knight skill that
  *          LATAM never received; removed from the catalog on 17/08/2026, see
- *          jobs/DragonKnight.ts. 20 items key it, and two of them ARE reachable:
- *          630027 Tridente Celestial, which the client already ships, and 400374 the
- *          Dragon Knight Crown of Good and Evil, surfaced by `preRelease`. Their 6001
- *          line is inert — the skill cannot be picked, so nothing reads the bonus — and
- *          it is kept because the item description carries it and it will start paying
- *          by itself the day LATAM gets the skill. (An earlier version of this note
- *          claimed all 20 were `presentInLatam: false`; that was never true of 630027.)
+ *          jobs/DragonKnight.ts. 20 items key it, and three of them ARE reachable:
+ *          630027 Tridente Celestial, which the client already ships, and two surfaced
+ *          by `preRelease` — 400374 the Dragon Knight Crown of Good and Evil and 312449
+ *          Good Vigor (Dragon Knight), the boots' enchant. Their 6001 line is inert —
+ *          the skill cannot be picked, so nothing reads the bonus — and it is kept
+ *          because the item description carries it and it will start paying by itself
+ *          the day LATAM gets the skill. (An earlier version of this note claimed all 20
+ *          were `presentInLatam: false`; that was never true of 630027.)
  *
  * This is deliberately an id list and not a "skip anything numeric" escape hatch — the
  * whole point of the check is that a typo'd id gets caught.

@@ -1349,9 +1349,9 @@ export class DamageCalculator {
     const criMultiplier = canCri ? this.toPercent(criDmgToMonster + 100) : 1;
 
     const dmgType = isMelee ? SkillType.MELEE : SkillType.RANGE;
-    const advKatar = 100 + this.getAdvanceKatar();
+    const advanceKatar = this.getAdvanceKatar();
+    const advKatarMultiplier = this.toPercent(100 + advanceKatar);
     const debuffMultiplier = this.getDebuffMultiplier(dmgType);
-    const finalDmgMultipliers = [advKatar].map((b) => this.toPercent(b));
     const infoForClass = this.infoForClass;
 
     // `trace`, when passed, records the running total after every step in pt-BR —
@@ -1447,6 +1447,19 @@ export class DamageCalculator {
       push('Redução DEF', total, ['p_pene_race_all', 'p_pene_class_all']);
       if (graphNodes) graphNodes.push({ id: 'reducedHardDef', label: 'DEF restante', value: reducedHardDef, keys: ['p_pene_race_all', 'p_pene_class_all'], inputs: [], kind: 'input' });
       emit('defReduction', 'Redução DEF', total, ['p_pene_race_all', 'p_pene_class_all'], { extraInputs: ['reducedHardDef'], multiplier: hardDef });
+      // Perícia com Katar Avançada sits BEFORE the soft DEF, not at the end of the chain.
+      // It used to be the last multiplier, which scaled the target's soft DEF along with
+      // everything else — a 50-point soft def was worth 60. The Shadow Cross recording
+      // sc-cross-impact.rrf pins the order: with the multiplier here both of its packets
+      // come out exact, and no other placement of it reaches them (see
+      // ShadowCross.cross-impact-replay.spec.ts). It is also where the sibling
+      // calcBasicCriDamage already applied it, and where rAthena applies ASC_KATAR —
+      // inside battle_calc_weapon_attack, before battle_calc_defense.
+      if (advanceKatar !== 0) {
+        total = floor(total * advKatarMultiplier);
+        push(`Perícia com Katar Avançada ${this.fmtCalc(advanceKatar)}%`, total, ['advKatar']);
+        emit('advKatar', `Perícia com Katar Avançada ${this.fmtCalc(advanceKatar)}%`, total, ['advKatar'], { multiplier: advKatarMultiplier });
+      }
       total = total - softDef; // tested
       // No keys: this is the monster's own soft DEF stat, not an equipment bonus.
       push(`DEF -${this.fmtCalc(softDef)}`, total);
@@ -1463,15 +1476,6 @@ export class DamageCalculator {
         // contribution is visible, not folded into one opaque combined percentage.
         push(`Crítico base ${this.fmtCalc(round(this._BASE_CRI_MULTIPLIER * 100, 0))}% + T.Crít ${this.fmtCalc(this.traitBonus.cRate)}%`, total, ['cRate']);
         emit('critBase', `Crítico base ${this.fmtCalc(round(this._BASE_CRI_MULTIPLIER * 100, 0))}% + T.Crít ${this.fmtCalc(this.traitBonus.cRate)}%`, total, ['cRate'], { multiplier: this.criMultiplier });
-      }
-
-      const beforeFinalMultipliers = total;
-      for (const final of finalDmgMultipliers) {
-        total = floor(total * final);
-      }
-      if (total !== beforeFinalMultipliers) {
-        push('Multiplicadores finais', total, ['advKatar']);
-        emit('finalMultipliers', 'Multiplicadores finais', total, ['advKatar'], { multiplier: finalDmgMultipliers.reduce((a, b) => a * b, 1) });
       }
 
       total = floor(total * debuffMultiplier);
@@ -2042,8 +2046,11 @@ export class DamageCalculator {
       total = floor(total * dmgMultiplier);
       total = floor(total * resReduction);
       if (isCalcDef) total = floor(total * hardDef);
-      if (isCalcDef) total = total - softDef;
+      // Before the soft DEF, like calcBasicCriDamage and calcPhysicalSkillDamage — this
+      // path was the odd one out, and scaling the target's soft def by the katar bonus
+      // is what the Shadow Cross recording ruled out on the skill side.
       total = floor(total * advKatarMultiplier);
+      if (isCalcDef) total = total - softDef;
       total = floor(total * debuffMultiplier);
       total = floor(total * pvpMult); // PVP: última linha (1 when no player target)
 

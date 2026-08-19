@@ -102,6 +102,37 @@ describe('item.json: chaves de bônus', () => {
   });
 });
 
+describe('item.json: combo conditions', () => {
+  /**
+   * `EQUIP[<english name>]` is the legacy way of naming a combo partner and is not to be
+   * used in new records — `EQUIP_ID[<id>]` is (docs/item-json.md). Matching on the display
+   * name breaks whenever a pt-BR rename lands, and it silently couples every record that
+   * happens to share a name: the client re-issues items under new ids keeping the old
+   * name, so one clause can fire for a partner nobody meant to include.
+   *
+   * A ratchet rather than a ban, because 1.773 records still carry the old form. The
+   * number may only fall. When a run migrates a family, drop it to what that run leaves
+   * behind so the ground gained is not given back.
+   */
+  const RECORDS_ON_LEGACY_EQUIP = 1773;
+  const usesLegacyEquip = (item: any) => /EQUIP\[/.test(JSON.stringify(item.script ?? {}));
+
+  it('does not grow the number of records matching a combo partner by name', () => {
+    const legacy = Object.values(items).filter(usesLegacyEquip);
+    expect(legacy.length).toBeLessThanOrEqual(RECORDS_ON_LEGACY_EQUIP);
+  });
+
+  it('keeps the Visual-enchant stone family fully id-based', () => {
+    // Migrated wholesale — 159 records, 330 clauses. Guarded here as well as in
+    // costume-enchant-combo-migration.spec.ts so a new stone cannot reintroduce the form.
+    const STONE_SUBS = [71, 72, 73, 74, 75, 76];
+    const offenders = Object.entries(items)
+      .filter(([, it]) => STONE_SUBS.includes(it.itemSubTypeId) && usesLegacyEquip(it))
+      .map(([id]) => id);
+    expect(offenders).toEqual([]);
+  });
+});
+
 describe('item.json: class names', () => {
   it('uses only known class names in usableClass/unusableClass', () => {
     const invalidas = new Set<string>();
