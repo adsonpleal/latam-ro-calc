@@ -17,17 +17,29 @@ describe('mergeLatamItems', () => {
   });
 
   it('leaves non-LATAM items untranslated and unflagged', () => {
-    expect(items['1341'].presentInLatam).toBe(false);
+    expect(items['1679'].presentInLatam).toBe(false);
+    expect(items['1679'].name).toBe('Rafini Staff [2]');
+    expect(items['1679'].enName).toBeUndefined();
+  });
+
+  it('flags a preRelease item even though LATAM has no record of it', () => {
+    // The hand-authored opt-in: not on the server yet, but listed anyway with the iRO
+    // English text, so it stays selectable and get_item agrees with the calculator.
+    expect(items['1341'].preRelease).toBe(true);
+    expect(items['1341'].presentInLatam).toBe(true);
     expect(items['1341'].name).toBe('Destruction Axe [2]');
     expect(items['1341'].enName).toBeUndefined();
   });
 
-  it('flags exactly the LATAM intersection', () => {
-    // Regression guard on the overlay: 6474 of item.json's 9766 records exist in the
-    // LATAM client. The rest are hidden from the app's pickers.
+  it('flags exactly the LATAM intersection, plus the preRelease opt-ins', () => {
+    // Regression guard on the overlay: 6477 of item.json's 9769 records exist in the
+    // LATAM client, and 87 more are opted in by hand. The rest are hidden from the
+    // app's pickers.
     const flagged = Object.values(items).filter((i: any) => i.presentInLatam).length;
-    expect(flagged).toBe(6474);
-    expect(Object.keys(items)).toHaveLength(9766);
+    const preRelease = Object.values(items).filter((i: any) => i.preRelease).length;
+    expect(preRelease).toBe(87);
+    expect(flagged).toBe(6564);
+    expect(Object.keys(items)).toHaveLength(9769);
   });
 
   it('re-lists item 4807 under three keys but one id', () => {
@@ -35,7 +47,7 @@ describe('mergeLatamItems', () => {
     // Anything indexing by key rather than by record id would double-count it.
     for (const key of ['4807', '48079999', '480799999']) expect(items[key].id).toBe(4807);
     const unique = new Set(Object.values(items).map((i: any) => i.id));
-    expect(unique.size).toBe(9764);
+    expect(unique.size).toBe(9767);
   });
 });
 
