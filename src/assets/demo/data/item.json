@@ -3019,7 +3019,8 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "SoulLinker"
+      "SoulLinker",
+      "Acolyte"
     ],
     "script": {
       "int": [
@@ -241796,7 +241797,7 @@
     "location": "Upper",
     "compositionPos": null,
     "usableClass": [
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "int": [
@@ -244767,7 +244768,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "dex": [
@@ -245046,8 +245047,37 @@
     "itemSubTypeId": 512,
     "itemLevel": null,
     "attack": null,
-    "defense": 0,
-    "weight": 0,
+    "defense": 1,
+    "weight": 60,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "subrace_demihuman": [
+        "10"
+      ],
+      "subrace_player_human": [
+        "10"
+      ]
+    }
+  },
+  "18755": {
+    "id": 18755,
+    "aegisName": "깃털베레모",
+    "name": "Boina Alada",
+    "unidName": "Boina Alada",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 1,
+    "weight": 60,
     "requiredLevel": 1,
     "location": "Upper",
     "compositionPos": null,
@@ -247843,7 +247873,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -250422,7 +250452,7 @@
     "location": "Upper",
     "compositionPos": null,
     "usableClass": [
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "int": [
@@ -250756,7 +250786,7 @@
     "location": "Upper",
     "compositionPos": null,
     "usableClass": [
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "atk": [
@@ -255475,6 +255505,7 @@
     "usableClass": [
       "Mage",
       "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -255506,6 +255537,7 @@
     "usableClass": [
       "Mage",
       "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -255537,6 +255569,7 @@
     "usableClass": [
       "Mage",
       "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -255567,7 +255600,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -255598,7 +255631,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -255629,7 +255662,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -255660,7 +255693,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -255691,7 +255724,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -255722,7 +255755,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -255753,7 +255786,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -255784,7 +255817,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -255815,7 +255848,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -255934,7 +255967,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "int": [
@@ -255972,7 +256005,7 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "matk": [
@@ -255999,7 +256032,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "int": [
@@ -256059,7 +256092,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -256093,7 +256126,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -256133,7 +256166,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -256161,7 +256194,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -256198,7 +256231,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "dex": [
@@ -256234,7 +256267,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "int": [
@@ -256267,7 +256300,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -256310,7 +256343,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -256341,7 +256374,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -256434,7 +256467,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "matk": [
@@ -256461,7 +256494,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "int": [
@@ -256491,7 +256524,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "int": [
@@ -256521,7 +256554,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -258563,7 +258596,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -258599,7 +258632,7 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "matkPercent": [
@@ -258629,7 +258662,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -258667,6 +258700,7 @@
     "usableClass": [
       "Mage",
       "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -262031,7 +262065,7 @@
     "location": null,
     "compositionPos": null,
     "usableClass": [
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "matk": [
@@ -262059,6 +262093,7 @@
     "usableClass": [
       "Mage",
       "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -263261,7 +263296,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -263295,7 +263330,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -263329,7 +263364,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -266053,7 +266088,7 @@
     "location": "Accessory",
     "compositionPos": null,
     "usableClass": [
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "hp": [
@@ -270456,7 +270491,7 @@
     "location": "Armor",
     "compositionPos": null,
     "usableClass": [
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "subrace_demon": [
@@ -270959,7 +270994,7 @@
     "location": "Armor",
     "compositionPos": null,
     "usableClass": [
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "subrace_demon": [
@@ -271159,7 +271194,7 @@
     "location": "Armor",
     "compositionPos": null,
     "usableClass": [
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "hp": [
@@ -271798,7 +271833,7 @@
     "compositionPos": null,
     "usableClass": [
       "Merchant",
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "hpPercent": [
@@ -272362,6 +272397,7 @@
     "usableClass": [
       "Mage",
       "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -272673,7 +272709,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "subele_holy": [
@@ -272767,7 +272803,7 @@
     "location": "Armor",
     "compositionPos": null,
     "usableClass": [
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "hpPercent": [
@@ -274729,7 +274765,7 @@
     "usableClass": [
       "Archer",
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -275400,6 +275436,7 @@
     "usableClass": [
       "Mage",
       "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -277328,7 +277365,7 @@
     "compositionPos": null,
     "usableClass": [
       "Archer",
-      "Novice",
+      "Acolyte",
       "ArchMage"
     ],
     "script": {}
@@ -277418,7 +277455,7 @@
     "usableClass": [
       "Archer",
       "Mage",
-      "Novice",
+      "Acolyte",
       "SoulLinker"
     ],
     "script": {
@@ -280031,7 +280068,7 @@
       "Swordman",
       "Thief",
       "Merchant",
-      "Novice"
+      "Acolyte"
     ],
     "script": {
       "hpPercent": [

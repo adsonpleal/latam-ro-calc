@@ -159,6 +159,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.82-beta',
+      date: '19-08-2026',
+      logs: [
+        'Os Sapatos de Cerco, o Manto de Cerco e outros 54 equipamentos não apareciam para a linha dos Noviços. No cadastro, "Noviços" tinha sido lido como "Aprendizes", de modo que peças que o jogo libera para Noviços, Sacerdotes, Monges e suas evoluções ficavam fora das listas — e apareciam para o Hiperaprendiz, que não as equipa. As 56 peças foram acertadas pela linha "Classes" da descrição do próprio jogo, e entre elas estão a Batina, o Chapéu de Enfermeira, o Manto do Médico, a Medalha de Honra (Noviço), os cajados, cetros e varinhas da linha e o conjunto de Cerco. Reportado por Luís.',
+        'A Boina Alada com slot não estava no banco de dados. O jogo tem duas: uma sem slot e outra de um slot, ambas com +10% de resistência às raças Humanoide e Humano. Só a primeira estava cadastrada; agora as duas aparecem na lista, e as duas somam a DEF 1 que a descrição promete. Reportado por Luís.',
+        'A raça "Semi-humano" passou a se chamar "Humanoide" nas tabelas e na lista de bônus, que é como o cliente do jogo a chama.',
+      ],
+    },
+    {
       v: '0.1.81-beta',
       date: '19-08-2026',
       logs: [
