@@ -159,6 +159,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.73-beta',
+      date: '19-08-2026',
+      logs: [
+        'O conjunto dos Manuks voltou a pagar o bônus inteiro. A Vestimenta dos Manuks reúne o Anel, as Botas e o Capuz, e das quatro linhas que a descrição promete só uma estava cadastrada, a de +20% de dano nas Lâminas Retalhadoras; faltavam Dano crítico +40%, CRIT +15 e Esquiva +10. O dano crítico é o que mais pesa: numa build que crita sempre, ele sozinho respondia pela diferença inteira, e os seis golpes gravados ficavam de 5% a 17% acima do teto que o simulador calculava.',
+        'O Katar Metálico entrou no banco de itens. Ele não estava lá, e quem o equipava importava a gravação sem arma nenhuma — o ATQ de equipamento caía dos 220 que o jogo mostra para os 25 que vêm do resto do equipamento. Os bônus são os mesmos do Punhal Metálico, trocando os 2 de ATQM por refino por 1% de dano crítico. A Caipirinha, equipamento de cabeça na posição baixa, também entrou; ela não concede bônus algum, mas aparecia como item fora do banco de dados na importação.',
+        'A classe em si não precisou de mudança. O Sicário foi conferido pacote a pacote contra uma gravação em que o personagem troca de arma na frente da câmera — Katar de Apoio Crítico +13, Punhal Metálico +7 e Katar Metálico +7 —, o que remonta a janela de status três vezes: ATQ, ATQ de equipamento e VelAtq batem com o jogo nas três. A razão das Lâminas Retalhadoras vem da tabela do cliente e reproduz o arquivo. Fica em aberto o campo Crítico, que sai 2 pontos acima do que o jogo mostra; a diferença está na parcela que vem da SOR, não nos equipamentos, e uma gravação com outra SOR resolveria. Obrigado KZGX pela gravação.',
+      ],
+    },
+    {
       v: '0.1.72-beta',
       date: '19-08-2026',
       logs: [
