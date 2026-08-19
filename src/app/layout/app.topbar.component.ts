@@ -159,6 +159,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.72-beta',
+      date: '18-08-2026',
+      logs: [
+        'As Pedras de Encantar Visual ganharam a família de códigos novos: 255 pedras que o jogo reeditou sob outros códigos e que não existiam no banco. Enquanto as duas versões conviviam, a pedra era encontrada pelo nome antigo e a coisa passava despercebida; onde só a nova existe — as Pedras de Propriedade, as Duais de talento, a Vel.Atq +1 —, a pedra não aparecia em lugar nenhum. As duas gerações agora aparecem nos seletores de Topo, Meio, Baixo, Capa e Capa 2, com o mesmo efeito. Reportado por usuário anônimo.',
+        'Os conjuntos passaram a valer misturando as duas gerações. Uma pedra reeditada guarda o nome interno da versão antiga, que é por onde o simulador reconhece parceiro de conjunto, então a Pedra de Corpo (Topo) nova com a Meio e a Baixo antigas paga os mesmos +6% que o trio antigo pagava. Duas linhas dependiam do código em vez do nome e foram abertas à mão: os três parceiros da Pedra de Corpo (Dual), cadastrada na versão passada e que só reconhecia as pedras antigas, e a Invocador (Capa) com a Invocador (Topo).',
+        'A Pedra de Pós (Dual) entrou junto com o resto da família, com seus -5% de pós-conjuração. Reportado por Ynk.',
+        'A família Propriedade entrou inteira — Topo, Meio, Baixo e Dual —, com o dano mágico de todas as propriedades que ela promete: +3% por peça, +6% adicional no trio, e a Dual com +4% mais +2% por peça acompanhada. O texto do jogo lista "Propriedade (Topo)" entre as parceiras da própria Pedra de Propriedade (Topo), o que exigiria duas pedras de topo ao mesmo tempo; as outras pedras de topo da mesma família, Corpo e Alcance, pedem a Meio e a Baixo, e foi assim que o conjunto ficou cadastrado.',
+        'Cinquenta e uma das 255 entraram sem efeito no cálculo. São as gráficas, as que liberam uma perícia — Curar, Teleporte, Ganância, Identificar — e as que prometem coisas que o simulador não mede: cura recebida, efetividade de cura, regeneração ao longo do tempo, conversão de dano em HP ou SP e EXP. Elas aparecem no seletor para que a build possa ser montada como está no jogo, mas não somam nada, e deixar a linha de fora é preferível a inventar um efeito.',
+      ],
+    },
+    {
       v: '0.1.71-beta',
       date: '18-08-2026',
       logs: [
