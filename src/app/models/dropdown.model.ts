@@ -11,4 +11,6 @@ export interface ItemDropdownModel {
   element?: string;
   usableClass?: string[];
   unusableClass?: string[];
+  /** Item is not on LATAM yet — the picker marks it (see ItemModel.preRelease). */
+  preRelease?: boolean;
 }

@@ -257,6 +257,12 @@ export enum Acute {
   _9 = 'Acute9',
   _10 = 'Acute10',
 }
+/** Only Lv1-3 exist (ids 29111-29113); the Good & Evil headgear pool is the only user. */
+export enum Affection {
+  _1 = 'Affection1',
+  _2 = 'Affection2',
+  _3 = 'Affection3',
+}
 export enum Mettle {
   _1 = 'Mettle1',
   _2 = 'Mettle2',

@@ -1,4 +1,4 @@
-import { Acute, Adamatine, MagicEess, MasterArc, Tenacity, aspd15, aspd24, caster15, ea15, ea35, ef15, ef35, em15, em35, hitPlus15, sh15, sp57 } from "./_basic"
+import { Acute, Adamatine, Affection, MagicEess, MasterArc, Tenacity, aspd15, aspd24, caster15, ea15, ea35, ef15, ef35, em15, em35, hitPlus15, sh15, sp57 } from "./_basic"
 
 export const sinsFateWeapon4 = [
   ...ea15,
@@ -28,9 +28,12 @@ export const goodEvilHead4 = [
   MagicEess._1,
   MagicEess._2,
   MagicEess._3,
-  // Mettle._1,
-  // Mettle._2,
-  // Mettle._3,
+  // The sixth roll is Affection, not Mettle — Hazy Forest lists the pool as six equally
+  // weighted lines (Magic Essence, Acute, Master Archer, Adamantine, Affection, Tenacity).
+  // https://hazyforest.com/enchants:good_evil_headgears
+  Affection._1,
+  Affection._2,
+  Affection._3,
 ]
 export const goodEvilHead3 = [
   'Justice_Power',
