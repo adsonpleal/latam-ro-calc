@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { CharacterBase } from 'src/app/jobs';
 import { createMainModel } from 'src/app/utils';
 import { equipStatusOf, makeCalculator } from './make-calculator';
 
@@ -33,8 +34,12 @@ export interface Worn {
   headUpperRefine?: number;
   /** Enchant slots 1-3 of the upper head gear, by enchant item id. */
   headUpperEnchants?: number[];
+  headUpperCard?: number;
   headMiddle?: number;
   headLower?: number;
+  armor?: number;
+  armorRefine?: number;
+  armorCard?: number;
   boot?: number;
   bootRefine?: number;
   bootGrade?: string;
@@ -42,17 +47,29 @@ export interface Worn {
   bootEnchants?: number[];
   bootCard?: number;
   accRight?: number;
+  accRightCard?: number;
   accLeft?: number;
+  accLeftCard?: number;
   garment?: number;
   garmentRefine?: number;
+  garmentCard?: number;
   shield?: number;
+  shieldRefine?: number;
+  shieldCard?: number;
+  /** Base attributes, for the cards gated on one ("FOR base 80 ou mais:"). */
+  stats?: Partial<Record<'str' | 'agi' | 'vit' | 'int' | 'dex' | 'luk', number>>;
+  /** Base level, for the cards gated on it ("Nv. base 100 ou maior:"). Defaults to 200. */
+  level?: number;
+  /** The character wearing all this, for the cards gated on a class lineage. */
+  cls?: CharacterBase;
 }
 
 /** Build the calculation with just these pieces and hand back the summed equipment bonus. */
 export function wornBonus(worn: Worn): Record<string, number> {
   const items: Record<number, any> = {};
   const model: any = createMainModel();
-  model.level = 200;
+  model.level = worn.level ?? 200;
+  Object.assign(model, worn.stats ?? {});
 
   if (worn.weapon) {
     items[worn.weapon] = db[worn.weapon];
@@ -74,6 +91,10 @@ export function wornBonus(worn: Worn): Record<string, number> {
       model[`headUpperEnchant${i + 1}`] = enchant;
     });
   }
+  if (worn.headUpperCard) {
+    items[worn.headUpperCard] = withSlot(worn.headUpperCard, 6, 0);
+    model.headUpperCard = worn.headUpperCard;
+  }
   if (worn.headMiddle) {
     items[worn.headMiddle] = withSlot(worn.headMiddle, 2, 512);
     model.headMiddle = worn.headMiddle;
@@ -81,6 +102,15 @@ export function wornBonus(worn: Worn): Record<string, number> {
   if (worn.headLower) {
     items[worn.headLower] = withSlot(worn.headLower, 2, 512);
     model.headLower = worn.headLower;
+  }
+  if (worn.armor) {
+    items[worn.armor] = withSlot(worn.armor, 2, 513);
+    model.armor = worn.armor;
+    model.armorRefine = worn.armorRefine ?? 0;
+  }
+  if (worn.armorCard) {
+    items[worn.armorCard] = withSlot(worn.armorCard, 6, 0);
+    model.armorCard = worn.armorCard;
   }
   if (worn.boot) {
     items[worn.boot] = withSlot(worn.boot, 2, 516);
@@ -101,21 +131,38 @@ export function wornBonus(worn: Worn): Record<string, number> {
     items[worn.accRight] = withSlot(worn.accRight, 2, 510);
     model.accRight = worn.accRight;
   }
+  if (worn.accRightCard) {
+    items[worn.accRightCard] = withSlot(worn.accRightCard, 6, 0);
+    model.accRightCard = worn.accRightCard;
+  }
   if (worn.accLeft) {
     items[worn.accLeft] = withSlot(worn.accLeft, 2, 511);
     model.accLeft = worn.accLeft;
+  }
+  if (worn.accLeftCard) {
+    items[worn.accLeftCard] = withSlot(worn.accLeftCard, 6, 0);
+    model.accLeftCard = worn.accLeftCard;
   }
   if (worn.garment) {
     items[worn.garment] = withSlot(worn.garment, 2, 515);
     model.garment = worn.garment;
     model.garmentRefine = worn.garmentRefine ?? 0;
   }
+  if (worn.garmentCard) {
+    items[worn.garmentCard] = withSlot(worn.garmentCard, 6, 0);
+    model.garmentCard = worn.garmentCard;
+  }
   if (worn.shield) {
     items[worn.shield] = withSlot(worn.shield, 2, 514);
     model.shield = worn.shield;
+    model.shieldRefine = worn.shieldRefine ?? 0;
+  }
+  if (worn.shieldCard) {
+    items[worn.shieldCard] = withSlot(worn.shieldCard, 6, 0);
+    model.shieldCard = worn.shieldCard;
   }
 
-  return equipStatusOf(makeCalculator(items), model);
+  return equipStatusOf(makeCalculator(items, worn.cls), model);
 }
 
 /** The raw item.json, for specs that assert on a record rather than on a bonus. */
@@ -126,6 +173,16 @@ export const ESPADA_2H = 1160; // Espada Larga — twohandSword
 export const MACHADO_2H = 1371; // Machado do Apocalipse — twohandAxe
 export const ESPADA_1H = 1123; // Haedonggum — sword
 export const LIVRO = 1551; // Bíblia — book
+
+// Inert hosts, used only to open a card socket: every one of these has an empty script, so
+// whatever a card spec reads back came from the card.
+export const ARMADURA = 2319; // Jaqueta Brilhante
+export const ESCUDO = 2123; // Travessa de Orleans
+export const CAPA = 2515; // Asa de Águia
+export const CALCADO = 2421; // Sapatos das Valquírias
+export const ELMO = 5171; // Elmo das Valquírias
+export const ACESSORIO_D = 2983; // Broche Demoníaco
+export const ACESSORIO_E = 2976; // Lampião das Trevas
 
 /** `totalEquipStatus` already starts at DEFAULT_PERFECT_HIT; an item adds on top. */
 export const BASE_PERFECT_HIT = 5;

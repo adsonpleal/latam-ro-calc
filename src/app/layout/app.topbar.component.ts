@@ -159,6 +159,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.83-beta',
+      date: '19-08-2026',
+      logs: [
+        'As 402 cartas que faltavam entraram no banco, e agora o simulador tem todas as 1.064 que o jogo publica. Até aqui só era cadastrada a carta cujo texto inteiro cabia na conta de dano, e o resto — as de chance, as que habilitam uma perícia, as de tolerância a estado, as que convertem dano em HP — ficava de fora dos seletores e sumia na importação de replay, com aquele aviso de "fora do banco de dados". Agora aparecem todas: a descrição em português continua completa ao passar o mouse, e o que a conta ainda não modela simplesmente não soma nada.',
+        'Das que entraram, 195 já somam alguma coisa, incluindo bônus que dependem de uma condição. Refino a partir de X e a cada X refinos (Carta Bode, Carta Nove Caudas, Carta Remover), atributo base a partir de X e a cada X pontos de atributo (Carta Cochicho, Carta Obsidiana), nível base (Carta Amdarais Imortal) e classe (Carta Frus, Carta Rideword, Carta Alphoccio) são pagos como o jogo os paga. As sete cartas Seladas que mudam de valor no +15 rendem o valor de baixo até o +14 e o de cima daí em diante. Bônus de conjunto entre cartas ainda não são calculados.',
+        'Treze cartas que já estavam cadastradas foram corrigidas contra a própria descrição. A Carta Rei Escorpião dava +20% contra a raça Morto-Vivo, e o que ela promete é +20% contra a propriedade Maldito. As Cartas Goblin, Jurgen e Venenum pagavam só contra Bruto, e a linha diz "Bruto e Doram". As Cartas Fragmento de Thanatos e Rei Goblin não cobravam a perda de resistência que acompanha o dano extra. E as Cartas Esporo, Creamy, Fumacento, Fen, Esfera Marinha, Kobold e Galion, que o jogo põe em "Acessório", só apareciam no acessório direito; agora aparecem nos dois.',
+      ],
+    },
+    {
       v: '0.1.82-beta',
       date: '19-08-2026',
       logs: [

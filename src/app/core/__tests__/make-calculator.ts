@@ -1,4 +1,4 @@
-import { RuneKnight } from 'src/app/jobs';
+import { CharacterBase, RuneKnight } from 'src/app/jobs';
 import { Calculator } from '../calculator';
 
 /**
@@ -27,9 +27,15 @@ export const INERT_MONSTER = {
   data: { def: 0, mdef: 0, criShield: 0, softDef: 0, res: 0, mres: 0 },
 } as any;
 
-/** A Calculator loaded with `items`, ready for loadItemFromModel(). */
-export function makeCalculator(items: Record<number | string, any>): Calculator {
-  const cls = new RuneKnight();
+/**
+ * A Calculator loaded with `items`, ready for loadItemFromModel().
+ *
+ * `characterClass` is for the specs that need a real one — a `USED[...]` clause is a
+ * different bonus per class, so a card carrying one cannot be read off the default. Leave
+ * it out everywhere else: an inert RuneKnight keeps the assertion about the items.
+ */
+export function makeCalculator(items: Record<number | string, any>, characterClass?: CharacterBase): Calculator {
+  const cls = characterClass ?? new RuneKnight();
   cls.setLearnSkills({ activeSkillIds: [], passiveSkillIds: [] }).getSkillBonusAndName();
 
   return new Calculator()

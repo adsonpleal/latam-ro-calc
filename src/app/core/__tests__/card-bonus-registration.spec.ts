@@ -8,11 +8,11 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  * Cards registered straight from their pt-BR description, and the guards that keep them
  * honest — every card the calculator gained out of the "Faltam 470 cartas no banco" queue.
  *
- * The bar for registering one at all: **every** line of its description has to map to a
- * bonus key the engine already reads. A card registered with a script that quietly drops
- * half its description is worse than one still missing, because the first reads as
- * modelled. That rule is why 99 of the 1083 the client ships are here and the other 435 are
- * still carded.
+ * The three waves below were registered under a stricter bar than the catalogue that
+ * followed: **every** line of the description had to map to a bonus key the engine already
+ * reads, so their whole script is flat and the engine hands all of it back. The rest of the
+ * catalogue came in afterwards, under what the replay import needs — see the last describe
+ * in this file, and tools/register-missing-cards.mjs for why it is every card now.
  *
  * Nothing here was hand-typed. The keys come from rules each witnessed against an item
  * ALREADY in item.json carrying the same phrase (`--witness` in
@@ -92,6 +92,8 @@ const WORN: Record<number, { slot: string; cardField: string; host: number }> = 
   [CardPosition.Garment]: { slot: 'garment', cardField: 'garmentCard', host: 2515 }, // Asa de Águia
   [CardPosition.Boot]: { slot: 'boot', cardField: 'bootCard', host: 2421 }, // Sapatos das Valquírias
   [CardPosition.Acc]: { slot: 'accRight', cardField: 'accRightCard', host: 2971 }, // Relógio de Bolso
+  [CardPosition.AccR]: { slot: 'accRight', cardField: 'accRightCard', host: 2983 }, // Broche Demoníaco
+  [CardPosition.AccL]: { slot: 'accLeft', cardField: 'accLeftCard', host: 2976 }, // Lampião das Trevas
 };
 
 /** Equip the host at `position`, optionally with `cardId` in its socket, and run the engine. */
@@ -367,5 +369,109 @@ describe('the wordings the second wave was the first to register', () => {
       subele_dark: 30,
       subele_undead: 30,
     });
+  });
+});
+
+/**
+ * The whole catalogue, once "a card the engine cannot model" stopped meaning "a card the
+ * database does not have".
+ *
+ * The replay import is what changed the answer: a .rrf names the cards the character is
+ * wearing, and an id with no record is dropped with a "fora do banco de dados" toast — so a
+ * missing card is one the calculator cannot even show you are wearing. Every card is
+ * registered now, 204 of them with an empty script. Honestly empty: the pt-BR description
+ * is overlaid at runtime and says what the card really does, whatever the script holds.
+ *
+ * The guards that survive are the ones about not writing something wrong — the slot has to
+ * be the one the card's own text names, and every key has to be one the engine reads.
+ */
+describe('the whole card catalogue', () => {
+  /**
+   * "Carta" is also the pt-BR word for a letter, and 19 records whose name starts with it
+   * are not compound cards: correspondence, Halloween event props, quest props, pet bait, a
+   * consumable, and one lower head gear (5536, the joke hat "Carta Imperfeita", which
+   * item.json has always held as the hat it is).
+   *
+   * Listed by id rather than filtered by a rule, because none of them prints a slot line
+   * and the footer's "Tipo: Carta" does not separate them either — 17 real cards print no
+   * "Tipo:" line at all. Same list as NOT_A_CARD in tools/card-catalog.mjs.
+   */
+  const NOT_A_CARD = [
+    5536, 6043, 6044, 6546, 6925, 6929, 7148, 7183, 7416, 7468, 7469, 7471, 7490, 7501,
+    7643, 12370, 22511, 25167, 25627,
+  ];
+
+  const CARDS = Object.keys(latam)
+    .filter((id) => /^Carta /.test(latam[id].name || '') && !NOT_A_CARD.includes(Number(id)))
+    .map(Number);
+
+  it('holds a record for every card the LATAM client ships', () => {
+    // 1083 records are named "Carta …"; 19 of them are not cards. The other 1064 are all
+    // here. A client update shipping a new card fails this line, which is the point.
+    expect(Object.keys(latam).filter((id) => /^Carta /.test(latam[id].name || ''))).toHaveLength(1083);
+    expect(CARDS).toHaveLength(1064);
+    expect(CARDS.filter((id) => !items[id])).toEqual([]);
+  });
+
+  it('shapes every one of them as a card at a real card position', () => {
+    const valid = new Set(Object.values(CardPosition).filter((v): v is number => typeof v === 'number'));
+
+    for (const id of CARDS) {
+      expect(items[id].itemTypeId, `${id} ${latam[id].name} itemTypeId`).toBe(6);
+      expect(items[id].itemSubTypeId, `${id} ${latam[id].name} itemSubTypeId`).toBe(0);
+      expect(valid.has(items[id].compositionPos), `${id} ${latam[id].name} compositionPos ${items[id].compositionPos}`).toBe(true);
+    }
+  });
+
+  it('routes every one of them to the slot its own description names', () => {
+    // Every wording is equal evidence, in the order tools/card-catalog.mjs resolves them.
+    // Reading only the modern "Equipa em:" is what once left 50 placeable cards looking
+    // slotless.
+    const BY_SLOT: Record<string, number> = {
+      Arma: CardPosition.Weapon,
+      Armadura: CardPosition.Armor,
+      Escudo: CardPosition.Shield,
+      Capa: CardPosition.Garment,
+      Calçado: CardPosition.Boot,
+      Acessório: CardPosition.Acc,
+      'Aces. Direito': CardPosition.AccR,
+      'Aces. Esquerdo': CardPosition.AccL,
+      'Equip. para Cabeça': CardPosition.Head,
+      'Equipamento para Cabeça': CardPosition.Head,
+      // The client's own typos, one card each: 27105 prints "Aces. DIreito" and 27116 the
+      // Spanish "Accesorio".
+      'Aces. DIreito': CardPosition.AccR,
+      Accesorio: CardPosition.Acc,
+    };
+
+    /**
+     * The two cards whose text names no slot at all, from divine-pride's "Compound on".
+     * There is no such thing as a card without a slot, so a card the client's text does not
+     * place is a gap in the text, not a property of the card.
+     */
+    const FROM_DIVINE_PRIDE: Record<number, number> = {
+      4414: CardPosition.Shield, // Seeker Card — "Compounds On: Shield"
+      4417: CardPosition.Boot, // Ice Titan Card — "Compounds On: Shoes"
+    };
+
+    // "Classes:" names the equipment type on a card ("Classes: Arma" on 4421) though the
+    // same label lists job classes on ordinary gear, and 4423 prints "Tipo:" twice — once
+    // for "Carta", once for the slot. Both are read only when the value IS a slot.
+    const SLOT_LINE = /(?:Equipa em|Equipado em|Utiliza[cç][aã]o|Localiza[cç][aã]o)\s*:\s*([^\n]*)/;
+    const FALLBACK_LINE = /(?:Classes|Tipo)\s*:\s*([^\n]*)/g;
+
+    for (const id of CARDS) {
+      if (FROM_DIVINE_PRIDE[id] !== undefined) {
+        expect(items[id].compositionPos, `${id} ${latam[id].name}`).toBe(FROM_DIVINE_PRIDE[id]);
+        continue;
+      }
+
+      const description = plain(latam[id].description);
+      const named =
+        SLOT_LINE.exec(description)?.[1].trim() ??
+        [...description.matchAll(FALLBACK_LINE)].map((m) => m[1].trim()).filter((value) => value in BY_SLOT).pop();
+
+      expect(BY_SLOT[named!], `${id} ${latam[id].name} "${named}"`).toBe(items[id].compositionPos);
+    }
   });
 });
