@@ -456,6 +456,27 @@ export class SoulAscetic extends SoulReaper {
       dropdown: genSkillList(5, lv => ({ sMatk: lv * 5 })),
     },
     {
+      /**
+       * "Aumenta o P.ATQ temporariamente", +2 per level for 300s at Lv5. A self/party buff
+       * with no state of its own beyond the number.
+       */
+      name: 'Talisman of the Warrior',
+      label: 'Talisman of the Warrior',
+      inputType: 'dropdown',
+      dropdown: genSkillList(5, lv => ({ pAtk: lv * 2 })),
+    },
+    {
+      /**
+       * The S.ATQM twin, +2 per level. `soa-exorcismo.rrf` runs it at Lv2 (EFST 1358) for
+       * its whole 14 seconds, and its +4 S.ATQM is what closes that recording's residual:
+       * without it the simulated ceiling sits 1,7% under the highest packet.
+       */
+      name: 'Talisman of the Magician',
+      label: 'Talisman of the Magician',
+      inputType: 'dropdown',
+      dropdown: genSkillList(5, lv => ({ sMatk: lv * 2 })),
+    },
+    {
       name: 'Talisman of Five Elements',
       label: 'Five Elements',
       inputType: 'dropdown',

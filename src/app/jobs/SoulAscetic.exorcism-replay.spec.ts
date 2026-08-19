@@ -11,9 +11,13 @@ import { SoulAscetic } from './SoulAscetic';
 
 /**
  * Soul Ascetic — Exorcizar Assombração (SOA_EXORCISM_OF_MALICIOUS_SOUL, 5425) against the
- * first replay this class has ever had. Until now `SoulAscetic.characterization.spec.ts`
- * only encoded the Sigma "2nd version" blog; this file is the first time the class meets
- * real packets.
+ * first replay this class ever had.
+ *
+ * It was written with a residual it could not close, and a second recording closed it:
+ * `SoulAscetic.exorcism-gear-states.spec.ts` (card DeZJHbAXb2) gears up on camera, so it
+ * has the gearless control and the status window this one lacks. What that file settled is
+ * folded in below — the soul count, the enhanced branch, and the two MATK terms — and the
+ * three cells that used to be open are now one cell that fits.
  *
  * Ground truth: `fixtures/soa-exorcismo.rrf`, submitted through "Ajude o simulador" and
  * triaged as card bVCSkxTfvj. "ShaktiBell", Asceta das Almas base 223 / job 40, recorded
@@ -48,21 +52,27 @@ import { SoulAscetic } from './SoulAscetic';
  *   - **the soul count.** Convocar Almas "atinge o limite máximo de Almas", and this
  *     character has Perícia com Almas Lv5 → 20 souls. But every packet carries `count = 5`,
  *     while both bROWiki and the client say "o número de golpes é igual ao número de Almas
- *     consumidas". One of the two is wrong and the file cannot say which.
+ *     consumidas". **Settled by the other recording: it is 20 souls, and `count` is not the
+ *     soul count** — that character's gearless window solves to exactly one (souls, MATK)
+ *     pair, 20 souls at MATK 866, while its packets also carry `count = 5`.
  *   - **the enhanced branch.** The 250%-per-level column applies if the target carries
  *     Assombração or the caster stands in a Totem de Tutela. Neither leaves a trace here:
  *     no ground unit is created during the recording, and the status stream only ever
- *     carries the *player's* own EFSTs, never the dummy's.
+ *     carries the *player's* own EFSTs, never the dummy's. **It was live.** Totem de Tutela
+ *     is a ground unit that lasts ~30s (bracketed to the second in the other file), so one
+ *     placed before a 14-second recording starts leaves nothing in it, and the fit below
+ *     picks that cell and no other.
  *
- * The matrix of those two is pinned below. Only one cell comes close, and it is the one
- * the plain reading of the file argues against.
- *
- * **Ruled out as the explanation for the gap**, by measurement:
- *   - the souls' own MATK: bROWiki's Coletar Alma says "Cada Alma concede ATQM +3", which
- *     is exactly the `x_matk: lv * 3` the Total Soul dropdown already applies;
- *   - Talismã do Mago (5420 Lv2, EFST 1358, up for the whole recording) — it is missing
- *     from the class, but S.ATQM +4 moves damage +2,8%, i.e. it makes the only near-fitting
- *     cell *worse*, not better;
+ * **What actually closed the gap**, all of it measured on the other recording:
+ *   - the souls pay **no** MATK. bROWiki's Coletar Alma says "Cada Alma concede ATQM +3"
+ *     and the Total Soul dropdown booked it as `x_matk: lv * 3`; the gearless window says
+ *     otherwise — its equipment MATK never moves as the gauge fills, and its packets solve
+ *     to 866, the status window's own 813 + 54 with no room for another 60. Dropped, and
+ *     dropping it is what let this recording's floor fall below its lowest packet;
+ *   - **Talismã do Mago** (5420 Lv2, EFST 1358, up for the whole recording) was missing from
+ *     the class. It is in now, and its S.ATQM +4 is the last 1,7%: the note this file used
+ *     to carry — that it made the near-fitting cell *worse* — was written when the engine
+ *     was reading 1,7% high, and the sign flipped when the souls' phantom MATK came out;
  *   - the other active EFSTs: 1053/1061 (Coletar Alma and the soul counter), 1356 Talismã
  *     do Protetor and 157 Kaahi (both HP regen — the periodic 10.685 HP heals every 3 s are
  *     Talismã do Protetor), 1059 Espírito do Golem (DEF), and 802/942/983/984/1084/1085,
@@ -70,9 +80,9 @@ import { SoulAscetic } from './SoulAscetic';
  *   - Reencarnação das Almas (+7-25% to all damage) and Mandala das Feras (+S.ATQM): both
  *     missing from the class, but neither is in this character's learned tree.
  *
- * **What would close it**: one recording that changes map (for the status window and the
- * traits) and casts the same skill in two states — with and without Totem de Tutela — plus
- * one cast with no weapon. That separates the branch from the soul count in one file.
+ * That recording is `sa-exorcismo-gear-states.rrf`, which is exactly the file this note
+ * asked for: it changes equipment on camera, re-sends the status window at every piece, and
+ * carries a gearless window with the totem on and off.
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
@@ -89,6 +99,8 @@ const SKILL = 'Exorcism of Malicious Soul==5';
 const SPL = 92;
 const SOUL_MASTERY = 10;
 const TALISMAN_MASTERY = 5;
+/** Talismã do Mago, learned at Lv2 and up the whole time (EFST 1358). */
+const MAGICIAN_TALISMAN = 2;
 
 const replay: any = decodeReplay(loadReplayFixture(FIXTURE));
 const imported: any = importReplayBuffer(loadReplayFixture(FIXTURE), items);
@@ -98,7 +110,12 @@ const recorded: number[] = (replay.damage ?? []).map((d: any) => d.damage);
 function sim(souls: number, totem: boolean) {
   const cls: any = new SoulAscetic();
   const passiveLv: Record<string, number> = { 'Soul Mastery': SOUL_MASTERY, 'Talisman Mastery': TALISMAN_MASTERY };
-  const activeLv: Record<string, number> = { 'Total Soul': souls, 'Totem of Tutelary': totem ? 1 : 0 };
+  const activeLv: Record<string, number> = {
+    'Total Soul': souls,
+    'Totem of Tutelary': totem ? 1 : 0,
+    // EFST 1358, running for the whole recording; learned at Lv2, so S.ATQM +4.
+    'Talisman of the Magician': MAGICIAN_TALISMAN,
+  };
   const passiveIds = cls._passiveSkillList.map((s: any) => passiveLv[s.name] ?? 0);
   const activeIds = cls._activeSkillList.map((s: any) => activeLv[s.name] ?? 0);
   const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = cls
@@ -202,7 +219,7 @@ describe('Soul Ascetic — Exorcizar Assombração, what the recording confirms'
   });
 });
 
-describe('Soul Ascetic — Exorcizar Assombração, the open residual', () => {
+describe('Soul Ascetic — Exorcizar Assombração, which cell the packets pick', () => {
   const lo = Math.min(...recorded);
   const hi = Math.max(...recorded);
 
@@ -211,39 +228,48 @@ describe('Soul Ascetic — Exorcizar Assombração, the open residual', () => {
    * every recorded packet — the engine's min/max are the MATK roll's own bounds, so a
    * packet outside them is impossible, not merely unlikely.
    *
-   * Measured, with the build exactly as imported:
+   * Measured, with the build exactly as imported and Talismã do Mago Lv2 up:
    *
    *   souls  branch     simulated range            vs recording
-   *    5     plain        397.135 -   454.255      6,3x too low
-   *    5     enhanced     622.545 -   712.075      4,0x too low
-   *   20     plain      1.643.885 - 1.871.725      1,53x too low
-   *   20     enhanced   2.576.885 - 2.934.030      floor 1,7% above the lowest packet
+   *    5     plain        403.500 -   462.165      6,2x too low
+   *    5     enhanced     632.520 -   724.485      4,0x too low
+   *   20     plain      1.614.090 - 1.848.755      1,55x too low
+   *   20     enhanced   2.530.170 - 2.898.025      **contains all five packets**
    *
-   * Only the last is even the right size, and it still does not contain the recording: the
-   * smallest packet, 2.533.250, sits 1,7% below a floor the engine says is unreachable.
-   * Adding the missing Talismã do Mago (S.ATQM +4) widens the miss to 4,6%, so the gap is
-   * not that skill either. Something worth ~2% of magic damage is unaccounted for, on top
-   * of a premise — that the enhanced branch was live — the file cannot corroborate.
+   * One cell out of four, and it contains the recording with 0,1% to spare at the floor.
+   * That is the whole answer to the two things this file could not observe: the character
+   * had 20 souls, and the Totem de Tutela the packets never mention was standing.
+   *
+   * It did not fit when this file was written. Three things moved since, all of them
+   * measured on `sa-exorcismo-gear-states.rrf`: the souls' phantom +3 MATK apiece came out,
+   * Talismã do Mago went in, and Espírito da Fada went in (which this character did not
+   * have up, so it changes nothing here).
    */
-  it('20 souls, plain branch: the sim is 1,53x low', () => {
-    const r = sim(20, false);
-    expect(r.min).toBe(1643885);
-    expect(r.max).toBe(1871725);
-    expect(hi / r.max).toBeCloseTo(1.531, 3);
+  it('20 souls in a Totem de Tutela contains every packet', () => {
+    const r = sim(20, true);
+    expect(r.min).toBe(2530170);
+    expect(r.max).toBe(2898025);
+    expect(lo).toBeGreaterThanOrEqual(r.min);
+    expect(hi).toBeLessThanOrEqual(r.max);
   });
 
-  it('20 souls, enhanced branch: right size, floor still 1,7% above the lowest packet', () => {
-    const r = sim(20, true);
-    expect(r.min).toBe(2576885);
-    expect(r.max).toBe(2934030);
-    expect(r.max).toBeGreaterThan(hi);
-    expect(r.min).toBeGreaterThan(lo);
-    expect(r.min / lo).toBeCloseTo(1.017, 3);
+  it('and it is the only cell that does', () => {
+    for (const [souls, totem] of [[5, false], [5, true], [20, false]] as [number, boolean][]) {
+      const r = sim(souls, totem);
+      expect(hi, `${souls} souls, totem=${totem}`).toBeGreaterThan(r.max);
+    }
+  });
+
+  it('20 souls on the plain branch is still 1,55x low', () => {
+    const r = sim(20, false);
+    expect(r.min).toBe(1614090);
+    expect(r.max).toBe(1848755);
+    expect(hi / r.max).toBeCloseTo(1.55, 2);
   });
 
   it('5 souls — what the packet count says — is nowhere near, on either branch', () => {
-    expect(hi / sim(5, false).max).toBeCloseTo(6.31, 2);
-    expect(hi / sim(5, true).max).toBeCloseTo(4.03, 2);
+    expect(hi / sim(5, false).max).toBeCloseTo(6.2, 1);
+    expect(hi / sim(5, true).max).toBeCloseTo(3.96, 2);
   });
 });
 

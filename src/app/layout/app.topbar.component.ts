@@ -159,6 +159,19 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.73-beta',
+      date: '19-08-2026',
+      logs: [
+        'As fórmulas dos talismãs do Asceta das Almas foram refeitas a partir das tabelas do próprio cliente. Vinham do blog da 2ª versão, que não descreve o LATAM: o blog põe o Talismã do Dragão Nv 1 em 250 + 1.450 onde a linha do cliente diz 900. Duas gravações dão razão ao cliente — em uma delas, cinco disparos de Nv 1 colocam o coeficiente do Dragão entre 3.216 e 3.743, contra os 4.961 que a tabela antiga produzia. Dragão, Tigre, Fênix, Jabuti, Divindades e Ceifeiro passaram a seguir a linha por nível que o jogo mostra, e o dano de todos eles cai.',
+        'A segunda coluna de dano de cada talismã estava presa ao Talismã dos Elementos. O cliente a condiciona ao estado [Mandala das Feras], que é outra coisa: o Talismã dos Elementos só dá os 4% de dano por nível contra as propriedades Água, Vento, Terra, Fogo e Neutro, e nunca mexeu em coeficiente nenhum. A Mandala virou seu próprio botão, com os +5 de S.ATQM por nível que ela concede — uma das gravações mostra a janela de status marcando 62 e caindo para 37 quando o estado expira.',
+        'Quatro habilidades da classe entraram no simulador. A Mandala das Feras é a ultimate e era a maior linha de dano que faltava; o Talismã do Ceifeiro estava no catálogo mas fora da lista de habilidades, o que deixava sete equipamentos com bônus para ele que nenhuma build conseguia disparar. O Talismã do Guerreiro e o Talismã do Mago entraram como botões de P.ATQ e S.ATQM — os +4 de S.ATQM do Talismã do Mago no Nv 2 são o último 1,7% que faltava para a segunda gravação fechar.',
+        'O Talismã das Divindades acertava uma vez a mais no topo. O cliente diz um golpe por Fera que abençoou o usuário, mais um, e 7 só com a Mandala ativa; a opção "quatro direções" dava 7 direto. A ordem das bênçãos também estava trocada: a corrente é Dragão, Tigre, Fênix e Jabuti — Leste, Oeste, Sul e Norte — e os degraus 2 e 3 estavam nomeados como Sul e Oeste. Os valores guardados não mudaram, então as simulações salvas continuam significando o que significavam.',
+        'O Espírito da Fada voltou a existir, e as Almas deixaram de dar ATQM. O Espírito estava desligado no código e é real: uma gravação o conjura com quase nada equipado e o ATQM de equipamento sobe de 4 para 54. Já as Almas somavam 3 de ATQM cada uma, o que o jogo não faz — o medidor enche até 20 antes de cada disparo e o ATQM não se move. Juntas, as duas correções levam o erro do estado sem equipamento de 1,26% para 0,08%.',
+        'O Diadema Profano ganhou o conjunto que faltava. A descrição paga ATQ e ATQM +50, +8% de dano contra Chefes e +10% contra as propriedades Neutro e Sagrado quando um Anel e um Colar Profano da mesma pedra estão equipados, e nada disso estava cadastrado. A gravação prova a parte fixa na unidade — ao equipar o diadema, o ATQ de equipamento vai de 137 para 187 — e a parte percentual pelo dano: sem ela, o maior pacote gravado fica acima do que o simulador consegue produzir.',
+        'Fica em aberto quanto o FEI soma nos talismãs. O cliente não publica essa coluna e o simulador mantém o FEI × 5 do blog; as gravações disponíveis prendem o número entre FEI × 5,5 e FEI × 6,2 no Nv 1, perto mas provavelmente baixo. Uma gravação sem arma alguma, com um talismã no Nv 1 e no Nv 5, resolve: sem arma não há sorteio de ATQM para um coeficiente errado se esconder dentro. Pela mesma razão, o dano da Mandala das Feras ainda não é conferido contra o único pacote gravado dela. As gravações vieram de SPC das Almas e de um usuário anônimo — obrigado pelas duas.',
+      ],
+    },
+    {
       v: '0.1.72-beta',
       date: '19-08-2026',
       logs: [
