@@ -159,6 +159,13 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.81-beta',
+      date: '19-08-2026',
+      logs: [
+        'As pedras de crítico dos Elmos da Fé não estavam na lista. O encantador oferece seis linhas numa das listas — Espírito do Lutador 3 a 5, e Pedra de Encantamento, Pedra de Crítico, Anti-Atraso, Mira Apurada e Anti-Horário, todas de 1 a 3 — e as sete Insígnias na outra, também de 1 a 3. No lugar disso o simulador trazia Expert Fighter e Expert Magician, que não saem nesses elmos (a abreviação "E. Lutador" da tabela é o Espírito do Lutador, outra família), níveis acima das duas melhorias possíveis, e nenhuma Pedra de Crítico. As duas listas foram refeitas pelos códigos dos itens que a própria tabela referencia, a Insígnia da Afeição entrou, e a correção vale para os 34 Elmos da Fé, não só para o Celestial. Uma build já salva com um encanto que saiu da lista continua abrindo com ele. Reportado por Ted.',
+      ],
+    },
+    {
       v: '0.1.80-beta',
       date: '19-08-2026',
       logs: [
