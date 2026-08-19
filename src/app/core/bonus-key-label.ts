@@ -75,7 +75,7 @@ const BONUS_KEY_PARTS = {
     neutral: 'Neutro', water: 'Água', earth: 'Terra', fire: 'Fogo', wind: 'Vento',
     poison: 'Veneno', holy: 'Sagrado', dark: 'Sombrio', ghost: 'Fantasma', undead: 'Morto-vivo',
     formless: 'Sem Forma', brute: 'Bruto', plant: 'Planta', insect: 'Inseto', fish: 'Peixe',
-    demon: 'Demônio', demihuman: 'Semi-humano', angel: 'Anjo', dragon: 'Dragão',
+    demon: 'Demônio', demihuman: 'Humanoide', angel: 'Anjo', dragon: 'Dragão',
     player_human: 'Humano', player_doram: 'Doram',
   } as Record<string, string>,
 };

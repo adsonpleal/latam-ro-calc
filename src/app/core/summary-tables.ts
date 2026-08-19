@@ -68,7 +68,7 @@ const ELEMENT_PT: Record<string, string> = {
 };
 const RACE_PT: Record<string, string> = {
   Formless: 'Amorfo', Undead: 'Morto-Vivo', Brute: 'Bruto', Plant: 'Planta', Insect: 'Inseto',
-  Fish: 'Peixe', Demon: 'Demônio', DemiHuman: 'Semi-Humano', Angel: 'Anjo', Dragon: 'Dragão',
+  Fish: 'Peixe', Demon: 'Demônio', DemiHuman: 'Humanoide', Angel: 'Anjo', Dragon: 'Dragão',
 };
 const SIZE_PT: Record<string, string> = { Small: 'Pequeno', Medium: 'Médio', Large: 'Grande' };
 const MONSTER_TYPE_PT: Record<string, string> = { Boss: 'Chefe', Normal: 'Normal' };
