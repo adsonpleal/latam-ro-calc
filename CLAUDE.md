@@ -113,6 +113,30 @@ When registering bonuses and set combos, the **pt-BR description is the source o
 — `latam-items.json` is for resolving *ids*, not for deciding the effect. Format details
 in [`docs/item-json.md`](docs/item-json.md); to add items, use the `add-ro-item` skill.
 
+### Combos are matched by id, never by name
+
+Write a combo partner as `EQUIP_ID[<id>]`. **Never write `EQUIP[<nome>]` in a record you
+are adding or editing** — it is the legacy form, it resolves through the item's English
+`enName`, and it fails in two ways at once:
+
+- a pt-BR rename or a `[Apoio]`-style suffix silently stops the bonus paying;
+- **the client re-issues items under new ids keeping the old English name**, so one
+  `EQUIP[...]` fires for every generation of that item whether or not you meant it to —
+  and, worse, the reverse trap: converting such a clause to a *single* id silently drops
+  the other generation. When a partner has been re-issued, name them all:
+  `EQUIP_ID[310328||1000378]`. Same grammar as `EQUIP[]` — `&&` all required, `||` any-of,
+  with `&&` binding first.
+
+The same holds for the other name-matched tokens: prefer `SKILL_ID[...]` and
+`ACTIVE_SKILL_ID[...]` over `LEARN_SKILL[...]` / `ACTIVE_SKILL[...]`.
+
+`item-script-keys.spec.ts` ratchets this: the count of records still on `EQUIP[<nome>]`
+may only fall, and the Visual-enchant stone family (subtypes 71-76) must stay at zero — it
+was migrated wholesale, 159 records and 330 clauses. When you migrate another family,
+**record a behavioural baseline first and assert it unchanged afterwards**; each partner
+generation needs a case of its own, because that is precisely what a careless rewrite
+loses. `costume-enchant-combo-migration.spec.ts` is the worked example.
+
 ## Client-extracted data: everything comes from ragassets
 
 All game-file reading lives in the **ragassets** project, which publishes the result as

@@ -182,12 +182,12 @@ describe('29671 Invocador (Capa)', () => {
   // that is fixed.
   it('keys [Lança Gateira] the same way as the [Cometas Lunáticos] beside it', () => {
     const script = items[29671].script;
-    // 25859 is the client's re-issue of 29668, the Invocador (Topo) partner. The name-based
-    // clause below covers both generations on its own — `EQUIP[...]` resolves through
-    // `enName`, which the re-issue shares — but an id-based one has to name them both.
-    // See costume-enchant-stone-reissues.spec.ts.
-    expect(script['5026']).toEqual(['EQUIP_ID[29668||25859]20']);
-    expect(script['5036']).toEqual(['EQUIP[Doram Stone (Upper)]20']);
+    // Both clauses gate on Invocador (Topo), and both name its two generations: 29668 and
+    // 25859, the client's re-issue of it. They used to be written differently — one by id,
+    // one by name — and the name form only worked because a re-issue shares its
+    // counterpart's English name. See costume-enchant-combo-migration.spec.ts.
+    expect(script['5026']).toEqual(['EQUIP_ID[25859||29668]20']);
+    expect(script['5036']).toEqual(['EQUIP_ID[25859||29668]20']);
   });
 });
 

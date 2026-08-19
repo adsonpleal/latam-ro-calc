@@ -28631,7 +28631,7 @@
       ],
       "acd": [
         "11===4",
-        "EQUIP_ID[18609||5104]6"
+        "EQUIP_ID[5104||18609]6"
       ],
       "vct": [
         "EQUIP_ID[19241]30"
@@ -63163,10 +63163,10 @@
       ],
       "dex": [
         "-3",
-        "EQUIP[STR+3 INT-3]===3"
+        "EQUIP_ID[25003||29014]===3"
       ],
       "int": [
-        "EQUIP[STR+3 INT-3]===3"
+        "EQUIP_ID[25003||29014]===3"
       ]
     }
   },
@@ -63219,10 +63219,10 @@
       ],
       "vit": [
         "-3",
-        "EQUIP[INT+3 DEX-3]===3"
+        "EQUIP_ID[25005||29016]===3"
       ],
       "dex": [
-        "EQUIP[INT+3 DEX-3]===3"
+        "EQUIP_ID[25005||29016]===3"
       ]
     }
   },
@@ -63275,10 +63275,10 @@
       ],
       "agi": [
         "-3",
-        "EQUIP[DEX+3 VIT-3]===3"
+        "EQUIP_ID[25007||29018]===3"
       ],
       "vit": [
-        "EQUIP[DEX+3 VIT-3]===3"
+        "EQUIP_ID[25007||29018]===3"
       ]
     }
   },
@@ -63331,10 +63331,10 @@
       ],
       "luk": [
         "-3",
-        "EQUIP[VIT+3 AGI-3]===3"
+        "EQUIP_ID[25006||29020]===3"
       ],
       "agi": [
-        "EQUIP[VIT+3 AGI-3]===3"
+        "EQUIP_ID[25006||29020]===3"
       ]
     }
   },
@@ -63387,10 +63387,10 @@
       ],
       "str": [
         "-3",
-        "EQUIP[AGI+3 LUK-3]===3"
+        "EQUIP_ID[25004||29022]===3"
       ],
       "luk": [
-        "EQUIP[AGI+3 LUK-3]===3"
+        "EQUIP_ID[25004||29022]===3"
       ]
     }
   },
@@ -63443,10 +63443,10 @@
       ],
       "int": [
         "-3",
-        "EQUIP[LUK+3 STR-3]===3"
+        "EQUIP_ID[25002||29024]===3"
       ],
       "str": [
-        "EQUIP[LUK+3 STR-3]===3"
+        "EQUIP_ID[25002||29024]===3"
       ]
     }
   },
@@ -63470,7 +63470,7 @@
     "script": {
       "atkPercent": [
         "1",
-        "EQUIP[ATK + 1%&&ATK + 1% (Lower)]2"
+        "EQUIP_ID[4882||6642&&25016||29029]2"
       ]
     }
   },
@@ -63517,7 +63517,7 @@
     "script": {
       "matkPercent": [
         "1",
-        "EQUIP[MATK + 1% (Lower)&&MATK + 1%]2"
+        "EQUIP_ID[25017||29031&&4883||6643]2"
       ]
     }
   },
@@ -63610,7 +63610,7 @@
     "script": {
       "acd": [
         "1",
-        "EQUIP[Reload Stone (Middle)&&Reload Stone (Lower)]===2"
+        "EQUIP_ID[25070||29054&&25071||29055]===2"
       ]
     }
   },
@@ -65056,7 +65056,7 @@
     "script": {
       "vct": [
         "3",
-        "EQUIP[Variable Cast Reduction Middle&&Variable Cast Reduction Lower]6"
+        "EQUIP_ID[25173||29157&&25174||29158]6"
       ]
     }
   },
@@ -66414,7 +66414,7 @@
     "script": {
       "vct": [
         "10",
-        "EQUIP[Variable Cast Reduction Upper&&Variable Cast Reduction Middle&&Variable Cast Reduction Lower]===5"
+        "EQUIP_ID[25172||29156&&25173||29157&&25174||29158]===5"
       ]
     }
   },
@@ -66438,7 +66438,7 @@
     "script": {
       "criDmg": [
         "3",
-        "EQUIP[Critical&&Fatal (Lower)]===6"
+        "EQUIP_ID[25060||29047&&25305||29360]===6"
       ]
     }
   },
@@ -66487,7 +66487,7 @@
         "20"
       ],
       "cri": [
-        "EQUIP[Critical&&Fatal (Lower)&&Fatal (Upper)]===10"
+        "EQUIP_ID[25060||29047&&25305||29360&&25304||29359]===10"
       ]
     }
   },
@@ -66580,7 +66580,7 @@
     "script": {
       "2332": [
         "15",
-        "EQUIP[Champion Stone (Upper)]===10"
+        "EQUIP_ID[25409||29423]===10"
       ]
     }
   },
@@ -66606,11 +66606,11 @@
         "15"
       ],
       "2330": [
-        "EQUIP[Champion Stone II (Upper)]15",
-        "EQUIP[Champion Stone II (Lower)]15"
+        "EQUIP_ID[25800||29613]15",
+        "EQUIP_ID[25798||29611]15"
       ],
       "hpPercent": [
-        "EQUIP[Champion Stone II (Middle)]10"
+        "EQUIP_ID[25799||29612]10"
       ]
     }
   },
@@ -66703,13 +66703,13 @@
     "script": {
       "2233": [
         "10",
-        "EQUIP[Sniper Stone (Upper)]===15"
+        "EQUIP_ID[25413||29428]===15"
       ],
       "vct": [
-        "EQUIP[Sniper Stone (Middle)]===10"
+        "EQUIP_ID[25414||29429]===10"
       ],
       "range": [
-        "EQUIP[Sniper Stone (Lower)]ACTIVE_SKILL[Wind Walk]===5"
+        "EQUIP_ID[25415||29430]ACTIVE_SKILL[Wind Walk]===5"
       ]
     }
   },
@@ -66808,13 +66808,13 @@
     "script": {
       "2449": [
         "10",
-        "EQUIP[Scholar Stone (Upper)]===15"
+        "EQUIP_ID[25417||29432]===15"
       ],
       "cd__2452": [
-        "EQUIP[Scholar Stone (Middle)]===15"
+        "EQUIP_ID[25418||29433]===15"
       ],
       "cd__2449": [
-        "EQUIP[Scholar Stone (Lower)]===2"
+        "EQUIP_ID[25419||29434]===2"
       ]
     }
   },
@@ -66906,13 +66906,13 @@
     "compositionPos": null,
     "script": {
       "2008": [
-        "EQUIP[Lord Knight Stone (Upper)]===10"
+        "EQUIP_ID[25445||29460]===10"
       ],
       "5004": [
-        "EQUIP[Lord Knight Stone (Upper)]===10"
+        "EQUIP_ID[25445||29460]===10"
       ],
       "acd": [
-        "EQUIP[Lord Knight Stone (Lower)]===5"
+        "EQUIP_ID[25447||29462]===5"
       ]
     }
   },
@@ -67001,13 +67001,13 @@
     "script": {
       "2477": [
         "10",
-        "EQUIP[Creator Stone (Upper)]===15"
+        "EQUIP_ID[25450||29464]===15"
       ],
       "cd__2492": [
-        "EQUIP[Creator Stone (Middle)]===3"
+        "EQUIP_ID[25451||29465]===3"
       ],
       "range": [
-        "EQUIP[Creator Stone (Lower)]===5"
+        "EQUIP_ID[25452||29466]===5"
       ]
     }
   },
@@ -67100,13 +67100,13 @@
     "script": {
       "2211": [
         "10",
-        "EQUIP[High Wizard Stone (Upper)]===15"
+        "EQUIP_ID[25453||29468]===15"
       ],
       "fct": [
-        "EQUIP[High Wizard Stone (Middle)]LEARN_SKILL[Soul Drain==2]---0.1"
+        "EQUIP_ID[25454||29469]LEARN_SKILL[Soul Drain==2]---0.1"
       ],
       "m_my_element_fire": [
-        "EQUIP[High Wizard Stone (Lower)]===5"
+        "EQUIP_ID[25455||29470]===5"
       ]
     }
   },
@@ -67199,10 +67199,10 @@
     "script": {
       "2288": [
         "15",
-        "EQUIP[Stalker Stone (Upper)]15"
+        "EQUIP_ID[25490||29477]15"
       ],
       "range": [
-        "EQUIP[Stalker Stone (Middle)]10"
+        "EQUIP_ID[25491||29478]10"
       ]
     }
   },
@@ -67295,10 +67295,10 @@
     "script": {
       "2280": [
         "15",
-        "EQUIP[Mastersmith Stone (Lower)]15"
+        "EQUIP_ID[25496||29483]15"
       ],
       "cd__2280": [
-        "EQUIP[Mastersmith Stone (Middle)]1"
+        "EQUIP_ID[25495||29482]1"
       ]
     }
   },
@@ -67395,13 +67395,13 @@
     "script": {
       "2418": [
         "15",
-        "EQUIP[Clown Gypsy Stone (Upper)]15"
+        "EQUIP_ID[25498||29485]15"
       ],
       "cd__2418": [
-        "EQUIP[Clown Gypsy Stone (Middle)]1"
+        "EQUIP_ID[25499||29486]1"
       ],
       "fct": [
-        "EQUIP[Clown Gypsy Stone (Lower)]0.5"
+        "EQUIP_ID[25500||29487]0.5"
       ]
     }
   },
@@ -67490,13 +67490,13 @@
     "script": {
       "2040": [
         "15",
-        "EQUIP[High Priest Stone (Upper)]15"
+        "EQUIP_ID[25706||29513]15"
       ],
       "cd__2040": [
-        "EQUIP[High Priest Stone (Middle)]1"
+        "EQUIP_ID[25707||29514]1"
       ],
       "fct": [
-        "EQUIP[High Priest Stone (Lower)]0.5"
+        "EQUIP_ID[25708||29515]0.5"
       ]
     }
   },
@@ -67589,10 +67589,10 @@
     "script": {
       "2308": [
         "15",
-        "EQUIP[Paladin Stone (Lower)]15"
+        "EQUIP_ID[25712||29519]15"
       ],
       "cd__2307": [
-        "EQUIP[Paladin Stone (Middle)]0.5"
+        "EQUIP_ID[25711||29518]0.5"
       ]
     }
   },
@@ -67685,10 +67685,10 @@
     "script": {
       "2036": [
         "15",
-        "EQUIP[Assassin Cross Stone (Lower)]15"
+        "EQUIP_ID[25716||29523]15"
       ],
       "2037": [
-        "EQUIP[Assassin Cross Stone (Middle)]15"
+        "EQUIP_ID[25715||29522]15"
       ]
     }
   },
@@ -69045,13 +69045,13 @@
     "script": {
       "2447": [
         "15",
-        "EQUIP[Scholar Stone II (Upper)]10"
+        "EQUIP_ID[25804||29617]10"
       ],
       "2446": [
-        "EQUIP[Scholar Stone II (Middle)]20"
+        "EQUIP_ID[25803||29616]20"
       ],
       "cd__2454": [
-        "EQUIP[Scholar Stone II (Lower)]1"
+        "EQUIP_ID[25802||29615]1"
       ]
     }
   },
@@ -69153,7 +69153,7 @@
     "script": {
       "2284": [
         "15",
-        "EQUIP[Stalker Stone II (Upper)]10"
+        "EQUIP_ID[25808||29621]10"
       ]
     }
   },
@@ -69315,13 +69315,13 @@
     "script": {
       "2604": [
         "20",
-        "EQUIP[Soul Linker Stone (Upper)]20"
+        "EQUIP_ID[25843||29651]20"
       ],
       "2602": [
-        "EQUIP[Soul Linker Stone (Middle)]20"
+        "EQUIP_ID[25844||29652]20"
       ],
       "fct": [
-        "EQUIP[Soul Linker Stone (Lower)]0.5"
+        "EQUIP_ID[25845||29653]0.5"
       ]
     }
   },
@@ -69413,11 +69413,11 @@
       ],
       "2592": [
         "20",
-        "EQUIP[Star Gladiator Stone (Upper)]15"
+        "EQUIP_ID[25846||29655]15"
       ],
       "2584": [
         "20",
-        "EQUIP[Star Gladiator Stone (Middle)]15"
+        "EQUIP_ID[25847||29656]15"
       ]
     }
   },
@@ -69521,10 +69521,10 @@
         "25"
       ],
       "3004": [
-        "EQUIP[Ninja Stone (Upper)]25"
+        "EQUIP_ID[25850||29659]25"
       ],
       "3006": [
-        "EQUIP[Ninja Stone (Middle)]25"
+        "EQUIP_ID[25851||29660]25"
       ]
     }
   },
@@ -69550,22 +69550,22 @@
         "20"
       ],
       "536": [
-        "EQUIP[Ninja Stone (Upper)]30"
+        "EQUIP_ID[25850||29659]30"
       ],
       "539": [
-        "EQUIP[Ninja Stone (Upper)]30"
+        "EQUIP_ID[25850||29659]30"
       ],
       "542": [
-        "EQUIP[Ninja Stone (Upper)]30"
+        "EQUIP_ID[25850||29659]30"
       ],
       "537": [
-        "EQUIP[Ninja Stone (Middle)]20"
+        "EQUIP_ID[25851||29660]20"
       ],
       "540": [
-        "EQUIP[Ninja Stone (Middle)]20"
+        "EQUIP_ID[25851||29660]20"
       ],
       "vct": [
-        "EQUIP[Ninja Stone (Lower)]15"
+        "EQUIP_ID[25852||29661]15"
       ]
     }
   },
@@ -69658,14 +69658,14 @@
     "script": {
       "2565": [
         "20",
-        "EQUIP[Gunslinger Stone (Upper)]15"
+        "EQUIP_ID[25855||29664]15"
       ],
       "2571": [
         "20",
-        "EQUIP[Gunslinger Stone (Middle)]20"
+        "EQUIP_ID[25856||29665]20"
       ],
       "2554": [
-        "EQUIP[Gunslinger Stone (Lower)]25"
+        "EQUIP_ID[25857||29666]25"
       ]
     }
   },
@@ -69766,16 +69766,16 @@
         "20"
       ],
       "5036": [
-        "EQUIP[Doram Stone (Upper)]20"
+        "EQUIP_ID[25859||29668]20"
       ],
       "cd__5046": [
-        "EQUIP[Doram Stone (Middle)]1"
+        "EQUIP_ID[25860||29669]1"
       ],
       "cd__5028": [
-        "EQUIP[Doram Stone (Lower)]1"
+        "EQUIP_ID[25861||29670]1"
       ],
       "5026": [
-        "EQUIP_ID[29668||25859]20"
+        "EQUIP_ID[25859||29668]20"
       ]
     }
   },
@@ -84988,13 +84988,13 @@
     "script": {
       "2236": [
         "15",
-        "EQUIP[Sniper Stone II (Upper)]15"
+        "EQUIP_ID[310000||1000008]15"
       ],
       "fix_vct__2236": [
-        "EQUIP[Sniper Stone II (Middle)]1"
+        "EQUIP_ID[310001||1000009]1"
       ],
       "cd__5002": [
-        "EQUIP[Sniper Stone II (Lower)]45"
+        "EQUIP_ID[310002||1000010]45"
       ]
     }
   },
@@ -85089,13 +85089,13 @@
         "15"
       ],
       "range": [
-        "EQUIP[Mastersmith Stone II (Upper)]10"
+        "EQUIP_ID[310004||1000012]10"
       ],
       "2258": [
-        "EQUIP[Mastersmith Stone II (Middle)]20"
+        "EQUIP_ID[310005||1000013]20"
       ],
       "2256": [
-        "EQUIP[Mastersmith Stone II (Lower)]20"
+        "EQUIP_ID[310006||1000014]20"
       ]
     }
   },
@@ -85188,10 +85188,10 @@
     "script": {
       "2038": [
         "15",
-        "EQUIP[High Priest Stone II (Upper)]15"
+        "EQUIP_ID[310008||1000016]15"
       ],
       "m_my_element_holy": [
-        "EQUIP[High Priest Stone II (Lower)]10"
+        "EQUIP_ID[310010||1000018]10"
       ]
     }
   },
@@ -87950,13 +87950,13 @@
     "script": {
       "2213": [
         "15",
-        "EQUIP[High Wizard Stone II (Upper)]15"
+        "EQUIP_ID[310181||1000214]15"
       ],
       "fct": [
-        "EQUIP[High Wizard Stone II (Middle)]0.5"
+        "EQUIP_ID[310182||1000215]0.5"
       ],
       "m_my_element_neutral": [
-        "EQUIP[High Wizard Stone II (Lower)]5"
+        "EQUIP_ID[310183||1000216]5"
       ]
     }
   },
@@ -88049,13 +88049,13 @@
     "script": {
       "2321": [
         "15",
-        "EQUIP[Paladin Stone II (Lower)]15"
+        "EQUIP_ID[310185||1000220]15"
       ],
       "fct": [
-        "EQUIP[Paladin Stone II (Upper)]LEARN_SKILL[Auto Guard==2]---0.1"
+        "EQUIP_ID[310187||1000218]LEARN_SKILL[Auto Guard==2]---0.1"
       ],
       "m_my_element_holy": [
-        "EQUIP[Paladin Stone II (Middle)]5"
+        "EQUIP_ID[310186||1000219]5"
       ]
     }
   },
@@ -88148,16 +88148,16 @@
     "script": {
       "criDmg": [
         "15",
-        "EQUIP[Assassin Cross Stone II (Upper)]15"
+        "EQUIP_ID[310191||1000222]15"
       ],
       "atkPercent": [
-        "EQUIP[Assassin Cross Stone II (Upper)]5"
+        "EQUIP_ID[310191||1000222]5"
       ],
       "2029": [
-        "EQUIP[Assassin Cross Stone II (Middle)]20"
+        "EQUIP_ID[310190||1000223]20"
       ],
       "acd": [
-        "EQUIP[Assassin Cross Stone II (Lower)]5"
+        "EQUIP_ID[310189||1000224]5"
       ]
     }
   },
@@ -89720,13 +89720,13 @@
     "script": {
       "2006": [
         "15",
-        "EQUIP[Lord Knight Stone II (Middle)]10"
+        "EQUIP_ID[310259||1000298]10"
       ],
       "2002": [
-        "EQUIP[Lord Knight Stone II (Upper)]20"
+        "EQUIP_ID[310258||1000297]20"
       ],
       "2004": [
-        "EQUIP[Lord Knight Stone II (Lower)]30"
+        "EQUIP_ID[310260||1000299]30"
       ]
     }
   },
@@ -89821,13 +89821,13 @@
         "20"
       ],
       "cd__2476": [
-        "EQUIP[Creator Stone II (Upper)]0.7"
+        "EQUIP_ID[310262||1000301]0.7"
       ],
       "2481": [
-        "EQUIP[Creator Stone II (Middle)]20"
+        "EQUIP_ID[310263||1000302]20"
       ],
       "fct": [
-        "EQUIP[Creator Stone II (Lower)]LEARN_SKILL[Acid Demonstration==2]---0.1"
+        "EQUIP_ID[310264||1000303]LEARN_SKILL[Acid Demonstration==2]---0.1"
       ]
     }
   },
@@ -89920,10 +89920,10 @@
     "script": {
       "2414": [
         "15",
-        "EQUIP[Clown Gypsy Stone II (Upper)]10"
+        "EQUIP_ID[310266||1000305]10"
       ],
       "2413": [
-        "EQUIP[Clown Gypsy Stone II (Lower)]20"
+        "EQUIP_ID[310268||1000307]20"
       ]
     }
   },
@@ -90020,7 +90020,7 @@
     "script": {
       "range": [
         "3",
-        "EQUIP[Range Stone (Middle)&&Range Stone (Lower)]===6"
+        "EQUIP_ID[25061||310330&&310326||1000376]===6"
       ]
     }
   },
@@ -90067,7 +90067,7 @@
     "script": {
       "melee": [
         "3",
-        "EQUIP[Melee Stone (Middle)&&Melee Stone (Lower)]===6"
+        "EQUIP_ID[310328||1000378&&310329||1000379]===6"
       ]
     }
   },
@@ -94607,7 +94607,7 @@
     "script": {
       "fct": [
         "0.1",
-        "EQUIP[Minor Fixed Cast Reduction]===0.3"
+        "EQUIP_ID[25170||29154]===0.3"
       ]
     }
   },
@@ -94633,7 +94633,7 @@
         "5"
       ],
       "fct": [
-        "EQUIP[Variable Cast Reduction Garment]===0.5"
+        "EQUIP_ID[25306||29358]===0.5"
       ]
     }
   },
@@ -94657,9 +94657,9 @@
     "script": {
       "range": [
         "4",
-        "EQUIP[Range Stone (Upper)]===2",
-        "EQUIP[Range Stone (Middle)]===2",
-        "EQUIP[Range Stone (Lower)]===2"
+        "EQUIP_ID[310325||1000375]===2",
+        "EQUIP_ID[25061||310330]===2",
+        "EQUIP_ID[310326||1000376]===2"
       ]
     }
   },
@@ -94683,9 +94683,9 @@
     "script": {
       "melee": [
         "4",
-        "EQUIP[Melee Stone (Upper)]===2",
-        "EQUIP[Melee Stone (Middle)]===2",
-        "EQUIP[Melee Stone (Lower)]===2"
+        "EQUIP_ID[310327||1000377]===2",
+        "EQUIP_ID[310328||1000378]===2",
+        "EQUIP_ID[310329||1000379]===2"
       ]
     }
   },
@@ -94709,7 +94709,7 @@
     "script": {
       "m_my_element_all": [
         "3",
-        "EQUIP[Magic Power Stone (Middle)&&Magic Power Stone (Lower)]===6"
+        "EQUIP_ID[310665&&310666]===6"
       ]
     }
   },
@@ -94779,9 +94779,9 @@
     "script": {
       "m_my_element_all": [
         "4",
-        "EQUIP[Magic Power Stone (Upper)]===2",
-        "EQUIP[Magic Power Stone (Middle)]===2",
-        "EQUIP[Magic Power Stone (Lower)]===2"
+        "EQUIP_ID[310664]===2",
+        "EQUIP_ID[310665]===2",
+        "EQUIP_ID[310666]===2"
       ]
     }
   },
@@ -97349,10 +97349,10 @@
         "LEARN_SKILL[Dragon Training==1]---2"
       ],
       "vct": [
-        "EQUIP[Rune Knight Stone (Garment)]===10"
+        "EQUIP_ID[25448||29463]===10"
       ],
       "2004": [
-        "EQUIP[Rune Knight Stone II (Garment)]===15"
+        "EQUIP_ID[310257||1000296]===15"
       ]
     }
   },
@@ -97381,13 +97381,13 @@
         "LEARN_SKILL[Rune Mastery==2]---1"
       ],
       "2008": [
-        "EQUIP[Rune Knight Stone (Garment)]===15"
+        "EQUIP_ID[25448||29463]===15"
       ],
       "5004": [
-        "EQUIP[Rune Knight Stone (Garment)]===15"
+        "EQUIP_ID[25448||29463]===15"
       ],
       "2002": [
-        "EQUIP[Rune Knight Stone II (Garment)]===15"
+        "EQUIP_ID[310257||1000296]===15"
       ]
     }
   },
@@ -97413,13 +97413,13 @@
         "LEARN_SKILL[Enchant Blade==1]---5"
       ],
       "hpPercent": [
-        "EQUIP[Rune Knight Stone (Garment)]===10"
+        "EQUIP_ID[25448||29463]===10"
       ],
       "spPercent": [
-        "EQUIP[Rune Knight Stone (Garment)]===10"
+        "EQUIP_ID[25448||29463]===10"
       ],
       "2006": [
-        "EQUIP[Rune Knight Stone II (Garment)]===15"
+        "EQUIP_ID[310257||1000296]===15"
       ]
     }
   },
@@ -97445,10 +97445,10 @@
         "LEARN_SKILL[Soul Expansion==1]---2"
       ],
       "2202": [
-        "EQUIP[Warlock Stone (Garment)]===15"
+        "EQUIP_ID[25456||29471]===15"
       ],
       "720": [
-        "EQUIP[Warlock Stone II (Garment)]===15"
+        "EQUIP_ID[310180||1000213]===15"
       ]
     }
   },
@@ -97474,10 +97474,10 @@
         "LEARN_SKILL[Comet==1]---0.1"
       ],
       "2211": [
-        "EQUIP[Warlock Stone (Garment)]===15"
+        "EQUIP_ID[25456||29471]===15"
       ],
       "720": [
-        "EQUIP[Warlock Stone II (Garment)]===15"
+        "EQUIP_ID[310180||1000213]===15"
       ]
     }
   },
@@ -97503,10 +97503,10 @@
         "LEARN_SKILL[Chain Lightning==1]---1"
       ],
       "2214": [
-        "EQUIP[Warlock Stone (Garment)]===15"
+        "EQUIP_ID[25456||29471]===15"
       ],
       "2213": [
-        "EQUIP[Warlock Stone II (Garment)]===15"
+        "EQUIP_ID[310180||1000213]===15"
       ]
     }
   },
@@ -97532,10 +97532,10 @@
         "LEARN_SKILL[Inspiration==1]---0.1"
       ],
       "2307": [
-        "EQUIP[Royal Guard Stone (Garment)]===15"
+        "EQUIP_ID[25713||29520]===15"
       ],
       "2321": [
-        "EQUIP[Royal Guard Stone II (Garment)]===15"
+        "EQUIP_ID[310184||1000217]===15"
       ]
     }
   },
@@ -97564,7 +97564,7 @@
         "LEARN_SKILL[Piety==1]---2"
       ],
       "2308": [
-        "EQUIP[Royal Guard Stone (Garment)]===15"
+        "EQUIP_ID[25713||29520]===15"
       ]
     }
   },
@@ -97590,10 +97590,10 @@
         "LEARN_SKILL[Moon Slasher==1]---5"
       ],
       "2307": [
-        "EQUIP[Royal Guard Stone (Garment)]===15"
+        "EQUIP_ID[25713||29520]===15"
       ],
       "m_size_all": [
-        "EQUIP[Royal Guard Stone II (Garment)]===15"
+        "EQUIP_ID[310184||1000217]===15"
       ]
     }
   },
@@ -98550,7 +98550,7 @@
         "LEARN_SKILL[Lesson==1]---1"
       ],
       "2413": [
-        "EQUIP[Wanderer Minstrel Stone II (Garment)]===15"
+        "EQUIP_ID[310265||1000304]===15"
       ]
     }
   },
@@ -98579,10 +98579,10 @@
         "LEARN_SKILL[Circling Nature==1]---0.1"
       ],
       "p_size_all": [
-        "EQUIP[Wanderer Minstrel Stone (Garment)]===15"
+        "EQUIP_ID[25501||29488]===15"
       ],
       "m_my_element_all": [
-        "EQUIP[Wanderer Minstrel Stone II (Garment)]===15"
+        "EQUIP_ID[310265||1000304]===15"
       ]
     }
   },
@@ -98608,10 +98608,10 @@
         "LEARN_SKILL[Frigg's Song==1]---0.1"
       ],
       "2418": [
-        "EQUIP[Wanderer Minstrel Stone (Garment)]===15"
+        "EQUIP_ID[25501||29488]===15"
       ],
       "2414": [
-        "EQUIP[Wanderer Minstrel Stone II (Garment)]===15"
+        "EQUIP_ID[310265||1000304]===15"
       ]
     }
   },
@@ -98637,10 +98637,10 @@
         "LEARN_SKILL[Cart Cannon==1]---2"
       ],
       "490": [
-        "EQUIP[Genetic Stone (Garment)]===15"
+        "EQUIP_ID[25449||29467]===15"
       ],
       "2481": [
-        "EQUIP[Genetic Stone II (Garment)]===15"
+        "EQUIP_ID[310261||1000300]===15"
       ]
     }
   },
@@ -98666,10 +98666,10 @@
         "LEARN_SKILL[Cart Remodeling==1]---2"
       ],
       "2477": [
-        "EQUIP[Genetic Stone (Garment)]===15"
+        "EQUIP_ID[25449||29467]===15"
       ],
       "2476": [
-        "EQUIP[Genetic Stone II (Garment)]===15"
+        "EQUIP_ID[310261||1000300]===15"
       ]
     }
   },
@@ -98695,10 +98695,10 @@
         "LEARN_SKILL[Sword Mastery==1]---0.1"
       ],
       "490": [
-        "EQUIP[Genetic Stone (Garment)]===15"
+        "EQUIP_ID[25449||29467]===15"
       ],
       "2476": [
-        "EQUIP[Genetic Stone II (Garment)]===15"
+        "EQUIP_ID[310261||1000300]===15"
       ]
     }
   },
@@ -98724,10 +98724,10 @@
         "LEARN_SKILL[Striking==1]---0.1"
       ],
       "cd__2450": [
-        "EQUIP[Sorcerer Stone (Garment)]===2"
+        "EQUIP_ID[25420||29435]===2"
       ],
       "2446": [
-        "EQUIP[Sorcerer Stone II (Garment)]===15"
+        "EQUIP_ID[25801||29614]===15"
       ]
     }
   },
@@ -98753,10 +98753,10 @@
         "LEARN_SKILL[Diamond Dust==1]---2"
       ],
       "2449": [
-        "EQUIP[Sorcerer Stone (Garment)]===15"
+        "EQUIP_ID[25420||29435]===15"
       ],
       "2454": [
-        "EQUIP[Sorcerer Stone II (Garment)]===15"
+        "EQUIP_ID[25801||29614]===15"
       ]
     }
   },
@@ -98782,10 +98782,10 @@
         "LEARN_SKILL[Earth Grave==1]---2"
       ],
       "2448": [
-        "EQUIP[Sorcerer Stone (Garment)]===15"
+        "EQUIP_ID[25420||29435]===15"
       ],
       "2447": [
-        "EQUIP[Sorcerer Stone II (Garment)]===15"
+        "EQUIP_ID[25801||29614]===15"
       ]
     }
   },
@@ -107720,10 +107720,10 @@
         "LEARN_SKILL[Clementia==1]---3"
       ],
       "m_my_element_all": [
-        "EQUIP[Archbishop Stone (Garment)]===15"
+        "EQUIP_ID[25709||29516]===15"
       ],
       "m_size_all": [
-        "EQUIP[Archbishop Stone II (Garment)]===15"
+        "EQUIP_ID[310011||1000019]===15"
       ]
     }
   },
@@ -107749,10 +107749,10 @@
         "LEARN_SKILL[Laudaagnus==1]---3"
       ],
       "2040": [
-        "EQUIP[Archbishop Stone (Garment)]===15"
+        "EQUIP_ID[25709||29516]===15"
       ],
       "2038": [
-        "EQUIP[Archbishop Stone II (Garment)]===15"
+        "EQUIP_ID[310011||1000019]===15"
       ]
     }
   },
@@ -107778,10 +107778,10 @@
         "LEARN_SKILL[Expiatio==1]---0.1"
       ],
       "m_race_all": [
-        "EQUIP[Archbishop Stone (Garment)]===15"
+        "EQUIP_ID[25709||29516]===15"
       ],
       "m_my_element_all": [
-        "EQUIP[Archbishop Stone II (Garment)]===15"
+        "EQUIP_ID[310011||1000019]===15"
       ]
     }
   },
@@ -107807,10 +107807,10 @@
         "LEARN_SKILL[Main Ranger==2]---1"
       ],
       "cd__5002": [
-        "EQUIP[Ranger Stone (Garment)]===45"
+        "EQUIP_ID[25416||29431]===45"
       ],
       "382": [
-        "EQUIP[Ranger Stone II (Garment)]===15"
+        "EQUIP_ID[310003||1000011]===15"
       ]
     }
   },
@@ -107836,10 +107836,10 @@
         "LEARN_SKILL[Trap Research==1]---1"
       ],
       "2233": [
-        "EQUIP[Ranger Stone (Garment)]===15"
+        "EQUIP_ID[25416||29431]===15"
       ],
       "2236": [
-        "EQUIP[Ranger Stone II (Garment)]===15"
+        "EQUIP_ID[310003||1000011]===15"
       ]
     }
   },
@@ -107865,7 +107865,7 @@
         "LEARN_SKILL[Fear Breeze==1]---2"
       ],
       "p_size_all": [
-        "EQUIP[Ranger Stone II (Garment)]===15"
+        "EQUIP_ID[310003||1000011]===15"
       ]
     }
   },
@@ -107891,7 +107891,7 @@
         "LEARN_SKILL[Urgent Escape==1]---2"
       ],
       "2304": [
-        "EQUIP[Shadow Chaser Stone (Garment)]===15"
+        "EQUIP_ID[25493||29480]===15"
       ]
     }
   },
@@ -107917,10 +107917,10 @@
         "LEARN_SKILL[Shadow Formation==1]---1"
       ],
       "2288": [
-        "EQUIP[Shadow Chaser Stone (Garment)]===15"
+        "EQUIP_ID[25493||29480]===15"
       ],
       "2284": [
-        "EQUIP[Shadow Chaser Stone II (Garment)]===15"
+        "EQUIP_ID[25805||29618]===15"
       ]
     }
   },
@@ -107949,10 +107949,10 @@
         "LEARN_SKILL[Reproduce==1]---1"
       ],
       "p_element_all": [
-        "EQUIP[Shadow Chaser Stone (Garment)]===15"
+        "EQUIP_ID[25493||29480]===15"
       ],
       "p_size_all": [
-        "EQUIP[Shadow Chaser Stone II (Garment)]===15"
+        "EQUIP_ID[25805||29618]===15"
       ]
     }
   },
@@ -109249,10 +109249,10 @@
         "LEARN_SKILL[Rising Dragon==2]---0.1"
       ],
       "2518": [
-        "EQUIP[Sura Stone (Garment)]===20"
+        "EQUIP_ID[25412||29426]===20"
       ],
       "2336": [
-        "EQUIP[Sura Stone II (Garment)]===15"
+        "EQUIP_ID[25797||29427]===15"
       ]
     }
   },
@@ -109278,10 +109278,10 @@
         "LEARN_SKILL[Gentle Touch - Alive==1]---2"
       ],
       "2518": [
-        "EQUIP[Sura Stone (Garment)]===20"
+        "EQUIP_ID[25412||29426]===20"
       ],
       "2330": [
-        "EQUIP[Sura Stone II (Garment)]===15"
+        "EQUIP_ID[25797||29427]===15"
       ]
     }
   },
@@ -109307,10 +109307,10 @@
         "LEARN_SKILL[Gentle Touch - Opposite==1]---2"
       ],
       "2332": [
-        "EQUIP[Sura Stone (Garment)]===15"
+        "EQUIP_ID[25412||29426]===15"
       ],
       "2336": [
-        "EQUIP[Sura Stone II (Garment)]===15"
+        "EQUIP_ID[25797||29427]===15"
       ]
     }
   },
@@ -109336,10 +109336,10 @@
         "LEARN_SKILL[Fire Earth Research==1]---1"
       ],
       "2280": [
-        "EQUIP[Mechanic Stone (Garment)]===15"
+        "EQUIP_ID[25497||29484]===15"
       ],
       "2256": [
-        "EQUIP[Mechanic Stone II (Garment)]===15"
+        "EQUIP_ID[310007||1000015]===15"
       ]
     }
   },
@@ -109368,10 +109368,10 @@
         "LEARN_SKILL[Madogear License==1]---1"
       ],
       "2278": [
-        "EQUIP[Mechanic Stone (Garment)]===15"
+        "EQUIP_ID[25497||29484]===15"
       ],
       "2261": [
-        "EQUIP[Mechanic Stone II (Garment)]===15"
+        "EQUIP_ID[310007||1000015]===15"
       ]
     }
   },
@@ -109397,10 +109397,10 @@
         "LEARN_SKILL[Axe Mastery==1]---1"
       ],
       "2279": [
-        "EQUIP[Mechanic Stone (Garment)]===15"
+        "EQUIP_ID[25497||29484]===15"
       ],
       "2258": [
-        "EQUIP[Mechanic Stone II (Garment)]===15"
+        "EQUIP_ID[310007||1000015]===15"
       ]
     }
   },
@@ -109426,10 +109426,10 @@
         "LEARN_SKILL[New Poison Research==2]---1"
       ],
       "2037": [
-        "EQUIP[Guillotine Cross Stone (Garment)]===15"
+        "EQUIP_ID[25717||29524]===15"
       ],
       "2029": [
-        "EQUIP[Guillotine Cross Stone II (Garment)]===15"
+        "EQUIP_ID[310188||1000221]===15"
       ]
     }
   },
@@ -109455,10 +109455,10 @@
         "LEARN_SKILL[Dark Illusion==1]---2"
       ],
       "2036": [
-        "EQUIP[Guillotine Cross Stone (Garment)]===15"
+        "EQUIP_ID[25717||29524]===15"
       ],
       "2022": [
-        "EQUIP[Guillotine Cross Stone II (Garment)]===15"
+        "EQUIP_ID[310188||1000221]===15"
       ]
     }
   },
@@ -109484,10 +109484,10 @@
         "LEARN_SKILL[Cross Ripper Slasher==1]---2"
       ],
       "2037": [
-        "EQUIP[Guillotine Cross Stone (Garment)]===15"
+        "EQUIP_ID[25717||29524]===15"
       ],
       "p_race_all": [
-        "EQUIP[Guillotine Cross Stone II (Garment)]===15"
+        "EQUIP_ID[310188||1000221]===15"
       ]
     }
   },
@@ -110224,7 +110224,7 @@
         "LEARN_SKILL[Blessing of Moon==1]---3"
       ],
       "2579": [
-        "EQUIP[Star Emperor Stone (Garment)]===15"
+        "EQUIP_ID[25849||29658]===15"
       ]
     }
   },
@@ -110250,7 +110250,7 @@
         "LEARN_SKILL[Blessing of Sun==1]---2"
       ],
       "2592": [
-        "EQUIP[Star Emperor Stone (Garment)]===15"
+        "EQUIP_ID[25849||29658]===15"
       ]
     }
   },
@@ -110302,7 +110302,7 @@
         "LEARN_SKILL[Platinum Altar==1]---4"
       ],
       "2554": [
-        "EQUIP[Rebellion Stone (Garment)]===15"
+        "EQUIP_ID[25858||29667]===15"
       ]
     }
   },
@@ -110328,7 +110328,7 @@
         "LEARN_SKILL[Fire Rain==1]---2"
       ],
       "2565": [
-        "EQUIP[Rebellion Stone (Garment)]===15"
+        "EQUIP_ID[25858||29667]===15"
       ]
     }
   },
@@ -110357,7 +110357,7 @@
         "LEARN_SKILL[Hot Barrel==1]---4"
       ],
       "fct": [
-        "EQUIP[Rebellion Stone (Garment)]===0.5"
+        "EQUIP_ID[25858||29667]===0.5"
       ]
     }
   },
@@ -110406,7 +110406,7 @@
         "LEARN_SKILL[Eswhoo==1]---1"
       ],
       "2604": [
-        "EQUIP[Soul Reaper Stone (Garment)]===15"
+        "EQUIP_ID[25842||29654]===15"
       ]
     }
   },
@@ -110432,7 +110432,7 @@
         "LEARN_SKILL[Evil Soul Curse==1]---0.1"
       ],
       "fct": [
-        "EQUIP[Soul Reaper Stone (Garment)]===0.5"
+        "EQUIP_ID[25842||29654]===0.5"
       ]
     }
   },
@@ -113539,7 +113539,7 @@
         "LEARN_SKILL[Righthand Mastery==1]---2"
       ],
       "3009": [
-        "EQUIP[Kagerou Stone (Garment)]===25"
+        "EQUIP_ID[25853||29662]===25"
       ]
     }
   },
@@ -113565,7 +113565,7 @@
         "LEARN_SKILL[16th Night==1]---2"
       ],
       "3004": [
-        "EQUIP[Kagerou Stone (Garment)]===25"
+        "EQUIP_ID[25853||29662]===25"
       ]
     }
   },
@@ -113589,7 +113589,7 @@
     "script": {
       "3007": [
         "LEARN_SKILL[Pure Soul==1]---5",
-        "EQUIP[Kagerou Stone (Garment)]===25"
+        "EQUIP_ID[25853||29662]===25"
       ]
     }
   },
@@ -113615,10 +113615,10 @@
         "LEARN_SKILL[Righthand Mastery==1]---2"
       ],
       "537": [
-        "EQUIP[Oboro Stone (Garment)]===25"
+        "EQUIP_ID[25854||29663]===25"
       ],
       "540": [
-        "EQUIP[Oboro Stone (Garment)]===25"
+        "EQUIP_ID[25854||29663]===25"
       ]
     }
   },
@@ -113644,13 +113644,13 @@
         "LEARN_SKILL[Pure Soul==1]---3"
       ],
       "536": [
-        "EQUIP[Oboro Stone (Garment)]===30"
+        "EQUIP_ID[25854||29663]===30"
       ],
       "539": [
-        "EQUIP[Oboro Stone (Garment)]===30"
+        "EQUIP_ID[25854||29663]===30"
       ],
       "542": [
-        "EQUIP[Oboro Stone (Garment)]===30"
+        "EQUIP_ID[25854||29663]===30"
       ]
     }
   },
@@ -113682,7 +113682,7 @@
         "LEARN_SKILL[16th Night==1]---4"
       ],
       "vct": [
-        "EQUIP[Oboro Stone (Garment)]===15"
+        "EQUIP_ID[25854||29663]===15"
       ]
     }
   },
@@ -113711,7 +113711,7 @@
         "LEARN_SKILL[Silvervine Stem Spear==1]---5"
       ],
       "fct": [
-        "EQUIP[Doram Stone (Garment)]===0.5"
+        "EQUIP_ID[25862||29671]===0.5"
       ]
     }
   },
@@ -113737,7 +113737,7 @@
         "LEARN_SKILL[Frash Shrimp==1]---2"
       ],
       "5028": [
-        "EQUIP[Doram Stone (Garment)]===25"
+        "EQUIP_ID[25862||29671]===25"
       ]
     }
   },
@@ -113763,7 +113763,7 @@
         "LEARN_SKILL[Arclouse Dash==1]---2"
       ],
       "5036": [
-        "EQUIP[Doram Stone (Garment)]===25"
+        "EQUIP_ID[25862||29671]===25"
       ]
     }
   },
@@ -139537,10 +139537,10 @@
         "EQUIP_ID[560011]1"
       ],
       "5353": [
-        "EQUIP_ID[580012||570012]15"
+        "EQUIP_ID[570012||580012]15"
       ],
       "cd__2418": [
-        "EQUIP_ID[580012||570012]2.5"
+        "EQUIP_ID[570012||580012]2.5"
       ],
       "5330": [
         "EQUIP_ID[700021]15"
@@ -139564,7 +139564,7 @@
         "EQUIP_ID[800010]15"
       ],
       "criDmg": [
-        "EQUIP_ID[810006||800010]20"
+        "EQUIP_ID[800010||810006]20"
       ],
       "5483": [
         "EQUIP_ID[650020]15"
@@ -226498,7 +226498,7 @@
         "5"
       ],
       "acd": [
-        "EQUIP_ID[28045||21054||32303||32026||28140||26215||550006||18190||2058||28772||32352||26162||13346||28771||1867||32110||16099||28635]10"
+        "EQUIP_ID[1867||2058||13346||16099||18190||21054||26162||26215||28045||28140||28635||28771||28772||32026||32110||32303||32352||550006]10"
       ]
     }
   },
@@ -230077,16 +230077,16 @@
         "EQUIP_ID[9121||9137||9193]10"
       ],
       "melee": [
-        "EQUIP_ID[9126||9111||9112]10"
+        "EQUIP_ID[9111||9112||9126]10"
       ],
       "m_my_element_all": [
         "EQUIP_ID[9115||9122||9148||9171]10"
       ],
       "acd": [
-        "EQUIP_ID[9125||9114||9109||9113||9068]5"
+        "EQUIP_ID[9068||9109||9113||9114||9125]5"
       ],
       "vct": [
-        "EQUIP_ID[9125||9114||9109||9113||9068]5"
+        "EQUIP_ID[9068||9109||9113||9114||9125]5"
       ]
     }
   },
@@ -250650,13 +250650,13 @@
         "EQUIP_ID[13093]REFINE[weapon==2]---5"
       ],
       "cd__2418": [
-        "EQUIP_ID[1988||1933]2"
+        "EQUIP_ID[1933||1988]2"
       ],
       "2418": [
-        "EQUIP_ID[1988||1933]REFINE[weapon==2]---5"
+        "EQUIP_ID[1933||1988]REFINE[weapon==2]---5"
       ],
       "2426": [
-        "EQUIP_ID[1988||1933]REFINE[weapon==2]---5"
+        "EQUIP_ID[1933||1988]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -288256,7 +288256,7 @@
         "10"
       ],
       "allStatus": [
-        "EQUIP_ID[500007||600008||500008||590006||510008||560004||650003||520002||640005||700007||510009||530002||700008||540004||540005||570005||700009||580005||550008||610006||550009||630003||810000||820000||830001||840000]1"
+        "EQUIP_ID[500007||500008||510008||510009||520002||530002||540004||540005||550008||550009||560004||570005||580005||590006||600008||610006||630003||640005||650003||700007||700008||700009||810000||820000||830001||840000]1"
       ]
     }
   },
@@ -312440,7 +312440,7 @@
         "5"
       ],
       "acd": [
-        "EQUIP_ID[490107||490106]5"
+        "EQUIP_ID[490106||490107]5"
       ]
     }
   },
@@ -312475,7 +312475,7 @@
         "5"
       ],
       "acd": [
-        "EQUIP_ID[490109||490108]5"
+        "EQUIP_ID[490108||490109]5"
       ]
     }
   },
@@ -318695,7 +318695,7 @@
     "script": {
       "atkPercent": [
         "1",
-        "EQUIP[ATK + 1%&&ATK + 1% (Lower)]2"
+        "EQUIP_ID[4882||6642&&25016||29029]2"
       ]
     }
   },
@@ -318719,7 +318719,7 @@
     "script": {
       "matkPercent": [
         "1",
-        "EQUIP[MATK + 1% (Lower)&&MATK + 1%]2"
+        "EQUIP_ID[25017||29031&&4883||6643]2"
       ]
     }
   },
@@ -319162,10 +319162,10 @@
       ],
       "luk": [
         "-3",
-        "EQUIP[VIT+3 AGI-3]===3"
+        "EQUIP_ID[25006||29020]===3"
       ],
       "agi": [
-        "EQUIP[VIT+3 AGI-3]===3"
+        "EQUIP_ID[25006||29020]===3"
       ]
     }
   },
@@ -319192,10 +319192,10 @@
       ],
       "str": [
         "-3",
-        "EQUIP[AGI+3 LUK-3]===3"
+        "EQUIP_ID[25004||29022]===3"
       ],
       "luk": [
-        "EQUIP[AGI+3 LUK-3]===3"
+        "EQUIP_ID[25004||29022]===3"
       ]
     }
   },
@@ -319222,10 +319222,10 @@
       ],
       "agi": [
         "-3",
-        "EQUIP[DEX+3 VIT-3]===3"
+        "EQUIP_ID[25007||29018]===3"
       ],
       "vit": [
-        "EQUIP[DEX+3 VIT-3]===3"
+        "EQUIP_ID[25007||29018]===3"
       ]
     }
   },
@@ -319252,10 +319252,10 @@
       ],
       "int": [
         "-3",
-        "EQUIP[LUK+3 STR-3]===3"
+        "EQUIP_ID[25002||29024]===3"
       ],
       "str": [
-        "EQUIP[LUK+3 STR-3]===3"
+        "EQUIP_ID[25002||29024]===3"
       ]
     }
   },
@@ -319282,10 +319282,10 @@
       ],
       "dex": [
         "-3",
-        "EQUIP[STR+3 INT-3]===3"
+        "EQUIP_ID[25003||29014]===3"
       ],
       "int": [
-        "EQUIP[STR+3 INT-3]===3"
+        "EQUIP_ID[25003||29014]===3"
       ]
     }
   },
@@ -319312,10 +319312,10 @@
       ],
       "vit": [
         "-3",
-        "EQUIP[INT+3 DEX-3]===3"
+        "EQUIP_ID[25005||29016]===3"
       ],
       "dex": [
-        "EQUIP[INT+3 DEX-3]===3"
+        "EQUIP_ID[25005||29016]===3"
       ]
     }
   },
@@ -319666,7 +319666,7 @@
     "script": {
       "acd": [
         "1",
-        "EQUIP[Reload Stone (Middle)&&Reload Stone (Lower)]===2"
+        "EQUIP_ID[25070||29054&&25071||29055]===2"
       ]
     }
   },
@@ -319892,7 +319892,7 @@
     "script": {
       "vct": [
         "3",
-        "EQUIP[Variable Cast Reduction Middle&&Variable Cast Reduction Lower]6"
+        "EQUIP_ID[25173||29157&&25174||29158]6"
       ]
     }
   },
@@ -320192,7 +320192,7 @@
         "20"
       ],
       "cri": [
-        "EQUIP[Critical&&Fatal (Lower)&&Fatal (Upper)]===10"
+        "EQUIP_ID[25060||29047&&25305||29360&&25304||29359]===10"
       ]
     }
   },
@@ -320216,7 +320216,7 @@
     "script": {
       "criDmg": [
         "3",
-        "EQUIP[Critical&&Fatal (Lower)]===6"
+        "EQUIP_ID[25060||29047&&25305||29360]===6"
       ]
     }
   },
@@ -320263,7 +320263,7 @@
     "script": {
       "vct": [
         "10",
-        "EQUIP[Variable Cast Reduction Upper&&Variable Cast Reduction Middle&&Variable Cast Reduction Lower]===5"
+        "EQUIP_ID[25172||29156&&25173||29157&&25174||29158]===5"
       ]
     }
   },
@@ -320356,7 +320356,7 @@
     "script": {
       "2332": [
         "15",
-        "EQUIP[Champion Stone (Upper)]===10"
+        "EQUIP_ID[25409||29423]===10"
       ]
     }
   },
@@ -320449,13 +320449,13 @@
     "script": {
       "2233": [
         "10",
-        "EQUIP[Sniper Stone (Upper)]===15"
+        "EQUIP_ID[25413||29428]===15"
       ],
       "vct": [
-        "EQUIP[Sniper Stone (Middle)]===10"
+        "EQUIP_ID[25414||29429]===10"
       ],
       "range": [
-        "EQUIP[Sniper Stone (Lower)]ACTIVE_SKILL[Wind Walk]===5"
+        "EQUIP_ID[25415||29430]ACTIVE_SKILL[Wind Walk]===5"
       ]
     }
   },
@@ -320554,13 +320554,13 @@
     "script": {
       "2449": [
         "10",
-        "EQUIP[Scholar Stone (Upper)]===15"
+        "EQUIP_ID[25417||29432]===15"
       ],
       "cd__2452": [
-        "EQUIP[Scholar Stone (Middle)]===15"
+        "EQUIP_ID[25418||29433]===15"
       ],
       "cd__2449": [
-        "EQUIP[Scholar Stone (Lower)]===2"
+        "EQUIP_ID[25419||29434]===2"
       ]
     }
   },
@@ -320652,13 +320652,13 @@
     "compositionPos": 65535,
     "script": {
       "2008": [
-        "EQUIP[Lord Knight Stone (Upper)]===10"
+        "EQUIP_ID[25445||29460]===10"
       ],
       "5004": [
-        "EQUIP[Lord Knight Stone (Upper)]===10"
+        "EQUIP_ID[25445||29460]===10"
       ],
       "acd": [
-        "EQUIP[Lord Knight Stone (Lower)]===5"
+        "EQUIP_ID[25447||29462]===5"
       ]
     }
   },
@@ -320682,13 +320682,13 @@
     "script": {
       "2477": [
         "10",
-        "EQUIP[Creator Stone (Upper)]===15"
+        "EQUIP_ID[25450||29464]===15"
       ],
       "cd__2492": [
-        "EQUIP[Creator Stone (Middle)]===3"
+        "EQUIP_ID[25451||29465]===3"
       ],
       "range": [
-        "EQUIP[Creator Stone (Lower)]===5"
+        "EQUIP_ID[25452||29466]===5"
       ]
     }
   },
@@ -320846,13 +320846,13 @@
     "script": {
       "2211": [
         "10",
-        "EQUIP[High Wizard Stone (Upper)]===15"
+        "EQUIP_ID[25453||29468]===15"
       ],
       "fct": [
-        "EQUIP[High Wizard Stone (Middle)]LEARN_SKILL[Soul Drain==2]---0.1"
+        "EQUIP_ID[25454||29469]LEARN_SKILL[Soul Drain==2]---0.1"
       ],
       "m_my_element_fire": [
-        "EQUIP[High Wizard Stone (Lower)]===5"
+        "EQUIP_ID[25455||29470]===5"
       ]
     }
   },
@@ -320945,10 +320945,10 @@
     "script": {
       "2288": [
         "15",
-        "EQUIP[Stalker Stone (Upper)]15"
+        "EQUIP_ID[25490||29477]15"
       ],
       "range": [
-        "EQUIP[Stalker Stone (Middle)]10"
+        "EQUIP_ID[25491||29478]10"
       ]
     }
   },
@@ -321041,10 +321041,10 @@
     "script": {
       "2280": [
         "15",
-        "EQUIP[Mastersmith Stone (Lower)]15"
+        "EQUIP_ID[25496||29483]15"
       ],
       "cd__2280": [
-        "EQUIP[Mastersmith Stone (Middle)]1"
+        "EQUIP_ID[25495||29482]1"
       ]
     }
   },
@@ -321141,13 +321141,13 @@
     "script": {
       "2418": [
         "15",
-        "EQUIP[Clown Gypsy Stone (Upper)]15"
+        "EQUIP_ID[25498||29485]15"
       ],
       "cd__2418": [
-        "EQUIP[Clown Gypsy Stone (Middle)]1"
+        "EQUIP_ID[25499||29486]1"
       ],
       "fct": [
-        "EQUIP[Clown Gypsy Stone (Lower)]0.5"
+        "EQUIP_ID[25500||29487]0.5"
       ]
     }
   },
@@ -321236,13 +321236,13 @@
     "script": {
       "2040": [
         "15",
-        "EQUIP[High Priest Stone (Upper)]15"
+        "EQUIP_ID[25706||29513]15"
       ],
       "cd__2040": [
-        "EQUIP[High Priest Stone (Middle)]1"
+        "EQUIP_ID[25707||29514]1"
       ],
       "fct": [
-        "EQUIP[High Priest Stone (Lower)]0.5"
+        "EQUIP_ID[25708||29515]0.5"
       ]
     }
   },
@@ -321335,10 +321335,10 @@
     "script": {
       "2308": [
         "15",
-        "EQUIP[Paladin Stone (Lower)]15"
+        "EQUIP_ID[25712||29519]15"
       ],
       "cd__2307": [
-        "EQUIP[Paladin Stone (Middle)]0.5"
+        "EQUIP_ID[25711||29518]0.5"
       ]
     }
   },
@@ -321431,10 +321431,10 @@
     "script": {
       "2036": [
         "15",
-        "EQUIP[Assassin Cross Stone (Lower)]15"
+        "EQUIP_ID[25716||29523]15"
       ],
       "2037": [
-        "EQUIP[Assassin Cross Stone (Middle)]15"
+        "EQUIP_ID[25715||29522]15"
       ]
     }
   },
@@ -321457,14 +321457,14 @@
     "compositionPos": 65535,
     "script": {
       "2330": [
-        "EQUIP[Champion Stone II (Upper)]15",
-        "EQUIP[Champion Stone II (Lower)]15"
+        "EQUIP_ID[25800||29613]15",
+        "EQUIP_ID[25798||29611]15"
       ],
       "2336": [
         "15"
       ],
       "hpPercent": [
-        "EQUIP[Champion Stone II (Middle)]10"
+        "EQUIP_ID[25799||29612]10"
       ]
     }
   },
@@ -321556,14 +321556,14 @@
     "compositionPos": 65535,
     "script": {
       "2446": [
-        "EQUIP[Scholar Stone II (Middle)]20"
+        "EQUIP_ID[25803||29616]20"
       ],
       "2447": [
         "15",
-        "EQUIP[Scholar Stone II (Upper)]10"
+        "EQUIP_ID[25804||29617]10"
       ],
       "cd__2454": [
-        "EQUIP[Scholar Stone II (Lower)]1"
+        "EQUIP_ID[25802||29615]1"
       ]
     }
   },
@@ -321665,7 +321665,7 @@
     "script": {
       "2284": [
         "15",
-        "EQUIP[Stalker Stone II (Upper)]10"
+        "EQUIP_ID[25808||29621]10"
       ]
     }
   },
@@ -321757,14 +321757,14 @@
     "compositionPos": 65535,
     "script": {
       "2602": [
-        "EQUIP[Soul Linker Stone (Middle)]20"
+        "EQUIP_ID[25844||29652]20"
       ],
       "2604": [
         "20",
-        "EQUIP[Soul Linker Stone (Upper)]20"
+        "EQUIP_ID[25843||29651]20"
       ],
       "fct": [
-        "EQUIP[Soul Linker Stone (Lower)]0.5"
+        "EQUIP_ID[25845||29653]0.5"
       ]
     }
   },
@@ -321925,11 +321925,11 @@
       ],
       "2584": [
         "20",
-        "EQUIP[Star Gladiator Stone (Middle)]15"
+        "EQUIP_ID[25847||29656]15"
       ],
       "2592": [
         "20",
-        "EQUIP[Star Gladiator Stone (Upper)]15"
+        "EQUIP_ID[25846||29655]15"
       ]
     }
   },
@@ -322030,10 +322030,10 @@
     "compositionPos": 65535,
     "script": {
       "3004": [
-        "EQUIP[Ninja Stone (Upper)]25"
+        "EQUIP_ID[25850||29659]25"
       ],
       "3006": [
-        "EQUIP[Ninja Stone (Middle)]25"
+        "EQUIP_ID[25851||29660]25"
       ],
       "3009": [
         "25"
@@ -322062,22 +322062,22 @@
         "20"
       ],
       "536": [
-        "EQUIP[Ninja Stone (Upper)]30"
+        "EQUIP_ID[25850||29659]30"
       ],
       "537": [
-        "EQUIP[Ninja Stone (Middle)]20"
+        "EQUIP_ID[25851||29660]20"
       ],
       "539": [
-        "EQUIP[Ninja Stone (Upper)]30"
+        "EQUIP_ID[25850||29659]30"
       ],
       "540": [
-        "EQUIP[Ninja Stone (Middle)]20"
+        "EQUIP_ID[25851||29660]20"
       ],
       "542": [
-        "EQUIP[Ninja Stone (Upper)]30"
+        "EQUIP_ID[25850||29659]30"
       ],
       "vct": [
-        "EQUIP[Ninja Stone (Lower)]15"
+        "EQUIP_ID[25852||29661]15"
       ]
     }
   },
@@ -322169,15 +322169,15 @@
     "compositionPos": 65535,
     "script": {
       "2554": [
-        "EQUIP[Gunslinger Stone (Lower)]25"
+        "EQUIP_ID[25857||29666]25"
       ],
       "2565": [
         "20",
-        "EQUIP[Gunslinger Stone (Upper)]15"
+        "EQUIP_ID[25855||29664]15"
       ],
       "2571": [
         "20",
-        "EQUIP[Gunslinger Stone (Middle)]20"
+        "EQUIP_ID[25856||29665]20"
       ]
     }
   },
@@ -322272,7 +322272,7 @@
     "compositionPos": 65535,
     "script": {
       "5026": [
-        "EQUIP_ID[29668||25859]20"
+        "EQUIP_ID[25859||29668]20"
       ],
       "5028": [
         "20"
@@ -322281,13 +322281,13 @@
         "20"
       ],
       "5036": [
-        "EQUIP[Doram Stone (Upper)]20"
+        "EQUIP_ID[25859||29668]20"
       ],
       "cd__5046": [
-        "EQUIP[Doram Stone (Middle)]1"
+        "EQUIP_ID[25860||29669]1"
       ],
       "cd__5028": [
-        "EQUIP[Doram Stone (Lower)]1"
+        "EQUIP_ID[25861||29670]1"
       ]
     }
   },
@@ -322380,13 +322380,13 @@
     "script": {
       "2236": [
         "15",
-        "EQUIP[Sniper Stone II (Upper)]15"
+        "EQUIP_ID[310000||1000008]15"
       ],
       "fix_vct__2236": [
-        "EQUIP[Sniper Stone II (Middle)]1"
+        "EQUIP_ID[310001||1000009]1"
       ],
       "cd__5002": [
-        "EQUIP[Sniper Stone II (Lower)]45"
+        "EQUIP_ID[310002||1000010]45"
       ]
     }
   },
@@ -322478,16 +322478,16 @@
     "compositionPos": 65535,
     "script": {
       "2256": [
-        "EQUIP[Mastersmith Stone II (Lower)]20"
+        "EQUIP_ID[310006||1000014]20"
       ],
       "2258": [
-        "EQUIP[Mastersmith Stone II (Middle)]20"
+        "EQUIP_ID[310005||1000013]20"
       ],
       "2261": [
         "15"
       ],
       "range": [
-        "EQUIP[Mastersmith Stone II (Upper)]10"
+        "EQUIP_ID[310004||1000012]10"
       ]
     }
   },
@@ -322580,10 +322580,10 @@
     "script": {
       "2038": [
         "15",
-        "EQUIP[High Priest Stone II (Upper)]15"
+        "EQUIP_ID[310008||1000016]15"
       ],
       "m_my_element_holy": [
-        "EQUIP[High Priest Stone II (Lower)]10"
+        "EQUIP_ID[310010||1000018]10"
       ]
     }
   },
@@ -322607,13 +322607,13 @@
     "script": {
       "2213": [
         "15",
-        "EQUIP[High Wizard Stone II (Upper)]15"
+        "EQUIP_ID[310181||1000214]15"
       ],
       "fct": [
-        "EQUIP[High Wizard Stone II (Middle)]0.5"
+        "EQUIP_ID[310182||1000215]0.5"
       ],
       "m_my_element_neutral": [
-        "EQUIP[High Wizard Stone II (Lower)]5"
+        "EQUIP_ID[310183||1000216]5"
       ]
     }
   },
@@ -322706,13 +322706,13 @@
     "script": {
       "2321": [
         "15",
-        "EQUIP[Paladin Stone II (Lower)]15"
+        "EQUIP_ID[310185||1000220]15"
       ],
       "fct": [
-        "EQUIP[Paladin Stone II (Upper)]LEARN_SKILL[Auto Guard==2]---0.1"
+        "EQUIP_ID[310187||1000218]LEARN_SKILL[Auto Guard==2]---0.1"
       ],
       "m_my_element_holy": [
-        "EQUIP[Paladin Stone II (Middle)]5"
+        "EQUIP_ID[310186||1000219]5"
       ]
     }
   },
@@ -322804,17 +322804,17 @@
     "compositionPos": 65535,
     "script": {
       "2029": [
-        "EQUIP[Assassin Cross Stone II (Middle)]20"
+        "EQUIP_ID[310190||1000223]20"
       ],
       "criDmg": [
         "15",
-        "EQUIP[Assassin Cross Stone II (Upper)]15"
+        "EQUIP_ID[310191||1000222]15"
       ],
       "atkPercent": [
-        "EQUIP[Assassin Cross Stone II (Upper)]5"
+        "EQUIP_ID[310191||1000222]5"
       ],
       "acd": [
-        "EQUIP[Assassin Cross Stone II (Lower)]5"
+        "EQUIP_ID[310189||1000224]5"
       ]
     }
   },
@@ -322906,14 +322906,14 @@
     "compositionPos": 65535,
     "script": {
       "2002": [
-        "EQUIP[Lord Knight Stone II (Upper)]20"
+        "EQUIP_ID[310258||1000297]20"
       ],
       "2004": [
-        "EQUIP[Lord Knight Stone II (Lower)]30"
+        "EQUIP_ID[310260||1000299]30"
       ],
       "2006": [
         "15",
-        "EQUIP[Lord Knight Stone II (Middle)]10"
+        "EQUIP_ID[310259||1000298]10"
       ]
     }
   },
@@ -323005,16 +323005,16 @@
     "compositionPos": 65535,
     "script": {
       "2481": [
-        "EQUIP[Creator Stone II (Middle)]20"
+        "EQUIP_ID[310263||1000302]20"
       ],
       "2483": [
         "20"
       ],
       "cd__2476": [
-        "EQUIP[Creator Stone II (Upper)]0.7"
+        "EQUIP_ID[310262||1000301]0.7"
       ],
       "fct": [
-        "EQUIP[Creator Stone II (Lower)]LEARN_SKILL[Acid Demonstration==2]---0.1"
+        "EQUIP_ID[310264||1000303]LEARN_SKILL[Acid Demonstration==2]---0.1"
       ]
     }
   },
@@ -323106,11 +323106,11 @@
     "compositionPos": 65535,
     "script": {
       "2413": [
-        "EQUIP[Clown Gypsy Stone II (Lower)]20"
+        "EQUIP_ID[310268||1000307]20"
       ],
       "2414": [
         "15",
-        "EQUIP[Clown Gypsy Stone II (Upper)]10"
+        "EQUIP_ID[310266||1000305]10"
       ]
     }
   },
@@ -323264,7 +323264,7 @@
     "script": {
       "range": [
         "3",
-        "EQUIP[Range Stone (Middle)&&Range Stone (Lower)]===6"
+        "EQUIP_ID[25061||310330&&310326||1000376]===6"
       ]
     }
   },
@@ -323311,7 +323311,7 @@
     "script": {
       "melee": [
         "3",
-        "EQUIP[Melee Stone (Middle)&&Melee Stone (Lower)]===6"
+        "EQUIP_ID[310328||1000378&&310329||1000379]===6"
       ]
     }
   },
@@ -323404,7 +323404,7 @@
     "script": {
       "fct": [
         "0.1",
-        "EQUIP[Minor Fixed Cast Reduction]===0.3"
+        "EQUIP_ID[25170||29154]===0.3"
       ]
     }
   },
@@ -323430,7 +323430,7 @@
         "5"
       ],
       "fct": [
-        "EQUIP_ID[29358||25306]0.5"
+        "EQUIP_ID[25306||29358]0.5"
       ]
     }
   },
@@ -323454,9 +323454,9 @@
     "script": {
       "range": [
         "4",
-        "EQUIP[Range Stone (Upper)]===2",
-        "EQUIP[Range Stone (Middle)]===2",
-        "EQUIP[Range Stone (Lower)]===2"
+        "EQUIP_ID[310325||1000375]===2",
+        "EQUIP_ID[25061||310330]===2",
+        "EQUIP_ID[310326||1000376]===2"
       ]
     }
   },
@@ -323613,13 +323613,13 @@
     "compositionPos": 65535,
     "script": {
       "2004": [
-        "EQUIP[Rune Knight Stone II (Garment)]===15"
+        "EQUIP_ID[310257||1000296]===15"
       ],
       "criDmg": [
         "LEARN_SKILL[Dragon Training==1]---2"
       ],
       "vct": [
-        "EQUIP[Rune Knight Stone (Garment)]===10"
+        "EQUIP_ID[25448||29463]===10"
       ]
     }
   },
@@ -323642,13 +323642,13 @@
     "compositionPos": 65535,
     "script": {
       "2002": [
-        "EQUIP[Rune Knight Stone II (Garment)]===15"
+        "EQUIP_ID[310257||1000296]===15"
       ],
       "2008": [
-        "EQUIP[Rune Knight Stone (Garment)]===15"
+        "EQUIP_ID[25448||29463]===15"
       ],
       "5004": [
-        "EQUIP[Rune Knight Stone (Garment)]===15"
+        "EQUIP_ID[25448||29463]===15"
       ],
       "melee": [
         "LEARN_SKILL[Rune Mastery==2]---1"
@@ -323680,13 +323680,13 @@
         "LEARN_SKILL[Enchant Blade==1]---5"
       ],
       "2006": [
-        "EQUIP[Rune Knight Stone II (Garment)]===15"
+        "EQUIP_ID[310257||1000296]===15"
       ],
       "hpPercent": [
-        "EQUIP[Rune Knight Stone (Garment)]===10"
+        "EQUIP_ID[25448||29463]===10"
       ],
       "spPercent": [
-        "EQUIP[Rune Knight Stone (Garment)]===10"
+        "EQUIP_ID[25448||29463]===10"
       ]
     }
   },
@@ -323709,10 +323709,10 @@
     "compositionPos": 65535,
     "script": {
       "720": [
-        "EQUIP[Warlock Stone II (Garment)]===15"
+        "EQUIP_ID[310180||1000213]===15"
       ],
       "2202": [
-        "EQUIP[Warlock Stone (Garment)]===15"
+        "EQUIP_ID[25456||29471]===15"
       ],
       "m_my_element_all": [
         "LEARN_SKILL[Soul Expansion==1]---2"
@@ -323738,10 +323738,10 @@
     "compositionPos": 65535,
     "script": {
       "720": [
-        "EQUIP[Warlock Stone II (Garment)]===15"
+        "EQUIP_ID[310180||1000213]===15"
       ],
       "2211": [
-        "EQUIP[Warlock Stone (Garment)]===15"
+        "EQUIP_ID[25456||29471]===15"
       ],
       "fct": [
         "LEARN_SKILL[Comet==1]---0.1"
@@ -323767,10 +323767,10 @@
     "compositionPos": 65535,
     "script": {
       "2213": [
-        "EQUIP[Warlock Stone II (Garment)]===15"
+        "EQUIP_ID[310180||1000213]===15"
       ],
       "2214": [
-        "EQUIP[Warlock Stone (Garment)]===15"
+        "EQUIP_ID[25456||29471]===15"
       ],
       "acd": [
         "LEARN_SKILL[Chain Lightning==1]---1"
@@ -323796,10 +323796,10 @@
     "compositionPos": 65535,
     "script": {
       "2307": [
-        "EQUIP[Royal Guard Stone (Garment)]===15"
+        "EQUIP_ID[25713||29520]===15"
       ],
       "2321": [
-        "EQUIP[Royal Guard Stone II (Garment)]===15"
+        "EQUIP_ID[310184||1000217]===15"
       ],
       "fct": [
         "LEARN_SKILL[Inspiration==1]---0.1"
@@ -323825,7 +323825,7 @@
     "compositionPos": 65535,
     "script": {
       "2308": [
-        "EQUIP[Royal Guard Stone (Garment)]===15"
+        "EQUIP_ID[25713||29520]===15"
       ],
       "range": [
         "LEARN_SKILL[Piety==1]---2"
@@ -323854,13 +323854,13 @@
     "compositionPos": 65535,
     "script": {
       "2307": [
-        "EQUIP[Royal Guard Stone (Garment)]===15"
+        "EQUIP_ID[25713||29520]===15"
       ],
       "2317": [
         "LEARN_SKILL[Moon Slasher==1]---5"
       ],
       "m_size_all": [
-        "EQUIP[Royal Guard Stone II (Garment)]===15"
+        "EQUIP_ID[310184||1000217]===15"
       ]
     }
   },

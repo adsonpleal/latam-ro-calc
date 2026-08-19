@@ -10,18 +10,16 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  * exist the player finds the stone under the old name, and where only the new one exists
  * the stone was unreachable in every picker.
  *
- * Two things this pins.
+ * Every set clause in the family names both generations of every partner it needs —
+ * `EQUIP_ID[310328||1000378]` and so on — so a set pays the same whichever generation of
+ * a piece the player owns. That the whole family really is id-based, and that no
+ * generation was dropped on the way there, is what costume-enchant-combo-migration.spec.ts
+ * holds; this file covers the stones the two tracker cards named.
  *
- * 1. **A re-issue keeps its original record's English `name`.** Combo clauses are authored
- *    as `EQUIP[<english name>]` and resolved against `enName` (`Calculator.matchName`),
- *    which the LATAM overlay copies from that field before swapping in the pt-BR name. So
- *    giving the re-issue the same English name makes every existing set fire for either
- *    generation without editing the record that declares the set. The pt-BR label the user
- *    picks from still comes from latam-items.json and is unaffected.
- *
- * 2. **The two id-based clauses were widened by hand**, because `EQUIP_ID[...]` cannot
- *    profit from the name trick: the three Corpo clauses on 1000524 and the Invocador
- *    (Topo) clause on 29671 now read `EQUIP_ID[<old>||<new>]`.
+ * A re-issue does still carry its counterpart's English `name`. Nothing depends on that
+ * any more — it was load-bearing only while the clauses matched on `enName` — but the two
+ * ids are the same client item, so the shared name is left alone. The pt-BR label the user
+ * picks from comes from latam-items.json either way.
  *
  * The Propriedade family (1000527-1000530) has no old-code counterpart at all and is
  * written from the pt-BR description. Its (Topo) text lists "Propriedade (Topo)" among its

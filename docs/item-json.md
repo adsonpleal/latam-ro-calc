@@ -267,7 +267,29 @@ declara os dele). Identifique o parceiro pelo **id** com `EQUIP_ID[<id>]`:
 ```
 
 `&&` exige todos os parceiros, `||` aceita qualquer um:
-`EQUIP_ID[480062||480063]50`.
+`EQUIP_ID[480062||480063]50`. O `&&` é avaliado primeiro, então
+`EQUIP_ID[a||b&&c||d]` lê‑se “(a ou b) **e** (c ou d)”.
+
+### Parceiro reeditado: nomeie todas as gerações
+
+O cliente **reedita itens sob ids novos mantendo o nome em inglês do antigo**. Como
+`EQUIP[<nome>]` casa por `enName`, uma cláusula por nome disparava para as duas gerações
+sem que ninguém tivesse escrito isso — e converter essa cláusula para **um** id derruba
+silenciosamente a outra geração.
+
+Quando o parceiro tem reedição, liste todas as gerações no mesmo grupo `||`:
+
+```jsonc
+"melee": ["3", "EQUIP_ID[310328||1000378&&310329||1000379]===6"]
+```
+
+> ⚠️ `EQUIP[<nome>]` é **legado** e não deve entrar em registro novo (§ tabela de
+> condições). A família de Pedras de Encantar Visual (subtipos 71‑76) foi migrada por
+> inteiro — 159 registros, 330 cláusulas — e `item-script-keys.spec.ts` trava tanto esse
+> zero quanto a contagem geral, que só pode cair. Ao migrar outra família, **grave a
+> baseline de comportamento antes de mexer nos dados** e afirme que ela não mudou depois,
+> com um caso por geração de cada parceiro; veja
+> `costume-enchant-combo-migration.spec.ts`.
 
 ---
 
