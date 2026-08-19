@@ -16,6 +16,8 @@
 //   items-core[.<hash>].json   { "<key>": CoreItem } — item.json already merged
 //                              with the LATAM overlay: pt-BR `name`, `enName`
 //                              when it differs, `presentInLatam`, `canGrade`.
+//                              `preRelease` passes through untouched and forces
+//                              `presentInLatam` on for items LATAM has not shipped.
 //                              Minus `description`, `unidName`, `resName` and
 //                              `requiredLevel`, none of which the browser reads.
 //
@@ -126,6 +128,10 @@ export function buildItems(items, latam, { allDesc } = {}) {
       if (!DROPPED_FIELDS.has(field)) rec[field] = item[field];
     }
 
+    // `preRelease` is the one hand-authored source of presentInLatam: an item that
+    // LATAM has not shipped yet but that we want selectable anyway, carrying the iRO
+    // English name and description. See docs/item-json.md and the graduation check in
+    // src/app/api-services/pre-release-items.spec.ts.
     if (pt) {
       rec.presentInLatam = true;
       // Set/combo scripts (EQUIP[...], POS_SPECIFIC[...], REFINE_NAME[...]) match
@@ -136,6 +142,11 @@ export function buildItems(items, latam, { allDesc } = {}) {
         rec.name = pt.name;
       }
       if (pt.description) desc[key] = pt.description;
+    } else if (item.preRelease) {
+      rec.presentInLatam = true;
+      // The English description is the only one there is, so it ships unconditionally
+      // rather than waiting for --all-desc.
+      if (item.description) desc[key] = item.description;
     } else if (allDesc && item.description) {
       desc[key] = item.description;
     }

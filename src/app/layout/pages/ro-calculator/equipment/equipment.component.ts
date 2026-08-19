@@ -234,10 +234,10 @@ export class EquipmentComponent implements OnChanges, OnInit {
       }
     };
 
-    this.enchant1List = (e1 ?? []).map((a: any) => this.mapEnchant.get(a)).map((a: any) => ({ label: a.name, value: a.id }));
-    this.enchant2List = (e2 ?? []).map((a: any) => this.mapEnchant.get(a)).map((a: any) => ({ label: a.name, value: a.id }));
-    this.enchant3List = (e3 ?? []).map((a: any) => this.mapEnchant.get(a)).map((a: any) => ({ label: a.name, value: a.id }));
-    this.enchant4List = (e4 ?? []).map((a: any) => this.mapEnchant.get(a)).map((a: any) => ({ label: a.name, value: a.id }));
+    this.enchant1List = (e1 ?? []).map((a: any) => this.mapEnchant.get(a)).map((a: any) => ({ label: a.name, value: a.id, preRelease: a.preRelease }));
+    this.enchant2List = (e2 ?? []).map((a: any) => this.mapEnchant.get(a)).map((a: any) => ({ label: a.name, value: a.id, preRelease: a.preRelease }));
+    this.enchant3List = (e3 ?? []).map((a: any) => this.mapEnchant.get(a)).map((a: any) => ({ label: a.name, value: a.id, preRelease: a.preRelease }));
+    this.enchant4List = (e4 ?? []).map((a: any) => this.mapEnchant.get(a)).map((a: any) => ({ label: a.name, value: a.id, preRelease: a.preRelease }));
 
     this.gradeList = canGrade ? getGradeList() : [];
 
