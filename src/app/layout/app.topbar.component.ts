@@ -159,6 +159,25 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.73-beta',
+      date: '19-08-2026',
+      logs: [
+        'O conjunto dos Manuks voltou a pagar o bônus inteiro. A Vestimenta dos Manuks reúne o Anel, as Botas e o Capuz, e das quatro linhas que a descrição promete só uma estava cadastrada, a de +20% de dano nas Lâminas Retalhadoras; faltavam Dano crítico +40%, CRIT +15 e Esquiva +10. O dano crítico é o que mais pesa: numa build que crita sempre, ele sozinho respondia pela diferença inteira, e os seis golpes gravados ficavam de 5% a 17% acima do teto que o simulador calculava.',
+        'O Katar Metálico entrou no banco de itens. Ele não estava lá, e quem o equipava importava a gravação sem arma nenhuma — o ATQ de equipamento caía dos 220 que o jogo mostra para os 25 que vêm do resto do equipamento. Os bônus são os mesmos do Punhal Metálico, trocando os 2 de ATQM por refino por 1% de dano crítico. A Caipirinha, equipamento de cabeça na posição baixa, também entrou; ela não concede bônus algum, mas aparecia como item fora do banco de dados na importação.',
+        'A classe em si não precisou de mudança. O Sicário foi conferido pacote a pacote contra uma gravação em que o personagem troca de arma na frente da câmera — Katar de Apoio Crítico +13, Punhal Metálico +7 e Katar Metálico +7 —, o que remonta a janela de status três vezes: ATQ, ATQ de equipamento e VelAtq batem com o jogo nas três. A razão das Lâminas Retalhadoras vem da tabela do cliente e reproduz o arquivo. Fica em aberto o campo Crítico, que sai 2 pontos acima do que o jogo mostra; a diferença está na parcela que vem da SOR, não nos equipamentos, e uma gravação com outra SOR resolveria. Obrigado KZGX pela gravação.',
+      ],
+    },
+    {
+      v: '0.1.72-beta',
+      date: '19-08-2026',
+      logs: [
+        'As armas da Luz Radiante, as armas do Pecado e as Coroas do Bem e do Mal entraram no simulador antes de chegarem ao LATAM. São 64 peças — 21 armas de cada lado e as 22 coroas, uma por classe —, com os encantos das três listas: Good Spell e Evil Spell no primeiro slot da coroa e as seis insígnias no segundo; nas armas, Mira Apurada, Expert Fighter e Expert Magician de um lado, Pedra de Crítico, Anti-Atraso, Hit Plus e Caster do outro. Como o cliente ainda não trouxe essas peças, elas aparecem com o nome e a descrição em inglês do iRO — daí os encantos que ainda não têm nome em português — e levam uma etiqueta iRO na lista, para não se confundirem com o que já dá para equipar; o ícone fica em branco até o cliente publicá-lo. Quando o LATAM lançar as peças, o texto em português entra no lugar sozinho. Solicitado por Shummuy.',
+        'A Insígnia da Afeição entrou no banco de encantos. Ela é um dos seis sorteios do terceiro slot da Coroa do Bem e do Mal, e faltava: o sorteio aparecia com cinco opções em vez de seis. Os três níveis somam SP máximo.',
+        'Postas à mostra pela primeira vez, as peças foram conferidas linha a linha contra a descrição, e quatro erros vieram junto do cadastro antigo. O maior estava nas 22 coroas, que pagavam o bônus de conjunto só com o encanto: bastava encaixar o Good Spell ou o Evil Spell para receber os 15% e os 20% que a descrição promete apenas junto da arma do conjunto, sem arma nenhuma equipada, e o encanto de um lado ainda pagava as habilidades do outro. Cada uma dessas linhas passou a exigir a arma e o encanto ao mesmo tempo.',
+        'Os outros três eram números trocados. As Coroas do Bem e do Mal do Mandraque, do Falcão do Vento e do Maestro/Diva davam POD +2 no Grau B, e a descrição das três diz CON +2 — as outras dezenove dizem POD, e o cadastro copiou delas. A coroa do Executor somava 10% de dano físico corpo a corpo a cada 3 refinos da arma, em vez dos 5% descritos. E a Espada da Vitória dava 5% de dano físico corpo a corpo no Grau D, em vez de 10%.',
+      ],
+    },
+    {
       v: '0.1.71-beta',
       date: '18-08-2026',
       logs: [

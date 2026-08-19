@@ -264,8 +264,10 @@ export class DragonKnight extends RuneKnight {
     // skill-catalog.spec.ts insisted on the separate id — but it arrived in a later kRO
     // rebalance that this client has not received. Three independent checks agree: the
     // ragassets skill feed carries 1558 skills and none is 6001; bROWiki has no page for
-    // it and leaves it out of the Cavaleiro Draconiano tree; and all 20 item.json records
-    // that key a bonus on "6001" are `presentInLatam: false`. Its catalog entry was the
+    // it and leaves it out of the Cavaleiro Draconiano tree; and no reachable item's 6001
+    // bonus can ever be read, since the skill cannot be picked (two of the 20 item.json
+    // records keying it are reachable — 630027 Tridente Celestial and 400374 the Crown of
+    // Good and Evil — and both simply carry an inert line). Its catalog entry was the
     // only dragon skill with no client `description`, because the pt-BR label
     // ("Sopro Draconiano") had been invented rather than read off the GRF — which is also
     // why its icon 404'd on ragassets and the picker showed a blank slot (tracker card

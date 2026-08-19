@@ -134,8 +134,8 @@ export class EquipmentShadowComponent implements OnInit, OnChanges {
       }
     };
 
-    this.enchant3List = (e3 ?? []).map((a: any) => this.mapEnchant.get(a)).map((a: any) => ({ label: a.name, value: a.id }));
-    this.enchant4List = (e4 ?? []).map((a: any) => this.mapEnchant.get(a)).map((a: any) => ({ label: a.name, value: a.id }));
+    this.enchant3List = (e3 ?? []).map((a: any) => this.mapEnchant.get(a)).map((a: any) => ({ label: a.name, value: a.id, preRelease: a.preRelease }));
+    this.enchant4List = (e4 ?? []).map((a: any) => this.mapEnchant.get(a)).map((a: any) => ({ label: a.name, value: a.id, preRelease: a.preRelease }));
 
     clearModel();
   }
