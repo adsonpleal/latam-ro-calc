@@ -147,9 +147,12 @@ export class RoyalGuard extends Paladin {
         const { model, skillLevel, status } = input;
         const baseLevel = model.level;
         const { totalStr, totalDex } = status;
+        // 350%/level, 500%/level while Espiral Lunar's bonus is up — the client's own
+        // table (Lv5: 1.750% / 2.500%). The 300/450 this used to carry was ~14% short;
+        // see RoyalGuard.over-brand-replay.spec.ts, which measures both against a replay.
         const moonSlasherBonus = this.isSkillActive('Moon Slasher') ? 150 : 0;
 
-        return (skillLevel * (300 + moonSlasherBonus) + totalStr + totalDex) * (baseLevel / 100);
+        return (skillLevel * (350 + moonSlasherBonus) + totalStr + totalDex) * (baseLevel / 100);
       },
     },
     {
@@ -443,9 +446,14 @@ export class RoyalGuard extends Paladin {
       }
     }
 
-    if (this.isSkillActive('Spear Quicken')) {
-      totalBonus.cri = (totalBonus.cri || 0) + 30;
-      totalBonus.flee = (totalBonus.flee || 0) + 20;
+    // Rapidez com Lança: CRIT +3 and Esquiva +2 per level, per the client's own table —
+    // these were flat +30/+20 (the Lv10 row) at every level. The ASPD half stays as it
+    // was: the client states it ("aumenta ... a velocidade de ataque") without a number,
+    // so there is nothing to scale it by.
+    const spearQuickenLv = this.activeSkillLv('Spear Quicken');
+    if (spearQuickenLv > 0) {
+      totalBonus.cri = (totalBonus.cri || 0) + spearQuickenLv * 3;
+      totalBonus.flee = (totalBonus.flee || 0) + spearQuickenLv * 2;
       totalBonus.skillAspd = (totalBonus.skillAspd || 0) + 7;
       totalBonus.aspdPercent = (totalBonus.aspdPercent || 0) + 10;
     }

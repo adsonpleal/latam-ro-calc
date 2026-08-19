@@ -127,13 +127,26 @@ export class Paladin extends Swordman {
   ];
   protected readonly activeSkillListHi: ActiveSkillModel[] = [
     {
-      label: 'Spear Quick 10',
+      // CRIT and Esquiva scale with the level (client table: +3 and +2 per level), so the
+      // toggle carries one — RoyalGuard.setAdditionalBonus reads it. It used to be a
+      // Sim/Não button worth a flat Lv10, and 10 is still the value of that option, so a
+      // build saved before this keeps the level it had.
+      label: 'Spear Quicken',
       name: 'Spear Quicken',
-      inputType: 'selectButton',
+      inputType: 'dropdown',
       isMasteryAtk: true,
       dropdown: [
-        { label: 'Sim', value: 10, isUse: true },
-        { label: 'Não', value: 0, isUse: false },
+        { label: '-', value: 0, isUse: false },
+        { label: 'Nv 1', value: 1, isUse: true },
+        { label: 'Nv 2', value: 2, isUse: true },
+        { label: 'Nv 3', value: 3, isUse: true },
+        { label: 'Nv 4', value: 4, isUse: true },
+        { label: 'Nv 5', value: 5, isUse: true },
+        { label: 'Nv 6', value: 6, isUse: true },
+        { label: 'Nv 7', value: 7, isUse: true },
+        { label: 'Nv 8', value: 8, isUse: true },
+        { label: 'Nv 9', value: 9, isUse: true },
+        { label: 'Nv 10', value: 10, isUse: true },
       ],
     },
   ];

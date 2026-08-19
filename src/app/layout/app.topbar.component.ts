@@ -159,6 +159,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.76-beta',
+      date: '19-08-2026',
+      logs: [
+        'A Lança do Destino saía cerca de 14% abaixo do jogo, por causa da razão cadastrada. A descrição do cliente dá 350% por nível, e 500% enquanto o bônus da Espiral Lunar estiver ativo — no Nv 5, 1.750% e 2.500% —, e o cadastro trazia 300% e 450%, os números da versão 2 do blog do Sigma, que o LATAM não roda. O que aponta a tabela certa não depende de nenhum valor absoluto: a gravação liga e desliga o bônus da Espiral Lunar dentro do mesmo estado de buffs, e a razão entre as duas faixas de dano é justamente onde as duas tabelas discordam — 1,41 pela antiga, 1,36 pela do cliente, e o arquivo mede 1,3626 em 27 golpes. Com a correção, os 51 golpes gravados caem dentro da faixa calculada, nas duas metades da gravação e contra os bonecos pequeno, médio e grande.',
+        'A Posição de Defesa entrou no simulador. O Guardião Imperial tinha a Posição de Ataque e nenhuma contrapartida para a postura defensiva, que o cliente resume em DEF +300 e ATQ -250 no Nv 5, 50 de cada lado por nível. Quem simulava nessa postura recebia o ATQ da outra, e a gravação é o que mostra o tamanho da diferença: o ATQ de equipamento salta de 572 para 822 no instante em que a postura é trocada, e a faixa de dano do começo do arquivo só fecha com os 250 descontados. As duas metades foram conferidas contra a janela de status da própria gravação — ATQ de equipamento 372 e DEF 791. No jogo as duas posturas se cancelam; o simulador não impede que fiquem ligadas ao mesmo tempo, então isso fica a cargo de quem monta a build. Entraram junto no catálogo de nomes o Escudo Guardião, a Remissão, o Ultimato e a Crux Judicium, que faltavam.',
+        'O Golpe do Destino subiu de 60% para 80% por nível, a tabela do cliente (Nv 10: 800%). O que confirma que 80% é a base, e não um número que já embuta a maestria, é o formato das duas habilidades irmãs: o Arremessar Escudo parte dos 600% do cliente e a Crux Tempestas dos 150%, ambas somando a maestria por cima, e o Golpe do Destino era o único que começava abaixo da própria linha. Os valores por nível de maestria seguem sem confirmação — o cliente diz que a Maestria da Guarda e a Perícia com Escudo afetam o dano de algumas habilidades, mas não dá número —, e uma gravação do Golpe do Destino em dois níveis de maestria resolveria.',
+        'A Rapidez com Lança passou a valer por nível. Ela dava CRIT +30 e Esquiva +20 em qualquer nível, que é a linha do Nv 10; a tabela do cliente é +3 de CRIT e +2 de Esquiva por nível. O Nv 10 está medido na gravação, que registra o Crítico indo de 33 para 63 e a Esquiva de 500 para 520 no momento em que o buff sobe. O seletor da habilidade virou uma lista de níveis, e quem tinha o antigo "Sim" gravado continua no Nv 10. A parte de velocidade de ataque ficou como estava, porque o cliente diz que ela aumenta sem dizer quanto.',
+        'Fora isso, a classe fecha com o jogo. A build foi lida da própria gravação — 19 peças com refino, cartas, encantos e bônus aleatórios — e reproduz a janela de status do arquivo em todos os campos que ela registra: ATQ, ATQ de equipamento, P.ATQ, S.ATQM, Crítico e DEF. O crítico do ataque básico, único número determinístico do arquivo, sai exato na unidade, e a Espiral Lunar já estava certa. Gravação enviada por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.75-beta',
       date: '19-08-2026',
       logs: [
