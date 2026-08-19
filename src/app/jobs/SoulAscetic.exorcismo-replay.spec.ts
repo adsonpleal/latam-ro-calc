@@ -127,6 +127,8 @@ function sim(t: number, opts: { totem?: boolean; fiveElements?: boolean; db?: an
   const activeLv: Record<string, number> = {
     'Total Soul': SOULS,
     'Seven Wind': SEVEN_WIND_HOLY,
+    // Cast at t=1,197 and refreshed at t=125,8s; the status window prices it at +50 ATQM.
+    'Fairy Soul': 5,
     'Totem of Tutelary': opts.totem ? 1 : 0,
     'Talisman of Five Elements': opts.fiveElements ? 1 : 0,
   };
@@ -234,19 +236,21 @@ describe('Soul Ascetic — Exorcizar Assombração, recording by equipment state
     // (250 × 5 + 3 × 2 + 93) × 20 almas × 220/100.
     expect(s.ratio).toBe(59_356);
 
-    // OPEN, and the only gap left on this window: the simulator is 1,26% high because its
-    // MATK is 877 where the game's is 866. Two independent halves, both measured here:
-    //  - **Espírito da Fada Lv5 is not modelled.** It is commented out in `SoulReaper.ts`,
-    //    and the recording shows it paying +50 ATQM — SP_MATK1 goes 4 → 54 on the cast at
-    //    t=1.197, with nothing else equipped.
-    //  - **`Total Soul` pays a MATK it does not have.** The dropdown books `x_matk` at 3
-    //    per soul, i.e. +60 here; the game's equipment MATK does not move when the gauge
-    //    fills, and solving the bare packets gives MATK 866 = 813 status + 54 equip − 1.
-    // Booking both (−60, +50) leaves the simulator 0,08% high — one MATK point, which is
-    // that trailing −1: SP_MATK2 813 and SP_MATK1 54 are what the client prints, and the
-    // server's own total is one below their sum.
-    expect(s.max).toBe(762_695);
-    expect(s.max / pk[0]).toBeLessThan(1.013);
+    // This window is what priced the two MATK corrections that came with it, both of them
+    // measured right here:
+    //  - **Espírito da Fada Lv5** was commented out in `SoulReaper.ts`. The recording casts
+    //    it at t=1.197 with nothing but shadow gear on and SP_MATK1 goes 4 → 54.
+    //  - **`Total Soul` booked an `x_matk` of 3 per soul**, i.e. +60 at twenty souls. The
+    //    equipment MATK never moves as the gauge fills, and solving these three packets
+    //    gives MATK 866 — the status window's own 813 + 54, with no room for another 60.
+    //
+    // OPEN, and all that is left: one MATK point. The simulator totals 867 where the server
+    // used 866, so it lands 0,08% high. SP_MATK2 813 and SP_MATK1 54 are what the client
+    // prints and their sum is 867, so the server's own total is one below what it displays;
+    // separating a display rounding from an off-by-one in the status-MATK curve needs a
+    // second bare recording at a different INT.
+    expect(s.max).toBe(753_795);
+    expect(s.max / pk[0]).toBeLessThan(1.001);
   });
 
   it('brackets the weapon-only window, with and without the totem', () => {
