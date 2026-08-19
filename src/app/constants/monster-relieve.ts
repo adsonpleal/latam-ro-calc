@@ -20,8 +20,11 @@ const RELIEVE_REDUCTION_PERCENT = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 99] as
 export const MAX_RELIEVE_LEVEL = RELIEVE_REDUCTION_PERCENT.length - 1;
 
 /**
- * Monsters known to cast Aliviar, and therefore the only ones the level picker appears
- * for. Both are the Jardim Secreto bosses (https://browiki.org/wiki/Jardim_Secreto):
+ * Monsters known to cast Aliviar, and therefore the only ones the level picker
+ * appears for. None of them lists skill 771 in its own skill table — the instance
+ * script is what turns it on — so bROWiki's instance pages are the source here.
+ *
+ * Jardim Secreto (https://browiki.org/wiki/Jardim_Secreto):
  *
  * - 20620 `MD_REDPEPPER` — Pimentinha Kappa, the normal-mode MVP;
  * - 20621 `MD_REDPEPPER_H` — Pimentão Lambda, the hard-mode MVP.
@@ -33,11 +36,28 @@ export const MAX_RELIEVE_LEVEL = RELIEVE_REDUCTION_PERCENT.length - 1;
  *     Nv. = 10 - ((4 - peças vivas) x 2)
  *
  * so 4 pieces still standing is Nv. 10 (99% of the damage gone) and all four down is
- * Nv. 2. The picker still offers every level 1-10 rather than only that even subset: the
- * numbers above describe one instance's script, while the reduction table is the skill's,
- * and the next monster added to this list will have its own way of choosing a level.
+ * Nv. 2.
+ *
+ * Arena Noturna (https://browiki.org/wiki/Arena_Noturna) — every opponent the arena can
+ * draw, 20856-20870 plus 20872 Fenrir. The round decides the level rather than the
+ * player: it climbs from Nv. 1-5 in round 1 to a flat Nv. 10 in round 10.
+ *
+ * Torre da Constelação (https://browiki.org/wiki/Torre_da_Constelação):
+ *
+ * - 20996 `MD_NAGHT_SIEGER` — Nv. 6 to 10, one level for each of the four Espinhos still
+ *   alive after the boss summons them at 90% HP;
+ * - 20994 `MD_BETELGEUSE` — Nv. 0 to 5 by the difficulty ★ configured at the Fonte da
+ *   Deusa, then up to Nv. 10 as the traps make it summon Almas Mortas.
+ *
+ * The picker still offers every level 1-10 rather than each instance's own subset: those
+ * numbers describe one script, while the reduction table is the skill's.
  */
-export const RELIEVE_MONSTER_IDS: ReadonlySet<number> = new Set([20620, 20621]);
+export const RELIEVE_MONSTER_IDS: ReadonlySet<number> = new Set([
+  20620, 20621,
+  20856, 20857, 20858, 20859, 20860, 20861, 20862, 20863,
+  20864, 20865, 20866, 20867, 20868, 20869, 20870, 20872,
+  20994, 20996,
+]);
 
 /** Whether the Aliviar picker should be offered for this monster id. */
 export const hasRelieve = (monsterId: number): boolean => RELIEVE_MONSTER_IDS.has(monsterId);

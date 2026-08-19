@@ -98,9 +98,8 @@ for (const id of ids) {
       mvp: stats.mvp,
       class: stats.class,
       attr: 0,
-      // Not in the source. monster.ts defaults both to 0 — do not invent values.
-      res: 0,
-      mres: 0,
+      res: stats.res,
+      mres: stats.mres,
       elementName: stats.elementName,
       elementShortName: stats.elementShortName,
       scaleName: stats.scaleName,
@@ -111,7 +110,7 @@ for (const id of ids) {
 
   const s = rec.stats;
   console.log(`=== ${id}  ${rec.dbname || "(no dbname)"}  "${rec.name}"  [${s.mvp ? "MVP" : s.class ? "Boss" : "Normal"}]`);
-  console.log(`  Lv ${s.level} | ${s.raceName}/${s.scaleName}/${s.elementName} | HP ${s.health.toLocaleString()} | DEF ${s.defense} MDEF ${s.magicDefense}`);
+  console.log(`  Lv ${s.level} | ${s.raceName}/${s.scaleName}/${s.elementName} | HP ${s.health.toLocaleString()} | DEF ${s.defense} MDEF ${s.magicDefense} | RES ${s.res} MRES ${s.mres}`);
   console.log(`  STR ${s.str} AGI ${s.agi} VIT ${s.vit} INT ${s.int} DEX ${s.dex} LUK ${s.luk}`);
   if (mob.race !== s.raceName) console.log(`  (race normalized: "${mob.race}" -> "${s.raceName}")`);
   console.log("");

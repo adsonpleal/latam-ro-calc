@@ -159,6 +159,18 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.83-beta',
+      date: '19-08-2026',
+      logs: [
+        'Os monstros de três instâncias novas entraram no simulador: Queda do Aeroplano, Arena Noturna e Torre da Constelação. São 48 alvos, e cada instância ganhou o seu grupo na lista — os cinco monstros da Gruta de Mjolnir com a Criatura Desconhecida; os dezesseis oponentes da arena de Geffen, do Arhi ao Fenrir; e os vinte e cinco chefes que aparecem a cada cinco andares da torre, com o Naght Sieger e o Betelgeuse.',
+        'O seletor de Aliviar passou a aparecer para os alvos dessas instâncias que usam a habilidade. Na Arena Noturna são todos os oponentes, em nível que sobe conforme a rodada; na Torre da Constelação, o Naght Sieger a usa do nível 6 ao 10, um nível para cada Espinho vivo, e o Betelgeuse conforme as estrelas configuradas na Fonte da Deusa, chegando ao nível 10 à medida que invoca Almas Mortas. Como antes, o nível continua sendo escolhido na tela.',
+        'Os MVPs de instância voltaram a aparecer dentro do grupo da própria instância. A lista mandava todo alvo marcado como MVP para o grupo "Boss" antes de olhar o mapa, então quem abria a Torre da Constelação encontrava os monstros dos andares mas não o Naght Sieger, e a Queda do Aeroplano ficava sem a Criatura Desconhecida. Além dos alvos novos, nove MVPs que já estavam cadastrados saíram do "Boss" para o grupo do seu próprio mapa, entre eles o Schulang, a Demi Freya, o Rei Goblin e a Ultra Limacina.',
+        'O Betelgeuse aparecia na lista de alvos com o nome em coreano. O nome vinha de uma extração antiga do cliente, e a atual não traz mais o monstro, de modo que nada o corrigiria sozinho; agora ele aparece como Betelgeuse, dentro do grupo da Torre da Constelação.',
+        'A RES e a RESM dos monstros passaram a vir da mesma extração que o resto dos atributos, que agora as publica. Isso vale para os alvos novos: os chefes da Torre da Constelação têm 300 de RES e 300 de RESM, e o Naght Sieger 300 e 200 — sem esses números o dano contra eles apareceria bem acima do real. Nenhum alvo já cadastrado mudou.',
+        'Parte dos monstros dessas instâncias ainda não pôde ser cadastrada, porque a extração do cliente não os traz: os cinquenta monstros comuns dos andares da Torre da Constelação e dez dos seus chefes, o Espinho e a Alma Morta do Betelgeuse, o Alphonse da Arena Noturna e as quatro variações da Criatura Desconhecida invocadas com Fragmentos de Ymir. Os monstros dos andares mudam de atributo a cada andar, o que pede um alvo por faixa em vez de um só.',
+      ],
+    },
+    {
       v: '0.1.82-beta',
       date: '19-08-2026',
       logs: [

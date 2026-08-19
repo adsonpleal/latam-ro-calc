@@ -25,9 +25,16 @@ import { loadMobs, MOBS_URL } from "./mob-source.mjs";
  * 20573 is the "Nível 10" entry of the leveled Miragem de Amdarais set — ids
  * 205731-205739 are synthetic clones of it that differ only in HP, and they
  * carry their labels in monster.json's `name` (no overlay entry).
+ *
+ * 20994 is here for the other reason: the name it needs is the game's own, but
+ * the overlay had been carrying the Korean "베텔기우스" — an earlier feed shipped
+ * the record untranslated, and the current one dropped it entirely, so nothing
+ * would have corrected it. Pinning it keeps the pt-BR name if the record comes
+ * back still untranslated.
  */
 const CALC_OVERRIDES = {
   20573: "Miragem de Amdarais - Nível 10",
+  20994: "Betelgeuse",
 };
 
 const argv = process.argv.slice(2);
