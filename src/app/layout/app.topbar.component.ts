@@ -159,6 +159,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.78-beta',
+      date: '19-08-2026',
+      logs: [
+        'As Botas do Bem e do Mal entraram no simulador antes de chegarem ao LATAM, fechando o conjunto que as Coroas do Bem e do Mal abriram. São 18 peças, uma por classe, com dois encantos cada: no primeiro slot, o Good Vigor ou o Evil Vigor da própria classe, onde mora o bônus de conjunto; no segundo, a mesma lista de cinco linhas para todas elas — Pedra de Encantamento 5 a 7, Mira Apurada 3 a 5, Anti-Atraso 2 a 4, Expert Fighter 3 a 5 e Expert Magician 3 a 5. Como o cliente ainda não trouxe as botas, elas aparecem com o nome e a descrição em inglês do iRO e levam a etiqueta iRO na lista, para não se confundirem com o que já dá para equipar; o ícone fica em branco até o cliente publicá-lo. Quando o LATAM lançar as peças, o texto em português entra no lugar sozinho. Solicitado por Ted e Shummuy.',
+        'O bônus de conjunto das botas só é pago junto da coroa. Cada Good Vigor exige o Good Spell encaixado na Coroa do Bem e do Mal, e cada Evil Vigor exige o Evil Spell; sem o encanto da coroa, as botas rendem apenas as próprias linhas de refino e de grau, e o encanto do lado errado não paga nada. No Guerrilheiro o bônus ainda muda conforme a coroa — são cinco, uma por arma, e cada uma acende habilidades diferentes.',
+        'Postas à mostra pela primeira vez, as 54 peças foram conferidas linha a linha contra a descrição, e um erro veio junto do cadastro antigo. As Botas do Bem e do Mal do Mandraque somavam MATQ +7% no refino 7, dano mágico de todos os atributos no refino 9 e dano mágico por tamanho no Grau C, nada disso descrito, e deixavam de somar o dano físico corpo a corpo do refino 9, que a descrição promete. O conjunto do Mandraque é físico do começo ao fim, coroa e encantos inclusive, e as botas passaram a segui-lo.',
+      ],
+    },
+    {
       v: '0.1.77-beta',
       date: '19-08-2026',
       logs: [

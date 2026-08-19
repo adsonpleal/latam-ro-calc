@@ -125148,11 +125148,12 @@
   },
   "312422": {
     "id": 312422,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_CD",
     "name": "Good Vigor (Cardinal)",
     "unidName": "Good Vigor (Cardinal)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Framen damage by 20%,\r\nincreases Arbitrium damage by 40%,\r\nincreases magical damage against all property enemies by 20%,\r\nreduces global cooldown by 5%.",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Cardinal)\n          \nincreases Flamen damage by 20%,\nincreases Arbitrium damage by 40%,\nincreases magic damage to all attribute enemies by 20%,\nreduces after cast delay by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -125164,27 +125165,28 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5284": [
-        "EQUIP[Good Spell]===20"
-      ],
       "5273": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
+      ],
+      "5284": [
+        "EQUIP_ID[312014]===20"
       ],
       "m_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "acd": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312423": {
     "id": 312423,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_IQ",
     "name": "Good Vigor (Inquisitor)",
     "unidName": "Good Vigor (Inquisitor)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Third Punish damage by 20%,\r\nincreases First Brand damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nincreases attack speed (reduces delay after attack by 5%).",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Inquisitor)\n          \nincreases Third Punishment damage by 20%,\nincreases First Brand damage by 40%,\nincreases physical damage against all property enemies by 20%,\nASPD +5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -125196,27 +125198,28 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5251": [
-        "EQUIP[Good Spell]===20"
-      ],
       "5245": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
+      ],
+      "5251": [
+        "EQUIP_ID[312014]===20"
       ],
       "p_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "aspdPercent": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312424": {
     "id": 312424,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_SOA",
     "name": "Good Vigor (Soul Ascetic)",
     "unidName": "Good Vigor (Soul Ascetic)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Talisman of Four Bearing God damage by 20%,\r\nincreases Talisman of Red Phoenix damage by 40%,\r\nincreases magical damage against all property enemies by 20%,\r\nreduces variable casting time by 5%.",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Soul Ascetic)\n          \nincreases Talisman of Four Bearing God damage by 20%,\nincreases Talisman of Red Phoenix damage by 40%,\nincreases Magic damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -125228,27 +125231,28 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5430": [
-        "EQUIP[Good Spell]===20"
-      ],
       "5428": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
+      ],
+      "5430": [
+        "EQUIP_ID[312014]===20"
       ],
       "m_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "vct": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312425": {
     "id": 312425,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_CD",
     "name": "Evil Vigor (Cardinal)",
     "unidName": "Evil Vigor (Cardinal)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Petitio damage by 30%,\r\nincreases critical damage by 20%,\r\nincreases physical damage against all property enemies by 20%,\r\nCri + 5.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Cardinal)\n          \nincreases Petitio damage by 30%,\nincreases critical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nCRI +5.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -125261,26 +125265,27 @@
     "compositionPos": 65535,
     "script": {
       "5283": [
-        "EQUIP[Evil Spell]===30"
+        "EQUIP_ID[312021]===30"
       ],
       "criDmg": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "p_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "cri": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
   "312426": {
     "id": 312426,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_IQ",
     "name": "Evil Vigor (Inquisitor)",
     "unidName": "Evil Vigor (Inquisitor)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Explosion Blaster damage by 20%,\r\nincreases Oleum Sanctum damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nCri + 5.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Inquisitor)\n          \nincreases Explosion Blaster damage by 20%,\nincreases Oleum Sanctum damage by 40%,\nincreases physical damage against all property enemies by 20%,\nCRI +5.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -125292,27 +125297,28 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5244": [
-        "EQUIP[Evil Spell]===20"
-      ],
       "5241": [
-        "EQUIP[Evil Spell]===40"
+        "EQUIP_ID[312021]===40"
+      ],
+      "5244": [
+        "EQUIP_ID[312021]===20"
       ],
       "p_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "cri": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
   "312427": {
     "id": 312427,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_SOA",
     "name": "Evil Vigor (Soul Ascetic)",
     "unidName": "Evil Vigor (Soul Ascetic)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Exorcism of Malicious Soul damage by 20%,\r\nincreases Talisman of Soul Stealing damage by 40%,\r\nincreases magical damage against all property enemies by 20%,\r\nreduces variable casting time by 5%.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Soul Ascetic)\n          \nincreases Exorcism of Malicious Soul damage by 20%,\nincreases Talisman of Soul Stealing damage by 40%,\nincreases magical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -125324,17 +125330,17 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5425": [
-        "EQUIP[Evil Spell]===20"
-      ],
       "5424": [
-        "EQUIP[Evil Spell]===40"
+        "EQUIP_ID[312021]===40"
+      ],
+      "5425": [
+        "EQUIP_ID[312021]===20"
       ],
       "m_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "vct": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
@@ -125724,11 +125730,12 @@
   },
   "312447": {
     "id": 312447,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_BO",
     "name": "Good Vigor (Biolo)",
     "unidName": "Good Vigor (Biolo)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Explosive Powder damage by 30%,\r\nincreases melee physical damage by 20%,\r\nincreases physical damage against all property enemies by 20%,\r\nincreases attack speed (reduces delay after attack by 5%).",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Biolo)\n          \nincreases Explosive Powder damage by 30%,\nincreases melee physical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nASPD +5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -125741,26 +125748,27 @@
     "compositionPos": 65535,
     "script": {
       "6005": [
-        "EQUIP[Good Spell]===30"
+        "EQUIP_ID[312014]===30"
       ],
       "melee": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "p_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "aspdPercent": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312448": {
     "id": 312448,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_BO",
     "name": "Evil Vigor (Biolo)",
     "unidName": "Evil Vigor (Biolo)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Mayhemic Thorns damage by 30%,\r\nincreases critical damage by 20%,\r\nincreases physical damage against all property enemies by 20%,\r\nincreases attack speed (reduces delay after attack by 5%).",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Biolo)\n          \nincreases Mayhemic Thorns damage by 30%,\nincreases critical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nASPD +5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -125773,26 +125781,27 @@
     "compositionPos": 65535,
     "script": {
       "6006": [
-        "EQUIP[Evil Spell]===30"
+        "EQUIP_ID[312021]===30"
       ],
       "criDmg": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "p_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "aspdPercent": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
   "312449": {
     "id": 312449,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_DK",
     "name": "Good Vigor (Dragon Knight)",
     "unidName": "Good Vigor (Dragon Knight)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Dragonic Breath damage by 20%,\r\nincreases Madness Crusher damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nreduces global cooldown by 5%.",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Dragon Knight)\n          \nincreases Dragonic Breath damage by 20%,\nincreases Madness Crusher damage by 40%,\nincreases physical damage against all property enemies by 20%,\nreduces after cast delay by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -125804,27 +125813,28 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "6001": [
-        "EQUIP[Good Spell]===20"
-      ],
       "5211": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
+      ],
+      "6001": [
+        "EQUIP_ID[312014]===20"
       ],
       "p_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "acd": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312450": {
     "id": 312450,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_DK",
     "name": "Evil Vigor (Dragon Knight)",
     "unidName": "Evil Vigor (Dragon Knight)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Hack and Slasher damage by 20%,\r\nincreases Storm Slash damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nCri + 5.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Dragon Knight)\n          \nincreases Hack and Slash damage by 20%,\nincreases Storm Slash damage by 40%,\nincreases physical damage against all property enemies by 20%,\nCRI +5.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -125837,26 +125847,27 @@
     "compositionPos": 65535,
     "script": {
       "5208": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "5213": [
-        "EQUIP[Evil Spell]===40"
+        "EQUIP_ID[312021]===40"
       ],
       "p_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "cri": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
   "312451": {
     "id": 312451,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_SH",
     "name": "Good Vigor (Spirit Handler)",
     "unidName": "Good Vigor (Spirit Handler)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Chulho Sonic Claw damage by 20%,\r\nincreases Hogogong Strike damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nCri + 5.",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Spirit Handler)\n          \nincreases Chulho Sonic Claw damage by 20%,\nincreases Hogogong Strike damage by 40%,\nincreases physical damage against all property enemies by 20%,\nCri + 5.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -125869,26 +125880,27 @@
     "compositionPos": 65535,
     "script": {
       "5435": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "5437": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
       ],
       "p_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "cri": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312452": {
     "id": 312452,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_SH",
     "name": "Evil Vigor (Spirit Handler)",
     "unidName": "Evil Vigor (Spirit Handler)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Hyunrok Cannon damage by 20%,\r\nincreases Hyunrok Breeze damage by 40%,\r\nincreases magical damage against all property enemies by 20%,\r\nreduces variable casting time by 5%.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Spirit Handler)\n          \nincreases Hyunrok Cannon damage by 20%,\nincreases Hyunrok Breeze damage by 40%,\nincreases magic damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -125900,17 +125912,17 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5446": [
-        "EQUIP[Evil Spell]===20"
-      ],
       "5445": [
-        "EQUIP[Evil Spell]===40"
+        "EQUIP_ID[312021]===40"
+      ],
+      "5446": [
+        "EQUIP_ID[312021]===20"
       ],
       "m_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "vct": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
@@ -130226,11 +130238,12 @@
   },
   "312639": {
     "id": 312639,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_EM",
     "name": "Good Vigor (Elemental Master)",
     "unidName": "Good Vigor (Elemental Master)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Diamond Storm damage by 20%,\r\nincreases Terra Drive damage by 40%,\r\nincreases magical damage against all property enemies by 20%,\r\nreduces variable casting time by 5%.",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Elemental Master)\n          \nincreases Diamond Storm damage by 20%,\nincreases Terra Drive damage by 40%,\nincreases magical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -130243,26 +130256,27 @@
     "compositionPos": 65535,
     "script": {
       "5369": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "5373": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
       ],
       "m_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "vct": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312640": {
     "id": 312640,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_WH",
     "name": "Good Vigor (Windhawk)",
     "unidName": "Good Vigor (Windhawk)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Crescive Bolt damage by 20%,\r\nincreases Gale Storm damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nCri + 5.",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Windhawk)\n          \nincreases Crescive Bolt damage by 20%,\nincreases Gale Storm damage by 40%,\nincreases physical damage against all property enemies by 20%,\nCRI +5.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -130274,27 +130288,28 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5334": [
-        "EQUIP[Good Spell]===20"
-      ],
       "5330": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
+      ],
+      "5334": [
+        "EQUIP_ID[312014]===20"
       ],
       "p_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "cri": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312641": {
     "id": 312641,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_SKE",
     "name": "Good Vigor (Sky Emperor)",
     "unidName": "Good Vigor (Sky Emperor)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Noon Blast damage by 20%,\r\nincreases Sunset Blast damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nCri + 5.",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Sky Emperor)\n          \nincreases Noon Blast damage by 20%,\nincreases Sunset Blast damage by 40%,\nincreases physical damage against all property enemies by 20%,\nCri + 5.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -130307,26 +130322,27 @@
     "compositionPos": 65535,
     "script": {
       "5466": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "5467": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
       ],
       "p_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "cri": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312642": {
     "id": 312642,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_EM",
     "name": "Evil Vigor (Elemental Master)",
     "unidName": "Evil Vigor (Elemental Master)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Venom Swamp damage by 20%,\r\nincreases Conflagration damage by 40%,\r\nincreases magical damage against all property enemies by 20%,\r\nreduces variable casting time by 5%.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Elemental Master)\n          \nincreases Venom Swamp damage by 20%,\nincreases Conflagration damage by 40%,\nincreases magical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -130339,26 +130355,27 @@
     "compositionPos": 65535,
     "script": {
       "5371": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "5372": [
-        "EQUIP[Evil Spell]===40"
+        "EQUIP_ID[312021]===40"
       ],
       "m_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "vct": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
   "312643": {
     "id": 312643,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_WH",
     "name": "Evil Vigor (Windhawk)",
     "unidName": "Evil Vigor (Windhawk)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Flame Trap and Solid Trap damage by 20%,\r\nincreases Swift Trap and Deep Blind Trap damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nreduces variable casting time by 5%.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Windhawk)\n          \nincreases Flame Trap and Solid Trap damage by 20%,\nincreases Swift Trap and Deep Blind Trap damage by 40%,\nincreases physical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -130370,33 +130387,34 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5335": [
-        "EQUIP[Evil Spell]===20"
+      "5331": [
+        "EQUIP_ID[312021]===40"
       ],
       "5332": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "5333": [
-        "EQUIP[Evil Spell]===40"
+        "EQUIP_ID[312021]===40"
       ],
-      "5331": [
-        "EQUIP[Evil Spell]===40"
+      "5335": [
+        "EQUIP_ID[312021]===20"
       ],
       "p_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "vct": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
   "312644": {
     "id": 312644,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_SKE",
     "name": "Evil Vigor (Sky Emperor)",
     "unidName": "Evil Vigor (Sky Emperor)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Midnight Kick damage by 20%,\r\nincreases Dawn Break damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nreduces variable casting time by 5%.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Sky Emperor)\n          \nincreases Midnight Kick damage by 20%,\nincreases Dawn Break damage by 40%,\nincreases physical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -130409,26 +130427,27 @@
     "compositionPos": 65535,
     "script": {
       "5469": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "5470": [
-        "EQUIP[Evil Spell]===40"
+        "EQUIP_ID[312021]===40"
       ],
       "p_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "vct": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
   "312649": {
     "id": 312649,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_MT",
     "name": "Good Vigor (Meister)",
     "unidName": "Good Vigor (Meister)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Mighty Smash damage by 20%,\r\nincreases Axe Stomp damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nincreases attack speed (reduces delay after attack by 5%).",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Meister)\n          \nincreases Mighty Smash damage by 20%,\nincreases Axe Stomp damage by 40%,\nincreases physical damage against all property enemies by 20%,\nASPD +5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -130440,27 +130459,28 @@
     "location": null,
     "compositionPos": null,
     "script": {
-      "6004": [
-        "EQUIP[Good Spell]===20"
-      ],
       "5295": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
+      ],
+      "6004": [
+        "EQUIP_ID[312014]===20"
       ],
       "p_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "aspdPercent": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312650": {
     "id": 312650,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_SHC",
     "name": "Good Vigor (Shadow Cross)",
     "unidName": "Good Vigor (Shadow Cross)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Eternal Slash damage by 20%,\r\nincreases Savage Impact damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nCri + 5.",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Shadow Cross)\n          \nincreases Eternal Slash damage by 20%,\nincreases Savage Impact damage by 40%,\nincreases physical damage against all property enemies by 20%,\nCRI +5.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -130472,27 +130492,28 @@
     "location": null,
     "compositionPos": null,
     "script": {
-      "5289": [
-        "EQUIP[Good Spell]===20"
-      ],
       "5287": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
+      ],
+      "5289": [
+        "EQUIP_ID[312014]===20"
       ],
       "p_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "cri": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312651": {
     "id": 312651,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_SS",
     "name": "Good Vigor (Shinkiro & Shiranui)",
     "unidName": "Good Vigor (Shinkiro & Shiranui)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Huuma Shuriken - Construct damage by 20%,\r\nincreases Huuma Shuriken - Grasp damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nreduces variable casting time by 5%.",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Shinkiro & Shiranui)\n          \nincreases Huuma Shuriken - Construct damage by 20%,\nincreases Huuma Shuriken - Grasp damage by 40%,\niincreases physical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -130504,27 +130525,28 @@
     "location": null,
     "compositionPos": null,
     "script": {
-      "5484": [
-        "EQUIP[Good Spell]===20"
-      ],
       "5483": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
+      ],
+      "5484": [
+        "EQUIP_ID[312014]===20"
       ],
       "p_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "vct": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312652": {
     "id": 312652,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_MT",
     "name": "Evil Vigor (Meister)",
     "unidName": "Evil Vigor (Meister)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Triple Laser damage by 30%,\r\nincreases critical damage by 20%,\r\nincreases physical damage against all property enemies by 20%,\r\nCri + 5.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Meister)\n          \nincreases Triple Laser damage by 30%,\nincreases critical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nCRI +5.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -130537,26 +130559,27 @@
     "compositionPos": null,
     "script": {
       "6003": [
-        "EQUIP[Evil Spell]===30"
+        "EQUIP_ID[312021]===30"
       ],
       "criDmg": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "p_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "cri": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
   "312653": {
     "id": 312653,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_SHC",
     "name": "Evil Vigor (Shadow Cross)",
     "unidName": "Evil Vigor (Shadow Cross)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Impact Crater damage by 30%,\r\nincreases critical damage by 20%,\r\nincreases physical damage against all property enemies by 20%,\r\nincreases attack speed (reduces delay after attack by 5%).",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Shadow Cross)\n          \nincreases Impact Crater damage by 30%,\nincreases critical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nASPD +5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -130569,26 +130592,27 @@
     "compositionPos": null,
     "script": {
       "5292": [
-        "EQUIP[Evil Spell]===30"
+        "EQUIP_ID[312021]===30"
       ],
       "criDmg": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "p_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "aspdPercent": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
   "312654": {
     "id": 312654,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_SS",
     "name": "Evil Vigor (Shinkiro & Shiranui)",
     "unidName": "Evil Vigor (Shinkiro & Shiranui)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Darkening Cannon damage by 20%,\r\nincreases Red Flame Cannon damage by 40%,\r\nincreases magical damage against all property enemies by 20%,\r\nreduces variable casting time by 5%.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Shinkiro & Shiranui)\n          \nincreases Darkening Cannon damage by 20%,\nincreases Red Flame Cannon damage by 40%,\nincreases magical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -130600,17 +130624,17 @@
     "location": null,
     "compositionPos": null,
     "script": {
-      "5492": [
-        "EQUIP[Evil Spell]===20"
-      ],
       "5488": [
-        "EQUIP[Evil Spell]===40"
+        "EQUIP_ID[312021]===40"
+      ],
+      "5492": [
+        "EQUIP_ID[312021]===20"
       ],
       "m_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "vct": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
@@ -131306,11 +131330,12 @@
   },
   "312685": {
     "id": 312685,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_ABC",
     "name": "Good Vigor (Abyss Chaser)",
     "unidName": "Good Vigor (Abyss Chaser)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Abyss Dagger damage by 20%,\r\nincreases Deft Stab damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nincreases attack speed (reduces delay after attack by 5%).",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Abyss Chaser)\n          \nincreases Abyss Dagger damage by 20%,\nincreases Deft Stab damage by 40%,\nincreases physical damage against all property enemies by 20%,\nASPD +5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -131323,26 +131348,27 @@
     "compositionPos": 65535,
     "script": {
       "5314": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "5320": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
       ],
       "p_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "aspdPercent": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312686": {
     "id": 312686,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_ABC",
     "name": "Evil Vigor (Abyss Chaser)",
     "unidName": "Evil Vigor (Abyss Chaser)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Chain Reaction Shot damage by 20%,\r\nincreases Frenzy Shot damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nCri + 5.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Abyss Chaser)\n          \nincreases Chain Reaction Shot damage by 20%,\nincreases Frenzy Shot damage by 40%,\nincreases physical damage against all property enemies by 20%,\nCRI +5.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -131355,26 +131381,27 @@
     "compositionPos": 65535,
     "script": {
       "5316": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "5322": [
-        "EQUIP[Evil Spell]===40"
+        "EQUIP_ID[312021]===40"
       ],
       "p_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "cri": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
   "312687": {
     "id": 312687,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_TR",
     "name": "Good Vigor (Troubadour & Trouvere)",
     "unidName": "Good Vigor (Troubadour & Trouvere)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Rhythm Shooting damage by 20%,\r\nincreases Rose Blossom damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nincreases attack speed (reduces delay after attack by 5%).",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Troubadour & Trouvere)\n          \nincreases Rhythm Shooting damage by 20%,\nincreases Rose Blossom damage by 40%,\nincreases physical damage against all property enemies by 20%,\nASPD +5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -131386,27 +131413,28 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5355": [
-        "EQUIP[Good Spell]===20"
-      ],
       "5353": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
+      ],
+      "5355": [
+        "EQUIP_ID[312014]===20"
       ],
       "p_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "aspdPercent": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312688": {
     "id": 312688,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_TR",
     "name": "Evil Vigor (Troubadour & Trouvere)",
     "unidName": "Evil Vigor (Troubadour & Trouvere)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Metallic Fury damage by 20%,\r\nincreases Sound Blend damage by 40%,\r\nincreases magical damage against all property enemies by 20%,\r\nreduces variable casting time by 5%.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Troubadour & Trouvere)\n          \nincreases Metallic Fury damage by 20%,\nincreases Sound Blend damage by 40%,\nincreases magical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -131419,26 +131447,27 @@
     "compositionPos": 65535,
     "script": {
       "5356": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "5357": [
-        "EQUIP[Evil Spell]===40"
+        "EQUIP_ID[312021]===40"
       ],
       "m_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "vct": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
   "312689": {
     "id": 312689,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_HN",
     "name": "Good Vigor (Hyper Novice)",
     "unidName": "Good Vigor (Hyper Novice)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Shield Chain Rush damage by 20%,\r\nincreases Spiral Pierce Max damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nincreases attack speed (reduces delay after attack by 5%).",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Hyper Novice)\n          \nincreases Shield Chain Rush damage by 20%,\nincreases Spiral Pierce Max damage by 40%,\nincreases physical damage against all property enemies by 20%,\nincreases attack speed (reduces delay after attack by 5%).",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -131451,26 +131480,27 @@
     "compositionPos": 65535,
     "script": {
       "5453": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "5454": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
       ],
       "p_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "aspdPercent": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312690": {
     "id": 312690,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_HN",
     "name": "Evil Vigor (Hyper Novice)",
     "unidName": "Evil Vigor (Hyper Novice)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Napalm Vulcan Strike damage by 20%,\r\nincreases Ground Gravitation damage by 40%,\r\nincreases magical damage against all property enemies by 20%,\r\nreduces variable casting time by 5%.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Hyper Novice)\n          \nincreases Napalm Vulcan Strike damage by 20%,\nincreases Ground Gravitation damage by 40%,\nincreases magical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -131482,17 +131512,17 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5460": [
-        "EQUIP[Evil Spell]===20"
-      ],
       "5459": [
-        "EQUIP[Evil Spell]===40"
+        "EQUIP_ID[312021]===40"
+      ],
+      "5460": [
+        "EQUIP_ID[312021]===20"
       ],
       "m_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "vct": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
@@ -134182,11 +134212,12 @@
   },
   "312801": {
     "id": 312801,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_IG",
     "name": "Good Vigor (Imperial Guard)",
     "unidName": "Good Vigor (Imperial Guard)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Overslash damage by 30%,\r\nincreases melee physical damage by 20%,\r\nincreases physical damage against all property enemies by 20%,\r\nincreases attack speed (reduces delay after attack by 5%).",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Imperial Guard)\n          \nincreases Overslash damage by 30%,\nincreases melee physical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nASPD +5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -134199,26 +134230,27 @@
     "compositionPos": 65535,
     "script": {
       "5266": [
-        "EQUIP[Good Spell]===30"
+        "EQUIP_ID[312014]===30"
       ],
       "melee": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "p_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "aspdPercent": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312802": {
     "id": 312802,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_IG",
     "name": "Evil Vigor (Imperial Guard)",
     "unidName": "Evil Vigor (Imperial Guard)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Cross Rain damage by 30%,\r\nincreases holy property magical damage by 20%,\r\nincreases magical damage against all property enemies by 20%,\r\nreduces variable casting time by 5%.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Imperial Guard)\n          \nincreases Cross Rain damage by 30%,\nincreases Holy property magical damage by 20%,\nincreases magical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -134231,26 +134263,27 @@
     "compositionPos": 65535,
     "script": {
       "5267": [
-        "EQUIP[Evil Spell]===30"
+        "EQUIP_ID[312021]===30"
       ],
       "m_my_element_holy": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "m_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "vct": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
   "312803": {
     "id": 312803,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_AG",
     "name": "Good Vigor (Arch Mage)",
     "unidName": "Good Vigor (Arch Mage)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell,\r\nincreases Frozen Slash damage by 20%,\r\nincreases Rain of Crystal damage by 40%,\r\nincreases magical damage against all property enemies by 20%,\r\nreduces global cooldown by 5%.",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Arch Mage)\n          \nincreases Frozen Slash damage by 20%,\nincreases Crystal Rain damage by 40%,\nincreases magical damage against all property enemies by 20%,\nreduces after cast delay by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -134262,27 +134295,28 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5237": [
-        "EQUIP[Good Spell]===20"
-      ],
       "5216": [
-        "EQUIP[Good Spell]===40"
+        "EQUIP_ID[312014]===40"
+      ],
+      "5237": [
+        "EQUIP_ID[312014]===20"
       ],
       "m_element_all": [
-        "EQUIP[Good Spell]===20"
+        "EQUIP_ID[312014]===20"
       ],
       "acd": [
-        "EQUIP[Good Spell]===5"
+        "EQUIP_ID[312014]===5"
       ]
     }
   },
   "312804": {
     "id": 312804,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_AG",
     "name": "Evil Vigor (Arch Mage)",
     "unidName": "Evil Vigor (Arch Mage)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell,\r\nincreases Soul Vulcan Strike damage by 20%,\r\nincreases Mystery Illusion damage by 40%,\r\nincreases magical damage against all property enemies by 20%,\r\nreduces variable casting time by 5%.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Arch Mage)\n          \nincreases Soul Vulcan Strike damage by 20%,\nincreases Mystery Illusion damage by 40%,\nincreases magical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -134294,27 +134328,28 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5220": [
-        "EQUIP[Evil Spell]===20"
-      ],
       "5217": [
-        "EQUIP[Evil Spell]===40"
+        "EQUIP_ID[312021]===40"
+      ],
+      "5220": [
+        "EQUIP_ID[312021]===20"
       ],
       "m_element_all": [
-        "EQUIP[Evil Spell]===20"
+        "EQUIP_ID[312021]===20"
       ],
       "vct": [
-        "EQUIP[Evil Spell]===5"
+        "EQUIP_ID[312021]===5"
       ]
     }
   },
   "312805": {
     "id": 312805,
+    "preRelease": true,
     "aegisName": "Justice_Vigor_NW",
     "name": "Good Vigor (Night Watch)",
     "unidName": "Good Vigor (Night Watch)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "When equipped with Good Spell and Crown of Good and Evil (Night Watch - Rifle),\r\nincreases Spiral shooting damage by 20%,\r\nincreases Only One Bullet damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nincreases attack speed (reduces delay after attack by 5%).\r\n\r\nWhen equipped with Good Spell and Crown of Good and Evil (Night Watch - Shotgun),\r\nincreases The Vigilante at Night damage by 30%,\r\nincreases long ranged physical damage by 20%,\r\nincreases physical damage against all property enemies by 20%,\r\nreduces global cooldown by 5%.\r\n\r\nWhen equipped with Good Spell and Crown of Good and Evil (Night Watch - Gatling Gun),\r\nincreases Magazine for One damage by 30%,\r\nincreases long ranged physical damage by 20%,\r\nincreases physical damage against all property enemies by 20%,\r\nreduces global cooldown by 5%.\r\n\r\nWhen equipped with Good Spell and Crown of Good and Evil (Night Watch - Revolver),\r\nincreases Magazine for One damage by 30%,\r\nincreases long ranged physical damage by 20%,\r\nincreases physical damage against all property enemies by 20%,\r\nCri + 5.\r\n\r\nWhen equipped with Good Spell and Crown of Good and Evil (Night Watch - Grenade Launcher),\r\nincreases Wild Fire damage by 30%,\r\nincreases long ranged physical damage by 20%,\r\nincreases physical damage against all property enemies by 20%,\r\nincreases attack speed (reduces delay after attack by 5%).",
+    "description": "Set Bonus:\nGood Spell\nGood Vigor (Night Watch)\nCrown of Good and Evil (Night Watch - Rifle) [1]\n          \nincreases Spiral shooting damage by 20%,\nincreases Only One Bullet damage by 40%,\nincreases physical damage against all property enemies by 20%,\nincreases attack speed (reduces delay after attack by 5%).\n------------------------\nSet Bonus:\nGood Spell\nGood Vigor (Night Watch)\nCrown of Good and Evil (Night Watch - Shotgun) [1]\n          \nincreases The Vigilante at Night damage by 30%,\nincreases long ranged physical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nreduces global cooldown by 5%.\n------------------------\nSet Bonus:\nGood Spell\nGood Vigor (Night Watch)\nCrown of Good and Evil (Night Watch - Gatling Gun) [1]\n          \nincreases Magazine for One damage by 30%,\nincreases long ranged physical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nreduces global cooldown by 5%.\n------------------------\nSet Bonus:\nGood Spell\nGood Vigor (Night Watch)\nCrown of Good and Evil (Night Watch - Revolver) [1]\n          \nincreases Magazine for One damage by 30%,\nincreases long ranged physical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nCri + 5.\n------------------------\nSet Bonus:\nGood Spell\nGood Vigor (Night Watch)\nCrown of Good and Evil (Night Watch - Grenade Launcher) [1]\n          \nincreases Wild Fire damage by 30%,\nincreases long ranged physical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nincreases attack speed (reduces delay after attack by 5%).",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -134326,55 +134361,56 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5407": [
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Rifle)]===20"
+      "5405": [
+        "EQUIP_ID[312014&&400394]===30"
       ],
       "5406": [
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Rifle)]===40"
+        "EQUIP_ID[312014&&400395]===40"
       ],
-      "p_element_all": [
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Rifle)]===20",
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Shotgun)]===20",
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Gatling Gun)]===20",
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Revolver)]===20",
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Grenade Launcher)]===20"
-      ],
-      "aspdPercent": [
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Rifle)]===5",
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Grenade Launcher)]===5"
-      ],
-      "5405": [
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Shotgun)]===30"
-      ],
-      "range": [
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Shotgun)]===20",
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Gatling Gun)]===20",
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Revolver)]===20",
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Grenade Launcher)]===20"
-      ],
-      "acd": [
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Shotgun)]===5",
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Gatling Gun)]===5"
+      "5407": [
+        "EQUIP_ID[312014&&400395]===20"
       ],
       "5408": [
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Gatling Gun)]===30",
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Revolver)]===30"
-      ],
-      "cri": [
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Revolver)]===5"
+        "EQUIP_ID[312014&&400393]===30",
+        "EQUIP_ID[312014&&400392]===30"
       ],
       "5409": [
-        "EQUIP[Good Spell&&Crown of Good and Evil (Night Watch - Grenade Launcher)]===30"
+        "EQUIP_ID[312014&&400391]===30"
+      ],
+      "p_element_all": [
+        "EQUIP_ID[312014&&400395]===20",
+        "EQUIP_ID[312014&&400394]===20",
+        "EQUIP_ID[312014&&400393]===20",
+        "EQUIP_ID[312014&&400392]===20",
+        "EQUIP_ID[312014&&400391]===20"
+      ],
+      "aspdPercent": [
+        "EQUIP_ID[312014&&400395]===5",
+        "EQUIP_ID[312014&&400391]===5"
+      ],
+      "range": [
+        "EQUIP_ID[312014&&400394]===20",
+        "EQUIP_ID[312014&&400393]===20",
+        "EQUIP_ID[312014&&400392]===20",
+        "EQUIP_ID[312014&&400391]===20"
+      ],
+      "acd": [
+        "EQUIP_ID[312014&&400394]===5",
+        "EQUIP_ID[312014&&400393]===5"
+      ],
+      "cri": [
+        "EQUIP_ID[312014&&400392]===5"
       ]
     }
   },
   "312806": {
     "id": 312806,
+    "preRelease": true,
     "aegisName": "Injustice_Vigor_NW",
     "name": "Evil Vigor (Night Watch)",
     "unidName": "Evil Vigor (Night Watch)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "When equipped with Evil Spell and Crown of Good and Evil (Night Watch - Rifle),\r\nincreases Hasty Fire in the Hole damage by 20%,\r\nincreases Grenades Dropping damage by 40%,\r\nincreases physical damage against all property enemies by 20%,\r\nincreases attack speed (reduces delay after attack by 5%).\r\n\r\nWhen equipped with Evil Spell and Crown of Good and Evil (Night Watch - Shotgun),\r\nincreases Wild Fire damage by 30%,\r\nincreases long ranged physical damage by 20%,\r\nincreases physical damage against all property enemies by 20%,\r\nincreases attack speed (reduces delay after attack by 5%).\r\n\r\nWhen equipped with Evil Spell and Crown of Good and Evil (Night Watch - Gatling Gun),\r\nincreases The Vigilante at Night damage by 30%,\r\nincreases long ranged physical damage by 20%,\r\nincreases physical damage against all property enemies by 20%,\r\nreduces global cooldown by 5%.\r\n\r\nWhen equipped with Evil Spell and Crown of Good and Evil (Night Watch - Revolver),\r\nincreases Only One Bullet damage by 30%,\r\nincreases long ranged physical damage by 20%,\r\nincreases physical damage against all property enemies by 20%,\r\nincreases attack speed (reduces delay after attack by 5%).\r\n\r\nWhen equipped with Evil Spell and Crown of Good and Evil (Night Watch - Grenade Launcher),\r\nincreases Spiral Shooting damage by 30%,\r\nincreases long ranged physical damage by 20%,\r\nincreases physical damage against all property enemies by 20%,\r\nreduces global cooldown by 5%.",
+    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Night Watch)\nCrown of Good and Evil (Night Watch - Rifle) [1]\n          \nincreases Hasty Fire in the Hole damage by 20%,\nincreases Grenades Dropping damage by 40%,\nincreases physical damage against all property enemies by 20%,\nincreases attack speed (reduces delay after attack by 5%).\n------------------------\nSet Bonus:\nEvil Spell\nEvil Vigor (Night Watch)\nCrown of Good and Evil (Night Watch - Shotgun) [1]\n          \nincreases Wild Fire damage by 30%,\nincreases long ranged physical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nincreases attack speed (reduces delay after attack by 5%).\n------------------------\nSet Bonus:\nEvil Spell\nEvil Vigor (Night Watch)\nCrown of Good and Evil (Night Watch - Gatling Gun) [1]\n          \nincreases The Vigilante at Night damage by 30%,\nincreases long ranged physical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nreduces global cooldown by 5%.\n------------------------\nSet Bonus:\nEvil Spell\nEvil Vigor (Night Watch)\nCrown of Good and Evil (Night Watch - Revolver) [1]\n          \nincreases Only One Bullet damage by 30%,\nincreases long ranged physical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nincreases attack speed (reduces delay after attack by 5%).\n------------------------\nSet Bonus:\nEvil Spell\nEvil Vigor (Night Watch)\nCrown of Good and Evil (Night Watch - Grenade Launcher) [1]\n          \nincreases Spiral Shooting damage by 30%,\nincreases long ranged physical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nreduces global cooldown by 5%.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -134386,45 +134422,45 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5411": [
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Rifle)]===20"
-      ],
-      "5412": [
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Rifle)]===40"
-      ],
-      "p_element_all": [
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Rifle)]===20",
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Shotgun)]===20",
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Gatling Gun)]===20",
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Revolver)]===20",
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Grenade Launcher)]===20"
-      ],
-      "aspdPercent": [
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Rifle)]===5",
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Shotgun)]===5",
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Revolver)]===5"
-      ],
-      "5409": [
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Shotgun)]===30"
-      ],
-      "range": [
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Shotgun)]===20",
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Gatling Gun)]===20",
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Revolver)]===20",
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Grenade Launcher)]===20"
-      ],
       "5405": [
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Gatling Gun)]===30"
-      ],
-      "acd": [
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Gatling Gun)]===5",
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Grenade Launcher)]===5"
+        "EQUIP_ID[312021&&400393]===30"
       ],
       "5406": [
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Revolver)]===30"
+        "EQUIP_ID[312021&&400392]===30"
       ],
       "5407": [
-        "EQUIP[Evil Spell&&Crown of Good and Evil (Night Watch - Grenade Launcher)]===30"
+        "EQUIP_ID[312021&&400391]===30"
+      ],
+      "5409": [
+        "EQUIP_ID[312021&&400394]===30"
+      ],
+      "5411": [
+        "EQUIP_ID[312021&&400395]===20"
+      ],
+      "5412": [
+        "EQUIP_ID[312021&&400395]===40"
+      ],
+      "p_element_all": [
+        "EQUIP_ID[312021&&400395]===20",
+        "EQUIP_ID[312021&&400394]===20",
+        "EQUIP_ID[312021&&400393]===20",
+        "EQUIP_ID[312021&&400392]===20",
+        "EQUIP_ID[312021&&400391]===20"
+      ],
+      "aspdPercent": [
+        "EQUIP_ID[312021&&400395]===5",
+        "EQUIP_ID[312021&&400394]===5",
+        "EQUIP_ID[312021&&400392]===5"
+      ],
+      "range": [
+        "EQUIP_ID[312021&&400394]===20",
+        "EQUIP_ID[312021&&400393]===20",
+        "EQUIP_ID[312021&&400392]===20",
+        "EQUIP_ID[312021&&400391]===20"
+      ],
+      "acd": [
+        "EQUIP_ID[312021&&400393]===5",
+        "EQUIP_ID[312021&&400391]===5"
       ]
     }
   },
@@ -171342,11 +171378,12 @@
   },
   "470207": {
     "id": 470207,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_CD",
     "name": "Boots of Good and Evil (Cardinal) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_CD",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%, Matk + 7%.\r\nIf refine rate is 9 or higher, increases melee physical damage and all property magical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical and magical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nArmor Level: ^7777772^000000\r\nRequired Level: ^777777210^000000\r\nJobs: ^777777Cardinal^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%, MATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase melee physical damage and all property magic damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical and magical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Cardinal",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -171412,11 +171449,12 @@
   },
   "470208": {
     "id": 470208,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_IQ",
     "name": "Boots of Good and Evil (Inquisitor) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_IQ",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%.\r\nIf refine rate is 9 or higher, increases melee / long ranged physical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nArmor Level: ^7777772^000000\r\nRequired Level: ^777777210^000000\r\nJobs: ^777777Inquisitor^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase melee and long-ranged physical damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Inquisitor",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -171476,11 +171514,12 @@
   },
   "470209": {
     "id": 470209,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_SOA",
     "name": "Boots of Good and Evil (Soul Ascetic) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_SOA",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Matk + 7%.\r\nIf refine rate is 9 or higher, reduces variable casting time by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases magical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nArmor Level: ^7777772^000000\r\nRequired Level: ^777777210^000000\r\nJobs: ^777777Soul Ascetic^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, MATK + 7%.\n------------------------\nWhen refined to +9 or higher, reduces variable casting time by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase magical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Soul Ascetic",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -171537,11 +171576,12 @@
   },
   "470210": {
     "id": 470210,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_BO",
     "name": "Boots of Good and Evil (Biolo) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_BO",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%.\r\nIf refine rate is 9 or higher, increases melee / long ranged physical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nArmor Level: ^7777772^000000\r\nRequired Level: ^777777210^000000\r\nJobs: ^777777Biolo^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase melee and long-ranged physical damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Biolo",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -171601,11 +171641,12 @@
   },
   "470211": {
     "id": 470211,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_DK",
     "name": "Boots of Good and Evil (Dragon Knight) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_DK",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%.\r\nIf refine rate is 9 or higher, increases melee / long ranged physical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nArmor Level: ^7777772^000000\r\nRequired Level: ^777777210^000000\r\nJobs: ^777777Dragon Knight^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase melee and long-ranged physical damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Dragon Knight",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -171665,11 +171706,12 @@
   },
   "470212": {
     "id": 470212,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_SH",
     "name": "Boots of Good and Evil (Spirit Handler) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_SH",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%, Matk + 7%.\r\nIf refine rate is 9 or higher, reduces variable casting time by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical and magical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nArmor Level: ^7777772^000000\r\nRequired Level: ^777777210^000000\r\nJobs: ^777777Spirit Handler^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%, MATK + 7%.\n------------------------\nWhen refined to +9 or higher, reduces variable casting time by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical and magical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Spirit Handler",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -171732,11 +171774,12 @@
   },
   "470213": {
     "id": 470213,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_EM",
     "name": "Boots of Good and Evil (Elemental Master) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_EM",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Matk + 7%.\r\nIf refine rate is 9 or higher, increases all property magical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases magical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\n\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nRequired Level: ^777777210^000000\r\nArmor Level: ^7777772^000000\r\nJobs: ^777777Elemental Master^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, MATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase all property magic damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase magic damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Elemental Master",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -171793,11 +171836,12 @@
   },
   "470214": {
     "id": 470214,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_WH",
     "name": "Boots of Good and Evil (Windhawk) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_WH",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%.\r\nIf refine rate is 9 or higher, increases melee / long ranged physical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\n\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nRequired Level: ^777777210^000000\r\nArmor Level: ^7777772^000000\r\nJobs: ^777777Windhawk^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase melee and long-ranged physical damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Windhawk",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -171857,11 +171901,12 @@
   },
   "470215": {
     "id": 470215,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_SKE",
     "name": "Boots of Good and Evil (Sky Emperor) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_SKE",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%.\r\nIf refine rate is 9 or higher, increases melee physical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\n\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nRequired Level: ^777777210^000000\r\nArmor Level: ^7777772^000000\r\nJobs: ^777777Sky Emperor^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%.\n------------------------\nWhen refined to +9 or higher, increases melee physical damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Sky Emperor",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -171918,11 +171963,12 @@
   },
   "470221": {
     "id": 470221,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_MT",
     "name": "Boots of Good and Evil (Meister) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_MT",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%.\r\nIf refine rate is 9 or higher, increases melee / long ranged physical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nRequired Level: ^777777210^000000\r\nArmor Level: ^7777772^000000\r\nJobs: ^777777Meister^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase melee and long-ranged physical damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Meister",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -171982,11 +172028,12 @@
   },
   "470222": {
     "id": 470222,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_SHC",
     "name": "Boots of Good and Evil (Shadow Cross) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_SHC",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%.\r\nIf refine rate is 9 or higher, increases melee physical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nRequired Level: ^777777210^000000\r\nArmor Level: ^7777772^000000\r\nJobs: ^777777Shadow Cross^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase melee physical damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Shadow Cross",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -172043,11 +172090,12 @@
   },
   "470223": {
     "id": 470223,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_SS",
     "name": "Boots of Good and Evil (Shinkiro & Shiranui) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_SS",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%, Matk + 7%.\r\nIf refine rate is 9 or higher, increases long ranged physical damage by 10%, increases all property magical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical and magical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nRequired Level: ^777777210^000000\r\nArmor Level: ^7777772^000000\r\nJobs: ^777777Shinkiro, Shiranui^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%, MATK + 7%.\n------------------------\nWhen refined to +9 or higher,\nincreases long ranged physical damage by 10%,\nincreases all property magical damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical and magical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Shiranui, Shinkiro",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -172114,11 +172162,12 @@
   },
   "470224": {
     "id": 470224,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_ABC",
     "name": "Boots of Good and Evil (Abyss Chaser) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_ABC",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%, Matk + 7%.\r\nIf refine rate is 9 or higher, increases long ranged physical damage by 10%, increases all property magical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical and magical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nRequired Level: ^777777210^000000\r\nArmor Level: ^7777772^000000\r\nJobs: ^777777Abyss Chaser^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase melee and long-ranged physical damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical and magical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Abyss Chaser",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -172149,13 +172198,10 @@
       "atkPercent": [
         "7===7"
       ],
-      "matkPercent": [
-        "7===7"
-      ],
-      "range": [
+      "melee": [
         "9===10"
       ],
-      "m_my_element_all": [
+      "range": [
         "9===10"
       ],
       "fct": [
@@ -172171,9 +172217,6 @@
       "p_size_all": [
         "GRADE[boot==C]===10"
       ],
-      "m_size_all": [
-        "GRADE[boot==C]===10"
-      ],
       "pAtk": [
         "GRADE[boot==B]===7"
       ],
@@ -172184,11 +172227,12 @@
   },
   "470225": {
     "id": 470225,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_TR",
     "name": "Boots of Good and Evil (Troubadour & Trouvere) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_TR",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%, Matk + 7%.\r\nIf refine rate is 9 or higher, increases long ranged physical damage by 10%, increases all property magical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical and magical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nRequired Level: ^777777210^000000\r\nArmor Level: ^7777772^000000\r\nJobs: ^777777Troubadour, Trouvere^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK, MATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase long-ranged physical and all property magic damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical and magical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Troubadour and Trouvere",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -172255,11 +172299,12 @@
   },
   "470226": {
     "id": 470226,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_HN",
     "name": "Boots of Good and Evil (Hyper Novice) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_HN",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%, Matk + 7%.\r\nIf refine rate is 9 or higher, increases long ranged physical damage by 10%, increases all property magical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical and magical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nRequired Level: ^777777210^000000\r\nArmor Level: ^7777772^000000\r\nJobs: ^777777Hyper Novice^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%, MATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase long-range physical damage and all property magic damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical and magical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Hyper Novice",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -172325,11 +172370,12 @@
   },
   "470236": {
     "id": 470236,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_IG",
     "name": "Boots of Good and Evil (Imperial Guard) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_IG",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%, Matk + 7%.\r\nIf refine rate is 9 or higher, increases melee physical damage by 10%, increases holy property magical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical and magical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nRequired Level: ^777777210^000000\r\nArmor Level: ^7777772^000000\r\nJobs: ^777777Imperial Guard^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK, MATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase melee physical and Holy property magic damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical and magical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Imperial Guard",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -172395,11 +172441,12 @@
   },
   "470237": {
     "id": 470237,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_AG",
     "name": "Boots of Good and Evil (Arch Mage) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_AG",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Matk + 7%.\r\nIf refine rate is 9 or higher, increases ghost, shadow and water property magical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases magical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nRequired Level: ^777777210^000000\r\nArmor Level: ^7777772^000000\r\nJobs: ^777777Arch Mage^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, MATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase Ghost, Shadow, and Water property magic damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase magical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType : Shoes\nDef : 20\nWeight : 60\nArmor Level : 2\nRequired Level : 210\nClass : Arch Mage",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -172462,11 +172509,12 @@
   },
   "470238": {
     "id": 470238,
+    "preRelease": true,
     "aegisName": "FateSin_Boots_NW",
     "name": "Boots of Good and Evil (Night Watch) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_NW",
-    "description": "MaxHP + 500, MaxSP + 100.\r\nEvery 2 refine rate, MaxHP + 1%, MaxSP + 1%.\r\nIf refine rate is 7 or higher, Atk + 7%.\r\nIf refine rate is 9 or higher, increases long ranged physical damage by 10%.\r\nIf refine rate is 11 or higher, reduces fixed casting time by 0.5 seconds.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] Res + 50, Mres + 50.\r\n[Grade C] Increases physical damage against all size enemies by 10%.\r\n[Grade B] P.Atk + 7, S.Matk + 7.\r\n[Grade A] Reduces fixed casting time by 0.5 seconds.\r\nClass: ^777777Shoes^000000  Defense: ^77777720^000000\r\nWeight: ^77777760^000000\r\nRequired Level: ^777777210^000000\r\nArmor Level: ^7777772^000000\r\nJobs: ^777777Night Watch^000000",
+    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase long-range physical damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Night Watch",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
