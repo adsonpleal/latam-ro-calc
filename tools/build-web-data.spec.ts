@@ -40,8 +40,20 @@ describe('build-web-data: items-core', () => {
   });
 
   it('marca presentInLatam pelo conjunto de chaves do LATAM', () => {
-    const divergentes = keys.filter((k) => !!core[k].presentInLatam !== !!latamEntry(latam, k, rawItems[k]));
+    const divergentes = keys.filter(
+      (k) => !!core[k].presentInLatam !== (!!latamEntry(latam, k, rawItems[k]) || !!rawItems[k].preRelease),
+    );
     expect(divergentes).toEqual([]);
+  });
+
+  it('lets preRelease force presentInLatam on for items LATAM has not shipped', () => {
+    // The only hand-authored source of presentInLatam. Without it these records stay
+    // out of every dropdown, since the flag is otherwise derived from latam-items.json
+    // — which is regenerated from ragassets and cannot be hand-edited.
+    const preRelease = keys.filter((k) => rawItems[k].preRelease);
+    expect(preRelease.length).toBeGreaterThan(0);
+    expect(preRelease.every((k) => core[k].presentInLatam === true)).toBe(true);
+    expect(preRelease.every((k) => core[k].preRelease === true)).toBe(true);
   });
 
   it('preserva o nome em inglês em enName — os scripts de conjunto casam por ele', () => {
@@ -105,13 +117,27 @@ describe('build-web-data: items-core', () => {
 });
 
 describe('build-web-data: items-desc', () => {
-  it('cobre exatamente os itens do LATAM que têm descrição', () => {
-    const esperado = keys.filter((k) => latamEntry(latam, k, rawItems[k])?.description);
+  it('cobre exatamente os itens do LATAM que têm descrição, mais os pré-lançamento', () => {
+    const esperado = keys.filter((k) => latamEntry(latam, k, rawItems[k])?.description || rawItems[k].preRelease);
     expect(Object.keys(desc).sort()).toEqual(esperado.sort());
   });
 
   it('traz a descrição pt-BR, não a do item.json', () => {
-    const amostra = Object.keys(desc).slice(0, 500);
+    const doLatam = Object.keys(desc).filter((k) => latamEntry(latam, k, rawItems[k])?.description);
+    const amostra = doLatam.slice(0, 500);
     expect(amostra.every((k) => desc[k] === latamEntry(latam, k, rawItems[k]).description)).toBe(true);
+  });
+
+  it('ships the iRO English description for preRelease items, without --all-desc', () => {
+    // There is no pt-BR text for them yet, so item.json's own description is the only
+    // one there is and it must not wait for the --all-desc opt-in.
+    const preRelease = keys.filter((k) => rawItems[k].preRelease);
+    expect(preRelease.every((k) => desc[k] === rawItems[k].description)).toBe(true);
+  });
+
+  it('still withholds the description of ordinary non-LATAM items', () => {
+    const forasteiros = keys.filter((k) => !latamEntry(latam, k, rawItems[k]) && !rawItems[k].preRelease);
+    expect(forasteiros.length).toBeGreaterThan(100);
+    expect(forasteiros.some((k) => k in desc)).toBe(false);
   });
 });

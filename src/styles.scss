@@ -68,6 +68,23 @@ html {
   color: white !important;
 }
 
+/* Marks a picker row whose item LATAM has not released yet, so the reader knows the
+   English name and description came from iRO instead of the client (ItemModel.preRelease).
+   Global rather than component-scoped because both the equipment and the shadow-equipment
+   pickers render it, and PrimeNG moves the dropdown panel out of the component subtree. */
+.pre_release_tag {
+  align-self: center;
+  flex: 0 0 auto;
+  padding: 0 0.25rem;
+  border-radius: 3px;
+  background-color: rgba(245, 158, 11, 0.18);
+  color: #f59e0b;
+  font-size: 0.6rem;
+  font-weight: 700;
+  line-height: 1.1rem;
+  letter-spacing: 0.03em;
+}
+
 /* pt-BR item description popover (consumables hover) — mirrors the white
    "Descrições dos Itens" panel so the in-game colour codes stay legible. */
 .item_desc_tooltip.p-tooltip {

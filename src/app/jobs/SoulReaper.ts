@@ -135,29 +135,49 @@ export class SoulReaper extends SoulLinker {
     },
   ];
   protected readonly activeSkillList3rd: ActiveSkillModel[] = [
-    // {
-    //   inputType: 'dropdown',
-    //   label: 'Fairy Soul',
-    //   name: 'Fairy Soul',
-    //   dropdown: [
-    //     { label: '-', value: 0, isUse: false },
-    //     { label: 'Nv 1', value: 1, skillLv: 1, isUse: true, bonus: { matk: 10, vct: 5 } },
-    //     { label: 'Nv 2', value: 2, skillLv: 2, isUse: true, bonus: { matk: 20, vct: 5 } },
-    //     { label: 'Nv 3', value: 3, skillLv: 3, isUse: true, bonus: { matk: 30, vct: 7 } },
-    //     { label: 'Nv 4', value: 4, skillLv: 4, isUse: true, bonus: { matk: 40, vct: 7 } },
-    //     { label: 'Nv 5', value: 5, skillLv: 5, isUse: true, bonus: { matk: 50, vct: 10 } },
-    //   ],
-    // },
     {
+      /**
+       * "Escraviza uma alma feérica para garantir ATQM e reduzir a conjuração variável" —
+       * +10 ATQM per level and -5%/-7%/-10% variable cast, from the client table.
+       *
+       * bROWiki puts it on the Ceifadores de Almas tree, not the Espiritualistas one, so it
+       * belongs here and reaches the Asceta das Almas by inheritance and nobody else:
+       * https://browiki.org/wiki/Ceifadores_de_Almas
+       *
+       * It sat commented out until `sa-exorcismo-gear-states.rrf` measured it: the recording
+       * casts it at t=1,197 with nothing but shadow gear on, and SP_MATK1 goes 4 to 54.
+       */
       inputType: 'dropdown',
-      label: 'Total de Almas', // soul-count input (each collected soul grants +MATK); not a single skill
+      label: 'Espírito da Fada',
+      name: 'Fairy Soul',
+      dropdown: [
+        { label: '-', value: 0, isUse: false },
+        { label: 'Nv 1', value: 1, skillLv: 1, isUse: true, bonus: { matk: 10, vct: 5 } },
+        { label: 'Nv 2', value: 2, skillLv: 2, isUse: true, bonus: { matk: 20, vct: 5 } },
+        { label: 'Nv 3', value: 3, skillLv: 3, isUse: true, bonus: { matk: 30, vct: 7 } },
+        { label: 'Nv 4', value: 4, skillLv: 4, isUse: true, bonus: { matk: 40, vct: 7 } },
+        { label: 'Nv 5', value: 5, skillLv: 5, isUse: true, bonus: { matk: 50, vct: 10 } },
+      ],
+    },
+    {
+      /**
+       * The soul gauge, not a skill: Coletar Alma fills it and the Asceta's Exorcizar
+       * Assombração multiplies its own ratio by the count.
+       *
+       * The souls used to book `x_matk` at 3 apiece. They pay no MATK: the same recording
+       * fills the gauge to 20 before every cast and the equipment MATK never moves, and
+       * solving its bare packets — three casts, no weapon, so no roll — gives MATK 866,
+       * which is the status window's own 813 + 54 with no room for another 60.
+       */
+      inputType: 'dropdown',
+      label: 'Total de Almas',
       name: 'Total Soul',
       dropdown: [
         { label: '-', value: 0, isUse: false },
-        { label: '5', value: 5, skillLv: 5, isUse: true, bonus: { x_matk: 5 * 3 } },
-        { label: '10', value: 10, skillLv: 10, isUse: true, bonus: { x_matk: 10 * 3 } },
-        { label: '15', value: 15, skillLv: 15, isUse: true, bonus: { x_matk: 15 * 3 } },
-        { label: '20', value: 20, skillLv: 20, isUse: true, bonus: { x_matk: 20 * 3 } },
+        { label: '5', value: 5, skillLv: 5, isUse: true },
+        { label: '10', value: 10, skillLv: 10, isUse: true },
+        { label: '15', value: 15, skillLv: 15, isUse: true },
+        { label: '20', value: 20, skillLv: 20, isUse: true },
       ],
     },
   ];

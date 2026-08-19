@@ -178,7 +178,11 @@ export class ImperialGuard extends RoyalGuard {
         const baseLevel = model.level;
         const ssMastLv = this.learnLv('Spear & Sword Mastery');
 
-        return (skillLevel * (60 + ssMastLv * 10) + totalPow * 2) * (baseLevel / 100);
+        // 80%/level is the client's own table (Lv10: 800%); the 60 this used to carry came
+        // from the Sigma blog. Every sibling here already takes the client's base and adds
+        // its mastery term on top — Arremessar Escudo 600 + Perícia com Escudo x15, Crux
+        // Tempestas 150 + Maestria x5 — and Golpe do Destino was the odd one out.
+        return (skillLevel * (80 + ssMastLv * 10) + totalPow * 2) * (baseLevel / 100);
       },
     },
     {
@@ -227,6 +231,31 @@ export class ImperialGuard extends RoyalGuard {
     },
   ];
   private readonly activeSkillList4th: ActiveSkillModel[] = [
+    {
+      /**
+       * Posição de Defesa — the stance the class starts in, and the counterpart of Attack
+       * Stance below (in game they replace one another; the calculator does not enforce
+       * that, so leaving both on is on the user). Client table: "Nv 5: DEF +300, ATQ -250".
+       *
+       * The ATQ half is the reason this is here at all: it is a straight -50 per level off
+       * the equipment ATK, which a build in this stance was previously simulating without.
+       * `RoyalGuard.over-brand-replay.spec.ts` measures it — the recording's ATQ Equip.
+       * jumps 572 -> 822 the instant the stance is dropped, and its opening damage band
+       * only closes with the -250 applied.
+       */
+      name: 'Guard Stance',
+      label: 'Guard Stance',
+      inputType: 'dropdown',
+      isEquipAtk: true,
+      dropdown: [
+        { label: '-', value: 0, isUse: false },
+        { label: 'Nv 1', value: 1, isUse: true, bonus: { atk: -50 * 1, def: 50 + 50 * 1 } },
+        { label: 'Nv 2', value: 2, isUse: true, bonus: { atk: -50 * 2, def: 50 + 50 * 2 } },
+        { label: 'Nv 3', value: 3, isUse: true, bonus: { atk: -50 * 3, def: 50 + 50 * 3 } },
+        { label: 'Nv 4', value: 4, isUse: true, bonus: { atk: -50 * 4, def: 50 + 50 * 4 } },
+        { label: 'Nv 5', value: 5, isUse: true, bonus: { atk: -50 * 5, def: 50 + 50 * 5 } },
+      ],
+    },
     {
       name: 'Attack Stance',
       label: 'Attack Stance',

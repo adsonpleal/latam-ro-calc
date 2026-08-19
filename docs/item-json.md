@@ -73,6 +73,7 @@ O arquivo é um objeto cuja **chave é o id do item**. Exemplo mínimo:
 | `compositionPos` | string \| null  | Posições combináveis (chapéus multi-slot). |
 | `usableClass`    | string[]        | Classes que podem equipar (nomes internos, ex.: `Swordman`). |
 | `script`         | objeto          | Os bônus do item — o coração deste documento (seções 2–5). |
+| `preRelease`     | `true` \| —     | **Temporário.** Item que ainda não saiu no LATAM, exibido mesmo assim com o texto em inglês do iRO. Ver abaixo. |
 
 **Mapa de `itemSubTypeId`** (equipamento normal, `itemTypeId: 2`): topo `512` (+`location`),
 armadura `513`, escudo `514`, capa `515`, calçado `516`, acessório `517` (ou `510` direito /
@@ -101,6 +102,36 @@ não dá para usar outro item de meio junto. Registre isso em `locations`:
 O item passa a aparecer no dropdown de **todas** as posições listadas; escolhendo uma, as
 outras ficam marcadas como *(ocupado)*. A fonte da verdade é a linha `Equipa em:` da
 descrição pt-BR — `head-gear-locations.data.spec.ts` compara as duas e falha se divergirem.
+
+### `preRelease` — itens que ainda não saíram no LATAM
+
+Normalmente um item só aparece nos dropdowns se estiver em `latam-items.json`: é dali que
+`tools/build-web-data.mjs` deriva `presentInLatam`. Mas `latam-items.json` é **gerado** por
+`tools/sync-latam-db.mjs` a partir do ragassets, então não dá para acrescentar um id à mão —
+a próxima sincronização apagaria.
+
+`preRelease: true` é a **única** fonte escrita à mão de `presentInLatam`. Use quando o item
+já está por vir e as pessoas querem montar a build antes do lançamento:
+
+```jsonc
+"400374": {
+  "id": 400374,
+  "preRelease": true,
+  "name": "Crown of Good and Evil (Dragon Knight) [1]",   // nome do iRO, em inglês
+  "description": "Crown imbued with the power of good and evil.\n…",
+}
+```
+
+- **`name` e `description` ficam em inglês**, copiados da página do iRO no divine-pride —
+  não existe texto pt-BR oficial ainda, e inventar um quebraria a busca por nome. O
+  `description` aqui é a exceção à regra de deixar `""`: como não há overlay pt-BR, é a
+  única descrição que existe, e o gerador a publica sem depender do `--all-desc`.
+- Os pickers marcam essas linhas com uma etiqueta **iRO**, para ninguém montar uma build
+  achando que já dá para equipar (`.pre_release_tag` em `src/styles.scss`).
+- **É temporário.** Quando o LATAM lançar o item, `sync-with-ragassets` traz o id para
+  `latam-items.json` e `src/app/api-services/pre-release-items.spec.ts` **falha** listando
+  os ids afetados. Esse é o gatilho para voltar aqui, apagar o `preRelease`, devolver
+  `description` para `""` e deixar o overlay pt-BR assumir.
 
 ---
 
