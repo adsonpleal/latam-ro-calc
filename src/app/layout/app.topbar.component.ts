@@ -159,7 +159,7 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
-      v: '0.1.73-beta',
+      v: '0.1.75-beta',
       date: '19-08-2026',
       logs: [
         'As fórmulas dos talismãs do Asceta das Almas foram refeitas a partir das tabelas do próprio cliente. Vinham do blog da 2ª versão, que não descreve o LATAM: o blog põe o Talismã do Dragão Nv 1 em 250 + 1.450 onde a linha do cliente diz 900. Duas gravações dão razão ao cliente — em uma delas, cinco disparos de Nv 1 colocam o coeficiente do Dragão entre 3.216 e 3.743, contra os 4.961 que a tabela antiga produzia. Dragão, Tigre, Fênix, Jabuti, Divindades e Ceifeiro passaram a seguir a linha por nível que o jogo mostra, e o dano de todos eles cai.',
@@ -169,6 +169,25 @@ export class AppTopBarComponent {
         'O Espírito da Fada voltou a existir, e as Almas deixaram de dar ATQM. O Espírito estava desligado no código e é real: uma gravação o conjura com quase nada equipado e o ATQM de equipamento sobe de 4 para 54. Já as Almas somavam 3 de ATQM cada uma, o que o jogo não faz — o medidor enche até 20 antes de cada disparo e o ATQM não se move. Juntas, as duas correções levam o erro do estado sem equipamento de 1,26% para 0,08%.',
         'O Diadema Profano ganhou o conjunto que faltava. A descrição paga ATQ e ATQM +50, +8% de dano contra Chefes e +10% contra as propriedades Neutro e Sagrado quando um Anel e um Colar Profano da mesma pedra estão equipados, e nada disso estava cadastrado. A gravação prova a parte fixa na unidade — ao equipar o diadema, o ATQ de equipamento vai de 137 para 187 — e a parte percentual pelo dano: sem ela, o maior pacote gravado fica acima do que o simulador consegue produzir.',
         'Fica em aberto quanto o FEI soma nos talismãs. O cliente não publica essa coluna e o simulador mantém o FEI × 5 do blog; as gravações disponíveis prendem o número entre FEI × 5,5 e FEI × 6,2 no Nv 1, perto mas provavelmente baixo. Uma gravação sem arma alguma, com um talismã no Nv 1 e no Nv 5, resolve: sem arma não há sorteio de ATQM para um coeficiente errado se esconder dentro. Pela mesma razão, o dano da Mandala das Feras ainda não é conferido contra o único pacote gravado dela. As gravações vieram de SPC das Almas e de um usuário anônimo — obrigado pelas duas.',
+      ],
+    },
+    {
+      v: '0.1.74-beta',
+      date: '19-08-2026',
+      logs: [
+        'A Perícia com Katar Avançada passou a entrar antes da DEF do alvo, e não no fim da conta. O bônus da perícia — 20% no Nv 5 — era o último multiplicador da fórmula, aplicado depois de a DEF do alvo já ter sido descontada. Com isso a própria DEF era ampliada na mesma proporção: contra um alvo com 50 de DEF suave, o desconto custava 60. O dano saía, portanto, um pouco abaixo do que o jogo entrega, e tanto mais quanto maior a DEF do alvo e menor o golpe. A correção vale para o ataque básico e para as habilidades, e alcança toda a linha do Sicário que aprende a perícia.',
+        'A ordem certa veio de uma gravação de Executor nível 240 batendo nos dummies. Ela carrega dois estados do mesmo equipamento — com e sem o efeito da Manopla Sombria do Katar, que tem 30% de chance de conceder dano crítico e dano por tamanho por 5 segundos —, e os dois saíam 35 pontos abaixo do gravado, sempre os mesmos 35. Uma diferença fixa nos dois estados não é multiplicador faltando; é etapa fora de lugar. Das quatro posições possíveis para o bônus do katar, só uma reproduz os dois pacotes, e é a mesma que o servidor usa. Agora os nove pacotes do arquivo batem exatos, sem sobra de um ponto.',
+        'As Lâminas Retalhadoras em si não precisaram de mudança. A razão da habilidade vem da tabela do cliente — 2.150% no Nv 5, multiplicados pelo nível de base — e reproduz o arquivo, assim como a taxa de crítico, que passa de 100% nessa build e explica por que todos os golpes gravados são críticos. Obrigado Merda Miserável pela gravação.',
+        'O Impacto Brutal voltou a oferecer todos os seus níveis. A habilidade vai até o Nv 10 no cliente, e a lista do simulador parava no Nv 5 — era a única habilidade ofensiva do Executor limitada abaixo do que o jogo permite. Agora dá para escolher do Nv 1 ao Nv 10, e as builds já salvas no Nv 5 continuam abrindo no mesmo nível.',
+      ],
+    },
+    {
+      v: '0.1.73-beta',
+      date: '19-08-2026',
+      logs: [
+        'O conjunto dos Manuks voltou a pagar o bônus inteiro. A Vestimenta dos Manuks reúne o Anel, as Botas e o Capuz, e das quatro linhas que a descrição promete só uma estava cadastrada, a de +20% de dano nas Lâminas Retalhadoras; faltavam Dano crítico +40%, CRIT +15 e Esquiva +10. O dano crítico é o que mais pesa: numa build que crita sempre, ele sozinho respondia pela diferença inteira, e os seis golpes gravados ficavam de 5% a 17% acima do teto que o simulador calculava.',
+        'O Katar Metálico entrou no banco de itens. Ele não estava lá, e quem o equipava importava a gravação sem arma nenhuma — o ATQ de equipamento caía dos 220 que o jogo mostra para os 25 que vêm do resto do equipamento. Os bônus são os mesmos do Punhal Metálico, trocando os 2 de ATQM por refino por 1% de dano crítico. A Caipirinha, equipamento de cabeça na posição baixa, também entrou; ela não concede bônus algum, mas aparecia como item fora do banco de dados na importação.',
+        'A classe em si não precisou de mudança. O Sicário foi conferido pacote a pacote contra uma gravação em que o personagem troca de arma na frente da câmera — Katar de Apoio Crítico +13, Punhal Metálico +7 e Katar Metálico +7 —, o que remonta a janela de status três vezes: ATQ, ATQ de equipamento e VelAtq batem com o jogo nas três. A razão das Lâminas Retalhadoras vem da tabela do cliente e reproduz o arquivo. Fica em aberto o campo Crítico, que sai 2 pontos acima do que o jogo mostra; a diferença está na parcela que vem da SOR, não nos equipamentos, e uma gravação com outra SOR resolveria. Obrigado KZGX pela gravação.',
       ],
     },
     {
