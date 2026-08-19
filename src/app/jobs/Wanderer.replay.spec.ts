@@ -131,6 +131,8 @@ function simular(untilMs: number, skillValue: string, monsterId: string) {
     min: s.skillMinDamage as number,
     max: s.skillMaxDamage as number,
     basico: [s.basicMinDamage, s.basicMaxDamage] as [number, number],
+    maxHp: (calc as any).maxHp as number,
+    maxSp: (calc as any).maxSp as number,
   };
 }
 
@@ -216,27 +218,48 @@ describe('Musa — as razões das habilidades, contra a tabela do cliente', () =
  * nível 4) e o mínimo não inclui nada dele; nas duas caixas de 36 pacotes o erro padrão
  * da média fica em ~0,5%.
  *
+ * **Em que etapa ele está.** Resolvendo, caixa a caixa, quanto faltaria em cada chave
+ * candidata para a média simulada alcançar a gravada, só uma delas dá o mesmo número nas
+ * três caixas grandes: **`range` (Dano físico a distância) +7 a +8 pontos**. Como ATQ
+ * plano faz falta 58/39/40 e como `atkPercent` 13/11/8 — nenhum dos dois é constante.
+ * A etapa `range` é multiplicativa e separada no motor (`skillFormula`), o que também
+ * explica por que os dois estados de equipamento, com 23% e 45% de à distância, dão
+ * resíduos parecidos e não iguais.
+ *
  * **O que já foi descartado**, por medida e não por opinião:
  *   - a build: as três leituras de ATQ/ATQ Equip. e os cinco `plus` de status batem
  *     exatamente com os pacotes do servidor (describes acima), então não falta ATQ plano,
  *     nem refino, nem carta, nem status;
- *   - as razões: 953% e 1.950% saem da tabela do próprio cliente;
+ *   - as razões: 953% e 1.950% saem da tabela do próprio cliente, e browiki.org confirma
+ *     as duas fórmulas ("Dano = {Dano base + [(DES + AGI) ÷ 2]} × (Nv. de base ÷ 100)");
+ *   - a contagem de golpes: os 5 pacotes de Vulcão são todos múltiplos exatos de 9, que é
+ *     o `hit: 9` da habilidade, e os de Temporal chegam de 12 em 12 por conjuração;
  *   - conjuração e espera: `skill-delay.spec.ts` passa para a classe inteira;
- *   - a variação da arma: 7 dos 8 pacotes de Vulcão contra o Pequeno estão **acima** do
- *     máximo simulado, que já inclui os 42 de sobre-refino — não é sorte de rolagem;
+ *   - a rolagem da arma: invertendo cada pacote de volta para o ATQ que ele implica, a
+ *     amostra do estado completo cobre uma largura de 103 pontos, que é a do modelo do
+ *     motor (variação ±40 mais o sobre-refino 0..41, 122 pontos de topo achatado) — o
+ *     formato está certo, é o **centro** que está ~39 pontos acima do simulado;
  *   - a penalidade de tamanho: o resíduo do Pequeno e o do Médio são iguais dentro do
  *     erro, então os 75% do chicote contra alvo Pequeno estão certos;
  *   - o equipamento do estado completo: o estado "só a arma" tem o mesmo resíduo (maior,
  *     até), e ali só há o chicote, a flecha e o conjunto sombrio;
  *   - a Carta Alma de Trentini: os +40% (20 de base + 20 por arma de nível 4) entram —
  *     tirar a carta derruba o dano na proporção exata;
- *   - as outras três apresentações ativas: a descrição pt-BR de cada uma só fala de SP,
- *     VelAtq/conjuração e regeneração de HP.
+ *   - os dois bônus aleatórios do chicote: a tabela `randomopt.json` do cliente diz que o
+ *     16 é "Velocidade de ataque +%" e o 102 "Dano físico contra Peixe +%" — o alvo é
+ *     Amorfo, então o segundo não vale mesmo;
+ *   - o conjunto sombrio: o refino de cada peça é confirmado pelo HP máx. da gravação, e
+ *     o conjunto da Manopla Sombria de Musa (que daria à distância por nível de Domínio
+ *     Musical) pede o **Escudo Sombrio de Musa**, não o Temporal que a personagem usa;
+ *   - mascote, consumíveis e buff escondido: a gravação não tem mascote, não gasta nada
+ *     além de flecha, e os EFST ligados na personagem são só Concentrar e as três
+ *     apresentações — cuja descrição pt-BR só fala de SP, VelAtq/conjuração e regen. de
+ *     HP — mais os contadores de conta (802/867/942/983/984/1084/1085).
  *
- * O que sobra é uma etapa de ~5% que nenhuma descrição pt-BR do equipamento usado
- * justifica. Uma segunda gravação com **outro estado de buff** sobre o mesmo equipamento
- * (§9 do `review-rrf-class`) é o que separaria "% de dano" de "ATQ plano" — aqui os cinco
- * pacotes de Vulcão contra o Médio são poucos demais para fechar a conta sozinhos.
+ * O que sobra é ~+7% de dano à distância que nenhuma descrição pt-BR do equipamento usado
+ * justifica, e inventar a chave está fora de questão. Uma segunda gravação com **outro
+ * estado de buff** sobre o mesmo equipamento (§9 do `review-rrf-class`) é o que fecharia a
+ * conta — aqui os cinco pacotes de Vulcão contra o Médio são poucos demais sozinhos.
  */
 describe('Musa — resíduo aberto: o simulador fica ~5% abaixo do jogo', () => {
   it.each([
@@ -252,17 +275,63 @@ describe('Musa — resíduo aberto: o simulador fica ~5% abaixo do jogo', () => 
     expect((g.media / ((s.min + s.max) / 2) - 1) * 100).toBeCloseTo(residuo, 0);
   });
 
-  /**
-   * The bare-handed control, and the only deterministic number in the file: 9 basic
-   * attacks, all exactly 130. The simulator says 100, and the difference is exactly the
-   * Flecha de Ferro's ATQ 30 — which the client **does** count (SP_ATK2 is 30 in that
-   * state) and the simulator only adds when a weapon is equipped. A corner with no
-   * practical consequence (nobody simulates bare-handed), but it is what stops this
-   * control from closing exactly.
-   */
-  it('desarmado: o jogo bate 130 (9 pacotes iguais) e o simulador 100 — a flecha não entra', () => {
+});
+
+/**
+ * The bare-handed control, and the only deterministic number in the file: nine basic
+ * attacks, all exactly 130, with no weapon to roll ATK.
+ *
+ * It used to come out 100. The gap is the **Flecha de Ferro's ATQ 30**, which the game
+ * counts — the status window reads ATQ Equip. 30 in that state, with nothing else
+ * equipped that gives ATQ — and the simulator dropped, because it only fed the basic
+ * attack its ammunition when the weapon was a ranged one and bare hands report as melee.
+ *
+ * The 30 cannot be Lições de Dança's ATQ +30 instead: the client conditions that line on
+ * "Ao usar Chicotes", and ATQ Equip. reads 30 and not 60 once the whip goes on top of the
+ * arrows (200 + 49 de refino + 30 da flecha + 30 da maestria = 309, the number the packet
+ * carries). Only one of the two is present bare-handed, and the client's own text says
+ * which.
+ *
+ * This does not reopen what `shinkiro-gear-states.rrf` settled — that a **melee skill**
+ * ignores the quiver, kunai included. That gate is on the skill and stays; this one is on
+ * the weapon, and "no weapon" is not "a melee weapon".
+ */
+describe('Musa — o controle desarmado', () => {
+  it('o jogo bate 130 nove vezes, e o simulador também — a flecha entra', () => {
     const basicos = meus.filter((d: any) => d.skillId === 0).map((d: any) => d.damage);
     expect(basicos).toEqual(Array(9).fill(130));
-    expect(simular(T_SEM_ARMA, 'Severe Rainstorm==5', DUMMY_MEDIO).basico).toEqual([100, 100]);
+    expect(simular(T_SEM_ARMA, 'Severe Rainstorm==5', DUMMY_MEDIO).basico).toEqual([130, 130]);
+  });
+});
+
+/**
+ * **Um segundo resíduo, medido de passagem: o HP máx. vem 51 pontos alto.**
+ *
+ * O SP máx. bate exato (1.521), o que já valida os +10% de SP das Lições de Dança e as
+ * cláusulas de SP do conjunto sombrio. O HP não: a gravação reporta 15.465 e o simulador
+ * dá 15.516.
+ *
+ * A diferença é o **Colar Sombrio Espiritual +5 contado duas vezes**. Sua descrição diz
+ * "HP máx. +10 por refino" e o script `hp: ["1---10"]` entrega os 50 certos — só que
+ * `HpSpCalculator.setAllInfo` soma, por fora, `_shadowHP = (soma dos refinos sombrios) ×
+ * 10`, a mesma regra outra vez. 50 + 50, vezes os 3% de HP da Manopla Sombria de Musa,
+ * são os 103 que separam este HP do de um colar +0 — e o jogo diz 52, ou seja, uma vez só.
+ *
+ * Não é específico da Musa: `_shadowHP` inventa HP para qualquer peça sombria refinada, e
+ * 502 delas já carregam a linha no próprio script (137 não carregam porque de fato não dão
+ * HP — o Escudo Sombrio Transcendente só dá conjuração variável). Fica pinado aqui e não
+ * corrigido: mexer nisso muda o HP de toda build com equipamento sombrio.
+ */
+describe('Musa — HP e SP máx. contra a janela do jogo', () => {
+  const naGravacao = (sp: number) => replay.paramChanges.filter((p: any) => p.type === sp).map((p: any) => Number(p.value));
+
+  it('SP máx. bate exato', () => {
+    expect(naGravacao(8)[0]).toBe(1521);
+    expect(simular(T_SO_ARMA, 'Severe Rainstorm==5', DUMMY_MEDIO).maxSp).toBe(1521);
+  });
+
+  it('HP máx. vem 51 alto — o colar sombrio contado duas vezes', () => {
+    expect(naGravacao(6)[0]).toBe(15465);
+    expect(simular(T_SO_ARMA, 'Severe Rainstorm==5', DUMMY_MEDIO).maxHp).toBe(15516);
   });
 });

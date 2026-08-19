@@ -2119,8 +2119,12 @@ export class DamageCalculator {
       sizePenalty,
       isEDP: this.isActiveEDP(''),
       isExcludeCannanball: true,
-      // The basic attack fires ammunition only with a weapon that takes it.
-      isAmmoAttack: this.isRangeAtk(),
+      // A melee *weapon* fires nothing, however full the quiver — but bare hands are
+      // not a melee weapon, they are no weapon, and the game counts the ammunition
+      // there. `musa-tuevi-ado.rrf` measures it: with only arrows equipped the status
+      // window reads ATQ Equip. 30 and the nine basic attacks all land on 130, exactly
+      // 30 above what the character's own ATQ gives (Wanderer.replay.spec.ts).
+      isAmmoAttack: this.isRangeAtk() || !this.weaponData?.data?.typeName,
     });
 
     const { basicMinDamage, basicMaxDamage } = this.calcBasicDamage({ totalMin: totalMin, totalMax: totalMaxOver });
