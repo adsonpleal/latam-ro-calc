@@ -159,6 +159,13 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.80-beta',
+      date: '19-08-2026',
+      logs: [
+        'O encanto de VIT dos Sombrios Magistrais estava fora da lista. O quarto slot da Manopla Sombria Magistral e do Escudo Sombrio Magistral oferece um encanto para cada atributo — FOR, AGI, VIT, INT, DES e SOR, todos +5 —, e o simulador trazia DES duas vezes e nenhuma opção de VIT, de modo que quem tinha o encanto de VIT não conseguia montar a build como ela está no jogo. As seis opções agora aparecem uma vez cada, na ordem em que o jogo as lista. Reportado por Ronjero.',
+      ],
+    },
+    {
       v: '0.1.79-beta',
       date: '19-08-2026',
       logs: [
