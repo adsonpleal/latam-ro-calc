@@ -159,6 +159,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.84-beta',
+      date: '19-08-2026',
+      logs: [
+        'Os conjuntos entre cartas passaram a ser calculados. Trinta e nove cartas tinham um bloco "Conjunto" na descrição que o simulador não somava — a Carta Caranguejo com o Molusco e a Estrela-do-Mar, a Carta Agressor com as quatro do conjunto, a Succubus com a Inccubus, a Carta Tritão, a Planta Carnívora, a Poltergeist, a Wickebine Tres e o resto. Agora cada uma só paga com as parceiras que a própria descrição nomeia, e continua sem pagar nada enquanto faltar uma delas.',
+        'Quatro conjuntos nunca podiam funcionar, porque o cadastro procurava a parceira pelo nome em inglês. Carta Papel, Carta Caídos, Carta Nuvem Perigosa e Carta Neo Mineral apontavam para cartas que o banco guarda com o nome em português, então a conta não achava ninguém — vinte e duas referências ao todo, nenhuma pagando. Passaram a apontar pelo código do item, como manda o resto do banco. No caminho, a Carta Neo Mineral deixou de dar +3 de DEF por refino da capa sem a Carta Mineral equipada, que é o que a descrição sempre disse.',
+        'Cinco cartas guardavam o conjunto da parceira em vez do próprio, e passariam a pagá-lo em dobro. Carta Senhor das Trevas, Batedor Ominoso, Verme Sombrio com Rosto, Necromante de Morroc e Jack Wolf tinham no cadastro a metade que a outra carta do par descreve; cada uma ficou apenas com o que a sua própria descrição promete, e nenhum bônus se perdeu, porque o lado que o descreve agora o paga.',
+      ],
+    },
+    {
       v: '0.1.83-beta',
       date: '19-08-2026',
       logs: [

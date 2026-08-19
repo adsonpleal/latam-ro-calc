@@ -378,6 +378,26 @@ function assertKeysExist() {
 
 // ── description -> effect lines ──────────────────────────────────────────────────────
 
+
+/**
+ * The partner cards named directly under a "Conjunto" line, in the two spellings the client
+ * uses: bracketed ("[Carta Molusco]") and bare ("Carta Espírito da Água").
+ *
+ * The list ends at the first line that is not one — the set's own bonuses follow it. A
+ * bonus line always prints a number, which is what separates "Carta Espírito da Água" from
+ * "Carta Poe" as a partner and from any effect line as a bonus.
+ */
+function partnersAfter(lines, index) {
+  const names = [];
+  for (const line of lines.slice(index + 1)) {
+    const bracketed = /^\[(.+?)\]$/.exec(line);
+    if (bracketed) { names.push(bracketed[1].trim()); continue; }
+    if (/^Carta \S/.test(line) && !/\d/.test(line)) { names.push(line.trim()); continue; }
+    break;
+  }
+  return names;
+}
+
 /**
  * Effect lines of a description, each tagged with whether a gate covers it.
  *
@@ -413,11 +433,19 @@ function effectLines(description) {
      * equipped. It is not always the first line of its block — 27163 Carta Verme com Rosto
      * runs its own bonuses straight into the Conjunto with no separator between them, and
      * reading only `lines[0]` hands that card's set bonus out unconditionally.
+     *
+     * A Conjunto gate is written `Conjunto[nome||nome]`, carrying the partners named right
+     * under it, because the gate is only meaningful together with them and one card can
+     * open several: 27328 Carta Caídos has nine Conjunto blocks with a different partner in
+     * each, and 4628 Carta Neo Punk runs two of them into a single block with no separator.
+     * A bare "Conjunto" would collapse all of those into one indistinguishable condition.
      */
     const gates = [];
-    for (const text of lines) {
+    for (let i = 0; i < lines.length; i++) {
+      const text = lines[i];
       out.push({ text, gated: gates.length > 0, gate: gates[gates.length - 1] ?? null, gates: [...gates] });
-      if (/:$/.test(text) || /^Conjunto$/i.test(text)) gates.push(text);
+      if (/^Conjunto$/i.test(text)) gates.push(`Conjunto[${partnersAfter(lines, i).join('||')}]`);
+      else if (/:$/.test(text)) gates.push(text);
     }
   }
   return out;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ArchBishop, ArchMage, CharacterBase, HyperNovice, Minstrel, RuneKnight, Troubadour, Trouvere, Wanderer } from 'src/app/jobs';
+import { ArchBishop, ArchMage, CharacterBase, ElementalMaster, HyperNovice, Minstrel, RuneKnight, Troubadour, Trouvere, Wanderer } from 'src/app/jobs';
 import { ACESSORIO_D, ARMADURA, CALCADO, CAPA, ELMO, ITEM_DB, Worn, wornBonus } from './worn-bonus';
 
 /**
@@ -147,21 +147,25 @@ describe('a class lineage — "X e evoluções:" is the "USED[...]" clause', () 
 
 describe('a Conjunto block, whose gate reaches the lines nested inside it', () => {
   // 4191 Carta Loli Ruri prints "Magos e evoluções: Dano mágico +3%" INSIDE its Conjunto
-  // block, so the bonus needs the five partner cards equipped as well as the class. Reading
+  // block, so the bonus needs the five partner cards equipped AS WELL AS the class. Reading
   // the inner gate as a replacement for the outer one — which is what a gate that does not
-  // stack does — hands +3% magic damage to every Mage wearing the card alone.
+  // stack does — would hand +3% magic damage to every Mage wearing the card alone.
   //
-  // The combos themselves are not registered yet, so the honest record is no entry at all.
-  it('4191 Carta Loli Ruri gives a Mage nothing on its own', () => {
-    expect(ITEM_DB[4191].script).toEqual({});
+  // The set itself is registered; card-set-bonuses.spec.ts covers the Conjunto shapes.
+  it('4191 Carta Loli Ruri keeps both halves of the condition on one entry', () => {
+    expect(ITEM_DB[4191].script.matkPercent).toEqual(['EQUIP_ID[4325&&4309&&4258&&4208&&4327]USED[Mage]3']);
+  });
+
+  it('4191 Carta Loli Ruri gives a Mage nothing without the five partners', () => {
     expect(inArmor(4191, { cls: new ArchMage() })).toEqual({});
   });
 
   // 4382 Carta Novus Dourado, same shape: "Sábios e evoluções: Conjuração variável -20%"
   // sits inside the Conjunto with Harpia, Ninfa Perversa, Miyabi Ningyo and Borboleta.
-  it('4382 Carta Novus Dourado keeps only the two lines outside the Conjunto', () => {
-    // "HP máx. +500" and "Regeneração natural de HP +10%" — the second is not modelled.
-    expect(ITEM_DB[4382].script).toEqual({ hp: ['500'] });
+  it('4382 Carta Novus Dourado keeps its flat line outside the Conjunto', () => {
+    // "HP máx. +500" is unconditional; "Regeneração natural de HP +10%" is not modelled.
+    expect(ITEM_DB[4382].script.hp).toEqual(['500']);
+    expect(inArmor(4382, { cls: new ElementalMaster() })).toEqual({ hp: 500 });
   });
 });
 

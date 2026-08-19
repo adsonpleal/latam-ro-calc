@@ -30,6 +30,8 @@ export interface Worn {
   weaponRefine?: number;
   weaponGrade?: string;
   weaponCard?: number;
+  /** Sockets 1-4 of the weapon, for the sets whose partners are all weapon cards. */
+  weaponCards?: number[];
   headUpper?: number;
   headUpperRefine?: number;
   /** Enchant slots 1-3 of the upper head gear, by enchant item id. */
@@ -81,6 +83,10 @@ export function wornBonus(worn: Worn): Record<string, number> {
     items[worn.weaponCard] = withSlot(worn.weaponCard, 6, 0);
     model.weaponCard1 = worn.weaponCard;
   }
+  (worn.weaponCards ?? []).forEach((card, i) => {
+    items[card] = withSlot(card, 6, 0);
+    model[`weaponCard${i + 1}`] = card;
+  });
   if (worn.headUpper) {
     items[worn.headUpper] = withSlot(worn.headUpper, 2, 512);
     model.headUpper = worn.headUpper;
@@ -172,6 +178,7 @@ export const ITEM_DB = db;
 export const ESPADA_2H = 1160; // Espada Larga — twohandSword
 export const MACHADO_2H = 1371; // Machado do Apocalipse — twohandAxe
 export const ESPADA_1H = 1123; // Haedonggum — sword
+export const FACA_3 = 1201; // Faca [3] — three card sockets, so a whole weapon set fits
 export const LIVRO = 1551; // Bíblia — book
 
 // Inert hosts, used only to open a card socket: every one of these has an empty script, so

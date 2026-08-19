@@ -4,6 +4,7 @@
 //
 //   node tools/register-missing-cards.mjs --check   # report, write nothing
 //   node tools/register-missing-cards.mjs --audit   # every registered card vs its own text
+//   node tools/register-missing-cards.mjs --combos  # top up the records already there
 //   node tools/register-missing-cards.mjs           # splice the records into item.json
 //
 // What a card is, where it goes and which of its description lines the engine can hold are
@@ -32,9 +33,11 @@
 //
 //   flat lines      Every phrase the table resolves, at the magnitude the text prints.
 //   gated lines     Only the gates item.json's own grammar already writes — refine steps
-//                   and thresholds, base-attribute thresholds and steps, base level, and
-//                   the class lineages (GATES below). Everything else — Conjunto blocks,
-//                   proc payloads, capped step gates — is left out.
+//                   and thresholds (including a partner's, "a cada 2 refinos da Armadura"),
+//                   base-attribute thresholds and steps, base level, the class lineages,
+//                   and a Conjunto block as EQUIP_ID[...] (VALUE_GATES/CONDITION_GATES
+//                   below). Everything else — proc payloads, capped step gates, a set whose
+//                   partner the client does not ship — is left out.
 //   the rest        Nothing. Procs, status tolerance, "habilita a perícia X", turning
 //                   damage into HP: no key in createRawTotalBonus means no entry.
 //
@@ -90,6 +93,122 @@ const LINEAGE = {
 
 const STAT = { FOR: 'str', AGI: 'agi', VIT: 'vit', INT: 'int', DES: 'dex', SOR: 'luk' };
 
+/** The equipment a set bonus can be worded against, as the slot names `REFINE[...]` reads. */
+const SLOT = {
+  arma: 'weapon', elmo: 'headUpper', escudo: 'shield', armadura: 'armor',
+  capa: 'garment', 'calçado': 'boot',
+};
+
+/**
+ * The partner names the client writes differently from the partner's own name.
+ *
+ * Every one of these is the same card under a spelling the item list does not use — a
+ * space ("Peco Peco" / "PecoPeco"), a capital ("ChonChon" / "Chonchon"), an accent
+ * ("Mímico" / "Mimico"), a word order ("Rei Dramoh" / "Dramoh Rei"), a missing "Carta"
+ * ("Necromante de Morroc"), or a different translation of the same English name
+ * ("Soldado" for Solider, whose card is called "Carta Solidificador" — and whose four
+ * partners on 4246 sit in the four other slots, which is what settles it).
+ *
+ * "Carta Po" is Poe Richard: 300128's set is Poe + Isaac in the upstream script (27396
+ * carries the mirror clause, `EQUIP[Wolf Lugenburg Card&&Poe Richard Card]`, at the same
+ * magnitudes the pt-BR prints), and the client dropped the "e".
+ */
+const PARTNER_ALIAS = {
+  'Carta Peco Peco': 'Carta PecoPeco',
+  'Carta ChonChon': 'Carta Chonchon',
+  'Carta Soldado': 'Carta Solidificador',
+  'Carta Sara': 'Carta Sarah',
+  'Necromante de Morroc': 'Carta Necromante de Morroc',
+  'Carta Mímico Antigo': 'Carta Mimico Antigo',
+  'Carta Rei Dramoh': 'Carta Dramoh Rei',
+  'Carta Po': 'Carta Poe',
+};
+
+/**
+ * pt-BR name -> every id that carries it, for anything the LATAM client ships and item.json
+ * holds.
+ *
+ * Not cards only: four head cards (27101, 27102, 27103, 27105) name the Gaiola Vampírica
+ * accessory (28510) as their set partner, and a set the player really can wear is not less
+ * real for being a card plus a piece of gear.
+ *
+ * More than one id is the norm, not an error: the client re-issues an item under a new id
+ * and keeps the name, so "Carta Poe" is 27392 and 300130 and "Carta Lobo" is 4029 and
+ * 27390. A set naming one of those has to accept either generation —
+ * `EQUIP_ID[27392||300130]` — or it silently stops paying for whoever holds the other one.
+ * See CLAUDE.md.
+ */
+const IDS_BY_NAME = new Map();
+for (const id of Object.keys(latam)) {
+  if (!items[id]) continue;
+  const name = latam[id].name;
+  if (!IDS_BY_NAME.has(name)) IDS_BY_NAME.set(name, []);
+  IDS_BY_NAME.get(name).push(Number(id));
+}
+
+/**
+ * The partner names two different cards answer to, and which one the set means.
+ *
+ * A pt-BR name shared by several ids is usually a re-issue — same card, new id, and a set
+ * naming it has to accept either generation. These two are not, and the difference matters:
+ *
+ *   "Carta Lobo"  4029 is the plain Wolf Card (ATQ +15, CRIT +1, the animal); 27390 is
+ *                 Wolf Lugenburg, an EP17 person whose own sets are with Po and Isaac. They
+ *                 share nothing but the translation. 4183 Carta Lobo Errante is the
+ *                 Vagabond Wolf, and Vagabond Wolf + Wolf -> Esquiva +18 is the animal
+ *                 pair; pairing it with Lugenburg would pay a set the game does not have.
+ *
+ *   "Carta Po"    27392 and 300130 ARE the same card twice (S_Poe_Card_E and S_Poe_Card),
+ *                 so both generations count. Listed here only because the run cannot tell
+ *                 the two cases apart on its own.
+ *
+ * An ambiguous name absent from this table blocks its set and says so, rather than guessing
+ * or quietly ORing ids that mean different cards.
+ */
+const AMBIGUOUS_PARTNER = {
+  'Carta Lobo': [4029],
+  'Carta Poe': [27392, 300130],
+};
+
+/** Why a set could not be written, by card id — reported at the end of a run. */
+const unwritableSets = new Map();
+
+/**
+ * "Conjunto[Carta Molusco||Carta Estrela-do-Mar]" -> "EQUIP_ID[4273&&4247]".
+ *
+ * Every partner named is REQUIRED, which is what a Conjunto block means and what the sets
+ * already in the database do (27396's `EQUIP[Wolf Lugenburg Card&&Poe Richard Card]`).
+ * They are wearable together: every multi-partner set in the catalogue puts its partners in
+ * different slots, and the one that does not — 4153 Carta Caranguejo with Molusco and
+ * Estrela-do-Mar, all three weapon cards — is the classic three-socket water set.
+ *
+ * Null when a partner cannot be resolved to something the client ships. The only one is
+ * Carta Isaac (27396 Isaac Wigner), which item.json carries as an inherited upstream record
+ * with no latam-items.json entry: a clause gated on a card nobody can obtain would model
+ * nothing while reading as if it did. Same call as in wolf-poe-combo.spec.ts, which is
+ * where that card's set was first left out.
+ */
+function equipClauseOf(gate, cardId) {
+  const names = gate.slice('Conjunto['.length, -1).split('||').filter(Boolean);
+  if (!names.length) return null;
+
+  const groups = [];
+  for (const name of names) {
+    const resolved = PARTNER_ALIAS[name] ?? name;
+    const ids = IDS_BY_NAME.get(resolved);
+    if (!ids) {
+      unwritableSets.set(cardId, `partner "${name}" is not something the LATAM client ships`);
+      return null;
+    }
+    if (ids.length > 1 && !AMBIGUOUS_PARTNER[resolved]) {
+      unwritableSets.set(cardId, `partner "${name}" is ${ids.join(' and ')} and nothing here says which`);
+      return null;
+    }
+    groups.push((AMBIGUOUS_PARTNER[resolved] ?? ids).join('||'));
+  }
+  return `EQUIP_ID[${groups.join('&&')}]`;
+}
+
 /**
  * gate line -> the entry a value under it becomes, per docs/item-json.md §4 and §5.
  *
@@ -111,7 +230,12 @@ const VALUE_GATES = [
   [/^A cada (\d+) refinos:$/i, (m, value) => `${m[1]}---${value}`],
   [/^(FOR|AGI|VIT|INT|DES|SOR) base (\d+) ou mais:$/i, (m, value) => `${STAT[m[1].toUpperCase()]}:${m[2]}===${value}`],
   [/^A cada (\d+) de (FOR|AGI|VIT|INT|DES|SOR) base:$/i, (m, value) => `${STAT[m[2].toUpperCase()]}:${m[1]}---${value}`],
-  [/^Nv\. base (\d+) ou maior:$/i, (m, value) => `level:${m[1]}===${value}`],
+  // "A cada 2 refinos da Armadura:" — a set bonus that scales with a partner's refine, not
+  // with the refine of whatever the card itself sits in, so it names the slot.
+  [
+    /^A cada (?:(\d+) )?refinos? d[oa] (arma|elmo|escudo|armadura|capa|cal[çc]ado):$/i,
+    (m, value) => `REFINE[${SLOT[m[2].toLowerCase()]}==${m[1] ?? 1}]---${value}`,
+  ],
 ];
 
 /** Gates that become a CONDITION prefix. Any number of these can chain onto one entry. */
@@ -123,6 +247,10 @@ const CONDITION_GATES = [
       return names.every(Boolean) ? `USED[${names.join('||')}]` : null;
     },
   ],
+  // Base level is a condition and not a `level:N===Y` value, so it can sit alongside one:
+  // 300270 Carta Empatia is "Nv. base 200 ou mais:" wrapped around "A cada 40 de DES base:".
+  [/^Nv\. base (\d+) ou (?:mais|maior):$/i, (m) => `LEVEL[${m[1]}]`],
+  [/^Conjunto\[.*\]$/i, (m, cardId) => equipClauseOf(m[0], cardId)],
 ];
 
 /** The gate the refine-band pair below is written against, e.g. "Nos refinos entre 0 e +14:". */
@@ -137,7 +265,7 @@ const REFINE_BAND = /^Nos refinos entre 0 e \+(\d+):$/i;
  * refine AND weapon-restricted. Writing the refine step alone would pay on every weapon in
  * the game, so a gate this cannot express takes the whole entry out.
  */
-function entryFor(gates, value) {
+function entryFor(gates, value, cardId) {
   let written = String(value);
   let valueGateUsed = false;
   const conditions = [];
@@ -154,10 +282,14 @@ function entryFor(gates, value) {
     }
 
     const conditionGate = CONDITION_GATES.find(([re]) => re.test(gate));
-    const condition = conditionGate?.[1](conditionGate[0].exec(gate));
+    const condition = conditionGate?.[1](conditionGate[0].exec(gate), cardId);
     if (!condition) return null;
     conditions.push(condition);
   }
+
+  // EQUIP_ID[...] is matched anchored to the start of the condition string, so a set gate
+  // has to lead. USED[...] and LEVEL[...] are matched unanchored and do not care.
+  conditions.sort((a, b) => Number(b.startsWith('EQUIP_ID[')) - Number(a.startsWith('EQUIP_ID[')));
 
   return conditions.join('') + written;
 }
@@ -214,7 +346,7 @@ function scriptOf(id) {
 
   const script = {};
   for (const [key, entries] of Object.entries(foldRefineBands(byKey))) {
-    const written = entries.map((e) => entryFor(e.gates, e.value)).filter((e) => e !== null);
+    const written = entries.map((e) => entryFor(e.gates, e.value, Number(id))).filter((e) => e !== null);
     if (written.length) script[key] = written;
   }
   return script;
@@ -347,12 +479,117 @@ function append(records) {
   if (!after.startsWith(head)) throw new Error('the splice rewrote bytes it should not have — item.json was NOT preserved');
 }
 
+// ── --combos: top up the records that are already there ─────────────────────────────
+
+/**
+ * Add to each registered card the SET entries its own Conjunto block yields and its record
+ * does not hold.
+ *
+ * Set clauses only — an entry carrying `EQUIP_ID[...]`. Everything else a card's text yields
+ * and its record lacks is reported by --audit and left alone, because outside a set the two
+ * are not comparable: several records spell a condition another equally valid way
+ * (`SUM[luk==18]---1` for this file's `luk:18---1`), and appending this file's spelling on
+ * top would pay the bonus twice.
+ *
+ * A merge, never a replacement, for the same reason: three records hold a combo clause
+ * written on the partner's text rather than their own, and rewriting the script would throw
+ * those away.
+ *
+ * Idempotent: an entry already present verbatim is not added again.
+ */
+/**
+ * Whether two entries are the same bonus written two ways.
+ *
+ * `EQUIP_ID[300128]===5` and `EQUIP_ID[300128]5` are one entry: the `===` after a condition
+ * is optional separator, stripped by validateCondition before the value is read. Comparing
+ * them as strings is how a set already registered would be registered a second time, and
+ * paid twice.
+ */
+const sameEntry = (a, b) => a.replace(/]===/g, ']') === b.replace(/]===/g, ']');
+
+function pendingSetEntries() {
+  const pending = [];
+  const clashes = [];
+
+  for (const id of Object.keys(latam)) {
+    if (!isCard(latam[id], id) || !items[id]) continue;
+
+    const actual = items[id].script || {};
+    const additions = {};
+    for (const [key, values] of Object.entries(scriptOf(id))) {
+      const missing = values.filter((value) => value.includes('EQUIP_ID[') && !(actual[key] || []).some((held) => sameEntry(held, value)));
+      if (!missing.length) continue;
+
+      // A record already gated on a partner BY NAME is the same bonus under the legacy
+      // form. Adding the id form next to it would pay the set twice, so it is reported for
+      // a human to migrate rather than merged.
+      const legacy = (actual[key] || []).filter((value) => value.includes('EQUIP['));
+      if (legacy.length) { clashes.push(`${id} ${latam[id].name}: ${key} already carries ${legacy.join(', ')}`); continue; }
+
+      additions[key] = missing;
+    }
+    if (Object.keys(additions).length) pending.push([Number(id), additions]);
+  }
+
+  return { pending, clashes };
+}
+
+/**
+ * Splice the added entries into each record's `script`, in place.
+ *
+ * By byte span, like `append` and for the same reason: item.json's keys are not in numeric
+ * order and a JSON round-trip would reorder all 10427 of them. Each record is found by its
+ * own `"<id>": {` line and only its script object is rewritten.
+ */
+function mergeInto(pending) {
+  let text = readFileSync(ITEM_JSON, 'utf8');
+  const NL = text.includes('\r\n') ? '\r\n' : '\n';
+
+  for (const [id, additions] of pending) {
+    const start = text.indexOf(`${NL}  "${id}": {`);
+    if (start < 0) throw new Error(`${id} is not in item.json under its own key`);
+    const end = text.indexOf(`${NL}  },`, start);
+    const record = text.slice(start, end < 0 ? undefined : end);
+
+    const scriptAt = record.lastIndexOf('"script": {');
+    if (scriptAt < 0) throw new Error(`${id} has no script object`);
+    const body = record.slice(scriptAt + '"script": {'.length, record.lastIndexOf('}'));
+
+    const merged = { ...(items[id].script || {}) };
+    for (const [key, values] of Object.entries(additions)) merged[key] = [...(merged[key] || []), ...values];
+
+    // Same shape the file uses: four spaces to the key, six to a value.
+    const rendered = Object.entries(merged)
+      .map(([key, values]) => `${NL}      ${JSON.stringify(key)}: [${values.map((v) => `${NL}        ${JSON.stringify(v)}`).join(',')}${NL}      ]`)
+      .join(',');
+
+    const rewritten = record.slice(0, scriptAt + '"script": {'.length) + rendered + NL + '    ' + record.slice(record.lastIndexOf('}'));
+    text = text.slice(0, start) + rewritten + text.slice(end < 0 ? text.length : end);
+  }
+
+  writeFileSync(ITEM_JSON, text);
+}
+
 // ── main ─────────────────────────────────────────────────────────────────────────────
 
 assertKeysExist();
 assertBatchStillMaps();
 
 if (args.has('--audit')) { auditRegistered(); process.exit(0); }
+
+if (args.has('--combos')) {
+  const { pending, clashes } = pendingSetEntries();
+  for (const [id, additions] of pending) console.log(`  ${id} ${latam[id].name}  ${JSON.stringify(additions)}`);
+  console.log(`\n${pending.length} card(s) gain the set their own Conjunto block declares.`);
+  for (const [id, why] of unwritableSets) console.log(`  skipped ${id} ${latam[id].name}: ${why}`);
+  for (const clash of clashes) console.log(`  skipped ${clash}`);
+
+  if (!args.has('--check')) {
+    mergeInto(pending);
+    console.log(`\nmerged into src/assets/demo/data/item.json`);
+  }
+  process.exit(0);
+}
 
 console.log(`self-check: ${assertReproducesRegistered()} registered cards reproduce from their own pt-BR text.\n`);
 

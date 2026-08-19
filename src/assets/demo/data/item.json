@@ -6007,14 +6007,7 @@
     "location": null,
     "compositionPos": 64,
     "cardPrefix": "of Doom",
-    "script": {
-      "hpPercent": [
-        "EQUIP[Dark Illusion Card]20"
-      ],
-      "spPercent": [
-        "EQUIP[Dark Illusion Card]20"
-      ]
-    }
+    "script": {}
   },
   "4169": {
     "id": 4169,
@@ -6036,10 +6029,12 @@
     "cardPrefix": "of Spell Master",
     "script": {
       "spPercent": [
-        "-10"
+        "-10",
+        "EQUIP_ID[4168]20"
       ],
       "hpPercent": [
-        "-10"
+        "-10",
+        "EQUIP_ID[4168]20"
       ],
       "vct": [
         "10",
@@ -6070,13 +6065,13 @@
         "1"
       ],
       "aspdPercent": [
-        "EQUIP[Dancing Dragon Card&&Shinobi Card&&The Paper Card&&Wander Man Card&&Wild Rose Card]===5"
+        "EQUIP_ID[4230&&4210&&4272&&4257]5"
       ],
       "agi": [
-        "EQUIP[Dancing Dragon Card&&Shinobi Card&&The Paper Card&&Wander Man Card&&Wild Rose Card]===5"
+        "EQUIP_ID[4230&&4210&&4272&&4257]5"
       ],
       "str": [
-        "EQUIP[Dancing Dragon Card&&Shinobi Card&&The Paper Card&&Wander Man Card&&Wild Rose Card]5"
+        "EQUIP_ID[4230&&4210&&4272&&4257]5"
       ],
       "criDmg": [
         "20"
@@ -54841,7 +54836,8 @@
     "script": {
       "hpPercent": [
         "10",
-        "3---1"
+        "3---1",
+        "EQUIP_ID[27115]REFINE[armor==3]---1"
       ],
       "def": [
         "50",
@@ -54878,9 +54874,6 @@
         "80",
         "2---10",
         "EQUIP[Ominous Solider Card]2---5"
-      ],
-      "hpPercent": [
-        "EQUIP[Ominous Solider Card]REFINE[armor==3]---1"
       ]
     }
   },
@@ -55430,10 +55423,12 @@
     "cardPrefix": "Abranchia",
     "script": {
       "agi": [
-        "-1"
+        "-1",
+        "EQUIP_ID[27165]2"
       ],
       "dex": [
-        "-1"
+        "-1",
+        "EQUIP_ID[27165]2"
       ],
       "aspdPercent": [
         "3"
@@ -55503,12 +55498,6 @@
       ],
       "acd": [
         "3"
-      ],
-      "agi": [
-        "EQUIP[Faceworm Card]2"
-      ],
-      "dex": [
-        "EQUIP[Faceworm Card]2"
       ]
     }
   },
@@ -55893,6 +55882,9 @@
       ],
       "p_race_brute": [
         "EQUIP[Jurgen Wigner Card]5"
+      ],
+      "p_race_player_doram": [
+        "EQUIP_ID[27198]5"
       ]
     }
   },
@@ -57148,7 +57140,8 @@
         "30"
       ],
       "hpPercent": [
-        "-50"
+        "-50",
+        "EQUIP_ID[27326]50"
       ]
     }
   },
@@ -57283,8 +57276,7 @@
         "25"
       ],
       "hpPercent": [
-        "-20",
-        "EQUIP[Morroc of Despair Card]50"
+        "-20"
       ]
     }
   },
@@ -57312,47 +57304,47 @@
       ],
       "sp": [
         "50",
-        "EQUIP[Baby Desertwolf Card]100"
+        "EQUIP_ID[4023]100"
       ],
       "int": [
-        "EQUIP[Baby Desertwolf Card]3"
+        "EQUIP_ID[4023]3"
       ],
       "matkPercent": [
-        "EQUIP[Baby Desertwolf Card]5"
+        "EQUIP_ID[4023]5"
       ],
       "atk": [
-        "EQUIP[Familiar Card]15"
+        "EQUIP_ID[4020]15"
       ],
       "p_element_dark": [
-        "EQUIP[Familiar Card]20"
+        "EQUIP_ID[4020]20"
       ],
       "p_size_l": [
-        "EQUIP[Desert Wolf Card]15"
+        "EQUIP_ID[4082]15"
       ],
       "p_size_m": [
-        "EQUIP[Desert Wolf Card]15"
+        "EQUIP_ID[4082]15"
       ],
       "vct": [
-        "EQUIP[Phen Card]25"
+        "EQUIP_ID[4077]25"
       ],
       "hit": [
-        "EQUIP[Orc Zombie Card]15"
+        "EQUIP_ID[4071]15"
       ],
       "flee": [
-        "EQUIP[Orc Zombie Card]15",
-        "EQUIP[Orc Baby Card]5"
+        "EQUIP_ID[4071]15",
+        "EQUIP_ID[4375]5"
       ],
       "criDmg": [
-        "EQUIP[Orc Zombie Card]15"
+        "EQUIP_ID[4071]15"
       ],
       "hpPercent": [
-        "EQUIP[Verit Card]4"
+        "EQUIP_ID[4107]4"
       ],
       "spPercent": [
-        "EQUIP[Verit Card]4"
+        "EQUIP_ID[4107]4"
       ],
       "def": [
-        "EQUIP[Megalodon Card]100"
+        "EQUIP_ID[4067]100"
       ],
       "subrace_angel": [
         "-50"
@@ -58028,6 +58020,14 @@
       "matkPercent": [
         "EQUIP[Amdarais Card]5",
         "EQUIP[Realized Amdarais Card]10"
+      ],
+      "p_class_normal": [
+        "EQUIP_ID[4601]5",
+        "EQUIP_ID[4602]10"
+      ],
+      "p_class_boss": [
+        "EQUIP_ID[4601]5",
+        "EQUIP_ID[4602]10"
       ]
     }
   },
@@ -70829,6 +70829,9 @@
     "script": {
       "matkPercent": [
         "10"
+      ],
+      "vct": [
+        "EQUIP_ID[31026]10"
       ]
     }
   },
@@ -70853,9 +70856,6 @@
     "script": {
       "aspd": [
         "EQUIP[Immortal Bloody Knight Card]1"
-      ],
-      "vct": [
-        "EQUIP[Immortal Wind Ghost Card]10"
       ]
     }
   },
@@ -72826,7 +72826,7 @@
     "script": {
       "hpPercent": [
         "10",
-        "EQUIP[Noxious Card]5"
+        "EQUIP_ID[4334]5"
       ]
     }
   },
@@ -72877,8 +72877,8 @@
     "script": {
       "def": [
         "30",
-        "EQUIP[Mineral Card]20",
-        "1---3"
+        "EQUIP_ID[4339]20",
+        "EQUIP_ID[4339]REFINE[garment==1]---3"
       ]
     }
   },
@@ -325950,6 +325950,9 @@
     "script": {
       "atk": [
         "5"
+      ],
+      "p_element_water": [
+        "EQUIP_ID[4273&&4247]30"
       ]
     }
   },
@@ -326120,7 +326123,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "def": [
+        "EQUIP_ID[4031]3"
+      ],
+      "vit": [
+        "EQUIP_ID[4031]3"
+      ]
+    }
   },
   "4162": {
     "id": 4162,
@@ -326405,6 +326415,9 @@
     "script": {
       "agi": [
         "1"
+      ],
+      "flee": [
+        "EQUIP_ID[4009]18"
       ]
     }
   },
@@ -326497,6 +326510,9 @@
     "script": {
       "str": [
         "1"
+      ],
+      "flee": [
+        "EQUIP_ID[4029]18"
       ]
     }
   },
@@ -326663,7 +326679,23 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "def": [
+        "EQUIP_ID[4325&&4309&&4258&&4208&&4327]5"
+      ],
+      "mdef": [
+        "EQUIP_ID[4325&&4309&&4258&&4208&&4327]5"
+      ],
+      "hp": [
+        "EQUIP_ID[4325&&4309&&4258&&4208&&4327]500"
+      ],
+      "matkPercent": [
+        "EQUIP_ID[4325&&4309&&4258&&4208&&4327]USED[Mage]3"
+      ],
+      "vct": [
+        "EQUIP_ID[4325&&4309&&4258&&4208&&4327]USED[Mage]15"
+      ]
+    }
   },
   "4192": {
     "id": 4192,
@@ -326806,6 +326838,9 @@
     "script": {
       "luk": [
         "1"
+      ],
+      "flee": [
+        "EQUIP_ID[4001]18"
       ]
     }
   },
@@ -326829,7 +326864,20 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "agi": [
+        "EQUIP_ID[4234&&4252&&4178&&4297]5"
+      ],
+      "dex": [
+        "EQUIP_ID[4234&&4252&&4178&&4297]3"
+      ],
+      "perfectHit": [
+        "EQUIP_ID[4234&&4252&&4178&&4297]20"
+      ],
+      "range": [
+        "EQUIP_ID[4234&&4252&&4178&&4297]20"
+      ]
+    }
   },
   "4200": {
     "id": 4200,
@@ -327076,6 +327124,9 @@
     "script": {
       "mdef": [
         "3"
+      ],
+      "flee": [
+        "EQUIP_ID[4021]18"
       ]
     }
   },
@@ -327211,7 +327262,8 @@
     ],
     "script": {
       "vit": [
-        "-3"
+        "-3",
+        "EQUIP_ID[4269]4"
       ],
       "hp": [
         "1000"
@@ -327771,6 +327823,12 @@
     "script": {
       "criDmg": [
         "10"
+      ],
+      "str": [
+        "EQUIP_ID[4220&&4311&&4331&&4319]10"
+      ],
+      "hpPercent": [
+        "EQUIP_ID[4220&&4311&&4331&&4319]20"
       ]
     }
   },
@@ -327820,7 +327878,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "perfectHit": [
+        "EQUIP_ID[4106]20"
+      ]
+    }
   },
   "4249": {
     "id": 4249,
@@ -328077,6 +328139,9 @@
     "script": {
       "vit": [
         "1"
+      ],
+      "flee": [
+        "EQUIP_ID[4006]18"
       ]
     }
   },
@@ -328122,7 +328187,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "luk": [
+        "EQUIP_ID[4277]3"
+      ],
+      "atk": [
+        "EQUIP_ID[4277]20"
+      ]
+    }
   },
   "4269": {
     "id": 4269,
@@ -328146,7 +328218,8 @@
     ],
     "script": {
       "int": [
-        "-3"
+        "-3",
+        "EQUIP_ID[4218]4"
       ],
       "sp": [
         "150"
@@ -328388,7 +328461,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "vit": [
+        "EQUIP_ID[4312&&4293&&4185&&4217]10"
+      ],
+      "vct": [
+        "EQUIP_ID[4312&&4293&&4185&&4217]10"
+      ]
+    }
   },
   "4281": {
     "id": 4281,
@@ -328676,7 +328756,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hp": [
+        "EQUIP_ID[4193]300"
+      ],
+      "sp": [
+        "EQUIP_ID[4193]60"
+      ]
+    }
   },
   "4295": {
     "id": 4295,
@@ -328720,7 +328807,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "str": [
+        "EQUIP_ID[4028]3"
+      ]
+    }
   },
   "4297": {
     "id": 4297,
@@ -328898,6 +328989,9 @@
     "script": {
       "perfectDodge": [
         "1"
+      ],
+      "flee": [
+        "EQUIP_ID[4014]18"
       ]
     }
   },
@@ -329163,7 +329257,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "luk": [
+        "EQUIP_ID[4281&&4186&&4206&&4233]10"
+      ]
+    }
   },
   "4322": {
     "id": 4322,
@@ -329386,6 +329484,12 @@
       ],
       "atk": [
         "5"
+      ],
+      "str": [
+        "EQUIP_ID[4312&&4293&&4185]3"
+      ],
+      "sp": [
+        "EQUIP_ID[4312&&4293&&4185]80"
       ]
     }
   },
@@ -329534,6 +329638,15 @@
     "script": {
       "luk": [
         "2"
+      ],
+      "str": [
+        "EQUIP_ID[4036&&4281&&4186&&4233]4"
+      ],
+      "hpPercent": [
+        "EQUIP_ID[4036&&4281&&4186&&4233]7"
+      ],
+      "spPercent": [
+        "EQUIP_ID[4036&&4281&&4186&&4233]7"
       ]
     }
   },
@@ -329649,7 +329762,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "str": [
+        "EQUIP_ID[4230&&4210&&4039&&4257]6"
+      ],
+      "agi": [
+        "EQUIP_ID[4230&&4210&&4039&&4257]4"
+      ]
+    }
   },
   "4349": {
     "id": 4349,
@@ -330038,7 +330158,17 @@
         "10"
       ],
       "vct": [
-        "-20"
+        "-20",
+        "EQUIP_ID[4311&&4331&&4319]10"
+      ],
+      "int": [
+        "EQUIP_ID[4311&&4331&&4319]1"
+      ],
+      "str": [
+        "EQUIP_ID[4311&&4331&&4319]1"
+      ],
+      "def": [
+        "EQUIP_ID[4311&&4331&&4319]2"
       ]
     }
   },
@@ -330242,6 +330372,12 @@
     "script": {
       "hp": [
         "500"
+      ],
+      "int": [
+        "EQUIP_ID[4325&&4258&&4208&&4327]3"
+      ],
+      "vct": [
+        "EQUIP_ID[4325&&4258&&4208&&4327]USED[Sage]20"
       ]
     }
   },
@@ -331439,7 +331575,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpPercent": [
+        "EQUIP_ID[4169]10"
+      ],
+      "spPercent": [
+        "EQUIP_ID[4169]10"
+      ]
+    }
   },
   "4489": {
     "id": 4489,
@@ -332580,6 +332723,9 @@
     "script": {
       "hpPercent": [
         "-44"
+      ],
+      "subele_neutral": [
+        "EQUIP_ID[4606]20"
       ]
     }
   },
@@ -332606,6 +332752,9 @@
     "script": {
       "spPercent": [
         "-44"
+      ],
+      "flee": [
+        "EQUIP_ID[4605]20"
       ]
     }
   },
@@ -333037,7 +333186,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "criDmg": [
+        "EQUIP_ID[27015]10"
+      ]
+    }
   },
   "27017": {
     "id": 27017,
@@ -333323,7 +333476,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "perfectDodge": [
+        "EQUIP_ID[28510]5"
+      ]
+    }
   },
   "27120": {
     "id": 27120,
@@ -333345,7 +333502,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "sp": [
+        "EQUIP_ID[4093]50"
+      ]
+    }
   },
   "27151": {
     "id": 27151,
@@ -334281,6 +334442,9 @@
       "def": [
         "100",
         "3---25"
+      ],
+      "mdef": [
+        "EQUIP_ID[4226]20"
       ]
     }
   },
@@ -334348,7 +334512,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "atkPercent": [
+        "EQUIP_ID[300128]5"
+      ],
+      "matkPercent": [
+        "EQUIP_ID[300128]5"
+      ]
+    }
   },
   "31019": {
     "id": 31019,
