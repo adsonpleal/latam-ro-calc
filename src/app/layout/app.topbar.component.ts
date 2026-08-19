@@ -159,6 +159,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.73-beta',
+      date: '19-08-2026',
+      logs: [
+        'O HP máximo do equipamento sombrio era contado duas vezes. Cada peça de armadura, escudo, calçado, brinco e colar sombrio promete "HP máx. +10 por refino" na própria descrição, e o simulador pagava esse valor a partir do cadastro da peça e outra vez por uma regra fixa que somava dez pontos por refino sombrio equipado. A mesma regra ainda dava HP a dez peças que não prometem nenhum — a Armadura Sombria Transcendente não tem linha de HP, e a Malha Sombria de Apoio dá cem fixos, não por refino. A regra fixa saiu, e as 34 peças cuja descrição prometia os dez sem que o cadastro os declarasse passaram a declará-los; das 546 peças sombrias desses cinco lugares, todas as 536 que prometem agora pagam, uma vez só. Numa build com um colar sombrio +5, isso são 51 pontos de HP a menos do que o simulador mostrava e exatamente o que a janela de status do jogo mostra.',
+        'A Musa foi conferida contra a gravação de Tuévia Ado, e as fórmulas da classe estão certas. A build importada reproduz a janela de status do jogo nos três estados que a gravação mostra — desarmada, só com o Chicote de Cinzas e com o equipamento completo —, tanto no ATQ e no ATQ de equipamento quanto nos bônus de AGI, VIT, INT, DES e SOR; o Temporal de Flechas e o Vulcão de Flechas saem com as razões da tabela do próprio cliente, e a conjuração e a espera de toda a classe já batiam. Fica em aberto uma diferença de cerca de 5%, com o simulador abaixo do jogo, que aparece igual nas duas habilidades e nos dois estados de equipamento e que nenhuma descrição do que ela usava justifica; uma segunda gravação com o mesmo equipamento e outros buffs é o que fecharia a conta. Obrigado Tuévia Ado pela gravação.',
+        'Um personagem desarmado voltou a somar o ATQ da munição equipada. O simulador perguntava à arma se o golpe era a distância para decidir se a flecha contava, e de mãos vazias não há arma para responder — a mesma gravação mostra a flecha valendo os seus 30 de ATQ tanto na janela de status quanto nos nove golpes desarmados. Golpes de habilidade corpo a corpo seguem ignorando a munição, como já ignoravam.',
+      ],
+    },
+    {
       v: '0.1.72-beta',
       date: '19-08-2026',
       logs: [

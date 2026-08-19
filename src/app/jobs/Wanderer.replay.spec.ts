@@ -305,33 +305,35 @@ describe('Musa — o controle desarmado', () => {
 });
 
 /**
- * **Um segundo resíduo, medido de passagem: o HP máx. vem 51 pontos alto.**
+ * **O HP máx. do conjunto sombrio, que esta gravação corrigiu.**
  *
- * O SP máx. bate exato (1.521), o que já valida os +10% de SP das Lições de Dança e as
- * cláusulas de SP do conjunto sombrio. O HP não: a gravação reporta 15.465 e o simulador
- * dá 15.516.
+ * O SP máx. sempre bateu exato (1.521) — ele já valida os +10% de SP das Lições de Dança
+ * e as cláusulas de SP do conjunto sombrio. O HP vinha 51 pontos alto: 15.516 contra os
+ * 15.465 que a janela do próprio jogo reporta.
  *
- * A diferença é o **Colar Sombrio Espiritual +5 contado duas vezes**. Sua descrição diz
- * "HP máx. +10 por refino" e o script `hp: ["1---10"]` entrega os 50 certos — só que
- * `HpSpCalculator.setAllInfo` soma, por fora, `_shadowHP = (soma dos refinos sombrios) ×
- * 10`, a mesma regra outra vez. 50 + 50, vezes os 3% de HP da Manopla Sombria de Musa,
- * são os 103 que separam este HP do de um colar +0 — e o jogo diz 52, ou seja, uma vez só.
+ * A diferença era o **Colar Sombrio Espiritual +5 contado duas vezes**. Sua descrição diz
+ * "HP máx. +10 por refino", o script `hp: ["1---10"]` entrega os 50 certos, e
+ * `HpSpCalculator.setAllInfo` somava por fora `(soma dos refinos sombrios) × 10`, a mesma
+ * regra outra vez. 50 + 50, vezes os 3% de HP da Manopla Sombria de Musa, são os 103 que
+ * separavam este HP do de um colar +0 — e o jogo diz 52, ou seja, uma vez só.
  *
- * Não é específico da Musa: `_shadowHP` inventa HP para qualquer peça sombria refinada, e
- * 502 delas já carregam a linha no próprio script (137 não carregam porque de fato não dão
- * HP — o Escudo Sombrio Transcendente só dá conjuração variável). Fica pinado aqui e não
- * corrigido: mexer nisso muda o HP de toda build com equipamento sombrio.
+ * Nunca foi específico da Musa: a regra dobrada valia para qualquer peça sombria refinada,
+ * e ainda inventava HP para as dez que não dão nenhum (a Armadura Sombria Transcendente
+ * não tem linha de HP; a Malha Sombria de Apoio dá +100 fixos, não por refino). Das 546
+ * peças sombrias de armadura/escudo/calçado/brinco/colar que o LATAM tem, 502 já
+ * declaravam a linha no próprio script; as 34 que não declaravam — e cuja descrição pt-BR
+ * promete os +10 por refino — passaram a declarar.
  */
 describe('Musa — HP e SP máx. contra a janela do jogo', () => {
   const naGravacao = (sp: number) => replay.paramChanges.filter((p: any) => p.type === sp).map((p: any) => Number(p.value));
 
-  it('SP máx. bate exato', () => {
+  it('SP máx. = 1.521', () => {
     expect(naGravacao(8)[0]).toBe(1521);
     expect(simular(T_SO_ARMA, 'Severe Rainstorm==5', DUMMY_MEDIO).maxSp).toBe(1521);
   });
 
-  it('HP máx. vem 51 alto — o colar sombrio contado duas vezes', () => {
+  it('HP máx. = 15.465, com o colar sombrio contado uma vez só', () => {
     expect(naGravacao(6)[0]).toBe(15465);
-    expect(simular(T_SO_ARMA, 'Severe Rainstorm==5', DUMMY_MEDIO).maxHp).toBe(15516);
+    expect(simular(T_SO_ARMA, 'Severe Rainstorm==5', DUMMY_MEDIO).maxHp).toBe(15465);
   });
 });

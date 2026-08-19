@@ -38,7 +38,6 @@ export class HpSpCalculator {
   private _baseHp = 0;
   private _baseSp = 0;
 
-  private _shadowHP = 0;
   private _equipmentVit = 0;
   private _equipmentInt = 0;
 
@@ -58,14 +57,13 @@ export class HpSpCalculator {
     // this._baseHp = baseHp || 0;
     // this._baseSp = baseSp || 0;
 
-    const { shadowArmor, shadowShield, shadowBoot, shadowEarring, shadowPendant } = equipmentBonus;
-    let totalShadowRefine = shadowArmor.refine || 0;
-    totalShadowRefine += shadowShield.refine || 0;
-    totalShadowRefine += shadowBoot.refine || 0;
-    totalShadowRefine += shadowEarring.refine || 0;
-    totalShadowRefine += shadowPendant.refine || 0;
-    this._shadowHP = totalShadowRefine * 10;
-
+    // The shadow set's "HP máx. +10 por refino" used to be added here as well, as
+    // `(soma dos refinos sombrios) × 10` — the same rule the pieces already declare in
+    // their own script, so every refined shadow piece paid it twice. `musa-tuevi-ado.rrf`
+    // caught it: its Colar Sombrio Espiritual +5 is the character's only refined shadow
+    // piece, and the game's own status window reports 15.465 de HP máx. against the
+    // 15.516 the double count produced (Wanderer.replay.spec.ts). SP never had the
+    // duplicate, which is why it matched all along.
     let equipmentVit = 0;
     let equipmentInt = 0;
 
@@ -135,7 +133,7 @@ export class HpSpCalculator {
 
       let maxHp = floor(baseHp * this._bonusMainClass) + this._baseHp;
       maxHp = floor(maxHp * (1 + this._totalStatus.totalVit * 0.01));
-      maxHp += hp + this._shadowHP + this._equipmentVit;
+      maxHp += hp + this._equipmentVit;
       maxHp += this.getBonusHpL();
       this._maxHp = maxHp + floor(maxHp * ((hpPercent || 0) * 0.01));
 
