@@ -6,6 +6,7 @@
   <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
     <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
     <div>{{ item.label }}</div>
+    <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
   </div>
 </ng-template>
 
@@ -41,12 +42,14 @@
             <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="itemId">
               <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
               <div>{{ item.label }}</div>
+              <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
             </div>
           </ng-template>
           <ng-template let-item pTemplate="item">
             <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
               <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
               <div>{{ item.label }}</div>
+              <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
             </div>
           </ng-template>
         </p-dropdown>
@@ -103,12 +106,14 @@
             <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="card1Id">
               <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
               <div>{{ item.label }}</div>
+              <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
             </div>
           </ng-template>
           <ng-template let-item pTemplate="item">
             <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
               <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
               <div>{{ item.label }}</div>
+              <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
             </div>
           </ng-template>
         </p-dropdown>
@@ -132,12 +137,14 @@
             <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="card2Id">
               <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
               <div>{{ item.label }}</div>
+              <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
             </div>
           </ng-template>
           <ng-template let-item pTemplate="item">
             <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
               <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
               <div>{{ item.label }}</div>
+              <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
             </div>
           </ng-template>
         </p-dropdown>
@@ -161,12 +168,14 @@
             <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="card3Id">
               <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
               <div>{{ item.label }}</div>
+              <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
             </div>
           </ng-template>
           <ng-template let-item pTemplate="item">
             <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
               <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
               <div>{{ item.label }}</div>
+              <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
             </div>
           </ng-template>
         </p-dropdown>
@@ -190,12 +199,14 @@
             <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="card4Id">
               <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
               <div>{{ item.label }}</div>
+              <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
             </div>
           </ng-template>
           <ng-template let-item pTemplate="item">
             <div class="flex gap-1" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
               <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
               <div>{{ item.label }}</div>
+              <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
             </div>
           </ng-template>
         </p-dropdown>
@@ -252,6 +263,7 @@
                 <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="enchant1Id">
                   <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
                   <div>{{ item.label }}</div>
+                  <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
                 </div>
               </ng-template>
               <ng-template let-item pTemplate="item">
@@ -278,6 +290,7 @@
                 <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="enchant2Id">
                   <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
                   <div>{{ item.label }}</div>
+                  <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
                 </div>
               </ng-template>
               <ng-template let-item pTemplate="item">
@@ -304,6 +317,7 @@
                 <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="enchant3Id">
                   <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
                   <div>{{ item.label }}</div>
+                  <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
                 </div>
               </ng-template>
               <ng-template let-item pTemplate="item">
@@ -330,6 +344,7 @@
                 <div class="flex gap-1 item_template" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip" *ngIf="enchant4Id">
                   <img [src]="item.value | iconUrl: 'item'" alt="" class="item_img" />
                   <div>{{ item.label }}</div>
+                  <span *ngIf="item.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
                 </div>
               </ng-template>
               <ng-template let-item pTemplate="item">

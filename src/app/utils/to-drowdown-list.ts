@@ -30,6 +30,9 @@ export const toDropdownList = <T extends Record<string, any>>(
       value: a[valueKey],
       usableClass: a['usableClass'] || undefined,
       unusableClass: a['unusableClass'] || undefined,
+      // Carried on every list rather than opted into per category: a pre-release item
+      // can land in any slot, and a missing flag would silently drop the picker's mark.
+      preRelease: a['preRelease'] || undefined,
       element: elementKey ? a[elementKey] || '' : undefined,
       ...ex,
     };

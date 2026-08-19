@@ -31,7 +31,11 @@ export function mergeLatamItems(items: ItemMap, latam: Record<string, LatamItem>
   for (const id of Object.keys(items)) {
     const item = items[id];
     const pt = latam[id];
-    item.presentInLatam = !!pt;
+    // `preRelease` is the hand-authored opt-in for items LATAM has not shipped yet,
+    // listed with their iRO English text. It forces the flag on in the app's build step
+    // (tools/build-web-data.mjs) and has to do the same here, or get_item would report
+    // an item the calculator happily lists as absent from the server.
+    item.presentInLatam = !!pt || !!item.preRelease;
     if (pt) {
       // Set/combo scripts (EQUIP[...], POS_SPECIFIC[...], REFINE_NAME[...]) match
       // partner items by their English display name. Preserve it before swapping
