@@ -7,6 +7,10 @@ import { GuillotineCross } from './GuillotineCross';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
 
+/** Every level of a skill, for the level picker in the UI. */
+const levelList = (name: string, maxLv = 10) =>
+  Array.from({ length: maxLv }, (_, i) => ({ label: `${name} Nv${i + 1}`, value: `${name}==${i + 1}` }));
+
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [1, 1, 0, 0, 0, 0],
   2: [2, 2, 0, 0, 0, 0],
@@ -247,8 +251,13 @@ export class ShadowCross extends GuillotineCross {
     },
     {
       name: 'Savage Impact',
-      label: '[V2] Savage Impact Lv5',
-      value: 'Savage Impact==5',
+      // Client table (skill-meta.generated.ts id 5287): "Nível máximo: 10", 600% per hit
+      // at Lv10. The entry used to stop at Lv5 — the only atk skill in the class capped
+      // below what the client offers. The levelList keeps every level reachable, so a
+      // build saved as "Savage Impact==5" still resolves.
+      label: '[V2] Savage Impact Lv10',
+      value: 'Savage Impact==10',
+      levelList: levelList('Savage Impact'),
       acd: 0.3,
       fct: 0,
       vct: 0,
