@@ -1,3 +1,5 @@
+import { MVP_IDS } from './mvp';
+
 const Mapper = {
   iz_ac01: 'Test damage',
   abbey01: '110 - 125 abbey01',
@@ -57,6 +59,16 @@ const Mapper = {
   '1@gl_kh': 'Glastheim Infernal',
   '1@slw': 'Laboratório Werner',
   '1@advs': 'Villa of Deception',
+  '1@mjo2': 'Queda do Aeroplano',
+  // The tower's floors and its two boss rooms are three map codes for one
+  // instance, so they share a label — MonsterGroupNames dedupes the values.
+  '1@ch_t': 'Torre da Constelação',
+  '2@ch_t': 'Torre da Constelação',
+  '3@ch_t': 'Torre da Constelação',
+  // Arena Noturna's real map code is not published: its monsters carry no
+  // map-specific drops on divine-pride, which is where the codes above come
+  // from. A pseudo-code keys the group instead, as MD_BETELGEUSE already does.
+  MD_N_ARENA: 'Arena Noturna',
   hero_tra: 'Test damage',
   tra_fild: 'Test damage',
   prontera: 'Test damage',
@@ -76,4 +88,32 @@ export const getMonsterSpawnMap = (spawn: string) => {
   const spawns = spawn.split(',').map((a) => Mapper[a]);
 
   return [...new Set(spawns)].join(', ');
+};
+
+/** The fields of a monster record that decide which picker group it lands in. */
+export interface MonsterGrouping {
+  id: number;
+  spawn: string;
+  /** `stats.mvp` — 1 for the MVP subset. */
+  mvp: number;
+  /** `stats.class` — 1 for anything on the boss protocol, MVPs and minibosses alike. */
+  class: number;
+}
+
+/**
+ * Which group of the target picker a monster belongs to.
+ *
+ * The order matters. An id on the browiki MVP list goes to the shared "MVPs" group
+ * whatever its spawn is — that list is the reason the group exists. Everything else is
+ * placed by its map, so that an instance's own MVP sits with the rest of the instance
+ * rather than in the catch-all "Boss" bucket: someone opening Torre da Constelação is
+ * looking for Naght Sieger at least as much as for the mobs of its floors. "Boss" is
+ * only the fallback for a boss whose map has no label, and "Etc" for anything else.
+ */
+export const getMonsterGroupName = ({ id, spawn, mvp, class: monsterClass }: MonsterGrouping): string => {
+  if (MVP_IDS.has(id)) return 'MVPs';
+
+  const isBoss = mvp === 1 || monsterClass === 1;
+
+  return getMonsterSpawnMap(spawn) || (isBoss ? ' Boss' : 'Etc');
 };

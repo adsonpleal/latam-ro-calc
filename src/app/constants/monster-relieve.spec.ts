@@ -31,16 +31,32 @@ describe('Aliviar (NPC_RELIEVE_ON, 771)', () => {
   });
 
   /*
-   * Both Jardim Secreto MVPs (https://browiki.org/wiki/Jardim_Secreto). The list is the
-   * only thing deciding who gets the picker, so it is asserted by id: the pt-BR names
-   * ("Pimentinha"/"Pimentão") live in latam-monsters.json and monster.json still carries
-   * the upstream Red Pepper / Senior Red Pepper, which makes the ids the stable handle.
+   * The list is the only thing deciding who gets the picker, so it is asserted by id: the
+   * pt-BR names live in latam-monsters.json while monster.json can still carry an upstream
+   * name (monster 20620 is "Red Pepper" there), which makes the ids the stable handle.
+   *
+   * None of these monsters lists skill 771 on divine-pride — the instance script turns it
+   * on — so the membership below comes from bROWiki's instance pages, and the count is
+   * asserted so that a monster cannot be added to the set without a source for it.
    */
-  it('is offered for the two monsters known to cast it, and no others', () => {
+  it('is offered for the monsters known to cast it, and no others', () => {
+    // Jardim Secreto: https://browiki.org/wiki/Jardim_Secreto
     expect(hasRelieve(20620)).toBe(true); // Pimentinha Kappa (MD_REDPEPPER), normal
     expect(hasRelieve(20621)).toBe(true); // Pimentão Lambda (MD_REDPEPPER_H), hard
+
+    // Arena Noturna: every opponent it can draw, per the per-round Nv. de Aliviar table.
+    for (let id = 20856; id <= 20870; id++) expect(hasRelieve(id)).toBe(true);
+    expect(hasRelieve(20872)).toBe(true); // Fenrir, the instance's boss
+
+    // Torre da Constelação: the two configured MVPs.
+    expect(hasRelieve(20996)).toBe(true); // Naght Sieger, Nv. 6-10 by Espinhos alive
+    expect(hasRelieve(20994)).toBe(true); // Betelgeuse, Nv. 0-5 by ★ and up to 10 by Almas
+
     expect(hasRelieve(1002)).toBe(false); // Poring
     expect(hasRelieve(1087)).toBe(false); // Orc Hero, a red-aura MVP
-    expect(RELIEVE_MONSTER_IDS.size).toBe(2);
+    expect(hasRelieve(20871)).toBe(false); // Alphonse — an Arena opponent, but not in the DB
+    expect(hasRelieve(20891)).toBe(false); // Criatura Desconhecida: Queda do Aeroplano has none
+    expect(hasRelieve(21356)).toBe(false); // Ifrit da Torre — a floor boss, not a configured MVP
+    expect(RELIEVE_MONSTER_IDS.size).toBe(20);
   });
 });

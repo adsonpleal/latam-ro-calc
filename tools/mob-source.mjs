@@ -8,13 +8,13 @@
 // Source record shape:
 //   { id, aegisId, name, boss, mvp, level, baseExp, jobExp, mvpExp, hp, def,
 //     mdef, attack, str, agi, vit, int, dex, luk, race, size, property,
-//     propertyLevel }
+//     propertyLevel, res, mres }
 //
 // `name` is pt-BR; `race`/`size`/`property` are English enums. `aegisId` is what
 // monster.json calls `dbname`.
 //
-// NOT in the source: `res`/`mres` (the calc defaults both to 0 — see monster.ts)
-// and the spawn map (monster.json's `spawn` is maintained by hand).
+// NOT in the source: the spawn map — monster.json's `spawn` is maintained by hand.
+// `res`/`mres` used to be missing too; the feed carries them for every record now.
 
 import { loadRawJson, readRawFile, RAW_BASE } from "./raw-source.mjs";
 
@@ -132,6 +132,8 @@ export function mapMobStats(mob, prevStats = {}) {
     health: take("health", mob.hp),
     defense: take("defense", mob.def),
     magicDefense: take("magicDefense", mob.mdef),
+    res: take("res", mob.res),
+    mres: take("mres", mob.mres),
     str: take("str", mob.str),
     agi: take("agi", mob.agi),
     vit: take("vit", mob.vit),
