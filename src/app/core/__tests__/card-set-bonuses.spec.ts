@@ -207,11 +207,15 @@ describe('a partner two different cards answer to', () => {
   });
 });
 
-describe('a partner the client re-issued', () => {
-  // "Carta Poe" IS two ids of one card — 27392 (S_Poe_Card_E) and 300130 (S_Poe_Card) — and
-  // both declare the same set with [Carta Wolf] (300128). Registering one generation and not
-  // the other is the trap CLAUDE.md names: the set would stop paying for whoever holds the
-  // id nobody wrote down.
+describe('both records that answer to the name "Carta Poe"', () => {
+  // 27392 (S_Poe_Card_E) and 300130 (S_Poe_Card) print the same pt-BR text and each declares
+  // the same set with [Carta Wolf] (300128), so each pays it. Registering the set on one and
+  // not the other is the trap CLAUDE.md names: it would stop paying for whoever holds the id
+  // nobody wrote down.
+  //
+  // Being NAMED by a set is the other direction, and there the two are not interchangeable:
+  // the card called Poe Richard is 300130, and that is the id `EQUIP[Poe Richard Card]`
+  // resolved to and the migration wrote.
   const doll: Worn = { weapon: FACA_3 };
 
   it.each([27392, 300130])('pays the set from generation %i', (poe) => {

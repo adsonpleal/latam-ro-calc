@@ -9,7 +9,7 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  * LATAM ships FOUR cards here, in two generations that share their effects:
  *
  *   27390  Carta Lobo   Inseto +15%, and NO set block
- *   27392  Carta Poe    Planta +15%, set [Carta Wolf]        (not in item.json)
+ *   27392  Carta Poe    Planta +15%, set [Carta Wolf]
  *  300128  Carta Wolf   Inseto +15%, set [Carta Po] + [Carta Isaac]
  *  300130  Carta Poe    Planta +15%, set [Carta Wolf]
  *
@@ -23,10 +23,11 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  * "[Carta Wolf]" is 300128 by name — 27390 is called "Carta Lobo", a different string.
  *
  * NOT modelled, on purpose: 300128's own set ([Carta Po] + [Carta Isaac] -> Pós-conjuração
- * -3%, físico vs Médio +7%). Carta Isaac is not in the LATAM client — it exists in
- * item.json only as the inherited Thai record 27396, with no latam-items.json entry — so
- * the set can never fire, and a clause gated on an unobtainable partner would model
- * nothing while reading as if it did. Recorded here rather than guessed at.
+ * -3%, físico vs Médio +7%). "[Carta Po]" is Poe Richard, which is 300130. Carta Isaac is
+ * not in the LATAM client — it exists in item.json only as the inherited Thai record 27396,
+ * with no latam-items.json entry — so the set can never fire, and a clause gated on an
+ * unobtainable partner would model nothing while reading as if it did. Recorded here rather
+ * than guessed at.
  */
 
 const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));

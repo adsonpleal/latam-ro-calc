@@ -109,9 +109,9 @@ const SLOT = {
  * ("Soldado" for Solider, whose card is called "Carta Solidificador" — and whose four
  * partners on 4246 sit in the four other slots, which is what settles it).
  *
- * "Carta Po" is Poe Richard: 300128's set is Poe + Isaac in the upstream script (27396
- * carries the mirror clause, `EQUIP[Wolf Lugenburg Card&&Poe Richard Card]`, at the same
- * magnitudes the pt-BR prints), and the client dropped the "e".
+ * "Carta Po" is Poe Richard, i.e. 300130: 300128's set is Poe + Isaac in the upstream script
+ * (27396 carries the mirror clause, `EQUIP[Wolf Lugenburg Card&&Poe Richard Card]`, at the
+ * same magnitudes the pt-BR prints), and the client dropped the "e".
  */
 const PARTNER_ALIAS = {
   'Carta Peco Peco': 'Carta PecoPeco',
@@ -158,16 +158,18 @@ for (const id of Object.keys(latam)) {
  *                 Vagabond Wolf, and Vagabond Wolf + Wolf -> Esquiva +18 is the animal
  *                 pair; pairing it with Lugenburg would pay a set the game does not have.
  *
- *   "Carta Po"    27392 and 300130 ARE the same card twice (S_Poe_Card_E and S_Poe_Card),
- *                 so both generations count. Listed here only because the run cannot tell
- *                 the two cases apart on its own.
+ *   "Carta Po"    300130. Two records answer to the pt-BR name "Carta Poe" — 27392
+ *                 (S_Poe_Card_E) and 300130 (S_Poe_Card) — and they print the same text,
+ *                 but the card called Poe Richard is 300130, and that is the id a set
+ *                 naming Poe means. Both still pay their OWN set, which each declares in
+ *                 its own description; being named BY a set is the other direction.
  *
  * An ambiguous name absent from this table blocks its set and says so, rather than guessing
  * or quietly ORing ids that mean different cards.
  */
 const AMBIGUOUS_PARTNER = {
   'Carta Lobo': [4029],
-  'Carta Poe': [27392, 300130],
+  'Carta Poe': [300130],
 };
 
 /** Why a set could not be written, by card id — reported at the end of a run. */
@@ -507,6 +509,21 @@ function append(records) {
  */
 const sameEntry = (a, b) => a.replace(/]===/g, ']') === b.replace(/]===/g, ']');
 
+/**
+ * The partners an entry is gated on, as a comparable key — "4325&4327", ids sorted.
+ *
+ * Two entries under the same bonus key gated on the same partners are the same set bonus,
+ * however differently they are spelled. And they ARE spelled differently: a hand-written
+ * record says `EQUIP_ID[4387]1---2` where this file derives
+ * `EQUIP_ID[4387]REFINE[garment==1]---2`, and `SUM[dex==40]---15` where this derives
+ * `dex:40---15`. Comparing the strings would call those new and add them next to what is
+ * already there, which pays the set twice.
+ */
+function partnersOf(entry) {
+  const ids = /EQUIP_ID\[([\d|&]+)]/.exec(entry)?.[1];
+  return ids ? [...new Set(ids.split(/&&|\|\|/).filter(Boolean).map(Number))].sort((a, b) => a - b).join('&') : null;
+}
+
 function pendingSetEntries() {
   const pending = [];
   const clashes = [];
@@ -517,14 +534,16 @@ function pendingSetEntries() {
     const actual = items[id].script || {};
     const additions = {};
     for (const [key, values] of Object.entries(scriptOf(id))) {
-      const missing = values.filter((value) => value.includes('EQUIP_ID[') && !(actual[key] || []).some((held) => sameEntry(held, value)));
+      const held = actual[key] || [];
+      const missing = values.filter((value) => value.includes('EQUIP_ID[') && !held.some((there) => sameEntry(there, value)));
       if (!missing.length) continue;
 
-      // A record already gated on a partner BY NAME is the same bonus under the legacy
-      // form. Adding the id form next to it would pay the set twice, so it is reported for
-      // a human to migrate rather than merged.
-      const legacy = (actual[key] || []).filter((value) => value.includes('EQUIP['));
-      if (legacy.length) { clashes.push(`${id} ${latam[id].name}: ${key} already carries ${legacy.join(', ')}`); continue; }
+      // A record already gated on the same partners under this key holds this set already,
+      // whatever form it is written in — the legacy `EQUIP[<nome>]`, or the id form with the
+      // condition spelled another equally valid way. Adding to it would pay the set twice,
+      // so it is reported for a human to reconcile rather than merged.
+      const already = held.filter((there) => there.includes('EQUIP[') || missing.some((value) => partnersOf(there) && partnersOf(there) === partnersOf(value)));
+      if (already.length) { clashes.push(`${id} ${latam[id].name}: ${key} already carries ${already.join(', ')}`); continue; }
 
       additions[key] = missing;
     }
