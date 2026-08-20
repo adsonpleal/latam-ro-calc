@@ -6038,7 +6038,7 @@
       ],
       "vct": [
         "10",
-        "EQUIP[Dark Lord Card]10"
+        "EQUIP_ID[4168]10"
       ]
     }
   },
@@ -8826,10 +8826,10 @@
         "20"
       ],
       "p_size_m": [
-        "EQUIP[White Knight Card]15"
+        "EQUIP_ID[4608]15"
       ],
       "p_size_l": [
-        "EQUIP[White Knight Card]15"
+        "EQUIP_ID[4608]15"
       ],
       "subsize_m": [
         "25",
@@ -8911,10 +8911,10 @@
         "5"
       ],
       "m_pene_race_formless": [
-        "EQUIP[Neo Punk Card]===50"
+        "EQUIP_ID[4628]===50"
       ],
       "m_pene_race_demon": [
-        "EQUIP[Neo Punk Card]===50"
+        "EQUIP_ID[4628]===50"
       ]
     }
   },
@@ -8944,10 +8944,10 @@
         "10"
       ],
       "p_pene_race_formless": [
-        "EQUIP[Neo Punk Card]===50"
+        "EQUIP_ID[4628]===50"
       ],
       "p_pene_race_demon": [
-        "EQUIP[Neo Punk Card]===50"
+        "EQUIP_ID[4628]===50"
       ]
     }
   },
@@ -9250,10 +9250,10 @@
         "4"
       ],
       "atkPercent": [
-        "EQUIP[Infinite Toad Card||Infinite Vagabond Wolf Card||Infinite Vocal Card||Infinite Eclipse Card]10"
+        "EQUIP_ID[4642||4643||4644||4645]10"
       ],
       "matkPercent": [
-        "EQUIP[Infinite Toad Card||Infinite Vagabond Wolf Card||Infinite Vocal Card||Infinite Eclipse Card]10"
+        "EQUIP_ID[4642||4643||4644||4645]10"
       ]
     }
   },
@@ -9361,10 +9361,10 @@
     "cardPrefix": "Immortal Beast",
     "script": {
       "p_pene_race_brute": [
-        "EQUIP[Nightmare Minorous Card]50"
+        "EQUIP_ID[4655]50"
       ],
       "p_pene_race_undead": [
-        "EQUIP[Nightmare Minorous Card]50"
+        "EQUIP_ID[4655]50"
       ],
       "subrace_brute": [
         "20",
@@ -9404,10 +9404,10 @@
         "5"
       ],
       "m_pene_race_brute": [
-        "EQUIP[Nightmare Arclouse Card]===50"
+        "EQUIP_ID[4653]===50"
       ],
       "m_pene_race_undead": [
-        "EQUIP[Nightmare Arclouse Card]===50"
+        "EQUIP_ID[4653]===50"
       ]
     }
   },
@@ -9548,7 +9548,7 @@
         "10===10"
       ],
       "chance__matk": [
-        "EQUIP[True Celia Alde Card]100"
+        "EQUIP_ID[4692]100"
       ]
     }
   },
@@ -9582,7 +9582,7 @@
         "10===10"
       ],
       "chance__atk": [
-        "EQUIP[True Chen Lio Card]===100"
+        "EQUIP_ID[4693]===100"
       ]
     }
   },
@@ -9616,7 +9616,7 @@
         "10===10"
       ],
       "chance__atk": [
-        "EQUIP[True Alphoccio Basil Card]===100"
+        "EQUIP_ID[4696]===100"
       ]
     }
   },
@@ -9650,7 +9650,7 @@
         "10===10"
       ],
       "chance__atk": [
-        "EQUIP[True Eremes Guile Card]===100"
+        "EQUIP_ID[4684]===100"
       ]
     }
   },
@@ -9681,7 +9681,7 @@
         "10===10"
       ],
       "chance__matk": [
-        "EQUIP[True Margaretha Sorin Card]===100"
+        "EQUIP_ID[4685]===100"
       ]
     }
   },
@@ -9715,7 +9715,7 @@
         "10===10"
       ],
       "chance__atk": [
-        "EQUIP[True Cecil Damon Card]===100"
+        "EQUIP_ID[4687]===100"
       ]
     }
   },
@@ -9749,7 +9749,7 @@
         "10===10"
       ],
       "chance__atk": [
-        "EQUIP[True Howard Alt-Eisen Card]100"
+        "EQUIP_ID[4688]100"
       ]
     }
   },
@@ -9783,7 +9783,7 @@
         "10===10"
       ],
       "chance__matk": [
-        "EQUIP[True Kathryne Keyron Card]100"
+        "EQUIP_ID[4686]100"
       ]
     }
   },
@@ -9817,7 +9817,7 @@
         "10===10"
       ],
       "chance__atk": [
-        "EQUIP[True Seyren Windsor Card]100"
+        "EQUIP_ID[4689]100"
       ]
     }
   },
@@ -9851,7 +9851,7 @@
         "10===10"
       ],
       "chance__atk": [
-        "EQUIP[True Randel Lawrence Card]100"
+        "EQUIP_ID[4690]100"
       ]
     }
   },
@@ -9885,7 +9885,7 @@
         "10===10"
       ],
       "chance__atk": [
-        "EQUIP[True Flamel Emure Card]===100"
+        "EQUIP_ID[4691]===100"
       ]
     }
   },
@@ -9919,7 +9919,7 @@
         "10===10"
       ],
       "chance__atk": [
-        "EQUIP[True Gertie Wie Card]100"
+        "EQUIP_ID[4694]100"
       ]
     }
   },
@@ -9953,7 +9953,7 @@
         "10===10"
       ],
       "chance__atk": [
-        "EQUIP[True Trentini Card]===100"
+        "EQUIP_ID[4695]===100"
       ]
     }
   },
@@ -54598,7 +54598,7 @@
         "20"
       ],
       "matkPercent": [
-        "EQUIP[A Vampire's Servant]REFINE[armor==3]---1"
+        "EQUIP_ID[28510]REFINE[armor==3]---1"
       ]
     }
   },
@@ -54625,7 +54625,7 @@
         "20"
       ],
       "atkPercent": [
-        "EQUIP[A Vampire's Servant]REFINE[armor==3]---1"
+        "EQUIP_ID[28510]REFINE[armor==3]---1"
       ]
     }
   },
@@ -54649,12 +54649,12 @@
     "cardPrefix": "Compassion",
     "script": {
       "hp": [
-        "EQUIP[Bomi Card]===1000",
-        "EQUIP[Bomi Card]9===1000"
+        "EQUIP_ID[27105]===1000",
+        "EQUIP_ID[27105]9===1000"
       ],
       "sp": [
-        "EQUIP[Bomi Card]===50",
-        "EQUIP[Bomi Card]9===50"
+        "EQUIP_ID[27105]===50",
+        "EQUIP_ID[27105]9===50"
       ]
     }
   },
@@ -54678,7 +54678,7 @@
     "cardPrefix": "Sorrow",
     "script": {
       "matk": [
-        "EQUIP[A Vampire's Servant]===30"
+        "EQUIP_ID[28510]===30"
       ]
     }
   },
@@ -54730,7 +54730,7 @@
         "20"
       ],
       "2413": [
-        "EQUIP[Singing Pere Card]===50"
+        "EQUIP_ID[27108]===50"
       ]
     }
   },
@@ -54757,7 +54757,7 @@
         "20"
       ],
       "2414": [
-        "EQUIP[Playing Pere Card]===50"
+        "EQUIP_ID[27107]===50"
       ]
     }
   },
@@ -54780,10 +54780,10 @@
     "compositionPos": 769,
     "script": {
       "chance__p_element_neutral": [
-        "EQUIP[Singing Pere Card&&Playing Pere Card]===200"
+        "EQUIP_ID[27108&&27107]===200"
       ],
       "chance__m_element_neutral": [
-        "EQUIP[Singing Pere Card&&Playing Pere Card]===200"
+        "EQUIP_ID[27108&&27107]===200"
       ],
       "subele_neutral": [
         "10"
@@ -54873,7 +54873,7 @@
       "sp": [
         "80",
         "2---10",
-        "EQUIP[Ominous Solider Card]2---5"
+        "EQUIP_ID[27114]2---5"
       ]
     }
   },
@@ -54898,11 +54898,11 @@
     "script": {
       "cri": [
         "3",
-        "EQUIP[Ominous Assaulter Card]2"
+        "EQUIP_ID[27117]2"
       ],
       "criDmg": [
         "5",
-        "EQUIP[Ominous Assaulter Card]2"
+        "EQUIP_ID[27117]2"
       ]
     }
   },
@@ -54998,10 +54998,10 @@
         "5"
       ],
       "hit": [
-        "EQUIP[Turtle General Card]25"
+        "EQUIP_ID[4305]25"
       ],
       "p_size_all": [
-        "EQUIP[Turtle General Card]20"
+        "EQUIP_ID[4305]20"
       ],
       "subsize_all": [
         "25",
@@ -55198,7 +55198,7 @@
         "level:90===10"
       ],
       "acd": [
-        "EQUIP[Material Chimera Card]3"
+        "EQUIP_ID[27148]3"
       ]
     }
   },
@@ -55434,7 +55434,7 @@
         "3"
       ],
       "acd": [
-        "EQUIP[Dark Faceworm Card]3"
+        "EQUIP_ID[27165]3"
       ]
     }
   },
@@ -55490,11 +55490,11 @@
     "script": {
       "vit": [
         "-1",
-        "EQUIP[Faceworm Card]2"
+        "EQUIP_ID[27163]2"
       ],
       "int": [
         "-1",
-        "EQUIP[Faceworm Card]2"
+        "EQUIP_ID[27163]2"
       ],
       "acd": [
         "3"
@@ -55553,7 +55553,7 @@
         "3---5"
       ],
       "atk": [
-        "EQUIP[Sarah Card]===100"
+        "EQUIP_ID[4610]===100"
       ]
     }
   },
@@ -55583,10 +55583,10 @@
         "7"
       ],
       "str": [
-        "EQUIP[Revolver Buffalo Bandit Card]3"
+        "EQUIP_ID[27171]3"
       ],
       "atkPercent": [
-        "EQUIP[Revolver Buffalo Bandit Card]3"
+        "EQUIP_ID[27171]3"
       ]
     }
   },
@@ -55647,10 +55647,10 @@
         "WEAPON_TYPE[dagger]14===20"
       ],
       "p_size_s": [
-        "EQUIP[Shotgun Buffalo Bandit Card]15"
+        "EQUIP_ID[27170]15"
       ],
       "m_size_s": [
-        "EQUIP[Shotgun Buffalo Bandit Card]15"
+        "EQUIP_ID[27170]15"
       ]
     }
   },
@@ -55850,10 +55850,10 @@
     "script": {
       "m_size_s": [
         "15",
-        "EQUIP[Spica Nerious Card]5"
+        "EQUIP_ID[27199]5"
       ],
       "m_race_brute": [
-        "EQUIP[Spica Nerious Card]5"
+        "EQUIP_ID[27199]5"
       ]
     }
   },
@@ -55878,10 +55878,10 @@
     "script": {
       "p_size_s": [
         "15",
-        "EQUIP[Jurgen Wigner Card]5"
+        "EQUIP_ID[27198]5"
       ],
       "p_race_brute": [
-        "EQUIP[Jurgen Wigner Card]5"
+        "EQUIP_ID[27198]5"
       ],
       "p_race_player_doram": [
         "EQUIP_ID[27198]5"
@@ -56375,16 +56375,16 @@
     "cardPrefix": "Evil Shadow",
     "script": {
       "p_element_dark": [
-        "EQUIP[Evil Believer Card]===15"
+        "EQUIP_ID[27265]===15"
       ],
       "p_element_undead": [
-        "EQUIP[Evil Believer Card]===15"
+        "EQUIP_ID[27265]===15"
       ],
       "m_element_dark": [
-        "EQUIP[Evil Believer Card]===15"
+        "EQUIP_ID[27265]===15"
       ],
       "m_element_undead": [
-        "EQUIP[Evil Believer Card]===15"
+        "EQUIP_ID[27265]===15"
       ]
     }
   },
@@ -57166,7 +57166,7 @@
     "script": {
       "spPercent": [
         "5",
-        "EQUIP[Apostle Shnaim of Morroc Card]===5"
+        "EQUIP_ID[27323]===5"
       ]
     }
   },
@@ -57191,7 +57191,7 @@
     "script": {
       "hpPercent": [
         "5",
-        "EQUIP[Apostle Ahat of Morroc Card]===5"
+        "EQUIP_ID[27322]===5"
       ]
     }
   },
@@ -57216,7 +57216,7 @@
     "script": {
       "m_my_element_water": [
         "15",
-        "EQUIP[Muspellskoll Card]10"
+        "EQUIP_ID[27325]10"
       ]
     }
   },
@@ -57240,10 +57240,10 @@
     "cardPrefix": "Muspelheim",
     "script": {
       "p_element_fire": [
-        "EQUIP[Brinaranea Card]10"
+        "EQUIP_ID[27324]10"
       ],
       "m_element_fire": [
-        "EQUIP[Brinaranea Card]10"
+        "EQUIP_ID[27324]10"
       ],
       "subele_fire": [
         "30"
@@ -57407,7 +57407,7 @@
         "5"
       ],
       "acd": [
-        "EQUIP[Nihil M. Heine Card]3"
+        "EQUIP_ID[27196]3"
       ]
     }
   },
@@ -57434,7 +57434,7 @@
         "5"
       ],
       "atkPercent": [
-        "EQUIP[Agnes Lugenburg Card]5"
+        "EQUIP_ID[27197]5"
       ]
     }
   },
@@ -57488,7 +57488,7 @@
         "agi:15---1"
       ],
       "criDmg": [
-        "EQUIP[Bapho Jr. Card]15"
+        "EQUIP_ID[4129]15"
       ]
     }
   },
@@ -57515,10 +57515,10 @@
         "3"
       ],
       "atkPercent": [
-        "EQUIP[Mantis Card]7"
+        "EQUIP_ID[4079]7"
       ],
       "hit": [
-        "EQUIP[Mantis Card]12"
+        "EQUIP_ID[4079]12"
       ]
     }
   },
@@ -57551,7 +57551,7 @@
         "25"
       ],
       "atkPercent": [
-        "EQUIP[Ghostring Card]10"
+        "EQUIP_ID[4047]10"
       ]
     }
   },
@@ -57576,7 +57576,7 @@
     "script": {
       "criDmg": [
         "3",
-        "EQUIP[Angra Mantis Card]5"
+        "EQUIP_ID[4513]5"
       ]
     }
   },
@@ -57625,7 +57625,7 @@
     "script": {
       "m_element_earth": [
         "10",
-        "EQUIP[Fire Frilldora Card]===8"
+        "EQUIP_ID[27028]===8"
       ]
     }
   },
@@ -57676,7 +57676,7 @@
     "script": {
       "hpPercent": [
         "5",
-        "EQUIP[Bungisngis Card]5"
+        "EQUIP_ID[4582]5"
       ]
     }
   },
@@ -57701,10 +57701,10 @@
     "script": {
       "spPercent": [
         "5",
-        "EQUIP[Nightmare Card]===10"
+        "EQUIP_ID[4127]===10"
       ],
       "atkPercent": [
-        "EQUIP[Nightmare Terror Card]===10"
+        "EQUIP_ID[4166]===10"
       ]
     }
   },
@@ -57729,7 +57729,7 @@
     "script": {
       "atkPercent": [
         "5",
-        "EQUIP[Raydric Card]5"
+        "EQUIP_ID[4133]5"
       ],
       "subele_neutral": [
         "EQUIP_ID[4133]===10"
@@ -57757,7 +57757,7 @@
     "script": {
       "range": [
         "10",
-        "EQUIP[Enchanted Archer Skeleton Card]5"
+        "EQUIP_ID[4633]5"
       ]
     }
   },
@@ -57815,7 +57815,7 @@
     "script": {
       "m_element_water": [
         "15",
-        "EQUIP[Curupira Card]===8"
+        "EQUIP_ID[27122]===8"
       ]
     }
   },
@@ -57840,7 +57840,7 @@
     "script": {
       "m_element_fire": [
         "15",
-        "EQUIP[Fruit Pom Spider Card]===8"
+        "EQUIP_ID[4670]===8"
       ]
     }
   },
@@ -57921,10 +57921,10 @@
         "1"
       ],
       "m_my_element_fire": [
-        "EQUIP[Dark Lord Card]15"
+        "EQUIP_ID[4168]15"
       ],
       "83": [
-        "EQUIP[Dark Lord Card]15"
+        "EQUIP_ID[4168]15"
       ]
     }
   },
@@ -57981,10 +57981,10 @@
         "30"
       ],
       "m_my_element_fire": [
-        "EQUIP[Realized Corruption Root Card]30"
+        "EQUIP_ID[4604]30"
       ],
       "m_my_element_neutral": [
-        "EQUIP[Realized Corruption Root Card]30"
+        "EQUIP_ID[4604]30"
       ]
     }
   },
@@ -58014,12 +58014,12 @@
         "5"
       ],
       "p_class_all": [
-        "EQUIP[Amdarais Card]5",
-        "EQUIP[Realized Amdarais Card]10"
+        "EQUIP_ID[4601]5",
+        "EQUIP_ID[4602]10"
       ],
       "matkPercent": [
-        "EQUIP[Amdarais Card]5",
-        "EQUIP[Realized Amdarais Card]10"
+        "EQUIP_ID[4601]5",
+        "EQUIP_ID[4602]10"
       ],
       "p_class_normal": [
         "EQUIP_ID[4601]5",
@@ -58084,10 +58084,10 @@
         "10"
       ],
       "m_size_m": [
-        "EQUIP[Mutating White Knight Card]5"
+        "EQUIP_ID[27384]5"
       ],
       "m_size_l": [
-        "EQUIP[Mutating White Knight Card]5"
+        "EQUIP_ID[27384]5"
       ],
       "subsize_m": [
         "25",
@@ -58120,7 +58120,7 @@
     "script": {
       "p_race_undead": [
         "5",
-        "EQUIP[Cursed Raydric Archer Card]5"
+        "EQUIP_ID[27387]5"
       ]
     }
   },
@@ -58145,7 +58145,7 @@
     "script": {
       "p_race_demon": [
         "5",
-        "EQUIP[Cursed Raydric Card]5"
+        "EQUIP_ID[27386]5"
       ]
     }
   },
@@ -58169,7 +58169,7 @@
     "cardPrefix": "Strong Recovery",
     "script": {
       "hpPercent": [
-        "EQUIP[Zombie Card]===15"
+        "EQUIP_ID[4038]===15"
       ]
     }
   },
@@ -58223,16 +58223,16 @@
         "5"
       ],
       "m_size_s": [
-        "EQUIP[Spica Nerious Card&&Nihil M. Heine Card]===7"
+        "EQUIP_ID[27199&&27196]===7"
       ],
       "m_race_brute": [
-        "EQUIP[Spica Nerious Card&&Nihil M. Heine Card]===7"
+        "EQUIP_ID[27199&&27196]===7"
       ],
       "m_size_m": [
-        "EQUIP[Wolf Lugenburg Card&&Poe Richard Card]===7"
+        "EQUIP_ID[27390||300128&&300130]===7"
       ],
       "acd": [
-        "EQUIP[Wolf Lugenburg Card&&Poe Richard Card]===5"
+        "EQUIP_ID[27390||300128&&300130]===5"
       ]
     }
   },
@@ -58257,16 +58257,16 @@
     "script": {
       "acd": [
         "5",
-        "EQUIP[Wolf Lugenburg Card&&Poe Richard Card]3"
+        "EQUIP_ID[27390||300128&&300130]3"
       ],
       "p_size_s": [
-        "EQUIP[Jurgen Wigner Card&&Agnes Lugenburg Card]7"
+        "EQUIP_ID[27198&&27197]7"
       ],
       "p_race_brute": [
-        "EQUIP[Jurgen Wigner Card&&Agnes Lugenburg Card]7"
+        "EQUIP_ID[27198&&27197]7"
       ],
       "p_size_m": [
-        "EQUIP[Wolf Lugenburg Card&&Poe Richard Card]7"
+        "EQUIP_ID[27390||300128&&300130]7"
       ]
     }
   },
@@ -58296,7 +58296,7 @@
         "3"
       ],
       "acd": [
-        "EQUIP[1st Anniversary Card]3"
+        "EQUIP_ID[300291]3"
       ]
     }
   },
@@ -70855,7 +70855,7 @@
     "cardPrefix": "Auto magic",
     "script": {
       "aspd": [
-        "EQUIP[Immortal Bloody Knight Card]1"
+        "EQUIP_ID[31024]1"
       ]
     }
   },
@@ -72801,7 +72801,7 @@
     "script": {
       "p_element_poison": [
         "25",
-        "EQUIP[Anacondaq Card]===15"
+        "EQUIP_ID[4062]===15"
       ]
     }
   },
@@ -72851,7 +72851,7 @@
     "script": {
       "atk": [
         "20",
-        "EQUIP[Porcellio Card]10",
+        "EQUIP_ID[4337]10",
         "1---1"
       ]
     }
@@ -72906,7 +72906,7 @@
       ],
       "2446": [
         "10",
-        "EQUIP[Pitman Card]10",
+        "EQUIP_ID[4335]10",
         "1---1"
       ]
     }
@@ -72931,7 +72931,7 @@
     "cardPrefix": "of Psychic",
     "script": {
       "m_my_element_neutral": [
-        "EQUIP[Ungoliant Card]30"
+        "EQUIP_ID[4336]30"
       ]
     }
   },
@@ -72989,7 +72989,7 @@
     "script": {
       "m_race_demon": [
         "10",
-        "EQUIP[Skeggiold Card]2---3"
+        "EQUIP_ID[4406]2---3"
       ]
     }
   },
@@ -73092,11 +73092,11 @@
     "script": {
       "atkPercent": [
         "30",
-        "EQUIP[Randgris Card]10"
+        "EQUIP_ID[4407]10"
       ],
       "hpPercent": [
         "-15",
-        "EQUIP[Randgris Card]5"
+        "EQUIP_ID[4407]5"
       ]
     }
   },
@@ -73121,11 +73121,11 @@
     "script": {
       "hpPercent": [
         "40",
-        "EQUIP[Randgris Card]10"
+        "EQUIP_ID[4407]10"
       ],
       "atkPercent": [
         "-15",
-        "EQUIP[Randgris Card]5"
+        "EQUIP_ID[4407]5"
       ]
     }
   },
@@ -73154,11 +73154,11 @@
       ],
       "hpPercent": [
         "-5",
-        "EQUIP[Gold Acidus Card]REFINE[boot==4]---4"
+        "EQUIP_ID[4378]REFINE[boot==4]---4"
       ],
       "spPercent": [
         "-5",
-        "EQUIP[Gold Acidus Card]REFINE[boot==4]---4"
+        "EQUIP_ID[4378]REFINE[boot==4]---4"
       ]
     }
   },
@@ -73188,7 +73188,7 @@
         "5"
       ],
       "criDmg": [
-        "EQUIP[Ancient Mimic Card]1---2"
+        "EQUIP_ID[4387]1---2"
       ]
     }
   },
@@ -73213,7 +73213,7 @@
     "script": {
       "p_element_dark": [
         "25",
-        "EQUIP[Santa Poring Card]15"
+        "EQUIP_ID[4005]15"
       ]
     }
   },
@@ -73238,7 +73238,7 @@
     "script": {
       "p_element_holy": [
         "25",
-        "EQUIP[Orc Skeleton Card]15"
+        "EQUIP_ID[4085]15"
       ]
     }
   },
@@ -73263,7 +73263,7 @@
     "script": {
       "p_race_dragon": [
         "5",
-        "EQUIP[Bone Acidus Card]5"
+        "EQUIP_ID[300020]5"
       ]
     }
   },
@@ -73288,7 +73288,7 @@
     "script": {
       "p_race_brute": [
         "5",
-        "EQUIP[Bone Ferus Card]5"
+        "EQUIP_ID[300019]5"
       ]
     }
   },
@@ -73352,13 +73352,13 @@
       ],
       "2308": [
         "10",
-        "EQUIP[Verporta Card&&Senior Assistant Bot Card]===20",
-        "EQUIP[Verporta Card&&Senior Assistant Bot Card]REFINE[boot==2]---5"
+        "EQUIP_ID[300089&&300082]===20",
+        "EQUIP_ID[300089&&300082]REFINE[boot==2]---5"
       ],
       "2307": [
         "10",
-        "EQUIP[Verporta Card&&Senior Assistant Bot Card]===20",
-        "EQUIP[Verporta Card&&Senior Assistant Bot Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[300089&&300082]===20",
+        "EQUIP_ID[300089&&300082]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -73392,13 +73392,13 @@
       ],
       "2278": [
         "10",
-        "EQUIP[Kick and Kick Card&&Senior Papila Card]===20",
-        "EQUIP[Kick and Kick Card&&Senior Papila Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[27013&&300092]===20",
+        "EQUIP_ID[27013&&300092]REFINE[weapon==2]---5"
       ],
       "2258": [
         "10",
-        "EQUIP[Kick and Kick Card&&Senior Papila Card]===20",
-        "EQUIP[Kick and Kick Card&&Senior Papila Card]REFINE[boot==2]---5"
+        "EQUIP_ID[27013&&300092]===20",
+        "EQUIP_ID[27013&&300092]REFINE[boot==2]---5"
       ]
     }
   },
@@ -74126,13 +74126,13 @@
       ],
       "2008": [
         "10",
-        "EQUIP[Verporta Card&&Senior Papila Ruba Card]===20",
-        "EQUIP[Verporta Card&&Senior Papila Ruba Card]REFINE[boot==2]---5"
+        "EQUIP_ID[300089&&300094]===20",
+        "EQUIP_ID[300089&&300094]REFINE[boot==2]---5"
       ],
       "5004": [
         "10",
-        "EQUIP[Verporta Card&&Senior Papila Ruba Card]===20",
-        "EQUIP[Verporta Card&&Senior Papila Ruba Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[300089&&300094]===20",
+        "EQUIP_ID[300089&&300094]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -74163,13 +74163,13 @@
       ],
       "2477": [
         "10",
-        "EQUIP[Enchanted Archer Skeleton Card&&Senior Papila Card]===20",
-        "EQUIP[Enchanted Archer Skeleton Card&&Senior Papila Card]REFINE[boot==2]---5"
+        "EQUIP_ID[4633&&300092]===20",
+        "EQUIP_ID[4633&&300092]REFINE[boot==2]---5"
       ],
       "2481": [
         "10",
-        "EQUIP[Enchanted Archer Skeleton Card&&Senior Papila Card]===20",
-        "EQUIP[Enchanted Archer Skeleton Card&&Senior Papila Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[4633&&300092]===20",
+        "EQUIP_ID[4633&&300092]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -74236,13 +74236,13 @@
       ],
       "2449": [
         "10",
-        "EQUIP[Blue Pitaya Card&&Assistant Bot Card]===20",
-        "EQUIP[Blue Pitaya Card&&Assistant Bot Card]REFINE[boot==2]---5"
+        "EQUIP_ID[300124&&300081]===20",
+        "EQUIP_ID[300124&&300081]REFINE[boot==2]---5"
       ],
       "2447": [
         "10",
-        "EQUIP[Blue Pitaya Card&&Assistant Bot Card]===20",
-        "EQUIP[Blue Pitaya Card&&Assistant Bot Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[300124&&300081]===20",
+        "EQUIP_ID[300124&&300081]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -74276,13 +74276,13 @@
       ],
       "2211": [
         "10",
-        "EQUIP[Red Pitaya Card&&Assistant Bot Card]===20",
-        "EQUIP[Red Pitaya Card&&Assistant Bot Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[300106&&300081]===20",
+        "EQUIP_ID[300106&&300081]REFINE[weapon==2]---5"
       ],
       "2213": [
         "10",
-        "EQUIP[Red Pitaya Card&&Assistant Bot Card]===20",
-        "EQUIP[Red Pitaya Card&&Assistant Bot Card]REFINE[boot==2]---5"
+        "EQUIP_ID[300106&&300081]===20",
+        "EQUIP_ID[300106&&300081]REFINE[boot==2]---5"
       ]
     }
   },
@@ -74362,13 +74362,13 @@
       ],
       "2284": [
         "10",
-        "EQUIP[Scimitar Buffalo Bandit Card&&Aries Card]===20",
-        "EQUIP[Scimitar Buffalo Bandit Card&&Aries Card]REFINE[boot==2]---5"
+        "EQUIP_ID[27172&&300097]===20",
+        "EQUIP_ID[27172&&300097]REFINE[boot==2]---5"
       ],
       "2288": [
         "10",
-        "EQUIP[Scimitar Buffalo Bandit Card&&Aries Card]===20",
-        "EQUIP[Scimitar Buffalo Bandit Card&&Aries Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[27172&&300097]===20",
+        "EQUIP_ID[27172&&300097]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -74402,13 +74402,13 @@
       ],
       "2036": [
         "10",
-        "EQUIP[Mutant Dolor Card&&Aries Card]===20",
-        "EQUIP[Mutant Dolor Card&&Aries Card]REFINE[boot==3]---5"
+        "EQUIP_ID[27313&&300097]===20",
+        "EQUIP_ID[27313&&300097]REFINE[boot==3]---5"
       ],
       "2029": [
         "10",
-        "EQUIP[Mutant Dolor Card&&Aries Card]===20",
-        "EQUIP[Mutant Dolor Card&&Aries Card]REFINE[boot==3]---5"
+        "EQUIP_ID[27313&&300097]===20",
+        "EQUIP_ID[27313&&300097]REFINE[boot==3]---5"
       ]
     }
   },
@@ -74442,13 +74442,13 @@
       ],
       "3006": [
         "10",
-        "EQUIP[Armed Guard Soheon Card&&Dry Rafflesia Card]===20",
-        "EQUIP[Armed Guard Soheon Card&&Dry Rafflesia Card]REFINE[boot==3]---5"
+        "EQUIP_ID[4575&&300083]===20",
+        "EQUIP_ID[4575&&300083]REFINE[boot==3]---5"
       ],
       "3004": [
         "10",
-        "EQUIP[Armed Guard Soheon Card&&Dry Rafflesia Card]===20",
-        "EQUIP[Armed Guard Soheon Card&&Dry Rafflesia Card]REFINE[boot==3]---5"
+        "EQUIP_ID[4575&&300083]===20",
+        "EQUIP_ID[4575&&300083]REFINE[boot==3]---5"
       ]
     }
   },
@@ -74482,18 +74482,18 @@
       ],
       "534": [
         "10",
-        "EQUIP[E-EA1L Card&&Dry Rafflesia Card]===20",
-        "EQUIP[E-EA1L Card&&Dry Rafflesia Card]REFINE[boot==3]---5"
+        "EQUIP_ID[27320&&300083]===20",
+        "EQUIP_ID[27320&&300083]REFINE[boot==3]---5"
       ],
       "537": [
         "10",
-        "EQUIP[E-EA1L Card&&Dry Rafflesia Card]===20",
-        "EQUIP[E-EA1L Card&&Dry Rafflesia Card]REFINE[boot==3]---5"
+        "EQUIP_ID[27320&&300083]===20",
+        "EQUIP_ID[27320&&300083]REFINE[boot==3]---5"
       ],
       "540": [
         "10",
-        "EQUIP[E-EA1L Card&&Dry Rafflesia Card]===20",
-        "EQUIP[E-EA1L Card&&Dry Rafflesia Card]REFINE[boot==3]---5"
+        "EQUIP_ID[27320&&300083]===20",
+        "EQUIP_ID[27320&&300083]REFINE[boot==3]---5"
       ]
     }
   },
@@ -74527,13 +74527,13 @@
       ],
       "2604": [
         "10",
-        "EQUIP[Spell Addicted Plaga Card&&Special Alnoldi Card]===20",
-        "EQUIP[Spell Addicted Plaga Card&&Special Alnoldi Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[300114&&300085]===20",
+        "EQUIP_ID[300114&&300085]REFINE[weapon==2]---5"
       ],
       "2600": [
         "10",
-        "EQUIP[Spell Addicted Plaga Card&&Special Alnoldi Card]===20",
-        "EQUIP[Spell Addicted Plaga Card&&Special Alnoldi Card]REFINE[boot==2]---5"
+        "EQUIP_ID[300114&&300085]===20",
+        "EQUIP_ID[300114&&300085]REFINE[boot==2]---5"
       ]
     }
   },
@@ -74567,13 +74567,13 @@
       ],
       "2414": [
         "10",
-        "EQUIP[Senior Papila Cae Card&&Papila Cae Card]===20",
-        "EQUIP[Senior Papila Cae Card&&Papila Cae Card]REFINE[boot==2]---5"
+        "EQUIP_ID[300096&&300095]===20",
+        "EQUIP_ID[300096&&300095]REFINE[boot==2]---5"
       ],
       "2418": [
         "10",
-        "EQUIP[Senior Papila Cae Card&&Papila Cae Card]===20",
-        "EQUIP[Senior Papila Cae Card&&Papila Cae Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[300096&&300095]===20",
+        "EQUIP_ID[300096&&300095]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -74633,13 +74633,13 @@
       ],
       "2040": [
         "10",
-        "EQUIP[Sanare Card&&Papila Ruba Card]===20",
-        "EQUIP[Sanare Card&&Papila Ruba Card]REFINE[boot==2]---5"
+        "EQUIP_ID[27308&&300093]===20",
+        "EQUIP_ID[27308&&300093]REFINE[boot==2]---5"
       ],
       "2038": [
         "10",
-        "EQUIP[Sanare Card&&Papila Ruba Card]===20",
-        "EQUIP[Sanare Card&&Papila Ruba Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[27308&&300093]===20",
+        "EQUIP_ID[27308&&300093]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -74673,13 +74673,13 @@
       ],
       "2332": [
         "10",
-        "EQUIP[Mutant Plaga Card&&Papila Ruba Card]===20",
-        "EQUIP[Mutant Plaga Card&&Papila Ruba Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[27311&&300093]===20",
+        "EQUIP_ID[27311&&300093]REFINE[weapon==2]---5"
       ],
       "2330": [
         "10",
-        "EQUIP[Mutant Plaga Card&&Papila Ruba Card]===20",
-        "EQUIP[Mutant Plaga Card&&Papila Ruba Card]REFINE[boot==2]---5"
+        "EQUIP_ID[27311&&300093]===20",
+        "EQUIP_ID[27311&&300093]REFINE[boot==2]---5"
       ]
     }
   },
@@ -74713,13 +74713,13 @@
       ],
       "2233": [
         "10",
-        "EQUIP[Enchanted Archer Skeleton Card&&Papila Cae Card]===20",
-        "EQUIP[Enchanted Archer Skeleton Card&&Papila Cae Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[4633&&300095]===20",
+        "EQUIP_ID[4633&&300095]REFINE[weapon==2]---5"
       ],
       "2239": [
         "10",
-        "EQUIP[Enchanted Archer Skeleton Card&&Papila Cae Card]===20",
-        "EQUIP[Enchanted Archer Skeleton Card&&Papila Cae Card]REFINE[boot==2]---5"
+        "EQUIP_ID[4633&&300095]===20",
+        "EQUIP_ID[4633&&300095]REFINE[boot==2]---5"
       ]
     }
   },
@@ -74753,13 +74753,13 @@
       ],
       "2576": [
         "10",
-        "EQUIP[Senior Broken Gardener Beta Card&&Special Alnoldi Card]===20",
-        "EQUIP[Senior Broken Gardener Beta Card&&Special Alnoldi Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[300088&&300085]===20",
+        "EQUIP_ID[300088&&300085]REFINE[weapon==2]---5"
       ],
       "2584": [
         "10",
-        "EQUIP[Senior Broken Gardener Beta Card&&Special Alnoldi Card]===20",
-        "EQUIP[Senior Broken Gardener Beta Card&&Special Alnoldi Card]REFINE[boot==2]---5"
+        "EQUIP_ID[300088&&300085]===20",
+        "EQUIP_ID[300088&&300085]REFINE[boot==2]---5"
       ]
     }
   },
@@ -74793,13 +74793,13 @@
       ],
       "2565": [
         "10",
-        "EQUIP[Greater Bellare Card&&Papila Card]===20",
-        "EQUIP[Greater Bellare Card&&Papila Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[27307&&300091]===20",
+        "EQUIP_ID[27307&&300091]REFINE[weapon==2]---5"
       ],
       "2571": [
         "10",
-        "EQUIP[Greater Bellare Card&&Papila Card]===20",
-        "EQUIP[Greater Bellare Card&&Papila Card]REFINE[boot==2]---5"
+        "EQUIP_ID[27307&&300091]===20",
+        "EQUIP_ID[27307&&300091]REFINE[boot==2]---5"
       ]
     }
   },
@@ -74826,10 +74826,10 @@
         "2"
       ],
       "matk": [
-        "EQUIP[Piranha Card]10"
+        "EQUIP_ID[27121]10"
       ],
       "m_element_water": [
-        "EQUIP[Piranha Card]15"
+        "EQUIP_ID[27121]15"
       ]
     }
   },
@@ -74972,13 +74972,13 @@
       ],
       "5033": [
         "10",
-        "EQUIP[Spell Addicted Plaga Card&&Broken Gardener Beta Card]===20",
-        "EQUIP[Spell Addicted Plaga Card&&Broken Gardener Beta Card]REFINE[weapon==2]---5"
+        "EQUIP_ID[300114&&300087]===20",
+        "EQUIP_ID[300114&&300087]REFINE[weapon==2]---5"
       ],
       "5028": [
         "10",
-        "EQUIP[Spell Addicted Plaga Card&&Broken Gardener Beta Card]===20",
-        "EQUIP[Spell Addicted Plaga Card&&Broken Gardener Beta Card]REFINE[boot==2]---5"
+        "EQUIP_ID[300114&&300087]===20",
+        "EQUIP_ID[300114&&300087]REFINE[boot==2]---5"
       ]
     }
   },
@@ -75097,7 +75097,7 @@
         "30"
       ],
       "m_element_water": [
-        "EQUIP[Boiling Water Piranha Card]15"
+        "EQUIP_ID[300120]15"
       ]
     }
   },
@@ -75153,7 +75153,7 @@
         "SUM[str==15]---4"
       ],
       "criDmg": [
-        "EQUIP[Abysmal King Dramoh Card]===15"
+        "EQUIP_ID[300150]===15"
       ]
     }
   },
@@ -75207,7 +75207,7 @@
         "30"
       ],
       "criDmg": [
-        "EQUIP[Sedora Card]===15"
+        "EQUIP_ID[4521]===15"
       ]
     }
   },
@@ -75234,7 +75234,7 @@
         "9===10"
       ],
       "matkPercent": [
-        "EQUIP[Swordfish Card]===3"
+        "EQUIP_ID[4089]===3"
       ],
       "subele_water": [
         "10"
@@ -75273,10 +75273,10 @@
         "9===5"
       ],
       "atk": [
-        "EQUIP[Abysmal Deviace Card]===30"
+        "EQUIP_ID[300142]===30"
       ],
       "matk": [
-        "EQUIP[Abysmal Sropho Card]===30"
+        "EQUIP_ID[300140]===30"
       ]
     }
   },
@@ -75329,13 +75329,13 @@
     "script": {
       "hpPercent": [
         "-5",
-        "EQUIP[King Dramoh Card]===15"
+        "EQUIP_ID[4524]===15"
       ],
       "atkPercent": [
         "3---1"
       ],
       "str": [
-        "EQUIP[King Dramoh Card]===4"
+        "EQUIP_ID[4524]===4"
       ]
     }
   },
@@ -75943,15 +75943,15 @@
     "script": {
       "pAtk": [
         "1",
-        "EQUIP[Tiara Card]===3"
+        "EQUIP_ID[300193]===3"
       ],
       "sMatk": [
         "1",
-        "EQUIP[Tiara Card]===3"
+        "EQUIP_ID[300193]===3"
       ],
       "acd": [
         "5",
-        "EQUIP[Tiara Card]===10"
+        "EQUIP_ID[300193]===10"
       ]
     }
   },
@@ -76314,7 +76314,7 @@
     "script": {
       "melee": [
         "6",
-        "EQUIP[Phantom Wolf Card]===8"
+        "EQUIP_ID[300223]===8"
       ]
     }
   },
@@ -76472,7 +76472,7 @@
         "1---1"
       ],
       "p_race_insect": [
-        "EQUIP[Diligent Andre Larva Card]===20"
+        "EQUIP_ID[300232]===20"
       ],
       "subrace_insect": [
         "20"
@@ -76556,7 +76556,7 @@
         "1---1"
       ],
       "m_race_insect": [
-        "EQUIP[Diligent Andre Larva Card]===20"
+        "EQUIP_ID[300232]===20"
       ],
       "subrace_insect": [
         "20"
@@ -76745,7 +76745,7 @@
       "p_size_l": [
         "15",
         "SUM[level==200]===25",
-        "EQUIP[Dullahan Card]===30"
+        "EQUIP_ID[4176]===30"
       ]
     }
   },
@@ -76774,7 +76774,7 @@
       "p_size_m": [
         "15",
         "SUM[level==200]===25",
-        "EQUIP[Bloody Murderer Card]===30"
+        "EQUIP_ID[4214]===30"
       ]
     }
   },
@@ -76804,7 +76804,7 @@
         "USED[SuperNovice]===1500"
       ],
       "chance__ignore_size_penalty": [
-        "EQUIP[Lude Gal Card]USED[SuperNovice]===1"
+        "EQUIP_ID[300243]USED[SuperNovice]===1"
       ]
     }
   },
@@ -76834,10 +76834,10 @@
         "USED[SuperNovice]===500"
       ],
       "chance__m_my_element_water": [
-        "EQUIP[Ghost Cube Card]USED[SuperNovice]===40"
+        "EQUIP_ID[300242]USED[SuperNovice]===40"
       ],
       "chance__m_my_element_fire": [
-        "EQUIP[Ghost Cube Card]USED[SuperNovice]===40"
+        "EQUIP_ID[300242]USED[SuperNovice]===40"
       ]
     }
   },
@@ -77467,15 +77467,15 @@
     "script": {
       "hpPercent": [
         "15",
-        "EQUIP[Boss Egnigem Card]USED[Swordman]REFINE[armor,boot==4]---2"
+        "EQUIP_ID[4352]USED[Swordman]REFINE[armor,boot==4]---2"
       ],
       "melee": [
-        "EQUIP[Boss Egnigem Card]USED[Swordman]===10",
-        "EQUIP[Boss Egnigem Card]USED[Swordman]REFINE[armor,boot==4]---2"
+        "EQUIP_ID[4352]USED[Swordman]===10",
+        "EQUIP_ID[4352]USED[Swordman]REFINE[armor,boot==4]---2"
       ],
       "range": [
-        "EQUIP[Boss Egnigem Card]USED[Swordman]===10",
-        "EQUIP[Boss Egnigem Card]USED[Swordman]REFINE[armor,boot==4]---2"
+        "EQUIP_ID[4352]USED[Swordman]===10",
+        "EQUIP_ID[4352]USED[Swordman]REFINE[armor,boot==4]---2"
       ]
     }
   },
@@ -77508,10 +77508,10 @@
         "SUM[level==200]===15"
       ],
       "19": [
-        "EQUIP[Crow Duke Card]USED[Sage]===30"
+        "EQUIP_ID[300268]USED[Sage]===30"
       ],
       "20": [
-        "EQUIP[Crow Duke Card]USED[Sage]===30"
+        "EQUIP_ID[300268]USED[Sage]===30"
       ]
     }
   },
@@ -77544,10 +77544,10 @@
         "SUM[level==200]===15"
       ],
       "14": [
-        "EQUIP[Crow Baron Card]USED[Sage]===30"
+        "EQUIP_ID[300267]USED[Sage]===30"
       ],
       "91": [
-        "EQUIP[Crow Baron Card]USED[Sage]===30"
+        "EQUIP_ID[300267]USED[Sage]===30"
       ]
     }
   },
@@ -77572,7 +77572,7 @@
     "script": {
       "m_my_element_ghost": [
         "10",
-        "SUM[level==200]EQUIP[Dame of Sentinel Card]SUM[int==40]---15"
+        "SUM[level==200]EQUIP_ID[4392]SUM[int==40]---15"
       ],
       "spPercent": [
         "-25"
@@ -77600,7 +77600,7 @@
     "script": {
       "range": [
         "10",
-        "SUM[level==200]EQUIP[Dame of Sentinel Card]SUM[dex==40]---15"
+        "SUM[level==200]EQUIP_ID[4392]SUM[dex==40]---15"
       ],
       "spPercent": [
         "-25"
@@ -77628,7 +77628,7 @@
     "script": {
       "melee": [
         "10",
-        "SUM[level==200]EQUIP[Mistress of Shelter Card]SUM[str==40]---15"
+        "SUM[level==200]EQUIP_ID[4393]SUM[str==40]---15"
       ],
       "spPercent": [
         "-25"
@@ -77656,7 +77656,7 @@
     "script": {
       "m_my_element_holy": [
         "10",
-        "SUM[level==200]EQUIP[Lady Solace Card]SUM[int==40]---15"
+        "SUM[level==200]EQUIP_ID[4394]SUM[int==40]---15"
       ],
       "spPercent": [
         "-25"
@@ -77684,7 +77684,7 @@
     "script": {
       "m_my_element_neutral": [
         "10",
-        "SUM[level==200]EQUIP[Lady Solace Card]SUM[int==40]---15"
+        "SUM[level==200]EQUIP_ID[4394]SUM[int==40]---15"
       ],
       "spPercent": [
         "-25"
@@ -77765,7 +77765,7 @@
       "m_race_angel": [
         "10",
         "SUM[level==200]===20",
-        "EQUIP[Dolor of Thanatos Card]===20"
+        "EQUIP_ID[4398]===20"
       ]
     }
   },
@@ -77790,7 +77790,7 @@
     "script": {
       "criDmg": [
         "15",
-        "EQUIP[Treasure Mimic Card]SUM[level==200]===15"
+        "EQUIP_ID[300016]SUM[level==200]===15"
       ]
     }
   },
@@ -77817,7 +77817,7 @@
         "30"
       ],
       "m_my_element_ghost": [
-        "EQUIP[Death Word Card]SUM[level==200]===30"
+        "EQUIP_ID[4388]SUM[level==200]===30"
       ]
     }
   },
@@ -78108,7 +78108,7 @@
         "3---4"
       ],
       "matkPercent": [
-        "EQUIP[Kronecker G. Heine Card]3"
+        "EQUIP_ID[27331]3"
       ]
     }
   },
@@ -78138,7 +78138,7 @@
         "3---4"
       ],
       "atkPercent": [
-        "EQUIP[Skia Nerious Card]3"
+        "EQUIP_ID[27333]3"
       ]
     }
   },
@@ -78236,7 +78236,7 @@
         "2---4"
       ],
       "matkPercent": [
-        "EQUIP[Ice Gangu Card]===10"
+        "EQUIP_ID[300359]===10"
       ]
     }
   },
@@ -78266,7 +78266,7 @@
         "3---4"
       ],
       "atkPercent": [
-        "EQUIP[Shining Seaweed Card]===10"
+        "EQUIP_ID[300360]===10"
       ]
     }
   },
@@ -78402,7 +78402,7 @@
         "8"
       ],
       "vct": [
-        "EQUIP[Primitive Rgan Card]===8"
+        "EQUIP_ID[300365]===8"
       ]
     }
   },
@@ -78432,7 +78432,7 @@
         "1"
       ],
       "criDmg": [
-        "EQUIP[Lowest Rgan Card]===10"
+        "EQUIP_ID[300366]===10"
       ]
     }
   },
@@ -78591,22 +78591,22 @@
         "1"
       ],
       "p_element_earth": [
-        "EQUIP[Hallucigenia Baby Card]===9"
+        "EQUIP_ID[300373]===9"
       ],
       "p_race_insect": [
-        "EQUIP[Hallucigenia Baby Card]===9"
+        "EQUIP_ID[300373]===9"
       ],
       "p_size_s": [
-        "EQUIP[Hallucigenia Baby Card]===9"
+        "EQUIP_ID[300373]===9"
       ],
       "m_element_earth": [
-        "EQUIP[Hallucigenia Baby Card]===9"
+        "EQUIP_ID[300373]===9"
       ],
       "m_race_insect": [
-        "EQUIP[Hallucigenia Baby Card]===9"
+        "EQUIP_ID[300373]===9"
       ],
       "m_size_s": [
-        "EQUIP[Hallucigenia Baby Card]===9"
+        "EQUIP_ID[300373]===9"
       ]
     }
   },
@@ -78809,7 +78809,7 @@
         "3---4"
       ],
       "atkPercent": [
-        "EQUIP[Limacina Card]===10"
+        "EQUIP_ID[300363]===10"
       ]
     }
   },
@@ -78862,7 +78862,7 @@
       "melee": [
         "5",
         "2---4",
-        "EQUIP[Helmut Lugenburg Card]===5"
+        "EQUIP_ID[300310]===5"
       ]
     }
   },
@@ -78888,7 +78888,7 @@
       "m_my_element_all": [
         "5",
         "2---4",
-        "EQUIP[Meyer Lugenburg Card]===5"
+        "EQUIP_ID[300308]===5"
       ]
     }
   },
@@ -78914,7 +78914,7 @@
       "range": [
         "5",
         "2---4",
-        "EQUIP[Helmut Lugenburg Card]===5"
+        "EQUIP_ID[300310]===5"
       ]
     }
   },
@@ -79113,7 +79113,7 @@
     "script": {
       "range": [
         "6",
-        "EQUIP[Timbers Card]===8"
+        "EQUIP_ID[300449]===8"
       ]
     }
   },
@@ -79279,7 +79279,7 @@
         "ITEM_LV[me==2]===2"
       ],
       "vct": [
-        "EQUIP[Copo Card]===5"
+        "EQUIP_ID[300455]===5"
       ]
     }
   },
@@ -79316,8 +79316,8 @@
         "ITEM_LV[me==2]===3"
       ],
       "p_size_l": [
-        "EQUIP[Copo Card]===10",
-        "EQUIP[Copo Card]2---3"
+        "EQUIP_ID[300455]===10",
+        "EQUIP_ID[300455]2---3"
       ]
     }
   },
@@ -79354,8 +79354,8 @@
         "ITEM_LV[me==2]===3"
       ],
       "m_size_l": [
-        "EQUIP[Copo Card]===10",
-        "EQUIP[Copo Card]2---3"
+        "EQUIP_ID[300455]===10",
+        "EQUIP_ID[300455]2---3"
       ]
     }
   },
@@ -79415,19 +79415,19 @@
         "5",
         "10===5",
         "ITEM_LV[me==5]===10",
-        "EQUIP[Jormungandr Church Bishop Card]===15"
+        "EQUIP_ID[300459]===15"
       ],
       "m_my_element_dark": [
         "5",
         "10===5",
         "ITEM_LV[me==5]===10",
-        "EQUIP[Jormungandr Church Bishop Card]===15"
+        "EQUIP_ID[300459]===15"
       ],
       "m_my_element_ghost": [
         "5",
         "10===5",
         "ITEM_LV[me==5]===10",
-        "EQUIP[Jormungandr Church Bishop Card]===15"
+        "EQUIP_ID[300459]===15"
       ]
     }
   },
@@ -79457,7 +79457,7 @@
         "5",
         "10===5",
         "ITEM_LV[me==5]===10",
-        "EQUIP[Jormungandr Church Bishop Card]===15"
+        "EQUIP_ID[300459]===15"
       ]
     }
   },
@@ -79487,19 +79487,19 @@
         "5",
         "10===5",
         "ITEM_LV[me==5]===10",
-        "EQUIP[Jormungandr Church Bishop Card]===15"
+        "EQUIP_ID[300459]===15"
       ],
       "m_my_element_wind": [
         "5",
         "10===5",
         "ITEM_LV[me==5]===10",
-        "EQUIP[Jormungandr Church Bishop Card]===15"
+        "EQUIP_ID[300459]===15"
       ],
       "m_my_element_earth": [
         "5",
         "10===5",
         "ITEM_LV[me==5]===10",
-        "EQUIP[Jormungandr Church Bishop Card]===15"
+        "EQUIP_ID[300459]===15"
       ]
     }
   },
@@ -79529,19 +79529,19 @@
         "5",
         "10===5",
         "ITEM_LV[me==5]===10",
-        "EQUIP[Jormungandr Church Bishop Card]===15"
+        "EQUIP_ID[300459]===15"
       ],
       "m_my_element_poison": [
         "5",
         "10===5",
         "ITEM_LV[me==5]===10",
-        "EQUIP[Jormungandr Church Bishop Card]===15"
+        "EQUIP_ID[300459]===15"
       ],
       "m_my_element_holy": [
         "5",
         "10===5",
         "ITEM_LV[me==5]===10",
-        "EQUIP[Jormungandr Church Bishop Card]===15"
+        "EQUIP_ID[300459]===15"
       ]
     }
   },
@@ -79655,7 +79655,7 @@
         "5",
         "10===5",
         "ITEM_LV[me==5]===10",
-        "EQUIP[Jormungandr Church Bishop Card]===15"
+        "EQUIP_ID[300459]===15"
       ]
     }
   },
@@ -79928,7 +79928,7 @@
     "script": {
       "hit": [
         "-30",
-        "EQUIP[1st Anniversary Card&&2nd Anniversary Card]30"
+        "EQUIP_ID[300291&&27417]30"
       ],
       "p_element_fire": [
         "2---3"
@@ -79991,7 +79991,7 @@
         "REFINE[boot==1]---2"
       ],
       "acd": [
-        "EQUIP[1st Anniversary Card&&2nd Anniversary Card]6"
+        "EQUIP_ID[300291&&27417]6"
       ]
     }
   },
@@ -80018,17 +80018,17 @@
       ],
       "p_size_s": [
         "15",
-        "EQUIP[Rebellion Lookie Card]===15"
+        "EQUIP_ID[300489]===15"
       ],
       "p_size_l": [
         "15",
-        "EQUIP[Rebellion Lookie Card]===15"
+        "EQUIP_ID[300489]===15"
       ],
       "p_race_demihuman": [
-        "EQUIP[Rebellion Lookie Card]===15"
+        "EQUIP_ID[300489]===15"
       ],
       "p_race_formless": [
-        "EQUIP[Rebellion Lookie Card]===15"
+        "EQUIP_ID[300489]===15"
       ]
     }
   },
@@ -80084,17 +80084,17 @@
       ],
       "p_size_s": [
         "15",
-        "EQUIP[Rebellion Gony Card]===15"
+        "EQUIP_ID[300493]===15"
       ],
       "p_size_l": [
         "15",
-        "EQUIP[Rebellion Gony Card]===15"
+        "EQUIP_ID[300493]===15"
       ],
       "p_race_demihuman": [
-        "EQUIP[Rebellion Gony Card]===15"
+        "EQUIP_ID[300493]===15"
       ],
       "p_race_formless": [
-        "EQUIP[Rebellion Gony Card]===15"
+        "EQUIP_ID[300493]===15"
       ]
     }
   },
@@ -80150,17 +80150,17 @@
       ],
       "m_size_s": [
         "15",
-        "EQUIP[Secret Wing Leizi Card]===15"
+        "EQUIP_ID[300497]===15"
       ],
       "m_size_l": [
         "15",
-        "EQUIP[Secret Wing Leizi Card]===15"
+        "EQUIP_ID[300497]===15"
       ],
       "m_race_demihuman": [
-        "EQUIP[Secret Wing Leizi Card]===15"
+        "EQUIP_ID[300497]===15"
       ],
       "m_race_formless": [
-        "EQUIP[Secret Wing Leizi Card]===15"
+        "EQUIP_ID[300497]===15"
       ]
     }
   },
@@ -80491,12 +80491,12 @@
       "melee": [
         "10",
         "3---7",
-        "EQUIP[Yoscopus Guardian Card]===15",
-        "EQUIP[Yoscopus Sorcerer Card]===15"
+        "EQUIP_ID[300524]===15",
+        "EQUIP_ID[300525]===15"
       ],
       "p_element_all": [
-        "EQUIP[Yoscopus Guardian Card]===15",
-        "EQUIP[Yoscopus Sorcerer Card]===15"
+        "EQUIP_ID[300524]===15",
+        "EQUIP_ID[300525]===15"
       ]
     }
   },
@@ -80556,12 +80556,12 @@
       "range": [
         "10",
         "3---7",
-        "EQUIP[Yoscopus Sorcerer Card]===15",
-        "EQUIP[Yoscopus Guardian Card]===15"
+        "EQUIP_ID[300525]===15",
+        "EQUIP_ID[300524]===15"
       ],
       "p_element_all": [
-        "EQUIP[Yoscopus Sorcerer Card]===15",
-        "EQUIP[Yoscopus Guardian Card]===15"
+        "EQUIP_ID[300525]===15",
+        "EQUIP_ID[300524]===15"
       ]
     }
   },
@@ -80621,7 +80621,7 @@
         "ITEM_LV[me==5]===10"
       ],
       "p_size_all": [
-        "EQUIP[Scalleg Card]===15",
+        "EQUIP_ID[300506]===15",
         "ITEM_LV[me==5]WEAPON_TYPE[twohandSword||twohandSpear||twohandRod||twohandAxe||katar||bow||shuriken||gun]===25"
       ],
       "pAtk": [
@@ -80657,7 +80657,7 @@
         "ITEM_LV[me==5]===10"
       ],
       "m_size_all": [
-        "EQUIP[Velelling Card]===15",
+        "EQUIP_ID[300507]===15",
         "ITEM_LV[me==5]WEAPON_TYPE[twohandSword||twohandSpear||twohandRod||twohandAxe||katar||bow||shuriken||gun]===25"
       ],
       "sMatk": [
@@ -80693,30 +80693,30 @@
       "m_my_element_fire": [
         "10",
         "3---7",
-        "EQUIP[Yortus Conjurator Card]===15"
+        "EQUIP_ID[300529]===15"
       ],
       "m_my_element_neutral": [
         "10",
         "3---7",
-        "EQUIP[Yortus Conjurator Card]===15"
+        "EQUIP_ID[300529]===15"
       ],
       "m_my_element_holy": [
         "10",
         "3---7",
-        "EQUIP[Yortus Conjurator Card]===15"
+        "EQUIP_ID[300529]===15"
       ],
       "m_my_element_dark": [
         "10",
         "3---7",
-        "EQUIP[Yortus Conjurator Card]===15"
+        "EQUIP_ID[300529]===15"
       ],
       "m_my_element_ghost": [
         "10",
         "3---7",
-        "EQUIP[Yortus Conjurator Card]===15"
+        "EQUIP_ID[300529]===15"
       ],
       "m_element_all": [
-        "EQUIP[Yortus Conjurator Card]===15"
+        "EQUIP_ID[300529]===15"
       ]
     }
   },
@@ -80748,30 +80748,30 @@
       "m_my_element_wind": [
         "10",
         "3---7",
-        "EQUIP[Yortus Conjurator Card]===15"
+        "EQUIP_ID[300529]===15"
       ],
       "m_my_element_water": [
         "10",
         "3---7",
-        "EQUIP[Yortus Conjurator Card]===15"
+        "EQUIP_ID[300529]===15"
       ],
       "m_my_element_earth": [
         "10",
         "3---7",
-        "EQUIP[Yortus Conjurator Card]===15"
+        "EQUIP_ID[300529]===15"
       ],
       "m_my_element_poison": [
         "10",
         "3---7",
-        "EQUIP[Yortus Conjurator Card]===15"
+        "EQUIP_ID[300529]===15"
       ],
       "m_my_element_undead": [
         "10",
         "3---7",
-        "EQUIP[Yortus Conjurator Card]===15"
+        "EQUIP_ID[300529]===15"
       ],
       "m_element_all": [
-        "EQUIP[Yortus Conjurator Card]===15"
+        "EQUIP_ID[300529]===15"
       ]
     }
   },
@@ -80929,10 +80929,10 @@
         "7"
       ],
       "cRate": [
-        "EQUIP[Yorker Worker Card]===2"
+        "EQUIP_ID[300526]===2"
       ],
       "criDmg": [
-        "EQUIP[Yorker Worker Card]===12"
+        "EQUIP_ID[300526]===12"
       ]
     }
   },
@@ -81686,20 +81686,20 @@
         "4"
       ],
       "m_my_element_all": [
-        "EQUIP[1st Anniversary Card]===10"
+        "EQUIP_ID[300291]===10"
       ],
       "p_class_all": [
-        "EQUIP[1st Anniversary Card]===5"
+        "EQUIP_ID[300291]===5"
       ],
       "acd": [
-        "EQUIP[2nd Anniversary Card]===5",
-        "EQUIP[1st Anniversary Card&&2nd Anniversary Card]===5"
+        "EQUIP_ID[27417]===5",
+        "EQUIP_ID[300291&&27417]===5"
       ],
       "cri": [
-        "EQUIP[1st Anniversary Card&&2nd Anniversary Card]===10"
+        "EQUIP_ID[300291&&27417]===10"
       ],
       "vct": [
-        "EQUIP[1st Anniversary Card&&2nd Anniversary Card]===10"
+        "EQUIP_ID[300291&&27417]===10"
       ]
     }
   },
@@ -82055,7 +82055,7 @@
         "USED[RuneKnight]15"
       ],
       "chance__atk": [
-        "EQUIP[True Seyren Windsor Card]===200"
+        "EQUIP_ID[4689]===200"
       ]
     }
   },
@@ -82095,7 +82095,7 @@
         "USED[RoyalGuard]15"
       ],
       "chance__atk": [
-        "EQUIP[True Randel Lawrence Card]===200"
+        "EQUIP_ID[4690]===200"
       ]
     }
   },
@@ -82135,7 +82135,7 @@
         "USED[ArchBishop]15"
       ],
       "chance__matk": [
-        "EQUIP[True Margaretha Sorin Card]===200"
+        "EQUIP_ID[4685]===200"
       ]
     }
   },
@@ -82175,7 +82175,7 @@
         "USED[Sura]15"
       ],
       "chance__atk": [
-        "EQUIP[True Chen Lio Card]===200"
+        "EQUIP_ID[4693]===200"
       ]
     }
   },
@@ -82215,7 +82215,7 @@
         "USED[Warlock]15"
       ],
       "chance__matk": [
-        "EQUIP[True Kathryne Keyron Card]===200"
+        "EQUIP_ID[4686]===200"
       ]
     }
   },
@@ -82255,7 +82255,7 @@
         "USED[Sorcerer]15"
       ],
       "chance__matk": [
-        "EQUIP[True Celia Alde Card]===200"
+        "EQUIP_ID[4692]===200"
       ]
     }
   },
@@ -82295,7 +82295,7 @@
         "USED[Mechanic]15"
       ],
       "chance__atk": [
-        "EQUIP[True Howard Alt-Eisen Card]===200"
+        "EQUIP_ID[4688]===200"
       ]
     }
   },
@@ -82335,7 +82335,7 @@
         "USED[Genetic]15"
       ],
       "chance__atk": [
-        "EQUIP[True Flamel Emure Card]===200"
+        "EQUIP_ID[4691]===200"
       ]
     }
   },
@@ -82375,7 +82375,7 @@
         "USED[GuillotineCross]15"
       ],
       "chance__atk": [
-        "EQUIP[True Eremes Guile Card]===200"
+        "EQUIP_ID[4684]===200"
       ]
     }
   },
@@ -82418,7 +82418,7 @@
         "USED[ShadowChaser]15"
       ],
       "chance__atk": [
-        "EQUIP[True Gertie Wie Card]===200"
+        "EQUIP_ID[4694]===200"
       ]
     }
   },
@@ -82458,7 +82458,7 @@
         "USED[Ranger]15"
       ],
       "chance__atk": [
-        "EQUIP[True Cecil Damon Card]===200"
+        "EQUIP_ID[4687]===200"
       ]
     }
   },
@@ -82498,7 +82498,7 @@
         "USED[Minstrel||Wanderer]15"
       ],
       "chance__matk": [
-        "EQUIP[True Alphoccio Basil Card]===200"
+        "EQUIP_ID[4696]===200"
       ]
     }
   },
@@ -82538,7 +82538,7 @@
         "USED[Minstrel||Wanderer]15"
       ],
       "chance__atk": [
-        "EQUIP[True Trentini Card]===200"
+        "EQUIP_ID[4695]===200"
       ]
     }
   },
@@ -82563,13 +82563,13 @@
     "script": {
       "5208": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "5213": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -82594,13 +82594,13 @@
     "script": {
       "6504": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "5266": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -82625,13 +82625,13 @@
     "script": {
       "5244": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "6519": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -82656,13 +82656,13 @@
     "script": {
       "5273": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "6518": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -82687,13 +82687,13 @@
     "script": {
       "6508": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "6002": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -82718,13 +82718,13 @@
     "script": {
       "6509": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "6510": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -82749,13 +82749,13 @@
     "script": {
       "3004": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "5289": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -82780,13 +82780,13 @@
     "script": {
       "6515": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "5321": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -82811,13 +82811,13 @@
     "script": {
       "5222": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "5215": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -82842,13 +82842,13 @@
     "script": {
       "5370": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "5373": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -82873,13 +82873,13 @@
     "script": {
       "5334": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "6520": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -82904,13 +82904,13 @@
     "script": {
       "5353": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "5355": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -82935,13 +82935,13 @@
     "script": {
       "5466": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "5474": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -82966,13 +82966,13 @@
     "script": {
       "5408": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "5500": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Execution]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400723]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -82997,13 +82997,13 @@
     "script": {
       "5492": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "5495": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -83028,13 +83028,13 @@
     "script": {
       "5428": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "5430": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -83059,13 +83059,13 @@
     "script": {
       "5456": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "5457": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -83090,13 +83090,13 @@
     "script": {
       "5446": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ],
       "5507": [
         "1---1",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
-        "EQUIP[Yorscalp Crown of Judgment]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]===-120",
+        "EQUIP_ID[400724]GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
       ]
     }
   },
@@ -83123,14 +83123,14 @@
         "3"
       ],
       "m_size_m": [
-        "EQUIP[Secret Wing Philopontes Card]===10",
-        "EQUIP[Secret Wing Philopontes Card&&Secret Wing Leizi Card]===20"
+        "EQUIP_ID[300495]===10",
+        "EQUIP_ID[300495&&300497]===20"
       ],
       "m_race_brute": [
-        "EQUIP[Secret Wing Leizi Card]===15"
+        "EQUIP_ID[300497]===15"
       ],
       "m_race_dragon": [
-        "EQUIP[Secret Wing Philopontes Card&&Secret Wing Leizi Card]===15"
+        "EQUIP_ID[300495&&300497]===15"
       ]
     }
   },
@@ -83157,14 +83157,14 @@
         "3"
       ],
       "p_size_m": [
-        "EQUIP[Rebellion Est Loveroy Card]===10",
-        "EQUIP[Rebellion Est Loveroy Card&&Rebellion Gony Card]===20"
+        "EQUIP_ID[300491]===10",
+        "EQUIP_ID[300491&&300493]===20"
       ],
       "p_race_brute": [
-        "EQUIP[Rebellion Gony Card]===15"
+        "EQUIP_ID[300493]===15"
       ],
       "p_race_dragon": [
-        "EQUIP[Rebellion Est Loveroy Card&&Rebellion Gony Card]===15"
+        "EQUIP_ID[300491&&300493]===15"
       ]
     }
   },
@@ -83191,14 +83191,14 @@
         "3"
       ],
       "p_size_m": [
-        "EQUIP[Rebellion Elena Volkova Card]===10",
-        "EQUIP[Rebellion Elena Volkova Card&&Rebellion Lookie Card]===20"
+        "EQUIP_ID[300487]===10",
+        "EQUIP_ID[300487&&300489]===20"
       ],
       "p_race_brute": [
-        "EQUIP[Rebellion Lookie Card]===15"
+        "EQUIP_ID[300489]===15"
       ],
       "p_race_dragon": [
-        "EQUIP[Rebellion Elena Volkova Card&&Rebellion Lookie Card]===15"
+        "EQUIP_ID[300487&&300489]===15"
       ]
     }
   },
@@ -83920,38 +83920,38 @@
         "2---3"
       ],
       "m_my_element_fire": [
-        "EQUIP[Peeping Card]===8",
-        "EQUIP[Polluted Silk Snail Card]===8"
+        "EQUIP_ID[300641]===8",
+        "EQUIP_ID[300643]===8"
       ],
       "m_my_element_neutral": [
-        "EQUIP[Peeping Card]===8",
-        "EQUIP[Polluted Silk Snail Card]===8"
+        "EQUIP_ID[300641]===8",
+        "EQUIP_ID[300643]===8"
       ],
       "m_my_element_holy": [
-        "EQUIP[Peeping Card]===8"
+        "EQUIP_ID[300641]===8"
       ],
       "m_my_element_wind": [
-        "EQUIP[Peeping Card]===8",
-        "EQUIP[Polluted Silk Snail Card]===8"
+        "EQUIP_ID[300641]===8",
+        "EQUIP_ID[300643]===8"
       ],
       "m_my_element_dark": [
-        "EQUIP[Peeping Card]===8",
-        "EQUIP[Polluted Silk Snail Card]===8"
+        "EQUIP_ID[300641]===8",
+        "EQUIP_ID[300643]===8"
       ],
       "m_my_element_ghost": [
-        "EQUIP[Peeping Card]===8"
+        "EQUIP_ID[300641]===8"
       ],
       "m_my_element_undead": [
-        "EQUIP[Peeping Card]===8"
+        "EQUIP_ID[300641]===8"
       ],
       "m_my_element_water": [
-        "EQUIP[Polluted Silk Snail Card]===8"
+        "EQUIP_ID[300643]===8"
       ],
       "m_my_element_earth": [
-        "EQUIP[Polluted Silk Snail Card]===8"
+        "EQUIP_ID[300643]===8"
       ],
       "m_my_element_poison": [
-        "EQUIP[Polluted Silk Snail Card]===8"
+        "EQUIP_ID[300643]===8"
       ]
     }
   },
@@ -83982,11 +83982,11 @@
       ],
       "melee": [
         "2---3",
-        "EQUIP[Encroached Exploration Robot Card]===8"
+        "EQUIP_ID[300644]===8"
       ],
       "range": [
         "2---3",
-        "EQUIP[Fireloop Card]===8"
+        "EQUIP_ID[300637]===8"
       ]
     }
   },
@@ -84067,13 +84067,13 @@
     "script": {
       "vct": [
         "5",
-        "EQUIP[Lobelia Card]===10"
+        "EQUIP_ID[300652]===10"
       ],
       "spPercent": [
         "-5"
       ],
       "acd": [
-        "EQUIP[Lobelia Card]===5"
+        "EQUIP_ID[300652]===5"
       ]
     }
   },
@@ -84103,10 +84103,10 @@
         "7"
       ],
       "cRate": [
-        "EQUIP[Myosotis Card]===2"
+        "EQUIP_ID[300653]===2"
       ],
       "criDmg": [
-        "EQUIP[Myosotis Card]===10"
+        "EQUIP_ID[300653]===10"
       ]
     }
   },
@@ -84136,10 +84136,10 @@
         "7"
       ],
       "cRate": [
-        "EQUIP[Anemone Card]===2"
+        "EQUIP_ID[300654]===2"
       ],
       "criDmg": [
-        "EQUIP[Anemone Card]===10"
+        "EQUIP_ID[300654]===10"
       ]
     }
   },
@@ -84369,7 +84369,7 @@
       ],
       "p_class_boss": [
         "ITEM_LV[me==5]3---2",
-        "EQUIP[Bloody Slasher Card]===7"
+        "EQUIP_ID[300661]===7"
       ]
     }
   },
@@ -84400,7 +84400,7 @@
       ],
       "m_class_normal": [
         "ITEM_LV[me==5]3---2",
-        "EQUIP[Shadist Card]===4"
+        "EQUIP_ID[300662]===4"
       ]
     }
   },
@@ -84431,7 +84431,7 @@
       ],
       "p_class_normal": [
         "ITEM_LV[me==5]3---2",
-        "EQUIP[Toxit Card]===7"
+        "EQUIP_ID[300659]===7"
       ]
     }
   },
@@ -84462,7 +84462,7 @@
       ],
       "m_class_boss": [
         "ITEM_LV[me==5]3---2",
-        "EQUIP[Lunarina Card]===4"
+        "EQUIP_ID[300660]===4"
       ]
     }
   },
@@ -84555,16 +84555,16 @@
         "ITEM_LV[me==2]3---2"
       ],
       "p_size_all": [
-        "EQUIP[Toxit Card]===8"
+        "EQUIP_ID[300659]===8"
       ],
       "p_element_all": [
-        "EQUIP[Bloody Slasher Card]===5"
+        "EQUIP_ID[300661]===5"
       ],
       "m_size_all": [
-        "EQUIP[Shadist Card]===8"
+        "EQUIP_ID[300662]===8"
       ],
       "m_element_all": [
-        "EQUIP[Lunarina Card]===5"
+        "EQUIP_ID[300660]===5"
       ]
     }
   },

@@ -110,20 +110,28 @@ describe('item.json: combo conditions', () => {
    * happens to share a name: the client re-issues items under new ids keeping the old
    * name, so one clause can fire for a partner nobody meant to include.
    *
-   * A ratchet rather than a ban, because 1.731 records still carry the old form. The
+   * A ratchet rather than a ban, because 1.530 records still carry the old form. The
    * number may only fall. When a run migrates a family, drop it to what that run leaves
    * behind so the ground gained is not given back.
    *
-   * 121 of them are cards, and their sets DO fire — the partner's English name resolves.
-   * The four whose name resolved to nothing were migrated with the card sets
-   * (card-set-bonuses.spec.ts); the rest are the family's remaining migration.
+   * Cards are at zero: the family was migrated whole, 434 clauses on 201 records, against
+   * the behavioural baseline in card-set-migration.spec.ts. What is left is equipment.
    */
-  const RECORDS_ON_LEGACY_EQUIP = 1731;
+  const RECORDS_ON_LEGACY_EQUIP = 1530;
   const usesLegacyEquip = (item: any) => /EQUIP\[/.test(JSON.stringify(item.script ?? {}));
 
   it('does not grow the number of records matching a combo partner by name', () => {
     const legacy = Object.values(items).filter(usesLegacyEquip);
     expect(legacy.length).toBeLessThanOrEqual(RECORDS_ON_LEGACY_EQUIP);
+  });
+
+  it('keeps the card family fully id-based', () => {
+    // Migrated whole — 434 clauses on 201 records. Guarded here as well as in
+    // card-set-migration.spec.ts so a new card cannot reintroduce the form.
+    const offenders = Object.entries(items)
+      .filter(([, it]) => it.itemTypeId === 6 && it.itemSubTypeId === 0 && usesLegacyEquip(it))
+      .map(([id]) => id);
+    expect(offenders).toEqual([]);
   });
 
   it('keeps the Visual-enchant stone family fully id-based', () => {

@@ -163,7 +163,7 @@ describe('the sets that were registered on the wrong side of the pair', () => {
   it('27115 Carta Batedor Ominoso keeps its own SP, not the partner HP', () => {
     expect(ITEM_DB[27115].script).toEqual({
       int: ['1'],
-      sp: ['80', '2---10', 'EQUIP[Ominous Solider Card]2---5'],
+      sp: ['80', '2---10', 'EQUIP_ID[27114]2---5'],
     });
   });
 

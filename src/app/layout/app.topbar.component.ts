@@ -159,6 +159,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.85-beta',
+      date: '20-08-2026',
+      logs: [
+        'Os conjuntos das cartas passaram a identificar a parceira pelo código do item, e não mais pelo nome em inglês. São 434 condições em 201 cartas. O nome tinha dois defeitos: mudou a tradução, o bônus parava de sair sem avisar; e como o jogo relança a mesma carta com código novo mantendo o nome antigo, uma condição escrita assim valia para todas as gerações de uma vez. Nada muda no que cada conjunto paga hoje — a troca foi medida carta por carta antes e depois.',
+        'A conferência ficou guardada: 251 cartas, 540 medições. Cada carta foi vestida sozinha e depois com cada combinação de parceiras que fecha o conjunto, e o resultado das duas situações foi comparado antes e depois da troca. O boneco usado na medição está refinado no +15, com grau A, atributos altos e a classe que cada linha exige, porque um conjunto que só paga com refino ou para certa classe marcaria zero dos dois lados e passaria despercebido.',
+      ],
+    },
+    {
       v: '0.1.84-beta',
       date: '19-08-2026',
       logs: [

@@ -126,16 +126,12 @@ describe('the card sets, structurally', () => {
     expect(unresolved).toEqual([]);
   });
 
-  /**
-   * The ratchet, in step with `item-script-keys.spec.ts`: card records still matching a
-   * combo partner by name. It may only fall, and the migration run drops it to what that run
-   * leaves behind.
-   */
-  const CARD_RECORDS_ON_LEGACY_EQUIP = 201;
-
-  it('does not grow the number of cards matching a partner by name', () => {
+  it('names every partner by id, with none of the family left on the display name', () => {
+    // Not a ratchet: the card family was migrated whole — 434 clauses on 201 records — so a
+    // new card writing `EQUIP[<nome>]` is a regression, not a leftover. The wider ratchet
+    // over the rest of item.json lives in item-script-keys.spec.ts.
     const onName = CARDS_WITH_A_SET.filter((card) => setClausesOf(card).some((clause) => clause.form === 'name'));
 
-    expect(onName.length).toBeLessThanOrEqual(CARD_RECORDS_ON_LEGACY_EQUIP);
+    expect(onName).toEqual([]);
   });
 });
