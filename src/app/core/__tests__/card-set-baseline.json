@@ -1,0 +1,9908 @@
+{
+ "4153": {
+  "scenarios": {
+   "alone": {
+    "atk": 5
+   },
+   "with:4273,4247": {
+    "atk": 5,
+    "p_element_water": 30
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_element_water",
+    "groups": [
+     [
+      4273
+     ],
+     [
+      4247
+     ]
+    ],
+    "tail": "30"
+   }
+  ]
+ },
+ "4161": {
+  "scenarios": {
+   "alone": {},
+   "with:4031": {
+    "def": 3,
+    "vit": 3
+   }
+  },
+  "clauses": [
+   {
+    "key": "def",
+    "groups": [
+     [
+      4031
+     ]
+    ],
+    "tail": "3"
+   },
+   {
+    "key": "vit",
+    "groups": [
+     [
+      4031
+     ]
+    ],
+    "tail": "3"
+   }
+  ]
+ },
+ "4169": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": -10,
+    "spPercent": -10,
+    "vct": 10
+   },
+   "with:4168": {
+    "hpPercent": 10,
+    "spPercent": 10,
+    "vct": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "spPercent",
+    "groups": [
+     [
+      4168
+     ]
+    ],
+    "tail": "20"
+   },
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      4168
+     ]
+    ],
+    "tail": "20"
+   },
+   {
+    "key": "vct",
+    "groups": [
+     [
+      4168
+     ]
+    ],
+    "tail": "10"
+   }
+  ]
+ },
+ "4172": {
+  "scenarios": {
+   "alone": {
+    "sp": 1,
+    "criDmg": 20
+   },
+   "with:4230,4210,4272,4257": {
+    "sp": 1,
+    "aspdPercent": 5,
+    "str": 5,
+    "agi": 5,
+    "criDmg": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "aspdPercent",
+    "groups": [
+     [
+      4230
+     ],
+     [
+      4210
+     ],
+     [
+      4272
+     ],
+     [
+      4257
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "agi",
+    "groups": [
+     [
+      4230
+     ],
+     [
+      4210
+     ],
+     [
+      4272
+     ],
+     [
+      4257
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "str",
+    "groups": [
+     [
+      4230
+     ],
+     [
+      4210
+     ],
+     [
+      4272
+     ],
+     [
+      4257
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "4179": {
+  "scenarios": {
+   "alone": {
+    "agi": 1
+   },
+   "with:4009": {
+    "agi": 1,
+    "flee": 18
+   }
+  },
+  "clauses": [
+   {
+    "key": "flee",
+    "groups": [
+     [
+      4009
+     ]
+    ],
+    "tail": "18"
+   }
+  ]
+ },
+ "4183": {
+  "scenarios": {
+   "alone": {
+    "str": 1
+   },
+   "with:4029": {
+    "str": 1,
+    "flee": 18
+   }
+  },
+  "clauses": [
+   {
+    "key": "flee",
+    "groups": [
+     [
+      4029
+     ]
+    ],
+    "tail": "18"
+   }
+  ]
+ },
+ "4191": {
+  "scenarios": {
+   "alone": {},
+   "with:4325,4309,4258,4208,4327": {
+    "hp": 500,
+    "def": 5,
+    "mdef": 5
+   },
+   "with:4325,4309,4258,4208,4327@Mage": {
+    "hp": 500,
+    "def": 5,
+    "mdef": 5,
+    "matkPercent": 3,
+    "vct": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "def",
+    "groups": [
+     [
+      4325
+     ],
+     [
+      4309
+     ],
+     [
+      4258
+     ],
+     [
+      4208
+     ],
+     [
+      4327
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "mdef",
+    "groups": [
+     [
+      4325
+     ],
+     [
+      4309
+     ],
+     [
+      4258
+     ],
+     [
+      4208
+     ],
+     [
+      4327
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "hp",
+    "groups": [
+     [
+      4325
+     ],
+     [
+      4309
+     ],
+     [
+      4258
+     ],
+     [
+      4208
+     ],
+     [
+      4327
+     ]
+    ],
+    "tail": "500"
+   },
+   {
+    "key": "matkPercent",
+    "groups": [
+     [
+      4325
+     ],
+     [
+      4309
+     ],
+     [
+      4258
+     ],
+     [
+      4208
+     ],
+     [
+      4327
+     ]
+    ],
+    "tail": "USED[Mage]3"
+   },
+   {
+    "key": "vct",
+    "groups": [
+     [
+      4325
+     ],
+     [
+      4309
+     ],
+     [
+      4258
+     ],
+     [
+      4208
+     ],
+     [
+      4327
+     ]
+    ],
+    "tail": "USED[Mage]15"
+   }
+  ]
+ },
+ "4197": {
+  "scenarios": {
+   "alone": {
+    "luk": 1
+   },
+   "with:4001": {
+    "luk": 1,
+    "flee": 18
+   }
+  },
+  "clauses": [
+   {
+    "key": "flee",
+    "groups": [
+     [
+      4001
+     ]
+    ],
+    "tail": "18"
+   }
+  ]
+ },
+ "4199": {
+  "scenarios": {
+   "alone": {},
+   "with:4234,4252,4178,4297": {
+    "dex": 3,
+    "agi": 5,
+    "range": 20,
+    "perfectHit": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "agi",
+    "groups": [
+     [
+      4234
+     ],
+     [
+      4252
+     ],
+     [
+      4178
+     ],
+     [
+      4297
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "dex",
+    "groups": [
+     [
+      4234
+     ],
+     [
+      4252
+     ],
+     [
+      4178
+     ],
+     [
+      4297
+     ]
+    ],
+    "tail": "3"
+   },
+   {
+    "key": "perfectHit",
+    "groups": [
+     [
+      4234
+     ],
+     [
+      4252
+     ],
+     [
+      4178
+     ],
+     [
+      4297
+     ]
+    ],
+    "tail": "20"
+   },
+   {
+    "key": "range",
+    "groups": [
+     [
+      4234
+     ],
+     [
+      4252
+     ],
+     [
+      4178
+     ],
+     [
+      4297
+     ]
+    ],
+    "tail": "20"
+   }
+  ]
+ },
+ "4211": {
+  "scenarios": {
+   "alone": {
+    "mdef": 3
+   },
+   "with:4021": {
+    "mdef": 3,
+    "flee": 18
+   }
+  },
+  "clauses": [
+   {
+    "key": "flee",
+    "groups": [
+     [
+      4021
+     ]
+    ],
+    "tail": "18"
+   }
+  ]
+ },
+ "4218": {
+  "scenarios": {
+   "alone": {
+    "hp": 1000,
+    "vit": -3
+   },
+   "with:4269": {
+    "hp": 1000,
+    "int": 4,
+    "vit": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "vit",
+    "groups": [
+     [
+      4269
+     ]
+    ],
+    "tail": "4"
+   }
+  ]
+ },
+ "4229": {
+  "scenarios": {
+   "alone": {
+    "int": 1,
+    "vct": 5
+   },
+   "with:4244,4299,4313": {
+    "def": 3,
+    "mdef": 3,
+    "int": 1,
+    "vct": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "def",
+    "groups": [
+     [
+      4244
+     ],
+     [
+      4299
+     ],
+     [
+      4313
+     ]
+    ],
+    "tail": "===3"
+   },
+   {
+    "key": "mdef",
+    "groups": [
+     [
+      4244
+     ],
+     [
+      4299
+     ],
+     [
+      4313
+     ]
+    ],
+    "tail": "===3"
+   }
+  ]
+ },
+ "4246": {
+  "scenarios": {
+   "alone": {
+    "criDmg": 10
+   },
+   "with:4220,4311,4331,4319": {
+    "hpPercent": 20,
+    "str": 10,
+    "criDmg": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "str",
+    "groups": [
+     [
+      4220
+     ],
+     [
+      4311
+     ],
+     [
+      4331
+     ],
+     [
+      4319
+     ]
+    ],
+    "tail": "10"
+   },
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      4220
+     ],
+     [
+      4311
+     ],
+     [
+      4331
+     ],
+     [
+      4319
+     ]
+    ],
+    "tail": "20"
+   }
+  ]
+ },
+ "4248": {
+  "scenarios": {
+   "alone": {},
+   "with:4106": {
+    "perfectHit": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "perfectHit",
+    "groups": [
+     [
+      4106
+     ]
+    ],
+    "tail": "20"
+   }
+  ]
+ },
+ "4266": {
+  "scenarios": {
+   "alone": {
+    "vit": 1
+   },
+   "with:4006": {
+    "vit": 1,
+    "flee": 18
+   }
+  },
+  "clauses": [
+   {
+    "key": "flee",
+    "groups": [
+     [
+      4006
+     ]
+    ],
+    "tail": "18"
+   }
+  ]
+ },
+ "4268": {
+  "scenarios": {
+   "alone": {},
+   "with:4277": {
+    "atk": 20,
+    "luk": 3
+   }
+  },
+  "clauses": [
+   {
+    "key": "luk",
+    "groups": [
+     [
+      4277
+     ]
+    ],
+    "tail": "3"
+   },
+   {
+    "key": "atk",
+    "groups": [
+     [
+      4277
+     ]
+    ],
+    "tail": "20"
+   }
+  ]
+ },
+ "4269": {
+  "scenarios": {
+   "alone": {
+    "sp": 150,
+    "int": -3
+   },
+   "with:4218": {
+    "sp": 150,
+    "int": 1,
+    "vit": 4
+   }
+  },
+  "clauses": [
+   {
+    "key": "int",
+    "groups": [
+     [
+      4218
+     ]
+    ],
+    "tail": "4"
+   }
+  ]
+ },
+ "4280": {
+  "scenarios": {
+   "alone": {},
+   "with:4312,4293,4185,4217": {
+    "vit": 10,
+    "vct": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "vit",
+    "groups": [
+     [
+      4312
+     ],
+     [
+      4293
+     ],
+     [
+      4185
+     ],
+     [
+      4217
+     ]
+    ],
+    "tail": "10"
+   },
+   {
+    "key": "vct",
+    "groups": [
+     [
+      4312
+     ],
+     [
+      4293
+     ],
+     [
+      4185
+     ],
+     [
+      4217
+     ]
+    ],
+    "tail": "10"
+   }
+  ]
+ },
+ "4294": {
+  "scenarios": {
+   "alone": {},
+   "with:4193": {
+    "hp": 300,
+    "sp": 60
+   }
+  },
+  "clauses": [
+   {
+    "key": "hp",
+    "groups": [
+     [
+      4193
+     ]
+    ],
+    "tail": "300"
+   },
+   {
+    "key": "sp",
+    "groups": [
+     [
+      4193
+     ]
+    ],
+    "tail": "60"
+   }
+  ]
+ },
+ "4296": {
+  "scenarios": {
+   "alone": {},
+   "with:4028": {
+    "str": 3
+   }
+  },
+  "clauses": [
+   {
+    "key": "str",
+    "groups": [
+     [
+      4028
+     ]
+    ],
+    "tail": "3"
+   }
+  ]
+ },
+ "4306": {
+  "scenarios": {
+   "alone": {
+    "perfectDodge": 1
+   },
+   "with:4014": {
+    "flee": 18,
+    "perfectDodge": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "flee",
+    "groups": [
+     [
+      4014
+     ]
+    ],
+    "tail": "18"
+   }
+  ]
+ },
+ "4321": {
+  "scenarios": {
+   "alone": {},
+   "with:4281,4186,4206,4233": {
+    "luk": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "luk",
+    "groups": [
+     [
+      4281
+     ],
+     [
+      4186
+     ],
+     [
+      4206
+     ],
+     [
+      4233
+     ]
+    ],
+    "tail": "10"
+   }
+  ]
+ },
+ "4332": {
+  "scenarios": {
+   "alone": {
+    "atk": 5,
+    "int": 1
+   },
+   "with:4312,4293,4185": {
+    "sp": 80,
+    "atk": 5,
+    "str": 3,
+    "int": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "str",
+    "groups": [
+     [
+      4312
+     ],
+     [
+      4293
+     ],
+     [
+      4185
+     ]
+    ],
+    "tail": "3"
+   },
+   {
+    "key": "sp",
+    "groups": [
+     [
+      4312
+     ],
+     [
+      4293
+     ],
+     [
+      4185
+     ]
+    ],
+    "tail": "80"
+   }
+  ]
+ },
+ "4343": {
+  "scenarios": {
+   "alone": {
+    "luk": 2
+   },
+   "with:4036,4281,4186,4233": {
+    "hpPercent": 7,
+    "spPercent": 7,
+    "str": 4,
+    "luk": 2
+   }
+  },
+  "clauses": [
+   {
+    "key": "str",
+    "groups": [
+     [
+      4036
+     ],
+     [
+      4281
+     ],
+     [
+      4186
+     ],
+     [
+      4233
+     ]
+    ],
+    "tail": "4"
+   },
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      4036
+     ],
+     [
+      4281
+     ],
+     [
+      4186
+     ],
+     [
+      4233
+     ]
+    ],
+    "tail": "7"
+   },
+   {
+    "key": "spPercent",
+    "groups": [
+     [
+      4036
+     ],
+     [
+      4281
+     ],
+     [
+      4186
+     ],
+     [
+      4233
+     ]
+    ],
+    "tail": "7"
+   }
+  ]
+ },
+ "4348": {
+  "scenarios": {
+   "alone": {},
+   "with:4230,4210,4039,4257": {
+    "str": 6,
+    "agi": 4
+   }
+  },
+  "clauses": [
+   {
+    "key": "str",
+    "groups": [
+     [
+      4230
+     ],
+     [
+      4210
+     ],
+     [
+      4039
+     ],
+     [
+      4257
+     ]
+    ],
+    "tail": "6"
+   },
+   {
+    "key": "agi",
+    "groups": [
+     [
+      4230
+     ],
+     [
+      4210
+     ],
+     [
+      4039
+     ],
+     [
+      4257
+     ]
+    ],
+    "tail": "4"
+   }
+  ]
+ },
+ "4371": {
+  "scenarios": {
+   "alone": {
+    "atk": 10,
+    "vct": -20
+   },
+   "with:4311,4331,4319": {
+    "def": 2,
+    "atk": 10,
+    "str": 1,
+    "int": 1,
+    "vct": -10
+   }
+  },
+  "clauses": [
+   {
+    "key": "vct",
+    "groups": [
+     [
+      4311
+     ],
+     [
+      4331
+     ],
+     [
+      4319
+     ]
+    ],
+    "tail": "10"
+   },
+   {
+    "key": "int",
+    "groups": [
+     [
+      4311
+     ],
+     [
+      4331
+     ],
+     [
+      4319
+     ]
+    ],
+    "tail": "1"
+   },
+   {
+    "key": "str",
+    "groups": [
+     [
+      4311
+     ],
+     [
+      4331
+     ],
+     [
+      4319
+     ]
+    ],
+    "tail": "1"
+   },
+   {
+    "key": "def",
+    "groups": [
+     [
+      4311
+     ],
+     [
+      4331
+     ],
+     [
+      4319
+     ]
+    ],
+    "tail": "2"
+   }
+  ]
+ },
+ "4381": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": 10,
+    "vit": 1
+   },
+   "with:4234,4252,4178,4297": {
+    "316": 10,
+    "324": 10,
+    "394": 5,
+    "hpPercent": 10,
+    "dex": 5,
+    "vit": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "316",
+    "groups": [
+     [
+      4234
+     ],
+     [
+      4252
+     ],
+     [
+      4178
+     ],
+     [
+      4297
+     ]
+    ],
+    "tail": "10"
+   },
+   {
+    "key": "324",
+    "groups": [
+     [
+      4234
+     ],
+     [
+      4252
+     ],
+     [
+      4178
+     ],
+     [
+      4297
+     ]
+    ],
+    "tail": "10"
+   },
+   {
+    "key": "394",
+    "groups": [
+     [
+      4234
+     ],
+     [
+      4252
+     ],
+     [
+      4178
+     ],
+     [
+      4297
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "dex",
+    "groups": [
+     [
+      4234
+     ],
+     [
+      4252
+     ],
+     [
+      4178
+     ],
+     [
+      4297
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "4382": {
+  "scenarios": {
+   "alone": {
+    "hp": 500
+   },
+   "with:4325,4258,4208,4327": {
+    "hp": 500,
+    "int": 3
+   },
+   "with:4325,4258,4208,4327@Sage": {
+    "hp": 500,
+    "int": 3,
+    "vct": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "int",
+    "groups": [
+     [
+      4325
+     ],
+     [
+      4258
+     ],
+     [
+      4208
+     ],
+     [
+      4327
+     ]
+    ],
+    "tail": "3"
+   },
+   {
+    "key": "vct",
+    "groups": [
+     [
+      4325
+     ],
+     [
+      4258
+     ],
+     [
+      4208
+     ],
+     [
+      4327
+     ]
+    ],
+    "tail": "USED[Sage]20"
+   }
+  ]
+ },
+ "4488": {
+  "scenarios": {
+   "alone": {},
+   "with:4169": {
+    "hpPercent": 10,
+    "spPercent": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      4169
+     ]
+    ],
+    "tail": "10"
+   },
+   {
+    "key": "spPercent",
+    "groups": [
+     [
+      4169
+     ]
+    ],
+    "tail": "10"
+   }
+  ]
+ },
+ "4605": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": -44
+   },
+   "with:4606": {
+    "hpPercent": -44,
+    "flee": 20,
+    "subele_neutral": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "subele_neutral",
+    "groups": [
+     [
+      4606
+     ]
+    ],
+    "tail": "20"
+   }
+  ]
+ },
+ "4606": {
+  "scenarios": {
+   "alone": {
+    "spPercent": -44
+   },
+   "with:4605": {
+    "spPercent": -44,
+    "flee": 20,
+    "subele_neutral": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "flee",
+    "groups": [
+     [
+      4605
+     ]
+    ],
+    "tail": "20"
+   }
+  ]
+ },
+ "4609": {
+  "scenarios": {
+   "alone": {
+    "def": 20,
+    "subsize_m": 25,
+    "subsize_l": 25
+   },
+   "with:4608": {
+    "def": 20,
+    "p_size_m": 15,
+    "p_size_l": 15,
+    "subsize_m": 30,
+    "subsize_l": 30
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_size_m",
+    "groups": [
+     [
+      4608
+     ]
+    ],
+    "tail": "15"
+   },
+   {
+    "key": "p_size_l",
+    "groups": [
+     [
+      4608
+     ]
+    ],
+    "tail": "15"
+   },
+   {
+    "key": "subsize_m",
+    "groups": [
+     [
+      4608
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "subsize_l",
+    "groups": [
+     [
+      4608
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "4626": {
+  "scenarios": {
+   "alone": {
+    "m_race_formless": 5,
+    "m_race_demon": 5
+   },
+   "with:4628": {
+    "m_race_formless": 5,
+    "m_race_demon": 5,
+    "m_pene_race_formless": 50,
+    "m_pene_race_demon": 50,
+    "subrace_formless": 5,
+    "subrace_demon": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_pene_race_formless",
+    "groups": [
+     [
+      4628
+     ]
+    ],
+    "tail": "===50"
+   },
+   {
+    "key": "m_pene_race_demon",
+    "groups": [
+     [
+      4628
+     ]
+    ],
+    "tail": "===50"
+   }
+  ]
+ },
+ "4627": {
+  "scenarios": {
+   "alone": {
+    "p_race_formless": 10,
+    "p_race_demon": 10
+   },
+   "with:4628": {
+    "p_race_formless": 10,
+    "p_race_demon": 10,
+    "p_pene_race_formless": 50,
+    "p_pene_race_demon": 50,
+    "subrace_formless": 5,
+    "subrace_demon": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_pene_race_formless",
+    "groups": [
+     [
+      4628
+     ]
+    ],
+    "tail": "===50"
+   },
+   {
+    "key": "p_pene_race_demon",
+    "groups": [
+     [
+      4628
+     ]
+    ],
+    "tail": "===50"
+   }
+  ]
+ },
+ "4628": {
+  "scenarios": {
+   "alone": {
+    "subrace_formless": 25,
+    "subrace_demon": 25
+   },
+   "with:4626": {
+    "m_pene_race_formless": 50,
+    "m_pene_race_demon": 50,
+    "subrace_formless": 30,
+    "subrace_demon": 30
+   },
+   "with:4627": {
+    "p_pene_race_formless": 50,
+    "p_pene_race_demon": 50,
+    "subrace_formless": 30,
+    "subrace_demon": 30
+   }
+  },
+  "clauses": [
+   {
+    "key": "subrace_formless",
+    "groups": [
+     [
+      4626
+     ]
+    ],
+    "tail": "===5"
+   },
+   {
+    "key": "subrace_formless",
+    "groups": [
+     [
+      4627
+     ]
+    ],
+    "tail": "===5"
+   },
+   {
+    "key": "subrace_demon",
+    "groups": [
+     [
+      4626
+     ]
+    ],
+    "tail": "===5"
+   },
+   {
+    "key": "subrace_demon",
+    "groups": [
+     [
+      4627
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "4629": {
+  "scenarios": {
+   "alone": {
+    "m_my_element_earth": 45,
+    "subele_neutral": 15
+   },
+   "with:4630": {
+    "m_my_element_earth": 45,
+    "subele_neutral": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "subele_neutral",
+    "groups": [
+     [
+      4630
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "4636": {
+  "scenarios": {
+   "alone": {
+    "matkPercent": 10,
+    "p_class_all": 10
+   },
+   "with:4635": {
+    "matkPercent": 10,
+    "p_class_all": 10,
+    "subele_dark": 100,
+    "subele_undead": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "subele_dark",
+    "groups": [
+     [
+      4635
+     ]
+    ],
+    "tail": "===100"
+   },
+   {
+    "key": "subele_undead",
+    "groups": [
+     [
+      4635
+     ]
+    ],
+    "tail": "===100"
+   }
+  ]
+ },
+ "4646": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": 8,
+    "spPercent": 4
+   },
+   "with:4642": {
+    "hpPercent": 8,
+    "spPercent": 4,
+    "atkPercent": 10,
+    "matkPercent": 10
+   },
+   "with:4643": {
+    "hpPercent": 8,
+    "spPercent": 4,
+    "atkPercent": 10,
+    "matkPercent": 10
+   },
+   "with:4644": {
+    "hpPercent": 8,
+    "spPercent": 4,
+    "atkPercent": 10,
+    "matkPercent": 10
+   },
+   "with:4645": {
+    "hpPercent": 8,
+    "spPercent": 4,
+    "atkPercent": 10,
+    "matkPercent": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      4642,
+      4643,
+      4644,
+      4645
+     ]
+    ],
+    "tail": "10"
+   },
+   {
+    "key": "matkPercent",
+    "groups": [
+     [
+      4642,
+      4643,
+      4644,
+      4645
+     ]
+    ],
+    "tail": "10"
+   }
+  ]
+ },
+ "4653": {
+  "scenarios": {
+   "alone": {
+    "subrace_undead": 20,
+    "subrace_brute": 20
+   },
+   "with:4655": {
+    "p_pene_race_undead": 50,
+    "p_pene_race_brute": 50,
+    "subrace_undead": 25,
+    "subrace_brute": 25
+   },
+   "with:4654": {
+    "m_pene_race_undead": 50,
+    "m_pene_race_brute": 50,
+    "subrace_undead": 25,
+    "subrace_brute": 25
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_pene_race_brute",
+    "groups": [
+     [
+      4655
+     ]
+    ],
+    "tail": "50"
+   },
+   {
+    "key": "p_pene_race_undead",
+    "groups": [
+     [
+      4655
+     ]
+    ],
+    "tail": "50"
+   },
+   {
+    "key": "subrace_brute",
+    "groups": [
+     [
+      4654
+     ]
+    ],
+    "tail": "===5"
+   },
+   {
+    "key": "subrace_brute",
+    "groups": [
+     [
+      4655
+     ]
+    ],
+    "tail": "===5"
+   },
+   {
+    "key": "subrace_undead",
+    "groups": [
+     [
+      4654
+     ]
+    ],
+    "tail": "===5"
+   },
+   {
+    "key": "subrace_undead",
+    "groups": [
+     [
+      4655
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "4654": {
+  "scenarios": {
+   "alone": {
+    "m_race_undead": 5,
+    "m_race_brute": 5
+   },
+   "with:4653": {
+    "m_race_undead": 5,
+    "m_race_brute": 5,
+    "m_pene_race_undead": 50,
+    "m_pene_race_brute": 50,
+    "subrace_undead": 5,
+    "subrace_brute": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_pene_race_brute",
+    "groups": [
+     [
+      4653
+     ]
+    ],
+    "tail": "===50"
+   },
+   {
+    "key": "m_pene_race_undead",
+    "groups": [
+     [
+      4653
+     ]
+    ],
+    "tail": "===50"
+   }
+  ]
+ },
+ "4657": {
+  "scenarios": {
+   "alone": {
+    "m_my_element_fire": 45,
+    "subele_neutral": 15
+   },
+   "with:4656": {
+    "m_my_element_fire": 45,
+    "subele_neutral": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "subele_neutral",
+    "groups": [
+     [
+      4656
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "4671": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20
+   },
+   "with:4692": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20,
+    "chance__matk": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__matk",
+    "groups": [
+     [
+      4692
+     ]
+    ],
+    "tail": "100"
+   }
+  ]
+ },
+ "4672": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20
+   },
+   "with:4693": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20,
+    "chance__atk": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4693
+     ]
+    ],
+    "tail": "===100"
+   }
+  ]
+ },
+ "4673": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20
+   },
+   "with:4696": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20,
+    "chance__atk": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4696
+     ]
+    ],
+    "tail": "===100"
+   }
+  ]
+ },
+ "4674": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20
+   },
+   "with:4684": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20,
+    "chance__atk": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4684
+     ]
+    ],
+    "tail": "===100"
+   }
+  ]
+ },
+ "4675": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20
+   },
+   "with:4685": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20,
+    "chance__matk": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__matk",
+    "groups": [
+     [
+      4685
+     ]
+    ],
+    "tail": "===100"
+   }
+  ]
+ },
+ "4676": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20
+   },
+   "with:4687": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20,
+    "chance__atk": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4687
+     ]
+    ],
+    "tail": "===100"
+   }
+  ]
+ },
+ "4677": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20
+   },
+   "with:4688": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20,
+    "chance__atk": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4688
+     ]
+    ],
+    "tail": "100"
+   }
+  ]
+ },
+ "4678": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20
+   },
+   "with:4686": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20,
+    "chance__matk": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__matk",
+    "groups": [
+     [
+      4686
+     ]
+    ],
+    "tail": "100"
+   }
+  ]
+ },
+ "4679": {
+  "scenarios": {
+   "alone": {
+    "aspd": 2,
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20,
+    "p_race_all": 15
+   },
+   "with:4689": {
+    "aspd": 2,
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20,
+    "p_race_all": 15,
+    "chance__atk": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4689
+     ]
+    ],
+    "tail": "100"
+   }
+  ]
+ },
+ "4680": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20
+   },
+   "with:4690": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20,
+    "chance__atk": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4690
+     ]
+    ],
+    "tail": "100"
+   }
+  ]
+ },
+ "4681": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20
+   },
+   "with:4691": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20,
+    "chance__atk": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4691
+     ]
+    ],
+    "tail": "===100"
+   }
+  ]
+ },
+ "4682": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20
+   },
+   "with:4694": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20,
+    "chance__atk": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4694
+     ]
+    ],
+    "tail": "100"
+   }
+  ]
+ },
+ "4683": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20
+   },
+   "with:4695": {
+    "allStatus": 20,
+    "str": 20,
+    "int": 20,
+    "dex": 20,
+    "luk": 20,
+    "vit": 20,
+    "agi": 20,
+    "chance__atk": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4695
+     ]
+    ],
+    "tail": "===100"
+   }
+  ]
+ },
+ "27016": {
+  "scenarios": {
+   "alone": {},
+   "with:27015": {
+    "criDmg": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "criDmg",
+    "groups": [
+     [
+      27015
+     ]
+    ],
+    "tail": "10"
+   }
+  ]
+ },
+ "27101": {
+  "scenarios": {
+   "alone": {
+    "matk": 20
+   },
+   "with:28510": {
+    "matk": 20,
+    "matkPercent": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "matkPercent",
+    "groups": [
+     [
+      28510
+     ]
+    ],
+    "tail": "REFINE[armor==3]---1"
+   }
+  ]
+ },
+ "27102": {
+  "scenarios": {
+   "alone": {},
+   "with:28510": {
+    "perfectDodge": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "perfectDodge",
+    "groups": [
+     [
+      28510
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "27103": {
+  "scenarios": {
+   "alone": {
+    "atk": 20
+   },
+   "with:28510": {
+    "atk": 20,
+    "atkPercent": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      28510
+     ]
+    ],
+    "tail": "REFINE[armor==3]---1"
+   }
+  ]
+ },
+ "27104": {
+  "scenarios": {
+   "alone": {},
+   "with:27105": {
+    "hp": 2000,
+    "sp": 100
+   }
+  },
+  "clauses": [
+   {
+    "key": "hp",
+    "groups": [
+     [
+      27105
+     ]
+    ],
+    "tail": "===1000"
+   },
+   {
+    "key": "hp",
+    "groups": [
+     [
+      27105
+     ]
+    ],
+    "tail": "9===1000"
+   },
+   {
+    "key": "sp",
+    "groups": [
+     [
+      27105
+     ]
+    ],
+    "tail": "===50"
+   },
+   {
+    "key": "sp",
+    "groups": [
+     [
+      27105
+     ]
+    ],
+    "tail": "9===50"
+   }
+  ]
+ },
+ "27105": {
+  "scenarios": {
+   "alone": {},
+   "with:28510": "unwearable"
+  },
+  "clauses": [
+   {
+    "key": "matk",
+    "groups": [
+     [
+      28510
+     ]
+    ],
+    "tail": "===30"
+   }
+  ]
+ },
+ "27107": {
+  "scenarios": {
+   "alone": {
+    "p_element_neutral": 20
+   },
+   "with:27108": {
+    "2413": 50,
+    "2414": 50,
+    "p_element_neutral": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "2413",
+    "groups": [
+     [
+      27108
+     ]
+    ],
+    "tail": "===50"
+   }
+  ]
+ },
+ "27108": {
+  "scenarios": {
+   "alone": {
+    "m_element_neutral": 20
+   },
+   "with:27107": {
+    "2413": 50,
+    "2414": 50,
+    "m_element_neutral": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "2414",
+    "groups": [
+     [
+      27107
+     ]
+    ],
+    "tail": "===50"
+   }
+  ]
+ },
+ "27109": {
+  "scenarios": {
+   "alone": {
+    "subele_neutral": 10
+   },
+   "with:27108,27107": {
+    "subele_neutral": 10,
+    "chance__p_element_neutral": 200,
+    "chance__m_element_neutral": 200
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__p_element_neutral",
+    "groups": [
+     [
+      27108
+     ],
+     [
+      27107
+     ]
+    ],
+    "tail": "===200"
+   },
+   {
+    "key": "chance__m_element_neutral",
+    "groups": [
+     [
+      27108
+     ],
+     [
+      27107
+     ]
+    ],
+    "tail": "===200"
+   }
+  ]
+ },
+ "27111": {
+  "scenarios": {
+   "alone": {},
+   "with:27112": {
+    "subsize_m": 20
+   },
+   "with:27110": {
+    "subsize_s": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "subsize_m",
+    "groups": [
+     [
+      27112
+     ]
+    ],
+    "tail": "20"
+   },
+   {
+    "key": "subsize_s",
+    "groups": [
+     [
+      27110
+     ]
+    ],
+    "tail": "20"
+   }
+  ]
+ },
+ "27114": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": 15,
+    "def": 100,
+    "vit": 3
+   },
+   "with:27115": {
+    "hpPercent": 20,
+    "sp": 35,
+    "def": 100,
+    "vit": 3
+   }
+  },
+  "clauses": [
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      27115
+     ]
+    ],
+    "tail": "REFINE[armor==3]---1"
+   }
+  ]
+ },
+ "27115": {
+  "scenarios": {
+   "alone": {
+    "sp": 150,
+    "int": 1
+   },
+   "with:27114": {
+    "hpPercent": 5,
+    "sp": 185,
+    "int": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "sp",
+    "groups": [
+     [
+      27114
+     ]
+    ],
+    "tail": "2---5"
+   }
+  ]
+ },
+ "27116": {
+  "scenarios": {
+   "alone": {
+    "cri": 3,
+    "criDmg": 5
+   },
+   "with:27117": {
+    "cri": 5,
+    "criDmg": 7
+   }
+  },
+  "clauses": [
+   {
+    "key": "cri",
+    "groups": [
+     [
+      27117
+     ]
+    ],
+    "tail": "2"
+   },
+   {
+    "key": "criDmg",
+    "groups": [
+     [
+      27117
+     ]
+    ],
+    "tail": "2"
+   }
+  ]
+ },
+ "27119": {
+  "scenarios": {
+   "alone": {
+    "def": 30,
+    "mdef": 5,
+    "subsize_all": 25
+   },
+   "with:4305": {
+    "def": 30,
+    "mdef": 5,
+    "hit": 25,
+    "p_size_all": 20,
+    "subsize_all": 30
+   }
+  },
+  "clauses": [
+   {
+    "key": "hit",
+    "groups": [
+     [
+      4305
+     ]
+    ],
+    "tail": "25"
+   },
+   {
+    "key": "p_size_all",
+    "groups": [
+     [
+      4305
+     ]
+    ],
+    "tail": "20"
+   },
+   {
+    "key": "subsize_all",
+    "groups": [
+     [
+      4305
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "27120": {
+  "scenarios": {
+   "alone": {},
+   "with:4093": {
+    "sp": 50
+   }
+  },
+  "clauses": [
+   {
+    "key": "sp",
+    "groups": [
+     [
+      4093
+     ]
+    ],
+    "tail": "50"
+   }
+  ]
+ },
+ "27147": {
+  "scenarios": {
+   "alone": {
+    "hit": 15
+   },
+   "with:27148": {
+    "acd": 3,
+    "hit": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "acd",
+    "groups": [
+     [
+      27148
+     ]
+    ],
+    "tail": "3"
+   }
+  ]
+ },
+ "27163": {
+  "scenarios": {
+   "alone": {
+    "aspdPercent": 3,
+    "dex": -1,
+    "agi": -1
+   },
+   "with:27165": {
+    "aspdPercent": 3,
+    "int": 2,
+    "dex": 1,
+    "vit": 2,
+    "agi": 1,
+    "acd": 3
+   }
+  },
+  "clauses": [
+   {
+    "key": "agi",
+    "groups": [
+     [
+      27165
+     ]
+    ],
+    "tail": "2"
+   },
+   {
+    "key": "dex",
+    "groups": [
+     [
+      27165
+     ]
+    ],
+    "tail": "2"
+   },
+   {
+    "key": "acd",
+    "groups": [
+     [
+      27165
+     ]
+    ],
+    "tail": "3"
+   }
+  ]
+ },
+ "27165": {
+  "scenarios": {
+   "alone": {
+    "int": -1,
+    "vit": -1,
+    "acd": 3
+   },
+   "with:27163": {
+    "int": 1,
+    "dex": 2,
+    "vit": 1,
+    "agi": 2,
+    "acd": 6
+   }
+  },
+  "clauses": [
+   {
+    "key": "vit",
+    "groups": [
+     [
+      27163
+     ]
+    ],
+    "tail": "2"
+   },
+   {
+    "key": "int",
+    "groups": [
+     [
+      27163
+     ]
+    ],
+    "tail": "2"
+   }
+  ]
+ },
+ "27167": {
+  "scenarios": {
+   "alone": {
+    "m_my_element_water": 45,
+    "subele_neutral": 15
+   },
+   "with:27166": {
+    "m_my_element_water": 45,
+    "subele_neutral": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "subele_neutral",
+    "groups": [
+     [
+      27166
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "27168": {
+  "scenarios": {
+   "alone": {
+    "hit": 35
+   },
+   "with:4610": {
+    "atk": 100,
+    "hit": 35
+   }
+  },
+  "clauses": [
+   {
+    "key": "atk",
+    "groups": [
+     [
+      4610
+     ]
+    ],
+    "tail": "===100"
+   }
+  ]
+ },
+ "27170": {
+  "scenarios": {
+   "alone": {
+    "agi": 7,
+    "hit": 7
+   },
+   "with:27171": {
+    "atkPercent": 3,
+    "str": 3,
+    "agi": 7,
+    "hit": 7
+   }
+  },
+  "clauses": [
+   {
+    "key": "str",
+    "groups": [
+     [
+      27171
+     ]
+    ],
+    "tail": "3"
+   },
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      27171
+     ]
+    ],
+    "tail": "3"
+   }
+  ]
+ },
+ "27172": {
+  "scenarios": {
+   "alone": {
+    "atk": 45,
+    "matk": 45
+   },
+   "with:27170": {
+    "atk": 45,
+    "matk": 45,
+    "p_size_s": 15,
+    "m_size_s": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_size_s",
+    "groups": [
+     [
+      27170
+     ]
+    ],
+    "tail": "15"
+   },
+   {
+    "key": "m_size_s",
+    "groups": [
+     [
+      27170
+     ]
+    ],
+    "tail": "15"
+   }
+  ]
+ },
+ "27196": {
+  "scenarios": {
+   "alone": {
+    "m_size_s": 15
+   },
+   "with:27199": {
+    "m_size_s": 20,
+    "m_race_brute": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_size_s",
+    "groups": [
+     [
+      27199
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "m_race_brute",
+    "groups": [
+     [
+      27199
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "27197": {
+  "scenarios": {
+   "alone": {
+    "p_size_s": 15
+   },
+   "with:27198": {
+    "p_size_s": 20,
+    "p_race_brute": 5,
+    "p_race_player_doram": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_size_s",
+    "groups": [
+     [
+      27198
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "p_race_brute",
+    "groups": [
+     [
+      27198
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "p_race_player_doram",
+    "groups": [
+     [
+      27198
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "27264": {
+  "scenarios": {
+   "alone": {},
+   "with:27265": {
+    "p_element_dark": 15,
+    "p_element_undead": 15,
+    "m_element_dark": 15,
+    "m_element_undead": 15,
+    "subele_dark": 15,
+    "subele_undead": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_element_dark",
+    "groups": [
+     [
+      27265
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "p_element_undead",
+    "groups": [
+     [
+      27265
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_element_dark",
+    "groups": [
+     [
+      27265
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_element_undead",
+    "groups": [
+     [
+      27265
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "27265": {
+  "scenarios": {
+   "alone": {
+    "p_element_dark": 30,
+    "p_element_undead": 30,
+    "m_element_dark": 30,
+    "m_element_undead": 30
+   },
+   "with:27264": {
+    "p_element_dark": 45,
+    "p_element_undead": 45,
+    "m_element_dark": 45,
+    "m_element_undead": 45,
+    "subele_dark": 15,
+    "subele_undead": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "subele_undead",
+    "groups": [
+     [
+      27264
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "subele_dark",
+    "groups": [
+     [
+      27264
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "27321": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": -50,
+    "atkPercent": 10,
+    "p_race_demihuman": 30,
+    "p_race_angel": 30,
+    "p_race_player_human": 30
+   },
+   "with:27326": {
+    "atkPercent": 10,
+    "p_race_demihuman": 30,
+    "p_race_angel": 30,
+    "p_race_player_human": 30
+   }
+  },
+  "clauses": [
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      27326
+     ]
+    ],
+    "tail": "50"
+   }
+  ]
+ },
+ "27322": {
+  "scenarios": {
+   "alone": {
+    "spPercent": 5
+   },
+   "with:27323": {
+    "hpPercent": 5,
+    "spPercent": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "spPercent",
+    "groups": [
+     [
+      27323
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "27323": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": 5
+   },
+   "with:27322": {
+    "hpPercent": 10,
+    "spPercent": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      27322
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "27324": {
+  "scenarios": {
+   "alone": {
+    "m_my_element_water": 15
+   },
+   "with:27325": {
+    "p_element_fire": 10,
+    "m_my_element_water": 25,
+    "m_element_fire": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_water",
+    "groups": [
+     [
+      27325
+     ]
+    ],
+    "tail": "10"
+   }
+  ]
+ },
+ "27325": {
+  "scenarios": {
+   "alone": {
+    "subele_fire": 30
+   },
+   "with:27324": {
+    "p_element_fire": 10,
+    "m_my_element_water": 10,
+    "m_element_fire": 10,
+    "subele_fire": 30
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_element_fire",
+    "groups": [
+     [
+      27324
+     ]
+    ],
+    "tail": "10"
+   },
+   {
+    "key": "m_element_fire",
+    "groups": [
+     [
+      27324
+     ]
+    ],
+    "tail": "10"
+   }
+  ]
+ },
+ "27328": {
+  "scenarios": {
+   "alone": {
+    "hp": 500,
+    "sp": 50,
+    "subrace_angel": -50
+   },
+   "with:4023": {
+    "hp": 500,
+    "sp": 150,
+    "matkPercent": 5,
+    "int": 3,
+    "subrace_angel": -50
+   },
+   "with:4020": {
+    "hp": 500,
+    "sp": 50,
+    "atk": 15,
+    "p_element_dark": 20,
+    "subrace_angel": -50
+   },
+   "with:4082": {
+    "hp": 500,
+    "sp": 50,
+    "p_size_m": 15,
+    "p_size_l": 15,
+    "subrace_angel": -50
+   },
+   "with:4077": {
+    "hp": 500,
+    "sp": 50,
+    "vct": 25,
+    "subrace_angel": -50
+   },
+   "with:4071": {
+    "hp": 500,
+    "sp": 50,
+    "criDmg": 15,
+    "hit": 15,
+    "flee": 15,
+    "subrace_angel": -50
+   },
+   "with:4375": {
+    "hp": 500,
+    "sp": 50,
+    "flee": 5,
+    "subele_neutral": 5,
+    "subrace_angel": -50
+   },
+   "with:4107": {
+    "hp": 500,
+    "hpPercent": 4,
+    "sp": 50,
+    "spPercent": 4,
+    "subrace_angel": -50
+   },
+   "with:4067": {
+    "hp": 500,
+    "sp": 50,
+    "def": 100,
+    "subrace_angel": -50
+   },
+   "with:4066": {
+    "hp": 500,
+    "sp": 50,
+    "subrace_demihuman": 15,
+    "subrace_angel": -50,
+    "subrace_player_human": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "sp",
+    "groups": [
+     [
+      4023
+     ]
+    ],
+    "tail": "100"
+   },
+   {
+    "key": "int",
+    "groups": [
+     [
+      4023
+     ]
+    ],
+    "tail": "3"
+   },
+   {
+    "key": "matkPercent",
+    "groups": [
+     [
+      4023
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "atk",
+    "groups": [
+     [
+      4020
+     ]
+    ],
+    "tail": "15"
+   },
+   {
+    "key": "p_element_dark",
+    "groups": [
+     [
+      4020
+     ]
+    ],
+    "tail": "20"
+   },
+   {
+    "key": "p_size_l",
+    "groups": [
+     [
+      4082
+     ]
+    ],
+    "tail": "15"
+   },
+   {
+    "key": "p_size_m",
+    "groups": [
+     [
+      4082
+     ]
+    ],
+    "tail": "15"
+   },
+   {
+    "key": "vct",
+    "groups": [
+     [
+      4077
+     ]
+    ],
+    "tail": "25"
+   },
+   {
+    "key": "hit",
+    "groups": [
+     [
+      4071
+     ]
+    ],
+    "tail": "15"
+   },
+   {
+    "key": "flee",
+    "groups": [
+     [
+      4071
+     ]
+    ],
+    "tail": "15"
+   },
+   {
+    "key": "flee",
+    "groups": [
+     [
+      4375
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "criDmg",
+    "groups": [
+     [
+      4071
+     ]
+    ],
+    "tail": "15"
+   },
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      4107
+     ]
+    ],
+    "tail": "4"
+   },
+   {
+    "key": "spPercent",
+    "groups": [
+     [
+      4107
+     ]
+    ],
+    "tail": "4"
+   },
+   {
+    "key": "def",
+    "groups": [
+     [
+      4067
+     ]
+    ],
+    "tail": "100"
+   },
+   {
+    "key": "subele_neutral",
+    "groups": [
+     [
+      4375
+     ]
+    ],
+    "tail": "===5"
+   },
+   {
+    "key": "subrace_player_human",
+    "groups": [
+     [
+      4066
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "subrace_demihuman",
+    "groups": [
+     [
+      4066
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "27331": {
+  "scenarios": {
+   "alone": {
+    "vct": 5
+   },
+   "with:27196": {
+    "vct": 5,
+    "acd": 3
+   }
+  },
+  "clauses": [
+   {
+    "key": "acd",
+    "groups": [
+     [
+      27196
+     ]
+    ],
+    "tail": "3"
+   }
+  ]
+ },
+ "27333": {
+  "scenarios": {
+   "alone": {
+    "aspdPercent": 5
+   },
+   "with:27197": {
+    "aspdPercent": 5,
+    "atkPercent": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      27197
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "27335": {
+  "scenarios": {
+   "alone": {
+    "cri": 8
+   },
+   "with:4129": {
+    "cri": 8,
+    "criDmg": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "criDmg",
+    "groups": [
+     [
+      4129
+     ]
+    ],
+    "tail": "15"
+   }
+  ]
+ },
+ "27338": {
+  "scenarios": {
+   "alone": {
+    "str": 3
+   },
+   "with:4079": {
+    "atkPercent": 7,
+    "str": 3,
+    "hit": 12
+   }
+  },
+  "clauses": [
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      4079
+     ]
+    ],
+    "tail": "7"
+   },
+   {
+    "key": "hit",
+    "groups": [
+     [
+      4079
+     ]
+    ],
+    "tail": "12"
+   }
+  ]
+ },
+ "27339": {
+  "scenarios": {
+   "alone": {
+    "atk": 20,
+    "p_size_s": 25,
+    "p_size_l": 25
+   },
+   "with:4047": {
+    "atk": 20,
+    "atkPercent": 10,
+    "p_size_s": 25,
+    "p_size_l": 25
+   }
+  },
+  "clauses": [
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      4047
+     ]
+    ],
+    "tail": "10"
+   }
+  ]
+ },
+ "27340": {
+  "scenarios": {
+   "alone": {
+    "criDmg": 3
+   },
+   "with:4513": {
+    "criDmg": 8
+   }
+  },
+  "clauses": [
+   {
+    "key": "criDmg",
+    "groups": [
+     [
+      4513
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "27347": {
+  "scenarios": {
+   "alone": {
+    "m_element_earth": 10
+   },
+   "with:27028": {
+    "m_element_earth": 18
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_element_earth",
+    "groups": [
+     [
+      27028
+     ]
+    ],
+    "tail": "===8"
+   }
+  ]
+ },
+ "27351": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": 5
+   },
+   "with:4582": {
+    "hpPercent": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      4582
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "27352": {
+  "scenarios": {
+   "alone": {
+    "spPercent": 5
+   },
+   "with:4127": {
+    "spPercent": 15
+   },
+   "with:4166": {
+    "spPercent": 5,
+    "atkPercent": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "spPercent",
+    "groups": [
+     [
+      4127
+     ]
+    ],
+    "tail": "===10"
+   },
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      4166
+     ]
+    ],
+    "tail": "===10"
+   }
+  ]
+ },
+ "27354": {
+  "scenarios": {
+   "alone": {
+    "atkPercent": 5
+   },
+   "with:4133": {
+    "atkPercent": 10,
+    "subele_neutral": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      4133
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "subele_neutral",
+    "groups": [
+     [
+      4133
+     ]
+    ],
+    "tail": "===10"
+   }
+  ]
+ },
+ "27355": {
+  "scenarios": {
+   "alone": {
+    "range": 10
+   },
+   "with:4633": {
+    "range": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "range",
+    "groups": [
+     [
+      4633
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "27357": {
+  "scenarios": {
+   "alone": {
+    "def": 225
+   },
+   "with:4226": {
+    "def": 225,
+    "mdef": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "mdef",
+    "groups": [
+     [
+      4226
+     ]
+    ],
+    "tail": "20"
+   }
+  ]
+ },
+ "27359": {
+  "scenarios": {
+   "alone": {
+    "m_element_water": 15
+   },
+   "with:27122": {
+    "m_element_water": 23
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_element_water",
+    "groups": [
+     [
+      27122
+     ]
+    ],
+    "tail": "===8"
+   }
+  ]
+ },
+ "27360": {
+  "scenarios": {
+   "alone": {
+    "m_element_fire": 15
+   },
+   "with:4670": {
+    "m_element_fire": 23
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_element_fire",
+    "groups": [
+     [
+      4670
+     ]
+    ],
+    "tail": "===8"
+   }
+  ]
+ },
+ "27363": {
+  "scenarios": {
+   "alone": {
+    "aspd": 1
+   },
+   "with:4168": {
+    "83": 15,
+    "aspd": 1,
+    "m_my_element_fire": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "83",
+    "groups": [
+     [
+      4168
+     ]
+    ],
+    "tail": "15"
+   },
+   {
+    "key": "m_my_element_fire",
+    "groups": [
+     [
+      4168
+     ]
+    ],
+    "tail": "15"
+   }
+  ]
+ },
+ "27382": {
+  "scenarios": {
+   "alone": {
+    "atk": 30,
+    "matk": 30
+   },
+   "with:4604": {
+    "atk": 30,
+    "matk": 30,
+    "m_my_element_neutral": 30,
+    "m_my_element_fire": 30
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_fire",
+    "groups": [
+     [
+      4604
+     ]
+    ],
+    "tail": "30"
+   },
+   {
+    "key": "m_my_element_neutral",
+    "groups": [
+     [
+      4604
+     ]
+    ],
+    "tail": "30"
+   }
+  ]
+ },
+ "27383": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": 10,
+    "spPercent": 5
+   },
+   "with:4601": {
+    "hpPercent": 10,
+    "spPercent": 5,
+    "matkPercent": 5,
+    "p_class_all": 5,
+    "p_class_normal": 5,
+    "p_class_boss": 5
+   },
+   "with:4602": {
+    "hpPercent": 10,
+    "spPercent": 5,
+    "matkPercent": 10,
+    "p_class_all": 10,
+    "p_class_normal": 10,
+    "p_class_boss": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_class_all",
+    "groups": [
+     [
+      4601
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "p_class_all",
+    "groups": [
+     [
+      4602
+     ]
+    ],
+    "tail": "10"
+   },
+   {
+    "key": "matkPercent",
+    "groups": [
+     [
+      4601
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "matkPercent",
+    "groups": [
+     [
+      4602
+     ]
+    ],
+    "tail": "10"
+   },
+   {
+    "key": "p_class_normal",
+    "groups": [
+     [
+      4601
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "p_class_normal",
+    "groups": [
+     [
+      4602
+     ]
+    ],
+    "tail": "10"
+   },
+   {
+    "key": "p_class_boss",
+    "groups": [
+     [
+      4601
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "p_class_boss",
+    "groups": [
+     [
+      4602
+     ]
+    ],
+    "tail": "10"
+   }
+  ]
+ },
+ "27385": {
+  "scenarios": {
+   "alone": {
+    "mdef": 10,
+    "subsize_m": 25,
+    "subsize_l": 25
+   },
+   "with:27384": {
+    "mdef": 10,
+    "m_size_m": 5,
+    "m_size_l": 5,
+    "subsize_m": 30,
+    "subsize_l": 30
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_size_m",
+    "groups": [
+     [
+      27384
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "m_size_l",
+    "groups": [
+     [
+      27384
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "subsize_m",
+    "groups": [
+     [
+      27384
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "subsize_l",
+    "groups": [
+     [
+      27384
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "27386": {
+  "scenarios": {
+   "alone": {
+    "p_race_undead": 5
+   },
+   "with:27387": {
+    "p_race_undead": 10,
+    "p_race_demon": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_race_undead",
+    "groups": [
+     [
+      27387
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "27387": {
+  "scenarios": {
+   "alone": {
+    "p_race_demon": 5
+   },
+   "with:27386": {
+    "p_race_undead": 5,
+    "p_race_demon": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_race_demon",
+    "groups": [
+     [
+      27386
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "27388": {
+  "scenarios": {
+   "alone": {},
+   "with:4038": {
+    "hpPercent": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      4038
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "27392": {
+  "scenarios": {
+   "alone": {},
+   "with:300128": {
+    "atkPercent": 5,
+    "matkPercent": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      300128
+     ]
+    ],
+    "tail": "5"
+   },
+   {
+    "key": "matkPercent",
+    "groups": [
+     [
+      300128
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "27394": {
+  "scenarios": {
+   "alone": {
+    "vct": 5
+   },
+   "with:27199,27196": {
+    "vct": 5,
+    "m_size_s": 7,
+    "m_race_brute": 7
+   },
+   "with:27390,300130": {
+    "vct": 5,
+    "acd": 5,
+    "m_size_m": 7
+   },
+   "with:300128,300130": {
+    "vct": 5,
+    "acd": 5,
+    "m_size_m": 7
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_size_s",
+    "groups": [
+     [
+      27199
+     ],
+     [
+      27196
+     ]
+    ],
+    "tail": "===7"
+   },
+   {
+    "key": "m_race_brute",
+    "groups": [
+     [
+      27199
+     ],
+     [
+      27196
+     ]
+    ],
+    "tail": "===7"
+   },
+   {
+    "key": "m_size_m",
+    "groups": [
+     [
+      27390,
+      300128
+     ],
+     [
+      300130
+     ]
+    ],
+    "tail": "===7"
+   },
+   {
+    "key": "acd",
+    "groups": [
+     [
+      27390,
+      300128
+     ],
+     [
+      300130
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "27396": {
+  "scenarios": {
+   "alone": {
+    "acd": 5
+   },
+   "with:27390,300130": {
+    "acd": 8,
+    "p_size_m": 7
+   },
+   "with:300128,300130": {
+    "acd": 8,
+    "p_size_m": 7
+   },
+   "with:27198,27197": {
+    "acd": 5,
+    "p_size_s": 7,
+    "p_race_brute": 7
+   }
+  },
+  "clauses": [
+   {
+    "key": "acd",
+    "groups": [
+     [
+      27390,
+      300128
+     ],
+     [
+      300130
+     ]
+    ],
+    "tail": "3"
+   },
+   {
+    "key": "p_size_s",
+    "groups": [
+     [
+      27198
+     ],
+     [
+      27197
+     ]
+    ],
+    "tail": "7"
+   },
+   {
+    "key": "p_race_brute",
+    "groups": [
+     [
+      27198
+     ],
+     [
+      27197
+     ]
+    ],
+    "tail": "7"
+   },
+   {
+    "key": "p_size_m",
+    "groups": [
+     [
+      27390,
+      300128
+     ],
+     [
+      300130
+     ]
+    ],
+    "tail": "7"
+   }
+  ]
+ },
+ "27417": {
+  "scenarios": {
+   "alone": {
+    "atkPercent": 3,
+    "matkPercent": 3
+   },
+   "with:300291": {
+    "atkPercent": 3,
+    "matkPercent": 3,
+    "acd": 3
+   }
+  },
+  "clauses": [
+   {
+    "key": "acd",
+    "groups": [
+     [
+      300291
+     ]
+    ],
+    "tail": "3"
+   }
+  ]
+ },
+ "31025": {
+  "scenarios": {
+   "alone": {
+    "matkPercent": 10
+   },
+   "with:31026": {
+    "matkPercent": 10,
+    "vct": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "vct",
+    "groups": [
+     [
+      31026
+     ]
+    ],
+    "tail": "10"
+   }
+  ]
+ },
+ "31026": {
+  "scenarios": {
+   "alone": {},
+   "with:31024": {
+    "aspd": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "aspd",
+    "groups": [
+     [
+      31024
+     ]
+    ],
+    "tail": "1"
+   }
+  ]
+ },
+ "300001": {
+  "scenarios": {
+   "alone": {
+    "p_element_poison": 25
+   },
+   "with:4062": {
+    "p_element_poison": 40
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_element_poison",
+    "groups": [
+     [
+      4062
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300002": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": 10
+   },
+   "with:4334": {
+    "hpPercent": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      4334
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "300003": {
+  "scenarios": {
+   "alone": {
+    "atk": 35
+   },
+   "with:4337": {
+    "atk": 45
+   }
+  },
+  "clauses": [
+   {
+    "key": "atk",
+    "groups": [
+     [
+      4337
+     ]
+    ],
+    "tail": "10"
+   }
+  ]
+ },
+ "300004": {
+  "scenarios": {
+   "alone": {
+    "def": 30
+   },
+   "with:4339": {
+    "def": 95
+   }
+  },
+  "clauses": [
+   {
+    "key": "def",
+    "groups": [
+     [
+      4339
+     ]
+    ],
+    "tail": "20"
+   },
+   {
+    "key": "def",
+    "groups": [
+     [
+      4339
+     ]
+    ],
+    "tail": "REFINE[garment==1]---3"
+   }
+  ]
+ },
+ "300005": {
+  "scenarios": {
+   "alone": {
+    "2446": 25,
+    "hpPercent": 10
+   },
+   "with:4335": {
+    "2446": 35,
+    "hpPercent": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "2446",
+    "groups": [
+     [
+      4335
+     ]
+    ],
+    "tail": "10"
+   }
+  ]
+ },
+ "300006": {
+  "scenarios": {
+   "alone": {},
+   "with:4336": {
+    "m_my_element_neutral": 30
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_neutral",
+    "groups": [
+     [
+      4336
+     ]
+    ],
+    "tail": "30"
+   }
+  ]
+ },
+ "300008": {
+  "scenarios": {
+   "alone": {
+    "m_race_demon": 10
+   },
+   "with:4406": {
+    "m_race_demon": 31
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_race_demon",
+    "groups": [
+     [
+      4406
+     ]
+    ],
+    "tail": "2---3"
+   }
+  ]
+ },
+ "300013": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": -15,
+    "atkPercent": 30
+   },
+   "with:4407": {
+    "hpPercent": -10,
+    "atkPercent": 40
+   }
+  },
+  "clauses": [
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      4407
+     ]
+    ],
+    "tail": "10"
+   },
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      4407
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "300014": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": 40,
+    "atkPercent": -15
+   },
+   "with:4407": {
+    "hpPercent": 50,
+    "atkPercent": -10
+   }
+  },
+  "clauses": [
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      4407
+     ]
+    ],
+    "tail": "10"
+   },
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      4407
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "300015": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": -5,
+    "spPercent": -5,
+    "atkPercent": 6
+   },
+   "with:4378": {
+    "hpPercent": 7,
+    "spPercent": 7,
+    "atkPercent": 6
+   }
+  },
+  "clauses": [
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      4378
+     ]
+    ],
+    "tail": "REFINE[boot==4]---4"
+   },
+   {
+    "key": "spPercent",
+    "groups": [
+     [
+      4378
+     ]
+    ],
+    "tail": "REFINE[boot==4]---4"
+   }
+  ]
+ },
+ "300016": {
+  "scenarios": {
+   "alone": {
+    "cri": 5,
+    "flee": 30
+   },
+   "with:4387": {
+    "cri": 5,
+    "criDmg": 30,
+    "flee": 30
+   }
+  },
+  "clauses": [
+   {
+    "key": "criDmg",
+    "groups": [
+     [
+      4387
+     ]
+    ],
+    "tail": "1---2"
+   }
+  ]
+ },
+ "300017": {
+  "scenarios": {
+   "alone": {
+    "p_element_dark": 25
+   },
+   "with:4005": {
+    "p_element_dark": 40
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_element_dark",
+    "groups": [
+     [
+      4005
+     ]
+    ],
+    "tail": "15"
+   }
+  ]
+ },
+ "300018": {
+  "scenarios": {
+   "alone": {
+    "p_element_holy": 25
+   },
+   "with:4085": {
+    "p_element_holy": 40
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_element_holy",
+    "groups": [
+     [
+      4085
+     ]
+    ],
+    "tail": "15"
+   }
+  ]
+ },
+ "300019": {
+  "scenarios": {
+   "alone": {
+    "p_race_dragon": 5
+   },
+   "with:300020": {
+    "p_race_brute": 5,
+    "p_race_dragon": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_race_dragon",
+    "groups": [
+     [
+      300020
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "300020": {
+  "scenarios": {
+   "alone": {
+    "p_race_brute": 5
+   },
+   "with:300019": {
+    "p_race_brute": 10,
+    "p_race_dragon": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_race_brute",
+    "groups": [
+     [
+      300019
+     ]
+    ],
+    "tail": "5"
+   }
+  ]
+ },
+ "300076": {
+  "scenarios": {
+   "alone": {
+    "2307": 10,
+    "2308": 10,
+    "hpPercent": 10,
+    "vit": 3
+   },
+   "with:300089,300082": {
+    "2307": 65,
+    "2308": 65,
+    "hpPercent": 10,
+    "vit": 3
+   }
+  },
+  "clauses": [
+   {
+    "key": "2307",
+    "groups": [
+     [
+      300089
+     ],
+     [
+      300082
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2307",
+    "groups": [
+     [
+      300089
+     ],
+     [
+      300082
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   },
+   {
+    "key": "2308",
+    "groups": [
+     [
+      300089
+     ],
+     [
+      300082
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2308",
+    "groups": [
+     [
+      300089
+     ],
+     [
+      300082
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   }
+  ]
+ },
+ "300077": {
+  "scenarios": {
+   "alone": {
+    "2258": 10,
+    "2278": 10,
+    "hpPercent": 10,
+    "dex": 2,
+    "vit": 1
+   },
+   "with:27013,300092": {
+    "2258": 65,
+    "2278": 65,
+    "hpPercent": 10,
+    "dex": 2,
+    "vit": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "2258",
+    "groups": [
+     [
+      27013
+     ],
+     [
+      300092
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2258",
+    "groups": [
+     [
+      27013
+     ],
+     [
+      300092
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   },
+   {
+    "key": "2278",
+    "groups": [
+     [
+      27013
+     ],
+     [
+      300092
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2278",
+    "groups": [
+     [
+      27013
+     ],
+     [
+      300092
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   }
+  ]
+ },
+ "300101": {
+  "scenarios": {
+   "alone": {
+    "2008": 10,
+    "5004": 10,
+    "hpPercent": 10,
+    "str": 3
+   },
+   "with:300089,300094": {
+    "2008": 65,
+    "5004": 65,
+    "hpPercent": 10,
+    "str": 3
+   }
+  },
+  "clauses": [
+   {
+    "key": "2008",
+    "groups": [
+     [
+      300089
+     ],
+     [
+      300094
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2008",
+    "groups": [
+     [
+      300089
+     ],
+     [
+      300094
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   },
+   {
+    "key": "5004",
+    "groups": [
+     [
+      300089
+     ],
+     [
+      300094
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "5004",
+    "groups": [
+     [
+      300089
+     ],
+     [
+      300094
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   }
+  ]
+ },
+ "300102": {
+  "scenarios": {
+   "alone": {
+    "2477": 10,
+    "2481": 10,
+    "hpPercent": 10,
+    "int": 3
+   },
+   "with:4633,300092": {
+    "2477": 65,
+    "2481": 65,
+    "hpPercent": 10,
+    "int": 3
+   }
+  },
+  "clauses": [
+   {
+    "key": "2477",
+    "groups": [
+     [
+      4633
+     ],
+     [
+      300092
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2477",
+    "groups": [
+     [
+      4633
+     ],
+     [
+      300092
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   },
+   {
+    "key": "2481",
+    "groups": [
+     [
+      4633
+     ],
+     [
+      300092
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2481",
+    "groups": [
+     [
+      4633
+     ],
+     [
+      300092
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   }
+  ]
+ },
+ "300104": {
+  "scenarios": {
+   "alone": {
+    "2447": 10,
+    "2449": 10,
+    "hpPercent": 10,
+    "int": 2,
+    "vit": 1
+   },
+   "with:300124,300081": {
+    "2447": 65,
+    "2449": 65,
+    "hpPercent": 10,
+    "int": 2,
+    "vit": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "2447",
+    "groups": [
+     [
+      300124
+     ],
+     [
+      300081
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2447",
+    "groups": [
+     [
+      300124
+     ],
+     [
+      300081
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   },
+   {
+    "key": "2449",
+    "groups": [
+     [
+      300124
+     ],
+     [
+      300081
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2449",
+    "groups": [
+     [
+      300124
+     ],
+     [
+      300081
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   }
+  ]
+ },
+ "300105": {
+  "scenarios": {
+   "alone": {
+    "2211": 10,
+    "2213": 10,
+    "hpPercent": 5,
+    "spPercent": 5,
+    "int": 3
+   },
+   "with:300106,300081": {
+    "2211": 65,
+    "2213": 65,
+    "hpPercent": 5,
+    "spPercent": 5,
+    "int": 3
+   }
+  },
+  "clauses": [
+   {
+    "key": "2211",
+    "groups": [
+     [
+      300106
+     ],
+     [
+      300081
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2211",
+    "groups": [
+     [
+      300106
+     ],
+     [
+      300081
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   },
+   {
+    "key": "2213",
+    "groups": [
+     [
+      300106
+     ],
+     [
+      300081
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2213",
+    "groups": [
+     [
+      300106
+     ],
+     [
+      300081
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   }
+  ]
+ },
+ "300108": {
+  "scenarios": {
+   "alone": {
+    "2284": 10,
+    "2288": 10,
+    "hpPercent": 10,
+    "dex": 1,
+    "agi": 2
+   },
+   "with:27172,300097": {
+    "2284": 65,
+    "2288": 65,
+    "hpPercent": 10,
+    "dex": 1,
+    "agi": 2
+   }
+  },
+  "clauses": [
+   {
+    "key": "2284",
+    "groups": [
+     [
+      27172
+     ],
+     [
+      300097
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2284",
+    "groups": [
+     [
+      27172
+     ],
+     [
+      300097
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   },
+   {
+    "key": "2288",
+    "groups": [
+     [
+      27172
+     ],
+     [
+      300097
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2288",
+    "groups": [
+     [
+      27172
+     ],
+     [
+      300097
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   }
+  ]
+ },
+ "300109": {
+  "scenarios": {
+   "alone": {
+    "2029": 10,
+    "2036": 10,
+    "hpPercent": 10,
+    "str": 1,
+    "dex": 2
+   },
+   "with:27313,300097": {
+    "2029": 55,
+    "2036": 55,
+    "hpPercent": 10,
+    "str": 1,
+    "dex": 2
+   }
+  },
+  "clauses": [
+   {
+    "key": "2029",
+    "groups": [
+     [
+      27313
+     ],
+     [
+      300097
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2029",
+    "groups": [
+     [
+      27313
+     ],
+     [
+      300097
+     ]
+    ],
+    "tail": "REFINE[boot==3]---5"
+   },
+   {
+    "key": "2036",
+    "groups": [
+     [
+      27313
+     ],
+     [
+      300097
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2036",
+    "groups": [
+     [
+      27313
+     ],
+     [
+      300097
+     ]
+    ],
+    "tail": "REFINE[boot==3]---5"
+   }
+  ]
+ },
+ "300110": {
+  "scenarios": {
+   "alone": {
+    "3004": 10,
+    "3006": 10,
+    "hpPercent": 10,
+    "int": 1,
+    "agi": 2
+   },
+   "with:4575,300083": {
+    "3004": 55,
+    "3006": 55,
+    "hpPercent": 10,
+    "int": 1,
+    "agi": 2
+   }
+  },
+  "clauses": [
+   {
+    "key": "3004",
+    "groups": [
+     [
+      4575
+     ],
+     [
+      300083
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "3004",
+    "groups": [
+     [
+      4575
+     ],
+     [
+      300083
+     ]
+    ],
+    "tail": "REFINE[boot==3]---5"
+   },
+   {
+    "key": "3006",
+    "groups": [
+     [
+      4575
+     ],
+     [
+      300083
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "3006",
+    "groups": [
+     [
+      4575
+     ],
+     [
+      300083
+     ]
+    ],
+    "tail": "REFINE[boot==3]---5"
+   }
+  ]
+ },
+ "300111": {
+  "scenarios": {
+   "alone": {
+    "534": 10,
+    "537": 10,
+    "540": 10,
+    "hpPercent": 10,
+    "int": 1,
+    "agi": 2
+   },
+   "with:27320,300083": {
+    "534": 55,
+    "537": 55,
+    "540": 55,
+    "hpPercent": 10,
+    "int": 1,
+    "agi": 2
+   }
+  },
+  "clauses": [
+   {
+    "key": "534",
+    "groups": [
+     [
+      27320
+     ],
+     [
+      300083
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "534",
+    "groups": [
+     [
+      27320
+     ],
+     [
+      300083
+     ]
+    ],
+    "tail": "REFINE[boot==3]---5"
+   },
+   {
+    "key": "537",
+    "groups": [
+     [
+      27320
+     ],
+     [
+      300083
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "537",
+    "groups": [
+     [
+      27320
+     ],
+     [
+      300083
+     ]
+    ],
+    "tail": "REFINE[boot==3]---5"
+   },
+   {
+    "key": "540",
+    "groups": [
+     [
+      27320
+     ],
+     [
+      300083
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "540",
+    "groups": [
+     [
+      27320
+     ],
+     [
+      300083
+     ]
+    ],
+    "tail": "REFINE[boot==3]---5"
+   }
+  ]
+ },
+ "300112": {
+  "scenarios": {
+   "alone": {
+    "2600": 10,
+    "2604": 10,
+    "hpPercent": 10,
+    "int": 2,
+    "vit": 1
+   },
+   "with:300114,300085": {
+    "2600": 65,
+    "2604": 65,
+    "hpPercent": 10,
+    "int": 2,
+    "vit": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "2600",
+    "groups": [
+     [
+      300114
+     ],
+     [
+      300085
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2600",
+    "groups": [
+     [
+      300114
+     ],
+     [
+      300085
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   },
+   {
+    "key": "2604",
+    "groups": [
+     [
+      300114
+     ],
+     [
+      300085
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2604",
+    "groups": [
+     [
+      300114
+     ],
+     [
+      300085
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   }
+  ]
+ },
+ "300113": {
+  "scenarios": {
+   "alone": {
+    "2414": 10,
+    "2418": 10,
+    "hpPercent": 10,
+    "int": 2,
+    "vit": 1
+   },
+   "with:300096,300095": {
+    "2414": 65,
+    "2418": 65,
+    "hpPercent": 10,
+    "int": 2,
+    "vit": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "2414",
+    "groups": [
+     [
+      300096
+     ],
+     [
+      300095
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2414",
+    "groups": [
+     [
+      300096
+     ],
+     [
+      300095
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   },
+   {
+    "key": "2418",
+    "groups": [
+     [
+      300096
+     ],
+     [
+      300095
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2418",
+    "groups": [
+     [
+      300096
+     ],
+     [
+      300095
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   }
+  ]
+ },
+ "300115": {
+  "scenarios": {
+   "alone": {
+    "2038": 10,
+    "2040": 10,
+    "hpPercent": 10,
+    "int": 2,
+    "dex": 1
+   },
+   "with:27308,300093": {
+    "2038": 65,
+    "2040": 65,
+    "hpPercent": 10,
+    "int": 2,
+    "dex": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "2038",
+    "groups": [
+     [
+      27308
+     ],
+     [
+      300093
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2038",
+    "groups": [
+     [
+      27308
+     ],
+     [
+      300093
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   },
+   {
+    "key": "2040",
+    "groups": [
+     [
+      27308
+     ],
+     [
+      300093
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2040",
+    "groups": [
+     [
+      27308
+     ],
+     [
+      300093
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   }
+  ]
+ },
+ "300116": {
+  "scenarios": {
+   "alone": {
+    "2330": 10,
+    "2332": 10,
+    "hpPercent": 10,
+    "str": 2,
+    "int": 1
+   },
+   "with:27311,300093": {
+    "2330": 65,
+    "2332": 65,
+    "hpPercent": 10,
+    "str": 2,
+    "int": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "2330",
+    "groups": [
+     [
+      27311
+     ],
+     [
+      300093
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2330",
+    "groups": [
+     [
+      27311
+     ],
+     [
+      300093
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   },
+   {
+    "key": "2332",
+    "groups": [
+     [
+      27311
+     ],
+     [
+      300093
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2332",
+    "groups": [
+     [
+      27311
+     ],
+     [
+      300093
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   }
+  ]
+ },
+ "300117": {
+  "scenarios": {
+   "alone": {
+    "2233": 10,
+    "2239": 10,
+    "hpPercent": 10,
+    "dex": 2,
+    "agi": 1
+   },
+   "with:4633,300095": {
+    "2233": 65,
+    "2239": 65,
+    "hpPercent": 10,
+    "dex": 2,
+    "agi": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "2233",
+    "groups": [
+     [
+      4633
+     ],
+     [
+      300095
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2233",
+    "groups": [
+     [
+      4633
+     ],
+     [
+      300095
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   },
+   {
+    "key": "2239",
+    "groups": [
+     [
+      4633
+     ],
+     [
+      300095
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2239",
+    "groups": [
+     [
+      4633
+     ],
+     [
+      300095
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   }
+  ]
+ },
+ "300118": {
+  "scenarios": {
+   "alone": {
+    "2576": 10,
+    "2584": 10,
+    "hpPercent": 10,
+    "str": 2,
+    "vit": 1
+   },
+   "with:300088,300085": {
+    "2576": 65,
+    "2584": 65,
+    "hpPercent": 10,
+    "str": 2,
+    "vit": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "2576",
+    "groups": [
+     [
+      300088
+     ],
+     [
+      300085
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2576",
+    "groups": [
+     [
+      300088
+     ],
+     [
+      300085
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   },
+   {
+    "key": "2584",
+    "groups": [
+     [
+      300088
+     ],
+     [
+      300085
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2584",
+    "groups": [
+     [
+      300088
+     ],
+     [
+      300085
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   }
+  ]
+ },
+ "300119": {
+  "scenarios": {
+   "alone": {
+    "2565": 10,
+    "2571": 10,
+    "hpPercent": 10,
+    "dex": 2,
+    "agi": 1
+   },
+   "with:27307,300091": {
+    "2565": 65,
+    "2571": 65,
+    "hpPercent": 10,
+    "dex": 2,
+    "agi": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "2565",
+    "groups": [
+     [
+      27307
+     ],
+     [
+      300091
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2565",
+    "groups": [
+     [
+      27307
+     ],
+     [
+      300091
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   },
+   {
+    "key": "2571",
+    "groups": [
+     [
+      27307
+     ],
+     [
+      300091
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "2571",
+    "groups": [
+     [
+      27307
+     ],
+     [
+      300091
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   }
+  ]
+ },
+ "300120": {
+  "scenarios": {
+   "alone": {
+    "matkPercent": 2
+   },
+   "with:27121": {
+    "matk": 10,
+    "matkPercent": 2,
+    "m_element_water": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "matk",
+    "groups": [
+     [
+      27121
+     ]
+    ],
+    "tail": "10"
+   },
+   {
+    "key": "m_element_water",
+    "groups": [
+     [
+      27121
+     ]
+    ],
+    "tail": "15"
+   }
+  ]
+ },
+ "300125": {
+  "scenarios": {
+   "alone": {
+    "5028": 10,
+    "5033": 10,
+    "hpPercent": 10,
+    "int": 1,
+    "luk": 2
+   },
+   "with:300114,300087": {
+    "5028": 65,
+    "5033": 65,
+    "hpPercent": 10,
+    "int": 1,
+    "luk": 2
+   }
+  },
+  "clauses": [
+   {
+    "key": "5028",
+    "groups": [
+     [
+      300114
+     ],
+     [
+      300087
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "5028",
+    "groups": [
+     [
+      300114
+     ],
+     [
+      300087
+     ]
+    ],
+    "tail": "REFINE[boot==2]---5"
+   },
+   {
+    "key": "5033",
+    "groups": [
+     [
+      300114
+     ],
+     [
+      300087
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "5033",
+    "groups": [
+     [
+      300114
+     ],
+     [
+      300087
+     ]
+    ],
+    "tail": "REFINE[weapon==2]---5"
+   }
+  ]
+ },
+ "300130": {
+  "scenarios": {
+   "alone": {
+    "p_race_plant": 15,
+    "m_race_plant": 15
+   },
+   "with:300128": {
+    "atkPercent": 5,
+    "matkPercent": 5,
+    "p_size_m": 5,
+    "p_race_plant": 15,
+    "m_size_m": 5,
+    "m_race_plant": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      300128
+     ]
+    ],
+    "tail": "===5"
+   },
+   {
+    "key": "matkPercent",
+    "groups": [
+     [
+      300128
+     ]
+    ],
+    "tail": "===5"
+   },
+   {
+    "key": "p_size_m",
+    "groups": [
+     [
+      300128
+     ]
+    ],
+    "tail": "===5"
+   },
+   {
+    "key": "m_size_m",
+    "groups": [
+     [
+      300128
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "300141": {
+  "scenarios": {
+   "alone": {
+    "matk": 30
+   },
+   "with:300120": {
+    "matk": 30,
+    "m_element_water": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_element_water",
+    "groups": [
+     [
+      300120
+     ]
+    ],
+    "tail": "15"
+   }
+  ]
+ },
+ "300144": {
+  "scenarios": {
+   "alone": {
+    "atk": 32
+   },
+   "with:300150": {
+    "atk": 32,
+    "criDmg": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "criDmg",
+    "groups": [
+     [
+      300150
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300146": {
+  "scenarios": {
+   "alone": {
+    "cri_race_fish": 30
+   },
+   "with:4521": {
+    "criDmg": 15,
+    "cri_race_fish": 30
+   }
+  },
+  "clauses": [
+   {
+    "key": "criDmg",
+    "groups": [
+     [
+      4521
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300147": {
+  "scenarios": {
+   "alone": {
+    "m_element_water": 10,
+    "subele_water": 10
+   },
+   "with:4089": {
+    "matkPercent": 3,
+    "m_element_water": 10,
+    "subele_water": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "matkPercent",
+    "groups": [
+     [
+      4089
+     ]
+    ],
+    "tail": "===3"
+   }
+  ]
+ },
+ "300148": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": 10,
+    "spPercent": 5,
+    "p_element_water": 5,
+    "m_element_water": 5
+   },
+   "with:300142": {
+    "hpPercent": 10,
+    "spPercent": 5,
+    "atk": 30,
+    "p_element_water": 5,
+    "m_element_water": 5
+   },
+   "with:300140": {
+    "hpPercent": 10,
+    "spPercent": 5,
+    "matk": 30,
+    "p_element_water": 5,
+    "m_element_water": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "atk",
+    "groups": [
+     [
+      300142
+     ]
+    ],
+    "tail": "===30"
+   },
+   {
+    "key": "matk",
+    "groups": [
+     [
+      300140
+     ]
+    ],
+    "tail": "===30"
+   }
+  ]
+ },
+ "300149": {
+  "scenarios": {
+   "alone": {
+    "m_my_element_wind": 45,
+    "subele_neutral": 15
+   },
+   "with:300141": {
+    "m_my_element_wind": 45,
+    "subele_neutral": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "subele_neutral",
+    "groups": [
+     [
+      300141
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "300150": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": -5,
+    "atkPercent": 5
+   },
+   "with:4524": {
+    "hpPercent": 10,
+    "atkPercent": 5,
+    "str": 4
+   }
+  },
+  "clauses": [
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      4524
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "str",
+    "groups": [
+     [
+      4524
+     ]
+    ],
+    "tail": "===4"
+   }
+  ]
+ },
+ "300192": {
+  "scenarios": {
+   "alone": {
+    "pAtk": 1,
+    "sMatk": 1,
+    "acd": 5
+   },
+   "with:300193": {
+    "pAtk": 4,
+    "sMatk": 4,
+    "acd": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "pAtk",
+    "groups": [
+     [
+      300193
+     ]
+    ],
+    "tail": "===3"
+   },
+   {
+    "key": "sMatk",
+    "groups": [
+     [
+      300193
+     ]
+    ],
+    "tail": "===3"
+   },
+   {
+    "key": "acd",
+    "groups": [
+     [
+      300193
+     ]
+    ],
+    "tail": "===10"
+   }
+  ]
+ },
+ "300220": {
+  "scenarios": {
+   "alone": {
+    "melee": 6
+   },
+   "with:300223": {
+    "melee": 14
+   }
+  },
+  "clauses": [
+   {
+    "key": "melee",
+    "groups": [
+     [
+      300223
+     ]
+    ],
+    "tail": "===8"
+   }
+  ]
+ },
+ "300230": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": 15,
+    "subrace_insect": 20
+   },
+   "with:300232": {
+    "hpPercent": 15,
+    "p_race_insect": 20,
+    "subrace_insect": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_race_insect",
+    "groups": [
+     [
+      300232
+     ]
+    ],
+    "tail": "===20"
+   }
+  ]
+ },
+ "300233": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": 15,
+    "subrace_insect": 20
+   },
+   "with:300232": {
+    "hpPercent": 15,
+    "m_race_insect": 20,
+    "subrace_insect": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_race_insect",
+    "groups": [
+     [
+      300232
+     ]
+    ],
+    "tail": "===20"
+   }
+  ]
+ },
+ "300240": {
+  "scenarios": {
+   "alone": {
+    "atk": 15,
+    "p_size_l": 40
+   },
+   "with:4176": {
+    "atk": 15,
+    "p_size_l": 70
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_size_l",
+    "groups": [
+     [
+      4176
+     ]
+    ],
+    "tail": "===30"
+   }
+  ]
+ },
+ "300241": {
+  "scenarios": {
+   "alone": {
+    "atk": 15,
+    "p_size_m": 40
+   },
+   "with:4214": {
+    "atk": 15,
+    "p_size_m": 70
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_size_m",
+    "groups": [
+     [
+      4214
+     ]
+    ],
+    "tail": "===30"
+   }
+  ]
+ },
+ "300242": {
+  "scenarios": {
+   "alone": {},
+   "with:300243@SuperNovice": {
+    "hp": 1500,
+    "atkPercent": 10,
+    "chance__ignore_size_penalty": 1,
+    "chance__m_my_element_water": 40,
+    "chance__m_my_element_fire": 40
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__ignore_size_penalty",
+    "groups": [
+     [
+      300243
+     ]
+    ],
+    "tail": "USED[SuperNovice]===1"
+   }
+  ]
+ },
+ "300243": {
+  "scenarios": {
+   "alone": {},
+   "with:300242@SuperNovice": {
+    "sp": 500,
+    "matkPercent": 10,
+    "chance__m_my_element_water": 40,
+    "chance__m_my_element_fire": 40,
+    "chance__ignore_size_penalty": 1
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__m_my_element_water",
+    "groups": [
+     [
+      300242
+     ]
+    ],
+    "tail": "USED[SuperNovice]===40"
+   },
+   {
+    "key": "chance__m_my_element_fire",
+    "groups": [
+     [
+      300242
+     ]
+    ],
+    "tail": "USED[SuperNovice]===40"
+   }
+  ]
+ },
+ "300266": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": 15
+   },
+   "with:4352@Swordman": {
+    "hpPercent": 29,
+    "melee": 24,
+    "range": 24
+   }
+  },
+  "clauses": [
+   {
+    "key": "hpPercent",
+    "groups": [
+     [
+      4352
+     ]
+    ],
+    "tail": "USED[Swordman]REFINE[armor,boot==4]---2"
+   },
+   {
+    "key": "melee",
+    "groups": [
+     [
+      4352
+     ]
+    ],
+    "tail": "USED[Swordman]===10"
+   },
+   {
+    "key": "melee",
+    "groups": [
+     [
+      4352
+     ]
+    ],
+    "tail": "USED[Swordman]REFINE[armor,boot==4]---2"
+   },
+   {
+    "key": "range",
+    "groups": [
+     [
+      4352
+     ]
+    ],
+    "tail": "USED[Swordman]===10"
+   },
+   {
+    "key": "range",
+    "groups": [
+     [
+      4352
+     ]
+    ],
+    "tail": "USED[Swordman]REFINE[armor,boot==4]---2"
+   }
+  ]
+ },
+ "300267": {
+  "scenarios": {
+   "alone": {
+    "aspdPercent": 5,
+    "m_my_element_fire": 15,
+    "m_my_element_wind": 15
+   },
+   "with:300268@Sage": {
+    "14": 30,
+    "19": 30,
+    "20": 30,
+    "91": 30,
+    "aspdPercent": 5,
+    "m_my_element_fire": 15,
+    "m_my_element_wind": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "19",
+    "groups": [
+     [
+      300268
+     ]
+    ],
+    "tail": "USED[Sage]===30"
+   },
+   {
+    "key": "20",
+    "groups": [
+     [
+      300268
+     ]
+    ],
+    "tail": "USED[Sage]===30"
+   }
+  ]
+ },
+ "300268": {
+  "scenarios": {
+   "alone": {
+    "matkPercent": 5,
+    "m_my_element_water": 15,
+    "m_my_element_earth": 15
+   },
+   "with:300267@Sage": {
+    "14": 30,
+    "19": 30,
+    "20": 30,
+    "91": 30,
+    "matkPercent": 5,
+    "m_my_element_water": 15,
+    "m_my_element_earth": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "14",
+    "groups": [
+     [
+      300267
+     ]
+    ],
+    "tail": "USED[Sage]===30"
+   },
+   {
+    "key": "91",
+    "groups": [
+     [
+      300267
+     ]
+    ],
+    "tail": "USED[Sage]===30"
+   }
+  ]
+ },
+ "300269": {
+  "scenarios": {
+   "alone": {
+    "spPercent": -25,
+    "m_my_element_ghost": 10
+   },
+   "with:4392": {
+    "spPercent": -25,
+    "m_my_element_ghost": 55
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_ghost",
+    "groups": [
+     [
+      4392
+     ]
+    ],
+    "tail": "SUM[level==200]SUM[int==40]---15"
+   }
+  ]
+ },
+ "300270": {
+  "scenarios": {
+   "alone": {
+    "spPercent": -25,
+    "range": 10
+   },
+   "with:4392": {
+    "spPercent": -25,
+    "range": 55
+   }
+  },
+  "clauses": [
+   {
+    "key": "range",
+    "groups": [
+     [
+      4392
+     ]
+    ],
+    "tail": "SUM[level==200]SUM[dex==40]---15"
+   }
+  ]
+ },
+ "300271": {
+  "scenarios": {
+   "alone": {
+    "spPercent": -25,
+    "melee": 10
+   },
+   "with:4393": {
+    "spPercent": -25,
+    "melee": 55
+   }
+  },
+  "clauses": [
+   {
+    "key": "melee",
+    "groups": [
+     [
+      4393
+     ]
+    ],
+    "tail": "SUM[level==200]SUM[str==40]---15"
+   }
+  ]
+ },
+ "300272": {
+  "scenarios": {
+   "alone": {
+    "spPercent": -25,
+    "m_my_element_holy": 10
+   },
+   "with:4394": {
+    "spPercent": -25,
+    "m_my_element_holy": 55
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_holy",
+    "groups": [
+     [
+      4394
+     ]
+    ],
+    "tail": "SUM[level==200]SUM[int==40]---15"
+   }
+  ]
+ },
+ "300273": {
+  "scenarios": {
+   "alone": {
+    "spPercent": -25,
+    "m_my_element_neutral": 10
+   },
+   "with:4394": {
+    "spPercent": -25,
+    "m_my_element_neutral": 55
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_neutral",
+    "groups": [
+     [
+      4394
+     ]
+    ],
+    "tail": "SUM[level==200]SUM[int==40]---15"
+   }
+  ]
+ },
+ "300276": {
+  "scenarios": {
+   "alone": {
+    "m_race_angel": 30
+   },
+   "with:4398": {
+    "m_race_angel": 50
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_race_angel",
+    "groups": [
+     [
+      4398
+     ]
+    ],
+    "tail": "===20"
+   }
+  ]
+ },
+ "300278": {
+  "scenarios": {
+   "alone": {
+    "criDmg": 15
+   },
+   "with:300016": {
+    "criDmg": 30
+   }
+  },
+  "clauses": [
+   {
+    "key": "criDmg",
+    "groups": [
+     [
+      300016
+     ]
+    ],
+    "tail": "SUM[level==200]===15"
+   }
+  ]
+ },
+ "300279": {
+  "scenarios": {
+   "alone": {
+    "2202": 30
+   },
+   "with:4388": {
+    "2202": 30,
+    "m_my_element_ghost": 30
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_ghost",
+    "groups": [
+     [
+      4388
+     ]
+    ],
+    "tail": "SUM[level==200]===30"
+   }
+  ]
+ },
+ "300308": {
+  "scenarios": {
+   "alone": {
+    "spPercent": 10,
+    "m_my_element_all": 20
+   },
+   "with:27331": {
+    "spPercent": 10,
+    "matkPercent": 3,
+    "m_my_element_all": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "matkPercent",
+    "groups": [
+     [
+      27331
+     ]
+    ],
+    "tail": "3"
+   }
+  ]
+ },
+ "300310": {
+  "scenarios": {
+   "alone": {
+    "melee": 20,
+    "range": 20
+   },
+   "with:27333": {
+    "atkPercent": 3,
+    "melee": 20,
+    "range": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      27333
+     ]
+    ],
+    "tail": "3"
+   }
+  ]
+ },
+ "300361": {
+  "scenarios": {
+   "alone": {
+    "sMatk": 1,
+    "m_my_element_water": 28
+   },
+   "with:300359": {
+    "matkPercent": 10,
+    "sMatk": 1,
+    "m_my_element_water": 28
+   }
+  },
+  "clauses": [
+   {
+    "key": "matkPercent",
+    "groups": [
+     [
+      300359
+     ]
+    ],
+    "tail": "===10"
+   }
+  ]
+ },
+ "300362": {
+  "scenarios": {
+   "alone": {
+    "pAtk": 1,
+    "melee": 20
+   },
+   "with:300360": {
+    "atkPercent": 10,
+    "pAtk": 1,
+    "melee": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      300360
+     ]
+    ],
+    "tail": "===10"
+   }
+  ]
+ },
+ "300367": {
+  "scenarios": {
+   "alone": {
+    "melee": 8
+   },
+   "with:300365": {
+    "melee": 8,
+    "vct": 8
+   }
+  },
+  "clauses": [
+   {
+    "key": "vct",
+    "groups": [
+     [
+      300365
+     ]
+    ],
+    "tail": "===8"
+   }
+  ]
+ },
+ "300368": {
+  "scenarios": {
+   "alone": {
+    "cRate": 1,
+    "cri": 6
+   },
+   "with:300366": {
+    "cRate": 1,
+    "cri": 6,
+    "criDmg": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "criDmg",
+    "groups": [
+     [
+      300366
+     ]
+    ],
+    "tail": "===10"
+   }
+  ]
+ },
+ "300374": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": -10,
+    "spPercent": 10,
+    "pAtk": 1,
+    "sMatk": 1
+   },
+   "with:300373": {
+    "hpPercent": -10,
+    "spPercent": 10,
+    "pAtk": 1,
+    "sMatk": 1,
+    "p_size_s": 9,
+    "p_element_earth": 9,
+    "p_race_insect": 9,
+    "m_size_s": 9,
+    "m_element_earth": 9,
+    "m_race_insect": 9
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_element_earth",
+    "groups": [
+     [
+      300373
+     ]
+    ],
+    "tail": "===9"
+   },
+   {
+    "key": "p_race_insect",
+    "groups": [
+     [
+      300373
+     ]
+    ],
+    "tail": "===9"
+   },
+   {
+    "key": "p_size_s",
+    "groups": [
+     [
+      300373
+     ]
+    ],
+    "tail": "===9"
+   },
+   {
+    "key": "m_element_earth",
+    "groups": [
+     [
+      300373
+     ]
+    ],
+    "tail": "===9"
+   },
+   {
+    "key": "m_race_insect",
+    "groups": [
+     [
+      300373
+     ]
+    ],
+    "tail": "===9"
+   },
+   {
+    "key": "m_size_s",
+    "groups": [
+     [
+      300373
+     ]
+    ],
+    "tail": "===9"
+   }
+  ]
+ },
+ "300381": {
+  "scenarios": {
+   "alone": {
+    "pAtk": 1,
+    "range": 20
+   },
+   "with:300363": {
+    "atkPercent": 10,
+    "pAtk": 1,
+    "range": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "atkPercent",
+    "groups": [
+     [
+      300363
+     ]
+    ],
+    "tail": "===10"
+   }
+  ]
+ },
+ "300422": {
+  "scenarios": {
+   "alone": {
+    "melee": 33
+   },
+   "with:300310": {
+    "melee": 38
+   }
+  },
+  "clauses": [
+   {
+    "key": "melee",
+    "groups": [
+     [
+      300310
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "300424": {
+  "scenarios": {
+   "alone": {
+    "m_my_element_all": 33
+   },
+   "with:300308": {
+    "m_my_element_all": 38
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_all",
+    "groups": [
+     [
+      300308
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "300426": {
+  "scenarios": {
+   "alone": {
+    "range": 33
+   },
+   "with:300310": {
+    "range": 38
+   }
+  },
+  "clauses": [
+   {
+    "key": "range",
+    "groups": [
+     [
+      300310
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "300447": {
+  "scenarios": {
+   "alone": {
+    "range": 6
+   },
+   "with:300449": {
+    "range": 14
+   }
+  },
+  "clauses": [
+   {
+    "key": "range",
+    "groups": [
+     [
+      300449
+     ]
+    ],
+    "tail": "===8"
+   }
+  ]
+ },
+ "300456": {
+  "scenarios": {
+   "alone": {
+    "acd": 5
+   },
+   "with:300455": {
+    "vct": 5,
+    "acd": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "vct",
+    "groups": [
+     [
+      300455
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "300457": {
+  "scenarios": {
+   "alone": {
+    "atkPercent": 5,
+    "vct": 5
+   },
+   "with:300455": {
+    "atkPercent": 5,
+    "vct": 5,
+    "p_size_l": 31
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_size_l",
+    "groups": [
+     [
+      300455
+     ]
+    ],
+    "tail": "===10"
+   },
+   {
+    "key": "p_size_l",
+    "groups": [
+     [
+      300455
+     ]
+    ],
+    "tail": "2---3"
+   }
+  ]
+ },
+ "300458": {
+  "scenarios": {
+   "alone": {
+    "matkPercent": 5,
+    "vct": 5
+   },
+   "with:300455": {
+    "matkPercent": 5,
+    "vct": 5,
+    "m_size_l": 31
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_size_l",
+    "groups": [
+     [
+      300455
+     ]
+    ],
+    "tail": "===10"
+   },
+   {
+    "key": "m_size_l",
+    "groups": [
+     [
+      300455
+     ]
+    ],
+    "tail": "2---3"
+   }
+  ]
+ },
+ "300460": {
+  "scenarios": {
+   "alone": {
+    "matk": 40,
+    "m_my_element_neutral": 10,
+    "m_my_element_dark": 10,
+    "m_my_element_ghost": 10
+   },
+   "with:300459": {
+    "matk": 40,
+    "m_my_element_neutral": 25,
+    "m_my_element_dark": 25,
+    "m_my_element_ghost": 25
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_neutral",
+    "groups": [
+     [
+      300459
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_my_element_dark",
+    "groups": [
+     [
+      300459
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_my_element_ghost",
+    "groups": [
+     [
+      300459
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300461": {
+  "scenarios": {
+   "alone": {
+    "atk": 40,
+    "melee": 10
+   },
+   "with:300459": {
+    "atk": 40,
+    "melee": 25
+   }
+  },
+  "clauses": [
+   {
+    "key": "melee",
+    "groups": [
+     [
+      300459
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300462": {
+  "scenarios": {
+   "alone": {
+    "matk": 40,
+    "m_my_element_earth": 10,
+    "m_my_element_fire": 10,
+    "m_my_element_wind": 10
+   },
+   "with:300459": {
+    "matk": 40,
+    "m_my_element_earth": 25,
+    "m_my_element_fire": 25,
+    "m_my_element_wind": 25
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_fire",
+    "groups": [
+     [
+      300459
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_my_element_wind",
+    "groups": [
+     [
+      300459
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_my_element_earth",
+    "groups": [
+     [
+      300459
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300463": {
+  "scenarios": {
+   "alone": {
+    "matk": 40,
+    "m_my_element_water": 10,
+    "m_my_element_poison": 10,
+    "m_my_element_holy": 10
+   },
+   "with:300459": {
+    "matk": 40,
+    "m_my_element_water": 25,
+    "m_my_element_poison": 25,
+    "m_my_element_holy": 25
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_water",
+    "groups": [
+     [
+      300459
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_my_element_poison",
+    "groups": [
+     [
+      300459
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_my_element_holy",
+    "groups": [
+     [
+      300459
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300466": {
+  "scenarios": {
+   "alone": {
+    "atk": 40,
+    "range": 10
+   },
+   "with:300459": {
+    "atk": 40,
+    "range": 25
+   }
+  },
+  "clauses": [
+   {
+    "key": "range",
+    "groups": [
+     [
+      300459
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300479": {
+  "scenarios": {
+   "alone": {
+    "hit": -30,
+    "p_element_fire": 21,
+    "p_element_dark": 21
+   },
+   "with:300291,27417": {
+    "p_element_fire": 21,
+    "p_element_dark": 21
+   }
+  },
+  "clauses": [
+   {
+    "key": "hit",
+    "groups": [
+     [
+      300291
+     ],
+     [
+      27417
+     ]
+    ],
+    "tail": "30"
+   }
+  ]
+ },
+ "300481": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": 30,
+    "spPercent": 30
+   },
+   "with:300291,27417": {
+    "hpPercent": 30,
+    "spPercent": 30,
+    "acd": 6
+   }
+  },
+  "clauses": [
+   {
+    "key": "acd",
+    "groups": [
+     [
+      300291
+     ],
+     [
+      27417
+     ]
+    ],
+    "tail": "6"
+   }
+  ]
+ },
+ "300487": {
+  "scenarios": {
+   "alone": {
+    "melee": 10,
+    "p_size_s": 15,
+    "p_size_l": 15
+   },
+   "with:300489": {
+    "melee": 10,
+    "p_size_s": 30,
+    "p_size_l": 30,
+    "p_race_formless": 15,
+    "p_race_demihuman": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_size_s",
+    "groups": [
+     [
+      300489
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "p_size_l",
+    "groups": [
+     [
+      300489
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "p_race_demihuman",
+    "groups": [
+     [
+      300489
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "p_race_formless",
+    "groups": [
+     [
+      300489
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300491": {
+  "scenarios": {
+   "alone": {
+    "range": 10,
+    "p_size_s": 15,
+    "p_size_l": 15
+   },
+   "with:300493": {
+    "range": 10,
+    "p_size_s": 30,
+    "p_size_l": 30,
+    "p_race_formless": 15,
+    "p_race_demihuman": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_size_s",
+    "groups": [
+     [
+      300493
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "p_size_l",
+    "groups": [
+     [
+      300493
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "p_race_demihuman",
+    "groups": [
+     [
+      300493
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "p_race_formless",
+    "groups": [
+     [
+      300493
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300495": {
+  "scenarios": {
+   "alone": {
+    "m_size_s": 15,
+    "m_size_l": 15,
+    "m_my_element_all": 10
+   },
+   "with:300497": {
+    "m_size_s": 30,
+    "m_size_l": 30,
+    "m_my_element_all": 10,
+    "m_race_formless": 15,
+    "m_race_demihuman": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_size_s",
+    "groups": [
+     [
+      300497
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_size_l",
+    "groups": [
+     [
+      300497
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_race_demihuman",
+    "groups": [
+     [
+      300497
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_race_formless",
+    "groups": [
+     [
+      300497
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300515": {
+  "scenarios": {
+   "alone": {
+    "melee": 45,
+    "cri": -15,
+    "flee": 30
+   },
+   "with:300524": {
+    "melee": 60,
+    "cri": -15,
+    "flee": 30,
+    "p_element_all": 15
+   },
+   "with:300525": {
+    "melee": 60,
+    "cri": -15,
+    "flee": 30,
+    "p_element_all": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "melee",
+    "groups": [
+     [
+      300524
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "melee",
+    "groups": [
+     [
+      300525
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "p_element_all",
+    "groups": [
+     [
+      300524
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "p_element_all",
+    "groups": [
+     [
+      300525
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300517": {
+  "scenarios": {
+   "alone": {
+    "range": 45,
+    "cri": -15,
+    "flee": 30
+   },
+   "with:300525": {
+    "range": 60,
+    "cri": -15,
+    "flee": 30,
+    "p_element_all": 15
+   },
+   "with:300524": {
+    "range": 60,
+    "cri": -15,
+    "flee": 30,
+    "p_element_all": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "range",
+    "groups": [
+     [
+      300525
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "range",
+    "groups": [
+     [
+      300524
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "p_element_all",
+    "groups": [
+     [
+      300525
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "p_element_all",
+    "groups": [
+     [
+      300524
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300519": {
+  "scenarios": {
+   "alone": {
+    "p_size_m": 10,
+    "p_size_l": 10
+   },
+   "with:300506": {
+    "p_size_all": 15,
+    "p_size_m": 10,
+    "p_size_l": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_size_all",
+    "groups": [
+     [
+      300506
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300520": {
+  "scenarios": {
+   "alone": {
+    "m_size_m": 10,
+    "m_size_l": 10
+   },
+   "with:300507": {
+    "m_size_all": 15,
+    "m_size_m": 10,
+    "m_size_l": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_size_all",
+    "groups": [
+     [
+      300507
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300521": {
+  "scenarios": {
+   "alone": {
+    "vct": -15,
+    "flee": 30,
+    "m_my_element_neutral": 45,
+    "m_my_element_fire": 45,
+    "m_my_element_holy": 45,
+    "m_my_element_dark": 45,
+    "m_my_element_ghost": 45
+   },
+   "with:300529": {
+    "vct": -15,
+    "flee": 30,
+    "m_my_element_neutral": 60,
+    "m_my_element_fire": 60,
+    "m_my_element_holy": 60,
+    "m_my_element_dark": 60,
+    "m_my_element_ghost": 60,
+    "m_element_all": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_fire",
+    "groups": [
+     [
+      300529
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_my_element_neutral",
+    "groups": [
+     [
+      300529
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_my_element_holy",
+    "groups": [
+     [
+      300529
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_my_element_dark",
+    "groups": [
+     [
+      300529
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_my_element_ghost",
+    "groups": [
+     [
+      300529
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_element_all",
+    "groups": [
+     [
+      300529
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300522": {
+  "scenarios": {
+   "alone": {
+    "vct": -15,
+    "flee": 30,
+    "m_my_element_water": 45,
+    "m_my_element_earth": 45,
+    "m_my_element_wind": 45,
+    "m_my_element_poison": 45,
+    "m_my_element_undead": 45
+   },
+   "with:300529": {
+    "vct": -15,
+    "flee": 30,
+    "m_my_element_water": 60,
+    "m_my_element_earth": 60,
+    "m_my_element_wind": 60,
+    "m_my_element_poison": 60,
+    "m_my_element_undead": 60,
+    "m_element_all": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_wind",
+    "groups": [
+     [
+      300529
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_my_element_water",
+    "groups": [
+     [
+      300529
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_my_element_earth",
+    "groups": [
+     [
+      300529
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_my_element_poison",
+    "groups": [
+     [
+      300529
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_my_element_undead",
+    "groups": [
+     [
+      300529
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_element_all",
+    "groups": [
+     [
+      300529
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300527": {
+  "scenarios": {
+   "alone": {
+    "vct": 7,
+    "cri": 5
+   },
+   "with:300526": {
+    "cRate": 2,
+    "vct": 7,
+    "cri": 5,
+    "criDmg": 12
+   }
+  },
+  "clauses": [
+   {
+    "key": "cRate",
+    "groups": [
+     [
+      300526
+     ]
+    ],
+    "tail": "===2"
+   },
+   {
+    "key": "criDmg",
+    "groups": [
+     [
+      300526
+     ]
+    ],
+    "tail": "===12"
+   }
+  ]
+ },
+ "300553": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 4,
+    "str": 4,
+    "int": 4,
+    "dex": 4,
+    "luk": 4,
+    "vit": 4,
+    "agi": 4
+   },
+   "with:300291": {
+    "allStatus": 4,
+    "str": 4,
+    "int": 4,
+    "dex": 4,
+    "luk": 4,
+    "vit": 4,
+    "agi": 4,
+    "p_class_all": 5,
+    "m_my_element_all": 10
+   },
+   "with:27417": {
+    "allStatus": 4,
+    "str": 4,
+    "int": 4,
+    "dex": 4,
+    "luk": 4,
+    "vit": 4,
+    "agi": 4,
+    "acd": 5
+   },
+   "with:300291,27417": {
+    "allStatus": 4,
+    "str": 4,
+    "int": 4,
+    "dex": 4,
+    "luk": 4,
+    "vit": 4,
+    "agi": 4,
+    "vct": 10,
+    "acd": 10,
+    "cri": 10,
+    "p_class_all": 5,
+    "m_my_element_all": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_all",
+    "groups": [
+     [
+      300291
+     ]
+    ],
+    "tail": "===10"
+   },
+   {
+    "key": "p_class_all",
+    "groups": [
+     [
+      300291
+     ]
+    ],
+    "tail": "===5"
+   },
+   {
+    "key": "acd",
+    "groups": [
+     [
+      27417
+     ]
+    ],
+    "tail": "===5"
+   },
+   {
+    "key": "acd",
+    "groups": [
+     [
+      300291
+     ],
+     [
+      27417
+     ]
+    ],
+    "tail": "===5"
+   },
+   {
+    "key": "cri",
+    "groups": [
+     [
+      300291
+     ],
+     [
+      27417
+     ]
+    ],
+    "tail": "===10"
+   },
+   {
+    "key": "vct",
+    "groups": [
+     [
+      300291
+     ],
+     [
+      27417
+     ]
+    ],
+    "tail": "===10"
+   }
+  ]
+ },
+ "300567": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": 15,
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "cri": 20,
+    "p_size_all": 20,
+    "p_race_all": 15
+   },
+   "with:4689": {
+    "hpPercent": 15,
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "cri": 20,
+    "p_size_all": 20,
+    "p_race_all": 15,
+    "chance__atk": 200
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4689
+     ]
+    ],
+    "tail": "===200"
+   }
+  ]
+ },
+ "300568": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20
+   },
+   "with:4690": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20,
+    "chance__atk": 200
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4690
+     ]
+    ],
+    "tail": "===200"
+   }
+  ]
+ },
+ "300569": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "m_size_all": 20
+   },
+   "with:4685": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "m_size_all": 20,
+    "chance__matk": 200
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__matk",
+    "groups": [
+     [
+      4685
+     ]
+    ],
+    "tail": "===200"
+   }
+  ]
+ },
+ "300570": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20
+   },
+   "with:4693": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20,
+    "chance__atk": 200
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4693
+     ]
+    ],
+    "tail": "===200"
+   }
+  ]
+ },
+ "300571": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "m_size_all": 20
+   },
+   "with:4686": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "m_size_all": 20,
+    "chance__matk": 200
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__matk",
+    "groups": [
+     [
+      4686
+     ]
+    ],
+    "tail": "===200"
+   }
+  ]
+ },
+ "300572": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "m_size_all": 20
+   },
+   "with:4692": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "m_size_all": 20,
+    "chance__matk": 200
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__matk",
+    "groups": [
+     [
+      4692
+     ]
+    ],
+    "tail": "===200"
+   }
+  ]
+ },
+ "300573": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20
+   },
+   "with:4688": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20,
+    "chance__atk": 200
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4688
+     ]
+    ],
+    "tail": "===200"
+   }
+  ]
+ },
+ "300574": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20
+   },
+   "with:4691": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20,
+    "chance__atk": 200
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4691
+     ]
+    ],
+    "tail": "===200"
+   }
+  ]
+ },
+ "300575": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20
+   },
+   "with:4684": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20,
+    "chance__atk": 200
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4684
+     ]
+    ],
+    "tail": "===200"
+   }
+  ]
+ },
+ "300576": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20,
+    "m_size_all": 20
+   },
+   "with:4694": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20,
+    "m_size_all": 20,
+    "chance__atk": 200
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4694
+     ]
+    ],
+    "tail": "===200"
+   }
+  ]
+ },
+ "300577": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20
+   },
+   "with:4687": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20,
+    "chance__atk": 200
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4687
+     ]
+    ],
+    "tail": "===200"
+   }
+  ]
+ },
+ "300578": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "m_my_element_all": 20
+   },
+   "with:4696": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "m_my_element_all": 20,
+    "chance__matk": 200
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__matk",
+    "groups": [
+     [
+      4696
+     ]
+    ],
+    "tail": "===200"
+   }
+  ]
+ },
+ "300579": {
+  "scenarios": {
+   "alone": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20
+   },
+   "with:4695": {
+    "allStatus": 30,
+    "str": 30,
+    "int": 30,
+    "dex": 30,
+    "luk": 30,
+    "vit": 30,
+    "agi": 30,
+    "p_size_all": 20,
+    "chance__atk": 200
+   }
+  },
+  "clauses": [
+   {
+    "key": "chance__atk",
+    "groups": [
+     [
+      4695
+     ]
+    ],
+    "tail": "===200"
+   }
+  ]
+ },
+ "300585": {
+  "scenarios": {
+   "alone": {
+    "5208": 15,
+    "5213": 15
+   },
+   "with:400723": {
+    "5208": 75,
+    "5213": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5208",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5208",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "5213",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5213",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300586": {
+  "scenarios": {
+   "alone": {
+    "5266": 15,
+    "6504": 15
+   },
+   "with:400723": {
+    "5266": 75,
+    "6504": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5266",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5266",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "6504",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "6504",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300587": {
+  "scenarios": {
+   "alone": {
+    "5244": 15,
+    "6519": 15
+   },
+   "with:400723": {
+    "5244": 75,
+    "6519": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5244",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5244",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "6519",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "6519",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300588": {
+  "scenarios": {
+   "alone": {
+    "5273": 15,
+    "6518": 15
+   },
+   "with:400724": {
+    "5273": 75,
+    "6518": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5273",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5273",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "6518",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "6518",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300589": {
+  "scenarios": {
+   "alone": {
+    "6002": 15,
+    "6508": 15
+   },
+   "with:400723": {
+    "6002": 75,
+    "6508": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "6002",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "6002",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "6508",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "6508",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300590": {
+  "scenarios": {
+   "alone": {
+    "6509": 15,
+    "6510": 15
+   },
+   "with:400723": {
+    "6509": 75,
+    "6510": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "6509",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "6509",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "6510",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "6510",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300591": {
+  "scenarios": {
+   "alone": {
+    "3004": 15,
+    "5289": 15
+   },
+   "with:400723": {
+    "3004": 75,
+    "5289": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "3004",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "3004",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "5289",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5289",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300592": {
+  "scenarios": {
+   "alone": {
+    "5321": 15,
+    "6515": 15
+   },
+   "with:400724": {
+    "5321": 75,
+    "6515": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5321",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5321",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "6515",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "6515",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300593": {
+  "scenarios": {
+   "alone": {
+    "5215": 15,
+    "5222": 15
+   },
+   "with:400724": {
+    "5215": 75,
+    "5222": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5215",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5215",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "5222",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5222",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300594": {
+  "scenarios": {
+   "alone": {
+    "5370": 15,
+    "5373": 15
+   },
+   "with:400724": {
+    "5370": 75,
+    "5373": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5370",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5370",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "5373",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5373",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300595": {
+  "scenarios": {
+   "alone": {
+    "5334": 15,
+    "6520": 15
+   },
+   "with:400723": {
+    "5334": 75,
+    "6520": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5334",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5334",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "6520",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "6520",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300596": {
+  "scenarios": {
+   "alone": {
+    "5353": 15,
+    "5355": 15
+   },
+   "with:400723": {
+    "5353": 75,
+    "5355": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5353",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5353",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "5355",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5355",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300597": {
+  "scenarios": {
+   "alone": {
+    "5466": 15,
+    "5474": 15
+   },
+   "with:400723": {
+    "5466": 75,
+    "5474": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5466",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5466",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "5474",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5474",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300598": {
+  "scenarios": {
+   "alone": {
+    "5408": 15,
+    "5500": 15
+   },
+   "with:400723": {
+    "5408": 75,
+    "5500": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5408",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5408",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "5500",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5500",
+    "groups": [
+     [
+      400723
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300599": {
+  "scenarios": {
+   "alone": {
+    "5492": 15,
+    "5495": 15
+   },
+   "with:400724": {
+    "5492": 75,
+    "5495": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5492",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5492",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "5495",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5495",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300600": {
+  "scenarios": {
+   "alone": {
+    "5428": 15,
+    "5430": 15
+   },
+   "with:400724": {
+    "5428": 75,
+    "5430": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5428",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5428",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "5430",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5430",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300601": {
+  "scenarios": {
+   "alone": {
+    "5456": 15,
+    "5457": 15
+   },
+   "with:400724": {
+    "5456": 75,
+    "5457": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5456",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5456",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "5457",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5457",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300602": {
+  "scenarios": {
+   "alone": {
+    "5446": 15,
+    "5507": 15
+   },
+   "with:400724": {
+    "5446": 75,
+    "5507": 75
+   }
+  },
+  "clauses": [
+   {
+    "key": "5446",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5446",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   },
+   {
+    "key": "5507",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]===-120"
+   },
+   {
+    "key": "5507",
+    "groups": [
+     [
+      400724
+     ]
+    ],
+    "tail": "GRADE[headUpper==A]REFINE[headUpper==11]REFINE[headUpper==1]---12"
+   }
+  ]
+ },
+ "300606": {
+  "scenarios": {
+   "alone": {
+    "m_my_element_all": 3
+   },
+   "with:300495": {
+    "m_size_m": 10,
+    "m_my_element_all": 3
+   },
+   "with:300495,300497": {
+    "m_size_m": 30,
+    "m_my_element_all": 3,
+    "m_race_brute": 15,
+    "m_race_dragon": 15
+   },
+   "with:300497": {
+    "m_my_element_all": 3,
+    "m_race_brute": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_size_m",
+    "groups": [
+     [
+      300495
+     ]
+    ],
+    "tail": "===10"
+   },
+   {
+    "key": "m_size_m",
+    "groups": [
+     [
+      300495
+     ],
+     [
+      300497
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "m_race_brute",
+    "groups": [
+     [
+      300497
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "m_race_dragon",
+    "groups": [
+     [
+      300495
+     ],
+     [
+      300497
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300607": {
+  "scenarios": {
+   "alone": {
+    "range": 3
+   },
+   "with:300491": {
+    "range": 3,
+    "p_size_m": 10
+   },
+   "with:300491,300493": {
+    "range": 3,
+    "p_size_m": 30,
+    "p_race_brute": 15,
+    "p_race_dragon": 15
+   },
+   "with:300493": {
+    "range": 3,
+    "p_race_brute": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_size_m",
+    "groups": [
+     [
+      300491
+     ]
+    ],
+    "tail": "===10"
+   },
+   {
+    "key": "p_size_m",
+    "groups": [
+     [
+      300491
+     ],
+     [
+      300493
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "p_race_brute",
+    "groups": [
+     [
+      300493
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "p_race_dragon",
+    "groups": [
+     [
+      300491
+     ],
+     [
+      300493
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300608": {
+  "scenarios": {
+   "alone": {
+    "melee": 3
+   },
+   "with:300487": {
+    "melee": 3,
+    "p_size_m": 10
+   },
+   "with:300487,300489": {
+    "melee": 3,
+    "p_size_m": 30,
+    "p_race_brute": 15,
+    "p_race_dragon": 15
+   },
+   "with:300489": {
+    "melee": 3,
+    "p_race_brute": 15
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_size_m",
+    "groups": [
+     [
+      300487
+     ]
+    ],
+    "tail": "===10"
+   },
+   {
+    "key": "p_size_m",
+    "groups": [
+     [
+      300487
+     ],
+     [
+      300489
+     ]
+    ],
+    "tail": "===20"
+   },
+   {
+    "key": "p_race_brute",
+    "groups": [
+     [
+      300489
+     ]
+    ],
+    "tail": "===15"
+   },
+   {
+    "key": "p_race_dragon",
+    "groups": [
+     [
+      300487
+     ],
+     [
+      300489
+     ]
+    ],
+    "tail": "===15"
+   }
+  ]
+ },
+ "300645": {
+  "scenarios": {
+   "alone": {
+    "vct": 5,
+    "m_my_element_all": 21
+   },
+   "with:300641": {
+    "vct": 5,
+    "m_my_element_all": 21,
+    "m_my_element_neutral": 8,
+    "m_my_element_fire": 8,
+    "m_my_element_wind": 8,
+    "m_my_element_holy": 8,
+    "m_my_element_dark": 8,
+    "m_my_element_ghost": 8,
+    "m_my_element_undead": 8
+   },
+   "with:300643": {
+    "vct": 5,
+    "m_my_element_all": 21,
+    "m_my_element_neutral": 8,
+    "m_my_element_water": 8,
+    "m_my_element_earth": 8,
+    "m_my_element_fire": 8,
+    "m_my_element_wind": 8,
+    "m_my_element_poison": 8,
+    "m_my_element_dark": 8
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_my_element_fire",
+    "groups": [
+     [
+      300641
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "m_my_element_fire",
+    "groups": [
+     [
+      300643
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "m_my_element_neutral",
+    "groups": [
+     [
+      300641
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "m_my_element_neutral",
+    "groups": [
+     [
+      300643
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "m_my_element_holy",
+    "groups": [
+     [
+      300641
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "m_my_element_wind",
+    "groups": [
+     [
+      300641
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "m_my_element_wind",
+    "groups": [
+     [
+      300643
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "m_my_element_dark",
+    "groups": [
+     [
+      300641
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "m_my_element_dark",
+    "groups": [
+     [
+      300643
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "m_my_element_ghost",
+    "groups": [
+     [
+      300641
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "m_my_element_undead",
+    "groups": [
+     [
+      300641
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "m_my_element_water",
+    "groups": [
+     [
+      300643
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "m_my_element_earth",
+    "groups": [
+     [
+      300643
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "m_my_element_poison",
+    "groups": [
+     [
+      300643
+     ]
+    ],
+    "tail": "===8"
+   }
+  ]
+ },
+ "300646": {
+  "scenarios": {
+   "alone": {
+    "melee": 21,
+    "range": 21,
+    "cri": 7,
+    "flee": 30
+   },
+   "with:300644": {
+    "melee": 29,
+    "range": 21,
+    "cri": 7,
+    "flee": 30
+   },
+   "with:300637": {
+    "melee": 21,
+    "range": 29,
+    "cri": 7,
+    "flee": 30
+   }
+  },
+  "clauses": [
+   {
+    "key": "melee",
+    "groups": [
+     [
+      300644
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "range",
+    "groups": [
+     [
+      300637
+     ]
+    ],
+    "tail": "===8"
+   }
+  ]
+ },
+ "300649": {
+  "scenarios": {
+   "alone": {
+    "spPercent": -5,
+    "vct": 5
+   },
+   "with:300652": {
+    "spPercent": -5,
+    "vct": 15,
+    "acd": 5
+   }
+  },
+  "clauses": [
+   {
+    "key": "vct",
+    "groups": [
+     [
+      300652
+     ]
+    ],
+    "tail": "===10"
+   },
+   {
+    "key": "acd",
+    "groups": [
+     [
+      300652
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "300650": {
+  "scenarios": {
+   "alone": {
+    "melee": 7,
+    "cri": 2
+   },
+   "with:300653": {
+    "cRate": 2,
+    "melee": 7,
+    "cri": 2,
+    "criDmg": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "cRate",
+    "groups": [
+     [
+      300653
+     ]
+    ],
+    "tail": "===2"
+   },
+   {
+    "key": "criDmg",
+    "groups": [
+     [
+      300653
+     ]
+    ],
+    "tail": "===10"
+   }
+  ]
+ },
+ "300651": {
+  "scenarios": {
+   "alone": {
+    "range": 7,
+    "vct": 5
+   },
+   "with:300654": {
+    "cRate": 2,
+    "range": 7,
+    "vct": 5,
+    "criDmg": 10
+   }
+  },
+  "clauses": [
+   {
+    "key": "cRate",
+    "groups": [
+     [
+      300654
+     ]
+    ],
+    "tail": "===2"
+   },
+   {
+    "key": "criDmg",
+    "groups": [
+     [
+      300654
+     ]
+    ],
+    "tail": "===10"
+   }
+  ]
+ },
+ "300659": {
+  "scenarios": {
+   "alone": {
+    "pAtk": 7,
+    "p_element_all": 10
+   },
+   "with:300661": {
+    "pAtk": 7,
+    "p_element_all": 10,
+    "p_class_normal": 7,
+    "p_class_boss": 7
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_class_boss",
+    "groups": [
+     [
+      300661
+     ]
+    ],
+    "tail": "===7"
+   }
+  ]
+ },
+ "300660": {
+  "scenarios": {
+   "alone": {
+    "sMatk": 5,
+    "m_size_all": 12
+   },
+   "with:300662": {
+    "sMatk": 5,
+    "m_size_all": 12,
+    "m_class_normal": 4,
+    "m_class_boss": 4
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_class_normal",
+    "groups": [
+     [
+      300662
+     ]
+    ],
+    "tail": "===4"
+   }
+  ]
+ },
+ "300661": {
+  "scenarios": {
+   "alone": {
+    "pAtk": 7,
+    "p_size_all": 12
+   },
+   "with:300659": {
+    "pAtk": 7,
+    "p_size_all": 12,
+    "p_class_normal": 7,
+    "p_class_boss": 7
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_class_normal",
+    "groups": [
+     [
+      300659
+     ]
+    ],
+    "tail": "===7"
+   }
+  ]
+ },
+ "300662": {
+  "scenarios": {
+   "alone": {
+    "sMatk": 5,
+    "m_element_all": 10
+   },
+   "with:300660": {
+    "sMatk": 5,
+    "m_element_all": 10,
+    "m_class_normal": 4,
+    "m_class_boss": 4
+   }
+  },
+  "clauses": [
+   {
+    "key": "m_class_boss",
+    "groups": [
+     [
+      300660
+     ]
+    ],
+    "tail": "===4"
+   }
+  ]
+ },
+ "300665": {
+  "scenarios": {
+   "alone": {
+    "hpPercent": -25,
+    "p_class_boss": 17,
+    "m_class_boss": 14
+   },
+   "with:300659": {
+    "hpPercent": -25,
+    "p_size_all": 8,
+    "p_class_boss": 17,
+    "m_class_boss": 14
+   },
+   "with:300661": {
+    "hpPercent": -25,
+    "p_element_all": 5,
+    "p_class_boss": 17,
+    "m_class_boss": 14
+   },
+   "with:300662": {
+    "hpPercent": -25,
+    "p_class_boss": 17,
+    "m_size_all": 8,
+    "m_class_boss": 14
+   },
+   "with:300660": {
+    "hpPercent": -25,
+    "p_class_boss": 17,
+    "m_element_all": 5,
+    "m_class_boss": 14
+   }
+  },
+  "clauses": [
+   {
+    "key": "p_size_all",
+    "groups": [
+     [
+      300659
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "p_element_all",
+    "groups": [
+     [
+      300661
+     ]
+    ],
+    "tail": "===5"
+   },
+   {
+    "key": "m_size_all",
+    "groups": [
+     [
+      300662
+     ]
+    ],
+    "tail": "===8"
+   },
+   {
+    "key": "m_element_all",
+    "groups": [
+     [
+      300660
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ }
+}
