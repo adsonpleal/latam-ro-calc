@@ -33,12 +33,12 @@ describe('mergeLatamItems', () => {
 
   it('flags exactly the LATAM intersection, plus the preRelease opt-ins', () => {
     // Regression guard on the overlay: 7135 of item.json's 10427 records exist in the
-    // LATAM client, and 141 more are opted in by hand. The rest are hidden from the
+    // LATAM client, and 157 more are opted in by hand. The rest are hidden from the
     // app's pickers.
     const flagged = Object.values(items).filter((i: any) => i.presentInLatam).length;
     const preRelease = Object.values(items).filter((i: any) => i.preRelease).length;
-    expect(preRelease).toBe(141);
-    expect(flagged).toBe(7276);
+    expect(preRelease).toBe(157);
+    expect(flagged).toBe(7292);
     expect(Object.keys(items)).toHaveLength(10427);
   });
 

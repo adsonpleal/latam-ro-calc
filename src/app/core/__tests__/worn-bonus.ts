@@ -34,6 +34,7 @@ export interface Worn {
   weaponCards?: number[];
   headUpper?: number;
   headUpperRefine?: number;
+  headUpperGrade?: string;
   /** Enchant slots 1-3 of the upper head gear, by enchant item id. */
   headUpperEnchants?: number[];
   headUpperCard?: number;
@@ -91,6 +92,7 @@ export function wornBonus(worn: Worn): Record<string, number> {
     items[worn.headUpper] = withSlot(worn.headUpper, 2, 512);
     model.headUpper = worn.headUpper;
     model.headUpperRefine = worn.headUpperRefine ?? 0;
+    if (worn.headUpperGrade) model.headUpperGrade = worn.headUpperGrade;
     // Enchants ride the same slot, one model field per position (1-based, like the UI).
     (worn.headUpperEnchants ?? []).forEach((enchant, i) => {
       items[enchant] = db[enchant];

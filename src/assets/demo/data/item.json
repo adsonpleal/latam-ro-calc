@@ -108083,11 +108083,12 @@
   },
   "311367": {
     "id": 311367,
+    "preRelease": true,
     "aegisName": "Gray_Melee1",
     "name": "Gray Spell (Warrior) Lv.1",
     "unidName": "Gray Spell (Warrior) Lv.1",
     "resName": "Wolf_Orb_luk_3",
-    "description": "เมื่อสวมใส่ร่วมกับ Thanos Great Sword-AD,\nเพิ่ม Damage สกิล Wind Cutter 15%, เพิ่ม Damage สกิล Servant Weapon 15%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะใกล้ 2%\nเมื่อสวมใส่ร่วมกับ Thanos Axe-AD,\nเพิ่ม Damage สกิล Axe Tornado 15%, เพิ่ม Damage สกิล Axe Stomp 15%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Axe Boomerang 6%\nเมื่อสวมใส่ร่วมกับ Thanos Spear-AD,\nเพิ่ม Damage สกิล Hesperus Lit 15%, เพิ่ม Damage สกิล Overslash 15%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Over Brand 6%\n \n[Option เพิ่มเติมตาม Grade Headgear ที่สวมใส่]\n[Grade D] POW + 1\n[Grade C] P.ATK + 1",
+    "description": "When equipped with Thanos Great Sword-AD [2],\nIncrease Wind Cutter and Servant Weapon damage by 15%.\nFor every 2 refine level of weapon, increase melee physical damage by 2%.\n------------------------\nWhen equipped with Thanos Axe-AD [2],\nIncrease Axe Tornado and Axe Stomp damage by 15%.\nFor every 2 refine level of weapon, increase Axe Boomerang damage by 6%.\n------------------------\nWhen equipped with Thanos Spear-AD [2],\nIncrease Hesperus Lit and Overslash damage by 15%.\nFor every 2 refine level of weapon, increase Overbrand damage by 6%.\n------------------------\n[Headgear Grade Bonus]\n[Grade D] POW + 1\n[Grade C] P.ATK + 1",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -108100,31 +108101,31 @@
     "compositionPos": 65535,
     "script": {
       "2005": [
-        "EQUIP[Thanos Great Sword-AD]===15"
+        "EQUIP_ID[600016]===15"
       ],
       "5201": [
-        "EQUIP[Thanos Great Sword-AD]===15"
+        "EQUIP_ID[600016]===15"
       ],
       "melee": [
-        "EQUIP[Thanos Great Sword-AD]REFINE[weapon==2]---2"
+        "EQUIP_ID[600016]REFINE[weapon==2]---2"
       ],
       "2280": [
-        "EQUIP[Thanos Axe-AD]===15"
+        "EQUIP_ID[620009]===15"
       ],
       "5295": [
-        "EQUIP[Thanos Axe-AD]===15"
+        "EQUIP_ID[620009]===15"
       ],
       "2278": [
-        "EQUIP[Thanos Axe-AD]REFINE[weapon==2]---6"
+        "EQUIP_ID[620009]REFINE[weapon==2]---6"
       ],
       "2324": [
-        "EQUIP[Thanos Spear-AD]===15"
+        "EQUIP_ID[530012]===15"
       ],
       "5266": [
-        "EQUIP[Thanos Spear-AD]===15"
+        "EQUIP_ID[530012]===15"
       ],
       "2317": [
-        "EQUIP[Thanos Spear-AD]REFINE[weapon==2]---6"
+        "EQUIP_ID[530012]REFINE[weapon==2]---6"
       ],
       "pow": [
         "GRADE[headUpper==D]===1"
@@ -108136,11 +108137,12 @@
   },
   "311368": {
     "id": 311368,
+    "preRelease": true,
     "aegisName": "Gray_Melee2",
     "name": "Gray Spell (Warrior) Lv.2",
     "unidName": "Gray Spell (Warrior) Lv.2",
     "resName": "Wolf_Orb_luk_3",
-    "description": "เมื่อสวมใส่ร่วมกับ Thanos Great Sword-AD,\nเพิ่ม Damage สกิล Wind Cutter 20%, เพิ่ม Damage สกิล Servant Weapon 20%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะใกล้ 4%\nเมื่อสวมใส่ร่วมกับ Thanos Axe-AD,\nเพิ่ม Damage สกิล Axe Tornado 20%, เพิ่ม Damage สกิล Axe Stomp 20%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Axe Boomerang 9%\nเมื่อสวมใส่ร่วมกับ Thanos Spear-AD,\nเพิ่ม Damage สกิล Hesperus Lit 20%, เพิ่ม Damage สกิล Overslash 20%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Over Brand 9%\n \n[Option เพิ่มเติมตาม Grade Headgear ที่สวมใส่]\n[Grade D] POW + 2\n[Grade C] P.ATK + 2",
+    "description": "When equipped with Thanos Great Sword-AD [2],\nIncrease Wind Cutter and Servant Weapon damage by 20%.\nFor every 2 refine level of weapon, increase melee physical damage by 4%.\n------------------------\nWhen equipped with Thanos Axe-AD [2],\nIncrease Axe Tornado and Axe Stomp damage by 20%.\nFor every 2 refine level of weapon, increase Axe Boomerang damage by 9%.\n------------------------\nWhen equipped with Thanos Spear-AD [2],\nIncrease Hesperus Lit and Overslash damage by 20%.\nFor every 2 refine level of weapon, increase Overbrand damage by 9%.\n------------------------\n[Headgear Grade Bonus]\n[Grade D] POW + 2\n[Grade C] P.ATK + 2",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -108153,31 +108155,31 @@
     "compositionPos": 65535,
     "script": {
       "2005": [
-        "EQUIP[Thanos Great Sword-AD]===20"
+        "EQUIP_ID[600016]===20"
       ],
       "5201": [
-        "EQUIP[Thanos Great Sword-AD]===20"
+        "EQUIP_ID[600016]===20"
       ],
       "melee": [
-        "EQUIP[Thanos Great Sword-AD]REFINE[weapon==2]---4"
+        "EQUIP_ID[600016]REFINE[weapon==2]---4"
       ],
       "2280": [
-        "EQUIP[Thanos Axe-AD]===20"
+        "EQUIP_ID[620009]===20"
       ],
       "5295": [
-        "EQUIP[Thanos Axe-AD]===20"
+        "EQUIP_ID[620009]===20"
       ],
       "2278": [
-        "EQUIP[Thanos Axe-AD]REFINE[weapon==2]---9"
+        "EQUIP_ID[620009]REFINE[weapon==2]---9"
       ],
       "2324": [
-        "EQUIP[Thanos Spear-AD]===20"
+        "EQUIP_ID[530012]===20"
       ],
       "5266": [
-        "EQUIP[Thanos Spear-AD]===20"
+        "EQUIP_ID[530012]===20"
       ],
       "2317": [
-        "EQUIP[Thanos Spear-AD]REFINE[weapon==2]---9"
+        "EQUIP_ID[530012]REFINE[weapon==2]---9"
       ],
       "pow": [
         "GRADE[headUpper==D]===2"
@@ -108189,11 +108191,12 @@
   },
   "311369": {
     "id": 311369,
+    "preRelease": true,
     "aegisName": "Gray_Melee3",
     "name": "Gray Spell (Warrior) Lv.3",
     "unidName": "Gray Spell (Warrior) Lv.3",
     "resName": "Wolf_Orb_luk_3",
-    "description": "เมื่อสวมใส่ร่วมกับ Thanos Great Sword-AD,\nเพิ่ม Damage สกิล Wind Cutter 25%, เพิ่ม Damage สกิล Servant Weapon 25%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะใกล้ 6%\nเมื่อสวมใส่ร่วมกับ Thanos Axe-AD,\nเพิ่ม Damage สกิล Axe Tornado 25%, เพิ่ม Damage สกิล Axe Stomp 25%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Axe Boomerang 12%\nเมื่อสวมใส่ร่วมกับ Thanos Spear-AD,\nเพิ่ม Damage สกิล Hesperus Lit 25%, เพิ่ม Damage สกิล Overslash 25%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Over Brand 12%\n \n[Option เพิ่มเติมตาม Grade Headgear ที่สวมใส่]\n[Grade D] POW + 3\n[Grade C] P.ATK + 3",
+    "description": "When equipped with Thanos Great Sword-AD [2],\nIncrease Wind Cutter and Servant Weapon damage by 25%.\nFor every 2 refine level of weapon, increase melee physical damage by 6%.\n------------------------\nWhen equipped with Thanos Axe-AD [2],\nIncrease Axe Tornado and Axe Stomp damage by 25%.\nFor every 2 refine level of weapon, increase Axe Boomerang damage by 12%.\n------------------------\nWhen equipped with Thanos Spear-AD [2],\nIncrease Hesperus Lit and Overslash damage by 25%.\nFor every 2 refine level of weapon, increase Overbrand damage by 12%.\n------------------------\n[Headgear Grade Bonus]\n[Grade D] POW + 3\n[Grade C] P.ATK + 3",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -108206,31 +108209,31 @@
     "compositionPos": 65535,
     "script": {
       "2005": [
-        "EQUIP[Thanos Great Sword-AD]===25"
+        "EQUIP_ID[600016]===25"
       ],
       "5201": [
-        "EQUIP[Thanos Great Sword-AD]===25"
+        "EQUIP_ID[600016]===25"
       ],
       "melee": [
-        "EQUIP[Thanos Great Sword-AD]REFINE[weapon==2]---6"
+        "EQUIP_ID[600016]REFINE[weapon==2]---6"
       ],
       "2280": [
-        "EQUIP[Thanos Axe-AD]===25"
+        "EQUIP_ID[620009]===25"
       ],
       "5295": [
-        "EQUIP[Thanos Axe-AD]===25"
+        "EQUIP_ID[620009]===25"
       ],
       "2278": [
-        "EQUIP[Thanos Axe-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[620009]REFINE[weapon==2]---12"
       ],
       "2324": [
-        "EQUIP[Thanos Spear-AD]===25"
+        "EQUIP_ID[530012]===25"
       ],
       "5266": [
-        "EQUIP[Thanos Spear-AD]===25"
+        "EQUIP_ID[530012]===25"
       ],
       "2317": [
-        "EQUIP[Thanos Spear-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[530012]REFINE[weapon==2]---12"
       ],
       "pow": [
         "GRADE[headUpper==D]===3"
@@ -108242,11 +108245,12 @@
   },
   "311370": {
     "id": 311370,
+    "preRelease": true,
     "aegisName": "Gray_Range1",
     "name": "Gray Spell (Shooter) Lv.1",
     "unidName": "Gray Spell (Shooter) Lv.1",
     "resName": "Wolf_Orb_Dex_3",
-    "description": "เมื่อสวมใส่ร่วมกับ Thanos Sword-AD,\nเพิ่ม Damage สกิล Cart Cannon 15%, เพิ่ม Damage สกิล Acidified Zone (Fire/Water/Wind/Earth) 15%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะไกล 2%\nเมื่อสวมใส่ร่วมกับ Thanos Bow-AD,\nเพิ่ม Damage สกิล Focused Arrow Strike 15%, เพิ่ม Damage สกิล Crescive Bolt 15%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะไกล 2%\nเมื่อสวมใส่ร่วมกับ Thanos Violon-AD หรือ Thanos Whipsword-AD,\nเพิ่ม Damage สกิล Severe Rainstorm 15%, เพิ่ม Damage สกิล Rhythm Shooting 15%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะไกล 2%\n \n[Option เพิ่มเติมตาม Grade Headgear ที่สวมใส่]\n[Grade D] CON + 1\n[Grade C] P.ATK + 1",
+    "description": "When equipped with Thanos Sword-AD [2],\nIncrease Cart Cannon and Acidified Zone (Fire/Water/Wind/Ground) damage by 15%.\nFor every 2 refine level of weapon, increase long ranged physical damage by 2%.\n------------------------\nWhen equipped with Thanos Bow-AD [2],\nIncrease Focused Arrow Strike and Crescive Bolt damage by 15%.\nFor every 2 refine level of weapon, increase long ranged physical damage by 2%.\n------------------------\nWhen equipped with Thanos Violin-AD [2] or Thanos Whipsword-AD [2],\nIncrease Severe Rainstorm and Rhythm Shooting damage by 15%.\nFor every 2 refine level of weapon, increase long ranged physical damage by 2%.\n------------------------\n[Headgear Grade Bonus]\n[Grade D] CON + 1\n[Grade C] P.ATK + 1",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -108259,36 +108263,36 @@
     "compositionPos": 65535,
     "script": {
       "2477": [
-        "EQUIP[Thanos Sword-AD]===15"
+        "EQUIP_ID[500024]===15"
       ],
       "5343": [
-        "EQUIP[Thanos Sword-AD]===15"
+        "EQUIP_ID[500024]===15"
       ],
       "5340": [
-        "EQUIP[Thanos Sword-AD]===15"
+        "EQUIP_ID[500024]===15"
       ],
       "5341": [
-        "EQUIP[Thanos Sword-AD]===15"
+        "EQUIP_ID[500024]===15"
       ],
       "5342": [
-        "EQUIP[Thanos Sword-AD]===15"
+        "EQUIP_ID[500024]===15"
       ],
       "range": [
-        "EQUIP[Thanos Sword-AD]REFINE[weapon==2]---2",
-        "EQUIP[Thanos Bow-AD]REFINE[weapon==2]---2",
-        "EQUIP[Thanos Violin-AD||Thanos Whipsword-AD]REFINE[weapon==2]---2"
+        "EQUIP_ID[500024]REFINE[weapon==2]---2",
+        "EQUIP_ID[700029]REFINE[weapon==2]---2",
+        "EQUIP_ID[570016||580016]REFINE[weapon==2]---2"
       ],
       "382": [
-        "EQUIP[Thanos Bow-AD]===15"
+        "EQUIP_ID[700029]===15"
       ],
       "5334": [
-        "EQUIP[Thanos Bow-AD]===15"
+        "EQUIP_ID[700029]===15"
       ],
       "2418": [
-        "EQUIP[Thanos Violin-AD||Thanos Whipsword-AD]===15"
+        "EQUIP_ID[570016||580016]===15"
       ],
       "5355": [
-        "EQUIP[Thanos Violin-AD||Thanos Whipsword-AD]===15"
+        "EQUIP_ID[570016||580016]===15"
       ],
       "con": [
         "GRADE[headUpper==D]===1"
@@ -108300,11 +108304,12 @@
   },
   "311371": {
     "id": 311371,
+    "preRelease": true,
     "aegisName": "Gray_Range2",
     "name": "Gray Spell (Shooter) Lv.2",
     "unidName": "Gray Spell (Shooter) Lv.2",
     "resName": "Wolf_Orb_Dex_3",
-    "description": "เมื่อสวมใส่ร่วมกับ Thanos Sword-AD,\nเพิ่ม Damage สกิล Cart Cannon 20%, เพิ่ม Damage สกิล Acidified Zone (Fire/Water/Wind/Earth) 20%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะไกล 4%\nเมื่อสวมใส่ร่วมกับ Thanos Bow-AD,\nเพิ่ม Damage สกิล Focused Arrow Strike 20%, เพิ่ม Damage สกิล Crescive Bolt 20%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะไกล 4%\nเมื่อสวมใส่ร่วมกับ Thanos Violon-AD หรือ Thanos Whipsword-AD,\nเพิ่ม Damage สกิล Severe Rainstorm 20%, เพิ่ม Damage สกิล Rhythm Shooting 20%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะไกล 4%\n \n[Option เพิ่มเติมตาม Grade Headgear ที่สวมใส่]\n[Grade D] CON + 2\n[Grade C] P.ATK + 2",
+    "description": "When equipped with Thanos Sword-AD [2],\nIncrease Cart Cannon and Acidified Zone (Fire/Water/Wind/Ground) damage by 20%.\nFor every 2 refine level of weapon, increase long ranged physical damage by 4%.\n------------------------\nWhen equipped with Thanos Bow-AD [2],\nIncrease Focused Arrow Strike and Crescive Bolt damage by 20%.\nFor every 2 refine level of weapon, increase long ranged physical damage by 4%.\n------------------------\nWhen equipped with Thanos Violin-AD [2] or Thanos Whipsword-AD [2],\nIncrease Severe Rainstorm and Rhythm Shooting damage by 20%.\nFor every 2 refine level of weapon, increase long ranged physical damage by 4%.\n------------------------\n[Headgear Grade Bonus]\n[Grade D] CON + 2\n[Grade C] P.ATK + 2",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -108317,36 +108322,36 @@
     "compositionPos": 65535,
     "script": {
       "2477": [
-        "EQUIP[Thanos Sword-AD]===20"
+        "EQUIP_ID[500024]===20"
       ],
       "5343": [
-        "EQUIP[Thanos Sword-AD]===20"
+        "EQUIP_ID[500024]===20"
       ],
       "5340": [
-        "EQUIP[Thanos Sword-AD]===20"
+        "EQUIP_ID[500024]===20"
       ],
       "5341": [
-        "EQUIP[Thanos Sword-AD]===20"
+        "EQUIP_ID[500024]===20"
       ],
       "5342": [
-        "EQUIP[Thanos Sword-AD]===20"
+        "EQUIP_ID[500024]===20"
       ],
       "range": [
-        "EQUIP[Thanos Sword-AD]REFINE[weapon==2]---4",
-        "EQUIP[Thanos Bow-AD]REFINE[weapon==2]---4",
-        "EQUIP[Thanos Violin-AD||Thanos Whipsword-AD]REFINE[weapon==2]---4"
+        "EQUIP_ID[500024]REFINE[weapon==2]---4",
+        "EQUIP_ID[700029]REFINE[weapon==2]---4",
+        "EQUIP_ID[570016||580016]REFINE[weapon==2]---4"
       ],
       "382": [
-        "EQUIP[Thanos Bow-AD]===20"
+        "EQUIP_ID[700029]===20"
       ],
       "5334": [
-        "EQUIP[Thanos Bow-AD]===20"
+        "EQUIP_ID[700029]===20"
       ],
       "2418": [
-        "EQUIP[Thanos Violin-AD||Thanos Whipsword-AD]===20"
+        "EQUIP_ID[570016||580016]===20"
       ],
       "5355": [
-        "EQUIP[Thanos Violin-AD||Thanos Whipsword-AD]===20"
+        "EQUIP_ID[570016||580016]===20"
       ],
       "con": [
         "GRADE[headUpper==D]===2"
@@ -108358,11 +108363,12 @@
   },
   "311372": {
     "id": 311372,
+    "preRelease": true,
     "aegisName": "Gray_Range3",
     "name": "Gray Spell (Shooter) Lv.3",
     "unidName": "Gray Spell (Shooter) Lv.3",
     "resName": "Wolf_Orb_Dex_3",
-    "description": "เมื่อสวมใส่ร่วมกับ Thanos Sword-AD,\nเพิ่ม Damage สกิล Cart Cannon 25%, เพิ่ม Damage สกิล Acidified Zone (Fire/Water/Wind/Earth) 25%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะไกล 6%\nเมื่อสวมใส่ร่วมกับ Thanos Bow-AD,\nเพิ่ม Damage สกิล Focused Arrow Strike 25%, เพิ่ม Damage สกิล Crescive Bolt 25%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะไกล 6%\nเมื่อสวมใส่ร่วมกับ Thanos Violon-AD หรือ Thanos Whipsword-AD,\nเพิ่ม Damage สกิล Severe Rainstorm 25%, เพิ่ม Damage สกิล Rhythm Shooting 25%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะไกล 6%\n \n[Option เพิ่มเติมตาม Grade Headgear ที่สวมใส่]\n[Grade D] CON + 3\n[Grade C] P.ATK + 3",
+    "description": "When equipped with Thanos Sword-AD [2],\nIncrease Cart Cannon and Acidified Zone (Fire/Water/Wind/Ground) damage by 25%.\nFor every 2 refine level of weapon, increase long ranged physical damage by 6%.\n------------------------\nWhen equipped with Thanos Bow-AD [2],\nIncrease Focused Arrow Strike and Crescive Bolt damage by 25%.\nFor every 2 refine level of weapon, increase long ranged physical damage by 6%.\n------------------------\nWhen equipped with Thanos Violin-AD [2] or Thanos Whipsword-AD [2],\nIncrease Severe Rainstorm and Rhythm Shooting damage by 25%.\nFor every 2 refine level of weapon, increase long ranged physical damage by 6%.\n------------------------\n[Headgear Grade Bonus]\n[Grade D] CON + 3\n[Grade C] P.ATK + 3",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -108375,36 +108381,36 @@
     "compositionPos": 65535,
     "script": {
       "2477": [
-        "EQUIP[Thanos Sword-AD]===25"
+        "EQUIP_ID[500024]===25"
       ],
       "5343": [
-        "EQUIP[Thanos Sword-AD]===25"
+        "EQUIP_ID[500024]===25"
       ],
       "5340": [
-        "EQUIP[Thanos Sword-AD]===25"
+        "EQUIP_ID[500024]===25"
       ],
       "5341": [
-        "EQUIP[Thanos Sword-AD]===25"
+        "EQUIP_ID[500024]===25"
       ],
       "5342": [
-        "EQUIP[Thanos Sword-AD]===25"
+        "EQUIP_ID[500024]===25"
       ],
       "range": [
-        "EQUIP[Thanos Sword-AD]REFINE[weapon==2]---6",
-        "EQUIP[Thanos Bow-AD]REFINE[weapon==2]---6",
-        "EQUIP[Thanos Violin-AD||Thanos Whipsword-AD]REFINE[weapon==2]---6"
+        "EQUIP_ID[500024]REFINE[weapon==2]---6",
+        "EQUIP_ID[700029]REFINE[weapon==2]---6",
+        "EQUIP_ID[570016||580016]REFINE[weapon==2]---6"
       ],
       "382": [
-        "EQUIP[Thanos Bow-AD]===25"
+        "EQUIP_ID[700029]===25"
       ],
       "5334": [
-        "EQUIP[Thanos Bow-AD]===25"
+        "EQUIP_ID[700029]===25"
       ],
       "2418": [
-        "EQUIP[Thanos Violin-AD||Thanos Whipsword-AD]===25"
+        "EQUIP_ID[570016||580016]===25"
       ],
       "5355": [
-        "EQUIP[Thanos Violin-AD||Thanos Whipsword-AD]===25"
+        "EQUIP_ID[570016||580016]===25"
       ],
       "con": [
         "GRADE[headUpper==D]===3"
@@ -108416,11 +108422,12 @@
   },
   "311373": {
     "id": 311373,
+    "preRelease": true,
     "aegisName": "Gray_Magic1",
     "name": "Gray Spell (Magic) Lv.1",
     "unidName": "Gray Spell (Magic) Lv.1",
     "resName": "Wolf_Orb_Int_3",
-    "description": "เมื่อสวมใส่ร่วมกับ Thanos Two-handed Staff-AD,\nเพิ่ม Damage สกิล Crimson Rock 15%, เพิ่ม Damage สกิล Floral Flare Road, Stratum Tremor 15%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Earth Strain 6%\nเมื่อสวมใส่ร่วมกับ Thanos Staff-AD,\nเพิ่ม Damage สกิล Varetyr Spear 15%, เพิ่ม Damage สกิล Lightning Land 15%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Psychic Wave 6%\nเมื่อสวมใส่ร่วมกับ Thanos Dagger-AD,\nเพิ่ม Damage สกิล Psychic Wave 15%, เพิ่ม Damage สกิล From The Abyss 15%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางเวทมนตร์ทุกธาตุ 2%\n \n[Option เพิ่มเติมตาม Grade Headgear ที่สวมใส่]\n[Grade D] SPL + 1.\n[Grade C] S.MATK + 1.",
+    "description": "When equipped with Thanos Two-Handed Staff-AD [2],\nIncrease Crimson Rock, Floral Flare Road, and Stratum Tremor damage by 15%.\nFor every 2 refine level of weapon, increase Earth Strain damage by 6%.\n------------------------\nWhen equipped with Thanos Staff-AD [2],\nIncrease Varetyr Spear and Lightning Land damage by 15%.\nFor every 2 refine level of weapon, increase Psychic Wave damage by 6%.\n------------------------\nWhen equipped with Thanos Dagger-AD [2],\nIncrease Psychic Wave and From the Abyss damage by 15%.\nFor every 2 refine level of weapon, increase all property magic damage by 2%.\n------------------------\n[Headgear Grade Bonus]\n[Grade D] SPL + 1.\n[Grade C] S.MATK + 1.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -108433,32 +108440,32 @@
     "compositionPos": 65535,
     "script": {
       "2211": [
-        "EQUIP[Thanos Two-Handed Staff-AD]===15"
+        "EQUIP_ID[640017]===15"
       ],
       "5229": [
-        "EQUIP[Thanos Two-Handed Staff-AD]===15"
+        "EQUIP_ID[640017]===15"
       ],
       "5221": [
-        "EQUIP[Thanos Two-Handed Staff-AD]===15"
+        "EQUIP_ID[640017]===15"
       ],
       "2216": [
-        "EQUIP[Thanos Two-Handed Staff-AD]REFINE[weapon==2]---6"
+        "EQUIP_ID[640017]REFINE[weapon==2]---6"
       ],
       "2454": [
-        "EQUIP[Thanos Staff-AD]===15"
+        "EQUIP_ID[550023]===15"
       ],
       "5370": [
-        "EQUIP[Thanos Staff-AD]===15"
+        "EQUIP_ID[550023]===15"
       ],
       "2449": [
-        "EQUIP[Thanos Staff-AD]REFINE[weapon==2]---6",
-        "EQUIP[Thanos Dagger-AD]===15"
+        "EQUIP_ID[550023]REFINE[weapon==2]---6",
+        "EQUIP_ID[510030]===15"
       ],
       "5317": [
-        "EQUIP[Thanos Dagger-AD]===15"
+        "EQUIP_ID[510030]===15"
       ],
       "m_my_element_all": [
-        "EQUIP[Thanos Dagger-AD]REFINE[weapon==2]---2"
+        "EQUIP_ID[510030]REFINE[weapon==2]---2"
       ],
       "spl": [
         "GRADE[headUpper==D]===1"
@@ -108470,11 +108477,12 @@
   },
   "311374": {
     "id": 311374,
+    "preRelease": true,
     "aegisName": "Gray_Magic2",
     "name": "Gray Spell (Magic) Lv.2",
     "unidName": "Gray Spell (Magic) Lv.2",
     "resName": "Wolf_Orb_Int_3",
-    "description": "เมื่อสวมใส่ร่วมกับ Thanos Two-handed Staff-AD,\nเพิ่ม Damage สกิล Crimson Rock 20%, เพิ่ม Damage สกิล Floral Flare Road, Stratum Tremor 20%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Earth Strain 9%\nเมื่อสวมใส่ร่วมกับ Thanos Staff-AD,\nเพิ่ม Damage สกิล Varetyr Spear 20%, เพิ่ม Damage สกิล Lightning Land 20%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Psychic Wave 9%\nเมื่อสวมใส่ร่วมกับ Thanos Dagger-AD,\nเพิ่ม Damage สกิล Psychic Wave 20%, เพิ่ม Damage สกิล From The Abyss 20%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางเวทมนตร์ทุกธาตุ 4%\n \n[Option เพิ่มเติมตาม Grade Headgear ที่สวมใส่]\n[Grade D] SPL + 2.\n[Grade C] S.MATK + 2.",
+    "description": "When equipped with Thanos Two-Handed Staff-AD [2],\nIncrease Crimson Rock, Floral Flare Road, and Stratum Tremor damage by 20%.\nFor every 2 refine level of weapon, increase Earth Strain damage by 9%.\n------------------------\nWhen equipped with Thanos Staff-AD [2],\nIncrease Varetyr Spear and Lightning Land damage by 20%.\nFor every 2 refine level of weapon, increase Psychic Wave damage by 9%.\n------------------------\nWhen equipped with Thanos Dagger-AD [2],\nIncrease Psychic Wave and From the Abyss damage by 20%.\nFor every 2 refine level of weapon, increase all property magic damage by 4%.\n------------------------\n[Headgear Grade Bonus]\n[Grade D] SPL + 2.\n[Grade C] S.MATK + 2.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -108487,32 +108495,32 @@
     "compositionPos": 65535,
     "script": {
       "2211": [
-        "EQUIP[Thanos Two-Handed Staff-AD]===20"
+        "EQUIP_ID[640017]===20"
       ],
       "5229": [
-        "EQUIP[Thanos Two-Handed Staff-AD]===20"
+        "EQUIP_ID[640017]===20"
       ],
       "5221": [
-        "EQUIP[Thanos Two-Handed Staff-AD]===20"
+        "EQUIP_ID[640017]===20"
       ],
       "2216": [
-        "EQUIP[Thanos Two-Handed Staff-AD]REFINE[weapon==2]---9"
+        "EQUIP_ID[640017]REFINE[weapon==2]---9"
       ],
       "2454": [
-        "EQUIP[Thanos Staff-AD]===20"
+        "EQUIP_ID[550023]===20"
       ],
       "5370": [
-        "EQUIP[Thanos Staff-AD]===20"
+        "EQUIP_ID[550023]===20"
       ],
       "2449": [
-        "EQUIP[Thanos Staff-AD]REFINE[weapon==2]---9",
-        "EQUIP[Thanos Dagger-AD]===20"
+        "EQUIP_ID[550023]REFINE[weapon==2]---9",
+        "EQUIP_ID[510030]===20"
       ],
       "5317": [
-        "EQUIP[Thanos Dagger-AD]===20"
+        "EQUIP_ID[510030]===20"
       ],
       "m_my_element_all": [
-        "EQUIP[Thanos Dagger-AD]REFINE[weapon==2]---4"
+        "EQUIP_ID[510030]REFINE[weapon==2]---4"
       ],
       "spl": [
         "GRADE[headUpper==D]===2"
@@ -108524,11 +108532,12 @@
   },
   "311375": {
     "id": 311375,
+    "preRelease": true,
     "aegisName": "Gray_Magic3",
     "name": "Gray Spell (Magic) Lv.3",
     "unidName": "Gray Spell (Magic) Lv.3",
     "resName": "Wolf_Orb_Int_3",
-    "description": "เมื่อสวมใส่ร่วมกับ Thanos Two-handed Staff-AD,\nเพิ่ม Damage สกิล Crimson Rock 25%, เพิ่ม Damage สกิล Floral Flare Road, Stratum Tremor 25%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Earth Strain 12%\nเมื่อสวมใส่ร่วมกับ Thanos Staff-AD,\nเพิ่ม Damage สกิล Varetyr Spear 25%, เพิ่ม Damage สกิล Lightning Land 25%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Psychic Wave 12%\nเมื่อสวมใส่ร่วมกับ Thanos Dagger-AD,\nเพิ่ม Damage สกิล Psychic Wave 25%, เพิ่ม Damage สกิล From The Abyss 25%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางเวทมนตร์ทุกธาตุ 6%\n \n[Option เพิ่มเติมตาม Grade Headgear ที่สวมใส่]\n[Grade D] SPL + 3.\n[Grade C] S.MATK + 3.",
+    "description": "When equipped with Thanos Two-Handed Staff-AD [2],\nIncrease Crimson Rock, Floral Flare Road, and Stratum Tremor damage by 25%.\nFor every 2 refine level of weapon, increase Earth Strain damage by 12%.\n------------------------\nWhen equipped with Thanos Staff-AD [2],\nIncrease Varetyr Spear and Lightning Land damage by 25%.\nFor every 2 refine level of weapon, increase Psychic Wave damage by 12%.\n------------------------\nWhen equipped with Thanos Dagger-AD [2],\nIncrease Psychic Wave and From the Abyss damage by 25%.\nFor every 2 refine level of weapon, increase all property magic damage by 6%.\n------------------------\n[Headgear Grade Bonus]\n[Grade D] SPL + 3.\n[Grade C] S.MATK + 3.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -108541,32 +108550,32 @@
     "compositionPos": 65535,
     "script": {
       "2211": [
-        "EQUIP[Thanos Two-Handed Staff-AD]===25"
+        "EQUIP_ID[640017]===25"
       ],
       "5229": [
-        "EQUIP[Thanos Two-Handed Staff-AD]===25"
+        "EQUIP_ID[640017]===25"
       ],
       "5221": [
-        "EQUIP[Thanos Two-Handed Staff-AD]===25"
+        "EQUIP_ID[640017]===25"
       ],
       "2216": [
-        "EQUIP[Thanos Two-Handed Staff-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[640017]REFINE[weapon==2]---12"
       ],
       "2454": [
-        "EQUIP[Thanos Staff-AD]===25"
+        "EQUIP_ID[550023]===25"
       ],
       "5370": [
-        "EQUIP[Thanos Staff-AD]===25"
+        "EQUIP_ID[550023]===25"
       ],
       "2449": [
-        "EQUIP[Thanos Staff-AD]REFINE[weapon==2]---12",
-        "EQUIP[Thanos Dagger-AD]===25"
+        "EQUIP_ID[550023]REFINE[weapon==2]---12",
+        "EQUIP_ID[510030]===25"
       ],
       "5317": [
-        "EQUIP[Thanos Dagger-AD]===25"
+        "EQUIP_ID[510030]===25"
       ],
       "m_my_element_all": [
-        "EQUIP[Thanos Dagger-AD]REFINE[weapon==2]---6"
+        "EQUIP_ID[510030]REFINE[weapon==2]---6"
       ],
       "spl": [
         "GRADE[headUpper==D]===3"
@@ -108578,11 +108587,12 @@
   },
   "311376": {
     "id": 311376,
+    "preRelease": true,
     "aegisName": "Gray_Fight1",
     "name": "Gray Spell (Fighter) Lv.1",
     "unidName": "Gray Spell (Fighter) Lv.1",
     "resName": "Wolf_Orb_Vit_3",
-    "description": "เมื่อสวมใส่ร่วมกับ Thanos Hammer-AD,\nเพิ่ม Damage สกิล Duple Light 15%, เพิ่ม Damage สกิล Petitio 15%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะไกล 2%\nเมื่อสวมใส่ร่วมกับ Thanos Knuckle-AD,\nเพิ่ม Damage สกิล Tiger Cannon 15%, เพิ่ม Damage สกิล Third Flame Bomb 15%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น MHP + 2%.\nเมื่อสวมใส่ร่วมกับ Thanos Katar-AD,\nเพิ่ม Damage สกิล Rolling Cutter 15%, เพิ่ม Damage สกิล Impact Crater 15%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Counter Slash 6%\n \n[Option เพิ่มเติมตาม Grade Headgear ที่สวมใส่]\n[Grade D] STA + 1.\n[Grade C] P.ATK + 1.",
+    "description": "When equipped with Thanos Hammer-AD [2],\nIncrease Duple Light and Petitio damage by 15%.\nFor every 2 refine level of weapon, increase long ranged physical damage by 2%.\n------------------------\nWhen equipped with Thanos Knuckle-AD [2],\nIncrease Tiger Cannon and Third Flame Bomb damage by 15%.\nFor every 2 refine level of weapon, MHP + 2%.\n------------------------\nWhen equipped with Thanos Katar-AD [2],\nIncrease Rolling Cutter and Impact Crater damage by 15%.\nFor every 2 refine level of weapon, increase Counter Slash damage by 6%.\n------------------------\n[Headgear Grade Bonus]\n[Grade D] STA + 1.\n[Grade C] P.ATK + 1.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -108595,31 +108605,31 @@
     "compositionPos": 65535,
     "script": {
       "2054": [
-        "EQUIP[Thanos Hammer-AD]===15"
+        "EQUIP_ID[590020]===15"
       ],
       "5283": [
-        "EQUIP[Thanos Hammer-AD]===15"
+        "EQUIP_ID[590020]===15"
       ],
       "range": [
-        "EQUIP[Thanos Hammer-AD]REFINE[weapon==2]---2"
+        "EQUIP_ID[590020]REFINE[weapon==2]---2"
       ],
       "2330": [
-        "EQUIP[Thanos Knuckle-AD]===15"
+        "EQUIP_ID[560017]===15"
       ],
       "5252": [
-        "EQUIP[Thanos Knuckle-AD]===15"
+        "EQUIP_ID[560017]===15"
       ],
       "hpPercent": [
-        "EQUIP[Thanos Knuckle-AD]REFINE[weapon==2]---2"
+        "EQUIP_ID[560017]REFINE[weapon==2]---2"
       ],
       "2036": [
-        "EQUIP[Thanos Katar-AD]===15"
+        "EQUIP_ID[610019]===15"
       ],
       "5292": [
-        "EQUIP[Thanos Katar-AD]===15"
+        "EQUIP_ID[610019]===15"
       ],
       "2029": [
-        "EQUIP[Thanos Katar-AD]REFINE[weapon==2]---6"
+        "EQUIP_ID[610019]REFINE[weapon==2]---6"
       ],
       "sta": [
         "GRADE[headUpper==D]===1"
@@ -108631,11 +108641,12 @@
   },
   "311377": {
     "id": 311377,
+    "preRelease": true,
     "aegisName": "Gray_Fight2",
     "name": "Gray Spell (Fighter) Lv.2",
     "unidName": "Gray Spell (Fighter) Lv.2",
     "resName": "Wolf_Orb_Vit_3",
-    "description": "เมื่อสวมใส่ร่วมกับ Thanos Hammer-AD,\nเพิ่ม Damage สกิล Duple Light 20%, เพิ่ม Damage สกิล Petitio 20%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะไกล 4%\nเมื่อสวมใส่ร่วมกับ Thanos Knuckle-AD,\nเพิ่ม Damage สกิล Tiger Cannon 20%, เพิ่ม Damage สกิล Third Flame Bomb 20%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น MHP + 3%.\nเมื่อสวมใส่ร่วมกับ Thanos Katar-AD,\nเพิ่ม Damage สกิล Rolling Cutter 20%, เพิ่ม Damage สกิล Impact Crater 20%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Counter Slash 9%\n \n[Option เพิ่มเติมตาม Grade Headgear ที่สวมใส่]\n[Grade D] STA + 2.\n[Grade C] P.ATK + 2.",
+    "description": "When equipped with Thanos Hammer-AD [2],\nIncrease Duple Light and Petitio damage by 20%.\nFor every 2 refine level of weapon, increase long ranged physical damage by 4%.\n------------------------\nWhen equipped with Thanos Knuckle-AD [2],\nIncrease Tiger Cannon and Third Flame Bomb damage by 20%.\nFor every 2 refine level of weapon, MHP + 3%.\n------------------------\nWhen equipped with Thanos Katar-AD [2],\nIncrease Rolling Cutter and Impact Crater damage by 20%.\nFor every 2 refine level of weapon, increase Counter Slash damage by 9%.\n------------------------\n[Headgear Grade Bonus]\n[Grade D] STA + 2.\n[Grade C] P.ATK + 2.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -108648,31 +108659,31 @@
     "compositionPos": 65535,
     "script": {
       "2054": [
-        "EQUIP[Thanos Hammer-AD]===20"
+        "EQUIP_ID[590020]===20"
       ],
       "5283": [
-        "EQUIP[Thanos Hammer-AD]===20"
+        "EQUIP_ID[590020]===20"
       ],
       "range": [
-        "EQUIP[Thanos Hammer-AD]REFINE[weapon==2]---4"
+        "EQUIP_ID[590020]REFINE[weapon==2]---4"
       ],
       "2330": [
-        "EQUIP[Thanos Knuckle-AD]===20"
+        "EQUIP_ID[560017]===20"
       ],
       "5252": [
-        "EQUIP[Thanos Knuckle-AD]===20"
+        "EQUIP_ID[560017]===20"
       ],
       "hpPercent": [
-        "EQUIP[Thanos Knuckle-AD]REFINE[weapon==2]---3"
+        "EQUIP_ID[560017]REFINE[weapon==2]---3"
       ],
       "2036": [
-        "EQUIP[Thanos Katar-AD]===20"
+        "EQUIP_ID[610019]===20"
       ],
       "5292": [
-        "EQUIP[Thanos Katar-AD]===20"
+        "EQUIP_ID[610019]===20"
       ],
       "2029": [
-        "EQUIP[Thanos Katar-AD]REFINE[weapon==2]---9"
+        "EQUIP_ID[610019]REFINE[weapon==2]---9"
       ],
       "sta": [
         "GRADE[headUpper==D]===2"
@@ -108684,11 +108695,12 @@
   },
   "311378": {
     "id": 311378,
+    "preRelease": true,
     "aegisName": "Gray_Fight3",
     "name": "Gray Spell (Fighter) Lv.3",
     "unidName": "Gray Spell (Fighter) Lv.3",
     "resName": "Wolf_Orb_Vit_3",
-    "description": "เมื่อสวมใส่ร่วมกับ Thanos Hammer-AD,\nเพิ่ม Damage สกิล Duple Light 25%, เพิ่ม Damage สกิล Petitio 25%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage ทางกายภาพระยะไกล 6%\nเมื่อสวมใส่ร่วมกับ Thanos Knuckle-AD,\nเพิ่ม Damage สกิล Tiger Cannon 25%, เพิ่ม Damage สกิล Third Flame Bomb 25%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น MHP + 5%.\nเมื่อสวมใส่ร่วมกับ Thanos Katar-AD,\nเพิ่ม Damage สกิล Rolling Cutter 25%, เพิ่ม Damage สกิล Impact Crater 25%\nทุก ๆ การอัพเกรด Weapon 2 ขั้น เพิ่ม Damage สกิล Counter Slash 12%\n \n[Option เพิ่มเติมตาม Grade Headgear ที่สวมใส่]\n[Grade D] STA + 3.\n[Grade C] P.ATK + 3.",
+    "description": "When equipped with Thanos Hammer-AD [2],\nIncrease Duple Light and Petitio damage by 25%.\nFor every 2 refine level of weapon, increase long ranged physical damage by 6%.\n------------------------\nWhen equipped with Thanos Knuckle-AD [2],\nIncrease Tiger Cannon and Third Flame Bomb damage by 25%.\nFor every 2 refine level of weapon, MHP + 5%.\n------------------------\nWhen equipped with Thanos Katar-AD [2],\nIncrease Rolling Cutter and Impact Crater damage by 25%.\nFor every 2 refine level of weapon, increase Counter Slash damage by 12%.\n------------------------\n[Headgear Grade Bonus]\n[Grade D] STA + 3.\n[Grade C] P.ATK + 3.",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -108701,31 +108713,31 @@
     "compositionPos": 65535,
     "script": {
       "2054": [
-        "EQUIP[Thanos Hammer-AD]===25"
+        "EQUIP_ID[590020]===25"
       ],
       "5283": [
-        "EQUIP[Thanos Hammer-AD]===25"
+        "EQUIP_ID[590020]===25"
       ],
       "range": [
-        "EQUIP[Thanos Hammer-AD]REFINE[weapon==2]---6"
+        "EQUIP_ID[590020]REFINE[weapon==2]---6"
       ],
       "2330": [
-        "EQUIP[Thanos Knuckle-AD]===25"
+        "EQUIP_ID[560017]===25"
       ],
       "5252": [
-        "EQUIP[Thanos Knuckle-AD]===25"
+        "EQUIP_ID[560017]===25"
       ],
       "hpPercent": [
-        "EQUIP[Thanos Knuckle-AD]REFINE[weapon==2]---5"
+        "EQUIP_ID[560017]REFINE[weapon==2]---5"
       ],
       "2036": [
-        "EQUIP[Thanos Katar-AD]===25"
+        "EQUIP_ID[610019]===25"
       ],
       "5292": [
-        "EQUIP[Thanos Katar-AD]===25"
+        "EQUIP_ID[610019]===25"
       ],
       "2029": [
-        "EQUIP[Thanos Katar-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[610019]REFINE[weapon==2]---12"
       ],
       "sta": [
         "GRADE[headUpper==D]===3"
@@ -145516,11 +145528,12 @@
   },
   "400135": {
     "id": 400135,
+    "preRelease": true,
     "aegisName": "Thanos_Helm1_LT",
     "name": "Thanos Warrior Helmet-LT [1]",
     "unidName": "Helm",
     "resName": "쌍어궁왕관",
-    "description": "หมวกนักรบที่ผลิตขึ้นเป็นเซ็ตกับอาวุธ Thanos\nมีการปรับปรุงเพื่อเพิ่มประสิทธิภาพของอาวุธ Thanos ประเภทกายภาพ\nทุก ๆ การอัพเกรด 3 ขั้น ATK + 5%\nเมื่ออัพเกรดถึงขั้น 7, ASPD + 15%\nเมื่ออัพเกรดถึงขั้น 9, เพิ่ม Damage ทางกายภาพระยะใกล้ 15%\nเมื่ออัพเกรดถึงขั้น 11, เพิ่ม Damage ทางกายภาพต่อศัตรูทุกธาตุ 15%, ลดระยะเวลาร่ายแบบคงที่ 0.2 วินาที\n \nเมื่อสวมใส่ร่วมกับ Thanatos Great Sword-AD,\nเพิ่ม Damage ทางกายภาพต่อศัตรูทุกขนาด 15%, ทุก ๆ การอัพเกรดอาวุธ 2 ขั้น เพิ่ม Damage สกิล Wind Cutter 12%\nเมื่อสวมใส่ร่วมกับ Thanos Axe-AD,\nเพิ่ม Damage ทางกายภาพต่อมอนสเตอร์ทุกเผ่า 15%, ทุก ๆ การอัพเกรดอาวุธ 2 ขั้น เพิ่ม Damage สกิล Axe Tornado 12%\nเมื่อสวมใส่ร่วมกับ Thanos Spear-AD,\nลด Global Cooldown 15%, ทุก ๆ การอัพเกรดอาวุธ 2 ขั้น เพิ่ม Damage สกิล Hesperus Lit 12%\n \n^CC3D3D[Option เพิ่มเติมตาม Grade]^000000\n[Grade D] เพิ่ม Damage ทางกายภาพระยะใกล้ 5%\n[Grade C] POW + 2, P.ATK + 2.\nประเภท : ^777777Headgear^000000 พลังป้องกัน : ^77777710^000000\nตำแหน่ง : ^777777Upper^000000 น้ำหนัก : ^77777710^000000\nเลเวล Armor : ^7777772^000000\nเลเวลที่ต้องการ : ^777777190^000000\nอาชีพที่ใส่ได้ : ^777777ทุกอาชีพ^000000",
+    "description": "Warrior helmet made as a set with Thanos weapons.\nIt has been improved.\n------------------------\nATK +5% per 3 refine rate.\n   \nIf refine rate is 7 or higher, increases attack speed (reduces delay after attack by 15%).\n   \nIf refine rate is 9 or higher, increases melee physical damage by 15%.\n   \nIf refine rate is 11 or higher, increases physical damage against all property enemies by 15%, reduces fixed casting time by 0.2 seconds.\n------------------------\nSet Bonus:\nThanos Warrior Helmet-LT\nThanos Great Sword-AD\n   \nincreases physical damage against all size enemies by 15%,\nincreases Wind Cutter damage by 12% per 2 refine rate of weapon.\n------------------------\nSet Bonus:\nThanos Warrior Helmet-LT\nThanos Axe-AD\n   \nincreases physical damage against all race monsters by 15%,\nincreases Axe Tornado damage by 12% per 2 refine rate of weapon.\n------------------------\nSet Bonus:\nThanos Warrior Helmet-LT\nThanos Spear-AD\n   \nReduces global cooldown by 15%,\nincreases Hesperus Lit damage by 12% per 2 refine rate of weapon.\n------------------------\n[Bonus By Grade]\n   \n[Grade D] Increases melee physical damage by 5%.\n[Grade C] POW +2, P.ATK +2.\n------------------------\nClass: Headgear\nDefense: 10\nLocation: Upper\nWeight: 10\nArmor Lv: 2\nRequired Lv: 190\nClass: All Class",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 512,
@@ -145553,22 +145566,22 @@
         "11===0.2"
       ],
       "p_size_all": [
-        "EQUIP[Thanos Great Sword-AD]===15"
+        "EQUIP_ID[600016]===15"
       ],
       "p_race_all": [
-        "EQUIP[Thanos Axe-AD]===15"
+        "EQUIP_ID[620009]===15"
       ],
       "acd": [
-        "EQUIP[Thanos Spear-AD]===15"
+        "EQUIP_ID[530012]===15"
       ],
       "2005": [
-        "EQUIP[Thanos Great Sword-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[600016]REFINE[weapon==2]---12"
       ],
       "2280": [
-        "EQUIP[Thanos Axe-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[620009]REFINE[weapon==2]---12"
       ],
       "2324": [
-        "EQUIP[Thanos Spear-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[530012]REFINE[weapon==2]---12"
       ],
       "pow": [
         "GRADE[headUpper==C]===2"
@@ -145683,11 +145696,12 @@
   },
   "400142": {
     "id": 400142,
+    "preRelease": true,
     "aegisName": "Thanos_Helm2_LT",
     "name": "Thanos Shooter Helmet-LT [1]",
     "unidName": "Helm",
     "resName": "Thanos_Helm2_LT",
-    "description": "หมวกนักแม่นปืนที่ผลิตขึ้นเป็นเซ็ตกับอาวุธ Thanos\nมีการปรับปรุงเพื่อเพิ่มประสิทธิภาพของอาวุธ Thanos ประเภทกายภาพระยะไกล\nทุก ๆ การอัพเกรด 3 ขั้น ATK + 5%\nเมื่ออัพเกรดถึงขั้น 7, ASPD + 15%\nเมื่ออัพเกรดถึงขั้น 9, เพิ่ม Damage ทางกายภาพระยะไกล 15%\nเมื่ออัพเกรดถึงขั้น 11, เพิ่ม Damage ทางกายภาพต่อศัตรูทุกธาตุ 15%, ลดระยะเวลาร่ายแบบคงที่ 0.2\n \nเมื่อสวมใส่ร่วมกับ Thanos Sword-AD,\nเพิ่ม Damage ทางกายภาพต่อศัตรูทุกขนาด 15%, ทุก ๆ การอัพเกรดอาวุธ 2 ขั้น เพิ่ม Damage สกิล Cart Cannon 12%\nเมื่อสวมใส่ร่วมกับ Thanos Bow-AD,\nเพิ่ม Damage ทางกายภาพต่อมอนสเตอร์ทุกเผ่า 15%, ทุก ๆ การอัพเกรดอาวุธ 2 ขั้น เพิ่ม Damage สกิล Focused Arrow Strike 12%\nเมื่อสวมใส่ร่วมกับ Thanos Violin-AD หรือ Thanos Whipsword-AD,\nเพิ่ม Damage ทางกายภาพระยะไกล 15%, ทุก ๆ การอัพเกรดอาวุธ 2 ขั้น เพิ่ม Damage สกิล Severe Rainstorm 12%\n \n^CC3D3D[Option เพิ่มเติมตาม Grade]^000000\n[Grade D] เพิ่ม Damage ทางกายภาพระยะไกล 5%\n[Grade C] POW + 2, P.ATK + 2.\nประเภท : ^777777Headgear^000000 พลังป้องกัน : ^77777710^000000\nตำแหน่ง : ^777777Upper^000000 น้ำหนัก : ^77777710^000000\nเลเวล Armor : ^7777772^000000\nเลเวลที่ต้องการ : ^777777190^000000\nอาชีพที่ใส่ได้ : ^777777ทุกอาชีพ^000000",
+    "description": "A shooter helmet made as a set with Thanos weapon.\nIt has been improved.\n------------------------\nATK +5% per 3 refine rate.\n   \nIf refine rate is 7 or higher, increases attack speed (reduces delay after attack by 15%).\n   \nIf refine rate is 9 or higher, increases long ranged physical damage by 15%.\n   \nIf refine rate is 11 or higher, increases physical damage against all property enemies by 15%, reduces fixed casting time by 0.2 seconds.\n------------------------\nSet Bonus:\nThanos Shooter Helmet-LT\nThanos Sword-AD\n   \nincreases physical damage against all size enemies by 15%,\nincreases Cart Cannon damage by 12% per 2 refine rate of weapon.\n------------------------\nSet Bonus:\nThanos Shooter Helmet-LT\nThanos Bow-AD\n   \nincreases physical damage against all race monsters by 15%,\nincreases Focused Arrow Strike damage by 12% per 2 refine rate of weapon.\n------------------------\nSet Bonus:\nThanos Shooter Helmet-LT\nThanos Violin-AD\nor\nThanos Shooter Helmet-LT\nThanos Whipsword-AD\n   \nincreases long ranged physical damage by 15%,\nincreases Severe Rainstorm damage by 12% per 2 refine rate of weapon.\n------------------------\n[Bonus By Grade]\n   \n[Grade D] Increases long ranged physical damage by 5%.\n[Grade C] POW +2, P.ATK +2.\n------------------------\nClass: Headgear\nDefense: 10\nLocation: Upper\nWeight: 10\nArmor Lv: 2\nRequired Lv: 190\nClass: All Class",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 512,
@@ -145711,7 +145725,7 @@
       ],
       "range": [
         "9===15",
-        "EQUIP[Thanos Violin-AD||Thanos Whipsword-AD]===15",
+        "EQUIP_ID[570016||580016]===15",
         "GRADE[headUpper==D]===5"
       ],
       "p_element_all": [
@@ -145721,19 +145735,19 @@
         "11===0.2"
       ],
       "p_size_all": [
-        "EQUIP[Thanos Sword-AD]===15"
+        "EQUIP_ID[500024]===15"
       ],
       "p_race_all": [
-        "EQUIP[Thanos Bow-AD]===15"
+        "EQUIP_ID[700029]===15"
       ],
       "2477": [
-        "EQUIP[Thanos Sword-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[500024]REFINE[weapon==2]---12"
       ],
       "382": [
-        "EQUIP[Thanos Bow-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[700029]REFINE[weapon==2]---12"
       ],
       "2418": [
-        "EQUIP[Thanos Violin-AD||Thanos Whipsword-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[570016||580016]REFINE[weapon==2]---12"
       ],
       "pow": [
         "GRADE[headUpper==C]===2"
@@ -145745,11 +145759,12 @@
   },
   "400145": {
     "id": 400145,
+    "preRelease": true,
     "aegisName": "Thanos_Helm3_LT",
     "name": "Thanos Magic Helmet-LT [1]",
     "unidName": "Helm",
     "resName": "Thanos_Helm3_LT",
-    "description": "หมวกเวทมนตร์ที่ผลิตขึ้นเป็นเซ็ตกับอาวุธ Thanos\nมีการปรับปรุงเพื่อเพิ่มประสิทธิภาพของอาวุธ Thanos ประเภทเวทมนตร์\nทุก ๆ การอัพเกรด 3 ขั้น MATK + 5%\nเมื่ออัพเกรดถึงขั้น 7, ลดระยะเวลาร่ายแบบแปรผัน 15%\nเมื่ออัพเกรดถึงขั้น 9, เพิ่ม Damage ทางเวทมนตร์ทุกธาตุ 15%\nเมื่ออัพเกรดถึงขั้น 11, เพิ่ม Damage ทางเวทมนตร์ต่อศัตรูทุกธาตุ 15%, ลดระยะเวลาร่ายแบบคงที่ 0.2 วินาที\n \nเมื่อสวมใส่ร่วมกับ Thanos Two-Handed Staff-AD,\nเพิ่ม Damage ทางเวทมนตร์ต่อศัตรูทุกขนาด 15%, ทุก ๆ การอัพเกรดอาวุธ 2 ขั้น เพิ่ม Damage สกิล Crimson Rock 12%\nเมื่อสวมใส่ร่วมกับ Thanos Staff-AD,\nเพิ่ม Damage ทางเวทมนตร์ต่อมอนสเตอร์ทุกเผ่า 15%, ทุก ๆ การอัพเกรดอาวุธ 2 ขั้น เพิ่ม Damage สกิล Varetyr Spear 12%\nเมื่อสวมใส่ร่วมกับ Thanos Dagger-AD,\nเพิ่ม Damage ทางเวทมนตร์ทุกธาตุ 15% ทุก ๆ การอัพเกรดอาวุธ 2 ขั้น เพิ่ม Damage สกิล Psychic Wave 12%\n \n^CC3D3D[Option เพิ่มเติมตาม Grade]^000000\n[Grade D] เพิ่ม Damage ทางเวทมนตร์ทุกธาตุ 5%\n[Grade C] SPL + 2, S.MATK + 2.\nประเภท : ^777777Headgear^000000 พลังป้องกัน : ^77777710^000000\nตำแหน่ง : ^777777Upper^000000 น้ำหนัก : ^77777710^000000\nเลเวล Armor : ^7777772^000000\nเลเวลที่ต้องการ : ^777777190^000000\nอาชีพที่ใส่ได้ : ^777777ทุกอาชีพ^000000",
+    "description": "A magic helmet made as a set with Thanos weapon.\nIt has been improved.\n------------------------\nMATK +5% per 3 refine rate.\n   \nIf refine rate is 7 or higher, reduces variable casting time by 15%.\n   \nIf refine rate is 9 or higher, increases all property magical damage by 15%.\n   \nIf refine rate is 11 or higher, increases magical damage against all property enemies by 15%, reduces fixed casting time by 0.2 seconds.\n------------------------\nSet Bonus:\nThanos Magic Helmet-LT\nThanos Two-Handed Staff-AD\n   \nincreases magical damage against all size enemies by 15%,\nincreases Crimson Rock damage by 12% per 2 refine rate of weapon.\n------------------------\nSet Bonus:\nThanos Magic Helmet-LT\nThanos Staff-AD\n   \nincreases magical damage against all race monsters by 15%,\nincreases Varetyr Spear damage by 12% per 2 refine rate of weapon.\n------------------------\nSet Bonus:\nThanos Magic Helmet-LT\nThanos Dagger-AD\n   \nincreases all property magical damage by 15%,\nincreases Psychic Wave damage by 12% per 2 refine rate of weapon.\n------------------------\n[Bonus By Grade]\n   \n[Grade D] Increases all property magical damage by 5%.\n[Grade C] SPL +2, S.MATK +2.\n------------------------\nClass: Headgear\nDefense: 10\nLocation: Upper\nWeight: 10\nArmor Lv: 2\nRequired Lv: 190\nClass: All Class",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 512,
@@ -145773,7 +145788,7 @@
       ],
       "m_my_element_all": [
         "9===15",
-        "EQUIP[Thanos Dagger-AD]===15",
+        "EQUIP_ID[510030]===15",
         "GRADE[headUpper==D]===5"
       ],
       "m_element_all": [
@@ -145783,19 +145798,19 @@
         "11===0.2"
       ],
       "m_size_all": [
-        "EQUIP[Thanos Two-Handed Staff-AD]===15"
+        "EQUIP_ID[640017]===15"
       ],
       "m_race_all": [
-        "EQUIP[Thanos Staff-AD]===15"
+        "EQUIP_ID[550023]===15"
       ],
       "2211": [
-        "EQUIP[Thanos Two-Handed Staff-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[640017]REFINE[weapon==2]---12"
       ],
       "2454": [
-        "EQUIP[Thanos Staff-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[550023]REFINE[weapon==2]---12"
       ],
       "2449": [
-        "EQUIP[Thanos Dagger-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[510030]REFINE[weapon==2]---12"
       ],
       "spl": [
         "GRADE[headUpper==C]===2"
@@ -145914,11 +145929,12 @@
   },
   "400151": {
     "id": 400151,
+    "preRelease": true,
     "aegisName": "Thanos_Helm4_LT",
     "name": "Thanos Fighter Helmet-LT [1]",
     "unidName": "Helm",
     "resName": "Thanos_Helm4_LT",
-    "description": "หมวกนักขว้างที่ผลิตขึ้นเป็นเซ็ตกับอาวุธ Thanos\nมีการปรับปรุงเพื่อเพิ่มประสิทธิภาพของอาวุธ Thanos ประเภทขว้าง\nทุก ๆ การอัพเกรด 3 ขั้น ATK + 5%\nเมื่ออัพเกรดถึงขั้น 7, ASPD + 15%\nเมื่ออัพเกรดถึงขั้น 9, เพิ่ม Damage ทางกายภาพระยะใกล้ 15%\nเมื่ออัพเกรดถึงขั้น 11, เพิ่ม Damage ทางกายภาพต่อศัตรูทุกธาตุ 15%, ลดระยะเวลาร่ายแบบคงที่ 0.2 วินาที\n \nเมื่อสวมใส่ร่วมกับ Thanos Hammer-AD,\nเพิ่ม Damage ทางกายภาพ/เวทมนตร์ต่อศัตรูทุกขนาด 15%, ทุก ๆ การอัพเกรดอาวุธ 2 ขั้น เพิ่ม Damage สกิล Duple Light 12%\nเมื่อสวมใส่ร่วมกับ Thanos Knuckle-AD,\nMHP + 15%, ทุก ๆ การอัพเกรดอาวุธ 2 ขั้น เพิ่ม Damage สกิล Tiger Cannon 12%\nเมื่อสวมใส่ร่วมกับ Thanos Katar-AD,\nลด Global Cooldown 15%, ทุก ๆ การอัพเกรดอาวุธ 2 ขั้น เพิ่ม Damage สกิล Rolling Cutter 12%\n \n^CC3D3D[Option เพิ่มเติมตาม Grade]^000000\n[Grade D] เพิ่ม Damage ทางกายภาพระยะใกล้ 5%\n[Grade C] POW + 2, P.ATK + 2.\nประเภท : ^777777Headgear^000000 พลังป้องกัน : ^77777710^000000\nตำแหน่ง : ^777777Upper^000000 น้ำหนัก : ^77777710^000000\nเลเวล Armor : ^7777772^000000\nเลเวลที่ต้องการ : ^777777190^000000\nอาชีพที่ใส่ได้ : ^777777ทุกอาชีพ^000000",
+    "description": "A fighter helmet made as a set with Thanos weapon.\nIt has been improved.\n------------------------\nATK +5% per 3 refine rate.\n   \nIf refine rate is 7 or higher, increases attack speed (reduces delay after attack by 15%).\n   \nIf refine rate is 9 or higher, increases melee physical damage by 15%.\n   \nIf refine rate is 11 or higher, increases physical damage against all property enemies by 15%, reduces fixed casting time by 0.2 seconds.\n------------------------\nSet Bonus:\nThanos Fighter Helmet-LT\nThanos Hammer-AD\n   \nincreases physical and magical damage against all size enemies by 15%,\nincreases Duple Light damage by 12% per 2 refine rate of weapon.\n------------------------\nSet Bonus:\nThanos Fighter Helmet-LT\nThanos Knuckle-AD\n   \nMaxHP + 15%,\nincreases Tiger Cannon damage by 12% per 2 refine rate of weapon.\n------------------------\nSet Bonus:\nThanos Fighter Helmet-LT\nThanos Katar-AD\n   \nReduces global cooldown by 15%,\nincreases Rolling Cutter damage by 12% per 2 refine rate of weapon.\n------------------------\n[Bonus By Grade]\n   \n[Grade D] Increases melee physical damage by 5%.\n[Grade C] POW +2, P.ATK +2.\n------------------------\nClass: Headgear\nDefense: 10\nLocation: Upper\nWeight: 10\nArmor Lv: 2\nRequired Lv: 190\nClass: All Class",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 512,
@@ -145951,25 +145967,25 @@
         "11===0.2"
       ],
       "p_size_all": [
-        "EQUIP[Thanos Hammer-AD]===15"
+        "EQUIP_ID[590020]===15"
       ],
       "m_size_all": [
-        "EQUIP[Thanos Hammer-AD]===15"
+        "EQUIP_ID[590020]===15"
       ],
       "hpPercent": [
-        "EQUIP[Thanos Knuckle-AD]===15"
+        "EQUIP_ID[560017]===15"
       ],
       "acd": [
-        "EQUIP[Thanos Katar-AD]===15"
+        "EQUIP_ID[610019]===15"
       ],
       "2054": [
-        "EQUIP[Thanos Hammer-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[590020]REFINE[weapon==2]---12"
       ],
       "2330": [
-        "EQUIP[Thanos Knuckle-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[560017]REFINE[weapon==2]---12"
       ],
       "2036": [
-        "EQUIP[Thanos Katar-AD]REFINE[weapon==2]---12"
+        "EQUIP_ID[610019]REFINE[weapon==2]---12"
       ],
       "pow": [
         "GRADE[headUpper==C]===2"

@@ -1,4 +1,4 @@
-import { Acute, Adamatine, MagicEess, MasterArc, Mettle, Tenacity, aspd24, ea35, ef35, em35, sp35 } from "./_basic"
+import { Acute, Adamatine, Affection, MagicEess, MasterArc, Mettle, Tenacity, aspd24, ea35, ef35, em35, sp35 } from "./_basic"
 
 export const thanosHead3 = [
   'Gray_Melee1',
@@ -33,6 +33,13 @@ export const thanosHead4 = [
   Adamatine._1,
   Adamatine._2,
   Adamatine._3,
+  // Seven lines, not six: Hazy Forest lists Affection alongside the other six as a
+  // perfect enchant of this slot. It was missing here because Affection (29111-29113)
+  // only reached item.json with the Good & Evil crowns.
+  // https://hazyforest.com/enchants:thanos_helmet-lt
+  Affection._1,
+  Affection._2,
+  Affection._3,
 ];
 
 export const thanosBoot4 = [
