@@ -162,7 +162,13 @@ describe('DamageCalculator.getAtkGroupB', () => {
   });
 });
 
+// The RES/RESM multiplier itself lives in `res-mres-reduction.spec.ts`, pinned against
+// bROWiki. What is checked here is only that these two accessors hand the graph view the
+// same `restRes`/`restMres` the multiplier was computed from.
 describe('DamageCalculator DEF/RES internals exposed for the graph view', () => {
+  /** bROWiki's sentence (https://browiki.org/wiki/Talentos), not the engine's own form. */
+  const browikiMultiplier = (res: number) => 1 - Math.min(0.5, ((res / (res + 400)) * 80) / 100);
+
   it('getPhisicalDefData exposes restRes matching the resReduction formula', () => {
     const dc = makeCalc({ monster_res: 0 });
     (dc as any).monster.data.res = 100;
@@ -170,7 +176,7 @@ describe('DamageCalculator DEF/RES internals exposed for the graph view', () => 
     (dc as any).monster.data.softDef = 0;
     const { restRes, resReduction } = (dc as any).getPhisicalDefData();
     expect(restRes).toBe(100); // no pene, no monster_res bonus
-    expect(resReduction).toBeCloseTo((2000 + restRes) / (2000 + restRes * 5), 10);
+    expect(resReduction).toBeCloseTo(browikiMultiplier(restRes), 10);
   });
 
   it('getMagicalDefData exposes mDefBypassed/restMres matching the mresReduction formula', () => {
@@ -180,7 +186,7 @@ describe('DamageCalculator DEF/RES internals exposed for the graph view', () => 
     const { mDefBypassed, restMres, mresReduction } = (dc as any).getMagicalDefData();
     expect(mDefBypassed).toBe(200); // no magical penetration configured
     expect(restMres).toBe(50);
-    expect(mresReduction).toBeCloseTo((2000 + restMres) / (2000 + restMres * 5), 10);
+    expect(mresReduction).toBeCloseTo(browikiMultiplier(restMres), 10);
   });
 });
 

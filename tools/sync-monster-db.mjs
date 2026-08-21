@@ -13,13 +13,23 @@
 //   - `name` stays the record's existing base name; the pt-BR label users see
 //     comes from the latam-monsters.json overlay (tools/build-latam-monsters.mjs,
 //     built from the same mobs.json).
-//   - `res`/`mres` are not in the source. monster.ts defaults both to 0; an
-//     existing non-zero value is kept rather than invented or zeroed.
+//   - `res`/`mres` DO come from the source — the feed grew both columns and
+//     mob-source.mjs maps them like any other stat. (This note used to say the
+//     opposite; it was stale.) A null still means "no value", so an existing
+//     figure is kept rather than zeroed.
 //   - attackRange/atk1/attack/magicAttack/hit/flee/baseExperience/… are legacy
 //     display fields nothing in the app reads. Left as-is.
 //
 // This script never ADDS or REMOVES ids — a new monster needs a hand-set spawn,
 // which is the add-ro-monster skill's job.
+//
+// Records the feed does not carry are reported separately at the end, split in
+// two: the synthetic ids this repo invents on purpose (the per-level Miragem de
+// Amdarais clones), and the rest — real monsters absent from the client table,
+// whose stats therefore come from divine-pride and can never be refreshed here.
+// That second list is the one to re-check by hand when a figure is disputed;
+// 20994 Betelgeuse is in it, and its block was verified against divine-pride on
+// 21/08/2026 — see src/app/core/monster-db-provenance.spec.ts.
 //
 // Usage:
 //   node tools/sync-monster-db.mjs [--src <mobs.json>] [--dry]
@@ -49,6 +59,14 @@ if (keyOrder.length !== Object.keys(db).length) {
 const mobs = await loadMobs(src);
 const byId = indexById(mobs);
 console.log(`source: ${mobs.length} mobs${src ? ` (${src})` : " (downloaded)"} | monster.json: ${keyOrder.length} records\n`);
+
+/**
+ * Ids this repo invents rather than reads — the per-level Miragem de Amdarais
+ * clones of mob 20573, which differ only in HP (tools/build-latam-monsters.mjs,
+ * constants/mvp.ts). They are absent from the feed by construction, so they are
+ * reported apart from the monsters that are absent by accident.
+ */
+const SYNTHETIC_IDS = new Set([205731, 205732, 205733, 205734, 205735, 205736, 205737, 205738, 205739]);
 
 const changes = [];
 const retentions = [];
@@ -109,8 +127,17 @@ if (retentions.length) {
   for (const r of retentions) console.log(`  ${r}`);
 }
 if (notInSource.length) {
-  console.log(`\nnot in the source, left untouched (${notInSource.length}):`);
-  for (const r of notInSource) console.log(`  ${r}`);
+  const synthetic = notInSource.filter((r) => SYNTHETIC_IDS.has(Number.parseInt(r, 10)));
+  const foreign = notInSource.filter((r) => !SYNTHETIC_IDS.has(Number.parseInt(r, 10)));
+  if (synthetic.length) {
+    console.log(`\nsynthetic ids this repo owns, never in the feed (${synthetic.length}):`);
+    for (const r of synthetic) console.log(`  ${r}`);
+  }
+  if (foreign.length) {
+    console.log(`\nabsent from the client table — stats come from divine-pride and CANNOT be refreshed here (${foreign.length}):`);
+    for (const r of foreign) console.log(`  ${r}`);
+    console.log(`  ^ re-check these by hand on divine-pride when a figure is disputed.`);
+  }
 }
 if (broken.length) {
   console.error(`\nFAILED — ${broken.length} field(s) the calc reads are null/undefined:`);

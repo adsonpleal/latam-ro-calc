@@ -32,6 +32,29 @@ interface DamageResultModel {
   skillFormulaGraphNoCri?: { min: DamageFormulaGraph; max: DamageFormulaGraph; };
 }
 
+/**
+ * The RES / RESM damage multiplier, in bROWiki's own words
+ * (https://browiki.org/wiki/Talentos, "Redução do dano físico por TEN"):
+ *
+ *   "O Dano físico final × [{(TEN do Alvo ÷ (TEN do Alvo + 400)) × 80} ÷ 100] é subtraído
+ *    do dano físico final. A redução é limitada em 50%."
+ *
+ * so the multiplier is `1 − min(0,5 ; 0,8 × RES ÷ (RES + 400))`. The magical side is the
+ * same sentence with TENM, and it applies BEFORE the hard DEF/MDEF stage — which is the
+ * order this file already had.
+ *
+ * The `(2000 + RES) / (2000 + RES × 5)` form inherited from the fork is that expression
+ * rewritten and agrees with it to the last digit; what it lacked was the cap, which only
+ * starts to bind at RES 667 (0,8r/(400+r) = 0,5 → r = 666,67). No record in monster.json
+ * comes near that today — the highest is 600 — so the clamp is a guard for a future one,
+ * not a change to any current target. See `res-mres-reduction.spec.ts`.
+ */
+const RES_MAX_REDUCTION = 0.5;
+
+function resReductionMultiplier(restRes: number): number {
+  return 1 - Math.min(RES_MAX_REDUCTION, (0.8 * restRes) / (restRes + 400));
+}
+
 /** Shared DamageFormulaCalc notes — each is used by more than one derivation. */
 const MASTERY_NOTE = 'Somado depois de todos os multiplicadores — maestria não é escalada por % de dano.';
 const WEAPON_VARIANCE_NOTE = 'A variação da arma é o que separa o dano mínimo do máximo.';
@@ -647,7 +670,7 @@ export class DamageCalculator {
     const { monster_res } = this.totalBonus;
     const { effected_pene_res } = this.getPeneResMres();
     const restRes = Math.max(res + monster_res, 0) * ((100 - effected_pene_res) / 100);
-    const resReduction = (2000 + restRes) / (2000 + restRes * 5);
+    const resReduction = resReductionMultiplier(restRes);
 
     return { reducedHardDef, dmgReductionByHardDef, finalDmgReduction, finalSoftDef, resReduction, restRes };
   }
@@ -661,7 +684,7 @@ export class DamageCalculator {
     const { monster_mres } = this.totalBonus;
     const { effected_pene_mres } = this.getPeneResMres();
     const restMres = Math.max(mres + monster_mres, 0) * ((100 - effected_pene_mres) / 100);
-    const mresReduction = (2000 + restMres) / (2000 + restMres * 5);
+    const mresReduction = resReductionMultiplier(restMres);
 
     return { dmgReductionByMHardDef, mresReduction, mDefBypassed, restMres };
   }
