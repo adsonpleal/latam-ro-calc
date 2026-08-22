@@ -70,7 +70,6 @@ export class AppTopBarComponent {
     'Condições que dizem "a cada nível de habilidade aprendido" exigem subir o nível no campo "Learn to get bonuses" para receber o bônus; se não houver onde subir, o bônus é contado como Nv MÁX.',
     'As opções na linha da arma ficam sempre disponíveis e podem ser usadas como "e se" (What if).',
     'My Magical Element nas opções = aumenta o dano mágico do elemento...',
-    'A comparação de armas de duas mãos ainda não suporta troca da mão esquerda.',
     'Os jobs 61-64 e 66-69 recebem bônus imprecisos por falta de dados.',
     'A aba "Summary" mostra o que foi equipado / quais habilidades foram subidas / todos os cálculos.',
     'A aba "Equipments Summary" mostra um resumo geral dos bônus dos itens.',
@@ -158,6 +157,17 @@ export class AppTopBarComponent {
    * The entries are written in impersonal voice, describing what changed for the user.
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
+    {
+      v: '0.1.86-beta',
+      date: '22-08-2026',
+      logs: [
+        'A arma da mão esquerda entrou na lista de "comparar slot". Dava para pesar a arma principal, o escudo e mais vinte e uma peças, mas não a segunda arma: quem empunha duas tinha de trocar a peça, anotar o número e trocar de volta. Agora "Arma Esq." aparece no seletor e ganha a sua própria linha, com cartas, encantos, refino, grau e bônus aleatórios próprios, como qualquer outro slot. Solicitado por Oden.',
+        'O slot só é oferecido a quem empunha duas armas: Sicário, Executor, Kagerou, Shinkiro, Oboro e Shiranui. Nas demais classes ele nem aparece na lista, porque a linha nunca seria mostrada, e uma comparação salva ou vinda de um link que caia numa classe sem mão esquerda é descartada ao carregar, em vez de ficar marcada sem fazer nada.',
+        'A linha de comparação acompanha a da build principal: some enquanto a mão não estiver livre — com uma arma de duas mãos ou com escudo equipado — e volta com a peça escolhida quando a mão vaga. Enquanto está escondida não entra na conta, para que uma comparação que não se vê não mexa nos números.',
+        'A mão esquerda é uma só, e o escudo e a segunda arma disputam o mesmo lugar. Ao comparar um contra uma build que usa o outro, quem perde a mão sai da build comparada em vez de as duas peças somarem juntas: fica o slot que está sendo comparado. Uma arma de duas mãos toma o lugar dos dois.',
+        'No caminho, uma conta antiga foi corrigida. Ao comparar uma arma de duas mãos contra uma build que empunha duas, a arma da mão esquerda perdia os bônus, como devia, mas continuava somando o próprio ATQ e a VelAtq de duas armas na coluna comparada. Agora ela sai por inteiro.',
+      ],
+    },
     {
       v: '0.1.85-beta',
       date: '20-08-2026',

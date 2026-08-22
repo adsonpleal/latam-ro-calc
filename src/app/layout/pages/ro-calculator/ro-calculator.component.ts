@@ -20,6 +20,7 @@ import {
   ExtraOptionTable,
   FoodStatList,
   HeadGearLocation,
+  ItemOptionMap,
   ItemOptionNumber,
   ItemOptionTable,
   ItemSubTypeId,
@@ -75,6 +76,7 @@ import { LayoutService } from '../../service/app.layout.service';
 import { ItemShopService } from './item-shop.service';
 import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
+import { resolveOffHandEviction } from 'src/app/core/off-hand-slots';
 import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectConsumables } from 'src/app/core/calculator-controller';
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { CompareState } from 'src/app/core/compare-state';
@@ -485,11 +487,23 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   showLeftWeapon = false;
   isWeaponCanGrade = false;
 
+  /**
+   * True when the off-hand weapon row belongs on screen: a main weapon is equipped, the
+   * class dual wields with a weapon that leaves the hand free, and no shield is holding
+   * it. The compare row follows the main one — and so does whether a compared off-hand
+   * weapon counts, since prepare() feeds this same flag to resolveOffHandEviction. A
+   * comparison the user cannot see must not move the numbers either.
+   */
+  get isLeftWeaponShown(): boolean {
+    return !!this.model.weapon && this.showLeftWeapon && !this.model.shield;
+  }
+
   isEnableCompare = false;
   showCompareItemMap = {} as any;
   compareItemNames = [] as ItemTypeEnum[];
   compareItemList: (keyof typeof ItemTypeEnum)[] = [...AllowedCompareItemTypes];
   // Display options for the "comparar slot" multiselect: pt-BR label, English value.
+  // Starts as the full list and is narrowed to the class by setClassInstant().
   compareItemOptions = this.compareItemList.map((v) => ({ label: itemSlotLabelPtBr(v), value: v }));
 
   ref: DynamicDialogRef | undefined;
@@ -625,6 +639,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         if (itemChanges.has(ItemTypeEnum.weapon)) {
           this.setAmmoDropdownList();
         }
+        // The compare pipeline is the only thing that rebuilds showCompareItemMap and the
+        // compare item list, and an item change can turn the off-hand row on or off. Re-run
+        // it when the two disagree, so a row that just went away stops being compared — and
+        // one that came back starts again. Self-correcting, so it settles in one pass.
+        if (this.compareItemNames?.includes(ItemTypeEnum.leftWeapon) && !!this.showCompareItemMap.leftWeapon !== this.isLeftWeaponShown) {
+          this.updateCompareEvent.next(1);
+        }
         this.calculate();
         this.calcCompare();
         this.saveCurrentStateItemset();
@@ -666,12 +687,19 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
             return this.compareItemList.indexOf(a) > this.compareItemList.indexOf(b) ? 1 : -1;
           })
           .reduce((agg, itemTypeName) => {
-            agg[itemTypeName] = true;
+            // A slot the screen is not offering is not compared: the off-hand weapon row
+            // hides for a two-handed weapon, a shield, or a class that does not dual
+            // wield. The pick stays in `model2`, so it is still there when the row comes
+            // back, but it gets no row and no entry in the item description list, and
+            // prepare() evicts it from the numbers — a comparison the user cannot see
+            // must not move them.
+            const isOffered = itemTypeName !== ItemTypeEnum.leftWeapon || this.isLeftWeaponShown;
+            agg[itemTypeName] = isOffered;
 
             model2[itemTypeName] = this.model2[itemTypeName] || null;
 
             const hasMainItem = model2[itemTypeName] != null;
-            if (hasMainItem) {
+            if (hasMainItem && isOffered) {
               equipItemIdItemTypeMap2.set(itemTypeName, model2[itemTypeName]);
             }
 
@@ -679,7 +707,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
             for (const relatedItemType of relatedItems) {
               model2[relatedItemType] = hasMainItem ? this.model2[relatedItemType] || null : null;
               const relatedVal = model2[relatedItemType];
-              if (relatedVal) {
+              if (relatedVal && isOffered) {
                 equipItemIdItemTypeMap2.set(relatedItemType, relatedVal);
               }
             }
@@ -918,21 +946,31 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
             rawOptionTxts[slot] = this.model2.rawOptionTxts[slot];
           }
         }
+      }
 
-        if (!isAllowShield) {
-          const clearList = [ItemTypeEnum.shield, ItemTypeEnum.leftWeapon];
-          for (const itemT of clearList) {
-            calc.setItem({ itemId: undefined, itemType: itemT });
-            for (const relatedItemType of MainItemWithRelations[itemT]) {
-              calc.setItem({ itemId: undefined, itemType: relatedItemType });
-            }
-          }
+      // One hand, three claimants — a shield, an off-hand weapon, or the second half of a
+      // two-handed one. The merged model can end up holding two of them; core decides who
+      // keeps the hand, and the losers are emptied here.
+      const evictedSlots = resolveOffHandEviction({
+        isWeaponTwoHanded: !calc.isAllowShield(),
+        canWieldOffHandWeapon: this.isLeftWeaponShown,
+        hasShield: !!model2[ItemTypeEnum.shield],
+        hasLeftWeapon: !!model2[ItemTypeEnum.leftWeapon],
+        comparedSlots: this.compareItemNames ?? [],
+      });
+      if (evictedSlots.length > 0) {
+        this.evictFromCompareOffHand(calc, model2, rawOptionTxts, evictedSlots);
+      }
 
-          const [_, slots] = ItemOptionTable.find(([itemType]) => itemType === ItemTypeEnum.shield) || ['', []];
-          for (const slot of slots) {
-            rawOptionTxts[slot] = null;
+      if (this.compareItemNames?.includes(ItemTypeEnum.leftWeapon)) {
+        // The off-hand weapon's random options live in the W_Right slots (the names are
+        // the client's, and they are the mirror of the main weapon's W_Left ones).
+        const itemId = model2[ItemTypeEnum.leftWeapon];
+        for (let slot = ItemOptionNumber.W_Right_1; slot <= ItemOptionNumber.W_Right_3; slot++) {
+          if (!itemId) {
             this.model2.rawOptionTxts[slot] = null;
           }
+          rawOptionTxts[slot] = this.model2.rawOptionTxts[slot];
         }
       }
 
@@ -1002,6 +1040,31 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.lastChainInput = chainInput;
 
     return calc;
+  }
+
+  /**
+   * Take one or more slots off the compared build's off hand: empty them in `model2`,
+   * drop their random options from both the compare model and the option list the pass
+   * runs on, and re-load the calculator.
+   *
+   * Going through the model — rather than `setItem(undefined)` — is what makes the
+   * eviction stick. Clearing a slot that way unregisters its scripts, but an off-hand
+   * weapon's own ATQ and its dual-wield VelAtq are read from `leftWeaponData`, and the
+   * shield's VelAtq penalty from `model.shield`, neither of which `setItem` touches;
+   * only `loadItemFromModel` writes them. `loadItemFromModel` also skips an absent
+   * slot's cards and enchants outright, so emptying the main field is enough.
+   */
+  private evictFromCompareOffHand(calc: Calculator, model2: any, rawOptionTxts: string[], itemTypes: ItemTypeEnum[]) {
+    for (const itemType of itemTypes) {
+      model2[itemType] = null;
+
+      for (const slot of ItemOptionMap.get(itemType) ?? []) {
+        rawOptionTxts[slot] = null;
+        this.model2.rawOptionTxts[slot] = null;
+      }
+    }
+
+    calc.loadItemFromModel(model2);
   }
 
   /**
@@ -1451,8 +1514,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    * current comparison too. Slots no longer comparable are dropped.
    */
   private restoreCompareState(state: CompareState | null): void {
+    // Against compareSlotsForClass(), not the full list: a share link or a saved sim can
+    // carry an off-hand comparison into a class that has no off hand, and a tick with no
+    // row behind it would sit in the picker doing nothing.
+    const offeredSlots = this.compareSlotsForClass();
     const names = (state?.itemNames ?? []).filter((n) =>
-      this.compareItemList.includes(n as keyof typeof ItemTypeEnum),
+      offeredSlots.includes(n as keyof typeof ItemTypeEnum),
     ) as ItemTypeEnum[];
     this.model2 = state ? ({ rawOptionTxts: [], ...state.model2 } as ClassModel) : { rawOptionTxts: [] };
     this.compareItemNames = names;
@@ -2008,6 +2075,17 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.calculator.setClass(this.selectedCharacter);
     this.isAllowTraitStat = this.selectedCharacter.isAllowTraitStat();
     this.isAllowLeftWeaponByClass = AllowLeftWeaponMapper[this.selectedCharacter.className] || false;
+    this.compareItemOptions = this.compareSlotsForClass().map((v) => ({ label: itemSlotLabelPtBr(v), value: v }));
+  }
+
+  /**
+   * The slots the "comparar slot" picker offers for the current class. Only the Assassin
+   * and the Kagerou/Oboro lines put a weapon in the off hand (see AllowLeftWeaponMapper
+   * for the bROWiki wording), so for everyone else that row can never appear and offering
+   * it would be a tick that does nothing.
+   */
+  private compareSlotsForClass(): (keyof typeof ItemTypeEnum)[] {
+    return this.compareItemList.filter((slot) => (slot as string) !== ItemTypeEnum.leftWeapon || this.isAllowLeftWeaponByClass);
   }
 
   /** Resolve a calc skill name to its LATAM { id, pt-BR name } from the static

@@ -1,5 +1,11 @@
 export const AllowedCompareItemTypes = [
   'weapon',
+
+  // The off-hand weapon shares its hand with the shield, and a two-handed weapon takes
+  // that hand for itself. Only one of the three can be worn, so the compare pass evicts
+  // the losers instead of stacking them (see prepare() in ro-calculator.component.ts).
+  'leftWeapon',
+
   'shield',
   'headUpper',
   'headMiddle',
