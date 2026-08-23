@@ -1,0 +1,103 @@
+# Cache policy for Cloudflare Workers static assets. Copied verbatim to the root of
+# dist/sakai-ng by the angular.json "assets" arrays (there are three — keep them in sync).
+# Cloudflare parses this file and does not publish it, so it is never fetchable.
+#
+# READ THIS BEFORE ADDING A RULE.
+#
+# Cloudflare applies EVERY matching rule and joins repeated headers with a comma. There is
+# no override mechanism. So a catch-all is actively harmful: `/*` with no-cache next to
+# `/chunk-*` with immutable emits
+#     Cache-Control: no-cache, public, max-age=31536000, immutable
+# on every bundle, and no-cache wins. `*` is also greedy ACROSS path segments, so
+# `/assets/*` would swallow `/assets/data/items-core.<hash>.json`.
+#
+# So: every pattern below is mutually exclusive, and there is deliberately no `/*` rule.
+# tools/cache-headers.spec.ts enforces both, including an overlap check against a real build.
+#
+# Patterns end in a trailing `*` on purpose. Cloudflare documents the splat as greedy but
+# does NOT document whether it backtracks to satisfy a literal suffix, so `/main.*.js` would
+# rely on undocumented behaviour. `/main.*` needs no such guarantee and matches exactly the
+# same file.
+#
+# WHAT IS NOT LISTED: only the SPA shell — `/`, `/index.html` and every client-side route.
+# Those cannot be enumerated, so they inherit Cloudflare's static-asset default,
+# `public, max-age=0, must-revalidate`. That is exactly right for the shell, and it is what
+# structurally prevents a deploy from being stuck behind stale HTML. Every path that CAN be
+# named is named below rather than left to a platform default.
+#
+# If a rule ever stops matching (say Angular adds a new root entry point), that file falls
+# back to the same revalidate-always default. The failure mode is extra 304s, never stale
+# content.
+#
+# Two classes of file, two policies:
+#   - content-hashed (Angular outputHashing + build-web-data --hash) -> immutable, 1 year.
+#     A new build means a new filename, so a stale entry is simply never requested again.
+#   - stable filename -> 1 day. Long enough to matter, short enough that no deploy ever
+#     needs a cache purge.
+
+# --- content-hashed: safe to cache forever -----------------------------------------
+
+# tools/build-web-data.mjs --hash. Note data-manifest.json sits one directory ABOVE
+# these on purpose, so this glob cannot reach it.
+/assets/data/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# esbuild media output (primeicons fonts, colour-picker sprites)
+/media/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Angular emits its bundles at the dist ROOT, one rule per entry point so that
+# index.html and the unhashed root files are never caught.
+/main.*
+  Cache-Control: public, max-age=31536000, immutable
+
+/polyfills.*
+  Cache-Control: public, max-age=31536000, immutable
+
+/scripts.*
+  Cache-Control: public, max-age=31536000, immutable
+
+/chunk-*
+  Cache-Control: public, max-age=31536000, immutable
+
+/styles.*
+  Cache-Control: public, max-age=31536000, immutable
+
+# --- never cache: names which hashed file to load ------------------------------------
+
+# The most correctness-critical file in the deployment. Explicit rather than left to the
+# platform default: if this ever went stale the app would ask for hashed data files from a
+# previous build. It cannot collide with /assets/data/* — that pattern needs a literal
+# `data/` segment, and this is `data-manifest.json`.
+/assets/data-manifest.json
+  Cache-Control: no-cache
+
+# --- stable filenames: one day, then revalidate --------------------------------------
+
+# PrimeNG theme CSS and layout images. Vendor files, changed only by a PrimeNG upgrade.
+/assets/layout/*
+  Cache-Control: public, max-age=86400
+
+/assets/icons/*
+  Cache-Control: public, max-age=86400
+
+/assets/demo/*
+  Cache-Control: public, max-age=86400
+
+/assets/og-cover.png
+  Cache-Control: public, max-age=86400
+
+/assets/og-cover.svg
+  Cache-Control: public, max-age=86400
+
+/favicon.ico
+  Cache-Control: public, max-age=86400
+
+/robots.txt
+  Cache-Control: public, max-age=86400
+
+/sitemap.xml
+  Cache-Control: public, max-age=86400
+
+/manifest.webmanifest
+  Cache-Control: public, max-age=86400

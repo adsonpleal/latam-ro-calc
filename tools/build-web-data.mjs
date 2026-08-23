@@ -31,7 +31,7 @@
 //
 //   data-manifest.json         logical name -> emitted filename. Never hashed,
 //                              and deliberately one directory ABOVE the hashed
-//                              files so the two firebase.json header globs
+//                              files so the src/_headers header globs
 //                              (immutable vs no-cache) cannot overlap.
 //
 // IMPORTANT: this script only ever READS src/assets/demo/data/. item.json stays

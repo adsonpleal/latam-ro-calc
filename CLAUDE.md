@@ -57,16 +57,42 @@ pnpm lint       # ESLint --fix
 > deliberate: esbuild's WebSocket HMR does not cross the preview proxy and the page never
 > renders. `ng build` still uses esbuild normally.
 
-## Firebase
+## Hosting: Cloudflare, not Firebase
 
-Site deploys are automatic (GitHub Actions → Firebase Hosting, project
-`simulador-latam-ro`). What is **not** automatic are the Firestore rules and indexes —
-the hosting action does not publish them. After touching `firestore.rules` or
-`firestore.indexes.json`:
+Site deploys are automatic — a push to `main` runs `.github/workflows/deploy.yml`, which
+builds and publishes to **Cloudflare Workers static assets**. `wrangler.jsonc` describes an
+assets-only Worker (no `main`, so no Worker script runs) serving `dist/sakai-ng`. Static
+asset requests are free and unlimited; that is why hosting left Firebase on 23/08/2026,
+with its 10 GB/month egress quota exhausted.
 
-```bash
-firebase deploy --only firestore
-```
+**Cache policy lives in `src/_headers`**, which `ng build` copies to the build root via the
+`assets` array in `angular.json` (three copies of it — keep them in sync). Read the comment
+at the top of that file before touching it: Cloudflare applies **every** matching rule and
+comma-joins repeated headers, so the patterns must stay mutually exclusive and there must
+never be a `/*` catch-all. `tools/cache-headers.spec.ts` holds the line, including an
+overlap check against a real build. No deploy ever needs a cache purge — everything heavy
+is content-hashed, so a new build means new URLs.
+
+`tools/cloudflare-audit.mjs` checks the zone and exits non-zero on findings — run it after
+any DNS change. It is **read-only**: the settings it inspects are one-time dashboard
+toggles, and DNS records are Cloudflare-managed once a Workers Custom Domain is attached,
+so there is nothing here worth scripting a write path for.
+
+The audit exists mainly for one trap. **Universal SSL covers the apex and `*.zone` only —
+not `*.*.zone`.** Proxying a subdomain two levels deep breaks TLS outright, because
+Cloudflare has no certificate to present; the visitor gets a handshake failure rather than
+a warning. `mcp.simulador.latam-tools.com.br` (the EC2 MCP server, health-checked by
+`mcp-deploy.yml`) hit exactly this when the nameservers moved on 23/08/2026 and must stay
+grey-clouded. Anything deeper than one label below the zone must be DNS-only.
+
+There are deliberately **no cache rules and no tiered cache** on this zone: with the assets
+served by Cloudflare itself there is no origin to shield, and `src/_headers` is the single
+source of cache truth.
+
+The Firebase project `simulador-latam-ro` still exists and its Hosting site is still
+deployed, kept as a rollback target. Its Firestore config left this repo on 23/08/2026 —
+the retired `replay_submissions` collection is deny-all and will not change, so there was
+nothing left to publish from here. Manage it in the Firebase console if it ever needs to.
 
 This project's own Firestore no longer receives anything. The `.rrf` recordings from the
 "Ajude o simulador" dialog now go to the shared issue tracker (project

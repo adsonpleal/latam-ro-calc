@@ -1,9 +1,15 @@
-name: Deploy to Firebase Hosting
+name: Deploy to Cloudflare
 
 on:
   push:
     branches:
       - main
+
+# Two overlapping runs would race to activate different asset manifests. Serialising is
+# free; same pattern as mcp-deploy.yml.
+concurrency:
+  group: site-deploy
+  cancel-in-progress: false
 
 jobs:
   build_and_deploy:
@@ -29,27 +35,18 @@ jobs:
       - name: Build
         run: bun run build
 
-      # Pin Node 20 for the Firebase CLI. The runners now force actions onto
-      # Node 24, whose networking stack regresses firebase-tools service-account
-      # auth ("Premature close" fetching the OAuth token) — this broke deploys
-      # even with the firebaseToolsVersion pin below, which was green on Node 20.
-      # The build above uses Bun, so this only affects the deploy step's npx.
-      - name: Setup Node (Firebase CLI)
-        uses: actions/setup-node@v4
+      # Static-assets-only Worker, configured by wrangler.jsonc. wrangler uploads the
+      # contents of dist/sakai-ng; cache policy travels with it in dist/sakai-ng/_headers.
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v4
         with:
-          node-version: 20
-
-      - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          # Pin the CLI: firebase-tools 15.22.2 regressed service-account auth
-          # ("Premature close" fetching the OAuth token); 15.22.1 was the last
-          # known-good. Bump/remove once a later release fixes it.
-          firebaseToolsVersion: "15.22.1"
-          channelId: live
-          projectId: simulador-latam-ro
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+          # The action infers the package manager from committed lockfiles and would pick
+          # pnpm off pnpm-lock.yaml — but CI installs only bun, so the pnpm probe fails.
+          # npm is always on the runner.
+          packageManager: npm
 
       # Announce the release in Discord — only when this push actually bumped the
       # version (so routine main pushes don't spam #novidades). Runs after a

@@ -27,7 +27,7 @@ turugrura.
 - [Angular 16](https://angular.io/) + [PrimeNG 16](https://primeng.org/)
 - TypeScript, RxJS
 - [Vitest](https://vitest.dev/) para testes unitários da engine de cálculo
-- Node 22 + [pnpm](https://pnpm.io/); deploy via Firebase Hosting
+- Node 22 + [pnpm](https://pnpm.io/); deploy via Cloudflare Workers
 
 ## Como rodar
 
@@ -86,11 +86,14 @@ os campos, chaves de bônus, condições e exemplos comentados — está em
 
 ## Deploy
 
-O build de produção é publicado no Firebase Hosting. Pushes na branch `main` disparam o
-deploy automático.
+O build de produção é publicado no Cloudflare Workers (static assets). Pushes na branch
+`main` disparam o deploy automático.
+
+A política de cache fica em `src/_headers`, copiado para a raiz do build. Para publicar à
+mão:
 
 ```bash
-pnpm build && firebase deploy
+pnpm build && npx wrangler deploy
 ```
 
 ## Créditos

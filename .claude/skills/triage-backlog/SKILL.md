@@ -262,9 +262,8 @@ Then close the loop:
   ```
   It lands in `reportado`, publicly, so write it for a stranger: what the item promises,
   what the calculator does, and what is actually blocking it.
-- **Do not push.** Pushing `main` deploys the site — that is the user's call
-  ([[commit-on-main-default]]). If `firestore.rules` or `firestore.indexes.json` were
-  touched, remind them those need `firebase deploy --only firestore` separately.
+- **Do not push.** Pushing `main` deploys the site to Cloudflare — that is the user's call
+  ([[commit-on-main-default]]).
 
 ## Rules & gotchas
 

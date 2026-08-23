@@ -1,0 +1,21 @@
+{
+  // Static-assets-only Worker: there is no "main", so no Worker script runs and every
+  // request is served straight from the uploaded assets. Static asset requests are free
+  // and unlimited, which is the whole point of moving off Firebase Hosting.
+  //
+  // Do NOT add "run_worker_first": on the free plan it answers 429 once the Worker
+  // request limit is hit instead of falling back to serving the asset.
+  //
+  // Cache policy lives in src/_headers, which `ng build` copies to the root of the
+  // directory below. See that file before touching anything cache-related.
+  "name": "simulador-latam-ro",
+  "compatibility_date": "2026-08-23",
+  "assets": {
+    "directory": "./dist/sakai-ng",
+    // Unmatched paths serve /index.html so the Angular router can handle client-side
+    // routes. Caveat: this also means a request for a hashed file that no longer exists
+    // returns the HTML shell with 200 rather than a 404 — same behaviour the Firebase
+    // rewrite had. The must-revalidate shell keeps the window small.
+    "not_found_handling": "single-page-application"
+  }
+}
