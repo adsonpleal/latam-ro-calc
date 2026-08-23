@@ -1,8 +1,9 @@
 import { JOB_4_MAX_JOB_LEVEL, JOB_4_MIN_MAX_LEVEL } from '../app-config';
-import { ElementType, ElementalMasterSpirit } from '../constants';
+import { ElementType, ElementalControlMode, ElementalMasterSpirit } from '../constants';
 import { SKILL_NAME } from '../constants/skill-name';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput } from '../models/info-for-class.model';
+import { SKILL_ID_BY_NAME } from '../skills';
 import { addBonus, genSkillList } from '../utils';
 import { Sorcerer } from './Sorcerer';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
@@ -332,6 +333,21 @@ export class ElementalMaster extends Sorcerer {
         { label: 'Serpens', value: 5, isUse: true, icon: 5379 },
       ],
     },
+    {
+      // Domínio Elemental (2456). pt-BR labels are literal for the same reason as the
+      // spirit picker above: a `_`-prefixed name has no catalog id, so localize() leaves
+      // this entry's own label and icon alone.
+      name: '_ElementalMaster_el_control',
+      label: 'Domínio Elemental',
+      inputType: 'dropdown',
+      icon: 2456,
+      dropdown: [
+        { label: '-', value: 0, isUse: false },
+        { label: 'Passivo', value: ElementalControlMode.Passive, isUse: true },
+        { label: 'Defensivo', value: ElementalControlMode.Defensive, isUse: true },
+        { label: 'Ofensivo', value: ElementalControlMode.Offensive, isUse: true },
+      ],
+    },
   ];
   private readonly passiveSkillList4th: PassiveSkillModel[] = [
     {
@@ -380,12 +396,24 @@ export class ElementalMaster extends Sorcerer {
 
   private setSpiritBonus(totalBonus: EquipmentSummaryModel) {
     const spiritName = this.spiritName;
+
+    /**
+     * Modo Passivo (Domínio Elemental nv.1) only — browiki's "Efeitos no Elementalista"
+     * block, one page per elemental. The other two modes grant nothing the engine can
+     * measure: Defensivo is armour enchant + element resistances (no character-side
+     * element-resistance key exists), and Ofensivo is an attack cast by the *elemental*,
+     * off the elemental's own MATK.
+     *
+     * Keyed by the game's skill **id**: getSkillBonus reads
+     * `totalBonus[SKILL_ID_BY_NAME[name] ?? name]`, so a name key is never read back.
+     * This block sat on name keys and had therefore never applied.
+     */
     const mapSkill: Record<typeof spiritName, [SKILL_NAME, number]> = {
       Divulio: ['Cold Bolt', 100],
       Ardor: ['Fire Bolt', 100],
-      Procella: ['Lightening Bolt', 100],
+      Procella: ['Lightening Bolt', 80],
       Terramotus: ['Earth Spike', 80],
-      Serpens: ['Kiling Cloud', 50],
+      Serpens: ['Killing Cloud', 50],
     };
     const mapMyEle: Record<typeof spiritName, keyof typeof totalBonus> = {
       Divulio: 'm_my_element_water',
@@ -395,10 +423,11 @@ export class ElementalMaster extends Sorcerer {
       Serpens: 'm_my_element_poison',
     };
 
-    if (mapSkill[spiritName]) {
+    if (mapSkill[spiritName] && this.isElControlMode(ElementalControlMode.Passive)) {
       const [skillName, bonus] = mapSkill[spiritName];
-      addBonus(totalBonus, skillName as any, bonus);
+      addBonus(totalBonus, SKILL_ID_BY_NAME[skillName] as any, bonus);
     }
+    // "Dano mágico de propriedade X +10%" — granted by the summon itself, any mode.
     if (mapMyEle[spiritName]) {
       addBonus(totalBonus, mapMyEle[spiritName], 10);
     }
@@ -412,5 +441,14 @@ export class ElementalMaster extends Sorcerer {
 
   private isSpirit(name: typeof this.spiritName) {
     return this.spiritName === name;
+  }
+
+  /** Modo atual do Domínio Elemental (0 = nenhum). */
+  private elControlMode(): number {
+    return this.activeSkillLv('_ElementalMaster_el_control');
+  }
+
+  private isElControlMode(mode: number): boolean {
+    return this.elControlMode() === mode;
   }
 }

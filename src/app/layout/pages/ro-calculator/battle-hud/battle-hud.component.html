@@ -899,6 +899,25 @@
       <span>×{{ e.propertyMultiplier | number: '1.2-2' }}</span>
     </div>
 
+    <!-- The skill's own client text, so the panel says what it does and not only what it
+         deals. Hidden for ataque básico and for skills the catalog has no description for.
+         Collapsed by default: the panel is about the damage, and a per-level table would
+         push the numbers out of sight before they were read. -->
+    <ng-container *ngIf="activeEntryDesc as desc">
+      <div
+        class="pd-desc-toggle"
+        role="button"
+        tabindex="0"
+        keyActivate
+        [attr.aria-expanded]="isDescExpanded"
+        (click)="isDescExpanded = !isDescExpanded"
+      >
+        <i class="pi" [ngClass]="isDescExpanded ? 'pi-chevron-down' : 'pi-chevron-right'" aria-hidden="true"></i>
+        <span>Descrição da habilidade</span>
+      </div>
+      <div class="pd-desc" *ngIf="isDescExpanded" [innerHTML]="desc"></div>
+    </ng-container>
+
     <!-- DANO -->
     <ng-container *ngIf="hero as h">
       <div class="cap2 pd-cap">DANO</div>

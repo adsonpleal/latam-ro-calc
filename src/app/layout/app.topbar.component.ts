@@ -158,6 +158,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.88-beta',
+      date: '24-08-2026',
+      logs: [
+        'O Elementalista ganhou o seletor de Domínio Elemental. Dava para escolher qual Elemental estava invocado, mas não o modo em que ele era mantido — e é o modo que decide o que a invocação entrega, como diz a última linha de toda descrição de "Invocar": "Também possui efeitos diferentes conforme o nível usado de Domínio Elemental". Agora há uma segunda lista, ao lado de Espírito Elemental, com Passivo, Defensivo e Ofensivo. O nível 4 não é oferecido porque apaga o Elemental, e ninguém monta uma build nesse estado. Reportado por Ted.',
+        'Os bônus do Modo Passivo passaram a valer — nenhum deles valia. Cada Elemental aumenta o dano de uma habilidade enquanto está em Passivo (Diluvium: Lanças de Gelo +100%; Ardor: Lanças de Fogo +100%; Procella: Relâmpago +80%; Terremotus: Coluna de Pedra +80%; Serpens: Maldição de Jormungand +50%), e essa tabela já existia no simulador desde sempre, guardada sob o nome da habilidade em vez do código dela. Como a conta de dano procura pelo código, nada era encontrado e o bônus nunca entrava. No conserto, o valor de Procella foi corrigido de 100% para 80%, que é o que a bROWiki registra.',
+        'A propriedade da Onda Psíquica agora acompanha o modo. Ela passava a ter a propriedade do Elemental assim que um era escolhido; a bROWiki coloca esse efeito dentro do Modo Passivo, junto dos bônus acima. Quem tiver uma build salva com Elemental invocado verá a Onda Psíquica voltar a Neutro até que o modo Passivo também seja escolhido.',
+        'Três efeitos ficaram de fora, cada um com a sua ficha. O Modo Defensivo encanta a armadura e mexe em resistências de propriedade, e o simulador não tem onde medir isso. O Modo Ofensivo é um ataque conjurado pelo próprio Elemental, com o ATQM dele e não o do personagem — é outra origem de dano, não uma fórmula a mais. E o "+30% de dano" que cada "Invocar" promete continua sem entrar: a fórmula da habilidade já dobra o coeficiente quando o Elemental correspondente está invocado, e nenhum texto resolve se os dois se somam; isso precisa de uma gravação para ser decidido, em vez de um palpite.',
+        'As descrições das habilidades passaram a aparecer em mais lugares. Passar o mouse em cada opção da lista de "Espírito Elemental" mostra a descrição daquela invocação, e o rótulo do seletor mostra a da invocação escolhida — antes as duas listas do Elementalista não traziam texto nenhum. No Resumo de Batalha, a janela de detalhes de um passo da rotação ganhou um bloco "Descrição da habilidade", que começa fechado e abre com um clique — os números continuam sendo a primeira coisa que se vê. Dez habilidades faltavam no catálogo de textos — Domínio Elemental e as nove invocações de Elemental —, e por isso apareciam sem descrição em qualquer lugar do simulador.',
+      ],
+    },
+    {
       v: '0.1.87-beta',
       date: '23-08-2026',
       logs: [

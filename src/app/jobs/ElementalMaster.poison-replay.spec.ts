@@ -90,6 +90,21 @@ interface Scenario {
   spl: number;
   /** [Infecção] level on the target (0 = clean). */
   infection?: number;
+  /** Summoned elemental, by the _ElementalMaster_spirit dropdown value (5 = Serpens). */
+  spirit?: number;
+  /** Domínio Elemental mode, by its dropdown value (1 = Passivo). */
+  elControlMode?: number;
+}
+
+/**
+ * `activeSkillIds` is positional against the class's own `_activeSkillList`, so pick the
+ * slots by name rather than counting them — ElementalMaster inherits Sorcerer's list and
+ * appends its own, and the indexes shift whenever either end grows.
+ */
+function activeSkillIdsFor(cls: ElementalMaster, picks: Record<string, number>): number[] {
+  const list = (cls as any)._activeSkillList as { name: string; }[];
+
+  return list.map((skill) => picks[skill.name] ?? 0);
 }
 
 /** The character in the two Poison replays (VenenoComArma / VenenoSemArma). */
@@ -114,8 +129,12 @@ const EM_SKILLS_REPLAY: Scenario = {
 /** Full engine run: class + model + target through the same chain the page uses. */
 function damageOf(scenario: Scenario, skillValue: string): number {
   const cls = new ElementalMaster();
+  const activeSkillIds = activeSkillIdsFor(cls, {
+    _ElementalMaster_spirit: scenario.spirit ?? 0,
+    _ElementalMaster_el_control: scenario.elControlMode ?? 0,
+  });
   const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = cls
-    .setLearnSkills({ activeSkillIds: [], passiveSkillIds: [] })
+    .setLearnSkills({ activeSkillIds, passiveSkillIds: [] })
     .getSkillBonusAndName();
 
   const calc = new Calculator().setMasterItems(items).setHpSpTable(hpSpTable).setClass(cls);
@@ -253,5 +272,47 @@ describe('Elemental Master — Poison skill ratios @ base 230, INT 146', () => {
     };
     expect(at100({})).toBe(clean);
     expect(at100({ infection: 25 })).toBe(infected);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Serpens + Domínio Elemental, through the same replay-anchored pipeline.
+// Tracker card UKzvObIl4JWIKGGcWFbY (reported by Ted).
+//
+// These are not replay numbers — the two recordings had no elemental summoned.
+// They ride on the 16449 baseline the recordings *do* pin, so what is asserted
+// is the two bonuses' effect on a damage figure already proven against the game.
+// ---------------------------------------------------------------------------
+
+describe('Elemental Master — Serpens bonuses reach real damage', () => {
+  const SERPENS = 5;
+  const PASSIVE = 1;
+  const DEFENSIVE = 2;
+  const OFFENSIVE = 3;
+
+  // "Dano mágico de propriedade Veneno +10%" — granted by the summon in any mode.
+  // Not 16449 * 1.1 = 18093: the elemental multiplier scales MATK *before* the skill
+  // ratio, so the dummy's soft MDEF is subtracted once afterwards rather than scaled.
+  it('Serpens alone lifts the clean tick 16449 → 18096', () => {
+    expect(damageOf({ ...POISON_REPLAY, spirit: SERPENS }, 'Killing Cloud==5')).toBe(18096);
+  });
+
+  // Modo Passivo adds "Dano de Maldição de Jormungand +50%" on top: 18096 * 1.5.
+  it('Serpens at Passivo adds the +50% skill bonus → 27144', () => {
+    expect(damageOf({ ...POISON_REPLAY, spirit: SERPENS, elControlMode: PASSIVE }, 'Killing Cloud==5')).toBe(27144);
+  });
+
+  // The regression guard: before this fix the bonus was keyed by skill *name*, which
+  // getSkillBonus never reads, so Passivo and Defensivo both produced 18096.
+  it('the other modes grant no skill bonus', () => {
+    for (const mode of [DEFENSIVE, OFFENSIVE]) {
+      expect(damageOf({ ...POISON_REPLAY, spirit: SERPENS, elControlMode: mode }, 'Killing Cloud==5')).toBe(18096);
+    }
+  });
+
+  // A mode with no elemental summoned is not a state the game can be in, and it must
+  // not pay out on its own.
+  it('Passivo with no elemental summoned changes nothing', () => {
+    expect(damageOf({ ...POISON_REPLAY, elControlMode: PASSIVE }, 'Killing Cloud==5')).toBe(16449);
   });
 });

@@ -1,5 +1,28 @@
+import { SKILL_DESC_BY_ID } from '../skills';
+
 export const prettyItemDesc = (desc: string) =>
   desc?.replaceAll('\n', '<br>').replace(/\^(.{6})/g, '<font color="#$1">');
+
+const skillDescCache = new Map<number, string>();
+
+/** Hover-popover HTML for a skill, by the in-game skill id the UI already carries as its
+ *  icon. Empty when the catalog has no description for it, so a caller can bind the result
+ *  straight to `pTooltip` and get no box at all rather than an empty one.
+ *
+ *  Shared by every place that shows a skill: the active-skill pickers, the rotation's
+ *  "add skill" dropdown and the rotation step details panel. They all used to be on their
+ *  own — which is why several of them silently showed nothing. */
+export const skillDescHtml = (skillId?: number): string => {
+  if (!skillId) return '';
+
+  const cached = skillDescCache.get(skillId);
+  if (cached !== undefined) return cached;
+
+  const html = prettyItemDesc(SKILL_DESC_BY_ID[skillId]) || '';
+  skillDescCache.set(skillId, html);
+
+  return html;
+};
 
 /** Full hover-popover HTML for an item: the bold pt-BR name + the client description.
  *  Shared by every item dropdown (equipment, shadow, costume/visual, pet).

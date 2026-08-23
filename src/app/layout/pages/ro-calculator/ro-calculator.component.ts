@@ -5,7 +5,7 @@ import { Subject, Subscription, debounceTime, finalize, forkJoin, mergeMap, swit
 import { PresetModel } from 'src/app/api-services';
 import { RoService } from 'src/app/api-services/ro.service';
 import { ItemDescriptionStore } from 'src/app/api-services/item-description.store';
-import { SKILL_DESC_BY_ID, SKILL_ID_BY_NAME, resolveSkillMeta } from 'src/app/skills';
+import { SKILL_ID_BY_NAME, resolveSkillMeta } from 'src/app/skills';
 import { BUFF_BONUS_LABELS, bonusKeyLabel, resolveSkillKey } from 'src/app/core/bonus-key-label';
 import { AllowedCompareItemTypes } from 'src/app/app-config';
 import {
@@ -51,6 +51,7 @@ import {
   itemDescPopoverHtml,
   prettyItemDesc,
   resolveHeadSlotOccupancy,
+  skillDescHtml,
   sortObj,
   toDropdownList,
   toRawOptionTxtList,
@@ -3154,13 +3155,29 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   private buffTooltipCache = new Map<string, string>();
 
+  /** Popover for a single dropdown option that is itself a skill — the summons behind
+   *  "Espírito Elemental", whose group label names no skill of its own. Empty when the
+   *  option carries no skill icon, so PrimeNG shows no box at all rather than an empty one. */
+  skillOptionTooltip(option: { icon?: number }): string {
+    return skillDescHtml(option?.icon);
+  }
+
   /** Buff label popover: the real pt-BR client skill description when available,
-   *  otherwise an effect summary derived from the buff's bonuses. */
-  buffTooltip(buff: { name: string; label: string; icon?: number; isDebuff?: boolean; dropdown: any[] }): string {
-    const cached = this.buffTooltipCache.get(buff.name);
+   *  otherwise an effect summary derived from the buff's bonuses.
+   *
+   *  `selectedValue` is passed by the active-skill pickers. When the options are
+   *  themselves skills, the group label ("Espírito Elemental") describes nothing on its
+   *  own, so the popover follows whichever summon is selected. The cache key has to carry
+   *  that value, or the first selection would stick for the rest of the session. */
+  buffTooltip(buff: { name: string; label: string; icon?: number; isDebuff?: boolean; dropdown: any[] }, selectedValue?: number): string {
+    const cacheKey = selectedValue === undefined ? buff.name : `${buff.name}:${selectedValue}`;
+    const cached = this.buffTooltipCache.get(cacheKey);
     if (cached !== undefined) return cached;
 
-    const desc = buff.icon ? prettyItemDesc(SKILL_DESC_BY_ID[buff.icon]) : '';
+    // The selected option's own skill wins; otherwise the group's own icon (a picker
+    // like Domínio Elemental, whose levels are modes of one skill).
+    const selected = selectedValue === undefined ? undefined : (buff.dropdown || []).find((d) => d.value === selectedValue);
+    const desc = skillDescHtml(selected?.icon ?? buff.icon);
 
     let html: string;
     if (desc) {
@@ -3181,7 +3198,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       html = `${title}${debuff}${lines.length ? lines.join('') : '<div>—</div>'}`;
     }
 
-    this.buffTooltipCache.set(buff.name, html);
+    this.buffTooltipCache.set(cacheKey, html);
     return html;
   }
 

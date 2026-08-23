@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@a
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { itemSlotLabelPtBr } from '../../../../constants/item-slot-i18n';
 import { DropdownModel } from '../../../../models/dropdown.model';
-import { dmgTypeLabel as dmgTypeLabelUtil } from '../../../../utils';
+import { dmgTypeLabel as dmgTypeLabelUtil, skillDescHtml } from '../../../../utils';
 import { RotationCycle } from '../../../../core/rotation-schedule';
 import { RotationEntryView, RotationView } from './rotation-view';
 import { DamageBranch } from './rotation-list/rotation-list.component';
@@ -332,6 +332,18 @@ export class BattleHudComponent implements OnDestroy {
     return this.activeStep;
   }
 
+  /** Whether the (i) popover's description block is open. Starts closed on every step. */
+  isDescExpanded = false;
+
+  /** The client description of the skill the (i) popover is describing, so the panel says
+   *  what the skill *does* and not only what it deals. Empty for ataque básico, which is
+   *  not a skill, and for anything the catalog has no text for — the block is then hidden. */
+  get activeEntryDesc(): string {
+    const entry = this.activeEntry;
+
+    return entry?.isBasic ? '' : skillDescHtml(entry?.icon);
+  }
+
   /** Per-hit range behind a multi-hit total: the design's "soma de N golpes · X – Y cada". */
   get activePerHit(): { hits: number; min: number; max: number } | null {
     const hits = this.dmg?.skillTotalHit ?? 0;
@@ -354,6 +366,9 @@ export class BattleHudComponent implements OnDestroy {
   /** Opens the details popover for a row — the basic-attack variant for ataque básico. */
   openStepDetails(payload: { index: number; event: Event }, detailsPanel: any, basicPanel: any) {
     this.activeStepIndex = payload.index;
+    // The panel is about the damage; the skill's own text is reference the reader asks for.
+    // Collapse it again per step, so opening a row always shows the numbers first.
+    this.isDescExpanded = false;
     const panel = this.activeStep?.isBasic ? basicPanel : detailsPanel;
     panel?.toggle(payload.event);
   }

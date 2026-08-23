@@ -1,4 +1,4 @@
-import { ElementType, ElementalMasterSpirit } from '../constants/element-type.const';
+import { ElementType, ElementalControlMode, ElementalMasterSpirit } from '../constants/element-type.const';
 import { AdditionalBonusInput } from '../models/info-for-class.model';
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
@@ -182,8 +182,13 @@ export class Sorcerer extends Scholar {
       cd: 5,
       acd: 1,
       getElement: () => {
+        // "Onda Psíquica de propriedade X" is a Modo Passivo effect (Domínio Elemental
+        // nv.1), not something the summon grants on its own — browiki lists it inside
+        // each elemental's Modo Passivo block. The 3rd-job Sorcerer has no Domínio
+        // Elemental picker, so this reads 0 there and falls through to its own spirit.
         const spiritLv = this.activeSkillLv('_ElementalMaster_spirit');
-        if (spiritLv) return ElementalMasterSpirit[spiritLv] || ElementType.Neutral
+        const isPassiveMode = this.activeSkillLv('_ElementalMaster_el_control') === ElementalControlMode.Passive;
+        if (spiritLv && isPassiveMode) return ElementalMasterSpirit[spiritLv] || ElementType.Neutral
 
         const elementalMapper = {
           [ElementalSpiritValue.Agni_2]: ElementType.Fire,

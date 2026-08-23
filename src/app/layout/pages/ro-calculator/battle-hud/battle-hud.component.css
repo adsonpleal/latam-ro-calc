@@ -1612,6 +1612,17 @@
   display: none;
 }
 
+/* Expanding the description can take the panel past the bottom of the window — some
+   skills carry a full per-level table. The popover scrolls as a whole rather than the
+   description scrolling inside it, so the numbers and the text stay one document.
+   `overscroll-behavior: contain` stops the scroll chaining to the page at the ends,
+   which would otherwise close the panel (PrimeNG hides it on ancestor scroll). */
+::ng-deep .rot-details-panel.p-overlaypanel .p-overlaypanel-content {
+  max-height: 85vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
 /* --- (i) details popover ---------------------------------------------------- */
 
 .pd-head {
@@ -1636,6 +1647,46 @@
 
 .pd-sep {
   color: var(--text-color-secondary);
+}
+
+/* The disclosure row for the description. Collapsed by default — see the template. */
+.pd-desc-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 9px;
+  font-size: 11.9px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-color-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.pd-desc-toggle:hover {
+  color: var(--text-color);
+}
+
+.pd-desc-toggle .pi {
+  font-size: 10px;
+}
+
+/* The skill's client description, on white like every other description popover
+   (.item_desc_tooltip .p-tooltip-text in styles.scss). Not a theme choice: the text keeps
+   the client's own ^RRGGBB codes, and those are written for the game's light tooltip —
+   the ^000000 runs render black, so on the panel's dark surface they were invisible.
+
+   Deliberately unconstrained: the description is shown in full, and it is the popover
+   that scrolls when the whole thing outgrows the window (below). */
+.pd-desc {
+  margin-top: 5px;
+  padding: 6px 8px;
+  background: #ffffff;
+  color: #000000;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .pd-cap {
