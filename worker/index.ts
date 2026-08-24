@@ -10,15 +10,15 @@
  *
  *  - `/s/<token>/` returns the real index.html with the Open Graph tags rewritten for
  *    this specific build, so the preview says who the character is;
- *  - `/s/<token>/og.png` proxies the card image from the MCP server, edge-caches it,
- *    and falls back to the site's static cover if that server is unreachable.
+ *  - `/s/<token>/og.png` proxies the card image from latam-social, edge-caches it, and
+ *    falls back to the site's static cover if that service is unreachable.
  */
 import { readShareToken } from '../src/app/core/share-path';
 import { buildShareMeta, ShareMeta } from './share-meta';
 
 interface Env {
   ASSETS: { fetch: (request: Request) => Promise<Response> };
-  /** Origin of the MCP server that renders the card. Overridable via .dev.vars. */
+  /** Origin of latam-social, which renders the card. Overridable via .dev.vars. */
   OG_ORIGIN: string;
 }
 
@@ -87,7 +87,7 @@ async function serveCard(request: Request, env: Env, ctx: ExecutionContext, url:
     // cover. Followed, that arrives here as a 200 image/png, passes the check below, and
     // gets edge-cached as `immutable` for a week UNDER THIS BUILD'S URL: one transient
     // hiccup at scrape time would freeze a generic card onto a specific build.
-    const upstream = await fetch(`${env.OG_ORIGIN}/og.png?b=${token}`, {
+    const upstream = await fetch(`${env.OG_ORIGIN}/ro-calc/build.png?b=${token}`, {
       redirect: 'manual',
       signal: AbortSignal.timeout(OG_FETCH_TIMEOUT_MS),
     });

@@ -287,7 +287,7 @@ export function registerBridgeTools(server: McpServer, dataset: Dataset): void {
   registerJsonTool<{ share: string }>(server, 'parse_share_link', {
     title: 'Ler link do simulador',
     description:
-      'Lê um link de simulação (URL completa, encurtada, fragmento #/?b=… ou token) e devolve a build resolvida: classe, níveis, atributos, cada peça equipada com refino/cartas/encantes, habilidades, buffs, consumíveis e a comparação, se o link levar uma. Não calcula dano — para isso passe o mesmo link em `calculate`.',
+      'Lê um link de simulação (URL completa, encurtada, fragmento antigo #/?b=… ou token) e devolve a build resolvida: classe, níveis, atributos, cada peça equipada com refino/cartas/encantes, habilidades, buffs, consumíveis e a comparação, se o link levar uma. Não calcula dano — para isso passe o mesmo link em `calculate`.',
     inputSchema: { share: z.string() },
   }, async ({ share }) => {
     const decoded = parseShare(await resolveIfShort(share, config.shortenerUrl));

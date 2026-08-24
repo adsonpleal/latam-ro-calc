@@ -66,12 +66,18 @@ export const encodeBuild = (preset: Record<string, any>, compare?: CompareState 
   return compressToEncodedURIComponent(JSON.stringify(delta)).replace(/\+/g, '.');
 };
 
-/** URL token → the sparse build delta plus its comparison, or null if absent/invalid. */
-export const decodeShared = (token: string | null | undefined): SharedBuild | null => {
+/** URL token → the sparse build delta plus its comparison, or null if absent/invalid.
+ *
+ *  `maxJsonChars` bounds the decompressed payload before it is parsed. The browser
+ *  never passes it — it decodes tokens it minted itself — but the server answers
+ *  unauthenticated requests, and lz-string is a compressor: a short token can expand
+ *  into megabytes of JSON. Over the limit is treated as invalid, not as an error. */
+export const decodeShared = (token: string | null | undefined, maxJsonChars?: number): SharedBuild | null => {
   if (!token) return null;
   try {
     const json = decompressFromEncodedURIComponent(token.replace(/\./g, '+'));
     if (!json) return null;
+    if (maxJsonChars != null && json.length > maxJsonChars) return null;
     const obj = JSON.parse(json);
     if (!obj || typeof obj !== 'object') return null;
 

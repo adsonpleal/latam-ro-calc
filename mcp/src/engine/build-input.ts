@@ -39,7 +39,7 @@ export const buildInputSchema = z
     share: z
       .string()
       .optional()
-      .describe('Link de compartilhamento do simulador (URL completa, encurtada, fragmento #/?b=… ou o token puro). Base da build.'),
+      .describe('Link de compartilhamento do simulador (URL completa, encurtada, fragmento antigo #/?b=… ou o token puro). Base da build.'),
     preset: z.record(z.string(), z.unknown()).optional().describe('Preset bruto, alternativa ao `share`.'),
 
     class: z.number().int().optional().describe('Id interno da classe (ex.: 4261 Elementalista). Veja list_classes.'),

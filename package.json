@@ -1,6 +1,6 @@
 {
     "name": "ro-calculator",
-    "version": "0.1.86-beta",
+    "version": "0.1.87-beta",
     "license": "MIT",
     "scripts": {
         "ng": "ng",
@@ -12,6 +12,7 @@
         "data:dev": "node tools/build-web-data.mjs",
         "build:mcp": "node mcp/build.mjs",
         "typecheck:mcp": "tsc -p mcp/tsconfig.json",
+        "typecheck:worker": "tsc -p worker/tsconfig.json",
         "start:mcp": "node mcp/build.mjs && node dist/mcp/server.mjs",
         "test": "vitest run",
         "test:watch": "vitest",
@@ -57,6 +58,7 @@
         "@angular-eslint/template-parser": "~16.2.0",
         "@angular/cli": "~16.1.8",
         "@angular/compiler-cli": "^16.1.0",
+        "@cloudflare/workers-types": "^5.20260822.1",
         "@modelcontextprotocol/sdk": "^1.29.0",
         "@types/jasmine": "~4.3.0",
         "@types/node": "^22.20.1",

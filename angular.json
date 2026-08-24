@@ -188,7 +188,8 @@
             "lintFilePatterns": [
               "src/**/*.ts",
               "src/**/*.html",
-              "mcp/**/*.ts"
+              "mcp/**/*.ts",
+              "worker/**/*.ts"
             ]
           }
         }

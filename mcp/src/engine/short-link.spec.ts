@@ -15,6 +15,8 @@ beforeAll(async () => {
   server = createServer((req, res) => {
     if (req.url?.startsWith('/ok')) {
       res.writeHead(302, { location: `${base}/app/#/?b=${TOKEN}` }).end();
+    } else if (req.url?.startsWith('/newform')) {
+      res.writeHead(301, { location: `${base}/s/${TOKEN}/` }).end();
     } else if (req.url?.startsWith('/relative')) {
       res.writeHead(301, { location: `/app/#/?b=${TOKEN}` }).end();
     } else if (req.url?.startsWith('/elsewhere')) {
@@ -34,6 +36,12 @@ describe('resolveShortLink', () => {
     // Regression: with `redirect: 'follow'` fetch drops the #fragment from res.url and
     // leaves no Location header behind, so the token was lost on every short link.
     await expect(resolveShortLink(`${base}/ok`)).resolves.toBe(`${base}/app/#/?b=${TOKEN}`);
+  });
+
+  it('recovers the token from the canonical /s/<token>/ target', async () => {
+    // The form the share dialog hands out now. A short link created after the switch
+    // still has to resolve, or every new link breaks parse_share_link and calculate().
+    await expect(resolveShortLink(`${base}/newform`)).resolves.toBe(`${base}/s/${TOKEN}/`);
   });
 
   it('resolves a relative Location against the short URL', async () => {

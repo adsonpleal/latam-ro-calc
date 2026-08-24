@@ -2,6 +2,8 @@
 
 # Compiled output
 /dist
+# `wrangler dev` local state (asset cache, workerd scratch).
+/.wrangler
 /tmp
 /out-tsc
 /bazel-out
@@ -41,6 +43,8 @@ Thumbs.db
 # Secrets
 .env
 .env.local
+# Local overrides for `wrangler dev` (e.g. OG_ORIGIN pointing at a local MCP server).
+.dev.vars
 # Service-account key used by .claude/skills/triage-rrf-uploads to read the
 # community .rrf submissions with admin credentials.
 .firebase-admin.json

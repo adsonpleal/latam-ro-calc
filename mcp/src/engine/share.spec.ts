@@ -7,6 +7,7 @@ import { loadDataset } from '../data/dataset';
 import { BuildInput, resolveBuild } from './build-input';
 import { applyPreset } from './preset';
 import { projectResult } from './project';
+import { readShareToken } from 'src/app/core/share-path';
 import { buildShareUrl, parseShare, toPreset } from './share';
 import { solve } from './solve';
 
@@ -83,13 +84,22 @@ describe('share round-trip', () => {
 describe('parseShare', () => {
   const { rb } = project({ class: 4261, level: 230, jobLevel: 47 });
   const url = buildShareUrl(toPreset(rb.model, rb.char), ORIGIN);
-  const token = url.split('b=')[1];
+  const token = readShareToken(url) as string;
 
   it('accepts a full URL, a bare token and a hash fragment alike', () => {
     const fromUrl = parseShare(url).preset;
     expect(parseShare(token).preset).toEqual(fromUrl);
     expect(parseShare(`#/?b=${token}`).preset).toEqual(fromUrl);
     expect(parseShare(`http://localhost:4200/?b=${token}`).preset).toEqual(fromUrl);
+  });
+
+  it('accepts both URL forms, old and new', () => {
+    const fromUrl = parseShare(url).preset;
+    // The canonical form the share dialog hands out...
+    expect(parseShare(`${ORIGIN}/s/${token}/`).preset).toEqual(fromUrl);
+    expect(parseShare(`${ORIGIN}/s/${token}`).preset).toEqual(fromUrl);
+    // ...and the legacy one, which must keep working for every link already pasted.
+    expect(parseShare(`${ORIGIN}/#/?b=${token}`).preset).toEqual(fromUrl);
   });
 
   it('throws rather than silently calculating a default build', () => {

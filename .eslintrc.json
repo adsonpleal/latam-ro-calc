@@ -62,6 +62,31 @@
       }
     },
     {
+      "files": ["worker/**/*.ts"],
+      "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+      "rules": {
+        // No decorators in a Worker for the Angular selector rules to inspect.
+        "@angular-eslint/directive-selector": "off",
+        "@angular-eslint/component-selector": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@angular/*", "@angular/**", "primeng", "primeng/**", "rxjs", "rxjs/**"],
+                "message": "The Cloudflare Worker bundles the framework-free share codec only. Angular/PrimeNG/RxJS imports would blow the Worker size limit."
+              },
+              {
+                "group": ["**/layout/**", "src/app/layout/**"],
+                "message": "The Worker must not import from the UI layer (src/app/layout)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "files": ["mcp/**/*.ts"],
       "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
       "rules": {

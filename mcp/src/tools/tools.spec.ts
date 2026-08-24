@@ -108,7 +108,7 @@ describe('calculate', () => {
     const { data, bytes } = await call('calculate', { build, target: { monsterId: 21077 } });
     expect(data.damage.skill.max).toBe(68309);
     expect(data.target).toMatchObject({ id: 21077, name: 'Dummy - Neutro' });
-    expect(data.share).toMatch(/^https:\/\/simulador\.latam-tools\.com\.br\/#\/\?b=/);
+    expect(data.share).toMatch(/^https:\/\/simulador\.latam-tools\.com\.br\/s\/[A-Za-z0-9.$-]+\/$/);
     // The default result must stay cheap — never spread getTotalSummary().
     expect(bytes).toBeLessThan(4000);
   });

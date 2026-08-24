@@ -1,0 +1,20 @@
+{
+  // Typecheck config for the Cloudflare Worker. Separate from the root tsconfig so the
+  // Angular build never sees the Workers globals, and vice versa: `HTMLRewriter` and
+  // `caches.default` exist only here, while `document` and `window` do not.
+  //
+  // Note there is no `paths` block. wrangler bundles `main` with its own esbuild pass,
+  // which does not necessarily honour a tsconfig baseUrl — so the Worker imports the
+  // shared modules by explicit relative path and this config has to resolve them the
+  // same way.
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["@cloudflare/workers-types"],
+    "lib": ["ES2022"],
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["*.ts", "../src/app/core/share-codec.ts", "../src/app/core/share-path.ts", "../src/app/jobs/_class-name.ts"]
+}
