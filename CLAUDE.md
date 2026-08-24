@@ -60,10 +60,38 @@ pnpm lint       # ESLint --fix
 ## Hosting: Cloudflare, not Firebase
 
 Site deploys are automatic — a push to `main` runs `.github/workflows/deploy.yml`, which
-builds and publishes to **Cloudflare Workers static assets**. `wrangler.jsonc` describes an
-assets-only Worker (no `main`, so no Worker script runs) serving `dist/sakai-ng`. Static
-asset requests are free and unlimited; that is why hosting left Firebase on 23/08/2026,
-with its 10 GB/month egress quota exhausted.
+builds and publishes to **Cloudflare Workers static assets** serving `dist/sakai-ng`.
+Static asset requests are free and unlimited; that is why hosting left Firebase on
+23/08/2026, with its 10 GB/month egress quota exhausted.
+
+There is **one** Worker script (`worker/index.ts`) and it runs on **one route**, named by
+`run_worker_first: ["/s/*"]` in `wrangler.jsonc`. That array form is not what the old
+"never add `run_worker_first`" warning was about: the **boolean** form puts every request
+on the Worker, and on the free plan a 429 once the request budget is spent means the
+homepage stops loading. With an array, every path not listed still takes the free asset
+path and never invokes it. The entry is required rather than optional, because the
+compatibility date activates `assets_navigation_prefers_asset_serving`, under which a
+browser navigation is answered from assets before the Worker sees it while a crawler
+(no `Sec-Fetch-Mode: navigate`) is not — so without it a person and a crawler would get
+different documents.
+
+That route exists for the **social share preview**. A build token used to ride in the URL
+fragment (`#/?b=…`), which browsers never send anywhere, so every shared link previewed as
+the same static card. Share links are now `/s/<token>/`; the Worker serves the real
+`index.html` with the Open Graph tags rewritten for that build and proxies the card image
+from `/s/<token>/og.png`. Both old forms still load — `readShareToken` in
+`src/app/core/share-path.ts` is the single grammar the app, the MCP server and the Worker
+all read, and the trailing slash on the canonical form is deliberate (a token can end in
+`.`, which chat clients strip as sentence punctuation).
+
+The **card itself is rendered by [latam-social](https://github.com/adsonpleal/latam-social)**,
+a separate service at `social.latam-tools.com.br` on the same EC2 box — not by the Worker
+(free-plan Workers cap CPU at 10 ms per request and rasterizing 1200×630 costs 50–150 ms)
+and no longer by this repo's MCP server. Nothing about the card lives here any more except
+the Worker that consumes it and `src/assets/og-cover.{svg,png}`, which is **vendored**: it
+is the fallback the Worker serves when latam-social is unreachable, so it has to be a
+static asset on Cloudflare rather than a request to the thing that is down. Refresh it with
+`curl https://social.latam-tools.com.br/ro-calc/cover.png -o src/assets/og-cover.png`.
 
 **Cache policy lives in `src/_headers`**, which `ng build` copies to the build root via the
 `assets` array in `angular.json` (three copies of it — keep them in sync). Read the comment

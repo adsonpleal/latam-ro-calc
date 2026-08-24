@@ -158,6 +158,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.87-beta',
+      date: '23-08-2026',
+      logs: [
+        'O link de uma simulação agora mostra a própria build na prévia. Ao colar o link no Discord, no WhatsApp ou no X, o cartão que aparece traz o boneco do personagem com as gáleas e a capa equipadas, o nome da classe em português, o nível de base e de classe e o quadro de atributos e talentos. Até aqui todo link compartilhado exibia o mesmo cartão genérico do simulador, fosse qual fosse a build.',
+        'O motivo era o formato do endereço: a build viajava depois do "#", um pedaço da URL que o navegador nunca envia ao servidor — então quem monta a prévia não tinha como saber de que build se tratava. Os links passaram a ter a forma simulador.latam-tools.com.br/s/<build>, com a build no próprio caminho. Os links antigos continuam abrindo normalmente, e o encurtador segue sendo usado como antes.',
+        'O cartão usa as cores do próprio simulador, e a imagem padrão do site — a que aparece quando o link não leva uma build — foi refeita no mesmo desenho. O boneco é desenhado com o que o visual mostra: corpo, cabelo, gáleas e capa, incluindo as fantasias, que cobrem a peça de baixo como no jogo. Ele é pedido sem recorte fixo, então nenhuma gália alta nem capa larga fica cortada — a figura cresce e o cartão a acomoda. Armas e escudos não aparecem, porque o serviço que desenha os personagens ainda não os desenha. Uma classe sem talentos mostra só a faixa de atributos, em vez de seis zeros.',
+      ],
+    },
+    {
       v: '0.1.86-beta',
       date: '22-08-2026',
       logs: [

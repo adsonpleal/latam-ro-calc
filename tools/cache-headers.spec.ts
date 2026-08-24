@@ -117,7 +117,20 @@ describe('src/_headers', () => {
     // Client-side routes cannot be enumerated, so these match nothing and inherit
     // `public, max-age=0, must-revalidate`. Adding a rule here is a regression, not a
     // tidy-up — every path that CAN be named already is.
-    const paths = ['/', '/index.html', '/some/client-side/route', '/?b=sharetoken'];
+    //
+    // The /s/* paths are share links, which the Worker answers with responses of its
+    // own; _headers never applies to them. The shell it hands back embeds this build's
+    // hashed bundle names, so must-revalidate is exactly what it needs — a rule here
+    // would let a share link go stale across a deploy.
+    const paths = [
+      '/',
+      '/index.html',
+      '/some/client-side/route',
+      '/?b=sharetoken',
+      '/s/N4IgxgN.gA6.0A7',
+      '/s/N4IgxgN.gA6.0A7/',
+      '/s/N4IgxgN.gA6.0A7/og.png',
+    ];
     it.each(paths)('%s', (path) => {
       expect(matching(path).map((r) => r.pattern)).toHaveLength(0);
     });

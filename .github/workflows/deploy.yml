@@ -32,11 +32,17 @@ jobs:
         # package.json, so allow bun to reconcile it instead of failing the run.
         run: bun install --no-frozen-lockfile
 
+      # The Worker is bundled by wrangler itself, so nothing else typechecks it — and a
+      # type error there would only surface as a failed deploy.
+      - name: Typecheck the Worker
+        run: bun run typecheck:worker
+
       - name: Build
         run: bun run build
 
-      # Static-assets-only Worker, configured by wrangler.jsonc. wrangler uploads the
-      # contents of dist/sakai-ng; cache policy travels with it in dist/sakai-ng/_headers.
+      # Assets plus one route-scoped Worker (share links), configured by wrangler.jsonc.
+      # wrangler uploads the contents of dist/sakai-ng and bundles worker/index.ts; cache
+      # policy for the assets travels with them in dist/sakai-ng/_headers.
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v4
         with:

@@ -1,5 +1,5 @@
 /**
- * The share-link bridge: the same token the web calculator reads from `#/?b=…`.
+ * The share-link bridge: the same token the web calculator reads from `/s/<token>/`.
  *
  * Both directions matter. Agents receive links people copied out of the browser, and
  * hand back links people open in it — so this module must stay byte-compatible with
@@ -7,11 +7,12 @@
  */
 import { CompareState } from 'src/app/core/compare-state';
 import { decodeShared, encodeBuild } from 'src/app/core/share-codec';
+import { buildSharePath, readShareToken } from 'src/app/core/share-path';
 import { CharacterBase } from 'src/app/jobs/_character-base.abstract';
 import { MainModel } from 'src/app/models/main.model';
 import { toUpsertPresetModel } from 'src/app/utils';
 
-/** Same pattern the app uses. Never URLSearchParams — it would mangle the token. */
+/** Legacy form, kept for links minted before the token moved into the path. */
 const TOKEN_IN_URL = /[?&]b=([^&#\s]+)/;
 
 export interface DecodedShare {
@@ -24,18 +25,19 @@ export const toPreset = (model: MainModel, char: CharacterBase): Record<string, 
   toUpsertPresetModel(model, char) as unknown as Record<string, any>;
 
 export const buildShareUrl = (preset: Record<string, any>, appOrigin: string, compare?: CompareState | null): string =>
-  `${appOrigin.replace(/\/+$/, '')}/#/?b=${encodeBuild(preset, compare)}`;
+  `${appOrigin.replace(/\/+$/, '')}${buildSharePath(encodeBuild(preset, compare))}`;
 
 /**
- * Accepts a full URL, a `#/?b=…` fragment, or a bare token, and returns the sparse
- * build plus any comparison it carries. Throws on anything undecodable — an agent
- * silently calculating a default build from a typo'd link would be worse.
+ * Accepts a full URL in either form (`/s/<token>/` or the legacy `#/?b=…`), a bare
+ * fragment, or a bare token, and returns the sparse build plus any comparison it
+ * carries. Throws on anything undecodable — an agent silently calculating a default
+ * build from a typo'd link would be worse.
  */
 export function parseShare(input: string): DecodedShare {
   const raw = (input ?? '').trim();
   if (!raw) throw new Error('Link de compartilhamento vazio.');
 
-  const token = raw.match(TOKEN_IN_URL)?.[1] ?? raw;
+  const token = readShareToken(raw) ?? raw.match(TOKEN_IN_URL)?.[1] ?? raw;
   const decoded = decodeShared(token);
   if (!decoded) throw new Error('Link de compartilhamento inválido ou corrompido.');
   return decoded;
@@ -44,7 +46,7 @@ export function parseShare(input: string): DecodedShare {
 /** Whether a string looks like a shortened link that needs resolving first. */
 const isShortLink = (input: string, shortenerUrl: string): boolean => {
   const s = (input ?? '').trim();
-  return s.startsWith(shortenerUrl) && !TOKEN_IN_URL.test(s);
+  return s.startsWith(shortenerUrl) && !readShareToken(s) && !TOKEN_IN_URL.test(s);
 };
 
 /** Expand a shortened link, or pass anything else through untouched. */
@@ -56,13 +58,15 @@ export const resolveIfShort = async (share: string, shortenerUrl: string): Promi
  * that's what the app's share dialog hands them.
  */
 export async function resolveShortLink(url: string, timeoutMs = 3000): Promise<string> {
-  // `redirect: 'manual'` is load-bearing. The token lives in the URL fragment, which
-  // fetch strips from `res.url` when it follows a redirect — and once followed there is
-  // no Location header left to recover it from, so 'follow' loses the token every time.
+  // `redirect: 'manual'` is load-bearing for the legacy links already in the wild: their
+  // token lives in the URL fragment, which fetch strips from `res.url` when it follows a
+  // redirect — and once followed there is no Location header left to recover it from.
   const res = await fetch(url, { redirect: 'manual', signal: AbortSignal.timeout(timeoutMs) });
   const location = res.headers.get('location');
   const candidate = location ? new URL(location, url).href : res.url;
-  if (!TOKEN_IN_URL.test(candidate)) throw new Error(`O link curto ${url} não aponta para uma simulação.`);
+  if (!readShareToken(candidate) && !TOKEN_IN_URL.test(candidate)) {
+    throw new Error(`O link curto ${url} não aponta para uma simulação.`);
+  }
   return candidate;
 }
 

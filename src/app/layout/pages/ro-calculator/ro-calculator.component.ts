@@ -102,7 +102,9 @@ import { SavedSimulation, SavedSimulationStore } from 'src/app/core/saved-simula
 import { isDefenderKey, PlayerTargetProfile, PvpMode } from 'src/app/core/pvp';
 import { buildReductionCategories, ReductionCategory, ReductionRow, reductionRowClickable as reductionRowClickableFn, sourcesContributeAnyKey } from './reduction-breakdown';
 import { encodeBuild, decodeShared } from 'src/app/core/share-codec';
-import { buildCharSpriteUrl, bareJobSprite } from 'src/app/pipes/char-sprite.pipe';
+import { shareEntryHref } from 'src/app/core/share-entry';
+import { buildSharePath, readShareToken, SHARE_PATH_PREFIX } from 'src/app/core/share-path';
+import { buildCharSpriteUrl, bareJobSprite } from 'src/app/domain/char-sprite-url';
 
 interface MonsterSelectItemGroup extends SelectItemGroup {
   items: any[];
@@ -534,7 +536,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initCalcTableColumns();
-    // A share link (?b=...) wins over the local autosave; falls back to it when absent.
+    // A share link (/s/<token>/ or the legacy ?b=...) wins over the local autosave;
+    // falls back to it when absent.
     const shared = this.consumeSharedBuild();
     this.initData()
       .pipe(
@@ -1811,21 +1814,24 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // single-skill build's token stays exactly what it was before rotations existed.
     const preset = compactRotationForShare(this.currentPreset() as unknown as Record<string, any>);
     const token = encodeBuild(preset, this.currentCompareState());
-    const { origin, pathname } = window.location;
-    return `${origin}${pathname}#/?b=${token}`;
+    // A real path, not a #fragment: the fragment never reaches a server, so no crawler
+    // could tell one shared build from another and every preview looked the same.
+    // `origin` alone, never `pathname` — opening the dialog while already on a share
+    // path would otherwise nest one token inside another.
+    return `${window.location.origin}${buildSharePath(token)}`;
   }
 
-  /** Read & consume a shared build (?b=...) from the URL (query or hash query),
-   *  then strip the param so a refresh/copy doesn't re-apply or leak the token. */
+  /** Read & consume a shared build from the URL — the canonical /s/<token>/ path or
+   *  the legacy ?b=... query — then clean the URL so a refresh/copy doesn't re-apply
+   *  or leak the token. `readShareToken` reads it raw, never via URLSearchParams. */
   private consumeSharedBuild(): { preset: PresetModel; compare: CompareState | null } | null {
     try {
-      // Read the token raw — NOT via URLSearchParams, which would turn any '+'
-      // into a space. The token lives in the hash query (#/?b=...) or the search.
-      const match = window.location.href.match(/[?&]b=([^&#]+)/);
-      const token = match?.[1];
+      // The URL the page was opened with — not the live one, which the router has
+      // already rewritten to '#/' by now (see share-entry.ts).
+      const token = readShareToken(shareEntryHref());
       if (!token) return null;
       const shared = decodeShared(token);
-      this.stripBuildParamFromUrl();
+      this.stripSharedBuildFromUrl();
       if (!shared) return null;
       return { preset: shared.preset as PresetModel, compare: shared.compare };
     } catch (error) {
@@ -1834,7 +1840,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     }
   }
 
-  private stripBuildParamFromUrl(): void {
+  private stripSharedBuildFromUrl(): void {
     try {
       const url = new URL(window.location.href);
       url.searchParams.delete('b');
@@ -1847,7 +1853,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         hash = rest ? `${path}?${rest}` : path;
       }
       url.hash = hash;
-      window.history.replaceState(null, '', url.toString());
+      // A /s/<token>/ link is a share entry point, not a route: once the build is
+      // loaded the address bar should read like any other visit, so the token can't
+      // be re-applied over edits by a refresh.
+      if (url.pathname.startsWith(SHARE_PATH_PREFIX)) url.pathname = '/';
+      // Keep whatever state the router put there. Replacing it with null drops
+      // Angular's navigationId, which scrollPositionRestoration then reads back.
+      window.history.replaceState(window.history.state, '', url.toString());
     } catch (error) {
       console.error(error);
     }

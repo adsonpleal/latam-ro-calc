@@ -1,21 +1,41 @@
 {
-  // Static-assets-only Worker: there is no "main", so no Worker script runs and every
-  // request is served straight from the uploaded assets. Static asset requests are free
-  // and unlimited, which is the whole point of moving off Firebase Hosting.
+  // Cloudflare Workers static assets. Almost every request — the app shell, the hashed
+  // bundles, the data JSONs — is served straight from the uploaded assets, which is free
+  // and unlimited, and is the whole point of moving off Firebase Hosting.
   //
-  // Do NOT add "run_worker_first": on the free plan it answers 429 once the Worker
-  // request limit is hit instead of falling back to serving the asset.
+  // There IS a Worker script, but it runs on exactly one route. `run_worker_first` as an
+  // ARRAY names the paths that go through it; every other request still takes the free
+  // asset path and never invokes it. That distinction matters: `run_worker_first: true`
+  // would put the entire site behind the Worker request budget, and on the free plan a
+  // 429 once that budget is spent means the homepage itself stops loading.
   //
-  // Cache policy lives in src/_headers, which `ng build` copies to the root of the
-  // directory below. See that file before touching anything cache-related.
+  // The array entry is not optional decoration either. With this compatibility date the
+  // `assets_navigation_prefers_asset_serving` behaviour is active, under which a browser
+  // navigation is answered from assets before the Worker sees it — while a crawler, which
+  // sends no `Sec-Fetch-Mode: navigate`, would reach the Worker. Naming /s/* removes that
+  // asymmetry so a person and a crawler get the same document.
+  //
+  // Cache policy for assets lives in src/_headers, which the Worker's own responses do
+  // not go through. See that file before touching anything cache-related.
   "name": "simulador-latam-ro",
   "compatibility_date": "2026-08-23",
+  "main": "./worker/index.ts",
   "assets": {
     "directory": "./dist/sakai-ng",
+    // Required for `env.ASSETS` — the Worker serves the real index.html through it and
+    // rewrites the Open Graph tags on the way out.
+    "binding": "ASSETS",
     // Unmatched paths serve /index.html so the Angular router can handle client-side
     // routes. Caveat: this also means a request for a hashed file that no longer exists
     // returns the HTML shell with 200 rather than a 404 — same behaviour the Firebase
     // rewrite had. The must-revalidate shell keeps the window small.
-    "not_found_handling": "single-page-application"
+    "not_found_handling": "single-page-application",
+    // Share links: /s/<token>/ (the document) and /s/<token>/og.png (the card image).
+    "run_worker_first": ["/s/*"]
+  },
+  "vars": {
+    // Where the per-build card is rendered — latam-social, a separate service. Point it
+    // somewhere else with a .dev.vars file when working on the card itself.
+    "OG_ORIGIN": "https://social.latam-tools.com.br"
   }
 }
