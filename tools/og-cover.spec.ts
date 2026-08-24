@@ -7,7 +7,9 @@
  * that service does not. Refresh it with:
  *
  *   curl https://social.latam-tools.com.br/ro-calc/cover.png -o src/assets/og-cover.png
- *   curl https://social.latam-tools.com.br/ro-calc/cover.svg -o src/assets/og-cover.svg
+ *
+ * The .svg beside it is the diffable source and has no route — the service only serves
+ * PNG. Regenerate it there with `pnpm cover` and copy both files across.
  *
  * This spec asserts only what index.html actually promises about it. Whether it still
  * matches the live card design is not checkable from here — that is the accepted cost of
