@@ -108,6 +108,35 @@ describe('pvp reduction math', () => {
       expect(defenderReductionMultiplier({ ...base, dmgType: 'magical', bonus })).toBeCloseTo(0.85, 10);
     });
 
+    /**
+     * `subrace_all` is the client's "Resistência a todas as raças de monstros" — the
+     * pt-BR race vocabulary keeps the monster world and the player world apart
+     * (docs/pvp.md §2: *Humanoide* is a mob, *Humano* is a player), so the line never
+     * covers an attacking player. It used to, which over-credited every item carrying
+     * it in PVP: U-Total (29542), the three Orbe Lupino - Total (310579-581), 400075
+     * and the Automatron P-Total (310112).
+     */
+    it('subrace_all does not reduce a player attacker — it is monster races only', () => {
+      const bonus = { subrace_all: 25 };
+
+      expect(defenderReductionMultiplier({ ...base, attackerRace: 'player_human', bonus })).toBe(1);
+      expect(defenderReductionMultiplier({ ...base, attackerRace: 'player_doram', bonus })).toBe(1);
+    });
+
+    it('leaves the player-race keys as the only ones that cut a player hit', () => {
+      const bonus = { subrace_all: 25, subrace_player_human: 10 };
+
+      expect(defenderReductionMultiplier({ ...base, attackerRace: 'player_human', bonus })).toBeCloseTo(0.9, 10);
+      // …and a Doram attacker gets neither, since only the Humano key is set.
+      expect(defenderReductionMultiplier({ ...base, attackerRace: 'player_doram', bonus })).toBe(1);
+    });
+
+    it('still stacks subrace_all onto a monster attacker, where the line does apply', () => {
+      const bonus = { subrace_all: 25, subrace_demon: 10 };
+
+      expect(defenderReductionMultiplier({ ...base, attackerRace: 'demon', bonus })).toBeCloseTo(0.65, 10);
+    });
+
     it('dmg_taken_range (Gazeti) only applies to physical ranged hits', () => {
       const bonus = { dmg_taken_range: 20 };
       // physical + ranged → applies
@@ -125,7 +154,9 @@ describe('pvp reduction math', () => {
     it('emits only nonzero categories, named + keyed, factors multiplying to the combined value', () => {
       const steps = defenderReductionSteps({ ...base, bonus: { subrace_player_human: 10, subele_neutral: 20, dmg_taken_all: 5 } });
       expect(steps.map((s) => s.label)).toEqual(['Redução Humano', 'Redução Neutro', 'Redução plana']);
-      expect(steps.find((s) => s.label === 'Redução Humano')).toMatchObject({ keys: ['subrace_all', 'subrace_player_human'], factor: 0.9 });
+      // No `subrace_all` in the keys: that line is "todas as raças de monstros" and does
+      // not cover a player attacker, so the drill-down must not offer it either.
+      expect(steps.find((s) => s.label === 'Redução Humano')).toMatchObject({ keys: ['subrace_player_human'], factor: 0.9 });
       expect(steps.find((s) => s.label === 'Redução Neutro')).toMatchObject({ keys: ['subele_all', 'subele_neutral'], factor: 0.8 });
       const combined = steps.reduce((m, s) => m * s.factor, 1);
       expect(combined).toBeCloseTo(defenderReductionMultiplier({ ...base, bonus: { subrace_player_human: 10, subele_neutral: 20, dmg_taken_all: 5 } }), 10);

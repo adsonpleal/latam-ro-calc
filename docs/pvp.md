@@ -107,6 +107,19 @@ Cartas de resistência clássicas ("de Humanoide") que a galera lembra reduzindo
 dano de player continuam funcionando porque **sempre** vêm pareadas com a parte
 *Humano* na descrição LATAM.
 
+**`subrace_all` é só de monstro (corrigido em 24/08/2026).** A linha do cliente
+por trás dela é "Resistência a **todas as raças de monstros**", e a tabela acima
+é justamente a regra de que o mundo dos mobs e o dos jogadores não se misturam —
+então ela **não** cobre um atacante jogador. Até aqui cobria: `subrace_all`
+somava em cima de `subrace_player_*` em qualquer hit, o que dava resistência de
+graça a todo item que a concede — U-Total (29542), os três Orbe Lupino - Total
+(310579-581), 400075 e o automódulo P-Total (310112). Agora, contra atacante
+jogador, só as chaves `subrace_player_human`/`subrace_player_doram` contam; vs
+monstro nada mudou. A regra mora em `PLAYER_RACES`/`isPlayerRace`
+(`src/app/core/pvp.ts`), e o popover "Redução de dano" segue a mesma regra — a
+linha "Todas as raças" sai da lista de PVP e continua na dos stats do próprio
+personagem. Testado em `pvp.spec.ts` e `reduction-breakdown.spec.ts`.
+
 **O mesmo vale do lado do atacante (feito).** O alvo-jogador nascia com
 `race: 'demihuman'`, o que entregava ao atacante todo bônus anti-Humanoide do
 jogo contra um alvo que eles não tocam no jogo — o Tempestivo e o Penetrante

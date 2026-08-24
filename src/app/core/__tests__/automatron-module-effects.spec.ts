@@ -108,9 +108,22 @@ describe('P-Total (310112)', () => {
       dmgType: 'physical' as const,
     };
 
-    // Normal (7%) and Médio (7%) apply; the race clause is monster-races-only in the
-    // client text, but subrace_all is how the engine spells the whole family, so it
-    // counts here too — the same as it does for U-Total.
-    expect(defenderReductionMultiplier({ bonus, ...incoming })).toBeCloseTo(0.93 ** 3, 10);
+    // Normal (7%) and Médio (7%) apply. The +11 race clause does NOT: the client spells
+    // it "todas as raças de monstros", and an attacking player is neither (core/pvp.ts,
+    // PLAYER_RACES) — so it is two categories, not three.
+    expect(defenderReductionMultiplier({ bonus, ...incoming })).toBeCloseTo(0.93 ** 2, 10);
+  });
+
+  it('gives its race clause to a monster attacker, where the line does apply', () => {
+    const bonus = bonusOf(MOTOR_A, 'garmentEnchant1', P_TOTAL, 11);
+    const fromDemon = {
+      attackerRace: 'demon',
+      attackerElement: 'neutral',
+      attackerSize: 'm' as const,
+      attackerType: 'normal' as const,
+      dmgType: 'physical' as const,
+    };
+
+    expect(defenderReductionMultiplier({ bonus, ...fromDemon })).toBeCloseTo(0.93 ** 3, 10);
   });
 });
