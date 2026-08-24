@@ -261,16 +261,23 @@ const illusionShield = [
  * piece's whole column; the per-module "x1/x2/x3" repeat cap the wiki prints is a rule
  * of the NPC, not of the list, and is not modelled here.
  *
- * Ten of the modules the table lists are deliberately absent, from every column that
- * takes them: all ten are defensive or utility effects the damage engine has no key for,
- * and none of them is in item.json either.
+ * Every column is complete, but nine of the modules carry an **empty script**: the engine
+ * has no key for a heal, a regeneration or a reflected-damage effect, so they change no
+ * number. They are in item.json and in these lists all the same, because a build or a
+ * replay import naming one has to be able to show it in the socket the player filled —
+ * dropping it would silently rewrite their gear.
  *
  *   M-HPR (310090), M-SPR (310091)        natural HP/SP regen +30%      Ac. D. / Ac. E.
  *   M-Cura (310098)                       heal effectiveness +17%       Perna, Escudo
- *   P-Total (310112)                      resist vs Normal/Boss/size/race   Motor
  *   P-Vida (310113), P-Alma (310114)      HP/SP leech on hit            Ac. D. / Ac. E.
  *   P-Mental (310115), P-Mana (310116)    proc HP/SP regen when casting Ac. D. / Ac. E.
  *   P-Espelho (310178), P-Refletor (310179)  reflected-damage resist    Colete / Motor, Escudo
+ *
+ * P-Total (310112) was in that list until the PVP section gave the engine a defender side:
+ * its "Resistência a Normais e Chefes / a todos os tamanhos / a todas as raças" is the
+ * subclass_/subsize_/subrace_ namespace, and against a player attacker (Normal, Médio) the
+ * first two clauses fire. It is the Automatron member of the U-Total / Orbe Lupino - Total
+ * family and carries the same keys, phrase for phrase — so it is scripted, not inert.
  *
  * @see https://browiki.org/wiki/Equipamentos_Automatron
  */
@@ -341,13 +348,15 @@ const automaticArmor2 = [
   'Automatic_Orb28',
   'Automatic_Orb29',
   'Automatic_Orb36',
+  'Automatic_Orb97',
 ];
 const automaticArmor = [...automaticBasicDef, ...automaticArmor2, ...automaticJobs];
-const automaticGarment = [...automaticBasicDef, 'Automatic_Orb21', 'Automatic_Orb22', 'Automatic_Orb23', 'Automatic_Orb38'];
+const automaticGarment = [...automaticBasicDef, 'Automatic_Orb21', 'Automatic_Orb22', 'Automatic_Orb23', 'Automatic_Orb31', 'Automatic_Orb38', 'Automatic_Orb98'];
 const automaticBoot = [
   ...automaticBasicDef,
   'Automatic_Orb15',
   'Automatic_Orb16',
+  'Automatic_Orb17',
   'Automatic_Orb30',
   'Automatic_Orb37',
   'Automatic_Orb40',
@@ -362,13 +371,15 @@ const automaticShield = [
   ...automaticBasicDef, // B-DEF x3, B-DEFM x3
   'Automatic_Orb15', // M-HPMax x2
   'Automatic_Orb16', // M-SPMax x2
+  'Automatic_Orb17', // M-Cura x2
   'Automatic_Orb21', // M-Rapidez x1
   'Automatic_Orb37', // P-Robusto x1
   'Automatic_Orb38', // P-Dano x1
+  'Automatic_Orb98', // P-Refletor x1
 ];
 const automaticAcc = ['Automatic_Orb39', 'Automatic_Orb11', 'Automatic_Orb12', 'Automatic_Orb13', 'Automatic_Orb14', 'Automatic_Orb3', 'Automatic_Orb4'];
-const automaticAccR = [...automaticAcc, 'Automatic_Orb5', 'Automatic_Orb6'];
-const automaticAccL = [...automaticAcc, 'Automatic_Orb7', 'Automatic_Orb8'];
+const automaticAccR = [...automaticAcc, 'Automatic_Orb5', 'Automatic_Orb6', 'Automatic_Orb9', 'Automatic_Orb32', 'Automatic_Orb34'];
+const automaticAccL = [...automaticAcc, 'Automatic_Orb7', 'Automatic_Orb8', 'Automatic_Orb10', 'Automatic_Orb33', 'Automatic_Orb35'];
 const auto4ThAnniGlove = [ExpertMagician._5, ...automaticAcc, 'Automatic_Orb5', 'Automatic_Orb6', 'Automatic_Orb7', 'Automatic_Orb8'];
 
 const tempBoot_3 = ["Bear's_Power", 'Runaway_Magic', 'Speed_Of_Light', 'Muscle_Fool', 'Hawkeye', 'Lucky_Day'];

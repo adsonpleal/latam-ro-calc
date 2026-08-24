@@ -7,8 +7,11 @@ import { getEnchants } from './_enchant_table';
  * Automódulos — the enchant pool of every Automatron piece, held against the Automódulo
  * table on browiki's Equipamentos Automatron page, column by column.
  *
- * Each piece takes 3 automódulos and every socket offers that piece's whole column (the
- * "x1/x2/x3" repeat cap on the wiki is a rule of the NPC, not of the list). The two
+ * Each piece takes 3 automódulos and every socket offers that piece's whole column, in
+ * full. Nine of them carry an empty script, because the engine cannot measure a heal, a
+ * regeneration or a reflected-damage effect — they are offered all the same, so a build
+ * or a replay import naming one can show it in the socket the player filled. (The
+ * "x1/x2/x3" repeat cap on the wiki is a rule of the NPC, not of the list.) The two
  * shields were the first gap found here — they had no row at all, so their sockets
  * offered nothing; F-Eternidade on the Perna and H-Maré on the Colete were the next two,
  * both reported from the game.
@@ -48,48 +51,52 @@ const COLUMNS: [string, string[], string[]][] = [
   [
     'Colete',
     ['Auto_Armor_A', 'Auto_Armor_B'],
-    // P-Espelho is the Colete's own omission.
     ['B-DEF', 'B-DEFM', 'M-ATQ', 'M-ATQM', 'M-Tiro', 'P-Mágico', 'P-Bárbaro', 'P-Artilheiro',
-      'P-Crítico', 'P-Curandeiro', 'P-Pós', 'P-Híbrido', ...H_MODULES],
+      'P-Crítico', 'P-Curandeiro', 'P-Pós', 'P-Híbrido', 'P-Espelho', ...H_MODULES],
   ],
   [
     'Motor',
     ['Auto_Engine_A', 'Auto_Engine_B'],
-    ['B-DEF', 'B-DEFM', 'M-Rapidez', 'M-Magia', 'M-CRIT', 'P-Dano'],
+    ['B-DEF', 'B-DEFM', 'M-Rapidez', 'M-Magia', 'M-CRIT', 'P-Total', 'P-Dano', 'P-Refletor'],
   ],
   [
     'Perna',
     ['Auto_Leg_A', 'Auto_Leg_B'],
-    ['B-DEF', 'B-DEFM', 'M-HPMax', 'M-SPMax', 'P-Fixa', 'P-Robusto',
+    ['B-DEF', 'B-DEFM', 'M-HPMax', 'M-SPMax', 'M-Cura', 'P-Fixa', 'P-Robusto',
       'F-Superpoder', 'F-Lampejo', 'F-Eternidade', 'F-Sortilégio', 'F-Astúcia', 'F-Fortuna'],
   ],
   [
     'Acessório direito',
     ['Auto_B_R', 'Auto_BC_R'],
-    ['B-FOR', 'B-AGI', 'B-VIT', 'B-SOR', 'M-Encanto', 'M-Atraso', 'M-Fatal', 'M-Mira', 'P-Geral'],
+    ['B-FOR', 'B-AGI', 'B-VIT', 'B-SOR', 'M-HPR', 'M-Encanto', 'M-Atraso', 'M-Fatal', 'M-Mira',
+      'P-Vida', 'P-Mental', 'P-Geral'],
   ],
   [
     'Acessório esquerdo',
     ['Auto_B_L', 'Auto_BC_L'],
-    ['B-VIT', 'B-INT', 'B-DES', 'B-SOR', 'M-Encanto', 'M-Atraso', 'M-Fatal', 'M-Mira', 'P-Geral'],
+    ['B-VIT', 'B-INT', 'B-DES', 'B-SOR', 'M-SPR', 'M-Encanto', 'M-Atraso', 'M-Fatal', 'M-Mira',
+      'P-Alma', 'P-Mana', 'P-Geral'],
   ],
   [
     'Escudo',
     ['Auto_Shield_A_LT', 'Auto_Shield_B_LT'],
-    ['B-DEF', 'B-DEFM', 'M-HPMax', 'M-SPMax', 'M-Rapidez', 'P-Robusto', 'P-Dano'],
+    ['B-DEF', 'B-DEFM', 'M-HPMax', 'M-SPMax', 'M-Cura', 'M-Rapidez', 'P-Robusto', 'P-Dano', 'P-Refletor'],
   ],
 ];
 
 /**
- * The ten modules the table lists that no column here offers. Every one of them is a
- * defensive or utility effect the damage engine has no key for, and none is in item.json.
- * If a key is ever added for one, it belongs in every column the wiki gives it.
+ * The nine modules the engine cannot measure. They are offered like any other — a player
+ * who has one enchanted must be able to pick it, and a build or replay import naming one
+ * must not silently drop it — but their script is empty, so they contribute nothing.
+ *
+ * If a key is ever added for one, its script is what changes; the pools already have it.
+ * P-Total was on this list until the PVP section gave the engine a defender side — see the
+ * note in _enchant_table.ts and automatron-module-effects.spec.ts.
  */
-const NOT_MODELLED: [string, number, string][] = [
+const INERT: [string, number, string][] = [
   ['M-HPR', 310090, 'Regen. natural de HP +30%'],
   ['M-SPR', 310091, 'Regen. natural de SP +30%'],
   ['M-Cura', 310098, 'Efetividade de cura'],
-  ['P-Total', 310112, 'Resistência a Normais e Chefes'],
   ['P-Vida', 310113, 'converter 3% do dano físico causado em HP'],
   ['P-Alma', 310114, 'converter 2% do dano físico causado em SP'],
   ['P-Mental', 310115, 'Cura Mágica'],
@@ -124,17 +131,27 @@ describe.each(COLUMNS)('%s', (_column, aegisNames, expected) => {
   });
 });
 
-describe('automódulos the game gives but the calculator cannot model', () => {
-  it.each(NOT_MODELLED)('%s (%i) is absent from item.json — "%s"', (name, id, effect) => {
+describe('automódulos the game gives but the calculator cannot measure', () => {
+  it.each(INERT)('%s (%i) is selectable but scores nothing — "%s"', (name, id, effect) => {
     expect(latam[id]?.name).toBe(name);
     expect(latam[id]?.description).toContain(effect);
-    expect(items[id]).toBeUndefined();
+    expect(items[id]).toBeDefined();
+    expect(items[id].script).toEqual({});
   });
 
-  it('is offered by no column, so the omission stays consistent', () => {
+  it('reaches every socket the wiki gives it, so an import can name it', () => {
     const offered = new Set(COLUMNS.flatMap(([, aegisNames]) =>
       aegisNames.flatMap((a) => optionNames((getEnchants(a) as string[][]).slice(1).flat()))));
 
-    for (const [name] of NOT_MODELLED) expect(offered.has(name)).toBe(false);
+    for (const [name] of INERT) expect(offered.has(name)).toBe(true);
+  });
+
+  it('is the only Automatron family with an empty script — everything else scores', () => {
+    const empty = Object.values(items)
+      .filter((i: any) => /^Automatic_Orb\d+$/.test(String(i.aegisName)))
+      .filter((i: any) => Object.keys(i.script ?? {}).length === 0)
+      .map((i: any) => i.id);
+
+    expect(new Set(empty)).toEqual(new Set(INERT.map(([, id]) => id)));
   });
 });
