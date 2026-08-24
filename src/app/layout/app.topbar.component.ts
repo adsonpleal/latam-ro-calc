@@ -158,6 +158,16 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.89-beta',
+      date: '24-08-2026',
+      logs: [
+        'Os Brotos Temporais passaram a mostrar os encantamentos. Os seis — FOR, DES, AGI, SOR, VIT e INT — não tinham tabela de encantos no simulador, então os três encaixes apareciam vazios. O encaixe 4 agora oferece Atributo +1, +2 e +3 em qualquer um dos seis atributos; o encaixe 3 oferece HP máx. e SP máx. +3% e +5%, Músculo 1 e 2 (dano físico +3% e +5%), Intelecto 1 e 2 (dano mágico +3% e +5%), Pedra de Encantamento 1 e 2 e Anti-Atraso 1 e 2; e o encaixe 2 oferece Talento +1 e +2 em qualquer um dos seis talentos, mais T.CRÍT, C.Mais, P.ATQ e S.ATQM +1 e +2. Vinte e oito desses encantos também faltavam no banco de dados e foram acrescentados. Reportado por TANK.',
+        'A tabela da bROWiki resume os seis brotos numa linha só, com um "Atributo" e um "Talento" genéricos, e são as porcentagens dela que dizem o que isso quer dizer: o encaixe 4 soma 16,66%, exatamente um sexto da rolagem, e o encaixe 2 fecha em 100% com dez encantos em duas faixas. As duas contas só fecham se cada broto aceitar os seis atributos e os seis talentos, e foi assim que a lista foi montada.',
+        'O automódulo F-Eternidade entrou na lista da Perna Automatron. Era o único dos seis Fantásticos que faltava. Ele dá VIT +50 por 10 segundos, com 5% de chance ao receber dano físico ou mágico, e entra como bônus de chance ao lado dos outros cinco. A regeneração de 800 de HP a cada 0,4 segundo que ele também concede fica de fora, porque o simulador não mede regeneração. Reportado por Ryuushin.',
+        'A tabela de automódulos foi conferida coluna por coluna contra a bROWiki. Além do F-Eternidade, faltava o H-Maré no Colete — a recarga de Proteção da Orla e Festa do Camarão, dos Invocadores. As seis colunas agora batem com a tabela. Dez automódulos continuam de fora por não haver o que medir neles no simulador: M-HPR, M-SPR, M-Cura, P-Total, P-Vida, P-Alma, P-Mental, P-Mana, P-Espelho e P-Refletor, todos de defesa, cura ou regeneração.',
+      ],
+    },
+    {
       v: '0.1.88-beta',
       date: '24-08-2026',
       logs: [

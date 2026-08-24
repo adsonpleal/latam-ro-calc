@@ -136,6 +136,7 @@ import { royalHArmor2, royalHArmor3, royalHArmor4, royalHBoot3, royalHBoot4, roy
 import { goodEvilBoot3_ABC, goodEvilBoot3_AG, goodEvilBoot3_BO, goodEvilBoot3_CD, goodEvilBoot3_DK, goodEvilBoot3_EM, goodEvilBoot3_HN, goodEvilBoot3_IG, goodEvilBoot3_IQ, goodEvilBoot3_MT, goodEvilBoot3_NW, goodEvilBoot3_SH, goodEvilBoot3_SHC, goodEvilBoot3_SKE, goodEvilBoot3_SOA, goodEvilBoot3_SS, goodEvilBoot3_TR, goodEvilBoot3_WH, goodEvilBoot4, goodEvilHead3, goodEvilHead4, sinsFateWeapon3, sinsFateWeapon4 } from './sins_and_fate';
 import { snowFwAccL2, snowFwAccL3, snowFwAccL4, snowFwAccR2, snowFwAccR3, snowFwAccR4, snowFwArmor2, snowFwArmor3, snowFwArmor4, snowFwBoot2, snowFwBoot3, snowFwBoot4, snowFwGarment2, snowFwGarment3, snowFwGarment4 } from './snow_flower';
 import { thanosBoot3, thanosBoot4, thanosHead3, thanosHead4 } from './thanos';
+import { sproutSlot2, sproutSlot3 } from './temporal_sprout';
 import { traitShadow3, traitShadow4 } from './trait_shadow';
 import { unkWatch2, unkWatch34 } from './unknown_watch';
 import { corruptedPoisonArmor2, corruptedPoisonArmor3, corruptedPoisonArmor4, fieryEarthArmor2, fieryEarthArmor3, fieryEarthArmor4, flameRuneArmor2, icyStromArmor2, icyStromArmor3, icyStromArmor4, soulPurifyArmor2, soulPurifyArmor3, soulPurifyArmor4, varmundt3, varmundt4, varmundtAcc3, varmundtAcc4, varmundtHiAcc2 } from './varmundt';
@@ -254,6 +255,25 @@ const illusionShield = [
   ...illusionAcc,
 ];
 
+/**
+ * Automódulos — one const per column of the Automódulo table on browiki's Equipamentos
+ * Automatron page. Every Automatron piece has 3 sockets and each of them offers that
+ * piece's whole column; the per-module "x1/x2/x3" repeat cap the wiki prints is a rule
+ * of the NPC, not of the list, and is not modelled here.
+ *
+ * Ten of the modules the table lists are deliberately absent, from every column that
+ * takes them: all ten are defensive or utility effects the damage engine has no key for,
+ * and none of them is in item.json either.
+ *
+ *   M-HPR (310090), M-SPR (310091)        natural HP/SP regen +30%      Ac. D. / Ac. E.
+ *   M-Cura (310098)                       heal effectiveness +17%       Perna, Escudo
+ *   P-Total (310112)                      resist vs Normal/Boss/size/race   Motor
+ *   P-Vida (310113), P-Alma (310114)      HP/SP leech on hit            Ac. D. / Ac. E.
+ *   P-Mental (310115), P-Mana (310116)    proc HP/SP regen when casting Ac. D. / Ac. E.
+ *   P-Espelho (310178), P-Refletor (310179)  reflected-damage resist    Colete / Motor, Escudo
+ *
+ * @see https://browiki.org/wiki/Equipamentos_Automatron
+ */
 const automaticJobs = [
   'Automatic_Orb46',
   'Automatic_Orb47',
@@ -303,6 +323,7 @@ const automaticJobs = [
   'Automatic_Orb91',
   'Automatic_Orb92',
   'Automatic_Orb93',
+  'Automatic_Orb94',
   'Automatic_Orb95',
   'Automatic_Orb96',
 ];
@@ -329,18 +350,14 @@ const automaticBoot = [
   'Automatic_Orb16',
   'Automatic_Orb30',
   'Automatic_Orb37',
+  'Automatic_Orb40',
   'Automatic_Orb41',
   'Automatic_Orb42',
   'Automatic_Orb43',
   'Automatic_Orb44',
   'Automatic_Orb45',
 ];
-/**
- * The Escudo column of browiki's Automódulo table. Two of the nine it accepts are left
- * out because the calculator has no key for them and they are not in item.json either:
- * M-Cura (310098, "Efetividade de cura +17%") and P-Refletor (310179, "Resistência a
- * danos refletidos +9%"). The other pieces omit the same two.
- */
+/** The Escudo column — M-Cura and P-Refletor stay out, see the note above. */
 const automaticShield = [
   ...automaticBasicDef, // B-DEF x3, B-DEFM x3
   'Automatic_Orb15', // M-HPMax x2
@@ -765,6 +782,15 @@ export const EnchantTable: EntTable[] = [
   { name: 'Golden_Scarf', enchants: [null, goldenSet, goldenSet, goldenSet] },
 
   { name: 'CUSTOM_Racing_Shoes', enchants: [null, null, racingShoes, racingShoes] },
+
+  // Brotos Temporais — slot 4 is the generic "Atributo +1/+2/+3", i.e. all six stats.
+  // See temporal_sprout.ts for why the wiki's single row covers all six sprouts.
+  { name: 'Tree_Of_Sprout_STR', enchants: [null, sproutSlot2, sproutSlot3, BaseState._1_3] },
+  { name: 'Tree_Of_Sprout_DEX', enchants: [null, sproutSlot2, sproutSlot3, BaseState._1_3] },
+  { name: 'Tree_Of_Sprout_AGI', enchants: [null, sproutSlot2, sproutSlot3, BaseState._1_3] },
+  { name: 'Tree_Of_Sprout_LUK', enchants: [null, sproutSlot2, sproutSlot3, BaseState._1_3] },
+  { name: 'Tree_Of_Sprout_VIT', enchants: [null, sproutSlot2, sproutSlot3, BaseState._1_3] },
+  { name: 'Tree_Of_Sprout_INT', enchants: [null, sproutSlot2, sproutSlot3, BaseState._1_3] },
 
   { name: 'Tree_Of_Sprout_JP', enchants: [null, BaseState._1_3, BaseState._1_3, infityEnt4] },
   { name: 'Tengu_Scroll', enchants: [null, BaseState._1_3, BaseState._1_3, infityEnt4] },
