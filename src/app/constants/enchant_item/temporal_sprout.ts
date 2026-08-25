@@ -49,7 +49,19 @@ export const sproutSlot3 = [
   AttackDelay._2, // Anti-Atraso 2 — likewise
 ];
 
-/** Slot 2 — the six talentos plus the four derived stats, +1 then +2. */
+/**
+ * Slot 2 — the six talentos plus the four derived stats, +1 then +2.
+ *
+ * The twelve talento entries (311076-311087) show **no icon**, and that is expected:
+ * their six resources are `Barmund_Pow`/`_Wis`/`_Spl`/`_Sta`/`_Crt`/`_Con`, which the
+ * LATAM client does not ship yet, so ragassets has nothing to publish and
+ * `/icons/item/<id>.png` answers 404. Nothing to fix on either side until the client
+ * carries them — checked on 25/08/2026, decided to leave as is.
+ *
+ * The four below them (T.CRÍT, C.Mais) do have icons; so does every other enchant added
+ * here. It is not an id range, not a shared resource and not the Latin resource name —
+ * all three were ruled out, and 15 other Latin-named resources serve fine.
+ */
 export const sproutSlot2 = [
   'aegis_311076', // POD +1
   'aegis_311082', // STA +1
