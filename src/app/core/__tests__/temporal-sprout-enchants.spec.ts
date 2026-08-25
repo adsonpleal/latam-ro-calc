@@ -98,6 +98,28 @@ describe('Brotos Temporais — encantamentos', () => {
     expect(optionNames(slot4).sort()).toEqual([...SLOT_4].sort());
   });
 
+  /**
+   * Order is part of the deliverable, not an accident of how the lists were written: the
+   * dropdown runs tier by tier, so every +1 comes before any +2. Grouping a stat with its
+   * own upgrades (FOR +1, FOR +2, FOR +3, AGI +1, …) is what `BaseState._1_3` does and is
+   * why slot 4 does not use it.
+   */
+  it.each(SPROUTS)('%i lists every socket tier by tier, all the +1 before any +2', (_id, aegisName) => {
+    const [, ...sockets] = getEnchants(aegisName) as string[][];
+
+    for (const socket of sockets) {
+      const tiers = optionNames(socket).map((name) => Number(/(\d)$/.exec(name)?.[1] ?? 1));
+      expect(tiers).toEqual([...tiers].sort((a, b) => a - b));
+    }
+  });
+
+  it('runs the six stats and the six talentos in the same status-window order', () => {
+    const [, slot2, , slot4] = getEnchants('Tree_Of_Sprout_STR') as string[][];
+
+    expect(optionNames(slot4).slice(0, 6)).toEqual(['FOR +1', 'AGI +1', 'VIT +1', 'INT +1', 'DES +1', 'SOR +1']);
+    expect(optionNames(slot2).slice(0, 6)).toEqual(['POD +1', 'STA +1', 'SAB +1', 'FEI +1', 'CON +1', 'CRV +1']);
+  });
+
   it('gives every sprout the same table — the wiki lists one row for the six', () => {
     const [first] = SPROUTS;
     const reference = getEnchants(first[1]);

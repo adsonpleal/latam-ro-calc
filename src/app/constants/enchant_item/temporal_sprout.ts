@@ -1,4 +1,4 @@
-import { AttackDelay, Spell } from './_basic';
+import { Agi, AttackDelay, Dex, Int, Luk, Spell, Str, Vit } from './_basic';
 
 /**
  * Brotos Temporais — 420017 FOR, 420018 DES, 420019 AGI, 420020 SOR, 420021 VIT and
@@ -13,10 +13,27 @@ import { AttackDelay, Spell } from './_basic';
  * exactly a sixth of the roll, and slot 2's (9,50 + 0,50) × 10 entries is exactly all
  * of it, which only adds up if every sprout offers all six stats and all six traits.
  *
+ * All three lists run **tier by tier** — every +1 first, then every +2, then every +3 —
+ * rather than grouping a stat with its own upgrades. A player picking an enchant knows
+ * which tier they rolled before they know which of the six it landed on, so the tier is
+ * what the eye should scan first, and it keeps the three sockets reading alike.
+ *
  * @see https://browiki.org/wiki/Predefini%C3%A7%C3%A3o:Brotos_Temporais
  */
 
-/** Slot 3 — the flat pool, in the order the wiki lists it. */
+/**
+ * Slot 4 — "Atributo +1/+2/+3", i.e. every base stat at every tier. Written out rather
+ * than reusing `BaseState._1_3`, which groups each stat with its own upgrades and is
+ * shared with a long list of unrelated items. The six run in status-window order (FOR,
+ * AGI, VIT, INT, DES, SOR), the same order slot 2 gives their talentos.
+ */
+export const sproutSlot4 = [
+  Str._1, Agi._1, Vit._1, Int._1, Dex._1, Luk._1,
+  Str._2, Agi._2, Vit._2, Int._2, Dex._2, Luk._2,
+  Str._3, Agi._3, Vit._3, Int._3, Dex._3, Luk._3,
+];
+
+/** Slot 3 — the flat pool, tier 1 then tier 2, in the order the wiki lists it. */
 export const sproutSlot3 = [
   'aegis_310992', // SP máx. +3%
   'aegis_310990', // HP máx. +3%

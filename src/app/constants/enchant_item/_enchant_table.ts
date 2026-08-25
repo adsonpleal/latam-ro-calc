@@ -136,7 +136,7 @@ import { royalHArmor2, royalHArmor3, royalHArmor4, royalHBoot3, royalHBoot4, roy
 import { goodEvilBoot3_ABC, goodEvilBoot3_AG, goodEvilBoot3_BO, goodEvilBoot3_CD, goodEvilBoot3_DK, goodEvilBoot3_EM, goodEvilBoot3_HN, goodEvilBoot3_IG, goodEvilBoot3_IQ, goodEvilBoot3_MT, goodEvilBoot3_NW, goodEvilBoot3_SH, goodEvilBoot3_SHC, goodEvilBoot3_SKE, goodEvilBoot3_SOA, goodEvilBoot3_SS, goodEvilBoot3_TR, goodEvilBoot3_WH, goodEvilBoot4, goodEvilHead3, goodEvilHead4, sinsFateWeapon3, sinsFateWeapon4 } from './sins_and_fate';
 import { snowFwAccL2, snowFwAccL3, snowFwAccL4, snowFwAccR2, snowFwAccR3, snowFwAccR4, snowFwArmor2, snowFwArmor3, snowFwArmor4, snowFwBoot2, snowFwBoot3, snowFwBoot4, snowFwGarment2, snowFwGarment3, snowFwGarment4 } from './snow_flower';
 import { thanosBoot3, thanosBoot4, thanosHead3, thanosHead4 } from './thanos';
-import { sproutSlot2, sproutSlot3 } from './temporal_sprout';
+import { sproutSlot2, sproutSlot3, sproutSlot4 } from './temporal_sprout';
 import { traitShadow3, traitShadow4 } from './trait_shadow';
 import { unkWatch2, unkWatch34 } from './unknown_watch';
 import { corruptedPoisonArmor2, corruptedPoisonArmor3, corruptedPoisonArmor4, fieryEarthArmor2, fieryEarthArmor3, fieryEarthArmor4, flameRuneArmor2, icyStromArmor2, icyStromArmor3, icyStromArmor4, soulPurifyArmor2, soulPurifyArmor3, soulPurifyArmor4, varmundt3, varmundt4, varmundtAcc3, varmundtAcc4, varmundtHiAcc2 } from './varmundt';
@@ -794,14 +794,14 @@ export const EnchantTable: EntTable[] = [
 
   { name: 'CUSTOM_Racing_Shoes', enchants: [null, null, racingShoes, racingShoes] },
 
-  // Brotos Temporais — slot 4 is the generic "Atributo +1/+2/+3", i.e. all six stats.
-  // See temporal_sprout.ts for why the wiki's single row covers all six sprouts.
-  { name: 'Tree_Of_Sprout_STR', enchants: [null, sproutSlot2, sproutSlot3, BaseState._1_3] },
-  { name: 'Tree_Of_Sprout_DEX', enchants: [null, sproutSlot2, sproutSlot3, BaseState._1_3] },
-  { name: 'Tree_Of_Sprout_AGI', enchants: [null, sproutSlot2, sproutSlot3, BaseState._1_3] },
-  { name: 'Tree_Of_Sprout_LUK', enchants: [null, sproutSlot2, sproutSlot3, BaseState._1_3] },
-  { name: 'Tree_Of_Sprout_VIT', enchants: [null, sproutSlot2, sproutSlot3, BaseState._1_3] },
-  { name: 'Tree_Of_Sprout_INT', enchants: [null, sproutSlot2, sproutSlot3, BaseState._1_3] },
+  // Brotos Temporais — see temporal_sprout.ts for why the wiki's single row covers all
+  // six sprouts, and why the three lists run tier by tier.
+  { name: 'Tree_Of_Sprout_STR', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
+  { name: 'Tree_Of_Sprout_DEX', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
+  { name: 'Tree_Of_Sprout_AGI', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
+  { name: 'Tree_Of_Sprout_LUK', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
+  { name: 'Tree_Of_Sprout_VIT', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
+  { name: 'Tree_Of_Sprout_INT', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
 
   { name: 'Tree_Of_Sprout_JP', enchants: [null, BaseState._1_3, BaseState._1_3, infityEnt4] },
   { name: 'Tengu_Scroll', enchants: [null, BaseState._1_3, BaseState._1_3, infityEnt4] },
