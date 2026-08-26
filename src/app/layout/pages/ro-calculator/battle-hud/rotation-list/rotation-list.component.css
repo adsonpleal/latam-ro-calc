@@ -580,15 +580,10 @@
   height: 10px;
 }
 
-/* In "Preenchido" input mode the theme paints every .p-inputtext — and the dropdown's
-   label is one — so the label alone came out as a filled pill with the chevron sitting
-   outside it, which is the badge broken in a second way. The fill belongs to the whole
-   control or to nothing: the label is forced transparent here, and the theme's own
-   hover/focus rules still tint the entire .p-dropdown, chevron included. */
+/* The label carries the theme's own input padding, which pushes the level out of a badge
+   this small. */
 :host ::ng-deep .rot-level-dd.p-dropdown .p-dropdown-label {
   padding: 0;
-  background: transparent;
-  background-color: transparent;
 }
 
 /* The flex child is the <p-dropdown> host element; `styleClass` only reaches the inner

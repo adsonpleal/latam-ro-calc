@@ -234,7 +234,7 @@ export class BattleHudComponent implements OnDestroy {
     note?: string,
   ): void {
     if (!calc && !this.isBreakdownClickable(keys)) return;
-    this.showBonusBreakdownClick.emit({ label: compare ? `${label} (comparação)` : label, keys, valueClass, total, calc, note, compare });
+    this.showBonusBreakdownClick.emit({ label, keys, valueClass, total, calc, note, compare });
   }
 
   /** A kvPair's simulated column: the same breakdown, read from the compared build. */

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 export interface AppConfig {
-  inputStyle: string;
   colorScheme: string;
   theme: string;
   ripple: boolean;
@@ -27,7 +26,6 @@ interface LayoutState {
 export class LayoutService {
   config: AppConfig = {
     ripple: localStorage.getItem('ripple') === 'true',
-    inputStyle: localStorage.getItem('inputStyle') || 'outlined',
     menuMode: localStorage.getItem('menuMode') || 'overlay',
     colorScheme: 'dark',
     theme: 'vela-green',

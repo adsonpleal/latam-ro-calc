@@ -162,17 +162,17 @@ export class AspdCurveComponent implements OnChanges {
   }
 
   private buildCaption(aspd: number): void {
-    this.summaryText = `VelAtq ${aspd} → ${formatRate(engineHitsPerSec(aspd))} golpes/s.`;
+    this.summaryText = `Vel.Atq ${aspd} → ${formatRate(engineHitsPerSec(aspd))} golpes/s.`;
 
     const gain = gainFromAspd(aspd);
     if (!gain) {
-      this.gainText = `No teto de VelAtq (${ASPD_CAP}), o máximo de ${formatRate(MAX_HITS_PER_SEC)} golpes/s.`;
+      this.gainText = `No teto de Vel.Atq (${ASPD_CAP}), o máximo de ${formatRate(MAX_HITS_PER_SEC)} golpes/s.`;
       return;
     }
     // `gain.plus`, not the requested amount: near the cap the increase gets truncated,
     // and promising "+10" for what is really +9 would misprice the last stretch.
     this.gainText =
-      `+${gain.plus} de VelAtq (chegar a ${gain.aspd}) levaria a ${formatRate(gain.hits)} golpes/s — ` +
+      `+${gain.plus} de Vel.Atq (chegar a ${gain.aspd}) levaria a ${formatRate(gain.hits)} golpes/s — ` +
       `+${formatRate(gain.delta)}/s, ou +${formatNumber(gain.percent, 0, 1)}% de golpes.`;
   }
 }

@@ -2,9 +2,12 @@
      for keyboard operation. These two a11y rules are static and can't see the directive, so they
      false-positive on every element that uses it — disabled file-wide here, still enforced elsewhere. -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-<div class="flex align-items-center status_input">
-  <div class="p-inputgroup">
-    <span class="p-inputgroup-addon" style="width: 32px">{{ label }}</span>
+<!-- The label is a joined caption on the field's left, the way the Nv / Job pair in the band
+     above reads (.joined_field lives in ro-calculator.component.css, which this component's
+     styleUrls pull in), with the "+N" equipment bonus outside the control. -->
+<div class="status_input">
+  <div class="joined_field">
+    <label class="joined_caption status_label" [attr.for]="label">{{ label }}</label>
     <p-dropdown
       [disabled]="disabled"
       inputId="{{ label }}"
@@ -17,29 +20,17 @@
       [(ngModel)]="value"
       (onChange)="onBaseStatusChange()"
       emptyFilterMessage=""
-      dropdownIcon=""
     >
       <ng-template pTemplate="filtericon"> </ng-template>
     </p-dropdown>
   </div>
   <span
-    *ngIf="showExtra && badgeSeverity === 'info'"
-    class="_font-medium text-lg text-cyan-300 mr-1"
+    *ngIf="showExtra"
+    class="status_extra"
+    [class]="badgeSeverity === 'info' ? 'text-cyan-300' : 'text-yellow-400'"
     [class.bonus_clickable]="isExtraClickable"
     [keyActivate]="isExtraClickable"
     (click)="isExtraClickable && extraClick.emit()"
-    style="min-width: 35px; position: relative; z-index: 1"
     >+{{ extraValue }}</span
   >
-  <span
-    *ngIf="showExtra && badgeSeverity !== 'info'"
-    class="_font-medium text-lg text-yellow-400"
-    [class.bonus_clickable]="isExtraClickable"
-    [keyActivate]="isExtraClickable"
-    (click)="isExtraClickable && extraClick.emit()"
-    style="min-width: 35px; position: relative; z-index: 1"
-    >+{{ extraValue }}</span
-  >
-
-  <!-- <p-badge value="+{{ extraValue }}" size="large" severity="{{ badgeSeverity }}"></p-badge> -->
 </div>

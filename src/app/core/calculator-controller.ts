@@ -93,7 +93,7 @@ export function collectAspdPotionSources(
     // tooltip so the AGI dependency is clear.
     const scaled = Math.round((bonus * totalAgi) / 200);
     sources[`consumable_${id}`] = { aspd: scaled };
-    tooltips[`consumable_${id}`] = `VelAtq da poção é baseada na AGI: ${bonus} × AGI ${totalAgi} ÷ 200 ≈ ${scaled}.`;
+    tooltips[`consumable_${id}`] = `Vel.Atq da poção é baseada na AGI: ${bonus} × AGI ${totalAgi} ÷ 200 ≈ ${scaled}.`;
   };
   add(model.aspdPotion);
   for (const id of model.aspdPotions ?? []) add(id);

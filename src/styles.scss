@@ -199,3 +199,30 @@ html {
 .reduction-val.neg {
   color: var(--red-400, #f87171);
 }
+
+/* The shell (sakai's _content.scss / _responsive.scss) gutters the page at 2rem, which is
+   a lot of edge for a layout whose whole job is fitting a 1500px-wide build editor next to
+   the damage HUD. Halved here rather than in the vendored layout files, and named so the
+   gap between the two columns (.editor_col) is the same value rather than a literal that
+   happens to match. */
+:root {
+  --page-gutter: 14px;
+}
+/* Both sidebar states are listed because each carries its own `padding-left: 2rem` in
+   _responsive.scss, at a specificity this has to match to win. */
+.layout-wrapper.layout-overlay .layout-main-container,
+.layout-wrapper.layout-static .layout-main-container,
+.layout-wrapper .layout-main-container {
+  padding-left: var(--page-gutter);
+  padding-right: var(--page-gutter);
+}
+
+/* The `summary_*` / `compare_*` value classes carry a black chip behind the number, which
+   reads as a badge in a dense table but as clutter in a popup, where the value is already
+   alone on its line. One declaration per container drops it — the classes themselves read
+   the chip from `--stat-chip-bg` (ro-calculator.component.css). Global rather than
+   component-scoped because an overlay panel is appended to <body>. */
+.p-dialog,
+.p-overlaypanel {
+  --stat-chip-bg: transparent;
+}

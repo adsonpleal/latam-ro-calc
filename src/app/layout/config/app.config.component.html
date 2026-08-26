@@ -44,23 +44,6 @@
     </ng-container> -->
 
   <ng-container *ngIf="!isProd || !minimal">
-    <h5>Estilo de Campo</h5>
-    <div class="flex">
-      <div class="field-radiobutton flex-1">
-        <p-radioButton
-          name="inputStyle"
-          value="outlined"
-          [(ngModel)]="inputStyle"
-          inputId="outlined_input"
-        ></p-radioButton>
-        <label for="outlined_input">Contornado</label>
-      </div>
-      <div class="field-radiobutton flex-1">
-        <p-radioButton name="inputStyle" value="filled" [(ngModel)]="inputStyle" inputId="filled_input"></p-radioButton>
-        <label for="filled_input">Preenchido</label>
-      </div>
-    </div>
-
     <h5 *ngIf="!env.production">Efeito Cascata</h5>
     <p-inputSwitch *ngIf="!env.production" [(ngModel)]="ripple"></p-inputSwitch>
     <h5>Ocultar Ataque Básico</h5>

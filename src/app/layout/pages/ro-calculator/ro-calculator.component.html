@@ -114,7 +114,7 @@
 </p-dialog>
 
 <p-dialog
-  header="Golpes por segundo"
+  [header]="aspdCurveTitle"
   [(visible)]="isShowAspdCurve"
   [modal]="true"
   [dismissableMask]="true"
@@ -133,483 +133,333 @@
 
 <div class="grid grid-nogutter" style="min-width: 1500px">
   <!-- Left Side -->
-  <div class="p-fluid col-7">
+  <div class="p-fluid col-7 editor_col">
     <!-- Create Update Class -->
-    <div class="grid grid-nogutter">
-      <div class="col-4 pr-2">
-        <div class="grid grid-nogutter">
-          <div class="col-12">
-            <button
-              type="button"
-              pButton
-              class="p-button-info w-full"
-              icon="pi pi-upload"
-              label="Importar Replay"
-              [disabled]="isInProcessingPreset || replayBusy"
-              (click)="openReplayImport()"
-            ></button>
-          </div>
+    <!-- Who the character is runs as a band across the top; below it sit the two cards
+         that need the height — what they spent, and the resulting ficha. Taking the
+         character controls out of a column of their own is what gives the summary the
+         width its three columns want. -->
+    <div class="stats_stack">
+      <div class="char_band">
+        <!-- All four actions in a row, each as wide as its own label. -->
+        <div class="build_actions">
+          <button
+            type="button"
+            pButton
+            class="p-button-info"
+            icon="pi pi-upload"
+            label="Importar Replay"
+            [disabled]="isInProcessingPreset || replayBusy"
+            (click)="openReplayImport()"
+          ></button>
+          <button type="button" pButton class="p-button-help" icon="pi pi-folder-open" label="Simulações" (click)="openSavesDialog()"></button>
+          <button type="button" pButton class="p-button-success" icon="pi pi-save" label="Salvar" [disabled]="isInProcessingPreset" (click)="openSaveDialog()"></button>
+          <button type="button" pButton class="p-button-success" icon="pi pi-share-alt" label="Link" [disabled]="isInProcessingPreset" (click)="openShareDialog()"></button>
+        </div>
 
-          <div class="col-12">
-            <div class="flex gap-1 mt-1">
-              <button type="button" pButton class="p-button-help p-button-sm flex-1 px-1" icon="pi pi-save" label="Salvar" [disabled]="isInProcessingPreset" (click)="openSaveDialog()"></button>
-              <button type="button" pButton class="p-button-help p-button-sm flex-1 px-1" icon="pi pi-folder-open" label="Simulações" (click)="openSavesDialog()"></button>
-              <button type="button" pButton class="p-button-help p-button-sm flex-1 px-1" icon="pi pi-share-alt" label="Link" [disabled]="isInProcessingPreset" (click)="openShareDialog()"></button>
-            </div>
-          </div>
+        <!-- No "Classe" addon: the selected job already shows its own icon and name, and the
+             placeholder covers the empty state. The addon was pure width, and in the band
+             the job name is what takes up the slack. -->
+        <div class="dropdown-joblist char_class">
+          <p-dropdown
+            inputId="character"
+            [autoDisplayFirst]="false"
+            [resetFilterOnHide]="true"
+            [options]="characterList"
+            [filter]="true"
+            filterBy="label"
+            [(ngModel)]="model.class"
+            placeholder="Classe"
+            scrollHeight="350px"
+            [disabled]="isInProcessingPreset"
+            (onChange)="onClassChange()"
+          >
+            <ng-template let-job pTemplate="selectedItem">
+              <div class="flex gap-2 py-0 align-items-center" *ngIf="model.class">
+                <img [src]="job.icon | iconUrl: 'job'" alt="" class="job_img" (error)="onCharSpriteError($event, job.icon)" />
+                <div class="text_ellips">{{ job.label }}</div>
+              </div>
+            </ng-template>
+            <ng-template let-job pTemplate="item">
+              <div class="flex gap-2 py-0">
+                <img [src]="job.icon | iconUrl: 'job'" alt="" class="job_img" (error)="onCharSpriteError($event, job.icon)" />
+                <div class="text_ellips">{{ job.label }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
 
-          <div class="col-12">
-            <div class="p-inputgroup dropdown-joblist">
-              <span class="p-inputgroup-addon" style="width: 80px">Classe</span>
-              <p-dropdown
-                inputId="character"
-                [autoDisplayFirst]="false"
-                [resetFilterOnHide]="true"
-                [options]="characterList"
-                [filter]="true"
-                filterBy="label"
-                [(ngModel)]="model.class"
-                placeholder="Classe"
-                scrollHeight="350px"
-                [disabled]="isInProcessingPreset"
-                (onChange)="onClassChange()"
-              >
-                <ng-template let-job pTemplate="selectedItem">
-                  <div class="flex gap-2 py-0 align-items-center" *ngIf="model.class">
-                    <img [src]="job.icon | iconUrl: 'job'" alt="" class="job_img" (error)="onCharSpriteError($event, job.icon)" />
-                    <div class="text_ellips">{{ job.label }}</div>
-                  </div>
-                </ng-template>
-                <ng-template let-job pTemplate="item">
-                  <div class="flex gap-2 py-0">
-                    <img [src]="job.icon | iconUrl: 'job'" alt="" class="job_img" (error)="onCharSpriteError($event, job.icon)" />
-                    <div class="text_ellips">{{ job.label }}</div>
-                  </div>
-                </ng-template>
-              </p-dropdown>
-            </div>
+        <div class="char_levels">
+          <div class="p-inputgroup joined_field">
+            <span class="p-inputgroup-addon joined_caption char_addon">NV</span>
+            <p-dropdown
+              inputId="level"
+              [autoDisplayFirst]="false"
+              [options]="levelList"
+              [filter]="true"
+              filterBy="label"
+              scrollHeight="350px"
+              [resetFilterOnHide]="true"
+              [(ngModel)]="model.level"
+              (onChange)="onBaseStatusChange()"
+            ></p-dropdown>
           </div>
-          <div class="col">
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon" style="width: 80px">Nível</span>
-              <p-dropdown
-                inputId="level"
-                [autoDisplayFirst]="false"
-                [options]="levelList"
-                [filter]="true"
-                filterBy="label"
-                scrollHeight="350px"
-                [resetFilterOnHide]="true"
-                [(ngModel)]="model.level"
-                (onChange)="onBaseStatusChange()"
-              ></p-dropdown>
-            </div>
+          <div class="p-inputgroup joined_field">
+            <span class="p-inputgroup-addon joined_caption char_addon">JOB</span>
+            <p-dropdown
+              inputId="jobLevel"
+              [autoDisplayFirst]="false"
+              [options]="jobList"
+              [filter]="true"
+              filterBy="label"
+              scrollHeight="350px"
+              [resetFilterOnHide]="true"
+              [(ngModel)]="model.jobLevel"
+              (onChange)="onJobLevelChange()"
+            ></p-dropdown>
           </div>
-          <div class="col-12">
-            <div class="p-inputgroup">
-              <span class="p-inputgroup-addon" style="width: 80px">Job</span>
-              <p-dropdown
-                inputId="jobLevel"
-                [autoDisplayFirst]="false"
-                [options]="jobList"
-                [filter]="true"
-                filterBy="label"
-                scrollHeight="350px"
-                [resetFilterOnHide]="true"
-                [(ngModel)]="model.jobLevel"
-                (onChange)="onJobLevelChange()"
-              ></p-dropdown>
-            </div>
-          </div>
-          <div class="col-12">
-            <span class="p-inputgroup-addon"
-              >Atributos:
-              <span [className]="availablePoints < 0 ? 'ml-2 summary_monster_value px-1 font-semibold' : 'ml-2'">
-                {{ availablePoints }}
-                <span [hidden]="!appropriateLevel">(Nv {{ appropriateLevel > 200 ? 'x' : appropriateLevel }})</span>
-              </span>
+        </div>
 
-              <span [hidden]="!isAllowTraitStat"
-                >, Talentos:
-                <span [className]="availableTraitPoints < 0 ? ' summary_monster_value px-1 font-semibold' : ''">
-                  {{ availableTraitPoints }}
-                  <span [hidden]="!appropriateLevelForTrait">(Nv {{ appropriateLevelForTrait > 300 ? 'x' : appropriateLevelForTrait }})</span>
-                </span>
-              </span>
-            </span>
+        <!-- The "(Nv N)" hint the sentence used to carry has no room here; it moved to the
+             box's tooltip rather than being dropped. -->
+        <div class="char_points">
+          <div class="char_point_box" [pTooltip]="pointsHint" [showDelay]="300">
+            <span class="char_point_label">Atributos</span>
+            <span class="char_point_value" [class.char_point_neg]="availablePoints < 0">{{ availablePoints | number }}</span>
+          </div>
+          <div class="char_point_box" [hidden]="!isAllowTraitStat" [pTooltip]="traitPointsHint" [showDelay]="300">
+            <span class="char_point_label">Talentos</span>
+            <span class="char_point_value" [class.char_point_neg]="availableTraitPoints < 0">{{ availableTraitPoints | number }}</span>
           </div>
         </div>
       </div>
 
-      <!-- Status -->
-      <div class="col-8">
-        <div class="grid grid-nogutter">
-          <div class="col-5">
-            <div class="grid grid-nogutter">
-              <!-- STR -->
-              <div class="col-12 grid grid-nogutter">
-                <div class="col-6">
-                  <app-status-input
-                    label="FOR"
-                    [dropdownList]="mainStatusList"
-                    [(value)]="model.str"
-                    (valueChange)="onBaseStatusChange()"
-                    [extraValue]="(model.jobStr || 0) + (totalSummary?.str || 0)"
-                    (extraClick)="showBonusBreakdown({ label: 'FOR', keys: statBreakdownKeys('str'), valueClass: 'summary_value' })"
-                  ></app-status-input>
-                </div>
-                <div class="col-6">
-                  <app-status-input
-                    label="POD"
-                    [disabled]="!isAllowTraitStat"
-                    [dropdownList]="traitStatusList"
-                    [(value)]="model.pow"
-                    (valueChange)="onBaseStatusChange()"
-                    [extraValue]="(model.jobPow || 0) + (totalSummary?.pow || 0)"
-                    badgeSeverity="danger"
-                    (extraClick)="showBonusBreakdown({ label: 'POD', keys: statBreakdownKeys('pow'), valueClass: 'summary_stat_yellow' })"
-                  ></app-status-input>
-                </div>
-              </div>
-
-              <!-- AGI -->
-              <div class="col-12 grid grid-nogutter">
-                <div class="col-6">
-                  <app-status-input
-                    label="AGI"
-                    [dropdownList]="mainStatusList"
-                    [(value)]="model.agi"
-                    (valueChange)="onBaseStatusChange()"
-                    [extraValue]="(model.jobAgi || 0) + (totalSummary?.agi || 0)"
-                    (extraClick)="showBonusBreakdown({ label: 'AGI', keys: statBreakdownKeys('agi'), valueClass: 'summary_value' })"
-                  ></app-status-input>
-                </div>
-                <div class="col-6">
-                  <app-status-input
-                    label="STA"
-                    [disabled]="!isAllowTraitStat"
-                    [dropdownList]="traitStatusList"
-                    [(value)]="model.sta"
-                    (valueChange)="onBaseStatusChange()"
-                    [extraValue]="(model.jobSta || 0) + (totalSummary?.sta || 0)"
-                    badgeSeverity="danger"
-                    (extraClick)="showBonusBreakdown({ label: 'STA', keys: statBreakdownKeys('sta'), valueClass: 'summary_stat_yellow' })"
-                  ></app-status-input>
-                </div>
-              </div>
-
-              <!-- VIT -->
-              <div class="col-12 grid grid-nogutter">
-                <div class="col-6">
-                  <app-status-input
-                    label="VIT"
-                    [dropdownList]="mainStatusList"
-                    [(value)]="model.vit"
-                    (valueChange)="onBaseStatusChange()"
-                    [extraValue]="(model.jobVit || 0) + (totalSummary?.vit || 0)"
-                    (extraClick)="showBonusBreakdown({ label: 'VIT', keys: statBreakdownKeys('vit'), valueClass: 'summary_value' })"
-                  ></app-status-input>
-                </div>
-                <div class="col-6">
-                  <app-status-input
-                    label="SAB"
-                    [disabled]="!isAllowTraitStat"
-                    [dropdownList]="traitStatusList"
-                    [(value)]="model.wis"
-                    (valueChange)="onBaseStatusChange()"
-                    [extraValue]="(model.jobWis || 0) + (totalSummary?.wis || 0)"
-                    badgeSeverity="danger"
-                    (extraClick)="showBonusBreakdown({ label: 'SAB', keys: statBreakdownKeys('wis'), valueClass: 'summary_stat_yellow' })"
-                  ></app-status-input>
-                </div>
-              </div>
-
-              <!-- INT -->
-              <div class="col-12 grid grid-nogutter">
-                <div class="col-6">
-                  <app-status-input
-                    label="INT"
-                    [dropdownList]="mainStatusList"
-                    [(value)]="model.int"
-                    (valueChange)="onBaseStatusChange()"
-                    [extraValue]="(model.jobInt || 0) + (totalSummary?.int || 0)"
-                    (extraClick)="showBonusBreakdown({ label: 'INT', keys: statBreakdownKeys('int'), valueClass: 'summary_value' })"
-                  ></app-status-input>
-                </div>
-                <div class="col-6">
-                  <app-status-input
-                    label="FEI"
-                    [disabled]="!isAllowTraitStat"
-                    [dropdownList]="traitStatusList"
-                    [(value)]="model.spl"
-                    (valueChange)="onBaseStatusChange()"
-                    [extraValue]="(model.jobSpl || 0) + (totalSummary?.spl || 0)"
-                    badgeSeverity="danger"
-                    (extraClick)="showBonusBreakdown({ label: 'FEI', keys: statBreakdownKeys('spl'), valueClass: 'summary_stat_yellow' })"
-                  ></app-status-input>
-                </div>
-              </div>
-
-              <!-- DEX -->
-              <div class="col-12 grid grid-nogutter">
-                <div class="col-6">
-                  <app-status-input
-                    label="DES"
-                    [dropdownList]="mainStatusList"
-                    [(value)]="model.dex"
-                    (valueChange)="onBaseStatusChange()"
-                    [extraValue]="(model.jobDex || 0) + (totalSummary?.dex || 0)"
-                    (extraClick)="showBonusBreakdown({ label: 'DES', keys: statBreakdownKeys('dex'), valueClass: 'summary_value' })"
-                  ></app-status-input>
-                </div>
-                <div class="col-6">
-                  <app-status-input
-                    label="CON"
-                    [disabled]="!isAllowTraitStat"
-                    [dropdownList]="traitStatusList"
-                    [(value)]="model.con"
-                    (valueChange)="onBaseStatusChange()"
-                    [extraValue]="(model.jobCon || 0) + (totalSummary?.con || 0)"
-                    badgeSeverity="danger"
-                    (extraClick)="showBonusBreakdown({ label: 'CON', keys: statBreakdownKeys('con'), valueClass: 'summary_stat_yellow' })"
-                  ></app-status-input>
-                </div>
-              </div>
-
-              <!-- LUK -->
-              <div class="col-12 grid grid-nogutter">
-                <div class="col-6">
-                  <app-status-input
-                    label="SOR"
-                    [dropdownList]="mainStatusList"
-                    [(value)]="model.luk"
-                    (valueChange)="onBaseStatusChange()"
-                    [extraValue]="(model.jobLuk || 0) + (totalSummary?.luk || 0)"
-                    (extraClick)="showBonusBreakdown({ label: 'SOR', keys: statBreakdownKeys('luk'), valueClass: 'summary_value' })"
-                  ></app-status-input>
-                </div>
-                <div class="col-6">
-                  <app-status-input
-                    label="CRV"
-                    [disabled]="!isAllowTraitStat"
-                    [dropdownList]="traitStatusList"
-                    [(value)]="model.crt"
-                    (valueChange)="onBaseStatusChange()"
-                    [extraValue]="(model.jobCrt || 0) + (totalSummary?.crt || 0)"
-                    badgeSeverity="danger"
-                    (extraClick)="showBonusBreakdown({ label: 'CRV', keys: statBreakdownKeys('crt'), valueClass: 'summary_stat_yellow' })"
-                  ></app-status-input>
-                </div>
-              </div>
-            </div>
+      <div class="stats_row">
+        <!-- Status -->
+        <div class="attr_cell">
+          <!-- One grid, not six rows of two: the six rows spread over whatever height the
+               tallest card sets, so the fields never bunch up at the top. -->
+          <div class="attr_grid">
+            <app-status-input
+              label="FOR"
+              [dropdownList]="mainStatusList"
+              [(value)]="model.str"
+              (valueChange)="onBaseStatusChange()"
+              [extraValue]="(model.jobStr || 0) + (totalSummary?.str || 0)"
+              (extraClick)="showBonusBreakdown({ label: 'FOR', keys: statBreakdownKeys('str'), valueClass: 'summary_value' })"
+            ></app-status-input>
+            <app-status-input
+              label="POD"
+              [disabled]="!isAllowTraitStat"
+              [dropdownList]="traitStatusList"
+              [(value)]="model.pow"
+              (valueChange)="onBaseStatusChange()"
+              [extraValue]="(model.jobPow || 0) + (totalSummary?.pow || 0)"
+              badgeSeverity="danger"
+              (extraClick)="showBonusBreakdown({ label: 'POD', keys: statBreakdownKeys('pow'), valueClass: 'summary_stat_yellow' })"
+            ></app-status-input>
+            <app-status-input
+              label="AGI"
+              [dropdownList]="mainStatusList"
+              [(value)]="model.agi"
+              (valueChange)="onBaseStatusChange()"
+              [extraValue]="(model.jobAgi || 0) + (totalSummary?.agi || 0)"
+              (extraClick)="showBonusBreakdown({ label: 'AGI', keys: statBreakdownKeys('agi'), valueClass: 'summary_value' })"
+            ></app-status-input>
+            <app-status-input
+              label="STA"
+              [disabled]="!isAllowTraitStat"
+              [dropdownList]="traitStatusList"
+              [(value)]="model.sta"
+              (valueChange)="onBaseStatusChange()"
+              [extraValue]="(model.jobSta || 0) + (totalSummary?.sta || 0)"
+              badgeSeverity="danger"
+              (extraClick)="showBonusBreakdown({ label: 'STA', keys: statBreakdownKeys('sta'), valueClass: 'summary_stat_yellow' })"
+            ></app-status-input>
+            <app-status-input
+              label="VIT"
+              [dropdownList]="mainStatusList"
+              [(value)]="model.vit"
+              (valueChange)="onBaseStatusChange()"
+              [extraValue]="(model.jobVit || 0) + (totalSummary?.vit || 0)"
+              (extraClick)="showBonusBreakdown({ label: 'VIT', keys: statBreakdownKeys('vit'), valueClass: 'summary_value' })"
+            ></app-status-input>
+            <app-status-input
+              label="SAB"
+              [disabled]="!isAllowTraitStat"
+              [dropdownList]="traitStatusList"
+              [(value)]="model.wis"
+              (valueChange)="onBaseStatusChange()"
+              [extraValue]="(model.jobWis || 0) + (totalSummary?.wis || 0)"
+              badgeSeverity="danger"
+              (extraClick)="showBonusBreakdown({ label: 'SAB', keys: statBreakdownKeys('wis'), valueClass: 'summary_stat_yellow' })"
+            ></app-status-input>
+            <app-status-input
+              label="INT"
+              [dropdownList]="mainStatusList"
+              [(value)]="model.int"
+              (valueChange)="onBaseStatusChange()"
+              [extraValue]="(model.jobInt || 0) + (totalSummary?.int || 0)"
+              (extraClick)="showBonusBreakdown({ label: 'INT', keys: statBreakdownKeys('int'), valueClass: 'summary_value' })"
+            ></app-status-input>
+            <app-status-input
+              label="FEI"
+              [disabled]="!isAllowTraitStat"
+              [dropdownList]="traitStatusList"
+              [(value)]="model.spl"
+              (valueChange)="onBaseStatusChange()"
+              [extraValue]="(model.jobSpl || 0) + (totalSummary?.spl || 0)"
+              badgeSeverity="danger"
+              (extraClick)="showBonusBreakdown({ label: 'FEI', keys: statBreakdownKeys('spl'), valueClass: 'summary_stat_yellow' })"
+            ></app-status-input>
+            <app-status-input
+              label="DES"
+              [dropdownList]="mainStatusList"
+              [(value)]="model.dex"
+              (valueChange)="onBaseStatusChange()"
+              [extraValue]="(model.jobDex || 0) + (totalSummary?.dex || 0)"
+              (extraClick)="showBonusBreakdown({ label: 'DES', keys: statBreakdownKeys('dex'), valueClass: 'summary_value' })"
+            ></app-status-input>
+            <app-status-input
+              label="CON"
+              [disabled]="!isAllowTraitStat"
+              [dropdownList]="traitStatusList"
+              [(value)]="model.con"
+              (valueChange)="onBaseStatusChange()"
+              [extraValue]="(model.jobCon || 0) + (totalSummary?.con || 0)"
+              badgeSeverity="danger"
+              (extraClick)="showBonusBreakdown({ label: 'CON', keys: statBreakdownKeys('con'), valueClass: 'summary_stat_yellow' })"
+            ></app-status-input>
+            <app-status-input
+              label="SOR"
+              [dropdownList]="mainStatusList"
+              [(value)]="model.luk"
+              (valueChange)="onBaseStatusChange()"
+              [extraValue]="(model.jobLuk || 0) + (totalSummary?.luk || 0)"
+              (extraClick)="showBonusBreakdown({ label: 'SOR', keys: statBreakdownKeys('luk'), valueClass: 'summary_value' })"
+            ></app-status-input>
+            <app-status-input
+              label="CRV"
+              [disabled]="!isAllowTraitStat"
+              [dropdownList]="traitStatusList"
+              [(value)]="model.crt"
+              (valueChange)="onBaseStatusChange()"
+              [extraValue]="(model.jobCrt || 0) + (totalSummary?.crt || 0)"
+              badgeSeverity="danger"
+              (extraClick)="showBonusBreakdown({ label: 'CRV', keys: statBreakdownKeys('crt'), valueClass: 'summary_stat_yellow' })"
+            ></app-status-input>
           </div>
+        </div>
 
-          <!-- Summary -->
-          <div class="col-7">
-            <div class="grid grid-nogutter" style="position: relative">
-              <div class="loading_block" *ngIf="isCalculating">
-                <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
-              </div>
-              <div class="col-6">
-                <div class="grid grid-nogutter">
-                  <div class="col-12">
-                    Alt+Q ATQ:
-                    <span
-                      class="font-semibold px-1 summary_stat_atk"
-                      [class.bonus_clickable]="canBreakdown(['atk'])"
-                      (click)="showBonusBreakdown({ label: 'ATQ', keys: ['atk'], valueClass: 'summary_stat_atk' })"
-                      keyActivate
-                    >
-                      {{ totalSummary?.calc?.totalStatusAtk || 0 }} +
-                      {{
-                        totalSummary?.weapon?.baseWeaponAtk +
-                          totalSummary?.weapon?.refineBonus +
-                          totalSummary?.calc?.totalMasteryAtk +
-                          totalSummary?.calc?.totalEquipAtk || 0
-                      }}
-                    </span>
-                  </div>
-                  <div [hidden]="env.production" class="col-12">
-                    ATQ Equip:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['atk'])" (click)="showBonusBreakdown({ label: 'ATQ (equip)', keys: ['atk'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.atk || 0 }}</span> +
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['atkPercent'])" (click)="showBonusBreakdown({ label: 'ATQ %', keys: ['atkPercent'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.atkPercent || 0 }} %</span>
-                  </div>
-                  <div class="col-6">
-                    P.ATQ:
-                    <span class="font-semibold px-1 summary_stat_atk2" [class.bonus_clickable]="(totalSummary?.dmg?.pAtk || 0) !== 0" (click)="showBonusBreakdown({ label: 'P.ATQ', keys: ['pAtk'], valueClass: 'summary_stat_atk2' })" keyActivate>{{ totalSummary?.dmg?.pAtk || 0 }}</span>
-                  </div>
-                  <div class="col-6">
-                    T.CRÍT:
-                    <span class="font-semibold px-1 summary_stat_atk2" [class.bonus_clickable]="(totalSummary?.dmg?.cRate || 0) !== 0" (click)="showBonusBreakdown({ label: 'T.CRÍT', keys: ['cRate'], valueClass: 'summary_stat_atk2' })" keyActivate>{{ totalSummary?.dmg?.cRate || 0 }}</span>
-                  </div>
-                  <!-- The Hits/s value opens the iRO Wiki hits-per-second curve with this
-                       build plotted on it (app-aspd-curve). The two spans sit flush; the
-                       gap between them is their own px-1 padding. -->
-                  <div class="col-12">
-                    VelAtq:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['aspd', 'aspdPercent', 'skillAspd', 'skillAspdPercent'])" (click)="showBonusBreakdown({ label: 'VelAtq', keys: ['aspd', 'aspdPercent', 'skillAspd', 'skillAspdPercent'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.calc?.totalAspd || 0 }}</span>
-                    <span class="font-semibold px-1 summary_highlight bonus_clickable" (click)="showAspdCurve()" pTooltip="Ver a curva de golpes por segundo" [showDelay]="300" keyActivate>( {{ totalSummary?.calc?.hitPerSecs || 0 | number }} Hits/s )</span>
-                  </div>
-                  <div class="col-12">
-                    Precisão:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['hit'])" (click)="showBonusBreakdown({ label: 'Precisão', keys: ['hit'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.calc?.totalHit || 0 }}</span>
-                    Perfeita:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="(totalSummary?.calc?.totalPerfectHit || 0) !== 0" (click)="showBonusBreakdown({ label: 'Precisão Perfeita', keys: ['perfectHit'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.calc?.totalPerfectHit || 0 }} %</span>
-                  </div>
-                  <div class="col-12">
-                    Crítico:
-                    <!-- The value is the crit EVERY attack takes; "CRIT à distância" is not
-                         summed into it because it only counts on the ranged basic attack. When
-                         the build has some, the value carries a "*" and the breakdown says so. -->
-                    <span
-                      class="font-semibold px-1 summary_stat_atk"
-                      [class.bonus_clickable]="canBreakdown(['cri', 'criRange'])"
-                      (click)="showBonusBreakdown({ label: 'Crítico', keys: ['cri', 'criRange'], valueClass: 'summary_stat_atk', note: (totalSummary?.calc?.criRangeBonus ? 'CRIT à distância +' + totalSummary?.calc?.criRangeBonus + ' conta só no ataque básico com arma de longo alcance — habilidades não recebem, por isso ele não entra no valor acima.' : '') })"
-                      keyActivate
-                      >{{ totalSummary?.calc?.totalCri || 0 }} %<span
-                        *ngIf="totalSummary?.calc?.criRangeBonus"
-                        pTooltip="Mais CRIT à distância, que só vale no ataque básico"
-                        [showDelay]="300"
-                        >*</span
-                      ></span
-                    >
-                    Dano: <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['criDmg'])" (click)="showBonusBreakdown({ label: 'Dano crítico', keys: ['criDmg'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.criDmg || 0 }} %</span>
-                  </div>
-                  <div class="col-12">
-                    Corpo a corpo:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['melee'])" (click)="showBonusBreakdown({ label: 'Corpo a corpo', keys: ['melee'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.melee || 0 }} %</span> À distância:
-                    <span class="font-semibold px-1 summary_stat_atk" [class.bonus_clickable]="canBreakdown(['range'])" (click)="showBonusBreakdown({ label: 'À distância', keys: ['range'], valueClass: 'summary_stat_atk' })" keyActivate>{{ totalSummary?.range || 0 }} %</span>
-                  </div>
-                  <div class="col-12">
-                    DEF:
-                    <span class="font-semibold px-1 summary_stat_def" [class.bonus_clickable]="canBreakdown(['def'])" (click)="showBonusBreakdown({ label: 'DEF', keys: ['def'], valueClass: 'summary_stat_def' })" keyActivate>{{ totalSummary?.calc?.softDef || 0 }} + {{ totalSummary?.calc?.def || 0 }}</span>
-                    RES:
-                    <span class="font-semibold px-1 summary_stat_def2" [class.bonus_clickable]="(totalSummary?.calc?.res || 0) !== 0" (click)="showBonusBreakdown({ label: 'RES', keys: ['res'], valueClass: 'summary_stat_def2' })" keyActivate>{{ totalSummary?.calc?.res || 0 }}</span>
-                  </div>
-                  <div class="col-12">
-                    DEFM:
-                    <span class="font-semibold px-1 summary_stat_def" [class.bonus_clickable]="canBreakdown(['mdef'])" (click)="showBonusBreakdown({ label: 'DEFM', keys: ['mdef'], valueClass: 'summary_stat_def' })" keyActivate>{{ totalSummary?.calc?.softMdef || 0 }} + {{ totalSummary?.calc?.mdef || 0 }}</span>
-                    RESM:
-                    <span class="font-semibold px-1 summary_stat_def2" [class.bonus_clickable]="(totalSummary?.calc?.mres || 0) !== 0" (click)="showBonusBreakdown({ label: 'RESM', keys: ['mres'], valueClass: 'summary_stat_def2' })" keyActivate>{{ totalSummary?.calc?.mres || 0 }}</span>
-                  </div>
-                  <div class="col-12">
-                    ESQV:
-                    <span class="font-semibold px-1 summary_stat_def" [class.bonus_clickable]="canBreakdown(['flee', 'perfectDodge'])" (click)="showBonusBreakdown({ label: 'Esquiva', keys: ['flee', 'perfectDodge'], valueClass: 'summary_stat_def' })" keyActivate>{{ totalSummary?.calc?.totalFlee || 0 }} + {{ totalSummary?.calc?.totalPerfectDodge || 0 }}</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="grid grid-nogutter mx-1">
-                  <div class="col-12">
-                    Alt+Q ATQM:
-                    <span
-                      class="font-semibold px-1 summary_stat_matk"
-                      [class.bonus_clickable]="canBreakdown(['matk'])"
-                      (click)="showBonusBreakdown({ label: 'ATQM', keys: ['matk'], valueClass: 'summary_stat_matk' })"
-                      keyActivate
-                      >{{ totalSummary?.calc?.totalStatusMatk || 0 }} +
-                      {{
-                        totalSummary?.weapon?.baseWeaponMatk +
-                          (totalSummary?.weapon?.refineBonus || 0) +
-                          (totalSummary?.calc?.leftWeaponRefineBonus || 0) +
-                          (totalSummary?.matk || 0)
-                      }}</span
-                    >
-                  </div>
-                  <div [hidden]="env.production" class="col-12">
-                    ATQM Equip:
-                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['matk'])" (click)="showBonusBreakdown({ label: 'ATQM (equip)', keys: ['matk'], valueClass: 'summary_stat_matk' })" keyActivate>{{ totalSummary?.matk || 0 }}</span> +
-                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['matkPercent'])" (click)="showBonusBreakdown({ label: 'ATQM %', keys: ['matkPercent'], valueClass: 'summary_stat_matk' })" keyActivate>{{ totalSummary?.matkPercent || 0 }} %</span>
-                  </div>
-                  <div class="col-12">
-                    ATQM
-                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['matkPercent'])" (click)="showBonusBreakdown({ label: 'ATQM %', keys: ['matkPercent'], valueClass: 'summary_stat_matk' })" keyActivate>{{ totalSummary?.matkPercent || 0 }} %</span>
-                    S.ATQM:
-                    <span class="font-semibold px-1 summary_stat_matk2" [class.bonus_clickable]="(totalSummary?.dmg?.sMatk || 0) !== 0" (click)="showBonusBreakdown({ label: 'S.ATQM', keys: ['sMatk'], valueClass: 'summary_stat_matk2' })" keyActivate>{{ totalSummary?.dmg?.sMatk || 0 }}</span>
-                  </div>
-                  <div class="col-12">
-                    Pós-conjuração:
-                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['acd'])" (click)="showBonusBreakdown({ label: 'Pós-conjuração', keys: ['acd'], valueClass: 'summary_stat_matk' })" keyActivate>{{ bonusValueText('acd', totalSummary?.acd) }}</span>
-                  </div>
-                  <div class="col-12">
-                    Conj. Fixa:
-                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['fct'])" (click)="showBonusBreakdown({ label: 'Conj. Fixa', keys: ['fct'], valueClass: 'summary_stat_matk' })" keyActivate>{{ bonusValueText('fct', totalSummary?.fct) }}</span>
-                  </div>
-                  <div class="col-12">
-                    Conj. Variável:
-                    <span class="font-semibold px-1 summary_stat_matk" [class.bonus_clickable]="canBreakdown(['vct'])" (click)="showBonusBreakdown({ label: 'Conj. Variável', keys: ['vct'], valueClass: 'summary_stat_matk' })" keyActivate>{{ bonusValueText('vct', totalSummary?.vct) }}</span>
-                  </div>
-                  <div class="col-12">
-                    DES2 INT1:
-                    <span class="font-semibold px-1 summary_stat_yellow">{{ totalSummary?.calc?.dex2int1 || 0 }}</span>
-                    <span [hidden]="totalSummary?.calc?.to530 <= 0">{{ '( faltam ' + totalSummary?.calc?.to530 + ' )' }}</span>
-                  </div>
-                  <div class="col-12 hp-sp-section" [hidden]="hideHpSp[selectedCharacter?.className]">
-                    <div class="grid grid-nogutter">
-                      <div class="col-12 flex gap-1">
-                        HP:
-                        <span class="font-semibold px-1 summary_stat_yellow" [class.bonus_clickable]="canBreakdown(['hp', 'hpPercent'])" (click)="showBonusBreakdown({ label: 'HP máx.', keys: ['hp', 'hpPercent'], valueClass: 'summary_stat_yellow' })" keyActivate>{{ totalSummary?.calc?.maxHp || 0 | number }}</span>
-                        <!-- <p-cascadeSelect
-                          [(ngModel)]="model.rawOptionTxts[itemOptionNumber.X_HP]"
-                          [options]="baseHpOptions"
-                          optionValue="value"
-                          optionGroupLabel="label"
-                          optionLabel="label"
-                          [optionGroupChildren]="['children']"
-                          placeholder="+BaseHP"
-                          [showClear]="true"
-                          (onChange)="onOptionChange()"
-                          (onClear)="onOptionChange()"
-                        ></p-cascadeSelect> -->
-                      </div>
-                      <div class="col-12 flex gap-1">
-                        SP:
-                        <span class="font-semibold px-1 summary_stat_yellow" [class.bonus_clickable]="canBreakdown(['sp', 'spPercent'])" (click)="showBonusBreakdown({ label: 'SP máx.', keys: ['sp', 'spPercent'], valueClass: 'summary_stat_yellow' })" keyActivate>{{ totalSummary?.calc?.maxSp || 0 | number }}</span>
-                        <!-- <p-cascadeSelect
-                          [(ngModel)]="model.rawOptionTxts[itemOptionNumber.X_SP]"
-                          [options]="baseSpOptions"
-                          optionValue="value"
-                          optionGroupLabel="label"
-                          optionLabel="label"
-                          [optionGroupChildren]="['children']"
-                          placeholder="+BaseSP"
-                          [showClear]="true"
-                          (onChange)="onOptionChange()"
-                          (onClear)="onOptionChange()"
-                        ></p-cascadeSelect> -->
-                      </div>
-                      <!-- <div [hidden]="model?.level < 176" class="summary_monster_value px-1" style="color: var(--red-500)">*** Lv > 175 ไม่ตรง</div> -->
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <span class="reduction-label bonus_clickable" (click)="reductionPanel.toggle($event)" keyActivate>
+        <!-- Summary -->
+        <div class="summary_cell">
+          <div class="stats_summary">
+            <div class="loading_block" *ngIf="isCalculating">
+              <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+            </div>
+
+            <!-- The four figures people actually look at, ahead of the detail below. One
+                 shape for all four: onSummaryClick sends the hits/s item to the golpes/s
+                 curve (which already plots both builds) and the rest to their breakdown,
+                 so which kind an item is never reaches the view. -->
+            <div class="ss_headline">
+              <span class="ss_headline_item" *ngFor="let item of statsSummary.headline; trackBy: trackByLabel">
+                <span
+                  class="ss_headline_value"
+                  [class]="item.valueClass"
+                  [class.bonus_clickable]="item.clickable"
+                  (click)="onSummaryClick(item)"
+                  [keyActivate]="item.clickable"
+                  [pTooltip]="item.tooltip"
+                  [showDelay]="300"
+                  >{{ item.text }}</span
+                >
+                <span
+                  *ngIf="item.compare"
+                  class="ss_headline_delta"
+                  [class]="item.compare.deltaClass"
+                  [class.bonus_clickable]="item.compareClickable"
+                  (click)="onSummaryClick(item, true)"
+                  [keyActivate]="item.compareClickable"
+                  [pTooltip]="item.compareTooltip"
+                  [showDelay]="300"
+                  >&#8594; {{ item.compare.text }} {{ item.compare.deltaText }}</span
+                >
+              </span>
+            </div>
+
+            <div class="ss_grid">
+              <div class="ss_col" *ngFor="let column of statsSummary.columns; trackBy: trackByIndex">
+                <ng-container *ngFor="let group of column; trackBy: trackByTitle">
+                  <div class="ss_group_header">
+                    <span>{{ group.title }}</span>
+                    <span *ngIf="group.showReduction" class="reduction-label ss_reduction bonus_clickable" (click)="reductionPanel.toggle($event)" keyActivate>
                       <i class="pi pi-shield"></i> Redução de dano
                     </span>
-                    <p-overlayPanel #reductionPanel styleClass="reduction-panel">
-                      <ng-container *ngTemplateOutlet="reductionPop; context: { cats: selfReductionCategories, sources: bonusBreakdownSources, target: false }"></ng-container>
-                    </p-overlayPanel>
                   </div>
-                </div>
-              </div>
-              <div class="col-12 item_label_compare">
-                <p-multiSelect
-                  [options]="compareItemOptions"
-                  [(ngModel)]="compareItemNames"
-                  [showClear]="true"
-                  [showHeader]="false"
-                  [showToggleAll]="false"
-                  scrollHeight="400px"
-                  selectedItemsLabel="{0} slot selected"
-                  placeholder="Ative o slot do item para comparar"
-                  [maxSelectedLabels]="6"
-                  (onChange)="onListItemComparingChange()"
-                  (onClear)="onListItemComparingChange(true)"
-                ></p-multiSelect>
+                  <!-- Two cells per row: the delta sits inside the value cell rather than in
+                       a track of its own, so an unchanged row costs nothing and the column
+                       can't reflow. One grid per column rather than one per group is what
+                       keeps the values lined up from Defesa down to Recursos. -->
+                  <ng-container *ngFor="let row of group.rows; trackBy: trackByLabel">
+                    <span class="ss_label">{{ row.label }}</span>
+                    <span class="ss_value">
+                      <span
+                        class="ss_value_text"
+                        [class]="row.valueClass"
+                        [class.bonus_clickable]="row.clickable"
+                        (click)="onSummaryClick(row)"
+                        [keyActivate]="row.clickable"
+                        [pTooltip]="row.tooltip"
+                        tooltipPosition="top"
+                        [showDelay]="300"
+                        >{{ row.text
+                        }}<span *ngIf="row.note" pTooltip="Mais CRIT à distância, que só vale no ataque básico" [showDelay]="300">*</span
+                        ><span *ngIf="row.suffix" class="ss_suffix">{{ row.suffix }}</span></span
+                      >
+                      <span
+                        *ngIf="row.compare"
+                        class="ss_delta"
+                        [class]="row.compare.deltaClass"
+                        [class.bonus_clickable]="row.compareClickable"
+                        (click)="onSummaryClick(row, true)"
+                        [keyActivate]="row.compareClickable"
+                        [pTooltip]="row.compareTooltip"
+                        tooltipPosition="top"
+                        [showDelay]="300"
+                        >&#8594; {{ row.compare.text }} {{ row.compare.deltaText }}</span
+                      >
+                    </span>
+                  </ng-container>
+                </ng-container>
               </div>
             </div>
+
+            <p-overlayPanel #reductionPanel styleClass="reduction-panel">
+              <ng-container *ngTemplateOutlet="reductionPop; context: { cats: selfReductionCategories, sources: bonusBreakdownSources, target: false }"></ng-container>
+            </p-overlayPanel>
           </div>
+
         </div>
       </div>
+    </div>
+
+    <!-- Below the row, not inside the summary card: the card is the ficha, and this picks
+         which slots the ficha compares against. -->
+    <div class="item_label_compare">
+      <p-multiSelect
+        [options]="compareItemOptions"
+        [(ngModel)]="compareItemNames"
+        [showClear]="true"
+        [showHeader]="false"
+        [showToggleAll]="false"
+        scrollHeight="400px"
+        selectedItemsLabel="{0} slot selected"
+        placeholder="Ative o slot do item para comparar"
+        [maxSelectedLabels]="6"
+        (onChange)="onListItemComparingChange()"
+        (onClear)="onListItemComparingChange(true)"
+      ></p-multiSelect>
     </div>
 
     <!-- Weapon + Ammo -->

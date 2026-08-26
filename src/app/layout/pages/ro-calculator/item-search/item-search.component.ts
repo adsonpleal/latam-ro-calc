@@ -116,7 +116,7 @@ export class ItemSearchComponent implements OnInit, OnDestroy {
         value: 'fct',
       },
       {
-        label: 'Esquiva perfeita',
+        label: 'Esquiva Perfeita',
         value: 'perfectDodge',
       },
       {

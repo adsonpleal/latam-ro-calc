@@ -278,7 +278,7 @@ export function buildOptimizeInfo(input: {
       seconds: 0,
       hideSeconds: true,
       hint: aspdLimits
-        ? `limita a conjuração — aumente o ASPD (VelAtq): o cast permite ${fmtRate(castRate)}/s, mas o ASPD só suporta ${fmtRate(aspdHitsPerSec)}/s`
+        ? `limita a conjuração — aumente o ASPD (Vel.Atq): o cast permite ${fmtRate(castRate)}/s, mas o ASPD só suporta ${fmtRate(aspdHitsPerSec)}/s`
         : '',
       doneText: aspdLimits ? null : `suporta a conjuração ✓ (${fmtRate(aspdHitsPerSec)}/s ≥ ${fmtRate(castRate)}/s)`,
     },

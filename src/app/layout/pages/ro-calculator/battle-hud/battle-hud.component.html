@@ -290,7 +290,7 @@
         <div class="kv"><span>DEFM</span><span class="v-def">{{ totalSummary?.monster?.softMDef | number }} + {{ totalSummary?.monster?.mdef | number }}</span></div>
         <div class="kv"><span>HIT p/100%</span><span class="v-def">{{ totalSummary?.monster?.hitRequireFor100 | number }}</span></div>
         <div class="kv">
-          <span>RES / RESM</span>
+          <span>TEN / TENM</span>
           <span><span class="v-res">{{ totalSummary?.monster?.res | number }}</span> / <span class="v-resm">{{ totalSummary?.monster?.mres | number }}</span></span>
         </div>
       </div>
@@ -479,7 +479,7 @@
                 pButton
                 type="button"
                 class="hud-warn-chip"
-                label="⚠ VelAtq limita a rotação"
+                label="⚠ Vel.Atq limita a rotação"
                 (click)="aspdLimitPanel.toggle($event)"
               ></button>
               <span class="hud-invalid-chip" *ngIf="c.isEstimate">⚠ Recarga não fecha</span>
@@ -509,16 +509,16 @@
     </div>
   </p-overlayPanel>
 
-  <!-- What the VelAtq floor is costing the rotation. -->
+  <!-- What the Vel.Atq floor is costing the rotation. -->
   <p-overlayPanel #aspdLimitPanel>
-    <div class="ptitle">VelAtq limita a rotação</div>
+    <div class="ptitle">Vel.Atq limita a rotação</div>
     <div style="font-size: 11.5px; max-width: 280px; line-height: 1.5" *ngIf="cycle as c">
-      A VelAtq impõe um piso de <b>{{ rotationView?.aspdPeriod | number: '1.2-2' }}s</b> entre uma ação e a seguinte. Quando a
+      A Vel.Atq impõe um piso de <b>{{ rotationView?.aspdPeriod | number: '1.2-2' }}s</b> entre uma ação e a seguinte. Quando a
       pós-conjuração acaba antes disso, a próxima habilidade espera — é a faixa hachurada na linha do tempo.
       <div style="margin-top: 6px">
         Espera acumulada no ciclo: <b>{{ c.aspdWaitTotal | number: '1.2-2' }}s</b> de {{ c.cycleDuration | number: '1.2-2' }}s.
       </div>
-      <div style="margin-top: 6px">Sobe com AGI e com VelAtq (%) em equipamentos.</div>
+      <div style="margin-top: 6px">Sobe com AGI e com Vel.Atq (%) em equipamentos.</div>
     </div>
   </p-overlayPanel>
 
@@ -538,7 +538,7 @@
         {{ cb.single?.seconds | number: '1.0-3' }}s/uso (canalizado) <span class="op">=</span> {{ cb.totalHitPerSec | number: '1.0-2' }} usos/s
       </div>
       <div class="mut-note" *ngIf="isAspdLimited">
-        ⚠ VelAtq (ASPD) limita o Hab./s real a <b>{{ heroHitsPerSec | number: '1.0-2' }}</b> — a conjuração sozinha permitiria {{ cb.totalHitPerSec | number: '1.0-2' }} usos/s.
+        ⚠ Vel.Atq (ASPD) limita o Hab./s real a <b>{{ heroHitsPerSec | number: '1.0-2' }}</b> — a conjuração sozinha permitiria {{ cb.totalHitPerSec | number: '1.0-2' }} usos/s.
       </div>
     </ng-container>
     <div class="pstats">
@@ -609,7 +609,7 @@
       </div>
 
       <div class="mut-note" *ngIf="c.isAspdLimited">
-        ⚠ A VelAtq atrasa parte da rotação — {{ c.aspdWaitTotal | number: '1.2-2' }}s do ciclo são espera.
+        ⚠ A Vel.Atq atrasa parte da rotação — {{ c.aspdWaitTotal | number: '1.2-2' }}s do ciclo são espera.
       </div>
 
       <!-- The first pass, when nothing is on recarga yet. -->
@@ -1039,7 +1039,7 @@
         <ng-container
           *ngTemplateOutlet="
             statRow;
-            context: { label: 'VelAtq', cur: totalSummary?.calc?.hitPerSecs, sim: totalSummary2?.calc?.hitPerSecs, unit: ' Hits/s' }
+            context: { label: 'Vel.Atq', cur: totalSummary?.calc?.hitPerSecs, sim: totalSummary2?.calc?.hitPerSecs, unit: ' Hits/s' }
           "
         ></ng-container>
         <ng-container

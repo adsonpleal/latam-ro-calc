@@ -50,15 +50,6 @@ export class AppConfigComponent implements OnInit {
     this.layoutService.config.menuMode = _val;
   }
 
-  get inputStyle(): string {
-    return this.layoutService.config.inputStyle;
-  }
-
-  set inputStyle(_val: string) {
-    localStorage.setItem('inputStyle', _val);
-    this.layoutService.config.inputStyle = _val;
-  }
-
   get ripple(): boolean {
     return this.layoutService.config.ripple;
   }

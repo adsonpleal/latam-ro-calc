@@ -158,6 +158,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.89-beta',
+      date: '26-08-2026',
+      logs: [
+        'O topo da página foi refeito. O que era uma parede de números, cada um no seu bloco preto, virou três cartões: uma faixa com as ações, a classe, o nível e os pontos disponíveis; o quadro de atributos ao lado; e o "Resumo de atributos" em três colunas — Ataque e Conjuração, Mágico e Precisão e crítico, Defesa e Recursos. Cada linha tem o nome à esquerda e o número alinhado à direita, e os fundos escuros atrás dos valores saíram: eram vinte blocos disputando atenção com os próprios números que deviam destacar. Solicitado por Shummuy e Oden.',
+        'O resumo passou a mostrar a comparação. Com um slot ativo em "Ative o slot do item para comparar", cada linha que muda ganha uma terceira coluna com o valor da build comparada e a diferença — "132 + 296 → 132 + 275 -21". A linha que não muda não mostra nada, para que a coluna carregue só o que a troca mexeu. A cor segue o proveito, e não o sinal: uma pós-conjuração que fica mais negativa aparece em verde, porque conjurar mais rápido é ganho.',
+        'Todo valor abre a sua conta. Clicar em qualquer número do resumo lista os itens, consumíveis, buffs e habilidades que somam nele; clicar no valor comparado abre a mesma lista da build comparada, com as peças trocadas e também com as que a comparação não trocou. Os golpes por segundo abrem o gráfico da curva, e o valor comparado abre o mesmo gráfico com as duas velocidades marcadas. Passar o mouse sobre um valor mostra o nome dele, e no valor comparado o nome vem com "(comparação)" — o que resolve a coluna da direita, onde um "→ 664 -9" sozinho não diz de que linha é.',
+        'RES e RESM passaram a se chamar TEN e TENM. Tenacidade e Tenacidade Mágica são os nomes que o cliente em português usa para os dois talentos, e o simulador mostrava a abreviação em inglês. A troca é só de rótulo — a conta é a mesma — e alcançou todos os lugares onde os dois apareciam por escrito, como a redução de dano no Resumo de Batalha. No caminho, "VelAtq" virou "Vel.Atq", como no jogo.',
+        'A opção "Estilo de Campo" saiu das configurações. Ela alternava os campos entre contornado e preenchido, e o preenchido pintava cada caixa de um azul claro que brigava com as cores da ficha nova. O simulador usa o contornado sempre; quem tinha o preenchido guardado volta ao contornado sozinho, sem precisar mexer em nada.',
+      ],
+    },
+    {
       v: '0.1.88-beta',
       date: '24-08-2026',
       logs: [

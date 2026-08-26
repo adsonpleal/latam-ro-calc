@@ -5,13 +5,16 @@ export function resolveSkillKey(key: string): { id: number; name: string; iconTy
   return /^\d+$/.test(key) ? resolveSkillById(Number(key)) : undefined;
 }
 
-// pt-BR stat labels aligned with the battle-summary panel (ATQ/ATQM/DEFM/VelAtq/Conj. …),
+// pt-BR stat labels aligned with the battle-summary panel (ATQ/ATQM/DEFM/Vel.Atq/Conj. …)
+// and with bROWiki's own naming (Atributos / Talentos),
 // so the item-bonus list reads the same as the rest of the UI instead of raw EN abbreviations.
 export const ITEM_BONUS_LABELS: Record<string, string> = {
   hp: 'HP máx.', hpPercent: 'HP máx. %', sp: 'SP máx.', spPercent: 'SP máx. %',
-  def: 'DEF', defPercent: 'DEF %', softDef: 'DEF Suave', softDefPercent: 'DEF Suave %',
-  mdef: 'DEFM', mdefPercent: 'DEFM %', softMdef: 'DEFM Suave', softMdefPercent: 'DEFM Suave %',
-  res: 'RES', mres: 'RESM',
+  def: 'DEF', defPercent: 'DEF %', softDef: 'DEF Leve', softDefPercent: 'DEF Leve %',
+  mdef: 'DEFM', mdefPercent: 'DEFM %', softMdef: 'DEFM Leve', softMdefPercent: 'DEFM Leve %',
+  // Tenacidade / Tenacidade Mágica — the LATAM client's own names for the two
+  // damage-reduction traits (bROWiki "Talentos"). The engine keys stay res/mres.
+  res: 'TEN', mres: 'TENM',
   // Stats and traits under the status window's pt-BR names. Without these lines the
   // lookup fell through to the buff labels, which are the international abbreviations —
   // that is how Manopla Sombria POD showed up as "POW +4" in the item panel.
@@ -26,14 +29,14 @@ export const ITEM_BONUS_LABELS: Record<string, string> = {
   // ATQ/ATQM lines below keep their names; only the percentages were renamed.
   atk: 'ATQ', x_atk: 'ATQ (extra)', cannonballAtk: 'ATQ Bala de Canhão', atkPercent: 'Dano físico %',
   matk: 'ATQM', matkPercent: 'Dano mágico %', flatDmg: 'Dano fixo', dmg: 'Dano',
-  pAtk: 'P.ATQ', sMatk: 'S.ATQM', cRate: 'T.CRÍT',
-  aspd: 'VelAtq', aspdPercent: 'VelAtq %',
-  skillAspd: 'VelAtq (hab.)', skillAspdPercent: 'VelAtq % (hab.)', decreaseSkillAspdPercent: 'Reduz VelAtq (hab.)',
+  pAtk: 'P.ATQ', sMatk: 'S.ATQM', cRate: 'T.CRIT',
+  aspd: 'Vel.Atq', aspdPercent: 'Vel.Atq %',
+  skillAspd: 'Vel.Atq (hab.)', skillAspdPercent: 'Vel.Atq % (hab.)', decreaseSkillAspdPercent: 'Reduz Vel.Atq (hab.)',
   acd: 'Pós-conjuração', fct: 'Conj. Fixa', fctPercent: 'Conj. Fixa %',
   vct: 'Conj. Variável', vct_inc: 'Conj. Variável (aumento)', vctBySkill: 'Conj. Variável (hab.)',
   cd: 'Recarga',
-  hit: 'Precisão', perfectHit: 'Precisão Perfeita', cri: 'Crítico', criRange: 'CRIT à distância', criDmg: 'Dano crítico',
-  perfectDodge: 'Esquiva perfeita', flee: 'Esquiva', forceCri: 'Força crítico',
+  hit: 'Precisão', perfectHit: 'Precisão perfeita', cri: 'Crítico', criRange: 'CRIT à distância', criDmg: 'Dano crítico',
+  perfectDodge: 'Esquiva Perfeita', flee: 'Esquiva', forceCri: 'Força crítico',
   ignore_size_penalty: 'Ignora penalidade de tamanho', p_infiltration: 'Infiltração física',
   mildwind: 'Vento Suave',
   // Defender-side reductions vs players (PVP) — see docs/pvp.md §4
@@ -54,8 +57,8 @@ export const BUFF_BONUS_LABELS: Record<string, string> = {
   pow: 'POW', sta: 'STA', wis: 'WIS', spl: 'SPL', con: 'CON', crt: 'CRT',
   def: 'DEF', mdef: 'MDEF',
   p_pene_race_all: 'Penetração Física (Raça)', m_pene_race_all: 'Penetração Mágica (Raça)',
-  pene_res: 'Penetrar Res', pene_mres: 'Penetrar MRes',
-  monster_res: 'Res do alvo', monster_mres: 'MRes do alvo', oratio: 'Reduz Res. Sagrado do alvo',
+  pene_res: 'Penetrar TEN', pene_mres: 'Penetrar TENM',
+  monster_res: 'TEN do alvo', monster_mres: 'TENM do alvo', oratio: 'Reduz Res. Sagrado do alvo',
   infection: 'Reduz Res. Veneno do alvo',
   intoxication: 'Reduz Res. Veneno do alvo',
   bitterCold: 'Reduz Res. Água do alvo',
@@ -82,7 +85,7 @@ const BONUS_KEY_PARTS = {
 
 /** Decode the structured damage keys, e.g. `p_size_l` → "Dano Físico (Tamanho: Grande)",
  *  `m_pene_race_demon` → "Penetração Mágica (Raça: Demônio)", `pene_res_race_fish` →
- *  "Penetrar RES (Raça: Peixe)". Returns undefined when the key isn't one of these. */
+ *  "Penetrar TEN (Raça: Peixe)". Returns undefined when the key isn't one of these. */
 export function decodeStructuredBonusKey(key: string): string | undefined {
   const { atk, cat, sub } = BONUS_KEY_PARTS;
   let m: RegExpMatchArray | null;
@@ -112,9 +115,9 @@ export function decodeStructuredBonusKey(key: string): string | undefined {
   if ((m = key.match(/^cri_race_(\w+)$/))) {
     return `Crítico (Raça: ${sub[m[1]] ?? m[1]})`;
   }
-  // RES/MRES penetration vs a race
+  // TEN/TENM penetration vs a race
   if ((m = key.match(/^pene_(res|mres)_race_(\w+)$/))) {
-    return `Penetrar ${m[1].toUpperCase()} (Raça: ${sub[m[2]] ?? m[2]})`;
+    return `Penetrar ${m[1] === 'res' ? 'TEN' : 'TENM'} (Raça: ${sub[m[2]] ?? m[2]})`;
   }
   // Chance of activating something
   if ((m = key.match(/^chance__(\w+)$/))) {

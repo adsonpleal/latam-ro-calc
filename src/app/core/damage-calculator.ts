@@ -1462,9 +1462,9 @@ export class DamageCalculator {
       // equipSkillMultiplier overstated damage (the bonus re-amplified the def).
       if (!isHDefToSDef || isIgnoreRes) {
         total = floor(total * resReduction);
-        push('Redução RES', total, ['pene_res']);
-        if (graphNodes) graphNodes.push({ id: 'restRes', label: 'RES restante', value: restRes, keys: ['monster_res', 'pene_res'], inputs: [], kind: 'input' });
-        emit('resReduction', 'Redução RES', total, ['pene_res'], { extraInputs: ['restRes'], multiplier: resReduction });
+        push('Redução TEN', total, ['pene_res']);
+        if (graphNodes) graphNodes.push({ id: 'restRes', label: 'TEN restante', value: restRes, keys: ['monster_res', 'pene_res'], inputs: [], kind: 'input' });
+        emit('resReduction', 'Redução TEN', total, ['pene_res'], { extraInputs: ['restRes'], multiplier: resReduction });
       }
       total = floor(total * hardDef);
       push('Redução DEF', total, ['p_pene_race_all', 'p_pene_class_all']);
@@ -1883,9 +1883,9 @@ export class DamageCalculator {
         emit('myElement', 'Bônus elemento próprio', total, ['m_my_element_all'], { multiplier: myElementMultiplier });
       }
       total = floor(total * mresReduction);
-      push('Redução RESM', total, ['pene_mres']);
-      if (graphNodes) graphNodes.push({ id: 'restMres', label: 'RESM restante', value: restMres, keys: ['monster_mres', 'pene_mres'], inputs: [], kind: 'input' });
-      emit('resReductionM', 'Redução RESM', total, ['pene_mres'], { extraInputs: ['restMres'], multiplier: mresReduction });
+      push('Redução TENM', total, ['pene_mres']);
+      if (graphNodes) graphNodes.push({ id: 'restMres', label: 'TENM restante', value: restMres, keys: ['monster_mres', 'pene_mres'], inputs: [], kind: 'input' });
+      emit('resReductionM', 'Redução TENM', total, ['pene_mres'], { extraInputs: ['restMres'], multiplier: mresReduction });
       total = floor(total * round(hardDef, 4)); //tested
       push('Redução DEFM', total, ['m_pene_race_all', 'm_pene_class_all']);
       if (graphNodes) graphNodes.push({ id: 'mDefBypassed', label: 'MDEF restante', value: mDefBypassed, keys: ['m_pene_race_all', 'm_pene_class_all'], inputs: [], kind: 'input' });

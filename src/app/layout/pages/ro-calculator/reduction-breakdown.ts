@@ -154,6 +154,22 @@ export function buildReductionCategories(
   return cats;
 }
 
+/** Every bonus key at least one source contributes a nonzero value to. The set behind
+ *  `canBreakdown`: a summary value is only worth a breakdown — and thus only clickable —
+ *  when one of its keys is in here. Built once per calc for each build, so the main and
+ *  the compared column answer the question against their own gear. */
+export function collectContributingKeys(sources: Record<string, any> | null | undefined): Set<string> {
+  const keys = new Set<string>();
+  for (const map of Object.values(sources || {})) {
+    if (!map || typeof map !== 'object') continue;
+    for (const [k, v] of Object.entries(map)) {
+      if (typeof v === 'number' && v !== 0) keys.add(k);
+    }
+  }
+
+  return keys;
+}
+
 /** True when at least one source in `sources` contributes a nonzero value for any of `keys`. */
 export function sourcesContributeAnyKey(sources: Record<string, any> | null | undefined, keys: string[]): boolean {
   return Object.values(sources || {}).some((m: any) => keys.some((k) => typeof m?.[k] === 'number' && m[k] !== 0));

@@ -38,6 +38,33 @@ describe('bonusKeyLabel — stats and traits', () => {
   });
 });
 
+describe('bonusKeyLabel — the secondary stats, under the bROWiki names', () => {
+  // TEN/TENM are what the client and bROWiki ("Talentos") call the two damage-reduction
+  // traits; RES/RESM is the rAthena key leaking into the UI. latam-items.json prints
+  // "TEN +" 26 times and "RES +" never, so the label follows the game.
+  it.each([
+    ['res', 'TEN'], ['mres', 'TENM'],
+    ['pene_res', 'Penetrar TEN'], ['pene_mres', 'Penetrar TENM'],
+    ['monster_res', 'TEN do alvo'], ['monster_mres', 'TENM do alvo'],
+    ['pene_res_race_fish', 'Penetrar TEN (Raça: Peixe)'],
+  ])('%s → %s', (key, label) => expect(bonusKeyLabel(key)).toBe(label));
+
+  // Elemental resistance is a different stat that happens to share the word: these must
+  // not be swept along with the trait rename.
+  it('leaves the elemental resistances alone', () => {
+    expect(bonusKeyLabel('oratio')).toBe('Reduz Res. Sagrado do alvo');
+    expect(bonusKeyLabel('infection')).toBe('Reduz Res. Veneno do alvo');
+    expect(bonusKeyLabel('subele_fire')).toBe('Resistência (Elemento: Fogo)');
+  });
+
+  it.each([
+    ['cRate', 'T.CRIT'], ['pAtk', 'P.ATQ'], ['sMatk', 'S.ATQM'],
+    ['aspd', 'Vel.Atq'], ['aspdPercent', 'Vel.Atq %'],
+    ['softDef', 'DEF Leve'], ['softMdef', 'DEFM Leve'],
+    ['perfectHit', 'Precisão perfeita'], ['perfectDodge', 'Esquiva Perfeita'],
+  ])('%s → %s', (key, label) => expect(bonusKeyLabel(key)).toBe(label));
+});
+
 describe('bonusKeyLabel — structured keys', () => {
   it('splits out the damage type on size resistance instead of swallowing the suffix', () => {
     expect(bonusKeyLabel('subsize_m')).toBe('Resistência (Tamanho: Médio)');

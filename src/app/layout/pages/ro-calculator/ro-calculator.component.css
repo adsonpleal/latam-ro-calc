@@ -171,61 +171,61 @@ a.skill_link:hover {
 .battle_row_health {
   color: var(--red-300);
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   font-weight: 400;
 }
 
 .summary_stat_atk {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--orange-300);
 }
 .summary_stat_atk2 {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--orange-200);
 }
 
 .summary_stat_matk {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--blue-300);
 }
 .summary_stat_matk2 {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--blue-200);
 }
 
 .summary_stat_yellow {
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--yellow-300);
 }
 
 .summary_stat_def {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--purple-200);
 }
 .summary_stat_def2 {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--purple-100);
 }
 
 .summary_value {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--blue-300);
 }
 
 .summary_damage {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--teal-300);
 }
 .summary_damage2 {
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--teal-200);
 }
 
@@ -237,25 +237,25 @@ a.skill_link:hover {
 
 .summary_chance {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--teal-100);
 }
 
 .summary_chance_hilight {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--orange-300);
 }
 
 .summary_compare {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--yellow-200);
 }
 
 .summary_highlight {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--orange-400);
 }
 
@@ -275,19 +275,19 @@ a.skill_link:hover {
 
 .compare_greater {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--green-400);
 }
 
 .compare_lower {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--red-400);
 }
 
 .summary_monster_value {
   /* background-color: var(--surface-0); */
-  background-color: #121212;
+  background-color: var(--stat-chip-bg, #121212);
   color: var(--red-300);
 }
 
@@ -656,19 +656,6 @@ a.skill_link:hover {
   min-width: 70px;
 }
 
-:host ::ng-deep .hp-sp-section .p-cascadeselect-label {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-:host ::ng-deep .hp-sp-section .p-cascadeselect-clearable {
-  width: inherit;
-}
-
-.hp-sp-section .summary_stat_yellow {
-  height: fit-content;
-}
-
 :host ::ng-deep .item_label_compare .p-dropdown-label,
 :host ::ng-deep .item_label_compare .p-cascadeselect-label,
 :host ::ng-deep .item_label_compare .p-multiselect-label,
@@ -713,14 +700,6 @@ a.skill_link:hover {
   flex: 0 0 auto;
   object-fit: contain;
   image-rendering: pixelated;
-}
-
-:host ::ng-deep .dropdown-joblist .p-dropdown {
-  height: 100%;
-}
-:host ::ng-deep .dropdown-joblist .p-dropdown .p-dropdown-label {
-  padding-top: 0.25rem !important;
-  padding-bottom: 0.25rem !important;
 }
 
 /* The level submenu opened at the top of the panel, far from the row the pointer was
@@ -769,4 +748,419 @@ a.skill_link:hover {
   font-size: 2rem;
   margin-bottom: 0.25rem;
   opacity: 0.7;
+}
+
+/* ---------------------------------------------------------------------------
+   The character row (design: Char Stats Row 2A).
+
+   Who the character is runs as a band across the full width; under it sit the two
+   cards that need the height — the attributes grid and the ficha
+   ("Resumo de atributos", shaped by ./stats-summary.ts). Every control in the band is
+   34px tall and as wide as its own content, with the job name taking up the slack, so
+   the whole width below is left to the attributes card and the summary.
+   --------------------------------------------------------------------------- */
+/* The gap to the Battle HUD beside it, the same width as the page's own left/right margin
+   (--page-gutter, src/styles.scss). The two columns were flush against each other. */
+.editor_col {
+  padding-right: var(--page-gutter);
+}
+
+.stats_stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+/* `stretch`, so the two cards end up the same height whichever is taller, and `nowrap`
+   so a narrow window compresses the summary rather than dropping it below. */
+.stats_row {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  gap: 12px;
+}
+.char_band,
+.attr_cell,
+.summary_cell {
+  background-color: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius);
+  padding: 6px;
+}
+
+.char_band {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* Every control in the band stands 34px tall (the joined Nv / Job pair gets it from
+   .joined_field). */
+.char_band .build_actions ::ng-deep .p-button,
+.char_band .char_class ::ng-deep .p-dropdown,
+.char_band .char_point_box {
+  height: 34px;
+}
+
+.build_actions {
+  display: flex;
+  gap: 4px;
+}
+/* The page editor is a .p-fluid, which stretches every PrimeNG button to 100%; four of
+   those in a flex row come out equal and clip their own labels. In the band each action
+   is as wide as what it says. */
+.build_actions > button {
+  flex: 0 0 auto;
+}
+.build_actions ::ng-deep .p-button {
+  width: auto;
+  padding: 0 12px;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.build_actions ::ng-deep .p-button .p-button-icon {
+  font-size: 11px;
+  margin: 0;
+}
+
+/* The job's own icon and name are the label; the "Classe" addon beside them was pure
+   width, and the placeholder still covers the empty state. This is the one elastic item
+   in the band — everything else is content-sized, so the slack collects here. */
+.char_class {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.char_class ::ng-deep .p-dropdown {
+  background: var(--surface-ground);
+}
+.char_class ::ng-deep .p-dropdown-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 13px;
+}
+.char_class ::ng-deep .p-dropdown.p-component {
+  display: flex;
+  align-items: center;
+  padding-right: 8px;
+}
+.char_class ::ng-deep .p-dropdown-label > div {
+  gap: 6px;
+}
+.char_class ::ng-deep .job_img {
+  width: 22px;
+  height: 22px;
+}
+/* The class picker is not a joined control (no caption, and it is the elastic item in the
+   band), but its chevron is the same quiet glyph. */
+.char_class ::ng-deep .p-dropdown-trigger {
+  flex: 0 0 auto;
+  width: auto;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.45);
+}
+.char_class ::ng-deep .p-dropdown-trigger svg {
+  width: 8px;
+  height: 8px;
+}
+
+/* ---------------------------------------------------------------------------
+   The joined "label + value" control: a caption that gives up its right border and its
+   right corners, and a PrimeNG dropdown that gives up its left ones, so the pair reads as
+   one box. Used by Nv / Job in the band and by all twelve attribute fields, which reach
+   these rules because status-input.component.ts lists this stylesheet in its styleUrls.
+
+   Only three things differ per site and are set there: how wide the value field is, how
+   wide the caption is, and the font size inside them.
+   --------------------------------------------------------------------------- */
+.joined_field {
+  display: flex;
+  height: 34px;
+}
+/* PrimeNG floors .p-inputgroup-addon at 2.357rem, which made "NV" a third of the control.
+   A caption of two or three letters should be as wide as they are. */
+.joined_caption {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-right: 0;
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+/* A p-inputgroup lays its children out at `flex: 1 1 auto`, so the dropdown would never
+   give up its intrinsic width; the value field is sized by its own rule instead. */
+.joined_field ::ng-deep p-dropdown {
+  min-width: 0;
+}
+.joined_field ::ng-deep .p-dropdown {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--surface-ground);
+  /* PrimeNG rounds all four corners on every .p-dropdown, which left a notch against the
+     caption and made the two read as separate boxes. */
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+/* Right-aligned, so "0" and "130" end at the same edge and a column of them reads as one. */
+.joined_field ::ng-deep .p-dropdown-label {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0;
+  line-height: 1;
+}
+/* PrimeNG's trigger is 2.357rem of chrome around the chevron; the design keeps the glyph
+   but not the block, so it reads as part of the field rather than a button beside it. */
+.joined_field ::ng-deep .p-dropdown-trigger {
+  flex: 0 0 auto;
+  width: auto;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.45);
+}
+.joined_field ::ng-deep .p-dropdown-trigger svg {
+  width: 8px;
+  height: 8px;
+}
+/* The panel takes the field's width by default, and these fields are 52-58px — enough for
+   three digits, not for the search box inside the panel. Just wide enough to type in. */
+.joined_field ::ng-deep .p-dropdown-panel {
+  min-width: 100px;
+}
+
+/* Nv and Job: 58px of field is a three-digit level plus the chevron. */
+.char_levels {
+  display: flex;
+  gap: 4px;
+}
+.char_levels .p-inputgroup {
+  width: auto;
+  min-width: 0;
+}
+.char_levels ::ng-deep p-dropdown {
+  flex: 0 0 58px;
+  width: 58px;
+}
+.char_levels ::ng-deep .p-dropdown {
+  padding: 0 5px 0 6px;
+}
+.char_levels ::ng-deep .p-dropdown-label {
+  font-size: 12.5px;
+}
+.char_addon {
+  padding: 0 6px;
+  font-size: 10px;
+}
+
+/* The Atributos / Talentos sentence, as two boxes. The "(Nv N)" it used to spell out is
+   on the tooltip — see `pointsHint` in the component. */
+.char_points {
+  display: flex;
+  gap: 4px;
+}
+.char_point_box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 78px;
+  padding: 0 10px;
+  background: var(--surface-ground);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius);
+}
+.char_point_label {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1;
+}
+.char_point_value {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.char_point_neg {
+  color: var(--red-300);
+}
+
+/* Twelve fields of three digits, two by two. Each is a joined label + field with the
+   equipment bonus beside it, so a pair needs 270px rather than the 168 it took while the
+   labels sat above the fields. `space-between` spreads the six rows over whatever height
+   the taller card sets, so the grid never floats at the top. */
+.attr_cell {
+  flex: 0 0 270px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.attr_grid {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 6px;
+  row-gap: 3px;
+  align-content: space-between;
+}
+
+/* Everything the attributes card leaves. `min-width: 0` is load-bearing: the summary's
+   rows are `nowrap`, and without it their intrinsic width pushes the row past the
+   container and drops this card onto a line of its own. The roomier padding is this
+   card's alone — it is the one that is all text. */
+.summary_cell {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 12px;
+}
+.stats_summary {
+  position: relative; /* the .loading_block overlay anchors here */
+}
+
+/* The four figures people actually look at. */
+.ss_headline {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.ss_headline_item {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+.ss_headline_value {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.ss_headline_delta {
+  font-size: 11px;
+}
+
+/* Three equal columns, not three content-sized ones: `auto` let whichever column happened
+   to grow a delta take width off the other two, so the whole panel shifted every time a
+   compared value changed. Equal thirds hold still. */
+.ss_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 12px;
+}
+
+/* One grid per column, not per group: the rows of Defesa and Recursos line up with each
+   other because they share the same tracks. Two tracks only — the delta rides inside the
+   value cell, so there is no third track to keep empty on unchanged rows. Headers span
+   both. `start`, so a short column's rows stay at the top instead of spreading out. */
+.ss_col {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 6px;
+  align-items: baseline;
+  align-content: start;
+}
+.ss_group_header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  /* The design says `min-height: 14px` on a content box; with the app's border-box that
+     same header is 14 + 4px padding + 1px rule = 19. */
+  min-height: 19px;
+  font-size: 9.5px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  padding-bottom: 4px;
+  margin-bottom: 3px;
+  border-bottom: 1px solid var(--surface-border);
+}
+.ss_group_header:not(:first-child) {
+  margin-top: 16px;
+}
+/* Defesa's header carries the widest pair in the panel. Below the width the design was
+   drawn at, the title gives way before the link does — "DEFESA" can lose a letter and
+   still read, "Redução de dano" cannot. */
+.ss_group_header > span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The "Redução de dano" link shares the Defesa header's line. */
+.ss_reduction {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+}
+.ss_reduction .pi {
+  font-size: 11px;
+}
+
+/* nowrap, deliberately: a wrapped "Pós-conjuração" would be two lines tall and knock the
+   whole group's baselines out of step. When the track really is too narrow for the label
+   it ellipsizes instead — shorter, but still one row. */
+.ss_label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 1px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Value and delta share one cell, right-aligned together: giving the delta a track of its
+   own meant reserving that width in every column, changed or not. */
+.ss_value {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  padding: 1px 0;
+}
+.ss_value_text {
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.ss_delta {
+  font-size: 10px;
+  white-space: nowrap;
+}
+/* DES2 INT1's "( faltam N )" — a note about the value, not part of it. */
+.ss_suffix {
+  font-size: 10px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  margin-left: 5px;
+}
+
+/* The chips are what made the old panel unreadable — every value on its own black block.
+   Dropped here only: the same classes still carry them in the Battle HUD and the damage
+   cards, which import this stylesheet (see their styleUrls). */
+.stats_summary {
+  --stat-chip-bg: transparent;
+}
+
+.item_label_compare {
+  margin-top: 8px;
 }

@@ -139,7 +139,7 @@ export function buildTimelineChart(input: TimelineSource & { scale: number; titl
     // it at the end of the window rather than off the left edge.
     if (lane.aspdWait > 1e-6) {
       const from = lane.start - lane.aspdWait;
-      const tooltip = 'Espera por VelAtq: com a VelAtq atual esta habilidade não sai no fim da pós-conjuração anterior';
+      const tooltip = 'Espera por Vel.Atq: com a Vel.Atq atual esta habilidade não sai no fim da pós-conjuração anterior';
       if (from < -1e-9) push('aspd', from + cycle.cycleDuration, cycle.cycleDuration, tooltip);
       else push('aspd', from, lane.start, tooltip);
     }

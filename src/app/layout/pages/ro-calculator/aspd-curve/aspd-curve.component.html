@@ -22,13 +22,13 @@
       <text class="curve_dot_label" [class.is_compare]="m.isCompare" [attr.x]="m.labelX" [attr.y]="m.labelY" [attr.text-anchor]="m.labelAnchor">{{ m.label }}</text>
     </ng-container>
 
-    <text class="curve_axis_title" [attr.x]="(plotLeft + plotRight) / 2" [attr.y]="plotBottom + 32" text-anchor="middle">VelAtq</text>
+    <text class="curve_axis_title" [attr.x]="(plotLeft + plotRight) / 2" [attr.y]="plotBottom + 32" text-anchor="middle">Vel.Atq</text>
   </svg>
 
   <div class="curve_legend">
-    <span class="curve_legend_item"><i class="swatch swatch_line"></i>Golpes/s = 50 ÷ (200 − VelAtq)</span>
+    <span class="curve_legend_item"><i class="swatch swatch_line"></i>Golpes/s = 50 ÷ (200 − Vel.Atq)</span>
     <span class="curve_legend_item"><i class="swatch swatch_dot"></i>Sua velocidade de ataque</span>
-    <span class="curve_legend_item" *ngIf="markers.length > 1"><i class="swatch swatch_dot is_compare"></i>Simulada</span>
+    <span class="curve_legend_item" *ngIf="markers.length > 1"><i class="swatch swatch_dot is_compare"></i>Comparação</span>
   </div>
 
   <div class="curve_caption">
@@ -38,12 +38,12 @@
 
   <table class="curve_table">
     <caption>
-      Referência: VelAtq de cada golpe/s cheio
+      Referência: Vel.Atq de cada golpe/s cheio
     </caption>
     <thead>
       <tr>
         <th scope="col">Golpes/s</th>
-        <th scope="col">VelAtq</th>
+        <th scope="col">Vel.Atq</th>
       </tr>
     </thead>
     <tbody>
@@ -55,7 +55,7 @@
   </table>
 
   <div class="curve_note">
-    A VelAtq é hiperbólica: cada ponto vale mais que o anterior, então não há degraus a alcançar — todo ponto rende golpes/s. A tabela é só referência; o teto é
+    A Vel.Atq é hiperbólica: cada ponto vale mais que o anterior, então não há degraus a alcançar — todo ponto rende golpes/s. A tabela é só referência; o teto é
     {{ cap }}.
   </div>
 </div>

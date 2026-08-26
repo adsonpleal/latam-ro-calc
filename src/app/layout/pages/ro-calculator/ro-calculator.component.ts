@@ -101,7 +101,8 @@ import {
 import { MonsterDataViewComponent } from './monster-data-view/monster-data-view.component';
 import { SavedSimulation, SavedSimulationStore } from 'src/app/core/saved-simulations';
 import { isDefenderKey, PlayerTargetProfile, PvpMode } from 'src/app/core/pvp';
-import { buildReductionCategories, ReductionCategory, ReductionRow, reductionRowClickable as reductionRowClickableFn, sourcesContributeAnyKey } from './reduction-breakdown';
+import { buildReductionCategories, collectContributingKeys, ReductionCategory, ReductionRow, reductionRowClickable as reductionRowClickableFn, sourcesContributeAnyKey } from './reduction-breakdown';
+import { buildStatsSummary, StatsSummaryView, SummaryHeadline, SummaryRow } from './stats-summary';
 import { encodeBuild, decodeShared } from 'src/app/core/share-codec';
 import { shareEntryHref } from 'src/app/core/share-entry';
 import { buildSharePath, readShareToken, SHARE_PATH_PREFIX } from 'src/app/core/share-path';
@@ -339,6 +340,22 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   availableTraitPoints = 0;
   appropriateLevelForTrait = 0;
 
+  /** The "(Nv N)" the Atributos line used to print inline: the base level this spread first
+   *  becomes affordable at. The compact box has no room for it, so it rides in the tooltip.
+   *  Past the level cap the answer is "never", which is what the old "x" stood for. */
+  get pointsHint(): string {
+    if (!this.appropriateLevel) return '';
+
+    return this.appropriateLevel > 200 ? 'Estes atributos não cabem em nenhum nível' : `Estes atributos cabem a partir do Nv ${this.appropriateLevel}`;
+  }
+
+  /** Same for Talentos, which the old line capped at 300 rather than 200. */
+  get traitPointsHint(): string {
+    if (!this.appropriateLevelForTrait) return '';
+
+    return this.appropriateLevelForTrait > 300 ? 'Estes talentos não cabem em nenhum nível' : `Estes talentos cabem a partir do Nv ${this.appropriateLevelForTrait}`;
+  }
+
   // Declared above the target fields on purpose: class fields initialise in source order,
   // and `relieveLevel` below seeds itself from it.
   private calcStorage = new CalcStorage(localStorage);
@@ -403,6 +420,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   private bonusBreakdownKeys = new Set<string>();
   isShowBonusBreakdown = false;
   isShowAspdCurve = false;
+  aspdCurveTitle = 'Golpes por segundo';
   bonusBreakdownTitle = '';
   /** A caveat about the value itself, shown above the source rows — for a bonus whose rows
    *  alone would read as if it applied everywhere (CRIT à distância counts on the basic
@@ -426,6 +444,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   peneClassTable: RaceDataModel[];
   skillMultiplierTable: SkillMultiplierModel[];
 
+  /** The "Resumo de atributos" panel, shaped by ./stats-summary — headline figures plus
+   *  three columns of grouped rows, each already carrying its comparison cell. */
+  statsSummary: StatsSummaryView = { headline: [], columns: [] };
+
   /**
    * Model 2
    */
@@ -435,6 +457,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    *  so clicking a "→ simulado" value opens the breakdown against the compared build. */
   private bonusBreakdownSources2: Record<string, any> = {};
   private bonusBreakdownTooltips2: Record<string, string> = {};
+  /** bonusBreakdownKeys for the compared build — a "→ simulado" value is only clickable
+   *  when the *compared* gear sources it. Reading the main build's set instead would open
+   *  an empty dialog on exactly the swap that removed the last source of a bonus. */
+  private bonusBreakdownKeys2 = new Set<string>();
   selectedCompareItemDesc: ItemTypeEnum;
   private equipCompareItemIdItemTypeMap = new Map<ItemTypeEnum, number>();
   equipCompareItems: DropdownModel[] = [];
@@ -746,6 +772,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         } else {
           this.resetModel2();
           this.totalSummary2 = undefined;
+          this.bonusBreakdownKeys2 = new Set<string>();
           // Drop the PVP tab's comparison too, or turning it off leaves a stale
           // "→ simulado" column behind over there.
           this.pvpSummary2 = null;
@@ -1178,14 +1205,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       ...potionBreakdown.sources,
     };
     this.bonusBreakdownTooltips = potionBreakdown.tooltips;
-    const contributingKeys = new Set<string>();
-    for (const map of Object.values(this.bonusBreakdownSources)) {
-      if (!map || typeof map !== 'object') continue;
-      for (const [k, v] of Object.entries(map)) {
-        if (typeof v === 'number' && v !== 0) contributingKeys.add(k);
-      }
-    }
-    this.bonusBreakdownKeys = contributingKeys;
+    this.bonusBreakdownKeys = collectContributingKeys(this.bonusBreakdownSources);
     // "Redução de dano" popover for the main stats — the build's own gear reductions
     // against anything, not just a player attacker (no castle layer; mode-independent),
     // hence the 'self' scope. See docs/pvp.md §4.
@@ -1231,6 +1251,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         ...potion2.sources,
       };
       this.bonusBreakdownTooltips2 = potion2.tooltips;
+      this.bonusBreakdownKeys2 = collectContributingKeys(this.bonusBreakdownSources2);
 
       // The PVP tab's comparison column reads model2, which is only settled here.
       // calculate() already solved PVP, but it ran before this — and enabling the
@@ -1288,6 +1309,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     ({ classTable: this.classTable, peneClassTable: this.peneClassTable } = buildMonsterTypeTables(this.totalSummary, cmp));
     this.atkTypeTable = buildAtkTypeTable(this.totalSummary, cmp);
     this.skillMultiplierTable = buildSkillMultiplierTable(this.totalSummary, (key) => resolveSkillKey(key), cmp);
+    this.statsSummary = buildStatsSummary(this.totalSummary, cmp ?? null, {
+      showHpSp: !this.hideHpSp[this.selectedCharacter?.className],
+      bonusValueText: (key, value) => this.bonusValueText(key, value),
+      canBreakdown: (keys, compare) => this.canBreakdown(keys, compare),
+    });
   }
 
   /** True when a compare build is active and its summary has been computed — gates
@@ -3221,16 +3247,45 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    *  summary value renders as clickable (no point opening an empty breakdown).
    *  Arrow property (not a prototype method) because it's also passed by reference
    *  into <app-battle-hud>'s canBreakdownFn input — same reason as skillTooltip. */
-  canBreakdown = (keys: string[]): boolean => {
+  canBreakdown = (keys: string[], compare = false): boolean => {
     // A pure defender-reduction lookup (the PVP reduction graph nodes) is sourced by
-    // the TARGET's gear, not the attacker's — check the target map.
-    if (this.isAllDefenderKeys(keys)) return sourcesContributeAnyKey(this.pvpTargetSources, keys);
+    // the TARGET's gear, not the attacker's — check the target map. There is no compared
+    // target, so that branch belongs to the main column alone.
+    if (!compare && this.isAllDefenderKeys(keys)) return sourcesContributeAnyKey(this.pvpTargetSources, keys);
     // Trait-derived stats (P.ATQ/S.ATQM/T.CRÍT, ATQ) always have something to say even
     // with no equipment behind them: showBonusBreakdown adds the "Atributos (…)" row for
     // the attribute-sourced remainder. Without this they render inert whenever the value
     // comes purely from stats — which is precisely when the user most wants to be told so.
-    return keys.some((k) => this.bonusBreakdownKeys.has(k)) || !!this.traitDerivedDef(keys);
+    // `compare` asks the same of the compared build, so a "→ simulado" value can't offer a
+    // click opening an empty dialog on exactly the swap that removed a bonus's last source.
+    const sourced = compare ? this.bonusBreakdownKeys2 : this.bonusBreakdownKeys;
+
+    return keys.some((k) => sourced.has(k)) || !!this.traitDerivedDef(keys);
   };
+
+  /** buildStatsSummary returns fresh objects on every calculation, so without these the
+   *  default identity differ tears down and rebuilds the panel's ~120 nodes (and their
+   *  keyActivate directives) each time. Labels and titles are unique within their list. */
+  trackByIndex = (index: number): number => index;
+  trackByLabel = (_: number, item: { label: string }): string => item.label;
+  trackByTitle = (_: number, group: { title: string }): string => group.title;
+
+  /** A summary value was clicked. The rate opens the golpes/s curve; every other value
+   *  opens its bonus breakdown, against the current build or the compared one. Values with
+   *  no sources (DES2 INT1 is a pure DES/INT formula) aren't clickable in the first place,
+   *  and the row already carries that answer — see `clickable` in ./stats-summary. */
+  onSummaryClick(row: SummaryRow | SummaryHeadline, compare = false): void {
+    if ((row as SummaryHeadline).kind === 'rate') return this.showAspdCurve(compare);
+    if (!(compare ? row.compareClickable : row.clickable)) return;
+
+    this.showBonusBreakdown({
+      label: row.bdLabel || row.label,
+      keys: row.keys,
+      valueClass: row.valueClass,
+      note: row.note,
+      compare,
+    });
+  }
 
   /** All keys are defender-reduction keys (subrace_/subele_/…) — such a lookup is
    *  always target-sourced (these keys only exist on a player target). */
@@ -3397,7 +3452,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
     rows.sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
 
-    this.bonusBreakdownTitle = event.label;
+    // One naming rule for a compared breakdown, at the single point the summary panel and
+    // the Battle HUD both funnel through.
+    this.bonusBreakdownTitle = event.compare ? `${event.label} (comparação)` : event.label;
     this.bonusBreakdownNote = event.note ?? '';
     this.bonusBreakdownValueClass = event.valueClass || 'summary_damage';
     this.bonusBreakdownRows = rows;
@@ -3423,8 +3480,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   /** Opens the hits-per-second curve with this build plotted on it. VelAtq is a hyperbola,
    *  so "is +10 VelAtq worth it?" can only be answered against the breakpoint table — see
-   *  aspd-curve.logic. */
-  showAspdCurve(): void {
+   *  aspd-curve.logic.
+   *
+   *  One dialog for both columns: the chart already draws the compared build whenever it
+   *  differs, so a click on the "→ simulado" rate opens the same curve and only the title
+   *  says which value was clicked. */
+  showAspdCurve(compare = false): void {
+    this.aspdCurveTitle = compare ? 'Golpes por segundo (comparação)' : 'Golpes por segundo';
     this.isShowAspdCurve = true;
   }
 
