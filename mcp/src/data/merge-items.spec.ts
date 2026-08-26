@@ -32,14 +32,14 @@ describe('mergeLatamItems', () => {
   });
 
   it('flags exactly the LATAM intersection, plus the preRelease opt-ins', () => {
-    // Regression guard on the overlay: 7135 of item.json's 10427 records exist in the
+    // Regression guard on the overlay: 7175 of item.json's 10467 records exist in the
     // LATAM client, and 157 more are opted in by hand. The rest are hidden from the
     // app's pickers.
     const flagged = Object.values(items).filter((i: any) => i.presentInLatam).length;
     const preRelease = Object.values(items).filter((i: any) => i.preRelease).length;
     expect(preRelease).toBe(157);
-    expect(flagged).toBe(7292);
-    expect(Object.keys(items)).toHaveLength(10427);
+    expect(flagged).toBe(7332);
+    expect(Object.keys(items)).toHaveLength(10467);
   });
 
   it('re-lists item 4807 under three keys but one id', () => {
@@ -47,7 +47,7 @@ describe('mergeLatamItems', () => {
     // Anything indexing by key rather than by record id would double-count it.
     for (const key of ['4807', '48079999', '480799999']) expect(items[key].id).toBe(4807);
     const unique = new Set(Object.values(items).map((i: any) => i.id));
-    expect(unique.size).toBe(10425);
+    expect(unique.size).toBe(10465);
   });
 });
 

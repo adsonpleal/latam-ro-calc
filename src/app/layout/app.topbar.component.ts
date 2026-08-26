@@ -158,7 +158,7 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
-      v: '0.1.89-beta',
+      v: '0.1.90-beta',
       date: '26-08-2026',
       logs: [
         'O topo da página foi refeito. O que era uma parede de números, cada um no seu bloco preto, virou três cartões: uma faixa com as ações, a classe, o nível e os pontos disponíveis; o quadro de atributos ao lado; e o "Resumo de atributos" em três colunas — Ataque e Conjuração, Mágico e Precisão e crítico, Defesa e Recursos. Cada linha tem o nome à esquerda e o número alinhado à direita, e os fundos escuros atrás dos valores saíram: eram vinte blocos disputando atenção com os próprios números que deviam destacar. Solicitado por Shummuy e Oden.',
@@ -166,6 +166,17 @@ export class AppTopBarComponent {
         'Todo valor abre a sua conta. Clicar em qualquer número do resumo lista os itens, consumíveis, buffs e habilidades que somam nele; clicar no valor comparado abre a mesma lista da build comparada, com as peças trocadas e também com as que a comparação não trocou. Os golpes por segundo abrem o gráfico da curva, e o valor comparado abre o mesmo gráfico com as duas velocidades marcadas. Passar o mouse sobre um valor mostra o nome dele, e no valor comparado o nome vem com "(comparação)" — o que resolve a coluna da direita, onde um "→ 664 -9" sozinho não diz de que linha é.',
         'RES e RESM passaram a se chamar TEN e TENM. Tenacidade e Tenacidade Mágica são os nomes que o cliente em português usa para os dois talentos, e o simulador mostrava a abreviação em inglês. A troca é só de rótulo — a conta é a mesma — e alcançou todos os lugares onde os dois apareciam por escrito, como a redução de dano no Resumo de Batalha. No caminho, "VelAtq" virou "Vel.Atq", como no jogo.',
         'A opção "Estilo de Campo" saiu das configurações. Ela alternava os campos entre contornado e preenchido, e o preenchido pintava cada caixa de um azul claro que brigava com as cores da ficha nova. O simulador usa o contornado sempre; quem tinha o preenchido guardado volta ao contornado sozinho, sem precisar mexer em nada.',
+    },
+    {
+      v: '0.1.89-beta',
+      date: '24-08-2026',
+      logs: [
+        'Os Brotos Temporais passaram a mostrar os encantamentos. Os seis — FOR, DES, AGI, SOR, VIT e INT — não tinham tabela de encantos no simulador, então os três encaixes apareciam vazios. O encaixe 4 agora oferece Atributo +1, +2 e +3 em qualquer um dos seis atributos; o encaixe 3 oferece HP máx. e SP máx. +3% e +5%, Músculo 1 e 2 (dano físico +3% e +5%), Intelecto 1 e 2 (dano mágico +3% e +5%), Pedra de Encantamento 1 e 2 e Anti-Atraso 1 e 2; e o encaixe 2 oferece Talento +1 e +2 em qualquer um dos seis talentos, mais T.CRÍT, C.Mais, P.ATQ e S.ATQM +1 e +2. Vinte e oito desses encantos também faltavam no banco de dados e foram acrescentados. Reportado por TANK.',
+        'A tabela da bROWiki resume os seis brotos numa linha só, com um "Atributo" e um "Talento" genéricos, e são as porcentagens dela que dizem o que isso quer dizer: o encaixe 4 soma 16,66%, exatamente um sexto da rolagem, e o encaixe 2 fecha em 100% com dez encantos em duas faixas. As duas contas só fecham se cada broto aceitar os seis atributos e os seis talentos, e foi assim que a lista foi montada.',
+        'O automódulo F-Eternidade entrou na lista da Perna Automatron. Era o único dos seis Fantásticos que faltava. Ele dá VIT +50 por 10 segundos, com 5% de chance ao receber dano físico ou mágico, e entra como bônus de chance ao lado dos outros cinco. A regeneração de 800 de HP a cada 0,4 segundo que ele também concede fica de fora, porque o simulador não mede regeneração. Reportado por Ryuushin.',
+        'A tabela de automódulos foi conferida coluna por coluna contra a bROWiki. Além do F-Eternidade, faltava o H-Maré no Colete — a recarga de Proteção da Orla e Festa do Camarão, dos Invocadores. Entrou também o P-Total no Motor: ele é de defesa, e a seção PVP deu ao simulador onde medir isso — contra um atacante jogador, que conta como Normal e Médio, valem as resistências a Normais e Chefes e a todos os tamanhos.',
+        'Os outros nove automódulos passaram a aparecer nas listas mesmo sem efeito: M-HPR, M-SPR, M-Cura, P-Vida, P-Alma, P-Mental, P-Mana, P-Espelho e P-Refletor. O simulador não tem como medir cura, regeneração nem dano refletido, então nenhum deles muda um número — mas quem tem um encantado precisa conseguir montar o equipamento como ele é, e uma build ou um replay importado que traga um deles agora o mostra no encaixe em vez de descartá-lo.',
+        'A resistência "a todas as raças de monstros" deixou de valer contra jogadores. No PVP ela vinha somando junto com a resistência a Humano ou a Doram em todo golpe, o que dava redução de graça a quem usa U-Total, os Orbe Lupino - Total ou o novo P-Total. A descrição do cliente diz "de monstros", e é essa a divisão que o jogo faz — Humanoide é monstro, Humano é jogador —, então contra outro jogador agora só valem as resistências a Humano e a Doram. Contra monstro nada mudou. O painel de "Redução de dano" acompanha: a linha "Todas as raças" saiu da lista do alvo PVP e continua na dos seus próprios atributos.',
       ],
     },
     {

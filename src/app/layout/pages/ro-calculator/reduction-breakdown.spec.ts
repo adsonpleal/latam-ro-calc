@@ -88,6 +88,19 @@ describe('buildReductionCategories', () => {
       expect(tamanho?.rows.map((r) => r.label)).toEqual(['Todos os tamanhos', 'Pequeno', 'Médio', 'Grande']);
     });
 
+    it('keeps "Todas as raças" out of the PVP rows — it is monster races only', () => {
+      // subrace_all is the client's "todas as raças de monstros" and never cuts a player
+      // hit (core/pvp.ts, PLAYER_RACES), so the popover must not promise it here either.
+      const pvpRaca = buildReductionCategories({ subrace_all: 30 } as any, 'pvp')
+        .find((c) => c.label === 'Raça');
+      expect(pvpRaca).toBeUndefined();
+
+      // …but it is a real reduction against monsters, so the self scope still lists it.
+      const selfRaca = buildReductionCategories({ subrace_all: 30 } as any, 'pvp', 'self')
+        .find((c) => c.label === 'Raça');
+      expect(selfRaca?.rows).toEqual([{ label: 'Todas as raças', keys: ['subrace_all'], percent: 30 }]);
+    });
+
     it('surfaces monster races the PVP rows drop', () => {
       const raca = buildReductionCategories({ subrace_angel: -20, subrace_demon: 15 } as any, 'pvp', 'self')
         .find((c) => c.label === 'Raça');

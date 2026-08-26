@@ -116,6 +116,18 @@ describe('PVP damage pipeline (Windhawk / Focused Arrow Strike, skill channel)',
     expect(skillMax('pvp', { dmg_taken_all: 50 }) / skillMax('pvp')).toBeCloseTo(0.5, 2);
   });
 
+  /**
+   * `subrace_all` is the client's "todas as raças de monstros" — it does not cover an
+   * attacking player, so a target wearing it takes the hit in full. Only the player-race
+   * key cuts it. Straight through the real pipeline, not just the reduction helper.
+   */
+  it("a defender's subrace_all does nothing against a player, but subrace_player_human does", () => {
+    expect(skillMax('pvp', { subrace_all: 50 }) / skillMax('pvp')).toBeCloseTo(1, 2);
+    expect(skillMax('pvp', { subrace_player_human: 50 }) / skillMax('pvp')).toBeCloseTo(0.5, 2);
+    // Both together are still just the one that applies.
+    expect(skillMax('pvp', { subrace_all: 50, subrace_player_human: 50 }) / skillMax('pvp')).toBeCloseTo(0.5, 2);
+  });
+
   // Basic bow attack = the "ataque a distância" (phys_ranged) channel.
   it('basic ranged attack: −95% in both castles', () => {
     expect(basicMax('woe') / basicMax('pvp')).toBeCloseTo(0.05, 2);

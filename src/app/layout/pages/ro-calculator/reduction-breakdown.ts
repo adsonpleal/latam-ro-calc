@@ -1,5 +1,5 @@
 import { EquipmentSummaryModel } from 'src/app/models/equipment-summary.model';
-import { ELE_PT, PvpDamageChannel, PvpMode, woeGlobalMultiplier } from 'src/app/core/pvp';
+import { ELE_PT, PvpDamageChannel, PvpMode, isPlayerRace, woeGlobalMultiplier } from 'src/app/core/pvp';
 
 /**
  * Presentation helper for the "Redução de dano" popover (docs/pvp.md §4). Turns a
@@ -63,10 +63,13 @@ const ALL_RACE_ROWS: { key: string; label: string }[] = [
   { key: 'player_doram', label: 'Doram' },
 ];
 
-/** Only player races fire vs a player attacker (docs/pvp.md §2). */
-const PVP_RACE_ROWS = ALL_RACE_ROWS.filter(
-  (row) => row.key === 'all' || row.key === 'player_human' || row.key === 'player_doram',
-);
+/**
+ * Only player races fire vs a player attacker (docs/pvp.md §2) — and "Todas as raças" is
+ * not one of them: the client line behind `subrace_all` is "todas as raças de monstros",
+ * so it stays out of the PVP list exactly as it stays out of the damage math (`pvp.ts`,
+ * PLAYER_RACES). Showing it here would promise a reduction the hit never gets.
+ */
+const PVP_RACE_ROWS = ALL_RACE_ROWS.filter((row) => isPlayerRace(row.key));
 
 const ALL_CLASS_ROWS: { key: string; label: string }[] = [
   { key: 'all', label: 'Todas as classes' },

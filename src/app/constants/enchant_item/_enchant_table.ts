@@ -136,6 +136,7 @@ import { royalHArmor2, royalHArmor3, royalHArmor4, royalHBoot3, royalHBoot4, roy
 import { goodEvilBoot3_ABC, goodEvilBoot3_AG, goodEvilBoot3_BO, goodEvilBoot3_CD, goodEvilBoot3_DK, goodEvilBoot3_EM, goodEvilBoot3_HN, goodEvilBoot3_IG, goodEvilBoot3_IQ, goodEvilBoot3_MT, goodEvilBoot3_NW, goodEvilBoot3_SH, goodEvilBoot3_SHC, goodEvilBoot3_SKE, goodEvilBoot3_SOA, goodEvilBoot3_SS, goodEvilBoot3_TR, goodEvilBoot3_WH, goodEvilBoot4, goodEvilHead3, goodEvilHead4, sinsFateWeapon3, sinsFateWeapon4 } from './sins_and_fate';
 import { snowFwAccL2, snowFwAccL3, snowFwAccL4, snowFwAccR2, snowFwAccR3, snowFwAccR4, snowFwArmor2, snowFwArmor3, snowFwArmor4, snowFwBoot2, snowFwBoot3, snowFwBoot4, snowFwGarment2, snowFwGarment3, snowFwGarment4 } from './snow_flower';
 import { thanosBoot3, thanosBoot4, thanosHead3, thanosHead4 } from './thanos';
+import { sproutSlot2, sproutSlot3, sproutSlot4 } from './temporal_sprout';
 import { traitShadow3, traitShadow4 } from './trait_shadow';
 import { unkWatch2, unkWatch34 } from './unknown_watch';
 import { corruptedPoisonArmor2, corruptedPoisonArmor3, corruptedPoisonArmor4, fieryEarthArmor2, fieryEarthArmor3, fieryEarthArmor4, flameRuneArmor2, icyStromArmor2, icyStromArmor3, icyStromArmor4, soulPurifyArmor2, soulPurifyArmor3, soulPurifyArmor4, varmundt3, varmundt4, varmundtAcc3, varmundtAcc4, varmundtHiAcc2 } from './varmundt';
@@ -254,6 +255,32 @@ const illusionShield = [
   ...illusionAcc,
 ];
 
+/**
+ * Automódulos — one const per column of the Automódulo table on browiki's Equipamentos
+ * Automatron page. Every Automatron piece has 3 sockets and each of them offers that
+ * piece's whole column; the per-module "x1/x2/x3" repeat cap the wiki prints is a rule
+ * of the NPC, not of the list, and is not modelled here.
+ *
+ * Every column is complete, but nine of the modules carry an **empty script**: the engine
+ * has no key for a heal, a regeneration or a reflected-damage effect, so they change no
+ * number. They are in item.json and in these lists all the same, because a build or a
+ * replay import naming one has to be able to show it in the socket the player filled —
+ * dropping it would silently rewrite their gear.
+ *
+ *   M-HPR (310090), M-SPR (310091)        natural HP/SP regen +30%      Ac. D. / Ac. E.
+ *   M-Cura (310098)                       heal effectiveness +17%       Perna, Escudo
+ *   P-Vida (310113), P-Alma (310114)      HP/SP leech on hit            Ac. D. / Ac. E.
+ *   P-Mental (310115), P-Mana (310116)    proc HP/SP regen when casting Ac. D. / Ac. E.
+ *   P-Espelho (310178), P-Refletor (310179)  reflected-damage resist    Colete / Motor, Escudo
+ *
+ * P-Total (310112) was in that list until the PVP section gave the engine a defender side:
+ * its "Resistência a Normais e Chefes / a todos os tamanhos / a todas as raças" is the
+ * subclass_/subsize_/subrace_ namespace, and against a player attacker (Normal, Médio) the
+ * first two clauses fire. It is the Automatron member of the U-Total / Orbe Lupino - Total
+ * family and carries the same keys, phrase for phrase — so it is scripted, not inert.
+ *
+ * @see https://browiki.org/wiki/Equipamentos_Automatron
+ */
 const automaticJobs = [
   'Automatic_Orb46',
   'Automatic_Orb47',
@@ -303,6 +330,7 @@ const automaticJobs = [
   'Automatic_Orb91',
   'Automatic_Orb92',
   'Automatic_Orb93',
+  'Automatic_Orb94',
   'Automatic_Orb95',
   'Automatic_Orb96',
 ];
@@ -320,38 +348,38 @@ const automaticArmor2 = [
   'Automatic_Orb28',
   'Automatic_Orb29',
   'Automatic_Orb36',
+  'Automatic_Orb97',
 ];
 const automaticArmor = [...automaticBasicDef, ...automaticArmor2, ...automaticJobs];
-const automaticGarment = [...automaticBasicDef, 'Automatic_Orb21', 'Automatic_Orb22', 'Automatic_Orb23', 'Automatic_Orb38'];
+const automaticGarment = [...automaticBasicDef, 'Automatic_Orb21', 'Automatic_Orb22', 'Automatic_Orb23', 'Automatic_Orb31', 'Automatic_Orb38', 'Automatic_Orb98'];
 const automaticBoot = [
   ...automaticBasicDef,
   'Automatic_Orb15',
   'Automatic_Orb16',
+  'Automatic_Orb17',
   'Automatic_Orb30',
   'Automatic_Orb37',
+  'Automatic_Orb40',
   'Automatic_Orb41',
   'Automatic_Orb42',
   'Automatic_Orb43',
   'Automatic_Orb44',
   'Automatic_Orb45',
 ];
-/**
- * The Escudo column of browiki's Automódulo table. Two of the nine it accepts are left
- * out because the calculator has no key for them and they are not in item.json either:
- * M-Cura (310098, "Efetividade de cura +17%") and P-Refletor (310179, "Resistência a
- * danos refletidos +9%"). The other pieces omit the same two.
- */
+/** The Escudo column — M-Cura and P-Refletor stay out, see the note above. */
 const automaticShield = [
   ...automaticBasicDef, // B-DEF x3, B-DEFM x3
   'Automatic_Orb15', // M-HPMax x2
   'Automatic_Orb16', // M-SPMax x2
+  'Automatic_Orb17', // M-Cura x2
   'Automatic_Orb21', // M-Rapidez x1
   'Automatic_Orb37', // P-Robusto x1
   'Automatic_Orb38', // P-Dano x1
+  'Automatic_Orb98', // P-Refletor x1
 ];
 const automaticAcc = ['Automatic_Orb39', 'Automatic_Orb11', 'Automatic_Orb12', 'Automatic_Orb13', 'Automatic_Orb14', 'Automatic_Orb3', 'Automatic_Orb4'];
-const automaticAccR = [...automaticAcc, 'Automatic_Orb5', 'Automatic_Orb6'];
-const automaticAccL = [...automaticAcc, 'Automatic_Orb7', 'Automatic_Orb8'];
+const automaticAccR = [...automaticAcc, 'Automatic_Orb5', 'Automatic_Orb6', 'Automatic_Orb9', 'Automatic_Orb32', 'Automatic_Orb34'];
+const automaticAccL = [...automaticAcc, 'Automatic_Orb7', 'Automatic_Orb8', 'Automatic_Orb10', 'Automatic_Orb33', 'Automatic_Orb35'];
 const auto4ThAnniGlove = [ExpertMagician._5, ...automaticAcc, 'Automatic_Orb5', 'Automatic_Orb6', 'Automatic_Orb7', 'Automatic_Orb8'];
 
 const tempBoot_3 = ["Bear's_Power", 'Runaway_Magic', 'Speed_Of_Light', 'Muscle_Fool', 'Hawkeye', 'Lucky_Day'];
@@ -765,6 +793,15 @@ export const EnchantTable: EntTable[] = [
   { name: 'Golden_Scarf', enchants: [null, goldenSet, goldenSet, goldenSet] },
 
   { name: 'CUSTOM_Racing_Shoes', enchants: [null, null, racingShoes, racingShoes] },
+
+  // Brotos Temporais — see temporal_sprout.ts for why the wiki's single row covers all
+  // six sprouts, and why the three lists run tier by tier.
+  { name: 'Tree_Of_Sprout_STR', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
+  { name: 'Tree_Of_Sprout_DEX', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
+  { name: 'Tree_Of_Sprout_AGI', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
+  { name: 'Tree_Of_Sprout_LUK', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
+  { name: 'Tree_Of_Sprout_VIT', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
+  { name: 'Tree_Of_Sprout_INT', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
 
   { name: 'Tree_Of_Sprout_JP', enchants: [null, BaseState._1_3, BaseState._1_3, infityEnt4] },
   { name: 'Tengu_Scroll', enchants: [null, BaseState._1_3, BaseState._1_3, infityEnt4] },

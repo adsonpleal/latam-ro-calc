@@ -334750,5 +334750,902 @@
       "all"
     ],
     "script": {}
+  },
+  "310121": {
+    "id": 310121,
+    "aegisName": "Automatic_Orb40",
+    "name": "F-Eternidade",
+    "unidName": "F-Eternidade",
+    "resName": "마법석성",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "chance__vit": [
+        "50"
+      ]
+    }
+  },
+  "310175": {
+    "id": 310175,
+    "aegisName": "Automatic_Orb94",
+    "name": "H-Maré",
+    "unidName": "H-Maré",
+    "resName": "Auto_Orb_Summoner",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "cd__5039": [
+        "0.5",
+        "9===1",
+        "11===1.5"
+      ],
+      "cd__5051": [
+        "0.5",
+        "9===1",
+        "11===1.5"
+      ]
+    }
+  },
+  "310982": {
+    "id": 310982,
+    "aegisName": "aegis_310982",
+    "name": "P.ATQ +1",
+    "unidName": "P.ATQ +1",
+    "resName": "운의니브",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "pAtk": [
+        "1"
+      ]
+    }
+  },
+  "310983": {
+    "id": 310983,
+    "aegisName": "aegis_310983",
+    "name": "P.ATQ +2",
+    "unidName": "P.ATQ +2",
+    "resName": "운의니브",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "pAtk": [
+        "2"
+      ]
+    }
+  },
+  "310984": {
+    "id": 310984,
+    "aegisName": "aegis_310984",
+    "name": "S.ATQM +1",
+    "unidName": "S.ATQM +1",
+    "resName": "손재주의니브",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "sMatk": [
+        "1"
+      ]
+    }
+  },
+  "310985": {
+    "id": 310985,
+    "aegisName": "aegis_310985",
+    "name": "S.ATQM +2",
+    "unidName": "S.ATQM +2",
+    "resName": "손재주의니브",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "sMatk": [
+        "2"
+      ]
+    }
+  },
+  "310986": {
+    "id": 310986,
+    "aegisName": "aegis_310986",
+    "name": "Músculo 1",
+    "unidName": "Músculo 1",
+    "resName": "레드크리스탈조각",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "atkPercent": [
+        "3"
+      ]
+    }
+  },
+  "310987": {
+    "id": 310987,
+    "aegisName": "aegis_310987",
+    "name": "Músculo 2",
+    "unidName": "Músculo 2",
+    "resName": "레드크리스탈조각",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "atkPercent": [
+        "5"
+      ]
+    }
+  },
+  "310988": {
+    "id": 310988,
+    "aegisName": "aegis_310988",
+    "name": "Intelecto 1",
+    "unidName": "Intelecto 1",
+    "resName": "블루크리스탈조각",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "matkPercent": [
+        "3"
+      ]
+    }
+  },
+  "310989": {
+    "id": 310989,
+    "aegisName": "aegis_310989",
+    "name": "Intelecto 2",
+    "unidName": "Intelecto 2",
+    "resName": "블루크리스탈조각",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "matkPercent": [
+        "5"
+      ]
+    }
+  },
+  "310990": {
+    "id": 310990,
+    "aegisName": "aegis_310990",
+    "name": "HP máx. +3%",
+    "unidName": "HP máx. +3%",
+    "resName": "마력석_빨강",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "310991": {
+    "id": 310991,
+    "aegisName": "aegis_310991",
+    "name": "HP máx. +5%",
+    "unidName": "HP máx. +5%",
+    "resName": "마력석_빨강",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "hpPercent": [
+        "5"
+      ]
+    }
+  },
+  "310992": {
+    "id": 310992,
+    "aegisName": "aegis_310992",
+    "name": "SP máx. +3%",
+    "unidName": "SP máx. +3%",
+    "resName": "마력석_파랑",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "spPercent": [
+        "3"
+      ]
+    }
+  },
+  "310993": {
+    "id": 310993,
+    "aegisName": "aegis_310993",
+    "name": "SP máx. +5%",
+    "unidName": "SP máx. +5%",
+    "resName": "마력석_파랑",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "spPercent": [
+        "5"
+      ]
+    }
+  },
+  "311076": {
+    "id": 311076,
+    "aegisName": "aegis_311076",
+    "name": "POD +1",
+    "unidName": "POD +1",
+    "resName": "Barmund_Pow",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "pow": [
+        "1"
+      ]
+    }
+  },
+  "311077": {
+    "id": 311077,
+    "aegisName": "aegis_311077",
+    "name": "POD +2",
+    "unidName": "POD +2",
+    "resName": "Barmund_Pow",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "pow": [
+        "2"
+      ]
+    }
+  },
+  "311078": {
+    "id": 311078,
+    "aegisName": "aegis_311078",
+    "name": "SAB +1",
+    "unidName": "SAB +1",
+    "resName": "Barmund_Wis",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "wis": [
+        "1"
+      ]
+    }
+  },
+  "311079": {
+    "id": 311079,
+    "aegisName": "aegis_311079",
+    "name": "SAB +2",
+    "unidName": "SAB +2",
+    "resName": "Barmund_Wis",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "wis": [
+        "2"
+      ]
+    }
+  },
+  "311080": {
+    "id": 311080,
+    "aegisName": "aegis_311080",
+    "name": "FEI +1",
+    "unidName": "FEI +1",
+    "resName": "Barmund_Spl",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "spl": [
+        "1"
+      ]
+    }
+  },
+  "311081": {
+    "id": 311081,
+    "aegisName": "aegis_311081",
+    "name": "FEI +2",
+    "unidName": "FEI +2",
+    "resName": "Barmund_Spl",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "spl": [
+        "2"
+      ]
+    }
+  },
+  "311082": {
+    "id": 311082,
+    "aegisName": "aegis_311082",
+    "name": "STA +1",
+    "unidName": "STA +1",
+    "resName": "Barmund_Sta",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "sta": [
+        "1"
+      ]
+    }
+  },
+  "311083": {
+    "id": 311083,
+    "aegisName": "aegis_311083",
+    "name": "STA +2",
+    "unidName": "STA +2",
+    "resName": "Barmund_Sta",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "sta": [
+        "2"
+      ]
+    }
+  },
+  "311084": {
+    "id": 311084,
+    "aegisName": "aegis_311084",
+    "name": "CRV +1",
+    "unidName": "CRV +1",
+    "resName": "Barmund_Crt",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "crt": [
+        "1"
+      ]
+    }
+  },
+  "311085": {
+    "id": 311085,
+    "aegisName": "aegis_311085",
+    "name": "CRV +2",
+    "unidName": "CRV +2",
+    "resName": "Barmund_Crt",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "crt": [
+        "2"
+      ]
+    }
+  },
+  "311086": {
+    "id": 311086,
+    "aegisName": "aegis_311086",
+    "name": "CON +1",
+    "unidName": "CON +1",
+    "resName": "Barmund_Con",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "con": [
+        "1"
+      ]
+    }
+  },
+  "311087": {
+    "id": 311087,
+    "aegisName": "aegis_311087",
+    "name": "CON +2",
+    "unidName": "CON +2",
+    "resName": "Barmund_Con",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "con": [
+        "2"
+      ]
+    }
+  },
+  "311088": {
+    "id": 311088,
+    "aegisName": "aegis_311088",
+    "name": "T.CRÍT +1",
+    "unidName": "T.CRÍT +1",
+    "resName": "체력의니브",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "cRate": [
+        "1"
+      ]
+    }
+  },
+  "311089": {
+    "id": 311089,
+    "aegisName": "aegis_311089",
+    "name": "T.CRÍT +2",
+    "unidName": "T.CRÍT +2",
+    "resName": "체력의니브",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "cRate": [
+        "2"
+      ]
+    }
+  },
+  "311090": {
+    "id": 311090,
+    "aegisName": "aegis_311090",
+    "name": "C.Mais +1",
+    "unidName": "C.Mais +1",
+    "resName": "민첩의니브",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "hplus": [
+        "1"
+      ]
+    }
+  },
+  "311091": {
+    "id": 311091,
+    "aegisName": "aegis_311091",
+    "name": "C.Mais +2",
+    "unidName": "C.Mais +2",
+    "resName": "민첩의니브",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "hplus": [
+        "2"
+      ]
+    }
+  },
+  "310112": {
+    "id": 310112,
+    "aegisName": "Automatic_Orb31",
+    "name": "P-Total",
+    "unidName": "P-Total",
+    "resName": "마법석화",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "subclass_all": [
+        "7"
+      ],
+      "subsize_all": [
+        "9===7"
+      ],
+      "subrace_all": [
+        "11===7"
+      ]
+    }
+  },
+  "310090": {
+    "id": 310090,
+    "aegisName": "Automatic_Orb9",
+    "name": "M-HPR",
+    "unidName": "M-HPR",
+    "resName": "마법석암",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
+  },
+  "310091": {
+    "id": 310091,
+    "aegisName": "Automatic_Orb10",
+    "name": "M-SPR",
+    "unidName": "M-SPR",
+    "resName": "마법석암",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
+  },
+  "310098": {
+    "id": 310098,
+    "aegisName": "Automatic_Orb17",
+    "name": "M-Cura",
+    "unidName": "M-Cura",
+    "resName": "마법석암",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
+  },
+  "310113": {
+    "id": 310113,
+    "aegisName": "Automatic_Orb32",
+    "name": "P-Vida",
+    "unidName": "P-Vida",
+    "resName": "마법석화",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
+  },
+  "310114": {
+    "id": 310114,
+    "aegisName": "Automatic_Orb33",
+    "name": "P-Alma",
+    "unidName": "P-Alma",
+    "resName": "마법석화",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
+  },
+  "310115": {
+    "id": 310115,
+    "aegisName": "Automatic_Orb34",
+    "name": "P-Mental",
+    "unidName": "P-Mental",
+    "resName": "마법석화",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
+  },
+  "310116": {
+    "id": 310116,
+    "aegisName": "Automatic_Orb35",
+    "name": "P-Mana",
+    "unidName": "P-Mana",
+    "resName": "마법석화",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
+  },
+  "310178": {
+    "id": 310178,
+    "aegisName": "Automatic_Orb97",
+    "name": "P-Espelho",
+    "unidName": "P-Espelho",
+    "resName": "마법석화",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
+  },
+  "310179": {
+    "id": 310179,
+    "aegisName": "Automatic_Orb98",
+    "name": "P-Refletor",
+    "unidName": "P-Refletor",
+    "resName": "마법석화",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
   }
 }

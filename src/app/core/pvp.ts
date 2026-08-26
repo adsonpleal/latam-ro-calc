@@ -64,6 +64,19 @@ export const DEFAULT_PVP_CONTEXT: PvpContext = { mode: 'none', attackerRace: 'pl
 /** Key prefixes that make up the defender-reduction namespace (docs/pvp.md §4). */
 export const DEFENDER_KEY_PREFIXES = ['subrace_', 'subele_', 'subsize_', 'subclass_', 'dmg_taken_'];
 
+/**
+ * The two races a player attacker can have. `subrace_all` does NOT cover them: the
+ * client spells that line "Resistência a todas as raças de **monstros**", and the whole
+ * point of the pt-BR race vocabulary is that the monster world and the player world are
+ * separate (docs/pvp.md §2 — *Humanoide* is a mob, *Humano* is a player). So an item
+ * granting `subrace_all` cuts nothing off a player's hit; only `subrace_player_human`
+ * and `subrace_player_doram` do.
+ */
+export const PLAYER_RACES = ['player_human', 'player_doram'] as const;
+
+/** True when the attacker is a player, so the monster-only `_all` race line stays out. */
+export const isPlayerRace = (race: string): boolean => (PLAYER_RACES as readonly string[]).includes(race);
+
 /** True when a bonus key belongs to the defender-reduction namespace. */
 export function isDefenderKey(key: string): boolean {
   return DEFENDER_KEY_PREFIXES.some((p) => key.startsWith(p));
@@ -192,9 +205,14 @@ export function defenderReductionSteps(input: DefenderReductionInput): DefenderR
   // against its own damage type, so it needs its own pair of keys next to the untyped ones.
   const sizeType = input.dmgType === 'physical' ? '_physical' : '_magical';
   const sizeKeys = ['subsize_all', `subsize_${input.attackerSize}`, `subsize_all${sizeType}`, `subsize_${input.attackerSize}${sizeType}`];
+  // `subrace_all` is "todas as raças de monstros" — it never covers a player attacker,
+  // so vs a player only the matching player-race key counts. See PLAYER_RACES.
+  const raceKeys = isPlayerRace(input.attackerRace)
+    ? [`subrace_${input.attackerRace}`]
+    : ['subrace_all', `subrace_${input.attackerRace}`];
 
   const cats: { pct: number; label: string; keys: string[] }[] = [
-    { pct: v('subrace_all') + v(`subrace_${input.attackerRace}`), label: `Redução ${RACE_PT[input.attackerRace] ?? input.attackerRace}`, keys: ['subrace_all', `subrace_${input.attackerRace}`] },
+    { pct: raceKeys.reduce((total, key) => total + v(key), 0), label: `Redução ${RACE_PT[input.attackerRace] ?? input.attackerRace}`, keys: raceKeys },
     { pct: v('subele_all') + v(`subele_${input.attackerElement}`), label: `Redução ${ELE_PT[input.attackerElement] ?? input.attackerElement}`, keys: ['subele_all', `subele_${input.attackerElement}`] },
     { pct: sizeKeys.reduce((total, key) => total + v(key), 0), label: `Redução ${SIZE_PT[input.attackerSize] ?? input.attackerSize}`, keys: sizeKeys },
     { pct: v('subclass_all') + v(`subclass_${input.attackerType}`), label: `Redução ${CLASS_PT[input.attackerType] ?? input.attackerType}`, keys: ['subclass_all', `subclass_${input.attackerType}`] },
