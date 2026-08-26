@@ -166,6 +166,7 @@ export class AppTopBarComponent {
         'Todo valor abre a sua conta. Clicar em qualquer número do resumo lista os itens, consumíveis, buffs e habilidades que somam nele; clicar no valor comparado abre a mesma lista da build comparada, com as peças trocadas e também com as que a comparação não trocou. Os golpes por segundo abrem o gráfico da curva, e o valor comparado abre o mesmo gráfico com as duas velocidades marcadas. Passar o mouse sobre um valor mostra o nome dele, e no valor comparado o nome vem com "(comparação)" — o que resolve a coluna da direita, onde um "→ 664 -9" sozinho não diz de que linha é.',
         'RES e RESM passaram a se chamar TEN e TENM. Tenacidade e Tenacidade Mágica são os nomes que o cliente em português usa para os dois talentos, e o simulador mostrava a abreviação em inglês. A troca é só de rótulo — a conta é a mesma — e alcançou todos os lugares onde os dois apareciam por escrito, como a redução de dano no Resumo de Batalha. No caminho, "VelAtq" virou "Vel.Atq", como no jogo.',
         'A opção "Estilo de Campo" saiu das configurações. Ela alternava os campos entre contornado e preenchido, e o preenchido pintava cada caixa de um azul claro que brigava com as cores da ficha nova. O simulador usa o contornado sempre; quem tinha o preenchido guardado volta ao contornado sozinho, sem precisar mexer em nada.',
+      ],
     },
     {
       v: '0.1.89-beta',
