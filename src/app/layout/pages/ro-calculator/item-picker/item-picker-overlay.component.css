@@ -1,0 +1,158 @@
+/* Colours come from the calculator's dark shell; the picker only names what it needs so
+   a theme change reaches it through the variables rather than through find-and-replace. */
+.picker {
+  --picker-surface: #1f2d40;
+  --picker-border: #304562;
+  --picker-field: #17212f;
+  --picker-text: rgba(255, 255, 255, 0.87);
+  --picker-muted: rgba(255, 255, 255, 0.5);
+  --picker-hover: rgba(129, 199, 132, 0.16);
+
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  max-height: min(420px, 70vh);
+  overflow: hidden;
+  background: var(--picker-surface);
+  border: 1px solid var(--picker-border);
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 50%);
+  color: var(--picker-text);
+  font-size: 14px;
+}
+
+.picker__title {
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--picker-border);
+  color: var(--picker-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.picker__filter {
+  padding: 8px 10px;
+}
+
+.picker__input {
+  width: 100%;
+  height: 32px;
+  padding: 0 9px;
+  background: var(--picker-field);
+  border: 1px solid var(--picker-border);
+  border-radius: 3px;
+  color: var(--picker-text);
+  font: inherit;
+  outline: none;
+}
+
+.picker__input:focus {
+  border-color: var(--green-400, #81c784);
+}
+
+.picker__crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px 8px;
+  font-size: 12px;
+}
+
+.picker__crumb {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--green-400, #81c784);
+  font: inherit;
+  cursor: pointer;
+}
+
+.picker__crumb:disabled {
+  color: var(--picker-muted);
+  cursor: default;
+}
+
+.picker__crumb-sep {
+  color: var(--picker-muted);
+}
+
+.picker__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0 10px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.picker__row--none {
+  flex: 0 0 auto;
+  font-style: italic;
+  color: var(--picker-muted);
+}
+
+.picker__row--active,
+.picker__row:hover {
+  background: var(--picker-hover);
+}
+
+.picker__row--selected .picker__label {
+  font-weight: 700;
+}
+
+.picker__icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+}
+
+.picker__icon img {
+  max-width: 20px;
+  max-height: 20px;
+  image-rendering: pixelated;
+}
+
+.picker__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* The element palette paints a background of its own, so give it room to read as a tag. */
+.picker__label[class*='property_'] {
+  flex: 0 1 auto;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.picker__chevron {
+  flex: 0 0 auto;
+  color: var(--picker-muted);
+}
+
+.picker__list {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.picker__note {
+  padding: 8px 10px;
+  color: var(--picker-muted);
+  font-size: 12px;
+}

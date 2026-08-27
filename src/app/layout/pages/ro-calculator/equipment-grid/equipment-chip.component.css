@@ -1,0 +1,103 @@
+:host {
+  position: relative;
+  display: inline-flex;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.eq-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  height: 26px;
+  padding: 0 8px;
+  border: 1px dashed rgb(255 255 255 / 16%);
+  border-radius: 4px;
+  background: transparent;
+  color: rgb(255 255 255 / 38%);
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.eq-chip:hover,
+.eq-chip:focus-visible {
+  border-color: var(--green-400, #81c784);
+  outline: none;
+}
+
+.eq-chip--filled {
+  border-style: solid;
+  border-color: #304562;
+  background: rgb(255 255 255 / 5%);
+  color: rgb(255 255 255 / 87%);
+}
+
+.eq-chip--primary {
+  font-size: 14px;
+}
+
+/* The comparison row is amber throughout, so a compared chip reads as belonging to it
+   even when it sits next to an identical one from the main build. */
+.eq-chip--compare.eq-chip--filled {
+  border-color: rgb(253 216 125 / 35%);
+  background: rgb(253 216 125 / 8%);
+  color: #fdd87d;
+}
+
+.eq-chip--compare:hover,
+.eq-chip--compare:focus-visible {
+  border-color: #fdd87d;
+}
+
+/* An element chip carries the property_* palette, which paints its own background —
+   leave the fill alone and only keep the shape. */
+.eq-chip--element {
+  border-style: solid;
+  border-color: transparent;
+}
+
+.eq-chip__icon {
+  flex: 0 0 auto;
+  max-width: 20px;
+  max-height: 20px;
+  image-rendering: pixelated;
+}
+
+.eq-chip__text {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.eq-chip__clear {
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  margin-top: -7px;
+  display: none;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  background: rgb(0 0 0 / 55%);
+  box-shadow: 0 0 0 3px rgb(0 0 0 / 25%);
+  color: #fff;
+  font-size: 9px;
+  line-height: 1;
+}
+
+:host(:hover) .eq-chip__clear,
+.eq-chip:focus-visible + .eq-chip__clear,
+.eq-chip__clear:focus-visible {
+  display: inline-flex;
+}

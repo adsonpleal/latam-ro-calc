@@ -1,0 +1,82 @@
+:host {
+  display: block;
+}
+
+.eq-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.eq-grid__ribbon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.eq-ribbon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid rgb(253 216 125 / 45%);
+  border-radius: 13px;
+  background: rgb(253 216 125 / 8%);
+  color: #fdd87d;
+  cursor: default;
+  white-space: pre-line;
+}
+
+.eq-ribbon__clear {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgb(255 255 255 / 45%);
+  font: inherit;
+  font-size: 11px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.eq-ribbon__clear:hover {
+  color: rgb(255 255 255 / 85%);
+}
+
+/* auto-fit rather than two fixed tracks: inside the calculator's left pane this is one
+   column at 1500px and two once the window is wide enough to earn them. */
+.eq-grid__columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.eq-grid__column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.eq-grid__group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.eq-grid__group-label {
+  color: rgb(255 255 255 / 70%);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.eq-grid__rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: #304562;
+}

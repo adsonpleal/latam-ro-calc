@@ -1,0 +1,26 @@
+<!-- The ✕ is a sibling of the chip, not a child: a button inside a button is invalid
+     markup, and as a sibling it needs no stopPropagation either. -->
+<button
+  type="button"
+  class="eq-chip"
+  [class.eq-chip--filled]="view.filled"
+  [class.eq-chip--primary]="view.primary"
+  [class.eq-chip--compare]="compare"
+  [class.eq-chip--element]="!!view.elementClass"
+  [ngClass]="view.elementClass"
+  [title]="view.text"
+  [pTooltip]="view.descId && items ? (view.descId | itemDescTooltip: items : itemDescriptions.version) : ''"
+  [escape]="false"
+  tooltipPosition="right"
+  [showDelay]="350"
+  tooltipStyleClass="item_desc_tooltip"
+  (click)="onPick($event)"
+>
+  <img *ngIf="view.icon" class="eq-chip__icon" [src]="view.icon | iconUrl: 'item'" alt="" loading="lazy" (error)="onIconError($event)" />
+  <span class="eq-chip__text">{{ view.text }}</span>
+  <span *ngIf="view.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
+</button>
+
+<button *ngIf="view.filled" type="button" class="eq-chip__clear" [attr.aria-label]="'Remover ' + view.text" title="Remover" (click)="clear.emit()">
+  ✕
+</button>

@@ -1,0 +1,77 @@
+<div class="eq-card">
+  <div class="eq-card__head">
+    <span class="eq-card__label">{{ descriptor.label }}</span>
+    <span
+      *ngIf="item?.preRelease"
+      class="pre_release_tag"
+      title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride)."
+      >iRO</span
+    >
+    <span class="eq-card__spacer"></span>
+
+    <button
+      *ngIf="comparable"
+      type="button"
+      class="eq-card__compare"
+      [class.eq-card__compare--on]="comparingHere"
+      [class.eq-card__compare--locked]="!!occupiedBy"
+      [attr.aria-pressed]="comparingHere"
+      [title]="compareTitle"
+      (click)="onToggleCompare()"
+    >
+      <!-- PrimeIcons pi-lock, drawn at the same optical size as the ⇄ next to it. -->
+      <svg *ngIf="occupiedBy" viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true">
+        <path
+          d="M17,10.25h-.25V8a4.75,4.75,0,0,0-9.5,0v2.25H7A2.75,2.75,0,0,0,4.25,13v5A2.75,2.75,0,0,0,7,20.75H17A2.75,2.75,0,0,0,19.75,18V13A2.75,2.75,0,0,0,17,10.25ZM8.75,8a3.25,3.25,0,0,1,6.5,0v2.25H8.75Zm9.5,10A1.25,1.25,0,0,1,17,19.25H7A1.25,1.25,0,0,1,5.75,18V13A1.25,1.25,0,0,1,7,11.75H17A1.25,1.25,0,0,1,18.25,13Z"
+        />
+      </svg>
+      <span *ngIf="!occupiedBy" aria-hidden="true">⇄</span>
+      {{ comparingHere ? 'Comparando' : 'Comparar' }}
+    </button>
+
+    <button type="button" class="eq-card__clear" title="Limpar slot" (click)="clearSlot.emit()">✕</button>
+  </div>
+
+  <!-- Filled by a multi-slot head gear worn elsewhere: nothing to choose here, and the
+       cards and enchants belong to whichever slot actually holds the item. -->
+  <div class="eq-card__occupied" *ngIf="occupiedBy">{{ occupiedBy }} (ocupado)</div>
+
+  <ng-container *ngIf="!occupiedBy">
+    <ng-container
+      *ngTemplateOutlet="body; context: { rows: mainRows, entry: item, compare: false }"
+    ></ng-container>
+
+    <div class="eq-card__compare-row" *ngIf="compareRows.length">
+      <ng-container *ngTemplateOutlet="body; context: { rows: compareRows, entry: compareItem, compare: true }"></ng-container>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #body let-rows="rows" let-entry="entry" let-compare="compare">
+  <div class="eq-card__body">
+    <span
+      class="eq-card__icon"
+      [class.eq-card__icon--compare]="compare"
+      [pTooltip]="entry ? (entry.id | itemDescTooltip: items : itemDescriptions.version) : ''"
+      [escape]="false"
+      tooltipPosition="right"
+      [showDelay]="350"
+      tooltipStyleClass="item_desc_tooltip"
+    >
+      <img *ngIf="entry" [src]="entry.id | iconUrl: 'item'" alt="" loading="lazy" (error)="onIconError($event)" />
+    </span>
+
+    <div class="eq-card__chips">
+      <div class="eq-card__line" *ngFor="let row of rows">
+        <app-equipment-chip
+          *ngFor="let view of row"
+          [view]="view"
+          [items]="items"
+          [compare]="compare"
+          (pick)="onChipPick(view, $event, compare)"
+          (clear)="onChipClear(view, compare)"
+        ></app-equipment-chip>
+      </div>
+    </div>
+  </div>
+</ng-template>

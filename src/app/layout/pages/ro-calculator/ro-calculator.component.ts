@@ -81,6 +81,7 @@ import { resolveOffHandEviction } from 'src/app/core/off-hand-slots';
 import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectConsumables } from 'src/app/core/calculator-controller';
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { CompareState } from 'src/app/core/compare-state';
+import { SlotListBag } from './equipment-grid/slot-list-bag.model';
 import { compactRotationForShare, firstRealSkill, isBasicAttack, normalizeRotation, pruneRotationForClass } from 'src/app/core/rotation';
 import { RotationScheduleStep } from 'src/app/core/rotation-schedule';
 import { optimizeRotation } from 'src/app/core/rotation-optimize';
@@ -507,6 +508,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   hiddenMap = { ammu: true, shield: true };
   /**
+   * Bumped whenever a debounced pass has finished rewriting the models, so the equipment
+   * grid's OnPush cards notice. `model` and `model2` are mutated in place — a preset load,
+   * a replay import, a share link or a head-slot eviction changes their contents without
+   * changing their identity, and nothing else would tell the cards to redraw.
+   */
+  equipRevision = 0;
+  /**
    * Head slots swallowed by a multi-slot item worn elsewhere -> that item's name. A
    * Middle+Lower mask fills both positions in game, so only one of the two pickers stays
    * live and the other shows what is already sitting there.
@@ -534,6 +542,16 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   // Display options for the "comparar slot" multiselect: pt-BR label, English value.
   // Starts as the full list and is narrowed to the class by setClassInstant().
   compareItemOptions = this.compareItemList.map((v) => ({ label: itemSlotLabelPtBr(v), value: v }));
+
+  /**
+   * The option lists the equipment grid reads, addressed by the names the slot
+   * descriptors carry (`weaponList`, `accLeftCardList`, `costumeEnhGarment2List`, …).
+   * They are all fields of this component already, so the grid takes the component itself
+   * rather than forty @Input bindings that would each have to be kept in step.
+   */
+  get slotLists(): SlotListBag {
+    return this as unknown as SlotListBag;
+  }
 
   ref: DynamicDialogRef | undefined;
   monsterRef: DynamicDialogRef | undefined;
@@ -685,6 +703,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
         this.refreshChanceList();
 
+        this.equipRevision += 1;
         this.isCalculatingEvent.next(false);
         itemChanges.clear();
       });
@@ -789,6 +808,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         // Persist the comparison alongside the autosave so it survives a refresh.
         this.calcStorage.writeCompareState(this.currentCompareState());
 
+        this.equipRevision += 1;
         this.isCalculatingEvent.next(false);
       });
     this.allSubs.push(x);
@@ -1554,6 +1574,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.model2 = state ? ({ rawOptionTxts: [], ...state.model2 } as ClassModel) : { rawOptionTxts: [] };
     this.compareItemNames = names;
     this.isEnableCompare = names.length > 0;
+    this.equipRevision += 1;
     this.updateCompareEvent.next(1);
   }
 

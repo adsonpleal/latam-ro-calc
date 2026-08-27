@@ -1,0 +1,155 @@
+:host {
+  display: block;
+}
+
+.eq-card {
+  display: flex;
+  flex-direction: column;
+  background: #1b2635;
+  border: 1px solid #304562;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.eq-card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 28px;
+  padding: 0 6px 0 12px;
+  background: rgb(255 255 255 / 3%);
+  border-bottom: 1px solid #304562;
+}
+
+.eq-card__label {
+  flex: 0 0 auto;
+  color: rgb(255 255 255 / 50%);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.eq-card__spacer {
+  flex: 1 1 auto;
+}
+
+.eq-card__compare {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 20px;
+  padding: 0 4px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: rgb(255 255 255 / 55%);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.eq-card__compare--on {
+  padding: 0 8px;
+  border-color: rgb(253 216 125 / 55%);
+  background: rgb(253 216 125 / 16%);
+  color: #fdd87d;
+}
+
+.eq-card__compare--locked {
+  color: rgb(255 255 255 / 25%);
+  cursor: not-allowed;
+}
+
+.eq-card__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: rgb(255 255 255 / 45%);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.eq-card__clear:hover {
+  border-color: #304562;
+  color: rgb(255 255 255 / 85%);
+}
+
+.eq-card__occupied {
+  padding: 14px 12px;
+  color: rgb(255 255 255 / 38%);
+  font-size: 13px;
+  font-style: italic;
+}
+
+.eq-card__body {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 12px 9px;
+}
+
+.eq-card__icon {
+  flex: 0 0 auto;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid #304562;
+  border-radius: 4px;
+  background: rgb(255 255 255 / 4%);
+}
+
+.eq-card__icon img {
+  max-width: 44px;
+  max-height: 44px;
+  image-rendering: pixelated;
+}
+
+.eq-card__icon:hover {
+  border-color: var(--green-400, #81c784);
+}
+
+.eq-card__icon--compare {
+  border-color: rgb(253 216 125 / 30%);
+  background: rgb(253 216 125 / 6%);
+}
+
+.eq-card__icon--compare:hover {
+  border-color: #fdd87d;
+}
+
+.eq-card__chips {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  min-height: 52px;
+}
+
+/* Cards and enchants are independent, so a weapon can put eight chips on one line —
+   wrap rather than clip. */
+.eq-card__line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 26px;
+}
+
+.eq-card__compare-row {
+  background: rgb(253 216 125 / 5%);
+  border-top: 1px dashed rgb(253 216 125 / 35%);
+}

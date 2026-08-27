@@ -1,0 +1,73 @@
+<!-- The panel traps focus so the arrow keys belong to the list, not to the page behind it.
+     Rows are real buttons but stay out of the tab order: the filter box keeps focus and
+     drives the list, exactly as the dropdown this replaces did. -->
+<div class="picker" tabindex="-1" cdkTrapFocus cdkTrapFocusAutoCapture (keydown)="onKeyDown($event)">
+  <div class="picker__title">{{ title }}</div>
+
+  <div class="picker__filter">
+    <input
+      #filter
+      type="text"
+      cdkFocusInitial
+      class="picker__input"
+      placeholder="Filtrar…"
+      [value]="query"
+      (input)="onQuery(filter.value)"
+    />
+  </div>
+
+  <div class="picker__crumbs" *ngIf="breadcrumb.length">
+    <button type="button" class="picker__crumb" (click)="goToLevel(-1)">Todos</button>
+    <ng-container *ngFor="let node of breadcrumb; let i = index">
+      <span class="picker__crumb-sep">›</span>
+      <button type="button" class="picker__crumb" [disabled]="i === breadcrumb.length - 1" (click)="goToLevel(i)">{{ node.label }}</button>
+    </ng-container>
+  </div>
+
+  <!-- Outside the scroller so clearing is always one click away, however long the list. -->
+  <button
+    type="button"
+    tabindex="-1"
+    class="picker__row picker__row--none"
+    [class.picker__row--active]="active === -1"
+    (mouseenter)="hover(-1)"
+    (click)="choose(-1)"
+  >
+    <span class="picker__icon">✕</span>
+    <span class="picker__label picker__label--none">Nenhum</span>
+  </button>
+
+  <cdk-virtual-scroll-viewport
+    *ngIf="rows.length"
+    class="picker__list"
+    [itemSize]="rowHeight"
+    [style.height.px]="viewportHeight"
+  >
+    <button
+      *cdkVirtualFor="let row of rows; let i = index"
+      type="button"
+      tabindex="-1"
+      class="picker__row"
+      [class.picker__row--active]="active === i"
+      [class.picker__row--selected]="isSelected(row)"
+      [style.height.px]="rowHeight"
+      [pTooltip]="items ? (row.value | itemDescTooltip: items : itemDescriptions.version) : ''"
+      [escape]="false"
+      tooltipPosition="right"
+      [showDelay]="350"
+      tooltipStyleClass="item_desc_tooltip"
+      (mouseenter)="hover(i)"
+      (click)="choose(i)"
+    >
+      <span class="picker__icon">
+        <img *ngIf="row.icon" [src]="row.icon | iconUrl: 'item'" alt="" />
+      </span>
+      <span class="picker__label" [ngClass]="row.elementClass">{{ row.label }}</span>
+      <span *ngIf="row.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
+      <span *ngIf="row.group" class="picker__chevron">›</span>
+    </button>
+  </cdk-virtual-scroll-viewport>
+
+  <div class="picker__note" *ngIf="!rows.length">Nada encontrado.</div>
+  <div class="picker__note" *ngIf="capped">Mais de {{ rows.length }} resultados — refine a busca.</div>
+</div>

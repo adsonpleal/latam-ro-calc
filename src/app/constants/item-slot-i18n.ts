@@ -14,6 +14,12 @@ export const ItemSlotLabelPtBr: Record<string, string> = {
   accRight: 'Acess. Dir.',
   accLeft: 'Acess. Esq.',
   pet: 'Pet',
+  // The visuals are not comparable, so these four never reached the old multiselect. The
+  // picker cards name every slot, comparable or not.
+  costumeUpper: 'Visual Topo',
+  costumeMiddle: 'Visual Meio',
+  costumeLower: 'Visual Baixo',
+  costumeGarment: 'Visual Capa',
   costumeEnchantUpper: 'Encantamento Topo',
   costumeEnchantMiddle: 'Encantamento Meio',
   costumeEnchantLower: 'Encantamento Baixo',

@@ -1,0 +1,35 @@
+<div class="eq-grid">
+  <div class="eq-grid__ribbon">
+    <span class="eq-ribbon" [pTooltip]="ribbonTitle" tooltipPosition="right" [showDelay]="350">⇄ {{ ribbonText }}</span>
+    <button *ngIf="compareCount" type="button" class="eq-ribbon__clear" (click)="onClearComparison()">Limpar comparação</button>
+  </div>
+
+  <div class="eq-grid__columns">
+    <div class="eq-grid__column" *ngFor="let column of columns">
+      <ng-container *ngFor="let group of column">
+        <div class="eq-grid__group">
+          <span class="eq-grid__group-label">{{ group.label }}</span>
+          <span class="eq-grid__rule"></span>
+        </div>
+
+        <app-equipment-slot-card
+          *ngFor="let slot of group.slots; trackBy: trackSlot"
+          [descriptor]="slot"
+          [items]="items"
+          [lists]="lists"
+          [model]="model"
+          [model2]="model2"
+          [derivation]="derivations[slot.key]"
+          [compareDerivation]="compareDerivations[slot.key]"
+          [occupiedBy]="occupiedBy(slot)"
+          [comparing]="comparing"
+          [showAmmo]="!hiddenMap.ammu"
+          [revision]="cardRevision"
+          (pickField)="onPickField($event)"
+          (clearSlot)="onClearSlot(slot)"
+          (toggleCompare)="onToggleCompare(slot)"
+        ></app-equipment-slot-card>
+      </ng-container>
+    </div>
+  </div>
+</div>

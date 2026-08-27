@@ -32,6 +32,9 @@ import { TreeSelectModule } from 'primeng/treeselect';
 import { TooltipModule } from 'primeng/tooltip';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { A11yModule } from '@angular/cdk/a11y';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { RoCalculatorComponent } from './ro-calculator.component';
 import { ItemDescTooltipPipe } from './item-desc-tooltip.pipe';
@@ -40,13 +43,11 @@ import { ItemDescTooltipHoverDirective } from './item-desc-tooltip-hover.directi
 import { TooltipClampDirective } from './tooltip-clamp.directive';
 import { PrettyJsonPipe } from '../../prettier-json.pipe';
 import { RoCalculatorRoutingModule } from './ro-calculator-routing.module';
-import { EquipmentComponent } from './equipment/equipment.component';
 import { CalcValueComponent } from './calc-value/calc-value.component';
 import { MonsterDataViewComponent } from './monster-data-view/monster-data-view.component';
 import { FieldsetModule } from 'primeng/fieldset';
 import { MiscDetailComponent } from './misc-detail/misc-detail.component';
 import { DialogModule } from 'primeng/dialog';
-import { EquipmentShadowComponent } from './equipment-shadow/equipment-shadow.component';
 import { ItemSearchComponent } from './item-search/item-search.component';
 import { ElementalTableComponent } from './elemental-table/elemental-table.component';
 import { ElementalTableRawComponent } from './elemental-table-raw/elemental-table-raw.component';
@@ -56,7 +57,10 @@ import { BattleHudComponent } from './battle-hud/battle-hud.component';
 import { RotationListComponent } from './battle-hud/rotation-list/rotation-list.component';
 import { RotationTimelineComponent } from './battle-hud/rotation-timeline/rotation-timeline.component';
 import { AspdCurveComponent } from './aspd-curve/aspd-curve.component';
-import { EquipmentCosEnchantComponent } from './equipment-cos-enchant/equipment-cos-enchant.component';
+import { ItemPickerOverlayComponent } from './item-picker/item-picker-overlay.component';
+import { EquipmentChipComponent } from './equipment-grid/equipment-chip.component';
+import { EquipmentGridComponent } from './equipment-grid/equipment-grid.component';
+import { EquipmentSlotCardComponent } from './equipment-grid/equipment-slot-card.component';
 import { StatusInputModule } from './status-input/status-input.module';
 import { IconUrlPipe } from '../../../pipes/icon-url.pipe';
 import { MonsterSpritePipe } from '../../../pipes/monster-sprite.pipe';
@@ -102,6 +106,9 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
     DialogModule,
     OverlayPanelModule,
     DragDropModule,
+    A11yModule,
+    OverlayModule,
+    ScrollingModule,
     RoCalculatorRoutingModule,
     StatusInputModule,
     IconUrlPipe,
@@ -113,12 +120,10 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
   ],
   declarations: [
     RoCalculatorComponent,
-    EquipmentComponent,
     CalcValueComponent,
     PrettyJsonPipe,
     MonsterDataViewComponent,
     MiscDetailComponent,
-    EquipmentShadowComponent,
     ItemSearchComponent,
     ElementalTableComponent,
     ElementalTableRawComponent,
@@ -128,7 +133,10 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
     RotationListComponent,
     RotationTimelineComponent,
     AspdCurveComponent,
-    EquipmentCosEnchantComponent,
+    ItemPickerOverlayComponent,
+    EquipmentChipComponent,
+    EquipmentSlotCardComponent,
+    EquipmentGridComponent,
     ItemDescTooltipPipe,
     ItemDescTooltipFitDirective,
     ItemDescTooltipHoverDirective,
