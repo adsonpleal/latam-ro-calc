@@ -94,20 +94,40 @@ Ranked by how often each actually decided the call:
 1. **The class has no specs.** Far and away the strongest signal. A class with a
    characterization spec and two replay specs learns little from a fourth file; a class
    with nothing learns everything from the first.
-2. **Equipment swaps in a single session.** Five or more and the file is a gear-state
+2. **Buff load — and it outranks event count.** The card does not carry this, so it is the
+   first thing to check after pulling the file, before any formula work:
+
+   ```
+   node -e 'const {decodeReplay}=require("rrfparser");const b=require("fs").readFileSync(process.argv[1]);
+   const r=decodeReplay(b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength));
+   const on=new Set();for(const e of r.statusEvents??[]){e.isOn?on.add(e.statusId):on.delete(e.statusId)}
+   const pcs=[...(r.entities?.values?.()??[])].filter(e=>e.kind==="pc"&&e.aid!==r.sessionInfo.aid).length;
+   console.log(`buffs=${on.size} otherPlayers=${pcs}`)' <file.rrf>
+   ```
+
+   Every EFST the engine does not model is a multiplier hiding in the residual, and a
+   public map means someone else's Cardinal is buffing the recorder. Roughly: **under ~20
+   distinct EFSTs and no other players** is a file you can hold the engine to; **40+ with a
+   party around** is not a measurement, it is a lead. The first Dragon Knight run proved
+   it — the 165-event file ranked top by volume carried 43 buffs and 8 other players
+   (Benedictum, Religio, Argutus Telum, Presens Acies, Poema de Bragi…) and sat 2–2.8×
+   off the engine with no way to attribute it, while the *smallest* file on the board,
+   54 events with 17 self-buffs and nobody else on screen, closed to a single uniform
+   term. Rank on this before ranking on volume.
+3. **Equipment swaps in a single session.** Five or more and the file is a gear-state
    matrix by itself — one character, one build, gear changing under it, which is exactly
    what separates "the class formula is wrong" from "an item is missing". These are the
    most valuable files on the board and they are rare.
-3. **Damage events against a dummy.** Volume is signal. Under ~10 events a file cannot
+4. **Damage events against a dummy.** Volume is signal. Under ~10 events a file cannot
    carry a conclusion on its own; it can still corroborate one.
-4. **`dummyHits: 0` is a real discount.** Damage against live mobs or inside an instance
+5. **`dummyHits: 0` is a real discount.** Damage against live mobs or inside an instance
    means unknown target DEF, so a 385-event file on a real map can be worth less than a
    50-event file on `tra_fild`. Read the event count together with the dummy count, never
    alone.
-5. **Several files for one class, from different characters.** Different trait spreads and
+6. **Several files for one class, from different characters.** Different trait spreads and
    levels across three recordings is a matrix assembled by accident — worth more than the
    sum of the three.
-6. **Recency of `appVersion`.** A recording made against a much older build may already be
+7. **Recency of `appVersion`.** A recording made against a much older build may already be
    fixed; one on the current build is a live regression check.
 
 ## 4. What is not a review, but comes out of the same read
