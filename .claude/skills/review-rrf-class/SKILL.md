@@ -159,11 +159,44 @@ Manopla Sombria POD's "ATQ e ATQM +1 por refino" was found). Fix the build befor
   case, which reads as "the character never swapped weapons" — a Sky Emperor recording that
   equips a book mid-session was misread that way.
 - **Counters/toggles**: the EFST id is in `statusEvents`. Resolve unknown ids from ragassets'
-  status table — `{id, name}` for every EFST the client knows, pt-BR names. Do not guess.
+  status table — `{id, name}` for every EFST the client **names**, pt-BR. Do not guess.
   ```bash
   curl -s https://assets.latam-tools.com.br/raw/status.json > /tmp/status.json
   node -e 'const s=require("/tmp/status.json");for(const id of process.argv.slice(1))console.log(id, s.find(e=>e.id==+id)?.name ?? "(unknown)")' 156 158
   ```
+  **That feed only names 704 ids out of a 0-1688 range**, and the gaps are not rare — a
+  buffed recording will hand you several. For those, fall back to **rAthena's `efst_type`
+  enum**, whose numbering is the client's: 699 of the 704 named ids line up, and the spot
+  checks are exact (1 `EFST_ENDURE` = Vigor, 2 `EFST_TWOHANDQUICKEN` = Rapidez com Duas
+  Mãos, 105 `EFST_LKCONCENTRATION` = Dedicação, 1172 `EFST_SERVANTWEAPON` = Espada Alada).
+  The enum is implicitly numbered from `EFST_BLANK = -1`, with a handful of explicit
+  assignments to honour, so index it in order rather than counting by hand:
+  ```bash
+  curl -sL https://raw.githubusercontent.com/rathena/rathena/master/src/map/status.hpp -o .scratch/status.hpp
+  node --input-type=module -e '
+    import { readFileSync } from "node:fs";
+    const src = readFileSync(".scratch/status.hpp", "utf8");
+    const body = src.slice(src.indexOf("enum efst_type"));
+    const block = body
+      .slice(0, body.indexOf(String.fromCharCode(10) + "};"))
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/[^\r\n]*/g, "");
+    const by = {};
+    let next = null;
+    for (const [, name, num] of block.matchAll(/(EFST_[A-Z0-9_]+)\s*(?:=\s*(-?\d+))?\s*,/g)) {
+      const id = num !== undefined ? Number(num) : next;
+      if (id === null) continue;
+      by[id] = name; next = id + 1;
+    }
+    for (const id of process.argv.slice(1)) console.log(id, by[id] ?? "?");
+  ' 802 993 1061
+  ```
+  An id the client does not name is almost always **not a combat buff** — the unnamed ones
+  that turn up in recordings are bookkeeping states (`EFST_PLAYTIME_STATISTICS`,
+  `EFST_GET_CNT_UNREAD_RODEX_*`, `EFST_AID_PERIOD_*`). Naming them is still worth the two
+  minutes, because it is what lets you *close* the "is there a hidden buff?" question
+  instead of leaving it open. One more worth knowing by heart: **46 is `EFST_POSTDELAY`**,
+  cast delay, which toggles on almost every skill packet and is not a buff.
 - **Stacking counters** (Pontos de Foco / aiming count) tick on their own EFST every 500 ms,
   and the reset arrives on the **same millisecond** as the damage. Count the ticks between
   one damage packet and the next — and remember the recording usually **starts with the
