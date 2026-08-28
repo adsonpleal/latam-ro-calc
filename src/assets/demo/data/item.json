@@ -4740,10 +4740,10 @@
         "5"
       ],
       "aspdPercent": [
-        "EQUIP[Anti-Magic Suit]===5"
+        "EQUIP_ID[15073]===5"
       ],
       "acd": [
-        "EQUIP[Geffen Magic Robe]===5"
+        "EQUIP_ID[15074]===5"
       ],
       "subrace_player_human": [
         "EQUIP_ID[15074]===5"
@@ -19086,15 +19086,15 @@
       ],
       "criDmg": [
         "3---2",
-        "EQUIP[Temporal Luk Boots||Modified Temporal Luk Boots]10"
+        "EQUIP_ID[22011]10"
       ],
       "p_pene_race_brute": [
         "7===30",
-        "EQUIP[Temporal Luk Boots||Modified Temporal Luk Boots]REFINE[armor,boot==21]20"
+        "EQUIP_ID[22011]REFINE[armor,boot==21]20"
       ],
       "p_pene_race_demon": [
         "7===30",
-        "EQUIP[Temporal Luk Boots||Modified Temporal Luk Boots]REFINE[armor,boot==21]20"
+        "EQUIP_ID[22011]REFINE[armor,boot==21]20"
       ],
       "p_race_brute": [
         "9===10"
@@ -29174,27 +29174,27 @@
         "7===7"
       ],
       "aspd": [
-        "EQUIP[Temporal Luk Boots||Modified Luk Boots]1"
+        "EQUIP_ID[22011||22118]1"
       ],
       "p_pene_race_brute": [
         "9===20",
         "11===10",
-        "EQUIP[Temporal Luk Boots||Modified Luk Boots]REFINE[boot==10]30"
+        "EQUIP_ID[22011||22118]REFINE[boot==10]30"
       ],
       "p_pene_race_demon": [
         "9===20",
         "11===10",
-        "EQUIP[Temporal Luk Boots||Modified Luk Boots]REFINE[boot==10]30"
+        "EQUIP_ID[22011||22118]REFINE[boot==10]30"
       ],
       "m_pene_race_brute": [
         "9===20",
         "11===10",
-        "EQUIP[Temporal Luk Boots||Modified Luk Boots]REFINE[boot==10]30"
+        "EQUIP_ID[22011||22118]REFINE[boot==10]30"
       ],
       "m_pene_race_demon": [
         "9===20",
         "11===10",
-        "EQUIP[Temporal Luk Boots||Modified Luk Boots]REFINE[boot==10]30"
+        "EQUIP_ID[22011||22118]REFINE[boot==10]30"
       ]
     }
   },
@@ -39159,11 +39159,11 @@
     ],
     "script": {
       "2006": [
-        "EQUIP[Ignition Shadow Pendant&&Ignition Shadow Earring]REFINE[shadowWeapon,shadowPendant,shadowEarring==1]---1"
+        "EQUIP_ID[24444&&24445]REFINE[shadowWeapon,shadowPendant,shadowEarring==1]---1"
       ],
       "p_pene_race_all": [
-        "EQUIP[Rune Knight Shield Shadow]40",
-        "EQUIP[Rune Knight Shield Shadow]REFINE[shadowWeapon,shadowShield==1]---1"
+        "EQUIP_ID[24301]40",
+        "EQUIP_ID[24301]REFINE[shadowWeapon,shadowShield==1]---1"
       ],
       "atk": [
         "1---1"
@@ -46526,13 +46526,13 @@
       "p_pene_race_all": [
         "5",
         "2---1",
-        "EQUIP[Full Penetration Shadow Shoes]REFINE[shadowArmor,shadowBoot==18]===100"
+        "EQUIP_ID[24664]REFINE[shadowArmor,shadowBoot==18]===100"
       ],
       "p_race_all": [
         "10===3"
       ],
       "atkPercent": [
-        "EQUIP[Full Penetration Shadow Shoes]===2"
+        "EQUIP_ID[24664]===2"
       ]
     }
   },
@@ -47170,7 +47170,7 @@
       ],
       "atkPercent": [
         "3",
-        "EQUIP[Maximum Mammoth Shadow Pendant]===2"
+        "EQUIP_ID[24682]===2"
       ],
       "melee": [
         "2---1"
@@ -47182,7 +47182,7 @@
         "10===3"
       ],
       "p_element_all": [
-        "EQUIP[Maximum Mammoth Shadow Pendant]REFINE[shadowEarring,shadowPendant==20]===12"
+        "EQUIP_ID[24682]REFINE[shadowEarring,shadowPendant==20]===12"
       ]
     }
   },
@@ -157175,22 +157175,22 @@
     ],
     "script": {
       "p_race_all": [
-        "EQUIP[Temporal Luk Manteau&&Unexpected Fortune Armor]===10"
+        "EQUIP_ID[20968&&15346]===10"
       ],
       "atk": [
-        "EQUIP[Temporal Luk Manteau&&Unexpected Fortune Armor]REFINE[armor,garment==14]===80"
+        "EQUIP_ID[20968&&15346]REFINE[armor,garment==14]===80"
       ],
       "p_size_all": [
-        "EQUIP[Temporal Luk Manteau&&Unexpected Fortune Armor]REFINE[armor,garment==18]===10"
+        "EQUIP_ID[20968&&15346]REFINE[armor,garment==18]===10"
       ],
       "criDmg": [
-        "EQUIP[Temporal Luk Manteau&&Unexpected Fortune Armor]REFINE[armor,garment==18]===12"
+        "EQUIP_ID[20968&&15346]REFINE[armor,garment==18]===12"
       ],
       "range": [
-        "EQUIP[Temporal Luk Manteau&&Unexpected Fortune Armor]REFINE[armor,garment==22]===10"
+        "EQUIP_ID[20968&&15346]REFINE[armor,garment==22]===10"
       ],
       "melee": [
-        "EQUIP[Temporal Luk Manteau&&Unexpected Fortune Armor]REFINE[armor,garment==22]===10"
+        "EQUIP_ID[20968&&15346]REFINE[armor,garment==22]===10"
       ]
     }
   },
@@ -163433,13 +163433,13 @@
       "atk": [
         "125",
         "2---10",
-        "EQUIP[Automatic Engine Wing A-Type]===50"
+        "EQUIP_ID[480020]===50"
       ],
       "aspdPercent": [
         "7===15"
       ],
       "acd": [
-        "EQUIP[Automatic Engine Wing B-Type]===10"
+        "EQUIP_ID[480021]===10"
       ]
     }
   },
@@ -164175,13 +164175,13 @@
       "atk": [
         "130",
         "2---15",
-        "EQUIP[Gray Wolf Manteau]===50"
+        "EQUIP_ID[480091]===50"
       ],
       "aspdPercent": [
         "7===15"
       ],
       "acd": [
-        "EQUIP[Gray Wolf Muffler]===10"
+        "EQUIP_ID[480090]===10"
       ]
     }
   },
@@ -174499,10 +174499,10 @@
         "7===7"
       ],
       "criDmg": [
-        "EQUIP[Automatic Leg A-Type]===15"
+        "EQUIP_ID[470022]===15"
       ],
       "vct": [
-        "EQUIP[Automatic Leg B-Type]===15"
+        "EQUIP_ID[470023]===15"
       ]
     }
   },
@@ -176416,11 +176416,11 @@
       ],
       "p_element_all": [
         "4---3",
-        "EQUIP[Wakwak Card]===15"
+        "EQUIP_ID[4588]===15"
       ],
       "m_element_all": [
         "4---3",
-        "EQUIP[Antique Book Card]===15"
+        "EQUIP_ID[4596]===15"
       ],
       "acd": [
         "9===5"
@@ -176430,34 +176430,34 @@
       ],
       "aspdPercent": [
         "11===5",
-        "EQUIP[Cenere Card]===15"
+        "EQUIP_ID[4595]===15"
       ],
       "pow": [
-        "EQUIP[Petal Card]===4"
+        "EQUIP_ID[4594]===4"
       ],
       "criDmg": [
-        "EQUIP[Petal Card]===20"
+        "EQUIP_ID[4594]===20"
       ],
       "crt": [
-        "EQUIP[Menblatt Card]===4"
+        "EQUIP_ID[4593]===4"
       ],
       "range": [
-        "EQUIP[Menblatt Card]===15"
+        "EQUIP_ID[4593]===15"
       ],
       "con": [
-        "EQUIP[Cenere Card]===4"
+        "EQUIP_ID[4595]===4"
       ],
       "spl": [
-        "EQUIP[Antique Book Card]===4"
+        "EQUIP_ID[4596]===4"
       ],
       "sta": [
-        "EQUIP[Wakwak Card]===4"
+        "EQUIP_ID[4588]===4"
       ],
       "wis": [
-        "EQUIP[Jejeling Card]===4"
+        "EQUIP_ID[4589]===4"
       ],
       "hpPercent": [
-        "EQUIP[Jejeling Card]===20"
+        "EQUIP_ID[4589]===20"
       ]
     }
   },
@@ -182854,16 +182854,16 @@
     ],
     "script": {
       "2008": [
-        "EQUIP[Dragonic Slayer-LT]REFINE[weapon==10]===10",
-        "EQUIP[Dragonic Slayer-LT]GRADE[weapon==C]===10"
+        "EQUIP_ID[600024]REFINE[weapon==10]===10",
+        "EQUIP_ID[600024]GRADE[weapon==C]===10"
       ],
       "5004": [
-        "EQUIP[Dragonic Slayer-LT]REFINE[weapon==10]===10",
-        "EQUIP[Dragonic Slayer-LT]GRADE[weapon==C]===10"
+        "EQUIP_ID[600024]REFINE[weapon==10]===10",
+        "EQUIP_ID[600024]GRADE[weapon==C]===10"
       ],
       "5201": [
-        "EQUIP[Oriental Sword-LT]REFINE[weapon==10]===10",
-        "EQUIP[Oriental Sword-LT]GRADE[weapon==C]===10"
+        "EQUIP_ID[600023]REFINE[weapon==10]===10",
+        "EQUIP_ID[600023]GRADE[weapon==C]===10"
       ],
       "atkPercent": [
         "10"
@@ -182875,22 +182875,22 @@
         "10"
       ],
       "p_size_all": [
-        "EQUIP[Oriental Sword-LT]===15"
+        "EQUIP_ID[600023]===15"
       ],
       "melee": [
-        "EQUIP[Oriental Sword-LT]REFINE[weapon==10]===10"
+        "EQUIP_ID[600023]REFINE[weapon==10]===10"
       ],
       "range": [
-        "EQUIP[Oriental Sword-LT]REFINE[weapon==10]===10",
-        "EQUIP[Dragonic Slayer-LT]REFINE[weapon==10]===10"
+        "EQUIP_ID[600023]REFINE[weapon==10]===10",
+        "EQUIP_ID[600024]REFINE[weapon==10]===10"
       ],
       "pow": [
-        "EQUIP[Oriental Sword-LT]GRADE[weapon==C]===5",
-        "EQUIP[Dragonic Slayer-LT]GRADE[weapon==C]===5"
+        "EQUIP_ID[600023]GRADE[weapon==C]===5",
+        "EQUIP_ID[600024]GRADE[weapon==C]===5"
       ],
       "pAtk": [
-        "EQUIP[Oriental Sword-LT]GRADE[weapon==C]===5",
-        "EQUIP[Dragonic Slayer-LT]GRADE[weapon==C]===5"
+        "EQUIP_ID[600023]GRADE[weapon==C]===5",
+        "EQUIP_ID[600024]GRADE[weapon==C]===5"
       ],
       "subsize_all": [
         "EQUIP_ID[600024]10"
@@ -213474,10 +213474,10 @@
         "11===15"
       ],
       "str": [
-        "EQUIP[Great Hero Boots]===10"
+        "EQUIP_ID[22238]===10"
       ],
       "atkPercent": [
-        "EQUIP[Great Hero Boots]===7"
+        "EQUIP_ID[22238]===7"
       ]
     }
   },
@@ -213859,7 +213859,7 @@
     "script": {
       "atkPercent": [
         "5",
-        "EQUIP[Hero Boots-LT]===10",
+        "EQUIP_ID[470094]===10",
         "GRADE[weapon==D]===3"
       ],
       "pow": [
@@ -213868,7 +213868,7 @@
       ],
       "pAtk": [
         "SUM[level==210]===1",
-        "EQUIP[Hero Boots-LT]===2",
+        "EQUIP_ID[470094]===2",
         "GRADE[weapon==C]===1",
         "GRADE[weapon==B]===2"
       ],

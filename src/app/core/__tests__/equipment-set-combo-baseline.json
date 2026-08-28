@@ -1,0 +1,2318 @@
+[
+ {
+  "target": 2963,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Anti-Magic Suit",
+    "id": 15073,
+    "slot": "armor"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "perfectHit": 5,
+   "p_class_all": 5
+  }
+ },
+ {
+  "target": 2963,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Anti-Magic Suit",
+    "id": 15073,
+    "slot": "armor"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "hpPercent": 5,
+   "def": 50,
+   "mdef": 10,
+   "aspdPercent": 5,
+   "perfectHit": 5,
+   "p_class_all": 5
+  }
+ },
+ {
+  "target": 2963,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Anti-Magic Suit",
+    "id": 15073,
+    "slot": "armor"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "perfectHit": 5,
+   "p_class_all": 5
+  }
+ },
+ {
+  "target": 2963,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Anti-Magic Suit",
+    "id": 15073,
+    "slot": "armor"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "hpPercent": 7,
+   "def": 50,
+   "mdef": 15,
+   "aspdPercent": 5,
+   "perfectHit": 5,
+   "p_class_all": 5
+  }
+ },
+ {
+  "target": 2963,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Geffen Magic Robe",
+    "id": 15074,
+    "slot": "armor"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "perfectHit": 5,
+   "p_class_all": 5
+  }
+ },
+ {
+  "target": 2963,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Geffen Magic Robe",
+    "id": 15074,
+    "slot": "armor"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "def": 40,
+   "vct": -15,
+   "acd": 5,
+   "perfectHit": 5,
+   "p_class_all": 5,
+   "subrace_demihuman": 5,
+   "subrace_player_human": 5
+  }
+ },
+ {
+  "target": 2963,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Geffen Magic Robe",
+    "id": 15074,
+    "slot": "armor"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "perfectHit": 5,
+   "p_class_all": 5
+  }
+ },
+ {
+  "target": 2963,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Geffen Magic Robe",
+    "id": 15074,
+    "slot": "armor"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "def": 40,
+   "vct": -10,
+   "acd": 5,
+   "perfectHit": 5,
+   "p_class_all": 5,
+   "subrace_demihuman": 5,
+   "subrace_player_human": 5
+  }
+ },
+ {
+  "target": 15346,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Temporal Luk Boots",
+    "id": 22011,
+    "slot": "boot"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "def": 120,
+   "atk": 50,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 15346,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Temporal Luk Boots",
+    "id": 22011,
+    "slot": "boot"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "hp": 300,
+   "sp": 30,
+   "def": 140,
+   "atk": 50,
+   "criDmg": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 15346,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Temporal Luk Boots",
+    "id": 22011,
+    "slot": "boot"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "def": 120,
+   "atk": 50,
+   "criDmg": 10,
+   "perfectHit": 5,
+   "p_element_earth": 10,
+   "p_element_wind": 10,
+   "p_race_brute": 10,
+   "p_race_demon": 10,
+   "p_pene_race_brute": 30,
+   "p_pene_race_demon": 30
+  }
+ },
+ {
+  "target": 15346,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Temporal Luk Boots",
+    "id": 22011,
+    "slot": "boot"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "hp": 800,
+   "sp": 80,
+   "def": 140,
+   "atk": 50,
+   "criDmg": 30,
+   "perfectHit": 5,
+   "p_element_earth": 10,
+   "p_element_wind": 10,
+   "p_race_brute": 10,
+   "p_race_demon": 10,
+   "p_pene_race_brute": 50,
+   "p_pene_race_demon": 50
+  }
+ },
+ {
+  "target": 20968,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Temporal Luk Boots",
+    "id": 22011,
+    "slot": "boot"
+   },
+   {
+    "name": "Modified Luk Boots",
+    "id": 22118,
+    "slot": "boot"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "def": 38,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 20968,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Temporal Luk Boots",
+    "id": 22011,
+    "slot": "boot"
+   },
+   {
+    "name": "Modified Luk Boots",
+    "id": 22118,
+    "slot": "boot"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "hp": 300,
+   "sp": 30,
+   "def": 58,
+   "aspd": 1,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 20968,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Temporal Luk Boots",
+    "id": 22011,
+    "slot": "boot"
+   },
+   {
+    "name": "Modified Luk Boots",
+    "id": 22118,
+    "slot": "boot"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "def": 38,
+   "aspdPercent": 15,
+   "atkPercent": 7,
+   "cri": 21,
+   "criDmg": 21,
+   "perfectHit": 5,
+   "p_pene_race_brute": 30,
+   "p_pene_race_demon": 30,
+   "m_pene_race_demon": 30,
+   "m_pene_race_brute": 30
+  }
+ },
+ {
+  "target": 20968,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Temporal Luk Boots",
+    "id": 22011,
+    "slot": "boot"
+   },
+   {
+    "name": "Modified Luk Boots",
+    "id": 22118,
+    "slot": "boot"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "hp": 800,
+   "sp": 80,
+   "def": 58,
+   "aspd": 1,
+   "aspdPercent": 15,
+   "atkPercent": 7,
+   "cri": 21,
+   "criDmg": 31,
+   "perfectHit": 5,
+   "p_pene_race_brute": 60,
+   "p_pene_race_demon": 60,
+   "m_pene_race_demon": 60,
+   "m_pene_race_brute": 60
+  }
+ },
+ {
+  "target": 24443,
+  "targetSlot": "shadowWeapon",
+  "partners": [
+   {
+    "name": "Ignition Shadow Pendant",
+    "id": 24444,
+    "slot": "shadowPendant"
+   },
+   {
+    "name": "Ignition Shadow Earring",
+    "id": 24445,
+    "slot": "shadowEarring"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 24443,
+  "targetSlot": "shadowWeapon",
+  "partners": [
+   {
+    "name": "Ignition Shadow Pendant",
+    "id": 24444,
+    "slot": "shadowPendant"
+   },
+   {
+    "name": "Ignition Shadow Earring",
+    "id": 24445,
+    "slot": "shadowEarring"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "2006": 5,
+   "perfectHit": 5,
+   "cd__2006": 0.2
+  }
+ },
+ {
+  "target": 24443,
+  "targetSlot": "shadowWeapon",
+  "partners": [
+   {
+    "name": "Ignition Shadow Pendant",
+    "id": 24444,
+    "slot": "shadowPendant"
+   },
+   {
+    "name": "Ignition Shadow Earring",
+    "id": 24445,
+    "slot": "shadowEarring"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "atk": 15,
+   "matk": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 24443,
+  "targetSlot": "shadowWeapon",
+  "partners": [
+   {
+    "name": "Ignition Shadow Pendant",
+    "id": 24444,
+    "slot": "shadowPendant"
+   },
+   {
+    "name": "Ignition Shadow Earring",
+    "id": 24445,
+    "slot": "shadowEarring"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "2006": 64,
+   "hp": 300,
+   "atk": 15,
+   "matk": 15,
+   "perfectHit": 5,
+   "cd__2006": 0.7
+  }
+ },
+ {
+  "target": 24443,
+  "targetSlot": "shadowWeapon",
+  "partners": [
+   {
+    "name": "Rune Knight Shield Shadow",
+    "id": 24301,
+    "slot": "shadowShield"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 24443,
+  "targetSlot": "shadowWeapon",
+  "partners": [
+   {
+    "name": "Rune Knight Shield Shadow",
+    "id": 24301,
+    "slot": "shadowShield"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "perfectHit": 5,
+   "p_pene_race_all": 40
+  }
+ },
+ {
+  "target": 24443,
+  "targetSlot": "shadowWeapon",
+  "partners": [
+   {
+    "name": "Rune Knight Shield Shadow",
+    "id": 24301,
+    "slot": "shadowShield"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "atk": 15,
+   "matk": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 24443,
+  "targetSlot": "shadowWeapon",
+  "partners": [
+   {
+    "name": "Rune Knight Shield Shadow",
+    "id": 24301,
+    "slot": "shadowShield"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "hp": 150,
+   "atk": 15,
+   "matk": 15,
+   "perfectHit": 5,
+   "p_pene_race_all": 70
+  }
+ },
+ {
+  "target": 24663,
+  "targetSlot": "shadowArmor",
+  "partners": [
+   {
+    "name": "Full Penetration Shadow Shoes",
+    "id": 24664,
+    "slot": "shadowBoot"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "perfectHit": 5,
+   "p_pene_race_all": 5
+  }
+ },
+ {
+  "target": 24663,
+  "targetSlot": "shadowArmor",
+  "partners": [
+   {
+    "name": "Full Penetration Shadow Shoes",
+    "id": 24664,
+    "slot": "shadowBoot"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "atkPercent": 2,
+   "perfectHit": 5,
+   "p_pene_race_all": 10
+  }
+ },
+ {
+  "target": 24663,
+  "targetSlot": "shadowArmor",
+  "partners": [
+   {
+    "name": "Full Penetration Shadow Shoes",
+    "id": 24664,
+    "slot": "shadowBoot"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "hp": 150,
+   "perfectHit": 5,
+   "p_race_all": 3,
+   "p_pene_race_all": 12
+  }
+ },
+ {
+  "target": 24663,
+  "targetSlot": "shadowArmor",
+  "partners": [
+   {
+    "name": "Full Penetration Shadow Shoes",
+    "id": 24664,
+    "slot": "shadowBoot"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "hp": 300,
+   "atkPercent": 2,
+   "perfectHit": 5,
+   "p_race_all": 6,
+   "p_pene_race_all": 124
+  }
+ },
+ {
+  "target": 24681,
+  "targetSlot": "shadowEarring",
+  "partners": [
+   {
+    "name": "Maximum Mammoth Shadow Pendant",
+    "id": 24682,
+    "slot": "shadowPendant"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "atkPercent": 3,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 24681,
+  "targetSlot": "shadowEarring",
+  "partners": [
+   {
+    "name": "Maximum Mammoth Shadow Pendant",
+    "id": 24682,
+    "slot": "shadowPendant"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "atkPercent": 8,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 24681,
+  "targetSlot": "shadowEarring",
+  "partners": [
+   {
+    "name": "Maximum Mammoth Shadow Pendant",
+    "id": 24682,
+    "slot": "shadowPendant"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "hp": 150,
+   "hpPercent": 3,
+   "atkPercent": 3,
+   "melee": 7,
+   "range": 7,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 24681,
+  "targetSlot": "shadowEarring",
+  "partners": [
+   {
+    "name": "Maximum Mammoth Shadow Pendant",
+    "id": 24682,
+    "slot": "shadowPendant"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "hp": 300,
+   "hpPercent": 6,
+   "atkPercent": 8,
+   "melee": 14,
+   "range": 14,
+   "perfectHit": 5,
+   "p_element_all": 12
+  }
+ },
+ {
+  "target": 420020,
+  "targetSlot": "headLower",
+  "partners": [
+   {
+    "name": "Temporal Luk Manteau",
+    "id": 20968,
+    "slot": "garment"
+   },
+   {
+    "name": "Unexpected Fortune Armor",
+    "id": 15346,
+    "slot": "armor"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 420020,
+  "targetSlot": "headLower",
+  "partners": [
+   {
+    "name": "Temporal Luk Manteau",
+    "id": 20968,
+    "slot": "garment"
+   },
+   {
+    "name": "Unexpected Fortune Armor",
+    "id": 15346,
+    "slot": "armor"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "def": 158,
+   "atk": 50,
+   "perfectHit": 5,
+   "p_race_all": 10
+  }
+ },
+ {
+  "target": 420020,
+  "targetSlot": "headLower",
+  "partners": [
+   {
+    "name": "Temporal Luk Manteau",
+    "id": 20968,
+    "slot": "garment"
+   },
+   {
+    "name": "Unexpected Fortune Armor",
+    "id": 15346,
+    "slot": "armor"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 420020,
+  "targetSlot": "headLower",
+  "partners": [
+   {
+    "name": "Temporal Luk Manteau",
+    "id": 20968,
+    "slot": "garment"
+   },
+   {
+    "name": "Unexpected Fortune Armor",
+    "id": 15346,
+    "slot": "armor"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "def": 158,
+   "aspdPercent": 15,
+   "atk": 130,
+   "atkPercent": 7,
+   "melee": 10,
+   "range": 10,
+   "cri": 21,
+   "criDmg": 43,
+   "perfectHit": 5,
+   "p_size_all": 10,
+   "p_element_earth": 10,
+   "p_element_wind": 10,
+   "p_race_all": 10,
+   "p_race_brute": 10,
+   "p_race_demon": 10,
+   "p_pene_race_brute": 60,
+   "p_pene_race_demon": 60,
+   "m_pene_race_demon": 30,
+   "m_pene_race_brute": 30
+  }
+ },
+ {
+  "target": 450127,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Automatic Engine Wing A-Type",
+    "id": 480020,
+    "slot": "garment"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "def": 135,
+   "atk": 125,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450127,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Automatic Engine Wing A-Type",
+    "id": 480020,
+    "slot": "garment"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "hp": 1500,
+   "def": 205,
+   "atk": 175,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450127,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Automatic Engine Wing A-Type",
+    "id": 480020,
+    "slot": "garment"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "def": 135,
+   "aspdPercent": 15,
+   "atk": 195,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450127,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Automatic Engine Wing A-Type",
+    "id": 480020,
+    "slot": "garment"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "hp": 2200,
+   "def": 205,
+   "aspdPercent": 22,
+   "atk": 245,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450127,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Automatic Engine Wing B-Type",
+    "id": 480021,
+    "slot": "garment"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "def": 135,
+   "atk": 125,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450127,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Automatic Engine Wing B-Type",
+    "id": 480021,
+    "slot": "garment"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "hp": 1500,
+   "def": 205,
+   "atk": 125,
+   "acd": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450127,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Automatic Engine Wing B-Type",
+    "id": 480021,
+    "slot": "garment"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "def": 135,
+   "aspdPercent": 15,
+   "atk": 195,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450127,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Automatic Engine Wing B-Type",
+    "id": 480021,
+    "slot": "garment"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "hp": 2200,
+   "def": 205,
+   "aspdPercent": 15,
+   "atk": 195,
+   "vct": 7,
+   "acd": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450177,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Gray Wolf Manteau",
+    "id": 480091,
+    "slot": "garment"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "def": 160,
+   "atk": 130,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450177,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Gray Wolf Manteau",
+    "id": 480091,
+    "slot": "garment"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "hp": 2500,
+   "def": 230,
+   "atk": 180,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450177,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Gray Wolf Manteau",
+    "id": 480091,
+    "slot": "garment"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "def": 160,
+   "aspdPercent": 15,
+   "atk": 235,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450177,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Gray Wolf Manteau",
+    "id": 480091,
+    "slot": "garment"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "hp": 3550,
+   "def": 230,
+   "aspdPercent": 22,
+   "atk": 285,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450177,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Gray Wolf Muffler",
+    "id": 480090,
+    "slot": "garment"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "def": 160,
+   "atk": 130,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450177,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Gray Wolf Muffler",
+    "id": 480090,
+    "slot": "garment"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "hp": 1500,
+   "def": 230,
+   "atk": 130,
+   "acd": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450177,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Gray Wolf Muffler",
+    "id": 480090,
+    "slot": "garment"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "def": 160,
+   "aspdPercent": 15,
+   "atk": 235,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 450177,
+  "targetSlot": "armor",
+  "partners": [
+   {
+    "name": "Gray Wolf Muffler",
+    "id": 480090,
+    "slot": "garment"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "hp": 2200,
+   "def": 230,
+   "aspdPercent": 15,
+   "atk": 235,
+   "vct": 7,
+   "acd": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480020,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Automatic Leg A-Type",
+    "id": 470022,
+    "slot": "boot"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "hp": 1500,
+   "def": 70,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480020,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Automatic Leg A-Type",
+    "id": 470022,
+    "slot": "boot"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "hp": 1500,
+   "sp": 250,
+   "def": 140,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480020,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Automatic Leg A-Type",
+    "id": 470022,
+    "slot": "boot"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "hp": 2200,
+   "def": 70,
+   "aspdPercent": 7,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480020,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Automatic Leg A-Type",
+    "id": 470022,
+    "slot": "boot"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "hp": 2200,
+   "sp": 390,
+   "def": 140,
+   "aspdPercent": 7,
+   "range": 7,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480020,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Automatic Leg B-Type",
+    "id": 470023,
+    "slot": "boot"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "hp": 1500,
+   "def": 70,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480020,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Automatic Leg B-Type",
+    "id": 470023,
+    "slot": "boot"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "hp": 1500,
+   "sp": 250,
+   "def": 140,
+   "vct": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480020,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Automatic Leg B-Type",
+    "id": 470023,
+    "slot": "boot"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "hp": 2200,
+   "def": 70,
+   "aspdPercent": 7,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480020,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Automatic Leg B-Type",
+    "id": 470023,
+    "slot": "boot"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "hp": 2200,
+   "sp": 390,
+   "def": 140,
+   "aspdPercent": 7,
+   "vct": 15,
+   "perfectHit": 5,
+   "m_my_element_all": 7
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Wakwak Card",
+    "id": 4588,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "def": 30,
+   "allStatus": 5,
+   "str": 5,
+   "int": 5,
+   "dex": 5,
+   "luk": 5,
+   "vit": 5,
+   "agi": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Wakwak Card",
+    "id": 4588,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "def": 30,
+   "allStatus": 5,
+   "str": 5,
+   "int": 5,
+   "dex": 5,
+   "luk": 5,
+   "vit": 5,
+   "agi": 5,
+   "sta": 4,
+   "perfectHit": 5,
+   "p_element_all": 15
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Wakwak Card",
+    "id": 4588,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "def": 30,
+   "aspdPercent": 5,
+   "atk": 40,
+   "atkPercent": 15,
+   "matk": 40,
+   "matkPercent": 15,
+   "allStatus": 12,
+   "str": 12,
+   "int": 12,
+   "dex": 12,
+   "luk": 12,
+   "vit": 12,
+   "agi": 12,
+   "vct": 5,
+   "acd": 5,
+   "perfectHit": 5,
+   "p_element_all": 9,
+   "m_element_all": 9
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Wakwak Card",
+    "id": 4588,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "def": 30,
+   "aspdPercent": 5,
+   "atk": 40,
+   "atkPercent": 15,
+   "matk": 40,
+   "matkPercent": 15,
+   "allStatus": 12,
+   "str": 12,
+   "int": 12,
+   "dex": 12,
+   "luk": 12,
+   "vit": 12,
+   "agi": 12,
+   "sta": 4,
+   "vct": 5,
+   "acd": 5,
+   "perfectHit": 5,
+   "p_element_all": 24,
+   "m_element_all": 9
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Antique Book Card",
+    "id": 4596,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "def": 30,
+   "allStatus": 5,
+   "str": 5,
+   "int": 5,
+   "dex": 5,
+   "luk": 5,
+   "vit": 5,
+   "agi": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Antique Book Card",
+    "id": 4596,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "def": 30,
+   "allStatus": 5,
+   "str": 5,
+   "int": 5,
+   "dex": 5,
+   "luk": 5,
+   "vit": 5,
+   "agi": 5,
+   "spl": 4,
+   "perfectHit": 5,
+   "m_element_all": 15
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Antique Book Card",
+    "id": 4596,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "def": 30,
+   "aspdPercent": 5,
+   "atk": 40,
+   "atkPercent": 15,
+   "matk": 40,
+   "matkPercent": 15,
+   "allStatus": 12,
+   "str": 12,
+   "int": 12,
+   "dex": 12,
+   "luk": 12,
+   "vit": 12,
+   "agi": 12,
+   "vct": 5,
+   "acd": 5,
+   "perfectHit": 5,
+   "p_element_all": 9,
+   "m_element_all": 9
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Antique Book Card",
+    "id": 4596,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "def": 30,
+   "aspdPercent": 5,
+   "atk": 40,
+   "atkPercent": 15,
+   "matk": 40,
+   "matkPercent": 15,
+   "allStatus": 12,
+   "str": 12,
+   "int": 12,
+   "dex": 12,
+   "luk": 12,
+   "vit": 12,
+   "agi": 12,
+   "spl": 4,
+   "vct": 5,
+   "acd": 5,
+   "perfectHit": 5,
+   "p_element_all": 9,
+   "m_element_all": 24
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Cenere Card",
+    "id": 4595,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "def": 30,
+   "allStatus": 5,
+   "str": 5,
+   "int": 5,
+   "dex": 5,
+   "luk": 5,
+   "vit": 5,
+   "agi": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Cenere Card",
+    "id": 4595,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "def": 30,
+   "aspdPercent": 15,
+   "allStatus": 5,
+   "str": 5,
+   "int": 5,
+   "dex": 5,
+   "luk": 5,
+   "vit": 5,
+   "agi": 5,
+   "con": 4,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Cenere Card",
+    "id": 4595,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "def": 30,
+   "aspdPercent": 5,
+   "atk": 40,
+   "atkPercent": 15,
+   "matk": 40,
+   "matkPercent": 15,
+   "allStatus": 12,
+   "str": 12,
+   "int": 12,
+   "dex": 12,
+   "luk": 12,
+   "vit": 12,
+   "agi": 12,
+   "vct": 5,
+   "acd": 5,
+   "perfectHit": 5,
+   "p_element_all": 9,
+   "m_element_all": 9
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Cenere Card",
+    "id": 4595,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "def": 30,
+   "aspdPercent": 20,
+   "atk": 40,
+   "atkPercent": 15,
+   "matk": 40,
+   "matkPercent": 15,
+   "allStatus": 12,
+   "str": 12,
+   "int": 12,
+   "dex": 12,
+   "luk": 12,
+   "vit": 12,
+   "agi": 12,
+   "con": 4,
+   "vct": 5,
+   "acd": 5,
+   "perfectHit": 5,
+   "p_element_all": 9,
+   "m_element_all": 9
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Petal Card",
+    "id": 4594,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "def": 30,
+   "allStatus": 5,
+   "str": 5,
+   "int": 5,
+   "dex": 5,
+   "luk": 5,
+   "vit": 5,
+   "agi": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Petal Card",
+    "id": 4594,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "def": 30,
+   "allStatus": 5,
+   "str": 5,
+   "int": 5,
+   "dex": 5,
+   "luk": 5,
+   "vit": 5,
+   "agi": 5,
+   "pow": 4,
+   "criDmg": 20,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Petal Card",
+    "id": 4594,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "def": 30,
+   "aspdPercent": 5,
+   "atk": 40,
+   "atkPercent": 15,
+   "matk": 40,
+   "matkPercent": 15,
+   "allStatus": 12,
+   "str": 12,
+   "int": 12,
+   "dex": 12,
+   "luk": 12,
+   "vit": 12,
+   "agi": 12,
+   "vct": 5,
+   "acd": 5,
+   "perfectHit": 5,
+   "p_element_all": 9,
+   "m_element_all": 9
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Petal Card",
+    "id": 4594,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "def": 30,
+   "aspdPercent": 5,
+   "atk": 40,
+   "atkPercent": 15,
+   "matk": 40,
+   "matkPercent": 15,
+   "allStatus": 12,
+   "str": 12,
+   "int": 12,
+   "dex": 12,
+   "luk": 12,
+   "vit": 12,
+   "agi": 12,
+   "pow": 4,
+   "vct": 5,
+   "acd": 5,
+   "criDmg": 20,
+   "perfectHit": 5,
+   "p_element_all": 9,
+   "m_element_all": 9
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Menblatt Card",
+    "id": 4593,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "def": 30,
+   "allStatus": 5,
+   "str": 5,
+   "int": 5,
+   "dex": 5,
+   "luk": 5,
+   "vit": 5,
+   "agi": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Menblatt Card",
+    "id": 4593,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "def": 30,
+   "allStatus": 5,
+   "str": 5,
+   "int": 5,
+   "dex": 5,
+   "luk": 5,
+   "vit": 5,
+   "agi": 5,
+   "crt": 4,
+   "range": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Menblatt Card",
+    "id": 4593,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "def": 30,
+   "aspdPercent": 5,
+   "atk": 40,
+   "atkPercent": 15,
+   "matk": 40,
+   "matkPercent": 15,
+   "allStatus": 12,
+   "str": 12,
+   "int": 12,
+   "dex": 12,
+   "luk": 12,
+   "vit": 12,
+   "agi": 12,
+   "vct": 5,
+   "acd": 5,
+   "perfectHit": 5,
+   "p_element_all": 9,
+   "m_element_all": 9
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Menblatt Card",
+    "id": 4593,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "def": 30,
+   "aspdPercent": 5,
+   "atk": 40,
+   "atkPercent": 15,
+   "matk": 40,
+   "matkPercent": 15,
+   "allStatus": 12,
+   "str": 12,
+   "int": 12,
+   "dex": 12,
+   "luk": 12,
+   "vit": 12,
+   "agi": 12,
+   "crt": 4,
+   "range": 15,
+   "vct": 5,
+   "acd": 5,
+   "perfectHit": 5,
+   "p_element_all": 9,
+   "m_element_all": 9
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Jejeling Card",
+    "id": 4589,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "def": 30,
+   "allStatus": 5,
+   "str": 5,
+   "int": 5,
+   "dex": 5,
+   "luk": 5,
+   "vit": 5,
+   "agi": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Jejeling Card",
+    "id": 4589,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "hpPercent": 20,
+   "def": 30,
+   "allStatus": 5,
+   "str": 5,
+   "int": 5,
+   "dex": 5,
+   "luk": 5,
+   "vit": 5,
+   "agi": 5,
+   "wis": 4,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Jejeling Card",
+    "id": 4589,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "def": 30,
+   "aspdPercent": 5,
+   "atk": 40,
+   "atkPercent": 15,
+   "matk": 40,
+   "matkPercent": 15,
+   "allStatus": 12,
+   "str": 12,
+   "int": 12,
+   "dex": 12,
+   "luk": 12,
+   "vit": 12,
+   "agi": 12,
+   "vct": 5,
+   "acd": 5,
+   "perfectHit": 5,
+   "p_element_all": 9,
+   "m_element_all": 9
+  }
+ },
+ {
+  "target": 480306,
+  "targetSlot": "garment",
+  "partners": [
+   {
+    "name": "Jejeling Card",
+    "id": 4589,
+    "slot": "garmentCard"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "hpPercent": 20,
+   "def": 30,
+   "aspdPercent": 5,
+   "atk": 40,
+   "atkPercent": 15,
+   "matk": 40,
+   "matkPercent": 15,
+   "allStatus": 12,
+   "str": 12,
+   "int": 12,
+   "dex": 12,
+   "luk": 12,
+   "vit": 12,
+   "agi": 12,
+   "wis": 4,
+   "vct": 5,
+   "acd": 5,
+   "perfectHit": 5,
+   "p_element_all": 9,
+   "m_element_all": 9
+  }
+ },
+ {
+  "target": 490166,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Dragonic Slayer-LT",
+    "id": 600024,
+    "slot": "weapon"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "def": 10,
+   "atkPercent": 10,
+   "matkPercent": 10,
+   "vct": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 490166,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Dragonic Slayer-LT",
+    "id": 600024,
+    "slot": "weapon"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "hpPercent": 5,
+   "def": 10,
+   "atkPercent": 10,
+   "matkPercent": 10,
+   "vct": 10,
+   "perfectHit": 5,
+   "subsize_all": 10
+  }
+ },
+ {
+  "target": 490166,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Dragonic Slayer-LT",
+    "id": 600024,
+    "slot": "weapon"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "def": 10,
+   "atkPercent": 10,
+   "matkPercent": 10,
+   "vct": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 490166,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Dragonic Slayer-LT",
+    "id": 600024,
+    "slot": "weapon"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "2008": 45,
+   "5004": 45,
+   "hpPercent": 40,
+   "spPercent": 40,
+   "def": 10,
+   "atkPercent": 10,
+   "matkPercent": 10,
+   "range": 20,
+   "vct": 20,
+   "acd": 17,
+   "perfectHit": 5,
+   "subsize_all": 25
+  }
+ },
+ {
+  "target": 490166,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Oriental Sword-LT",
+    "id": 600023,
+    "slot": "weapon"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "def": 10,
+   "atkPercent": 10,
+   "matkPercent": 10,
+   "vct": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 490166,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Oriental Sword-LT",
+    "id": 600023,
+    "slot": "weapon"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "def": 10,
+   "atkPercent": 15,
+   "matkPercent": 10,
+   "vct": 10,
+   "perfectHit": 5,
+   "p_size_all": 15
+  }
+ },
+ {
+  "target": 490166,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Oriental Sword-LT",
+    "id": 600023,
+    "slot": "weapon"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "def": 10,
+   "atkPercent": 10,
+   "matkPercent": 10,
+   "vct": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 490166,
+  "targetSlot": "accLeft",
+  "partners": [
+   {
+    "name": "Oriental Sword-LT",
+    "id": 600023,
+    "slot": "weapon"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "2002": 40,
+   "2017": 40,
+   "5201": 10,
+   "def": 10,
+   "aspdPercent": 10,
+   "atk": 105,
+   "atkPercent": 15,
+   "matkPercent": 10,
+   "melee": 25,
+   "range": 25,
+   "vct": 10,
+   "cri": 25,
+   "criDmg": 25,
+   "perfectHit": 5,
+   "p_size_all": 15
+  }
+ },
+ {
+  "target": 600009,
+  "targetSlot": "weapon",
+  "partners": [
+   {
+    "name": "Great Hero Boots",
+    "id": 22238,
+    "slot": "boot"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 600009,
+  "targetSlot": "weapon",
+  "partners": [
+   {
+    "name": "Great Hero Boots",
+    "id": 22238,
+    "slot": "boot"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "hp": 1500,
+   "sp": 150,
+   "def": 15,
+   "atkPercent": 7,
+   "str": 10,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 600009,
+  "targetSlot": "weapon",
+  "partners": [
+   {
+    "name": "Great Hero Boots",
+    "id": 22238,
+    "slot": "boot"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "2002": 50,
+   "aspdPercent": 10,
+   "atk": 105,
+   "cri": 15,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 600009,
+  "targetSlot": "weapon",
+  "partners": [
+   {
+    "name": "Great Hero Boots",
+    "id": 22238,
+    "slot": "boot"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "2002": 50,
+   "hp": 1500,
+   "hpPercent": 5,
+   "sp": 150,
+   "spPercent": 5,
+   "def": 15,
+   "aspdPercent": 10,
+   "atk": 105,
+   "atkPercent": 12,
+   "matkPercent": 5,
+   "str": 10,
+   "vct": 5,
+   "acd": 5,
+   "fct": 0.7,
+   "cri": 15,
+   "criDmg": 15,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 600023,
+  "targetSlot": "weapon",
+  "partners": [
+   {
+    "name": "Hero Boots-LT",
+    "id": 470094,
+    "slot": "boot"
+   }
+  ],
+  "refine": 0,
+  "withPartner": false,
+  "status": {
+   "atkPercent": 5,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 600023,
+  "targetSlot": "weapon",
+  "partners": [
+   {
+    "name": "Hero Boots-LT",
+    "id": 470094,
+    "slot": "boot"
+   }
+  ],
+  "refine": 0,
+  "withPartner": true,
+  "status": {
+   "hp": 1500,
+   "sp": 150,
+   "def": 15,
+   "atkPercent": 15,
+   "pAtk": 2,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 600023,
+  "targetSlot": "weapon",
+  "partners": [
+   {
+    "name": "Hero Boots-LT",
+    "id": 470094,
+    "slot": "boot"
+   }
+  ],
+  "refine": 15,
+  "withPartner": false,
+  "status": {
+   "2002": 40,
+   "2017": 40,
+   "aspdPercent": 10,
+   "atk": 105,
+   "atkPercent": 5,
+   "melee": 15,
+   "range": 15,
+   "cri": 25,
+   "criDmg": 25,
+   "perfectHit": 5
+  }
+ },
+ {
+  "target": 600023,
+  "targetSlot": "weapon",
+  "partners": [
+   {
+    "name": "Hero Boots-LT",
+    "id": 470094,
+    "slot": "boot"
+   }
+  ],
+  "refine": 15,
+  "withPartner": true,
+  "status": {
+   "2002": 40,
+   "2017": 40,
+   "hp": 1500,
+   "hpPercent": 5,
+   "sp": 150,
+   "spPercent": 5,
+   "def": 15,
+   "aspdPercent": 10,
+   "atk": 105,
+   "atkPercent": 20,
+   "matkPercent": 5,
+   "pAtk": 2,
+   "melee": 15,
+   "range": 15,
+   "vct": 5,
+   "acd": 5,
+   "fct": 0.8,
+   "cri": 30,
+   "criDmg": 25,
+   "perfectHit": 15
+  }
+ }
+]

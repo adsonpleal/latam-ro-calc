@@ -110,14 +110,17 @@ describe('item.json: combo conditions', () => {
    * happens to share a name: the client re-issues items under new ids keeping the old
    * name, so one clause can fire for a partner nobody meant to include.
    *
-   * A ratchet rather than a ban, because 1.514 records still carry the old form. The
+   * A ratchet rather than a ban, because 1.500 records still carry the old form. The
    * number may only fall. When a run migrates a family, drop it to what that run leaves
    * behind so the ground gained is not given back.
    *
    * Cards are at zero: the family was migrated whole, 434 clauses on 201 records, against
-   * the behavioural baseline in card-set-migration.spec.ts. What is left is equipment.
+   * the behavioural baseline in card-set-migration.spec.ts. What is left is equipment, and
+   * it is being taken in batches rather than wholesale — the most recent was the 14 records
+   * (59 clauses) the Dragon Knight replay audit walked through, guarded by
+   * equipment-set-combo-migration.spec.ts.
    */
-  const RECORDS_ON_LEGACY_EQUIP = 1514;
+  const RECORDS_ON_LEGACY_EQUIP = 1500;
   const usesLegacyEquip = (item: any) => /EQUIP\[/.test(JSON.stringify(item.script ?? {}));
 
   it('does not grow the number of records matching a combo partner by name', () => {
