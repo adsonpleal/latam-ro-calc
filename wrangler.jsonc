@@ -37,5 +37,15 @@
     // Where the per-build card is rendered — latam-social, a separate service. Point it
     // somewhere else with a .dev.vars file when working on the card itself.
     "OG_ORIGIN": "https://social.latam-tools.com.br"
+  },
+  // Workers Logs, enabled from the dashboard and mirrored here so a local
+  // deploy does not turn it back off. Only /s/* reaches the Worker, so the
+  // volume is whatever share links get previewed — nowhere near the free
+  // daily event allowance.
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    }
   }
 }
