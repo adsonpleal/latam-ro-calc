@@ -19086,15 +19086,15 @@
       ],
       "criDmg": [
         "3---2",
-        "EQUIP_ID[22011]10"
+        "EQUIP_ID[22011||22118]10"
       ],
       "p_pene_race_brute": [
         "7===30",
-        "EQUIP_ID[22011]REFINE[armor,boot==21]20"
+        "EQUIP_ID[22011||22118]REFINE[armor,boot==21]20"
       ],
       "p_pene_race_demon": [
         "7===30",
-        "EQUIP_ID[22011]REFINE[armor,boot==21]20"
+        "EQUIP_ID[22011||22118]REFINE[armor,boot==21]20"
       ],
       "p_race_brute": [
         "9===10"

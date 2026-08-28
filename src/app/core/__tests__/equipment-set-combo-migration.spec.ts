@@ -28,12 +28,14 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  *   names *every* record sharing the partner's English name. A baseline can only prove the
  *   ids that are there behave; it cannot prove none is missing.
  *
- * One clause lost an alternative. `15346` (Unexpected Fortune Armor) named
- * `EQUIP[Temporal Luk Boots||Modified Temporal Luk Boots]`, and **no item carries the
- * second name** — it could never fire, so dropping it is behaviour-preserving and the
- * baseline confirms it. It is probably a typo for "Modified Luk Boots" (22118), which the
- * sibling `20968` names in the same set; correcting it would be a real behaviour change,
- * so it is deliberately NOT folded into this migration.
+ * One clause lost an alternative during the rewrite, and it turned out to be a real bug.
+ * `15346` (Unexpected Fortune Armor) named `EQUIP[Temporal Luk Boots||Modified Temporal Luk
+ * Boots]` and **no item carries the second name** — the boot is "Modified Luk Boots",
+ * without "Temporal" — so that branch could never fire. Dropping it was behaviour-preserving
+ * and the baseline confirms it, which is why it is not visible here. The pt-BR description
+ * then settled that the set really does take either boot, so it was fixed separately to
+ * `EQUIP_ID[22011||22118]`; that is a behaviour change and lives in temporal-luk-set.spec.ts
+ * rather than in this migration's baseline, which stays a pure no-op guard.
  */
 
 const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
