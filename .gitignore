@@ -45,8 +45,9 @@ Thumbs.db
 .env.local
 # Local overrides for `wrangler dev` (e.g. OG_ORIGIN pointing at a local MCP server).
 .dev.vars
-# Service-account key used by .claude/skills/triage-rrf-uploads to read the
-# community .rrf submissions with admin credentials.
+# Service-account key for admin reads of the shared issue tracker. Nothing in the
+# repo uses it any more (the skills reuse the `firebase login` token), but keep it
+# ignored so a stray copy never gets committed.
 .firebase-admin.json
 
 # Downloads and dumps from the replay skills (.rrf files, decoded output).

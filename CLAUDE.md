@@ -124,14 +124,17 @@ nothing left to publish from here. Manage it in the Firebase console if it ever 
 
 This project's own Firestore no longer receives anything. The `.rrf` recordings from the
 "Ajude o simulador" dialog now go to the shared issue tracker (project
-`issues-latam-tools`), into its `gravacoes` collection, and the retired
-`replay_submissions` collection is kept read-only as history. To go through the queue, use
-the `triage-rrf-uploads` skill, which authenticates as an administrator.
+`issues-latam-tools`), and the retired `replay_submissions` collection is kept read-only
+as history.
 
-**A recording is not a card.** It lands in an inbox only the tracker's admin can read, and
-nothing about it is reachable by URL. Promoting one — from the skill or from the tracker's
-`/admin/gravacoes` — is what *creates* the public card, with the `.rrf` attached. That is
-a triage decision, and the only step that publishes anything.
+**Recordings are triaged as cards, on the board with everything else.** A submission lands
+in the tracker's private `gravacoes` inbox and is promoted — from `/admin/gravacoes` — into
+a `tipo: "replay"` card in `backlog`, with the `.rrf` attached inline. Promotion is what
+publishes; it is a decision taken on the tracker, by hand. From this repo the queue is read
+with the `triage-backlog` skill, which owns replay cards like any other card and hands over
+both halves: `--get <id>` prints the recording's block (class, level, map, duration and the
+talent allocation), `--anexos <id> --out <path>` writes the `.rrf` to disk for
+`review-rrf-class`. There is no longer a skill that reads the inbox directly.
 
 ## Tests
 

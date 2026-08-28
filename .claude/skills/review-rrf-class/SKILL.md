@@ -23,7 +23,7 @@ Ask before starting; guessing these wastes a whole pass:
   collects them by hand precisely because a single-map session has none, and
   `triage-backlog --get <id>` prints them in the card's `gravação` block. Finding
   `traits: null` in the decoded file is the signal to read the card, not to ask the
-  reporter. (A recording still sitting in the inbox carries them via `triage-rrf-uploads`.)
+  reporter.
 - **Skill levels.** The `skillLevel` in the damage packet is reliable, but passive and
   toggle levels are not — ask (`learnedSkills` in the import gives the learned tree, which
   usually settles it).
@@ -52,11 +52,18 @@ Players share the recording in one of three ways, and all end up as the same byt
   Firestore doc id** in project `ragreplaystats`, collection `replays`; reads are public, so
   it downloads with no login. Don't try WebFetch or the browser — the page is client-rendered
   and returns nothing useful.
-- **Sent through the simulator's own "Ajude o simulador" dialog.** Those land in Firestore
-  and are picked up with the [`triage-rrf-uploads`](../triage-rrf-uploads/SKILL.md) skill —
-  use it instead of the steps below, and note that it hands you **the traits §0 tells you to
-  ask for** — read off the recording when it carried them, collected in the dialog when it
-  did not, and the listing says which.
+- **Sent through the simulator's own "Ajude o simulador" dialog.** Those are promoted onto
+  the tracker as `tipo: "replay"` cards and reach you through
+  [`triage-rrf`](../triage-rrf/SKILL.md), which picks which are worth a pass. Pull the file
+  with the board script instead of the steps below:
+
+  ```
+  node .claude/skills/triage-backlog/backlog.mjs --anexos <id> --out .scratch/<id>.rrf
+  ```
+
+  The card hands you **the traits §0 tells you to ask for**, printed by `--get <id>` in its
+  `gravação` block — read off the recording when it carried them, collected in the dialog
+  when it did not, and the block says which.
 
 ```
 node .claude/skills/review-rrf-class/fetch-recap.mjs "https://recap.latam-tools.com.br/?r=HdHAKyBShW"

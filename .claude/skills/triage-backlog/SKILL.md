@@ -9,12 +9,18 @@ The board is **issues.latam-tools.com.br** (Firebase project `issues-latam-tools
 collection `issues`), filtered to `projeto: "simulador"`. This skill owns every card on the
 board — `tipo: "bug"`, `tipo: "feature"` **and `tipo: "replay"`**.
 
-The recording cards used to be filtered out here, handed wholesale to
-[`triage-rrf-uploads`](../triage-rrf-uploads/SKILL.md). That split was drawn in the wrong
-place. What belongs to that skill is the **inbox**: the private queue of submitted `.rrf`
-files, which are not cards and never reach this query. A replay card is something a human
-already promoted *out* of that inbox and onto the board — it has a title, a status and a
-credit, and if it sits in `backlog` it is an accepted item of this queue like any other.
+The recording cards used to be filtered out here, handed wholesale to a skill that read the
+submission **inbox** — the private queue of `.rrf` files, which are not cards and never
+reach this query. That split was drawn in the wrong place. The inbox is now worked by hand
+on the tracker's `/admin/gravacoes` page, and promoting an entry there is what turns it
+into a card. A replay card is something a human already promoted *out* of that inbox and
+onto the board — it has a title, a status and a credit, and if it sits in `backlog` it is
+an accepted item of this queue like any other.
+
+Judging a whole queue of them — which are usable, which are worth a review pass — is
+[`triage-rrf`](../triage-rrf/SKILL.md), which reads this same board through this same
+script and joins it against the repo's spec coverage. Use it when the run is about
+recordings. What follows still applies to a replay card met on its own.
 
 Filtering it out cost a real triage run. A Shinkiro crit bug was filed twice on the same
 day, once as a bug card and once as the recording that proved it; `--list` showed only the

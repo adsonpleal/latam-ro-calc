@@ -9,8 +9,9 @@
 //   node .claude/skills/triage-backlog/backlog.mjs --mark <id> --status resolvido --note "..."
 //   node .claude/skills/triage-backlog/backlog.mjs --new --titulo "..." --descricao "..."
 //
-// Sibling of triage-rrf-uploads/fetch-submissions.mjs, same project and the same
-// credential; that one owns `tipo: "replay"`, this one owns everything else.
+// This owns every card of the project, `tipo: "replay"` included. The private
+// submission inbox it is promoted from is worked on the tracker's own
+// /admin/gravacoes page — there is no script for it here.
 //
 // The site itself renders in the browser, so fetching its HTML gives an empty
 // page — the board only exists over this API.
@@ -164,8 +165,8 @@ const flagValue = (f) => {
 /**
  * Every card of the project, recordings included.
  *
- * `tipo: "replay"` used to be filtered out here, on the grounds that recordings are
- * triage-rrf-uploads'. That is true of the *inbox* — an unpromoted submission is not a
+ * `tipo: "replay"` used to be filtered out here, on the grounds that recordings were
+ * another skill's. That is true of the *inbox* — an unpromoted submission is not a
  * card and never appears in this query. It is not true of a replay card that a human
  * already promoted into `backlog`: that is an accepted item in the triage queue, and
  * hiding it made `--list` under-report the column. It cost a real triage run once —
@@ -250,6 +251,16 @@ async function list() {
   const status = flagValue('--status') ?? 'backlog';
   const limit = Number(flagValue('--limit') ?? 50);
   const cards = byStatus(await fetchCards(), status).slice(0, limit);
+
+  // `--json` is the machine-readable board, for a sibling script that wants to join the
+  // cards against something else (triage-rrf/queue.mjs joins them against the repo's own
+  // spec coverage). It exists so that script does not need a second copy of the Firestore
+  // credential — one auth path, one query, two readers. The .rrf never appears here: the
+  // bytes live in the `anexos` subcollection, which this query does not touch.
+  if (hasFlag('--json')) {
+    console.log(JSON.stringify(cards, (k, v) => (v?.type === 'Buffer' ? undefined : v), 2));
+    return;
+  }
 
   // A triage run is the backlog column and nothing else (SKILL.md §1). Any other status is
   // a deliberate detour, so say so in the output — the agent reading this is the one who
@@ -477,7 +488,7 @@ else if (flagValue('--mark')) await mark();
 else if (hasFlag('--new')) await create();
 else {
   console.error(`uso:
-  --list [--status ${STATUSES.join('|')}|todas] [--limit N] [--projeto simulador]
+  --list [--status ${STATUSES.join('|')}|todas] [--limit N] [--projeto simulador] [--json]
   --get <id>
   --credits [--status resolvido]
   --anexos <id> [--out arquivo.rrf]   (o .rrf de uma ficha de gravação)
