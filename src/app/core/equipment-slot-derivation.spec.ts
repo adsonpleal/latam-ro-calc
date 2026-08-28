@@ -76,7 +76,10 @@ describe('deriveSlot', () => {
   });
 
   it('offers a grade only when the item can take one', () => {
-    expect(derive(ItemTypeEnum.armor, item({ canGrade: true })).gradeList.length).toBe(5);
+    // Four grades and no "Sem Grau" sentinel: the picker panel writes the empty value from
+    // its own "Nenhum" row, so carrying it here would offer the same choice twice.
+    expect(derive(ItemTypeEnum.armor, item({ canGrade: true })).gradeList.length).toBe(4);
+    expect(derive(ItemTypeEnum.armor, item({ canGrade: true })).gradeList.some((g) => g.value === '')).toBe(false);
     expect(derive(ItemTypeEnum.armor, item({ canGrade: false })).gradeList).toEqual([]);
     // No shadow piece has a grade field at all, whatever the item says.
     expect(derive(ItemTypeEnum.shadowArmor, item({ canGrade: true })).gradeList).toEqual([]);
@@ -96,6 +99,13 @@ describe('deriveSlot', () => {
     expect(derive(ItemTypeEnum.weapon, item({ aegisName: 'Qualquer_Arma' })).optionSlots).toBe(3);
     expect(derive(ItemTypeEnum.armor, item({ aegisName: 'Temporal_Armor_TW' })).optionSlots).toBe(2);
     expect(derive(ItemTypeEnum.armor, item({ aegisName: 'Nao_Esta_Na_Tabela' })).optionSlots).toBe(0);
+  });
+
+  it('always offers shadow gear both of its option slots, table or no table', () => {
+    // Shadow pieces roll their Bônus Aleatórios by piece, not by item: the old picker
+    // rendered both pickers unconditionally and never consulted ExtraOptionTable.
+    expect(derive(ItemTypeEnum.shadowWeapon, item({ aegisName: 'Nao_Esta_Na_Tabela' })).optionSlots).toBe(2);
+    expect(derive(ItemTypeEnum.shadowPendant, item({ aegisName: 'S_Sigrun_Shield' })).optionSlots).toBe(2);
   });
 
   it('never offers a boot a random option, whatever the table says', () => {

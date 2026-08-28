@@ -67,6 +67,7 @@ import { MonsterSpritePipe } from '../../../pipes/monster-sprite.pipe';
 import { MonsterTermPipe } from '../../../pipes/monster-term.pipe';
 import { CharSpritePipe } from '../../../pipes/char-sprite.pipe';
 import { MissingSkillIconDirective } from '../../../pipes/missing-skill-icon.directive';
+import { OverlayEscapeDirective } from './overlay-escape.directive';
 import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
 
 @NgModule({
@@ -117,6 +118,7 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
     CharSpritePipe,
     MissingSkillIconDirective,
     KeyActivateDirective,
+    OverlayEscapeDirective,
   ],
   declarations: [
     RoCalculatorComponent,

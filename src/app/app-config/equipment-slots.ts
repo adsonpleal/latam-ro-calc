@@ -17,7 +17,7 @@ import { ItemTypeEnum } from '../constants/item-type.enum';
  */
 
 /** Which heading a card sits under. */
-export type SlotGroup = 'equip' | 'costume' | 'shadow' | 'pet';
+export type SlotGroup = 'equip' | 'costume' | 'shadow';
 
 /**
  * Where a slot's refine list comes from. `accessory` is the odd one: an accessory is
@@ -25,8 +25,14 @@ export type SlotGroup = 'equip' | 'costume' | 'shadow' | 'pet';
  */
 export type RefineRule = 'none' | 'equip' | 'shadow' | 'accessory';
 
-/** How many Bônus Aleatório slots the item offers. */
-export type OptionSlotSource = 'weapon' | 'table' | 'none';
+/**
+ * How many Bônus Aleatório slots the item offers.
+ *
+ * `table` reads `ExtraOptionTable` per item; `fixed` always offers every index the slot
+ * declares, whatever the table says — shadow gear rolls its options by piece rather than
+ * by item, and the old picker never consulted the table for it.
+ */
+export type OptionSlotSource = 'weapon' | 'table' | 'fixed' | 'none';
 
 /** What gates the whole card. Mirrors the `[hidden]` expressions the old markup carried. */
 export type SlotVisibility = 'always' | 'leftWeapon' | 'shield';
@@ -144,7 +150,7 @@ const shadowLike = (key: ItemTypeEnum, itemListKey: string, optionIndexes: ItemO
   refine: 'shadow',
   grade: false,
   optionIndexes,
-  optionSlotSource: 'table',
+  optionSlotSource: 'fixed',
   comparable: canCompare(key),
   visibility: 'always',
 });
@@ -264,7 +270,9 @@ export const EQUIPMENT_SLOTS: readonly EquipmentSlotDescriptor[] = [
   {
     key: ItemTypeEnum.pet,
     label: labelOf(ItemTypeEnum.pet),
-    group: 'pet',
+    // The pet is not worn, but it is one more bonus source chosen a slot at a time, and a
+    // heading of its own for a single card was more furniture than signal.
+    group: 'equip',
     itemListKey: 'petList',
     cardFields: [],
     enchantFields: [],
@@ -282,15 +290,20 @@ export const SLOTS_BY_KEY: ReadonlyMap<ItemTypeEnum, EquipmentSlotDescriptor> = 
   EQUIPMENT_SLOTS.map((slot) => [slot.key, slot]),
 );
 
-export const SLOT_GROUP_LABELS: Record<SlotGroup, string> = {
-  equip: 'Equipamento',
-  costume: 'Visuais',
-  shadow: 'Equipamentos Sombrios',
-  pet: 'Pet',
-};
+/**
+ * The headings, in the order they are drawn, each naming the column it belongs to. One
+ * table rather than a label map plus an order plus a column list in the grid: a group
+ * added to `SlotGroup` but missing from the grid's column list rendered no cards and
+ * raised nothing.
+ */
+export const SLOT_GROUPS: readonly { key: SlotGroup; label: string; column: number }[] = [
+  { key: 'equip', label: 'Equipamento', column: 0 },
+  { key: 'costume', label: 'Visuais', column: 1 },
+  { key: 'shadow', label: 'Equipamentos Sombrios', column: 1 },
+];
 
-/** Group order on screen, top to bottom within a column. */
-export const SLOT_GROUP_ORDER: readonly SlotGroup[] = ['equip', 'costume', 'shadow', 'pet'];
+/** How many columns the cards are laid out in. */
+export const SLOT_COLUMN_COUNT = SLOT_GROUPS.reduce((most, group) => Math.max(most, group.column + 1), 0);
 
 /**
  * Every slot key a card can put into the comparison — its own plus its sub slots. A

@@ -58,12 +58,35 @@ const refineListFor = ({ descriptor, item, refineList, shadowRefineList }: Deriv
   }
 };
 
-const optionSlotsFor = (descriptor: EquipmentSlotDescriptor, item: ItemModel | undefined): number => {
-  const offered = descriptor.optionSlotSource === 'weapon' ? 3 : descriptor.optionSlotSource === 'table' ? ExtraOptionTable[item?.aegisName] || 0 : 0;
+/**
+ * The grades a slot offers. `getGradeList()` opens with a "Sem Grau" row whose value is
+ * `''`, which existed for the p-dropdown this replaced; the picker panel writes exactly
+ * that from its own "Nenhum" row, so carrying the sentinel would offer the same choice
+ * twice — and every later consumer would have to know to drop it.
+ */
+/** Built once: the list never varies, and deriveSlot runs for every slot of both builds on
+ *  every pick. It is only ever read. */
+const GRADE_OPTIONS: DropdownModel[] = getGradeList().filter((grade) => grade.value !== '');
 
-  // The descriptor is the ceiling: ExtraOptionTable can name an item whose slot has no
-  // rawOptionTxts index to write into (every boot, for one).
-  return Math.min(offered, descriptor.optionIndexes.length);
+const optionSlotsFor = (descriptor: EquipmentSlotDescriptor, item: ItemModel | undefined): number => {
+  // `fixed` means "no ceiling of its own" — shadow gear rolls its options by piece rather
+  // than by item. The Math.min below is what clamps every source to the indexes the slot
+  // actually has: ExtraOptionTable can name an item whose slot has no rawOptionTxts index
+  // to write into (every boot, for one).
+  const offered = (): number => {
+    switch (descriptor.optionSlotSource) {
+      case 'weapon':
+        return 3;
+      case 'fixed':
+        return Infinity;
+      case 'table':
+        return ExtraOptionTable[item?.aegisName] || 0;
+      default:
+        return 0;
+    }
+  };
+
+  return Math.min(offered(), descriptor.optionIndexes.length);
 };
 
 export function deriveSlot(input: DeriveSlotInput): SlotDerivation {
@@ -78,7 +101,7 @@ export function deriveSlot(input: DeriveSlotInput): SlotDerivation {
   return {
     cardSlots: Math.min(slots || 0, descriptor.cardFields.length),
     enchantLists: descriptor.enchantFields.map((field, index) => (field ? toEnchantOptions(positions[index], mapEnchant) : null)),
-    gradeList: descriptor.grade && canGrade ? getGradeList() : [],
+    gradeList: descriptor.grade && canGrade ? GRADE_OPTIONS : [],
     refineList: refineListFor(input),
     optionSlots: optionSlotsFor(descriptor, item),
   };

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { ExtraOptionMap } from '../utils/create-extra-option-list';
-import { filterOptions, searchOptionLeaves } from './picker-filter';
+import { buildFilterIndex, filterOptions, searchOptionLeaves } from './picker-filter';
 
 describe('filterOptions', () => {
   const options = [
@@ -8,20 +8,28 @@ describe('filterOptions', () => {
     { label: 'Balestra Ilusional', value: 1745, cardPrefix: '' },
     { label: 'Carta Andarilho', value: 4005, cardPrefix: 'Dir.' },
   ];
+  /** The panel builds this once on open; the term is what changes per keystroke. */
+  const on = (keys: string[]) => (term: string) => filterOptions(options, term, buildFilterIndex(options, keys));
 
   it('returns everything for an empty term', () => {
-    expect(filterOptions(options, '   ', ['label'])).toHaveLength(3);
+    expect(on(['label'])('   ')).toHaveLength(3);
   });
 
   it('matches case-insensitively on any of the named keys', () => {
-    expect(filterOptions(options, 'ARCO', ['label', 'value']).map((o) => o.value)).toEqual([1748]);
+    expect(on(['label', 'value'])('ARCO').map((o) => o.value)).toEqual([1748]);
     // The old picker let people paste an item id into the filter; keep that working.
-    expect(filterOptions(options, '1745', ['label', 'value']).map((o) => o.value)).toEqual([1745]);
-    expect(filterOptions(options, 'dir.', ['label', 'cardPrefix', 'value']).map((o) => o.value)).toEqual([4005]);
+    expect(on(['label', 'value'])('1745').map((o) => o.value)).toEqual([1745]);
+    expect(on(['label', 'cardPrefix', 'value'])('dir.').map((o) => o.value)).toEqual([4005]);
   });
 
   it('ignores a key the option does not carry', () => {
-    expect(filterOptions(options, 'dir.', ['label', 'value'])).toEqual([]);
+    expect(on(['label', 'value'])('dir.')).toEqual([]);
+  });
+
+  it('does not let a term straddle two fields', () => {
+    // The joiner between keys is a character no label contains, so "certeiro1748" (label
+    // end + value start) must not match the way a plain concatenation would let it.
+    expect(on(['label', 'value'])('certeiro1748')).toEqual([]);
   });
 });
 

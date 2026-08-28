@@ -1,12 +1,27 @@
 <div class="eq-grid">
-  <div class="eq-grid__ribbon">
-    <span class="eq-ribbon" [pTooltip]="ribbonTitle" tooltipPosition="right" [showDelay]="350">⇄ {{ ribbonText }}</span>
-    <button *ngIf="compareCount" type="button" class="eq-ribbon__clear" (click)="onClearComparison()">Limpar comparação</button>
+  <!-- Only worth a line when something is actually being compared; the per-card toggles
+       are what turn a comparison on. The tooltip sits on the text and the ✕ carries its
+       own, so hovering either says what it does. -->
+  <div class="eq-grid__ribbon" *ngIf="compareCount">
+    <span class="eq-ribbon">
+      <span class="eq-ribbon__text" [pTooltip]="ribbonTitle" tooltipPosition="right" [showDelay]="350">⇄ {{ ribbonText }}</span>
+      <button
+        type="button"
+        class="eq-ribbon__clear"
+        aria-label="Limpar comparação"
+        pTooltip="Limpar comparação"
+        tooltipPosition="right"
+        [showDelay]="350"
+        (click)="onClearComparison()"
+      >
+        ✕
+      </button>
+    </span>
   </div>
 
   <div class="eq-grid__columns">
-    <div class="eq-grid__column" *ngFor="let column of columns">
-      <ng-container *ngFor="let group of column">
+    <div class="eq-grid__column" *ngFor="let column of columns; trackBy: trackIndex">
+      <ng-container *ngFor="let group of column; trackBy: trackGroup">
         <div class="eq-grid__group">
           <span class="eq-grid__group-label">{{ group.label }}</span>
           <span class="eq-grid__rule"></span>
@@ -28,6 +43,7 @@
           (pickField)="onPickField($event)"
           (clearSlot)="onClearSlot(slot)"
           (toggleCompare)="onToggleCompare(slot)"
+          (clearCompare)="onClearCompareSlot(slot)"
         ></app-equipment-slot-card>
       </ng-container>
     </div>

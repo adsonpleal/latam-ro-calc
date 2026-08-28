@@ -65,7 +65,6 @@ import { environment } from 'src/environments/environment';
 import { getClassDropdownList } from '../../../jobs/_class-list';
 import { HIDDEN_CLASS_IDS } from '../../../jobs/hidden-classes';
 import { racePtBr, sizePtBr, elementPtBr } from '../../../constants/monster-i18n';
-import { itemSlotLabelPtBr } from '../../../constants/item-slot-i18n';
 import { ChanceModel } from '../../../models/chance-model';
 import { BasicDamageSummaryModel, DamageFormulaCalc, SkillDamageSummaryModel } from '../../../models/damage-summary.model';
 import { DropdownModel, ItemDropdownModel } from '../../../models/dropdown.model';
@@ -80,7 +79,9 @@ import { Calculator } from 'src/app/core/calculator';
 import { resolveOffHandEviction } from 'src/app/core/off-hand-slots';
 import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectConsumables } from 'src/app/core/calculator-controller';
 import { CalcStorage } from 'src/app/core/calc-storage';
+import { ElementType } from 'src/app/constants/element-type.const';
 import { CompareState } from 'src/app/core/compare-state';
+import { SLOTS_BY_KEY } from 'src/app/app-config/equipment-slots';
 import { SlotListBag } from './equipment-grid/slot-list-bag.model';
 import { compactRotationForShare, firstRealSkill, isBasicAttack, normalizeRotation, pruneRotationForClass } from 'src/app/core/rotation';
 import { RotationScheduleStep } from 'src/app/core/rotation-schedule';
@@ -103,7 +104,7 @@ import { MonsterDataViewComponent } from './monster-data-view/monster-data-view.
 import { SavedSimulation, SavedSimulationStore } from 'src/app/core/saved-simulations';
 import { isDefenderKey, PlayerTargetProfile, PvpMode } from 'src/app/core/pvp';
 import { buildReductionCategories, collectContributingKeys, ReductionCategory, ReductionRow, reductionRowClickable as reductionRowClickableFn, sourcesContributeAnyKey } from './reduction-breakdown';
-import { buildStatsSummary, StatsSummaryView, SummaryHeadline, SummaryRow } from './stats-summary';
+import { buildStatsSummary, statOriginFor, StatsSummaryView, SummaryHeadline, SummaryRow } from './stats-summary';
 import { encodeBuild, decodeShared } from 'src/app/core/share-codec';
 import { shareEntryHref } from 'src/app/core/share-entry';
 import { buildSharePath, readShareToken, SHARE_PATH_PREFIX } from 'src/app/core/share-path';
@@ -130,6 +131,8 @@ interface ClassModel extends Partial<Record<ItemTypeEnum, number>> {
   accRightGrade?: any;
   /** Not a slot id: the pet's loyalty tier, which travels with `pet` when it is compared. */
   petLoyalty?: PetLoyalty;
+  /** Not a slot id either: the weapon's element converter, which travels with `weapon`. */
+  propertyAtk?: ElementType;
 }
 
 const HideHpSp = {
@@ -522,7 +525,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   headSlotOccupiedBy: Partial<Record<ItemTypeEnum, string>> = {};
   isAllowLeftWeaponByClass = false;
   showLeftWeapon = false;
-  isWeaponCanGrade = false;
 
   /**
    * True when the off-hand weapon row belongs on screen: a main weapon is equipped, the
@@ -539,9 +541,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   showCompareItemMap = {} as any;
   compareItemNames = [] as ItemTypeEnum[];
   compareItemList: (keyof typeof ItemTypeEnum)[] = [...AllowedCompareItemTypes];
-  // Display options for the "comparar slot" multiselect: pt-BR label, English value.
-  // Starts as the full list and is narrowed to the class by setClassInstant().
-  compareItemOptions = this.compareItemList.map((v) => ({ label: itemSlotLabelPtBr(v), value: v }));
 
   /**
    * The option lists the equipment grid reads, addressed by the names the slot
@@ -761,13 +760,25 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
               }
             }
 
-            // The pet's loyalty tier is not a related *item*, it is a model field the
-            // condition parser reads (LOYALTY[n] in calculator.ts), so it has to be
-            // carried across by hand or the compared egg would be priced at the main
-            // build's tier. The tiers replace one another rather than stacking, so that
-            // would not be a small error — it would be the wrong bonus entirely.
-            if (itemTypeName === ItemTypeEnum.pet) {
+            // The loose model fields a slot owns: the pet's loyalty tier, the weapon's
+            // element converter and its ammo. None is a related *item*, so prepare()'s merge
+            // would fall through to the main build's and the comparison could never answer
+            // "this weapon, converted" against "this weapon, plain" — or, worse for the pet,
+            // would price the compared egg at the main build's tier, which is the wrong
+            // bonus entirely rather than a small error, since the tiers replace one another.
+            //
+            // Read off the descriptor rather than matched by slot name, so the flags that
+            // draw these chips (equipment-chips.ts) and the pass that compares them cannot
+            // end up disagreeing about which slots have them.
+            const slot = SLOTS_BY_KEY.get(itemTypeName as ItemTypeEnum);
+            if (slot?.loyalty) {
               model2.petLoyalty = hasMainItem ? this.model2.petLoyalty || DEFAULT_PET_LOYALTY : null;
+            }
+            if (slot?.converter) {
+              model2.propertyAtk = hasMainItem ? this.model2.propertyAtk || null : null;
+            }
+            if (slot?.ammo) {
+              model2.ammo = hasMainItem ? this.model2.ammo || null : null;
             }
 
             if (!hasMainItem) {
@@ -1565,8 +1576,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    */
   private restoreCompareState(state: CompareState | null): void {
     // Against compareSlotsForClass(), not the full list: a share link or a saved sim can
-    // carry an off-hand comparison into a class that has no off hand, and a tick with no
-    // row behind it would sit in the picker doing nothing.
+    // carry an off-hand comparison into a class that has no off hand, and a comparison
+    // with no card behind it would be counted without ever being shown.
     const offeredSlots = this.compareSlotsForClass();
     const names = (state?.itemNames ?? []).filter((n) =>
       offeredSlots.includes(n as keyof typeof ItemTypeEnum),
@@ -2135,14 +2146,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.calculator.setClass(this.selectedCharacter);
     this.isAllowTraitStat = this.selectedCharacter.isAllowTraitStat();
     this.isAllowLeftWeaponByClass = AllowLeftWeaponMapper[this.selectedCharacter.className] || false;
-    this.compareItemOptions = this.compareSlotsForClass().map((v) => ({ label: itemSlotLabelPtBr(v), value: v }));
   }
 
   /**
-   * The slots the "comparar slot" picker offers for the current class. Only the Assassin
-   * and the Kagerou/Oboro lines put a weapon in the off hand (see AllowLeftWeaponMapper
-   * for the bROWiki wording), so for everyone else that row can never appear and offering
-   * it would be a tick that does nothing.
+   * The slots a comparison may hold for the current class. Only the Assassin and the
+   * Kagerou/Oboro lines put a weapon in the off hand (see AllowLeftWeaponMapper for the
+   * bROWiki wording), so for everyone else that card never appears and a comparison on it
+   * would be counted without ever being shown.
    */
   private compareSlotsForClass(): (keyof typeof ItemTypeEnum)[] {
     return this.compareItemList.filter((slot) => (slot as string) !== ItemTypeEnum.leftWeapon || this.isAllowLeftWeaponByClass);
@@ -2958,7 +2968,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // in order to check is the weapon allow to hold shield or left weapon or not
     if (itemType === ItemTypeEnum.weapon) {
       this.calculator.setWeapon({ itemId, refine });
-      this.isWeaponCanGrade = this.items[itemId]?.canGrade || false;
     }
 
     this.updateItemEvent.next(itemType);
@@ -2976,18 +2985,18 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       this.model[`${itemType}Grade`] = '';
     }
 
+    // The slot's own Bônus Aleatórios go with its item. From the descriptor rather than a
+    // literal index range: this runs for the eviction paths too (a two-handed weapon
+    // dropping the shield, a shield dropping the off-hand), which used to leave the
+    // evicted slot's options behind in the autosave and the share link.
+    for (const index of SLOTS_BY_KEY.get(itemType as ItemTypeEnum)?.optionIndexes ?? []) {
+      this.model.rawOptionTxts[index] = undefined;
+    }
+
     if (itemType === ItemTypeEnum.weapon) {
       this.model.propertyAtk = undefined;
       this.model.ammo = undefined;
-      for (let i = 0; i <= 5; i++) {
-        this.model.rawOptionTxts[i] = undefined;
-      }
-
       this.onClearItem(ItemTypeEnum.leftWeapon);
-    } else if (itemType === ItemTypeEnum.leftWeapon) {
-      for (let i = 3; i <= 5; i++) {
-        this.model.rawOptionTxts[i] = undefined;
-      }
     }
 
     const relatedItems = MainItemWithRelations[itemType as ItemTypeEnum] || [];
@@ -3273,15 +3282,16 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // the TARGET's gear, not the attacker's — check the target map. There is no compared
     // target, so that branch belongs to the main column alone.
     if (!compare && this.isAllDefenderKeys(keys)) return sourcesContributeAnyKey(this.pvpTargetSources, keys);
-    // Trait-derived stats (P.ATQ/S.ATQM/T.CRÍT, ATQ) always have something to say even
-    // with no equipment behind them: showBonusBreakdown adds the "Atributos (…)" row for
-    // the attribute-sourced remainder. Without this they render inert whenever the value
-    // comes purely from stats — which is precisely when the user most wants to be told so.
+    // A value with a known non-equipment origin (Precisão, Esquiva, HP máx., P.ATQ…)
+    // always has something to say even with no equipment behind it: showBonusBreakdown
+    // adds the origin's own row for whatever the equipment does not account for. Without
+    // this they render inert whenever the value comes purely from attributes — which is
+    // precisely when the reader most wants to be told so.
     // `compare` asks the same of the compared build, so a "→ simulado" value can't offer a
     // click opening an empty dialog on exactly the swap that removed a bonus's last source.
     const sourced = compare ? this.bonusBreakdownKeys2 : this.bonusBreakdownKeys;
 
-    return keys.some((k) => sourced.has(k)) || !!this.traitDerivedDef(keys);
+    return keys.some((k) => sourced.has(k)) || !!statOriginFor(keys);
   };
 
   /** buildStatsSummary returns fresh objects on every calculation, so without these the
@@ -3312,13 +3322,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    *  always target-sourced (these keys only exist on a player target). */
   private isAllDefenderKeys(keys: string[]): boolean {
     return keys.length > 0 && keys.every(isDefenderKey);
-  }
-
-  /** The trait-derived definition for a lookup, if it has one. Single source of the
-   *  "only single-key lookups can carry an attribute remainder" rule — canBreakdown
-   *  (clickability) and showBonusBreakdown (the row itself) must never disagree on it. */
-  private traitDerivedDef(keys: string[]): { total?: () => number; label: string } | null {
-    return keys.length === 1 ? this.traitDerivedBreakdownKeys[keys[0]] ?? null : null;
   }
 
   private readonly mainStats = new Set(['str', 'agi', 'vit', 'int', 'dex', 'luk']);
@@ -3367,21 +3370,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     const shown = this.isReductionKey(key) ? -v : v;
     return this.formatSignedValue(shown, this.isPercentKey(key));
   }
-
-  /** Keys whose full displayed value is never just an equipment sum, so bonusBreakdownSources
-   *  can only ever surface the equip-sourced slice — showBonusBreakdown shows the remainder
-   *  as its own row instead of silently under-counting. `total`, when given, reads the real
-   *  combined value directly (P.ATQ/S.ATQM/T.CRÍT blend in POD/CON/FEI/CRV trait stats via
-   *  DamageCalculator's `traitBonus` getter, not `totalBonus`, so there's a single dedicated
-   *  field for it on totalSummary.dmg). Without a `total` getter, the *clicked row's own
-   *  value* is used instead (event.total) — that's the case for "ATQ", which also carries
-   *  character stats, weapon base, refine, etc. beyond any one summable equip key. */
-  private readonly traitDerivedBreakdownKeys: Record<string, { total?: () => number; label: string }> = {
-    pAtk: { total: () => this.totalSummary?.dmg?.pAtk || 0, label: 'Atributos (POD/CON)' },
-    sMatk: { total: () => this.totalSummary?.dmg?.sMatk || 0, label: 'Atributos (FEI/CON)' },
-    cRate: { total: () => this.totalSummary?.dmg?.cRate || 0, label: 'Atributos (CRV)' },
-    atk: { label: 'Base (arma/atributos/outros)' },
-  };
 
   /** Keep only the defender-reduction slice of each source's bonus map (and drop
    *  sources left with nothing) — the target reduction popover never needs the rest. */
@@ -3432,6 +3420,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     const compareItemMap = new Map([...this.equipItemIdItemTypeMap, ...this.equipCompareItemIdItemTypeMap]);
     const itemMap = event.itemMap ?? (event.compare ? compareItemMap : targetScoped ? this.pvpTargetItemMap : this.equipItemIdItemTypeMap);
     const tooltips = event.compare ? this.bonusBreakdownTooltips2 : this.bonusBreakdownTooltips;
+    // Present when the value carries more than equipment (Precisão, HP máx., ATQ...). Its
+    // `sumKeys` narrows what the origin row is the remainder of, so the same walk below
+    // both lists the sources and totals the slice that subtracts from the value cleanly.
+    const origin = statOriginFor(event.keys);
+    const originKeys = new Set(origin?.sumKeys ?? event.keys);
+    let originEquipSum = 0;
     for (const [srcKey, bonusMap] of Object.entries(sources || {})) {
       if (!bonusMap || typeof bonusMap !== 'object') continue;
       // A single source can contribute BOTH a flat and a percent bonus for the same
@@ -3446,6 +3440,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         if (typeof v === 'number' && v !== 0) {
           if (this.isPercentKey(k)) pctSum += v;
           else flatSum += v;
+          if (originKeys.has(k)) originEquipSum += v;
         }
       }
       if (!flatSum && !pctSum) continue;
@@ -3455,19 +3450,21 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       rows.push({ ...this.resolveBonusSource(srcKey, flatSum + pctSum, itemMap), display: parts.join(' '), tooltip: tooltips[srcKey] });
     }
 
-    // Trait stats (P.ATQ/S.ATQM/T.CRÍT) mix POD/CON/FEI/CRV attributes into the same
-    // number equip bonuses feed, and "ATQ" mixes in weapon base/refine/character stats —
-    // without this, the dialog's rows would visibly add up to less than the value the
-    // user clicked on.
-    {
-      const traitDef = this.traitDerivedDef(event.keys);
-      const total = traitDef?.total ? traitDef.total() : event.total;
-      if (traitDef && total != null) {
-        const equipSum = rows.reduce((sum, r) => sum + r.value, 0);
-        const baseAmount = total - equipSum;
-        if (baseAmount !== 0) {
-          rows.push({ label: traitDef.label, iconType: 'skill', value: baseAmount, display: this.formatSignedValue(baseAmount, false) });
-        }
+    // Most of the panel's values are not sums of equipment at all — Precisão is mostly
+    // nível+DES+SOR+CON, HP máx. is a class table scaled by VIT, ATQ mixes in the weapon's
+    // base and refine. Without this row the dialog's sources would visibly add up to a
+    // fraction of the number that was clicked, or to nothing at all. See StatOrigin.
+    if (origin) {
+      // A damage-graph node passes the value that was actually clicked, which is the one
+      // its rows have to add up to; the summary panel passes none, so the origin reads the
+      // build's own figure. The compared column reads the compared build — resolving a
+      // "→ simulado" value against the main one would print the wrong remainder on exactly
+      // the swap the reader is inspecting.
+      const total = event.total ?? origin.total(event.compare ? this.totalSummary2 : this.totalSummary);
+      const baseAmount = total - originEquipSum;
+      if (baseAmount !== 0) {
+        const display = this.formatSignedValue(baseAmount, event.keys.every((k) => this.isPercentKey(k)));
+        rows.push({ label: origin.label, iconType: 'skill', value: baseAmount, display });
       }
     }
 

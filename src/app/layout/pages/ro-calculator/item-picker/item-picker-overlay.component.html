@@ -1,7 +1,7 @@
 <!-- The panel traps focus so the arrow keys belong to the list, not to the page behind it.
      Rows are real buttons but stay out of the tab order: the filter box keeps focus and
      drives the list, exactly as the dropdown this replaces did. -->
-<div class="picker" tabindex="-1" cdkTrapFocus cdkTrapFocusAutoCapture (keydown)="onKeyDown($event)">
+<div class="picker" [class.picker--virtual]="virtualise" [style.width.px]="pinnedWidth" tabindex="-1" cdkTrapFocus cdkTrapFocusAutoCapture (keydown)="onKeyDown($event)">
   <div class="picker__title">{{ title }}</div>
 
   <div class="picker__filter">
@@ -26,6 +26,7 @@
 
   <!-- Outside the scroller so clearing is always one click away, however long the list. -->
   <button
+    *ngIf="clearable"
     type="button"
     tabindex="-1"
     class="picker__row picker__row--none"
@@ -33,41 +34,65 @@
     (mouseenter)="hover(-1)"
     (click)="choose(-1)"
   >
-    <span class="picker__icon">✕</span>
     <span class="picker__label picker__label--none">Nenhum</span>
   </button>
 
+  <!-- One row template, two hosts. A virtualised viewport absolutely-positions its
+       content, so it contributes no intrinsic width and forces a fixed panel; a plain list
+       lets the panel size to its longest label. Only the lists that are actually long
+       (items, cards, a flat option search) pay that price. -->
   <cdk-virtual-scroll-viewport
-    *ngIf="rows.length"
+    *ngIf="rows.length && virtualise"
     class="picker__list"
     [itemSize]="rowHeight"
     [style.height.px]="viewportHeight"
   >
-    <button
-      *cdkVirtualFor="let row of rows; let i = index"
-      type="button"
-      tabindex="-1"
-      class="picker__row"
-      [class.picker__row--active]="active === i"
-      [class.picker__row--selected]="isSelected(row)"
-      [style.height.px]="rowHeight"
-      [pTooltip]="items ? (row.value | itemDescTooltip: items : itemDescriptions.version) : ''"
-      [escape]="false"
-      tooltipPosition="right"
-      [showDelay]="350"
-      tooltipStyleClass="item_desc_tooltip"
-      (mouseenter)="hover(i)"
-      (click)="choose(i)"
-    >
-      <span class="picker__icon">
-        <img *ngIf="row.icon" [src]="row.icon | iconUrl: 'item'" alt="" />
-      </span>
-      <span class="picker__label" [ngClass]="row.elementClass">{{ row.label }}</span>
-      <span *ngIf="row.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
-      <span *ngIf="row.group" class="picker__chevron">›</span>
-    </button>
+    <ng-container *cdkVirtualFor="let row of rows; let i = index; trackBy: trackRow">
+      <ng-container *ngTemplateOutlet="rowTpl; context: { $implicit: row, i: i }"></ng-container>
+    </ng-container>
   </cdk-virtual-scroll-viewport>
+
+  <div class="picker__list picker__list--plain" *ngIf="rows.length && !virtualise" [style.maxHeight.px]="viewportHeight">
+    <ng-container *ngFor="let row of rows; let i = index; trackBy: trackRow">
+      <ng-container *ngTemplateOutlet="rowTpl; context: { $implicit: row, i: i }"></ng-container>
+    </ng-container>
+  </div>
 
   <div class="picker__note" *ngIf="!rows.length">Nada encontrado.</div>
   <div class="picker__note" *ngIf="capped">Mais de {{ rows.length }} resultados — refine a busca.</div>
 </div>
+
+<ng-template #rowTpl let-row let-i="i">
+  <button
+    type="button"
+    tabindex="-1"
+    class="picker__row"
+    [attr.data-index]="i"
+    [class.picker__row--active]="active === i"
+    [class.picker__row--selected]="isSelected(row)"
+    [style.height.px]="rowHeight"
+    [pTooltip]="items ? (row.value | itemDescTooltip: items : itemDescriptions.version) : ''"
+    [escape]="false"
+    tooltipPosition="right"
+    [showDelay]="350"
+    tooltipStyleClass="item_desc_tooltip"
+    (mouseenter)="hover(i)"
+    (click)="choose(i)"
+  >
+    <span class="picker__icon" *ngIf="showIcons">
+      <!-- A plain list renders every row at once, so up to VIRTUALISE_ABOVE icons would
+           be requested on open without this. -->
+      <img *ngIf="row.icon" [src]="row.icon | iconUrl: 'item'" alt="" loading="lazy" (error)="onIconError($event)" />
+    </span>
+    <span class="picker__label" [class.picker__label--tag]="!!row.elementClass" [ngClass]="row.elementClass">{{ row.label }}</span>
+    <span
+      *ngIf="row.preRelease"
+      class="pre_release_tag"
+      pTooltip="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride)."
+      tooltipPosition="top"
+      [showDelay]="300"
+      >iRO</span
+    >
+    <span *ngIf="row.group" class="picker__chevron">›</span>
+  </button>
+</ng-template>

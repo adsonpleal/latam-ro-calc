@@ -26,12 +26,12 @@ export const ItemSlotLabelPtBr: Record<string, string> = {
   costumeEnchantGarment: 'Encantamento Capa',
   costumeEnchantGarment2: 'Encantamento Capa 2',
   costumeEnchantGarment4: 'Encantamento Capa 4',
-  shadowWeapon: 'Arma das Sombras',
-  shadowShield: 'Escudo das Sombras',
-  shadowArmor: 'Armadura das Sombras',
-  shadowBoot: 'Botas das Sombras',
-  shadowEarring: 'Brinco das Sombras',
-  shadowPendant: 'Pingente das Sombras',
+  shadowWeapon: 'Manopla Sombria',
+  shadowShield: 'Escudo Sombrio',
+  shadowArmor: 'Malha Sombria',
+  shadowBoot: 'Greva Sombria',
+  shadowEarring: 'Brinco Sombrio',
+  shadowPendant: 'Colar Sombrio',
 };
 
 export const itemSlotLabelPtBr = (key: string): string => ItemSlotLabelPtBr[key] ?? key;

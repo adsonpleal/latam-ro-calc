@@ -46,16 +46,26 @@ export const ITEM_BONUS_LABELS: Record<string, string> = {
   dmg_taken_range: 'Redução de dano físico à distância recebido de jogadores',
 };
 
-/** pt-BR labels for buff bonus keys (skill descriptions aren't in the local
- *  data, so the buff popover summarises the effect from its bonus values). */
+/**
+ * pt-BR labels for buff bonus keys (skill descriptions aren't in the local data, so the
+ * buff popover summarises the effect from its bonus values).
+ *
+ * Terser than BONUS_KEY_LABELS above, because these sit inside a one-line summary of a
+ * buff rather than in a column of their own — but terse in pt-BR, not in English. The
+ * abbreviations are the game's own: the ones the status window and the ficha print, so a
+ * buff reading "ATQ +20" names the same thing the panel behind it does. They used to read
+ * ATK / MATK / HIT / MDEF / POW / WIS / SPL / CRT, which is the client's *English*
+ * vocabulary and appears nowhere in the pt-BR client.
+ */
 export const BUFF_BONUS_LABELS: Record<string, string> = {
-  atk: 'ATK', matk: 'MATK', atkPercent: 'ATK%', matkPercent: 'MATK%',
-  pAtk: 'P.ATK', sMatk: 'S.MATK', cRate: 'C.RATE',
-  hit: 'HIT', cri: 'Crit', perfectHit: 'Acerto Perfeito', flatDmg: 'Dano Fixo',
-  aspd: 'ASPD', aspdPercent: 'ASPD%', skillAspd: 'ASPD (hab.)', vct: 'VCT',
+  atk: 'ATQ', matk: 'ATQM', atkPercent: 'Dano físico %', matkPercent: 'Dano mágico %',
+  pAtk: 'P.ATQ', sMatk: 'S.ATQM', cRate: 'T.CRIT',
+  hit: 'Precisão', cri: 'Crítico', perfectHit: 'Precisão perfeita', flatDmg: 'Dano fixo',
+  aspd: 'Vel.Atq', aspdPercent: 'Vel.Atq %', skillAspd: 'Vel.Atq (hab.)',
+  vct: 'Conj. Variável', vctBySkill: 'Conj. Variável (hab.)', acd: 'Pós-conjuração', fctPercent: 'Conj. Fixa %',
   str: 'FOR', agi: 'AGI', vit: 'VIT', int: 'INT', dex: 'DES', luk: 'SOR',
-  pow: 'POW', sta: 'STA', wis: 'WIS', spl: 'SPL', con: 'CON', crt: 'CRT',
-  def: 'DEF', mdef: 'MDEF',
+  pow: 'POD', sta: 'STA', wis: 'SAB', spl: 'FEI', con: 'CON', crt: 'CRV',
+  def: 'DEF', mdef: 'DEFM',
   p_pene_race_all: 'Penetração Física (Raça)', m_pene_race_all: 'Penetração Mágica (Raça)',
   pene_res: 'Penetrar TEN', pene_mres: 'Penetrar TENM',
   monster_res: 'TEN do alvo', monster_mres: 'TENM do alvo', oratio: 'Reduz Res. Sagrado do alvo',

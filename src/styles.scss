@@ -124,7 +124,10 @@ html {
 /* pt-BR item description popover (consumables hover) — mirrors the white
    "Descrições dos Itens" panel so the in-game colour codes stay legible. */
 .item_desc_tooltip.p-tooltip {
-  max-width: 90vw;
+  /* 90vw alone gave a ~1900px line on a wide monitor — one long paragraph ran the whole
+     screen. Cap it at a readable measure and let it wrap; the vw term still keeps it
+     inside a narrow window. */
+  max-width: min(90vw, 34rem);
   /* O PrimeNG revela o tooltip com DomHandler.fadeIn: ele zera o opacity inline e
      sobe até 1 num laço de requestAnimationFrame. Quando esse laço não roda — aba
      em segundo plano, janela encoberta, economia de energia —, o popover fica
@@ -140,7 +143,7 @@ html {
   background: #ffffff;
   color: #000000;
   width: max-content;
-  max-width: 90vw;
+  max-width: min(90vw, 34rem);
   white-space: normal;
   font-size: 0.85rem;
   line-height: 1.25;
@@ -157,7 +160,24 @@ html {
   max-height: 85vh;
   overflow-y: auto;
   overscroll-behavior: contain;
+  /* The popover survives the pointer leaving the trigger (ItemDescTooltipHoverDirective),
+     which is what lets it be read — so let the text be selected and copied as well.
+     PrimeNG leaves tooltips on the default `cursor: default`, which reads as "not text". */
+  user-select: text;
+  cursor: auto;
 }
+/* Same reason as the popover's own `overscroll-behavior` above, for the PrimeNG panels:
+   the page is frozen while a panel is open (PageScrollLockService), and that freeze lets a
+   gesture through on purpose once it is inside an overlay — without this, reaching the end
+   of the list would start scrolling the page again. */
+.p-dropdown-items-wrapper,
+.p-multiselect-items-wrapper,
+.p-cascadeselect-panel .p-cascadeselect-items,
+.p-overlaypanel .p-overlaypanel-content,
+.p-dialog .p-dialog-content {
+  overscroll-behavior: contain;
+}
+
 .item_desc_tooltip .item_desc_title {
   font-weight: 700;
   font-size: 0.95rem;

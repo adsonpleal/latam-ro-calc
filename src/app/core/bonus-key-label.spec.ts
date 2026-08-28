@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { createRawTotalBonus } from 'src/app/utils';
-import { bonusKeyLabel, resolveSkillKey } from './bonus-key-label';
+import { JobBuffs } from 'src/app/constants/job-buffs';
+import { BUFF_BONUS_LABELS, bonusKeyLabel, resolveSkillKey } from './bonus-key-label';
 
 /**
  * pt-BR labels for the item bonus panel (what shows when you click a piece, next to the
@@ -126,5 +127,28 @@ describe('bonusKeyLabel — sweep', () => {
     // `refine` and `weight` live in the total but are not item bonuses — no script uses
     // them, so they never reach the panel. They are deliberately left unlabelled.
     expect(faltando).toEqual(['refine', 'weight']);
+  });
+});
+
+/**
+ * The buff popover falls back to summarising a buff's own bonus values when the client has
+ * no description for the skill. Every key it can reach therefore needs a pt-BR label — an
+ * unlabelled one prints the raw engine key ("acd +10"), and an English one prints a
+ * vocabulary the pt-BR client does not use.
+ */
+describe('BUFF_BONUS_LABELS', () => {
+  const buffKeys = [...new Set(
+    (JobBuffs as any[]).flatMap((buff) => (buff.dropdown || []).flatMap((d: any) => Object.keys(d.bonus || {}))),
+  )];
+
+  it('labels every key a job buff can grant', () => {
+    expect(buffKeys.filter((key) => !BUFF_BONUS_LABELS[key])).toEqual([]);
+  });
+
+  it('labels them in pt-BR, not in the client English', () => {
+    // The same tokens the sweep above treats as untranslated for the item labels.
+    const english = /^(ATK|MATK|P\.ATK|S\.MATK|C\.RATE|HIT|ASPD|VCT|MDEF|POW|WIS|SPL|CRT)\b/;
+
+    expect(Object.entries(BUFF_BONUS_LABELS).filter(([, label]) => english.test(label))).toEqual([]);
   });
 });

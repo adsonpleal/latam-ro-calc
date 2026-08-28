@@ -1,5 +1,11 @@
 :host {
   display: block;
+  /* The grid sits directly under the "Resumo de atributos" ficha, which stacks its own
+     cards 12px apart — match it so the ribbon doesn't read as part of the card above. */
+  margin-top: 12px;
+  /* The grid is the last thing in the editor column, so the final card (Pet) would
+     otherwise end flush against the page edge. */
+  margin-bottom: 24px;
 }
 
 .eq-grid {
@@ -18,30 +24,43 @@
 .eq-ribbon {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 2px;
   height: 26px;
-  padding: 0 10px;
+  padding: 0 4px 0 10px;
   border: 1px solid rgb(253 216 125 / 45%);
   border-radius: 13px;
   background: rgb(253 216 125 / 8%);
   color: #fdd87d;
+}
+
+.eq-ribbon__text {
   cursor: default;
+  /* The tooltip lists one compared slot per line. */
   white-space: pre-line;
 }
 
 .eq-ribbon__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
   padding: 0;
   border: 0;
+  border-radius: 8px;
   background: none;
-  color: rgb(255 255 255 / 45%);
+  color: rgb(253 216 125 / 60%);
   font: inherit;
-  font-size: 11px;
-  text-decoration: underline;
+  font-size: 10px;
+  line-height: 1;
   cursor: pointer;
 }
 
-.eq-ribbon__clear:hover {
-  color: rgb(255 255 255 / 85%);
+.eq-ribbon__clear:hover,
+.eq-ribbon__clear:focus-visible {
+  background: rgb(253 216 125 / 20%);
+  color: #fdd87d;
+  outline: none;
 }
 
 /* auto-fit rather than two fixed tracks: inside the calculator's left pane this is one

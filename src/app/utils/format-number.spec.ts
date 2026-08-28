@@ -30,6 +30,14 @@ describe('formatNumber', () => {
     expect(formatNumber(NaN)).toBe('0');
     expect(formatNumber(Infinity)).toBe('0');
   });
+
+  it('never prints negative zero', () => {
+    // "Pós-conjuração -0%": bonusValueText negates a reduction stat for display, so a
+    // build with no cast reduction at all reached Intl as -0.
+    expect(formatNumber(-0)).toBe('0');
+    expect(formatNumber(-0, 3, 3)).toBe('0,000');
+    expect(formatSignedNumber(-0)).toBe('0');
+  });
 });
 
 describe('formatSignedNumber', () => {

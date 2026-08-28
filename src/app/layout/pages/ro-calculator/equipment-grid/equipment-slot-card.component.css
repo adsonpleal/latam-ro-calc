@@ -117,17 +117,11 @@
   image-rendering: pixelated;
 }
 
-.eq-card__icon:hover {
-  border-color: var(--green-400, #81c784);
-}
-
+/* No hover affordance: the icon is not a target, it only carries the description
+   popover. A border that lit up on hover read as "click me" and nothing happened. */
 .eq-card__icon--compare {
   border-color: rgb(253 216 125 / 30%);
   background: rgb(253 216 125 / 6%);
-}
-
-.eq-card__icon--compare:hover {
-  border-color: #fdd87d;
 }
 
 .eq-card__chips {
@@ -150,6 +144,23 @@
 }
 
 .eq-card__compare-row {
+  position: relative;
   background: rgb(253 216 125 / 5%);
   border-top: 1px dashed rgb(253 216 125 / 35%);
+}
+
+/* The sub-row has no header to sit in, so the button is parked in the corner instead —
+   at the same inset as the card's own clear, so the two line up down the right edge.
+   It keeps the amber of the row it belongs to rather than the header's grey. */
+.eq-card__clear--compare {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  z-index: 1;
+  color: rgb(253 216 125 / 55%);
+}
+
+.eq-card__clear--compare:hover {
+  border-color: rgb(253 216 125 / 45%);
+  color: #fdd87d;
 }

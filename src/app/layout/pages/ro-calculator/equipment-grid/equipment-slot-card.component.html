@@ -4,7 +4,9 @@
     <span
       *ngIf="item?.preRelease"
       class="pre_release_tag"
-      title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride)."
+      pTooltip="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride)."
+      tooltipPosition="top"
+      [showDelay]="300"
       >iRO</span
     >
     <span class="eq-card__spacer"></span>
@@ -16,7 +18,9 @@
       [class.eq-card__compare--on]="comparingHere"
       [class.eq-card__compare--locked]="!!occupiedBy"
       [attr.aria-pressed]="comparingHere"
-      [title]="compareTitle"
+      [pTooltip]="compareTitle"
+      tooltipPosition="top"
+      [showDelay]="300"
       (click)="onToggleCompare()"
     >
       <!-- PrimeIcons pi-lock, drawn at the same optical size as the ⇄ next to it. -->
@@ -29,7 +33,18 @@
       {{ comparingHere ? 'Comparando' : 'Comparar' }}
     </button>
 
-    <button type="button" class="eq-card__clear" title="Limpar slot" (click)="clearSlot.emit()">✕</button>
+    <button
+      *ngIf="hasContent"
+      type="button"
+      class="eq-card__clear"
+      aria-label="Limpar slot"
+      pTooltip="Limpar slot"
+      tooltipPosition="top"
+      [showDelay]="300"
+      (click)="clearSlot.emit()"
+    >
+      ✕
+    </button>
   </div>
 
   <!-- Filled by a multi-slot head gear worn elsewhere: nothing to choose here, and the
@@ -41,7 +56,23 @@
       *ngTemplateOutlet="body; context: { rows: mainRows, entry: item, compare: false }"
     ></ng-container>
 
+    <!-- The sub-row has no header of its own, so its clear sits over the top-right corner
+         where the card's own does. It empties the alternative without switching the
+         comparison off: with the slot compared and nothing in it, the card answers "and
+         what if I took this off", which the toggle cannot ask. -->
     <div class="eq-card__compare-row" *ngIf="compareRows.length">
+      <button
+        *ngIf="hasCompareContent"
+        type="button"
+        class="eq-card__clear eq-card__clear--compare"
+        aria-label="Limpar a comparação deste slot"
+        pTooltip="Limpar a comparação deste slot"
+        tooltipPosition="left"
+        [showDelay]="300"
+        (click)="clearCompare.emit()"
+      >
+        ✕
+      </button>
       <ng-container *ngTemplateOutlet="body; context: { rows: compareRows, entry: compareItem, compare: true }"></ng-container>
     </div>
   </ng-container>
@@ -54,7 +85,7 @@
       [class.eq-card__icon--compare]="compare"
       [pTooltip]="entry ? (entry.id | itemDescTooltip: items : itemDescriptions.version) : ''"
       [escape]="false"
-      tooltipPosition="right"
+      tooltipPosition="top"
       [showDelay]="350"
       tooltipStyleClass="item_desc_tooltip"
     >
@@ -62,9 +93,9 @@
     </span>
 
     <div class="eq-card__chips">
-      <div class="eq-card__line" *ngFor="let row of rows">
+      <div class="eq-card__line" *ngFor="let row of rows; trackBy: trackIndex">
         <app-equipment-chip
-          *ngFor="let view of row"
+          *ngFor="let view of row; trackBy: trackChip"
           [view]="view"
           [items]="items"
           [compare]="compare"

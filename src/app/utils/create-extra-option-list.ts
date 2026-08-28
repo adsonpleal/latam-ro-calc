@@ -27,10 +27,12 @@ const TR: Record<string, string> = {
   Hit: 'Precisão',
   Flee: 'Esquiva',
   'Perfect Dodge': 'Esquiva Perfeita',
+  ASPD: 'Vel.Atq',
+  'ASPD %': 'Vel.Atq %',
   Def: 'DEF',
   Mdef: 'DEFM',
   Res: 'TEN',
-  Mres: 'MTEN',
+  Mres: 'TENM',
   HPlus: 'C.Mais',
 };
 const tr = (s: string) => TR[s] ?? s;

@@ -26,6 +26,7 @@ import { ToastModule } from 'primeng/toast';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { HelpImproveDialogComponent } from './help-improve/help-improve-dialog.component';
+import { OverlayEscapeDirective } from './pages/ro-calculator/overlay-escape.directive';
 import { StatusInputModule } from './pages/ro-calculator/status-input/status-input.module';
 
 @NgModule({
@@ -50,6 +51,11 @@ import { StatusInputModule } from './pages/ro-calculator/status-input/status-inp
     InputSwitchModule,
     RippleModule,
     RouterModule,
+    // Standalone, imported for its element selector: it is what puts this module's own
+    // dialogs (Novidades, "Ajude o simulador", the saves and share dialogs) on the fast
+    // Escape path. Without it they still close, but through PrimeNG's bubble-phase
+    // listener — the half-second one — and they stay invisible to the layering rule.
+    OverlayEscapeDirective,
     AppConfigModule,
     ButtonModule,
     DialogModule,

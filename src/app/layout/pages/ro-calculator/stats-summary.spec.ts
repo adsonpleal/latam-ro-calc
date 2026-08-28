@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildStatsSummary, StatsSummaryOptions, SummaryRow } from './stats-summary';
+import { buildStatsSummary, statOriginFor, StatsSummaryOptions, SummaryRow } from './stats-summary';
 
 /** The component's own cast/delay formatter, in the shape the builder receives it:
  *  a stored reduction of +72 reads as the "-72%" effect it applies. */
@@ -221,5 +221,58 @@ describe('buildStatsSummary — the comparison cell', () => {
     const view = buildStatsSummary(summary(), summary({ calc: { hitPerSecs: 7.15 } }), OPTS);
 
     expect(view.headline[3].compare?.deltaClass).toBe('compare_greater');
+  });
+});
+
+/**
+ * `statOriginFor` is what makes a value clickable when no equipment sources it, and what
+ * supplies the "everything the gear does not account for" row in the breakdown dialog.
+ */
+describe('stat origins', () => {
+  it('matches on the whole key list, not on one of its keys', () => {
+    expect(statOriginFor(['flee', 'perfectDodge'])).toBeTruthy();
+    // A caller asking for `flee` alone is not the Esquiva row and must not borrow its label.
+    expect(statOriginFor(['flee'])).toBeNull();
+    expect(statOriginFor(['perfectDodge', 'flee'])).toBeNull();
+  });
+
+  it('has no origin for the purely equipment-sourced values', () => {
+    // Nothing but gear grants these, so an empty dialog is the honest answer and the value
+    // stays unclickable when no source contributes.
+    for (const keys of [['melee'], ['range'], ['matkPercent'], ['criDmg'], ['acd'], ['vct']]) {
+      expect(statOriginFor(keys)).toBeNull();
+    }
+  });
+
+  it('reads the total off the row itself, so it cannot drift from what the panel prints', () => {
+    const cur = summary();
+
+    // The fixture's own numbers, as the panel reads them: Precisão is calc.totalHit,
+    // Esquiva is totalFlee+totalPerfectDodge, HP máx. is calc.maxHp, DEF is softDef+def.
+    expect(statOriginFor(['hit'])!.total(cur)).toBe(705);
+    expect(statOriginFor(['flee', 'perfectDodge'])!.total(cur)).toBe(519);
+    expect(statOriginFor(['hp', 'hpPercent'])!.total(cur)).toBe(81714);
+    expect(statOriginFor(['def'])!.total(cur)).toBe(581);
+    expect(statOriginFor(['atk'])!.total(cur)).toBe(1705);
+  });
+
+  it('survives a half-built summary rather than printing NaN', () => {
+    for (const keys of [['hit'], ['atk'], ['matk'], ['hp', 'hpPercent'], ['res']]) {
+      expect(statOriginFor(keys)!.total(undefined)).toBe(0);
+      expect(statOriginFor(keys)!.total({})).toBe(0);
+    }
+  });
+
+  /**
+   * `sumKeys` exists for the keys that do not add as points. Subtracting a `hpPercent` of 5
+   * from a 5.085 HP pool as if it were 5 HP would misprice the base by exactly that much.
+   */
+  it('excludes the multiplying keys from the equipment sum', () => {
+    expect(statOriginFor(['hp', 'hpPercent'])!.sumKeys).toEqual(['hp']);
+    expect(statOriginFor(['sp', 'spPercent'])!.sumKeys).toEqual(['sp']);
+    expect(statOriginFor(['aspd', 'aspdPercent', 'skillAspd', 'skillAspdPercent'])!.sumKeys).toEqual(['aspd']);
+    // criRange is not summed into the crit rate at all — it counts only on the ranged basic
+    // attack, which is why the Crítico row carries a "*" instead of adding it in.
+    expect(statOriginFor(['cri', 'criRange'])!.sumKeys).toEqual(['cri']);
   });
 });

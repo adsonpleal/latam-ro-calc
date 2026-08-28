@@ -2,6 +2,8 @@ import {
   AllowAmmoMapper,
   ClassAmmoMapper,
   DEFAULT_PET_LOYALTY,
+  readLoyaltyCondition,
+  selectLoyaltyLines,
   ElementType,
   ItemSubTypeId,
   ItemTypeEnum,
@@ -809,16 +811,19 @@ export class Calculator {
     }
 
     // LOYALTY[3]===4  — the pet intimacy tier (see PetLoyalty).
-    // Matches by **equality**: the egg description's tiers replace one another, they do
-    // not stack ("Na Lealdade Normal: Dano físico +4%" and "Na Lealdade Alta: Dano físico
-    // +7%" are 4% OR 7%, never 11%). Only the eggs use this condition; for everything else
-    // in item.json the match fails and the script goes through unchanged.
-    const [toRemoveLoyalty, loyaltyCond] = restCondition.match(/LOYALTY\[(\d+)]/) ?? [];
-    if (loyaltyCond) {
-      const isValid = (this.model.petLoyalty ?? DEFAULT_PET_LOYALTY) === Number(loyaltyCond);
+    // A tier applies at that intimacy **and above**, so an egg that names only "Na Lealdade
+    // Normal" keeps paying at Alta. The tiers still replace one another rather than
+    // stacking; that half is enforced earlier, by selectLoyaltyLines in calcItemStatus,
+    // which leaves at most one tier line per bonus. Without that narrowing this `>=` would
+    // sum every tier at or below the pet's and quadruple the bonus. Only the eggs use this
+    // condition; for everything else in item.json the match fails and the script goes
+    // through unchanged.
+    const loyalty = readLoyaltyCondition(restCondition);
+    if (loyalty) {
+      const isValid = (this.model.petLoyalty ?? DEFAULT_PET_LOYALTY) >= loyalty.tier;
       if (!isValid) return { isValid, restCondition };
 
-      restCondition = restCondition.replace(toRemoveLoyalty, '');
+      restCondition = restCondition.replace(loyalty.clause, '');
       if (restCondition.startsWith('===')) return { isValid, restCondition: restCondition.replace('===', '') };
     }
 
@@ -1139,7 +1144,12 @@ export class Calculator {
         this.updateBaseEquipStat(attr, attrScripts[0]);
       }
 
-      total[attr] = attrScripts.reduce((sum, lineScript) => {
+      // Pet eggs spell a bonus out once per tier; only the highest one the pet has
+      // reached counts, so the rest are dropped before the sum. A no-op for every other
+      // item, none of which carry a LOYALTY condition.
+      const applicable = selectLoyaltyLines(attrScripts, this.model.petLoyalty ?? DEFAULT_PET_LOYALTY);
+
+      total[attr] = applicable.reduce((sum, lineScript) => {
         if (this.isAreadyCalcCombo({ item, attr, lineScript })) {
           return sum;
         }

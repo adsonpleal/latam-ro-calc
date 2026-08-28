@@ -468,8 +468,6 @@ a.skill_link:hover {
 
 :host ::ng-deep .item-position-weaponList,
 :host ::ng-deep .item-position-weaponCardList,
-:host ::ng-deep .item_label_weapon_main .p-dropdown-label,
-:host ::ng-deep .item_label_weapon_main .p-cascadeselect-label,
 :host ::ng-deep .item_label_weapon,
 :host ::ng-deep .item_label_weaponCard1,
 :host ::ng-deep .item_label_weaponCard2,
@@ -485,14 +483,6 @@ a.skill_link:hover {
   color: var(--pink-200);
 }
 
-:host ::ng-deep .item_label_weapon_main .item_label_element_converter .p-inputtext {
-  /* background-color: var(--surface-0); */
-  background-color: #121212;
-  color: var(--yellow-300);
-}
-
-:host ::ng-deep .item_label_leftWeapon_main .p-dropdown-label,
-:host ::ng-deep .item_label_leftWeapon_main .p-cascadeselect-label,
 :host ::ng-deep .item_label_leftWeapon,
 :host ::ng-deep .item_label_leftWeaponCard1,
 :host ::ng-deep .item_label_leftWeaponCard2,
@@ -509,8 +499,6 @@ a.skill_link:hover {
 
 :host ::ng-deep .item-position-shieldList,
 :host ::ng-deep .item-position-shieldCardList,
-:host ::ng-deep .item_label_shield_main .p-dropdown-label,
-:host ::ng-deep .item_label_shield_main .p-cascadeselect-label,
 :host ::ng-deep .item_label_shield,
 :host ::ng-deep .item_label_shieldCard,
 :host ::ng-deep .item_label_shieldEnchant1,
@@ -525,8 +513,6 @@ a.skill_link:hover {
 :host ::ng-deep .item-position-headMiddleList,
 :host ::ng-deep .item-position-headLowerList,
 :host ::ng-deep .item-position-headCardList,
-:host ::ng-deep .item_label_head .p-dropdown-label,
-:host ::ng-deep .item_label_head .p-cascadeselect-label,
 :host ::ng-deep .item_label_headUpper,
 :host ::ng-deep .item_label_headUpperCard,
 :host ::ng-deep .item_label_headUpperEnchant1,
@@ -552,8 +538,6 @@ a.skill_link:hover {
 :host ::ng-deep .item-position-garmentCardList,
 :host ::ng-deep .item-position-bootList,
 :host ::ng-deep .item-position-bootCardList,
-:host ::ng-deep .item_label_def .p-dropdown-label,
-:host ::ng-deep .item_label_def .p-cascadeselect-label,
 :host ::ng-deep .item_label_armor,
 :host ::ng-deep .item_label_armorCard,
 :host ::ng-deep .item_label_armorEnchant1,
@@ -576,9 +560,6 @@ a.skill_link:hover {
 
 :host ::ng-deep .item-position-accList,
 :host ::ng-deep .item-position-accCardList,
-:host ::ng-deep .item_label_acc .p-dropdown-label,
-:host ::ng-deep .item_label_acc .p-cascadeselect-label,
-.item_float_label,
 :host ::ng-deep .item_label_accLeft,
 :host ::ng-deep .item_label_accLeftCard,
 :host ::ng-deep .item_label_accLeftEnchant1,
@@ -595,8 +576,6 @@ a.skill_link:hover {
 }
 
 :host ::ng-deep .item-position-petList,
-:host ::ng-deep .item_label_pet .p-dropdown-label,
-:host ::ng-deep .item_label_pet .p-cascadeselect-label,
 :host ::ng-deep .item_label_pet {
   /* background-color: var(--surface-0); */
   background-color: #121212;
@@ -604,8 +583,6 @@ a.skill_link:hover {
 }
 
 :host ::ng-deep .item-position-costumeList,
-:host ::ng-deep .item_label_costume .p-dropdown-label,
-:host ::ng-deep .item_label_costume .p-cascadeselect-label,
 :host ::ng-deep .item_label_costumeUpper,
 :host ::ng-deep .item_label_costumeMiddle,
 :host ::ng-deep .item_label_costumeLower,
@@ -627,8 +604,6 @@ a.skill_link:hover {
 :host ::ng-deep .item-position-shadowBootList,
 :host ::ng-deep .item-position-shadowEarringList,
 :host ::ng-deep .item-position-shadowPendantList,
-:host ::ng-deep .item_label_shadow .p-dropdown-label,
-:host ::ng-deep .item_label_shadow .p-cascadeselect-label,
 :host ::ng-deep .item_label_shadowWeapon,
 :host ::ng-deep .item_label_shadowArmor,
 :host ::ng-deep .item_label_shadowShield,
@@ -652,13 +627,6 @@ a.skill_link:hover {
   color: var(--green-200);
 }
 
-.item_label_shadow .refine-list {
-  min-width: 70px;
-}
-
-:host ::ng-deep .item_label_compare .p-dropdown-label,
-:host ::ng-deep .item_label_compare .p-cascadeselect-label,
-:host ::ng-deep .item_label_compare .p-multiselect-label,
 :host ::ng-deep .item_label_compare .p-listbox-item {
   /* background-color: var(--surface-50); */
   background-color: #2a2a2a;

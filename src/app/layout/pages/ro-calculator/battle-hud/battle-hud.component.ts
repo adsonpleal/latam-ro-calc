@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
-import { OverlayPanel } from 'primeng/overlaypanel';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { itemSlotLabelPtBr } from '../../../../constants/item-slot-i18n';
 import { DropdownModel } from '../../../../models/dropdown.model';
 import { dmgTypeLabel as dmgTypeLabelUtil, skillDescHtml } from '../../../../utils';
@@ -64,48 +63,20 @@ export class BattleHudComponent implements OnDestroy {
     }
   };
 
-  // p-overlayPanel (this PrimeNG version) has no built-in Escape-to-close — unlike
-  // p-dialog, it never binds a document keydown listener at all. Add that ourselves
-  // for the two formula panels, closing whichever is currently open.
-  //
-  // Capture phase, deliberately: a real keypress originates at whatever element
-  // currently has focus (a PrimeNG dropdown, an input, etc.) and bubbles up from
-  // there — and several PrimeNG widgets bind their own "Escape closes me" keydown
-  // handler that calls stopPropagation(), which would swallow the event before it
-  // ever reaches a bubble-phase listener on `document`. Capture runs top-down,
-  // before any of that, so it always sees the keypress regardless of focus. We
-  // never call stopPropagation() ourselves here, so whatever else Escape is
-  // supposed to do (e.g. p-dialog's own close-on-escape) still happens normally.
-  @ViewChild('damageFormulaPanel') damageFormulaPanelRef: OverlayPanel;
-  @ViewChild('damageFormulaNoCriPanel') damageFormulaNoCriPanelRef: OverlayPanel;
-
-  private readonly escapeGuard = (event: KeyboardEvent) => {
-    if (event.key !== 'Escape') return;
-    // Escape closes the topmost layer only. When a breakdown dialog is open over the
-    // graph, p-dialog's own close-on-escape handles it and the panel underneath stays
-    // put — otherwise one keypress would tear down the graph the user is mid-way
-    // through exploring, and every node click would cost them a re-open.
-    //
-    // Read from the parent's state rather than probing the DOM for `.p-dialog`: that
-    // element lingers while its exit animation runs, so a DOM check would still report
-    // "dialog open" on the very next keypress and swallow it.
-    if (this.isBreakdownOpen) return;
-    if ((this.damageFormulaPanelRef as any)?.overlayVisible) this.damageFormulaPanelRef.hide();
-    if ((this.damageFormulaNoCriPanelRef as any)?.overlayVisible) this.damageFormulaNoCriPanelRef.hide();
-  };
+  // Escape closes these panels — and the topmost layer only, so a breakdown dialog opened
+  // over the graph does not tear the graph down with it — through OverlayEscapeDirective,
+  // which every p-overlayPanel and p-dialog picks up by element selector. This component
+  // used to carry its own capture-phase listener and its own layering rule for exactly
+  // that; both now live in OverlayEscapeService, which is also where the reason for
+  // running ahead of the bubble phase is written down.
 
   constructor() {
     document.addEventListener('click', this.dialogClickGuard);
-    document.addEventListener('keydown', this.escapeGuard, true);
   }
 
   ngOnDestroy(): void {
     document.removeEventListener('click', this.dialogClickGuard);
-    document.removeEventListener('keydown', this.escapeGuard, true);
   }
-
-  /** Whether the parent's bonus-breakdown dialog is currently open — see escapeGuard. */
-  @Input() isBreakdownOpen = false;
 
   @Input({ required: true }) totalSummary = {} as any;
   @Input({ required: true }) totalSummary2 = {} as any;
@@ -636,8 +607,8 @@ export class BattleHudComponent implements OnDestroy {
     return this.isCritWeighted ? 'Como a média por crítico é calculada' : 'Como o dano médio é calculado';
   }
 
-  // True when VelAtq (ASPD) caps the achieved Hab./s below what the cast timings
-  // alone would allow — same condition buildOptimizeInfo uses for its "ASPD limita
+  // True when the attack speed caps the achieved Hab./s below what the cast timings
+  // alone would allow — same condition buildOptimizeInfo uses for its "A Vel.Atq limita
   // a conjuração" callout, surfaced here too since this popover is where the capped
   // rate actually feeds into the DPS total.
   private isAspdLimiting(castRatePerSec: number, aspdHitsPerSec: number): boolean {

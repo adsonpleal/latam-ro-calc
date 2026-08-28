@@ -8,9 +8,15 @@
   --picker-muted: rgba(255, 255, 255, 0.5);
   --picker-hover: rgba(129, 199, 132, 0.16);
 
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  width: 320px;
+  /* Sized to the longest label rather than a fixed width — the element converter's seven
+     short rows used to sit in a 320px panel that was mostly empty. The bounds keep a
+     one-word list from looking cramped and a long one from running off. */
+  width: max-content;
+  min-width: 190px;
+  max-width: 380px;
   max-height: min(420px, 70vh);
   overflow: hidden;
   background: var(--picker-surface);
@@ -19,6 +25,13 @@
   box-shadow: 0 10px 30px rgb(0 0 0 / 50%);
   color: var(--picker-text);
   font-size: 14px;
+}
+
+/* A virtualised list has its rows out of flow, so it can offer no intrinsic width —
+   those panels stay fixed. Must come after `.picker`, which sets `width` at the same
+   specificity. */
+.picker--virtual {
+  width: 320px;
 }
 
 .picker__title {
@@ -132,8 +145,10 @@
   text-overflow: ellipsis;
 }
 
-/* The element palette paints a background of its own, so give it room to read as a tag. */
-.picker__label[class*='property_'] {
+/* A coloured palette paints its own background, so the label shrinks to fit and reads as
+   a tag rather than a full-width bar. Keyed off a marker class, not the palette name, so
+   the loyalty tiers get it too. */
+.picker__label--tag {
   flex: 0 1 auto;
   padding: 0.15rem 0.4rem;
   border-radius: 3px;
@@ -149,6 +164,16 @@
 .picker__list {
   flex: 1 1 auto;
   min-height: 0;
+  /* Reaching the end of the list must not hand the wheel to the page behind. The page is
+     frozen while the panel is open (PageScrollLockService), and that freeze deliberately
+     lets a gesture through once it is inside an overlay — this is what stops it there. */
+  overscroll-behavior: contain;
+}
+
+.picker__list--plain {
+  /* The ceiling itself is MAX_VIEWPORT, applied inline as `viewportHeight` — a class rule
+     here would be a second source for it, and would lose to the inline style anyway. */
+  overflow-y: auto;
 }
 
 .picker__note {

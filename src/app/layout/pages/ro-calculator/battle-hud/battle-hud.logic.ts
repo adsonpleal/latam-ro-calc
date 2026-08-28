@@ -274,18 +274,18 @@ export function buildOptimizeInfo(input: {
     },
     {
       key: 'aspd',
-      label: 'ASPD',
+      label: 'Vel.Atq',
       seconds: 0,
       hideSeconds: true,
       hint: aspdLimits
-        ? `limita a conjuração — aumente o ASPD (Vel.Atq): o cast permite ${fmtRate(castRate)}/s, mas o ASPD só suporta ${fmtRate(aspdHitsPerSec)}/s`
+        ? `limita a conjuração — aumente a Vel.Atq: o cast permite ${fmtRate(castRate)}/s, mas a Vel.Atq só suporta ${fmtRate(aspdHitsPerSec)}/s`
         : '',
       doneText: aspdLimits ? null : `suporta a conjuração ✓ (${fmtRate(aspdHitsPerSec)}/s ≥ ${fmtRate(castRate)}/s)`,
     },
   ];
 
   const headline = aspdLimits
-    ? 'ASPD limita a conjuração — aumente o ASPD para ganhar DPS.'
+    ? 'A Vel.Atq limita a conjuração — aumente a Vel.Atq para ganhar DPS.'
     : isOptimized
       ? 'Conjuração já otimizada — nada relevante a melhorar.'
       : `Gargalo atual: ${components.find((c) => c.key === bottleneck)!.label}`;

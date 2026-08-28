@@ -1,5 +1,5 @@
 import { EquipmentSlotDescriptor } from '../app-config/equipment-slots';
-import { ItemTypeEnum } from '../constants/item-type.enum';
+import { ItemTypeEnum, MainItemWithRelations } from '../constants/item-type.enum';
 import { SlotDerivation } from './equipment-slot-derivation';
 
 /**
@@ -26,6 +26,13 @@ export interface Chip {
   placeholder: string;
   /** The item chip, drawn larger than the rest. */
   primary?: boolean;
+  /**
+   * False when the field has no empty state. Pet loyalty is the only one: the tiers
+   * replace one another and the calculator falls back to DEFAULT_PET_LOYALTY, so an empty
+   * chip would show "none" while the numbers used Alta. ("Lealdade Nenhuma" is itself a
+   * tier, not the absence of one.)
+   */
+  clearable?: boolean;
 }
 
 export interface ChipContext {
@@ -34,6 +41,28 @@ export interface ChipContext {
   comparing?: ReadonlySet<string>;
   /** Weapon only: false when the class or the weapon takes no ammo (hiddenMap.ammu). */
   showAmmo?: boolean;
+}
+
+/**
+ * Every model field a slot owns, sub slots excluded — the item, its refine and grade, the
+ * cards and enchants that hang off it, and the loose fields a descriptor flag adds.
+ *
+ * Seeding a comparison and emptying a card are the same list walked in opposite
+ * directions, so they read it from here rather than each spelling it out: a field added to
+ * one and forgotten in the other is a comparison that copies something it never clears.
+ * Sub slots are left to the caller, which is the one difference between the two — seeding
+ * only takes the comparable ones.
+ */
+export function slotOwnFields(slot: EquipmentSlotDescriptor): string[] {
+  return [
+    slot.key,
+    `${slot.key}Refine`,
+    `${slot.key}Grade`,
+    ...(MainItemWithRelations[slot.key] ?? []),
+    ...(slot.loyalty ? ['petLoyalty'] : []),
+    ...(slot.converter ? ['propertyAtk'] : []),
+    ...(slot.ammo ? [ItemTypeEnum.ammo as string] : []),
+  ];
 }
 
 const cardPlaceholder = (slot: EquipmentSlotDescriptor, index: number) =>
@@ -77,11 +106,13 @@ export function buildChipRows(
     row1.push({ ...chip('item', descriptor.key, 0, descriptor.label), primary: true });
 
     if (hasItem) {
-      if (descriptor.loyalty) row1.push(chip('loyalty', 'petLoyalty', 0, 'Lealdade'));
-      // Neither the converter nor the ammo has a model2 field: they belong to the build,
-      // not to the slot being compared, which is why the old compare row never had them.
-      if (descriptor.converter && !isCompare) row1.push(chip('converter', 'propertyAtk', 0, 'Conversor'));
-      if (descriptor.ammo && !isCompare && ctx.showAmmo) row1.push(chip('ammo', ItemTypeEnum.ammo, 0, 'Munição'));
+      if (descriptor.loyalty) row1.push({ ...chip('loyalty', 'petLoyalty', 0, 'Lealdade'), clearable: false });
+      // The converter and the ammo belong to the weapon being compared, not to the build:
+      // "this bow with a Fire converter vs without" is the same kind of question every
+      // other chip answers. The compare pass carries both across by hand, the way it
+      // already does the pet's loyalty tier.
+      if (descriptor.converter) row1.push(chip('converter', 'propertyAtk', 0, 'Conversor'));
+      if (descriptor.ammo && ctx.showAmmo) row1.push(chip('ammo', ItemTypeEnum.ammo, 0, 'Munição'));
 
       descriptor.cardFields.slice(0, derivation.cardSlots).forEach((field, index) => {
         row2.push(chip('card', field, index, cardPlaceholder(descriptor, index)));

@@ -28,7 +28,10 @@ export const formatNumber = (value: number, min = 0, max = 3): string => {
     fmt = new Intl.NumberFormat(LOCALE, { minimumFractionDigits: min, maximumFractionDigits: max });
     formatCache.set(key, fmt);
   }
-  return fmt.format(value);
+  // Intl prints negative zero as "-0", and nothing in this app means anything by it: a
+  // reduction stat of 0 is negated for display (bonusValueText) and reached the summary
+  // panel as "-0%". Zero is zero, whichever side it was approached from.
+  return fmt.format(value === 0 ? 0 : value);
 };
 
 /** Same as formatNumber but with an explicit `+` on positives — for values whose whole

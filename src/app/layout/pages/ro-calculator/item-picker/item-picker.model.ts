@@ -9,6 +9,8 @@ export interface OptionTreeNode {
 }
 
 interface PickerRequestBase {
+  /** False hides the "Nenhum" row, for a field with no empty state (pet loyalty). */
+  clearable?: boolean;
   /** The chip the panel hangs off. */
   anchor: HTMLElement;
   /** Panel heading, e.g. "Carta 2". */
@@ -28,6 +30,11 @@ export interface FlatPickerRequest extends PickerRequestBase {
   iconKey?: 'value' | 'img' | null;
   /** Paint rows with the `property_<Element>` palette taken from the `element` field. */
   elementColoured?: boolean;
+  /**
+   * Option value → CSS class, for a list that carries no `element` of its own. Pet
+   * loyalty is the case: its tiers have a palette but no element behind it.
+   */
+  colourClasses?: Record<string, string>;
   /** Item map for the per-row description popover. Omit for non-item lists. */
   items?: Record<number, ItemModel>;
 }

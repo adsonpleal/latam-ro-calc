@@ -1,5 +1,12 @@
 <!-- The ✕ is a sibling of the chip, not a child: a button inside a button is invalid
-     markup, and as a sibling it needs no stopPropagation either. -->
+     markup, and as a sibling it needs no stopPropagation either.
+
+     `tooltipStyleClass` stays a STATIC attribute: ItemDescTooltipHoverDirective and
+     ItemDescTooltipFitDirective both attach by matching
+     `[pTooltip][tooltipStyleClass="item_desc_tooltip"]`, and a binding does not satisfy an
+     attribute selector with a value — bind it and the popover silently loses its grace
+     period (so it can no longer be hovered, scrolled or copied from) and its viewport
+     fitting. A chip with no description passes an empty string, which shows nothing. -->
 <button
   type="button"
   class="eq-chip"
@@ -8,19 +15,45 @@
   [class.eq-chip--compare]="compare"
   [class.eq-chip--element]="!!view.elementClass"
   [ngClass]="view.elementClass"
-  [title]="view.text"
   [pTooltip]="view.descId && items ? (view.descId | itemDescTooltip: items : itemDescriptions.version) : ''"
   [escape]="false"
-  tooltipPosition="right"
-  [showDelay]="350"
   tooltipStyleClass="item_desc_tooltip"
+  tooltipPosition="top"
+  [showDelay]="350"
   (click)="onPick($event)"
 >
   <img *ngIf="view.icon" class="eq-chip__icon" [src]="view.icon | iconUrl: 'item'" alt="" loading="lazy" (error)="onIconError($event)" />
-  <span class="eq-chip__text">{{ view.text }}</span>
-  <span *ngIf="view.preRelease" class="pre_release_tag" title="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride).">iRO</span>
+  <!-- Chips that carry no item still ellipsise (a long Bônus Aleatório, say), so the label
+       gets a plain tooltip of its own — on the inner span, so it never competes with the
+       description popover on the button.
+
+       Two spans rather than one with an empty binding: a pTooltip that is always '' still
+       instantiates a PrimeNG Tooltip, and every Tooltip on the page holds a document
+       keydown listener for its whole life. A card grid runs to hundreds of chips, and that
+       population is exactly what made Escape cost half a second (OverlayEscapeService). -->
+  <span *ngIf="!view.descId" class="eq-chip__text" [pTooltip]="view.text" tooltipPosition="top" [showDelay]="350">{{ view.text }}</span>
+  <span *ngIf="view.descId" class="eq-chip__text">{{ view.text }}</span>
+  <span
+    *ngIf="view.preRelease"
+    class="pre_release_tag"
+    pTooltip="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride)."
+    tooltipPosition="top"
+    [showDelay]="300"
+    >iRO</span
+  >
 </button>
 
-<button *ngIf="view.filled" type="button" class="eq-chip__clear" [attr.aria-label]="'Remover ' + view.text" title="Remover" (click)="clear.emit()">
+<!-- No ✕ on a field with no empty state: clearing pet loyalty would show a blank chip
+     while the calculator carried on using DEFAULT_PET_LOYALTY. -->
+<button
+  *ngIf="view.filled && view.chip.clearable !== false"
+  type="button"
+  class="eq-chip__clear"
+  [attr.aria-label]="'Remover ' + view.text"
+  pTooltip="Remover"
+  tooltipPosition="top"
+  [showDelay]="300"
+  (click)="clear.emit()"
+>
   ✕
 </button>

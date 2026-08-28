@@ -106,14 +106,16 @@ describe('buildChipRows', () => {
 describe('buildChipRows in the comparison', () => {
   const comparing = (...keys: string[]) => ({ variant: 'compare' as const, comparing: new Set(keys) });
 
-  it('never offers the converter or the ammo, which belong to the build', () => {
+  it('offers the compared weapon its own converter and ammo', () => {
+    // Both are model fields rather than related items, and the compare pass carries them
+    // across by hand — without them "this bow converted vs plain" is unaskable.
     const out = rows(
       ItemTypeEnum.weapon,
       { weapon: 1 },
       derivation({ refineList: opts(19), cardSlots: 1 }),
       { ...comparing(ItemTypeEnum.weapon), showAmmo: true },
     );
-    expect(kinds(out[0])).toEqual(['refine', 'item']);
+    expect(kinds(out[0])).toEqual(['refine', 'item', 'converter', 'ammo']);
   });
 
   it('collapses a costume card to the enchants actually being compared', () => {

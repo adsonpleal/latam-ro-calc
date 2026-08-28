@@ -56,11 +56,14 @@ export class EquipmentSlotCardComponent implements OnChanges {
   @Output() readonly pickField = new EventEmitter<ChipPick>();
   @Output() readonly clearSlot = new EventEmitter<void>();
   @Output() readonly toggleCompare = new EventEmitter<void>();
+  @Output() readonly clearCompare = new EventEmitter<void>();
 
   mainRows: ChipView[][] = [];
   compareRows: ChipView[][] = [];
   comparable = false;
   comparingHere = false;
+  hasContent = false;
+  hasCompareContent = false;
 
   constructor(
     private readonly picker: ItemPickerService,
@@ -71,10 +74,26 @@ export class EquipmentSlotCardComponent implements OnChanges {
   ngOnChanges(): void {
     this.comparable = comparableKeysOf(this.descriptor).length > 0;
     this.comparingHere = comparableKeysOf(this.descriptor).some((key) => this.comparing.has(key));
+    this.hasContent = this.computeHasContent();
 
     this.mainRows = this.buildRows(this.model, this.derivation, false);
     this.compareRows = this.comparingHere ? this.buildRows(this.model2, this.compareDerivation, true) : [];
+    this.hasCompareContent = this.compareRows.some((row) => row.some((view) => view.filled));
     this.cdr.markForCheck();
+  }
+
+  /**
+   * Whether the header ✕ has anything to undo. An empty slot draws its item chip and
+   * nothing else, so a clear button there is a control that cannot change what is on
+   * screen; an occupied one holds no item of its own either — the gear is worn in the
+   * slot that spans into this one.
+   */
+  private computeHasContent(): boolean {
+    if (this.occupiedBy) return false;
+
+    const keys = [this.descriptor.key, ...(this.descriptor.subItemSlots ?? []).map((sub) => sub.key)];
+
+    return this.comparingHere || keys.some((key) => this.model?.[key] != null);
   }
 
   /** The item this card is holding, for the big icon and the header badge. */
@@ -91,6 +110,10 @@ export class EquipmentSlotCardComponent implements OnChanges {
       ? `Comparação indisponível: este espaço está ocupado por ${this.occupiedBy}, que é usado em outro slot. Compare no slot que carrega o item.`
       : 'Ligar ou desligar a comparação deste slot';
   }
+
+  /** See EquipmentGridComponent.trackSlot — the rows are rebuilt on every refresh. */
+  trackIndex = (index: number) => index;
+  trackChip = (_: number, view: ChipView) => `${view.chip.slotKey}:${view.chip.kind}:${view.chip.index}`;
 
   onToggleCompare(): void {
     if (this.occupiedBy) return;
@@ -193,7 +216,9 @@ export class EquipmentSlotCardComponent implements OnChanges {
     const model = compare ? this.model2 : this.model;
     const derivation = compare ? this.compareDerivation : this.derivation;
     const value = chip.kind === 'option' ? model?.['rawOptionTxts']?.[chip.optionIndex!] : model?.[chip.field!];
-    const base = { anchor, title: this.pickerTitle(chip), value };
+    // `clearable` rides on the chip, so equipment-chips.ts stays the one place that
+    // decides which fields have an empty state.
+    const base = { anchor, title: this.pickerTitle(chip), value, clearable: chip.clearable };
 
     switch (chip.kind) {
       case 'item':
@@ -214,7 +239,13 @@ export class EquipmentSlotCardComponent implements OnChanges {
       case 'grade':
         return { ...base, mode: 'flat', options: derivation.gradeList, filterKeys: ['label'] };
       case 'loyalty':
-        return { ...base, mode: 'flat', options: this.lists.petLoyaltyList ?? [], filterKeys: ['label'] };
+        return {
+          ...base,
+          mode: 'flat',
+          options: this.lists.petLoyaltyList ?? [],
+          filterKeys: ['label'],
+          colourClasses: LOYALTY_CLASS,
+        };
       case 'converter':
         return { ...base, mode: 'flat', options: this.lists.propertyAtkList ?? [], filterKeys: ['label'], iconKey: 'img', elementColoured: true };
       case 'option':

@@ -378,7 +378,7 @@ describe('buildOptimizeInfo', () => {
     expect(info.whatIf).toBeNull();
   });
 
-  it('ASPD-limited: bottleneck flips to aspd, headline mentions ASPD, and the zero-pós what-if is suppressed', () => {
+  it('ASPD-limited: bottleneck flips to aspd, headline names Vel.Atq, and the zero-pós what-if is suppressed', () => {
     // castRate = 1/3.22 ≈ 0.3106/s; aspdHitsPerSec 0.2/s can't keep up, so ASPD is the real cap
     // even though pós is nominally the largest cast component.
     const info = buildOptimizeInfo({
@@ -393,7 +393,7 @@ describe('buildOptimizeInfo', () => {
       aspdHitsPerSec: 0.2,
     });
     expect(info.bottleneck).toBe('aspd');
-    expect(info.headline).toBe('ASPD limita a conjuração — aumente o ASPD para ganhar DPS.');
+    expect(info.headline).toBe('A Vel.Atq limita a conjuração — aumente a Vel.Atq para ganhar DPS.');
     expect(info.isOptimized).toBe(false);
     const aspd = info.components.find((c) => c.key === 'aspd')!;
     expect(aspd.doneText).toBeNull();

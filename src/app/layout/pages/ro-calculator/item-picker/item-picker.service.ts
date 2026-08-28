@@ -3,6 +3,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { Injectable, Injector } from '@angular/core';
 import { Observable, Subject, take } from 'rxjs';
 import { ItemPickerOverlayComponent } from './item-picker-overlay.component';
+import { PageScrollLockService } from 'src/app/page-scroll-lock.service';
 import { PickerRequest, PickerResult } from './item-picker.model';
 
 /**
@@ -19,6 +20,7 @@ export class ItemPickerService {
   constructor(
     private readonly overlay: Overlay,
     private readonly injector: Injector,
+    private readonly pageScroll: PageScrollLockService,
   ) {}
 
   /** Emits once — the pick, or a dismissal — and completes. */
@@ -29,9 +31,11 @@ export class ItemPickerService {
     const ref = this.overlay.create({
       hasBackdrop: true,
       backdropClass: 'cdk-overlay-transparent-backdrop',
-      // autoClose so scrolling the page away from the chip takes the panel with it,
-      // which is what the dropdown it replaces did.
-      scrollStrategy: this.overlay.scrollStrategies.reposition({ autoClose: true }),
+      // The page behind the panel holds still rather than scrolling out from under it, so
+      // the chip this is anchored to cannot move — but through PageScrollLockService, which
+      // suppresses the wheel instead of pinning <html>. The CDK's own block does the latter,
+      // and it took every item-description popover in this panel with it (see that service).
+      scrollStrategy: this.overlay.scrollStrategies.noop(),
       positionStrategy: this.overlay
         .position()
         .flexibleConnectedTo(request.anchor)
@@ -47,6 +51,7 @@ export class ItemPickerService {
     });
 
     this.ref = ref;
+    this.pageScroll.lock();
 
     const instance = ref.attach(new ComponentPortal(ItemPickerOverlayComponent, null, this.injector)).instance;
     instance.init(request);
@@ -74,7 +79,9 @@ export class ItemPickerService {
   }
 
   close(): void {
-    this.ref?.dispose();
+    if (!this.ref) return;
+    this.ref.dispose();
     this.ref = undefined;
+    this.pageScroll.unlock();
   }
 }

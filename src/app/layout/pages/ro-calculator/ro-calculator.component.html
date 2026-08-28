@@ -246,7 +246,9 @@
               [(value)]="model.str"
               (valueChange)="onBaseStatusChange()"
               [extraValue]="(model.jobStr || 0) + (totalSummary?.str || 0)"
+              [compareExtraValue]="isComparing ? (model.jobStr || 0) + (totalSummary2?.str || 0) : null"
               (extraClick)="showBonusBreakdown({ label: 'FOR', keys: statBreakdownKeys('str'), valueClass: 'summary_value' })"
+              (compareExtraClick)="showBonusBreakdown({ label: 'FOR', keys: statBreakdownKeys('str'), valueClass: 'summary_value', compare: true })"
             ></app-status-input>
             <app-status-input
               label="POD"
@@ -255,8 +257,10 @@
               [(value)]="model.pow"
               (valueChange)="onBaseStatusChange()"
               [extraValue]="(model.jobPow || 0) + (totalSummary?.pow || 0)"
+              [compareExtraValue]="isComparing ? (model.jobPow || 0) + (totalSummary2?.pow || 0) : null"
               badgeSeverity="danger"
               (extraClick)="showBonusBreakdown({ label: 'POD', keys: statBreakdownKeys('pow'), valueClass: 'summary_stat_yellow' })"
+              (compareExtraClick)="showBonusBreakdown({ label: 'POD', keys: statBreakdownKeys('pow'), valueClass: 'summary_stat_yellow', compare: true })"
             ></app-status-input>
             <app-status-input
               label="AGI"
@@ -264,7 +268,9 @@
               [(value)]="model.agi"
               (valueChange)="onBaseStatusChange()"
               [extraValue]="(model.jobAgi || 0) + (totalSummary?.agi || 0)"
+              [compareExtraValue]="isComparing ? (model.jobAgi || 0) + (totalSummary2?.agi || 0) : null"
               (extraClick)="showBonusBreakdown({ label: 'AGI', keys: statBreakdownKeys('agi'), valueClass: 'summary_value' })"
+              (compareExtraClick)="showBonusBreakdown({ label: 'AGI', keys: statBreakdownKeys('agi'), valueClass: 'summary_value', compare: true })"
             ></app-status-input>
             <app-status-input
               label="STA"
@@ -273,8 +279,10 @@
               [(value)]="model.sta"
               (valueChange)="onBaseStatusChange()"
               [extraValue]="(model.jobSta || 0) + (totalSummary?.sta || 0)"
+              [compareExtraValue]="isComparing ? (model.jobSta || 0) + (totalSummary2?.sta || 0) : null"
               badgeSeverity="danger"
               (extraClick)="showBonusBreakdown({ label: 'STA', keys: statBreakdownKeys('sta'), valueClass: 'summary_stat_yellow' })"
+              (compareExtraClick)="showBonusBreakdown({ label: 'STA', keys: statBreakdownKeys('sta'), valueClass: 'summary_stat_yellow', compare: true })"
             ></app-status-input>
             <app-status-input
               label="VIT"
@@ -282,7 +290,9 @@
               [(value)]="model.vit"
               (valueChange)="onBaseStatusChange()"
               [extraValue]="(model.jobVit || 0) + (totalSummary?.vit || 0)"
+              [compareExtraValue]="isComparing ? (model.jobVit || 0) + (totalSummary2?.vit || 0) : null"
               (extraClick)="showBonusBreakdown({ label: 'VIT', keys: statBreakdownKeys('vit'), valueClass: 'summary_value' })"
+              (compareExtraClick)="showBonusBreakdown({ label: 'VIT', keys: statBreakdownKeys('vit'), valueClass: 'summary_value', compare: true })"
             ></app-status-input>
             <app-status-input
               label="SAB"
@@ -291,8 +301,10 @@
               [(value)]="model.wis"
               (valueChange)="onBaseStatusChange()"
               [extraValue]="(model.jobWis || 0) + (totalSummary?.wis || 0)"
+              [compareExtraValue]="isComparing ? (model.jobWis || 0) + (totalSummary2?.wis || 0) : null"
               badgeSeverity="danger"
               (extraClick)="showBonusBreakdown({ label: 'SAB', keys: statBreakdownKeys('wis'), valueClass: 'summary_stat_yellow' })"
+              (compareExtraClick)="showBonusBreakdown({ label: 'SAB', keys: statBreakdownKeys('wis'), valueClass: 'summary_stat_yellow', compare: true })"
             ></app-status-input>
             <app-status-input
               label="INT"
@@ -300,7 +312,9 @@
               [(value)]="model.int"
               (valueChange)="onBaseStatusChange()"
               [extraValue]="(model.jobInt || 0) + (totalSummary?.int || 0)"
+              [compareExtraValue]="isComparing ? (model.jobInt || 0) + (totalSummary2?.int || 0) : null"
               (extraClick)="showBonusBreakdown({ label: 'INT', keys: statBreakdownKeys('int'), valueClass: 'summary_value' })"
+              (compareExtraClick)="showBonusBreakdown({ label: 'INT', keys: statBreakdownKeys('int'), valueClass: 'summary_value', compare: true })"
             ></app-status-input>
             <app-status-input
               label="FEI"
@@ -309,8 +323,10 @@
               [(value)]="model.spl"
               (valueChange)="onBaseStatusChange()"
               [extraValue]="(model.jobSpl || 0) + (totalSummary?.spl || 0)"
+              [compareExtraValue]="isComparing ? (model.jobSpl || 0) + (totalSummary2?.spl || 0) : null"
               badgeSeverity="danger"
               (extraClick)="showBonusBreakdown({ label: 'FEI', keys: statBreakdownKeys('spl'), valueClass: 'summary_stat_yellow' })"
+              (compareExtraClick)="showBonusBreakdown({ label: 'FEI', keys: statBreakdownKeys('spl'), valueClass: 'summary_stat_yellow', compare: true })"
             ></app-status-input>
             <app-status-input
               label="DES"
@@ -318,7 +334,9 @@
               [(value)]="model.dex"
               (valueChange)="onBaseStatusChange()"
               [extraValue]="(model.jobDex || 0) + (totalSummary?.dex || 0)"
+              [compareExtraValue]="isComparing ? (model.jobDex || 0) + (totalSummary2?.dex || 0) : null"
               (extraClick)="showBonusBreakdown({ label: 'DES', keys: statBreakdownKeys('dex'), valueClass: 'summary_value' })"
+              (compareExtraClick)="showBonusBreakdown({ label: 'DES', keys: statBreakdownKeys('dex'), valueClass: 'summary_value', compare: true })"
             ></app-status-input>
             <app-status-input
               label="CON"
@@ -327,8 +345,10 @@
               [(value)]="model.con"
               (valueChange)="onBaseStatusChange()"
               [extraValue]="(model.jobCon || 0) + (totalSummary?.con || 0)"
+              [compareExtraValue]="isComparing ? (model.jobCon || 0) + (totalSummary2?.con || 0) : null"
               badgeSeverity="danger"
               (extraClick)="showBonusBreakdown({ label: 'CON', keys: statBreakdownKeys('con'), valueClass: 'summary_stat_yellow' })"
+              (compareExtraClick)="showBonusBreakdown({ label: 'CON', keys: statBreakdownKeys('con'), valueClass: 'summary_stat_yellow', compare: true })"
             ></app-status-input>
             <app-status-input
               label="SOR"
@@ -336,7 +356,9 @@
               [(value)]="model.luk"
               (valueChange)="onBaseStatusChange()"
               [extraValue]="(model.jobLuk || 0) + (totalSummary?.luk || 0)"
+              [compareExtraValue]="isComparing ? (model.jobLuk || 0) + (totalSummary2?.luk || 0) : null"
               (extraClick)="showBonusBreakdown({ label: 'SOR', keys: statBreakdownKeys('luk'), valueClass: 'summary_value' })"
+              (compareExtraClick)="showBonusBreakdown({ label: 'SOR', keys: statBreakdownKeys('luk'), valueClass: 'summary_value', compare: true })"
             ></app-status-input>
             <app-status-input
               label="CRV"
@@ -345,8 +367,10 @@
               [(value)]="model.crt"
               (valueChange)="onBaseStatusChange()"
               [extraValue]="(model.jobCrt || 0) + (totalSummary?.crt || 0)"
+              [compareExtraValue]="isComparing ? (model.jobCrt || 0) + (totalSummary2?.crt || 0) : null"
               badgeSeverity="danger"
               (extraClick)="showBonusBreakdown({ label: 'CRV', keys: statBreakdownKeys('crt'), valueClass: 'summary_stat_yellow' })"
+              (compareExtraClick)="showBonusBreakdown({ label: 'CRV', keys: statBreakdownKeys('crt'), valueClass: 'summary_stat_yellow', compare: true })"
             ></app-status-input>
           </div>
         </div>
@@ -759,7 +783,6 @@
               [spriteFallbackUrl]="pvpTargetFallbackSprite"
               [compareItemNames]="compareItemNames"
               [canBreakdownFn]="canBreakdown"
-              [isBreakdownOpen]="isShowBonusBreakdown"
               [reductionCategories]="targetReductionCategories"
               [reductionSources]="pvpTargetSources"
               [rotationView]="rotationViewPvp"
@@ -842,7 +865,6 @@
               (rotationChange)="onRotationChange($event)"
               (optimizeClick)="onOptimizeRotation()"
               [canBreakdownFn]="canBreakdown"
-              [isBreakdownOpen]="isShowBonusBreakdown"
               (showElementTableClick)="onShowElementalTableClick()"
               (showBonusBreakdownClick)="showBonusBreakdown($event)"
             ></app-battle-hud>

@@ -24,13 +24,30 @@
       <ng-template pTemplate="filtericon"> </ng-template>
     </p-dropdown>
   </div>
-  <span
-    *ngIf="showExtra"
-    class="status_extra"
-    [class]="badgeSeverity === 'info' ? 'text-cyan-300' : 'text-yellow-400'"
-    [class.bonus_clickable]="isExtraClickable"
-    [keyActivate]="isExtraClickable"
-    (click)="isExtraClickable && extraClick.emit()"
-    >+{{ extraValue }}</span
-  >
+  <!-- The equip bonus, with the compared build's value stacked under it. Stacked rather
+       than beside, so a comparison costs no extra width on a grid of twelve of these. -->
+  <span class="status_badges" *ngIf="showExtra">
+    <span class="status_badge_stack" [class.status_badge_stack--delta]="!!compareDelta">
+      <span
+        class="status_extra"
+        [class]="badgeSeverity === 'info' ? 'text-cyan-300' : 'text-yellow-400'"
+        [class.bonus_clickable]="isExtraClickable"
+        [keyActivate]="isExtraClickable"
+        (click)="isExtraClickable && extraClick.emit()"
+        >{{ extraText }}</span
+      >
+      <span
+        *ngIf="compareDelta"
+        class="status_delta bonus_clickable"
+        [class.status_delta--up]="compareDelta.better"
+        [class.status_delta--down]="!compareDelta.better"
+        [pTooltip]="label + ' - Comparação'"
+        tooltipPosition="top"
+        [showDelay]="300"
+        keyActivate
+        (click)="compareExtraClick.emit()"
+        >{{ compareDelta.text }}</span
+      >
+    </span>
+  </span>
 </div>

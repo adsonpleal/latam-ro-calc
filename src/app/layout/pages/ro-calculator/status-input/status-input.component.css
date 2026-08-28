@@ -40,15 +40,61 @@
   font-size: 12px;
 }
 
-/* Fixed and left-aligned, so the badges line up with each other instead of drifting with
-   the width of the number to their left. Wide enough for "+120". */
-.status_extra {
+/* A fixed track, so the badges line up with each other instead of drifting with the width
+   of the number to their left. Wide enough for "+120". */
+.status_badges {
   flex: 0 0 34px;
   width: 34px;
+  display: flex;
+  align-items: center;
+  line-height: 1.05;
+}
+
+/* Sized by the value alone: the comparison is taken out of flow, so it cannot widen this
+   box and push the value off the column it shares with the eleven other fields. That is
+   also what makes `right: 0` below land on the value's own right edge rather than on the
+   track's — the baseline asked for is the end of the number, not the end of the slot. */
+.status_badge_stack {
+  position: relative;
+  display: block;
+  width: max-content;
+}
+
+/* Reserve the row the out-of-flow comparison sits in, so the pair is centred in the field
+   instead of hanging past its bottom edge. Only 12px — the whole stack still fits inside
+   the field's height, so a comparison costs no room in either direction. */
+.status_badge_stack--delta {
+  padding-bottom: 12px;
+}
+
+.status_extra {
+  display: block;
   text-align: left;
   font-size: 12.5px;
   font-weight: 500;
   white-space: nowrap;
   position: relative;
   z-index: 1;
+}
+
+/* The compared build's value for this stat, shown only when a swap actually moved it.
+   No arrow: sitting directly under the value, in its own colour, it can only be the one
+   thing. Deliberately NOT the `compare_greater` / `compare_lower` class names: this component
+   compiles ../ro-calculator.component.css into its own scope, and those two carry a
+   `--stat-chip-bg` background from the old table cells, which painted a dark box behind
+   the delta. Typography follows .ss_delta, the ficha's equivalent. */
+.status_delta {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  white-space: nowrap;
+  font-size: 10px;
+}
+
+.status_delta--up {
+  color: var(--green-400);
+}
+
+.status_delta--down {
+  color: var(--red-400);
 }

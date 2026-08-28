@@ -27,6 +27,8 @@ const TR: Record<string, string> = {
   'CRI Dmg': 'Dano Crít.',
   Delay: 'Pós-conjuração',
   VCT: 'Conj. Variável',
+  ASPD: 'Vel.Atq',
+  'ASPD %': 'Vel.Atq %',
 };
 const tr = (s: string) => TR[s] ?? s;
 

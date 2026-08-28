@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { AllowedCompareItemTypes } from './allowed-compare-item-types';
-import { EQUIPMENT_SLOTS, SLOTS_BY_KEY, SLOT_GROUP_ORDER, comparableKeysOf } from './equipment-slots';
+import { EQUIPMENT_SLOTS, SLOTS_BY_KEY, SLOT_GROUPS, comparableKeysOf } from './equipment-slots';
 import { ItemOptionNumber } from '../constants/item-option-number.enum';
 import { ItemTypeEnum } from '../constants/item-type.enum';
 import { MainItemWithRelations } from '../constants/item-type.enum';
@@ -89,7 +89,7 @@ describe('EQUIPMENT_SLOTS', () => {
   it('covers each slot key once and only names known groups', () => {
     expect(SLOTS_BY_KEY.size).toBe(EQUIPMENT_SLOTS.length);
     for (const slot of EQUIPMENT_SLOTS) {
-      expect(SLOT_GROUP_ORDER, slot.key).toContain(slot.group);
+      expect(SLOT_GROUPS.map((group) => group.key), slot.key).toContain(slot.group);
     }
   });
 
