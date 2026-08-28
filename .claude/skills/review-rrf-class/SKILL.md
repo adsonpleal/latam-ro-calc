@@ -301,6 +301,20 @@ recording cannot separate the stages. And always keep the gearless recording as 
 if it is exact, the cause is in the equipment, and the next step is reading every equipped
 item's pt-BR description against its `script` in `item.json` — see [[ptbr-description-source-of-truth]].
 
+**A skill whose ratio carries a trait term is a probe for the traits themselves.** Compare it
+against a sibling skill in the *same* recording whose ratio does not: every ATK-side factor —
+gear, buffs, crit, the target — multiplies both identically and cancels out of the ratio, so
+what is left is the trait term alone. Dragon Knight has the pair ready made: Servant Weapon is
+`(200 + lv×50 + POD×5) × nv/100`, while Onda de Choque and Impacto Flamejante carry no POD at
+all. On a 25-buff recording Servant Weapon sat 6.8% above its siblings; sweeping POD until the
+three agreed put the character 13 points over the POD its card claimed — an unmodelled buff,
+measured out of a file far too contaminated to hold the engine to anything else.
+
+Run in reverse it is a **check on the card's own numbers**: when the trait-scaling skill and
+its siblings already agree, the hand-typed traits are right and a surviving residual is not a
+trait problem. Worth doing early, because §2 warns that `traitsSource: 'form'` is a human
+typing into a dialog.
+
 ## 10. Land it as tests
 
 Commit the `.rrf` under `src/app/replay/__tests__/fixtures/` (the folder already versions
