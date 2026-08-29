@@ -158,6 +158,16 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.92-beta',
+      date: '28-08-2026',
+      logs: [
+        'O Renegado foi conferido contra uma gravação, a primeira que a classe teve. A Ofensiva Fatal sai com a razão da tabela do próprio cliente — 1.200% no Nv 10, mais o dobro da AGI, tudo multiplicado pelo nível de base —, o dobro de golpes que a adaga concede está no lugar, e a habilidade não critica, como todos os pacotes gravados mostram. Os dezenove golpes gravados fora de qualquer buff caem dentro da faixa que o simulador calcula.',
+        'O Ataque Surpresa entrou na lista de habilidades do Renegado. O efeito que ele deixa no alvo já era calculado — quem apanha passa a receber 30% mais dano, ou 15% se for chefe —, mas a habilidade em si não existia no simulador, então não dava para medir o golpe nem montar a rotação com ela. Agora ela aparece, corpo a corpo e sem crítico, com a razão da tabela do cliente: 200% no Nv 1 até 800% no Nv 5.',
+        'A mesma gravação confirma as duas metades do Ataque Surpresa. O golpe gravado cai a 0,1% do centro da faixa que o simulador calcula, e os pacotes de dentro dos dez segundos do efeito ficam 15% acima dos de fora — 15%, e não os 30% que a descrição anuncia primeiro, porque os dummies do campo de treinamento contam como chefes. É por isso que os dois números da descrição estão certos e mesmo assim só um deles aparece ali.',
+        'Fica em aberto uma diferença de 1% a 2% nos ataques básicos, com o simulador abaixo do jogo. Ela não vem de buff escondido — a gravação carrega só duas poções, ambas de velocidade de ataque —, nem de efeito com chance de disparar, nem de pacote lido errado; e essa gravação não traz a janela de status, então não há como conferir o ATQ por fora. Uma segunda gravação do Renegado, desarmado ou trocando a adaga durante a gravação, é o que fecharia a conta. Obrigado Leonardo pela gravação.',
+      ],
+    },
+    {
       v: '0.1.91-beta',
       date: '28-08-2026',
       logs: [
