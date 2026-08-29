@@ -1,5 +1,5 @@
 import { ClassName } from './_class-name';
-import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
+import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { Thief } from './Thief';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
@@ -81,7 +81,30 @@ export class Stalker extends Thief {
   protected override initialStatusPoint = 100;
 
   protected readonly classNamesHi = [ClassName.Rogue, ClassName.HiClass, ClassName.Stalker];
-  protected readonly atkSkillListHi: AtkSkillModel[] = [];
+  protected readonly atkSkillListHi: AtkSkillModel[] = [
+    {
+      name: 'Sightless Mind',
+      label: 'Sightless Mind Lv5',
+      value: 'Sightless Mind==5',
+      // The client publishes no Conjuração/Espera window for this skill — its `delay` is
+      // null in the ragassets feed — so 214 sits in skill-delay.spec.ts's NO_CLIENT_ROW
+      // and these four stay at zero rather than being copied off a blog.
+      acd: 0,
+      fct: 0,
+      vct: 0,
+      cd: 0,
+      isMelee: true,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { skillLevel } = input;
+
+        // Client table, skill-meta.generated.ts id 214: 200/350/500/650/800 per level.
+        // The description credits neither the base level nor a stat, unlike Ofensiva
+        // Fatal ("O dano é afetado pela AGI e pelo nível de base") — so nothing else
+        // enters here.
+        return 50 + skillLevel * 150;
+      },
+    },
+  ];
   protected readonly activeSkillListHi: ActiveSkillModel[] = [];
   protected readonly passiveSkillListHi: PassiveSkillModel[] = [];
 

@@ -41,6 +41,7 @@ const EXCEPTIONS: Record<string, { fields: Field[]; why: string; }> = {
  * one has to be looked at rather than quietly skipped.
  */
 const NO_CLIENT_ROW = new Set([
+  214, // Ataque Surpresa (Sightless Mind)
   720, // Esquife de Gelo (Jack Frost)
   2308, // Toque do Oblívio (Banishing Point)
   2593, // Chute Solar (Blaze Kick)

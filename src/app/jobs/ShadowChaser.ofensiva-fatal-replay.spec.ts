@@ -3,6 +3,8 @@ import { describe, expect, it } from 'vitest';
 import { Calculator } from 'src/app/core/calculator';
 import { CalculatorController } from 'src/app/core/calculator-controller';
 import { parseOptionScripts } from 'src/app/core/option-scripts';
+import { JobBuffs } from 'src/app/constants/job-buffs';
+import { collectBuffBonuses } from 'src/app/core/calculator-controller';
 import { loadReplayFixture } from 'src/app/replay/__tests__/load-fixture';
 import { importReplayBuffer } from 'src/app/replay/replay-to-model';
 import { SKILL_ID_BY_NAME } from 'src/app/skills';
@@ -37,21 +39,27 @@ import { ShadowChaser } from './ShadowChaser';
  * dobrada", and `calcSkillDmgByTotalHit` doubles it — which is why `skillMinDamage` is
  * compared to the raw packet and not to half of it.
  *
- * **What the recording proves about Ataque Surpresa, a skill this engine does not model.**
- * Sightless Mind (id 214) is cast once, at 10.516 ms, and its client text reads "Pelos
- * próximos 10 segundos… Monstros Normais: recebem 30% mais dano / Monstros Chefes: 15%".
- * Splitting the 42 Ofensiva Fatal packets on that ten-second window separates them cleanly
- * and with nothing in between:
+ * **The recording also pins Ataque Surpresa, both halves of it.** Sightless Mind (id 214)
+ * is cast once, at 10.516 ms, and its client text reads "Pelos próximos 10 segundos…
+ * Monstros Normais: recebem 30% mais dano / Monstros Chefes: 15%". Splitting the 42
+ * Ofensiva Fatal packets on that ten-second window separates them cleanly, with nothing in
+ * between:
  *
  *   fora da janela   19 pacotes   302.314 – 321.106   média 313.054
  *   dentro da janela 23 pacotes   346.552 – 374.432   média 360.314   ← razão 1,15096
  *
  * 1,151 is the **Boss** branch, not the normal one, and that is correct: the Dummy -
- * Fantasma carries `class: 1` in monster.json, which is rAthena's boss flag. So the
- * recording measures the debuff at 15% to within 0,1 pp of the client's own number. The
- * engine has no Sightless Mind — neither as an attack skill nor as the debuff — so the
- * comparison below deliberately uses **only the 19 packets outside the window**. The
- * measurement is pinned here so that whoever adds the skill has the target to hit.
+ * Fantasma carries `class: 1` in monster.json, which is rAthena's boss flag. The debuff
+ * itself was already modelled — `_getRaidMultiplier` splits 115/130 and the toggle is the
+ * global JobBuffs row `Raid` — so what the recording adds there is the proof that the
+ * split and the branch are both right, to within 0,1 pp. The **skill** was the missing
+ * half, and it was added off the back of this file (Stalker `atkSkillListHi`); its single
+ * recorded packet, 23.144, lands within 0,1% of the midpoint of what the client's 800%
+ * ratio predicts.
+ *
+ * Because the debuff is a target-side multiplier, the Ofensiva Fatal comparison below is
+ * run in both states: the 19 packets against the plain build, the 23 against the same
+ * build with the toggle on.
  *
  * **Open residual, ~1–2%.** The recorded maxima sit slightly above what the engine calls
  * its own maximum, consistently and in every channel:
@@ -80,7 +88,7 @@ const hpSpTable = JSON.parse(readFileSync('src/assets/demo/data/hp_sp_table.json
 /** "Dummy - Fantasma" (view 21085) — Médio, Amorfo, Fantasma 1, e `class: 1` (Chefe). */
 const DUMMY_FANTASMA = '21085';
 
-function simular(skillValue: string) {
+function simular(skillValue: string, comAtaqueSurpresa = false) {
   const { model, learnedSkills }: any = importReplayBuffer(
     loadReplayFixture('shadowchaser-ofensiva-fatal.rrf'),
     items,
@@ -106,10 +114,18 @@ function simular(skillValue: string) {
     .setLearnSkills({ activeSkillIds: activeIds, passiveSkillIds: passiveIds })
     .getSkillBonusAndName();
 
+  // "Ataque Surpresa" is the debuff row in the global JobBuffs list, keyed `raid`.
+  const selectedBuffValues = JobBuffs.map((buff) => (comAtaqueSurpresa && buff.name === 'Raid' ? 1 : 0));
+  const { equipAtk: buffEquips, masteryAtk: buffMasterys }: any = collectBuffBonuses(
+    JobBuffs as any,
+    selectedBuffValues,
+    activeSkillNames,
+  );
+
   const calc = new Calculator().setMasterItems(items).setHpSpTable(hpSpTable).setClass(cls);
   calc.loadItemFromModel(m);
   new CalculatorController().runChain(calc, {
-    monster: monsters[DUMMY_FANTASMA], equipAtks, masteryAtks, buffEquips: {}, buffMasterys: {},
+    monster: monsters[DUMMY_FANTASMA], equipAtks, masteryAtks, buffEquips, buffMasterys,
     consumeData: [], aspdPotion: undefined,
     extraOptionScripts: parseOptionScripts((m.rawOptionTxts ?? []).filter(Boolean)),
     activeSkillNames, learnedSkillMap, selectedAtkSkill: skillValue, selectedChances: [],
@@ -217,18 +233,66 @@ describe('Shadow Chaser — what this recording leaves open', () => {
     expect(criticoGravadoMax / r.criticoMax).toBeGreaterThan(1); // ainda aberto
   });
 
-  /**
-   * Ataque Surpresa (Sightless Mind, 214) is not in the class at all — not as an attack
-   * skill and not as the "recebem N% mais dano" debuff it leaves on the target. The
-   * recording measures that debuff at 1,15096 against a `class: 1` dummy, which is the
-   * client's Boss branch (15%) and not its normal-monster one (30%). Kept as the target
-   * for whoever models it.
-   */
-  it('Ataque Surpresa is still unmodelled — the recording measures its Boss branch at 15%', () => {
-    const cls: any = new ShadowChaser();
-    const nomes = [...cls.atkSkills, ...cls.activeSkills, ...cls.passiveSkills].map((s: any) => s.name);
-    expect(nomes).not.toContain('Sightless Mind');
+});
 
+/**
+ * Ataque Surpresa (Sightless Mind, 214) is a Rogue skill, so it lives on Stalker's
+ * `atkSkillListHi` and reaches Renegado by inheritance. The recording is the only
+ * measurement of it this project has, and it pins both halves at once — the hit it deals
+ * and the debuff it leaves — because the character casts it exactly once, at 10.516 ms,
+ * and keeps hitting the same dummy on both sides of its ten-second window.
+ *
+ * The **debuff** half was already in the engine before this recording: `_getRaidMultiplier`
+ * returns 115 on a boss and 130 otherwise, and the toggle is the global JobBuffs row named
+ * `Raid`. What the recording adds is the proof that both the split and the branch are
+ * right — the dummy is `class: 1`, and the measured 1,15096 is the boss number.
+ */
+describe('Shadow Chaser — Ataque Surpresa Nv5 vs "Dummy - Fantasma"', () => {
+  const r = simular('Sightless Mind==5');
+
+  it('skill ratio is 800% — the client table, with no base-level or stat term', () => {
+    // skill-meta.generated.ts id 214: 200/350/500/650/800 = 50 + Nv × 150.
+    expect(r.baseSkillDamage).toBe(800);
+  });
+
+  it('is one melee hit and cannot crit, like the single recorded packet', () => {
+    expect(r.golpesDeDano).toBe(1);
+    expect(r.podeCritar).toBe(false);
+  });
+
+  it(`the recorded packet 23.144 falls inside ${r.minPacote}–${r.maxPacote}`, () => {
+    const GRAVADO = 23144;
+    expect(GRAVADO).toBeGreaterThanOrEqual(r.minPacote);
+    expect(GRAVADO).toBeLessThanOrEqual(r.maxPacote);
+    // It lands within 0,1% of the midpoint, which is what says the 800% is the right
+    // ratio rather than merely a ratio the window happens to admit.
+    expect(GRAVADO / ((r.minPacote + r.maxPacote) / 2)).toBeCloseTo(1, 2);
+  });
+
+  it('the simulated range is tight enough for that to mean something', () => {
+    expect(r.maxPacote / r.minPacote).toBeLessThan(1.12);
+  });
+});
+
+describe('Shadow Chaser — the Ataque Surpresa debuff on the target', () => {
+  const semDebuff = simular('Fatal Manace==10');
+  const comDebuff = simular('Fatal Manace==10', true);
+
+  it('multiplies by exactly 1,15 on a boss — the branch the dummy falls into', () => {
+    expect(comDebuff.maxPacote / semDebuff.maxPacote).toBeCloseTo(1.15, 5);
+    // monster.json 21085 carries `class: 1`, rAthena's boss flag. Asserted here because
+    // it is the whole reason the recording reads 15% and not the advertised 30%.
+    expect(monsters[DUMMY_FANTASMA].stats.class).toBe(1);
+  });
+
+  it('the 23 packets recorded inside the window fall inside the debuffed range', () => {
+    const DENTRO_MIN = 346552;
+    const DENTRO_MAX = 374432;
+    expect(DENTRO_MIN).toBeGreaterThanOrEqual(comDebuff.minPacote);
+    expect(DENTRO_MAX).toBeLessThanOrEqual(comDebuff.maxPacote);
+  });
+
+  it('and the ratio the recording measured is the one the engine produces', () => {
     const mediaForaDaJanela = 313054.4;
     const mediaDentroDaJanela = 360314.3;
     expect(mediaDentroDaJanela / mediaForaDaJanela).toBeCloseTo(1.15, 2);
