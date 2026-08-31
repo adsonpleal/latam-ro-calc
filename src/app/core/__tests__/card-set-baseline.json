@@ -359,8 +359,13 @@
  },
  "4199": {
   "scenarios": {
-   "alone": {},
+   "alone": {
+    "hpRecovRate": 10,
+    "spRecovRate": 10
+   },
    "with:4234,4252,4178,4297": {
+    "hpRecovRate": 10,
+    "spRecovRate": 10,
     "dex": 3,
     "agi": 5,
     "range": 20,
@@ -468,10 +473,13 @@
   "scenarios": {
    "alone": {
     "hp": 1000,
+    "hpRecovRate": -20,
     "vit": -3
    },
    "with:4269": {
     "hp": 1000,
+    "hpRecovRate": 10,
+    "spRecovRate": 30,
     "int": 4,
     "vit": 1
    }
@@ -485,6 +493,15 @@
      ]
     ],
     "tail": "4"
+   },
+   {
+    "key": "hpRecovRate",
+    "groups": [
+     [
+      4269
+     ]
+    ],
+    "tail": "30"
    }
   ]
  },
@@ -541,6 +558,7 @@
    },
    "with:4220,4311,4331,4319": {
     "hpPercent": 20,
+    "hpRecovRate": 50,
     "str": 10,
     "criDmg": 10
    }
@@ -581,6 +599,24 @@
      ]
     ],
     "tail": "20"
+   },
+   {
+    "key": "hpRecovRate",
+    "groups": [
+     [
+      4220
+     ],
+     [
+      4311
+     ],
+     [
+      4331
+     ],
+     [
+      4319
+     ]
+    ],
+    "tail": "50"
    }
   ]
  },
@@ -658,10 +694,13 @@
   "scenarios": {
    "alone": {
     "sp": 150,
+    "spRecovRate": -20,
     "int": -3
    },
    "with:4218": {
     "sp": 150,
+    "hpRecovRate": 30,
+    "spRecovRate": 10,
     "int": 1,
     "vit": 4
    }
@@ -675,6 +714,15 @@
      ]
     ],
     "tail": "4"
+   },
+   {
+    "key": "spRecovRate",
+    "groups": [
+     [
+      4218
+     ]
+    ],
+    "tail": "30"
    }
   ]
  },
@@ -992,6 +1040,7 @@
     "vct": -20
    },
    "with:4311,4331,4319": {
+    "spRecovRate": 10,
     "def": 2,
     "atk": 10,
     "str": 1,
@@ -1059,6 +1108,21 @@
      ]
     ],
     "tail": "2"
+   },
+   {
+    "key": "spRecovRate",
+    "groups": [
+     [
+      4311
+     ],
+     [
+      4331
+     ],
+     [
+      4319
+     ]
+    ],
+    "tail": "10"
    }
   ]
  },
@@ -1155,14 +1219,17 @@
  "4382": {
   "scenarios": {
    "alone": {
-    "hp": 500
+    "hp": 500,
+    "hpRecovRate": 10
    },
    "with:4325,4258,4208,4327": {
     "hp": 500,
+    "hpRecovRate": 10,
     "int": 3
    },
    "with:4325,4258,4208,4327@Sage": {
     "hp": 500,
+    "hpRecovRate": 10,
     "int": 3,
     "vct": 20
    }
@@ -2452,11 +2519,13 @@
   "scenarios": {
    "alone": {
     "sp": 150,
+    "spRecovRate": 30,
     "int": 1
    },
    "with:27114": {
     "hpPercent": 5,
     "sp": 185,
+    "spRecovRate": 30,
     "int": 1
    }
   },
@@ -3910,9 +3979,12 @@
  },
  "27388": {
   "scenarios": {
-   "alone": {},
+   "alone": {
+    "hpRecovRate": 30
+   },
    "with:4038": {
-    "hpPercent": 15
+    "hpPercent": 15,
+    "hpRecovRate": 30
    }
   },
   "clauses": [
@@ -4191,10 +4263,12 @@
  "300002": {
   "scenarios": {
    "alone": {
-    "hpPercent": 10
+    "hpPercent": 10,
+    "dmg_taken_range": 5
    },
    "with:4334": {
-    "hpPercent": 15
+    "hpPercent": 15,
+    "dmg_taken_range": 15
    }
   },
   "clauses": [
@@ -4206,6 +4280,15 @@
      ]
     ],
     "tail": "5"
+   },
+   {
+    "key": "dmg_taken_range",
+    "groups": [
+     [
+      4334
+     ]
+    ],
+    "tail": "10"
    }
   ]
  },

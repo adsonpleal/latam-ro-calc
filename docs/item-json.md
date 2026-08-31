@@ -162,8 +162,10 @@ esteja equipado; passando, sobra `50` (valor fixo).
 
 A lista **autoritativa** de chaves de atributo está em
 [`src/app/utils/create-raw-total-bonus.ts`](../src/app/utils/create-raw-total-bonus.ts)
-(187 chaves). **Nunca** invente uma chave fora dessa lista — deixar o efeito de fora é
-melhor que uma chave errada. Categorias principais:
+— leia o arquivo em vez de confiar em um número escrito aqui, que envelhece (ficou em
+"187" muito depois de o arquivo passar de 240). **Nunca** invente uma chave fora dessa lista
+— uma chave errada é pior que nenhuma. Mas "ainda não tem chave" não é o mesmo que "deixe de fora": veja a §3.4.
+Categorias principais:
 
 | Categoria            | Exemplos de chave |
 |----------------------|-------------------|
@@ -182,6 +184,7 @@ melhor que uma chave errada. Categorias principais:
 | Dano vs. classe      | `p_class_all` |
 | Dano vs. monstro     | `dmg__<aegisDoMonstro>` |
 | **Dano de perícia**  | a **chave é o id da perícia** — ex.: `"382"` = Tiro Preciso (ver abaixo) |
+| **Só exibição**      | cura, regeneração, absorção de HP/SP, dano refletido — `healPower` `healReceived` `hpRecovRate` `spRecovRate` `hpDrain` `spDrain` `reduceDamageReturn` `magicHealHp` `magicHealSp` (ver §3.4) |
 
 Sufixos: raça `all` `formless` `undead` `brute` `plant` `insect` `fish` `demon` `demihuman`
 `angel` `dragon`; tamanho `s` `m` `l`; elemento `neutral` `water` `earth` `fire` `wind`
@@ -218,6 +221,55 @@ Vendaval de Flechas (id 5330) quando equipado com o arco de grau C.
 A chave `chance__<algo>` registra uma **chance** (em %) de um efeito, exibida na lista de
 chances em vez de somar direto ao status. Pode empilhar com outros prefixos
 (ex.: `chance__cd__<id>`).
+
+### 3.4 Chaves só de exibição
+
+Uma linha da descrição tem **três** destinos possíveis, não dois. Mapear para uma chave que
+já existe é o primeiro; deixar de fora é o último recurso; e no meio há um real:
+
+> **Se a linha promete um efeito quantificado e permanente para o qual a engine simplesmente
+> não tem estágio, ela vira uma chave só de exibição em vez de ser descartada.**
+
+A calculadora modela o dano *causado*. Cura, regeneração, absorção de HP/SP e resistência a
+dano refletido não têm por onde entrar nessa conta — foi por isso que ficaram anos de fora, e
+o silêncio custou caro: cerca de 300 registros não pontuavam nada, e oito automódulos da
+Automatron vinham com `script: {}` enquanto o jogo claramente dava alguma coisa. Com a chave,
+a lista de bônus do item e o detalhamento passam a nomear o efeito, o Resumo de atributos pode
+ter uma linha, e a importação de replay carrega o valor.
+
+As que já existem — **reaproveite antes de criar qualquer outra**:
+
+| Linha pt-BR | Chave |
+|---|---|
+| `Efetividade de cura +N%` (a cura que você lança) | `healPower` |
+| `Cura recebida +N%` / `Efetividade de cura recebida` (a cura que cai em você) | `healReceived` |
+| `Regen. natural de HP +N%` | `hpRecovRate` |
+| `Regen. natural de SP +N%` | `spRecovRate` |
+| `X% de chance de converter N% do dano físico causado em HP` | `hpDrain` |
+| …`em SP` | `spDrain` |
+| `Resistência a danos refletidos +N%` | `reduceDamageReturn` |
+| proc `[Cura Mágica]` | `magicHealHp` |
+| proc `[Cura Espiritual]` / `[Cura Mística]` | `magicHealSp` |
+
+**Regra dura: uma chave só de exibição nunca entra no cálculo de dano.** Isto não é um atalho
+para contornar a regra de não inventar modificadores de dano — se o efeito *mudaria* o dano,
+ele é um modificador, e não cabe a você inventá-lo: reporte a lacuna. `healing-stats.spec.ts`
+segura a linha com um teste que exige dano idêntico entre uma build carregada dessas chaves e
+uma sem nenhuma.
+
+Duas convenções fechadas na varredura que criou a família:
+
+- **A chave guarda a magnitude, não a chance de disparo.** "2% de chance de converter 3% do
+  dano em HP" é `hpDrain: ["3"]`. A chance é de um item só e não soma entre peças — e **não**
+  use `chance__` para elas, porque essa chave joga o item na lista de "Efeitos" do dano, que é
+  a superfície errada para um número cosmético.
+- **Normalize a unidade quando o cliente é inconsistente.** `[Cura Mágica]` está escrita como
+  "300 de HP por segundo" no 19404 e "500 de HP a cada 0,4 segundos" no 310115 — as duas são
+  guardadas por segundo, para a coluna fechar.
+
+**Continua fora** (e deve ser reportado): proc cuja chance ou duração a descrição não diz;
+condição sem contexto na engine ("Apenas nos Castelos TE", "Em mapas de GdE e PvP", "Durante a
+transformação"); e escala por perícia ausente do Catálogo de Perícias.
 
 ---
 

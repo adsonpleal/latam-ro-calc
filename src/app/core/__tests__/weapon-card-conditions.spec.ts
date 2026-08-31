@@ -18,8 +18,9 @@ describe('300172 Carta Sugador de Cérebro — no condition at all', () => {
     expect(wornBonus({ weapon: ESPADA_1H, weaponCard: 300172 })['hpPercent']).toBe(-15);
   });
 
-  it('brings nothing else (SP drain and life absorption are not modelled)', () => {
-    expect(Object.keys(ITEM_DB[300172].script)).toEqual(['hpPercent']);
+  it('brings its SP drain and nothing else (life absorption is still not modelled)', () => {
+    expect(Object.keys(ITEM_DB[300172].script)).toEqual(['hpPercent', 'spDrain']);
+    expect(ITEM_DB[300172].script.spDrain).toEqual(['20']);
   });
 });
 

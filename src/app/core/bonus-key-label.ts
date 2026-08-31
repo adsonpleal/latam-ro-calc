@@ -10,6 +10,11 @@ export function resolveSkillKey(key: string): { id: number; name: string; iconTy
 // so the item-bonus list reads the same as the rest of the UI instead of raw EN abbreviations.
 export const ITEM_BONUS_LABELS: Record<string, string> = {
   hp: 'HP máx.', hpPercent: 'HP máx. %', sp: 'SP máx.', spPercent: 'SP máx. %',
+  healReceived: 'Cura recebida', healPower: 'Efetividade de cura',
+  hpRecovRate: 'Regen. natural de HP', spRecovRate: 'Regen. natural de SP',
+  hpDrain: 'Converte dano em HP', spDrain: 'Converte dano em SP',
+  reduceDamageReturn: 'Resistência a dano refletido',
+  magicHealHp: 'Cura Mágica (HP/s)', magicHealSp: 'Cura Espiritual (SP/s)',
   def: 'DEF', defPercent: 'DEF %', softDef: 'DEF Leve', softDefPercent: 'DEF Leve %',
   mdef: 'DEFM', mdefPercent: 'DEFM %', softMdef: 'DEFM Leve', softMdefPercent: 'DEFM Leve %',
   // Tenacidade / Tenacidade Mágica — the LATAM client's own names for the two

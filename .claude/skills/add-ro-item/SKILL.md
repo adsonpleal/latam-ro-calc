@@ -43,7 +43,7 @@ Each script value is `"<key>": ["<entry>", ...]`. An entry is one of:
 
 **Reference skills by id, never by name.** `SKILL_ID[...]` / `ACTIVE_SKILL_ID[...]` are the id-based forms of the engine's older name tokens (`LEARN_SKILL[Name==lv]` / `ACTIVE_SKILL[Name]`) — prefer the id form for the same reason as `EQUIP_ID`: it survives pt-BR renaming and avoids guessing the exact internal English skill name (e.g. `SKILL_ID[2008==1]---2` instead of `LEARN_SKILL[Dragon Breath==1]---2`). `SKILL_ID2[id==lv]` is the niche variant of `LEARN_SKILL2`. Find a skill **id** in the Skill Catalog (`SKILL_META` / `SKILL_ID_BY_NAME`, `src/app/skills`) — the `id` field next to the pt-BR `label`. Parsed in `calculator.ts` (`learnedSkillIdMap` / `usedSkillIdSet` + the `SKILL_ID[...]` / `ACTIVE_SKILL_ID[...]` branches in `validateCondition`).
 
-**Bonus-key map (pt-BR phrase → key).** The authoritative key list is `src/app/utils/create-raw-total-bonus.ts` (187 keys). Common ones:
+**Bonus-key map (pt-BR phrase → key).** The authoritative key list is `src/app/utils/create-raw-total-bonus.ts` — read it rather than trusting a count written here, which drifts (it said 187 long after the file had passed 240). Common ones:
 
 - Stats: `FOR→str AGI→agi VIT→vit INT→int DES→dex SOR→luk`, all → `allStatus`.
 - Traits: `POD→pow STA→sta SAB→wis FEI→spl CON→con CRV→crt`, all → `allTrait`.
@@ -54,6 +54,7 @@ Each script value is `"<key>": ["<entry>", ...]`. An entry is one of:
 - `Pós-conjuração -N%→acd` · `Conjuração variável -N%→vct` · `Tempo de conjuração fixo -N%→fctPercent`. **Sign: store the reduction as a positive number** — `-5%` → `["5"]` (verified: Expert_Ring `acd:5` ↔ "Pós-conjuração -5%").
 - `Crítico→cri` · `Dano de crítico +N%→criDmg` · `Precisão→hit` · `Esquiva→flee` · `Alcance de ataque→range`.
 - `P.ATQ→pAtk · S.ATQM→sMatk · C.MAIS→cRate · hplus`.
+- Sustain (display only, see §3b): `Efetividade de cura→healPower · Cura recebida→healReceived · Regen. natural de HP/SP→hpRecovRate`/`spRecovRate · converter dano em HP/SP→hpDrain`/`spDrain · Resistência a danos refletidos→reduceDamageReturn`.
 - Damage modifiers (suffix tables below):
   - `Dano físico contra <raça> +N%` → `p_race_<r>`; `Dano mágico contra <raça>` → `m_race_<r>`.
   - `Dano físico contra tamanho <P/M/G>` → `p_size_<s|m|l>`.
@@ -67,7 +68,69 @@ Each script value is `"<key>": ["<entry>", ...]`. An entry is one of:
 ```
 node -e "const it=require('./src/assets/demo/data/item.json');const la=require('./src/assets/demo/data/latam-items.json');const c=s=>(s||'').replace(/\^[0-9a-fA-F]{6}/g,'');for(const x of Object.values(it)){const d=c(la[x.id]?.description);if(d.includes('PHRASE')){console.log(x.id,JSON.stringify(x.script));break}}"
 ```
-Replace `PHRASE` (e.g. `Pós-conjuração`). Match the key it uses and the sign. **Never guess a key that isn't in `create-raw-total-bonus.ts`** — leaving an effect out is better than a wrong key.
+Replace `PHRASE` (e.g. `Pós-conjuração`). Match the key it uses and the sign. **Never guess a key that isn't in `create-raw-total-bonus.ts`** — a wrong key is worse than no key. But "no key yet" is not the same as "leave it out": see §3b.
+
+### 3b. Effects with no key yet — register them as display-only stats
+
+A description line has **three** possible outcomes, not two. Mapping it to an existing key is
+the first; dropping it is the last resort; and in between there is a real one:
+
+> **If the line states a quantified, always-on effect that the engine simply has no stage
+> for, give it a display-only key rather than dropping it.**
+
+The calculator models damage *dealt*. Healing, regeneration, life/mana leech and
+reflected-damage reduction have nowhere to enter it — which is why they were silently absent
+for years. That silence had a cost: ~300 records scored nothing at all, and eight Automatron
+automódulos shipped with `script: {}` while the game plainly grants them something. A
+display-only key ends that: the item's bonus list and the breakdown dialog name it, the
+Resumo de atributos can show a row for it, and a replay import carries it.
+
+**These already exist — reuse them before inventing anything** (all in
+`create-raw-total-bonus.ts`, all documented on `EquipmentSummaryModel`):
+
+| pt-BR line | key |
+|---|---|
+| `Efetividade de cura +N%` (the heal you cast) | `healPower` |
+| `Cura recebida +N%` / `Efetividade de cura recebida` (the heal cast on you) | `healReceived` |
+| `Regen. natural de HP +N%` | `hpRecovRate` |
+| `Regen. natural de SP +N%` | `spRecovRate` |
+| `X% de chance de converter N% do dano físico causado em HP` | `hpDrain` |
+| …`em SP` | `spDrain` |
+| `Resistência a danos refletidos +N%` | `reduceDamageReturn` |
+| `[Cura Mágica]` proc | `magicHealHp` |
+| `[Cura Espiritual]` / `[Cura Mística]` proc | `magicHealSp` |
+
+**The hard line: a display-only key must never enter the damage pipeline.** This is not a way
+around the "no new damage modifiers" rule — that still stands for anything the damage math
+reads. If the effect *would* change damage, it is a modifier, and it is not yours to invent:
+report the gap and let the user judge. `src/app/core/healing-stats.spec.ts` holds the line
+with a test that a build carrying every sustain key deals damage identical to one carrying
+none; extend it when you add a key.
+
+**Adding a new display-only key** — five places, in this order:
+
+1. `src/app/models/equipment-summary.model.ts` — the field, with a doc comment saying it is
+   display only and why the engine has no stage for it.
+2. `src/app/utils/create-raw-total-bonus.ts` — `<key>: 0`.
+3. `src/app/core/bonus-key-label.ts` — `ITEM_BONUS_LABELS`, so the breakdown can name it.
+4. `src/app/layout/pages/ro-calculator/stats-summary.ts` — a row, **if** the stat is a
+   summable always-on figure worth headlining. Adding one changes the column depths that
+   `stats-summary.spec.ts` pins. A key with no row is still visible in the item's bonus list.
+5. A spec: the values it sums off the description, **and** the damage-unchanged guard.
+
+Two conventions the healing/sustain sweep settled — follow them:
+
+- **The key holds the magnitude, not the trigger chance.** "2% de chance de converter 3% do
+  dano em HP" is `hpDrain: ["3"]`. A chance belongs to one item and does not sum across a
+  build. Do **not** add a `chance__<key>` for these: that key puts the item in the "Efeitos"
+  damage checklist, which is the wrong surface for a cosmetic stat.
+- **Normalise the unit when the client is inconsistent.** `[Cura Mágica]` is worded "300 de HP
+  por segundo" on 19404 and "500 de HP a cada 0,4 segundos" on 310115 — both are stored per
+  second, so the column adds up.
+
+**Still leave out** (and say so in the report): procs whose chance or duration the description
+never states; gates the engine has no context for ("Apenas nos Castelos TE", "Em mapas de GdE
+e PvP", "Durante a transformação"); and scales on a skill absent from the Skill Catalog.
 
 ### 4. Combos — only this item's own, matched by id
 
@@ -118,4 +181,4 @@ It appends them to `item.json` with a minimal diff and skips ids already present
 - `aegisName` is a label only (no calc effect) — take it from `latam-items.json`.
 - Don't re-add an id that's already in item.json (apply.mjs guards this).
 - Costume/`[Visual]` items: **add them too — do not skip.** The scaffold routes them to a costume slot (`itemTypeId 9`, subtype 519-522). Their `script` is usually `{}`, but check the description for costume-enchant/stat effects.
-- Keep effects you can't confidently map **out** of the script rather than guessing.
+- Keep effects you can't confidently map **out** of the script rather than guessing — but check §3b first: an effect the engine has no *stage* for is a display-only key, not a drop.

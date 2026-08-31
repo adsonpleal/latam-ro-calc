@@ -52,15 +52,16 @@ describe.each([
 });
 
 describe('resistance-only Wolf Orbs', () => {
-  // Reflected-damage resistance has no bonus key. An empty script is the honest encoding;
-  // anything else invents a bonus the item does not give.
+  // These carried an empty script while reflected-damage resistance had no key at all.
+  // `reduceDamageReturn` is display only — the engine models damage dealt, so there is
+  // nothing here for it to reduce — but the orb is no longer worth nothing on the screen.
   it.each([
-    ['310585', 'Wolf_Orb_M_Counter_1'],
-    ['310586', 'Wolf_Orb_M_Counter_2'],
-    ['310587', 'Wolf_Orb_M_Counter_3'],
-  ])('%s %s grants no modelled bonus', (id, aegis) => {
+    ['310585', 'Wolf_Orb_M_Counter_1', ['2', '7===2', '9===3', '11===3']],
+    ['310586', 'Wolf_Orb_M_Counter_2', ['3', '7===3', '9===4', '11===4']],
+    ['310587', 'Wolf_Orb_M_Counter_3', ['4', '7===4', '9===5', '11===5']],
+  ])('%s %s scores its reflected-damage resistance and nothing else', (id, aegis, entries) => {
     expect(items[id]?.aegisName).toBe(aegis);
-    expect(items[id]?.script).toEqual({});
+    expect(items[id]?.script).toEqual({ reduceDamageReturn: entries });
   });
 
   // The "Total" orbs, on the other hand, land squarely on the defender-reduction keys the

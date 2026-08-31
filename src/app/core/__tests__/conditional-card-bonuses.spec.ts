@@ -64,8 +64,8 @@ describe('a refine step — "A cada N refinos:" is the "N---Y" entry', () => {
     // Four hyphens, not a typo: "1---" is the separator and "-40" the magnitude. The engine
     // splits on the first "---", so this is the only way to write a step that costs.
     expect(ITEM_DB[4353].script.hp).toEqual(['800', '1----40']);
-    expect(inArmor(4353, { armorRefine: 0 })).toEqual({ hp: 800 });
-    expect(inArmor(4353, { armorRefine: 10 })).toEqual({ hp: 400 });
+    expect(inArmor(4353, { armorRefine: 0 })).toEqual({ hp: 800, hpRecovRate: 10 });
+    expect(inArmor(4353, { armorRefine: 10 })).toEqual({ hp: 400, hpRecovRate: 10 });
   });
 });
 
@@ -163,9 +163,10 @@ describe('a Conjunto block, whose gate reaches the lines nested inside it', () =
   // 4382 Carta Novus Dourado, same shape: "Sábios e evoluções: Conjuração variável -20%"
   // sits inside the Conjunto with Harpia, Ninfa Perversa, Miyabi Ningyo and Borboleta.
   it('4382 Carta Novus Dourado keeps its flat line outside the Conjunto', () => {
-    // "HP máx. +500" is unconditional; "Regeneração natural de HP +10%" is not modelled.
+    // "HP máx. +500" and "Regeneração natural de HP +10%" are both unconditional; the
+    // second is a display-only stat (healing-stats.spec.ts) but it still sums here.
     expect(ITEM_DB[4382].script.hp).toEqual(['500']);
-    expect(inArmor(4382, { cls: new ElementalMaster() })).toEqual({ hp: 500 });
+    expect(inArmor(4382, { cls: new ElementalMaster() })).toEqual({ hp: 500, hpRecovRate: 10 });
   });
 });
 

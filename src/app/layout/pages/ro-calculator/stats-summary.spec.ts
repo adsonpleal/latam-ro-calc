@@ -136,8 +136,11 @@ describe('buildStatsSummary — the values', () => {
 });
 
 describe('buildStatsSummary — the groups', () => {
-  // The pairing is what balances the three columns at 8 / 8 / 7 rows; regroup them and the
-  // panel grows taller than the two input cells it sits beside.
+  // The pairing is what balances the three columns; regroup them and the panel grows
+  // taller than the two input cells it sits beside. It is 8 / 8 / 12 rather than the
+  // 8 / 8 / 7 it was designed at because Defesa and Recursos took the whole sustain
+  // family — four healing/regen rows and the reflected-damage one. Rebalancing would
+  // mean splitting a group across columns, which is a bigger decision than this was.
   it('pairs the groups into three columns of roughly equal depth', () => {
     const view = buildStatsSummary(summary(), null, OPTS);
 
@@ -146,7 +149,7 @@ describe('buildStatsSummary — the groups', () => {
       ['Mágico', 'Precisão e crítico'],
       ['Defesa', 'Recursos'],
     ]);
-    expect(view.columns.map((col) => col.reduce((n, g) => n + g.rows.length, 0))).toEqual([8, 8, 7]);
+    expect(view.columns.map((col) => col.reduce((n, g) => n + g.rows.length, 0))).toEqual([8, 8, 12]);
   });
 
   it('drops the whole Recursos group for the classes that have no HP/SP to show', () => {

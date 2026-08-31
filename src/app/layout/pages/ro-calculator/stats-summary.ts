@@ -294,6 +294,14 @@ const RESOURCE_ROWS: RowSpec[] = [
     read: (s) => num(s?.calc?.maxSp),
     origin: { label: 'Base (classe, nível e INT) e outros', sumKeys: ['sp'] },
   },
+  // Display only: the engine never applies either (see EquipmentSummaryModel.healReceived
+  // and .healPower), so the rows read the equipment sum straight and carry no origin —
+  // there is no base healing figure for a remainder to be taken against. The two are the
+  // heal a character receives and the heal it casts, and the game words them apart.
+  { label: 'Regen. HP', valueClass: 'summary_stat_yellow', keys: ['hpRecovRate'], read: (s) => pct(s?.hpRecovRate) },
+  { label: 'Regen. SP', valueClass: 'summary_stat_yellow', keys: ['spRecovRate'], read: (s) => pct(s?.spRecovRate) },
+  { label: 'Cura recebida', valueClass: 'summary_stat_yellow', keys: ['healReceived'], read: (s) => pct(s?.healReceived) },
+  { label: 'Efetividade de cura', valueClass: 'summary_stat_yellow', keys: ['healPower'], read: (s) => pct(s?.healPower) },
 ];
 
 // TEN / TENM share one line in the game's own window, but they are two independent stats
@@ -325,6 +333,10 @@ const DEFENCE_ROWS: RowSpec[] = [
     read: (s) => pair(s?.calc?.totalFlee, s?.calc?.totalPerfectDodge),
     origin: { label: 'Base (nível, AGI, SOR e CON)' },
   },
+  // Display only, like the sustain rows in Recursos: the engine models damage dealt, so a
+  // reflected-damage reduction has nothing to reduce here. It sits in Defesa because that
+  // is where the reductions read, not because the pipeline uses it.
+  { label: 'Res. dano refletido', valueClass: 'summary_stat_def2', keys: ['reduceDamageReturn'], read: (s) => pct(s?.reduceDamageReturn) },
 ];
 
 /** A cast/delay row: the component formats the text (negated, with its unit); the delta is

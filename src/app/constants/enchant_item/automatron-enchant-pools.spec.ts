@@ -8,13 +8,12 @@ import { getEnchants } from './_enchant_table';
  * table on browiki's Equipamentos Automatron page, column by column.
  *
  * Each piece takes 3 automódulos and every socket offers that piece's whole column, in
- * full. Nine of them carry an empty script, because the engine cannot measure a heal, a
- * regeneration or a reflected-damage effect — they are offered all the same, so a build
- * or a replay import naming one can show it in the socket the player filled. (The
- * "x1/x2/x3" repeat cap on the wiki is a rule of the NPC, not of the list.) The two
- * shields were the first gap found here — they had no row at all, so their sockets
- * offered nothing; F-Eternidade on the Perna and H-Maré on the Colete were the next two,
- * both reported from the game.
+ * full. Every one of them now scores: the eight that used to carry an empty script were
+ * the regeneration, drain and reflected-damage effects, and they got keys of their own
+ * when the sustain family was added (healing-stats.spec.ts). (The "x1/x2/x3" repeat cap
+ * on the wiki is a rule of the NPC, not of the list.) The two shields were the first gap
+ * found here — they had no row at all, so their sockets offered nothing; F-Eternidade on
+ * the Perna and H-Maré on the Colete were the next two, both reported from the game.
  *
  * @see https://browiki.org/wiki/Equipamentos_Automatron
  */
@@ -84,27 +83,6 @@ const COLUMNS: [string, string[], string[]][] = [
   ],
 ];
 
-/**
- * The nine modules the engine cannot measure. They are offered like any other — a player
- * who has one enchanted must be able to pick it, and a build or replay import naming one
- * must not silently drop it — but their script is empty, so they contribute nothing.
- *
- * If a key is ever added for one, its script is what changes; the pools already have it.
- * P-Total was on this list until the PVP section gave the engine a defender side — see the
- * note in _enchant_table.ts and automatron-module-effects.spec.ts.
- */
-const INERT: [string, number, string][] = [
-  ['M-HPR', 310090, 'Regen. natural de HP +30%'],
-  ['M-SPR', 310091, 'Regen. natural de SP +30%'],
-  ['M-Cura', 310098, 'Efetividade de cura'],
-  ['P-Vida', 310113, 'converter 3% do dano físico causado em HP'],
-  ['P-Alma', 310114, 'converter 2% do dano físico causado em SP'],
-  ['P-Mental', 310115, 'Cura Mágica'],
-  ['P-Mana', 310116, 'Cura Espiritual'],
-  ['P-Espelho', 310178, 'Resistência a danos refletidos'],
-  ['P-Refletor', 310179, 'Resistência a danos refletidos'],
-];
-
 /** aegisName -> the pt-BR name shown in the dropdown, so failures read like the wiki. */
 const NAME_BY_AEGIS = new Map<string, string>(
   Object.entries(items)
@@ -131,27 +109,18 @@ describe.each(COLUMNS)('%s', (_column, aegisNames, expected) => {
   });
 });
 
-describe('automódulos the game gives but the calculator cannot measure', () => {
-  it.each(INERT)('%s (%i) is selectable but scores nothing — "%s"', (name, id, effect) => {
-    expect(latam[id]?.name).toBe(name);
-    expect(latam[id]?.description).toContain(effect);
-    expect(items[id]).toBeDefined();
-    expect(items[id].script).toEqual({});
-  });
-
-  it('reaches every socket the wiki gives it, so an import can name it', () => {
-    const offered = new Set(COLUMNS.flatMap(([, aegisNames]) =>
-      aegisNames.flatMap((a) => optionNames((getEnchants(a) as string[][]).slice(1).flat()))));
-
-    for (const [name] of INERT) expect(offered.has(name)).toBe(true);
-  });
-
-  it('is the only Automatron family with an empty script — everything else scores', () => {
+describe('every automódulo scores something', () => {
+  it('no Automatron module is left with an empty script', () => {
+    // The list this replaced held nine modules the engine could not measure, then eight
+    // (P-Total went when the PVP section gave it a defender side, M-Cura when healPower
+    // arrived), and is now empty: the last of them — regeneration, drain, [Cura Mágica]
+    // and reflected damage — are display-only keys, but they are keys. If a future module
+    // arrives with no key, this fails and the decision gets made deliberately.
     const empty = Object.values(items)
       .filter((i: any) => /^Automatic_Orb\d+$/.test(String(i.aegisName)))
       .filter((i: any) => Object.keys(i.script ?? {}).length === 0)
-      .map((i: any) => i.id);
+      .map((i: any) => `${latam[i.id]?.name ?? i.name} (${i.id})`);
 
-    expect(new Set(empty)).toEqual(new Set(INERT.map(([, id]) => id)));
+    expect(empty).toEqual([]);
   });
 });

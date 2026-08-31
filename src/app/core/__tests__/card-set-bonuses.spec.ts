@@ -35,8 +35,12 @@ function granted(worn: Worn, without: Worn): Record<string, number> {
 const setBonusOf = (withSet: Worn, cardAlone: Worn) => granted(withSet, cardAlone);
 
 describe('a pair that declares the set from both sides', () => {
-  // 4218 Carta Succubus (armadura): VIT -3. HP máx. +1000. / Conjunto [Carta Inccubus]: VIT +4.
-  // 4269 Carta Inccubus (cabeça):   INT -3. SP máx. +150.  / Conjunto [Carta Succubus]: INT +4.
+  // 4218 Carta Succubus (armadura): VIT -3. HP máx. +1000. Regen. HP -20%. / Conjunto
+  //   [Carta Inccubus]: VIT +4. Regen. HP +30%.
+  // 4269 Carta Inccubus (cabeça):   INT -3. SP máx. +150.  Regen. SP -20%. / Conjunto
+  //   [Carta Succubus]: INT +4. Regen. SP +30%.
+  // The two regen lines are display-only stats (healing-stats.spec.ts) but they sum here
+  // like any other, so the pair's arithmetic has to account for them.
   const doll: Worn = { armor: ARMADURA, headUpper: ELMO };
 
   it('pays each side only while the other is worn', () => {
@@ -46,18 +50,20 @@ describe('a pair that declares the set from both sides', () => {
       int: 1, // -3 of its own, +4 from the set
       sp: 150,
       vit: 4,
+      spRecovRate: 10, // -20 of its own, +30 from the set
+      hpRecovRate: 30, // the Succubus' own set line, unlocked by the Inccubus
     });
   });
 
   it('pays neither side alone', () => {
-    expect(granted({ ...doll, armorCard: 4218 }, doll)).toEqual({ vit: -3, hp: 1000 });
-    expect(granted({ ...doll, headUpperCard: 4269 }, doll)).toEqual({ int: -3, sp: 150 });
+    expect(granted({ ...doll, armorCard: 4218 }, doll)).toEqual({ vit: -3, hp: 1000, hpRecovRate: -20 });
+    expect(granted({ ...doll, headUpperCard: 4269 }, doll)).toEqual({ int: -3, sp: 150, spRecovRate: -20 });
   });
 });
 
 describe('a set that needs four partners, one per slot', () => {
   // 4246 Carta Agressor (arma): Conjunto [Carta Soldado] [Carta Batedor] [Carta Aquecedor]
-  // [Carta Congelador] -> FOR +10. HP máx. +20%.
+  // [Carta Congelador] -> FOR +10. HP máx. +20%. Regen. natural de HP +50%.
   //
   // "Carta Soldado" is Carta Solidificador (4220): the client translates Solider two ways,
   // and the four partners sit in the four slots the Agressor does not, which settles it.
@@ -70,6 +76,7 @@ describe('a set that needs four partners, one per slot', () => {
       criDmg: 10, // the Agressor's own line
       str: 10,
       hpPercent: 20,
+      hpRecovRate: 50,
     });
   });
 
@@ -107,21 +114,22 @@ describe('a set that then asks for a class', () => {
   const doll: Worn = { armor: ARMADURA, garment: CAPA, headUpper: ELMO, boot: CALCADO, accRight: ACESSORIO_D };
 
   // The partners are worn in BOTH runs, so their own lines cancel and what is left is the
-  // Novus' own text plus the set — "HP máx. +500" and whatever the Conjunto pays.
+  // Novus' own text plus the set — "HP máx. +500", "Regen. natural de HP +10%" and
+  // whatever the Conjunto pays.
   const setFor = (cls: any) =>
     granted({ ...doll, cls, armorCard: 4382, ...PARTNERS }, { ...doll, cls, ...PARTNERS });
 
   it('pays the INT to any class and the cast time only to the Sage line', () => {
     // vct stores a reduction as a positive number — docs/item-json.md §3.
-    expect(setFor(new ElementalMaster())).toEqual({ hp: 500, int: 3, vct: 20 });
+    expect(setFor(new ElementalMaster())).toEqual({ hp: 500, hpRecovRate: 10, int: 3, vct: 20 });
   });
 
   it('pays a Mage outside the Sage branch the INT alone', () => {
-    expect(setFor(new ArchMage())).toEqual({ hp: 500, int: 3 });
+    expect(setFor(new ArchMage())).toEqual({ hp: 500, hpRecovRate: 10, int: 3 });
   });
 
   it('pays a class outside the Mage tree the INT alone', () => {
-    expect(setFor(new RuneKnight())).toEqual({ hp: 500, int: 3 });
+    expect(setFor(new RuneKnight())).toEqual({ hp: 500, hpRecovRate: 10, int: 3 });
   });
 });
 
@@ -164,6 +172,7 @@ describe('the sets that were registered on the wrong side of the pair', () => {
     expect(ITEM_DB[27115].script).toEqual({
       int: ['1'],
       sp: ['80', '2---10', 'EQUIP_ID[27114]2---5'],
+      spRecovRate: ['7===30'],
     });
   });
 

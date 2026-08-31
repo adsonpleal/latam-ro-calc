@@ -7,6 +7,43 @@ export interface EquipmentSummaryModel {
   hpPercent: number;
   sp: number;
   spPercent: number;
+  /**
+   * "Cura recebida +N%" — how much more HP a heal cast ON this character restores.
+   *
+   * DISPLAY ONLY. Nothing in the damage pipeline reads it, and nothing should: the
+   * calculator models damage dealt, not healing, so there is no stage for it to enter.
+   * It exists so the Recursos panel can show a number the game grants and the build
+   * screen was silently dropping. Keep it out of any multiplier chain.
+   */
+  healReceived: number;
+  /**
+   * "Efetividade de cura +N%" — how much more HP a heal this character CASTS restores.
+   * The other half of the pair, and the commoner line: 105 items carry it against
+   * `healReceived`'s 20. DISPLAY ONLY, on the same terms.
+   */
+  healPower: number;
+  /**
+   * The rest of the sustain family, all DISPLAY ONLY on the same terms as the two healing
+   * stats above — the calculator models damage dealt, so none of them has a stage to enter.
+   * They exist because the items granting them were scoring nothing at all: the eight
+   * "automódulos que o cálculo não mede" of automatron-enchant-pools.spec.ts were the
+   * visible half of it, and the sweep behind them reached ~180 records.
+   *
+   * `hpDrain`/`spDrain` hold the CONVERSION rate ("converter N% do dano físico causado em
+   * HP"), not the trigger chance beside it — a chance is a property of one item and does
+   * not sum across a build, so it stays in the item's own description.
+   *
+   * `magicHealHp`/`magicHealSp` are the [Cura Mágica] / [Cura Espiritual] procs, in HP (SP)
+   * per second. 19404 words itself that way already; 310115/310116 say "500 de HP a cada
+   * 0,4 segundos", which is the same figure divided out.
+   */
+  hpRecovRate: number;
+  spRecovRate: number;
+  hpDrain: number;
+  spDrain: number;
+  reduceDamageReturn: number;
+  magicHealHp: number;
+  magicHealSp: number;
   def: number;
   defPercent: number;
   softDef: number;

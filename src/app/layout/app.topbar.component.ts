@@ -158,6 +158,18 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.95-beta',
+      date: '31-08-2026',
+      logs: [
+        'A resistência a dano físico à distância parou de sumir. O Escudo Ilusión A dá 10%, mais 3% a cada dois refinos, e não somava nada na aba "Redução de dano" — e não estava sozinho: dezesseis peças do banco trazem essa linha e só quatro cartas a tinham cadastrada. Entraram as outras doze, entre elas a Maça Longa e a Maça Longa Ilusional, as Ombreiras de Goibne, o Chapéu da Guarda Real, a Túnica e o Manto de Cerco, a Carta Nuvem Perigosa e o Grande Manto dos Esquecidos. A Maça Longa nem existia no banco. A Carta Transistor entrou junto, com os 30% que ela só paga para Mecânicos. Reportado por Ted.',
+        'O próprio Escudo Ilusión A estava com o cadastro de outro servidor. Ele trazia HP e SP máx. +10% e DEF +50 a cada três refinos, que a descrição em português não promete, e vinha com DEF 90 anotada como 95, peso errado e nível 100 em vez de 130. Ficou só o que a peça dá de verdade, mais a resistência a danos mágicos do refino +7, que faltava.',
+        'Os conjuntos das Túnicas de Elite voltaram a existir. A Túnica do Arqueiro de Elite pede na descrição as Botas de Batalha, que são exclusivas de Justiceiros — nenhum Arqueiro consegue calçá-las, então aquele conjunto nunca disparava. O Manto do Médico, que é de Noviços, tinha o mesmo problema. As duas gerações de bota estão cadastradas agora, e com o conjunto completo entram DES +3, HP máx. +12%, pós-conjuração -25%, resistência a dano à distância +10% e a penalidade de -200% contra as demais raças.',
+        'Duas linhas novas em Recursos: "Cura recebida" e "Efetividade de cura". São coisas diferentes — a primeira é a cura que cai em você, a segunda é a que você lança — e o jogo escreve uma das duas em 117 peças que até agora não mostravam nada por elas. Vieram junto "Regen. HP", "Regen. SP" e, em Defesa, "Res. dano refletido". Nenhuma dessas entra na conta de dano: o simulador calcula dano causado, e não existe etapa onde uma cura ou uma regeneração caberia. Elas estão ali para a peça deixar de parecer vazia.',
+        'Com essas linhas, mais de trezentos registros do banco pararam de ser peças mudas. Os oito automódulos da Automatron que apareciam na lista sem valer nada — M-HPR, M-SPR, P-Vida, P-Alma, P-Mental, P-Mana, P-Espelho e P-Refletor — passaram a pontuar, e a absorção de dano em HP ou SP, que aparece em setenta e quatro peças, ficou registrada e sai na lista de bônus do item.',
+        'Um detalhe de fórmula conferido de passagem: quando uma peça lista efeitos por Grau de Encantamento ("Grau D ou mais", "Grau C ou mais"…), os degraus somam em vez de substituir um ao outro. No Grau C valem o D e o C. O simulador já fazia assim, e agora isso está verificado contra o script do servidor em vez de suposto.',
+      ],
+    },
+    {
       v: '0.1.94-beta',
       date: '31-08-2026',
       logs: [

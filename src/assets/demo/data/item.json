@@ -125,7 +125,11 @@
       "Merchant",
       "Thief"
     ],
-    "script": {}
+    "script": {
+      "hpDrain": [
+        "1"
+      ]
+    }
   },
   "1186": {
     "id": 1186,
@@ -817,6 +821,12 @@
       ],
       "matk": [
         "100"
+      ],
+      "hpDrain": [
+        "5"
+      ],
+      "spDrain": [
+        "5"
       ]
     }
   },
@@ -949,6 +959,12 @@
       ],
       "matk": [
         "50"
+      ],
+      "hpDrain": [
+        "5"
+      ],
+      "spDrain": [
+        "5"
       ]
     }
   },
@@ -1384,6 +1400,9 @@
     "script": {
       "matk": [
         "160"
+      ],
+      "healPower": [
+        "1---6"
       ]
     }
   },
@@ -1460,6 +1479,9 @@
       ],
       "matk": [
         "200"
+      ],
+      "healPower": [
+        "15"
       ]
     }
   },
@@ -2271,6 +2293,12 @@
       ],
       "matk": [
         "100"
+      ],
+      "hpDrain": [
+        "5"
+      ],
+      "spDrain": [
+        "5"
       ]
     }
   },
@@ -2706,6 +2734,12 @@
       ],
       "range": [
         "20"
+      ],
+      "hpDrain": [
+        "5"
+      ],
+      "spDrain": [
+        "5"
       ]
     }
   },
@@ -2770,6 +2804,12 @@
       ],
       "range": [
         "20"
+      ],
+      "hpDrain": [
+        "5"
+      ],
+      "spDrain": [
+        "5"
       ]
     }
   },
@@ -2929,6 +2969,9 @@
         "1---10",
         "SUM[level==70]===-70",
         "SUM[level==10]---10"
+      ],
+      "healPower": [
+        "1---1"
       ]
     }
   },
@@ -2997,6 +3040,9 @@
       ],
       "matk": [
         "250"
+      ],
+      "healPower": [
+        "18"
       ]
     }
   },
@@ -3857,6 +3903,9 @@
       ],
       "matkPercent": [
         "EQUIP[Diabolus Ring]3"
+      ],
+      "healPower": [
+        "6"
       ]
     }
   },
@@ -4173,6 +4222,9 @@
       ],
       "mdef": [
         "3"
+      ],
+      "spDrain": [
+        "1"
       ]
     }
   },
@@ -4418,6 +4470,9 @@
       ],
       "dmg__Lucifer Morocc": [
         "10"
+      ],
+      "healPower": [
+        "5"
       ]
     }
   },
@@ -4712,6 +4767,9 @@
       ],
       "hpPercent": [
         "10"
+      ],
+      "healPower": [
+        "5"
       ]
     }
   },
@@ -5113,7 +5171,11 @@
     "location": null,
     "compositionPos": 64,
     "cardPrefix": "Healthy",
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "20"
+      ]
+    }
   },
   "4047": {
     "id": 4047,
@@ -5133,7 +5195,11 @@
     "location": null,
     "compositionPos": 16,
     "cardPrefix": "Ghost",
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "-25"
+      ]
+    }
   },
   "4051": {
     "id": 4051,
@@ -6288,6 +6354,9 @@
     "script": {
       "p_pene_class_normal": [
         "100"
+      ],
+      "hpRecovRate": [
+        "-100"
       ]
     }
   },
@@ -6465,7 +6534,11 @@
     "location": null,
     "compositionPos": 769,
     "cardPrefix": "of Vitality",
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "10"
+      ]
+    }
   },
   "4337": {
     "id": 4337,
@@ -6589,6 +6662,9 @@
       ],
       "m_pene_class_normal": [
         "100"
+      ],
+      "spRecovRate": [
+        "-100"
       ]
     }
   },
@@ -6699,6 +6775,14 @@
       "hpPercent": [
         "8",
         "5===-4"
+      ],
+      "hpRecovRate": [
+        "5",
+        "5===-5"
+      ],
+      "spRecovRate": [
+        "5",
+        "5===-5"
       ]
     }
   },
@@ -9682,6 +9766,9 @@
       ],
       "chance__matk": [
         "EQUIP_ID[4685]===100"
+      ],
+      "healPower": [
+        "USED[ArchBishop]15"
       ]
     }
   },
@@ -14550,6 +14637,9 @@
       ],
       "sp": [
         "USED[SuperNovice]60"
+      ],
+      "healPower": [
+        "USED[Mage||Acolyte||Ninja||SoulLinker]2"
       ]
     }
   },
@@ -14835,6 +14925,12 @@
         "LOYALTY[2]===1",
         "LOYALTY[3]===2",
         "LOYALTY[4]===2"
+      ],
+      "healPower": [
+        "LOYALTY[1]===2",
+        "LOYALTY[2]===4",
+        "LOYALTY[3]===6",
+        "LOYALTY[4]===8"
       ]
     }
   },
@@ -14962,6 +15058,10 @@
         "LOYALTY[2]===2",
         "LOYALTY[3]===3",
         "LOYALTY[4]===4"
+      ],
+      "spDrain": [
+        "LOYALTY[3]===1",
+        "LOYALTY[4]===1"
       ]
     }
   },
@@ -15427,6 +15527,11 @@
         "LOYALTY[2]===5",
         "LOYALTY[3]===6",
         "LOYALTY[4]===7"
+      ],
+      "healPower": [
+        "LOYALTY[2]===2",
+        "LOYALTY[3]===4",
+        "LOYALTY[4]===6"
       ]
     }
   },
@@ -16847,6 +16952,12 @@
       ],
       "matk": [
         "130"
+      ],
+      "hpDrain": [
+        "5"
+      ],
+      "spDrain": [
+        "5"
       ]
     }
   },
@@ -17815,6 +17926,12 @@
       ],
       "matk": [
         "100"
+      ],
+      "hpDrain": [
+        "5"
+      ],
+      "spDrain": [
+        "5"
       ]
     }
   },
@@ -18808,6 +18925,12 @@
       "spPercent": [
         "7===3",
         "9===5"
+      ],
+      "hpRecovRate": [
+        "12===100"
+      ],
+      "spRecovRate": [
+        "12===100"
       ]
     }
   },
@@ -19948,6 +20071,10 @@
       "chance__m_my_element_all": [
         "EQUIP[Dragon Scale Boots&&Dragon Scale Hood]20",
         "EQUIP[Dragon Scale Boots&&Dragon Scale Hood]int:120===10"
+      ],
+      "healPower": [
+        "2---4",
+        "EQUIP_ID[22208&&20946]15"
       ]
     }
   },
@@ -21648,6 +21775,12 @@
       ],
       "matk": [
         "120"
+      ],
+      "hpDrain": [
+        "5"
+      ],
+      "spDrain": [
+        "5"
       ]
     }
   },
@@ -21784,7 +21917,12 @@
     "usableClass": [
       "Acolyte"
     ],
-    "script": {}
+    "script": {
+      "dmg_taken_range": [
+        "10",
+        "2---3"
+      ]
+    }
   },
   "16088": {
     "id": 16088,
@@ -22053,15 +22191,15 @@
       "ArchBishop"
     ],
     "script": {
+      "2040": [
+        "10",
+        "9===15"
+      ],
       "matk": [
         "180"
       ],
       "matkPercent": [
         "7"
-      ],
-      "2040": [
-        "10",
-        "9===15"
       ],
       "m_my_element_holy": [
         "7===7"
@@ -22074,6 +22212,9 @@
       ],
       "acd": [
         "11===20"
+      ],
+      "healPower": [
+        "15"
       ]
     }
   },
@@ -22370,6 +22511,12 @@
       ],
       "matk": [
         "110"
+      ],
+      "hpDrain": [
+        "5"
+      ],
+      "spDrain": [
+        "5"
       ]
     }
   },
@@ -23449,6 +23596,9 @@
       ],
       "range": [
         "USED[Archer]===10"
+      ],
+      "healPower": [
+        "USED[Mage||Acolyte]7"
       ]
     }
   },
@@ -23867,7 +24017,40 @@
     ],
     "script": {
       "subele_neutral": [
-        "5"
+        "5",
+        "6===1",
+        "7===1",
+        "8===1",
+        "9===1",
+        "10===1",
+        "11===1",
+        "12===1",
+        "13===1",
+        "14===1",
+        "15===1",
+        "16===1",
+        "17===1",
+        "18===1",
+        "19===1",
+        "20===1"
+      ],
+      "dmg_taken_range": [
+        "5",
+        "6===1",
+        "7===1",
+        "8===1",
+        "9===1",
+        "10===1",
+        "11===1",
+        "12===1",
+        "13===1",
+        "14===1",
+        "15===1",
+        "16===1",
+        "17===1",
+        "18===1",
+        "19===1",
+        "20===1"
       ]
     }
   },
@@ -23971,6 +24154,12 @@
       "ArchBishop"
     ],
     "script": {
+      "79": [
+        "2---10"
+      ],
+      "2038": [
+        "2---20"
+      ],
       "allStatus": [
         "1"
       ],
@@ -23989,11 +24178,8 @@
       "spPercent": [
         "2---1"
       ],
-      "2038": [
-        "2---20"
-      ],
-      "79": [
-        "2---10"
+      "healPower": [
+        "1---2"
       ]
     }
   },
@@ -24238,6 +24424,9 @@
       "Warlock"
     ],
     "script": {
+      "2202": [
+        "2---15"
+      ],
       "allStatus": [
         "1"
       ],
@@ -24253,12 +24442,12 @@
       "spPercent": [
         "2---1"
       ],
-      "2202": [
-        "2---15"
-      ],
       "cd__2211": [
         "1",
         "1---0.1"
+      ],
+      "spRecovRate": [
+        "20"
       ]
     }
   },
@@ -24703,6 +24892,9 @@
       ],
       "sp": [
         "USED[SuperNovice]30"
+      ],
+      "healPower": [
+        "USED[Mage||Acolyte||Ninja||SoulLinker]1"
       ]
     }
   },
@@ -25789,6 +25981,9 @@
       ],
       "vct": [
         "9===10"
+      ],
+      "healPower": [
+        "EQUIP_ID[5040||18607]5"
       ]
     }
   },
@@ -25850,6 +26045,9 @@
     "script": {
       "acd": [
         "EQUIP[Recovery Light]REFINE[weapon==2]---3"
+      ],
+      "healPower": [
+        "5"
       ]
     }
   },
@@ -26706,7 +26904,20 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpDrain": [
+        "2"
+      ],
+      "spDrain": [
+        "2"
+      ],
+      "magicHealHp": [
+        "300"
+      ],
+      "magicHealSp": [
+        "70"
+      ]
+    }
   },
   "19428": {
     "id": 19428,
@@ -28749,6 +28960,9 @@
       "subrace_dragon": [
         "7===2",
         "11===3"
+      ],
+      "healReceived": [
+        "15"
       ]
     }
   },
@@ -29261,6 +29475,12 @@
       ],
       "matk": [
         "120"
+      ],
+      "hpDrain": [
+        "5"
+      ],
+      "spDrain": [
+        "5"
       ]
     }
   },
@@ -34115,6 +34335,10 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "healPower": [
+        "USED[Alchemist]30",
+        "USED[Alchemist]1---7"
       ]
     }
   },
@@ -34894,6 +35118,9 @@
       "m_pene_class_normal": [
         "LEARN_SKILL[Increase SP Recovery==1]---3",
         "1---3"
+      ],
+      "spRecovRate": [
+        "9===100"
       ]
     }
   },
@@ -36553,6 +36780,9 @@
         "3---1",
         "EQUIP[Reload Shadow Shoes&&Reload Shadow Shield]===1",
         "EQUIP[Reload Shadow Shoes&&Reload Shadow Shield]REFINE[shadowArmor,shadowBoot,shadowShield==25]===5"
+      ],
+      "hpRecovRate": [
+        "20"
       ]
     }
   },
@@ -47259,6 +47489,12 @@
       ],
       "vct": [
         "7===3"
+      ],
+      "hpDrain": [
+        "10===2"
+      ],
+      "spDrain": [
+        "10===2"
       ]
     }
   },
@@ -47294,6 +47530,12 @@
       ],
       "vct": [
         "7===3"
+      ],
+      "hpDrain": [
+        "10===2"
+      ],
+      "spDrain": [
+        "10===2"
       ]
     }
   },
@@ -54398,6 +54640,9 @@
     "script": {
       "hpPercent": [
         "8"
+      ],
+      "dmg_taken_range": [
+        "USED[Mechanic]30"
       ]
     }
   },
@@ -54874,6 +55119,9 @@
         "80",
         "2---10",
         "EQUIP_ID[27114]2---5"
+      ],
+      "spRecovRate": [
+        "7===30"
       ]
     }
   },
@@ -56262,6 +56510,9 @@
       ],
       "m_my_element_holy": [
         "5"
+      ],
+      "healPower": [
+        "5"
       ]
     }
   },
@@ -56813,7 +57064,13 @@
     "location": null,
     "compositionPos": 0,
     "cardPrefix": "Sacred",
-    "script": {}
+    "script": {
+      "healPower": [
+        "2",
+        "9===3",
+        "11===5"
+      ]
+    }
   },
   "27309": {
     "id": 27309,
@@ -58170,6 +58427,9 @@
     "script": {
       "hpPercent": [
         "EQUIP_ID[4038]===15"
+      ],
+      "hpRecovRate": [
+        "30"
       ]
     }
   },
@@ -58745,6 +59005,12 @@
       ],
       "matk": [
         "80"
+      ],
+      "hpDrain": [
+        "5"
+      ],
+      "spDrain": [
+        "5"
       ]
     }
   },
@@ -59162,6 +59428,12 @@
       ],
       "matk": [
         "80"
+      ],
+      "hpDrain": [
+        "5"
+      ],
+      "spDrain": [
+        "5"
       ]
     }
   },
@@ -60672,7 +60944,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spDrain": [
+        "1"
+      ]
+    }
   },
   "28513": {
     "id": 28513,
@@ -67412,6 +67688,9 @@
       ],
       "cd__2280": [
         "EQUIP_ID[25495||29482]1"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25494||29481]1"
       ]
     }
   },
@@ -67535,7 +67814,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": null,
-    "script": {}
+    "script": {
+      "healPower": [
+        "SKILL_ID[363==1]---1"
+      ]
+    }
   },
   "29514": {
     "id": 29514,
@@ -67706,6 +67989,9 @@
       ],
       "cd__2307": [
         "EQUIP_ID[25711||29518]0.5"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25710||29517]1"
       ]
     }
   },
@@ -67802,6 +68088,9 @@
       ],
       "2037": [
         "EQUIP_ID[25715||29522]15"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25714||29521]1"
       ]
     }
   },
@@ -67850,7 +68139,13 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": null,
-    "script": {}
+    "script": {
+      "healPower": [
+        "5",
+        "7===5",
+        "9===5"
+      ]
+    }
   },
   "29534": {
     "id": 29534,
@@ -69267,6 +69562,9 @@
       "2284": [
         "15",
         "EQUIP_ID[25808||29621]10"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25806||29619]1"
       ]
     }
   },
@@ -69524,13 +69822,16 @@
       "2576": [
         "20"
       ],
+      "2584": [
+        "20",
+        "EQUIP_ID[25847||29656]15"
+      ],
       "2592": [
         "20",
         "EQUIP_ID[25846||29655]15"
       ],
-      "2584": [
-        "20",
-        "EQUIP_ID[25847||29656]15"
+      "spDrain": [
+        "EQUIP_ID[25848||29657]1"
       ]
     }
   },
@@ -69630,14 +69931,17 @@
     "location": null,
     "compositionPos": null,
     "script": {
-      "3009": [
-        "25"
-      ],
       "3004": [
         "EQUIP_ID[25850||29659]25"
       ],
       "3006": [
         "EQUIP_ID[25851||29660]25"
+      ],
+      "3009": [
+        "25"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25852||29661]1"
       ]
     }
   },
@@ -70176,6 +70480,9 @@
       ],
       "matkPercent": [
         "5---1"
+      ],
+      "healPower": [
+        "2---1"
       ]
     }
   },
@@ -70202,6 +70509,9 @@
       ],
       "matkPercent": [
         "5---2"
+      ],
+      "healPower": [
+        "2---3"
       ]
     }
   },
@@ -70228,6 +70538,9 @@
       ],
       "matkPercent": [
         "5---3"
+      ],
+      "healPower": [
+        "2---5"
       ]
     }
   },
@@ -72827,6 +73140,10 @@
       "hpPercent": [
         "10",
         "EQUIP_ID[4334]5"
+      ],
+      "dmg_taken_range": [
+        "5",
+        "EQUIP_ID[4334]10"
       ]
     }
   },
@@ -74077,7 +74394,11 @@
     "location": null,
     "compositionPos": 32,
     "cardPrefix": "of Minor Guard",
-    "script": {}
+    "script": {
+      "healReceived": [
+        "15"
+      ]
+    }
   },
   "300100": {
     "id": 300100,
@@ -74097,7 +74418,11 @@
     "location": null,
     "compositionPos": 32,
     "cardPrefix": "of Major Guard",
-    "script": {}
+    "script": {
+      "healReceived": [
+        "30"
+      ]
+    }
   },
   "300101": {
     "id": 300101,
@@ -75390,6 +75715,9 @@
       ],
       "m_race_insect": [
         "10"
+      ],
+      "hpRecovRate": [
+        "100"
       ]
     }
   },
@@ -75826,6 +76154,9 @@
     "script": {
       "m_my_element_holy": [
         "10"
+      ],
+      "healPower": [
+        "20"
       ]
     }
   },
@@ -76892,6 +77223,10 @@
       "vct": [
         "-5",
         "1---1"
+      ],
+      "healPower": [
+        "9===3",
+        "11===5"
       ]
     }
   },
@@ -86194,6 +86529,11 @@
       ],
       "vct": [
         "10"
+      ],
+      "healPower": [
+        "5",
+        "9===5",
+        "11===5"
       ]
     }
   },
@@ -93431,7 +93771,14 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "reduceDamageReturn": [
+        "2",
+        "7===2",
+        "9===3",
+        "11===3"
+      ]
+    }
   },
   "310586": {
     "id": 310586,
@@ -93450,7 +93797,14 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "reduceDamageReturn": [
+        "3",
+        "7===3",
+        "9===4",
+        "11===4"
+      ]
+    }
   },
   "310587": {
     "id": 310587,
@@ -93469,7 +93823,14 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "reduceDamageReturn": [
+        "4",
+        "7===4",
+        "9===5",
+        "11===5"
+      ]
+    }
   },
   "310588": {
     "id": 310588,
@@ -95468,6 +95829,16 @@
         "GRADE[armor==C]SUM[wis==15]---1",
         "GRADE[armor==B]SUM[wis==15]---1",
         "GRADE[armor==A]SUM[wis==15]---1"
+      ],
+      "healPower": [
+        "SUM[wis==15]---1",
+        "GRADE[armor==D]SUM[wis==15]---1",
+        "GRADE[armor==C]SUM[wis==15]---2",
+        "GRADE[armor==B]SUM[wis==15]---2"
+      ],
+      "spRecovRate": [
+        "GRADE[armor==C]SUM[wis==15]---1",
+        "GRADE[armor==B]SUM[wis==15]---2"
       ]
     }
   },
@@ -95495,6 +95866,15 @@
         "GRADE[armor==C]SUM[wis==15]---1",
         "GRADE[armor==B]SUM[wis==15]---1",
         "GRADE[armor==A]SUM[wis==15]---2"
+      ],
+      "healPower": [
+        "SUM[wis==15]---3",
+        "GRADE[armor==D]SUM[wis==15]---2",
+        "GRADE[armor==C]SUM[wis==15]---2"
+      ],
+      "spRecovRate": [
+        "GRADE[armor==C]SUM[wis==15]---1",
+        "GRADE[armor==B]SUM[wis==15]---2"
       ]
     }
   },
@@ -95522,6 +95902,15 @@
         "GRADE[armor==C]SUM[wis==15]---1",
         "GRADE[armor==B]SUM[wis==15]---2",
         "GRADE[armor==A]SUM[wis==15]---2"
+      ],
+      "healPower": [
+        "SUM[wis==15]---5",
+        "GRADE[armor==D]SUM[wis==15]---2",
+        "GRADE[armor==C]SUM[wis==15]---2"
+      ],
+      "spRecovRate": [
+        "GRADE[armor==C]SUM[wis==15]---2",
+        "GRADE[armor==B]SUM[wis==15]---3"
       ]
     }
   },
@@ -96385,6 +96774,12 @@
     "script": {
       "spPercent": [
         "3"
+      ],
+      "healPower": [
+        "5"
+      ],
+      "spRecovRate": [
+        "10"
       ]
     }
   },
@@ -96408,6 +96803,12 @@
     "script": {
       "spPercent": [
         "5"
+      ],
+      "healPower": [
+        "7"
+      ],
+      "spRecovRate": [
+        "15"
       ]
     }
   },
@@ -96434,6 +96835,12 @@
       ],
       "hplus": [
         "1"
+      ],
+      "healPower": [
+        "10"
+      ],
+      "spRecovRate": [
+        "15"
       ]
     }
   },
@@ -96460,6 +96867,12 @@
       ],
       "hplus": [
         "3"
+      ],
+      "healPower": [
+        "10"
+      ],
+      "spRecovRate": [
+        "15"
       ]
     }
   },
@@ -96486,6 +96899,12 @@
       ],
       "hplus": [
         "5"
+      ],
+      "healPower": [
+        "15"
+      ],
+      "spRecovRate": [
+        "20"
       ]
     }
   },
@@ -99917,6 +100336,11 @@
       ],
       "m_size_all": [
         "GRADE[weapon==C]===10"
+      ],
+      "healPower": [
+        "GRADE[weapon==D]===6",
+        "GRADE[weapon==B]===6",
+        "GRADE[weapon==A]===6"
       ]
     }
   },
@@ -99946,6 +100370,11 @@
       ],
       "m_size_all": [
         "GRADE[weapon==C]===10"
+      ],
+      "healPower": [
+        "6",
+        "GRADE[weapon==B]===6",
+        "GRADE[weapon==A]===6"
       ]
     }
   },
@@ -143781,6 +144210,12 @@
       ],
       "matkPercent": [
         "7===5"
+      ],
+      "hpDrain": [
+        "9===5"
+      ],
+      "spDrain": [
+        "9===3"
       ]
     }
   },
@@ -144460,6 +144895,18 @@
       "Warlock"
     ],
     "script": {
+      "484": [
+        "EQUIP[Gravitation Staff]REFINE[weapon==1]---3"
+      ],
+      "2202": [
+        "EQUIP[Staff of Miracle]REFINE[weapon==1]---10"
+      ],
+      "2211": [
+        "EQUIP[Crimson Rose Stick]REFINE[weapon==1]---10"
+      ],
+      "2213": [
+        "EQUIP[Gravitation Staff]REFINE[weapon==1]---3"
+      ],
       "matkPercent": [
         "2---2"
       ],
@@ -144486,17 +144933,8 @@
       "cd__2211": [
         "EQUIP[Crimson Rose Stick]===1"
       ],
-      "2211": [
-        "EQUIP[Crimson Rose Stick]REFINE[weapon==1]---10"
-      ],
-      "2202": [
-        "EQUIP[Staff of Miracle]REFINE[weapon==1]---10"
-      ],
-      "484": [
-        "EQUIP[Gravitation Staff]REFINE[weapon==1]---3"
-      ],
-      "2213": [
-        "EQUIP[Gravitation Staff]REFINE[weapon==1]---3"
+      "spRecovRate": [
+        "2---6"
       ]
     }
   },
@@ -144521,6 +144959,21 @@
       "Sorcerer"
     ],
     "script": {
+      "14": [
+        "EQUIP_ID[28633]REFINE[weapon==1]---3"
+      ],
+      "19": [
+        "EQUIP_ID[28633]REFINE[weapon==1]---3"
+      ],
+      "20": [
+        "EQUIP_ID[28633]REFINE[weapon==1]---3"
+      ],
+      "2447": [
+        "EQUIP_ID[26160]REFINE[weapon==1]---3"
+      ],
+      "2454": [
+        "EQUIP_ID[26159]REFINE[weapon==1]---3"
+      ],
       "matkPercent": [
         "2---2",
         "EQUIP_ID[28633]2"
@@ -144546,20 +144999,8 @@
       "m_my_element_wind": [
         "EQUIP_ID[26159]3"
       ],
-      "19": [
-        "EQUIP_ID[28633]REFINE[weapon==1]---3"
-      ],
-      "14": [
-        "EQUIP_ID[28633]REFINE[weapon==1]---3"
-      ],
-      "20": [
-        "EQUIP_ID[28633]REFINE[weapon==1]---3"
-      ],
-      "2447": [
-        "EQUIP_ID[26160]REFINE[weapon==1]---3"
-      ],
-      "2454": [
-        "EQUIP_ID[26159]REFINE[weapon==1]---3"
+      "spRecovRate": [
+        "2---6"
       ]
     }
   },
@@ -163658,6 +164099,9 @@
       ],
       "range": [
         "9===10"
+      ],
+      "healReceived": [
+        "10"
       ]
     }
   },
@@ -163701,6 +164145,9 @@
       ],
       "m_my_element_all": [
         "9===10"
+      ],
+      "healReceived": [
+        "10"
       ]
     }
   },
@@ -163835,6 +164282,11 @@
         "GRADE[armor==C]4---2",
         "GRADE[armor==B]4---3",
         "GRADE[armor==A]4---4"
+      ],
+      "healReceived": [
+        "9===10",
+        "GRADE[armor==D]2---2",
+        "GRADE[armor==C]2---3"
       ]
     }
   },
@@ -164040,6 +164492,16 @@
       "hplus": [
         "GRADE[armor==B]4---2",
         "GRADE[armor==A]4---3"
+      ],
+      "healPower": [
+        "2---1",
+        "GRADE[armor==D]2---1",
+        "GRADE[armor==C]2---2"
+      ],
+      "spRecovRate": [
+        "9===30",
+        "GRADE[armor==D]2---2",
+        "GRADE[armor==C]2---3"
       ]
     }
   },
@@ -164348,6 +164810,10 @@
       ],
       "p_class_boss": [
         "EQUIP[Illusion Sprint Shoes]REFINE[armor,boot==22]===25"
+      ],
+      "hpRecovRate": [
+        "20",
+        "7===20"
       ]
     }
   },
@@ -167168,29 +167634,27 @@
     "itemSubTypeId": 514,
     "itemLevel": null,
     "attack": null,
-    "defense": 95,
-    "weight": 120,
-    "requiredLevel": 100,
+    "defense": 90,
+    "weight": 100,
+    "requiredLevel": 130,
     "location": null,
     "compositionPos": null,
     "usableClass": [
       "all"
     ],
     "script": {
-      "hpPercent": [
-        "10"
+      "dmg_taken_range": [
+        "10",
+        "2---3"
       ],
-      "spPercent": [
-        "10"
-      ],
-      "def": [
-        "3---50"
-      ],
-      "mdef": [
-        "3---5"
+      "dmg_taken_magical": [
+        "7===5"
       ],
       "perfectDodge": [
         "EQUIP_ID[32209]10"
+      ],
+      "healReceived": [
+        "EQUIP_ID[32207]10"
       ]
     }
   },
@@ -167368,6 +167832,9 @@
       ],
       "matk": [
         "EQUIP_ID[32210]30"
+      ],
+      "healReceived": [
+        "7===10"
       ]
     }
   },
@@ -169748,6 +170215,10 @@
       ],
       "chance__agi": [
         "EQUIP[Illusion Sprint Glove]===150"
+      ],
+      "spRecovRate": [
+        "20",
+        "7===20"
       ]
     }
   },
@@ -170026,6 +170497,9 @@
       ],
       "m_my_element_all": [
         "13===7"
+      ],
+      "healPower": [
+        "2---2"
       ]
     }
   },
@@ -174720,6 +175194,9 @@
       ],
       "aspdPercent": [
         "EQUIP[Anti Conjurer Suit]REFINE[armor==11]===10"
+      ],
+      "healPower": [
+        "9===15"
       ]
     }
   },
@@ -181617,6 +182094,9 @@
       ],
       "fct": [
         "EQUIP[Drooping Thanatos's Dolor]REFINE[headUpper==11]===0.5"
+      ],
+      "hpDrain": [
+        "7===5"
       ]
     }
   },
@@ -181654,6 +182134,9 @@
       ],
       "fct": [
         "EQUIP[Drooping Thanatos's Dolor]REFINE[headUpper==11]===0.5"
+      ],
+      "spDrain": [
+        "7===3"
       ]
     }
   },
@@ -182155,6 +182638,9 @@
       "hplus": [
         "2",
         "EQUIP[Nebula Robe of Wisdom]===2"
+      ],
+      "healPower": [
+        "EQUIP_ID[450174]10"
       ]
     }
   },
@@ -196492,6 +196978,9 @@
       ],
       "perfectHit": [
         "EQUIP[Illusion Guard]REFINE[shield==7]7===10"
+      ],
+      "spRecovRate": [
+        "10"
       ]
     }
   },
@@ -212079,14 +212568,17 @@
       "Cardinal"
     ],
     "script": {
-      "matk": [
-        "210"
-      ],
       "5284": [
         "2---5"
       ],
+      "matk": [
+        "210"
+      ],
       "m_my_element_all": [
         "4---2"
+      ],
+      "healPower": [
+        "2---5"
       ]
     }
   },
@@ -212696,15 +213188,15 @@
       "Cardinal"
     ],
     "script": {
-      "matk": [
-        "230"
+      "5273": [
+        "3---7"
       ],
       "5284": [
         "2---7",
         "GRADE[weapon==C]===10"
       ],
-      "5273": [
-        "3---7"
+      "matk": [
+        "230"
       ],
       "m_my_element_all": [
         "4---3"
@@ -212714,6 +213206,9 @@
       ],
       "sMatk": [
         "GRADE[weapon==B]===2"
+      ],
+      "healPower": [
+        "2---6"
       ]
     }
   },
@@ -230203,6 +230698,12 @@
       ],
       "vct__2477": [
         "EQUIP_ID[19190]100"
+      ],
+      "hpDrain": [
+        "EQUIP_ID[19200||19201]8"
+      ],
+      "spDrain": [
+        "EQUIP_ID[19200||19201]4"
       ]
     }
   },
@@ -230407,7 +230908,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spDrain": [
+        "1"
+      ]
+    }
   },
   "4077": {
     "id": 4077,
@@ -230910,6 +231415,12 @@
       ],
       "subclass_boss": [
         "EQUIP_ID[13146]REFINE[weapon==10]===15"
+      ],
+      "hpDrain": [
+        "7===5"
+      ],
+      "spDrain": [
+        "7===3"
       ]
     }
   },
@@ -230975,6 +231486,9 @@
       ],
       "vct": [
         "EQUIP_ID[24327]USED[Novice||SuperNovice||Summoner]REFINE[shadowArmor,shadowShield==17]5"
+      ],
+      "healPower": [
+        "USED[Mage||Acolyte||Ninja||SoulLinker]3"
       ]
     }
   },
@@ -231022,6 +231536,12 @@
       ],
       "vct__5033": [
         "EQUIP_ID[19205]100"
+      ],
+      "hpDrain": [
+        "EQUIP_ID[19200||19201]8"
+      ],
+      "spDrain": [
+        "EQUIP_ID[19200||19201]4"
       ]
     }
   },
@@ -231161,6 +231681,9 @@
       ],
       "criDmg": [
         "EQUIP_ID[18560]5"
+      ],
+      "hpRecovRate": [
+        "-100"
       ]
     }
   },
@@ -231620,7 +232143,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spDrain": [
+        "1"
+      ]
+    }
   },
   "29145": {
     "id": 29145,
@@ -231946,6 +232473,9 @@
     "script": {
       "vit": [
         "2"
+      ],
+      "healPower": [
+        "2"
       ]
     }
   },
@@ -232048,6 +232578,12 @@
     "script": {
       "hp": [
         "300"
+      ],
+      "hpRecovRate": [
+        "luk:77===100"
+      ],
+      "spRecovRate": [
+        "luk:77===100"
       ]
     }
   },
@@ -232071,7 +232607,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpDrain": [
+        "8"
+      ],
+      "spDrain": [
+        "4"
+      ]
+    }
   },
   "420608": {
     "id": 420608,
@@ -232242,6 +232785,9 @@
       ],
       "hpPercent": [
         "7===1"
+      ],
+      "hpDrain": [
+        "EQUIP_ID[24082&&24083]2"
       ]
     }
   },
@@ -232578,7 +233124,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "5"
+      ]
+    }
   },
   "24079": {
     "id": 24079,
@@ -232778,6 +233328,9 @@
       ],
       "matk": [
         "1---1"
+      ],
+      "spDrain": [
+        "EQUIP_ID[24080&&24079]1"
       ]
     }
   },
@@ -232907,7 +233460,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpDrain": [
+        "15"
+      ]
+    }
   },
   "1181": {
     "id": 1181,
@@ -233070,6 +233627,10 @@
       ],
       "int": [
         "4"
+      ],
+      "healPower": [
+        "20",
+        "EQUIP_ID[2569&&15029&&2471]45"
       ]
     }
   },
@@ -233645,6 +234206,9 @@
       ],
       "range": [
         "3"
+      ],
+      "spDrain": [
+        "SUM[level==130]===2"
       ]
     }
   },
@@ -233907,6 +234471,9 @@
     "script": {
       "int": [
         "2"
+      ],
+      "healPower": [
+        "2"
       ]
     }
   },
@@ -234148,6 +234715,9 @@
       ],
       "range": [
         "3"
+      ],
+      "hpDrain": [
+        "SUM[level==130]===2"
       ]
     }
   },
@@ -234369,6 +234939,10 @@
         "EQUIP_ID[18973]REFINE[garment==12]===30",
         "EQUIP_ID[18977]REFINE[garment==12]===30",
         "EQUIP_ID[18979]REFINE[garment==12]===30"
+      ],
+      "dmg_taken_range": [
+        "EQUIP_ID[18972]REFINE[garment==2]---1",
+        "EQUIP_ID[18979]REFINE[garment==2]---2"
       ]
     }
   },
@@ -234486,6 +235060,12 @@
       ],
       "cd__2006": [
         "EQUIP_ID[19491]REFINE[headUpper,garment==22]===1"
+      ],
+      "hpDrain": [
+        "EQUIP_ID[19474]REFINE[garment,headUpper==22]===8"
+      ],
+      "spDrain": [
+        "EQUIP_ID[19474]REFINE[garment,headUpper==22]===4"
       ]
     }
   },
@@ -235594,6 +236174,9 @@
       "matk": [
         "1---1",
         "10"
+      ],
+      "healPower": [
+        "7===5"
       ]
     }
   },
@@ -237731,6 +238314,9 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "spRecovRate": [
+        "7===5"
       ]
     }
   },
@@ -240080,6 +240666,9 @@
       "atkPercent": [
         "1",
         "7===1"
+      ],
+      "spDrain": [
+        "EQUIP_ID[24080&&24079]1"
       ]
     }
   },
@@ -240111,6 +240700,9 @@
       "atkPercent": [
         "1",
         "7===1"
+      ],
+      "hpDrain": [
+        "EQUIP_ID[24082&&24083]2"
       ]
     }
   },
@@ -240161,6 +240753,9 @@
       ],
       "vct": [
         "5"
+      ],
+      "healPower": [
+        "USED[Mage||Acolyte||Ninja||SoulLinker]3"
       ]
     }
   },
@@ -240672,6 +241267,10 @@
       ],
       "atk": [
         "5"
+      ],
+      "healReceived": [
+        "2",
+        "3---1"
       ]
     }
   },
@@ -240767,6 +241366,10 @@
       ],
       "matk": [
         "5"
+      ],
+      "healReceived": [
+        "2",
+        "3---1"
       ]
     }
   },
@@ -240796,6 +241399,10 @@
       ],
       "matk": [
         "10"
+      ],
+      "healPower": [
+        "7===3",
+        "9===5"
       ]
     }
   },
@@ -240825,6 +241432,12 @@
       ],
       "matk": [
         "10"
+      ],
+      "healPower": [
+        "7===3",
+        "9===5",
+        "EQUIP_ID[24033&&24366]5",
+        "EQUIP_ID[24033&&24366]REFINE[shadowWeapon,shadowShield,shadowBoot==25]===15"
       ]
     }
   },
@@ -240922,6 +241535,10 @@
       ],
       "atk": [
         "5"
+      ],
+      "spRecovRate": [
+        "2",
+        "3---1"
       ]
     }
   },
@@ -241019,6 +241636,10 @@
       ],
       "matk": [
         "5"
+      ],
+      "spRecovRate": [
+        "2",
+        "3---1"
       ]
     }
   },
@@ -242909,6 +243530,12 @@
       ],
       "subele_neutral": [
         "3"
+      ],
+      "hpDrain": [
+        "10"
+      ],
+      "spDrain": [
+        "5"
       ]
     }
   },
@@ -243253,6 +243880,9 @@
       "matkPercent": [
         "2",
         "9===5"
+      ],
+      "healPower": [
+        "7===5"
       ]
     }
   },
@@ -245179,7 +245809,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "USED[Taekwondo]===3"
+      ]
+    }
   },
   "5174": {
     "id": 5174,
@@ -245201,7 +245835,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spRecovRate": [
+        "USED[Taekwondo]===3"
+      ]
+    }
   },
   "5175": {
     "id": 5175,
@@ -246105,7 +246743,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healReceived": [
+        "10"
+      ]
+    }
   },
   "5497": {
     "id": 5497,
@@ -246613,6 +247255,12 @@
     "script": {
       "subrace_demon": [
         "3"
+      ],
+      "hpDrain": [
+        "15"
+      ],
+      "spDrain": [
+        "7"
       ]
     }
   },
@@ -246921,6 +247569,9 @@
       ],
       "int": [
         "1"
+      ],
+      "healPower": [
+        "5"
       ]
     }
   },
@@ -247152,6 +247803,9 @@
       ],
       "int": [
         "1"
+      ],
+      "healPower": [
+        "5"
       ]
     }
   },
@@ -247856,7 +248510,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpDrain": [
+        "4"
+      ],
+      "spDrain": [
+        "1"
+      ]
+    }
   },
   "18760": {
     "id": 18760,
@@ -248452,6 +249113,12 @@
     "script": {
       "allStatus": [
         "3"
+      ],
+      "hpDrain": [
+        "5"
+      ],
+      "spDrain": [
+        "2"
       ]
     }
   },
@@ -248686,6 +249353,12 @@
       "spPercent": [
         "4---1",
         "12===3"
+      ],
+      "hpRecovRate": [
+        "9===40"
+      ],
+      "spRecovRate": [
+        "9===40"
       ]
     }
   },
@@ -248717,6 +249390,12 @@
       "spPercent": [
         "4---1",
         "12===3"
+      ],
+      "hpRecovRate": [
+        "9===40"
+      ],
+      "spRecovRate": [
+        "9===40"
       ]
     }
   },
@@ -249170,7 +249849,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "2"
+      ]
+    }
   },
   "19364": {
     "id": 19364,
@@ -249230,7 +249913,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "3"
+      ]
+    }
   },
   "19416": {
     "id": 19416,
@@ -249280,6 +249967,9 @@
       ],
       "spPercent": [
         "2"
+      ],
+      "hpDrain": [
+        "3"
       ]
     }
   },
@@ -250255,6 +250945,24 @@
       "matkPercent": [
         "9===7",
         "12===5"
+      ],
+      "healPower": [
+        "5",
+        "7===1",
+        "8===1",
+        "9===1",
+        "10===1",
+        "11===1",
+        "12===1",
+        "13===1",
+        "14===1",
+        "15===1",
+        "16===1",
+        "17===1",
+        "18===1",
+        "19===1",
+        "20===1",
+        "EQUIP_ID[5040||18607]10"
       ]
     }
   },
@@ -250438,6 +251146,12 @@
       ],
       "vct": [
         "5"
+      ],
+      "hpDrain": [
+        "3"
+      ],
+      "spDrain": [
+        "1"
       ]
     }
   },
@@ -250495,6 +251209,10 @@
       "int": [
         "1",
         "2---1"
+      ],
+      "healPower": [
+        "2---3",
+        "EQUIP_ID[15195]10"
       ]
     }
   },
@@ -251146,6 +251864,10 @@
       ],
       "aspdPercent": [
         "8"
+      ],
+      "reduceDamageReturn": [
+        "EQUIP_ID[26165||18198||2060||28046||28636||32027||32401||28776||32353||28141||32111||26216||26166||1336||32402||32403||21055||1870||32304||18191||26172||13347]10",
+        "EQUIP_ID[28775&&28774]10"
       ]
     }
   },
@@ -255232,6 +255954,9 @@
       ],
       "matk": [
         "160"
+      ],
+      "spRecovRate": [
+        "5"
       ]
     }
   },
@@ -256047,6 +256772,9 @@
     "script": {
       "matk": [
         "105"
+      ],
+      "healPower": [
+        "1---1.5"
       ]
     }
   },
@@ -256107,6 +256835,9 @@
       ],
       "matk": [
         "125"
+      ],
+      "healPower": [
+        "5"
       ]
     }
   },
@@ -256209,6 +256940,9 @@
     "script": {
       "matk": [
         "125"
+      ],
+      "healPower": [
+        "14"
       ]
     }
   },
@@ -256315,6 +257049,9 @@
       ],
       "matk": [
         "170"
+      ],
+      "spRecovRate": [
+        "8"
       ]
     }
   },
@@ -256389,6 +257126,20 @@
       ],
       "matk": [
         "135"
+      ],
+      "healPower": [
+        "14",
+        "6===5",
+        "10===10",
+        "6===2",
+        "7===2",
+        "8===2",
+        "9===2",
+        "10===2",
+        "11===2",
+        "12===2",
+        "13===2",
+        "14===2"
       ]
     }
   },
@@ -259831,6 +260582,9 @@
       ],
       "matk": [
         "120"
+      ],
+      "spRecovRate": [
+        "5"
       ]
     }
   },
@@ -259896,6 +260650,9 @@
     "script": {
       "matk": [
         "70"
+      ],
+      "hpDrain": [
+        "10"
       ]
     }
   },
@@ -262107,6 +262864,11 @@
     "script": {
       "matk": [
         "150"
+      ],
+      "healPower": [
+        "10",
+        "7===5",
+        "9===10"
       ]
     }
   },
@@ -262757,6 +263519,9 @@
       ],
       "matk": [
         "100"
+      ],
+      "hpDrain": [
+        "11===2"
       ]
     }
   },
@@ -263413,6 +264178,9 @@
       ],
       "int": [
         "EQUIP_ID[5045]2"
+      ],
+      "spRecovRate": [
+        "EQUIP_ID[5045]5"
       ]
     }
   },
@@ -263442,6 +264210,10 @@
       ],
       "matk": [
         "160"
+      ],
+      "healPower": [
+        "10",
+        "EQUIP_ID[2569&&15029&&2471]25"
       ]
     }
   },
@@ -265169,6 +265941,9 @@
       "dex": [
         "6",
         "6"
+      ],
+      "healPower": [
+        "6"
       ]
     }
   },
@@ -265714,17 +266489,21 @@
       "all"
     ],
     "script": {
+      "28": [
+        "EQUIP_ID[2626]50"
+      ],
+      "79": [
+        "EQUIP_ID[2626]30"
+      ],
       "int": [
         "2"
       ],
       "dex": [
         "1"
       ],
-      "28": [
-        "EQUIP_ID[2626]50"
-      ],
-      "79": [
-        "EQUIP_ID[2626]30"
+      "spRecovRate": [
+        "EQUIP_ID[2607]9",
+        "EQUIP_ID[2608||2626]9"
       ]
     }
   },
@@ -265969,7 +266748,14 @@
       "Mage",
       "SoulLinker"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "EQUIP_ID[2239||18874&&2109||2121]15"
+      ],
+      "spRecovRate": [
+        "EQUIP_ID[2239||18874&&2109||2121]15"
+      ]
+    }
   },
   "2718": {
     "id": 2718,
@@ -265997,6 +266783,9 @@
       ],
       "sp": [
         "EQUIP_ID[1723]50"
+      ],
+      "spRecovRate": [
+        "EQUIP_ID[1723]10"
       ]
     }
   },
@@ -266341,6 +267130,9 @@
     "script": {
       "hit": [
         "10"
+      ],
+      "hpRecovRate": [
+        "20"
       ]
     }
   },
@@ -266720,6 +267512,10 @@
       ],
       "subele_fire": [
         "10"
+      ],
+      "healPower": [
+        "5",
+        "EQUIP_ID[2720||2721||2722||2723||2724||2725]5"
       ]
     }
   },
@@ -266746,6 +267542,9 @@
     "script": {
       "allStatus": [
         "2"
+      ],
+      "healPower": [
+        "EQUIP_ID[2720||2721||2722||2723||2724||2725]5"
       ]
     }
   },
@@ -266772,6 +267571,9 @@
     "script": {
       "allStatus": [
         "1"
+      ],
+      "healPower": [
+        "EQUIP_ID[2720||2721||2722||2723||2724||2725]5"
       ]
     }
   },
@@ -267688,6 +268490,9 @@
     "script": {
       "dex": [
         "2"
+      ],
+      "healPower": [
+        "2"
       ]
     }
   },
@@ -267851,7 +268656,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healReceived": [
+        "7"
+      ],
+      "healPower": [
+        "4"
+      ]
+    }
   },
   "2913": {
     "id": 2913,
@@ -268522,7 +269334,14 @@
       "Mage",
       "SoulLinker"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "EQUIP_ID[2239||18874&&2109||2121]15"
+      ],
+      "spRecovRate": [
+        "EQUIP_ID[2239||18874&&2109||2121]15"
+      ]
+    }
   },
   "2976": {
     "id": 2976,
@@ -268618,7 +269437,16 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "EQUIP_ID[4218]-20",
+        "EQUIP_ID[4218&&4269]30"
+      ],
+      "spRecovRate": [
+        "EQUIP_ID[4269]-20",
+        "EQUIP_ID[4218&&4269]30"
+      ]
+    }
   },
   "2984": {
     "id": 2984,
@@ -268694,6 +269522,12 @@
       ],
       "subele_holy": [
         "5"
+      ],
+      "hpRecovRate": [
+        "50"
+      ],
+      "spRecovRate": [
+        "50"
       ]
     }
   },
@@ -268917,7 +269751,11 @@
     "usableClass": [
       "Doram"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "5"
+      ]
+    }
   },
   "28382": {
     "id": 28382,
@@ -268964,6 +269802,9 @@
     "script": {
       "vit": [
         "1"
+      ],
+      "healPower": [
+        "EQUIP_ID[15126&&20788&&22083&&28381]10"
       ]
     }
   },
@@ -268990,6 +269831,9 @@
     "script": {
       "vit": [
         "2"
+      ],
+      "healPower": [
+        "EQUIP_ID[15129&&20789&&22084&&28381]20"
       ]
     }
   },
@@ -269016,6 +269860,9 @@
     "script": {
       "vit": [
         "3"
+      ],
+      "healPower": [
+        "EQUIP_ID[15156&&20790&&22085&&28381]30"
       ]
     }
   },
@@ -270070,7 +270917,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "2"
+      ]
+    }
   },
   "28474": {
     "id": 28474,
@@ -270118,7 +270969,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "3"
+      ]
+    }
   },
   "28476": {
     "id": 28476,
@@ -270166,7 +271021,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "4"
+      ]
+    }
   },
   "28478": {
     "id": 28478,
@@ -270214,7 +271073,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "5"
+      ]
+    }
   },
   "28480": {
     "id": 28480,
@@ -270262,7 +271125,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "5"
+      ]
+    }
   },
   "28482": {
     "id": 28482,
@@ -271073,6 +271940,9 @@
       ],
       "subrace_demihuman": [
         "2"
+      ],
+      "healReceived": [
+        "EQUIP_ID[2435&&2538]10"
       ]
     }
   },
@@ -271097,6 +271967,9 @@
       "Merchant"
     ],
     "script": {
+      "42": [
+        "EQUIP_ID[2435&&2538]20"
+      ],
       "hp": [
         "150"
       ],
@@ -271105,9 +271978,6 @@
       ],
       "subrace_demihuman": [
         "2"
-      ],
-      "42": [
-        "EQUIP_ID[2435&&2538]20"
       ],
       "str": [
         "EQUIP_ID[2435&&2538]3"
@@ -271144,6 +272014,9 @@
       ],
       "subrace_player_doram": [
         "EQUIP_ID[2435&&2538]-200"
+      ],
+      "healPower": [
+        "EQUIP_ID[2435&&2538]10"
       ]
     }
   },
@@ -271244,43 +272117,60 @@
         "2"
       ],
       "int": [
+        "EQUIP_ID[2436&&2539]3",
         "EQUIP_ID[2437&&2539]3"
       ],
       "hpPercent": [
+        "EQUIP_ID[2436&&2539]12",
         "EQUIP_ID[2437&&2539]12"
       ],
       "vct__156": [
+        "EQUIP_ID[2436&&2539]50",
         "EQUIP_ID[2437&&2539]50"
       ],
       "subrace_formless": [
+        "EQUIP_ID[2436&&2539]-200",
         "EQUIP_ID[2437&&2539]-200"
       ],
       "subrace_undead": [
+        "EQUIP_ID[2436&&2539]-200",
         "EQUIP_ID[2437&&2539]-200"
       ],
       "subrace_brute": [
+        "EQUIP_ID[2436&&2539]-200",
         "EQUIP_ID[2437&&2539]-200"
       ],
       "subrace_plant": [
+        "EQUIP_ID[2436&&2539]-200",
         "EQUIP_ID[2437&&2539]-200"
       ],
       "subrace_insect": [
+        "EQUIP_ID[2436&&2539]-200",
         "EQUIP_ID[2437&&2539]-200"
       ],
       "subrace_fish": [
+        "EQUIP_ID[2436&&2539]-200",
         "EQUIP_ID[2437&&2539]-200"
       ],
       "subrace_demon": [
+        "EQUIP_ID[2436&&2539]-200",
         "EQUIP_ID[2437&&2539]-200"
       ],
       "subrace_angel": [
+        "EQUIP_ID[2436&&2539]-200",
         "EQUIP_ID[2437&&2539]-200"
       ],
       "subrace_dragon": [
+        "EQUIP_ID[2436&&2539]-200",
         "EQUIP_ID[2437&&2539]-200"
       ],
       "subrace_player_doram": [
+        "EQUIP_ID[2436&&2539]-200",
         "EQUIP_ID[2437&&2539]-200"
+      ],
+      "healPower": [
+        "EQUIP_ID[2436&&2539]6",
+        "EQUIP_ID[2437&&2539]6"
       ]
     }
   },
@@ -271313,6 +272203,62 @@
       ],
       "subrace_demihuman": [
         "2"
+      ],
+      "dmg_taken_range": [
+        "EQUIP_ID[2436&&2539]10",
+        "EQUIP_ID[2437&&2539]10"
+      ],
+      "dex": [
+        "EQUIP_ID[2436&&2539]3",
+        "EQUIP_ID[2437&&2539]3"
+      ],
+      "hpPercent": [
+        "EQUIP_ID[2436&&2539]12",
+        "EQUIP_ID[2437&&2539]12"
+      ],
+      "acd": [
+        "EQUIP_ID[2436&&2539]25",
+        "EQUIP_ID[2437&&2539]25"
+      ],
+      "subrace_formless": [
+        "EQUIP_ID[2436&&2539]-200",
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_undead": [
+        "EQUIP_ID[2436&&2539]-200",
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_brute": [
+        "EQUIP_ID[2436&&2539]-200",
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_plant": [
+        "EQUIP_ID[2436&&2539]-200",
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_insect": [
+        "EQUIP_ID[2436&&2539]-200",
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_fish": [
+        "EQUIP_ID[2436&&2539]-200",
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_demon": [
+        "EQUIP_ID[2436&&2539]-200",
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_angel": [
+        "EQUIP_ID[2436&&2539]-200",
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_dragon": [
+        "EQUIP_ID[2436&&2539]-200",
+        "EQUIP_ID[2437&&2539]-200"
+      ],
+      "subrace_player_doram": [
+        "EQUIP_ID[2436&&2539]-200",
+        "EQUIP_ID[2437&&2539]-200"
       ]
     }
   },
@@ -271345,6 +272291,48 @@
       ],
       "subrace_demihuman": [
         "2"
+      ],
+      "dmg_taken_range": [
+        "EQUIP_ID[2437&&2540]10"
+      ],
+      "dex": [
+        "EQUIP_ID[2437&&2540]3"
+      ],
+      "hpPercent": [
+        "EQUIP_ID[2437&&2540]12"
+      ],
+      "acd": [
+        "EQUIP_ID[2437&&2540]25"
+      ],
+      "subrace_formless": [
+        "EQUIP_ID[2437&&2540]-200"
+      ],
+      "subrace_undead": [
+        "EQUIP_ID[2437&&2540]-200"
+      ],
+      "subrace_brute": [
+        "EQUIP_ID[2437&&2540]-200"
+      ],
+      "subrace_plant": [
+        "EQUIP_ID[2437&&2540]-200"
+      ],
+      "subrace_insect": [
+        "EQUIP_ID[2437&&2540]-200"
+      ],
+      "subrace_fish": [
+        "EQUIP_ID[2437&&2540]-200"
+      ],
+      "subrace_demon": [
+        "EQUIP_ID[2437&&2540]-200"
+      ],
+      "subrace_angel": [
+        "EQUIP_ID[2437&&2540]-200"
+      ],
+      "subrace_dragon": [
+        "EQUIP_ID[2437&&2540]-200"
+      ],
+      "subrace_player_doram": [
+        "EQUIP_ID[2437&&2540]-200"
       ]
     }
   },
@@ -271425,6 +272413,12 @@
     "script": {
       "vit": [
         "1"
+      ],
+      "healReceived": [
+        "3"
+      ],
+      "hpRecovRate": [
+        "5"
       ]
     }
   },
@@ -271531,6 +272525,9 @@
     "script": {
       "vit": [
         "2"
+      ],
+      "hpRecovRate": [
+        "50"
       ]
     }
   },
@@ -271585,6 +272582,9 @@
       ],
       "subrace_player_human": [
         "7"
+      ],
+      "healPower": [
+        "EQUIP_ID[2444&&2549]3"
       ]
     }
   },
@@ -271611,6 +272611,9 @@
     "script": {
       "hp": [
         "600"
+      ],
+      "spRecovRate": [
+        "10"
       ]
     }
   },
@@ -271797,7 +272800,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "5"
+      ]
+    }
   },
   "15015": {
     "id": 15015,
@@ -272373,6 +273380,9 @@
       "subrace_player_human": [
         "2",
         "EQUIP_ID[2483&&2586]===15"
+      ],
+      "healReceived": [
+        "6===12"
       ]
     }
   },
@@ -272411,6 +273421,9 @@
       "subrace_player_human": [
         "2",
         "EQUIP_ID[2484&&2586]===15"
+      ],
+      "dmg_taken_range": [
+        "6===20"
       ]
     }
   },
@@ -272450,6 +273463,9 @@
       "subrace_player_human": [
         "2",
         "EQUIP_ID[2485&&2587]===15"
+      ],
+      "dmg_taken_range": [
+        "6===15"
       ]
     }
   },
@@ -273840,6 +274856,12 @@
     "script": {
       "matk": [
         "EQUIP_ID[16063]100"
+      ],
+      "healPower": [
+        "5",
+        "1---1",
+        "EQUIP_ID[16063]20",
+        "EQUIP_ID[16063]REFINE[weapon,armor==18]===15"
       ]
     }
   },
@@ -274382,6 +275404,9 @@
       ],
       "spPercent": [
         "20"
+      ],
+      "spRecovRate": [
+        "15"
       ]
     }
   },
@@ -274533,6 +275558,12 @@
       ],
       "spPercent": [
         "9"
+      ],
+      "hpRecovRate": [
+        "EQUIP_ID[2517&&2353]10"
+      ],
+      "spRecovRate": [
+        "EQUIP_ID[2517&&2353]10"
       ]
     }
   },
@@ -274669,6 +275700,9 @@
     "script": {
       "subele_water": [
         "5"
+      ],
+      "hpRecovRate": [
+        "EQUIP_ID[2528]5"
       ]
     }
   },
@@ -274872,6 +275906,9 @@
     "script": {
       "agi": [
         "1"
+      ],
+      "spRecovRate": [
+        "5"
       ]
     }
   },
@@ -274901,6 +275938,12 @@
       ],
       "hpPercent": [
         "10"
+      ],
+      "healReceived": [
+        "5"
+      ],
+      "hpRecovRate": [
+        "5"
       ]
     }
   },
@@ -274924,7 +275967,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "10"
+      ],
+      "spRecovRate": [
+        "2"
+      ]
+    }
   },
   "2457": {
     "id": 2457,
@@ -274946,7 +275996,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "12"
+      ],
+      "spRecovRate": [
+        "4"
+      ]
+    }
   },
   "2458": {
     "id": 2458,
@@ -274968,7 +276025,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "14"
+      ],
+      "spRecovRate": [
+        "6"
+      ]
+    }
   },
   "2459": {
     "id": 2459,
@@ -275278,6 +276342,12 @@
       ],
       "agi": [
         "1"
+      ],
+      "hpRecovRate": [
+        "28"
+      ],
+      "spRecovRate": [
+        "12"
       ]
     }
   },
@@ -276084,6 +277154,14 @@
         "300",
         "7===400",
         "9===600"
+      ],
+      "healReceived": [
+        "EQUIP_ID[20779&&15141]5",
+        "EQUIP_ID[20779&&15141]REFINE[boot,garment,armor==1(30)]---1"
+      ],
+      "healPower": [
+        "EQUIP_ID[20779&&15141]5",
+        "EQUIP_ID[20779&&15141]REFINE[boot,garment,armor==1(30)]---1"
       ]
     }
   },
@@ -276265,6 +277343,12 @@
       ],
       "sp": [
         "50"
+      ],
+      "hpRecovRate": [
+        "3---10"
+      ],
+      "spRecovRate": [
+        "3---10"
       ]
     }
   },
@@ -276294,6 +277378,12 @@
       ],
       "sp": [
         "100"
+      ],
+      "hpRecovRate": [
+        "3---20"
+      ],
+      "spRecovRate": [
+        "3---20"
       ]
     }
   },
@@ -276358,6 +277448,12 @@
       ],
       "vct": [
         "5"
+      ],
+      "hpRecovRate": [
+        "15"
+      ],
+      "spRecovRate": [
+        "15"
       ]
     }
   },
@@ -276384,6 +277480,12 @@
     "script": {
       "allStatus": [
         "1"
+      ],
+      "hpRecovRate": [
+        "30"
+      ],
+      "spRecovRate": [
+        "14"
       ]
     }
   },
@@ -276410,6 +277512,12 @@
     "script": {
       "allStatus": [
         "1"
+      ],
+      "hpRecovRate": [
+        "36"
+      ],
+      "spRecovRate": [
+        "18"
       ]
     }
   },
@@ -276436,6 +277544,12 @@
     "script": {
       "allStatus": [
         "2"
+      ],
+      "hpRecovRate": [
+        "36"
+      ],
+      "spRecovRate": [
+        "18"
       ]
     }
   },
@@ -276462,6 +277576,12 @@
     "script": {
       "allStatus": [
         "2"
+      ],
+      "hpRecovRate": [
+        "40"
+      ],
+      "spRecovRate": [
+        "20"
       ]
     }
   },
@@ -276488,6 +277608,12 @@
     "script": {
       "allStatus": [
         "2"
+      ],
+      "hpRecovRate": [
+        "40"
+      ],
+      "spRecovRate": [
+        "20"
       ]
     }
   },
@@ -276633,6 +277759,12 @@
       ],
       "flee": [
         "15"
+      ],
+      "hpRecovRate": [
+        "10"
+      ],
+      "spRecovRate": [
+        "10"
       ]
     }
   },
@@ -277212,6 +278344,9 @@
     "script": {
       "vit": [
         "1"
+      ],
+      "dmg_taken_range": [
+        "10"
       ]
     }
   },
@@ -277235,7 +278370,11 @@
     "usableClass": [
       "Novice"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "5"
+      ]
+    }
   },
   "2522": {
     "id": 2522,
@@ -277968,6 +279107,9 @@
       ],
       "subele_wind": [
         "10"
+      ],
+      "healReceived": [
+        "3---1"
       ]
     }
   },
@@ -278003,6 +279145,9 @@
       ],
       "subele_wind": [
         "10"
+      ],
+      "healReceived": [
+        "3---1"
       ]
     }
   },
@@ -278178,7 +279323,11 @@
     "usableClass": [
       "Novice"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "50"
+      ]
+    }
   },
   "20721": {
     "id": 20721,
@@ -278228,12 +279377,15 @@
       "Mechanic"
     ],
     "script": {
+      "2280": [
+        "EQUIP_ID[15110||15343]25"
+      ],
       "hpPercent": [
         "6",
         "2---1"
       ],
-      "2280": [
-        "EQUIP_ID[15110||15343]25"
+      "hpRecovRate": [
+        "9===50"
       ]
     }
   },
@@ -279898,11 +281050,17 @@
       "Priest"
     ],
     "script": {
+      "79": [
+        "EQUIP_ID[1631]20"
+      ],
       "int": [
         "1"
       ],
-      "79": [
-        "EQUIP_ID[1631]20"
+      "hpRecovRate": [
+        "3"
+      ],
+      "spRecovRate": [
+        "3"
       ]
     }
   },
@@ -311876,7 +313034,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpDrain": [
+        "1"
+      ]
+    }
   },
   "310663": {
     "id": 310663,
@@ -311898,7 +313060,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spDrain": [
+        "1"
+      ]
+    }
   },
   "20077": {
     "id": 20077,
@@ -312655,6 +313821,9 @@
     "script": {
       "hpPercent": [
         "-15"
+      ],
+      "spDrain": [
+        "20"
       ]
     }
   },
@@ -312878,6 +314047,12 @@
       ],
       "acd": [
         "EQUIP_ID[490106||490107]5"
+      ],
+      "hpDrain": [
+        "EQUIP_ID[490107||490106]2"
+      ],
+      "spDrain": [
+        "EQUIP_ID[490107||490106]2"
       ]
     }
   },
@@ -313315,6 +314490,9 @@
     "script": {
       "hp": [
         "LOYALTY[3]===25"
+      ],
+      "hpRecovRate": [
+        "LOYALTY[3]===5"
       ]
     }
   },
@@ -313914,7 +315092,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spRecovRate": [
+        "LOYALTY[3]===3"
+      ]
+    }
   },
   "9044": {
     "id": 9044,
@@ -314024,6 +315206,9 @@
     "script": {
       "sp": [
         "LOYALTY[3]===30"
+      ],
+      "spRecovRate": [
+        "LOYALTY[3]===5"
       ]
     }
   },
@@ -314233,7 +315418,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpDrain": [
+        "LOYALTY[3]===5"
+      ]
+    }
   },
   "9056": {
     "id": 9056,
@@ -314310,7 +315499,12 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "LOYALTY[3]===50",
+        "LOYALTY[4]===75"
+      ]
+    }
   },
   "9069": {
     "id": 9069,
@@ -314711,6 +315905,12 @@
       "m_race_plant": [
         "LOYALTY[3]===3",
         "LOYALTY[4]===6"
+      ],
+      "hpRecovRate": [
+        "LOYALTY[1]===5",
+        "LOYALTY[2]===10",
+        "LOYALTY[3]===15",
+        "LOYALTY[4]===20"
       ]
     }
   },
@@ -318544,6 +319744,9 @@
       "p_class_boss": [
         "EQUIP_ID[27152]15",
         "EQUIP_ID[4425]15"
+      ],
+      "hpDrain": [
+        "1"
       ]
     }
   },
@@ -318619,6 +319822,9 @@
     "script": {
       "spPercent": [
         "3"
+      ],
+      "healPower": [
+        "5"
       ]
     }
   },
@@ -318642,6 +319848,9 @@
     "script": {
       "spPercent": [
         "6"
+      ],
+      "healPower": [
+        "10"
       ]
     }
   },
@@ -318665,6 +319874,9 @@
     "script": {
       "spPercent": [
         "9"
+      ],
+      "healPower": [
+        "15"
       ]
     }
   },
@@ -318984,7 +320196,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "healReceived": [
+        "2"
+      ]
+    }
   },
   "6741": {
     "id": 6741,
@@ -319003,7 +320219,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "healPower": [
+        "3"
+      ]
+    }
   },
   "6742": {
     "id": 6742,
@@ -319407,7 +320627,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "hpDrain": [
+        "1"
+      ]
+    }
   },
   "6964": {
     "id": 6964,
@@ -319426,7 +320650,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "spDrain": [
+        "1"
+      ]
+    }
   },
   "6999": {
     "id": 6999,
@@ -319445,7 +320673,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "hpDrain": [
+        "3"
+      ]
+    }
   },
   "25000": {
     "id": 25000,
@@ -319464,7 +320696,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "spDrain": [
+        "1"
+      ]
+    }
   },
   "25001": {
     "id": 25001,
@@ -321551,6 +322787,9 @@
       ],
       "cd__2280": [
         "EQUIP_ID[25495||29482]1"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25494||29481]1"
       ]
     }
   },
@@ -321674,7 +322913,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "healPower": [
+        "SKILL_ID[363==1]---1"
+      ]
+    }
   },
   "25707": {
     "id": 25707,
@@ -321845,6 +323088,9 @@
       ],
       "cd__2307": [
         "EQUIP_ID[25711||29518]0.5"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25710||29517]1"
       ]
     }
   },
@@ -321941,6 +323187,9 @@
       ],
       "2037": [
         "EQUIP_ID[25715||29522]15"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25714||29521]1"
       ]
     }
   },
@@ -322172,6 +323421,9 @@
       "2284": [
         "15",
         "EQUIP_ID[25808||29621]10"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25808||29621]1"
       ]
     }
   },
@@ -322436,6 +323688,9 @@
       "2592": [
         "20",
         "EQUIP_ID[25846||29655]15"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25847||29656]1"
       ]
     }
   },
@@ -322543,6 +323798,9 @@
       ],
       "3009": [
         "25"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25851||29660]1"
       ]
     }
   },
@@ -323983,7 +325241,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "spDrain": [
+        "1"
+      ]
+    }
   },
   "1000526": {
     "id": 1000526,
@@ -324002,7 +325264,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "hpDrain": [
+        "1"
+      ]
+    }
   },
   "1000527": {
     "id": 1000527,
@@ -324869,7 +326135,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "10"
+      ]
+    }
   },
   "4037": {
     "id": 4037,
@@ -325165,7 +326435,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spRecovRate": [
+        "15"
+      ]
+    }
   },
   "4072": {
     "id": 4072,
@@ -325467,6 +326741,9 @@
     "script": {
       "spPercent": [
         "15"
+      ],
+      "spRecovRate": [
+        "3"
       ]
     }
   },
@@ -325730,7 +327007,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spDrain": [
+        "5"
+      ]
+    }
   },
   "4135": {
     "id": 4135,
@@ -326088,7 +327369,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "-100"
+      ]
+    }
   },
   "4159": {
     "id": 4159,
@@ -326892,6 +328177,12 @@
       ],
       "range": [
         "EQUIP_ID[4234&&4252&&4178&&4297]20"
+      ],
+      "hpRecovRate": [
+        "10"
+      ],
+      "spRecovRate": [
+        "10"
       ]
     }
   },
@@ -327283,6 +328574,10 @@
       ],
       "hp": [
         "1000"
+      ],
+      "hpRecovRate": [
+        "-20",
+        "EQUIP_ID[4269]30"
       ]
     }
   },
@@ -327845,6 +329140,9 @@
       ],
       "hpPercent": [
         "EQUIP_ID[4220&&4311&&4331&&4319]20"
+      ],
+      "hpRecovRate": [
+        "EQUIP_ID[4220&&4311&&4331&&4319]50"
       ]
     }
   },
@@ -328011,6 +329309,9 @@
     "script": {
       "def": [
         "1"
+      ],
+      "hpRecovRate": [
+        "30"
       ]
     }
   },
@@ -328239,6 +329540,10 @@
       ],
       "sp": [
         "150"
+      ],
+      "spRecovRate": [
+        "-20",
+        "EQUIP_ID[4218]30"
       ]
     }
   },
@@ -328455,7 +329760,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spRecovRate": [
+        "-100"
+      ]
+    }
   },
   "4280": {
     "id": 4280,
@@ -329886,6 +331195,9 @@
       "hp": [
         "800",
         "1----40"
+      ],
+      "hpRecovRate": [
+        "10"
       ]
     }
   },
@@ -330094,7 +331406,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "-100"
+      ],
+      "hpDrain": [
+        "20"
+      ]
+    }
   },
   "4369": {
     "id": 4369,
@@ -330185,6 +331504,9 @@
       ],
       "def": [
         "EQUIP_ID[4311&&4331&&4319]2"
+      ],
+      "spRecovRate": [
+        "EQUIP_ID[4311&&4331&&4319]10"
       ]
     }
   },
@@ -330208,7 +331530,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "30"
+      ]
+    }
   },
   "4373": {
     "id": 4373,
@@ -330340,6 +331666,10 @@
       "sp": [
         "80",
         "5===-40"
+      ],
+      "spRecovRate": [
+        "5",
+        "5===-5"
       ]
     }
   },
@@ -330394,6 +331724,9 @@
       ],
       "vct": [
         "EQUIP_ID[4325&&4258&&4208&&4327]USED[Sage]20"
+      ],
+      "hpRecovRate": [
+        "10"
       ]
     }
   },
@@ -331334,7 +332667,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "4"
+      ]
+    }
   },
   "4461": {
     "id": 4461,
@@ -331547,7 +332884,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spDrain": [
+        "5"
+      ]
+    }
   },
   "4484": {
     "id": 4484,
@@ -331642,7 +332983,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "-100"
+      ],
+      "hpDrain": [
+        "10"
+      ]
+    }
   },
   "4492": {
     "id": 4492,
@@ -331797,7 +333145,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "-100"
+      ]
+    }
   },
   "4500": {
     "id": 4500,
@@ -331929,7 +333281,12 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "3",
+        "USED[Acolyte]2---1"
+      ]
+    }
   },
   "4517": {
     "id": 4517,
@@ -332195,7 +333552,12 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "15",
+        "15===10"
+      ]
+    }
   },
   "4560": {
     "id": 4560,
@@ -332899,7 +334261,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "-100"
+      ],
+      "spRecovRate": [
+        "-100"
+      ]
+    }
   },
   "4638": {
     "id": 4638,
@@ -332947,7 +334316,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spRecovRate": [
+        "-100"
+      ]
+    }
   },
   "4647": {
     "id": 4647,
@@ -333180,7 +334553,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "25"
+      ],
+      "spRecovRate": [
+        "25"
+      ]
+    }
   },
   "27016": {
     "id": 27016,
@@ -334251,7 +335631,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spRecovRate": [
+        "10"
+      ]
+    }
   },
   "27263": {
     "id": 27263,
@@ -334317,7 +335701,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "50"
+      ]
+    }
   },
   "27305": {
     "id": 27305,
@@ -334635,7 +336023,13 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "5",
+        "7===3",
+        "9===2"
+      ]
+    }
   },
   "300127": {
     "id": 300127,
@@ -335494,7 +336888,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "hpRecovRate": [
+        "30"
+      ]
+    }
   },
   "310091": {
     "id": 310091,
@@ -335513,7 +336911,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "spRecovRate": [
+        "30"
+      ]
+    }
   },
   "310098": {
     "id": 310098,
@@ -335532,7 +336934,13 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "healPower": [
+        "5",
+        "9===5",
+        "11===7"
+      ]
+    }
   },
   "310113": {
     "id": 310113,
@@ -335551,7 +336959,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "hpDrain": [
+        "3"
+      ]
+    }
   },
   "310114": {
     "id": 310114,
@@ -335570,7 +336982,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "spDrain": [
+        "2"
+      ]
+    }
   },
   "310115": {
     "id": 310115,
@@ -335589,7 +337005,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "magicHealHp": [
+        "1250"
+      ]
+    }
   },
   "310116": {
     "id": 310116,
@@ -335608,7 +337028,11 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "magicHealSp": [
+        "300"
+      ]
+    }
   },
   "310178": {
     "id": 310178,
@@ -335627,7 +337051,13 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "reduceDamageReturn": [
+        "2",
+        "9===2",
+        "11===3"
+      ]
+    }
   },
   "310179": {
     "id": 310179,
@@ -335646,7 +337076,13 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": 65535,
-    "script": {}
+    "script": {
+      "reduceDamageReturn": [
+        "3",
+        "9===2",
+        "11===4"
+      ]
+    }
   },
   "1771": {
     "id": 1771,
@@ -335670,5 +337106,31 @@
       "Assassin"
     ],
     "script": {}
+  },
+  "1525": {
+    "id": 1525,
+    "aegisName": "롱메이스",
+    "name": "Maça Longa",
+    "unidName": "Mace",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 1,
+    "itemSubTypeId": 263,
+    "itemLevel": 4,
+    "attack": 135,
+    "defense": null,
+    "weight": 80,
+    "requiredLevel": 40,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Acolyte"
+    ],
+    "script": {
+      "dmg_taken_range": [
+        "10"
+      ]
+    }
   }
 }
