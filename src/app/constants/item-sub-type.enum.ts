@@ -4,6 +4,15 @@ export enum ItemSubTypeId {
   Cannonball = 1025,
   Kunai = 1026,
   Bullet = 1027,
+  /**
+   * Throwing daggers — rAthena's `SubType: Dagger` under `Type: Ammo`. Only the Faca
+   * Envenenada (1771) is one, and only the Sicário line can carry it.
+   *
+   * The 1024+ block is this project's own numbering for the ammo families, assigned in the
+   * order they were added rather than copied from any client table, so 1028 is simply the
+   * next free value. Nothing outside this enum and `item.json` reads these.
+   */
+  ThrowingDagger = 1028,
   Upper = 512,
   Shield = 514,
   Armor = 513,

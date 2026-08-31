@@ -335647,5 +335647,28 @@
     "location": null,
     "compositionPos": 65535,
     "script": {}
+  },
+  "1771": {
+    "id": 1771,
+    "aegisName": "Venom_Knife",
+    "name": "Faca Envenenada",
+    "unidName": "Faca Envenenada",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1028,
+    "itemLevel": null,
+    "attack": 30,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.5,
+    "requiredLevel": 1,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Assassin"
+    ],
+    "script": {}
   }
 }
