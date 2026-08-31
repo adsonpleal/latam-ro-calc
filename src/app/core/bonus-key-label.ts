@@ -74,6 +74,7 @@ export const BUFF_BONUS_LABELS: Record<string, string> = {
   bitterCold: 'Reduz Res. Água do alvo',
   gravitation: 'Dano físico e mágico recebido',
   comet: 'Dano Cometa', raid: 'Dano físico recebido', darkClaw: 'Garra Sombria',
+  shadowScar: 'Profanação',
   sporeExplosion: 'Dano recebido', quake: 'Dano físico recebido', oleumSanctum: 'Oleum Sanctum',
   mysticAmp: 'Ampl. Mística', magnumBreakPsedoBonus: 'Impacto Explosivo', magnumBreakClearEDP: 'Limpar EDP',
   ignore_size_penalty: 'Ignora penalidade de tamanho', m_my_element_water: 'Dano Mágico (Água)',

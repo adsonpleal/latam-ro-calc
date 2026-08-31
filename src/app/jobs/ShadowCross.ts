@@ -340,14 +340,18 @@ export class ShadowCross extends GuillotineCross {
   ];
   private readonly activeSkillList4th: ActiveSkillModel[] = [
     {
+      // Profanar Arma (SHC_ENCHANTING_SHADOW 5293) marks the target with [Profanação]; the
+      // stacks are what carries the damage, so the picker is the stack count, not the skill
+      // level. Each is -3% melee physical resistance and they cap at 20, for 60% (bROWiki).
+      // Every stack has its own 15 s timer, so a real fight sits below the cap.
       name: 'Shadow Wound',
-      label: 'Shadow Wound',
+      label: 'Profanação',
       isDebuff: true,
       inputType: 'dropdown',
       dropdown: genSkillListWithLabel(
         20,
-        (lv) => `${lv} stack`,
-        (lv) => ({ meleeReduction: lv * 3 }),
+        (lv) => `${lv} ${lv === 1 ? 'Acúmulo' : 'Acúmulos'}`,
+        (lv) => ({ shadowScar: lv * 3 }),
       ),
     },
     {

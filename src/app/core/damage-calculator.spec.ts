@@ -251,3 +251,60 @@ describe('DamageCalculator Gravitação increases damage taken (+10%, phys & mag
     expect((dc as any).getDebuffMultiplier(SkillType.MAGICAL)).toBe(1);
   });
 });
+
+/**
+ * Profanação, the target state Profanar Arma (SHC_ENCHANTING_SHADOW 5293) applies. Each stack
+ * takes 3% off the target's melee physical resistance and they cap at 20, for 60% — bROWiki
+ * https://browiki.org/wiki/Profanar_Arma. rAthena spends it as a plain multiplier on the
+ * finished damage rather than as a DEF reduction (battle.cpp, target's damage-taken block):
+ *
+ *     if (tsc->getSCE(SC_SHADOW_SCAR))
+ *         damage += damage * (3 * tsc->getSCE(SC_SHADOW_SCAR)->val1) / 100;
+ *
+ * Until 29/08/2026 the picker emitted `meleeReduction`, a key **nothing in the engine read**,
+ * so all 20 stacks moved no number at all. Caught on recording 5tGJSGaNWg (tracker card), an
+ * Executor whose Lâminas Retalhadoras climbs from 37,0 M on the first cast to 47,0 M as the
+ * stacks land: at 0 stacks the opening packet sits inside the simulated critical range, and
+ * before the fix 12 of its 18 packets were above the ceiling with nothing to attribute.
+ */
+describe('DamageCalculator Profanação increases melee damage taken (3% per stack, 20 max)', () => {
+  it('applies 3% per stack, up to 60% at the 20-stack cap', () => {
+    for (const [stacks, expected] of [[1, 1.03], [6, 1.18], [20, 1.6]] as [number, number][]) {
+      const dc = makeCalc({ shadowScar: stacks * 3 });
+      (dc as any).monster.data.type = 'normal';
+      expect((dc as any).getDebuffMultiplier(SkillType.MELEE)).toBeCloseTo(expected, 10);
+    }
+  });
+
+  /** The client text is explicit that it is "dano físico corpo a corpo". rAthena leaves its
+   *  line ungated by BF_SHORT, under a `!TODO: Need official adjustment for this too`. */
+  it('is melee only — ranged and magical are untouched', () => {
+    const dc = makeCalc({ shadowScar: 60 });
+    (dc as any).monster.data.type = 'normal';
+    expect((dc as any).getDebuffMultiplier(SkillType.RANGE)).toBe(1);
+    expect((dc as any).getDebuffMultiplier(SkillType.MAGICAL)).toBe(1);
+  });
+
+  /** "Funciona em monstros do tipo Chefe" — unlike Garra Sombria, which halves, and unlike
+   *  Gravitação, which does nothing at all to a boss. rAthena has no CLASS_BOSS branch here. */
+  it('is not reduced against boss monsters', () => {
+    const dc = makeCalc({ shadowScar: 60 });
+    (dc as any).monster.data.type = 'boss';
+    expect((dc as any).getDebuffMultiplier(SkillType.MELEE)).toBeCloseTo(1.6, 10);
+  });
+
+  /** rAthena runs each debuff as its own `damage += damage * x / 100`, so they compound. An
+   *  Executor owns both of these, which is what made the old summing reachable: it counted
+   *  the base 100 once per source and handed the second one a free doubling. */
+  it('compounds with Garra Sombria rather than adding', () => {
+    const dc = makeCalc({ shadowScar: 60, darkClaw: 150 });
+    (dc as any).monster.data.type = 'normal';
+    expect((dc as any).getDebuffMultiplier(SkillType.MELEE)).toBeCloseTo(1.6 * 2.5, 10);
+  });
+
+  it('is a no-op at zero stacks', () => {
+    const dc = makeCalc({ shadowScar: 0 });
+    (dc as any).monster.data.type = 'normal';
+    expect((dc as any).getDebuffMultiplier(SkillType.MELEE)).toBe(1);
+  });
+});
