@@ -445,25 +445,44 @@ export class DamageCalculator {
     return 100 + bonus;
   }
 
+  /** Profanação (Profanar Arma's [Shadow Scar]) — each stack on the target takes 3% off its
+   *  melee physical resistance, stacking to 20 for 60% (bROWiki). rAthena applies it as a
+   *  plain multiplier on the finished damage, not as a DEF reduction:
+   *  `damage += damage * (3 * val1) / 100`, with `val1` the stack count (battle.cpp, in the
+   *  target's damage-taken block). It is **not** halved against bosses the way Garra Sombria
+   *  is, which is what the pt-BR "Funciona em monstros do tipo Chefe" says.
+   *
+   *  rAthena leaves that line ungated by `BF_SHORT` — unlike SC_DARKCROW three lines above
+   *  it — under a `!TODO: Need official adjustment for this too`. The client text is explicit
+   *  that it is "dano físico corpo a corpo", so it is gated to melee here. */
+  private _getShadowScarBonus(atkType: SkillType): number {
+    if (atkType !== SkillType.MELEE) return 0;
+
+    const bonus = this.totalBonus['shadowScar'] || 0;
+    if (!bonus) return 0;
+
+    return 100 + bonus;
+  }
+
+  /** The target's damage-taken stage. rAthena runs each of these as its own
+   *  `damage += damage * x / 100` in sequence, so they **compound**; adding them up instead
+   *  would count the base 100 once per active source and hand the second one a free ×2. That
+   *  became reachable when Profanação joined Garra Sombria — one Executor owns both. A single
+   *  active source, which is every case that existed before, is unchanged either way. */
   private getDebuffMultiplier(atkType: SkillType) {
-    let totalBonus = 0;
+    const sources = [
+      this._getRaidMultiplier(),
+      this._getGravitationBonus(),
+      this._getQuakeBonus(atkType),
+      ...(atkType === SkillType.MELEE
+        ? [this._getDarkClawBonus(atkType), this._getShadowScarBonus(atkType)]
+        : []),
+      ...(atkType === SkillType.RANGE
+        ? [this._getSporeExplosionBonus(atkType), this._getOleumSanctumBonus(atkType)]
+        : []),
+    ];
 
-    totalBonus += this._getRaidMultiplier();
-    totalBonus += this._getGravitationBonus();
-    totalBonus += this._getQuakeBonus(atkType);
-
-    switch (atkType) {
-      case SkillType.MELEE: {
-        totalBonus += this._getDarkClawBonus(atkType);
-        break;
-      }
-      case SkillType.RANGE:
-        totalBonus += this._getSporeExplosionBonus(atkType);
-        totalBonus += this._getOleumSanctumBonus(atkType);
-        break;
-    }
-
-    return this.toPercent(totalBonus || 100);
+    return sources.filter((n) => n > 0).reduce((acc, n) => acc * this.toPercent(n), 1);
   }
 
   private getAdvanceKatar() {
@@ -525,12 +544,28 @@ export class DamageCalculator {
    * `⌊LUK × 0,3⌋` instead and then answers to the skill and the target as well — that whole
    * derivation lives in core/crit-rate.ts, which is also what the UI reads.
    */
+  /**
+   * CRIT on the same terms as the status window. rAthena keeps it in **tenths** and only the
+   * display divides by ten (status.cpp, RENEWAL branch):
+   *
+   *     stat += (level / 10);          // +0.1 per 10 base levels
+   *     stat += 10 + (status->luk * 3) // +1.0 flat, +0.3 per LUK
+   *     if (weapon == W_KATAR) cri *= 2;
+   *
+   * so flat gear CRIT joins as whole points (`cri * 10`) and there is a single truncation, at
+   * the end, after the katar doubling.
+   *
+   * `cri + floor(totalLuk / 3)` was ~0.333 per LUK — a 10% steep slope that happens to agree
+   * with the real one around LUK 100 at base 170, and drifts either side of it. Two Sicário
+   * recordings on tra_fild caught it against their own ZC_PAR_CHANGE: LfVVfKMZg3 at LUK 113
+   * read one point high, TxYGFDGEn7 at LUK 133 two. It also ignored base level entirely.
+   */
   private getBaseCriRate() {
     const { cri } = this.totalBonus;
     const { totalLuk } = this.status;
-    const base = cri + floor(totalLuk / 3);
+    const tenths = floor(this.model.level / 10) + 10 + totalLuk * 3 + cri * 10;
 
-    return this.weaponData.data?.typeName === 'katar' ? base * 2 : base;
+    return floor((this.weaponData.data?.typeName === 'katar' ? tenths * 2 : tenths) / 10);
   }
 
   private getBasicAspd() {

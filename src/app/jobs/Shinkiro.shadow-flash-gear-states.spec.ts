@@ -262,17 +262,16 @@ describe('Shinkiro — Centelha das Trevas, gravação por estado de equipamento
   });
 
   /**
-   * OPEN, and cosmetic: the character sheet's Crítico is 1 too high. The recording says 41
-   * with no gear and 149 with it; the calculator says 42 and 150, so the equipment leg is
-   * right and the LUK leg is not — `getBaseCriRate` takes `floor(totalLuk / 3)`, which is
-   * 42 at this character's LUK 128.
-   *
-   * It moves no damage figure here (crit and non-crit are reported separately, and against
-   * a dummy both readings crit anyway), and one LUK value cannot choose between the
-   * candidate formulas. Settling it needs a recording at a different LUK.
+   * **CLOSED on 29/08/2026** — this used to pin a 1-point overshoot (42 and 150 against the
+   * recording's 41 and 149), correctly blaming the LUK leg and correctly saying one LUK value
+   * could not choose between the candidate formulas. Two Sicário recordings at other LUK
+   * values supplied the missing points, and the answer was that CRIT is not a whole number
+   * per LUK: rAthena holds it in tenths as `piso(nívelBase / 10) + 10 + LUK × 3` and
+   * truncates once, at display. At this character's LUK 128 that is `21 + 10 + 384 = 41,5`,
+   * so 41 — where `piso(128 / 3)` gave 42.
    */
-  it('pins the 1-point Crítico overshoot', () => {
-    expect(sim(WEAPON.at).cri_).toBe(42); // game: 41
-    expect(sim(FULL.at).cri_).toBe(150); // game: 149
+  it('reproduces the recorded Crítico in both gear states', () => {
+    expect(sim(WEAPON.at).cri_).toBe(41); // game: 41
+    expect(sim(FULL.at).cri_).toBe(149); // game: 149
   });
 });

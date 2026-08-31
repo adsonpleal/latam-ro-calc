@@ -290,22 +290,21 @@ describe('equip ATK checked against the recording packets', () => {
   });
 
   /**
-   * **A known 1-point LUK divergence.** The recording reports SP_CRITICAL = 65 with Mira
-   * Focalizada active (+30 Crit); the simulator gives 66. Base crit is ⌊LUK/3⌋ and the
-   * calculator arrives at LUK 108 — 100 allocated, +7 from the job bonus and +1 from the
-   * armour's enchant 4750 "SOR +1". The game behaves as if LUK were 107.
+   * **CLOSED on 29/08/2026, and the contradiction was the point.** This used to record that
+   * SP_ATK1 = 846 needs LUK 108..110 while SP_CRITICAL = 65 needs LUK 105..107, ranges that
+   * do not overlap — so one of the two formulas had to be wrong rather than the LUK. It was
+   * the crit one. Base crit was `⌊LUK/3⌋`, a ~0,333 slope; rAthena keeps CRIT in tenths as
+   * `piso(nívelBase / 10) + 10 + LUK × 3` (0,3 per LUK, plus a flat +1,0 and +0,1 per 10
+   * base levels) and truncates once, at display, after the flat equipment crit joins as
+   * `× 10`.
    *
-   * What stops us simply dropping a point: **the base ATK of the same recording demands
-   * 108**. SP_ATK1 = 846 only comes out at LUK 108..110; SP_CRITICAL = 65 only at LUK
-   * 105..107. The ranges do not overlap, so either the base-ATK formula or the crit one is
-   * still wrong, and none of the five recordings separates the cases. Waiting on the
-   * character's real LUK.
+   * LUK 108 now satisfies **both** readings at once, which is what the old note was waiting
+   * for and why no one had to go ask the character's real LUK.
    */
-  it('SP_CRITICAL: simulator gives 66 and the recording 65 — 1 LUK point still open', () => {
+  it('SP_CRITICAL = 65 and SP_ATK1 = 846 agree on LUK 108', () => {
     const r = painel({ weapon: 810005, refine: 0, mira: true });
     expect(r.luk).toBe(108);
-    expect(r.criticoBase).toBe(66);
-    expect(r.criticoBase - 65).toBe(1);
+    expect(r.criticoBase).toBe(65);
   });
 
   // What item 24751 adds, in isolation: without the "ATQ e ATQM +1 por refino" line each

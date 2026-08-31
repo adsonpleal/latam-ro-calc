@@ -248,25 +248,27 @@ describe('Sicário — Lâminas Retalhadoras, gravação de KZGX (R58WLWhJPQ)', 
    * the number it shows for a katar, and that the set's "CRIT +15" is really there (drop it
    * and the SOR term would have to be 56).
    *
-   * The simulator's own figure doubles for a katar, so it has to be halved to compare, and
-   * lands on 103 / 88. The equipment side is 60 / 45 and adds up, so the 2 points are in
-   * the SOR term: the engine has **two** of them and neither is the client's —
-   * `computeBasicCritRate` uses `piso(SOR × 0,3)` = 39 and `getBaseCriRate` (the number the
-   * Crítico field shows) uses `piso(SOR ÷ 3)` = 43, while the recording implies 41.
+   * **CLOSED on 29/08/2026.** Neither of the decompositions this comment used to weigh was
+   * right, and no third SOR value was needed to see it — the LUK term is not a whole number
+   * at all. rAthena keeps CRIT in **tenths** and truncates once, at display (status.cpp,
+   * RENEWAL): `piso(nívelBase / 10) + 10 + SOR × 3`, with flat equipment CRIT joining as
+   * `× 10`. Here that is `16 + 10 + 390 = 41,6` for the SOR leg — which is exactly the 41
+   * the recording implied, and it was never reachable by rounding a per-LUK integer.
    *
-   * Two decompositions fit, and one recording at a single SOR cannot separate them:
-   *  - SOR term `1 + piso(SOR × 0,3)` = 40, with the Luva de Sorte reading **total** SOR
-   *    (130 → +13) rather than the base 120 its pt-BR line asks for; or
-   *  - SOR term 41 by some other rounding, with the Luva at +12 as it is today.
-   * A recording at a different SOR would settle it. It does not move this file's verdict:
-   * either way the skill's half-CRIT chance saturates and every packet above is a critical.
+   * `getBaseCriRate` used `piso(SOR ÷ 3)`, a ~0,333 slope against the real 0,3, and dropped
+   * base level entirely. It agreed with the client only near SOR 100 at base 170. Two more
+   * Sicário recordings pinned the drift either side of that point (LfVVfKMZg3 at SOR 113 was
+   * one high, TxYGFDGEn7 at SOR 133 two), and the same fix closed the identical pins in
+   * `Shinkiro.shadow-flash-gear-states.spec.ts` and `pet-and-shadow-atk.spec.ts`.
    */
-  it('pins the 2-point CRIT gap against the recorded status window', () => {
+  it('reproduces the recorded Crítico from the status window', () => {
     const katar = sim(KATAR_APOIO, DUMMY_MEDIO);
     const metalico = sim(KATAR_METALICO, DUMMY_MEDIO);
-    // Halved because the engine's figure carries the katar doubling and the client's does not.
-    expect(katar.cri / 2).toBe(103); // gravado: 101
-    expect(metalico.cri / 2).toBe(88); // gravado: 86
+    // The engine's figure carries the katar doubling and the client's does not; rAthena
+    // doubles the tenths before truncating, so recovering the client number takes a floor
+    // rather than a plain halving.
+    expect(Math.floor(katar.cri / 2)).toBe(101); // gravado: 101
+    expect(Math.floor(metalico.cri / 2)).toBe(86); // gravado: 86
     // The katar's own +15 lands undoubled on both sides, which is the part that agrees.
     expect((katar.cri - metalico.cri) / 2).toBe(15);
     // And it is far enough over the line that the skill crits regardless.
