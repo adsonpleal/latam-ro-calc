@@ -1659,7 +1659,15 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.messageService.add({ severity: 'info', summary: 'Simulação excluída', detail: sim.name });
   }
 
-  async newSimulation(): Promise<void> {
+  /**
+   * Empties every field and starts over, after a confirmation.
+   *
+   * Two buttons reach it: "Nova simulação" inside the Simulações dialog and "Limpar" in
+   * the band, which is the same reset made findable from the page itself. Closing the
+   * dialog is left in for both — the flag is already false for the band's entry point,
+   * and a second write to it costs nothing.
+   */
+  private async resetBuild(summary: string, detail: string): Promise<void> {
     const ok = await this.waitConfirm('Isso vai limpar a simulação atual e começar do zero. Continuar?');
     if (!ok) return;
     this.loadItemSet(createMainModel() as any).subscribe({
@@ -1667,9 +1675,17 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         this.restoreCompareState(null);
         this.showSavesDialog = false;
         this.onBaseStatusChange();
-        this.messageService.add({ severity: 'success', summary: 'Nova simulação', detail: 'Tudo foi limpo.' });
+        this.messageService.add({ severity: 'success', summary, detail });
       },
     });
+  }
+
+  newSimulation(): Promise<void> {
+    return this.resetBuild('Nova simulação', 'Tudo foi limpo.');
+  }
+
+  clearAll(): Promise<void> {
+    return this.resetBuild('Simulação limpa', 'Todos os campos voltaram ao padrão.');
   }
 
   // --- PVP ------------------------------------------------------------------

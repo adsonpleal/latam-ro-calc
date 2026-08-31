@@ -121,6 +121,15 @@ html {
   letter-spacing: 0.03em;
 }
 
+/* The build-action tooltips in the character band. Wide enough that a one-sentence hint
+   stays one or two lines: PrimeNG centres a `bottom` tooltip on its trigger and flips it
+   to the side when that would run off screen, and "Importar" is the leftmost control on
+   the page — at the default measure its hint wrapped to three lines, got flipped right,
+   and then rode up over the topbar. */
+.build_action_tip.p-tooltip {
+  max-width: 17rem;
+}
+
 /* pt-BR item description popover (consumables hover) — mirrors the white
    "Descrições dos Itens" panel so the in-game colour codes stay legible. */
 .item_desc_tooltip.p-tooltip {

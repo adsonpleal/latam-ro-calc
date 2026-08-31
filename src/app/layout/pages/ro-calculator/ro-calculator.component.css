@@ -790,6 +790,20 @@ a.skill_link:hover {
   font-size: 11px;
   margin: 0;
 }
+/* Salvar and Link dropped their labels to make room for Limpar. Square them off at the
+   band's own 34px and let the glyph grow into the space the words left.
+   `gap: 0` is what centres the glyph. The row's 6px gap is there to space an icon from
+   its label, and a labelless button still has a second flex item: the theme gives
+   `.p-button` an `::after` that is zero-width but `position: static`, so it lays out
+   like a child and collects the gap. The icon came out 3px left of centre. */
+.build_actions ::ng-deep .p-button.p-button-icon-only {
+  width: 34px;
+  padding: 0;
+  gap: 0;
+}
+.build_actions ::ng-deep .p-button.p-button-icon-only .p-button-icon {
+  font-size: 13px;
+}
 
 /* The job's own icon and name are the label; the "Classe" addon beside them was pure
    width, and the placeholder still covers the empty state. This is the one elastic item

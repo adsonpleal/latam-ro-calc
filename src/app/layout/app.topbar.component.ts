@@ -158,6 +158,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.94-beta',
+      date: '31-08-2026',
+      logs: [
+        'A faixa de ações ganhou um botão "Limpar". Ele apaga tudo o que foi preenchido — classe, nível, atributos, habilidades, equipamentos e consumíveis — e pede uma confirmação antes. A ação já existia, mas só dentro da janela "Simulações", com o nome "Nova simulação", onde quase ninguém a encontrava. O alvo escolhido no Resumo de Batalha continua onde estava: ele é o contexto de quem está medindo, não um campo preenchido. Sugerido por um usuário anônimo.',
+        'Os botões da faixa foram reorganizados para caber tudo na mesma linha. "Importar Replay" passou a se chamar "Importar", e Salvar e Link ficaram só com o ícone; o que cada um faz aparece ao passar o mouse. Sobrou espaço em vez de faltar: mesmo com um botão a mais, a lista de classes ficou mais larga do que era antes e voltou a mostrar o nome inteiro da classe.',
+      ],
+    },
+    {
       v: '0.1.93-beta',
       date: '30-08-2026',
       logs: [

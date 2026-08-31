@@ -141,20 +141,69 @@
          width its three columns want. -->
     <div class="stats_stack">
       <div class="char_band">
-        <!-- All four actions in a row, each as wide as its own label. -->
+        <!-- Every action in one row, each as wide as its own label — except Salvar and Link,
+             which give their labels back as width so the fifth action fits. A disk and a
+             share glyph carry themselves; the tooltip says the rest. -->
         <div class="build_actions">
+          <!-- "Importar" alone, with the rest of the sentence on the tooltip: the word
+               "Replay" was the widest thing in the row and it is what the dialog opens
+               with anyway. -->
           <button
             type="button"
             pButton
             class="p-button-info"
             icon="pi pi-upload"
-            label="Importar Replay"
+            label="Importar"
+            pTooltip="Carregar classe, atributos e equipamentos de uma gravação .rrf"
+            tooltipPosition="bottom"
+            tooltipStyleClass="build_action_tip"
+            [showDelay]="350"
             [disabled]="isInProcessingPreset || replayBusy"
             (click)="openReplayImport()"
           ></button>
           <button type="button" pButton class="p-button-help" icon="pi pi-folder-open" label="Simulações" (click)="openSavesDialog()"></button>
-          <button type="button" pButton class="p-button-success" icon="pi pi-save" label="Salvar" [disabled]="isInProcessingPreset" (click)="openSaveDialog()"></button>
-          <button type="button" pButton class="p-button-success" icon="pi pi-share-alt" label="Link" [disabled]="isInProcessingPreset" (click)="openShareDialog()"></button>
+          <!-- The same reset as "Nova simulação" in the Simulações dialog, where nobody
+               found it. Beside it here, since that is where the other whole-build actions
+               live. -->
+          <button
+            type="button"
+            pButton
+            class="p-button-danger"
+            icon="pi pi-file-o"
+            label="Limpar"
+            pTooltip="Limpar todos os campos e começar do zero"
+            tooltipPosition="bottom"
+            tooltipStyleClass="build_action_tip"
+            [showDelay]="350"
+            [disabled]="isInProcessingPreset"
+            (click)="clearAll()"
+          ></button>
+          <button
+            type="button"
+            pButton
+            class="p-button-success p-button-icon-only"
+            icon="pi pi-save"
+            aria-label="Salvar"
+            pTooltip="Salvar simulação"
+            tooltipPosition="bottom"
+            tooltipStyleClass="build_action_tip"
+            [showDelay]="350"
+            [disabled]="isInProcessingPreset"
+            (click)="openSaveDialog()"
+          ></button>
+          <button
+            type="button"
+            pButton
+            class="p-button-success p-button-icon-only"
+            icon="pi pi-share-alt"
+            aria-label="Link"
+            pTooltip="Gerar link para compartilhar"
+            tooltipPosition="bottom"
+            tooltipStyleClass="build_action_tip"
+            [showDelay]="350"
+            [disabled]="isInProcessingPreset"
+            (click)="openShareDialog()"
+          ></button>
         </div>
 
         <!-- No "Classe" addon: the selected job already shows its own icon and name, and the
