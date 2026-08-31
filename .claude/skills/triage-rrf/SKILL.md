@@ -97,23 +97,38 @@ Ranked by how often each actually decided the call:
 2. **Buff load — and it outranks event count.** The card does not carry this, so it is the
    first thing to check after pulling the file, before any formula work:
 
+   **`statusEvents` carries an `aid`, and on a public map it holds everyone's statuses, not
+   just the recorder's.** Filter by `sessionInfo.aid` or the number is fiction — see below.
+   Then drop the bookkeeping ids, which every recording carries and none of which is a buff.
+
    ```
    node -e 'const {decodeReplay}=require("rrfparser");const b=require("fs").readFileSync(process.argv[1]);
    const r=decodeReplay(b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength));
-   const on=new Set();for(const e of r.statusEvents??[]){e.isOn?on.add(e.statusId):on.delete(e.statusId)}
-   const pcs=[...(r.entities?.values?.()??[])].filter(e=>e.kind==="pc"&&e.aid!==r.sessionInfo.aid).length;
-   console.log(`buffs=${on.size} otherPlayers=${pcs}`)' <file.rrf>
+   const me=r.sessionInfo.aid;
+   // 46 EFST_POSTDELAY, 622 sitting, 673 cart, 695 arrow, 987 vending, and the
+   // RODEX/EXP/DROP counters — present in every file, combat-irrelevant.
+   const NOISE=new Set([46,622,673,695,802,942,983,984,987,993,994,1084,1085,1312]);
+   const mine=(r.statusEvents??[]).filter(e=>e.aid===me);
+   const on=new Set();for(const e of mine){e.isOn?on.add(e.statusId):on.delete(e.statusId)}
+   const buffs=[...on].filter(id=>!NOISE.has(id));
+   const pcs=[...(r.entities?.values?.()??[])].filter(e=>e.kind==="pc"&&e.aid!==me).length;
+   console.log(`buffs=${buffs.length} [${buffs.join(",")}] otherPlayers=${pcs} foreignEventsDropped=${(r.statusEvents??[]).length-mine.length}`)' <file.rrf>
    ```
 
-   Every EFST the engine does not model is a multiplier hiding in the residual, and a
-   public map means someone else's Cardinal is buffing the recorder. Roughly: **under ~20
-   distinct EFSTs and no other players** is a file you can hold the engine to; **40+ with a
-   party around** is not a measurement, it is a lead. The first Dragon Knight run proved
-   it — the 165-event file ranked top by volume carried 43 buffs and 8 other players
-   (Benedictum, Religio, Argutus Telum, Presens Acies, Poema de Bragi…) and sat 2–2.8×
-   off the engine with no way to attribute it, while the *smallest* file on the board,
-   54 events with 17 self-buffs and nobody else on screen, closed to a single uniform
-   term. Rank on this before ranking on volume.
+   Every EFST the engine does not model is a multiplier hiding in the residual. But
+   `otherPlayers` alone does **not** mean the recorder was buffed: on `tra_fild` the stream
+   is full of strangers' statuses, and unfiltered they read as the recorder's own. Two
+   Sicário files on the 29/08/2026 board were benched as 25- and 9-buff party recordings —
+   Poema de Bragi, Kyrie Eleison, Mantra da Força, Postura do Universo. Filtered by `aid`
+   they carry **zero** and **one** combat buff respectively, and both then reproduced the
+   engine packet for packet. A Sky Emperor buff on a Sicário should have been the tell.
+
+   On filtered counts: **under ~10 combat EFSTs** is a file you can hold the engine to;
+   **20+** is a lead, not a measurement. Judge `otherPlayers` by whether their buffs
+   actually land on the recorder, not by the head count. (The Dragon Knight figures that
+   used to sit here — 43 buffs, 8 players, 2–2.8× off — were counted unfiltered, so the
+   buff number is an upper bound; the residual it produced was real.) Rank on this before
+   ranking on volume.
 3. **Equipment swaps in a single session.** Five or more and the file is a gear-state
    matrix by itself — one character, one build, gear changing under it, which is exactly
    what separates "the class formula is wrong" from "an item is missing". These are the

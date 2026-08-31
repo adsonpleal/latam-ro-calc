@@ -130,6 +130,45 @@ carried, so a build it produced still has to reproduce the recording's own statu
 before any formula is read off it. Hand-checking is for resolving an inconsistency the
 importer surfaced — never for producing the build in the first place.
 
+## 2c. Filter every stream by the recorder's `aid` — before reading anything
+
+A recording made on a public map carries **other people's packets**, and not only their
+damage. Both of these streams are mixed, and both hand back an owner id:
+
+| stream | field | what leaks in |
+|---|---|---|
+| `damage` | `source` | strangers' hits — 65 of RXBZc39dV5's 129, 94 of 5tGJSGaNWg's 112 |
+| `statusEvents` | `aid` | **strangers' buffs**, and their target debuffs |
+
+The damage half is well known. **The `statusEvents` half is the one that ruins a pass**,
+because an unfiltered buff list reads as the recorder's own and every extra EFST looks like
+an unmodelled multiplier hiding in the residual. On the 29/08/2026 board two Sicário files
+were benched as 25- and 9-buff party recordings carrying Poema de Bragi, Kyrie Eleison,
+Mantra da Força and Postura do Universo. Filtered by `aid` they carry **zero** and **one**,
+and both then reproduced the engine packet for packet. The tell was there to be read: a
+Mestre Celestial buff on a Sicário belongs to somebody else.
+
+```js
+const me = replay.sessionInfo.aid;
+const meusDanos = (replay.damage ?? []).filter((d) => d.source === me);
+const meusStatus = (replay.statusEvents ?? []).filter((s) => s.aid === me);
+```
+
+Then drop the bookkeeping ids. Every recording carries them, none is a buff, and leaving
+them in inflates the count by a dozen:
+
+```js
+const RUIDO = new Set([46, 622, 673, 695, 802, 942, 983, 984, 987, 993, 994, 1084, 1085, 1312]);
+```
+
+(46 `EFST_POSTDELAY`, 622 sitting, 673 cart, 695 arrow-equipped, 987 vending, and the
+RODEX/EXP/DROP counters.)
+
+**The events whose `aid` is not yours are still worth a look** — they are the *target's*
+statuses. That is where a debuff you applied shows up, and it can settle a state the
+recorder's own buff list cannot: EFST 328 `EFST_VENOMIMPRESS` sitting on the dummy is proof
+Potencializar Veneno was up, whether or not you would have guessed it.
+
 ## 3. Cross-check the status window FIRST
 
 Never touch a formula before the character matches. Every `ZC_PAR_CHANGE` is a free
@@ -149,6 +188,24 @@ A weapon swap re-sends 41/42/52 — that gives one exact ATK reading **per weapo
 free. If SP_ATK2 is off by a constant, an item's script is missing a line (that's how the
 Manopla Sombria POD's "ATQ e ATQM +1 por refino" was found). Fix the build before the math.
 
+**A recording that re-gears on camera is a status window per piece.** Every equip event
+re-sends the block, so a strip-down-and-rebuild file hands you a reading after each item —
+LfVVfKMZg3 gives 40 readings of SP 42 and 84 of SP 52. Walk them **in order and diff them**
+rather than checking only the final state: each step isolates one item, so a divergence
+names its culprit instead of leaving you with one wrong total. That is how the CRIT slope
+was pinned to `+18982` in a single pass — every other step's delta matched exactly.
+
+**Check the window exists before promising a stat verdict.** Plenty of recordings send
+nothing but SP 7 (weight): three of the five in the 29/08/2026 Sicário/Executor batch had no
+`ZC_PAR_CHANGE` worth reading. Damage can still be validated against the imported build, but
+a build error and a formula error are then **inseparable** — say so in the verdict instead of
+reporting the damage match as if it confirmed the stats too.
+
+```js
+const janela = (replay.paramChanges ?? []).filter((p) => [41, 42, 52, 53, 225].includes(p.type));
+if (!janela.length) console.log('sem janela de status — dano só se valida contra a build importada');
+```
+
 ## 4. Rebuild the timeline
 
 - **Weapon**: initial weapon from `importReplayBuffer`, then every `equipChanges` entry
@@ -158,8 +215,9 @@ Manopla Sombria POD's "ATQ e ATQM +1 por refino" was found). Fix the build befor
   plain `2`. Testing for 34 silently prints an empty weapon timeline for the one-handed
   case, which reads as "the character never swapped weapons" — a Sky Emperor recording that
   equips a book mid-session was misread that way.
-- **Counters/toggles**: the EFST id is in `statusEvents`. Resolve unknown ids from ragassets'
-  status table — `{id, name}` for every EFST the client **names**, pt-BR. Do not guess.
+- **Counters/toggles**: the EFST id is in `statusEvents` — **filtered by `aid` and stripped of
+  the bookkeeping ids, per §2c**, or half of what follows belongs to a stranger. Resolve
+  unknown ids from ragassets' status table — `{id, name}` for every EFST the client **names**, pt-BR. Do not guess.
   ```bash
   curl -s https://assets.latam-tools.com.br/raw/status.json > /tmp/status.json
   node -e 'const s=require("/tmp/status.json");for(const id of process.argv.slice(1))console.log(id, s.find(e=>e.id==+id)?.name ?? "(unknown)")' 156 158
@@ -223,6 +281,19 @@ twice prints the **same number**. Repeated identical values in a recording are y
 and each one is an exact equation instead of a range. Compare them by equality, not by
 interval. Non-crits only give you a bound (a low roll proves nothing).
 
+Two caveats on that, in opposite directions:
+
+- **A crit is only deterministic when the weapon roll is gone.** On a low-DEX build it
+  survives the critical and the engine reports a *range* for `skillMaxDamage` too — compare
+  against `skillMinDamage..skillMaxDamage` and let the least-variance weapon carry the
+  assertion (see [[crit-not-always-deterministic]]).
+- **Bare-handed, everything is exact.** With no weapon there is no ATK to roll, so the
+  non-crit *and* the crit each print a single repeated number and the pair is two exact
+  equations — the strongest assertion a recording can offer, and it tests the class formula
+  with no equipment in the way at all. LfVVfKMZg3 prints `14203 ×5` and `19880 ×2`, a clean
+  1,4×, and the engine reproduces both to the unit. **If a file strips the character at any
+  point, that window is the first thing to read**, ahead of the fully-geared packets.
+
 The engine exposes both on `damageSummary`: `skillMaxDamage` is the crit when
 `skillCanCri`, and `skillMinDamageNoCri`/`skillMaxDamageNoCri` are the non-crit range.
 
@@ -285,8 +356,18 @@ to `NO_CLIENT_ROW` with the pt-BR name in a comment.
 
 ## 9. Triage a leftover percentage
 
-When every status field matches and damage is still off by a constant-ish factor, find the
-**stage** before hunting the cause. Method: add a candidate bonus to an item that is
+**First make sure there is one.** A sample maximum is not a distribution maximum: with ten
+packets the largest will sit a few percent under the true ceiling, so "recorded max is 4,5%
+below simulated max" is the *expected* reading of a correct engine, not evidence of anything.
+Comparing maxima this way produced a convincing-looking 3-5% overshoot across three states of
+LfVVfKMZg3 that turned out to be nothing.
+
+What cannot be explained by sampling is a packet **below the simulated floor**. That is the
+test — one recorded value under `skillMinDamage` (or over `skillMaxDamage`) is a real
+divergence; a sample max that fails to reach the ceiling is not. State the verdict as *how
+many packets fell outside the range*, never as a ratio of maxima.
+
+Once it is real, find the **stage** before hunting the cause. Method: add a candidate bonus to an item that is
 equipped in every recording, and see how the residual moves across *different buff states*.
 
 - residual **constant** across buff states → a plain multiplier (`dano físico %`,
@@ -300,6 +381,31 @@ Two or three recordings of the same gear with different toggles are what make th
 recording cannot separate the stages. And always keep the gearless recording as the control:
 if it is exact, the cause is in the equipment, and the next step is reading every equipped
 item's pt-BR description against its `script` in `item.json` — see [[ptbr-description-source-of-truth]].
+
+**Pre-filter that audit numerically.** A five-build batch equips ~130 distinct items and
+reading them all is not worth the pass. Pull every number out of the description, drop the
+boilerplate lines (Peso/Nível/Classes/Tipo…), and list the ones the script never mentions:
+
+```js
+const limpa = (s) => (s ?? '').replace(/\^[0-9a-fA-F]{6}/g, '');
+const BOILERPLATE = /^(Peso|Nível|Classes|Posição|Tipo|Armadura|Defesa|Ataque|Slots?|Arma)/i;
+
+for (const [id, slots] of usados) {
+  const rec = items[id];
+  const desc = limpa(latam[id]?.description)
+    .split('\n').filter((l) => !BOILERPLATE.test(l.trim())).join(' ');
+  const noScript = new Set((JSON.stringify(rec.script ?? {}).match(/\d+/g) ?? []).map(Number));
+  const faltando = [...new Set((desc.match(/\d+/g) ?? []).map(Number))]
+    .filter((n) => n > 0 && n <= 1000 && !noScript.has(n));
+  if (faltando.length) console.log(id, latam[id]?.name, faltando.join(','));
+}
+```
+
+It is crude and it over-reports — combo values, `<INFO>` random-option codes and refine
+thresholds written another way all show up — but it sorts the list so the real gaps surface
+first. On the Sicário/Executor batch it cut 127 items to 41 to read, of which none was a
+genuine mismatch, and that "none" is a result worth having: it moved the search off the
+equipment in one step instead of leaving it as an untested assumption.
 
 **A skill whose ratio carries a trait term is a probe for the traits themselves.** Compare it
 against a sibling skill in the *same* recording whose ratio does not: every ATK-side factor —
@@ -315,6 +421,84 @@ its siblings already agree, the hand-typed traits are right and a surviving resi
 trait problem. Worth doing early, because §2 warns that `traitsSource: 'form'` is a human
 typing into a dialog.
 
+**With no trait-scaling sibling, sweep the trait instead.** Rebuild at POD 0, 30, 60, 90… and
+see which value brackets the packets. It is weaker — it cannot separate the trait from any
+other multiplier — but it is decisive in one direction: if *every* value of the sweep fails,
+the problem is elsewhere, and if the card's own value is the only one that fails, the card is
+wrong. 3TUzT9vQ8U claimed POD 0 / STA 96 at base 235 and put every packet outside the range;
+POD ≈ 30-45 brackets them. That file was benched rather than pinned — **a fixture built on
+traits you have disproved is worse than no fixture**.
+
+### An unmodelled buff, or a modelled one that does nothing?
+
+Before concluding the engine is missing a buff, check the toggle it already has actually
+moves the number. Set it to its extremes and compare:
+
+```js
+for (const n of [0, 20]) console.log(n, sim({ 'Nome Do Toggle': n }).criMax);
+```
+
+Two identical rows means the bonus key the job file emits is **not read by anything**. Grep
+it — a key that appears only on the line that emits it is dead:
+
+```bash
+grep -rn "shadowScar" src/app --include=*.ts | grep -v spec
+```
+
+Profanar Arma shipped that way: `ShadowCross` emitted `meleeReduction`, no consumer existed,
+and the 20-stack picker moved nothing at all, so an Executor recording climbing 27% over its
+own opening cast had nothing to attribute it to. This check costs one line and distinguishes
+"we never modelled it" from "we modelled it into a hole" — different fixes, and only the
+second is a silent bug for every user of the class.
+
+### Placing a modifier: rAthena decides the stage, the client decides the gate
+
+Once you know *what* the effect is, `battle.cpp` is the authority on **where** it applies —
+and the pt-BR description usually is not. "Resistência a dano físico corpo a corpo -3%" reads
+like a DEF or resistance change; rAthena spends it as a plain multiplier on the finished
+damage, in the target's damage-taken block:
+
+```c
+if (tsc->getSCE(SC_SHADOW_SCAR)) // !TODO: Need official adjustment for this too.
+    damage += damage * (3 * tsc->getSCE(SC_SHADOW_SCAR)->val1) / 100;
+```
+
+Read the **neighbouring lines**, not just yours — they carry the gating conventions, and the
+differences are the point. `SC_DARKCROW` six lines above is `(flag&(BF_SHORT|BF_MAGIC)) ==
+BF_SHORT` and halves for `CLASS_BOSS`; `SC_SHADOW_SCAR` has neither, which is what the pt-BR
+"Funciona em monstros do tipo Chefe" is saying. Where rAthena and the client disagree, the
+client wins on the *effect* ([[ptbr-description-source-of-truth]]) — that line is ungated by
+`BF_SHORT` under its own `!TODO`, while the client says "corpo a corpo", so it is gated to
+melee here — but rAthena wins on **stage and arithmetic**, which the client never states.
+
+And mind how the engine composes that stage. rAthena runs each of these as its own sequential
+`damage += damage * x / 100`, so they **compound**; `getDebuffMultiplier` used to sum them,
+which counts the base 100 once per active source. Harmless while the sources were mutually
+exclusive, reachable the moment two belong to one class.
+
+### The magnitude may not be in the client at all
+
+`SKILL_META[...].description` gives no number for Profanação — "Recebe mais dano físico corpo
+a corpo… acumula até 20 vezes" and nothing else. **bROWiki carries the figure the client
+omits** (3% per stack, 60% at the cap) and is the fallback for exactly this, alongside
+truncated text (§4b, [[browiki-source]]). Do not price it off the recording: a stacking
+debuff gives you *magnitude × stacks* and the recording says neither, so a residual of +17,5%
+is consistent with 6 stacks at 3% and with 20 at 0,9%. Get the per-unit value from a source,
+then use the recording to **bracket** it.
+
+### Let the packets choose between discrete unknowns
+
+An EFST often says a toggle was on without saying *which setting*. Aplicar Toxina's 341 is
+the same id whichever poison is loaded, and the calculator offers two worth different
+amounts. Don't guess and don't ask if the file can answer: run the sim once per candidate and
+keep the one whose range contains every packet.
+
+That is a strong test when the states differ enough. On LfVVfKMZg3, Pyrexia put the recorded
+criticals **below** the simulated floor in all three states carrying the buff — impossible by
+sampling (see the top of this section) — while Magic Mushroom bracketed all three and hugged
+both ends. One run each, and a state you would otherwise have had to write down as unknown
+becomes a fixture assertion.
+
 ## 10. Land it as tests
 
 Commit the `.rrf` under `src/app/replay/__tests__/fixtures/` (the folder already versions
@@ -322,12 +506,45 @@ several; they never change, so the binary blob is stored once) and write a spec 
 
 1. imports the build from the fixture — never retype the gear by hand;
 2. asserts the crits by **equality** and the non-crits by range;
-3. keeps a guard that the range is tight (`max/min < 1.12`), or a wrong ratio would still fit;
+3. keeps a guard that the range is tight (`max/min < 1.12`), or a wrong ratio would still fit
+   — read it off the state rather than pasting the constant: EDP-style multipliers widen the
+   weapon roll and a legitimately correct state can sit at 1.13;
 4. pins any residual that is still open, with a comment saying what was ruled out and how, so
    the next attempt starts where this one stopped.
 
 `NightWatch.replay.spec.ts`, `nw-mira-damage.spec.ts` and `nw-mastery-gap.spec.ts` are the
 worked examples of the three shapes (formula tables, packet-by-packet, open residual).
+`GuillotineCross.cross-impact-gear-states.spec.ts` is the fourth: one file walked through
+five states, with the bare-handed window asserted by equality and each geared window
+bracketed.
+
+**Prove the guard bites.** A spec that passes both before and after the fix is decoration.
+Re-break the thing you fixed — flip the bonus key back, restore the old formula — and confirm
+the new test fails, then restore. One `sed` round-trip, and it is the only evidence the
+fixture is a regression guard rather than a snapshot of today's output.
+
+### Sweep the existing specs before believing a systematic fix
+
+When the cause turns out to be a **formula** rather than an item, other recordings already in
+the repo have been living with it — and the ones that noticed will have written it down. Grep
+for the pins:
+
+```bash
+grep -rniE "open|still open|pins the|gap|divergence" src/app --include=*.spec.ts | grep -i "cri\|atk\|luk"
+```
+
+Fixing `getBaseCriRate` turned up three specs pinning that exact discrepancy, each carrying
+the game's real value in a comment (`expect(...).toBe(42); // game: 41`). All three resolved
+in the game's favour, which is corroboration from three independent characters that no single
+recording could supply — and one of them had recorded a contradiction (SP_ATK1 demanded LUK
+108, SP_CRITICAL demanded 105-107, "so either the base-ATK formula or the crit one is still
+wrong") that the fix dissolved.
+
+So: a failing spec after a formula change is not automatically a regression. Read its comment
+first — it may be the old bug, pinned. When it is, **update the assertion to the game's value
+and rewrite the comment to record the resolution**; don't delete the note, it is the history
+of how the thing was caught. Two of those three said explicitly that settling the question
+needed a recording at a different LUK, which is exactly what arrived.
 
 ## Cleanup
 
