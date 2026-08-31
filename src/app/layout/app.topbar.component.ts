@@ -158,6 +158,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.93-beta',
+      date: '30-08-2026',
+      logs: [
+        'A Profanação do Executor voltou a valer. O seletor de acúmulos de [Profanar Arma] já aparecia na lista de habilidades, mas não mexia em número nenhum: o bônus saía por uma chave interna que nenhuma parte do cálculo lia, então marcar 1 ou 20 acúmulos dava exatamente o mesmo dano. Cada acúmulo tira 3% da resistência do alvo a dano físico corpo a corpo, até 20 acúmulos e 60%, e o efeito vale também contra chefes. Ele se multiplica com a Garra Sombria, em vez de somar.',
+        'O Crítico da ficha estava errado em todas as classes. A conta usava um terço da SOR; o jogo usa 0,3 por ponto de SOR, mais 1 fixo e mais 0,1 a cada dez níveis de base, e só arredonda uma vez, no fim de tudo. As duas contas se cruzam por volta de SOR 100 — que era justamente onde ninguém percebia — e se afastam para os dois lados: com pouca SOR o simulador mostrava 0% onde o jogo mostra 3%, e com muita mostrava 1 ou 2 pontos a mais. Cinco gravações de personagens diferentes chegam ao mesmo número novo. Quem usa katar continua vendo na ficha o valor sem a duplicação, como o cliente mostra.',
+        'O Sicário e o Executor foram conferidos contra quatro gravações, e as Lâminas Retalhadoras batem em todos os estados medidos. Numa delas o personagem tira o equipamento inteiro no meio da gravação e vai recolocando peça por peça: desarmado, o golpe gravado sai igual ao calculado, número por número, e depois cada estado — com a katar, com a toxina aplicada, com o equipamento completo e com [Encantar com Veneno Mortal] ligado — cai dentro da faixa, num intervalo de dano que vai de catorze mil a dois milhões. Cinquenta e oito críticos de ataque básico contra dummies de quatro tamanhos confirmam a penalidade de tamanho da katar.',
+        'A Faca Envenenada entrou no banco de itens. Quem importava uma gravação com ela equipada recebia o aviso de item fora do banco de dados. Ela ainda não aparece nas listas, porque o simulador não abre slot de munição para a linha do Sicário, mas a importação parou de perdê-la.',
+        'Gravações enviadas por usuários anônimos pelo "Ajude o simulador".',
+      ],
+    },
+    {
       v: '0.1.92-beta',
       date: '28-08-2026',
       logs: [
