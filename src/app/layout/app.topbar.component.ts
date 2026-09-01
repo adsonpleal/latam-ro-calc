@@ -158,6 +158,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.97-beta',
+      date: '01-09-2026',
+      logs: [
+        'O banco foi sincronizado com a atualização do cliente. Cento e quatro itens novos passaram a ser reconhecidos, entre eles o Diadema Atemporal, as dez Sombras do Esconderijo e do Furto e as vinte Pedras de encantamento — Guerreiro, Mágico, Precisão e Variação, de 1 a 5.',
+        'Vinte e sete peças que estavam cadastradas com o texto em inglês chegaram ao servidor e ganharam nome e descrição em português: as vinte Pedras, as quatro Gáleas de Cinzas-LT (Guerreira, Afiada, Mágica e Lutadora), a Bíblia Infernal, a Harpa Celestial e o Chicote Celestial. Os bônus de cada uma foram conferidos contra a descrição em português e batem com o que já estava cadastrado.',
+        'Os seis Cordões — do Ninja, do Guerrilheiro, do Asceta, do Mestre, do Animista e do Hiperaprendiz — passaram a declarar Nível do equip. 2, que o cliente não imprimia antes. Com isso eles aceitam Grau de Encantamento e recebem a DEF e a Tenacidade extras por refino, como as demais peças de nível 2.',
+        'Dois visuais trocaram de espaço na cabeça e foram corrigidos: o Bebum equipa embaixo e o Gioia Dorminhoco no meio, e não o contrário.',
+        'Trinta e dois itens foram renomeados pelo cliente e acompanham o novo nome — o Chicle de Bola virou Super Chiclete, a Joia Mágica Brilhante virou Adorno de Escudo, e as caixas de consumíveis passaram a dizer quantas unidades trazem.',
+      ],
+    },
+    {
       v: '0.1.96-beta',
       date: '31-08-2026',
       logs: [
