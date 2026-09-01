@@ -34,10 +34,10 @@ export const grayWolfArmor_slot4 = [
   'Wolf_Orb_Vit_2',
   'Wolf_Orb_luk_1',
   'Wolf_Orb_luk_2',
-  // 'Wolf_Orb_Def_1',
-  // 'Wolf_Orb_Def_2',
-  // 'Wolf_Orb_Mdef_1',
-  // 'Wolf_Orb_Mdef_2',
+  'Wolf_Orb_Def_1',
+  'Wolf_Orb_Def_2',
+  'Wolf_Orb_Mdef_1',
+  'Wolf_Orb_Mdef_2',
   'Wolf_Orb_Ran_1',
   'Wolf_Orb_Ran_2',
   'Wolf_Orb_War_1',
@@ -47,12 +47,12 @@ export const grayWolfArmor_slot4 = [
 ];
 export const grayWolfArmor_slot3 = [
   ...baseState13,
-  // 'Wolf_Orb_Def_1',
-  // 'Wolf_Orb_Def_2',
-  // 'Wolf_Orb_Def_3',
-  // 'Wolf_Orb_Mdef_1',
-  // 'Wolf_Orb_Mdef_2',
-  // 'Wolf_Orb_Mdef_3',
+  'Wolf_Orb_Def_1',
+  'Wolf_Orb_Def_2',
+  'Wolf_Orb_Def_3',
+  'Wolf_Orb_Mdef_1',
+  'Wolf_Orb_Mdef_2',
+  'Wolf_Orb_Mdef_3',
   'Wolf_Orb_Ran_1',
   'Wolf_Orb_Ran_2',
   'Wolf_Orb_Ran_3',
@@ -65,6 +65,9 @@ export const grayWolfArmor_slot3 = [
   'Wolf_Orb_S_Delay',
 ];
 export const grayWolfArmor_slot2 = [
+  'Wolf_Orb_R_Reject_1',
+  'Wolf_Orb_R_Reject_2',
+  'Wolf_Orb_R_Reject_3',
   'Wolf_Orb_Force',
   'Wolf_Orb_Skill_1',
   'Wolf_Orb_Skill_2',
@@ -114,7 +117,7 @@ export const grayWolfArmor_slot2 = [
   'Wolf_Orb_Skill_46',
   'Wolf_Orb_Skill_47',
   'Wolf_Orb_Skill_48',
-  // 'Wolf_Orb_Skill_49',
+  'Wolf_Orb_Skill_49',
   'Wolf_Orb_Skill_50',
   'Wolf_Orb_Skill_51',
 ];
@@ -157,6 +160,9 @@ export const grayWolfBoot_slot4 = [
   'Wolf_Orb_Sp_1',
   'Wolf_Orb_Sp_2',
   'Wolf_Orb_Sp_3',
+  'Wolf_Orb_Heal_1',
+  'Wolf_Orb_Heal_2',
+  'Wolf_Orb_Heal_3',
   'Wolf_Orb_Robust_1',
   'Wolf_Orb_Robust_2',
   'Wolf_Orb_Robust_3',
@@ -175,7 +181,9 @@ export const grayWolfBoot_slot3 = [
 export const grayWolfBoot_slot2 = ['Wolf_Orb_Un_Vit', 'Wolf_Orb_Sp_Int', 'Wolf_Orb_Fi_Dex', 'Wolf_Orb_Ov_Str', 'Wolf_Orb_Fa_Agi', 'Wolf_Orb_Lu_Luk'];
 
 export const grayWolfAccL_slot4 = [...baseState13];
-export const grayWolfAccL_slot3 = [
+// Shared head of both Gray Wolf accessory pools — the four damage families and the
+// after-cast delay orbs. Slots 1 and 2 diverge only in what follows it.
+const grayWolfAccBase = [
   'Wolf_Orb_E_Archer_1',
   'Wolf_Orb_E_Archer_2',
   'Wolf_Orb_E_Archer_3',
@@ -196,7 +204,18 @@ export const grayWolfAccL_slot3 = [
   'Wolf_Orb_Spell_3',
   'Wolf_Orb_Spell_4',
 ];
-export const grayWolfAccL_slot2 = [...grayWolfAccL_slot3, 'Wolf_Orb_A_Force'];
+export const grayWolfAccL_slot3 = [
+  ...grayWolfAccBase,
+  'Wolf_Orb_HealHP_1',
+  'Wolf_Orb_HealHP_2',
+  'Wolf_Orb_HealHP_3',
+  'Wolf_Orb_HealHP_4',
+  'Wolf_Orb_HealSP_1',
+  'Wolf_Orb_HealSP_2',
+  'Wolf_Orb_HealSP_3',
+  'Wolf_Orb_HealSP_4',
+];
+export const grayWolfAccL_slot2 = [...grayWolfAccBase, 'Wolf_Orb_Life', 'Wolf_Orb_M_Heal', 'Wolf_Orb_A_Force'];
 
 export const grayWolfSoulRing_slot4 = [
   ...em13,

@@ -158,6 +158,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.96-beta',
+      date: '31-08-2026',
+      logs: [
+        'O Traje e a Veste do Lobo Cinzento voltaram a oferecer encanto de DEF e de DEFM. Os seis orbes estavam no banco desde que a linha entrou, com os degraus de refino +7, +9 e +11 corretos; o que faltava era a lista do encantamento, onde eles estavam desativados. Agora aparecem nos dois espaços que os aceitam: DEF 1 a 3 e DEFM 1 a 3 no espaço 2, DEF 1 e 2 e DEFM 1 e 2 no espaço 3. Reportado por Ted e por usuário anônimo.',
+        'A lista inteira dos Orbes Lupinos foi conferida contra a tabela publicada, e dezenove orbes não existiam no banco — nenhum deles chegava a aparecer em lugar algum. Entraram o Refletor 1 a 3 e o Maré no primeiro espaço das armaduras; o Cura 1 a 3 no terceiro espaço das Botas e dos Sapatos; e, nos quatro acessórios, o HPR e o SPR 1 a 4 no segundo espaço, mais o Conversão e o Vida no primeiro.',
+        'Os acessórios do Lobo Cinzento também estavam com os dois primeiros espaços cadastrados como se fossem a mesma lista. Eles compartilham as quatro famílias de dano e o Atraso, mas divergem depois disso: o primeiro espaço leva os orbes de absorção e o segundo, a escada de regeneração. Enquanto foram um só, nenhum dos dois grupos tinha onde entrar.',
+        'Regeneração, efetividade de cura e absorção de dano em HP ou SP não entram na conta de dano — o simulador calcula dano causado, e não existe etapa onde uma cura caberia. Esses orbes aparecem na lista de bônus da peça e nas linhas de Recursos, como as demais peças que trazem essas linhas.',
+        'Ficaram de fora o Absorção e o Mente, que existem no cliente e entraram no banco, mas que nenhuma das quatro tabelas publicadas lista em espaço nenhum. Sem uma fonte que diga onde eles caem, ficaria uma escolha inventada.',
+      ],
+    },
+    {
       v: '0.1.95-beta',
       date: '31-08-2026',
       logs: [

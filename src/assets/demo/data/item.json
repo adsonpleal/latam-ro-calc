@@ -337132,5 +337132,469 @@
         "10"
       ]
     }
+  },
+  "310511": {
+    "id": 310511,
+    "aegisName": "Wolf_Orb_R_Reject_1",
+    "name": "Orbe Lupino - Refletor 1",
+    "unidName": "Orbe Lupino - Refletor 1",
+    "resName": "Wolf_Orb_R_Reject_1",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "reduceDamageReturn": [
+        "2",
+        "7===2",
+        "9===2",
+        "11===2"
+      ]
+    }
+  },
+  "310512": {
+    "id": 310512,
+    "aegisName": "Wolf_Orb_R_Reject_2",
+    "name": "Orbe Lupino - Refletor 2",
+    "unidName": "Orbe Lupino - Refletor 2",
+    "resName": "Wolf_Orb_R_Reject_2",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "reduceDamageReturn": [
+        "3",
+        "7===3",
+        "9===3",
+        "11===3"
+      ]
+    }
+  },
+  "310513": {
+    "id": 310513,
+    "aegisName": "Wolf_Orb_R_Reject_3",
+    "name": "Orbe Lupino - Refletor 3",
+    "unidName": "Orbe Lupino - Refletor 3",
+    "resName": "Wolf_Orb_R_Reject_3",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "reduceDamageReturn": [
+        "4",
+        "7===4",
+        "9===4",
+        "11===4"
+      ]
+    }
+  },
+  "310564": {
+    "id": 310564,
+    "aegisName": "Wolf_Orb_Skill_49",
+    "name": "Orbe Lupino - Maré",
+    "unidName": "Orbe Lupino - Maré",
+    "resName": "Wolf_Orb_Skill_49",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "cd__5039": [
+        "1",
+        "7===1",
+        "9===2",
+        "11===2"
+      ],
+      "cd__5051": [
+        "1",
+        "7===1",
+        "9===2",
+        "11===2"
+      ]
+    }
+  },
+  "310590": {
+    "id": 310590,
+    "aegisName": "Wolf_Orb_Heal_1",
+    "name": "Orbe Lupino - Cura 1",
+    "unidName": "Orbe Lupino - Cura 1",
+    "resName": "Wolf_Orb_Heal_1",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "healPower": [
+        "3",
+        "7===4",
+        "9===5",
+        "11===5"
+      ]
+    }
+  },
+  "310593": {
+    "id": 310593,
+    "aegisName": "Wolf_Orb_Heal_2",
+    "name": "Orbe Lupino - Cura 2",
+    "unidName": "Orbe Lupino - Cura 2",
+    "resName": "Wolf_Orb_Heal_2",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "healPower": [
+        "5",
+        "7===5",
+        "9===5",
+        "11===5"
+      ]
+    }
+  },
+  "310596": {
+    "id": 310596,
+    "aegisName": "Wolf_Orb_Heal_3",
+    "name": "Orbe Lupino - Cura 3",
+    "unidName": "Orbe Lupino - Cura 3",
+    "resName": "Wolf_Orb_Heal_3",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "healPower": [
+        "5",
+        "7===5",
+        "9===7",
+        "11===7"
+      ]
+    }
+  },
+  "310635": {
+    "id": 310635,
+    "aegisName": "Wolf_Orb_HealHP_1",
+    "name": "Orbe Lupino - HPR 1",
+    "unidName": "Orbe Lupino - HPR 1",
+    "resName": "Wolf_Orb_HealHP_1",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "hpRecovRate": [
+        "20"
+      ]
+    }
+  },
+  "310636": {
+    "id": 310636,
+    "aegisName": "Wolf_Orb_HealSP_1",
+    "name": "Orbe Lupino - SPR 1",
+    "unidName": "Orbe Lupino - SPR 1",
+    "resName": "Wolf_Orb_HealSP_1",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "spRecovRate": [
+        "20"
+      ]
+    }
+  },
+  "310637": {
+    "id": 310637,
+    "aegisName": "Wolf_Orb_HealHP_2",
+    "name": "Orbe Lupino - HPR 2",
+    "unidName": "Orbe Lupino - HPR 2",
+    "resName": "Wolf_Orb_HealHP_2",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "hpRecovRate": [
+        "30"
+      ]
+    }
+  },
+  "310638": {
+    "id": 310638,
+    "aegisName": "Wolf_Orb_HealSP_2",
+    "name": "Orbe Lupino - SPR 2",
+    "unidName": "Orbe Lupino - SPR 2",
+    "resName": "Wolf_Orb_HealSP_2",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "spRecovRate": [
+        "30"
+      ]
+    }
+  },
+  "310639": {
+    "id": 310639,
+    "aegisName": "Wolf_Orb_HealHP_3",
+    "name": "Orbe Lupino - HPR 3",
+    "unidName": "Orbe Lupino - HPR 3",
+    "resName": "Wolf_Orb_HealHP_3",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "hpRecovRate": [
+        "40"
+      ]
+    }
+  },
+  "310640": {
+    "id": 310640,
+    "aegisName": "Wolf_Orb_HealSP_3",
+    "name": "Orbe Lupino - SPR 3",
+    "unidName": "Orbe Lupino - SPR 3",
+    "resName": "Wolf_Orb_HealSP_3",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "spRecovRate": [
+        "40"
+      ]
+    }
+  },
+  "310641": {
+    "id": 310641,
+    "aegisName": "Wolf_Orb_HealHP_4",
+    "name": "Orbe Lupino - HPR 4",
+    "unidName": "Orbe Lupino - HPR 4",
+    "resName": "Wolf_Orb_HealHP_4",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "hpRecovRate": [
+        "50"
+      ]
+    }
+  },
+  "310642": {
+    "id": 310642,
+    "aegisName": "Wolf_Orb_HealSP_4",
+    "name": "Orbe Lupino - SPR 4",
+    "unidName": "Orbe Lupino - SPR 4",
+    "resName": "Wolf_Orb_HealSP_4",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "spRecovRate": [
+        "50"
+      ]
+    }
+  },
+  "310643": {
+    "id": 310643,
+    "aegisName": "Wolf_Orb_Life",
+    "name": "Orbe Lupino - Conversão",
+    "unidName": "Orbe Lupino - Conversão",
+    "resName": "Wolf_Orb_Life",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "hpDrain": [
+        "2"
+      ]
+    }
+  },
+  "310644": {
+    "id": 310644,
+    "aegisName": "Wolf_Orb_Soul",
+    "name": "Orbe Lupino - Absorção",
+    "unidName": "Orbe Lupino - Absorção",
+    "resName": "Wolf_Orb_Soul",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "spDrain": [
+        "3"
+      ]
+    }
+  },
+  "310645": {
+    "id": 310645,
+    "aegisName": "Wolf_Orb_M_Heal",
+    "name": "Orbe Lupino - Vida",
+    "unidName": "Orbe Lupino - Vida",
+    "resName": "Wolf_Orb_M_Heal",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "magicHealHp": [
+        "1400"
+      ]
+    }
+  },
+  "310646": {
+    "id": 310646,
+    "aegisName": "Wolf_Orb_M_Soul",
+    "name": "Orbe Lupino - Mente",
+    "unidName": "Orbe Lupino - Mente",
+    "resName": "Wolf_Orb_M_Soul",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "magicHealSp": [
+        "200"
+      ]
+    }
   }
 }
