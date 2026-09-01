@@ -137,10 +137,10 @@ describe('buildStatsSummary — the values', () => {
 
 describe('buildStatsSummary — the groups', () => {
   // The pairing is what balances the three columns; regroup them and the panel grows
-  // taller than the two input cells it sits beside. It is 8 / 8 / 12 rather than the
-  // 8 / 8 / 7 it was designed at because Defesa and Recursos took the whole sustain
-  // family — four healing/regen rows and the reflected-damage one. Rebalancing would
-  // mean splitting a group across columns, which is a bigger decision than this was.
+  // taller than the two input cells it sits beside. Back at the 8 / 8 / 7 it was designed
+  // at: the sustain family briefly took five rows in this column, and now the four
+  // healing/regen ones sit behind the Recursos link (see `sustain` below) and the
+  // reflected-damage one behind the Defesa one (./reduction-breakdown).
   it('pairs the groups into three columns of roughly equal depth', () => {
     const view = buildStatsSummary(summary(), null, OPTS);
 
@@ -149,7 +149,7 @@ describe('buildStatsSummary — the groups', () => {
       ['Mágico', 'Precisão e crítico'],
       ['Defesa', 'Recursos'],
     ]);
-    expect(view.columns.map((col) => col.reduce((n, g) => n + g.rows.length, 0))).toEqual([8, 8, 12]);
+    expect(view.columns.map((col) => col.reduce((n, g) => n + g.rows.length, 0))).toEqual([8, 8, 7]);
   });
 
   it('drops the whole Recursos group for the classes that have no HP/SP to show', () => {
@@ -163,6 +163,29 @@ describe('buildStatsSummary — the groups', () => {
     const view = buildStatsSummary(summary(), null, OPTS);
 
     expect(view.columns.flat().filter((g) => g.showReduction).map((g) => g.title)).toEqual(['Defesa']);
+    // The reflected-damage resistance is a row of that popover now, not of the group.
+    expect(allRows(view).some((r) => r.keys.includes('reduceDamageReturn'))).toBe(false);
+  });
+
+  // The four sustain stats are display-only and read 0% on most builds, so they sit behind
+  // the Recursos header's "Cura e regen." link rather than in the grid. They are not rows
+  // of any group — a copy left in the grid is exactly what this change removed.
+  it('hangs the sustain rows off the Recursos header instead of the grid', () => {
+    const view = buildStatsSummary(summary(), null, OPTS);
+
+    expect(view.columns.flat().filter((g) => g.showSustain).map((g) => g.title)).toEqual(['Recursos']);
+    expect(view.sustain.map((r) => r.label)).toEqual(['Regen. HP', 'Regen. SP', 'Cura recebida', 'Efetividade de cura']);
+    expect(allRows(view).some((r) => view.sustain.some((sr) => sr.label === r.label))).toBe(false);
+  });
+
+  it('builds the sustain rows as full rows — value, breakdown keys and a comparison', () => {
+    const view = buildStatsSummary(summary({ healPower: 30 }), summary({ healPower: 12 }), OPTS);
+    const healPower = view.sustain.find((r) => r.label === 'Efetividade de cura');
+
+    expect(healPower.text).toBe('30%');
+    expect(healPower.keys).toEqual(['healPower']);
+    expect(healPower.clickable).toBe(true);
+    expect(healPower.compare).toEqual({ text: '12%', deltaText: '-18', deltaClass: 'compare_lower' });
   });
 });
 

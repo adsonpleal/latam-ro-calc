@@ -61,6 +61,8 @@ export interface SummaryGroup {
   rows: SummaryRow[];
   /** Renders the "Redução de dano" link on the group header's right edge. */
   showReduction?: boolean;
+  /** Renders the "Cura e regen." link on the group header's right edge. */
+  showSustain?: boolean;
 }
 
 export interface SummaryHeadline extends SummaryRow {
@@ -72,6 +74,10 @@ export interface StatsSummaryView {
   headline: SummaryHeadline[];
   /** Three columns, each a list of groups. */
   columns: SummaryGroup[][];
+  /** The sustain rows, which live behind the Recursos header's link instead of in the
+   *  grid. Same shape as any other row — the popover clicks through to the same
+   *  breakdown, and a comparison fills the same cell. */
+  sustain: SummaryRow[];
 }
 
 export interface StatsSummaryOptions {
@@ -294,10 +300,20 @@ const RESOURCE_ROWS: RowSpec[] = [
     read: (s) => num(s?.calc?.maxSp),
     origin: { label: 'Base (classe, nível e INT) e outros', sumKeys: ['sp'] },
   },
-  // Display only: the engine never applies either (see EquipmentSummaryModel.healReceived
-  // and .healPower), so the rows read the equipment sum straight and carry no origin —
-  // there is no base healing figure for a remainder to be taken against. The two are the
-  // heal a character receives and the heal it casts, and the game words them apart.
+];
+
+/**
+ * The sustain rows, behind the "Cura e regen." link on the Recursos header rather than in
+ * the grid: four rows that read 0% on most builds and that no damage number depends on —
+ * the engine never applies any of them (see EquipmentSummaryModel.healReceived and
+ * .healPower). Four permanent lines of zeroes at the foot of the tallest column is a poor
+ * trade for a figure the reader consults once, when a piece claims to grant it.
+ *
+ * They read the equipment sum straight and carry no origin: there is no base healing
+ * figure for a remainder to be taken against. "Cura recebida" is the heal cast on the
+ * character and "Efetividade de cura" the heal it casts — the game words them apart.
+ */
+const SUSTAIN_ROWS: RowSpec[] = [
   { label: 'Regen. HP', valueClass: 'summary_stat_yellow', keys: ['hpRecovRate'], read: (s) => pct(s?.hpRecovRate) },
   { label: 'Regen. SP', valueClass: 'summary_stat_yellow', keys: ['spRecovRate'], read: (s) => pct(s?.spRecovRate) },
   { label: 'Cura recebida', valueClass: 'summary_stat_yellow', keys: ['healReceived'], read: (s) => pct(s?.healReceived) },
@@ -306,6 +322,10 @@ const RESOURCE_ROWS: RowSpec[] = [
 
 // TEN / TENM share one line in the game's own window, but they are two independent stats
 // with a breakdown each — a single row could only ever carry one delta honestly.
+//
+// The reflected-damage resistance is not here: it reads 0% on nearly every build, so it
+// lives in the "Redução de dano" popover off this group's header, as its last flat-cut
+// row (./reduction-breakdown), where a zero costs nothing to hide.
 const DEFENCE_ROWS: RowSpec[] = [
   // DEF and DEFM print "50 + 120" and the origin row carries both halves, so its label
   // names them in the same order: an armour's own DEF is not a scripted bonus and can never
@@ -333,10 +353,6 @@ const DEFENCE_ROWS: RowSpec[] = [
     read: (s) => pair(s?.calc?.totalFlee, s?.calc?.totalPerfectDodge),
     origin: { label: 'Base (nível, AGI, SOR e CON)' },
   },
-  // Display only, like the sustain rows in Recursos: the engine models damage dealt, so a
-  // reflected-damage reduction has nothing to reduce here. It sits in Defesa because that
-  // is where the reductions read, not because the pipeline uses it.
-  { label: 'Res. dano refletido', valueClass: 'summary_stat_def2', keys: ['reduceDamageReturn'], read: (s) => pct(s?.reduceDamageReturn) },
 ];
 
 /** A cast/delay row: the component formats the text (negated, with its unit); the delta is
@@ -407,7 +423,7 @@ const HEADLINE_SPECS: HeadlineSpec[] = [
  * total either way.
  */
 const ORIGIN_BY_KEYS: ReadonlyMap<string, StatOrigin & { total: (s: any) => number }> = new Map(
-  [...ATTACK_ROWS, ...MAGIC_ROWS, ...ACCURACY_ROWS, ...RESOURCE_ROWS, ...DEFENCE_ROWS, ...CASTING_ROWS, ...HEADLINE_SPECS]
+  [...ATTACK_ROWS, ...MAGIC_ROWS, ...ACCURACY_ROWS, ...RESOURCE_ROWS, ...SUSTAIN_ROWS, ...DEFENCE_ROWS, ...CASTING_ROWS, ...HEADLINE_SPECS]
     .filter((spec) => !!spec.origin)
     .map((spec) => [spec.keys.join('|'), { ...spec.origin!, total: (s: any) => spec.read(s, ORIGIN_READ_OPTS).total }]),
 );
@@ -450,6 +466,7 @@ export function buildStatsSummary(cur: any, cmp: any | null, opts: StatsSummaryO
 
   return {
     headline,
+    sustain: rows(SUSTAIN_ROWS),
     // Paired so the three columns come out 8 / 8 / 7 rows deep. Ataque with Conjuração
     // rather than with Mágico is what keeps the panel as short as the two input cells
     // beside it — the alternative leaves Defesa+Conjuração nine rows deep and the whole
@@ -465,7 +482,7 @@ export function buildStatsSummary(cur: any, cmp: any | null, opts: StatsSummaryO
       ),
       groups(
         { title: 'Defesa', rows: rows(DEFENCE_ROWS), showReduction: true },
-        opts.showHpSp ? { title: 'Recursos', rows: rows(RESOURCE_ROWS) } : null,
+        opts.showHpSp ? { title: 'Recursos', rows: rows(RESOURCE_ROWS), showSustain: true } : null,
       ),
     ],
   };

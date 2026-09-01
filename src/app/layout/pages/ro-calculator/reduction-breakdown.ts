@@ -4,10 +4,10 @@ import { ELE_PT, PvpDamageChannel, PvpMode, isPlayerRace, woeGlobalMultiplier } 
 /**
  * Presentation helper for the "Redução de dano" popover (docs/pvp.md §4). Turns a
  * defender's aggregated reduction bonuses (subrace_/subele_/subsize_/subclass_/
- * dmg_taken_) plus the WoE-castle layer into display-ready categories. Each row
- * carries the engine key(s) behind it so a click can drill into the contributing
- * items via the existing bonus-breakdown modal. WoE rows are the castle aura, not
- * gear — they have no keys and are not clickable.
+ * dmg_taken_, plus `reduceDamageReturn` on the self popover) and the WoE-castle layer
+ * into display-ready categories. Each row carries the engine key(s) behind it so a
+ * click can drill into the contributing items via the existing bonus-breakdown modal.
+ * WoE rows are the castle aura, not gear — they have no keys and are not clickable.
  */
 export interface ReductionRow {
   label: string;
@@ -140,11 +140,15 @@ export function buildReductionCategories(
     { label: 'Físico à distância', keys: ['dmg_taken_range'], percent: v('dmg_taken_range') },
   ]);
 
-  // Redução plana — flat cut regardless of race/element.
+  // Redução plana — flat cut regardless of race/element. The reflected-damage row is the
+  // one line here the damage pipeline never reads (nothing reflects in the simulator); it
+  // rides along because a reader looking for "what do I take less of?" looks here, and it
+  // has no PVP counterpart because a target's reflect is not modelled either.
   push('Redução plana', [
     { label: 'Todo o dano', keys: ['dmg_taken_all'], percent: v('dmg_taken_all') },
     { label: 'Dano físico', keys: ['dmg_taken_physical'], percent: v('dmg_taken_physical') },
     { label: 'Dano mágico', keys: ['dmg_taken_magical'], percent: v('dmg_taken_magical') },
+    ...(isSelf ? [{ label: 'Dano refletido', keys: ['reduceDamageReturn'], percent: v('reduceDamageReturn') }] : []),
   ]);
 
   // Camada de guerra (WoE castle) — a mode+channel aura, not gear.

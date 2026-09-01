@@ -1687,9 +1687,14 @@ export class Calculator {
   }
 
   /** The current build's own defender-side reductions (subrace_/subele_/…), for the
-   *  "Redução de dano" popover. Same extraction getAsPlayerTarget caches per target. */
+   *  "Redução de dano" popover. Same extraction getAsPlayerTarget caches per target,
+   *  plus `reduceDamageReturn` — not a defender key (it never enters the PVP math, and
+   *  adding it to that namespace would route its breakdown at the target's gear), but the
+   *  popover lists it as one more thing the build takes less of. */
   getDefenderBonus() {
-    return pickDefenderBonus(this.totalEquipStatus as unknown as Record<string, number>);
+    const bonus = this.totalEquipStatus as unknown as Record<string, number>;
+
+    return { ...pickDefenderBonus(bonus), reduceDamageReturn: bonus['reduceDamageReturn'] || 0 };
   }
 
   getTotalSummary() {

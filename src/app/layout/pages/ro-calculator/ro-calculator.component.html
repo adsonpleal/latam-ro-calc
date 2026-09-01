@@ -469,6 +469,9 @@
                     <span *ngIf="group.showReduction" class="reduction-label ss_reduction bonus_clickable" (click)="reductionPanel.toggle($event)" keyActivate>
                       <i class="pi pi-shield"></i> Redução de dano
                     </span>
+                    <span *ngIf="group.showSustain" class="sustain-label ss_reduction bonus_clickable" (click)="sustainPanel.toggle($event)" keyActivate>
+                      <i class="pi pi-heart"></i> Cura e regen.
+                    </span>
                   </div>
                   <!-- Two cells per row: the delta sits inside the value cell rather than in
                        a track of its own, so an unchanged row costs nothing and the column
@@ -510,6 +513,42 @@
 
             <p-overlayPanel #reductionPanel styleClass="reduction-panel">
               <ng-container *ngTemplateOutlet="reductionPop; context: { cats: selfReductionCategories, sources: bonusBreakdownSources, target: false }"></ng-container>
+            </p-overlayPanel>
+
+            <!-- "Cura e regen." — the sustain stats, off the Recursos header. Same cells as
+                 a grid row (value, delta, breakdown on click); only the layout differs, so
+                 the popover can't drift from what the panel would have printed. -->
+            <p-overlayPanel #sustainPanel styleClass="reduction-panel">
+              <div class="sustain-pop">
+                <div class="sustain-row" *ngFor="let row of statsSummary.sustain; trackBy: trackByLabel">
+                  <span class="sustain-row-label">{{ row.label }}</span>
+                  <span class="ss_value">
+                    <span
+                      class="ss_value_text"
+                      [class]="row.valueClass"
+                      [class.bonus_clickable]="row.clickable"
+                      (click)="onSummaryClick(row)"
+                      [keyActivate]="row.clickable"
+                      [pTooltip]="row.tooltip"
+                      tooltipPosition="top"
+                      [showDelay]="300"
+                      >{{ row.text }}</span
+                    >
+                    <span
+                      *ngIf="row.compare"
+                      class="ss_delta"
+                      [class]="row.compare.deltaClass"
+                      [class.bonus_clickable]="row.compareClickable"
+                      (click)="onSummaryClick(row, true)"
+                      [keyActivate]="row.compareClickable"
+                      [pTooltip]="row.compareTooltip"
+                      tooltipPosition="top"
+                      [showDelay]="300"
+                      >&#8594; {{ row.compare.text }} {{ row.compare.deltaText }}</span
+                    >
+                  </span>
+                </div>
+              </div>
             </p-overlayPanel>
           </div>
 

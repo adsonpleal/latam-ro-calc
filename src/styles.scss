@@ -215,14 +215,22 @@ html {
 /* "Redução de dano" popover (main stats + PVP HUD) — global because the p-overlayPanel
    content is body-appended, so component-scoped styles from two different components
    wouldn't both reach it. */
-.reduction-label {
+.reduction-label,
+.sustain-label {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  color: var(--green-400, #4ade80);
   font-weight: 600;
 }
-.reduction-label .pi-shield {
+.reduction-label {
+  color: var(--green-400, #4ade80);
+}
+/* Yellow, because that is the colour the four values it opens are already printed in. */
+.sustain-label {
+  color: var(--yellow-300, #fde047);
+}
+.reduction-label .pi-shield,
+.sustain-label .pi-heart {
   font-size: 0.9rem;
 }
 .reduction-pop {
@@ -263,6 +271,26 @@ html {
 }
 .reduction-val.neg {
   color: var(--red-400, #f87171);
+}
+
+/* The "Cura e regen." popover, off the Recursos header. Narrower than the reduction one —
+   its rows are a label and a percentage, not a category tree — and its value cells are the
+   panel's own `.ss_*` classes, which reach here because emulated encapsulation tags the
+   element rather than the place it ends up. */
+.sustain-pop {
+  min-width: 13rem;
+  max-width: 20rem;
+}
+.sustain-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.12rem 0.3rem;
+}
+.sustain-row-label {
+  font-size: 0.85rem;
+  color: var(--text-color-secondary);
 }
 
 /* The shell (sakai's _content.scss / _responsive.scss) gutters the page at 2rem, which is

@@ -158,6 +158,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.98-beta',
+      date: '01-09-2026',
+      logs: [
+        'As quatro linhas de cura e regeneração saíram do bloco Recursos e passaram a abrir em um botão "Cura e regen.", ao lado do título — do mesmo jeito que "Redução de dano" abre na Defesa. Regen. HP, Regen. SP, Cura recebida e Efetividade de cura continuam com o mesmo valor, a mesma comparação e o mesmo detalhamento por peça ao clicar. O que mudou é que quatro linhas marcando 0% deixaram de ocupar o resumo de quem não carrega nenhuma delas.',
+        'A resistência a dano refletido saiu da Defesa e virou uma linha do painel "Redução de dano", junto das reduções planas. Ela aparece quando o build tem alguma e some quando não tem, como as demais linhas daquele painel. Com as duas mudanças, as três colunas do resumo voltaram a ter a mesma altura.',
+      ],
+    },
+    {
       v: '0.1.97-beta',
       date: '01-09-2026',
       logs: [

@@ -14,6 +14,17 @@ describe('buildReductionCategories', () => {
     expect(byLabel['Redução plana'].rows).toEqual([{ label: 'Todo o dano', keys: ['dmg_taken_all'], percent: 5 }]);
   });
 
+  // Moved out of the Defesa group on 01/09/2026: it reads 0% on nearly every build, so it
+  // is a row of the popover the reader opens on purpose. Self only — nothing in the
+  // simulator reflects damage, so a PVP target's own resistance to it never applies.
+  it('lists the reflected-damage resistance among the flat cuts, self scope only', () => {
+    const flat = (scope: 'self' | 'pvp') =>
+      buildReductionCategories({ reduceDamageReturn: 12 } as any, 'pvp', scope).find((c) => c.label === 'Redução plana');
+
+    expect(flat('self')?.rows).toEqual([{ label: 'Dano refletido', keys: ['reduceDamageReturn'], percent: 12 }]);
+    expect(flat('pvp')).toBeUndefined();
+  });
+
   it('adds the WoE castle layer in woe mode (melee 90, ranged 95, skill 90)', () => {
     const cats = buildReductionCategories({}, 'woe');
     const woe = cats.find((c) => c.label === 'Guerra (WoE)');

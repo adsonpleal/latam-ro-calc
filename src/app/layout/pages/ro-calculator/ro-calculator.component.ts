@@ -450,7 +450,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   /** The "Resumo de atributos" panel, shaped by ./stats-summary — headline figures plus
    *  three columns of grouped rows, each already carrying its comparison cell. */
-  statsSummary: StatsSummaryView = { headline: [], columns: [] };
+  statsSummary: StatsSummaryView = { headline: [], columns: [], sustain: [] };
 
   /**
    * Model 2
