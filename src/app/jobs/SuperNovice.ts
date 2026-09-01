@@ -164,6 +164,73 @@ export class SuperNovice extends CharacterBase {
       },
     },
     {
+      // "Nevasca" — the Expanded Super Novice learns the whole Bruxo column (bROWiki's
+      // Superaprendizes tree, "Expansão"). Ratio from the client table: 120% at Lv1 rising
+      // by 50 per level. The client states it "por neve" without saying how many fall;
+      // bROWiki's Nevasca page carries the cap — "O ATQM causado é contado por cada bola
+      // de neve, num máximo de 10" — which is the totalHit below.
+      name: 'Storm Gust',
+      label: 'Storm Gust Lv10',
+      value: 'Storm Gust==10',
+      acd: 1,
+      fct: 1.5,
+      vct: (lv) => [4.5, 4.7, 4.9, 5.1, 5.3, 5.5, 5.7, 5.9, 6.1, 6.3][lv - 1],
+      cd: 6,
+      isMatk: true,
+      totalHit: 10,
+      element: ElementType.Water,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { skillLevel } = input;
+
+        return 70 + skillLevel * 50;
+      },
+    },
+    {
+      // "Chuva de Meteoros" — 125% per meteor, and the client's "Golpes" column is how
+      // many land on one target: 1,1,2,2,3,3,4,4,5,5 = ceil(nível / 2). Written from that
+      // table rather than ported from HighWizard, whose copy is `isDevMode` with a
+      // placeholder ratio and cast numbers that do not match the client.
+      name: 'Meteor Storm',
+      label: 'Meteor Storm Lv10',
+      value: 'Meteor Storm==10',
+      acd: 1,
+      fct: 1.5,
+      vct: 6.3,
+      cd: (lv) => 2 + lv * 0.5,
+      isMatk: true,
+      totalHit: ({ skillLevel }) => Math.ceil(skillLevel / 2),
+      element: ElementType.Fire,
+      formula: (): number => {
+        return 125;
+      },
+    },
+    {
+      // "Meteoro Escarlate" is not in the Superaprendiz skill tree — it is granted by an
+      // item: 400528 Boina Escarlate-OS reads "Conjunto [Rutilus-OS]: Habilita [Meteoro
+      // Escarlate] nv.5". That grant is registered on the headgear's own script as
+      // `enable_skill__2211`, so the gate below reads the item rather than hardcoding the
+      // pair of ids here. Same numbers as the Arcano's version (Warlock.ts), which
+      // super-novice-skills.spec.ts compares field by field.
+      name: 'Crimson Rock',
+      label: 'Crimson Rock Lv5',
+      value: 'Crimson Rock==5',
+      fct: 1,
+      vct: 5,
+      acd: 0.5,
+      cd: 5,
+      isMatk: true,
+      hit: 7,
+      element: ElementType.Fire,
+      verifyItemFn: ({ totalBonus, skillLevel }) =>
+        (totalBonus?.['enable_skill__2211'] ?? 0) >= skillLevel ? '' : 'Boina Escarlate-OS + Rutilus-OS',
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { model, skillLevel } = input;
+        const baseLevel = model.level;
+
+        return (700 + skillLevel * 600) * (baseLevel / 100);
+      },
+    },
+    {
       name: 'Gravitational Field',
       label: 'Gravitational Field Lv5',
       value: 'Gravitational Field==5',

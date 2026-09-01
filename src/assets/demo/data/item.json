@@ -250018,7 +250018,8 @@
         "7===15"
       ],
       "fct": [
-        "7===0.2"
+        "7===0.2",
+        "13===0.3"
       ],
       "m_my_element_all": [
         "9===20"
@@ -251369,6 +251370,9 @@
       ],
       "m_my_element_fire": [
         "EQUIP_ID[26151]REFINE[weapon==2]---3"
+      ],
+      "enable_skill__2211": [
+        "EQUIP_ID[26151]===5"
       ],
       "2212": [
         "EQUIP_ID[13493]REFINE[weapon==2]---4"
@@ -271300,7 +271304,26 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "range": [
+        "POS[accLeft]7"
+      ],
+      "melee": [
+        "POS[accLeft]7"
+      ],
+      "hpRestoreOnKill": [
+        "POS[accLeft]100"
+      ],
+      "matkPercent": [
+        "POS[accRight]7"
+      ],
+      "m_my_element_all": [
+        "POS[accRight]7"
+      ],
+      "spRestoreOnKill": [
+        "POS[accRight]20"
+      ]
+    }
   },
   "2318": {
     "id": 2318,

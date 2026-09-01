@@ -15,6 +15,7 @@ export const ITEM_BONUS_LABELS: Record<string, string> = {
   hpDrain: 'Converte dano em HP', spDrain: 'Converte dano em SP',
   reduceDamageReturn: 'Resistência a dano refletido',
   magicHealHp: 'Cura Mágica (HP/s)', magicHealSp: 'Cura Espiritual (SP/s)',
+  hpRestoreOnKill: 'Recupera HP ao derrotar', spRestoreOnKill: 'Recupera SP ao derrotar',
   def: 'DEF', defPercent: 'DEF %', softDef: 'DEF Leve', softDefPercent: 'DEF Leve %',
   mdef: 'DEFM', mdefPercent: 'DEFM %', softMdef: 'DEFM Leve', softMdefPercent: 'DEFM Leve %',
   // Tenacidade / Tenacidade Mágica — the LATAM client's own names for the two
@@ -139,6 +140,14 @@ export function decodeStructuredBonusKey(key: string): string | undefined {
   if ((m = key.match(/^chance__(\w+)$/))) {
     const determinedBonus = BUFF_BONUS_LABELS[m[1]] ?? decodeStructuredBonusKey(m[1]);
     return `Chance de ${determinedBonus ?? m[1].toUpperCase()}`;
+  }
+  // `enable_skill__<id>` — the item grants the skill rather than boosting it, and the
+  // value is the level it is granted at ("Habilita [Meteoro Escarlate] nv.5"). A class
+  // that only reaches a skill this way gates it on the key, so it has to be readable in
+  // the item's bonus list like any other.
+  if ((m = key.match(/^enable_skill__(\d+)$/))) {
+    const resolvedSkill = resolveSkillKey(m[1]);
+    return `Habilita ${resolvedSkill ? resolvedSkill.name : m[1]}`;
   }
   // Per-skill reductions. The six keys are the ones calc-skill-aspd.ts reads: cd__,
   // vct__, fix_vct__, fct__, fctPercent__ and acd__ — only the first three used to have a

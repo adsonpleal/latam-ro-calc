@@ -36,6 +36,13 @@ export interface EquipmentSummaryModel {
    * `magicHealHp`/`magicHealSp` are the [Cura Mágica] / [Cura Espiritual] procs, in HP (SP)
    * per second. 19404 words itself that way already; 310115/310116 say "500 de HP a cada
    * 0,4 segundos", which is the same figure divided out.
+   *
+   * `hpRestoreOnKill`/`spRestoreOnKill` are the flat "Ao derrotar monstros: Regenera N de
+   * HP/SP" line, in HP (SP) per kill. None of the keys above fits it — `hpRecovRate` is a
+   * percentage of natural regeneration and `hpDrain` is a share of the damage dealt — and
+   * 37 records carry the line, so it gets a key of its own rather than being dropped.
+   * The clause's qualifier ("com ataques físicos corpo a corpo", "da raça Peixe") is a
+   * trigger condition, not a magnitude, and stays in the item's own description.
    */
   hpRecovRate: number;
   spRecovRate: number;
@@ -44,6 +51,8 @@ export interface EquipmentSummaryModel {
   reduceDamageReturn: number;
   magicHealHp: number;
   magicHealSp: number;
+  hpRestoreOnKill: number;
+  spRestoreOnKill: number;
   def: number;
   defPercent: number;
   softDef: number;

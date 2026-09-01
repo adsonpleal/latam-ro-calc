@@ -158,6 +158,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.99-beta',
+      date: '01-09-2026',
+      logs: [
+        'O Gorro Felino Mágico voltou a entregar os 0,5 segundos de conjuração fixa no refino +13. A peça tem dois degraus — 0,2 segundo a partir do +7 e mais 0,3 segundo a partir do +13 — e apenas o primeiro estava cadastrado, então o +13 valia o mesmo que o +7. A palavra "adicional" na descrição é o que decide: os degraus somam. O Gorro Felino Poderoso foi conferido junto e está certo, com o único degrau que a descrição dele promete. Reportado por Voilá.',
+        'A Moeda Lançável não aplicava nada em nenhum dos dois acessórios. Ela dá coisas diferentes conforme a mão: no esquerdo, dano físico à distância e corpo a corpo +7%; no direito, dano mágico +7% e dano mágico de todas as propriedades +7%. Os dois lados foram cadastrados separadamente, e trocar a peça de espaço troca o bônus. A recuperação de HP e de SP ao derrotar monstros também entrou, como linha exibida na lista de bônus da peça: ela não participa da conta de dano, porque o simulador calcula dano causado e não há etapa onde uma cura caberia. Reportado por usuário anônimo.',
+        'Outros trinta e seis registros do banco trazem essa mesma linha de recuperação ao derrotar monstros e ainda não foram revisados; a chave existe agora e eles entram numa próxima passagem.',
+        'O Superaprendiz ganhou três habilidades que faltavam na lista. Nevasca e Chuva de Meteoros são aprendidas na expansão da classe, junto com o restante da linha dos Bruxos. Meteoro Escarlate é diferente: ele não está na árvore, quem o habilita é o conjunto Boina Escarlate-OS com o Rutilus-OS, e por isso ele só calcula dano com as duas peças equipadas — sem elas a habilidade aparece na lista marcada como "Requer", do mesmo jeito que uma habilidade de escudo aparece para quem está sem escudo. Os tempos de conjuração, espera e recarga das três vieram da tabela do próprio cliente. Reportado por usuário anônimo.',
+        'A linha dos Bruxos que o Superaprendiz aprende tem mais habilidades ausentes — Trovão de Júpiter, Ira de Thor, Coluna de Fogo, Coluna de Pedra, Supernova, Esfera d\'Água e Congelar. Ficaram para depois, com ficha própria.',
+      ],
+    },
+    {
       v: '0.1.98-beta',
       date: '01-09-2026',
       logs: [

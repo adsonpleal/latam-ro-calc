@@ -3383,6 +3383,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    *  as the negative effect they apply. Used by the item-description rows and the summary. */
   bonusValueText(key: string, value: number | undefined): string {
     const v = value || 0;
+    // `enable_skill__<id>` holds the level the item grants the skill at, not an increment —
+    // "+5" would read as a bonus it is not.
+    if (key.startsWith('enable_skill__')) return `nv. ${v}`;
     const shown = this.isReductionKey(key) ? -v : v;
     return this.formatSignedValue(shown, this.isPercentKey(key));
   }

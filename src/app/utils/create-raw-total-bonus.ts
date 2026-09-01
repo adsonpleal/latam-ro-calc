@@ -19,6 +19,8 @@ export const createRawTotalBonus = (): EquipmentSummaryModel => {
     reduceDamageReturn: 0,
     magicHealHp: 0,
     magicHealSp: 0,
+    hpRestoreOnKill: 0,
+    spRestoreOnKill: 0,
     def: 0,
     defPercent: 0,
     softDef: 0,

@@ -280,19 +280,24 @@ describe('healPower — the six items deliberately left unregistered', () => {
 
 /**
  * The rest of the sustain family — `hpRecovRate`, `spRecovRate`, `hpDrain`, `spDrain`,
- * `reduceDamageReturn`, `magicHealHp`, `magicHealSp`. Display only, same terms.
+ * `reduceDamageReturn`, `magicHealHp`, `magicHealSp`, `hpRestoreOnKill`,
+ * `spRestoreOnKill`. Display only, same terms.
  *
  * These are the keys behind the eight "automódulos que o cálculo não mede" of
  * automatron-enchant-pools.spec.ts. Registering them meant sweeping every record whose
  * pt-BR description carries one of the lines, ~180 in all, so the cases here are one per
  * condition shape plus the eight modules that started it.
+ *
+ * The two `*RestoreOnKill` keys joined later, with 490863 Moeda Lançável (tracker
+ * Cuqd4OU0tGQ2D8dQvr0d): the flat "Ao derrotar monstros: Regenera N de HP/SP" line, in
+ * HP (SP) per kill. 36 other records carry it and have not been swept yet.
  */
 describe('the sustain family', () => {
   const sustain = (ids: number[], model: Record<string, any>, key: string) => stat(ids, model, key);
 
   it('every key starts at zero and has a pt-BR label', () => {
     const bare: any = createRawTotalBonus();
-    for (const key of ['hpRecovRate', 'spRecovRate', 'hpDrain', 'spDrain', 'reduceDamageReturn', 'magicHealHp', 'magicHealSp']) {
+    for (const key of ['hpRecovRate', 'spRecovRate', 'hpDrain', 'spDrain', 'reduceDamageReturn', 'magicHealHp', 'magicHealSp', 'hpRestoreOnKill', 'spRestoreOnKill']) {
       expect(bare[key], key).toBe(0);
       expect(ITEM_BONUS_LABELS[key], key).toBeTruthy();
     }
@@ -366,7 +371,7 @@ describe('the sustain family', () => {
 
 describe('the sustain family stays out of the damage pipeline', () => {
   it('a build stacked with every sustain key deals the same damage as one with none', () => {
-    const SUSTAIN = ['hpRecovRate', 'spRecovRate', 'hpDrain', 'spDrain', 'reduceDamageReturn', 'magicHealHp', 'magicHealSp'];
+    const SUSTAIN = ['hpRecovRate', 'spRecovRate', 'hpDrain', 'spDrain', 'reduceDamageReturn', 'magicHealHp', 'magicHealSp', 'hpRestoreOnKill', 'spRestoreOnKill'];
     const model = { ...createMainModel(), level: 200, shield: 2124 };
     const loaded = { ...model, shieldCard: 4115 }; // Carta Mosca Caçadora — hpDrain 15
 
