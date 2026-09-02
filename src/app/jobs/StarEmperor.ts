@@ -425,7 +425,7 @@ export class StarEmperor extends StarGladiator {
     return {
       rows,
       note: resolved
-        ? `${resolved.wrath.name} é a Fúria que alcança este alvo — a Oposição alinha o alvo pelo Tamanho dele, então só uma das três paga de cada vez.`
+        ? `Só uma das três Fúrias vale contra o mesmo alvo: a Oposição alinha o alvo pelo Tamanho dele, e é esse alinhamento que escolhe qual delas entra. Neste alvo é a ${resolved.wrath.name}.`
         : undefined,
       link: resolved ? { label: `${resolved.wrath.name} no bROWiki`, url: resolved.wrath.wiki } : undefined,
     };
