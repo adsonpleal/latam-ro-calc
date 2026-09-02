@@ -49,9 +49,9 @@ const shadowPieces = Object.entries(items)
   }));
 
 describe('conjunto sombrio — o HP por refino vem do script da peça', () => {
-  it('a lista tem as peças que se espera (536 com a linha, 10 sem)', () => {
-    expect(shadowPieces.length).toBe(546);
-    expect(shadowPieces.filter((p) => p.promises).length).toBe(536);
+  it('a lista tem as peças que se espera (544 com a linha, 10 sem)', () => {
+    expect(shadowPieces.length).toBe(554);
+    expect(shadowPieces.filter((p) => p.promises).length).toBe(544);
   });
 
   it('toda peça que promete os +10 por refino declara "1---10"', () => {

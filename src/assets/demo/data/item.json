@@ -337592,5 +337592,704 @@
         "200"
       ]
     }
+  },
+  "480926": {
+    "id": 480926,
+    "aegisName": "Airboat_Manteau_Str_LT",
+    "name": "Capa Desconhecida FOR",
+    "unidName": "Capa Desconhecida FOR",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "2---10",
+        "EQUIP_ID[470071]50"
+      ],
+      "atkPercent": [
+        "2---2"
+      ],
+      "p_size_all": [
+        "4---5"
+      ],
+      "perfectHit": [
+        "7===30"
+      ],
+      "p_pene_race_formless": [
+        "9===20",
+        "11===10"
+      ],
+      "p_pene_race_demihuman": [
+        "9===20",
+        "11===10"
+      ],
+      "m_pene_race_formless": [
+        "9===20",
+        "11===10"
+      ],
+      "m_pene_race_demihuman": [
+        "9===20",
+        "11===10"
+      ],
+      "pow": [
+        "EQUIP_ID[470071]7"
+      ],
+      "fct": [
+        "EQUIP_ID[470071]REFINE[boot==10]===0.5"
+      ]
+    }
+  },
+  "480927": {
+    "id": 480927,
+    "aegisName": "Airboat_Manteau_Agi_LT",
+    "name": "Capa Desconhecida AGI",
+    "unidName": "Capa Desconhecida AGI",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "2---10"
+      ],
+      "melee": [
+        "2---1"
+      ],
+      "p_size_all": [
+        "4---5"
+      ],
+      "atkPercent": [
+        "7===7"
+      ],
+      "p_pene_race_formless": [
+        "9===20",
+        "11===10"
+      ],
+      "p_pene_race_demihuman": [
+        "9===20",
+        "11===10"
+      ],
+      "m_pene_race_formless": [
+        "9===20",
+        "11===10"
+      ],
+      "m_pene_race_demihuman": [
+        "9===20",
+        "11===10"
+      ],
+      "sta": [
+        "EQUIP_ID[470076]7"
+      ],
+      "aspd": [
+        "EQUIP_ID[470076]1"
+      ],
+      "fct": [
+        "EQUIP_ID[470076]REFINE[boot==10]===0.5"
+      ]
+    }
+  },
+  "480928": {
+    "id": 480928,
+    "aegisName": "Airboat_Manteau_Vit_LT",
+    "name": "Capa Desconhecida VIT",
+    "unidName": "Capa Desconhecida VIT",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "2---10"
+      ],
+      "matk": [
+        "2---10"
+      ],
+      "p_size_all": [
+        "4---5"
+      ],
+      "m_size_all": [
+        "4---5"
+      ],
+      "p_pene_race_formless": [
+        "9===20",
+        "11===10"
+      ],
+      "p_pene_race_demihuman": [
+        "9===20",
+        "11===10"
+      ],
+      "m_pene_race_formless": [
+        "9===20",
+        "11===10"
+      ],
+      "m_pene_race_demihuman": [
+        "9===20",
+        "11===10"
+      ],
+      "wis": [
+        "EQUIP_ID[470073]7"
+      ],
+      "fct": [
+        "EQUIP_ID[470073]REFINE[boot==10]===0.5"
+      ]
+    }
+  },
+  "480929": {
+    "id": 480929,
+    "aegisName": "Airboat_Manteau_Int_LT",
+    "name": "Capa Desconhecida INT",
+    "unidName": "Capa Desconhecida INT",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matk": [
+        "2---10",
+        "EQUIP_ID[470074]50"
+      ],
+      "matkPercent": [
+        "2---2"
+      ],
+      "m_size_all": [
+        "4---5"
+      ],
+      "vct": [
+        "7===10"
+      ],
+      "p_pene_race_formless": [
+        "9===20",
+        "11===10"
+      ],
+      "p_pene_race_demihuman": [
+        "9===20",
+        "11===10"
+      ],
+      "m_pene_race_formless": [
+        "9===20",
+        "11===10"
+      ],
+      "m_pene_race_demihuman": [
+        "9===20",
+        "11===10"
+      ],
+      "spl": [
+        "EQUIP_ID[470074]7"
+      ],
+      "fct": [
+        "EQUIP_ID[470074]REFINE[boot==10]===0.5"
+      ]
+    }
+  },
+  "480930": {
+    "id": 480930,
+    "aegisName": "Airboat_Manteau_Dex_LT",
+    "name": "Capa Desconhecida DES",
+    "unidName": "Capa Desconhecida DES",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "2---10",
+        "EQUIP_ID[470072]50"
+      ],
+      "range": [
+        "2---1"
+      ],
+      "p_size_all": [
+        "4---5"
+      ],
+      "p_pene_race_formless": [
+        "9===20",
+        "11===10"
+      ],
+      "p_pene_race_demihuman": [
+        "9===20",
+        "11===10"
+      ],
+      "m_pene_race_formless": [
+        "9===20",
+        "11===10"
+      ],
+      "m_pene_race_demihuman": [
+        "9===20",
+        "11===10"
+      ],
+      "con": [
+        "EQUIP_ID[470072]7"
+      ],
+      "fct": [
+        "EQUIP_ID[470072]REFINE[boot==10]===0.5"
+      ]
+    }
+  },
+  "480931": {
+    "id": 480931,
+    "aegisName": "Airboat_Manteau_Luk_LT",
+    "name": "Capa Desconhecida SOR",
+    "unidName": "Capa Desconhecida SOR",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 50,
+    "requiredLevel": 100,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "2---10"
+      ],
+      "criDmg": [
+        "2---3"
+      ],
+      "p_size_all": [
+        "4---5"
+      ],
+      "aspdPercent": [
+        "7===10"
+      ],
+      "p_pene_race_formless": [
+        "9===20",
+        "11===10"
+      ],
+      "p_pene_race_demihuman": [
+        "9===20",
+        "11===10"
+      ],
+      "m_pene_race_formless": [
+        "9===20",
+        "11===10"
+      ],
+      "m_pene_race_demihuman": [
+        "9===20",
+        "11===10"
+      ],
+      "cRate": [
+        "EQUIP_ID[470077]5"
+      ],
+      "crt": [
+        "EQUIP_ID[470077]7"
+      ],
+      "fct": [
+        "EQUIP_ID[470077]REFINE[boot==10]===0.5"
+      ]
+    }
+  },
+  "24127": {
+    "id": 24127,
+    "aegisName": "S_Hiding_Shoes",
+    "name": "Greva Sombria do Esconderijo",
+    "unidName": "Greva Sombria do Esconderijo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 528,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "1---10"
+      ]
+    }
+  },
+  "24128": {
+    "id": 24128,
+    "aegisName": "S_Hiding_Shield",
+    "name": "Escudo Sombrio do Esconderijo",
+    "unidName": "Escudo Sombrio do Esconderijo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 527,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "1---10"
+      ]
+    }
+  },
+  "24130": {
+    "id": 24130,
+    "aegisName": "S_Hiding_Earring",
+    "name": "Brinco Sombrio do Esconderijo",
+    "unidName": "Brinco Sombrio do Esconderijo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 529,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "AccessoryRight",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "1---10"
+      ]
+    }
+  },
+  "24131": {
+    "id": 24131,
+    "aegisName": "S_Hiding_Pendant",
+    "name": "Colar Sombrio do Esconderijo",
+    "unidName": "Colar Sombrio do Esconderijo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 530,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "AccessoryLeft",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "1---10"
+      ]
+    }
+  },
+  "24145": {
+    "id": 24145,
+    "aegisName": "S_Steal_Shoes",
+    "name": "Greva Sombria do Furto",
+    "unidName": "Greva Sombria do Furto",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 528,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "1---10"
+      ]
+    }
+  },
+  "24146": {
+    "id": 24146,
+    "aegisName": "S_Steal_Shield",
+    "name": "Escudo Sombrio do Furto",
+    "unidName": "Escudo Sombrio do Furto",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 527,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "1---10"
+      ]
+    }
+  },
+  "24148": {
+    "id": 24148,
+    "aegisName": "S_Steal_Earring",
+    "name": "Brinco Sombrio do Furto",
+    "unidName": "Brinco Sombrio do Furto",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 529,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "AccessoryRight",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "1---10"
+      ]
+    }
+  },
+  "24149": {
+    "id": 24149,
+    "aegisName": "S_Steal_Pendant",
+    "name": "Colar Sombrio do Furto",
+    "unidName": "Colar Sombrio do Furto",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 530,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "AccessoryLeft",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "1---10"
+      ]
+    }
+  },
+  "400153": {
+    "id": 400153,
+    "aegisName": "Whikebain_Ears_K_LT",
+    "name": "Orelhinhas da Wickebine-LT",
+    "unidName": "Orelhinhas da Wickebine-LT",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": 2,
+    "attack": null,
+    "defense": 0,
+    "weight": 20,
+    "requiredLevel": 150,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "criDmg": [
+        "7===10"
+      ],
+      "atkPercent": [
+        "9===5"
+      ],
+      "matkPercent": [
+        "9===5"
+      ],
+      "acd": [
+        "11===5"
+      ]
+    }
+  },
+  "400155": {
+    "id": 400155,
+    "aegisName": "GoldFish_Hat_LT",
+    "name": "Chapéu de Dourado-LT",
+    "unidName": "Chapéu de Dourado-LT",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": 2,
+    "attack": null,
+    "defense": 2,
+    "weight": 40,
+    "requiredLevel": 150,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "pAtk": [
+        "SUM[level==210]===2",
+        "GRADE[me==C]===2"
+      ],
+      "sMatk": [
+        "SUM[level==210]===2",
+        "GRADE[me==C]===2"
+      ],
+      "melee": [
+        "7===10",
+        "GRADE[me==D]===5"
+      ],
+      "m_my_element_holy": [
+        "7===10",
+        "GRADE[me==D]===5"
+      ],
+      "atkPercent": [
+        "9===5"
+      ],
+      "matkPercent": [
+        "9===5"
+      ],
+      "p_element_dark": [
+        "11===20"
+      ],
+      "m_element_dark": [
+        "11===20"
+      ],
+      "fct": [
+        "GRADE[me==B]12===0.5"
+      ]
+    }
+  },
+  "400156": {
+    "id": 400156,
+    "aegisName": "Imp_Hat_LT",
+    "name": "Chapéu de Imp-LT",
+    "unidName": "Chapéu de Imp-LT",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": 2,
+    "attack": null,
+    "defense": 1,
+    "weight": 40,
+    "requiredLevel": 150,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "pAtk": [
+        "SUM[level==210]===2",
+        "GRADE[me==C]===2"
+      ],
+      "sMatk": [
+        "SUM[level==210]===2",
+        "GRADE[me==C]===2"
+      ],
+      "melee": [
+        "7===10",
+        "GRADE[me==D]===5"
+      ],
+      "m_my_element_fire": [
+        "7===10",
+        "GRADE[me==D]===5"
+      ],
+      "atkPercent": [
+        "9===5"
+      ],
+      "matkPercent": [
+        "9===5"
+      ],
+      "p_element_earth": [
+        "11===20"
+      ],
+      "m_element_earth": [
+        "11===20"
+      ],
+      "fct": [
+        "GRADE[me==B]12===0.5"
+      ]
+    }
   }
 }
