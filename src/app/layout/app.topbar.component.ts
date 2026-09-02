@@ -158,6 +158,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.101-beta',
+      date: '02-09-2026',
+      logs: [
+        'O passo a passo de "Como o dano é calculado" agora explica a rolagem que está na tela. Com um efeito acionado o dano exibido já era o do efeito, mas o detalhamento continuava descrevendo a build sem ele — as duas Botas Desconhecidas, a de FOR e a de SOR, imprimiam o mesmo ATQ Base e o mesmo ATQ Status embora o dano de cada uma fosse diferente. A conta nunca esteve errada; o painel é que mostrava a outra passagem. Agora ele acompanha o efeito: com o proc da bota de SOR o ATQ Status soma SOR 358 ÷ 3 no lugar de SOR 133 ÷ 3, e só a bota de FOR mexe no ATQ da Arma, porque só o atributo principal entra no termo ATQ base × FOR ÷ 200. Cada coluna segue os efeitos marcados nela, e a de comparação tem os seus próprios. Reportado por BeLL.',
+        'A ferramenta calculate do MCP também devolvia o dano sem os efeitos quando recebia `effects`, enquanto o ATQ ao lado já os contava. As duas metades passaram a falar da mesma passagem.',
+      ],
+    },
+    {
       v: '0.1.100-beta',
       date: '02-09-2026',
       logs: [
