@@ -158,6 +158,13 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.100-beta',
+      date: '02-09-2026',
+      logs: [
+        'A página voltou a rolar depois de fechar um seletor. Enquanto um painel está aberto a rolagem fica travada de propósito, para que o painel não escorregue do ponto em que abriu, e é solta ao fechar. Um seletor que sumia junto com o que o continha — o de dentro de uma janela que se fecha — nunca chegava a avisar, e a trava ficava de pé até recarregar o simulador. Agora cada trava sabe de qual painel é, e uma cujo painel já saiu da tela se solta sozinha. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.99-beta',
       date: '02-09-2026',
       logs: [
@@ -169,7 +176,6 @@ export class AppTopBarComponent {
         'Dezessete itens da atualização do cliente entraram no banco. As seis Capas Desconhecidas, que faltavam desde que chegaram, com os conjuntos das Botas Desconhecidas correspondentes. As oito Sombras do Esconderijo e do Furto que ainda não tinham cadastro — a Greva, o Escudo, o Brinco e o Colar dos dois conjuntos; a nota da versão passada dizia que a família inteira havia entrado, mas só a Malha e a Manopla tinham. E três chapéus reformados pela Equipe Licht: as Orelhinhas da Wickebine-LT, o Chapéu de Dourado-LT e o Chapéu de Imp-LT. Reportado por BELLSJF.',
         'O Superaprendiz ganhou três habilidades que faltavam na lista. Nevasca e Chuva de Meteoros são aprendidas na expansão da classe, junto com o restante da linha dos Bruxos. Meteoro Escarlate é diferente: ele não está na árvore, quem o habilita é o conjunto Boina Escarlate-OS com o Rutilus-OS, e por isso ele só calcula dano com as duas peças equipadas — sem elas a habilidade aparece na lista marcada como "Requer", do mesmo jeito que uma habilidade de escudo aparece para quem está sem escudo. Os tempos de conjuração, espera e recarga das três vieram da tabela do próprio cliente. Reportado por usuário anônimo.',
         'A linha dos Bruxos que o Superaprendiz aprende tem mais habilidades ausentes — Trovão de Júpiter, Ira de Thor, Coluna de Fogo, Coluna de Pedra, Supernova, Esfera d\'Água e Congelar. Ficaram para depois, com ficha própria.',
-        'A página voltou a rolar depois de fechar um seletor. Enquanto um painel está aberto a rolagem fica travada de propósito, para que o painel não escorregue do ponto em que abriu, e é solta ao fechar. Um seletor que sumia junto com o que o continha — o de dentro de uma janela que se fecha — nunca chegava a avisar, e a trava ficava de pé até recarregar o simulador. Agora cada trava sabe de qual painel é, e uma cujo painel já saiu da tela se solta sozinha. Reportado por usuário anônimo.',
       ],
     },
     {
