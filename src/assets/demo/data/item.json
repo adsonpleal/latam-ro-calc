@@ -2891,6 +2891,9 @@
       "Wizard"
     ],
     "script": {
+      "spCostPercent": [
+        "1---2"
+      ],
       "matk": [
         "280"
       ],
@@ -4436,6 +4439,9 @@
       "Novice"
     ],
     "script": {
+      "spCostPercent": [
+        "5"
+      ],
       "acd": [
         "5"
       ]
@@ -4986,6 +4992,9 @@
       "Mechanic"
     ],
     "script": {
+      "spCostPercent": [
+        "-10"
+      ],
       "sp": [
         "10"
       ],
@@ -6003,7 +6012,11 @@
     "location": null,
     "compositionPos": 769,
     "cardPrefix": "of Kirin",
-    "script": {}
+    "script": {
+      "spCostPercent": [
+        "-30"
+      ]
+    }
   },
   "4160": {
     "id": 4160,
@@ -8964,6 +8977,9 @@
     "compositionPos": 0,
     "cardPrefix": "Wisdom of",
     "script": {
+      "spCostPercent": [
+        "10"
+      ],
       "matkPercent": [
         "20"
       ]
@@ -18288,6 +18304,9 @@
     "location": null,
     "compositionPos": null,
     "script": {
+      "spCostPercent": [
+        "-5"
+      ],
       "atk": [
         "30"
       ],
@@ -18623,6 +18642,10 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-10",
+        "7===-5"
+      ],
       "vct": [
         "-15",
         "9===5"
@@ -23553,6 +23576,10 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-10",
+        "3----3"
+      ],
       "acd": [
         "5",
         "3---3"
@@ -25191,6 +25218,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-10"
+      ],
       "allStatus": [
         "1"
       ],
@@ -28870,6 +28900,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[2964]===-5"
+      ],
       "vct": [
         "10",
         "EQUIP[Geffen Magic Robe]REFINE[armor==11]===20",
@@ -29729,6 +29762,9 @@
       "RoyalGuard"
     ],
     "script": {
+      "spCostPercent": [
+        "7===-20"
+      ],
       "perfectDodge": [
         "10"
       ],
@@ -33759,6 +33795,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-1"
+      ],
       "hp": [
         "1---10"
       ],
@@ -33792,6 +33831,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-1"
+      ],
       "hp": [
         "1---10"
       ],
@@ -35145,6 +35187,9 @@
       "Gunslinger"
     ],
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[24319]===-10"
+      ],
       "aspd": [
         "1",
         "7===1",
@@ -35187,6 +35232,9 @@
       "Taekwondo"
     ],
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[24315]===-10"
+      ],
       "aspd": [
         "1",
         "7===1",
@@ -35239,6 +35287,9 @@
       "Ninja"
     ],
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[24314]===-10"
+      ],
       "atkPercent": [
         "3",
         "7===3",
@@ -35282,6 +35333,10 @@
       "Doram"
     ],
     "script": {
+      "spCostPercent": [
+        "SKILL_ID[5037==1]===-3",
+        "EQUIP_ID[24317]===-10"
+      ],
       "vct": [
         "5",
         "1---1"
@@ -35322,6 +35377,9 @@
       "Doram"
     ],
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[24316]===-10"
+      ],
       "range": [
         "1---1"
       ],
@@ -36633,6 +36691,9 @@
       "Novice"
     ],
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[24282]===-10"
+      ],
       "hp": [
         "1---10",
         "1000"
@@ -49673,6 +49734,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[24748]===-10"
+      ],
       "hp": [
         "1---10"
       ],
@@ -49746,6 +49810,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[24750]===-10"
+      ],
       "hp": [
         "1---10"
       ],
@@ -56724,6 +56791,9 @@
     "compositionPos": 64,
     "cardPrefix": "of Luminant",
     "script": {
+      "spCostPercent": [
+        "10"
+      ],
       "spPercent": [
         "10"
       ],
@@ -62684,6 +62754,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "2----1"
+      ],
       "vct": [
         "10"
       ],
@@ -74109,6 +74182,9 @@
     "compositionPos": 64,
     "cardPrefix": "of Land Power",
     "script": {
+      "spCostPercent": [
+        "5"
+      ],
       "m_my_element_earth": [
         "10",
         "9===10"
@@ -76434,6 +76510,9 @@
     "compositionPos": 128,
     "cardPrefix": "Magic Ground",
     "script": {
+      "spCostPercent": [
+        "10"
+      ],
       "m_my_element_earth": [
         "35"
       ]
@@ -76545,6 +76624,9 @@
     "compositionPos": 128,
     "cardPrefix": "High Blast",
     "script": {
+      "spCostPercent": [
+        "10"
+      ],
       "m_my_element_fire": [
         "35"
       ]
@@ -76593,6 +76675,9 @@
     "compositionPos": 128,
     "cardPrefix": "High Immortal",
     "script": {
+      "spCostPercent": [
+        "10"
+      ],
       "m_my_element_neutral": [
         "35"
       ]
@@ -76697,6 +76782,9 @@
     "compositionPos": 128,
     "cardPrefix": "High Wind",
     "script": {
+      "spCostPercent": [
+        "10"
+      ],
       "m_my_element_wind": [
         "35"
       ]
@@ -77043,6 +77131,9 @@
     "compositionPos": 32,
     "cardPrefix": "Distortion",
     "script": {
+      "spCostPercent": [
+        "50"
+      ],
       "m_race_brute": [
         "50"
       ],
@@ -77310,6 +77401,9 @@
     "compositionPos": 64,
     "cardPrefix": "of Death Witch",
     "script": {
+      "spCostPercent": [
+        "50"
+      ],
       "matkPercent": [
         "10"
       ],
@@ -77390,6 +77484,9 @@
     "compositionPos": 769,
     "cardPrefix": "of High Immortal",
     "script": {
+      "spCostPercent": [
+        "5"
+      ],
       "matk": [
         "15"
       ],
@@ -77417,6 +77514,9 @@
     "compositionPos": 769,
     "cardPrefix": "of High Holy Power",
     "script": {
+      "spCostPercent": [
+        "5"
+      ],
       "matk": [
         "15"
       ],
@@ -77444,6 +77544,9 @@
     "compositionPos": 769,
     "cardPrefix": "Venomous",
     "script": {
+      "spCostPercent": [
+        "5"
+      ],
       "matk": [
         "15"
       ],
@@ -77496,6 +77599,9 @@
     "compositionPos": 769,
     "cardPrefix": "Gale",
     "script": {
+      "spCostPercent": [
+        "5"
+      ],
       "matk": [
         "15"
       ],
@@ -77523,6 +77629,9 @@
     "compositionPos": 769,
     "cardPrefix": "Hellfire",
     "script": {
+      "spCostPercent": [
+        "5"
+      ],
       "matk": [
         "15"
       ],
@@ -77550,6 +77659,9 @@
     "compositionPos": 769,
     "cardPrefix": "Torrent",
     "script": {
+      "spCostPercent": [
+        "5"
+      ],
       "matk": [
         "15"
       ],
@@ -77577,6 +77689,9 @@
     "compositionPos": 769,
     "cardPrefix": "Deep Darkness",
     "script": {
+      "spCostPercent": [
+        "5"
+      ],
       "matk": [
         "15"
       ],
@@ -77604,6 +77719,9 @@
     "compositionPos": 769,
     "cardPrefix": "Earthquake",
     "script": {
+      "spCostPercent": [
+        "5"
+      ],
       "matk": [
         "15"
       ],
@@ -77683,6 +77801,9 @@
     "compositionPos": 64,
     "cardPrefix": "Undead Dragon Hunter's",
     "script": {
+      "spCostPercent": [
+        "50"
+      ],
       "matkPercent": [
         "10"
       ],
@@ -78208,6 +78329,9 @@
     "compositionPos": 64,
     "cardPrefix": "of Water Bug",
     "script": {
+      "spCostPercent": [
+        "50"
+      ],
       "matkPercent": [
         "10"
       ],
@@ -140135,6 +140259,9 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[830009]===-10"
+      ],
       "5244": [
         "EQUIP_ID[560011]15"
       ],
@@ -164053,6 +164180,9 @@
       "4th"
     ],
     "script": {
+      "spCostPercent": [
+        "-10"
+      ],
       "hpPercent": [
         "3"
       ],
@@ -164102,6 +164232,9 @@
       "4th"
     ],
     "script": {
+      "spCostPercent": [
+        "-10"
+      ],
       "hpPercent": [
         "3"
       ],
@@ -171836,6 +171969,9 @@
       "4th"
     ],
     "script": {
+      "spCostPercent": [
+        "15"
+      ],
       "spl": [
         "5",
         "GRADE[me==D]===5",
@@ -231486,6 +231622,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[19199]===-5"
+      ],
       "acd": [
         "3"
       ],
@@ -233464,6 +233603,9 @@
       "Swordman"
     ],
     "script": {
+      "spCostPercent": [
+        "9===-20"
+      ],
       "perfectDodge": [
         "10"
       ],
@@ -233676,6 +233818,10 @@
       "Warlock"
     ],
     "script": {
+      "spCostPercent": [
+        "SKILL_ID[284==5]===-15",
+        "3----5"
+      ],
       "2446": [
         "EQUIP[Illusion Muffler]REFINE[garment==7]7===40"
       ],
@@ -238285,6 +238431,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-1"
+      ],
       "hp": [
         "1---10"
       ],
@@ -238340,6 +238489,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-1"
+      ],
       "hp": [
         "1---10"
       ],
@@ -240894,6 +241046,10 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-2",
+        "7===-1"
+      ],
       "hp": [
         "1---10"
       ],
@@ -244797,6 +244953,10 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-10",
+        "3----3"
+      ],
       "acd": [
         "5",
         "3---3"
@@ -249887,6 +250047,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-3"
+      ],
       "healPower": [
         "3"
       ]
@@ -250843,7 +251006,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spCostPercent": [
+        "15"
+      ]
+    }
   },
   "18656": {
     "id": 18656,
@@ -251521,6 +251688,9 @@
       "Acolyte"
     ],
     "script": {
+      "spCostPercent": [
+        "7===-5"
+      ],
       "atk": [
         "2---10"
       ],
@@ -254108,7 +254278,11 @@
       "Swordman",
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "spCostPercent": [
+        "100"
+      ]
+    }
   },
   "1371": {
     "id": 1371,
@@ -254131,7 +254305,11 @@
       "Swordman",
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "spCostPercent": [
+        "100"
+      ]
+    }
   },
   "1375": {
     "id": 1375,
@@ -257202,6 +257380,9 @@
       "Mage"
     ],
     "script": {
+      "spCostPercent": [
+        "SKILL_ID[284==5]===-15"
+      ],
       "int": [
         "2"
       ],
@@ -257352,6 +257533,9 @@
       "ArchMage"
     ],
     "script": {
+      "spCostPercent": [
+        "100"
+      ],
       "int": [
         "10"
       ],
@@ -260840,6 +261024,9 @@
       "Ninja"
     ],
     "script": {
+      "spCostPercent": [
+        "-5"
+      ],
       "vct": [
         "5"
       ],
@@ -261730,6 +261917,9 @@
       "Novice"
     ],
     "script": {
+      "spCostPercent": [
+        "6===-10"
+      ],
       "int": [
         "1",
         "9===5"
@@ -261761,6 +261951,9 @@
       "Merchant"
     ],
     "script": {
+      "spCostPercent": [
+        "6===-10"
+      ],
       "int": [
         "6",
         "10===5"
@@ -267076,6 +267269,9 @@
       "Sniper"
     ],
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[2726]===-25"
+      ],
       "dex": [
         "3"
       ],
@@ -274408,6 +274604,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "2----1"
+      ],
       "int": [
         "2"
       ]
@@ -274434,6 +274633,9 @@
       "Doram"
     ],
     "script": {
+      "spCostPercent": [
+        "9===-5"
+      ],
       "hpPercent": [
         "15"
       ],
@@ -274818,6 +275020,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-5"
+      ],
       "allStatus": [
         "2"
       ],
@@ -277602,6 +277807,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-5"
+      ],
       "allStatus": [
         "2"
       ],
@@ -278991,7 +279199,11 @@
       "ArchBishop",
       "Warlock"
     ],
-    "script": {}
+    "script": {
+      "spCostPercent": [
+        "100"
+      ]
+    }
   },
   "2586": {
     "id": 2586,
@@ -279575,7 +279787,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spCostPercent": [
+        "2----1"
+      ]
+    }
   },
   "20787": {
     "id": 20787,
@@ -281081,6 +281297,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "10"
+      ],
       "str": [
         "1"
       ]
@@ -313966,6 +314185,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[300262]===-15"
+      ],
       "spl": [
         "5",
         "GRADE[me==D]===5",
@@ -314073,6 +314295,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-3"
+      ],
       "vct": [
         "5"
       ],
@@ -326283,7 +326508,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spCostPercent": [
+        "25"
+      ]
+    }
   },
   "4054": {
     "id": 4054,
@@ -326959,7 +327188,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spCostPercent": [
+        "100"
+      ]
+    }
   },
   "4132": {
     "id": 4132,
@@ -326981,7 +327214,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spCostPercent": [
+        "25"
+      ]
+    }
   },
   "4134": {
     "id": 4134,
@@ -331527,6 +331764,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "15"
+      ],
       "healPower": [
         "30"
       ]
@@ -332906,7 +333146,12 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spCostPercent": [
+        "50",
+        "15===-15"
+      ]
+    }
   },
   "4488": {
     "id": 4488,
@@ -332957,7 +333202,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spCostPercent": [
+        "-15"
+      ]
+    }
   },
   "4491": {
     "id": 4491,
@@ -333549,6 +333798,10 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "30",
+        "15===-10"
+      ],
       "healPower": [
         "15",
         "15===10"
@@ -334972,7 +335225,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spCostPercent": [
+        "50"
+      ]
+    }
   },
   "27166": {
     "id": 27166,
@@ -335602,6 +335859,10 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "15",
+        "15===5"
+      ],
       "matkPercent": [
         "10"
       ]

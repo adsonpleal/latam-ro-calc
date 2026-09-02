@@ -111,7 +111,8 @@
    "perfectHit": 5,
    "p_class_all": 5,
    "subrace_demihuman": 5,
-   "subrace_player_human": 5
+   "subrace_player_human": 5,
+   "spCostPercent": -10
   }
  },
  {
@@ -150,7 +151,8 @@
    "perfectHit": 5,
    "p_class_all": 5,
    "subrace_demihuman": 5,
-   "subrace_player_human": 5
+   "subrace_player_human": 5,
+   "spCostPercent": -15
   }
  },
  {
