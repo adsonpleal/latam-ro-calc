@@ -1,7 +1,4 @@
-import { readFileSync } from 'node:fs';
-import { RuneKnight } from 'src/app/jobs';
-import { createMainModel } from 'src/app/utils';
-import { Calculator } from './calculator';
+import { ITEM_DB, wornBonus } from './__tests__/worn-bonus';
 
 /**
  * One accessory id whose bonuses depend on which hand it sits in — `POS[accLeft]` /
@@ -24,36 +21,7 @@ import { Calculator } from './calculator';
  * the item pays both halves at once.
  */
 
-const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
-
 const MOEDA = 490863;
-
-const monster = {
-  id: 1002, name: 'Poring', spawn: 'x',
-  stats: { level: 1, health: 50, attack: { min: 7, max: 8 }, range: 1, defense: 0, magicDefense: 0, str: 1, int: 0, vit: 1, dex: 6, agi: 1, luk: 30, element: 1, elementName: 'Water', elementShortName: 'W1', race: 4, raceName: 'Plant', scale: 0, scaleName: 'Small', class: 0, criShield: 0, softDef: 0, mdef: 0, softMdef: 0, res: 0, mres: 0 },
-  data: { def: 0, mdef: 0, criShield: 0, softDef: 0, res: 0, mres: 0 },
-} as any;
-
-function totals(slots: { left?: number; right?: number }): Record<string, number> {
-  const items: any = { [MOEDA]: { ...db[MOEDA] } };
-
-  const cls = new RuneKnight();
-  cls.setLearnSkills({ activeSkillIds: [], passiveSkillIds: [] }).getSkillBonusAndName();
-  const calc = new Calculator();
-  calc
-    .setMasterItems(items)
-    .setHpSpTable([{ jobs: {}, baseHp: Array(251).fill(1000), baseSp: Array(251).fill(100) }] as any)
-    .setClass(cls)
-    .setMonster(monster);
-
-  const model = createMainModel();
-  model.level = 200;
-  if (slots.left) { model.accLeft = slots.left; model.accLeftRefine = 0; }
-  if (slots.right) { model.accRight = slots.right; model.accRightRefine = 0; }
-
-  calc.loadItemFromModel(model).prepareAllItemBonus();
-  return (calc as any).totalEquipStatus as Record<string, number>;
-}
 
 const LEFT_KEYS = ['range', 'melee', 'hpRestoreOnKill'];
 const RIGHT_KEYS = ['matkPercent', 'm_my_element_all', 'spRestoreOnKill'];
@@ -61,18 +29,18 @@ const stat = (t: Record<string, number>, key: string) => t[key] ?? 0;
 
 describe('Moeda Lançável 490863 — the bonuses now apply', () => {
   it('is not scriptless any more', () => {
-    expect(Object.keys(db[MOEDA].script)).not.toEqual([]);
+    expect(Object.keys(ITEM_DB[MOEDA].script)).not.toEqual([]);
   });
 
   it('stays a both-sides accessory (subtype 517), not a side-locked one', () => {
     // 510/511 would confine the item to one dropdown; this id is offered in both, and
     // the side is decided by POS[...] on each clause instead.
-    expect(db[MOEDA].itemSubTypeId).toBe(517);
+    expect(ITEM_DB[MOEDA].itemSubTypeId).toBe(517);
   });
 });
 
 describe('Equipado no acessório esquerdo', () => {
-  const left = totals({ left: MOEDA });
+  const left = wornBonus({ accLeft: MOEDA });
 
   it('pays the physical half', () => {
     expect(stat(left, 'range')).toBe(7);
@@ -86,7 +54,7 @@ describe('Equipado no acessório esquerdo', () => {
 });
 
 describe('Equipado no acessório direito', () => {
-  const right = totals({ right: MOEDA });
+  const right = wornBonus({ accRight: MOEDA });
 
   it('pays the magic half', () => {
     expect(stat(right, 'matkPercent')).toBe(7);
@@ -101,7 +69,7 @@ describe('Equipado no acessório direito', () => {
 
 describe('One in each hand', () => {
   it('each copy pays only its own side — no double-dipping', () => {
-    const both = totals({ left: MOEDA, right: MOEDA });
+    const both = wornBonus({ accLeft: MOEDA, accRight: MOEDA });
 
     expect(stat(both, 'range')).toBe(7);
     expect(stat(both, 'melee')).toBe(7);
@@ -114,7 +82,7 @@ describe('One in each hand', () => {
 
 describe('Wearing nothing', () => {
   it('leaves every key at zero', () => {
-    const bare = totals({});
+    const bare = wornBonus({});
     for (const key of [...LEFT_KEYS, ...RIGHT_KEYS]) expect(stat(bare, key), key).toBe(0);
   });
 });

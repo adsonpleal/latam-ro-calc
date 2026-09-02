@@ -1248,9 +1248,15 @@ export class Calculator {
     this._chanceList = [];
     this.equipCombo.clear();
 
+    // Bonuses add across pieces, except the two families that do not: `fctPercent`, and
+    // `enable_skill__<id>`, whose value is the level an item GRANTS a skill at ("Habilita
+    // [Meteoro Escarlate] nv.5"). Two items granting the same skill do not stack into a
+    // higher level — the best grant wins.
+    const isMaxSemantics = (attr: string) => attr === 'fctPercent' || attr.startsWith('enable_skill__');
+
     const updateTotalStatus = (attr: keyof EquipmentSummaryModel, value: number) => {
       if (this.totalEquipStatus[attr]) {
-        if (attr === 'fctPercent') {
+        if (isMaxSemantics(attr)) {
           this.totalEquipStatus[attr] = Math.max(this.totalEquipStatus[attr], value);
         } else {
           this.totalEquipStatus[attr] += value;

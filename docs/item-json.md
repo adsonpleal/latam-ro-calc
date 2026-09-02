@@ -216,6 +216,17 @@ Alguns bônus afetam *parâmetros* de uma perícia específica. A chave é `pref
 Ex.: `"cd__5330": ["EQUIP[Angel Wing Bow]GRADE[weapon==C]===1.3"]` = −1.3s de recarga em
 Vendaval de Flechas (id 5330) quando equipado com o arco de grau C.
 
+**`enable_skill__<id>`** é o único da família que não modifica a perícia: ele a **habilita**.
+Use para a linha "Habilita [Perícia] nv.N" — o valor é o **nível concedido**, não um
+incremento. Ex.: `"enable_skill__2211": ["EQUIP_ID[26151]===5"]` na Boina Escarlate-OS
+(400528), cujo conjunto com o Rutilus-OS "Habilita [Meteoro Escarlate] nv.5".
+
+Diferente das demais chaves, essa **não soma** entre peças: duas fontes concedendo a mesma
+perícia não empilham num nível maior, vale a maior (`updateTotalStatus` em `calculator.ts`).
+A perícia em si continua sendo cadastrada na classe, com um `verifyItemFn` que lê a chave —
+sem as peças ela aparece na lista marcada como "Requer" e não calcula dano. Veja
+`SuperNovice.ts` e `core/boina-escarlate-skill-grant.spec.ts`.
+
 ### 3.3 Chance (proc) — `chance__`
 
 A chave `chance__<algo>` registra uma **chance** (em %) de um efeito, exibida na lista de
@@ -250,6 +261,8 @@ As que já existem — **reaproveite antes de criar qualquer outra**:
 | `Resistência a danos refletidos +N%` | `reduceDamageReturn` |
 | proc `[Cura Mágica]` | `magicHealHp` |
 | proc `[Cura Espiritual]` / `[Cura Mística]` | `magicHealSp` |
+| `Ao derrotar monstros: Regenera N de HP` | `hpRestoreOnKill` |
+| …`de SP` | `spRestoreOnKill` |
 
 **Regra dura: uma chave só de exibição nunca entra no cálculo de dano.** Isto não é um atalho
 para contornar a regra de não inventar modificadores de dano — se o efeito *mudaria* o dano,

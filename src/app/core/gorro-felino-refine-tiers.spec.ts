@@ -1,7 +1,4 @@
-import { readFileSync } from 'node:fs';
-import { RuneKnight } from 'src/app/jobs';
-import { createMainModel } from 'src/app/utils';
-import { Calculator } from './calculator';
+import { wornBonus } from './__tests__/worn-bonus';
 
 /**
  * The two Cat_FF_Hat headgears and their refine-gated fixed-cast tiers.
@@ -23,39 +20,11 @@ import { Calculator } from './calculator';
  *     Refino +13 ou mais: Conjuração fixa -0,3 segundos.
  */
 
-const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
-
 const MAGICO = 400759;
 const PODEROSO = 400758;
 
-const monster = {
-  id: 1002, name: 'Poring', spawn: 'x',
-  stats: { level: 1, health: 50, attack: { min: 7, max: 8 }, range: 1, defense: 0, magicDefense: 0, str: 1, int: 0, vit: 1, dex: 6, agi: 1, luk: 30, element: 1, elementName: 'Water', elementShortName: 'W1', race: 4, raceName: 'Plant', scale: 0, scaleName: 'Small', class: 0, criShield: 0, softDef: 0, mdef: 0, softMdef: 0, res: 0, mres: 0 },
-  data: { def: 0, mdef: 0, criShield: 0, softDef: 0, res: 0, mres: 0 },
-} as any;
-
-function totals(hatId: number, refine: number): Record<string, number> {
-  const items: any = { [hatId]: { ...db[hatId] } };
-
-  const cls = new RuneKnight();
-  cls.setLearnSkills({ activeSkillIds: [], passiveSkillIds: [] }).getSkillBonusAndName();
-  const calc = new Calculator();
-  calc
-    .setMasterItems(items)
-    .setHpSpTable([{ jobs: {}, baseHp: Array(251).fill(1000), baseSp: Array(251).fill(100) }] as any)
-    .setClass(cls)
-    .setMonster(monster);
-
-  const model = createMainModel();
-  model.level = 200;
-  model.headUpper = hatId;
-  model.headUpperRefine = refine;
-
-  calc.loadItemFromModel(model).prepareAllItemBonus();
-  return (calc as any).totalEquipStatus as Record<string, number>;
-}
-
-const fct = (hatId: number, refine: number) => totals(hatId, refine)['fct'] ?? 0;
+const worn = (headUpper: number, headUpperRefine: number) => wornBonus({ headUpper, headUpperRefine });
+const fct = (headUpper: number, headUpperRefine: number) => worn(headUpper, headUpperRefine)['fct'] ?? 0;
 
 describe('Gorro Felino Mágico 400759 — the +7 and +13 fixed-cast tiers add up', () => {
   it('gives nothing below +7', () => {
@@ -74,7 +43,7 @@ describe('Gorro Felino Mágico 400759 — the +7 and +13 fixed-cast tiers add up
   });
 
   it('keeps the rest of the refine tiers intact', () => {
-    const at13 = totals(MAGICO, 13);
+    const at13 = worn(MAGICO, 13);
     expect(at13['matk']).toBe(90); // "A cada 2 refinos: ATQM +15" -> floor(13/2) * 15
     expect(at13['vct']).toBe(15); // +7 ou mais
     expect(at13['m_my_element_all']).toBe(20); // +9 ou mais
