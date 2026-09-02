@@ -39,32 +39,76 @@ function canScroll(el: Element): boolean {
  * which an open overlay does not leave it with, and a PrimeNG dropdown keeps focus on its
  * *trigger* while its panel is open — so blocking the arrows there would break the picker's
  * own keyboard navigation to stop a scroll that cannot happen.
+ *
+ * ## Every lock names the panel it is held for, so a missed release cannot strand the page
+ *
+ * A plain counter cannot survive its callers, and one of them is PrimeNG, which does not
+ * pair its own events. `onBeforeShow` and `onBeforeHide` are emitted from a single place —
+ * the overlay content's Angular animation `start` callback, on `:enter` and on `:leave`
+ * (`primeng-overlay`, `onOverlayContentAnimationStart`). A panel that goes away without its
+ * leave transition ever playing therefore never announces it, and the plainest way for that
+ * to happen is for the panel's component to be destroyed while it is open — a picker inside
+ * a dialog that is closed, a section behind an `*ngIf` that flips. `Overlay.ngOnDestroy`
+ * calls its own `hide()`, which raises `onHide` and *not* `onBeforeHide`. One such close and
+ * a bare counter never returns to zero: the page is frozen for the rest of the visit, with
+ * nothing on screen to explain it and a reload the only way out. That is what
+ * `GgGPCGQUNQGRWZthqfS2` reported.
+ *
+ * So a lock is held *for an element* — the panel's own root, which the caller already has —
+ * and a holder whose element has left the document is dropped on the spot. The check runs
+ * where the answer is needed, on the gesture itself, which is both the cheapest place (there
+ * is nothing to poll and nothing to unsubscribe) and the only one that matters. It turns a
+ * missed release from a dead page into a single swallowed wheel tick.
  */
 @Injectable({ providedIn: 'root' })
 export class PageScrollLockService {
-  private depth = 0;
+  /** One entry per lock held, newest last. `null` is a lock whose owner was not named. */
+  private readonly holders: (Element | null)[] = [];
   private unlisten?: () => void;
 
   constructor(private readonly zone: NgZone) {}
 
-  lock(): void {
-    this.depth += 1;
-    if (this.depth === 1) this.listen();
+  /**
+   * @param owner the panel's root element. Naming it is what lets the lock be reclaimed if
+   *   the panel is torn down without a matching `unlock` — pass it whenever there is one.
+   */
+  lock(owner?: Element | null): void {
+    this.holders.push(owner ?? null);
+    if (this.holders.length === 1) this.listen();
   }
 
-  /** A release with no lock behind it does nothing — PrimeNG raises these from animations. */
-  unlock(): void {
-    if (this.depth === 0) return;
-    this.depth -= 1;
-    if (this.depth === 0) {
+  /**
+   * Releases the lock taken for `owner`, or the newest unnamed one when it is not held —
+   * which is also what a release with no lock behind it does: nothing. PrimeNG raises those
+   * from animations.
+   */
+  unlock(owner?: Element | null): void {
+    const held = owner ? this.holders.lastIndexOf(owner) : -1;
+    this.release(held >= 0 ? held : this.holders.lastIndexOf(null));
+  }
+
+  private release(at: number): void {
+    if (at < 0) return;
+    this.holders.splice(at, 1);
+    if (this.holders.length === 0) {
       this.unlisten?.();
       this.unlisten = undefined;
+    }
+  }
+
+  /** Locks held for a panel that is no longer in the document — see the class comment. */
+  private dropStaleHolders(): void {
+    for (let i = this.holders.length - 1; i >= 0; i -= 1) {
+      const owner = this.holders[i];
+      if (owner && !owner.isConnected) this.release(i);
     }
   }
 
   private listen(): void {
     this.zone.runOutsideAngular(() => {
       const onScrollAttempt = (event: Event) => {
+        this.dropStaleHolders();
+        if (this.holders.length === 0) return;
         if (this.belongsToAnOverlayScroller(event.target as Element | null)) return;
         event.preventDefault();
       };

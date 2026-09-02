@@ -39,8 +39,12 @@ export class AppComponent implements OnInit {
             // animations *finish*, so an animation that never completes would strand the
             // page frozen. These fire when it starts, which is also when the freeze is
             // wanted — and they still pair one for one.
-            onBeforeShow: () => this.pageScroll.lock(),
-            onBeforeHide: () => this.pageScroll.unlock(),
+            //
+            // The panel's own element is handed over with the lock, so that a picker
+            // destroyed while open — which never raises onBeforeHide at all — releases the
+            // page instead of freezing it for good. See PageScrollLockService.
+            onBeforeShow: (event) => this.pageScroll.lock(event?.overlay ?? event?.target),
+            onBeforeHide: (event) => this.pageScroll.unlock(event?.overlay ?? event?.target),
         };
         // pt-BR labels app-wide: confirm dialogs (accept/reject) and the
         // dropdown/listbox empty-state messages (e.g. filtered search with no hit).

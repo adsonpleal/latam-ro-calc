@@ -51,7 +51,7 @@ export class ItemPickerService {
     });
 
     this.ref = ref;
-    this.pageScroll.lock();
+    this.pageScroll.lock(ref.overlayElement);
 
     const instance = ref.attach(new ComponentPortal(ItemPickerOverlayComponent, null, this.injector)).instance;
     instance.init(request);
@@ -79,9 +79,15 @@ export class ItemPickerService {
   }
 
   close(): void {
-    if (!this.ref) return;
-    this.ref.dispose();
+    const ref = this.ref;
+    if (!ref) return;
+
+    // Cleared before disposing, not after: disposing emits a detachment, `finish` answers it
+    // by calling back in here, and a `this.ref` still set at that point would run the whole
+    // body a second time — releasing the page scroll twice for the one panel.
     this.ref = undefined;
-    this.pageScroll.unlock();
+    const panel = ref.overlayElement;
+    ref.dispose();
+    this.pageScroll.unlock(panel);
   }
 }
