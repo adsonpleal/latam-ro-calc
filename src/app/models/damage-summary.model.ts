@@ -113,6 +113,11 @@ export interface DamageFormulaCalc {
   /** Caveat shown under the rows, e.g. that engine floor() rounding can make the
    *  adicional differ slightly from `anterior × %`. */
   note?: string;
+  /** Reference for a step whose rule lives outside the simulator, rendered under the
+   *  rows as an external link. Set it only where the rows alone leave the reader with a
+   *  "where does that number come from" — the class ATQ adjustment points at the
+   *  bROWiki page of whichever skill is doing the adjusting. */
+  link?: { label: string; url: string };
 }
 
 export interface DamageFormulaGraph {

@@ -407,6 +407,25 @@ a.skill_link:hover {
   color: var(--text-color-secondary);
 }
 
+/* Reference under the Cálculo rows (see DamageFormulaCalc.link). */
+.bonus_breakdown_calc_link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.bonus_breakdown_calc_link:hover {
+  text-decoration: underline;
+}
+
+.bonus_breakdown_calc_link .pi {
+  font-size: 0.7rem;
+}
+
 /* Caveat about the clicked value itself, above the source rows (see bonusBreakdownNote). */
 .bonus_breakdown_note {
   margin-bottom: 0.5rem;

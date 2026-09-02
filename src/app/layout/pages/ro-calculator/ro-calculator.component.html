@@ -90,6 +90,16 @@
       </li>
     </ul>
     <div *ngIf="bonusBreakdownCalc.note" class="bonus_breakdown_calc_note">{{ bonusBreakdownCalc.note }}</div>
+    <!-- Where the rule itself is written down, for a step whose formula is not the
+         simulator's own invention. Opens outside the app, so rel is mandatory. -->
+    <a
+      *ngIf="bonusBreakdownCalc.link as link"
+      class="bonus_breakdown_calc_link"
+      [href]="link.url"
+      target="_blank"
+      rel="noopener noreferrer"
+      >{{ link.label }} <i class="pi pi-external-link"></i
+    ></a>
   </div>
 
   <div *ngIf="bonusBreakdownRows.length === 0 && !bonusBreakdownCalc" class="p-2 text-center">

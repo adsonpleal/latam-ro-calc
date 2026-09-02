@@ -4,6 +4,7 @@ import { ElementType } from '../constants/element-type.const';
 import { SKILL_NAME } from '../constants/skill-name';
 import { WeaponTypeName } from '../constants/weapon-type-mapper';
 import { Weapon } from '../domain';
+import { DamageFormulaCalc } from '../models/damage-summary.model';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput, InfoForClass, SkillRef, SkillStateCtx } from '../models/info-for-class.model';
 import { ASPD_CAP, sortSkill } from '../utils';
@@ -560,6 +561,24 @@ export abstract class CharacterBase {
 
   modifyFinalAtk(currentAtk: number, _: InfoForClass) {
     return currentAtk;
+  }
+
+  /**
+   * Derivation of what {@link modifyFinalAtk} just did, for the damage graph's
+   * "ATQ (ajuste de classe)" step.
+   *
+   * Undefined means "nothing worth spelling out": the default is a no-op, and a class
+   * whose override is a single multiplier is already legible from the step's own
+   * before/after pair. Override it where the adjustment is a chain the reader cannot
+   * reconstruct from two numbers — the Taekwon line multiplies by Kihop and then by one
+   * of three Fúrias, each with a formula of its own (see StarEmperor).
+   *
+   * The rows run from the incoming ATQ to the result and end on the emphasised total,
+   * so the step's own dialog can show them verbatim; the "Adicional" chip reframes the
+   * same rows between its "Valor anterior" and "Adicional" (see synthesizeChips).
+   */
+  getFinalAtkCalc(_currentAtk: number, _: InfoForClass): DamageFormulaCalc | undefined {
+    return undefined;
   }
 
   setAdditionalBonus(params: AdditionalBonusInput): EquipmentSummaryModel {

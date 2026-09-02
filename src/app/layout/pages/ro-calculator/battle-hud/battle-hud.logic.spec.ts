@@ -118,6 +118,42 @@ describe('buildGraphClusters synthesized chips', () => {
     expect(delta.calc?.note).toContain('arredonda');
   });
 
+  it("lends a stage's own derivation to its 'Adicional' chip", () => {
+    // The class ATQ adjustment (CharacterBase.getFinalAtkCalc) is the case: "anterior +
+    // adicional" says nothing about Kihop or which Fúria paid, so the chip borrows the
+    // stage's rows and keeps only its own closing total.
+    const nodes = chain(
+      { id: 'patk', value: 14_041.95, label: 'P.ATQ +95%' },
+      {
+        id: 'atkClassAdjust',
+        value: 69_353,
+        label: 'ATQ (ajuste de classe)',
+        calc: {
+          rows: [
+            { label: 'Kihop Nv 5 (+85%)', display: '25.975' },
+            { label: '× Fúria Lunar', display: '69.353,25' },
+            { label: 'ATQ (ajuste de classe)', display: '69.353', emphasis: true },
+          ],
+          note: 'Fúria Lunar é a Fúria que alcança este alvo.',
+          link: { label: 'Fúria Lunar no bROWiki', url: 'https://browiki.org/wiki/F%C3%BAria_Lunar' },
+        },
+      },
+    );
+    const delta = chip(buildGraphClusters({ nodes })[1], '_delta')!;
+
+    expect(delta.calc?.rows.map((r) => r.label)).toEqual([
+      'Valor anterior (P.ATQ +95%)',
+      'Kihop Nv 5 (+85%)',
+      '× Fúria Lunar',
+      'Adicional',
+      'Resultado (ATQ (ajuste de classe))',
+    ]);
+    // The stage's own emphasised row is dropped: the chip closes on the same figure.
+    expect(delta.calc?.rows.at(-1)).toEqual({ label: 'Resultado (ATQ (ajuste de classe))', display: '69.353', emphasis: true });
+    expect(delta.calc?.note).toBe('Fúria Lunar é a Fúria que alcança este alvo.');
+    expect(delta.calc?.link?.url).toBe('https://browiki.org/wiki/F%C3%BAria_Lunar');
+  });
+
   it('omits the "Adicional" chip on the first stage and whenever the value did not move', () => {
     const nodes = chain({ id: 'first', value: 1000 }, { id: 'noop', value: 1000, percent: 0, keys: ['x'] });
     const [first, noop] = buildGraphClusters({ nodes });

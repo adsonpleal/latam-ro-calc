@@ -1,5 +1,6 @@
+import { DamageFormulaCalc, DamageFormulaCalcRow } from '../models/damage-summary.model';
 import { InfoForClass } from '../models/info-for-class.model';
-import { floor } from '../utils';
+import { floor, formatCalcNumber } from '../utils';
 import { StarGladiator } from './StarGladiator';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
@@ -338,26 +339,36 @@ export class StarEmperor extends StarGladiator {
    * of them is what would settle it.
    */
   private static readonly WRATH_BY_ALIGNMENT = [
-    { skill: 'Wrath of Sun' as const, size: 's', minHp: 0, withStr: false },
-    { skill: 'Wrath of Moon' as const, size: 'm', minHp: 6000, withStr: false },
-    { skill: 'Wrath of' as const, size: 'l', minHp: 20000, withStr: true },
+    { skill: 'Wrath of Sun' as const, size: 's', minHp: 0, withStr: false, name: 'Fúria Solar', wiki: 'https://browiki.org/wiki/F%C3%BAria_Solar' },
+    { skill: 'Wrath of Moon' as const, size: 'm', minHp: 6000, withStr: false, name: 'Fúria Lunar', wiki: 'https://browiki.org/wiki/F%C3%BAria_Lunar' },
+    { skill: 'Wrath of' as const, size: 'l', minHp: 20000, withStr: true, name: 'Fúria Estelar', wiki: 'https://browiki.org/wiki/F%C3%BAria_Estelar' },
   ];
 
-  getWrathAtkBonus(info: InfoForClass): number {
+  /** The one Wrath that reaches this target, with the bonus it pays. At most one can:
+   *  the alignment follows the target's Size, so ticking all three still leaves a single
+   *  match. Null when none applies. */
+  private resolveWrath(info: InfoForClass) {
     const { model, status, monster } = info;
     const { level } = model;
     const { totalLuk, totalDex, totalStr } = status;
     // Any alignment is allowed on a player, so no size/HP gate.
     const isPlayerTarget = !!monster?.isPlayerTarget;
 
-    for (const { skill, size, minHp, withStr } of StarEmperor.WRATH_BY_ALIGNMENT) {
+    for (const wrath of StarEmperor.WRATH_BY_ALIGNMENT) {
+      const { skill, size, minHp, withStr } = wrath;
       if (!this.isSkillActive(skill)) continue;
       if (!isPlayerTarget && (monster?.size !== size || (monster?.data?.hp ?? 0) < minHp)) continue;
 
-      return Math.floor((level + totalLuk + totalDex + (withStr ? totalStr : 0)) / 3);
+      const str = withStr ? totalStr : 0;
+
+      return { wrath, bonus: Math.floor((level + totalLuk + totalDex + str) / 3), level, totalLuk, totalDex, str };
     }
 
-    return 0;
+    return null;
+  }
+
+  getWrathAtkBonus(info: InfoForClass): number {
+    return this.resolveWrath(info)?.bonus ?? 0;
   }
 
   override modifyFinalAtk(currentAtk: number, _params: InfoForClass) {
@@ -374,5 +385,49 @@ export class StarEmperor extends StarGladiator {
     totalAtk = totalAtk * wratBonus;
 
     return totalAtk;
+  }
+
+  /**
+   * Spells out the two multipliers modifyFinalAtk just applied, in its own order.
+   *
+   * The step is worth explaining here and nowhere else in the graph: it is the only place
+   * a Fúria pays, and which of the three pays is decided by the *target's* Size rather
+   * than by anything on the character sheet — so a reader comparing two builds can watch
+   * the number swing on a stat that appears nowhere else in the chain (Fúria Solar and
+   * Lunar read SOR and DES but not FOR; only Estelar adds FOR). The link points at the
+   * page for whichever one actually applied.
+   */
+  override getFinalAtkCalc(currentAtk: number, params: InfoForClass): DamageFormulaCalc | undefined {
+    const powerLv = this.learnLv('Power');
+    const resolved = this.resolveWrath(params);
+    if (powerLv < 1 && !resolved) return undefined;
+
+    const fmt = formatCalcNumber;
+    const rows: DamageFormulaCalcRow[] = [{ label: 'ATQ arredondado p/ baixo', display: fmt(floor(currentAtk)) }];
+
+    let totalAtk = floor(currentAtk);
+    if (powerLv >= 1) {
+      const percent = powerLv * 15 + 10;
+      totalAtk = totalAtk + floor(totalAtk * percent * 0.01);
+      rows.push({ label: `Kihop Nv ${powerLv} (+${percent}%)`, display: fmt(totalAtk) });
+    }
+
+    if (resolved) {
+      const { wrath, bonus, level, totalLuk, totalDex, str } = resolved;
+      const terms = `nível ${level} + SOR ${totalLuk} + DES ${totalDex}${wrath.withStr ? ` + FOR ${str}` : ''}`;
+      rows.push({ label: `${wrath.name}: (${terms}) ÷ 3`, display: `+${fmt(bonus)}%` });
+      totalAtk = totalAtk * ((100 + bonus) / 100);
+      rows.push({ label: `× ${wrath.name}`, display: fmt(totalAtk) });
+    }
+
+    rows.push({ label: 'ATQ (ajuste de classe)', display: fmt(floor(totalAtk)), emphasis: true });
+
+    return {
+      rows,
+      note: resolved
+        ? `${resolved.wrath.name} é a Fúria que alcança este alvo — a Oposição alinha o alvo pelo Tamanho dele, então só uma das três paga de cada vez.`
+        : undefined,
+      link: resolved ? { label: `${resolved.wrath.name} no bROWiki`, url: resolved.wrath.wiki } : undefined,
+    };
   }
 }

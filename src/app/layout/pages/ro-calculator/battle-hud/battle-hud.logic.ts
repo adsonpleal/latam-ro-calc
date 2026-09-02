@@ -463,7 +463,15 @@ function synthesizeChips(stage: DamageFormulaNode, prev: DamageFormulaNode | nul
 
   const delta = prev ? stage.value - prev.value : 0;
   if (prev && delta !== 0) {
+    // A stage carrying its own derivation (the class ATQ adjustment — see
+    // CharacterBase.getFinalAtkCalc) lends its working to the chip: the reader clicked
+    // "Adicional" to ask where the number came from, and "anterior + adicional" alone is
+    // the one answer that never says. Its own emphasised total is dropped, because the
+    // chip closes on the same figure as its own "Resultado" row.
+    const stageRows = (stage.calc?.rows ?? []).filter((r) => !r.emphasis);
+
     const rows: DamageFormulaCalcRow[] = [{ label: `Valor anterior (${prev.label})`, display: fmtCalc(prev.value) }];
+    rows.push(...stageRows);
     if (stage.percent != null) rows.push({ label: 'Multiplicador', display: `${fmtSigned(stage.percent)}%` });
     rows.push({ label: 'Adicional', display: fmtSigned(delta) });
     rows.push({ label: `Resultado (${stage.label})`, display: fmtCalc(stage.value), emphasis: true });
@@ -478,9 +486,11 @@ function synthesizeChips(stage: DamageFormulaNode, prev: DamageFormulaNode | nul
       calc: {
         rows,
         note:
-          stage.percent != null
+          stage.calc?.note ??
+          (stage.percent != null
             ? 'O jogo arredonda para baixo a cada etapa, então o adicional pode diferir levemente de anterior × %.'
-            : undefined,
+            : undefined),
+        link: stage.calc?.link,
       },
     });
   }

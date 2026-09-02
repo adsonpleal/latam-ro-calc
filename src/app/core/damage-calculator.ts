@@ -1473,7 +1473,13 @@ export class DamageCalculator {
           graphNodes.push(...atkNodes);
           const lastAtkNode = atkNodes[atkNodes.length - 1];
           lastStageId = lastAtkNode.id;
-          if (total !== floor(lastAtkNode.value)) emit('atkClassAdjust', 'ATQ (ajuste de classe)', total);
+          if (total !== floor(lastAtkNode.value)) {
+            // The class may hand over its own derivation — the Taekwon line's Kihop and
+            // Fúria chain is not reconstructable from the step's before/after pair.
+            emit('atkClassAdjust', 'ATQ (ajuste de classe)', total);
+            const classCalc = this._class.getFinalAtkCalc(_totalAtk, infoForClass);
+            if (classCalc) graphNodes[graphNodes.length - 1].calc = classCalc;
+          }
         } else {
           emit('atk', 'ATQ', total, ['atk', 'atkPercent']);
         }
