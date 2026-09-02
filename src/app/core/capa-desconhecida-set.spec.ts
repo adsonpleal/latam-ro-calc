@@ -158,3 +158,29 @@ describe('Conjunto [Bota Desconhecida]', () => {
     expect(stat(worn({ cape: 480926, boot: 470073, bootRefine: 12 }), 'fct')).toBe(0);
   });
 });
+
+/**
+ * "Refino +7 ou mais: Custo de SP das habilidades -10%." — DES only.
+ *
+ * `spCostPercent` is a display-only key: the calculator models damage dealt and has no SP
+ * pool to spend, so nothing reads it (healing-stats.spec.ts holds it to that). Unlike the
+ * cast/delay keys it keeps the client's own sign, because the line runs in both directions
+ * across the DB — this cape reduces, 4128 Carta Besouro-Ladrão Dourado adds +100%.
+ */
+describe('Capa Desconhecida DES 480930 — Custo de SP das habilidades', () => {
+  it('gives nothing below +7', () => {
+    expect(stat(worn({ cape: 480930, garmentRefine: 6 }), 'spCostPercent')).toBe(0);
+  });
+
+  it('stores -10 from +7, the client\'s own sign', () => {
+    expect(stat(worn({ cape: 480930, garmentRefine: 7 }), 'spCostPercent')).toBe(-10);
+    expect(stat(worn({ cape: 480930, garmentRefine: 15 }), 'spCostPercent')).toBe(-10);
+  });
+
+  it('is the only one of the six with the line', () => {
+    for (const { cape } of Object.values(CAPES)) {
+      if (cape === 480930) continue;
+      expect(stat(worn({ cape, garmentRefine: 15 }), 'spCostPercent'), String(cape)).toBe(0);
+    }
+  });
+});

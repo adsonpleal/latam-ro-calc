@@ -16,6 +16,7 @@ export const ITEM_BONUS_LABELS: Record<string, string> = {
   reduceDamageReturn: 'Resistência a dano refletido',
   magicHealHp: 'Cura Mágica (HP/s)', magicHealSp: 'Cura Espiritual (SP/s)',
   hpRestoreOnKill: 'Recupera HP ao derrotar', spRestoreOnKill: 'Recupera SP ao derrotar',
+  spCostPercent: 'Custo de SP das habilidades',
   def: 'DEF', defPercent: 'DEF %', softDef: 'DEF Leve', softDefPercent: 'DEF Leve %',
   mdef: 'DEFM', mdefPercent: 'DEFM %', softMdef: 'DEFM Leve', softMdefPercent: 'DEFM Leve %',
   // Tenacidade / Tenacidade Mágica — the LATAM client's own names for the two

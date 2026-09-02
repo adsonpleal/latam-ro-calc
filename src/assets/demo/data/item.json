@@ -337857,6 +337857,9 @@
       "p_size_all": [
         "4---5"
       ],
+      "spCostPercent": [
+        "7===-10"
+      ],
       "p_pene_race_formless": [
         "9===20",
         "11===10"

@@ -43,6 +43,17 @@ export interface EquipmentSummaryModel {
    * 37 records carry the line, so it gets a key of its own rather than being dropped.
    * The clause's qualifier ("com ataques físicos corpo a corpo", "da raça Peixe") is a
    * trigger condition, not a magnitude, and stays in the item's own description.
+   *
+   * `spCostPercent` is "Custo de SP das habilidades ±N%", the global skill SP cost. Also
+   * DISPLAY ONLY: the calculator has no SP pool to spend, so nothing reads it. Unlike the
+   * cast/delay keys, which store a reduction as a positive magnitude, this one keeps the
+   * CLIENT'S OWN SIGN — the line runs in both directions (-10% on 480930 Capa Desconhecida
+   * DES, +100% on 4128 Carta Besouro-Ladrão Dourado), so a negated store would make half
+   * the records read backwards. It ends in `Percent`, so the item panel already prints it
+   * with a "%"; it must never be added to `isReductionKey`.
+   *
+   * Per-skill SP costs ("Custo de SP de [Curar] -5") are a different shape — flat, and
+   * keyed to one skill — and have no key.
    */
   hpRecovRate: number;
   spRecovRate: number;
@@ -53,6 +64,7 @@ export interface EquipmentSummaryModel {
   magicHealSp: number;
   hpRestoreOnKill: number;
   spRestoreOnKill: number;
+  spCostPercent: number;
   def: number;
   defPercent: number;
   softDef: number;
