@@ -209,6 +209,13 @@ export interface SkillDamageSummaryModel {
   effectedSkillCriRateToMonster?: number;
   effectedSkillAccuracy?: number;
   effectedSkillTotalHit?: number;
+  /** The effected pass's own skillFormulaGraph/skillFormulaGraphNoCri. Without these the
+   *  "Como o dano é calculado" panel would keep explaining the base roll while the figure
+   *  above it already reads the triggered one — the stats a proc grants (a Bota
+   *  Desconhecida's +STR/+LUK) feed ATQ Status and ATQ da Arma, so every row of the
+   *  derivation changes when it fires. */
+  effectedSkillFormulaGraph?: { min: DamageFormulaGraph; max: DamageFormulaGraph };
+  effectedSkillFormulaGraphNoCri?: { min: DamageFormulaGraph; max: DamageFormulaGraph };
 }
 
 export interface SkillAspdModel {

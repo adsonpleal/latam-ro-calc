@@ -714,7 +714,7 @@
   <p-overlayPanel #damageFormulaPanel>
     <div class="ptitle">Como o dano é calculado</div>
     <div class="graph-hint">Clique em qualquer valor para ver de onde ele vem.</div>
-    <div class="mut-note" *ngIf="hero?.showsBaseFallback">Fórmula da rolagem base (sem os efeitos acionados).</div>
+    <div class="mut-note" *ngIf="hero?.showsEffected">Fórmula da rolagem com os efeitos acionados.</div>
     <ng-container *ngIf="formulaGraph; else noFormulaTrace">
       <div class="formula-trace-scroll">
         <ng-container

@@ -29,11 +29,24 @@ const round2 = (v: unknown): number | undefined => {
   return n === undefined ? undefined : round(n, 2);
 };
 
+/** The engine's own skillHitKill is `ceil(HP / dano minimo)` on the base roll; the
+ *  triggered pass needs the same division against its own minimum. */
+const hitsToKill = (monster: any, min: unknown): number | undefined => {
+  const hp = num(monster?.hp);
+  const d = num(min);
+  return hp === undefined || !d ? undefined : Math.ceil(hp / d);
+};
+
 export interface ProjectOptions {
   include?: IncludeSection[];
   share?: string;
   /** The prepared monster carries no id, so the caller supplies the one it targeted. */
   targetId?: number;
+  /** Proc effects the solve was asked to trigger. `stats` already reflects them (they
+   *  are ordinary bonuses by then), but the damage summary keeps the triggered pass in
+   *  its own `effected*` fields, so without this the reported damage would be the base
+   *  roll while the ATQ next to it was the triggered one. */
+  effects?: string[];
 }
 
 export function projectResult(calc: Calculator, rb: ResolvedBuild, opts: ProjectOptions = {}) {
@@ -41,6 +54,13 @@ export function projectResult(calc: Calculator, rb: ResolvedBuild, opts: Project
   const { calcSkill = {}, calc: c = {}, dmg = {}, monster } = summary;
   const model = rb.model as any;
   const include = new Set(opts.include ?? []);
+
+  // Reported damage follows the pass the caller asked for. `effected*` is always
+  // populated (it falls back to the base figures when nothing is ticked), so this only
+  // diverges when an effect actually fired.
+  const effected = (opts.effects?.length ?? 0) > 0 && num(dmg.effectedSkillDamageMin) !== undefined;
+  const skillMin = effected ? dmg.effectedSkillDamageMin : dmg.skillMinDamage;
+  const skillMax = effected ? dmg.effectedSkillDamageMax : dmg.skillMaxDamage;
 
   const result: Record<string, any> = {
     build: compact({
@@ -75,23 +95,23 @@ export function projectResult(calc: Calculator, rb: ResolvedBuild, opts: Project
 
     damage: compact({
       skill: compact({
-        min: num(dmg.skillMinDamage),
-        max: num(dmg.skillMaxDamage),
-        dps: round2(dmg.skillDps),
-        hits: num(dmg.skillTotalHit),
-        hitsToKill: num(dmg.skillHitKill),
+        min: num(skillMin),
+        max: num(skillMax),
+        dps: round2(effected ? dmg.effectedSkillDps : dmg.skillDps),
+        hits: num(effected ? dmg.effectedSkillTotalHit : dmg.skillTotalHit),
+        hitsToKill: num(effected ? hitsToKill(monster, skillMin) : dmg.skillHitKill),
         type: calcSkill.dmgType,
         element: calcSkill.propertySkill,
-        accuracy: round2(dmg.skillAccuracy),
-        critRate: round2(dmg.skillCriRateToMonster),
+        accuracy: round2(effected ? dmg.effectedSkillAccuracy : dmg.skillAccuracy),
+        critRate: round2(effected ? dmg.effectedSkillCriRateToMonster : dmg.skillCriRateToMonster),
         baseRatio: num(calcSkill.baseSkillDamage),
       }),
       basic: compact({
-        min: num(dmg.basicMinDamage),
-        max: num(dmg.basicMaxDamage),
-        critMin: num(dmg.criMinDamage),
-        critMax: num(dmg.criMaxDamage),
-        dps: round2(dmg.basicDps),
+        min: num(effected ? dmg.effectedBasicDamageMin : dmg.basicMinDamage),
+        max: num(effected ? dmg.effectedBasicDamageMax : dmg.basicMaxDamage),
+        critMin: num(effected ? dmg.effectedBasicCriDamageMin : dmg.criMinDamage),
+        critMax: num(effected ? dmg.effectedBasicCriDamageMax : dmg.criMaxDamage),
+        dps: round2(effected ? dmg.effectedBasicDps : dmg.basicDps),
         critRate: round2(dmg.basicCriRate),
       }),
     }),

@@ -1525,6 +1525,10 @@ export class Calculator {
         effectedSkillCriRateToMonster: this.damageSummary.skillCriRateToMonster || 0,
         effectedSkillAccuracy: this.damageSummary.skillAccuracy || 0,
         effectedSkillTotalHit: this.damageSummary.skillTotalHit || 0,
+
+        // The formula panel falls back the same way every figure above does.
+        effectedSkillFormulaGraph: this.damageSummary.skillFormulaGraph,
+        effectedSkillFormulaGraphNoCri: this.damageSummary.skillFormulaGraphNoCri,
       };
       return this;
     }
@@ -1561,6 +1565,13 @@ export class Calculator {
       effectedSkillCriRateToMonster: skillDmg?.skillCriRateToMonster || 0,
       effectedSkillAccuracy: skillDmg?.skillAccuracy || 0,
       effectedSkillTotalHit: skillDmg?.skillTotalHit || 0,
+
+      // The proc's stats reach every row of the derivation (a +STR/+LUK proc moves ATQ
+      // Status and, for the primary stat, ATQ da Arma), so the panel has to explain the
+      // pass whose number it sits under -- keeping the base graph here made the two
+      // Botas Desconhecidas print an identical ATQ Base while their damage differed.
+      effectedSkillFormulaGraph: skillDmg?.skillFormulaGraph,
+      effectedSkillFormulaGraphNoCri: skillDmg?.skillFormulaGraphNoCri,
     };
 
     return this;

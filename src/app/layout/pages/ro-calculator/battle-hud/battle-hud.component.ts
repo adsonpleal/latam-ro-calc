@@ -529,7 +529,7 @@ export class BattleHudComponent implements OnDestroy {
     simulated: HeroDamage | null;
     biggerSide: DpsSide;
     delta: number | null;
-    showsBaseFallback: boolean;
+    showsEffected: boolean;
     ttk: TimeToKill | null;
     ttkSim: TimeToKill | null;
   } {
@@ -549,9 +549,9 @@ export class BattleHudComponent implements OnDestroy {
       delta: this.isComparing ? deltaPercent(primaryCurrent, primarySimulated) : null,
       ttk: computeTimeToKill(monsterHp, current.dps),
       ttkSim: simulated ? computeTimeToKill(monsterHp, simulated.dps) : null,
-      // "sem efeitos: Nx base–range" only makes sense when the hero switched to the
-      // effected (chance-triggered) figures, so the base range is a different number.
-      showsBaseFallback: current.effected,
+      // True when the hero figure is the chance-triggered one rather than the base roll,
+      // which is what the "Sem efeitos" row and the formula panel's note both key off.
+      showsEffected: current.effected,
     };
   }
 
@@ -648,29 +648,53 @@ export class BattleHudComponent implements OnDestroy {
     return built;
   }
 
+  /** The panel explains the figure it hangs off, so it follows the same effected||base
+   *  fallback the hero number does (see pickHeroDamage) — gated on the same
+   *  hasSelectedChances flag, for the same stale-value reason. A proc that grants stats
+   *  changes every row of the derivation: +STR/+LUK feeds ATQ Status, and the primary
+   *  stat feeds ATQ da Arma's `ATQ base x FOR / 200` term too. */
+  private effectedGraph(
+    dmg: { skillFormulaGraph?: any; effectedSkillFormulaGraph?: any } | null | undefined,
+    hasChances: boolean,
+  ) {
+    return (hasChances && dmg?.effectedSkillFormulaGraph) || dmg?.skillFormulaGraph;
+  }
+
+  private effectedGraphNoCri(
+    dmg: { skillFormulaGraphNoCri?: any; effectedSkillFormulaGraphNoCri?: any } | null | undefined,
+    hasChances: boolean,
+  ) {
+    return (hasChances && dmg?.effectedSkillFormulaGraphNoCri) || dmg?.skillFormulaGraphNoCri;
+  }
+
   get formulaGraph(): { min: FormulaGraphCluster[]; max: FormulaGraphCluster[] } | null {
-    return this.toClusterPair(this.dmg?.skillFormulaGraph);
+    return this.toClusterPair(this.effectedGraph(this.dmg, this.hasSelectedChances));
   }
 
   get formulaGraphSim(): { min: FormulaGraphCluster[]; max: FormulaGraphCluster[] } | null {
-    return this.isComparing ? this.toClusterPair(this.dmg2?.skillFormulaGraph) : null;
+    return this.isComparing
+      ? this.toClusterPair(this.effectedGraph(this.dmg2, this.hasSelectedChances2))
+      : null;
   }
 
   // When the skill's min/max damage are the same (e.g. no weapon ATK variance),
   // the formula popover collapses "Dano mínimo"/"Dano máximo" into one "Dano"
   // section instead of showing the identical chain twice.
   get damageIsFlat(): boolean {
-    return this.dmg?.skillMinDamage === this.dmg?.skillMaxDamage;
+    const hero = pickHeroDamage(this.dmg, this.hasSelectedChances);
+    return hero.min === hero.max;
   }
 
   // Same as formulaGraph/formulaGraphSim/damageIsFlat above, but for "Dano sem crít."
   // (skillMinDamageNoCri/skillMaxDamageNoCri) — only populated when skillCanCri is true.
   get formulaGraphNoCri(): { min: FormulaGraphCluster[]; max: FormulaGraphCluster[] } | null {
-    return this.toClusterPair(this.dmg?.skillFormulaGraphNoCri);
+    return this.toClusterPair(this.effectedGraphNoCri(this.dmg, this.hasSelectedChances));
   }
 
   get formulaGraphNoCriSim(): { min: FormulaGraphCluster[]; max: FormulaGraphCluster[] } | null {
-    return this.isComparing ? this.toClusterPair(this.dmg2?.skillFormulaGraphNoCri) : null;
+    return this.isComparing
+      ? this.toClusterPair(this.effectedGraphNoCri(this.dmg2, this.hasSelectedChances2))
+      : null;
   }
 
   get damageNoCriIsFlat(): boolean {

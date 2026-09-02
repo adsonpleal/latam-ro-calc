@@ -73,7 +73,7 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
         const rb = resolveBuild(input, dataset);
         const { id: targetId, monster } = resolveTarget(dataset, target?.monsterId);
         const calc = solve(rb, dataset, monster, effects ?? []);
-        return json(projectResult(calc, rb, { include, targetId, share: shareOf(rb) }));
+        return json(projectResult(calc, rb, { include, targetId, share: shareOf(rb), effects }));
       });
     },
   );
