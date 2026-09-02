@@ -33763,6 +33763,11 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-1",
+        "EQUIP_ID[24241&&24242]===-1",
+        "EQUIP_ID[24241&&24242]REFINE[shadowBoot,shadowArmor,shadowShield==25]===-1"
+      ],
       "hp": [
         "1---10"
       ],
@@ -47228,6 +47233,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[24676]REFINE[shadowArmor,shadowBoot==18]===40"
+      ],
       "hp": [
         "1---10"
       ],
@@ -47302,6 +47310,9 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[24678]REFINE[shadowEarring,shadowPendant==18]===40"
+      ],
       "hp": [
         "1---10"
       ],
@@ -237803,6 +237814,10 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "EQUIP_ID[24084&&24085&&24086&&24087&&24089]REFINE[shadowArmor,shadowBoot,shadowShield,shadowWeapon,shadowEarring,shadowPendant==45]===100",
+        "EQUIP_ID[24084&&24085&&24086&&24087&&24089]REFINE[shadowArmor,shadowBoot,shadowShield,shadowWeapon,shadowEarring,shadowPendant==1]----1"
+      ],
       "hp": [
         "1---10"
       ],
@@ -238463,6 +238478,13 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-1",
+        "7===-1",
+        "9===-1",
+        "EQUIP_ID[24111&&24113]===40",
+        "EQUIP_ID[24111&&24113]REFINE[shadowArmor,shadowBoot,shadowShield==1]----1"
+      ],
       "hp": [
         "1---10"
       ]
@@ -240750,6 +240772,12 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-2",
+        "7===-1",
+        "EQUIP_ID[24084&&24085&&24086&&24087&&24089]REFINE[shadowEarring,shadowArmor,shadowBoot,shadowShield,shadowWeapon,shadowPendant==45]===100",
+        "EQUIP_ID[24084&&24085&&24086&&24087&&24089]REFINE[shadowEarring,shadowArmor,shadowBoot,shadowShield,shadowWeapon,shadowPendant==1]----1"
+      ],
       "hp": [
         "1---10"
       ],
@@ -241011,6 +241039,12 @@
       "all"
     ],
     "script": {
+      "spCostPercent": [
+        "-2",
+        "7===-1",
+        "EQUIP_ID[24322&&24336]REFINE[shadowWeapon,shadowEarring,shadowShield==25]===70",
+        "EQUIP_ID[24322&&24336]REFINE[shadowWeapon,shadowEarring,shadowShield==1]----1"
+      ],
       "atk": [
         "1---1"
       ],
@@ -277014,7 +277048,17 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spCostPercent": [
+        "-5",
+        "8===-1",
+        "9===-1",
+        "10===-1",
+        "11===-1",
+        "12===-1",
+        "13===-1"
+      ]
+    }
   },
   "22043": {
     "id": 22043,

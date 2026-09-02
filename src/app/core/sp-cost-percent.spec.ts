@@ -13,9 +13,12 @@ import { ITEM_DB, wornBonus } from './__tests__/worn-bonus';
  * Carta Besouro-Ladrão Dourado gives +100%. Negating the store would make half the
  * records read backwards.
  *
- * The sweep below is the point of this file. 81 of the 93 records whose pt-BR description
- * carries the line now declare it; the other 12 are listed in NOT_ENCODED with the reason,
+ * The sweep below is the point of this file. 89 of the 93 records whose pt-BR description
+ * carries the line now declare it; the other 4 are listed in NOT_ENCODED with the reason,
  * so the gap is a decision on the record rather than something that quietly rots.
+ *
+ * The eight whose clause is gated on a set's summed refine live in
+ * sp-cost-combo-refine.spec.ts, which drives each of them through the engine.
  */
 
 const latam: Record<string, any> = JSON.parse(readFileSync('src/assets/demo/data/latam-items.json', 'utf8'));
@@ -41,15 +44,16 @@ const NOT_ENCODED: Record<number, string> = {
   2004: 'a linha está sob "Efeito:", um proc temporário (0,1% ao atacar magicamente)',
   5123: 'o conjunto pede [Bênção de Odin] (2353), que não está no item.json — a cláusula nunca dispararia',
   5442: '[Candura] resolve para dois ids (5040, 18607) e nenhum está no item.json',
-  22037: 'segundo valor sob "A cada refino a partir do +8 até o +13", uma faixa de refino',
-  24088: '"Soma dos refinos 45 ou mais" e "A cada refino de cada peça do conjunto"',
-  24112: 'último valor sob "A cada refino das peças do conjunto"',
-  24240: 'terceiro valor sob "Soma dos refinos do conjunto 25 ou mais"',
-  24322: '"Soma dos refinos do conjunto 45 ou mais" e "A cada refino de cada peça do conjunto"',
-  24335: '"Soma dos refinos do conjunto 25 ou mais" e "A cada refino de cada peça do conjunto"',
-  24675: '"Soma dos refinos 18 ou mais"',
-  24677: '"Soma dos refinos 18 ou mais"',
   460181: 'a linha está no bloco [Efeito], um proc de 3% por 5 segundos',
+};
+
+/**
+ * Records whose encoding deliberately has MORE entries than the description has
+ * occurrences, because one clause is a bounded ladder written as one threshold per rung.
+ * The positional check below skips them; sp-cost-combo-refine.spec.ts asserts the ladder.
+ */
+const LADDERS: Record<number, string> = {
+  22037: '"A cada refino a partir do +8 até o +13" vira seis limiares de -1, como em 19249 Spell Circuit',
 };
 
 /** Every record in the calculator whose pt-BR description carries the line. */
@@ -85,11 +89,19 @@ describe('the sweep', () => {
     }
   });
 
+  it('expands a description line into several entries only where LADDERS says so', () => {
+    for (const id of Object.keys(LADDERS).map(Number)) {
+      const entries: string[] = ITEM_DB[id].script?.spCostPercent;
+      expect(entries, `${id} deixou de ser codificado`).toBeDefined();
+      expect(entries.length).toBeGreaterThan(valuesIn(latam[id].description).length);
+    }
+  });
+
   it('matches the description number for number, in order, on every encoded record', () => {
     const wrong: string[] = [];
     for (const id of carriers) {
       const entries: string[] = ITEM_DB[id].script?.spCostPercent;
-      if (!entries) continue;
+      if (!entries || LADDERS[id]) continue;
       const got = entries.map(valueOf);
       const want = valuesIn(latam[id].description);
       if (JSON.stringify(got) !== JSON.stringify(want)) {
