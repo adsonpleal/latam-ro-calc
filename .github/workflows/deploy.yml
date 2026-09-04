@@ -6,7 +6,7 @@ on:
       - main
 
 # Two overlapping runs would race to activate different asset manifests. Serialising is
-# free; same pattern as mcp-deploy.yml.
+# free, and matters more now that this workflow also ships the MCP server.
 concurrency:
   group: site-deploy
   cancel-in-progress: false

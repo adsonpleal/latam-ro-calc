@@ -61,8 +61,10 @@ async function cf(path) {
 // A subdomain is "deep" when it sits more than one label below the zone. Universal SSL
 // issues for the apex and *.zone only, so Cloudflare has no certificate for these and
 // proxying one breaks TLS outright — a handshake failure, not a warning.
-// mcp.simulador.latam-tools.com.br is the live example: the EC2 MCP server, health-checked
-// by .github/workflows/mcp-deploy.yml on every deploy.
+// mcp.simulador.latam-tools.com.br is the worked example: it had to stay grey-clouded for
+// as long as it existed, and when the MCP server moved to Workers on 04/09/2026 it could
+// not keep the name at all — a Custom Domain needs a proxied record, and there is no
+// certificate to proxy it with. It lives at simulador.latam-tools.com.br/mcp now.
 function isDeep(name) {
   return name.endsWith(`.${ZONE_NAME}`) && name.slice(0, -(ZONE_NAME.length + 1)).includes('.');
 }

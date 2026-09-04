@@ -21,8 +21,8 @@ import { ClassIcon } from 'src/app/jobs/_class-name';
  *
  * Framework-free and in src/app/domain rather than beside the pipe that used to
  * own it, because the MCP server bundles it to draw the paper doll on the social
- * share card — and an `@angular/core` import would drag the framework into
- * `server.mjs` (and fail `typecheck:mcp`, which has no `dom` lib).
+ * share card — and an `@angular/core` import would drag the framework into the
+ * Worker bundle (and fail `typecheck:worker`, which has no `dom` lib).
  */
 
 const RAGASSETS = environment.ragassetsUrl;
