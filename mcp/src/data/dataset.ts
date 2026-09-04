@@ -4,7 +4,7 @@
  * Nothing here touches the filesystem. `tools/build-web-data.mjs` does the LATAM merge at
  * build time and emits the result to `src/assets/data/`, so both callers hand `buildDataset`
  * plain parsed objects: the Worker reads them through the ASSETS binding
- * (`worker/mcp/data.ts`), and the specs read the raw files off disk (`dataset.node.ts`).
+ * (`worker/mcp/data.ts`), and the specs read the same files off disk (`dataset.node.ts`).
  *
  * Everything is shared across requests by reference: `Calculator.setMasterItems()` only
  * stores the map and `getItem()` only reads, so there is nothing to copy — which is what
@@ -12,8 +12,10 @@
  */
 import { ClassRegistry } from './class-registry';
 import { ItemIndex } from './item-index';
-import { ItemMap } from './item-map';
 import { MonsterIndex } from './monster-index';
+
+/** item.json / monster.json as loaded: an object keyed by id, values untyped by design. */
+export type ItemMap = Record<string, any>;
 
 /**
  * A `latam-extra.json` record: one of the ~6,6k LATAM ids with no calculator record at
@@ -29,8 +31,6 @@ export interface LatamExtra {
 export interface DatasetSources {
   /** items-core: item.json with the pt-BR overlay already applied. */
   items: ItemMap;
-  /** items-mcp: map key -> requiredLevel, the one field items-core drops that we read. */
-  itemsMcp: Record<string, number>;
   latamExtra: Record<string, LatamExtra>;
   /** monsters: monster.json with the pt-BR names already applied. */
   monsters: ItemMap;
@@ -39,13 +39,6 @@ export interface DatasetSources {
   hpSpTable: any;
   classes: number[];
 }
-
-/**
- * Resolves the ~7 MB description map. Separate from the sources above because only
- * `get_item` and `item_description` need it, and an isolate that never runs them should
- * never pay for it.
- */
-export type DescriptionLoader = () => Promise<Record<string, string>>;
 
 export interface Dataset {
   /** items-core, keyed as item.json is. Read-only — never mutate. */
@@ -59,29 +52,17 @@ export interface Dataset {
   monsterIndex: MonsterIndex;
   /**
    * The best description available for an id: the pt-BR text when LATAM has one, the
-   * item.json English text otherwise. Async because the Worker fetches the map lazily.
+   * item.json English text otherwise. Async because the map is ~7 MB and only two tools
+   * need it, so both callers fetch it on first use rather than up front.
    */
   description(id: number): Promise<string | undefined>;
 }
 
 /**
- * Writes `requiredLevel` back onto the core records.
- *
- * items-core drops it because the browser never reads it, but the MCP's `search_items`
- * exposes it as the `maxLevel` filter and `get_item` reports it. Mutating the core map is
- * safe and deliberate: it happens once, before any request sees the dataset.
+ * @param loadDescriptions resolves the id -> description map. Called at most once — the
+ * promise is memoized here, so neither caller needs a cache of its own.
  */
-export function applyMcpExtras(items: ItemMap, itemsMcp: Record<string, number>): ItemMap {
-  for (const key of Object.keys(itemsMcp)) {
-    const item = items[key];
-    if (item) item.requiredLevel = itemsMcp[key];
-  }
-  return items;
-}
-
-export function buildDataset(src: DatasetSources, loadDescriptions: DescriptionLoader): Dataset {
-  applyMcpExtras(src.items, src.itemsMcp);
-
+export function buildDataset(src: DatasetSources, loadDescriptions: () => Promise<Record<string, string>>): Dataset {
   let descriptions: Promise<Record<string, string>> | undefined;
 
   return {

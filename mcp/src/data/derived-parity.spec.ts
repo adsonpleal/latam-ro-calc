@@ -12,10 +12,13 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { DataKey, DataManifest, manifestPath } from 'src/app/core/data-manifest';
+import { latamEntry } from '../../../tools/build-web-data.mjs';
 import { loadDatasetFromDisk } from './dataset.node';
 
 const RAW = 'src/assets/demo/data';
-const DERIVED = 'src/assets/data';
+/** Site root on disk: manifest paths are root-relative, exactly as dataset.node.ts reads them. */
+const SITE_ROOT = 'src';
 
 const read = (dir: string, file: string) => JSON.parse(readFileSync(join(dir, file), 'utf8'));
 
@@ -24,9 +27,13 @@ const rawLatam = read(RAW, 'latam-items.json') as Record<string, any>;
 const rawMonsters = read(RAW, 'monster.json') as Record<string, any>;
 const rawLatamMonsters = read(RAW, 'latam-monsters.json') as Record<string, string>;
 
-const latamExtra = read(DERIVED, 'latam-extra.json') as Record<string, any>;
-const itemsMcp = read(DERIVED, 'items-mcp.json') as Record<string, number>;
-const descMcp = read(DERIVED, 'items-desc-mcp.json') as Record<string, string>;
+// Through the manifest, never by hardcoded filename: a production build hashes these, and
+// a spec that spelled the plain names would pass only until someone ran `pnpm build`.
+const manifest = read(SITE_ROOT, 'assets/data-manifest.json') as DataManifest;
+const derived = <T>(key: DataKey): T => read(SITE_ROOT, manifestPath(manifest, key)) as T;
+
+const latamExtra = derived<Record<string, any>>('latamExtra');
+const descMcp = derived<Record<string, string>>('itemsDescMcp');
 
 /** Ids that item.json carries a record for — the test ItemIndex uses to decide overlap. */
 const calcIds = new Set<number>(Object.values(rawItems).map((r: any) => r.id));
@@ -54,21 +61,14 @@ describe('latam-extra covers exactly the LATAM ids with no calculator record', (
   });
 });
 
-describe('items-mcp restores the one field items-core drops that we read', () => {
-  it('carries every requiredLevel in item.json, and nothing else', () => {
-    const expected: Record<string, number> = {};
-    for (const key of Object.keys(rawItems)) {
-      const lv = rawItems[key].requiredLevel;
-      if (lv !== undefined && lv !== null) expected[key] = lv;
-    }
-    expect(itemsMcp).toEqual(expected);
-  });
-
-  it('reaches the search index as reqLv', () => {
+describe('items-core keeps the fields the MCP reads', () => {
+  it('carries requiredLevel, which the search index exposes as the maxLevel filter', () => {
     const dataset = loadDatasetFromDisk();
-    const withLevel = Object.keys(itemsMcp).find((key) => itemsMcp[key] > 0)!;
-    const id = rawItems[withLevel].id;
-    expect(dataset.itemIndex.get(id)?.reqLv).toBe(itemsMcp[withLevel]);
+    const withLevel = Object.keys(rawItems).filter((key) => rawItems[key].requiredLevel > 0);
+    expect(withLevel.length).toBeGreaterThan(0);
+    for (const key of withLevel) {
+      expect(dataset.itemIndex.get(rawItems[key].id)?.reqLv).toBe(rawItems[key].requiredLevel);
+    }
   });
 });
 
@@ -79,7 +79,7 @@ describe('items-desc-mcp answers everything the raw lookup used to', () => {
     const missing: string[] = [];
     for (const key of Object.keys(rawItems)) {
       const item = rawItems[key];
-      const pt = rawLatam[item.id] ?? rawLatam[key];
+      const pt = latamEntry(rawLatam, key, item);
       const expected = pt?.description ?? item.description;
       if (expected && descMcp[item.id] === undefined) missing.push(String(item.id));
     }

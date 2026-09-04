@@ -140,6 +140,20 @@ describe('transport guards', () => {
     expect(res.status).toBe(404);
   });
 
+  it('answers an empty body with a parse error, not a 500', async () => {
+    // The SDK falls back to req.json() when parsedBody is undefined, on a stream this
+    // handler has already drained — which throws deep inside the transport.
+    const res = await call(
+      new Request('https://simulador.latam-tools.com.br/mcp', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: '',
+      }),
+    );
+    expect(res.status).toBe(400);
+    await expect(res.json()).resolves.toMatchObject({ jsonrpc: '2.0', error: { code: -32700 } });
+  });
+
   it('refuses a body over the 256 KB cap', async () => {
     const res = await call(
       new Request('https://simulador.latam-tools.com.br/mcp', {

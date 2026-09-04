@@ -37,10 +37,7 @@
 // IMPORTANT: this script only ever READS src/assets/demo/data/. item.json stays
 // the hand-edited source of truth — .claude/skills/add-ro-item/apply.mjs appends
 // new records as raw text before the closing brace, and a full re-stringify by
-// anything else would rewrite all ~9,5k entries and destroy that diff. The MCP
-// server also reads the raw files (mcp/src/data/dataset.ts), including the ~7,7k
-// latam-items.json records that have no item.json counterpart and that the
-// browser never touches.
+// anything else would rewrite all ~9,5k entries and destroy that diff.
 //
 // Usage:
 //   node tools/build-web-data.mjs [--hash] [--report] [--all-desc]
@@ -81,7 +78,6 @@ const DROPPED_FIELDS = new Set([
   'description', // moved to items-desc (and overwritten by the pt-BR one anyway)
   'unidName', // zero reads outside the ItemModel declaration
   'resName', // zero reads outside the ItemModel declaration
-  'requiredLevel', // MCP-only, and the MCP reads the raw file
   'canGrade', // recomputed here from itemLevel; the stored flag had drifted
   'presentInLatam', // recomputed here from the LATAM key set
 ]);
@@ -160,28 +156,14 @@ export function buildItems(items, latam, { allDesc } = {}) {
 }
 
 /**
- * The three artifacts below exist only for the MCP server, which serves the same engine
- * over Model Context Protocol and needs a little more than the browser does. They are
- * emitted as sidecars rather than folded into items-core on purpose: core is the file
- * every visitor downloads, and keeping it byte-identical means a deploy that only touches
- * the MCP does not invalidate anyone's immutable cache.
- */
-
-/**
- * `requiredLevel`, keyed the same way items-core is (by map key, not id).
+ * The artifacts below exist only for the MCP server, which serves the same engine over
+ * Model Context Protocol and needs more of the LATAM universe than the browser does.
  *
- * It stays in DROPPED_FIELDS because the browser genuinely never reads it — but the MCP's
- * `search_items` exposes it as the `maxLevel` filter, so it has to reach the Worker
- * somehow. ~66 KB.
+ * They are sidecars because they are data the browser has no use for at all — not fields
+ * clawed back out of a file it already downloads. A field the MCP needs from item.json
+ * simply stays in items-core, where 1,6% of extra bytes is cheaper than a second artifact
+ * and a merge step.
  */
-export function buildItemsMcp(items) {
-  const out = {};
-  for (const key of Object.keys(items)) {
-    const lv = items[key].requiredLevel;
-    if (lv !== undefined && lv !== null) out[key] = lv;
-  }
-  return out;
-}
 
 /**
  * The LATAM ids with no `item.json` record at all — around 6,6k of them.
@@ -276,7 +258,6 @@ export function main() {
     // MCP-only sidecars. The browser never fetches these — they are not in EAGER_KEYS and
     // nothing in src/app reads them — but they are plain static assets, which is exactly
     // how the Worker gets at them (worker/mcp/data.ts, via the ASSETS binding).
-    ['itemsMcp', 'items-mcp', buildItemsMcp(items)],
     ['latamExtra', 'latam-extra', buildLatamExtra(items, latam)],
     // Verbatim: buildMonsters above consumes this file to rename monsters.json and then
     // throws it away, but the MCP's monster index unions its ~3,6k stat-less mobs back in.

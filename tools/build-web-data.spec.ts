@@ -98,13 +98,13 @@ describe('build-web-data: items-core', () => {
   });
 
   it('remove só os campos que o browser não lê', () => {
-    for (const field of ['description', 'unidName', 'resName', 'requiredLevel']) {
+    for (const field of ['description', 'unidName', 'resName']) {
       expect(keys.some((k) => field in core[k])).toBe(false);
     }
   });
 
   it('preserva todos os demais campos do registro original', () => {
-    const removidos = new Set(['description', 'unidName', 'resName', 'requiredLevel', 'canGrade', 'presentInLatam', 'name']);
+    const removidos = new Set(['description', 'unidName', 'resName', 'canGrade', 'presentInLatam', 'name']);
     const divergentes: string[] = [];
     for (const k of keys) {
       for (const [field, value] of Object.entries(rawItems[k])) {

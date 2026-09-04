@@ -4,13 +4,17 @@ import { registerDiscoveryTools } from './tools/discovery';
 import { registerBridgeTools, registerCalculationTools } from './tools/calculate';
 
 /**
- * Keeps AJV out of the bundle, and out of the request path.
+ * Keeps AJV out of the request path.
  *
- * The SDK statically imports its AJV provider and constructs one per `McpServer` — which
- * here means per request — even though the only thing that ever calls it is elicitation's
- * `requestedSchema`. We register no `outputSchema` and never elicit, so that code is
- * unreachable; passing a validator explicitly drops ~200 KB of a codegen library that
- * Workers would refuse to run anyway (`new Function` is blocked there).
+ * The SDK constructs `new AjvJsonSchemaValidator()` per `McpServer` — which here means per
+ * request — and that constructor builds an Ajv instance and registers its formats, even
+ * though the only thing that ever calls the validator is elicitation's `requestedSchema`.
+ * We register no `outputSchema` and never elicit, so passing one explicitly skips that work
+ * on every POST.
+ *
+ * It does NOT shrink the bundle: the SDK's import of the provider is static and referenced,
+ * so esbuild keeps Ajv either way. Workers would refuse to run its codegen (`new Function`
+ * is blocked), which is another reason never to reach it.
  *
  * It throws rather than returning `valid` so that adding an `outputSchema` later fails
  * loudly here instead of silently skipping validation.

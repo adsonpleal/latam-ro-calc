@@ -46,7 +46,3 @@ export const paged = <T, R>(key: string, total: number, rows: T[], offset: numbe
     ...(rest > 0 ? { hint: `Mais ${rest} resultados: use offset=${offset + shown}.` } : {}),
   };
 };
-
-/** Footer for a tool that stopped early on its iteration budget (util/budget.ts). */
-export const truncatedNote = (done: number, total: number, noun: string) =>
-  done < total ? { truncated: true as const, note: `Limite de cálculos atingido após ${done} de ${total} ${noun}.` } : {};

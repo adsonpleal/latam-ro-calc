@@ -136,7 +136,7 @@ load-bearing and easy to break:
   because nothing else would notice.
 - **Config comes from `env`, not `process.env`,** and `initConfig` runs per isolate before
   any request. Anything that reads `config` at module-eval time freezes the default — the
-  two search schemas in `tools/discovery.ts` are factories for that reason.
+  two search schemas in `mcp/src/tools/discovery.ts` are factories for that reason.
 
 There are deliberately **no cache rules and no tiered cache** on this zone: with the assets
 served by Cloudflare itself there is no origin to shield, and `src/_headers` is the single
@@ -190,10 +190,11 @@ name and description.
 > never reaches the screen. `pnpm build` runs the generator with `--hash` and then
 > `tools/inject-data-manifest.mjs`, which injects the hashed names into `index.html`.
 > The MCP server reads these generated files too, through the Worker's ASSETS binding —
-> plus three sidecars the browser ignores (`items-mcp`, `latam-extra`, `latam-monsters`)
-> and its own description map (`items-desc-mcp`). `mcp/src/data/derived-parity.spec.ts` is
-> what keeps the derived set equivalent to the raw one; it pins the index at 17081 items,
-> the same number the retired EC2 server reported.
+> plus two sidecars the browser ignores (`latam-extra`, `latam-monsters`) and its own
+> description map (`items-desc-mcp`). A field the MCP needs out of `item.json` just stays
+> in `items-core` rather than getting a sidecar of its own.
+> `mcp/src/data/derived-parity.spec.ts` is what keeps the derived set equivalent to the raw
+> one; it pins the index at 17081 items, the same number the retired EC2 server reported.
 
 When registering bonuses and set combos, the **pt-BR description is the source of truth**
 — `latam-items.json` is for resolving *ids*, not for deciding the effect. Format details

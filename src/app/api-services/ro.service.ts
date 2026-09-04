@@ -1,18 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, from, of, shareReplay, switchMap, tap } from 'rxjs';
+import { DataKey, DataManifest, manifestPath } from '../core/data-manifest';
 import { ItemDescriptionStore } from './item-description.store';
-
-/**
- * Data keys emitted by tools/build-web-data.mjs. See data-manifest.json.
- */
-type DataKey = 'itemsCore' | 'itemsDesc' | 'monsters' | 'hpsp' | 'classes' | 'itemViews';
-
-interface DataManifest {
-  v: number;
-  base: string;
-  files: Record<DataKey, string>;
-}
 
 /**
  * Fetches of the artifacts the production index.html already kicked off during
@@ -81,7 +71,7 @@ export class RoService {
     if (inFlight) return from(inFlight).pipe(shareReplay(1));
 
     return this.manifest$.pipe(
-      switchMap((manifest) => this.http.get<T>(manifest.base + manifest.files[key])),
+      switchMap((manifest) => this.http.get<T>(manifestPath(manifest, key))),
       shareReplay(1),
     );
   }

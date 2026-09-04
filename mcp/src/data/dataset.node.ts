@@ -4,43 +4,47 @@
  * The Worker never runs this — it reads the same artifacts through the ASSETS binding
  * (`worker/mcp/data.ts`). This exists so a spec can build a real Dataset without a Worker
  * runtime, and it deliberately reads the *generated* `src/assets/data/` rather than the
- * hand-edited `src/assets/demo/data/`: the whole point is that specs exercise the same
- * bytes the deployment serves, so a field pruned by the generator fails a test here rather
- * than in production.
+ * hand-edited `src/assets/demo/data/`: the point is that specs exercise the same bytes the
+ * deployment serves, so a field pruned by the generator fails a test here rather than in
+ * production. Resolution goes through the manifest for the same reason.
  *
- * `pnpm test` regenerates them first, so the files are always present and current.
+ * `vitest.config.ts` regenerates the artifacts when they are missing or stale, so every
+ * `vitest` entry point has them — not just `pnpm test`.
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { DataKey, DataManifest, manifestPath } from 'src/app/core/data-manifest';
 import { buildDataset, Dataset, DatasetSources } from './dataset';
 
-/** Where `tools/build-web-data.mjs` writes its unhashed (dev) output. */
-export const GENERATED_DATA_DIR = 'src/assets/data';
+/**
+ * The on-disk stand-in for the site root: manifest paths are root-relative (`assets/data/…`)
+ * because that is what the browser and the ASSETS binding both resolve against.
+ */
+const SITE_ROOT = 'src';
 
-function readJson<T>(dir: string, file: string): T {
+function readJson<T>(path: string): T {
   try {
-    return JSON.parse(readFileSync(join(dir, file), 'utf8')) as T;
+    return JSON.parse(readFileSync(join(SITE_ROOT, path), 'utf8')) as T;
   } catch (error) {
-    throw new Error(
-      `Não consegui ler ${join(dir, file)}. Rode \`pnpm data:dev\` para gerar os artefatos. (${error})`,
-    );
+    throw new Error(`Não consegui ler ${join(SITE_ROOT, path)}. Rode \`pnpm data:dev\` para gerar os artefatos. (${error})`);
   }
 }
 
-export function loadDatasetFromDisk(dataDir: string = GENERATED_DATA_DIR): Dataset {
+export function loadDatasetFromDisk(): Dataset {
+  const manifest = readJson<DataManifest>('assets/data-manifest.json');
+  const read = <T>(key: DataKey): T => readJson<T>(manifestPath(manifest, key));
+
   const sources: DatasetSources = {
-    items: readJson(dataDir, 'items-core.json'),
-    itemsMcp: readJson(dataDir, 'items-mcp.json'),
-    latamExtra: readJson(dataDir, 'latam-extra.json'),
-    monsters: readJson(dataDir, 'monsters.json'),
-    latamMonsters: readJson(dataDir, 'latam-monsters.json'),
-    hpSpTable: readJson(dataDir, 'hpsp.json'),
-    classes: readJson(dataDir, 'classes.json'),
+    items: read('itemsCore'),
+    latamExtra: read('latamExtra'),
+    monsters: read('monsters'),
+    latamMonsters: read('latamMonsters'),
+    hpSpTable: read('hpsp'),
+    classes: read('classes'),
   };
 
-  // Read eagerly here: on disk it costs a few milliseconds, and a spec that awaits a
-  // description should not be the thing that discovers the file is missing.
-  const descriptions = readJson<Record<string, string>>(dataDir, 'items-desc-mcp.json');
-
-  return buildDataset(sources, async () => descriptions);
+  // Lazily, like the Worker: the description map is ~7 MB, six spec files build a dataset
+  // at module scope, and most of them never ask for a description. buildDataset memoizes
+  // the promise, so a spec that does ask still parses it once.
+  return buildDataset(sources, async () => read<Record<string, string>>('itemsDescMcp'));
 }

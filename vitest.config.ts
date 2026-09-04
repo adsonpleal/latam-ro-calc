@@ -47,6 +47,9 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
+    // Keeps src/assets/data/ current for the specs that read it. See the file for why it
+    // is not just a step in the `test` script.
+    globalSetup: ['./vitest.global-setup.ts'],
     include: ['src/**/*.spec.ts', 'mcp/**/*.spec.ts', 'worker/**/*.spec.ts', 'tools/**/*.spec.ts'],
     coverage: {
       provider: 'v8',

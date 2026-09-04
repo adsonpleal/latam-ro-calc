@@ -2,20 +2,15 @@
  * Runtime configuration.
  *
  * Every value has a default and can be overridden by a Worker `var` (see the `vars` block
- * in wrangler.jsonc). `initConfig` is called once per isolate, from the MCP entry point,
- * before any request is handled — the values are plain strings and numbers, identical for
- * every request on a given deployment, so holding them in a module global is safe and
- * keeps the ~20 read sites from having to thread a parameter through.
+ * in wrangler.jsonc). `initConfig` runs at the top of every request — it is idempotent and
+ * costs two string splits — and the values are plain strings and numbers, identical for
+ * every request on a given deployment, so holding them in a module global is safe.
  *
  * The one thing that must NOT read config at module-eval time is a schema const: the
  * module is evaluated by the dynamic `import()` that precedes `initConfig`, so anything
  * captured there would freeze the default. `tools/discovery.ts` builds its two search
  * schemas from factories for exactly this reason.
  */
-export interface ConfigEnv {
-  [key: string]: unknown;
-}
-
 const DEFAULTS = {
   /** Origin of the web calculator, used to build share links. */
   appOrigin: 'https://simulador.latam-tools.com.br',
@@ -36,9 +31,6 @@ const DEFAULTS = {
   allowedOrigins: ['https://claude.ai', 'https://simulador.latam-tools.com.br', 'http://localhost:4200'],
 
   limits: {
-    /** Iterations a tool may run before it returns partial results flagged `truncated`.
-     *  A count, not a deadline — see util/budget.ts. */
-    maxSolveUnits: 40,
     maxOptimizeCandidates: 40,
     maxTableMonsters: 20,
     maxCompareBuilds: 4,
@@ -46,43 +38,45 @@ const DEFAULTS = {
   },
 };
 
-export type Config = typeof DEFAULTS;
+type Config = typeof DEFAULTS;
 
-/** Mutated in place by initConfig so existing `config.x` reads keep working. */
-export const config: Config = structuredClone(DEFAULTS);
-
-const str = (env: ConfigEnv, key: string, fallback: string): string => {
-  const raw = env[key];
-  return typeof raw === 'string' && raw.trim() ? raw.trim() : fallback;
-};
-
-const int = (env: ConfigEnv, key: string, fallback: number): number => {
-  const n = Number(env[key]);
-  return Number.isFinite(n) && n > 0 ? n : fallback;
-};
-
-const list = (env: ConfigEnv, key: string, fallback: string[]): string[] => {
-  const raw = env[key];
-  if (typeof raw !== 'string' || !raw.trim()) return fallback;
-  return raw
-    .split(',')
-    .map((v) => v.trim())
-    .filter(Boolean);
-};
+/** Mutated in place by initConfig so `config.x` reads stay valid across the module graph. */
+export const config: Config = { ...DEFAULTS, limits: { ...DEFAULTS.limits } };
 
 /** Apply the Worker `env` over the defaults. Idempotent. */
-export function initConfig(env: ConfigEnv): Config {
-  config.appOrigin = str(env, 'PUBLIC_APP_ORIGIN', DEFAULTS.appOrigin);
-  config.shortenerUrl = str(env, 'SHORTENER_URL', DEFAULTS.shortenerUrl);
-  config.defaultTargetId = int(env, 'DEFAULT_TARGET_ID', DEFAULTS.defaultTargetId);
-  config.allowedHosts = list(env, 'ALLOWED_HOSTS', DEFAULTS.allowedHosts);
-  config.allowedOrigins = list(env, 'ALLOWED_ORIGINS', DEFAULTS.allowedOrigins);
-  config.limits = {
-    maxSolveUnits: int(env, 'MAX_SOLVE_UNITS', DEFAULTS.limits.maxSolveUnits),
-    maxOptimizeCandidates: int(env, 'MAX_OPTIMIZE_CANDIDATES', DEFAULTS.limits.maxOptimizeCandidates),
-    maxTableMonsters: int(env, 'MAX_TABLE_MONSTERS', DEFAULTS.limits.maxTableMonsters),
-    maxCompareBuilds: int(env, 'MAX_COMPARE_BUILDS', DEFAULTS.limits.maxCompareBuilds),
-    maxSearchResults: int(env, 'MAX_SEARCH_RESULTS', DEFAULTS.limits.maxSearchResults),
+export function initConfig(env: object): void {
+  // One narrowing, here, so callers can pass their own closed binding interface instead of
+  // widening it with an index signature (which would switch off typo checking wholesale).
+  const vars = env as Record<string, unknown>;
+
+  const str = (key: string, fallback: string): string => {
+    const raw = vars[key];
+    return typeof raw === 'string' && raw.trim() ? raw.trim() : fallback;
   };
-  return config;
+
+  const int = (key: string, fallback: number): number => {
+    const n = Number(vars[key]);
+    return Number.isFinite(n) && n > 0 ? n : fallback;
+  };
+
+  const list = (key: string, fallback: string[]): string[] => {
+    const raw = vars[key];
+    if (typeof raw !== 'string' || !raw.trim()) return [...fallback];
+    return raw
+      .split(',')
+      .map((v) => v.trim())
+      .filter(Boolean);
+  };
+
+  config.appOrigin = str('PUBLIC_APP_ORIGIN', DEFAULTS.appOrigin);
+  config.shortenerUrl = str('SHORTENER_URL', DEFAULTS.shortenerUrl);
+  config.defaultTargetId = int('DEFAULT_TARGET_ID', DEFAULTS.defaultTargetId);
+  config.allowedHosts = list('ALLOWED_HOSTS', DEFAULTS.allowedHosts);
+  config.allowedOrigins = list('ALLOWED_ORIGINS', DEFAULTS.allowedOrigins);
+  config.limits = {
+    maxOptimizeCandidates: int('MAX_OPTIMIZE_CANDIDATES', DEFAULTS.limits.maxOptimizeCandidates),
+    maxTableMonsters: int('MAX_TABLE_MONSTERS', DEFAULTS.limits.maxTableMonsters),
+    maxCompareBuilds: int('MAX_COMPARE_BUILDS', DEFAULTS.limits.maxCompareBuilds),
+    maxSearchResults: int('MAX_SEARCH_RESULTS', DEFAULTS.limits.maxSearchResults),
+  };
 }

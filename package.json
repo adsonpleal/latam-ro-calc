@@ -13,7 +13,7 @@
         "build:worker": "node tools/build-worker.mjs",
             "typecheck:worker": "tsc -p worker/tsconfig.json",
         "dev:worker": "node tools/build-worker.mjs && wrangler dev",
-        "test": "node tools/build-web-data.mjs && vitest run",
+        "test": "vitest run",
         "test:watch": "vitest",
         "test:cov": "vitest run --coverage",
         "test:ng": "ng test",

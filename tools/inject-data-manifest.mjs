@@ -17,7 +17,7 @@
 // Usage:
 //   node tools/inject-data-manifest.mjs [--dist dist/sakai-ng]
 
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -72,6 +72,17 @@ function main() {
 
   for (const key of EAGER_KEYS) {
     if (!manifest.files?.[key]) fail(`manifest is missing the "${key}" entry`);
+  }
+
+  // Every artifact the manifest names must actually be in the build — not just the eager
+  // ones. `not_found_handling: "single-page-application"` answers a missing asset with
+  // index.html and a 200, so a manifest that outlives its files fails at runtime as JSON
+  // parsed from HTML: in the browser for the app's own fetches, and on a live /mcp request
+  // for the Worker (worker/mcp/data.ts keeps a content-type check as the backstop).
+  // Catching it here turns that whole class into a red build.
+  for (const [key, file] of Object.entries(manifest.files ?? {})) {
+    const path = join(dist, manifest.base + file);
+    if (!existsSync(path)) fail(`manifest names "${key}" -> ${file}, which is not in the build`);
   }
 
   let html;

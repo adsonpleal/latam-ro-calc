@@ -16,7 +16,11 @@ import { config, initConfig } from '../../mcp/src/config';
 import { createMcpServer } from '../../mcp/src/mcp-server';
 import { AssetsEnv, getDataset, isCold, lastLoadMs } from './data';
 
-export type McpEnv = AssetsEnv & Record<string, unknown>;
+/**
+ * All this handler needs is the assets binding; `initConfig` reads the MCP vars off the
+ * same object without the type having to enumerate them.
+ */
+export type McpEnv = AssetsEnv;
 
 const MAX_BODY_BYTES = 256 * 1024;
 
@@ -57,26 +61,29 @@ function corsHeaders(origin: string | null): Record<string, string> {
 }
 
 /** Re-emit a Response with the CORS headers added; the transport builds its own. */
-function withCors(res: Response, origin: string | null): Response {
-  const merged = new Headers(res.headers);
-  for (const [key, value] of Object.entries(corsHeaders(origin))) merged.set(key, value);
-  return new Response(res.body, { status: res.status, statusText: res.statusText, headers: merged });
-}
-
-const problem = (status: number, code: number, message: string, origin: string | null, extra: Record<string, string> = {}) =>
-  new Response(jsonRpcError(code, message), {
-    status,
-    headers: { 'content-type': 'application/json', ...corsHeaders(origin), ...extra },
-  });
-
 export async function handleMcp(request: Request, env: McpEnv, ctx: ExecutionContext): Promise<Response> {
   initConfig(env);
 
   const url = new URL(request.url);
-  const origin = request.headers.get('origin');
+  // Fixed for the request, so the header block is built once and closed over rather than
+  // threaded through every response site.
+  const cors = corsHeaders(request.headers.get('origin'));
+
+  /** Re-emit a Response with the CORS headers added; the transport builds its own. */
+  const withCors = (res: Response): Response => {
+    const merged = new Headers(res.headers);
+    for (const [key, value] of Object.entries(cors)) merged.set(key, value);
+    return new Response(res.body, { status: res.status, statusText: res.statusText, headers: merged });
+  };
+
+  const problem = (status: number, code: number, message: string, extra: Record<string, string> = {}) =>
+    new Response(jsonRpcError(code, message), {
+      status,
+      headers: { 'content-type': 'application/json', ...cors, ...extra },
+    });
 
   if (request.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: corsHeaders(origin) });
+    return new Response(null, { status: 204, headers: cors });
   }
 
   if (url.pathname === '/mcp/healthz') {
@@ -93,44 +100,53 @@ export async function handleMcp(request: Request, env: McpEnv, ctx: ExecutionCon
         cold,
         loadMs: lastLoadMs(),
       }),
-      { status: 200, headers: { 'content-type': 'application/json', ...corsHeaders(origin) } },
+      { status: 200, headers: { 'content-type': 'application/json', ...cors } },
     );
   }
 
   if (url.pathname !== '/mcp') {
-    return problem(404, -32001, 'Not found.', origin);
+    return problem(404, -32001, 'Not found.');
   }
 
   if (!hostAllowed(url.hostname)) {
-    return problem(403, -32000, 'Host não permitido.', origin);
+    return problem(403, -32000, 'Host não permitido.');
   }
 
+  const origin = request.headers.get('origin');
   if (origin && !originAllowed(origin)) {
-    return problem(403, -32000, 'Origin não permitida.', origin);
+    return problem(403, -32000, 'Origin não permitida.');
   }
 
   // Stateless mode has no stream to resume and no session to delete, so GET and DELETE
   // are as unsupported as anything else that isn't a POST.
   if (request.method !== 'POST') {
-    return problem(405, -32000, 'Method not allowed.', origin, { allow: 'POST, OPTIONS' });
+    return problem(405, -32000, 'Method not allowed.', { allow: 'POST, OPTIONS' });
   }
 
   // Caddy used to cap the body upstream of the process; on Workers the platform limit is
   // 100 MB, so the cap has to live here or it stops existing.
-  const declared = Number(request.headers.get('content-length'));
-  if (Number.isFinite(declared) && declared > MAX_BODY_BYTES) {
-    return problem(413, -32700, 'Corpo da requisição grande demais.', origin);
-  }
+  const tooLarge = () => problem(413, -32700, 'Corpo da requisição grande demais.');
+  // `headers.get` returns null when absent, and `Number(null)` is 0 — so the header has to
+  // be tested for presence separately, or an unlabelled body silently skips both checks.
+  const header = request.headers.get('content-length');
+  const declared = header === null ? null : Number(header);
+  if (declared !== null && declared > MAX_BODY_BYTES) return tooLarge();
 
   let body: unknown;
   try {
     const raw = await request.text();
-    if (raw.length > MAX_BODY_BYTES) {
-      return problem(413, -32700, 'Corpo da requisição grande demais.', origin);
-    }
-    body = raw ? JSON.parse(raw) : undefined;
+    // A chunked body carries no content-length, so the check above never saw it. Encoding
+    // is the only exact byte count, and it is skipped when the header was present —
+    // `raw.length` counts UTF-16 units, which is not the same number for pt-BR text.
+    if (declared === null && new TextEncoder().encode(raw).length > MAX_BODY_BYTES) return tooLarge();
+
+    // An empty body must be rejected here. Passing `parsedBody: undefined` makes the SDK
+    // fall back to `req.json()` on a request whose stream this function already drained,
+    // which throws somewhere inside the transport and surfaces as a bare 500.
+    if (!raw) return problem(400, -32700, 'Corpo da requisição vazio.');
+    body = JSON.parse(raw);
   } catch {
-    return problem(400, -32700, 'Requisição inválida.', origin);
+    return problem(400, -32700, 'Requisição inválida.');
   }
 
   try {
@@ -147,9 +163,9 @@ export async function handleMcp(request: Request, env: McpEnv, ctx: ExecutionCon
     // Tear down after the response is on its way rather than before it is built.
     ctx.waitUntil(Promise.allSettled([transport.close(), server.close()]));
 
-    return withCors(response, origin);
+    return withCors(response);
   } catch (error) {
     console.error('[ro-mcp] erro ao tratar requisição', error);
-    return problem(500, -32603, 'Erro interno ao processar a requisição.', origin);
+    return problem(500, -32603, 'Erro interno ao processar a requisição.');
   }
 }

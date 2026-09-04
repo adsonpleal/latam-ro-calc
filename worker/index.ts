@@ -24,8 +24,20 @@ interface Env {
   ASSETS: { fetch: (request: Request) => Promise<Response> };
   /** Origin of latam-social, which renders the card. Overridable via .dev.vars. */
   OG_ORIGIN: string;
-  /** The MCP server's own vars, all optional — its defaults live in mcp/src/config.ts. */
-  [key: string]: unknown;
+  /**
+   * The MCP server's vars, all optional — its defaults live in mcp/src/config.ts, and the
+   * deployed values in wrangler.jsonc. Spelled out rather than an index signature, which
+   * would switch off typo checking for OG_ORIGIN and ASSETS as well.
+   */
+  PUBLIC_APP_ORIGIN?: string;
+  SHORTENER_URL?: string;
+  ALLOWED_HOSTS?: string;
+  ALLOWED_ORIGINS?: string;
+  DEFAULT_TARGET_ID?: string;
+  MAX_OPTIMIZE_CANDIDATES?: string;
+  MAX_TABLE_MONSTERS?: string;
+  MAX_COMPARE_BUILDS?: string;
+  MAX_SEARCH_RESULTS?: string;
 }
 
 const CARD_PATH = /^\/s\/[^/]+\/og\.png$/;

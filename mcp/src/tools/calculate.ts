@@ -20,8 +20,7 @@ import { BuildInput, buildInputSchema, ITEM_ID_KEYS, MAIN_ITEM_SLOTS, relatedIte
 import { projectResult } from '../engine/project';
 import { buildShareUrl, parseShare, resolveIfShort, shortenShareUrl, toPreset } from '../engine/share';
 import { solve } from '../engine/solve';
-import { createBudget } from '../util/budget';
-import { compact, json, registerJsonTool, truncatedNote } from './helpers';
+import { compact, json, registerJsonTool } from './helpers';
 
 const targetSchema = z
   .object({ monsterId: z.number().int().optional().describe('Id do monstro alvo. Veja search_monsters.') })
@@ -90,7 +89,6 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
     // Same flag solve() feeds runChain: HP Increase Potion (L) changes max HP, so
     // hardcoding false here would make this tool disagree with `calculate`.
     const { usedHpL } = collectConsumables(rb.model, dataset.items);
-    const budget = createBudget();
     const rows: any[] = [];
 
     // Seed the solve with the first id we actually have data for: the loop reports
@@ -103,7 +101,6 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
     // invalidate the gear bonus pass, so runChain per target would be wasteful.
     const calc = solve(rb, dataset, dataset.monsters[seedId]);
     for (const id of monsterIds) {
-      if (budget.expired()) break;
       const monster = dataset.monsters[id];
       if (!monster) {
         rows.push({ id, error: 'sem bloco de atributos no calculador' });
@@ -125,7 +122,6 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
     return json({
       skill: skillValue,
       rows,
-      ...truncatedNote(rows.length, monsterIds.length, 'alvos'),
       share: shareOf(rb),
       ...(rb.warnings.length ? { warnings: rb.warnings } : {}),
     });
@@ -175,7 +171,7 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
   }>(server, 'optimize_slot', {
     title: 'Otimizar um slot',
     description:
-      `Testa candidatos para um slot e ordena pelo ganho de DPS. Máximo de ${config.limits.maxOptimizeCandidates} candidatos e um limite de cálculos — se estourar, devolve resultado parcial com \`truncated\`. ` +
+      `Testa candidatos para um slot e ordena pelo ganho de DPS. No máximo ${config.limits.maxOptimizeCandidates} candidatos por chamada. ` +
       'O link devolvido já vem com a comparação armada (peça atual → peça sugerida), então o jogador abre o simulador e vê a diferença.',
     inputSchema: {
       build: buildInputSchema,
@@ -204,10 +200,8 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
     // Decode the share token once — resolveBuild would re-decompress it per candidate.
     const perCandidate: BuildInput = { ...input, share: undefined, preset: input.share ? parseShare(input.share).preset : input.preset };
 
-    const budget = createBudget();
     const scored: any[] = [];
     for (const id of ids) {
-      if (budget.expired()) break;
       // Gear changes invalidate the bonus pass, so each candidate needs a full solve.
       const rb = resolveBuild({ ...perCandidate, gear: { ...(perCandidate.gear ?? {}), [slot]: id } }, dataset);
       const { dps, max } = dpsAndMax(solve(rb, dataset, monster));
@@ -249,7 +243,6 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
       current: { id: currentId || null, name: currentId ? dataset.itemIndex.get(currentId)?.name : null, dps: round(baseDps, 2) },
       tested: scored.length,
       ranking: top,
-      ...truncatedNote(scored.length, ids.length, 'candidatos'),
       share: shareOf(baseRb, compare),
       ...(baseRb.warnings.length ? { warnings: baseRb.warnings } : {}),
     });

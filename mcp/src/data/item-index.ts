@@ -10,8 +10,7 @@
  */
 import { canUsedByClass } from 'src/app/utils';
 import { CharacterBase } from 'src/app/jobs/_character-base.abstract';
-import { LatamExtra } from './dataset';
-import { ItemMap } from './item-map';
+import { ItemMap, LatamExtra } from './dataset';
 import { classifyItem, SlotTag } from './slot-classifier';
 import { foldAccents, tokenize } from './text';
 

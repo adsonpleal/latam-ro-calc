@@ -9,21 +9,16 @@
  * together. Fetching them over public HTTP, or parking them in KV, would reopen a window
  * where the two disagree mid-deploy.
  *
- * Both caches are module globals, which on Workers means per-isolate and shared by every
+ * The caches are module globals, which on Workers means per-isolate and shared by every
  * request that isolate goes on to serve. Nothing here runs at module scope: a Worker gets
  * only 400 ms of CPU for startup, and parsing several megabytes would spend it all — done
  * inside `fetch` the same work draws on the request's much larger budget instead.
  */
+import { DataKey, DataManifest, manifestPath } from '../../src/app/core/data-manifest';
 import { buildDataset, Dataset, DatasetSources } from '../../mcp/src/data/dataset';
 
 export interface AssetsEnv {
   ASSETS: { fetch: (request: Request) => Promise<Response> };
-}
-
-interface DataManifest {
-  v: number;
-  base: string;
-  files: Record<string, string>;
 }
 
 /**
@@ -34,21 +29,32 @@ interface DataManifest {
  */
 const ASSET_BASE = 'https://assets.invalid';
 
-const MANIFEST_PATH = '/assets/data-manifest.json';
+const MANIFEST_PATH = 'assets/data-manifest.json';
 
-let datasetCache: Promise<Dataset> | undefined;
-let descriptionCache: Promise<Record<string, string>> | undefined;
-
-/** Milliseconds the dataset took to load, for /mcp/healthz. */
-let loadMs = 0;
+/**
+ * A per-isolate memo that forgets its own failures.
+ *
+ * Without the clear, one transient asset read pins the rejection for as long as the
+ * isolate lives and every later request replays it.
+ */
+function once<T>(load: (env: AssetsEnv) => Promise<T>): (env: AssetsEnv) => Promise<T> {
+  let pending: Promise<T> | undefined;
+  return (env) =>
+    (pending ??= load(env).catch((error) => {
+      pending = undefined;
+      throw error;
+    }));
+}
 
 async function readJson<T>(env: AssetsEnv, path: string): Promise<T> {
-  const res = await env.ASSETS.fetch(new Request(new URL(path, ASSET_BASE), { method: 'GET' }));
+  const res = await env.ASSETS.fetch(new Request(new URL(`/${path}`, ASSET_BASE), { method: 'GET' }));
   if (!res.ok) throw new Error(`ASSETS ${path} respondeu ${res.status}.`);
 
   // `not_found_handling: "single-page-application"` answers a missing asset with
-  // index.html and a 200, so status alone proves nothing. Without this check a stale
-  // manifest surfaces as `Unexpected token '<'` somewhere far from the cause.
+  // index.html and a 200, so status alone proves nothing. tools/inject-data-manifest.mjs
+  // fails the build when a manifest entry is missing from dist, which is where this should
+  // be caught — this is the backstop, and it keeps the failure legible if one ever gets
+  // through (otherwise it surfaces as `Unexpected token '<'` far from the cause).
   const type = res.headers.get('content-type') ?? '';
   if (!type.includes('application/json')) {
     throw new Error(`ASSETS ${path} devolveu "${type}" em vez de JSON — provável manifesto defasado.`);
@@ -57,20 +63,19 @@ async function readJson<T>(env: AssetsEnv, path: string): Promise<T> {
   return (await res.json()) as T;
 }
 
-const manifestPath = (manifest: DataManifest, key: string): string => {
-  const file = manifest.files[key];
-  if (!file) throw new Error(`data-manifest.json não tem a chave "${key}".`);
-  return `/${manifest.base}${file}`;
-};
+/** Diagnostics for /mcp/healthz. `cold` says whether a request had to build the dataset. */
+let loaded = false;
+let loadMs = 0;
 
-async function load(env: AssetsEnv): Promise<Dataset> {
+const manifest = once((env) => readJson<DataManifest>(env, MANIFEST_PATH));
+
+const dataset = once(async (env: AssetsEnv): Promise<Dataset> => {
   const started = Date.now();
-  const manifest = await readJson<DataManifest>(env, MANIFEST_PATH);
-  const read = <T>(key: string) => readJson<T>(env, manifestPath(manifest, key));
+  const files = await manifest(env);
+  const read = <T>(key: DataKey) => readJson<T>(env, manifestPath(files, key));
 
-  const [items, itemsMcp, latamExtra, monsters, latamMonsters, hpSpTable, classes] = await Promise.all([
+  const [items, latamExtra, monsters, latamMonsters, hpSpTable, classes] = await Promise.all([
     read<DatasetSources['items']>('itemsCore'),
-    read<DatasetSources['itemsMcp']>('itemsMcp'),
     read<DatasetSources['latamExtra']>('latamExtra'),
     read<DatasetSources['monsters']>('monsters'),
     read<DatasetSources['latamMonsters']>('latamMonsters'),
@@ -78,46 +83,20 @@ async function load(env: AssetsEnv): Promise<Dataset> {
     read<DatasetSources['classes']>('classes'),
   ]);
 
-  const dataset = buildDataset(
-    { items, itemsMcp, latamExtra, monsters, latamMonsters, hpSpTable, classes },
-    () => getDescriptions(env),
+  // Descriptions are ~7 MB and only get_item and item_description want them, so an isolate
+  // that spends its life running `calculate` never fetches them. buildDataset memoizes.
+  const built = buildDataset({ items, latamExtra, monsters, latamMonsters, hpSpTable, classes }, () =>
+    read<Record<string, string>>('itemsDescMcp'),
   );
   loadMs = Date.now() - started;
-  return dataset;
-}
+  loaded = true;
+  return built;
+});
 
-/**
- * The dataset, built once per isolate.
- *
- * A rejection clears the cache: a single bad deploy or transient asset read should not
- * pin a failure for as long as the isolate happens to live.
- */
-export function getDataset(env: AssetsEnv): Promise<Dataset> {
-  datasetCache ??= load(env).catch((error) => {
-    datasetCache = undefined;
-    throw error;
-  });
-  return datasetCache;
-}
-
-/**
- * The ~7 MB description map, behind its own promise.
- *
- * Only `get_item` and `item_description` await it, so an isolate that spends its life
- * running `calculate` never downloads or parses it.
- */
-export function getDescriptions(env: AssetsEnv): Promise<Record<string, string>> {
-  descriptionCache ??= (async () => {
-    const manifest = await readJson<DataManifest>(env, MANIFEST_PATH);
-    return readJson<Record<string, string>>(env, manifestPath(manifest, 'itemsDescMcp'));
-  })().catch((error) => {
-    descriptionCache = undefined;
-    throw error;
-  });
-  return descriptionCache;
-}
+/** The dataset, built once per isolate. */
+export const getDataset = dataset;
 
 /** True when no request has built the dataset yet — reported by /mcp/healthz. */
-export const isCold = (): boolean => datasetCache === undefined;
+export const isCold = (): boolean => !loaded;
 
 export const lastLoadMs = (): number => loadMs;
