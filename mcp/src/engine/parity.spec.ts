@@ -11,12 +11,12 @@
  * See that spec for the replay sources and the EXTRA_INT explanation.
  */
 import { describe, expect, it } from 'vitest';
-import { loadDataset } from '../data/dataset';
+import { loadDatasetFromDisk } from '../data/dataset.node';
 import { BuildInput, resolveBuild } from './build-input';
 import { projectResult } from './project';
 import { solve } from './solve';
 
-const dataset = loadDataset('src/assets/demo/data');
+const dataset = loadDatasetFromDisk();
 const DUMMY_NEUTRAL = 21077;
 
 /** +3 INT the recordings carry and the model cannot account for — see the source spec. */

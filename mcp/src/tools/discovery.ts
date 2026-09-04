@@ -22,7 +22,12 @@ import { compact, json, paged, registerJsonTool } from './helpers';
 
 const slotEnum = z.enum(SLOT_TAGS);
 
-const searchItemsSchema = {
+/**
+ * Factories rather than consts: this module is evaluated by the dynamic `import()` in the
+ * Worker, which runs before `initConfig`, so a const would capture the default limit and
+ * a MAX_SEARCH_RESULTS var would silently do nothing.
+ */
+const searchItemsSchema = () => ({
   query: z.string().optional().describe('Texto livre; acentos são ignorados ("pocao magica" acha "Poção Mágica").'),
   slot: slotEnum.optional(),
   classId: z.number().int().optional().describe('Só itens equipáveis por esta classe.'),
@@ -35,9 +40,9 @@ const searchItemsSchema = {
   latamOnly: z.boolean().optional().default(true),
   limit: z.number().int().min(1).max(config.limits.maxSearchResults).optional().default(20),
   offset: z.number().int().min(0).optional().default(0),
-};
+});
 
-const searchMonstersSchema = {
+const searchMonstersSchema = () => ({
   query: z.string().optional(),
   minLevel: z.number().int().optional(),
   maxLevel: z.number().int().optional(),
@@ -48,7 +53,7 @@ const searchMonstersSchema = {
   hasStats: z.boolean().optional().default(true),
   limit: z.number().int().min(1).max(config.limits.maxSearchResults).optional().default(20),
   offset: z.number().int().min(0).optional().default(0),
-};
+});
 
 const idSchema = { id: z.number().int() };
 
@@ -102,7 +107,7 @@ export function registerDiscoveryTools(server: McpServer, dataset: Dataset): voi
     title: 'Buscar itens',
     description:
       'Busca itens por nome (sem distinção de acentos) e/ou por filtros estruturais. Cobre TANTO o banco do calculador quanto o banco completo do LATAM: itens marcados com `db: false` existem no jogo mas ainda não foram cadastrados no calculador, então aparecem só com nome/descrição e não podem ser usados em builds. Qualquer filtro estrutural (slot, classId, bonus, skill, minSlots, maxLevel) implica `db: true`, porque esses itens não têm dados mecânicos.',
-    inputSchema: searchItemsSchema,
+    inputSchema: searchItemsSchema(),
   }, (filters) => {
     const char = filters.classId !== undefined ? dataset.classes.newInstance(filters.classId) : undefined;
     const { total, rows } = dataset.itemIndex.search(filters, char);
@@ -113,17 +118,19 @@ export function registerDiscoveryTools(server: McpServer, dataset: Dataset): voi
     title: 'Detalhes do item',
     description: 'Ficha completa de um item: descrição pt-BR, campos estruturais, classes que podem usar e os bônus decodificados. Itens fora do banco do calculador voltam só com nome e descrição.',
     inputSchema: idSchema,
-  }, ({ id }) => {
+  }, async ({ id }) => {
     const row = dataset.itemIndex.get(id);
     if (!row) return json({ error: `Item ${id} não encontrado nem no calculador nem no banco do LATAM.` }, true);
 
-    const latam = dataset.itemIndex.latamRecord(id);
+    // items-core carries no description at all — it is a separate artifact, fetched on
+    // first use, so that a session which only calculates never downloads 7 MB of prose.
+    const description = plainItemDesc(await dataset.description(id));
     if (!row.inCalcDb) {
       return json({
         id,
         name: row.name,
         inCalcDb: false,
-        description: plainItemDesc(latam?.description),
+        description,
         note: 'Existe no LATAM mas ainda não foi cadastrado no calculador — não pode ser usado em builds.',
       });
     }
@@ -145,7 +152,7 @@ export function registerDiscoveryTools(server: McpServer, dataset: Dataset): voi
         defense: rec.defense ?? undefined,
         usableClass: rec.usableClass,
         unusableClass: rec.unusableClass,
-        description: plainItemDesc(rec.description),
+        description,
         bonuses: Object.entries(rec.script ?? {}).map(([key, values]) => ({
           key,
           label: bonusKeyLabel(key),
@@ -160,7 +167,7 @@ export function registerDiscoveryTools(server: McpServer, dataset: Dataset): voi
     title: 'Buscar monstros',
     description:
       'Busca monstros por nome (ou id) e atributos. Por padrão devolve só os que têm bloco de atributos no calculador, que são os únicos utilizáveis como alvo em `calculate`.',
-    inputSchema: searchMonstersSchema,
+    inputSchema: searchMonstersSchema(),
   }, (args) => {
     const { total, rows } = dataset.monsterIndex.search(args);
     return json(paged('monsters', total, rows, args['offset'] ?? 0, toMonsterRow(dataset.monsterIndex)));

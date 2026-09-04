@@ -1,14 +1,16 @@
 # pnpm settings. pnpm 10+ reads them here — neither package.json's "pnpm" field nor the
 # equivalent .npmrc keys are honoured any more.
 
-# pnpm blocks dependency build scripts by default. These three need theirs to run:
-# esbuild and @parcel/watcher fetch/compile a native binary in postinstall, and `ng build`
-# fails without esbuild's. Without this, `pnpm install` ends in ERR_PNPM_IGNORED_BUILDS
-# and leaves the toolchain half-installed.
+# pnpm blocks dependency build scripts by default. These four need theirs to run:
+# esbuild and @parcel/watcher fetch/compile a native binary in postinstall and `ng build`
+# fails without esbuild's, and workerd is the Workers runtime `wrangler dev` runs the
+# Worker on locally. Without this, `pnpm install` ends in ERR_PNPM_IGNORED_BUILDS and
+# leaves the toolchain half-installed.
 allowBuilds:
   '@parcel/watcher': true
   esbuild: true
   nx: true
+  workerd: true
 
 # O pnpm segura pacotes publicados há pouco tempo, como defesa contra um pacote
 # comprometido que acabou de subir. O rrfparser é nosso e costuma ser consumido no mesmo

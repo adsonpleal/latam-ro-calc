@@ -7,10 +7,10 @@
 import { describe, expect, it, beforeAll } from 'vitest';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
-import { loadDataset } from '../data/dataset';
+import { loadDatasetFromDisk } from '../data/dataset.node';
 import { createMcpServer } from '../mcp-server';
 
-const dataset = loadDataset('src/assets/demo/data');
+const dataset = loadDatasetFromDisk();
 let client: Client;
 
 /** Every tool returns a single JSON text block. */

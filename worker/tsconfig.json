@@ -1,20 +1,40 @@
 {
-  // Typecheck config for the Cloudflare Worker. Separate from the root tsconfig so the
-  // Angular build never sees the Workers globals, and vice versa: `HTMLRewriter` and
-  // `caches.default` exist only here, while `document` and `window` do not.
+  // Typecheck AND bundle config for the Cloudflare Worker: both the share-preview routes
+  // and the MCP server, which used to have its own mcp/tsconfig.json. Separate from the
+  // root tsconfig so the Angular build never sees the Workers globals, and vice versa:
+  // `HTMLRewriter` and `caches.default` exist only here, while `document` and `window` do
+  // not.
   //
-  // Note there is no `paths` block. wrangler bundles `main` with its own esbuild pass,
-  // which does not necessarily honour a tsconfig baseUrl — so the Worker imports the
-  // shared modules by explicit relative path and this config has to resolve them the
-  // same way.
+  // tools/build-worker.mjs passes this file to esbuild, which is the only reason the
+  // `paths` below take effect at build time — wrangler's own esbuild pass does not honour
+  // a tsconfig baseUrl, so the pre-bundle is what makes them real.
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": "..",
     "module": "ESNext",
+    // The MCP SDK ships subpath exports (@modelcontextprotocol/sdk/server/mcp.js);
+    // the root's "node" resolution predates package `exports` and cannot see them.
     "moduleResolution": "bundler",
     "types": ["@cloudflare/workers-types"],
+    // No "dom": the Worker has no browser globals, so referencing one should fail here
+    // rather than at runtime on the edge.
     "lib": ["ES2022"],
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "paths": {
+      // `ng build --configuration production` swaps this file in via angular.json's
+      // fileReplacements, which nothing outside the Angular builder applies. Without it
+      // the Worker would run with `production: false`, and CharacterBase's
+      // atkSkills/activeSkills/passiveSkills getters would expose dev-only skills the
+      // website hides — silently diverging the skill lists that share tokens index into.
+      // tools/build-worker.mjs greps the built bundle to prove this still applies.
+      "src/environments/environment": ["src/environments/environment.prod.ts"],
+      // The engine imports in the root tsconfig's `baseUrl: "./"` style, e.g.
+      // `import { floor } from 'src/app/utils'`. 36 files under src/app do this to each
+      // other, which is why the alias has to survive into the bundler.
+      "src/*": ["src/*"]
+    }
   },
-  "include": ["*.ts", "../src/app/core/share-codec.ts", "../src/app/core/share-path.ts", "../src/app/jobs/_class-name.ts"]
+  // Roots only — TypeScript follows the imports from here into src/app/** on its own.
+  "include": ["**/*.ts", "../mcp/src/**/*.ts"]
 }

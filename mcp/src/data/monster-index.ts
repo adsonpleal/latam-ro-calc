@@ -6,7 +6,7 @@
  */
 import { elementPtBr, monsterTypePtBr, racePtBr, sizePtBr } from 'src/app/constants/monster-i18n';
 import { MVP_IDS } from 'src/app/constants/mvp';
-import { ItemMap } from './merge-items';
+import { ItemMap } from './item-map';
 import { foldAccents, tokenize } from './text';
 
 export interface MonsterRow {

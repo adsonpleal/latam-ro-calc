@@ -1,16 +1,17 @@
 /**
- * A searchable index over the union of both item files.
+ * A searchable index over the union of both item sets.
  *
- * `item.json` carries the mechanics; `latam-items.json` is the LATAM universe and is
- * the larger set — ~7.7k of its ids have no calculator record at all. The app's own
- * pipeline drops those (it iterates item.json's keys), so this index unions them back
- * in and flags each row with `inCalcDb`. Rows without a calculator record are
- * name-searchable and describable, but cannot be filtered by slot/bonus/class,
- * because they have no structured fields to filter on.
+ * items-core carries the mechanics; `latam-extra` is the remainder of the LATAM universe —
+ * ~6,6k ids with no calculator record at all. The app's own pipeline drops those (it
+ * iterates item.json's keys), so this index unions them back in and flags each row with
+ * `inCalcDb`. Rows without a calculator record are name-searchable and describable, but
+ * cannot be filtered by slot/bonus/class, because they have no structured fields to
+ * filter on.
  */
 import { canUsedByClass } from 'src/app/utils';
 import { CharacterBase } from 'src/app/jobs/_character-base.abstract';
-import { ItemMap, LatamItem } from './merge-items';
+import { LatamExtra } from './dataset';
+import { ItemMap } from './item-map';
 import { classifyItem, SlotTag } from './slot-classifier';
 import { foldAccents, tokenize } from './text';
 
@@ -56,7 +57,7 @@ export class ItemIndex {
 
   constructor(
     private readonly items: ItemMap,
-    private readonly latamItems: Record<string, LatamItem>,
+    private readonly latamExtra: Record<string, LatamExtra>,
   ) {
     // item.json first: index on the record's `id`, never the key. Id 4807 is
     // deliberately re-listed under 48079999/480799999 so the same enchant appears in
@@ -69,13 +70,15 @@ export class ItemIndex {
         continue;
       }
 
-      const latam = latamItems[record.id];
       const row: ItemRow = {
         id: record.id,
         name: record.name,
         norm: foldAccents([record.name, record.enName, record.aegisName].filter(Boolean).join(' ')),
         inCalcDb: true,
-        latam: !!latam,
+        // `presentInLatam` is set by the generator from the LATAM key set, but is also
+        // forced on for `preRelease` items — which are by definition not on LATAM yet, and
+        // which the old latam-items lookup therefore reported as false.
+        latam: !!record.presentInLatam && !record.preRelease,
         slots: record.slots || undefined,
         slotTags: tags.length ? tags : undefined,
         reqLv: record.requiredLevel ?? undefined,
@@ -87,7 +90,7 @@ export class ItemIndex {
     }
 
     // Then the LATAM-only ids: name and description, nothing mechanical.
-    for (const [idStr, latam] of Object.entries(latamItems)) {
+    for (const [idStr, latam] of Object.entries(latamExtra)) {
       const id = Number(idStr);
       if (this.byId.has(id)) continue;
       const row: ItemRow = {
@@ -117,9 +120,9 @@ export class ItemIndex {
     return row?.inCalcDb ? this.items[id] : undefined;
   }
 
-  /** The pt-BR overlay entry, which exists for LATAM-only items too. */
-  latamRecord(id: number): LatamItem | undefined {
-    return this.latamItems[id];
+  /** The pt-BR name of an id the calculator has no record for. */
+  latamName(id: number): string | undefined {
+    return this.latamExtra[id]?.name;
   }
 
   /** True when any structural filter is set, which implies `inCalcDb`. */

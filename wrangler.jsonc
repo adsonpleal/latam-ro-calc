@@ -3,11 +3,11 @@
   // bundles, the data JSONs — is served straight from the uploaded assets, which is free
   // and unlimited, and is the whole point of moving off Firebase Hosting.
   //
-  // There IS a Worker script, but it runs on exactly one route. `run_worker_first` as an
+  // There IS a Worker script, but it runs on exactly two routes. `run_worker_first` as an
   // ARRAY names the paths that go through it; every other request still takes the free
   // asset path and never invokes it. That distinction matters: `run_worker_first: true`
-  // would put the entire site behind the Worker request budget, and on the free plan a
-  // 429 once that budget is spent means the homepage itself stops loading.
+  // would put the entire site behind the Worker request budget, and a 429 once that budget
+  // is spent would mean the homepage itself stops loading.
   //
   // The array entry is not optional decoration either. With this compatibility date the
   // `assets_navigation_prefers_asset_serving` behaviour is active, under which a browser
@@ -15,11 +15,19 @@
   // sends no `Sec-Fetch-Mode: navigate`, would reach the Worker. Naming /s/* removes that
   // asymmetry so a person and a crawler get the same document.
   //
+  // `main` points at a PRE-BUNDLED file, not at worker/index.ts: the damage engine imports
+  // itself through the `src/*` tsconfig alias and wrangler's own esbuild pass does not
+  // honour a baseUrl. tools/build-worker.mjs does that pass, and emits the MCP handler as
+  // a separate chunk that only a /mcp request evaluates — hence find_additional_modules.
+  //
   // Cache policy for assets lives in src/_headers, which the Worker's own responses do
   // not go through. See that file before touching anything cache-related.
   "name": "simulador-latam-ro",
   "compatibility_date": "2026-08-23",
-  "main": "./worker/index.ts",
+  "main": "./dist/worker/index.js",
+  "base_dir": "./dist/worker",
+  "find_additional_modules": true,
+  "rules": [{ "type": "ESModule", "globs": ["**/*.js"] }],
   "assets": {
     "directory": "./dist/sakai-ng",
     // Required for `env.ASSETS` — the Worker serves the real index.html through it and
@@ -31,17 +39,32 @@
     // rewrite had. The must-revalidate shell keeps the window small.
     "not_found_handling": "single-page-application",
     // Share links: /s/<token>/ (the document) and /s/<token>/og.png (the card image).
-    "run_worker_first": ["/s/*"]
+    // MCP: /mcp and /mcp/healthz. Spelled as two literal patterns rather than "/mcp*",
+    // which would also capture unrelated paths like /mcp-something.
+    "run_worker_first": ["/s/*", "/mcp", "/mcp/*"]
   },
   "vars": {
     // Where the per-build card is rendered — latam-social, a separate service. Point it
     // somewhere else with a .dev.vars file when working on the card itself.
-    "OG_ORIGIN": "https://social.latam-tools.com.br"
+    "OG_ORIGIN": "https://social.latam-tools.com.br",
+
+    // MCP server overrides. Every one of these has the same default in mcp/src/config.ts;
+    // they are spelled out here so the deployed values are readable without opening the
+    // code. ALLOWED_HOSTS in particular is what the DNS-rebinding check compares against,
+    // and it has to name the host the Worker is actually served as.
+    "PUBLIC_APP_ORIGIN": "https://simulador.latam-tools.com.br",
+    "SHORTENER_URL": "https://short.latam-tools.com.br",
+    "ALLOWED_HOSTS": "simulador.latam-tools.com.br,localhost",
+    "ALLOWED_ORIGINS": "https://claude.ai,https://simulador.latam-tools.com.br,http://localhost:4200"
   },
-  // Workers Logs, enabled from the dashboard and mirrored here so a local
-  // deploy does not turn it back off. Only /s/* reaches the Worker, so the
-  // volume is whatever share links get previewed — nowhere near the free
-  // daily event allowance.
+
+  // The engine is synchronous and a single optimize_slot call can run 40 full solves. The
+  // paid plan's default is already 30 s; naming it makes the headroom explicit, and stops
+  // a future default change from quietly truncating a tool.
+  "limits": { "cpu_ms": 30000 },
+  // Workers Logs, enabled from the dashboard and mirrored here so a local deploy does not
+  // turn it back off. Only /s/* and /mcp reach the Worker, so the volume is share-link
+  // previews plus MCP tool calls — nowhere near the plan's monthly event allowance.
   "observability": {
     "logs": {
       "enabled": true,

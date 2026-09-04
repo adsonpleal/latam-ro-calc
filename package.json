@@ -1,20 +1,19 @@
 {
     "name": "ro-calculator",
-    "version": "0.1.102-beta",
+    "version": "0.1.103-beta",
     "license": "MIT",
     "scripts": {
         "ng": "ng",
         "prepare": "node scripts/setup-hooks.mjs",
         "start": "node tools/build-web-data.mjs && ng serve  --host 0.0.0.0 --hmr --port 4200",
         "start2": "node tools/build-web-data.mjs && ng serve",
-        "build": "node tools/build-web-data.mjs --hash --report && ng build && node tools/inject-data-manifest.mjs",
+        "build": "node tools/build-web-data.mjs --hash --report && ng build && node tools/inject-data-manifest.mjs && node tools/build-worker.mjs",
         "data:build": "node tools/build-web-data.mjs --hash --report",
         "data:dev": "node tools/build-web-data.mjs",
-        "build:mcp": "node mcp/build.mjs",
-        "typecheck:mcp": "tsc -p mcp/tsconfig.json",
-        "typecheck:worker": "tsc -p worker/tsconfig.json",
-        "start:mcp": "node mcp/build.mjs && node dist/mcp/server.mjs",
-        "test": "vitest run",
+        "build:worker": "node tools/build-worker.mjs",
+            "typecheck:worker": "tsc -p worker/tsconfig.json",
+        "dev:worker": "node tools/build-worker.mjs && wrangler dev",
+        "test": "node tools/build-web-data.mjs && vitest run",
         "test:watch": "vitest",
         "test:cov": "vitest run --coverage",
         "test:ng": "ng test",
@@ -75,6 +74,7 @@
         "karma-jasmine-html-reporter": "~2.1.0",
         "typescript": "~5.1.3",
         "vitest": "~2.1.9",
+        "wrangler": "^4.128.0",
         "zod": "^4.4.3"
     }
 }

@@ -32,17 +32,25 @@ jobs:
         # package.json, so allow bun to reconcile it instead of failing the run.
         run: bun install --no-frozen-lockfile
 
-      # The Worker is bundled by wrangler itself, so nothing else typechecks it — and a
-      # type error there would only surface as a failed deploy.
+      # Neither esbuild (tools/build-worker.mjs) nor wrangler typechecks anything, so this
+      # is the only thing standing between a type error in the Worker or the MCP server and
+      # a deploy. worker/tsconfig.json covers both.
       - name: Typecheck the Worker
         run: bun run typecheck:worker
+
+      # The MCP server ships inside the Worker now, so this workflow inherits the gate
+      # that mcp-deploy.yml used to provide — including the parity spec, which pins
+      # absolute damage numbers through the whole engine.
+      - name: Test
+        run: bun run test
 
       - name: Build
         run: bun run build
 
-      # Assets plus one route-scoped Worker (share links), configured by wrangler.jsonc.
-      # wrangler uploads the contents of dist/sakai-ng and bundles worker/index.ts; cache
-      # policy for the assets travels with them in dist/sakai-ng/_headers.
+      # Assets plus a Worker on two routes (share links and the MCP server), configured by
+      # wrangler.jsonc. wrangler uploads the contents of dist/sakai-ng and the pre-bundled
+      # Worker from dist/worker; cache policy for the assets travels with them in
+      # dist/sakai-ng/_headers.
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v4
         with:
@@ -53,6 +61,23 @@ jobs:
           # pnpm off pnpm-lock.yaml — but CI installs only bun, so the pnpm probe fails.
           # npm is always on the runner.
           packageManager: npm
+
+      # Lifted from the retired mcp-deploy.yml. A green wrangler deploy says the script
+      # uploaded, not that the dataset it reads through the ASSETS binding actually parses
+      # — which is the one thing that can break here without a build error.
+      - name: Verify the MCP server
+        run: |
+          BASE=https://simulador.latam-tools.com.br
+          for i in $(seq 1 10); do
+            if curl -fsS "$BASE/mcp/healthz" | grep -q '"ok":true'; then break; fi
+            echo "waiting for /mcp/healthz ($i/10)"
+            sleep 3
+          done
+          curl -fsS "$BASE/mcp/healthz" | tee /dev/stderr | grep -q '"ok":true'
+          curl -fsS -X POST "$BASE/mcp" \
+            -H 'content-type: application/json' \
+            -H 'accept: application/json, text/event-stream' \
+            -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' | grep -q '"calculate"'
 
       # Announce the release in Discord — only when this push actually bumped the
       # version (so routine main pushes don't spam #novidades). Runs after a

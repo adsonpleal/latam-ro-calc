@@ -1,17 +1,21 @@
 /**
- * The only Worker on this zone, and it runs on exactly one route: /s/*.
+ * The only Worker on this zone, and it runs on exactly two routes: /s/* and /mcp.
  *
  * Everything else — the app shell, the bundles, the assets — is served straight from
  * Cloudflare's static-asset path, which is free and unlimited. That is why
- * `run_worker_first` in wrangler.jsonc names a path instead of being `true`: the
- * homepage must never depend on a Worker request budget.
+ * `run_worker_first` in wrangler.jsonc names paths instead of being `true`: the homepage
+ * must never depend on a Worker request budget.
  *
- * Two things happen here, both of which exist because a crawler cannot run JavaScript:
+ * `/s/*` exists because a crawler cannot run JavaScript:
  *
  *  - `/s/<token>/` returns the real index.html with the Open Graph tags rewritten for
  *    this specific build, so the preview says who the character is;
  *  - `/s/<token>/og.png` proxies the card image from latam-social, edge-caches it, and
  *    falls back to the site's static cover if that service is unreachable.
+ *
+ * `/mcp` is the Model Context Protocol server, which used to be a Node process on EC2.
+ * It shares this Worker so that it can read the calculator's data through the same ASSETS
+ * binding, which pins the data to the deployment that was built against it.
  */
 import { readShareToken } from '../src/app/core/share-path';
 import { buildShareMeta, ShareMeta } from './share-meta';
@@ -20,6 +24,8 @@ interface Env {
   ASSETS: { fetch: (request: Request) => Promise<Response> };
   /** Origin of latam-social, which renders the card. Overridable via .dev.vars. */
   OG_ORIGIN: string;
+  /** The MCP server's own vars, all optional — its defaults live in mcp/src/config.ts. */
+  [key: string]: unknown;
 }
 
 const CARD_PATH = /^\/s\/[^/]+\/og\.png$/;
@@ -113,6 +119,15 @@ async function serveCard(request: Request, env: Env, ctx: ExecutionContext, url:
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
+
+    // Before the try below, deliberately: that block rescues a broken share link by
+    // serving the app shell, which for an MCP client would turn a protocol error into a
+    // page of HTML. The import is dynamic because the handler drags in the whole damage
+    // engine — see the note at the top of worker/mcp/handler.ts.
+    if (url.pathname === '/mcp' || url.pathname.startsWith('/mcp/')) {
+      const { handleMcp } = await import('./mcp/handler');
+      return handleMcp(request, env, ctx);
+    }
 
     try {
       // Read the token off the raw URL, never via searchParams — same rule the app and

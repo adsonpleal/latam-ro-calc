@@ -1,56 +1,88 @@
 /**
- * Runtime configuration, all overridable by environment (see the systemd unit).
+ * Runtime configuration.
+ *
+ * Every value has a default and can be overridden by a Worker `var` (see the `vars` block
+ * in wrangler.jsonc). `initConfig` is called once per isolate, from the MCP entry point,
+ * before any request is handled — the values are plain strings and numbers, identical for
+ * every request on a given deployment, so holding them in a module global is safe and
+ * keeps the ~20 read sites from having to thread a parameter through.
+ *
+ * The one thing that must NOT read config at module-eval time is a schema const: the
+ * module is evaluated by the dynamic `import()` that precedes `initConfig`, so anything
+ * captured there would freeze the default. `tools/discovery.ts` builds its two search
+ * schemas from factories for exactly this reason.
  */
-const env = (key: string, fallback: string): string => process.env[key]?.trim() || fallback;
-const envInt = (key: string, fallback: number): number => {
-  const n = Number(process.env[key]);
-  return Number.isFinite(n) && n > 0 ? n : fallback;
-};
+export interface ConfigEnv {
+  [key: string]: unknown;
+}
 
-export const config = {
-  port: envInt('PORT', 8787),
-
-  /** Where the seven runtime JSONs live. Defaults to the repo copy for local dev. */
-  dataDir: env('DATA_DIR', 'src/assets/demo/data'),
-
+const DEFAULTS = {
   /** Origin of the web calculator, used to build share links. */
-  appOrigin: env('PUBLIC_APP_ORIGIN', 'https://simulador.latam-tools.com.br'),
+  appOrigin: 'https://simulador.latam-tools.com.br',
 
   /** URL shortener, mirroring the app's share dialog. */
-  shortenerUrl: env('SHORTENER_URL', 'https://short.latam-tools.com.br'),
+  shortenerUrl: 'https://short.latam-tools.com.br',
 
   /** Dummy - Neutro: neutral defence, so the element table cancels out and a bare
    *  comparison isn't distorted by resistances. */
-  defaultTargetId: envInt('DEFAULT_TARGET_ID', 21077),
+  defaultTargetId: 21077,
 
-  /** Hostname this server is served as. Validating it — not Origin — is what actually
-   *  defends against DNS rebinding. */
-  allowedHosts: env('ALLOWED_HOSTS', 'mcp.simulador.latam-tools.com.br,localhost')
-    .split(',')
-    .map((h) => h.trim())
-    .filter(Boolean),
+  /** Hostnames this server answers as. Cloudflare already routes by hostname, so this is
+   *  belt-and-braces rather than the primary DNS-rebinding defence it was on the box. */
+  allowedHosts: ['simulador.latam-tools.com.br', 'localhost'],
 
   /** Browser-based MCP clients send Origin; native/CLI ones send none (and must be
    *  allowed, or the primary use case breaks). */
-  allowedOrigins: env(
-    'ALLOWED_ORIGINS',
-    'https://claude.ai,https://simulador.latam-tools.com.br,http://localhost:4200',
-  )
-    .split(',')
-    .map((o) => o.trim())
-    .filter(Boolean),
+  allowedOrigins: ['https://claude.ai', 'https://simulador.latam-tools.com.br', 'http://localhost:4200'],
 
   limits: {
-    /** Concurrent solve-bearing tool calls. The engine is synchronous, so each one
-     *  blocks the event loop for the whole box — queueing unboundedly would just turn
-     *  a burst into a timeout for everyone. */
-    maxConcurrentSolves: envInt('MAX_CONCURRENT_SOLVES', 2),
-    /** Wall-clock budget for an iterating tool, after which it returns partial
-     *  results flagged `truncated`. */
-    solveBudgetMs: envInt('SOLVE_BUDGET_MS', 2000),
-    maxOptimizeCandidates: envInt('MAX_OPTIMIZE_CANDIDATES', 40),
-    maxTableMonsters: envInt('MAX_TABLE_MONSTERS', 20),
-    maxCompareBuilds: envInt('MAX_COMPARE_BUILDS', 4),
-    maxSearchResults: envInt('MAX_SEARCH_RESULTS', 50),
+    /** Iterations a tool may run before it returns partial results flagged `truncated`.
+     *  A count, not a deadline — see util/budget.ts. */
+    maxSolveUnits: 40,
+    maxOptimizeCandidates: 40,
+    maxTableMonsters: 20,
+    maxCompareBuilds: 4,
+    maxSearchResults: 50,
   },
-} as const;
+};
+
+export type Config = typeof DEFAULTS;
+
+/** Mutated in place by initConfig so existing `config.x` reads keep working. */
+export const config: Config = structuredClone(DEFAULTS);
+
+const str = (env: ConfigEnv, key: string, fallback: string): string => {
+  const raw = env[key];
+  return typeof raw === 'string' && raw.trim() ? raw.trim() : fallback;
+};
+
+const int = (env: ConfigEnv, key: string, fallback: number): number => {
+  const n = Number(env[key]);
+  return Number.isFinite(n) && n > 0 ? n : fallback;
+};
+
+const list = (env: ConfigEnv, key: string, fallback: string[]): string[] => {
+  const raw = env[key];
+  if (typeof raw !== 'string' || !raw.trim()) return fallback;
+  return raw
+    .split(',')
+    .map((v) => v.trim())
+    .filter(Boolean);
+};
+
+/** Apply the Worker `env` over the defaults. Idempotent. */
+export function initConfig(env: ConfigEnv): Config {
+  config.appOrigin = str(env, 'PUBLIC_APP_ORIGIN', DEFAULTS.appOrigin);
+  config.shortenerUrl = str(env, 'SHORTENER_URL', DEFAULTS.shortenerUrl);
+  config.defaultTargetId = int(env, 'DEFAULT_TARGET_ID', DEFAULTS.defaultTargetId);
+  config.allowedHosts = list(env, 'ALLOWED_HOSTS', DEFAULTS.allowedHosts);
+  config.allowedOrigins = list(env, 'ALLOWED_ORIGINS', DEFAULTS.allowedOrigins);
+  config.limits = {
+    maxSolveUnits: int(env, 'MAX_SOLVE_UNITS', DEFAULTS.limits.maxSolveUnits),
+    maxOptimizeCandidates: int(env, 'MAX_OPTIMIZE_CANDIDATES', DEFAULTS.limits.maxOptimizeCandidates),
+    maxTableMonsters: int(env, 'MAX_TABLE_MONSTERS', DEFAULTS.limits.maxTableMonsters),
+    maxCompareBuilds: int(env, 'MAX_COMPARE_BUILDS', DEFAULTS.limits.maxCompareBuilds),
+    maxSearchResults: int(env, 'MAX_SEARCH_RESULTS', DEFAULTS.limits.maxSearchResults),
+  };
+  return config;
+}

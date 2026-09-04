@@ -47,6 +47,6 @@ export const paged = <T, R>(key: string, total: number, rows: T[], offset: numbe
   };
 };
 
-/** Footer for a tool that stopped early on its wall-clock budget. */
+/** Footer for a tool that stopped early on its iteration budget (util/budget.ts). */
 export const truncatedNote = (done: number, total: number, noun: string) =>
-  done < total ? { truncated: true as const, note: `Orçamento de tempo esgotado após ${done} de ${total} ${noun}.` } : {};
+  done < total ? { truncated: true as const, note: `Limite de cálculos atingido após ${done} de ${total} ${noun}.` } : {};

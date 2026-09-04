@@ -64,22 +64,22 @@ builds and publishes to **Cloudflare Workers static assets** serving `dist/sakai
 Static asset requests are free and unlimited; that is why hosting left Firebase on
 23/08/2026, with its 10 GB/month egress quota exhausted.
 
-There is **one** Worker script (`worker/index.ts`) and it runs on **one route**, named by
-`run_worker_first: ["/s/*"]` in `wrangler.jsonc`. That array form is not what the old
-"never add `run_worker_first`" warning was about: the **boolean** form puts every request
-on the Worker, and on the free plan a 429 once the request budget is spent means the
-homepage stops loading. With an array, every path not listed still takes the free asset
-path and never invokes it. The entry is required rather than optional, because the
+There is **one** Worker script (`worker/index.ts`) and it runs on **two routes**, named by
+`run_worker_first: ["/s/*", "/mcp", "/mcp/*"]` in `wrangler.jsonc`. That array form is not
+what the old "never add `run_worker_first`" warning was about: the **boolean** form puts
+every request on the Worker, and a 429 once the request budget is spent would mean the
+homepage itself stops loading. With an array, every path not listed still takes the free
+asset path and never invokes it. The entry is required rather than optional, because the
 compatibility date activates `assets_navigation_prefers_asset_serving`, under which a
 browser navigation is answered from assets before the Worker sees it while a crawler
 (no `Sec-Fetch-Mode: navigate`) is not — so without it a person and a crawler would get
 different documents.
 
-That route exists for the **social share preview**. A build token used to ride in the URL
-fragment (`#/?b=…`), which browsers never send anywhere, so every shared link previewed as
-the same static card. Share links are now `/s/<token>/`; the Worker serves the real
-`index.html` with the Open Graph tags rewritten for that build and proxies the card image
-from `/s/<token>/og.png`. Both old forms still load — `readShareToken` in
+The first route exists for the **social share preview**. A build token used to ride in the
+URL fragment (`#/?b=…`), which browsers never send anywhere, so every shared link
+previewed as the same static card. Share links are now `/s/<token>/`; the Worker serves the
+real `index.html` with the Open Graph tags rewritten for that build and proxies the card
+image from `/s/<token>/og.png`. Both old forms still load — `readShareToken` in
 `src/app/core/share-path.ts` is the single grammar the app, the MCP server and the Worker
 all read, and the trailing slash on the canonical form is deliberate (a token can end in
 `.`, which chat clients strip as sentence punctuation).
@@ -109,9 +109,34 @@ so there is nothing here worth scripting a write path for.
 The audit exists mainly for one trap. **Universal SSL covers the apex and `*.zone` only —
 not `*.*.zone`.** Proxying a subdomain two levels deep breaks TLS outright, because
 Cloudflare has no certificate to present; the visitor gets a handshake failure rather than
-a warning. `mcp.simulador.latam-tools.com.br` (the EC2 MCP server, health-checked by
-`mcp-deploy.yml`) hit exactly this when the nameservers moved on 23/08/2026 and must stay
-grey-clouded. Anything deeper than one label below the zone must be DNS-only.
+a warning. `mcp.simulador.latam-tools.com.br` hit exactly this when the nameservers moved
+on 23/08/2026, and it is why the MCP server could not simply keep its hostname when it
+moved to Workers on 04/09/2026: a Workers Custom Domain needs a proxied record, and there
+is no certificate for a name two labels deep. It went to `simulador.latam-tools.com.br/mcp`
+instead, which is one label and therefore covered. **Anything deeper than one label below
+the zone must be DNS-only** — an Advanced Certificate would lift the restriction, at more
+per month than the Workers plan costs.
+
+The second route is the **MCP server**, which until 04/09/2026 was a Node process on EC2
+behind Caddy. It is the same code (`mcp/src/**`) reached through `worker/mcp/handler.ts`,
+which swaps the `node:http` server for the SDK's `WebStandardStreamableHTTPServerTransport`
+— stateless, one `McpServer` per POST, exactly as before. Three things about it are
+load-bearing and easy to break:
+
+- **The import is dynamic.** `worker/index.ts` does `await import('./mcp/handler')`, and
+  `tools/build-worker.mjs` runs esbuild with `splitting: true` so that becomes a separate
+  chunk. The engine costs ~190 ms to evaluate against a 400 ms **startup CPU** budget, so a
+  static import would risk the whole script — and would make every crawler hitting a cold
+  `/s/<token>/` pay for the damage engine. The entry chunk is ~3 KB; the engine is ~1,7 MB.
+- **The pre-bundle is not optional.** `wrangler.jsonc`'s `main` points at
+  `dist/worker/index.js`, not at the TypeScript, because 36 files under `src/app` import
+  each other through the `src/*` alias and wrangler's own esbuild pass does not honour a
+  tsconfig baseUrl. `worker/tsconfig.json` supplies that alias *and* the `environment` →
+  `environment.prod.ts` swap; the build greps its own output to prove the swap applied,
+  because nothing else would notice.
+- **Config comes from `env`, not `process.env`,** and `initConfig` runs per isolate before
+  any request. Anything that reads `config` at module-eval time freezes the default — the
+  two search schemas in `tools/discovery.ts` are factories for that reason.
 
 There are deliberately **no cache rules and no tiered cache** on this zone: with the assets
 served by Cloudflare itself there is no origin to shield, and `src/_headers` is the single
@@ -164,7 +189,11 @@ name and description.
 > `pnpm data:dev` — or restart `pnpm start`, which already runs it — otherwise the change
 > never reaches the screen. `pnpm build` runs the generator with `--hash` and then
 > `tools/inject-data-manifest.mjs`, which injects the hashed names into `index.html`.
-> The MCP server still reads the raw files from `src/assets/demo/data/`.
+> The MCP server reads these generated files too, through the Worker's ASSETS binding —
+> plus three sidecars the browser ignores (`items-mcp`, `latam-extra`, `latam-monsters`)
+> and its own description map (`items-desc-mcp`). `mcp/src/data/derived-parity.spec.ts` is
+> what keeps the derived set equivalent to the raw one; it pins the index at 17081 items,
+> the same number the retired EC2 server reported.
 
 When registering bonuses and set combos, the **pt-BR description is the source of truth**
 — `latam-items.json` is for resolving *ids*, not for deciding the effect. Format details

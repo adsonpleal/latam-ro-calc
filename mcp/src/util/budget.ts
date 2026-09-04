@@ -1,38 +1,21 @@
 /**
- * CPU guards.
+ * The iteration guard for tools that loop over many candidates or many targets.
  *
- * The engine is synchronous, so a solve blocks the event loop for the whole process —
- * and this box is a shared t3.small also serving two Go services. Queueing an
- * unbounded burst would just convert it into a timeout for everyone, so past the
- * limit we reject fast and say so.
+ * This used to be a wall-clock deadline, and on Workers that would silently never fire:
+ * `Date.now()` does not advance during CPU-bound work there — the clock only moves on I/O
+ * — so a budget checked between synchronous solves would read the same millisecond every
+ * time and `truncated` would become dead code. Counting iterations is both correct on
+ * Workers and a more honest bound anyway, since every unit is one full solve.
+ *
+ * There is no concurrency limiter any more. The old one existed because the engine is
+ * synchronous and the box was a shared t3.small, so a burst turned into a timeout for
+ * everyone; on Workers each request gets its own isolate and its own CPU budget, and a
+ * module-global counter would only ever throttle requests that happened to land on the
+ * same isolate while doing nothing about the burst.
  */
 import { config } from '../config';
 
-let inFlight = 0;
-
-export class BusyError extends Error {
-  constructor() {
-    super('O servidor está processando outros cálculos no momento. Tente novamente em alguns segundos.');
-    this.name = 'BusyError';
-  }
-}
-
-/** Run a solve-bearing operation, or fail immediately if too many are already running. */
-export async function withSolveSlot<T>(fn: () => T | Promise<T>): Promise<T> {
-  if (inFlight >= config.limits.maxConcurrentSolves) throw new BusyError();
-  inFlight++;
-  try {
-    return await fn();
-  } finally {
-    inFlight--;
-  }
-}
-
-/**
- * A wall-clock budget for tools that iterate (many candidates, many targets). Callers
- * check it between iterations and return partial results rather than running long.
- */
-export function createBudget(ms = config.limits.solveBudgetMs) {
-  const deadline = Date.now() + ms;
-  return { expired: () => Date.now() > deadline };
+export function createBudget(units = config.limits.maxSolveUnits) {
+  let used = 0;
+  return { expired: () => ++used > units };
 }

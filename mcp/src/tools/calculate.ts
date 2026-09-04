@@ -20,7 +20,7 @@ import { BuildInput, buildInputSchema, ITEM_ID_KEYS, MAIN_ITEM_SLOTS, relatedIte
 import { projectResult } from '../engine/project';
 import { buildShareUrl, parseShare, resolveIfShort, shortenShareUrl, toPreset } from '../engine/share';
 import { solve } from '../engine/solve';
-import { createBudget, withSolveSlot } from '../util/budget';
+import { createBudget } from '../util/budget';
 import { compact, json, registerJsonTool, truncatedNote } from './helpers';
 
 const targetSchema = z
@@ -69,12 +69,10 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
     },
     async ({ build, target, effects, include }) => {
       const input = await normalizeShare(build);
-      return withSolveSlot(() => {
-        const rb = resolveBuild(input, dataset);
-        const { id: targetId, monster } = resolveTarget(dataset, target?.monsterId);
-        const calc = solve(rb, dataset, monster, effects ?? []);
-        return json(projectResult(calc, rb, { include, targetId, share: shareOf(rb), effects }));
-      });
+      const rb = resolveBuild(input, dataset);
+      const { id: targetId, monster } = resolveTarget(dataset, target?.monsterId);
+      const calc = solve(rb, dataset, monster, effects ?? []);
+      return json(projectResult(calc, rb, { include, targetId, share: shareOf(rb), effects }));
     },
   );
 
@@ -87,51 +85,49 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
     },
   }, async ({ build, monsterIds }) => {
     const input = await normalizeShare(build);
-    return withSolveSlot(() => {
-      const rb = resolveBuild(input, dataset);
-      const skillValue = rb.model.selectedAtkSkill;
-      // Same flag solve() feeds runChain: HP Increase Potion (L) changes max HP, so
-      // hardcoding false here would make this tool disagree with `calculate`.
-      const { usedHpL } = collectConsumables(rb.model, dataset.items);
-      const budget = createBudget();
-      const rows: any[] = [];
+    const rb = resolveBuild(input, dataset);
+    const skillValue = rb.model.selectedAtkSkill;
+    // Same flag solve() feeds runChain: HP Increase Potion (L) changes max HP, so
+    // hardcoding false here would make this tool disagree with `calculate`.
+    const { usedHpL } = collectConsumables(rb.model, dataset.items);
+    const budget = createBudget();
+    const rows: any[] = [];
 
-      // Seed the solve with the first id we actually have data for: the loop reports
-      // unknown ids as per-row errors, so an unknown one in position 0 must not throw
-      // away every other row.
-      const seedId = monsterIds.find((id) => dataset.monsters[id]);
-      if (seedId === undefined) throw new Error('Nenhum dos monstros informados tem bloco de atributos no calculador.');
+    // Seed the solve with the first id we actually have data for: the loop reports
+    // unknown ids as per-row errors, so an unknown one in position 0 must not throw
+    // away every other row.
+    const seedId = monsterIds.find((id) => dataset.monsters[id]);
+    if (seedId === undefined) throw new Error('Nenhum dos monstros informados tem bloco de atributos no calculador.');
 
-      // One full solve, then re-target cheaply — changing the monster does not
-      // invalidate the gear bonus pass, so runChain per target would be wasteful.
-      const calc = solve(rb, dataset, dataset.monsters[seedId]);
-      for (const id of monsterIds) {
-        if (budget.expired()) break;
-        const monster = dataset.monsters[id];
-        if (!monster) {
-          rows.push({ id, error: 'sem bloco de atributos no calculador' });
-          continue;
-        }
-        const dmg: any = calc.setMonster(monster).prepareAllItemBonus().calcDmgWithExtraBonus({ skillValue, isUseHpL: usedHpL });
-        rows.push({
-          id,
-          name: monster.name,
-          level: monster.stats?.level,
-          hp: monster.stats?.health,
-          min: dmg.skillMinDamage,
-          max: dmg.skillMaxDamage,
-          dps: dmg.skillDps,
-          hitsToKill: dmg.skillHitKill,
-        });
+    // One full solve, then re-target cheaply — changing the monster does not
+    // invalidate the gear bonus pass, so runChain per target would be wasteful.
+    const calc = solve(rb, dataset, dataset.monsters[seedId]);
+    for (const id of monsterIds) {
+      if (budget.expired()) break;
+      const monster = dataset.monsters[id];
+      if (!monster) {
+        rows.push({ id, error: 'sem bloco de atributos no calculador' });
+        continue;
       }
-
-      return json({
-        skill: skillValue,
-        rows,
-        ...truncatedNote(rows.length, monsterIds.length, 'alvos'),
-        share: shareOf(rb),
-        ...(rb.warnings.length ? { warnings: rb.warnings } : {}),
+      const dmg: any = calc.setMonster(monster).prepareAllItemBonus().calcDmgWithExtraBonus({ skillValue, isUseHpL: usedHpL });
+      rows.push({
+        id,
+        name: monster.name,
+        level: monster.stats?.level,
+        hp: monster.stats?.health,
+        min: dmg.skillMinDamage,
+        max: dmg.skillMaxDamage,
+        dps: dmg.skillDps,
+        hitsToKill: dmg.skillHitKill,
       });
+    }
+
+    return json({
+      skill: skillValue,
+      rows,
+      ...truncatedNote(rows.length, monsterIds.length, 'alvos'),
+      share: shareOf(rb),
+      ...(rb.warnings.length ? { warnings: rb.warnings } : {}),
     });
   });
 
@@ -145,28 +141,26 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
     },
   }, async ({ builds, target, labels }) => {
     const inputs = await Promise.all(builds.map(normalizeShare));
-    return withSolveSlot(() => {
-      const { id: targetId, monster } = resolveTarget(dataset, target?.monsterId);
-      const results = inputs.map((input, i) => {
-        const rb = resolveBuild(input, dataset);
-        const calc = solve(rb, dataset, monster);
-        const out = projectResult(calc, rb, { targetId, share: shareOf(rb) });
-        return { label: labels?.[i] ?? `Build ${i + 1}`, dps: out['damage'].skill.dps ?? 0, result: out };
-      });
+    const { id: targetId, monster } = resolveTarget(dataset, target?.monsterId);
+    const results = inputs.map((input, i) => {
+      const rb = resolveBuild(input, dataset);
+      const calc = solve(rb, dataset, monster);
+      const out = projectResult(calc, rb, { targetId, share: shareOf(rb) });
+      return { label: labels?.[i] ?? `Build ${i + 1}`, dps: out['damage'].skill.dps ?? 0, result: out };
+    });
 
-      const ranked = [...results].sort((a, b) => b.dps - a.dps);
-      const best = ranked[0];
-      return json({
-        best: best.label,
-        ranking: ranked.map((r) => ({
-          label: r.label,
-          dps: r.dps,
-          max: r.result['damage'].skill.max,
-          deltaPct: deltaPct(r.dps, best.dps) ?? 0,
-          share: r.result['share'],
-        })),
-        details: Object.fromEntries(results.map((r) => [r.label, r.result])),
-      });
+    const ranked = [...results].sort((a, b) => b.dps - a.dps);
+    const best = ranked[0];
+    return json({
+      best: best.label,
+      ranking: ranked.map((r) => ({
+        label: r.label,
+        dps: r.dps,
+        max: r.result['damage'].skill.max,
+        deltaPct: deltaPct(r.dps, best.dps) ?? 0,
+        share: r.result['share'],
+      })),
+      details: Object.fromEntries(results.map((r) => [r.label, r.result])),
     });
   });
 
@@ -181,7 +175,7 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
   }>(server, 'optimize_slot', {
     title: 'Otimizar um slot',
     description:
-      `Testa candidatos para um slot e ordena pelo ganho de DPS. Máximo de ${config.limits.maxOptimizeCandidates} candidatos e um orçamento de tempo — se estourar, devolve resultado parcial com \`truncated\`. ` +
+      `Testa candidatos para um slot e ordena pelo ganho de DPS. Máximo de ${config.limits.maxOptimizeCandidates} candidatos e um limite de cálculos — se estourar, devolve resultado parcial com \`truncated\`. ` +
       'O link devolvido já vem com a comparação armada (peça atual → peça sugerida), então o jogador abre o simulador e vê a diferença.',
     inputSchema: {
       build: buildInputSchema,
@@ -194,72 +188,70 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
     },
   }, async ({ build, slot, candidates, slotTag, query, target, limit = 10 }) => {
     const input = await normalizeShare(build);
-    return withSolveSlot(() => {
-      if (!ITEM_ID_KEYS.includes(slot)) {
-        // Without this the override is silently skipped and every candidate solves to
-        // the baseline, producing a confident ranking of identical numbers.
-        throw new Error(`"${slot}" não é um slot de equipamento. Use um destes: ${MAIN_ITEM_SLOTS.join(', ')}.`);
-      }
+    if (!ITEM_ID_KEYS.includes(slot)) {
+      // Without this the override is silently skipped and every candidate solves to
+      // the baseline, producing a confident ranking of identical numbers.
+      throw new Error(`"${slot}" não é um slot de equipamento. Use um destes: ${MAIN_ITEM_SLOTS.join(', ')}.`);
+    }
 
-      const baseRb = resolveBuild(input, dataset);
-      const classId = baseRb.model.class;
-      const { monster } = resolveTarget(dataset, target?.monsterId);
+    const baseRb = resolveBuild(input, dataset);
+    const classId = baseRb.model.class;
+    const { monster } = resolveTarget(dataset, target?.monsterId);
 
-      const ids = resolveCandidates(dataset, classId, { candidates, slotTag, query });
-      const baseDps = dpsAndMax(solve(baseRb, dataset, monster)).dps;
+    const ids = resolveCandidates(dataset, classId, { candidates, slotTag, query });
+    const baseDps = dpsAndMax(solve(baseRb, dataset, monster)).dps;
 
-      // Decode the share token once — resolveBuild would re-decompress it per candidate.
-      const perCandidate: BuildInput = { ...input, share: undefined, preset: input.share ? parseShare(input.share).preset : input.preset };
+    // Decode the share token once — resolveBuild would re-decompress it per candidate.
+    const perCandidate: BuildInput = { ...input, share: undefined, preset: input.share ? parseShare(input.share).preset : input.preset };
 
-      const budget = createBudget();
-      const scored: any[] = [];
-      for (const id of ids) {
-        if (budget.expired()) break;
-        // Gear changes invalidate the bonus pass, so each candidate needs a full solve.
-        const rb = resolveBuild({ ...perCandidate, gear: { ...(perCandidate.gear ?? {}), [slot]: id } }, dataset);
-        const { dps, max } = dpsAndMax(solve(rb, dataset, monster));
-        scored.push({
-          id,
-          name: dataset.itemIndex.get(id)?.name ?? String(id),
-          dps: round(dps, 2),
-          max,
-          deltaDps: round(dps - baseDps, 2),
-          deltaPct: deltaPct(dps, baseDps),
-        });
-      }
-
-      scored.sort((a, b) => b.dps - a.dps);
-      const top = scored.slice(0, limit);
-      const winner = top[0];
-      const currentId = baseRb.model[slot];
-
-      // Arm the comparison so the link opens on the app's current → simulado view.
-      // The app rebuilds a compared slot's related fields from model2 alone and merges
-      // the result over the main model, so any card/enchant left out here would come
-      // back as null — and the simulated side would not match the DPS ranked above.
-      // Only main slots can be compared; the picker has no row for a card slot.
-      const compare: CompareState | null =
-        winner && MAIN_ITEM_SLOTS.includes(slot)
-          ? {
-              itemNames: [slot],
-              model2: {
-                [slot]: winner.id,
-                [`${slot}Refine`]: baseRb.model[`${slot}Refine`] ?? 0,
-                [`${slot}Grade`]: baseRb.model[`${slot}Grade`] ?? null,
-                ...Object.fromEntries(relatedItemKeys(slot).map((k) => [k, baseRb.model[k] ?? null])),
-              },
-            }
-          : null;
-
-      return json({
-        slot,
-        current: { id: currentId || null, name: currentId ? dataset.itemIndex.get(currentId)?.name : null, dps: round(baseDps, 2) },
-        tested: scored.length,
-        ranking: top,
-        ...truncatedNote(scored.length, ids.length, 'candidatos'),
-        share: shareOf(baseRb, compare),
-        ...(baseRb.warnings.length ? { warnings: baseRb.warnings } : {}),
+    const budget = createBudget();
+    const scored: any[] = [];
+    for (const id of ids) {
+      if (budget.expired()) break;
+      // Gear changes invalidate the bonus pass, so each candidate needs a full solve.
+      const rb = resolveBuild({ ...perCandidate, gear: { ...(perCandidate.gear ?? {}), [slot]: id } }, dataset);
+      const { dps, max } = dpsAndMax(solve(rb, dataset, monster));
+      scored.push({
+        id,
+        name: dataset.itemIndex.get(id)?.name ?? String(id),
+        dps: round(dps, 2),
+        max,
+        deltaDps: round(dps - baseDps, 2),
+        deltaPct: deltaPct(dps, baseDps),
       });
+    }
+
+    scored.sort((a, b) => b.dps - a.dps);
+    const top = scored.slice(0, limit);
+    const winner = top[0];
+    const currentId = baseRb.model[slot];
+
+    // Arm the comparison so the link opens on the app's current → simulado view.
+    // The app rebuilds a compared slot's related fields from model2 alone and merges
+    // the result over the main model, so any card/enchant left out here would come
+    // back as null — and the simulated side would not match the DPS ranked above.
+    // Only main slots can be compared; the picker has no row for a card slot.
+    const compare: CompareState | null =
+      winner && MAIN_ITEM_SLOTS.includes(slot)
+        ? {
+            itemNames: [slot],
+            model2: {
+              [slot]: winner.id,
+              [`${slot}Refine`]: baseRb.model[`${slot}Refine`] ?? 0,
+              [`${slot}Grade`]: baseRb.model[`${slot}Grade`] ?? null,
+              ...Object.fromEntries(relatedItemKeys(slot).map((k) => [k, baseRb.model[k] ?? null])),
+            },
+          }
+        : null;
+
+    return json({
+      slot,
+      current: { id: currentId || null, name: currentId ? dataset.itemIndex.get(currentId)?.name : null, dps: round(baseDps, 2) },
+      tested: scored.length,
+      ranking: top,
+      ...truncatedNote(scored.length, ids.length, 'candidatos'),
+      share: shareOf(baseRb, compare),
+      ...(baseRb.warnings.length ? { warnings: baseRb.warnings } : {}),
     });
   });
 }
@@ -366,10 +358,9 @@ export function registerBridgeTools(server: McpServer, dataset: Dataset): void {
     title: 'Descrição do item',
     description: 'Só a descrição pt-BR de um item, sem os campos estruturais. Útil quando a pergunta é "o que essa peça faz?".',
     inputSchema: { id: z.number().int() },
-  }, ({ id }) => {
-    const latam = dataset.itemIndex.latamRecord(id);
+  }, async ({ id }) => {
     const rec = dataset.itemIndex.record(id);
-    const desc = plainItemDesc(latam?.description ?? rec?.description);
+    const desc = plainItemDesc(await dataset.description(id));
     if (!desc) return json({ error: `Sem descrição para o item ${id}.` }, true);
     return json({ id, name: dataset.itemIndex.get(id)?.name, description: desc, inCalcDb: !!rec });
   });

@@ -3,7 +3,7 @@
  * back without changing what it calculates.
  */
 import { describe, expect, it } from 'vitest';
-import { loadDataset } from '../data/dataset';
+import { loadDatasetFromDisk } from '../data/dataset.node';
 import { BuildInput, resolveBuild } from './build-input';
 import { applyPreset } from './preset';
 import { projectResult } from './project';
@@ -11,7 +11,7 @@ import { readShareToken } from 'src/app/core/share-path';
 import { buildShareUrl, parseShare, toPreset } from './share';
 import { solve } from './solve';
 
-const dataset = loadDataset('src/assets/demo/data');
+const dataset = loadDatasetFromDisk();
 const DUMMY_NEUTRAL = 21077;
 const ORIGIN = 'https://simulador.latam-tools.com.br';
 

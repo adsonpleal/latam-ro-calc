@@ -159,6 +159,91 @@ export function buildItems(items, latam, { allDesc } = {}) {
   return { core, desc };
 }
 
+/**
+ * The three artifacts below exist only for the MCP server, which serves the same engine
+ * over Model Context Protocol and needs a little more than the browser does. They are
+ * emitted as sidecars rather than folded into items-core on purpose: core is the file
+ * every visitor downloads, and keeping it byte-identical means a deploy that only touches
+ * the MCP does not invalidate anyone's immutable cache.
+ */
+
+/**
+ * `requiredLevel`, keyed the same way items-core is (by map key, not id).
+ *
+ * It stays in DROPPED_FIELDS because the browser genuinely never reads it — but the MCP's
+ * `search_items` exposes it as the `maxLevel` filter, so it has to reach the Worker
+ * somehow. ~66 KB.
+ */
+export function buildItemsMcp(items) {
+  const out = {};
+  for (const key of Object.keys(items)) {
+    const lv = items[key].requiredLevel;
+    if (lv !== undefined && lv !== null) out[key] = lv;
+  }
+  return out;
+}
+
+/**
+ * The LATAM ids with no `item.json` record at all — around 6,6k of them.
+ *
+ * The browser's pipeline iterates item.json's keys and so never sees these; the MCP's
+ * search index unions them back in as name-only rows flagged `inCalcDb: false`
+ * (mcp/src/data/item-index.ts). Mirrors that loop's own test — an id counts as present
+ * when some record carries it as `id`, which is what makes the 4807 alias keys collapse
+ * to one row. Names/slots only, ~340 KB; descriptions ride in items-desc-mcp.
+ */
+export function buildLatamExtra(items, latam) {
+  const known = new Set();
+  for (const key of Object.keys(items)) known.add(items[key].id);
+
+  const out = {};
+  for (const id of Object.keys(latam)) {
+    if (known.has(Number(id))) continue;
+    const entry = latam[id];
+    const rec = { name: entry.name };
+    if (entry.aegisName) rec.aegisName = entry.aegisName;
+    if (entry.slots) rec.slots = entry.slots;
+    out[id] = rec;
+  }
+  return out;
+}
+
+/**
+ * Every description the MCP can serve, keyed by item **id**.
+ *
+ * Three things make this a different file from items-desc rather than a superset of it:
+ *
+ *  - it is keyed by id, because both consumers look up by id — `item_description` reads
+ *    `latamRecord(id)?.description ?? record(id)?.description` and `get_item` reads
+ *    `rec.description`, and items-desc is keyed by map key (the two diverge for the
+ *    48079999/480799999 aliases of item 4807);
+ *  - it covers the LATAM-only ids, which items-core knows nothing about;
+ *  - it keeps the English description of calc-DB items absent from LATAM, which the
+ *    browser deliberately withholds but `get_item` still answers with.
+ *
+ * ~6 MB, and the single reason the Worker loads it behind its own lazy promise.
+ */
+export function buildDescMcp(items, latam) {
+  const out = {};
+
+  for (const key of Object.keys(items)) {
+    const item = items[key];
+    // Same precedence mergeLatamItems applies: the pt-BR text wins when there is one.
+    const pt = latamEntry(latam, key, item);
+    const desc = pt?.description ?? item.description;
+    if (desc) out[item.id] = desc;
+  }
+
+  // LATAM-only ids last: they cannot collide with the loop above, which only ever writes
+  // ids that item.json carries.
+  for (const id of Object.keys(latam)) {
+    const desc = latam[id].description;
+    if (desc && out[id] === undefined) out[id] = desc;
+  }
+
+  return out;
+}
+
 export function buildMonsters(monsters, latamMonsters) {
   for (const id of Object.keys(monsters)) {
     const pt = latamMonsters[id];
@@ -187,6 +272,16 @@ export function main() {
     ['hpsp', 'hpsp', hpSpTable],
     ['classes', 'classes', latamClasses],
     ['itemViews', 'item-views', itemViews],
+
+    // MCP-only sidecars. The browser never fetches these — they are not in EAGER_KEYS and
+    // nothing in src/app reads them — but they are plain static assets, which is exactly
+    // how the Worker gets at them (worker/mcp/data.ts, via the ASSETS binding).
+    ['itemsMcp', 'items-mcp', buildItemsMcp(items)],
+    ['latamExtra', 'latam-extra', buildLatamExtra(items, latam)],
+    // Verbatim: buildMonsters above consumes this file to rename monsters.json and then
+    // throws it away, but the MCP's monster index unions its ~3,6k stat-less mobs back in.
+    ['latamMonsters', 'latam-monsters', latamMonsters],
+    ['itemsDescMcp', 'items-desc-mcp', buildDescMcp(items, latam)],
   ];
 
   // Wipe first so hashed filenames from previous runs never accumulate.

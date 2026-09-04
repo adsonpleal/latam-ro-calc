@@ -125,11 +125,11 @@ function applyOverrides(model: any, input: BuildInput, warnings: string[], datas
   if (input.skills?.buffs) model.skillBuffMap = { ...model.skillBuffMap, ...input.skills.buffs };
 
   // An id the calculator has no record for is silently ignored by loadItemFromModel,
-  // and 7.7k LATAM items legitimately fall in that bucket — so say so out loud.
+  // and ~6,6k LATAM items legitimately fall in that bucket — so say so out loud.
   for (const key of ITEM_ID_KEYS) {
     const id = model[key];
     if (typeof id !== 'number' || id <= 0 || dataset.items[id]) continue;
-    const latamName = dataset.latamItems[id]?.name;
+    const latamName = dataset.latamExtra[id]?.name;
     warnings.push(
       latamName
         ? `Item ${id} ("${latamName}") existe no LATAM mas ainda não está no banco do calculador — ignorado em ${key}.`

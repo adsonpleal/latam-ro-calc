@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { loadDataset } from './dataset';
+import { loadDatasetFromDisk } from './dataset.node';
 import { ItemIndex } from './item-index';
 import { foldAccents } from './text';
 
-const dataset = loadDataset('src/assets/demo/data');
+const dataset = loadDatasetFromDisk();
 const index = dataset.itemIndex;
 
 describe('ItemIndex composition', () => {
@@ -25,7 +25,7 @@ describe('ItemIndex composition', () => {
     expect(row.name).toBe('Anel da Allysia');
     expect(row.slotTags).toBeUndefined();
     expect(index.record(7508)).toBeUndefined();
-    expect(index.latamRecord(7508)?.name).toBe('Anel da Allysia');
+    expect(index.latamName(7508)).toBe('Anel da Allysia');
   });
 
   it('classifies a weapon, a card and a costume', () => {
