@@ -161,7 +161,7 @@ export class AppTopBarComponent {
       v: '0.1.103-beta',
       date: '04-09-2026',
       logs: [
-        'O servidor MCP mudou de endereço: agora é https://simulador.latam-tools.com.br/mcp. Quem já tinha conectado uma IA precisa apagar o conector antigo e criar outro com esse endereço — não dá para redirecionar o anterior, porque o endereço velho deixa de existir junto com a máquina que o atendia. O antigo (mcp.simulador.latam-tools.com.br) continua respondendo até 04/10/2026. O passo a passo com a URL nova está no botão "Conectar uma IA" aqui em cima.',
+        'O servidor MCP mudou de endereço: agora é https://simulador.latam-tools.com.br/mcp. O passo a passo está no botão "Conectar uma IA" aqui em cima, com a URL já atualizada. Quem tiver o endereço antigo salvo em algum conector precisa trocá-lo, porque ele saiu do ar junto com a máquina que o atendia.',
         'A mudança é de infraestrutura: o MCP saiu de um servidor próprio e passou a rodar na mesma hospedagem do site, lendo exatamente os mesmos dados de itens e monstros que esta página carrega. Isso encerra a chance de o simulador e a IA discordarem por estarem com versões diferentes do banco. As contas não mudaram — os números de referência conferidos a cada build continuam idênticos.',
         'A resposta "o servidor está processando outros cálculos no momento" não acontece mais. Ela existia porque a máquina antiga era uma só e um cálculo pesado travava a fila de todo mundo; agora cada chamada roda isolada. O limite de candidatos do optimize_slot continua valendo, e resultados parciais seguem marcados com `truncated`.',
       ],
