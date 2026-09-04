@@ -158,6 +158,13 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.102-beta',
+      date: '04-09-2026',
+      logs: [
+        'Os monstros da Ilusão do Ursinho entraram no banco de alvos. Os oito monstros comuns do mapa — os Ursinhos Azul, Vermelho, Amarelo, Verde e Branco, os Mineradores, o Fragmento de Alma e a Obsidiana Sinistra — não tinham cadastro nenhum, então não apareciam em busca alguma. O Ursinho Brilhante já estava no banco, mas só porque consta da lista de MVPs, e sem o código do mapa; agora ele o carrega. O grupo no seletor de alvo é "150 - 165 ein_d02_i", no mesmo formato das outras cavernas ilusionais. Nível, elemento, raça, tamanho, HP e defesas vêm da mesma extração do cliente que abastece o resto do banco. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.101-beta',
       date: '02-09-2026',
       logs: [

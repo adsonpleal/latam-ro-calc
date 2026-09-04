@@ -15,6 +15,7 @@ const Mapper = {
   lhz_dun04: '140 - 150 lhz_dun04',
   tur_d03_i: '150 - 160 tur_d03_i',
   tur_d04_i: '150 - 170 tur_d04_i',
+  ein_d02_i: '150 - 165 ein_d02_i',
   com_d02_i: '160 - 170 com_d02_i',
   ant_d02_i: '160 - 170 ant_d02_i',
   sp_rudus2: '153 - 165 sp_rudus2',
