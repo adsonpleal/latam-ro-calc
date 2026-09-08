@@ -158,6 +158,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.104-beta',
+      date: '08-09-2026',
+      logs: [
+        'Um slot em comparação ganhou o botão de inverter. Comparar peça por peça terminava sempre do mesmo jeito: escolhida a alternativa, era preciso desligar a comparação e procurar o item de novo na lista, com o motivo pelo qual ele havia vencido já fora da tela. O ⇅ ao lado do ✕ da linha de comparação troca os dois lados de uma vez — o item comparado passa a ser o da build, e o que estava equipado desce para a comparação, ainda comparado, a um clique de voltar.',
+        'Vai junto com a peça tudo o que a comparação guarda dela: refino, grau, cartas, encantamentos e bônus aleatórios, mais o conversor de elemento e a munição no caso da arma e o grau de lealdade no caso do pet. Inverter contra uma comparação vazia tira a peça da build e a deixa do outro lado, que é como perguntar quanto ela vale sem ter de removê-la. Nos visuais só os encantamentos trocam de lado, porque só eles entram na comparação. Reportado por Pazzolino.',
+      ],
+    },
+    {
       v: '0.1.103-beta',
       date: '04-09-2026',
       logs: [

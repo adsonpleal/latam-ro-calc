@@ -56,23 +56,40 @@
       *ngTemplateOutlet="body; context: { rows: mainRows, entry: item, compare: false }"
     ></ng-container>
 
-    <!-- The sub-row has no header of its own, so its clear sits over the top-right corner
-         where the card's own does. It empties the alternative without switching the
+    <!-- The sub-row has no header of its own, so its buttons sit over the top-right corner
+         where the card's own does. The ✕ empties the alternative without switching the
          comparison off: with the slot compared and nothing in it, the card answers "and
-         what if I took this off", which the toggle cannot ask. -->
+         what if I took this off", which the toggle cannot ask. The ⇅ trades the two sides,
+         so the alternative that won can be kept without being picked again — and the one
+         it displaced stays compared, one more click from coming back. -->
     <div class="eq-card__compare-row" *ngIf="compareRows.length">
-      <button
-        *ngIf="hasCompareContent"
-        type="button"
-        class="eq-card__clear eq-card__clear--compare"
-        aria-label="Limpar a comparação deste slot"
-        pTooltip="Limpar a comparação deste slot"
-        tooltipPosition="left"
-        [showDelay]="300"
-        (click)="clearCompare.emit()"
-      >
-        ✕
-      </button>
+      <div class="eq-card__compare-actions">
+        <button
+          *ngIf="canSwap"
+          type="button"
+          class="eq-card__clear eq-card__clear--compare"
+          aria-label="Inverter: trocar este item pelo comparado"
+          pTooltip="Inverter: o item comparado passa a ser o da build, e o da build passa a ser o comparado"
+          tooltipPosition="left"
+          [showDelay]="300"
+          (click)="swapCompare.emit()"
+        >
+          ⇅
+        </button>
+
+        <button
+          *ngIf="hasCompareContent"
+          type="button"
+          class="eq-card__clear eq-card__clear--compare"
+          aria-label="Limpar a comparação deste slot"
+          pTooltip="Limpar a comparação deste slot"
+          tooltipPosition="left"
+          [showDelay]="300"
+          (click)="clearCompare.emit()"
+        >
+          ✕
+        </button>
+      </div>
       <ng-container *ngTemplateOutlet="body; context: { rows: compareRows, entry: compareItem, compare: true }"></ng-container>
     </div>
   </ng-container>

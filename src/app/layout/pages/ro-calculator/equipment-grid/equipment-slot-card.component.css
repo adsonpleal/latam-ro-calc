@@ -149,14 +149,20 @@
   border-top: 1px dashed rgb(253 216 125 / 35%);
 }
 
-/* The sub-row has no header to sit in, so the button is parked in the corner instead —
-   at the same inset as the card's own clear, so the two line up down the right edge.
-   It keeps the amber of the row it belongs to rather than the header's grey. */
-.eq-card__clear--compare {
+/* The sub-row has no header to sit in, so its buttons are parked in the corner instead —
+   at the same inset as the card's own clear, so they line up down the right edge. The
+   ✕ keeps the rightmost place it has always had, whether or not the ⇅ is drawn beside it. */
+.eq-card__compare-actions {
   position: absolute;
   top: 6px;
   right: 8px;
   z-index: 1;
+  display: flex;
+  gap: 2px;
+}
+
+/* Keeps the amber of the row it belongs to rather than the header's grey. */
+.eq-card__clear--compare {
   color: rgb(253 216 125 / 55%);
 }
 

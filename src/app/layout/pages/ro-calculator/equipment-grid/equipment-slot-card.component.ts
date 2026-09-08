@@ -57,6 +57,7 @@ export class EquipmentSlotCardComponent implements OnChanges {
   @Output() readonly clearSlot = new EventEmitter<void>();
   @Output() readonly toggleCompare = new EventEmitter<void>();
   @Output() readonly clearCompare = new EventEmitter<void>();
+  @Output() readonly swapCompare = new EventEmitter<void>();
 
   mainRows: ChipView[][] = [];
   compareRows: ChipView[][] = [];
@@ -64,6 +65,7 @@ export class EquipmentSlotCardComponent implements OnChanges {
   comparingHere = false;
   hasContent = false;
   hasCompareContent = false;
+  canSwap = false;
 
   constructor(
     private readonly picker: ItemPickerService,
@@ -79,6 +81,9 @@ export class EquipmentSlotCardComponent implements OnChanges {
     this.mainRows = this.buildRows(this.model, this.derivation, false);
     this.compareRows = this.comparingHere ? this.buildRows(this.model2, this.compareDerivation, true) : [];
     this.hasCompareContent = this.compareRows.some((row) => row.some((view) => view.filled));
+    // Two empty sides have nothing to exchange; one filled side still does — swapping into
+    // an empty comparison is how the card answers "and how much is this worth at all".
+    this.canSwap = this.comparingHere && (this.hasCompareContent || this.mainRows.some((row) => row.some((view) => view.filled)));
     this.cdr.markForCheck();
   }
 

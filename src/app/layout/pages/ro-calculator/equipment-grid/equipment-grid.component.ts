@@ -213,6 +213,88 @@ export class EquipmentGridComponent implements OnChanges {
     this.compareItemChange.emit();
   }
 
+  /**
+   * The ⇅ on a card's comparison sub-row: exchanges the alternative with what the build is
+   * wearing. Trying gear on is a loop — compare, look, compare again — and the item that
+   * wins it had to be picked a second time to be kept, from a list where the reason it won
+   * is no longer on screen. Swapping keeps the loser in the comparison, so switching back
+   * costs another click rather than another search.
+   *
+   * Only the compared fields move. A costume card compares its enchants and not the visual
+   * they ride on, so swapping `slotOwnFields` wholesale there would take the costume itself
+   * out of the build to make room for a comparison that never held one.
+   */
+  onSwapCompare(slot: EquipmentSlotDescriptor): void {
+    if (!comparableKeysOf(slot).length) return;
+
+    for (const field of this.swappedFields(slot)) {
+      const mine = this.model[field];
+      this.model[field] = this.model2[field];
+      this.model2[field] = mine;
+    }
+
+    if (slot.comparable) {
+      for (const index of slot.optionIndexes) {
+        const mine = this.model['rawOptionTxts'][index];
+        this.model['rawOptionTxts'][index] = this.model2['rawOptionTxts'][index];
+        this.model2['rawOptionTxts'][index] = mine;
+      }
+    }
+
+    // Hydration, not a pick: both sides already held values that fitted their own item, so
+    // an enchant the kRO-derived table does not list has to survive crossing over — the
+    // same reason a preset or a share link refreshes this way.
+    this.refresh(null);
+    this.announceSwap(slot);
+  }
+
+  /**
+   * The compared half of what the card owns — the mirror of what `seedComparison` copies
+   * in, minus the fields a non-comparable card key drags along.
+   */
+  private swappedFields(slot: EquipmentSlotDescriptor): string[] {
+    return [
+      ...(slot.comparable ? slotOwnFields(slot) : []),
+      ...(slot.subItemSlots ?? []).filter((sub) => sub.comparable).map((sub) => sub.key),
+    ];
+  }
+
+  /**
+   * Tells the host what the build now wears, field by field, exactly as picking each of
+   * them would have. Both buses have to hear it: `updateItemEvent` recalculates and writes
+   * the autosave, `updateCompareEvent` re-persists the comparison, and they save to
+   * separate keys — one firing alone leaves the two halves of the swap disagreeing.
+   */
+  private announceSwap(slot: EquipmentSlotDescriptor): void {
+    const idOf = (field: string): number | null => (this.model[field] as number) ?? null;
+
+    if (slot.comparable) {
+      // The refine travels with the item, as it does out of the item chip.
+      this.selectItem.emit({ itemType: slot.key, itemId: idOf(slot.key), refine: Number(this.model[`${slot.key}Refine`]) || 0 });
+
+      for (const field of MainItemWithRelations[slot.key] ?? []) {
+        this.selectItem.emit({ itemType: field, itemId: idOf(field), refine: 0 });
+      }
+      if (slot.ammo) this.selectItem.emit({ itemType: ItemTypeEnum.ammo, itemId: idOf(ItemTypeEnum.ammo), refine: 0 });
+      if (slot.grade) {
+        this.selectGrade.emit({ itemType: slot.key, itemId: idOf(slot.key), grade: (this.model[`${slot.key}Grade`] as string) ?? '' });
+      }
+      if (slot.converter) this.propertyAtkChange.emit();
+      if (slot.loyalty || slot.optionIndexes.length) this.optionChange.emit();
+
+      // Swapping an empty comparison in empties the slot, and the host's clear cascade is
+      // what evicts the fields that belong to no slot of their own — the off-hand a weapon
+      // was holding open, its converter and its ammo.
+      if (this.model[slot.key] == null && (MainItemWithRelations[slot.key] ?? []).length) this.clearItem.emit(slot.key);
+    }
+
+    for (const sub of slot.subItemSlots ?? []) {
+      if (sub.comparable) this.selectItem.emit({ itemType: sub.key, itemId: idOf(sub.key), refine: 0 });
+    }
+
+    this.compareItemChange.emit();
+  }
+
   onClearComparison(): void {
     // The host empties the comparison by *replacing* compareItemNames, so the new array
     // reaches us as an input change on the next pass — refreshing here would only compute
