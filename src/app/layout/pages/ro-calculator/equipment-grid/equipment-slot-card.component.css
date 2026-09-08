@@ -64,12 +64,31 @@
   cursor: not-allowed;
 }
 
+/*
+ * Optical centring for the ✕ and the ⇅.
+ *
+ * `align-items` centres the *line box*, and the drawn shape does not sit in the middle of
+ * one: in ✕ (U+2715) and ⇅ (U+21C5) the system font leaves twice as much line box above
+ * the ink as below, so at 12px the glyph lands a pixel low in its round hover background —
+ * invisible until the background appears under it, and then hard to unsee. `padding-bottom`
+ * pulls the line box up by half its own value, so 2px buys the 1px back.
+ *
+ * Kept in px, and kept to these buttons. The offset does scale with the type, but the
+ * smaller glyph buttons — the ribbon's ✕ at 10px, a chip's at 9px — are rasterised onto
+ * whole pixels at that size and already measure centred; the proportional nudge only
+ * moved those off.
+ *
+ * Zeroing the other three sides is not cosmetic either: with no padding declared these
+ * were inheriting the UA's `1px 6px`, leaving a 20px-wide button with a 6px content box
+ * for a 10px glyph to overflow.
+ */
 .eq-card__clear {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 20px;
   height: 20px;
+  padding: 0 0 2px;
   border: 1px solid transparent;
   border-radius: 10px;
   background: transparent;
