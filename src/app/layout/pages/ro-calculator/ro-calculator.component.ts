@@ -3540,13 +3540,16 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     itemMap: Map<any, number> = this.equipItemIdItemTypeMap,
   ): { label: string; icon?: number; iconType: 'item' | 'skill'; value: number } {
     // A ticked "Efeito" (proc) — keyed by the item that grants it, so it labels like any
-    // other equipment row.
+    // other equipment row. Its own miss path, rather than the shared `fallback` tail below:
+    // a chance whose item is not loaded still knows its own name (collectChanceSources keys
+    // by it), and printing "chance_Instinto" would be worse than printing "Instinto".
     if (srcKey.startsWith('chance_')) {
-      const chanceItemId = Number(srcKey.slice('chance_'.length));
-      if (this.items[chanceItemId]) {
-        return { label: this.items[chanceItemId].name, icon: chanceItemId, iconType: 'item', value };
-      }
-      return { label: srcKey.slice('chance_'.length), iconType: 'item', value };
+      const chanceSource = srcKey.slice('chance_'.length);
+      const chanceItem = this.items[Number(chanceSource)];
+
+      return chanceItem
+        ? { label: chanceItem.name, icon: Number(chanceSource), iconType: 'item', value }
+        : { label: chanceSource, iconType: 'item', value };
     }
     if (srcKey.startsWith('consumable_')) {
       const consumableId = Number(srcKey.slice('consumable_'.length));

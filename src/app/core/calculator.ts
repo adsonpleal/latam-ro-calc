@@ -26,6 +26,7 @@ import { AdditionalBonusInput } from 'src/app/models/info-for-class.model';
 import { ItemModel } from 'src/app/models/item.model';
 import { MainModel } from 'src/app/models/main.model';
 import { MonsterModel } from 'src/app/models/monster.model';
+import { StatusSummary } from 'src/app/models/status-summary.model';
 import { DamageCalculator } from './damage-calculator';
 import { HpSpCalculator } from './hp-sp-calculator';
 
@@ -48,6 +49,17 @@ const refinableItemTypes = [
   ItemTypeEnum.shadowPendant,
   ItemTypeEnum.shadowShield,
 ];
+/** DEF a refine step is worth, per refine level: +1 each through +4, +2 through +8, and so
+ *  on. Stored cumulatively (index = refine, so [0] is 0), because every reader wants the
+ *  running total for a refine rather than the individual steps. */
+const REFINE_DEF_BY_LEVEL = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5].reduce(
+  (cumulative, step) => [...cumulative, cumulative[cumulative.length - 1] + step],
+  [0],
+);
+/** Cumulative refine DEF, clamped at both ends (a refine can be undefined or over the table). */
+const defByRefine = (refine: number): number =>
+  REFINE_DEF_BY_LEVEL[Math.min(Math.max(Number(refine) || 0, 0), REFINE_DEF_BY_LEVEL.length - 1)];
+
 const mainStatuses: (keyof EquipmentSummaryModel)[] = ['str', 'dex', 'int', 'agi', 'luk', 'vit'];
 const traitStatuses: (keyof EquipmentSummaryModel)[] = ['pow', 'sta', 'wis', 'spl', 'con', 'crt'];
 
@@ -57,9 +69,11 @@ interface ValidationResult {
   restCondition: string;
 }
 
-/** Everything the "Resumo de atributos" panel reads that a ticked proc can move —
- *  see `Calculator.effectedState`. */
-interface EffectedStateModel {
+/** Everything the "Resumo de atributos" panel reads that a ticked proc can move — see
+ *  `Calculator.effectedState`. Both passes are assembled into this one shape, so a figure
+ *  added to the panel cannot be wired to the base pass and forgotten on the effected one:
+ *  it has to be filled in on both, or it does not compile. */
+interface CharacterSheetModel {
   totalBonus: EquipmentSummaryModel;
   misc: MiscModel;
   skillFrequency: SkillAspdModel;
@@ -71,8 +85,9 @@ interface EffectedStateModel {
   defenses: DefenseSummary;
 }
 
-/** The defence block calcAllDefs solves — returned rather than assigned, so the same
- *  formulas can be run a second time against the proc's bonuses. */
+/** The defence block calcAllDefs solves — kept whole rather than unpacked into fields,
+ *  so the same formulas can be run a second time against a ticked proc's bonuses and the two
+ *  results stay interchangeable. */
 interface DefenseSummary {
   def: number;
   softDef: number;
@@ -279,13 +294,7 @@ export class Calculator {
   private maxHp = 0;
   private maxSp = 0;
 
-  private def = 0;
-  private softDef = 0;
-  private mdef = 0;
-  private softMdef = 0;
-
-  private res = 0;
-  private mres = 0;
+  private defenses: DefenseSummary = { def: 0, softDef: 0, mdef: 0, softMdef: 0, res: 0, mres: 0 };
 
   private damageSummary = {} as BasicDamageSummaryModel & Partial<SkillDamageSummaryModel>;
   private miscSummary = {} as MiscModel;
@@ -301,7 +310,7 @@ export class Calculator {
    * ticked. The base damage figures are deliberately NOT part of it — the damage panel
    * shows base and effected side by side ("Sem efeitos"), so those keep their own pair.
    */
-  private effectedState: EffectedStateModel | null = null;
+  private effectedState: CharacterSheetModel | null = null;
   private equipCombo = new Set<string>();
 
   private skillFrequency: SkillAspdModel = {
@@ -1670,20 +1679,14 @@ export class Calculator {
   }
 
   calcAllDefs() {
-    const { def, softDef, mdef, softMdef, res, mres } = this.computeDefenses(this.totalEquipStatus, this.dmgCalculator.status);
-    this.def = def;
-    this.softDef = softDef;
-    this.mdef = mdef;
-    this.softMdef = softMdef;
-    this.res = res;
-    this.mres = mres;
+    this.defenses = this.computeDefenses(this.totalEquipStatus, this.dmgCalculator.status);
 
     return this;
   }
 
   /** The defence formulas, over an explicit bonus map and status block so the panel can
    *  run them a second time with a ticked proc's bonuses folded in (see effectedState). */
-  private computeDefenses(bonus: EquipmentSummaryModel, status: { totalVit: number; totalAgi: number; totalSta: number; totalWis: number; totalDex: number; totalInt: number; }): DefenseSummary {
+  private computeDefenses(bonus: EquipmentSummaryModel, status: StatusSummary): DefenseSummary {
     const { level } = this.model;
     const { def = 0, defPercent = 0, softDef = 0, softDefPercent = 0, res = 0, mres = 0 } = bonus;
     const { totalVit, totalAgi, totalSta, totalWis } = status;
@@ -1691,10 +1694,6 @@ export class Calculator {
     const rawSoftDef = floor(totalVit / 2 + totalAgi / 5 + level / 2);
     const finalSoftDef = floor((rawSoftDef + softDef) * this.toPercent(100 + softDefPercent));
 
-    const refineDefTable = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5];
-    const calcDefByRefine = (refine: number) => {
-      return refineDefTable.filter((_, i) => i + 1 <= refine).reduce((sum, val) => sum + val, 0);
-    };
     const { headUpperRefine, armorRefine, shieldRefine, garmentRefine, bootRefine } = this.model;
 
     const { headUpper, armor, shield, garment, boot } = this.model;
@@ -1709,7 +1708,7 @@ export class Calculator {
       .reduce(
         ({ additionalDef, bonusRes }, [_, refine]) => {
           return {
-            additionalDef: additionalDef + round(calcDefByRefine(refine) * 0.2, 0),
+            additionalDef: additionalDef + round(defByRefine(refine) * 0.2, 0),
             bonusRes: bonusRes + refine * 2,
           };
         },
@@ -1717,7 +1716,7 @@ export class Calculator {
       );
 
     const refines = [headUpperRefine, armorRefine, shieldRefine, garmentRefine, bootRefine].filter((a) => Number(a) > 0);
-    const bonusDefByRefine = refines.reduce((sum, refine) => sum + calcDefByRefine(refine), 0);
+    const bonusDefByRefine = refines.reduce((sum, refine) => sum + defByRefine(refine), 0);
 
     const { totalDex, totalInt } = status;
     const { mdef = 0, mdefPercent = 0, softMdef = 0, softMdefPercent = 0 } = bonus;
@@ -1752,12 +1751,7 @@ export class Calculator {
       name,
       level: this.model.level ?? 1,
       hp: this.maxHp,
-      def: this.def,
-      softDef: this.softDef,
-      mdef: this.mdef,
-      softMdef: this.softMdef,
-      res: this.res,
-      mres: this.mres,
+      ...this.defenses,
       flee: (this.miscSummary as any)?.totalFlee ?? 0,
       str: s.totalStr,
       agi: s.totalAgi,
@@ -1790,15 +1784,24 @@ export class Calculator {
     // the ATQ rows above already are, because atkSummaryForUI reads the calculator
     // recalcExtraBonus left in that state. The `dmg` block below stays base: the damage
     // panel prints base and effected as a pair and needs both.
-    const effected = this.effectedState;
-    const totalBonus = effected?.totalBonus ?? this.totalEquipStatus;
-    const skillFrequency = effected?.skillFrequency ?? this.skillFrequency;
-    const misc = effected?.misc ?? this.miscSummary;
-    const basicAspd = effected?.basicAspd ?? this.basicAspd;
-    const defenses = effected?.defenses ?? { def: this.def, softDef: this.softDef, mdef: this.mdef, softMdef: this.softMdef, res: this.res, mres: this.mres };
+    //
+    // One choice, made once. Picking per figure is how the panel ended up half effected
+    // in the first place, and the annotation is what forces a new row to answer it: a
+    // field added to CharacterSheetModel has to be filled in here too.
+    const sheet: CharacterSheetModel = this.effectedState ?? {
+      totalBonus: this.totalEquipStatus,
+      misc: this.miscSummary,
+      skillFrequency: this.skillFrequency,
+      basicAspd: this.basicAspd,
+      basicCriRate: this.damageSummary.basicCriRate,
+      criRangeBonus: this.damageSummary.criRangeBonus,
+      maxHp: this.maxHp,
+      maxSp: this.maxSp,
+      defenses: this.defenses,
+    };
 
     return {
-      ...this.getObjSummary(totalBonus),
+      ...this.getObjSummary(sheet.totalBonus),
       monster: { ...this.monster.data },
       propertyAtk: this.propertyBasicAtk,
       weapon: this.weaponData.data,
@@ -1810,31 +1813,26 @@ export class Calculator {
         propertySkill: this.damageSummary.skillPropertyAtk,
         accuracy: this.damageSummary.skillAccuracy,
         totalPene: this.damageSummary.skillTotalPene,
-        ...skillFrequency,
+        ...sheet.skillFrequency,
       },
       calc: {
         // display on stat summary
-        maxHp: effected?.maxHp ?? this.maxHp,
-        maxSp: effected?.maxSp ?? this.maxSp,
-        dex2int1: skillFrequency.sumDex2Int1 || 0,
-        to530: 530 - (skillFrequency.sumDex2Int1 || 0),
-        def: defenses.def,
-        softDef: defenses.softDef,
-        mdef: defenses.mdef,
-        softMdef: defenses.softMdef,
-        res: defenses.res,
-        mres: defenses.mres,
-        totalAspd: basicAspd.totalAspd,
+        maxHp: sheet.maxHp,
+        maxSp: sheet.maxSp,
+        dex2int1: sheet.skillFrequency.sumDex2Int1 || 0,
+        to530: 530 - (sheet.skillFrequency.sumDex2Int1 || 0),
+        ...sheet.defenses,
+        totalAspd: sheet.basicAspd.totalAspd,
         // The character's final AGI (base + job + equip + buffs) — the same value
         // the ASPD formula scales potion/skill bonuses by (× AGI / 200).
         totalAgi: this.dmgCalculator.status.totalAgi,
-        hitPerSecs: basicAspd.hitsPerSec,
-        totalCri: effected?.basicCriRate ?? this.damageSummary.basicCriRate,
+        hitPerSecs: sheet.basicAspd.hitsPerSec,
+        totalCri: sheet.basicCriRate,
         // Not added to totalCri on purpose — it only counts on the ranged basic attack.
         // The summary shows it as a "*" beside the value; the breakdown says why.
-        criRangeBonus: effected?.criRangeBonus ?? this.damageSummary.criRangeBonus,
-        ...misc,
-        hitRate: misc.accuracy,
+        criRangeBonus: sheet.criRangeBonus,
+        ...sheet.misc,
+        hitRate: sheet.misc.accuracy,
         dps: this.damageSummary.basicDps,
         leftWeaponRefineBonus: refineBonus,
 

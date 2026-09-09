@@ -1,9 +1,6 @@
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { Windhawk } from 'src/app/jobs';
-import { createMainModel } from 'src/app/utils';
-import { Calculator } from './calculator';
-import { CalculatorController, collectChanceSources } from './calculator-controller';
+import { collectChanceSources } from './calculator-controller';
+import { INSTINTO_ID, INSTINTO_NAME, solveInstintoBuild } from './__tests__/instinto-build';
 
 /**
  * Bug report (tracker k74xfIkeTP75HuunmKY9, glenhari): ticking "Instinto" did not reduce
@@ -20,85 +17,12 @@ import { CalculatorController, collectChanceSources } from './calculator-control
  * is the effected one. The damage figures are the exception, and deliberately so — the
  * damage panel prints base and effected as a pair ("Sem efeitos"), so `dmg` keeps both.
  */
-const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
 
-const INSTINTO_ID = 4879; // Hawkeye / "Instinto" — chance__dex 200
-const INSTINTO_NAME: string = db[INSTINTO_ID].name;
+/** DES low enough that DES×2 + INT lands short of the 530 that zeroes the variable cast,
+ *  which is the state the report was filed from. */
+const REPORTED_DEX = 79;
 
-// Concentrar 10, Caminho do Vento 5, Visão Real 10, Disparo Selvagem 5, Ilimitar 5,
-// Ventos Sinistros 1 — the build the original Instinto report was filed against.
-const ACTIVE_SKILL_IDS = [10, 5, 10, 5, 5, 1];
-
-const monster = {
-  id: 1002, name: 'Poring', spawn: 'x',
-  stats: {
-    level: 1, health: 50, attack: { min: 7, max: 8 }, range: 1, defense: 0, magicDefense: 0,
-    str: 1, int: 0, vit: 1, dex: 6, agi: 1, luk: 30, element: 1, elementName: 'Neutral 1',
-    elementShortName: 'W1', race: 4, raceName: 'Plant', scale: 0, scaleName: 'Small', class: 0,
-    criShield: 0, softDef: 0, mdef: 0, softMdef: 0, res: 0, mres: 0,
-    hitRequireFor100: 182, fleeRequireFor95: 182,
-  },
-  data: { def: 0, mdef: 0, hitRequireFor100: 182, fleeRequireFor95: 182, criShield: 0, softDef: 0, res: 0, mres: 0 },
-} as any;
-
-/** The reported build: a Windhawk on Bota Temporal (22004) carrying the Instinto enchant,
- *  with DES low enough that DES×2 + INT is well short of the 530 that zeroes the cast. */
-const solve = (selectedChances: string[]) => {
-  const items: any = {
-    700016: { ...db['700016'] },   // bow
-    1773: { ...db['1773'] },       // arrow
-    22004: { ...db['22004'] },     // Bota Temporal, carrying the enchant
-    [INSTINTO_ID]: { ...db[INSTINTO_ID] },
-  };
-
-  const cls = new Windhawk();
-  const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = cls
-    .setLearnSkills({ activeSkillIds: ACTIVE_SKILL_IDS, passiveSkillIds: [] })
-    .getSkillBonusAndName();
-
-  const calc = new Calculator();
-  calc
-    .setMasterItems(items)
-    .setHpSpTable([{ jobs: { [cls.className]: true }, baseHp: Array(251).fill(100000), baseSp: Array(251).fill(10000) }] as any)
-    .setClass(cls)
-    .setMonster(monster);
-
-  const model = createMainModel();
-  model.class = 4257;
-  model.level = 230;
-  model.jobLevel = 47;
-  model.str = 4; model.agi = 100; model.vit = 100; model.int = 120; model.dex = 79; model.luk = 73;
-  model.pow = 100; model.crt = 21;
-  model.jobStr = 2; model.jobAgi = 12; model.jobVit = 7; model.jobInt = 8; model.jobDex = 7; model.jobLuk = 4;
-  model.jobPow = 7; model.jobSta = 4; model.jobWis = 5; model.jobSpl = 4; model.jobCon = 8; model.jobCrt = 4;
-  model.weapon = 700016;
-  model.weaponRefine = 11;
-  model.ammo = 1773;
-  model.boot = 22004;
-  model.bootRefine = 9;
-  model.bootEnchant2 = INSTINTO_ID;
-  model.selectedAtkSkill = 'Focused Arrow Strike==5';
-
-  calc.loadItemFromModel(model);
-
-  new CalculatorController().runChain(calc, {
-    monster,
-    equipAtks,
-    masteryAtks,
-    buffEquips: {},
-    buffMasterys: {},
-    consumeData: [],
-    aspdPotion: 0,
-    extraOptionScripts: [],
-    activeSkillNames,
-    learnedSkillMap,
-    selectedAtkSkill: model.selectedAtkSkill,
-    selectedChances,
-    usedHpL: false,
-  });
-
-  return calc;
-};
+const solve = (selectedChances: string[]) => solveInstintoBuild({ dex: REPORTED_DEX, selectedChances }).calc;
 
 describe('a ticked chance reaches the character sheet', () => {
   const off = solve([]).getTotalSummary();
@@ -129,6 +53,10 @@ describe('a ticked chance reaches the character sheet', () => {
     expect(on.calc.totalAspd).toBeGreaterThan(off.calc.totalAspd);
     expect(on.calc.hitPerSecs).toBeGreaterThan(off.calc.hitPerSecs);
     expect(on.calc.totalHit).toBeGreaterThan(off.calc.totalHit);
+    // DES feeds soft MDEF (INT + VIT/5 + DES/5 + nível/4), so the defence block has to be
+    // solved against the proc too — it is the one figure here that comes from a second
+    // computeDefenses pass rather than from the effected damage pass.
+    expect(on.calc.softMdef).toBeGreaterThan(off.calc.softMdef);
   });
 
   it('agrees with the ATQ rows, which always did reflect the proc', () => {
@@ -143,6 +71,8 @@ describe('a ticked chance reaches the character sheet', () => {
   });
 
   it('restores the base sheet when the effect is unticked', () => {
+    // The toggle's fast path: it never re-runs the base pass, so unticking has to fall
+    // back to the state the last full solve left rather than to a recomputed one.
     const calc = solve([INSTINTO_NAME]);
     expect(calc.getTotalSummary().dex).toBe(224);
 
@@ -154,15 +84,15 @@ describe('a ticked chance reaches the character sheet', () => {
 });
 
 describe('collectChanceSources', () => {
-  it('keys the ticked chances by the item that grants them', () => {
-    const chanceList = solve([]).chanceList;
+  const chanceList = solve([]).chanceList;
 
+  it('keys the ticked chances by the item that grants them', () => {
     expect(collectChanceSources(chanceList, [INSTINTO_NAME])).toEqual({
       [`chance_${INSTINTO_ID}`]: { dex: 200 },
     });
   });
 
   it('ignores the ones nobody ticked', () => {
-    expect(collectChanceSources(solve([]).chanceList, [])).toEqual({});
+    expect(collectChanceSources(chanceList, [])).toEqual({});
   });
 });

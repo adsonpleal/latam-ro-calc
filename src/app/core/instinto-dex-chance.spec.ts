@@ -1,14 +1,12 @@
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { Windhawk } from 'src/app/jobs';
-import { createMainModel } from 'src/app/utils';
 import { Calculator } from './calculator';
 import { CalculatorController } from './calculator-controller';
+import { INSTINTO_NAME, solveInstintoBuild } from './__tests__/instinto-build';
 
 /**
  * Bug report (shared build BuRRO0): on a Windhawk running Ilimitar (No Limits 5) +
  * Ventos Sinistros (Calamity Gale), checking the "Instinto" effect — item 4879
- * (Hawkeye), script `chance__dex: 200` — made Tiro Preciso damage DROP by ~60%.
+ * (Hawkeye), script `chance__dex: 200` - made Tiro Preciso damage DROP by ~60%.
  *
  * The chance itself is innocent: a pure +200 DES on a bow build can only raise ATQ
  * Status and ATQ da Arma. What actually happened is that `prepareAllItemBonus()`
@@ -19,92 +17,12 @@ import { CalculatorController } from './calculator-controller';
  * contributing after the first — so range went 767 -> 417 (correct) -> 67 (wrong).
  * The "Efeitos" checkbox handler then recalculated off that degraded state.
  */
-const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
 
-const INSTINTO_ID = 4879; // Hawkeye / "Instinto" — chance__dex 200
-// The chance is keyed by item name; item.json ships the English name, the pt-BR
-// "Instinto" comes from the LATAM overlay the UI applies on top.
-const INSTINTO_NAME: string = db[INSTINTO_ID].name;
+/** The DES the build was shared with. `chance-affects-stat-summary.spec.ts` solves the
+ *  same gear at a lower DES, where the cast window still has room to move. */
+const SHARED_BUILD_DEX = 130;
 
-// Mirrors the shared build's "Habilidades/efeitos ativos" panel: Concentrar 10,
-// Caminho do Vento 5, Visão Real 10, Disparo Selvagem 5, Ilimitar 5, Ventos Sinistros 1.
-const ACTIVE_SKILL_IDS = [10, 5, 10, 5, 5, 1];
-
-const monster = {
-  id: 1002, name: 'Poring', spawn: 'x',
-  stats: {
-    level: 1, health: 50, attack: { min: 7, max: 8 }, range: 1, defense: 0, magicDefense: 0,
-    str: 1, int: 0, vit: 1, dex: 6, agi: 1, luk: 30, element: 1, elementName: 'Neutral 1',
-    elementShortName: 'W1', race: 4, raceName: 'Plant', scale: 0, scaleName: 'Small', class: 0,
-    criShield: 0, softDef: 0, mdef: 0, softMdef: 0, res: 0, mres: 0,
-    hitRequireFor100: 182, fleeRequireFor95: 182,
-  },
-  data: { def: 0, mdef: 0, hitRequireFor100: 182, fleeRequireFor95: 182, criShield: 0, softDef: 0, res: 0, mres: 0 },
-} as any;
-
-/** Solves a Windhawk bow build carrying the Instinto enchant, exactly the way
- *  ro-calculator.component.ts's prepare() does. Returns the chain input too, so a
- *  test can re-solve the same loaded build for another skill (the rotation path). */
-const solveWithInput = (selectedChances: string[]) => {
-  const items: any = {
-    700016: { ...db['700016'] },   // bow
-    1773: { ...db['1773'] },       // arrow
-    22004: { ...db['22004'] },     // boots carrying the enchant
-    [INSTINTO_ID]: { ...db[INSTINTO_ID] },
-  };
-
-  const cls = new Windhawk();
-  const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = cls
-    .setLearnSkills({ activeSkillIds: ACTIVE_SKILL_IDS, passiveSkillIds: [] })
-    .getSkillBonusAndName();
-
-  const calc = new Calculator();
-  calc
-    .setMasterItems(items)
-    .setHpSpTable([{ jobs: { [cls.className]: true }, baseHp: Array(251).fill(100000), baseSp: Array(251).fill(10000) }] as any)
-    .setClass(cls)
-    .setMonster(monster);
-
-  const model = createMainModel();
-  model.class = 4257;
-  model.level = 230;
-  model.jobLevel = 47;
-  model.str = 4; model.agi = 100; model.vit = 100; model.int = 120; model.dex = 130; model.luk = 73;
-  model.pow = 100; model.crt = 21;
-  // job-level stat bonuses — the real model always carries them (calcStatBoost,
-  // which the +DES% boots go through, reads jobDex directly)
-  model.jobStr = 2; model.jobAgi = 12; model.jobVit = 7; model.jobInt = 8; model.jobDex = 7; model.jobLuk = 4;
-  model.jobPow = 7; model.jobSta = 4; model.jobWis = 5; model.jobSpl = 4; model.jobCon = 8; model.jobCrt = 4;
-  model.weapon = 700016;
-  model.weaponRefine = 11;
-  model.ammo = 1773;
-  model.boot = 22004;
-  model.bootRefine = 9;
-  model.bootEnchant2 = INSTINTO_ID;
-  model.selectedAtkSkill = 'Focused Arrow Strike==5';
-
-  calc.loadItemFromModel(model);
-
-  const input = {
-    monster,
-    equipAtks,
-    masteryAtks,
-    buffEquips: {},
-    buffMasterys: {},
-    consumeData: [],
-    aspdPotion: 0,
-    extraOptionScripts: [],
-    activeSkillNames,
-    learnedSkillMap,
-    selectedAtkSkill: model.selectedAtkSkill,
-    selectedChances,
-    usedHpL: false,
-  };
-
-  new CalculatorController().runChain(calc, input);
-
-  return { calc, input };
-};
+const solveWithInput = (selectedChances: string[]) => solveInstintoBuild({ dex: SHARED_BUILD_DEX, selectedChances });
 
 const solve = (selectedChances: string[]) => solveWithInput(selectedChances).calc;
 
