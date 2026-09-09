@@ -79,7 +79,8 @@ import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPot
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { ElementType } from 'src/app/constants/element-type.const';
 import { CompareState } from 'src/app/core/compare-state';
-import { ClassSwitchLoss, applyClassSwitch, findClassSwitchLosses, hasBuildToKeep, isEquipableInSlot, isUsableByClass } from 'src/app/core/class-switch';
+import { ClassSwitchLoss, applyClassSwitch, findClassSwitchLosses, hasBuildToKeep, slotEquipFilter } from 'src/app/core/class-switch';
+import { canUsedByClass } from 'src/app/utils/can-used-by-class';
 import { SLOTS_BY_KEY } from 'src/app/app-config/equipment-slots';
 import { SlotListBag } from './equipment-grid/slot-list-bag.model';
 import { compactRotationForShare, firstRealSkill, isBasicAttack, normalizeRotation, pruneRotationForClass } from 'src/app/core/rotation';
@@ -2171,7 +2172,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   /** The class instance behind a picker id, falling back to the first class in the list. */
   private classInstanceOf(classId: number): CharacterBase {
-    return (Characters.find((a) => a.value === classId)?.['instant'] as CharacterBase) ?? (Characters[0]['instant'] as CharacterBase);
+    return Characters.find((a) => a.value === classId)?.instant ?? Characters[0].instant;
   }
 
   private setClassInstant() {
@@ -2797,14 +2798,14 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   private setItemDropdownList() {
     const cClass = this.selectedCharacter;
-    const classNameSet = cClass.classNameSet;
     // The rules themselves live in core/class-switch.ts, because the class dialog has to
     // answer the same question in the other direction — which equipped items the class
     // being switched to cannot wear. Two copies of the Super Novice exemptions would drift,
     // and the dialog would name a different set than the dropdowns then offer.
-    const onlyMe = (a: ItemDropdownModel) => isUsableByClass(a, classNameSet);
-    const onlySuperNoviceWeapon = (a: ItemDropdownModel) => isEquipableInSlot('weapon', this.items[a.value as number], cClass);
-    const onlySuperNoviceHeadGear = (a: ItemDropdownModel) => isEquipableInSlot('headGear', this.items[a.value as number], cClass);
+    const itemOf = (a: ItemDropdownModel) => this.items[a.value as number];
+    const onlyMe = canUsedByClass<ItemDropdownModel>(cClass);
+    const onlySuperNoviceWeapon = slotEquipFilter('weapon', cClass, itemOf);
+    const onlySuperNoviceHeadGear = slotEquipFilter('headGear', cClass, itemOf);
 
     this.weaponList = this.itemList.weaponList.filter(onlySuperNoviceWeapon);
     this.leftWeaponList = this.itemList.leftWeaponList.filter(onlySuperNoviceWeapon);
@@ -3604,12 +3605,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       fromClass,
       fromLabel: this.classLabel(fromClass),
       toLabel: this.classLabel(this.model.class),
-      losses: findClassSwitchLosses({
-        model: this.model,
-        items: this.items,
-        nextClass,
-        canWieldOffHandWeapon: AllowLeftWeaponMapper[nextClass.className] || false,
-      }),
+      losses: findClassSwitchLosses({ model: this.model, items: this.items, nextClass }),
     };
     this.showClassSwitch = true;
   }
@@ -3658,8 +3654,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    * otherwise keep paying with no field on screen to show them.
    */
   private applyClassChange(keepBuild: boolean, losses: ClassSwitchLoss[] = []) {
-    this.isInProcessingPreset = true;
-
     // A class instance accumulates its own bonuses, so the calculator goes with it.
     const resetCalculator = () => {
       this.calculator = new Calculator();
@@ -3670,8 +3664,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       // Built against the class that is still loaded: `toUpsertPresetModel` turns the
       // positional skill arrays into name-keyed maps, which is exactly what lets a shared
       // skill survive the switch.
+      // `toUpsertPresetModel` already returns a fresh object, and `applyClassSwitch`
+      // another — nothing here writes through to the model on screen.
       const preset = applyClassSwitch(
-        toUpsertPresetModel({ ...this.model }, this.selectedCharacter) as MainModel,
+        toUpsertPresetModel(this.model, this.selectedCharacter) as MainModel,
         losses,
         this.classInstanceOf(this.model.class),
       );
@@ -3681,16 +3677,16 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       this.resetItemDescription();
       this.onListItemComparingChange(true);
 
-      this.loadItemSet(preset as unknown as PresetModel)
-        .pipe(take(1))
-        .subscribe(() => {
-          this.updateItemEvent.next(1);
-          this.updateCompareEvent.next(1);
-        });
+      // loadItemSet raises and lowers isInProcessingPreset itself, and emits once.
+      this.loadItemSet(preset as unknown as PresetModel).subscribe(() => {
+        this.updateItemEvent.next(1);
+        this.updateCompareEvent.next(1);
+      });
 
       return;
     }
 
+    this.isInProcessingPreset = true;
     const { level, jobLevel } = this.model;
 
     waitRxjs()

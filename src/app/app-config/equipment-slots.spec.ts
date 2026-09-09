@@ -103,13 +103,29 @@ describe('EQUIPMENT_SLOTS', () => {
     // Drift here shows up twice over: a dropdown that offers what the class cannot wear,
     // and a switch dialog that promises to keep it. The three head positions carry the
     // Super Novice head-gear exemption, the two weapons its level-4 one-hander, and the
-    // pet is the only slot no class filter reaches.
+    // pet is the only slot no class filter reaches. Everything else is the plain test —
+    // asserted as the complement so a new slot has to declare itself either way.
     const byFilter = (filter: string) => EQUIPMENT_SLOTS.filter((s) => s.classFilter === filter).map((s) => s.key);
+    const exempt = [
+      ItemTypeEnum.weapon,
+      ItemTypeEnum.leftWeapon,
+      ItemTypeEnum.headUpper,
+      ItemTypeEnum.headMiddle,
+      ItemTypeEnum.headLower,
+      ItemTypeEnum.pet,
+    ];
 
     expect(byFilter('weapon')).toEqual([ItemTypeEnum.weapon, ItemTypeEnum.leftWeapon]);
     expect(byFilter('headGear')).toEqual([ItemTypeEnum.headUpper, ItemTypeEnum.headMiddle, ItemTypeEnum.headLower]);
     expect(byFilter('none')).toEqual([ItemTypeEnum.pet]);
-    expect(byFilter('gear').length).toBe(EQUIPMENT_SLOTS.length - 6);
+    expect(byFilter('gear')).toEqual(EQUIPMENT_SLOTS.map((s) => s.key).filter((key) => !exempt.includes(key)));
+  });
+
+  it('does not let the head-gear filter be mistaken for the headSlot flag', () => {
+    // The three costume positions are head slots too, and the Super Novice exemption does
+    // not reach them — deriving one from the other would hand it every costume in the game.
+    expect(EQUIPMENT_SLOTS.filter((s) => s.headSlot).length).toBe(6);
+    expect(EQUIPMENT_SLOTS.filter((s) => s.headSlot && s.classFilter === 'headGear').length).toBe(3);
   });
 
   it('puts the converter and the ammo on the main weapon alone', () => {

@@ -22,10 +22,14 @@ describe('canUsedByClass', () => {
     expect(runeKnight({ unusableClass: ['Mage'] })).toBe(true);
   });
 
-  it('lets unusableClass override usableClass when both are present', () => {
-    // Listed as usable AND unusable -> blocked (unusable is evaluated last).
+  it('treats unusableClass as a veto and usableClass as an allow-list, in that order', () => {
+    // Listed as usable AND unusable -> blocked, the veto wins.
     expect(runeKnight({ usableClass: ['RuneKnight'], unusableClass: ['RuneKnight'] })).toBe(false);
-    // Usable for another class but not blocked for ours -> allowed.
-    expect(runeKnight({ usableClass: ['Mage'], unusableClass: ['Mage'] })).toBe(true);
+    // Not blocked for ours, but the allow-list still has to name us. This is the case the
+    // old `can = !unusableClass.some(...)` tail got backwards: it read "not blocked" as
+    // "allowed" and handed 'Hi-Class' gear (2554, 2703) to every Expanded class.
+    expect(runeKnight({ usableClass: ['Mage'], unusableClass: ['Mage'] })).toBe(false);
+    expect(runeKnight({ usableClass: ['Hi-Class'], unusableClass: ['Novice'] })).toBe(false);
+    expect(runeKnight({ usableClass: ['RuneKnight'], unusableClass: ['Novice'] })).toBe(true);
   });
 });

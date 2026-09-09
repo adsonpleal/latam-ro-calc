@@ -42,8 +42,11 @@ export type SlotVisibility = 'always' | 'leftWeapon' | 'shield';
  *
  * `gear` is the plain `usableClass` / `unusableClass` test. `weapon` and `headGear` add
  * the two Super Novice exemptions (any level-4 one-hander of the six types it is allowed,
- * and any head gear at all). `none` marks the lists that are never filtered — the cards,
- * the pet and the costume enchants go on whoever picks them.
+ * and any head gear at all). `none` marks a list that is never filtered, which among the
+ * slots is the pet alone — every class may bring any pet.
+ *
+ * `headGear` is not `headSlot`: the three costume positions carry that flag too, and the
+ * Super Novice exemption does not reach them. It has to be stated per slot.
  *
  * The picker filters by this and `findClassSwitchLosses` decides what a class switch has
  * to drop by the same field, so the dialog can never name a different set than the

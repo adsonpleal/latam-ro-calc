@@ -1,9 +1,9 @@
 import { Replay } from 'rrfparser';
 
-/** The six trait fields, in the order the game's status window lists them. */
-export const TRAIT_KEYS = ['pow', 'sta', 'wis', 'spl', 'con', 'crt'] as const;
-
-export type TraitKey = (typeof TRAIT_KEYS)[number];
+// Re-exported rather than declared here: the engine needs the same six keys and must not
+// import from the replay layer to get them.
+export { TRAIT_KEYS, type TraitKey } from '../constants/trait-keys';
+import { TRAIT_KEYS, type TraitKey } from '../constants/trait-keys';
 
 /** The six trait stats, as the *invested* value (0-100) the calculator stores. */
 export type ReplayTraits = Record<TraitKey, number>;

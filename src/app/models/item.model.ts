@@ -26,6 +26,10 @@ export interface ItemModel {
   /** Every head slot the item fills, when it fills more than one (see getHeadGearSlots). */
   locations?: string[];
   compositionPos: number;
+  /** Classes that may wear the item; absent means anyone. Read through `canUsedByClass`. */
+  usableClass?: string[];
+  /** Classes that may not, which wins over `usableClass`. */
+  unusableClass?: string[];
   isRefinable?: boolean;
   cardPrefix?: string;
   /** Derived from itemLevel by RoService (see canGradeItem) — not read from item.json. */

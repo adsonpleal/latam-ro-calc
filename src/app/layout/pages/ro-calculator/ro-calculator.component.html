@@ -1346,13 +1346,11 @@
       Trocando de <b>{{ swap.fromLabel }}</b> para <b>{{ swap.toLabel }}</b>.
     </p>
 
-    <div *ngIf="swap.losses.length" class="class_switch_losses">
+    <div *ngIf="swap.losses.length as lost; else noLosses" class="class_switch_losses">
       <p class="m-0 mb-2">
         <i class="pi pi-exclamation-triangle mr-2"></i>
-        <ng-container *ngIf="swap.losses.length === 1">Este item será removido, porque {{ swap.toLabel }} não pode usá-lo:</ng-container>
-        <ng-container *ngIf="swap.losses.length > 1"
-          >Estes {{ swap.losses.length }} itens serão removidos, porque {{ swap.toLabel }} não pode usá-los:</ng-container
-        >
+        {{ lost === 1 ? 'Este item será removido' : 'Estes ' + lost + ' itens serão removidos' }}, porque {{ swap.toLabel }} não pode
+        {{ lost === 1 ? 'usá-lo' : 'usá-los' }}:
       </p>
       <ul class="class_switch_loss_list">
         <li *ngFor="let loss of swap.losses">
@@ -1361,15 +1359,15 @@
           <span *ngIf="loss.reason === 'offHand'" class="class_switch_loss_note">{{ swap.toLabel }} não usa duas armas</span>
         </li>
       </ul>
-      <p class="m-0 mt-2 text-sm" style="opacity: 0.7">
-        Cartas, encantos e refino desses itens saem junto. O resto da build continua como está.
-      </p>
+      <p class="m-0 mt-2 class_switch_note">Cartas, encantos e refino desses itens saem junto. O resto da build continua como está.</p>
     </div>
 
-    <p *ngIf="!swap.losses.length" class="mb-0 text-sm" style="opacity: 0.7">
-      Todos os equipamentos atuais podem ser usados por {{ swap.toLabel }}. As habilidades que a classe nova não tem e os talentos, quando
-      ela não os usa, ficam de fora.
-    </p>
+    <ng-template #noLosses>
+      <p class="mb-0 class_switch_note">
+        Todos os equipamentos atuais podem ser usados por {{ swap.toLabel }}. As habilidades que a classe nova não tem e os talentos,
+        quando ela não os usa, ficam de fora.
+      </p>
+    </ng-template>
   </ng-container>
 
   <ng-template pTemplate="footer">

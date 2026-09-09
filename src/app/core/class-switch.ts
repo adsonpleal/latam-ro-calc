@@ -1,11 +1,16 @@
-import { EQUIPMENT_SLOTS, EquipmentSlotDescriptor, SlotClassFilter } from '../app-config/equipment-slots';
+import { EQUIPMENT_SLOTS, EquipmentSlotDescriptor, SLOTS_BY_KEY, SlotClassFilter } from '../app-config/equipment-slots';
+import { AllowLeftWeaponMapper } from '../constants/allow-left-weapon-mapper';
 import { ItemTypeEnum } from '../constants/item-type.enum';
 import { DEFAULT_PET_LOYALTY } from '../constants/pet-loyalty';
+import { MAIN_STAT_KEYS, TRAIT_KEYS } from '../constants/trait-keys';
 import { WeaponTypeName, WeaponTypeNameMapBySubTypeId } from '../constants/weapon-type-mapper';
 import { CharacterBase } from '../jobs/_character-base.abstract';
 import { ClassName } from '../jobs/_class-name';
 import { ItemModel } from '../models/item.model';
 import { MainModel } from '../models/main.model';
+import { ClassUsage, canUsedByClass } from '../utils/can-used-by-class';
+import { createMainModel } from '../utils/create-main-model';
+import { slotOwnFields } from './equipment-chips';
 
 /**
  * Switching class while keeping the build.
@@ -20,57 +25,41 @@ import { MainModel } from '../models/main.model';
  * what `findClassSwitchLosses` returns and hands the choice back to `applyClassSwitch`.
  */
 
-/** The two fields an item (or a picker row built from one) carries about who may wear it. */
-export interface ClassUsage {
-  usableClass?: string[];
-  unusableClass?: string[];
-}
-
-/**
- * The plain class test, and the one the equipment dropdowns run.
- *
- * `unusableClass` is checked first and wins outright: a few items name the classes that
- * may *not* wear them and leave `usableClass` open. An item that names neither goes on
- * anyone.
- */
-export const isUsableByClass = (usage: ClassUsage | undefined, classNameSet: Set<string>): boolean => {
-  if (!usage) return true;
-
-  const { usableClass, unusableClass } = usage;
-  if (Array.isArray(unusableClass) && unusableClass.length > 0 && unusableClass.some((name) => classNameSet.has(name))) {
-    return false;
-  }
-  if (Array.isArray(usableClass)) {
-    return usableClass.some((name) => classNameSet.has(name));
-  }
-
-  return true;
-};
-
 /**
  * The six one-handed types a Super Novice may carry at weapon level 4, on top of whatever
  * its own `usableClass` rows allow. Mirrors the picker's long-standing exemption.
  */
 const SUPER_NOVICE_WEAPON_TYPES = new Set<WeaponTypeName>(['dagger', 'sword', 'axe', 'mace', 'rod', 'twohandRod']);
 
+const isSuperNoviceWeapon = (item: ItemModel | undefined): boolean =>
+  item?.itemLevel === 4 && SUPER_NOVICE_WEAPON_TYPES.has(WeaponTypeNameMapBySubTypeId[item.itemSubTypeId]);
+
 /**
- * Whether `item` may sit in a slot filtered by `rule` on `cClass`.
+ * The predicate a slot filtered by `rule` offers `cClass`, over rows of whatever shape the
+ * caller holds — picker rows carry the class fields themselves, `findClassSwitchLosses`
+ * passes the item records.
  *
- * An id with no record behind it is left alone — the picker cannot judge it either, and
- * dropping an item because its record failed to load would be worse than keeping it.
+ * Built per class rather than per row on purpose: `canUsedByClass` reads the
+ * Set-allocating `classNameSet` getter once, and the Super Novice branches are settled
+ * here instead of being re-asked for every one of the thousands of items the pickers
+ * filter. `itemOf` is only ever called on the one path that needs the full record.
  */
-export const isEquipableInSlot = (rule: SlotClassFilter, item: ItemModel | undefined, cClass: CharacterBase): boolean => {
-  if (!item || rule === 'none') return true;
+export function slotEquipFilter<T extends ClassUsage>(
+  rule: SlotClassFilter,
+  cClass: CharacterBase,
+  itemOf: (row: T) => ItemModel | undefined,
+): (row: T) => boolean {
+  if (rule === 'none') return () => true;
 
-  if (cClass.className === ClassName.SuperNovice) {
-    if (rule === 'headGear') return true;
-    if (rule === 'weapon' && item.itemLevel === 4 && SUPER_NOVICE_WEAPON_TYPES.has(WeaponTypeNameMapBySubTypeId[item.itemSubTypeId])) {
-      return true;
-    }
-  }
+  const allowed = canUsedByClass<T>(cClass);
+  if (cClass.className !== ClassName.SuperNovice) return allowed;
 
-  return isUsableByClass(item as ClassUsage, cClass.classNameSet);
-};
+  // Any head gear at all, and any level-4 one-hander of the six types it is allowed.
+  if (rule === 'headGear') return () => true;
+  if (rule === 'weapon') return (row) => isSuperNoviceWeapon(itemOf(row)) || allowed(row);
+
+  return allowed;
+}
 
 /** Why a slot has to be emptied. */
 export type ClassSwitchLossReason =
@@ -93,8 +82,6 @@ export interface ClassSwitchInput {
   model: MainModel;
   items: Record<number, ItemModel>;
   nextClass: CharacterBase;
-  /** Whether the new class may hold a weapon in the off hand (`AllowLeftWeaponMapper`). */
-  canWieldOffHandWeapon: boolean;
 }
 
 /**
@@ -103,26 +90,36 @@ export interface ClassSwitchInput {
  * Cards, enchants and the pet are absent by construction: their lists are not filtered by
  * class (`classFilter: 'none'`), so they survive any switch. A card socketed in a weapon
  * the class cannot hold still goes, but as part of that weapon's slot rather than on its
- * own row — see `clearSlots`.
+ * own row — see `clearSlot`.
+ *
+ * An id with no record behind it is left alone: the picker cannot judge it either, and
+ * dropping an item because its record failed to load would be worse than keeping it.
  */
-export function findClassSwitchLosses({ model, items, nextClass, canWieldOffHandWeapon }: ClassSwitchInput): ClassSwitchLoss[] {
-  const losses: ClassSwitchLoss[] = [];
+export function findClassSwitchLosses({ model, items, nextClass }: ClassSwitchInput): ClassSwitchLoss[] {
+  const itemOf = (item: ItemModel | undefined) => item;
+  const allows: Record<SlotClassFilter, (item: ItemModel | undefined) => boolean> = {
+    none: () => true,
+    gear: slotEquipFilter('gear', nextClass, itemOf),
+    weapon: slotEquipFilter('weapon', nextClass, itemOf),
+    headGear: slotEquipFilter('headGear', nextClass, itemOf),
+  };
+  const canWieldOffHandWeapon = AllowLeftWeaponMapper[nextClass.className] || false;
 
+  const losses: ClassSwitchLoss[] = [];
   for (const slot of EQUIPMENT_SLOTS) {
     const itemId = model[slot.key] as number;
     if (!itemId) continue;
 
     const item = items?.[itemId];
-    const reason: ClassSwitchLossReason | undefined =
-      slot.key === ItemTypeEnum.leftWeapon && !canWieldOffHandWeapon
-        ? 'offHand'
-        : isEquipableInSlot(slot.classFilter, item, nextClass)
-          ? undefined
-          : 'class';
+    const row = { key: slot.key, slotLabel: slot.label, itemId, itemName: item?.name ?? String(itemId) };
 
-    if (!reason) continue;
+    if (slot.key === ItemTypeEnum.leftWeapon && !canWieldOffHandWeapon) {
+      losses.push({ ...row, reason: 'offHand' });
+      continue;
+    }
+    if (!item || allows[slot.classFilter](item)) continue;
 
-    losses.push({ key: slot.key, slotLabel: slot.label, itemId, itemName: item?.name ?? String(itemId), reason });
+    losses.push({ ...row, reason: 'class' });
   }
 
   return losses;
@@ -130,12 +127,11 @@ export function findClassSwitchLosses({ model, items, nextClass, canWieldOffHand
 
 /** Empty a slot: the item, its refine, grade, cards, enchants, random options and chips. */
 const clearSlot = (model: MainModel, slot: EquipmentSlotDescriptor): void => {
-  model[slot.key] = undefined;
-  model[`${slot.key}Refine`] = undefined;
-  model[`${slot.key}Grade`] = undefined;
-
-  for (const field of [...slot.cardFields, ...slot.enchantFields]) {
-    if (field) model[field] = undefined;
+  // `slotOwnFields` already covers the ammo and the element converter, which belong to the
+  // item rather than to the slot: the ammo list is decided by the weapon and the converter
+  // paints its element, so with the weapon gone neither has anything to apply to.
+  for (const field of slotOwnFields(slot)) {
+    model[field] = undefined;
   }
   for (const sub of slot.subItemSlots ?? []) {
     model[sub.key] = undefined;
@@ -144,44 +140,32 @@ const clearSlot = (model: MainModel, slot: EquipmentSlotDescriptor): void => {
     model.rawOptionTxts[index] = undefined;
   }
 
-  // The chips that belong to the item rather than to the slot. Ammo is picked from a list
-  // the weapon decides, and the converter paints that weapon's element: with the weapon
-  // gone neither has anything left to apply to.
-  if (slot.ammo) model.ammo = undefined;
-  if (slot.converter) model.propertyAtk = undefined;
+  // The one field that resets to a value rather than to empty.
   if (slot.loyalty) model.petLoyalty = DEFAULT_PET_LOYALTY;
 };
 
 /**
- * The build as the new class would carry it: the named slots emptied, and the trait
- * points dropped when the class has none.
+ * The build as the new class would carry it: a copy of `model` with the named slots
+ * emptied, and the trait points dropped when the class has none.
  *
  * Traits are the quiet one. `damage-calculator` adds `model.pow` and friends into the
  * totals whatever the class is, and only the *input* is hidden on a class without a trait
  * table — so a 4th-class build carried over to a 3rd class would keep paying POD and CON
  * with no field on screen to explain it.
- *
- * Mutates and returns `model`; callers pass a copy.
  */
 export function applyClassSwitch(model: MainModel, losses: ClassSwitchLoss[], nextClass: CharacterBase): MainModel {
-  model.rawOptionTxts = [...(model.rawOptionTxts ?? [])];
+  const next: MainModel = { ...model, rawOptionTxts: [...(model.rawOptionTxts ?? [])] };
 
-  const byKey = new Map(EQUIPMENT_SLOTS.map((slot) => [slot.key, slot]));
   for (const loss of losses) {
-    const slot = byKey.get(loss.key);
-    if (slot) clearSlot(model, slot);
+    const slot = SLOTS_BY_KEY.get(loss.key);
+    if (slot) clearSlot(next, slot);
   }
 
   if (!nextClass.isAllowTraitStat()) {
-    model.pow = 0;
-    model.sta = 0;
-    model.wis = 0;
-    model.spl = 0;
-    model.con = 0;
-    model.crt = 0;
+    for (const key of TRAIT_KEYS) next[key] = 0;
   }
 
-  return model;
+  return next;
 }
 
 /**
@@ -189,11 +173,13 @@ export function applyClassSwitch(model: MainModel, losses: ClassSwitchLoss[], ne
  *
  * A blank sheet has nothing to ask about, so the dialog stays out of the way until the
  * user has actually put something in it. Only the two things the dialog offers to keep
- * count: worn items and hand-assigned stat points.
+ * count: worn items and hand-assigned stat points, the latter measured against the sheet
+ * `createMainModel` hands out rather than against a baseline copied here by hand.
  */
 export function hasBuildToKeep(model: MainModel): boolean {
   if (EQUIPMENT_SLOTS.some((slot) => model[slot.key])) return true;
-  if ([model.str, model.agi, model.vit, model.int, model.dex, model.luk].some((stat) => (stat ?? 1) > 1)) return true;
 
-  return [model.pow, model.sta, model.wis, model.spl, model.con, model.crt].some((trait) => (trait ?? 0) > 0);
+  const blank = createMainModel();
+
+  return [...MAIN_STAT_KEYS, ...TRAIT_KEYS].some((key) => (model[key] ?? blank[key]) > blank[key]);
 }
