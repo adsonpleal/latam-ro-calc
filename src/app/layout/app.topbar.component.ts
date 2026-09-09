@@ -158,6 +158,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.106-beta',
+      date: '09-09-2026',
+      logs: [
+        'Um efeito marcado em "Efeitos" agora vale para o resumo de atributos inteiro, e não só para o dano. O Instinto da Bota Temporal soma +200 DES, e com ele marcado o dano subia enquanto o painel continuava descrevendo a build sem o efeito: DES parado no bônus dos equipamentos e DES2 INT1 nos mesmos 425, quando os 400 pontos que o efeito acrescenta a essa conta passam dos 530 e zeram a conjuração variável. Reportado por glenhari.',
+        'O painel estava pela metade, que é o que tornava a leitura confusa: o ATQ já acompanhava o efeito e o resto não. Agora acompanham DES e os demais atributos, a janela de conjuração, precisão e esquiva, velocidade de ataque, as defesas e o HP e SP máximos, e o detalhamento de cada valor lista o efeito como fonte, ao lado dos equipamentos que o compõem. Os números de dano continuam mostrando os dois lados, com "Sem efeitos" ao lado do dano acionado.',
+      ],
+    },
+    {
       v: '0.1.105-beta',
       date: '09-09-2026',
       logs: [

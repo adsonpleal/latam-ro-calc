@@ -77,7 +77,7 @@ import { ItemShopService } from './item-shop.service';
 import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
 import { resolveOffHandEviction } from 'src/app/core/off-hand-slots';
-import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectConsumables } from 'src/app/core/calculator-controller';
+import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectChanceSources, collectConsumables } from 'src/app/core/calculator-controller';
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { ElementType } from 'src/app/constants/element-type.const';
 import { CompareState } from 'src/app/core/compare-state';
@@ -1234,6 +1234,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       ...x,
       ...collectConsumables(this.model, this.items).sources,
       ...potionBreakdown.sources,
+      // A ticked proc is part of the sheet the panel is showing, so it has to be part of
+      // the breakdown behind it too — see collectChanceSources.
+      ...collectChanceSources(calc.chanceList, this.selectedChances),
     };
     this.bonusBreakdownTooltips = potionBreakdown.tooltips;
     this.bonusBreakdownKeys = collectContributingKeys(this.bonusBreakdownSources);
@@ -1280,6 +1283,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         ...this.compareItemSummaryModel,
         ...collectConsumables(this.model, this.items).sources,
         ...potion2.sources,
+        ...collectChanceSources(calc2.chanceList, this.selectedChances2),
       };
       this.bonusBreakdownTooltips2 = potion2.tooltips;
       this.bonusBreakdownKeys2 = collectContributingKeys(this.bonusBreakdownSources2);
@@ -3535,6 +3539,15 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     value: number,
     itemMap: Map<any, number> = this.equipItemIdItemTypeMap,
   ): { label: string; icon?: number; iconType: 'item' | 'skill'; value: number } {
+    // A ticked "Efeito" (proc) — keyed by the item that grants it, so it labels like any
+    // other equipment row.
+    if (srcKey.startsWith('chance_')) {
+      const chanceItemId = Number(srcKey.slice('chance_'.length));
+      if (this.items[chanceItemId]) {
+        return { label: this.items[chanceItemId].name, icon: chanceItemId, iconType: 'item', value };
+      }
+      return { label: srcKey.slice('chance_'.length), iconType: 'item', value };
+    }
     if (srcKey.startsWith('consumable_')) {
       const consumableId = Number(srcKey.slice('consumable_'.length));
       if (this.items[consumableId]) {

@@ -1,5 +1,6 @@
 import { MainModel } from 'src/app/models/main.model';
 import { MonsterModel } from 'src/app/models/monster.model';
+import { ChanceModel } from 'src/app/models/chance-model';
 import { Calculator } from './calculator';
 import { PlayerTargetProfile, PvpMode } from './pvp';
 
@@ -98,6 +99,30 @@ export function collectAspdPotionSources(
   add(model.aspdPotion);
   for (const id of model.aspdPotions ?? []) add(id);
   return { sources, tooltips };
+}
+
+/**
+ * Breakdown sources for the ticked "Efeitos" (procs), keyed `chance_<itemId>` so the
+ * modal can label them with the item that grants them.
+ *
+ * The panel shows the character sheet with those procs running (see
+ * `Calculator.effectedState`), so DES reads "+224" on a build whose gear alone gives 24.
+ * Without these rows the modal behind that number would list the 24 and silently drop
+ * the 200 the reader is looking at.
+ */
+export function collectChanceSources(
+  chanceList: ChanceModel[],
+  selectedChances: string[],
+): Record<string, Record<string, number>> {
+  const selected = new Set(selectedChances ?? []);
+  const sources: Record<string, Record<string, number>> = {};
+
+  for (const chance of chanceList ?? []) {
+    if (!selected.has(chance.name)) continue;
+    sources[`chance_${chance.itemId ?? chance.name}`] = { ...chance.bonus };
+  }
+
+  return sources;
 }
 
 /** One selectable buff row (a subset of `JobBuffs`). */

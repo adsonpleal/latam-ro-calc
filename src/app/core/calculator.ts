@@ -57,6 +57,31 @@ interface ValidationResult {
   restCondition: string;
 }
 
+/** Everything the "Resumo de atributos" panel reads that a ticked proc can move —
+ *  see `Calculator.effectedState`. */
+interface EffectedStateModel {
+  totalBonus: EquipmentSummaryModel;
+  misc: MiscModel;
+  skillFrequency: SkillAspdModel;
+  basicAspd: BasicAspdModel;
+  basicCriRate: number;
+  criRangeBonus: number;
+  maxHp: number;
+  maxSp: number;
+  defenses: DefenseSummary;
+}
+
+/** The defence block calcAllDefs solves — returned rather than assigned, so the same
+ *  formulas can be run a second time against the proc's bonuses. */
+interface DefenseSummary {
+  def: number;
+  softDef: number;
+  mdef: number;
+  softMdef: number;
+  res: number;
+  mres: number;
+}
+
 export class Calculator {
   private readonly DEFAULT_PERFECT_HIT = 5;
 
@@ -268,6 +293,15 @@ export class Calculator {
 
   private selectedChanceList = [] as string[];
   private _chanceList = [] as ChanceModel[];
+  /**
+   * The character sheet as it stands while the ticked "Efeitos" (procs) are running.
+   * `recalcExtraBonus` already solves that pass to get the effected damage; the panel
+   * reads the same state, so a ticked +200 DES shows up in DES, in DES2 INT1 and in the
+   * casting window instead of only inside the damage number. Null while nothing is
+   * ticked. The base damage figures are deliberately NOT part of it — the damage panel
+   * shows base and effected side by side ("Sem efeitos"), so those keep their own pair.
+   */
+  private effectedState: EffectedStateModel | null = null;
   private equipCombo = new Set<string>();
 
   private skillFrequency: SkillAspdModel = {
@@ -1494,6 +1528,7 @@ export class Calculator {
     const c = this.getChanceBonus();
     if (c.length === 0) {
       this.selectedChanceList = [];
+      this.effectedState = null;
       // Compare mode applies the same selectedChances to every build (see
       // ro-calculator.component.ts prepare()/refreshChanceList()), so a chance
       // whose source item this build doesn't carry lands here. effected* must
@@ -1538,9 +1573,26 @@ export class Calculator {
       .calculate()
       .getTotalSummary();
 
-    const { basicDmg, skillDmg, basicAspd, skillAspd } = calc
+    const { basicDmg, misc, skillDmg, basicAspd, skillAspd } = calc
       .calculateAllDamages({ skillValue, propertyAtk: this.propertyBasicAtk, maxHp, maxSp });
     // console.log(skillDmg);
+
+    // The same pass, kept for the character sheet. Without it the panel showed only the
+    // half of the proc that leaks through `atkSummaryForUI` (a lazy getter over the
+    // calculator this line just left in its effected state): ATQ Status moved, DES,
+    // DES2 INT1 and the casting window did not — the bug glenhari reported as "a
+    // marcação de instinto não reduz a conj. variável" (tracker k74xfIkeTP75HuunmKY9).
+    this.effectedState = {
+      totalBonus: calc.totalBonus,
+      misc,
+      skillFrequency: skillAspd ?? this.skillFrequency,
+      basicAspd,
+      basicCriRate: basicDmg.basicCriRate,
+      criRangeBonus: basicDmg.criRangeBonus,
+      maxHp,
+      maxSp,
+      defenses: this.computeDefenses(calc.totalBonus, calc.status),
+    };
 
     this.damageSummary = {
       ...this.damageSummary,
@@ -1618,16 +1670,30 @@ export class Calculator {
   }
 
   calcAllDefs() {
+    const { def, softDef, mdef, softMdef, res, mres } = this.computeDefenses(this.totalEquipStatus, this.dmgCalculator.status);
+    this.def = def;
+    this.softDef = softDef;
+    this.mdef = mdef;
+    this.softMdef = softMdef;
+    this.res = res;
+    this.mres = mres;
+
+    return this;
+  }
+
+  /** The defence formulas, over an explicit bonus map and status block so the panel can
+   *  run them a second time with a ticked proc's bonuses folded in (see effectedState). */
+  private computeDefenses(bonus: EquipmentSummaryModel, status: { totalVit: number; totalAgi: number; totalSta: number; totalWis: number; totalDex: number; totalInt: number; }): DefenseSummary {
     const { level } = this.model;
-    const { def = 0, defPercent = 0, softDef = 0, softDefPercent = 0, res = 0, mres = 0 } = this.totalEquipStatus;
-    const { totalVit, totalAgi, totalSta, totalWis } = this.dmgCalculator.status;
+    const { def = 0, defPercent = 0, softDef = 0, softDefPercent = 0, res = 0, mres = 0 } = bonus;
+    const { totalVit, totalAgi, totalSta, totalWis } = status;
 
     const rawSoftDef = floor(totalVit / 2 + totalAgi / 5 + level / 2);
-    this.softDef = floor((rawSoftDef + softDef) * this.toPercent(100 + softDefPercent));
+    const finalSoftDef = floor((rawSoftDef + softDef) * this.toPercent(100 + softDefPercent));
 
-    const bonus = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5];
+    const refineDefTable = [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5];
     const calcDefByRefine = (refine: number) => {
-      return bonus.filter((_, i) => i + 1 <= refine).reduce((sum, val) => sum + val, 0);
+      return refineDefTable.filter((_, i) => i + 1 <= refine).reduce((sum, val) => sum + val, 0);
     };
     const { headUpperRefine, armorRefine, shieldRefine, garmentRefine, bootRefine } = this.model;
 
@@ -1652,18 +1718,19 @@ export class Calculator {
 
     const refines = [headUpperRefine, armorRefine, shieldRefine, garmentRefine, bootRefine].filter((a) => Number(a) > 0);
     const bonusDefByRefine = refines.reduce((sum, refine) => sum + calcDefByRefine(refine), 0);
-    this.def = floor((def + bonusDefByRefine) * this.toPercent(100 + defPercent)) + additionalDef;
 
-    const { totalDex, totalInt } = this.dmgCalculator.status;
-    const { mdef = 0, mdefPercent = 0, softMdef = 0, softMdefPercent = 0 } = this.totalEquipStatus;
+    const { totalDex, totalInt } = status;
+    const { mdef = 0, mdefPercent = 0, softMdef = 0, softMdefPercent = 0 } = bonus;
     const rawSoftMdef = floor(totalInt + totalVit / 5 + totalDex / 5 + level / 4);
-    this.softMdef = floor((rawSoftMdef + softMdef) * this.toPercent(100 + softMdefPercent));
-    this.mdef = floor(mdef * this.toPercent(100 + mdefPercent));
 
-    this.res = res + totalSta + floor(totalSta / 3) * 5 + bonusRes;
-    this.mres = mres + totalWis + floor(totalWis / 3) * 5 + bonusRes;
-
-    return this;
+    return {
+      def: floor((def + bonusDefByRefine) * this.toPercent(100 + defPercent)) + additionalDef,
+      softDef: finalSoftDef,
+      mdef: floor(mdef * this.toPercent(100 + mdefPercent)),
+      softMdef: floor((rawSoftMdef + softMdef) * this.toPercent(100 + softMdefPercent)),
+      res: res + totalSta + floor(totalSta / 3) * 5 + bonusRes,
+      mres: mres + totalWis + floor(totalWis / 3) * 5 + bonusRes,
+    };
   }
 
   getMonsterSummary() {
@@ -1719,8 +1786,19 @@ export class Calculator {
     const { totalBuffAtk, totalEquipAtk, totalHideMasteryAtk, totalMasteryAtk, totalStatusAtk, totalStatusMatk } = this.dmgCalculator.atkSummaryForUI;
     const leftWeaponAtk = baseWeaponAtk + refineBonus;
 
+    // With an effect ticked, every figure describing the character is the effected one —
+    // the ATQ rows above already are, because atkSummaryForUI reads the calculator
+    // recalcExtraBonus left in that state. The `dmg` block below stays base: the damage
+    // panel prints base and effected as a pair and needs both.
+    const effected = this.effectedState;
+    const totalBonus = effected?.totalBonus ?? this.totalEquipStatus;
+    const skillFrequency = effected?.skillFrequency ?? this.skillFrequency;
+    const misc = effected?.misc ?? this.miscSummary;
+    const basicAspd = effected?.basicAspd ?? this.basicAspd;
+    const defenses = effected?.defenses ?? { def: this.def, softDef: this.softDef, mdef: this.mdef, softMdef: this.softMdef, res: this.res, mres: this.mres };
+
     return {
-      ...this.getObjSummary(this.totalEquipStatus),
+      ...this.getObjSummary(totalBonus),
       monster: { ...this.monster.data },
       propertyAtk: this.propertyBasicAtk,
       weapon: this.weaponData.data,
@@ -1732,31 +1810,31 @@ export class Calculator {
         propertySkill: this.damageSummary.skillPropertyAtk,
         accuracy: this.damageSummary.skillAccuracy,
         totalPene: this.damageSummary.skillTotalPene,
-        ...this.skillFrequency,
+        ...skillFrequency,
       },
       calc: {
         // display on stat summary
-        maxHp: this.maxHp,
-        maxSp: this.maxSp,
-        dex2int1: this.skillFrequency.sumDex2Int1 || 0,
-        to530: 530 - (this.skillFrequency.sumDex2Int1 || 0),
-        def: this.def,
-        softDef: this.softDef,
-        mdef: this.mdef,
-        softMdef: this.softMdef,
-        res: this.res,
-        mres: this.mres,
-        totalAspd: this.basicAspd.totalAspd,
+        maxHp: effected?.maxHp ?? this.maxHp,
+        maxSp: effected?.maxSp ?? this.maxSp,
+        dex2int1: skillFrequency.sumDex2Int1 || 0,
+        to530: 530 - (skillFrequency.sumDex2Int1 || 0),
+        def: defenses.def,
+        softDef: defenses.softDef,
+        mdef: defenses.mdef,
+        softMdef: defenses.softMdef,
+        res: defenses.res,
+        mres: defenses.mres,
+        totalAspd: basicAspd.totalAspd,
         // The character's final AGI (base + job + equip + buffs) — the same value
         // the ASPD formula scales potion/skill bonuses by (× AGI / 200).
         totalAgi: this.dmgCalculator.status.totalAgi,
-        hitPerSecs: this.basicAspd.hitsPerSec,
-        totalCri: this.damageSummary.basicCriRate,
+        hitPerSecs: basicAspd.hitsPerSec,
+        totalCri: effected?.basicCriRate ?? this.damageSummary.basicCriRate,
         // Not added to totalCri on purpose — it only counts on the ranged basic attack.
         // The summary shows it as a "*" beside the value; the breakdown says why.
-        criRangeBonus: this.damageSummary.criRangeBonus,
-        ...this.miscSummary,
-        hitRate: this.miscSummary.accuracy,
+        criRangeBonus: effected?.criRangeBonus ?? this.damageSummary.criRangeBonus,
+        ...misc,
+        hitRate: misc.accuracy,
         dps: this.damageSummary.basicDps,
         leftWeaponRefineBonus: refineBonus,
 
