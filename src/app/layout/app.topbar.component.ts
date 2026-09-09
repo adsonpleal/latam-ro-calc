@@ -158,6 +158,16 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.106-beta',
+      date: '09-09-2026',
+      logs: [
+        'Entraram no banco 416 armas que existem no LATAM e não apareciam para escolher. São de todos os tipos — 70 Maças, 37 Adagas, 34 Soqueiras, 32 Katares, 28 Espadas, 24 Pistolas, 22 Arcos, 21 Shurikens Huuma —, e entre elas as linhas de Campo de Batalha inteiras, os Katares da Carnificina, os Punhos de Batalha e as armas Safira. A causa foi um detalhe do levantamento anterior: ele procurava a linha "Equipa em:" da descrição para decidir se um item era equipável, e arma nenhuma tem essa linha — o rodapé de uma arma traz "Tipo", "ATQ" e "Nível da arma". Nenhuma delas chegou a ser considerada.',
+        'Todas trazem ATQ, nível da arma, peso, nível necessário e a restrição de classe. 111 trazem também os bônus da descrição, entre eles o dano contra Humano e Humanoide e a penetração de DEF que definem as armas de Campo de Batalha. O que depende de conjunto, de tabela de refino, de sorteio ou de habilidade que o simulador ainda não conhece ficou de fora, como já era a regra nas armas cadastradas antes.',
+        'As armas de Bardo e de Odalisca trocaram de lado. O Trovador recebia o chicote e não recebia o violino, e com a Musa acontecia o contrário: a linha de evolução das duas classes estava invertida no simulador. Agora o Trovador e o Maestro veem os instrumentos, a Musa e a Diva veem os chicotes, e nenhum dos dois vê o do outro. Quarenta equipamentos que já vinham com a correção escrita à mão pagavam para as duas linhas ao mesmo tempo e agora pagam só para a sua.',
+        'As máscaras do Sicário e do Executor e os dois Chapéus de Freira voltaram para a linha do Sicário. A descrição dessas quatro peças diz "Mercenário e Sacerdote", e Mercenário é como o Assassino se chama em português — a combinação é estranha, mas foi conferida peça por peça e é a mesma do servidor.',
+      ],
+    },
+    {
       v: '0.1.105-beta',
       date: '08-09-2026',
       logs: [
