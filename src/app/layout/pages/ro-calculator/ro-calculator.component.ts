@@ -35,8 +35,6 @@ import {
   DEFAULT_PET_LOYALTY,
   PetLoyalty,
   PetLoyaltyList,
-  WeaponTypeName,
-  WeaponTypeNameMapBySubTypeId,
   getMonsterGroupName,
 } from 'src/app/constants';
 import { ActiveSkillModel, AtkSkillModel, CharacterBase, ClassIdBySpriteJob, ClassName, PassiveSkillModel, SkillModel } from 'src/app/jobs';
@@ -81,6 +79,7 @@ import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPot
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { ElementType } from 'src/app/constants/element-type.const';
 import { CompareState } from 'src/app/core/compare-state';
+import { ClassSwitchLoss, applyClassSwitch, findClassSwitchLosses, hasBuildToKeep, isEquipableInSlot, isUsableByClass } from 'src/app/core/class-switch';
 import { SLOTS_BY_KEY } from 'src/app/app-config/equipment-slots';
 import { SlotListBag } from './equipment-grid/slot-list-bag.model';
 import { compactRotationForShare, firstRealSkill, isBasicAttack, normalizeRotation, pruneRotationForClass } from 'src/app/core/rotation';
@@ -559,6 +558,16 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   equipableItems: (DropdownModel & { id: number; position: string; })[] = [];
   offensiveSkills: (DropdownModel & { icon?: number })[] = [];
+
+  // --- Class switch modal ---
+  /** The class the screen is actually loaded with. The picker's ngModel runs ahead of it:
+   *  the dialog needs somewhere to go back to when the switch is cancelled. */
+  private loadedClassId: number = this.model.class;
+  /** Set while a confirmed close is in flight, so its `onHide` is not read as a cancel. */
+  private classSwitchConfirmed = false;
+  showClassSwitch = false;
+  /** The switch the dialog is asking about; null whenever the dialog is closed. */
+  pendingClassSwitch: { fromLabel: string; toLabel: string; fromClass: number; losses: ClassSwitchLoss[] } | null = null;
 
   // --- Replay (.rrf) import modal ---
   showReplayImport = false;
@@ -2160,9 +2169,14 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     return Characters.find((a) => a.value === this.model.class)?.label ?? '';
   }
 
+  /** The class instance behind a picker id, falling back to the first class in the list. */
+  private classInstanceOf(classId: number): CharacterBase {
+    return (Characters.find((a) => a.value === classId)?.['instant'] as CharacterBase) ?? (Characters[0]['instant'] as CharacterBase);
+  }
+
   private setClassInstant() {
-    const c = Characters.find((a) => a.value === this.model.class)?.['instant'] as CharacterBase;
-    this.selectedCharacter = c || Characters[0]['instant'];
+    this.selectedCharacter = this.classInstanceOf(this.model.class);
+    this.loadedClassId = this.model.class;
     this.calculator.setClass(this.selectedCharacter);
     this.isAllowTraitStat = this.selectedCharacter.isAllowTraitStat();
     this.isAllowLeftWeaponByClass = AllowLeftWeaponMapper[this.selectedCharacter.className] || false;
@@ -2391,6 +2405,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
       return true;
     });
+
+    // A build carried across a class switch can arrive holding a potion this class cannot
+    // drink. The listbox would show nothing selected while the bonus still applied.
+    if (this.model.aspdPotion && !this.aspdPotionList.some(({ value }) => value === this.model.aspdPotion)) {
+      this.model.aspdPotion = undefined;
+    }
   }
 
   private setSkillModelArray() {
@@ -2776,49 +2796,15 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   private setItemDropdownList() {
-    const classNameSet = this.selectedCharacter.classNameSet;
-    const onlyMe = (a: ItemDropdownModel) => {
-      // if (a.label.startsWith('Heroic Token')) return true
-
-      if (Array.isArray(a.unusableClass) && a.unusableClass.length > 0) {
-        const cannot = a.unusableClass.some((x) => classNameSet.has(x));
-        if (cannot) return false;
-      }
-      if (Array.isArray(a.usableClass)) {
-        return a.usableClass.some((x) => classNameSet.has(x));
-      }
-
-      return true;
-    };
-    const onlySuperNoviceWeapon = (a: ItemDropdownModel) => {
-      // if (this.items[+a.value]?.aegisName?.startsWith('Poenitentia_')) return true;
-      // if (this.items[+a.value]?.aegisName?.startsWith('Poenetentia_')) return true;
-      // if (a.label.includes('-AD')) return true
-
-      // supper novice allow to equip weapon lv4
-      if (this.selectedCharacter.className === ClassName.SuperNovice) {
-        const { itemLevel, itemSubTypeId } = this.items[a.value as number] ?? {};
-        const isLv4 = itemLevel === 4;
-        const wTypeNames = new Set<WeaponTypeName>(['dagger', 'sword', 'axe', 'mace', 'rod', 'twohandRod']);
-        const isSup = wTypeNames.has(WeaponTypeNameMapBySubTypeId[itemSubTypeId]);
-
-        if (isLv4 && isSup) return true;
-      }
-
-      // return a.label.startsWith('Glacier')
-      // return this.items[+a.value]?.aegisName?.startsWith('Fourth');
-
-      return onlyMe(a);
-    };
-    const onlySuperNoviceHeadGear = (a: ItemDropdownModel) => {
-      if (this.selectedCharacter.className === ClassName.SuperNovice) {
-        return true;
-      }
-
-      // return a.label.startsWith('Temporal Circlet')
-
-      return onlyMe(a);
-    };
+    const cClass = this.selectedCharacter;
+    const classNameSet = cClass.classNameSet;
+    // The rules themselves live in core/class-switch.ts, because the class dialog has to
+    // answer the same question in the other direction — which equipped items the class
+    // being switched to cannot wear. Two copies of the Super Novice exemptions would drift,
+    // and the dialog would name a different set than the dropdowns then offer.
+    const onlyMe = (a: ItemDropdownModel) => isUsableByClass(a, classNameSet);
+    const onlySuperNoviceWeapon = (a: ItemDropdownModel) => isEquipableInSlot('weapon', this.items[a.value as number], cClass);
+    const onlySuperNoviceHeadGear = (a: ItemDropdownModel) => isEquipableInSlot('headGear', this.items[a.value as number], cClass);
 
     this.weaponList = this.itemList.weaponList.filter(onlySuperNoviceWeapon);
     this.leftWeaponList = this.itemList.leftWeaponList.filter(onlySuperNoviceWeapon);
@@ -3590,56 +3576,165 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.updateItemEvent.next(1);
   }
 
+  /**
+   * The class picker moved. Nothing is applied yet.
+   *
+   * A switch used to wipe the build down to class/level/job, which is the whole of the
+   * report behind this dialog: someone updating a build to another class lost it. The
+   * choice is now the user's, and the items the new class cannot wear are named before
+   * either button is pressed. A sheet with nothing on it is switched straight away —
+   * there is nothing to ask about.
+   *
+   * `isChangeByInput` is false on the paths that write the class themselves (preset,
+   * share link, replay import): those arrive with a model of their own.
+   */
   onClassChange(isChangeByInput = true) {
-    if (isChangeByInput) {
-      this.isInProcessingPreset = true;
+    if (!isChangeByInput) return;
 
-      const { level, jobLevel } = this.model;
+    const fromClass = this.loadedClassId;
+    if (fromClass === this.model.class) return;
 
-      waitRxjs()
-        .pipe(
-          mergeMap(() => {
-            this.resetModel();
-            return waitRxjs();
-          }),
-          mergeMap(() => {
-            this.calculator = new Calculator();
-            this.calculator.setMasterItems(this.items).setHpSpTable(this.hpSpTable);
+    if (!hasBuildToKeep(this.model)) {
+      this.applyClassChange(false);
+      return;
+    }
 
-            this.setClassInstant();
-            this.setSkillModelArray();
-            this.setClassSkill();
-            this.setClassMinMaxLvl();
-            return waitRxjs();
-          }),
-          mergeMap(() => {
-            this.setClassLvl({ currentLvl: level, currentJob: jobLevel });
-            this.onListItemComparingChange(true);
+    const nextClass = this.classInstanceOf(this.model.class);
+    this.pendingClassSwitch = {
+      fromClass,
+      fromLabel: this.classLabel(fromClass),
+      toLabel: this.classLabel(this.model.class),
+      losses: findClassSwitchLosses({
+        model: this.model,
+        items: this.items,
+        nextClass,
+        canWieldOffHandWeapon: AllowLeftWeaponMapper[nextClass.className] || false,
+      }),
+    };
+    this.showClassSwitch = true;
+  }
 
-            this.updateAvailablePoints();
-            this.equipItemMap.clear();
-            this.resetItemDescription();
+  /**
+   * "Cancelar", the X and Escape all land here: the picker goes back to the class that is
+   * actually loaded. Idempotent, because PrimeNG's own hide event comes back through it.
+   */
+  cancelClassSwitch() {
+    if (this.pendingClassSwitch) this.model.class = this.pendingClassSwitch.fromClass;
+    this.pendingClassSwitch = null;
+    this.showClassSwitch = false;
+  }
 
-            this.setJobBonus();
-            return waitRxjs();
-          }),
-          mergeMap(() => {
-            this.setAspdPotionList();
-            this.setDefaultSkill();
-            this.setItemDropdownList();
-            this.setAmmoDropdownList();
-            // Same reason as loadItemSet: one macrotask hop is enough for the overlay
-            // to repaint; the half second was an arbitrary margin.
-            return waitRxjs(0.05);
-          }),
-          take(1),
-          finalize(() => (this.isInProcessingPreset = false)),
-        )
+  confirmClassSwitch(keepBuild: boolean) {
+    const pending = this.pendingClassSwitch;
+    if (!pending) return;
+
+    // `onHide` rides the closing animation, so it can land a whole switch later — after
+    // the picker has been moved again and the dialog reopened. Swallow the one this close
+    // is about, or it would cancel the switch that replaced it.
+    this.pendingClassSwitch = null;
+    this.classSwitchConfirmed = true;
+    this.showClassSwitch = false;
+
+    this.applyClassChange(keepBuild, pending.losses);
+  }
+
+  onClassSwitchHide() {
+    if (this.classSwitchConfirmed) {
+      this.classSwitchConfirmed = false;
+      return;
+    }
+
+    this.cancelClassSwitch();
+  }
+
+  /**
+   * Load `model.class`, either on a blank sheet or over the build that is on screen.
+   *
+   * Keeping it reuses the preset restore path wholesale: the skill maps are keyed by
+   * name, so a skill both classes share keeps its level and the rest falls away;
+   * `setClassLvl` clamps a level the new class cannot reach; `setDefaultRotation` drops
+   * the attacks it cannot cast. All this build has to do first is take off the gear the
+   * dialog named and, on a class with no trait table, the trait points that would
+   * otherwise keep paying with no field on screen to show them.
+   */
+  private applyClassChange(keepBuild: boolean, losses: ClassSwitchLoss[] = []) {
+    this.isInProcessingPreset = true;
+
+    // A class instance accumulates its own bonuses, so the calculator goes with it.
+    const resetCalculator = () => {
+      this.calculator = new Calculator();
+      this.calculator.setMasterItems(this.items).setHpSpTable(this.hpSpTable);
+    };
+
+    if (keepBuild) {
+      // Built against the class that is still loaded: `toUpsertPresetModel` turns the
+      // positional skill arrays into name-keyed maps, which is exactly what lets a shared
+      // skill survive the switch.
+      const preset = applyClassSwitch(
+        toUpsertPresetModel({ ...this.model }, this.selectedCharacter) as MainModel,
+        losses,
+        this.classInstanceOf(this.model.class),
+      );
+
+      resetCalculator();
+      this.equipItemMap.clear();
+      this.resetItemDescription();
+      this.onListItemComparingChange(true);
+
+      this.loadItemSet(preset as unknown as PresetModel)
+        .pipe(take(1))
         .subscribe(() => {
           this.updateItemEvent.next(1);
           this.updateCompareEvent.next(1);
         });
+
+      return;
     }
+
+    const { level, jobLevel } = this.model;
+
+    waitRxjs()
+      .pipe(
+        mergeMap(() => {
+          this.resetModel();
+          return waitRxjs();
+        }),
+        mergeMap(() => {
+          resetCalculator();
+
+          this.setClassInstant();
+          this.setSkillModelArray();
+          this.setClassSkill();
+          this.setClassMinMaxLvl();
+          return waitRxjs();
+        }),
+        mergeMap(() => {
+          this.setClassLvl({ currentLvl: level, currentJob: jobLevel });
+          this.onListItemComparingChange(true);
+
+          this.updateAvailablePoints();
+          this.equipItemMap.clear();
+          this.resetItemDescription();
+
+          this.setJobBonus();
+          return waitRxjs();
+        }),
+        mergeMap(() => {
+          this.setAspdPotionList();
+          this.setDefaultSkill();
+          this.setItemDropdownList();
+          this.setAmmoDropdownList();
+          // Same reason as loadItemSet: one macrotask hop is enough for the overlay
+          // to repaint; the half second was an arbitrary margin.
+          return waitRxjs(0.05);
+        }),
+        take(1),
+        finalize(() => (this.isInProcessingPreset = false)),
+      )
+      .subscribe(() => {
+        this.updateItemEvent.next(1);
+        this.updateCompareEvent.next(1);
+      });
   }
 
   onAtkSkillChange() {

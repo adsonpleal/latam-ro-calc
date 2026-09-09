@@ -99,6 +99,19 @@ describe('EQUIPMENT_SLOTS', () => {
     }
   });
 
+  it('marks the class filter the picker and the class-switch dialog both read', () => {
+    // Drift here shows up twice over: a dropdown that offers what the class cannot wear,
+    // and a switch dialog that promises to keep it. The three head positions carry the
+    // Super Novice head-gear exemption, the two weapons its level-4 one-hander, and the
+    // pet is the only slot no class filter reaches.
+    const byFilter = (filter: string) => EQUIPMENT_SLOTS.filter((s) => s.classFilter === filter).map((s) => s.key);
+
+    expect(byFilter('weapon')).toEqual([ItemTypeEnum.weapon, ItemTypeEnum.leftWeapon]);
+    expect(byFilter('headGear')).toEqual([ItemTypeEnum.headUpper, ItemTypeEnum.headMiddle, ItemTypeEnum.headLower]);
+    expect(byFilter('none')).toEqual([ItemTypeEnum.pet]);
+    expect(byFilter('gear').length).toBe(EQUIPMENT_SLOTS.length - 6);
+  });
+
   it('puts the converter and the ammo on the main weapon alone', () => {
     expect(EQUIPMENT_SLOTS.filter((s) => s.converter).map((s) => s.key)).toEqual([ItemTypeEnum.weapon]);
     expect(EQUIPMENT_SLOTS.filter((s) => s.ammo).map((s) => s.key)).toEqual([ItemTypeEnum.weapon]);

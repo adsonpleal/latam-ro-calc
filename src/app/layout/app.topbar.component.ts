@@ -158,6 +158,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.107-beta',
+      date: '09-09-2026',
+      logs: [
+        'Trocar de classe agora pergunta o que fazer com a build. Até aqui a troca apagava tudo — atributos, equipamentos, cartas, encantos — e quem só queria ver a mesma build em outra classe recomeçava do zero sem ter pedido. O seletor de classe passa a abrir uma janela com as duas saídas: começar do zero, como antes, ou manter os atributos e os equipamentos. Fechar a janela desfaz a troca e devolve o seletor à classe que estava carregada. Reportado por usuário anônimo.',
+        'Os itens que a classe nova não pode usar são listados antes de qualquer escolha, com o nome da peça e o slot em que ela está, porque saem mesmo em "manter a build" — junto com o refino, o grau, as cartas, os encantos e os bônus aleatórios daquela peça. A arma da mão esquerda entra na lista quando a classe nova não usa duas armas. O resto acompanha a troca: o nível é limitado ao teto da classe nova, as habilidades que as duas têm em comum mantêm o nível, a rotação perde os golpes que a classe nova não conjura e os talentos são zerados quando ela não os usa.',
+      ],
+    },
+    {
       v: '0.1.106-beta',
       date: '09-09-2026',
       logs: [

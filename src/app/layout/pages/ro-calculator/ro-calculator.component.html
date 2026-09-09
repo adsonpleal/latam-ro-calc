@@ -1330,6 +1330,55 @@
   </div>
 </div>
 
+<!-- Changing class: keep the build, or start over. Closing the dialog puts the picker back. -->
+<p-dialog
+  header="Trocar de classe"
+  [(visible)]="showClassSwitch"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="true"
+  (onHide)="onClassSwitchHide()"
+  [style]="{ width: '520px', 'max-width': '92vw' }"
+>
+  <ng-container *ngIf="pendingClassSwitch as swap">
+    <p class="mt-0 mb-3">
+      Trocando de <b>{{ swap.fromLabel }}</b> para <b>{{ swap.toLabel }}</b>.
+    </p>
+
+    <div *ngIf="swap.losses.length" class="class_switch_losses">
+      <p class="m-0 mb-2">
+        <i class="pi pi-exclamation-triangle mr-2"></i>
+        <ng-container *ngIf="swap.losses.length === 1">Este item será removido, porque {{ swap.toLabel }} não pode usá-lo:</ng-container>
+        <ng-container *ngIf="swap.losses.length > 1"
+          >Estes {{ swap.losses.length }} itens serão removidos, porque {{ swap.toLabel }} não pode usá-los:</ng-container
+        >
+      </p>
+      <ul class="class_switch_loss_list">
+        <li *ngFor="let loss of swap.losses">
+          <span class="class_switch_loss_slot">{{ loss.slotLabel }}</span>
+          <span class="class_switch_loss_item">{{ loss.itemName }}</span>
+          <span *ngIf="loss.reason === 'offHand'" class="class_switch_loss_note">{{ swap.toLabel }} não usa duas armas</span>
+        </li>
+      </ul>
+      <p class="m-0 mt-2 text-sm" style="opacity: 0.7">
+        Cartas, encantos e refino desses itens saem junto. O resto da build continua como está.
+      </p>
+    </div>
+
+    <p *ngIf="!swap.losses.length" class="mb-0 text-sm" style="opacity: 0.7">
+      Todos os equipamentos atuais podem ser usados por {{ swap.toLabel }}. As habilidades que a classe nova não tem e os talentos, quando
+      ela não os usa, ficam de fora.
+    </p>
+  </ng-container>
+
+  <ng-template pTemplate="footer">
+    <button pButton class="p-button-text" label="Cancelar" (click)="cancelClassSwitch()"></button>
+    <button pButton class="p-button-outlined" icon="pi pi-file" label="Começar do zero" (click)="confirmClassSwitch(false)"></button>
+    <button pButton class="p-button-success" icon="pi pi-check" label="Manter a build" (click)="confirmClassSwitch(true)"></button>
+  </ng-template>
+</p-dialog>
+
 <!-- Import build from a Ragnarok replay (.rrf) -->
 <p-dialog header="Importar Replay" [(visible)]="showReplayImport" [modal]="true" [dismissableMask]="true" [draggable]="false" [style]="{ width: '460px' }">
   <div

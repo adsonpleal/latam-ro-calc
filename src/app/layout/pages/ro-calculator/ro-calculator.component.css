@@ -1165,3 +1165,42 @@ a.skill_link:hover {
 .item_label_compare {
   margin-top: 8px;
 }
+
+/* ---------------------------------------------------------------------------
+   Class-switch dialog: the items the class being switched to cannot wear.
+   Named before either button is pressed, so "manter a build" is not a surprise. */
+.class_switch_losses {
+  border: 1px solid var(--surface-400);
+  border-left: 3px solid var(--yellow-500);
+  border-radius: 6px;
+  padding: 0.75rem;
+  background-color: var(--surface-100);
+}
+.class_switch_loss_list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.class_switch_loss_list li {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 2px 0;
+}
+.class_switch_loss_slot {
+  flex: 0 0 7rem;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  opacity: 0.65;
+}
+.class_switch_loss_item {
+  font-weight: 600;
+}
+.class_switch_loss_note {
+  font-size: 11px;
+  opacity: 0.65;
+}

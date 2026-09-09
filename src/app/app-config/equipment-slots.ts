@@ -38,6 +38,20 @@ export type OptionSlotSource = 'weapon' | 'table' | 'fixed' | 'none';
 export type SlotVisibility = 'always' | 'leftWeapon' | 'shield';
 
 /**
+ * How the slot's item list is narrowed to the class wearing it.
+ *
+ * `gear` is the plain `usableClass` / `unusableClass` test. `weapon` and `headGear` add
+ * the two Super Novice exemptions (any level-4 one-hander of the six types it is allowed,
+ * and any head gear at all). `none` marks the lists that are never filtered — the cards,
+ * the pet and the costume enchants go on whoever picks them.
+ *
+ * The picker filters by this and `findClassSwitchLosses` decides what a class switch has
+ * to drop by the same field, so the dialog can never name a different set than the
+ * dropdowns will offer.
+ */
+export type SlotClassFilter = 'none' | 'gear' | 'weapon' | 'headGear';
+
+/**
  * A picker that lives inside another slot's card but is a slot of its own in the model —
  * the costume enchants. They are ordinary items chosen from their own list (not
  * enchant-table positions), and each is separately comparable.
@@ -69,6 +83,8 @@ export interface EquipmentSlotDescriptor {
    */
   enchantFields: (ItemTypeEnum | null)[];
   refine: RefineRule;
+  /** How the slot's list is narrowed to the class. See {@link SlotClassFilter}. */
+  classFilter: SlotClassFilter;
   /** Whether an Enchant Grade can be picked (still gated at runtime by `item.canGrade`). */
   grade: boolean;
   /** `rawOptionTxts` indexes, in display order. */
@@ -107,6 +123,7 @@ const weaponLike = (
   cardFields: [1, 2, 3, 4].map((n) => `${key}Card${n}` as ItemTypeEnum),
   enchantFields: [0, 1, 2, 3].map((n) => `${key}Enchant${n}` as ItemTypeEnum),
   refine: 'equip',
+  classFilter: 'weapon',
   grade: true,
   optionIndexes,
   optionSlotSource: 'weapon',
@@ -131,6 +148,7 @@ const gearLike = (
   cardFields: [`${key}Card` as ItemTypeEnum],
   enchantFields: [null, ...[1, 2, 3].map((n) => `${key}Enchant${n}` as ItemTypeEnum)],
   refine,
+  classFilter: 'gear',
   grade: true,
   optionIndexes,
   optionSlotSource: 'table',
@@ -148,6 +166,7 @@ const shadowLike = (key: ItemTypeEnum, itemListKey: string, optionIndexes: ItemO
   cardFields: [],
   enchantFields: [null, null, `${key}Enchant2` as ItemTypeEnum, `${key}Enchant3` as ItemTypeEnum],
   refine: 'shadow',
+  classFilter: 'gear',
   grade: false,
   optionIndexes,
   optionSlotSource: 'fixed',
@@ -169,6 +188,7 @@ const costumeLike = (
   cardFields: [],
   enchantFields: [],
   refine: 'none',
+  classFilter: 'gear',
   grade: false,
   optionIndexes: [],
   optionSlotSource: 'none',
@@ -207,6 +227,7 @@ export const EQUIPMENT_SLOTS: readonly EquipmentSlotDescriptor[] = [
   }),
   gearLike(ItemTypeEnum.headUpper, 'headUpperList', 'headCardList', 'equip', [ItemOptionNumber.H_Upper_1, ItemOptionNumber.H_Upper_2], {
     headSlot: true,
+    classFilter: 'headGear',
   }),
   // No refine on the middle and lower positions: neither binds a refine list today, and
   // neither has a `*Refine` model field the calculator reads.
@@ -216,10 +237,11 @@ export const EQUIPMENT_SLOTS: readonly EquipmentSlotDescriptor[] = [
     'headCardList',
     'none',
     [ItemOptionNumber.H_Mid_1, ItemOptionNumber.H_Mid_2, ItemOptionNumber.H_Mid_3],
-    { headSlot: true },
+    { headSlot: true, classFilter: 'headGear' },
   ),
   gearLike(ItemTypeEnum.headLower, 'headLowerList', 'headCardList', 'none', [ItemOptionNumber.H_Low_1, ItemOptionNumber.H_Low_2], {
     headSlot: true,
+    classFilter: 'headGear',
   }),
   gearLike(ItemTypeEnum.armor, 'armorList', 'armorCardList', 'equip', [
     ItemOptionNumber.Armor_1,
@@ -277,6 +299,8 @@ export const EQUIPMENT_SLOTS: readonly EquipmentSlotDescriptor[] = [
     cardFields: [],
     enchantFields: [],
     refine: 'none',
+    // Every class may bring any pet: the picker never filters this list.
+    classFilter: 'none',
     grade: false,
     optionIndexes: [],
     optionSlotSource: 'none',
