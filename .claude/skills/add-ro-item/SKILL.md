@@ -27,6 +27,68 @@ The scaffold maps the slot to **authoritative** `itemTypeId`/`itemSubTypeId`/`lo
 - **Accessories**: subtype `517` works both sides; use `510` (right) / `511` (left) only if the bonus is side-specific.
 - Leave `name` as the pt name and `description: ""` — `RoService` overlays pt name/description and sets `presentInLatam` at runtime from `latam-items.json`.
 
+### 2b. `usableClass` — translate the "Classes:" line, don't guess it
+
+The description's `Classes:` line decides who is offered the item, and it is written in the
+**client's** pt-BR job names, which are not translations of the English ones. Tokens must be
+`ClassName` values (`src/app/jobs/_class-name.ts`) or `ro.service` flags them invalid.
+
+**A token covers its whole line downward**, so the job the description names is the token to
+write: `["Assassin"]` reaches Algoz, Sicário and Executor; `["Thief"]` reaches those *and* the
+Renegado side. Never list the 3rd and 4th jobs alongside the base one to "make sure" — if the
+base token does not reach them, the lineage is wrong and belongs fixed in
+`src/app/jobs/`, not worked around per item. Forty records carry exactly that workaround
+(`["Bard", "Minstrel", "Troubadour"]`), written while the Bard and Dancer lines were crossed.
+
+`"Todas"` and `"Todas, exceto Aprendizes"` are both `["all"]` — there is no Aprendiz-only
+character in the calc. `"Transclasses"` is `["Hi-Class"]`, `"3ª/Terceiras classes"` is
+`["Only 3rd Cls"]` (which covers 4th too).
+
+**The authority is the client's own `jobs.json`**, which pairs each pt-BR name with its engine
+constant — fetch it rather than translating by eye:
+
+```
+node -e "fetch('https://assets.latam-tools.com.br/raw/jobs.json').then(r=>r.json()).then(j=>console.log(j.filter(x=>x.name).map(x=>x.id+' '+x.name+' '+x.jt).join('\n')))"
+```
+
+| pt-BR (client) | `JT_` | token | | pt-BR (client) | `JT_` | token |
+|---|---|---|---|---|---|---|
+| Aprendiz | `JT_NOVICE` | `Novice` | | Cavaleiro | `JT_KNIGHT` | `Knight` |
+| Espadachim | `JT_SWORDMAN` | `Swordman` | | Templário | `JT_CRUSADER` | `Crusader` |
+| Mago | `JT_MAGICIAN` | `Mage` | | Bruxo | `JT_WIZARD` | `Wizard` |
+| Arqueiro | `JT_ARCHER` | `Archer` | | Sábio | `JT_SAGE` | `Sage` |
+| Noviço | `JT_ACOLYTE` | `Acolyte` | | Sacerdote | `JT_PRIEST` | `Priest` |
+| Mercador | `JT_MERCHANT` | `Merchant` | | Monge | `JT_MONK` | `Monk` |
+| Gatuno | `JT_THIEF` | `Thief` | | Ferreiro | `JT_BLACKSMITH` | `Blacksmith` |
+| Taekwon | `JT_TAEKWON` | `Taekwondo` | | Alquimista | `JT_ALCHEMIST` | `Alchemist` |
+| Mestre Taekwon | `JT_STAR` | `StarGladiator` | | **Mercenário** | `JT_ASSASSIN` | **`Assassin`** |
+| Espiritualista | `JT_LINKER` | `SoulLinker` | | Arruaceiro | `JT_ROGUE` | `Rogue` |
+| Superaprendiz | `JT_SUPERNOVICE` | `SuperNovice` | | Caçador | `JT_HUNTER` | `Hunter` |
+| Justiceiro | `JT_GUNSLINGER` | `Gunslinger` | | Bardo | `JT_BARD` | `Bard` |
+| Ninja | `JT_NINJA` | `Ninja` | | Odalisca | `JT_DANCER` | `Dancer` |
+| Invocador | — | `Doram` | | Lorde | `JT_KNIGHT_H` | `LordKnight` |
+| Paladino | `JT_CRUSADER_H` | `Paladin` | | Arquimago | `JT_WIZARD_H` | `HighWizard` |
+| Professor | `JT_SAGE_H` | `Scholar` | | Sumo Sacerdote | `JT_PRIEST_H` | `HighPriest` |
+| **Mestre** | `JT_MONK_H` | **`Champion`** | | Mestre Ferreiro | `JT_BLACKSMITH_H` | `Whitesmith` |
+| Criador | `JT_ALCHEMIST_H` | `Creator` | | Algoz | `JT_ASSASSIN_H` | `AssassinCross` |
+| Desordeiro | `JT_ROGUE_H` | `Stalker` | | Atirador de Elite | `JT_HUNTER_H` | `Sniper` |
+| Menestrel | `JT_BARD_H` | `Clown` | | Cigana | `JT_DANCER_H` | `Gypsy` |
+
+**The traps — each of these has already shipped a wrong gate:**
+
+- **Mercenário is the Assassin** (`JT_ASSASSIN`), not the NPC mercenary and not a typo for
+  Mercador (`JT_MERCHANT`). Reading it as an unmappable NPC class hid four head gears and
+  made a whole port skip 34 katars.
+- **"Mestre" is three different jobs.** Bare `Mestre` is the Champion; `Mestre Ferreiro` is
+  the Whitesmith; `Mestre Taekwon` is the Star Gladiator. Match the longest name first.
+- **Noviço is the Acolyte; Aprendiz is the Novice.** Getting this backwards once hid 56 items.
+- **`Mago` is a substring of `Arquimago`.** Arquimago is the High Wizard, on the Bruxo branch
+  only — a substring match sends it to `Mage` and opens the item to the Sábio side too.
+- **Bardo → Menestrel → Trovador, Odalisca → Cigana → Musa.** These were crossed in the job
+  classes until 09/09/2026; `class-lineage.spec.ts` now pins every line.
+- A job the calc has no token for (the real NPC Mercenário, for instance) means the encodable
+  gate is narrower than the client's rule. Encode the playable part and say so in the report.
+
 ### 3. Bonus script — map each effect line to a bonus key
 Each script value is `"<key>": ["<entry>", ...]`. An entry is one of:
 | form | meaning | description trigger |

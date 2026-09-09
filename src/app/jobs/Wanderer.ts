@@ -14,7 +14,7 @@ import {
   SongOfMana,
 } from '../constants/share-passive-skills';
 import { BragisPoemFn, SwingDanceFn } from '../constants/share-active-skills';
-import { Bard } from './Bard';
+import { Dancer } from './Dancer';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 0, 1, 0],
@@ -89,7 +89,7 @@ const jobBonusTable: Record<number, [number, number, number, number, number, num
   70: [7, 9, 7, 9, 8, 3],
 };
 
-export class Wanderer extends Bard {
+export class Wanderer extends Dancer {
   protected override CLASS_NAME = ClassName.Wanderer;
   protected override JobBonusTable = jobBonusTable;
 
