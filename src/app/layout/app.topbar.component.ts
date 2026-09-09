@@ -158,6 +158,16 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.105-beta',
+      date: '08-09-2026',
+      logs: [
+        'Entraram no banco 264 equipamentos que existem no LATAM e não apareciam em busca alguma. São quase todos chapéus antigos, e vários deles nada modestos: o Chifre de Lord Kaho, o Elmo de Orc Herói, a Coroa da Abelha Rainha, o Chifre de Succubus, as cinco cores do Mestre Arcano, os Chapéus do Torneio, o Chapéu de UFOring. A causa é a forma como a descrição desses itens é escrita: o bônus vem dentro do texto de ambientação, sem a linha tracejada que separa os efeitos nos itens mais novos. A importação anterior recortava os efeitos justamente por essa linha, então 65 chapéus com bônus reais foram lidos como enfeite e ficaram de fora do banco.',
+        'Dos 264, 103 carregam bônus, incluindo os que dependem de refino: o Chapéu de UFOring abre a redução de conjuração variável no +7 e a de pós-conjuração com a velocidade de ataque no +9, e o Boné de Gatinho e o Chapéu de Brioche somam mais um ponto a cada refino a partir do +6. As Orelhas do Ifrit trazem os +2% de dano em Lanças de Fogo, Coluna de Fogo, Chuva de Meteoros, Golpe Fulminante, Perfurar e Impacto Explosivo. As cinco Gemas restantes das constelações completam o conjunto com as Botas do ArchAngeling, com as faixas de refino +7, +9 e +12 somando como a descrição descreve. Os 161 restantes são enfeite mesmo, e entraram para poder ser escolhidos.',
+        'A Mochila de Hatii já pode ser escolhida no visual de capa, junto com a Mini Elly e a Injeção, que chegaram nas atualizações de cliente de julho. Reportado por usuário anônimo.',
+        'As máscaras do Sicário e do Executor e os dois Chapéus de Freira voltaram a ser oferecidos para a linha do Sicário. A descrição dessas peças diz "Mercenário", que é como o Assassino se chama em português, e não a classe de apoio de mesmo nome — a leitura errada mantinha as quatro escondidas de quem pode usá-las. Três descrições que chegavam com os acentos trocados por letras cirílicas — Sabores Outonais, Fogueira de Graças e Boneco de Peru — também foram corrigidas na origem dos dados.',
+      ],
+    },
+    {
       v: '0.1.104-beta',
       date: '08-09-2026',
       logs: [
