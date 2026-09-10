@@ -158,6 +158,18 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.108-beta',
+      date: '10-09-2026',
+      logs: [
+        'Cacos de Gelo entrou na rotação do Magus. A habilidade não aparecia na lista de golpes, então não havia como montar uma rotação com ela. Cada uso lança dois cacos de propriedade Água e cada um carrega a porcentagem inteira da tabela — 4.000% no nível 5 —, de modo que os dois entram na conta e o segundo aparece em linha própria no resumo de batalha. Os cinco níveis estão no seletor. Reportado por usuário anônimo.',
+        'Cada nível de Potencializar Magia reformula a habilidade de um jeito, e o que vale é o nível escolhido no painel de habilidades. No 1 ela deixa de causar dano e ativa [Geleira]; no 2 o primeiro caco atinge duas vezes; no 3 o primeiro caco ganha 50%; no 4 o primeiro perde metade e o segundo ganha 150%; no 5 só a área aumenta. A cláusula do nível 1 não está na descrição do cliente, que fala da Geleira e não diz que o dano deixa de sair — ela vem do bROWiki, que a traz nas duas páginas, e é a mesma cláusula que Florescer, Pilares de Pedra e Tufão Destrutivo trazem no nível em que cada uma deixa de causar dano.',
+        'O "Como o dano é calculado" voltou a terminar no mesmo número que a linha da rotação mostra. Em habilidade que causa dano em duas partes a corrente parava na primeira e fechava na metade do valor exibido logo acima; a segunda parte passou a ser um passo com nome próprio. Chamas de Hela tinha a mesma diferença e foi junto.',
+        'O passo "Hab. Base" de Cacos de Gelo diz de onde vem a porcentagem: a linha da tabela do cliente, o termo de FEI e o fator que a Potencializar Magia aplica naquele nível, com o link para a página da habilidade. Sem a Potencializar Magia ativa ele continua calado, porque aí a porcentagem é a tabela e nada mais.',
+        'Esquife de Gelo aparecia duas vezes na lista de golpes do Arcano, com o mesmo nome nas duas e com o ícone quebrado. As duas entradas existem de propósito — o dano normal e o dano contra alvo em Calafrio, que a tabela do cliente separa em colunas —, e agora cada uma diz qual é. O ícone quebrado tinha outra origem: o cadastro apontava para um código de habilidade errado, um número que o cliente conhece só de nome, sem ícone, sem descrição e sem janela de conjuração. Com o código certo a habilidade ganhou ícone e texto no tooltip, e a janela de conjuração passou a ser a do cliente — pós-conjuração de 0,5 segundo em vez de 1, e conjuração variável crescendo meio segundo por nível em vez de ficar fixa. Os 32 bônus de equipamento presos ao código antigo acompanharam a correção.',
+        'A etiqueta de nível na linha da rotação estava com o texto encostado na borda de baixo da moldura, e a moldura do seletor era mais alta que a das habilidades de nível único ao lado. As duas passaram a ter a mesma altura, o mesmo respiro e o texto no centro.',
+      ],
+    },
+    {
       v: '0.1.107-beta',
       date: '09-09-2026',
       logs: [
