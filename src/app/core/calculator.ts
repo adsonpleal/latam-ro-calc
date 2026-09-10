@@ -1256,13 +1256,20 @@ export class Calculator {
   /**
    * Sometime it should get from base item
    * like card should get refine from it's own
+   *
+   * A slot whose refine was never picked holds `undefined` (that is the model
+   * factory's default, and a share link drops the field entirely), so the lookup
+   * has to land on 0 rather than hand `undefined` to the arithmetic in
+   * `calcStepBonus` — `floor(undefined / 3)` is NaN, and a NaN bonus used to wipe
+   * out every point already collected for that key. See `updateTotalStatus`.
+   *
    * @param itemType
    * @returns refine level
    */
   private getRefineLevelByItemType(itemType: ItemTypeEnum) {
     for (const _itemType of refinableItemTypes) {
       if (itemType.startsWith(_itemType)) {
-        return this.mapRefine.get(_itemType);
+        return this.mapRefine.get(_itemType) ?? 0;
       }
     }
 
@@ -1298,6 +1305,14 @@ export class Calculator {
     const isMaxSemantics = (attr: string) => attr === 'fctPercent' || attr.startsWith('enable_skill__');
 
     const updateTotalStatus = (attr: keyof EquipmentSummaryModel, value: number) => {
+      // A clause the parser cannot turn into a number arrives here as NaN, and NaN is
+      // falsy: the `if` below then took the "nothing collected yet" branch and *assigned*
+      // the next piece's bonus, throwing away everything summed so far. One unrefined
+      // boot with a "a cada 3 refinos" line cost a real build 127% of Dano crítico that
+      // way, and the same NaN blanked its HP and SP. A clause that does not evaluate
+      // contributes nothing — it never gets to reset the total.
+      if (typeof value === 'number' && !Number.isFinite(value)) return;
+
       if (this.totalEquipStatus[attr]) {
         if (isMaxSemantics(attr)) {
           this.totalEquipStatus[attr] = Math.max(this.totalEquipStatus[attr], value);
