@@ -1401,6 +1401,10 @@ export class DamageCalculator {
     const ranged = isMelee ? melee : range;
     const rangedMultiplier = this.toPercent(ranged + 100);
     const baseSkillMultiplier = this.toPercent(baseSkillDamage);
+    // The class's own account of where that ratio came from, shown on the stage's
+    // "Adicional" chip. Undefined for the overwhelming majority of skills, whose ratio
+    // is a straight read-off from the client table and needs no explaining.
+    const ratioCalc = formulaParams ? skillData.ratioCalc?.(formulaParams) : undefined;
     const equipSkillBonus = this.getSkillBonus(skillName);
     const equipSkillMultiplier = this.toPercent(100 + equipSkillBonus);
     const criDmgToMonster = criDmg * criDmgPercentage || 0;
@@ -1433,14 +1437,15 @@ export class DamageCalculator {
       // the node as a percentage bonus so the UI can show the "%" chip explaining the
       // stage's delta. Omit it for stages that aren't a percentage (soft DEF subtraction).
       // The percentage always comes from the same bonus keys as the stage itself.
-      const emit = (id: string, label: string, value: number, keys?: string[], opts: { extraInputs?: string[]; multiplier?: number } = {}) => {
+      const emit = (id: string, label: string, value: number, keys?: string[], opts: { extraInputs?: string[]; multiplier?: number; calc?: DamageFormulaCalc } = {}) => {
         if (!graphNodes) return;
-        const { extraInputs = [], multiplier } = opts;
+        const { extraInputs = [], multiplier, calc } = opts;
         graphNodes.push({
           id,
           label,
           value,
           keys,
+          calc,
           percent: multiplier == null ? undefined : this.toPercentBonus(multiplier),
           inputs: [...(lastStageId ? [lastStageId] : []), ...extraInputs],
           kind: 'stage',
@@ -1496,7 +1501,7 @@ export class DamageCalculator {
       emit('ranged', `${isMelee ? 'Corpo a corpo' : 'À distância'} ${this.fmtCalc(ranged)}%`, total, [isMelee ? 'melee' : 'range'], { multiplier: rangedMultiplier });
       total = floor(total * baseSkillMultiplier); // tested
       push(`Hab. Base ${this.fmtCalc(baseSkillDamage)}%`, total, ['flatDmg', `flat_${skillName}`]);
-      emit('baseSkillDmg', `Hab. Base ${this.fmtCalc(baseSkillDamage)}%`, total, ['flatDmg', `flat_${skillName}`], { multiplier: baseSkillMultiplier });
+      emit('baseSkillDmg', `Hab. Base ${this.fmtCalc(baseSkillDamage)}%`, total, ['flatDmg', `flat_${skillName}`], { multiplier: baseSkillMultiplier, calc: ratioCalc });
       // DEF (res / hard def / soft def) is applied right after the skill ratio,
       // BEFORE the per-skill equipment bonus — verified against in-game replay
       // (Focused Arrow Strike on a soft-def target). Subtracting soft def after
@@ -1826,6 +1831,10 @@ export class DamageCalculator {
     const hardDef = isIgnoreDef ? 1 : dmgReductionByMHardDef;
 
     const baseSkillMultiplier = this.toPercent(baseSkillDamage);
+    // The class's own account of where that ratio came from, shown on the stage's
+    // "Adicional" chip. Undefined for the overwhelming majority of skills, whose ratio
+    // is a straight read-off from the client table and needs no explaining.
+    const ratioCalc = formulaParams ? skillData.ratioCalc?.(formulaParams) : undefined;
     const equipSkillBonus = this.getSkillBonus(skillName);
     const equipSkillMultiplier = this.toPercent(100 + equipSkillBonus);
     const finalDmg = this.totalBonus[`final_${skillPropertyAtk?.toLowerCase()}`] || 0;
@@ -1854,14 +1863,15 @@ export class DamageCalculator {
       let lastStageId: string | undefined;
       // See the physical skillFormula's emit() for what `multiplier` is and why it's the
       // raw factor rather than a pre-formatted percentage.
-      const emit = (id: string, label: string, value: number, keys?: string[], opts: { extraInputs?: string[]; multiplier?: number } = {}) => {
+      const emit = (id: string, label: string, value: number, keys?: string[], opts: { extraInputs?: string[]; multiplier?: number; calc?: DamageFormulaCalc } = {}) => {
         if (!graphNodes) return;
-        const { extraInputs = [], multiplier } = opts;
+        const { extraInputs = [], multiplier, calc } = opts;
         graphNodes.push({
           id,
           label,
           value,
           keys,
+          calc,
           percent: multiplier == null ? undefined : this.toPercentBonus(multiplier),
           inputs: [...(lastStageId ? [lastStageId] : []), ...extraInputs],
           kind: 'stage',
@@ -1916,7 +1926,7 @@ export class DamageCalculator {
 
       total = floor(total * baseSkillMultiplier); //tested
       push(`Hab. Base ${this.fmtCalc(baseSkillDamage)}%`, total, ['flatDmg', `flat_${skillName}`]);
-      emit('baseSkillDmg', `Hab. Base ${this.fmtCalc(baseSkillDamage)}%`, total, ['flatDmg', `flat_${skillName}`], { multiplier: baseSkillMultiplier });
+      emit('baseSkillDmg', `Hab. Base ${this.fmtCalc(baseSkillDamage)}%`, total, ['flatDmg', `flat_${skillName}`], { multiplier: baseSkillMultiplier, calc: ratioCalc });
 
       total = floor(total * myElementMultiplier); //tested
       if (myElementMultiplier !== 1) {
@@ -2401,6 +2411,7 @@ export class DamageCalculator {
         weaponPropertyAtk: propertyAtk,
         sizePenalty,
         skillLevel,
+        formulaParams,
       };
 
       const calcPart2 = isPart2Matk ? this.calcMagicalSkillDamage(params2) : this.calcPhysicalSkillDamage(params2);
@@ -2413,6 +2424,19 @@ export class DamageCalculator {
         skillMinDamage2 = calcPart2.minDamage;
         skillMaxDamage2 = calcPart2.maxDamage;
       }
+
+      // The graph is built inside the main part's own calc, so its last stage is the
+      // first hit alone while the row above it shows both. Append the second part as a
+      // step of its own — whether or not it is folded into the main figure, since the
+      // rotation counts it either way — so the chain closes on the number the reader
+      // is looking at.
+      const appendPart2Step = (nodes: DamageFormulaNode[] | undefined, extra: number) => {
+        if (!nodes?.length || !extra) return;
+        const prev = nodes[nodes.length - 1];
+        nodes.push({ id: 'part2Dmg', label: `+ ${label}`, value: prev.value + extra, inputs: [prev.id], kind: 'stage' });
+      };
+      appendPart2Step(calculated.skillFormulaGraph?.min?.nodes, calcPart2.minDamage);
+      appendPart2Step(calculated.skillFormulaGraph?.max?.nodes, calcPart2.maxDamage);
     }
 
     const skillAspd = calcSkillAspd({ skillData, status: this.status, totalEquipStatus: this.totalBonus, skillLevel });

@@ -45,6 +45,12 @@ export interface AtkSkillModel {
   cd: number | ((skillLevel: number) => number);
   levelList?: { label: string; value: any; }[];
   formula: (input: AtkSkillFormulaInput) => number;
+  /** "How the ratio was produced", for a skill whose ratio is reshaped by class state
+   *  rather than being a flat table read-off — Cacos de Gelo under Potencializar Magia
+   *  is the case. Fills `calc` on the graph's "Hab. Base" stage, which otherwise prints
+   *  a bare percentage with nothing behind it. The same mechanism as
+   *  CharacterBase.getFinalAtkCalc, one stage further down the chain. */
+  ratioCalc?: (input: AtkSkillFormulaInput) => DamageFormulaCalc | undefined;
   customFormula?: (
     input: AtkSkillFormulaInput & {
       baseSkillDamage: number;
@@ -60,6 +66,7 @@ export interface AtkSkillModel {
     isMatk: boolean;
     isMelee: boolean;
     formula: (input: AtkSkillFormulaInput) => number;
+    ratioCalc?: (input: AtkSkillFormulaInput) => DamageFormulaCalc | undefined;
   };
   finalDmgFormula?: (input: AtkSkillFormulaInput & { damage: number; }) => number;
   maxStack?: number;
