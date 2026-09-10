@@ -2,10 +2,26 @@ import { JOB_4_MAX_JOB_LEVEL, JOB_4_MIN_MAX_LEVEL } from '../app-config';
 import { ElementType } from '../constants';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput } from '../models/info-for-class.model';
-import { addBonus, floor, genSkillList } from '../utils';
+import { DamageFormulaCalc } from '../models/damage-summary.model';
+import { addBonus, floor, formatCalcNumber, genSkillList } from '../utils';
 import { Warlock } from './Warlock';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
+
+/** Every level of a skill, for the level picker in the UI. The label has to keep the
+ *  English skill name as its prefix — setClassSkill() swaps that prefix for the pt-BR
+ *  one and preserves whatever follows. */
+const levelList = (name: string, maxLv: number) =>
+  Array.from({ length: maxLv }, (_, i) => ({ label: `${name} Nv${i + 1}`, value: `${name}==${i + 1}` }));
+
+/** What each Potencializar Magia level does to Cacos de Gelo, for the ratio breakdown. */
+const CRYSTAL_IMPACT_CLIMAX_EFFECT: Record<number, string> = {
+  1: 'a habilidade deixa de causar dano e ativa [Geleira]',
+  2: 'o 1º caco atinge duas vezes',
+  3: 'dano do 1º caco +50%',
+  4: 'dano do 1º caco -50%, do 2º caco +150%',
+  5: 'só aumenta a área',
+};
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 1, 0, 0],
@@ -410,6 +426,45 @@ export class ArchMage extends Warlock {
         return (skillLevel * 120 + totalSpl * 5) * (baseLevel / 100) * climaxMult;
       },
     },
+    {
+      name: 'Crystal Impact',
+      label: '[V3] Crystal Impact Lv5',
+      value: 'Crystal Impact==5',
+      levelList: levelList('Crystal Impact', 5),
+      acd: 1,
+      fct: 1.5,
+      vct: 4,
+      cd: 6,
+      isMatk: true,
+      element: ElementType.Water,
+      // Two Water shards, each carrying the full ratio: the first lands at once, the
+      // second a fraction of a second later. Climax reweights them per level, so the
+      // second shard is a `part2` rather than a hit count on the first.
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { model, skillLevel, status } = input;
+        const { totalSpl } = status;
+        const { level: baseLevel } = model;
+
+        return (skillLevel * 800 + totalSpl * 5) * (baseLevel / 100) * this.crystalImpactClimaxFactor(1);
+      },
+      ratioCalc: (input: AtkSkillFormulaInput) => this.crystalImpactRatioCalc(1, input),
+      part2: {
+        label: '2º Caco',
+        isIncludeMain: false,
+        element: ElementType.Water,
+        isMatk: true,
+        isMelee: false,
+        hit: 1,
+        formula: (input: AtkSkillFormulaInput): number => {
+          const { model, skillLevel, status } = input;
+          const { totalSpl } = status;
+          const { level: baseLevel } = model;
+
+          return (skillLevel * 800 + totalSpl * 5) * (baseLevel / 100) * this.crystalImpactClimaxFactor(2);
+        },
+        ratioCalc: (input: AtkSkillFormulaInput) => this.crystalImpactRatioCalc(2, input),
+      },
+    },
     // {
     //   name: 'Astral Strike',
     //   label: '[V2] Astral Strike Lv10',
@@ -466,6 +521,60 @@ export class ArchMage extends Warlock {
       passiveSkillList: this.passiveSkillList4th,
       classNames: this.classNames4th,
     });
+  }
+
+  /**
+   * Per-shard damage factor Potencializar Magia (Climax) applies to Cacos de Gelo.
+   *
+   * Lv1 suppresses the damage outright — the cast grants the party the Geleira state
+   * instead. Lv2 makes the first shard strike twice, Lv3 and Lv4 reweight the two
+   * shards, and Lv5 only widens the area. The client description omits the Lv1 clause;
+   * the "Potencializar Magia" and "Cacos de Gelo" pages on bROWiki both carry it, and
+   * every sibling skill states the same clause on its own no-damage level.
+   */
+  private crystalImpactClimaxFactor(shard: 1 | 2): number {
+    switch (this.activeSkillLv('Climax')) {
+      case 1:
+        return 0;
+      case 2:
+        return shard === 1 ? 2 : 1;
+      case 3:
+        return shard === 1 ? 1.5 : 1;
+      case 4:
+        return shard === 1 ? 0.5 : 2.5;
+      default:
+        return 1;
+    }
+  }
+
+  /**
+   * The "Hab. Base" chip's account of a Cacos de Gelo shard, so the percentage in the
+   * chain can be traced back to the client table and the Potencializar Magia level that
+   * reshaped it. Returns undefined when Climax is not up: the ratio is then the table
+   * value and the row would say nothing the label does not.
+   */
+  private crystalImpactRatioCalc(shard: 1 | 2, input: AtkSkillFormulaInput): DamageFormulaCalc | undefined {
+    const climaxLv = this.activeSkillLv('Climax');
+    if (!climaxLv) return undefined;
+
+    const { skillLevel, status } = input;
+    const table = skillLevel * 800;
+    const base = table + status.totalSpl * 5;
+    const factor = this.crystalImpactClimaxFactor(shard);
+    const shardName = shard === 1 ? '1º caco' : '2º caco';
+    const effect = CRYSTAL_IMPACT_CLIMAX_EFFECT[climaxLv];
+    const fmt = formatCalcNumber;
+
+    return {
+      rows: [
+        { label: `Cacos de Gelo Nv ${skillLevel} (tabela do cliente)`, display: `${fmt(table)}%` },
+        { label: `FEI ${status.totalSpl} × 5`, display: `${fmt(base)}%` },
+        { label: `Potencializar Magia Nv ${climaxLv}: ${effect}`, display: `× ${fmt(factor)}` },
+        { label: `Hab. Base (${shardName})`, display: `${fmt(base * factor)}%`, emphasis: true },
+      ],
+      note: `A ${shardName} é a única metade que a Potencializar Magia Nv ${climaxLv} mexe desta forma; a outra segue a tabela.`,
+      link: { label: 'Cacos de Gelo no bROWiki', url: 'https://browiki.org/wiki/Cacos_de_Gelo' },
+    };
   }
 
   override setAdditionalBonus(params: AdditionalBonusInput): EquipmentSummaryModel {
