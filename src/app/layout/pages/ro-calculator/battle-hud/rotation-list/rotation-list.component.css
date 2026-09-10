@@ -217,6 +217,9 @@
   align-items: center;
   gap: 4px;
   font-size: 13px;
+  /* Shared by the level chip and the picker's label inside it — they have to agree, see
+     the .p-dropdown-label rule at the foot of this file. */
+  --rot-level-font-size: 10.5px;
 }
 
 .rot-name {
@@ -229,8 +232,8 @@
 .rot-level--static {
   border: 1px solid var(--surface-border);
   border-radius: 3px;
-  padding: 0 3px;
-  font-size: 10.5px;
+  padding: var(--rot-level-pad-y, 2px) 5px;
+  font-size: var(--rot-level-font-size, 10.5px);
   font-weight: 700;
   white-space: nowrap;
 }
@@ -559,7 +562,9 @@
   background: transparent;
   border: 1px solid var(--surface-border);
   border-radius: 3px;
-  padding: 0 2px 0 3px;
+  /* Same box as .rot-level--static, minus a little on the right where the chevron
+     brings its own 12px of room. */
+  padding: var(--rot-level-pad-y, 2px) 3px var(--rot-level-pad-y, 2px) 5px;
   min-width: 0;
   height: auto;
 }
@@ -581,9 +586,16 @@
 }
 
 /* The label carries the theme's own input padding, which pushes the level out of a badge
-   this small. */
+   this small.
+
+   Its font-size has to come down with it. The label is a block whose strut was the row's
+   14px while the level inside it is 10,5px, and a small inline aligns to the big strut's
+   baseline — which left 3,5px above the text and 1px below, i.e. sitting 2,5px low inside
+   its own chip. Matching the strut to the text centres it, and drops the picker chip to
+   the same height as the static .rot-level--static one beside it. */
 :host ::ng-deep .rot-level-dd.p-dropdown .p-dropdown-label {
   padding: 0;
+  font-size: var(--rot-level-font-size, 10.5px);
 }
 
 /* The flex child is the <p-dropdown> host element; `styleClass` only reaches the inner
