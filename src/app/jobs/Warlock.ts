@@ -4,6 +4,10 @@ import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { HighWizard } from './HighWizard';
 
+/** Esquife de Gelo's variable cast, 1,5 + 0,5 per level — the only one of its four
+ *  cast/delay numbers that moves with the level. */
+const jackFrostVct = (skillLevel: number) => 1.5 + skillLevel * 0.5;
+
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 1, 0, 0],
   2: [0, 0, 0, 2, 0, 0],
@@ -120,12 +124,18 @@ export class Warlock extends HighWizard {
       },
     },
     {
+      // Two entries because the ratio changes with the target's state: bROWiki's own
+      // table has a "Normal" and a "Calafrio" column, and the client description says
+      // the same ("Se estiverem sofrendo de [Calafrio] causa um dano mágico ainda
+      // maior"). Both are Water, so the picker's element-based dedup cannot tell them
+      // apart — without these suffixes it listed "Esquife de Gelo - Água" twice.
       name: 'Jack Frost',
       label: 'Jack Frost Lv5',
+      labelSuffix: 'Normal',
       value: 'Jack Frost==5',
-      acd: 1,
+      acd: 0.5,
       fct: 1,
-      vct: 4,
+      vct: jackFrostVct,
       cd: 4,
       totalHit: 4,
       isMatk: true,
@@ -140,10 +150,11 @@ export class Warlock extends HighWizard {
     {
       name: 'Jack Frost',
       label: 'Jack Frost Lv5 (in Frost)',
+      labelSuffix: 'Calafrio',
       value: 'Jack Frost Frost==5',
-      acd: 1,
+      acd: 0.5,
       fct: 1,
-      vct: 4,
+      vct: jackFrostVct,
       cd: 4,
       hit: 4,
       isMatk: true,

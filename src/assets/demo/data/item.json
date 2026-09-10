@@ -3705,7 +3705,7 @@
       "hp": [
         "SUM[int==120]===800"
       ],
-      "vct__720": [
+      "vct__2204": [
         "EQUIP[La'cryma Stick]REFINE[weapon==1]---4"
       ],
       "vct__2203": [
@@ -27512,7 +27512,7 @@
       "2214": [
         "3---20"
       ],
-      "720": [
+      "2204": [
         "3---20"
       ],
       "m_my_element_wind": [
@@ -41628,7 +41628,7 @@
       "hp": [
         "1---10"
       ],
-      "720": [
+      "2204": [
         "5",
         "1---2"
       ]
@@ -41663,7 +41663,7 @@
         "7===3",
         "9===4"
       ],
-      "720": [
+      "2204": [
         "EQUIP[Jack Shadow Armor&&Jack Shadow Shoes]REFINE[shadowArmor,shadowShield,shadowBoot==1]---1"
       ],
       "m_pene_race_all": [
@@ -41696,7 +41696,7 @@
       "hp": [
         "1---10"
       ],
-      "cd__720": [
+      "cd__2204": [
         "1",
         "2---0.1"
       ]
@@ -66130,7 +66130,7 @@
       "cd__2203": [
         "3"
       ],
-      "720": [
+      "2204": [
         "30"
       ]
     }
@@ -66156,7 +66156,7 @@
       "cd__2203": [
         "5"
       ],
-      "720": [
+      "2204": [
         "60"
       ]
     }
@@ -87596,7 +87596,7 @@
     "compositionPos": 65535,
     "cardPrefix": "<L-CastCancel1>",
     "script": {
-      "720": [
+      "2204": [
         "15",
         "9===3",
         "11===7"
@@ -92352,7 +92352,7 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "720": [
+      "2204": [
         "15",
         "7===15",
         "9===15",
@@ -98126,7 +98126,7 @@
       "2202": [
         "EQUIP_ID[25456||29471]===15"
       ],
-      "720": [
+      "2204": [
         "EQUIP_ID[310180||1000213]===15"
       ]
     }
@@ -98155,7 +98155,7 @@
       "2211": [
         "EQUIP_ID[25456||29471]===15"
       ],
-      "720": [
+      "2204": [
         "EQUIP_ID[310180||1000213]===15"
       ]
     }
@@ -102690,7 +102690,7 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "720": [
+      "2204": [
         "15",
         "7===15",
         "9===15",
@@ -104781,7 +104781,7 @@
         "9===20",
         "11===20"
       ],
-      "720": [
+      "2204": [
         "20",
         "3---10",
         "9===20",
@@ -160375,7 +160375,7 @@
         "EQUIP[Noblesse Magic Manteau&&Noblesse Magic Boots&&Noblesse Magic Ring]===2",
         "EQUIP[Noblesse Magic Manteau&&Noblesse Magic Boots&&Noblesse Magic Ring]REFINE[armor,garment,boot==27]===3"
       ],
-      "720": [
+      "2204": [
         "EQUIP[Noblesse Magic Manteau&&Noblesse Magic Boots&&Noblesse Magic Ring]===10",
         "EQUIP[Noblesse Magic Manteau&&Noblesse Magic Boots&&Noblesse Magic Ring]REFINE[armor,garment,boot==27]===10"
       ]
@@ -161916,7 +161916,7 @@
         "EQUIP[Imperial Magic Manteau&&Imperial Magic Boots&&Imperial Magic Ring]===2",
         "EQUIP[Imperial Magic Manteau&&Imperial Magic Boots&&Imperial Magic Ring]REFINE[armor,garment,boot==27]===3"
       ],
-      "720": [
+      "2204": [
         "EQUIP[Imperial Magic Manteau&&Imperial Magic Boots&&Imperial Magic Ring]===10",
         "EQUIP[Imperial Magic Manteau&&Imperial Magic Boots&&Imperial Magic Ring]REFINE[armor,garment,boot==27]===15"
       ]
@@ -163369,7 +163369,7 @@
         "EQUIP[Grace Magic Manteau&&Grace Magic Boots&&Grace Magic Ring]===2",
         "EQUIP[Grace Magic Manteau&&Grace Magic Boots&&Grace Magic Ring]REFINE[armor,garment,boot==27]===3"
       ],
-      "720": [
+      "2204": [
         "EQUIP[Grace Magic Manteau&&Grace Magic Boots&&Grace Magic Ring]===15",
         "EQUIP[Grace Magic Manteau&&Grace Magic Boots&&Grace Magic Ring]REFINE[armor,garment,boot==27]===15"
       ]
@@ -179148,7 +179148,7 @@
       "2214": [
         "EQUIP[Temporal Circlet (Warlock)]REFINE[headUpper,garment==21]===50"
       ],
-      "720": [
+      "2204": [
         "EQUIP[Temporal Circlet (Warlock)]REFINE[headUpper,garment==21]===50"
       ],
       "2449": [
@@ -186898,7 +186898,7 @@
       "2216": [
         "EQUIP[Patent Aeon Staff]REFINE[weapon==11]SUM[int,dex==12]---1"
       ],
-      "720": [
+      "2204": [
         "EQUIP[Patent Blue Crystal Staff]REFINE[weapon==11]SUM[int,dex==12]---1"
       ]
     }
@@ -188674,7 +188674,7 @@
       "matkPercent": [
         "10"
       ],
-      "720": [
+      "2204": [
         "EQUIP[Temporal Circlet (Warlock)]REFINE[headUpper==2]---10",
         "EQUIP[Temporal Jewel (Int) Lv. 3]REFINE[headUpper==2]---10",
         "EQUIP[Time Jewel (Int) Lv.3]===70"
@@ -188687,7 +188687,7 @@
       "m_size_all": [
         "EQUIP[Temporal Circlet (Warlock)]REFINE[headUpper==3]---4"
       ],
-      "cd__720": [
+      "cd__2204": [
         "EQUIP[Temporal Circlet (Warlock)]REFINE[headUpper==11]===2.5",
         "EQUIP[Time Jewel (Int) Lv.3]===0.5"
       ],
@@ -218033,13 +218033,13 @@
         "200",
         "2---10"
       ],
-      "720": [
+      "2204": [
         "3---12"
       ],
       "m_my_element_water": [
         "9===7"
       ],
-      "cd__720": [
+      "cd__2204": [
         "11===1"
       ],
       "m_element_fire": [
@@ -218091,14 +218091,14 @@
         "7===10",
         "11===20"
       ],
-      "720": [
+      "2204": [
         "7===10",
         "11===20"
       ],
       "cd__2213": [
         "9===10"
       ],
-      "cd__720": [
+      "cd__2204": [
         "9===1.5"
       ]
     }
@@ -218208,7 +218208,7 @@
         "9===25",
         "13===15"
       ],
-      "720": [
+      "2204": [
         "9===25",
         "13===15"
       ],
@@ -218297,7 +218297,7 @@
         "235",
         "2---15"
       ],
-      "720": [
+      "2204": [
         "3---12"
       ],
       "m_my_element_water": [
@@ -218309,7 +218309,7 @@
       "vct": [
         "7===10"
       ],
-      "cd__720": [
+      "cd__2204": [
         "9===1"
       ],
       "acd": [
@@ -219044,7 +219044,7 @@
         "GRADE[weapon==C]===1",
         "GRADE[weapon==B]===2"
       ],
-      "720": [
+      "2204": [
         "3---12"
       ],
       "vct": [
@@ -219062,7 +219062,7 @@
         "7===15",
         "GRADE[weapon==C]===15"
       ],
-      "cd__720": [
+      "cd__2204": [
         "9===1"
       ],
       "acd": [
@@ -231903,7 +231903,7 @@
       "acd": [
         "11===15"
       ],
-      "vct__720": [
+      "vct__2204": [
         "EQUIP_ID[19482]===100"
       ],
       "cd__2203": [
@@ -325745,7 +325745,7 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "720": [
+      "2204": [
         "EQUIP_ID[310180||1000213]===15"
       ],
       "2202": [
@@ -325774,7 +325774,7 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "720": [
+      "2204": [
         "EQUIP_ID[310180||1000213]===15"
       ],
       "2211": [
