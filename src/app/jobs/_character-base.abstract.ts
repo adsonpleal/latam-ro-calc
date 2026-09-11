@@ -484,7 +484,14 @@ export abstract class CharacterBase {
     const rawCalcAspd = Math.floor(statAspd + potionSkillAspd + ((isAllowShield && isEquipShield) ? shieldPenalty : 0));
 
     const baseAspd2 = Math.floor((baseAspd + leftWeapon + rawCalcAspd) * (100 - a.decreaseSkillAspdPercent) * 0.01);
-    const equip = Math.floor((195 - baseAspd2) * (aspdPercent * 0.01));
+    // `195 - baseAspd2` is the room a percentage bonus has to work in, so it is a distance
+    // and never negative: a build whose base VelAtq already sits past 195 has none left.
+    // Unclamped, the product goes negative and scales with the bonus, so gear that ADDS
+    // attack speed SUBTRACTED VelAtq — 281 AGI on a katar read 193 at +50% and 192 at
+    // +115%, which is how a Cenere card on a +11 Manto Replicador came out slower than no
+    // card at all (tracker n6vaoExfL7IRa7yRsDWb). Above the ceiling the bonus is simply
+    // worth nothing, which is what the clamp says.
+    const equip = Math.floor(Math.max(0, 195 - baseAspd2) * (aspdPercent * 0.01));
     const final = Math.min(baseAspd2 + equip + aspd, ASPD_CAP);
 
     // console.log({

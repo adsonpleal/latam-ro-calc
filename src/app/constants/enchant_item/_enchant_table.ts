@@ -136,6 +136,7 @@ import { royalHArmor2, royalHArmor3, royalHArmor4, royalHBoot3, royalHBoot4, roy
 import { goodEvilBoot3_ABC, goodEvilBoot3_AG, goodEvilBoot3_BO, goodEvilBoot3_CD, goodEvilBoot3_DK, goodEvilBoot3_EM, goodEvilBoot3_HN, goodEvilBoot3_IG, goodEvilBoot3_IQ, goodEvilBoot3_MT, goodEvilBoot3_NW, goodEvilBoot3_SH, goodEvilBoot3_SHC, goodEvilBoot3_SKE, goodEvilBoot3_SOA, goodEvilBoot3_SS, goodEvilBoot3_TR, goodEvilBoot3_WH, goodEvilBoot4, goodEvilHead3, goodEvilHead4, sinsFateWeapon3, sinsFateWeapon4 } from './sins_and_fate';
 import { snowFwAccL2, snowFwAccL3, snowFwAccL4, snowFwAccR2, snowFwAccR3, snowFwAccR4, snowFwArmor2, snowFwArmor3, snowFwArmor4, snowFwBoot2, snowFwBoot3, snowFwBoot4, snowFwGarment2, snowFwGarment3, snowFwGarment4 } from './snow_flower';
 import { thanosBoot3, thanosBoot4, thanosHead3, thanosHead4 } from './thanos';
+import { poringBalloonSlot3, poringBalloonSlot4 } from './poring_balloon';
 import { sproutSlot2, sproutSlot3, sproutSlot4 } from './temporal_sprout';
 import { traitShadow3, traitShadow4 } from './trait_shadow';
 import { unkWatch2, unkWatch34 } from './unknown_watch';
@@ -802,6 +803,21 @@ export const EnchantTable: EntTable[] = [
   { name: 'Tree_Of_Sprout_LUK', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
   { name: 'Tree_Of_Sprout_VIT', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
   { name: 'Tree_Of_Sprout_INT', enchants: [null, sproutSlot2, sproutSlot3, sproutSlot4] },
+
+  // Balões Poring — one table for all eleven. Slot 3 rolls only the "Mestre" EXP stones,
+  // which the calculator cannot price but still offers. See poring_balloon.ts.
+  { name: 'Poring_Balloon', enchants: [null, null, poringBalloonSlot3, poringBalloonSlot4] },
+  { name: 'Marin_Balloon', enchants: [null, null, poringBalloonSlot3, poringBalloonSlot4] },
+  { name: 'Drops_Balloon', enchants: [null, null, poringBalloonSlot3, poringBalloonSlot4] },
+  { name: 'SantaPoring_Balloon', enchants: [null, null, poringBalloonSlot3, poringBalloonSlot4] },
+  { name: 'Poporing_Balloon', enchants: [null, null, poringBalloonSlot3, poringBalloonSlot4] },
+  { name: 'Metaling_Balloon', enchants: [null, null, poringBalloonSlot3, poringBalloonSlot4] },
+  { name: 'Deviling_Balloon', enchants: [null, null, poringBalloonSlot3, poringBalloonSlot4] },
+  { name: 'Angeling_Balloon', enchants: [null, null, poringBalloonSlot3, poringBalloonSlot4] },
+  { name: 'Ghostring_Balloon', enchants: [null, null, poringBalloonSlot3, poringBalloonSlot4] },
+  { name: 'Archangeling_Balloon', enchants: [null, null, poringBalloonSlot3, poringBalloonSlot4] },
+  // 19095, the one browiki's table does not name — see poring_balloon.ts.
+  { name: 'Happy_Balloon_K', enchants: [null, null, poringBalloonSlot3, poringBalloonSlot4] },
 
   { name: 'Tree_Of_Sprout_JP', enchants: [null, BaseState._1_3, BaseState._1_3, infityEnt4] },
   { name: 'Tengu_Scroll', enchants: [null, BaseState._1_3, BaseState._1_3, infityEnt4] },

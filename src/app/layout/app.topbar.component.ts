@@ -158,6 +158,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.110-beta',
+      date: '11-09-2026',
+      logs: [
+        'Bônus de "Velocidade de ataque +N%" deixou de derrubar a Vel.Atq. Esse tipo de bônus compra uma fatia da distância que falta até o teto, e em build cuja Vel.Atq base já passa do teto sozinha essa distância era lida como número negativo: quanto mais porcentagem o equipamento dava, menos Vel.Atq aparecia. Uma carta Cenere em manto replicador +11 chegava a deixar o personagem um ponto mais lento do que sem carta nenhuma. Acima do teto o bônus agora simplesmente não vale nada, que é o comportamento do jogo. Reportado por usuário anônimo.',
+        'Os balões poring ganharam a lista de encantos. Nenhum dos onze — Poring, Marin, Drops, Poring Natalino, Poporing, Metaling, Deviling, Angeling, Ghostring, Archangeling e os Balões da Família Poring — oferecia opção alguma nos slots de encanto, e todos rolam a mesma tabela. Um dos slots traz Músculo 1 e 2, Intelecto 1 e 2, HP máx. +3% e +5%, SP máx. +3% e +5%, P.ATQ +1 e +2 e S.ATQM +1 e +2; o outro traz as onze pedras "Mestre". Reportado por usuário anônimo.',
+        'As pedras "Mestre" aparecem na lista, mas não mexem em nenhum número: todas dão EXP por raça, e o simulador não faz conta de experiência nem de taxa de drop. Estão ali para que o slot mostre o mesmo sorteio que o jogo mostra — é o mesmo motivo pelo qual as linhas de DROP e de EXP dos próprios balões não entram na conta.',
+      ],
+    },
+    {
       v: '0.1.109-beta',
       date: '10-09-2026',
       logs: [
