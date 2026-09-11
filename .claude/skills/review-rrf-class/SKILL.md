@@ -201,6 +201,23 @@ rather than checking only the final state: each step isolates one item, so a div
 names its culprit instead of leaving you with one wrong total. That is how the CRIT slope
 was pinned to `+18982` in a single pass — every other step's delta matched exactly.
 
+**`paramChanges` has no owner field, and a homunculus writes into it too.** The decoder hands
+back `{time, type, value}` and nothing else, so a recording with a homunculus (or any other
+companion whose status window the client tracks) interleaves two characters' blocks in one
+stream. `bio-pyroclastic.rrf` alternates them:
+
+```
+t=33.018  ATQ 885  MATQ 411  DEFM 324  Precisão 876  amotion  70
+t=38.025  ATQ 845  MATQ 371  DEFM 284  Precisão 676  amotion 210
+```
+
+Reading SP 41 at the wrong timestamp gives you the pet's ATQ and sends you hunting a 40-point
+build gap that does not exist. Two things tell them apart, and only the second is evidence:
+the player's block matches the file's **first** reading and its end-of-recording dump; and
+**the damage does not move across the switch** — +40 of status ATQ is worth ~2% of damage
+there, and the nine packets either side differ by 0,09%. Check the packets before believing
+a status jump that no EFST explains.
+
 **Check the window exists before promising a stat verdict.** Plenty of recordings send
 nothing but SP 7 (weight): three of the five in the 29/08/2026 Sicário/Executor batch had no
 `ZC_PAR_CHANGE` worth reading. Damage can still be validated against the imported build, but
@@ -440,6 +457,14 @@ Two or three recordings of the same gear with different toggles are what make th
 recording cannot separate the stages. And always keep the gearless recording as the control:
 if it is exact, the cause is in the equipment, and the next step is reading every equipped
 item's pt-BR description against its `script` in `item.json` — see [[ptbr-description-source-of-truth]].
+
+**Two target sizes in one recording locate a bonus without measuring it.** The ratio between
+the damage on a Médio and a Pequeno dummy depends only on *how much of the ATQ sits inside the
+weapon group*, because that is the only part the size penalty scales. Any flat unknown cancels
+out of the ratio, so a file that hits two sizes with one build tells you **where** a buff
+enters even when nobody knows what it is worth. That is how Pyroclastic was placed: recorded
+ratio 1,2876, versus 1,2891 if it is ATQ Equip. and 1,36–1,40 if it is weapon ATQ. Ask for
+this whenever a recorder is already standing in the test room — it costs them ten seconds.
 
 **The gearless state is also the veto, and it is the cheapest one you will ever get.** Any
 candidate that is a plain multiplier — `range`, `dano físico %`, anything keyed to the target
