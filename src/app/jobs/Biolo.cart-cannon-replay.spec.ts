@@ -75,7 +75,7 @@ function load(name: string) {
  * outside the weapon's size penalty; `{ weaponAtk: n }` lands inside the weapon group and is
  * scaled by it. The difference between those two is what the Médio/Pequeno pair measures.
  */
-function sim(replay: any, traits: Record<string, number>, mob: string, extra: any[] = [], tempering = 0) {
+function sim(replay: any, traits: Record<string, number>, mob: string, extra: any[] = [], tempering = 0, chances: string[] = []) {
   const m = replayToModel(replay, items).model as any;
   Object.assign(m, traits);
   const cls: any = new Biolo();
@@ -105,7 +105,7 @@ function sim(replay: any, traits: Record<string, number>, mob: string, extra: an
     monster: monsters[mob], equipAtks, masteryAtks, buffEquips: {}, buffMasterys: {},
     consumeData: [], aspdPotion: undefined,
     extraOptionScripts: [...parseOptionScripts((m.rawOptionTxts ?? []).filter(Boolean)), ...extra],
-    activeSkillNames, learnedSkillMap, selectedAtkSkill: value, selectedChances: [], usedHpL: false,
+    activeSkillNames, learnedSkillMap, selectedAtkSkill: value, selectedChances: chances, usedHpL: false,
   } as any);
 
   const ds: any = (calc as any).damageSummary;
@@ -119,7 +119,7 @@ function sim(replay: any, traits: Record<string, number>, mob: string, extra: an
     janela: {
       6: c.maxHp, 41: c.totalStatusAtk,
       42: (tot.weapon?.baseWeaponAtk ?? 0) + (tot.weapon?.refineBonus ?? 0) + c.totalEquipAtk,
-      45: c.softDef, 47: c.softMdef, 49: c.totalHit, 52: c.totalCri,
+      44: c.totalStatusMatk, 45: c.softDef, 47: c.softMdef, 49: c.totalHit, 52: c.totalCri,
       53: Math.round((200 - c.totalAspd) * 10),
     } as Record<number, number>,
   };
@@ -255,26 +255,43 @@ describe('Cientista — "Alquimiro", a gravação que não fecha (uoyYvxyRYP)', 
   const f = load('bio-pyroclastic.rrf');
 
   /**
-   * **A armadilha deste arquivo: `paramChanges` mistura a janela do homúnculo.** O stream não
-   * tem dono — o decodificador entrega `{time, type, value}` e mais nada — e esta gravação
-   * tem um homúnculo (Iron Fist Alexander). Dois blocos alternam:
+   * **A armadilha deste arquivo: a janela de status alterna, e não é outra criatura.** Os
+   * `paramChanges` não têm dono — o decodificador entrega `{time, type, value}` e nada mais —
+   * e aqui dois blocos se revezam:
    *
-   *   t=33.018  ATQ 885  MATQ 411  DEFM 324  Precisão 876  amotion  70
-   *   t=38.025  ATQ 845  MATQ 371  DEFM 284  Precisão 676  amotion 210
+   *   t=33.018  ATQ 885  ATQM 411  DEFM 324  Precisão 876  amotion  70
+   *   t=38.025  ATQ 845  ATQM 371  DEFM 284  Precisão 676  amotion 210
    *
-   * O segundo é o do personagem: bate com a primeira leitura do arquivo (t=13.678) e é o
-   * bloco de fim de gravação. **O que prova isso é o dano**, não a aparência: +40 de ATQ de
-   * status valeriam ~2% de dano, e as médias dos nove pacotes de cada lado de t=33.018 ficam
-   * a 0,09% uma da outra. Ler sp41 no instante errado daria a ATQ do bicho.
+   * Com um homúnculo na gravação é tentador atribuir o bloco de cima a ele. **É o próprio
+   * personagem, com o [Instinto] da bota ativado**: o encante 4879 dá DES +200 por 5 segundos
+   * com 3% de chance ao atacar, e 38.025 − 33.018 = 5.007 ms, a duração exata do efeito.
+   *
+   * O que prova é a aritmética dos deltas, não a aparência: DES +200 vale +200 de Precisão e
+   * +40 de ATQ (DES ÷ 5), e o motor reproduz os dois — Precisão e amotion batem na unidade
+   * nos dois estados, e ATQ, ATQM e DEFM sobem exatamente 40 cada. O desvio constante que
+   * sobra (32 no ATQ, 2 no ATQM e no DEFM) é o mesmo ligado e desligado, ou seja, é a
+   * diferença de build do teste seguinte e não tem nada a ver com o proc.
+   *
+   * A lição é anterior ao homúnculo: **antes de culpar outra entidade pelo stream, procure um
+   * bônus de chance na build**. `_chanceList` do calculador lista todos.
    */
-  it('separa a janela do personagem da do homúnculo pelo dano', () => {
+  it('atribui o bloco alternado ao proc de [Instinto], não ao homúnculo', () => {
     expect(f.param(41)).toEqual([845, 885, 845]);
+    // 5.007 ms entre o bloco que sobe e o que volta — os 5 segundos do efeito.
+    const t = (sp: number) => (f.replay.paramChanges ?? []).filter((p: any) => p.type === sp).map((p: any) => Number(p.time));
+    expect(t(41)[2] - t(41)[1]).toBe(5007);
 
-    const dobrados = f.meus().filter((d) => d.c === 2);
-    const antes = dobrados.filter((d) => d.t < 33018).map((d) => d.v);
-    const depois = dobrados.filter((d) => d.t > 33018).map((d) => d.v);
-    expect([antes.length, depois.length]).toEqual([9, 9]);
-    expect(Math.abs(pct(media(depois), media(antes)))).toBeLessThan(0.2);
+    const TR = { pow: 100, sta: 0, wis: 0, spl: 0, con: 25, crt: 0 };
+    const desligado = sim(f.replay, TR, '21077', [], 10).janela;
+    const ligado = sim(f.replay, TR, '21077', [], 10, ['Hawkeye']).janela;
+
+    // Precisão e amotion batem na unidade nos dois estados: o motor modela o proc certo.
+    expect([desligado[49], desligado[53]]).toEqual([676, 210]);
+    expect([ligado[49], ligado[53]]).toEqual([876, 70]);
+    // E os deltas do jogo são reproduzidos campo a campo.
+    for (const [sp, delta] of [[41, 40], [44, 40], [47, 40], [49, 200], [53, -140]] as [number, number][]) {
+      expect({ sp, delta: ligado[sp] - desligado[sp] }).toEqual({ sp, delta });
+    }
   });
 
   /**

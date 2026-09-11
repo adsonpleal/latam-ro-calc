@@ -201,22 +201,25 @@ rather than checking only the final state: each step isolates one item, so a div
 names its culprit instead of leaving you with one wrong total. That is how the CRIT slope
 was pinned to `+18982` in a single pass — every other step's delta matched exactly.
 
-**`paramChanges` has no owner field, and a homunculus writes into it too.** The decoder hands
-back `{time, type, value}` and nothing else, so a recording with a homunculus (or any other
-companion whose status window the client tracks) interleaves two characters' blocks in one
-stream. `bio-pyroclastic.rrf` alternates them:
+**When the status window alternates between two blocks, look for a chance bonus before
+blaming another entity.** `paramChanges` carries no owner field — the decoder hands back
+`{time, type, value}` and nothing else — so on a recording with a pet or a homunculus it is
+tempting to attribute a second block to the companion. `bio-pyroclastic.rrf` alternates:
 
 ```
-t=33.018  ATQ 885  MATQ 411  DEFM 324  Precisão 876  amotion  70
-t=38.025  ATQ 845  MATQ 371  DEFM 284  Precisão 676  amotion 210
+t=33.018  ATQ 885  ATQM 411  DEFM 324  Precisão 876  amotion  70
+t=38.025  ATQ 845  ATQM 371  DEFM 284  Precisão 676  amotion 210
 ```
 
-Reading SP 41 at the wrong timestamp gives you the pet's ATQ and sends you hunting a 40-point
-build gap that does not exist. Two things tell them apart, and only the second is evidence:
-the player's block matches the file's **first** reading and its end-of-recording dump; and
-**the damage does not move across the switch** — +40 of status ATQ is worth ~2% of damage
-there, and the nine packets either side differ by 0,09%. Check the packets before believing
-a status jump that no EFST explains.
+It is the player, with a boot enchant's proc up: DES +200 for 5 seconds, and the two blocks
+are 5.007 ms apart. What settles it is the **arithmetic of the deltas**, never the look of
+the numbers: DES +200 is +200 of Precisão and +40 of ATQ (DES ÷ 5), and the engine reproduces
+Precisão and amotion to the unit in both states. A companion's window would have no reason to
+differ from the player's by exactly one stat's worth on every field.
+
+So: list the build's chance bonuses first (`_chanceList` on the calculator holds them all,
+keyed by item name) and simulate with each one on. Only when none of them explains the second
+block is another entity worth considering — and even then, deltas decide, not plausibility.
 
 **Check the window exists before promising a stat verdict.** Plenty of recordings send
 nothing but SP 7 (weight): three of the five in the 29/08/2026 Sicário/Executor batch had no
@@ -228,6 +231,28 @@ reporting the damage match as if it confirmed the stats too.
 const janela = (replay.paramChanges ?? []).filter((p) => [41, 42, 52, 53, 225].includes(p.type));
 if (!janela.length) console.log('sem janela de status — dano só se valida contra a build importada');
 ```
+
+**Job and trait bonus tables are part of the build — verify them on irowiki.** A class page
+there (`irowiki.org/wiki/<Classe>`) carries a "Job & Talent Bonuses" table listing, per stat,
+the **job levels at which each point is granted**; turn it into a cumulative count and diff
+it against `jobBonusTable` and `traitBonusTable` in the job file, every level, every column.
+Do this before hunting a stat gap in the equipment, because a wrong column looks exactly like
+a missing item bonus — and it is cheap:
+
+```js
+// irowiki lista os níveis; o bônus no nível lv é quantos deles já passaram
+const esperado = (niveis, lv) => niveis.filter((n) => n <= lv).length;
+```
+
+Two cautions, both of which have bitten:
+
+- **Stop at the class's real job cap** (`JOB_4_MAX_JOB_LEVEL` is 50) — the tables often carry
+  rows past it, and diffs up there are dead letters, not bugs. Checking Biolo's twelve columns
+  produced six "divergences" of which four were only in rows the game can never reach.
+- **irowiki is a secondary source, so the status window outranks it.** Biolo's FEI column
+  diverges from job 6 onward, and the one recording that reports ATQM prefers the engine's
+  value over irowiki's by 5 points. Report a divergence the window cannot adjudicate; do not
+  "fix" it blind.
 
 **Land the sweep as a test, with a count.** Walk the equip events, rebuild the state at each
 one, and assert every SP the client had sent by then — then assert **how many comparisons
