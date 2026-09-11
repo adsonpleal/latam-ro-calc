@@ -158,6 +158,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.109-beta',
+      date: '10-09-2026',
+      logs: [
+        'Uma peça com o refino em zero deixou de apagar bônus do resto da build. Quando o refino de um slot nunca era escolhido — e um link compartilhado sempre volta assim, porque o zero não viaja na URL —, qualquer linha de "a cada N refinos" daquela peça produzia uma conta sem resultado, e o total daquele bônus recomeçava do zero na peça seguinte: tudo que tinha sido somado antes dela era descartado. Reportado por usuário anônimo.',
+        'O mesmo defeito deixava HP máx. e SP máx. em branco no resumo de batalha, porque as peças sombrias trazem "HP máx. +10 por refino" e apagavam o total do mesmo jeito. Os dois números voltaram. A correção vale para qualquer classe e qualquer bônus: 2.417 itens do banco eram capazes de provocar o problema.',
+      ],
+    },
+    {
       v: '0.1.108-beta',
       date: '10-09-2026',
       logs: [
