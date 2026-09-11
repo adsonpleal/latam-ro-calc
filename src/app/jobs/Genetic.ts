@@ -126,7 +126,16 @@ export class Genetic extends Creator {
         const totalInt = status.totalInt;
         const cartModelingLv = this.learnLv('Cart Remodeling');
 
-        return (250 * skillLevel + 20 * skillLevel * cartModelingLv + totalInt * 2) * (baseLevel / 100);
+        // The INT term is divided by (6 - Aprimorar Carrinho), so it only reaches its full
+        // 2 x INT at Aprimorar Carrinho 5 — which is why hardcoding `totalInt * 2` went
+        // unnoticed: every recording on the board has that skill maxed. The client's table
+        // gives the 250%/level and the +20%/level per Aprimorar Carrinho but says no more
+        // than "afetado pela INT", so the divisor comes from rAthena's own implementation
+        // (SkillCartCannon::calculateSkillRatio), which is the authority on arithmetic the
+        // client does not state. Integer division there, so floor here.
+        const intTerm = Math.floor((2 * totalInt) / (6 - cartModelingLv));
+
+        return ((250 + 20 * cartModelingLv) * skillLevel + intTerm) * (baseLevel / 100);
       },
     },
     {
