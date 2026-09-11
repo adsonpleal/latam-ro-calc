@@ -257,9 +257,21 @@ describe('Musa — as razões das habilidades, contra a tabela do cliente', () =
  *     HP — mais os contadores de conta (802/867/942/983/984/1084/1085).
  *
  * O que sobra é ~+7% de dano à distância que nenhuma descrição pt-BR do equipamento usado
- * justifica, e inventar a chave está fora de questão. Uma segunda gravação com **outro
- * estado de buff** sobre o mesmo equipamento (§9 do `review-rrf-class`) é o que fecharia a
- * conta — aqui os cinco pacotes de Vulcão contra o Médio são poucos demais sozinhos.
+ * justifica, e inventar a chave está fora de questão.
+ *
+ * **ATUALIZAÇÃO — a etapa `range` está descartada.** `Genetic.cart-cannon-gear-states.spec.ts`
+ * chegou ao mesmo lugar por outro caminho: uma gravação de Bioquímico com a mesma forma
+ * (estado sem arma, depois com arma), em que `range +7` fecha os dois estados com arma e
+ * **estraga o estado sem arma**, que ali é exato até a unidade. O que falta existe com arma
+ * e não existe sem ela, e a etapa `range` não distingue as duas coisas — logo não é ela.
+ *
+ * O mesmo arquivo mostra o resíduo direto no ATQ, invertendo a cadeia de dano pacote a
+ * pacote: o servidor usou 728..755 onde o motor usa 673..716, com a janela de status batendo
+ * campo a campo. O sintoma é o mesmo daqui e o de `nw-mastery-gap.spec.ts` (~30 de ATQ na
+ * etapa de maestria): **falta ATQ, só quando há arma equipada, nas três classes à distância
+ * que disparam munição**. O que fecharia a conta agora é uma gravação que troque **de arma**
+ * no meio, mantendo alvo e buffs — isso separa um termo da arma de um termo da munição, que
+ * é o que nenhum dos três arquivos consegue fazer sozinho.
  */
 describe('Musa — resíduo aberto: o simulador fica ~5% abaixo do jogo', () => {
   it.each([

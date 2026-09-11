@@ -12,21 +12,26 @@ import { Genetic } from './Genetic';
 /**
  * `gn-cart-cannon-gear-states.rrf` — "DeepAlchemy", Bioquímico base 158 / job 52, in the
  * tra_fild test room against a Dummy - Grande, 05/09/2026. Tracker card pfmWFfc6NS,
- * recording by MLPerceptron.
+ * recording by MLPerceptron. A third class, so the six traits do not exist and the card is
+ * complete without them.
  *
- * A third class, so the six traits do not exist and the card is complete without them.
- *
- * The player fires fifteen Canhão de Prótons with nothing but the cannonball equipped,
- * then puts on a sword, then the rest of the starter build — three states out of one file,
- * and the first of them is the gearless control the review skill asks for:
+ * The player fires fifteen Canhão de Prótons with nothing but the cannonball equipped, then
+ * puts on a sword, then the rest of the starter build. Three states out of one file, and
+ * the first is the gearless control:
  *
  *   A  cannonball only     15.967 x15  (deterministic — no weapon, nothing to roll)
  *   B  + Espada Inicial +7 26.547..27.534 (n=15)
  *   C  + the Nobre pieces  38.717..40.274 (n=15)
  *
- * Propulsão do Carrinho (EFST 461) comes on at t=1078 and never drops, so all three states
+ * Propulsão do Carrinho (EFST 461) comes on at t=1.078 and never drops, so all three states
  * carry it; it is the only status the recorder owns. Everything else in `statusEvents` is
  * bookkeeping or belongs to the four bystanders on the map.
+ *
+ * What makes this file unusually decisive is that the whole damage chain can be **inverted**
+ * — see `atqDe` below — so the recording yields the exact integer ATQ the server used for
+ * every packet, instead of a range to bracket. That turns "the simulator is 6,9% low" into
+ * "the server's ATQ was 728..755 and ours is 673..716", which is a different quality of
+ * evidence and is what the last describe is built on.
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
@@ -67,7 +72,7 @@ function stateAt(t: number) {
 }
 
 /** Full engine run on the build worn at `t`, with the named active skills switched on. */
-function sim(t: number, actives: Record<string, number> = {}) {
+function sim(t: number, actives: Record<string, number> = {}, extraScripts: any[] = []) {
   const m = stateAt(t);
   const cls: any = new Genetic();
   const b = cls.getJobBonusStatus(m.jobLevel);
@@ -94,41 +99,70 @@ function sim(t: number, actives: Record<string, number> = {}) {
   new CalculatorController().runChain(calc, {
     monster: monsters[DUMMY_GRANDE], equipAtks, masteryAtks, buffEquips: {}, buffMasterys: {},
     consumeData: [], aspdPotion: undefined,
-    extraOptionScripts: parseOptionScripts((m.rawOptionTxts ?? []).filter(Boolean)),
+    extraOptionScripts: [...parseOptionScripts((m.rawOptionTxts ?? []).filter(Boolean)), ...extraScripts],
     activeSkillNames, learnedSkillMap, selectedAtkSkill: value, selectedChances: [], usedHpL: false,
   } as any);
 
   const ds: any = (calc as any).damageSummary;
   const tot: any = calc.getTotalSummary();
+  const c = tot.calc;
   return {
     model: m,
     ratio: ds.baseSkillDamage as number,
-    atkStatus: tot.calc.totalStatusAtk as number,
-    equipAtk: ((tot.weapon?.baseWeaponAtk ?? 0) + (tot.weapon?.refineBonus ?? 0) + tot.calc.totalEquipAtk) as number,
-    cri: tot.calc.totalCri as number,
-    // Canhão de Prótons cannot crit, so the engine reports the whole roll on
-    // skillMinDamage/skillMaxDamage and leaves the NoCri pair at zero.
+    /** The SP fields the recording reports, keyed by their ZC_PAR_CHANGE id. */
+    janela: {
+      6: c.maxHp, 41: c.totalStatusAtk,
+      42: (tot.weapon?.baseWeaponAtk ?? 0) + (tot.weapon?.refineBonus ?? 0) + c.totalEquipAtk,
+      45: c.softDef, 46: c.def, 47: c.softMdef, 48: c.mdef, 49: c.totalHit,
+      52: c.totalCri, 53: Math.round((200 - c.totalAspd) * 10),
+      225: c.pAtk ?? 0, 226: c.sMatk ?? 0, 227: c.res ?? 0, 228: c.mres ?? 0,
+      229: c.hPlus ?? 0, 230: c.cRate ?? 0,
+    } as Record<number, number>,
+    /** The ATQ the engine feeds into the ratio, min and max — the first row of its trace. */
+    atq: [ds.skillFormulaTrace.min[0].value, ds.skillFormulaTrace.max[0].value] as [number, number],
     min: Math.round(ds.skillMinDamage as number),
     max: Math.round(ds.skillMaxDamage as number),
   };
 }
 
-/** Every Canhão de Prótons packet the recorder itself produced, within a window. */
+/** Canhão de Prótons packets the recorder itself produced, within a window. */
 function packets(from: number, to: number): number[] {
   return (replay.damage ?? [])
     .filter((d: any) => d.source === aid && d.skillId === CART_CANNON && d.time >= from && d.time <= to)
-    .map((d: any) => d.damage);
+    .map((d: any) => Number(d.damage));
 }
 
 const A = packets(11_000, 29_000);
 const B = packets(33_000, 50_000);
 const C = packets(57_000, 77_000);
-
 const media = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
+const desvio = (rec: number[], s: { min: number; max: number }) =>
+  Number(((media(rec) / ((s.min + s.max) / 2) - 1) * 100).toFixed(1));
 
-describe('Bioquímico — Canhão de Prótons por estado de equipamento (pfmWFfc6NS)', () => {
-  it('walks the file through three states, the first of them gearless', () => {
+/**
+ * The damage chain, forwards — every stage the engine's own trace prints, in its order, in
+ * integer arithmetic. Against this target there is no critical, no elemental multiplier and
+ * no hard DEF, so what is left is the ranged bonus, the skill ratio, a flat 50 of soft DEF,
+ * and the per-skill equipment bonus.
+ */
+function danoDe(atq: number, rangedPct: number, skillPct: number): number {
+  let t = Math.floor((atq * (100 + rangedPct)) / 100);
+  t = Math.floor((t * 3178) / 100);
+  t = t - 50;
+  return Math.floor((t * (100 + skillPct)) / 100);
+}
+
+/** And backwards: every integer ATQ that would have produced this exact damage. */
+function atqDe(dano: number, rangedPct: number, skillPct: number): number[] {
+  const out: number[] = [];
+  for (let a = 1; a < 4000; a++) if (danoDe(a, rangedPct, skillPct) === dano) out.push(a);
+  return out;
+}
+
+describe('Bioquímico — a build lida da gravação bate com a janela de status dela', () => {
+  it('anda pelos três estados, o primeiro deles sem arma', () => {
     expect([A.length, B.length, C.length]).toEqual([15, 15, 15]);
+    expect(replay.equipChanges.length).toBe(8);
     expect(stateAt(PELADO).weapon).toBeUndefined();
     expect(stateAt(PELADO).ammo).toBe(18008); // Bala de Canhão Ardente
     expect([stateAt(ESPADA).weapon, stateAt(ESPADA).weaponRefine]).toEqual([13483, 7]);
@@ -136,107 +170,146 @@ describe('Bioquímico — Canhão de Prótons por estado de equipamento (pfmWFfc
   });
 
   /**
-   * SP 41 (ATQ), SP 42 (ATQ Equip.) and SP 52 (Crítico) straight off the ZC_PAR_CHANGE
-   * bursts the client re-sends after every equip. These are the game's own numbers, and
-   * they are what licenses reading a formula off the packets at all: the sword's 140 base
-   * ATQ and its 35 of refino are confirmed by the game rather than assumed from item.json,
-   * and ATQ 167 fixes the job bonus table at job 52 (only the right FOR/DES/SOR total
-   * produces it) and the melee stat order — a sword is not a bow, so DES does not lead.
+   * **Nenhum status falta.** The client re-sends the whole ZC_PAR_CHANGE block after each of
+   * the eight equip events, so the file carries nine full snapshots of the status window —
+   * and the engine reproduces **every field of every one of them**, not just ATQ. That is
+   * what licenses reading a formula off the packets at all (review skill §3), and it is why
+   * the divergence in the last describe can be put on the damage chain rather than on a
+   * missing item bonus: there is no missing item bonus.
+   *
+   * Walking the snapshots in order matters as much as checking the final state — each equip
+   * isolates one piece, so a divergence would name its culprit instead of leaving one wrong
+   * total to hunt through.
    */
-  it('reproduces the recorded status window at every state', () => {
-    expect([sim(PELADO, CART_BOOST).atkStatus, sim(PELADO, CART_BOOST).equipAtk]).toEqual([167, 0]);
-    expect([sim(ESPADA, CART_BOOST).atkStatus, sim(ESPADA, CART_BOOST).equipAtk]).toEqual([167, 175]);
-    expect([sim(COMPLETO, CART_BOOST).atkStatus, sim(COMPLETO, CART_BOOST).equipAtk]).toEqual([169, 235]);
-    expect(sim(COMPLETO, CART_BOOST).cri).toBe(3);
-  });
+  it('reproduz cada campo da janela de status, a cada peça equipada', () => {
+    const lidoAte = (t: number) => {
+      const out: Record<number, number> = {};
+      for (const p of replay.paramChanges ?? []) {
+        if (Number(p.time) > t) break;
+        out[p.type] = Number(p.value);
+      }
+      return out;
+    };
 
+    const marcos = [11_000, ...replay.equipChanges.map((e: any) => Number(e.time) + 40)];
+    let conferidos = 0;
+    for (const t of marcos) {
+      const lido = lidoAte(t);
+      const nosso = sim(t, CART_BOOST).janela;
+      for (const sp of Object.keys(nosso).map(Number)) {
+        if (!(sp in lido)) continue;
+        expect({ t, sp, valor: nosso[sp] }).toEqual({ t, sp, valor: lido[sp] });
+        conferidos += 1;
+      }
+    }
+    // Dezoito campos distintos ao longo de nove instantâneos — 101 leituras ao todo. O
+    // total é a prova de que o laço conferiu algo, e não passou batido por falta delas.
+    expect(conferidos).toBe(101);
+  });
+});
+
+describe('Bioquímico — a cadeia de dano, etapa por etapa, lida da própria gravação', () => {
   /**
-   * The ratio the client's own table states: 1.250% at Nv 5, plus 20% per level of
-   * Canhão de Prótons for each level of Aprimorar Carrinho (500% at Aprimorar Carrinho 5),
-   * plus the INT term, all scaled by nível base / 100. 2.012 x 1,58 = 3.178.
+   * The spacing between two achievable damages **is** the product of everything that
+   * multiplies the ratio, so the recording states its own multipliers: the gaps between
+   * adjacent packets in state B are 36 and 37, which is 3.178 x 1,15 and nothing else. That
+   * confirms the client's ratio table and the sword's "Dano de [Canhão de Prótons] +15%"
+   * from the packets alone, with no outside source involved.
    */
-  it('builds the ratio the client table states', () => {
+  it('o espaçamento entre pacotes confirma a razão 3.178% e os +15% da espada', () => {
+    const passos = [...new Set(B)].sort((a, b) => a - b);
+    const gaps = passos.slice(1).map((v, i) => v - passos[i]).filter((g) => g < 60);
+    expect(gaps.length).toBeGreaterThan(3);
+    for (const g of gaps) expect([36, 37]).toContain(g);
+
+    expect(danoDe(728, 0, 15)).toBe(26_547);
+    expect(danoDe(755, 0, 15)).toBe(27_534);
     expect(sim(PELADO, CART_BOOST).ratio).toBe(3178);
   });
 
   /**
    * Bare-handed there is no weapon ATQ to roll, so the fifteen packets print the **same
-   * number** and the comparison is an exact equation rather than a range — the strongest
-   * assertion this file can make, and it lands before any equipment enters the picture.
-   *
-   * It pins five things at once: the ratio above, the job bonus table, the melee status
-   * ATQ, the cannonball's 120 of ATQ arriving as maestria (rAthena adds the projectile's
-   * ATQ there precisely so P.ATQ does not scale it), and Propulsão do Carrinho's +10 ATQ
-   * per level. Drop any one of them and the equality fails by more than a rounding unit.
+   * number**, the inversion has a single solution, and the comparison is an exact equation:
+   * the server's ATQ was 504, which is 2 x 167 de ATQ mais 120 da bala mais 50 de Propulsão
+   * do Carrinho. Drop any one of those and the equality fails by more than a rounding unit.
    */
-  it('matches the fifteen gearless packets exactly', () => {
+  it('sem arma, o ATQ do servidor foi exatamente 504 — e o do motor também', () => {
     expect(new Set(A)).toEqual(new Set([15_967]));
+    expect(atqDe(15_967, 0, 0)).toEqual([504]);
 
     const s = sim(PELADO, CART_BOOST);
-    expect(s.min).toBe(s.max); // no weapon -> no roll
+    expect(s.atq).toEqual([504, 504]); // sem arma não há o que sortear
+    expect(s.min).toBe(s.max);
     expect(s.max).toBe(15_967);
   });
 
   /**
-   * Propulsão do Carrinho is worth exactly the 50 ATQ the skill grants at Nv 5, measured
-   * off that same equality: with the toggle off the engine lands on 14.378, which is the
-   * recorded value less 50 x the ratio. Guards the `bonus: { atk: 50 }` in cart-boost.ts
-   * against being quietly re-staged.
+   * Propulsão do Carrinho is worth exactly the 50 ATQ the skill grants at Nv 5, read off
+   * that same equality: with the toggle off the engine lands on an ATQ of 454. Guards the
+   * `bonus: { atk: 50 }` in cart-boost.ts against being quietly re-staged.
    */
-  it('prices Propulsão do Carrinho at the 50 ATQ the recording shows', () => {
-    const semBoost = sim(PELADO).max;
-    expect(semBoost).toBe(14_378);
-    expect(15_967 - semBoost).toBe(Math.round((50 * 3178) / 100));
+  it('Propulsão do Carrinho vale os 50 de ATQ que a gravação mostra', () => {
+    expect(sim(PELADO).atq).toEqual([454, 454]);
+    expect(sim(PELADO, CART_BOOST).atq[0] - sim(PELADO).atq[0]).toBe(50);
+  });
+});
+
+describe('Bioquímico — o ATQ com arma, medido pacote a pacote (em aberto)', () => {
+  /**
+   * ABERTO, e medido em vez de estimado. Every packet of state B inverts to **one** integer
+   * ATQ, so the recording hands over the server's own value fifteen times:
+   *
+   *   servidor  728 729 730 731 737 738 740 740 746 748 749 752 753 755 755   (média 742,1)
+   *   motor     673 .. 716                                                     (média 694,5)
+   *
+   * The fixed part is not in question — state A proved it is 504 — so the whole difference
+   * sits in the weapon term: **the game's Espada Inicial +7 contributes 224..251 where ours
+   * contributes 169..212**.
+   *
+   * O que já foi descartado, por medida:
+   *
+   *  - **a build e os itens**: os 115 campos da janela de status batem, peça a peça;
+   *  - **a razão e os +15% da espada**: o espaçamento dos pacotes os confirma sozinho;
+   *  - **dobrar o bônus de status da arma** (`ATQ base x FOR / 200`): fecha este arquivo e
+   *    quebra 135 testes de outras gravações, então não é isso;
+   *  - **um multiplicador sobre o ATQ da arma**: precisaria de 125% aqui e de 110% na Musa,
+   *    então não é um fator único;
+   *  - **a tabela de tamanho**: `Biolo.cart-cannon-replay.spec.ts` cobre Médio e Pequeno com
+   *    esta mesma habilidade, e na Musa o resíduo do alvo Médio — que não tem penalidade
+   *    nenhuma — é igual ao do Pequeno; o termo que falta não é escalado pelo tamanho.
+   */
+  it('mede o ATQ que o servidor usou em cada pacote do estado com espada', () => {
+    const doServidor = B.map((d) => atqDe(d, 0, 15));
+    for (const s of doServidor) expect(s.length).toBe(1);
+
+    const valores = doServidor.map((s) => s[0]).sort((a, b) => a - b);
+    expect(valores).toEqual([728, 729, 730, 731, 737, 738, 740, 740, 746, 748, 749, 752, 753, 755, 755]);
+    expect(sim(ESPADA, CART_BOOST).atq).toEqual([673, 716]);
+  });
+
+  it('fixa o resíduo em 6,9% nos dois estados com arma', () => {
+    expect(desvio(B, sim(ESPADA, CART_BOOST))).toBe(6.9);
+    expect(desvio(C, sim(COMPLETO, CART_BOOST))).toBe(6.9);
+    // E os trinta pacotes estão acima do teto simulado, então não é amostragem (§9).
+    expect(Math.min(...B)).toBeGreaterThan(sim(ESPADA, CART_BOOST).max);
+    expect(Math.min(...C)).toBeGreaterThan(sim(COMPLETO, CART_BOOST).max);
   });
 
   /**
-   * OPEN. The moment the Espada Inicial goes on, the engine falls short — and by the same
-   * amount in both geared states, which is what says it is one cause rather than an item
-   * missing from the Nobre set:
+   * **E o que esta gravação derruba.** `Wanderer.replay.spec.ts` deixou em aberto a hipótese
+   * de faltarem "+7 a +8 pontos de Dano físico à distância" — a única chave que dava o mesmo
+   * número nas três caixas grandes daquele arquivo. Ela fecha as duas caixas com arma daqui
+   * também, e mesmo assim está errada: com +7 de `range` o estado **sem arma**, que hoje é
+   * exato até a unidade, passa a ficar 6,5% alto.
    *
-   *   B  recorded mean 27.062  vs simulated mean 25.323   -6,9%
-   *   C  recorded mean 39.428  vs simulated mean 36.893   -6,9%
-   *
-   * Every one of the thirty packets sits above the simulated ceiling, so this is a real
-   * divergence and not a sampled maximum falling short of one (review skill §9).
-   *
-   * Ruled out, each against its own evidence:
-   *
-   *  - **the ratio** — confirmed against rAthena and, above, exact bare-handed;
-   *  - **the build** — the game's own ATQ, ATQ Equip. and Crítico match at all three states;
-   *  - **the sword's data** — its 140 ATQ and 35 of refino are the window's own numbers,
-   *    and its "Refino +7 ou mais: Dano de [Canhão de Prótons] +15%" reaches the engine as
-   *    the bare `2477` key;
-   *  - **the size table as a whole** — `Biolo.cart-cannon-replay.spec.ts` runs this very
-   *    skill against a Médio and a Pequeno dummy and covers both, so the 100% and the 75%
-   *    cells are right; `GuillotineCross.cross-impact-unbuffed.spec.ts` reproduces a katar
-   *    across four dummies, Grande included, so Grande penalties exist.
-   *
-   * That leaves two candidates this file cannot separate, because its only target is Grande
-   * and its only weapon is a level-3 blade:
-   *
-   *  - **the sword's Grande cell.** bROWiki puts Espada de Uma Mão at 75% there, and it is
-   *    the only cell of that table no recording in this repo exercises. Forcing it to 100%
-   *    swings both states from 6,9% under to about 2% over — closer, but not a fit, so it
-   *    is not simply the wrong number either.
-   *  - **something keyed to the weapon's nível.** The Cientista file that does line up
-   *    carries a nível 5 weapon and this one a nível 3, and nível drives both the variance
-   *    and the over-refine term.
-   *
-   * The recording that settles it is the plainest possible: **the same character firing at
-   * a Médio dummy as well as a Grande one**, which is a few seconds of work for whoever
-   * records it and holds the weapon still while the size changes.
+   * Uma etapa que existe com arma e não existe sem ela não é a etapa `range`, e é por isso
+   * que o controle sem equipamento vale mais do que qualquer quantidade de pacotes com a
+   * build inteira. Fica como teste para que ninguém gaste a tentativa de novo.
    */
-  it('pins the open shortfall the sword introduces', () => {
-    const b = sim(ESPADA, CART_BOOST);
-    const c = sim(COMPLETO, CART_BOOST);
-
-    expect(Math.min(...B)).toBeGreaterThan(b.max);
-    expect(Math.min(...C)).toBeGreaterThan(c.max);
-
-    const desvio = (rec: number[], s: { min: number; max: number }) =>
-      Number(((media(rec) / ((s.min + s.max) / 2) - 1) * 100).toFixed(1));
-    expect(desvio(B, b)).toBe(6.9);
-    expect(desvio(C, c)).toBe(6.9);
+  it('range +7 fecha os estados com arma e quebra o estado sem arma', () => {
+    const comRange = [{ range: 7 }];
+    expect(desvio(B, sim(ESPADA, CART_BOOST, comRange))).toBe(-0.1);
+    expect(desvio(C, sim(COMPLETO, CART_BOOST, comRange))).toBe(0.4);
+    expect(desvio(A, sim(PELADO, CART_BOOST, comRange))).toBe(-6.5);
   });
 });

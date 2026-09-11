@@ -184,6 +184,12 @@ assertion, and they're the game's own numbers:
 | 52 | Crítico | 230 | T.CRÍT |
 | 53 | amotion (VelAtq = 200 − amotion/10) | 232 | AP |
 
+The table above is the damage-relevant subset, not the whole packet stream. **Check every
+SP the file actually sends, not just the ones you expect to move** — 6 (HP máx.), 45/47
+(DEF and DEFM de status), 49 (Precisão), 50/51 (Esquiva) all cost nothing extra and each one
+is another chance for a missing item bonus to show itself. A build that reproduces ATQ and
+ATQ Equip. but not Precisão is still a wrong build, and you will not find that out later.
+
 A weapon swap re-sends 41/42/52 — that gives one exact ATK reading **per weapon**, for
 free. If SP_ATK2 is off by a constant, an item's script is missing a line (that's how the
 Manopla Sombria POD's "ATQ e ATQM +1 por refino" was found). Fix the build before the math.
@@ -205,6 +211,13 @@ reporting the damage match as if it confirmed the stats too.
 const janela = (replay.paramChanges ?? []).filter((p) => [41, 42, 52, 53, 225].includes(p.type));
 if (!janela.length) console.log('sem janela de status — dano só se valida contra a build importada');
 ```
+
+**Land the sweep as a test, with a count.** Walk the equip events, rebuild the state at each
+one, and assert every SP the client had sent by then — then assert **how many comparisons
+the loop made**. Without that count a typo in the field map silently checks nothing and the
+test passes green. `Genetic.cart-cannon-gear-states.spec.ts` does this: 18 distinct fields
+across 9 snapshots, 101 comparisons, and it is what licensed attributing that file's damage
+divergence to the chain rather than to a missing item bonus.
 
 ## 4. Rebuild the timeline
 
@@ -304,6 +317,52 @@ engine's figure already covers the whole packet, and multiplying it by `count` t
 inflates it fourfold. `Shinkiro.shadow-flash-replay.spec.ts` asserts `skillMaxDamageNoCri`
 against the raw packet value — copy that comparison rather than reasoning about it.
 
+## 6b. Invert the chain — read the server's ATQ off every packet
+
+Comparing a recorded number to a simulated *range* throws away most of what the packet knows.
+The damage chain is a short list of integer operations, so it can be run **backwards**: for a
+given packet, enumerate the integer ATQ values that would produce exactly that damage. On a
+dummy (no crit, no elemental multiplier, no hard DEF) the chain is short enough that the
+answer is almost always **unique**, and the recording then hands you the server's own ATQ,
+packet by packet, instead of a bracket to argue about.
+
+```ts
+// Exactly the stages the engine's own `damageSummary.skillFormulaTrace` prints, in its
+// order, in integer arithmetic. Read the stage list off the trace — do not guess it.
+function danoDe(atq: number, rangedPct: number, skillPct: number): number {
+  let t = Math.floor((atq * (100 + rangedPct)) / 100);
+  t = Math.floor((t * 3178) / 100);   // Hab. Base — a razão da habilidade
+  t = t - 50;                          // DEF (soft) — um valor plano contra dummy
+  return Math.floor((t * (100 + skillPct)) / 100);
+}
+function atqDe(dano: number, rangedPct: number, skillPct: number): number[] {
+  const out: number[] = [];
+  for (let a = 1; a < 4000; a++) if (danoDe(a, rangedPct, skillPct) === dano) out.push(a);
+  return out;
+}
+```
+
+Use `skillFormulaTrace` (on `damageSummary`, `{ min, max }` of `{label, value}`) to read the
+engine's stages and their order rather than reconstructing them from the source. Do the
+arithmetic in integers — `23880 * 1.15` is `27461.999…` in floating point and silently loses
+a packet.
+
+Two things fall out of this for free:
+
+- **The spacing between two achievable damages is the product of every multiplier after the
+  ATQ.** Sort the distinct recorded values and diff them: the small gaps are one ATQ step.
+  On the Bioquímico file they are 36 and 37, which is `3.178% × 1,15` and nothing else —
+  so the client's ratio table *and* the sword's "Dano de [Canhão de Prótons] +15%" are both
+  confirmed **from the packets alone**, with no outside source involved. If a multiplier you
+  assumed were wrong, no integer ATQ would reproduce the packets at all.
+- **The verdict stops being a percentage.** "The simulator is 6,9% low" becomes "the server's
+  ATQ was 728..755 and ours is 673..716, and the fixed part is 504 because the gearless state
+  says so" — which names the stage instead of describing the symptom.
+
+When the inversion finds **no** ATQ for a packet, one of the multipliers you fed it is wrong.
+That is a result, not a failure: sweep the candidates (`for rangedPct … for skillPct …`) and
+keep the pairs that solve *every* packet.
+
 ## 7. Skill ratios: the client description wins
 
 `SKILL_META[...].description` in `src/app/skills/skill-meta.generated.ts` is the client's own
@@ -382,6 +441,16 @@ recording cannot separate the stages. And always keep the gearless recording as 
 if it is exact, the cause is in the equipment, and the next step is reading every equipped
 item's pt-BR description against its `script` in `item.json` — see [[ptbr-description-source-of-truth]].
 
+**The gearless state is also the veto, and it is the cheapest one you will ever get.** Any
+candidate that is a plain multiplier — `range`, `dano físico %`, anything keyed to the target
+— multiplies the gearless state too. So test it there *before* celebrating that it closed the
+geared ones. `Wanderer.replay.spec.ts` carried "+7 a +8 pontos de Dano físico à distância" as
+its standing hypothesis for weeks, on the strength of it being the only key that gave the same
+number across three boxes; the Bioquímico recording closed its two geared states with exactly
+that key and then showed the gearless state going 6,5% **over**, which ends the hypothesis in
+one line. A term that exists with a weapon and not without one is not a damage multiplier at
+all, and no amount of fully-geared packets can tell you that.
+
 **Pre-filter that audit numerically.** A five-build batch equips ~130 distinct items and
 reading them all is not worth the pass. Pull every number out of the description, drop the
 boilerplate lines (Peso/Nível/Classes/Tipo…), and list the ones the script never mentions:
@@ -451,12 +520,26 @@ own opening cast had nothing to attribute it to. This check costs one line and d
 "we never modelled it" from "we modelled it into a hole" — different fixes, and only the
 second is a silent bug for every user of the class.
 
-### Placing a modifier: rAthena decides the stage, the client decides the gate
+### Placing a modifier: rAthena suggests the stage, the recording decides
 
-Once you know *what* the effect is, `battle.cpp` is the authority on **where** it applies —
-and the pt-BR description usually is not. "Resistência a dano físico corpo a corpo -3%" reads
-like a DEF or resistance change; rAthena spends it as a plain multiplier on the finished
-damage, in the target's damage-taken block:
+**rAthena is fan-made and is not a source of truth.** Neither is bROWiki, divine-pride or the
+Sigma blog. They are useful for exactly two things: **name tables** you can verify (the EFST
+enum in §4, an SP id, an item id), and **candidate shapes** to test — "maybe this is a
+multiplier on the finished damage rather than a DEF change" is a hypothesis, and the `.rrf`
+is what accepts or rejects it. Never adopt a value or a formula because rAthena has it.
+
+The bar for changing the engine is a recording that moves: either a packet the change brings
+inside the simulated range, or an exact equality it makes hold. A change that no recording
+can distinguish is not an improvement, however good the upstream reasoning — the Canhão de
+Prótons INT divisor was landed on rAthena's word alone and reverted the same day, because
+every recording on the board has Aprimorar Carrinho maxed, where the old and new expressions
+are identical. If you cannot test it, write it in the spec comment as an open question and
+name the recording that would settle it.
+
+With that said, reading `battle.cpp` is still worth the two minutes, because it suggests
+*where* an effect might sit when the pt-BR description only says *what* it does.
+"Resistência a dano físico corpo a corpo -3%" reads like a DEF or resistance change; rAthena
+spends it as a plain multiplier on the finished damage, in the target's damage-taken block:
 
 ```c
 if (tsc->getSCE(SC_SHADOW_SCAR)) // !TODO: Need official adjustment for this too.
@@ -469,7 +552,8 @@ BF_SHORT` and halves for `CLASS_BOSS`; `SC_SHADOW_SCAR` has neither, which is wh
 "Funciona em monstros do tipo Chefe" is saying. Where rAthena and the client disagree, the
 client wins on the *effect* ([[ptbr-description-source-of-truth]]) — that line is ungated by
 `BF_SHORT` under its own `!TODO`, while the client says "corpo a corpo", so it is gated to
-melee here — but rAthena wins on **stage and arithmetic**, which the client never states.
+melee here. And where the client says nothing at all, rAthena gives you a shape to try, not
+an answer to adopt: the recording still has to agree before it lands.
 
 And mind how the engine composes that stage. rAthena runs each of these as its own sequential
 `damage += damage * x / 100`, so they **compound**; `getDebuffMultiplier` used to sum them,
@@ -545,6 +629,22 @@ first — it may be the old bug, pinned. When it is, **update the assertion to t
 and rewrite the comment to record the resolution**; don't delete the note, it is the history
 of how the thing was caught. Two of those three said explicitly that settling the question
 needed a recording at a different LUK, which is exactly what arrived.
+
+**Sort the failures by what they assert before reading anything into the count.** The replay
+specs are not one kind of test:
+
+| shape | what a failure means |
+|---|---|
+| equality against a recorded packet (`toBe(3_283_628)`) | the change is **wrong**, in the direction the diff shows |
+| a recorded packet bracketed by the simulated range | wrong if the packet left the range; harmless if it was already outside and moved closer |
+| a pinned **percentage** residual (`toBeCloseTo(5.1)`) | says nothing on its own — the number is a symptom, and a change that shrinks it is an improvement |
+
+A hundred red tests can be one real falsification plus ninety-nine pinned percentages
+drifting, and it can equally be the reverse. Read the messages, not the total. Doubling the
+weapon's stat bonus turned 135 tests red and the verdict came from four lines of them: a
+Shinkiro critical that had been exact went 7,6% **over** its packet, and Sky Emperor, Sicário
+and Guardião Imperial packets fell **below** the new floor. Those are recorded values, so the
+change was out — the pinned-percentage failures in the same run were irrelevant either way.
 
 ## Cleanup
 
