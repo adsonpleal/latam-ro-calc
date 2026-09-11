@@ -4,6 +4,7 @@ import { ItemDescriptionStore } from 'src/app/api-services/item-description.stor
 import { Chip, buildChipRows } from 'src/app/core/equipment-chips';
 import { SlotDerivation } from 'src/app/core/equipment-slot-derivation';
 import { ItemTypeEnum } from 'src/app/constants/item-type.enum';
+import { SlotColor, slotColorLabel } from 'src/app/core/slot-colors';
 import { PetLoyalty } from 'src/app/constants/pet-loyalty';
 import { DropdownModel } from 'src/app/models/dropdown.model';
 import { ItemModel } from 'src/app/models/item.model';
@@ -11,6 +12,7 @@ import { ExtraOptionMap } from 'src/app/utils/create-extra-option-list';
 import { getGradeList } from 'src/app/utils/to-grade-list';
 import { PickerRequest } from '../item-picker/item-picker.model';
 import { ItemPickerService } from '../item-picker/item-picker.service';
+import { SlotColorPickerService } from '../slot-color-picker/slot-color-picker.service';
 import { ChipView } from './chip-view.model';
 import { SlotListBag } from './slot-list-bag.model';
 
@@ -50,6 +52,10 @@ export class EquipmentSlotCardComponent implements OnChanges {
   @Input() comparing: ReadonlySet<string> = new Set();
   /** False when the class or the weapon takes no ammo. */
   @Input() showAmmo = false;
+  /** The highlight this slot wears, resolved by the grid so the binding stays reference-stable. */
+  @Input() color: SlotColor | null = null;
+  /** The grid picks one card to carry the first-run hint; false everywhere else. */
+  @Input() colorHint = false;
   /** Bumped by the grid to re-run the view build; the model object never changes identity. */
   @Input() revision = 0;
 
@@ -58,6 +64,8 @@ export class EquipmentSlotCardComponent implements OnChanges {
   @Output() readonly toggleCompare = new EventEmitter<void>();
   @Output() readonly clearCompare = new EventEmitter<void>();
   @Output() readonly swapCompare = new EventEmitter<void>();
+  /** The chosen palette id, or null for "Sem cor". */
+  @Output() readonly pickColor = new EventEmitter<string | null>();
 
   mainRows: ChipView[][] = [];
   compareRows: ChipView[][] = [];
@@ -66,9 +74,12 @@ export class EquipmentSlotCardComponent implements OnChanges {
   hasContent = false;
   hasCompareContent = false;
   canSwap = false;
+  /** Set the moment the button is used, so the callout goes at once rather than fading. */
+  hintDismissed = false;
 
   constructor(
     private readonly picker: ItemPickerService,
+    private readonly colorPicker: SlotColorPickerService,
     private readonly cdr: ChangeDetectorRef,
     public readonly itemDescriptions: ItemDescriptionStore,
   ) {}
@@ -108,6 +119,37 @@ export class EquipmentSlotCardComponent implements OnChanges {
 
   get compareItem(): ItemModel | undefined {
     return this.items?.[this.model2?.[this.descriptor.key]];
+  }
+
+  /**
+   * Whether the card offers the swatch at all.
+   *
+   * Not `hasContent`, which is also true for an empty card that is being compared: there
+   * is no piece there to call core or temporary. A card already marked keeps the button
+   * whatever else happened, so the mark can always be taken off again.
+   */
+  get colorable(): boolean {
+    return !this.occupiedBy && (this.model?.[this.descriptor.key] != null || !!this.color);
+  }
+
+  get colorTitle(): string {
+    if (!this.colorable) return 'Escolha um item para poder destacar este slot';
+
+    return this.color ? `Destaque: ${slotColorLabel(this.color, this.colorPicker.labels)}` : 'Destacar este slot com uma cor';
+  }
+
+  onPickColor(anchor: HTMLElement): void {
+    if (!this.colorable) return;
+
+    // Opening it is what counts as having found it — whether or not a colour is chosen.
+    // A rename is the service's business and never reaches here; only a pick is the
+    // build's, and that is what goes up to the grid.
+    this.hintDismissed = true;
+    this.colorPicker.markFound();
+
+    this.colorPicker.open({ anchor, value: this.color?.id ?? null }).subscribe((event) => {
+      if (event.kind === 'pick') this.pickColor.emit(event.value ?? null);
+    });
   }
 
   get compareTitle(): string {

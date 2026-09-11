@@ -38,6 +38,8 @@
           [compareDerivation]="compareDerivations[slot.key]"
           [occupiedBy]="occupiedBy(slot)"
           [comparing]="comparing"
+          [color]="colorOf(slot)"
+          [colorHint]="showsColorHint(slot)"
           [showAmmo]="!hiddenMap.ammu"
           [revision]="cardRevision"
           (pickField)="onPickField($event)"
@@ -45,6 +47,7 @@
           (toggleCompare)="onToggleCompare(slot)"
           (clearCompare)="onClearCompareSlot(slot)"
           (swapCompare)="onSwapCompare(slot)"
+          (pickColor)="onPickColor(slot, $event)"
         ></app-equipment-slot-card>
       </ng-container>
     </div>

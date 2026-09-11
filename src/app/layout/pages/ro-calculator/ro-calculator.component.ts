@@ -79,6 +79,8 @@ import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPot
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { ElementType } from 'src/app/constants/element-type.const';
 import { CompareState } from 'src/app/core/compare-state';
+import { sanitizeSlotColors } from 'src/app/core/slot-colors';
+import { SlotColorPickerService } from './slot-color-picker/slot-color-picker.service';
 import { ClassSwitchLoss, applyClassSwitch, findClassSwitchLosses, hasBuildToKeep, slotEquipFilter } from 'src/app/core/class-switch';
 import { canUsedByClass } from 'src/app/utils/can-used-by-class';
 import { SLOTS_BY_KEY } from 'src/app/app-config/equipment-slots';
@@ -259,7 +261,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   env = environment;
   model = createMainModel();
-  private emptyModel = createMainModel();
   model2: ClassModel = { rawOptionTxts: [] };
 
   baseHpOptions = createBaseHPSPOptionList('BaseHP') as any;
@@ -363,6 +364,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   // Declared above the target fields on purpose: class fields initialise in source order,
   // and `relieveLevel` below seeds itself from it.
   private calcStorage = new CalcStorage(localStorage);
+
 
   groupMonsterList: MonsterSelectItemGroup[] = [];
   monsterList: DropdownModel[] = [];
@@ -586,9 +588,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     private readonly layoutService: LayoutService,
     private readonly itemShop: ItemShopService,
     private readonly itemDescriptionStore: ItemDescriptionStore,
+    private readonly slotColorPicker: SlotColorPickerService,
   ) { }
 
   ngOnInit() {
+    this.initSlotColourPrefs();
     this.initCalcTableColumns();
     // A share link (/s/<token>/ or the legacy ?b=...) wins over the local autosave;
     // falls back to it when absent.
@@ -1442,12 +1446,19 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       return;
     }
 
-    for (const [key, initialValue] of Object.entries(this.emptyModel)) {
-      const isAttrArray = Array.isArray(initialValue);
-
+    // `rawModel` is already a complete sheet of defaults, so a field the save does not
+    // carry is simply left alone. Reading the fallback from a second, longer-lived model
+    // is what used to hand every build the *same* object for an object-valued default —
+    // one build's map would then follow the next one loaded. Leaving the default in place
+    // makes it fresh by construction, for objects and arrays alike.
+    for (const key of Object.keys(rawModel)) {
       const savedValue = savedData[key];
-      const validValue = isAttrArray ? (Array.isArray(savedValue) ? savedValue : []) : savedValue ?? initialValue;
-      rawModel[key] = validValue;
+
+      if (Array.isArray(rawModel[key])) {
+        if (Array.isArray(savedValue)) rawModel[key] = savedValue;
+      } else if (savedValue != null) {
+        rawModel[key] = savedValue;
+      }
     }
 
     const rawOptionTxts = [] as string[];
@@ -1481,6 +1492,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // saved before rotations existed carries no `rotation` key, arrives as [], and
     // becomes a rotation of one holding its selectedAtkSkill.
     rawModel.rotation = normalizeRotation(rawModel.rotation, rawModel.selectedAtkSkill);
+
+    // Validation, not defaulting: the loop above already restores an absent map. This is
+    // the one gate a hand-edited share token passes through, so a slot key the grid does
+    // not draw or a colour outside the palette is dropped rather than stored.
+    rawModel.slotColors = sanitizeSlotColors(rawModel.slotColors);
 
     this.model = rawModel;
   }
@@ -1560,6 +1576,23 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Hand the colour panel the two values that belong to this browser — the names given to
+   * the colours, and whether the button has been found — and write them back whenever it
+   * says they moved. Neither is part of the build: a shared link carries which colour a
+   * slot wears, never what the person who shared it calls that colour.
+   */
+  private initSlotColourPrefs(): void {
+    this.slotColorPicker.initLocal(this.calcStorage.readSlotColorLabels(), !this.calcStorage.readSlotColorSeen());
+
+    this.allSubs.push(
+      this.slotColorPicker.localChange.subscribe(() => {
+        this.calcStorage.writeSlotColorLabels(this.slotColorPicker.labels);
+        if (!this.slotColorPicker.hintPending) this.calcStorage.markSlotColorSeen();
+      }),
+    );
+  }
+
   private saveCurrentStateItemset() {
     localStorage.setItem('ro-set', JSON.stringify(toUpsertPresetModel(this.model, this.selectedCharacter)));
   }
@@ -1568,6 +1601,14 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   /** The current build in the same preset shape the autosave / replay import use. */
   private currentPreset(): PresetModel {
     return toUpsertPresetModel(this.model, this.selectedCharacter) as unknown as PresetModel;
+  }
+
+  /**
+   * A slot's highlight changed. Cosmetic, so nothing is re-solved — but it belongs to
+   * the build, so the autosave has to catch up before the tab is closed.
+   */
+  onSlotColorChange(): void {
+    this.saveCurrentStateItemset();
   }
 
   /**

@@ -40,7 +40,7 @@ const SEARCH_LIMIT = 1000;
 @Component({
   selector: 'app-item-picker-overlay',
   templateUrl: './item-picker-overlay.component.html',
-  styleUrls: ['./item-picker-overlay.component.css'],
+  styleUrls: ['../picker-tokens.css', './item-picker-overlay.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemPickerOverlayComponent {

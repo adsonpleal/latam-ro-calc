@@ -1,0 +1,134 @@
+.cpicker {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  min-width: 200px;
+  max-width: 300px;
+  overflow: hidden;
+  background: var(--picker-surface);
+  border: 1px solid var(--picker-border);
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 50%);
+  color: var(--picker-text);
+  font-size: 14px;
+}
+
+.cpicker__title {
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--picker-border);
+  color: var(--picker-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* A row is two controls — choose and rename — so the row itself is the flex line and
+   the choosing half is the button that fills it. */
+.cpicker__entry {
+  display: flex;
+  align-items: center;
+}
+
+.cpicker__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  height: 30px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cpicker__row--none {
+  font-style: italic;
+  color: var(--picker-muted);
+}
+
+.cpicker__row:hover,
+.cpicker__row:focus-visible {
+  background: var(--picker-hover);
+  outline: none;
+}
+
+.cpicker__row--selected .cpicker__label {
+  font-weight: 700;
+}
+
+.cpicker__dot {
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+/* "Sem cor" gets the same ring the header button wears while a slot is unmarked, so the
+   empty state reads the same in both places. */
+.cpicker__dot--none {
+  border: 1px solid rgb(255 255 255 / 35%);
+}
+
+.cpicker__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cpicker__rename {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 30px;
+  border: 0;
+  background: transparent;
+  color: rgb(255 255 255 / 30%);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.cpicker__rename:hover,
+.cpicker__rename:focus-visible {
+  color: var(--picker-text);
+  outline: none;
+}
+
+.cpicker__edit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 30px;
+  padding: 0 10px;
+}
+
+.cpicker__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 22px;
+  padding: 0 6px;
+  background: var(--picker-field);
+  border: 1px solid var(--picker-border);
+  border-radius: 3px;
+  color: var(--picker-text);
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+}
+
+.cpicker__input:focus {
+  border-color: rgb(255 255 255 / 45%);
+}

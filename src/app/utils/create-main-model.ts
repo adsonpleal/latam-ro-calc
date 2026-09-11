@@ -42,6 +42,10 @@ export const createMainModel = (): MainModel => ({
   // share-codec's dropDefaults leaves an empty rotation out of the token.
   rotation: [],
   rawOptionTxts: [],
+  // An object default, for the same two reasons `rotation` is an array one:
+  // setModelByJSONString's loop restores it, and share-codec's dropDefaults leaves
+  // an unmarked build's empty map out of the token.
+  slotColors: {},
   propertyAtk: undefined,
   weapon: undefined,
   weaponRefine: undefined,

@@ -34,6 +34,23 @@ describe('the reserved comparison key', () => {
   });
 });
 
+/**
+ * The slot highlights ride the preset itself rather than a reserved key: the map is a
+ * plain model field with an empty default, which `dropDefaults` already knows to drop.
+ * The names a player gives the colours are deliberately NOT here — they stay in the
+ * browser, so a link never renames the reader's own palette.
+ */
+describe('slot highlight colours in a token', () => {
+  it('costs an unmarked build nothing', () => {
+    expect(encodeBuild({ ...preset, slotColors: {} })).toBe(encodeBuild(preset));
+  });
+
+  it('carries the marked slots through a round trip', () => {
+    const out = decodeShared(encodeBuild({ ...preset, slotColors: { weapon: 'azul', armor: 'rosa' } }));
+    expect(out?.preset.slotColors).toEqual({ weapon: 'azul', armor: 'rosa' });
+  });
+});
+
 describe('encodeBuild / decodeShared', () => {
   it('round-trips a build with no comparison', () => {
     const out = decodeShared(encodeBuild(preset));

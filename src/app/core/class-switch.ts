@@ -127,6 +127,10 @@ export function findClassSwitchLosses({ model, items, nextClass }: ClassSwitchIn
 
 /** Empty a slot: the item, its refine, grade, cards, enchants, random options and chips. */
 const clearSlot = (model: MainModel, slot: EquipmentSlotDescriptor): void => {
+  // The highlight marks the piece that was in the slot, so it goes out with it — the
+  // same rule the card's own header ✕ follows.
+  if (model.slotColors) delete model.slotColors[slot.key];
+
   // `slotOwnFields` already covers the ammo and the element converter, which belong to the
   // item rather than to the slot: the ammo list is decided by the weapon and the converter
   // paints its element, so with the weapon gone neither has anything to apply to.
@@ -154,7 +158,14 @@ const clearSlot = (model: MainModel, slot: EquipmentSlotDescriptor): void => {
  * with no field on screen to explain it.
  */
 export function applyClassSwitch(model: MainModel, losses: ClassSwitchLoss[], nextClass: CharacterBase): MainModel {
-  const next: MainModel = { ...model, rawOptionTxts: [...(model.rawOptionTxts ?? [])] };
+  // A real copy, not a spread: `clearSlot` empties whatever it is handed, and the caller
+  // may still cancel the switch, so a write reaching through into the live model would
+  // damage the build the user chose to keep — on the one path nobody exercises. A spread
+  // plus a hand-written list of the mutable fields holds only until the next one is added;
+  // MainModel is JSON-safe by construction (it is stringified whole into the autosave, the
+  // named saves and the share token), so cloning it is always correct and costs nothing at
+  // one click behind a confirmation.
+  const next: MainModel = structuredClone(model);
 
   for (const loss of losses) {
     const slot = SLOTS_BY_KEY.get(loss.key);

@@ -1,13 +1,4 @@
-/* Colours come from the calculator's dark shell; the picker only names what it needs so
-   a theme change reaches it through the variables rather than through find-and-replace. */
 .picker {
-  --picker-surface: #1f2d40;
-  --picker-border: #304562;
-  --picker-field: #17212f;
-  --picker-text: rgba(255, 255, 255, 0.87);
-  --picker-muted: rgba(255, 255, 255, 0.5);
-  --picker-hover: rgba(129, 199, 132, 0.16);
-
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

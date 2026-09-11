@@ -123,6 +123,28 @@ describe('findClassSwitchLosses', () => {
 describe('applyClassSwitch', () => {
   const items = catalogue(item({ id: 100, name: 'Espada do Cavaleiro', usableClass: ['Swordman'], itemLevel: 4, itemSubTypeId: 257 }));
 
+  /** A slot highlight marks the piece in the slot, so it goes out when the piece does. */
+  it('drops the highlight of a slot the new class cannot wear, and keeps the rest', () => {
+    const model = buildWith({ weapon: 100, armor: 200, slotColors: { weapon: 'azul', armor: 'rosa' } });
+
+    const switched = applyClassSwitch(model, lossFor(model, items, new ArchMage()), new ArchMage());
+
+    expect(switched.slotColors).toEqual({ armor: 'rosa' });
+  });
+
+  /**
+   * The switch is offered, not imposed — the dialog can still be cancelled, and this
+   * result thrown away. A write reaching back through the shallow spread would have
+   * stripped the marks off the build the player chose to keep.
+   */
+  it('never writes the highlights back into the model it was handed', () => {
+    const model = buildWith({ weapon: 100, slotColors: { weapon: 'azul' } });
+
+    applyClassSwitch(model, lossFor(model, items, new ArchMage()), new ArchMage());
+
+    expect(model.slotColors).toEqual({ weapon: 'azul' });
+  });
+
   it('empties the whole slot, not just the item', () => {
     const model = buildWith({
       weapon: 100,

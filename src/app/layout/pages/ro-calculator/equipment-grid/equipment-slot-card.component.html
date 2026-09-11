@@ -1,5 +1,30 @@
-<div class="eq-card">
+<div class="eq-card" [class.eq-card--tinted]="!!color" [style.--slot-color-rgb]="color?.rgb">
   <div class="eq-card__head">
+    <!-- Ahead of the slot name, where it reads as a property of the card rather than as a
+         third action next to Comparar and ✕. Always drawn, greyed out on an empty slot:
+         hiding it left a hole that pulled the neighbouring slot names out of line, and the
+         disabled state is where the tooltip explains what to do first. Not the `disabled`
+         attribute, which would stop the tooltip firing — the guard is in onPickColor, the
+         same way the compare button handles an occupied slot. -->
+    <button
+      #colorAnchor
+      type="button"
+      class="eq-card__color"
+      [class.eq-card__color--idle]="!colorable"
+      [attr.aria-label]="colorTitle"
+      [pTooltip]="colorTitle"
+      tooltipPosition="top"
+      [showDelay]="300"
+      (click)="onPickColor(colorAnchor)"
+    >
+      <span class="eq-card__color-dot" [class.eq-card__color-dot--empty]="!color" [style.background]="color?.hex"></span>
+    </button>
+
+    <!-- Shown on one card only, and only until the button has been opened once. The timing
+         is the animation's: it waits for the grid to finish drawing, lingers, and fades out
+         on its own. Nothing in TypeScript counts the seconds. -->
+    <span class="eq-card__color-hint" *ngIf="colorHint && colorable && !hintDismissed">Marque este slot com uma cor</span>
+
     <span class="eq-card__label">{{ descriptor.label }}</span>
     <span
       *ngIf="item?.preRelease"

@@ -11,7 +11,9 @@ import { ItemTypeEnum, MainItemWithRelations } from 'src/app/constants/item-type
 import { itemSlotLabelPtBr } from 'src/app/constants/item-slot-i18n';
 import { Chip, slotOwnFields } from 'src/app/core/equipment-chips';
 import { SlotDerivation, cardsToClear, deriveSlot, reconcileEnchants } from 'src/app/core/equipment-slot-derivation';
+import { SLOT_COLOR_BY_ID, SlotColor } from 'src/app/core/slot-colors';
 import { ItemModel } from 'src/app/models/item.model';
+import { SlotColorPickerService } from '../slot-color-picker/slot-color-picker.service';
 import { ChipPick } from './equipment-slot-card.component';
 import { SlotListBag } from './slot-list-bag.model';
 
@@ -78,6 +80,8 @@ export class EquipmentGridComponent implements OnChanges {
   @Output() readonly propertyAtkChange = new EventEmitter<void>();
   @Output() readonly compareItemChange = new EventEmitter<void>();
   @Output() readonly compareSlotsChange = new EventEmitter<boolean>();
+  /** A slot's highlight changed and the build needs persisting — no recalculation. */
+  @Output() readonly slotColorChange = new EventEmitter<void>();
 
   /** One entry per column of SLOT_GROUPS, each holding that column's groups in order. */
   columns: RenderedGroup[][] = [];
@@ -106,7 +110,10 @@ export class EquipmentGridComponent implements OnChanges {
    */
   private queued: (() => void)[] = [];
 
-  constructor(private readonly cdr: ChangeDetectorRef) {}
+  constructor(
+    private readonly cdr: ChangeDetectorRef,
+    private readonly colorPicker: SlotColorPickerService,
+  ) {}
 
   ngOnChanges(): void {
     // The pipeline has run, so its answer beats the toggle's optimism from here on.
@@ -131,6 +138,59 @@ export class EquipmentGridComponent implements OnChanges {
 
   occupiedBy(slot: EquipmentSlotDescriptor): string | null {
     return slot.headSlot ? (this.headSlotOccupiedBy?.[slot.key] ?? null) : null;
+  }
+
+  // ── highlight colours ────────────────────────────────────────────────────────
+
+  /**
+   * The palette entry a card wears, by reference.
+   *
+   * Handing the cards the constant rather than a fresh object is what lets the colour
+   * reach an OnPush card without a `cardRevision` bump: the binding only changes identity
+   * when the colour actually does.
+   */
+  colorOf(slot: EquipmentSlotDescriptor): SlotColor | null {
+    return SLOT_COLOR_BY_ID.get(this.model?.['slotColors']?.[slot.key]) ?? null;
+  }
+
+  /**
+   * Whether this card is the one that carries the first-run hint.
+   *
+   * Exactly one does. The button is on every card that holds a piece, and twenty callouts
+   * saying the same thing would be a banner across the whole panel rather than a nudge —
+   * so the topmost filled card speaks for all of them.
+   */
+  showsColorHint(slot: EquipmentSlotDescriptor): boolean {
+    return this.colorPicker.hintPending && slot.key === this.firstMarkableSlot;
+  }
+
+  /** Recomputed per refresh: the first visible card with something in it. */
+  private firstMarkableSlot: string | null = null;
+
+  onPickColor(slot: EquipmentSlotDescriptor, id: string | null): void {
+    // A slot holding nothing has no piece to call core or temporary, so it cannot take a
+    // mark — the card greys its button out, and the rule is repeated here because this is
+    // where the write happens. Clearing is always allowed, whatever the slot holds.
+    if (id && this.model?.[slot.key] == null) return;
+    // Re-picking the colour a slot already wears is a no-op, not an autosave.
+    if ((this.model['slotColors']?.[slot.key] ?? null) === id) return;
+
+    this.writeColor(slot.key, id);
+    this.slotColorChange.emit();
+  }
+
+  /**
+   * Always a new map, never a write into the one that is there.
+   *
+   * The host builds its blank model once and keeps it for the session, so an unmarked
+   * build loaded from an old save shares that object's empty map — mutating it in place
+   * would leave the next build loaded wearing this one's marks.
+   */
+  private writeColor(key: string, id: string | null): void {
+    const next = { ...(this.model['slotColors'] ?? {}) };
+    if (id) next[key] = id;
+    else delete next[key];
+    this.model['slotColors'] = next;
   }
 
   /**
@@ -337,6 +397,12 @@ export class EquipmentGridComponent implements OnChanges {
           // A slot with no related fields has nothing to cascade, and never bound the
           // clear event in the first place (costume visuals, costume enchants, the pet).
           if (value == null && (MainItemWithRelations[slot as ItemTypeEnum] ?? []).length) this.clearItem.emit(slot);
+          // Emptying the slot takes its highlight with it: the mark named the piece that
+          // was there, and a painted empty card would point at nothing. Only `item` —
+          // clearing a costume's enchant must not untag the costume. Both the header ✕
+          // and the chip's own reach this line, and neither needs an emission of its
+          // own: the item change is already on its way to the autosave.
+          if (value == null && chip.kind === 'item') this.writeColor(slot, null);
         }
         break;
       }
@@ -454,7 +520,9 @@ export class EquipmentGridComponent implements OnChanges {
 
     this.derivations = derivations;
     this.compareDerivations = compareDerivations;
-    this.columns = buildColumns(this.visibleSlots());
+    const visible = this.visibleSlots();
+    this.firstMarkableSlot = visible.find((slot) => !this.occupiedBy(slot) && this.model?.[slot.key] != null)?.key ?? null;
+    this.columns = buildColumns(visible);
     this.cardRevision += 1;
     this.cdr.markForCheck();
     this.flush();

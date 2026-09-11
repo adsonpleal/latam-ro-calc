@@ -1,0 +1,57 @@
+<!-- Rows are ordinary tabbable buttons, unlike the item picker's: six of them navigate
+     perfectly well with Tab, and the rename box has to be reachable the same way. The
+     trap keeps both inside the panel. -->
+<div class="cpicker" tabindex="-1" cdkTrapFocus cdkTrapFocusAutoCapture (keydown)="onKeyDown($event)">
+  <div class="cpicker__title">Cor do slot</div>
+
+  <button
+    type="button"
+    cdkFocusInitial
+    class="cpicker__row cpicker__row--none"
+    [class.cpicker__row--selected]="!value"
+    (click)="choose(null)"
+  >
+    <span class="cpicker__dot cpicker__dot--none"></span>
+    <span class="cpicker__label">Sem cor</span>
+  </button>
+
+  <div class="cpicker__entry" *ngFor="let color of colors; trackBy: trackColor">
+    <ng-container *ngIf="editing !== color.id">
+      <button
+        type="button"
+        class="cpicker__row"
+        [class.cpicker__row--selected]="value === color.id"
+        (click)="choose(color.id)"
+      >
+        <span class="cpicker__dot" [style.background]="color.hex"></span>
+        <span class="cpicker__label">{{ labelOf(color) }}</span>
+      </button>
+
+      <button
+        type="button"
+        class="cpicker__rename"
+        [attr.aria-label]="'Renomear ' + labelOf(color)"
+        pTooltip="Renomear — só neste navegador, o nome não vai junto no link"
+        tooltipPosition="right"
+        [showDelay]="400"
+        (click)="startRename(color, $event)"
+      >
+        ✎
+      </button>
+    </ng-container>
+
+    <div class="cpicker__edit" *ngIf="editing === color.id">
+      <span class="cpicker__dot" [style.background]="color.hex"></span>
+      <input
+        #rename
+        type="text"
+        class="cpicker__input"
+        [attr.maxlength]="maxLabel"
+        [attr.placeholder]="color.label"
+        [(ngModel)]="draft"
+        (keydown)="onRenameKeyDown(color, $event)"
+        (blur)="commitRename(color)"
+      />
+    </div>
+  </div>
+</div>

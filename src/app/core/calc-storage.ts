@@ -6,6 +6,7 @@
  */
 import { MAX_RELIEVE_LEVEL } from '../constants/monster-relieve';
 import { CompareState, sanitizeCompareState } from './compare-state';
+import { SlotColorLabels, sanitizeSlotColorLabels } from './slot-colors';
 
 export interface StorageLike {
   getItem(key: string): string | null;
@@ -16,24 +17,39 @@ const MONSTER_IDS_KEY = 'monsterIds';
 const RELIEVE_LEVEL_KEY = 'monsterRelieve';
 const BATTLE_COLS_KEY = 'battle_cols';
 const COMPARE_STATE_KEY = 'ro-set-compare';
+const SLOT_COLOR_LABELS_KEY = 'ro-color-labels';
+const SLOT_COLOR_SEEN_KEY = 'ro-color-seen';
 
 export class CalcStorage {
   constructor(private readonly storage: StorageLike) {}
 
-  /** Monster ids previously chosen for the multi-monster calc (sanitised to ints). */
-  readMonsterIds(): number[] {
+  /**
+   * Read a JSON key through a sanitizer, answering `fallback` when it is missing, corrupt
+   * or unusable. Every value this class holds is written by the app and read back on the
+   * next visit, so a browser carrying a half-written or hand-edited key must not take the
+   * page down with it — the contract is stated once here rather than in each reader.
+   */
+  private readJson<T>(key: string, sanitize: (raw: unknown) => T, fallback: T): T {
     try {
-      const ids = JSON.parse(this.storage.getItem(MONSTER_IDS_KEY) as string);
-      if (!Array.isArray(ids)) return [];
-      return ids.map(Number).filter((id) => Number.isInteger(id));
+      const raw = this.storage.getItem(key);
+      return raw == null ? fallback : sanitize(JSON.parse(raw));
     } catch (error) {
       console.error(error);
-      return [];
+      return fallback;
     }
   }
 
+  private writeJson(key: string, value: unknown): void {
+    this.storage.setItem(key, JSON.stringify(value));
+  }
+
+  /** Monster ids previously chosen for the multi-monster calc (sanitised to ints). */
+  readMonsterIds(): number[] {
+    return this.readJson(MONSTER_IDS_KEY, (raw) => (Array.isArray(raw) ? raw.map(Number).filter(Number.isInteger) : []), []);
+  }
+
   writeMonsterIds(ids: number[]): void {
-    this.storage.setItem(MONSTER_IDS_KEY, JSON.stringify(ids));
+    this.writeJson(MONSTER_IDS_KEY, ids);
   }
 
   /**
@@ -55,18 +71,11 @@ export class CalcStorage {
 
   /** Field names of the battle-summary columns the user kept visible (strings only). */
   readBattleColNames(): string[] {
-    try {
-      const cached = JSON.parse(this.storage.getItem(BATTLE_COLS_KEY) as string);
-      if (!Array.isArray(cached)) return [];
-      return cached.filter((a) => typeof a === 'string');
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
+    return this.readJson(BATTLE_COLS_KEY, (raw) => (Array.isArray(raw) ? raw.filter((a) => typeof a === 'string') : []), []);
   }
 
   writeBattleColNames(fields: string[]): void {
-    this.storage.setItem(BATTLE_COLS_KEY, JSON.stringify(fields));
+    this.writeJson(BATTLE_COLS_KEY, fields);
   }
 
   /**
@@ -75,16 +84,40 @@ export class CalcStorage {
    * was cleared).
    */
   readCompareState(): CompareState | null {
-    try {
-      return sanitizeCompareState(JSON.parse(this.storage.getItem(COMPARE_STATE_KEY) as string));
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
+    return this.readJson(COMPARE_STATE_KEY, sanitizeCompareState, null);
   }
 
   /** Persist (or clear, when passed a null/empty state) the current comparison. */
   writeCompareState(state: CompareState | null): void {
-    this.storage.setItem(COMPARE_STATE_KEY, JSON.stringify(sanitizeCompareState(state)));
+    this.writeJson(COMPARE_STATE_KEY, sanitizeCompareState(state));
+  }
+
+  /**
+   * The names this browser gave the slot-highlight colours.
+   *
+   * Deliberately here and not on the build model: which colour a slot wears is part
+   * of the build and travels with it, but what "Azul" means is one person's
+   * convention. Sharing it would rename the colours in the reader's own simulation,
+   * so this key never enters a preset, a named save or a share token.
+   */
+  readSlotColorLabels(): SlotColorLabels {
+    return this.readJson(SLOT_COLOR_LABELS_KEY, sanitizeSlotColorLabels, {});
+  }
+
+  writeSlotColorLabels(labels: SlotColorLabels): void {
+    this.writeJson(SLOT_COLOR_LABELS_KEY, sanitizeSlotColorLabels(labels));
+  }
+
+  /**
+   * Whether the slot-highlight button has ever been opened on this browser. The hint
+   * that points at it is shown only while this is false, so it introduces the feature
+   * once and then stops — it is a nudge, not a setting.
+   */
+  readSlotColorSeen(): boolean {
+    return this.storage.getItem(SLOT_COLOR_SEEN_KEY) === '1';
+  }
+
+  markSlotColorSeen(): void {
+    this.storage.setItem(SLOT_COLOR_SEEN_KEY, '1');
   }
 }

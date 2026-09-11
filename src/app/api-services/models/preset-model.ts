@@ -26,6 +26,9 @@ export interface PresetModel {
    *  `[selectedAtkSkill]` — `normalizeRotation` rebuilds it either way. */
   rotation?: string[];
   rawOptionTxts: any[];
+  /** Per-slot highlight colours (src/app/core/slot-colors.ts). Absent on presets
+   *  saved before the feature, and dropped from a share token when nothing is marked. */
+  slotColors?: Record<string, string>;
   propertyAtk: string;
 
   ammo: number;

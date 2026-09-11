@@ -1,5 +1,6 @@
 import { ElementType } from '../constants/element-type.const';
 import { EquipmentModel } from '../constants/item-type.enum';
+import { SlotColorMap } from '../core/slot-colors';
 
 export interface MainModel extends Partial<EquipmentModel> {
   class: number;
@@ -59,6 +60,15 @@ export interface MainModel extends Partial<EquipmentModel> {
   rotation: string[];
   propertyAtk?: ElementType;
   rawOptionTxts: string[];
+
+  /**
+   * The highlight colour put on each equipment card (slot key -> palette id, see
+   * src/app/core/slot-colors.ts). Purely a mark for the person reading the build —
+   * the engine never looks at it — but it travels with the build, so a share link
+   * carries which pieces were called core and which were stand-ins. Empty on a
+   * simulation saved before the feature existed.
+   */
+  slotColors: SlotColorMap;
 
   skillBuffs: number[];
   skillBuffMap: Record<string, number>;

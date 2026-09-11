@@ -32,7 +32,7 @@ interface Emissions {
 }
 
 function makeGrid(model: Record<string, any>, model2: Record<string, any>, compareItemNames: string[]) {
-  const grid = new EquipmentGridComponent({ markForCheck: () => undefined } as any);
+  const grid = new EquipmentGridComponent({ markForCheck: () => undefined } as any, { hintPending: false } as any);
 
   grid.items = { 1: item(1), 2: item(2), 3: item(3), 4: item(4), 5: item(5), 6: item(6) };
   // Known enchants, so an enchant the item's own table does not list is rescued on

@@ -11,12 +11,16 @@
   overflow: hidden;
 }
 
+/* `position` anchors the first-run hint, which hangs below the bar. The left inset is
+   now the swatch's, not the label's — the negative margin closes the flex gap so the
+   slot name lands roughly where it always did. */
 .eq-card__head {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
   height: 28px;
-  padding: 0 6px 0 12px;
+  padding: 0 6px;
   background: rgb(255 255 255 / 3%);
   border-bottom: 1px solid #304562;
 }
@@ -32,6 +36,101 @@
 
 .eq-card__spacer {
   flex: 1 1 auto;
+}
+
+/*
+ * The highlight: the card's frame and a wash across its header, and nothing below that.
+ *
+ * Everything from the dashed line down belongs to the comparison, which is amber top to
+ * bottom — the Comparando pill, the sub-row, its chips and the compared item's icon. A
+ * card can be marked *and* compared, so the two are given different surfaces rather than
+ * different shades of the same one; the wash is kept at 12% so the amber pill sitting in
+ * that header still separates from it.
+ *
+ * The three values arrive as custom properties set inline from the palette entry (see
+ * src/app/core/slot-colors.ts), which is why there is no rule per colour here.
+ */
+/* The frame, the header and the card are three strengths of one hue. The hue arrives as
+   bare `R G B` channels in --slot-color-rgb (see src/app/core/slot-colors.ts) and each
+   rule mixes its own alpha, so how strong a wash looks is decided here rather than in
+   five hand-written palette rows. */
+.eq-card--tinted {
+  border-color: rgb(var(--slot-color-rgb) / 45%);
+  /* Layered rather than assigned: a translucent `background` would replace the card's
+     own surface and let the page show through instead of washing over it. */
+  background: linear-gradient(rgb(var(--slot-color-rgb) / 6%), rgb(var(--slot-color-rgb) / 6%)), #1b2635;
+}
+
+.eq-card--tinted .eq-card__head {
+  background: rgb(var(--slot-color-rgb) / 12%);
+  border-bottom-color: rgb(var(--slot-color-rgb) / 45%);
+}
+
+/* The three controls in this 28px bar are one family, so the box they share is stated
+   once. Each then keeps only what is true of it alone: the swatch its negative margin,
+   the ✕ and ⇅ their optical nudge, the compare pill its own width and type. */
+.eq-card__color,
+.eq-card__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.eq-card__color:hover,
+.eq-card__clear:hover {
+  border-color: #304562;
+}
+
+.eq-card__color {
+  /* Pulls the slot name back against the dot: the header's 10px gap is meant for the
+     spacing between separate controls, and these two read as one label. What is left
+     between them is the button's own padding around an 11px dot in a 20px box. */
+  margin-right: -10px;
+  padding: 0;
+}
+
+/*
+ * An empty slot has no piece to call core or temporary. The button is drawn anyway, faded
+ * and unresponsive: it keeps the slot names in line down the column, and it is the thing
+ * the tooltip hangs off to say an item comes first. Same treatment the compare button
+ * gets on a slot another head gear already occupies.
+ */
+.eq-card__color--idle {
+  cursor: not-allowed;
+}
+
+.eq-card__color--idle:hover {
+  border-color: transparent;
+}
+
+.eq-card__color--idle .eq-card__color-dot--empty,
+.eq-card__color--idle:hover .eq-card__color-dot--empty {
+  border-color: rgb(255 255 255 / 14%);
+}
+
+.eq-card__color-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+
+/* Unmarked reads as an empty ring rather than a grey dot, which would look like a sixth
+   colour — the same ring the panel's "Sem cor" row wears. */
+.eq-card__color-dot--empty {
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 35%);
+}
+
+.eq-card__color:hover .eq-card__color-dot--empty {
+  border-color: rgb(255 255 255 / 70%);
 }
 
 .eq-card__compare {
@@ -83,24 +182,68 @@
  * for a 10px glyph to overflow.
  */
 .eq-card__clear {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
   padding: 0 0 2px;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  background: transparent;
   color: rgb(255 255 255 / 45%);
-  font: inherit;
   font-size: 12px;
-  cursor: pointer;
 }
 
 .eq-card__clear:hover {
-  border-color: #304562;
   color: rgb(255 255 255 / 85%);
+}
+
+/*
+ * The first-run hint. Hangs off the header rather than sitting in it: the bar is 28px of
+ * fully-spoken-for space, and a callout that pushed the slot name sideways for a few
+ * seconds would be worse than the thing it is explaining.
+ *
+ * `pointer-events: none` so it never intercepts a click meant for the card underneath —
+ * it goes away on its own, and the button it points at must stay reachable through it.
+ */
+.eq-card__color-hint {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 4px;
+  z-index: 2;
+  padding: 4px 8px;
+  border: 1px solid #304562;
+  border-radius: 4px;
+  background: #263449;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 45%);
+  color: rgb(255 255 255 / 80%);
+  font-size: 11px;
+  white-space: nowrap;
+  pointer-events: none;
+  /* The whole schedule, in one declaration: wait for the grid to finish drawing, fade in,
+     linger long enough to read twice, fade out. `both` holds it invisible before and
+     after, so the element can simply stay mounted. */
+  animation: eq-hint 11.5s ease-out both;
+}
+
+/* The arrow, pointing back up at the swatch. */
+.eq-card__color-hint::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 9px;
+  border: 5px solid transparent;
+  border-bottom-color: #304562;
+}
+
+@keyframes eq-hint {
+  0%,
+  22% {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  24%,
+  91% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: none;
+  }
 }
 
 .eq-card__occupied {
