@@ -158,6 +158,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.111-beta',
+      date: '11-09-2026',
+      logs: [
+        'Os cartões de equipamento agora podem receber uma cor. O botão é a bolinha à esquerda do nome do slot, e abre uma paleta de cinco cores mais a opção de tirar a marca. Em slot vazio ele aparece apagado, porque não há peça para marcar. Serve para separar o que é peça definitiva do que é solução temporária numa build que ocupa vinte e três cartões iguais entre si — até aqui isso só dava para explicar por fora, em texto, ao lado do link. Sugerido por usuário anônimo.',
+        'A cor viaja com a build: entra no link compartilhado, na simulação salva e no estado que sobrevive a um recarregamento da página. O nome de cada cor fica só no navegador de quem o escreveu. O lápis ao lado de cada uma permite renomeá-la — "Essencial", "Temporário", o que servir —, e quem abrir o link recebe as cores nos lugares certos com os nomes originais da paleta, sem herdar a convenção de outra pessoa.',
+        'A marca não disputa espaço com a comparação. A cor pinta a moldura do cartão, o cabeçalho e um fundo suave por baixo de tudo, enquanto o âmbar da comparação continua sozinho do tracejado para baixo, de modo que um mesmo cartão pode estar marcado e em comparação ao mesmo tempo. O ✕ do cabeçalho leva a cor junto com a peça; trocar um item por outro no mesmo slot mantém a marca, que pertence ao slot e não à peça.',
+      ],
+    },
+    {
       v: '0.1.110-beta',
       date: '11-09-2026',
       logs: [
