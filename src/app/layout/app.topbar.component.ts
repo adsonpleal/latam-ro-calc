@@ -158,6 +158,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.112-beta',
+      date: '12-09-2026',
+      logs: [
+        'Fortaleza, a habilidade do Amistr que dá VIT ao mestre, entrou no painel de habilidades do Bioquímico e do Cientista, com os cinco níveis (+10 a +30 de VIT). Ela não aparece como ícone no personagem, então uma gravação de Cientista chegou com 30 de VIT a mais do que o equipamento explicava — DEF, DEFM e HP máx. fecharam com o buff ligado. Gravação enviada por usuário anônimo.',
+        'Piroclástico passou a valer 100 + 10 por nível da habilidade + nível do homúnculo, e o seletor de nível do homúnculo vai até 250. Antes o bônus ignorava o nível da habilidade e parava no 200: um Dieter de nível 231 dá +431 de ATQ, e o seletor oferecia no máximo +300. O número veio de uma gravação em que o buff é relançado com a janela de status aberta. Gravação enviada por Dijey.',
+      ],
+    },
+    {
       v: '0.1.111-beta',
       date: '11-09-2026',
       logs: [

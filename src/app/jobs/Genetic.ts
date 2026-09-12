@@ -201,23 +201,42 @@ export class Genetic extends Creator {
       ],
     },
     {
+      // Piroclástico (MH_PYROCLASTIC 8042, Dieter): "Aumenta o ATQ da arma usada pelo mestre.
+      // O bônus aumenta de acordo com o nível do homunculus" — the client gives no number.
+      // Measured on `bio-pyroclastic.rrf`: ATQ Equip. jumps by 431 when a level-231 Dieter
+      // recasts it at Nv 10, i.e. 100 + 10 x skill level + homunculus level. The dropdown is
+      // the homunculus level at Nv 10; it goes to 250, the Homunculus S level cap.
+      // See `Biolo.cart-cannon-replay.spec.ts`.
       label: 'Pyroclastic 10',
       name: 'Pyroclastic',
       inputType: 'dropdown',
       isEquipAtk: true,
       dropdown: [
         { label: '-', value: 0, isUse: false },
-        { label: 'Nv 100', value: 100, isUse: true, bonus: { atk: 100 + 100 } },
-        { label: 'Nv 110', value: 110, isUse: true, bonus: { atk: 100 + 110 } },
-        { label: 'Nv 120', value: 120, isUse: true, bonus: { atk: 100 + 120 } },
-        { label: 'Nv 130', value: 130, isUse: true, bonus: { atk: 100 + 130 } },
-        { label: 'Nv 140', value: 140, isUse: true, bonus: { atk: 100 + 140 } },
-        { label: 'Nv 150', value: 150, isUse: true, bonus: { atk: 100 + 150 } },
-        { label: 'Nv 160', value: 160, isUse: true, bonus: { atk: 100 + 160 } },
-        { label: 'Nv 170', value: 170, isUse: true, bonus: { atk: 100 + 170 } },
-        { label: 'Nv 180', value: 180, isUse: true, bonus: { atk: 100 + 180 } },
-        { label: 'Nv 190', value: 190, isUse: true, bonus: { atk: 100 + 190 } },
-        { label: 'Nv 200', value: 200, isUse: true, bonus: { atk: 100 + 200 } },
+        ...[100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250].map((level) => ({
+          label: `Nv ${level}`,
+          value: level,
+          isUse: true,
+          bonus: { atk: 100 + 10 * 10 + level },
+        })),
+      ],
+    },
+    {
+      // Fortaleza (HAMI_DEFENCE 8006, Amistr line): "Melhora a DEF do Amistr e a VIT do Mestre",
+      // +10/+15/+20/+25/+30 VIT per the client table. The master gets no status icon for it,
+      // so a recording only shows it as the homunculus's own `skillUses` entry plus a VIT
+      // `plus` jump on ZC_COUPLESTATUS — `bio-cart-cannon-two-sizes.rrf`, 4.3 s.
+      label: 'Fortaleza',
+      name: 'Defense',
+      icon: 8006,
+      inputType: 'dropdown',
+      dropdown: [
+        { label: '-', value: 0, isUse: false },
+        { label: 'Nv 1', value: 1, isUse: true, bonus: { vit: 10 } },
+        { label: 'Nv 2', value: 2, isUse: true, bonus: { vit: 15 } },
+        { label: 'Nv 3', value: 3, isUse: true, bonus: { vit: 20 } },
+        { label: 'Nv 4', value: 4, isUse: true, bonus: { vit: 25 } },
+        { label: 'Nv 5', value: 5, isUse: true, bonus: { vit: 30 } },
       ],
     },
   ];

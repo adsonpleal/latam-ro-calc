@@ -193,6 +193,16 @@ const semNome = [...new Set((replay.skillUses ?? []).filter((s) => s.source === 
 const consumidos = [...new Set((replay.itemDeletes ?? []).map((d) => d.itemId))].filter((id) => !items[id]);
 ```
 
+**Lift the `source === me` filter once, for the homunculus.** Its casts sit in the same
+`skillUses` stream under the homunculus's own `aid` (`entities` names it, `kind: 'homun'`,
+with its **level**), and some of them buff the master with **no status icon on the master**:
+Fortaleza (HAMI_DEFENCE 8006, "VIT do Mestre +30" at Nv 5) reached `bio-cart-cannon-two-
+sizes.rrf` that way — the only traces were the homunculus's `skillUses` entry and, on the
+same millisecond, a VIT `plus` 30 higher than the gear adds up to. The filtered sweep
+reported that file as carrying one buff and the HP máx. as "13% off, not a trait". The
+homunculus level is also what prices Piroclástico: `100 + 10 x nível + nível do homúnculo`,
+read off the ATQ Equip. jump at its recast (431 for a level-231 Dieter at Nv 10).
+
 **`coupleStatus` is the strongest build check in the file and it is easy to miss.** It is
 `ZC_COUPLESTATUS`, one entry per stat, carrying `base` and `plus` — the character's own split
 between what they spent points on and what equipment plus job level gave them. Diff `plus`

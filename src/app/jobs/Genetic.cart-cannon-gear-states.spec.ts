@@ -71,8 +71,9 @@ function stateAt(t: number) {
   return replayToModel({ ...replay, initialInventory: inv } as any, items).model as any;
 }
 
-/** Full engine run on the build worn at `t`, with the named active skills switched on. */
-function sim(t: number, actives: Record<string, number> = {}, extraScripts: any[] = []) {
+/** Full engine run on the build worn at `t`, with the named active skills switched on;
+ *  `masteryExtra` adds a flat, unscaled ATQ at the mastery stage, for measuring a residual. */
+function sim(t: number, actives: Record<string, number> = {}, extraScripts: any[] = [], masteryExtra = 0) {
   const m = stateAt(t);
   const cls: any = new Genetic();
   const b = cls.getJobBonusStatus(m.jobLevel);
@@ -97,7 +98,8 @@ function sim(t: number, actives: Record<string, number> = {}, extraScripts: any[
   const calc = new Calculator().setMasterItems(items).setHpSpTable(hpSpTable).setClass(cls);
   calc.loadItemFromModel(m);
   new CalculatorController().runChain(calc, {
-    monster: monsters[DUMMY_GRANDE], equipAtks, masteryAtks, buffEquips: {}, buffMasterys: {},
+    monster: monsters[DUMMY_GRANDE], equipAtks, buffEquips: {}, buffMasterys: {},
+    masteryAtks: masteryExtra ? { ...masteryAtks, _medido: { atk: masteryExtra } } : masteryAtks,
     consumeData: [], aspdPotion: undefined,
     extraOptionScripts: [...parseOptionScripts((m.rawOptionTxts ?? []).filter(Boolean)), ...extraScripts],
     activeSkillNames, learnedSkillMap, selectedAtkSkill: value, selectedChances: [], usedHpL: false,
@@ -262,21 +264,39 @@ describe('Bioquímico — o ATQ com arma, medido pacote a pacote (em aberto)', (
    *   servidor  728 729 730 731 737 738 740 740 746 748 749 752 753 755 755   (média 742,1)
    *   motor     673 .. 716                                                     (média 694,5)
    *
-   * The fixed part is not in question — state A proved it is 504 — so the whole difference
-   * sits in the weapon term: **the game's Espada Inicial +7 contributes 224..251 where ours
-   * contributes 169..212**.
+   * The fixed part is not in question — state A proved it is 504 — so the difference sits
+   * with the weapon. **What it is, by measure:** a flat **+53 ± 2 de ATQ**, the same in
+   * state B (bare sword) and state C (full Nobre set) once each state is compared to the
+   * engine's own centre, and it does **not** widen the roll — the fifteen server values span
+   * 27 in B and 33 in C, which is the sword's ±21 through the 75% size penalty and nothing
+   * else (no random over-refine either, which the engine's ceiling still carries). Added as a
+   * mastery-stage constant it puts all thirty packets inside the roll with the mean on the
+   * centre, and breaks the gearless state by exactly the amount it adds: it exists with a
+   * weapon and not without one.
    *
    * O que já foi descartado, por medida:
    *
    *  - **a build e os itens**: os 115 campos da janela de status batem, peça a peça;
    *  - **a razão e os +15% da espada**: o espaçamento dos pacotes os confirma sozinho;
-   *  - **dobrar o bônus de status da arma** (`ATQ base x FOR / 200`): fecha este arquivo e
-   *    quebra 135 testes de outras gravações, então não é isso;
-   *  - **um multiplicador sobre o ATQ da arma**: precisaria de 125% aqui e de 110% na Musa,
-   *    então não é um fator único;
-   *  - **a tabela de tamanho**: `Biolo.cart-cannon-replay.spec.ts` cobre Médio e Pequeno com
-   *    esta mesma habilidade, e na Musa o resíduo do alvo Médio — que não tem penalidade
-   *    nenhuma — é igual ao do Pequeno; o termo que falta não é escalado pelo tamanho.
+   *  - **qualquer termo proporcional à arma** — dobrar o bônus de status (`ATQ x FOR / 200`,
+   *    +71 antes da penalidade), metade do ATQ base, o refino em dobro: os três dão os mesmos
+   *    ~53 aqui, e os três estão descartados por `Biolo.cart-cannon-replay.spec.ts`, cuja
+   *    gravação do Alquimiro fecha os 24 pacotes com **nenhum** termo extra numa espada de
+   *    200 de ATQ e FOR 143 (onde valeriam +100 a +143). Dobrar o bônus de status ainda
+   *    quebra 135 testes de outras classes;
+   *  - **`range` +7**: fecha B e C e estraga o estado sem arma (teste abaixo);
+   *  - **a tabela de tamanho**: a largura da rolagem diz que os 75% estão aplicados, e sem
+   *    penalidade nenhuma o teto simulado (267) fica 16 acima do maior pacote com chance de
+   *    0,1% de não ser atingido em quinze;
+   *  - **elemento do alvo**: os quatro dummies são Neutro 1 na tabela de monstros do cliente.
+   *
+   * O que sobra, e não dá para separar com estes três arquivos: os ~50 são do tamanho da
+   * **Propulsão do Carrinho** (+50), que está ligada aqui e no Musty e desligada no Alquimiro
+   * — o único dos três sem resíduo. O Musty é compatível com um +50 escondido (a inversão dá
+   * +25 ± 12 nas unidades da arma, onde +50 de maestria vale +22), mas também é compatível com
+   * zero, porque o POD dele só existe no card. A gravação que decide é esta mesma personagem,
+   * espada equipada, **sem** Propulsão do Carrinho: se os +53 sumirem, o buff vale 50 sem arma
+   * e 100 com arma, e a mudança no motor é de uma linha.
    */
   it('mede o ATQ que o servidor usou em cada pacote do estado com espada', () => {
     const doServidor = B.map((d) => atqDe(d, 0, 15));
@@ -285,6 +305,8 @@ describe('Bioquímico — o ATQ com arma, medido pacote a pacote (em aberto)', (
     const valores = doServidor.map((s) => s[0]).sort((a, b) => a - b);
     expect(valores).toEqual([728, 729, 730, 731, 737, 738, 740, 740, 746, 748, 749, 752, 753, 755, 755]);
     expect(sim(ESPADA, CART_BOOST).atq).toEqual([673, 716]);
+    // The spread is the sword's own roll: ±21 x 75% is 31,5 wide, and fifteen draws cover 27.
+    expect(valores[14] - valores[0]).toBe(27);
   });
 
   it('fixa o resíduo em 6,9% nos dois estados com arma', () => {
@@ -293,6 +315,30 @@ describe('Bioquímico — o ATQ com arma, medido pacote a pacote (em aberto)', (
     // E os trinta pacotes estão acima do teto simulado, então não é amostragem (§9).
     expect(Math.min(...B)).toBeGreaterThan(sim(ESPADA, CART_BOOST).max);
     expect(Math.min(...C)).toBeGreaterThan(sim(COMPLETO, CART_BOOST).max);
+  });
+
+  /**
+   * The residual as a number, not a percentage: +53 of flat ATQ at the mastery stage closes
+   * both armed states — every packet inside the roll, mean within a percent of the engine's
+   * centre, which still carries the 0..16 over-refine the packets say is not there — and the
+   * gearless state, exact today, would go 10,5% high with it. A term that needs a weapon to
+   * exist.
+   */
+  it('vale +53 de ATQ plano, nos dois estados com arma e em nenhum sem arma', () => {
+    const MEDIDO = 53;
+    for (const [pacotes, t] of [[B, ESPADA], [C, COMPLETO]] as [number[], number][]) {
+      const s = sim(t, CART_BOOST, [], MEDIDO);
+      expect(pacotes.every((p) => p >= s.min && p <= s.max)).toBe(true);
+      expect(Math.abs(desvio(pacotes, s))).toBeLessThanOrEqual(0.8);
+    }
+    expect(sim(PELADO, CART_BOOST, [], MEDIDO).max).toBeGreaterThan(15_967 * 1.1); // recorded 15.967, exact without it
+    // The fifteen packets of state B pin it between 39 and 55: one point less than 39 and
+    // the largest packet is above the ceiling, one more than 55 and the smallest is below the
+    // floor (the ceiling still carries the 12 of over-refine the roll says is not there).
+    expect(B.every((p) => p <= sim(ESPADA, CART_BOOST, [], 38).max)).toBe(false);
+    expect(B.every((p) => p <= sim(ESPADA, CART_BOOST, [], 39).max)).toBe(true);
+    expect(B.every((p) => p >= sim(ESPADA, CART_BOOST, [], 55).min)).toBe(true);
+    expect(B.every((p) => p >= sim(ESPADA, CART_BOOST, [], 56).min)).toBe(false);
   });
 
   /**
