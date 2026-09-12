@@ -747,12 +747,13 @@ export class Calculator {
 
     // level:1(125)---1
     // level:1(1-125)---1
-    const [, everyBaseLv, range] = condition.match(/level:(-*\d+)\((.+)\)/) ?? [];
+    // jobLevel:5(1-30)----1  — same shape on the job level, for "a cada 5 níveis de classe
+    // até o 30: todos os talentos -1" (Colar de Ampulheta, 490087).
+    const [, rangedStatus, everyBaseLv, range] = condition.match(/(level|jobLevel):(-*\d+)\((.+)\)/) ?? [];
     if (everyBaseLv && range) {
-      // console.log({ baseLv, range });
       const [min, max = 999] = range.split('-').map(Number);
       const everyNum = Number(everyBaseLv);
-      const cap = Math.min(max, this.model.level);
+      const cap = Math.min(max, this.model[rangedStatus]);
 
       return calc(cap - min + 1, everyNum);
     }

@@ -158,6 +158,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.117-beta',
+      date: '12-09-2026',
+      logs: [
+        'Colar de Ampulheta passou a dar os talentos que a descrição promete (+6 em todos, −1 a cada 5 níveis de classe até o 30); o cadastro estava vazio. Uma gravação de Magus que se veste peça por peça na frente do boneco mostra os seis talentos subindo 4 no nível de classe 13, e com o colar contado o Meteoro Escarlate fecha em todas as seis janelas, da mão vazia (26.222 no jogo, 26.222 no simulador) ao equipamento completo com Maestria Arcana e Amplificação de Magia, nos bonecos Neutro, Veneno e Vento. Gravação enviada por usuário anônimo.',
+        'Espíritos Ancestrais conferido em mais duas gravações de Magus (nível 241 e 243): sete espíritos de 900% cada, dentro do simulado. Gravações enviadas por Sunrise e Listat.',
+      ],
+    },
+    {
       v: '0.1.116-beta',
       date: '12-09-2026',
       logs: [
