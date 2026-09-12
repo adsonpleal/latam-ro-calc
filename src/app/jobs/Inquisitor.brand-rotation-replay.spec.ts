@@ -48,8 +48,16 @@ import { Inquisitor } from './Inquisitor';
  *
  *  - **Demônio takes 4–6% more than simulated** on all four skills, after Flagelo do Mal
  *    was wired in (see below) and with the +17% random option already on the weapon part.
- *    Morto-Vivo takes nothing extra, in the recording and in the engine alike, so it is
- *    not a Demon+Undead bonus like Caminhos da Fé. No equipped item names Demônio.
+ *    Everything race-neutral is ruled out by the eleven dummies that fit; the build has
+ *    exactly three demon-keyed sources and the recording prices them at +11,4% over the
+ *    Humanoide against the engine's +6,6%. Two readings fit every Demônio packet, the
+ *    exact critical included: Caminhos da Fé Lv3 applying with the mace despite "apenas
+ *    com Soqueira" (+5% on the damage, with "Morto-Vivo" meaning the property as in
+ *    Flagelo do Mal — the Neutral-property Morto-Vivo dummy takes nothing extra, as
+ *    recorded), or the +17% option scaling more than the weapon part. The file that
+ *    separates them: the same character on the Humanoide and Demônio dummies, once with
+ *    the mace and once with a knuckle. No equipped item names Demônio; the one skipped
+ *    random option is a poison resistance.
  *  - **Veredicto Lv1**: one 5-hit packet on the Demônio, 0,6% above five times the hit.
  *  - Two 4-second windows after a Dragon Combo → Ruína → Garra de Tigre chain read ATQ
  *    Equip. 433 instead of 313, and the four packets inside them run ~7% high; they are
