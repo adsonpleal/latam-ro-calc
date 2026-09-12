@@ -57,6 +57,7 @@ const Mapper = {
   bl_lava: '240 - 250 bl_lava',
   bl_death: '240 - 250 bl_death',
   gl_cas01_: 'gl_cas01_',
+  '1@gl_k': 'Glastheim Antiga',
   '1@gl_kh': 'Glastheim Infernal',
   '1@slw': 'Laboratório Werner',
   '1@advs': 'Villa of Deception',

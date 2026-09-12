@@ -158,6 +158,13 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.118-beta',
+      date: '12-09-2026',
+      logs: [
+        'Os 17 monstros de Glastheim Antiga (Zumbi, Alma, Carniçal, Arclouse, Raydric, Arqueiro, Amaldiçoado do Abismo, Khalitzburg, Sanguinário, Cavaleiro e Cavaleira Desmortos, Andarilho, Rideword e Mímico Distorcidos, Druida, Aparição e Khalitzburg Amaldiçoada) entraram no seletor de alvos, num grupo próprio; só os dois chefes existiam. Faltavam para conferir uma gravação de Mandraque dentro da instância, em que Esfaquear e Ofensiva Fatal fecham nos 32 pacotes sobre os Arclouses. Gravação enviada por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.117-beta',
       date: '12-09-2026',
       logs: [
