@@ -158,6 +158,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.116-beta',
+      date: '12-09-2026',
+      logs: [
+        'Lauda Ramus entrou nos buffs (Dano crítico +5% por nível, +20% no nível 4). Uma gravação de Cardeal em ataque básico mostra o crítico caindo 3,9% no instante em que o buff expira. Gravação enviada por Ynk.',
+        'Flagelo do Mal passou a valer também na linha Sacerdote / Arcebispo / Cardeal: o bônus estava cadastrado com um nome que a classe nunca lia.',
+        'Oratio contra um alvo, com a arma encantada (Aspersio ou conversor), deixa de multiplicar o ATQ de status: na mesma gravação de Cardeal, Oratio nível 10 vale +14% e não +20%, que é exatamente o −20% de resistência aplicado só à parte de arma e equipamento. O encanto continua dando o elemento ao ATQ de status, como a gravação de Cavaleiro Draconiano mostrou.',
+      ],
+    },
+    {
       v: '0.1.115-beta',
       date: '12-09-2026',
       logs: [

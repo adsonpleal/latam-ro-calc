@@ -118,6 +118,22 @@ const JobBuffsList: ActiveSkillModel[] = [
     ],
   },
   {
+    // Lauda Ramus (Arcebispo): "Chance de aumentar o Dano Crítico por 1 min." — +5% per
+    // level, +20% at Lv4. Priced on the Cardeal recording efDxy9DBTU: the basic critical
+    // drops 3,9% the moment the buff expires (Cardinal.gemini-lumen-autoattack.spec.ts).
+    name: 'Lauda Ramus',
+    label: 'Lauda Ramus',
+    icon: 2048,
+    inputType: 'dropdown',
+    dropdown: [
+      { label: '-', value: 0, isUse: false },
+      { label: 'Nv 1', value: 1, isUse: true, bonus: { criDmg: 5 } },
+      { label: 'Nv 2', value: 2, isUse: true, bonus: { criDmg: 10 } },
+      { label: 'Nv 3', value: 3, isUse: true, bonus: { criDmg: 15 } },
+      { label: 'Nv 4', value: 4, isUse: true, bonus: { criDmg: 20 } },
+    ],
+  },
+  {
     name: 'Adrenaline Rush',
     label: 'Adrenalina 5',
     inputType: 'selectButton',

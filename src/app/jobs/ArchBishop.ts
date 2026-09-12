@@ -362,7 +362,12 @@ export class ArchBishop extends HighPriest {
         0;
       totalAtk += atk;
     }
-    // console.log({ bonuses, totalAtk, a });
+
+    // Flagelo do Mal (Demon Bane) — "ATQ +3 por nível contra Malditos, Mortos-Vivos e
+    // Demônios" — is emitted by Acolyte.ts as x_race_demon_atk / x_element_undead_atk;
+    // the loop above looks for `x_atk_race_*`, a spelling nothing emits, so the passive
+    // never reached this line. Wired the way RoyalGuard and Sura read it (12/09/2026).
+    totalAtk += this.getMasteryAtkByMonsterRace(race).totalAtk + this.getMasteryAtkByMonsterElement(element).totalAtk;
 
     return totalAtk;
   }

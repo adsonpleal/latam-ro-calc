@@ -1163,7 +1163,18 @@ export class DamageCalculator {
     // Neutral status ATK and within 1% with it Water-scaled, the same across two buff
     // states (DragonKnight.storm-slash-replay.spec.ts). rAthena keeps it Neutral for
     // everything but Mild Wind; the recording disagrees, and the recording wins.
-    const statusAtkMultiplier = this.isActiveMildwind || this.isEndowedWith(propertyAtk) ? propertyMultiplier : this.getPropertyMultiplier(ElementType.Neutral);
+    //
+    // What the status ATK takes is the element *table* only, never a target debuff that
+    // lowers the resistance (Oratio, Infecção, Geladinho): `card-gemini-lumen-autoattack.rrf`
+    // has an Aspersio'd Cardeal whose basic critical rises 14,0% when Oratio Lv10 lands on
+    // the dummy — exactly the −20% on the weapon+equip share of the ATQ (68%) and nothing
+    // on the status ATK (Cardinal.gemini-lumen-autoattack.spec.ts). Ventania keeps the
+    // full multiplier it always had.
+    const statusAtkMultiplier = this.isActiveMildwind
+      ? propertyMultiplier
+      : this.isEndowedWith(propertyAtk)
+        ? this.getPurePropertyMultiplier(propertyAtk)
+        : this.getPropertyMultiplier(ElementType.Neutral);
     const statusAtk = this.getStatusAtk() * 2 * statusAtkMultiplier;
 
     const { totalMin: _weaMin, totalMax: weaMax, totalMaxOver: weaMaxOver, parts: weaponAtkParts } = this.getWeaponAtk({ sizePenalty, isEDP });
