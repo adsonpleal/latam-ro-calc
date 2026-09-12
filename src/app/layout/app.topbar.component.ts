@@ -158,6 +158,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.113-beta',
+      date: '12-09-2026',
+      logs: [
+        'O ATQ de status passou a receber o elemento dos encantos de arma (conversores, Aspersio, Envenenar Arma), como o ATQ da arma já recebia; a propriedade da própria arma continua não entrando nele. Uma gravação de Cavaleiro Draconiano com Conversor de Água no boneco de Fogo ficava 13% acima do simulador com o ATQ de status neutro e fecha dentro de 1% com ele encantado, em dois estados de buff diferentes. Vale para toda classe que usa encanto de elemento. Gravação enviada por usuário anônimo.',
+        'Aura de Combate (Runa Othila) passou a contar como ATQ de equipamento em vez de maestria escondida: a janela de status da mesma gravação mostra exatamente os +70 da runa no ATQ Equip., e como maestria o bônus entrava depois do P.ATQ e pagava uns 3% a menos.',
+      ],
+    },
+    {
       v: '0.1.112-beta',
       date: '12-09-2026',
       logs: [

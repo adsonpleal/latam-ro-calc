@@ -329,7 +329,10 @@ export class RuneKnight extends LordKnight {
       name: 'Asir Runestone',
       label: 'Rune: Asir',
       inputType: 'selectButton',
-      isMasteryAtk: true,
+      // Aura de Combate is plain ATQ Equip., not a hidden mastery: the status window of
+      // `dk-storm-slash-buffed.rrf` reads ATQ Equip. 1.204 / 1.229 with the buff up, which
+      // is the build's own equipment ATQ plus exactly these 70 (7 per party member, ten of
+      // them there). As a mastery it sat after the P.ATQ multiplier and paid ~3% less.
       dropdown: [
         { label: 'Sim', value: 1, isUse: true, bonus: { atk: 70 } },
         { label: 'Não', value: 0, isUse: false },

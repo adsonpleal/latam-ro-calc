@@ -309,6 +309,12 @@ export class DamageCalculator {
     return this.totalBonus.mildwind >= 1;
   }
 
+  /** True when the attack's property is the endow the character is carrying (see calcTotalAtk). */
+  private isEndowedWith(propertyAtk: ElementType) {
+    const endow = this.model?.propertyAtk;
+    return !!endow && endow !== ElementType.Neutral && propertyAtk === endow;
+  }
+
   private get isForceSkillCri() {
     return this.totalBonus.forceCri >= 1;
   }
@@ -869,8 +875,8 @@ export class DamageCalculator {
   }
 
   /** Derivation shown when "ATQ Status" is clicked in the formula graph — mirrors
-   *  getStatusAtk() above plus the `* 2 * mildwindMultiplier` its caller applies. */
-  private buildStatusAtkCalc(mildwindMultiplier: number, total: number): DamageFormulaCalc {
+   *  getStatusAtk() above plus the `* 2 * statusAtkMultiplier` its caller applies. */
+  private buildStatusAtkCalc(statusAtkMultiplier: number, total: number): DamageFormulaCalc {
     const { totalStr, totalDex, totalLuk, totalPow } = this.status;
     const baseLvl = this.model.level;
     const isRange = this.isRangeAtk();
@@ -889,8 +895,8 @@ export class DamageCalculator {
       { label: 'ATQ Status base', display: this.fmtCalc(statusAtkBase) },
       { label: '× 2', display: this.fmtCalc(statusAtkBase * 2) },
     ];
-    if (mildwindMultiplier !== 1) {
-      rows.push({ label: `× Elemento (Ventania) ${this.fmtCalc(mildwindMultiplier)}`, display: this.fmtCalc(total) });
+    if (statusAtkMultiplier !== 1) {
+      rows.push({ label: `× Elemento (encanto) ${this.fmtCalc(statusAtkMultiplier)}`, display: this.fmtCalc(total) });
     }
     rows.push({ label: 'ATQ Status', display: this.fmtCalc(total), emphasis: true });
 
@@ -1149,8 +1155,16 @@ export class DamageCalculator {
     const masteryAtkDetail = this.getMasteryAtk();
     const masteryAtk = masteryAtkDetail.total + cannonBallAtk;
 
-    const mildwindMultiplier = this.isActiveMildwind ? propertyMultiplier : this.getPropertyMultiplier(ElementType.Neutral);
-    const statusAtk = this.getStatusAtk() * 2 * mildwindMultiplier;
+    // Status ATK is Neutral unless the attack rides an *endow* — a converter, Aspersio,
+    // Envenenar Arma (the element picker, `model.propertyAtk`) or Ventania — in which case
+    // it takes the endow's element as well. A weapon's own element, innate or from a card,
+    // never reaches it. Measured on `dk-storm-slash-buffed.rrf`: a Water-converted
+    // Cavaleiro Draconiano on the Fire Lv1 dummy sits 13% under every packet with a
+    // Neutral status ATK and within 1% with it Water-scaled, the same across two buff
+    // states (DragonKnight.storm-slash-replay.spec.ts). rAthena keeps it Neutral for
+    // everything but Mild Wind; the recording disagrees, and the recording wins.
+    const statusAtkMultiplier = this.isActiveMildwind || this.isEndowedWith(propertyAtk) ? propertyMultiplier : this.getPropertyMultiplier(ElementType.Neutral);
+    const statusAtk = this.getStatusAtk() * 2 * statusAtkMultiplier;
 
     const { totalMin: _weaMin, totalMax: weaMax, totalMaxOver: weaMaxOver, parts: weaponAtkParts } = this.getWeaponAtk({ sizePenalty, isEDP });
     const weaMin = this.isMaximizeWeapon ? weaMax : _weaMin;
@@ -1215,7 +1229,7 @@ export class DamageCalculator {
     // nothing that varies between them, so they're built once here rather than three
     // identical times. The hidden-mastery one is also skipped entirely when there's no
     // hidden mastery — it scans every skill/buff bonus map, and most classes have none.
-    const statusAtkCalc = this.buildStatusAtkCalc(mildwindMultiplier, statusAtk);
+    const statusAtkCalc = this.buildStatusAtkCalc(statusAtkMultiplier, statusAtk);
     const hiddenMasteryCalc = masteryAtkDetail.hiddenMastery ? this.buildHiddenMasteryCalc(masteryAtkDetail.hiddenMastery) : undefined;
 
     // Node-graph version of the same math above — every value here is read from a
