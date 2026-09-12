@@ -718,7 +718,14 @@ export class Sura extends Champion {
     const { weapon } = info;
     const wTypeName = weapon.data?.typeName || 'none';
 
-    return this.calcHiddenMasteryAtk(info, { prefix: `x_${wTypeName}` }).totalAtk;
+    // Flagelo do Mal (Demon Bane) — "ATQ +3 por nível contra Malditos, Mortos-Vivos e
+    // Demônios" — emits the race/element mastery keys from Acolyte.ts; until 12/09/2026
+    // this line never read them, so Lv10 and Lv0 gave the same number on a Demônio
+    // (Inquisitor.brand-rotation-replay.spec.ts). Same wiring as RoyalGuard.getMasteryAtk.
+    const race = this.getMasteryAtkByMonsterRace(info.monster.race).totalAtk;
+    const element = this.getMasteryAtkByMonsterElement(info.monster.element).totalAtk;
+
+    return race + element + this.calcHiddenMasteryAtk(info, { prefix: `x_${wTypeName}` }).totalAtk;
   }
 
   override setAdditionalBonus(params: AdditionalBonusInput) {

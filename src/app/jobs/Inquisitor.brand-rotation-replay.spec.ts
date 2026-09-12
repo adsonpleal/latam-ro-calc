@@ -38,14 +38,19 @@ import { Inquisitor } from './Inquisitor';
  *    dummies, 0,18% under the engine.
  *  - The nine Inquisidor attack skills gained a `levelList`, because two of the four the
  *    recorder used were below their max (Lv1 and Lv4) and could not be simulated at all.
+ *  - **Flagelo do Mal did nothing on the Sura line.** Acolyte.ts emits the passive as the
+ *    race/element mastery keys, and only the Paladin line and the Super Novice ever read
+ *    them; Sura.getMasteryAtk now does too (+30 on the Demônio at Lv10, nothing on the
+ *    Neutral-property Morto-Vivo, both as recorded). The Arch Bishop line reads a different
+ *    spelling of the key (`x_atk_race_*`) and still drops it — left for the Cardeal pass.
  *
  * Still open:
  *
- *  - **Demônio takes ~5,5% more than simulated** on all four skills (the engine already
- *    gives it the +17% random option on the weapon part plus Demon Bane's mastery ATQ).
+ *  - **Demônio takes 4–6% more than simulated** on all four skills, after Flagelo do Mal
+ *    was wired in (see below) and with the +17% random option already on the weapon part.
  *    Morto-Vivo takes nothing extra, in the recording and in the engine alike, so it is
  *    not a Demon+Undead bonus like Caminhos da Fé. No equipped item names Demônio.
- *  - **Veredicto Lv1**: one 5-hit packet, 1,8% above five times the simulated hit.
+ *  - **Veredicto Lv1**: one 5-hit packet on the Demônio, 0,6% above five times the hit.
  *  - Two 4-second windows after a Dragon Combo → Ruína → Garra de Tigre chain read ATQ
  *    Equip. 433 instead of 313, and the four packets inside them run ~7% high; they are
  *    excluded here. Which Sura state that is, the file does not say (no EFST toggles).
@@ -88,7 +93,7 @@ const inComboWindow = (t: number) => COMBO_WINDOWS.some(([a, b]) => t >= a && t 
 
 const DEMON = '21073';
 
-function sim(monster: string, skill: string) {
+function sim(monster: string, skill: string, passiveOverride: Record<string, number> = {}) {
   const m: any = replayToModel(replay, items).model;
   const cls: any = new Inquisitor();
   const b = cls.getJobBonusStatus(m.jobLevel);
@@ -100,6 +105,7 @@ function sim(monster: string, skill: string) {
   const learned: Record<number, number> = {};
   for (const [id, lv] of replay.learnedSkills) learned[id] = lv;
   const passiveIds = cls.passiveSkills.map((p: any) => {
+    if (p.name in passiveOverride) return passiveOverride[p.name];
     const sid = SKILL_ID_BY_NAME[p.name];
     return sid ? learned[sid] ?? 0 : 0;
   });
@@ -225,7 +231,7 @@ describe('Inquisidor — the brand rotation on thirteen dummies (NQvcAR2gqH)', (
     expect(compared).toBe(n);
   });
 
-  it('pins the Demônio residual: every skill lands ~5,5% above the engine there', () => {
+  it('pins the Demônio residual: every skill lands 4–6% above the engine there', () => {
     const excess: number[] = [];
     for (const [id, per] of [[5245, 1], [5250, 1], [5252, 3]] as [number, number][]) {
       const r = sim(DEMON, SKILLS[id]);
@@ -234,14 +240,27 @@ describe('Inquisidor — the brand rotation on thirteen dummies (NQvcAR2gqH)', (
     }
     expect(excess).toHaveLength(8);
     for (const x of excess) expect(x).toBeGreaterThan(1.03);
-    for (const x of excess) expect(x).toBeLessThan(1.08);
+    for (const x of excess) expect(x).toBeLessThan(1.07);
   });
 
-  it('pins Veredicto Lv1: one 5-hit packet, 1,8% above the simulated ceiling', () => {
+  it('Flagelo do Mal Lv10 is worth its +30 mastery ATQ on the Demônio and nothing on the Morto-Vivo', () => {
+    // The Sura line never read the race/element mastery keys the passive emits, so Lv10
+    // and Lv0 printed the same number until 12/09/2026. Morto-Vivo is Neutral property and
+    // the passive's undead half is by element, so it gets nothing there — as recorded.
+    const cls: any = new Inquisitor();
+    const idx = cls.passiveSkills.findIndex((p: any) => p.name === 'Demon Bane');
+    expect(idx).toBeGreaterThanOrEqual(0);
+    const withBane = sim(DEMON, SKILLS[5244]).max;
+    const without = sim(DEMON, SKILLS[5244], { 'Demon Bane': 0 }).max;
+    expect(withBane).toBeGreaterThan(without * 1.01);
+    expect(sim('21076', SKILLS[5244]).max).toBe(sim('21076', SKILLS[5244], { 'Demon Bane': 0 }).max);
+  });
+
+  it('pins Veredicto Lv1: one 5-hit packet on the Demônio, 0,6% above the simulated ceiling', () => {
     const r = sim(DEMON, SKILLS[5253]);
     expect(r.totalHit).toBe(5);
     const [p] = packets(5253, DEMON);
     expect(p).toBe(269_315);
-    expect(p / (r.max * 5)).toBeCloseTo(1.018, 2);
+    expect(p / (r.max * 5)).toBeCloseTo(1.006, 2);
   });
 });

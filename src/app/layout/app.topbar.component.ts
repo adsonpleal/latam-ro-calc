@@ -158,6 +158,13 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.115-beta',
+      date: '12-09-2026',
+      logs: [
+        'Flagelo do Mal passou a valer na linha Monge / Shura / Inquisidor: o ATQ +3 por nível contra Demônios (raça) e Mortos-Vivos (propriedade) estava cadastrado e nunca entrava na conta dessas classes, então o nível 10 rendia o mesmo que o nível 0. A gravação de Inquisidor nos bonecos de treino é o que mostrou: no boneco Demônio o dano ficava abaixo do jogo em todas as habilidades e o boneco Morto-Vivo (propriedade Neutra) não recebia nada, exatamente como o jogo faz. Gravação enviada por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.114-beta',
       date: '12-09-2026',
       logs: [
