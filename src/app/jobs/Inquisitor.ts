@@ -6,6 +6,11 @@ import { Sura } from './Sura';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
 
+
+/** Every level of a skill, so a recording made below the max can be simulated as recorded. */
+const levelList = (name: string, maxLv: number) =>
+  Array.from({ length: maxLv }, (_, i) => ({ label: `${name} Nv${i + 1}`, value: `${name}==${i + 1}` }));
+
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 1, 0, 0, 1, 0],
   2: [1, 1, 0, 0, 2, 0],
@@ -166,6 +171,7 @@ export class Inquisitor extends Sura {
       name: 'First Brand',
       label: '[V2] First Brand Lv5',
       value: 'First Brand==5',
+      levelList: levelList('First Brand', 5),
       acd: 0,
       fct: 0,
       vct: 0,
@@ -183,6 +189,7 @@ export class Inquisitor extends Sura {
       name: 'Second Faith',
       label: '[V2] Second Faith Lv5',
       value: 'Second Faith==5',
+      levelList: levelList('Second Faith', 5),
       acd: 0,
       fct: 0,
       vct: 0,
@@ -194,13 +201,14 @@ export class Inquisitor extends Sura {
         const { totalPow } = status;
         const baseLevel = model.level;
 
-        return (skillLevel * 500 + totalPow * 4) * (baseLevel / 100);
+        return (skillLevel * 525 + totalPow * 4) * (baseLevel / 100);
       },
     },
     {
       name: 'Third Punish',
       label: '[V2] Third Punish Lv5',
       value: 'Third Punish==5',
+      levelList: levelList('Third Punish', 5),
       acd: 0,
       fct: 0,
       vct: 0,
@@ -222,6 +230,7 @@ export class Inquisitor extends Sura {
       name: 'Second Judgement',
       label: '[V2] Second Judgement Lv5',
       value: 'Second Judgement==5',
+      levelList: levelList('Second Judgement', 5),
       acd: 0,
       fct: 0,
       vct: 0,
@@ -233,13 +242,18 @@ export class Inquisitor extends Sura {
         const { totalPow } = status;
         const baseLevel = model.level;
 
-        return (skillLevel * 500 + totalPow * 4) * (baseLevel / 100);
+        // 525% per level is the client's table (Toque Intercessor: 525 / 1.050 / ... /
+        // 2.625%); the 500 this carried was the [V2] blog figure and left every one of
+        // the 25 Lv5 packets of inq-brand-rotation-13-dummies.rrf 4,5% above the ceiling
+        // while Estigma and Técnica da Mão Explosiva fit to the roll on the same build.
+        return (skillLevel * 525 + totalPow * 4) * (baseLevel / 100);
       },
     },
     {
       name: 'Third Consecration',
       label: '[V2] Third Consecration Lv5',
       value: 'Third Consecration==5',
+      levelList: levelList('Third Consecration', 5),
       acd: 0,
       fct: 0,
       vct: 0,
@@ -258,6 +272,7 @@ export class Inquisitor extends Sura {
       name: 'Second Flame',
       label: '[V2] Second Flame Lv5',
       value: 'Second Flame==5',
+      levelList: levelList('Second Flame', 5),
       acd: 0,
       fct: 0,
       vct: 0,
@@ -275,6 +290,7 @@ export class Inquisitor extends Sura {
       name: 'Third Flame Bomb',
       label: '[V2] Third Flame Bomb Lv5',
       value: 'Third Flame Bomb==5',
+      levelList: levelList('Third Flame Bomb', 5),
       acd: 0,
       fct: 0,
       vct: 0,
@@ -293,6 +309,7 @@ export class Inquisitor extends Sura {
       name: 'Explosion Blaster',
       label: '[V2] Explosion Blaster Lv5',
       value: 'Explosion Blaster==5',
+      levelList: levelList('Explosion Blaster', 5),
       acd: 0,
       fct: 0,
       vct: 0,
@@ -316,6 +333,7 @@ export class Inquisitor extends Sura {
       name: 'Massive Flame Blaster',
       label: '[V2] Massive Flame Blaster Lv10',
       value: 'Massive Flame Blaster==10',
+      levelList: levelList('Massive Flame Blaster', 10),
       acd: 1,
       fct: 0,
       vct: 0,

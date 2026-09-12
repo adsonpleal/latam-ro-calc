@@ -158,6 +158,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.114-beta',
+      date: '12-09-2026',
+      logs: [
+        'Toque Intercessor (Inquisidor) passou a valer 525% por nível, como na descrição da habilidade; o simulador usava 500% e ficava 4,5% abaixo do jogo em todos os 25 pacotes de uma gravação, enquanto Estigma e Técnica da Mão Explosiva fechavam no mesmo personagem. Gravação enviada por usuário anônimo.',
+        'As nove habilidades de ataque do Inquisidor agora podem ser escolhidas em qualquer nível, não só no máximo.',
+      ],
+    },
+    {
       v: '0.1.113-beta',
       date: '12-09-2026',
       logs: [

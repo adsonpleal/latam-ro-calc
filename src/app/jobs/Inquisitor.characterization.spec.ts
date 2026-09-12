@@ -135,9 +135,11 @@ describe('Inquisitor atk-skill ratios @ base 239, POW 9 (replay scenario)', () =
     it('Third Punish Lv5 → 7875', () => {
       expect(ratioOf(inq(), 'Third Punish', 5)).toBe(7875);
     });
-    // Second Judgement 5*500 tooltip 2500% : (2500 + 36) * 2.39 = 6061
-    it('Second Judgement Lv5 → 6061', () => {
-      expect(ratioOf(inq(), 'Second Judgement', 5)).toBe(6061);
+    // Second Judgement 5*525 tooltip 2625% : (2625 + 36) * 2.39 = 6359. Was 500/level
+    // (the [V2] blog figure) until inq-brand-rotation-13-dummies.rrf put all 25 Lv5
+    // packets 4,5% over the ceiling — Inquisitor.brand-rotation-replay.spec.ts.
+    it('Second Judgement Lv5 → 6359', () => {
+      expect(ratioOf(inq(), 'Second Judgement', 5)).toBe(6359);
     });
     // Third Consecration 5*650 tooltip 3250% : (3250 + 45) * 2.39 = 7875
     it('Third Consecration Lv5 → 7875', () => {
