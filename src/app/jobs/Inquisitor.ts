@@ -201,7 +201,7 @@ export class Inquisitor extends Sura {
         const { totalPow } = status;
         const baseLevel = model.level;
 
-        return (skillLevel * 525 + totalPow * 4) * (baseLevel / 100);
+        return (skillLevel * 500 + totalPow * 4) * (baseLevel / 100);
       },
     },
     {
