@@ -2210,8 +2210,16 @@ export class DamageCalculator {
 
     // extraDmg is added outside `formula`, so it must take the PVP última-linha
     // cut too (pvpMult is exactly 1 vs monsters, so this is a no-op there).
-    const criMinDamage = this.applyAuraReduction(formula(totalMaxAtk) + extraDmg * pvpMult + formula(extraBasic, false));
-    const criMaxDamage = this.applyAuraReduction(formula(totalMaxAtkOver) + extraDmg * pvpMult + formula(extraBasic, false));
+    // The class ATK adjustment reaches the critical too: a critical is a basic attack on
+    // the max ATK, and calcBasicDamage already runs both of its ends through
+    // modifyFinalAtk. Without this a Mestre Celestial's crit skipped Kihop — the
+    // `kxwDtYXuhh` recording lands nine basic crits on 23.437 and the engine answered
+    // 11.914, the crit of an ATK Kihop had never multiplied
+    // (SkyEmperor.basic-crit-kihop.spec.ts).
+    const classAtk = (totalAtk: number) => floor(this._class.modifyFinalAtk(totalAtk, this.infoForClass));
+
+    const criMinDamage = this.applyAuraReduction(formula(classAtk(totalMaxAtk)) + extraDmg * pvpMult + formula(extraBasic, false));
+    const criMaxDamage = this.applyAuraReduction(formula(classAtk(totalMaxAtkOver)) + extraDmg * pvpMult + formula(extraBasic, false));
 
     return { criMinDamage, criMaxDamage, sizePenalty: 100 };
   }

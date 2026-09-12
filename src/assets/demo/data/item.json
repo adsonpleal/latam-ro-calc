@@ -280861,8 +280861,82 @@
       "m_my_element_all": [
         "3---2"
       ],
+      "pAtk": [
+        "LEVEL[210]3",
+        "LEVEL[230]2"
+      ],
+      "sMatk": [
+        "LEVEL[210]3",
+        "LEVEL[230]2"
+      ],
+      "p_size_m": [
+        "5---5",
+        "EQUIP_ID[400023]REFINE[headUpper==11]===15",
+        "EQUIP_ID[490100||490101]15"
+      ],
+      "p_size_l": [
+        "5---5",
+        "EQUIP_ID[400023]REFINE[headUpper==11]===15",
+        "EQUIP_ID[490100||490101]15"
+      ],
+      "m_size_m": [
+        "5---5",
+        "EQUIP_ID[400023]REFINE[headUpper==11]===15",
+        "EQUIP_ID[490100||490101]15"
+      ],
+      "m_size_l": [
+        "5---5",
+        "EQUIP_ID[400023]REFINE[headUpper==11]===15",
+        "EQUIP_ID[490100||490101]15"
+      ],
+      "p_pene_race_dragon": [
+        "9===20",
+        "11===10"
+      ],
+      "p_pene_race_angel": [
+        "9===20",
+        "11===10"
+      ],
+      "m_pene_race_dragon": [
+        "9===20",
+        "11===10"
+      ],
+      "m_pene_race_angel": [
+        "9===20",
+        "11===10"
+      ],
       "vct": [
         "EQUIP_ID[400023]10"
+      ],
+      "p_element_holy": [
+        "EQUIP_ID[400023]REFINE[headUpper==7]===15"
+      ],
+      "p_element_dark": [
+        "EQUIP_ID[400023]REFINE[headUpper==7]===15"
+      ],
+      "m_element_holy": [
+        "EQUIP_ID[400023]REFINE[headUpper==7]===15"
+      ],
+      "m_element_dark": [
+        "EQUIP_ID[400023]REFINE[headUpper==7]===15"
+      ],
+      "p_race_dragon": [
+        "EQUIP_ID[400023]REFINE[headUpper==9]===15"
+      ],
+      "p_race_angel": [
+        "EQUIP_ID[400023]REFINE[headUpper==9]===15"
+      ],
+      "m_race_dragon": [
+        "EQUIP_ID[400023]REFINE[headUpper==9]===15"
+      ],
+      "m_race_angel": [
+        "EQUIP_ID[400023]REFINE[headUpper==9]===15"
+      ],
+      "atk": [
+        "EQUIP_ID[490100||490101]50"
+      ],
+      "matk": [
+        "EQUIP_ID[490100||490101]50"
       ]
     }
   },

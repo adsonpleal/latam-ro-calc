@@ -158,6 +158,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.119-beta',
+      date: '12-09-2026',
+      logs: [
+        'Kihop passou a multiplicar também o crítico do ataque básico do Mestre Celestial; só o ataque comum recebia o ×1,85. Uma gravação com nove críticos idênticos de 23.437 no boneco pequeno, sem nenhum buff, saía a 11.914 no simulador — agora fecha a 2 unidades de arredondamento. Gravação enviada por usuário anônimo.',
+        'Espada Mágica de Thanatos recebeu as linhas que faltavam ao cadastro: P.ATQ e S.ATQM +3 no nível 210 e +2 no 230, dano contra Médio e Grande a cada 5 refinos, penetração de DEF e DEFM de Dragão e Anjo nos refinos +9 e +11, o conjunto completo com Marionete de Thanatos e o conjunto com Pingente da Força Física ou Mental (ATQ e ATQM +50). A janela de status da mesma gravação mostrava o P.ATQ 5 abaixo e o ATQ de equipamento 50 abaixo do jogo.',
+        'Centelha das Trevas do Shinkiro conferida em mais uma gravação: o pacote sem buffs sai igual ao simulado (30.272.028). Gravação enviada por ¬Oden.',
+      ],
+    },
+    {
       v: '0.1.118-beta',
       date: '12-09-2026',
       logs: [
