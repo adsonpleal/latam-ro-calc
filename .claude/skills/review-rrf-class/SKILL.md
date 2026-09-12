@@ -205,6 +205,33 @@ build trustworthy, while `bio-pyroclastic.rrf` reports DES `plus` 60 against the
 and VIT exactly right — ten points, in one named stat, that no amount of staring at ATQ would
 have isolated.
 
+**Combos are the other thing that goes missing quietly.** A worn item's pt-BR description
+lists its `Conjunto` blocks and names the partners; the build either wears them or it does
+not, and the engine either pays or it does not. Walk that list for every equipped piece — a
+set the description promises and the script never registers is ATQ the simulator simply does
+not know about, and it looks exactly like a formula error.
+
+**Check it behaviourally, never by reading the script.** `Calculator.matchName` strips a
+trailing `[N]` before comparing, so `EQUIP[Red Lotus Sword-LT]` *does* match a record named
+"Red Lotus Sword-LT [2]". Comparing those two strings in node says otherwise and sends you
+hunting a dead combo that works fine — which cost a whole pass here. Equip the pair in the
+`make-calculator` harness and read `totalEquipStatus` back:
+
+```ts
+const so = equipStatusOf(makeCalculator(db, new Biolo()), { ...createMainModel(), accRight: 490167 });
+const par = equipStatusOf(makeCalculator(db, new Biolo()),
+  { ...createMainModel(), accRight: 490167, weapon: 500039, weaponRefine: 11, weaponGrade: 'C' });
+// o que o conjunto paga é a diferença, e ela tem de bater com a descrição pt-BR
+```
+
+When a combo *is* on the legacy `EQUIP[<nome>]` form, migrate it to `EQUIP_ID[]` even if it
+currently works — that is the whole point of the form, and the fragility is real. Follow
+CLAUDE.md: record a behavioural baseline first, splice `item.json` by byte span (never a JSON
+round-trip — the keys are not numerically ordered), assert the baseline unchanged, pin that
+each `EQUIP_ID[...]` names **every** generation sharing the English name, and lower the
+ratchet in `item-script-keys.spec.ts`. `cordao-lt-combo-migration.spec.ts` is the worked
+example: 63 clauses over 8 records, 152 cases, all identical afterwards.
+
 **For the skill side, browiki lists every class's full tree.** Its class page carries the
 complete skill list, so it is the way to find out what the class *has* before asking why the
 job file's numbers do not add up. Diff that list against the job file's `atkSkillList`,

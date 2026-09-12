@@ -143716,10 +143716,10 @@
     "compositionPos": 65535,
     "script": {
       "cd__6006": [
-        "EQUIP[Red Lotus Sword-LT]===0.25"
+        "EQUIP_ID[500039]===0.25"
       ],
       "6006": [
-        "EQUIP[Red Lotus Sword-LT]REFINE[weapon==2]---2",
+        "EQUIP_ID[500039]REFINE[weapon==2]---2",
         "EQUIP[Sharpness of Swordsman]===10"
       ],
       "p_class_all": [
@@ -143877,20 +143877,20 @@
     "compositionPos": 65535,
     "script": {
       "p_race_all": [
-        "EQUIP[Red Lotus Sword-LT]===5",
-        "EQUIP[Slate Sword-LT]===5"
+        "EQUIP_ID[500039]===5",
+        "EQUIP_ID[500040]===5"
       ],
       "6006": [
-        "EQUIP[Red Lotus Sword-LT]REFINE[weapon==3]---2",
-        "EQUIP[Red Lotus Sword-LT]GRADE[weapon==C]===5"
+        "EQUIP_ID[500039]REFINE[weapon==3]---2",
+        "EQUIP_ID[500039]GRADE[weapon==C]===5"
       ],
       "2476": [
-        "EQUIP[Slate Sword-LT]REFINE[weapon==3]---4",
-        "EQUIP[Slate Sword-LT]GRADE[weapon==C]===10"
+        "EQUIP_ID[500040]REFINE[weapon==3]---4",
+        "EQUIP_ID[500040]GRADE[weapon==C]===10"
       ],
       "6005": [
-        "EQUIP[Slate Sword-LT]REFINE[weapon==3]---4",
-        "EQUIP[Slate Sword-LT]GRADE[weapon==C]===10"
+        "EQUIP_ID[500040]REFINE[weapon==3]---4",
+        "EQUIP_ID[500040]GRADE[weapon==C]===10"
       ]
     }
   },
@@ -143913,20 +143913,20 @@
     "compositionPos": 65535,
     "script": {
       "p_race_all": [
-        "EQUIP[Red Lotus Sword-LT]===10",
-        "EQUIP[Slate Sword-LT]===10"
+        "EQUIP_ID[500039]===10",
+        "EQUIP_ID[500040]===10"
       ],
       "6006": [
-        "EQUIP[Red Lotus Sword-LT]REFINE[weapon==3]---4",
-        "EQUIP[Red Lotus Sword-LT]GRADE[weapon==C]===10"
+        "EQUIP_ID[500039]REFINE[weapon==3]---4",
+        "EQUIP_ID[500039]GRADE[weapon==C]===10"
       ],
       "2476": [
-        "EQUIP[Slate Sword-LT]REFINE[weapon==3]---8",
-        "EQUIP[Slate Sword-LT]GRADE[weapon==C]===20"
+        "EQUIP_ID[500040]REFINE[weapon==3]---8",
+        "EQUIP_ID[500040]GRADE[weapon==C]===20"
       ],
       "6005": [
-        "EQUIP[Slate Sword-LT]REFINE[weapon==3]---8",
-        "EQUIP[Slate Sword-LT]GRADE[weapon==C]===20"
+        "EQUIP_ID[500040]REFINE[weapon==3]---8",
+        "EQUIP_ID[500040]GRADE[weapon==C]===20"
       ]
     }
   },
@@ -143949,20 +143949,20 @@
     "compositionPos": 65535,
     "script": {
       "p_race_all": [
-        "EQUIP[Red Lotus Sword-LT]===15",
-        "EQUIP[Slate Sword-LT]===15"
+        "EQUIP_ID[500039]===15",
+        "EQUIP_ID[500040]===15"
       ],
       "6006": [
-        "EQUIP[Red Lotus Sword-LT]REFINE[weapon==3]---6",
-        "EQUIP[Red Lotus Sword-LT]GRADE[weapon==C]===20"
+        "EQUIP_ID[500039]REFINE[weapon==3]---6",
+        "EQUIP_ID[500039]GRADE[weapon==C]===20"
       ],
       "2476": [
-        "EQUIP[Slate Sword-LT]REFINE[weapon==3]---12",
-        "EQUIP[Slate Sword-LT]GRADE[weapon==C]===40"
+        "EQUIP_ID[500040]REFINE[weapon==3]---12",
+        "EQUIP_ID[500040]GRADE[weapon==C]===40"
       ],
       "6005": [
-        "EQUIP[Slate Sword-LT]REFINE[weapon==3]---12",
-        "EQUIP[Slate Sword-LT]GRADE[weapon==C]===40"
+        "EQUIP_ID[500040]REFINE[weapon==3]---12",
+        "EQUIP_ID[500040]GRADE[weapon==C]===40"
       ]
     }
   },
@@ -156022,17 +156022,17 @@
         "11===15"
       ],
       "p_size_all": [
-        "EQUIP[Red Lotus Sword-LT]===10",
-        "EQUIP[Slate Sword-LT]===10"
+        "EQUIP_ID[500039]===10",
+        "EQUIP_ID[500040]===10"
       ],
       "6006": [
-        "EQUIP[Red Lotus Sword-LT]REFINE[weapon==3]---4"
+        "EQUIP_ID[500039]REFINE[weapon==3]---4"
       ],
       "2476": [
-        "EQUIP[Slate Sword-LT]REFINE[weapon==3]---4"
+        "EQUIP_ID[500040]REFINE[weapon==3]---4"
       ],
       "6005": [
-        "EQUIP[Slate Sword-LT]REFINE[weapon==3]---4"
+        "EQUIP_ID[500040]REFINE[weapon==3]---4"
       ]
     }
   },
@@ -156144,22 +156144,22 @@
         "GRADE[me==B]12===0.5"
       ],
       "p_size_all": [
-        "EQUIP[Red Lotus Sword-LT]===15",
-        "EQUIP[Slate Sword-LT]===15"
+        "EQUIP_ID[500039]===15",
+        "EQUIP_ID[500040]===15"
       ],
       "6006": [
-        "EQUIP[Red Lotus Sword-LT]REFINE[weapon==3]---6"
+        "EQUIP_ID[500039]REFINE[weapon==3]---6"
       ],
       "cd__6006": [
-        "EQUIP[Red Lotus Sword-LT]GRADE[weapon==C]===0.1"
+        "EQUIP_ID[500039]GRADE[weapon==C]===0.1"
       ],
       "2476": [
-        "EQUIP[Slate Sword-LT]REFINE[weapon==3]---12",
-        "EQUIP[Slate Sword-LT]GRADE[weapon==C]===30"
+        "EQUIP_ID[500040]REFINE[weapon==3]---12",
+        "EQUIP_ID[500040]GRADE[weapon==C]===30"
       ],
       "6005": [
-        "EQUIP[Slate Sword-LT]REFINE[weapon==3]---12",
-        "EQUIP[Slate Sword-LT]GRADE[weapon==C]===30"
+        "EQUIP_ID[500040]REFINE[weapon==3]---12",
+        "EQUIP_ID[500040]GRADE[weapon==C]===30"
       ],
       "criDmg": [
         "GRADE[me==D]===8"
@@ -183537,42 +183537,42 @@
         "10"
       ],
       "p_size_all": [
-        "EQUIP[Red Lotus Sword-LT]===15",
-        "EQUIP[Slate Sword-LT]===15"
+        "EQUIP_ID[500039]===15",
+        "EQUIP_ID[500040]===15"
       ],
       "range": [
-        "EQUIP[Red Lotus Sword-LT]REFINE[weapon==10]===10"
+        "EQUIP_ID[500039]REFINE[weapon==10]===10"
       ],
       "5340": [
-        "EQUIP[Red Lotus Sword-LT]REFINE[weapon==10]===10",
-        "EQUIP[Red Lotus Sword-LT]GRADE[weapon==C]===10"
+        "EQUIP_ID[500039]REFINE[weapon==10]===10",
+        "EQUIP_ID[500039]GRADE[weapon==C]===10"
       ],
       "5342": [
-        "EQUIP[Red Lotus Sword-LT]REFINE[weapon==10]===10",
-        "EQUIP[Red Lotus Sword-LT]GRADE[weapon==C]===10"
+        "EQUIP_ID[500039]REFINE[weapon==10]===10",
+        "EQUIP_ID[500039]GRADE[weapon==C]===10"
       ],
       "5341": [
-        "EQUIP[Red Lotus Sword-LT]REFINE[weapon==10]===10",
-        "EQUIP[Red Lotus Sword-LT]GRADE[weapon==C]===10"
+        "EQUIP_ID[500039]REFINE[weapon==10]===10",
+        "EQUIP_ID[500039]GRADE[weapon==C]===10"
       ],
       "5343": [
-        "EQUIP[Red Lotus Sword-LT]REFINE[weapon==10]===10",
-        "EQUIP[Red Lotus Sword-LT]GRADE[weapon==C]===10"
+        "EQUIP_ID[500039]REFINE[weapon==10]===10",
+        "EQUIP_ID[500039]GRADE[weapon==C]===10"
       ],
       "pow": [
-        "EQUIP[Red Lotus Sword-LT]GRADE[weapon==C]===5",
-        "EQUIP[Slate Sword-LT]GRADE[weapon==C]===5"
+        "EQUIP_ID[500039]GRADE[weapon==C]===5",
+        "EQUIP_ID[500040]GRADE[weapon==C]===5"
       ],
       "pAtk": [
-        "EQUIP[Red Lotus Sword-LT]GRADE[weapon==C]===5",
-        "EQUIP[Slate Sword-LT]GRADE[weapon==C]===5"
+        "EQUIP_ID[500039]GRADE[weapon==C]===5",
+        "EQUIP_ID[500040]GRADE[weapon==C]===5"
       ],
       "melee": [
-        "EQUIP[Slate Sword-LT]REFINE[weapon==10]===10"
+        "EQUIP_ID[500040]REFINE[weapon==10]===10"
       ],
       "2476": [
-        "EQUIP[Slate Sword-LT]REFINE[weapon==10]===10",
-        "EQUIP[Slate Sword-LT]GRADE[weapon==C]===10"
+        "EQUIP_ID[500040]REFINE[weapon==10]===10",
+        "EQUIP_ID[500040]GRADE[weapon==C]===10"
       ]
     }
   },
@@ -192271,18 +192271,18 @@
         "15"
       ],
       "p_size_all": [
-        "EQUIP[Red Lotus Sword-LT]===15"
+        "EQUIP_ID[500039]===15"
       ],
       "6006": [
-        "EQUIP[Red Lotus Sword-LT]===10",
-        "EQUIP[Red Lotus Sword-LT]REFINE[weapon==10]===10",
-        "EQUIP[Red Lotus Sword-LT]GRADE[weapon==C]===15"
+        "EQUIP_ID[500039]===10",
+        "EQUIP_ID[500039]REFINE[weapon==10]===10",
+        "EQUIP_ID[500039]GRADE[weapon==C]===15"
       ],
       "p_element_all": [
-        "EQUIP[Red Lotus Sword-LT]REFINE[weapon==10]===15"
+        "EQUIP_ID[500039]REFINE[weapon==10]===15"
       ],
       "pAtk": [
-        "EQUIP[Red Lotus Sword-LT]GRADE[weapon==C]===5"
+        "EQUIP_ID[500039]GRADE[weapon==C]===5"
       ]
     }
   },

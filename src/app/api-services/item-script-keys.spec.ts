@@ -121,11 +121,12 @@ describe('item.json: combo conditions', () => {
    *
    * Cards are at zero: the family was migrated whole, 434 clauses on 201 records, against
    * the behavioural baseline in card-set-migration.spec.ts. What is left is equipment, and
-   * it is being taken in batches rather than wholesale — the most recent was the 14 records
-   * (59 clauses) the Dragon Knight replay audit walked through, guarded by
-   * equipment-set-combo-migration.spec.ts.
+   * it is being taken in batches rather than wholesale — the most recent was the two
+   * Primordial-LT swords the Cientista replay audit walked into, 63 clauses over 8 records,
+   * guarded by cordao-lt-combo-migration.spec.ts. Before that, the 14 records (59 clauses)
+   * of the Dragon Knight audit, guarded by equipment-set-combo-migration.spec.ts.
    */
-  const RECORDS_ON_LEGACY_EQUIP = 1500;
+  const RECORDS_ON_LEGACY_EQUIP = 1493;
   const usesLegacyEquip = (item: any) => /EQUIP\[/.test(JSON.stringify(item.script ?? {}));
 
   it('does not grow the number of records matching a combo partner by name', () => {
