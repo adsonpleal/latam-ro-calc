@@ -169,6 +169,48 @@ statuses. That is where a debuff you applied shows up, and it can settle a state
 recorder's own buff list cannot: EFST 328 `EFST_VENOMIMPRESS` sitting on the dummy is proof
 Potencializar Veneno was up, whether or not you would have guessed it.
 
+## 2d. Sweep the packets for what the simulator does not model
+
+**Never assume the calculator is complete.** Skills are missing from it — buffs and offensive
+ones alike — and so are consumables. A build whose numbers refuse to close is often not a
+formula problem at all: it is a skill, a buff or an item the engine has no idea exists. The
+recording knows about all of them, because the client had to render them, so **inventory the
+packets against the engine before theorising about stages**.
+
+Four containers nobody reads by default, and what each one caught:
+
+| container | what to diff it against | what it found |
+|---|---|---|
+| `coupleStatus` | the engine's `equip<Stat>` + job bonus | the direct per-stat check — see below |
+| `skillUses` / `skillCasts` | `SKILL_ID_BY_NAME` and the class's own lists | skills 244 and 5344 cast on camera, neither in the catalog |
+| `itemDeletes` | `item.json` | `1000281` Frasco de Terrário consumed, not in the item DB |
+| `notifyEffects` | nothing — it is a hint | effect 99 fired at the exact ms a proc started |
+
+```js
+const me = replay.sessionInfo.aid;
+const semNome = [...new Set((replay.skillUses ?? []).filter((s) => s.source === me).map((s) => s.skillId))]
+  .filter((id) => !Object.values(SKILL_ID_BY_NAME).includes(id));
+const consumidos = [...new Set((replay.itemDeletes ?? []).map((d) => d.itemId))].filter((id) => !items[id]);
+```
+
+**`coupleStatus` is the strongest build check in the file and it is easy to miss.** It is
+`ZC_COUPLESTATUS`, one entry per stat, carrying `base` and `plus` — the character's own split
+between what they spent points on and what equipment plus job level gave them. Diff `plus`
+against `equip<Stat>` **plus the job bonus** (§3's table check tells you the latter is right).
+A full dump lands at map change and at the end of the recording, so most files have one.
+
+That check is worth more than SP_ATK1, because it names the stat instead of leaving you with
+one wrong total: `gn-cart-cannon-gear-states.rrf` matches on all six, which is what made that
+build trustworthy, while `bio-pyroclastic.rrf` reports DES `plus` 60 against the engine's 50
+and VIT exactly right — ten points, in one named stat, that no amount of staring at ATQ would
+have isolated.
+
+**For the skill side, browiki lists every class's full tree.** Its class page carries the
+complete skill list, so it is the way to find out what the class *has* before asking why the
+job file's numbers do not add up. Diff that list against the job file's `atkSkillList`,
+`activeSkillList` and `passiveSkillList` — a buff the class owns and the file has never heard
+of is a whole category of missing ATQ, and it will never show up as a formula error.
+
 ## 3. Cross-check the status window FIRST
 
 Never touch a formula before the character matches. Every `ZC_PAR_CHANGE` is a free
