@@ -32,10 +32,9 @@
   </div>
 
   <div class="topbar-actions flex align-items-center gap-2">
-    <button pButton class="p-button-danger p-button-raised px-2" aria-label="Ajude o simulador" (click)="showHelpImproveDialog()">
-      <i class="pi pi-heart-fill"></i>
-      <span class="pl-1">Ajude o simulador</span>
-    </button>
+    <!-- "Ajude o simulador" is paused: no button and no auto-open while the dialog is
+         being redone (see visibleHelpImprove in the component). The dialog itself stays
+         declared below so the revamp is a matter of opening it again. -->
     <button pButton class="p-button-help p-button-raised px-2" aria-label="Servidor MCP" (click)="showMcpDialog()">
       <i class="pi pi-sparkles"></i>
       <span class="pl-1">MCP</span>

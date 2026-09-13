@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { UPDATE_DIALOG_STYLE } from './dialog-geometry';
-import { isHelpImproveSnoozed } from './help-improve/help-improve-snooze';
 import { LayoutService } from './service/app.layout.service';
 
 @Component({
@@ -157,6 +156,13 @@ export class AppTopBarComponent {
    * The entries are written in impersonal voice, describing what changed for the user.
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
+    {
+      v: '0.1.120-beta',
+      date: '12-09-2026',
+      logs: [
+        'O "Ajude o simulador" foi pausado: a janela deixou de abrir com a página e o botão saiu da barra de cima. O envio de gravações volta numa versão nova do pedido; as gravações já enviadas continuam na fila e são conferidas normalmente.',
+      ],
+    },
     {
       v: '0.1.119-beta',
       date: '12-09-2026',
@@ -1373,10 +1379,12 @@ export class AppTopBarComponent {
   // Don't auto-open the changelog on load; it's still reachable via the "what's new" button.
   visibleUpdate = false;
 
-  // The call for .rrf recordings, on the other hand, *does* open on load — it is
-  // the only way most people hear about it. Ticking its checkbox hides it for a
-  // few days; just closing it doesn't.
-  visibleHelpImprove = !isHelpImproveSnoozed();
+  // The call for .rrf recordings ("Ajude o simulador") is PAUSED since 12/09/2026: it
+  // neither opens on load nor has a topbar button, so no new recordings arrive while
+  // the dialog is being redone. The component, its snooze helper and the submission
+  // service are all still here — to bring it back, restore `!isHelpImproveSnoozed()`
+  // (help-improve/help-improve-snooze.ts) and the button in the template.
+  visibleHelpImprove = false;
 
   showHelpImproveDialog() {
     this.visibleHelpImprove = true;
