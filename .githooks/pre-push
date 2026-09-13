@@ -1,10 +1,16 @@
 #!/usr/bin/env sh
-# Pre-push hook: run lint and the full test suite, blocking the push if either fails.
-# Wired up via `core.hooksPath=.githooks` (set by the `prepare` script).
-# In a genuine emergency you can bypass with `git push --no-verify`.
+# Pre-push hook: run lint, the type-check and the full test suite, blocking the push
+# if any of them fails. Wired up via `core.hooksPath=.githooks` (set by the `prepare`
+# script). In a genuine emergency you can bypass with `git push --no-verify`.
 #
-# Lint runs first: it's the cheaper of the two, so a style/a11y slip fails fast
-# instead of waiting out the suite.
+# Order is by cost: lint (seconds), then the type-check (~20 s), then the suite, so a
+# style/a11y slip or a bad type fails fast instead of waiting out the tests.
+#
+# The type-check exists because Vitest does not type-check: a buff named after a skill
+# the catalog does not have (`'Lauda Ramus'` in job-buffs.ts, 12/09/2026) kept the
+# suite green while every deploy failed at CI's `tsc -p worker/tsconfig.json` for a
+# whole day. `pnpm typecheck` runs the app's tsconfig and the Worker's, which between
+# them cover every .ts file CI compiles (templates are only checked by `ng build`).
 #
 # Deliberately `lint:check`, not `lint`: the latter is `ng lint --fix`, which would
 # rewrite source files mid-push — the fixes wouldn't be in the commit being pushed.
@@ -24,6 +30,19 @@ if [ "$status" -ne 0 ]; then
 fi
 
 echo "✓ pre-push: lint passed."
+echo "▶ pre-push: running the type-check (pnpm typecheck)…"
+
+pnpm typecheck
+status=$?
+
+if [ "$status" -ne 0 ]; then
+  echo ""
+  echo "✖ pre-push: type-check failed — push aborted."
+  echo "  Fix the errors above, or bypass with 'git push --no-verify' (use sparingly)."
+  exit 1
+fi
+
+echo "✓ pre-push: type-check passed."
 echo "▶ pre-push: running tests (pnpm test)…"
 
 pnpm test
@@ -36,5 +55,5 @@ if [ "$status" -ne 0 ]; then
   exit 1
 fi
 
-echo "✓ pre-push: lint and tests passed."
+echo "✓ pre-push: lint, type-check and tests passed."
 exit 0

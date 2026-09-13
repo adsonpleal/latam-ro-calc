@@ -11,6 +11,7 @@
         "data:build": "node tools/build-web-data.mjs --hash --report",
         "data:dev": "node tools/build-web-data.mjs",
         "build:worker": "node tools/build-worker.mjs",
+            "typecheck": "tsc -p tsconfig.app.json --noEmit && tsc -p worker/tsconfig.json",
             "typecheck:worker": "tsc -p worker/tsconfig.json",
         "dev:worker": "node tools/build-worker.mjs && wrangler dev",
         "test": "vitest run",
