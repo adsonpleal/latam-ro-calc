@@ -273,35 +273,20 @@ describe('Soul Ascetic — Exorcizar Assombração, which cell the packets pick'
   });
 });
 
-describe('Soul Ascetic — HP/SP table is wrong (hp_sp_table.json row 56)', () => {
+describe('Soul Ascetic — HP/SP table row (hp_sp_table.json row 56)', () => {
   /**
    * Nothing above depends on this, and the recording proves it on its own: the character
    * sits at 60.398 HP for the whole file (Talismã do Protetor tops it up every 3 s and the
-   * value repeats exactly, so it is the cap) with SP peaking at 6.416. The engine says
-   * 27.905 and 2.864.
+   * value repeats exactly, so it is the cap) with SP peaking at 6.416.
    *
-   * The HP figure was 28.106 when this was written. It lost 201 when `HpSpCalculator`
-   * stopped paying the shadow set's "HP máx. +10 por refino" twice — this build's five
-   * shadow pieces total 19 refinos, and all five declare the bonus in their own script,
-   * so the 190 it used to add on top (plus the build's HP percentage on them) was the
-   * duplicate. It moves the number the wrong way and changes nothing here: the gap is the
-   * table row below, and it is more than twice as large.
-   *
-   * The table row is the culprit, and it is wrong on its face — no replay needed:
-   *
-   *   SoulAscetic   baseHp@200  9.805   @250 12.555   baseSp  900 at *every* level 200-250
-   *   SoulReaper    baseHp@200 20.752                          (its own 3rd job)
-   *   ArchMage      baseHp@200 20.446   @250 31.274            (the lowest-HP 4th job)
-   *
-   * A 4th job with less than half its 3rd job's HP is not a curve, and a flat 900 SP across
-   * 51 levels is a placeholder — 900 is exactly SoulLinker's max SP at level 99. Fitting the
-   * recording puts baseHp@223 near 25.600 (25.000 gives 58.967, 26.000 gives 61.183) and
-   * baseSp@223 near 2.300, i.e. squarely in ArchMage territory, which is where a Soul
-   * Ascetic belongs.
-   *
-   * The whole 200-250 curve is not derivable from one data point and ragassets publishes no
-   * HP/SP table, so this pins the broken values rather than inventing replacements. Fix the
-   * row from a real source and these two numbers change — that is the point.
+   * The row upstream shipped was a placeholder — baseHp 9.805 at 200 against Soul Reaper's
+   * 20.752, and a flat 900 SP across all 51 levels (SoulLinker's max SP at 99) — and the
+   * engine got 27.905 HP and 2.864 SP out of it, less than half. Since card
+   * vk17UlVbaGo5GlRMnIxb the seven Expanded 4th rows carry rAthena's per-class curve
+   * (expanded-fourth-hp-sp-table.spec.ts has the formula). On this build it lands 303 HP
+   * (+0,5%) and 234 SP (+3,6%) over the window, with the VIT/INT typed from the card rather
+   * than read from the file, so the residual is not attributable to the row alone. The two
+   * numbers below are that approximation; they move when the row does.
    */
   it('the recording holds HP 60.398 and SP 6.416 at base 223', () => {
     // ZC_PAR_CHANGE values arrive as BigInt.
@@ -311,18 +296,17 @@ describe('Soul Ascetic — HP/SP table is wrong (hp_sp_table.json row 56)', () =
     expect(Math.max(...sp)).toBe(6416);
   });
 
-  it('the engine gets 27.905 HP and 2.864 SP — less than half', () => {
+  it('the engine gets 60.701 HP and 6.650 SP on the rAthena row — +0,5% and +3,6%', () => {
     const r = sim(20, false);
-    expect(r.maxHp).toBe(27905);
-    expect(r.maxSp).toBe(2864);
+    expect(r.maxHp).toBe(60701);
+    expect(r.maxSp).toBe(6650);
   });
 
-  it('the row itself is below the class it evolves from', () => {
+  it('the row sits above the class it evolves from', () => {
     expect(hpSpTable['56'].jobs).toEqual({ SoulAscetic: true });
-    expect(hpSpTable['56'].baseHp['200']).toBe(9805);
     expect(hpSpTable['54'].jobs).toEqual({ SoulReaper: true, BabySoulReaper: true });
-    expect(hpSpTable['54'].baseHp['200']).toBe(20752);
-    // baseSp never moves across the whole 4th-job range.
-    expect(new Set(Object.values(hpSpTable['56'].baseSp))).toEqual(new Set([900]));
+    expect(hpSpTable['56'].baseHp['200']).toBeGreaterThan(hpSpTable['54'].baseHp['200']);
+    // baseSp climbs across the whole 4th-job range instead of sitting at 900.
+    expect(new Set(Object.values(hpSpTable['56'].baseSp)).size).toBe(51);
   });
 });

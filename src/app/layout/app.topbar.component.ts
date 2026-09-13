@@ -157,6 +157,13 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.123-beta',
+      date: '13-09-2026',
+      logs: [
+        'HP máx. e SP máx. passaram a aparecer para as classes expandidas de 4ª (Hiper Aprendiz, Imperador Celeste, Asceta Espiritual, Shinkiro, Shiranui, Guarda Noturno e Animista). O grupo Recursos ficava escondido para elas porque a tabela de HP/SP base dessas sete classes era um espaço reservado — Imperador Celeste e Asceta com SP fixo em todos os níveis, Hiper Aprendiz com o HP do Superaprendiz. As sete curvas foram refeitas com a fórmula do rAthena para cada classe. É uma aproximação: nas gravações conferidas o HP máx. fica de 0,5% a 9% acima da janela do jogo, o SP máx. mais distante no Hiper Aprendiz. A tabela do jogo entra quando houver janelas de status suficientes por classe. Reportado por Shummuy.',
+      ],
+    },
+    {
       v: '0.1.122-beta',
       date: '13-09-2026',
       logs: [

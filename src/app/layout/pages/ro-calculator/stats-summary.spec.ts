@@ -7,7 +7,7 @@ const bonusValueText = (key: string, value: number): string => (key === 'fct' ? 
 
 /** Every key is sourced, so the builder marks every keyed row clickable; the tests that
  *  care about clickability say so themselves. */
-const OPTS: StatsSummaryOptions = { showHpSp: true, bonusValueText, canBreakdown: () => true };
+const OPTS: StatsSummaryOptions = { bonusValueText, canBreakdown: () => true };
 
 /** A totalSummary skeleton carrying only what the panel reads, with the design's numbers. */
 function summary(over: any = {}) {
@@ -150,13 +150,6 @@ describe('buildStatsSummary — the groups', () => {
       ['Defesa', 'Recursos'],
     ]);
     expect(view.columns.map((col) => col.reduce((n, g) => n + g.rows.length, 0))).toEqual([8, 8, 7]);
-  });
-
-  it('drops the whole Recursos group for the classes that have no HP/SP to show', () => {
-    const view = buildStatsSummary(summary(), null, { ...OPTS, showHpSp: false });
-
-    expect(view.columns.flat().map((g) => g.title)).not.toContain('Recursos');
-    expect(allRows(view).some((r) => r.label === 'HP máx.')).toBe(false);
   });
 
   it('hangs the Redução de dano link off the Defesa header', () => {

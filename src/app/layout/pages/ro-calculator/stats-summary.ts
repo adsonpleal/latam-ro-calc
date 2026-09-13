@@ -81,8 +81,6 @@ export interface StatsSummaryView {
 }
 
 export interface StatsSummaryOptions {
-  /** Show the HP/SP group — off for the classes in `hideHpSp`. */
-  showHpSp: boolean;
   /** The component's cast/delay formatter (negates reduction stats, adds "%"). */
   bonusValueText: (key: string, value: number) => string;
   /** Whether the build (or the compared one) sources any of these keys — the component
@@ -430,7 +428,7 @@ const ORIGIN_BY_KEYS: ReadonlyMap<string, StatOrigin & { total: (s: any) => numb
 
 /** No row that declares an origin reads `opts` — only the cast/delay rows do, and a
  *  reduction is pure equipment. Passing a stub keeps `read` to one signature. */
-const ORIGIN_READ_OPTS = { showHpSp: true, bonusValueText: () => '', canBreakdown: () => false } as StatsSummaryOptions;
+const ORIGIN_READ_OPTS = { bonusValueText: () => '', canBreakdown: () => false } as StatsSummaryOptions;
 
 /** The non-equipment origin of a breakdown lookup, or null when it has none — every value
  *  granted by gear alone (Corpo a corpo, Dano crítico, the cast reductions). */
@@ -482,7 +480,7 @@ export function buildStatsSummary(cur: any, cmp: any | null, opts: StatsSummaryO
       ),
       groups(
         { title: 'Defesa', rows: rows(DEFENCE_ROWS), showReduction: true },
-        opts.showHpSp ? { title: 'Recursos', rows: rows(RESOURCE_ROWS), showSustain: true } : null,
+        { title: 'Recursos', rows: rows(RESOURCE_ROWS), showSustain: true },
       ),
     ],
   };

@@ -137,16 +137,6 @@ interface ClassModel extends Partial<Record<ItemTypeEnum, number>> {
   propertyAtk?: ElementType;
 }
 
-const HideHpSp = {
-  [ClassName.SpiritHandler]: environment.production,
-  [ClassName.HyperNovice]: environment.production,
-  [ClassName.NightWatch]: environment.production,
-  [ClassName.Shinkiro]: environment.production,
-  [ClassName.Shiranui]: environment.production,
-  [ClassName.SoulAscetic]: environment.production,
-  [ClassName.SkyEmperor]: environment.production,
-};
-
 @Component({
   selector: 'app-ro-calculator',
   templateUrl: './ro-calculator.component.html',
@@ -557,7 +547,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   ref: DynamicDialogRef | undefined;
   monsterRef: DynamicDialogRef | undefined;
   hideBasicAtk = this.layoutService.config.hideBasicAtk;
-  readonly hideHpSp = HideHpSp;
 
   equipableItems: (DropdownModel & { id: number; position: string; })[] = [];
   offensiveSkills: (DropdownModel & { icon?: number })[] = [];
@@ -1359,7 +1348,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.atkTypeTable = buildAtkTypeTable(this.totalSummary, cmp);
     this.skillMultiplierTable = buildSkillMultiplierTable(this.totalSummary, (key) => resolveSkillKey(key), cmp);
     this.statsSummary = buildStatsSummary(this.totalSummary, cmp ?? null, {
-      showHpSp: !this.hideHpSp[this.selectedCharacter?.className],
       bonusValueText: (key, value) => this.bonusValueText(key, value),
       canBreakdown: (keys, compare) => this.canBreakdown(keys, compare),
     });
