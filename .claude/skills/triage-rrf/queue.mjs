@@ -54,13 +54,25 @@ function classFilesById() {
   return out;
 }
 
-/** Every spec file that belongs to a class, split into replay-backed and the rest. */
+/**
+ * Every spec file that belongs to a class, split into replay-backed and the rest.
+ *
+ * Replay-backed is decided by content first — the spec loads a fixture through
+ * `loadReplayFixture(` or decodes a recording — and by name only as a fallback. Specs are named after the behaviour they pin
+ * (CLAUDE.md), so `Cardinal.gemini-lumen-autoattack.spec.ts` and
+ * `SkyEmperor.basic-crit-kihop.spec.ts` are as replay-backed as anything called
+ * `*-replay.spec.ts`; the old name test reported both classes as uncovered.
+ */
 function coverageFor(classFile) {
   if (!classFile) return { replay: [], other: [] };
   const specs = readdirSync(JOBS).filter((f) => f.startsWith(`${classFile}.`) && f.endsWith('.spec.ts'));
+  // Content first: the spec loads a fixture or decodes a recording. The name test stays
+  // for the specs that pin numbers read off a recording by hand (NightWatch.replay.spec.ts
+  // has no fixture and is still replay-derived knowledge).
+  const isReplay = (f) => /loadReplayFixture\(|decodeReplay\(/.test(readFileSync(`${JOBS}/${f}`, 'utf8')) || /replay|gear-states|matrix/.test(f);
   return {
-    replay: specs.filter((f) => /replay|gear-states|matrix/.test(f)),
-    other: specs.filter((f) => !/replay|gear-states|matrix/.test(f)),
+    replay: specs.filter(isReplay),
+    other: specs.filter((f) => !isReplay(f)),
   };
 }
 
