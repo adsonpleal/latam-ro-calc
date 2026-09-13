@@ -1,5 +1,8 @@
 import { readFileSync } from 'node:fs';
+import { Inquisitor, Mechanic } from 'src/app/jobs';
 import { createMainModel } from 'src/app/utils';
+import { Calculator } from './calculator';
+import { CalculatorController } from './calculator-controller';
 import { equipStatusOf, makeCalculator } from './__tests__/make-calculator';
 
 /**
@@ -72,5 +75,89 @@ describe('a refine left unset (tracker AKrHoH6GV0m5kxgR4ETg)', () => {
   it('leaves HP a number rather than NaN', () => {
     // The boot's flat +300 and the pendant's "+10 por refino" (0 refines, so nothing).
     expect(critDamage(undefined)['hp']).toBe(300);
+  });
+});
+
+/**
+ * Two more reports of the same day, both filed before the fix above landed, both reading
+ * as something else from where the reporter sat.
+ *
+ * - AvDKpmZyeLp46CBjiT2f: "Manopla Sombria do Canhão zerando o dano" of a Mecânico's
+ *   Canhão, with Colar and Brinco Sombrios do Canhão lowering it. The manopla carries
+ *   "ATQ e ATQM +1 por refino"; unrefined, that line was the NaN that reset the whole
+ *   `atk` total — no ATQ, no damage. The colar's "A cada 2 refinos: Dano de [Canhão] +2%"
+ *   did the same to the skill's own bonus total, which is a drop rather than a zero.
+ * - qJ1ixiuCLkAK51jbIkc4: "Fogueira Espiritual do Inquisidor não está calculando o dano"
+ *   — the skill showed but contributed nothing. Its formula adds 20% of HP máx., and an
+ *   unrefined shadow piece with "HP máx. +10 por refino" (most of them) blanked the HP
+ *   total, so this one skill came out NaN while the rest of the build computed.
+ */
+const monsters = JSON.parse(readFileSync('src/assets/demo/data/monster.json', 'utf8'));
+const hpSpTable = JSON.parse(readFileSync('src/assets/demo/data/hp_sp_table.json', 'utf8'));
+
+const MANOPLA_SOMBRIA_CANHAO = 24473; // atk/matk: ["1---1"], range: ["3", "7===3", "9===4"]
+const COLAR_SOMBRIO_CANHAO = 24474; // 2261 (Canhão): ["5", "2---2"]
+const BRINCO_SOMBRIO_CANHAO = 24475; // hp: ["1---10"] and nothing the damage reads
+
+/** Solve `model` for its selected skill on the Neutral dummy, no buffs and no consumables. */
+function skillDamage(cls: any, model: any): { min: number; max: number; maxHp: number; atk: number } {
+  const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = cls
+    .setLearnSkills({ activeSkillIds: [], passiveSkillIds: [] })
+    .getSkillBonusAndName();
+  const calc = new Calculator().setMasterItems(db).setHpSpTable(hpSpTable).setClass(cls);
+  calc.loadItemFromModel(model);
+  new CalculatorController().runChain(calc, {
+    monster: monsters['21077'], equipAtks, masteryAtks, buffEquips: {}, buffMasterys: {}, consumeData: [],
+    aspdPotion: undefined, extraOptionScripts: [], activeSkillNames, learnedSkillMap,
+    selectedAtkSkill: model.selectedAtkSkill, selectedChances: [], usedHpL: false,
+  } as any);
+  const ds: any = (calc as any).damageSummary;
+  const tot: any = calc.getTotalSummary();
+
+  return { min: ds.skillMinDamage, max: ds.skillMaxDamage, maxHp: tot.calc.maxHp, atk: tot.calc.totalEquipAtk };
+}
+
+describe('the same unset refine on the two Canhão/Fogueira reports (AvDKpmZyeLp46CBjiT2f, qJ1ixiuCLkAK51jbIkc4)', () => {
+  const mechanic = (extra: Record<string, number | undefined>) =>
+    skillDamage(new Mechanic(), Object.assign(createMainModel(), {
+      class: 10, level: 170, jobLevel: 56, str: 120, dex: 125, weapon: 590011, selectedAtkSkill: 'Arm Cannon==5',
+    }, extra));
+
+  it('Manopla Sombria do Canhão raises the Canhão damage, refined or not', () => {
+    const bare = mechanic({});
+    const unset = mechanic({ shadowWeapon: MANOPLA_SOMBRIA_CANHAO });
+    const zero = mechanic({ shadowWeapon: MANOPLA_SOMBRIA_CANHAO, shadowWeaponRefine: 0 });
+    const nine = mechanic({ shadowWeapon: MANOPLA_SOMBRIA_CANHAO, shadowWeaponRefine: 9 });
+
+    expect(Number.isFinite(unset.atk)).toBe(true);
+    expect(unset).toEqual(zero);
+    expect(unset.max).toBeGreaterThan(bare.max); // the +3% ranged line
+    expect(nine.max).toBeGreaterThan(unset.max); // +9 ATQ, +7% ranged and the +9 tier
+  });
+
+  it('Colar and Brinco Sombrios do Canhão never lower it', () => {
+    const bare = mechanic({});
+    const colar = mechanic({ shadowPendant: COLAR_SOMBRIO_CANHAO });
+    const brinco = mechanic({ shadowEarring: BRINCO_SOMBRIO_CANHAO });
+
+    expect(colar.max).toBeGreaterThan(bare.max); // the flat +5% Canhão line
+    expect(brinco.max).toBe(bare.max); // an SP-cost item, nothing for the damage to read
+    expect(Number.isFinite(brinco.maxHp)).toBe(true);
+  });
+
+  it('Fogueira Espiritual keeps its 20% HP máx. term next to an unrefined shadow piece', () => {
+    const inquisitor = (extra: Record<string, number | undefined>, lv = 5) =>
+      skillDamage(new Inquisitor(), Object.assign(createMainModel(), {
+        class: 4262, level: 200, jobLevel: 50, str: 100, vit: 80, dex: 90, pow: 60, selectedAtkSkill: `Third Flame Bomb==${lv}`,
+      }, extra));
+
+    const bare = inquisitor({});
+    const unset = inquisitor({ shadowEarring: BRINCO_SOMBRIO_CANHAO });
+
+    expect(Number.isFinite(bare.max)).toBe(true);
+    expect(unset).toEqual(inquisitor({ shadowEarring: BRINCO_SOMBRIO_CANHAO, shadowEarringRefine: 0 }));
+    expect(unset.maxHp).toBe(bare.maxHp);
+    expect(unset.max).toBe(bare.max);
+    for (const lv of [1, 2, 3, 4]) expect(inquisitor({ shadowEarring: BRINCO_SOMBRIO_CANHAO }, lv).max).toBeGreaterThan(0);
   });
 });

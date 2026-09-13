@@ -3,6 +3,7 @@ import { IntensificationFn } from '../constants/share-active-skills';
 import { BeastBaneFn, DemonBane, DoubleAttackFn, FaithFn, HiltBindingFn, ImproveDodgeFn, IncreaseSPRecoveryFn, SnatcherFn } from '../constants/share-passive-skills';
 import { InfoForClass } from '../models/info-for-class.model';
 import { floor } from '../utils';
+import { METEOR_STORM } from '../skills/shared-skills';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
 
@@ -185,25 +186,9 @@ export class SuperNovice extends CharacterBase {
         return 70 + skillLevel * 50;
       },
     },
-    {
-      // "Chuva de Meteoros" — 125% per meteor, and the client's "Golpes" column is how
-      // many land on one target: 1,1,2,2,3,3,4,4,5,5 = ceil(nível / 2). Written from that
-      // table rather than ported from HighWizard, whose copy is `isDevMode` with a
-      // placeholder ratio and cast numbers that do not match the client.
-      name: 'Meteor Storm',
-      label: 'Meteor Storm Lv10',
-      value: 'Meteor Storm==10',
-      acd: 1,
-      fct: 1.5,
-      vct: 6.3,
-      cd: (lv) => 2 + lv * 0.5,
-      isMatk: true,
-      totalHit: ({ skillLevel }) => Math.ceil(skillLevel / 2),
-      element: ElementType.Fire,
-      formula: (): number => {
-        return 125;
-      },
-    },
+    // "Chuva de Meteoros" — the one definition the Bruxo uses too, written from the
+    // client's own table; see shared-skills.ts.
+    METEOR_STORM,
     {
       // "Meteoro Escarlate" is not in the Superaprendiz skill tree — it is granted by an
       // item: 400528 Boina Escarlate-OS reads "Conjunto [Rutilus-OS]: Habilita [Meteoro

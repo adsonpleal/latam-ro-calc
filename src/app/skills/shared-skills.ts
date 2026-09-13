@@ -9,6 +9,33 @@ import type { ActiveSkillModel, AtkSkillModel } from '../jobs/_character-base.ab
  * same definition can be imported by every job that has the skill.
  */
 
+/**
+ * "Chuva de Meteoros" — shared by HighWizard (so the Bruxo and, through inheritance, the
+ * Arcano) and SuperNovice. 125% of ATQM per meteor, and the client's "Golpes" column is
+ * how many land on one target: 1,1,2,2,3,3,4,4,5,5 = ceil(nível / 2). The cast and delay
+ * numbers are the client's own row (skills.json id 83): 1,5 s fixed, 6,3 s variable, 1 s
+ * pós-conjuração, recarga 2,5 s + 0,5 s per level — skill-delay.spec.ts holds them.
+ *
+ * One definition rather than two: until 13/09/2026 HighWizard carried an `isDevMode`
+ * placeholder — hidden from the Bruxo's list, 125 flat with no hit count and the
+ * [V2]-era 6,72 / 5 / 7 s timings — while the Superaprendiz copy was already this
+ * (tracker simulador-chuva-de-meteoros-do-bruxo-e-um-placeholder-escondido).
+ */
+export const METEOR_STORM: AtkSkillModel = {
+  name: 'Meteor Storm',
+  label: 'Meteor Storm Lv10',
+  value: 'Meteor Storm==10',
+  levelList: Array.from({ length: 10 }, (_, i) => ({ label: `Meteor Storm Nv${i + 1}`, value: `Meteor Storm==${i + 1}` })),
+  acd: 1,
+  fct: 1.5,
+  vct: 6.3,
+  cd: (lv) => 2 + lv * 0.5,
+  isMatk: true,
+  totalHit: ({ skillLevel }) => Math.ceil(skillLevel / 2),
+  element: ElementType.Fire,
+  formula: () => 125,
+};
+
 /** Arrow Storm — shared by Ranger and ShadowChaser (the latter via Reproduce). */
 export const ARROW_STORM: AtkSkillModel = {
   name: 'Arrow Storm',

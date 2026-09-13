@@ -11,6 +11,26 @@ import { ClassName } from './_class-name';
 const levelList = (name: string, maxLv: number) =>
   Array.from({ length: maxLv }, (_, i) => ({ label: `${name} Nv${i + 1}`, value: `${name}==${i + 1}` }));
 
+/**
+ * The three Auréolas, lowest to highest. Each is a state the brand follow-ups require —
+ * the client prints "Apenas durante [Auréola ...]" on every one of the six — and a higher
+ * aura stands in for the lower ones (rAthena `skill_check_condition_castbegin` ORs them
+ * the same way). They change no number: the client text and bROWiki give each one a
+ * single effect, letting Ruína / Combo Rápido / Garra de Tigre skip their sphere cost, and
+ * rAthena's status.cpp and battle.cpp never read the three status effects at all. The
+ * toggles exist so the buff list is complete and so a chosen aura tells which brand
+ * skills it allows; with none chosen every skill is available, as before
+ * (tracker oNlijThpU24tnEVE91wv).
+ */
+const AURAS = ['First Faith Power', 'Judge', 'Third Exor Flame'] as const;
+type Aura = typeof AURAS[number];
+/** What "Requer:" prints when the chosen aura is too low for a skill, by the lowest aura it accepts. */
+const AURA_REQUIREMENT: Record<Aura, string> = {
+  'First Faith Power': 'Auréola do Poder, do Juiz ou das Chamas',
+  'Judge': 'Auréola do Juiz ou das Chamas',
+  'Third Exor Flame': 'Auréola das Chamas',
+};
+
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 1, 0, 0, 1, 0],
   2: [1, 1, 0, 0, 2, 0],
@@ -190,6 +210,7 @@ export class Inquisitor extends Sura {
       label: '[V2] Second Faith Lv5',
       value: 'Second Faith==5',
       levelList: levelList('Second Faith', 5),
+      verifyItemFn: () => this.requiresAura('First Faith Power'),
       acd: 0,
       fct: 0,
       vct: 0,
@@ -209,6 +230,7 @@ export class Inquisitor extends Sura {
       label: '[V2] Third Punish Lv5',
       value: 'Third Punish==5',
       levelList: levelList('Third Punish', 5),
+      verifyItemFn: () => this.requiresAura('First Faith Power'),
       acd: 0,
       fct: 0,
       vct: 0,
@@ -231,6 +253,7 @@ export class Inquisitor extends Sura {
       label: '[V2] Second Judgement Lv5',
       value: 'Second Judgement==5',
       levelList: levelList('Second Judgement', 5),
+      verifyItemFn: () => this.requiresAura('Judge'),
       acd: 0,
       fct: 0,
       vct: 0,
@@ -254,6 +277,7 @@ export class Inquisitor extends Sura {
       label: '[V2] Third Consecration Lv5',
       value: 'Third Consecration==5',
       levelList: levelList('Third Consecration', 5),
+      verifyItemFn: () => this.requiresAura('Judge'),
       acd: 0,
       fct: 0,
       vct: 0,
@@ -273,6 +297,7 @@ export class Inquisitor extends Sura {
       label: '[V2] Second Flame Lv5',
       value: 'Second Flame==5',
       levelList: levelList('Second Flame', 5),
+      verifyItemFn: () => this.requiresAura('Third Exor Flame'),
       acd: 0,
       fct: 0,
       vct: 0,
@@ -291,6 +316,7 @@ export class Inquisitor extends Sura {
       label: '[V2] Third Flame Bomb Lv5',
       value: 'Third Flame Bomb==5',
       levelList: levelList('Third Flame Bomb', 5),
+      verifyItemFn: () => this.requiresAura('Third Exor Flame'),
       acd: 0,
       fct: 0,
       vct: 0,
@@ -384,6 +410,38 @@ export class Inquisitor extends Sura {
         { label: 'Não', value: 0, isUse: false },
       ],
     },
+    // The three Auréolas: one state at a time (bROWiki: "Você não pode ter as 3 auréolas
+    // ativas ao mesmo tempo, uma deve sobrepor a outra"), see AURAS above.
+    {
+      name: 'First Faith Power',
+      label: 'First Faith Power',
+      exclusiveGroup: 'aura',
+      inputType: 'selectButton',
+      dropdown: [
+        { label: 'Sim', value: 5, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
+      ],
+    },
+    {
+      name: 'Judge',
+      label: 'Judge',
+      exclusiveGroup: 'aura',
+      inputType: 'selectButton',
+      dropdown: [
+        { label: 'Sim', value: 5, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
+      ],
+    },
+    {
+      name: 'Third Exor Flame',
+      label: 'Third Exor Flame',
+      exclusiveGroup: 'aura',
+      inputType: 'selectButton',
+      dropdown: [
+        { label: 'Sim', value: 5, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
+      ],
+    },
     {
       name: 'Oleum Sanctum',
       label: 'Oleum Sanctum 5',
@@ -417,6 +475,18 @@ export class Inquisitor extends Sura {
       passiveSkillList: this.passiveSkillList4th,
       classNames: this.classNames4th,
     });
+  }
+
+  /**
+   * The "Requer:" text for a brand skill that needs at least `lowest` — empty when the
+   * chosen aura is high enough, and empty when none is chosen at all, so a build that never
+   * touched the toggles keeps simulating every skill.
+   */
+  private requiresAura(lowest: Aura): string {
+    const chosen = AURAS.findIndex((aura) => this.isSkillActive(aura));
+    if (chosen === -1 || chosen >= AURAS.indexOf(lowest)) return '';
+
+    return AURA_REQUIREMENT[lowest];
   }
 
   override setAdditionalBonus(params: AdditionalBonusInput): EquipmentSummaryModel {

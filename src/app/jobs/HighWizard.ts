@@ -2,6 +2,7 @@ import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { Mage } from './Mage';
 import { ElementType } from '../constants';
+import { METEOR_STORM } from '../skills/shared-skills';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 1, 0, 0],
@@ -153,23 +154,9 @@ export class HighWizard extends Mage {
         return 125;
       },
     },
-    {
-      name: 'Meteor Storm',
-      label: 'Meteor Storm Lv10',
-      value: 'Meteor Storm==10',
-      acd: 5,
-      fct: 1.5,
-      vct: 6.72,
-      cd: 7,
-      isMatk: true,
-      isDevMode: true,
-      element: ElementType.Fire,
-      totalHit: 2,
-      hit: 2,
-      formula: (): number => {
-        return 125;
-      },
-    },
+    // "Chuva de Meteoros", the same definition the Superaprendiz uses — see shared-skills.ts
+    // for the client table it is written from and for the placeholder it replaced.
+    METEOR_STORM,
     {
       name: 'Gravitational Field',
       label: 'Gravitational Field Lv5',

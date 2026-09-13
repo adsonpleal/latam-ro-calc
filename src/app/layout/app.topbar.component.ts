@@ -157,6 +157,16 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.122-beta',
+      date: '13-09-2026',
+      logs: [
+        'As três Auréolas do Inquisidor (do Poder, do Juiz e das Chamas) entraram na lista de habilidades ativas, uma de cada vez. Elas não mudam nenhum número: pela descrição do cliente e pelo rAthena, o único efeito é usar Ruína, Combo Rápido e Garra de Tigre sem gastar esferas. O que elas decidem é quais marcas podem ser usadas — Golpe Pantocrator e Soco Guilhotina pedem qualquer uma, Toque Intercessor e Veredicto pedem a do Juiz ou a das Chamas, Palma Fervorosa e Fogueira Espiritual só a das Chamas — e é isso que passou a aparecer: com uma auréola escolhida, a habilidade que ela não cobre mostra "Requer". Sem nenhuma escolhida, tudo continua disponível, como antes. Reportado por usuário anônimo.',
+        'Chuva de Meteoros entrou de verdade na lista do Bruxo e do Arcano: a entrada existia escondida, com 125% fixo sem contar os meteoros e tempos antigos. Agora é a mesma definição do Superaprendiz — 125% do ATQM por meteoro, metade do nível arredondada para cima em meteoros sobre o alvo, e os tempos do cliente (1,5 s fixa, 6,3 s variável, 1 s de pós-conjuração e recarga de 2,5 s a 7 s conforme o nível), com os dez níveis no seletor. Reportado por usuário anônimo.',
+        'Manopla Sombria do Canhão zerando o dano do Canhão, e Colar e Brinco Sombrios do Canhão derrubando-o: era o defeito corrigido na 0.1.109-beta — uma peça com refino não escolhido e uma linha "por refino" apagava o total do bônus (o ATQ, no caso da manopla; o dano de Canhão, no caso do colar). Conferido com a build enviada: com a manopla o dano sobe, e sobe de novo a cada refino. Reportado por usuário anônimo.',
+        'Fogueira Espiritual aparecendo sem entrar no dano: mesma causa. A fórmula soma 20% do HP máx., e o mesmo defeito deixava o HP máx. em branco quando havia uma peça sombria sem refino com "HP máx. +10 por refino". Desde a 0.1.109-beta a habilidade calcula normalmente nos cinco níveis; um teste passou a cobrir os dois casos. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.121-beta',
       date: '13-09-2026',
       logs: [
