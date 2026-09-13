@@ -13,7 +13,7 @@ import { ITEM_DB, wornBonus } from './__tests__/worn-bonus';
  * Carta Besouro-Ladrão Dourado gives +100%. Negating the store would make half the
  * records read backwards.
  *
- * The sweep below is the point of this file. 90 of the 94 records whose pt-BR description
+ * The sweep below is the point of this file. 93 of the 97 records whose pt-BR description
  * carries the line now declare it; the other 4 are listed in NOT_ENCODED with the reason,
  * so the gap is a decision on the record rather than something that quietly rots.
  *
@@ -74,7 +74,7 @@ describe('spCostPercent is wired as a display-only stat', () => {
 
 describe('the sweep', () => {
   it('finds the records the client says carry the line', () => {
-    expect(carriers.length).toBe(94);
+    expect(carriers.length).toBe(97); // +3: the Mora enchants Fator de Cura 2-4 (4850-4852)
   });
 
   it('declares the key on every carrier except the listed exceptions', () => {

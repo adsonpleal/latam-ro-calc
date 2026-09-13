@@ -3392,7 +3392,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       /^pene_/.test(k) ||
       isDefenderKey(k) ||
       /^(vct|acd|fctPercent)__/.test(k) ||
-      ['range', 'melee', 'criDmg', 'cri', 'criRange', 'perfectHit', 'acd', 'vct', 'vct_inc', 'vctBySkill', 'oratio', 'infection', 'intoxication', 'bitterCold', 'gravitation', 'shadowScar'].includes(k)
+      ['range', 'melee', 'criDmg', 'cri', 'criRange', 'perfectHit', 'acd', 'vct', 'vct_inc', 'vctBySkill', 'oratio', 'infection', 'intoxication', 'bitterCold', 'pollen', 'impalement', 'gravitation', 'shadowScar'].includes(k)
     );
   }
 

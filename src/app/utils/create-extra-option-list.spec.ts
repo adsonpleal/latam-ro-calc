@@ -45,10 +45,12 @@ describe('createExtraOptionList — HP roll', () => {
     expect(new Set(hp).size).toBe(hp.length);
   });
 
-  it('leaves SP alone', () => {
-    // Only the HP roll was reported; SP keeps its 20..400 range.
+  it('rolls SP in steps of 10 up to 1000, keeping every old 20-step value', () => {
+    // Botas Desconhecidas roll SP +10~300, Capas Desconhecidas SP +50~1.000.
     const sp = amounts(leaves('SP'), 'sp');
-    expect(Math.min(...sp)).toBe(20);
-    expect(Math.max(...sp)).toBe(400);
+    expect(Math.min(...sp)).toBe(10);
+    expect(Math.max(...sp)).toBe(1000);
+    expect(new Set(sp).size).toBe(100);
+    for (let v = 20; v <= 400; v += 20) expect(sp).toContain(v);
   });
 });

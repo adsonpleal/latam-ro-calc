@@ -99,16 +99,15 @@ function simulate(opts: { potion: boolean; spellEnchanting: boolean }) {
 }
 
 describe('Elemental Master — geared status window (EM_DPS_2.rrf)', () => {
-  it('imports every equipped item, and drops only the option the engine has no field for', () => {
+  it('imports every equipped item and every random option', () => {
     const { summary }: any = replayToModel(replay, items);
     expect(summary.equippedCount).toBe(20);
     expect(summary.skippedItems).toEqual([]);
     expect(summary.skippedCards).toBe(0);
-    // 7 random options rolled; the one dropped is id 169 "Cura Recebida +5%" on the
-    // Escudo Sombrio Diamante — a healing roll, which random-option-map.ts declines by
-    // design rather than applying a no-op.
-    expect(summary.appliedOptions).toBe(6);
-    expect(summary.skippedOptions).toBe(1);
+    // 7 random options rolled. Id 169 "Cura Recebida +5%" on the Escudo Sombrio Diamante
+    // used to be dropped; it now lands on the display-only `healReceived`.
+    expect(summary.appliedOptions).toBe(7);
+    expect(summary.skippedOptions).toBe(0);
   });
 
   it('S.ATQM is 37, as the game reports it (sp=226)', () => {

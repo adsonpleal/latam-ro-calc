@@ -424,6 +424,35 @@ const JobBuffsList: ActiveSkillModel[] = [
     ],
   },
   {
+    // Pólen — what Florescer (AG_ALL_BLOOM 5222) leaves on the target under Potencializar
+    // Magia Nv4, for 30s: "Resistência à propriedade Fogo -100%", i.e. +100 points on the
+    // Fire property modifier (see getElementResistReduction). The client text names no
+    // boss exclusion. browiki.org/wiki/Florescer
+    name: 'Pollen',
+    label: 'Pólen',
+    icon: 5222,
+    inputType: 'selectButton',
+    isDebuff: true,
+    dropdown: [
+      { label: 'Sim', isUse: true, value: 10, bonus: { pollen: 100 } },
+      { label: 'Não', isUse: false, value: 0 },
+    ],
+  },
+  {
+    // Empalamento — what Pilares de Pedra (AG_VIOLENT_QUAKE 5218) leaves on the target
+    // under Potencializar Magia Nv4, for 30s: "Resistência à propriedade Terra -100%".
+    // bROWiki notes it and Pólen can be up at the same time. browiki.org/wiki/Pilares_de_Pedra
+    name: 'Impalement',
+    label: 'Empalamento',
+    icon: 5218,
+    inputType: 'selectButton',
+    isDebuff: true,
+    dropdown: [
+      { label: 'Sim', isUse: true, value: 10, bonus: { impalement: 100 } },
+      { label: 'Não', isUse: false, value: 0 },
+    ],
+  },
+  {
     // Gravitação (Gravitational Field) — the debuff Ground Gravitation (HN_GROUND_GRAVITATION)
     // leaves on the target: it takes +10% physical AND magical damage (rAthena battle.cpp:
     // `damage += damage * 10 / 100` on BF_WEAPON|BF_MAGIC). Boss monsters are immune (modeled,

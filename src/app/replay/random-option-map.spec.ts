@@ -41,9 +41,17 @@ describe('randomOptionToScript', () => {
     expect(randomOptionToScript(opt(224, 40))).toBe('m_my_element_fire:40'); // Dano mágico Fogo
   });
 
+  it('maps the display-only sustain rolls onto their keys', () => {
+    expect(randomOptionToScript(opt(11, 25))).toBe('hpRecovRate:25'); // Regen. natural de HP
+    expect(randomOptionToScript(opt(12, 50))).toBe('spRecovRate:50'); // Regen. natural de SP
+    expect(randomOptionToScript(opt(168, 7))).toBe('healPower:7'); // Efetividade de cura
+    expect(randomOptionToScript(opt(169, 7))).toBe('healReceived:7'); // Cura recebida
+    expect(randomOptionToScript(opt(218, 10))).toBe('reduceDamageReturn:10');
+  });
+
   it('treats ignore-size-penalty as a flag and skips unsupported / empty rolls', () => {
     expect(randomOptionToScript(opt(163, 0))).toBe('ignore_size_penalty:1');
-    expect(randomOptionToScript(opt(11, 5))).toBeNull(); // natural HP regen — not modeled
+    expect(randomOptionToScript(opt(172, 5))).toBeNull(); // SP cost — the option parser takes no sign
     expect(randomOptionToScript(opt(0, 5))).toBeNull(); // empty slot
     expect(randomOptionToScript(opt(17, 0))).toBeNull(); // zero magnitude
     expect(randomOptionToScript(opt(17, -3))).toBeNull(); // negative magnitude

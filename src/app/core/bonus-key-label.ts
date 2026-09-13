@@ -79,6 +79,8 @@ export const BUFF_BONUS_LABELS: Record<string, string> = {
   infection: 'Reduz Res. Veneno do alvo',
   intoxication: 'Reduz Res. Veneno do alvo',
   bitterCold: 'Reduz Res. Água do alvo',
+  pollen: 'Reduz Res. Fogo do alvo',
+  impalement: 'Reduz Res. Terra do alvo',
   gravitation: 'Dano físico e mágico recebido',
   comet: 'Dano Cometa', raid: 'Dano físico recebido', darkClaw: 'Garra Sombria',
   shadowScar: 'Profanação',
@@ -157,6 +159,12 @@ export function decodeStructuredBonusKey(key: string): string | undefined {
     const resolvedSkill = resolveSkillKey(m[2]);
     const label = m[1] === 'fix_vct' ? 'Conj. Variável (fixa)' : ITEM_BONUS_LABELS[m[1]];
     return `Redução de ${label} de ${resolvedSkill ? resolvedSkill.name : m[2]}`;
+  }
+  // `spCost__<id>` — a per-skill SP cost in SP points, client sign kept ("Custo de SP de
+  // [Sopro Divino] -30"). Display only, like spCostPercent.
+  if ((m = key.match(/^spCost__(\d+)$/))) {
+    const resolvedSkill = resolveSkillKey(m[1]);
+    return `Custo de SP de ${resolvedSkill ? resolvedSkill.name : m[1]}`;
   }
   return undefined;
 }

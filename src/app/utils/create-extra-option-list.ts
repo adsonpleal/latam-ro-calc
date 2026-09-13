@@ -34,6 +34,10 @@ const TR: Record<string, string> = {
   Res: 'TEN',
   Mres: 'TENM',
   HPlus: 'C.Mais',
+  'HP Regen %': 'Regen. HP %',
+  'SP Regen %': 'Regen. SP %',
+  'Heal Power %': 'Efetividade de cura %',
+  'Heal Received %': 'Cura recebida %',
 };
 const tr = (s: string) => TR[s] ?? s;
 
@@ -209,7 +213,9 @@ export const createExtraOptionList = () => {
     // usable at 100 entries.
     ['HP', 'hp', 1, 100, 50],
     ['SP %', 'spPercent', 1, 20, 1, ' %'],
-    ['SP', 'sp', 1, 20, 20],
+    // Steps of 10 up to 1000: the Botas Desconhecidas roll SP +10~300 and the Capas
+    // Desconhecidas SP +50~1.000, neither of which the old 20-step list reached.
+    ['SP', 'sp', 1, 100, 10],
     // Defensive / accuracy rolls — not in the original list, added so replay
     // imports of these random options (Bônus Aleatórios) are representable.
     ['Hit', 'hit', 1, 50, 1],
@@ -221,6 +227,12 @@ export const createExtraOptionList = () => {
     ['Res', 'res', 1, 50, 1],
     ['Mres', 'mres', 1, 50, 1],
     ['HPlus', 'hplus', 1, 50, 1],
+    // Display-only sustain rolls (see EquipmentSummaryModel): they fill the Recursos panel
+    // and never reach the damage pipeline.
+    ['HP Regen %', 'hpRecovRate', 1, 50, 1, ' %'],
+    ['SP Regen %', 'spRecovRate', 1, 50, 1, ' %'],
+    ['Heal Power %', 'healPower', 1, 30, 1, ' %'],
+    ['Heal Received %', 'healReceived', 1, 30, 1, ' %'],
   ];
 
   const subTypeMap = {

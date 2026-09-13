@@ -252,9 +252,9 @@ export const EQUIPMENT_SLOTS: readonly EquipmentSlotDescriptor[] = [
     ItemOptionNumber.Armor_3,
   ]),
   gearLike(ItemTypeEnum.garment, 'garmentList', 'garmentCardList', 'equip', [ItemOptionNumber.Garment_1, ItemOptionNumber.Garment_2]),
-  // Boots take no random options at all: ItemOptionNumber has no Boot_* slot number, so
-  // there is nowhere in rawOptionTxts to put one. The old picker drew the dropdowns anyway.
-  gearLike(ItemTypeEnum.boot, 'bootList', 'bootCardList', 'equip', []),
+  // Two positions, drawn only for a boot ExtraOptionTable gives options to — the Botas
+  // Desconhecidas are the first (Contas de Ymir, "Adiciona até 2 bônus aleatórios").
+  gearLike(ItemTypeEnum.boot, 'bootList', 'bootCardList', 'equip', [ItemOptionNumber.Boot_1, ItemOptionNumber.Boot_2]),
   gearLike(ItemTypeEnum.accRight, 'accRightList', 'accRightCardList', 'accessory', [
     ItemOptionNumber.A_Right_1,
     ItemOptionNumber.A_Right_2,

@@ -79,11 +79,9 @@ describe('EQUIPMENT_SLOTS', () => {
     }
   });
 
-  it('gives boots no random-option slot, because ItemOptionNumber has none', () => {
-    // Boot is in OptionableItemTypeSet and ExtraOptionTable can name a boot, but there is
-    // no Boot_* entry in ItemOptionNumber — the old dropdowns wrote nowhere.
-    expect(SLOTS_BY_KEY.get(ItemTypeEnum.boot)!.optionIndexes).toEqual([]);
-    expect(Object.keys(ItemOptionNumber).some((k) => k.startsWith('Boot_'))).toBe(false);
+  it('gives boots two random-option slots of their own', () => {
+    // Boots took none until the Botas Desconhecidas (Contas de Ymir, two lines) needed them.
+    expect(SLOTS_BY_KEY.get(ItemTypeEnum.boot)!.optionIndexes).toEqual([ItemOptionNumber.Boot_1, ItemOptionNumber.Boot_2]);
   });
 
   it('covers each slot key once and only names known groups', () => {

@@ -11,10 +11,10 @@ import { RandomOption } from 'rrfparser';
  * `"<attr>:<value>"` string whose `<attr>` is an `EquipmentSummaryModel` field
  * the damage engine sums (see create-raw-total-bonus.ts / option-scripts.ts).
  *
- * Only options the engine can actually model are mapped; defensive / utility
- * rolls the calculator has no field for (elemental & racial resistances, natural
- * regen, heal power, SP cost, weapon-property enchants, EXP, …) return `null` so
- * the importer can count them as "skipped" rather than apply a no-op.
+ * Only options the calculator has a field for are mapped — the display-only sustain
+ * keys (natural regen, heal power, reflected damage) included; rolls with no field at
+ * all (elemental & racial resistances, SP cost, weapon-property enchants, EXP, …) return
+ * `null` so the importer can count them as "skipped" rather than apply a no-op.
  */
 
 // Calc attr suffixes in the same order the rAthena enums iterate, so the
@@ -59,6 +59,8 @@ const SCALAR_MAP: Record<number, string> = {
   8: 'luk',
   9: 'hpPercent', // HP máx. +n%
   10: 'spPercent', // SP máx. +n%
+  11: 'hpRecovRate', // Regen. natural de HP +n% (display only)
+  12: 'spRecovRate', // Regen. natural de SP +n% (display only)
   13: 'atkPercent', // ATQ da arma +n%
   14: 'matkPercent', // Dano mágico +n%
   15: 'aspd', // Velocidade de ataque +n
@@ -81,9 +83,12 @@ const SCALAR_MAP: Record<number, string> = {
   156: 'm_pene_class_boss', // Ignora n% da DEFM de Chefes
   164: 'criDmg', // Dano crítico +n%
   166: 'range', // Dano físico a distância +n%
+  168: 'healPower', // Efetividade de cura +n% (bHealPower, display only)
+  169: 'healReceived', // Cura recebida +n% (bHealPower2, display only)
   170: 'vct', // Conjuração variável -n%
   171: 'acd', // Pós-conjuração -n%
   204: 'range', // Dano físico a distância +n% (alt id)
+  218: 'reduceDamageReturn', // Resistência a dano refletido +n% (display only)
   219: 'melee', // Dano físico corpo a corpo +n%
   231: 'm_my_element_all', // "Dano mágico todas as prop. n%"
   243: 'pow',

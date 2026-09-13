@@ -82,11 +82,12 @@ const ATK_TYPE_PT: Record<string, string> = { Melee: 'Corpo a corpo', Range: 'À
 /** Target elemental-resistance reductions that make MY attacks of that property land for
  *  more. The engine adds these straight onto the property modifier (see damage-calculator
  *  `getElementResistReduction`): Oratio → Sagrado; Infecção (Maldição de Jormungand) and
- *  Intoxicação (Poço Venenoso) → Veneno (they stack); Geladinho (Jack Frost Nova) → Água.
+ *  Intoxicação (Poço Venenoso) → Veneno (they stack); Geladinho (Jack Frost Nova) → Água;
+ *  Pólen (Florescer) → Fogo; Empalamento (Pilares de Pedra) → Terra.
  *  They affect both physical and magical attacks of that element (so NOT a magic-only
  *  "Elem. Mágico" bonus) — hence their own "R.R. Elem." column. Keyed by lowercase element;
  *  each element lists every bonus key that feeds the column. */
-export const RESIST_REDUCTION_KEYS_BY_ELE: Record<string, string[]> = { holy: ['oratio'], poison: ['infection', 'intoxication'], water: ['bitterCold'] };
+export const RESIST_REDUCTION_KEYS_BY_ELE: Record<string, string[]> = { holy: ['oratio'], poison: ['infection', 'intoxication'], water: ['bitterCold'], fire: ['pollen'], earth: ['impalement'] };
 
 function elementCell(summary: DamageSummaryLike, ele: string) {
   const reductionKeys = RESIST_REDUCTION_KEYS_BY_ELE[ele] ?? [];

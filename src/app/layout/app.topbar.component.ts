@@ -157,6 +157,19 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.121-beta',
+      date: '13-09-2026',
+      logs: [
+        'Tufão Destrutivo entrou na rotação do Magus, com os cinco níveis no seletor. Com Potencializar Magia no nível 1 aparece o golpe adicional de 500% do ATQM em linha própria no resumo de batalha. Reportado por usuário anônimo.',
+        'Florescer e Pilares de Pedra passaram a respeitar todos os níveis de Potencializar Magia, e não só o 3, e ganharam os cinco níveis no seletor. No nível 1 os Pilares dobram de quantidade com metade do dano; no 2 as flores fazem o mesmo; no 3 as duas habilidades e o Tufão Destrutivo causam +100%; no 4 nenhuma das três causa dano; no 5 o Tufão ganha +70% e o jardim de Florescer queima de uma vez com 7.000% do ATQM. Esses aumentos e reduções somam com os bônus de dano da habilidade que vêm dos equipamentos, como o bROWiki descreve, em vez de multiplicar a porcentagem.',
+        'Pólen e Empalamento entraram entre os debuffs: reduzem em 100% a resistência do alvo a Fogo e a Terra, respectivamente, e podem estar ativos ao mesmo tempo. Zéfiro, o estado que o Tufão Destrutivo deixa no Magus com Potencializar Magia no nível 4, entrou como habilidade própria: ATQM +100 e dano mágico de Vento +30%. Reportado por usuário anônimo.',
+        'As Relíquias de Mora ganharam a lista de encantos: os conjuntos dos Manuks e de Nab, de Ur e de Peuz, das Asas da Luz e das Sombras, do Açoite de Ouro, Aquático, Vermelho, Florestal, da Afeição e do Julgamento, e as Armas Fortalecidas — 58 peças. Nas peças em que a pesquisa de refino +9 libera uma segunda categoria, as duas categorias aparecem juntas em todos os slots. Reportado por usuário anônimo.',
+        'Entraram as pedras que faltavam nessas listas: DEFM +2, +4, +6 e +8, DEF +6, +9 e +12, HP +100, Esquiva +1, +3 e +12 e Fator de Cura 1 a 4. Esquiva +6, Cura 1 e Catolicismo 1 já existiam, mas não podiam ser escolhidas. Fator de Cura, Cura 1 e Catolicismo 1 aparecem nos atributos do item (efetividade de cura, recarga de Curatio, custo de SP), sem mexer no dano.',
+        'Bota Desconhecida FOR, DES, VIT, INT, AGI e SOR passaram a aparecer para todas as classes, como diz a descrição do item; antes só as classes 4 viam. As seis ganharam os 2 bônus aleatórios das Contas de Ymir, e as seis Capas Desconhecidas ganharam o bônus aleatório da Alfaiataria Desconhecida. Reportado por Ferraz e por usuário anônimo.',
+        'A lista de bônus aleatórios ganhou Regen. HP %, Regen. SP %, Efetividade de cura % e Cura recebida %, que aparecem no resumo de atributos sem entrar no dano, e o SP máx. passou a ir de 10 em 10 até 1.000. Na importação de replay essas linhas deixaram de ser descartadas.',
+      ],
+    },
+    {
       v: '0.1.120-beta',
       date: '12-09-2026',
       logs: [

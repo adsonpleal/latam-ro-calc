@@ -1,5 +1,5 @@
 import { EquipmentSlotDescriptor } from '../app-config/equipment-slots';
-import { getEnchants, getMalangdoEnchants } from '../constants/enchant_item';
+import { getEnchants, getMalangdoEnchants, getMoraEnchants } from '../constants/enchant_item';
 import { ExtraOptionTable } from '../constants/extra-option-table';
 import { DropdownModel } from '../models/dropdown.model';
 import { ItemModel } from '../models/item.model';
@@ -93,9 +93,9 @@ export function deriveSlot(input: DeriveSlotInput): SlotDerivation {
   const { descriptor, item, mapEnchant } = input;
   const { id, aegisName, name, canGrade, slots } = item ?? ({} as ItemModel);
 
-  // The Malangdo list matches by id and comes last, so an item already covered by the
-  // aegisName-keyed table keeps the enchant slots that table gives it.
-  const enchants = getEnchants(aegisName) ?? getEnchants(name) ?? getMalangdoEnchants(id, slots);
+  // The Mora and Malangdo lists match by id and come last, so an item already covered by
+  // the aegisName-keyed table keeps the enchant slots that table gives it.
+  const enchants = getEnchants(aegisName) ?? getEnchants(name) ?? getMoraEnchants(id) ?? getMalangdoEnchants(id, slots);
   const positions = Array.isArray(enchants) ? enchants : [];
 
   return {

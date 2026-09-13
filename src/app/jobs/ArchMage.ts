@@ -1,8 +1,10 @@
 import { JOB_4_MAX_JOB_LEVEL, JOB_4_MIN_MAX_LEVEL } from '../app-config';
 import { ElementType } from '../constants';
+import { SKILL_NAME } from '../constants/skill-name';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput } from '../models/info-for-class.model';
 import { DamageFormulaCalc } from '../models/damage-summary.model';
+import { SKILL_ID_BY_NAME } from '../skills';
 import { addBonus, floor, formatCalcNumber, genSkillList } from '../utils';
 import { Warlock } from './Warlock';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
@@ -388,42 +390,97 @@ export class ArchMage extends Warlock {
       name: 'All Bloom',
       label: '[V3] All Bloom Lv5',
       value: 'All Bloom==5',
+      levelList: levelList('All Bloom', 5),
       acd: 1,
       fct: 1.5,
       vct: 4,
       cd: 6,
       isMatk: true,
       element: ElementType.Fire,
-      // (Skill level x 4) fireworks land randomly within the area; Climax Lv3 = +100% power.
-      totalHit: ({ skillLevel }) => skillLevel * 4,
+      // (Skill level x 4) flowers land randomly within the garden. Potencializar Magia Nv2
+      // doubles them (at -50%, see setAdditionalBonus) and Nv4 stops the damage in favour
+      // of [Pólen] on the target — the debuff toggle in constants/job-buffs.ts.
+      totalHit: ({ skillLevel }) => skillLevel * 4 * (this.activeSkillLv('Climax') === 2 ? 2 : 1),
       formula: (input: AtkSkillFormulaInput): number => {
+        if (this.activeSkillLv('Climax') === 4) return 0;
+
         const { model, skillLevel, status } = input;
         const { totalSpl } = status;
         const { level: baseLevel } = model;
-        const climaxMult = this.activeSkillLv('Climax') === 3 ? 2 : 1;
 
-        return (skillLevel * 100 + totalSpl * 5) * (baseLevel / 100) * climaxMult;
+        return (skillLevel * 100 + totalSpl * 5) * (baseLevel / 100);
+      },
+      // Potencializar Magia Nv5: once every flower has gone off, the garden burns at once
+      // for "7.000% do ATQM" — a flat percentage the client gives no base-level or FEI term
+      // for, at every level of Florescer.
+      part2: {
+        label: 'Queima do Jardim',
+        isIncludeMain: false,
+        element: ElementType.Fire,
+        isMatk: true,
+        isMelee: false,
+        hit: 1,
+        formula: (): number => (this.activeSkillLv('Climax') === 5 ? 7000 : 0),
       },
     },
     {
       name: 'Violent Quake',
       label: '[V3] Violent Quake Lv5',
       value: 'Violent Quake==5',
+      levelList: levelList('Violent Quake', 5),
       acd: 1,
       fct: 1.5,
       vct: 4,
       cd: 6,
       isMatk: true,
       element: ElementType.Earth,
-      // (Skill level x 4) rocks land randomly within the area; Climax Lv3 = +100% power.
-      totalHit: ({ skillLevel }) => skillLevel * 4,
+      // (Skill level x 4) pillars rise randomly within the area. Potencializar Magia Nv1
+      // doubles them (at -50%, see setAdditionalBonus) and Nv4 stops the damage in favour
+      // of [Empalamento] on the target — the debuff toggle in constants/job-buffs.ts.
+      totalHit: ({ skillLevel }) => skillLevel * 4 * (this.activeSkillLv('Climax') === 1 ? 2 : 1),
       formula: (input: AtkSkillFormulaInput): number => {
+        if (this.activeSkillLv('Climax') === 4) return 0;
+
         const { model, skillLevel, status } = input;
         const { totalSpl } = status;
         const { level: baseLevel } = model;
-        const climaxMult = this.activeSkillLv('Climax') === 3 ? 2 : 1;
 
-        return (skillLevel * 120 + totalSpl * 5) * (baseLevel / 100) * climaxMult;
+        return (skillLevel * 120 + totalSpl * 5) * (baseLevel / 100);
+      },
+    },
+    {
+      // Tufão Destrutivo (AG_DESTRUCTIVE_HURRICANE 5215) — one Wind hit on everything
+      // around the caster, 1.600% a level on the client table. Potencializar Magia Nv1
+      // adds a second hit of 500% ATQM regardless of the skill level (part2), Nv3 and Nv5
+      // raise the damage (setAdditionalBonus), and Nv4 stops it in favour of [Zéfiro] on
+      // the caster — the Zephyr toggle below. browiki.org/wiki/Tufão_Destrutivo
+      name: 'Destructive Hurricane',
+      label: '[V3] Destructive Hurricane Lv5',
+      value: 'Destructive Hurricane==5',
+      levelList: levelList('Destructive Hurricane', 5),
+      acd: 1,
+      fct: 1.5,
+      vct: 4,
+      cd: 6,
+      isMatk: true,
+      element: ElementType.Wind,
+      formula: (input: AtkSkillFormulaInput): number => {
+        if (this.activeSkillLv('Climax') === 4) return 0;
+
+        const { model, skillLevel, status } = input;
+        const { totalSpl } = status;
+        const { level: baseLevel } = model;
+
+        return (skillLevel * 1600 + totalSpl * 5) * (baseLevel / 100);
+      },
+      part2: {
+        label: 'Golpe Adicional',
+        isIncludeMain: false,
+        element: ElementType.Wind,
+        isMatk: true,
+        isMelee: false,
+        hit: 1,
+        formula: (): number => (this.activeSkillLv('Climax') === 1 ? 500 : 0),
       },
     },
     {
@@ -500,6 +557,18 @@ export class ArchMage extends Warlock {
         { label: 'Nv 3', value: 3, isUse: true },
         { label: 'Nv 4', value: 4, isUse: true },
         { label: 'Nv 5', value: 5, isUse: true },
+      ],
+    },
+    {
+      // Zéfiro — what Tufão Destrutivo leaves on the caster under Potencializar Magia Nv4,
+      // for 15 minutes, so it outlives the Climax level that granted it and stays a toggle
+      // of its own: "ATQM +100 e dano mágico de propriedade Vento +30%".
+      name: 'Zephyr',
+      label: 'Zéfiro',
+      inputType: 'selectButton',
+      dropdown: [
+        { label: 'Sim', value: 1, isUse: true, bonus: { matk: 100, m_my_element_wind: 30 } },
+        { label: 'Não', value: 0, isUse: false },
       ],
     },
   ];
@@ -585,6 +654,20 @@ export class ArchMage extends Warlock {
     const tHandStaffLv = this.learnLv('Two hand Staff Mastery');
     if (tHandStaffLv > 0 && weapon.isType('twohandRod')) {
       addBonus(totalBonus, 'sMatk', tHandStaffLv * 2);
+    }
+
+    // The damage steps Potencializar Magia puts on Florescer, Pilares de Pedra and Tufão
+    // Destrutivo. bROWiki says each "é cumulativo com equipamentos de efeitos semelhantes",
+    // so they join the gear's "Dano de [habilidade] +N%" rather than scaling the ratio —
+    // keyed by skill id, which is what getSkillBonus reads back.
+    const climaxSkillBonus: Record<number, [SKILL_NAME, number][]> = {
+      1: [['Violent Quake', -50]],
+      2: [['All Bloom', -50]],
+      3: [['All Bloom', 100], ['Violent Quake', 100], ['Destructive Hurricane', 100]],
+      5: [['Destructive Hurricane', 70]],
+    };
+    for (const [skillName, bonus] of climaxSkillBonus[this.activeSkillLv('Climax')] ?? []) {
+      addBonus(totalBonus, SKILL_ID_BY_NAME[skillName] as any, bonus);
     }
 
     return totalBonus;

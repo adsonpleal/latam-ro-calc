@@ -1130,11 +1130,15 @@ export class DamageCalculator {
    *  lowers Poison resistance (−5% per Killing Cloud level, −25% at Lv 5); Intoxicação
    *  (from Poço Venenoso) makes the target take +25% Poison damage, i.e. −25% Poison
    *  resistance — the two poison debuffs stack; Geladinho (Bitter Cold, from Jack Frost
-   *  Nova) makes the target take +15% Water damage, i.e. −15% Water resistance. */
+   *  Nova) makes the target take +15% Water damage, i.e. −15% Water resistance; Pólen and
+   *  Empalamento (Florescer / Pilares de Pedra under Potencializar Magia Nv4) take the
+   *  target's Fire and Earth resistance down by 100%. */
   private getElementResistReduction(propertyAtk: ElementType) {
     if (propertyAtk === ElementType.Holy) return this.totalBonus['oratio'] || 0;
     if (propertyAtk === ElementType.Poison) return (this.totalBonus['infection'] || 0) + (this.totalBonus['intoxication'] || 0);
     if (propertyAtk === ElementType.Water) return this.totalBonus['bitterCold'] || 0;
+    if (propertyAtk === ElementType.Fire) return this.totalBonus['pollen'] || 0;
+    if (propertyAtk === ElementType.Earth) return this.totalBonus['impalement'] || 0;
 
     return 0;
   }
@@ -1304,7 +1308,7 @@ export class DamageCalculator {
           id: 'atkElemental',
           label: 'Multiplicador elemental',
           value: bValElement,
-          keys: ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold'],
+          keys: ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold', 'pollen', 'impalement'],
           percent: this.toPercentBonus(propertyMultiplier),
           inputs: [lastBId],
           kind: 'stage',
@@ -1923,8 +1927,8 @@ export class DamageCalculator {
       // *once*, after the boost, instead of being scaled along with it. Locked to the
       // unit by ElementalMaster.poison-replay.spec.ts.
       total = floor(total * propertyMultiplier);
-      push('Multiplicador elemental', total, ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold']);
-      emit('elementalMultiplier', 'Multiplicador elemental', total, ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold'], { multiplier: propertyMultiplier });
+      push('Multiplicador elemental', total, ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold', 'pollen', 'impalement']);
+      emit('elementalMultiplier', 'Multiplicador elemental', total, ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold', 'pollen', 'impalement'], { multiplier: propertyMultiplier });
       total = floor(total * sMatkMultiplier);
       push('S.ATQM', total, ['sMatk']);
       emit('sMatk', 'S.ATQM', total, ['sMatk'], { multiplier: sMatkMultiplier });
@@ -2426,7 +2430,11 @@ export class DamageCalculator {
     let skillPart2Label = '';
     let skillMinDamage2 = 0;
     let skillMaxDamage2 = 0;
-    if (typeof part2?.formula === 'function') {
+    // A part2 whose ratio comes out at zero is not there at all (Tufão Destrutivo's extra hit
+    // off Potencializar Magia Nv1): run through the chain it would still print the 1 damage
+    // the soft-MDEF floor leaves, as a second line the skill does not have.
+    const hasPart2 = typeof part2?.formula === 'function' && part2.formula({ ...this.infoForClass, skillLevel, maxHp, maxSp }) + this.getFlatDmg(skillName) > 0;
+    if (hasPart2) {
       const { formula: formula2, isMatk: isPart2Matk, isIncludeMain, label } = part2;
       const _baseSkillDamage2 =
         formula2({

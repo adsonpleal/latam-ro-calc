@@ -25,8 +25,9 @@ const items: Record<string, any> = JSON.parse(
  * on a skill id; `enable_skill__<id>` is the odd one — the item does not boost the skill,
  * it grants it ("Habilita [Meteoro Escarlate] nv.5" on 400528), and the value is the
  * level granted. A class that reaches a skill only this way gates it on the key.
+ * `spCost__<id>` is the display-only per-skill SP cost (Catolicismo 1, 4804).
  */
-const PREFIXES = ['fix_vct__', 'vct__', 'chance__', 'fctPercent__', 'fct__', 'acd__', 'cd__', 'enable_skill__'];
+const PREFIXES = ['fix_vct__', 'vct__', 'chance__', 'fctPercent__', 'fct__', 'acd__', 'cd__', 'enable_skill__', 'spCost__'];
 
 /** Prefixes stack — `chance__cd__2447` is a cooldown-reduction chance for skill 2447. */
 const stripPrefix = (key: string) => {

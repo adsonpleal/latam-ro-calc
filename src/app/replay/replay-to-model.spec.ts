@@ -90,9 +90,9 @@ describe('replayToModel', () => {
   });
 
   it('writes armor options at the armor option slots and skips unsupported rolls', () => {
-    // id 11 (natural HP regen) has no calc field -> skipped; the str roll applies.
+    // id 172 (SP cost) has no calc field -> skipped; the str roll applies.
     const replay = makeReplay([
-      rec({ itemId: 2301, equipped: EQP.ARMOR, options: [ba(3, 9), ba(11, 5)] }),
+      rec({ itemId: 2301, equipped: EQP.ARMOR, options: [ba(3, 9), ba(172, 5)] }),
     ]);
     const { model, summary } = replayToModel(replay, itemMap);
     expect(model.rawOptionTxts[12]).toBe('str:9'); // Armor_1
@@ -100,11 +100,14 @@ describe('replayToModel', () => {
     expect(summary.skippedOptions).toBe(1);
   });
 
-  it('skips options on a slot that has no option positions (boots)', () => {
-    const replay = makeReplay([rec({ itemId: 4001, equipped: EQP.SHOES, options: [ba(17, 10)] })]);
-    const { summary } = replayToModel(replay, itemMap);
-    expect(summary.appliedOptions).toBe(0);
-    expect(summary.skippedOptions).toBe(1);
+  it('writes boot options at the boot option slots (Boot_1=38, Boot_2=39)', () => {
+    // Boots took none until the Botas Desconhecidas; a rolled boot option now lands.
+    const replay = makeReplay([rec({ itemId: 4001, equipped: EQP.SHOES, options: [ba(17, 10), ba(11, 30)] })]);
+    const { model, summary } = replayToModel(replay, itemMap);
+    expect(model.rawOptionTxts[38]).toBe('atk:10');
+    expect(model.rawOptionTxts[39]).toBe('hpRecovRate:30');
+    expect(summary.appliedOptions).toBe(2);
+    expect(summary.skippedOptions).toBe(0);
   });
 
   it('writes both BAs of a two-slot shadow weapon (SD_Wp_1=20, SD_Wp_2=30)', () => {

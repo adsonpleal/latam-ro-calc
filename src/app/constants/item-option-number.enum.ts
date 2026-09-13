@@ -30,9 +30,7 @@ export enum ItemOptionNumber {
   Garment_1 = 14,
   Garment_2 = 15,
   // Garment_3,
-  // Boot_1,
-  // Boot_2,
-  // Boot_3,
+  // Boot_1 / Boot_2 are appended at the end (38/39) — see below.
 
   A_Right_1 = 16,
   A_Right_2 = 17,
@@ -67,6 +65,12 @@ export enum ItemOptionNumber {
   // Aleatórios; ExtraOptionTable gates how many of these are actually shown.
   H_Low_1 = 36,
   H_Low_2 = 37,
+
+  // Boot random-option slots, appended for the same reason. Boots used to take none at
+  // all; the Botas Desconhecidas roll two (Contas de Ymir), and ExtraOptionTable gates
+  // how many a given boot shows.
+  Boot_1 = 38,
+  Boot_2 = 39,
 }
 
 const slotNumbers = Object.values(ItemOptionNumber).filter((a) => Number.isInteger(a)) as number[];

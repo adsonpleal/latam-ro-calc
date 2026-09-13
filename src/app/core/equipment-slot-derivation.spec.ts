@@ -108,8 +108,8 @@ describe('deriveSlot', () => {
     expect(derive(ItemTypeEnum.shadowPendant, item({ aegisName: 'S_Sigrun_Shield' })).optionSlots).toBe(2);
   });
 
-  it('never offers a boot a random option, whatever the table says', () => {
-    // Temporal boots are in ExtraOptionTable, but ItemOptionNumber has no Boot_* index.
+  it('reads the table for boots too, which leaves an ordinary boot with none', () => {
+    expect(derive(ItemTypeEnum.boot, item({ aegisName: 'MD_Airboat_Boots' })).optionSlots).toBe(2);
     expect(derive(ItemTypeEnum.boot, item({ aegisName: 'Temporal_Boots_TW' })).optionSlots).toBe(0);
   });
 });

@@ -6,6 +6,24 @@ export const ExtraOptionTable = {
   Temporal_M_Dex: 1,
   Temporal_M_Luk: 1,
 
+  // Botas Desconhecidas — Contas de Ymir "adiciona até 2 bônus aleatórios".
+  // browiki.org/wiki/Queda_do_Aeroplano#Bônus_aleatórios
+  MD_Airboat_Boots: 2,
+  MD_Airboat_Boots2: 2,
+  MD_Airboat_Boots3: 2,
+  MD_Airboat_Boots4: 2,
+  MD_Airboat_Boots5: 2,
+  MD_Airboat_Boots6: 2,
+
+  // Capas Desconhecidas — Alfaiataria Desconhecida "adiciona 1 bônus aleatório", the same
+  // pool as the Mantos Temporais. browiki.org/wiki/Bônus_Aleatórios#Capas
+  Airboat_Manteau_Str_LT: 1,
+  Airboat_Manteau_Agi_LT: 1,
+  Airboat_Manteau_Vit_LT: 1,
+  Airboat_Manteau_Int_LT: 1,
+  Airboat_Manteau_Dex_LT: 1,
+  Airboat_Manteau_Luk_LT: 1,
+
   Temporal_Armor_TW: 2,
   Temporal_Cape_TW: 1,
 

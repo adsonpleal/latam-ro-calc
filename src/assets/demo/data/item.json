@@ -12142,6 +12142,360 @@
       ]
     }
   },
+  "4859": {
+    "id": 4859,
+    "aegisName": "Evasion1",
+    "name": "Esquiva +1",
+    "unidName": "Esquiva +1",
+    "resName": "안실라",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "flee": [
+        "1"
+      ]
+    }
+  },
+  "4860": {
+    "id": 4860,
+    "aegisName": "Evasion3",
+    "name": "Esquiva +3",
+    "unidName": "Esquiva +3",
+    "resName": "안실라",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "flee": [
+        "3"
+      ]
+    }
+  },
+  "4763": {
+    "id": 4763,
+    "aegisName": "Evasion12",
+    "name": "Esquiva +12",
+    "unidName": "Esquiva +12",
+    "resName": "안실라",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "flee": [
+        "12"
+      ]
+    }
+  },
+  "4786": {
+    "id": 4786,
+    "aegisName": "Mdef2",
+    "name": "DEFM +2",
+    "unidName": "DEFM +2",
+    "resName": "마력석_초록",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "mdef": [
+        "2"
+      ]
+    }
+  },
+  "4787": {
+    "id": 4787,
+    "aegisName": "Mdef4",
+    "name": "DEFM +4",
+    "unidName": "DEFM +4",
+    "resName": "마력석_초록",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "mdef": [
+        "4"
+      ]
+    }
+  },
+  "4788": {
+    "id": 4788,
+    "aegisName": "Mdef6",
+    "name": "DEFM +6",
+    "unidName": "DEFM +6",
+    "resName": "마력석_초록",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "mdef": [
+        "6"
+      ]
+    }
+  },
+  "4789": {
+    "id": 4789,
+    "aegisName": "Mdef8",
+    "name": "DEFM +8",
+    "unidName": "DEFM +8",
+    "resName": "마력석_초록",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "mdef": [
+        "8"
+      ]
+    }
+  },
+  "4792": {
+    "id": 4792,
+    "aegisName": "Def6",
+    "name": "DEF +6",
+    "unidName": "DEF +6",
+    "resName": "마력석_검정",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "def": [
+        "6"
+      ]
+    }
+  },
+  "4793": {
+    "id": 4793,
+    "aegisName": "Def9",
+    "name": "DEF +9",
+    "unidName": "DEF +9",
+    "resName": "마력석_검정",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "def": [
+        "9"
+      ]
+    }
+  },
+  "4794": {
+    "id": 4794,
+    "aegisName": "Def12",
+    "name": "DEF +12",
+    "unidName": "DEF +12",
+    "resName": "마력석_검정",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "def": [
+        "12"
+      ]
+    }
+  },
+  "4795": {
+    "id": 4795,
+    "aegisName": "HP100",
+    "name": "HP +100",
+    "unidName": "HP +100",
+    "resName": "마력석_빨강",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "hp": [
+        "100"
+      ]
+    }
+  },
+  "4805": {
+    "id": 4805,
+    "aegisName": "Heal_Amount2",
+    "name": "Fator de Cura 1",
+    "unidName": "Fator de Cura 1",
+    "resName": "투명한보석",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "healPower": [
+        "3"
+      ]
+    }
+  },
+  "4850": {
+    "id": 4850,
+    "aegisName": "Heal_Amount3",
+    "name": "Fator de Cura 2",
+    "unidName": "Fator de Cura 2",
+    "resName": "안실라",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "healPower": [
+        "6"
+      ],
+      "spCostPercent": [
+        "5"
+      ]
+    }
+  },
+  "4851": {
+    "id": 4851,
+    "aegisName": "Heal_Amount4",
+    "name": "Fator de Cura 3",
+    "unidName": "Fator de Cura 3",
+    "resName": "안실라",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "healPower": [
+        "12"
+      ],
+      "spCostPercent": [
+        "10"
+      ]
+    }
+  },
+  "4852": {
+    "id": 4852,
+    "aegisName": "Heal_Amount5",
+    "name": "Fator de Cura 4",
+    "unidName": "Fator de Cura 4",
+    "resName": "안실라",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "healPower": [
+        "20"
+      ],
+      "spCostPercent": [
+        "15"
+      ]
+    }
+  },
   "4806": {
     "id": 4806,
     "aegisName": "Matk3",
@@ -170457,7 +170811,7 @@
     "compositionPos": null,
     "canGrade": true,
     "usableClass": [
-      "4th"
+      "all"
     ],
     "script": {
       "atk": [
@@ -170501,7 +170855,7 @@
     "compositionPos": null,
     "canGrade": true,
     "usableClass": [
-      "4th"
+      "all"
     ],
     "script": {
       "atk": [
@@ -170545,7 +170899,7 @@
     "compositionPos": null,
     "canGrade": true,
     "usableClass": [
-      "4th"
+      "all"
     ],
     "script": {
       "atk": [
@@ -170595,7 +170949,7 @@
     "compositionPos": null,
     "canGrade": true,
     "usableClass": [
-      "4th"
+      "all"
     ],
     "script": {
       "matk": [
@@ -170642,7 +170996,7 @@
     "compositionPos": null,
     "canGrade": true,
     "usableClass": [
-      "4th"
+      "all"
     ],
     "script": {
       "atk": [
@@ -170689,7 +171043,7 @@
     "compositionPos": null,
     "canGrade": true,
     "usableClass": [
-      "4th"
+      "all"
     ],
     "script": {
       "atk": [
@@ -232604,13 +232958,13 @@
   },
   "4803": {
     "id": 4803,
-    "aegisName": "안실라",
+    "aegisName": "Highness_Heal_3sec",
     "name": "Cura 1",
     "unidName": "Cura 1",
     "resName": "",
     "description": "",
     "slots": 0,
-    "itemTypeId": 6,
+    "itemTypeId": 11,
     "itemSubTypeId": 0,
     "itemLevel": null,
     "attack": null,
@@ -232618,11 +232972,15 @@
     "weight": null,
     "requiredLevel": null,
     "location": null,
-    "compositionPos": 8,
+    "compositionPos": 65535,
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "cd__2051": [
+        "3"
+      ]
+    }
   },
   "4990": {
     "id": 4990,
@@ -234242,7 +234600,7 @@
   },
   "4791": {
     "id": 4791,
-    "aegisName": "마력석_검정",
+    "aegisName": "Def3",
     "name": "DEF +3",
     "unidName": "DEF +3",
     "resName": "",
@@ -234423,7 +234781,7 @@
   },
   "4762": {
     "id": 4762,
-    "aegisName": "안실라",
+    "aegisName": "Evasion6",
     "name": "Esquiva +6",
     "unidName": "Esquiva +6",
     "resName": "",
@@ -234609,13 +234967,13 @@
   },
   "4804": {
     "id": 4804,
-    "aegisName": "안실라",
+    "aegisName": "Coluceo_Heal30",
     "name": "Catolicismo 1",
     "unidName": "Catolicismo 1",
     "resName": "",
     "description": "",
     "slots": 0,
-    "itemTypeId": 6,
+    "itemTypeId": 11,
     "itemSubTypeId": 0,
     "itemLevel": null,
     "attack": null,
@@ -234623,11 +234981,15 @@
     "weight": null,
     "requiredLevel": null,
     "location": null,
-    "compositionPos": 8,
+    "compositionPos": 65535,
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "spCost__2043": [
+        "-30"
+      ]
+    }
   },
   "4423": {
     "id": 4423,
@@ -234786,7 +235148,7 @@
   },
   "4796": {
     "id": 4796,
-    "aegisName": "마력석_빨강",
+    "aegisName": "HP200",
     "name": "HP +200",
     "unidName": "HP +200",
     "resName": "",

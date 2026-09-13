@@ -8,7 +8,7 @@ export const ItemOptionTable: [ItemTypeEnum, ItemOptionNumber[]][] = [
   [ItemTypeEnum.headLower, [ItemOptionNumber.H_Low_1, ItemOptionNumber.H_Low_2]],
   [ItemTypeEnum.armor, [ItemOptionNumber.Armor_1, ItemOptionNumber.Armor_2, ItemOptionNumber.Armor_3]],
   [ItemTypeEnum.garment, [ItemOptionNumber.Garment_1, ItemOptionNumber.Garment_2]],
-  // [ItemTypeEnum.boot, [ItemOptionNumber.Boot_1, ItemOptionNumber.Boot_2]],
+  [ItemTypeEnum.boot, [ItemOptionNumber.Boot_1, ItemOptionNumber.Boot_2]],
   [ItemTypeEnum.accLeft, [ItemOptionNumber.A_Left_1, ItemOptionNumber.A_Left_2]],
   [ItemTypeEnum.accRight, [ItemOptionNumber.A_Right_1, ItemOptionNumber.A_Right_2]],
 

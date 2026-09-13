@@ -52,8 +52,10 @@ export interface EquipmentSummaryModel {
    * the records read backwards. It ends in `Percent`, so the item panel already prints it
    * with a "%"; it must never be added to `isReductionKey`.
    *
-   * Per-skill SP costs ("Custo de SP de [Curar] -5") are a different shape — flat, and
-   * keyed to one skill — and have no key.
+   * Per-skill SP costs ("Custo de SP de [Sopro Divino] -30") are a different shape — flat,
+   * and keyed to one skill — so they take a key per skill id, `spCost__<id>`, with the
+   * client's sign kept the same way. DISPLAY ONLY as well: first carried by the Mora enchant
+   * Catolicismo 1 (4804).
    */
   hpRecovRate: number;
   spRecovRate: number;

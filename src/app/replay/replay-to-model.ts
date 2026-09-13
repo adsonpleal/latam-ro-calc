@@ -410,7 +410,7 @@ export function replayToModel(replay: Replay, itemMap: ItemMap): ReplayImportRes
    * the calculator's per-slot option numbers (see item-options-table.ts). The
    * options belong to whichever worn slot carries option numbers (weapons,
    * armor, garment, shield, accessories, headgear, shadow gear); slots without
-   * any (boots, lower headgear, costumes) can't hold them. Each option is mapped
+   * any (costumes) can't hold them. Each option is mapped
    * to a calc option-script and dropped (counted) when unsupported or when the
    * slot has no remaining option positions.
    */
