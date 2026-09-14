@@ -17,7 +17,7 @@ import { Directive, ElementRef, HostBinding, HostListener, Input } from '@angula
  *
  * When gated off, it adds no role/tabindex and ignores keys, so an inert element
  * isn't announced as a button or made focusable — the guard must match whatever
- * makes the `(click)` a no-op. Same one-directive intent as MissingSkillIconDirective.
+ * makes the `(click)` a no-op. Same one-directive intent as MissingIconDirective.
  *
  * The two @angular-eslint template a11y rules (click-events-have-key-events,
  * interactive-supports-focus) are static and can't see this directive, so templates
@@ -25,7 +25,7 @@ import { Directive, ElementRef, HostBinding, HostListener, Input } from '@angula
  *
  * The `keyActivate` selector is intentionally un-prefixed (not `appKeyActivate`) to
  * read like a native a11y attribute at the call site, matching the img.skill_icon
- * choice in MissingSkillIconDirective — hence the directive-selector exemption.
+ * choice in MissingIconDirective — hence the directive-selector exemption.
  */
 // eslint-disable-next-line @angular-eslint/directive-selector
 @Directive({ selector: '[keyActivate]', standalone: true })

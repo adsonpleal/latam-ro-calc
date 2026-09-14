@@ -78,7 +78,7 @@
           class="rot-icon rot-icon--btn"
           [src]="entry.icon | iconUrl: 'skill'"
           [alt]="entry.name"
-          missingSkillIcon
+          missingIcon
           role="button"
           tabindex="0"
           keyActivate
@@ -313,7 +313,7 @@
       <ng-template let-option pTemplate="item">
         <div class="rot-opt">
           <img class="rot-icon" *ngIf="option.isBasic" [src]="basicAttackIcon" alt="" aria-hidden="true" />
-          <img class="rot-icon" *ngIf="!option.isBasic" [src]="option.icon | iconUrl: 'skill'" alt="" missingSkillIcon />
+          <img class="rot-icon" *ngIf="!option.isBasic" [src]="option.icon | iconUrl: 'skill'" alt="" missingIcon />
           <span>{{ option.label }}</span>
           <span class="rot-opt-flag" *ngIf="isInRotation(option.value)">já na rotação</span>
         </div>

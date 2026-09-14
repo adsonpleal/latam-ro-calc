@@ -22,7 +22,7 @@
   [showDelay]="350"
   (click)="onPick($event)"
 >
-  <img *ngIf="view.icon" class="eq-chip__icon" [src]="view.icon | iconUrl: 'item'" alt="" loading="lazy" (error)="onIconError($event)" />
+  <img *ngIf="view.icon" class="eq-chip__icon" [src]="view.icon | iconUrl: 'item'" alt="" loading="lazy" missingIcon />
   <!-- Chips that carry no item still ellipsise (a long Bônus Aleatório, say), so the label
        gets a plain tooltip of its own — on the inner span, so it never competes with the
        description popover on the button.
@@ -36,10 +36,10 @@
   <span
     *ngIf="view.preRelease"
     class="pre_release_tag"
-    pTooltip="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride)."
+    pTooltip="Prévia: item ainda não lançado no LATAM — nome e descrição em inglês, do kRO/iRO (divine-pride)."
     tooltipPosition="top"
     [showDelay]="300"
-    >iRO</span
+    >Prévia</span
   >
 </button>
 

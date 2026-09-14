@@ -245,10 +245,6 @@ export class ItemPickerOverlayComponent {
    *  directive — per character typed. Rows are already identified by value. */
   trackRow = (_: number, row: { value: any }): any => row.value;
 
-  onIconError(event: Event): void {
-    (event.target as HTMLElement).style.display = 'none';
-  }
-
   private canAscend(): boolean {
     return this.request?.mode === 'tree' && !this.query.trim() && this.trail.length > 0;
   }

@@ -10,6 +10,11 @@ export interface TargetReductionInput {
   isRedAura: boolean;
   /** The Aliviar level the target is under; 0 when it is not casting it. */
   relieveLevel: number;
+  /**
+   * The reduction the target's map applies, as a percentage (Varmundt's Biosphere: 90, or
+   * 99 for its MVPs); 0 or absent when the map applies none.
+   */
+  mapReductionPercent?: number;
 }
 
 export interface TargetReduction {
@@ -24,8 +29,11 @@ export interface TargetReduction {
 /** The red aura leaves a thousandth of the damage — https://browiki.org/wiki/MVP. */
 const RED_AURA_MULTIPLIER = 0.001;
 
+/** "a", "a e b", "a, b e c". */
+const joinPtBr = (parts: string[]): string => (parts.length > 1 ? `${parts.slice(0, -1).join(', ')} e ${parts.at(-1)}` : parts[0]);
+
 /**
- * The two reductions a target can apply, and the name the step carries.
+ * The reductions a target can apply, and the name the step carries.
  *
  * They multiply, so a red-aura MVP under Aliviar is reduced by both, and the label says so
  * rather than crediting one of them. The percentage is derived from the multiplier rather
@@ -36,15 +44,17 @@ const RED_AURA_MULTIPLIER = 0.001;
 export function targetReduction(input: TargetReductionInput): TargetReduction {
   const { isRedAura, relieveLevel } = input;
   const relievePercent = relieveReductionPercent(relieveLevel);
-  const hasRelieve = relievePercent > 0;
+  const mapPercent = Math.min(Math.max(input.mapReductionPercent || 0, 0), 100);
 
-  const multiplier = (isRedAura ? RED_AURA_MULTIPLIER : 1) * ((100 - relievePercent) / 100);
+  const multiplier = (isRedAura ? RED_AURA_MULTIPLIER : 1) * ((100 - mapPercent) / 100) * ((100 - relievePercent) / 100);
+  if (multiplier === 1) return { multiplier: 1, percent: 0, label: '' };
+
+  const sources: string[] = [];
+  if (isRedAura) sources.push('de aura');
+  if (mapPercent > 0) sources.push('do mapa');
+  if (relievePercent > 0) sources.push(sources.length ? 'Aliviar' : 'por Aliviar');
+
   const percent = (1 - multiplier) * 100;
-  const shown = formatNumber(percent, 0, 3);
 
-  if (isRedAura && hasRelieve) return { multiplier, percent, label: `Redução de aura e Aliviar (${shown}%)` };
-  if (hasRelieve) return { multiplier, percent, label: `Redução por Aliviar (${shown}%)` };
-  if (isRedAura) return { multiplier, percent, label: `Redução de aura (${shown}%)` };
-
-  return { multiplier: 1, percent: 0, label: '' };
+  return { multiplier, percent, label: `Redução ${joinPtBr(sources)} (${formatNumber(percent, 0, 3)}%)` };
 }

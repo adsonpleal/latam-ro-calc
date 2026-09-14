@@ -1,4 +1,4 @@
-import { ElementType, RED_AURA_MVP_IDS, hasRelieve, relieveMultiplier } from '../constants';
+import { ElementType, RED_AURA_MVP_IDS, hasRelieve, mapDamageReductionPercent, relieveMultiplier } from '../constants';
 import { PlayerTargetProfile } from '../core/pvp';
 import { MonsterModel } from '../models/monster.model';
 import { firstUppercase, floor } from '../utils';
@@ -43,6 +43,12 @@ interface PreparedMonsterModel {
    */
   isRedAura: boolean;
   /**
+   * The reduction the monster's map applies to every hit it takes, as a percentage — 90
+   * in Varmundt's Biosphere, 99 for its MVPs, 0 everywhere else (see
+   * constants/map-damage-reduction).
+   */
+  mapDamageReduction: number;
+  /**
    * Whether this monster casts Aliviar (see RELIEVE_MONSTER_IDS) — the calculator only
    * offers the level picker when it does.
    */
@@ -85,6 +91,7 @@ export class Monster {
     type: 'normal',
     isMvp: false,
     isRedAura: false,
+    mapDamageReduction: 0,
     hasRelieve: false,
     relieveLevel: 0,
     typeUpper: 'Normal',
@@ -200,6 +207,7 @@ export class Monster {
       type: _class,
       isMvp: mvp === 1,
       isRedAura: RED_AURA_MVP_IDS.has(monster.id),
+      mapDamageReduction: mapDamageReductionPercent(monster.id),
       hasRelieve: hasRelieve(monster.id),
       relieveLevel: hasRelieve(monster.id) ? relieveLevel : 0,
       typeUpper: firstUppercase(_class) as any,
@@ -256,6 +264,7 @@ export class Monster {
       type: 'normal',
       isMvp: false,
       isRedAura: false,
+      mapDamageReduction: 0,
       hasRelieve: false,
       relieveLevel: 0,
       typeUpper: 'Normal',

@@ -29,10 +29,10 @@
     <span
       *ngIf="item?.preRelease"
       class="pre_release_tag"
-      pTooltip="Item ainda não lançado no LATAM — nome e descrição vêm do iRO (divine-pride)."
+      pTooltip="Prévia: item ainda não lançado no LATAM — nome e descrição em inglês, do kRO/iRO (divine-pride)."
       tooltipPosition="top"
       [showDelay]="300"
-      >iRO</span
+      >Prévia</span
     >
     <span class="eq-card__spacer"></span>
 
@@ -131,7 +131,7 @@
       [showDelay]="350"
       tooltipStyleClass="item_desc_tooltip"
     >
-      <img *ngIf="entry" [src]="entry.id | iconUrl: 'item'" alt="" loading="lazy" (error)="onIconError($event)" />
+      <img *ngIf="entry" [src]="entry.id | iconUrl: 'item'" alt="" loading="lazy" missingIcon />
     </span>
 
     <div class="eq-card__chips">

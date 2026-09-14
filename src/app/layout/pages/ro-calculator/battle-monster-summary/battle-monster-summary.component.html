@@ -40,6 +40,14 @@
       tooltipPosition="top"
       >Aura</span
     >
+    <span
+      *ngIf="totalSummary?.monster?.mapDamageReduction"
+      class="font-bold px-1 ml-1 border-round"
+      style="background: var(--purple-500); color: #fff"
+      [pTooltip]="'Biosfera de Varmundt: redução de ' + totalSummary.monster.mapDamageReduction + '% de todo o dano recebido, em todo o mapa.'"
+      tooltipPosition="top"
+      >Redução {{ totalSummary.monster.mapDamageReduction }}%</span
+    >
   </div>
   <!--
     Aliviar: only for the monsters that cast it, so the card is unchanged for every other

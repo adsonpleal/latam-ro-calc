@@ -619,7 +619,7 @@
             <p-listbox [options]="consumableList" [(ngModel)]="model.consumables" [multiple]="true" [metaKeySelection]="false" (onChange)="onConsumableChange()">
               <ng-template let-item pTemplate="item">
                 <div class="flex gap-2" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
-                  <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
+                  <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" missingIcon />
                   <div class="text_ellips">{{ item.label }}</div>
                 </div>
               </ng-template>
@@ -632,7 +632,7 @@
                 <p-listbox [options]="con" [(ngModel)]="model.consumables2[i]" [multiple]="false" [metaKeySelection]="false" (onChange)="onConsumableChange()">
                   <ng-template let-item pTemplate="item">
                     <div class="flex gap-2" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
-                      <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
+                      <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" missingIcon />
                       <div class="text_ellips">{{ item.label }}</div>
                     </div>
                   </ng-template>
@@ -647,7 +647,7 @@
                 <p-listbox [options]="aspdPotionList" [(ngModel)]="model.aspdPotion" [multiple]="false" [metaKeySelection]="false" (onChange)="onConsumableChange()">
                   <ng-template let-item pTemplate="item">
                     <div class="flex gap-2" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
-                      <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
+                      <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" missingIcon />
                       <div class="text_ellips">{{ item.label }}</div>
                     </div>
                   </ng-template>
@@ -657,7 +657,7 @@
                 <p-listbox [options]="aspdPotionList2" [(ngModel)]="model.aspdPotions" [multiple]="true" [metaKeySelection]="false" (onChange)="onConsumableChange()">
                   <ng-template let-item pTemplate="item">
                     <div class="flex gap-2" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
-                      <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" />
+                      <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" missingIcon />
                       <div class="text_ellips">{{ item.label }}</div>
                     </div>
                   </ng-template>

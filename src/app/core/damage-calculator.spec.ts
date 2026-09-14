@@ -56,6 +56,27 @@ describe('DamageCalculator red-aura reduction', () => {
 });
 
 /**
+ * Varmundt's Biosphere reduces every hit its monsters take across the whole map — 90% on the
+ * field monsters, 99% on the MVPs (constants/map-damage-reduction). Same chokepoint again.
+ */
+describe('DamageCalculator map-wide reduction', () => {
+  it('leaves 10% of the damage on a Biosphere field monster', () => {
+    expect(reduceWith(21548, 1_000_000)).toBe(100_000); // Cornus of Prairie
+    expect(reduceWith(21548, 1_234_567)).toBe(123_456); // floored
+  });
+
+  it('leaves 1% on a Biosphere MVP', () => {
+    expect(reduceWith(21571, 1_000_000)).toBe(10_000); // Ktullanux of Iceberg
+  });
+
+  it('names the step after the map in the formula trace', () => {
+    const dc = new DamageCalculator();
+    (dc as any).monster = new Monster().setData(monsterModel(21548));
+    expect((dc as any).auraReductionLabel).toBe('Redução do mapa (90%)');
+  });
+});
+
+/**
  * Aliviar (NPC_RELIEVE_ON, 771) — https://browiki.org/wiki/Aliviar. It shares the
  * applyAuraReduction chokepoint with the red aura, so the same harness pins it. Requested
  * by Ynk for the Jardim Secreto bosses, whose DPS is unreadable without it.

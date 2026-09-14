@@ -167,10 +167,6 @@ export class EquipmentSlotCardComponent implements OnChanges {
     this.toggleCompare.emit();
   }
 
-  onIconError(event: Event): void {
-    (event.target as HTMLElement).style.display = 'none';
-  }
-
   onChipClear(view: ChipView, compare: boolean): void {
     this.pickField.emit({ chip: view.chip, value: null, compare });
   }

@@ -579,6 +579,12 @@
   color: #fff !important;
 }
 
+/* The Biosphere's map-wide reduction — purple so it never reads as the red aura. */
+:host ::ng-deep .tag-map-reduction.p-tag {
+  background: var(--purple-500) !important;
+  color: #fff !important;
+}
+
 /* p-selectButton (multiple mode) container: wrap on narrow widths like the old
    hand-rolled list did. ::ng-deep because the .p-selectbutton element carrying
    this class is rendered by PrimeNG and lacks this component's attribute. */

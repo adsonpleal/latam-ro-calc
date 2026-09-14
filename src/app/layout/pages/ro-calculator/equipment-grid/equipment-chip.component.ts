@@ -32,12 +32,4 @@ export class EquipmentChipComponent {
   onPick(event: MouseEvent): void {
     this.pick.emit(event.currentTarget as HTMLElement);
   }
-
-  /**
-   * ragassets does not serve every icon. At 19px a gap went unnoticed; on a chip a broken
-   * image box does not, so drop the element instead.
-   */
-  onIconError(event: Event): void {
-    (event.target as HTMLElement).style.display = 'none';
-  }
 }

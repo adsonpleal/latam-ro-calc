@@ -67,7 +67,7 @@ import { IconUrlPipe } from '../../../pipes/icon-url.pipe';
 import { MonsterSpritePipe } from '../../../pipes/monster-sprite.pipe';
 import { MonsterTermPipe } from '../../../pipes/monster-term.pipe';
 import { CharSpritePipe } from '../../../pipes/char-sprite.pipe';
-import { MissingSkillIconDirective } from '../../../pipes/missing-skill-icon.directive';
+import { MissingIconDirective } from '../../../pipes/missing-icon.directive';
 import { OverlayEscapeDirective } from './overlay-escape.directive';
 import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
 
@@ -117,7 +117,7 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
     MonsterSpritePipe,
     MonsterTermPipe,
     CharSpritePipe,
-    MissingSkillIconDirective,
+    MissingIconDirective,
     KeyActivateDirective,
     OverlayEscapeDirective,
   ],

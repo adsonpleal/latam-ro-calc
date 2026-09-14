@@ -100,10 +100,11 @@ describe('items-desc-mcp answers everything the raw lookup used to', () => {
 describe('the index the Worker builds matches the one the box built', () => {
   const dataset = loadDatasetFromDisk();
 
-  it('indexes the same number of items — 10503 distinct ids plus 6578 LATAM-only', () => {
+  it('indexes the same number of items — 11278 distinct ids plus 5872 LATAM-only', () => {
     expect(dataset.itemIndex.size).toBe(calcIds.size + Object.keys(latamExtra).length);
-    // The number the EC2 server's /healthz reported off the raw files.
-    expect(dataset.itemIndex.size).toBe(17081);
+    // The EC2 server's /healthz reported 17081 off the raw files; the 69 pre-release records
+    // added on 14/09/2026 (Paradise, Varmundt, Snow Flower) are calculator-only ids.
+    expect(dataset.itemIndex.size).toBe(17150);
   });
 
   it('indexes the same monsters, including the ones with no stat block', () => {

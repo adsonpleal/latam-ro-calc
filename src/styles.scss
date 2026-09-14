@@ -105,7 +105,8 @@ html {
 }
 
 /* Marks a picker row whose item LATAM has not released yet, so the reader knows the
-   English name and description came from iRO instead of the client (ItemModel.preRelease).
+   English name and description came from divine-pride (iRO, or kRO English) instead of the
+   client (ItemModel.preRelease). Labelled "Prévia".
    Global rather than component-scoped because both the equipment and the shadow-equipment
    pickers render it, and PrimeNG moves the dropdown panel out of the component subtree. */
 .pre_release_tag {

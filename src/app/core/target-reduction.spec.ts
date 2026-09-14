@@ -31,6 +31,25 @@ describe('targetReduction', () => {
     expect(r.multiplier).toBeCloseTo(0.00001, 10);
   });
 
+  // Varmundt's Biosphere: a map-wide 90% on the field monsters, 99% on the MVPs.
+  it('names the map when the map is what reduces the damage', () => {
+    const field = targetReduction({ isRedAura: false, relieveLevel: 0, mapReductionPercent: 90 });
+    expect(field.label).toBe('Redução do mapa (90%)');
+    expect(field.multiplier).toBeCloseTo(0.1, 10);
+
+    const mvp = targetReduction({ isRedAura: false, relieveLevel: 0, mapReductionPercent: 99 });
+    expect(mvp.label).toBe('Redução do mapa (99%)');
+    expect(mvp.multiplier).toBeCloseTo(0.01, 10);
+  });
+
+  it('multiplies the map reduction with the other sources and names all of them', () => {
+    const r = targetReduction({ isRedAura: true, relieveLevel: 5, mapReductionPercent: 90 });
+
+    expect(r.multiplier).toBeCloseTo(0.001 * 0.1 * 0.5, 12);
+    expect(r.label).toBe('Redução de aura, do mapa e Aliviar (99,995%)');
+    expect(targetReduction({ isRedAura: false, relieveLevel: 5, mapReductionPercent: 90 }).label).toBe('Redução do mapa e Aliviar (95%)');
+  });
+
   it('leaves an ordinary target alone, with nothing to label', () => {
     const r = targetReduction({ isRedAura: false, relieveLevel: 0 });
 

@@ -345,9 +345,13 @@ export class DamageCalculator {
    *   physical and magic damage taken by 10% to 99% depending on its level. Off unless
    *   the user picked a level for a monster that casts it — see constants/monster-relieve.
    *
+   * - the **map-wide reduction** of Varmundt's Biosphere (see constants/map-damage-reduction),
+   *   which leaves 10% of the damage, 1% on its MVPs.
+   *
    * They multiply: a red-aura MVP under Aliviar 10 leaves 0.1% of 1%. Nothing in the game
-   * is both today (the two Jardim Secreto bosses have no red aura), so the order between
-   * them is unobservable; multiplying is what keeps it that way if one ever is.
+   * carries two of them today (the two Jardim Secreto bosses have no red aura, the Biosphere
+   * MVPs neither), so the order between them is unobservable; multiplying is what keeps it
+   * that way if one ever does.
    *
    * A no-op for every ordinary target, which is why it can sit on every damage path.
    */
@@ -355,6 +359,7 @@ export class DamageCalculator {
     return targetReduction({
       isRedAura: !!this.monster?.data?.isRedAura,
       relieveLevel: this.monster?.data?.relieveLevel ?? 0,
+      mapReductionPercent: this.monster?.data?.mapDamageReduction ?? 0,
     });
   }
 

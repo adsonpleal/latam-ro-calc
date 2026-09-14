@@ -61,10 +61,13 @@
   border-color: transparent;
 }
 
+/* A fixed box rather than max-* bounds, so a chip whose icon ragassets does not serve keeps
+   the icon's room (MissingIconDirective blanks it) and lines up with the chips that have one. */
 .eq-chip__icon {
   flex: 0 0 auto;
-  max-width: 20px;
-  max-height: 20px;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
   image-rendering: pixelated;
 }
 

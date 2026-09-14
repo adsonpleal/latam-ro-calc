@@ -73,7 +73,7 @@ O arquivo é um objeto cuja **chave é o id do item**. Exemplo mínimo:
 | `compositionPos` | string \| null  | Posições combináveis (chapéus multi-slot). |
 | `usableClass`    | string[]        | Classes que podem equipar (nomes internos, ex.: `Swordman`). |
 | `script`         | objeto          | Os bônus do item — o coração deste documento (seções 2–5). |
-| `preRelease`     | `true` \| —     | **Temporário.** Item que ainda não saiu no LATAM, exibido mesmo assim com o texto em inglês do iRO. Ver abaixo. |
+| `preRelease`     | `true` \| —     | **Temporário.** Item que ainda não saiu no LATAM, exibido mesmo assim com o texto em inglês do iRO (ou do kRO, quando o iRO não tem). Ver abaixo. |
 
 **Mapa de `itemSubTypeId`** (equipamento normal, `itemTypeId: 2`): topo `512` (+`location`),
 armadura `513`, escudo `514`, capa `515`, calçado `516`, acessório `517` (ou `510` direito /
@@ -122,11 +122,11 @@ já está por vir e as pessoas querem montar a build antes do lançamento:
 }
 ```
 
-- **`name` e `description` ficam em inglês**, copiados da página do iRO no divine-pride —
+- **`name` e `description` ficam em inglês**, copiados da página do iRO no divine-pride (ou da dpRO, a tradução em inglês do kRO, quando o item não saiu no iRO) —
   não existe texto pt-BR oficial ainda, e inventar um quebraria a busca por nome. O
   `description` aqui é a exceção à regra de deixar `""`: como não há overlay pt-BR, é a
   única descrição que existe, e o gerador a publica sem depender do `--all-desc`.
-- Os pickers marcam essas linhas com uma etiqueta **iRO**, para ninguém montar uma build
+- Os pickers marcam essas linhas com uma etiqueta **Prévia**, para ninguém montar uma build
   achando que já dá para equipar (`.pre_release_tag` em `src/styles.scss`).
 - **É temporário.** Quando o LATAM lançar o item, `sync-with-ragassets` traz o id para
   `latam-items.json` e `src/app/api-services/pre-release-items.spec.ts` **falha** listando

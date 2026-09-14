@@ -8,8 +8,8 @@ const index = dataset.itemIndex;
 
 describe('ItemIndex composition', () => {
   it('unions both files into one row per id', () => {
-    // 13846 LATAM ids + 3235 calculator-only ids = 17081 unique.
-    expect(index.size).toBe(17081);
+    // 13846 LATAM ids + 3304 calculator-only ids = 17150 unique.
+    expect(index.size).toBe(17150);
   });
 
   it('collapses the thrice-listed enchant 4807 into one row with unioned slots', () => {

@@ -157,6 +157,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.127-beta',
+      date: '14-09-2026',
+      logs: [
+        'Entraram como prévia os equipamentos Paradise (armas, armaduras e equipamentos sombrios, do iniciante ao avançado), os equipamentos da Biosfera de Varmundt (armaduras, capas e botas rúnicas e os itens Engraved) e os do Episódio 19 (equipamentos Snow Flower, armas Glacier e dois visuais). Esses itens ainda não chegaram ao LATAM: aparecem com a etiqueta "Prévia", com nome e descrição em inglês do divine-pride, e os encantamentos que eles aceitam passam a ficar disponíveis.',
+        'Os bônus de conjunto dos equipamentos Snow Flower passaram a ser aplicados; nenhum deles valia. Também foram corrigidos valores de alguns equipamentos Paradise, como o ATQM da Paradise Super Novice Wand, o bônus de Tempestade de Flechas do Paradise Ranger Bow e a habilidade que reduz a pós-conjuração no Paradise Shadow Chaser Dagger.',
+        'Os monstros da Biosfera de Varmundt ganharam a etiqueta "Redução 90%": o mapa reduz em 90% todo o dano que eles recebem, e 99% nos quatro MVPs. A redução passou a entrar no cálculo e aparece no detalhamento do dano.',
+        'A etiqueta dos itens que ainda não saíram no LATAM passou de "iRO" para "Prévia".',
+        'Itens e monstros sem imagem no servidor de imagens deixaram de mostrar a imagem quebrada; o espaço da imagem fica vazio, mantendo o alinhamento.',
+      ],
+    },
+    {
       v: '0.1.126-beta',
       date: '14-09-2026',
       logs: [

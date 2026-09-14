@@ -104,4 +104,25 @@ describe('Monster.setData', () => {
       expect(m.isRedAura).toBe(false);
     });
   });
+
+  describe('map-wide damage reduction', () => {
+    const reductionOf = (id: number, overrides: Partial<MonsterModel['stats']> = {}) =>
+      new Monster().setData({ ...monster(overrides), id } as MonsterModel).data.mapDamageReduction;
+
+    it('takes 90% off every Varmundt Biosphere field monster', () => {
+      expect(reductionOf(21548)).toBe(90); // Cornus of Prairie, bl_grass
+      expect(reductionOf(21564)).toBe(90); // Ice Titan of Iceberg, bl_ice
+      expect(reductionOf(21578)).toBe(90); // Knight of Abyss in Death, bl_death
+    });
+
+    it('takes 99% off the four Biosphere MVPs', () => {
+      for (const id of [21555, 21563, 21571, 21579]) expect(reductionOf(id, { class: 1, mvp: 1 })).toBe(99);
+    });
+
+    it('leaves everything outside the Biosphere alone', () => {
+      expect(reductionOf(1002)).toBe(0); // Poring
+      expect(reductionOf(21547)).toBe(0);
+      expect(reductionOf(21580)).toBe(0);
+    });
+  });
 });

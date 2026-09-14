@@ -46,11 +46,12 @@ describe('health', () => {
   it('reports the loaded dataset', async () => {
     const res = await call(new Request('https://simulador.latam-tools.com.br/mcp/healthz'));
     expect(res.status).toBe(200);
-    // 17081 is the union of the two item sets: the 10503 distinct ids in items-core plus
-    // the 6578 LATAM ids with no calculator record. It is the number the EC2 server
-    // reported off the raw JSONs, so it holding here is what proves the derived data
-    // pipeline lost nothing on the way.
-    await expect(res.json()).resolves.toMatchObject({ ok: true, items: 17081, classes: 40 });
+    // 17150 is the union of the two item sets: the 11278 distinct ids in items-core plus
+    // the 5872 LATAM ids with no calculator record. It is the union computed off the raw
+    // JSONs (the EC2 server reported 17081, before the calculator-only pre-release records
+    // of 14/09/2026), so it holding here is what proves the derived data pipeline lost
+    // nothing on the way.
+    await expect(res.json()).resolves.toMatchObject({ ok: true, items: 17150, classes: 40 });
   });
 });
 
