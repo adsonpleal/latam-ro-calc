@@ -186351,23 +186351,29 @@
     "script": {
       "atkPercent": [
         "8",
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==9]===5"
+        "EQUIP_ID[400465]REFINE[headUpper==9]===5"
       ],
       "matkPercent": [
         "8",
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==9]===5"
+        "EQUIP_ID[400465]REFINE[headUpper==9]===5"
       ],
       "acd": [
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==4]---2"
+        "EQUIP_ID[400465]REFINE[headUpper==4]---2"
       ],
       "pAtk": [
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==9]===3"
+        "EQUIP_ID[400465]REFINE[headUpper==9]===3"
       ],
       "sMatk": [
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==9]===3"
+        "EQUIP_ID[400465]REFINE[headUpper==9]===3"
       ],
       "fct": [
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==11]===0.2"
+        "EQUIP_ID[400465]REFINE[headUpper==11]===0.2"
+      ],
+      "hpDrain": [
+        "EQUIP_ID[400465]REFINE[headUpper==7]===7"
+      ],
+      "magicHealHp": [
+        "EQUIP_ID[400465]REFINE[headUpper==7]===1500"
       ]
     }
   },

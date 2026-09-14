@@ -215,7 +215,14 @@ export const grayWolfAccL_slot3 = [
   'Wolf_Orb_HealSP_3',
   'Wolf_Orb_HealSP_4',
 ];
-export const grayWolfAccL_slot2 = [...grayWolfAccBase, 'Wolf_Orb_Life', 'Wolf_Orb_M_Heal', 'Wolf_Orb_A_Force'];
+// Slot 1 differs by side, which bROWiki's single Acessórios table hides — it prints the
+// right-hand pool for all four pieces. Hazy Forest keeps the kRO tables apart: the pendant
+// and earring (Acc_R) take Drain Life / Magic Healing, the ring and necklace (Acc_L) take
+// their SP twins Drain Soul / Magic Soul, each at 3,60% next to All Force.
+// @see https://hazyforest.com/enchants:gray_wolf_accessories_right
+// @see https://hazyforest.com/enchants:gray_wolf_accessories_left
+export const grayWolfAccR_slot2 = [...grayWolfAccBase, 'Wolf_Orb_Life', 'Wolf_Orb_M_Heal', 'Wolf_Orb_A_Force'];
+export const grayWolfAccL_slot2 = [...grayWolfAccBase, 'Wolf_Orb_Soul', 'Wolf_Orb_M_Soul', 'Wolf_Orb_A_Force'];
 
 export const grayWolfSoulRing_slot4 = [
   ...em13,

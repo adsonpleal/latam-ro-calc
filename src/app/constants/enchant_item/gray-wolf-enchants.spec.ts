@@ -71,8 +71,17 @@ const BOOT_SLOT_3 = levels(3, 'Vital', 'Mental', 'Cura', 'Robusto');
 // The two slots share the damage families and diverge after them: slot 1 takes the three
 // leech orbs, slot 2 the regeneration ladder. They were wired as one list plus "Geral",
 // which left HPR/SPR and Conversão/Vida reachable from nowhere.
+//
+// Slot 1 also differs by side. bROWiki prints one Acessórios table — the right-hand one —
+// so Absorção and Mente, the SP twins of Conversão and Vida, appeared in no pool at all
+// (card simulador-orbes-lupinos-absorcao-e-mente-nao-aparecem-em-espaco-nenhum). Hazy
+// Forest's kRO tables keep the sides apart: Drain Life / Magic Healing on the pendant and
+// earring, Drain Soul / Magic Soul on the ring and necklace.
+// @see https://hazyforest.com/enchants:gray_wolf_accessories_right
+// @see https://hazyforest.com/enchants:gray_wolf_accessories_left
 const ACC_SHARED = [...levels(4, 'Mira', 'Fatal', 'Combate', 'Encanto'), 'Atraso 2', 'Atraso 3', 'Atraso 4'];
-const ACC_SLOT_1 = [...ACC_SHARED, 'Conversão', 'Vida', 'Geral'];
+const ACC_R_SLOT_1 = [...ACC_SHARED, 'Conversão', 'Vida', 'Geral'];
+const ACC_L_SLOT_1 = [...ACC_SHARED, 'Absorção', 'Mente', 'Geral'];
 const ACC_SLOT_2 = [...ACC_SHARED, ...levels(4, 'HPR', 'SPR')];
 const ACC_SLOT_3 = levels(3, ...STATS);
 
@@ -82,13 +91,8 @@ describe.each([
   ['Armaduras', ['Gray_W_Suits', 'Gray_W_Robe'], ARMOR_SLOT_1, ARMOR_SLOT_2, ARMOR_SLOT_3],
   ['Capas', ['Gray_W_Muffler', 'Gray_W_Manteau'], GARMENT_SLOT_1, GARMENT_SLOT_2, GARMENT_SLOT_3],
   ['Calçados', ['Gray_W_Boots', 'Gray_W_Shoes'], BOOT_SLOT_1, BOOT_SLOT_2, BOOT_SLOT_3],
-  [
-    'Acessórios',
-    ['Gray_W_Pendant', 'Gray_W_Ring', 'Gray_W_Earing', 'Gray_W_Necklace'],
-    ACC_SLOT_1,
-    ACC_SLOT_2,
-    ACC_SLOT_3,
-  ],
+  ['Acessórios (direito)', ['Gray_W_Pendant', 'Gray_W_Earing'], ACC_R_SLOT_1, ACC_SLOT_2, ACC_SLOT_3],
+  ['Acessórios (esquerdo)', ['Gray_W_Ring', 'Gray_W_Necklace'], ACC_L_SLOT_1, ACC_SLOT_2, ACC_SLOT_3],
 ])('%s do Lobo Cinzento', (_family, aegisNames, slot1, slot2, slot3) => {
   // getEnchants returns [_, slot1, slot2, slot3], in the player's numbering.
   it.each(aegisNames)('offers the published slot-1 pool on %s', (aegisName) => {
@@ -101,6 +105,20 @@ describe.each([
 
   it.each(aegisNames)('offers the published slot-3 pool on %s', (aegisName) => {
     expect(sorted(optionNames(getEnchants(aegisName)[3]))).toEqual(sorted(slot3));
+  });
+});
+
+describe('the accessory leech orbs stay on their own side', () => {
+  const slot1 = (aegisName: string) => optionNames(getEnchants(aegisName)[1]);
+
+  it.each(['Gray_W_Ring', 'Gray_W_Necklace'])('%s offers no HP leech orb', (aegisName) => {
+    expect(slot1(aegisName)).not.toContain('Conversão');
+    expect(slot1(aegisName)).not.toContain('Vida');
+  });
+
+  it.each(['Gray_W_Pendant', 'Gray_W_Earing'])('%s offers no SP leech orb', (aegisName) => {
+    expect(slot1(aegisName)).not.toContain('Absorção');
+    expect(slot1(aegisName)).not.toContain('Mente');
   });
 });
 

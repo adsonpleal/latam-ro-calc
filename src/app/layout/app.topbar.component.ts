@@ -157,6 +157,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.124-beta',
+      date: '13-09-2026',
+      logs: [
+        'Orbe Lupino - Absorção e Orbe Lupino - Mente entraram no primeiro espaço do Anel e do Colar do Lobo Cinzento. A tabela de Acessórios da bROWiki é uma só e traz a lista do lado direito (Conversão, Vida, Geral), que estava ligada às quatro peças; pelas tabelas do kRO o Pingente e os Brincos ficam com Conversão e Vida, e o Anel e o Colar com as versões em SP — Absorção e Mente, 3,6% cada, ao lado de Geral. Os espaços 2 e 3 não mudam. Reportado por usuário anônimo.',
+        'Pingente da Força Física-LT já estava na lista de Acessório (Direito) para as classes de 4ª desde a 0.1.97-beta, dois dias antes do relato. O que faltava: o conjunto com Marionete de Thanatos-LT passou a ser ligado pelo id da peça, e as duas linhas de sustento do cliente (5% de chance de recuperar 7% do dano como HP e 1500 de HP em ataques mágicos, ambas do +7 do elmo) foram registradas no resumo. O cliente LATAM não traz o texto de efeito desse pingente, só a descrição de sabor — os números vêm do texto do kRO. Reportado por Tasso.',
+      ],
+    },
+    {
       v: '0.1.123-beta',
       date: '13-09-2026',
       logs: [
