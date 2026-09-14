@@ -14,20 +14,19 @@ describe('skill catalog', () => {
     expect(SKILL_ID_BY_NAME['Storm Gust']).toBe(89);
   });
 
-  it('leaves out Dragonic Breath (6001), which LATAM does not have', () => {
+  it('keeps Dragonic Breath (6001) as a preview, apart from the two breaths', () => {
     // DK_DRAGONIC_BREATH is a real kRO skill and NOT a mistranslation of Aura
-    // Draconiana (5210) — it is its own skill, which is why this test used to insist it
-    // kept an id apart from the Rune Knight's Sopro do Dragão (2008). LATAM simply never
-    // received it: it is absent from the client skill feed, bROWiki omits it from the
-    // Cavaleiro Draconiano tree, and every item.json record keying a bonus on 6001 is
-    // `presentInLatam: false`. Its label was invented, so it carried no client
-    // description and ragassets served no icon for it. Removed on 17/08/2026 — see the
-    // note in jobs/DragonKnight.ts. The two skills that DO exist stay put.
+    // Draconiana (5210) nor of the Rune Knight's Sopro do Dragão (2008). LATAM has not
+    // received it: it is absent from the client skill feed and from bROWiki's Cavaleiro
+    // Draconiano tree. Removed on 17/08/2026 because its pt-BR label had been invented;
+    // back on 14/09/2026 as a preview, under its English name marked "(Prévia)" and with
+    // no description — there is no client text to take one from. See jobs/DragonKnight.ts.
     expect(SKILL_ID_BY_NAME['Dragon Breath']).toBe(2008);
     expect(SKILL_ID_BY_NAME['Dragon Breath - WATER']).toBe(5004);
     expect(SKILL_ID_BY_NAME['Dragonic Aura']).toBe(5210);
-    expect(SKILL_ID_BY_NAME['Dragonic Breath']).toBeUndefined();
-    expect(VALID_SKILL_IDS.has(6001)).toBe(false);
+    expect(SKILL_ID_BY_NAME['Dragonic Breath']).toBe(6001);
+    expect(VALID_SKILL_IDS.has(6001)).toBe(true);
+    expect(SKILL_META['Dragonic Breath']).toEqual({ id: 6001, label: 'Dragonic Breath (Prévia)' });
   });
 
   it('maps id -> description for the hover tooltip', () => {

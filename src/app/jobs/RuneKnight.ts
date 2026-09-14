@@ -4,6 +4,7 @@ import { LordKnight } from './LordKnight';
 import { ElementType } from '../constants/element-type.const';
 import { AdditionalBonusInput, InfoForClass } from '../models/info-for-class.model';
 import { floor, round } from '../utils';
+import { SKILL_ID_BY_NAME } from '../skills';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 1, 0, 0],
@@ -571,16 +572,32 @@ export class RuneKnight extends LordKnight {
     return maxHp * curHp * 0.01;
   }
 
+  /**
+   * Sopro do Dragão / Bafo do Dragão before DEF:
+   *
+   *     [floor(HP atual ÷ 50) + floor(SP máx. ÷ 4)] × (nv × nv. base ÷ 100) × termo%
+   *
+   * where the term is `90 + 10 × Adestrar Dragão`, and once Aura Draconiana is learned
+   * `floor((90 + 10 × Adestrar Dragão + POD ÷ 5) × (1 + P.ATQ ÷ 100))` (irowiki). P.ATQ
+   * multiplies the whole term, POD ÷ 5 is not floored, and P.ATQ is the status-window
+   * total, not the item share in `totalBonus`. `teste-sopro-dk.rrf` pins both: 256.897
+   * bare-handed (POD 113, P.ATQ 54 → term 250) and 6.913.590 geared (POD 118, P.ATQ 86 →
+   * term 304), each to the unit. Integer arithmetic, so the floor never lands on a
+   * 303,99999… that the game rounds as 304.
+   */
   protected calcDragonBreathFormula(input: AtkSkillFormulaInput) {
-    const { model, skillLevel, currentHp, maxSp, status, totalBonus } = input;
+    const { model, skillLevel, currentHp, maxSp, status, pAtk = 0 } = input;
     const baseLevel = model.level;
-    const dragonTrainingLv = this.learnLv('Dragon Training');
+    const trainingTerm = 90 + this.learnLv('Dragon Training') * 10;
+    const term = this.learnLv('Dragonic Aura') > 0 ? Math.floor(((5 * trainingTerm + status.totalPow) * (100 + pAtk)) / 500) : trainingTerm;
 
-    const { totalPow } = status;
-    const { pAtk } = totalBonus;
-    const dragonnicBonus = this.learnLv('Dragonic Aura') > 0 ? (totalPow / 5) * (1 + pAtk / 100) : 0;
+    return ((floor(currentHp / 50) + floor(maxSp / 4)) * skillLevel * baseLevel * term) / 10000;
+  }
 
-    return (floor(currentHp / 50) + floor(maxSp / 4)) * ((skillLevel * baseLevel) / 100) * (90 + dragonTrainingLv * 10 + dragonnicBonus) * 0.01;
+  /** Aura Draconiana's "aumenta o dano de Sopro do Dragão e Bafo do Dragão" — nothing on a
+   *  Rune Knight, which cannot cast it. */
+  protected getDragonBreathAuraMultiplier(): number {
+    return 1;
   }
 
   private calcPostSkillDamgeDragonBreath(
@@ -635,17 +652,23 @@ export class RuneKnight extends LordKnight {
       return round((totalBonus || 100) * 0.01, 4)
     }
 
+    // Items key "Dano de [Sopro do Dragão]" by skill id ("2008" / "5004"). This used to read
+    // totalBonus['Dragon Breath - WATER'], which nothing but the Aura toggle ever wrote, so
+    // every item bonus to the breaths was silently dropped — 228% of it on the build in
+    // teste-sopro-dk.rrf, which simulated at a seventh of the recording.
+    const equipSkillBonus = totalBonus[SKILL_ID_BY_NAME[skillName]] || 0;
+
     let totalDamage = baseSkillDamage;
     totalDamage = totalDamage - (reducedHardDef + finalSoftDef);
     totalDamage = floor(totalDamage * (100 + totalBonus.range) * 0.01);
-    totalDamage = floor(totalDamage * (100 + (totalBonus[skillName] || 0)) * 0.01);
+    totalDamage = floor(totalDamage * (100 + equipSkillBonus) * 0.01);
+    // A stage of its own, as the Aura's toggle has always been; no recording carries the
+    // Aura state (EFST 1176) yet, so whether it adds to the item bonuses is still open.
+    totalDamage = floor(totalDamage * this.getDragonBreathAuraMultiplier());
     totalDamage = floor(totalDamage * propertyMultiplier);
 
     totalDamage = floor(totalDamage * cometMultiplier);
     totalDamage = floor(totalDamage * getDebuffMultiplier());
-    // if (this.isSkillActive('Dragonic Aura')) {
-    //   totalDamage += (totalDamage * this.learnLv('Dragonic Aura')) / 10;
-    // }
 
     return totalDamage;
   }

@@ -2340,6 +2340,7 @@ export class DamageCalculator {
       currentHp,
       currentSp,
       stack: maxStack,
+      pAtk,
     };
 
 
@@ -2393,13 +2394,18 @@ export class DamageCalculator {
       const skillPropertyAtk = typeof getElement === 'function' ? getElement(skillValue) : skillData.element || propertyAtk;
       const propertyMultiplier = this.getPropertyMultiplier(skillPropertyAtk);
 
-      const d = customFormula({
-        ...formulaParams,
-        baseSkillDamage,
-        sizePenalty,
-        propertyMultiplier,
-        ...this.getPhisicalDefData(),
-      });
+      // The target's own reduction (red aura, Aliviar) belongs to the monster, not to the
+      // formula, so it is applied here rather than left to each customFormula — the two
+      // dragon breaths used to skip it, and Aliviar on Betelgeuse changed nothing for them.
+      const d = this.applyAuraReduction(
+        customFormula({
+          ...formulaParams,
+          baseSkillDamage,
+          sizePenalty,
+          propertyMultiplier,
+          ...this.getPhisicalDefData(),
+        }),
+      );
       calculated = {
         canCri: false,
         minDamage: d,

@@ -150,6 +150,9 @@ const TraitBonusTable: Record<number, [number, number, number, number, number, n
   70: [10, 7, 3, 5, 7, 8],
 };
 
+/** Dragonic Breath's base ATQ% per level (irowiki). */
+const DRAGONIC_BREATH_BASE = [400, 700, 1100, 1450, 1800, 2150, 2500, 2850, 3200, 3550];
+
 export class DragonKnight extends RuneKnight {
   protected override CLASS_NAME = ClassName.DragonKnight;
   protected override JobBonusTable = jobBonusTable;
@@ -258,23 +261,37 @@ export class DragonKnight extends RuneKnight {
         return (skillLevel * 600 + totalPow * 5 + weight * baseWeaponLevel) * (baseLevel / 100);
       },
     },
-    // Dragonic Breath (DK_DRAGONIC_BREATH, 6001) used to sit here, and was removed on
-    // 17/08/2026: LATAM does not have it. It is a genuine kRO skill — distinct from both
-    // Aura Draconiana (5210) and the Rune Knight's Sopro do Dragão (2008), which is why
-    // skill-catalog.spec.ts insisted on the separate id — but it arrived in a later kRO
-    // rebalance that this client has not received. Three independent checks agree: the
-    // ragassets skill feed carries 1558 skills and none is 6001; bROWiki has no page for
-    // it and leaves it out of the Cavaleiro Draconiano tree; and no reachable item's 6001
-    // bonus can ever be read, since the skill cannot be picked (three of the 20 item.json
-    // records keying it are reachable — 630027 Tridente Celestial, 400374 the Crown of
-    // Good and Evil and 312449 the boots' Good Vigor enchant — and all three simply carry
-    // an inert line). Its catalog entry was the
-    // only dragon skill with no client `description`, because the pt-BR label
-    // ("Sopro Draconiano") had been invented rather than read off the GRF — which is also
-    // why its icon 404'd on ragassets and the picker showed a blank slot (tracker card
-    // Os9aJKTI1icMvZqAOsup). A LATAM Dragon Knight's dragon damage comes from Sopro do
-    // Dragão / Bafo do Dragão cast under the Aura buff; both are inherited from RuneKnight
-    // and take the +100% wired in below, so nothing castable was lost.
+    // Dragonic Breath (DK_DRAGONIC_BREATH, 6001) is a preview: a real kRO/iRO Dragon Knight
+    // skill that LATAM has not received yet. It was removed on 17/08/2026 for exactly that
+    // reason — absent from the ragassets skill feed and from bROWiki's Cavaleiro Draconiano
+    // tree — and comes back on request so a build can be priced ahead of the patch. With
+    // no client entry there is no pt-BR name, no description and no icon: the catalog
+    // labels it "(Prévia)" under its English name rather than inventing a translation (the
+    // invented "Sopro Draconiano" was the original bug, card Os9aJKTI1icMvZqAOsup), and the
+    // picker hides the icon that 404s. Everything below is irowiki's
+    // (https://irowiki.org/wiki/Dragonic_Breath) and no recording has checked it.
+    {
+      name: 'Dragonic Breath',
+      label: 'Dragonic Breath Lv10',
+      value: 'Dragonic Breath==10',
+      levelList: Array.from({ length: 10 }, (_, i) => ({ label: `Dragonic Breath Nv${i + 1}`, value: `Dragonic Breath==${i + 1}` })),
+      acd: 0.15,
+      fct: 0.5,
+      vct: 2,
+      cd: 0.5,
+      hit: 2,
+      isIgnoreDef: true,
+      isIgnoreSDef: true,
+      // ATQ% = [base + (HP máx. × 0,00625 + SP máx. × 0,0125) × nv + 7 × POD] × nv. base ÷ 100,
+      // with 0,00875 / 0,0175 while the Aura Draconiana state is up.
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { model, skillLevel, maxHp, maxSp, status } = input;
+        const base = DRAGONIC_BREATH_BASE[skillLevel - 1] ?? 0;
+        const [hpRate, spRate] = this.isSkillActive('Dragonic Aura') ? [0.00875, 0.0175] : [0.00625, 0.0125];
+
+        return ((base + (maxHp * hpRate + maxSp * spRate) * skillLevel + 7 * status.totalPow) * model.level) / 100;
+      },
+    },
   ];
   private readonly activeSkillList4th: ActiveSkillModel[] = [
     {
@@ -282,7 +299,10 @@ export class DragonKnight extends RuneKnight {
       name: 'Dragonic Aura',
       inputType: 'selectButton',
       dropdown: [
-        { label: 'Sim', value: 10, isUse: true, bonus: { 'Dragon Breath': 100, 'Dragon Breath - WATER': 100 } },
+        // Its +100% to the two breaths is getDragonBreathAuraMultiplier below, not a bonus key:
+        // the breaths read item bonuses by skill id, and a name-keyed bonus here reached them
+        // only because nothing else did.
+        { label: 'Sim', value: 10, isUse: true },
         { label: 'Não', value: 0, isUse: false },
       ],
     },
@@ -298,6 +318,11 @@ export class DragonKnight extends RuneKnight {
       ],
     },
   ];
+
+  /** Aura Draconiana Nv 10: Sopro do Dragão and Bafo do Dragão +100% (irowiki, 10% per level). */
+  protected override getDragonBreathAuraMultiplier(): number {
+    return this.isSkillActive('Dragonic Aura') ? 2 : 1;
+  }
 
   constructor() {
     super();

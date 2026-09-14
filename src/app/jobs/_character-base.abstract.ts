@@ -18,6 +18,9 @@ export interface AtkSkillFormulaInput extends InfoForClass {
   currentHp?: number;
   currentSp?: number;
   stack?: number;
+  /** The character's total P.ATQ, as the status window shows it — POD and CON, the
+   *  weapon's grade and every item. `totalBonus.pAtk` is only the item share of it. */
+  pAtk?: number;
 }
 
 export interface DefForCalcModel {

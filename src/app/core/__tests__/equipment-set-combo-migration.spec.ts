@@ -36,6 +36,11 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  * then settled that the set really does take either boot, so it was fixed separately to
  * `EQUIP_ID[22011||22118]`; that is a behaviour change and lives in temporal-luk-set.spec.ts
  * rather than in this migration's baseline, which stays a pure no-op guard.
+ *
+ * One case moved on 14/09/2026, and not because of a combo: Cordão do Draconiano at +15 with
+ * Bastarda Primordial-LT reads range 25, not 20, since the sword's own "Refino +9 ou mais:
+ * Dano físico à distância +15%" had been scripted as +10 (see
+ * DragonKnight.dragon-breath-replay.spec.ts).
  */
 
 const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));

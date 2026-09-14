@@ -26,6 +26,11 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  *   behind a `LEARN_SKILL[...]` the harness class never learns, so their numbers are
  *   identical whether the clause fires or not. Asserting that each `EQUIP_ID[...]` lists
  *   *every* record sharing the partner's English name pins them anyway.
+ *
+ * The baseline has moved once since, deliberately: on 14/09/2026 the 22 cases wearing
+ * Cavaleiro Rúnico (Capa) (29463 / 25448) gained the stone's own "Dano de [Sopro do Dragão]
+ * e [Bafo do Dragão] +10%", which the record had never scripted — found by
+ * DragonKnight.dragon-breath-replay.spec.ts. Nothing else in those cases changed.
  */
 
 const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
