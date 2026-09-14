@@ -157,6 +157,17 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.126-beta',
+      date: '14-09-2026',
+      logs: [
+        'Sopro do Dragão e Bafo do Dragão passaram a receber os bônus de "Dano de [Sopro do Dragão]" e "Dano de [Bafo do Dragão]" dos equipamentos, que ficavam de fora do cálculo. Com Aura Draconiana aprendida, o P.ATQ total (e não só o dos itens) passou a multiplicar o termo inteiro de Adestrar Dragão e POD, como no jogo. Conferido com o personagem sem equipamento e equipado: os dois estados fecham exatamente com o jogo. Gravação enviada por Ted.',
+        'Cavaleiro Rúnico (Capa) passou a dar o próprio "Dano de [Sopro do Dragão] e [Bafo do Dragão] +10%" — só o bônus do conjunto com Lorde (Topo) estava cadastrado. Bastarda Primordial-LT com refino +9 passou a dar Dano físico à distância +15%, como na descrição; estava +10%. Gravação enviada por Ted.',
+        'Aliviar e a aura vermelha dos MVPs passaram a reduzir também o dano de Sopro do Dragão e Bafo do Dragão; as duas habilidades ignoravam a redução do alvo, então escolher o nível de Aliviar da Betelgeuse não mudava nada nelas.',
+        'Dragonic Breath entrou na rotação do Cavaleiro Draconiano como prévia: a habilidade existe no kRO e no iRO, mas ainda não chegou ao LATAM. Os dez níveis, os tempos e a fórmula (com e sem Aura Draconiana) vêm do iRO Wiki e ainda não foram conferidos com gravação; não há nome em português nem ícone até ela chegar ao cliente. Os itens com bônus para ela, como o Tridente Celestial, passam a valer. Solicitado por Ted.',
+        'Habilidades sem ícone no servidor de imagens deixaram de mostrar a imagem quebrada na rotação, no seletor de habilidades e na linha do tempo; o espaço do ícone fica vazio, mantendo os nomes alinhados.',
+      ],
+    },
+    {
       v: '0.1.125-beta',
       date: '14-09-2026',
       logs: [

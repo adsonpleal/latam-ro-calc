@@ -107,9 +107,21 @@ export class RotationListComponent {
     return this.rotation.length > 1 && !this.isInProcessingPreset;
   }
 
-  /** Flat options for the add picker — ataque básico first, then the class's own skills. */
+  private skillOptionsFor: any[] | null = null;
+  private skillOptionsCache: RotationPickerOption[] = [];
+
+  /**
+   * Flat options for the add picker — ataque básico first, then the class's own skills.
+   * Rebuilt only when the skill list itself changes: a fresh array on every change
+   * detection makes p-dropdown re-render every option, and an icon that fails to load
+   * then errors again on each pass.
+   */
   get skillOptions(): RotationPickerOption[] {
-    return buildRotationPickerOptions(BASIC_ATTACK_VALUE, this.atkSkills);
+    if (this.skillOptionsFor !== this.atkSkills) {
+      this.skillOptionsFor = this.atkSkills;
+      this.skillOptionsCache = buildRotationPickerOptions(BASIC_ATTACK_VALUE, this.atkSkills);
+    }
+    return this.skillOptionsCache;
   }
 
   contributionTooltip(entry: RotationEntryView): string {
