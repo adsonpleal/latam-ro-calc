@@ -1273,6 +1273,25 @@
    }
   ]
  },
+ "4436": {
+  "scenarios": {
+   "alone": {},
+   "with:4435": {
+    "spRestoreOnKill": 2
+   }
+  },
+  "clauses": [
+   {
+    "key": "spRestoreOnKill",
+    "groups": [
+     [
+      4435
+     ]
+    ],
+    "tail": "2"
+   }
+  ]
+ },
  "4488": {
   "scenarios": {
    "alone": {},
@@ -1305,10 +1324,12 @@
  "4605": {
   "scenarios": {
    "alone": {
-    "hpPercent": -44
+    "hpPercent": -44,
+    "hpRestoreOnKill": 270
    },
    "with:4606": {
     "hpPercent": -44,
+    "hpRestoreOnKill": 270,
     "flee": 20,
     "subele_neutral": 20
    }
@@ -1328,10 +1349,12 @@
  "4606": {
   "scenarios": {
    "alone": {
-    "spPercent": -44
+    "spPercent": -44,
+    "spRestoreOnKill": 27
    },
    "with:4605": {
     "spPercent": -44,
+    "spRestoreOnKill": 27,
     "flee": 20,
     "subele_neutral": 20
    }

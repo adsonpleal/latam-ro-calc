@@ -40,7 +40,8 @@ export interface EquipmentSummaryModel {
    * `hpRestoreOnKill`/`spRestoreOnKill` are the flat "Ao derrotar monstros: Regenera N de
    * HP/SP" line, in HP (SP) per kill. None of the keys above fits it — `hpRecovRate` is a
    * percentage of natural regeneration and `hpDrain` is a share of the damage dealt — and
-   * 37 records carry the line, so it gets a key of its own rather than being dropped.
+   * 56 records carry the line, so it gets a key of its own rather than being dropped
+   * (restore-on-kill.spec.ts holds every one of them to it).
    * The clause's qualifier ("com ataques físicos corpo a corpo", "da raça Peixe") is a
    * trigger condition, not a magnitude, and stays in the item's own description.
    *

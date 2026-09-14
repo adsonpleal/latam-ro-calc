@@ -157,6 +157,13 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.125-beta',
+      date: '14-09-2026',
+      logs: [
+        'A linha "Ao derrotar monstros: Regenera N de HP/SP" passou a aparecer no resumo de outros 55 itens — cartas, armas, capas e equipamentos para cabeça, com as condições que a descrição traz: a Mochila de Amistr a partir do +9, o Cetro Xamânico a partir do +7, o Chapéu e a Tiara Carnavalesca a partir do nível 100, o Ovo de Unicórnio na Lealdade Alta, as Cartas Cavaleiro e Cavaleira Desmorta subindo a cada 2 refinos e os conjuntos dos Competidores com o Boné Maratonista. Como os demais efeitos de recuperação, é um valor exibido e não entra no cálculo de dano.',
+      ],
+    },
+    {
       v: '0.1.124-beta',
       date: '13-09-2026',
       logs: [
