@@ -25,6 +25,16 @@ interface Env {
   /** Origin of latam-social, which renders the card. Overridable via .dev.vars. */
   OG_ORIGIN: string;
   /**
+   * Service binding to the latam-social Worker. Required in production, not a nicety:
+   * latam-social is routed on this same zone, and a Worker's `fetch()` to a hostname on its
+   * own zone skips every Worker routed there and goes straight to the DNS origin — which
+   * for `social.` is a dead EC2 address, so every card timed out into the cover. Optional
+   * so that an environment without it still reaches the renderer by a plain fetch to
+   * OG_ORIGIN. Note that `wrangler dev` does define it, as "[not connected]" unless
+   * latam-social is running in a local dev session too.
+   */
+  SOCIAL?: Fetcher;
+  /**
    * The MCP server's vars, all optional — its defaults live in mcp/src/config.ts, and the
    * deployed values in wrangler.jsonc. Spelled out rather than an index signature, which
    * would switch off typo checking for OG_ORIGIN and ASSETS as well.
@@ -105,10 +115,12 @@ async function serveCard(request: Request, env: Env, ctx: ExecutionContext, url:
     // cover. Followed, that arrives here as a 200 image/png, passes the check below, and
     // gets edge-cached as `immutable` for a week UNDER THIS BUILD'S URL: one transient
     // hiccup at scrape time would freeze a generic card onto a specific build.
-    const upstream = await fetch(`${env.OG_ORIGIN}/ro-calc/build.png?b=${token}`, {
-      redirect: 'manual',
-      signal: AbortSignal.timeout(OG_FETCH_TIMEOUT_MS),
-    });
+    //
+    // The URL keeps the public hostname even through the binding: latam-social checks the
+    // Host against its ALLOWED_HOSTS and answers anything else with a 403.
+    const cardUrl = `${env.OG_ORIGIN}/ro-calc/build.png?b=${token}`;
+    const init: RequestInit = { redirect: 'manual', signal: AbortSignal.timeout(OG_FETCH_TIMEOUT_MS) };
+    const upstream = await (env.SOCIAL ? env.SOCIAL.fetch(cardUrl, init) : fetch(cardUrl, init));
     if (upstream.status === 200 && upstream.headers.get('content-type')?.startsWith('image/')) {
       const png = new Response(upstream.body, {
         status: 200,

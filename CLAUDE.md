@@ -85,9 +85,14 @@ all read, and the trailing slash on the canonical form is deliberate (a token ca
 `.`, which chat clients strip as sentence punctuation).
 
 The **card itself is rendered by [latam-social](https://github.com/adsonpleal/latam-social)**,
-a separate service at `social.latam-tools.com.br` on the same EC2 box — not by the Worker
-(free-plan Workers cap CPU at 10 ms per request and rasterizing 1200×630 costs 50–150 ms)
-and no longer by this repo's MCP server. Nothing about the card lives here any more except
+a separate Cloudflare Worker (`latam-social`) routed at `social.latam-tools.com.br/*` on
+this same zone — not by this repo's Worker, and no longer by its MCP server. It used to run
+on the EC2 box; the DNS record for `social.` still points there, and nothing answers.
+That is why the Worker reaches it through the **`SOCIAL` service binding** and never by a
+plain `fetch()`: a Worker's fetch to a hostname on its own zone skips the Workers routed
+there and goes to the DNS origin, so a public fetch times out and every card silently falls
+back to the cover. The URL still carries the public hostname, because latam-social answers
+403 to any Host outside its ALLOWED_HOSTS. Nothing about the card lives here any more except
 the Worker that consumes it and `src/assets/og-cover.{svg,png}`, which is **vendored**: it
 is the fallback the Worker serves when latam-social is unreachable, so it has to be a
 static asset on Cloudflare rather than a request to the thing that is down. Refresh it with

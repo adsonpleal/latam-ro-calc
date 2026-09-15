@@ -58,6 +58,12 @@
     "ALLOWED_ORIGINS": "https://claude.ai,https://simulador.latam-tools.com.br,http://localhost:4200"
   },
 
+  // latam-social is a Worker routed on this same zone, and a same-zone `fetch()` bypasses
+  // Workers routes and goes to the DNS origin behind them — so the card has to be fetched
+  // through this binding, not through OG_ORIGIN over the public internet. OG_ORIGIN still
+  // supplies the URL, because latam-social checks the Host it is called as.
+  "services": [{ "binding": "SOCIAL", "service": "latam-social" }],
+
   // The engine is synchronous and a single optimize_slot call can run 40 full solves. The
   // paid plan's default is already 30 s; naming it makes the headroom explicit, and stops
   // a future default change from quietly truncating a tool.
