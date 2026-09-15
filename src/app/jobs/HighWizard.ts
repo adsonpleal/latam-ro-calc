@@ -2,7 +2,18 @@ import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { Mage } from './Mage';
 import { ElementType } from '../constants';
-import { METEOR_STORM } from '../skills/shared-skills';
+import {
+  EARTH_SPIKE,
+  FIRE_PILLAR,
+  FROST_NOVA,
+  HEAVENS_DRIVE,
+  JUPITEL_THUNDER,
+  LORD_OF_VERMILION,
+  METEOR_STORM,
+  SIGHTRASHER,
+  STORM_GUST,
+  WATER_BALL,
+} from '../skills/shared-skills';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 1, 0, 0],
@@ -121,42 +132,18 @@ export class HighWizard extends Mage {
         return input.damage * input.skillLevel;
       },
     },
-    {
-      name: 'Lord of Vermilion',
-      label: 'Lord of Vermilion Lv10',
-      value: 'Lord of Vermilion==10',
-      acd: 1,
-      fct: 1.5,
-      vct: (lv) => [6.3, 6.1, 5.9, 5.7, 5.5, 5.3, 5.1, 4.9, 4.7, 4.5][lv - 1],
-      cd: 5,
-      isMatk: true,
-      isDevMode: true,
-      hit: 20,
-      element: ElementType.Wind,
-      formula: (input: AtkSkillFormulaInput): number => {
-        const { skillLevel } = input;
-
-        return 400 + skillLevel * 100;
-      },
-    },
-    {
-      label: "Heaven's Drive Lv5",
-      name: "Heaven's Drive",
-      value: "Heaven's Drive==5",
-      fct: 0.8,
-      vct: 1.9,
-      acd: 0.5,
-      cd: 1,
-      isMatk: true,
-      element: ElementType.Earth,
-      totalHit: 5,
-      formula: (): number => {
-        return 125;
-      },
-    },
-    // "Chuva de Meteoros", the same definition the Superaprendiz uses — see shared-skills.ts
-    // for the client table it is written from and for the placeholder it replaced.
+    // The Bruxo column, the same definitions the Superaprendiz uses — see shared-skills.ts
+    // for the client tables each one is written from.
+    JUPITEL_THUNDER,
+    LORD_OF_VERMILION,
+    STORM_GUST,
     METEOR_STORM,
+    EARTH_SPIKE,
+    HEAVENS_DRIVE,
+    FROST_NOVA,
+    FIRE_PILLAR,
+    SIGHTRASHER,
+    WATER_BALL,
     {
       name: 'Gravitational Field',
       label: 'Gravitational Field Lv5',

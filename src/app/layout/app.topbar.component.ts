@@ -157,6 +157,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.128-beta',
+      date: '14-09-2026',
+      logs: [
+        'Trovão de Júpiter, Coluna de Pedra, Coluna de Fogo, Congelar, Supernova e Esfera d\'Água entraram na lista de habilidades do Superaprendiz, do Hiperaprendiz, do Arcano e do Magus, com todos os níveis; Coluna de Pedra e Fúria da Terra também entraram para o Feiticeiro e o Elementalista, que as aprendem como Sábio. As razões e os golpes vêm da descrição do cliente; Congelar (110% a 200%) e Coluna de Fogo (50 + ATQM ÷ 5 por chama, ignorando a DEFM) vêm da bROWiki, porque o cliente não traz esses números. Supernova é calculada como se Chama Reveladora estivesse ativa, e Esfera d\'Água com água suficiente para todas as esferas do nível (1, 9 ou 25). Reportado por usuário anônimo.',
+        'Ira de Thor, que ficava escondida para o Arcano e o Magus, e Nevasca, que só existia para o Superaprendiz e o Hiperaprendiz, passaram a aparecer para as quatro classes, com todos os níveis. Fúria da Terra também ganhou a escolha de nível; no nível 5 o dano não muda.',
+      ],
+    },
+    {
       v: '0.1.127-beta',
       date: '14-09-2026',
       logs: [

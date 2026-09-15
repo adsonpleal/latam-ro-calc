@@ -2,6 +2,7 @@ import { AdditionalBonusInput, InfoForClass } from '../models/info-for-class.mod
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { Mage } from './Mage';
+import { EARTH_SPIKE, HEAVENS_DRIVE } from '../skills/shared-skills';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 1, 0, 0],
@@ -82,7 +83,12 @@ export class Scholar extends Mage {
   protected override initialStatusPoint = 100;
 
   protected readonly classNamesHi = [ClassName.Sage, ClassName.HiClass, ClassName.Scholar];
-  protected readonly atkSkillListHi: AtkSkillModel[] = [];
+  protected readonly atkSkillListHi: AtkSkillModel[] = [
+    // The two Bruxo-column skills the Sábio learns too — their client text carries a
+    // "Pré requisitos (Sábios)" line. Same definitions as the Bruxo's; see shared-skills.ts.
+    EARTH_SPIKE,
+    HEAVENS_DRIVE,
+  ];
   protected readonly activeSkillListHi: ActiveSkillModel[] = [
     {
       inputType: 'selectButton',

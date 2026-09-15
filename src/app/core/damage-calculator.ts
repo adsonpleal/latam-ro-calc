@@ -1853,7 +1853,10 @@ export class DamageCalculator {
 
   private calcMagicalSkillDamage(params: { skillData: AtkSkillModel; baseSkillDamage: number; weaponPropertyAtk: ElementType; formulaParams?: any; }): DamageResultModel {
     const { skillData, baseSkillDamage, weaponPropertyAtk, formulaParams } = params;
-    const { name: skillName, element, isIgnoreDef = false, finalDmgFormula } = skillData;
+    const { name: skillName, element, isIgnoreDef = false, isIgnoreSDef = false, finalDmgFormula } = skillData;
+    // `isIgnoreDef` drops the hard MDEF percentage and `isIgnoreSDef` the flat soft MDEF,
+    // the same split the physical path makes. A skill that "ignora a DEFM" (Coluna de
+    // Fogo) sets both.
     const { softMDef } = this.monster.data;
 
     const skillPropertyAtk = element || weaponPropertyAtk;
@@ -1975,10 +1978,12 @@ export class DamageCalculator {
       push('Redução DEFM', total, ['m_pene_race_all', 'm_pene_class_all']);
       if (graphNodes) graphNodes.push({ id: 'mDefBypassed', label: 'MDEF restante', value: mDefBypassed, keys: ['m_pene_race_all', 'm_pene_class_all'], inputs: [], kind: 'input' });
       emit('defReductionM', 'Redução DEFM', total, ['m_pene_race_all', 'm_pene_class_all'], { extraInputs: ['mDefBypassed'], multiplier: round(hardDef, 4) });
-      total = total - softMDef; //tested
-      // No keys: this is the monster's own soft MDEF stat, not an equipment bonus.
-      push(`DEFM -${this.fmtCalc(softMDef)}`, total);
-      emit('softDefM', `DEFM -${this.fmtCalc(softMDef)}`, total);
+      if (!isIgnoreSDef) {
+        total = total - softMDef; //tested
+        // No keys: this is the monster's own soft MDEF stat, not an equipment bonus.
+        push(`DEFM -${this.fmtCalc(softMDef)}`, total);
+        emit('softDefM', `DEFM -${this.fmtCalc(softMDef)}`, total);
+      }
       total = floor(total * equipSkillMultiplier);
       if (equipSkillBonus !== 0) {
         push(`Bônus Hab. equip ${this.fmtCalc(equipSkillBonus)}%`, total, [skillBonusKey]);
