@@ -48,24 +48,25 @@ const shadowPieces = Object.entries(items)
     declares: Array.isArray(item.script?.hp) && item.script.hp.includes(PER_REFINE_HP),
   }));
 
-describe('conjunto sombrio — o HP por refino vem do script da peça', () => {
-  it('a lista tem as peças que se espera (544 com a linha, 10 sem)', () => {
-    expect(shadowPieces.length).toBe(554);
+describe('shadow set — the per-refine HP comes from the piece script', () => {
+  it('lists the expected pieces (544 with the line, 20 without)', () => {
+    expect(shadowPieces.length).toBe(564);
     expect(shadowPieces.filter((p) => p.promises).length).toBe(544);
   });
 
-  it('toda peça que promete os +10 por refino declara "1---10"', () => {
-    const faltando = shadowPieces.filter((p) => p.promises && !p.declares).map((p) => `${p.id} ${p.name}`);
-    expect(faltando).toEqual([]);
+  it('every piece promising +10 per refine declares "1---10"', () => {
+    const missing = shadowPieces.filter((p) => p.promises && !p.declares).map((p) => `${p.id} ${p.name}`);
+    expect(missing).toEqual([]);
   });
 
   /**
-   * The other direction, so removing `_shadowHP` cannot be undone by hand: the ten that
+   * The other direction, so removing `_shadowHP` cannot be undone by hand: the twenty that
    * give no HP per refine must not declare it. The Armadura Sombria Transcendente has no
-   * HP line at all, and the Malha Sombria de Apoio gives +100 fixed rather than per refine.
+   * HP line at all, the Malha Sombria de Apoio gives +100 fixed rather than per refine, and
+   * the ten Grupo do Éden pieces (24688-24697, shipped 14/09/2026) carry no refine line.
    */
-  it('nenhuma peça declara os +10 sem que a descrição os prometa', () => {
-    const sobrando = shadowPieces.filter((p) => !p.promises && p.declares).map((p) => `${p.id} ${p.name}`);
-    expect(sobrando).toEqual([]);
+  it('no piece declares the +10 unless its description promises it', () => {
+    const extra = shadowPieces.filter((p) => !p.promises && p.declares).map((p) => `${p.id} ${p.name}`);
+    expect(extra).toEqual([]);
   });
 });

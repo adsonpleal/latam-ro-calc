@@ -194,7 +194,7 @@ name and description.
 > description map (`items-desc-mcp`). A field the MCP needs out of `item.json` just stays
 > in `items-core` rather than getting a sidecar of its own.
 > `mcp/src/data/derived-parity.spec.ts` is what keeps the derived set equivalent to the raw
-> one; it pins the index at 17150 items (the retired EC2 server reported 17081; every
+> one; it pins the index at 17218 items (the retired EC2 server reported 17081; every
 > calculator-only record added since, such as a `preRelease` item, raises it).
 
 When registering bonuses and set combos, the **pt-BR description is the source of truth**

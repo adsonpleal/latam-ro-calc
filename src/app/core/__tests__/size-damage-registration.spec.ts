@@ -28,11 +28,12 @@ const plain = (description: string) => (description || '').replace(/\^[0-9a-fA-F
 const SIZE_DAMAGE_LINE = /Dano (f[íi]sico e m[áa]gico|f[íi]sico|m[áa]gico) contra todos os [Tt]amanhos/i;
 
 /**
- * The two Carnival costumes. Their whole bonus block is prefixed "[Durante o Evento]" and
- * only exists while the event runs, so the script is deliberately empty — registering it
- * would grant 10% size, element and race damage year-round.
+ * Items whose size damage sits under "[Durante o Evento]" and only exists while the event
+ * runs — registering it would grant the bonus year-round. The two Carnival costumes
+ * (19873, 19874) have nothing else, so their script is empty; the two Baby Shark collab
+ * cards (300834, 300835) keep their always-on per-level ATQ/ATQM/DEF/DEFM block.
  */
-const EVENT_ONLY = [19873, 19874];
+const EVENT_ONLY = [19873, 19874, 300834, 300835];
 
 /** Any gate may prefix the key (`chance__`, …), so match on the infix, not the start. */
 const declares = (script: any, channel: 'p' | 'm'): boolean =>
@@ -65,10 +66,10 @@ describe('guard: every description granting size damage has p_size_*/m_size_* in
     expect(missing).toEqual([]);
   });
 
-  it('keeps the two event costumes out by exemption, not by accident', () => {
+  it('keeps the event-only items out by exemption, not by accident', () => {
     for (const id of EVENT_ONLY) {
       expect(plain(latam[id].description)).toContain('[Durante o Evento]');
-      expect(items[id].script).toEqual({});
+      expect(declares(items[id].script, 'p') || declares(items[id].script, 'm'), `${id}`).toBe(false);
     }
   });
 });

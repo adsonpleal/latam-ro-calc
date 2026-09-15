@@ -406,10 +406,10 @@ describe('the whole card catalogue', () => {
     .map(Number);
 
   it('holds a record for every card the LATAM client ships', () => {
-    // 1083 records are named "Carta …"; 19 of them are not cards. The other 1064 are all
+    // 1085 records are named "Carta …"; 19 of them are not cards. The other 1066 are all
     // here. A client update shipping a new card fails this line, which is the point.
-    expect(Object.keys(latam).filter((id) => /^Carta /.test(latam[id].name || ''))).toHaveLength(1083);
-    expect(CARDS).toHaveLength(1064);
+    expect(Object.keys(latam).filter((id) => /^Carta /.test(latam[id].name || ''))).toHaveLength(1085);
+    expect(CARDS).toHaveLength(1066);
     expect(CARDS.filter((id) => !items[id])).toEqual([]);
   });
 

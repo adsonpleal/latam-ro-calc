@@ -157,6 +157,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.129-beta',
+      date: '15-09-2026',
+      logs: [
+        'Os equipamentos Paradise (Grupo do Éden), os equipamentos rúnicos e encantamentos da Biosfera de Varmundt e os itens Gravados chegaram ao LATAM: 175 itens deixaram de ter a etiqueta "Prévia" e passaram a mostrar o nome e a descrição em português do cliente. Os equipamentos Snow Flower, as armas Glacier e os itens do Bem e do Mal continuam como prévia.',
+        'Pela descrição em português, foram corrigidos o ATQM do Grupo do Éden Superaprendiz Varinha (+180; estava +160) e a redução do atraso após o ataque do Grupo do Éden Anel (2%, 3% e 5% conforme o nível de base; estava 5% nos três).',
+        'Entraram a Carta Baby Shark e a Carta Família Tubarão, com ATQ (ou ATQM), DEF e DEFM a cada 10 níveis de base. Os bônus marcados "[Durante o Evento]" não entram no cálculo.',
+      ],
+    },
+    {
       v: '0.1.128-beta',
       date: '14-09-2026',
       logs: [
