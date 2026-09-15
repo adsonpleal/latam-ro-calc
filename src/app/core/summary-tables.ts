@@ -83,11 +83,25 @@ const ATK_TYPE_PT: Record<string, string> = { Melee: 'Corpo a corpo', Range: 'À
  *  more. The engine adds these straight onto the property modifier (see damage-calculator
  *  `getElementResistReduction`): Oratio → Sagrado; Infecção (Maldição de Jormungand) and
  *  Intoxicação (Poço Venenoso) → Veneno (they stack); Geladinho (Jack Frost Nova) → Água;
- *  Pólen (Florescer) → Fogo; Empalamento (Pilares de Pedra) → Terra.
+ *  Pólen (Florescer) → Fogo; Empalamento (Pilares de Pedra) → Terra; a target standing in an
+ *  Insígnia takes +50 from the element it is weak to (Fogo → Água, Água → Vento,
+ *  Vento → Terra, Terra → Fogo).
+ *  The Sage fields sit here too although they are the attacker's status, not the target's:
+ *  rAthena adds Vulcão / Dilúvio / Furacão to the very same `ratio` (Fogo / Água / Vento).
  *  They affect both physical and magical attacks of that element (so NOT a magic-only
  *  "Elem. Mágico" bonus) — hence their own "R.R. Elem." column. Keyed by lowercase element;
  *  each element lists every bonus key that feeds the column. */
-export const RESIST_REDUCTION_KEYS_BY_ELE: Record<string, string[]> = { holy: ['oratio'], poison: ['infection', 'intoxication'], water: ['bitterCold'], fire: ['pollen'], earth: ['impalement'] };
+export const RESIST_REDUCTION_KEYS_BY_ELE: Record<string, string[]> = {
+  holy: ['oratio'],
+  poison: ['infection', 'intoxication'],
+  water: ['bitterCold', 'fireInsigniaOnTarget', 'deluge'],
+  fire: ['pollen', 'earthInsigniaOnTarget', 'volcano'],
+  earth: ['impalement', 'windInsigniaOnTarget'],
+  wind: ['waterInsigniaOnTarget', 'violentGale'],
+};
+
+/** Every key in RESIST_REDUCTION_KEYS_BY_ELE, for the breakdown of the elemental stage. */
+export const RESIST_REDUCTION_KEYS: string[] = Object.values(RESIST_REDUCTION_KEYS_BY_ELE).flat();
 
 function elementCell(summary: DamageSummaryLike, ele: string) {
   const reductionKeys = RESIST_REDUCTION_KEYS_BY_ELE[ele] ?? [];

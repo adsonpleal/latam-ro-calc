@@ -59,6 +59,10 @@ export const calcSkillAspd = (params: {
   const reduceSkillFct = totalEquipStatus[`fct__${id}`] || 0;
   const reduceSkillFctPercent = totalEquipStatus[`fctPercent__${id}`] || 0;
   const reduceSkillAcd = totalEquipStatus[`acd__${id}`] || 0;
+  // `acd_magic_<element>` — an after-cast reduction for magic of one element (Insígnia do
+  // Vento Nv3, "Pós-conj. de magias de Vento -50%"). rAthena adds it to the same delay rate as
+  // the global `acd`, so the two sum.
+  const reduceElementAcd = skillData.isMatk && skillData.element ? totalEquipStatus[`acd_magic_${String(skillData.element).toLowerCase()}`] || 0 : 0;
 
   const { acd, vct, vct_inc = 0, fct, fctPercent, vctBySkill = 0 } = totalEquipStatus;
   const { totalDex, totalInt } = status;
@@ -72,7 +76,7 @@ export const calcSkillAspd = (params: {
 
   const reducedVct = Math.max(0, roundUp((skillVct - reduceSkillVctFix) * vctByStat * vctGlobal * vctSkill * vctBySkill_, precision));
   const reducedCd = Math.max(0, round(skillCd - reduceSkillCd, precision));
-  const reducedAcd = Math.max(0, round((skillAcd - reduceSkillAcd) * (1 - acd * 0.01), precision));
+  const reducedAcd = Math.max(0, round((skillAcd - reduceSkillAcd) * (1 - (acd + reduceElementAcd) * 0.01), precision));
 
   const reducedFct = Math.max(0, roundUp((skillFct - reduceSkillFct - fct) * (1 - fctPercent * 0.01) * (1 - reduceSkillFctPercent * 0.01), precision));
 

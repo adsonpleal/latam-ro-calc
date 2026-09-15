@@ -94,6 +94,7 @@ import {
   AtkTypeDataModel,
   ElementDataModel,
   RaceDataModel,
+  RESIST_REDUCTION_KEYS,
   SkillMultiplierModel,
   buildAtkTypeTable,
   buildElementTable,
@@ -3380,7 +3381,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       /^pene_/.test(k) ||
       isDefenderKey(k) ||
       /^(vct|acd|fctPercent)__/.test(k) ||
-      ['range', 'melee', 'criDmg', 'cri', 'criRange', 'perfectHit', 'acd', 'vct', 'vct_inc', 'vctBySkill', 'oratio', 'infection', 'intoxication', 'bitterCold', 'pollen', 'impalement', 'gravitation', 'shadowScar'].includes(k)
+      ['range', 'melee', 'criDmg', 'cri', 'criRange', 'perfectHit', 'acd', 'vct', 'vct_inc', 'vctBySkill', 'oratio', 'infection', 'intoxication', 'bitterCold', 'pollen', 'impalement', 'gravitation', 'shadowScar', 'acd_magic_wind'].includes(k) ||
+      RESIST_REDUCTION_KEYS.includes(k) ||
+      /^insignia_ratio_/.test(k)
     );
   }
 
@@ -3389,7 +3392,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    *  Conj. Variável) or a stored +0.5 as "-0.5" seconds (Conj. Fixa). `vct_inc` is excluded:
    *  it's a cast-time *increase*, so its positive value reads as "+x%". */
   private isReductionKey(k: string): boolean {
-    return ['acd', 'vct', 'fct', 'fctPercent', 'vctBySkill'].includes(k);
+    return ['acd', 'vct', 'fct', 'fctPercent', 'vctBySkill', 'acd_magic_wind'].includes(k);
   }
 
   /** "+12", "-25%", "0%": a leading "+" only for positives (negatives already carry their

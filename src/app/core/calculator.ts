@@ -288,6 +288,8 @@ export class Calculator {
   private dmgCalculator = new DamageCalculator();
   private propertyBasicAtk = ElementType.Neutral;
   private propertyWindmind: ElementType;
+  /** "Propriedade da arma muda para X" from a party buff (Insígnia Nv2): an endow, like the element picker. */
+  private propertyBuffEndow: ElementType;
   private baseEquipmentStat: Record<string, number> = {};
   private finalMultipliers = [] as number[];
 
@@ -656,9 +658,10 @@ export class Calculator {
     const weaponEle = this.weaponData?.data?.propertyAtk;
     const buff = this.model.propertyAtk;
     const windmind = this.propertyWindmind;
+    const buffEndow = this.propertyBuffEndow;
     const ammo = this.equipItem.get(ItemTypeEnum.ammo)?.propertyAtk;
 
-    this.propertyBasicAtk = windmind ?? buff ?? ammo ?? weaponEle ?? ElementType.Neutral;
+    this.propertyBasicAtk = windmind ?? buff ?? buffEndow ?? ammo ?? weaponEle ?? ElementType.Neutral;
   }
 
   calcAllAtk() {
@@ -677,6 +680,7 @@ export class Calculator {
         monster: this.monster,
         weaponData: this.weaponData,
         aspdPotion: this.aspdPotion,
+        buffEndow: this.propertyBuffEndow,
         leftWeaponData: this.leftWeaponData,
         pvp: this.pvpContext,
       })
@@ -1296,6 +1300,7 @@ export class Calculator {
     this.equipStatus = {} as any;
     this.propertyBasicAtk = ElementType.Neutral;
     this.propertyWindmind = undefined;
+    this.propertyBuffEndow = undefined;
     this._chanceList = [];
     this.equipCombo.clear();
 
@@ -1423,6 +1428,10 @@ export class Calculator {
 
     for (const [buffName, scripts] of Object.entries(this.buffEquipAtkBonus)) {
       for (const [attr, value] of Object.entries(scripts)) {
+        if (attr === 'propertyAtk') {
+          this.propertyBuffEndow = value as any;
+          continue;
+        }
         const val = Number(value);
         // if (attr === 'atk' || attr === 'matk') val = 0;
 

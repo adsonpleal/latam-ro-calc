@@ -157,6 +157,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.130-beta',
+      date: '15-09-2026',
+      logs: [
+        'Vulcão, Dilúvio e Furacão entraram na lista de buffs, com os cinco níveis, num único seletor "Terreno Mágico", já que só um terreno fica ativo por vez. Quem está no terreno causa de +10% a +20% de dano físico e mágico da propriedade dele, somados ao multiplicador de propriedade como no jogo, e recebe o bônus próprio de cada um: ATQ e ATQM +10 a +30 no Vulcão, HP máx. +5% a +15% no Dilúvio e Esquiva +3 a +15 no Furacão. Os valores vêm da descrição do cliente. Reportado por usuário anônimo.',
+        'As quatro Insígnias do Feiticeiro também entraram na lista. "Insígnia no alvo" é um debuff: o monstro dentro dela recebe +50% de dano da propriedade a que fica vulnerável (Fogo → Água, Água → Vento, Vento → Terra, Terra → Fogo). "Insígnia" aplica em quem está nela os níveis 2 e 3, que não se acumulam. No nível 2, ATQ +10% e a propriedade da arma muda para a da insígnia, além de ATQ +50 no Fogo, cura recebida +10% na Água (só exibida), pós-conjuração -10% no Vento e HP +500 e DEF +50 na Terra. No nível 3, o dano das magias da propriedade soma 25 à razão da habilidade, além de ATQM +50 no Fogo, conjuração variável -30% na Água, pós-conjuração das magias de Vento -50% no Vento e SP +50 e DEFM +50 na Terra. O nível 1 só fortalece o espírito elemental e por isso não aparece. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.129-beta',
       date: '15-09-2026',
       logs: [

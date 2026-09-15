@@ -12,6 +12,7 @@ import { SKILL_ID_BY_NAME } from 'src/app/skills';
 import { calcDmgDps, calcSkillAspd, engineHitsPerSec, floor, formatCalcNumber, isSkillCanEDP, round } from 'src/app/utils';
 import { computeBasicCritRate, computeSkillCritRate, EMPTY_CRIT_RATE } from './crit-rate';
 import { targetReduction } from './target-reduction';
+import { RESIST_REDUCTION_KEYS, RESIST_REDUCTION_KEYS_BY_ELE } from './summary-tables';
 import { DEFAULT_PVP_CONTEXT, DefenderReductionStep, PvpContext, defenderReductionSteps, pvpChannelOf, woeGlobalMultiplier } from './pvp';
 
 interface DamageResultModel {
@@ -70,6 +71,7 @@ export class DamageCalculator {
   totalBonus: EquipmentSummaryModel;
   private _totalEquipStatus: EquipmentSummaryModel;
   private model: Partial<MainModel>;
+  private buffEndow: ElementType | undefined;
   private pvp: PvpContext = { ...DEFAULT_PVP_CONTEXT };
   /** The resolved element of the basic attack, for the PVP subele lookup. */
   private basicPropertyAtk: ElementType = ElementType.Neutral;
@@ -150,6 +152,8 @@ export class DamageCalculator {
     leftWeaponData: Weapon;
     aspdPotion: number;
     pvp?: PvpContext;
+    /** An endow granted by a party buff (Insígnia Nv2), used when the element picker is empty. */
+    buffEndow?: ElementType;
   }) {
     const {
       equipStatus,
@@ -165,6 +169,7 @@ export class DamageCalculator {
       leftWeaponData,
       aspdPotion,
       pvp,
+      buffEndow,
     } = params;
     this.pvp = pvp ?? { ...DEFAULT_PVP_CONTEXT };
     this.equipStatus = equipStatus;
@@ -180,6 +185,7 @@ export class DamageCalculator {
     this.weaponData = weaponData;
     this.leftWeaponData = leftWeaponData;
     this.aspdPotion = aspdPotion;
+    this.buffEndow = buffEndow;
 
     return this;
   }
@@ -311,7 +317,7 @@ export class DamageCalculator {
 
   /** True when the attack's property is the endow the character is carrying (see calcTotalAtk). */
   private isEndowedWith(propertyAtk: ElementType) {
-    const endow = this.model?.propertyAtk;
+    const endow = this.model?.propertyAtk ?? this.buffEndow;
     return !!endow && endow !== ElementType.Neutral && propertyAtk === endow;
   }
 
@@ -1137,15 +1143,21 @@ export class DamageCalculator {
    *  resistance — the two poison debuffs stack; Geladinho (Bitter Cold, from Jack Frost
    *  Nova) makes the target take +15% Water damage, i.e. −15% Water resistance; Pólen and
    *  Empalamento (Florescer / Pilares de Pedra under Potencializar Magia Nv4) take the
-   *  target's Fire and Earth resistance down by 100%. */
+   *  target's Fire and Earth resistance down by 100%; an Insígnia under the target adds 50
+   *  to the element it is weak to. The Sage fields (Vulcão / Dilúvio / Furacão) add to the
+   *  same modifier from the attacker's side (rAthena renewal `ratio += val3`). The key per
+   *  element lives in RESIST_REDUCTION_KEYS_BY_ELE, shared with the element table. */
   private getElementResistReduction(propertyAtk: ElementType) {
-    if (propertyAtk === ElementType.Holy) return this.totalBonus['oratio'] || 0;
-    if (propertyAtk === ElementType.Poison) return (this.totalBonus['infection'] || 0) + (this.totalBonus['intoxication'] || 0);
-    if (propertyAtk === ElementType.Water) return this.totalBonus['bitterCold'] || 0;
-    if (propertyAtk === ElementType.Fire) return this.totalBonus['pollen'] || 0;
-    if (propertyAtk === ElementType.Earth) return this.totalBonus['impalement'] || 0;
+    const keys = RESIST_REDUCTION_KEYS_BY_ELE[propertyAtk?.toLowerCase()] ?? [];
 
-    return 0;
+    return keys.reduce((sum, key) => sum + (this.totalBonus[key] || 0), 0);
+  }
+
+  /** Points the caster's Insígnia Nv3 adds to the ratio of a magic attack of its element:
+   *  "Dano mágico de Fogo +25%" is rAthena's `skillratio += 25` in battle_calc_magic_attack,
+   *  so it joins the skill ratio rather than the `m_my_element_*` stage. */
+  private getInsigniaMagicRatio(propertyAtk: ElementType) {
+    return this.totalBonus[`insignia_ratio_${propertyAtk?.toLowerCase()}`] || 0;
   }
 
   private getPurePropertyMultiplier(propertyAtk: ElementType) {
@@ -1165,7 +1177,7 @@ export class DamageCalculator {
     const masteryAtk = masteryAtkDetail.total + cannonBallAtk;
 
     // Status ATK is Neutral unless the attack rides an *endow* — a converter, Aspersio,
-    // Envenenar Arma (the element picker, `model.propertyAtk`) or Ventania — in which case
+    // Envenenar Arma (the element picker, `model.propertyAtk`), Ventania or an Insígnia Nv2 — in which case
     // it takes the endow's element as well. A weapon's own element, innate or from a card,
     // never reaches it. Measured on `dk-storm-slash-buffed.rrf`: a Water-converted
     // Cavaleiro Draconiano on the Fire Lv1 dummy sits 13% under every packet with a
@@ -1313,7 +1325,7 @@ export class DamageCalculator {
           id: 'atkElemental',
           label: 'Multiplicador elemental',
           value: bValElement,
-          keys: ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold', 'pollen', 'impalement'],
+          keys: ['vi', ...RESIST_REDUCTION_KEYS],
           percent: this.toPercentBonus(propertyMultiplier),
           inputs: [lastBId],
           kind: 'stage',
@@ -1867,7 +1879,11 @@ export class DamageCalculator {
     const { dmgReductionByMHardDef, mresReduction, mDefBypassed, restMres } = this.getMagicalDefData();
     const hardDef = isIgnoreDef ? 1 : dmgReductionByMHardDef;
 
-    const baseSkillMultiplier = this.toPercent(baseSkillDamage);
+    // A magic attack with no ratio (a Climax level that turns the skill off) stays at zero:
+    // the Insígnia adds to a ratio, it does not create a hit.
+    const insigniaRatio = baseSkillDamage > 0 ? this.getInsigniaMagicRatio(skillPropertyAtk) : 0;
+    const skillRatio = baseSkillDamage + insigniaRatio;
+    const baseSkillMultiplier = this.toPercent(skillRatio);
     // The class's own account of where that ratio came from, shown on the stage's
     // "Adicional" chip. Undefined for the overwhelming majority of skills, whose ratio
     // is a straight read-off from the client table and needs no explaining.
@@ -1935,8 +1951,8 @@ export class DamageCalculator {
       // *once*, after the boost, instead of being scaled along with it. Locked to the
       // unit by ElementalMaster.poison-replay.spec.ts.
       total = floor(total * propertyMultiplier);
-      push('Multiplicador elemental', total, ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold', 'pollen', 'impalement']);
-      emit('elementalMultiplier', 'Multiplicador elemental', total, ['vi', 'oratio', 'infection', 'intoxication', 'bitterCold', 'pollen', 'impalement'], { multiplier: propertyMultiplier });
+      push('Multiplicador elemental', total, ['vi', ...RESIST_REDUCTION_KEYS]);
+      emit('elementalMultiplier', 'Multiplicador elemental', total, ['vi', ...RESIST_REDUCTION_KEYS], { multiplier: propertyMultiplier });
       total = floor(total * sMatkMultiplier);
       push('S.ATQM', total, ['sMatk']);
       emit('sMatk', 'S.ATQM', total, ['sMatk'], { multiplier: sMatkMultiplier });
@@ -1962,8 +1978,8 @@ export class DamageCalculator {
       }
 
       total = floor(total * baseSkillMultiplier); //tested
-      push(`Hab. Base ${this.fmtCalc(baseSkillDamage)}%`, total, ['flatDmg', `flat_${skillName}`]);
-      emit('baseSkillDmg', `Hab. Base ${this.fmtCalc(baseSkillDamage)}%`, total, ['flatDmg', `flat_${skillName}`], { multiplier: baseSkillMultiplier, calc: ratioCalc });
+      push(`Hab. Base ${this.fmtCalc(skillRatio)}%`, total, ['flatDmg', `flat_${skillName}`, `insignia_ratio_${skillPropertyAtk?.toLowerCase()}`]);
+      emit('baseSkillDmg', `Hab. Base ${this.fmtCalc(skillRatio)}%`, total, ['flatDmg', `flat_${skillName}`, `insignia_ratio_${skillPropertyAtk?.toLowerCase()}`], { multiplier: baseSkillMultiplier, calc: ratioCalc });
 
       total = floor(total * myElementMultiplier); //tested
       if (myElementMultiplier !== 1) {

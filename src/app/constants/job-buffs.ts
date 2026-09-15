@@ -1,4 +1,5 @@
 import { ActiveSkillModel } from '../jobs/_character-base.abstract';
+import { ElementType } from './element-type.const';
 import { BragisPoemFn, DarkClawFn, ShieldSpellFn, SwingDanceFn } from './share-active-skills';
 
 const JobBuffsList: ActiveSkillModel[] = [
@@ -270,6 +271,64 @@ const JobBuffsList: ActiveSkillModel[] = [
     ],
   },
   {
+    // Vulcão / Dilúvio / Furacão (SA_VOLCANO 285, SA_DELUGE 286, SA_VIOLENTGALE 287) — the
+    // Sage-line ground fields, one picker because "Apenas 1 magia de terreno pode estar ativa
+    // por vez" (bROWiki). Everyone standing in the field deals +10/14/17/19/20% physical and
+    // magical damage of its element: rAthena's renewal battle_attr_fix does
+    // `ratio += val3` on the attacker's status, the same property-modifier stage the target
+    // debuffs below use (see getElementResistReduction). The side effect is the client's
+    // table: Vulcão ATQ and ATQM +10…30 (rAthena `5 + 5 × lv`), Dilúvio HP máx. +5…15%,
+    // Furacão Esquiva +3…15. Tracker card 7eJx6XNmTPFTuRdYzv4L.
+    name: '_Sage_Field',
+    label: 'Terreno Mágico',
+    icon: 285,
+    inputType: 'dropdown',
+    dropdown: [
+      { label: '-', isUse: false, value: 0 },
+      ...[10, 14, 17, 19, 20].flatMap((dmg, i) => {
+        const lv = i + 1;
+        return [
+          { label: `Vulcão Nv ${lv}`, isUse: true, value: 10 + lv, icon: 285, bonus: { volcano: dmg, atk: 5 + 5 * lv, matk: 5 + 5 * lv } },
+          { label: `Dilúvio Nv ${lv}`, isUse: true, value: 20 + lv, icon: 286, bonus: { deluge: dmg, hpPercent: [5, 9, 12, 14, 15][i] } },
+          { label: `Furacão Nv ${lv}`, isUse: true, value: 30 + lv, icon: 287, bonus: { violentGale: dmg, flee: 3 * lv } },
+        ];
+      }).sort((a, b) => a.value - b.value),
+    ],
+  },
+  {
+    // Insígnia do Fogo / da Água / do Vento / da Terra (SO_*_INSIGNIA 2465-2468) on whoever
+    // stands in it. Nv1 only buffs the Sorcerer's elemental, so it is not offered. Nv2 and Nv3
+    // are separate, not cumulative: rAthena tests `val1 == 2` and `val1 == 3`, and the client
+    // table lists each level's own effects. Where rAthena and the client disagree the client
+    // wins, and bROWiki's four pages agree with the client: Vento Nv2 is "Pós-conjuração -10%"
+    // (rAthena: ASPD +10%) and Água Nv3 is "Conjuração variável -30%" with no element
+    // restriction (rAthena: Water spells only).
+    //
+    // - "ATQ +10%" is `atkPercent`, the key the items phrased that way use; "ATQ +50" is `atk`.
+    // - "Propriedade da arma muda para X" is an endow, carried as `propertyAtk` (calculator.ts).
+    // - "Dano mágico de X +25%" is not the `m_my_element_*` stage: rAthena's
+    //   battle_calc_magic_attack does `skillratio += 25` on magic of that element, so it is
+    //   `insignia_ratio_<element>`, added to the skill ratio (calcMagicalSkillDamage).
+    // - Vento Nv3 "Pós-conj. de magias de Vento -50%" is `acd_magic_wind`, which rAthena adds
+    //   to the delay rate for Wind magic only (calcSkillAspd).
+    // - Água Nv2 "Efetv. de cura +10%" is healing received — display only.
+    name: '_Sorcerer_Insignia',
+    label: 'Insígnia',
+    icon: 2465,
+    inputType: 'dropdown',
+    dropdown: [
+      { label: '-', isUse: false, value: 0 },
+      { label: 'Fogo Nv 2', isUse: true, value: 12, icon: 2465, bonus: { atk: 50, atkPercent: 10, propertyAtk: ElementType.Fire } },
+      { label: 'Fogo Nv 3', isUse: true, value: 13, icon: 2465, bonus: { matk: 50, insignia_ratio_fire: 25 } },
+      { label: 'Água Nv 2', isUse: true, value: 22, icon: 2466, bonus: { atkPercent: 10, healReceived: 10, propertyAtk: ElementType.Water } },
+      { label: 'Água Nv 3', isUse: true, value: 23, icon: 2466, bonus: { vct: 30, insignia_ratio_water: 25 } },
+      { label: 'Vento Nv 2', isUse: true, value: 32, icon: 2467, bonus: { atkPercent: 10, acd: 10, propertyAtk: ElementType.Wind } },
+      { label: 'Vento Nv 3', isUse: true, value: 33, icon: 2467, bonus: { acd_magic_wind: 50, insignia_ratio_wind: 25 } },
+      { label: 'Terra Nv 2', isUse: true, value: 42, icon: 2468, bonus: { atkPercent: 10, hp: 500, def: 50, propertyAtk: ElementType.Earth } },
+      { label: 'Terra Nv 3', isUse: true, value: 43, icon: 2468, bonus: { sp: 50, mdef: 50, insignia_ratio_earth: 25 } },
+    ],
+  },
+  {
     name: 'Raid',
     label: 'Ataque Surpresa',
     icon: 214, // RG_RAID
@@ -450,6 +509,25 @@ const JobBuffsList: ActiveSkillModel[] = [
     dropdown: [
       { label: 'Sim', isUse: true, value: 10, bonus: { impalement: 100 } },
       { label: 'Não', isUse: false, value: 0 },
+    ],
+  },
+  {
+    // A target standing in an Insígnia, at any level, takes +50% damage from the element its
+    // own element is weak to: Fogo → Água, Água → Vento, Vento → Terra, Terra → Fogo
+    // ("Qualquer alvo na área receberá 50% a mais de dano físico ou mágico de Água"). rAthena
+    // adds 50 to the property modifier (`tsc … ratio += 50`), with no boss exclusion; bROWiki
+    // adds it applies to the caster too. Tracker card 7eJx6XNmTPFTuRdYzv4L.
+    name: '_Sorcerer_Insignia_Target',
+    label: 'Insígnia no alvo',
+    icon: 2465,
+    inputType: 'dropdown',
+    isDebuff: true,
+    dropdown: [
+      { label: '-', isUse: false, value: 0 },
+      { label: 'Fogo (dano de Água +50%)', isUse: true, value: 1, icon: 2465, bonus: { fireInsigniaOnTarget: 50 } },
+      { label: 'Água (dano de Vento +50%)', isUse: true, value: 2, icon: 2466, bonus: { waterInsigniaOnTarget: 50 } },
+      { label: 'Vento (dano de Terra +50%)', isUse: true, value: 3, icon: 2467, bonus: { windInsigniaOnTarget: 50 } },
+      { label: 'Terra (dano de Fogo +50%)', isUse: true, value: 4, icon: 2468, bonus: { earthInsigniaOnTarget: 50 } },
     ],
   },
   {

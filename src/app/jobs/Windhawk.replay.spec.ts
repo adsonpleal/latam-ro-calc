@@ -116,7 +116,7 @@ describe('Windhawk — the recorded criticals, by equality', () => {
   ])('$nome = $dano ($pacotes pacotes idênticos)', ({ skill, buffs, dano }) => {
     const r = simular(skill, buffs);
     expect(r.podeCritar).toBe(true);
-    // `hit: 5` do Vendaval é de exibição: o pacote inteiro é um golpe de dano.
+    // Vendaval's `hit: 5` is display only: the whole packet is a single damage hit.
     expect(r.golpes).toBe(1);
     expect(r.critico).toBe(dano);
   });

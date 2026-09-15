@@ -679,7 +679,7 @@
                 <div [ngSwitch]="bishopBuff.inputType">
                   <div *ngSwitchCase="'dropdown'">
                     <div class="p-inputgroup">
-                      <span class="p-inputgroup-addon text_group_ellips {{ bishopBuff.isDebuff ? 'skill_debuff' : '' }}" [pTooltip]="buffTooltip(bishopBuff)" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip"><img *ngIf="bishopBuff.icon" [src]="bishopBuff.icon | iconUrl: 'skill'" alt="" class="skill_icon mr-1" /><a *ngIf="bishopBuff.icon" class="skill_label_text skill_link" href="https://www.divine-pride.net/database/skill/{{ bishopBuff.icon }}" target="_blank" rel="noreferrer noopener">{{ bishopBuff.label }}</a><span *ngIf="!bishopBuff.icon" class="skill_label_text">{{ bishopBuff.label }}</span></span>
+                      <span class="p-inputgroup-addon text_group_ellips {{ bishopBuff.isDebuff ? 'skill_debuff' : '' }}" [pTooltip]="buffTooltip(bishopBuff, model.skillBuffs[i])" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip"><img *ngIf="bishopBuff.icon" [src]="bishopBuff.icon | iconUrl: 'skill'" alt="" class="skill_icon mr-1" /><a *ngIf="bishopBuff.icon" class="skill_label_text skill_link" href="https://www.divine-pride.net/database/skill/{{ bishopBuff.icon }}" target="_blank" rel="noreferrer noopener">{{ bishopBuff.label }}</a><span *ngIf="!bishopBuff.icon" class="skill_label_text">{{ bishopBuff.label }}</span></span>
                       <p-dropdown
                         [autoDisplayFirst]="false"
                         [resetFilterOnHide]="true"
