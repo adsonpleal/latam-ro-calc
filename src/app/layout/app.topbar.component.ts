@@ -157,6 +157,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.131-beta',
+      date: '15-09-2026',
+      logs: [
+        'As seis Armaduras Desconhecidas (FOR, AGI, VIT, INT, DES e SOR) passaram a aparecer na lista de Armadura: tinham chegado ao cliente na 0.1.129-beta, mas ficaram sem cadastro no simulador. Entraram os bônus de refino, o conjunto com a Bota Desconhecida (com a soma de refinos 21 ou mais) e o conjunto com a Capa Desconhecida e o equipamento de baixo de cada uma, com as faixas de soma de refinos 14, 18 e 22. Cada armadura aceita os 2 bônus aleatórios da Pedra Desconhecida. As autoconjurações da Armadura Desconhecida VIT ficam de fora do cálculo. Reportado por Shummuy.',
+        'Entraram outros 255 itens que o cliente LATAM já tinha e o simulador não: 55 armaduras, 22 escudos, 23 calçados, 21 capas, 12 equipamentos para cabeça, 75 acessórios e 2 armas, dos clássicos (Camisa de Algodão, Sandálias, Brinco, Rosário) aos recentes (Anel Heroico, Pandeiro e Repinique, Anel e Pingente de Preamar, Peitoral Congelado e Peitoral Tectônico, Armadura Filigranada, Escudo do Dragão, Canção); 21 visuais, entre eles a coleção Baby Shark e o Poring OVNI; e 24 munições, entre flechas de status, Flecha Afiada, Flechas de Cerco, projéteis elementais e shurikens. Os efeitos seguem a descrição em português; bônus de EXP, efeitos de evento e os bônus dos castelos da GdE TE não entram no cálculo.',
+        'Com a Bênção de Odin e a Candura cadastradas, dois conjuntos passaram a valer: Chapéu de Ulle com a Bênção de Odin (Custo de SP das habilidades -10% com DES base 70 ou mais) e Gravata Azul com a Candura (Precisão -5, conjuração variável -3%, velocidade de ataque +3% e Custo de SP das habilidades +5%).',
+      ],
+    },
+    {
       v: '0.1.130-beta',
       date: '15-09-2026',
       logs: [

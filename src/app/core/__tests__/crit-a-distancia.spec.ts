@@ -7,10 +7,11 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
 /**
  * "CRIT à distância" — the crit rate the game grants to the ranged basic attack alone.
  *
- * Two items in the whole LATAM client print that line, and they are the only two that may
- * carry the `criRange` key: 4421 Carta Drosera (+15, its entire description) and the
+ * Three items in the whole LATAM client print that line, and they are the only three that may
+ * carry the `criRange` key: 4421 Carta Drosera (+15, its entire description), the
  * 420748 Cachecol Físico de Schmidt + Brasão AGI set (+25, covered by
- * cachecol-schmidt-sets.spec.ts). The card was unregisterable until the key existed, so it
+ * cachecol-schmidt-sets.spec.ts) and 1764 Flecha Afiada ("CRIT +20 a distância", an arrow,
+ * so only ever worn with a bow). The card was unregisterable until the key existed, so it
  * sat in the missing-cards queue with a one-line description the engine could not express.
  *
  * The key exists apart from `cri` because the skill crit rate reads `cri` too — see
@@ -69,7 +70,7 @@ describe('4421 Carta Drosera', () => {
   });
 });
 
-describe('the criRange key is only ever these two items', () => {
+describe('the criRange key is only ever these three items', () => {
   it('no other item.json record claims it', () => {
     // A third one would mean either a new client line or a mis-mapped phrase: the key means
     // "ranged basic attack only", and reading it onto anything else overstates that build.
@@ -78,15 +79,16 @@ describe('the criRange key is only ever these two items', () => {
       .map((item: any) => item.id)
       .sort((a, b) => a - b);
 
-    expect(owners).toEqual([4421, 420748]);
+    expect(owners).toEqual([1764, 4421, 420748]);
   });
 
-  it('is the line the client actually prints on both', () => {
+  it('is the line the client actually prints on all three', () => {
     const plain = (id: number) => (latam[id].description as string).replace(/\^[0-9a-fA-F]{6}/g, '');
 
     // The client spells it with and without the accent on "a"; both are the same bonus.
     expect(plain(4421)).toMatch(/CRIT a distância/);
     expect(plain(420748)).toMatch(/CRIT à distância/);
+    expect(plain(1764)).toMatch(/CRIT \+20 a distância/);
   });
 });
 

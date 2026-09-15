@@ -13,8 +13,8 @@ import { ITEM_DB, wornBonus } from './__tests__/worn-bonus';
  * Carta Besouro-Ladrão Dourado gives +100%. Negating the store would make half the
  * records read backwards.
  *
- * The sweep below is the point of this file. 93 of the 97 records whose pt-BR description
- * carries the line now declare it; the other 4 are listed in NOT_ENCODED with the reason,
+ * The sweep below is the point of this file. 98 of the 100 records whose pt-BR description
+ * carries the line now declare it; the other 2 are listed in NOT_ENCODED with the reason,
  * so the gap is a decision on the record rather than something that quietly rots.
  *
  * The eight whose clause is gated on a set's summed refine live in
@@ -42,8 +42,6 @@ const valueOf = (entry: string) =>
  */
 const NOT_ENCODED: Record<number, string> = {
   2004: 'a linha está sob "Efeito:", um proc temporário (0,1% ao atacar magicamente)',
-  5123: 'o conjunto pede [Bênção de Odin] (2353), que não está no item.json — a cláusula nunca dispararia',
-  5442: '[Candura] resolve para dois ids (5040, 18607) e nenhum está no item.json',
   460181: 'a linha está no bloco [Efeito], um proc de 3% por 5 segundos',
 };
 
@@ -74,7 +72,7 @@ describe('spCostPercent is wired as a display-only stat', () => {
 
 describe('the sweep', () => {
   it('finds the records the client says carry the line', () => {
-    expect(carriers.length).toBe(97); // +3: the Mora enchants Fator de Cura 2-4 (4850-4852)
+    expect(carriers.length).toBe(100); // +3: 490820 Chapa de Identificação, 490900 Pandeiro, 490901 Repinique
   });
 
   it('declares the key on every carrier except the listed exceptions', () => {
@@ -149,6 +147,23 @@ describe('the values reach the engine', () => {
   it('2727 Xale do Arqueiro: -25 only with [Asas de Ícaro] 2726', () => {
     expect(wornBonus({ garment: 2727 })['spCostPercent'] ?? 0).toBe(0);
     expect(wornBonus({ garment: 2727, accRight: 2726 })['spCostPercent']).toBe(-25);
+  });
+
+  it('5123 Chapéu de Ulle: -10 only with [Bênção de Odin] 2353 and base DES 70', () => {
+    // Waited on 2353 having a record, which it got with the classic armors on 15/09/2026.
+    expect(wornBonus({ headUpper: 5123, stats: { dex: 90 } })['spCostPercent'] ?? 0).toBe(0);
+    expect(wornBonus({ headUpper: 5123, armor: 2353, stats: { dex: 69 } })['spCostPercent'] ?? 0).toBe(0);
+    expect(wornBonus({ headUpper: 5123, armor: 2353, stats: { dex: 70 } })['spCostPercent']).toBe(-10);
+  });
+
+  it('5442 Gravata Azul: the [Candura] set pays with either generation, 5040 or 18607', () => {
+    expect(wornBonus({ headUpper: 5442 })['spCostPercent'] ?? 0).toBe(0);
+    for (const candura of [5040, 18607]) {
+      const set = wornBonus({ headUpper: 5442, headMiddle: candura });
+      expect(set['spCostPercent'], `${candura}`).toBe(5);
+      expect(set['aspdPercent'], `${candura}`).toBe(3);
+      expect(set['vct'], `${candura}`).toBe(3);
+    }
   });
 
   it('sums across pieces, as an ordinary bonus key does', () => {

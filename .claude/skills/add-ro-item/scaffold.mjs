@@ -21,12 +21,14 @@ const byId = new Map(items.map((it) => [it.id, it]));
 const latam = JSON.parse(readFileSync(resolve(DATA, "latam-items.json"), "utf8"));
 
 const clean = (s) => (s || "").replace(/\^[0-9a-fA-F]{6}/g, "");
+// Case-insensitive: the client writes "Nível necessário", "Nível Necessário" and
+// "Tipo: Calçado Def: 0" for the same field.
 const field = (desc, label) => {
-  const m = clean(desc).match(new RegExp(label + ":\\s*([^\\n]+)"));
+  const m = clean(desc).match(new RegExp(label + "\\s*:\\s*([^\\n]+)", "i"));
   return m ? m[1].trim() : null;
 };
 const fieldNum = (desc, label) => {
-  const m = clean(desc).match(new RegExp(label + ":\\s*(\\d+)"));
+  const m = clean(desc).match(new RegExp(label + "\\s*:\\s*(\\d+)", "i"));
   return m ? Number(m[1]) : null;
 };
 
@@ -46,6 +48,9 @@ const SLOT_FIELDS = {
   Shoes:    { itemTypeId: 2, itemSubTypeId: 516, location: "Shoes" },
   Shield:   { itemTypeId: 2, itemSubTypeId: 514, location: "Shield" },
   Accessory:{ itemTypeId: 2, itemSubTypeId: 517, location: "Accessory" },
+  // "Aces. Direito" / "Aces. Esquerdo": side-locked, with no location, like the 257 existing ones.
+  AccessoryRight: { itemTypeId: 2, itemSubTypeId: 510, location: null },
+  AccessoryLeft:  { itemTypeId: 2, itemSubTypeId: 511, location: null },
   Weapon:   null, // weapon: itemTypeId 1; itemSubTypeId = weapon class — copy from a same-class weapon
   CostumeUpper:   { itemTypeId: 9, itemSubTypeId: 519, location: "Upper" },
   CostumeMiddle:  { itemTypeId: 9, itemSubTypeId: 520, location: "Middle" },
@@ -56,11 +61,12 @@ const SLOT_FIELDS = {
 // Map the pt-BR footer (Tipo / Equipa em) + name to a slot key.
 function ptToSlot(desc, name) {
   const tipo = (field(desc, "Tipo") || "").toLowerCase();
-  const eq = (field(desc, "Equipa em") || "").toLowerCase();
+  // "Equipa em: Topo", "Equipar em: Topo, Meio e Baixo", "Posição : Superior".
+  const eq = (field(desc, "Equipar? em") || field(desc, "Posição") || "").toLowerCase();
   // Costume / vanity: Tipo "Visual"/"Fantasia" or a "[Visual]" name. A costume can
   // span several head slots ("Topo, Meio e Baixo") — use the topmost present.
   if (/visual|fantasia/.test(tipo) || /^\s*\[visual\]/i.test(name)) {
-    if (/topo|cima/.test(eq)) return "CostumeUpper";
+    if (/topo|cima|superior/.test(eq)) return "CostumeUpper";
     if (/meio/.test(eq)) return "CostumeMiddle";
     if (/baixo/.test(eq)) return "CostumeLower";
     if (/capa|manto/.test(eq) || /capa|manto/.test(tipo)) return "CostumeGarment";
@@ -68,11 +74,13 @@ function ptToSlot(desc, name) {
   }
   if (/baixo/.test(eq)) return "Lower";
   if (/meio/.test(eq)) return "Middle";
-  if (/cima|topo|alto/.test(eq)) return "Upper";
+  if (/cima|topo|alto|superior/.test(eq)) return "Upper";
   if (/armadura/.test(tipo)) return "Armor";
   if (/capa|manto/.test(tipo)) return "Garment";
   if (/sapato|cal[cç]ado|bota/.test(tipo)) return "Shoes";
   if (/escudo/.test(tipo)) return "Shield";
+  if (/aces\.?\s*direito/.test(tipo)) return "AccessoryRight";
+  if (/aces\.?\s*esquerdo/.test(tipo)) return "AccessoryLeft";
   if (/acess[oó]rio/.test(tipo)) return "Accessory";
   if (/arma|espada|lan[cç]a|machado|adaga|arco|cajado|varinha|chicote|manopla|katar|rev[oó]lver|rifle|instrumento|livro|punho/.test(tipo)) return "Weapon";
   return null;
@@ -85,7 +93,7 @@ function effectBlocks(desc) {
     .split(/\n-{5,}\n?/)
     .map((b) => b.trim())
     .filter(Boolean);
-  return blocks.filter((b, i) => i > 0 && !/Tipo:|N[ií]vel necess[aá]rio:/.test(b));
+  return blocks.filter((b, i) => i > 0 && !/Tipo:|N[ií]vel necess?[aá]rio:/i.test(b));
 }
 
 function scaffold(id) {
@@ -99,7 +107,7 @@ function scaffold(id) {
   const f = slot ? SLOT_FIELDS[slot] : null;
   const def = fieldNum(desc, "DEF");
   const weight = fieldNum(desc, "Peso");
-  const reqLvl = fieldNum(desc, "N[ií]vel necess[aá]rio") ?? fieldNum(desc, "Nivel necessario");
+  const reqLvl = fieldNum(desc, "N[ií]vel necess?[aá]rio");
   // Slot count: prefer the client-authoritative `slots` field carried in
   // latam-items.json (the client slotCount, via tools/sync-latam-db.mjs).
   // The LATAM display name usually drops the "[N]" suffix, so the name-parse is

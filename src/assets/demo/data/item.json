@@ -251136,6 +251136,9 @@
       ],
       "agi": [
         "1"
+      ],
+      "spCostPercent": [
+        "EQUIP_ID[2353]dex:70===-10"
       ]
     }
   },
@@ -251307,6 +251310,18 @@
     "script": {
       "vit": [
         "1"
+      ],
+      "hit": [
+        "EQUIP_ID[5040||18607]===-5"
+      ],
+      "vct": [
+        "EQUIP_ID[5040||18607]===3"
+      ],
+      "aspdPercent": [
+        "EQUIP_ID[5040||18607]===3"
+      ],
+      "spCostPercent": [
+        "EQUIP_ID[5040||18607]===5"
       ]
     }
   },
@@ -359188,5 +359203,6714 @@
         "LEVEL[201]===20"
       ]
     }
+  },
+  "450595": {
+    "id": 450595,
+    "aegisName": "Airboat_Armor_Str_LT",
+    "name": "Armadura Desconhecida FOR",
+    "unidName": "Armadura Desconhecida FOR",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 120,
+    "weight": 200,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "50",
+        "EQUIP_ID[420031&&480926]REFINE[armor,garment,headLower==14]===80"
+      ],
+      "atkPercent": [
+        "3---2",
+        "EQUIP_ID[470071]10",
+        "EQUIP_ID[420031&&480926]5"
+      ],
+      "fct": [
+        "EQUIP_ID[470071]REFINE[armor,boot==21]===0.5"
+      ],
+      "pAtk": [
+        "EQUIP_ID[420031&&480926]REFINE[armor,garment,headLower==18]===5"
+      ],
+      "acd": [
+        "EQUIP_ID[420031&&480926]REFINE[armor,garment,headLower==18]===7"
+      ],
+      "melee": [
+        "EQUIP_ID[420031&&480926]REFINE[armor,garment,headLower==22]===10"
+      ],
+      "p_pene_race_formless": [
+        "7===30",
+        "EQUIP_ID[470071]REFINE[armor,boot==21]===20"
+      ],
+      "p_pene_race_demihuman": [
+        "7===30",
+        "EQUIP_ID[470071]REFINE[armor,boot==21]===20"
+      ],
+      "p_race_formless": [
+        "9===10"
+      ],
+      "p_race_demihuman": [
+        "9===10"
+      ],
+      "p_element_neutral": [
+        "11===10"
+      ],
+      "p_element_fire": [
+        "11===10"
+      ]
+    }
+  },
+  "450596": {
+    "id": 450596,
+    "aegisName": "Airboat_Armor_Agi_LT",
+    "name": "Armadura Desconhecida AGI",
+    "unidName": "Armadura Desconhecida AGI",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 120,
+    "weight": 200,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "50",
+        "EQUIP_ID[19240&&480927]REFINE[armor,garment,headLower==14]===80"
+      ],
+      "perfectHit": [
+        "3---2"
+      ],
+      "aspd": [
+        "EQUIP_ID[470076]1"
+      ],
+      "fct": [
+        "EQUIP_ID[470076]REFINE[armor,boot==21]===0.5"
+      ],
+      "p_race_all": [
+        "EQUIP_ID[19240&&480927]7",
+        "EQUIP_ID[19240&&480927]REFINE[armor,garment,headLower==18]===7"
+      ],
+      "pAtk": [
+        "EQUIP_ID[19240&&480927]REFINE[armor,garment,headLower==18]===5"
+      ],
+      "acd": [
+        "EQUIP_ID[19240&&480927]REFINE[armor,garment,headLower==22]===10"
+      ],
+      "p_pene_race_formless": [
+        "7===30",
+        "EQUIP_ID[470076]REFINE[armor,boot==21]===20"
+      ],
+      "p_pene_race_demihuman": [
+        "7===30",
+        "EQUIP_ID[470076]REFINE[armor,boot==21]===20"
+      ],
+      "p_race_formless": [
+        "9===10"
+      ],
+      "p_race_demihuman": [
+        "9===10"
+      ],
+      "p_element_neutral": [
+        "11===10"
+      ],
+      "p_element_fire": [
+        "11===10"
+      ]
+    }
+  },
+  "450597": {
+    "id": 450597,
+    "aegisName": "Airboat_Armor_Vit_LT",
+    "name": "Armadura Desconhecida VIT",
+    "unidName": "Armadura Desconhecida VIT",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 120,
+    "weight": 200,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "50",
+        "EQUIP_ID[420003&&480928]REFINE[armor,garment,headLower==14]===80"
+      ],
+      "matk": [
+        "50",
+        "EQUIP_ID[420003&&480928]REFINE[armor,garment,headLower==14]===80"
+      ],
+      "aspdPercent": [
+        "3---2"
+      ],
+      "fct": [
+        "EQUIP_ID[470073]REFINE[armor,boot==21]===0.5"
+      ],
+      "acd": [
+        "EQUIP_ID[420003&&480928]REFINE[armor,garment,headLower==22]===10"
+      ],
+      "p_pene_race_formless": [
+        "7===30",
+        "EQUIP_ID[470073]REFINE[armor,boot==21]===20"
+      ],
+      "p_pene_race_demihuman": [
+        "7===30",
+        "EQUIP_ID[470073]REFINE[armor,boot==21]===20"
+      ],
+      "p_race_formless": [
+        "9===10"
+      ],
+      "p_race_demihuman": [
+        "9===10"
+      ],
+      "p_element_neutral": [
+        "11===10"
+      ],
+      "p_element_fire": [
+        "11===10"
+      ],
+      "m_pene_race_formless": [
+        "7===30",
+        "EQUIP_ID[470073]REFINE[armor,boot==21]===20"
+      ],
+      "m_pene_race_demihuman": [
+        "7===30",
+        "EQUIP_ID[470073]REFINE[armor,boot==21]===20"
+      ],
+      "m_race_formless": [
+        "9===10"
+      ],
+      "m_race_demihuman": [
+        "9===10"
+      ],
+      "m_element_neutral": [
+        "11===10"
+      ],
+      "m_element_fire": [
+        "11===10"
+      ]
+    }
+  },
+  "450598": {
+    "id": 450598,
+    "aegisName": "Airboat_Armor_Int_LT",
+    "name": "Armadura Desconhecida INT",
+    "unidName": "Armadura Desconhecida INT",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 120,
+    "weight": 200,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matk": [
+        "50",
+        "EQUIP_ID[420003&&480929]REFINE[armor,garment,headLower==14]===80"
+      ],
+      "matkPercent": [
+        "3---2",
+        "EQUIP_ID[470074]10"
+      ],
+      "fct": [
+        "EQUIP_ID[470074]REFINE[armor,boot==21]===0.5"
+      ],
+      "vct": [
+        "EQUIP_ID[420003&&480929]10"
+      ],
+      "sMatk": [
+        "EQUIP_ID[420003&&480929]REFINE[armor,garment,headLower==18]===5"
+      ],
+      "acd": [
+        "EQUIP_ID[420003&&480929]REFINE[armor,garment,headLower==18]===7"
+      ],
+      "m_my_element_all": [
+        "EQUIP_ID[420003&&480929]REFINE[armor,garment,headLower==18]===10"
+      ],
+      "m_size_all": [
+        "EQUIP_ID[420003&&480929]REFINE[armor,garment,headLower==22]===10"
+      ],
+      "m_pene_race_formless": [
+        "7===30",
+        "EQUIP_ID[470074]REFINE[armor,boot==21]===20"
+      ],
+      "m_pene_race_demihuman": [
+        "7===30",
+        "EQUIP_ID[470074]REFINE[armor,boot==21]===20"
+      ],
+      "m_race_formless": [
+        "9===10"
+      ],
+      "m_race_demihuman": [
+        "9===10"
+      ],
+      "m_element_neutral": [
+        "11===10"
+      ],
+      "m_element_fire": [
+        "11===10"
+      ]
+    }
+  },
+  "450599": {
+    "id": 450599,
+    "aegisName": "Airboat_Armor_Dex_LT",
+    "name": "Armadura Desconhecida DES",
+    "unidName": "Armadura Desconhecida DES",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 120,
+    "weight": 200,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "50",
+        "EQUIP_ID[420030&&480930]REFINE[armor,garment,headLower==14]===80"
+      ],
+      "range": [
+        "3---2",
+        "EQUIP_ID[420030&&480930]REFINE[armor,garment,headLower==22]===10"
+      ],
+      "atkPercent": [
+        "EQUIP_ID[470072]10"
+      ],
+      "perfectHit": [
+        "EQUIP_ID[470072]REFINE[armor,boot==21]===30"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[420030&&480930]7",
+        "EQUIP_ID[420030&&480930]REFINE[armor,garment,headLower==18]===7"
+      ],
+      "pAtk": [
+        "EQUIP_ID[420030&&480930]REFINE[armor,garment,headLower==18]===5"
+      ],
+      "p_pene_race_formless": [
+        "7===30",
+        "EQUIP_ID[470072]REFINE[armor,boot==21]===20"
+      ],
+      "p_pene_race_demihuman": [
+        "7===30",
+        "EQUIP_ID[470072]REFINE[armor,boot==21]===20"
+      ],
+      "p_race_formless": [
+        "9===10"
+      ],
+      "p_race_demihuman": [
+        "9===10"
+      ],
+      "p_element_neutral": [
+        "11===10"
+      ],
+      "p_element_fire": [
+        "11===10"
+      ]
+    }
+  },
+  "450600": {
+    "id": 450600,
+    "aegisName": "Airboat_Armor_Luk_LT",
+    "name": "Armadura Desconhecida SOR",
+    "unidName": "Armadura Desconhecida SOR",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 120,
+    "weight": 200,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "50",
+        "EQUIP_ID[420076&&480931]REFINE[armor,garment,headLower==14]===80"
+      ],
+      "criDmg": [
+        "3---2",
+        "EQUIP_ID[420076&&480931]REFINE[armor,garment,headLower==18]===12"
+      ],
+      "atkPercent": [
+        "EQUIP_ID[470077]10"
+      ],
+      "fct": [
+        "EQUIP_ID[470077]REFINE[armor,boot==21]===0.5"
+      ],
+      "p_race_all": [
+        "EQUIP_ID[420076&&480931]10"
+      ],
+      "cRate": [
+        "EQUIP_ID[420076&&480931]REFINE[armor,garment,headLower==18]===5"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[420076&&480931]REFINE[armor,garment,headLower==18]===10"
+      ],
+      "range": [
+        "EQUIP_ID[420076&&480931]REFINE[armor,garment,headLower==22]===10"
+      ],
+      "melee": [
+        "EQUIP_ID[420076&&480931]REFINE[armor,garment,headLower==22]===10"
+      ],
+      "p_pene_race_formless": [
+        "7===30",
+        "EQUIP_ID[470077]REFINE[armor,boot==21]===20"
+      ],
+      "p_pene_race_demihuman": [
+        "7===30",
+        "EQUIP_ID[470077]REFINE[armor,boot==21]===20"
+      ],
+      "p_race_formless": [
+        "9===10"
+      ],
+      "p_race_demihuman": [
+        "9===10"
+      ],
+      "p_element_neutral": [
+        "11===10"
+      ],
+      "p_element_fire": [
+        "11===10"
+      ]
+    }
+  },
+  "2602": {
+    "id": 2602,
+    "aegisName": "이어링",
+    "name": "Brinco",
+    "unidName": "Brinco",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 20,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "2"
+      ]
+    }
+  },
+  "2603": {
+    "id": 2603,
+    "aegisName": "네클리스",
+    "name": "Colar",
+    "unidName": "Colar",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 20,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "2"
+      ]
+    }
+  },
+  "2604": {
+    "id": 2604,
+    "aegisName": "글러브",
+    "name": "Luvas",
+    "unidName": "Luvas",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 20,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "2"
+      ]
+    }
+  },
+  "2605": {
+    "id": 2605,
+    "aegisName": "브로치",
+    "name": "Broche",
+    "unidName": "Broche",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 20,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "2"
+      ]
+    }
+  },
+  "2607": {
+    "id": 2607,
+    "aegisName": "클립",
+    "name": "Presilha",
+    "unidName": "Presilha",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "10"
+      ]
+    }
+  },
+  "2608": {
+    "id": 2608,
+    "aegisName": "로자리",
+    "name": "Rosário",
+    "unidName": "Rosário",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 20,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "luk": [
+        "2"
+      ]
+    }
+  },
+  "2609": {
+    "id": 2609,
+    "aegisName": "해골반지",
+    "name": "Anel de Caveira",
+    "unidName": "Anel de Caveira",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2610": {
+    "id": 2610,
+    "aegisName": "금반지",
+    "name": "Anel de Ouro",
+    "unidName": "Anel de Ouro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2611": {
+    "id": 2611,
+    "aegisName": "은반지",
+    "name": "Anel de Prata",
+    "unidName": "Anel de Prata",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2612": {
+    "id": 2612,
+    "aegisName": "꽃반지",
+    "name": "Anel de Flor",
+    "unidName": "Anel de Flor",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2613": {
+    "id": 2613,
+    "aegisName": "다이아반지",
+    "name": "Anel de Diamante",
+    "unidName": "Anel de Diamante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2615": {
+    "id": 2615,
+    "aegisName": "세이프티링",
+    "name": "Anel de Defesa",
+    "unidName": "Anel de Defesa",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 3,
+    "weight": 10,
+    "requiredLevel": 40,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2627": {
+    "id": 2627,
+    "aegisName": "벨트",
+    "name": "Cinto",
+    "unidName": "Cinto",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 120,
+    "requiredLevel": 25,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2628": {
+    "id": 2628,
+    "aegisName": "노비스암릿",
+    "name": "Bracelete de Aprendiz",
+    "unidName": "Bracelete de Aprendiz",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 20,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2640": {
+    "id": 2640,
+    "aegisName": "카프라반지",
+    "name": "Anel de Kafra",
+    "unidName": "Anel de Kafra",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 1,
+    "weight": 20,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "agi": [
+        "1"
+      ],
+      "int": [
+        "1"
+      ],
+      "luk": [
+        "1"
+      ],
+      "mdef": [
+        "1"
+      ]
+    }
+  },
+  "2641": {
+    "id": 2641,
+    "aegisName": "힙색",
+    "name": "Bolsa de Mercador",
+    "unidName": "Bolsa de Mercador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 70,
+    "requiredLevel": 50,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "Merchant"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ]
+    }
+  },
+  "2642": {
+    "id": 2642,
+    "aegisName": "세린의금반지",
+    "name": "Anel de Ouro de Serin",
+    "unidName": "Anel de Ouro de Serin",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2643": {
+    "id": 2643,
+    "aegisName": "세린의금반지",
+    "name": "Anel de Ouro de Serin",
+    "unidName": "Anel de Ouro de Serin",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2645": {
+    "id": 2645,
+    "aegisName": "달빛반지",
+    "name": "Anel do Luar",
+    "unidName": "Anel do Luar",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 20,
+    "requiredLevel": 60,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "Thief",
+      "Ninja"
+    ],
+    "script": {
+      "mdef": [
+        "2"
+      ],
+      "cri": [
+        "3"
+      ],
+      "aspdPercent": [
+        "3"
+      ]
+    }
+  },
+  "2657": {
+    "id": 2657,
+    "aegisName": "출입카드",
+    "name": "Passe do Laboratório",
+    "unidName": "Passe do Laboratório",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2663": {
+    "id": 2663,
+    "aegisName": "명중의건틀릿",
+    "name": "Manopla Certeira",
+    "unidName": "Manopla Certeira",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 90,
+    "requiredLevel": 75,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hit": [
+        "15"
+      ],
+      "str": [
+        "1"
+      ]
+    }
+  },
+  "2665": {
+    "id": 2665,
+    "aegisName": "퇴마의반지",
+    "name": "Anel do Exorcismo",
+    "unidName": "Anel do Exorcismo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 50,
+    "requiredLevel": 60,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "Acolyte"
+    ],
+    "script": {
+      "mdef": [
+        "1"
+      ]
+    }
+  },
+  "2666": {
+    "id": 2666,
+    "aegisName": "등잔",
+    "name": "Lanterna da Fé",
+    "unidName": "Lanterna da Fé",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ]
+    }
+  },
+  "2667": {
+    "id": 2667,
+    "aegisName": "명사수의장갑",
+    "name": "Luva do Arqueiro",
+    "unidName": "Luva do Arqueiro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 30,
+    "requiredLevel": 60,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hit": [
+        "5"
+      ],
+      "cri": [
+        "5"
+      ],
+      "dex": [
+        "1"
+      ]
+    }
+  },
+  "2707": {
+    "id": 2707,
+    "aegisName": "GUSLI",
+    "name": "Gusli",
+    "unidName": "Gusli",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2753": {
+    "id": 2753,
+    "aegisName": "태국반지",
+    "name": "[Aluguel] Anel do Caçador Veterano",
+    "unidName": "[Aluguel] Anel do Caçador Veterano",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2754": {
+    "id": 2754,
+    "aegisName": "Hallow_Ring",
+    "name": "[Aluguel] Anel Caçador de Morto-Vivo",
+    "unidName": "[Aluguel] Anel Caçador de Morto-Vivo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2755": {
+    "id": 2755,
+    "aegisName": "Clamorous_Ring",
+    "name": "[Aluguel] Anel do Ganhador",
+    "unidName": "[Aluguel] Anel do Ganhador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2756": {
+    "id": 2756,
+    "aegisName": "태국반지",
+    "name": "[Aluguel] Anel do Devastador",
+    "unidName": "[Aluguel] Anel do Devastador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2757": {
+    "id": 2757,
+    "aegisName": "Insecticide_Ring",
+    "name": "[Aluguel] Anel do Colecionador de Insetos",
+    "unidName": "[Aluguel] Anel do Colecionador de Insetos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2758": {
+    "id": 2758,
+    "aegisName": "Fisher_Ring",
+    "name": "[Aluguel] Anel do Pescador",
+    "unidName": "[Aluguel] Anel do Pescador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2759": {
+    "id": 2759,
+    "aegisName": "Decussate_Ring",
+    "name": "[Aluguel] Anel do Exorcista",
+    "unidName": "[Aluguel] Anel do Exorcista",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2760": {
+    "id": 2760,
+    "aegisName": "Bloody_Ring",
+    "name": "[Aluguel] Anel do Açougueiro",
+    "unidName": "[Aluguel] Anel do Açougueiro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2761": {
+    "id": 2761,
+    "aegisName": "Satanic_Ring",
+    "name": "[Aluguel] Anel do Anjo Caído",
+    "unidName": "[Aluguel] Anel do Anjo Caído",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 1,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2762": {
+    "id": 2762,
+    "aegisName": "Dragoon_Ring",
+    "name": "[Aluguel] Anel do Caçador de Dragões",
+    "unidName": "[Aluguel] Anel do Caçador de Dragões",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 1,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2765": {
+    "id": 2765,
+    "aegisName": "피규어",
+    "name": "Estatueta de Aprendiz",
+    "unidName": "Estatueta de Aprendiz",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hp": [
+        "70",
+        "USED[Novice]30"
+      ]
+    }
+  },
+  "2766": {
+    "id": 2766,
+    "aegisName": "Swordman_Figure",
+    "name": "Estatueta de Espadachin",
+    "unidName": "Estatueta de Espadachin",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vit": [
+        "1"
+      ],
+      "def": [
+        "USED[Swordman]2"
+      ]
+    }
+  },
+  "2767": {
+    "id": 2767,
+    "aegisName": "Acolyte_Figure",
+    "name": "Estatueta de Noviço",
+    "unidName": "Estatueta de Noviço",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ],
+      "sp": [
+        "USED[Acolyte]50"
+      ]
+    }
+  },
+  "1267": {
+    "id": 1267,
+    "aegisName": "등뒤를베는자",
+    "name": "[Aluguel] Infiltrador",
+    "unidName": "[Aluguel] Infiltrador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 1,
+    "itemSubTypeId": 272,
+    "itemLevel": 4,
+    "attack": 189,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Assassin"
+    ],
+    "script": {
+      "def": [
+        "3"
+      ],
+      "perfectDodge": [
+        "2"
+      ],
+      "flee": [
+        "5"
+      ],
+      "p_race_demihuman": [
+        "70"
+      ],
+      "p_race_player_human": [
+        "70"
+      ]
+    }
+  },
+  "1702": {
+    "id": 1702,
+    "aegisName": "보우",
+    "name": "Arco",
+    "unidName": "Arco",
+    "resName": "",
+    "description": "",
+    "slots": 4,
+    "itemTypeId": 1,
+    "itemSubTypeId": 267,
+    "itemLevel": 1,
+    "attack": 15,
+    "defense": null,
+    "weight": 50,
+    "requiredLevel": 4,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Archer",
+      "Thief",
+      "Rogue"
+    ],
+    "script": {}
+  },
+  "2301": {
+    "id": 2301,
+    "aegisName": "코튼셔츠",
+    "name": "Camisa de Algodão",
+    "unidName": "Camisa de Algodão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2302": {
+    "id": 2302,
+    "aegisName": "코튼셔츠",
+    "name": "Camisa de Algodão",
+    "unidName": "Camisa de Algodão",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2303": {
+    "id": 2303,
+    "aegisName": "가죽재킷",
+    "name": "Gibão",
+    "unidName": "Gibão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 15,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2304": {
+    "id": 2304,
+    "aegisName": "가죽재킷",
+    "name": "Gibão",
+    "unidName": "Gibão",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 15,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2305": {
+    "id": 2305,
+    "aegisName": "어드밴쳐슈츠",
+    "name": "Túnica",
+    "unidName": "Túnica",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2306": {
+    "id": 2306,
+    "aegisName": "어드밴쳐슈츠",
+    "name": "Túnica",
+    "unidName": "Túnica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2307": {
+    "id": 2307,
+    "aegisName": "맨틀",
+    "name": "Capote",
+    "unidName": "Capote",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 37,
+    "weight": 60,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2308": {
+    "id": 2308,
+    "aegisName": "맨틀",
+    "name": "Capote",
+    "unidName": "Capote",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 37,
+    "weight": 60,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2309": {
+    "id": 2309,
+    "aegisName": "롱코트",
+    "name": "Casaco",
+    "unidName": "Casaco",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 42,
+    "weight": 120,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2310": {
+    "id": 2310,
+    "aegisName": "롱코트",
+    "name": "Casaco",
+    "unidName": "Casaco",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 42,
+    "weight": 120,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2311": {
+    "id": 2311,
+    "aegisName": "밍크코트",
+    "name": "Casaco de Pele",
+    "unidName": "Casaco de Pele",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 30,
+    "weight": 230,
+    "requiredLevel": 30,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2312": {
+    "id": 2312,
+    "aegisName": "아머",
+    "name": "Armadura Acolchoada",
+    "unidName": "Armadura Acolchoada",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 35,
+    "weight": 280,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant",
+      "Thief"
+    ],
+    "script": {}
+  },
+  "2313": {
+    "id": 2313,
+    "aegisName": "아머",
+    "name": "Armadura Acolchoada",
+    "unidName": "Armadura Acolchoada",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 35,
+    "weight": 280,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant",
+      "Thief"
+    ],
+    "script": {}
+  },
+  "2314": {
+    "id": 2314,
+    "aegisName": "메일",
+    "name": "Cota de Malha",
+    "unidName": "Cota de Malha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 55,
+    "weight": 330,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant",
+      "Thief"
+    ],
+    "script": {}
+  },
+  "2315": {
+    "id": 2315,
+    "aegisName": "메일",
+    "name": "Cota de Malha",
+    "unidName": "Cota de Malha",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 55,
+    "weight": 330,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant",
+      "Thief"
+    ],
+    "script": {}
+  },
+  "2316": {
+    "id": 2316,
+    "aegisName": "플레이트",
+    "name": "Armadura Metálica",
+    "unidName": "Armadura Metálica",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 70,
+    "weight": 450,
+    "requiredLevel": 40,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {}
+  },
+  "2317": {
+    "id": 2317,
+    "aegisName": "플레이트",
+    "name": "Armadura Metálica",
+    "unidName": "Armadura Metálica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 70,
+    "weight": 450,
+    "requiredLevel": 40,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {}
+  },
+  "2320": {
+    "id": 2320,
+    "aegisName": "포멀드레스",
+    "name": "Paletó",
+    "unidName": "Paletó",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2321": {
+    "id": 2321,
+    "aegisName": "실크로브",
+    "name": "Manto de Seda",
+    "unidName": "Manto de Seda",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 40,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Mage",
+      "Merchant",
+      "Acolyte"
+    ],
+    "script": {}
+  },
+  "2322": {
+    "id": 2322,
+    "aegisName": "실크로브",
+    "name": "Manto de Seda",
+    "unidName": "Manto de Seda",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 40,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Mage",
+      "Merchant",
+      "Acolyte"
+    ],
+    "script": {}
+  },
+  "2323": {
+    "id": 2323,
+    "aegisName": "스캐퓰러",
+    "name": "Escapulário",
+    "unidName": "Escapulário",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 24,
+    "weight": 40,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Acolyte"
+    ],
+    "script": {}
+  },
+  "2324": {
+    "id": 2324,
+    "aegisName": "스캐퓰러",
+    "name": "Escapulário",
+    "unidName": "Escapulário",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 24,
+    "weight": 40,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Acolyte"
+    ],
+    "script": {}
+  },
+  "2325": {
+    "id": 2325,
+    "aegisName": "세인트로브",
+    "name": "Manto Sagrado",
+    "unidName": "Manto Sagrado",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 60,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Acolyte",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "2326": {
+    "id": 2326,
+    "aegisName": "세인트로브",
+    "name": "Manto Sagrado",
+    "unidName": "Manto Sagrado",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 60,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Acolyte",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "2328": {
+    "id": 2328,
+    "aegisName": "우든메일",
+    "name": "Armadura de Madeira",
+    "unidName": "Armadura de Madeira",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 100,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "2329": {
+    "id": 2329,
+    "aegisName": "우든메일",
+    "name": "Armadura de Madeira",
+    "unidName": "Armadura de Madeira",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 100,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "2332": {
+    "id": 2332,
+    "aegisName": "실버로브",
+    "name": "Manto Prateado",
+    "unidName": "Manto Prateado",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 23,
+    "weight": 70,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage"
+    ],
+    "script": {}
+  },
+  "2333": {
+    "id": 2333,
+    "aegisName": "실버로브",
+    "name": "Manto Prateado",
+    "unidName": "Manto Prateado",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 23,
+    "weight": 70,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage"
+    ],
+    "script": {}
+  },
+  "2338": {
+    "id": 2338,
+    "aegisName": "웨딩드레스",
+    "name": "Vestido de Casamento",
+    "unidName": "Vestido de Casamento",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 50,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2339": {
+    "id": 2339,
+    "aegisName": "삼각팬티",
+    "name": "Roupa de Baixo",
+    "unidName": "Roupa de Baixo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 22,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2340": {
+    "id": 2340,
+    "aegisName": "초보자용흉갑",
+    "name": "Armadura de Aprendiz",
+    "unidName": "Armadura de Aprendiz",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 32,
+    "weight": 50,
+    "requiredLevel": 10,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {}
+  },
+  "2341": {
+    "id": 2341,
+    "aegisName": "풀플레이트아머",
+    "name": "Armadura Legionária",
+    "unidName": "Armadura Legionária",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 79,
+    "weight": 550,
+    "requiredLevel": 70,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Crusader"
+    ],
+    "script": {}
+  },
+  "2342": {
+    "id": 2342,
+    "aegisName": "풀플레이트아머",
+    "name": "Armadura Legionária",
+    "unidName": "Armadura Legionária",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 79,
+    "weight": 550,
+    "requiredLevel": 70,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Crusader"
+    ],
+    "script": {}
+  },
+  "2344": {
+    "id": 2344,
+    "aegisName": "불의갑옷",
+    "name": "Couraça da Fúria Flamejante",
+    "unidName": "Couraça da Fúria Flamejante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 220,
+    "requiredLevel": 45,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "2345": {
+    "id": 2345,
+    "aegisName": "불의갑옷",
+    "name": "Couraça da Fúria Flamejante",
+    "unidName": "Couraça da Fúria Flamejante",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 220,
+    "requiredLevel": 45,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2346": {
+    "id": 2346,
+    "aegisName": "물의갑옷",
+    "name": "Couraça da Submissão Oceânica",
+    "unidName": "Couraça da Submissão Oceânica",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 220,
+    "requiredLevel": 45,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "2347": {
+    "id": 2347,
+    "aegisName": "물의갑옷",
+    "name": "Couraça da Submissão Oceânica",
+    "unidName": "Couraça da Submissão Oceânica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 220,
+    "requiredLevel": 45,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2348": {
+    "id": 2348,
+    "aegisName": "바람의갑옷",
+    "name": "Couraça da Liberdade Celestial",
+    "unidName": "Couraça da Liberdade Celestial",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 220,
+    "requiredLevel": 45,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "2349": {
+    "id": 2349,
+    "aegisName": "바람의갑옷",
+    "name": "Couraça da Liberdade Celestial",
+    "unidName": "Couraça da Liberdade Celestial",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 220,
+    "requiredLevel": 45,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2350": {
+    "id": 2350,
+    "aegisName": "땅의갑옷",
+    "name": "Couraça da Perseverança Continental",
+    "unidName": "Couraça da Perseverança Continental",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 220,
+    "requiredLevel": 45,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "2351": {
+    "id": 2351,
+    "aegisName": "땅의갑옷",
+    "name": "Couraça da Perseverança Continental",
+    "unidName": "Couraça da Perseverança Continental",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 220,
+    "requiredLevel": 45,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2353": {
+    "id": 2353,
+    "aegisName": "오딘의축복",
+    "name": "Bênção de Odin",
+    "unidName": "Bênção de Odin",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 53,
+    "weight": 250,
+    "requiredLevel": 65,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2371": {
+    "id": 2371,
+    "aegisName": "삼각팬티",
+    "name": "Roupa de Baixo",
+    "unidName": "Roupa de Baixo",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 22,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "15002": {
+    "id": 15002,
+    "aegisName": "메테오플레이트",
+    "name": "Armadura Rúnica",
+    "unidName": "Armadura Rúnica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 95,
+    "weight": 0,
+    "requiredLevel": 99,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "RuneKnight"
+    ],
+    "script": {}
+  },
+  "15013": {
+    "id": 15013,
+    "aegisName": "클레르슈츠",
+    "name": "Trajes Claire",
+    "unidName": "Trajes Claire",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 58,
+    "weight": 280,
+    "requiredLevel": 22,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Hi-Class"
+    ],
+    "script": {}
+  },
+  "15014": {
+    "id": 15014,
+    "aegisName": "칠흑의갑옷",
+    "name": "Armadura Ébano",
+    "unidName": "Armadura Ébano",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 93,
+    "weight": 450,
+    "requiredLevel": 100,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "RuneKnight",
+      "RoyalGuard"
+    ],
+    "script": {}
+  },
+  "15024": {
+    "id": 15024,
+    "aegisName": "깔깔이",
+    "name": "Acolchoamento Militar",
+    "unidName": "Acolchoamento Militar",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 1,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "15051": {
+    "id": 15051,
+    "aegisName": "버코너워비늘갑옷",
+    "name": "Armadura de Escamas de Bakonawa",
+    "unidName": "Armadura de Escamas de Bakonawa",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 55,
+    "weight": 50,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "allStatus": [
+        "1"
+      ]
+    }
+  },
+  "15062": {
+    "id": 15062,
+    "aegisName": "TE_Woe_Coat",
+    "name": "[Aluguel] Casaco TE",
+    "unidName": "[Aluguel] Casaco TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 15,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "15"
+      ]
+    }
+  },
+  "15063": {
+    "id": 15063,
+    "aegisName": "TE_Woe_Chain_Mail",
+    "name": "[Aluguel] Cota de Malha TE",
+    "unidName": "[Aluguel] Cota de Malha TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {
+      "mdef": [
+        "5"
+      ]
+    }
+  },
+  "15064": {
+    "id": 15064,
+    "aegisName": "TE_Woe_Mage_Coat",
+    "name": "[Aluguel] Casaco Mágico TE",
+    "unidName": "[Aluguel] Casaco Mágico TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice",
+      "Mage",
+      "SoulLinker",
+      "Acolyte"
+    ],
+    "script": {
+      "mdef": [
+        "25"
+      ]
+    }
+  },
+  "15066": {
+    "id": 15066,
+    "aegisName": "Engraved_Armor",
+    "name": "Armadura Filigranada",
+    "unidName": "Armadura Filigranada",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 120,
+    "weight": 300,
+    "requiredLevel": 150,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {}
+  },
+  "15067": {
+    "id": 15067,
+    "aegisName": "Rune_Suit",
+    "name": "[Aluguel] Manto de Rune",
+    "unidName": "[Aluguel] Manto de Rune",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "15100": {
+    "id": 15100,
+    "aegisName": "얼어붙은흉갑",
+    "name": "Peitoral Congelado",
+    "unidName": "Peitoral Congelado",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 150,
+    "requiredLevel": 130,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Only 3rd Cls"
+    ],
+    "script": {}
+  },
+  "15101": {
+    "id": 15101,
+    "aegisName": "굳어진흉갑",
+    "name": "Peitoral Tectônico",
+    "unidName": "Peitoral Tectônico",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 513,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 150,
+    "requiredLevel": 130,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "Only 3rd Cls"
+    ],
+    "script": {}
+  },
+  "2101": {
+    "id": 2101,
+    "aegisName": "가드",
+    "name": "Vembrassa",
+    "unidName": "Vembrassa",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 30,
+    "requiredLevel": null,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2102": {
+    "id": 2102,
+    "aegisName": "가드",
+    "name": "Vembrassa",
+    "unidName": "Vembrassa",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 20,
+    "weight": 30,
+    "requiredLevel": null,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2103": {
+    "id": 2103,
+    "aegisName": "버클러",
+    "name": "Broquel",
+    "unidName": "Broquel",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 60,
+    "requiredLevel": null,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Acolyte",
+      "Merchant",
+      "Thief",
+      "Bard",
+      "Dancer"
+    ],
+    "script": {}
+  },
+  "2104": {
+    "id": 2104,
+    "aegisName": "버클러",
+    "name": "Broquel",
+    "unidName": "Broquel",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 40,
+    "weight": 60,
+    "requiredLevel": null,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Acolyte",
+      "Merchant",
+      "Thief",
+      "Bard",
+      "Dancer"
+    ],
+    "script": {}
+  },
+  "2105": {
+    "id": 2105,
+    "aegisName": "쉴드",
+    "name": "Escudo",
+    "unidName": "Escudo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 60,
+    "weight": 130,
+    "requiredLevel": null,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {}
+  },
+  "2106": {
+    "id": 2106,
+    "aegisName": "쉴드",
+    "name": "Escudo",
+    "unidName": "Escudo",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 60,
+    "weight": 130,
+    "requiredLevel": null,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {}
+  },
+  "2107": {
+    "id": 2107,
+    "aegisName": "미러쉴드",
+    "name": "Escudo Espelhado",
+    "unidName": "Escudo Espelhado",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 100,
+    "requiredLevel": null,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {}
+  },
+  "2108": {
+    "id": 2108,
+    "aegisName": "미러쉴드",
+    "name": "Escudo Espelhado",
+    "unidName": "Escudo Espelhado",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 100,
+    "requiredLevel": null,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {}
+  },
+  "2110": {
+    "id": 2110,
+    "aegisName": "홀리가드",
+    "name": "Arauto Divino",
+    "unidName": "Arauto Divino",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 110,
+    "weight": 140,
+    "requiredLevel": 68,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Crusader"
+    ],
+    "script": {
+      "vit": [
+        "2"
+      ]
+    }
+  },
+  "2117": {
+    "id": 2117,
+    "aegisName": "팔목토시",
+    "name": "Proteção de Braço",
+    "unidName": "Proteção de Braço",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 15,
+    "requiredLevel": 20,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "2118": {
+    "id": 2118,
+    "aegisName": "팔목토시",
+    "name": "Proteção de Braço",
+    "unidName": "Proteção de Braço",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 50,
+    "weight": 15,
+    "requiredLevel": 20,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "2119": {
+    "id": 2119,
+    "aegisName": "팔목토시개량",
+    "name": "Proteção de Braço Avançada",
+    "unidName": "Proteção de Braço Avançada",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 15,
+    "requiredLevel": 50,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "2120": {
+    "id": 2120,
+    "aegisName": "팔목토시개량",
+    "name": "Proteção de Braço Avançada",
+    "unidName": "Proteção de Braço Avançada",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 45,
+    "weight": 15,
+    "requiredLevel": 50,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "2140": {
+    "id": 2140,
+    "aegisName": "에너지룬가드",
+    "name": "Escudo Espiritual",
+    "unidName": "Escudo Espiritual",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 70,
+    "weight": 0,
+    "requiredLevel": 9,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "RuneKnight"
+    ],
+    "script": {
+      "spPercent": [
+        "2"
+      ]
+    }
+  },
+  "2146": {
+    "id": 2146,
+    "aegisName": "실버가드",
+    "name": "Vembrassa Prateada",
+    "unidName": "Vembrassa Prateada",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 60,
+    "weight": 30,
+    "requiredLevel": 22,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2147": {
+    "id": 2147,
+    "aegisName": "라운드버클러",
+    "name": "Escudo Redondo",
+    "unidName": "Escudo Redondo",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 90,
+    "weight": 60,
+    "requiredLevel": 22,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Hi-Class"
+    ],
+    "script": {}
+  },
+  "2148": {
+    "id": 2148,
+    "aegisName": "로사쉴드",
+    "name": "Escudo de Pétalas",
+    "unidName": "Escudo de Pétalas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 130,
+    "weight": 130,
+    "requiredLevel": 100,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman"
+    ],
+    "script": {}
+  },
+  "2178": {
+    "id": 2178,
+    "aegisName": "TE_Woe_Buckler",
+    "name": "[Aluguel] Broquel TE",
+    "unidName": "[Aluguel] Broquel TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 15,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2179": {
+    "id": 2179,
+    "aegisName": "TE_Woe_Shield",
+    "name": "[Aluguel] Escudo TE",
+    "unidName": "[Aluguel] Escudo TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "2180": {
+    "id": 2180,
+    "aegisName": "TE_Woe_Magic_Guard",
+    "name": "[Aluguel] Vembrassa Mágica TE",
+    "unidName": "[Aluguel] Vembrassa Mágica TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice",
+      "Mage",
+      "SoulLinker",
+      "Acolyte"
+    ],
+    "script": {}
+  },
+  "2190": {
+    "id": 2190,
+    "aegisName": "Ancient_Shield_Of_Aeon",
+    "name": "Escudo do Dragão",
+    "unidName": "Escudo do Dragão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 20,
+    "requiredLevel": 130,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "Only 3rd Cls"
+    ],
+    "script": {
+      "hp": [
+        "500"
+      ],
+      "sp": [
+        "50"
+      ],
+      "subele_all": [
+        "10"
+      ]
+    }
+  },
+  "460012": {
+    "id": 460012,
+    "aegisName": "가드",
+    "name": "Vembrassa para Testes",
+    "unidName": "Vembrassa para Testes",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 514,
+    "itemLevel": 2,
+    "attack": null,
+    "defense": 0,
+    "weight": 50,
+    "requiredLevel": 1,
+    "location": "Shield",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2401": {
+    "id": 2401,
+    "aegisName": "샌들",
+    "name": "Sandálias",
+    "unidName": "Sandálias",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2402": {
+    "id": 2402,
+    "aegisName": "샌들",
+    "name": "Sandálias",
+    "unidName": "Sandálias",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2403": {
+    "id": 2403,
+    "aegisName": "슈즈",
+    "name": "Sapatos",
+    "unidName": "Sapatos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 40,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2404": {
+    "id": 2404,
+    "aegisName": "슈즈",
+    "name": "Sapatos",
+    "unidName": "Sapatos",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 40,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2405": {
+    "id": 2405,
+    "aegisName": "부츠",
+    "name": "Botas",
+    "unidName": "Botas",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 16,
+    "weight": 60,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Archer",
+      "Merchant",
+      "Thief",
+      "Gunslinger",
+      "StarGladiator"
+    ],
+    "script": {}
+  },
+  "2406": {
+    "id": 2406,
+    "aegisName": "부츠",
+    "name": "Botas",
+    "unidName": "Botas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 16,
+    "weight": 60,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Archer",
+      "Merchant",
+      "Thief",
+      "Gunslinger",
+      "StarGladiator"
+    ],
+    "script": {}
+  },
+  "2408": {
+    "id": 2408,
+    "aegisName": "족쇠",
+    "name": "Grilhões",
+    "unidName": "Grilhões",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 18,
+    "weight": 300,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2409": {
+    "id": 2409,
+    "aegisName": "뾰족구두",
+    "name": "Salto Alto",
+    "unidName": "Salto Alto",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 60,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2411": {
+    "id": 2411,
+    "aegisName": "그리브",
+    "name": "Grevas",
+    "unidName": "Grevas",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 27,
+    "weight": 75,
+    "requiredLevel": 65,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Knight",
+      "Crusader"
+    ],
+    "script": {}
+  },
+  "2412": {
+    "id": 2412,
+    "aegisName": "그리브",
+    "name": "Grevas",
+    "unidName": "Grevas",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 27,
+    "weight": 75,
+    "requiredLevel": 65,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Knight",
+      "Crusader"
+    ],
+    "script": {}
+  },
+  "2422": {
+    "id": 2422,
+    "aegisName": "고급샌들",
+    "name": "Sandálias Elegantes",
+    "unidName": "Sandálias Elegantes",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 7,
+    "weight": 20,
+    "requiredLevel": 40,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Mage",
+      "Acolyte",
+      "SoulLinker"
+    ],
+    "script": {}
+  },
+  "2429": {
+    "id": 2429,
+    "aegisName": "그리브",
+    "name": "Botas de Ferro",
+    "unidName": "Botas de Ferro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 150,
+    "requiredLevel": null,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant",
+      "Thief",
+      "Archer"
+    ],
+    "script": {}
+  },
+  "2430": {
+    "id": 2430,
+    "aegisName": "그리브",
+    "name": "Botas de Ferro",
+    "unidName": "Botas de Ferro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 80,
+    "requiredLevel": null,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2432": {
+    "id": 2432,
+    "aegisName": "뾰족구두",
+    "name": "Salto Alto",
+    "unidName": "Salto Alto",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 60,
+    "requiredLevel": null,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2444": {
+    "id": 2444,
+    "aegisName": "안전화",
+    "name": "Sapatos Gloriosos",
+    "unidName": "Sapatos Gloriosos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 81,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "10"
+      ],
+      "subrace_demihuman": [
+        "4"
+      ],
+      "subrace_player_human": [
+        "4"
+      ]
+    }
+  },
+  "2445": {
+    "id": 2445,
+    "aegisName": "안전화",
+    "name": "Sapatos Gloriosos Industrializados",
+    "unidName": "Sapatos Gloriosos Industrializados",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 0,
+    "requiredLevel": 61,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ],
+      "spPercent": [
+        "5"
+      ]
+    }
+  },
+  "2446": {
+    "id": 2446,
+    "aegisName": "안전화",
+    "name": "Sapatos Gloriosos Baratos",
+    "unidName": "Sapatos Gloriosos Baratos",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ]
+    }
+  },
+  "2496": {
+    "id": 2496,
+    "aegisName": "TE_Woe_Shoes",
+    "name": "[Aluguel] Sapatos TE",
+    "unidName": "[Aluguel] Sapatos TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2497": {
+    "id": 2497,
+    "aegisName": "TE_Woe_Boots",
+    "name": "[Aluguel] Botas TE",
+    "unidName": "[Aluguel] Botas TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "2498": {
+    "id": 2498,
+    "aegisName": "TE_Woe_Magic_Sandal",
+    "name": "[Aluguel] Sandálias Mágicas TE",
+    "unidName": "[Aluguel] Sandálias Mágicas TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice",
+      "Mage",
+      "SoulLinker",
+      "Acolyte"
+    ],
+    "script": {}
+  },
+  "22012": {
+    "id": 22012,
+    "aegisName": "Mana_Boots",
+    "name": "[Aluguel] Botas de Mana",
+    "unidName": "[Aluguel] Botas de Mana",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "22014": {
+    "id": 22014,
+    "aegisName": "배리언트슈즈",
+    "name": "Sapatos Convergentes",
+    "unidName": "Sapatos Convergentes",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 50,
+    "requiredLevel": 85,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "Knight",
+      "Crusader",
+      "Wizard",
+      "Sage",
+      "Hunter",
+      "Bard",
+      "Dancer",
+      "Priest",
+      "Monk",
+      "Blacksmith",
+      "Alchemist",
+      "Assassin",
+      "Rogue",
+      "StarGladiator",
+      "SoulLinker",
+      "Kagerou",
+      "Oboro"
+    ],
+    "script": {
+      "hpPercent": [
+        "12"
+      ],
+      "spPercent": [
+        "12"
+      ],
+      "def": [
+        "1---1"
+      ],
+      "mdef": [
+        "1---1"
+      ]
+    }
+  },
+  "22067": {
+    "id": 22067,
+    "aegisName": "Witch_Shoes",
+    "name": "Sapatos de Bruxa",
+    "unidName": "Sapatos de Bruxa",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 516,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 40,
+    "requiredLevel": 1,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "1758": {
+    "id": 1758,
+    "aegisName": "스턴애로우",
+    "name": "Flecha Atordoante",
+    "unidName": "Flecha Atordoante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1024,
+    "itemLevel": null,
+    "attack": 1,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "1759": {
+    "id": 1759,
+    "aegisName": "프리징애로우",
+    "name": "Flecha Congelante",
+    "unidName": "Flecha Congelante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1024,
+    "itemLevel": null,
+    "attack": 1,
+    "propertyAtk": "Water",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "1761": {
+    "id": 1761,
+    "aegisName": "커스애로우",
+    "name": "Flecha Amaldiçoada",
+    "unidName": "Flecha Amaldiçoada",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1024,
+    "itemLevel": null,
+    "attack": 1,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "1764": {
+    "id": 1764,
+    "aegisName": "날카로운화살",
+    "name": "Flecha Afiada",
+    "unidName": "Flecha Afiada",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1024,
+    "itemLevel": null,
+    "attack": 10,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "criRange": [
+        "20"
+      ]
+    }
+  },
+  "1766": {
+    "id": 1766,
+    "aegisName": "강철화살",
+    "name": "Flecha Dissipadora do Mal",
+    "unidName": "Flecha Dissipadora do Mal",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1024,
+    "itemLevel": null,
+    "attack": 50,
+    "propertyAtk": "Holy",
+    "defense": null,
+    "weight": 0.3,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "1768": {
+    "id": 1768,
+    "aegisName": "슬립애로우",
+    "name": "Flecha Sonífera",
+    "unidName": "Flecha Sonífera",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1024,
+    "itemLevel": null,
+    "attack": 1,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "1769": {
+    "id": 1769,
+    "aegisName": "사일런스애로우",
+    "name": "Flecha Emudecedora",
+    "unidName": "Flecha Emudecedora",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1024,
+    "itemLevel": null,
+    "attack": 1,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "1775": {
+    "id": 1775,
+    "aegisName": "강철화살",
+    "name": "Flecha de Cerco S",
+    "unidName": "Flecha de Cerco S",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1024,
+    "itemLevel": null,
+    "attack": 45,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": 130,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "1776": {
+    "id": 1776,
+    "aegisName": "화살",
+    "name": "Flecha de Cerco A",
+    "unidName": "Flecha de Cerco A",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1024,
+    "itemLevel": null,
+    "attack": 30,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": 95,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "13201": {
+    "id": 13201,
+    "aegisName": "실버블릿",
+    "name": "Projétil de Prata Excedente",
+    "unidName": "Projétil de Prata Excedente",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1027,
+    "itemLevel": null,
+    "attack": 15,
+    "propertyAtk": "Holy",
+    "defense": null,
+    "weight": 0.2,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "13202": {
+    "id": 13202,
+    "aegisName": "블러디셀",
+    "name": "Projétil Sanguinário Excedente",
+    "unidName": "Projétil Sanguinário Excedente",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1027,
+    "itemLevel": null,
+    "attack": 30,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.2,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "13208": {
+    "id": 13208,
+    "aegisName": "공벌레",
+    "name": "Tatu Bola",
+    "unidName": "Tatu Bola",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1027,
+    "itemLevel": null,
+    "attack": 50,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.2,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "13228": {
+    "id": 13228,
+    "aegisName": "플레어블릿",
+    "name": "Projétil de Fogo",
+    "unidName": "Projétil de Fogo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1027,
+    "itemLevel": null,
+    "attack": 20,
+    "propertyAtk": "Fire",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "13229": {
+    "id": 13229,
+    "aegisName": "라이트닝블릿",
+    "name": "Projétil Relâmpago",
+    "unidName": "Projétil Relâmpago",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1027,
+    "itemLevel": null,
+    "attack": 20,
+    "propertyAtk": "Wind",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "13230": {
+    "id": 13230,
+    "aegisName": "아이스블릿",
+    "name": "Projétil Congelante",
+    "unidName": "Projétil Congelante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1027,
+    "itemLevel": null,
+    "attack": 20,
+    "propertyAtk": "Water",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "13250": {
+    "id": 13250,
+    "aegisName": "수리검",
+    "name": "Shuriken",
+    "unidName": "Shuriken",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1026,
+    "itemLevel": null,
+    "attack": 10,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "13251": {
+    "id": 13251,
+    "aegisName": "수리검_통운",
+    "name": "Shuriken Nebuloso",
+    "unidName": "Shuriken Nebuloso",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1026,
+    "itemLevel": null,
+    "attack": 30,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": 20,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "13252": {
+    "id": 13252,
+    "aegisName": "수리검_비환",
+    "name": "Shuriken Relâmpago",
+    "unidName": "Shuriken Relâmpago",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1026,
+    "itemLevel": null,
+    "attack": 45,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": 40,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "13253": {
+    "id": 13253,
+    "aegisName": "수리검_선엽",
+    "name": "Shuriken Folha Afiada",
+    "unidName": "Shuriken Folha Afiada",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1026,
+    "itemLevel": null,
+    "attack": 70,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": 60,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "13254": {
+    "id": 13254,
+    "aegisName": "수리검_침서",
+    "name": "Shuriken Retorcido",
+    "unidName": "Shuriken Retorcido",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1026,
+    "itemLevel": null,
+    "attack": 100,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.1,
+    "requiredLevel": 80,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "13291": {
+    "id": 13291,
+    "aegisName": "별불가사리",
+    "name": "Estrela-do-Mar",
+    "unidName": "Estrela-do-Mar",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1026,
+    "itemLevel": null,
+    "attack": 110,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.5,
+    "requiredLevel": 50,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "13292": {
+    "id": 13292,
+    "aegisName": "마른오징어",
+    "name": "Lula Seca",
+    "unidName": "Lula Seca",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1026,
+    "itemLevel": null,
+    "attack": 50,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 2,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "13293": {
+    "id": 13293,
+    "aegisName": "날치",
+    "name": "Peixe Voador",
+    "unidName": "Peixe Voador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1026,
+    "itemLevel": null,
+    "attack": 50,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 2,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "13295": {
+    "id": 13295,
+    "aegisName": "수리검",
+    "name": "Shuriken de Iniciante",
+    "unidName": "Shuriken de Iniciante",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 4,
+    "itemSubTypeId": 1026,
+    "itemLevel": null,
+    "attack": 5,
+    "propertyAtk": "Neutral",
+    "defense": null,
+    "weight": 0.5,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "Ninja"
+    ],
+    "script": {}
+  },
+  "2501": {
+    "id": 2501,
+    "aegisName": "후드",
+    "name": "Capuz",
+    "unidName": "Capuz",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 4,
+    "weight": 20,
+    "requiredLevel": null,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2502": {
+    "id": 2502,
+    "aegisName": "후드",
+    "name": "Capuz",
+    "unidName": "Capuz",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 4,
+    "weight": 20,
+    "requiredLevel": null,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2503": {
+    "id": 2503,
+    "aegisName": "머플러",
+    "name": "Sobrepeliz",
+    "unidName": "Sobrepeliz",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 8,
+    "weight": 40,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2504": {
+    "id": 2504,
+    "aegisName": "머플러",
+    "name": "Sobrepeliz",
+    "unidName": "Sobrepeliz",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 8,
+    "weight": 40,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2505": {
+    "id": 2505,
+    "aegisName": "망토",
+    "name": "Manteau",
+    "unidName": "Manteau",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 60,
+    "requiredLevel": null,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant",
+      "Thief"
+    ],
+    "script": {}
+  },
+  "2506": {
+    "id": 2506,
+    "aegisName": "망토",
+    "name": "Manteau",
+    "unidName": "Manteau",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 13,
+    "weight": 60,
+    "requiredLevel": null,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant",
+      "Thief"
+    ],
+    "script": {}
+  },
+  "2508": {
+    "id": 2508,
+    "aegisName": "누더기망토",
+    "name": "Capa Velha",
+    "unidName": "Capa Velha",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 4,
+    "weight": 50,
+    "requiredLevel": null,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "10"
+      ]
+    }
+  },
+  "2513": {
+    "id": 2513,
+    "aegisName": "목보호대",
+    "name": "Robe da Donzela Celestial",
+    "unidName": "Robe da Donzela Celestial",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 18,
+    "weight": 50,
+    "requiredLevel": 80,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2514": {
+    "id": 2514,
+    "aegisName": "폴드런",
+    "name": "Ombreira",
+    "unidName": "Ombreira",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 25,
+    "weight": 80,
+    "requiredLevel": 80,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant",
+      "Thief"
+    ],
+    "script": {}
+  },
+  "2528": {
+    "id": 2528,
+    "aegisName": "Wool_Scarf",
+    "name": "Cachecol de Lã",
+    "unidName": "Cachecol de Lã",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 11,
+    "weight": 50,
+    "requiredLevel": 55,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Hi-Class"
+    ],
+    "script": {
+      "mdef": [
+        "4"
+      ]
+    }
+  },
+  "2549": {
+    "id": 2549,
+    "aegisName": "울프헤딘",
+    "name": "Sobrepeliz Gloriosa",
+    "unidName": "Sobrepeliz Gloriosa",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 3,
+    "weight": 0,
+    "requiredLevel": 81,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "5"
+      ],
+      "subrace_demihuman": [
+        "5"
+      ],
+      "subrace_player_human": [
+        "5"
+      ]
+    }
+  },
+  "2550": {
+    "id": 2550,
+    "aegisName": "턱받침",
+    "name": "Sobrepeliz de Pescador",
+    "unidName": "Sobrepeliz de Pescador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 25,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2561": {
+    "id": 2561,
+    "aegisName": "Upg_Hood",
+    "name": "Capuz Aprimorável",
+    "unidName": "Capuz Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 4,
+    "weight": 20,
+    "requiredLevel": null,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "2562": {
+    "id": 2562,
+    "aegisName": "강화머플러",
+    "name": "Sobrepeliz Aprimorável",
+    "unidName": "Sobrepeliz Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 4,
+    "weight": 20,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "2563": {
+    "id": 2563,
+    "aegisName": "Upg_Manteau",
+    "name": "Manteau Aprimorável",
+    "unidName": "Manteau Aprimorável",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 18,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant",
+      "Thief",
+      "Taekwondo",
+      "Ninja"
+    ],
+    "script": {
+      "hpPercent": [
+        "3"
+      ]
+    }
+  },
+  "2564": {
+    "id": 2564,
+    "aegisName": "야성의꼬리",
+    "name": "Cauda Feral",
+    "unidName": "Cauda Feral",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 16,
+    "weight": 0,
+    "requiredLevel": 75,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "20702": {
+    "id": 20702,
+    "aegisName": "TE_Woe_Muffler",
+    "name": "[Aluguel] Sobrepeliz TE",
+    "unidName": "[Aluguel] Sobrepeliz TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "5"
+      ]
+    }
+  },
+  "20703": {
+    "id": 20703,
+    "aegisName": "TE_Woe_Manteau",
+    "name": "[Aluguel] Manteau TE",
+    "unidName": "[Aluguel] Manteau TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 10,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Swordman",
+      "Merchant"
+    ],
+    "script": {}
+  },
+  "20704": {
+    "id": 20704,
+    "aegisName": "TE_Woe_Magic_Manteau",
+    "name": "[Aluguel] Manteau Mágico TE",
+    "unidName": "[Aluguel] Manteau Mágico TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice",
+      "Mage",
+      "SoulLinker",
+      "Acolyte"
+    ],
+    "script": {
+      "mdef": [
+        "5"
+      ]
+    }
+  },
+  "20709": {
+    "id": 20709,
+    "aegisName": "Mana_Manteau",
+    "name": "[Aluguel] Manteau de Mana",
+    "unidName": "[Aluguel] Manteau de Mana",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480824": {
+    "id": 480824,
+    "aegisName": "CLB_BS_Bag_B",
+    "name": "Bolsa do Baby Shark",
+    "unidName": "Bolsa do Baby Shark",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 515,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 30,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "level:1---1"
+      ],
+      "matk": [
+        "level:1---1"
+      ],
+      "hp": [
+        "level:1---2"
+      ],
+      "sp": [
+        "level:1---2"
+      ],
+      "subele_neutral": [
+        "20"
+      ],
+      "subele_holy": [
+        "5===80"
+      ],
+      "hpDrain": [
+        "7===2"
+      ]
+    }
+  },
+  "5125": {
+    "id": 5125,
+    "aegisName": "천사의입맞춤",
+    "name": "Beijo do Anjo",
+    "unidName": "Beijo do Anjo",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 6,
+    "weight": 30,
+    "requiredLevel": 50,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "spRecovRate": [
+        "3"
+      ]
+    }
+  },
+  "5438": {
+    "id": 5438,
+    "aegisName": "머리끈_녹색",
+    "name": "Laço Meigo Verde",
+    "unidName": "Laço Meigo Verde",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 1,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "20"
+      ]
+    }
+  },
+  "5439": {
+    "id": 5439,
+    "aegisName": "머리끈_빨강",
+    "name": "Laço Meigo Vermelho",
+    "unidName": "Laço Meigo Vermelho",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 1,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "20"
+      ]
+    }
+  },
+  "5440": {
+    "id": 5440,
+    "aegisName": "머리끈_파랑",
+    "name": "Laço Meigo Azul",
+    "unidName": "Laço Meigo Azul",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 1,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "20"
+      ]
+    }
+  },
+  "5441": {
+    "id": 5441,
+    "aegisName": "머리끈_하양",
+    "name": "Laço Meigo Branco",
+    "unidName": "Laço Meigo Branco",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 1,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "20"
+      ]
+    }
+  },
+  "5448": {
+    "id": 5448,
+    "aegisName": "혼자놀기상자1",
+    "name": "Caixa para Brincar Só",
+    "unidName": "Caixa para Brincar Só",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 30,
+    "requiredLevel": null,
+    "location": "Lower",
+    "locations": [
+      "Upper",
+      "Middle",
+      "Lower"
+    ],
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5449": {
+    "id": 5449,
+    "aegisName": "혼자놀기상자2",
+    "name": "Caixa para Brincar Sozinho",
+    "unidName": "Caixa para Brincar Sozinho",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 30,
+    "requiredLevel": null,
+    "location": "Lower",
+    "locations": [
+      "Upper",
+      "Middle",
+      "Lower"
+    ],
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "5516": {
+    "id": 5516,
+    "aegisName": "호크아이",
+    "name": "Olhos de Falcão 1",
+    "unidName": "Olhos de Falcão 1",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 0,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "Sniper"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ],
+      "range": [
+        "3"
+      ]
+    }
+  },
+  "5517": {
+    "id": 5517,
+    "aegisName": "호크아이",
+    "name": "Olhos de Falcão 2",
+    "unidName": "Olhos de Falcão 2",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 0,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "Archer"
+    ],
+    "script": {}
+  },
+  "5664": {
+    "id": 5664,
+    "aegisName": "필리르의날개",
+    "name": "Asas de Filir",
+    "unidName": "Asas de Filir",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 1,
+    "weight": 10,
+    "requiredLevel": 70,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vct": [
+        "2"
+      ]
+    }
+  },
+  "18776": {
+    "id": 18776,
+    "aegisName": "천사의입맞춤",
+    "name": "Beijo do Arcanjo",
+    "unidName": "Beijo do Arcanjo",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 6,
+    "weight": 30,
+    "requiredLevel": 99,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "Novice"
+    ],
+    "script": {
+      "spRecovRate": [
+        "30"
+      ],
+      "atk": [
+        "EQUIP_ID[20710]10"
+      ],
+      "matk": [
+        "EQUIP_ID[22015]20"
+      ]
+    }
+  },
+  "400000": {
+    "id": 400000,
+    "aegisName": "WhistleK",
+    "name": "Canção",
+    "unidName": "Canção",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 512,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 120,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "Only 3rd Cls"
+    ],
+    "script": {
+      "atkPercent": [
+        "1"
+      ],
+      "matkPercent": [
+        "1"
+      ],
+      "vct": [
+        "EQUIP_ID[2990]10",
+        "EQUIP_ID[2992]10"
+      ],
+      "criDmg": [
+        "EQUIP_ID[2991]10",
+        "EQUIP_ID[2992]10"
+      ]
+    }
+  },
+  "401367": {
+    "id": 401367,
+    "aegisName": "C_CLB_BS_head",
+    "name": "[Visual] Cabeça do Baby Shark",
+    "unidName": "[Visual] Cabeça do Baby Shark",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "401372": {
+    "id": 401372,
+    "aegisName": "C_CLB_BS_Hood_B",
+    "name": "[Visual] Capuz do Baby Shark",
+    "unidName": "[Visual] Capuz do Baby Shark",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "401373": {
+    "id": 401373,
+    "aegisName": "C_CLB_BS_Hood_M",
+    "name": "[Visual] Capuz da Mamãe Tubarão",
+    "unidName": "[Visual] Capuz da Mamãe Tubarão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "401374": {
+    "id": 401374,
+    "aegisName": "C_CLB_BS_Hood_F",
+    "name": "[Visual] Capuz do Papai Tubarão",
+    "unidName": "[Visual] Capuz do Papai Tubarão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "401375": {
+    "id": 401375,
+    "aegisName": "C_CLB_BS_Hood_GM",
+    "name": "[Visual] Capuz da Vovó Tubarão",
+    "unidName": "[Visual] Capuz da Vovó Tubarão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "401376": {
+    "id": 401376,
+    "aegisName": "C_CLB_BS_Hood_GF",
+    "name": "[Visual] Capuz do Vovô Tubarão",
+    "unidName": "[Visual] Capuz do Vovô Tubarão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410582": {
+    "id": 410582,
+    "aegisName": "C_Nursing_Poring",
+    "name": "[Visual] Poring Enfermeiro",
+    "unidName": "[Visual] Poring Enfermeiro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410609": {
+    "id": 410609,
+    "aegisName": "C_Nine_Tailed_Fox",
+    "name": "[Visual] Demônio de Nove Caudas",
+    "unidName": "[Visual] Demônio de Nove Caudas",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410636": {
+    "id": 410636,
+    "aegisName": "C_CLB_BS_Pilot_Fish",
+    "name": "[Visual] Peixe-Piloto",
+    "unidName": "[Visual] Peixe-Piloto",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410637": {
+    "id": 410637,
+    "aegisName": "C_CLB_BS_Mini",
+    "name": "[Visual] Mini Baby Shark",
+    "unidName": "[Visual] Mini Baby Shark",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "420826": {
+    "id": 420826,
+    "aegisName": "C_Primordial_Weapons",
+    "name": "[Visual] Armas Primordiais",
+    "unidName": "[Visual] Armas Primordiais",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 521,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "420875": {
+    "id": 420875,
+    "aegisName": "C_Moonbow_Long_Hair",
+    "name": "[Visual] Peruca do Luar",
+    "unidName": "[Visual] Peruca do Luar",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 521,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480525": {
+    "id": 480525,
+    "aegisName": "C_Pitaya_GG_Parfait",
+    "name": "[Visual] Parfait Gigante de Pitaya",
+    "unidName": "[Visual] Parfait Gigante de Pitaya",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480659": {
+    "id": 480659,
+    "aegisName": "C_Popcorn_Bucket2",
+    "name": "[Visual] Pipoqueira Ornamental",
+    "unidName": "[Visual] Pipoqueira Ornamental",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480818": {
+    "id": 480818,
+    "aegisName": "C_CLB_BS_Bag_B",
+    "name": "[Visual] Mochila do Baby Shark",
+    "unidName": "[Visual] Mochila do Baby Shark",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480819": {
+    "id": 480819,
+    "aegisName": "C_CLB_BS_Bag_M",
+    "name": "[Visual] Mochila da Mamãe Tubarão",
+    "unidName": "[Visual] Mochila da Mamãe Tubarão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480820": {
+    "id": 480820,
+    "aegisName": "C_CLB_BS_Bag_F",
+    "name": "[Visual] Mochila do Papai Tubarão",
+    "unidName": "[Visual] Mochila do Papai Tubarão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480821": {
+    "id": 480821,
+    "aegisName": "C_CLB_BS_Bag_GM",
+    "name": "[Visual] Mochila da Vovó Tubarão",
+    "unidName": "[Visual] Mochila da Vovó Tubarão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480822": {
+    "id": 480822,
+    "aegisName": "C_CLB_BS_Bag_GF",
+    "name": "[Visual] Mochila do Vovô Tubarão",
+    "unidName": "[Visual] Mochila do Vovô Tubarão",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2768": {
+    "id": 2768,
+    "aegisName": "Mage_Figure",
+    "name": "Estatueta de Mago",
+    "unidName": "Estatueta de Mago",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "int": [
+        "1"
+      ],
+      "spRecovRate": [
+        "USED[Mage]5"
+      ]
+    }
+  },
+  "2769": {
+    "id": 2769,
+    "aegisName": "Archer_Figure",
+    "name": "Estatueta de Arqueiro",
+    "unidName": "Estatueta de Arqueiro",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ],
+      "atk": [
+        "USED[Archer]10"
+      ]
+    }
+  },
+  "2770": {
+    "id": 2770,
+    "aegisName": "Thief_Figure",
+    "name": "Estatueta de Gatuno",
+    "unidName": "Estatueta de Gatuno",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "agi": [
+        "1"
+      ],
+      "aspdPercent": [
+        "USED[Thief]3"
+      ]
+    }
+  },
+  "2771": {
+    "id": 2771,
+    "aegisName": "Merchant_Figure",
+    "name": "Estatueta de Mercador",
+    "unidName": "Estatueta de Mercador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "str": [
+        "1"
+      ],
+      "cri": [
+        "USED[Merchant]5"
+      ]
+    }
+  },
+  "2775": {
+    "id": 2775,
+    "aegisName": "멋쟁이지렁이",
+    "name": "Isca",
+    "unidName": "Isca",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 25,
+    "requiredLevel": null,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2794": {
+    "id": 2794,
+    "aegisName": "마력석반지",
+    "name": "Anel de Runa Mágica",
+    "unidName": "Anel de Runa Mágica",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 0,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "RuneKnight"
+    ],
+    "script": {
+      "str": [
+        "2"
+      ]
+    }
+  },
+  "2798": {
+    "id": 2798,
+    "aegisName": "네클리스",
+    "name": "Desejo do Arcanjo",
+    "unidName": "Desejo do Arcanjo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 20,
+    "requiredLevel": 99,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "Monk",
+      "Priest"
+    ],
+    "script": {}
+  },
+  "2802": {
+    "id": 2802,
+    "aegisName": "자폭장치",
+    "name": "Detonador",
+    "unidName": "Detonador",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 100,
+    "requiredLevel": 99,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "Mechanic"
+    ],
+    "script": {}
+  },
+  "2807": {
+    "id": 2807,
+    "aegisName": "리페어키트",
+    "name": "Kit de Reparação",
+    "unidName": "Kit de Reparação",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 40,
+    "requiredLevel": 99,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "Mechanic"
+    ],
+    "script": {}
+  },
+  "2843": {
+    "id": 2843,
+    "aegisName": "황금방울",
+    "name": "Colar com Sino Dourado",
+    "unidName": "Colar com Sino Dourado",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 75,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "50"
+      ]
+    }
+  },
+  "2872": {
+    "id": 2872,
+    "aegisName": "G명예증표",
+    "name": "Certificado de Honra G",
+    "unidName": "Certificado de Honra G",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2874": {
+    "id": 2874,
+    "aegisName": "201111_Buffalo_Horn",
+    "name": "Chifres de Búfalo",
+    "unidName": "Chifres de Búfalo",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 10,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspd": [
+        "1",
+        "EQUIP_ID[2702]1"
+      ]
+    }
+  },
+  "2881": {
+    "id": 2881,
+    "aegisName": "201111_Orleans_Necklace",
+    "name": "Colar de Orleans",
+    "unidName": "Colar de Orleans",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "2"
+      ],
+      "matk": [
+        "20",
+        "EQUIP_ID[2701]20",
+        "EQUIP_ID[2123]REFINE[shield==1]---2"
+      ]
+    }
+  },
+  "2898": {
+    "id": 2898,
+    "aegisName": "검은로자리",
+    "name": "Rosário Preto",
+    "unidName": "Rosário Preto",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 90,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "15"
+      ]
+    }
+  },
+  "2915": {
+    "id": 2915,
+    "aegisName": "Ettlang_Keepsake",
+    "name": "Colar de Etran",
+    "unidName": "Colar de Etran",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 5,
+    "requiredLevel": 100,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "10"
+      ]
+    }
+  },
+  "2944": {
+    "id": 2944,
+    "aegisName": "TE_Ring_Of_Protection",
+    "name": "[Aluguel] Anel de Proteção TE",
+    "unidName": "[Aluguel] Anel de Proteção TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2945": {
+    "id": 2945,
+    "aegisName": "TE_Ring_Of_Rage",
+    "name": "[Aluguel] Anel da Fúria TE",
+    "unidName": "[Aluguel] Anel da Fúria TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2946": {
+    "id": 2946,
+    "aegisName": "TE_Ring_Of_Defiance",
+    "name": "[Aluguel] Anel do Desafio TE",
+    "unidName": "[Aluguel] Anel do Desafio TE",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 40,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "mdef": [
+        "5"
+      ]
+    }
+  },
+  "2950": {
+    "id": 2950,
+    "aegisName": "Rune_Ring",
+    "name": "[Aluguel] Anel de Rune",
+    "unidName": "[Aluguel] Anel de Rune",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "2981": {
+    "id": 2981,
+    "aegisName": "RingOfHero",
+    "name": "Anel Heroico",
+    "unidName": "Anel Heroico",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 20,
+    "requiredLevel": 160,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "28387": {
+    "id": 28387,
+    "aegisName": "신관의목걸이",
+    "name": "Colar da Papisa",
+    "unidName": "Colar da Papisa",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 20,
+    "requiredLevel": 80,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "28483": {
+    "id": 28483,
+    "aegisName": "왕의수호반지",
+    "name": "Anel do Monarca",
+    "unidName": "Anel do Monarca",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 510,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 1,
+    "requiredLevel": 99,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "hpPercent": [
+        "level:25---1"
+      ],
+      "spPercent": [
+        "level:25---1"
+      ],
+      "atkPercent": [
+        "EQUIP_ID[27025]5"
+      ],
+      "matkPercent": [
+        "EQUIP_ID[27025]5"
+      ]
+    }
+  },
+  "28495": {
+    "id": 28495,
+    "aegisName": "락스타뱃지",
+    "name": "Distintivo do Xerife I",
+    "unidName": "Distintivo do Xerife I",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 511,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 100,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atkPercent": [
+        "str:90===3"
+      ],
+      "range": [
+        "dex:90===3"
+      ],
+      "hp": [
+        "vit:90===1000"
+      ]
+    }
+  },
+  "28496": {
+    "id": 28496,
+    "aegisName": "락스타뱃지",
+    "name": "Distintivo do Xerife II",
+    "unidName": "Distintivo do Xerife II",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 510,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 100,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "int:90===3"
+      ],
+      "vct": [
+        "dex:90===5"
+      ],
+      "hp": [
+        "vit:90===1000"
+      ]
+    }
+  },
+  "28508": {
+    "id": 28508,
+    "aegisName": "Skul_Ring_IL",
+    "name": "Anel de Caveira Ilusional",
+    "unidName": "Anel de Caveira Ilusional",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 510,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 100,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "28514": {
+    "id": 28514,
+    "aegisName": "꽃반지",
+    "name": "Anel de Flor Encantado",
+    "unidName": "Anel de Flor Encantado",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 517,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 20,
+    "location": "Accessory",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "28522": {
+    "id": 28522,
+    "aegisName": "정신력의반지",
+    "name": "Anel dos Orcs",
+    "unidName": "Anel dos Orcs",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 510,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 1,
+    "requiredLevel": 10,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "dex": [
+        "1"
+      ],
+      "hp": [
+        "200"
+      ]
+    }
+  },
+  "28523": {
+    "id": 28523,
+    "aegisName": "세이프티링",
+    "name": "Anel do Rubi Espiritual",
+    "unidName": "Anel do Rubi Espiritual",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 2,
+    "itemSubTypeId": 511,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 1,
+    "requiredLevel": 10,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "sp": [
+        "150"
+      ],
+      "dex": [
+        "1"
+      ]
+    }
+  },
+  "28562": {
+    "id": 28562,
+    "aegisName": "True_Hunting_Ring1",
+    "name": "Anel Real Forte",
+    "unidName": "Anel Real Forte",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 511,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 50,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspdPercent": [
+        "7"
+      ]
+    }
+  },
+  "28563": {
+    "id": 28563,
+    "aegisName": "True_Hunting_Ring2",
+    "name": "Anel Real Mágico",
+    "unidName": "Anel Real Mágico",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 511,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 50,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "vct": [
+        "7"
+      ]
+    }
+  },
+  "490074": {
+    "id": 490074,
+    "aegisName": "E_Illusion_BC_R",
+    "name": "[Apoio] Soquete Ilusión A",
+    "unidName": "[Apoio] Soquete Ilusión A",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 510,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 130,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "5"
+      ]
+    }
+  },
+  "490090": {
+    "id": 490090,
+    "aegisName": "Egir_Ring_K",
+    "name": "Anel de Preamar",
+    "unidName": "Anel de Preamar",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 510,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 20,
+    "requiredLevel": 40,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matk": [
+        "10"
+      ],
+      "m_my_element_all": [
+        "2",
+        "EQUIP_ID[15138&&19026&&22059&&20756]2"
+      ]
+    }
+  },
+  "490091": {
+    "id": 490091,
+    "aegisName": "Egir_Necklace_K",
+    "name": "Pingente de Preamar",
+    "unidName": "Pingente de Preamar",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 511,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 5,
+    "weight": 20,
+    "requiredLevel": 40,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atk": [
+        "10"
+      ],
+      "range": [
+        "2",
+        "EQUIP_ID[15138&&19026&&22059&&20756]2"
+      ],
+      "melee": [
+        "2",
+        "EQUIP_ID[15138&&19026&&22059&&20756]2"
+      ]
+    }
+  },
+  "490731": {
+    "id": 490731,
+    "aegisName": "Growth_RingR_M_G",
+    "name": "Anel Evolutivo Mágico",
+    "unidName": "Anel Evolutivo Mágico",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 510,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 100,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matk": [
+        "10"
+      ],
+      "hpPercent": [
+        "5"
+      ],
+      "matkPercent": [
+        "5"
+      ],
+      "m_race_all": [
+        "3"
+      ],
+      "magicHealHp": [
+        "SUM[level==130]===1250"
+      ]
+    }
+  },
+  "490820": {
+    "id": 490820,
+    "aegisName": "Rusty_Dog_Tag",
+    "name": "Chapa de Identificação",
+    "unidName": "Chapa de Identificação",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 511,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 20,
+    "requiredLevel": 100,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "2005": [
+        "EQUIP_ID[21018]REFINE[weapon==4]---10"
+      ],
+      "2029": [
+        "EQUIP_ID[28010]REFINE[weapon==4]---10"
+      ],
+      "2217": [
+        "EQUIP_ID[2027]REFINE[weapon==4]---10"
+      ],
+      "spCostPercent": [
+        "5"
+      ],
+      "p_race_undead": [
+        "5"
+      ],
+      "m_race_undead": [
+        "5"
+      ],
+      "subele_fire": [
+        "EQUIP_ID[28010]15",
+        "EQUIP_ID[2027]15",
+        "EQUIP_ID[21018]15"
+      ],
+      "subele_earth": [
+        "EQUIP_ID[28010]15",
+        "EQUIP_ID[2027]15",
+        "EQUIP_ID[21018]15"
+      ],
+      "subele_water": [
+        "EQUIP_ID[28010]15",
+        "EQUIP_ID[2027]15",
+        "EQUIP_ID[21018]15"
+      ],
+      "subele_wind": [
+        "EQUIP_ID[28010]15",
+        "EQUIP_ID[2027]15",
+        "EQUIP_ID[21018]15"
+      ],
+      "acd": [
+        "EQUIP_ID[28010]REFINE[weapon==3]---2"
+      ],
+      "m_my_element_all": [
+        "EQUIP_ID[2027]REFINE[weapon==3]---2"
+      ],
+      "melee": [
+        "EQUIP_ID[21018]REFINE[weapon==3]---2"
+      ]
+    }
+  },
+  "490900": {
+    "id": 490900,
+    "aegisName": "Samba_Acc1",
+    "name": "Pandeiro",
+    "unidName": "Pandeiro",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 511,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 20,
+    "requiredLevel": 100,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atkPercent": [
+        "3"
+      ],
+      "matkPercent": [
+        "3"
+      ],
+      "vct": [
+        "5"
+      ],
+      "aspdPercent": [
+        "5"
+      ],
+      "spCostPercent": [
+        "-3"
+      ],
+      "hpDrain": [
+        "3"
+      ],
+      "magicHealHp": [
+        "300"
+      ],
+      "fct": [
+        "EQUIP_ID[490901]0.1"
+      ]
+    }
+  },
+  "490901": {
+    "id": 490901,
+    "aegisName": "Samba_Acc2",
+    "name": "Repinique",
+    "unidName": "Repinique",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 510,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 20,
+    "requiredLevel": 100,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "criDmg": [
+        "3"
+      ],
+      "range": [
+        "3"
+      ],
+      "spCostPercent": [
+        "-7"
+      ],
+      "m_my_element_all": [
+        "3"
+      ],
+      "spDrain": [
+        "1"
+      ],
+      "magicHealSp": [
+        "100"
+      ],
+      "acd": [
+        "EQUIP_ID[490900]3"
+      ]
+    }
+  },
+  "20371": {
+    "id": 20371,
+    "aegisName": "리리아인형모자",
+    "name": "Costume Special Kafra Hat",
+    "unidName": "Costume Special Kafra Hat",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "20494": {
+    "id": 20494,
+    "aegisName": "C_Ufo_Poring_Hat",
+    "name": "[Visual] Poring OVNI",
+    "unidName": "[Visual] Poring OVNI",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
   }
 }

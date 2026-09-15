@@ -1,6 +1,6 @@
 ---
 name: sync-with-ragassets
-description: Refresh the calculator's client-derived data (latam-items.json, item-views.json, latam-classes.json, monster.json, latam-monsters.json) from the ragassets /raw tables. Use after a Ragnarok LATAM client update, when an item/class/monster the client already has is missing here, or whenever these files look stale.
+description: Refresh the calculator's client-derived data (latam-items.json, item-views.json, latam-classes.json, monster.json, latam-monsters.json) from the ragassets /raw tables. Ends by naming the client items that still have no item.json record and asking whether to add them all. Use after a Ragnarok LATAM client update, when an item/class/monster the client already has is missing here, or whenever these files look stale.
 ---
 
 # Sync the LATAM data with ragassets
@@ -37,6 +37,7 @@ node tools/sync-monster-db.mjs      # stats of monsters already registered
 node tools/build-latam-monsters.mjs # pt-BR name overlay
 node tools/build-skill-delays.mjs   # cast/delay table
 git diff --stat src/assets/demo/data/
+node tools/missing-items.mjs        # new items with no record — see "New items" below
 pnpm test && pnpm build
 ```
 
@@ -52,6 +53,41 @@ All three take `--src` for an offline run: a ragassets checkout's `resources/raw
 ```bash
 node tools/sync-latam-db.mjs --src ../ragassets/resources/raw --dry
 ```
+
+## New items: name them, then ask
+
+The sync makes a new client item *known* (`latam-items.json`) but never *usable* —
+`item.json` is hand-maintained, so until a record exists the item is missing from every
+picker. The Armaduras Desconhecidas sat in that gap for a release after 0.1.129 because the
+sync diff was read as "done". **Every sync ends with this step, even when the diff looks
+small:**
+
+```bash
+node tools/missing-items.mjs          # grouped: weapon, armor, …, ammo, costume, card
+node tools/missing-items.mjs --json   # same, machine-readable
+```
+
+It lists every LATAM item with no `item.json` record whose type the calculator models
+(weapons, armor, shields, garments, shoes, headgear, accessories, ammo, costumes, cards,
+shadow gear, enchants). Pet accessories, taming bait, boxes that merely hold gear,
+outfit-changing consumables, gear no class can wear ("Classes: Nenhuma") and the Genetic
+throwables are counted on the last line but
+never wanted.
+
+Then:
+
+1. **Tell the user which items are new, by name** — per category, id and pt-BR name, the way
+   the tool prints them. Do not summarise to a count; the names are how they recognise what
+   the update brought.
+2. **Ask whether to add them all** (AskUserQuestion: add all / pick some / skip). Do not add
+   anything before the answer.
+3. On a yes, add them with the `add-ro-item` skill. A long list (dozens of ids) splits well
+   across subagents by category, **but only one writer may touch `item.json`**: have each
+   subagent write its records to a scratch JSON and run `apply.mjs` yourself, one batch at
+   a time, then `pnpm test`.
+4. Re-run `node tools/missing-items.mjs` — it should print `0 item(s)`.
+   `tools/missing-items.spec.ts` fails while any wanted item is missing, so the pre-push
+   hook catches a sync that skipped this step.
 
 ## Gotchas
 
@@ -70,8 +106,8 @@ node tools/sync-latam-db.mjs --src ../ragassets/resources/raw --dry
   a plain `JSON.stringify` would reorder all 458 records and bury the real change. Never
   replace that writer.
 - **`item.json` is hand-maintained and is NOT generated.** No sync script touches it —
-  `add-ro-item` appends to it as raw text. Adding a new item is that skill's job, not this
-  one's.
+  `add-ro-item` appends to it as raw text. Writing the record is that skill's job; finding
+  the gap and asking the user is this one's (see "New items" above).
 - **`sync-monster-db.mjs` never adds or removes ids**, because a new monster needs a
   hand-set `spawn`. Use `add-ro-monster` for that.
 - **`skill-delay.json` is validation data, not runtime data.** Nothing in the browser

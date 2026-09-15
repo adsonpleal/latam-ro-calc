@@ -31,9 +31,10 @@ const SIZE_DAMAGE_LINE = /Dano (f[íi]sico e m[áa]gico|f[íi]sico|m[áa]gico) c
  * Items whose size damage sits under "[Durante o Evento]" and only exists while the event
  * runs — registering it would grant the bonus year-round. The two Carnival costumes
  * (19873, 19874) have nothing else, so their script is empty; the two Baby Shark collab
- * cards (300834, 300835) keep their always-on per-level ATQ/ATQM/DEF/DEFM block.
+ * cards (300834, 300835) keep their always-on per-level ATQ/ATQM/DEF/DEFM block, and the
+ * Baby Shark head costume (401367) has nothing outside its event block either.
  */
-const EVENT_ONLY = [19873, 19874, 300834, 300835];
+const EVENT_ONLY = [19873, 19874, 300834, 300835, 401367];
 
 /** Any gate may prefix the key (`chance__`, …), so match on the infix, not the start. */
 const declares = (script: any, channel: 'p' | 'm'): boolean =>

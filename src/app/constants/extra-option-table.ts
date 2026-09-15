@@ -24,6 +24,14 @@ export const ExtraOptionTable = {
   Airboat_Manteau_Dex_LT: 1,
   Airboat_Manteau_Luk_LT: 1,
 
+  // Armaduras Desconhecidas — Pedra Desconhecida "adiciona até 2 bônus aleatório".
+  Airboat_Armor_Str_LT: 2,
+  Airboat_Armor_Agi_LT: 2,
+  Airboat_Armor_Vit_LT: 2,
+  Airboat_Armor_Int_LT: 2,
+  Airboat_Armor_Dex_LT: 2,
+  Airboat_Armor_Luk_LT: 2,
+
   Temporal_Armor_TW: 2,
   Temporal_Cape_TW: 1,
 
