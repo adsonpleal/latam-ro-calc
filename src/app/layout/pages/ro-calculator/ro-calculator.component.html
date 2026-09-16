@@ -248,9 +248,17 @@
           </p-dropdown>
         </div>
 
-        <div class="char_levels">
+        <!-- NV / JOB are part of the stats comparison: while the Comparação side is picked they
+             edit the compared build, and wear its amber so that is visible up here too. -->
+        <div class="char_levels" [class.char_levels--compare]="isEditingCompareStats">
           <div class="p-inputgroup joined_field">
-            <span class="p-inputgroup-addon joined_caption char_addon">NV</span>
+            <span
+              class="p-inputgroup-addon joined_caption char_addon"
+              [class.char_addon--other]="otherStatsText('level')"
+              [pTooltip]="otherStatsText('level') ? 'Nível - ' + statsOtherLabel + ': ' + otherStatsText('level') : ''"
+              [showDelay]="300"
+              >NV<span *ngIf="otherStatsText('level')" class="char_addon_other">{{ otherStatsText('level') }}</span></span
+            >
             <p-dropdown
               inputId="level"
               [autoDisplayFirst]="false"
@@ -259,12 +267,18 @@
               filterBy="label"
               scrollHeight="350px"
               [resetFilterOnHide]="true"
-              [(ngModel)]="model.level"
-              (onChange)="onBaseStatusChange()"
+              [(ngModel)]="statsModel['level']"
+              (onChange)="onStatsLevelChange()"
             ></p-dropdown>
           </div>
           <div class="p-inputgroup joined_field">
-            <span class="p-inputgroup-addon joined_caption char_addon">JOB</span>
+            <span
+              class="p-inputgroup-addon joined_caption char_addon"
+              [class.char_addon--other]="otherStatsText('jobLevel')"
+              [pTooltip]="otherStatsText('jobLevel') ? 'Nível de classe - ' + statsOtherLabel + ': ' + otherStatsText('jobLevel') : ''"
+              [showDelay]="300"
+              >JOB<span *ngIf="otherStatsText('jobLevel')" class="char_addon_other">{{ otherStatsText('jobLevel') }}</span></span
+            >
             <p-dropdown
               inputId="jobLevel"
               [autoDisplayFirst]="false"
@@ -273,8 +287,8 @@
               filterBy="label"
               scrollHeight="350px"
               [resetFilterOnHide]="true"
-              [(ngModel)]="model.jobLevel"
-              (onChange)="onJobLevelChange()"
+              [(ngModel)]="statsModel['jobLevel']"
+              (onChange)="onStatsJobLevelChange()"
             ></p-dropdown>
           </div>
         </div>
@@ -284,28 +298,79 @@
         <div class="char_points">
           <div class="char_point_box" [pTooltip]="pointsHint" [showDelay]="300">
             <span class="char_point_label">Atributos</span>
-            <span class="char_point_value" [class.char_point_neg]="availablePoints < 0">{{ availablePoints | number }}</span>
+            <!-- One line: the box is a fixed 34px tall, which has no room for a third row. -->
+            <span class="char_point_row">
+              <span class="char_point_value" [class.char_point_neg]="availablePoints < 0">{{ availablePoints | number }}</span>
+              <span *ngIf="isCompareStats" class="char_point_value char_point_value--compare" [class.char_point_neg]="availablePoints2 < 0"
+                >⇄ {{ availablePoints2 | number }}</span
+              >
+            </span>
           </div>
           <div class="char_point_box" [hidden]="!isAllowTraitStat" [pTooltip]="traitPointsHint" [showDelay]="300">
             <span class="char_point_label">Talentos</span>
-            <span class="char_point_value" [class.char_point_neg]="availableTraitPoints < 0">{{ availableTraitPoints | number }}</span>
+            <!-- One line: the box is a fixed 34px tall, which has no room for a third row. -->
+            <span class="char_point_row">
+              <span class="char_point_value" [class.char_point_neg]="availableTraitPoints < 0">{{ availableTraitPoints | number }}</span>
+              <span *ngIf="isCompareStats" class="char_point_value char_point_value--compare" [class.char_point_neg]="availableTraitPoints2 < 0"
+                >⇄ {{ availableTraitPoints2 | number }}</span
+              >
+            </span>
           </div>
         </div>
       </div>
 
       <div class="stats_row">
         <!-- Status -->
-        <div class="attr_cell">
+        <div class="attr_cell" [class.attr_cell--compare]="isEditingCompareStats">
+          <!-- Comparing the character itself: level, job level, stats and traits. The band and
+               the grid edit one build at a time, picked here; the other build's value shows
+               in amber under each label wherever the two differ. -->
+          <div class="stats_compare_bar">
+            <button
+              type="button"
+              class="stats_compare_toggle"
+              [class.stats_compare_toggle--on]="isCompareStats"
+              [attr.aria-pressed]="isCompareStats"
+              [pTooltip]="isCompareStats ? 'Parar de comparar nível, atributos e talentos' : 'Comparar nível, atributos e talentos com outra distribuição'"
+              [showDelay]="300"
+              [disabled]="isInProcessingPreset"
+              (click)="toggleStatsCompare()"
+            >
+              ⇄ {{ isCompareStats ? 'Comparando' : 'Comparar atributos' }}
+            </button>
+            <div *ngIf="isCompareStats" class="stats_side_switch" role="group" aria-label="Build em edição">
+              <button
+                type="button"
+                class="stats_side"
+                [class.stats_side--active]="statsSide === 'main'"
+                [attr.aria-pressed]="statsSide === 'main'"
+                (click)="statsSide = 'main'"
+              >
+                Principal
+              </button>
+              <button
+                type="button"
+                class="stats_side stats_side--compare"
+                [class.stats_side--active]="statsSide === 'compare'"
+                [attr.aria-pressed]="statsSide === 'compare'"
+                (click)="statsSide = 'compare'"
+              >
+                Comparação
+              </button>
+            </div>
+          </div>
           <!-- One grid, not six rows of two: the six rows spread over whatever height the
                tallest card sets, so the fields never bunch up at the top. -->
           <div class="attr_grid">
             <app-status-input
               label="FOR"
               [dropdownList]="mainStatusList"
-              [(value)]="model.str"
-              (valueChange)="onBaseStatusChange()"
+              [(value)]="statsModel['str']"
+              (valueChange)="onStatsBaseChange()"
+              [otherValue]="otherStatsValue('str')"
+              [otherLabel]="statsOtherLabel"
               [extraValue]="(model.jobStr || 0) + (totalSummary?.str || 0)"
-              [compareExtraValue]="isComparing ? (model.jobStr || 0) + (totalSummary2?.str || 0) : null"
+              [compareExtraValue]="isComparing ? compareJobBonus('jobStr') + (totalSummary2?.str || 0) : null"
               (extraClick)="showBonusBreakdown({ label: 'FOR', keys: statBreakdownKeys('str'), valueClass: 'summary_value' })"
               (compareExtraClick)="showBonusBreakdown({ label: 'FOR', keys: statBreakdownKeys('str'), valueClass: 'summary_value', compare: true })"
             ></app-status-input>
@@ -313,10 +378,12 @@
               label="POD"
               [disabled]="!isAllowTraitStat"
               [dropdownList]="traitStatusList"
-              [(value)]="model.pow"
-              (valueChange)="onBaseStatusChange()"
+              [(value)]="statsModel['pow']"
+              (valueChange)="onStatsBaseChange()"
+              [otherValue]="otherStatsValue('pow')"
+              [otherLabel]="statsOtherLabel"
               [extraValue]="(model.jobPow || 0) + (totalSummary?.pow || 0)"
-              [compareExtraValue]="isComparing ? (model.jobPow || 0) + (totalSummary2?.pow || 0) : null"
+              [compareExtraValue]="isComparing ? compareJobBonus('jobPow') + (totalSummary2?.pow || 0) : null"
               badgeSeverity="danger"
               (extraClick)="showBonusBreakdown({ label: 'POD', keys: statBreakdownKeys('pow'), valueClass: 'summary_stat_yellow' })"
               (compareExtraClick)="showBonusBreakdown({ label: 'POD', keys: statBreakdownKeys('pow'), valueClass: 'summary_stat_yellow', compare: true })"
@@ -324,10 +391,12 @@
             <app-status-input
               label="AGI"
               [dropdownList]="mainStatusList"
-              [(value)]="model.agi"
-              (valueChange)="onBaseStatusChange()"
+              [(value)]="statsModel['agi']"
+              (valueChange)="onStatsBaseChange()"
+              [otherValue]="otherStatsValue('agi')"
+              [otherLabel]="statsOtherLabel"
               [extraValue]="(model.jobAgi || 0) + (totalSummary?.agi || 0)"
-              [compareExtraValue]="isComparing ? (model.jobAgi || 0) + (totalSummary2?.agi || 0) : null"
+              [compareExtraValue]="isComparing ? compareJobBonus('jobAgi') + (totalSummary2?.agi || 0) : null"
               (extraClick)="showBonusBreakdown({ label: 'AGI', keys: statBreakdownKeys('agi'), valueClass: 'summary_value' })"
               (compareExtraClick)="showBonusBreakdown({ label: 'AGI', keys: statBreakdownKeys('agi'), valueClass: 'summary_value', compare: true })"
             ></app-status-input>
@@ -335,10 +404,12 @@
               label="STA"
               [disabled]="!isAllowTraitStat"
               [dropdownList]="traitStatusList"
-              [(value)]="model.sta"
-              (valueChange)="onBaseStatusChange()"
+              [(value)]="statsModel['sta']"
+              (valueChange)="onStatsBaseChange()"
+              [otherValue]="otherStatsValue('sta')"
+              [otherLabel]="statsOtherLabel"
               [extraValue]="(model.jobSta || 0) + (totalSummary?.sta || 0)"
-              [compareExtraValue]="isComparing ? (model.jobSta || 0) + (totalSummary2?.sta || 0) : null"
+              [compareExtraValue]="isComparing ? compareJobBonus('jobSta') + (totalSummary2?.sta || 0) : null"
               badgeSeverity="danger"
               (extraClick)="showBonusBreakdown({ label: 'STA', keys: statBreakdownKeys('sta'), valueClass: 'summary_stat_yellow' })"
               (compareExtraClick)="showBonusBreakdown({ label: 'STA', keys: statBreakdownKeys('sta'), valueClass: 'summary_stat_yellow', compare: true })"
@@ -346,10 +417,12 @@
             <app-status-input
               label="VIT"
               [dropdownList]="mainStatusList"
-              [(value)]="model.vit"
-              (valueChange)="onBaseStatusChange()"
+              [(value)]="statsModel['vit']"
+              (valueChange)="onStatsBaseChange()"
+              [otherValue]="otherStatsValue('vit')"
+              [otherLabel]="statsOtherLabel"
               [extraValue]="(model.jobVit || 0) + (totalSummary?.vit || 0)"
-              [compareExtraValue]="isComparing ? (model.jobVit || 0) + (totalSummary2?.vit || 0) : null"
+              [compareExtraValue]="isComparing ? compareJobBonus('jobVit') + (totalSummary2?.vit || 0) : null"
               (extraClick)="showBonusBreakdown({ label: 'VIT', keys: statBreakdownKeys('vit'), valueClass: 'summary_value' })"
               (compareExtraClick)="showBonusBreakdown({ label: 'VIT', keys: statBreakdownKeys('vit'), valueClass: 'summary_value', compare: true })"
             ></app-status-input>
@@ -357,10 +430,12 @@
               label="SAB"
               [disabled]="!isAllowTraitStat"
               [dropdownList]="traitStatusList"
-              [(value)]="model.wis"
-              (valueChange)="onBaseStatusChange()"
+              [(value)]="statsModel['wis']"
+              (valueChange)="onStatsBaseChange()"
+              [otherValue]="otherStatsValue('wis')"
+              [otherLabel]="statsOtherLabel"
               [extraValue]="(model.jobWis || 0) + (totalSummary?.wis || 0)"
-              [compareExtraValue]="isComparing ? (model.jobWis || 0) + (totalSummary2?.wis || 0) : null"
+              [compareExtraValue]="isComparing ? compareJobBonus('jobWis') + (totalSummary2?.wis || 0) : null"
               badgeSeverity="danger"
               (extraClick)="showBonusBreakdown({ label: 'SAB', keys: statBreakdownKeys('wis'), valueClass: 'summary_stat_yellow' })"
               (compareExtraClick)="showBonusBreakdown({ label: 'SAB', keys: statBreakdownKeys('wis'), valueClass: 'summary_stat_yellow', compare: true })"
@@ -368,10 +443,12 @@
             <app-status-input
               label="INT"
               [dropdownList]="mainStatusList"
-              [(value)]="model.int"
-              (valueChange)="onBaseStatusChange()"
+              [(value)]="statsModel['int']"
+              (valueChange)="onStatsBaseChange()"
+              [otherValue]="otherStatsValue('int')"
+              [otherLabel]="statsOtherLabel"
               [extraValue]="(model.jobInt || 0) + (totalSummary?.int || 0)"
-              [compareExtraValue]="isComparing ? (model.jobInt || 0) + (totalSummary2?.int || 0) : null"
+              [compareExtraValue]="isComparing ? compareJobBonus('jobInt') + (totalSummary2?.int || 0) : null"
               (extraClick)="showBonusBreakdown({ label: 'INT', keys: statBreakdownKeys('int'), valueClass: 'summary_value' })"
               (compareExtraClick)="showBonusBreakdown({ label: 'INT', keys: statBreakdownKeys('int'), valueClass: 'summary_value', compare: true })"
             ></app-status-input>
@@ -379,10 +456,12 @@
               label="FEI"
               [disabled]="!isAllowTraitStat"
               [dropdownList]="traitStatusList"
-              [(value)]="model.spl"
-              (valueChange)="onBaseStatusChange()"
+              [(value)]="statsModel['spl']"
+              (valueChange)="onStatsBaseChange()"
+              [otherValue]="otherStatsValue('spl')"
+              [otherLabel]="statsOtherLabel"
               [extraValue]="(model.jobSpl || 0) + (totalSummary?.spl || 0)"
-              [compareExtraValue]="isComparing ? (model.jobSpl || 0) + (totalSummary2?.spl || 0) : null"
+              [compareExtraValue]="isComparing ? compareJobBonus('jobSpl') + (totalSummary2?.spl || 0) : null"
               badgeSeverity="danger"
               (extraClick)="showBonusBreakdown({ label: 'FEI', keys: statBreakdownKeys('spl'), valueClass: 'summary_stat_yellow' })"
               (compareExtraClick)="showBonusBreakdown({ label: 'FEI', keys: statBreakdownKeys('spl'), valueClass: 'summary_stat_yellow', compare: true })"
@@ -390,10 +469,12 @@
             <app-status-input
               label="DES"
               [dropdownList]="mainStatusList"
-              [(value)]="model.dex"
-              (valueChange)="onBaseStatusChange()"
+              [(value)]="statsModel['dex']"
+              (valueChange)="onStatsBaseChange()"
+              [otherValue]="otherStatsValue('dex')"
+              [otherLabel]="statsOtherLabel"
               [extraValue]="(model.jobDex || 0) + (totalSummary?.dex || 0)"
-              [compareExtraValue]="isComparing ? (model.jobDex || 0) + (totalSummary2?.dex || 0) : null"
+              [compareExtraValue]="isComparing ? compareJobBonus('jobDex') + (totalSummary2?.dex || 0) : null"
               (extraClick)="showBonusBreakdown({ label: 'DES', keys: statBreakdownKeys('dex'), valueClass: 'summary_value' })"
               (compareExtraClick)="showBonusBreakdown({ label: 'DES', keys: statBreakdownKeys('dex'), valueClass: 'summary_value', compare: true })"
             ></app-status-input>
@@ -401,10 +482,12 @@
               label="CON"
               [disabled]="!isAllowTraitStat"
               [dropdownList]="traitStatusList"
-              [(value)]="model.con"
-              (valueChange)="onBaseStatusChange()"
+              [(value)]="statsModel['con']"
+              (valueChange)="onStatsBaseChange()"
+              [otherValue]="otherStatsValue('con')"
+              [otherLabel]="statsOtherLabel"
               [extraValue]="(model.jobCon || 0) + (totalSummary?.con || 0)"
-              [compareExtraValue]="isComparing ? (model.jobCon || 0) + (totalSummary2?.con || 0) : null"
+              [compareExtraValue]="isComparing ? compareJobBonus('jobCon') + (totalSummary2?.con || 0) : null"
               badgeSeverity="danger"
               (extraClick)="showBonusBreakdown({ label: 'CON', keys: statBreakdownKeys('con'), valueClass: 'summary_stat_yellow' })"
               (compareExtraClick)="showBonusBreakdown({ label: 'CON', keys: statBreakdownKeys('con'), valueClass: 'summary_stat_yellow', compare: true })"
@@ -412,10 +495,12 @@
             <app-status-input
               label="SOR"
               [dropdownList]="mainStatusList"
-              [(value)]="model.luk"
-              (valueChange)="onBaseStatusChange()"
+              [(value)]="statsModel['luk']"
+              (valueChange)="onStatsBaseChange()"
+              [otherValue]="otherStatsValue('luk')"
+              [otherLabel]="statsOtherLabel"
               [extraValue]="(model.jobLuk || 0) + (totalSummary?.luk || 0)"
-              [compareExtraValue]="isComparing ? (model.jobLuk || 0) + (totalSummary2?.luk || 0) : null"
+              [compareExtraValue]="isComparing ? compareJobBonus('jobLuk') + (totalSummary2?.luk || 0) : null"
               (extraClick)="showBonusBreakdown({ label: 'SOR', keys: statBreakdownKeys('luk'), valueClass: 'summary_value' })"
               (compareExtraClick)="showBonusBreakdown({ label: 'SOR', keys: statBreakdownKeys('luk'), valueClass: 'summary_value', compare: true })"
             ></app-status-input>
@@ -423,10 +508,12 @@
               label="CRV"
               [disabled]="!isAllowTraitStat"
               [dropdownList]="traitStatusList"
-              [(value)]="model.crt"
-              (valueChange)="onBaseStatusChange()"
+              [(value)]="statsModel['crt']"
+              (valueChange)="onStatsBaseChange()"
+              [otherValue]="otherStatsValue('crt')"
+              [otherLabel]="statsOtherLabel"
               [extraValue]="(model.jobCrt || 0) + (totalSummary?.crt || 0)"
-              [compareExtraValue]="isComparing ? (model.jobCrt || 0) + (totalSummary2?.crt || 0) : null"
+              [compareExtraValue]="isComparing ? compareJobBonus('jobCrt') + (totalSummary2?.crt || 0) : null"
               badgeSeverity="danger"
               (extraClick)="showBonusBreakdown({ label: 'CRV', keys: statBreakdownKeys('crt'), valueClass: 'summary_stat_yellow' })"
               (compareExtraClick)="showBonusBreakdown({ label: 'CRV', keys: statBreakdownKeys('crt'), valueClass: 'summary_stat_yellow', compare: true })"
@@ -881,6 +968,7 @@
               [spriteUrlOverride]="pvpTargetSpriteUrl"
               [spriteFallbackUrl]="pvpTargetFallbackSprite"
               [compareItemNames]="compareItemNames"
+              [compareStats]="isCompareStats"
               [canBreakdownFn]="canBreakdown"
               [reductionCategories]="targetReductionCategories"
               [reductionSources]="pvpTargetSources"
@@ -956,6 +1044,7 @@
               [(relieveLevel)]="relieveLevel"
               (relieveLevelChange)="onRelieveLevelChange()"
               [compareItemNames]="compareItemNames"
+              [compareStats]="isCompareStats"
               [rotationView]="rotationView"
               [rotationView2]="rotationView2"
               [rotation]="model.rotation"
@@ -1378,37 +1467,117 @@
   </ng-template>
 </p-dialog>
 
-<!-- Import build from a Ragnarok replay (.rrf) -->
-<p-dialog header="Importar Replay" [(visible)]="showReplayImport" [modal]="true" [dismissableMask]="true" [draggable]="false" [style]="{ width: '460px' }">
-  <div
-    class="replay-dropzone"
-    [class.dragover]="replayDragOver"
-    (dragover)="onReplayDragOver($event)"
-    (dragleave)="onReplayDragLeave($event)"
-    (drop)="onReplayDrop($event)"
-    (click)="replayInput.click()"
-    keyActivate
-  >
-    <i class="pi pi-upload replay-dropzone-icon"></i>
-    <p class="m-0">Arraste um arquivo <b>.rrf</b> aqui</p>
-    <p class="my-2 text-sm">ou</p>
-    <button
-      type="button"
-      pButton
-      class="p-button-sm p-button-outlined"
-      icon="pi pi-folder-open"
-      label="Selecionar arquivo"
-      (click)="$event.stopPropagation(); replayInput.click()"
-    ></button>
-    <input #replayInput type="file" accept=".rrf" hidden (change)="onReplayInputChange($event)" />
-  </div>
-  <div *ngIf="replayBusy" class="mt-3 text-center"><i class="pi pi-spin pi-spinner mr-2"></i>Lendo replay…</div>
-  <p class="mt-3 mb-0 text-sm" style="opacity: 0.7">
-    Importa classe, nível, atributos base (FOR/AGI/VIT/INT/DES/SOR) e equipamentos (refino, grau, cartas e encantos) do replay.
-    Os <b>talentos (POD/STA/SAB/FEI/CON/CRV)</b> vêm junto quando a gravação os traz: eles chegam num pacote que o servidor manda a
-    cada troca de mapa, então basta que o personagem entre num mapa depois de começar a gravar. Se a gravação não os trouxer, o
-    simulador avisa e eles ficam para ajustar à mão. Itens fora do banco de dados são ignorados.
-  </p>
+<!-- Import a build from a Ragnarok replay (.rrf) or a share link -->
+<p-dialog
+  header="Importar build"
+  [(visible)]="showReplayImport"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [style]="{ width: '480px' }"
+  (onHide)="onImportDialogHide()"
+>
+  <ng-container *ngIf="!pendingImport; else importChoice">
+    <div
+      class="replay-dropzone"
+      [class.dragover]="replayDragOver"
+      (dragover)="onReplayDragOver($event)"
+      (dragleave)="onReplayDragLeave($event)"
+      (drop)="onReplayDrop($event)"
+      (click)="replayInput.click()"
+      keyActivate
+    >
+      <i class="pi pi-upload replay-dropzone-icon"></i>
+      <p class="m-0">Arraste um arquivo <b>.rrf</b> aqui</p>
+      <p class="my-2 text-sm">ou</p>
+      <button
+        type="button"
+        pButton
+        class="p-button-sm p-button-outlined"
+        icon="pi pi-folder-open"
+        label="Selecionar arquivo"
+        (click)="$event.stopPropagation(); replayInput.click()"
+      ></button>
+      <input #replayInput type="file" accept=".rrf" hidden (change)="onReplayInputChange($event)" />
+    </div>
+
+    <div class="import_divider"><span>ou cole um link</span></div>
+    <div class="import_link">
+      <input
+        pInputText
+        type="text"
+        class="import_link_input"
+        placeholder="Link do simulador (também aceita link curto)"
+        autocomplete="off"
+        [(ngModel)]="importLinkText"
+        [disabled]="replayBusy"
+        (keydown.enter)="importShareLink()"
+      />
+      <button
+        type="button"
+        pButton
+        class="p-button-sm import_link_button"
+        icon="pi pi-link"
+        label="Importar link"
+        [disabled]="replayBusy || !importLinkText.trim()"
+        (click)="importShareLink()"
+      ></button>
+    </div>
+
+    <div *ngIf="replayBusy" class="mt-3 text-center"><i class="pi pi-spin pi-spinner mr-2"></i>Lendo build…</div>
+    <p class="mt-3 mb-0 text-sm" style="opacity: 0.7">
+      Importa classe, nível, atributos base (FOR/AGI/VIT/INT/DES/SOR) e equipamentos (refino, grau, cartas e encantos) do replay.
+      Os <b>talentos (POD/STA/SAB/FEI/CON/CRV)</b> vêm junto quando a gravação os traz: eles chegam num pacote que o servidor manda a
+      cada troca de mapa, então basta que o personagem entre num mapa depois de começar a gravar. Se a gravação não os trouxer, o
+      simulador avisa e eles ficam para ajustar à mão. Itens fora do banco de dados são ignorados.
+    </p>
+    <p class="mt-2 mb-0 text-sm" style="opacity: 0.7">
+      Um <b>link</b> traz a simulação inteira, exceto a comparação que estiver salva nele.
+    </p>
+  </ng-container>
+
+  <ng-template #importChoice>
+    <div class="import_summary">
+      <div class="import_summary_title">{{ pendingImportClassLabel }}</div>
+      <div class="import_summary_meta">
+        {{ pendingImport.source === 'replay' ? 'Replay' + (pendingImport.summary?.player ? ' de ' + pendingImport.summary.player : '') : 'Link' }}
+        · Nv {{ pendingImport.model.level }} / Job {{ pendingImport.model.jobLevel }} · {{ pendingImportEquipCount }} equipamentos
+      </div>
+    </div>
+
+    <div class="import_choices">
+      <button
+        type="button"
+        pButton
+        class="p-button-sm import_choice"
+        icon="pi pi-refresh"
+        label="Substituir simulação atual"
+        (click)="pickImportMode('replace')"
+      ></button>
+      <p class="import_choice_note">A build atual, as habilidades e as comparações são trocadas pela importada.</p>
+
+      <button
+        type="button"
+        pButton
+        class="p-button-sm p-button-warning p-button-outlined import_choice"
+        icon="pi pi-arrows-h"
+        label="Importar como comparação"
+        [disabled]="!canImportAsComparison"
+        (click)="pickImportMode('compare')"
+      ></button>
+      <p class="import_choice_note" *ngIf="canImportAsComparison">
+        ⚠️ Substitui qualquer comparação existente: todos os equipamentos, o nível, os atributos e os talentos da build importada
+        entram como comparação. As habilidades continuam as da simulação atual.
+      </p>
+      <p class="import_choice_note" *ngIf="!canImportAsComparison">
+        Disponível só para a mesma classe da simulação atual ({{ classLabel(model.class) }}).
+      </p>
+    </div>
+
+    <div class="flex justify-content-end mt-3">
+      <button type="button" pButton class="p-button-sm p-button-text" label="Cancelar" (click)="pickImportMode(null)"></button>
+    </div>
+  </ng-template>
 </p-dialog>
 
 <!-- Save the current simulation under a name (browser localStorage) -->

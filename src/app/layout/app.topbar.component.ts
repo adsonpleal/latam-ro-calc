@@ -157,6 +157,15 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.132-beta',
+      date: '16-09-2026',
+      logs: [
+        'O botão Importar passou a aceitar também um link do simulador, além do replay (.rrf): basta colar o link, inclusive o link curto, no campo abaixo da área do arquivo.',
+        'Uma build importada da mesma classe da simulação atual pode entrar como comparação em vez de substituir a simulação: todos os equipamentos, o nível, o nível de classe, os atributos e os talentos da build importada passam a ser o lado comparado, no lugar de qualquer comparação que existisse. As habilidades continuam as da simulação atual. Sugerido por Ted.',
+        'Nível, nível de classe, atributos e talentos também podem ser comparados: em "Comparar atributos", no quadro de atributos, o seletor Principal / Comparação escolhe qual das duas builds os campos editam, e o valor da outra aparece em amarelo abaixo de cada campo que for diferente. A comparação vai junto no link compartilhado e nas simulações salvas.',
+      ],
+    },
+    {
       v: '0.1.131-beta',
       date: '15-09-2026',
       logs: [

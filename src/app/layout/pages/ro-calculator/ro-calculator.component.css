@@ -1204,3 +1204,160 @@ a.skill_link:hover {
 .class_switch_loss_item {
   font-weight: 600;
 }
+
+/* --- Level / stats / traits comparison ----------------------------------------------
+   Same amber as a compared equipment slot (.eq-card__compare--on). */
+.stats_compare_bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  min-height: 18px;
+}
+.stats_compare_toggle {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  height: 18px;
+  padding: 0 5px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: rgb(255 255 255 / 55%);
+  font: inherit;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.stats_compare_toggle:hover:not(:disabled) {
+  color: #fdd87d;
+}
+.stats_compare_toggle--on {
+  padding: 0 6px;
+  border-color: rgb(253 216 125 / 55%);
+  background: rgb(253 216 125 / 16%);
+  color: #fdd87d;
+}
+.stats_side_switch {
+  flex: 0 0 auto;
+  display: inline-flex;
+  border: 1px solid var(--surface-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.stats_side {
+  height: 18px;
+  padding: 0 6px;
+  border: 0;
+  background: transparent;
+  color: rgb(255 255 255 / 50%);
+  font: inherit;
+  font-size: 9.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.stats_side--active {
+  background: var(--surface-ground);
+  color: rgb(255 255 255 / 90%);
+}
+.stats_side--compare.stats_side--active {
+  background: rgb(253 216 125 / 16%);
+  color: #fdd87d;
+}
+/* The grid is editing the comparison: say so with the whole card, not just the switch. */
+.attr_cell--compare {
+  border-color: rgb(253 216 125 / 45%);
+  background-image: linear-gradient(rgb(253 216 125 / 4%), rgb(253 216 125 / 4%));
+}
+.char_point_row {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  white-space: nowrap;
+  line-height: 1;
+}
+.char_point_value--compare {
+  font-size: 10.5px;
+  color: #fdd87d;
+}
+.char_point_value--compare.char_point_neg {
+  color: var(--red-300);
+}
+.char_levels--compare .joined_caption,
+.char_levels--compare ::ng-deep .p-dropdown {
+  border-color: rgb(253 216 125 / 55%);
+}
+.char_levels--compare .joined_caption {
+  color: #fdd87d;
+  background-color: rgb(253 216 125 / 10%);
+}
+.char_addon--other {
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+}
+.char_addon_other {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: #fdd87d;
+}
+
+/* --- Import dialog ------------------------------------------------------------------ */
+.import_divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 10px;
+  font-size: 12px;
+  color: rgb(255 255 255 / 55%);
+}
+.import_divider::before,
+.import_divider::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid var(--surface-border);
+}
+.import_link {
+  display: flex;
+  gap: 6px;
+}
+.import_link_input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.import_link .import_link_button {
+  flex: 0 0 auto;
+  width: auto;
+}
+.import_summary {
+  padding: 10px 12px;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius);
+  background: var(--surface-ground);
+}
+.import_summary_title {
+  font-weight: 600;
+}
+.import_summary_meta {
+  margin-top: 2px;
+  font-size: 12px;
+  color: rgb(255 255 255 / 60%);
+}
+.import_choices {
+  display: flex;
+  flex-direction: column;
+  margin-top: 14px;
+}
+.import_choices .import_choice {
+  width: 100%;
+}
+.import_choice_note {
+  margin: 4px 2px 12px;
+  font-size: 12px;
+  color: rgb(255 255 255 / 60%);
+}
+

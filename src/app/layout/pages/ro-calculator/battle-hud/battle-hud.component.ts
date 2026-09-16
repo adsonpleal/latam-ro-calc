@@ -93,6 +93,8 @@ export class BattleHudComponent implements OnDestroy {
   @Input({ required: true }) selectedMonster: number;
   @Input({ required: true }) selectedMonsterName: string;
   @Input({ required: true }) compareItemNames: any[];
+  /** Whether level, job level, stats and traits are compared too (they are not slots). */
+  @Input() compareStats = false;
   // PVP: when the target is a player, override the monster sprite with the
   // target's paper-doll (and a bare-job fallback if that image fails to load).
   @Input() spriteUrlOverride: string | null = null;
@@ -467,7 +469,8 @@ export class BattleHudComponent implements OnDestroy {
   // pt-BR item-slot labels for the compare ribbon, e.g. ['boot'] -> 'Bota' — same
   // util the compare-slot picker uses (ro-calculator.component.ts line ~341).
   get compareRibbonText(): string {
-    return (this.compareItemNames || []).map((v) => itemSlotLabelPtBr(v)).join(', ');
+    const slots = (this.compareItemNames || []).map((v) => itemSlotLabelPtBr(v));
+    return (this.compareStats ? ['Nível e atributos', ...slots] : slots).join(', ');
   }
 
   // --- Hero (DPS / damage per use) -------------------------------------------

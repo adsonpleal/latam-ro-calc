@@ -27,7 +27,6 @@ import {
   ItemTypeEnum,
   ItemTypeId,
   JobBuffs,
-  MAX_OPTION_NUMBER,
   MAX_RELIEVE_LEVEL,
   hasRelieve,
   relieveReductionPercent,
@@ -56,7 +55,7 @@ import {
   toUpsertPresetModel,
 } from 'src/app/utils';
 import { waitRxjs } from 'src/app/utils/wait-rxjs';
-import { importReplayBuffer } from '../../../replay/replay-to-model';
+import { importReplayBuffer, ReplayImportSummary } from '../../../replay/replay-to-model';
 import { makeBuffGate } from '../../../replay/skill-status.map';
 import { MainModel } from '../../../models/main.model';
 import { environment } from 'src/environments/environment';
@@ -78,14 +77,16 @@ import { resolveOffHandEviction } from 'src/app/core/off-hand-slots';
 import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectChanceSources, collectConsumables } from 'src/app/core/calculator-controller';
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { ElementType } from 'src/app/constants/element-type.const';
-import { CompareState } from 'src/app/core/compare-state';
-import { sanitizeSlotColors } from 'src/app/core/slot-colors';
+import { CompareState, STATS_COMPARE_KEYS, copyStatsFields } from 'src/app/core/compare-state';
+import { buildComparisonFromImport } from 'src/app/core/import-comparison';
+import { normalizeSavedModel } from 'src/app/core/saved-model';
+import { parseShareInput } from 'src/app/core/share-link-input';
 import { SlotColorPickerService } from './slot-color-picker/slot-color-picker.service';
 import { ClassSwitchLoss, applyClassSwitch, findClassSwitchLosses, hasBuildToKeep, slotEquipFilter } from 'src/app/core/class-switch';
 import { canUsedByClass } from 'src/app/utils/can-used-by-class';
 import { SLOTS_BY_KEY } from 'src/app/app-config/equipment-slots';
 import { SlotListBag } from './equipment-grid/slot-list-bag.model';
-import { compactRotationForShare, firstRealSkill, isBasicAttack, normalizeRotation, pruneRotationForClass } from 'src/app/core/rotation';
+import { compactRotationForShare, firstRealSkill, isBasicAttack, pruneRotationForClass } from 'src/app/core/rotation';
 import { RotationScheduleStep } from 'src/app/core/rotation-schedule';
 import { optimizeRotation } from 'src/app/core/rotation-optimize';
 import { buildRotationView, RotationView, toScheduleStep } from './battle-hud/rotation-view';
@@ -112,6 +113,23 @@ import { encodeBuild, decodeShared } from 'src/app/core/share-codec';
 import { shareEntryHref } from 'src/app/core/share-entry';
 import { buildSharePath, readShareToken, SHARE_PATH_PREFIX } from 'src/app/core/share-path';
 import { buildCharSpriteUrl, bareJobSprite } from 'src/app/domain/char-sprite-url';
+
+type ImportMode = 'replace' | 'compare';
+
+/**
+ * A build read by the import dialog, waiting for the user to choose how to apply it.
+ * One flat shape (the project builds with strict:false, which never narrows a union):
+ * the replay fields are null for a link, and `preset` is null for a replay.
+ */
+interface PendingImport {
+  source: 'replay' | 'link';
+  model: MainModel;
+  /** The link's sparse build, as loadItemSet takes it. */
+  preset?: Record<string, any> | null;
+  summary?: ReplayImportSummary | null;
+  learnedSkills?: Record<number, number> | null;
+  activeStatuses?: number[] | null;
+}
 
 interface MonsterSelectItemGroup extends SelectItemGroup {
   items: any[];
@@ -334,6 +352,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   isAllowTraitStat = false;
   totalTraitPoints = 0;
   availableTraitPoints = 0;
+  /** The compared build's remaining points, while stats are compared. */
+  availablePoints2 = 0;
+  availableTraitPoints2 = 0;
   appropriateLevelForTrait = 0;
 
   /** The "(Nv N)" the Atributos line used to print inline: the base level this spread first
@@ -531,6 +552,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   isEnableCompare = false;
+  /** Whether `model2` carries its own level, job level, stats and traits. */
+  isCompareStats = false;
+  /** Which build the level band and the attribute grid are editing while stats are compared. */
+  statsSide: 'main' | 'compare' = 'main';
   showCompareItemMap = {} as any;
   compareItemNames = [] as ItemTypeEnum[];
   compareItemList: (keyof typeof ItemTypeEnum)[] = [...AllowedCompareItemTypes];
@@ -566,6 +591,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   showReplayImport = false;
   replayDragOver = false;
   replayBusy = false;
+  /** Text of the "paste a share link" field in the import dialog. */
+  importLinkText = '';
+  /** A build that was read and is waiting for the user to pick how to apply it. */
+  pendingImport: PendingImport | null = null;
+  private resolvePendingImport: ((mode: ImportMode | null) => void) | null = null;
 
   onClassChangedSubject = new Subject<boolean>();
   onClassChanged$ = this.onClassChangedSubject.asObservable();
@@ -796,6 +826,15 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
             return agg;
           }, {});
+
+        // The character itself, when it is compared: level, job level, stats and traits
+        // ride in model2, and the job bonus is derived from model2's own job level so
+        // prepare()'s `{...model, ...model2}` spread cannot pair one build's job level
+        // with the other's bonus.
+        if (this.isCompareStats) {
+          copyStatsFields(this.model2, model2);
+          this.applyJobBonus(model2, model2['jobLevel']);
+        }
 
         this.equipCompareItemIdItemTypeMap = equipItemIdItemTypeMap2;
         this.equipCompareItems = this.buildEquipItemList(this.equipCompareItemIdItemTypeMap, model2);
@@ -1272,7 +1311,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   private calcCompare() {
-    if (this.compareItemNames?.length > 0) {
+    if (this.compareItemNames?.length > 0 || this.isCompareStats) {
       const m2 = JSON.parse(JSON.stringify(this.model2));
       const calc2 = this.prepare(this.calculator2, m2);
       this.totalSummary2 = calc2.getTotalSummary();
@@ -1429,65 +1468,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   private setModelByJSONString(savedModel: string | any) {
     const savedData = typeof savedModel === 'string' ? JSON.parse(savedModel || '{}') : savedModel;
-    const rawModel = createMainModel();
-    if (!savedData) {
-      this.model = rawModel;
-      return;
-    }
-
-    // `rawModel` is already a complete sheet of defaults, so a field the save does not
-    // carry is simply left alone. Reading the fallback from a second, longer-lived model
-    // is what used to hand every build the *same* object for an object-valued default —
-    // one build's map would then follow the next one loaded. Leaving the default in place
-    // makes it fresh by construction, for objects and arrays alike.
-    for (const key of Object.keys(rawModel)) {
-      const savedValue = savedData[key];
-
-      if (Array.isArray(rawModel[key])) {
-        if (Array.isArray(savedValue)) rawModel[key] = savedValue;
-      } else if (savedValue != null) {
-        rawModel[key] = savedValue;
-      }
-    }
-
-    const rawOptionTxts = [] as string[];
-    // migrate
-    for (let i = 0; i <= MAX_OPTION_NUMBER; i++) {
-      if (rawModel.rawOptionTxts[i]) {
-        rawOptionTxts[i] = rawModel.rawOptionTxts[i];
-      }
-    }
-    for (let i = 51; i <= 56; i++) {
-      if (rawModel.rawOptionTxts[i]) {
-        rawOptionTxts[i - 31] = rawModel.rawOptionTxts[i];
-      }
-    }
-
-    rawModel.rawOptionTxts = rawOptionTxts;
-
-    const mapPhamacy = {
-      2: 100232,
-      3: 100233,
-    };
-    const p = mapPhamacy[rawModel?.skillBuffMap['Special Pharmacy']];
-    if (Boolean(p) && Array.isArray(rawModel.consumables)) {
-      if (!rawModel.consumables.includes(p)) {
-        rawModel.consumables.push(p);
-      }
-    }
-
-    // Every restore path lands here — share token, the 'ro-set' autosave, a named save
-    // and the .rrf import — so this one line is the whole rotation migration: a build
-    // saved before rotations existed carries no `rotation` key, arrives as [], and
-    // becomes a rotation of one holding its selectedAtkSkill.
-    rawModel.rotation = normalizeRotation(rawModel.rotation, rawModel.selectedAtkSkill);
-
-    // Validation, not defaulting: the loop above already restores an absent map. This is
-    // the one gate a hand-edited share token passes through, so a slot key the grid does
-    // not draw or a colour outside the palette is dropped rather than stored.
-    rawModel.slotColors = sanitizeSlotColors(rawModel.slotColors);
-
-    this.model = rawModel;
+    this.model = normalizeSavedModel(savedData);
   }
 
   /**
@@ -1606,11 +1587,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    * named saves (restore-on-load).
    */
   private currentCompareState(): CompareState | null {
-    if (!this.compareItemNames?.length) return null;
-    return {
-      itemNames: [...this.compareItemNames],
+    if (!this.compareItemNames?.length && !this.isCompareStats) return null;
+    const state: CompareState = {
+      itemNames: [...(this.compareItemNames ?? [])],
       model2: JSON.parse(JSON.stringify(this.model2 ?? { rawOptionTxts: [] })),
     };
+    if (this.isCompareStats) state.stats = true;
+    return state;
   }
 
   /**
@@ -1628,7 +1611,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     ) as ItemTypeEnum[];
     this.model2 = state ? ({ rawOptionTxts: [], ...state.model2 } as ClassModel) : { rawOptionTxts: [] };
     this.compareItemNames = names;
-    this.isEnableCompare = names.length > 0;
+    this.isCompareStats = !!state?.stats;
+    // A share token drops zero-valued fields, so a stats comparison can arrive without
+    // some of its keys; restore them as the explicit 0 they were.
+    if (this.isCompareStats) copyStatsFields(this.model2, this.model2);
+    else this.statsSide = 'main';
+    this.isEnableCompare = names.length > 0 || this.isCompareStats;
+    this.updateAvailablePoints();
     this.equipRevision += 1;
     this.updateCompareEvent.next(1);
   }
@@ -1856,7 +1845,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // The compared build against the same target, exactly as calcCompare() does it for
     // the monster panel. Solved after the main pass so each rotation reads the chain
     // input its own prepare() produced — including that build's own Efeitos.
-    if (this.isEnableCompare && this.compareItemNames?.length > 0) {
+    if (this.isEnableCompare && (this.compareItemNames?.length > 0 || this.isCompareStats)) {
       // Guarded like buildProfileFromPreset: this runs inside the compare pipeline's
       // subscriber, whose last statement clears the loading overlay. An exception here
       // would skip that AND kill the subscription — the panel would sit on the spinner
@@ -2071,6 +2060,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   async importReplay(file: File) {
     if (this.replayBusy) return;
     this.replayBusy = true;
+    let imported: PendingImport;
     try {
       const buf = await file.arrayBuffer();
       const { model, summary, learnedSkills, activeStatuses } = importReplayBuffer(buf, this.items);
@@ -2078,25 +2068,168 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       // calc models classes by internal id (11), so translate it back so the
       // class dropdown + icon select the right class.
       model.class = ClassIdBySpriteJob[model.class] ?? model.class;
-      // The calculator only carries the advanced LATAM classes; bail out cleanly
-      // (keeping the current build) if the replay's class isn't one of them.
-      if (!this.characterList?.some((c) => c.value === model.class)) {
+      imported = { source: 'replay', model, summary, learnedSkills, activeStatuses };
+    } catch (e) {
+      this.replayBusy = false;
+      console.error(e);
+      this.messageService.add({ severity: 'error', summary: 'Arquivo inválido', detail: 'Não foi possível ler o arquivo .rrf.' });
+      return;
+    }
+    await this.offerImport(imported);
+  }
+
+  /** Import from the dialog's link field: a share URL, a short link or a bare token. */
+  async importShareLink() {
+    if (this.replayBusy) return;
+    const input = parseShareInput(this.importLinkText, environment.shortenerUrl);
+    if (!input) {
+      this.messageService.add({ severity: 'error', summary: 'Link inválido', detail: 'Cole um link de simulação do simulador.' });
+      return;
+    }
+
+    this.replayBusy = true;
+    let token: string | null = input.kind === 'token' ? input.token : null;
+    if (input.kind === 'short') {
+      try {
+        const res = await fetch(`${environment.shortenerUrl}/api/links/${encodeURIComponent(input.slug)}`);
+        if (res.ok) {
+          const { url } = await res.json();
+          const resolved = parseShareInput(url, environment.shortenerUrl);
+          token = resolved?.kind === 'token' ? resolved.token : null;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+      if (!token) {
         this.replayBusy = false;
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Classe indisponível',
-          detail: `A classe deste replay (${summary.player || 'personagem'}, job ${model.class}) não está disponível na calculadora.`,
-          life: 7000,
-        });
+        this.messageService.add({ severity: 'error', summary: 'Link curto não encontrado', detail: 'Não foi possível abrir este link curto.' });
         return;
       }
-      // Importing replaces the current build — confirm first (same alert as
-      // loading a saved sim / starting a new simulation).
-      const ok = await this.waitConfirm('Isso vai substituir a simulação atual. Continuar?');
-      if (!ok) {
+    }
+
+    // The link's own comparison, if it carries one, is not imported: the build is.
+    const preset = decodeShared(token)?.preset;
+    if (!preset) {
+      this.replayBusy = false;
+      this.messageService.add({ severity: 'error', summary: 'Link inválido', detail: 'O link não contém uma simulação válida.' });
+      return;
+    }
+    await this.offerImport({ source: 'link', model: normalizeSavedModel(preset), preset });
+  }
+
+  /**
+   * The step shared by both import sources: check the class, ask how to apply the
+   * build, and apply it.
+   */
+  private async offerImport(imported: PendingImport) {
+    const { model } = imported;
+    // The calculator only carries the advanced LATAM classes; bail out cleanly
+    // (keeping the current build) if the build's class isn't one of them.
+    if (!this.characterList?.some((c) => c.value === model.class)) {
+      this.replayBusy = false;
+      const who = imported.source === 'replay' ? `${imported.summary.player || 'personagem'}, ` : '';
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Classe indisponível',
+        detail: `A classe desta build (${who}job ${model.class}) não está disponível na calculadora.`,
+        life: 7000,
+      });
+      return;
+    }
+
+    const mode = await this.chooseImportMode(imported);
+    if (!mode) {
+      this.replayBusy = false;
+      return;
+    }
+    if (mode === 'compare') {
+      this.applyImportAsComparison(imported);
+    } else if (imported.source === 'replay') {
+      this.applyReplayImport(imported);
+    } else {
+      this.applyLinkImport(imported);
+    }
+  }
+
+  /** Swap the dialog to its choice step and wait for a button. `null` means cancelled. */
+  private chooseImportMode(imported: PendingImport): Promise<ImportMode | null> {
+    this.resolvePendingImport?.(null);
+    this.pendingImport = imported;
+    this.showReplayImport = true;
+    return new Promise((resolve) => {
+      this.resolvePendingImport = (mode) => {
+        this.resolvePendingImport = null;
+        this.pendingImport = null;
+        resolve(mode);
+      };
+    });
+  }
+
+  /** Whether the pending import may become a comparison: only a build of the class on screen. */
+  get canImportAsComparison(): boolean {
+    return !!this.pendingImport && this.pendingImport.model.class === this.model.class;
+  }
+
+  get pendingImportClassLabel(): string {
+    return this.pendingImport ? this.classLabel(this.pendingImport.model.class) : '';
+  }
+
+  get pendingImportEquipCount(): number {
+    if (!this.pendingImport) return 0;
+    const m = this.pendingImport.model as unknown as Record<string, any>;
+    return this.compareItemList.filter((slot) => !!m[slot]).length;
+  }
+
+  pickImportMode(mode: ImportMode | null) {
+    this.resolvePendingImport?.(mode);
+  }
+
+  /** Closing the dialog while a build waits for a choice is a cancel. */
+  onImportDialogHide() {
+    this.resolvePendingImport?.(null);
+    this.importLinkText = '';
+  }
+
+  private applyImportAsComparison(imported: PendingImport) {
+    const state = buildComparisonFromImport(imported.model, this.compareSlotsForClass());
+    this.restoreCompareState(state);
+    this.statsSide = 'main';
+    this.replayBusy = false;
+    this.showReplayImport = false;
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Importado como comparação',
+      detail:
+        `${this.importSourceLabel(imported)}: equipamentos, nível, atributos e talentos entraram como comparação. ` +
+        'Habilidades e buffs continuam os da simulação atual.',
+      life: 9000,
+    });
+  }
+
+  private importSourceLabel(imported: PendingImport): string {
+    if (imported.source === 'replay') return imported.summary.player || 'Replay';
+    return 'Link';
+  }
+
+  private applyLinkImport(imported: PendingImport) {
+    this.loadItemSet(imported.preset as any).subscribe({
+      complete: () => {
+        this.restoreCompareState(null);
         this.replayBusy = false;
-        return;
-      }
+        this.showReplayImport = false;
+        this.messageService.add({ severity: 'success', summary: 'Link importado', detail: 'A simulação do link substituiu a atual.', life: 6000 });
+      },
+      error: (err) => {
+        this.replayBusy = false;
+        console.error(err);
+        this.messageService.add({ severity: 'error', summary: 'Falha ao importar', detail: 'Erro ao aplicar o link.' });
+      },
+    });
+  }
+
+  private applyReplayImport(imported: PendingImport) {
+    const { model, summary, learnedSkills, activeStatuses } = imported;
+    try {
       // Map the replay's learned skill tree onto the model's skill panels before
       // loadItemSet — setSkillModelArray() (run inside it) applies these maps.
       this.applyLearnedSkills(model, learnedSkills, activeStatuses);
@@ -2141,7 +2274,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     } catch (e) {
       this.replayBusy = false;
       console.error(e);
-      this.messageService.add({ severity: 'error', summary: 'Arquivo inválido', detail: 'Não foi possível ler o arquivo .rrf.' });
+      this.messageService.add({ severity: 'error', summary: 'Falha ao importar', detail: 'Erro ao aplicar o replay.' });
     }
   }
 
@@ -2477,20 +2610,25 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   private setJobBonus() {
-    const { str, agi, vit, int, dex, luk, pow, sta, wis, spl, con, crt } = this.selectedCharacter.getJobBonusStatus(this.model.jobLevel);
-    this.model.jobStr = str;
-    this.model.jobAgi = agi;
-    this.model.jobVit = vit;
-    this.model.jobInt = int;
-    this.model.jobDex = dex;
-    this.model.jobLuk = luk;
+    this.applyJobBonus(this.model, this.model.jobLevel);
+  }
 
-    this.model.jobPow = pow;
-    this.model.jobSta = sta;
-    this.model.jobWis = wis;
-    this.model.jobSpl = spl;
-    this.model.jobCon = con;
-    this.model.jobCrt = crt;
+  /** Write the class's job bonus for `jobLevel` into `target` (the main model or model2). */
+  private applyJobBonus(target: Record<string, any>, jobLevel: number) {
+    const { str, agi, vit, int, dex, luk, pow, sta, wis, spl, con, crt } = this.selectedCharacter.getJobBonusStatus(jobLevel);
+    target['jobStr'] = str;
+    target['jobAgi'] = agi;
+    target['jobVit'] = vit;
+    target['jobInt'] = int;
+    target['jobDex'] = dex;
+    target['jobLuk'] = luk;
+
+    target['jobPow'] = pow;
+    target['jobSta'] = sta;
+    target['jobWis'] = wis;
+    target['jobSpl'] = spl;
+    target['jobCon'] = con;
+    target['jobCrt'] = crt;
   }
 
   private setMonsterDropdownList() {
@@ -2958,30 +3096,35 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   private updateAvailablePoints() {
-    const { str, agi, vit, int, dex, luk } = this.model;
-    const mainStatuses = [str, agi, vit, int, dex, luk];
-
-    const { pow, sta, wis, spl, con, crt } = this.model;
-    const traitStatus = [pow, sta, wis, spl, con, crt];
-
-    const { availablePoint, appropriateLevel, availableTraitPoint, appropriateLevelForTrait } = this.stateCalculator
-      .setLevel(this.model.level)
-      .setClass(this.selectedCharacter)
-      .setMainStatusLevels(mainStatuses)
-      .setTraitStatusLevels(traitStatus)
-      .calculate().summary;
-
-    this.availablePoints = availablePoint;
-    this.appropriateLevel = appropriateLevel;
+    const main = this.computePoints(this.model);
+    this.availablePoints = main.availablePoint;
+    this.appropriateLevel = main.appropriateLevel;
 
     if (this.isAllowTraitStat) {
-      this.availableTraitPoints = availableTraitPoint;
-      this.appropriateLevelForTrait = appropriateLevelForTrait;
+      this.availableTraitPoints = main.availableTraitPoint;
+      this.appropriateLevelForTrait = main.appropriateLevelForTrait;
     } else {
       this.availableTraitPoints = 0;
       this.appropriateLevelForTrait = 0;
     }
+
+    if (this.isCompareStats) {
+      const cmp = this.computePoints(this.model2);
+      this.availablePoints2 = cmp.availablePoint;
+      this.availableTraitPoints2 = this.isAllowTraitStat ? cmp.availableTraitPoint : 0;
+    }
   }
+
+  private computePoints(m: Record<string, any>) {
+    const { str, agi, vit, int, dex, luk, pow, sta, wis, spl, con, crt } = m;
+    return this.stateCalculator
+      .setLevel(m['level'])
+      .setClass(this.selectedCharacter)
+      .setMainStatusLevels([str, agi, vit, int, dex, luk])
+      .setTraitStatusLevels([pow, sta, wis, spl, con, crt])
+      .calculate().summary;
+  }
+
 
   onSelectItem(itemType: string, itemId = 0, refine = 0) {
     // console.log({ itemType, itemId, refine })
@@ -3101,6 +3244,78 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     }
 
     return resolved;
+  }
+
+  // --- Level / stats / traits comparison ---------------------------------
+
+  /** The build the level band and the attribute grid are bound to. */
+  get statsModel(): Record<string, any> {
+    return this.isEditingCompareStats ? this.model2 : this.model;
+  }
+
+  get isEditingCompareStats(): boolean {
+    return this.isCompareStats && this.statsSide === 'compare';
+  }
+
+  /** The other side's base value for a field, for the "a → b" hint; null when not comparing. */
+  otherStatsValue(key: string): number | null {
+    if (!this.isCompareStats) return null;
+    const other = this.isEditingCompareStats ? this.model : this.model2;
+    return Number(other?.[key]) || 0;
+  }
+
+  /** The other value as display text, or null when it matches the side being edited. */
+  otherStatsText(key: string): string | null {
+    const other = this.otherStatsValue(key);
+    if (other == null || other === (Number(this.statsModel[key]) || 0)) return null;
+    return String(other);
+  }
+
+  /** pt-BR name of the side the amber hints belong to. */
+  get statsOtherLabel(): string {
+    return this.isEditingCompareStats ? 'Principal' : 'Comparação';
+  }
+
+  /** The compared build's job bonus for a stat: its own while stats are compared, the main build's otherwise. */
+  compareJobBonus(key: string): number {
+    const source = this.isCompareStats ? this.model2 : this.model;
+    return Number(source?.[key]) || 0;
+  }
+
+  toggleStatsCompare() {
+    if (this.isCompareStats) {
+      this.isCompareStats = false;
+      this.statsSide = 'main';
+      for (const key of STATS_COMPARE_KEYS) delete this.model2[key];
+    } else {
+      // Seeded from the build on screen, like a compared slot: the comparison starts
+      // identical and only moves when a value is changed.
+      copyStatsFields(this.model, this.model2);
+      this.isCompareStats = true;
+      this.statsSide = 'compare';
+    }
+    this.updateAvailablePoints();
+    this.onListItemComparingChange();
+  }
+
+  onStatsLevelChange() {
+    if (this.isEditingCompareStats) this.onCompareStatsChange();
+    else this.onBaseStatusChange();
+  }
+
+  onStatsJobLevelChange() {
+    if (this.isEditingCompareStats) this.onCompareStatsChange();
+    else this.onJobLevelChange();
+  }
+
+  onStatsBaseChange() {
+    if (this.isEditingCompareStats) this.onCompareStatsChange();
+    else this.onBaseStatusChange();
+  }
+
+  private onCompareStatsChange() {
+    this.updateAvailablePoints();
+    this.updateCompareEvent.next(1);
   }
 
   onJobLevelChange() {
@@ -3784,9 +3999,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   onListItemComparingChange(isClear = false) {
     if (isClear) {
       this.compareItemNames = [];
+      this.isCompareStats = false;
+      this.statsSide = 'main';
     }
 
-    this.isEnableCompare = this.compareItemNames.length > 0;
+    this.isEnableCompare = this.compareItemNames.length > 0 || this.isCompareStats;
 
     this.updateCompareEvent.next(1);
   }

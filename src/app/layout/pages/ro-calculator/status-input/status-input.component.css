@@ -25,6 +25,19 @@
   letter-spacing: 0.06em;
 }
 
+/* While stats are compared, the other build's value sits under the label, in the
+   comparison's amber — inside the caption, so it costs the grid no width or height. */
+.status_label--other {
+  flex-direction: column;
+  gap: 1px;
+}
+.status_other {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: #fdd87d;
+}
+
 /* 52px is three digits (130 is the cap) plus the chevron, and no more: every spare pixel
    is dead space repeated twelve times. The width goes on the <p-dropdown> host, not on the
    .p-dropdown inside it — the host is a flex item that stretches to fill its row, and a

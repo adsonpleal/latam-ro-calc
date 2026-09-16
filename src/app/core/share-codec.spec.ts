@@ -67,6 +67,19 @@ describe('encodeBuild / decodeShared', () => {
     expect(out?.preset).toEqual(decodeShared(encodeBuild(preset))?.preset);
   });
 
+  it('round-trips a stats comparison, with or without compared slots', () => {
+    const statsOnly = { itemNames: [], model2: { level: 250, str: 120, pow: 60 }, stats: true };
+    expect(decodeShared(encodeBuild(preset, statsOnly))?.compare).toEqual(statsOnly);
+
+    const both = { itemNames: ['weapon'], model2: { weapon: 1291, level: 250 }, stats: true };
+    expect(decodeShared(encodeBuild(preset, both))?.compare).toEqual(both);
+  });
+
+  it('reads a comparison written before stats could be compared as gear-only', () => {
+    const token = compressToEncodedURIComponent(JSON.stringify({ ...preset, __cmp: { i: ['weapon'], m: { weapon: 1 } } })).replace(/\+/g, '.');
+    expect(decodeShared(token)?.compare).toEqual({ itemNames: ['weapon'], model2: { weapon: 1 } });
+  });
+
   it('keeps tokens for uncompared builds byte-identical to the no-comparison encoding', () => {
     // Guards the wire format: adding the comparison must cost nothing when unused,
     // so every link shared before this change still encodes the same way.

@@ -60,8 +60,10 @@ export const encodeBuild = (preset: Record<string, any>, compare?: CompareState 
   const delta = dropDefaults(preset, ALWAYS_KEEP);
   // Short keys: the comparison rides in every compared build's URL, so its own
   // field names are worth compressing away.
-  if (compare?.itemNames?.length) {
-    delta[COMPARE_KEY] = { i: [...compare.itemNames], m: dropDefaults(compare.model2) };
+  if (compare?.itemNames?.length || compare?.stats) {
+    const cmp: Record<string, unknown> = { i: [...compare.itemNames], m: dropDefaults(compare.model2) };
+    if (compare.stats) cmp['s'] = 1;
+    delta[COMPARE_KEY] = cmp;
   }
   return compressToEncodedURIComponent(JSON.stringify(delta)).replace(/\+/g, '.');
 };
@@ -83,7 +85,7 @@ export const decodeShared = (token: string | null | undefined, maxJsonChars?: nu
 
     const raw = obj[COMPARE_KEY];
     delete obj[COMPARE_KEY];
-    const compare = raw && typeof raw === 'object' ? sanitizeCompareState({ itemNames: raw.i, model2: raw.m }) : null;
+    const compare = raw && typeof raw === 'object' ? sanitizeCompareState({ itemNames: raw.i, model2: raw.m, stats: raw.s === 1 }) : null;
 
     return { preset: obj, compare };
   } catch (error) {

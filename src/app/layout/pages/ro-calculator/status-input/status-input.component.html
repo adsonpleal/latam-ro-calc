@@ -7,7 +7,15 @@
      styleUrls pull in), with the "+N" equipment bonus outside the control. -->
 <div class="status_input">
   <div class="joined_field">
-    <label class="joined_caption status_label" [attr.for]="label">{{ label }}</label>
+    <label
+      class="joined_caption status_label"
+      [class.status_label--other]="!!otherText"
+      [attr.for]="label"
+      [pTooltip]="otherText ? label + ' - ' + otherLabel + ': ' + otherText : ''"
+      tooltipPosition="top"
+      [showDelay]="300"
+      >{{ label }}<span *ngIf="otherText" class="status_other">{{ otherText }}</span></label
+    >
     <p-dropdown
       [disabled]="disabled"
       inputId="{{ label }}"

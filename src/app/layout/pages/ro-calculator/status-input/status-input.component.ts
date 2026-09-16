@@ -35,7 +35,21 @@ export class StatusInputComponent {
    *  resolved against the *compared* build. */
   @Output() compareExtraClick = new EventEmitter<void>();
 
+  /**
+   * The other build's base value, while level/stats/traits are compared, or null. The
+   * field shows the side being edited; this is the one it is being compared with.
+   */
+  @Input() otherValue: number | null = null;
+  /** pt-BR name of the side `otherValue` belongs to, for the tooltip ("Principal" / "Comparação"). */
+  @Input() otherLabel = '';
+
   constructor() {}
+
+  /** The other side's value, only when it differs from this one. */
+  get otherText(): string | null {
+    if (this.otherValue == null || this.otherValue === (Number(this.value) || 0)) return null;
+    return String(this.otherValue);
+  }
 
   /** The "+N" badge only behaves as a button when there is a breakdown to open.
    *  Drives role/tabindex too, so it isn't announced as a button when inert. */

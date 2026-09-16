@@ -7,6 +7,7 @@
  */
 import { CompareState } from 'src/app/core/compare-state';
 import { decodeShared, encodeBuild } from 'src/app/core/share-codec';
+import { isShortLink } from 'src/app/core/share-link-input';
 import { buildSharePath, readShareToken } from 'src/app/core/share-path';
 import { CharacterBase } from 'src/app/jobs/_character-base.abstract';
 import { MainModel } from 'src/app/models/main.model';
@@ -42,12 +43,6 @@ export function parseShare(input: string): DecodedShare {
   if (!decoded) throw new Error('Link de compartilhamento inválido ou corrompido.');
   return decoded;
 }
-
-/** Whether a string looks like a shortened link that needs resolving first. */
-const isShortLink = (input: string, shortenerUrl: string): boolean => {
-  const s = (input ?? '').trim();
-  return s.startsWith(shortenerUrl) && !readShareToken(s) && !TOKEN_IN_URL.test(s);
-};
 
 /** Expand a shortened link, or pass anything else through untouched. */
 export const resolveIfShort = async (share: string, shortenerUrl: string): Promise<string> =>
