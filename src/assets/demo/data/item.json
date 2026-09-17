@@ -3068,8 +3068,7 @@
     "compositionPos": null,
     "usableClass": [
       "Mage",
-      "SoulLinker",
-      "Acolyte"
+      "SoulLinker"
     ],
     "script": {
       "int": [
@@ -149359,12 +149358,12 @@
       ],
       "vct": [
         "7===15",
-        "EQUIP[Saphir Mace-OSAD]===10"
+        "EQUIP_ID[590043]===10"
       ],
       "range": [
         "9===20",
-        "EQUIP[HR-S55-OSAD]===10",
-        "EQUIP[Burning Knuckle-OSAD]REFINE[weapon==2]---4"
+        "EQUIP_ID[810013]===10",
+        "EQUIP_ID[560034]REFINE[weapon==2]---4"
       ],
       "p_size_s": [
         "10===20"
@@ -149376,13 +149375,13 @@
         "10===0.2"
       ],
       "cd__2332": [
-        "EQUIP[Burning Knuckle-OSAD]===1"
+        "EQUIP_ID[560034]===1"
       ],
       "490": [
-        "EQUIP[Saphir Mace-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[590043]REFINE[weapon==2]---5"
       ],
       "2571": [
-        "EQUIP[HR-S55-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[810013]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -149417,31 +149416,31 @@
         "9===20"
       ],
       "m_size_s": [
-        "10===20"
+        "11===20"
       ],
       "m_size_m": [
-        "10===20"
+        "11===20"
       ],
       "fct": [
-        "10===0.2"
+        "11===0.2"
       ],
       "cd__2321": [
-        "EQUIP[Cannon Rapier-OSAD]===1"
+        "EQUIP_ID[500051]===1"
       ],
       "cd__2449": [
-        "EQUIP[Rutilus Stick-OSAD]===1"
+        "EQUIP_ID[550075]===1"
       ],
       "m_my_element_holy": [
-        "EQUIP[Ultio-OSAD]===7"
+        "EQUIP_ID[590044]===7"
       ],
       "2321": [
-        "EQUIP[Cannon Rapier-OSAD]REFINE[weapon==2]---7"
+        "EQUIP_ID[500051]REFINE[weapon==2]---7"
       ],
       "2449": [
-        "EQUIP[Rutilus Stick-OSAD]REFINE[weapon==2]---7"
+        "EQUIP_ID[550075]REFINE[weapon==2]---7"
       ],
       "2038": [
-        "EQUIP[Ultio-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[590044]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -149468,8 +149467,8 @@
     "script": {
       "matk": [
         "2---20",
-        "EQUIP[Cannon Rapier-OSAD]===70",
-        "EQUIP[Rutilus Stick-OSAD]===70"
+        "EQUIP_ID[500051]===70",
+        "EQUIP_ID[550075]===70"
       ],
       "vct": [
         "7===15"
@@ -149478,40 +149477,40 @@
         "9===20"
       ],
       "m_size_s": [
-        "10===20"
+        "11===20"
       ],
       "m_size_m": [
-        "10===20"
+        "11===20"
       ],
       "fct": [
-        "10===0.2"
+        "11===0.2"
       ],
       "m_my_element_water": [
-        "EQUIP[Kuroiro-OSAD]===7"
+        "EQUIP_ID[510066]===7"
       ],
       "m_my_element_wind": [
-        "EQUIP[Kuroiro-OSAD]===7"
+        "EQUIP_ID[510066]===7"
       ],
       "m_my_element_fire": [
-        "EQUIP[Kuroiro-OSAD]===7"
+        "EQUIP_ID[510066]===7"
       ],
       "2212": [
-        "EQUIP[Cannon Rapier-OSAD]REFINE[weapon==2]---7"
+        "EQUIP_ID[500051]REFINE[weapon==2]---7"
       ],
       "2213": [
-        "EQUIP[Rutilus Stick-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[550075]REFINE[weapon==2]---5"
       ],
       "2211": [
-        "EQUIP[Rutilus Stick-OSAD]REFINE[weapon==2]---7"
+        "EQUIP_ID[550075]REFINE[weapon==2]---7"
       ],
       "534": [
-        "EQUIP[Kuroiro-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[510066]REFINE[weapon==2]---5"
       ],
       "537": [
-        "EQUIP[Kuroiro-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[510066]REFINE[weapon==2]---5"
       ],
       "540": [
-        "EQUIP[Kuroiro-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[510066]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -149543,32 +149542,34 @@
         "7===15"
       ],
       "range": [
-        "9===20",
-        "EQUIP[AC-B44-OSAD]REFINE[weapon==2]---5"
+        "9===20"
       ],
       "p_size_s": [
-        "10===20"
+        "11===20"
       ],
       "p_size_m": [
-        "10===20"
+        "11===20"
       ],
       "fct": [
-        "10===0.2"
+        "11===0.2"
       ],
       "cd__2307": [
-        "EQUIP[Boost Lance-OSAD]===0.5"
+        "EQUIP_ID[530031]===0.5"
       ],
       "cd__2418": [
-        "EQUIP[MH-P89-OSAD]===0.5"
+        "EQUIP_ID[700055]===0.5"
       ],
       "acd": [
-        "EQUIP[AC-B44-OSAD]===15"
+        "EQUIP_ID[700056]===15"
       ],
       "2307": [
-        "EQUIP[Boost Lance-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[530031]REFINE[weapon==2]---5"
       ],
       "2418": [
-        "EQUIP[MH-P89-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[700055]REFINE[weapon==2]---5"
+      ],
+      "2288": [
+        "EQUIP_ID[700056]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -149595,7 +149596,7 @@
     "script": {
       "matk": [
         "2---20",
-        "EQUIP[Rutilus Stick-OSAD]===70"
+        "EQUIP_ID[550075]===70"
       ],
       "vct": [
         "7===15"
@@ -149604,31 +149605,31 @@
         "9===20"
       ],
       "m_size_s": [
-        "10===20"
+        "11===20"
       ],
       "m_size_m": [
-        "10===20"
+        "11===20"
       ],
       "fct": [
-        "10===0.2"
+        "11===0.2"
       ],
       "cd__5028": [
-        "EQUIP[Electric Fox-OSAD]===1"
+        "EQUIP_ID[550076]===1"
       ],
       "m_my_element_holy": [
-        "EQUIP[Ultio-OSAD]===7"
+        "EQUIP_ID[590044]===7"
       ],
       "5028": [
-        "EQUIP[Electric Fox-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[550076]REFINE[weapon==2]---5"
       ],
       "2602": [
-        "EQUIP[Rutilus Stick-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[550075]REFINE[weapon==2]---5"
       ],
       "2604": [
-        "EQUIP[Rutilus Stick-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[550075]REFINE[weapon==2]---5"
       ],
       "2040": [
-        "EQUIP[Ultio-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[590044]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -149655,8 +149656,8 @@
     "script": {
       "atk": [
         "2---20",
-        "EQUIP[Saphir Mace-OSAD]===70",
-        "EQUIP[Blasti-OSAD]===70"
+        "EQUIP_ID[590043]===70",
+        "EQUIP_ID[620018]===70"
       ],
       "vct": [
         "7===15"
@@ -149665,25 +149666,25 @@
         "9===20"
       ],
       "p_size_s": [
-        "10===20"
+        "11===20"
       ],
       "p_size_m": [
-        "10===20"
+        "11===20"
       ],
       "fct": [
-        "10===0.2"
+        "11===0.2"
       ],
       "cd__2233": [
-        "EQUIP[Virtual Bow-OSAD]===2.5"
+        "EQUIP_ID[700054]===2.5"
       ],
       "2477": [
-        "EQUIP[Saphir Mace-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[590043]REFINE[weapon==2]---5"
       ],
       "382": [
-        "EQUIP[Virtual Bow-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[700054]REFINE[weapon==2]---5"
       ],
       "2261": [
-        "EQUIP[Blasti-OSAD]REFINE[weapon==2]---5"
+        "EQUIP_ID[620018]REFINE[weapon==2]---5"
       ]
     }
   },
@@ -149710,8 +149711,8 @@
     "script": {
       "atk": [
         "2---20",
-        "EQUIP[Meuchler-OSAD]===70",
-        "EQUIP[Circuit Board-OSAD]===70"
+        "EQUIP_ID[610039]===70",
+        "EQUIP_ID[540051]===70"
       ],
       "vct": [
         "7===15"
@@ -149723,25 +149724,25 @@
         "9===20"
       ],
       "p_size_s": [
-        "10===20"
+        "11===20"
       ],
       "p_size_m": [
-        "10===20"
+        "11===20"
       ],
       "fct": [
-        "10===0.2"
+        "11===0.2"
       ],
       "cd__2006": [
-        "EQUIP[Beam Claymore-OSAD]===1"
+        "EQUIP_ID[600028]===1"
       ],
       "2036": [
-        "EQUIP[Meuchler-OSAD]REFINE[weapon==2]---7"
+        "EQUIP_ID[610039]REFINE[weapon==2]---7"
       ],
       "2592": [
-        "EQUIP[Circuit Board-OSAD]REFINE[weapon==2]---7"
+        "EQUIP_ID[540051]REFINE[weapon==2]---7"
       ],
       "2006": [
-        "EQUIP[Beam Claymore-OSAD]REFINE[weapon==2]---7"
+        "EQUIP_ID[600028]REFINE[weapon==2]---7"
       ]
     }
   },
@@ -168491,6 +168492,9 @@
       ],
       "acd": [
         "GRADE[shield==A]===5"
+      ],
+      "subele_all": [
+        "GRADE[shield==D]===10"
       ]
     }
   },
@@ -177695,12 +177699,12 @@
     "script": {
       "pAtk": [
         "SUM[level==250]===8",
-        "EQUIP[Red Force Pendant-LT||Blue Mental Pendant-LT]===3",
+        "EQUIP_ID[490382||490383]===3",
         "GRADE[garment==D]===5"
       ],
       "sMatk": [
         "SUM[level==250]===8",
-        "EQUIP[Red Force Pendant-LT||Blue Mental Pendant-LT]===3",
+        "EQUIP_ID[490382||490383]===3",
         "GRADE[garment==D]===5"
       ],
       "melee": [
@@ -177714,64 +177718,64 @@
       ],
       "p_size_m": [
         "4---5",
-        "EQUIP[Red Force Pendant-LT||Blue Mental Pendant-LT]===15",
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==11]===15"
+        "EQUIP_ID[490382||490383]===15",
+        "EQUIP_ID[400465]REFINE[headUpper==11]===15"
       ],
       "p_size_l": [
         "4---5",
-        "EQUIP[Red Force Pendant-LT||Blue Mental Pendant-LT]===15",
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==11]===15"
+        "EQUIP_ID[490382||490383]===15",
+        "EQUIP_ID[400465]REFINE[headUpper==11]===15"
       ],
       "m_size_m": [
         "4---5",
-        "EQUIP[Red Force Pendant-LT||Blue Mental Pendant-LT]===15",
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==11]===15"
+        "EQUIP_ID[490382||490383]===15",
+        "EQUIP_ID[400465]REFINE[headUpper==11]===15"
       ],
       "m_size_l": [
         "4---5",
-        "EQUIP[Red Force Pendant-LT||Blue Mental Pendant-LT]===15",
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==11]===15"
+        "EQUIP_ID[490382||490383]===15",
+        "EQUIP_ID[400465]REFINE[headUpper==11]===15"
       ],
       "p_race_dragon": [
         "9===7",
         "11===7",
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==9]===15"
+        "EQUIP_ID[400465]REFINE[headUpper==9]===15"
       ],
       "p_race_angel": [
         "9===7",
         "11===7",
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==9]===15"
+        "EQUIP_ID[400465]REFINE[headUpper==9]===15"
       ],
       "m_race_dragon": [
         "9===7",
         "11===7",
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==9]===15"
+        "EQUIP_ID[400465]REFINE[headUpper==9]===15"
       ],
       "m_race_angel": [
         "9===7",
         "11===7",
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==9]===15"
+        "EQUIP_ID[400465]REFINE[headUpper==9]===15"
       ],
       "vct": [
-        "EQUIP[Drooping Thanatos's Dolor-LT]===10"
+        "EQUIP_ID[400465]===10"
       ],
       "atk": [
-        "EQUIP[Red Force Pendant-LT||Blue Mental Pendant-LT]===50"
+        "EQUIP_ID[490382||490383]===50"
       ],
       "matk": [
-        "EQUIP[Red Force Pendant-LT||Blue Mental Pendant-LT]===50"
+        "EQUIP_ID[490382||490383]===50"
       ],
       "p_element_holy": [
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==7]===20"
+        "EQUIP_ID[400465]REFINE[headUpper==7]===20"
       ],
       "p_element_dark": [
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==7]===20"
+        "EQUIP_ID[400465]REFINE[headUpper==7]===20"
       ],
       "m_element_holy": [
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==7]===20"
+        "EQUIP_ID[400465]REFINE[headUpper==7]===20"
       ],
       "m_element_dark": [
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==7]===20"
+        "EQUIP_ID[400465]REFINE[headUpper==7]===20"
       ],
       "pene_res_race_dragon": [
         "GRADE[garment==C]===5",
@@ -186299,9 +186303,12 @@
       "all"
     ],
     "script": {
+      "allStatus": [
+        "1"
+      ],
       "allTrait": [
         "1",
-        "EQUIP[Fur Seal Mini Fan-LT]===3"
+        "EQUIP_ID[490375]===3"
       ]
     }
   },
@@ -186326,6 +186333,9 @@
       "all"
     ],
     "script": {
+      "allStatus": [
+        "1"
+      ],
       "allTrait": [
         "1"
       ]
@@ -186428,7 +186438,7 @@
         "EQUIP_ID[400465]REFINE[headUpper==9]===3"
       ],
       "fct": [
-        "EQUIP_ID[400465]REFINE[headUpper==11]===0.2"
+        "EQUIP_ID[400465]REFINE[headUpper==10]===0.2"
       ],
       "hpDrain": [
         "EQUIP_ID[400465]REFINE[headUpper==7]===7"
@@ -186461,23 +186471,29 @@
     "script": {
       "atkPercent": [
         "8",
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==9]===5"
+        "EQUIP_ID[400465]REFINE[headUpper==9]===5"
       ],
       "matkPercent": [
         "8",
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==9]===5"
+        "EQUIP_ID[400465]REFINE[headUpper==9]===5"
       ],
       "acd": [
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==4]---2"
+        "EQUIP_ID[400465]REFINE[headUpper==4]---2"
       ],
       "pAtk": [
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==9]===3"
+        "EQUIP_ID[400465]REFINE[headUpper==9]===3"
       ],
       "sMatk": [
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==9]===3"
+        "EQUIP_ID[400465]REFINE[headUpper==9]===3"
       ],
       "fct": [
-        "EQUIP[Drooping Thanatos's Dolor-LT]REFINE[headUpper==11]===0.2"
+        "EQUIP_ID[400465]REFINE[headUpper==10]===0.2"
+      ],
+      "spDrain": [
+        "EQUIP_ID[400465]REFINE[headUpper==7]===4"
+      ],
+      "magicHealSp": [
+        "EQUIP_ID[400465]REFINE[headUpper==7]===100"
       ]
     }
   },
@@ -213624,7 +213640,7 @@
       ],
       "matkPercent": [
         "5",
-        "EQUIP[Hero Boots-LT]===10",
+        "EQUIP_ID[470094]===10",
         "GRADE[weapon==D]===3"
       ],
       "spl": [
@@ -213633,7 +213649,7 @@
       ],
       "sMatk": [
         "SUM[level==210]===1",
-        "EQUIP[Hero Boots-LT]===2",
+        "EQUIP_ID[470094]===2",
         "GRADE[weapon==C]===1",
         "GRADE[weapon==B]===2"
       ],
@@ -213643,7 +213659,7 @@
         "GRADE[weapon==C]===15"
       ],
       "2040": [
-        "3---5",
+        "3---3",
         "11===30"
       ],
       "vct": [

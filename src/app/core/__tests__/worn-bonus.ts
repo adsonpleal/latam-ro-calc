@@ -55,9 +55,11 @@ export interface Worn {
   accLeftCard?: number;
   garment?: number;
   garmentRefine?: number;
+  garmentGrade?: string;
   garmentCard?: number;
   shield?: number;
   shieldRefine?: number;
+  shieldGrade?: string;
   shieldCard?: number;
   /** Base attributes, for the cards gated on one ("FOR base 80 ou mais:"). */
   stats?: Partial<Record<'str' | 'agi' | 'vit' | 'int' | 'dex' | 'luk', number>>;
@@ -155,6 +157,7 @@ export function wornBonus(worn: Worn): Record<string, number> {
     items[worn.garment] = withSlot(worn.garment, 2, 515);
     model.garment = worn.garment;
     model.garmentRefine = worn.garmentRefine ?? 0;
+    if (worn.garmentGrade) model.garmentGrade = worn.garmentGrade;
   }
   if (worn.garmentCard) {
     items[worn.garmentCard] = withSlot(worn.garmentCard, 6, 0);
@@ -164,6 +167,7 @@ export function wornBonus(worn: Worn): Record<string, number> {
     items[worn.shield] = withSlot(worn.shield, 2, 514);
     model.shield = worn.shield;
     model.shieldRefine = worn.shieldRefine ?? 0;
+    if (worn.shieldGrade) model.shieldGrade = worn.shieldGrade;
   }
   if (worn.shieldCard) {
     items[worn.shieldCard] = withSlot(worn.shieldCard, 6, 0);

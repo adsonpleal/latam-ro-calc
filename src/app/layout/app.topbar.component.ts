@@ -157,6 +157,16 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.134-beta',
+      date: '17-09-2026',
+      logs: [
+        'Os equipamentos que só receberam descrição em português na atualização da 0.1.129-beta foram conferidos com o texto do jogo.',
+        'Tiara Venenosa-LT, Coroa Oriental-LT, Boina Listrada-LT, Cartola Mascarada-LT, Ignis-LT e Quepe Chaveiro-LT: a conjuração fixa -0,2 segundos e o dano contra os tamanhos Pequeno e Médio passaram a valer a partir do refino +11, e não do +10. No conjunto da Boina Listrada-LT com a AC-B44-OSAD, o bônus a cada 2 refinos da arma vai para o dano de [Disparo Triplo], e não mais para o dano físico à distância.',
+        'Pingente da Força Física-LT e Pingente da Força Mental-LT: no conjunto com a Marionete de Thanatos-LT, a conjuração fixa -0,2 segundos passou a valer a partir do refino +10 do elmo. O Pingente da Força Mental-LT passou a exibir a conversão de dano em SP e a regeneração de SP do conjunto.',
+        'Ventilador Portátil-LT e Ventilador Quebrado-LT ganharam o bônus de todos os atributos +1; Coelho Macabro-LT ganhou a resistência a todas as propriedades do Grau D; Clava Primordial-LT dá dano de [Adoramus] +3% a cada 3 refinos, e não +5%; Cetro Rubi deixou de aparecer para Noviços.',
+      ],
+    },
+    {
       v: '0.1.133-beta',
       date: '17-09-2026',
       logs: [
