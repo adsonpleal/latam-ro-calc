@@ -1094,13 +1094,13 @@ export class DamageCalculator {
 
     let pseudoElementAtk = undefined;
     if (isEDP) {
-      // EDP turns the weapon itself poison and adds its pseudo-element bonus on top, so the
-      // weapon ATK is multiplied by the poison line of the element table and by 1,25 — not
-      // only by the 25%. Against a Neutro target the table gives 100% and this is the +25%
-      // the engine always had; against Ynk's Quimera Lava (Fogo 3, poison 125%) it is the
-      // difference between simulating 7,9% low and 0,6% high. See
+      // Only the +25% bonus is poison; the rest of the weapon ATK keeps its own element
+      // ("the rest of the ATK will not have its element changed to poison", iROwiki).
+      // 0.1.136-beta briefly carried the whole weapon ATK through the poison line of the
+      // table, on a recording whose targets all shared the same 125% entry; the training
+      // dummies (150%, 100% and 75%) rejected it at once — see
       // ShadowCross.edp-element-replay.spec.ts.
-      pseudoElementAtk = this.getPurePropertyMultiplier(ElementType.Poison) * (1 + this.EDP_WEAPON_MULTIPLIER) - 1;
+      pseudoElementAtk = this.getPurePropertyMultiplier(ElementType.Poison) * this.EDP_WEAPON_MULTIPLIER;
     }
 
     const { magnumBreakPsedoBonus, magnumBreakClearEDP } = this.totalBonus;
@@ -1233,10 +1233,10 @@ export class DamageCalculator {
       : this.isEndowedWith(propertyAtk)
         ? this.getPurePropertyMultiplier(propertyAtk)
         : this.getPropertyMultiplier(ElementType.Neutral);
-    // Under EDP the status ATK stops taking the endow: the same recording that fixes the
-    // weapon side above has Envenenar Arma on in one of its EDP states and off in another,
-    // and the two only agree with each other when the status ATK is read as Neutro while EDP
-    // is up. Against a Neutro target this changes nothing either.
+    // Under EDP the status ATK stops taking the endow. Two recordings of the same character
+    // carry Envenenar Arma on in one EDP state and off in another, and the states only agree
+    // with each other when the status ATK is read as Neutro while EDP is up — on the Fogo Lv1
+    // dummy, endowing it puts ~2% between them. Against a Neutro target it changes nothing.
     const statusAtk = this.getStatusAtk() * 2 * (isEDP ? this.getPropertyMultiplier(ElementType.Neutral) : statusAtkMultiplier);
 
     const { totalMin: _weaMin, totalMax: weaMax, totalMaxOver: weaMaxOver, parts: weaponAtkParts } = this.getWeaponAtk({ sizePenalty, isEDP });

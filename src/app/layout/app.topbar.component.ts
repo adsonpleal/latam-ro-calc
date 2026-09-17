@@ -157,6 +157,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.137-beta',
+      date: '17-09-2026',
+      logs: [
+        'A mudança da 0.1.136-beta no [Encantar com Veneno Mortal] foi revertida: só o bônus de 25% da habilidade tem propriedade Veneno, e o resto do ATQ da arma mantém a propriedade que já tinha. A versão anterior levava o ATQ da arma inteiro para a tabela de propriedades, o que subia o dano contra alvos fracos ao Veneno e derrubava contra os resistentes. Um teste nos bonecos de treino de Fogo, Sagrado e Neutro mostrou que a diferença para o jogo é a mesma nos três, ou seja, não vem da propriedade. Gravação enviada por Ynk.',
+        'Continua valendo o outro ajuste da 0.1.136-beta: com [Encantar com Veneno Mortal] ativo, o ATQ de status não recebe o encanto de [Envenenar Arma]. A mesma gravação confirma, e mostra também que [Potencializar Veneno] no nível 5 vale o mesmo que atacar um alvo que recebe 150% de dano da propriedade Veneno.',
+      ],
+    },
+    {
       v: '0.1.136-beta',
       date: '17-09-2026',
       logs: [

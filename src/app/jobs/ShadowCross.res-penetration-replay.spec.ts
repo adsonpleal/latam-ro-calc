@@ -39,7 +39,7 @@ import { ShadowCross } from './ShadowCross';
  * **The party file only corroborates.** Its first cast still had Sinfonia dos Ventos, which
  * ended at 1.050 ms, so the pair differs by the song as well as by the penetration. rAthena
  * prices the song at 4 + 3×5 + Domínio Musical + nível de classe ÷ 5 = 39 ATQ at the maxima,
- * and the packets want ~44: the pair is consistent with the curve, but the song's exact value
+ * and the packets want 41: the pair is consistent with the curve, but the song's exact value
  * is not in the file and moves the ratio by ~500 ppm per point, so it cannot choose between
  * truncated and fractional RES.
  *
@@ -65,11 +65,12 @@ import { ShadowCross } from './ShadowCross';
  * moment each file was recorded; without that the fixtures would lose them on 12/10/2026.
  *
  * Which toxin Aplicar Toxina carried is not in the file either (EFST 341 is the same for all
- * of them). **Cogumelo Mágico** is the one that fits: with it and the EDP element fix (see
- * `ShadowCross.edp-element-replay.spec.ts`, from a later recording of the same character on
- * the same monster) the telum file lands 0,06% from the recording and the party file 0,9%.
- * Pirexia would put both about 3% over. The same choice was made for `gc-cross-impact-gear-
- * states.rrf` on its own evidence.
+ * of them). **Cogumelo Mágico** is the one that fits. Both casts here are EDP casts, and the
+ * dummy recording of the same character (`ShadowCross.edp-element-replay.spec.ts`) measures
+ * this build's EDP gap with no toxin at all: 8%. With Cogumelo these two land at 8,7% and
+ * 8,0%, i.e. the same gap and nothing else; Pirexia would put them at 5,4% and 4,5%, which
+ * would mean the toxin is worth ~3% less than modelled. The same choice was made for
+ * `gc-cross-impact-gear-states.rrf` on its own evidence.
  *
  * **Ruled out while chasing that gap.** EFST 131 is EDP's pseudo-poison weapon ATQ, already
  * in `getWeaponAtk`. The Casaco Pirata's pt-BR "Grau D: T.CRIT +3" reads like a script bug
@@ -271,11 +272,12 @@ describe('RES recordings — Argutus Telum alone vs Telum + Adulterar Veneno', (
     expect(Math.abs((both.crit / telum.crit / recorded - 1) * 1e6)).toBeLessThan(10);
   });
 
-  // Closed to 0,06% by the EDP element fix and Cogumelo Mágico; kept as an equality-ish pin
-  // so that either of those silently changing shows up here.
-  it('reproduces both packets to within 0,1%', () => {
-    expect(54565938 / telum.crit).toBeCloseTo(0.9994, 3);
-    expect(61460805 / both.crit).toBeCloseTo(0.9994, 3);
+  // The shared residual: both casts are EDP casts, and this build's EDP gap is ~8% wherever
+  // it is measured (see ShadowCross.edp-element-replay.spec.ts). It cancels from the ratio
+  // above, which is why that one is exact and this one is not.
+  it('pins the shared residual: recorded ≈ 1,087 × simulated on both casts', () => {
+    expect(54565938 / telum.crit).toBeCloseTo(1.087, 2);
+    expect(61460805 / both.crit).toBeCloseTo(1.087, 2);
   });
 });
 
@@ -290,17 +292,17 @@ describe('RES recordings — the party file corroborates, it does not decide', (
     expect(venom.restRes).toBe(329);
   });
 
-  it('with Sinfonia dos Ventos at 44 ATQ the pair closes to within 250 ppm', () => {
-    expect(Math.abs((venom.crit / noPenetration(44).crit / recorded - 1) * 1e6)).toBeLessThan(250);
+  it('with Sinfonia dos Ventos at 41 ATQ the pair closes to within 250 ppm', () => {
+    expect(Math.abs((venom.crit / noPenetration(41).crit / recorded - 1) * 1e6)).toBeLessThan(250);
   });
 
   it('without the song it does not: the first cast needs ~40 ATQ more than the second', () => {
     expect(venom.crit / noPenetration(0).crit / recorded).toBeGreaterThan(1.015);
   });
 
-  // 0,9% under the recording — the rest of this file's own unknowns (the song, and whatever
-  // else a 9-player party was doing), against 0,06% on the solo telum file.
-  it('reproduces the Veneno cast to within 1%', () => {
-    expect(35099351 / venom.crit).toBeCloseTo(0.991, 2);
+  // The same ~8% EDP gap as the telum file, within this file's own extra unknowns (the song,
+  // and whatever else a 9-player party was doing).
+  it('pins the shared residual: recorded ≈ 1,080 × simulated on the Veneno cast', () => {
+    expect(35099351 / venom.crit).toBeCloseTo(1.08, 2);
   });
 });
