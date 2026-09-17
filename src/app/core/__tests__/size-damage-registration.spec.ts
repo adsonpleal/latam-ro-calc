@@ -29,12 +29,18 @@ const SIZE_DAMAGE_LINE = /Dano (f[íi]sico e m[áa]gico|f[íi]sico|m[áa]gico) c
 
 /**
  * Items whose size damage sits under "[Durante o Evento]" and only exists while the event
- * runs — registering it would grant the bonus year-round. The two Carnival costumes
- * (19873, 19874) have nothing else, so their script is empty; the two Baby Shark collab
- * cards (300834, 300835) keep their always-on per-level ATQ/ATQM/DEF/DEFM block, and the
- * Baby Shark head costume (401367) has nothing outside its event block either.
+ * runs — registering it unconditionally would grant the bonus year-round. The two Carnival
+ * costumes (19873, 19874) belong to an event whose end date was never recorded, so their
+ * script is empty.
  */
-const EVENT_ONLY = [19873, 19874, 300834, 300835, 401367];
+const EVENT_ONLY = [19873, 19874];
+
+/**
+ * Event items whose end date is known: the size damage is registered, but only behind an
+ * `UNTIL[...]` gate (baby-shark-event-bonus.spec.ts). The Baby Shark collaboration runs
+ * through 11/10/2026 — the two cards (300834, 300835) and the head costume (401367).
+ */
+const EVENT_GATED = [300834, 300835, 401367];
 
 /** Any gate may prefix the key (`chance__`, …), so match on the infix, not the start. */
 const declares = (script: any, channel: 'p' | 'm'): boolean =>
@@ -71,6 +77,17 @@ describe('guard: every description granting size damage has p_size_*/m_size_* in
     for (const id of EVENT_ONLY) {
       expect(plain(latam[id].description)).toContain('[Durante o Evento]');
       expect(declares(items[id].script, 'p') || declares(items[id].script, 'm'), `${id}`).toBe(false);
+    }
+  });
+
+  it('registers the dated event items only behind an UNTIL gate', () => {
+    for (const id of EVENT_GATED) {
+      expect(plain(latam[id].description)).toContain('[Durante o Evento]');
+      const sizeLines = Object.entries(items[id].script)
+        .filter(([key]) => key.includes('p_size_') || key.includes('m_size_'))
+        .flatMap(([, lines]) => lines as string[]);
+      expect(sizeLines.length, `${id}`).toBeGreaterThan(0);
+      for (const line of sizeLines) expect(line, `${id}`).toMatch(/^UNTIL\[\d{4}-\d{2}-\d{2}]/);
     }
   });
 });

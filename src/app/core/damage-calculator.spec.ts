@@ -34,10 +34,10 @@ const monsterModel = (id: number): MonsterModel =>
 // through (physical/magical skills + basic/crit autoattacks), so testing it in
 // isolation pins the red-aura 99.9% reduction without standing up the whole
 // damage pipeline.
-const reduceWith = (id: number, damage: number, relieveLevel = 0) => {
+const reduceWith = (id: number, damage: number, relieveLevel = 0, hits = 1) => {
   const dc = new DamageCalculator();
   (dc as any).monster = new Monster().setData(monsterModel(id), relieveLevel);
-  return (dc as any).applyAuraReduction(damage) as number;
+  return (dc as any).applyAuraReduction(damage, hits) as number;
 };
 
 describe('DamageCalculator red-aura reduction', () => {
@@ -107,6 +107,20 @@ describe('DamageCalculator Aliviar reduction', () => {
   it('ignores a level set on a monster that does not cast it', () => {
     expect(reduceWith(1002, 1_000_000, 10)).toBe(1_000_000); // Poring
     expect(reduceWith(3505, 1_000_000, 10)).toBe(1_000_000); // Gemaring, an MVP
+  });
+
+  /*
+   * The server reduces each hit, not the packet. Ynk's Betelgeuse run (10/09/2026) printed
+   * Lâminas Retalhadoras — 7 hits shown, one damage figure — at 295.792 under Nv9 and 29.575
+   * under Nv10, both multiples of 7. A hit worth 422.560-422.569 before the reduction gives
+   * exactly that; reducing the whole 7-hit packet gives 29.579 at Nv10, 4 too many.
+   */
+  it('reduces each displayed hit and floors there, as the Betelgeuse packets show', () => {
+    const BETELGEUSE = 20994;
+    const packet = 422_565 * 7;
+    expect(reduceWith(BETELGEUSE, packet, 9, 7)).toBe(295_792);
+    expect(reduceWith(BETELGEUSE, packet, 10, 7)).toBe(29_575);
+    expect(reduceWith(BETELGEUSE, packet, 10, 1)).toBe(29_579); // the old whole-packet reading
   });
 
   it('floors, and multiplies with the red aura rather than replacing it', () => {

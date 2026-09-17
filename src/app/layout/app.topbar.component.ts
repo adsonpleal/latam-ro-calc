@@ -157,6 +157,16 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.135-beta',
+      date: '17-09-2026',
+      logs: [
+        'A Tenacidade que sobra depois da penetração de [Argutus Telum] e [Adulterar Veneno] passou a ser truncada antes de entrar na fórmula, como o servidor faz, e a penetração continua limitada a 50%. Conferido com duas gravações na Quimera Lava em que a única diferença entre os ataques é a penetração. Gravações enviadas por Ynk.',
+        'A redução de [Aliviar], da aura vermelha e dos mapas com dano reduzido passou a ser aplicada em cada golpe exibido da habilidade, e não no total do pacote. A diferença aparece nos níveis altos de [Aliviar]: no nível 10 o dano de uma habilidade de 7 golpes agora fecha com o do jogo. Gravação do Betelgeuse enviada por Ynk.',
+        'Os bônus marcados "[Durante o Evento]" do evento Baby Shark entraram no cálculo enquanto o evento durar, até 11/10: o visual Cabeça do Baby Shark (ATQ e ATQM +50, CRIT +10, conjuração variável -10% e dano físico e mágico contra todos os tamanhos +10%) e as cartas Baby Shark e Família Tubarão (dano físico e mágico contra todos os tamanhos e contra todas as raças +10%). Depois do fim do evento eles deixam de contar sozinhos. Os bônus de EXP e de taxa de DROP continuam de fora.',
+        'Bolsa do Baby Shark: o HP máx. a cada nível de base é +20, e não +2, e a chance de converter dano físico causado do refino +7 recupera SP, e não HP. Reportado por Ynk.',
+      ],
+    },
+    {
       v: '0.1.134-beta',
       date: '17-09-2026',
       logs: [

@@ -26,11 +26,12 @@ import { DamageCalculator } from './damage-calculator';
  *    and the highest RES in monster.json today is 600 (Lava Golem of Fire, 21559), so
  *    adding it changed nothing for any target the calculator can currently pick.
  *
- * Neither has ever been checked against a replay: every fixture in
- * `src/app/replay/__tests__/fixtures/` targets a training dummy with res = mres = 0. The
- * Betelgeuse recording on tracker card `qpFtVdQx1bxY4PTJ3pVS` is the first against a
- * high-RES target, and it cannot settle it — a full party's buffs, six damage-taken
- * debuffs on the boss and an unknown Aliviar level leave three unknowns for one equation.
+ * The physical side has since been checked against replays: Ynk's two Quimera Lava recordings
+ * (17/09/2026, `ShadowCross.res-penetration-replay.spec.ts`) confirm the curve, the 50% clamp
+ * on Penetrar TEN, and that the RES left after penetration is truncated to an integer —
+ * which the engine did not do. RESM still has no recording. The Betelgeuse recordings cannot
+ * settle any of it: a full party's buffs, damage-taken debuffs on the boss and an unknown
+ * Aliviar level leave too many unknowns, and the penetration never changes within a pull.
  */
 
 /** bROWiki's sentence, transcribed: the fraction of damage that survives RES/RESM. */
@@ -112,5 +113,15 @@ describe('Penetrar Res lowers the RES that reaches the formula', () => {
 
   it('penetration is clamped at 50%, so 80% still only halves the RES', () => {
     expect(physicalMultiplier(500, { pene_res: 80 })).toBeCloseTo(browikiMultiplier(250), 10);
+  });
+
+  // Measured on Quimera Lava (RES 471) — see ShadowCross.res-penetration-replay.spec.ts.
+  it('the RES left over is truncated: 471 under 25% is 353, not 353,25', () => {
+    expect(physicalMultiplier(471, { pene_res: 25 })).toBeCloseTo(browikiMultiplier(353), 10);
+    expect(physicalMultiplier(471, { pene_res: 50 })).toBeCloseTo(browikiMultiplier(235), 10);
+  });
+
+  it('a product that is whole in decimal stays whole: 500 under 30% is 350, not 349', () => {
+    expect(physicalMultiplier(500, { pene_res: 30 })).toBeCloseTo(browikiMultiplier(350), 10);
   });
 });

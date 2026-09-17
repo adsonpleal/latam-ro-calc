@@ -16,6 +16,38 @@ describe('Aliviar (NPC_RELIEVE_ON, 771)', () => {
     expect(MAX_RELIEVE_LEVEL).toBe(10);
   });
 
+  /*
+   * Checked against a recording: Ynk's 23-minute Betelgeuse run in 3@ch_t (10/09/2026, not
+   * committed — 8 MB). The level is in the file: every time it changes, the boss recasts
+   * NPC_RELIEVE_ON (skill 771) with the new level, starting at Nv2 for the "Defesa 2" random
+   * option and moving one level per Alma de Betelgeuse alive — up as the traps summon them,
+   * down as they die. Most souls are summoned and killed out of the recorder's view (88 seen
+   * for 261 recasts), so counting visible souls undercounts; read the 771 level instead.
+   *
+   * These are consecutive Lâminas Retalhadoras packets whose only difference is that level.
+   * Of the 100 level changes between consecutive packets, 65 match the table to within
+   * ~15 ppm; the other 35 coincide with Lex Aeterna, a Profanação stack or a buff ending.
+   * Nv10 lands 4 damage under the ratio (29.575 against 29.579) because the server reduces
+   * each of the 7 hits and floors there — pinned exactly in damage-calculator.spec.ts.
+   */
+  it('matches the damage steps recorded on Betelgeuse as the level moves', () => {
+    const steps: [number, number, number, number][] = [
+      // [level before, damage before, level after, damage after]
+      [2, 4830364, 3, 4226565],
+      [4, 291837, 5, 243194],
+      [5, 1326381, 6, 1061102],
+      [6, 3311777, 7, 2483831],
+      [7, 2483831, 8, 1655885],
+      [9, 559783, 8, 1119573],
+      [9, 295792, 10, 29575],
+    ];
+    for (const [fromLv, from, toLv, to] of steps) {
+      const predicted = relieveMultiplier(toLv) / relieveMultiplier(fromLv);
+      const tolerance = toLv === 10 ? 2e-4 : 5e-5;
+      expect(Math.abs(to / from / predicted - 1), `Nv${fromLv} -> Nv${toLv}`).toBeLessThan(tolerance);
+    }
+  });
+
   it('turns the reduction into a damage multiplier', () => {
     expect(relieveMultiplier(0)).toBe(1);
     expect(relieveMultiplier(5)).toBeCloseTo(0.5, 10);

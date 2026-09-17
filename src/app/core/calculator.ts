@@ -28,6 +28,7 @@ import { MainModel } from 'src/app/models/main.model';
 import { MonsterModel } from 'src/app/models/monster.model';
 import { StatusSummary } from 'src/app/models/status-summary.model';
 import { DamageCalculator } from './damage-calculator';
+import { isEventRunning, readUntilCondition } from './event-window';
 import { HpSpCalculator } from './hp-sp-calculator';
 
 // const getItem = (id: number) => items[id] as ItemModel;
@@ -345,6 +346,16 @@ export class Calculator {
 
   setMasterItems(items: any) {
     this.items = items;
+
+    return this;
+  }
+
+  /** What `UNTIL[...]` event bonuses are judged against; the real time unless a spec pins it. */
+  private now: () => Date = () => new Date();
+
+  /** Pins the clock, so a recording made during an event keeps its event bonuses after it ends. */
+  setClock(now: () => Date) {
+    this.now = now;
 
     return this;
   }
@@ -844,6 +855,16 @@ export class Calculator {
       const isPass = this.model[status] >= Number(statusCondition);
 
       return { isValid: isPass, restCondition: raw };
+    }
+
+    // UNTIL[2026-10-12]===50 — a "[Durante o Evento]" bonus, paid through that São Paulo day.
+    const until = readUntilCondition(restCondition);
+    if (until) {
+      const isValid = isEventRunning(until.lastDay, this.now());
+      if (!isValid) return { isValid, restCondition };
+
+      restCondition = restCondition.replace(until.clause, '');
+      if (restCondition.startsWith('===')) return { isValid, restCondition: restCondition.replace('===', '') };
     }
 
     // WEAPON_LEVEL

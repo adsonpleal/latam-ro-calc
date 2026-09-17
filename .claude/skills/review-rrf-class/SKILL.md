@@ -389,6 +389,11 @@ divergence to the chain rather than to a missing item bonus.
   minutes, because it is what lets you *close* the "is there a hidden buff?" question
   instead of leaving it open. One more worth knowing by heart: **46 is `EFST_POSTDELAY`**,
   cast delay, which toggles on almost every skill packet and is not a buff.
+- **Aliviar on an instance MVP is recorded exactly.** Every level change is a `skillUses`
+  entry *from the boss*: skill **771** (NPC_RELIEVE_ON) with `skillLevel` = the new level,
+  preceded by 772. On Betelgeuse it starts at the boss's "Defesa N" random option and moves
+  one level per Alma alive, but most souls live and die out of the recorder's view — so read
+  the 771 level at each packet instead of counting souls. See `monster-relieve.spec.ts`.
 - **Stacking counters** (Pontos de Foco / aiming count) tick on their own EFST every 500 ms,
   and the reset arrives on the **same millisecond** as the damage. Count the ticks between
   one damage packet and the next — and remember the recording usually **starts with the

@@ -330,6 +330,7 @@ Portões avaliados antes do valor. Podem ser **encadeados** numa mesma entrada
 | `POS[slot]` | Este item está no slot indicado. | — |
 | `SPAWN[mapa1\|\|mapa2]` | O monstro-alvo aparece em algum dos mapas. | — |
 | `USED[Classe\|\|...]` | A classe atual é uma das listadas. | — |
+| `UNTIL[aaaa-mm-dd]` | Bônus "[Durante o Evento]": vale até esse dia (inclusive, horário de Brasília). Use o último dia inteiro — um evento que termina "antes da manutenção" do dia X vale até X−1. | — |
 | **`EQUIP_ID[id]`** | **Item `id` também equipado (combo).** | **Use esta** |
 | `EQUIP[Nome]` | Item por **nome** equipado (combo). | ⚠️ Legado → `EQUIP_ID` |
 | `POS_SPECIFIC[slot==Nome]` | Item específico (por **nome**) num slot. | por nome¹ |

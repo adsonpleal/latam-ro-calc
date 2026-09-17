@@ -49,8 +49,32 @@ interface DamageResultModel {
  * starts to bind at RES 667 (0,8r/(400+r) = 0,5 → r = 666,67). No record in monster.json
  * comes near that today — the highest is 600 — so the clamp is a guard for a future one,
  * not a change to any current target. See `res-mres-reduction.spec.ts`.
+ *
+ * On the physical side the RES that reaches this formula is an **integer**: whatever
+ * Penetrar TEN leaves is truncated first (see {@link remainingResAfterPenetration}).
  */
 const RES_MAX_REDUCTION = 0.5;
+
+/**
+ * The target's RES after Penetrar TEN, truncated to an integer before it reaches the
+ * reduction — RES 471 under 25% penetration is 353, not 353,25.
+ *
+ * Measured, not assumed: Ynk's `Teste RES.rrf` (17/09/2026) fires two Lâminas Retalhadoras
+ * criticals at Quimera Lava (RES 471), one under Argutus Telum alone (25%) and one with
+ * Adulterar Veneno Nv10 on top (30% more, clamped at 50%). Everything on the attacker's side
+ * cancels out of the ratio between the two packets, which is 1,1263584. Truncated RES gives
+ * 1,1263590; the fractional RES gives 1,1259787, 340 ppm away; and an unclamped 55% gives
+ * 1,157. Scanning RES 300-700 with truncation, 471 is the best fit, so the monster record
+ * is confirmed along the way. rAthena spells it the same way
+ * (`res = static_cast<int16>(res - ignore_res * res / 100.0)`); the arithmetic mirrors that
+ * so a product like 500 × 0,7 cannot land on 349,999… and lose a point.
+ *
+ * RESM goes through the same expression in rAthena, but no recording has hit a RESM target
+ * with Penetrar TENM yet, so the magical side is left fractional until one does.
+ */
+function remainingResAfterPenetration(res: number, penetrationPercent: number): number {
+  return Math.floor(res - (penetrationPercent * res) / 100);
+}
 
 function resReductionMultiplier(restRes: number): number {
   return 1 - Math.min(RES_MAX_REDUCTION, (0.8 * restRes) / (restRes + 400));
@@ -375,9 +399,17 @@ export class DamageCalculator {
     return this.targetReduction.label;
   }
 
-  private applyAuraReduction(n: number) {
+  /**
+   * `hits` is the skill's displayed hit count (`hit`). The server reduces **each hit** and
+   * floors it there, so a 7-hit packet is 7 × floor(hit × multiplier), not
+   * floor(packet × multiplier). Measured on Betelgeuse (Ynk, 10/09/2026): Lâminas
+   * Retalhadoras at Aliviar Nv9 printed 295.792 and at Nv10 29.575, both multiples of 7;
+   * reducing the whole packet gives 29.579 at Nv10. See monster-relieve.spec.ts.
+   */
+  private applyAuraReduction(n: number, hits = 1) {
     const { multiplier } = this.targetReduction;
     if (multiplier === 1) return n;
+    if (hits > 1) return floor(floor(n / hits) * multiplier) * hits;
 
     return floor(n * multiplier);
   }
@@ -721,7 +753,7 @@ export class DamageCalculator {
 
     const { monster_res } = this.totalBonus;
     const { effected_pene_res } = this.getPeneResMres();
-    const restRes = Math.max(res + monster_res, 0) * ((100 - effected_pene_res) / 100);
+    const restRes = remainingResAfterPenetration(Math.max(res + monster_res, 0), effected_pene_res);
     const resReduction = resReductionMultiplier(restRes);
 
     return { reducedHardDef, dmgReductionByHardDef, finalDmgReduction, finalSoftDef, resReduction, restRes };
@@ -1681,6 +1713,7 @@ export class DamageCalculator {
         finalDamage: rawMaxDamage,
         skill: skillData,
       }),
+      skillData?.hit,
     );
     appendPostSteps(maxTrace, maxGraph, rawMaxDamage, maxDamage);
 
@@ -1695,6 +1728,7 @@ export class DamageCalculator {
         finalDamage: rawMinDamage + extraDmgCri,
         skill: skillData,
       }),
+      skillData?.hit,
     );
     appendPostSteps(minTrace, minGraph, rawMinDamage + extraDmgCri, minDamage);
 
@@ -2105,6 +2139,7 @@ export class DamageCalculator {
         finalDamage: rawMaxDamage,
         skill: skillData,
       }),
+      skillData?.hit,
     );
     appendPostSteps(maxTrace, maxGraph, rawMaxDamage, maxDamage);
 
@@ -2115,6 +2150,7 @@ export class DamageCalculator {
         finalDamage: rawMinDamage,
         skill: skillData,
       }),
+      skillData?.hit,
     );
     appendPostSteps(minTrace, minGraph, rawMinDamage, minDamage);
 
