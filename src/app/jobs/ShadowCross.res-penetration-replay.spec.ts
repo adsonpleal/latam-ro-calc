@@ -39,9 +39,9 @@ import { ShadowCross } from './ShadowCross';
  * **The party file only corroborates.** Its first cast still had Sinfonia dos Ventos, which
  * ended at 1.050 ms, so the pair differs by the song as well as by the penetration. rAthena
  * prices the song at 4 + 3×5 + Domínio Musical + nível de classe ÷ 5 = 39 ATQ at the maxima,
- * and the packets want 40-41: the pair is consistent with the curve, but the song's exact
- * value is not in the file and moves the ratio by ~500 ppm per point, so it cannot choose
- * between truncated and fractional RES.
+ * and the packets want ~44: the pair is consistent with the curve, but the song's exact value
+ * is not in the file and moves the ratio by ~500 ppm per point, so it cannot choose between
+ * truncated and fractional RES.
  *
  * **The build.** Gear comes from the importer; the talents from the party file's
  * ZC_COUPLESTATUS (the telum file, one map, carries none — same values, same night). The
@@ -64,9 +64,12 @@ import { ShadowCross } from './ShadowCross';
  * event's dates (baby-shark-event-bonus.spec.ts), so the calculator's clock is pinned to the
  * moment each file was recorded; without that the fixtures would lose them on 12/10/2026.
  *
- * Which toxin Aplicar Toxina carried is not in the file either (EFST 341 is the same for
- * all of them). Pirexia leaves 2,5-3,8% of damage unexplained; Cogumelo Mágico leaves more.
- * Pirexia is used, and the gap is pinned below as open.
+ * Which toxin Aplicar Toxina carried is not in the file either (EFST 341 is the same for all
+ * of them). **Cogumelo Mágico** is the one that fits: with it and the EDP element fix (see
+ * `ShadowCross.edp-element-replay.spec.ts`, from a later recording of the same character on
+ * the same monster) the telum file lands 0,06% from the recording and the party file 0,9%.
+ * Pirexia would put both about 3% over. The same choice was made for `gc-cross-impact-gear-
+ * states.rrf` on its own evidence.
  *
  * **Ruled out while chasing that gap.** EFST 131 is EDP's pseudo-poison weapon ATQ, already
  * in `getWeaponAtk`. The Casaco Pirata's pt-BR "Grau D: T.CRIT +3" reads like a script bug
@@ -131,8 +134,8 @@ function simulate(state: State) {
     const sid = SKILL_ID_BY_NAME[p.name];
     return sid ? learned[sid] ?? 0 : 0;
   });
-  // Aplicar Toxina value 1 is Pirexia.
-  const actives = { 'Enchant Deadly Poison': 1, 'Poisonous Weapon': 1, ...state.actives };
+  // Aplicar Toxina value 2 is Cogumelo Mágico — see the header.
+  const actives = { 'Enchant Deadly Poison': 1, 'Poisonous Weapon': 2, ...state.actives };
   const activeIds = cls.activeSkills.map((a: any) => actives[a.name] ?? 0);
   const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = cls
     .setLearnSkills({ activeSkillIds: activeIds, passiveSkillIds: passiveIds })
@@ -268,11 +271,11 @@ describe('RES recordings — Argutus Telum alone vs Telum + Adulterar Veneno', (
     expect(Math.abs((both.crit / telum.crit / recorded - 1) * 1e6)).toBeLessThan(10);
   });
 
-  // Open: both packets sit the same 3,8% above the engine — the same figure, which is
-  // why the ratio above is exact. Not the RES stage (it cancels, and the curve is pinned).
-  it('pins the shared residual: recorded ≈ 1,038 × simulated on both casts', () => {
-    expect(54565938 / telum.crit).toBeCloseTo(1.038, 3);
-    expect(61460805 / both.crit).toBeCloseTo(1.038, 3);
+  // Closed to 0,06% by the EDP element fix and Cogumelo Mágico; kept as an equality-ish pin
+  // so that either of those silently changing shows up here.
+  it('reproduces both packets to within 0,1%', () => {
+    expect(54565938 / telum.crit).toBeCloseTo(0.9994, 3);
+    expect(61460805 / both.crit).toBeCloseTo(0.9994, 3);
   });
 });
 
@@ -287,18 +290,17 @@ describe('RES recordings — the party file corroborates, it does not decide', (
     expect(venom.restRes).toBe(329);
   });
 
-  it('with Sinfonia dos Ventos at 41 ATQ the pair closes to within 250 ppm', () => {
-    expect(Math.abs((venom.crit / noPenetration(41).crit / recorded - 1) * 1e6)).toBeLessThan(250);
+  it('with Sinfonia dos Ventos at 44 ATQ the pair closes to within 250 ppm', () => {
+    expect(Math.abs((venom.crit / noPenetration(44).crit / recorded - 1) * 1e6)).toBeLessThan(250);
   });
 
   it('without the song it does not: the first cast needs ~40 ATQ more than the second', () => {
     expect(venom.crit / noPenetration(0).crit / recorded).toBeGreaterThan(1.015);
   });
 
-  // Open, as in the telum file: 2,5% above the engine here, against 3,8% there. The telum
-  // file wears Casaco Pirata + Carta Baby Shark where this one wears the Bolsa do Baby Shark,
-  // and has Impositio Manus on; the 1,3 points between the two files are not located yet.
-  it('pins the shared residual: recorded ≈ 1,025 × simulated on the Veneno cast', () => {
-    expect(35099351 / venom.crit).toBeCloseTo(1.025, 3);
+  // 0,9% under the recording — the rest of this file's own unknowns (the song, and whatever
+  // else a 9-player party was doing), against 0,06% on the solo telum file.
+  it('reproduces the Veneno cast to within 1%', () => {
+    expect(35099351 / venom.crit).toBeCloseTo(0.991, 2);
   });
 });

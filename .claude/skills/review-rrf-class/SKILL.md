@@ -75,6 +75,25 @@ duration and packet count — enough to confirm it's the right recording before 
 on it. The doc's summary fields (`damageEvents`, `totalDamage`, `avgDps`) also make a cheap
 sanity check against what the person said they were testing.
 
+### The RagnaRecap database is also a source — of leads
+
+Nobody has to send anything: the same Firestore holds **every** recording ever uploaded
+(991 on 17/09/2026), and reads are public. `scan-recaps.mjs` walks the whole collection and
+keeps the ones belonging to the classes you name, with a summary of each:
+
+```
+node .claude/skills/review-rrf-class/scan-recaps.mjs --job 4254,4065 --out .scratch/recap --skill 2022
+```
+
+**The class is not in the document fields** — the summary carries only player/map/duration/
+damage — so finding out whose each recording is means downloading the `bytes` and decoding
+it. That is ~170 MB and a few minutes for the whole collection; the id list is cached in
+`--index` so a second run only re-downloads the files. Class ids are the `.rrf`'s own
+`sessionInfo.job` (4065 Sicário, 4254 Executor…); read one off a known fixture if unsure.
+The summary it writes per file — talents, buff count, whether a status window exists, equip
+changes, packets and the targets with their **elements** — is what you filter on, so a
+question like "EDP against a non-Neutro target" is one pass over `_achados.json`.
+
 ## 2. Decode
 
 Copy `templates/dump.spec.ts` to `src/app/replay/__tests__/_tmp-dump.spec.ts` (that path is

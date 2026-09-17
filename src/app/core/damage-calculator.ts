@@ -1094,8 +1094,13 @@ export class DamageCalculator {
 
     let pseudoElementAtk = undefined;
     if (isEDP) {
-      const pseudoPoison = this.getPurePropertyMultiplier(ElementType.Poison) * this.EDP_WEAPON_MULTIPLIER;
-      pseudoElementAtk = pseudoPoison;
+      // EDP turns the weapon itself poison and adds its pseudo-element bonus on top, so the
+      // weapon ATK is multiplied by the poison line of the element table and by 1,25 — not
+      // only by the 25%. Against a Neutro target the table gives 100% and this is the +25%
+      // the engine always had; against Ynk's Quimera Lava (Fogo 3, poison 125%) it is the
+      // difference between simulating 7,9% low and 0,6% high. See
+      // ShadowCross.edp-element-replay.spec.ts.
+      pseudoElementAtk = this.getPurePropertyMultiplier(ElementType.Poison) * (1 + this.EDP_WEAPON_MULTIPLIER) - 1;
     }
 
     const { magnumBreakPsedoBonus, magnumBreakClearEDP } = this.totalBonus;
@@ -1228,7 +1233,11 @@ export class DamageCalculator {
       : this.isEndowedWith(propertyAtk)
         ? this.getPurePropertyMultiplier(propertyAtk)
         : this.getPropertyMultiplier(ElementType.Neutral);
-    const statusAtk = this.getStatusAtk() * 2 * statusAtkMultiplier;
+    // Under EDP the status ATK stops taking the endow: the same recording that fixes the
+    // weapon side above has Envenenar Arma on in one of its EDP states and off in another,
+    // and the two only agree with each other when the status ATK is read as Neutro while EDP
+    // is up. Against a Neutro target this changes nothing either.
+    const statusAtk = this.getStatusAtk() * 2 * (isEDP ? this.getPropertyMultiplier(ElementType.Neutral) : statusAtkMultiplier);
 
     const { totalMin: _weaMin, totalMax: weaMax, totalMaxOver: weaMaxOver, parts: weaponAtkParts } = this.getWeaponAtk({ sizePenalty, isEDP });
     const weaMin = this.isMaximizeWeapon ? weaMax : _weaMin;

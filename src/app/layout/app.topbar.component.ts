@@ -157,6 +157,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.136-beta',
+      date: '17-09-2026',
+      logs: [
+        'Com [Encantar com Veneno Mortal] ativo, o ATQ da arma passou a receber a propriedade Veneno por inteiro — o multiplicador da tabela de propriedades contra o alvo — e o bônus de 25% da habilidade entra por cima dele, em vez de ser o único a contar. Contra alvos Neutros nada muda, porque a tabela dá 100% ali; contra alvos de outra propriedade a diferença chega a 8%. Gravação na Quimera Lava enviada por Ynk.',
+        'Com [Encantar com Veneno Mortal] ativo, o ATQ de status deixou de receber o encanto de [Envenenar Arma]. A mesma gravação tem um disparo com o encanto ligado e outro com ele desligado, e os dois só fecham entre si dessa forma.',
+      ],
+    },
+    {
       v: '0.1.135-beta',
       date: '17-09-2026',
       logs: [
