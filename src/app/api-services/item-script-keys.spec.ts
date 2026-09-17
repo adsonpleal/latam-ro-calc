@@ -120,7 +120,7 @@ describe('item.json: combo conditions', () => {
    * guarded by cordao-lt-combo-migration.spec.ts. Before that, the 14 records (59 clauses)
    * of the Dragon Knight audit, guarded by equipment-set-combo-migration.spec.ts.
    */
-  const RECORDS_ON_LEGACY_EQUIP = 1493;
+  const RECORDS_ON_LEGACY_EQUIP = 1458;
   const usesLegacyEquip = (item: any) => /EQUIP\[/.test(JSON.stringify(item.script ?? {}));
 
   it('does not grow the number of records matching a combo partner by name', () => {

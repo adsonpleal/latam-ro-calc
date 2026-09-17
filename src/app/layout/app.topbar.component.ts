@@ -157,6 +157,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.133-beta',
+      date: '17-09-2026',
+      logs: [
+        'Orelhinhas da Wickebine-LT passou a ter os bônus de Grau, que não mudavam nada, além dos bônus básicos (Esquiva +20, dano crítico +15%, dano mágico de todas as propriedades +15%), do adicional de refino +7 no dano mágico e dos efeitos [Felina Sortuda] e [Felina Mística]. Reportado por Incarcerous.',
+        'Os Elmos Reformáveis da Equipe Licht foram conferidos com a descrição do jogo: Chapéu de Dourado-LT e Chapéu de Imp-LT ganharam os efeitos [Santa Rainha] e [Rainha das Chamas]; Chapéu de Eddga-LT passou a contar o dano contra a raça Doram; Boneca da Lady Branca-LT dá S.ATQM +2 no Grau B, e não +3; Marionete de Thanatos-LT ganhou a resistência às raças Dragão e Anjo do Grau A; Chapéu de Oficial-LT passou a exibir a conversão de dano em HP e SP do refino +9.',
+      ],
+    },
+    {
       v: '0.1.132-beta',
       date: '16-09-2026',
       logs: [

@@ -147033,10 +147033,10 @@
         "11===20"
       ],
       "m_element_all": [
-        "EQUIP[Survivor's Orb-LT]===10"
+        "EQUIP_ID[420066]===10"
       ],
       "acd": [
-        "EQUIP[Survivor's Orb-LT]11===12",
+        "EQUIP_ID[420066]11===12",
         "GRADE[me==D]===5"
       ],
       "fct": [
@@ -149231,6 +149231,9 @@
       "p_race_brute": [
         "10"
       ],
+      "p_race_player_doram": [
+        "10"
+      ],
       "melee": [
         "7===15",
         "11===10"
@@ -149316,7 +149319,7 @@
         "10===20"
       ],
       "sMatk": [
-        "GRADE[me==B]===3",
+        "GRADE[me==B]===2",
         "GRADE[me==A]===7"
       ],
       "wis": [
@@ -151738,6 +151741,12 @@
       "vct": [
         "11===10"
       ],
+      "hpDrain": [
+        "9===5"
+      ],
+      "spDrain": [
+        "9===3"
+      ],
       "melee": [
         "GRADE[me==D]===5"
       ],
@@ -151844,6 +151853,12 @@
       ],
       "m_size_all": [
         "GRADE[headUpper==B]===10"
+      ],
+      "subrace_dragon": [
+        "GRADE[headUpper==A]===5"
+      ],
+      "subrace_angel": [
+        "GRADE[headUpper==A]===5"
       ]
     }
   },
@@ -339407,8 +339422,22 @@
       "all"
     ],
     "script": {
+      "flee": [
+        "20"
+      ],
       "criDmg": [
+        "15",
         "7===10"
+      ],
+      "m_my_element_all": [
+        "15",
+        "7===10"
+      ],
+      "chance__cri": [
+        "30"
+      ],
+      "chance__m_pene_race_all": [
+        "100"
       ],
       "atkPercent": [
         "9===5"
@@ -339417,7 +339446,19 @@
         "9===5"
       ],
       "acd": [
-        "11===5"
+        "11===5",
+        "GRADE[me==D]11===5"
+      ],
+      "pAtk": [
+        "SUM[level==210]===2",
+        "GRADE[me==C]===2"
+      ],
+      "sMatk": [
+        "SUM[level==210]===2",
+        "GRADE[me==C]===2"
+      ],
+      "fct": [
+        "GRADE[me==B]12===0.5"
       ]
     }
   },
@@ -339457,6 +339498,9 @@
       "m_my_element_holy": [
         "7===10",
         "GRADE[me==D]===5"
+      ],
+      "chance__m_my_element_holy": [
+        "20"
       ],
       "atkPercent": [
         "9===5"
@@ -339511,6 +339555,9 @@
       "m_my_element_fire": [
         "7===10",
         "GRADE[me==D]===5"
+      ],
+      "chance__m_my_element_fire": [
+        "20"
       ],
       "atkPercent": [
         "9===5"
