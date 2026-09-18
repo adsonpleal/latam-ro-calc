@@ -165830,13 +165830,13 @@
       ],
       "pAtk": [
         "4---1",
-        "EQUIP[Infinite Phreeoni Card]===10",
+        "EQUIP_ID[4649]===10",
         "GRADE[armor==A]===7"
       ],
       "range": [
         "7===10",
         "11===15",
-        "EQUIP[Phreeoni Card]===3"
+        "EQUIP_ID[4121]2---3"
       ],
       "perfectHit": [
         "9===15"
@@ -165845,13 +165845,13 @@
         "11===15"
       ],
       "p_class_boss": [
-        "EQUIP[Phreeoni Card]===8"
+        "EQUIP_ID[4121]3---8"
       ],
       "cRate": [
-        "EQUIP[Infinite Phreeoni Card]===5"
+        "EQUIP_ID[4649]===5"
       ],
       "criDmg": [
-        "EQUIP[Infinite Phreeoni Card]===4"
+        "EQUIP_ID[4649]3---4"
       ],
       "atkPercent": [
         "EQUIP[Q-pet Phreeoni]===7",

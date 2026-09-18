@@ -157,6 +157,13 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.141-beta',
+      date: '18-09-2026',
+      logs: [
+        'O conjunto do Traje de Freeoni com a Carta Freeoni agora dá dano físico à distância +3% a cada 2 refinos da armadura e dano físico contra chefes +8% a cada 3 refinos, como diz a descrição do item. Antes, cada bônus era aplicado uma única vez mesmo sem refino. O conjunto com a Carta Freeoni Espacial também passou a dar dano crítico +4% a cada 3 refinos da armadura. Reportado por Guto.',
+      ],
+    },
+    {
       v: '0.1.140-beta',
       date: '18-09-2026',
       logs: [
