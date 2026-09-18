@@ -53,12 +53,22 @@ import { ShadowCross } from './ShadowCross';
  *  - Potencializar Veneno Nv5 on the Neutro dummy multiplies by **1,4690**, which is the same
  *    1,47 the Fogo dummy shows: the debuff moves the poison entry from 100% to 150%.
  *
- * **Still open, and pinned below**: with EDP up this build sits ~8% above the simulator on
- * every one of the seven EDP packets, element-independent, and 4,5% above it bare-handed.
- * The EDP group multiplier would have to be ~4,34 instead of 4 to close it — but
- * `gc-cross-impact-gear-states.rrf`, a Sicário whose window is verified piece by piece,
- * matches at 4 on the same kind of dummy, so it is not the multiplier alone. Whatever it is,
- * it is not the element and not the status ATK.
+ * **What closed the file.** Every packet used to sit ~8% above the simulator, element by
+ * element, and 4,5% above it bare-handed; the same residual rode the RES recordings of the
+ * same character. It was never EDP: it is the **[Visual] Cabeça do Baby Shark**, whose
+ * pt-BR text lists only "Dano físico e mágico contra todos os tamanhos +10%" while the item
+ * pays properties as well ("against enemies of all properties and sizes", divine-pride
+ * 401367). Ten points of `p_element_all` is the whole difference, and the file measures it
+ * rather than fitting it: the residual is the same on Fogo, Neutro and Sagrado, so it is not
+ * the element table; it survives taking the weapon off, so it is not the weapon; and it
+ * scales with the group-B share exactly, so it is not a flat term. `sc-cross-impact.rrf`, an
+ * Executor with the same talents and no Baby Shark, already matched to the unit.
+ *
+ * The second half is the **status ATK**. Under EDP it was already read as Neutro; the
+ * Quimera file's three Envenenar Arma states (EDP off) say the poison endow never reaches
+ * it at all — each sat exactly one endow step, 466,5 of ATQ, high. With both changes the
+ * sixteen packets of the two recordings land within 0,008%, and both are asserted below
+ * together with the reversions that would break them.
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
@@ -76,7 +86,7 @@ const SAGRADO = '21083';
 
 const replay: any = decodeReplay(loadReplayFixture(DUMMIES));
 
-interface State { endow?: boolean; edp?: boolean; venom?: number; potent?: boolean; bare?: boolean; mob: string; file?: string }
+interface State { endow?: boolean; endowWith?: ElementType; edp?: boolean; venom?: number; potent?: boolean; bare?: boolean; noHeadElement?: boolean; mob: string; file?: string }
 
 function simulate(state: State) {
   const src: any = state.file ? decodeReplay(loadReplayFixture(state.file)) : replay;
@@ -88,6 +98,14 @@ function simulate(state: State) {
   m.class = 4254;
   Object.assign(m, src.traits);
   if (state.endow) m.propertyAtk = ElementType.Poison;
+  if (state.endowWith) m.propertyAtk = state.endowWith;
+  // The reversion the guards below need: the head as the pt-BR client text describes it,
+  // i.e. everything it pays except the ten points of "contra todas as propriedades".
+  const options = [...((m.rawOptionTxts ?? []) as string[])].filter(Boolean);
+  if (state.noHeadElement) {
+    m.costumeUpper = undefined;
+    options.push('atk:50', 'cri:10', 'p_size_all:10');
+  }
   m.consumables = [];
   m.selectedAtkSkill = 'Cross Impact==5';
 
@@ -121,7 +139,7 @@ function simulate(state: State) {
   new CalculatorController().runChain(calc, {
     monster: monsters[state.mob], equipAtks, masteryAtks, buffEquips, buffMasterys,
     consumeData: [], aspdPotion: m.aspdPotion,
-    extraOptionScripts: parseOptionScripts((m.rawOptionTxts ?? []).filter(Boolean)),
+    extraOptionScripts: parseOptionScripts(options),
     activeSkillNames, learnedSkillMap, selectedAtkSkill: m.selectedAtkSkill, selectedChances: [], usedHpL: false,
   } as any);
 
@@ -132,6 +150,7 @@ function simulate(state: State) {
   return {
     crit: ds.skillMaxDamage as number, critMin: ds.skillMinDamage as number, critRate: ds.skillCriRateToMonster as number,
     weaponAtk: node('weaponAtk'), statusAtk: node('statusAtk'),
+    elementBonus: (calc as any).totalEquipStatus.p_element_all as number,
     window: {
       6: c.maxHp, 41: c.totalStatusAtk,
       42: (tot.weapon?.baseWeaponAtk ?? 0) + (tot.weapon?.refineBonus ?? 0) + c.totalEquipAtk,
@@ -207,13 +226,13 @@ describe('EDP and the element table — only the +25% bonus is poison', () => {
   });
 });
 
-describe('EDP and the status ATK — the endow stops reaching it', () => {
+describe('EDP and the status ATK — the poison endow never reaches it', () => {
   it('the status ATK is the same with and without the endow while EDP is up', () => {
     expect(simulate({ edp: true, endow: true, mob: FOGO }).statusAtk).toBe(simulate({ edp: true, mob: FOGO }).statusAtk);
   });
 
-  it('without EDP it takes the endow as usual', () => {
-    expect(simulate({ endow: true, mob: FOGO }).statusAtk).toBe(simulate({ mob: FOGO }).statusAtk * 1.5);
+  it('and the same with EDP off — Envenenar Arma does not scale it either', () => {
+    expect(simulate({ endow: true, mob: FOGO }).statusAtk).toBe(simulate({ mob: FOGO }).statusAtk);
   });
 
   /* The endow and non-endow runs share one residual — which is what the status being
@@ -225,24 +244,71 @@ describe('EDP and the status ATK — the endow stops reaching it', () => {
   });
 });
 
-describe('EDP — the gap that is still open', () => {
-  it('every EDP packet sits ~8% above the simulator, whatever the element', () => {
-    for (const [mob, packet] of Object.entries(P.edp)) expect(packet / simulate({ edp: true, mob }).crit, mob).toBeCloseTo(1.08, 1);
-    for (const [mob, packet] of Object.entries(P.edpEndow)) expect(packet / simulate({ edp: true, endow: true, mob }).crit, mob).toBeCloseTo(1.08, 1);
-    expect(P.venomImpression / simulate({ edp: true, endow: true, venom: 5, mob: NEUTRO }).crit).toBeCloseTo(1.08, 1);
+describe('EDP — every packet of the two recordings, to the unit', () => {
+  /* The two clean sessions of 17/09/2026: the dummies (this file) and the Quimera Lava run
+   * three hours earlier. Sixteen distinct packets — four target elements on the Quimeras and
+   * three on the dummies, four races, two sizes, with and without EDP, with and without the
+   * endow, with and without Adulterar Veneno and Potencializar Veneno. */
+  const PACKETS: Array<[string, State, number]> = [
+    ['bonecos · EDP · Fogo Lv1', { edp: true, mob: FOGO }, P.edp[FOGO]],
+    ['bonecos · EDP · Neutro Lv1', { edp: true, mob: NEUTRO }, P.edp[NEUTRO]],
+    ['bonecos · EDP · Sagrado Lv1', { edp: true, mob: SAGRADO }, P.edp[SAGRADO]],
+    ['bonecos · EDP + Envenenar Arma · Fogo Lv1', { edp: true, endow: true, mob: FOGO }, P.edpEndow[FOGO]],
+    ['bonecos · EDP + Envenenar Arma · Neutro Lv1', { edp: true, endow: true, mob: NEUTRO }, P.edpEndow[NEUTRO]],
+    ['bonecos · EDP + Envenenar Arma · Sagrado Lv1', { edp: true, endow: true, mob: SAGRADO }, P.edpEndow[SAGRADO]],
+    ['bonecos · + Potencializar Veneno Nv5 · Neutro Lv1', { edp: true, endow: true, venom: 5, mob: NEUTRO }, P.venomImpression],
+    ['bonecos · sem arma, sem EDP · Neutro Lv1', { bare: true, mob: NEUTRO }, P.bareCrit],
+    ['Quimera · só Envenenar Arma · Lava (Fogo 3)', { endow: true, mob: '20920', file: QUIMERA }, 15018815],
+    ['Quimera · só Envenenar Arma · Galensis (Terra 3)', { endow: true, mob: '20923', file: QUIMERA }, 25232375],
+    ['Quimera · só Envenenar Arma · Fulgor (Água 3)', { endow: true, mob: '20921', file: QUIMERA }, 21396032],
+    ['Quimera · EDP + encanto + Adulterar · Lava', { edp: true, endow: true, potent: true, mob: '20920', file: QUIMERA }, 58390248],
+    ['Quimera · EDP + encanto + Adulterar · Napeo (Vento 3)', { edp: true, endow: true, potent: true, mob: '20922', file: QUIMERA }, 77326977],
+    ['Quimera · EDP + encanto + Adulterar · Fulgor', { edp: true, endow: true, potent: true, mob: '20921', file: QUIMERA }, 87558233],
+    ['Quimera · só EDP · Lava', { edp: true, mob: '20920', file: QUIMERA }, 42084056],
+    ['Quimera · EDP + Adulterar · Lava', { edp: true, potent: true, mob: '20920', file: QUIMERA }, 47392198],
+  ];
+
+  it.each(PACKETS)('%s', (_label, state, packet) => {
+    // 0,02% covers the floors the chain takes after the last exact stage; the worst of the
+    // sixteen is 0,008%.
+    expect(Math.abs(packet / simulate(state).crit - 1)).toBeLessThan(0.0002);
+  });
+});
+
+describe('EDP — what the two fixes are worth, measured by taking them back out', () => {
+  /* Without the Baby Shark head the whole set falls back to the residual that stood before
+   * it: ~8% with a weapon, 4,5% bare-handed — element-independent both times, which is what
+   * said the answer was a flat ten points of "contra todas as propriedades" and not the
+   * element table. */
+  it('drop the head and every packet is ~8% short again, whatever the element', () => {
+    const ratios = [FOGO, NEUTRO, SAGRADO].map((mob) => P.edp[mob] / simulate({ edp: true, mob, noHeadElement: true }).crit);
+    for (const r of ratios) expect(r).toBeGreaterThan(1.065);
+    for (const r of ratios) expect(r).toBeLessThan(1.085);
+    expect(Math.max(...ratios) - Math.min(...ratios)).toBeLessThan(0.015);
+    expect(P.bareCrit / simulate({ bare: true, mob: NEUTRO, noHeadElement: true }).crit).toBeCloseTo(1.045, 2);
   });
 
-  it('bare-handed, with no EDP either, it is 4,5%', () => {
-    expect(P.bareCrit / simulate({ bare: true, mob: NEUTRO }).crit).toBeCloseTo(1.045, 2);
+  it('the head is worth exactly ten points of "contra todas as propriedades"', () => {
+    // 22 with it, 12 without — the 12 being the Malha/Greva Sombria do Mastodonte set, which
+    // is the build's only other element bonus.
+    expect(simulate({ edp: true, mob: NEUTRO }).elementBonus).toBe(22);
+    expect(simulate({ edp: true, mob: NEUTRO, noHeadElement: true }).elementBonus).toBe(12);
   });
 
-  // The Quimera Lava file of the same character says the same thing on a Fogo 3 target, so
-  // this is the build or the skill, not the dummies.
-  it('the Quimera Lava recording of the same night agrees: ~8% on its EDP states', () => {
-    const quimera = (mob: string, state: Partial<State>) => simulate({ ...state, mob, file: QUIMERA } as State).crit;
-    expect(42084056 / quimera('20920', { edp: true })).toBeCloseTo(1.08, 1);
-    expect(58390248 / quimera('20920', { edp: true, endow: true, potent: true })).toBeCloseTo(1.06, 1);
-    // and its state without EDP is within 1%, which is what makes the gap EDP's
-    expect(15018815 / quimera('20920', { endow: true })).toBeCloseTo(1.007, 2);
+  /* The status ATK half only shows with EDP *off*, because EDP already neutralised it: the
+   * three Envenenar Arma states above each carried one endow step too many. */
+  it('the poison endow leaves the status ATK Neutro, with or without EDP', () => {
+    const neutral = simulate({ mob: '20920', file: QUIMERA }).statusAtk;
+    expect(simulate({ endow: true, mob: '20920', file: QUIMERA }).statusAtk).toBe(neutral);
+    expect(simulate({ edp: true, endow: true, mob: '20920', file: QUIMERA }).statusAtk).toBe(neutral);
+    // 466,5 is the step the three Quimera states were off by — Fogo 3 takes the poison line
+    // at 125%, so a quarter of the Neutro status ATK.
+    expect(neutral * 0.25).toBeCloseTo(466.5, 1);
+  });
+
+  it('a converter or Aspersio still reaches it — only the poison endow is exempt', () => {
+    const neutral = simulate({ mob: '20920', file: QUIMERA }).statusAtk;
+    // Água contra Fogo 3: 200% na tabela.
+    expect(simulate({ endowWith: ElementType.Water, mob: '20920', file: QUIMERA }).statusAtk).toBe(neutral * 2);
   });
 });

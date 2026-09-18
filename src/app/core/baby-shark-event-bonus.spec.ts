@@ -16,13 +16,22 @@ import { eventDay, isEventRunning, readUntilCondition } from './event-window';
  * EXP and DROP rates are not modelled for any item, so those halves stay out.
  *
  *  - [Visual] Cabeça do Baby Shark (401367): ATQ e ATQM +50, CRIT +10, conjuração variável
- *    -10%, dano físico e mágico contra todos os tamanhos +10%;
+ *    -10%, dano físico e mágico contra todas as propriedades **e** todos os tamanhos +10%;
  *  - Carta Baby Shark (300834) and Carta Família Tubarão (300835): dano físico e mágico
  *    contra todos os tamanhos +10% e contra todas as raças de monstros +10%.
  *
- * The head's block is not a guess at the client's wording: Ynk's Quimera Lava recording from
- * 17/09/2026 reads ATQ Equip. 1.250 in its status window, which the engine reaches only with
- * the head's +50 (ShadowCross.res-penetration-replay.spec.ts).
+ * **The head's "propriedades" half is missing from the pt-BR client text**, which reads only
+ * "Dano físico e mágico contra todos os tamanhos +10%". The line the other servers ship is
+ * "increases physical and magical damage against enemies of all properties and sizes by 10%"
+ * (divine-pride 401367), and Ynk's recordings of 17/09/2026 settle it: with the head's
+ * element half the engine lands on all sixteen of their Lâminas Retalhadoras packets to
+ * within 0,008%, and without it every one of them sits ~8% low
+ * (ShadowCross.edp-element-replay.spec.ts). The two cards keep the client's wording — they
+ * pay races and sizes and no element, which is what those same sixteen packets need.
+ *
+ * The head's block is not a guess at the client's wording elsewhere either: Ynk's Quimera
+ * Lava recording reads ATQ Equip. 1.250 in its status window, which the engine reaches only
+ * with the head's +50 (ShadowCross.res-penetration-replay.spec.ts).
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
@@ -38,7 +47,7 @@ const saoPauloNoon = (day: string) => new Date(`${day}T12:00:00-03:00`);
 const statusAt = (now: Date, model: Record<string, unknown>) =>
   equipStatusOf(makeCalculator(items).setClock(() => now), { ...createMainModel(), level: 239, ...model });
 
-const EVENT_KEYS = ['atk', 'matk', 'cri', 'vct', 'p_size_all', 'm_size_all', 'p_race_all', 'm_race_all'];
+const EVENT_KEYS = ['atk', 'matk', 'cri', 'vct', 'p_size_all', 'm_size_all', 'p_race_all', 'm_race_all', 'p_element_all', 'm_element_all'];
 const pick = (status: Record<string, number>) => Object.fromEntries(EVENT_KEYS.map((k) => [k, status[k] || 0]));
 const diff = (a: Record<string, number>, b: Record<string, number>) =>
   Object.fromEntries(EVENT_KEYS.map((k) => [k, (a[k] || 0) - (b[k] || 0)]).filter(([, v]) => v !== 0));
@@ -61,10 +70,13 @@ describe('event window — a São Paulo calendar day, the last day included', ()
 });
 
 describe('Baby Shark event bonuses — paid through 11/10/2026, gone from 12/10', () => {
-  it('[Visual] Cabeça do Baby Shark: ATQ/ATQM +50, CRIT +10, conjuração variável -10%, tamanhos +10%', () => {
+  it('[Visual] Cabeça do Baby Shark: ATQ/ATQM +50, CRIT +10, conjuração variável -10%, propriedades e tamanhos +10%', () => {
     const during = pick(statusAt(saoPauloNoon('2026-10-11'), { costumeUpper: HEAD }));
     const bare = pick(statusAt(saoPauloNoon('2026-10-11'), {}));
-    expect(diff(during, bare)).toEqual({ atk: 50, matk: 50, cri: 10, vct: 10, p_size_all: 10, m_size_all: 10 });
+    expect(diff(during, bare)).toEqual({
+      atk: 50, matk: 50, cri: 10, vct: 10,
+      p_size_all: 10, m_size_all: 10, p_element_all: 10, m_element_all: 10,
+    });
   });
 
   it('[Visual] Cabeça do Baby Shark pays nothing from 12/10/2026', () => {
@@ -78,7 +90,13 @@ describe('Baby Shark event bonuses — paid through 11/10/2026, gone from 12/10'
       const withCard = (day: string) => pick(statusAt(saoPauloNoon(day), { garment: GARMENT, garmentCard: card }));
       const withoutCard = (day: string) => pick(statusAt(saoPauloNoon(day), { garment: GARMENT }));
 
+      // Races and sizes only — the cards carry no element half, unlike the head, and the
+      // sixteen packets of ShadowCross.edp-element-replay.spec.ts are what says so: one of
+      // them wears the Carta Baby Shark and the head at once, and it needs exactly ten
+      // points of element, not twenty.
       expect(diff(withCard('2026-10-11'), withoutCard('2026-10-11'))).toMatchObject({ p_size_all: 10, m_size_all: 10, p_race_all: 10, m_race_all: 10 });
+      expect(diff(withCard('2026-10-11'), withoutCard('2026-10-11'))).not.toHaveProperty('p_element_all');
+      expect(diff(withCard('2026-10-11'), withoutCard('2026-10-11'))).not.toHaveProperty('m_element_all');
       expect(diff(withCard('2026-10-12'), withoutCard('2026-10-12'))).not.toHaveProperty('p_size_all');
       expect(diff(withCard('2026-10-12'), withoutCard('2026-10-12'))).not.toHaveProperty('m_race_all');
     });

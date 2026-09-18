@@ -157,6 +157,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.138-beta',
+      date: '18-09-2026',
+      logs: [
+        'O visual Cabeça do Baby Shark dá “dano físico e mágico contra todas as propriedades +10%” além do bônus contra todos os tamanhos. A linha das propriedades não aparece no texto do jogo, mas o item a paga, e era ela que faltava: com ela, os dezesseis disparos de [Lâminas Retalhadoras] das duas gravações do Executor — nos bonecos de treino e nas Quimeras — fecham com o jogo, e sem ela todos ficavam 8% abaixo. Gravações enviadas por Ynk.',
+        'O encanto de [Envenenar Arma] deixou de multiplicar o ATQ de status também quando [Encantar com Veneno Mortal] está desligado. Os encantos de conversor e de [Aspersio] continuam multiplicando.',
+      ],
+    },
+    {
       v: '0.1.137-beta',
       date: '17-09-2026',
       logs: [

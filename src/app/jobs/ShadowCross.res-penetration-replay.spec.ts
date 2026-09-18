@@ -272,12 +272,13 @@ describe('RES recordings — Argutus Telum alone vs Telum + Adulterar Veneno', (
     expect(Math.abs((both.crit / telum.crit / recorded - 1) * 1e6)).toBeLessThan(10);
   });
 
-  // The shared residual: both casts are EDP casts, and this build's EDP gap is ~8% wherever
-  // it is measured (see ShadowCross.edp-element-replay.spec.ts). It cancels from the ratio
-  // above, which is why that one is exact and this one is not.
-  it('pins the shared residual: recorded ≈ 1,087 × simulated on both casts', () => {
-    expect(54565938 / telum.crit).toBeCloseTo(1.087, 2);
-    expect(61460805 / both.crit).toBeCloseTo(1.087, 2);
+  // Both casts used to sit 8,7% above the simulator — the residual this build carried
+  // everywhere until the [Visual] Cabeça do Baby Shark was found to endow all *properties*
+  // as well as all sizes (see ShadowCross.edp-element-replay.spec.ts). What is left is under
+  // 1%, which is as close as a file with thirty party buffs on the recorder can be read.
+  it('the absolute damage now lands within 1%, on a file carrying thirty buffs', () => {
+    expect(54565938 / telum.crit).toBeCloseTo(1.006, 2);
+    expect(61460805 / both.crit).toBeCloseTo(1.006, 2);
   });
 });
 
@@ -300,9 +301,9 @@ describe('RES recordings — the party file corroborates, it does not decide', (
     expect(venom.crit / noPenetration(0).crit / recorded).toBeGreaterThan(1.015);
   });
 
-  // The same ~8% EDP gap as the telum file, within this file's own extra unknowns (the song,
-  // and whatever else a 9-player party was doing).
-  it('pins the shared residual: recorded ≈ 1,080 × simulated on the Veneno cast', () => {
-    expect(35099351 / venom.crit).toBeCloseTo(1.08, 2);
+  // 8,0% before the Baby Shark head's element half; 0,1% after it, which on a nine-player
+  // party file is as good as this reading gets.
+  it('the absolute damage lands within 1% too', () => {
+    expect(35099351 / venom.crit).toBeCloseTo(1.001, 2);
   });
 });

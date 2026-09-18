@@ -1228,16 +1228,28 @@ export class DamageCalculator {
     // the dummy — exactly the −20% on the weapon+equip share of the ATQ (68%) and nothing
     // on the status ATK (Cardinal.gemini-lumen-autoattack.spec.ts). Ventania keeps the
     // full multiplier it always had.
+    //
+    // The **poison endow is the exception**: Envenenar Arma (and EDP, which carries one of
+    // its own) never reaches the status ATK. Ynk's two 17/09/2026 recordings say it twice.
+    // On the dummies the same character has Envenenar Arma on in one EDP state and off in
+    // another, and the two only agree with each other when the status ATK is read as Neutro
+    // — endowing it puts ~2% between them on the Fogo Lv1 dummy. `sc-edp-element-states.rrf`
+    // then says it again with EDP *off*: its three Envenenar Arma states (Quimera Fogo 3,
+    // Terra 3 and Água 3) each sit exactly one endow step of status ATK — 466,5 — above the
+    // recording, and land on it to the unit once that step is dropped.
+    //
+    // rAthena keeps the status ATK Neutral for every endow (only Mild Wind reads
+    // `rhw.ele`), so the split LATAM shows is between what `status_calc` puts on the weapon
+    // and what `battle_get_weapon_element` overrides at damage time; the poison endow is the
+    // second kind. There is no Poison converter in the game, so `propertyAtk === Poison`
+    // is Envenenar Arma / Aplicar Toxina and nothing else.
+    const isPoisonEndow = this.isEndowedWith(ElementType.Poison);
     const statusAtkMultiplier = this.isActiveMildwind
       ? propertyMultiplier
-      : this.isEndowedWith(propertyAtk)
+      : this.isEndowedWith(propertyAtk) && !isEDP && !isPoisonEndow
         ? this.getPurePropertyMultiplier(propertyAtk)
         : this.getPropertyMultiplier(ElementType.Neutral);
-    // Under EDP the status ATK stops taking the endow. Two recordings of the same character
-    // carry Envenenar Arma on in one EDP state and off in another, and the states only agree
-    // with each other when the status ATK is read as Neutro while EDP is up — on the Fogo Lv1
-    // dummy, endowing it puts ~2% between them. Against a Neutro target it changes nothing.
-    const statusAtk = this.getStatusAtk() * 2 * (isEDP ? this.getPropertyMultiplier(ElementType.Neutral) : statusAtkMultiplier);
+    const statusAtk = this.getStatusAtk() * 2 * statusAtkMultiplier;
 
     const { totalMin: _weaMin, totalMax: weaMax, totalMaxOver: weaMaxOver, parts: weaponAtkParts } = this.getWeaponAtk({ sizePenalty, isEDP });
     const weaMin = this.isMaximizeWeapon ? weaMax : _weaMin;
