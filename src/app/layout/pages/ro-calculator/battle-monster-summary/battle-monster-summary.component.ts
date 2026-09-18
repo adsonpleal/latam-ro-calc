@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { monsterDamageReductionTooltip } from 'src/app/constants';
 import { DropdownModel } from 'src/app/models/dropdown.model';
 
 @Component({
@@ -19,6 +20,12 @@ export class BattleMonsterSummaryComponent {
 
   @Output() relieveLevelChange = new EventEmitter<number>();
   @Output() showElementTableClick = new EventEmitter<any>();
+
+  /** The purple "Redução N%" tag's tooltip; empty when the target reduces nothing. */
+  get damageReductionTooltip(): string {
+    const percent = this.totalSummary?.monster?.damageReduction ?? 0;
+    return percent > 0 ? monsterDamageReductionTooltip(percent) : '';
+  }
 
   constructor() {}
 

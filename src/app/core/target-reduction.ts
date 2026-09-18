@@ -10,11 +10,12 @@ export interface TargetReductionInput {
   isRedAura: boolean;
   /** The Aliviar level the target is under; 0 when it is not casting it. */
   relieveLevel: number;
-  /**
-   * The reduction the target's map applies, as a percentage (Varmundt's Biosphere: 90, or
-   * 99 for its MVPs); 0 or absent when the map applies none.
+   /**
+   * The monster's own "takes only N%" attribute, as a percentage of the damage removed
+   * (Varmundt's Biosphere: 90, or 99 for its MVPs and for Betelgeuse and its family); 0 or
+   * absent when it has none. See constants/monster-damage-reduction.
    */
-  mapReductionPercent?: number;
+  targetReductionPercent?: number;
 }
 
 export interface TargetReduction {
@@ -44,14 +45,14 @@ const joinPtBr = (parts: string[]): string => (parts.length > 1 ? `${parts.slice
 export function targetReduction(input: TargetReductionInput): TargetReduction {
   const { isRedAura, relieveLevel } = input;
   const relievePercent = relieveReductionPercent(relieveLevel);
-  const mapPercent = Math.min(Math.max(input.mapReductionPercent || 0, 0), 100);
+  const flatPercent = Math.min(Math.max(input.targetReductionPercent || 0, 0), 100);
 
-  const multiplier = (isRedAura ? RED_AURA_MULTIPLIER : 1) * ((100 - mapPercent) / 100) * ((100 - relievePercent) / 100);
+  const multiplier = (isRedAura ? RED_AURA_MULTIPLIER : 1) * ((100 - flatPercent) / 100) * ((100 - relievePercent) / 100);
   if (multiplier === 1) return { multiplier: 1, percent: 0, label: '' };
 
   const sources: string[] = [];
   if (isRedAura) sources.push('de aura');
-  if (mapPercent > 0) sources.push('do mapa');
+  if (flatPercent > 0) sources.push('do alvo');
   if (relievePercent > 0) sources.push(sources.length ? 'Aliviar' : 'por Aliviar');
 
   const percent = (1 - multiplier) * 100;

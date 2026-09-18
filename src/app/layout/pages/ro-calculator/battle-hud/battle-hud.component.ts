@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { monsterDamageReductionTooltip } from '../../../../constants';
 import { itemSlotLabelPtBr } from '../../../../constants/item-slot-i18n';
 import { DropdownModel } from '../../../../models/dropdown.model';
 import { dmgTypeLabel as dmgTypeLabelUtil, skillDescHtml } from '../../../../utils';
@@ -324,6 +325,13 @@ export class BattleHudComponent implements OnDestroy {
     const h = pickHeroDamage(this.dmg, this.hasSelectedChances);
 
     return { hits, min: h.min / hits, max: h.max / hits };
+  }
+
+  /** The purple "REDUÇÃO N%" tag's tooltip; empty when the target reduces nothing. Shared
+   *  with the monster card through constants/monster-damage-reduction. */
+  get damageReductionTooltip(): string {
+    const percent = this.totalSummary?.monster?.damageReduction ?? 0;
+    return percent > 0 ? monsterDamageReductionTooltip(percent) : '';
   }
 
   /** The summary every per-skill panel reads: the picked rotation entry's own solve,

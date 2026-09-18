@@ -16,7 +16,7 @@ export * from './item-sub-type.enum';
 export * from './item-type.enum';
 export * from './item.const';
 export * from './job-buffs';
-export * from './map-damage-reduction';
+export * from './monster-damage-reduction';
 export * from './monster-relieve';
 export * from './monster-spawn-mapper';
 export * from './pet-loyalty';

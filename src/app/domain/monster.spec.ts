@@ -107,7 +107,7 @@ describe('Monster.setData', () => {
 
   describe('map-wide damage reduction', () => {
     const reductionOf = (id: number, overrides: Partial<MonsterModel['stats']> = {}) =>
-      new Monster().setData({ ...monster(overrides), id } as MonsterModel).data.mapDamageReduction;
+      new Monster().setData({ ...monster(overrides), id } as MonsterModel).data.damageReduction;
 
     it('takes 90% off every Varmundt Biosphere field monster', () => {
       expect(reductionOf(21548)).toBe(90); // Cornus of Prairie, bl_grass

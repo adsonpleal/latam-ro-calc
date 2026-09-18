@@ -41,12 +41,12 @@
       >Aura</span
     >
     <span
-      *ngIf="totalSummary?.monster?.mapDamageReduction"
+      *ngIf="totalSummary?.monster?.damageReduction"
       class="font-bold px-1 ml-1 border-round"
       style="background: var(--purple-500); color: #fff"
-      [pTooltip]="'Biosfera de Varmundt: redução de ' + totalSummary.monster.mapDamageReduction + '% de todo o dano recebido, em todo o mapa.'"
+      [pTooltip]="damageReductionTooltip"
       tooltipPosition="top"
-      >Redução {{ totalSummary.monster.mapDamageReduction }}%</span
+      >Redução {{ totalSummary.monster.damageReduction }}%</span
     >
   </div>
   <!--

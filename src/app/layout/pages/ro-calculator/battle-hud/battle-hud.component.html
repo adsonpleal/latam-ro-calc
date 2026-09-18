@@ -220,10 +220,10 @@
               tooltipPosition="top"
             ></p-tag>
             <p-tag
-              *ngIf="totalSummary?.monster?.mapDamageReduction"
+              *ngIf="totalSummary?.monster?.damageReduction"
               styleClass="tag-map-reduction"
-              [value]="'REDUÇÃO ' + totalSummary.monster.mapDamageReduction + '%'"
-              [pTooltip]="'Biosfera de Varmundt: redução de ' + totalSummary.monster.mapDamageReduction + '% de todo o dano recebido, em todo o mapa.'"
+              [value]="'REDUÇÃO ' + totalSummary.monster.damageReduction + '%'"
+              [pTooltip]="damageReductionTooltip"
               tooltipPosition="top"
             ></p-tag>
           </div>

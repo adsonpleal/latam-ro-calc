@@ -375,13 +375,16 @@ export class DamageCalculator {
    *   physical and magic damage taken by 10% to 99% depending on its level. Off unless
    *   the user picked a level for a monster that casts it — see constants/monster-relieve.
    *
-   * - the **map-wide reduction** of Varmundt's Biosphere (see constants/map-damage-reduction),
-   *   which leaves 10% of the damage, 1% on its MVPs.
+   * - the monster's own **"takes only N%" attribute** (see constants/monster-damage-reduction),
+   *   which leaves 10% of the damage in Varmundt's Biosphere and 1% on its MVPs and on the
+   *   EP19 instance MVPs.
    *
-   * They multiply: a red-aura MVP under Aliviar 10 leaves 0.1% of 1%. Nothing in the game
-   * carries two of them today (the two Jardim Secreto bosses have no red aura, the Biosphere
-   * MVPs neither), so the order between them is unobservable; multiplying is what keeps it
-   * that way if one ever does.
+   * They multiply, and Betelgeuse is the case that proves it: it takes 1% *and* casts
+   * Aliviar, and its recordings only close when both apply (Aliviar Nv1 is exactly 0,90 of
+   * the level-0 packet, and the level-0 packet is itself a hundredth of what the build
+   * would do to an ordinary target). A red-aura MVP under Aliviar 10 likewise leaves 0,1%
+   * of 1%, though nothing in the game carries that pair today, so that order is still
+   * unobservable; multiplying is what keeps it that way if one ever does.
    *
    * A no-op for every ordinary target, which is why it can sit on every damage path.
    */
@@ -389,7 +392,7 @@ export class DamageCalculator {
     return targetReduction({
       isRedAura: !!this.monster?.data?.isRedAura,
       relieveLevel: this.monster?.data?.relieveLevel ?? 0,
-      mapReductionPercent: this.monster?.data?.mapDamageReduction ?? 0,
+      targetReductionPercent: this.monster?.data?.damageReduction ?? 0,
     });
   }
 

@@ -157,6 +157,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.139-beta',
+      date: '18-09-2026',
+      logs: [
+        'Betelgeuse recebe apenas 1% do dano, e [Aliviar] entra por cima disso. Antes só [Aliviar] era contado, e o simulador ficava cerca de dez vezes acima do jogo em todas as gravações do chefe. A redução de 1% é um atributo do próprio monstro, e vale também para o Deus Deturpado e para o Schulang, da Mansão da Desilusão — mas não para o Naght Sieger, cuja diferença continua sendo só o [Aliviar]. Gravações de Ynk e de @Fawxx.',
+        'A etiqueta da redução do alvo passou a dizer “Redução do alvo” no lugar de “Redução do mapa”, já que a redução pertence ao monstro e não ao mapa onde ele vive. Os monstros da Biosfera de Varmundt continuam como estavam.',
+      ],
+    },
+    {
       v: '0.1.138-beta',
       date: '18-09-2026',
       logs: [

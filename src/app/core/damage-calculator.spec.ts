@@ -57,7 +57,7 @@ describe('DamageCalculator red-aura reduction', () => {
 
 /**
  * Varmundt's Biosphere reduces every hit its monsters take across the whole map — 90% on the
- * field monsters, 99% on the MVPs (constants/map-damage-reduction). Same chokepoint again.
+ * field monsters, 99% on the MVPs (constants/monster-damage-reduction). Same chokepoint again.
  */
 describe('DamageCalculator map-wide reduction', () => {
   it('leaves 10% of the damage on a Biosphere field monster', () => {
@@ -72,7 +72,7 @@ describe('DamageCalculator map-wide reduction', () => {
   it('names the step after the map in the formula trace', () => {
     const dc = new DamageCalculator();
     (dc as any).monster = new Monster().setData(monsterModel(21548));
-    expect((dc as any).auraReductionLabel).toBe('Redução do mapa (90%)');
+    expect((dc as any).auraReductionLabel).toBe('Redução do alvo (90%)');
   });
 });
 
@@ -112,12 +112,15 @@ describe('DamageCalculator Aliviar reduction', () => {
   /*
    * The server reduces each hit, not the packet. Ynk's Betelgeuse run (10/09/2026) printed
    * Lâminas Retalhadoras — 7 hits shown, one damage figure — at 295.792 under Nv9 and 29.575
-   * under Nv10, both multiples of 7. A hit worth 422.560-422.569 before the reduction gives
-   * exactly that; reducing the whole 7-hit packet gives 29.579 at Nv10, 4 too many.
+   * under Nv10, both multiples of 7. Betelgeuse also takes only 1% of every hit
+   * (constants/monster-damage-reduction), so the two multiply and the hit behind those
+   * packets is worth 42.256.500 or so — a packet of ~296 M, which is the order of magnitude
+   * the same class reaches on an ordinary instance MVP. Reducing the whole 7-hit packet
+   * instead gives 29.579 at Nv10, 4 too many, which is what pins the flooring to the hit.
    */
   it('reduces each displayed hit and floors there, as the Betelgeuse packets show', () => {
     const BETELGEUSE = 20994;
-    const packet = 422_565 * 7;
+    const packet = 42_256_500 * 7;
     expect(reduceWith(BETELGEUSE, packet, 9, 7)).toBe(295_792);
     expect(reduceWith(BETELGEUSE, packet, 10, 7)).toBe(29_575);
     expect(reduceWith(BETELGEUSE, packet, 10, 1)).toBe(29_579); // the old whole-packet reading
