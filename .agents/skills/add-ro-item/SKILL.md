@@ -14,7 +14,7 @@ One or more numeric item ids. The pt-BR name, description and `aegisName` are al
 
 ### 1. Scaffold
 ```
-node .claude/skills/add-ro-item/scaffold.mjs <id> [<id> ...]
+node .agents/skills/add-ro-item/scaffold.mjs <id> [<id> ...]
 ```
 For each id it prints: pt name, aegisName, inferred `location`/`itemTypeId`/`itemSubTypeId` (from item.json), parsed `defense`/`weight`/`requiredLevel`, the isolated **effect/combo lines**, and a **record skeleton** with `script: {}`. (Skips ids already in item.json.)
 
@@ -228,7 +228,7 @@ authority on names, ids or slots. See [[browiki-source]].
 ### 5. Apply
 Write the finished record(s) to a temp JSON file (array of full records), then:
 ```
-node .claude/skills/add-ro-item/apply.mjs /tmp/new-items.json
+node .agents/skills/add-ro-item/apply.mjs /tmp/new-items.json
 ```
 It appends them to `item.json` with a minimal diff and skips ids already present. (No need to regenerate anything — `item.json` is the source of truth; the pt overlay is applied at runtime.)
 

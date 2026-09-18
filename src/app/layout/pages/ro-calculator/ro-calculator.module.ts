@@ -44,15 +44,12 @@ import { TooltipClampDirective } from './tooltip-clamp.directive';
 import { PrettyJsonPipe } from '../../prettier-json.pipe';
 import { RoCalculatorRoutingModule } from './ro-calculator-routing.module';
 import { CalcValueComponent } from './calc-value/calc-value.component';
-import { MonsterDataViewComponent } from './monster-data-view/monster-data-view.component';
 import { FieldsetModule } from 'primeng/fieldset';
 import { MiscDetailComponent } from './misc-detail/misc-detail.component';
 import { DialogModule } from 'primeng/dialog';
 import { ItemSearchComponent } from './item-search/item-search.component';
 import { ElementalTableComponent } from './elemental-table/elemental-table.component';
 import { ElementalTableRawComponent } from './elemental-table-raw/elemental-table-raw.component';
-import { BattleDmgSummaryComponent } from './battle-dmg-summary/battle-dmg-summary.component';
-import { BattleMonsterSummaryComponent } from './battle-monster-summary/battle-monster-summary.component';
 import { BattleHudComponent } from './battle-hud/battle-hud.component';
 import { RotationListComponent } from './battle-hud/rotation-list/rotation-list.component';
 import { RotationTimelineComponent } from './battle-hud/rotation-timeline/rotation-timeline.component';
@@ -125,13 +122,10 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
     RoCalculatorComponent,
     CalcValueComponent,
     PrettyJsonPipe,
-    MonsterDataViewComponent,
     MiscDetailComponent,
     ItemSearchComponent,
     ElementalTableComponent,
     ElementalTableRawComponent,
-    BattleDmgSummaryComponent,
-    BattleMonsterSummaryComponent,
     BattleHudComponent,
     RotationListComponent,
     RotationTimelineComponent,

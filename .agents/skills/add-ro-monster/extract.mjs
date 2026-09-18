@@ -14,7 +14,7 @@
 // monster-spawn-mapper.ts group entry before running apply.mjs.
 //
 // Usage:
-//   node .claude/skills/add-ro-monster/extract.mjs <id> [<id> ...] [--src <mobs.json>] [--out <file>]
+//   node .agents/skills/add-ro-monster/extract.mjs <id> [<id> ...] [--src <mobs.json>] [--out <file>]
 // Writes the records array to --out (default: <os tmp>/latam-monster-recs.json)
 // and prints a summary. Feed that file to apply.mjs.
 
@@ -38,7 +38,7 @@ for (let i = 0; i < argv.length; i++) {
   else if (/^\d+$/.test(argv[i])) ids.push(Number(argv[i]));
 }
 if (!ids.length) {
-  console.error("usage: node .claude/skills/add-ro-monster/extract.mjs <id> [<id> ...] [--src <mobs.json>] [--out <file>]");
+  console.error("usage: node .agents/skills/add-ro-monster/extract.mjs <id> [<id> ...] [--src <mobs.json>] [--out <file>]");
   process.exit(1);
 }
 
@@ -120,4 +120,4 @@ if (!recs.length) { console.error("no records extracted."); process.exit(1); }
 writeFileSync(outPath, JSON.stringify(recs, null, 2));
 console.log(`wrote ${recs.length} record(s) -> ${outPath}`);
 console.log(`Next: set each record's "spawn" (the instance map code), add a monster-spawn-mapper.ts group, then:`);
-console.log(`  node .claude/skills/add-ro-monster/apply.mjs "${outPath}"`);
+console.log(`  node .agents/skills/add-ro-monster/apply.mjs "${outPath}"`);

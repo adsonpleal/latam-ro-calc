@@ -282,8 +282,8 @@ export class Windhawk extends Ranger {
       // map rather than recomputing 100 + lv*50, because clearSupersededBonusSource
       // below zeroes that source and `params.bonusSources` is the long-lived
       // equipAtkSkillBonus map. prepareAllItemBonus() (which ends here) runs several
-      // times per solve — see ro-calculator.component.ts calculateToSelectedMonsters()
-      // — so from the second pass on Ilimitar contributes 0 to `range`, and
+      // times on one calculator (the MCP damage_table re-prepares per
+      // target) — so from the second pass on Ilimitar contributes 0 to `range`, and
       // subtracting a fixed 350 again would eat the build's real ranged bonus.
       // That is what made "Instinto" look like it LOWERED damage: the Efeitos
       // checkbox recalculated off the degraded state (see instinto-dex-chance.spec.ts).

@@ -58,7 +58,7 @@ Players share the recording in one of three ways, and all end up as the same byt
   with the board script instead of the steps below:
 
   ```
-  node .claude/skills/triage-backlog/backlog.mjs --anexos <id> --out .scratch/<id>.rrf
+  node .agents/skills/triage-backlog/backlog.mjs --anexos <id> --out .scratch/<id>.rrf
   ```
 
   The card hands you **the traits §0 tells you to ask for**, printed by `--get <id>` in its
@@ -66,7 +66,7 @@ Players share the recording in one of three ways, and all end up as the same byt
   when it did not, and the block says which.
 
 ```
-node .claude/skills/review-rrf-class/fetch-recap.mjs "https://recap.latam-tools.com.br/?r=HdHAKyBShW"
+node .agents/skills/review-rrf-class/fetch-recap.mjs "https://recap.latam-tools.com.br/?r=HdHAKyBShW"
 ```
 
 It takes the full link or the bare id, writes `.scratch/<ID>.rrf` (or `--out <caminho>`, e.g.
@@ -82,7 +82,7 @@ Nobody has to send anything: the same Firestore holds **every** recording ever u
 keeps the ones belonging to the classes you name, with a summary of each:
 
 ```
-node .claude/skills/review-rrf-class/scan-recaps.mjs --job 4254,4065 --out .scratch/recap --skill 2022
+node .agents/skills/review-rrf-class/scan-recaps.mjs --job 4254,4065 --out .scratch/recap --skill 2022
 ```
 
 **The class is not in the document fields** — the summary carries only player/map/duration/
@@ -255,7 +255,7 @@ const par = equipStatusOf(makeCalculator(db, new Biolo()),
 
 When a combo *is* on the legacy `EQUIP[<nome>]` form, migrate it to `EQUIP_ID[]` even if it
 currently works — that is the whole point of the form, and the fragility is real. Follow
-CLAUDE.md: record a behavioural baseline first, splice `item.json` by byte span (never a JSON
+AGENTS.md: record a behavioural baseline first, splice `item.json` by byte span (never a JSON
 round-trip — the keys are not numerically ordered), assert the baseline unchanged, pin that
 each `EQUIP_ID[...]` names **every** generation sharing the English name, and lower the
 ratchet in `item-script-keys.spec.ts`. `cordao-lt-combo-migration.spec.ts` is the worked

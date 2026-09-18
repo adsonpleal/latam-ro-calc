@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 // The bug/suggestion side of the shared tracker (issues.latam-tools.com.br).
 //
-//   node .claude/skills/triage-backlog/backlog.mjs --list                        (the triage queue)
-//   node .claude/skills/triage-backlog/backlog.mjs --list --status reportado --limit 10
+//   node .agents/skills/triage-backlog/backlog.mjs --list                        (the triage queue)
+//   node .agents/skills/triage-backlog/backlog.mjs --list --status reportado --limit 10
 //       ^ intake, NOT the triage queue — only when the person asked for the intake
-//   node .claude/skills/triage-backlog/backlog.mjs --get simulador-runa-othila-aumenta-a-aspd-de-forma-irreal
-//   node .claude/skills/triage-backlog/backlog.mjs --credits            (one line per card, for the Novidades entry)
-//   node .claude/skills/triage-backlog/backlog.mjs --mark <id> --status resolvido --note "..."
-//   node .claude/skills/triage-backlog/backlog.mjs --new --titulo "..." --descricao "..."
+//   node .agents/skills/triage-backlog/backlog.mjs --get simulador-runa-othila-aumenta-a-aspd-de-forma-irreal
+//   node .agents/skills/triage-backlog/backlog.mjs --credits            (one line per card, for the Novidades entry)
+//   node .agents/skills/triage-backlog/backlog.mjs --mark <id> --status resolvido --note "..."
+//   node .agents/skills/triage-backlog/backlog.mjs --new --titulo "..." --descricao "..."
 //
 // This owns every card of the project, `tipo: "replay"` included. The private
 // submission inbox it is promoted from is worked on the tracker's own
@@ -240,7 +240,7 @@ function printReplayBlock(d) {
     console.log('talentos: NÃO INFORMADOS — sem eles review-rrf-class não reconstrói a build (§0)');
   }
   if (r.skippedItems?.length) console.log(`itens fora do banco: ${r.skippedItems.join(', ')}`);
-  console.log(`o .rrf: node .claude/skills/triage-backlog/backlog.mjs --anexos <id> --out arquivo.rrf`);
+  console.log(`o .rrf: node .agents/skills/triage-backlog/backlog.mjs --anexos <id> --out arquivo.rrf`);
   console.log('');
 }
 

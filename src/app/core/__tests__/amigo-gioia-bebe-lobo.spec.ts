@@ -10,7 +10,7 @@ import { BASE_PERFECT_HIT, ESPADA_1H, wornBonus } from './worn-bonus';
  * (`m_my_element_*`), while its Carta Gioia line reads "*contra oponentes de* propriedade
  * Fantasma", the own-multiplier stage (`m_element_*`) — see [[m-element-vs-my-element]].
  *
- * The pt-BR description is the source of truth (CLAUDE.md).
+ * The pt-BR description is the source of truth (AGENTS.md).
  */
 
 const AMIGO_GIOIA = 410705;

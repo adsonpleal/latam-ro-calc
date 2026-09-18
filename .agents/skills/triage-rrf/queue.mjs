@@ -2,9 +2,9 @@
 // The recording queue: every `tipo: "replay"` card on the board, joined against the
 // spec coverage this repo already has for the class, and ranked.
 //
-//   node .claude/skills/triage-rrf/queue.mjs                 (the queue, grouped by class)
-//   node .claude/skills/triage-rrf/queue.mjs --class ArchMage
-//   node .claude/skills/triage-rrf/queue.mjs --json          (the joined data, for a script)
+//   node .agents/skills/triage-rrf/queue.mjs                 (the queue, grouped by class)
+//   node .agents/skills/triage-rrf/queue.mjs --class ArchMage
+//   node .agents/skills/triage-rrf/queue.mjs --json          (the joined data, for a script)
 //
 // It reads the board through `triage-backlog/backlog.mjs --list --json` rather than
 // talking to Firestore itself: one credential, one query, two readers. Pulling a file is
@@ -15,7 +15,7 @@
 // the card. A class with no spec at all is where a recording buys the most.
 //
 // Printed text is pt-BR where it quotes the tracker's own schema (the card fields the
-// operator reads on the site) and English elsewhere, per CLAUDE.md.
+// operator reads on the site) and English elsewhere, per AGENTS.md.
 
 import { execFileSync } from 'node:child_process';
 import { readdirSync, readFileSync } from 'node:fs';
@@ -59,7 +59,7 @@ function classFilesById() {
  *
  * Replay-backed is decided by content first — the spec loads a fixture through
  * `loadReplayFixture(` or decodes a recording — and by name only as a fallback. Specs are named after the behaviour they pin
- * (CLAUDE.md), so `Cardinal.gemini-lumen-autoattack.spec.ts` and
+ * (AGENTS.md), so `Cardinal.gemini-lumen-autoattack.spec.ts` and
  * `SkyEmperor.basic-crit-kihop.spec.ts` are as replay-backed as anything called
  * `*-replay.spec.ts`; the old name test reported both classes as uncovered.
  */
@@ -133,7 +133,7 @@ const dupKey = (r) => [r.fileName, r.player, r.durationMs, r.damageEvents].join(
 
 const raw = execFileSync(
   process.execPath,
-  ['.claude/skills/triage-backlog/backlog.mjs', '--list', '--status', 'backlog', '--limit', '500', '--json'],
+  ['.agents/skills/triage-backlog/backlog.mjs', '--list', '--status', 'backlog', '--limit', '500', '--json'],
   { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 },
 );
 

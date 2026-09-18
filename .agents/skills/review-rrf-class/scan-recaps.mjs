@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Varre TODAS as gravações do RagnaRecap e separa as de uma classe.
 //
-//   node .claude/skills/review-rrf-class/scan-recaps.mjs --job 4254,4065
-//   node .claude/skills/review-rrf-class/scan-recaps.mjs --job 4254 --out .scratch/executor --skill 2022
+//   node .agents/skills/review-rrf-class/scan-recaps.mjs --job 4254,4065
+//   node .agents/skills/review-rrf-class/scan-recaps.mjs --job 4254 --out .scratch/executor --skill 2022
 //
 // O Firestore do projeto `ragreplaystats` (coleção `replays`) é de leitura pública, então a
 // apiKey de produção basta — mesma de fetch-recap.mjs. **A classe não está nos campos do

@@ -22,7 +22,7 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  *   `matk 2---10`, `fct` on [Castigo Diamante] and `cd__2449` on [Lança Psíquica] are
  *     granted by no line of the description and were removed
  *
- * The pt-BR description is the source of truth (CLAUDE.md).
+ * The pt-BR description is the source of truth (AGENTS.md).
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));

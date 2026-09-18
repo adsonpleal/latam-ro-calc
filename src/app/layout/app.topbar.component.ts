@@ -157,6 +157,13 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.140-beta',
+      date: '18-09-2026',
+      logs: [
+        'O painel “Resumo de Batalha (antigo)” foi removido. O Resumo de Batalha atual continua mostrando a rotação e o detalhamento do dano; a tabela de dano contra vários monstros, que existia apenas no painel antigo, deixou de aparecer. A opção “Ocultar Ataque Básico”, usada por aquele painel, também foi removida.',
+      ],
+    },
+    {
       v: '0.1.139-beta',
       date: '18-09-2026',
       logs: [

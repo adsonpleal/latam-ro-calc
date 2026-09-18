@@ -4,7 +4,7 @@
 > divergence from the engine's own figure, and the limits the catalog imposes — so those
 > are not rediscovered or "fixed" by mistake. Cited from the code that depends on them.
 
-Written in English, per `CLAUDE.md`. Only the strings the user reads are pt-BR.
+Written in English, per `AGENTS.md`. Only the strings the user reads are pt-BR.
 
 ---
 

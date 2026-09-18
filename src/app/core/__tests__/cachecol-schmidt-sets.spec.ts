@@ -11,7 +11,7 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  * halves were registered, so the conditional ones — the reason the scarf is worn at all —
  * did nothing.
  *
- * Every number here comes from the scarf's own pt-BR description (CLAUDE.md).
+ * Every number here comes from the scarf's own pt-BR description (AGENTS.md).
  */
 
 const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));

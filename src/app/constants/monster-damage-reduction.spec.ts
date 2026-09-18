@@ -9,8 +9,8 @@ import { monsterDamageReductionPercent, monsterDamageReductionTooltip } from './
  * monster and `monster.json` carries as bits 512 (10%) and 1024 (1%) of `stats.attr`.
  *
  * Two things are pinned here. The **values**, which are data and want a list; and the
- * **purple tag** the battle HUD and the monster card render from it, which is the half no
- * other test can see. Both templates read the same property off `totalSummary.monster`, and
+ * **purple tag** the battle HUD renders from it, which is the half no
+ * other test can see. The template reads the property off `totalSummary.monster`, and
  * that object is a spread of `Monster.data` — so renaming the field on the model silently
  * empties the tag, which is exactly what happened when `mapDamageReduction` became
  * `damageReduction` on 18/09/2026. The binding check below is the ratchet against a repeat.
@@ -21,7 +21,6 @@ import { monsterDamageReductionPercent, monsterDamageReductionTooltip } from './
 const monsters = JSON.parse(readFileSync('src/assets/demo/data/monster.json', 'utf8'));
 
 const HUD_TEMPLATE = 'src/app/layout/pages/ro-calculator/battle-hud/battle-hud.component.html';
-const CARD_TEMPLATE = 'src/app/layout/pages/ro-calculator/battle-monster-summary/battle-monster-summary.component.html';
 
 const dataOf = (id: number) => new Monster().setData(monsters[id] as MonsterModel).data;
 
@@ -62,9 +61,9 @@ describe('the "Redução N%" tag', () => {
    * A string check, deliberately: the templates are typed `any` all the way down, so nothing
    * else fails when the property name behind the tag stops existing.
    */
-  it('is bound to a property both templates share, and that the model really has', () => {
+  it('is bound to a property the model really has', () => {
     const data = dataOf(20994) as Record<string, unknown>;
-    for (const template of [HUD_TEMPLATE, CARD_TEMPLATE]) {
+    for (const template of [HUD_TEMPLATE]) {
       const html = readFileSync(template, 'utf8');
       const bindings = [...html.matchAll(/totalSummary[?.]*\.monster[?.]*\.(\w*[Rr]eduction\w*)/g)].map((m) => m[1]);
       expect(bindings.length, template).toBeGreaterThan(0);

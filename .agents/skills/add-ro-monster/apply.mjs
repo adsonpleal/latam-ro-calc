@@ -7,7 +7,7 @@
 // Input: a JSON file holding an array of records (or an object keyed by id),
 // e.g. the file written by extract.mjs after you fill in each record's `spawn`.
 //
-// Usage:  node .claude/skills/add-ro-monster/apply.mjs <records.json> [--allow-tbd]
+// Usage:  node .agents/skills/add-ro-monster/apply.mjs <records.json> [--allow-tbd]
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
@@ -20,7 +20,7 @@ const args = process.argv.slice(2);
 const allowTbd = args.includes("--allow-tbd");
 const recPath = args.find((a) => !a.startsWith("--"));
 if (!recPath) {
-  console.error("usage: node .claude/skills/add-ro-monster/apply.mjs <records.json> [--allow-tbd]");
+  console.error("usage: node .agents/skills/add-ro-monster/apply.mjs <records.json> [--allow-tbd]");
   process.exit(1);
 }
 

@@ -17,7 +17,7 @@ import { canGradeItem } from 'src/app/utils/can-grade';
  *
  * The client prints it as "Nível da arma: N" / "Nível do Equip.: N" (the casing and the
  * spacing around the colon vary between items), and that line is the source of truth per
- * CLAUDE.md. Gear old enough to predate the system prints no line at all and is level 1.
+ * AGENTS.md. Gear old enough to predate the system prints no line at all and is level 1.
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));

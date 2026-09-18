@@ -136,7 +136,7 @@ const PARTNER_ALIAS = {
  * and keeps the name, so "Carta Poe" is 27392 and 300130 and "Carta Lobo" is 4029 and
  * 27390. A set naming one of those has to accept either generation —
  * `EQUIP_ID[27392||300130]` — or it silently stops paying for whoever holds the other one.
- * See CLAUDE.md.
+ * See AGENTS.md.
  */
 const IDS_BY_NAME = new Map();
 for (const id of Object.keys(latam)) {

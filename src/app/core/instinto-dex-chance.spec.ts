@@ -10,8 +10,8 @@ import { INSTINTO_NAME, solveInstintoBuild } from './__tests__/instinto-build';
  *
  * The chance itself is innocent: a pure +200 DES on a bow build can only raise ATQ
  * Status and ATQ da Arma. What actually happened is that `prepareAllItemBonus()`
- * runs more than once per solve (ro-calculator.component.ts's
- * calculateToSelectedMonsters() re-runs it per target and once more to restore the
+ * runs more than once per solve (the multi-target battle table, since retired,
+ * re-ran it per target and once more to restore the
  * main one), and Windhawk.setAdditionalBonus() backed Ilimitar's ranged bonus out
  * of `range` on EVERY pass while `clearSupersededBonusSource` made the source stop
  * contributing after the first — so range went 767 -> 417 (correct) -> 67 (wrong).
@@ -37,7 +37,7 @@ describe('Instinto (chance__dex +200) on a Windhawk bow build', () => {
     const calc = solve([]);
     const solved = rangeOf(calc);
 
-    // calculateToSelectedMonsters() re-prepares the calculator once per selected
+    // A multi-target table re-prepares the calculator once per selected
     // target plus once to restore the main one. Each pass must land on the same
     // ranged bonus — Ilimitar can only be superseded once.
     calc.prepareAllItemBonus().calcAllAtk();
@@ -85,7 +85,7 @@ describe('Instinto (chance__dex +200) on a Windhawk bow build', () => {
   });
 
   it('raises damage through the "Efeitos" checkbox fast path, after the extra prepare passes', () => {
-    // Reproduces the reported flow: the build is solved, calculateToSelectedMonsters()
+    // Reproduces the reported flow: the build is solved, the multi-target table
     // re-prepares it, and only then does the user tick the checkbox — which calls
     // setSelectedChances(...).recalcExtraBonus(skill) on that already-prepared calculator.
     const calc = solve([]);

@@ -12,7 +12,7 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  * level 3 and a chance to petrify the attacker — is outside what the calculator models, and
  * is deliberately not registered.
  *
- * The pt-BR description is the source of truth (CLAUDE.md).
+ * The pt-BR description is the source of truth (AGENTS.md).
  */
 
 const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));

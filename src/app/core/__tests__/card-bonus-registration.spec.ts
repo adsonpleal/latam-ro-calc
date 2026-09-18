@@ -177,7 +177,7 @@ describe('every registered card reaches the engine', () => {
 
 describe('the data still says what the pt-BR description says', () => {
   it('only uses bonus keys the engine actually reads', () => {
-    // Never invent a key: an unknown one lands where nothing looks. See CLAUDE.md.
+    // Never invent a key: an unknown one lands where nothing looks. See AGENTS.md.
     const known = new Set(Object.keys(createRawTotalBonus()));
 
     for (const id of ADDED) {

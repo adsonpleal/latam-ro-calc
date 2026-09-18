@@ -3,7 +3,7 @@
 ## Language: code in English, content in pt-BR
 
 **Everything you write in this repo is English** — code, comments, JSDoc, test names,
-commit messages, and the docs under `.claude/` (this file included).
+commit messages, and the docs under `.agents/` (this file included).
 
 **pt-BR is for content only**: strings the user reads (UI labels, changelog/Novidades
 entries, toast and error messages) and the game data itself (item, skill and monster
@@ -49,9 +49,8 @@ pnpm lint       # ESLint --fix
     `Can't resolve '.../@babel/runtime/helpers/esm/asyncToGenerator.js'`.
 - After changing those settings, delete `node_modules` before reinstalling — pnpm answers
   "Already up to date" and does not rebuild the links.
-- To open the preview in chat, use the `ro-calc-dev` configuration from
-  `.claude/launch.json` (`preview_start` with `{name: "ro-calc-dev"}`), which runs
-  `pnpm start`. Never start a server directly through `Bash`/`PowerShell`.
+- Use the Codex app's managed preview for the local dev server on port 4200.
+  Never start a server directly through `Bash`/`PowerShell`.
 
 > `pnpm start` is `ng serve --hmr`, which uses **webpack**, not esbuild/Vite. That is
 > deliberate: esbuild's WebSocket HMR does not cross the preview proxy and the page never

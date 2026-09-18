@@ -12,7 +12,7 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  * so refining the partner weapon changed nothing. 401252 was the reported one; this spec
  * covers the whole family, since they were all written from the same template.
  *
- * The pt-BR description is the source of truth (CLAUDE.md).
+ * The pt-BR description is the source of truth (AGENTS.md).
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));

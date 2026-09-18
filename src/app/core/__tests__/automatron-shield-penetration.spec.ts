@@ -11,7 +11,7 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  * the physical side — so the A record is the template the B one is held to. The enchant pools
  * of both are a separate subject, in constants/enchant_item/automatron-shield.spec.ts.
  *
- * The pt-BR description is the source of truth (CLAUDE.md); each block quotes the line it
+ * The pt-BR description is the source of truth (AGENTS.md); each block quotes the line it
  * stands for.
  */
 

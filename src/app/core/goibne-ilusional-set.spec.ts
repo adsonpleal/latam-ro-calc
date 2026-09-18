@@ -14,7 +14,7 @@ import { equipStatusOf, makeCalculator } from './__tests__/make-calculator';
  * While the set was dead, two of the partners were also missing refine tiers of their own
  * (the armor's +9 DEF and the shoulder's element damage), so even the pieces read low.
  *
- * The pt-BR description is the source of truth (see CLAUDE.md):
+ * The pt-BR description is the source of truth (see AGENTS.md):
  *   Elmo: VIT +3 / +7: VIT +5 adicional / +9: Pós-conjuração -12%
  *   Conjunto [Greva + Ombreira + Armadura]:
  *     HP máx. +15%, SP máx. +5%, VIT +5 adicional, DEF +5, DEFM +15,

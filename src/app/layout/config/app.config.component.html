@@ -46,8 +46,6 @@
   <ng-container *ngIf="!isProd || !minimal">
     <h5 *ngIf="!env.production">Efeito Cascata</h5>
     <p-inputSwitch *ngIf="!env.production" [(ngModel)]="ripple"></p-inputSwitch>
-    <h5>Ocultar Ataque Básico</h5>
-    <p-inputSwitch [(ngModel)]="hideBasicAtk"></p-inputSwitch>
   </ng-container>
 
   <h5>Bootstrap</h5>

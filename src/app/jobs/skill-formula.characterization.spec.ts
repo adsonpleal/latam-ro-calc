@@ -202,7 +202,7 @@ describe('Windhawk atk-skill formulas (smoke)', () => {
     });
 
     // prepareAllItemBonus() — which ends in setAdditionalBonus() — runs several times
-    // per solve (calculateToSelectedMonsters re-prepares per target). `bonusSources` is
+    // on one calculator (the MCP damage_table re-prepares per target). `bonusSources` is
     // the long-lived equipAtkSkillBonus map, so once the first pass zeroes No Limits it
     // no longer feeds `range` on later passes; subtracting again would eat the build's
     // real ranged bonus. Reported as "Instinto lowers my damage" (see

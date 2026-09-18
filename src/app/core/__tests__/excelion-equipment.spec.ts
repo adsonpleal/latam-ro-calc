@@ -13,7 +13,7 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  * LATAM; and the Diagramas were wired for the Colete and the Motor alone, leaving the shield
  * and the boot with three empty sockets.
  *
- * The shield's numbers come from its pt-BR description (CLAUDE.md). The enchant pools do
+ * The shield's numbers come from its pt-BR description (AGENTS.md). The enchant pools do
  * not ship with the client, so they are browiki's, cited where they are used.
  */
 

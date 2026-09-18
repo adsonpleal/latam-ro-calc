@@ -35,7 +35,7 @@ a pass?**
 ## 1. Read the queue
 
 ```
-node .claude/skills/triage-rrf/queue.mjs
+node .agents/skills/triage-rrf/queue.mjs
 ```
 
 It pulls every `replay` card in `status: "backlog"` and joins it against the spec coverage
@@ -45,8 +45,8 @@ you**, so classes with no specs at all sort first. It flags duplicates, thin fil
 items and the traits verdict per card.
 
 ```
-node .claude/skills/triage-rrf/queue.mjs --class ArchMage    # one class
-node .claude/skills/triage-rrf/queue.mjs --json              # the joined data
+node .agents/skills/triage-rrf/queue.mjs --class ArchMage    # one class
+node .agents/skills/triage-rrf/queue.mjs --json              # the joined data
 ```
 
 It reads the board through `triage-backlog/backlog.mjs --list --json` rather than talking
@@ -57,7 +57,7 @@ service-account `.json` to override.
 For one card in full — description, comments, credit, the `gravação` block:
 
 ```
-node .claude/skills/triage-backlog/backlog.mjs --get <id>
+node .agents/skills/triage-backlog/backlog.mjs --get <id>
 ```
 
 ## 2. The rule that decides usability: traits exist only for 4th classes
@@ -173,19 +173,19 @@ nobody asked for is worse than one that ends in a table.
 For each approved card, put the file on disk and pass it on:
 
 ```
-node .claude/skills/triage-backlog/backlog.mjs --anexos <id> --out .scratch/<id>.rrf
+node .agents/skills/triage-backlog/backlog.mjs --anexos <id> --out .scratch/<id>.rrf
 ```
 
 Give `review-rrf-class` the path, the class, the level, and **the traits with their
 source** — that is the input its §0 asks for, and the card is where it comes from. When a
 recording earns a fixture, move it into
 `src/app/replay/__tests__/fixtures/<class>-<scenario>.rrf` and name the spec after the
-**behaviour** it pins, never after the card or the month it arrived (CLAUDE.md, and
+**behaviour** it pins, never after the card or the month it arrived (AGENTS.md, and
 [[spec-names-describe-subject]]).
 
 Once a card is actually done:
 
 ```
-node .claude/skills/triage-backlog/backlog.mjs --mark <id> --status resolvido --note "..."
-node .claude/skills/triage-backlog/backlog.mjs --mark <id> --status nao_sera_feito --note "duplicata de <id>"
+node .agents/skills/triage-backlog/backlog.mjs --mark <id> --status resolvido --note "..."
+node .agents/skills/triage-backlog/backlog.mjs --mark <id> --status nao_sera_feito --note "duplicata de <id>"
 ```

@@ -9,7 +9,7 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  * sweeping the "de Cinzas" helm family; unlike those, these need no partner, so the
  * bonus was simply absent from every build that equipped the piece.
  *
- * The pt-BR description is the source of truth (CLAUDE.md); each row quotes its line.
+ * The pt-BR description is the source of truth (AGENTS.md); each row quotes its line.
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));

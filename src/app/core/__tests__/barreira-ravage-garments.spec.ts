@@ -9,7 +9,7 @@ import { wornBonus } from './worn-bonus';
  * subject because they were written from the same template and broke the same way, so the
  * check runs over all of them.
  *
- * The pt-BR description is the source of truth (CLAUDE.md).
+ * The pt-BR description is the source of truth (AGENTS.md).
  */
 
 describe.each([

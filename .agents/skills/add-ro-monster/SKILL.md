@@ -38,7 +38,7 @@ strings must be the calc's exact English vocab (race uses **DemiHuman**, not "Hu
 
 ### 1. Extract
 ```
-node .claude/skills/add-ro-monster/extract.mjs <id> [<id> ...]
+node .agents/skills/add-ro-monster/extract.mjs <id> [<id> ...]
 ```
 Downloads the feed, prints a per-mob summary (name, dbname, level, race/size/element,
 HP, DEF/MDEF, stats) and writes the records array to `<os tmp>/latam-monster-recs.json`
@@ -85,7 +85,7 @@ the game — like the per-level Miragem de Amdarais entries — belongs in that 
 
 ### 4. Apply
 ```
-node .claude/skills/add-ro-monster/apply.mjs <os tmp>/latam-monster-recs.json
+node .agents/skills/add-ro-monster/apply.mjs <os tmp>/latam-monster-recs.json
 ```
 Appends the records to `monster.json` with a minimal diff (the file is keyed by id;
 a full re-stringify would reorder all 450+ entries). It refuses `spawn:"TBD"` (pass

@@ -63,13 +63,12 @@ import { getClassDropdownList } from '../../../jobs/_class-list';
 import { HIDDEN_CLASS_IDS } from '../../../jobs/hidden-classes';
 import { racePtBr, sizePtBr, elementPtBr } from '../../../constants/monster-i18n';
 import { ChanceModel } from '../../../models/chance-model';
-import { BasicDamageSummaryModel, DamageFormulaCalc, SkillDamageSummaryModel } from '../../../models/damage-summary.model';
+import { DamageFormulaCalc } from '../../../models/damage-summary.model';
 import { DropdownModel, ItemDropdownModel } from '../../../models/dropdown.model';
 import { HpSpTable } from '../../../models/hp-sp-table.model';
 import { ItemListModel } from '../../../models/item-list.model';
 import { ItemModel } from '../../../models/item.model';
 import { MonsterModel } from '../../../models/monster.model';
-import { LayoutService } from '../../service/app.layout.service';
 import { ItemShopService } from './item-shop.service';
 import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
@@ -104,7 +103,6 @@ import {
   buildSizeTable,
   buildSkillMultiplierTable,
 } from 'src/app/core/summary-tables';
-import { MonsterDataViewComponent } from './monster-data-view/monster-data-view.component';
 import { SavedSimulation, SavedSimulationStore } from 'src/app/core/saved-simulations';
 import { isDefenderKey, PlayerTargetProfile, PvpMode } from 'src/app/core/pvp';
 import { buildReductionCategories, collectContributingKeys, ReductionCategory, ReductionRow, reductionRowClickable as reductionRowClickableFn, sourcesContributeAnyKey } from './reduction-breakdown';
@@ -164,7 +162,6 @@ interface ClassModel extends Partial<Record<ItemTypeEnum, number>> {
 })
 export class RoCalculatorComponent implements OnInit, OnDestroy {
   updateItemEvent = new Subject();
-  updateMonsterListEvent = new Subject();
   updateCompareEvent = new Subject();
   updateChanceEvent = new Subject();
   isCalculatingEvent = new Subject();
@@ -335,9 +332,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   selectedCharacter: CharacterBase;
   isShowSelectableSkillLevel = true;
   atkSkills: AtkSkillModel[] = [];
-  atkSkillCascades: any[] = [];
-  /** Memo for `selectedAtkSkillDisplay`, invalidated when the class changes. */
-  private atkSkillDisplayMemo?: { value: string; label: string; icon?: number };
   passiveSkills: PassiveSkillModel[] = [];
   activeSkills: ActiveSkillModel[] = [];
   consumableList: DropdownModel[] = [];
@@ -512,15 +506,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   itemOptionNumber = ItemOptionNumber;
 
-  cols: {
-    field: keyof BasicDamageSummaryModel | keyof SkillDamageSummaryModel | 'health' | 'monsterClass';
-    header: string;
-    default?: boolean;
-  }[] = [];
-  selectedColumns: { field: string; header: string; }[] = [];
-  selectedMonsterIds: number[] = this.calcStorage.readMonsterIds();
-  calcDamages: any[] = [];
-
   private allSubs: Subscription[] = [];
 
   hiddenMap = { ammu: true, shield: true };
@@ -571,8 +556,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   ref: DynamicDialogRef | undefined;
-  monsterRef: DynamicDialogRef | undefined;
-  hideBasicAtk = this.layoutService.config.hideBasicAtk;
 
   equipableItems: (DropdownModel & { id: number; position: string; })[] = [];
   offensiveSkills: (DropdownModel & { icon?: number })[] = [];
@@ -604,8 +587,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     private roService: RoService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private dialogService: DialogService,
-    private readonly layoutService: LayoutService,
     private readonly itemShop: ItemShopService,
     private readonly itemDescriptionStore: ItemDescriptionStore,
     private readonly slotColorPicker: SlotColorPickerService,
@@ -613,7 +594,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initSlotColourPrefs();
-    this.initCalcTableColumns();
     // A share link (/s/<token>/ or the legacy ?b=...) wins over the local autosave;
     // falls back to it when absent.
     const shared = this.consumeSharedBuild();
@@ -649,11 +629,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           });
         },
       });
-
-    const laySub = this.layoutService.configUpdate$.pipe(debounceTime(300)).subscribe((c) => {
-      this.hideBasicAtk = c.hideBasicAtk;
-    });
-    this.allSubs.push(laySub);
 
     this.allSubs.push(this.roService.getItemViews().subscribe((views) => (this.itemViews = views || {})));
 
@@ -741,18 +716,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         itemChanges.clear();
       });
     this.allSubs.push(updateItemSubs);
-
-    const updateMonsterListSubs = this.updateMonsterListEvent
-      .pipe(
-        tap(() => (this.isCalculating = true)),
-        debounceTime(250),
-      )
-      .subscribe(() => {
-        this.calculateToSelectedMonsters(false);
-        this.calcStorage.writeMonsterIds(this.selectedMonsterIds);
-        this.isCalculatingEvent.next(false);
-      });
-    this.allSubs.push(updateMonsterListSubs);
 
     const x = this.updateCompareEvent
       .pipe(
@@ -964,40 +927,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         this.setItemList();
       }),
     );
-  }
-
-  private initCalcTableColumns() {
-    this.cols = [
-      { field: 'health', header: 'HP', default: true },
-      { field: 'monsterClass', header: 'Classe' },
-      { field: 'skillMinDamage', header: 'Dano Mín', default: true },
-      { field: 'skillMaxDamage', header: 'Dano Máx', default: true },
-      { field: 'skillDps', header: 'DPS', default: true },
-      { field: 'skillHitKill', header: 'Golpes p/ Matar', default: true },
-      { field: 'skillCriRateToMonster', header: 'Tx. Crít.' },
-      { field: 'skillAccuracy', header: 'Precisão' },
-      { field: 'skillTotalPene', header: 'Penetração' },
-      // { field: 'hitRate', header: 'Precisão' },
-      { field: 'accuracy', header: 'Precisão Bás.' },
-      { field: 'totalPene', header: 'Penetração Bás.' },
-      { field: 'basicMinDamage', header: 'Dano Mín Bás.' },
-      { field: 'basicMaxDamage', header: 'Dano Máx Bás.' },
-      { field: 'criMaxDamage', header: 'Dano Crít. Bás.' },
-      { field: 'criMaxDamage', header: 'DPS Bás.' },
-      { field: 'basicCriRate', header: 'Tx. Crít. Bás.' },
-    ];
-    const availableCols = new Map(this.cols.map((a) => [a.field, a]));
-
-    const cached = this.calcStorage.readBattleColNames()
-      .map((col) => availableCols.get(col as any))
-      .filter(Boolean);
-    if (cached.length > 0) {
-      this.selectedColumns = cached;
-      return;
-    }
-
-    const defaultCols = [...this.cols.filter((a) => a.default).map((a) => a)];
-    this.selectedColumns = defaultCols;
   }
 
   private prepare(calculator: Calculator, compareModel?: any, pvpTarget?: PlayerTargetProfile, pvpMode?: PvpMode) {
@@ -1304,8 +1233,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     }, {});
     // this.possiblyDamages = calc.getPossiblyDamages().map((a) => ({ label: `${a}`, value: a }));
 
-    this.calculateToSelectedMonsters();
-
     // Keep the PVP tab live as the attacker build changes.
     if (this.selectedPvpTargetId) this.calculatePvp();
   }
@@ -1397,46 +1324,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    *  the "main → simulado" arrows in the "Bônus de Habilidade / Multiplicadores" tables. */
   get isComparing(): boolean {
     return this.isEnableCompare && !!this.totalSummary2;
-  }
-
-  calculateToSelectedMonsters(needCalcAll = true) {
-    const classMap = ['Normal', 'Champion', 'Boss'];
-    const selectedMonsterIds = this.selectedMonsterIds || [];
-
-    if (!needCalcAll) {
-      const alreadyCalc = new Set(this.calcDamages.map((a) => a.id));
-      const noCalcs = selectedMonsterIds.filter((id) => !alreadyCalc.has(id));
-      if (noCalcs.length === 0) {
-        this.calcDamages = this.calcDamages.filter((a) => selectedMonsterIds.includes(a.id));
-        return;
-      }
-    }
-
-    const isUseHpL = this.model.consumables.includes(12424);
-    this.calcDamages = selectedMonsterIds.map((monsterId) => {
-      const monster = this.monsterDataMap[monsterId];
-      // The chosen Aliviar level applies to every monster in the table that casts it, not
-      // only to the main target — setMonster ignores it for the ones that do not.
-      const calculated = this.calculator.setMonster(monster, this.relieveLevel).prepareAllItemBonus().calcDmgWithExtraBonus({ skillValue: this.model.selectedAtkSkill, isUseHpL });
-
-      const {
-        id,
-        name,
-        stats: { elementShortName, level, elementName, raceName, scaleName, health, class: _class },
-      } = monster;
-
-      return {
-        id,
-        label: `${level} ${name} (${racePtBr(raceName)}, ${sizePtBr(scaleName).at(0)}, ${elementPtBr(elementName)})`,
-        health,
-        monsterClass: classMap[_class],
-        elementName: elementShortName,
-        ...calculated,
-      };
-    });
-
-    // reset to main selected monster
-    this.calculator.setMonster(this.monsterDataMap[this.selectedMonster], this.relieveLevel).prepareAllItemBonus().calcAllAtk();
   }
 
   private resetModel() {
@@ -2435,32 +2322,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       const pt = this.resolveSkill(name);
       return { label: pt?.name ?? name, value: name, icon: pt?.id };
     });
-    this.atkSkillCascades = this.atkSkills;
-    this.atkSkillDisplayMemo = undefined;
     this.isShowSelectableSkillLevel = this.selectedCharacter.atkSkills.some((a) => a.levelList?.length > 0);
-  }
-
-  /**
-   * Label + icon of the chosen skill, for the levels p-cascadeSelect.
-   *
-   * The cascade hands the display template only the **raw value** (`$implicit: value`,
-   * "Wild Fire==1"), unlike p-dropdown, which hands over the whole option. Without this
-   * the icon vanished as soon as the skill was picked: it showed in the open list but not
-   * on the closed row. Level entries carry no icon of their own, so they inherit the one
-   * from the skill above them.
-   */
-  get selectedAtkSkillDisplay(): { label: string; icon?: number } | undefined {
-    const value = this.model.selectedAtkSkill;
-    if (!value) return undefined;
-    if (this.atkSkillDisplayMemo?.value === value) return this.atkSkillDisplayMemo;
-
-    for (const skill of this.atkSkillCascades) {
-      const entry = skill.value === value ? skill : skill.levelList?.find((l: any) => l.value === value);
-      if (!entry) continue;
-      this.atkSkillDisplayMemo = { value, label: entry.label, icon: entry.icon ?? skill.icon };
-      return this.atkSkillDisplayMemo;
-    }
-    return undefined;
   }
 
   private setClassMinMaxLvl() {
@@ -3980,20 +3842,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       });
   }
 
-  onAtkSkillChange() {
-    this.updateItemEvent.next(1);
-  }
-
   onPropertyAtkChange() {
     this.updateItemEvent.next(1);
-  }
-
-  onMonsterListChange() {
-    this.updateMonsterListEvent.next(1);
-  }
-
-  onSelectedColChange() {
-    this.calcStorage.writeBattleColNames(this.selectedColumns.map((a) => a.field));
   }
 
   onListItemComparingChange(isClear = false) {
@@ -4012,33 +3862,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.updateCompareEvent.next(1);
   }
 
-  onClickMonster() {
-    this.monsterRef = this.dialogService.open(MonsterDataViewComponent, {
-      header: 'Select a Product',
-      width: '75%',
-      height: '90%',
-      showHeader: false,
-      dismissableMask: true,
-      contentStyle: { overflow: 'auto' },
-      baseZIndex: 10000,
-      data: {
-        monsters: this.monsterList,
-      },
-    });
-    this.monsterRef.onClose.subscribe((monsterId: any) => {
-      if (monsterId) {
-        this.selectedMonster = monsterId;
-        this.onMonsterChange();
-      }
-    });
-  }
-
   onSelecteChance(_a: any) {
     this.updateChanceEvent.next(1);
   }
 
   onShowElementalTableClick() {
-    this.allSelectedMonsterIds = [this.selectedMonster, ...(this.selectedMonsterIds || [])];
+    this.allSelectedMonsterIds = [this.selectedMonster];
     this.isShowMonsterEle = true;
   }
 }

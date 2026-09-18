@@ -7,7 +7,7 @@
 // Input: a JSON file holding either an array of records or an object keyed by id.
 // Each record must have a numeric `id` and a `script` object.
 //
-// Usage:  node .claude/skills/add-ro-item/apply.mjs <records.json> [--force]
+// Usage:  node .agents/skills/add-ro-item/apply.mjs <records.json> [--force]
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
@@ -20,7 +20,7 @@ const args = process.argv.slice(2);
 const force = args.includes("--force");
 const recPath = args.find((a) => !a.startsWith("--"));
 if (!recPath) {
-  console.error("usage: node .claude/skills/add-ro-item/apply.mjs <records.json> [--force]");
+  console.error("usage: node .agents/skills/add-ro-item/apply.mjs <records.json> [--force]");
   process.exit(1);
 }
 

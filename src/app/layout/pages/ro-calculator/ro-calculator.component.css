@@ -156,25 +156,6 @@ a.skill_link:hover {
   font-size: 1rem;
 }
 
-:host ::ng-deep .damage_table .p-datatable .p-datatable-tbody > tr > td {
-  padding: 0.25rem;
-}
-
-:host ::ng-deep .damage_table .p-datatable .p-datatable-thead > tr > th {
-  padding: 0.25rem;
-}
-
-:host ::ng-deep .damage_table .p-datatable .p-datatable-header {
-  padding: 0.25rem;
-}
-
-.battle_row_health {
-  color: var(--red-300);
-  /* background-color: var(--surface-0); */
-  background-color: var(--stat-chip-bg, #121212);
-  font-weight: 400;
-}
-
 .summary_stat_atk {
   /* background-color: var(--surface-0); */
   background-color: var(--stat-chip-bg, #121212);
@@ -235,18 +216,6 @@ a.skill_link:hover {
   opacity: 0.6;
 }
 
-.summary_chance {
-  /* background-color: var(--surface-0); */
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--teal-100);
-}
-
-.summary_chance_hilight {
-  /* background-color: var(--surface-0); */
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--orange-300);
-}
-
 .summary_compare {
   /* background-color: var(--surface-0); */
   background-color: var(--stat-chip-bg, #121212);
@@ -289,19 +258,6 @@ a.skill_link:hover {
   /* background-color: var(--surface-0); */
   background-color: var(--stat-chip-bg, #121212);
   color: var(--red-300);
-}
-
-.monster_hilight_label {
-  background-color: #121212;
-  color: var(--red-500);
-  width: 75px;
-}
-
-.skill_hilight_label {
-  background-color: #121212;
-  color: var(--yellow-500);
-  width: auto;
-  white-space: nowrap;
 }
 
 /* HUD tab: Monstro / Habilidade selectors — controlled flex row so the gap
@@ -687,28 +643,6 @@ a.skill_link:hover {
   flex: 0 0 auto;
   object-fit: contain;
   image-rendering: pixelated;
-}
-
-/* The level submenu opened at the top of the panel, far from the row the pointer was
-   on. PrimeNG only makes `.p-cascadeselect-item-content` a positioning context, not
-   the `.p-cascadeselect-item` itself, so the absolutely positioned sublist anchored to
-   the panel and its `top: 0` landed at the top of the whole list. Giving the item the
-   context back makes the submenu sit against the row that opened it, like a menu. It
-   opens to the left because these pickers live in the right-hand column. */
-:host ::ng-deep .skill-selection .p-cascadeselect-item {
-  position: relative;
-}
-
-:host ::ng-deep .skill-selection .p-cascadeselect-item-active > .p-cascadeselect-sublist {
-  left: auto !important;
-  right: 100%;
-  min-width: max-content;
-  max-height: 60vh;
-  overflow-y: auto;
-}
-
-:host ::ng-deep .skill-selection .p-inputgroup .p-cascadeselect {
-  width: 100%;
 }
 
 .replay-dropzone {

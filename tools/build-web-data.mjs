@@ -35,7 +35,7 @@
 //                              (immutable vs no-cache) cannot overlap.
 //
 // IMPORTANT: this script only ever READS src/assets/demo/data/. item.json stays
-// the hand-edited source of truth — .claude/skills/add-ro-item/apply.mjs appends
+// the hand-edited source of truth — .agents/skills/add-ro-item/apply.mjs appends
 // new records as raw text before the closing brace, and a full re-stringify by
 // anything else would rewrite all ~9,5k entries and destroy that diff.
 //

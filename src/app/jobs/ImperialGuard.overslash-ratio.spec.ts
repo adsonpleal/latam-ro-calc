@@ -4,7 +4,7 @@ import { ImperialGuard } from './ImperialGuard';
 
 /**
  * The three Imperial Guard attack skills, held to the base ratio in the client's own
- * pt-BR description — the source of truth for a skill's effect (CLAUDE.md), which the
+ * pt-BR description — the source of truth for a skill's effect (AGENTS.md), which the
  * Sigma blog's "[V2]" tables do not describe for LATAM (see the Night Watch and Sky
  * Emperor cases: 6 of 7 and 5 of 6 skills wrong).
  *

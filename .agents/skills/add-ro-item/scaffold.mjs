@@ -6,7 +6,7 @@
 // ready-to-fill item.json record skeleton (script left empty). It does NOT
 // guess the bonus script — that's the judgement step the SKILL.md walks through.
 //
-// Usage:  node .claude/skills/add-ro-item/scaffold.mjs <id> [<id> ...]
+// Usage:  node .agents/skills/add-ro-item/scaffold.mjs <id> [<id> ...]
 
 import { readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
@@ -151,7 +151,7 @@ function scaffold(id) {
 
 const ids = process.argv.slice(2).map(Number).filter(Boolean);
 if (!ids.length) {
-  console.error("usage: node .claude/skills/add-ro-item/scaffold.mjs <id> [<id> ...]");
+  console.error("usage: node .agents/skills/add-ro-item/scaffold.mjs <id> [<id> ...]");
   process.exit(1);
 }
 for (const id of ids) console.log(scaffold(id));

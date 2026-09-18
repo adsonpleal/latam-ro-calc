@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Baixa a gravação por trás de um link do RagnaRecap e grava o .rrf.
 //
-//   node .claude/skills/review-rrf-class/fetch-recap.mjs "https://recap.latam-tools.com.br/?r=HdHAKyBShW"
-//   node .claude/skills/review-rrf-class/fetch-recap.mjs HdHAKyBShW --out src/app/replay/__tests__/fixtures/ted-em.rrf
+//   node .agents/skills/review-rrf-class/fetch-recap.mjs "https://recap.latam-tools.com.br/?r=HdHAKyBShW"
+//   node .agents/skills/review-rrf-class/fetch-recap.mjs HdHAKyBShW --out src/app/replay/__tests__/fixtures/ted-em.rrf
 //
 // O `?r=<id>` é o **id do documento** no Firestore do projeto `ragreplaystats`, coleção
 // `replays`. A leitura é pública, então basta a apiKey de produção — não precisa de login

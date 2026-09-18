@@ -45,7 +45,7 @@ export interface MainModel extends Partial<EquipmentModel> {
   jobCrt: number;
 
   /**
-   * The single skill the "Resumo de Batalha (antigo)" tab and the engine solve against.
+   * The single skill the engine solves against.
    * Also a write-through mirror of the first real skill in {@link MainModel.rotation} —
    * keep the two in sync through `syncRotationMirror()`, never by hand, or the two
    * panels disagree about what is being calculated.

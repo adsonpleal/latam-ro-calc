@@ -9,7 +9,7 @@ import { wornBonus } from './worn-bonus';
  * LATAM client now words it as magic, matching the rest of the item, so the bonus is in
  * as `m_size_all` and nothing physical is granted.
  *
- * The pt-BR description is the source of truth (CLAUDE.md).
+ * The pt-BR description is the source of truth (AGENTS.md).
  */
 
 const ELMO_DA_FE_FELINA_II = 400244;

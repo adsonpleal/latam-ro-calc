@@ -155,7 +155,7 @@ export class BattleHudComponent implements OnDestroy {
     return reductionRowClickableFn(row, this.reductionSources);
   }
 
-  // Display-only pt-BR for the skill damage type (same map as battle-dmg-summary;
+  // Display-only pt-BR for the skill damage type (see dmgTypeLabelUtil;
   // the raw value still drives the [hidden] logic elsewhere, e.g. Magical-only chips).
   dmgTypeLabel(type: string): string {
     return dmgTypeLabelUtil(type);

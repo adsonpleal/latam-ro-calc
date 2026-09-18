@@ -7,7 +7,6 @@ export interface AppConfig {
   ripple: boolean;
   menuMode: string;
   scale: number;
-  hideBasicAtk: boolean;
 }
 
 interface LayoutState {
@@ -30,7 +29,6 @@ export class LayoutService {
     colorScheme: 'dark',
     theme: 'vela-green',
     scale: +localStorage.getItem('scale') || 14,
-    hideBasicAtk: localStorage.getItem('hideBasicAtk') !== 'false',
   };
 
   state: LayoutState = {

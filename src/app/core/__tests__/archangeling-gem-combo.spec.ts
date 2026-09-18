@@ -8,7 +8,7 @@ import { wornBonus } from './worn-bonus';
  * Their sibling 29151 Gema de Aquário was already in the db and spells the partner
  * `EQUIP[Angel Poring Shoes]`, the legacy name form: it resolves through the item's
  * English `enName` and stops paying the moment the item is renamed or re-issued. The five
- * added here name the partner by id instead (CLAUDE.md, "Combos are matched by id").
+ * added here name the partner by id instead (AGENTS.md, "Combos are matched by id").
  *
  * The +9 line reads "+3% adicional", so it stacks on the +7 line rather than replacing
  * it — 5% in total at +9, which is what two thresholds give and one would not.

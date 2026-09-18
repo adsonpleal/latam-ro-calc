@@ -1,8 +1,7 @@
 /**
- * Persisted calculator preferences (selected monsters for batch calc, chosen
- * battle-table columns). Wraps a `localStorage`-shaped backend behind an
- * interface so the parsing/validation can be unit-tested with a fake store and
- * so the engine layer never references the `localStorage` global directly.
+ * Persisted calculator preferences (Aliviar level, compare state, slot colours).
+ * Wraps a `localStorage`-shaped backend behind an interface so the parsing/validation
+ * can be unit-tested with a fake store and so the engine layer never references the `localStorage` global directly.
  */
 import { MAX_RELIEVE_LEVEL } from '../constants/monster-relieve';
 import { CompareState, sanitizeCompareState } from './compare-state';
@@ -13,9 +12,7 @@ export interface StorageLike {
   setItem(key: string, value: string): void;
 }
 
-const MONSTER_IDS_KEY = 'monsterIds';
 const RELIEVE_LEVEL_KEY = 'monsterRelieve';
-const BATTLE_COLS_KEY = 'battle_cols';
 const COMPARE_STATE_KEY = 'ro-set-compare';
 const SLOT_COLOR_LABELS_KEY = 'ro-color-labels';
 const SLOT_COLOR_SEEN_KEY = 'ro-color-seen';
@@ -43,15 +40,6 @@ export class CalcStorage {
     this.storage.setItem(key, JSON.stringify(value));
   }
 
-  /** Monster ids previously chosen for the multi-monster calc (sanitised to ints). */
-  readMonsterIds(): number[] {
-    return this.readJson(MONSTER_IDS_KEY, (raw) => (Array.isArray(raw) ? raw.map(Number).filter(Number.isInteger) : []), []);
-  }
-
-  writeMonsterIds(ids: number[]): void {
-    this.writeJson(MONSTER_IDS_KEY, ids);
-  }
-
   /**
    * The Aliviar level chosen for the target, 0 when off. Lives here rather than on the
    * build model because it describes the *target*, like the selected monster itself —
@@ -67,15 +55,6 @@ export class CalcStorage {
 
   writeRelieveLevel(level: number): void {
     this.storage.setItem(RELIEVE_LEVEL_KEY, String(level));
-  }
-
-  /** Field names of the battle-summary columns the user kept visible (strings only). */
-  readBattleColNames(): string[] {
-    return this.readJson(BATTLE_COLS_KEY, (raw) => (Array.isArray(raw) ? raw.filter((a) => typeof a === 'string') : []), []);
-  }
-
-  writeBattleColNames(fields: string[]): void {
-    this.writeJson(BATTLE_COLS_KEY, fields);
   }
 
   /**

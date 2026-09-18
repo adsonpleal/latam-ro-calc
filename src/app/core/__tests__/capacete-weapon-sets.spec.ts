@@ -12,7 +12,7 @@ import { wornBonus } from './worn-bonus';
  * The client's own text now names every partner, so the lists are complete — a wearer of
  * a Lâmina Decadente or a Revólver Descartado stopped losing 10% on both channels.
  *
- * The pt-BR description is the source of truth (CLAUDE.md).
+ * The pt-BR description is the source of truth (AGENTS.md).
  */
 
 const FAMILIES: [string, number, number[]][] = [

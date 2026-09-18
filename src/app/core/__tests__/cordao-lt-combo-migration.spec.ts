@@ -11,7 +11,7 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  *   EQUIP[Red Lotus Sword-LT] -> EQUIP_ID[500039]   Sabre Primordial-LT
  *   EQUIP[Slate Sword-LT]     -> EQUIP_ID[500040]   Lâmina Primordial-LT
  *
- * `EQUIP[<english name>]` is the legacy form (docs/item-json.md, CLAUDE.md): it resolves
+ * `EQUIP[<english name>]` is the legacy form (docs/item-json.md, AGENTS.md): it resolves
  * through the record's English name, so a pt-BR rename or an `[Apoio]`-style suffix silently
  * stops the bonus paying, and it couples every record that happens to share a display name.
  *
@@ -80,7 +80,7 @@ describe('Primordial-LT — o conjunto migrado para EQUIP_ID', () => {
   /**
    * The structural half. If either sword is ever re-issued under a second id carrying the
    * same English name, this fails and the `EQUIP_ID[...]` has to grow an `||` for the new
-   * generation — which is precisely the trap CLAUDE.md warns about, and the one a behavioural
+   * generation — which is precisely the trap AGENTS.md warns about, and the one a behavioural
    * baseline recorded today cannot possibly catch.
    */
   it.each(Object.entries(PARCEIROS))('EQUIP_ID de "%s" lista todas as gerações', (nome, id) => {

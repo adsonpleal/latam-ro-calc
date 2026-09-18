@@ -10,7 +10,7 @@ import { wornBonus } from './worn-bonus';
  * them. They are surfaced by the `preRelease` opt-in (docs/item-json.md).
  *
  * This file doubles as the behavioural baseline for moving all sixteen records from
- * `EQUIP[<display name>]` to `EQUIP_ID[<id>]` (CLAUDE.md). Every partner weapon gets a
+ * `EQUIP[<display name>]` to `EQUIP_ID[<id>]` (AGENTS.md). Every partner weapon gets a
  * case of its own, since a careless rewrite loses exactly one generation at a time — and
  * the Thanos family is precisely the re-issue shape that trap describes: each helmet
  * pairs with the `-AD` weapon, never with the older plain one of the same name.

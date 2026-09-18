@@ -12,7 +12,7 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  * pt-BR descriptions granting size resistance, only Carta Yeti had `subsize_*` in its
  * `script`. The engine and the popover already read the keys — the data was missing.
  *
- * The pt-BR description is the source of truth (CLAUDE.md). The Einbech Mine weapon set
+ * The pt-BR description is the source of truth (AGENTS.md). The Einbech Mine weapon set
  * ([Medalha Rubra|Azul] + [Dragona Rubra|Azul]) is declared on the medal side, where the
  * same set's `fct`/`acd` already lived.
  *

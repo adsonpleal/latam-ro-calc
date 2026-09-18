@@ -31,7 +31,7 @@ into the code. The difference is only where its evidence lives, and the script h
 both halves:
 
 ```
-node .claude/skills/triage-backlog/backlog.mjs --anexos <id> --out .scratch/<id>.rrf
+node .agents/skills/triage-backlog/backlog.mjs --anexos <id> --out .scratch/<id>.rrf
 ```
 
 The `.rrf` is stored **inline on the card**, as a Firestore `bytesValue` under
@@ -88,8 +88,8 @@ Those cards get **no credit line at all**; the Novidades entry just says what ch
 ## 1. Read the board
 
 ```
-node .claude/skills/triage-backlog/backlog.mjs --list
-node .claude/skills/triage-backlog/backlog.mjs --get <id>
+node .agents/skills/triage-backlog/backlog.mjs --list
+node .agents/skills/triage-backlog/backlog.mjs --get <id>
 ```
 
 `--list` with no flags **is** the run: it defaults to `--status backlog`, and that default
@@ -212,7 +212,7 @@ bigger change than was agreed.
 ## 4. Collect the credits
 
 ```
-node .claude/skills/triage-backlog/backlog.mjs --credits --status resolvido
+node .agents/skills/triage-backlog/backlog.mjs --credits --status resolvido
 ```
 
 One ready line per card, obeying §0. Do this while triaging, not while writing the release
@@ -234,7 +234,7 @@ Per card, following the plan:
   `size-resistance.spec.ts` — never after the backlog or the month. `backlog-<yyyy-mm>.spec.ts`
   was the old shape here and it is now banned: four such grab-bags were split by subject on
   17/08/2026. Put the card id in a comment instead; that is what comments are for. See
-  CLAUDE.md and [[spec-names-describe-subject]]. Drive the real `Calculator` through
+  AGENTS.md and [[spec-names-describe-subject]]. Drive the real `Calculator` through
   `loadItemFromModel().prepareAllItemBonus()` and assert on `totalEquipStatus`; a class fix
   goes next to its class. Assert the negative case too — below the level gate, without the
   combo partner.
@@ -257,14 +257,14 @@ Then close the loop:
   Check it with `node tools/post-novidades.mjs --dry-run`.
 - Move the cards:
   ```
-  node .claude/skills/triage-backlog/backlog.mjs --mark <id> --status resolvido --note "..."
+  node .agents/skills/triage-backlog/backlog.mjs --mark <id> --status resolvido --note "..."
   ```
   `--note` becomes a public comment. `nao_sera_feito` is for a report that was looked at
   and will not be acted on — say why in the note.
 - Anything real that you deliberately left out gets **its own card**, so it is not lost in
   a commit message:
   ```
-  node .claude/skills/triage-backlog/backlog.mjs --new --titulo "..." --descricao "..."
+  node .agents/skills/triage-backlog/backlog.mjs --new --titulo "..." --descricao "..."
   ```
   It lands in `reportado`, publicly, so write it for a stranger: what the item promises,
   what the calculator does, and what is actually blocking it.

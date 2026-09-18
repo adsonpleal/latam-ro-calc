@@ -11,7 +11,7 @@ import { describe, expect, it } from 'vitest';
  * never mentions elements, and the Detector de Joias, a magic dagger, procced
  * `chance__p_size_all` for a magic effect.
  *
- * The pt-BR description is the source of truth (CLAUDE.md).
+ * The pt-BR description is the source of truth (AGENTS.md).
  *
  * The check reads the key names rather than the summed bonus because the grant sits
  * behind every kind of gate the script grammar has — a refine tier, a proc, a set

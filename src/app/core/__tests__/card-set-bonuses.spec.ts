@@ -8,7 +8,7 @@ import { ACESSORIO_D, ACESSORIO_E, ARMADURA, CALCADO, CAPA, ELMO, ESCUDO, FACA_3
  *
  * Written as `EQUIP_ID[...]`, never `EQUIP[<nome>]`: the legacy form matches the partner's
  * English name, which a pt-BR rename breaks and which fires for every generation of a
- * re-issued card whether or not the set means them all. See CLAUDE.md and docs/item-json.md
+ * re-issued card whether or not the set means them all. See AGENTS.md and docs/item-json.md
  * §6. Every clause below is derived from the card's own pt-BR text by
  * tools/register-missing-cards.mjs, and the partners named there are ALL required — that is
  * what a Conjunto block means, and it is what 27396's upstream mirror
@@ -219,7 +219,7 @@ describe('a partner two different cards answer to', () => {
 describe('both records that answer to the name "Carta Poe"', () => {
   // 27392 (S_Poe_Card_E) and 300130 (S_Poe_Card) print the same pt-BR text and each declares
   // the same set with [Carta Wolf] (300128), so each pays it. Registering the set on one and
-  // not the other is the trap CLAUDE.md names: it would stop paying for whoever holds the id
+  // not the other is the trap AGENTS.md names: it would stop paying for whoever holds the id
   // nobody wrote down.
   //
   // Being NAMED by a set is the other direction, and there the two are not interchangeable:
