@@ -2,7 +2,7 @@
      for keyboard operation. These two a11y rules are static and can't see the directive, so they
      false-positive on every element that uses it — disabled file-wide here, still enforced elsewhere. -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-<div class="grid p-fluid grid-nogutter">
+<div class="grid p-fluid grid-nogutter misc-detail-table">
   <div class="col-7">
     <div class="grid grid-nogutter">
       <div class="col-6">
@@ -184,7 +184,7 @@
       <ng-template pTemplate="body" let-val>
         <tr>
           <td>
-            <span class="{{ 'font-medium property_' + val.name }}">{{ val.displayName || val.name }}</span>
+            <p-tag [value]="val.displayName || val.name" [styleClass]="elementTagClass(val.name)"></p-tag>
           </td>
           <td>
             <span class="{{ val.physicalElementToMonster != 0 ? 'summary_stat_atk bonus_clickable' : '' }}" (click)="val.physicalElementToMonster && onElementClick(val, 'physical')" [keyActivate]="val.physicalElementToMonster">{{

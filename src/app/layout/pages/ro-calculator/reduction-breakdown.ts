@@ -50,7 +50,7 @@ const PVP_SIZE_ROWS = ALL_SIZE_ROWS.filter((row) => row.key === 'all' || row.key
 const ALL_RACE_ROWS: { key: string; label: string }[] = [
   { key: 'all', label: 'Todas as raças' },
   { key: 'formless', label: 'Amorfo' },
-  { key: 'undead', label: 'Morto-vivo' },
+  { key: 'undead', label: 'Maldito' },
   { key: 'brute', label: 'Bruto' },
   { key: 'plant', label: 'Planta' },
   { key: 'insect', label: 'Inseto' },

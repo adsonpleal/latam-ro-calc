@@ -64,10 +64,10 @@ const monsterTypes: [string, string][] = [
 // (property_*) and name-based logic.
 const ELEMENT_PT: Record<string, string> = {
   Neutral: 'Neutro', Water: 'Água', Earth: 'Terra', Fire: 'Fogo', Wind: 'Vento',
-  Poison: 'Veneno', Holy: 'Sagrado', Dark: 'Sombrio', Ghost: 'Fantasma', Undead: 'Morto-Vivo',
+  Poison: 'Veneno', Holy: 'Sagrado', Dark: 'Sombrio', Ghost: 'Fantasma', Undead: 'Maldito',
 };
 const RACE_PT: Record<string, string> = {
-  Formless: 'Amorfo', Undead: 'Morto-Vivo', Brute: 'Bruto', Plant: 'Planta', Insect: 'Inseto',
+  Formless: 'Amorfo', Undead: 'Maldito', Brute: 'Bruto', Plant: 'Planta', Insect: 'Inseto',
   Fish: 'Peixe', Demon: 'Demônio', DemiHuman: 'Humanoide', Angel: 'Anjo', Dragon: 'Dragão',
 };
 const SIZE_PT: Record<string, string> = { Small: 'Pequeno', Medium: 'Médio', Large: 'Grande' };

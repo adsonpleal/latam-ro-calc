@@ -1326,6 +1326,17 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     return this.isEnableCompare && !!this.totalSummary2;
   }
 
+  /** The skill panel groups every target-side effect together without changing the
+   * source arrays: the template keeps each row's original index for its model binding. */
+  get hasSkillDebuffs(): boolean {
+    return this.skillBuffs.some((skill) => skill.isDebuff) || this.activeSkills.some((skill) => skill.isDebuff);
+  }
+
+  /** Class-specific active effects stay separate from target-side debuffs. */
+  get hasActiveSkillEffects(): boolean {
+    return this.activeSkills.some((skill) => !skill.isDebuff);
+  }
+
   private resetModel() {
     const { class: _class, level, jobLevel } = this.model;
     this.model = { ...createMainModel(), class: _class, level, jobLevel };

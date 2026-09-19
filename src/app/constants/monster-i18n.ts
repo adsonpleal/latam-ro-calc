@@ -4,7 +4,7 @@
 
 export const RaceNamePtBr: Record<string, string> = {
   Formless: 'Amorfo',
-  Undead: 'Morto-Vivo',
+  Undead: 'Maldito',
   Brute: 'Bruto',
   Plant: 'Planta',
   Insect: 'Inseto',
@@ -39,7 +39,7 @@ export const ElementNamePtBr: Record<string, string> = {
   Shadow: 'Sombrio',
   Dark: 'Sombrio',
   Ghost: 'Fantasma',
-  Undead: 'Morto-Vivo',
+  Undead: 'Maldito',
 };
 
 export const MonsterTypePtBr: Record<string, string> = {

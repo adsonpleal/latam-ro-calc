@@ -49,8 +49,8 @@ pnpm lint       # ESLint --fix
     `Can't resolve '.../@babel/runtime/helpers/esm/asyncToGenerator.js'`.
 - After changing those settings, delete `node_modules` before reinstalling — pnpm answers
   "Already up to date" and does not rebuild the links.
-- Use the Codex app's managed preview for the local dev server on port 4200.
-  Never start a server directly through `Bash`/`PowerShell`.
+- The local dev server may be started directly with `pnpm start` from Bash or
+  PowerShell, or through the Codex app's managed preview, on port 4200.
 
 > `pnpm start` is `ng serve --hmr`, which uses **webpack**, not esbuild/Vite. That is
 > deliberate: esbuild's WebSocket HMR does not cross the preview proxy and the page never

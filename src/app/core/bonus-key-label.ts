@@ -103,7 +103,7 @@ const BONUS_KEY_PARTS = {
     all: 'Todos', s: 'Pequeno', m: 'Médio', l: 'Grande',
     normal: 'Normal', boss: 'Chefe',
     neutral: 'Neutro', water: 'Água', earth: 'Terra', fire: 'Fogo', wind: 'Vento',
-    poison: 'Veneno', holy: 'Sagrado', dark: 'Sombrio', ghost: 'Fantasma', undead: 'Morto-vivo',
+    poison: 'Veneno', holy: 'Sagrado', dark: 'Sombrio', ghost: 'Fantasma', undead: 'Maldito',
     formless: 'Sem Forma', brute: 'Bruto', plant: 'Planta', insect: 'Inseto', fish: 'Peixe',
     demon: 'Demônio', demihuman: 'Humanoide', angel: 'Anjo', dragon: 'Dragão',
     player_human: 'Humano', player_doram: 'Doram',

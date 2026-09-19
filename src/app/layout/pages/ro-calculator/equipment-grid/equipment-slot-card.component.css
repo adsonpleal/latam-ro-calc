@@ -7,7 +7,7 @@
   flex-direction: column;
   background: #1b2635;
   border: 1px solid #304562;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   overflow: hidden;
 }
 

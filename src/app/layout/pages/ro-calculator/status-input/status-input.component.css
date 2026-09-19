@@ -38,16 +38,16 @@
   color: #fdd87d;
 }
 
-/* 52px is three digits (130 is the cap) plus the chevron, and no more: every spare pixel
+/* 56px is three digits (130 is the cap) plus the full-size chevron, and no more: every spare pixel
    is dead space repeated twelve times. The width goes on the <p-dropdown> host, not on the
    .p-dropdown inside it — the host is a flex item that stretches to fill its row, and a
    narrower child would then sit centred in it. */
 :host ::ng-deep .status_input p-dropdown {
-  flex: 0 0 52px;
-  width: 52px;
+  flex: 0 0 56px;
+  width: 56px;
 }
 :host ::ng-deep .status_input .p-dropdown {
-  padding: 0 5px 0 4px;
+  padding: 0 3px 0 4px;
 }
 :host ::ng-deep .status_input .p-dropdown-label {
   font-size: 12px;

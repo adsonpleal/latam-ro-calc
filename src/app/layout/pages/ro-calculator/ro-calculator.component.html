@@ -680,190 +680,278 @@
   <div class="p-fluid col-5">
     <p-accordion [multiple]="true" [activeIndex]="[3]">
       <p-accordionTab header="Consumíveis" class="consumable">
-        <div class="grid grid-nogutter">
-          <!-- Consumable -->
-          <div class="col-4">
-            <p-listbox [options]="consumableList" [(ngModel)]="model.consumables" [multiple]="true" [metaKeySelection]="false" (onChange)="onConsumableChange()">
+        <div class="calc-panel consumable-panel">
+          <ng-template #consumableOption let-option>
+            <div
+              class="calc-option-row"
+              [pTooltip]="itemDescTooltip(option?.value)"
+              [escape]="false"
+              tooltipPosition="right"
+              [showDelay]="500"
+              tooltipStyleClass="item_desc_tooltip"
+            >
+              <img *ngIf="option" [src]="option.value | iconUrl: 'item'" alt="" class="calc-option-icon" missingIcon />
+              <span class="text_ellips">{{ option?.label }}</span>
+            </div>
+          </ng-template>
+
+          <section class="calc-panel-section consumable-stack">
+            <div class="calc-section-heading">
+              <span>Itens acumuláveis</span>
+            </div>
+            <p-listbox
+              [options]="consumableList"
+              [(ngModel)]="model.consumables"
+              [multiple]="true"
+              [metaKeySelection]="false"
+              (onChange)="onConsumableChange()"
+            >
               <ng-template let-item pTemplate="item">
-                <div class="flex gap-2" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
-                  <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" missingIcon />
-                  <div class="text_ellips">{{ item.label }}</div>
-                </div>
+                <ng-container [ngTemplateOutlet]="consumableOption" [ngTemplateOutletContext]="{ $implicit: item }"></ng-container>
               </ng-template>
             </p-listbox>
-          </div>
+          </section>
 
-          <div class="col-4">
-            <div class="grid grid-nogutter column_list">
-              <div *ngFor="let con of consumableList2; let i = index" class="col-12">
-                <p-listbox [options]="con" [(ngModel)]="model.consumables2[i]" [multiple]="false" [metaKeySelection]="false" (onChange)="onConsumableChange()">
-                  <ng-template let-item pTemplate="item">
-                    <div class="flex gap-2" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
-                      <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" missingIcon />
-                      <div class="text_ellips">{{ item.label }}</div>
-                    </div>
-                  </ng-template>
-                </p-listbox>
+          <div class="consumable-side">
+            <section class="calc-panel-section consumable-food">
+              <div class="calc-section-heading">
+                <span>Comidas de atributo</span>
               </div>
-            </div>
-          </div>
+              <div *ngFor="let con of consumableList2; let i = index" class="joined_field consumable-picker-field consumable-food-field">
+                <span class="joined_caption calc-select-label">{{ ['FOR', 'AGI', 'VIT', 'INT', 'DES', 'SOR'][i] }}</span>
+                <p-dropdown
+                  [autoDisplayFirst]="false"
+                  [resetFilterOnHide]="true"
+                  [options]="con"
+                  [(ngModel)]="model.consumables2[i]"
+                  (onChange)="onConsumableChange()"
+                  [showClear]="true"
+                  placeholder="Nenhuma"
+                  scrollHeight="300px"
+                >
+                  <ng-template let-option pTemplate="selectedItem">
+                    <ng-container [ngTemplateOutlet]="consumableOption" [ngTemplateOutletContext]="{ $implicit: option }"></ng-container>
+                  </ng-template>
+                  <ng-template let-option pTemplate="item">
+                    <ng-container [ngTemplateOutlet]="consumableOption" [ngTemplateOutletContext]="{ $implicit: option }"></ng-container>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+            </section>
 
-          <div class="col-4">
-            <div class="grid grid-nogutter">
-              <div class="col-12">
-                <p-listbox [options]="aspdPotionList" [(ngModel)]="model.aspdPotion" [multiple]="false" [metaKeySelection]="false" (onChange)="onConsumableChange()">
-                  <ng-template let-item pTemplate="item">
-                    <div class="flex gap-2" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
-                      <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" missingIcon />
-                      <div class="text_ellips">{{ item.label }}</div>
-                    </div>
-                  </ng-template>
-                </p-listbox>
+            <section class="calc-panel-section consumable-aspd">
+              <div class="calc-section-heading">
+                <span>Velocidade de ataque</span>
               </div>
-              <div class="col-12">
-                <p-listbox [options]="aspdPotionList2" [(ngModel)]="model.aspdPotions" [multiple]="true" [metaKeySelection]="false" (onChange)="onConsumableChange()">
-                  <ng-template let-item pTemplate="item">
-                    <div class="flex gap-2" [pTooltip]="itemDescTooltip(item.value)" [escape]="false" tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
-                      <img [src]="item.value | iconUrl: 'item'" alt="" style="width: 19px" missingIcon />
-                      <div class="text_ellips">{{ item.label }}</div>
-                    </div>
-                  </ng-template>
-                </p-listbox>
+              <div class="consumable-aspd-grid">
+                <div>
+                  <span class="calc-field-label">Poção principal</span>
+                  <div class="joined_field consumable-picker-field consumable-aspd-field">
+                    <p-dropdown
+                      [autoDisplayFirst]="false"
+                      [resetFilterOnHide]="true"
+                      [options]="aspdPotionList"
+                      [(ngModel)]="model.aspdPotion"
+                      (onChange)="onConsumableChange()"
+                      [showClear]="true"
+                      placeholder="Nenhuma"
+                      scrollHeight="300px"
+                    >
+                      <ng-template let-option pTemplate="selectedItem">
+                        <ng-container [ngTemplateOutlet]="consumableOption" [ngTemplateOutletContext]="{ $implicit: option }"></ng-container>
+                      </ng-template>
+                      <ng-template let-option pTemplate="item">
+                        <ng-container [ngTemplateOutlet]="consumableOption" [ngTemplateOutletContext]="{ $implicit: option }"></ng-container>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div>
+                  <span class="calc-field-label">Efeitos adicionais</span>
+                  <p-listbox
+                    [options]="aspdPotionList2"
+                    [(ngModel)]="model.aspdPotions"
+                    [multiple]="true"
+                    [metaKeySelection]="false"
+                    (onChange)="onConsumableChange()"
+                  >
+                    <ng-template let-item pTemplate="item">
+                      <ng-container [ngTemplateOutlet]="consumableOption" [ngTemplateOutletContext]="{ $implicit: item }"></ng-container>
+                    </ng-template>
+                  </p-listbox>
+                </div>
               </div>
-            </div>
+            </section>
           </div>
         </div>
       </p-accordionTab>
 
       <p-accordionTab header="Habilidades" class="select_skill">
-        <div class="grid grid-nogutter">
-          <!--  Buffs -->
-          <div class="col-6 pr-2">
-            <p-tag severity="info" value="Buffs"></p-tag>
-            <span class="skill_debuff pl-2">Vermelho = debuff no mob</span>
-            <div class="grid grid-nogutter">
-              <div *ngFor="let bishopBuff of skillBuffs; let i = index" class="col-12">
-                <div [ngSwitch]="bishopBuff.inputType">
-                  <div *ngSwitchCase="'dropdown'">
-                    <div class="p-inputgroup">
-                      <span class="p-inputgroup-addon text_group_ellips {{ bishopBuff.isDebuff ? 'skill_debuff' : '' }}" [pTooltip]="buffTooltip(bishopBuff, model.skillBuffs[i])" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip"><img *ngIf="bishopBuff.icon" [src]="bishopBuff.icon | iconUrl: 'skill'" alt="" class="skill_icon mr-1" /><a *ngIf="bishopBuff.icon" class="skill_label_text skill_link" href="https://www.divine-pride.net/database/skill/{{ bishopBuff.icon }}" target="_blank" rel="noreferrer noopener">{{ bishopBuff.label }}</a><span *ngIf="!bishopBuff.icon" class="skill_label_text">{{ bishopBuff.label }}</span></span>
-                      <p-dropdown
-                        [autoDisplayFirst]="false"
-                        [resetFilterOnHide]="true"
-                        [options]="bishopBuff.dropdown"
-                        [(ngModel)]="model.skillBuffs[i]"
-                        (onChange)="onSkillBuffChange(i)"
-                        styleClass="'width: 50%'"
-                        scrollHeight="380px"
-                      ></p-dropdown>
-                    </div>
-                  </div>
-                  <div *ngSwitchDefault>
-                    <div class="p-inputgroup">
-                      <span class="p-inputgroup-addon text_group_ellips {{ bishopBuff.isDebuff ? 'skill_debuff' : '' }}" [pTooltip]="buffTooltip(bishopBuff)" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip"><img *ngIf="bishopBuff.icon" [src]="bishopBuff.icon | iconUrl: 'skill'" alt="" class="skill_icon mr-1" /><a *ngIf="bishopBuff.icon" class="skill_label_text skill_link" href="https://www.divine-pride.net/database/skill/{{ bishopBuff.icon }}" target="_blank" rel="noreferrer noopener">{{ bishopBuff.label }}</a><span *ngIf="!bishopBuff.icon" class="skill_label_text">{{ bishopBuff.label }}</span></span>
-                      <p-selectButton
-                        [options]="bishopBuff.dropdown"
-                        [(ngModel)]="model.skillBuffs[i]"
-                        (ngModelChange)="onSkillBuffChange(i)"
-                        styleClass="'width: 50%'"
-                      ></p-selectButton>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        <div class="calc-panel skill-panel">
+          <ng-template #sharedSkillRow let-skill="skill" let-i="index">
+            <div class="skill-control-row" [ngSwitch]="skill.inputType">
+              <span
+                class="skill-control-label"
+                [pTooltip]="buffTooltip(skill, skill.inputType === 'dropdown' ? model.skillBuffs[i] : undefined)"
+                [escape]="false"
+                tooltipPosition="top"
+                [showDelay]="400"
+                tooltipStyleClass="item_desc_tooltip"
+              >
+                <img *ngIf="skill.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                <a
+                  *ngIf="skill.icon"
+                  class="skill_label_text skill_link"
+                  href="https://www.divine-pride.net/database/skill/{{ skill.icon }}"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  >{{ skill.label }}</a
+                >
+                <span *ngIf="!skill.icon" class="skill_label_text">{{ skill.label }}</span>
+              </span>
+              <p-dropdown
+                *ngSwitchCase="'dropdown'"
+                [autoDisplayFirst]="false"
+                [resetFilterOnHide]="true"
+                [options]="skill.dropdown"
+                [(ngModel)]="model.skillBuffs[i]"
+                (onChange)="onSkillBuffChange(i)"
+                [styleClass]="model.skillBuffs[i] ? '' : 'skill-dropdown-empty'"
+                scrollHeight="380px"
+              ></p-dropdown>
+              <p-selectButton
+                *ngSwitchDefault
+                [options]="skill.dropdown"
+                [(ngModel)]="model.skillBuffs[i]"
+                (ngModelChange)="onSkillBuffChange(i)"
+              ></p-selectButton>
             </div>
-          </div>
+          </ng-template>
 
-          <!-- Second column: the active effects first, the passives that grant bonuses
-               beneath them. -->
-          <div class="col-6">
-            <div class="grid grid-nogutter">
-              <!-- Active SKills -->
-              <div class="col-12">
-                <p-tag severity="danger" value="Habilidades/efeitos ativos"></p-tag>
-                <div class="grid grid-nogutter">
-                  <div *ngFor="let activeSkill of activeSkills; let i = index" class="col-12">
-                    <div [ngSwitch]="activeSkill.inputType">
-                      <div *ngSwitchCase="'dropdown'">
-                        <div class="p-inputgroup">
-                          <span class="p-inputgroup-addon text_group_ellips {{ activeSkill.isDebuff ? 'skill_debuff' : '' }}" [pTooltip]="buffTooltip(activeSkill, model.activeSkills[i])" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip"><img *ngIf="activeSkill.icon" [src]="activeSkill.icon | iconUrl: (activeSkill.iconType || 'skill')" alt="" class="skill_icon mr-1" /><a *ngIf="activeSkill.icon" class="skill_label_text skill_link" href="https://www.divine-pride.net/database/{{ activeSkill.iconType === 'item' ? 'item' : 'skill' }}/{{ activeSkill.icon }}" target="_blank" rel="noreferrer noopener">{{ activeSkill.label }}</a><span *ngIf="!activeSkill.icon" class="skill_label_text">{{ activeSkill.label }}</span></span>
-                          <p-dropdown
-                            [autoDisplayFirst]="false"
-                            [resetFilterOnHide]="true"
-                            [options]="activeSkill.dropdown"
-                            [(ngModel)]="model.activeSkills[i]"
-                            (onChange)="onSkillClassChange(i)"
-                            styleClass="'width: 50%'"
-                            scrollHeight="380px"
-                          >
-                            <ng-template let-option pTemplate="selectedItem">
-                              <div class="flex align-items-center gap-1">
-                                <img *ngIf="option?.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
-                                <span>{{ option?.label }}</span>
-                              </div>
-                            </ng-template>
-                            <ng-template let-option pTemplate="item">
-                              <div class="flex align-items-center gap-1" [pTooltip]="skillOptionTooltip(option)" [escape]="false" tooltipPosition="left" [showDelay]="400" tooltipStyleClass="item_desc_tooltip">
-                                <img *ngIf="option.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
-                                <span>{{ option.label }}</span>
-                              </div>
-                            </ng-template>
-                          </p-dropdown>
-                        </div>
-                      </div>
-                      <div *ngSwitchDefault>
-                        <div class="p-inputgroup">
-                          <span class="p-inputgroup-addon text_group_ellips {{ activeSkill.isDebuff ? 'skill_debuff' : '' }}" [pTooltip]="buffTooltip(activeSkill)" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip"><img *ngIf="activeSkill.icon" [src]="activeSkill.icon | iconUrl: (activeSkill.iconType || 'skill')" alt="" class="skill_icon mr-1" /><a *ngIf="activeSkill.icon" class="skill_label_text skill_link" href="https://www.divine-pride.net/database/{{ activeSkill.iconType === 'item' ? 'item' : 'skill' }}/{{ activeSkill.icon }}" target="_blank" rel="noreferrer noopener">{{ activeSkill.label }}</a><span *ngIf="!activeSkill.icon" class="skill_label_text">{{ activeSkill.label }}</span></span>
-                          <p-selectButton
-                            [options]="activeSkill.dropdown"
-                            [(ngModel)]="model.activeSkills[i]"
-                            (onChange)="onSkillClassChange(i)"
-                            styleClass="'width: 50%'"
-                          ></p-selectButton>
-                        </div>
-                      </div>
-                    </div>
+          <ng-template #activeSkillRow let-skill="skill" let-i="index">
+            <div class="skill-control-row" [ngSwitch]="skill.inputType">
+              <span
+                class="skill-control-label"
+                [pTooltip]="buffTooltip(skill, skill.inputType === 'dropdown' ? model.activeSkills[i] : undefined)"
+                [escape]="false"
+                tooltipPosition="top"
+                [showDelay]="400"
+                tooltipStyleClass="item_desc_tooltip"
+              >
+                <img *ngIf="skill.icon" [src]="skill.icon | iconUrl: (skill.iconType || 'skill')" alt="" class="skill_icon" />
+                <a
+                  *ngIf="skill.icon"
+                  class="skill_label_text skill_link"
+                  href="https://www.divine-pride.net/database/{{ skill.iconType === 'item' ? 'item' : 'skill' }}/{{ skill.icon }}"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  >{{ skill.label }}</a
+                >
+                <span *ngIf="!skill.icon" class="skill_label_text">{{ skill.label }}</span>
+              </span>
+              <p-dropdown
+                *ngSwitchCase="'dropdown'"
+                [autoDisplayFirst]="false"
+                [resetFilterOnHide]="true"
+                [options]="skill.dropdown"
+                [(ngModel)]="model.activeSkills[i]"
+                (onChange)="onSkillClassChange(i)"
+                [styleClass]="model.activeSkills[i] ? '' : 'skill-dropdown-empty'"
+                scrollHeight="380px"
+              >
+                <ng-template let-option pTemplate="selectedItem">
+                  <div class="flex align-items-center gap-1">
+                    <img *ngIf="option?.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                    <span>{{ option?.label }}</span>
                   </div>
-                </div>
-              </div>
-
-              <!-- Learned Skills -->
-              <div class="col-12 mt-3" [hidden]="passiveSkills.length === 0">
-                <p-tag severity="warning" value="Aprenda para ganhar bônus"></p-tag>
-                <div class="grid grid-nogutter">
-                  <div *ngFor="let passiveSkill of passiveSkills; let i = index" class="col-12">
-                    <div [ngSwitch]="passiveSkill.inputType">
-                      <div *ngSwitchCase="'dropdown'">
-                        <div class="p-inputgroup">
-                          <span class="p-inputgroup-addon text_group_ellips" [pTooltip]="buffTooltip(passiveSkill)" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip"><img *ngIf="passiveSkill.icon" [src]="passiveSkill.icon | iconUrl: 'skill'" alt="" class="skill_icon mr-1" /><a *ngIf="passiveSkill.icon" class="skill_label_text skill_link" href="https://www.divine-pride.net/database/skill/{{ passiveSkill.icon }}" target="_blank" rel="noreferrer noopener">{{ passiveSkill.label }}</a><span *ngIf="!passiveSkill.icon" class="skill_label_text">{{ passiveSkill.label }}</span></span>
-                          <p-dropdown
-                            [autoDisplayFirst]="false"
-                            [resetFilterOnHide]="true"
-                            [options]="passiveSkill.dropdown"
-                            [(ngModel)]="model.passiveSkills[i]"
-                            (onChange)="onSkillClassChange()"
-                            styleClass="'width: 50%'"
-                            scrollHeight="380px"
-                          ></p-dropdown>
-                        </div>
-                      </div>
-                      <div *ngSwitchDefault>
-                        <div class="p-inputgroup">
-                          <span class="p-inputgroup-addon text_group_ellips" [pTooltip]="buffTooltip(passiveSkill)" [escape]="false" tooltipPosition="top" [showDelay]="400" tooltipStyleClass="item_desc_tooltip"><img *ngIf="passiveSkill.icon" [src]="passiveSkill.icon | iconUrl: 'skill'" alt="" class="skill_icon mr-1" /><a *ngIf="passiveSkill.icon" class="skill_label_text skill_link" href="https://www.divine-pride.net/database/skill/{{ passiveSkill.icon }}" target="_blank" rel="noreferrer noopener">{{ passiveSkill.label }}</a><span *ngIf="!passiveSkill.icon" class="skill_label_text">{{ passiveSkill.label }}</span></span>
-                          <p-selectButton
-                            [options]="passiveSkill.dropdown"
-                            [(ngModel)]="model.passiveSkills[i]"
-                            (ngModelChange)="onSkillClassChange()"
-                            styleClass="'width: 50%'"
-                          ></p-selectButton>
-                        </div>
-                      </div>
-                    </div>
+                </ng-template>
+                <ng-template let-option pTemplate="item">
+                  <div
+                    class="flex align-items-center gap-1"
+                    [pTooltip]="skillOptionTooltip(option)"
+                    [escape]="false"
+                    tooltipPosition="left"
+                    [showDelay]="400"
+                    tooltipStyleClass="item_desc_tooltip"
+                  >
+                    <img *ngIf="option.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                    <span>{{ option.label }}</span>
                   </div>
-                </div>
-              </div>
+                </ng-template>
+              </p-dropdown>
+              <p-selectButton
+                *ngSwitchDefault
+                [options]="skill.dropdown"
+                [(ngModel)]="model.activeSkills[i]"
+                (ngModelChange)="onSkillClassChange(i)"
+              ></p-selectButton>
             </div>
-          </div>
+          </ng-template>
+
+          <section class="calc-panel-section" *ngIf="hasActiveSkillEffects">
+            <div class="calc-section-heading"><span>Habilidades e efeitos ativos</span></div>
+            <ng-container *ngFor="let skill of activeSkills; let i = index">
+              <ng-container *ngIf="!skill.isDebuff" [ngTemplateOutlet]="activeSkillRow" [ngTemplateOutletContext]="{ skill: skill, index: i }"></ng-container>
+            </ng-container>
+          </section>
+
+          <section class="calc-panel-section" [hidden]="passiveSkills.length === 0">
+            <div class="calc-section-heading"><span>Aprenda para ganhar bônus</span></div>
+            <div *ngFor="let skill of passiveSkills; let i = index" class="skill-control-row" [ngSwitch]="skill.inputType">
+              <span
+                class="skill-control-label"
+                [pTooltip]="buffTooltip(skill)"
+                [escape]="false"
+                tooltipPosition="top"
+                [showDelay]="400"
+                tooltipStyleClass="item_desc_tooltip"
+              >
+                <img *ngIf="skill.icon" [src]="skill.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
+                <a
+                  *ngIf="skill.icon"
+                  class="skill_label_text skill_link"
+                  href="https://www.divine-pride.net/database/skill/{{ skill.icon }}"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  >{{ skill.label }}</a
+                >
+                <span *ngIf="!skill.icon" class="skill_label_text">{{ skill.label }}</span>
+              </span>
+              <p-dropdown
+                *ngSwitchCase="'dropdown'"
+                [autoDisplayFirst]="false"
+                [resetFilterOnHide]="true"
+                [options]="skill.dropdown"
+                [(ngModel)]="model.passiveSkills[i]"
+                (onChange)="onSkillClassChange()"
+                [styleClass]="model.passiveSkills[i] ? '' : 'skill-dropdown-empty'"
+                scrollHeight="380px"
+              ></p-dropdown>
+              <p-selectButton
+                *ngSwitchDefault
+                [options]="skill.dropdown"
+                [(ngModel)]="model.passiveSkills[i]"
+                (ngModelChange)="onSkillClassChange()"
+              ></p-selectButton>
+            </div>
+          </section>
+
+          <section class="calc-panel-section">
+            <div class="calc-section-heading"><span>Buffs</span></div>
+            <ng-container *ngFor="let skill of skillBuffs; let i = index">
+              <ng-container *ngIf="!skill.isDebuff" [ngTemplateOutlet]="sharedSkillRow" [ngTemplateOutletContext]="{ skill: skill, index: i }"></ng-container>
+            </ng-container>
+          </section>
+
+          <section class="calc-panel-section" *ngIf="hasSkillDebuffs">
+            <div class="calc-section-heading"><span>Debuffs no monstro</span></div>
+            <ng-container *ngFor="let skill of skillBuffs; let i = index">
+              <ng-container *ngIf="skill.isDebuff" [ngTemplateOutlet]="sharedSkillRow" [ngTemplateOutletContext]="{ skill: skill, index: i }"></ng-container>
+            </ng-container>
+            <ng-container *ngFor="let skill of activeSkills; let i = index">
+              <ng-container *ngIf="skill.isDebuff" [ngTemplateOutlet]="activeSkillRow" [ngTemplateOutletContext]="{ skill: skill, index: i }"></ng-container>
+            </ng-container>
+          </section>
         </div>
       </p-accordionTab>
 
@@ -967,13 +1055,13 @@
         </div>
       </p-accordionTab>
 
-      <p-accordionTab header="Resumo de Batalha">
+      <p-accordionTab header="Batalha">
         <div class="grid grid-nogutter battle_summary">
           <div class="col-12">
             <div class="hud-selectors-row">
               <!-- Monster -->
               <div class="hud-selectors-col">
-                <div class="p-inputgroup">
+                <div class="joined_field battle-target-field">
                   <p-dropdown
                     inputId="monsterOpponentHud"
                     [autoDisplayFirst]="false"
@@ -1083,12 +1171,11 @@
       </p-accordionTab>
 
       <p-accordionTab header="Descrições dos Itens">
-        <div class="grid grid-nogutter">
-          <div class="col-4">
-            <div class="flex align-items-center gap-2 px-2 py-2">
-              <span class="text-sm white-space-nowrap">Servidor:</span>
+        <div class="item-description-panel">
+          <aside class="item-description-sidebar">
+            <div class="calc-section-heading"><span>Servidor</span></div>
+            <div class="item-description-server">
               <p-dropdown
-                class="flex-1"
                 [options]="shopServerOptions"
                 [(ngModel)]="selectedShopServer"
                 optionLabel="label"
@@ -1097,58 +1184,63 @@
                 (onChange)="onSelectShopServer()"
               ></p-dropdown>
             </div>
+
             <div class="item_label_compare" *ngIf="isEnableCompare && equipCompareItems?.length">
+              <div class="calc-section-heading item-description-heading">
+                <span>Comparação</span>
+              </div>
               <p-listbox
+                styleClass="item-description-list"
                 [options]="equipCompareItems"
                 [(ngModel)]="selectedCompareItemDesc"
                 [metaKeySelection]="false"
-                [listStyle]="{ 'max-height': '700px' }"
                 (onChange)="onSelectItemDescription(true)"
               >
                 <ng-template let-item pTemplate="item">
                   <div class="flex gap-1 item_template">
                     <img [src]="item.id | iconUrl: 'item'" alt="" class="item_img" />
-                    <div class="text_ellips">
-                      {{ item.label }}
-                    </div>
+                    <div class="text_ellips">{{ item.label }}</div>
                   </div>
                 </ng-template>
               </p-listbox>
             </div>
+
+            <div class="calc-section-heading item-description-heading">
+              <span>Equipamentos</span>
+            </div>
             <p-listbox
+              styleClass="item-description-list"
               [options]="equipItems"
               [(ngModel)]="selectedItemDesc"
               [metaKeySelection]="false"
-              [listStyle]="{ 'max-height': '700px' }"
               (onChange)="onSelectItemDescription()"
             >
               <ng-template let-item pTemplate="item">
                 <div class="flex gap-1 item_template item_label_{{ item.value }}" style="background-color: var(--border-radius)">
                   <img [src]="item.id | iconUrl: 'item'" alt="" class="item_img" />
-                  <div class="text_ellips">
-                    {{ item.label }}
-                  </div>
+                  <div class="text_ellips">{{ item.label }}</div>
                 </div>
               </ng-template>
             </p-listbox>
-          </div>
-          <div class="col-8">
-            <div class="grid grid-nogutter ml-2" style="max-height: 700px; overflow: auto">
-              <div *ngIf="!itemId" class="col-12 flex flex-column align-items-center justify-content-center text-center px-3" style="min-height: 240px; opacity: 0.6">
+          </aside>
+
+          <section class="item-description-card">
+            <div class="item-description-content">
+              <div *ngIf="!itemId" class="item-description-empty">
                 <i class="pi pi-arrow-circle-left" style="font-size: 2.5rem"></i>
                 <p class="mt-3 mb-0">Selecione um item na lista ao lado para ver seus bônus e descrição.</p>
               </div>
               <ng-container *ngIf="itemId">
-                <div class="col-12 json_display">
-                  <div class="flex flex-column align-items-start gap-1">
-                    <span>
-                      Item ID:
-                      <a [href]="divinePrideItemUrl" target="_blank" rel="noopener noreferrer">{{ itemId }}</a>
-                    </span>
-                    <a [href]="marketItemUrl" target="_blank" rel="noopener noreferrer" class="flex align-items-center gap-1">
-                      <i class="pi pi-shopping-cart"></i> Mercado
-                    </a>
+                <div class="item-description-meta">
+                  <img [src]="itemId | iconUrl: 'item'" alt="" class="item-description-icon" missingIcon />
+                  <div class="item-description-links">
+                    <a [href]="divinePrideItemUrl" target="_blank" rel="noopener noreferrer">Item ID: {{ itemId }}</a>
+                    <a [href]="marketItemUrl" target="_blank" rel="noopener noreferrer"><i class="pi pi-shopping-cart"></i> Mercado</a>
                   </div>
+                </div>
+
+                <div class="item-description-bonuses">
+                  <div class="calc-section-heading"><span>Bônus calculados</span></div>
                   <ul *ngIf="itemBonusRows.length" class="bonus_breakdown_list mt-2">
                     <li *ngFor="let r of itemBonusRows" class="flex align-items-center justify-content-between py-1 px-1">
                       <span class="flex align-items-center gap-2 text_ellips">
@@ -1160,10 +1252,10 @@
                   </ul>
                   <div *ngIf="!itemBonusRows.length" class="px-1 py-2" style="opacity: 0.7">Sem bônus.</div>
                 </div>
-                <div class="col-12 px-2 py-2 mt-3" style="color: #000; background-color: #fff" [innerHTML]="itemDescription"></div>
+                <div class="item-description-text" [innerHTML]="itemDescription"></div>
               </ng-container>
             </div>
-          </div>
+          </section>
         </div>
       </p-accordionTab>
     </p-accordion>

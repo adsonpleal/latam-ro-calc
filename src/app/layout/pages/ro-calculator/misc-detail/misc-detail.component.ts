@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RESIST_REDUCTION_KEYS_BY_ELE } from 'src/app/core/summary-tables';
+import { elementTagClass as elementTagClassFn } from '../battle-hud/battle-hud.logic';
 
 @Component({
   selector: 'app-misc-detail',
@@ -24,6 +25,7 @@ export class MiscDetailComponent {
    *  `keys` are the engine summary keys whose sum equals the clicked value;
    *  `valueClass` is the source cell's colour class so the modal matches it. */
   @Output() valueClick = new EventEmitter<{ label: string; keys: string[]; valueClass: string; compare?: boolean }>();
+  elementTagClass = elementTagClassFn;
 
   constructor() {}
 
@@ -40,10 +42,10 @@ export class MiscDetailComponent {
     return kind === 'physical' ? MiscDetailComponent.PHYS : MiscDetailComponent.MAGIC;
   }
 
-  /** Emit a breakdown request. When `compare`, it targets the compared build — the modal
-   *  title gains "(simulado)" and showBonusBreakdown drills into the compare sources. */
+  /** Emit a breakdown request. When `compare`, showBonusBreakdown targets the compared
+   *  sources and adds the single shared "(comparação)" suffix to the dialog title. */
   private emitValue(label: string, keys: string[], valueClass: string, compare: boolean): void {
-    this.valueClick.emit({ label: compare ? `${label} (simulado)` : label, keys, valueClass, compare });
+    this.valueClick.emit({ label, keys, valueClass, compare });
   }
 
   onElementClick(val: any, kind: 'physical' | 'magical' | 'myElement' | 'resist', compare = false): void {
@@ -86,9 +88,9 @@ export class MiscDetailComponent {
   }
 
   /** `compare` targets the compared build: the breakdown drills into its items/buffs and
-   *  the modal title is suffixed "(simulado)" to match the "→ simulado" cell that was clicked. */
+   *  the shared dialog adds "(comparação)" to the title. */
   onSkillClick(val: any, kind: 'value' | 'cd', compare = false): void {
-    const name = `${val.displayName || val.name}${compare ? ' (simulado)' : ''}`;
+    const name = val.displayName || val.name;
     if (kind === 'cd') return this.valueClick.emit({ label: `${name} (CD)`, keys: [`cd__${val.name}`], valueClass: 'summary_damage', compare });
     this.valueClick.emit({ label: name, keys: [val.name], valueClass: 'summary_damage', compare });
   }

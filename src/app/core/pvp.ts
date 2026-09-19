@@ -177,7 +177,7 @@ export interface DefenderReductionStep {
 }
 
 const RACE_PT: Record<string, string> = {
-  player_human: 'Humano', player_doram: 'Doram', formless: 'Amorfo', undead: 'Morto-vivo',
+  player_human: 'Humano', player_doram: 'Doram', formless: 'Amorfo', undead: 'Maldito',
   brute: 'Bruto', plant: 'Planta', insect: 'Inseto', fish: 'Peixe', demon: 'Demônio',
   demihuman: 'Humanoide', angel: 'Anjo', dragon: 'Dragão',
 };

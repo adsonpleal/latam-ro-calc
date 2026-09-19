@@ -157,6 +157,14 @@ export class AppTopBarComponent {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.142-beta',
+      date: '19-09-2026',
+      logs: [
+        'Os painéis Consumíveis, Habilidades, Bônus de Habilidade / Multiplicadores, Resumo de Penetração e Descrições dos Itens ganharam o mesmo visual compacto dos equipamentos e atributos. Consumíveis e habilidades ocupam menos altura, buffs e debuffs ficaram separados, os resumos mantêm as três colunas com tabelas mais leves e a descrição dos itens deixou as listas crescerem junto com a página. Todas as dicas ao passar o mouse, seleções, comparações, detalhamentos clicáveis, janelas e cálculos continuam funcionando com os mesmos dados.',
+        '“Resumo de Batalha” passou a se chamar “Batalha”, e seus seletores de monstro e habilidade adotaram o mesmo padrão visual dos outros campos sem perder a busca. Os rótulos “Morto-Vivo” da interface também passaram a dizer “Maldito”; os textos originais das descrições dos itens não foram alterados.',
+      ],
+    },
+    {
       v: '0.1.141-beta',
       date: '18-09-2026',
       logs: [
