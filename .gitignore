@@ -5,6 +5,7 @@
 # `wrangler dev` local state (asset cache, workerd scratch).
 /.wrangler
 /tmp
+/.tmp/cloudflare-tunnel/
 /out-tsc
 /bazel-out
 
