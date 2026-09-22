@@ -190,13 +190,6 @@
   text-transform: uppercase;
 }
 
-.sources-info {
-  color: var(--primary-color);
-  font-size: 14px;
-  letter-spacing: 0;
-  cursor: pointer;
-}
-
 .auto-source-compare-toggle {
   margin-left: auto;
   text-transform: none;
@@ -216,15 +209,6 @@
 
 .auto-source-rows--compare .rot-dmg-val {
   color: var(--yellow-200, #fde4a5);
-}
-
-::ng-deep .auto-cast-info-panel.p-overlaypanel {
-  width: min(18rem, calc(100vw - 16px));
-}
-
-::ng-deep .auto-cast-info-panel .mut-note {
-  max-width: none;
-  margin-bottom: 0;
 }
 
 ::ng-deep .auto-cast-dps-panel.p-overlaypanel {

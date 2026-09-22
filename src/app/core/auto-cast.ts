@@ -156,11 +156,7 @@ export function fearBreezeExtraHits(level: number): number {
 }
 
 export function fearBreezeTotalChance(level: number): number {
-  if (level <= 0) return 0;
-  if (level <= 2) return 12;
-  if (level === 3) return 21;
-  if (level === 4) return 27;
-  return 30;
+  return fearBreezeOutcomes(level).reduce((sum, outcome) => sum + outcome.chance * 100, 0);
 }
 
 export function extraHitOutcomeRate(attacksPerSecond: number, outcomes: ExtraHitOutcome[]): number {

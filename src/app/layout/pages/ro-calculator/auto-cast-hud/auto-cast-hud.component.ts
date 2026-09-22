@@ -63,8 +63,7 @@ export class AutoCastHudComponent {
   private sourceAnchor(source: any, kind: string, fallback: any): any {
     const key = source?.key ?? 'basic-attack';
     const selector = `[data-auto-source="${key}"][data-auto-anchor="${kind}"]`;
-    const anchors = Array.from(document.querySelectorAll(selector)) as HTMLElement[];
-    return anchors[0] ?? fallback;
+    return document.querySelector<HTMLElement>(selector) ?? fallback;
   }
 
   private toggleOverlay(panel: any, event: Event, target?: EventTarget | null): void {
@@ -390,9 +389,6 @@ export class AutoCastHudComponent {
   get fearBreezeDamagePerExtraHit(): number {
     const rate = this.fearBreezeExtraHitsPerSecond;
     return rate > 0 ? this.activeSource.dps / rate : 0;
-  }
-  openSourcesInfo(event: Event, panel: any, target?: EventTarget | null): void {
-    this.toggleOverlay(panel, event, this.overlayAnchor(target, event));
   }
   openEffectiveHit(event: Event, panel: any, target?: EventTarget | null): void {
     this.toggleOverlay(panel, event, this.overlayAnchor(target, event));

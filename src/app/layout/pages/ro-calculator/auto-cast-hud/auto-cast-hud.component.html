@@ -65,15 +65,6 @@
 
   <div class="sources-head">
     <span>Fontes de DPS · {{ sourceCount }} {{ sourceCount === 1 ? 'fonte' : 'fontes' }}</span>
-    <i
-      #sourcesInfo
-      class="pi pi-info-circle sources-info"
-      tabindex="0"
-      role="button"
-      aria-label="Como as ativações por segundo são calculadas"
-      keyActivate
-      (click)="openSourcesInfo($event, sourcesInfoPanel, sourcesInfo)"
-    ></i>
     <button
       type="button"
       class="stats_compare_toggle auto-source-compare-toggle"
@@ -483,11 +474,6 @@
       </ng-template>
       <div class="kv total"><span>= DPS</span><span class="teal">{{ activeSource.currentDps | number: '1.0-0' }}<ng-container *ngIf="isComparing && activeSource.comparisonDps != null"><span class="arr">→</span><span class="sim">{{ activeSource.comparisonDps | number: '1.0-0' }}</span></ng-container></span></div>
     </div>
-  </p-overlayPanel>
-
-  <p-overlayPanel #sourcesInfoPanel styleClass="rot-details-panel auto-cast-info-panel">
-    <div class="ptitle">Ativações por segundo</div>
-    <div class="mut-note">Ativações/s é uma média estatística: ataques/s (pela Vel.Atq.) × acerto efetivo × chance de ativação. O resultado real varia em cada combate.</div>
   </p-overlayPanel>
 
   <p-overlayPanel #effectiveHitPanel styleClass="rot-details-panel auto-cast-effective-hit-panel">
