@@ -123,6 +123,9 @@ function scaffold(id) {
   if (slot === "Accessory") out.push(`  ⚠ accessory: itemSubTypeId 517 = both sides; use 510 (right) / 511 (left) if side-specific.`);
   out.push(`\n--- EFFECT / COMBO LINES (map each to a bonus key per SKILL.md) ---`);
   for (const b of effectBlocks(desc)) out.push(b.split("\n").map((l) => "  " + l).join("\n"));
+  if (/autoconjur/i.test(clean(desc))) {
+    out.push(`\n⚠ AUTO-CAST CANDIDATE: classify every clause per SKILL.md; never encode it as an ordinary chance__ bonus.`);
+  }
 
   const record = {
     id,

@@ -695,6 +695,10 @@ a.skill_link:hover {
   min-width: 0;
 }
 
+.auto-cast-shared-block {
+  margin-bottom: 14px;
+}
+
 @media (max-width: 768px) {
   .hud-selectors-row {
     flex-direction: column;
@@ -1739,3 +1743,62 @@ a.skill_link:hover {
   color: rgb(255 255 255 / 60%);
 }
 
+.auto-cast-beta-alert {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 181, 94, 0.55);
+  border-left: 3px solid var(--orange-400, #ffb55e);
+  border-radius: 4px;
+  background: rgba(255, 181, 94, 0.08);
+}
+
+.auto-cast-beta-copy {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: var(--text-color-secondary);
+  line-height: 1.4;
+}
+
+.auto-cast-beta-copy i,
+.auto-cast-beta-copy b {
+  color: var(--orange-300, #ffb55e);
+}
+
+.auto-cast-beta-copy i {
+  margin-top: 2px;
+}
+
+.auto-cast-beta-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.auto-cast-beta-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+  margin-left: 0;
+}
+
+.auto-cast-beta-actions .p-button {
+  white-space: nowrap;
+}
+
+@media (max-width: 1100px) {
+  .auto-cast-beta-alert {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .auto-cast-beta-actions {
+    flex-wrap: wrap;
+    margin-left: 0;
+  }
+}

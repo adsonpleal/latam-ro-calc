@@ -1608,16 +1608,6 @@
   opacity: 0.5;
 }
 
-/* The per-row (i) reuses one overlay panel, retargeted on each open. PrimeNG's caret is
-   positioned for the anchor it was first shown against, so it ends up drawn over the
-   next row's icon — drop it and let the panel stand on its own. */
-/* No `:host` prefix on purpose: PrimeNG portals the panel to <body>, so a host-scoped
-   rule would never match it. Bare ::ng-deep emits a global rule, which does. */
-::ng-deep .rot-details-panel.p-overlaypanel:after,
-::ng-deep .rot-details-panel.p-overlaypanel:before {
-  display: none;
-}
-
 /* Expanding the description can take the panel past the bottom of the window — some
    skills carry a full per-level table. The popover scrolls as a whole rather than the
    description scrolling inside it, so the numbers and the text stay one document.

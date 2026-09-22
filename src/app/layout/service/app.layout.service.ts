@@ -47,6 +47,8 @@ export class LayoutService {
 
   private itemSearchOpen = new Subject<void>();
 
+  private helpImproveOpen = new Subject<void>();
+
   configUpdate$ = this.configUpdate.asObservable();
 
   overlayOpen$ = this.overlayOpen.asObservable();
@@ -54,6 +56,9 @@ export class LayoutService {
   /** Fired by the topbar "Itens" button so the page-level item-search dialog opens
    *  (the trigger lives in the global topbar, the dialog lives inside the calculator). */
   itemSearchOpen$ = this.itemSearchOpen.asObservable();
+
+  /** Opens the existing "Ajude o simulador" RRF submission dialog from page content. */
+  helpImproveOpen$ = this.helpImproveOpen.asObservable();
 
   constructor() {
     this.onConfigUpdate();
@@ -91,6 +96,10 @@ export class LayoutService {
 
   openItemSearch() {
     this.itemSearchOpen.next();
+  }
+
+  openHelpImprove() {
+    this.helpImproveOpen.next();
   }
 
   showMyProfileSidebar() {

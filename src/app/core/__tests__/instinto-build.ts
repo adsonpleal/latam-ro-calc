@@ -28,8 +28,16 @@ export const INSTINTO_ID = 4879;
 export const INSTINTO_NAME: string = db[INSTINTO_ID].name;
 
 /** Concentrar 10, Caminho do Vento 5, Visão Real 10, Disparo Selvagem 5, Ilimitar 5,
- *  Ventos Sinistros 1 — the "Habilidades/efeitos ativos" panel of the shared build. */
-const ACTIVE_SKILL_IDS = [10, 5, 10, 5, 5, 1];
+ *  Ventos Sinistros 1 — keyed by skill so adding another inherited control cannot shift
+ *  the fixture onto the wrong rows. */
+const ACTIVE_SKILL_LEVELS: Record<string, number> = {
+  'Improve Concentration': 10,
+  'Wind Walk': 5,
+  'Falcon Eyes': 10,
+  'Fear Breeze': 5,
+  'No Limits': 5,
+  'Calamity Gale': 1,
+};
 
 /** Poring with every defence and resistance zeroed, so what a spec asserts comes from the
  *  build. Not `INERT_MONSTER` from ./make-calculator: these specs read hit and flee, which
@@ -61,8 +69,9 @@ export function solveInstintoBuild(params: { dex: number; selectedChances: strin
   };
 
   const cls = new Windhawk();
+  const activeSkillIds = cls.activeSkills.map((skill) => ACTIVE_SKILL_LEVELS[skill.name] ?? 0);
   const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = cls
-    .setLearnSkills({ activeSkillIds: ACTIVE_SKILL_IDS, passiveSkillIds: [] })
+    .setLearnSkills({ activeSkillIds, passiveSkillIds: [] })
     .getSkillBonusAndName();
 
   const calc = new Calculator();

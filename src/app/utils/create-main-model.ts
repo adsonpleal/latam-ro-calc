@@ -41,6 +41,7 @@ export const createMainModel = (): MainModel => ({
   // An array default, so setModelByJSONString's array branch restores it and
   // share-codec's dropDefaults leaves an empty rotation out of the token.
   rotation: [],
+  autoCastSelections: {},
   rawOptionTxts: [],
   // An object default, for the same two reasons `rotation` is an array one:
   // setModelByJSONString's loop restores it, and share-codec's dropDefaults leaves

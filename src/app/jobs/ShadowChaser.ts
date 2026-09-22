@@ -335,12 +335,15 @@ export class ShadowChaser extends Stalker {
       ],
     },
     {
-      label: 'Shadow Spell Lv10',
+      label: 'Shadow Spell',
       name: 'Shadow Spell',
-      inputType: 'selectButton',
+      inputType: 'dropdown',
       dropdown: [
-        { label: 'Sim', value: 10, isUse: true, bonus: { matk: 50 } },
-        { label: 'Não', value: 0, isUse: false },
+        { label: '-', value: 0, isUse: false },
+        ...Array.from({ length: 10 }, (_, index) => {
+          const level = index + 1;
+          return { label: `Nv ${level}`, value: level, skillLv: level, isUse: true, bonus: { matk: level * 5 } };
+        }),
       ],
     },
     ShieldSpellFn(),

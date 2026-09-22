@@ -91,6 +91,15 @@ node -e "fetch('https://assets.latam-tools.com.br/raw/jobs.json').then(r=>r.json
 
 ### 3. Bonus script — map each effect line to a bonus key
 Each script value is `"<key>": ["<entry>", ...]`. An entry is one of:
+
+**Auto-casts are not ordinary bonus-script entries.** If the pt-BR text says
+`autoconjurar`, classify each clause by trigger and effect. Only a direct-damage cast
+triggered by a successful basic attack belongs in Auto-conjuração; add verified rules to
+`VERIFIED_ITEM_AUTO_CASTS` in `src/app/core/auto-cast.ts`. Keep received-damage, on-skill,
+healing, buff and debuff clauses out, and leave ambiguous chance/roll semantics pending
+rather than guessing. Multi-skill descriptions need an explicit decision between
+independent rolls, all-from-one-roll and one-of alternatives.
+
 | form | meaning | description trigger |
 |------|---------|---------------------|
 | `"100"` | flat / unconditional | `ATQ +100.` |

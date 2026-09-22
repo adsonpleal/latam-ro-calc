@@ -1,0 +1,371 @@
+:host {
+  display: block;
+}
+
+.auto-cast-hud {
+  --hud-gap: 14px;
+  color: var(--text-color);
+}
+
+.hud-cards {
+  display: flex;
+  gap: var(--hud-gap);
+  margin-bottom: 20px;
+}
+
+.hud-card-col {
+  min-width: 0;
+}
+
+.hud-card-col--result {
+  flex: 1;
+}
+
+:host ::ng-deep .hud-card.p-card {
+  height: 100%;
+  background: transparent;
+  border: 1px solid var(--surface-border);
+  box-shadow: none;
+}
+
+:host ::ng-deep .hud-card .p-card-body {
+  padding: 12px 14px;
+}
+
+:host ::ng-deep .hud-card .p-card-content {
+  padding: 0;
+}
+
+.result-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.probability-title {
+  color: var(--text-color-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+.hud-hero-strip {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.hud-hero-fig {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hud-hero-nums {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.hud-hero-divider {
+  align-self: stretch;
+  width: 1px;
+  background: var(--surface-border);
+}
+
+.hud-hero-meta {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  gap: 1px;
+}
+
+.hud-hero-fig .cap2 {
+  color: var(--text-color-secondary);
+  font-size: 11.9px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.hud-hero-fig .cap2--plain {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.hud-hero-strip .pnum {
+  color: var(--orange-300, #f9ae61);
+  font-size: 34px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.hud-percycle {
+  color: var(--teal-300, #61beb5);
+  font-size: 24px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-meta {
+  color: var(--text-color-secondary);
+  font-size: 11.9px;
+}
+
+.hud-meta b {
+  color: var(--text-color);
+}
+
+.probability-block {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 12px;
+}
+
+.probability-title {
+  flex: 0 0 auto;
+}
+
+.probability-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.probability-flow > i {
+  flex: 0 0 auto;
+  color: var(--text-color-secondary);
+  font-size: 10px;
+}
+
+.probability-step {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-width: 0;
+  gap: 5px;
+  padding: 4px 7px;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius);
+}
+
+.probability-step span {
+  overflow: hidden;
+  color: var(--text-color-secondary);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.probability-step strong {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.probability-step--hit {
+  flex-grow: 0;
+}
+
+.probability-step--result {
+  border-color: color-mix(in srgb, var(--orange-300) 50%, var(--surface-border));
+  background: color-mix(in srgb, var(--orange-300) 6%, transparent);
+}
+
+.probability-step--result strong {
+  color: var(--orange-300);
+}
+
+.sources-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 20px 0 9px;
+  color: var(--text-color-secondary);
+  font-size: 11.9px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.sources-info {
+  color: var(--primary-color);
+  font-size: 14px;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
+.auto-source-compare-toggle {
+  margin-left: auto;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.auto-source-side-switch {
+  margin-bottom: 10px;
+  border-radius: 13px;
+}
+
+.auto-source-side-switch .stats_side {
+  height: 26px;
+  padding: 0 12px;
+  font-size: 11.5px;
+}
+
+.auto-source-rows--compare .rot-dmg-val {
+  color: var(--yellow-200, #fde4a5);
+}
+
+::ng-deep .auto-cast-info-panel.p-overlaypanel {
+  width: min(18rem, calc(100vw - 16px));
+}
+
+::ng-deep .auto-cast-info-panel .mut-note {
+  max-width: none;
+  margin-bottom: 0;
+}
+
+::ng-deep .auto-cast-dps-panel.p-overlaypanel {
+  width: min(38rem, calc(100vw - 16px));
+}
+
+::ng-deep .auto-cast-dps-panel .p-overlaypanel-content {
+  width: 100%;
+}
+
+::ng-deep .auto-cast-effective-hit-panel.p-overlaypanel {
+  width: min(26rem, calc(100vw - 16px));
+}
+
+.auto-source-row {
+  min-height: 54px;
+}
+
+.auto-source-row .rot-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.auto-source-sep {
+  color: var(--surface-border);
+}
+
+.auto-source-origin {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  cursor: default;
+}
+
+.rot-crit-val.bonus_clickable {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.auto-source-dmg {
+  gap: 12px;
+}
+
+.auto-damage-range {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-color-secondary);
+  font-size: 11.5px;
+}
+
+.auto-damage-branch {
+  cursor: pointer;
+}
+
+.auto-damage-branch:hover {
+  text-decoration: underline;
+}
+
+.auto-dps-value {
+  cursor: pointer;
+}
+
+.auto-dps-value:hover {
+  text-decoration: underline;
+}
+
+.rot-tag--dps {
+  color: var(--teal-300, #61beb5);
+  border-color: rgba(97, 190, 181, 0.45);
+  font-size: 10px;
+}
+
+.auto-source-row--empty {
+  border-style: dashed;
+}
+
+.auto-source-row--blocked {
+  opacity: 0.78;
+}
+
+.auto-source-blocked-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-color-secondary);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.auto-source-description {
+  max-width: 420px;
+  color: var(--text-color-secondary);
+  font-size: 11.5px;
+  line-height: 1.45;
+  white-space: pre-line;
+}
+
+:host ::ng-deep .auto-source-picker.p-dropdown {
+  width: min(28rem, 100%);
+  max-width: 100%;
+}
+
+@media (max-width: 991px) {
+  .hud-cards {
+    flex-direction: column;
+  }
+
+}
+
+/* The calculator itself is a two-column desktop layout, so this panel is commonly only
+   about 600px wide even when the viewport is 1280px. Container queries respond to the
+   space the accordion actually has instead of waiting for the whole browser to shrink. */
+@media (max-width: 1400px) {
+  .auto-source-row {
+    flex-wrap: wrap;
+  }
+
+  .auto-source-dmg {
+    margin-left: 38px;
+  }
+}
+
+@media (max-width: 700px) {
+  .hud-cards {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .auto-source-dmg {
+    width: calc(100% - 38px);
+    margin-left: 38px;
+    justify-content: space-between;
+  }
+
+  :host ::ng-deep .auto-source-picker.p-dropdown {
+    width: min(28rem, 100%);
+    max-width: 100%;
+  }
+}

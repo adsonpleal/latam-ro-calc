@@ -134,46 +134,15 @@
 
   <!-- 2 + 3. Efeitos on the left, the warning flags right-aligned on the same row. -->
   <div class="hud-efeitos-row">
-  <div class="hud-buffs" *ngIf="chanceList?.length">
-    <span class="cap">Efeitos</span>
-    <p-selectButton
-      [options]="chanceList"
-      optionValue="name"
-      [multiple]="true"
-      [ngModel]="selectedChances"
-      (ngModelChange)="selectedChancesChange.emit($event)"
-      styleClass="hud-buffs-select"
-    >
-      <ng-template let-item pTemplate="item">
-        <span [pTooltip]="effectTooltip(item.label2)" tooltipPosition="top" class="hud-buff-item">
-          <img *ngIf="item.itemId" [src]="item.itemId | iconUrl" alt="" class="hud-buff-icon" missingIcon />
-          {{ item.label }}
-        </span>
-      </ng-template>
-    </p-selectButton>
-  </div>
-
-  <!-- 1b. The compared build's own Efeitos. Always rendered while comparing, even when
-       the two lists match, so the rows stay positionally comparable. A proc only the
-       compared build offers is outlined. -->
-  <div class="hud-buffs" *ngIf="isComparing && chanceList2?.length">
-    <span class="cap cap--cmp">Efeitos - comparação</span>
-    <p-selectButton
-      [options]="chanceList2"
-      optionValue="name"
-      [multiple]="true"
-      [ngModel]="selectedChances2"
-      (ngModelChange)="selectedChances2Change.emit($event)"
-      styleClass="hud-buffs-select"
-    >
-      <ng-template let-item pTemplate="item">
-        <span [pTooltip]="effectTooltip(item.label2)" tooltipPosition="top" class="hud-buff-item">
-          <img *ngIf="item.itemId" [src]="item.itemId | iconUrl" alt="" class="hud-buff-icon" missingIcon />
-          {{ item.label }}
-        </span>
-      </ng-template>
-    </p-selectButton>
-  </div>
+  <app-battle-effects
+    [chanceList]="chanceList"
+    [selectedChances]="selectedChances"
+    (selectedChancesChange)="selectedChancesChange.emit($event)"
+    [chanceList2]="chanceList2"
+    [selectedChances2]="selectedChances2"
+    (selectedChances2Change)="selectedChances2Change.emit($event)"
+    [isComparing]="isComparing"
+  ></app-battle-effects>
 
   <!-- 2. Flags (only rendered when active) -->
   <div class="hud-flags" *ngIf="dmg?.requireTxt || (showLeftWeapon && model?.leftWeapon) || isAutoSpell">
@@ -192,143 +161,22 @@
   <!-- 4. Two-card layout: monster (legacy-style) | skill result -->
   <div class="hud-cards">
     <!-- Monster card -->
-    <div class="hud-card-col hud-card-col--monster">
-      <p-card styleClass="hud-card">
-      <div class="hud-monster-head">
-        <!-- A PVP target is a paper-doll, drawn larger than a monster sprite: it is a
-             whole character with gear worth reading, not a 104px mob. -->
-        <div class="sprite" [class.sprite--doll]="spriteUrlOverride">
-          <img
-            *ngIf="spriteUrlOverride"
-            [src]="spriteUrlOverride"
-            (error)="onSpriteOverrideError($event)"
-            alt=""
-            style="image-rendering: pixelated; max-height: 100%; max-width: 100%; object-fit: contain"
-          />
-          <img *ngIf="!spriteUrlOverride" [src]="selectedMonster | monsterSprite" alt="" missingIcon />
-        </div>
-        <div class="hud-monster-info">
-          <div class="np-name">{{ selectedMonsterName }}</div>
-          <div class="np-badges">
-            <p-tag *ngIf="totalSummary?.monster?.typeUpper" severity="danger" [value]="totalSummary?.monster?.typeUpper | monsterTerm: 'type'"></p-tag>
-            <p-tag *ngIf="totalSummary?.monster?.isMvp" severity="warning" value="MVP"></p-tag>
-            <p-tag
-              *ngIf="totalSummary?.monster?.isRedAura"
-              styleClass="tag-aura"
-              value="AURA"
-              pTooltip="Aura vermelha: redução de 99,9% do dano final."
-              tooltipPosition="top"
-            ></p-tag>
-            <p-tag
-              *ngIf="totalSummary?.monster?.damageReduction"
-              styleClass="tag-map-reduction"
-              [value]="'REDUÇÃO ' + totalSummary.monster.damageReduction + '%'"
-              [pTooltip]="damageReductionTooltip"
-              tooltipPosition="top"
-            ></p-tag>
-          </div>
-          <div class="hud-hp-line">HP {{ totalSummary?.monster?.hp | number }}</div>
-
-          <!-- Aliviar: only for the monsters that cast it, so every other card is
-               unchanged. The level is the player's to pick because the game's is
-               situational — in Jardim Secreto it tracks the Escudo de Energia, which the
-               party lowers by killing the four Peças de Guardião. See
-               constants/monster-relieve. -->
-          <div class="hud-relieve" *ngIf="isRelieveTarget">
-            <span
-              class="hud-relieve-label"
-              pTooltip="Aliviar reduz todo o dano físico e mágico recebido pelo monstro. Em Jardim Secreto o nível acompanha o Escudo de Energia: derrube as 4 Peças de Guardião para baixá-lo."
-              tooltipPosition="top"
-              >Aliviar</span
-            >
-            <p-dropdown
-              styleClass="hud-relieve-dd"
-              appendTo="body"
-              [options]="relieveLevelOptions"
-              optionLabel="label"
-              optionValue="value"
-              [disabled]="isInProcessingPreset"
-              [(ngModel)]="relieveLevel"
-              (ngModelChange)="relieveLevelChange.emit(relieveLevel)"
-            ></p-dropdown>
-          </div>
-
-          <!-- PVP only: the target's damage reduction vs players, per category (docs/pvp.md §4).
-               Rows drill into the OPPONENT's gear; WoE rows are the castle aura (not clickable). -->
-          <div class="hud-reduction" *ngIf="reductionCategories?.length">
-            <span class="reduction-label bonus_clickable" (click)="hudReductionPanel.toggle($event)" keyActivate>
-              <i class="pi pi-shield"></i> Redução de dano
-            </span>
-            <p-overlayPanel #hudReductionPanel styleClass="reduction-panel">
-              <div class="reduction-pop">
-                <div *ngFor="let cat of reductionCategories" class="reduction-cat">
-                  <div class="reduction-cat-title">{{ cat.label }}</div>
-                  <div
-                    *ngFor="let row of cat.rows"
-                    class="reduction-row"
-                    [class.bonus_clickable]="reductionRowClickable(row)"
-                    (click)="reductionRowClickable(row) ? reductionRowClick.emit(row) : null"
-                    keyActivate
-                  >
-                    <span class="reduction-row-label">{{ row.label }}</span>
-                    <span class="reduction-val" [class.neg]="row.percent < 0">{{ row.percent }}%</span>
-                  </div>
-                </div>
-              </div>
-            </p-overlayPanel>
-          </div>
-          <a
-            *ngIf="selectedMonster"
-            class="monster_id_link"
-            [href]="'https://www.divine-pride.net/database/monster/' + selectedMonster"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            ID: {{ selectedMonster }}<i class="pi pi-external-link ml-1" style="font-size: 0.7rem"></i>
-          </a>
-        </div>
-      </div>
-
-      <!-- Right half of the band: elemento/raça/tamanho, then the DEF grid, then the
-           atributos grid under a rule. -->
-      <div class="hud-band-right">
-      <div class="hud-mstats">
-        <div class="kv"><span>DEF</span><span class="v-def">{{ totalSummary?.monster?.softDef | number }} + {{ totalSummary?.monster?.def | number }}</span></div>
-        <div class="kv"><span>DEFM</span><span class="v-def">{{ totalSummary?.monster?.softMDef | number }} + {{ totalSummary?.monster?.mdef | number }}</span></div>
-        <div class="kv"><span>HIT p/100%</span><span class="v-def">{{ totalSummary?.monster?.hitRequireFor100 | number }}</span></div>
-        <div class="kv">
-          <span>TEN / TENM</span>
-          <span><span class="v-res">{{ totalSummary?.monster?.res | number }}</span> / <span class="v-resm">{{ totalSummary?.monster?.mres | number }}</span></span>
-        </div>
-      </div>
-
-      <div class="hud-sub">
-        <p-tag
-          class="el-tag-clickable"
-          icon="pi pi-search"
-          [value]="totalSummary?.monster?.elementLevelUpper | monsterTerm: 'element'"
-          [styleClass]="elementTagClass(totalSummary?.monster?.elementUpper)"
-          pTooltip="Ver tabela elemental"
-          tooltipPosition="top"
-          (click)="isInProcessingPreset ? null : onShowElementalTableClick()"
-        ></p-tag>
-        <span class="v-race">{{ totalSummary?.monster?.raceUpper | monsterTerm: 'race' }}</span>
-        <span class="v-size">{{ totalSummary?.monster?.sizeFullUpper | monsterTerm: 'size' }}</span>
-      </div>
-
-      <div class="hud-attrs">
-        <div class="kv"><span>FOR</span><span class="v-for">{{ totalSummary?.monster?.str | number }}</span></div>
-        <div class="kv"><span>INT</span><span class="v-int">{{ totalSummary?.monster?.int | number }}</span></div>
-        <div class="kv"><span>DES</span><span class="v-des">{{ totalSummary?.monster?.dex | number }}</span></div>
-        <div class="kv"><span>AGI</span><span class="v-des">{{ totalSummary?.monster?.agi | number }}</span></div>
-        <div class="kv"><span>VIT</span><span class="v-vit">{{ totalSummary?.monster?.vit | number }}</span></div>
-        <div class="kv"><span>SOR</span><span class="v-vit">{{ totalSummary?.monster?.luk | number }}</span></div>
-      </div>
-      </div>
-
-
-      </p-card>
-    </div>
+    <app-battle-monster-card
+      [totalSummary]="totalSummary"
+      [selectedMonster]="selectedMonster"
+      [selectedMonsterName]="selectedMonsterName"
+      [isInProcessingPreset]="isInProcessingPreset"
+      [isRelieveTarget]="isRelieveTarget"
+      [relieveLevelOptions]="relieveLevelOptions"
+      [relieveLevel]="relieveLevel"
+      (relieveLevelChange)="relieveLevelChange.emit($event)"
+      [spriteUrlOverride]="spriteUrlOverride"
+      [spriteFallbackUrl]="spriteFallbackUrl"
+      [reductionCategories]="reductionCategories"
+      [reductionSources]="reductionSources"
+      (reductionRowClick)="reductionRowClick.emit($event)"
+      (showElementTableClick)="onShowElementalTableClick()"
+    ></app-battle-monster-card>
 
     <!-- Skill result card -->
     <div class="hud-card-col hud-card-col--skill">
@@ -348,10 +196,10 @@
             (rotationChange)="rotationChange.emit($event)"
             (optimizeClick)="optimizeClick.emit()"
             (clearClick)="rotationChange.emit([])"
-            (detailsClick)="openStepDetails($event, detailsPanel, basicPanel)"
+            (detailsClick)="openSharedDetails($event, sharedSkillDetails)"
             (elementTableClick)="onShowElementalTableClick()"
             (critBreakdownClick)="openStepCritRate($event, critRatePanel)"
-            (damageClick)="openStepDamageFormula($event, { formula: damageFormulaPanel, noCri: damageFormulaNoCriPanel, basic: basicPanel, mean: critMeanPanel })"
+            (damageClick)="openSharedDamage($event, sharedDamagePopovers)"
           ></app-rotation-list>
 
           <!-- DPS + the cycle timeline -->
@@ -589,7 +437,7 @@
             keyActivate
             [pTooltip]="entry.critWeighted ? 'Ver como a média por crítico é calculada' : 'Ver a fórmula do dano'"
             tooltipPosition="top"
-            (click)="openStepDamageFormula({ index: i, event: $event }, { formula: damageFormulaPanel, noCri: damageFormulaNoCriPanel, basic: basicPanel, mean: critMeanPanel })"
+            (click)="openSharedDamage({ index: i, event: $event, branch: 'mean' }, sharedDamagePopovers)"
             >{{ entry.damage | number: '1.0-0' }}</span
           >
         </div>
@@ -1218,4 +1066,14 @@
     </div>
     <div *ngIf="showLeftWeapon && model?.leftWeapon" class="hud-left-weapon-warn">*** ATK da mão esquerda ainda não calculado</div>
   </p-overlayPanel>
+  <app-battle-skill-details
+    #sharedSkillDetails
+    (breakdownClick)="showBonusBreakdownClick.emit($event)"
+    (elementTableClick)="onShowElementalTableClick()"
+  ></app-battle-skill-details>
+
+  <app-battle-damage-popovers
+    #sharedDamagePopovers
+    (breakdownClick)="showBonusBreakdownClick.emit($event)"
+  ></app-battle-damage-popovers>
 </div>

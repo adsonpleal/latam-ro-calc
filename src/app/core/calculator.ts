@@ -13,7 +13,7 @@ import {
 } from 'src/app/constants';
 import { SKILL_NAME } from 'src/app/constants/skill-name';
 import { Monster, Weapon } from 'src/app/domain';
-import { CharacterBase, Doram } from 'src/app/jobs';
+import { AtkSkillModel, CharacterBase, Doram } from 'src/app/jobs';
 import { resolveSkillById, SKILL_ID_BY_NAME } from 'src/app/skills';
 import { DEFAULT_PVP_CONTEXT, pickDefenderBonus, PlayerTargetProfile, PvpContext, PvpMode, woeFleeMultiplier } from './pvp';
 import { bonusKeyLabel } from 'src/app/core/bonus-key-label';
@@ -446,6 +446,26 @@ export class Calculator {
     this._class = c;
 
     return this;
+  }
+
+  /** The class skill catalog used by configurable auto-cast selectors. */
+  get atkSkills(): AtkSkillModel[] {
+    return this._class?.atkSkills ?? [];
+  }
+
+  /** Learned/active levels after the controller has prepared the current build. */
+  get skillState() {
+    return this._class.skillState;
+  }
+
+  /** Final build stats used by class auto-cast chance formulas. */
+  get status(): StatusSummary {
+    return this.dmgCalculator.status;
+  }
+
+  /** Equipped records, including cards and enchants loaded into their relation slots. */
+  get equippedItems(): ItemModel[] {
+    return [...this.equipItem.values()].filter((item): item is ItemModel => !!item);
   }
 
   /**
@@ -1708,6 +1728,31 @@ export class Calculator {
       ...basicDmg,
       ...skillDmg,
     };
+  }
+
+  /**
+   * Solve one auto-cast with the build and target already prepared. Casting cadence is
+   * deliberately ignored by callers: this returns damage for one activation, using the
+   * same formula path as Batalha and the currently selected Efeitos.
+   */
+  solveAutoCast(skillValue: string, skillData?: AtkSkillModel): BasicDamageSummaryModel & SkillDamageSummaryModel {
+    this.calcAllAtk();
+
+    const calculator = this.dmgCalculator.setExtraBonus(this.getChanceBonus());
+    const { maxHp, maxSp } = this.hpSpCalculator
+      .setClass(this._class)
+      .setAllInfo(calculator.infoForClass)
+      .calculate()
+      .getTotalSummary();
+    const { basicDmg, skillDmg } = calculator.calculateAllDamages({
+      skillValue,
+      skillData,
+      propertyAtk: this.propertyBasicAtk,
+      maxHp,
+      maxSp,
+    });
+
+    return { ...basicDmg, ...skillDmg };
   }
 
   private getObjSummary(obj: EquipmentSummaryModel, isRemoveFields = false) {

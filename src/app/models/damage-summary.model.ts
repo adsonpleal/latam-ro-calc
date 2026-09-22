@@ -23,6 +23,9 @@ export interface BasicDamageSummaryModel {
   pAtk: number;
   sMatk: number;
   cRate: number;
+  /** Step-by-step graphs for the ordinary and critical basic-attack outcomes. */
+  basicFormulaGraph?: { min: DamageFormulaGraph; max: DamageFormulaGraph };
+  basicFormulaGraphCri?: { min: DamageFormulaGraph; max: DamageFormulaGraph };
   requireTxt?: string;
 }
 

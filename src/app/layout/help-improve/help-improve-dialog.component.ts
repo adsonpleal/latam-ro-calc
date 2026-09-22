@@ -6,7 +6,6 @@ import { ReplayTraits, TRAIT_KEYS, TRAIT_LABELS } from 'src/app/replay/replay-tr
 import { SubmissionCheck, validateReplaySubmission } from 'src/app/replay/validate-submission';
 import { createNumberDropdownList } from 'src/app/utils/create-number-dropdown-list';
 import { HELP_IMPROVE_DIALOG_STYLE } from '../dialog-geometry';
-import { snoozeHelpImprove, SNOOZE_DAYS } from './help-improve-snooze';
 
 const ZERO_TRAITS: ReplayTraits = { pow: 0, sta: 0, wis: 0, spl: 0, con: 0, crt: 0 };
 
@@ -22,8 +21,6 @@ export class HelpImproveDialogComponent {
   /** Stamped on the submission so a bug report can be tied to a release. */
   @Input() appVersion = '';
 
-  readonly snoozeDays = SNOOZE_DAYS;
-
   readonly dialogStyle = HELP_IMPROVE_DIALOG_STYLE;
   readonly traitKeys = TRAIT_KEYS;
   /** The calculator's own trait range, so the two pickers offer the same values. */
@@ -32,8 +29,6 @@ export class HelpImproveDialogComponent {
 
   readonly browikiUrl = 'https://browiki.org/wiki/Replay';
   readonly discordUrl = 'https://discord.gg/JCXTqqWq9Q';
-
-  dontShowAgain = false;
 
   fileName = '';
   dragOver = false;
@@ -84,7 +79,6 @@ export class HelpImproveDialogComponent {
   }
 
   onHide() {
-    if (this.dontShowAgain) snoozeHelpImprove();
     this.visible = false;
     this.visibleChange.emit(false);
     this.reset();

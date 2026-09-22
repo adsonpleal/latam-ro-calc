@@ -2,6 +2,7 @@ import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { BeastBaneFn } from '../constants/share-passive-skills';
 import { Archer } from './Archer';
+import { BLITZ_BEAT } from '../skills/shared-skills';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 0, 1, 0],
@@ -83,6 +84,7 @@ export class Sniper extends Archer {
 
   private readonly classNamesHi = [ClassName.Hunter, ClassName.HiClass, ClassName.Sniper];
   private readonly atkSkillListHi: AtkSkillModel[] = [
+    BLITZ_BEAT,
     {
       name: 'Focused Arrow Strike',
       label: 'Focused Arrow Lv5',
@@ -104,6 +106,17 @@ export class Sniper extends Archer {
     },
   ];
   private readonly activeSkillListHi: ActiveSkillModel[] = [
+    {
+      label: 'Falconry Mastery',
+      name: 'Falconry Mastery',
+      inputType: 'selectButton',
+      exclusiveGroup: 'ranger_companion',
+      allowCoexistIn: [ClassName.Windhawk],
+      dropdown: [
+        { label: 'Sim', value: 1, skillLv: 1, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
+      ],
+    },
     {
       isEquipAtk: true,
       inputType: 'selectButton',
@@ -144,6 +157,15 @@ export class Sniper extends Archer {
         { label: 'Nv 8', value: 8, isUse: true, bonus: { falconDmg: 48 } },
         { label: 'Nv 9', value: 9, isUse: true, bonus: { falconDmg: 54 } },
         { label: 'Nv 10', value: 10, isUse: true, bonus: { falconDmg: 60 } },
+      ],
+    },
+    {
+      label: 'Blitz Beat',
+      name: 'Blitz Beat',
+      inputType: 'dropdown',
+      dropdown: [
+        { label: '-', value: 0, isUse: false },
+        ...Array.from({ length: 5 }, (_, i) => ({ label: `Nv ${i + 1}`, value: i + 1, skillLv: i + 1, isUse: true })),
       ],
     },
     {

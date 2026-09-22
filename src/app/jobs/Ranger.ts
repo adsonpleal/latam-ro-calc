@@ -1,6 +1,6 @@
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
-import { ARROW_STORM } from '../skills/shared-skills';
+import { ARROW_STORM, WUG_STRIKE } from '../skills/shared-skills';
 import { NoLimitFn } from '../constants/share-active-skills';
 import { InfoForClass } from '../models/info-for-class.model';
 import { Sniper } from './Sniper';
@@ -85,6 +85,7 @@ export class Ranger extends Sniper {
   private readonly classNames3rd = [ClassName.Only_3rd, ClassName.Ranger];
   private readonly atkSkillList3rd: AtkSkillModel[] = [
     { ...ARROW_STORM, values: ['[Improved] Arrow Storm==10'] },
+    WUG_STRIKE,
     {
       name: 'Aimed Bolt',
       label: 'Aimed Bolt Lv10',
@@ -110,13 +111,28 @@ export class Ranger extends Sniper {
   ];
   private readonly activeSkillList3rd: ActiveSkillModel[] = [
     {
-      label: 'Fear Breeze 5',
-      name: 'Fear Breeze',
+      label: 'Wug Mastery',
+      name: 'Wug Mastery',
       inputType: 'selectButton',
+      exclusiveGroup: 'ranger_companion',
+      allowCoexistIn: [ClassName.Windhawk],
+      dropdown: [
+        { label: 'Sim', value: 1, skillLv: 1, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
+      ],
+    },
+    {
+      label: 'Fear Breeze',
+      name: 'Fear Breeze',
+      inputType: 'dropdown',
       isMasteryAtk: true,
       dropdown: [
-        { label: 'Sim', value: 5, skillLv: 5, isUse: true },
-        { label: 'Não', value: 0, isUse: false },
+        { label: '-', value: 0, isUse: false },
+        { label: 'Nv 1', value: 1, skillLv: 1, isUse: true },
+        { label: 'Nv 2', value: 2, skillLv: 2, isUse: true },
+        { label: 'Nv 3', value: 3, skillLv: 3, isUse: true },
+        { label: 'Nv 4', value: 4, skillLv: 4, isUse: true },
+        { label: 'Nv 5', value: 5, skillLv: 5, isUse: true },
       ],
     },
     NoLimitFn(),
@@ -235,6 +251,16 @@ export class Ranger extends Sniper {
       ],
     },
     {
+      label: 'Wug Teeth',
+      name: 'Wug Teeth',
+      inputType: 'dropdown',
+      isMasteryAtk: true,
+      dropdown: [
+        { label: '-', value: 0, isUse: false },
+        ...Array.from({ length: 10 }, (_, i) => ({ label: `Nv ${i + 1}`, value: i + 1, skillLv: i + 1, isUse: true, bonus: { wug_atk: (i + 1) * 30 } })),
+      ],
+    },
+    {
       label: 'Fear Breeze',
       name: 'Fear Breeze',
       inputType: 'dropdown',
@@ -285,8 +311,9 @@ export class Ranger extends Sniper {
   }
 
   override getMasteryAtk(info: InfoForClass): number {
-    const { monster } = info;
+    const { monster, skillName } = info;
+    const wugAtk = skillName === 'Wug Strike' ? this.calcHiddenMasteryAtk(info, { prefix: 'wug' }).totalAtk : 0;
 
-    return this.calcHiddenMasteryAtk(info, { prefix: `x_race_${monster.race}` }).totalAtk;
+    return this.calcHiddenMasteryAtk(info, { prefix: `x_race_${monster.race}` }).totalAtk + wugAtk;
   }
 }

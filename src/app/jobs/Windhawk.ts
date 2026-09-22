@@ -245,6 +245,15 @@ export class Windhawk extends Ranger {
   ];
   private readonly passiveSkillList4th: PassiveSkillModel[] = [
     {
+      name: 'Hawk Rush',
+      label: 'Hawk Rush',
+      inputType: 'dropdown',
+      dropdown: [
+        { label: '-', value: 0, isUse: false },
+        ...Array.from({ length: 5 }, (_, i) => ({ label: `Nv ${i + 1}`, value: i + 1, skillLv: i + 1, isUse: true })),
+      ],
+    },
+    {
       name: 'Nature Friendly',
       label: 'Nature Friendly',
       inputType: 'dropdown',

@@ -145,6 +145,8 @@ export interface ActiveSkillModel {
   /** buffs sharing an exclusiveGroup are mutually exclusive — turning one on
    *  turns the others off (e.g. the Soul Reaper "Espírito" souls). */
   exclusiveGroup?: string;
+  /** Classes that may keep multiple members of this exclusive group active. */
+  allowCoexistIn?: ClassName[];
 }
 export type PassiveSkillModel = ActiveSkillModel;
 

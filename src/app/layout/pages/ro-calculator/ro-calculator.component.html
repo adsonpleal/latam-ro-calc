@@ -678,7 +678,12 @@
 
   <!-- Right Side -->
   <div class="p-fluid col-5">
-    <p-accordion [multiple]="true" [activeIndex]="[3]">
+    <p-accordion
+      [multiple]="true"
+      [activeIndex]="rightAccordionActiveIndices"
+      (onOpen)="onRightAccordionOpen($event)"
+      (onClose)="onRightAccordionClose($event)"
+    >
       <p-accordionTab header="Consumíveis" class="consumable">
         <div class="calc-panel consumable-panel">
           <ng-template #consumableOption let-option>
@@ -1124,6 +1129,113 @@
               (showElementTableClick)="onShowElementalTableClick()"
               (showBonusBreakdownClick)="showBonusBreakdown($event)"
             ></app-battle-hud>
+          </div>
+        </div>
+      </p-accordionTab>
+
+      <p-accordionTab header="Auto-conjuração">
+        <div class="grid grid-nogutter battle_summary">
+          <div class="col-12">
+            <div class="auto-cast-beta-alert" role="status">
+              <div class="auto-cast-beta-copy">
+                <i class="pi pi-info-circle" aria-hidden="true"></i>
+                <div class="auto-cast-beta-text">
+                  <b>Auto-conjuração está em teste beta.</b>
+                  <span>Encontrou dano, chance ou ativações diferentes do jogo? Conte para a gente.</span>
+                </div>
+              </div>
+              <div class="auto-cast-beta-actions">
+                <a
+                  pButton
+                  class="p-button-sm p-button-success"
+                  icon="pi pi-comment"
+                  label="Bug ou sugestão"
+                  [href]="autoCastIssuesReportUrl"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                ></a>
+                <button
+                  pButton
+                  type="button"
+                  class="p-button-sm p-button-warning"
+                  icon="pi pi-upload"
+                  label="Fórmula ou cálculo"
+                  (click)="openAutoCastFormulaReport()"
+                ></button>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="hud-selectors-row">
+              <div class="hud-selectors-col">
+                <div class="joined_field battle-target-field">
+                  <p-dropdown
+                    inputId="monsterOpponentAutoCast"
+                    [autoDisplayFirst]="false"
+                    [resetFilterOnHide]="true"
+                    [options]="groupMonsterList"
+                    [filter]="true"
+                    filterBy="label,searchVal"
+                    filterPlaceholder="Buscar por nome ou ID (ex: 21361)"
+                    [group]="true"
+                    scrollHeight="400px"
+                    placeholder="Monstro"
+                    [(ngModel)]="selectedMonster"
+                    (onChange)="onMonsterChange()"
+                  >
+                    <ng-template let-group pTemplate="group">
+                      <div class="flex align-items-center font-bold dropdown_monster_group_label">
+                        <span>{{ group.label }}</span>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 auto-cast-shared-block" *ngIf="chanceList?.length || (isComparing && chanceList2?.length)">
+            <app-battle-effects
+              [chanceList]="chanceList"
+              [selectedChances]="selectedChances"
+              (selectedChancesChange)="selectedChances = $event; onSelecteChance($event)"
+              [chanceList2]="chanceList2"
+              [selectedChances2]="selectedChances2"
+              (selectedChances2Change)="selectedChances2 = $event; onSelecteChance($event)"
+              [isComparing]="isComparing"
+            ></app-battle-effects>
+          </div>
+
+          <div class="col-12 auto-cast-shared-block">
+            <app-battle-monster-card
+              [totalSummary]="totalSummary"
+              [selectedMonster]="selectedMonster"
+              [selectedMonsterName]="selectedMonsterName"
+              [isInProcessingPreset]="isInProcessingPreset"
+              [isRelieveTarget]="isRelieveTarget"
+              [relieveLevelOptions]="relieveLevelOptions"
+              [(relieveLevel)]="relieveLevel"
+              (relieveLevelChange)="onRelieveLevelChange()"
+              (showElementTableClick)="onShowElementalTableClick()"
+            ></app-battle-monster-card>
+          </div>
+
+          <div class="col-12">
+            <app-auto-cast-hud
+              [simulation]="autoCastSimulation"
+              [simulation2]="autoCastSimulation2"
+              [model]="model"
+              [model2]="model2"
+              [items]="items"
+              [summary]="totalSummary"
+              [summary2]="totalSummary2"
+              [isComparing]="isComparing"
+              [autoCompareEnabled]="isCompareAutoCast"
+              (selectionChange)="onAutoCastSelectionChange($event)"
+              (compareToggle)="toggleAutoCastCompare($event)"
+              (showBonusBreakdownClick)="showBonusBreakdown($event)"
+              (elementTableClick)="onShowElementalTableClick()"
+            ></app-auto-cast-hud>
           </div>
         </div>
       </p-accordionTab>

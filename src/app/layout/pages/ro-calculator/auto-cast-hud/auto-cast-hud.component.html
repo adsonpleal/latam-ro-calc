@@ -1,0 +1,548 @@
+<!-- keyActivate provides keyboard operation; the static template rule cannot see it. -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="auto-cast-hud">
+  <div class="hud-cards">
+    <div class="hud-card-col hud-card-col--result">
+      <p-card styleClass="hud-card result-card">
+        <div class="hud-hero-strip">
+          <div class="hud-hero-fig">
+            <div class="cap2">DPS</div>
+            <div class="hud-hero-nums"><span class="pnum">{{ simulation?.totalDps | number: '1.0-0' }}</span><ng-container *ngIf="isComparing && simulation2"><span class="vsarrow">→</span><span class="pnum sim">{{ simulation2.totalDps | number: '1.0-0' }}</span></ng-container></div>
+          </div>
+          <div class="hud-hero-fig">
+            <div class="cap2 cap2--plain">Ataque básico</div>
+            <div class="hud-hero-nums"><span class="hud-percycle">{{ simulation?.basicAttackDps | number: '1.0-0' }}</span><ng-container *ngIf="isComparing && simulation2"><span class="vsarrow">→</span><span class="hud-percycle sim">{{ simulation2.basicAttackDps | number: '1.0-0' }}</span></ng-container></div>
+          </div>
+          <div class="hud-hero-fig">
+            <div class="cap2 cap2--plain">Auto-conjurações</div>
+            <div class="hud-hero-nums"><span class="hud-percycle">{{ simulation?.autoCastDps | number: '1.0-0' }}</span><ng-container *ngIf="isComparing && simulation2"><span class="vsarrow">→</span><span class="hud-percycle sim">{{ simulation2.autoCastDps | number: '1.0-0' }}</span></ng-container></div>
+          </div>
+          <div class="hud-hero-divider"></div>
+          <div class="hud-hero-meta">
+            <div class="hud-meta">Morre em <b>{{ formatTime(simulation?.timeToKillSeconds) }}</b><ng-container *ngIf="isComparing && simulation2"><span class="vsarrow">→</span><b class="sim">{{ formatTime(simulation2.timeToKillSeconds) }}</b></ng-container></div>
+          </div>
+        </div>
+
+        <div class="probability-block">
+          <div class="probability-title">Base dos gatilhos por ataque</div>
+          <div class="probability-flow">
+          <div
+            class="probability-step probability-step--help"
+            pTooltip="Ataques por segundo calculados a partir da Vel.Atq."
+            tooltipPosition="top"
+            tooltipStyleClass="auto_cast_tip"
+          >
+            <span>Vel.Atq</span><strong>{{ simulation?.attacksPerSecond | number: '1.2-2' }}/s</strong>
+          </div>
+          <i class="pi pi-times"></i>
+          <div
+            #headerEffectiveHit
+            class="probability-step probability-step--hit probability-step--help"
+            role="button"
+            tabindex="0"
+            keyActivate
+            (click)="openEffectiveHit($event, effectiveHitPanel, headerEffectiveHit)"
+          >
+            <span>Acerto efetivo</span>
+            <strong>{{ simulation?.effectiveHitRate | number: '1.1-1' }}%</strong>
+          </div>
+          <i class="pi pi-arrow-right"></i>
+          <div
+            class="probability-step probability-step--result probability-step--help"
+            pTooltip="Apenas ataques que acertam podem ativar o efeito."
+            tooltipPosition="top"
+            tooltipStyleClass="auto_cast_tip"
+          >
+            <span>Ataques elegíveis</span>
+            <strong>{{ simulation?.eligibleAttacksPerSecond | number: '1.2-2' }}/s</strong>
+          </div>
+          </div>
+        </div>
+
+      </p-card>
+    </div>
+  </div>
+
+  <div class="sources-head">
+    <span>Fontes de DPS · {{ sourceCount }} {{ sourceCount === 1 ? 'fonte' : 'fontes' }}</span>
+    <i
+      #sourcesInfo
+      class="pi pi-info-circle sources-info"
+      tabindex="0"
+      role="button"
+      aria-label="Como as ativações por segundo são calculadas"
+      keyActivate
+      (click)="openSourcesInfo($event, sourcesInfoPanel, sourcesInfo)"
+    ></i>
+    <button
+      type="button"
+      class="stats_compare_toggle auto-source-compare-toggle"
+      [class.stats_compare_toggle--on]="autoCompareEnabled"
+      [attr.aria-pressed]="autoCompareEnabled"
+      (click)="toggleComparisonWithoutScroll($event)"
+    >⇄ {{ autoCompareEnabled ? 'Comparando' : 'Comparar' }}</button>
+  </div>
+
+  <div *ngIf="isComparing" class="stats_side_switch auto-source-side-switch" role="group" aria-label="Fontes de DPS exibidas">
+    <button
+      type="button"
+      class="stats_side"
+      [class.stats_side--active]="sourceSide === 'current'"
+      [attr.aria-pressed]="sourceSide === 'current'"
+      (click)="sourceSide = 'current'"
+    >Principal</button>
+    <button
+      type="button"
+      class="stats_side stats_side--compare"
+      [class.stats_side--active]="sourceSide === 'compare'"
+      [attr.aria-pressed]="sourceSide === 'compare'"
+      (click)="sourceSide = 'compare'"
+    >Comparação</button>
+  </div>
+
+  <div class="rot-rows auto-source-rows" [class.auto-source-rows--compare]="showingComparisonSources">
+    <ng-container *ngFor="let slot of configurableSlots">
+    <div class="rot-row auto-source-row" *ngIf="configuredSourceFor(slot) as source; else emptyConfiguredSource">
+      <img
+        #configuredIcon
+        [attr.data-auto-source]="source.key"
+        data-auto-anchor="details"
+        class="rot-icon rot-icon--btn"
+        [src]="source.icon | iconUrl: 'skill'"
+        [alt]="source.name"
+        missingIcon
+        role="button"
+        tabindex="0"
+        keyActivate
+        pTooltip="Detalhes da habilidade"
+        tooltipPosition="top"
+        (click)="openDetails(source, $event, sharedSkillDetails, configuredIcon)"
+      />
+
+      <div class="rot-body">
+        <div class="rot-line1">
+          <span class="rot-name">{{ source.name }}</span>
+          <span class="rot-level rot-level--static">{{ source.level }}</span>
+        </div>
+        <div class="rot-line2">
+          <ng-container *ngFor="let detail of source.meta; let first = first">
+            <span class="auto-source-sep" *ngIf="!first">•</span>
+            <span
+              [attr.data-auto-source]="source.key"
+            >
+              <ng-container *ngIf="detail.critical; else configuredMetaText">
+                Crít.
+                <b
+                  #configuredCrit
+                  [attr.data-auto-source]="source.key"
+                  data-auto-anchor="crit"
+                  class="rot-crit-val bonus_clickable"
+                  role="button"
+                  tabindex="0"
+                  keyActivate
+                  (click)="openCrit(source, $event, critRatePanel, configuredCrit)"
+                >{{ detail.text }}</b>
+                <ng-container *ngIf="detail.critical2 != null && detail.critical2 !== source.criticalRate">
+                  <span class="rot-arrow">→</span><span class="rot-crit-sim">{{ detail.critical2 | number: '1.1-1' }}%</span>
+                </ng-container>
+              </ng-container>
+              <ng-template #configuredMetaText>
+                <button
+                  *ngIf="detail.origin; else configuredPlainMeta"
+                  type="button"
+                  class="auto-source-origin"
+                  [pTooltip]="source.result?.source?.sourceItemId ? (source.result.source.sourceItemId | itemDescTooltip: items : itemDescriptions.version) : originTooltip(source, itemDescriptions.version)"
+                  [escape]="false"
+                  tooltipStyleClass="item_desc_tooltip auto_cast_origin_tooltip"
+                  tooltipPosition="top"
+                  [showDelay]="350"
+                >{{ detail.text }}</button>
+                <ng-template #configuredPlainMeta>{{ detail.text }}</ng-template>
+              </ng-template>
+            </span>
+          </ng-container>
+        </div>
+      </div>
+
+      <span class="rot-dmg auto-source-dmg">
+        <span class="rot-dmg-split" *ngIf="source.damageRanges; else singleDamageRange">
+          <ng-container *ngFor="let range of source.damageRanges">
+            <span
+              #configuredDamage
+              [attr.data-auto-source]="source.key"
+              [attr.data-auto-anchor]="'damage-' + range.kind"
+              class="rot-dmg-branch auto-damage-branch"
+              role="button"
+              tabindex="0"
+              keyActivate
+              pTooltip="Ver como o dano é calculado"
+              tooltipPosition="top"
+              tooltipStyleClass="auto_cast_tip"
+              (click)="openDamage(source, range.kind, $event, sharedDamagePopovers, configuredDamage)"
+            >
+              {{ range.min | number: '1.0-0' }}<ng-container *ngIf="range.max !== range.min">
+                – {{ range.max | number: '1.0-0' }}</ng-container
+              >
+            </span>
+            <span class="rot-tag rot-tag--sm" [ngClass]="'rot-tag--' + range.kind">{{ range.label }}</span>
+          </ng-container>
+        </span>
+        <ng-template #singleDamageRange>
+          <span class="auto-damage-range">
+            {{ source.damageMin | number: '1.0-0' }} – {{ source.damageMax | number: '1.0-0' }}
+            <span class="rot-tag rot-tag--flat">dano</span>
+          </span>
+        </ng-template>
+        <span class="rot-dmg-main">
+          <span class="rot-dmg-figs"><span #configuredDps [attr.data-auto-source]="source.key" data-auto-anchor="dps" class="rot-dmg-val auto-dps-value" role="button" tabindex="0" keyActivate pTooltip="Ver como o DPS é calculado" tooltipPosition="top" tooltipStyleClass="auto_cast_tip" (click)="openDps(source, $event, dpsCalcPanel, configuredDps)">{{ source.dps | number: '1.0-0' }}</span><span #configuredDps2 *ngIf="isComparing && source.dps2 != null && source.dps2 !== source.dps" [attr.data-auto-source]="source.key" data-auto-anchor="dps" class="rot-dmg-sim auto-dps-value" role="button" tabindex="0" keyActivate pTooltip="Ver como o DPS é calculado" tooltipPosition="top" tooltipStyleClass="auto_cast_tip" (click)="openDps(source, $event, dpsCalcPanel, configuredDps2)">{{ source.dps2 | number: '1.0-0' }}</span></span>
+          <span class="rot-dmg-meta">
+            <span class="rot-tag rot-tag--dps">DPS</span>
+            <span class="rot-sep">·</span>
+            <span class="rot-pct" [pTooltip]="contributionTooltip(source)" tooltipPosition="top">{{ source.contribution | number: '1.1-1' }}%</span>
+          </span>
+        </span>
+      </span>
+
+      <i
+        #configuredInfo
+        [attr.data-auto-source]="source.key"
+        data-auto-anchor="details"
+        class="pi pi-info-circle rot-info"
+        role="button"
+        tabindex="0"
+        keyActivate
+        [attr.aria-label]="'Detalhes de ' + source.name"
+        pTooltip="Detalhes da habilidade"
+        tooltipPosition="top"
+        tooltipStyleClass="auto_cast_tip"
+        (click)="openDetails(source, $event, sharedSkillDetails, configuredInfo)"
+      ></i>
+      <i
+        class="pi pi-times rot-remove"
+        role="button"
+        tabindex="0"
+        keyActivate
+        [attr.aria-label]="'Remover habilidade de ' + slot.name"
+        pTooltip="Remover"
+        tooltipPosition="top"
+        (click)="setSelectedSkill(slot)"
+      ></i>
+    </div>
+
+    <ng-template #emptyConfiguredSource>
+      <div class="rot-row auto-source-row auto-source-row--empty">
+        <img class="rot-icon" [src]="slot.icon | iconUrl: 'skill'" [alt]="slot.name" missingIcon />
+        <div class="rot-body">
+          <div class="rot-line1">
+            <span class="rot-name">{{ slot.name }}</span>
+            <span class="rot-level rot-level--static">Nv. {{ slot.level }}</span>
+          </div>
+          <div class="rot-line2">Nenhuma magia selecionada</div>
+        </div>
+        <p-dropdown
+          #autoCastSkillPicker
+          styleClass="rot-add-dd auto-source-picker"
+          panelStyleClass="rot-add-dd-panel"
+          appendTo="body"
+          [options]="slotOptions(slot)"
+          optionLabel="label"
+          optionValue="value"
+          [filter]="true"
+          filterBy="label,value"
+          filterPlaceholder="Buscar por nome ou ID"
+          placeholder="Selecionar habilidade"
+          [ngModel]="selectedSkill(slot)"
+          (onShow)="alignSkillPicker(autoCastSkillPicker)"
+          (ngModelChange)="setSelectedSkill(slot, $event)"
+        >
+          <ng-template let-option pTemplate="item">
+            <div class="rot-opt">
+              <img class="rot-icon" [src]="option.icon | iconUrl: 'skill'" alt="" missingIcon />
+              <span>{{ option.label }}</span>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </ng-template>
+    </ng-container>
+
+    <div class="rot-row auto-source-row auto-source-row--empty auto-source-row--blocked" *ngFor="let blocked of blockedSources">
+      <img class="rot-icon" [src]="blocked.icon | iconUrl: 'skill'" [alt]="blocked.name" missingIcon />
+      <div class="rot-body">
+        <div class="rot-line1"><span class="rot-name">{{ blocked.name }}</span></div>
+        <div class="rot-line2">{{ blocked.reason }}</div>
+      </div>
+      <span class="auto-source-blocked-label"><i class="pi pi-lock"></i> Indisponível</span>
+    </div>
+
+    <div class="rot-row auto-source-row" *ngFor="let source of dpsSources">
+      <img
+        #sourceIcon
+        [attr.data-auto-source]="source.key"
+        data-auto-anchor="details"
+        class="rot-icon rot-icon--btn"
+        [src]="source.isBasic ? basicAttackIcon : (source.icon | iconUrl: 'skill')"
+        [alt]="source.name"
+        missingIcon
+        role="button"
+        tabindex="0"
+        keyActivate
+        pTooltip="Detalhes da habilidade"
+        tooltipPosition="top"
+        (click)="openDetails(source, $event, sharedSkillDetails, sourceIcon)"
+      />
+
+      <div class="rot-body">
+        <div class="rot-line1">
+          <span class="rot-name">{{ source.name }}</span>
+          <span class="rot-level rot-level--static" *ngIf="source.level">{{ source.level }}</span>
+        </div>
+        <div class="rot-line2">
+          <ng-container *ngFor="let detail of source.meta; let first = first">
+            <span class="auto-source-sep" *ngIf="!first">•</span>
+            <span
+              [attr.data-auto-source]="source.key"
+            >
+              <ng-container *ngIf="detail.critical; else sourceMetaText">
+                Crít.
+                <b
+                  #sourceCrit
+                  [attr.data-auto-source]="source.key"
+                  data-auto-anchor="crit"
+                  class="rot-crit-val bonus_clickable"
+                  role="button"
+                  tabindex="0"
+                  keyActivate
+                  (click)="openCrit(source, $event, critRatePanel, sourceCrit)"
+                >{{ detail.text }}</b>
+                <ng-container *ngIf="detail.critical2 != null && detail.critical2 !== source.criticalRate">
+                  <span class="rot-arrow">→</span><span class="rot-crit-sim">{{ detail.critical2 | number: '1.1-1' }}%</span>
+                </ng-container>
+              </ng-container>
+              <ng-template #sourceMetaText>
+                <ng-container *ngIf="detail.effectiveHit; else sourcePlainMeta">
+                  Acerto efetivo
+                  <b
+                    #sourceEffectiveHit
+                    [attr.data-auto-source]="source.key"
+                    data-auto-anchor="effective-hit"
+                    class="rot-crit-val bonus_clickable"
+                    role="button"
+                    tabindex="0"
+                    keyActivate
+                    (click)="openEffectiveHit($event, effectiveHitPanel, sourceEffectiveHit)"
+                  >{{ displayedSimulation?.effectiveHitRate | number: '1.1-1' }}%</b>
+                </ng-container>
+                <ng-template #sourcePlainMeta>
+                  <button
+                    *ngIf="detail.origin; else sourcePlainText"
+                    type="button"
+                    class="auto-source-origin"
+                    [pTooltip]="source.result?.source?.sourceItemId ? (source.result.source.sourceItemId | itemDescTooltip: items : itemDescriptions.version) : originTooltip(source, itemDescriptions.version)"
+                    [escape]="false"
+                    tooltipStyleClass="item_desc_tooltip auto_cast_origin_tooltip"
+                    tooltipPosition="top"
+                    [showDelay]="350"
+                  >{{ detail.text }}</button>
+                  <ng-template #sourcePlainText>{{ detail.text || detail }}</ng-template>
+                </ng-template>
+              </ng-template>
+            </span>
+          </ng-container>
+        </div>
+      </div>
+
+      <span class="rot-dmg auto-source-dmg">
+        <span class="rot-dmg-split" *ngIf="source.damageRanges; else singleSourceDamage">
+          <ng-container *ngFor="let range of source.damageRanges">
+            <span
+              #sourceDamage
+              [attr.data-auto-source]="source.key"
+              [attr.data-auto-anchor]="'damage-' + range.kind"
+              class="rot-dmg-branch auto-damage-branch"
+              role="button"
+              tabindex="0"
+              keyActivate
+              pTooltip="Ver como o dano é calculado"
+              tooltipPosition="top"
+              tooltipStyleClass="auto_cast_tip"
+              (click)="openDamage(source, range.kind, $event, sharedDamagePopovers, sourceDamage)"
+            >
+              {{ range.min | number: '1.0-0' }}<ng-container *ngIf="range.max !== range.min">
+                – {{ range.max | number: '1.0-0' }}</ng-container
+              >
+            </span>
+            <span class="rot-tag rot-tag--sm" [ngClass]="'rot-tag--' + range.kind">{{ range.label }}</span>
+          </ng-container>
+        </span>
+        <ng-template #singleSourceDamage>
+          <span class="auto-damage-range">
+            {{ source.damageMin | number: '1.0-0' }} – {{ source.damageMax | number: '1.0-0' }}
+            <span class="rot-tag rot-tag--flat">dano</span>
+          </span>
+        </ng-template>
+        <span class="rot-dmg-main">
+          <span class="rot-dmg-figs"><span #sourceDps [attr.data-auto-source]="source.key" data-auto-anchor="dps" class="rot-dmg-val auto-dps-value" role="button" tabindex="0" keyActivate pTooltip="Ver como o DPS é calculado" tooltipPosition="top" tooltipStyleClass="auto_cast_tip" (click)="openDps(source, $event, dpsCalcPanel, sourceDps)">{{ source.dps | number: '1.0-0' }}</span><span #sourceDps2 *ngIf="isComparing && source.dps2 != null && source.dps2 !== source.dps" [attr.data-auto-source]="source.key" data-auto-anchor="dps" class="rot-dmg-sim auto-dps-value" role="button" tabindex="0" keyActivate pTooltip="Ver como o DPS é calculado" tooltipPosition="top" tooltipStyleClass="auto_cast_tip" (click)="openDps(source, $event, dpsCalcPanel, sourceDps2)">{{ source.dps2 | number: '1.0-0' }}</span></span>
+          <span class="rot-dmg-meta">
+            <span class="rot-tag rot-tag--dps">DPS</span>
+            <span class="rot-sep">·</span>
+            <span class="rot-pct" [pTooltip]="contributionTooltip(source)" tooltipPosition="top">{{ source.contribution | number: '1.1-1' }}%</span>
+          </span>
+        </span>
+      </span>
+
+      <i
+        #sourceInfo
+        [attr.data-auto-source]="source.key"
+        data-auto-anchor="details"
+        class="pi pi-info-circle rot-info"
+        role="button"
+        tabindex="0"
+        keyActivate
+        [attr.aria-label]="'Detalhes de ' + source.name"
+        pTooltip="Detalhes da habilidade"
+        tooltipPosition="top"
+        tooltipStyleClass="auto_cast_tip"
+        (click)="openDetails(source, $event, sharedSkillDetails, sourceInfo)"
+      ></i>
+    </div>
+  </div>
+
+  <app-battle-damage-popovers
+    #sharedDamagePopovers
+    (breakdownClick)="showBonusBreakdownClick.emit($event)"
+  ></app-battle-damage-popovers>
+
+  <app-battle-skill-details
+    #sharedSkillDetails
+    (breakdownClick)="showBonusBreakdownClick.emit($event)"
+    (elementTableClick)="elementTableClick.emit()"
+  ></app-battle-skill-details>
+
+  <p-overlayPanel #dpsCalcPanel styleClass="rot-details-panel auto-cast-dps-panel">
+    <div class="ptitle">Como o DPS é calculado</div>
+    <div class="pstats one" *ngIf="activeSource">
+      <ng-container *ngIf="activeSource.isBasic; else autoCastDpsCalculation">
+        <ng-container *ngIf="basicDpsSteps as steps; else basicDpsFallback">
+          <div class="psec" *ngIf="basicCritIsWeighted">Média entre crítico e não crítico</div>
+          <div class="kv" *ngIf="basicCritIsWeighted"><span>Dano sem crít. (média mín–máx)</span><span>{{ steps.avgBasicDamage | number: '1.0-0' }}</span></div>
+          <div class="kv" *ngIf="basicCritIsWeighted || basicAlwaysCrit"><span>Dano crít.</span><span>{{ steps.criDmg | number: '1.0-0' }}</span></div>
+          <div class="kv" *ngIf="basicCritIsWeighted"><span>Tx. Crít.</span><span>{{ steps.criRate | number: '1.0-1' }}%</span></div>
+          <div class="kv" *ngIf="basicAlwaysCrit"><span>Tx. Crít. efetiva</span><span>100,0%<span class="mut"> ({{ displayedSimulation?.criticalRate | number: '1.1-1' }}% antes do limite)</span></span></div>
+          <div class="kv" *ngIf="!basicAlwaysCrit"><span>{{ basicCritIsWeighted ? 'Precisão (só sem crít.)' : 'Precisão' }}</span><span>{{ steps.accuracy | number: '1.0-1' }}%</span></div>
+          <ng-container *ngIf="basicCritIsWeighted; else basicFlatMean">
+            <div class="kv"><span>Parte com crít. — dano crít. × {{ steps.criRate | number: '1.0-1' }}%</span><span>{{ steps.criPart | number: '1.0-0' }}</span></div>
+            <div class="kv"><span>Parte sem crít. — dano sem crít. × {{ 100 - steps.criRate | number: '1.0-1' }}% × precisão</span><span>{{ steps.noCriPart | number: '1.0-0' }}</span></div>
+          </ng-container>
+          <ng-template #basicFlatMean><div class="kv" *ngIf="!basicAlwaysCrit"><span>Dano antes da precisão</span><span>{{ steps.avgBasicDamage | number: '1.0-0' }}</span></div></ng-template>
+          <div class="kv total"><span>= Dano esperado por golpe</span><span class="orange">{{ steps.totalDamage | number: '1.0-0' }}</span></div>
+          <div class="kv"><span>× Ataques/s</span><span>{{ steps.hitsPerSec | number: '1.2-2' }}</span></div>
+        </ng-container>
+        <ng-template #basicDpsFallback>
+          <div class="kv"><span>Dano esperado por golpe</span><span>{{ activeSource.expectedDamagePerActivation | number: '1.0-0' }}</span></div>
+          <div class="kv"><span>× Ataques/s</span><span>{{ activeSource.activationsPerSecond | number: '1.2-2' }}</span></div>
+        </ng-template>
+      </ng-container>
+      <ng-template #autoCastDpsCalculation>
+        <ng-container *ngIf="activeSource.result?.source?.extraHitOutcomes?.length; else standardAutoCastDps">
+          <div class="psec">Disparos extras</div>
+          <div class="kv" *ngFor="let row of fearBreezeDpsRows">
+            <span>{{ row.totalHits }} disparos · {{ row.chance * 100 | number: '1.0-1' }}% × {{ row.extraHits }} {{ row.extraHits === 1 ? 'golpe extra' : 'golpes extras' }}</span>
+            <span>{{ row.extraHitsPerSecond | number: '1.2-2' }}/s</span>
+          </div>
+          <div class="kv total"><span>= Golpes extras/s</span><span class="orange">{{ fearBreezeExtraHitsPerSecond | number: '1.2-2' }}</span></div>
+          <div class="kv"><span>× Dano esperado por golpe extra</span><span>{{ fearBreezeDamagePerExtraHit | number: '1.0-0' }}</span></div>
+        </ng-container>
+        <ng-template #standardAutoCastDps><ng-container *ngIf="autoCastDpsSteps as steps; else autoCastDpsFallback">
+          <div class="psec" *ngIf="autoCastCritIsWeighted">Média entre crítico e não crítico</div>
+          <div class="kv" *ngIf="autoCastCritIsWeighted"><span>Dano sem crít. (média mín–máx)</span><span>{{ steps.avgBasicDamage | number: '1.0-0' }}</span></div>
+          <div class="kv" *ngIf="autoCastCritIsWeighted || autoCastAlwaysCrit"><span>Dano crít.</span><span>{{ steps.criDmg | number: '1.0-0' }}</span></div>
+          <div class="kv" *ngIf="autoCastCritIsWeighted"><span>Tx. Crít.</span><span>{{ steps.criRate | number: '1.0-1' }}%</span></div>
+          <div class="kv" *ngIf="autoCastAlwaysCrit"><span>Tx. Crít. efetiva</span><span>100,0%</span></div>
+          <div class="kv" *ngIf="!autoCastAlwaysCrit"><span>{{ autoCastCritIsWeighted ? 'Precisão (só sem crít.)' : 'Precisão' }}</span><span>{{ steps.accuracy | number: '1.0-1' }}%</span></div>
+          <ng-container *ngIf="autoCastCritIsWeighted; else autoCastFlatMean">
+            <div class="kv"><span>Parte com crít. — dano crít. × {{ steps.criRate | number: '1.0-1' }}%</span><span>{{ steps.criPart | number: '1.0-0' }}</span></div>
+            <div class="kv"><span>Parte sem crít. — dano sem crít. × {{ 100 - steps.criRate | number: '1.0-1' }}% × precisão</span><span>{{ steps.noCriPart | number: '1.0-0' }}</span></div>
+          </ng-container>
+          <ng-template #autoCastFlatMean><div class="kv" *ngIf="!autoCastAlwaysCrit"><span>Dano antes da precisão</span><span>{{ steps.avgBasicDamage | number: '1.0-0' }}</span></div></ng-template>
+          <div class="kv total"><span>= Dano esperado por golpe</span><span class="orange">{{ steps.totalDamage | number: '1.0-0' }}</span></div>
+          <div class="kv" *ngIf="steps.totalHit > 1"><span>× Golpes</span><span>{{ steps.totalHit | number: '1.0-0' }}</span></div>
+          <div class="kv total"><span>= Dano esperado por ativação</span><span class="orange">{{ steps.expectedDamagePerActivation | number: '1.0-0' }}</span></div>
+          <div class="psec">Ativações</div>
+          <div class="kv"><span>{{ activeSource.result?.source?.trigger === 'physical-attack' ? 'Ataques/s' : 'Ataques elegíveis/s' }}</span><span>{{ activeSource.triggerAttacksPerSecond | number: '1.2-2' }}</span></div>
+          <div class="kv"><span>× Chance da fonte</span><span>{{ activeSource.result?.source?.chance | number: '1.1-1' }}%</span></div>
+          <div class="kv"><span>= Ativações/s</span><span>{{ activeSource.activationsPerSecond | number: '1.2-2' }}</span></div>
+          <div class="kv"><span>× Dano esperado por ativação</span><span>{{ steps.expectedDamagePerActivation | number: '1.0-0' }}</span></div>
+        </ng-container></ng-template>
+        <ng-template #autoCastDpsFallback>
+          <div class="kv"><span>{{ activeSource.result?.source?.trigger === 'physical-attack' ? 'Ataques/s' : 'Ataques elegíveis/s' }}</span><span>{{ activeSource.triggerAttacksPerSecond | number: '1.2-2' }}</span></div>
+          <div class="kv"><span>× Chance da fonte</span><span>{{ activeSource.result?.source?.chance | number: '1.1-1' }}%</span></div>
+          <div class="kv"><span>= Ativações/s</span><span>{{ activeSource.activationsPerSecond | number: '1.2-2' }}</span></div>
+          <div class="kv"><span>× Dano esperado por ativação</span><span>{{ activeSource.expectedDamagePerActivation | number: '1.0-0' }}</span></div>
+        </ng-template>
+      </ng-template>
+      <div class="kv total"><span>= DPS</span><span class="teal">{{ activeSource.currentDps | number: '1.0-0' }}<ng-container *ngIf="isComparing && activeSource.comparisonDps != null"><span class="arr">→</span><span class="sim">{{ activeSource.comparisonDps | number: '1.0-0' }}</span></ng-container></span></div>
+    </div>
+  </p-overlayPanel>
+
+  <p-overlayPanel #sourcesInfoPanel styleClass="rot-details-panel auto-cast-info-panel">
+    <div class="ptitle">Ativações por segundo</div>
+    <div class="mut-note">Ativações/s é uma média estatística: ataques/s (pela Vel.Atq.) × acerto efetivo × chance de ativação. O resultado real varia em cada combate.</div>
+  </p-overlayPanel>
+
+  <p-overlayPanel #effectiveHitPanel styleClass="rot-details-panel auto-cast-effective-hit-panel">
+    <div class="ptitle">Como o acerto efetivo é calculado</div>
+    <div class="mut-note">Críticos nunca erram; a precisão só é aplicada aos ataques que não foram críticos.</div>
+    <div class="pstats one" *ngIf="effectiveHitBreakdown as hit">
+      <div class="kv"><span>Tx. Crít. efetiva</span><span>{{ hit.critical | number: '1.1-1' }}%</span></div>
+      <div class="kv"><span>Parte sem crít.</span><span>{{ hit.normalOpportunity | number: '1.1-1' }}%</span></div>
+      <div class="kv"><span>Precisão normal</span><span>{{ hit.normal | number: '1.1-1' }}%</span></div>
+      <div class="kv"><span>Parte sem crít. que acerta</span><span>{{ hit.normalOpportunity | number: '1.1-1' }}% × {{ hit.normal | number: '1.1-1' }}% = {{ hit.normalContribution | number: '1.1-1' }}%</span></div>
+      <div class="kv total"><span>= Acerto efetivo</span><span class="teal">{{ hit.total | number: '1.1-1' }}%</span></div>
+    </div>
+  </p-overlayPanel>
+
+  <p-overlayPanel #critRatePanel>
+    <div class="ptitle">Como a Tx. Crítico é calculada</div>
+    <div class="graph-hint" style="max-width: 330px">
+      O CRIT do personagem vem do SOR e dos equipamentos; a habilidade pode somar um valor fixo e
+      aplicar só uma parte dele; e o alvo desconta o próprio escudo de crítico.
+    </div>
+
+    <ng-container *ngIf="critRate as c">
+      <div class="pstats one tight">
+        <div class="kv" *ngFor="let row of critRateRows; trackBy: trackByCritStep" [class.total]="row.step.kind === 'total'" [class.crit-sub]="row.step.kind === 'subtotal'">
+          <span>
+            <span class="crit-op" *ngIf="row.step.kind === 'add'">+</span>
+            <span class="crit-op" *ngIf="row.step.kind === 'subtract'">−</span>
+            <span class="crit-op" *ngIf="row.step.kind === 'multiply'">×</span>
+            <span class="crit-op" *ngIf="row.step.kind === 'subtotal' || row.step.kind === 'total'">=</span>
+            {{ row.step.label }}
+            <span class="crit-detail" *ngIf="row.step.detail">{{ row.step.detail }}</span>
+          </span>
+          <span>
+            <span
+              *ngIf="isCritBreakdownClickable(row.step); else critPlain"
+              class="v bonus_clickable"
+              role="button"
+              tabindex="0"
+              keyActivate
+              pTooltip="Ver de quais itens vem"
+              tooltipPosition="top"
+              (click)="openCritBreakdown(row.step)"
+            >{{ critStepText(row.step, row.step.value) }}</span>
+            <ng-template #critPlain><span class="v">{{ critStepText(row.step, row.step.value) }}</span></ng-template>
+            <ng-container *ngIf="row.sim !== null"><span class="arr">→</span><span class="sim">{{ critStepText(row.step, row.sim) }}</span></ng-container>
+          </span>
+        </div>
+      </div>
+      <div class="mut-note" *ngIf="c.isCapped">
+        ⚠ A taxa passa de 100%: todo uso já acerta crítico, e o excedente ({{ c.total - 100 | number: '1.0-0' }}) não rende nada.
+      </div>
+      <div class="mut-note" *ngIf="activeSource?.isBasic">
+        CRIT à distância e o CRIT por raça/elemento/tamanho só entram no ataque básico — nenhuma habilidade os recebe.
+      </div>
+    </ng-container>
+  </p-overlayPanel>
+
+</div>

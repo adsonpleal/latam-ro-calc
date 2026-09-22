@@ -131,6 +131,18 @@ html {
   max-width: 17rem;
 }
 
+/* Compact rules moved out of the auto-cast mockup need a readable hover measure.
+   `width: max-content` prevents PrimeNG from collapsing a sentence to its minimum width. */
+.auto_cast_tip.p-tooltip {
+  max-width: min(80vw, 20rem);
+}
+
+.auto_cast_tip .p-tooltip-text {
+  width: max-content;
+  max-width: min(80vw, 20rem);
+  white-space: normal;
+}
+
 /* pt-BR item description popover (consumables hover) — mirrors the white
    "Descrições dos Itens" panel so the in-game colour codes stay legible. */
 .item_desc_tooltip.p-tooltip {

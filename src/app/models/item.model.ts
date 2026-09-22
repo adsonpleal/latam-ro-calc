@@ -35,4 +35,27 @@ export interface ItemModel {
   /** Derived from itemLevel by RoService (see canGradeItem) — not read from item.json. */
   canGrade?: boolean;
   script: Record<string, any[]>;
+  /** Attack-triggered effects sourced from the LATAM client description. */
+  autoCasts?: ItemAutoCastRule[];
+}
+
+export type AutoCastTrigger = 'physical-attack' | 'physical-hit' | 'melee-physical-hit' | 'ranged-physical-hit';
+
+export interface ItemAutoCastRule {
+  key: string;
+  /** The skill cast by this effect. Non-damaging/audited clauses may omit it. */
+  skillId?: number;
+  /** A fixed cast level, or the highest learned level when the client says so. */
+  skillLevel?: number;
+  skillLevelMode?: 'fixed' | 'highest-learned';
+  /** Percentage chance per eligible successful basic attack, when client text provides one. */
+  chance?: number;
+  trigger: AutoCastTrigger;
+  roll: 'independent' | 'all' | 'one-of';
+  /** Rules with the same group share one roll when `roll` is `all` or `one-of`. */
+  rollGroup?: string;
+  /** Existing item-script condition fragments, evaluated against the equipped build. */
+  conditions?: string[];
+  status: 'verified-direct-damage' | 'non-damaging' | 'wrong-trigger' | 'unsupported-formula' | 'ambiguous' | 'duplicate-reissue';
+  evidence: string;
 }

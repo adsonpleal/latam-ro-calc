@@ -51,6 +51,11 @@ import { ItemSearchComponent } from './item-search/item-search.component';
 import { ElementalTableComponent } from './elemental-table/elemental-table.component';
 import { ElementalTableRawComponent } from './elemental-table-raw/elemental-table-raw.component';
 import { BattleHudComponent } from './battle-hud/battle-hud.component';
+import { AutoCastHudComponent } from './auto-cast-hud/auto-cast-hud.component';
+import { BattleEffectsComponent } from './battle-hud/effects/battle-effects.component';
+import { BattleMonsterCardComponent } from './battle-hud/monster-card/battle-monster-card.component';
+import { BattleDamagePopoversComponent } from './battle-hud/damage-popovers/battle-damage-popovers.component';
+import { BattleSkillDetailsComponent } from './battle-hud/skill-details/battle-skill-details.component';
 import { RotationListComponent } from './battle-hud/rotation-list/rotation-list.component';
 import { RotationTimelineComponent } from './battle-hud/rotation-timeline/rotation-timeline.component';
 import { AspdCurveComponent } from './aspd-curve/aspd-curve.component';
@@ -127,6 +132,11 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
     ElementalTableComponent,
     ElementalTableRawComponent,
     BattleHudComponent,
+    AutoCastHudComponent,
+    BattleEffectsComponent,
+    BattleMonsterCardComponent,
+    BattleDamagePopoversComponent,
+    BattleSkillDetailsComponent,
     RotationListComponent,
     RotationTimelineComponent,
     AspdCurveComponent,

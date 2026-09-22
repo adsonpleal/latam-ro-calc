@@ -21,6 +21,8 @@ export interface CompareState {
    * which therefore keeps comparing the gear alone.
    */
   stats?: boolean;
+  /** Whether Auto-conjuração itself keeps comparison mode active. */
+  autoCast?: boolean;
 }
 
 /**
@@ -40,11 +42,12 @@ export function copyStatsFields(source: Record<string, any>, target: Record<stri
  */
 export function sanitizeCompareState(raw: unknown): CompareState | null {
   if (!raw || typeof raw !== 'object') return null;
-  const { itemNames, model2, stats } = raw as Partial<CompareState>;
+  const { itemNames, model2, stats, autoCast } = raw as Partial<CompareState>;
   if (!Array.isArray(itemNames) || !model2 || typeof model2 !== 'object') return null;
   const names = itemNames.filter((n): n is string => typeof n === 'string');
-  if (names.length === 0 && stats !== true) return null;
+  if (names.length === 0 && stats !== true && autoCast !== true) return null;
   const state: CompareState = { itemNames: names, model2: model2 as Record<string, unknown> };
   if (stats === true) state.stats = true;
+  if (autoCast === true) state.autoCast = true;
   return state;
 }

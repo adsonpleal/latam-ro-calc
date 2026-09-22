@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UPDATE_DIALOG_STYLE } from './dialog-geometry';
 import { LayoutService } from './service/app.layout.service';
@@ -8,8 +9,16 @@ import { LayoutService } from './service/app.layout.service';
   templateUrl: './app.topbar.component.html',
   styleUrls: ['./app.topbar.component.css'],
 })
-export class AppTopBarComponent {
-  constructor(private layoutService: LayoutService) {}
+export class AppTopBarComponent implements OnDestroy {
+  private readonly helpImproveSubscription: Subscription;
+
+  constructor(private layoutService: LayoutService) {
+    this.helpImproveSubscription = this.layoutService.helpImproveOpen$.subscribe(() => this.showHelpImproveDialog());
+  }
+
+  ngOnDestroy(): void {
+    this.helpImproveSubscription.unsubscribe();
+  }
 
   visibleInfo: boolean = false;
   visibleReference = false;
@@ -156,6 +165,15 @@ export class AppTopBarComponent {
    * The entries are written in impersonal voice, describing what changed for the user.
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
+    {
+      v: '0.1.143-beta',
+      date: '20-09-2026',
+      logs: [
+        'A nova seção “Auto-conjuração” calcula o DPS esperado dos ataques básicos e das auto-conjurações verificadas contra o mesmo monstro de Batalha. Críticos são resolvidos antes do acerto normal, cada efeito mantém sua própria chance independente e a comparação usa os atributos, equipamentos e Efeitos de cada build. Terror Violeta já calcula Congelar e Chuva de Meteoros separadamente; Desejo Arcano e os dois espaços de Plágio/Mimetismo em Desejo das Sombras oferecem apenas magias válidas que o simulador já sabe calcular.',
+        'A árvore de Sentinela e Falcão do Vento ganhou os estados de Adestrar Ave e Adestrar Worg. Sentinelas usam apenas um companheiro por vez; Falcões do Vento podem manter ambos. Ataque Aéreo, Investida de Worg e Mergulho Aéreo agora entram na Auto-conjuração quando o companheiro está ativo e a habilidade foi aprendida, com suas chances de SOR/CON e fórmulas próprias. Quando falta algum requisito, a fonte continua visível como indisponível e diz o que precisa ser configurado.',
+        'Disparo Selvagem agora aparece como uma fonte de DPS separada do ataque básico. A linha soma apenas as N−1 flechas extras de cada resultado de 2 a 5 disparos, preservando o golpe original na linha de Ataque básico e sem deixar as flechas adicionais ativarem outras auto-conjurações.',
+      ],
+    },
     {
       v: '0.1.142-beta',
       date: '19-09-2026',
