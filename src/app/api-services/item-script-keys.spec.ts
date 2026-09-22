@@ -14,6 +14,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createRawTotalBonus } from 'src/app/utils';
 import { VALID_SKILL_IDS } from 'src/app/skills';
+import { ItemScriptValue, itemBonusScriptEntries } from 'src/app/models/item.model';
 import { validClassNameSet } from './valid-bonuses';
 
 const items: Record<string, any> = JSON.parse(
@@ -73,11 +74,10 @@ describe('item.json: chaves de bônus', () => {
   const desconhecidas = new Map<string, string[]>();
 
   for (const key of Object.keys(items)) {
-    const script = items[key].script as Record<string, unknown> | undefined;
+    const script = items[key].script as Record<string, ItemScriptValue> | undefined;
     if (!script) continue;
 
-    for (const bonusKey of Object.keys(script)) {
-      if (bonusKey === 'autoCast') continue;
+    for (const [bonusKey] of itemBonusScriptEntries(script)) {
       const realKey = stripPrefix(bonusKey);
       if (validStatusSet.has(realKey)) continue;
       // skill bonus keys are the game's skill ids (see the Skill Catalog)
