@@ -31,9 +31,10 @@ function preparedClass<T extends Ranger | Windhawk>(cls: T, active: Record<strin
 function fakeCalculator(cls: Ranger | Windhawk, luk: number, con = 0): Calculator {
   return {
     atkSkills: cls.atkSkills,
+    autoCastDefinitions: cls.autoCastDefinitions,
+    resolvedItemAutoCasts: [],
     skillState: cls.skillState,
     status: { totalLuk: luk, totalCon: con },
-    equippedItems: [],
     solveAutoCast: () => solved,
   } as unknown as Calculator;
 }

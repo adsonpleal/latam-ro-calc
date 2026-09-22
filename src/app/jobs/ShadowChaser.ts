@@ -7,6 +7,44 @@ import { ElementType } from '../constants/element-type.const';
 import { DoubleStrafeFn, SnatcherFn, VulturesEyeFn } from '../constants/share-passive-skills';
 import { WeaponTypeName } from '../constants/weapon-type-mapper';
 import { Stalker } from './Stalker';
+import { ClassAutoCastDefinition } from '../models/auto-cast.model';
+
+const PLAGIARISM_MAGIC = [19, 14, 20, 83, 89, 84, 88, 90, 91];
+const REPRODUCE_MAGIC = [...PLAGIARISM_MAGIC, 2213, 2211, 2204, 2202, 2214, 2216, 2203, 2212, 2210, 2449];
+const SHADOW_CHANCE = [0, 28, 26, 24, 22, 20, 18, 16, 14, 12, 15];
+const SHADOW_CAST_LEVEL = [0, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
+
+const SHADOW_CHASER_AUTO_CASTS: ClassAutoCastDefinition[] = [{
+  key: 'shadow-spell',
+  resolve: ({ skillState, optionsFor, model }) => {
+    const shadowLevel = skillState.activeLevel('Shadow Spell');
+    if (shadowLevel <= 0) {
+      return { blocked: [{ key: 'config-shadow-spell', name: 'Desejo das Sombras', icon: 2286, reason: 'Selecione o nível em Habilidades' }] };
+    }
+
+    const configs = [
+      { key: 'plagiarism' as const, name: 'Plágio', icon: 225, level: skillState.learnedLevel('Plagiarism'), ids: PLAGIARISM_MAGIC },
+      { key: 'reproduce' as const, name: 'Mimetismo', icon: 2285, level: skillState.learnedLevel('Reproduce'), ids: REPRODUCE_MAGIC },
+    ].filter((config) => config.level > 0);
+    const slots = configs.map((config) => ({ ...config, options: optionsFor(config.ids) }));
+    const sources = slots.flatMap((slot) => {
+      const skillId = Number(model.autoCastSelections?.[slot.key]);
+      if (!skillId || !slot.options.some((option) => option.value === skillId)) return [];
+      return [{
+        key: `config-${slot.key}-${skillId}`, kind: 'configurable' as const, skillId,
+        skillLevel: SHADOW_CAST_LEVEL[shadowLevel] ?? 0,
+        chance: SHADOW_CHANCE[shadowLevel] ?? 0,
+        trigger: 'physical-hit' as const, sourceName: slot.name, slot: slot.key,
+        enablingSkillId: slot.icon,
+        chanceBreakdown: [
+          { label: 'Desejo das Sombras', value: `Nv. ${shadowLevel}` },
+          { label: 'Chance nesse nível', value: `${SHADOW_CHANCE[shadowLevel] ?? 0}%` },
+        ],
+      }];
+    });
+    return { slots, sources };
+  },
+}];
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 0, 0, 1],
@@ -518,6 +556,7 @@ export class ShadowChaser extends Stalker {
       passiveSkillList: this.passiveSkillList3rd,
       classNames: this.classNames3rd,
     });
+    this.inheritAutoCasts(SHADOW_CHASER_AUTO_CASTS);
   }
 
   override calcSkillDmgByTotalHit(params: { finalDamage: number; skill: AtkSkillModel; info: InfoForClass }) {

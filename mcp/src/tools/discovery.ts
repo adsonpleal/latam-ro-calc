@@ -12,6 +12,7 @@ import { bonusKeyLabel, decodeStructuredBonusKey } from 'src/app/core/bonus-key-
 import { createBonusNameList } from 'src/app/utils';
 import { resolveSkillMeta } from 'src/app/skills';
 import { elementPtBr } from 'src/app/constants/monster-i18n';
+import { itemAutoCastScripts, itemBonusScriptEntries } from 'src/app/models/item.model';
 import { config } from '../config';
 import { Dataset } from '../data/dataset';
 import { ItemRow, SearchFilters } from '../data/item-index';
@@ -153,7 +154,8 @@ export function registerDiscoveryTools(server: McpServer, dataset: Dataset): voi
         usableClass: rec.usableClass,
         unusableClass: rec.unusableClass,
         description,
-        bonuses: Object.entries(rec.script ?? {}).map(([key, values]) => ({
+        autoCasts: itemAutoCastScripts(rec.script),
+        bonuses: itemBonusScriptEntries(rec.script).map(([key, values]) => ({
           key,
           label: bonusKeyLabel(key),
           structured: decodeStructuredBonusKey(key) ?? undefined,

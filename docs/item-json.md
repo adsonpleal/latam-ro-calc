@@ -156,6 +156,33 @@ já está por vir e as pessoas querem montar a build antes do lançamento:
 Exemplo: `"EQUIP_ID[480062]50"` → a condição `EQUIP_ID[480062]` exige que o item `480062`
 esteja equipado; passando, sobra `50` (valor fixo).
 
+### 2.1 `script.autoCast` — autoconjuração por ataque básico
+
+`autoCast` é uma diretiva estruturada reservada; não é uma chave de bônus numérico:
+
+```jsonc
+"autoCast": [{
+  "skillId": 2449,
+  "skillLevel": ["3"],
+  "chance": ["4", "7===1", "9===2"],
+  "trigger": "physical-hit"
+}]
+```
+
+- `skillId` referencia o Catálogo de Perícias.
+- `chance` reutiliza as expressões deste documento e soma todas as aplicáveis: acima, 4%
+  sem refino, 5% no +7 e 7% no +9.
+- `skillLevel` reutiliza as mesmas expressões, mas escolhe o maior valor aplicável.
+- `skillLevelMode: "highest-learned"` usa o maior entre esse valor e o nível aprendido.
+- `trigger` aceita `physical-attack`, `physical-hit`, `melee-physical-hit` ou
+  `ranged-physical-hit`.
+- Cada objeto representa uma ativação independente. Efeitos de rolagem compartilhada ou
+  escolha entre várias magias só entram quando essa semântica estiver implementada.
+
+Somente autoconjurações verificadas, de dano direto e executáveis ficam no `item.json`.
+Cláusulas ambíguas, defensivas, curas, buffs e efeitos disparados por habilidades continuam
+no inventário de auditoria.
+
 ---
 
 ## 3. Chaves de bônus (o "o quê")

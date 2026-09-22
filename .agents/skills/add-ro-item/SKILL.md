@@ -16,7 +16,7 @@ One or more numeric item ids. The pt-BR name, description and `aegisName` are al
 ```
 node .agents/skills/add-ro-item/scaffold.mjs <id> [<id> ...]
 ```
-For each id it prints: pt name, aegisName, inferred `location`/`itemTypeId`/`itemSubTypeId` (from item.json), parsed `defense`/`weight`/`requiredLevel`, the isolated **effect/combo lines**, and a **record skeleton** with `script: {}`. (Skips ids already in item.json.)
+For each id it prints: pt name, aegisName, inferred `location`/`itemTypeId`/`itemSubTypeId` (from item.json), parsed `defense`/`weight`/`requiredLevel`, the isolated **effect/combo lines**, and a **record skeleton**. Auto-cast candidates include an empty `script.autoCast` list to fill. (Skips ids already in item.json.)
 
 ### 2. Structural fields — the scaffold fills these; verify a couple
 The scaffold maps the slot to **authoritative** `itemTypeId`/`itemSubTypeId`/`location` (these route the calc's equip dropdowns in `setItemDropdownList`):
@@ -92,13 +92,31 @@ node -e "fetch('https://assets.latam-tools.com.br/raw/jobs.json').then(r=>r.json
 ### 3. Bonus script — map each effect line to a bonus key
 Each script value is `"<key>": ["<entry>", ...]`. An entry is one of:
 
-**Auto-casts are not ordinary bonus-script entries.** If the pt-BR text says
-`autoconjurar`, classify each clause by trigger and effect. Only a direct-damage cast
-triggered by a successful basic attack belongs in Auto-conjuração; add verified rules to
-`VERIFIED_ITEM_AUTO_CASTS` in `src/app/core/auto-cast.ts`. Keep received-damage, on-skill,
-healing, buff and debuff clauses out, and leave ambiguous chance/roll semantics pending
-rather than guessing. Multi-skill descriptions need an explicit decision between
-independent rolls, all-from-one-roll and one-of alternatives.
+**Auto-casts use the reserved `script.autoCast` directive, never a TypeScript registry or
+an ordinary `chance__` bonus.** Only direct-damage casts triggered by basic attacks belong
+there. Keep received-damage, on-skill, healing, buff and debuff clauses out, and leave
+ambiguous shared-roll/one-of semantics in the audit rather than guessing.
+
+```json
+"autoCast": [{
+  "skillId": 2449,
+  "skillLevel": ["3"],
+  "chance": ["4", "7===1", "9===2"],
+  "trigger": "physical-hit"
+}]
+```
+
+- Use the catalogued numeric `skillId`; never a translated skill name.
+- `chance` uses the normal script grammar and **sums** applicable entries. The example is
+  4% normally, 5% at +7, and 7% at +9.
+- `skillLevel` uses the same grammar but takes the **highest** applicable entry. Add
+  `"skillLevelMode": "highest-learned"` when the text says "ou no maior nível aprendido".
+- Triggers are `physical-attack` (attempts including misses), `physical-hit`,
+  `melee-physical-hit`, or `ranged-physical-hit`.
+- Combo/refine gates belong inside the chance/level expressions, using the existing
+  `EQUIP_ID` and `REFINE` grammar. Ammo is equipped too, so use `EQUIP_ID[<arrowId>]`.
+- Each object is an independent proc. Do not encode a shared roll until the engine has an
+  explicit probability model for it.
 
 | form | meaning | description trigger |
 |------|---------|---------------------|
@@ -245,6 +263,7 @@ It appends them to `item.json` with a minimal diff and skips ids already present
 - The dev preview rebuilds; confirm "Compiled successfully" in its logs.
 - Re-run `scaffold.mjs <id>` → it should now report "ALREADY in item.json".
 - In the calculator: pick the item in its slot, check the bonus shows; for combos, equip both partners and confirm the set bonus applies (and disappears when one is removed).
+- For `script.autoCast`, open Auto-conjuração and verify the source, chance and skill level at every described refine/combo threshold.
 - **Slots:** confirm `slots` matches the client's `slotCount` (the `slots` field in `latam-items.json`) and that the calc shows that many card slots on the equipped item — a slotted item left at `slots: 0` silently hides its card slot.
 
 ## Rules & gotchas

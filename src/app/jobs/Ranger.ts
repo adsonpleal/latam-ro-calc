@@ -4,6 +4,59 @@ import { ARROW_STORM, WUG_STRIKE } from '../skills/shared-skills';
 import { NoLimitFn } from '../constants/share-active-skills';
 import { InfoForClass } from '../models/info-for-class.model';
 import { Sniper } from './Sniper';
+import { ClassAutoCastDefinition, fearBreezeOutcomes, fearBreezeTotalChance } from '../models/auto-cast.model';
+
+const RANGER_AUTO_CASTS: ClassAutoCastDefinition[] = [
+  {
+    key: 'wug-strike',
+    order: 20,
+    resolve: ({ skillState, skillById, status }) => {
+      const skill = skillById(2243);
+      if (!skill) return {};
+      const level = skillState.learnedLevel('Wug Strike');
+      const reasons = [
+        ...(!level ? ['Aprenda Investida de Worg'] : []),
+        ...(!skillState.isActive('Wug Mastery') ? ['Ative Adestrar Worg'] : []),
+      ];
+      if (reasons.length) return { blocked: [{ key: 'passive-wug-strike', name: 'Investida de Worg', icon: 2243, reason: reasons.join(' · ') }] };
+      const chance = Math.floor(status.totalLuk / 3);
+      return { sources: [{
+        key: 'passive-wug-strike', kind: 'passive', skillId: 2243, skillLevel: level,
+        chance, trigger: 'physical-attack', sourceName: 'Passiva de classe', skillData: skill,
+        chanceBreakdown: [
+          { label: 'SOR total', value: String(status.totalLuk) },
+          { label: 'Fórmula', value: `⌊SOR ÷ 3⌋ = ${chance}%` },
+          { label: 'Regra', value: 'Pode ativar mesmo se o ataque errar' },
+        ],
+      }] };
+    },
+  },
+  {
+    key: 'fear-breeze',
+    order: 40,
+    resolve: ({ skillState, summary }) => {
+      const level = skillState.activeLevel('Fear Breeze');
+      const reasons = [
+        ...(level <= 0 ? ['Selecione o nível de Disparo Selvagem'] : []),
+        ...(summary?.weapon?.typeName !== 'bow' ? ['Requer Arco'] : []),
+      ];
+      if (reasons.length) return { blocked: [{ key: 'passive-fear-breeze', name: 'Disparo Selvagem', icon: 2234, reason: reasons.join(' · ') }] };
+      const outcomes = fearBreezeOutcomes(level);
+      const chance = fearBreezeTotalChance(level);
+      return { sources: [{
+        key: 'passive-fear-breeze', kind: 'extra-hit', skillId: 2234, skillLevel: level,
+        chance, trigger: 'ranged-physical-hit', sourceName: 'Passiva de classe', extraHitOutcomes: outcomes,
+        chanceBreakdown: [
+          { label: '2 disparos', value: '12%' },
+          ...(level >= 3 ? [{ label: '3 disparos', value: '9%' }] : []),
+          ...(level >= 4 ? [{ label: '4 disparos', value: '6%' }] : []),
+          ...(level >= 5 ? [{ label: '5 disparos', value: '3%' }] : []),
+          { label: 'Chance total', value: `${chance}%` },
+        ],
+      }] };
+    },
+  },
+];
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 0, 1, 0],
@@ -308,6 +361,7 @@ export class Ranger extends Sniper {
       passiveSkillList: this.passiveSkillList3rd,
       classNames: this.classNames3rd,
     });
+    this.inheritAutoCasts(RANGER_AUTO_CASTS);
   }
 
   override getMasteryAtk(info: InfoForClass): number {

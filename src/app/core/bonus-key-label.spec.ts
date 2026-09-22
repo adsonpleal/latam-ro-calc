@@ -102,7 +102,7 @@ describe('bonusKeyLabel — structured keys', () => {
 describe('bonusKeyLabel — sweep', () => {
   /** Bonus keys that actually appear in some item.json script. */
   const chavesDoItemJson = [...new Set(
-    Object.values<any>(items).flatMap((it) => Object.keys(it.script ?? {})),
+    Object.values<any>(items).flatMap((it) => Object.keys(it.script ?? {}).filter((key) => key !== 'autoCast')),
   )];
 
   /** A numeric key is a skill id: it becomes a name through the catalog, not through here. */

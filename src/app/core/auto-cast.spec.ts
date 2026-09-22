@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { AtkSkillModel, ClassIDEnum } from '../jobs';
+import { readFileSync } from 'node:fs';
+import { AtkSkillModel, ClassIDEnum, ShadowChaser } from '../jobs';
 import { createMainModel } from '../utils';
-import { basicAttackDamageRanges, basicDpsBreakdown, buildAutoCastSimulation, effectiveBasicHitRate, extraHitOutcomeRate, fearBreezeExtraHits, fearBreezeOutcomes, VERIFIED_ITEM_AUTO_CASTS } from './auto-cast';
+import { basicAttackDamageRanges, basicDpsBreakdown, buildAutoCastSimulation, effectiveBasicHitRate, extraHitOutcomeRate, fearBreezeExtraHits, fearBreezeOutcomes } from './auto-cast';
 import { Calculator } from './calculator';
 import { normalizeSavedModel } from './saved-model';
 import { decodeBuild, encodeBuild } from './share-codec';
@@ -33,6 +34,7 @@ const summary = {
   },
   monster: { hp: 10_000 },
 };
+const ITEMS = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8')) as Record<string, any>;
 
 describe('auto-cast probability', () => {
   it('resolves critical chance before normal hit chance', () => {
@@ -83,17 +85,22 @@ describe('auto-cast probability', () => {
 
 describe('verified item auto-casts', () => {
   it('keeps Terror Violeta 1185 as two independent rules', () => {
-    expect(VERIFIED_ITEM_AUTO_CASTS[1185].map((rule) => [rule.skillId, rule.skillLevel, rule.chance, rule.roll])).toEqual([
-      [88, 5, 5, 'independent'],
-      [83, 3, 3, 'independent'],
+    expect(ITEMS[1185].script.autoCast.map((rule) => [rule.skillId, rule.skillLevel, rule.chance])).toEqual([
+      [88, ['5'], ['5']],
+      [83, ['3'], ['3']],
     ]);
   });
 
   it('prices each Terror Violeta proc from the same eligible attacks without merging chances', () => {
     const calc = {
       atkSkills: [],
+      autoCastDefinitions: [],
+      resolvedItemAutoCasts: [
+        { key: 'item-1185-0-88', itemId: 1185, itemName: 'Terror Violeta', skillId: 88, skillLevel: 5, chance: 5, trigger: 'physical-hit' },
+        { key: 'item-1185-1-83', itemId: 1185, itemName: 'Terror Violeta', skillId: 83, skillLevel: 3, chance: 3, trigger: 'physical-hit' },
+      ],
+      status: {},
       skillState: { learnedLevel: () => 0, activeLevel: () => 0, isActive: () => false },
-      equippedItems: [{ id: 1185, name: 'Terror Violeta' }],
       solveAutoCast: () => solved(),
     } as unknown as Calculator;
     const result = buildAutoCastSimulation({ calc, model: createMainModel(), summary, hasSelectedEffects: false });
@@ -112,8 +119,13 @@ describe('verified item auto-casts', () => {
   it('shows only the critical outcome for an auto-cast at or above 100% CRIT', () => {
     const calc = {
       atkSkills: [],
+      autoCastDefinitions: [],
+      resolvedItemAutoCasts: [
+        { key: 'item-1185-0-88', itemId: 1185, itemName: 'Terror Violeta', skillId: 88, skillLevel: 5, chance: 5, trigger: 'physical-hit' },
+        { key: 'item-1185-1-83', itemId: 1185, itemName: 'Terror Violeta', skillId: 83, skillLevel: 3, chance: 3, trigger: 'physical-hit' },
+      ],
+      status: {},
       skillState: { learnedLevel: () => 0, activeLevel: () => 0, isActive: () => false },
-      equippedItems: [{ id: 1185, name: 'Terror Violeta' }],
       solveAutoCast: () => ({
         ...solved(), skillCanCri: true, skillCriRateToMonster: 154,
         skillMinDamage: 180, skillMaxDamage: 180,
@@ -141,8 +153,10 @@ describe('configurable auto-casts', () => {
     model.class = ClassIDEnum.ShadowChaser;
     const calc = {
       atkSkills: [skill('Psychic Wave')],
+      autoCastDefinitions: new ShadowChaser().autoCastDefinitions,
+      resolvedItemAutoCasts: [],
+      status: {},
       skillState: { learnedLevel: () => 0, activeLevel: () => 0, isActive: () => false },
-      equippedItems: [],
       solveAutoCast: () => solved(),
     } as unknown as Calculator;
 
@@ -161,12 +175,14 @@ describe('configurable auto-casts', () => {
     model.autoCastSelections = { plagiarism: 19, reproduce: 2213 };
     const calc = {
       atkSkills: [skill('Fire Bolt'), skill('Comet')],
+      autoCastDefinitions: new ShadowChaser().autoCastDefinitions,
+      resolvedItemAutoCasts: [],
+      status: {},
       skillState: {
         learnedLevel: (name: string) => ({ Plagiarism: 10, Reproduce: 10 }[name] ?? 0),
         activeLevel: (name: string) => name === 'Shadow Spell' ? 10 : 0,
         isActive: () => false,
       },
-      equippedItems: [],
       solveAutoCast: () => solved(2000),
     } as unknown as Calculator;
 

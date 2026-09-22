@@ -77,6 +77,7 @@ describe('item.json: chaves de bônus', () => {
     if (!script) continue;
 
     for (const bonusKey of Object.keys(script)) {
+      if (bonusKey === 'autoCast') continue;
       const realKey = stripPrefix(bonusKey);
       if (validStatusSet.has(realKey)) continue;
       // skill bonus keys are the game's skill ids (see the Skill Catalog)

@@ -28,12 +28,13 @@ for (const m of meta.matchAll(/"([^"]+)":\s*\{\s*id:\s*(\d+),\s*label:\s*"([^"]+
   idByLabel.set(m[3], m[2]); enByLabel.set(m[3], m[1]);
 }
 const plain = (d) => (d || '').replace(/\^[0-9a-fA-F]{6}/g, '');
-const keysOf = (s) => { const o = new Set(); for (const k of Object.keys(s || {})) { o.add(k); o.add(k.split('__').pop()); } return o; };
+const keysOf = (s) => { const o = new Set(); for (const k of Object.keys(s || {})) { if (k === 'autoCast') continue; o.add(k); o.add(k.split('__').pop()); } return o; };
 
 // skillId -> [{ownerId, entries}] for every item that registers it (any prefix).
 const registrars = new Map();
 for (const [id, it] of Object.entries(items)) {
   for (const [k, v] of Object.entries(it.script || {})) {
+    if (k === 'autoCast') continue;
     const tail = k.split('__').pop();
     if (!/^\d+$/.test(tail)) continue;
     if (!registrars.has(tail)) registrars.set(tail, []);

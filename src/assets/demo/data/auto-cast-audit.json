@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T15:47:08.159Z",
+  "generatedAt": "2026-09-22T14:20:29.573Z",
   "clauses": [
     {
       "key": "item-1131-clause-1",
@@ -55,7 +55,9 @@
       "itemName": "Terror Violeta",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Congelar] nv.5.\n3% de chance de autoconjurar [Chuva de Meteoros] nv.3.\n5% de chance de ativar [Soldado da Noite] por 5 segundos.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 2,
+      "itemRuleCount": 2
     },
     {
       "key": "item-1186-clause-1",
@@ -2847,7 +2849,9 @@
       "itemName": "Manopla Sombria do Desejo",
       "raw": "Ao realizar ataques físicos:\n4% de chance de autoconjurar [Onda Psíquica] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-24527-clause-2",
@@ -2855,7 +2859,8 @@
       "itemName": "Manopla Sombria do Desejo",
       "raw": "Refino +7 ou mais:\nChance de autoconjuração +1%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 1
     },
     {
       "key": "item-24527-clause-3",
@@ -2863,7 +2868,8 @@
       "itemName": "Manopla Sombria do Desejo",
       "raw": "Refino +9 ou mais:\nChance de autoconjuração +2% adicional.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 1
     },
     {
       "key": "item-24589-clause-1",
@@ -2983,7 +2989,9 @@
       "itemName": "Malha Sombria de Automagia",
       "raw": "Refino +10 ou mais:\nAo realizar ataques físicos corpo a corpo, 7% de chance de autoconjurar [Zero Absoluto] nv.3 ou no maior nível aprendido.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-24728-clause-2",
@@ -2991,7 +2999,9 @@
       "itemName": "Malha Sombria de Automagia",
       "raw": "Soma dos refinos 18 ou mais:\nAo realizar ataques físicos corpo a corpo, 4% de chance de autoconjurar [Esquife de Gelo] nv.2 ou no maior nível aprendido.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-24728-clause-3",
@@ -2999,7 +3009,9 @@
       "itemName": "Malha Sombria de Automagia",
       "raw": "Soma dos refinos 20 ou mais:\nChance de autoconjuração +4%.\nAutoconjura [Esquife de Gelo] nv.4 ou no maior nível aprendido.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-24730-clause-1",
@@ -3167,7 +3179,9 @@
       "itemName": "Carta EL-A17T",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n2% de chance de autoconjurar [Chamas de Hela] nv.3.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-28201-clause-1",
@@ -3367,7 +3381,9 @@
       "itemName": "Carta Geodoliant",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n7% de chance de autoconjurar [Onda Psíquica] nv.1.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-300182-clause-1",
@@ -3479,7 +3495,8 @@
       "itemName": "Competidor Poring",
       "raw": "Conjunto\nBoné Maratonista Arcano\nAo usar [Supernova] autoconjura [Chama Reveladora] nv.1.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 3
     },
     {
       "key": "item-420820-clause-2",
@@ -3487,7 +3504,8 @@
       "itemName": "Competidor Poring",
       "raw": "Ao realizar ataques físicos copo a corpo:\n7% de chance de autoconjurar [Chuva de Meteoros] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "pending-formula",
+      "itemRuleCount": 3
     },
     {
       "key": "item-420820-clause-3",
@@ -3495,7 +3513,9 @@
       "itemName": "Competidor Poring",
       "raw": "Ao realizar ataques físicos corpo a corpo ou à distância:\n7% de chance de autoconjurar [Lanças de Fogo] [Lanças de Gelo] e [Relâmpago] nv.5.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 3,
+      "itemRuleCount": 3
     },
     {
       "key": "item-420820-clause-4",
@@ -3503,7 +3523,8 @@
       "itemName": "Competidor Poring",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n7% de chance de autoconjurar [Vituperatum] nv.1.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "pending-formula",
+      "itemRuleCount": 3
     },
     {
       "key": "item-420820-clause-5",
@@ -3511,7 +3532,8 @@
       "itemName": "Competidor Poring",
       "raw": "Ao realizar ataques mágicos:\n5% de chance de autoconjurar [Escudo Mágico] nv.10.",
       "trigger": "magic-or-skill",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 3
     },
     {
       "key": "item-420820-clause-6",
@@ -3519,7 +3541,8 @@
       "itemName": "Competidor Poring",
       "raw": "Ao receber danos físicos ou mágicos:\n1,5% de chance de autoconjurar [Proteção da Orla] nv.2.",
       "trigger": "damage-received",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 3
     },
     {
       "key": "item-420821-clause-1",
@@ -3751,7 +3774,9 @@
       "itemName": "Punhal Primordial",
       "raw": "Refino +7 ou mais:\nAo realizar ataques físicos, 10% de chance de autoconjurar [Chuva de Meteoros] nv.7.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-510019-clause-2",
@@ -3759,7 +3784,9 @@
       "itemName": "Punhal Primordial",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos, 7% de chance de autoconjurar [Onda Psíquica] nv.4.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-510030-clause-1",
@@ -3775,7 +3802,9 @@
       "itemName": "Ritualística Ilusional",
       "raw": "Soma dos refinos do conjunto 18 ou mais:\nDano mágico de todas as propriedades +15% adicional.\nAo realizar ataques físicos, 7% de chance de autoconjurar [Maldição de Jormungand] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-510034-clause-2",
@@ -3783,7 +3812,8 @@
       "itemName": "Ritualística Ilusional",
       "raw": "Maldição da Cobra:\nAo realizar ataques mágicos, 50% de chance de autoconjurar [Implosão Tóxica] nv.4.",
       "trigger": "magic-or-skill",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-510040-clause-1",
@@ -3791,7 +3821,9 @@
       "itemName": "Punhal Primordial-LT",
       "raw": "Refino +7 ou mais:\nAo realizar ataques físicos corpo a corpo, 10% de chance de autoconjurar [Chuva de Meteoros] nv.7.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-510040-clause-2",
@@ -3799,7 +3831,9 @@
       "itemName": "Punhal Primordial-LT",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos corpo a corpo, 7% de chance de autoconjurar [Onda Psíquica] nv.5.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-510049-clause-1",
@@ -3879,7 +3913,9 @@
       "itemName": "Arco Híbrido",
       "raw": "Ao realizar ataques físicos a distância:\n10% de chance de autoconjurar [Impacto Espiritual] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 8
     },
     {
       "key": "item-700132-clause-2",
@@ -3887,7 +3923,9 @@
       "itemName": "Arco Híbrido",
       "raw": "Ao realizar ataques físicos a distância:\n10% de chance de autoconjurar [Abalo Sísmico] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 8
     },
     {
       "key": "item-700132-clause-3",
@@ -3895,7 +3933,9 @@
       "itemName": "Arco Híbrido",
       "raw": "Ao realizar ataques físicos a distância:\n10% de chance de autoconjurar [Meteoro Escarlate] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 8
     },
     {
       "key": "item-700132-clause-4",
@@ -3903,7 +3943,9 @@
       "itemName": "Arco Híbrido",
       "raw": "Ao realizar ataques físicos a distância:\n10% de chance de autoconjurar [Pó de Diamante] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 8
     },
     {
       "key": "item-700132-clause-5",
@@ -3911,7 +3953,9 @@
       "itemName": "Arco Híbrido",
       "raw": "Ao realizar ataques físicos a distância:\n10% de chance de autoconjurar [Corrente Elétrica] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 8
     },
     {
       "key": "item-700132-clause-6",
@@ -3919,7 +3963,9 @@
       "itemName": "Arco Híbrido",
       "raw": "Ao realizar ataques físicos a distância:\n10% de chance de autoconjurar [Onda Psíquica] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 8
     },
     {
       "key": "item-700132-clause-7",
@@ -3927,7 +3973,9 @@
       "itemName": "Arco Híbrido",
       "raw": "Ao realizar ataques físicos a distância:\n10% de chance de autoconjurar [Judex] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 8
     },
     {
       "key": "item-700132-clause-8",
@@ -3935,7 +3983,9 @@
       "itemName": "Arco Híbrido",
       "raw": "Ao realizar ataques físicos a distância:\n10% de chance de autoconjurar [Maldição de Jormungand] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 8
     },
     {
       "key": "item-810001-clause-1",

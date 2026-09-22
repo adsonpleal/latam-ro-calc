@@ -1,3 +1,22 @@
+import { ItemAutoCastScript } from './auto-cast.model';
+
+export type ItemScriptValue = string[] | ItemAutoCastScript[];
+export const ITEM_AUTO_CAST_DIRECTIVE = 'autoCast' as const;
+
+export function itemAutoCastScripts(script: Record<string, ItemScriptValue> | undefined): readonly ItemAutoCastScript[] {
+  const value = script?.[ITEM_AUTO_CAST_DIRECTIVE];
+  return Array.isArray(value) && (value as unknown[]).every((entry) => typeof entry !== 'string')
+    ? value as ItemAutoCastScript[]
+    : [];
+}
+
+/** Ordinary numeric bonuses, excluding every reserved structured directive. */
+export function itemBonusScriptEntries(script: Record<string, ItemScriptValue> | undefined): Array<[string, string[]]> {
+  return Object.entries(script ?? {}).filter((entry): entry is [string, string[]] => (
+    entry[0] !== ITEM_AUTO_CAST_DIRECTIVE && (entry[1] as unknown[]).every((value) => typeof value === 'string')
+  ));
+}
+
 export interface ItemModel {
   id: number;
   aegisName: string;
@@ -34,28 +53,6 @@ export interface ItemModel {
   cardPrefix?: string;
   /** Derived from itemLevel by RoService (see canGradeItem) — not read from item.json. */
   canGrade?: boolean;
-  script: Record<string, any[]>;
-  /** Attack-triggered effects sourced from the LATAM client description. */
-  autoCasts?: ItemAutoCastRule[];
-}
-
-export type AutoCastTrigger = 'physical-attack' | 'physical-hit' | 'melee-physical-hit' | 'ranged-physical-hit';
-
-export interface ItemAutoCastRule {
-  key: string;
-  /** The skill cast by this effect. Non-damaging/audited clauses may omit it. */
-  skillId?: number;
-  /** A fixed cast level, or the highest learned level when the client says so. */
-  skillLevel?: number;
-  skillLevelMode?: 'fixed' | 'highest-learned';
-  /** Percentage chance per eligible successful basic attack, when client text provides one. */
-  chance?: number;
-  trigger: AutoCastTrigger;
-  roll: 'independent' | 'all' | 'one-of';
-  /** Rules with the same group share one roll when `roll` is `all` or `one-of`. */
-  rollGroup?: string;
-  /** Existing item-script condition fragments, evaluated against the equipped build. */
-  conditions?: string[];
-  status: 'verified-direct-damage' | 'non-damaging' | 'wrong-trigger' | 'unsupported-formula' | 'ambiguous' | 'duplicate-reissue';
-  evidence: string;
+  /** Numeric bonus entries plus the reserved structured `autoCast` directive. */
+  script: Record<string, ItemScriptValue>;
 }

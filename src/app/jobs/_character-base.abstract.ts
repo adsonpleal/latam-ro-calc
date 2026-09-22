@@ -5,6 +5,7 @@ import { SKILL_NAME } from '../constants/skill-name';
 import { WeaponTypeName } from '../constants/weapon-type-mapper';
 import { Weapon } from '../domain';
 import { DamageFormulaCalc } from '../models/damage-summary.model';
+import { ClassAutoCastDefinition } from '../models/auto-cast.model';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput, InfoForClass, SkillRef, SkillStateCtx } from '../models/info-for-class.model';
 import { ASPD_CAP, sortSkill } from '../utils';
@@ -183,6 +184,7 @@ export abstract class CharacterBase {
   protected abstract _atkSkillList: AtkSkillModel[];
   protected abstract _activeSkillList: ActiveSkillModel[];
   protected abstract _passiveSkillList: PassiveSkillModel[];
+  protected readonly _autoCastDefinitions: ClassAutoCastDefinition[] = [];
 
   protected learnSkillMap = new Map<string, number>();
   protected activeSkillIds: number[] = [];
@@ -286,6 +288,11 @@ export abstract class CharacterBase {
     }
 
     return sortedSkill;
+  }
+
+  /** Auto-cast mechanics declared by this job and inherited job generations. */
+  get autoCastDefinitions(): readonly ClassAutoCastDefinition[] {
+    return this._autoCastDefinitions;
   }
 
   get initialStatPoint() {
@@ -626,5 +633,9 @@ export abstract class CharacterBase {
     this._activeSkillList.push(...activeSkillList);
     this._passiveSkillList.push(...passiveSkillList);
     this.classNames.push(...classNames);
+  }
+
+  protected inheritAutoCasts(definitions: readonly ClassAutoCastDefinition[]): void {
+    this._autoCastDefinitions.push(...definitions);
   }
 }

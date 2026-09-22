@@ -3,6 +3,40 @@ import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { Mage } from './Mage';
 import { EARTH_SPIKE, HEAVENS_DRIVE } from '../skills/shared-skills';
+import { ClassAutoCastDefinition } from '../models/auto-cast.model';
+
+const AUTO_SPELL_TIERS: Array<[number, number[]]> = [
+  [1, [19, 14, 20]],
+  [4, [13, 17]],
+  [7, [88, 90]],
+  [10, [21, 91]],
+];
+
+const SCHOLAR_AUTO_CASTS: ClassAutoCastDefinition[] = [{
+  key: 'auto-spell',
+  resolve: ({ skillState, optionsFor, model }) => {
+    const level = skillState.learnedLevel('Auto Spell');
+    if (level <= 0) return {};
+    const ids = AUTO_SPELL_TIERS.filter(([minimum]) => level >= minimum).flatMap(([, skillIds]) => skillIds);
+    const slot = { key: 'autoSpell' as const, name: 'Desejo Arcano', icon: 279, level, options: optionsFor(ids) };
+    const skillId = Number(model.autoCastSelections?.autoSpell);
+    if (!skillId || !slot.options.some((option) => option.value === skillId)) return { slots: [slot] };
+
+    return {
+      slots: [slot],
+      sources: [{
+        key: `config-auto-spell-${skillId}`, kind: 'configurable', skillId,
+        skillLevel: Math.ceil(level / 2), chance: level * 2,
+        trigger: 'physical-hit', sourceName: slot.name, slot: slot.key,
+        enablingSkillId: 279,
+        chanceBreakdown: [
+          { label: 'Desejo Arcano', value: `Nv. ${level}` },
+          { label: 'Chance', value: `2% × ${level} = ${level * 2}%` },
+        ],
+      }],
+    };
+  },
+}];
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 1, 0, 0],
@@ -322,6 +356,7 @@ export class Scholar extends Mage {
       passiveSkillList: this.passiveSkillListHi,
       classNames: this.classNamesHi,
     });
+    this.inheritAutoCasts(SCHOLAR_AUTO_CASTS);
   }
 
   /**

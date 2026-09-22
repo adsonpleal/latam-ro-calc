@@ -42377,6 +42377,20 @@
       "ShadowChaser"
     ],
     "script": {
+      "autoCast": [
+        {
+          "skillId": 2449,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "4",
+            "7===1",
+            "9===2"
+          ],
+          "trigger": "physical-hit"
+        }
+      ],
       "atk": [
         "1---1"
       ],
@@ -49261,6 +49275,32 @@
       "all"
     ],
     "script": {
+      "autoCast": [
+        {
+          "skillId": 2203,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "10===7"
+          ],
+          "trigger": "melee-physical-hit",
+          "skillLevelMode": "highest-learned"
+        },
+        {
+          "skillId": 2204,
+          "skillLevel": [
+            "EQUIP_ID[24729]REFINE[shadowArmor,shadowBoot==18]===2",
+            "EQUIP_ID[24729]REFINE[shadowArmor,shadowBoot==20]===4"
+          ],
+          "chance": [
+            "EQUIP_ID[24729]REFINE[shadowArmor,shadowBoot==18]===4",
+            "EQUIP_ID[24729]REFINE[shadowArmor,shadowBoot==20]===4"
+          ],
+          "trigger": "melee-physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
+      ],
       "hp": [
         "1---10"
       ],
@@ -73711,6 +73751,18 @@
     "compositionPos": 128,
     "cardPrefix": "of Psychic",
     "script": {
+      "autoCast": [
+        {
+          "skillId": 2449,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "7"
+          ],
+          "trigger": "melee-physical-hit"
+        }
+      ],
       "m_my_element_neutral": [
         "EQUIP_ID[4336]30"
       ]
@@ -197116,6 +197168,28 @@
       "ShadowChaser"
     ],
     "script": {
+      "autoCast": [
+        {
+          "skillId": 83,
+          "skillLevel": [
+            "7"
+          ],
+          "chance": [
+            "7===10"
+          ],
+          "trigger": "melee-physical-hit"
+        },
+        {
+          "skillId": 2449,
+          "skillLevel": [
+            "4"
+          ],
+          "chance": [
+            "11===7"
+          ],
+          "trigger": "melee-physical-hit"
+        }
+      ],
       "matk": [
         "195",
         "2---15"
@@ -197514,6 +197588,18 @@
       "ShadowChaser"
     ],
     "script": {
+      "autoCast": [
+        {
+          "skillId": 2450,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[460017]REFINE[weapon,shield==18]===7"
+          ],
+          "trigger": "melee-physical-hit"
+        }
+      ],
       "matk": [
         "180",
         "EQUIP[Illusion Guard]===50"
@@ -197671,6 +197757,28 @@
       "ShadowChaser"
     ],
     "script": {
+      "autoCast": [
+        {
+          "skillId": 83,
+          "skillLevel": [
+            "7"
+          ],
+          "chance": [
+            "7===10"
+          ],
+          "trigger": "melee-physical-hit"
+        },
+        {
+          "skillId": 2449,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "11===7"
+          ],
+          "trigger": "melee-physical-hit"
+        }
+      ],
       "matk": [
         "195",
         "2---15"
@@ -231234,6 +231342,38 @@
       "all"
     ],
     "script": {
+      "autoCast": [
+        {
+          "skillId": 19,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "EQUIP_ID[19192]7"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 14,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "EQUIP_ID[19192]7"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 20,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "EQUIP_ID[19192]7"
+          ],
+          "trigger": "physical-hit"
+        }
+      ],
       "acd": [
         "3"
       ],
@@ -234417,6 +234557,88 @@
       "Windhawk"
     ],
     "script": {
+      "autoCast": [
+        {
+          "skillId": 2038,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "EQUIP_ID[1751]10"
+          ],
+          "trigger": "ranged-physical-hit"
+        },
+        {
+          "skillId": 2211,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[1752]10"
+          ],
+          "trigger": "ranged-physical-hit"
+        },
+        {
+          "skillId": 2447,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[1754]10"
+          ],
+          "trigger": "ranged-physical-hit"
+        },
+        {
+          "skillId": 2214,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[1755]10"
+          ],
+          "trigger": "ranged-physical-hit"
+        },
+        {
+          "skillId": 2216,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[1756]10"
+          ],
+          "trigger": "ranged-physical-hit"
+        },
+        {
+          "skillId": 2202,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[1757]10"
+          ],
+          "trigger": "ranged-physical-hit"
+        },
+        {
+          "skillId": 2450,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[1762]10"
+          ],
+          "trigger": "ranged-physical-hit"
+        },
+        {
+          "skillId": 2449,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[1773]10"
+          ],
+          "trigger": "ranged-physical-hit"
+        }
+      ],
       "2450": [
         "EQUIP_ID[1762]10"
       ],
@@ -253582,7 +253804,30 @@
     "usableClass": [
       "Swordman"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 88,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 83,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "3"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "1187": {
     "id": 1187,
@@ -336779,7 +337024,20 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 2212,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "melee-physical-hit"
+        }
+      ]
+    }
   },
   "27327": {
     "id": 27327,

@@ -614,7 +614,7 @@ function runWitness() {
     for (const [id, it] of Object.entries(items)) {
       const rec = latam[id];
       if (!rec || !plain(rec.description).includes(needle)) continue;
-      const carried = Object.keys(it.script || {}).filter((k) => keys.has(k.split('__').pop()) || keys.has(k));
+      const carried = Object.keys(it.script || {}).filter((k) => k !== 'autoCast' && (keys.has(k.split('__').pop()) || keys.has(k)));
       if (carried.length) { hit = `${id} ${rec.name} -> ${carried.join(',')}`; break; }
     }
     rows.push([name, needle, hit ?? 'NO WITNESS']);

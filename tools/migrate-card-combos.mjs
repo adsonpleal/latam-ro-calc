@@ -82,6 +82,7 @@ for (const [id, item] of Object.entries(items)) {
   if (!isCardRecord(item)) continue;
 
   for (const [key, values] of Object.entries(item.script ?? {})) {
+    if (key === 'autoCast') continue;
     values.forEach((entry, index) => {
       const match = /EQUIP\[([^\]]+)]/.exec(entry);
       if (!match) return;

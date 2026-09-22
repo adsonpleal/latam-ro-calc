@@ -56,6 +56,7 @@ let leftover = 0;
 for (const it of Object.values(after)) {
   if (!it.script) continue;
   for (const k of Object.keys(it.script)) {
+    if (k === 'autoCast') continue;
     let base = k;
     for (const p of prefixes) if (k.startsWith(p)) { base = k.slice(p.length); break; }
     if (nameToId[base] !== undefined) leftover++;
