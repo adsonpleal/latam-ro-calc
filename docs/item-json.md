@@ -174,14 +174,27 @@ esteja equipado; passando, sobra `50` (valor fixo).
   sem refino, 5% no +7 e 7% no +9.
 - `skillLevel` reutiliza as mesmas expressões, mas escolhe o maior valor aplicável.
 - `skillLevelMode: "highest-learned"` usa o maior entre esse valor e o nível aprendido.
+- `skillLevelMode: "learned-only"` usa exatamente o nível aprendido; sem a perícia, a
+  fonte não aparece. Use-o para "no mesmo nível aprendido", não para "ou no maior nível".
 - `trigger` aceita `physical-attack`, `physical-hit`, `melee-physical-hit` ou
   `ranged-physical-hit`.
 - Cada objeto representa uma ativação independente. Efeitos de rolagem compartilhada ou
   escolha entre várias magias só entram quando essa semântica estiver implementada.
 
-Somente autoconjurações verificadas, de dano direto e executáveis ficam no `item.json`.
-Cláusulas ambíguas, defensivas, curas, buffs e efeitos disparados por habilidades continuam
-no inventário de auditoria.
+Somente autoconjurações verificadas, de dano direto e executáveis usam `autoCast`. Para não
+perder uma cláusula física que o cliente não permite calcular fielmente, registre-a em
+`autoCastPending`; ela aparece como indisponível no painel e nunca entra nos bônus numéricos:
+
+```jsonc
+"autoCastPending": [{
+  "skillName": "Rajada Congelante",
+  "reason": "A habilidade não está catalogada no cliente."
+}]
+```
+
+Use isso para rolagem compartilhada, nível/chance ausente, habilidade fora do catálogo ou um
+estado ainda não modelado. Cura, buff, dano recebido e ataque mágico continuam fora desta
+auditoria física até que seus gatilhos tenham um modelo próprio.
 
 ---
 
@@ -359,6 +372,7 @@ Portões avaliados antes do valor. Podem ser **encadeados** numa mesma entrada
 | `USED[Classe\|\|...]` | A classe atual é uma das listadas. | — |
 | `UNTIL[aaaa-mm-dd]` | Bônus "[Durante o Evento]": vale até esse dia (inclusive, horário de Brasília). Use o último dia inteiro — um evento que termina "antes da manutenção" do dia X vale até X−1. | — |
 | **`EQUIP_ID[id]`** | **Item `id` também equipado (combo).** | **Use esta** |
+| **`AMMO_SUBTYPE[id]`** | **Munição equipada tem o subtipo `id` (flecha = `1024`).** | **Use para gatilho por munição** |
 | `EQUIP[Nome]` | Item por **nome** equipado (combo). | ⚠️ Legado → `EQUIP_ID` |
 | `POS_SPECIFIC[slot==Nome]` | Item específico (por **nome**) num slot. | por nome¹ |
 | `REFINE_NAME[Nome==N]` | Refino somado de itens por **nome**. | por nome¹ |

@@ -150,6 +150,15 @@ function itemSources(calc: Calculator): AutoCastSource[] {
   }));
 }
 
+function itemBlockedSources(calc: Calculator): BlockedAutoCastSource[] {
+  return (calc.resolvedItemAutoCastPending ?? []).map((source) => ({
+    key: source.key,
+    name: source.skillName,
+    icon: source.skillId ?? 0,
+    reason: `${source.itemName}: ${source.reason}`,
+  }));
+}
+
 function triggerMatches(source: AutoCastSource, summary: any): boolean {
   const ranged = summary?.weapon?.rangeType === 'range';
   if (source.trigger === 'melee-physical-hit') return !ranged;
@@ -287,7 +296,15 @@ export function buildAutoCastSimulation(input: {
     }
 
     const skill = source.skillData ?? skillForId(calc, source.skillId);
-    if (!skill) continue;
+    if (!skill) {
+      classResult.blocked.push({
+        key: source.key,
+        name: resolveSkillById(source.skillId)?.name ?? source.sourceName,
+        icon: source.skillId,
+        reason: 'A fórmula dessa habilidade ainda não é suportada.',
+      });
+      continue;
+    }
     const solved = calc.solveAutoCast(`${skill.name}==${source.skillLevel}`, skill);
     if (!solved.skillTotalHit || solved.requireTxt) continue;
     const perHit = calcDmgDpsDetailed({
@@ -336,6 +353,6 @@ export function buildAutoCastSimulation(input: {
     timeToKillSeconds: totalDps > 0 && hp > 0 ? hp / totalDps : null,
     sources,
     slots: classResult.slots,
-    blockedSources: classResult.blocked,
+    blockedSources: [...classResult.blocked, ...itemBlockedSources(calc)],
   };
 }

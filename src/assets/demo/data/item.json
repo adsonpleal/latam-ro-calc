@@ -160,6 +160,12 @@
       ],
       "perfectDodge": [
         "20"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Beijo do Vampiro",
+          "reason": "A habilidade não está catalogada no cliente."
+        }
       ]
     }
   },
@@ -344,6 +350,19 @@
     "script": {
       "137": [
         "10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 136,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "melee-physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -4880,6 +4899,18 @@
       ],
       "hp": [
         "500"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Congelar",
+          "skillId": 88,
+          "reason": "A descrição combina esta ativação com outra rolagem; a probabilidade individual não é documentada."
+        },
+        {
+          "skillName": "Onda Psíquica",
+          "skillId": 2449,
+          "reason": "A descrição combina esta ativação com outra rolagem; a probabilidade individual não é documentada."
+        }
       ]
     }
   },
@@ -6474,6 +6505,18 @@
     "script": {
       "p_class_all": [
         "20"
+      ],
+      "autoCast": [
+        {
+          "skillId": 7,
+          "skillLevel": [
+            "10"
+          ],
+          "chance": [
+            "3"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -6918,7 +6961,20 @@
     "location": null,
     "compositionPos": 0,
     "cardPrefix": "Devine Cross",
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 254,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "4398": {
     "id": 4398,
@@ -15557,6 +15613,19 @@
         "LOYALTY[2]===1",
         "LOYALTY[3]===1",
         "LOYALTY[4]===2"
+      ],
+      "autoCast": [
+        {
+          "skillId": 19,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "LOYALTY[3]===3",
+            "LOYALTY[4]===6"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -17875,6 +17944,19 @@
     "script": {
       "matk": [
         "50"
+      ],
+      "autoCast": [
+        {
+          "skillId": 539,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "3"
+          ],
+          "trigger": "melee-physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -18267,6 +18349,18 @@
       ],
       "m_element_neutral": [
         "10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 14,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -18377,6 +18471,18 @@
       ],
       "aspd": [
         "10===1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 88,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -18442,14 +18548,36 @@
       "Merchant"
     ],
     "script": {
+      "17": [
+        "9===30"
+      ],
       "matk": [
         "150"
       ],
       "aspdPercent": [
         "7===7"
       ],
-      "17": [
-        "9===30"
+      "autoCast": [
+        {
+          "skillId": 17,
+          "skillLevel": [
+            "REFINE[me==1(10)]---1"
+          ],
+          "chance": [
+            "4"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 2212,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "REFINE[11]===4"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -18891,6 +19019,12 @@
       "RuneKnight"
     ],
     "script": {
+      "2002": [
+        "EQUIP[Peuz's Greaves&&Peuz's Manteau&&Peuz's Plate&&Peuz's Seal]===100"
+      ],
+      "2005": [
+        "EQUIP[Peuz's Greaves&&Peuz's Manteau&&Peuz's Plate&&Peuz's Seal]===100"
+      ],
       "mdef": [
         "10"
       ],
@@ -18903,14 +19037,20 @@
       "p_size_all": [
         "EQUIP[Peuz's Greaves&&Peuz's Manteau&&Peuz's Plate&&Peuz's Seal]===10"
       ],
-      "2005": [
-        "EQUIP[Peuz's Greaves&&Peuz's Manteau&&Peuz's Plate&&Peuz's Seal]===100"
-      ],
-      "2002": [
-        "EQUIP[Peuz's Greaves&&Peuz's Manteau&&Peuz's Plate&&Peuz's Seal]===100"
-      ],
       "chance__aspd": [
         "EQUIP[Peuz's Greaves&&Peuz's Manteau&&Peuz's Plate&&Peuz's Seal]===2"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2017,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "EQUIP_ID[2884&&2476&&2575]2"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -18935,6 +19075,9 @@
       "Ranger"
     ],
     "script": {
+      "2233": [
+        "EQUIP[White Wing Manteau&&White Wing Boots&&White Wing Brooch]===50"
+      ],
       "range": [
         "1---2",
         "EQUIP[White Wing Manteau&&White Wing Boots&&White Wing Brooch]===30"
@@ -18945,8 +19088,18 @@
       "aspd": [
         "EQUIP[White Wing Manteau&&White Wing Boots&&White Wing Brooch]===2"
       ],
-      "2233": [
-        "EQUIP[White Wing Manteau&&White Wing Boots&&White Wing Brooch]===50"
+      "autoCast": [
+        {
+          "skillId": 46,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[2890&&2479&&2580]2"
+          ],
+          "trigger": "ranged-physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -22503,6 +22656,9 @@
       "ArchBishop"
     ],
     "script": {
+      "2054": [
+        "9===40"
+      ],
       "matk": [
         "160",
         "1---4"
@@ -22510,8 +22666,18 @@
       "aspd": [
         "1"
       ],
-      "2054": [
-        "9===40"
+      "autoCast": [
+        {
+          "skillId": 2038,
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "REFINE[11]===10"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -25358,6 +25524,13 @@
       ],
       "ignore_size_penalty": [
         "12===1"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Golpe Fulminante",
+          "skillId": 5,
+          "reason": "Exige um estado de transformação que ainda não é modelado."
+        }
       ]
     }
   },
@@ -25770,14 +25943,27 @@
       "Genetic"
     ],
     "script": {
+      "2476": [
+        "REFINE[8]LEARN_SKILL[Axe Mastery==1]---5"
+      ],
       "atk": [
         "2---10"
       ],
       "aspdPercent": [
         "3---2"
       ],
-      "2476": [
-        "REFINE[8]LEARN_SKILL[Axe Mastery==1]---5"
+      "autoCast": [
+        {
+          "skillId": 2476,
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "REFINE[11]===5"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -26004,14 +26190,27 @@
       "ArchBishop"
     ],
     "script": {
+      "2054": [
+        "REFINE[8]LEARN_SKILL[Mace Mastery==1]---10"
+      ],
       "matk": [
         "2---10"
       ],
       "aspdPercent": [
         "3---2"
       ],
-      "2054": [
-        "REFINE[8]LEARN_SKILL[Mace Mastery==1]---10"
+      "autoCast": [
+        {
+          "skillId": 2040,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "REFINE[11]===5"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -26109,6 +26308,19 @@
       ],
       "aspdPercent": [
         "3---2"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2414,
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "REFINE[11]===5"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -26139,6 +26351,19 @@
       ],
       "aspdPercent": [
         "3---2"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2414,
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "REFINE[11]===5"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -26679,6 +26904,48 @@
     "script": {
       "m_my_element_all": [
         "1---1"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Chamas de Hela",
+          "skillId": 2212,
+          "reason": "Exige um estado de transformação que ainda não é modelado."
+        },
+        {
+          "skillName": "Corrente Elétrica",
+          "skillId": 2214,
+          "reason": "Exige um estado de transformação que ainda não é modelado."
+        },
+        {
+          "skillName": "Lanças de Fogo",
+          "skillId": 19,
+          "reason": "Exige um estado de transformação que ainda não é modelado."
+        },
+        {
+          "skillName": "Lanças de Gelo",
+          "skillId": 14,
+          "reason": "Exige um estado de transformação que ainda não é modelado."
+        },
+        {
+          "skillName": "Relâmpago",
+          "skillId": 20,
+          "reason": "Exige um estado de transformação que ainda não é modelado."
+        },
+        {
+          "skillName": "Coluna de Pedra",
+          "skillId": 90,
+          "reason": "Exige um estado de transformação que ainda não é modelado."
+        },
+        {
+          "skillName": "Congelar",
+          "skillId": 88,
+          "reason": "Exige um estado de transformação que ainda não é modelado."
+        },
+        {
+          "skillName": "Tempestade de Raios",
+          "skillId": 21,
+          "reason": "Exige um estado de transformação que ainda não é modelado."
+        }
       ]
     }
   },
@@ -30027,17 +30294,30 @@
       "RuneKnight"
     ],
     "script": {
-      "atk": [
-        "2---10"
-      ],
       "2002": [
         "3---10"
+      ],
+      "atk": [
+        "2---10"
       ],
       "chance__str": [
         "EQUIP[Ancient Hero Boots]===20"
       ],
       "chance__atkPercent": [
         "EQUIP[Ancient Hero Boots]===15"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2002,
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "REFINE[9]===7"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -35802,6 +36082,18 @@
       ],
       "matk": [
         "1---1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2006,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "3"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -35996,6 +36288,18 @@
       ],
       "matk": [
         "1---1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 5001,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -39835,6 +40139,21 @@
       ],
       "matk": [
         "1---1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2006,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "2",
+            "7===1",
+            "9===2"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -44373,6 +44692,19 @@
       ],
       "m_pene_race_all": [
         "EQUIP[Booster Shadow Armor&&Booster Shadow Shield&&Booster Shadow Shoes&&Booster Shadow Earring&&Booster Shadow Pendant]70"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2006,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[24586&&24585&&24584&&24588&&24587]7"
+          ],
+          "trigger": "melee-physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -44608,6 +44940,12 @@
       "ShadowChaser"
     ],
     "script": {
+      "2284": [
+        "EQUIP[Booster Shadow Armor&&Booster Shadow Shield&&Booster Shadow Shoes&&Booster Shadow Earring&&Booster Shadow Pendant]15"
+      ],
+      "2288": [
+        "EQUIP[Booster Shadow Armor&&Booster Shadow Shield&&Booster Shadow Shoes&&Booster Shadow Earring&&Booster Shadow Pendant]15"
+      ],
       "atk": [
         "1---1",
         "10"
@@ -44619,12 +44957,6 @@
       "m_my_element_neutral": [
         "EQUIP[Booster Shadow Armor&&Booster Shadow Shield&&Booster Shadow Shoes&&Booster Shadow Earring&&Booster Shadow Pendant]10"
       ],
-      "2288": [
-        "EQUIP[Booster Shadow Armor&&Booster Shadow Shield&&Booster Shadow Shoes&&Booster Shadow Earring&&Booster Shadow Pendant]15"
-      ],
-      "2284": [
-        "EQUIP[Booster Shadow Armor&&Booster Shadow Shield&&Booster Shadow Shoes&&Booster Shadow Earring&&Booster Shadow Pendant]15"
-      ],
       "acd": [
         "EQUIP[Booster Shadow Armor&&Booster Shadow Shield&&Booster Shadow Shoes&&Booster Shadow Earring&&Booster Shadow Pendant]15"
       ],
@@ -44633,6 +44965,18 @@
       ],
       "m_pene_race_all": [
         "EQUIP[Booster Shadow Armor&&Booster Shadow Shield&&Booster Shadow Shoes&&Booster Shadow Earring&&Booster Shadow Pendant]70"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2449,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[24586&&24585&&24584&&24588&&24587]7"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -48192,6 +48536,13 @@
       ],
       "p_pene_race_all": [
         "EQUIP_ID[24694&&24693&&24695&&24696&&24697]===50"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Impacto Flamejante",
+          "skillId": 2006,
+          "reason": "O cliente não informa a chance de ativação."
+        }
       ]
     }
   },
@@ -48478,6 +48829,13 @@
       ],
       "m_pene_race_all": [
         "EQUIP_ID[24694&&24693&&24695&&24696&&24697]===50"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Onda Psíquica",
+          "skillId": 2449,
+          "reason": "O cliente não informa a chance de ativação."
+        }
       ]
     }
   },
@@ -49384,6 +49742,32 @@
       ],
       "aspd": [
         "9===1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2284,
+          "skillLevel": [
+            "7"
+          ],
+          "chance": [
+            "10===7"
+          ],
+          "trigger": "melee-physical-hit",
+          "skillLevelMode": "highest-learned"
+        },
+        {
+          "skillId": 2279,
+          "skillLevel": [
+            "EQUIP_ID[24731]REFINE[shadowEarring,shadowPendant==18]===4",
+            "EQUIP_ID[24731]REFINE[shadowEarring,shadowPendant==20]===8"
+          ],
+          "chance": [
+            "EQUIP_ID[24731]REFINE[shadowEarring,shadowPendant==18]===4",
+            "EQUIP_ID[24731]REFINE[shadowEarring,shadowPendant==20]===4"
+          ],
+          "trigger": "melee-physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -55289,6 +55673,18 @@
     "script": {
       "bowRange": [
         "10===20"
+      ],
+      "autoCast": [
+        {
+          "skillId": 46,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "WEAPON_TYPE[bow]3"
+          ],
+          "trigger": "ranged-physical-hit"
+        }
       ]
     }
   },
@@ -60538,6 +60934,9 @@
       "Rebellion"
     ],
     "script": {
+      "520": [
+        "EQUIP[Illusion Gate Keeper-DD&&Illusion Hot-blooded Headband]REFINE[weapon,headUpper==22]===30"
+      ],
       "dex": [
         "1"
       ],
@@ -60555,8 +60954,18 @@
       "aspd": [
         "EQUIP[Illusion Gate Keeper-DD&&Illusion Hot-blooded Headband]REFINE[headUpper==7]7===2"
       ],
-      "520": [
-        "EQUIP[Illusion Gate Keeper-DD&&Illusion Hot-blooded Headband]REFINE[weapon,headUpper==22]===30"
+      "autoCast": [
+        {
+          "skillId": 520,
+          "skillLevel": [
+            "6"
+          ],
+          "chance": [
+            "REFINE[11]===5"
+          ],
+          "trigger": "ranged-physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -66596,7 +67005,20 @@
     "requiredLevel": null,
     "location": null,
     "compositionPos": null,
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 88,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "1"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "29332": {
     "id": 29332,
@@ -66627,6 +67049,18 @@
       ],
       "90": [
         "ACTIVE_SKILL[Striking]30"
+      ],
+      "autoCast": [
+        {
+          "skillId": 88,
+          "skillLevel": [
+            "4"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -66659,6 +67093,18 @@
       ],
       "90": [
         "ACTIVE_SKILL[Striking]60"
+      ],
+      "autoCast": [
+        {
+          "skillId": 88,
+          "skillLevel": [
+            "7"
+          ],
+          "chance": [
+            "3"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -71622,6 +72068,18 @@
     "script": {
       "atkPercent": [
         "10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2006,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -140565,11 +141023,17 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5321": [
-        "EQUIP_ID[510026]15"
-      ],
       "5283": [
         "EQUIP_ID[590015]15"
+      ],
+      "5292": [
+        "EQUIP_ID[610015]15"
+      ],
+      "5295": [
+        "EQUIP_ID[620005]15"
+      ],
+      "5321": [
+        "EQUIP_ID[510026]15"
       ],
       "5340": [
         "EQUIP_ID[500018]15"
@@ -140577,20 +141041,20 @@
       "5341": [
         "EQUIP_ID[500018]15"
       ],
-      "5292": [
-        "EQUIP_ID[610015]15"
+      "5436": [
+        "EQUIP_ID[550058]15"
+      ],
+      "5466": [
+        "EQUIP_ID[540043]15"
+      ],
+      "5481": [
+        "EQUIP_ID[510055]15"
       ],
       "cd__5001": [
         "EQUIP_ID[610015]10"
       ],
-      "5295": [
-        "EQUIP_ID[620005]15"
-      ],
       "cd__2280": [
         "EQUIP_ID[620005]1"
-      ],
-      "5436": [
-        "EQUIP_ID[550058]15"
       ],
       "cd__5028": [
         "EQUIP_ID[550058]2"
@@ -140598,17 +141062,33 @@
       "cd__5036": [
         "EQUIP_ID[550058]2"
       ],
-      "5466": [
-        "EQUIP_ID[540043]15"
-      ],
       "criDmg": [
         "EQUIP_ID[540043]10"
       ],
-      "5481": [
-        "EQUIP_ID[510055]15"
-      ],
       "cd__3004": [
         "EQUIP_ID[510055]2"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2449,
+          "skillLevel": [
+            "4"
+          ],
+          "chance": [
+            "EQUIP_ID[510026]7"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 5284,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[590015]7"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -140630,26 +141110,20 @@
     "location": null,
     "compositionPos": 65535,
     "script": {
-      "5266": [
-        "EQUIP_ID[530009]15"
-      ],
-      "perfectHit": [
-        "EQUIP_ID[530009]20"
-      ],
-      "5372": [
-        "EQUIP_ID[540013]15"
-      ],
-      "cd__2449": [
-        "EQUIP_ID[540013]1.5"
-      ],
       "5213": [
         "EQUIP_ID[600013]15"
       ],
       "5225": [
         "EQUIP_ID[640013]15"
       ],
-      "cd__2211": [
-        "EQUIP_ID[640013]1"
+      "5266": [
+        "EQUIP_ID[530009]15"
+      ],
+      "5372": [
+        "EQUIP_ID[540013]15"
+      ],
+      "5430": [
+        "EQUIP_ID[550059]15"
       ],
       "5451": [
         "EQUIP_ID[510054]15"
@@ -140657,17 +141131,35 @@
       "5459": [
         "EQUIP_ID[550057]15"
       ],
-      "5430": [
-        "EQUIP_ID[550059]15"
-      ],
       "5490": [
         "EQUIP_ID[510053]15"
       ],
       "5491": [
         "EQUIP_ID[510053]15"
       ],
+      "perfectHit": [
+        "EQUIP_ID[530009]20"
+      ],
+      "cd__2449": [
+        "EQUIP_ID[540013]1.5"
+      ],
+      "cd__2211": [
+        "EQUIP_ID[640013]1"
+      ],
       "m_my_element_all": [
         "EQUIP_ID[510053]10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2002,
+          "skillLevel": [
+            "7"
+          ],
+          "chance": [
+            "EQUIP_ID[600013]7"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -147030,6 +147522,23 @@
       ],
       "fct": [
         "GRADE[me==B]12===0.5"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Maldição de Jormungand",
+          "skillId": 2450,
+          "reason": "Exige um estado de transformação que ainda não é modelado."
+        },
+        {
+          "skillName": "Chamas de Hela",
+          "skillId": 2212,
+          "reason": "Exige um estado de transformação que ainda não é modelado."
+        },
+        {
+          "skillName": "Corrente Elétrica",
+          "skillId": 2214,
+          "reason": "Exige um estado de transformação que ainda não é modelado."
+        }
       ]
     }
   },
@@ -158023,6 +158532,28 @@
       ],
       "matk": [
         "EQUIP[Old Parasol]50"
+      ],
+      "autoCast": [
+        {
+          "skillId": 13,
+          "skillLevel": [
+            "10"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "melee-physical-hit"
+        },
+        {
+          "skillId": 484,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[13442]5"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -164226,6 +164757,9 @@
       "Novice"
     ],
     "script": {
+      "2449": [
+        "EQUIP[Noblesse Magic Manteau&&Noblesse Magic Boots&&Noblesse Magic Ring]REFINE[armor,garment,boot==27]===5"
+      ],
       "matk": [
         "50"
       ],
@@ -164241,8 +164775,17 @@
         "EQUIP[Noblesse Magic Manteau&&Noblesse Magic Boots&&Noblesse Magic Ring]===2",
         "EQUIP[Noblesse Magic Manteau&&Noblesse Magic Boots&&Noblesse Magic Ring]REFINE[armor,garment,boot==27]===3"
       ],
-      "2449": [
-        "EQUIP[Noblesse Magic Manteau&&Noblesse Magic Boots&&Noblesse Magic Ring]REFINE[armor,garment,boot==27]===5"
+      "autoCast": [
+        {
+          "skillId": 2449,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "EQUIP_ID[470017&&490015&&480014]7"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -164309,6 +164852,9 @@
       "Novice"
     ],
     "script": {
+      "2449": [
+        "EQUIP[Imperial Magic Manteau&&Imperial Magic Boots&&Imperial Magic Ring]REFINE[armor,garment,boot==27]===7"
+      ],
       "matk": [
         "75"
       ],
@@ -164324,8 +164870,17 @@
         "EQUIP[Imperial Magic Manteau&&Imperial Magic Boots&&Imperial Magic Ring]===2",
         "EQUIP[Imperial Magic Manteau&&Imperial Magic Boots&&Imperial Magic Ring]REFINE[armor,garment,boot==27]===3"
       ],
-      "2449": [
-        "EQUIP[Imperial Magic Manteau&&Imperial Magic Boots&&Imperial Magic Ring]REFINE[armor,garment,boot==27]===7"
+      "autoCast": [
+        {
+          "skillId": 2449,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "EQUIP_ID[470019&&490018&&480017]7"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -164392,6 +164947,9 @@
       "Novice"
     ],
     "script": {
+      "2449": [
+        "EQUIP[Grace Magic Manteau&&Grace Magic Boots&&Grace Magic Ring]REFINE[armor,garment,boot==27]===10"
+      ],
       "matk": [
         "100"
       ],
@@ -164407,8 +164965,17 @@
         "EQUIP[Grace Magic Manteau&&Grace Magic Boots&&Grace Magic Ring]===2",
         "EQUIP[Grace Magic Manteau&&Grace Magic Boots&&Grace Magic Ring]REFINE[armor,garment,boot==27]===3"
       ],
-      "2449": [
-        "EQUIP[Grace Magic Manteau&&Grace Magic Boots&&Grace Magic Ring]REFINE[armor,garment,boot==27]===10"
+      "autoCast": [
+        {
+          "skillId": 2449,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "EQUIP_ID[470021&&490020&&480019]7"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -195897,17 +196464,49 @@
       "Merchant"
     ],
     "script": {
+      "17": [
+        "9===60"
+      ],
+      "19": [
+        "9===60"
+      ],
       "matk": [
         "150"
       ],
       "aspdPercent": [
         "7===7"
       ],
-      "19": [
-        "9===60"
-      ],
-      "17": [
-        "9===60"
+      "autoCast": [
+        {
+          "skillId": 17,
+          "skillLevel": [
+            "REFINE[me==1(10)]---1"
+          ],
+          "chance": [
+            "8"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 19,
+          "skillLevel": [
+            "REFINE[me==1(10)]---1"
+          ],
+          "chance": [
+            "8"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 2212,
+          "skillLevel": [
+            "4"
+          ],
+          "chance": [
+            "11===4"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -197448,6 +198047,10 @@
       "ShadowChaser"
     ],
     "script": {
+      "5317": [
+        "GRADE[weapon==D]===10",
+        "GRADE[weapon==B]===10"
+      ],
       "matk": [
         "160",
         "2---10"
@@ -197470,12 +198073,30 @@
       "m_size_all": [
         "11===15"
       ],
-      "5317": [
-        "GRADE[weapon==D]===10",
-        "GRADE[weapon==B]===10"
-      ],
       "sMatk": [
         "GRADE[weapon==C]===1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 83,
+          "skillLevel": [
+            "7"
+          ],
+          "chance": [
+            "7"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 2449,
+          "skillLevel": [
+            "4"
+          ],
+          "chance": [
+            "7"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -197597,7 +198218,7 @@
           "chance": [
             "EQUIP_ID[460017]REFINE[weapon,shield==18]===7"
           ],
-          "trigger": "melee-physical-hit"
+          "trigger": "physical-hit"
         }
       ],
       "matk": [
@@ -201157,20 +201778,20 @@
       "ArchBishop"
     ],
     "script": {
+      "2038": [
+        "3---25",
+        "9===30"
+      ],
+      "2054": [
+        "3---25",
+        "9===30"
+      ],
       "matk": [
         "190",
         "2---10"
       ],
       "atk": [
         "2---10"
-      ],
-      "2054": [
-        "3---25",
-        "9===30"
-      ],
-      "2038": [
-        "3---25",
-        "9===30"
       ],
       "aspdPercent": [
         "7===10"
@@ -201183,6 +201804,19 @@
       ],
       "matkPercent": [
         "EQUIP[Great Hero Boots]===7"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2038,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "REFINE[11]===4"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -201939,6 +202573,14 @@
       "ArchBishop"
     ],
     "script": {
+      "2038": [
+        "3---25",
+        "9===45"
+      ],
+      "2054": [
+        "3---25",
+        "9===45"
+      ],
       "matk": [
         "190",
         "2---10"
@@ -201961,14 +202603,6 @@
       "atk": [
         "2---10"
       ],
-      "2054": [
-        "3---25",
-        "9===45"
-      ],
-      "2038": [
-        "3---25",
-        "9===45"
-      ],
       "aspdPercent": [
         "7===10"
       ],
@@ -201978,6 +202612,19 @@
       "m_my_element_holy": [
         "7===15",
         "GRADE[weapon==C]===15"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2038,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "REFINE[11]===10"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -214631,11 +215278,11 @@
       "RuneKnight"
     ],
     "script": {
-      "atk": [
-        "2---15"
-      ],
       "2002": [
         "3---10"
+      ],
+      "atk": [
+        "2---15"
       ],
       "aspdPercent": [
         "7===10"
@@ -214651,6 +215298,19 @@
       ],
       "atkPercent": [
         "EQUIP_ID[22238]===7"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2002,
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "REFINE[9]===7"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -214719,6 +215379,14 @@
       "RuneKnight"
     ],
     "script": {
+      "2002": [
+        "9===25",
+        "13===15"
+      ],
+      "2006": [
+        "9===25",
+        "13===15"
+      ],
       "cri": [
         "15",
         "11===15"
@@ -214733,16 +215401,21 @@
       "criDmg": [
         "9===10"
       ],
-      "2006": [
-        "9===25",
-        "13===15"
-      ],
-      "2002": [
-        "9===25",
-        "13===15"
-      ],
       "p_size_all": [
         "11===15"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2002,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "9===7"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "learned-only"
+        }
       ]
     }
   },
@@ -214846,12 +215519,16 @@
       "RuneKnight"
     ],
     "script": {
-      "atk": [
-        "2---10"
-      ],
       "2005": [
         "3---10",
         "7===20"
+      ],
+      "5201": [
+        "GRADE[weapon==D]===10",
+        "GRADE[weapon==B]===10"
+      ],
+      "atk": [
+        "2---10"
       ],
       "aspdPercent": [
         "7===10"
@@ -214867,12 +215544,21 @@
       "melee": [
         "11===15"
       ],
-      "5201": [
-        "GRADE[weapon==D]===10",
-        "GRADE[weapon==B]===10"
-      ],
       "pAtk": [
         "GRADE[weapon==C]===1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2005,
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "9===9"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -215030,6 +215716,14 @@
       "RuneKnight"
     ],
     "script": {
+      "2002": [
+        "7===20",
+        "9===20"
+      ],
+      "2017": [
+        "7===20",
+        "9===20"
+      ],
       "atkPercent": [
         "5",
         "EQUIP_ID[470094]===10",
@@ -215051,14 +215745,6 @@
       "criDmg": [
         "3---5"
       ],
-      "2002": [
-        "7===20",
-        "9===20"
-      ],
-      "2017": [
-        "7===20",
-        "9===20"
-      ],
       "aspdPercent": [
         "7===10"
       ],
@@ -215072,6 +215758,19 @@
       "range": [
         "11===15",
         "GRADE[weapon==C]===15"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2002,
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "REFINE[9]===10"
+          ],
+          "trigger": "melee-physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -224275,10 +224974,6 @@
       "Rebellion"
     ],
     "script": {
-      "matk": [
-        "250",
-        "2---15"
-      ],
       "13": [
         "3---15"
       ],
@@ -224288,12 +224983,48 @@
       "2202": [
         "7===20"
       ],
+      "matk": [
+        "250",
+        "2---15"
+      ],
       "m_my_element_ghost": [
         "7===15",
         "EQUIP[Great Hero Boots]===5"
       ],
       "int": [
         "EQUIP[Great Hero Boots]===10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 13,
+          "skillLevel": [
+            "10"
+          ],
+          "chance": [
+            "REFINE[9]===15"
+          ],
+          "trigger": "ranged-physical-hit"
+        },
+        {
+          "skillId": 400,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "REFINE[11]===7"
+          ],
+          "trigger": "ranged-physical-hit"
+        },
+        {
+          "skillId": 2202,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "REFINE[11]===7"
+          ],
+          "trigger": "ranged-physical-hit"
+        }
       ]
     }
   },
@@ -224534,6 +225265,16 @@
       "Rebellion"
     ],
     "script": {
+      "13": [
+        "3---20"
+      ],
+      "400": [
+        "3---20"
+      ],
+      "2202": [
+        "7===40",
+        "11===30"
+      ],
       "matk": [
         "250",
         "2---15"
@@ -224548,16 +225289,6 @@
         "GRADE[weapon==C]===1",
         "GRADE[weapon==B]===2"
       ],
-      "13": [
-        "3---20"
-      ],
-      "400": [
-        "3---20"
-      ],
-      "2202": [
-        "7===40",
-        "11===30"
-      ],
       "m_my_element_ghost": [
         "7===25",
         "GRADE[weapon==C]===15"
@@ -224568,6 +225299,38 @@
       "matkPercent": [
         "EQUIP[Hero Boots-LT]===10",
         "GRADE[weapon==D]===3"
+      ],
+      "autoCast": [
+        {
+          "skillId": 13,
+          "skillLevel": [
+            "10"
+          ],
+          "chance": [
+            "REFINE[9]===15"
+          ],
+          "trigger": "ranged-physical-hit"
+        },
+        {
+          "skillId": 400,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "REFINE[9]===15"
+          ],
+          "trigger": "ranged-physical-hit"
+        },
+        {
+          "skillId": 2202,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "REFINE[9]===15"
+          ],
+          "trigger": "ranged-physical-hit"
+        }
       ]
     }
   },
@@ -231344,6 +232107,16 @@
     "script": {
       "autoCast": [
         {
+          "skillId": 83,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "EQUIP_ID[19194]7"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
           "skillId": 19,
           "skillLevel": [
             "5"
@@ -231441,6 +232214,38 @@
       ],
       "spRestoreOnKill": [
         "EQUIP_ID[19396]50"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2017,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "EQUIP_ID[19195]7"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 2279,
+          "skillLevel": [
+            "10"
+          ],
+          "chance": [
+            "EQUIP_ID[19189]7"
+          ],
+          "trigger": "melee-physical-hit"
+        },
+        {
+          "skillId": 2006,
+          "skillLevel": [
+            "4"
+          ],
+          "chance": [
+            "EQUIP_ID[19204]7"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -232158,6 +232963,18 @@
       ],
       "spDrain": [
         "7===3"
+      ],
+      "autoCast": [
+        {
+          "skillId": 379,
+          "skillLevel": [
+            "4"
+          ],
+          "chance": [
+            "EQUIP_ID[28240]REFINE[weapon==10]===7"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -235921,6 +236738,19 @@
       ],
       "spDrain": [
         "EQUIP_ID[19474]REFINE[garment,headUpper==22]===4"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2580,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "EQUIP_ID[19486]10"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -241250,6 +242080,20 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 14,
+          "skillLevel": [
+            "1",
+            "REFINE[me==2]---1"
+          ],
+          "chance": [
+            "REFINE[2]===1",
+            "REFINE[2]1---0.2"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -241276,6 +242120,20 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 19,
+          "skillLevel": [
+            "1",
+            "REFINE[me==2]---1"
+          ],
+          "chance": [
+            "REFINE[2]===1",
+            "REFINE[2]1---0.2"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -241302,6 +242160,20 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 20,
+          "skillLevel": [
+            "1",
+            "REFINE[me==2]---1"
+          ],
+          "chance": [
+            "REFINE[2]===1",
+            "REFINE[2]1---0.2"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -241328,6 +242200,20 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 90,
+          "skillLevel": [
+            "1",
+            "REFINE[me==2]---1"
+          ],
+          "chance": [
+            "REFINE[2]===1",
+            "REFINE[2]1---0.2"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -241740,6 +242626,56 @@
     "script": {
       "hp": [
         "1---10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 19,
+          "skillLevel": [
+            "1",
+            "REFINE[me==2]---1"
+          ],
+          "chance": [
+            "REFINE[2]===0.5",
+            "REFINE[2]1---0.1"
+          ],
+          "trigger": "melee-physical-hit"
+        },
+        {
+          "skillId": 14,
+          "skillLevel": [
+            "1",
+            "REFINE[me==2]---1"
+          ],
+          "chance": [
+            "REFINE[2]===0.5",
+            "REFINE[2]1---0.1"
+          ],
+          "trigger": "melee-physical-hit"
+        },
+        {
+          "skillId": 20,
+          "skillLevel": [
+            "1",
+            "REFINE[me==2]---1"
+          ],
+          "chance": [
+            "REFINE[2]===0.5",
+            "REFINE[2]1---0.1"
+          ],
+          "trigger": "melee-physical-hit"
+        },
+        {
+          "skillId": 90,
+          "skillLevel": [
+            "1",
+            "REFINE[me==2]---1"
+          ],
+          "chance": [
+            "REFINE[2]===0.5",
+            "REFINE[2]1---0.1"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -242906,6 +243842,32 @@
       ],
       "matkPercent": [
         "EQUIP_ID[24723&&24724]1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 11,
+          "skillLevel": [
+            "7",
+            "10===10"
+          ],
+          "chance": [
+            "9===7",
+            "10===3"
+          ],
+          "trigger": "melee-physical-hit"
+        },
+        {
+          "skillId": 400,
+          "skillLevel": [
+            "EQUIP_ID[24723&&24724]REFINE[shadowShield,shadowArmor,shadowBoot==21]===3",
+            "EQUIP_ID[24723&&24724]REFINE[shadowShield,shadowArmor,shadowBoot==27]===5"
+          ],
+          "chance": [
+            "EQUIP_ID[24723&&24724]REFINE[shadowShield,shadowArmor,shadowBoot==21]===4",
+            "EQUIP_ID[24723&&24724]REFINE[shadowShield,shadowArmor,shadowBoot==27]===4"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -242973,6 +243935,32 @@
       ],
       "atkPercent": [
         "EQUIP_ID[24726&&24727]1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 5,
+          "skillLevel": [
+            "7",
+            "10===10"
+          ],
+          "chance": [
+            "9===7",
+            "10===3"
+          ],
+          "trigger": "melee-physical-hit"
+        },
+        {
+          "skillId": 136,
+          "skillLevel": [
+            "EQUIP_ID[24726&&24727]REFINE[shadowWeapon,shadowPendant,shadowEarring==21]===7",
+            "EQUIP_ID[24726&&24727]REFINE[shadowWeapon,shadowPendant,shadowEarring==27]===10"
+          ],
+          "chance": [
+            "EQUIP_ID[24726&&24727]REFINE[shadowWeapon,shadowPendant,shadowEarring==21]===4",
+            "EQUIP_ID[24726&&24727]REFINE[shadowWeapon,shadowPendant,shadowEarring==27]===4"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -247453,7 +248441,11 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Lower",
-    "locations": ["Upper", "Middle", "Lower"],
+    "locations": [
+      "Upper",
+      "Middle",
+      "Lower"
+    ],
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -247473,6 +248465,18 @@
       ],
       "subele_water": [
         "-10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 83,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "3"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -248790,6 +249794,18 @@
     "script": {
       "agi": [
         "2"
+      ],
+      "autoCast": [
+        {
+          "skillId": 136,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -249918,6 +250934,18 @@
     "script": {
       "str": [
         "2"
+      ],
+      "autoCast": [
+        {
+          "skillId": 62,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -249993,7 +251021,28 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 14,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "5",
+            "SKILL_ID[14==1]---0.5"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Rajada Congelante",
+          "reason": "A habilidade não está catalogada no cliente."
+        }
+      ]
+    }
   },
   "19051": {
     "id": 19051,
@@ -250198,6 +251247,18 @@
       ],
       "flee": [
         "5"
+      ],
+      "autoCast": [
+        {
+          "skillId": 21,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "3"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -250504,7 +251565,20 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 13,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "0.5"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "19154": {
     "id": 19154,
@@ -250627,6 +251701,18 @@
       ],
       "subele_undead": [
         "9===7"
+      ],
+      "autoCast": [
+        {
+          "skillId": 156,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -251705,6 +252791,18 @@
       ],
       "hp": [
         "EQUIP_ID[5548]300"
+      ],
+      "autoCast": [
+        {
+          "skillId": 56,
+          "skillLevel": [
+            "6"
+          ],
+          "chance": [
+            "6"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -252304,6 +253402,9 @@
       "SuperNovice"
     ],
     "script": {
+      "2212": [
+        "EQUIP_ID[13493]REFINE[weapon==2]---4"
+      ],
       "matk": [
         "2---20"
       ],
@@ -252328,8 +253429,17 @@
       "enable_skill__2211": [
         "EQUIP_ID[26151]===5"
       ],
-      "2212": [
-        "EQUIP_ID[13493]REFINE[weapon==2]---4"
+      "autoCast": [
+        {
+          "skillId": 2211,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[13493]5"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -252992,7 +254102,20 @@
       "Thief",
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 14,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "1132": {
     "id": 1132,
@@ -253040,7 +254163,20 @@
       "Thief",
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 19,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "1134": {
     "id": 1134,
@@ -253511,6 +254647,18 @@
     "script": {
       "def": [
         "1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 20,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -253636,6 +254784,18 @@
     "script": {
       "def": [
         "1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 20,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -255218,6 +256378,12 @@
       "subsize_m": [
         "10",
         "1---1"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Golpe Avassalador",
+          "reason": "A habilidade não está catalogada no cliente."
+        }
       ]
     }
   },
@@ -255805,7 +256971,14 @@
     "usableClass": [
       "Swordman"
     ],
-    "script": {}
+    "script": {
+      "autoCastPending": [
+        {
+          "skillName": "Ataque Vital",
+          "reason": "A habilidade não está catalogada no cliente."
+        }
+      ]
+    }
   },
   "1425": {
     "id": 1425,
@@ -255869,6 +257042,18 @@
       "aspdPercent": [
         "6===5",
         "9===5"
+      ],
+      "autoCast": [
+        {
+          "skillId": 367,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "REFINE[9]===10"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -256090,7 +257275,20 @@
     "usableClass": [
       "Swordman"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 21,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "1469": {
     "id": 1469,
@@ -256134,7 +257332,20 @@
     "usableClass": [
       "Swordman"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 13,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "1471": {
     "id": 1471,
@@ -256159,6 +257370,18 @@
     "script": {
       "str": [
         "3"
+      ],
+      "autoCast": [
+        {
+          "skillId": 17,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -256343,6 +257566,18 @@
       ],
       "p_race_player_human": [
         "10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 56,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "3"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -256388,7 +257623,20 @@
     "usableClass": [
       "Swordman"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 21,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "1482": {
     "id": 1482,
@@ -256903,6 +258151,12 @@
       ],
       "matk": [
         "100"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Julgamento Infernal",
+          "reason": "A habilidade não está catalogada no cliente."
+        }
       ]
     }
   },
@@ -258935,7 +260189,21 @@
     "usableClass": [
       "Archer"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 46,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "1"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
+      ]
+    }
   },
   "1737": {
     "id": 1737,
@@ -259255,6 +260523,18 @@
       ],
       "int": [
         "2"
+      ],
+      "autoCast": [
+        {
+          "skillId": 84,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -259941,6 +261221,28 @@
       ],
       "int": [
         "2"
+      ],
+      "autoCast": [
+        {
+          "skillId": 84,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 394,
+          "skillLevel": [
+            "REFINE[me==1(10)]---1"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -261967,6 +263269,12 @@
       ],
       "matk": [
         "120"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Terremoto",
+          "reason": "Exige um estado de transformação que ainda não é modelado."
+        }
       ]
     }
   },
@@ -263079,6 +264387,18 @@
       ],
       "aspd": [
         "10===1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 19,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -263114,6 +264434,18 @@
       ],
       "aspd": [
         "10===1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 14,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -263741,6 +265073,19 @@
     "script": {
       "atk": [
         "2---10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2002,
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "REFINE[7]===7"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -264327,6 +265672,18 @@
       ],
       "m_my_element_all": [
         "7===10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2449,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "REFINE[9]===7"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -264892,6 +266249,19 @@
       ],
       "aspd": [
         "11===1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2002,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "9===5"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "learned-only"
+        }
       ]
     }
   },
@@ -265430,6 +266800,19 @@
     "script": {
       "range": [
         "EQUIP_ID[1755]25"
+      ],
+      "autoCast": [
+        {
+          "skillId": 540,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "EQUIP_ID[1755]10",
+            "EQUIP_ID[1755]int:40&&40===10"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -266235,6 +267618,29 @@
       ],
       "aspd": [
         "7===1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 13,
+          "skillLevel": [
+            "10"
+          ],
+          "chance": [
+            "9===4",
+            "11===8"
+          ],
+          "trigger": "ranged-physical-hit"
+        },
+        {
+          "skillId": 2202,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "11===4"
+          ],
+          "trigger": "ranged-physical-hit"
+        }
       ]
     }
   },
@@ -266427,6 +267833,18 @@
       ],
       "m_my_element_all": [
         "9===10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2449,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "REFINE[11]===7"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -267544,6 +268962,23 @@
       ],
       "subele_fire": [
         "10"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Gloria Domini",
+          "skillId": 367,
+          "reason": "O cliente não informa a chance de ativação."
+        },
+        {
+          "skillName": "Bolas de Fogo",
+          "skillId": 17,
+          "reason": "O cliente não informa a chance de ativação."
+        },
+        {
+          "skillName": "Impacto de Tyr",
+          "skillId": 62,
+          "reason": "O cliente não informa a chance de ativação."
+        }
       ]
     }
   },
@@ -267573,6 +269008,22 @@
       ],
       "vit": [
         "1"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Punho Supremo de Asura",
+          "reason": "A habilidade não está catalogada no cliente."
+        },
+        {
+          "skillName": "Lâminas Destruidoras",
+          "skillId": 136,
+          "reason": "O cliente não informa a chance de ativação."
+        },
+        {
+          "skillName": "Impacto Meteoro",
+          "skillId": 406,
+          "reason": "O cliente não informa a chance de ativação."
+        }
       ]
     }
   },
@@ -269334,6 +270785,18 @@
       ],
       "subele_water": [
         "-30"
+      ],
+      "autoCast": [
+        {
+          "skillId": 17,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "1"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -270283,6 +271746,23 @@
       ],
       "subele_fire": [
         "10"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Gloria Domini",
+          "skillId": 367,
+          "reason": "O cliente não informa a chance de ativação."
+        },
+        {
+          "skillName": "Bolas de Fogo",
+          "skillId": 17,
+          "reason": "O cliente não informa a chance de ativação."
+        },
+        {
+          "skillName": "Impacto de Tyr",
+          "skillId": 62,
+          "reason": "O cliente não informa a chance de ativação."
+        }
       ]
     }
   },
@@ -270318,6 +271798,13 @@
       ],
       "matk": [
         "10"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Impacto Meteoro",
+          "skillId": 406,
+          "reason": "O cliente não informa a chance de ativação."
+        }
       ]
     }
   },
@@ -270422,6 +271909,18 @@
     "script": {
       "hp": [
         "500"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Congelar",
+          "skillId": 88,
+          "reason": "A descrição combina esta ativação com outra rolagem; a probabilidade individual não é documentada."
+        },
+        {
+          "skillName": "Onda Psíquica",
+          "skillId": 2449,
+          "reason": "A descrição combina esta ativação com outra rolagem; a probabilidade individual não é documentada."
+        }
       ]
     }
   },
@@ -274245,11 +275744,11 @@
       "GuillotineCross"
     ],
     "script": {
-      "luk": [
-        "3"
-      ],
       "2022": [
         "EQUIP_ID[2886&&2477&&2577]20"
+      ],
+      "luk": [
+        "3"
       ],
       "criDmg": [
         "EQUIP_ID[2886&&2477&&2577]40"
@@ -274259,6 +275758,19 @@
       ],
       "flee": [
         "EQUIP_ID[2886&&2477&&2577]10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 406,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -274288,6 +275800,19 @@
       ],
       "int": [
         "2"
+      ],
+      "autoCast": [
+        {
+          "skillId": 379,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "EQUIP_ID[2887&&2478&&2578]2"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -274841,6 +276366,13 @@
       ],
       "matk": [
         "10"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Nevasca",
+          "skillId": 89,
+          "reason": "A descrição combina esta ativação com outra rolagem; a probabilidade individual não é documentada."
+        }
       ]
     }
   },
@@ -274978,6 +276510,19 @@
       ],
       "range": [
         "3"
+      ],
+      "autoCast": [
+        {
+          "skillId": 46,
+          "skillLevel": [
+            "10"
+          ],
+          "chance": [
+            "0.3",
+            "1---0.3"
+          ],
+          "trigger": "ranged-physical-hit"
+        }
       ]
     }
   },
@@ -275655,6 +277200,19 @@
       ],
       "matk": [
         "2---5"
+      ],
+      "autoCast": [
+        {
+          "skillId": 21,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "REFINE[9]===5"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -275711,6 +277269,19 @@
     "script": {
       "atk": [
         "20"
+      ],
+      "autoCast": [
+        {
+          "skillId": 46,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "REFINE[9]AMMO_SUBTYPE[1024]===1"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -279003,21 +280574,6 @@
       "all"
     ],
     "script": {
-      "atk": [
-        "7===20"
-      ],
-      "aspdPercent": [
-        "11===10"
-      ],
-      "criDmg": [
-        "EQUIP_ID[18145]5"
-      ],
-      "acd": [
-        "EQUIP_ID[28721]5"
-      ],
-      "melee": [
-        "EQUIP_ID[28116]5"
-      ],
       "46": [
         "15",
         "1---2"
@@ -279040,8 +280596,65 @@
       "3006": [
         "EQUIP_ID[28721]REFINE[weapon,boot==18]15"
       ],
+      "atk": [
+        "7===20"
+      ],
+      "aspdPercent": [
+        "11===10"
+      ],
+      "criDmg": [
+        "EQUIP_ID[18145]5"
+      ],
+      "acd": [
+        "EQUIP_ID[28721]5"
+      ],
+      "melee": [
+        "EQUIP_ID[28116]5"
+      ],
       "cd__3006": [
         "EQUIP_ID[28721]REFINE[weapon,boot==12]1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2280,
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "EQUIP_ID[28116]REFINE[weapon,boot==12]===10"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 5006,
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "EQUIP_ID[28116]REFINE[weapon,boot==18]===5"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 394,
+          "skillLevel": [
+            "6"
+          ],
+          "chance": [
+            "EQUIP_ID[1944||26200]REFINE[weapon,boot==12]===10"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 2418,
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "EQUIP_ID[1944||26200]REFINE[weapon,boot==18]===5"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -281328,6 +282941,18 @@
       "matk": [
         "EQUIP_ID[28725]80",
         "EQUIP_ID[13469]100"
+      ],
+      "autoCast": [
+        {
+          "skillId": 14,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[13469]REFINE[weapon,garment==18]===5"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -281659,6 +283284,38 @@
       ],
       "matk": [
         "9===30"
+      ],
+      "autoCast": [
+        {
+          "skillId": 13,
+          "skillLevel": [
+            "10"
+          ],
+          "chance": [
+            "EQUIP_ID[13442&&2980]7"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 400,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "EQUIP_ID[13442&&2980]REFINE[weapon==10]===7"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 2449,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[2976&&2980]REFINE[garment==10]===7"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -281914,6 +283571,38 @@
       ],
       "matk": [
         "9===30"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2211,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[28913&&13460]REFINE[weapon==10]===7"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 2454,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[28913&&13461]REFINE[weapon==10]===7"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 2447,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[28913&&13462]REFINE[weapon==10]===7"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -314180,6 +315869,18 @@
       ],
       "spl": [
         "GRADE[weapon==C]===3"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2450,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -328677,6 +330378,18 @@
       ],
       "flee": [
         "2"
+      ],
+      "autoCast": [
+        {
+          "skillId": 62,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "1"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -328840,7 +330553,20 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 52,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "4177": {
     "id": 4177,
@@ -329470,6 +331196,18 @@
     "script": {
       "atk": [
         "15"
+      ],
+      "autoCast": [
+        {
+          "skillId": 17,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -329617,6 +331355,18 @@
     "script": {
       "flee": [
         "USED[Thief]20"
+      ],
+      "autoCast": [
+        {
+          "skillId": 219,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -329669,7 +331419,20 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 5,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "4213": {
     "id": 4213,
@@ -330166,7 +331929,20 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 20,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "4238": {
     "id": 4238,
@@ -330621,7 +332397,20 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 84,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "4265": {
     "id": 4265,
@@ -330722,6 +332511,18 @@
       ],
       "atk": [
         "EQUIP_ID[4277]20"
+      ],
+      "autoCast": [
+        {
+          "skillId": 136,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -331747,7 +333548,20 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 89,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "4319": {
     "id": 4319,
@@ -331795,7 +333609,20 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 83,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "4321": {
     "id": 4321,
@@ -331869,7 +333696,14 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "autoCastPending": [
+        {
+          "skillName": "Rajada Congelante",
+          "reason": "A habilidade não está catalogada no cliente."
+        }
+      ]
+    }
   },
   "4324": {
     "id": 4324,
@@ -333491,7 +335325,20 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 14,
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "4420": {
     "id": 4420,
@@ -333611,7 +335458,30 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 19,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        },
+        {
+          "skillId": 17,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "4432": {
     "id": 4432,
@@ -334303,6 +336173,18 @@
       ],
       "p_class_boss": [
         "10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 7,
+          "skillLevel": [
+            "10"
+          ],
+          "chance": [
+            "1.5"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -334352,7 +336234,20 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 89,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "1"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "4498": {
     "id": 4498,
@@ -335478,7 +337373,27 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 85,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Ira de Thor",
+          "skillId": 85,
+          "reason": "A descrição combina esta ativação com outra rolagem; a probabilidade individual não é documentada."
+        }
+      ]
+    }
   },
   "4635": {
     "id": 4635,
@@ -350917,6 +352832,18 @@
     "script": {
       "spRestoreOnKill": [
         "3"
+      ],
+      "autoCast": [
+        {
+          "skillId": 77,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -350973,6 +352900,18 @@
       ],
       "aspdPercent": [
         "10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 21,
+          "skillLevel": [
+            "10"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -351122,6 +353061,18 @@
     "script": {
       "spRestoreOnKill": [
         "3"
+      ],
+      "autoCast": [
+        {
+          "skillId": 77,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -354559,7 +356510,20 @@
     "usableClass": [
       "Gunslinger"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 520,
+          "skillLevel": [
+            "6"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "13157": {
     "id": 13157,
@@ -354672,6 +356636,19 @@
     "script": {
       "dex": [
         "1"
+      ],
+      "autoCast": [
+        {
+          "skillId": 520,
+          "skillLevel": [
+            "6"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "physical-hit",
+          "skillLevelMode": "highest-learned"
+        }
       ]
     }
   },
@@ -355073,6 +357050,18 @@
       ],
       "aspdPercent": [
         "-10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 21,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "3"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -355331,6 +357320,18 @@
     "script": {
       "dex": [
         "-2"
+      ],
+      "autoCast": [
+        {
+          "skillId": 17,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "3"
+          ],
+          "trigger": "melee-physical-hit"
+        }
       ]
     }
   },
@@ -355598,6 +357599,12 @@
     "script": {
       "matk": [
         "50"
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Descarga Elétrica",
+          "reason": "A habilidade não está catalogada no cliente."
+        }
       ]
     }
   },
@@ -355980,7 +357987,20 @@
       "Acolyte",
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 5,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "16017": {
     "id": 16017,
@@ -356002,7 +358022,21 @@
     "usableClass": [
       "Acolyte"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 2212,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "2",
+            "1---2"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "16019": {
     "id": 16019,
@@ -356195,6 +358229,18 @@
       ],
       "spRestoreOnKill": [
         "12"
+      ],
+      "autoCast": [
+        {
+          "skillId": 77,
+          "skillLevel": [
+            "6"
+          ],
+          "chance": [
+            "20"
+          ],
+          "trigger": "physical-hit"
+        }
       ]
     }
   },
@@ -356621,7 +358667,20 @@
       "Acolyte",
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 5,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "16748": {
     "id": 16748,
@@ -356645,7 +358704,20 @@
       "Acolyte",
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 5,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "16749": {
     "id": 16749,
@@ -356987,7 +359059,20 @@
     "usableClass": [
       "Rebellion"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 3004,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "28202": {
     "id": 28202,
@@ -357009,7 +359094,20 @@
     "usableClass": [
       "Rebellion"
     ],
-    "script": {}
+    "script": {
+      "autoCast": [
+        {
+          "skillId": 3004,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-hit"
+        }
+      ]
+    }
   },
   "28224": {
     "id": 28224,
@@ -359756,6 +361854,25 @@
       ],
       "m_element_fire": [
         "11===10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 13,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "EQUIP_ID[470073]10"
+          ],
+          "trigger": "physical-hit"
+        }
+      ],
+      "autoCastPending": [
+        {
+          "skillName": "Espíritos Ancestrais",
+          "skillId": 5220,
+          "reason": "O cliente não informa a chance de ativação."
+        }
       ]
     }
   },
@@ -366282,5 +368399,35 @@
       "all"
     ],
     "script": {}
+  },
+  "22540": {
+    "id": 22540,
+    "aegisName": "Runstone_Lux",
+    "name": "Runa Luxanima",
+    "unidName": "Runa Luxanima",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 1,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "autoCastPending": [
+        {
+          "skillName": "Explosão Rúnica",
+          "skillId": 2017,
+          "reason": "O cliente não informa o nível conjurado; o efeito ativado também ainda não é modelado como equipamento."
+        }
+      ]
+    }
   }
 }

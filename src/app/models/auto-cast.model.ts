@@ -14,7 +14,14 @@ export interface ItemAutoCastScript {
   /** Existing item-script expressions. Applicable entries resolve with sum semantics. */
   chance: string[];
   trigger: AutoCastTrigger;
-  skillLevelMode?: 'fixed' | 'highest-learned';
+  skillLevelMode?: 'fixed' | 'highest-learned' | 'learned-only';
+}
+
+/** A physical client auto-cast that cannot yet be calculated. */
+export interface ItemAutoCastPendingScript {
+  skillName: string;
+  skillId?: number;
+  reason: string;
 }
 
 export interface ResolvedItemAutoCast {
@@ -25,6 +32,15 @@ export interface ResolvedItemAutoCast {
   skillLevel: number;
   chance: number;
   trigger: AutoCastTrigger;
+}
+
+export interface ResolvedItemAutoCastPending {
+  key: string;
+  itemId: number;
+  itemName: string;
+  skillName: string;
+  skillId?: number;
+  reason: string;
 }
 
 export interface ExtraHitOutcome {

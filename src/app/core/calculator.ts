@@ -23,11 +23,11 @@ import { BasicAspdModel, BasicDamageSummaryModel, MiscModel, SkillAspdModel, Ski
 import { EquipmentSummaryModel } from 'src/app/models/equipment-summary.model';
 import { HpSpTable } from 'src/app/models/hp-sp-table.model';
 import { AdditionalBonusInput } from 'src/app/models/info-for-class.model';
-import { ItemModel, itemAutoCastScripts, itemBonusScriptEntries } from 'src/app/models/item.model';
+import { ItemModel, itemAutoCastPendingScripts, itemAutoCastScripts, itemBonusScriptEntries } from 'src/app/models/item.model';
 import { MainModel } from 'src/app/models/main.model';
 import { MonsterModel } from 'src/app/models/monster.model';
 import { StatusSummary } from 'src/app/models/status-summary.model';
-import { ClassAutoCastDefinition, ItemAutoCastScript, ResolvedItemAutoCast } from 'src/app/models/auto-cast.model';
+import { ClassAutoCastDefinition, ItemAutoCastScript, ResolvedItemAutoCast, ResolvedItemAutoCastPending } from 'src/app/models/auto-cast.model';
 import { DamageCalculator } from './damage-calculator';
 import { isEventRunning, readUntilCondition } from './event-window';
 import { HpSpCalculator } from './hp-sp-calculator';
@@ -214,6 +214,7 @@ export class Calculator {
   private consumableBonuses: any[] = [];
   private aspdPotion: number = undefined;
   private _resolvedItemAutoCasts: ResolvedItemAutoCast[] = [];
+  private _resolvedItemAutoCastPending: ResolvedItemAutoCastPending[] = [];
 
   private skillName: SKILL_NAME = '' as any;
   private allStatus = createRawTotalBonus();
@@ -476,6 +477,10 @@ export class Calculator {
 
   get resolvedItemAutoCasts(): readonly ResolvedItemAutoCast[] {
     return this._resolvedItemAutoCasts;
+  }
+
+  get resolvedItemAutoCastPending(): readonly ResolvedItemAutoCastPending[] {
+    return this._resolvedItemAutoCastPending;
   }
 
   /**
@@ -1147,6 +1152,18 @@ export class Calculator {
       return this.validateCondition({ itemType, itemRefine, script: restCondition });
     }
 
+    // AMMO_SUBTYPE[1024]... — an auto-cast can require a broad ammunition family
+    // without naming one particular arrow.
+    const [unusedAmmoSubtype, ammoSubtype] = restCondition.match(/^AMMO_SUBTYPE\[(\d+)]/) ?? [];
+    if (ammoSubtype) {
+      if (this.equipItem.get(ItemTypeEnum.ammo)?.itemSubTypeId !== Number(ammoSubtype)) {
+        return { isValid: false, restCondition };
+      }
+      restCondition = restCondition.replace(unusedAmmoSubtype, '');
+      if (restCondition.startsWith('===')) restCondition = restCondition.replace('===', '');
+      return this.validateCondition({ itemType, itemRefine, script: restCondition });
+    }
+
     // EQUIP[Bear's Power]===50
     const [setCondition, itemSet] = restCondition.match(/^EQUIP\[(.+?)]/) ?? [];
     if (itemSet) {
@@ -1189,11 +1206,7 @@ export class Calculator {
       if (restCondition.startsWith('===')) {
         restCondition = restCondition.replace('===', '');
       }
-
-      return {
-        isValid: true,
-        restCondition,
-      };
+      return this.validateCondition({ itemType, itemRefine, script: restCondition });
     } else if (refineCond) {
       return { isValid: false, restCondition };
     }
@@ -1242,7 +1255,7 @@ export class Calculator {
     if (definitions.length === 0) return;
 
     definitions.forEach((definition: ItemAutoCastScript, index) => {
-      const chance = definition.chance.reduce((sum, lineScript) => (
+      const chance = selectLoyaltyLines(definition.chance, this.model.petLoyalty ?? DEFAULT_PET_LOYALTY).reduce((sum, lineScript) => (
         sum + this.calcScriptEntryValue({ itemType, itemRefine, lineScript })
       ), 0);
       let skillLevel = definition.skillLevel.reduce((highest, lineScript) => Math.max(
@@ -1251,6 +1264,8 @@ export class Calculator {
       ), 0);
       if (definition.skillLevelMode === 'highest-learned') {
         skillLevel = Math.max(skillLevel, this.learnedSkillLevelById(definition.skillId));
+      } else if (definition.skillLevelMode === 'learned-only') {
+        skillLevel = this.learnedSkillLevelById(definition.skillId);
       }
       if (chance <= 0 || skillLevel <= 0) return;
 
@@ -1262,6 +1277,19 @@ export class Calculator {
         skillLevel,
         chance,
         trigger: definition.trigger,
+      });
+    });
+  }
+
+  private resolveItemAutoCastPending(item: ItemModel): void {
+    itemAutoCastPendingScripts(item.script).forEach((definition, index) => {
+      this._resolvedItemAutoCastPending.push({
+        key: `item-pending-${item.id}-${index}`,
+        itemId: item.id,
+        itemName: item.name,
+        skillName: definition.skillName,
+        skillId: definition.skillId,
+        reason: definition.reason,
       });
     });
   }
@@ -1378,6 +1406,7 @@ export class Calculator {
     this.propertyBuffEndow = undefined;
     this._chanceList = [];
     this._resolvedItemAutoCasts = [];
+    this._resolvedItemAutoCastPending = [];
     this.equipCombo.clear();
     const resolvedAutoCastItems = new Set<number>();
 
@@ -1458,6 +1487,7 @@ export class Calculator {
       if (!resolvedAutoCastItems.has(itemData.id)) {
         resolvedAutoCastItems.add(itemData.id);
         this.resolveItemAutoCasts({ itemType, itemRefine: refine, item: itemData });
+        this.resolveItemAutoCastPending(itemData);
       }
       const calculatedItem = this.calcItemStatus({ itemType, itemRefine: refine, item: itemData });
       for (const [attr, value] of Object.entries(calculatedItem)) {

@@ -28,10 +28,12 @@ const dispositionOf = (text, trigger) => {
   return 'pending-formula';
 };
 const executableAutoCastsOf = (item) => Array.isArray(item?.script?.autoCast) ? item.script.autoCast : [];
+const pendingAutoCastsOf = (item) => Array.isArray(item?.script?.autoCastPending) ? item.script.autoCastPending : [];
 const clauses = [];
 for (const [id, entry] of Object.entries(latam)) {
   if (!items[id]) continue;
   const executableAutoCasts = executableAutoCastsOf(items[id]);
+  const pendingAutoCasts = pendingAutoCastsOf(items[id]);
   const description = clean(entry.description);
   const chunks = description.split(/(?:\n\s*-{3,}\s*\n|\n(?=[A-ZÀ-Ú][^\n]{0,60}:))/);
   for (const chunk of chunks) {
@@ -42,6 +44,7 @@ for (const [id, entry] of Object.entries(latam)) {
       const label = skillLabelById.get(rule.skillId);
       return label && chunk.includes(`[${label}]`);
     });
+    const matchedPending = pendingAutoCasts.filter((rule) => chunk.includes(`[${rule.skillName}]`));
     const isConditionFragment = executableAutoCasts.length > 0
       && matchedRules.length === 0
       && !/\[[^\]]+\]/.test(chunk)
@@ -51,8 +54,11 @@ for (const [id, entry] of Object.entries(latam)) {
       itemId: Number(id), itemName: entry.name, raw: chunk.trim(), trigger,
       disposition: matchedRules.length
         ? 'verified-direct-damage'
+        : matchedPending.length
+          ? 'pending-model'
         : isConditionFragment ? 'verified-condition' : baseDisposition,
       ...(matchedRules.length ? { executableRuleCount: matchedRules.length } : {}),
+      ...(matchedPending.length ? { pending: matchedPending.map((rule) => ({ skillName: rule.skillName, reason: rule.reason })) } : {}),
       ...(executableAutoCasts.length ? { itemRuleCount: executableAutoCasts.length } : {}),
     });
   }

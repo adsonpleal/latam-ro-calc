@@ -20,7 +20,7 @@ describe('LATAM item auto-cast audit', () => {
   it('accounts for the current attack-trigger candidate set', () => {
     // A client-data update must deliberately reclassify the changed set rather than
     // silently making a new proc eligible for production.
-    expect(candidates).toHaveLength(240);
+    expect(candidates).toHaveLength(241);
     const dispositions = candidates.map(([id]) => items[id].script?.autoCast ? 'verified-direct-damage' : 'pending-verification');
     expect(dispositions).toHaveLength(candidates.length);
   });
@@ -32,7 +32,12 @@ describe('LATAM item auto-cast audit', () => {
         expect(rule.skillLevel).toEqual(expect.arrayContaining([expect.any(String)]));
         expect(rule.chance).toEqual(expect.arrayContaining([expect.any(String)]));
         expect(rule.trigger).toMatch(/^(physical-attack|physical-hit|melee-physical-hit|ranged-physical-hit)$/);
-        expect(rule.skillLevelMode ?? 'fixed').toMatch(/^(fixed|highest-learned)$/);
+        expect(rule.skillLevelMode ?? 'fixed').toMatch(/^(fixed|highest-learned|learned-only)$/);
+      }
+      for (const pending of item.script?.autoCastPending ?? []) {
+        expect(pending.skillName, `${itemId}/pending`).toEqual(expect.any(String));
+        expect(pending.reason, `${itemId}/${pending.skillName}`).toEqual(expect.any(String));
+        if (pending.skillId !== undefined) expect(VALID_SKILL_IDS.has(pending.skillId), `${itemId}/${pending.skillId}`).toBe(true);
       }
     }
   });
