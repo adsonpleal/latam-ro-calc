@@ -1,0 +1,36 @@
+name: Announce Novidades to Discord
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version to announce (must match package.json on main)
+        required: true
+        type: string
+
+jobs:
+  announce:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check requested version
+        env:
+          REQUESTED_VERSION: ${{ inputs.version }}
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          if [ "$REQUESTED_VERSION" != "$CURRENT_VERSION" ]; then
+            echo "Requested $REQUESTED_VERSION, but main is $CURRENT_VERSION"
+            exit 1
+          fi
+
+      - name: Post novidades to Discord
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_CHANNEL_ID: "1524025278471471295"
+        run: |
+          test -n "$DISCORD_BOT_TOKEN"
+          node tools/post-novidades.mjs
