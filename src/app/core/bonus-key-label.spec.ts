@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { createRawTotalBonus } from 'src/app/utils';
 import { JobBuffs } from 'src/app/constants/job-buffs';
+import { itemBonusScriptEntries } from 'src/app/models/item.model';
 import { BUFF_BONUS_LABELS, bonusKeyLabel, resolveSkillKey } from './bonus-key-label';
 
 /**
@@ -102,7 +103,7 @@ describe('bonusKeyLabel — structured keys', () => {
 describe('bonusKeyLabel — sweep', () => {
   /** Bonus keys that actually appear in some item.json script. */
   const chavesDoItemJson = [...new Set(
-    Object.values<any>(items).flatMap((it) => Object.keys(it.script ?? {}).filter((key) => key !== 'autoCast')),
+    Object.values<any>(items).flatMap((it) => itemBonusScriptEntries(it.script).map(([key]) => key)),
   )];
 
   /** A numeric key is a skill id: it becomes a name through the catalog, not through here. */
