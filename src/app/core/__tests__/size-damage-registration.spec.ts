@@ -42,6 +42,9 @@ const EVENT_ONLY = [19873, 19874];
  */
 const EVENT_GATED = [300834, 300835, 401367];
 
+/** Runa Luxanima grants its size bonus only after use; the active rune state is not modelled. */
+const UNMODELLED_ACTIVATED_CONSUMABLES = [22540];
+
 /** Any gate may prefix the key (`chance__`, …), so match on the infix, not the start. */
 const declares = (script: any, channel: 'p' | 'm'): boolean =>
   Object.keys(script || {}).some((key) => key.includes(`${channel}_size_`));
@@ -58,7 +61,7 @@ describe('guard: every description granting size damage has p_size_*/m_size_* in
 
   it('leaves no item without the key its description names', () => {
     const missing = rows
-      .filter((row) => !EVENT_ONLY.includes(Number(row.id)))
+      .filter((row) => !EVENT_ONLY.includes(Number(row.id)) && !UNMODELLED_ACTIVATED_CONSUMABLES.includes(Number(row.id)))
       .flatMap(({ id, match }) => {
         const kind = match![1].toLowerCase();
         const both = kind.includes('e m');
@@ -77,6 +80,14 @@ describe('guard: every description granting size damage has p_size_*/m_size_* in
     for (const id of EVENT_ONLY) {
       expect(plain(latam[id].description)).toContain('[Durante o Evento]');
       expect(declares(items[id].script, 'p') || declares(items[id].script, 'm'), `${id}`).toBe(false);
+    }
+  });
+
+  it('does not grant an unmodelled activated rune bonus as an unconditional item bonus', () => {
+    for (const id of UNMODELLED_ACTIVATED_CONSUMABLES) {
+      expect(items[id].itemTypeId).toBe(11);
+      expect(plain(latam[id].description)).toMatch(SIZE_DAMAGE_LINE);
+      expect(declares(items[id].script, 'p')).toBe(false);
     }
   });
 
