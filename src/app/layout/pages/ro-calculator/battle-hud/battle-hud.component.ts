@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { monsterDamageReductionTooltip } from '../../../../constants';
 import { itemSlotLabelPtBr } from '../../../../constants/item-slot-i18n';
 import { DropdownModel } from '../../../../models/dropdown.model';
 import { dmgTypeLabel as dmgTypeLabelUtil, skillDescHtml } from '../../../../utils';
@@ -34,7 +33,7 @@ import {
 const HITS_PER_SEC_EPSILON = 0.005;
 import { DamageFormulaCalc, DamageFormulaNode } from '../../../../models/damage-summary.model';
 import { formatNumber } from '../../../../utils/format-number';
-import { ReductionCategory, ReductionRow, reductionRowClickable as reductionRowClickableFn } from '../reduction-breakdown';
+import { ReductionCategory, ReductionRow } from '../reduction-breakdown';
 
 @Component({
   selector: 'app-battle-hud',
@@ -149,21 +148,10 @@ export class BattleHudComponent implements OnDestroy {
   }>();
   @Output() reductionRowClick = new EventEmitter<ReductionRow>();
 
-  /** A reduction row is drillable when the target's gear sources one of its keys (WoE
-   *  rows carry no keys). Template binding — delegates to the shared predicate. */
-  reductionRowClickable(row: ReductionRow): boolean {
-    return reductionRowClickableFn(row, this.reductionSources);
-  }
-
   // Display-only pt-BR for the skill damage type (see dmgTypeLabelUtil;
   // the raw value still drives the [hidden] logic elsewhere, e.g. Magical-only chips).
   dmgTypeLabel(type: string): string {
     return dmgTypeLabelUtil(type);
-  }
-
-  /** PVP paper-doll: swap to the bare-job fallback if the composed sprite 404s. */
-  onSpriteOverrideError(event: Event): void {
-    if (this.spriteFallbackUrl) (event.target as HTMLImageElement).src = this.spriteFallbackUrl;
   }
 
   // Elements without a `property_*` rule in styles.scss (Neutral is the only one —
@@ -279,14 +267,6 @@ export class BattleHudComponent implements OnDestroy {
     return !!node.calc || (!!node.keys && this.isBreakdownClickable(node.keys));
   }
 
-  // ChanceModel.label2 is built (calculator.ts) as "[ DES +200 ]" for the legacy
-  // "label → label2" line, where the brackets read as a list delimiter. Here it's
-  // shown alone in a tooltip, so the brackets are just noise — strip them for
-  // display only; the underlying label2 (shared with the legacy tab) is untouched.
-  effectTooltip(label2: string): string {
-    return (label2 || '').replace(/^\s*\[\s*/, '').replace(/\s*\]\s*$/, '');
-  }
-
   /**
    * Which rotation entry the per-skill popovers are describing. Set by a row's `(i)`;
    * -1 means "no row picked", and the panels fall back to the build's own summary.
@@ -325,13 +305,6 @@ export class BattleHudComponent implements OnDestroy {
     const h = pickHeroDamage(this.dmg, this.hasSelectedChances);
 
     return { hits, min: h.min / hits, max: h.max / hits };
-  }
-
-  /** The purple "REDUÇÃO N%" tag's tooltip; empty when the target reduces nothing. Shared
-   *  with the monster card through constants/monster-damage-reduction. */
-  get damageReductionTooltip(): string {
-    const percent = this.totalSummary?.monster?.damageReduction ?? 0;
-    return percent > 0 ? monsterDamageReductionTooltip(percent) : '';
   }
 
   /** The summary every per-skill panel reads: the picked rotation entry's own solve,
@@ -377,6 +350,49 @@ export class BattleHudComponent implements OnDestroy {
 
     const wantsMean = branch === 'mean' && !!entry?.hasDamageSpread;
     (wantsMean ? panels.mean : panels.formula)?.toggle(payload.event);
+  }
+
+  openSharedDetails(payload: { index: number; event: Event }, details: any): void {
+    this.activeStepIndex = payload.index;
+    const entry = this.activeStep;
+    if (!entry) return;
+    details?.open(payload.event, {
+      entry: {
+        name: entry.name,
+        levelLabel: entry.levelLabel,
+        icon: entry.icon,
+        isBasic: entry.isBasic,
+        dmgTypeLabel: entry.dmgTypeLabel,
+        element: entry.element,
+        propertyMultiplier: entry.propertyMultiplier,
+        hasDamageSpread: entry.hasDamageSpread,
+        critWeighted: entry.critWeighted,
+      },
+      summary: entry.summary,
+      summary2: this.rotationView2?.entries?.[payload.index]?.summary,
+      isComparing: this.isComparing,
+      optimizeInfo: this.optimizeInfo,
+    }, payload.event.currentTarget);
+  }
+
+  /** Shared damage popovers used by both Batalha and Auto-conjuração. */
+  openSharedDamage(payload: { index: number; event: Event; branch?: DamageBranch }, popovers: any): void {
+    this.activeStepIndex = payload.index;
+    const entry = this.activeStep;
+    if (!entry) return;
+    popovers?.open(payload.event, payload.branch ?? 'mean', {
+      entry: {
+        name: entry.name,
+        isBasic: entry.isBasic,
+        hasDamageSpread: entry.hasDamageSpread,
+        critWeighted: entry.critWeighted,
+      },
+      summary: entry.summary,
+      summary2: this.rotationView2?.entries?.[payload.index]?.summary,
+      isComparing: this.isComparing,
+      hasSelectedChances: this.hasSelectedChances,
+      hasSelectedChances2: this.hasSelectedChances2,
+    });
   }
 
   trackByIndex(index: number): number {

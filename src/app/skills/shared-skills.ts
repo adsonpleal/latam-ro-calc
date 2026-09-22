@@ -2,6 +2,48 @@ import { ElementType } from '../constants/element-type.const';
 import type { WeaponTypeName } from '../constants/weapon-type-mapper';
 import type { ActiveSkillModel, AtkSkillModel } from '../jobs/_character-base.abstract';
 
+/** Ataque Aéreo: fixed falcon damage per flight, independent of weapon/equipment damage. */
+export const BLITZ_BEAT: AtkSkillModel = {
+  name: 'Blitz Beat',
+  label: 'Blitz Beat Lv5',
+  value: 'Blitz Beat==5',
+  levelList: Array.from({ length: 5 }, (_, i) => ({ label: `Blitz Beat Nv${i + 1}`, value: `Blitz Beat==${i + 1}` })),
+  acd: 1,
+  fct: 0.2,
+  vct: 0.8,
+  cd: 0,
+  isHit100: true,
+  totalHit: ({ skillLevel }) => skillLevel,
+  element: ElementType.Neutral,
+  formula: () => 100,
+  customFormula: ({ skillLevel, status, skills }) => {
+    const steelCrowLevel = skills.learnedLevel('Steel Crow');
+    return ((Math.floor(status.totalAgi / 2) + Math.floor(status.totalDex / 10) + skillLevel * 10) * 2 + steelCrowLevel * 6) * skillLevel;
+  },
+};
+
+/**
+ * Investida de Worg: the client table is 200% per learned level.
+ *
+ * Replay validation is still open. The bare, stimulant, and equipment-state recordings
+ * show that Worg does not fit the calculator's ordinary ranged-skill attack base, even
+ * though its relative P.ATQ/trait and hunting-hood bonus changes are observable. Keep
+ * this client-table ratio unchanged until a replay-backed Worg-specific damage path is
+ * derived. See the backlog card created from the 2026-09-21 validation pass.
+ */
+export const WUG_STRIKE: AtkSkillModel = {
+  name: 'Wug Strike',
+  label: 'Wug Strike Lv5',
+  value: 'Wug Strike==5',
+  levelList: Array.from({ length: 5 }, (_, i) => ({ label: `Wug Strike Nv${i + 1}`, value: `Wug Strike==${i + 1}` })),
+  acd: 0,
+  fct: 0,
+  vct: 0,
+  cd: 0,
+  element: ElementType.Neutral,
+  formula: ({ skillLevel }) => skillLevel * 200,
+};
+
 /**
  * Standalone skill definitions shared by more than one job (Phase 3 of the Skill
  * Catalog work). Formulas are pure — they read other skills' state from the
@@ -163,6 +205,78 @@ export const FROST_NOVA: AtkSkillModel = {
   isMatk: true,
   element: ElementType.Water,
   formula: ({ skillLevel }) => 100 + skillLevel * 10,
+};
+
+/** Canonical foreign-spell definitions used by item auto-casts. */
+export const FIRE_BOLT: AtkSkillModel = {
+  name: 'Fire Bolt', label: 'Fire Bolt Lv10', value: 'Fire Bolt==10', levelList: allLevels('Fire Bolt', 10),
+  acd: 0, fct: 0, vct: 0, cd: 0,
+  isMatk: true, element: ElementType.Fire, totalHit: ({ skillLevel }) => skillLevel, formula: () => 100,
+};
+export const COLD_BOLT: AtkSkillModel = {
+  name: 'Cold Bolt', label: 'Cold Bolt Lv10', value: 'Cold Bolt==10', levelList: allLevels('Cold Bolt', 10),
+  acd: 0, fct: 0, vct: 0, cd: 0,
+  isMatk: true, element: ElementType.Water, totalHit: ({ skillLevel }) => skillLevel, formula: () => 100,
+};
+export const LIGHTNING_BOLT: AtkSkillModel = {
+  name: 'Lightening Bolt', label: 'Lightening Bolt Lv10', value: 'Lightening Bolt==10', levelList: allLevels('Lightening Bolt', 10),
+  acd: 0, fct: 0, vct: 0, cd: 0,
+  isMatk: true, element: ElementType.Wind, totalHit: ({ skillLevel }) => skillLevel, formula: () => 100,
+};
+export const CRIMSON_ROCK: AtkSkillModel = {
+  name: 'Crimson Rock', label: 'Crimson Rock Lv5', value: 'Crimson Rock==5', levelList: allLevels('Crimson Rock', 5),
+  acd: 0, fct: 0, vct: 0, cd: 0,
+  isMatk: true, element: ElementType.Fire,
+  formula: ({ model, skillLevel }) => (700 + skillLevel * 600) * (model.level / 100),
+};
+export const FROST_MISTY: AtkSkillModel = {
+  name: 'Frost Misty', label: 'Frost Misty Lv5', value: 'Frost Misty==5', levelList: allLevels('Frost Misty', 5),
+  acd: 0, fct: 0, vct: 0, cd: 0,
+  isMatk: true, element: ElementType.Water, totalHit: 5,
+  formula: ({ model, skillLevel }) => (200 + skillLevel * 100) * (model.level / 100),
+};
+export const JACK_FROST: AtkSkillModel = {
+  name: 'Jack Frost', label: 'Jack Frost Lv5', value: 'Jack Frost==5', levelList: allLevels('Jack Frost', 5),
+  acd: 0, fct: 0, vct: 0, cd: 0,
+  isMatk: true, element: ElementType.Water, totalHit: 4,
+  formula: ({ model, skillLevel }) => (1000 + skillLevel * 300) * (model.level / 100),
+};
+export const HELL_INFERNO: AtkSkillModel = {
+  name: 'Hell Inferno', label: 'Hell Inferno Lv5', value: 'Hell Inferno==5', levelList: allLevels('Hell Inferno', 5),
+  acd: 0, fct: 0, vct: 0, cd: 0,
+  isMatk: true, element: ElementType.Fire,
+  formula: ({ model, skillLevel }) => skillLevel * 400 * (model.level / 100),
+};
+export const KILLING_CLOUD: AtkSkillModel = {
+  name: 'Killing Cloud', label: 'Killing Cloud Lv5', value: 'Killing Cloud==5', levelList: allLevels('Killing Cloud', 5),
+  acd: 0, fct: 0, vct: 0, cd: 0,
+  isMatk: true, element: ElementType.Poison, totalHit: 4,
+  formula: ({ model, skillLevel, status }) => (skillLevel * 40 + status.totalInt * 3) * (model.level / 100),
+};
+export const SOUL_EXPANSION: AtkSkillModel = {
+  name: 'Soul Expansion', label: 'Soul Expansion Lv5', value: 'Soul Expansion==5', levelList: allLevels('Soul Expansion', 5),
+  acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Ghost, hit: 2,
+  formula: ({ model, skillLevel, status }) => (1000 + skillLevel * 200 + status.totalInt) * (model.level / 100),
+};
+export const EARTH_STRAIN: AtkSkillModel = {
+  name: 'Earth Strain', label: 'Earth Strain Lv5', value: 'Earth Strain==5', levelList: allLevels('Earth Strain', 5),
+  acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Earth, hit: 10,
+  formula: ({ model, skillLevel }) => (1000 + skillLevel * 600) * (model.level / 100),
+};
+export const CHAIN_LIGHTNING: AtkSkillModel = {
+  name: 'Chain Lightning', label: 'Chain Lightning Lv5', value: 'Chain Lightning==5', levelList: allLevels('Chain Lightning', 5),
+  acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Wind,
+  formula: ({ model, skillLevel }) => (500 + skillLevel * 100) * (model.level / 100) + 900,
+};
+export const DIAMOND_DUST: AtkSkillModel = {
+  name: 'Diamond Dust', label: 'Diamond Dust Lv5', value: 'Diamond Dust==5', levelList: allLevels('Diamond Dust', 5),
+  acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Water, hit: 2,
+  formula: ({ model, skillLevel, status }) => ((skillLevel + 2) * status.totalInt) * (model.level / 100),
+};
+export const JUDEX: AtkSkillModel = {
+  name: 'Judex', label: 'Judex Lv10', value: 'Judex==10', levelList: allLevels('Judex', 10),
+  acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Holy, hit: 3,
+  formula: ({ model, skillLevel }) => (300 + skillLevel * 70) * (model.level / 100),
 };
 
 /**

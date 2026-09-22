@@ -3,8 +3,9 @@
 // Given one or more item ids, prints — per id — the pt-BR name, aegisName,
 // cleaned description (with its effect/combo lines isolated), the structural
 // fields inferred from a same-type sibling already in item.json, and a
-// ready-to-fill item.json record skeleton (script left empty). It does NOT
-// guess the bonus script — that's the judgement step the SKILL.md walks through.
+// ready-to-fill item.json record skeleton. Auto-cast descriptions receive the
+// reserved `script.autoCast: []` placeholder; all entries still require the
+// judgement step described in SKILL.md.
 //
 // Usage:  node .agents/skills/add-ro-item/scaffold.mjs <id> [<id> ...]
 
@@ -123,6 +124,10 @@ function scaffold(id) {
   if (slot === "Accessory") out.push(`  ⚠ accessory: itemSubTypeId 517 = both sides; use 510 (right) / 511 (left) if side-specific.`);
   out.push(`\n--- EFFECT / COMBO LINES (map each to a bonus key per SKILL.md) ---`);
   for (const b of effectBlocks(desc)) out.push(b.split("\n").map((l) => "  " + l).join("\n"));
+  const hasAutoCast = /autoconjur/i.test(clean(desc));
+  if (hasAutoCast) {
+    out.push(`\n⚠ AUTO-CAST CANDIDATE: classify every clause per SKILL.md; never encode it as an ordinary chance__ bonus.`);
+  }
 
   const record = {
     id,
@@ -142,7 +147,7 @@ function scaffold(id) {
     location: f?.location ?? null,
     compositionPos: null,
     usableClass: ["all"],
-    script: {},
+    script: hasAutoCast ? { autoCast: [] } : {},
   };
   out.push(`\n--- RECORD SKELETON (fill "script", then insert into item.json) ---`);
   out.push(JSON.stringify(record, null, 2));

@@ -1,3 +1,32 @@
+import { ItemAutoCastPendingScript, ItemAutoCastScript } from './auto-cast.model';
+
+export type ItemScriptValue = string[] | ItemAutoCastScript[] | ItemAutoCastPendingScript[];
+export const ITEM_AUTO_CAST_DIRECTIVE = 'autoCast' as const;
+export const ITEM_AUTO_CAST_PENDING_DIRECTIVE = 'autoCastPending' as const;
+
+export function itemAutoCastScripts(script: Record<string, ItemScriptValue> | undefined): readonly ItemAutoCastScript[] {
+  const value = script?.[ITEM_AUTO_CAST_DIRECTIVE];
+  return Array.isArray(value) && (value as unknown[]).every((entry) => typeof entry !== 'string')
+    ? value as ItemAutoCastScript[]
+    : [];
+}
+
+export function itemAutoCastPendingScripts(script: Record<string, ItemScriptValue> | undefined): readonly ItemAutoCastPendingScript[] {
+  const value = script?.[ITEM_AUTO_CAST_PENDING_DIRECTIVE];
+  return Array.isArray(value) && (value as unknown[]).every((entry) => typeof entry !== 'string')
+    ? value as ItemAutoCastPendingScript[]
+    : [];
+}
+
+/** Ordinary numeric bonuses, excluding every reserved structured directive. */
+export function itemBonusScriptEntries(script: Record<string, ItemScriptValue> | undefined): Array<[string, string[]]> {
+  return Object.entries(script ?? {}).filter((entry): entry is [string, string[]] => (
+    entry[0] !== ITEM_AUTO_CAST_DIRECTIVE
+      && entry[0] !== ITEM_AUTO_CAST_PENDING_DIRECTIVE
+      && (entry[1] as unknown[]).every((value) => typeof value === 'string')
+  ));
+}
+
 export interface ItemModel {
   id: number;
   aegisName: string;
@@ -34,5 +63,6 @@ export interface ItemModel {
   cardPrefix?: string;
   /** Derived from itemLevel by RoService (see canGradeItem) — not read from item.json. */
   canGrade?: boolean;
-  script: Record<string, any[]>;
+  /** Numeric bonus entries plus the reserved structured `autoCast` directive. */
+  script: Record<string, ItemScriptValue>;
 }

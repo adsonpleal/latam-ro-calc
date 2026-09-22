@@ -1,0 +1,80 @@
+<ng-template #graphCluster let-c="c" let-sim="sim">
+  <div class="graph-col">
+    <div class="graph-inputs" *ngIf="c.inputs.length">
+      <div class="graph-input" *ngFor="let inp of c.inputs" [class.bonus_clickable]="isNodeClickable(inp)" role="button" tabindex="0" (click)="openBreakdown(inp, !!sim)" (keydown.enter)="openBreakdown(inp, !!sim)" keyActivate>
+        <span>{{ inp.label }}</span>
+        <span [class.sim]="sim">{{ inp.showSign && inp.value > 0 ? '+' : '' }}{{ inp.value | number }}{{ inp.unit === 'percent' ? '%' : '' }}</span>
+      </div>
+    </div>
+    <div class="graph-stage" [class.bonus_clickable]="isNodeClickable(c.stage)" role="button" tabindex="0" (click)="openBreakdown(c.stage, !!sim)" (keydown.enter)="openBreakdown(c.stage, !!sim)" keyActivate>
+      <span>{{ c.stage.label }}</span><span [class.sim]="sim">{{ c.stage.value | number }}</span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #graphRow let-clusters="clusters" let-sim="sim">
+  <div class="graph-row">
+    <ng-container *ngFor="let c of clusters; let last = last">
+      <ng-container *ngTemplateOutlet="graphCluster; context: { c: c, sim: sim }"></ng-container>
+      <div class="graph-arrow" *ngIf="!last">→</div>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #formulaBranch let-graph="graph" let-graph2="graph2" let-flat="flat">
+  <ng-container *ngIf="!flat; else flatBranch">
+    <div class="psec">Dano mínimo</div>
+    <ng-container *ngTemplateOutlet="graphRow; context: { clusters: graph.min }"></ng-container>
+    <ng-container *ngIf="isComparing && graph2?.min?.length"><div class="cmp-castbar-label">⇄ Comparação</div><ng-container *ngTemplateOutlet="graphRow; context: { clusters: graph2.min, sim: true }"></ng-container></ng-container>
+    <div class="psec">Dano máximo</div>
+    <ng-container *ngTemplateOutlet="graphRow; context: { clusters: graph.max }"></ng-container>
+    <ng-container *ngIf="isComparing && graph2?.max?.length"><div class="cmp-castbar-label">⇄ Comparação</div><ng-container *ngTemplateOutlet="graphRow; context: { clusters: graph2.max, sim: true }"></ng-container></ng-container>
+  </ng-container>
+  <ng-template #flatBranch>
+    <div class="psec">Dano</div>
+    <ng-container *ngTemplateOutlet="graphRow; context: { clusters: graph.max }"></ng-container>
+    <ng-container *ngIf="isComparing && graph2?.max?.length"><div class="cmp-castbar-label">⇄ Comparação</div><ng-container *ngTemplateOutlet="graphRow; context: { clusters: graph2.max, sim: true }"></ng-container></ng-container>
+  </ng-template>
+</ng-template>
+
+<p-overlayPanel #formulaPanel>
+  <div class="ptitle">Como o dano é calculado</div>
+  <div class="graph-hint">Clique em qualquer valor para ver de onde ele vem.</div>
+  <ng-container *ngIf="formulaGraph as graph; else noFormula"><div class="formula-trace-scroll"><ng-container *ngTemplateOutlet="formulaBranch; context: { graph: graph, graph2: formulaGraph2, flat: damageIsFlat }"></ng-container></div></ng-container>
+  <ng-template #noFormula><div class="mut-note">Fórmula passo a passo indisponível para esta habilidade (usa cálculo especial).</div></ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #noCriPanel>
+  <div class="ptitle">Como o dano sem crítico é calculado</div>
+  <div class="graph-hint">Clique em qualquer valor para ver de onde ele vem.</div>
+  <ng-container *ngIf="noCriGraph as graph; else noNoCriFormula"><div class="formula-trace-scroll"><ng-container *ngTemplateOutlet="formulaBranch; context: { graph: graph, graph2: noCriGraph2, flat: noCriIsFlat }"></ng-container></div></ng-container>
+  <ng-template #noNoCriFormula><div class="mut-note">Fórmula passo a passo indisponível para esta habilidade (usa cálculo especial).</div></ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #meanPanel>
+  <div class="ptitle">{{ meanTitle }}</div>
+  <div class="graph-hint" style="max-width: 320px">A média usa exatamente os mesmos valores de dano, crítico, precisão e quantidade de golpes que alimentam o DPS.</div>
+  <ng-container *ngIf="mean as m">
+    <div class="pstats one tight">
+      <div class="kv"><span>{{ weightedCrit ? 'Dano sem crít. (média mín–máx)' : 'Média entre o mínimo e o máximo' }}</span><span class="v">{{ m.avgBasicDamage | number: '1.0-0' }}</span></div>
+      <ng-container *ngIf="weightedCrit"><div class="kv"><span>Dano crít.</span><span class="v">{{ m.criDmg | number: '1.0-0' }}</span></div><div class="kv"><span>Tx. Crít.</span><span class="v">{{ m.criRate | number: '1.0-1' }}%</span></div></ng-container>
+      <div class="kv"><span>{{ weightedCrit ? 'Precisão (só sem crít.)' : 'Precisão' }}</span><span class="v">{{ m.accuracy | number: '1.0-1' }}%</span></div>
+    </div>
+    <div class="pstats one">
+      <ng-container *ngIf="weightedCrit; else plainMean"><div class="kv"><span>Parte com crít.</span><span>{{ m.criPart | number: '1.0-0' }}</span></div><div class="kv"><span>Parte sem crít.</span><span>{{ m.noCriPart | number: '1.0-0' }}</span></div></ng-container>
+      <ng-template #plainMean><div class="kv"><span>× Precisão</span><span>{{ m.accuracy | number: '1.0-1' }}%</span></div></ng-template>
+      <div class="kv total"><span>= Dano médio por golpe</span><span class="teal">{{ m.avgDamagePerHit | number: '1.0-0' }}</span></div>
+      <div class="kv" *ngIf="m.totalHit > 1"><span>× Golpes</span><span>{{ m.totalHit }}</span></div>
+      <div class="kv total"><span>= Dano médio por uso</span><span class="orange">{{ m.damagePerUse | number: '1.0-0' }}<ng-container *ngIf="mean2 as sim"><span class="arr">→</span><span class="sim">{{ sim.damagePerUse | number: '1.0-0' }}</span></ng-container></span></div>
+    </div>
+  </ng-container>
+</p-overlayPanel>
+
+<p-overlayPanel #basicPanel styleClass="rot-details-panel">
+  <div class="ptitle">{{ basicTitle }}</div>
+  <div class="graph-hint">Clique em qualquer valor para ver de onde ele vem.</div>
+  <ng-container *ngIf="basicGraph as graph; else noBasicFormula">
+    <div class="formula-trace-scroll"><ng-container *ngTemplateOutlet="formulaBranch; context: { graph: graph, graph2: basicGraph2, flat: basicGraphIsFlat }"></ng-container></div>
+  </ng-container>
+  <ng-template #noBasicFormula><div class="mut-note">Fórmula passo a passo indisponível para este ataque.</div></ng-template>
+</p-overlayPanel>

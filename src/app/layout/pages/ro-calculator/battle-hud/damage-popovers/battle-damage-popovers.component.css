@@ -1,0 +1,10 @@
+:host {
+  display: contents;
+}
+
+/* PrimeNG keeps the caret at its default left offset even when the panel is clamped to
+   the viewport. The shared positioner supplies the exact anchor offset. */
+::ng-deep .p-overlaypanel:before,
+::ng-deep .p-overlaypanel:after {
+  left: var(--overlayArrowLeft, 1.25rem);
+}

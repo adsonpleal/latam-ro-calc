@@ -58,6 +58,12 @@ export interface MainModel extends Partial<EquipmentModel> {
    * which `normalizeRotation` migrates to `[selectedAtkSkill]`.
    */
   rotation: string[];
+  /** Configurable auto-cast choices, stored as in-game skill ids. */
+  autoCastSelections: {
+    autoSpell?: number;
+    plagiarism?: number;
+    reproduce?: number;
+  };
   propertyAtk?: ElementType;
   rawOptionTxts: string[];
 

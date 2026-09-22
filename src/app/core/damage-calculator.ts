@@ -2208,8 +2208,8 @@ export class DamageCalculator {
     };
   }
 
-  private calcBasicDamage(params: { totalMin: number; totalMax: number; }) {
-    const { totalMax, totalMin } = params;
+  private calcBasicDamage(params: { totalMin: number; totalMax: number; minAtkNodes?: DamageFormulaNode[]; maxAtkNodes?: DamageFormulaNode[]; }) {
+    const { totalMax, totalMin, minAtkNodes, maxAtkNodes } = params;
     const { range, melee, dmg } = this.totalBonus;
     const isRangeType = this.isRangeAtk();
     const dmgType = isRangeType ? SkillType.RANGE : SkillType.MELEE;
@@ -2225,25 +2225,49 @@ export class DamageCalculator {
     const hardDef = finalDmgReduction;
     const softDef = finalSoftDef;
 
-    // Basic damage has no formula graph to split into, so combine the two PVP
-    // reduction layers into a single multiplier (1 when no player target).
+    // Basic damage applies both PVP reduction layers at the final stage; combine them
+    // into the one multiplier the basic-attack formula graph shows.
     const pvpParts = this.getPvpReductionParts({ dmgType: 'physical', isSkill: false, isMelee: !isRangeType, attackElement: this.basicPropertyAtk });
     const pvpMult = pvpParts.defender * pvpParts.woe;
 
-    const formula = (totalAtk: number, isCalcDef = true) => {
+    const formula = (totalAtk: number, isCalcDef = true, atkNodes?: DamageFormulaNode[]) => {
+      const graphNodes = atkNodes ? [...atkNodes] : undefined;
+      let lastStageId = graphNodes?.filter((node) => node.kind === 'stage').at(-1)?.id;
+      const emit = (id: string, label: string, value: number, keys?: string[], multiplier?: number, inputs: string[] = []) => {
+        if (!graphNodes) return;
+        graphNodes.push({ id, label, value, keys, percent: multiplier == null ? undefined : this.toPercentBonus(multiplier), inputs: [...(lastStageId ? [lastStageId] : []), ...inputs], kind: 'stage' });
+        lastStageId = id;
+      };
+      const addInput = (id: string, label: string, value: number, keys?: string[]) => graphNodes?.push({ id, label, value, keys, inputs: [], kind: 'input' });
+      const lastAtkValue = graphNodes?.filter((node) => node.kind === 'stage').at(-1)?.value;
+      if (lastAtkValue != null && floor(lastAtkValue) !== totalAtk) emit('basicAtkAdjust', 'ATQ (ajuste de classe/adicional)', totalAtk);
       let total = floor(totalAtk * rangedMultiplier);
+      emit('basicRange', isRangeType ? `À distância ${this.fmtCalc(rangedDmg)}%` : `Corpo a corpo ${this.fmtCalc(rangedDmg)}%`, total, [isRangeType ? 'range' : 'melee'], rangedMultiplier);
       total = floor(total * dmgMultiplier);
+      emit('basicDamageBonus', `Dano básico ${this.fmtCalc(dmg + this.getFlatDmg('basicAtk'))}%`, total, ['dmg', 'basicAtk'], dmgMultiplier);
       total = floor(total * resReduction);
+      if (isCalcDef) addInput('basicRestRes', 'TEN restante', this.getPhisicalDefData().restRes, ['monster_res', 'pene_res']);
+      emit('basicResReduction', 'Redução TEN', total, ['pene_res'], resReduction, isCalcDef ? ['basicRestRes'] : []);
       if (isCalcDef) total = floor(total * hardDef);
+      if (isCalcDef) {
+        addInput('basicHardDef', 'DEF restante', this.getPhisicalDefData().reducedHardDef, ['p_pene_race_all', 'p_pene_class_all']);
+        emit('basicDefReduction', 'Redução DEF', total, ['p_pene_race_all', 'p_pene_class_all'], hardDef, ['basicHardDef']);
+      }
       // Before the soft DEF, like calcBasicCriDamage and calcPhysicalSkillDamage — this
       // path was the odd one out, and scaling the target's soft def by the katar bonus
       // is what the Shadow Cross recording ruled out on the skill side.
       total = floor(total * advKatarMultiplier);
+      if (advKatarMultiplier !== 1) emit('basicAdvKatar', `Perícia com Katar Avançada ${this.fmtCalc(this.getAdvanceKatar())}%`, total, ['advKatar'], advKatarMultiplier);
       if (isCalcDef) total = total - softDef;
+      if (isCalcDef) emit('basicSoftDef', `DEF -${this.fmtCalc(softDef)}`, total);
       total = floor(total * debuffMultiplier);
+      if (debuffMultiplier !== 1) emit('basicDebuff', 'Debuff no monstro', total, ['raid', 'gravitation'], debuffMultiplier);
       total = floor(total * pvpMult); // PVP: última linha (1 when no player target)
+      if (pvpMult !== 1) emit('basicPvp', 'Redução PVP', total, [], pvpMult);
 
-      return this.toPreventNegativeDmg(total);
+      const final = this.toPreventNegativeDmg(total);
+      if (final !== total) emit('basicFloor', 'Dano mínimo', final);
+      return { damage: final, graph: graphNodes };
     };
 
     // The class ATK adjustment applies to the basic attack too — the skill path already
@@ -2253,14 +2277,25 @@ export class DamageCalculator {
     // (= 4,295 ÷ 1.85). See SkyEmperor.firmamento.spec.ts.
     const classAtk = (totalAtk: number) => floor(this._class.modifyFinalAtk(totalAtk, this.infoForClass));
 
-    const basicMinDamage = this.applyAuraReduction(formula(classAtk(totalMin) + extraDmg + extraBasicDmg));
-    const basicMaxDamage = this.applyAuraReduction(formula(classAtk(totalMax) + extraDmg + extraBasicDmg));
+    const minBase = classAtk(totalMin) + extraDmg + extraBasicDmg;
+    const maxBase = classAtk(totalMax) + extraDmg + extraBasicDmg;
+    const minResult = formula(minBase, true, minAtkNodes);
+    const maxResult = formula(maxBase, true, maxAtkNodes);
+    const basicMinDamage = this.applyAuraReduction(minResult.damage);
+    const basicMaxDamage = this.applyAuraReduction(maxResult.damage);
+    const appendAura = (nodes: DamageFormulaNode[] | undefined, before: number, after: number) => {
+      if (!nodes || before === after) return;
+      const previous = nodes.filter((node) => node.kind === 'stage').at(-1)?.id;
+      nodes.push({ id: 'basicAuraReduction', label: this.auraReductionLabel, value: after, inputs: previous ? [previous] : [], kind: 'stage' });
+    };
+    appendAura(minResult.graph, minResult.damage, basicMinDamage);
+    appendAura(maxResult.graph, maxResult.damage, basicMaxDamage);
 
-    return { basicMinDamage, basicMaxDamage };
+    return { basicMinDamage, basicMaxDamage, basicFormulaGraph: minResult.graph && maxResult.graph ? { min: { nodes: minResult.graph }, max: { nodes: maxResult.graph } } : undefined };
   }
 
-  private calcBasicCriDamage(params: { totalMaxAtk: number; totalMaxAtkOver: number; }) {
-    const { totalMaxAtk, totalMaxAtkOver } = params;
+  private calcBasicCriDamage(params: { totalMaxAtk: number; totalMaxAtkOver: number; maxAtkNodes?: DamageFormulaNode[]; maxOverAtkNodes?: DamageFormulaNode[]; }) {
+    const { totalMaxAtk, totalMaxAtkOver, maxAtkNodes, maxOverAtkNodes } = params;
     const { range, melee, criDmg, dmg } = this.totalBonus;
 
     const bonusCriDmgMultiplier = this.toPercent((criDmg || 0) + 100);
@@ -2278,24 +2313,47 @@ export class DamageCalculator {
     const hardDef = finalDmgReduction;
     const softDef = finalSoftDef;
 
-    // Basic damage has no formula graph to split into, so combine the two PVP
-    // reduction layers into a single multiplier (1 when no player target).
+    // Critical basic damage applies both PVP reduction layers at the final stage.
     const pvpParts = this.getPvpReductionParts({ dmgType: 'physical', isSkill: false, isMelee: !isRangeType, attackElement: this.basicPropertyAtk });
     const pvpMult = pvpParts.defender * pvpParts.woe;
 
-    const formula = (totalAtk: number, isCalcDef = true) => {
+    const formula = (totalAtk: number, isCalcDef = true, atkNodes?: DamageFormulaNode[]) => {
+      const graphNodes = atkNodes ? [...atkNodes] : undefined;
+      let lastStageId = graphNodes?.filter((node) => node.kind === 'stage').at(-1)?.id;
+      const emit = (id: string, label: string, value: number, keys?: string[], multiplier?: number, inputs: string[] = []) => {
+        if (!graphNodes) return;
+        graphNodes.push({ id, label, value, keys, percent: multiplier == null ? undefined : this.toPercentBonus(multiplier), inputs: [...(lastStageId ? [lastStageId] : []), ...inputs], kind: 'stage' });
+        lastStageId = id;
+      };
+      const addInput = (id: string, label: string, value: number, keys?: string[]) => graphNodes?.push({ id, label, value, keys, inputs: [], kind: 'input' });
+      const lastAtkValue = graphNodes?.filter((node) => node.kind === 'stage').at(-1)?.value;
+      if (lastAtkValue != null && floor(lastAtkValue) !== totalAtk) emit('basicCriAtkAdjust', 'ATQ (ajuste de classe)', totalAtk);
       let total = floor(totalAtk * bonusCriDmgMultiplier);
+      if (bonusCriDmgMultiplier !== 1) emit('basicCriEquip', `Dano crítico (equip) ${this.fmtCalc(criDmg)}%`, total, ['criDmg'], bonusCriDmgMultiplier);
       total = floor(total * rangedMultiplier);
+      emit('basicCriRange', isRangeType ? `À distância ${this.fmtCalc(rangedDmg)}%` : `Corpo a corpo ${this.fmtCalc(rangedDmg)}%`, total, [isRangeType ? 'range' : 'melee'], rangedMultiplier);
       if (isCalcDef) total = total * dmgMultiplier;
+      if (isCalcDef) emit('basicCriDamageBonus', `Dano básico ${this.fmtCalc(dmg + this.getFlatDmg('basicAtk'))}%`, total, ['dmg', 'basicAtk'], dmgMultiplier);
       total = floor(total * resReduction);
+      addInput('basicCriRestRes', 'TEN restante', this.getPhisicalDefData().restRes, ['monster_res', 'pene_res']);
+      emit('basicCriResReduction', 'Redução TEN', total, ['pene_res'], resReduction, ['basicCriRestRes']);
       total = floor(total * hardDef);
+      addInput('basicCriHardDef', 'DEF restante', this.getPhisicalDefData().reducedHardDef, ['p_pene_race_all', 'p_pene_class_all']);
+      emit('basicCriDefReduction', 'Redução DEF', total, ['p_pene_race_all', 'p_pene_class_all'], hardDef, ['basicCriHardDef']);
       total = floor(total * advKatarMultiplier);
+      if (advKatarMultiplier !== 1) emit('basicCriAdvKatar', `Perícia com Katar Avançada ${this.fmtCalc(this.getAdvanceKatar())}%`, total, ['advKatar'], advKatarMultiplier);
       if (isCalcDef) total = total - softDef;
+      if (isCalcDef) emit('basicCriSoftDef', `DEF -${this.fmtCalc(softDef)}`, total);
       total = floor(total * this.criMultiplier);
+      emit('basicCriBase', `Crítico base ${this.fmtCalc(round(this._BASE_CRI_MULTIPLIER * 100, 0))}% + T.Crít ${this.fmtCalc(this.traitBonus.cRate)}%`, total, ['cRate'], this.criMultiplier);
       total = floor(total * debuffMultiplier);
+      if (debuffMultiplier !== 1) emit('basicCriDebuff', 'Debuff no monstro', total, ['raid', 'gravitation'], debuffMultiplier);
       total = floor(total * pvpMult); // PVP: última linha (1 when no player target)
+      if (pvpMult !== 1) emit('basicCriPvp', 'Redução PVP', total, [], pvpMult);
 
-      return this.toPreventNegativeDmg(total);
+      const final = this.toPreventNegativeDmg(total);
+      if (final !== total) emit('basicCriFloor', 'Dano mínimo', final);
+      return { damage: final, graph: graphNodes };
     };
 
     // extraDmg is added outside `formula`, so it must take the PVP última-linha
@@ -2308,17 +2366,33 @@ export class DamageCalculator {
     // (SkyEmperor.basic-crit-kihop.spec.ts).
     const classAtk = (totalAtk: number) => floor(this._class.modifyFinalAtk(totalAtk, this.infoForClass));
 
-    const criMinDamage = this.applyAuraReduction(formula(classAtk(totalMaxAtk)) + extraDmg * pvpMult + formula(extraBasic, false));
-    const criMaxDamage = this.applyAuraReduction(formula(classAtk(totalMaxAtkOver)) + extraDmg * pvpMult + formula(extraBasic, false));
+    const minResult = formula(classAtk(totalMaxAtk), true, maxAtkNodes);
+    const maxResult = formula(classAtk(totalMaxAtkOver), true, maxOverAtkNodes);
+    const extraResult = formula(extraBasic, false);
+    const criMinBeforeAura = minResult.damage + extraDmg * pvpMult + extraResult.damage;
+    const criMaxBeforeAura = maxResult.damage + extraDmg * pvpMult + extraResult.damage;
+    const criMinDamage = this.applyAuraReduction(criMinBeforeAura);
+    const criMaxDamage = this.applyAuraReduction(criMaxBeforeAura);
+    const appendFinalSteps = (nodes: DamageFormulaNode[] | undefined, before: number, after: number) => {
+      if (!nodes) return;
+      let previous = nodes.filter((node) => node.kind === 'stage').at(-1)?.id;
+      if (extraDmg || extraBasic) {
+        nodes.push({ id: 'basicCriAdditional', label: 'Dano adicional', value: before, inputs: previous ? [previous] : [], kind: 'stage' });
+        previous = 'basicCriAdditional';
+      }
+      if (before !== after) nodes.push({ id: 'basicCriAuraReduction', label: this.auraReductionLabel, value: after, inputs: previous ? [previous] : [], kind: 'stage' });
+    };
+    appendFinalSteps(minResult.graph, criMinBeforeAura, criMinDamage);
+    appendFinalSteps(maxResult.graph, criMaxBeforeAura, criMaxDamage);
 
-    return { criMinDamage, criMaxDamage, sizePenalty: 100 };
+    return { criMinDamage, criMaxDamage, sizePenalty: 100, basicFormulaGraphCri: minResult.graph && maxResult.graph ? { min: { nodes: minResult.graph }, max: { nodes: maxResult.graph } } : undefined };
   }
 
-  calculateAllDamages(args: { skillValue: string; propertyAtk: ElementType; maxHp: number; maxSp: number; }): DamageSummaryModel {
+  calculateAllDamages(args: { skillValue: string; propertyAtk: ElementType; maxHp: number; maxSp: number; skillData?: AtkSkillModel }): DamageSummaryModel {
     const { skillValue, propertyAtk, maxHp, maxSp } = args;
     this.basicPropertyAtk = propertyAtk;
     const sizePenalty = this.getSizePenalty();
-    const { totalMin, totalMax, totalMaxOver, propertyMultiplier } = this.calcTotalAtk({
+    const { totalMin, totalMax, totalMaxOver, propertyMultiplier, minAtkNodes, maxAtkNodes, maxOverAtkNodes } = this.calcTotalAtk({
       propertyAtk,
       sizePenalty,
       isEDP: this.isActiveEDP(''),
@@ -2331,10 +2405,12 @@ export class DamageCalculator {
       isAmmoAttack: this.isRangeAtk() || !this.weaponData?.data?.typeName,
     });
 
-    const { basicMinDamage, basicMaxDamage } = this.calcBasicDamage({ totalMin: totalMin, totalMax: totalMaxOver });
-    const { criMinDamage, criMaxDamage } = this.calcBasicCriDamage({
+    const { basicMinDamage, basicMaxDamage, basicFormulaGraph } = this.calcBasicDamage({ totalMin: totalMin, totalMax: totalMaxOver, minAtkNodes, maxAtkNodes: maxOverAtkNodes });
+    const { criMinDamage, criMaxDamage, basicFormulaGraphCri } = this.calcBasicCriDamage({
       totalMaxAtk: totalMax,
       totalMaxAtkOver: totalMaxOver,
+      maxAtkNodes,
+      maxOverAtkNodes,
     });
 
     const criShield = this.monster.data.criShield;
@@ -2386,10 +2462,12 @@ export class DamageCalculator {
       pAtk,
       sMatk,
       cRate,
+      basicFormulaGraph,
+      basicFormulaGraphCri,
     };
 
     const [, _skillName, skillLevelStr] = skillValue?.match(/(.+)==(\d+)/) ?? [];
-    const skillData = this._class.atkSkills.find((a) => a.value === skillValue || a.levelList?.findIndex((b) => b.value === skillValue) >= 0);
+    const skillData = args.skillData ?? this._class.atkSkills.find((a) => a.value === skillValue || a.levelList?.findIndex((b) => b.value === skillValue) >= 0);
     const isValidSkill = !!_skillName && !!skillLevelStr && typeof skillData?.formula === 'function';
 
     if (!isValidSkill) return { basicDmg, misc, basicAspd };

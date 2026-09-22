@@ -13,7 +13,7 @@ import {
 } from 'src/app/constants';
 import { SKILL_NAME } from 'src/app/constants/skill-name';
 import { Monster, Weapon } from 'src/app/domain';
-import { CharacterBase, Doram } from 'src/app/jobs';
+import { AtkSkillModel, CharacterBase, Doram } from 'src/app/jobs';
 import { resolveSkillById, SKILL_ID_BY_NAME } from 'src/app/skills';
 import { DEFAULT_PVP_CONTEXT, pickDefenderBonus, PlayerTargetProfile, PvpContext, PvpMode, woeFleeMultiplier } from './pvp';
 import { bonusKeyLabel } from 'src/app/core/bonus-key-label';
@@ -23,10 +23,11 @@ import { BasicAspdModel, BasicDamageSummaryModel, MiscModel, SkillAspdModel, Ski
 import { EquipmentSummaryModel } from 'src/app/models/equipment-summary.model';
 import { HpSpTable } from 'src/app/models/hp-sp-table.model';
 import { AdditionalBonusInput } from 'src/app/models/info-for-class.model';
-import { ItemModel } from 'src/app/models/item.model';
+import { ItemModel, itemAutoCastPendingScripts, itemAutoCastScripts, itemBonusScriptEntries } from 'src/app/models/item.model';
 import { MainModel } from 'src/app/models/main.model';
 import { MonsterModel } from 'src/app/models/monster.model';
 import { StatusSummary } from 'src/app/models/status-summary.model';
+import { ClassAutoCastDefinition, ItemAutoCastScript, ResolvedItemAutoCast, ResolvedItemAutoCastPending } from 'src/app/models/auto-cast.model';
 import { DamageCalculator } from './damage-calculator';
 import { isEventRunning, readUntilCondition } from './event-window';
 import { HpSpCalculator } from './hp-sp-calculator';
@@ -212,6 +213,8 @@ export class Calculator {
   private masteryAtkSkillBonus: Record<string, any> = {};
   private consumableBonuses: any[] = [];
   private aspdPotion: number = undefined;
+  private _resolvedItemAutoCasts: ResolvedItemAutoCast[] = [];
+  private _resolvedItemAutoCastPending: ResolvedItemAutoCastPending[] = [];
 
   private skillName: SKILL_NAME = '' as any;
   private allStatus = createRawTotalBonus();
@@ -446,6 +449,38 @@ export class Calculator {
     this._class = c;
 
     return this;
+  }
+
+  /** The class skill catalog used by configurable auto-cast selectors. */
+  get atkSkills(): AtkSkillModel[] {
+    return this._class?.atkSkills ?? [];
+  }
+
+  /** Learned/active levels after the controller has prepared the current build. */
+  get skillState() {
+    return this._class.skillState;
+  }
+
+  /** Final build stats used by class auto-cast chance formulas. */
+  get status(): StatusSummary {
+    return this.dmgCalculator.status;
+  }
+
+  /** Equipped records, including cards and enchants loaded into their relation slots. */
+  get equippedItems(): ItemModel[] {
+    return [...this.equipItem.values()].filter((item): item is ItemModel => !!item);
+  }
+
+  get autoCastDefinitions(): readonly ClassAutoCastDefinition[] {
+    return this._class?.autoCastDefinitions ?? [];
+  }
+
+  get resolvedItemAutoCasts(): readonly ResolvedItemAutoCast[] {
+    return this._resolvedItemAutoCasts;
+  }
+
+  get resolvedItemAutoCastPending(): readonly ResolvedItemAutoCastPending[] {
+    return this._resolvedItemAutoCastPending;
   }
 
   /**
@@ -1117,6 +1152,18 @@ export class Calculator {
       return this.validateCondition({ itemType, itemRefine, script: restCondition });
     }
 
+    // AMMO_SUBTYPE[1024]... — an auto-cast can require a broad ammunition family
+    // without naming one particular arrow.
+    const [unusedAmmoSubtype, ammoSubtype] = restCondition.match(/^AMMO_SUBTYPE\[(\d+)]/) ?? [];
+    if (ammoSubtype) {
+      if (this.equipItem.get(ItemTypeEnum.ammo)?.itemSubTypeId !== Number(ammoSubtype)) {
+        return { isValid: false, restCondition };
+      }
+      restCondition = restCondition.replace(unusedAmmoSubtype, '');
+      if (restCondition.startsWith('===')) restCondition = restCondition.replace('===', '');
+      return this.validateCondition({ itemType, itemRefine, script: restCondition });
+    }
+
     // EQUIP[Bear's Power]===50
     const [setCondition, itemSet] = restCondition.match(/^EQUIP\[(.+?)]/) ?? [];
     if (itemSet) {
@@ -1159,11 +1206,7 @@ export class Calculator {
       if (restCondition.startsWith('===')) {
         restCondition = restCondition.replace('===', '');
       }
-
-      return {
-        isValid: true,
-        restCondition,
-      };
+      return this.validateCondition({ itemType, itemRefine, script: restCondition });
     } else if (refineCond) {
       return { isValid: false, restCondition };
     }
@@ -1195,6 +1238,62 @@ export class Calculator {
     return false;
   }
 
+  private calcScriptEntryValue(params: { itemType: ItemTypeEnum; itemRefine: number; lineScript: string; }): number {
+    const { itemType, itemRefine, lineScript } = params;
+    const { isValid, restCondition } = this.validateCondition({ itemType, itemRefine, script: lineScript });
+    if (!isValid) return 0;
+    if (restCondition.includes('===')) return this.calcConstantBonus(itemRefine, restCondition);
+    if (restCondition.includes('---')) return this.calcStepBonus(itemRefine, restCondition);
+
+    const value = Number(restCondition);
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  private resolveItemAutoCasts(params: { itemType: ItemTypeEnum; itemRefine: number; item: ItemModel; }): void {
+    const { item, itemRefine, itemType } = params;
+    const definitions = itemAutoCastScripts(item.script);
+    if (definitions.length === 0) return;
+
+    definitions.forEach((definition: ItemAutoCastScript, index) => {
+      const chance = selectLoyaltyLines(definition.chance, this.model.petLoyalty ?? DEFAULT_PET_LOYALTY).reduce((sum, lineScript) => (
+        sum + this.calcScriptEntryValue({ itemType, itemRefine, lineScript })
+      ), 0);
+      let skillLevel = definition.skillLevel.reduce((highest, lineScript) => Math.max(
+        highest,
+        this.calcScriptEntryValue({ itemType, itemRefine, lineScript }),
+      ), 0);
+      if (definition.skillLevelMode === 'highest-learned') {
+        skillLevel = Math.max(skillLevel, this.learnedSkillLevelById(definition.skillId));
+      } else if (definition.skillLevelMode === 'learned-only') {
+        skillLevel = this.learnedSkillLevelById(definition.skillId);
+      }
+      if (chance <= 0 || skillLevel <= 0) return;
+
+      this._resolvedItemAutoCasts.push({
+        key: `item-${item.id}-${index}-${definition.skillId}`,
+        itemId: item.id,
+        itemName: item.name,
+        skillId: definition.skillId,
+        skillLevel,
+        chance,
+        trigger: definition.trigger,
+      });
+    });
+  }
+
+  private resolveItemAutoCastPending(item: ItemModel): void {
+    itemAutoCastPendingScripts(item.script).forEach((definition, index) => {
+      this._resolvedItemAutoCastPending.push({
+        key: `item-pending-${item.id}-${index}`,
+        itemId: item.id,
+        itemName: item.name,
+        skillName: definition.skillName,
+        skillId: definition.skillId,
+        reason: definition.reason,
+      });
+    });
+  }
+
   private calcItemStatus(params: { itemType: ItemTypeEnum; itemRefine: number; item: ItemModel; }) {
     const { item, itemRefine, itemType } = params;
     const total: Record<string, number> = {};
@@ -1208,39 +1307,22 @@ export class Calculator {
     };
 
     // console.log({ itemRefine, script });
-    for (const [attr, attrScripts] of Object.entries(item.script)) {
+    for (const [attr, bonusScripts] of itemBonusScriptEntries(item.script)) {
       if (MainItemTypeSet.has(itemType)) {
-        this.updateBaseEquipStat(attr, attrScripts[0]);
+        this.updateBaseEquipStat(attr, bonusScripts[0]);
       }
 
       // Pet eggs spell a bonus out once per tier; only the highest one the pet has
       // reached counts, so the rest are dropped before the sum. A no-op for every other
       // item, none of which carry a LOYALTY condition.
-      const applicable = selectLoyaltyLines(attrScripts, this.model.petLoyalty ?? DEFAULT_PET_LOYALTY);
+      const applicable = selectLoyaltyLines(bonusScripts, this.model.petLoyalty ?? DEFAULT_PET_LOYALTY);
 
       total[attr] = applicable.reduce((sum, lineScript) => {
         if (this.isAreadyCalcCombo({ item, attr, lineScript })) {
           return sum;
         }
 
-        const { isValid, restCondition } = this.validateCondition({ itemType, itemRefine, script: lineScript });
-        // console.log({ lineScript, restCondition, isValid });
-        if (!isValid) return sum;
-
-        if (restCondition.includes('===')) {
-          return sum + this.calcConstantBonus(itemRefine, restCondition);
-        }
-        if (restCondition.includes('---')) {
-          return sum + this.calcStepBonus(itemRefine, restCondition);
-        }
-
-        if (Number.isNaN(Number(restCondition))) {
-          console.log('cannot turn to number', { lineScript, restCondition });
-
-          return sum;
-        }
-
-        return sum + Number(restCondition);
+        return sum + this.calcScriptEntryValue({ itemType, itemRefine, lineScript });
       }, 0);
 
       if (attr.startsWith('chance__') && isNumber(total[attr]) && total[attr] !== 0) {
@@ -1323,7 +1405,10 @@ export class Calculator {
     this.propertyWindmind = undefined;
     this.propertyBuffEndow = undefined;
     this._chanceList = [];
+    this._resolvedItemAutoCasts = [];
+    this._resolvedItemAutoCastPending = [];
     this.equipCombo.clear();
+    const resolvedAutoCastItems = new Set<number>();
 
     // Bonuses add across pieces, except the two families that do not: `fctPercent`, and
     // `enable_skill__<id>`, whose value is the level an item GRANTS a skill at ("Habilita
@@ -1399,6 +1484,11 @@ export class Calculator {
         this.equipStatus[itemType].weight = itemData.weight;
       }
 
+      if (!resolvedAutoCastItems.has(itemData.id)) {
+        resolvedAutoCastItems.add(itemData.id);
+        this.resolveItemAutoCasts({ itemType, itemRefine: refine, item: itemData });
+        this.resolveItemAutoCastPending(itemData);
+      }
       const calculatedItem = this.calcItemStatus({ itemType, itemRefine: refine, item: itemData });
       for (const [attr, value] of Object.entries(calculatedItem)) {
         this.equipStatus[itemType][attr] = value;
@@ -1708,6 +1798,31 @@ export class Calculator {
       ...basicDmg,
       ...skillDmg,
     };
+  }
+
+  /**
+   * Solve one auto-cast with the build and target already prepared. Casting cadence is
+   * deliberately ignored by callers: this returns damage for one activation, using the
+   * same formula path as Batalha and the currently selected Efeitos.
+   */
+  solveAutoCast(skillValue: string, skillData?: AtkSkillModel): BasicDamageSummaryModel & SkillDamageSummaryModel {
+    this.calcAllAtk();
+
+    const calculator = this.dmgCalculator.setExtraBonus(this.getChanceBonus());
+    const { maxHp, maxSp } = this.hpSpCalculator
+      .setClass(this._class)
+      .setAllInfo(calculator.infoForClass)
+      .calculate()
+      .getTotalSummary();
+    const { basicDmg, skillDmg } = calculator.calculateAllDamages({
+      skillValue,
+      skillData,
+      propertyAtk: this.propertyBasicAtk,
+      maxHp,
+      maxSp,
+    });
+
+    return { ...basicDmg, ...skillDmg };
   }
 
   private getObjSummary(obj: EquipmentSummaryModel, isRemoveFields = false) {

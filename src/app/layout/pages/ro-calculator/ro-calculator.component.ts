@@ -81,6 +81,7 @@ import { buildComparisonFromImport } from 'src/app/core/import-comparison';
 import { normalizeSavedModel } from 'src/app/core/saved-model';
 import { parseShareInput } from 'src/app/core/share-link-input';
 import { SlotColorPickerService } from './slot-color-picker/slot-color-picker.service';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { ClassSwitchLoss, applyClassSwitch, findClassSwitchLosses, hasBuildToKeep, slotEquipFilter } from 'src/app/core/class-switch';
 import { canUsedByClass } from 'src/app/utils/can-used-by-class';
 import { SLOTS_BY_KEY } from 'src/app/app-config/equipment-slots';
@@ -111,6 +112,7 @@ import { encodeBuild, decodeShared } from 'src/app/core/share-codec';
 import { shareEntryHref } from 'src/app/core/share-entry';
 import { buildSharePath, readShareToken, SHARE_PATH_PREFIX } from 'src/app/core/share-path';
 import { buildCharSpriteUrl, bareJobSprite } from 'src/app/domain/char-sprite-url';
+import { AutoCastSimulation, buildAutoCastSimulation } from 'src/app/core/auto-cast';
 
 type ImportMode = 'replace' | 'compare';
 
@@ -137,6 +139,7 @@ const Characters = getClassDropdownList();
 
 interface ClassModel extends Partial<Record<ItemTypeEnum, number>> {
   rawOptionTxts: string[];
+  autoCastSelections?: MainModel['autoCastSelections'];
   weaponGrade?: any;
   leftWeaponGrade?: any;
   shieldGrade?: any;
@@ -371,11 +374,19 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   // and `relieveLevel` below seeds itself from it.
   private calcStorage = new CalcStorage(localStorage);
 
+  /** UI-only preference; it is deliberately separate from saved/shareable builds. */
+  rightAccordionActiveIndices = this.readRightAccordionActiveIndices();
+
 
   groupMonsterList: MonsterSelectItemGroup[] = [];
   monsterList: DropdownModel[] = [];
   selectedMonsterName = '';
   selectedMonster = Number(localStorage.getItem('monster')) || 21067;
+  readonly autoCastIssuesReportUrl = `${environment.issuesUrl}/novo?projeto=simulador`;
+
+  openAutoCastFormulaReport(): void {
+    this.layoutService.openHelpImprove();
+  }
   /**
    * Aliviar level for the current target (0 = off). Only the monsters that cast it offer
    * the picker; see constants/monster-relieve. Target state like `selectedMonster`, so it
@@ -408,6 +419,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   rotationViewPvp: RotationView | null = null;
   /** The compared build's PVP rotation, positionally aligned with rotationViewPvp. */
   rotationViewPvp2: RotationView | null = null;
+  autoCastSimulation: AutoCastSimulation | null = null;
+  autoCastSimulation2: AutoCastSimulation | null = null;
   /** The chain input prepare() last built, reused by the rotation pass. */
   private lastChainInput: CalcChainInput | null = null;
 
@@ -539,6 +552,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   isEnableCompare = false;
   /** Whether `model2` carries its own level, job level, stats and traits. */
   isCompareStats = false;
+  /** Whether Auto-conjuração itself keeps comparison mode active. */
+  isCompareAutoCast = false;
+  /** Viewport anchor captured before Auto-conjuração comparison changes the layout. */
+  private pendingAutoCastCompareScroll: { anchor: HTMLElement; top: number } | null = null;
   /** Which build the level band and the attribute grid are editing while stats are compared. */
   statsSide: 'main' | 'compare' = 'main';
   showCompareItemMap = {} as any;
@@ -590,6 +607,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     private readonly itemShop: ItemShopService,
     private readonly itemDescriptionStore: ItemDescriptionStore,
     private readonly slotColorPicker: SlotColorPickerService,
+    private readonly layoutService: LayoutService,
   ) { }
 
   ngOnInit() {
@@ -723,7 +741,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         debounceTime(250),
       )
       .subscribe(() => {
-        const model2 = { rawOptionTxts: this.model2?.rawOptionTxts || [] } as ClassModel;
+        const model2 = {
+          rawOptionTxts: this.model2?.rawOptionTxts || [],
+          autoCastSelections: { ...(this.model2?.autoCastSelections ?? {}) },
+        } as ClassModel;
 
         const equipItemIdItemTypeMap2 = new Map<ItemTypeEnum, number>();
 
@@ -827,6 +848,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
         this.equipRevision += 1;
         this.isCalculatingEvent.next(false);
+        this.restoreAutoCastCompareScroll();
       });
     this.allSubs.push(x);
 
@@ -1192,6 +1214,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     const calc = this.prepare(this.calculator);
 
     this.totalSummary = calc.getTotalSummary();
+    this.autoCastSimulation = buildAutoCastSimulation({
+      calc,
+      model: this.model,
+      summary: this.totalSummary,
+      hasSelectedEffects: this.selectedChances.length > 0,
+    });
+    this.pruneAutoCastSelections(this.autoCastSimulation);
     this.rotationView = this.lastChainInput ? this.solveRotation(calc, this.lastChainInput, this.totalSummary) : null;
     const modelSummary = calc.getModelSummary() as any;
     this.modelSummary = { ...modelSummary, rawOptionTxts: modelSummary.rawOptionTxts.filter(Boolean) };
@@ -1238,10 +1267,17 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   private calcCompare() {
-    if (this.compareItemNames?.length > 0 || this.isCompareStats) {
+    if (this.compareItemNames?.length > 0 || this.isCompareStats || this.isCompareAutoCast) {
       const m2 = JSON.parse(JSON.stringify(this.model2));
       const calc2 = this.prepare(this.calculator2, m2);
       this.totalSummary2 = calc2.getTotalSummary();
+      this.autoCastSimulation2 = buildAutoCastSimulation({
+        calc: calc2,
+        model: { ...this.model, ...m2 },
+        summary: this.totalSummary2,
+        hasSelectedEffects: this.selectedChances2.length > 0,
+      });
+      this.pruneAutoCastSelections(this.autoCastSimulation2, this.model2);
       this.rotationView2 = this.lastChainInput ? this.solveRotation(calc2, this.lastChainInput, this.totalSummary2) : null;
       this.compareItemSummaryModel = calc2.getItemSummary();
       // Mirror calculate()'s bonusBreakdownSources for the compared build, so a click on a
@@ -1273,6 +1309,20 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           console.error('Falha ao atualizar o PVP após a comparação', err);
         }
       }
+    }
+  }
+
+  onAutoCastSelectionChange(change: { key: string; skillId?: number; side: 'current' | 'compare' }): void {
+    const target = change.side === 'compare' ? this.model2 : this.model;
+    target.autoCastSelections = { ...(target.autoCastSelections ?? {}), [change.key]: change.skillId };
+    if (!change.skillId) delete target.autoCastSelections[change.key];
+    (change.side === 'compare' ? this.updateCompareEvent : this.updateItemEvent).next(1);
+  }
+
+  private pruneAutoCastSelections(simulation: AutoCastSimulation, target: Partial<MainModel> = this.model): void {
+    const slots = new Map(simulation.slots.map((slot) => [slot.key, new Set(slot.options.map((option) => option.value))]));
+    for (const [key, skillId] of Object.entries(target.autoCastSelections ?? {})) {
+      if (!slots.get(key as any)?.has(Number(skillId))) delete target.autoCastSelections[key];
     }
   }
 
@@ -1485,12 +1535,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    * named saves (restore-on-load).
    */
   private currentCompareState(): CompareState | null {
-    if (!this.compareItemNames?.length && !this.isCompareStats) return null;
+    if (!this.compareItemNames?.length && !this.isCompareStats && !this.isCompareAutoCast) return null;
     const state: CompareState = {
       itemNames: [...(this.compareItemNames ?? [])],
       model2: JSON.parse(JSON.stringify(this.model2 ?? { rawOptionTxts: [] })),
     };
     if (this.isCompareStats) state.stats = true;
+    if (this.isCompareAutoCast) state.autoCast = true;
     return state;
   }
 
@@ -1510,11 +1561,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.model2 = state ? ({ rawOptionTxts: [], ...state.model2 } as ClassModel) : { rawOptionTxts: [] };
     this.compareItemNames = names;
     this.isCompareStats = !!state?.stats;
+    this.isCompareAutoCast = !!state?.autoCast;
     // A share token drops zero-valued fields, so a stats comparison can arrive without
     // some of its keys; restore them as the explicit 0 they were.
     if (this.isCompareStats) copyStatsFields(this.model2, this.model2);
     else this.statsSide = 'main';
-    this.isEnableCompare = names.length > 0 || this.isCompareStats;
+    this.isEnableCompare = names.length > 0 || this.isCompareStats || this.isCompareAutoCast;
     this.updateAvailablePoints();
     this.equipRevision += 1;
     this.updateCompareEvent.next(1);
@@ -3171,6 +3223,34 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.onListItemComparingChange();
   }
 
+  toggleAutoCastCompare(scrollPosition?: { anchor: HTMLElement; top: number }): void {
+    this.pendingAutoCastCompareScroll = scrollPosition ?? null;
+    this.isCompareAutoCast = !this.isCompareAutoCast;
+    if (this.isCompareAutoCast && !Object.keys(this.model2.autoCastSelections ?? {}).length) {
+      this.model2.autoCastSelections = { ...(this.model.autoCastSelections ?? {}) };
+    }
+    this.isEnableCompare = this.compareItemNames.length > 0 || this.isCompareStats || this.isCompareAutoCast;
+    this.updateCompareEvent.next(1);
+    requestAnimationFrame(() => this.restoreAutoCastCompareScroll(false));
+  }
+
+  /**
+   * Keep the clicked control at the same viewport position both after Angular's immediate
+   * layout update and after the debounced comparison calculation finishes rendering.
+   */
+  private restoreAutoCastCompareScroll(clearPending = true): void {
+    const position = this.pendingAutoCastCompareScroll;
+    if (!position) return;
+    if (clearPending) this.pendingAutoCastCompareScroll = null;
+    requestAnimationFrame(() => {
+      const anchor = position.anchor.isConnected
+        ? position.anchor
+        : document.querySelector<HTMLElement>('.auto-source-compare-toggle');
+      if (!anchor) return;
+      window.scrollBy({ top: anchor.getBoundingClientRect().top - position.top, behavior: 'auto' });
+    });
+  }
+
   onStatsLevelChange() {
     if (this.isEditingCompareStats) this.onCompareStatsChange();
     else this.onBaseStatusChange();
@@ -3211,7 +3291,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     if (i != null) {
       const changed = this.activeSkills[i];
       const group = changed?.exclusiveGroup;
-      if (group) {
+      const allowsCoexistence = changed?.allowCoexistIn?.includes(this.selectedCharacter.className);
+      if (group && !allowsCoexistence) {
         const selected = changed.dropdown.find((d) => d.value === this.model.activeSkills[i]);
         if (selected?.isUse) {
           this.activeSkills.forEach((skill, j) => {
@@ -3240,6 +3321,32 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       }
     }
     this.updateItemEvent.next(1);
+  }
+
+  private readRightAccordionActiveIndices(): number[] {
+    try {
+      const parsed = JSON.parse(localStorage.getItem('ro-right-accordion-active') ?? '');
+      if (!Array.isArray(parsed)) return [3];
+      return [...new Set(parsed.filter((index): index is number => Number.isInteger(index) && index >= 0 && index <= 9))].sort((a, b) => a - b);
+    } catch {
+      return [3];
+    }
+  }
+
+  private persistRightAccordionActiveIndices(): void {
+    localStorage.setItem('ro-right-accordion-active', JSON.stringify(this.rightAccordionActiveIndices));
+  }
+
+  onRightAccordionOpen(event: { index: number }): void {
+    if (!this.rightAccordionActiveIndices.includes(event.index)) {
+      this.rightAccordionActiveIndices = [...this.rightAccordionActiveIndices, event.index].sort((a, b) => a - b);
+      this.persistRightAccordionActiveIndices();
+    }
+  }
+
+  onRightAccordionClose(event: { index: number }): void {
+    this.rightAccordionActiveIndices = this.rightAccordionActiveIndices.filter((index) => index !== event.index);
+    this.persistRightAccordionActiveIndices();
   }
 
   onMonsterChange() {
@@ -3861,10 +3968,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     if (isClear) {
       this.compareItemNames = [];
       this.isCompareStats = false;
+      this.isCompareAutoCast = false;
       this.statsSide = 'main';
     }
 
-    this.isEnableCompare = this.compareItemNames.length > 0 || this.isCompareStats;
+    this.isEnableCompare = this.compareItemNames.length > 0 || this.isCompareStats || this.isCompareAutoCast;
 
     this.updateCompareEvent.next(1);
   }

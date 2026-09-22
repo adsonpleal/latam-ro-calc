@@ -5,6 +5,37 @@ import { AdditionalBonusInput } from '../models/info-for-class.model';
 import { Ranger } from './Ranger';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
+import { ClassAutoCastDefinition } from '../models/auto-cast.model';
+
+const WINDHAWK_AUTO_CASTS: ClassAutoCastDefinition[] = [{
+  key: 'hawk-rush',
+  order: 30,
+  resolve: ({ skillState, skillById, summary, status }) => {
+    const skill = skillById(5326);
+    if (!skill) return {};
+    const level = skillState.learnedLevel('Hawk Rush');
+    const reasons = [
+      ...(!level ? ['Aprenda Mergulho Aéreo'] : []),
+      ...(!skillState.isActive('Falconry Mastery') ? ['Ative Adestrar Ave'] : []),
+      ...(summary?.weapon?.typeName !== 'bow' ? ['Requer Arco'] : []),
+    ];
+    if (reasons.length) return { blocked: [{ key: 'passive-hawk-rush', name: 'Mergulho Aéreo', icon: 5326, reason: reasons.join(' · ') }] };
+
+    const con = status.totalCon;
+    const natureFriendly = skillState.learnedLevel('Nature Friendly');
+    const chance = Math.floor(con / 3 + (con / 5) * (natureFriendly / 5));
+    return { sources: [{
+      key: 'passive-hawk-rush', kind: 'passive', skillId: 5326, skillLevel: level,
+      chance, trigger: 'ranged-physical-hit', sourceName: 'Passiva de classe', skillData: skill,
+      chanceBreakdown: [
+        { label: 'CON total', value: String(con) },
+        { label: 'Chance de Mergulho Aéreo', value: `CON ÷ 3 = ${(con / 3).toFixed(2).replace('.', ',')}%` },
+        { label: `Amigo da Natureza Nv. ${natureFriendly}`, value: `CON ÷ 5 × ${natureFriendly}/5 = ${((con / 5) * (natureFriendly / 5)).toFixed(2).replace('.', ',')}%` },
+        { label: 'Chance final', value: `${chance}%` },
+      ],
+    }] };
+  },
+}];
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 0, 1, 0],
@@ -245,6 +276,15 @@ export class Windhawk extends Ranger {
   ];
   private readonly passiveSkillList4th: PassiveSkillModel[] = [
     {
+      name: 'Hawk Rush',
+      label: 'Hawk Rush',
+      inputType: 'dropdown',
+      dropdown: [
+        { label: '-', value: 0, isUse: false },
+        ...Array.from({ length: 5 }, (_, i) => ({ label: `Nv ${i + 1}`, value: i + 1, skillLv: i + 1, isUse: true })),
+      ],
+    },
+    {
       name: 'Nature Friendly',
       label: 'Nature Friendly',
       inputType: 'dropdown',
@@ -268,6 +308,7 @@ export class Windhawk extends Ranger {
       passiveSkillList: this.passiveSkillList4th,
       classNames: this.classNames4th,
     });
+    this.inheritAutoCasts(WINDHAWK_AUTO_CASTS);
   }
 
   override setAdditionalBonus(params: AdditionalBonusInput): EquipmentSummaryModel {

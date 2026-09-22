@@ -1,6 +1,7 @@
 import { MainModel } from 'src/app/models/main.model';
 import { MonsterModel } from 'src/app/models/monster.model';
 import { ChanceModel } from 'src/app/models/chance-model';
+import { itemBonusScriptEntries } from 'src/app/models/item.model';
 import { Calculator } from './calculator';
 import { PlayerTargetProfile, PvpMode } from './pvp';
 
@@ -59,7 +60,7 @@ export function collectConsumables(
     const script = items[id]?.script;
     if (!script || typeof script !== 'object') continue;
     const bonus: Record<string, number> = {};
-    for (const [attr, value] of Object.entries(script)) {
+    for (const [attr, value] of itemBonusScriptEntries(script)) {
       const num = Number(value); // script values are single-entry arrays, e.g. ["7"]
       if (Number.isFinite(num) && num !== 0) bonus[attr] = num;
     }

@@ -2,6 +2,36 @@ import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { BeastBaneFn } from '../constants/share-passive-skills';
 import { Archer } from './Archer';
+import { BLITZ_BEAT } from '../skills/shared-skills';
+import { ClassAutoCastDefinition } from '../models/auto-cast.model';
+
+const SNIPER_AUTO_CASTS: ClassAutoCastDefinition[] = [{
+  key: 'blitz-beat',
+  order: 10,
+  resolve: ({ skillState, skillById, summary, status, model }) => {
+    const skill = skillById(129);
+    if (!skill) return {};
+    const level = skillState.learnedLevel('Blitz Beat');
+    const reasons = [
+      ...(!level ? ['Aprenda Ataque Aéreo'] : []),
+      ...(!skillState.isActive('Falconry Mastery') ? ['Ative Adestrar Ave'] : []),
+      ...(summary?.weapon?.rangeType !== 'range' ? ['Requer ataque básico à distância'] : []),
+    ];
+    if (reasons.length) return { blocked: [{ key: 'passive-blitz-beat', name: 'Ataque Aéreo', icon: 129, reason: reasons.join(' · ') }] };
+
+    const chance = Math.floor(status.totalLuk / 3);
+    const automaticFlights = Math.min(5, Math.max(1, Math.ceil((model.jobLevel || 1) / 10)));
+    return { sources: [{
+      key: 'passive-blitz-beat', kind: 'passive', skillId: 129, skillLevel: level,
+      chance, trigger: 'ranged-physical-hit', sourceName: 'Passiva de classe',
+      skillData: { ...skill, totalHit: automaticFlights },
+      chanceBreakdown: [
+        { label: 'SOR total', value: String(status.totalLuk) },
+        { label: 'Fórmula', value: `⌊SOR ÷ 3⌋ = ${chance}%` },
+      ],
+    }] };
+  },
+}];
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 0, 1, 0],
@@ -83,6 +113,7 @@ export class Sniper extends Archer {
 
   private readonly classNamesHi = [ClassName.Hunter, ClassName.HiClass, ClassName.Sniper];
   private readonly atkSkillListHi: AtkSkillModel[] = [
+    BLITZ_BEAT,
     {
       name: 'Focused Arrow Strike',
       label: 'Focused Arrow Lv5',
@@ -104,6 +135,17 @@ export class Sniper extends Archer {
     },
   ];
   private readonly activeSkillListHi: ActiveSkillModel[] = [
+    {
+      label: 'Falconry Mastery',
+      name: 'Falconry Mastery',
+      inputType: 'selectButton',
+      exclusiveGroup: 'ranger_companion',
+      allowCoexistIn: [ClassName.Windhawk],
+      dropdown: [
+        { label: 'Sim', value: 1, skillLv: 1, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
+      ],
+    },
     {
       isEquipAtk: true,
       inputType: 'selectButton',
@@ -147,6 +189,15 @@ export class Sniper extends Archer {
       ],
     },
     {
+      label: 'Blitz Beat',
+      name: 'Blitz Beat',
+      inputType: 'dropdown',
+      dropdown: [
+        { label: '-', value: 0, isUse: false },
+        ...Array.from({ length: 5 }, (_, i) => ({ label: `Nv ${i + 1}`, value: i + 1, skillLv: i + 1, isUse: true })),
+      ],
+    },
+    {
       inputType: 'dropdown',
       label: 'Falcon Eyes',
       name: 'Falcon Eyes',
@@ -166,5 +217,6 @@ export class Sniper extends Archer {
       passiveSkillList: this.passiveSkillListHi,
       classNames: this.classNamesHi,
     });
+    this.inheritAutoCasts(SNIPER_AUTO_CASTS);
   }
 }

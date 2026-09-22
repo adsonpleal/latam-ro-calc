@@ -25,6 +25,8 @@ export interface PresetModel {
    *  rotations existed, and dropped from share tokens when it is just
    *  `[selectedAtkSkill]` — `normalizeRotation` rebuilds it either way. */
   rotation?: string[];
+  /** Configurable choices in the Auto-conjuração panel, keyed by slot. */
+  autoCastSelections?: { autoSpell?: number; plagiarism?: number; reproduce?: number };
   rawOptionTxts: any[];
   /** Per-slot highlight colours (src/app/core/slot-colors.ts). Absent on presets
    *  saved before the feature, and dropped from a share token when nothing is marked. */

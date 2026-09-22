@@ -75,6 +75,15 @@ describe('encodeBuild / decodeShared', () => {
     expect(decodeShared(encodeBuild(preset, both))?.compare).toEqual(both);
   });
 
+  it('round-trips an Auto-conjuração-only comparison with independent copied skills', () => {
+    const autoCastOnly = {
+      itemNames: [],
+      model2: { autoCastSelections: { plagiarism: 83, reproduce: 2213 } },
+      autoCast: true,
+    };
+    expect(decodeShared(encodeBuild(preset, autoCastOnly))?.compare).toEqual(autoCastOnly);
+  });
+
   it('reads a comparison written before stats could be compared as gear-only', () => {
     const token = compressToEncodedURIComponent(JSON.stringify({ ...preset, __cmp: { i: ['weapon'], m: { weapon: 1 } } })).replace(/\+/g, '.');
     expect(decodeShared(token)?.compare).toEqual({ itemNames: ['weapon'], model2: { weapon: 1 } });

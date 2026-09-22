@@ -1,0 +1,10 @@
+:host { display: contents; }
+
+::ng-deep .shared-skill-details.p-overlaypanel {
+  width: min(42rem, calc(100vw - 16px));
+}
+
+::ng-deep .shared-skill-details.p-overlaypanel:before,
+::ng-deep .shared-skill-details.p-overlaypanel:after {
+  left: var(--overlayArrowLeft, 1.25rem);
+}

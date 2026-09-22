@@ -364,7 +364,7 @@ function scriptOf(id) {
 /** What a registered card's record does NOT carry, of everything its own text yields. */
 function shortfallOf(id) {
   const actual = items[id].script || {};
-  return Object.entries(scriptOf(id)).flatMap(([key, values]) => {
+  return Object.entries(scriptOf(id)).filter(([key]) => key !== 'autoCast').flatMap(([key, values]) => {
     const carried = actual[key] || [];
     const missing = values.filter((value) => !carried.includes(value));
     return missing.length ? [`${key} should carry ${missing.join(', ')}, record has [${carried.join(', ')}]`] : [];
@@ -534,6 +534,7 @@ function pendingSetEntries() {
     const actual = items[id].script || {};
     const additions = {};
     for (const [key, values] of Object.entries(scriptOf(id))) {
+      if (key === 'autoCast') continue;
       const held = actual[key] || [];
       const missing = values.filter((value) => value.includes('EQUIP_ID[') && !held.some((there) => sameEntry(there, value)));
       if (!missing.length) continue;

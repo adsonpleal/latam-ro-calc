@@ -470,9 +470,11 @@
 
 .rot-info {
   font-size: 14px;
+  line-height: 1;
   color: var(--primary-color);
   cursor: pointer;
   flex-shrink: 0;
+  transform: translateY(-1px);
 }
 
 .rot-remove {

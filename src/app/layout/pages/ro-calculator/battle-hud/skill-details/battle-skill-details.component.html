@@ -1,0 +1,115 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+<p-overlayPanel #detailsPanel styleClass="rot-details-panel shared-skill-details">
+  <div class="ptitle">{{ entry?.isBasic ? 'Ataque básico' : 'Detalhes da habilidade' }}</div>
+
+  <div class="pd-head" *ngIf="entry as e">
+    <img class="pd-icon" [src]="e.isBasic ? basicAttackIcon : (e.icon | iconUrl: 'skill')" alt="" missingIcon />
+    <span class="pd-name">{{ e.name }}<span *ngIf="e.levelLabel"> {{ e.levelLabel }}</span></span>
+    <ng-container *ngIf="!e.isBasic">
+      <span class="pd-sep">·</span><span>{{ e.dmgTypeLabel }}</span>
+      <ng-container *ngIf="e.element"><span class="pd-sep">·</span><p-tag class="el-tag-clickable" icon="pi pi-search" [value]="e.element | monsterTerm: 'element'" [styleClass]="elementTagClass(e.element)" pTooltip="Ver tabela elemental" tooltipPosition="top" (click)="elementTableClick.emit()"></p-tag></ng-container>
+      <span *ngIf="e.propertyMultiplier != null">×{{ e.propertyMultiplier | number: '1.2-2' }}</span>
+    </ng-container>
+  </div>
+
+  <ng-container *ngIf="description as desc">
+    <div class="pd-desc-toggle" role="button" tabindex="0" keyActivate [attr.aria-expanded]="descriptionExpanded" (click)="descriptionExpanded = !descriptionExpanded">
+      <i class="pi" [ngClass]="descriptionExpanded ? 'pi-chevron-down' : 'pi-chevron-right'"></i><span>Descrição da habilidade</span>
+    </div>
+    <div class="pd-desc" *ngIf="descriptionExpanded" [innerHTML]="desc"></div>
+  </ng-container>
+
+  <ng-container *ngIf="entry?.isBasic; else skillDetails">
+    <div class="psec">Dano</div>
+    <div class="pstats one tight">
+      <div class="kv"><span>Básico</span><span class="v bonus_clickable" role="button" tabindex="0" keyActivate (click)="openDamage('flat', $event)">{{ dmg?.basicMinDamage | number }} – {{ dmg?.basicMaxDamage | number }}<ng-container *ngIf="isComparing"><span class="arr">→</span><span class="sim">{{ dmg2?.basicMinDamage | number }} – {{ dmg2?.basicMaxDamage | number }}</span></ng-container></span></div>
+      <div class="kv"><span>Prec.</span><span>{{ dmg?.accuracy | number: '1.0-1' }}%<ng-container *ngIf="isComparing"><span class="arr">→</span><span class="sim">{{ dmg2?.accuracy | number: '1.0-1' }}%</span></ng-container></span></div>
+      <div class="kv"><span>Tx. Crít.</span><span class="v bonus_clickable" role="button" tabindex="0" keyActivate (click)="openCrit($event)">{{ dmg?.criRateToMonster | number: '1.0-1' }}%<ng-container *ngIf="isComparing"><span class="arr">→</span><span class="sim">{{ dmg2?.criRateToMonster | number: '1.0-1' }}%</span></ng-container></span></div>
+      <div class="kv"><span>Dano Crít.</span><span>{{ dmg?.criMinDamage | number }} – {{ dmg?.criMaxDamage | number }}<ng-container *ngIf="isComparing"><span class="arr">→</span><span class="sim">{{ dmg2?.criMinDamage | number }} – {{ dmg2?.criMaxDamage | number }}</span></ng-container></span></div>
+      <div class="kv total"><span>DPS</span><span class="teal">{{ dmg?.basicDps | number: '1.0-0' }}<ng-container *ngIf="isComparing"><span class="arr">→</span><span class="sim">{{ dmg2?.basicDps | number: '1.0-0' }}</span></ng-container></span></div>
+    </div>
+  </ng-container>
+
+  <ng-template #skillDetails>
+    <div class="cap2 pd-cap">DANO</div>
+    <div class="pd-dmg">
+      <span class="pd-dmg-val" role="button" tabindex="0" keyActivate (click)="openDamage(skillIsCritWeighted ? 'cri' : 'flat', $event)">{{ skillDamageMin | number: '1.0-0' }}<span *ngIf="skillDamageMax !== skillDamageMin"> – {{ skillDamageMax | number: '1.0-0' }}</span></span>
+    </div>
+    <div class="pd-dmg-cap" *ngIf="skillIsCritWeighted">com crítico</div>
+    <div class="pstats one tight">
+      <div class="kv" *ngIf="dmg?.skillCanCri"><span>Dano sem crít.</span><span class="v bonus_clickable" role="button" tabindex="0" keyActivate (click)="openDamage('nocri', $event)">{{ dmg?.skillMinDamageNoCri | number: '1.0-0' }}<ng-container *ngIf="dmg?.skillMaxDamageNoCri !== dmg?.skillMinDamageNoCri"> – {{ dmg?.skillMaxDamageNoCri | number: '1.0-0' }}</ng-container></span></div>
+      <div class="kv" *ngIf="dmg?.skillCanCri"><span>Tx. Crít.</span><span class="v bonus_clickable" role="button" tabindex="0" keyActivate (click)="openCrit($event)">{{ dmg?.skillCriRateToMonster | number: '1.0-1' }}%</span></div>
+      <div class="kv" *ngIf="dmg?.skillCanCri"><span>Dano Crít.</span><span>{{ dmg?.skillCriDmgToMonster | number: '1.0-1' }}%</span></div>
+    </div>
+
+    <div class="cap2 pd-cap">HABILIDADE</div>
+    <table class="ptable">
+      <thead *ngIf="isComparing"><tr><td class="corner"></td><th>Atual</th><th class="sim">Simulado</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Hab. Base</th><td>{{ calcSkill?.baseSkillDamage | number }}%</td><td class="sim" *ngIf="isComparing">{{ summary2?.calcSkill?.baseSkillDamage | number }}%</td></tr>
+        <tr><th scope="row">Bônus Hab.</th><td>{{ dmg?.skillBonusFromEquipment | number }}%</td><td class="sim" *ngIf="isComparing">{{ dmg2?.skillBonusFromEquipment | number }}%</td></tr>
+        <tr><th scope="row">{{ dmg?.skillTotalPeneLabel || 'Pen.' }}</th><td>{{ dmg?.skillTotalPene | number }}%</td><td class="sim" *ngIf="isComparing">{{ dmg2?.skillTotalPene | number }}%</td></tr>
+        <tr><th scope="row">{{ dmg?.skillTotalPeneResLabel || 'Pen. Res.' }}</th><td>{{ dmg?.skillTotalPeneRes | number }}%</td><td class="sim" *ngIf="isComparing">{{ dmg2?.skillTotalPeneRes | number }}%</td></tr>
+        <tr><th scope="row">Vel.Atq</th><td>{{ summary?.calc?.hitPerSecs | number }} Hits/s</td><td class="sim" *ngIf="isComparing">{{ summary2?.calc?.hitPerSecs | number }} Hits/s</td></tr>
+        <tr *ngIf="calcSkill?.dmgType !== 'Magical'"><th scope="row">Penal. Tam.</th><td>{{ dmg?.skillSizePenalty | number }}%</td><td class="sim" *ngIf="isComparing">{{ dmg2?.skillSizePenalty | number }}%</td></tr>
+        <tr *ngIf="calcSkill?.dmgType !== 'Magical'"><th scope="row">Prec.</th><td>{{ dmg?.skillAccuracy | number }}%</td><td class="sim" *ngIf="isComparing">{{ dmg2?.skillAccuracy | number }}%</td></tr>
+      </tbody>
+    </table>
+
+    <ng-container *ngIf="calcSkill">
+      <div class="psec">Conjuração/Espera</div>
+      <table class="ptable cast">
+        <thead><tr><th>Nv.</th><th>Fixa</th><th>Variável</th><th>Pós</th><th>Recarga</th></tr></thead>
+        <tbody><tr><th>{{ calcSkill?.skillLevel }}</th><td>{{ calcSkill?.reducedFct | number: '1.0-3' }}s</td><td>{{ calcSkill?.reducedVct | number: '1.0-3' }}s</td><td>{{ calcSkill?.reducedAcd | number: '1.0-3' }}s</td><td>{{ calcSkill?.reducedCd | number: '1.0-3' }}s</td></tr></tbody>
+      </table>
+
+      <div class="psec">Conjuração/Espera - Base</div>
+      <table class="ptable cast">
+        <thead><tr><th>Nv.</th><th>Fixa</th><th>Variável</th><th>Pós</th><th>Recarga</th></tr></thead>
+        <tbody><tr class="base"><th>{{ calcSkill?.skillLevel }}</th><td>{{ calcSkill?.clientFct | number: '1.0-3' }}s</td><td>{{ calcSkill?.clientVct | number: '1.0-3' }}s</td><td>{{ calcSkill?.clientAcd | number: '1.0-3' }}s</td><td>{{ calcSkill?.clientCd | number: '1.0-3' }}s</td></tr></tbody>
+      </table>
+    </ng-container>
+  </ng-template>
+
+  <ng-container *ngIf="autoCast as a">
+    <div class="cap2 pd-cap">AUTO-CONJURAÇÃO</div>
+    <table class="ptable">
+      <thead *ngIf="autoCast2"><tr><td class="corner"></td><th>Atual</th><th class="sim">Comparação</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Fonte</th><td>{{ a.sourceName }}</td><td class="sim" *ngIf="autoCast2">{{ autoCast2.sourceName }}</td></tr>
+        <tr><th scope="row">Gatilho</th><td>{{ a.triggerLabel }}</td><td class="sim" *ngIf="autoCast2">{{ autoCast2.triggerLabel }}</td></tr>
+        <tr><th scope="row">Chance</th><td>{{ a.chance | number: '1.1-1' }}%</td><td class="sim" *ngIf="autoCast2">{{ autoCast2.chance | number: '1.1-1' }}%</td></tr>
+        <tr><th scope="row">Ativações/s</th><td>{{ a.activationsPerSecond | number: '1.2-2' }}</td><td class="sim" *ngIf="autoCast2">{{ autoCast2.activationsPerSecond | number: '1.2-2' }}</td></tr>
+        <tr><th scope="row">Dano esperado/ativação</th><td>{{ a.expectedDamagePerActivation | number: '1.0-0' }}</td><td class="sim" *ngIf="autoCast2">{{ autoCast2.expectedDamagePerActivation | number: '1.0-0' }}</td></tr>
+        <tr><th scope="row">DPS</th><td>{{ a.dps | number: '1.0-0' }}</td><td class="sim" *ngIf="autoCast2">{{ autoCast2.dps | number: '1.0-0' }}</td></tr>
+        <tr><th scope="row">Contribuição</th><td>{{ a.contribution | number: '1.1-1' }}%</td><td class="sim" *ngIf="autoCast2">{{ autoCast2.contribution | number: '1.1-1' }}%</td></tr>
+      </tbody>
+    </table>
+  </ng-container>
+
+  <ng-container *ngIf="optimizeInfo as info">
+    <div class="cap2 pd-cap">O QUE DÁ PARA MELHORAR</div>
+    <div class="optimize-bottleneck" [class.is-optimized]="info.isOptimized">{{ info.headline }}</div>
+    <div class="optimize-component" *ngFor="let c of info.components" [class.is-bottleneck]="!info.isOptimized && c.key === info.bottleneck">
+      <b>{{ c.label }}<span *ngIf="!c.hideSeconds"> {{ c.seconds | number: '1.0-3' }}s</span></b> —
+      <span *ngIf="c.doneText; else optimizeHint" class="optimize-done">{{ c.doneText }}</span><ng-template #optimizeHint>{{ c.hint }}</ng-template>
+    </div>
+    <div class="optimize-whatif" *ngIf="info.whatIf as w">Zerando a pós-conjuração: DPS iria a <b>{{ w.newDps | number: '1.0-0' }}</b> ({{ w.gainPercent >= 0 ? '+' : '' }}{{ w.gainPercent | number: '1.0-1' }}%)</div>
+  </ng-container>
+</p-overlayPanel>
+
+<p-overlayPanel #critRatePanel>
+  <div class="ptitle">Como a Tx. Crítico é calculada</div>
+  <div class="graph-hint" style="max-width: 330px">O CRIT do personagem vem do SOR e dos equipamentos; a habilidade pode somar um valor fixo e aplicar só uma parte dele; e o alvo desconta o próprio escudo de crítico.</div>
+  <ng-container *ngIf="critRate as c">
+    <div class="pstats one tight">
+      <div class="kv" *ngFor="let row of critRateRows; trackBy: trackByCritStep" [class.total]="row.step.kind === 'total'" [class.crit-sub]="row.step.kind === 'subtotal'">
+        <span><span class="crit-op" *ngIf="row.step.kind === 'add'">+</span><span class="crit-op" *ngIf="row.step.kind === 'subtract'">−</span><span class="crit-op" *ngIf="row.step.kind === 'multiply'">×</span><span class="crit-op" *ngIf="row.step.kind === 'subtotal' || row.step.kind === 'total'">=</span> {{ row.step.label }}<span class="crit-detail" *ngIf="row.step.detail">{{ row.step.detail }}</span></span>
+        <span class="v" [class.bonus_clickable]="row.step.keys?.length" (click)="openCritBreakdown(row.step)">{{ critStepText(row.step, row.step.value) }}</span>
+      </div>
+    </div>
+    <div class="mut-note" *ngIf="c.isCapped">⚠ A taxa passa de 100%: todo uso já acerta crítico, e o excedente ({{ c.total - 100 | number: '1.0-0' }}) não rende nada.</div>
+  </ng-container>
+</p-overlayPanel>
+
+<app-battle-damage-popovers #damagePopovers (breakdownClick)="breakdownClick.emit($event)"></app-battle-damage-popovers>

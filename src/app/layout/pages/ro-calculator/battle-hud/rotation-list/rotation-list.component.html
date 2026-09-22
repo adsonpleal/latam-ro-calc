@@ -195,6 +195,7 @@
               keyActivate
               pTooltip="Ver como o dano é calculado"
               tooltipPosition="top"
+              tooltipStyleClass="auto_cast_tip"
               (click)="damageClick.emit({ index: i, event: $event, branch: range.kind })"
               >{{ range.min | number: '1.0-0' }}<ng-container *ngIf="range.max !== range.min">
                 – {{ range.max | number: '1.0-0' }}</ng-container
