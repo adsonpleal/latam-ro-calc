@@ -52925,7 +52925,8 @@
     "name": "M. Elemental Master Shadow Armor",
     "unidName": "Shadow Armor",
     "resName": "BK_Armor_Shadow",
-    "description": "เกราะที่สามารถสวมทับเกราะชิ้นอื่นเพื่อรับพลังป้องกันเพิ่มได้ สามารถใช้งานเดี่ยว ๆ ได้ แต่ผลลัพธ์จะน้อย\nมีเพียง Elemental Master Classes เท่านั้นที่สามารถสวมใส่ได้\n \nเมื่อสวมใส่ร่วมกับ Master Shadow Shield, \nAll Trait Status +2\nเมื่อสวมใส่ร่วมกับ Master Shadow Shield, Elemental Master Shadow (Armor/Shoes),\nP.ATK + 1, S.MATK + 1,\nเมื่อค่าอัพเกรดรวมกันตั้งแต่ 27 ขึ้นไป, เพิกเฉยต่อพลังป้องกันทางกายภาพ/เวทมนตร์ของศัตรูทุกเผ่า (ยกเว้น Player) 50%\n \nเมื่อสวมใส่ร่วมกับ Master Shadow (Weapon/Shield), Elemental Master Shadow (Armor/Shoes/Earring/Pendant),\nเพิกเฉยต่อพลังต้านทานทางกายภาพ/เวทมนตร์ของศัตรูทุกเผ่า (ยกเว้น Player) 20%\n \nประเภท : ^777777Shadow Equipment^000000\nตำแหน่ง : ^777777Armor^000000 น้ำหนัก : ^7777770^000000\nเลเวลที่ต้องการ : ^777777200^000000\nอาชีพที่ใส่ได้ : ^777777Elemental Master^000000",
+    "description": "Set Bonus:\nM. Elemental Master Shadow Armor\nMaster Shadow Shield\n\nAll Talent Status + 2.\n------------------------\nSet Bonus:\nM. Elemental Master Shadow Armor\nM. Elemental Master Shadow Shoes\nMaster Shadow Shield\n\nP.ATK + 1, S.MATK + 1.\n\nWhen the total refine level of set is 27 or higher,\nignore physical and magical defense of all race monsters (except Player) by 50%.\n------------------------\nSet Bonus:\nM. Elemental Master Shadow Armor\nM. Elemental Master Shadow Shoes\nM. Elemental Master Shadow Earring\nM. Elemental Master Shadow Pendant\nMaster Shadow Shield\nMaster Shadow Weapon\n\nIgnore physical and magical resistance of all race monsters (except Player) by 20%.\n------------------------\nType: Shadow Equipment\nLocation: Armor\nWeight: 0\nRequired Level: 200\nClass: Elemental Master",
+    "preRelease": true,
     "slots": 0,
     "itemTypeId": 10,
     "itemSubTypeId": 526,
@@ -52941,25 +52942,25 @@
     ],
     "script": {
       "allTrait": [
-        "EQUIP[Master Shadow Shield]===2"
+        "EQUIP_ID[24793]===2"
       ],
       "pAtk": [
-        "EQUIP[Master Shadow Shield&&M. Elemental Master Shadow Shoes]===1"
+        "EQUIP_ID[24845&&24793]===1"
       ],
       "sMatk": [
-        "EQUIP[Master Shadow Shield&&M. Elemental Master Shadow Shoes]===1"
+        "EQUIP_ID[24845&&24793]===1"
       ],
       "p_pene_race_all": [
-        "EQUIP[Master Shadow Shield&&M. Elemental Master Shadow Shoes]REFINE[shadowShield,shadowArmor,shadowBoot==27]===50"
+        "EQUIP_ID[24845&&24793]REFINE[shadowArmor,shadowBoot,shadowShield==27]===50"
       ],
       "m_pene_race_all": [
-        "EQUIP[Master Shadow Shield&&M. Elemental Master Shadow Shoes]REFINE[shadowShield,shadowArmor,shadowBoot==27]===50"
+        "EQUIP_ID[24845&&24793]REFINE[shadowArmor,shadowBoot,shadowShield==27]===50"
       ],
       "pene_res": [
-        "EQUIP[Master Shadow Weapon&&Master Shadow Shield&&M. Elemental Master Shadow Shoes&&M. Elemental Master Shadow Earring&&M. Elemental Master Shadow Pendant]===20"
+        "EQUIP_ID[24845&&24846&&24847&&24793&&24792]===20"
       ],
       "pene_mres": [
-        "EQUIP[Master Shadow Weapon&&Master Shadow Shield&&M. Elemental Master Shadow Shoes&&M. Elemental Master Shadow Earring&&M. Elemental Master Shadow Pendant]===20"
+        "EQUIP_ID[24845&&24846&&24847&&24793&&24792]===20"
       ]
     }
   },
@@ -52969,7 +52970,8 @@
     "name": "M. Elemental Master Shadow Shoes",
     "unidName": "Shadow Shoes",
     "resName": "BK_Shoes_Shadow",
-    "description": "รองเท้าที่สามารถสวมทับกับรองเท้าคู่อื่นได้ สามารถใช้งานเดี่ยว ๆ ได้ แต่ผลลัพธ์จะน้อย\nมีเพียง Elemental Master Classes เท่านั้นที่สามารถสวมใส่ได้\n \nเมื่อสวมใส่ร่วมกับ Master Shadow Shield, \nAll Trait Status +2\n \nประเภท : ^777777Shadow Equipment^000000\nตำแหน่ง : ^777777Shoes^000000 น้ำหนัก : ^7777770^000000\nเลเวลที่ต้องการ : ^777777200^000000\nอาชีพที่ใส่ได้ : ^777777Elemental Master^000000",
+    "description": "Set Bonus:\nM. Elemental Master Shadow Shoes\nMaster Shadow Shield\n\nAll Talent Status + 2.\n------------------------\nType: Shadow Equipment\nLocation: Shoes\nWeight: 0\nRequired Level: 200\nClass: Elemental Master",
+    "preRelease": true,
     "slots": 0,
     "itemTypeId": 10,
     "itemSubTypeId": 528,
@@ -52985,7 +52987,7 @@
     ],
     "script": {
       "allTrait": [
-        "EQUIP[Master Shadow Shield]===2"
+        "EQUIP_ID[24793]===2"
       ]
     }
   },
@@ -52995,7 +52997,8 @@
     "name": "M. Elemental Master Shadow Earring",
     "unidName": "Shadow Earring",
     "resName": "BK_Earring_Shadow",
-    "description": "ต่างหูศักดิ์สิทธิ์ที่เล่าขานกันว่าสามารถปกป้องผู้สวมใส่ได้ ช่วยดึงพลังที่หลับใหลอยู่ของผู้สวมใส่ออกมา\nมีเพียง Elemental Master Classes เท่านั้นที่สามารถสวมใส่ได้\n \nเมื่อสวมใส่ร่วมกับ Master Shadow Weapon, \nAll Trait Status +2\nเมื่อสวมใส่ร่วมกับ Master Shador Weapon, Elemental Master Shadow (Earring/Pendant),\nP.ATK + 1, S.MATK + 1,\nเมื่อค่าอัพเกรดรวมกันตั้งแต่ 27 ขึ้นไป, เพิกเฉยต่อพลังป้องกันทางกายภาพ/เวทมนตร์ของศัตรูทุกเผ่า (ยกเว้น Player) 50%\n \nประเภท : ^777777Shadow Equipment^000000\nตำแหน่ง : ^777777Earring^000000 น้ำหนัก : ^7777770^000000\nเลเวลที่ต้องการ : ^777777200^000000\nอาชีพที่ใส่ได้ : ^777777Elemental Master^000000",
+    "description": "Set Bonus:\nM. Elemental Master Shadow Earring\nMaster Shadow Weapon\n\nAll Talent Status + 2.\n------------------------\nSet Bonus:\nM. Elemental Master Shadow Earring\nM. Elemental Master Shadow Pendant\nMaster Shadow Weapon\n\nP.ATK + 1, S.MATK + 1.\n\nWhen the total refine level of set is 27 or higher,\nignore physical and magical defense of all race monsters (except Player) by 50%.\n------------------------\nType: Shadow Equipment\nLocation: Earring\nWeight: 0\nRequired Level: 200\nClass: Elemental Master",
+    "preRelease": true,
     "slots": 0,
     "itemTypeId": 10,
     "itemSubTypeId": 529,
@@ -53011,19 +53014,19 @@
     ],
     "script": {
       "allTrait": [
-        "EQUIP[Master Shadow Weapon]===2"
+        "EQUIP_ID[24792]===2"
       ],
       "pAtk": [
-        "EQUIP[Master Shadow Weapon&&M. Elemental Master Shadow Pendant]===1"
+        "EQUIP_ID[24847&&24792]===1"
       ],
       "sMatk": [
-        "EQUIP[Master Shadow Weapon&&M. Elemental Master Shadow Pendant]===1"
+        "EQUIP_ID[24847&&24792]===1"
       ],
       "p_pene_race_all": [
-        "EQUIP[Master Shadow Weapon&&M. Elemental Master Shadow Pendant]REFINE[shadowWeapon,shadowEarring,shadowPendant==27]===50"
+        "EQUIP_ID[24847&&24792]REFINE[shadowEarring,shadowPendant,shadowWeapon==27]===50"
       ],
       "m_pene_race_all": [
-        "EQUIP[Master Shadow Weapon&&M. Elemental Master Shadow Pendant]REFINE[shadowWeapon,shadowEarring,shadowPendant==27]===50"
+        "EQUIP_ID[24847&&24792]REFINE[shadowEarring,shadowPendant,shadowWeapon==27]===50"
       ]
     }
   },
@@ -53033,7 +53036,8 @@
     "name": "M. Elemental Master Shadow Pendant",
     "unidName": "Shadow Pendant",
     "resName": "BK_Pendant_Shadow",
-    "description": "สร้อยคอศักดิ์สิทธิ์ที่เล่าขานกันว่าสามารถปกป้องผู้สวมใส่ได้ ช่วยดึงพลังที่หลับใหลอยู่ของผู้สวมใส่ออกมา\nมีเพียง Elemental Master Classes เท่านั้นที่สามารถสวมใส่ได้\n \nเมื่อสวมใส่ร่วมกับ Master Shadow Weapon, \nAll Trait Status +2\n \nประเภท : ^777777Shadow Equipment^000000\nตำแหน่ง : ^777777Pendant^000000 น้ำหนัก : ^7777770^000000\nเลเวลที่ต้องการ : ^777777200^000000\nอาชีพที่ใส่ได้ : ^777777Elemental Master^000000",
+    "description": "Set Bonus:\nM. Elemental Master Shadow Pendant\nMaster Shadow Weapon\n\nAll Talent Status + 2.\n------------------------\nType: Shadow Equipment\nLocation: Pendant\nWeight: 0\nRequired Level: 200\nClass: Elemental Master",
+    "preRelease": true,
     "slots": 0,
     "itemTypeId": 10,
     "itemSubTypeId": 530,
@@ -53049,7 +53053,7 @@
     ],
     "script": {
       "allTrait": [
-        "EQUIP[Master Shadow Weapon]===2"
+        "EQUIP_ID[24792]===2"
       ]
     }
   },
@@ -368427,6 +368431,1218 @@
           "skillId": 2017,
           "reason": "O cliente não informa o nível conjurado; o efeito ativado também ainda não é modelado como equipamento."
         }
+      ]
+    }
+  },
+  "1270009": {
+    "id": 1270009,
+    "aegisName": "S_Bow_M_Armor",
+    "name": "Bow Master Shadow Armor",
+    "unidName": "Shadow Armor",
+    "resName": "BK_Armor_Shadow",
+    "description": "An armor worn over regular armor to provide additional defensive effects.\nIt can be used alone, but its defensive effect is small.\n------------------------\nATK +3%, ATK +7.\n------------------------\nFor every 3 refine levels, ranged physical damage +2%.\n------------------------\nWhen refined to +10 or higher, P.ATK +3.\n------------------------\nSet Bonus:\nBow Master Shadow Armor\nBow Master Shadow Shoes\n\nP.ATK +2.\n\nIf the total refine level is 15 or higher, MHP +3%, physical damage to all elemental enemies +5%.\n\nIf the total refine level is 18 or higher, ignore 50% of all race enemies physical defense (excluding players).\n------------------------\nSet Bonus:\nBow Master Shadow Armor\nBow Master Shadow Shoes\nMaster Shadow Shield\n\nPhysical damage to all size enemies +5%, P.ATK +2.\n\nIf the total refine level is 27 or higher, ignore 10% of all race enemies physical resistance (excluding players).\n------------------------\nType : Shadow Equipment\nLocation : Armor\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 526,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atkPercent": [
+        "3"
+      ],
+      "atk": [
+        "7"
+      ],
+      "range": [
+        "3---2"
+      ],
+      "pAtk": [
+        "10===3",
+        "EQUIP_ID[1270010]===2",
+        "EQUIP_ID[1270010&&24793]===2"
+      ],
+      "hpPercent": [
+        "EQUIP_ID[1270010]REFINE[shadowArmor,shadowBoot==15]===3"
+      ],
+      "p_element_all": [
+        "EQUIP_ID[1270010]REFINE[shadowArmor,shadowBoot==15]===5"
+      ],
+      "p_pene_race_all": [
+        "EQUIP_ID[1270010]REFINE[shadowArmor,shadowBoot==18]===50"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[1270010&&24793]===5"
+      ],
+      "pene_res": [
+        "EQUIP_ID[1270010&&24793]REFINE[shadowArmor,shadowBoot,shadowShield==27]===10"
+      ]
+    }
+  },
+  "1270011": {
+    "id": 1270011,
+    "aegisName": "S_Bow_M_Earring",
+    "name": "Bow Master Shadow Earring",
+    "unidName": "Shadow Earring",
+    "resName": "BK_Earring_Shadow",
+    "description": "A holy earring said to protect its wearer, drawing out their hidden potential.\n------------------------\nATK +3%, ATK +7.\n------------------------\nFor every 3 refine levels, ranged physical damage +2%.\n------------------------\nWhen refined to +10 or higher, P.ATK +3.\n------------------------\nSet Bonus:\nBow Master Shadow Earring\nBow Master Shadow Pendant\n\nP.ATK +2.\n\nIf total refine is 15 or higher, MHP +3%, physical damage to all property enemies +5%.\n\nIf total refine is 18 or higher, ignores 50% physical defense of all race enemies except players.\n------------------------\nSet Bonus:\nBow Master Shadow Earring\nBow Master Shadow Pendant\nMaster Shadow Weapon\n\nPhysical damage to all size enemies +5%, P.ATK +2.\n\nIf total refine is 27 or higher, ignores 10% physical resistance of all race enemies except players.\n------------------------\nType : Shadow Equipment\nLocation : Earring\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 529,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "AccessoryRight",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atkPercent": [
+        "3"
+      ],
+      "atk": [
+        "7"
+      ],
+      "range": [
+        "3---2"
+      ],
+      "pAtk": [
+        "10===3",
+        "EQUIP_ID[1270012]===2",
+        "EQUIP_ID[1270012&&24792]===2"
+      ],
+      "hpPercent": [
+        "EQUIP_ID[1270012]REFINE[shadowEarring,shadowPendant==15]===3"
+      ],
+      "p_element_all": [
+        "EQUIP_ID[1270012]REFINE[shadowEarring,shadowPendant==15]===5"
+      ],
+      "p_pene_race_all": [
+        "EQUIP_ID[1270012]REFINE[shadowEarring,shadowPendant==18]===50"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[1270012&&24792]===5"
+      ],
+      "pene_res": [
+        "EQUIP_ID[1270012&&24792]REFINE[shadowEarring,shadowPendant,shadowWeapon==27]===10"
+      ]
+    }
+  },
+  "1270012": {
+    "id": 1270012,
+    "aegisName": "S_Bow_M_Pendant",
+    "name": "Bow Master Shadow Pendant",
+    "unidName": "Shadow Pendant",
+    "resName": "BK_Pendant_Shadow",
+    "description": "A holy pendant said to protect its wearer, drawing out their hidden potential.\n------------------------\nATK +3%, ATK +7.\n------------------------\nFor every 3 refine levels, ranged physical damage +2%.\n------------------------\nWhen refined to +10 or higher, P.ATK +3.\n------------------------\nType : Shadow Equipment\nLocation : Pendant\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 530,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "AccessoryLeft",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atkPercent": [
+        "3"
+      ],
+      "atk": [
+        "7"
+      ],
+      "range": [
+        "3---2"
+      ],
+      "pAtk": [
+        "10===3"
+      ]
+    }
+  },
+  "1270010": {
+    "id": 1270010,
+    "aegisName": "S_Bow_M_Shoes",
+    "name": "Bow Master Shadow Shoes",
+    "unidName": "Shadow Shoes",
+    "resName": "BK_Shoes_Shadow",
+    "description": "A pair of shoes worn over regular footwear, providing additional effects.\nThey can be used alone, but their effect is small.\n------------------------\nATK +3%, ATK +7.\n------------------------\nFor every 3 refine levels, ranged physical damage +2%.\n------------------------\nWhen refined to +10 or higher, P.ATK +3.\n------------------------\nType : Shadow Equipment\nLocation : Shoes\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 528,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atkPercent": [
+        "3"
+      ],
+      "atk": [
+        "7"
+      ],
+      "range": [
+        "3---2"
+      ],
+      "pAtk": [
+        "10===3"
+      ]
+    }
+  },
+  "1270013": {
+    "id": 1270013,
+    "aegisName": "S_Fatal_M_Armor",
+    "name": "Fatal Master Shadow Armor",
+    "unidName": "Shadow Armor",
+    "resName": "BK_Armor_Shadow",
+    "description": "An outer armor worn over regular armor, providing additional defensive effects.\nIt can be used alone, but the defensive effect is small.\n------------------------\nCRI +1, C.RATE +1.\n------------------------\nFor every 3 refine levels, critical damage +2%.\n------------------------\nWhen refined to +10 or higher, CRI +3, P.ATK +1.\n------------------------\nSet Bonus:\nFatal Master Shadow Armor\nFatal Master Shadow Shoes\n\nC.RATE +2.\n\nIf total refine of set items is +15 or higher, CRI +3, physical damage against all property enemies +5%.\n\nIf total refine of set items is +18 or higher, ignores 50% physical defense of all race enemies except players.\n------------------------\nSet Bonus:\nFatal Master Shadow Armor\nFatal Master Shadow Shoes\nMaster Shadow Shield\n\nIncreases physical damage to all size enemies by 5%, P.ATK +2.\n\nIf total refine is +27 or higher, additionally ignores 10% physical resistance of all race enemies except players.\n------------------------\nType : Shadow Equipment\nLocation : Armor\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 526,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "1",
+        "10===3",
+        "EQUIP_ID[1270014]REFINE[shadowArmor,shadowBoot==15]===3"
+      ],
+      "cRate": [
+        "1",
+        "EQUIP_ID[1270014]===2"
+      ],
+      "criDmg": [
+        "3---2"
+      ],
+      "pAtk": [
+        "10===1",
+        "EQUIP_ID[1270014&&24793]===2"
+      ],
+      "p_element_all": [
+        "EQUIP_ID[1270014]REFINE[shadowArmor,shadowBoot==15]===5"
+      ],
+      "p_pene_race_all": [
+        "EQUIP_ID[1270014]REFINE[shadowArmor,shadowBoot==18]===50"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[1270014&&24793]===5"
+      ],
+      "pene_res": [
+        "EQUIP_ID[1270014&&24793]REFINE[shadowArmor,shadowBoot,shadowShield==27]===10"
+      ]
+    }
+  },
+  "1270015": {
+    "id": 1270015,
+    "aegisName": "S_Fatal_M_Earring",
+    "name": "Fatal Master Shadow Earring",
+    "unidName": "Shadow Earring",
+    "resName": "BK_Earring_Shadow",
+    "description": "A holy earring said to protect its wearer. It draws out the wearer's latent abilities.\n------------------------\nCRI +1, C.RATE +1.\n------------------------\nFor every 3 refine levels, critical damage +2%.\n------------------------\nWhen refined to +10 or higher, CRI +3, P.ATK +1.\n------------------------\nSet Bonus:\nFatal Master Shadow Earring\nFatal Master Shadow Pendant\n\nC.RATE +2.\n\nIf total refine is +15 or higher, CRI +3, physical damage to all property enemies +5%.\n\nIf total refine is +18 or higher, ignores 50% physical defense of all race enemies except players.\n------------------------\nSet Bonus:\nFatal Master Shadow Earring\nFatal Master Shadow Pendant\nMaster Shadow Weapon\n\nIncreases physical damage to all size enemies by 5%, P.ATK +2.\n\nIf total refine is +27 or higher, ignores an additional 10% physical resistance of all race enemies except players.\n------------------------\nType : Shadow Equipment\nLocation : Earring\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 529,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "AccessoryRight",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "1",
+        "10===3",
+        "EQUIP_ID[1270016]REFINE[shadowEarring,shadowPendant==15]===3"
+      ],
+      "cRate": [
+        "1",
+        "EQUIP_ID[1270016]===2"
+      ],
+      "criDmg": [
+        "3---2"
+      ],
+      "pAtk": [
+        "10===1",
+        "EQUIP_ID[1270016&&24792]===2"
+      ],
+      "p_element_all": [
+        "EQUIP_ID[1270016]REFINE[shadowEarring,shadowPendant==15]===5"
+      ],
+      "p_pene_race_all": [
+        "EQUIP_ID[1270016]REFINE[shadowEarring,shadowPendant==18]===50"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[1270016&&24792]===5"
+      ],
+      "pene_res": [
+        "EQUIP_ID[1270016&&24792]REFINE[shadowEarring,shadowPendant,shadowWeapon==27]===10"
+      ]
+    }
+  },
+  "1270016": {
+    "id": 1270016,
+    "aegisName": "S_Fatal_M_Pendant",
+    "name": "Fatal Master Shadow Pendant",
+    "unidName": "Shadow Pendant",
+    "resName": "BK_Pendant_Shadow",
+    "description": "A holy pendant said to protect its wearer. It draws out the wearer's latent abilities.\n------------------------\nCRI +1, C.RATE +1.\n------------------------\nFor every 3 refine levels, critical damage +2%.\n------------------------\nWhen refined to +10 or higher, CRI +3, P.ATK +1.\n------------------------\nType : Shadow Equipment\nLocation : Pendant\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 530,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "AccessoryLeft",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "1",
+        "10===3"
+      ],
+      "cRate": [
+        "1"
+      ],
+      "criDmg": [
+        "3---2"
+      ],
+      "pAtk": [
+        "10===1"
+      ]
+    }
+  },
+  "1270014": {
+    "id": 1270014,
+    "aegisName": "S_Fatal_M_Shoes",
+    "name": "Fatal Master Shadow Shoes",
+    "unidName": "Shadow Shoes",
+    "resName": "BK_Shoes_Shadow",
+    "description": "Shoes worn over regular footwear that provide additional effects. They can be used alone, but the effect is small.\n------------------------\nCRI +1, C.RATE +1.\n------------------------\nFor every 3 refine levels, critical damage +2%.\n------------------------\nWhen refined to +10 or higher, CRI +3, P.ATK +1.\n------------------------\nType : Shadow Equipment\nLocation : Shoes\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 528,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "cri": [
+        "1",
+        "10===3"
+      ],
+      "cRate": [
+        "1"
+      ],
+      "criDmg": [
+        "3---2"
+      ],
+      "pAtk": [
+        "10===1"
+      ]
+    }
+  },
+  "24993": {
+    "id": 24993,
+    "aegisName": "S_Magical_M_Armor",
+    "name": "Magical Master Shadow Armor",
+    "unidName": "Shadow Armor",
+    "resName": "BK_Armor_Shadow",
+    "description": "An outer armor worn over regular armor, granting additional defensive effects.\nIt can be used alone, but the defensive effect is small.\n------------------------\nMATK +3%, FLEE +10.\n------------------------\nFor every 3 refine levels, Water, Wind, Earth, Fire, and Shadow property magic damage +2%.\n------------------------\nWhen refined to +10 or higher, S.MATK +3.\n------------------------\nSet Bonus:\nMagical Master Shadow Armor\nMagical Master Shadow Shoes\n\nS.MATK +2.\n\nWhen total refine sum is 15 or higher, MSP +3%, magic damage to all property enemies +5%.\n\nWhen total refine sum is 18 or higher, ignores 50% magic defense of all race enemies (excluding players).\n------------------------\nSet Bonus:\nMagical Master Shadow Armor\nMagical Master Shadow Shoes\nMaster Shadow Shield\n\nIncreases magic damage to all size enemies by 5%, S.MATK +2.\n\nWhen total refine sum is 27 or higher, ignores 10% magic resistance of all race enemies (excluding players).\n------------------------\nType : Shadow Equipment\nLocation : Armor\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 526,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "3"
+      ],
+      "flee": [
+        "10"
+      ],
+      "m_my_element_water": [
+        "3---2"
+      ],
+      "m_my_element_wind": [
+        "3---2"
+      ],
+      "m_my_element_earth": [
+        "3---2"
+      ],
+      "m_my_element_fire": [
+        "3---2"
+      ],
+      "m_my_element_dark": [
+        "3---2"
+      ],
+      "sMatk": [
+        "10===3",
+        "EQUIP_ID[24994]===2",
+        "EQUIP_ID[24994&&24793]===2"
+      ],
+      "spPercent": [
+        "EQUIP_ID[24994]REFINE[shadowArmor,shadowBoot==15]===3"
+      ],
+      "m_element_all": [
+        "EQUIP_ID[24994]REFINE[shadowArmor,shadowBoot==15]===5"
+      ],
+      "m_pene_race_all": [
+        "EQUIP_ID[24994]REFINE[shadowArmor,shadowBoot==18]===50"
+      ],
+      "m_size_all": [
+        "EQUIP_ID[24994&&24793]===5"
+      ],
+      "pene_mres": [
+        "EQUIP_ID[24994&&24793]REFINE[shadowArmor,shadowBoot,shadowShield==27]===10"
+      ]
+    }
+  },
+  "24995": {
+    "id": 24995,
+    "aegisName": "S_Magical_M_Earring",
+    "name": "Magical Master Shadow Earring",
+    "unidName": "Shadow Earring",
+    "resName": "BK_Earring_Shadow",
+    "description": "A holy earring said to protect its wearer. It draws out the wearer's latent abilities.\n------------------------\nMATK +3%, FLEE +10.\n------------------------\nFor every 3 refine levels, Water, Wind, Earth, Fire, and Shadow property magic damage +2%.\n------------------------\nWhen refined to +10 or higher, S.MATK +3.\n------------------------\nSet Bonus:\nMagical Master Shadow Earring\nMagical Master Shadow Pendant\n\nS.MATK +2.\nWhen total refine sum is 15 or higher, MSP +3%, magic damage to all property enemies +5%.\n\nWhen total refine sum is 18 or higher, ignores 50% magic defense of all race enemies (excluding players).\n------------------------\nSet Bonus:\nMagical Master Shadow Earring\nMagical Master Shadow Pendant\nMaster Shadow Weapon\n\nIncreases magic damage to all size enemies by 5%, S.MATK +2.\n\nWhen total refine sum is 27 or higher, ignores 10% magic resistance of all race enemies (excluding players).\n------------------------\nType : Shadow Equipment\nLocation : Earring\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 529,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "AccessoryRight",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "3"
+      ],
+      "flee": [
+        "10"
+      ],
+      "m_my_element_water": [
+        "3---2"
+      ],
+      "m_my_element_wind": [
+        "3---2"
+      ],
+      "m_my_element_earth": [
+        "3---2"
+      ],
+      "m_my_element_fire": [
+        "3---2"
+      ],
+      "m_my_element_dark": [
+        "3---2"
+      ],
+      "sMatk": [
+        "10===3",
+        "EQUIP_ID[24996]===2",
+        "EQUIP_ID[24996&&24792]===2"
+      ],
+      "spPercent": [
+        "EQUIP_ID[24996]REFINE[shadowEarring,shadowPendant==15]===3"
+      ],
+      "m_element_all": [
+        "EQUIP_ID[24996]REFINE[shadowEarring,shadowPendant==15]===5"
+      ],
+      "m_pene_race_all": [
+        "EQUIP_ID[24996]REFINE[shadowEarring,shadowPendant==18]===50"
+      ],
+      "m_size_all": [
+        "EQUIP_ID[24996&&24792]===5"
+      ],
+      "pene_mres": [
+        "EQUIP_ID[24996&&24792]REFINE[shadowEarring,shadowPendant,shadowWeapon==27]===10"
+      ]
+    }
+  },
+  "24996": {
+    "id": 24996,
+    "aegisName": "S_Magical_M_Pendant",
+    "name": "Magical Master Shadow Pendant",
+    "unidName": "Shadow Pendant",
+    "resName": "BK_Pendant_Shadow",
+    "description": "A holy necklace said to protect its wearer. It draws out the wearer's latent abilities.\n------------------------\nMATK +3%, FLEE +10.\n------------------------\nFor every 3 refine levels, Water, Wind, Earth, Fire, and Shadow property magic damage +2%.\n------------------------\nWhen refined to +10 or higher, S.MATK +3.\n------------------------\nType : Shadow Equipment\nLocation : Pendant\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 530,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "AccessoryLeft",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "3"
+      ],
+      "flee": [
+        "10"
+      ],
+      "m_my_element_water": [
+        "3---2"
+      ],
+      "m_my_element_wind": [
+        "3---2"
+      ],
+      "m_my_element_earth": [
+        "3---2"
+      ],
+      "m_my_element_fire": [
+        "3---2"
+      ],
+      "m_my_element_dark": [
+        "3---2"
+      ],
+      "sMatk": [
+        "10===3"
+      ]
+    }
+  },
+  "24994": {
+    "id": 24994,
+    "aegisName": "S_Magical_M_Shoes",
+    "name": "Magical Master Shadow Shoes",
+    "unidName": "Shadow Shoes",
+    "resName": "BK_Shoes_Shadow",
+    "description": "Footwear worn over regular shoes, providing additional effects.\nIt can be used alone, but the effect is small.\n------------------------\nMATK +3%, FLEE +10.\n------------------------\nFor every 3 refine levels, Water, Wind, Earth, Fire, and Shadow property magic damage +2%.\n------------------------\nWhen refined to +10 or higher, S.MATK +3.\n------------------------\nType : Shadow Equipment\nLocation : Shoes\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 528,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "3"
+      ],
+      "flee": [
+        "10"
+      ],
+      "m_my_element_water": [
+        "3---2"
+      ],
+      "m_my_element_wind": [
+        "3---2"
+      ],
+      "m_my_element_earth": [
+        "3---2"
+      ],
+      "m_my_element_fire": [
+        "3---2"
+      ],
+      "m_my_element_dark": [
+        "3---2"
+      ],
+      "sMatk": [
+        "10===3"
+      ]
+    }
+  },
+  "1270001": {
+    "id": 1270001,
+    "aegisName": "S_Sorcery_M_Armor",
+    "name": "Sorcery Master Shadow Armor",
+    "unidName": "Shadow Armor",
+    "resName": "BK_Armor_Shadow",
+    "description": "An outer armor worn over regular armor to grant additional defense. It can be used alone, but its defensive effect is lower.\n------------------------\nMATK +3%, FLEE +10.\n------------------------\nFor every 3 refine levels, Fire, Water, Wind, Poison, and Neutral property magic damage +2%.\n------------------------\nWhen refined to +10 or higher, S.MATK +3.\n------------------------\nSet Bonus:\nSorcery Master Shadow Armor\nSorcery Master Shadow Shoes\n\nS.MATK +2.\n\nIf the total refine level is +15 or higher, MSP +3%, magic damage to all property enemies +5%.\n\nIf the total refine level is +18 or higher, ignore 50% of magic defense of all race enemies (excluding players).\n------------------------\nSet Bonus:\nSorcery Master Shadow Armor\nSorcery Master Shadow Shoes\nMaster Shadow Shield\n\nS.MATK +2. Magic damage to all size enemies +5%.\n\nIf the total refine level is +27 or higher, ignore 10% of magic resistance of all race enemies (excluding players).\n------------------------\nType : Shadow Equipment\nLocation : Armor\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 526,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "3"
+      ],
+      "flee": [
+        "10"
+      ],
+      "m_my_element_fire": [
+        "3---2"
+      ],
+      "m_my_element_water": [
+        "3---2"
+      ],
+      "m_my_element_wind": [
+        "3---2"
+      ],
+      "m_my_element_poison": [
+        "3---2"
+      ],
+      "m_my_element_neutral": [
+        "3---2"
+      ],
+      "sMatk": [
+        "10===3",
+        "EQUIP_ID[1270002]===2",
+        "EQUIP_ID[1270002&&24793]===2"
+      ],
+      "spPercent": [
+        "EQUIP_ID[1270002]REFINE[shadowArmor,shadowBoot==15]===3"
+      ],
+      "m_element_all": [
+        "EQUIP_ID[1270002]REFINE[shadowArmor,shadowBoot==15]===5"
+      ],
+      "m_pene_race_all": [
+        "EQUIP_ID[1270002]REFINE[shadowArmor,shadowBoot==18]===50"
+      ],
+      "m_size_all": [
+        "EQUIP_ID[1270002&&24793]===5"
+      ],
+      "pene_mres": [
+        "EQUIP_ID[1270002&&24793]REFINE[shadowArmor,shadowBoot,shadowShield==27]===10"
+      ]
+    }
+  },
+  "1270003": {
+    "id": 1270003,
+    "aegisName": "S_Sorcery_M_Earring",
+    "name": "Sorcery Master Shadow Earring",
+    "unidName": "Shadow Earring",
+    "resName": "BK_Earring_Shadow",
+    "description": "A holy earring said to protect its wearer. It draws out the wearer's latent abilities.\n------------------------\nMATK +3%, FLEE +10.\n------------------------\nFor every 3 refine levels, Fire, Water, Wind, Poison, and Neutral property magic damage +2%.\n------------------------\nWhen refined to +10 or higher, S.MATK +3.\n------------------------\nSet Bonus:\nSorcery Master Shadow Earring\nSorcery Master Shadow Pendant\n\nS.MATK +2.\n\nWhen total refine sum is 15 or higher, MSP +3%, magic damage to all attribute enemies +5%.\n\nWhen total refine sum is 18 or higher, ignores 50% magic defense of all race enemies except players.\n------------------------\nSet Bonus:\nSorcery Master Shadow Earring\nSorcery Master Shadow Pendant\nMaster Shadow Weapon\n\nIncreases magic damage to all size enemies by 5%, S.MATK +2.\n\nWhen total refine sum is 27 or higher, ignores 10% magic resistance of all race enemies except players.\n------------------------\nType : Shadow Equipment\nLocation : Earring\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 529,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "AccessoryRight",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "3"
+      ],
+      "flee": [
+        "10"
+      ],
+      "m_my_element_fire": [
+        "3---2"
+      ],
+      "m_my_element_water": [
+        "3---2"
+      ],
+      "m_my_element_wind": [
+        "3---2"
+      ],
+      "m_my_element_poison": [
+        "3---2"
+      ],
+      "m_my_element_neutral": [
+        "3---2"
+      ],
+      "sMatk": [
+        "10===3",
+        "EQUIP_ID[1270004]===2",
+        "EQUIP_ID[1270004&&24792]===2"
+      ],
+      "spPercent": [
+        "EQUIP_ID[1270004]REFINE[shadowEarring,shadowPendant==15]===3"
+      ],
+      "m_element_all": [
+        "EQUIP_ID[1270004]REFINE[shadowEarring,shadowPendant==15]===5"
+      ],
+      "m_pene_race_all": [
+        "EQUIP_ID[1270004]REFINE[shadowEarring,shadowPendant==18]===50"
+      ],
+      "m_size_all": [
+        "EQUIP_ID[1270004&&24792]===5"
+      ],
+      "pene_mres": [
+        "EQUIP_ID[1270004&&24792]REFINE[shadowEarring,shadowPendant,shadowWeapon==27]===10"
+      ]
+    }
+  },
+  "1270004": {
+    "id": 1270004,
+    "aegisName": "S_Sorcery_M_Pendant",
+    "name": "Sorcery Master Shadow Pendant",
+    "unidName": "Shadow Pendant",
+    "resName": "BK_Pendant_Shadow",
+    "description": "A holy necklace said to protect its wearer. It draws out the wearer's latent abilities.\n------------------------\nMATK +3%, FLEE +10.\n------------------------\nFor every 3 refine levels, Fire, Water, Wind, Poison, and Neutral property magic damage +2%.\n------------------------\nWhen refined to +10 or higher, S.MATK +3.\n------------------------\nType : Shadow Equipment\nLocation : Pendant\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 530,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "AccessoryLeft",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "3"
+      ],
+      "flee": [
+        "10"
+      ],
+      "m_my_element_fire": [
+        "3---2"
+      ],
+      "m_my_element_water": [
+        "3---2"
+      ],
+      "m_my_element_wind": [
+        "3---2"
+      ],
+      "m_my_element_poison": [
+        "3---2"
+      ],
+      "m_my_element_neutral": [
+        "3---2"
+      ],
+      "sMatk": [
+        "10===3"
+      ]
+    }
+  },
+  "1270002": {
+    "id": 1270002,
+    "aegisName": "S_Sorcery_M_Shoes",
+    "name": "Sorcery Master Shadow Shoes",
+    "unidName": "Shadow Shoes",
+    "resName": "BK_Shoes_Shadow",
+    "description": "Shoes that can be worn over regular footwear to grant additional defensive effects.\nThey can be used alone, but the defensive effect is small.\n------------------------\nMATK +3%, FLEE +10.\n------------------------\nFor every 3 refine levels, Fire, Water, Wind, Poison, and Neutral property magic damage +2%.\n------------------------\nWhen refined to +10 or higher, S.MATK +3.\n------------------------\nType : Shadow Equipment\nLocation : Shoes\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 528,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "3"
+      ],
+      "flee": [
+        "10"
+      ],
+      "m_my_element_fire": [
+        "3---2"
+      ],
+      "m_my_element_water": [
+        "3---2"
+      ],
+      "m_my_element_wind": [
+        "3---2"
+      ],
+      "m_my_element_poison": [
+        "3---2"
+      ],
+      "m_my_element_neutral": [
+        "3---2"
+      ],
+      "sMatk": [
+        "10===3"
+      ]
+    }
+  },
+  "24997": {
+    "id": 24997,
+    "aegisName": "S_Spell_M_Armor",
+    "name": "Spell Master Shadow Armor",
+    "unidName": "Shadow Armor",
+    "resName": "BK_Armor_Shadow",
+    "description": "An outer armor worn over regular armor, granting additional defensive effects.\nIt can be used alone, but the defensive effect is small.\n------------------------\nMATK +3%, FLEE +10.\n------------------------\nFor every 3 refine levels, Neutral, Holy, Shadow, Ghost, and Undead property magic damage +2%.\n------------------------\nWhen refined to +10 or higher, S.MATK +3.\n------------------------\nSet Bonus:\nSpell Master Shadow Armor\nSpell Master Shadow Shoes\n\nS.MATK +2.\n\nWhen total refine sum is 15 or higher, MSP +3%, magic damage to all attribute enemies +5%.\n\nWhen total refine sum is 18 or higher, ignores 50% magic defense of all race enemies (excluding players).\n------------------------\nSet Bonus:\nSpell Master Shadow Armor\nSpell Master Shadow Shoes\nMaster Shadow Shield\n\nIncreases magic damage to all size enemies by 5%, S.MATK +2.\n\nWhen total refine sum is 27 or higher, ignores 10% magic resistance of all race enemies (excluding players).\n------------------------\nType : Shadow Equipment\nLocation : Armor\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 526,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "3"
+      ],
+      "flee": [
+        "10"
+      ],
+      "m_my_element_neutral": [
+        "3---2"
+      ],
+      "m_my_element_holy": [
+        "3---2"
+      ],
+      "m_my_element_dark": [
+        "3---2"
+      ],
+      "m_my_element_ghost": [
+        "3---2"
+      ],
+      "m_my_element_undead": [
+        "3---2"
+      ],
+      "sMatk": [
+        "10===3",
+        "EQUIP_ID[24998]===2",
+        "EQUIP_ID[24998&&24793]===2"
+      ],
+      "spPercent": [
+        "EQUIP_ID[24998]REFINE[shadowArmor,shadowBoot==15]===3"
+      ],
+      "m_element_all": [
+        "EQUIP_ID[24998]REFINE[shadowArmor,shadowBoot==15]===5"
+      ],
+      "m_pene_race_all": [
+        "EQUIP_ID[24998]REFINE[shadowArmor,shadowBoot==18]===50"
+      ],
+      "m_size_all": [
+        "EQUIP_ID[24998&&24793]===5"
+      ],
+      "pene_mres": [
+        "EQUIP_ID[24998&&24793]REFINE[shadowArmor,shadowBoot,shadowShield==27]===10"
+      ]
+    }
+  },
+  "1270168": {
+    "id": 1270168,
+    "aegisName": "S_Spell_M_Earring_US",
+    "name": "Spell Master Shadow Earring",
+    "unidName": "Shadow Earring",
+    "resName": "BK_Earring_Shadow",
+    "description": "A holy earring said to protect its wearer. It draws out the wearer's latent abilities.\n------------------------\nMATK +3%, FLEE +10.\n------------------------\nFor every 3 refine levels, Neutral, Holy, Shadow, Ghost, and Undead property magic damage +2%.\n------------------------\nWhen refined to +10 or higher, S.MATK +3.\n------------------------\nSet Bonus:\nSpell Master Shadow Earring\nSpell Master Shadow Pendant\nS.MATK +2.\nWhen total refine sum is 15 or higher, MSP +3%, magic damage to all property enemies +5%.\nWhen total refine sum is 18 or higher, ignores 50% magic defense of all race enemies (excluding players).\n------------------------\nSet Bonus:\nSpell Master Shadow Earring\nSpell Master Shadow Pendant\nMaster Shadow Weapon\nIncreases magic damage to all size enemies by 5%, S.MATK +2.\nWhen total refine sum is 27 or higher, ignores 10% magic resistance of all race enemies (excluding players).\n------------------------\nType : Shadow Equipment\nLocation : Earring\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 529,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "AccessoryRight",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "3"
+      ],
+      "flee": [
+        "10"
+      ],
+      "m_my_element_neutral": [
+        "3---2"
+      ],
+      "m_my_element_holy": [
+        "3---2"
+      ],
+      "m_my_element_dark": [
+        "3---2"
+      ],
+      "m_my_element_ghost": [
+        "3---2"
+      ],
+      "m_my_element_undead": [
+        "3---2"
+      ],
+      "sMatk": [
+        "10===3",
+        "EQUIP_ID[1270000]===2",
+        "EQUIP_ID[1270000&&24792]===2"
+      ],
+      "spPercent": [
+        "EQUIP_ID[1270000]REFINE[shadowEarring,shadowPendant==15]===3"
+      ],
+      "m_element_all": [
+        "EQUIP_ID[1270000]REFINE[shadowEarring,shadowPendant==15]===5"
+      ],
+      "m_pene_race_all": [
+        "EQUIP_ID[1270000]REFINE[shadowEarring,shadowPendant==18]===50"
+      ],
+      "m_size_all": [
+        "EQUIP_ID[1270000&&24792]===5"
+      ],
+      "pene_mres": [
+        "EQUIP_ID[1270000&&24792]REFINE[shadowEarring,shadowPendant,shadowWeapon==27]===10"
+      ]
+    }
+  },
+  "1270000": {
+    "id": 1270000,
+    "aegisName": "S_Spell_M_Pendant",
+    "name": "Spell Master Shadow Pendant",
+    "unidName": "Shadow Pendant",
+    "resName": "BK_Pendant_Shadow",
+    "description": "A holy necklace said to protect its wearer. It draws out the wearer's latent abilities.\n------------------------\nMATK +3%, FLEE +10.\n------------------------\nFor every 3 refine levels, Neutral, Holy, Shadow, Ghost, and Undead property magic damage +2%.\n------------------------\nWhen refined to +10 or higher, S.MATK +3.\n------------------------\nType : Shadow Equipment\nLocation : Pendant\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 530,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "AccessoryLeft",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "3"
+      ],
+      "flee": [
+        "10"
+      ],
+      "m_my_element_neutral": [
+        "3---2"
+      ],
+      "m_my_element_holy": [
+        "3---2"
+      ],
+      "m_my_element_dark": [
+        "3---2"
+      ],
+      "m_my_element_ghost": [
+        "3---2"
+      ],
+      "m_my_element_undead": [
+        "3---2"
+      ],
+      "sMatk": [
+        "10===3"
+      ]
+    }
+  },
+  "24998": {
+    "id": 24998,
+    "aegisName": "S_Spell_M_Shoes",
+    "name": "Spell Master Shadow Shoes",
+    "unidName": "Shadow Shoes",
+    "resName": "BK_Shoes_Shadow",
+    "description": "Footwear worn over regular shoes, providing additional effects.\nIt can be used alone, but the effect is small.\n------------------------\nMATK +3%, FLEE +10.\n------------------------\nFor every 3 refine levels, Neutral, Holy, Shadow, Ghost, and Undead property magic damage +2%.\n------------------------\nWhen refined to +10 or higher, S.MATK +3.\n------------------------\nType : Shadow Equipment\nLocation : Shoes\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 528,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "matkPercent": [
+        "3"
+      ],
+      "flee": [
+        "10"
+      ],
+      "m_my_element_neutral": [
+        "3---2"
+      ],
+      "m_my_element_holy": [
+        "3---2"
+      ],
+      "m_my_element_dark": [
+        "3---2"
+      ],
+      "m_my_element_ghost": [
+        "3---2"
+      ],
+      "m_my_element_undead": [
+        "3---2"
+      ],
+      "sMatk": [
+        "10===3"
+      ]
+    }
+  },
+  "1270005": {
+    "id": 1270005,
+    "aegisName": "S_Sword_M_Armor",
+    "name": "Sword Master Shadow Armor",
+    "unidName": "Shadow Armor",
+    "resName": "BK_Armor_Shadow",
+    "description": "An additional armor worn over regular armor to provide extra defense. Can be worn alone, but the defensive effect is small.\n------------------------\nATK +3%, ATK +7.\n------------------------\nFor every 3 refine levels, melee physical damage +2%.\n------------------------\nWhen refined to +10 or higher, P.ATK +3.\n------------------------\nSet Bonus:\nSword Master Shadow Armor\nSword Master Shadow Shoes\n\nP.ATK +2.\n\nIf total refine level is 15 or higher, MHP +3%, physical damage against all property enemies +5%.\n\nIf total refine level is 18 or higher, ignore 50% of all race physical defense (excluding players).\n------------------------\nSword Master Shadow Armor\nSword Master Shadow Shoes\nMaster Shadow Shield\n\nPhysical damage to all size enemies +5%, P.ATK +2.\n\nIf total refine level is 27 or higher, ignore 10% of all race physical resistance (excluding players).\n------------------------\nType : Shadow Equipment\nLocation : Armor\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 526,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "Armor",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atkPercent": [
+        "3"
+      ],
+      "atk": [
+        "7"
+      ],
+      "melee": [
+        "3---2"
+      ],
+      "pAtk": [
+        "10===3",
+        "EQUIP_ID[1270006]===2",
+        "EQUIP_ID[1270006&&24793]===2"
+      ],
+      "hpPercent": [
+        "EQUIP_ID[1270006]REFINE[shadowArmor,shadowBoot==15]===3"
+      ],
+      "p_element_all": [
+        "EQUIP_ID[1270006]REFINE[shadowArmor,shadowBoot==15]===5"
+      ],
+      "p_pene_race_all": [
+        "EQUIP_ID[1270006]REFINE[shadowArmor,shadowBoot==18]===50"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[1270006&&24793]===5"
+      ],
+      "pene_res": [
+        "EQUIP_ID[1270006&&24793]REFINE[shadowArmor,shadowBoot,shadowShield==27]===10"
+      ]
+    }
+  },
+  "1270007": {
+    "id": 1270007,
+    "aegisName": "S_Sword_M_Earring",
+    "name": "Sword Master Shadow Earring",
+    "unidName": "Shadow Earring",
+    "resName": "BK_Earring_Shadow",
+    "description": "A holy earring said to protect its wearer, drawing out their latent potential.\n------------------------\nATK +3%, ATK +7.\n------------------------\nFor every 3 refine levels, melee physical damage +2%.\n------------------------\nWhen refined to +10 or higher, P.ATK +3.\n------------------------\nSet Bonus:\nSword Master Shadow Earring\nSword Master Shadow Pendant\n\nP.ATK +2.\n\nIf total refine level is 15 or higher, MHP +3%, physical damage against all property enemies +5%.\n\nIf total refine level is 18 or higher, ignore 50% of all race physical defense (excluding players).\n------------------------\nSet Bonus:\nSword Master Shadow Earring\nSword Master Shadow Pendant\nMaster Shadow Weapon\n\nphysical damage to all size enemies +5%, P.ATK +2.\n\nIf total refine level is 27 or higher, ignore 10% of all race physical resistance (excluding players).\n------------------------\nType : Shadow Equipment\nLocation : Earring\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 529,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "AccessoryRight",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atkPercent": [
+        "3"
+      ],
+      "atk": [
+        "7"
+      ],
+      "melee": [
+        "3---2"
+      ],
+      "pAtk": [
+        "10===3",
+        "EQUIP_ID[1270008]===2",
+        "EQUIP_ID[1270008&&24792]===2"
+      ],
+      "hpPercent": [
+        "EQUIP_ID[1270008]REFINE[shadowEarring,shadowPendant==15]===3"
+      ],
+      "p_element_all": [
+        "EQUIP_ID[1270008]REFINE[shadowEarring,shadowPendant==15]===5"
+      ],
+      "p_pene_race_all": [
+        "EQUIP_ID[1270008]REFINE[shadowEarring,shadowPendant==18]===50"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[1270008&&24792]===5"
+      ],
+      "pene_res": [
+        "EQUIP_ID[1270008&&24792]REFINE[shadowEarring,shadowPendant,shadowWeapon==27]===10"
+      ]
+    }
+  },
+  "1270008": {
+    "id": 1270008,
+    "aegisName": "S_Sword_M_Pendant",
+    "name": "Sword Master Shadow Pendant",
+    "unidName": "Shadow Pendant",
+    "resName": "BK_Pendant_Shadow",
+    "description": "A holy necklace said to protect its wearer, drawing out their latent potential.\n------------------------\nATK +3%, ATK +7.\n------------------------\nFor every 3 refine levels, melee physical damage +2%.\n------------------------\nWhen refined to +10 or higher, P.ATK +3.\n------------------------\nType : Shadow Equipment\nLocation : Pendant\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 530,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "AccessoryLeft",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atkPercent": [
+        "3"
+      ],
+      "atk": [
+        "7"
+      ],
+      "melee": [
+        "3---2"
+      ],
+      "pAtk": [
+        "10===3"
+      ]
+    }
+  },
+  "1270006": {
+    "id": 1270006,
+    "aegisName": "S_Sword_M_Shoes",
+    "name": "Sword Master Shadow Shoes",
+    "unidName": "Shadow Shoes",
+    "resName": "BK_Shoes_Shadow",
+    "description": "Additional shoes worn over regular footwear. Can be worn alone, but the effect is small.\n------------------------\nATK +3%, ATK +7.\n------------------------\nFor every 3 refine levels, melee physical damage +2%.\n------------------------\nWhen refined to +10 or higher, P.ATK +3.\n------------------------\nType : Shadow Equipment\nLocation : Shoes\nWeight : 0\nRequired Level : 200\nClass : All Jobs",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 10,
+    "itemSubTypeId": 528,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 200,
+    "location": "Shoes",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "atkPercent": [
+        "3"
+      ],
+      "atk": [
+        "7"
+      ],
+      "melee": [
+        "3---2"
+      ],
+      "pAtk": [
+        "10===3"
       ]
     }
   }
