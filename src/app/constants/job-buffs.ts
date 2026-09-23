@@ -82,6 +82,30 @@ const JobBuffsList: ActiveSkillModel[] = [
     ],
   },
   {
+    // Reencarnação das Almas (Asceta das Almas) affects party members for 300 seconds.
+    // bROWiki lists +7% at Nv1, +2% per level, up to +25% at Nv10 for physical
+    // melee, physical ranged and magic of every property.
+    // https://browiki.org/wiki/Reencarna%C3%A7%C3%A3o_das_Almas
+    name: 'Soul of Heaven and Earth',
+    label: 'Reencarnação das Almas',
+    icon: 5432,
+    inputType: 'dropdown',
+    dropdown: [
+      { label: '-', value: 0, isUse: false },
+      ...Array.from({ length: 10 }, (_, index) => {
+        const level = index + 1;
+        const bonus = 5 + level * 2;
+        return {
+          label: `Nv ${level}`,
+          value: level,
+          skillLv: level,
+          isUse: true,
+          bonus: { melee: bonus, range: bonus, m_my_element_all: bonus },
+        };
+      }),
+    ],
+  },
+  {
     name: 'Argutus Vita',
     label: 'Argutus Vita',
     inputType: 'selectButton',

@@ -45,6 +45,7 @@ export interface SkillMetaEntry {
 export const SKILL_META = {
   "Tracking": { id: 512, label: "Rastrear o Alvo" },
   "Lightning Jolt": { id: 541, label: "Descarga Elétrica" },
+  "Soul of Heaven and Earth": { id: 5432, label: "Reencarnação das Almas" },
   "_3Faith": {  },
   "_Argutus Vita_Telum": {  },
   "_Biolo_Monster_List": {  },

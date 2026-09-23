@@ -169,8 +169,10 @@ export class AppTopBarComponent implements OnDestroy {
       v: '0.1.145-beta',
       date: '23-09-2026',
       logs: [
+        'A Auto-conjuração ganhou suporte a mais equipamentos e conjuntos do LATAM, com habilidades compartilhadas, seleção de níveis aprendidos por classe e transformações com efeitos condicionais. A simulação, o painel e a auditoria agora mostram essas ativações e seus requisitos.',
         'Arranjo Musical entrou na lista de habilidades de ataque da Diva e do Maestro. O dano mágico usa o nível da habilidade, FEI e nível de base, com a propriedade da flecha equipada; exige Chicote ou Instrumento. O bônus de +100% da Sinfonia Mística agora também chega a essa habilidade. O dano é mostrado para o alvo escolhido, mas não houve gravação de Arranjo Musical no RagnaRecap para conferir o valor contra o servidor. Reportado por usuário anônimo.',
         'Assombração, aplicada por Necromancia, agora aparece em Debuffs no monstro e reduz a resistência a Sombrio em 100%, ou 20% contra chefes. O antigo seletor de nível de Necromancia, que não alterava o dano, foi removido. Reportado por Jota Ascetic.',
+        'Reencarnação das Almas agora aparece na lista de buffs com os 10 níveis. O bônus de 7% a 25% é aplicado ao dano físico corpo a corpo, físico à distância e mágico de todas as propriedades. A recuperação de SP e AP não entra no cálculo de dano. Reportado por usuário anônimo.',
       ],
     },
     {

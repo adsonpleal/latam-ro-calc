@@ -66,6 +66,8 @@ export const ITEM_BONUS_LABELS: Record<string, string> = {
  */
 export const BUFF_BONUS_LABELS: Record<string, string> = {
   atk: 'ATQ', matk: 'ATQM', atkPercent: 'Dano físico %', matkPercent: 'Dano mágico %',
+  melee: 'Dano corpo a corpo', range: 'Dano à distância',
+  m_my_element_all: 'Dano mágico (todas as propriedades)',
   pAtk: 'P.ATQ', sMatk: 'S.ATQM', cRate: 'T.CRIT',
   hit: 'Precisão', cri: 'Crítico', criDmg: 'Dano crítico', perfectHit: 'Precisão perfeita', flatDmg: 'Dano fixo',
   aspd: 'Vel.Atq', aspdPercent: 'Vel.Atq %', skillAspd: 'Vel.Atq (hab.)',
