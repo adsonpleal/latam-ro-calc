@@ -12,8 +12,7 @@ import { PassiveSkillModel } from '../../jobs/_character-base.abstract';
  * Consertado worth +35% on Disparo Rítmico therefore reaches 135%, and 235% with the
  * ultimate up, instead of doubling the whole total. Tracker card X47Hghzqed5N1JN1WUMr.
  *
- * 5357 (Arranjo Musical) is inert for now — no attack skill models it — and is listed so
- * that it works the day one is added.
+ * 5357 (Arranjo Musical) uses this same bonus through the shared attack skill.
  */
 export const MysticSymphonyFn = (): PassiveSkillModel => ({
   label: 'Mystic Symphony',

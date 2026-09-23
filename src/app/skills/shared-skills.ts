@@ -423,6 +423,29 @@ export const METALIC_SOUND: AtkSkillModel = {
   finalDmgFormula: (input) => input.damage * 2,
 };
 
+/** Arranjo Musical (TR_SOUNDBLEND, 5357). The LATAM client supplies the
+ * level table and says base level and SPL scale the damage. The second-version
+ * class reference used by the other Troubadour/Trouvere formulas gives
+ * (120 × skill level + 2.5 × SPL) × base level / 100:
+ * https://sigmathefallen.blogspot.com/2024/06/troubadour-trouvere-2nd-version.html
+ * The element is read from the equipped arrow at damage time. */
+export const SOUND_BLEND: AtkSkillModel = {
+  name: 'Sound Blend',
+  label: 'Sound Blend Lv5',
+  value: 'Sound Blend==5',
+  acd: 0.15,
+  fct: 0,
+  vct: 1,
+  cd: 0,
+  isMatk: true,
+  getElement: (_skillValue, input) => input?.ammoElement || ElementType.Neutral,
+  verifyItemFn: ({ weapon, model }) => {
+    if (!weapon.isType('instrument', 'whip')) return 'instrument, whip';
+    return model.ammo ? '' : 'Flecha';
+  },
+  formula: ({ model, skillLevel, status }) => (skillLevel * 120 + status.totalSpl * 2.5) * (model.level / 100),
+};
+
 export const SEVERE_RAINSTORM: AtkSkillModel = {
   name: 'Severe Rainstorm',
   label: 'Severe Rainstorm',

@@ -111,7 +111,7 @@ export interface AtkSkillModel {
    */
   autoSpellChance?: number;
   element?: ElementType;
-  getElement?: (skillValue: string) => ElementType;
+  getElement?: (skillValue: string, input?: InfoForClass) => ElementType;
   secondaryDmgInput?: Omit<AtkSkillModel, 'secondaryDmg' | 'part2' | 'acd' | 'vct' | 'cd' | 'fct' | 'name' | 'value'> & { isIncludeMain: boolean; };
 }
 [];
