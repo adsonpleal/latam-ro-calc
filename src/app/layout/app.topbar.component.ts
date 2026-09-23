@@ -166,6 +166,13 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.144-beta',
+      date: '22-09-2026',
+      logs: [
+        'Os 28 equipamentos sombrios da linha Master Shadow que ainda não chegaram ao LATAM agora aparecem como Prévia, com seus bônus individuais e de conjunto. As combinações com a Manopla Sombria Magistral e o Escudo Sombrio Magistral respeitam as peças exigidas e a soma dos refinos. A pedido de Ted.',
+      ],
+    },
+    {
       v: '0.1.143-beta',
       date: '20-09-2026',
       logs: [
