@@ -218,19 +218,6 @@ export class SoulReaper extends SoulLinker {
         { label: 'Nv 10', isUse: true, value: 10 },
       ],
     },
-    {
-      label: 'Evil Soul Curse',
-      name: 'Evil Soul Curse',
-      inputType: 'dropdown',
-      dropdown: [
-        { label: '-', isUse: false, value: 0 },
-        { label: 'Nv 1', isUse: true, value: 1 },
-        { label: 'Nv 2', isUse: true, value: 2 },
-        { label: 'Nv 3', isUse: true, value: 3 },
-        { label: 'Nv 4', isUse: true, value: 4 },
-        { label: 'Nv 5', isUse: true, value: 5 },
-      ],
-    },
   ];
 
   constructor() {

@@ -77,6 +77,7 @@ export const BUFF_BONUS_LABELS: Record<string, string> = {
   pene_res: 'Penetrar TEN', pene_mres: 'Penetrar TENM',
   monster_res: 'TEN do alvo', monster_mres: 'TENM do alvo', oratio: 'Reduz Res. Sagrado do alvo',
   infection: 'Reduz Res. Veneno do alvo',
+  soulCurse: 'Reduz Res. Sombrio do alvo',
   intoxication: 'Reduz Res. Veneno do alvo',
   bitterCold: 'Reduz Res. Água do alvo',
   pollen: 'Reduz Res. Fogo do alvo',
