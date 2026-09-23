@@ -331,7 +331,7 @@ describe('class-independent item skills', () => {
       calc: { hitPerSecs: 4 }, dmg: { accuracy: 100, criRateToMonster: 0, basicDps: 400 },
       weapon: { rangeType: 'melee' }, monster: { hp: 10000, race: 'plant', type: 'normal' },
     } });
-    expect(result.blockedSources).toEqual([]);
+    expect(result.blockedSources.every((source) => source.key.startsWith('auto-firing-launcher-'))).toBe(true);
     expect(result.sources.map((source) => source.source.skillId)).toEqual([367, 17, 62]);
     expect(result.sources.every((source) => Number.isFinite(source.expectedDamagePerActivation))).toBe(true);
   });
@@ -349,7 +349,7 @@ describe('class-independent item skills', () => {
       calc: { hitPerSecs: 4 }, dmg: { accuracy: 100, criRateToMonster: 0, basicDps: 400 },
       weapon: { rangeType: 'melee' }, monster: { hp: 10000, race: 'plant', type: 'normal' },
     } });
-    expect(result.blockedSources).toEqual([]);
+    expect(result.blockedSources.every((source) => source.key.startsWith('auto-firing-launcher-'))).toBe(true);
     expect(result.sources.filter((source) => source.source.sourceItemId === 2679).map((source) => source.source.skillId))
       .toEqual([271, 136, 406, 266]);
     expect(result.sources.every((source) => Number.isFinite(source.expectedDamagePerActivation))).toBe(true);

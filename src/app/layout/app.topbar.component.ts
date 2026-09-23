@@ -166,6 +166,14 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.146-beta',
+      date: '23-09-2026',
+      logs: [
+        'Os 68 equipamentos sombrios M. das classes que ainda não chegaram ao LATAM agora aparecem como Prévia. São as quatro peças de cada uma das 17 classes restantes; os quatro itens do Elementalista já apareciam. As descrições de conjunto foram colocadas em inglês até o cliente trazer a tradução.',
+        'Disparo Automático do Guerrilheiro agora mostra Arremessar Explosivo, Explosão Gradual e Detonação Total como fontes indisponíveis quando falta selecionar o nível da habilidade ou aprender a explosão correspondente. Ao ativar tudo, Detonação Total continua avisando que seu dano ainda não pode ser calculado. A dica em Habilidades passou a exibir a descrição do cliente LATAM.',
+      ],
+    },
+    {
       v: '0.1.145-beta',
       date: '23-09-2026',
       logs: [
