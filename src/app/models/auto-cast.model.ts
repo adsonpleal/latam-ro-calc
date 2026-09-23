@@ -2,7 +2,7 @@ import type { AtkSkillModel } from '../jobs/_character-base.abstract';
 import type { SkillStateCtx } from './info-for-class.model';
 import type { MainModel } from './main.model';
 
-export type AutoCastTrigger = 'physical-attack' | 'physical-hit' | 'melee-physical-hit' | 'ranged-physical-hit';
+export type AutoCastTrigger = 'physical-attack' | 'physical-hit' | 'melee-physical-attack' | 'melee-physical-hit' | 'ranged-physical-hit' | 'magic-attack';
 export type AutoCastKind = 'item' | 'passive' | 'configurable' | 'extra-hit';
 export type AutoCastSlotKey = 'autoSpell' | 'plagiarism' | 'reproduce';
 
@@ -15,6 +15,23 @@ export interface ItemAutoCastScript {
   chance: string[];
   trigger: AutoCastTrigger;
   skillLevelMode?: 'fixed' | 'highest-learned' | 'learned-only';
+  /** Name of an item effect that must be selected in Efeitos before this proc can fire. */
+  requiredEffect?: string;
+}
+
+/** A temporary item state the player can toggle in Efeitos for conditional procs. */
+export interface ItemAutoCastEffectScript {
+  name: string;
+  label: string;
+  chance: number;
+  durationSeconds: number;
+  requiredEquippedItemIds?: number[];
+  minimumRefine?: number;
+  chancePerRefine?: number;
+  durationPerShieldRefineEvery?: number;
+  bonusPerRefine?: Record<string, number>;
+  trigger?: 'physical' | 'physical-or-magical';
+  note?: string;
 }
 
 /** A physical client auto-cast that cannot yet be calculated. */
@@ -32,6 +49,7 @@ export interface ResolvedItemAutoCast {
   skillLevel: number;
   chance: number;
   trigger: AutoCastTrigger;
+  requiredEffect?: string;
 }
 
 export interface ResolvedItemAutoCastPending {

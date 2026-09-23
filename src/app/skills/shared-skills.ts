@@ -2,6 +2,39 @@ import { ElementType } from '../constants/element-type.const';
 import type { WeaponTypeName } from '../constants/weapon-type-mapper';
 import type { ActiveSkillModel, AtkSkillModel } from '../jobs/_character-base.abstract';
 
+/** Item-granted Espíritos Anciões, including Rifle Primordial-LT. */
+export const SOUL_STRIKE: AtkSkillModel = {
+  name: 'Soul Strike', label: 'Soul Strike Lv10', value: 'Soul Strike==10',
+  acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Ghost,
+  totalHit: ({ skillLevel }) => Math.ceil(skillLevel / 2),
+  formula: () => 100,
+};
+
+/** High Wizard's existing Vulcão Napalm formula, also used by item autocasts. */
+export const NAPALM_VULCAN: AtkSkillModel = {
+  name: 'Napalm Vulcan', label: 'Napalm Vulcan Lv5', value: 'Napalm Vulcan==5',
+  fct: 0.2, vct: 0.8, acd: 0.5, cd: 1,
+  isMatk: true, element: ElementType.Ghost, hit: 5,
+  formula: ({ model, skillLevel }) => skillLevel * 70 * (model.level / 100),
+  finalDmgFormula: ({ damage, skillLevel }) => damage * skillLevel,
+};
+
+/** Also available from the Armadura Desconhecida VIT set on other classes. */
+export const SOUL_VULCAN_STRIKE: AtkSkillModel = {
+  name: 'Soul Vulcan Strike',
+  label: '[V3] Soul Vulcan Strike Lv5',
+  value: 'Soul Vulcan Strike==5',
+  acd: 0.5,
+  fct: 1,
+  vct: 3,
+  cd: 0.7,
+  isMatk: true,
+  element: ElementType.Ghost,
+  totalHit: ({ skillLevel }) => skillLevel + 2,
+  formula: ({ model, skillLevel, status }) =>
+    (skillLevel * 180 + status.totalSpl * 3) * (model.level / 100),
+};
+
 /** Ataque Aéreo: fixed falcon damage per flight, independent of weapon/equipment damage. */
 export const BLITZ_BEAT: AtkSkillModel = {
   name: 'Blitz Beat',
@@ -388,6 +421,29 @@ export const METALIC_SOUND: AtkSkillModel = {
     return (skillLevel * 120 + lessonLv * 60) * (model.level / 100);
   },
   finalDmgFormula: (input) => input.damage * 2,
+};
+
+/** Arranjo Musical (TR_SOUNDBLEND, 5357). The LATAM client supplies the
+ * level table and says base level and SPL scale the damage. The second-version
+ * class reference used by the other Troubadour/Trouvere formulas gives
+ * (120 × skill level + 2.5 × SPL) × base level / 100:
+ * https://sigmathefallen.blogspot.com/2024/06/troubadour-trouvere-2nd-version.html
+ * The element is read from the equipped arrow at damage time. */
+export const SOUND_BLEND: AtkSkillModel = {
+  name: 'Sound Blend',
+  label: 'Sound Blend Lv5',
+  value: 'Sound Blend==5',
+  acd: 0.15,
+  fct: 0,
+  vct: 1,
+  cd: 0,
+  isMatk: true,
+  getElement: (_skillValue, input) => input?.ammoElement || ElementType.Neutral,
+  verifyItemFn: ({ weapon, model }) => {
+    if (!weapon.isType('instrument', 'whip')) return 'instrument, whip';
+    return model.ammo ? '' : 'Flecha';
+  },
+  formula: ({ model, skillLevel, status }) => (skillLevel * 120 + status.totalSpl * 2.5) * (model.level / 100),
 };
 
 export const SEVERE_RAINSTORM: AtkSkillModel = {

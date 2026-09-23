@@ -66,6 +66,8 @@ export const ITEM_BONUS_LABELS: Record<string, string> = {
  */
 export const BUFF_BONUS_LABELS: Record<string, string> = {
   atk: 'ATQ', matk: 'ATQM', atkPercent: 'Dano físico %', matkPercent: 'Dano mágico %',
+  melee: 'Dano corpo a corpo', range: 'Dano à distância',
+  m_my_element_all: 'Dano mágico (todas as propriedades)',
   pAtk: 'P.ATQ', sMatk: 'S.ATQM', cRate: 'T.CRIT',
   hit: 'Precisão', cri: 'Crítico', criDmg: 'Dano crítico', perfectHit: 'Precisão perfeita', flatDmg: 'Dano fixo',
   aspd: 'Vel.Atq', aspdPercent: 'Vel.Atq %', skillAspd: 'Vel.Atq (hab.)',
@@ -77,6 +79,7 @@ export const BUFF_BONUS_LABELS: Record<string, string> = {
   pene_res: 'Penetrar TEN', pene_mres: 'Penetrar TENM',
   monster_res: 'TEN do alvo', monster_mres: 'TENM do alvo', oratio: 'Reduz Res. Sagrado do alvo',
   infection: 'Reduz Res. Veneno do alvo',
+  soulCurse: 'Reduz Res. Sombrio do alvo',
   intoxication: 'Reduz Res. Veneno do alvo',
   bitterCold: 'Reduz Res. Água do alvo',
   pollen: 'Reduz Res. Fogo do alvo',

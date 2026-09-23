@@ -23,7 +23,7 @@ import { BasicAspdModel, BasicDamageSummaryModel, MiscModel, SkillAspdModel, Ski
 import { EquipmentSummaryModel } from 'src/app/models/equipment-summary.model';
 import { HpSpTable } from 'src/app/models/hp-sp-table.model';
 import { AdditionalBonusInput } from 'src/app/models/info-for-class.model';
-import { ItemModel, itemAutoCastPendingScripts, itemAutoCastScripts, itemBonusScriptEntries } from 'src/app/models/item.model';
+import { ItemModel, itemAutoCastEffectScripts, itemAutoCastPendingScripts, itemAutoCastScripts, itemBonusScriptEntries } from 'src/app/models/item.model';
 import { MainModel } from 'src/app/models/main.model';
 import { MonsterModel } from 'src/app/models/monster.model';
 import { StatusSummary } from 'src/app/models/status-summary.model';
@@ -638,6 +638,10 @@ export class Calculator {
     return this;
   }
 
+  isChanceSelected(name: string): boolean {
+    return this.selectedChanceList.includes(name);
+  }
+
   loadItemFromModel(model: any) {
     this.model = { ...model };
     this.weaponData.set({ itemData: {} as any, refineLevel: 0, grade: '' });
@@ -775,6 +779,8 @@ export class Calculator {
     const conditionNum = Number(condition);
     const bonusNum = Number(bonus);
     const calc = (actual: number, cond: number) => floor(actual / cond) * bonusNum;
+    const refineFrom = condition.match(/^REFINE_FROM\[(\d+)]$/);
+    if (refineFrom) return Math.max(0, itemRefine - Number(refineFrom[1]) + 1) * bonusNum;
     // console.log({ lineScript, conditionNum, bonusNum });
     if (conditionNum && bonusNum) {
       return floor(itemRefine / conditionNum) * bonusNum;
@@ -1277,6 +1283,7 @@ export class Calculator {
         skillLevel,
         chance,
         trigger: definition.trigger,
+        requiredEffect: definition.requiredEffect,
       });
     });
   }
@@ -1341,6 +1348,27 @@ export class Calculator {
         bonus: chance,
         itemId: item.id,
       });
+    }
+
+    for (const effect of itemAutoCastEffectScripts(item.script)) {
+      if (itemRefine < (effect.minimumRefine ?? 0)) continue;
+      if (effect.requiredEquippedItemIds?.length && !effect.requiredEquippedItemIds.some((id) => this.isEquipItemId(id))) continue;
+      const shieldRefine = this.model.shieldRefine ?? 0;
+      const duration = effect.durationSeconds + (effect.durationPerShieldRefineEvery
+        ? Math.floor(shieldRefine / effect.durationPerShieldRefineEvery) : 0);
+      const rate = effect.chance + itemRefine * (effect.chancePerRefine ?? 0);
+      const bonus = Object.fromEntries(Object.entries(effect.bonusPerRefine ?? {})
+        .map(([key, value]) => [key, value * itemRefine]));
+      const existing = this._chanceList.find((entry) => entry.itemId === item.id && entry.name === item.name);
+      const entry = {
+        name: effect.name,
+        label: effect.label,
+        label2: `[ ${rate.toLocaleString('pt-BR')}% por ataque ${effect.trigger === 'physical-or-magical' ? 'físico ou mágico' : 'físico'} · ${duration} segundos${effect.note ? ` · ${effect.note}` : ''} ]`,
+        bonus: { ...(existing?.bonus ?? {}), ...bonus },
+        itemId: item.id,
+      };
+      if (existing) Object.assign(existing, entry);
+      else this._chanceList.push(entry);
     }
 
     return total;

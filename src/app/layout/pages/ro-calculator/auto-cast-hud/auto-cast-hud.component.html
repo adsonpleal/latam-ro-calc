@@ -460,13 +460,13 @@
           <div class="kv" *ngIf="steps.totalHit > 1"><span>× Golpes</span><span>{{ steps.totalHit | number: '1.0-0' }}</span></div>
           <div class="kv total"><span>= Dano esperado por ativação</span><span class="orange">{{ steps.expectedDamagePerActivation | number: '1.0-0' }}</span></div>
           <div class="psec">Ativações</div>
-          <div class="kv"><span>{{ activeSource.result?.source?.trigger === 'physical-attack' ? 'Ataques/s' : 'Ataques elegíveis/s' }}</span><span>{{ activeSource.triggerAttacksPerSecond | number: '1.2-2' }}</span></div>
+          <div class="kv"><span>{{ activeTriggerRateLabel }}</span><span>{{ activeSource.triggerAttacksPerSecond | number: '1.2-2' }}</span></div>
           <div class="kv"><span>× Chance da fonte</span><span>{{ activeSource.result?.source?.chance | number: '1.1-1' }}%</span></div>
           <div class="kv"><span>= Ativações/s</span><span>{{ activeSource.activationsPerSecond | number: '1.2-2' }}</span></div>
           <div class="kv"><span>× Dano esperado por ativação</span><span>{{ steps.expectedDamagePerActivation | number: '1.0-0' }}</span></div>
         </ng-container></ng-template>
         <ng-template #autoCastDpsFallback>
-          <div class="kv"><span>{{ activeSource.result?.source?.trigger === 'physical-attack' ? 'Ataques/s' : 'Ataques elegíveis/s' }}</span><span>{{ activeSource.triggerAttacksPerSecond | number: '1.2-2' }}</span></div>
+          <div class="kv"><span>{{ activeTriggerRateLabel }}</span><span>{{ activeSource.triggerAttacksPerSecond | number: '1.2-2' }}</span></div>
           <div class="kv"><span>× Chance da fonte</span><span>{{ activeSource.result?.source?.chance | number: '1.1-1' }}%</span></div>
           <div class="kv"><span>= Ativações/s</span><span>{{ activeSource.activationsPerSecond | number: '1.2-2' }}</span></div>
           <div class="kv"><span>× Dano esperado por ativação</span><span>{{ activeSource.expectedDamagePerActivation | number: '1.0-0' }}</span></div>

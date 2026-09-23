@@ -160,12 +160,6 @@
       ],
       "perfectDodge": [
         "20"
-      ],
-      "autoCastPending": [
-        {
-          "skillName": "Beijo do Vampiro",
-          "reason": "A habilidade não está catalogada no cliente."
-        }
       ]
     }
   },
@@ -4900,16 +4894,26 @@
       "hp": [
         "500"
       ],
-      "autoCastPending": [
+      "autoCast": [
         {
-          "skillName": "Congelar",
           "skillId": 88,
-          "reason": "A descrição combina esta ativação com outra rolagem; a probabilidade individual não é documentada."
+          "skillLevel": [
+            "10"
+          ],
+          "chance": [
+            "1"
+          ],
+          "trigger": "physical-attack"
         },
         {
-          "skillName": "Onda Psíquica",
           "skillId": 2449,
-          "reason": "A descrição combina esta ativação com outra rolagem; a probabilidade individual não é documentada."
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "1"
+          ],
+          "trigger": "physical-attack"
         }
       ]
     }
@@ -25525,11 +25529,38 @@
       "ignore_size_penalty": [
         "12===1"
       ],
-      "autoCastPending": [
+      "autoCastEffect": [
         {
-          "skillName": "Golpe Fulminante",
+          "name": "Transformação Piamette",
+          "label": "Transformação Piamette (Coelho Macabro)",
+          "chance": 0.2,
+          "chancePerRefine": 0.2,
+          "durationSeconds": 3,
+          "durationPerShieldRefineEvery": 3,
+          "trigger": "physical-or-magical",
+          "note": "Drena 50 HP/s; ao transformar por ataque mágico, ativa Amplificação Mística nv.5",
+          "requiredEquippedItemIds": [
+            28901,
+            28902
+          ],
+          "minimumRefine": 1,
+          "bonusPerRefine": {
+            "vct": 5,
+            "aspdPercent": 3
+          }
+        }
+      ],
+      "autoCast": [
+        {
           "skillId": 5,
-          "reason": "Exige um estado de transformação que ainda não é modelado."
+          "skillLevel": [
+            "10"
+          ],
+          "chance": [
+            "EQUIP_ID[28901||28902]REFINE[headUpper==1]10"
+          ],
+          "trigger": "physical-attack",
+          "requiredEffect": "Transformação Piamette"
         }
       ]
     }
@@ -26905,46 +26936,102 @@
       "m_my_element_all": [
         "1---1"
       ],
-      "autoCastPending": [
+      "autoCastEffect": [
         {
-          "skillName": "Chamas de Hela",
-          "skillId": 2212,
-          "reason": "Exige um estado de transformação que ainda não é modelado."
-        },
+          "name": "Transformação Fumacento",
+          "label": "Transformação Fumacento",
+          "chance": 3,
+          "durationSeconds": 5
+        }
+      ],
+      "autoCast": [
         {
-          "skillName": "Corrente Elétrica",
-          "skillId": 2214,
-          "reason": "Exige um estado de transformação que ainda não é modelado."
-        },
-        {
-          "skillName": "Lanças de Fogo",
           "skillId": 19,
-          "reason": "Exige um estado de transformação que ainda não é modelado."
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "melee-physical-attack",
+          "requiredEffect": "Transformação Fumacento"
         },
         {
-          "skillName": "Lanças de Gelo",
           "skillId": 14,
-          "reason": "Exige um estado de transformação que ainda não é modelado."
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "melee-physical-attack",
+          "requiredEffect": "Transformação Fumacento"
         },
         {
-          "skillName": "Relâmpago",
           "skillId": 20,
-          "reason": "Exige um estado de transformação que ainda não é modelado."
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "melee-physical-attack",
+          "requiredEffect": "Transformação Fumacento"
         },
         {
-          "skillName": "Coluna de Pedra",
           "skillId": 90,
-          "reason": "Exige um estado de transformação que ainda não é modelado."
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "melee-physical-attack",
+          "requiredEffect": "Transformação Fumacento"
         },
         {
-          "skillName": "Congelar",
           "skillId": 88,
-          "reason": "Exige um estado de transformação que ainda não é modelado."
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "7===4"
+          ],
+          "trigger": "melee-physical-attack",
+          "requiredEffect": "Transformação Fumacento"
         },
         {
-          "skillName": "Tempestade de Raios",
           "skillId": 21,
-          "reason": "Exige um estado de transformação que ainda não é modelado."
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "8===3"
+          ],
+          "trigger": "melee-physical-attack",
+          "requiredEffect": "Transformação Fumacento"
+        },
+        {
+          "skillId": 2212,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "LEVEL[100]9===2"
+          ],
+          "trigger": "melee-physical-attack",
+          "requiredEffect": "Transformação Fumacento"
+        },
+        {
+          "skillId": 2214,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "LEVEL[100]10===1"
+          ],
+          "trigger": "melee-physical-attack",
+          "requiredEffect": "Transformação Fumacento"
         }
       ]
     }
@@ -48537,11 +48624,17 @@
       "p_pene_race_all": [
         "EQUIP_ID[24694&&24693&&24695&&24696&&24697]===50"
       ],
-      "autoCastPending": [
+      "autoCast": [
         {
-          "skillName": "Impacto Flamejante",
           "skillId": 2006,
-          "reason": "O cliente não informa a chance de ativação."
+          "skillLevelMode": "highest-learned",
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[24694&&24693&&24695&&24696&&24697]7"
+          ],
+          "trigger": "melee-physical-hit"
         }
       ]
     }
@@ -48830,11 +48923,16 @@
       "m_pene_race_all": [
         "EQUIP_ID[24694&&24693&&24695&&24696&&24697]===50"
       ],
-      "autoCastPending": [
+      "autoCast": [
         {
-          "skillName": "Onda Psíquica",
           "skillId": 2449,
-          "reason": "O cliente não informa a chance de ativação."
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "EQUIP_ID[24694&&24693&&24695&&24696&&24697]7"
+          ],
+          "trigger": "melee-physical-hit"
         }
       ]
     }
@@ -147527,21 +147625,58 @@
       "fct": [
         "GRADE[me==B]12===0.5"
       ],
-      "autoCastPending": [
+      "autoCastEffect": [
         {
-          "skillName": "Maldição de Jormungand",
+          "name": "Transformação Fumacento-LT",
+          "label": "Transformação Fumacento-LT",
+          "chance": 5,
+          "durationSeconds": 10
+        }
+      ],
+      "autoCast": [
+        {
+          "skillId": 17,
+          "skillLevel": [
+            "9"
+          ],
+          "chance": [
+            "GRADE[me==D]11===3"
+          ],
+          "trigger": "magic-attack"
+        },
+        {
           "skillId": 2450,
-          "reason": "Exige um estado de transformação que ainda não é modelado."
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "5"
+          ],
+          "trigger": "melee-physical-attack",
+          "requiredEffect": "Transformação Fumacento-LT",
+          "skillLevelMode": "highest-learned"
         },
         {
-          "skillName": "Chamas de Hela",
           "skillId": 2212,
-          "reason": "Exige um estado de transformação que ainda não é modelado."
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "9===5"
+          ],
+          "trigger": "melee-physical-attack",
+          "requiredEffect": "Transformação Fumacento-LT"
         },
         {
-          "skillName": "Corrente Elétrica",
           "skillId": 2214,
-          "reason": "Exige um estado de transformação que ainda não é modelado."
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "10===2"
+          ],
+          "trigger": "melee-physical-attack",
+          "requiredEffect": "Transformação Fumacento-LT"
         }
       ]
     }
@@ -225250,10 +225385,10 @@
   "810009": {
     "id": 810009,
     "aegisName": "Master_Soul_Rifle_LT",
-    "name": "Master Soul Rifle-LT [2]",
-    "unidName": "Rifle",
+    "name": "Rifle Primordial-LT",
+    "unidName": "Rifle Primordial-LT",
     "resName": "Master_Soul_Rifle_LT",
-    "description": "ปืน Rifle เวอร์ชั่นปรับปรุงที่เปี่ยมไปด้วยพลังแห่งจิตวิญญาญ ถูกใช้โดยนักแม่นปืนผู้มากความสามารถ\nทำงานประสานกันกับ Hero Boots-LT\nMATK + 250.\nเมื่อ Lv.210 ขึ้นไป, SPL + 2, S.MATK + 1.\nทุก ๆ การอัพเกรด 2 ขั้น MATK + 15.\nทุก ๆ การอัพเกรด 3 ขั้น เพิ่ม Damage สกิล Soul Strike, Napalm Vulcan 20%\nเมื่ออัพเกรดถึงขั้น 7, เพิ่ม Damage สกิล Soul Expansion 40%, เพิ่ม Damage ทางเวทมนตร์ธาตุ Ghost 25%\nเมื่ออัพเกรดถึงขั้น 9, เมื่อโจมตีทางกายภาพระยะไกลทั่วไป มีโอกาสที่จะเกิดสกิล Soul Strike Lv.10, Napalm Vulcan, Soul Expansion Lv.5\nเมื่ออัพเกรดถึงขั้น 11, เพิ่ม Damage สกิล Soul Expansion ขึ้นอีก 30%, เพิ่ม Damage ทางเวทมนตร์ต่อศัตรูทุกขนาด 15%\n \nเมื่อสวมใส่ร่วมกับ Hero Boots-LT, MATK + 10%, S.MATK + 2.\n \n^CC3D3D[Option เพิ่มเติมตาม Grade]^000000\n[Grade D] MATK + 3%\n[Grade C] เพิ่ม Damage ทางเวทมนตร์ธาตุ Ghost 15%, S.MATK + 1.\n[Grade B] SPL + 3, S.MATK + 2.\nประเภท : ^777777Rifle^000000 พลังโจมตี : ^777777200^000000\nน้ำหนัก : ^777777100^000000\nเลเวล Weapon : ^7777775^000000\nเลเวลที่ต้องการ : ^777777190^000000\nอาชีพที่สวมใส่ : ^777777Rebellion Classes^000000",
+    "description": "Arma de um antigo herói que foi reformada.\n--------------------------\n^0000ffATQM +250.^000000\nA cada 2 refinos:\n^0000ffATQM +15.^000000\nA cada 3 refinos:\n^0000ffDano de [Vulcão Napalm] e [Espíritos Anciões] +20%.^000000\n--------------------------\nRefino +7 ou mais:\n^0000ffDano de [Impacto Espiritual] +40%.^000000\n^0000ffDano mágico de propriedade Fantasma +25%.^000000\nRefino +9 ou mais:\n^0000ffAo realizar ataques físicos à distância, 15% de chance de autoconjurar [Espíritos Anciões] nv.10, [Vulcão Napalm] nv.5 e [Impacto Espiritual] nv.5.^000000\nRefino +11 ou mais:\n^0000ffDano mágico contra todos os tamanhos +15%.^000000\n^0000ffDano de [Impacto Espiritual] +30% adicional.^000000\n--------------------------\nGrau D ou mais:\n^0000ffDano mágico +3%.^000000\nGrau C ou mais:\n^0000ffS.ATQM +1.^000000\n^0000ffDano mágico de propriedade Fantasma +15%.^000000\nGrau B ou mais:\n^0000ffFEI +3. S.ATQM +2.^000000\n--------------------------\nNv. base 210 ou mais:\n^0000ffFEI +2. S.ATQM +1.^000000\n--------------------------\n^fa4e09Conjunto^000000\n^fa4e09[Bota Primordial-LT]^000000\n^0000ffS.ATQM +2.^000000\n^0000ffDano mágico +10%.^000000\n--------------------------\nTipo: ^777777Rifle^000000\nATQ: ^777777200^000000 ATQM: ^7777770^000000\nPeso: ^777777100^000000\nNível da arma: ^7777775^000000\nNível necessário: ^777777190^000000\nClasses: ^777777Justiceiros e evoluções^000000",
     "slots": 2,
     "itemTypeId": 1,
     "itemSubTypeId": 274,
@@ -225289,7 +225424,7 @@
       ],
       "sMatk": [
         "SUM[level==210]===1",
-        "EQUIP[Hero Boots-LT]===2",
+        "EQUIP_ID[470094]===2",
         "GRADE[weapon==C]===1",
         "GRADE[weapon==B]===2"
       ],
@@ -225301,7 +225436,7 @@
         "11===15"
       ],
       "matkPercent": [
-        "EQUIP[Hero Boots-LT]===10",
+        "EQUIP_ID[470094]===10",
         "GRADE[weapon==D]===3"
       ],
       "autoCast": [
@@ -251036,14 +251171,20 @@
             "5",
             "SKILL_ID[14==1]---0.5"
           ],
-          "trigger": "physical-hit",
+          "trigger": "physical-attack",
           "skillLevelMode": "highest-learned"
-        }
-      ],
-      "autoCastPending": [
+        },
         {
-          "skillName": "Rajada Congelante",
-          "reason": "A habilidade não está catalogada no cliente."
+          "skillId": 15,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "5",
+            "SKILL_ID[15==1]---0.5"
+          ],
+          "trigger": "physical-attack",
+          "skillLevelMode": "highest-learned"
         }
       ]
     }
@@ -256383,10 +256524,16 @@
         "10",
         "1---1"
       ],
-      "autoCastPending": [
+      "autoCast": [
         {
-          "skillName": "Golpe Avassalador",
-          "reason": "A habilidade não está catalogada no cliente."
+          "skillId": 661,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "1"
+          ],
+          "trigger": "physical-attack"
         }
       ]
     }
@@ -256976,10 +257123,16 @@
       "Swordman"
     ],
     "script": {
-      "autoCastPending": [
+      "autoCast": [
         {
-          "skillName": "Ataque Vital",
-          "reason": "A habilidade não está catalogada no cliente."
+          "skillId": 399,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "10"
+          ],
+          "trigger": "physical-attack"
         }
       ]
     }
@@ -257755,6 +257908,18 @@
       ],
       "p_race_player_human": [
         "70"
+      ],
+      "autoCast": [
+        {
+          "skillId": 367,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "USED[Crusader]9===20"
+          ],
+          "trigger": "physical-attack"
+        }
       ]
     }
   },
@@ -258141,7 +258306,8 @@
     "compositionPos": null,
     "usableClass": [
       "Taekwondo",
-      "Priest"
+      "Priest",
+      "Sage"
     ],
     "script": {
       "int": [
@@ -258156,10 +258322,16 @@
       "matk": [
         "100"
       ],
-      "autoCastPending": [
+      "autoCast": [
         {
-          "skillName": "Julgamento Infernal",
-          "reason": "A habilidade não está catalogada no cliente."
+          "skillId": 662,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "USED[Sage]2"
+          ],
+          "trigger": "physical-attack"
         }
       ]
     }
@@ -263274,10 +263446,25 @@
       "matk": [
         "120"
       ],
-      "autoCastPending": [
+      "autoCastEffect": [
         {
-          "skillName": "Terremoto",
-          "reason": "Exige um estado de transformação que ainda não é modelado."
+          "name": "Transformação Rainha Verme",
+          "label": "Transformação Rainha Verme",
+          "chance": 0.8,
+          "durationSeconds": 5
+        }
+      ],
+      "autoCast": [
+        {
+          "skillId": 653,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "20"
+          ],
+          "trigger": "physical-attack",
+          "requiredEffect": "Transformação Rainha Verme"
         }
       ]
     }
@@ -263473,6 +263660,18 @@
     "script": {
       "cri": [
         "20"
+      ],
+      "autoCast": [
+        {
+          "skillId": 512,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-attack"
+        }
       ]
     }
   },
@@ -263499,6 +263698,18 @@
     "script": {
       "cri": [
         "20"
+      ],
+      "autoCast": [
+        {
+          "skillId": 512,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-attack"
+        }
       ]
     }
   },
@@ -268967,21 +269178,36 @@
       "subele_fire": [
         "10"
       ],
-      "autoCastPending": [
+      "autoCast": [
         {
-          "skillName": "Gloria Domini",
           "skillId": 367,
-          "reason": "O cliente não informa a chance de ativação."
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "3"
+          ],
+          "trigger": "physical-attack"
         },
         {
-          "skillName": "Bolas de Fogo",
           "skillId": 17,
-          "reason": "O cliente não informa a chance de ativação."
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "15"
+          ],
+          "trigger": "physical-attack"
         },
         {
-          "skillName": "Impacto de Tyr",
           "skillId": 62,
-          "reason": "O cliente não informa a chance de ativação."
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-attack"
         }
       ]
     }
@@ -269013,20 +269239,46 @@
       "vit": [
         "1"
       ],
-      "autoCastPending": [
+      "autoCast": [
         {
-          "skillName": "Punho Supremo de Asura",
-          "reason": "A habilidade não está catalogada no cliente."
+          "skillId": 271,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "EQUIP_ID[2678]0.3"
+          ],
+          "trigger": "physical-attack"
         },
         {
-          "skillName": "Lâminas Destruidoras",
           "skillId": 136,
-          "reason": "O cliente não informa a chance de ativação."
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "EQUIP_ID[2678]5"
+          ],
+          "trigger": "physical-attack"
         },
         {
-          "skillName": "Impacto Meteoro",
           "skillId": 406,
-          "reason": "O cliente não informa a chance de ativação."
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "EQUIP_ID[2678]5"
+          ],
+          "trigger": "physical-attack"
+        },
+        {
+          "skillId": 266,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "EQUIP_ID[2678]2"
+          ],
+          "trigger": "physical-attack"
         }
       ]
     }
@@ -271751,21 +272003,36 @@
       "subele_fire": [
         "10"
       ],
-      "autoCastPending": [
+      "autoCast": [
         {
-          "skillName": "Gloria Domini",
           "skillId": 367,
-          "reason": "O cliente não informa a chance de ativação."
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "3"
+          ],
+          "trigger": "physical-attack"
         },
         {
-          "skillName": "Bolas de Fogo",
           "skillId": 17,
-          "reason": "O cliente não informa a chance de ativação."
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "15"
+          ],
+          "trigger": "physical-attack"
         },
         {
-          "skillName": "Impacto de Tyr",
           "skillId": 62,
-          "reason": "O cliente não informa a chance de ativação."
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "2"
+          ],
+          "trigger": "physical-attack"
         }
       ]
     }
@@ -271803,11 +272070,16 @@
       "matk": [
         "10"
       ],
-      "autoCastPending": [
+      "autoCast": [
         {
-          "skillName": "Impacto Meteoro",
           "skillId": 406,
-          "reason": "O cliente não informa a chance de ativação."
+          "skillLevel": [
+            "2"
+          ],
+          "chance": [
+            "EQUIP_ID[2957]5"
+          ],
+          "trigger": "physical-attack"
         }
       ]
     }
@@ -271914,16 +272186,26 @@
       "hp": [
         "500"
       ],
-      "autoCastPending": [
+      "autoCast": [
         {
-          "skillName": "Congelar",
           "skillId": 88,
-          "reason": "A descrição combina esta ativação com outra rolagem; a probabilidade individual não é documentada."
+          "skillLevel": [
+            "10"
+          ],
+          "chance": [
+            "EQUIP_ID[2977]1"
+          ],
+          "trigger": "physical-attack"
         },
         {
-          "skillName": "Onda Psíquica",
           "skillId": 2449,
-          "reason": "A descrição combina esta ativação com outra rolagem; a probabilidade individual não é documentada."
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "EQUIP_ID[2977]1"
+          ],
+          "trigger": "physical-attack"
         }
       ]
     }
@@ -276371,11 +276653,17 @@
       "matk": [
         "10"
       ],
-      "autoCastPending": [
+      "autoCast": [
         {
-          "skillName": "Nevasca",
           "skillId": 89,
-          "reason": "A descrição combina esta ativação com outra rolagem; a probabilidade individual não é documentada."
+          "skillLevel": [
+            "10"
+          ],
+          "chance": [
+            "0.3",
+            "REFINE[armor==1]---0.3"
+          ],
+          "trigger": "physical-attack"
         }
       ]
     }
@@ -333701,10 +333989,17 @@
       "all"
     ],
     "script": {
-      "autoCastPending": [
+      "autoCast": [
         {
-          "skillName": "Rajada Congelante",
-          "reason": "A habilidade não está catalogada no cliente."
+          "skillId": 15,
+          "skillLevel": [
+            "3"
+          ],
+          "chance": [
+            "5",
+            "EQUIP_ID[4324]30"
+          ],
+          "trigger": "physical-attack"
         }
       ]
     }
@@ -337385,16 +337680,9 @@
             "1"
           ],
           "chance": [
-            "2"
+            "EQUIP_ID[4631]2"
           ],
-          "trigger": "physical-hit"
-        }
-      ],
-      "autoCastPending": [
-        {
-          "skillName": "Ira de Thor",
-          "skillId": 85,
-          "reason": "A descrição combina esta ativação com outra rolagem; a probabilidade individual não é documentada."
+          "trigger": "physical-attack"
         }
       ]
     }
@@ -354768,6 +355056,19 @@
       "p_pene_race_player_human": [
         "25",
         "6===5"
+      ],
+      "autoCast": [
+        {
+          "skillId": 266,
+          "skillLevel": [
+            "5"
+          ],
+          "chance": [
+            "9===6",
+            "REFINE_FROM[10]---1"
+          ],
+          "trigger": "physical-attack"
+        }
       ]
     }
   },
@@ -357604,10 +357905,17 @@
       "matk": [
         "50"
       ],
-      "autoCastPending": [
+      "autoCast": [
         {
-          "skillName": "Descarga Elétrica",
-          "reason": "A habilidade não está catalogada no cliente."
+          "skillId": 541,
+          "skillLevel": [
+            "1"
+          ],
+          "chance": [
+            "3"
+          ],
+          "trigger": "melee-physical-attack",
+          "skillLevelMode": "highest-learned"
         }
       ]
     }
@@ -361861,21 +362169,14 @@
       ],
       "autoCast": [
         {
-          "skillId": 13,
+          "skillId": 5220,
           "skillLevel": [
             "1"
           ],
           "chance": [
             "EQUIP_ID[470073]10"
           ],
-          "trigger": "physical-hit"
-        }
-      ],
-      "autoCastPending": [
-        {
-          "skillName": "Espíritos Ancestrais",
-          "skillId": 5220,
-          "reason": "O cliente não informa a chance de ativação."
+          "trigger": "physical-attack"
         }
       ]
     }
@@ -368424,15 +368725,7 @@
     "usableClass": [
       "all"
     ],
-    "script": {
-      "autoCastPending": [
-        {
-          "skillName": "Explosão Rúnica",
-          "skillId": 2017,
-          "reason": "O cliente não informa o nível conjurado; o efeito ativado também ainda não é modelado como equipamento."
-        }
-      ]
-    }
+    "script": {}
   },
   "1270009": {
     "id": 1270009,

@@ -6,6 +6,9 @@ import { basicAttackDamageRanges, basicDpsBreakdown, buildAutoCastSimulation, ef
 import { Calculator } from './calculator';
 import { normalizeSavedModel } from './saved-model';
 import { decodeBuild, encodeBuild } from './share-codec';
+import { ITEM_AUTO_CAST_SKILLS } from '../skills/item-auto-cast-skills';
+import { ITEM_CLASS_AUTO_CAST_SKILLS } from '../skills/item-class-auto-cast-skills';
+import { SKILL_ID_BY_NAME } from '../skills';
 
 const solved = (damage = 1000) => ({
   skillTotalHit: 1,
@@ -84,6 +87,100 @@ describe('auto-cast probability', () => {
 });
 
 describe('verified item auto-casts', () => {
+  it('accounts for Esconjurar kills on ordinary undead and Lava Flow fixed ticks', () => {
+    const price = (skillId: number, skillLevel: number, monster: Record<string, unknown>) => {
+      const calc = {
+        atkSkills: [], autoCastDefinitions: [],
+        resolvedItemAutoCasts: [{
+          key: `item-${skillId}`, itemId: 1, itemName: 'Item', skillId, skillLevel,
+          chance: 10, trigger: 'physical-hit',
+        }],
+        status: {}, skillState: { learnedLevel: () => 0 },
+        solveAutoCast: () => solved(100),
+      } as unknown as Calculator;
+      return buildAutoCastSimulation({ calc, model: createMainModel(), hasSelectedEffects: false,
+        summary: { ...summary, monster: { hp: 10_000, ...monster } },
+      }).sources[0].expectedDamagePerActivation;
+    };
+    expect(price(77, 5, { race: 'undead', type: 'normal' })).toBe(1090);
+    expect(price(77, 5, { race: 'undead', type: 'boss' })).toBe(100);
+    expect(price(77, 5, { race: 'plant', type: 'normal' })).toBe(100);
+    expect(price(5006, 2, { race: 'plant', type: 'normal' })).toBe(12_100);
+  });
+
+  it('uses LATAM skill ratios, size-dependent hits and class-independent rune defaults', () => {
+    const byName = new Map(ITEM_AUTO_CAST_SKILLS.map((entry) => [entry.name, entry]));
+    const input = (level: number, size: 's' | 'm' | 'l' = 'm') => ({
+      skillLevel: level, model: { level: 100 }, status: { totalStr: 90 },
+      monster: { data: { size } }, skills: { learnedLevel: () => 0 },
+    } as any);
+    expect(byName.get('Fire Ball')!.formula(input(1))).toBe(160);
+    expect(byName.get('Fire Ball')!.formula(input(10))).toBe(340);
+    expect(byName.get('Spread Shot')!.formula(input(1))).toBe(230);
+    expect(byName.get('Spread Shot')!.formula(input(10))).toBe(500);
+    expect(byName.get('Sonic Blow')!.formula(input(1))).toBe(300);
+    expect(byName.get('Thunderstorm')!.totalHit!(input(8))).toBe(8);
+    expect(byName.get('Pierce')!.totalHit!(input(5, 's'))).toBe(1);
+    expect(byName.get('Pierce')!.totalHit!(input(5, 'm'))).toBe(2);
+    expect(byName.get('Pierce')!.totalHit!(input(5, 'l'))).toBe(3);
+    expect(byName.get('Storm Blast')!.formula(input(1))).toBe(1500);
+    expect(byName.get('Lava Flow')!.formula(input(2))).toBe(550);
+  });
+
+  it('resolves all 219 stored item rules even without native class skills', () => {
+    const addedIds = new Set(ITEM_AUTO_CAST_SKILLS.map((skill) => SKILL_ID_BY_NAME[skill.name]));
+    const promotedIds = new Set(ITEM_CLASS_AUTO_CAST_SKILLS.map((skill) => SKILL_ID_BY_NAME[skill.name]));
+    const rules = Object.values(ITEMS).flatMap((item: any) =>
+      (item.script?.autoCast ?? []).map((rule: any) => ({ rule, item })),
+    );
+    expect(rules).toHaveLength(219);
+    expect(rules.filter(({ rule }) => addedIds.has(rule.skillId))).toHaveLength(64);
+    expect(promotedIds.size).toBe(24);
+    expect(rules.filter(({ rule }) => promotedIds.has(rule.skillId))).toHaveLength(64);
+
+    for (const { rule, item } of rules) {
+      const seen: AtkSkillModel[] = [];
+      const calc = {
+        atkSkills: [], autoCastDefinitions: [],
+        resolvedItemAutoCasts: [{
+          key: `item-${item.id}-${rule.skillId}`, itemId: item.id, itemName: item.name,
+          skillId: rule.skillId, skillLevel: 1, chance: 10, trigger: 'physical-attack',
+        }],
+        status: {},
+        skillState: { learnedLevel: () => 0, activeLevel: () => 0, isActive: () => false },
+        solveAutoCast: (_selection: string, skill: AtkSkillModel) => {
+          seen.push(skill);
+          return solved();
+        },
+      } as unknown as Calculator;
+      const result = buildAutoCastSimulation({ calc, model: createMainModel(), summary, hasSelectedEffects: false });
+      expect(result.blockedSources, `item ${item.id}, skill ${rule.skillId}`).toEqual([]);
+      expect(result.sources, `item ${item.id}, skill ${rule.skillId}`).toHaveLength(1);
+      expect(SKILL_ID_BY_NAME[seen[0]?.name], `item ${item.id}`).toBe(rule.skillId);
+    }
+  });
+
+  it('can price the VIT armor Soul Vulcan Strike outside Magus', () => {
+    const calc = {
+      atkSkills: [],
+      autoCastDefinitions: [],
+      resolvedItemAutoCasts: [{
+        key: 'item-450597-0-5220', itemId: 450597, itemName: 'Armadura Desconhecida VIT',
+        skillId: 5220, skillLevel: 1, chance: 10, trigger: 'physical-attack',
+      }],
+      status: {},
+      skillState: { learnedLevel: () => 0, activeLevel: () => 0, isActive: () => false },
+      solveAutoCast: (_selection: string, skill: AtkSkillModel) => {
+        expect(skill.name).toBe('Soul Vulcan Strike');
+        return solved();
+      },
+    } as unknown as Calculator;
+    const result = buildAutoCastSimulation({ calc, model: createMainModel(), summary, hasSelectedEffects: false });
+    expect(result.sources).toHaveLength(1);
+    expect(result.sources[0].activationsPerSecond).toBeCloseTo(0.4);
+    expect(result.blockedSources).toEqual([]);
+  });
+
   it('keeps Terror Violeta 1185 as two independent rules', () => {
     expect(ITEMS[1185].script.autoCast.map((rule) => [rule.skillId, rule.skillLevel, rule.chance])).toEqual([
       [88, ['5'], ['5']],

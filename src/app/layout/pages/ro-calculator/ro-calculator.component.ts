@@ -1358,7 +1358,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // While comparing, feed the compared build's summary so each table row carries a
     // `*2` value and the misc-detail template can render the "main → simulado" arrow.
     const cmp = this.isComparing ? this.totalSummary2 : undefined;
-    this.elementTable = buildElementTable(this.totalSummary, cmp);
+    this.elementTable = buildElementTable(this.totalSummary, cmp, this.monsterDataMap[this.selectedMonster]?.stats?.class === 1);
     ({ raceTable: this.raceTable, peneRaceTable: this.peneRaceTable } = buildRaceTables(this.totalSummary, cmp));
     this.sizeTable = buildSizeTable(this.totalSummary, cmp);
     ({ classTable: this.classTable, peneClassTable: this.peneClassTable } = buildMonsterTypeTables(this.totalSummary, cmp));

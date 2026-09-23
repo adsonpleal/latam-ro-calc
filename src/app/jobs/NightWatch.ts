@@ -1,6 +1,7 @@
 import { JOB_4_MAX_JOB_LEVEL, JOB_4_MIN_MAX_LEVEL } from '../app-config';
 import { ElementType, WeaponSubTypeName } from '../constants';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
+import { ClassAutoCastDefinition } from '../models/auto-cast.model';
 import { AdditionalBonusInput } from '../models/info-for-class.model';
 import { addBonus, genSkillList, genSkillListWithLabel } from '../utils';
 import { Rebellion } from './Rebellion';
@@ -14,6 +15,40 @@ import { ClassName } from './_class-name';
  */
 const levelList = (name: string, maxLv: number) =>
   Array.from({ length: maxLv }, (_, i) => ({ label: `${name} Nv${i + 1}`, value: `${name}==${i + 1}` }));
+
+// rAthena battle.cpp: SC_AUTO_FIRING_LAUNCHER rolls each learned grenade skill separately.
+const AUTO_FIRING_RATES = [
+  { name: 'Basic Grenade', label: 'Arremessar Explosivo', id: 5410, rates: [0, 6, 7, 8, 9, 10] },
+  { name: 'Hasty Fire in the Hole', label: 'Explosão Gradual', id: 5411, rates: [0, 0, 0, 3, 5, 7] },
+  { name: 'Grenade Dropping', label: 'Detonação Total', id: 5412, rates: [0, 0, 0, 0, 0, 3] },
+] as const;
+
+const NIGHT_WATCH_AUTO_CASTS: ClassAutoCastDefinition[] = [{
+  key: 'auto-firing-launcher',
+  resolve: ({ skillState }) => {
+    const level = skillState.activeLevel('Auto Firing Launcher');
+    if (!level) return {};
+    const sources = AUTO_FIRING_RATES.flatMap(({ name, label, id, rates }) => {
+      const chance = rates[level] ?? 0;
+      const skillLevel = skillState.learnedLevel(name);
+      if (!chance || !skillLevel || id === 5412) return [];
+      return [{
+        key: `auto-firing-launcher-${id}`, kind: 'passive' as const, skillId: id,
+        skillLevel, chance, trigger: 'physical-attack' as const,
+        sourceName: 'Disparo Automático', enablingSkillId: 5413,
+        chanceBreakdown: [
+          { label: 'Disparo Automático', value: `Nv. ${level}` },
+          { label, value: `Nv. ${skillLevel} · ${chance}%` },
+        ],
+      }];
+    });
+    const blocked = level === 5 && skillState.learnedLevel('Grenade Dropping') > 0
+      ? [{ key: 'auto-firing-launcher-5412', name: 'Detonação Total', icon: 5412,
+        reason: 'Chance de 3% confirmada; o dano depende da posição aleatória das granadas e ainda não pode ser calculado.' }]
+      : [];
+    return { sources, blocked };
+  },
+}];
 
 /**
  * Job bonus (STR/AGI/VIT/INT/DEX/LUK) — irowiki.org/wiki/Night_Watch, "Job & Talent
@@ -508,6 +543,12 @@ export class NightWatch extends Rebellion {
   ];
   private readonly activeSkillList4th: ActiveSkillModel[] = [
     {
+      name: 'Auto Firing Launcher',
+      label: 'Disparo Automático',
+      inputType: 'dropdown',
+      dropdown: genSkillList(5),
+    },
+    {
       name: 'Hidden Card',
       label: 'Hidden Card',
       inputType: 'dropdown',
@@ -544,6 +585,12 @@ export class NightWatch extends Rebellion {
     },
   ];
   private readonly passiveSkillList4th: PassiveSkillModel[] = [
+    ...AUTO_FIRING_RATES.map(({ name, label }) => ({
+      name,
+      label,
+      inputType: 'dropdown' as const,
+      dropdown: genSkillList(5),
+    })),
     {
       name: 'PFI',
       label: 'P.F.I.',
@@ -567,6 +614,7 @@ export class NightWatch extends Rebellion {
       passiveSkillList: this.passiveSkillList4th,
       classNames: this.classNames4th,
     });
+    this.inheritAutoCasts(NIGHT_WATCH_AUTO_CASTS);
   }
 
   override setAdditionalBonus(params: AdditionalBonusInput): EquipmentSummaryModel {

@@ -329,12 +329,20 @@ export class AutoCastHudComponent {
   }
   private triggerLabel(trigger: string | undefined): string {
     if (trigger === 'physical-attack') return 'Ataque físico, mesmo se errar';
+    if (trigger === 'melee-physical-attack') return 'Ataque físico corpo a corpo, mesmo se errar';
+    if (trigger === 'magic-attack') return 'Uso de habilidade mágica';
     if (trigger === 'melee-physical-hit') return 'Ataque físico corpo a corpo que acertar';
     if (trigger === 'ranged-physical-hit') return 'Ataque físico à distância que acertar';
     return 'Ataque físico que acertar';
   }
   get activeTriggerLabel(): string {
     return this.triggerLabel(this.activeSource?.result?.source?.trigger);
+  }
+  get activeTriggerRateLabel(): string {
+    const trigger = this.activeSource?.result?.source?.trigger;
+    if (trigger === 'magic-attack') return 'Usos mágicos/s';
+    return trigger === 'physical-attack' || trigger === 'melee-physical-attack'
+      ? 'Ataques/s' : 'Ataques elegíveis/s';
   }
   get basicDpsSteps(): BasicDpsBreakdown | null {
     const sim = this.simulation;

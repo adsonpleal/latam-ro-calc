@@ -1,4 +1,5 @@
 import { ElementType } from '../constants/element-type.const';
+import { genSkillList } from '../utils';
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
 
@@ -203,6 +204,10 @@ export class Mage extends CharacterBase {
   ];
   protected readonly _activeSkillList: ActiveSkillModel[] = [];
   protected readonly _passiveSkillList: PassiveSkillModel[] = [
+    ...(['Cold Bolt', 'Frost Diver'] as const).map((name) => ({
+      inputType: 'dropdown' as const, name, label: `${name} aprendido`,
+      dropdown: genSkillList(10),
+    })),
     {
       inputType: 'dropdown',
       label: 'Safety Wall',
