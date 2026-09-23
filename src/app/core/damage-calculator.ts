@@ -1180,7 +1180,8 @@ export class DamageCalculator {
    *  resistance (−2% per level, −20% at Lv 10); Infecção (from Maldição de Jormungand)
    *  lowers Poison resistance (−5% per Killing Cloud level, −25% at Lv 5); Intoxicação
    *  (from Poço Venenoso) makes the target take +25% Poison damage, i.e. −25% Poison
-   *  resistance — the two poison debuffs stack; Geladinho (Bitter Cold, from Jack Frost
+   *  resistance — the two poison debuffs stack; Assombração (Soul Curse) lowers Dark
+   *  resistance by 100%, or 20% on bosses; Geladinho (Bitter Cold, from Jack Frost
    *  Nova) makes the target take +15% Water damage, i.e. −15% Water resistance; Pólen and
    *  Empalamento (Florescer / Pilares de Pedra under Potencializar Magia Nv4) take the
    *  target's Fire and Earth resistance down by 100%; an Insígnia under the target adds 50
@@ -1190,7 +1191,9 @@ export class DamageCalculator {
   private getElementResistReduction(propertyAtk: ElementType) {
     const keys = RESIST_REDUCTION_KEYS_BY_ELE[propertyAtk?.toLowerCase()] ?? [];
 
-    return keys.reduce((sum, key) => sum + (this.totalBonus[key] || 0), 0);
+    return keys.reduce((sum, key) => sum + (key === 'soulCurse' && this.monster.isBoss
+      ? (this.totalBonus[key] || 0) / 5
+      : (this.totalBonus[key] || 0)), 0);
   }
 
   /** Points the caster's Insígnia Nv3 adds to the ratio of a magic attack of its element:

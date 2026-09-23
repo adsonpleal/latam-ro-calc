@@ -431,6 +431,20 @@ const JobBuffsList: ActiveSkillModel[] = [
     ],
   },
   {
+    // Assombração is the target state inflicted by Necromancia (Evil Soul Curse).
+    // The skill level changes its application chance, not the resistance reduction.
+    // The client specifies -100% Dark resistance, or -20% against bosses.
+    name: 'Evil Soul Curse',
+    label: 'Assombração',
+    icon: 2601,
+    inputType: 'selectButton',
+    isDebuff: true,
+    dropdown: [
+      { label: 'Sim', isUse: true, value: 1, bonus: { soulCurse: 100 } },
+      { label: 'Não', isUse: false, value: 0 },
+    ],
+  },
+  {
     // Infecção — the debuff Maldição de Jormungand (Killing Cloud, SO_CLOUD_KILL)
     // leaves on the target: it lowers Poison property resistance by 5% per skill
     // level (−25% at Lv 5), so every Poison attack lands for that much more (see

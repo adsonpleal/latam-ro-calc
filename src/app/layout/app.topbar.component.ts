@@ -166,6 +166,13 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.145-beta',
+      date: '23-09-2026',
+      logs: [
+        'Assombração, aplicada por Necromancia, agora aparece em Debuffs no monstro e reduz a resistência a Sombrio em 100%, ou 20% contra chefes. O antigo seletor de nível de Necromancia, que não alterava o dano, foi removido. Reportado por Jota Ascetic.',
+      ],
+    },
+    {
       v: '0.1.144-beta',
       date: '22-09-2026',
       logs: [

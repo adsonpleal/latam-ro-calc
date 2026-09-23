@@ -82,7 +82,8 @@ const ATK_TYPE_PT: Record<string, string> = { Melee: 'Corpo a corpo', Range: 'À
 /** Target elemental-resistance reductions that make MY attacks of that property land for
  *  more. The engine adds these straight onto the property modifier (see damage-calculator
  *  `getElementResistReduction`): Oratio → Sagrado; Infecção (Maldição de Jormungand) and
- *  Intoxicação (Poço Venenoso) → Veneno (they stack); Geladinho (Jack Frost Nova) → Água;
+ *  Intoxicação (Poço Venenoso) → Veneno (they stack); Assombração (Necromancia) → Sombrio
+ *  (100 normally, 20 on bosses); Geladinho (Jack Frost Nova) → Água;
  *  Pólen (Florescer) → Fogo; Empalamento (Pilares de Pedra) → Terra; a target standing in an
  *  Insígnia takes +50 from the element it is weak to (Fogo → Água, Água → Vento,
  *  Vento → Terra, Terra → Fogo).
@@ -93,6 +94,7 @@ const ATK_TYPE_PT: Record<string, string> = { Melee: 'Corpo a corpo', Range: 'À
  *  each element lists every bonus key that feeds the column. */
 export const RESIST_REDUCTION_KEYS_BY_ELE: Record<string, string[]> = {
   holy: ['oratio'],
+  dark: ['soulCurse'],
   poison: ['infection', 'intoxication'],
   water: ['bitterCold', 'fireInsigniaOnTarget', 'deluge'],
   fire: ['pollen', 'earthInsigniaOnTarget', 'volcano'],
@@ -103,21 +105,23 @@ export const RESIST_REDUCTION_KEYS_BY_ELE: Record<string, string[]> = {
 /** Every key in RESIST_REDUCTION_KEYS_BY_ELE, for the breakdown of the elemental stage. */
 export const RESIST_REDUCTION_KEYS: string[] = Object.values(RESIST_REDUCTION_KEYS_BY_ELE).flat();
 
-function elementCell(summary: DamageSummaryLike, ele: string) {
+function elementCell(summary: DamageSummaryLike, ele: string, isBoss = false) {
   const reductionKeys = RESIST_REDUCTION_KEYS_BY_ELE[ele] ?? [];
   return {
     physicalElementToMonster: (summary['p_element_all'] || 0) + (summary[`p_element_${ele}`] || 0),
     magicalElementToMonster: (summary['m_element_all'] || 0) + (summary[`m_element_${ele}`] || 0),
     myElement: (summary['m_my_element_all'] || 0) + (summary[`m_my_element_${ele}`] || 0),
-    elementResistReduction: reductionKeys.reduce((sum, k) => sum + (summary[k] || 0), 0),
+    elementResistReduction: reductionKeys.reduce((sum, k) => sum + (k === 'soulCurse' && isBoss
+      ? (summary[k] || 0) / 5
+      : (summary[k] || 0)), 0),
   };
 }
 
-export function buildElementTable(totalSummary: DamageSummaryLike, compareSummary?: DamageSummaryLike): ElementDataModel[] {
+export function buildElementTable(totalSummary: DamageSummaryLike, compareSummary?: DamageSummaryLike, isBoss = false): ElementDataModel[] {
   return elements.map(([eleShow, ele]) => {
-    const row: any = { name: eleShow, displayName: ELEMENT_PT[eleShow] ?? eleShow, ...elementCell(totalSummary, ele) };
+    const row: any = { name: eleShow, displayName: ELEMENT_PT[eleShow] ?? eleShow, ...elementCell(totalSummary, ele, isBoss) };
     if (compareSummary) {
-      const c = elementCell(compareSummary, ele);
+      const c = elementCell(compareSummary, ele, isBoss);
       row.physicalElementToMonster2 = c.physicalElementToMonster;
       row.magicalElementToMonster2 = c.magicalElementToMonster;
       row.myElement2 = c.myElement;
