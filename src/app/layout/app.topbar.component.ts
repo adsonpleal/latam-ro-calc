@@ -166,6 +166,13 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.145-beta',
+      date: '23-09-2026',
+      logs: [
+        'Reencarnação das Almas agora aparece na lista de buffs com os 10 níveis. O bônus de 7% a 25% é aplicado ao dano físico corpo a corpo, físico à distância e mágico de todas as propriedades. A recuperação de SP e AP não entra no cálculo de dano. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.144-beta',
       date: '22-09-2026',
       logs: [

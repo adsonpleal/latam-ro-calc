@@ -43,6 +43,7 @@ export interface SkillMetaEntry {
 }
 
 export const SKILL_META = {
+  "Soul of Heaven and Earth": { id: 5432, label: "Reencarnação das Almas" },
   "_3Faith": {  },
   "_Argutus Vita_Telum": {  },
   "_Biolo_Monster_List": {  },
