@@ -5,6 +5,7 @@ import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput } from '../models/info-for-class.model';
 import { DamageFormulaCalc } from '../models/damage-summary.model';
 import { SKILL_ID_BY_NAME } from '../skills';
+import { SOUL_VULCAN_STRIKE } from '../skills/shared-skills';
 import { addBonus, floor, formatCalcNumber, genSkillList } from '../utils';
 import { Warlock } from './Warlock';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
@@ -181,25 +182,7 @@ export class ArchMage extends Warlock {
 
   private readonly classNames4th = [ClassName.Only_4th, ClassName.ArchMage];
   private readonly atkSkillList4th: AtkSkillModel[] = [
-    {
-      name: 'Soul Vulcan Strike',
-      label: '[V3] Soul Vulcan Strike Lv5',
-      value: 'Soul Vulcan Strike==5',
-      acd: 0.5,
-      fct: 1,
-      vct: 3,
-      cd: 0.7,
-      isMatk: true,
-      element: ElementType.Ghost,
-      totalHit: ({ skillLevel }) => skillLevel + 2,
-      formula: (input: AtkSkillFormulaInput): number => {
-        const { model, skillLevel, status } = input;
-        const { totalSpl } = status;
-        const { level: baseLevel } = model;
-
-        return (skillLevel * 180 + totalSpl * 3) * (baseLevel / 100);
-      }
-    },
+    SOUL_VULCAN_STRIKE,
     {
       name: 'Mystery Illusion',
       label: '[V3] Mystery Illusion Lv5',

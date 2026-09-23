@@ -4,6 +4,9 @@ import { VALID_SKILL_IDS } from '../skills';
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8')) as Record<string, any>;
 const latam = JSON.parse(readFileSync('src/assets/demo/data/latam-items.json', 'utf8')) as Record<string, any>;
+const audit = JSON.parse(readFileSync('src/assets/demo/data/auto-cast-audit.json', 'utf8')) as {
+  clauses: Array<{ itemId: number; disposition: string }>;
+};
 const clean = (text: string) => (text ?? '').replace(/\^[0-9a-fA-F]{6}/g, '');
 const ATTACK_TRIGGER = /(?:ao realizar (?:um )?ataques? (?:físicos?|mágicos?)|ao atacar(?: com)?|a cada ataque físico|ataques físicos (?:corpo a corpo|à distância|normais?)?)/i;
 
@@ -17,6 +20,11 @@ const candidates = Object.entries(latam).filter(([id, entry]) => {
 });
 
 describe('LATAM item auto-cast audit', () => {
+  it('closes the re-reviewed formula and ambiguous candidates without pending effects', () => {
+    expect(audit.clauses.filter((clause) => ['pending-formula', 'ambiguous'].includes(clause.disposition))).toEqual([]);
+    expect(audit.clauses.filter((clause) => clause.disposition === 'pending-model').map((clause) => clause.itemId))
+      .toEqual([]);
+  });
   it('accounts for the current attack-trigger candidate set', () => {
     // A client-data update must deliberately reclassify the changed set rather than
     // silently making a new proc eligible for production.
@@ -31,7 +39,7 @@ describe('LATAM item auto-cast audit', () => {
         expect(VALID_SKILL_IDS.has(rule.skillId), `${itemId}/${rule.skillId}`).toBe(true);
         expect(rule.skillLevel).toEqual(expect.arrayContaining([expect.any(String)]));
         expect(rule.chance).toEqual(expect.arrayContaining([expect.any(String)]));
-        expect(rule.trigger).toMatch(/^(physical-attack|physical-hit|melee-physical-hit|ranged-physical-hit)$/);
+        expect(rule.trigger).toMatch(/^(physical-attack|physical-hit|melee-physical-attack|melee-physical-hit|ranged-physical-hit|magic-attack)$/);
         expect(rule.skillLevelMode ?? 'fixed').toMatch(/^(fixed|highest-learned|learned-only)$/);
       }
       for (const pending of item.script?.autoCastPending ?? []) {

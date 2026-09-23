@@ -2,6 +2,39 @@ import { ElementType } from '../constants/element-type.const';
 import type { WeaponTypeName } from '../constants/weapon-type-mapper';
 import type { ActiveSkillModel, AtkSkillModel } from '../jobs/_character-base.abstract';
 
+/** Item-granted Espíritos Anciões, including Rifle Primordial-LT. */
+export const SOUL_STRIKE: AtkSkillModel = {
+  name: 'Soul Strike', label: 'Soul Strike Lv10', value: 'Soul Strike==10',
+  acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Ghost,
+  totalHit: ({ skillLevel }) => Math.ceil(skillLevel / 2),
+  formula: () => 100,
+};
+
+/** High Wizard's existing Vulcão Napalm formula, also used by item autocasts. */
+export const NAPALM_VULCAN: AtkSkillModel = {
+  name: 'Napalm Vulcan', label: 'Napalm Vulcan Lv5', value: 'Napalm Vulcan==5',
+  fct: 0.2, vct: 0.8, acd: 0.5, cd: 1,
+  isMatk: true, element: ElementType.Ghost, hit: 5,
+  formula: ({ model, skillLevel }) => skillLevel * 70 * (model.level / 100),
+  finalDmgFormula: ({ damage, skillLevel }) => damage * skillLevel,
+};
+
+/** Also available from the Armadura Desconhecida VIT set on other classes. */
+export const SOUL_VULCAN_STRIKE: AtkSkillModel = {
+  name: 'Soul Vulcan Strike',
+  label: '[V3] Soul Vulcan Strike Lv5',
+  value: 'Soul Vulcan Strike==5',
+  acd: 0.5,
+  fct: 1,
+  vct: 3,
+  cd: 0.7,
+  isMatk: true,
+  element: ElementType.Ghost,
+  totalHit: ({ skillLevel }) => skillLevel + 2,
+  formula: ({ model, skillLevel, status }) =>
+    (skillLevel * 180 + status.totalSpl * 3) * (model.level / 100),
+};
+
 /** Ataque Aéreo: fixed falcon damage per flight, independent of weapon/equipment damage. */
 export const BLITZ_BEAT: AtkSkillModel = {
   name: 'Blitz Beat',

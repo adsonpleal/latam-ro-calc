@@ -1,6 +1,7 @@
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
 import { ElementCharm } from '../constants/share-active-skills/element-charm';
+import { genSkillList } from '../utils';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 1, 0, 0, 0, 0],
@@ -95,6 +96,10 @@ export class Ninja extends CharacterBase {
     ...ElementCharm,
   ];
   protected readonly _passiveSkillList: PassiveSkillModel[] = [
+    {
+      name: 'Lightning Jolt', label: 'Descarga Elétrica aprendida', inputType: 'dropdown',
+      dropdown: genSkillList(5),
+    },
     {
       label: 'Ninja Mastery',
       name: 'Ninja Mastery',

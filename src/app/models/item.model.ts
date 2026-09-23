@@ -1,28 +1,36 @@
-import { ItemAutoCastPendingScript, ItemAutoCastScript } from './auto-cast.model';
+import { ItemAutoCastEffectScript, ItemAutoCastPendingScript, ItemAutoCastScript } from './auto-cast.model';
 
-export type ItemScriptValue = string[] | ItemAutoCastScript[] | ItemAutoCastPendingScript[];
+export type ItemScriptValue = string[] | ItemAutoCastScript[] | ItemAutoCastPendingScript[] | ItemAutoCastEffectScript[];
 export const ITEM_AUTO_CAST_DIRECTIVE = 'autoCast' as const;
 export const ITEM_AUTO_CAST_PENDING_DIRECTIVE = 'autoCastPending' as const;
+export const ITEM_AUTO_CAST_EFFECT_DIRECTIVE = 'autoCastEffect' as const;
+const STRUCTURED_SCRIPT_DIRECTIVES = new Set<string>([
+  ITEM_AUTO_CAST_DIRECTIVE, ITEM_AUTO_CAST_PENDING_DIRECTIVE, ITEM_AUTO_CAST_EFFECT_DIRECTIVE,
+]);
 
-export function itemAutoCastScripts(script: Record<string, ItemScriptValue> | undefined): readonly ItemAutoCastScript[] {
-  const value = script?.[ITEM_AUTO_CAST_DIRECTIVE];
+function structuredScripts<T>(script: Record<string, ItemScriptValue> | undefined, directive: string): readonly T[] {
+  const value = script?.[directive];
   return Array.isArray(value) && (value as unknown[]).every((entry) => typeof entry !== 'string')
-    ? value as ItemAutoCastScript[]
+    ? value as T[]
     : [];
 }
 
+export function itemAutoCastEffectScripts(script: Record<string, ItemScriptValue> | undefined): readonly ItemAutoCastEffectScript[] {
+  return structuredScripts<ItemAutoCastEffectScript>(script, ITEM_AUTO_CAST_EFFECT_DIRECTIVE);
+}
+
+export function itemAutoCastScripts(script: Record<string, ItemScriptValue> | undefined): readonly ItemAutoCastScript[] {
+  return structuredScripts<ItemAutoCastScript>(script, ITEM_AUTO_CAST_DIRECTIVE);
+}
+
 export function itemAutoCastPendingScripts(script: Record<string, ItemScriptValue> | undefined): readonly ItemAutoCastPendingScript[] {
-  const value = script?.[ITEM_AUTO_CAST_PENDING_DIRECTIVE];
-  return Array.isArray(value) && (value as unknown[]).every((entry) => typeof entry !== 'string')
-    ? value as ItemAutoCastPendingScript[]
-    : [];
+  return structuredScripts<ItemAutoCastPendingScript>(script, ITEM_AUTO_CAST_PENDING_DIRECTIVE);
 }
 
 /** Ordinary numeric bonuses, excluding every reserved structured directive. */
 export function itemBonusScriptEntries(script: Record<string, ItemScriptValue> | undefined): Array<[string, string[]]> {
   return Object.entries(script ?? {}).filter((entry): entry is [string, string[]] => (
-    entry[0] !== ITEM_AUTO_CAST_DIRECTIVE
-      && entry[0] !== ITEM_AUTO_CAST_PENDING_DIRECTIVE
+    !STRUCTURED_SCRIPT_DIRECTIVES.has(entry[0])
       && (entry[1] as unknown[]).every((value) => typeof value === 'string')
   ));
 }

@@ -5,6 +5,23 @@ import { ElementType } from '../constants/element-type.const';
 import { AdditionalBonusInput, InfoForClass } from '../models/info-for-class.model';
 import { floor, round } from '../utils';
 import { SKILL_ID_BY_NAME } from '../skills';
+import { ClassAutoCastDefinition } from '../models/auto-cast.model';
+
+const LUX_ANIMA_AUTO_CAST: ClassAutoCastDefinition = {
+  key: 'lux-anima-storm-blast',
+  resolve: ({ skillState, skillById }) => {
+    if (!skillState.isActive('Lux Anima Runestone')) return {
+      blocked: [{ key: 'lux-anima-storm-blast', name: 'Explosão Rúnica', icon: 2017,
+        reason: 'Ative Runa Luxanima em Habilidades para aplicar a chance de 15%.' }],
+    };
+    const skill = skillById(2017);
+    if (!skill) return {};
+    return { sources: [{ key: 'lux-anima-storm-blast', kind: 'passive', skillId: 2017,
+      skillLevel: 1, chance: 15, trigger: 'physical-attack', sourceName: 'Runa Luxanima', skillData: skill,
+      chanceBreakdown: [{ label: 'Runa Luxanima', value: '15% por ataque físico' }],
+    }] };
+  },
+};
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 1, 0, 0],
@@ -500,6 +517,7 @@ export class RuneKnight extends LordKnight {
       passiveSkillList: this.passiveSkillList3rd,
       classNames: this.classNames3rd,
     });
+    this.inheritAutoCasts([LUX_ANIMA_AUTO_CAST]);
   }
 
   override getMasteryAtk(info: InfoForClass): number {
