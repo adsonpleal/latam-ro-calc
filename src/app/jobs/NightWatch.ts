@@ -27,7 +27,6 @@ const NIGHT_WATCH_AUTO_CASTS: ClassAutoCastDefinition[] = [{
   key: 'auto-firing-launcher',
   resolve: ({ skillState }) => {
     const level = skillState.activeLevel('Auto Firing Launcher');
-    if (!level) return {};
     const sources = AUTO_FIRING_RATES.flatMap(({ name, label, id, rates }) => {
       const chance = rates[level] ?? 0;
       const skillLevel = skillState.learnedLevel(name);
@@ -42,10 +41,17 @@ const NIGHT_WATCH_AUTO_CASTS: ClassAutoCastDefinition[] = [{
         ],
       }];
     });
-    const blocked = level === 5 && skillState.learnedLevel('Grenade Dropping') > 0
-      ? [{ key: 'auto-firing-launcher-5412', name: 'Detonação Total', icon: 5412,
-        reason: 'Chance de 3% confirmada; o dano depende da posição aleatória das granadas e ainda não pode ser calculado.' }]
-      : [];
+    const blocked = AUTO_FIRING_RATES.flatMap(({ name, label, id, rates }) => {
+      const requiredLevel = rates.findIndex((chance) => chance > 0);
+      const reasons = [
+        ...(level < requiredLevel ? [`Selecione Disparo Automático Nv. ${requiredLevel} ou maior em Habilidades`] : []),
+        ...(!skillState.learnedLevel(name) ? [`Aprenda ${label} em Habilidades`] : []),
+      ];
+      if (id === 5412 && !reasons.length) {
+        reasons.push('Chance de 3% confirmada; o dano depende da posição aleatória das granadas e ainda não pode ser calculado.');
+      }
+      return reasons.length ? [{ key: `auto-firing-launcher-${id}`, name: label, icon: id, reason: reasons.join(' · ') }] : [];
+    });
     return { sources, blocked };
   },
 }];

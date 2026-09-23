@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { NightWatch } from '../jobs';
-import { createMainModel } from '../utils';
+import { SKILL_DESC_BY_ID } from '../skills';
+import { createMainModel, skillDescHtml } from '../utils';
 import { buildAutoCastSimulation } from './auto-cast';
 import { Calculator } from './calculator';
 
@@ -60,5 +61,28 @@ describe('Night Watch Disparo Automático', () => {
   it('requires each grenade skill to be learned before its roll is available', () => {
     expect(simulate(prepare(5, {})).sources).toEqual([]);
     expect(simulate(prepare(0, { 'Basic Grenade': 5 })).sources).toEqual([]);
+  });
+
+  it('explains how to unlock each auto-cast and keeps unsupported Detonação Total visible', () => {
+    const locked = simulate(prepare(0, {}));
+    expect(locked.blockedSources.map((source) => [source.name, source.reason])).toEqual([
+      ['Arremessar Explosivo', 'Selecione Disparo Automático Nv. 1 ou maior em Habilidades · Aprenda Arremessar Explosivo em Habilidades'],
+      ['Explosão Gradual', 'Selecione Disparo Automático Nv. 3 ou maior em Habilidades · Aprenda Explosão Gradual em Habilidades'],
+      ['Detonação Total', 'Selecione Disparo Automático Nv. 5 ou maior em Habilidades · Aprenda Detonação Total em Habilidades'],
+    ]);
+
+    const partial = simulate(prepare(2, { 'Basic Grenade': 5, 'Hasty Fire in the Hole': 5 }));
+    expect(partial.blockedSources.map((source) => source.name)).toEqual(['Explosão Gradual', 'Detonação Total']);
+    expect(partial.blockedSources[0].reason).toContain('Nv. 3');
+
+    const ready = simulate(prepare(5, { 'Basic Grenade': 5, 'Hasty Fire in the Hole': 5, 'Grenade Dropping': 5 }));
+    expect(ready.blockedSources.map((source) => source.name)).toEqual(['Detonação Total']);
+    expect(ready.blockedSources[0].reason).toContain('ainda não pode ser calculado');
+  });
+
+  it('has a description for the Habilidades hover', () => {
+    expect(SKILL_DESC_BY_ID[5413]).toContain('Detonação Total');
+    expect(skillDescHtml(5413)).toContain('Arremessar Explosivo');
+    expect(skillDescHtml(5413)).toContain('240 segundos');
   });
 });
