@@ -2530,7 +2530,7 @@ export class DamageCalculator {
     const params = {
       baseSkillDamage,
       skillData,
-      weaponPropertyAtk: typeof getElement === 'function' && !!getElement ? getElement(skillValue) : propertyAtk,
+      weaponPropertyAtk: typeof getElement === 'function' ? getElement(skillValue, this.infoForClass) : propertyAtk,
       sizePenalty,
       formulaParams,
     };
@@ -2555,7 +2555,7 @@ export class DamageCalculator {
         });
       }
     } else if (customFormula && typeof customFormula === 'function') {
-      const skillPropertyAtk = typeof getElement === 'function' ? getElement(skillValue) : skillData.element || propertyAtk;
+      const skillPropertyAtk = typeof getElement === 'function' ? getElement(skillValue, this.infoForClass) : skillData.element || propertyAtk;
       const propertyMultiplier = this.getPropertyMultiplier(skillPropertyAtk);
 
       // The target's own reduction (red aura, Aliviar) belongs to the monster, not to the

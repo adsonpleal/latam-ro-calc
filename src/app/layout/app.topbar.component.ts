@@ -166,6 +166,13 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.145-beta',
+      date: '22-09-2026',
+      logs: [
+        'Arranjo Musical entrou na lista de habilidades de ataque da Diva e do Maestro. O dano mágico usa o nível da habilidade, FEI e nível de base, com a propriedade da flecha equipada; exige Chicote ou Instrumento. O bônus de +100% da Sinfonia Mística agora também chega a essa habilidade. O dano é mostrado para o alvo escolhido, mas não houve gravação de Arranjo Musical no RagnaRecap para conferir o valor contra o servidor. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.144-beta',
       date: '22-09-2026',
       logs: [
