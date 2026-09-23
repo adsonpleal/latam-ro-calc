@@ -33,6 +33,18 @@ describe('class-owned auto-cast definitions', () => {
   });
 
   it('does not leak definitions into unrelated class lines', () => {
-    expect(keysOf(new RuneKnight())).toEqual([]);
+    expect(keysOf(new RuneKnight())).toEqual(['lux-anima-storm-blast']);
+  });
+
+  it('locks Luxanima until its skill toggle is active', () => {
+    const definition = new RuneKnight().autoCastDefinitions[0];
+    const context = (active: boolean) => ({
+      skillState: { isActive: (name: string) => name === 'Lux Anima Runestone' && active },
+      skillById: (id: number) => id === 2017 ? { name: 'Storm Blast' } : undefined,
+    } as any);
+    expect(definition.resolve(context(false)).blocked).toContainEqual(expect.objectContaining({ icon: 2017 }));
+    expect(definition.resolve(context(true)).sources).toContainEqual(expect.objectContaining({
+      skillId: 2017, skillLevel: 1, chance: 15, trigger: 'physical-attack',
+    }));
   });
 });

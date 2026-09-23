@@ -10,6 +10,7 @@ import {
   JUPITEL_THUNDER,
   LORD_OF_VERMILION,
   METEOR_STORM,
+  NAPALM_VULCAN,
   SIGHTRASHER,
   STORM_GUST,
   WATER_BALL,
@@ -111,27 +112,7 @@ export class HighWizard extends Mage {
     //     return (95 + skillLevel * 15) * (baseLevel / 100);
     //   },
     // },
-    {
-      name: 'Napalm Vulcan',
-      label: 'Napalm Vulcan Lv5',
-      value: 'Napalm Vulcan==5',
-      fct: 0.2,
-      vct: 0.8,
-      acd: 0.5,
-      cd: 1,
-      isMatk: true,
-      element: ElementType.Ghost,
-      hit: 5,
-      formula: (input: AtkSkillFormulaInput): number => {
-        const { model, skillLevel } = input;
-        const baseLevel = model.level;
-
-        return skillLevel * 70 * (baseLevel / 100);
-      },
-      finalDmgFormula: (input) => {
-        return input.damage * input.skillLevel;
-      },
-    },
+    NAPALM_VULCAN,
     // The Bruxo column, the same definitions the Superaprendiz uses — see shared-skills.ts
     // for the client tables each one is written from.
     JUPITEL_THUNDER,

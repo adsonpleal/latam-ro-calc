@@ -2,7 +2,7 @@ import { ElementType } from '../constants/element-type.const';
 import { IntensificationFn } from '../constants/share-active-skills';
 import { BeastBaneFn, DemonBane, DoubleAttackFn, FaithFn, HiltBindingFn, ImproveDodgeFn, IncreaseSPRecoveryFn, SnatcherFn } from '../constants/share-passive-skills';
 import { InfoForClass } from '../models/info-for-class.model';
-import { floor } from '../utils';
+import { floor, genSkillList } from '../utils';
 import {
   EARTH_SPIKE,
   FIRE_PILLAR,
@@ -404,6 +404,10 @@ export class SuperNovice extends CharacterBase {
   ];
 
   protected readonly _passiveSkillList: PassiveSkillModel[] = [
+    ...(['Cold Bolt', 'Frost Diver'] as const).map((name) => ({
+      inputType: 'dropdown' as const, name, label: `${name} aprendido`,
+      dropdown: genSkillList(10),
+    })),
     {
       label: 'Break Through',
       name: 'Break Through',

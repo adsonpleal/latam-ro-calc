@@ -4,9 +4,12 @@ import {
   BlockedAutoCastSource,
   ConfigurableAutoCastSlot,
   ExtraHitOutcome,
+  ResolvedItemAutoCast,
 } from '../models/auto-cast.model';
 import { MainModel } from '../models/main.model';
 import { resolveSkillById, SKILL_ID_BY_NAME } from '../skills';
+import { ITEM_AUTO_CAST_SKILLS } from '../skills/item-auto-cast-skills';
+import { ITEM_CLASS_AUTO_CAST_SKILLS } from '../skills/item-class-auto-cast-skills';
 import {
   COLD_BOLT,
   CHAIN_LIGHTNING,
@@ -25,7 +28,10 @@ import {
   KILLING_CLOUD,
   LIGHTNING_BOLT,
   METEOR_STORM,
+  NAPALM_VULCAN,
   SOUL_EXPANSION,
+  SOUL_STRIKE,
+  SOUL_VULCAN_STRIKE,
   STORM_GUST,
 } from '../skills/shared-skills';
 import { calcDmgDpsDetailed } from '../utils/calc-dmg-dps';
@@ -83,6 +89,10 @@ const SHARED_SKILLS = [
   FROST_NOVA, METEOR_STORM, JUPITEL_THUNDER, STORM_GUST, EARTH_SPIKE, HEAVENS_DRIVE,
   FIRE_BOLT, COLD_BOLT, LIGHTNING_BOLT, CRIMSON_ROCK, FROST_MISTY, JACK_FROST, HELL_INFERNO, KILLING_CLOUD,
   SOUL_EXPANSION, EARTH_STRAIN, CHAIN_LIGHTNING, DIAMOND_DUST, JUDEX,
+  SOUL_VULCAN_STRIKE,
+  SOUL_STRIKE, NAPALM_VULCAN,
+  ...ITEM_AUTO_CAST_SKILLS,
+  ...ITEM_CLASS_AUTO_CAST_SKILLS,
 ];
 const SHARED_BY_ID = new Map(SHARED_SKILLS.map((skill) => [SKILL_ID_BY_NAME[skill.name], skill]));
 const clampRate = (value: number): number => Math.min(100, Math.max(0, Number(value) || 0));
@@ -136,8 +146,12 @@ function classSources(calc: Calculator, model: MainModel, summary: any): {
   return { sources, slots, blocked };
 }
 
+function itemRuleEnabled(calc: Calculator, rule: ResolvedItemAutoCast): boolean {
+  return !rule.requiredEffect || calc.isChanceSelected(rule.requiredEffect);
+}
+
 function itemSources(calc: Calculator): AutoCastSource[] {
-  return calc.resolvedItemAutoCasts.map((rule) => ({
+  return calc.resolvedItemAutoCasts.filter((rule) => itemRuleEnabled(calc, rule)).map((rule) => ({
     key: rule.key,
     kind: 'item',
     skillId: rule.skillId,
@@ -151,17 +165,25 @@ function itemSources(calc: Calculator): AutoCastSource[] {
 }
 
 function itemBlockedSources(calc: Calculator): BlockedAutoCastSource[] {
-  return (calc.resolvedItemAutoCastPending ?? []).map((source) => ({
+  const pending = (calc.resolvedItemAutoCastPending ?? []).map((source) => ({
     key: source.key,
     name: source.skillName,
     icon: source.skillId ?? 0,
     reason: `${source.itemName}: ${source.reason}`,
   }));
+  const locked = calc.resolvedItemAutoCasts.filter((rule) => !itemRuleEnabled(calc, rule)).map((rule) => ({
+    key: rule.key,
+    name: resolveSkillById(rule.skillId)?.name ?? rule.itemName,
+    icon: rule.skillId,
+    reason: `Selecione ${rule.requiredEffect} em Efeitos para ativar ${rule.chance}% de chance.`,
+  }));
+  return [...pending, ...locked];
 }
 
 function triggerMatches(source: AutoCastSource, summary: any): boolean {
+  if (source.trigger === 'magic-attack') return summary?.calcSkill?.dmgType === 'Magical';
   const ranged = summary?.weapon?.rangeType === 'range';
-  if (source.trigger === 'melee-physical-hit') return !ranged;
+  if (source.trigger === 'melee-physical-hit' || source.trigger === 'melee-physical-attack') return !ranged;
   if (source.trigger === 'ranged-physical-hit') return ranged;
   return true;
 }
@@ -270,7 +292,10 @@ export function buildAutoCastSimulation(input: {
   const sources: AutoCastResult[] = [];
 
   for (const source of sourceDefs) {
-    const triggerRate = source.trigger === 'physical-attack' ? attacksPerSecond : eligibleAttacksPerSecond;
+    const triggerRate = source.trigger === 'magic-attack'
+      ? Math.min(attacksPerSecond, Number(summary?.calcSkill?.totalHitPerSec ?? 0))
+      : source.trigger === 'physical-attack' || source.trigger === 'melee-physical-attack'
+        ? attacksPerSecond : eligibleAttacksPerSecond;
     const activationsPerSecond = triggerRate * source.chance / 100;
 
     if (source.kind === 'extra-hit' && source.extraHitOutcomes?.length) {
@@ -315,7 +340,18 @@ export function buildAutoCastSimulation(input: {
       hitsPerSec: 1,
       accRate: solved.skillAccuracy,
     }).oneHitDps;
-    const expectedDamagePerActivation = perHit * solved.skillTotalHit;
+    let expectedDamagePerActivation = perHit * solved.skillTotalHit;
+    if (source.skillId === 77 && summary?.monster?.race === 'undead'
+      && summary.monster.type !== 'boss' && !summary.monster.isMvp) {
+      // Esconjurar's successful roll defeats the target; the ordinary formula is its failed roll.
+      const killChance = Math.min(1, source.skillLevel * 0.02);
+      expectedDamagePerActivation = killChance * Number(summary.monster.hp ?? 0)
+        + (1 - killChance) * expectedDamagePerActivation;
+    }
+    if (source.skillId === 5006) {
+      // LATAM: one fixed hit every 0.5s during the 5s eruption.
+      expectedDamagePerActivation += 10 * (800 + 200 * source.skillLevel);
+    }
     const dps = activationsPerSecond * expectedDamagePerActivation;
     sources.push({
       source,

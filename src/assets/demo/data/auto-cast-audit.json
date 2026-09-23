@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T14:20:29.573Z",
+  "generatedAt": "2026-09-23T16:25:28.831Z",
   "clauses": [
     {
       "key": "item-1131-clause-1",
@@ -7,7 +7,9 @@
       "itemName": "Alfanje de Gelo",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Lanças de Gelo] nv. 3.\n5% de chance de infligir [Congelamento] no alvo.\n0,1% de chance de infligir [Congelamento] no usuário.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1133-clause-1",
@@ -15,7 +17,9 @@
       "itemName": "Língua de Fogo",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Lanças de Fogo] nv. 3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1138-clause-1",
@@ -23,7 +27,7 @@
       "itemName": "Mysteltain",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Petrificar] nv.3 no alvo.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1167-clause-1",
@@ -31,7 +35,9 @@
       "itemName": "Schweizersabel",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Relâmpago] nv. 3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1176-clause-1",
@@ -39,7 +45,7 @@
       "itemName": "Dilaceradora",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Diminuir Agilidade] nv. 1 no oponente.\n8% de chance de infligir Sangramento no oponente.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1178-clause-1",
@@ -47,7 +53,9 @@
       "itemName": "Schweizersabel",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Relâmpago] nv. 3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1185-clause-1",
@@ -65,7 +73,7 @@
       "itemName": "Guia da Morte",
       "raw": "Ao realizar ataques físicos:\n1% de chance de receber [Poder Infernal] nv. 1.\n2% de chance de autoconjurar [Beijo do Vampiro] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-excluded"
     },
     {
       "key": "item-1186-clause-2",
@@ -73,7 +81,7 @@
       "itemName": "Guia da Morte",
       "raw": "Refino +9 ou mais:\nAutoconjura [Beijo do Vampiro] nv.2.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "reviewed-excluded"
     },
     {
       "key": "item-1187-clause-1",
@@ -81,7 +89,7 @@
       "itemName": "Claymore Gloriosa",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos, 3% de chance autoconjurar [Dedicação] ou [Lâmina de Aura] nv.1 ou no nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1268-clause-1",
@@ -89,7 +97,7 @@
       "itemName": "Garra da Fera Selvagem",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Ferimento Mortal] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1268-clause-2",
@@ -105,7 +113,7 @@
       "itemName": "Escama Invertida",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Terror Draconiano] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1270-clause-1",
@@ -113,7 +121,7 @@
       "itemName": "Katar Perfurante",
       "raw": "Ao realizar ataques físicos:\n15% de chance de autoconjurar [Remoção Total] nv. 1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1271-clause-1",
@@ -121,7 +129,7 @@
       "itemName": "Lágrimas Sangrentas",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Sangria] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1271-clause-2",
@@ -137,7 +145,9 @@
       "itemName": "Krishna",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n10% de chance de autoconjurar [Lâminas Destruidoras] nv.1 ou no nível aprendido.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1295-clause-1",
@@ -145,7 +155,7 @@
       "itemName": "Lágrimas Sangrentas",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Sangria] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1295-clause-2",
@@ -161,7 +171,7 @@
       "itemName": "Escama Invertida",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Terror Draconiano] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1310-clause-1",
@@ -169,7 +179,7 @@
       "itemName": "Retalhador Glorioso",
       "raw": "Refino +9 ou mais:\nVelocidade de ataque +5% adicional.\nAo realizar ataques físicos, 5% de chance de autoconjurar [Ferimento Mortal] nv.1.\nAo usar [Mammonita] 20% de chance de autoconjurar [Ferimento Mortal] nv.2.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1376-clause-1",
@@ -177,7 +187,7 @@
       "itemName": "Desolador",
       "raw": "Transcendentais de Mercadores:\nAo realizar ataques físicos, chance de autoconjurar [Martelo de Thor] nv. 3.",
       "trigger": "physical",
-      "disposition": "ambiguous"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1377-clause-1",
@@ -185,7 +195,9 @@
       "itemName": "Fúria do Furacão",
       "raw": "Ao realizar ataques físicos:\n1% de chance de autoconjurar [Golpe Avassalador] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1382-clause-1",
@@ -193,7 +205,7 @@
       "itemName": "Machado de Duas Mãos Glorioso",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos, 5% de chance de autoconjurar [Ferimento Mortal] nv.1.\nAo usar [Mammonita] ou [Choque do Carrinho] 20% de chance de autoconjurar [Ferimento Mortal] nv.2.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1383-clause-1",
@@ -201,7 +213,7 @@
       "itemName": "Machado Celestial",
       "raw": "VIT +10.\nDano físico contra a raça Morto-Vivo +10%.\nAo realizar ataques físicos, chance de autoconjurar [Bênção] nv. 5 no oponente.",
       "trigger": "physical",
-      "disposition": "ambiguous"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1384-clause-1",
@@ -225,7 +237,9 @@
       "itemName": "Lança de Caça",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Ataque Vital] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1426-clause-1",
@@ -233,7 +247,8 @@
       "itemName": "Lança Gloriosa",
       "raw": "Refino +9 ou mais:\nAo usar [Perfurar] 20% de chance de autoconjurar [Ferimento Mortal] nv.2.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-1426-clause-2",
@@ -241,7 +256,9 @@
       "itemName": "Lança Gloriosa",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos, 10% de chance de autoconjurar [Gloria Domini] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1468-clause-1",
@@ -249,7 +266,9 @@
       "itemName": "Zéfiro",
       "raw": "Ao realizar ataques físicos:\n2% de chance de infligir Silêncio no oponente.\n10% de chance de autoconjurar [Tempestade de Raios] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1470-clause-1",
@@ -257,7 +276,9 @@
       "itemName": "Brionac",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Espíritos Anciões] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1471-clause-1",
@@ -265,7 +286,9 @@
       "itemName": "Fogo Infernal",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Bolas de Fogo] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1478-clause-1",
@@ -273,7 +296,9 @@
       "itemName": "Ahlspiess",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Perfurar] nv. 5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1481-clause-1",
@@ -281,7 +306,9 @@
       "itemName": "Zéfiro",
       "raw": "Ao realizar ataques físicos:\n2% de chance de infligir Silêncio no oponente.\n10% de chance de autoconjurar [Tempestade de Raios] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1483-clause-1",
@@ -289,7 +316,7 @@
       "itemName": "Lança de Marfim",
       "raw": "Ao realizar ataques físicos:\n3% de chance de infligir Sangramento no oponente.\n3% de chance de autoconjurar [Ferimento Mortal] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1486-clause-1",
@@ -297,7 +324,8 @@
       "itemName": "Lança de Duas Mãos Gloriosa",
       "raw": "Cavaleiros e evoluções: Ao usar [Perfurar] 20% de chance de autoconjurar [Ferimento Mortal] nv.2.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-1486-clause-2",
@@ -305,7 +333,9 @@
       "itemName": "Lança de Duas Mãos Gloriosa",
       "raw": "Templários  e evoluções: Ao realizar ataques físicos, 20% de chance de autoconjurar [Gloria Domini] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1492-clause-1",
@@ -321,7 +351,9 @@
       "itemName": "Grande Cruz",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Esconjurar] nv. 3 no oponente.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1530-clause-1",
@@ -329,7 +361,9 @@
       "itemName": "Mjolnir",
       "raw": "Ao realizar ataques físicos:\n5% chance de ativar um [efeito] por 10 segundos.\n10% chance de autoconjurar [Tempestade de Raios] nv.10.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1540-clause-1",
@@ -337,7 +371,9 @@
       "itemName": "Grande Cruz",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Esconjurar] nv. 3 no oponente.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1541-clause-1",
@@ -345,7 +381,7 @@
       "itemName": "Nêmesis",
       "raw": "Ao realizar ataques físicos:\n1% de chance de autoconjurar [Signum Crucis] nv. 1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1541-clause-2",
@@ -361,7 +397,7 @@
       "itemName": "Diário de Campo de Batalha",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar no usuário [Bênção] nv.3 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1565-clause-1",
@@ -369,7 +405,9 @@
       "itemName": "Death Note",
       "raw": "Sábios e evoluções:\nAo realizar ataques físicos, 2% de chance de autoconjurar [Julgamento Infernal] nv. 5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1624-clause-1",
@@ -457,7 +495,9 @@
       "itemName": "Arco do Vendaval",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Lâmina de Vento] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1733-clause-2",
@@ -465,7 +505,8 @@
       "itemName": "Arco do Vendaval",
       "raw": "INT base 40 ou mais:\nChance de autoconjuração +10%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 1
     },
     {
       "key": "item-1736-clause-1",
@@ -473,7 +514,9 @@
       "itemName": "Amarra Dupla",
       "raw": "Ao realizar ataques físicos:\n1% de chance de autoconjurar [Rajada de Flechas] nv.1 ou no nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1740-clause-1",
@@ -489,7 +532,7 @@
       "itemName": "Punho de Magma",
       "raw": "Ao realizar ataques físicos, pequena chance de autoconjurar [Encantar com Chama] nv. 5 no usuário.",
       "trigger": "physical",
-      "disposition": "ambiguous"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1819-clause-1",
@@ -497,7 +540,7 @@
       "itemName": "Punho Gélido",
       "raw": "Ao realizar ataques físicos, pequena chance de autoconjurar [Encantar com Geada] nv. 5 no usuário.",
       "trigger": "physical",
-      "disposition": "ambiguous"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1820-clause-1",
@@ -505,7 +548,7 @@
       "itemName": "Punho Voltaico",
       "raw": "Ao realizar ataques físicos, pequena chance de autoconjurar [Encantar com Ventania] nv. 5 no usuário.",
       "trigger": "physical",
-      "disposition": "ambiguous"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1821-clause-1",
@@ -513,7 +556,7 @@
       "itemName": "Punho Sísmico",
       "raw": "Ao realizar ataques físicos, pequena chance de autoconjurar [Encantar com Terremoto] nv. 5 no usuário.",
       "trigger": "physical",
-      "disposition": "ambiguous"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1823-clause-1",
@@ -521,7 +564,7 @@
       "itemName": "Punho de Batalha A",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Zen] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1825-clause-1",
@@ -537,7 +580,7 @@
       "itemName": "Espírito do Leão da Montanha",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Ferimento Mortal] nv.1.\n1% de chance de autoconjurar [Invocar Esfera Espiritual] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1826-clause-1",
@@ -545,7 +588,9 @@
       "itemName": "Garra Gloriosa",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos, 1% de chance de autoconjurar [Impacto Psíquico] nv.5 ou [Diminuir Agilidade] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1826-clause-2",
@@ -553,7 +598,8 @@
       "itemName": "Garra Gloriosa",
       "raw": "A cada refino a partir do +5:\nChance de autoconjuração +1%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 1
     },
     {
       "key": "item-1832-clause-1",
@@ -569,7 +615,9 @@
       "itemName": "Guitarra Elétrica",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Trovão de Júpiter] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-1919-clause-1",
@@ -577,7 +625,7 @@
       "itemName": "Contra-Baixo",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Toque de Insanidade] nv.2.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1919-clause-2",
@@ -601,7 +649,9 @@
       "itemName": "Enguia Elétrica",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Trovão de Júpiter] nv.3.\n5% de chance de autoconjurar [Vulcão de Flechas] no mesmo nível do refino até o +10.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 2,
+      "itemRuleCount": 2
     },
     {
       "key": "item-1973-clause-1",
@@ -609,7 +659,7 @@
       "itemName": "Botas da Bruxa do Mar",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Som do Silêncio] nv. 2.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-1973-clause-2",
@@ -649,7 +699,7 @@
       "itemName": "Chicote Caule de Rosa",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Canto da Sereia] nv. 1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-2000-clause-1",
@@ -785,7 +835,9 @@
       "itemName": "Anel do Senhor das Chamas",
       "raw": "Ao realizar ataques físicos:\nChances de autoconjurar [Zen] nv. 1, [Fúria Interior] nv. 1, [Gloria Domini] nv. 2, [Bolas de Fogo] nv. 1 e [Impacto de Tyr] nv. 5.",
       "trigger": "physical",
-      "disposition": "ambiguous"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 3,
+      "itemRuleCount": 3
     },
     {
       "key": "item-2679-clause-1",
@@ -793,7 +845,8 @@
       "itemName": "Anel da Ressonância",
       "raw": "Ao receber danos físicos:\nChances de autoconjurar [Pântano dos Mortos] nv. 1, [Explosão Tóxica] nv. 10, [Curar] nv. 10, [Assumptio] nv. 3 e [Destino nas Cartas] nv. 5.",
       "trigger": "damage-received",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 4
     },
     {
       "key": "item-2679-clause-2",
@@ -801,7 +854,9 @@
       "itemName": "Anel da Ressonância",
       "raw": "Ao realizar ataques físicos:\nChances de autoconjurar [Punho Supremo de Asura] nv. 1, [Lex Aeterna] nv. 1, [Lâminas Destruidoras] nv. 5, [Impacto Psíquico] nv. 5 e [Impacto Meteoro] nv. 2.",
       "trigger": "physical",
-      "disposition": "ambiguous"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 4,
+      "itemRuleCount": 4
     },
     {
       "key": "item-2680-clause-1",
@@ -809,7 +864,7 @@
       "itemName": "Anel Elemental Menor",
       "raw": "Ao realizar ataques físicos:\nChance de autoconjurar [Sentido Sobrenatural] [Identificar Item] [Procurar Pedras] e [Ganância] nv.1.",
       "trigger": "physical",
-      "disposition": "ambiguous"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-2680-clause-2",
@@ -825,7 +880,7 @@
       "itemName": "Mão Maldita",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Ferimento Mortal] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-2854-clause-1",
@@ -833,7 +888,9 @@
       "itemName": "Luvas do Alquimista",
       "raw": "Ao realizar ataques físicos:\n1% de chance de autoconjurar [Bolas de Fogo] nv. 5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-2854-clause-2",
@@ -841,7 +898,8 @@
       "itemName": "Luvas do Alquimista",
       "raw": "Ao realizar ataques mágicos:\n1% de chance de autoconjurar [Lanças de Fogo] nv. 5.",
       "trigger": "magic-or-skill",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-2859-clause-1",
@@ -881,7 +939,9 @@
       "itemName": "Anel do Vulcão",
       "raw": "Ao realizar ataques físicos:\nChances de autoconjurar [Zen] nv. 1, [Fúria Interior] nv. 1, [Gloria Domini] nv. 2, [Bolas de Fogo] nv. 1 e [Impacto de Tyr] nv. 5.",
       "trigger": "physical",
-      "disposition": "ambiguous"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 3,
+      "itemRuleCount": 3
     },
     {
       "key": "item-2958-clause-1",
@@ -889,7 +949,8 @@
       "itemName": "Anel da Vibração",
       "raw": "Ao receber danos físicos:\nChances de autoconjurar [Pântano dos Mortos] nv.1, [Explosão Tóxica] nv.10, [Curar] nv.10, [Assumptio] nv.3 e [Destino nas Cartas] nv.5.",
       "trigger": "damage-received",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-2958-clause-2",
@@ -897,7 +958,9 @@
       "itemName": "Anel da Vibração",
       "raw": "Ao realizar ataques físicos:\nChances de autoconjurar [Lex Aeterna] nv.1, [Impacto Psíquico] nv.5 e [Impacto Meteoro] nv.2.",
       "trigger": "physical",
-      "disposition": "ambiguous"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-2977-clause-1",
@@ -913,7 +976,9 @@
       "itemName": "Coração Bondoso",
       "raw": "Ao realizar ataques físicos:\n1% de chance de autoconjurar [Congelar] nv.10 ou [Onda Psíquica] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 2,
+      "itemRuleCount": 2
     },
     {
       "key": "item-2978-clause-2",
@@ -921,7 +986,8 @@
       "itemName": "Coração Bondoso",
       "raw": "Ao realizar ataques mágicos:\n1% de chance de autoconjurar [Amplificação Mística] nv.1.",
       "trigger": "magic-or-skill",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 2
     },
     {
       "key": "item-2980-clause-1",
@@ -929,7 +995,9 @@
       "itemName": "Luva dos Espíritos Malignos",
       "raw": "Ao realizar ataques físicos:\n1% de chance de autoconjurar [Congelar] nv.10 ou [Onda Psíquica] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 2,
+      "itemRuleCount": 2
     },
     {
       "key": "item-2980-clause-2",
@@ -937,7 +1005,9 @@
       "itemName": "Luva dos Espíritos Malignos",
       "raw": "Ao realizar ataques mágicos:\n1% de chance de autoconjurar [Congelar] nv.10 ou [Amplificação Mística] nv.1.",
       "trigger": "magic-or-skill",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-2980-clause-3",
@@ -945,7 +1015,8 @@
       "itemName": "Luva dos Espíritos Malignos",
       "raw": "Ao receber danos físicos corpo a corpo ou mágicos:\n1% de chance de autoconjurar [Escândalo] nv.1.",
       "trigger": "damage-received",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 2
     },
     {
       "key": "item-2990-clause-1",
@@ -953,7 +1024,7 @@
       "itemName": "Pingente da Harmonia",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Renovatio] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-2990-clause-2",
@@ -1001,7 +1072,9 @@
       "itemName": "Carta Grifo",
       "raw": "Espadachins e evoluções:\nAo realizar ataques físicos, 1% de chance de autoconjurar [Impacto de Tyr] nv. 5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4168-clause-1",
@@ -1017,7 +1090,7 @@
       "itemName": "Carta Papel",
       "raw": "Conjunto\n[Carta Shinobi]\n[Carta Andarilho]\n[Carta Zhu Po Long]\n[Carta Rosa Selvagem]\nAGI +5. FOR +5.\nVelocidade de ataque +5%.\nAumenta a velocidade de movimento.\nDesativa a autoconjuração de [Rapto].\nRegenera 1 de SP do usuário a cada ataque físico.",
       "trigger": "physical",
-      "disposition": "ambiguous"
+      "disposition": "reviewed-disabled"
     },
     {
       "key": "item-4175-clause-1",
@@ -1025,7 +1098,9 @@
       "itemName": "Carta Sapo Venenoso",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Envenenar] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4191-clause-1",
@@ -1049,7 +1124,9 @@
       "itemName": "Carta Dragão Mutante",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Bolas de Fogo] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4203-clause-2",
@@ -1057,7 +1134,9 @@
       "itemName": "Carta Dragão Mutante",
       "raw": "Ao aprender [Bolas de Fogo] nv.10:\nAutoconjura [Bolas de Fogo] nv.10.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4209-clause-1",
@@ -1065,7 +1144,7 @@
       "itemName": "Carta Violinista",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Piada Infame] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4209-clause-2",
@@ -1081,7 +1160,9 @@
       "itemName": "Carta Andarilho",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Rapto] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4212-clause-1",
@@ -1089,7 +1170,9 @@
       "itemName": "Carta Bongun",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Golpe Fulminante] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4217-clause-1",
@@ -1153,7 +1236,8 @@
       "itemName": "Carta Duque Coruja",
       "raw": "Ao realizar ataques físicos:\n0,3% de chance de autoconjurar [Impositio Manus] nv.3 em si.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging",
+      "itemRuleCount": 1
     },
     {
       "key": "item-4237-clause-2",
@@ -1161,7 +1245,9 @@
       "itemName": "Carta Duque Coruja",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Relâmpago] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4238-clause-1",
@@ -1169,7 +1255,7 @@
       "itemName": "Carta Barão Coruja",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Lex Aeterna] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4243-clause-1",
@@ -1193,15 +1279,15 @@
       "itemName": "Carta Agressor",
       "raw": "Ao realizar ataques físicos:\n0,3% de chance de autoconjurar [Manejo Perfeito] nv. 1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4248-clause-1",
       "itemId": 4248,
       "itemName": "Carta Múmia Anciã",
       "raw": "Ao receber ataques físicos:\n3% de chance de autoconjurar [Signum Crucis] nv.5.",
-      "trigger": "physical",
-      "disposition": "pending-formula"
+      "trigger": "damage-received",
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4264-clause-1",
@@ -1209,7 +1295,9 @@
       "itemName": "Carta Xamã do Vento",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Trovão de Júpiter] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4264-clause-2",
@@ -1217,7 +1305,9 @@
       "itemName": "Carta Xamã do Vento",
       "raw": "Ao aprender [Trovão de Júpiter] nv.10:\nAutoconjura [Trovão de Júpiter] nv.10.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4268-clause-1",
@@ -1225,7 +1315,9 @@
       "itemName": "Carta Injustiçado",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Lâminas Destruidoras] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4280-clause-1",
@@ -1249,7 +1341,7 @@
       "itemName": "Carta Guardião da Floresta",
       "raw": "Ao realizar ataques físicos:\n0,2% de chance de autoconjurar [Invocar Esfera Espiritual] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4283-clause-2",
@@ -1297,7 +1389,9 @@
       "itemName": "Carta General Tartaruga",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Impacto Explosivo] nv.10.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4313-clause-1",
@@ -1321,7 +1415,9 @@
       "itemName": "Carta Cavaleiro da Tempestade",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Nevasca] nv.1.\n20% de chance de infligir Congelamento no oponente.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4320-clause-1",
@@ -1329,7 +1425,9 @@
       "itemName": "Carta Cavaleiro Sanguinário",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Chuva de Meteoros] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4323-clause-1",
@@ -1337,7 +1435,9 @@
       "itemName": "Carta Filhote de Hatii",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Rajada Congelante] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4323-clause-2",
@@ -1345,7 +1445,8 @@
       "itemName": "Carta Filhote de Hatii",
       "raw": "Conjunto\n[Carta Hatii]\nChance de autoconjuração +30% adicional.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-4332-clause-1",
@@ -1353,7 +1454,7 @@
       "itemName": "Carta Fornalha Velha",
       "raw": "Ao realizar ataques físicos:\n1% de chance de autoconjurar [Signum Crucis] nv. 5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4341-clause-1",
@@ -1361,7 +1462,7 @@
       "itemName": "Carta Metaling",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Remover Arma] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4343-clause-1",
@@ -1369,7 +1470,7 @@
       "itemName": "Carta Holden",
       "raw": "Alquimistas e evoluções:\nAo realizar ataques físicos, 1% de chance de autoconjurar [Adrenalina Pura] nv. 1.\nAo derrotar monstros, chance de derrubar Frasco de Revestimento e Caule.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4348-clause-1",
@@ -1377,7 +1478,7 @@
       "itemName": "Carta Wickebine Tres",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Remover Armadura] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4348-clause-2",
@@ -1385,7 +1486,7 @@
       "itemName": "Carta Wickebine Tres",
       "raw": "Ao aprender [Remover Armadura] nv. 5:\nAo realizar ataques físicos, 5% de chance de autoconjurar [Remover Armadura] nv. 5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4348-clause-3",
@@ -1433,7 +1534,7 @@
       "itemName": "Carta Hydrolancer",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Desconcentrar] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4386-clause-1",
@@ -1449,7 +1550,9 @@
       "itemName": "Carta Conforto",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Crux Magnum] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4395-clause-1",
@@ -1457,7 +1560,7 @@
       "itemName": "Carta Maero de Thanatos",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Diminuir Agilidade] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4400-clause-1",
@@ -1481,7 +1584,7 @@
       "itemName": "Carta Valquíria Randgris",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Desencantar] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4418-clause-1",
@@ -1489,7 +1592,9 @@
       "itemName": "Carta Gazeti",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Lanças de Gelo] nv.2.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4419-clause-1",
@@ -1521,7 +1626,9 @@
       "itemName": "Carta Kasa",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Lanças de Fogo] ou [Bolas de Fogo] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 2,
+      "itemRuleCount": 2
     },
     {
       "key": "item-4481-clause-1",
@@ -1553,7 +1660,9 @@
       "itemName": "Carta General Tartaruga Selada",
       "raw": "Ao realizar ataques físicos:\n1,5% de chance de autoconjurar [Impacto Explosivo] nv.10.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4495-clause-1",
@@ -1585,7 +1694,9 @@
       "itemName": "Carta Cavaleiro da Tempestade Selada",
       "raw": "Ao realizar ataques físicos:\n1% de chance de autoconjurar [Nevasca] nv.1.\n10% de chance de infligir Congelamento no oponente.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4501-clause-1",
@@ -1689,7 +1800,7 @@
       "itemName": "Carta Origem da Maldição",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Espírito dos Amaldiçoados], [Olhar da Medusa] ou [Sussurro de Morfeu] nv. 1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4604-clause-1",
@@ -1697,15 +1808,15 @@
       "itemName": "Carta Origem da Escuridão",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Espírito dos Amaldiçoados], [Olhar da Medusa] ou [Sussurro de Morfeu] nv. 2.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4630-clause-1",
       "itemId": 4630,
       "itemName": "Carta Diretor",
       "raw": "Ao receber ataques físico ou mágicos:\n3% de chance de autoconjurar [Espírito dos Amaldiçoados] nv. 2.\nConjunto\n[Carta Ancião Ancestral]\nChance de autoconjurar [Espírito dos Amaldiçoados] +2%.",
-      "trigger": "physical",
-      "disposition": "pending-formula"
+      "trigger": "damage-received",
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-4632-clause-1",
@@ -1713,7 +1824,8 @@
       "itemName": "Carta Marquês Coruja",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Furacão] nv. 1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging",
+      "itemRuleCount": 1
     },
     {
       "key": "item-4632-clause-2",
@@ -1721,7 +1833,8 @@
       "itemName": "Carta Marquês Coruja",
       "raw": "Ao aprender [Furacão] nv. 5:\nAutoconjura [Furacão] nv. 5.\nConjunto\n[Carta Visconde Coruja]",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-4632-clause-3",
@@ -1729,7 +1842,9 @@
       "itemName": "Carta Marquês Coruja",
       "raw": "Ao realizar ou receber ataques físicos:\n2% de chance de autoconjurar [Ira de Thor] nv. 1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-4648-clause-1",
@@ -1744,8 +1859,8 @@
       "itemId": 4656,
       "itemName": "Carta Múmia do Pesadelo",
       "raw": "Ao receber ataques físicos ou mágicos:\n3% de chance de autoconjurar [Sussurro de Morfeu] nv. 2.\nConjunto\n[Carta Múmia Anciã do Pesadelo]\nChance de autoconjurar [Sussurro de Morfeu] +2%.",
-      "trigger": "physical",
-      "disposition": "pending-formula"
+      "trigger": "damage-received",
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-5116-clause-1",
@@ -1753,7 +1868,7 @@
       "itemName": "Chapéu de Banana",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Provocar] nv.3 no oponente.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-5340-clause-1",
@@ -1761,7 +1876,7 @@
       "itemName": "Boneca de Denise",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Angelus] nv.10.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-5378-clause-1",
@@ -1785,7 +1900,9 @@
       "itemName": "Máscara do Ifrit",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Chuva de Meteoros] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-5443-clause-1",
@@ -1801,7 +1918,7 @@
       "itemName": "Elmo do Lobo Errante",
       "raw": "Refino +7 ou mais:\nAo realizar ataques físicos, 2% de chance de autoconjurar [Sangria] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-5498-clause-2",
@@ -1809,7 +1926,7 @@
       "itemName": "Elmo do Lobo Errante",
       "raw": "Refino +9 ou mais:\nHabilita [Rugido do Leão] nv.1.\nAo realizar ataques físicos, 8% de chance de autoconjurar [Invocar Esfera Espiritual] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-5658-clause-1",
@@ -1825,7 +1942,7 @@
       "itemName": "Boneca da Vaidade",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n0,2% de chance de autoconjurar [Ferimento Crítico] nv.2.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-5738-clause-1",
@@ -1849,7 +1966,9 @@
       "itemName": "Chapéu do Bicho Preguiça",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n5% de chance de autoconjurar [Lâminas Destruidoras] nv.5.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-5766-clause-1",
@@ -1857,7 +1976,9 @@
       "itemName": "Chapéu de Amistr",
       "raw": "Ao realizar ataques físicos:\n6% de chance de autoconjurar [Perfurar] nv.6.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-5873-clause-1",
@@ -1881,7 +2002,9 @@
       "itemName": "Ovo de Diabolik",
       "raw": "Na Lealdade Normal:\nHP e SP máx. +1%.\nDano mágico +2%.\nDano físico contra monstros Normais e Chefes +2%.\nAo realizar ataques físicos corpo a corpo, 3% de chance de autoconjurar [Lanças de Fogo] nv.3.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-9097-clause-2",
@@ -1889,7 +2012,9 @@
       "itemName": "Ovo de Diabolik",
       "raw": "Na Lealdade Alta:\nHP e SP máx. +2%.\nDano mágico +2%.\nDano físico contra monstros Normais e Chefes +2%.\nAo realizar ataques físicos corpo a corpo, 6% de chance de autoconjurar [Lanças de Fogo] nv.3.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-9140-clause-1",
@@ -1913,7 +2038,7 @@
       "itemName": "Elixir Rubro",
       "raw": "Ao realizar ataques físicos:\n1% de chance de autoconjurar [Concentrar] nv.3 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-13014-clause-1",
@@ -1937,7 +2062,7 @@
       "itemName": "Lâmina Dentada",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Conjuração Lenta] nv. 1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-13028-clause-2",
@@ -1945,7 +2070,7 @@
       "itemName": "Lâmina Dentada",
       "raw": "Refino +9 ou mais:\nNível autoconjurado de [Conjuração Lenta] +1.\nChance de autoconjurar [Conjuração Lenta] +2% adicional.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-13038-clause-1",
@@ -1961,7 +2086,7 @@
       "itemName": "Adaga de Marfim",
       "raw": "Ao realizar ataques físicos:\n3% de infligir Sangramento no alvo.\n3% de autoconjurar [Ferimento Mortal] nv.1.",
       "trigger": "physical",
-      "disposition": "ambiguous"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-13042-clause-1",
@@ -1969,7 +2094,7 @@
       "itemName": "Gladius Glorioso",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Lex Divina] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-13042-clause-2",
@@ -1977,7 +2102,7 @@
       "itemName": "Gladius Glorioso",
       "raw": "Refino +9 ou mais:\nAo usar [Ataque Surpresa], 25% chance de autoconjurar [Sangria] nv.1.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-13090-clause-1",
@@ -1985,7 +2110,9 @@
       "itemName": "Perna da Rainha Verme",
       "raw": "Ao realizar ataques físicos:\n20% de chance de autoconjurar [Terremoto] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-13106-clause-1",
@@ -1993,7 +2120,7 @@
       "itemName": "Brilho Dourado",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Cara ou Coroa] nv.1 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-13156-clause-1",
@@ -2001,7 +2128,9 @@
       "itemName": "Guardião da Passagem",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Disparo Espalhado] nv.6.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-13163-clause-1",
@@ -2009,7 +2138,9 @@
       "itemName": "Rifle de Alcance",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Rastrear o Alvo] nv. 5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-13164-clause-1",
@@ -2017,7 +2148,9 @@
       "itemName": "Rifle de Alcance",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Rastrear o Alvo] nv. 5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-13167-clause-1",
@@ -2025,7 +2158,9 @@
       "itemName": "Leão-de-Chácara",
       "raw": "Ao realiar ataques físicos:\n5% de chance de autoconjurar [Disparo Espalhado] nv.6 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-13190-clause-1",
@@ -2033,7 +2168,7 @@
       "itemName": "Rifle de Atraso",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Diminuir Agilidade] nv.1 no oponente.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-13193-clause-1",
@@ -2041,7 +2176,9 @@
       "itemName": "Espingarda de Trovoada",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Tempestade de Raios] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-13195-clause-1",
@@ -2049,7 +2186,7 @@
       "itemName": "Rifle de Atraso",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Diminuir Agilidade] nv.1 no oponente.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-13293-clause-1",
@@ -2057,7 +2194,7 @@
       "itemName": "Peixe Voador",
       "raw": "Ao realizar ataques físicos a distância:\n0,3% de chance de autoconjurar [Ferimento Mortal] nv. 1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-13303-clause-1",
@@ -2065,7 +2202,9 @@
       "itemName": "Shuriken de Fogo Huuma",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n3% de chance de autoconjurar [Bolas de Fogo] nv.5.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-13314-clause-1",
@@ -2073,7 +2212,9 @@
       "itemName": "Shuriken da Nevasca",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n3% de chance de consumir 1 Pedra do Gelo para autoconjurar [Grande Floco de Neve] nv.1 ou no nível aprendido.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-13315-clause-1",
@@ -2081,7 +2222,9 @@
       "itemName": "Shuriken do Trovão",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n3% de chance de consumir 1 Pedra do Vento para autoconjurar [Descarga Elétrica] nv. 1 ou no nível aprendido.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-13414-clause-1",
@@ -2089,7 +2232,9 @@
       "itemName": "Espada Elemental",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Lanças de Gelo] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-13414-clause-2",
@@ -2097,7 +2242,9 @@
       "itemName": "Espada Elemental",
       "raw": "Ao usar [Lanças de Gelo]:\nAutoconjura [Lanças de Fogo] nv.3.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-13414-clause-3",
@@ -2105,7 +2252,8 @@
       "itemName": "Espada Elemental",
       "raw": "Ao usar [Lanças de Fogo]:\nAutoconjura [Relâmpago] nv.3.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-13414-clause-4",
@@ -2113,7 +2261,8 @@
       "itemName": "Espada Elemental",
       "raw": "Ao usar [Relâmpago]:\nAutoconjura [Coluna de Pedra] nv.3.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-13416-clause-1",
@@ -2129,7 +2278,9 @@
       "itemName": "Espada do Selo Mágico",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Lanças de Fogo] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-13461-clause-1",
@@ -2137,7 +2288,9 @@
       "itemName": "Espada do Selo Maligno",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Congelar] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-13462-clause-1",
@@ -2145,7 +2298,9 @@
       "itemName": "Espada do Selo Máximo",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Lanças de Gelo] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-13493-clause-1",
@@ -2153,7 +2308,9 @@
       "itemName": "Rapieira-OS",
       "raw": "Ao realizar ataques físicos:\n4% de chance de autoconjurar [Bolas de Fogo] nv.1 ou no mesmo nível do refino (até o +10).",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-13493-clause-2",
@@ -2161,7 +2318,9 @@
       "itemName": "Rapieira-OS",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos, 4% de chance de autoconjurar [Chamas de Hela] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-15000-clause-1",
@@ -2177,7 +2336,9 @@
       "itemName": "Armadura de Peuz",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Explosão Rúnica] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-15038-clause-1",
@@ -2185,7 +2346,9 @@
       "itemName": "Vestimenta dos Manuks",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Impacto Meteoro] nv.1 ou no nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-15039-clause-1",
@@ -2193,7 +2356,9 @@
       "itemName": "Vestimenta de Nab",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Destruidor de Almas] nv.1 ou no nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-15042-clause-1",
@@ -2201,7 +2366,9 @@
       "itemName": "Malha das Asas da Luz",
       "raw": "Ao realizar ataques físicos a distância:\n2% de chance de autoconjurar [Rajada de Flechas] nv.3 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-15055-clause-1",
@@ -2224,8 +2391,8 @@
       "itemId": 15090,
       "itemName": "Armadura de Cinzas",
       "raw": "Ao receber ataques físicos:\nChance de autoconjurar [Drenar Vida] nv.3.",
-      "trigger": "physical",
-      "disposition": "ambiguous"
+      "trigger": "damage-received",
+      "disposition": "reviewed-excluded"
     },
     {
       "key": "item-15093-clause-1",
@@ -2233,7 +2400,9 @@
       "itemName": "Armadura Heroica",
       "raw": "Ao realizar ataques físicos:\n0,3% de chance de autoconjurar [Curar] ou [Nevasca] nv.10.",
       "trigger": "physical",
-      "disposition": "non-damaging"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-15093-clause-2",
@@ -2241,7 +2410,9 @@
       "itemName": "Armadura Heroica",
       "raw": "A cada refino:\nChance de autoconjurar [Curar] e [Nevasca] +0,3%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-15095-clause-1",
@@ -2249,7 +2420,7 @@
       "itemName": "Batina Heroica",
       "raw": "Ao realizar ataques físicos:\n0,3% de chance de autoconjurar [Kyrie Eleison] nv.10.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-15095-clause-2",
@@ -2257,7 +2428,7 @@
       "itemName": "Batina Heroica",
       "raw": "Ao realizar ataques mágicos:\n0,6% de chance de autoconjurar [Lex Aeterna] nv.1.",
       "trigger": "magic-or-skill",
-      "disposition": "wrong-trigger"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-15095-clause-3",
@@ -2265,7 +2436,7 @@
       "itemName": "Batina Heroica",
       "raw": "A cada refino:\nChance de autoconjurar [Kyrie Eleison] +0,3%.\nChance de autoconjurar [Lex Aeterna] +0,6%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-15098-clause-1",
@@ -2273,7 +2444,8 @@
       "itemName": "Túnica Heroica",
       "raw": "Ao realizar ataques físicos:\n0,3% de chance de autoconjurar [Concentrar] nv.10.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging",
+      "itemRuleCount": 1
     },
     {
       "key": "item-15098-clause-2",
@@ -2281,7 +2453,9 @@
       "itemName": "Túnica Heroica",
       "raw": "Ao realizar ataques físicos a distância:\n0,3% de chance de autoconjurar [Rajada de Flechas] nv. 10.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-15098-clause-3",
@@ -2289,7 +2463,9 @@
       "itemName": "Túnica Heroica",
       "raw": "A cada refino:\nChance de autoconjurar [Concentrar] e [Rajada de Flechas] +0,3%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-15163-clause-1",
@@ -2313,7 +2489,9 @@
       "itemName": "Vestes dos Elementos",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos, 5% de chance de autoconjurar [Tempestade de Raios] nv.5 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-15177-clause-2",
@@ -2321,7 +2499,8 @@
       "itemName": "Vestes dos Elementos",
       "raw": "Ao realizar ataques mágicos:\n5% de chance de autoconjurar [Bolas de Fogo] nv.5 ou no maior nível aprendido.",
       "trigger": "magic-or-skill",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-15180-clause-1",
@@ -2329,7 +2508,9 @@
       "itemName": "Roupa de Hippie",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos com uma flecha equipada, 1% de chance de autoconjurar [Rajada de Flechas] nv.3 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-16016-clause-1",
@@ -2337,7 +2518,9 @@
       "itemName": "[Aluguel] Atum",
       "raw": "Ao realizar ataques físicos:\n1% de chance de infligir Hipotermia no usuário.\n15% de chance de infligir Atordoamento no oponente.\n2% de chance de autoconjurar [Golpe Fulminante] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-16017-clause-1",
@@ -2345,7 +2528,9 @@
       "itemName": "Cruz Sangrenta",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Chamas de Hela] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-16017-clause-2",
@@ -2353,7 +2538,8 @@
       "itemName": "Cruz Sangrenta",
       "raw": "A cada refino:\nChance de autoconjuração +2%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 1
     },
     {
       "key": "item-16029-clause-1",
@@ -2361,7 +2547,9 @@
       "itemName": "Cruz Nobre",
       "raw": "Ao realizar ataques físicos:\n20% de chance de autoconjurar [Esconjurar] nv.6.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-16095-clause-1",
@@ -2369,7 +2557,9 @@
       "itemName": "Mangual Lucis",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos, 10% de chance de autoconjurar [Judex] nv.2 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-16747-clause-1",
@@ -2377,7 +2567,9 @@
       "itemName": "Atum (1 hora)",
       "raw": "Ao realizar ataques físicos:\n1% de chance de infligir Hipotermia no usuário.\n15% de chance de infligir Atordoamento no oponente.\n2% de chance de autoconjurar [Golpe Fulminante] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-16748-clause-1",
@@ -2385,7 +2577,9 @@
       "itemName": "Atum (7 dias)",
       "raw": "Ao realizar ataques físicos:\n1% de chance de infligir Hipotermia no usuário.\n15% de chance de infligir Atordoamento no oponente.\n2% de chance de autoconjurar [Golpe Fulminante] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-18111-clause-1",
@@ -2393,7 +2587,7 @@
       "itemName": "Arco de Trepadeiras",
       "raw": "Ao realizar ataques físicos:\n20% de chance de consumir 1 Teia de Aranha para autoconjurar [Prisão de Teia] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-18569-clause-1",
@@ -2409,7 +2603,7 @@
       "itemName": "Encosto do Deviling",
       "raw": "Ao realizar ataques físicos:\n1% de chance de autoconjurar [Bênção] nv.7.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-18929-clause-1",
@@ -2425,7 +2619,9 @@
       "itemName": "Miniatura de Gorila",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Impacto de Tyr] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-18931-clause-1",
@@ -2449,7 +2645,9 @@
       "itemName": "Nimbus Trovejante",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Lanças de Gelo] e [Rajada Congelante] nv.5 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 2,
+      "itemRuleCount": 2
     },
     {
       "key": "item-19009-clause-2",
@@ -2457,7 +2655,9 @@
       "itemName": "Nimbus Trovejante",
       "raw": "A cada nível aprendido de [Lanças de Gelo]:\nChance de autoconjuração +0,5% adicional.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-19009-clause-3",
@@ -2465,7 +2665,9 @@
       "itemName": "Nimbus Trovejante",
       "raw": "A cada nível aprendido de [Rajada Congelante]:\nChance de autoconjuração +0,5% adicional.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-19084-clause-1",
@@ -2473,7 +2675,7 @@
       "itemName": "Chapéu dos Farfelle",
       "raw": "Ao realizar ataques físicos ou mágicos:\n3% de chance de autoconjurar [Bênção] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-19097-clause-1",
@@ -2489,7 +2691,9 @@
       "itemName": "Chapéu Macabro",
       "raw": "Ao realizar ataques físicos:\n10% de chance de autoconjurar [Golpe Fulminante] nv.10.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-19131-clause-1",
@@ -2497,7 +2701,9 @@
       "itemName": "Para-raios",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Tempestade de Raios] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-19146-clause-1",
@@ -2505,7 +2711,7 @@
       "itemName": "Balão de Marin",
       "raw": "Ao realizar ataques físicos:\n0,5% de chance de autoconjurar [Pântano dos Mortos] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-19150-clause-1",
@@ -2513,7 +2719,7 @@
       "itemName": "Balão de Metaling",
       "raw": "Ao realizar ataques físicos:\n0,5% de chance de autoconjurar [Remover Arma] nv.1 no alvo.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-19153-clause-1",
@@ -2521,7 +2727,9 @@
       "itemName": "Balão de Ghostring",
       "raw": "Ao realizar ataques físicos:\n0,5% de chance de autoconjurar [Espíritos Anciões] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-19190-clause-1",
@@ -2529,7 +2737,9 @@
       "itemName": "Boné Maratonista Químico",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos, 5% de chance de autoconjurar [Tornado de Carrinho] nv.2 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-19192-clause-1",
@@ -2537,7 +2747,7 @@
       "itemName": "Boné Maratonista Renegado",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos, 5% de chance de autoconjurar [Amplificação Mística] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-19197-clause-1",
@@ -2545,7 +2755,9 @@
       "itemName": "Boné Maratonista Sagrado",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos, 5% de chance de consumir gema azul para autoconjurar [Adoramus] nv.5 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-19200-clause-1",
@@ -2553,7 +2765,9 @@
       "itemName": "Boné Maratonista Musical",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos, 5% de chance de autoconjurar [Ressonância] nv.2 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-19201-clause-1",
@@ -2561,7 +2775,9 @@
       "itemName": "Boné Maratonista Dançante",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos, 5% de chance de autoconjurar [Ressonância] nv.2 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-19211-clause-1",
@@ -2569,7 +2785,9 @@
       "itemName": "Tiara de Valquíria Mística",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Luz Divina] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-19211-clause-2",
@@ -2577,7 +2795,8 @@
       "itemName": "Tiara de Valquíria Mística",
       "raw": "Refino +11 ou mais:\nChance de autoconjuração +5% adicional.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 1
     },
     {
       "key": "item-19264-clause-1",
@@ -2593,7 +2812,9 @@
       "itemName": "Chapéu Transformacento",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n5% de chance de autoconjurar [Lanças de Fogo], [Lanças de Gelo], [Relâmpago] e [Coluna de Pedra] nv.2.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 4,
+      "itemRuleCount": 8
     },
     {
       "key": "item-19265-clause-2",
@@ -2601,7 +2822,9 @@
       "itemName": "Chapéu Transformacento",
       "raw": "Refino +7 ou mais:\n4% de chance de autoconjurar [Congelar] nv.5.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 8
     },
     {
       "key": "item-19265-clause-3",
@@ -2609,7 +2832,9 @@
       "itemName": "Chapéu Transformacento",
       "raw": "Refino +8 ou mais:\n3% de chance de autoconjurar [Tempestade de Raios] nv.5.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 8
     },
     {
       "key": "item-19265-clause-4",
@@ -2617,7 +2842,9 @@
       "itemName": "Chapéu Transformacento",
       "raw": "Nv. base 100 ou mais:\n2% de chance de autoconjurar [Chamas de Hela] nv.5.\nRefino +10 ou mais e",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 8
     },
     {
       "key": "item-19265-clause-5",
@@ -2625,7 +2852,9 @@
       "itemName": "Chapéu Transformacento",
       "raw": "Nv. base 100 ou mais:\n1% de chance de autoconjurar [Corrente Elétrica] nv.3.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 8
     },
     {
       "key": "item-20840-clause-1",
@@ -2633,7 +2862,9 @@
       "itemName": "Capa do Marquês Ilusional",
       "raw": "Soma dos refinos 18 ou mais:\nAo realizar ataques físicos, 5% de chance de autooconjurar [Lanças de Gelo] nv.3.\nAo usar [Lanças de Gelo], autoconjura [Lanças de Fogo] nv.3.\nAo usar [Lanças de Fogo], autoconjura [Relâmpago] nv.3.\nAo usar [Relâmpago], autoconjura [Coluna de Pedra] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-20955-clause-1",
@@ -2641,7 +2872,9 @@
       "itemName": "Guardiã do Natal",
       "raw": "Ao realizar ataques físicos:\n7% de chance de autoconjurar [Espíritos Anciões] nv.10.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 3
     },
     {
       "key": "item-20955-clause-2",
@@ -2649,7 +2882,9 @@
       "itemName": "Guardiã do Natal",
       "raw": "Arma com refino +10 ou mais:\nAo realizar ataques físicos, 7% de chance de autoconjurar [Vulcão Napalm] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 3
     },
     {
       "key": "item-20955-clause-3",
@@ -2657,7 +2892,9 @@
       "itemName": "Guardiã do Natal",
       "raw": "Capa com refino +10 ou mais:\nAo realizar ataques físicos corpo a corpo, 7% de chance de autoconjurar [Onda Psíquica] nv.3.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 3
     },
     {
       "key": "item-21001-clause-1",
@@ -2673,7 +2910,9 @@
       "itemName": "Espada Ancestral",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos, 7% de chance de autoconjurar [Onda de Choque] nv.2 ou no nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-21049-clause-1",
@@ -2681,7 +2920,17 @@
       "itemName": "Espada Oriental",
       "raw": "Refino +7 ou mais:\nAo realizar ataques físicos, 7% de chance de autoconjurar [Onda de Choque] nv.2 ou no nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
+    },
+    {
+      "key": "item-22540-clause-1",
+      "itemId": 22540,
+      "itemName": "Runa Luxanima",
+      "raw": "Ao realizar ataques físicos:\n15% de chance de autoconjurar [Explosão Rúnica].",
+      "trigger": "physical",
+      "disposition": "verified-class-effect"
     },
     {
       "key": "item-24219-clause-1",
@@ -2689,7 +2938,9 @@
       "itemName": "Malha Sombria de Gelo",
       "raw": "Refino +2 ou mais:\nAo realizar ataques físicos corpo a corpo, 1% de chance de autoconjurar [Lanças de Gelo] nv.1.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-24219-clause-2",
@@ -2697,7 +2948,8 @@
       "itemName": "Malha Sombria de Gelo",
       "raw": "A cada refino:\nHP máx. +10.\nChance de autoconjuração +0,2%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 1
     },
     {
       "key": "item-24219-clause-3",
@@ -2705,7 +2957,8 @@
       "itemName": "Malha Sombria de Gelo",
       "raw": "A cada 2 refinos:\nNível autoconjurado +1.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-24220-clause-1",
@@ -2713,7 +2966,9 @@
       "itemName": "Malha Sombria de Fogo",
       "raw": "Refino +2 ou mais:\nAo realizar ataques físicos corpo a corpo, 1% de chance de autoconjurar [Lanças de Fogo] nv.1.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-24220-clause-2",
@@ -2721,7 +2976,8 @@
       "itemName": "Malha Sombria de Fogo",
       "raw": "A cada refino:\nHP máx. +10.\nChance de autoconjuração +0,2%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 1
     },
     {
       "key": "item-24220-clause-3",
@@ -2729,7 +2985,8 @@
       "itemName": "Malha Sombria de Fogo",
       "raw": "A cada 2 refinos:\nNível autoconjurado +1.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-24221-clause-1",
@@ -2737,7 +2994,9 @@
       "itemName": "Malha Sombria de Raio",
       "raw": "Refino +2 ou mais:\nAo realizar ataques físicos corpo a corpo, 1% de chance de autoconjurar [Relâmpago] nv.1.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-24221-clause-2",
@@ -2745,7 +3004,8 @@
       "itemName": "Malha Sombria de Raio",
       "raw": "A cada refino:\nHP máx. +10.\nChance de autoconjuração +0,2%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 1
     },
     {
       "key": "item-24221-clause-3",
@@ -2753,7 +3013,8 @@
       "itemName": "Malha Sombria de Raio",
       "raw": "A cada 2 refinos:\nNível autoconjurado +1.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-24222-clause-1",
@@ -2761,7 +3022,9 @@
       "itemName": "Malha Sombria de Pedra",
       "raw": "Refino +2 ou mais:\nAo realizar ataques físicos corpo a corpo, 1% de chance de autoconjurar [Coluna de Pedra] nv.1.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-24222-clause-2",
@@ -2769,7 +3032,8 @@
       "itemName": "Malha Sombria de Pedra",
       "raw": "A cada refino:\nHP máx. +10.\nChance de autoconjuração +0,2%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 1
     },
     {
       "key": "item-24222-clause-3",
@@ -2777,7 +3041,8 @@
       "itemName": "Malha Sombria de Pedra",
       "raw": "A cada 2 refinos:\nNível autoconjurado +1.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-24288-clause-1",
@@ -2785,7 +3050,9 @@
       "itemName": "Manopla Sombria de Cavaleiro Rúnico",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Impacto Flamejante] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-24294-clause-1",
@@ -2793,7 +3060,9 @@
       "itemName": "Manopla Sombria de Sicário",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Garra Sombria] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-24334-clause-1",
@@ -2801,7 +3070,9 @@
       "itemName": "Malha Sombria Elemental",
       "raw": "Refino +2 ou mais:\nAo realizar ataques físicos corpo a corpo, 0,5% de chance de autoconjurar [Lanças de Fogo] [Lanças de Gelo] [Relâmpago] [Coluna de Pedra] nv.1.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 4,
+      "itemRuleCount": 4
     },
     {
       "key": "item-24334-clause-2",
@@ -2809,7 +3080,8 @@
       "itemName": "Malha Sombria Elemental",
       "raw": "A cada refino:\nHP máx. +10.\nChance de autoconjuração +0,1%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 4
     },
     {
       "key": "item-24334-clause-3",
@@ -2817,7 +3089,8 @@
       "itemName": "Malha Sombria Elemental",
       "raw": "A cada 2 refinos:\nNível autoconjurado +1.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 4
     },
     {
       "key": "item-24443-clause-1",
@@ -2825,7 +3098,9 @@
       "itemName": "Manopla Sombria do Impacto",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Impacto Flamejante] nv.3 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-24443-clause-2",
@@ -2833,7 +3108,8 @@
       "itemName": "Manopla Sombria do Impacto",
       "raw": "Refino +7 ou mais:\nChance de autoconjuração +1% adicional.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 1
     },
     {
       "key": "item-24443-clause-3",
@@ -2841,7 +3117,8 @@
       "itemName": "Manopla Sombria do Impacto",
       "raw": "Refino +9 ou mais:\nChance de autoconjuração +2% adicional.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 1
     },
     {
       "key": "item-24527-clause-1",
@@ -2877,7 +3154,9 @@
       "itemName": "Manopla Sombria de Apoio Rúnico",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n7% de chance de autoconjurar [Impacto Flamejante] nv.3 ou no maior nível aprendido.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-24594-clause-1",
@@ -2885,7 +3164,9 @@
       "itemName": "Manopla Sombria de Apoio Sinistro",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n7% de chance de autoconjurar [Onda Psíquica] nv.3.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-24698-clause-1",
@@ -2893,7 +3174,9 @@
       "itemName": "Arma Sombria Avançada do Grupo do Éden - Cavaleiro Rúnico",
       "raw": "Uma luva equipada na mão da arma que desperta as habilidades latentes do usuário.\nNão pode ser refinado.\nATK + 10, MATK + 10.\nAo equipar junto com Grupo do Éden Avançado Armadura/Escudo/Sapatos/Brinco/Pingente Sombrio,\nReduz a recarga de Ignition Break em 0.5 s,\nAo realizar um ataque físico corpo a corpo normal, há uma chance de autoconjurar Ignition Break Nv. 3.\n(Se um nível maior tiver sido aprendido, ativa no nível aprendido),\nAumenta o dano de Sonic Wave, Dragon Breath, Dragon Water Breath, Hundred Spears em 15%,\nAumenta o dano físico corpo a corpo/à distância em 15%, reduz pós-conjuração em 15%,\nIgnora 50% de DEF de monstros de todas as raças (exceto jogadores).",
       "trigger": "melee-physical",
-      "disposition": "ambiguous"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-24703-clause-1",
@@ -2901,7 +3184,9 @@
       "itemName": "Arma Sombria Avançada do Grupo do Éden - Renegado",
       "raw": "Uma luva equipada na mão da arma que desperta as habilidades latentes do usuário.\nNão pode ser refinado.\nATK + 10, MATK + 10.\nAo equipar junto com Grupo do Éden Avançado Armadura/Escudo/Sapatos/Brinco/Pingente Sombrio,\nAo realizar um ataque físico corpo a corpo normal, há uma chance de autoconjurar Psychic Wave Nv. 3,\nAumenta o dano de Triangle Shot, Fatal Menace em 15%,\nAumenta o dano mágico de todas as propriedades em 15%,\nAumenta o dano físico corpo a corpo/à distância em 15%,\nReduz pós-conjuração em 15%,\nASPD + 2,\nIgnora 50% de DEF e DEFM de monstros de todas as raças (exceto jogadores).",
       "trigger": "melee-physical",
-      "disposition": "ambiguous"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-24722-clause-1",
@@ -2909,7 +3194,9 @@
       "itemName": "Escudo Sombrio da Autoconjuração",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos corpo a corpo, 7% de chance de autoconjurar [Ataque Espiritual] nv.7.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-24722-clause-2",
@@ -2917,7 +3204,8 @@
       "itemName": "Escudo Sombrio da Autoconjuração",
       "raw": "Refino +10 ou mais:\nNível autoconjurado +3.\nChance de autoconjuração +3% adicional.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 2
     },
     {
       "key": "item-24722-clause-3",
@@ -2925,7 +3213,8 @@
       "itemName": "Escudo Sombrio da Autoconjuração",
       "raw": "Conjunto\nGreva Sombria da Autoconjuração\nMalha Sombria da Autoconjuração\nDano mágico +1%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 2
     },
     {
       "key": "item-24722-clause-4",
@@ -2933,7 +3222,9 @@
       "itemName": "Escudo Sombrio da Autoconjuração",
       "raw": "Soma dos refinos 21 ou mais:\nAo realizar ataques físicos corpo a corpo, 4% de chance de autoconjurar [Vulcão Napalm] nv.3.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-24722-clause-5",
@@ -2941,7 +3232,8 @@
       "itemName": "Escudo Sombrio da Autoconjuração",
       "raw": "Soma dos refinos 27 ou mais:\nNível autoconjurado +2.\nChance de autoconjuração +4% adicional.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 2
     },
     {
       "key": "item-24725-clause-1",
@@ -2949,7 +3241,9 @@
       "itemName": "Manopla Sombria da Autoconjuração",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos corpo a corpo, 7% de chance de autoconjurar [Golpe Fulminante] nv.7.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-24725-clause-2",
@@ -2957,7 +3251,8 @@
       "itemName": "Manopla Sombria da Autoconjuração",
       "raw": "Refino +10 ou mais:\nNível autoconjurado +3.\nChance de autoconjuração +3% adicional.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 2
     },
     {
       "key": "item-24725-clause-3",
@@ -2965,7 +3260,8 @@
       "itemName": "Manopla Sombria da Autoconjuração",
       "raw": "Conjunto\nColar Sombrio da Autoconjuração\nBrinco Sombrio da Autoconjuração\nDano físico +1%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 2
     },
     {
       "key": "item-24725-clause-4",
@@ -2973,7 +3269,9 @@
       "itemName": "Manopla Sombria da Autoconjuração",
       "raw": "Soma dos refinos 21 ou mais:\nAo realizar ataques físicos corpo a corpo, 4% de chance de autoconjurar [Lâminas Destruidoras] nv.7.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-24725-clause-5",
@@ -2981,7 +3279,8 @@
       "itemName": "Manopla Sombria da Autoconjuração",
       "raw": "Soma dos refinos 27 ou mais:\nNível autoconjurado +3.\nChance de autoconjuração +4% adicional.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-condition",
+      "itemRuleCount": 2
     },
     {
       "key": "item-24728-clause-1",
@@ -3019,7 +3318,9 @@
       "itemName": "Brinco Sombrio de Automagia",
       "raw": "Refino +10 ou mais:\nAo realizar ataques físicos corpo a corpo, 7% de chance de autoconjurar [Ofensiva Fatal] nv.7 ou no maior nível aprendido.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-24730-clause-2",
@@ -3027,7 +3328,9 @@
       "itemName": "Brinco Sombrio de Automagia",
       "raw": "Soma dos refinos 18 ou mais:\nAo realizar ataques físicos corpo a corpo, 4% de chance de autoconjurar [Brandir Machado] nv.4 ou no maior nível aprendido.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-24730-clause-3",
@@ -3035,7 +3338,9 @@
       "itemName": "Brinco Sombrio de Automagia",
       "raw": "Soma dos refinos 20 ou mais:\nChance de autoconjuração +4% adicional.\nAutoconjura [Brandir Machado] nv.8 ou no maior nível aprendido.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-25175-clause-1",
@@ -3043,7 +3348,7 @@
       "itemName": "Pedra de Lex Aeterna (Meio)",
       "raw": "[Efeito]\nAo realizar ataques físicos, 1% de chance de autoconjurar [Lex Aeterna] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-25412-clause-1",
@@ -3067,7 +3372,7 @@
       "itemName": "Carta T W O",
       "raw": "Ao realizar ataques físicos:\n0,5% de chance de autoconjurar [Drenar SP] nv. 2.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-27020-clause-2",
@@ -3075,7 +3380,7 @@
       "itemName": "Carta T W O",
       "raw": "A cada 3 refinos:\nChance de autoconjurar [Drenar SP] +1%.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-27086-clause-1",
@@ -3083,7 +3388,9 @@
       "itemName": "Carta Arqueiro Cruel",
       "raw": "Ao realizar ataques físicos a distância com um Arco:\n3% de chance de autoconjurar [Rajada de Flechas] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-27113-clause-1",
@@ -3189,7 +3496,9 @@
       "itemName": "Cruz Meridional",
       "raw": "Ao realizar ataques físicos:\n3% de chance de infligir Maldição no oponente.\n10% de chance de autoconjurar [Impacto Cruzado] nv. 1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-28202-clause-1",
@@ -3197,7 +3506,9 @@
       "itemName": "Cruz Meridional",
       "raw": "Ao realizar ataques físicos:\n3% de chance de infligir Maldição no oponente.\n10% de chance de autoconjurar [Impacto Cruzado] nv. 1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-28244-clause-1",
@@ -3205,7 +3516,9 @@
       "itemName": "Leão-de-Chácara Ilusional",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos a distância, 5% de chance de autoconjurar [Disparo Espalhado] nv.6 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-28255-clause-1",
@@ -3213,7 +3526,9 @@
       "itemName": "Rifle Ancestral",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos a distância, 4% de chance de autoconjurar [Espíritos Anciões] nv. 10.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-28255-clause-2",
@@ -3221,7 +3536,9 @@
       "itemName": "Rifle Ancestral",
       "raw": "Refino +11 ou mais:\nChance de autoconjurar [Espíritos Anciões] +8% adicional.\nAo realizar ataques físicos a distância, 4% de chance de autoconjurar [Impacto Espiritual] nv. 3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 2,
+      "itemRuleCount": 2
     },
     {
       "key": "item-28423-clause-1",
@@ -3237,7 +3554,9 @@
       "itemName": "Punhal Ancestral",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos, 7% de chance de autoconjurar [Onda Psíquica] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-28759-clause-1",
@@ -3245,7 +3564,9 @@
       "itemName": "Gladius Mágico",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos, 7% de chance de autoconjurar [Onda Psíquica] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-28900-clause-1",
@@ -3285,7 +3606,9 @@
       "itemName": "Maratona Mágica 1",
       "raw": "Ao realizar ataques físicos:\n1% de chance de autoconjurar [Congelar] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-29332-clause-1",
@@ -3293,7 +3616,9 @@
       "itemName": "Maratona Mágica 2",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Congelar] nv.4.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-29333-clause-1",
@@ -3301,7 +3626,9 @@
       "itemName": "Maratona Mágica 3",
       "raw": "Ao realizar ataques físicos:\n3% de chance de autoconjurar [Congelar] nv.7.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-29338-clause-1",
@@ -3349,7 +3676,9 @@
       "itemName": "Carta Cavaleiro Imortal",
       "raw": "Ao realizar ataques físicos:\n2% de chance de autoconjurar [Impacto Flamejante] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-31025-clause-1",
@@ -3390,8 +3719,8 @@
       "itemId": 300182,
       "itemName": "Carta Mirzam Noturnal",
       "raw": "Ao receber ataques físicos:\n2,5% de chance de autoconjurar [Zen] nv. 1.",
-      "trigger": "physical",
-      "disposition": "pending-formula"
+      "trigger": "damage-received",
+      "disposition": "reviewed-non-damaging"
     },
     {
       "key": "item-313369-clause-1",
@@ -3399,7 +3728,9 @@
       "itemName": "Encanto Decadente",
       "raw": "Ao realizar ataques físicos:\n7% de chance de autoconjurar [Onda Psíquica] nv.4.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-313369-clause-2",
@@ -3407,7 +3738,9 @@
       "itemName": "Encanto Decadente",
       "raw": "Ao realizar ataques físicos:\n7% de chance de autoconjurar [Flamen] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-313370-clause-1",
@@ -3415,7 +3748,9 @@
       "itemName": "Encanto Fortificado",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n7% de chance de autoconjurar [Onda de Choque] nv.7.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-400152-clause-1",
@@ -3423,7 +3758,9 @@
       "itemName": "Chapéu Transformacento-LT",
       "raw": "Refino +11 ou mais:\nAo realizar ataques mágicos, 3% de chance de autoconjurar [Bolas de Fogo] nv.9.",
       "trigger": "magic-or-skill",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 4
     },
     {
       "key": "item-400152-clause-2",
@@ -3431,7 +3768,9 @@
       "itemName": "Chapéu Transformacento-LT",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n5% de chance de autoconjurar [Maldição de Jormungand] nv.3 ou no maior nível aprendido.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 4
     },
     {
       "key": "item-400152-clause-3",
@@ -3439,7 +3778,9 @@
       "itemName": "Chapéu Transformacento-LT",
       "raw": "Refino +9 ou mais:\n5% de chance de autoconjurar [Chamas de Hela] nv.5.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 4
     },
     {
       "key": "item-400152-clause-4",
@@ -3447,7 +3788,9 @@
       "itemName": "Chapéu Transformacento-LT",
       "raw": "Refino +10 ou mais:\n2% de chance de autoconjurar [Corrente Elétrica] nv.3.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 4
     },
     {
       "key": "item-400528-clause-1",
@@ -3455,7 +3798,9 @@
       "itemName": "Boina Escarlate-OS",
       "raw": "Ao realizar ataques físicos:\n5% de chance de autoconjurar [Meteoro Escarlate] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-401147-clause-1",
@@ -3463,7 +3808,9 @@
       "itemName": "Chapéu de Kiwawa",
       "raw": "Arma com refino +10 ou mais:\nAo realizar ataques físicos, 7% de chance de autoconjurar [Destruidor de Almas] nv.4.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-410705-clause-1",
@@ -3479,7 +3826,9 @@
       "itemName": "CD Antiquado",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n5% de chance de autoconjurar [Espíritos Anciões] nv.10.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-420003-clause-2",
@@ -3487,7 +3836,9 @@
       "itemName": "CD Antiquado",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n5% de chance de consumir 1 Gema Azul para autoconjurar [Campo Gravitacional] nv.3.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 2
     },
     {
       "key": "item-420820-clause-1",
@@ -3496,7 +3847,7 @@
       "raw": "Conjunto\nBoné Maratonista Arcano\nAo usar [Supernova] autoconjura [Chama Reveladora] nv.1.",
       "trigger": "unknown",
       "disposition": "wrong-trigger",
-      "itemRuleCount": 3
+      "itemRuleCount": 4
     },
     {
       "key": "item-420820-clause-2",
@@ -3504,8 +3855,9 @@
       "itemName": "Competidor Poring",
       "raw": "Ao realizar ataques físicos copo a corpo:\n7% de chance de autoconjurar [Chuva de Meteoros] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula",
-      "itemRuleCount": 3
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 4
     },
     {
       "key": "item-420820-clause-3",
@@ -3515,7 +3867,7 @@
       "trigger": "melee-physical",
       "disposition": "verified-direct-damage",
       "executableRuleCount": 3,
-      "itemRuleCount": 3
+      "itemRuleCount": 4
     },
     {
       "key": "item-420820-clause-4",
@@ -3523,8 +3875,8 @@
       "itemName": "Competidor Poring",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n7% de chance de autoconjurar [Vituperatum] nv.1.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula",
-      "itemRuleCount": 3
+      "disposition": "reviewed-non-damaging",
+      "itemRuleCount": 4
     },
     {
       "key": "item-420820-clause-5",
@@ -3532,8 +3884,8 @@
       "itemName": "Competidor Poring",
       "raw": "Ao realizar ataques mágicos:\n5% de chance de autoconjurar [Escudo Mágico] nv.10.",
       "trigger": "magic-or-skill",
-      "disposition": "wrong-trigger",
-      "itemRuleCount": 3
+      "disposition": "reviewed-non-damaging",
+      "itemRuleCount": 4
     },
     {
       "key": "item-420820-clause-6",
@@ -3542,7 +3894,7 @@
       "raw": "Ao receber danos físicos ou mágicos:\n1,5% de chance de autoconjurar [Proteção da Orla] nv.2.",
       "trigger": "damage-received",
       "disposition": "wrong-trigger",
-      "itemRuleCount": 3
+      "itemRuleCount": 4
     },
     {
       "key": "item-420821-clause-1",
@@ -3558,7 +3910,9 @@
       "itemName": "Competidor Lunático",
       "raw": "Ao realizar ataques físicos:\n7% de chance de autoconjurar [Explosão Rúnica] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 3
     },
     {
       "key": "item-420822-clause-2",
@@ -3566,7 +3920,9 @@
       "itemName": "Competidor Lunático",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n7% de chance de autoconjurar [Brandir Machado] nv.10.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 3
     },
     {
       "key": "item-420822-clause-3",
@@ -3574,7 +3930,9 @@
       "itemName": "Competidor Lunático",
       "raw": "Ao realizar ataques físicos:\n7% de chance de autoconjurar [Impacto Flamejante] nv.4.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 3
     },
     {
       "key": "item-450122-clause-1",
@@ -3582,7 +3940,9 @@
       "itemName": "Nobre Traje Mágico",
       "raw": "Conjunto\n[Nobre Bota Mágica]\n[Nobre Anel Mágico]\n[Nobre Capa Mágica]\nDano mágico +2%.\nHP máx. +5% adicional.\nAo realizar ataques físicos, 7% de chance de autoconjurar [Onda Psíquica] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-450124-clause-1",
@@ -3590,7 +3950,9 @@
       "itemName": "Ilustre Traje Mágico",
       "raw": "Conjunto\n[Ilustre Bota Mágica]\n[Ilustre Anel Mágico]\n[Ilustre Capa Mágica]\nDano mágico +2%.\nHP máx. +5% adicional.\nAo realizar ataques físicos, 7% de chance de autoconjurar [Onda Psíquica] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-450126-clause-1",
@@ -3598,7 +3960,9 @@
       "itemName": "Grácil Traje Mágico",
       "raw": "Conjunto\n[Grácil Bota Mágica]\n[Grácil Anel Mágico]\n[Grácil Capa Mágica]\nDano mágico +2%.\nHP máx. +5% adicional.\nAo realizar ataques físicos, 7% de chance de autoconjurar [Onda Psíquica] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-450597-clause-1",
@@ -3606,7 +3970,9 @@
       "itemName": "Armadura Desconhecida VIT",
       "raw": "Conjunto\nBota Desconhecida VIT\nAo realizar ataques físicos, 10% de chance de autoconjurar [Espíritos Ancestrais] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-450597-clause-2",
@@ -3614,7 +3980,8 @@
       "itemName": "Armadura Desconhecida VIT",
       "raw": "Conjunto\n[CD Antiquado]\n[Manto Desconhecido VIT]\nAo realizar ataques físicos, 5% de chance de autoconjurar [Escudo Mágico] nv.5.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging",
+      "itemRuleCount": 1
     },
     {
       "key": "item-450597-clause-3",
@@ -3622,7 +3989,8 @@
       "itemName": "Armadura Desconhecida VIT",
       "raw": "Soma dos refinos do conjunto 18 ou mais:\nAo realizar ataques físicos, 1% de chance de autoconjurar [Telecinesia] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging",
+      "itemRuleCount": 1
     },
     {
       "key": "item-470411-clause-1",
@@ -3630,7 +3998,9 @@
       "itemName": "Botas de Cowboy",
       "raw": "Soma dos refinos 12 ou mais:\nAo realizar ataques físicos, 10% de chance de autoconjurar [Fúria do Furacão] nv.2.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 4
     },
     {
       "key": "item-470411-clause-2",
@@ -3638,7 +4008,9 @@
       "itemName": "Botas de Cowboy",
       "raw": "Soma dos refinos 18 ou mais:\nAo realizar ataques físicos, 5% de chance de autoconjurar [Erupção de Magma] nv.2.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 4
     },
     {
       "key": "item-470411-clause-3",
@@ -3646,7 +4018,9 @@
       "itemName": "Botas de Cowboy",
       "raw": "Soma dos refinos 12 ou mais:\nAo realizar ataques físicos, 10% de chance de autoconjurar [Vulcão de Flechas] nv.6.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 4
     },
     {
       "key": "item-470411-clause-4",
@@ -3654,7 +4028,9 @@
       "itemName": "Botas de Cowboy",
       "raw": "Soma dos refinos 18 ou mais:\nAo realizar ataques físicos, 5% de chance de autoconjurar [Temporal de Flechas] nv.2.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 4
     },
     {
       "key": "item-480683-clause-1",
@@ -3662,7 +4038,8 @@
       "itemName": "Foice da Malícia",
       "raw": "Ao realizar ataques físicos:\n7% de chance de autoconjurar [Vulcão] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging",
+      "itemRuleCount": 3
     },
     {
       "key": "item-480683-clause-2",
@@ -3670,7 +4047,9 @@
       "itemName": "Foice da Malícia",
       "raw": "Arma com refino +10 ou mais:\nAo realizar ataques físicos, 7% de chance de autoconjurar [Meteoro Escarlate] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 3
     },
     {
       "key": "item-480683-clause-3",
@@ -3678,7 +4057,8 @@
       "itemName": "Foice da Malícia",
       "raw": "Ao realizar ataques físicos:\n7% de chance de autoconjurar [Furacão] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging",
+      "itemRuleCount": 3
     },
     {
       "key": "item-480683-clause-4",
@@ -3686,7 +4066,9 @@
       "itemName": "Foice da Malícia",
       "raw": "Arma com refino +10 ou mais:\nAo realizar ataques físicos, 7% de chance de autoconjurar [Lanças dos Aesir] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 3
     },
     {
       "key": "item-480683-clause-5",
@@ -3694,7 +4076,8 @@
       "itemName": "Foice da Malícia",
       "raw": "Ao realizar ataques físicos:\n7% de chance de autoconjurar [Dilúvio] nv.1.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "reviewed-non-damaging",
+      "itemRuleCount": 3
     },
     {
       "key": "item-480683-clause-6",
@@ -3702,7 +4085,9 @@
       "itemName": "Foice da Malícia",
       "raw": "Arma com refino +10 ou mais:\nAo realizar ataques físicos, 7% de chance de autoconjurar [Pó de Diamante] nv.3.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 3
     },
     {
       "key": "item-480812-clause-1",
@@ -3710,7 +4095,8 @@
       "itemName": "Manto Branco Físico",
       "raw": "Conjunto\nDiadema Temporal Doram\nAo usar [Chilique de Picky] 7% de chance de autoconjurar [Cometas Lunáticos] nv.3.",
       "trigger": "unknown",
-      "disposition": "wrong-trigger"
+      "disposition": "wrong-trigger",
+      "itemRuleCount": 1
     },
     {
       "key": "item-480812-clause-2",
@@ -3718,7 +4104,9 @@
       "itemName": "Manto Branco Físico",
       "raw": "Conjunto\nDiadema Temporal Estelar\nAo realizar ataques físicos, 10% de chance de autoconjurar [Chute Estelar] nv.1 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-480813-clause-1",
@@ -3758,7 +4146,9 @@
       "itemName": "Rapieira-OSAD",
       "raw": "Ao realizar ataques físicos:\n8% de chance de autoconjurar [Bolas de Fogo] e [Lanças de Fogo] nv.1 ou no mesmo nível do refino (até o +10).",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 2,
+      "itemRuleCount": 3
     },
     {
       "key": "item-500051-clause-2",
@@ -3766,7 +4156,9 @@
       "itemName": "Rapieira-OSAD",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos, 4% de chance de autoconjurar [Chamas de Hela] nv.4.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 3
     },
     {
       "key": "item-510019-clause-1",
@@ -3794,7 +4186,9 @@
       "itemName": "Adaga de Cinzas-AD",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos,\n7% de chance de autoconjurar [Chuva de Meteoros] nv.7 e [Onda Psíquica] nv.4.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 2,
+      "itemRuleCount": 2
     },
     {
       "key": "item-510034-clause-1",
@@ -3841,7 +4235,9 @@
       "itemName": "Punhal Enferrujado",
       "raw": "Ao realizar ataques físicos corpo a corpo:\n5% de chance de autoconjurar [Maldição de Jormungand] nv.1.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-540011-clause-1",
@@ -3849,7 +4245,9 @@
       "itemName": "Tomo Primordial",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos, 4% de chance de autoconjurar [Judex] nv.5 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-540035-clause-1",
@@ -3857,7 +4255,9 @@
       "itemName": "Tomo Primordial-LT",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos, 10% de chance de autoconjurar [Judex] nv.5 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-550200-clause-1",
@@ -3873,7 +4273,9 @@
       "itemName": "Espada Primordial",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos, 7% de chance de autoconjurar [Onda de Choque] nv.2 ou no nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-600012-clause-1",
@@ -3881,7 +4283,9 @@
       "itemName": "Espada de Apoio Crítico",
       "raw": "Refino +9 ou mais:\nDano crítico +10%.\nDano de [Onda de Choque], [Vento Cortante] e [Impacto Flamejante] +25%.\nAo realizar ataques físicos, 7% de chance de autoconjurar [Onda de Choque] mesmo nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-600016-clause-1",
@@ -3889,7 +4293,9 @@
       "itemName": "Grande Espada de Cinzas-AD",
       "raw": "Ao realizar ataques físicos:\n9% chance de autoconjurar [Vento Cortante] nv.2 ou no maior nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-600023-clause-1",
@@ -3897,7 +4303,9 @@
       "itemName": "Espada Primordial-LT",
       "raw": "Ao realizar ataques físicos corpo a corpo: 10% de chance de autoconjurar [Onda de Choque] nv.2 ou no maior nível aprendido.",
       "trigger": "melee-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-600066-clause-1",
@@ -3905,7 +4313,9 @@
       "itemName": "Claymore Dínamo",
       "raw": "Refino +9 ou mais:\nCRIT +10.\nDano de [Onda de Choque], [Impacto Flamejante] e [Vento Cortante] +5%.\nAo realizar ataques físicos, 5% de chance de autoconjurar [Onda de Choque] no nível aprendido.",
       "trigger": "physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 1
     },
     {
       "key": "item-700132-clause-1",
@@ -3993,7 +4403,9 @@
       "itemName": "Rifle Primordial",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos à distância, 15% de chance de autoconjurar [Espíritos Anciões] nv.10.",
       "trigger": "ranged-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 1,
+      "itemRuleCount": 3
     },
     {
       "key": "item-810001-clause-2",
@@ -4001,7 +4413,9 @@
       "itemName": "Rifle Primordial",
       "raw": "Refino +11 ou mais:\nAo realizar ataques físicos à distância, 7% de chance de autoconjurar [Vulcão Napalm] e [Impacto Espiritual] nv.3.",
       "trigger": "ranged-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 2,
+      "itemRuleCount": 3
     },
     {
       "key": "item-810009-clause-1",
@@ -4009,7 +4423,9 @@
       "itemName": "Rifle Primordial-LT",
       "raw": "Refino +9 ou mais:\nAo realizar ataques físicos à distância, 15% de chance de autoconjurar [Espíritos Anciões] nv.10, [Vulcão Napalm] nv.5 e [Impacto Espiritual] nv.5.",
       "trigger": "ranged-physical",
-      "disposition": "pending-formula"
+      "disposition": "verified-direct-damage",
+      "executableRuleCount": 3,
+      "itemRuleCount": 3
     }
   ]
 }

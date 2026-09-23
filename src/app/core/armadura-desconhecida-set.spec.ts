@@ -19,8 +19,7 @@ import { deriveSlot } from './equipment-slot-derivation';
  * The description calls the cape "Manto Desconhecido X"; the client names it "Capa
  * Desconhecida X" (Airboat_Manteau_*_LT), so the partner is resolved by aegisName.
  *
- * The VIT armor's three autocasts (Espíritos Ancestrais, Escudo Mágico, Telecinesia) have
- * no key and are left out.
+ * The VIT armor's boot set grants Espíritos Ancestrais on physical attacks.
  */
 
 const SETS = {
