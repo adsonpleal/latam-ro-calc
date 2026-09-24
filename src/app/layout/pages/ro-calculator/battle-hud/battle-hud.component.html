@@ -511,8 +511,9 @@
           class="graph-input"
           *ngFor="let inp of c.inputs"
           [class.bonus_clickable]="isNodeClickable(inp)"
+          (pointerdown)="openFormulaDetailOnPointerDown(inp, !!sim, $event)"
           (click)="openFormulaNode(inp, !!sim)"
-          keyActivate
+          [keyActivate]="isNodeClickable(inp)"
         >
           <span>{{ inp.label }}</span>
           <span [class.sim]="sim">{{ inp.showSign && inp.value > 0 ? '+' : '' }}{{ inp.value | number }}{{ inp.unit === 'percent' ? '%' : '' }}</span>
@@ -521,8 +522,9 @@
       <div
         class="graph-stage"
         [class.bonus_clickable]="isNodeClickable(c.stage)"
+        (pointerdown)="openFormulaDetailOnPointerDown(c.stage, !!sim, $event)"
         (click)="openFormulaNode(c.stage, !!sim)"
-        keyActivate
+        [keyActivate]="isNodeClickable(c.stage)"
       >
         <span>{{ c.stage.label }}</span><span [class.sim]="sim">{{ c.stage.value | number }}</span>
       </div>

@@ -289,6 +289,16 @@ export class BattleHudComponent implements OnDestroy {
     this.openBreakdown(node.label, node.keys, 'summary_stat_matk', node.value, node.calc, compare);
   }
 
+  // Changing the graph replaces its clicked node. Open the child on pointerdown,
+  // before the later click can be lost when Angular removes that node. The click
+  // binding remains for keyboard activation through keyActivate.
+  openFormulaDetailOnPointerDown(node: DamageFormulaNode, compare: boolean, event: PointerEvent): void {
+    if (!node.detail) return;
+    event.preventDefault();
+    event.stopPropagation();
+    this.openFormulaNode(node, compare);
+  }
+
   openHeroDamageFormula(event: Event, panel: any): void {
     this.formulaPart = null;
     panel?.toggle(event);
