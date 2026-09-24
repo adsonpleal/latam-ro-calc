@@ -2,35 +2,24 @@ import { describe, expect, it } from 'vitest';
 import { Sorcerer } from '../jobs/Sorcerer';
 import { resolveSkillMeta } from './index';
 
-// Guards the data contract behind ro-calculator.component.ts `localize()` for a
-// treated-as skill (Fist Spell / Punho Arcano): the Skill Catalog entry, the
-// Sorcerer level-list values and its treatedAsSkillNameFn must keep resolving each
-// entry to the underlying bolt's pt-BR name + icon. Mirrors the component mapping.
-const resolveSkill = (name: string) => {
-  const meta = resolveSkillMeta(name);
-  if (!meta || meta.id === undefined) return undefined;
-  return { id: meta.id, name: meta.label ?? name };
-};
+// Tracker GfZHIU4zvFliyhIw1bdM: Punho Arcano is an active state applied to
+// ordinary attacks, never a skill that occupies a Batalha rotation slot.
+describe('Punho Arcano picker', () => {
+  const sorcerer = new Sorcerer();
+  const fist = sorcerer.activeSkills.find((skill) => skill.name === 'Fist Spell')!;
 
-describe('Punho Arcano (Fist Spell) picker localization', () => {
-  const fist = new Sorcerer().atkSkills.find((s) => s.name === 'Fist Spell')!;
-
-  it('parent skill localizes to "Punho Arcano" with icon 2445', () => {
-    expect(resolveSkill('Fist Spell')).toEqual({ id: 2445, name: 'Punho Arcano' });
+  it('appears among active effects with the three interruptible bolts', () => {
+    expect(resolveSkillMeta('Fist Spell')).toMatchObject({ id: 2445, label: 'Punho Arcano' });
+    expect(fist.dropdown.map(({ label, value, icon }) => ({ label, value, icon }))).toEqual(expect.arrayContaining([
+      { label: '-', value: 0, icon: undefined },
+      { label: 'Lanças de Fogo Nv 10', value: 1, icon: 19 },
+      { label: 'Lanças de Gelo Nv 10', value: 2, icon: 14 },
+      { label: 'Relâmpago Nv 10', value: 3, icon: 20 },
+    ]));
+    expect(fist.dropdown).toHaveLength(4);
   });
 
-  it('level-list entries relabel to the bold bolt name + icon, no repeating prefix', () => {
-    const treatedFn = (fist as any).treatedAsSkillNameFn as (v: string) => string;
-    const localized = fist.levelList!.map((entry) => {
-      const treatedName = treatedFn(entry.value)?.split('==')[0];
-      const pt = resolveSkill(treatedName);
-      return { value: entry.value, label: pt!.name, icon: pt!.id };
-    });
-
-    expect(localized).toEqual([
-      { value: 'Fist Spell Fire Bolt==10', label: 'Lanças de Fogo', icon: 19 },
-      { value: 'Fist Spell Cold Bolt==10', label: 'Lanças de Gelo', icon: 14 },
-      { value: 'Fist Spell Lightening Bolt==10', label: 'Relâmpago', icon: 20 },
-    ]);
+  it('does not appear among attack skills', () => {
+    expect(sorcerer.atkSkills.some((skill) => skill.name === 'Fist Spell')).toBe(false);
   });
 });

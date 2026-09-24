@@ -145,8 +145,9 @@
   ></app-battle-effects>
 
   <!-- 2. Flags (only rendered when active) -->
-  <div class="hud-flags" *ngIf="dmg?.requireTxt || (showLeftWeapon && model?.leftWeapon) || isAutoSpell">
+  <div class="hud-flags" *ngIf="dmg?.requireTxt || (showLeftWeapon && model?.leftWeapon) || isAutoSpell || hasFlashCombo">
     <p-tag *ngIf="dmg?.requireTxt" severity="danger" value="⚠ Requer" [pTooltip]="dmg?.requireTxt" tooltipPosition="top"></p-tag>
+    <p-tag *ngIf="hasFlashCombo" severity="info" value="Combo Rápido" pTooltip="Conjura Punho do Dragão, Ruína e Garra de Tigre no maior nível aprendido. Selecione os níveis em Aprenda para incluir o dano de cada habilidade." tooltipPosition="top"></p-tag>
     <p-tag
       *ngIf="showLeftWeapon && model?.leftWeapon"
       severity="danger"

@@ -116,6 +116,9 @@ export class BattleHudComponent implements OnDestroy {
   @Input() rotationView2: RotationView | null = null;
   /** The raw ordered values — the list edits this, not the view. */
   @Input() rotation: string[] = [];
+  get hasFlashCombo(): boolean {
+    return this.rotation.some((skill) => skill.startsWith('Flash Combo=='));
+  }
   /** The class's offensive skills, for the add picker and the level chips. */
   @Input() atkSkills: any[] = [];
   @Input() isShowSelectableSkillLevel = false;
