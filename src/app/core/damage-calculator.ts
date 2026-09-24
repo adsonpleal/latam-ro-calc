@@ -3,12 +3,13 @@ import { SKILL_NAME } from 'src/app/constants/skill-name';
 import { elementPtBr, racePtBr } from 'src/app/constants/monster-i18n';
 import { Monster, Weapon } from 'src/app/domain';
 import { AtkSkillFormulaInput, AtkSkillModel, CharacterBase } from 'src/app/jobs/_character-base.abstract';
+import { ClassName } from 'src/app/jobs/_class-name';
 import { BasicDamageSummaryModel, DamageFormulaCalc, DamageFormulaCalcRow, DamageFormulaGraph, DamageFormulaNode, DamageFormulaStep, DamageFormulaTrace, DamageSummaryModel, MiscModel, SkillDamageSummaryModel, SkillType } from 'src/app/models/damage-summary.model';
 import { EquipmentSummaryModel } from 'src/app/models/equipment-summary.model';
 import { InfoForClass } from 'src/app/models/info-for-class.model';
 import { MainModel } from 'src/app/models/main.model';
 import { StatusSummary } from 'src/app/models/status-summary.model';
-import { SKILL_ID_BY_NAME } from 'src/app/skills';
+import { SKILL_ID_BY_NAME, resolveSkillMeta } from 'src/app/skills';
 import { calcDmgDps, calcSkillAspd, engineHitsPerSec, floor, formatCalcNumber, isSkillCanEDP, round } from 'src/app/utils';
 import { computeBasicCritRate, computeSkillCritRate, EMPTY_CRIT_RATE } from './crit-rate';
 import { targetReduction } from './target-reduction';
@@ -1661,7 +1662,14 @@ export class DamageCalculator {
       total = this.toPreventNegativeDmg(total);
 
       if (!!finalDmgFormula && typeof finalDmgFormula === 'function') {
+        const beforeFinalSkill = total;
         total = finalDmgFormula({ damage: total, ...formulaParams });
+        if (total !== beforeFinalSkill) {
+          push('Efeito final da habilidade', total);
+          emit('skillFinal', 'Efeito final da habilidade', total, undefined, {
+            calc: skillData.finalDmgCalc?.({ ...formulaParams, damageBefore: beforeFinalSkill, damageAfter: total }),
+          });
+        }
       }
 
       // PVP: the target's own reductions + the WoE-castle global layer are the
@@ -2084,7 +2092,14 @@ export class DamageCalculator {
       }
 
       if (!!finalDmgFormula && typeof finalDmgFormula === 'function') {
+        const beforeFinalSkill = total;
         total = finalDmgFormula({ damage: total, ...formulaParams });
+        if (total !== beforeFinalSkill) {
+          push('Efeito final da habilidade', total);
+          emit('skillFinal', 'Efeito final da habilidade', total, undefined, {
+            calc: skillData.finalDmgCalc?.({ ...formulaParams, damageBefore: beforeFinalSkill, damageAfter: total }),
+          });
+        }
       } else {
         total = this.toPreventNegativeDmg(total);
       }
@@ -2393,6 +2408,7 @@ export class DamageCalculator {
 
   calculateAllDamages(args: { skillValue: string; propertyAtk: ElementType; maxHp: number; maxSp: number; skillData?: AtkSkillModel }): DamageSummaryModel {
     const { skillValue, propertyAtk, maxHp, maxSp } = args;
+    if (/^Flash Combo==[1-5]$/.test(skillValue)) return this.calculateFlashCombo(args);
     this.basicPropertyAtk = propertyAtk;
     const sizePenalty = this.getSizePenalty();
     const { totalMin, totalMax, totalMaxOver, propertyMultiplier, minAtkNodes, maxAtkNodes, maxOverAtkNodes } = this.calcTotalAtk({
@@ -2408,8 +2424,8 @@ export class DamageCalculator {
       isAmmoAttack: this.isRangeAtk() || !this.weaponData?.data?.typeName,
     });
 
-    const { basicMinDamage, basicMaxDamage, basicFormulaGraph } = this.calcBasicDamage({ totalMin: totalMin, totalMax: totalMaxOver, minAtkNodes, maxAtkNodes: maxOverAtkNodes });
-    const { criMinDamage, criMaxDamage, basicFormulaGraphCri } = this.calcBasicCriDamage({
+    let { basicMinDamage, basicMaxDamage, basicFormulaGraph } = this.calcBasicDamage({ totalMin: totalMin, totalMax: totalMaxOver, minAtkNodes, maxAtkNodes: maxOverAtkNodes });
+    let { criMinDamage, criMaxDamage, basicFormulaGraphCri } = this.calcBasicCriDamage({
       totalMaxAtk: totalMax,
       totalMaxAtkOver: totalMaxOver,
       maxAtkNodes,
@@ -2433,9 +2449,41 @@ export class DamageCalculator {
       criShield,
       targetLuk: this.monster.data.luk,
     });
-    const criRateToMonster = criRateBreakdown.total;
+    let criRateToMonster = criRateBreakdown.total;
+    let basicPropertyAtk = propertyAtk;
+    let basicPropertyMultiplier = propertyMultiplier;
+    let basicAccuracy = misc.accuracy;
+
+    // Punho Arcano turns each ordinary attack into one magical hit from the interrupted
+    // bolt. It is an active state, not an attack that can be put in the skill rotation.
+    // The bolt name is kept so equipment bonuses to that bolt still apply.
+    // https://browiki.org/wiki/Punho_Arcano (tracker GfZHIU4zvFliyhIw1bdM)
+    const fistChoice = [ClassName.Sorcerer, ClassName.ElementalMaster].includes(this._class.className)
+      ? this.infoForClass.skills.activeLevel('Fist Spell') : 0;
+    if (fistChoice >= 1 && fistChoice <= 3) {
+      const boltNames = ['Fire Bolt', 'Cold Bolt', 'Lightening Bolt'] as const;
+      const bolt = this._class.atkSkills.find((skill) => skill.name === boltNames[fistChoice - 1]);
+      if (bolt?.element) {
+        const ratio = (20 * 10 + 100 * 10) * (Number(this.model.level) / 100);
+        const fistDamage = this.calcMagicalSkillDamage({
+          skillData: { ...bolt, totalHit: 1 },
+          baseSkillDamage: ratio,
+          weaponPropertyAtk: bolt.element,
+        });
+        basicMinDamage = fistDamage.minDamage;
+        basicMaxDamage = fistDamage.maxDamage;
+        basicFormulaGraph = fistDamage.skillFormulaGraph;
+        criMinDamage = 0;
+        criMaxDamage = 0;
+        basicFormulaGraphCri = undefined;
+        criRateToMonster = 0;
+        basicPropertyAtk = fistDamage.propertyAtk;
+        basicPropertyMultiplier = fistDamage.propertyMultiplier;
+        basicAccuracy = 100;
+      }
+    }
     const basicDps = calcDmgDps({
-      accRate: misc.accuracy,
+      accRate: basicAccuracy,
       cri: criRateToMonster,
       criDmg: floor((criMinDamage + criMaxDamage) / 2),
       hitsPerSec: basicAspd.hitsPerSec,
@@ -2450,8 +2498,8 @@ export class DamageCalculator {
       criMinDamage,
       criMaxDamage,
       sizePenalty: floor(sizePenalty * 100, 0),
-      propertyAtk,
-      propertyMultiplier,
+      propertyAtk: basicPropertyAtk,
+      propertyMultiplier: basicPropertyMultiplier,
       // Deliberately the plain rate: the ranged-only bonus is NOT folded in here, so the
       // character-sheet crit keeps meaning "the crit every attack takes". The UI marks the
       // value with a "*" from `criRangeBonus` instead, and explains it on click.
@@ -2460,7 +2508,7 @@ export class DamageCalculator {
       criRateToMonster,
       criRateBreakdown,
       totalPene: this.isActiveInfilltration ? 100 : this.getTotalPhysicalPene(),
-      accuracy: misc.accuracy,
+      accuracy: basicAccuracy,
       basicDps,
       pAtk,
       sMatk,
@@ -2544,20 +2592,7 @@ export class DamageCalculator {
     let noStackMinCriDamage = 0;
     let noStackMinDamage = 0;
 
-    if (skillName === 'Fist Spell' && typeof skillData.treatedAsSkillNameFn === 'function') {
-      const newSkillValue = skillData.treatedAsSkillNameFn(skillValue);
-      const newSkillData = this._class.atkSkills.find((a) => a.value === newSkillValue || a.levelList?.findIndex((b) => b.value === newSkillValue) >= 0);
-      if (newSkillData) {
-        calculated = this.calcMagicalSkillDamage({
-          ...params,
-          skillData: {
-            ...params.skillData,
-            formula: newSkillData.formula,
-            name: newSkillData.name,
-          },
-        });
-      }
-    } else if (customFormula && typeof customFormula === 'function') {
+    if (customFormula && typeof customFormula === 'function') {
       const skillPropertyAtk = typeof getElement === 'function' ? getElement(skillValue, this.infoForClass) : skillData.element || propertyAtk;
       const propertyMultiplier = this.getPropertyMultiplier(skillPropertyAtk);
 
@@ -2668,7 +2703,7 @@ export class DamageCalculator {
     });
     const actualCri = skillCriRateBreakdown.total;
 
-    const skillAccRate = isHit100 || isMatk ? 100 : basicDmg.accuracy;
+    const skillAccRate = isHit100 || isMatk ? 100 : misc.accuracy;
     const { avgCriDamage, avgNoCriDamage } = calculated;
 
     const totalHit = typeof _totalHit === 'function' ? _totalHit(formulaParams) : _totalHit;
@@ -2760,6 +2795,91 @@ export class DamageCalculator {
     };
 
     return { basicDmg, misc, skillDmg, skillAspd, basicAspd };
+  }
+
+  /** Combo Rápido casts three *different* skills, each through its own damage path.
+   * Garra de Tigre is the ordinary version, not the stronger manual combo version.
+   * https://browiki.org/wiki/Combo_R%C3%A1pido (tracker PciDnRUoYW6FMh3lNXp4)
+   */
+  private calculateFlashCombo(args: { skillValue: string; propertyAtk: ElementType; maxHp: number; maxSp: number }): DamageSummaryModel {
+    const flashLevel = Number(args.skillValue.split('==')[1]);
+    const base = this.calculateAllDamages({ ...args, skillValue: '' });
+    const flashSkill = this._class.atkSkills.find((skill) => skill.name === 'Flash Combo')!;
+    const names = ['Dragon Combo', 'Fallen Empire', 'Tiger Cannon'] as const;
+    const bonusAtk = 20 * (flashLevel + 1); // +40 / +60 / +80 / +100 / +120 ATQ.
+    const oldAtk = this.totalBonus.atk || 0;
+    const pieces: Array<{ label: string; level: number; damage: SkillDamageSummaryModel }> = [];
+
+    try {
+      this.totalBonus.atk = oldAtk + bonusAtk;
+      for (const name of names) {
+        const level = this.infoForClass.skills.learnedLevel(name);
+        if (!level) continue;
+        const skill = this._class.atkSkills.find((entry) => entry.name === name && entry.value === `${name}==10`);
+        if (!skill) continue;
+        const result = this.calculateAllDamages({ ...args, skillValue: `${name}==${level}`, skillData: skill });
+        if (result.skillDmg) pieces.push({ label: resolveSkillMeta(name)?.label ?? name, level, damage: result.skillDmg });
+      }
+    } finally {
+      this.totalBonus.atk = oldAtk;
+    }
+
+    const min = pieces.reduce((sum, piece) => sum + piece.damage.skillMinDamage * piece.damage.skillTotalHit, 0);
+    const max = pieces.reduce((sum, piece) => sum + piece.damage.skillMaxDamage * piece.damage.skillTotalHit, 0);
+    // The sequence itself lasts four seconds even when its cooldown is shorter.
+    const timing = calcSkillAspd({
+      skillData: { ...flashSkill, cd: 18 - flashLevel * 3 },
+      status: this.status,
+      totalEquipStatus: this.totalBonus,
+      skillLevel: flashLevel,
+    });
+    const hitPeriod = Math.max(4, timing.hitPeriod);
+    const skillAspd = { ...timing, hitPeriod, totalHitPerSec: floor(1 / hitPeriod, 6) };
+    const hitsPerSec = Math.min(skillAspd.totalHitPerSec, base.basicAspd.hitsPerSec);
+    const skillDps = calcDmgDps({ min, max, cri: 0, criDmg: 0, hitsPerSec, accRate: base.misc.accuracy });
+    const graph = (side: 'min' | 'max'): DamageFormulaGraph => {
+      const nodes: DamageFormulaNode[] = pieces.map((piece, index) => ({
+        id: `comboPart${index}`,
+        label: `${piece.label} Nv ${piece.level}`,
+        value: (side === 'min' ? piece.damage.skillMinDamage : piece.damage.skillMaxDamage) * piece.damage.skillTotalHit,
+        detail: piece.damage.skillFormulaGraph ? {
+          graph: piece.damage.skillFormulaGraph,
+          hits: piece.damage.skillTotalHit,
+          min: piece.damage.skillMinDamage * piece.damage.skillTotalHit,
+          max: piece.damage.skillMaxDamage * piece.damage.skillTotalHit,
+        } : undefined,
+        inputs: [], kind: 'input',
+      }));
+      nodes.push({ id: 'comboSum', label: 'Soma dos golpes', value: side === 'min' ? min : max,
+        inputs: nodes.map((node) => node.id), kind: 'stage' });
+      return { nodes };
+    };
+    const skillDmg: SkillDamageSummaryModel = {
+      ...(pieces[0]?.damage ?? this.zeroSkillDmg),
+      baseSkillDamage: 0,
+      skillMinDamage: min,
+      skillMaxDamage: max,
+      skillMinDamageNoCri: min,
+      skillMaxDamageNoCri: max,
+      skillTotalHit: 1,
+      skillHit: 1,
+      skillCanCri: false,
+      skillCriRateToMonster: 0,
+      skillAccuracy: base.misc.accuracy,
+      skillDps,
+      skillHitKill: min ? Math.ceil(this.monster.data.hp / min) : 0,
+      skillBonusFromEquipment: 0,
+      skillDpsInputMin: min,
+      skillDpsInputMax: max,
+      skillDpsInputCriDmg: 0,
+      skillDpsInputHitsPerSec: hitsPerSec,
+      skillFormulaGraph: { min: graph('min'), max: graph('max') },
+      skillFormulaTrace: {
+        min: pieces.map((piece) => ({ label: `${piece.label} Nv ${piece.level}`, value: piece.damage.skillMinDamage * piece.damage.skillTotalHit })),
+        max: pieces.map((piece) => ({ label: `${piece.label} Nv ${piece.level}`, value: piece.damage.skillMaxDamage * piece.damage.skillTotalHit })),
+      },
+    };
+    return { ...base, skillDmg, skillAspd };
   }
 
   get atkSummaryForUI() {

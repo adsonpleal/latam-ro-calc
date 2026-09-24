@@ -1,7 +1,7 @@
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
-import { AdditionalBonusInput, InfoForClass } from '../models/info-for-class.model';
-import { floor } from '../utils';
+import { InfoForClass } from '../models/info-for-class.model';
+import { floor, formatCalcNumber, genSkillList } from '../utils';
 import { ElementType } from '../constants/element-type.const';
 import { Champion } from './Champion';
 
@@ -78,6 +78,18 @@ const jobBonusTable: Record<number, [number, number, number, number, number, num
   70: [10, 10, 6, 8, 8, 1],
 };
 
+const tigerCannonFinalDmgCalc: AtkSkillModel['finalDmgCalc'] = ({ skillLevel, monster, damageBefore, damageAfter }) => ({
+  rows: damageAfter === 0 ? [
+    { label: 'Propriedade Fantasma', display: 'Dano bloqueado' },
+    { label: 'Resultado', display: formatCalcNumber(damageAfter), emphasis: true },
+  ] : [
+    { label: 'Dano anterior', display: formatCalcNumber(damageBefore) },
+    { label: `Nível ${skillLevel} × 240`, display: formatCalcNumber(skillLevel * 240) },
+    { label: `Nível do alvo ${monster.level} × 40`, display: formatCalcNumber(monster.level * 40) },
+    { label: 'Resultado', display: formatCalcNumber(damageAfter), emphasis: true },
+  ],
+});
+
 export class Sura extends Champion {
   protected override CLASS_NAME = ClassName.Sura;
   protected override JobBonusTable = jobBonusTable;
@@ -122,26 +134,18 @@ export class Sura extends Champion {
         return (100 + skillLevel * 300) * (baseLevel / 100) + totalStr * 100;
       },
     },
-    // {
-    //   name: 'Flash Combo',
-    //   label: 'Flash Combo Lv5',
-    //   value: 'Flash Combo==1',
-    //   fct: 0,
-    //   vct: 0,
-    //   acd: 1,
-    //   cd: 3,
-    //   isMelee: true,
-    //   formula: (input: AtkSkillFormulaInput): number => {
-    //     const {
-    //       model,
-    //       skillLevel,
-    //       status: { totalStr },
-    //     } = input;
-    //     const baseLevel = model.level;
-
-    //     return (100 + skillLevel * 300) * (baseLevel / 100) + totalStr * 100;
-    //   },
-    // },
+    {
+      name: 'Flash Combo',
+      label: 'Flash Combo Lv5',
+      value: 'Flash Combo==5',
+      levelList: Array.from({ length: 5 }, (_, i) => ({ label: `Flash Combo Nv${i + 1}`, value: `Flash Combo==${i + 1}` })),
+      fct: 0,
+      vct: 0,
+      acd: 1,
+      cd: (level) => 18 - level * 3,
+      isMelee: true,
+      formula: () => 0, // Calculated as three separate hits in DamageCalculator.
+    },
     {
       name: 'Lion Howling',
       label: 'Lion Howling Lv5',
@@ -242,6 +246,7 @@ export class Sura extends Champion {
 
         return damage + bonusDamge;
       },
+      finalDmgCalc: tigerCannonFinalDmgCalc,
     },
     {
       name: 'Tiger Cannon',
@@ -270,6 +275,7 @@ export class Sura extends Champion {
 
         return damage + bonusDamge;
       },
+      finalDmgCalc: tigerCannonFinalDmgCalc,
     },
     {
       name: 'Knuckle Arrow',
@@ -496,20 +502,6 @@ export class Sura extends Champion {
       ],
     },
     {
-      label: 'Flash Combo',
-      name: 'Flash Combo',
-      inputType: 'dropdown',
-      isMasteryAtk: true,
-      dropdown: [
-        { label: '-', value: 0, isUse: false },
-        { label: 'Nv 1', value: 1, isUse: true },
-        { label: 'Nv 2', value: 2, isUse: true },
-        { label: 'Nv 3', value: 3, isUse: true },
-        { label: 'Nv 4', value: 4, isUse: true },
-        { label: 'Nv 5', value: 5, isUse: true },
-      ],
-    },
-    {
       label: 'HP Atual',
       name: 'Current HP',
       inputType: 'dropdown',
@@ -542,9 +534,25 @@ export class Sura extends Champion {
         { label: '80 %', value: 80, isUse: true },
       ],
     },
+    {
+      label: 'Invocar Esfera Espiritual',
+      name: 'Vigor condensation',
+      inputType: 'dropdown',
+      dropdown: genSkillList(5, (count) => ({ atk: count * 3 })),
+    },
+    {
+      label: 'Fúria Interior',
+      name: 'Vigor Explosion',
+      inputType: 'dropdown',
+      dropdown: genSkillList(5, (lv) => ({ cri: 7.5 + lv * 2.5 })),
+    },
   ];
 
   private readonly passiveSkillList3rd: PassiveSkillModel[] = [
+    // Combo Rápido autoconjura estas três habilidades no maior nível aprendido.
+    ...(['Dragon Combo', 'Fallen Empire', 'Tiger Cannon'] as const).map((name) => ({
+      label: `${name} aprendido`, name, inputType: 'dropdown' as const, dropdown: genSkillList(10),
+    })),
     {
       label: 'Divine Protection',
       name: 'Divine Protection',
@@ -604,14 +612,7 @@ export class Sura extends Champion {
       label: 'Vigor Explosion',
       name: 'Vigor Explosion',
       inputType: 'dropdown',
-      dropdown: [
-        { label: '-', value: 0, isUse: false },
-        { label: 'Nv 1', value: 1, isUse: true },
-        { label: 'Nv 2', value: 2, isUse: true },
-        { label: 'Nv 3', value: 3, isUse: true },
-        { label: 'Nv 4', value: 4, isUse: true },
-        { label: 'Nv 5', value: 5, isUse: true },
-      ],
+      dropdown: genSkillList(5),
     },
     {
       label: 'Rising Dragon',
@@ -726,16 +727,6 @@ export class Sura extends Champion {
     const element = this.getMasteryAtkByMonsterElement(info.monster.element).totalAtk;
 
     return race + element + this.calcHiddenMasteryAtk(info, { prefix: `x_${wTypeName}` }).totalAtk;
-  }
-
-  override setAdditionalBonus(params: AdditionalBonusInput) {
-    const { totalBonus, skillName } = params;
-    const flashComboLv = this.activeSkillLv('Flash Combo');
-    if (skillName === 'Tiger Cannon' && flashComboLv > 0) {
-      totalBonus['weaponAtk'] = (flashComboLv + 1) * 20;
-    }
-
-    return totalBonus;
   }
 
   private getCurrentHP(maxHp: number) {

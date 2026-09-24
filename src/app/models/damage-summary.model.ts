@@ -64,6 +64,8 @@ export interface DamageFormulaNode {
   id: string;
   label: string;
   value: number;
+  /** A component hit in a combined skill can expose its own complete formula graph. */
+  detail?: { graph: { min: DamageFormulaGraph; max: DamageFormulaGraph }; hits: number; min: number; max: number };
   keys?: string[];
   /** ids of the nodes (stage or input) that feed this node */
   inputs: string[];

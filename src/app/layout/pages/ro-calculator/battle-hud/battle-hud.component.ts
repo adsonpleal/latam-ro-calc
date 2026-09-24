@@ -116,6 +116,9 @@ export class BattleHudComponent implements OnDestroy {
   @Input() rotationView2: RotationView | null = null;
   /** The raw ordered values — the list edits this, not the view. */
   @Input() rotation: string[] = [];
+  get hasFlashCombo(): boolean {
+    return this.rotation.some((skill) => skill.startsWith('Flash Combo=='));
+  }
   /** The class's offensive skills, for the add picker and the level chips. */
   @Input() atkSkills: any[] = [];
   @Input() isShowSelectableSkillLevel = false;
@@ -264,7 +267,41 @@ export class BattleHudComponent implements OnDestroy {
 
   /** A graph node is clickable when it has a derivation to show or equipment behind it. */
   isNodeClickable(node: DamageFormulaNode): boolean {
-    return !!node.calc || (!!node.keys && this.isBreakdownClickable(node.keys));
+    return !!node.detail || !!node.calc || (!!node.keys && this.isBreakdownClickable(node.keys));
+  }
+
+  formulaPart: {
+    label: string;
+    graph: { min: FormulaGraphCluster[]; max: FormulaGraphCluster[] };
+    hits: number;
+    min: number;
+    max: number;
+    compare: boolean;
+  } | null = null;
+
+  openFormulaNode(node: DamageFormulaNode, compare = false): void {
+    if (node.detail) {
+      const graph = this.toClusterPair(node.detail.graph);
+      if (graph) this.formulaPart = { label: node.label, graph, hits: node.detail.hits,
+        min: node.detail.min, max: node.detail.max, compare };
+      return;
+    }
+    this.openBreakdown(node.label, node.keys, 'summary_stat_matk', node.value, node.calc, compare);
+  }
+
+  // Changing the graph replaces its clicked node. Open the child on pointerdown,
+  // before the later click can be lost when Angular removes that node. The click
+  // binding remains for keyboard activation through keyActivate.
+  openFormulaDetailOnPointerDown(node: DamageFormulaNode, compare: boolean, event: PointerEvent): void {
+    if (!node.detail) return;
+    event.preventDefault();
+    event.stopPropagation();
+    this.openFormulaNode(node, compare);
+  }
+
+  openHeroDamageFormula(event: Event, panel: any): void {
+    this.formulaPart = null;
+    panel?.toggle(event);
   }
 
   /**
@@ -338,6 +375,7 @@ export class BattleHudComponent implements OnDestroy {
    */
   openStepDamageFormula(payload: { index: number; event: Event; branch?: DamageBranch }, panels: { formula: any; noCri: any; basic: any; mean: any }) {
     this.activeStepIndex = payload.index;
+    this.formulaPart = null;
     const entry = this.activeStep;
     if (entry?.isBasic) return panels.basic?.toggle(payload.event);
 

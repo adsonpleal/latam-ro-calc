@@ -40,6 +40,26 @@ export class BattleDamagePopoversComponent {
 
   context: DamagePopoverContext | null = null;
   basicBranch: 'normal' | 'critical' = 'normal';
+  formulaPart: {
+    label: string;
+    graph: { min: FormulaGraphCluster[]; max: FormulaGraphCluster[] };
+    hits: number;
+    min: number;
+    max: number;
+    compare: boolean;
+  } | null = null;
+
+  // Stable cluster objects keep the clicked cell in the DOM through pointer events.
+  private readonly graphClusterCache = new WeakMap<object, { min: FormulaGraphCluster[]; max: FormulaGraphCluster[] }>();
+
+  private toClusterPair(graph: { min: any; max: any } | null | undefined): { min: FormulaGraphCluster[]; max: FormulaGraphCluster[] } | null {
+    if (!graph) return null;
+    const cached = this.graphClusterCache.get(graph);
+    if (cached) return cached;
+    const clusters = { min: buildGraphClusters(graph.min), max: buildGraphClusters(graph.max) };
+    this.graphClusterCache.set(graph, clusters);
+    return clusters;
+  }
 
   private alignPanel(panel: OverlayPanel, target: DOMRect, reveal = false): void {
     const container = panel.container as HTMLElement;
@@ -60,6 +80,7 @@ export class BattleDamagePopoversComponent {
 
   open(event: Event, branch: DamageBranch, context: DamagePopoverContext, target?: EventTarget | null): void {
     this.context = context;
+    this.formulaPart = null;
     this.basicBranch = branch === 'cri' ? 'critical' : 'normal';
     // Render the new formula before PrimeNG measures the overlay. Without this, a reused
     // panel is first painted at the previous content's coordinates and visibly jumps.
@@ -105,7 +126,7 @@ export class BattleDamagePopoversComponent {
     const graph = noCri
       ? (selected && dmg?.effectedSkillFormulaGraphNoCri) || dmg?.skillFormulaGraphNoCri
       : (selected && dmg?.effectedSkillFormulaGraph) || dmg?.skillFormulaGraph;
-    return graph ? { min: buildGraphClusters(graph.min), max: buildGraphClusters(graph.max) } : null;
+    return this.toClusterPair(graph);
   }
 
   get formulaGraph() { return this.graphPair(this.dmg); }
@@ -114,7 +135,7 @@ export class BattleDamagePopoversComponent {
   get noCriGraph2() { return this.isComparing ? this.graphPair(this.dmg2, true, true) : null; }
   private basicGraphPair(dmg: any, critical: boolean): { min: FormulaGraphCluster[]; max: FormulaGraphCluster[] } | null {
     const graph = critical ? dmg?.basicFormulaGraphCri : dmg?.basicFormulaGraph;
-    return graph ? { min: buildGraphClusters(graph.min), max: buildGraphClusters(graph.max) } : null;
+    return this.toClusterPair(graph);
   }
   get basicGraph() { return this.basicGraphPair(this.dmg, this.basicBranch === 'critical'); }
   get basicGraph2() { return this.isComparing ? this.basicGraphPair(this.dmg2, this.basicBranch === 'critical') : null; }
@@ -169,9 +190,38 @@ export class BattleDamagePopoversComponent {
   }
   get meanTitle(): string { return this.weightedCrit ? 'Como a média por crítico é calculada' : 'Como o dano médio é calculado'; }
 
-  isNodeClickable(node: DamageFormulaNode): boolean { return !!node.calc || !!node.keys?.length; }
+  isNodeClickable(node: DamageFormulaNode): boolean { return !!node.detail || !!node.calc || !!node.keys?.length; }
+  openFormulaNode(node: DamageFormulaNode, compare = false): void {
+    if (node.detail) {
+      const graph = this.toClusterPair(node.detail.graph);
+      if (graph) {
+        this.formulaPart = { label: node.label, graph, hits: node.detail.hits,
+          min: node.detail.min, max: node.detail.max, compare };
+        this.changeDetector.detectChanges();
+        const anchor = this.formulaPanel?.target as HTMLElement | undefined;
+        if (anchor) this.alignPanel(this.formulaPanel, anchor.getBoundingClientRect());
+      }
+      return;
+    }
+    this.openBreakdown(node, compare);
+  }
+
+  openFormulaDetailOnPointerDown(node: DamageFormulaNode, compare: boolean, event: PointerEvent): void {
+    if (!node.detail) return;
+    event.preventDefault();
+    event.stopPropagation();
+    this.openFormulaNode(node, compare);
+  }
+
+  closeFormulaPart(): void {
+    this.formulaPart = null;
+    this.changeDetector.detectChanges();
+    const anchor = this.formulaPanel?.target as HTMLElement | undefined;
+    if (anchor) this.alignPanel(this.formulaPanel, anchor.getBoundingClientRect());
+  }
+
   openBreakdown(node: DamageFormulaNode, compare = false): void {
-    if (!this.isNodeClickable(node)) return;
+    if (!node.calc && !node.keys?.length) return;
     this.breakdownClick.emit({
       label: node.label, keys: node.keys ?? [], valueClass: 'summary_stat_matk', total: node.value, calc: node.calc, compare,
     });

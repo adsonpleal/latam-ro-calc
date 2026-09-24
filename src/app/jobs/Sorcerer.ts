@@ -92,47 +92,6 @@ export class Sorcerer extends Scholar {
   private readonly classNames3rd = [ClassName.Only_3rd, ClassName.Sorcerer];
   private readonly atkSkillList3rd: AtkSkillModel[] = [
     {
-      name: 'Fist Spell',
-      label: 'Fist Spell Lv10',
-      value: 'Fist Spell==10',
-      levelList: [
-        { label: 'Fist Spell Nv10 (Fire Bolt Nv10)', value: 'Fist Spell Fire Bolt==10' },
-        { label: 'Fist Spell Nv10 (Cold Bolt Nv10)', value: 'Fist Spell Cold Bolt==10' },
-        { label: 'Fist Spell Nv10 (Lightening Bolt Nv10)', value: 'Fist Spell Lightening Bolt==10' },
-      ],
-      fct: 0,
-      vct: 0,
-      cd: 0,
-      acd: 1,
-      isMatk: true,
-      getElement(skillValue) {
-        const map = {
-          'Fist Spell Fire Bolt==10': ElementType.Fire,
-          'Fist Spell Cold Bolt==10': ElementType.Water,
-          'Fist Spell Lightening Bolt==10': ElementType.Wind,
-        };
-
-        return map[skillValue];
-      },
-      treatedAsSkillNameFn(skillValue) {
-        const map = {
-          'Fist Spell Fire Bolt==10': 'Fire Bolt==10',
-          'Fist Spell Cold Bolt==10': 'Cold Bolt==10',
-          'Fist Spell Lightening Bolt==10': 'Lightening Bolt==10',
-        };
-
-        return map[skillValue];
-      },
-      formula: (_input: AtkSkillFormulaInput): number => {
-        return 100;
-      },
-      finalDmgFormula(input) {
-        const boltLv = 10;
-
-        return input.damage * (boltLv + 2);
-      },
-    },
-    {
       name: 'Diamond Dust',
       label: 'Diamond Dust Lv 5',
       value: 'Diamond Dust==5',
@@ -293,6 +252,17 @@ export class Sorcerer extends Scholar {
     },
   ];
   private readonly activeSkillList3rd: ActiveSkillModel[] = [
+    {
+      name: 'Fist Spell',
+      label: 'Punho Arcano (Nv 10)',
+      inputType: 'dropdown',
+      dropdown: [
+        { label: '-', value: 0, isUse: false },
+        { label: 'Lanças de Fogo Nv 10', value: 1, isUse: true, icon: 19 },
+        { label: 'Lanças de Gelo Nv 10', value: 2, isUse: true, icon: 14 },
+        { label: 'Relâmpago Nv 10', value: 3, isUse: true, icon: 20 },
+      ],
+    },
     {
       name: '_Sorcerer_Elemental_Spirit',
       label: 'Espírito Elemental',

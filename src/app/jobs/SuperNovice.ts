@@ -360,6 +360,16 @@ export class SuperNovice extends CharacterBase {
     },
   ];
   protected readonly _activeSkillList: ActiveSkillModel[] = [
+    // Monk buffs learned by Superaprendiz: each sphere adds ATQ +3, and Fúria
+    // Interior grants CRIT +10 / +12.5 / +15 / +17.5 / +20 by level.
+    {
+      name: 'Vigor condensation', label: 'Invocar Esfera Espiritual', inputType: 'dropdown',
+      dropdown: genSkillList(5, (count) => ({ atk: count * 3 })),
+    },
+    {
+      name: 'Vigor Explosion', label: 'Fúria Interior', inputType: 'dropdown',
+      dropdown: genSkillList(5, (lv) => ({ cri: 7.5 + lv * 2.5 })),
+    },
     // Telecinesia — boosts Ghost-element damage, so it only does anything alongside
     // Impacto Espiritual above; the two were added together.
     IntensificationFn(),
