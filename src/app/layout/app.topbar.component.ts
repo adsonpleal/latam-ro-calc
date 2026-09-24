@@ -169,7 +169,7 @@ export class AppTopBarComponent implements OnDestroy {
       v: '0.1.147-beta',
       date: '23-09-2026',
       logs: [
-        'Combo Rápido voltou à Batalha e agora soma o dano de Punho do Dragão, Ruína e Garra de Tigre com o bônus de ATQ e a recarga do nível escolhido. Os três níveis precisam ser informados em Aprenda; a Batalha mostra essa dependência ao selecionar o combo. Reportado por Ryuushin.',
+        'Combo Rápido voltou à Batalha e agora soma o dano de Punho do Dragão, Ruína e Garra de Tigre com o bônus de ATQ e a recarga do nível escolhido. Os três níveis precisam ser informados em Aprenda; a Batalha mostra essa dependência ao selecionar o combo. Na explicação da soma, cada habilidade aparece em português e abre o próprio cálculo de dano. Reportado por Ryuushin.',
         'Punho Arcano saiu da lista de ataques da Batalha e entrou em Habilidades e efeitos ativos. A magia interrompida escolhida, Lanças de Fogo, Lanças de Gelo ou Relâmpago, define o elemento e o dano mágico dos ataques básicos na Batalha e na Auto-conjuração. Reportado por usuário anônimo.',
         'Invocar Esfera Espiritual e Fúria Interior agora podem ser ativadas pelo Superaprendiz, aplicando o ATQ das esferas e a taxa crítica da Fúria. Reportado por usuário anônimo.',
         'A Bota Primordial-LT deixou de oferecer Fatal Nv. 4 no encantamento; o limite é Nv. 3, conforme a tabela de encantamentos.',

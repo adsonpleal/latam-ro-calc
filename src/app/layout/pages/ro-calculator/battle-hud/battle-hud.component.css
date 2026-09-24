@@ -540,6 +540,14 @@
   margin-bottom: 6px;
 }
 
+.graph-back {
+  border: 0;
+  padding: 0 0 8px;
+  background: none;
+  color: var(--orange-300);
+  cursor: pointer;
+}
+
 .graph-arrow {
   color: var(--text-color-secondary);
   font-size: 13px;

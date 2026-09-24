@@ -9,7 +9,7 @@ import { EquipmentSummaryModel } from 'src/app/models/equipment-summary.model';
 import { InfoForClass } from 'src/app/models/info-for-class.model';
 import { MainModel } from 'src/app/models/main.model';
 import { StatusSummary } from 'src/app/models/status-summary.model';
-import { SKILL_ID_BY_NAME } from 'src/app/skills';
+import { SKILL_ID_BY_NAME, resolveSkillMeta } from 'src/app/skills';
 import { calcDmgDps, calcSkillAspd, engineHitsPerSec, floor, formatCalcNumber, isSkillCanEDP, round } from 'src/app/utils';
 import { computeBasicCritRate, computeSkillCritRate, EMPTY_CRIT_RATE } from './crit-rate';
 import { targetReduction } from './target-reduction';
@@ -1662,7 +1662,14 @@ export class DamageCalculator {
       total = this.toPreventNegativeDmg(total);
 
       if (!!finalDmgFormula && typeof finalDmgFormula === 'function') {
+        const beforeFinalSkill = total;
         total = finalDmgFormula({ damage: total, ...formulaParams });
+        if (total !== beforeFinalSkill) {
+          push('Efeito final da habilidade', total);
+          emit('skillFinal', 'Efeito final da habilidade', total, undefined, {
+            calc: skillData.finalDmgCalc?.({ ...formulaParams, damageBefore: beforeFinalSkill, damageAfter: total }),
+          });
+        }
       }
 
       // PVP: the target's own reductions + the WoE-castle global layer are the
@@ -2085,7 +2092,14 @@ export class DamageCalculator {
       }
 
       if (!!finalDmgFormula && typeof finalDmgFormula === 'function') {
+        const beforeFinalSkill = total;
         total = finalDmgFormula({ damage: total, ...formulaParams });
+        if (total !== beforeFinalSkill) {
+          push('Efeito final da habilidade', total);
+          emit('skillFinal', 'Efeito final da habilidade', total, undefined, {
+            calc: skillData.finalDmgCalc?.({ ...formulaParams, damageBefore: beforeFinalSkill, damageAfter: total }),
+          });
+        }
       } else {
         total = this.toPreventNegativeDmg(total);
       }
@@ -2804,7 +2818,7 @@ export class DamageCalculator {
         const skill = this._class.atkSkills.find((entry) => entry.name === name && entry.value === `${name}==10`);
         if (!skill) continue;
         const result = this.calculateAllDamages({ ...args, skillValue: `${name}==${level}`, skillData: skill });
-        if (result.skillDmg) pieces.push({ label: name, level, damage: result.skillDmg });
+        if (result.skillDmg) pieces.push({ label: resolveSkillMeta(name)?.label ?? name, level, damage: result.skillDmg });
       }
     } finally {
       this.totalBonus.atk = oldAtk;
@@ -2828,6 +2842,12 @@ export class DamageCalculator {
         id: `comboPart${index}`,
         label: `${piece.label} Nv ${piece.level}`,
         value: (side === 'min' ? piece.damage.skillMinDamage : piece.damage.skillMaxDamage) * piece.damage.skillTotalHit,
+        detail: piece.damage.skillFormulaGraph ? {
+          graph: piece.damage.skillFormulaGraph,
+          hits: piece.damage.skillTotalHit,
+          min: piece.damage.skillMinDamage * piece.damage.skillTotalHit,
+          max: piece.damage.skillMaxDamage * piece.damage.skillTotalHit,
+        } : undefined,
         inputs: [], kind: 'input',
       }));
       nodes.push({ id: 'comboSum', label: 'Soma dos golpes', value: side === 'min' ? min : max,

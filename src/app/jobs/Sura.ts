@@ -1,7 +1,7 @@
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { InfoForClass } from '../models/info-for-class.model';
-import { floor, genSkillList } from '../utils';
+import { floor, formatCalcNumber, genSkillList } from '../utils';
 import { ElementType } from '../constants/element-type.const';
 import { Champion } from './Champion';
 
@@ -77,6 +77,18 @@ const jobBonusTable: Record<number, [number, number, number, number, number, num
   69: [9, 9, 6, 7, 8, 1],
   70: [10, 10, 6, 8, 8, 1],
 };
+
+const tigerCannonFinalDmgCalc: AtkSkillModel['finalDmgCalc'] = ({ skillLevel, monster, damageBefore, damageAfter }) => ({
+  rows: damageAfter === 0 ? [
+    { label: 'Propriedade Fantasma', display: 'Dano bloqueado' },
+    { label: 'Resultado', display: formatCalcNumber(damageAfter), emphasis: true },
+  ] : [
+    { label: 'Dano anterior', display: formatCalcNumber(damageBefore) },
+    { label: `Nível ${skillLevel} × 240`, display: formatCalcNumber(skillLevel * 240) },
+    { label: `Nível do alvo ${monster.level} × 40`, display: formatCalcNumber(monster.level * 40) },
+    { label: 'Resultado', display: formatCalcNumber(damageAfter), emphasis: true },
+  ],
+});
 
 export class Sura extends Champion {
   protected override CLASS_NAME = ClassName.Sura;
@@ -234,6 +246,7 @@ export class Sura extends Champion {
 
         return damage + bonusDamge;
       },
+      finalDmgCalc: tigerCannonFinalDmgCalc,
     },
     {
       name: 'Tiger Cannon',
@@ -262,6 +275,7 @@ export class Sura extends Champion {
 
         return damage + bonusDamge;
       },
+      finalDmgCalc: tigerCannonFinalDmgCalc,
     },
     {
       name: 'Knuckle Arrow',

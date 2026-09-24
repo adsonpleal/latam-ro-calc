@@ -49,6 +49,23 @@ describe('Combo Rápido sums the learned attacks', () => {
     expect(all.skillDps).toBeGreaterThan(0);
   });
 
+  it('keeps PT-BR names and each contributing skill formula behind its total', () => {
+    const result = simulate(5, [10, 10, 10]);
+    const minParts = result.skillFormulaGraph.min.nodes.filter((node: any) => node.kind === 'input');
+    const maxParts = result.skillFormulaGraph.max.nodes.filter((node: any) => node.kind === 'input');
+    expect(minParts.map((node: any) => node.label)).toEqual([
+      'Punho do Dragão Nv 10', 'Ruína Nv 10', 'Garra de Tigre Nv 10',
+    ]);
+    for (const [minPart, maxPart] of minParts.map((node: any, index: number) => [node, maxParts[index]])) {
+      expect(minPart.detail.graph.min.nodes.length).toBeGreaterThan(1);
+      expect(maxPart.detail.graph.max.nodes.length).toBeGreaterThan(1);
+      expect(minPart.detail.graph.min.nodes.at(-1).value * minPart.detail.hits).toBe(minPart.value);
+      expect(maxPart.detail.graph.max.nodes.at(-1).value * maxPart.detail.hits).toBe(maxPart.value);
+    }
+    const tigerFinal = minParts[2].detail.graph.min.nodes.find((node: any) => node.id === 'skillFinal');
+    expect(tigerFinal.calc.rows.map((row: any) => row.label)).toContain('Nível 10 × 240');
+  });
+
   it('increases the ATQ during the sequence with Combo Rápido level', () => {
     expect(simulate(5, [10, 10, 10]).skillMinDamage).toBeGreaterThan(simulate(1, [10, 10, 10]).skillMinDamage);
   });

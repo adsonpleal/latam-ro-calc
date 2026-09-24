@@ -511,7 +511,7 @@
           class="graph-input"
           *ngFor="let inp of c.inputs"
           [class.bonus_clickable]="isNodeClickable(inp)"
-          (click)="openBreakdown(inp.label, inp.keys, 'summary_stat_matk', inp.value, inp.calc, !!sim)"
+          (click)="openFormulaNode(inp, !!sim)"
           keyActivate
         >
           <span>{{ inp.label }}</span>
@@ -521,7 +521,7 @@
       <div
         class="graph-stage"
         [class.bonus_clickable]="isNodeClickable(c.stage)"
-        (click)="openBreakdown(c.stage.label, c.stage.keys, 'summary_stat_matk', c.stage.value, c.stage.calc, !!sim)"
+        (click)="openFormulaNode(c.stage, !!sim)"
         keyActivate
       >
         <span>{{ c.stage.label }}</span><span [class.sim]="sim">{{ c.stage.value | number }}</span>
@@ -541,17 +541,17 @@
   <!-- One branch of the damage formula: its min and max rolls, or a single "Dano" section
        when they cannot differ. Shared by the two panels below so the crit branch and the
        no-crit one can never drift apart in how they are drawn. -->
-  <ng-template #formulaBranch let-graph="graph" let-graphSim="graphSim" let-flat="flat">
+  <ng-template #formulaBranch let-graph="graph" let-graphSim="graphSim" let-flat="flat" let-compare="compare">
     <ng-container *ngIf="!flat; else flatBranch">
       <div class="psec">Dano mínimo</div>
-      <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graph.min }"></ng-container>
+      <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graph.min, sim: compare }"></ng-container>
       <ng-container *ngIf="isComparing && graphSim?.min?.length">
         <div class="cmp-castbar-label">⇄ Comparação</div>
         <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graphSim.min, sim: true }"></ng-container>
       </ng-container>
 
       <div class="psec">Dano máximo</div>
-      <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graph.max }"></ng-container>
+      <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graph.max, sim: compare }"></ng-container>
       <ng-container *ngIf="isComparing && graphSim?.max?.length">
         <div class="cmp-castbar-label">⇄ Comparação</div>
         <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graphSim.max, sim: true }"></ng-container>
@@ -559,7 +559,7 @@
     </ng-container>
     <ng-template #flatBranch>
       <div class="psec">Dano</div>
-      <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graph.max }"></ng-container>
+      <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graph.max, sim: compare }"></ng-container>
       <ng-container *ngIf="isComparing && graphSim?.max?.length">
         <div class="cmp-castbar-label">⇄ Comparação</div>
         <ng-container *ngTemplateOutlet="formulaGraphRow; context: { clusters: graphSim.max, sim: true }"></ng-container>
@@ -568,16 +568,29 @@
   </ng-template>
 
   <p-overlayPanel #damageFormulaPanel>
-    <div class="ptitle">Como o dano é calculado</div>
-    <div class="graph-hint">Clique em qualquer valor para ver de onde ele vem.</div>
-    <div class="mut-note" *ngIf="hero?.showsEffected">Fórmula da rolagem com os efeitos acionados.</div>
-    <ng-container *ngIf="formulaGraph; else noFormulaTrace">
+    <ng-container *ngIf="formulaPart as part; else combinedFormula">
+      <button type="button" class="graph-back" (click)="formulaPart = null">← Voltar à soma</button>
+      <div class="ptitle">{{ part.label }}</div>
+      <div class="graph-hint">Clique em qualquer valor para ver de onde ele vem.</div>
+      <div class="mut-note" *ngIf="part.hits > 1">
+        {{ part.hits }} golpes × dano por golpe = {{ part.min | number }}<ng-container *ngIf="part.max !== part.min"> – {{ part.max | number }}</ng-container> de dano total.
+      </div>
       <div class="formula-trace-scroll">
-        <ng-container
-          *ngTemplateOutlet="formulaBranch; context: { graph: formulaGraph, graphSim: formulaGraphSim, flat: damageIsFlat }"
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="formulaBranch; context: { graph: part.graph, flat: part.min === part.max, compare: part.compare }"></ng-container>
       </div>
     </ng-container>
+    <ng-template #combinedFormula>
+      <div class="ptitle">Como o dano é calculado</div>
+      <div class="graph-hint">Clique em qualquer valor para ver de onde ele vem.</div>
+      <div class="mut-note" *ngIf="hero?.showsEffected">Fórmula da rolagem com os efeitos acionados.</div>
+      <ng-container *ngIf="formulaGraph; else noFormulaTrace">
+        <div class="formula-trace-scroll">
+          <ng-container
+            *ngTemplateOutlet="formulaBranch; context: { graph: formulaGraph, graphSim: formulaGraphSim, flat: damageIsFlat }"
+          ></ng-container>
+        </div>
+      </ng-container>
+    </ng-template>
     <ng-template #noFormulaTrace>
       <div class="mut-note">Fórmula passo a passo indisponível para esta habilidade (usa cálculo especial).</div>
     </ng-template>
@@ -781,14 +794,14 @@
            both open the same formula panel. The rows below already read
            "atual → simulado" — the headline was the one place the comparison was missing. -->
       <div class="pd-dmg">
-        <span class="pd-dmg-val" role="button" tabindex="0" keyActivate (click)="damageFormulaPanel.toggle($event)"
+        <span class="pd-dmg-val" role="button" tabindex="0" keyActivate (click)="openHeroDamageFormula($event, damageFormulaPanel)"
           >{{ h.current.min | number: '1.0-0' }}<span *ngIf="h.current.max !== h.current.min">
             – {{ h.current.max | number: '1.0-0' }}</span
           ></span
         >
         <ng-container *ngIf="h.simulated as s">
           <span class="pd-dmg-arrow">→</span>
-          <span class="pd-dmg-val pd-dmg-sim" role="button" tabindex="0" keyActivate (click)="damageFormulaPanel.toggle($event)"
+          <span class="pd-dmg-val pd-dmg-sim" role="button" tabindex="0" keyActivate (click)="openHeroDamageFormula($event, damageFormulaPanel)"
             >{{ s.min | number: '1.0-0' }}<span *ngIf="s.max !== s.min"> – {{ s.max | number: '1.0-0' }}</span></span
           >
         </ng-container>

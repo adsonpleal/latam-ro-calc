@@ -267,7 +267,31 @@ export class BattleHudComponent implements OnDestroy {
 
   /** A graph node is clickable when it has a derivation to show or equipment behind it. */
   isNodeClickable(node: DamageFormulaNode): boolean {
-    return !!node.calc || (!!node.keys && this.isBreakdownClickable(node.keys));
+    return !!node.detail || !!node.calc || (!!node.keys && this.isBreakdownClickable(node.keys));
+  }
+
+  formulaPart: {
+    label: string;
+    graph: { min: FormulaGraphCluster[]; max: FormulaGraphCluster[] };
+    hits: number;
+    min: number;
+    max: number;
+    compare: boolean;
+  } | null = null;
+
+  openFormulaNode(node: DamageFormulaNode, compare = false): void {
+    if (node.detail) {
+      const graph = this.toClusterPair(node.detail.graph);
+      if (graph) this.formulaPart = { label: node.label, graph, hits: node.detail.hits,
+        min: node.detail.min, max: node.detail.max, compare };
+      return;
+    }
+    this.openBreakdown(node.label, node.keys, 'summary_stat_matk', node.value, node.calc, compare);
+  }
+
+  openHeroDamageFormula(event: Event, panel: any): void {
+    this.formulaPart = null;
+    panel?.toggle(event);
   }
 
   /**
@@ -341,6 +365,7 @@ export class BattleHudComponent implements OnDestroy {
    */
   openStepDamageFormula(payload: { index: number; event: Event; branch?: DamageBranch }, panels: { formula: any; noCri: any; basic: any; mean: any }) {
     this.activeStepIndex = payload.index;
+    this.formulaPart = null;
     const entry = this.activeStep;
     if (entry?.isBasic) return panels.basic?.toggle(payload.event);
 
