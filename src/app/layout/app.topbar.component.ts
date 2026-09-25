@@ -166,6 +166,15 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.148-beta',
+      date: '25-09-2026',
+      logs: [
+        'Os encantamentos das dez Peças Suplementares e Autopeças de Verus foram conferidos com a tabela da bROWiki. Agora aparecem os níveis disponíveis de Mira Apurada na Autopeça - Motor, além das opções normais e das liberadas no +9 para cada peça. Neutralidade 1 a 3 também foi cadastrada. As opções de +9 aparecem na lista mesmo antes do refino, pois o seletor ainda não filtra encantamentos por refino. Reportado por *~IronMan~*.',
+        'Potencializar Veneno entrou em Debuffs no monstro, reduzindo a resistência a Veneno em 10% por nível, até 50%. O efeito soma com outros redutores de resistência a Veneno e também vale contra chefes. Reportado por batata.',
+        'Talismã do Protetor, do Guerreiro, do Mago e dos Elementos entraram na lista de buffs para todas as classes. Guerreiro aumenta P.ATQ, Mago aumenta S.ATQM e Elementos aumenta o dano físico e mágico contra Água, Vento, Terra, Fogo e Neutro; esses três bônus exigem uma arma equipada. Protetor pode ser selecionado, mas sua regeneração periódica de HP não altera o cálculo de dano. Reportado por batata.',
+      ],
+    },
+    {
       v: '0.1.147-beta',
       date: '23-09-2026',
       logs: [

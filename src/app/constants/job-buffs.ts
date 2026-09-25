@@ -106,6 +106,57 @@ const JobBuffsList: ActiveSkillModel[] = [
     ],
   },
   {
+    // Talismã do Protetor restores HP every three seconds. The damage simulator
+    // has no healing-over-time calculation; the selectable state is still useful
+    // for representing a party member's buffs.
+    name: 'Talisman of Protection',
+    label: 'Talismã do Protetor',
+    icon: 5418,
+    inputType: 'dropdown',
+    dropdown: [
+      { label: '-', value: 0, isUse: false },
+      ...Array.from({ length: 5 }, (_, i) => ({ label: `Nv ${i + 1}`, value: i + 1, isUse: true, bonus: {} })),
+    ],
+  },
+  {
+    name: 'Talisman of the Warrior',
+    label: 'Talismã do Guerreiro',
+    icon: 5419,
+    inputType: 'dropdown',
+    dropdown: [
+      { label: '-', value: 0, isUse: false },
+      ...Array.from({ length: 5 }, (_, i) => ({ label: `Nv ${i + 1}`, value: i + 1, isUse: true, bonus: { pAtk: (i + 1) * 2 } })),
+    ],
+  },
+  {
+    name: 'Talisman of the Magician',
+    label: 'Talismã do Mago',
+    icon: 5420,
+    inputType: 'dropdown',
+    dropdown: [
+      { label: '-', value: 0, isUse: false },
+      ...Array.from({ length: 5 }, (_, i) => ({ label: `Nv ${i + 1}`, value: i + 1, isUse: true, bonus: { sMatk: (i + 1) * 2 } })),
+    ],
+  },
+  {
+    name: 'Talisman of Five Elements',
+    label: 'Talismã dos Elementos',
+    icon: 5423,
+    inputType: 'dropdown',
+    dropdown: [
+      { label: '-', value: 0, isUse: false },
+      ...Array.from({ length: 5 }, (_, i) => {
+        const bonus = (i + 1) * 4;
+        return {
+          label: `Nv ${i + 1}`, value: i + 1, isUse: true,
+          bonus: Object.fromEntries(['water', 'wind', 'earth', 'fire', 'neutral'].flatMap((element) => [
+            [`p_element_${element}`, bonus], [`m_element_${element}`, bonus],
+          ])),
+        };
+      }),
+    ],
+  },
+  {
     name: 'Argutus Vita',
     label: 'Argutus Vita',
     inputType: 'selectButton',
@@ -485,6 +536,19 @@ const JobBuffsList: ActiveSkillModel[] = [
       { label: 'Nv 3', isUse: true, value: 3, bonus: { infection: 15 } },
       { label: 'Nv 4', isUse: true, value: 4, bonus: { infection: 20 } },
       { label: 'Nv 5', isUse: true, value: 5, bonus: { infection: 25 } },
+    ],
+  },
+  {
+    // GC_VENOMIMPRESS reduces the target's Poison resistance by 10% per level.
+    // Its shorter duration on bosses does not change the amount of reduction.
+    name: 'Venom Impression',
+    label: 'Potencializar Veneno',
+    icon: 2021,
+    inputType: 'dropdown',
+    isDebuff: true,
+    dropdown: [
+      { label: '-', isUse: false, value: 0 },
+      ...Array.from({ length: 5 }, (_, i) => ({ label: `Nv ${i + 1}`, isUse: true, value: i + 1, bonus: { venomImpression: (i + 1) * 10 } })),
     ],
   },
   {

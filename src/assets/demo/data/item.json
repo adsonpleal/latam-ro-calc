@@ -14252,6 +14252,75 @@
       ]
     }
   },
+  "4933": {
+    "id": 4933,
+    "aegisName": "aegis_4933",
+    "name": "Neutralidade 1",
+    "unidName": "Neutralidade 1",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "subele_neutral": [
+        "1"
+      ]
+    }
+  },
+  "4934": {
+    "id": 4934,
+    "aegisName": "aegis_4934",
+    "name": "Neutralidade 2",
+    "unidName": "Neutralidade 2",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "subele_neutral": [
+        "2"
+      ]
+    }
+  },
+  "4935": {
+    "id": 4935,
+    "aegisName": "aegis_4935",
+    "name": "Neutralidade 3",
+    "unidName": "Neutralidade 3",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "subele_neutral": [
+        "3"
+      ]
+    }
+  },
   "4939": {
     "id": 4939,
     "aegisName": "Critical2",

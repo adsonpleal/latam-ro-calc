@@ -95,7 +95,7 @@ const ATK_TYPE_PT: Record<string, string> = { Melee: 'Corpo a corpo', Range: 'À
 export const RESIST_REDUCTION_KEYS_BY_ELE: Record<string, string[]> = {
   holy: ['oratio'],
   dark: ['soulCurse'],
-  poison: ['infection', 'intoxication'],
+  poison: ['infection', 'intoxication', 'venomImpression'],
   water: ['bitterCold', 'fireInsigniaOnTarget', 'deluge'],
   fire: ['pollen', 'earthInsigniaOnTarget', 'volcano'],
   earth: ['impalement', 'windInsigniaOnTarget'],
