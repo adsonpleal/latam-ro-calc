@@ -187,13 +187,23 @@ export interface BuffBonuses {
  * A buff that the character already casts as an active skill is skipped (the
  * active skill already contributes it).
  */
-export function collectBuffBonuses(buffDefs: BuffDef[], selectedValues: any[], activeSkillNames: Set<string>): BuffBonuses {
+const WEAPON_REQUIRED_TALISMANS = new Set([
+  'Talisman of the Warrior', 'Talisman of the Magician', 'Talisman of Five Elements',
+]);
+
+/** Self-cast Asceta talismans and party talismans obey the same weapon requirement. */
+export function withoutWeaponlessTalismans(bonuses: Record<string, any>, hasWeapon: boolean): Record<string, any> {
+  if (hasWeapon) return bonuses;
+  return Object.fromEntries(Object.entries(bonuses).filter(([name]) => !WEAPON_REQUIRED_TALISMANS.has(name)));
+}
+
+export function collectBuffBonuses(buffDefs: BuffDef[], selectedValues: any[], activeSkillNames: Set<string>, hasWeapon = true): BuffBonuses {
   const equipAtk: Record<string, any> = {};
   const masteryAtk: Record<string, any> = {};
 
   buffDefs.forEach((buffDef, i) => {
     const selected = buffDef.dropdown.find((d) => d.value === selectedValues[i]);
-    if (!selected?.isUse || activeSkillNames.has(buffDef.name)) return;
+    if (!selected?.isUse || activeSkillNames.has(buffDef.name) || (!hasWeapon && WEAPON_REQUIRED_TALISMANS.has(buffDef.name))) return;
 
     if (buffDef.isMasteryAtk) masteryAtk[buffDef.name] = selected.bonus;
     else equipAtk[buffDef.name] = selected.bonus;

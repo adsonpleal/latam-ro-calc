@@ -213,12 +213,6 @@ const BaseState = {
   _5: [Str._5, Int._5, Dex._5, Agi._5, Vit._5, Luk._5],
   _6: [Str._6, Int._6, Dex._6, Agi._6, Vit._6, Luk._6],
 };
-const AllState = {
-  _1: [FS._1, EA._1, Spell._1, AttackDelay._1, Fatal._1, ...BaseState._1],
-  _2: [FS._2, EA._2, Spell._2, AttackDelay._2, Fatal._2, ...BaseState._2],
-  _3: [FS._3, EA._3, Spell._3, AttackDelay._3, Fatal._3, ...BaseState._3],
-};
-
 const tempOpts = {
   _1: [EA._1, FS._1, Sharp._1],
   _2: [EA._2, FS._2, Sharp._2],
@@ -948,9 +942,6 @@ export const EnchantTable: EntTable[] = [
 
   { name: 'Vigilante_Bedge', enchants: [null, null, BaseState._1, BaseState._1] },
   { name: 'Vigilante_Suits', enchants: [null, BaseState._1, BaseState._1, BaseState._1] },
-
-  { name: 'Upgrade_Part_Engine', enchants: [null, BaseState._1, BaseState._1, BaseState._1] },
-  { name: 'Supplement_Part_Dex', enchants: [null, null, BaseState._1, AllState._1] },
 
   { name: 'Old_Rune_Circlet', enchants: [null, labHead2, base15, base15] },
   { name: 'Old_Mitra', enchants: [null, labHead2, base15, base15] },

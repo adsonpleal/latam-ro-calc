@@ -73,7 +73,7 @@ import { ItemShopService } from './item-shop.service';
 import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
 import { resolveOffHandEviction } from 'src/app/core/off-hand-slots';
-import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectChanceSources, collectConsumables } from 'src/app/core/calculator-controller';
+import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectChanceSources, collectConsumables, withoutWeaponlessTalismans } from 'src/app/core/calculator-controller';
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { ElementType } from 'src/app/constants/element-type.const';
 import { CompareState, STATS_COMPARE_KEYS, copyStatsFields } from 'src/app/core/compare-state';
@@ -959,6 +959,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         passiveSkillIds: passiveSkills,
       })
       .getSkillBonusAndName();
+    const hasWeapon = !!(this.model.weapon || this.model.leftWeapon);
+    const equippedAtks = withoutWeaponlessTalismans(equipAtks, hasWeapon);
 
     const { scripts: consumeData, usedHpL } = collectConsumables(this.model, this.items);
     const { aspdPotion, buffBonuses } = applyGuaranaCandy({
@@ -967,7 +969,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       buffDefs: this.skillBuffs,
       selectedBuffValues: this.model.skillBuffs,
       activeSkillNames,
-      buffBonuses: collectBuffBonuses(this.skillBuffs, this.model.skillBuffs, activeSkillNames),
+      buffBonuses: collectBuffBonuses(this.skillBuffs, this.model.skillBuffs, activeSkillNames, hasWeapon),
     });
     const { equipAtk: buffEquips, masteryAtk: buffMasterys } = buffBonuses;
 
@@ -1074,7 +1076,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       relieveLevel: this.relieveLevel,
       playerTarget: pvpTarget,
       pvpMode,
-      equipAtks,
+      equipAtks: equippedAtks,
       masteryAtks,
       buffEquips,
       buffMasterys,
@@ -1696,6 +1698,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = classInstance
         .setLearnSkills({ activeSkillIds: model.activeSkills ?? [], passiveSkillIds: model.passiveSkills ?? [] })
         .getSkillBonusAndName();
+      const hasWeapon = !!(model.weapon || model.leftWeapon);
+      const equippedAtks = withoutWeaponlessTalismans(equipAtks, hasWeapon);
       const { scripts: consumeData, usedHpL } = collectConsumables(model, this.items);
       const { aspdPotion, buffBonuses } = applyGuaranaCandy({
         consumables: model.consumables,
@@ -1703,7 +1707,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         buffDefs: this.skillBuffs,
         selectedBuffValues: model.skillBuffs,
         activeSkillNames,
-        buffBonuses: collectBuffBonuses(this.skillBuffs, model.skillBuffs, activeSkillNames),
+        buffBonuses: collectBuffBonuses(this.skillBuffs, model.skillBuffs, activeSkillNames, hasWeapon),
       });
       const { equipAtk: buffEquips, masteryAtk: buffMasterys } = buffBonuses;
       model.rawOptionTxts = toRawOptionTxtList(model, this.items);
@@ -1711,7 +1715,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       this.controller.runChain(this.calculatorPvp, {
         monster: this.monsterDataMap[this.selectedMonster],
         relieveLevel: this.relieveLevel,
-        equipAtks, masteryAtks, buffEquips, buffMasterys, consumeData, aspdPotion,
+        equipAtks: equippedAtks, masteryAtks, buffEquips, buffMasterys, consumeData, aspdPotion,
         extraOptionScripts: parseOptionScripts(model.rawOptionTxts),
         activeSkillNames, learnedSkillMap,
         selectedAtkSkill: model.selectedAtkSkill, selectedChances: [], usedHpL,
