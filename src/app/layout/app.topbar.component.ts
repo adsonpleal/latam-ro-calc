@@ -166,6 +166,13 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.149-beta',
+      date: '26-09-2026',
+      logs: [
+        'As 26 armas Dim Glacier agora aparecem como Prévia, completando os 62 equipamentos de Issgard: dez peças Snow Flower e 26 pares de armas Glacier e Dim Glacier. As versões Dim mostram descrições em inglês, um espaço de carta e seus encantamentos próprios, diferentes dos das armas Glacier. Reportado por Ted.',
+      ],
+    },
+    {
       v: '0.1.148-beta',
       date: '25-09-2026',
       logs: [
