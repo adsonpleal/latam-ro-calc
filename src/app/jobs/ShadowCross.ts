@@ -222,8 +222,12 @@ export class ShadowCross extends GuillotineCross {
     },
     {
       name: 'Eternal Slash',
-      label: '[V2] Eternal Slash Lv5 (1 hit)',
+      label: '[V2] Eternal Slash Lv5',
       value: 'Eternal Slash==5',
+      maxStack: 5,
+      minStack: 1,
+      defaultStack: 1,
+      totalHit: ({ stack }) => stack ?? 1,
       acd: 0.5,
       fct: 0,
       vct: 0,
@@ -243,11 +247,6 @@ export class ShadowCross extends GuillotineCross {
 
         return (skillLevel * 350 + totalPow * 5) * (baseLevel / 100);
       },
-      // finalDmgFormula(input) {
-      //   const totalHit = input.stack || 1;
-
-      //   return input.damage * totalHit;
-      // },
     },
     {
       name: 'Savage Impact',

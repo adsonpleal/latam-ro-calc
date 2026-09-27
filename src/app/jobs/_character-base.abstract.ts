@@ -76,6 +76,8 @@ export interface AtkSkillModel {
   /** Explains a finalDmgFormula adjustment in the damage graph when the skill has one. */
   finalDmgCalc?: (input: AtkSkillFormulaInput & { damageBefore: number; damageAfter: number }) => DamageFormulaCalc;
   maxStack?: number;
+  minStack?: number;
+  defaultStack?: number;
   canCri?: boolean | ((input: AtkSkillFormulaInput) => boolean);
   baseCri?: number;
   forceCri?: boolean;

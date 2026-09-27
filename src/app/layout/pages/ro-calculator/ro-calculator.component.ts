@@ -1154,6 +1154,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       // meant a proc ticked only on the comparison never reached its rows.
       hasSelectedChances: (input.selectedChances?.length ?? 0) > 0,
       atkSkills: this.atkSkills,
+      skillStacks: this.model.skillStacks,
     });
   }
 
@@ -1161,6 +1162,14 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   onRotationChange(rotation: string[]) {
     this.model.rotation = rotation;
     this.syncRotationMirror();
+    this.updateItemEvent.next(true);
+  }
+
+  onSkillStackChange(change: { name: string; stack: number }) {
+    const skill = this.atkSkills.find((entry) => entry.name === change.name);
+    if (!skill?.maxStack || !Number.isInteger(change.stack)) return;
+    const stack = Math.max(skill.minStack ?? 0, Math.min(skill.maxStack, change.stack));
+    this.model.skillStacks = { ...(this.model.skillStacks ?? {}), [change.name]: stack };
     this.updateItemEvent.next(true);
   }
 

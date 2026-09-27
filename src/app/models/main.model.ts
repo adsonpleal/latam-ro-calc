@@ -58,6 +58,8 @@ export interface MainModel extends Partial<EquipmentModel> {
    * which `normalizeRotation` migrates to `[selectedAtkSkill]`.
    */
   rotation: string[];
+  /** Selected accumulation for offensive skills that build up through repeated casts. */
+  skillStacks?: Record<string, number>;
   /** Configurable auto-cast choices, stored as in-game skill ids. */
   autoCastSelections: {
     autoSpell?: number;

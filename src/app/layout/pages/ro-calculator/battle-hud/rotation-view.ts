@@ -16,6 +16,9 @@ export interface RotationSkillMeta {
   label?: string;
   icon?: number;
   levelList?: { label: string; value: any }[];
+  maxStack?: number;
+  minStack?: number;
+  defaultStack?: number;
   /** `boolean` when the skill always (or never) crits; a function when it depends on
    *  the character's state — which is what makes the row's crit reading conditional. */
   canCri?: boolean | ((input: any) => boolean);
@@ -34,6 +37,8 @@ export interface RotationEntryView {
   /** Levels this entry can be switched between; empty when the catalog fixes the level.
    *  Only 7 job files declare `levelList`, so most rows show a static level. */
   levelList: { label: string; value: any }[];
+  stackOptions: { label: string; value: number }[];
+  stackCount: number;
   /** Total damage for one use, summed over every hit. */
   damage: number;
   contributionPercent: number;
@@ -301,8 +306,9 @@ export function buildRotationView(input: {
   baseSummary: any;
   hasSelectedChances: boolean;
   atkSkills: RotationSkillMeta[];
+  skillStacks?: Record<string, number>;
 }): RotationView {
-  const { rotation, summaryByValue, baseSummary, hasSelectedChances, atkSkills } = input;
+  const { rotation, summaryByValue, baseSummary, hasSelectedChances, atkSkills, skillStacks } = input;
 
   const metaFor = (value: string): RotationSkillMeta | undefined =>
     atkSkills?.find((s) => s.value === value || s.values?.includes(value) || s.levelList?.some((l) => l.value === value));
@@ -316,6 +322,12 @@ export function buildRotationView(input: {
     const dmg = summary?.dmg;
     const { name, level } = splitValue(value);
     const meta = metaFor(value);
+    const stackMin = meta?.minStack ?? 0;
+    const stackMax = meta?.maxStack ?? 0;
+    const savedStack = skillStacks?.[name];
+    const stackCount = stackMax > 0
+      ? Math.max(stackMin, Math.min(stackMax, Number.isFinite(savedStack) ? savedStack : (meta?.defaultStack ?? stackMax)))
+      : 0;
 
     // One effected-or-base view of this skill's numbers, so the crit the row prints is
     // the crit its damage was computed with.
@@ -334,6 +346,8 @@ export function buildRotationView(input: {
       levelLabel: basic || !level ? '' : `Nv${level}`,
       icon: meta?.icon,
       levelList: meta?.levelList ?? [],
+      stackOptions: stackMax > 0 ? Array.from({ length: stackMax - stackMin + 1 }, (_, n) => ({ label: String(n + stackMin), value: n + stackMin })) : [],
+      stackCount,
       damage: readings.damage,
       damageRanges: readings.ranges,
       hasDamageSpread: isSpread(readings.ranges),

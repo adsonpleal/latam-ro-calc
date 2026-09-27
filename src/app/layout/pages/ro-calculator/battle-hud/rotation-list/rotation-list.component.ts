@@ -36,6 +36,7 @@ export class RotationListComponent {
   /** Total damage of one cycle, for the contribution tooltip. */
   @Input() damagePerCycle = 0;
   @Output() rotationChange = new EventEmitter<string[]>();
+  @Output() stackChange = new EventEmitter<{ name: string; stack: number }>();
   @Output() optimizeClick = new EventEmitter<void>();
   @Output() clearClick = new EventEmitter<void>();
   @Output() detailsClick = new EventEmitter<{ index: number; event: Event }>();

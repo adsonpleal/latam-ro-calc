@@ -244,6 +244,36 @@
   white-space: nowrap;
 }
 
+.rot-stack {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--text-color-secondary);
+  font-size: 10.5px;
+  white-space: nowrap;
+}
+
+:host ::ng-deep .rot-stack-dd.p-dropdown {
+  display: inline-flex;
+  align-items: center;
+  min-width: 38px;
+  height: auto;
+  padding: 2px 2px 2px 5px;
+  background: transparent;
+  border: 1px solid var(--surface-border);
+  border-radius: 3px;
+}
+
+:host ::ng-deep .rot-stack-dd.p-dropdown .p-dropdown-label {
+  padding: 0;
+  font-size: 10.5px;
+}
+
+:host ::ng-deep .rot-stack-dd.p-dropdown .p-dropdown-trigger {
+  width: 14px;
+  color: var(--text-color-secondary);
+}
+
 /* Its own column, not part of line 1 — vertically centred against both text lines. The two
    outcomes lead, stacked, and the mean follows at full size: the eye lands on the figure the
    row is about, with its two ends already in view beside it. */

@@ -133,6 +133,7 @@ export class BattleHudComponent implements OnDestroy {
 
   @Output() relieveLevelChange = new EventEmitter<number>();
   @Output() rotationChange = new EventEmitter<string[]>();
+  @Output() stackChange = new EventEmitter<{ name: string; stack: number }>();
   @Output() optimizeClick = new EventEmitter<void>();
 
   @Output() selectedChancesChange = new EventEmitter<string[]>();

@@ -99,6 +99,21 @@ describe('toScheduleStep', () => {
 });
 
 describe('buildRotationView', () => {
+  it('offers only the skill’s valid accumulation counts and reads the saved choice', () => {
+    const value = 'Eternal Slash==5';
+    const summary = summaryOf({ perHit: 4500, hits: 4 });
+    const result = buildRotationView({
+      rotation: [value],
+      summaryByValue: new Map([[value, summary]]),
+      baseSummary: summary,
+      hasSelectedChances: false,
+      atkSkills: [{ value, label: 'Talho Eterno Nv5', minStack: 1, maxStack: 5, defaultStack: 1 }],
+      skillStacks: { 'Eternal Slash': 4 },
+    });
+    expect(result.entries[0].stackOptions.map((option) => option.value)).toEqual([1, 2, 3, 4, 5]);
+    expect(result.entries[0].stackCount).toBe(4);
+    expect(result.entries[0].damage).toBe(18_000);
+  });
   const base = summaryOf({ reducedAcd: 0.3, reducedCd: 0.5, perHit: 1000, hits: 3 });
   const summaryByValue = new Map<string, any>([
     ['Solar Kick==7', summaryOf({ reducedAcd: 0.3, reducedCd: 0.5, perHit: 1000, hits: 3 })],

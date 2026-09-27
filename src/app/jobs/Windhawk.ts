@@ -202,6 +202,7 @@ export class Windhawk extends Ranger {
       vct: 1,
       cd: 0.15,
       maxStack: 3,
+      defaultStack: 3,
       canCri: true,
       criDmgPercentage: 0.5,
       baseCriPercentage: 1,

@@ -111,6 +111,19 @@
             <span class="rot-level rot-level--static" *ngIf="entry.levelLabel">{{ entry.levelLabel }}</span>
           </ng-template>
 
+          <div class="rot-stack" *ngIf="entry.stackOptions.length">
+            <span>Acúm.</span>
+            <p-dropdown
+              styleClass="rot-stack-dd"
+              appendTo="body"
+              [options]="entry.stackOptions"
+              optionLabel="label"
+              optionValue="value"
+              [ngModel]="entry.stackCount"
+              (onChange)="stackChange.emit({ name: entry.value.split('==')[0], stack: $event.value })"
+            ></p-dropdown>
+          </div>
+
           <span class="rot-repeat" *ngIf="entry.occurrence > 0">{{ entry.occurrence + 1 }}ª vez</span>
 
         </div>

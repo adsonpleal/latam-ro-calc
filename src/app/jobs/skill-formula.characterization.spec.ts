@@ -4,6 +4,7 @@ import { Minstrel } from './Minstrel';
 import { Oboro } from './Oboro';
 import { Ranger } from './Ranger';
 import { Sorcerer } from './Sorcerer';
+import { ShadowCross } from './ShadowCross';
 import { Windhawk } from './Windhawk';
 
 /**
@@ -241,5 +242,20 @@ describe('Windhawk atk-skill formulas (smoke)', () => {
       (wh as any).bonuses.learnedSkillMap.set('Nature Friendly', 5);
       expect(whDmg(wh, 'Hawk Rush', { level: 200, skillLevel: 5, con: 100 })).toBe(4500);
     });
+  });
+});
+
+describe('Eternal Slash accumulation', () => {
+  it('keeps the damage per hit and changes the number of hits from 1 to 5', () => {
+    const shadowCross = new ShadowCross();
+    (shadowCross as any).bonuses = stubBonuses();
+    const skill = findSkill(shadowCross, 'Eternal Slash');
+    const input = { model: { level: 200 }, skillLevel: 5, status: { totalPow: 100 } } as any;
+    expect(skill.formula({ ...input, stack: 1 })).toBe(4500);
+    expect(skill.formula({ ...input, stack: 5 })).toBe(4500);
+    expect(typeof skill.totalHit).toBe('function');
+    if (typeof skill.totalHit !== 'function') throw new Error('Eternal Slash must count its hits');
+    expect(skill.totalHit({ ...input, stack: 1 })).toBe(1);
+    expect(skill.totalHit({ ...input, stack: 5 })).toBe(5);
   });
 });

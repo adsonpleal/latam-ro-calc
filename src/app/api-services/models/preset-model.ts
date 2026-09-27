@@ -25,6 +25,7 @@ export interface PresetModel {
    *  rotations existed, and dropped from share tokens when it is just
    *  `[selectedAtkSkill]` — `normalizeRotation` rebuilds it either way. */
   rotation?: string[];
+  skillStacks?: Record<string, number>;
   /** Configurable choices in the Auto-conjuração panel, keyed by slot. */
   autoCastSelections?: { autoSpell?: number; plagiarism?: number; reproduce?: number };
   rawOptionTxts: any[];

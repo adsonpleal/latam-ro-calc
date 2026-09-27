@@ -195,6 +195,7 @@
             [isInProcessingPreset]="isInProcessingPreset"
             [damagePerCycle]="cycle?.damagePerCycle || 0"
             (rotationChange)="rotationChange.emit($event)"
+            (stackChange)="stackChange.emit($event)"
             (optimizeClick)="optimizeClick.emit()"
             (clearClick)="rotationChange.emit([])"
             (detailsClick)="openSharedDetails($event, sharedSkillDetails)"

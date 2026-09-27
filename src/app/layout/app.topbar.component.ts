@@ -166,6 +166,13 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.151-beta',
+      date: '27-09-2026',
+      logs: [
+        'Talho Eterno e Tiro Crescente ganharam o seletor Acúm. ao lado do nível na rotação. Talho permite escolher de 1 a 5 golpes; Tiro Crescente, de 0 a 3 acúmulos de dano. A escolha entra no cálculo e fica salva na simulação. Reportado por BeLL.',
+      ],
+    },
+    {
       v: '0.1.150-beta',
       date: '27-09-2026',
       logs: [

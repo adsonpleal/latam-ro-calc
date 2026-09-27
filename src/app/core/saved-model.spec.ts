@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createMainModel } from 'src/app/utils/create-main-model';
+import { decodeBuild, encodeBuild } from './share-codec';
 import { normalizeSavedModel } from './saved-model';
 
 describe('normalizeSavedModel', () => {
@@ -25,5 +26,11 @@ describe('normalizeSavedModel', () => {
     const a = normalizeSavedModel({});
     const b = normalizeSavedModel({});
     expect(a.skillBuffMap).not.toBe(b.skillBuffMap);
+  });
+
+  it('restores the selected accumulation from a shared build', () => {
+    const token = encodeBuild({ class: 4302, level: 200, jobLevel: 50, skillStacks: { 'Eternal Slash': 5, 'Crescive Bolt': 0 } });
+    const restored = normalizeSavedModel(decodeBuild(token));
+    expect(restored.skillStacks).toEqual({ 'Eternal Slash': 5, 'Crescive Bolt': 0 });
   });
 });

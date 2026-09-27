@@ -2540,10 +2540,17 @@ export class DamageCalculator {
       getElement,
       currentHpFn,
       currentSpFn,
-      maxStack = 0,
+      maxStack: stackLimit = 0,
+      minStack = 0,
+      defaultStack = stackLimit,
       forceCri = false,
       verifyItemFn,
     } = skillData;
+
+    const chosenStack = this.infoForClass.model.skillStacks?.[skillName];
+    const maxStack = stackLimit > 0
+      ? Math.max(minStack, Math.min(stackLimit, Number.isFinite(chosenStack) ? chosenStack! : defaultStack))
+      : 0;
 
     const currentHp = typeof currentHpFn === 'function' ? currentHpFn(maxHp) : 0;
     const currentSp = typeof currentSpFn === 'function' ? currentSpFn(maxSp) : 0;
