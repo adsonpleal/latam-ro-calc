@@ -1,4 +1,17 @@
 export const ExtraOptionTable = {
+  // Arena Noturna: the special equipment receives the rolls listed for each
+  // equipment type at browiki.org/wiki/Arena_Noturna#Bônus_aleatórios.
+  MD_Geffen_Suits: 3,
+  MD_Geffen_Robe: 3,
+  MD_Geffen_Hood: 3,
+  MD_Geffen_Hood2: 3,
+  MD_Geffen_Hood3: 3,
+  MD_Geffen_Hood4: 3,
+  MD_Geffen_Shield: 3,
+  MD_Geffen_Shield2: 3,
+  MD_Geffen_Ring: 2,
+  MD_Geffen_Ring2: 2,
+
   Temporal_M_Str: 1,
   Temporal_M_Agi: 1,
   Temporal_M_Vit: 1,

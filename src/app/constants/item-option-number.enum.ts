@@ -12,7 +12,6 @@ export enum ItemOptionNumber {
 
   Shield_1 = 6,
   Shield_2 = 7,
-  // Shield_3,
 
   H_Upper_1 = 8,
   H_Upper_2 = 9,
@@ -29,7 +28,6 @@ export enum ItemOptionNumber {
   // Armor_3,
   Garment_1 = 14,
   Garment_2 = 15,
-  // Garment_3,
   // Boot_1 / Boot_2 are appended at the end (38/39) — see below.
 
   A_Right_1 = 16,
@@ -71,6 +69,11 @@ export enum ItemOptionNumber {
   // how many a given boot shows.
   Boot_1 = 38,
   Boot_2 = 39,
+
+  // Arena Noturna shields and capes roll a third option. Append these indexes so
+  // existing saved builds keep their original option positions.
+  Shield_3 = 40,
+  Garment_3 = 41,
 }
 
 const slotNumbers = Object.values(ItemOptionNumber).filter((a) => Number.isInteger(a)) as number[];

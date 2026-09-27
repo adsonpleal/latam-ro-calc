@@ -37,6 +37,6 @@ describe('Bloody Knight shields — random options', () => {
   it('has the shield option positions wired for those two slots', () => {
     // A table entry alone is not enough — the slot needs option positions to bind to.
     const shield = ItemOptionTable.find(([slot]) => slot === ItemTypeEnum.shield);
-    expect(shield?.[1]).toEqual([N.Shield_1, N.Shield_2]);
+    expect(shield?.[1].slice(0, 2)).toEqual([N.Shield_1, N.Shield_2]);
   });
 });

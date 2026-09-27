@@ -137,6 +137,26 @@ export const createExtraOptionList = () => {
     // children: [],
   });
 
+  // Arena Noturna uses these defensive rolls on its capes and shields. The
+  // generic resistance keys are already part of the calculator's bonus model.
+  for (const [label, kind, props, prefix, max] of [
+    ['Resistência a propriedades', 'Element', atkProps.Element, 'subele_', 10],
+    ['Resistência a raças', 'Race', atkProps.Race, 'subrace_', 10],
+  ] as const) {
+    items.push({
+      label,
+      value: label,
+      children: props.filter((prop) => prop !== 'All').map((prop) => ({
+        label: trProp(kind, prop),
+        value: prop,
+        children: Array.from({ length: max }, (_, k) => ({
+          label: `Resistência a ${trProp(kind, prop)} +${k + 1}%`,
+          value: `${prefix}${prop.toLowerCase()}:${k + 1}`,
+        })),
+      })),
+    });
+  }
+
   const peneList = [
     { mainItemIdx: 0, kind: 'Race', label: 'Penetração Física - Raça', prefixProp: 'p_pene_race_', properties: atkProps.Race },
     { mainItemIdx: 0, kind: 'Class', label: 'Penetração Física - Classe', prefixProp: 'p_pene_class_', properties: atkProps.Class },
@@ -213,6 +233,7 @@ export const createExtraOptionList = () => {
     // usable at 100 entries.
     ['HP', 'hp', 1, 100, 50],
     ['SP %', 'spPercent', 1, 20, 1, ' %'],
+    ['Custo de SP', 'spCostPercent', 1, 30, 1, ' %'],
     // Steps of 10 up to 1000: the Botas Desconhecidas roll SP +10~300 and the Capas
     // Desconhecidas SP +50~1.000, neither of which the old 20-step list reached.
     ['SP', 'sp', 1, 100, 10],
@@ -229,8 +250,8 @@ export const createExtraOptionList = () => {
     ['HPlus', 'hplus', 1, 50, 1],
     // Display-only sustain rolls (see EquipmentSummaryModel): they fill the Recursos panel
     // and never reach the damage pipeline.
-    ['HP Regen %', 'hpRecovRate', 1, 50, 1, ' %'],
-    ['SP Regen %', 'spRecovRate', 1, 50, 1, ' %'],
+    ['HP Regen %', 'hpRecovRate', 1, 65, 1, ' %'],
+    ['SP Regen %', 'spRecovRate', 1, 65, 1, ' %'],
     ['Heal Power %', 'healPower', 1, 30, 1, ' %'],
     ['Heal Received %', 'healReceived', 1, 30, 1, ' %'],
   ];
@@ -248,7 +269,7 @@ export const createExtraOptionList = () => {
   for (const [label, prop, rawMin, rawMax, scale, suffix] of options) {
     const labelNoPercent = tr(label).replace(' %', '');
     const values = [] as { label: string; min: number; max: number }[];
-    const sign = label === 'Delay' || label === 'VCT' ? '-' : '+';
+    const sign = label === 'Delay' || label === 'VCT' || label === 'Custo de SP' ? '-' : '+';
     const cap = rawMax - rawMin > 20 ? DEFAULT_CAP : rawMax;
     for (let i = rawMin; i < rawMax; i += cap) {
       const max = Math.min(i + cap - 1, rawMax);
@@ -262,7 +283,7 @@ export const createExtraOptionList = () => {
         const num = k + min;
         return {
           label: `${labelNoPercent} ${sign}${num * scale}${suffix || ''}`,
-          value: `${prop}:${num * scale}`,
+          value: `${prop}:${sign === '-' && prop === 'spCostPercent' ? '-' : ''}${num * scale}`,
         };
       });
     } else {
@@ -276,7 +297,7 @@ export const createExtraOptionList = () => {
             const num = k + min;
             return {
               label: `${labelNoPercent} ${sign}${num * scale}${suffix || ''}`,
-              value: `${prop}:${num * scale}`,
+              value: `${prop}:${sign === '-' && prop === 'spCostPercent' ? '-' : ''}${num * scale}`,
             };
           }),
         };

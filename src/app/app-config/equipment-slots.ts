@@ -225,7 +225,7 @@ export const EQUIPMENT_SLOTS: readonly EquipmentSlotDescriptor[] = [
     [ItemOptionNumber.W_Right_1, ItemOptionNumber.W_Right_2, ItemOptionNumber.W_Right_3],
     'leftWeapon',
   ),
-  gearLike(ItemTypeEnum.shield, 'shieldList', 'shieldCardList', 'equip', [ItemOptionNumber.Shield_1, ItemOptionNumber.Shield_2], {
+  gearLike(ItemTypeEnum.shield, 'shieldList', 'shieldCardList', 'equip', [ItemOptionNumber.Shield_1, ItemOptionNumber.Shield_2, ItemOptionNumber.Shield_3], {
     visibility: 'shield',
   }),
   gearLike(ItemTypeEnum.headUpper, 'headUpperList', 'headCardList', 'equip', [ItemOptionNumber.H_Upper_1, ItemOptionNumber.H_Upper_2], {
@@ -251,7 +251,7 @@ export const EQUIPMENT_SLOTS: readonly EquipmentSlotDescriptor[] = [
     ItemOptionNumber.Armor_2,
     ItemOptionNumber.Armor_3,
   ]),
-  gearLike(ItemTypeEnum.garment, 'garmentList', 'garmentCardList', 'equip', [ItemOptionNumber.Garment_1, ItemOptionNumber.Garment_2]),
+  gearLike(ItemTypeEnum.garment, 'garmentList', 'garmentCardList', 'equip', [ItemOptionNumber.Garment_1, ItemOptionNumber.Garment_2, ItemOptionNumber.Garment_3]),
   // Two positions, drawn only for a boot ExtraOptionTable gives options to — the Botas
   // Desconhecidas are the first (Contas de Ymir, "Adiciona até 2 bônus aleatórios").
   gearLike(ItemTypeEnum.boot, 'bootList', 'bootCardList', 'equip', [ItemOptionNumber.Boot_1, ItemOptionNumber.Boot_2]),

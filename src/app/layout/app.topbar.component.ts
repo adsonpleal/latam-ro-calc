@@ -166,6 +166,13 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.152-beta',
+      date: '27-09-2026',
+      logs: [
+        'Os dez equipamentos especiais da Arena Noturna agora aceitam Bônus Aleatórios: três nas armaduras, capas e escudos, e dois nos acessórios. O seletor também alcança regeneração natural de HP e SP até 65%, custo de SP e resistência por propriedade ou raça. Reportado por Shummuy.',
+      ],
+    },
+    {
       v: '0.1.151-beta',
       date: '27-09-2026',
       logs: [
