@@ -212,8 +212,8 @@ export class ArchMage extends Warlock {
       cd: 5,
       isMatk: true,
       element: ElementType.Fire,
-      // 10 hits, each dealing damage twice (2nd version) => 20 instances.
-      totalHit: 20,
+      // Ten ground ticks; each packet already contains both displayed hits.
+      totalHit: 10,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalSpl } = status;
@@ -232,8 +232,8 @@ export class ArchMage extends Warlock {
       cd: 5,
       isMatk: true,
       element: ElementType.Water,
-      // 8 hits, each dealing damage twice (2nd version) => 16 instances.
-      totalHit: 16,
+      // Eight ground ticks; each packet already contains both displayed hits.
+      totalHit: 8,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalSpl } = status;
@@ -271,8 +271,8 @@ export class ArchMage extends Warlock {
       cd: 4,
       isMatk: true,
       element: ElementType.Earth,
-      // 10 hits, each dealing damage twice (2nd version) => 20 instances.
-      totalHit: 20,
+      // Four seconds at 0.4 s per tick; the two displayed hits share one packet.
+      totalHit: 10,
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalSpl } = status;
@@ -295,12 +295,24 @@ export class ArchMage extends Warlock {
         const { model, skillLevel, status } = input;
         const { totalSpl } = status;
         const { level: baseLevel } = model;
-        const blimaxBonus = this.isSkillActive('Climax') ? 600 : 0;
-
-        const directDmg = floor((skillLevel * 300 + totalSpl * 3) * (baseLevel / 100));
-        const bomDmg = floor((skillLevel * (600 + blimaxBonus) + totalSpl * 5) * (baseLevel / 100));
-
-        return directDmg + bomDmg;
+        return floor((skillLevel * 300 + totalSpl * 3) * (baseLevel / 100));
+      },
+      // The arrow and its explosion are separate server packets (5235 and 5236).
+      // Climax doubles only the explosion packet, at every Climax level.
+      part2: {
+        label: 'Explosão',
+        isIncludeMain: false,
+        element: ElementType.Fire,
+        isMatk: true,
+        isMelee: false,
+        hit: 2,
+        formula: (input: AtkSkillFormulaInput): number => {
+          const { model, skillLevel, status } = input;
+          const { totalSpl } = status;
+          const { level: baseLevel } = model;
+          return floor((skillLevel * 600 + totalSpl * 5) * (baseLevel / 100))
+            * (this.isSkillActive('Climax') ? 2 : 1);
+        },
       },
     },
     {

@@ -2714,9 +2714,11 @@ export class DamageCalculator {
     // came out at 2 uses/s). calc-skill-aspd.ts now keeps enough decimals that a real cast
     // always reports a real rate, which leaves this fallback to the case it was written for.
     const skillHitsPerSec = Math.min(skillAspd.totalHitPerSec || basicAspd.hitsPerSec, basicAspd.hitsPerSec);
-    const skillDpsInputMin = avgNoCriDamage || minDamage + skillMinDamage2;
-    const skillDpsInputMax = avgNoCriDamage || maxDamage + skillMaxDamage2;
-    const skillDpsInputCriDmg = avgCriDamage || maxDamage + skillMaxDamage2;
+    // A separate second packet contributes to every use, including the DPS row.
+    // The averages above describe only the main packet.
+    const skillDpsInputMin = (avgNoCriDamage || minDamage) + skillMinDamage2;
+    const skillDpsInputMax = (avgNoCriDamage || maxDamage) + skillMaxDamage2;
+    const skillDpsInputCriDmg = (avgCriDamage || maxDamage) + skillMaxDamage2;
     const oneHitDps = isAutoSpell
       ? 0
       : calcDmgDps({

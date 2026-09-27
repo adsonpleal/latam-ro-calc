@@ -166,6 +166,14 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.150-beta',
+      date: '27-09-2026',
+      logs: [
+        'Vereda Floral Incandescente e Cascata de Cristal deixaram de somar o dobro do dano total: os dois números brancos exibidos em cada ataque pertencem ao mesmo pacote de dano. O simulador agora conta 10 ataques da Vereda e 8 da Cascata, como nas gravações. Stratum Tremor também passou a contar seus 10 intervalos de dano. Gravações por Pazzolino.',
+        'Flecha Escarlate passou a mostrar separadamente o dano da flecha e o da explosão. Potencializar Magia dobra apenas a explosão, e o DPS soma as duas partes. O dano base calculado para a explosão ainda ficou acima do registrado no jogo e segue em revisão. Gravações por Pazzolino.',
+      ],
+    },
+    {
       v: '0.1.149-beta',
       date: '26-09-2026',
       logs: [
