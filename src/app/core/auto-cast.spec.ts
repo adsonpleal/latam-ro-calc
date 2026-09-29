@@ -267,16 +267,16 @@ describe('configurable auto-casts', () => {
   it('keeps Plágio and Mimetismo as independent Desejo das Sombras slots', () => {
     const model = createMainModel();
     model.activeSkillMap['Shadow Spell'] = 10;
-    model.passiveSkillMap['Plagiarism'] = 10;
+    model.passiveSkillMap['Plagiarism'] = 5;
     model.passiveSkillMap['Reproduce'] = 10;
-    model.autoCastSelections = { plagiarism: 19, reproduce: 2213 };
+    model.autoCastSelections = { plagiarism: 19, reproduce: 83 };
     const calc = {
-      atkSkills: [skill('Fire Bolt'), skill('Comet')],
+      atkSkills: [skill('Fire Bolt'), skill('Meteor Storm')],
       autoCastDefinitions: new ShadowChaser().autoCastDefinitions,
       resolvedItemAutoCasts: [],
       status: {},
       skillState: {
-        learnedLevel: (name: string) => ({ Plagiarism: 10, Reproduce: 10 }[name] ?? 0),
+        learnedLevel: (name: string) => ({ Plagiarism: 5, Reproduce: 10 }[name] ?? 0),
         activeLevel: (name: string) => name === 'Shadow Spell' ? 10 : 0,
         isActive: () => false,
       },
@@ -286,7 +286,7 @@ describe('configurable auto-casts', () => {
     const result = buildAutoCastSimulation({ calc, model, summary, hasSelectedEffects: false });
     expect(result.slots.map((slot) => slot.key)).toEqual(['plagiarism', 'reproduce']);
     expect(result.sources.map((source) => [source.source.slot, source.source.chance, source.source.skillLevel])).toEqual([
-      ['plagiarism', 15, 7],
+      ['plagiarism', 15, 5],
       ['reproduce', 15, 7],
     ]);
   });

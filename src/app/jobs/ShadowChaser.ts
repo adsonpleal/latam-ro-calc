@@ -10,9 +10,9 @@ import { Stalker } from './Stalker';
 import { AutoCastSource, ClassAutoCastDefinition } from '../models/auto-cast.model';
 
 // Copyable magic with existing damage formulas: https://browiki.org/wiki/Plágio
-// Mimetismo also copies these spells. Physical/hybrid skills are not Shadow Spell options.
-const PLAGIARISM_MAGIC = [19, 14, 20, 83, 89, 84, 88, 90, 91, 85, 17, 15, 13, 11, 21, 80, 81, 86];
-const REPRODUCE_MAGIC = [...PLAGIARISM_MAGIC, 2213, 2211, 2204, 2202, 2214, 2216, 2203, 2212, 2210, 2449];
+// Both copy slots obey Shadow Spell's restrictions, including no third-class spells:
+// https://browiki.org/wiki/Desejo_das_Sombras#Notas
+const SHADOW_SPELL_MAGIC = [19, 14, 20, 83, 89, 84, 88, 90, 91, 85, 17, 15, 13, 11, 21, 80, 81, 86];
 const GEMINI_LUMEN_ID = 2054;
 const geminiLight = (magical: boolean): AtkSkillModel => ({
   name: 'Duple Light', label: magical ? 'Gemini Lumen (luz mágica)' : 'Gemini Lumen (luz física)',
@@ -28,16 +28,17 @@ const SHADOW_CHASER_AUTO_CASTS: ClassAutoCastDefinition[] = [{
   resolve: ({ skillState, optionsFor, skillById, model }) => {
     const shadowLevel = skillState.activeLevel('Shadow Spell');
     const configs = [
-      { key: 'plagiarism' as const, name: 'Plágio', icon: 225, level: skillState.learnedLevel('Plagiarism'), ids: PLAGIARISM_MAGIC },
-      { key: 'reproduce' as const, name: 'Mimetismo', icon: 2285, level: skillState.learnedLevel('Reproduce'), ids: REPRODUCE_MAGIC },
+      { key: 'plagiarism' as const, name: 'Plágio', icon: 225, level: skillState.learnedLevel('Plagiarism') },
+      { key: 'reproduce' as const, name: 'Mimetismo', icon: 2285, level: skillState.learnedLevel('Reproduce') },
     ].filter((config) => config.level > 0);
     const slots = configs.map((config) => ({ ...config, options: [
-      ...optionsFor(config.ids),
+      ...optionsFor(SHADOW_SPELL_MAGIC),
       ...(config.key === 'reproduce' ? [{ label: 'Gemini Lumen', value: GEMINI_LUMEN_ID, icon: GEMINI_LUMEN_ID }] : []),
     ] }));
     const sources: AutoCastSource[] = slots.flatMap((slot): AutoCastSource[] => {
       const skillId = Number(model.autoCastSelections?.[slot.key]);
       if (!skillId || !slot.options.some((option) => option.value === skillId)) return [];
+      // Copied Gemini Lumen grants its own procs; Shadow Spell does not cast it.
       if (skillId === GEMINI_LUMEN_ID && slot.key === 'reproduce') {
         const level = Math.min(10, slot.level);
         return [false, true].map((magical) => ({
@@ -52,12 +53,13 @@ const SHADOW_CHASER_AUTO_CASTS: ClassAutoCastDefinition[] = [{
       if (shadowLevel <= 0) return [];
       const skill = skillById(skillId);
       if (!skill) return [];
-      // E.g. Esfera d'Água only has five levels, even when Shadow Spell requests seven.
+      // Also respect the learned copy level (https://browiki.org/wiki/Mimetismo)
+      // and the spell's own maximum, e.g. Esfera d'Água only has five levels.
       const maxLevel = Math.max(...(skill.levelList ?? [{ value: skill.value }])
         .map(({ value }) => Number(String(value).split('==')[1])));
       return [{
         key: `config-${slot.key}-${skillId}`, kind: 'configurable' as const, skillId,
-        skillLevel: Math.min(SHADOW_CAST_LEVEL[shadowLevel] ?? 0, maxLevel),
+        skillLevel: Math.min(SHADOW_CAST_LEVEL[shadowLevel] ?? 0, slot.level, maxLevel),
         chance: SHADOW_CHANCE[shadowLevel] ?? 0,
         trigger: 'physical-hit' as const, sourceName: slot.name, slot: slot.key,
         enablingSkillId: slot.icon,

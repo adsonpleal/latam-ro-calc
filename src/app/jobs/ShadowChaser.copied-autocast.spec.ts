@@ -54,7 +54,7 @@ function simulate(cls: ShadowChaser, slot: AutoCastSlotKey, skillId: number, sha
   return buildAutoCastSimulation({ calc, model, summary: calc.getTotalSummary(), hasSelectedEffects: false });
 }
 
-describe.each([ShadowChaser, AbyssChaser])('%s copied autocasts', (Job) => {
+describe.each([ShadowChaser, AbyssChaser].map((Job) => ({ name: Job.name, Job })))('$name copied autocasts', ({ Job }) => {
   it.each(slots)('offers and calculates all nine existing spells through %s', (slot) => {
     for (const { id, name } of addedSpells) {
       const result = simulate(new Job(), slot, id);
@@ -77,6 +77,36 @@ describe.each([ShadowChaser, AbyssChaser])('%s copied autocasts', (Job) => {
     }
   });
 
+  it.each(slots)('rejects third-class spells, including saved selections, in %s', (slot) => {
+    // https://browiki.org/wiki/Desejo_das_Sombras#Notas
+    // These were previously allowed through Mimetismo despite being ineligible for Shadow Spell.
+    for (const id of [2213, 2211, 2204, 2202, 2214, 2216, 2203, 2212, 2210, 2449]) {
+      const result = simulate(new Job(), slot, id);
+      expect(result.slots.find(({ key }) => key === slot)?.options.some(({ value }) => value === id), `skill ${id}`).toBe(false);
+      expect(result.sources.filter(({ source }) => source.slot === slot), `skill ${id}`).toEqual([]);
+    }
+  });
+
+  it.each(slots)('caps Ira de Thor by the copied level and Desejo das Sombras in %s', (slot) => {
+    for (const [shadow, copied, expected] of [[10, 1, 1], [10, 5, 5], [10, 7, 7], [10, 10, 7], [1, 10, 3]]) {
+      const result = simulate(new Job(), slot, 85, shadow, copied);
+      const proc = result.sources.find(({ source }) => source.slot === slot)!;
+      expect(proc.source.skillLevel, `Desejo ${shadow}, copied ${copied}`).toBe(expected);
+      expect(proc.dps).toBeGreaterThan(0);
+    }
+  });
+
+  it.each([0, 10])('keeps Gemini Lumen as its own effect with Desejo das Sombras %i', (shadow) => {
+    const result = simulate(new Job(), 'reproduce', 2054, shadow, 5);
+    const procs = result.sources.filter(({ source }) => source.slot === 'reproduce');
+    expect(procs).toHaveLength(2);
+    expect(procs.map(({ source }) => source.skillData?.isMatk)).toEqual([false, true]);
+    for (const proc of procs) {
+      expect(proc.source).toMatchObject({ skillLevel: 5, chance: 20, trigger: 'melee-physical-hit' });
+      expect(proc.dps).toBeGreaterThan(0);
+    }
+  });
+
   it('requires both a learned copy skill and active Desejo das Sombras', () => {
     expect(simulate(new Job(), 'plagiarism', 85, 0).sources).toEqual([]);
     const unlearned = simulate(new Job(), 'reproduce', 85, 10, 0);
@@ -84,11 +114,13 @@ describe.each([ShadowChaser, AbyssChaser])('%s copied autocasts', (Job) => {
     expect(unlearned.sources).toEqual([]);
   });
 
-  it.each([[1, 3, 9], [5, 5, 25], [10, 5, 25]])('casts Esfera d\'Água at a valid level with Desejo das Sombras %i', (shadow, level, hits) => {
-    const result = simulate(new Job(), 'plagiarism', 86, shadow);
-    const proc = result.sources.find(({ source }) => source.slot === 'plagiarism')!;
-    expect(proc.source.skillLevel).toBe(level);
-    expect(proc.summary.skillTotalHit).toBe(hits);
-    expect(proc.dps).toBeGreaterThan(0);
+  it.each(slots)('caps Esfera d\'Água by all three level limits in %s', (slot) => {
+    for (const [shadow, copied, level, hits] of [[10, 1, 1, 1], [10, 2, 2, 9], [1, 10, 3, 9], [5, 10, 5, 25], [10, 10, 5, 25]]) {
+      const result = simulate(new Job(), slot, 86, shadow, copied);
+      const proc = result.sources.find(({ source }) => source.slot === slot)!;
+      expect(proc.source.skillLevel).toBe(level);
+      expect(proc.summary.skillTotalHit).toBe(hits);
+      expect(proc.dps).toBeGreaterThan(0);
+    }
   });
 });

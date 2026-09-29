@@ -166,6 +166,13 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.155-beta',
+      date: '29-09-2026',
+      logs: [
+        'Desejo das Sombras agora limita a magia autoconjurada ao nível aprendido de Plágio ou Mimetismo, além do limite do próprio Desejo e do máximo da magia. Magias de classes 3 foram retiradas das opções de Desejo das Sombras e deixam de gerar dano em seleções salvas. Gemini Lumen mantém suas duas luzes como efeitos próprios de Mimetismo. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.154-beta',
       date: '28-09-2026',
       logs: [
