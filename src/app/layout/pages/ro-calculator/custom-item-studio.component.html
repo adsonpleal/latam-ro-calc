@@ -202,7 +202,7 @@
 
   <ng-template pTemplate="footer">
     <div class="flex align-items-center flex-wrap gap-2">
-      <button pButton type="button" class="p-button-text p-button-sm mr-auto" icon="pi pi-question-circle" label="Criar com um agente via MCP" (click)="mcpVisible = true"></button>
+      <button pButton type="button" class="p-button-text p-button-sm mr-auto" icon="pi pi-sparkles" label="Criar com um agente via MCP" (click)="mcpVisible = true"></button>
       <button pButton type="button" class="p-button-outlined" *ngIf="!libraryMode" label="Meus itens" (click)="openLibrary()"></button>
       <button pButton type="button" *ngIf="!libraryMode" [disabled]="diagnostics.length > 0" [label]="context ? 'Salvar e equipar' : 'Salvar item'" (click)="save()"></button>
     </div>

@@ -16,6 +16,16 @@ html {
 @import "../node_modules/primeflex/primeflex.scss";
 @import "../node_modules/primeicons/primeicons.css";
 
+/* PrimeIcons 6 does not include the sparkle used by the MCP controls. */
+.pi-sparkles::before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: currentColor;
+  mask: url('assets/icons/sparkles.svg') center / contain no-repeat;
+}
+
 /* The equipment picker's chip popover is a CDK overlay (PrimeNG's own overlay does not
    flip-and-clamp the way the design needs). Without this the .cdk-overlay-container has
    no positioning of its own and every panel lands at the document origin. */

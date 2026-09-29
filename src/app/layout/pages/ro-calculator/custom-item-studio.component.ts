@@ -45,6 +45,7 @@ interface RuleConditionOption {
   extraExample?: string;
 }
 type AttachmentField = 'defaultCards' | 'defaultEnchants' | 'defaultBas';
+const INTERNAL_ITEM_FIELDS = new Set(['refine', 'weight']);
 
 @Component({
   selector: 'app-custom-item-studio',
@@ -138,7 +139,8 @@ export class CustomItemStudioComponent {
   ].map(([label, value]) => ({ label, value }));
   readonly isEquipment = customKindIsEquipment;
   readonly mcpUrl = environment.mcpUrl;
-  readonly bonusKeys = Object.keys(createRawTotalBonus()).map((key) => ({ key, label: bonusKeyLabel(key) }));
+  readonly bonusKeys = Object.keys(createRawTotalBonus()).filter((key) => !INTERNAL_ITEM_FIELDS.has(key))
+    .map((key) => ({ key, label: bonusKeyLabel(key) }));
   readonly bonusLabel = bonusKeyLabel;
   readonly attributeOptions: DropdownModel[] = [
     ['str', 'FOR'], ['agi', 'AGI'], ['vit', 'VIT'], ['int', 'INT'], ['dex', 'DES'], ['luk', 'SOR'],
@@ -457,12 +459,14 @@ export class CustomItemStudioComponent {
     this.visualErrors = [];
     this.rules = itemBonusScriptEntries(this.draft.script).flatMap(([key, values]) => values.map((expression) => {
       const rule = readVisualItemRule(key, expression);
-      if (rule.conditions.some((condition) => {
+      if (INTERNAL_ITEM_FIELDS.has(key) || rule.conditions.some((condition) => {
         const options = this.conditionHelp(condition.kind).options;
         return options && !options.some((option) => option.value === condition.value);
       })) rule.readOnly = true;
       if (rule.readOnly) rule.description = customItemDescription({ script: { [key]: [expression] } });
-      if (!this.bonusKeys.some((option) => option.key === key)) this.bonusKeys.push({ key, label: bonusKeyLabel(key) });
+      if (!INTERNAL_ITEM_FIELDS.has(key) && !this.bonusKeys.some((option) => option.key === key)) {
+        this.bonusKeys.push({ key, label: bonusKeyLabel(key) });
+      }
       return rule;
     }));
   }
