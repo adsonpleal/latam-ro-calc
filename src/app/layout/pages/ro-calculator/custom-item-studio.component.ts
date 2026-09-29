@@ -186,9 +186,9 @@ export class CustomItemStudioComponent {
       help: 'O bônus também vale para as evoluções da classe escolhida.',
     },
     {
-      value: 'skill', label: 'Perícia aprendida', input: 'select', options: this.conditionSkills, valueLabel: 'Perícia aprendida',
-      extraLabel: 'Nível mínimo da perícia', extraExample: '5',
-      help: 'Escolha a perícia e o nível mínimo que o personagem precisa ter aprendido.',
+      value: 'skill', label: 'Habilidade aprendida', input: 'select', options: this.conditionSkills, valueLabel: 'Habilidade aprendida',
+      extraLabel: 'Nível mínimo da habilidade', extraExample: '5',
+      help: 'Escolha a habilidade e o nível mínimo que o personagem precisa ter aprendido.',
     },
     {
       value: 'activeSkill', label: 'Perícia ativa', input: 'select', options: this.conditionSkills, valueLabel: 'Perícia ativa',
