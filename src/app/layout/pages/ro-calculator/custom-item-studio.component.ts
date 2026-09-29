@@ -217,6 +217,10 @@ export class CustomItemStudioComponent {
       ?? 'Item';
   }
 
+  closeImportOutside(event: FocusEvent, source: HTMLElement): void {
+    if (!source.contains(event.relatedTarget as Node | null)) this.importOpen = false;
+  }
+
   private fold(s: string): string { return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim(); }
 
   get libraryItems(): CustomItemDefinition[] {

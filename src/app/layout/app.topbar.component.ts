@@ -171,7 +171,8 @@ export class AppTopBarComponent implements OnDestroy {
       logs: [
         'Meus itens e o criador de itens personalizados agora seguem os componentes do simulador, com altura fixa e fechamento ao clicar fora. Slots e BAs usam os mesmos seletores de equipamentos, com busca, ícones e limites compartilhados entre cartas e encantamentos.',
         'O criador ganhou buscas de tipo, arma, elemento e classes, ícones automáticos por posição e a categoria Acessório para uso em qualquer lado. A prévia exibe a descrição interpretada; a troca entre Visual e JSON foi corrigida e os nomes não têm mais limite de 100 caracteres. Melhorias no recurso solicitado por EliteTK.',
-        'O editor de JSON ganhou formatação e destaque de sintaxe, com ajuda completa no botão “?”. Refinável e Graduável usam os botões Sim/Não de Habilidades, e Lança usa o ícone básico da Azagaia.',
+        'O editor de JSON ganhou formatação e destaque de sintaxe, com ajuda completa no botão “?”. Refinável e Graduável usam os botões Sim/Não e o espaçamento de Habilidades, e Lança usa o ícone básico da Azagaia.',
+        'Os seletores de itens, opções e classes dentro de modais voltaram a fechar ao clicar fora. O botão MCP ganhou um ícone de servidor.',
       ],
     },
     {

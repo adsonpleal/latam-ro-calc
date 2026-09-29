@@ -25,6 +25,8 @@ export interface DismissibleOverlay {
   dismiss(event: KeyboardEvent): void;
   /** The overlay's own element. Only stacked overlays need it — see `topmost`. */
   element?(): HTMLElement | null | undefined;
+  /** Keep a panel open while a dialog portaled above it handles a click. */
+  preserveForDialogClick?(): void;
 }
 
 /**
@@ -114,8 +116,21 @@ export class OverlayEscapeService implements OnDestroy {
         if (!document.querySelector(ESCAPE_CONSUMERS)) event.stopPropagation();
       };
 
+      // PrimeNG panels treat portaled dialogs as outside clicks. Preserve the
+      // panels without stopping the event: pickers inside dialogs still need it.
+      const onClick = (event: MouseEvent) => {
+        if (!(event.target as Element)?.closest?.('.p-dialog, .p-dialog-mask')) return;
+        for (const overlay of this.overlays) {
+          if (overlay.preserveForDialogClick && overlay.isOpen()) overlay.preserveForDialogClick();
+        }
+      };
+
       document.addEventListener('keydown', onKeyDown, true);
-      this.unlisten = () => document.removeEventListener('keydown', onKeyDown, true);
+      document.addEventListener('click', onClick);
+      this.unlisten = () => {
+        document.removeEventListener('keydown', onKeyDown, true);
+        document.removeEventListener('click', onClick);
+      };
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { itemSlotLabelPtBr } from '../../../../constants/item-slot-i18n';
 import { DropdownModel } from '../../../../models/dropdown.model';
 import { dmgTypeLabel as dmgTypeLabelUtil, skillDescHtml } from '../../../../utils';
@@ -40,44 +40,7 @@ import { ReductionCategory, ReductionRow } from '../reduction-breakdown';
   templateUrl: './battle-hud.component.html',
   styleUrls: ['./battle-hud.component.css', '../ro-calculator.component.css'],
 })
-export class BattleHudComponent implements OnDestroy {
-  // #damageFormulaPanel/#damageFormulaNoCriPanel host clickable nodes that open the
-  // bonus-breakdown p-dialog. PrimeNG portals that dialog (and its backdrop) to
-  // document.body — outside the overlay panel's own container — so the panel's
-  // built-in "click outside closes me" document listener (bound to `document`,
-  // bubble phase) treats any click on the dialog (its close button, its backdrop)
-  // as an outside click and closes the panel along with it.
-  //
-  // Fix: our own `document` **bubble-phase** listener, registered here in the
-  // constructor — i.e. before any p-overlayPanel's own listener, which only binds
-  // once the user opens it — runs first for same-node bubble listeners in
-  // registration order. `stopImmediatePropagation()` (not `stopPropagation()`) stops
-  // that later PrimeNG listener from running, without touching capture/target-phase
-  // delivery — the dialog's own close button and backdrop-click handlers, which fire
-  // before bubbling ever reaches `document`, are unaffected. A capture-phase listener
-  // here would be wrong: it fires before the event reaches the target at all, so
-  // stopping it there would silence the dialog's own click handlers too.
-  private readonly dialogClickGuard = (event: MouseEvent) => {
-    if ((event.target as HTMLElement)?.closest?.('.p-dialog, .p-dialog-mask')) {
-      event.stopImmediatePropagation();
-    }
-  };
-
-  // Escape closes these panels — and the topmost layer only, so a breakdown dialog opened
-  // over the graph does not tear the graph down with it — through OverlayEscapeDirective,
-  // which every p-overlayPanel and p-dialog picks up by element selector. This component
-  // used to carry its own capture-phase listener and its own layering rule for exactly
-  // that; both now live in OverlayEscapeService, which is also where the reason for
-  // running ahead of the bubble phase is written down.
-
-  constructor() {
-    document.addEventListener('click', this.dialogClickGuard);
-  }
-
-  ngOnDestroy(): void {
-    document.removeEventListener('click', this.dialogClickGuard);
-  }
-
+export class BattleHudComponent {
   @Input({ required: true }) totalSummary = {} as any;
   @Input({ required: true }) totalSummary2 = {} as any;
   @Input({ required: true }) isEnableCompare: boolean;

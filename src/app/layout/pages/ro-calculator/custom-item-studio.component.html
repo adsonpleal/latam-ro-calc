@@ -54,7 +54,7 @@
       <div class="studio-editor-scroll mt-3">
         <div *ngIf="section === 'item'">
           <label for="studio-import-script">Importar de…</label>
-          <div class="studio-source mt-2 mb-3">
+          <div #importSource class="studio-source mt-2 mb-3" (focusout)="closeImportOutside($event, importSource)">
             <input pInputText id="studio-import-script" type="search" [(ngModel)]="importQuery" (focus)="importOpen = true" placeholder="Buscar item por nome ou ID" />
             <button pButton type="button" class="p-button-text p-button-sm" *ngIf="importedBackup" (click)="undoImport()" label="Desfazer importação"></button>
             <div class="studio-source-results surface-overlay border-1 surface-border border-round" *ngIf="importOpen && importQuery">
@@ -93,7 +93,7 @@
           <div class="flex flex-wrap align-items-center gap-3 mt-3" *ngIf="draft.kind === 'headUpper' || draft.kind === 'headMiddle' || draft.kind === 'headLower' || draft.kind === 'costumeUpper' || draft.kind === 'costumeMiddle' || draft.kind === 'costumeLower'">
             <span>Ocupa</span><p-checkbox *ngFor="let location of ['Upper','Middle','Lower']" [binary]="true" [ngModel]="headOccupancy.includes(location)" (ngModelChange)="toggleHeadLocation(location, $event)" [label]="location === 'Upper' ? 'Topo' : location === 'Middle' ? 'Meio' : 'Baixo'"></p-checkbox>
           </div>
-          <div class="flex flex-wrap gap-3 mt-3" *ngIf="isEquipment(draft.kind)">
+          <div class="flex flex-wrap gap-3 mt-3 p-fluid" *ngIf="isEquipment(draft.kind)">
             <div class="flex align-items-center gap-2 skill-control-row"><span id="studio-refinable-label">Refinável</span><p-selectButton class="w-5rem" [options]="yesNoOptions" [(ngModel)]="draft.isRefinable" (ngModelChange)="validate()" ariaLabelledBy="studio-refinable-label"></p-selectButton></div>
             <div class="flex align-items-center gap-2 skill-control-row"><span id="studio-gradable-label">Graduável</span><p-selectButton class="w-5rem" [options]="yesNoOptions" [(ngModel)]="draft.canGrade" (ngModelChange)="validate()" ariaLabelledBy="studio-gradable-label"></p-selectButton></div>
           </div>

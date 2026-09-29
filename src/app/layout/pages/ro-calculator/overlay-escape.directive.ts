@@ -109,6 +109,7 @@ export class OverlayEscapeDirective implements OnInit, OnDestroy {
       isOpen: () => panel.overlayVisible,
       dismiss: () => panel.hide(),
       element: () => (panel as unknown as WithContainer).container,
+      preserveForDialogClick: () => panel.onContentClick(),
     };
   }
 }
