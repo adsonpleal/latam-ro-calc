@@ -172,5 +172,5 @@
   color: var(--picker-muted);
   font-size: 12px;
 }
-.picker__row--create{color:#b7f6db!important;font-weight:700;border-bottom:1px solid #447266!important;background:#1a3a3b!important}
+.picker__row--create { border-bottom: 1px solid var(--picker-border); }
 .picker__row--section { font-size: .72rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; opacity: .7; cursor: default; pointer-events: none; }

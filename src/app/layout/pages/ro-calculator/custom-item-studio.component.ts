@@ -9,6 +9,7 @@ import { ItemTypeEnum } from 'src/app/constants/item-type.enum';
 import { CardPosition } from 'src/app/constants/card-position.enum';
 import { bonusKeyLabel } from 'src/app/core/bonus-key-label';
 import { createRawTotalBonus } from 'src/app/utils/create-raw-total-bonus';
+import { createNumberDropdownList } from 'src/app/utils/create-number-dropdown-list';
 import {
   CUSTOM_KINDS, CUSTOM_KIND_LABELS, CustomItemDefinition, CustomItemDraft, CustomKind,
   CUSTOM_ITEM_MAX_BYTES, customDefinitionsForBuild, customItemDescription, customItemId, validateCustomItems,
@@ -16,13 +17,21 @@ import {
 } from 'src/app/core/custom-items';
 import { CustomItemLibraryService } from 'src/app/api-services/custom-item-library.service';
 import { encodeCustomBundle } from 'src/app/core/custom-item-library';
-import { ExtraOptionMap } from 'src/app/utils/create-extra-option-list';
+import { createExtraOptionList, ExtraOptionMap } from 'src/app/utils/create-extra-option-list';
 import { WeaponSubTypeNameMapById } from 'src/app/constants/weapon-type-mapper';
 import { ItemSubTypeId } from 'src/app/constants/item-sub-type.enum';
 import { selectLoyaltyLines } from 'src/app/constants/pet-loyalty';
+import { ElementType } from 'src/app/constants/element-type.const';
+import { elementPtBr } from 'src/app/constants/monster-i18n';
+import { getClassDropdownList } from 'src/app/jobs/_class-list';
+import { DropdownModel } from 'src/app/models/dropdown.model';
+import { ItemPickerService } from './item-picker/item-picker.service';
+import { PickerRequest } from './item-picker/item-picker.model';
+import { ChipView } from './equipment-grid/chip-view.model';
 
 interface Rule { key: string; expression: string }
 interface CreateContext { slot: string; compare: boolean }
+type AttachmentField = 'defaultCards' | 'defaultEnchants' | 'defaultBas';
 
 @Component({
   selector: 'app-custom-item-studio',
@@ -55,11 +64,9 @@ export class CustomItemStudioComponent {
   diagnostics: string[] = [];
   context?: CreateContext;
   copied = false;
-  selectedCard = 0;
-  selectedEnchant = 0;
-  selectedBa = '';
-  cardOptions: ItemModel[] = [];
-  enchantOptions: ItemModel[] = [];
+  cardOptions: DropdownModel[] = [];
+  enchantOptions: DropdownModel[] = [];
+  attachmentRows: { field: AttachmentField; label: string; views: ChipView[] }[] = [];
   private catalogRows: ItemModel[] = [];
   previewIcon = 1101;
   previewRefine = 0;
@@ -71,9 +78,23 @@ export class CustomItemStudioComponent {
   private previewItem?: CustomItemDefinition;
   capacityNotice = '';
 
-  readonly kinds = CUSTOM_KINDS;
+  // Off-hand is an equip destination; the weapon itself uses the same category.
+  readonly kinds = CUSTOM_KINDS.filter((kind) => kind !== 'leftWeapon');
+  readonly kindOptions = this.kinds.map((value) => ({ value, label: CUSTOM_KIND_LABELS[value] }));
+  readonly libraryKindOptions = [{ value: '', label: 'Todas as categorias' }, ...this.kindOptions];
   readonly kindLabels = CUSTOM_KIND_LABELS;
-  readonly baOptions = [...ExtraOptionMap.entries()];
+  readonly baOptions = createExtraOptionList();
+  readonly sections = [{ label: 'Item', value: 'item' }, { label: 'Slots e BAs', value: 'sockets' }, { label: 'Script', value: 'bonuses' }];
+  readonly modes = [{ label: 'Visual', value: 'visual' }, { label: 'JSON bruto', value: 'json' }];
+  readonly mobileViews = [{ label: 'Editor', value: 'editor' }, { label: 'Prévia', value: 'preview' }];
+  readonly counts = createNumberDropdownList({ from: 0, to: 4 });
+  readonly baCounts = createNumberDropdownList({ from: 0, to: 5 });
+  cardCounts = this.counts;
+  enchantCounts = this.counts;
+  readonly elements = Object.values(ElementType).map((value) => ({ value, label: elementPtBr(value) }));
+  readonly classes = getClassDropdownList().map(({ label, icon, instant }) => ({ label, icon, value: instant.className }));
+  readonly grades = [{ value: '', label: 'Sem grau' }, ...['D', 'C', 'B', 'A'].map((value) => ({ value, label: value }))];
+  readonly loyaltyOptions = [{ value: 1, label: 'Baixa' }, { value: 2, label: 'Nenhuma' }, { value: 3, label: 'Normal' }, { value: 4, label: 'Alta' }];
   readonly weaponSubtypes = Object.entries(WeaponSubTypeNameMapById).map(([id, label]) => ({
     id: Number(id), label: ({
       Dagger: 'Adaga', Sword: 'Espada', 'Two-Handed Sword': 'Espada de duas mãos',
@@ -97,23 +118,23 @@ export class CustomItemStudioComponent {
     ['Capa', CardPosition.Garment], ['Calçado', CardPosition.Boot],
     ['Acessórios', CardPosition.Acc], ['Acessório esquerdo', CardPosition.AccL],
     ['Acessório direito', CardPosition.AccR], ['Qualquer posição', CardPosition.All],
-  ] as const;
+  ].map(([label, value]) => ({ label, value }));
   readonly isEquipment = customKindIsEquipment;
   readonly mcpUrl = environment.mcpUrl;
   readonly bonusKeys = Object.keys(createRawTotalBonus()).map((key) => ({ key, label: bonusKeyLabel(key) }));
-  readonly conditionKinds = [
+  readonly conditionOptions = [
     ['none', 'Sem condição'], ['refine', 'Refino mínimo'], ['refineStep', 'A cada X refinos'],
     ['grade', 'Grau mínimo'], ['level', 'Nível mínimo'], ['stat', 'A cada X do atributo'],
     ['equip', 'Equipado junto'], ['class', 'Classe'], ['skill', 'Perícia aprendida'],
     ['activeSkill', 'Perícia ativa'], ['loyalty', 'Lealdade do pet'],
     ['weaponType', 'Tipo de arma'], ['ammoType', 'Tipo de munição'],
     ['position', 'Posição'], ['spawn', 'Mapa do monstro'], ['until', 'Válido até (data)'],
-  ];
+  ].map(([value, label]) => ({ value, label }));
   condition = 'none';
   conditionValue = '';
   conditionExtra = '';
 
-  constructor(public readonly library: CustomItemLibraryService) {}
+  constructor(public readonly library: CustomItemLibraryService, private readonly picker: ItemPickerService) {}
 
   blank(kind: CustomKind): CustomItemDraft {
     return {
@@ -127,12 +148,17 @@ export class CustomItemStudioComponent {
     };
   }
 
-  openLibrary(): void { this.visible = true; this.libraryMode = true; this.context = undefined; }
+  openLibrary(): void {
+    this.visible = true; this.libraryMode = true; this.context = undefined;
+    this.diagnostics = []; this.copied = false;
+  }
+
+  closePickers(): void { this.picker.close(); }
 
   openCreate(kind: string = 'weapon', context?: CreateContext): void {
-    const selected = CUSTOM_KINDS.includes(kind as CustomKind) ? kind as CustomKind : 'weapon';
-    this.catalogRows = Object.values(this.items);
-    this.enchantOptions = this.catalogRows.filter((item) => item.itemTypeId === 11);
+    const selected = kind === 'leftWeapon' ? 'weapon' : CUSTOM_KINDS.includes(kind as CustomKind) ? kind as CustomKind : 'weapon';
+    this.catalogRows = [...new Map(Object.values(this.items).map((item) => [item.id, item])).values()];
+    this.enchantOptions = this.catalogRows.filter((item) => item.itemTypeId === 11).map((item) => ({ label: item.name, value: item.id }));
     this.setCardOptions(selected);
     this.draft = this.blank(selected);
     this.previewIcon = inferCustomIcon(selected, this.draft.itemSubTypeId, this.items);
@@ -142,12 +168,16 @@ export class CustomItemStudioComponent {
     this.previewRefine = 0; this.previewGrade = ''; this.previewLoyalty = 4; this.previewBonuses = []; this.previewRules = [];
     this.previewText = ''; this.previewItem = undefined;
     this.capacityNotice = '';
+    this.importQuery = ''; this.importOpen = false;
     this.visible = true; this.libraryMode = false;
+    this.refreshAttachments();
   }
 
   edit(item: CustomItemDefinition): void {
     this.openCreate(item.kind);
     this.draft = structuredClone(item);
+    if (this.draft.kind === 'leftWeapon') this.draft.kind = 'weapon';
+    this.draft.iconItemId = undefined;
     this.rawScript = JSON.stringify(item.script ?? {}, null, 2);
     this.readRules();
     this.validate();
@@ -165,16 +195,14 @@ export class CustomItemStudioComponent {
       baCapacity: fresh.baCapacity, isRefinable: fresh.isRefinable, canGrade: fresh.canGrade,
       itemSubTypeId: fresh.itemSubTypeId, iconItemId: undefined, itemLevel: fresh.itemLevel,
       location: undefined, locations: undefined };
-    this.selectedCard = 0;
     this.setCardOptions(kind);
-    this.validate();
+    this.changeCapacity('cardCapacity', 0);
   }
 
   get sourceResults(): ItemModel[] {
     const query = this.fold(this.importQuery);
     if (!query) return [];
-    const rows = [...new Map(this.catalogRows.filter((item) => item?.script && typeof item.script === 'object')
-      .map((item) => [item.id, item])).values()];
+    const rows = this.catalogRows.filter((item) => item.script && typeof item.script === 'object');
     return rows.filter((item) => this.fold(`${item.name} ${item.id} ${item.aegisName}`).includes(query))
       .sort((a, b) => Number(b.id === Number(query)) - Number(a.id === Number(query)) || a.name.localeCompare(b.name, 'pt-BR'))
       .slice(0, 60);
@@ -216,12 +244,7 @@ export class CustomItemStudioComponent {
 
   private setCardOptions(kind: CustomKind): void {
     this.cardOptions = this.catalogRows.filter((item) => item.itemTypeId === 6 && item.presentInLatam
-      && cardFitsCustomKind(item, kind));
-  }
-
-  get allowedClasses(): string { return (this.draft.usableClass ?? []).filter((name) => name !== 'all').join(', '); }
-  set allowedClasses(value: string) {
-    this.draft.usableClass = value.split(',').map((name) => name.trim()).filter(Boolean);
+      && cardFitsCustomKind(item, kind)).map((item) => ({ label: item.name, value: item.id, cardPrefix: item.cardPrefix }));
   }
 
   get headOccupancy(): string[] {
@@ -238,7 +261,8 @@ export class CustomItemStudioComponent {
   }
 
   changeCapacity(field: 'cardCapacity' | 'enchantCapacity' | 'baCapacity', value: number): void {
-    this.draft[field] = Number(value);
+    const max = field === 'baCapacity' ? 5 : 4 - Number(this.draft[field === 'cardCapacity' ? 'enchantCapacity' : 'cardCapacity'] ?? 0);
+    this.draft[field] = Math.max(0, Math.min(max, Math.trunc(Number(value) || 0)));
     const removed: string[] = [];
     for (const [capacity, defaults] of [
       ['cardCapacity', 'defaultCards'], ['enchantCapacity', 'defaultEnchants'], ['baCapacity', 'defaultBas'],
@@ -254,17 +278,49 @@ export class CustomItemStudioComponent {
     this.validate();
   }
 
-  addCard(): void {
-    const list = this.draft.defaultCards ?? [];
-    if (this.selectedCard && list.length < Number(this.draft.cardCapacity)) { this.draft.defaultCards = [...list, this.selectedCard]; this.validate(); }
+  private refreshAttachments(): void {
+    this.cardCounts = this.counts.filter(({ value }) => Number(value) <= 4 - Number(this.draft.enchantCapacity ?? 0));
+    this.enchantCounts = this.counts.filter(({ value }) => Number(value) <= 4 - Number(this.draft.cardCapacity ?? 0));
+    this.attachmentRows = ([
+      ['defaultCards', 'Cartas iniciais', 'card', this.draft.cardCapacity, 'Carta'],
+      ['defaultEnchants', 'Encantamentos iniciais', 'enchant', this.draft.enchantCapacity, 'Encantamento'],
+      ['defaultBas', 'BAs iniciais', 'option', this.draft.baCapacity, 'BA'],
+    ] as const).map(([field, label, kind, capacity, placeholder]) => ({
+      field, label, views: Array.from({ length: capacity ?? 0 }, (_, index): ChipView => {
+        const value = this.draft[field]?.[index];
+        const item = kind !== 'option' && value ? this.items[Number(value)] : undefined;
+        return {
+          chip: { kind, index, slotKey: this.draft.kind as ItemTypeEnum, placeholder: `${placeholder} ${index + 1}` },
+          text: item?.name ?? (value ? ExtraOptionMap.get(String(value)) ?? String(value) : `${placeholder} ${index + 1}`),
+          filled: !!value, icon: item?.id ?? null, descId: item?.id ?? null,
+          elementClass: null, primary: false, preRelease: !!item?.preRelease,
+        };
+      }),
+    }));
   }
-  addEnchant(): void {
-    const list = this.draft.defaultEnchants ?? [];
-    if (this.selectedEnchant && list.length < Number(this.draft.enchantCapacity)) { this.draft.defaultEnchants = [...list, this.selectedEnchant]; this.validate(); }
+
+  pickAttachment(field: AttachmentField, view: ChipView, anchor: HTMLElement): void {
+    const base = { anchor, title: view.chip.placeholder, value: this.draft[field]?.[view.chip.index] };
+    const request: PickerRequest = field === 'defaultBas'
+      ? { ...base, value: String(base.value ?? ''), mode: 'tree', roots: this.baOptions, leafIndex: ExtraOptionMap }
+      : { ...base, mode: 'flat', options: field === 'defaultCards' ? this.cardOptions : this.enchantOptions,
+        filterKeys: ['label', 'value', 'cardPrefix'], iconKey: 'value', items: this.items };
+    this.picker.open(request).subscribe((result) => {
+      if (result.committed) this.setAttachment(field, view.chip.index, result.value);
+    });
   }
-  addBa(): void {
-    const list = this.draft.defaultBas ?? [];
-    if (this.selectedBa && list.length < Number(this.draft.baCapacity)) { this.draft.defaultBas = [...list, this.selectedBa]; this.validate(); }
+
+  setAttachment(field: AttachmentField, index: number, value: string | number | null | undefined): void {
+    if (field === 'defaultBas') {
+      const values = [...(this.draft.defaultBas ?? [])];
+      if (value) values[index] = String(value); else values.splice(index, 1);
+      this.draft.defaultBas = values.filter(Boolean);
+    } else {
+      const values = [...(this.draft[field] ?? [])];
+      if (value) values[index] = Number(value); else values.splice(index, 1);
+      this.draft[field] = values.filter(Boolean);
+    }
+    this.validate();
   }
 
   addRule(): void { this.rules.push({ key: 'atk', expression: '1' }); this.writeRules(); }
@@ -329,23 +385,26 @@ export class CustomItemStudioComponent {
   }
 
   setMode(mode: 'visual' | 'json'): void {
+    if (!mode) return;
     if (mode === 'visual') {
       this.onRawScript();
-      if (this.diagnostics.length) return;
+      if (this.rawError || !this.draft.script || typeof this.draft.script !== 'object' || Array.isArray(this.draft.script)) return;
       this.readRules();
     }
     this.mode = mode;
   }
 
   validate(): void {
+    this.draft.iconItemId = undefined;
     const input = { ...this.draft, id: this.draft.id ?? customItemId() };
     const result = validateCustomItems([input], this.items);
     this.diagnostics = [...(this.rawError ? [this.rawError] : []), ...result.errors.map((e) => `${e.path}: ${e.message}`)];
-    this.previewItem = result.items[0];
-    this.previewIcon = Number(this.previewItem?.iconItemId || this.draft.iconItemId
+    this.previewItem = result.items[0] ?? (!this.rawError && !input.name.trim()
+      ? validateCustomItems([{ ...input, name: 'Novo item' }], this.items).items[0] : undefined);
+    this.previewIcon = Number(this.previewItem?.iconItemId
       || inferCustomIcon(this.draft.kind, this.draft.itemSubTypeId, this.items));
-    this.previewText = this.previewItem ? customItemDescription(this.previewItem)
-      : Object.entries(this.draft.script ?? {}).map(([key, values]) => `${bonusKeyLabel(key)}: ${JSON.stringify(values)}`).join('\n');
+    this.previewText = this.previewItem ? customItemDescription(this.previewItem) : 'Corrija os erros do script para atualizar a descrição.';
+    this.refreshAttachments();
     this.updatePreview();
   }
 
@@ -358,7 +417,7 @@ export class CustomItemStudioComponent {
       const id = item.id;
       const model = structuredClone(this.currentModel) as Record<string, any>;
       const slot = item.kind === 'card' ? 'weaponCard1' : item.kind === 'enchant' ? 'weaponEnchant1'
-        : item.kind === 'ammo' ? 'ammo' : item.kind === 'consumable' ? 'consumable' : item.kind;
+        : item.kind === 'accessory' ? 'accLeft' : item.kind;
       if (slot !== 'consumable') model[slot] = id;
       model[`${slot}Refine`] = this.previewRefine;
       model[`${slot}Grade`] = this.previewGrade;
@@ -375,7 +434,7 @@ export class CustomItemStudioComponent {
           const replaced = !selected.includes(line);
           const result = replaced ? { active: false, value: 0 } : calc.evaluateItemRule(slot as ItemTypeEnum, line, this.previewRefine);
           return { label: bonusKeyLabel(key), reason: replaced ? 'Substituída pela faixa de lealdade mais alta.'
-            : result.active ? `Condição atendida: ${line}` : `Condição não atendida nesta build: ${line}`,
+            : result.active ? 'Condição atendida nesta build.' : 'Condição não atendida nesta build.',
             ...result };
         });
       });

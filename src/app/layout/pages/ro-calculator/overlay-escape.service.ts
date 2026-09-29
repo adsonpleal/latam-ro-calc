@@ -98,6 +98,8 @@ export class OverlayEscapeService implements OnDestroy {
     this.zone.runOutsideAngular(() => {
       const onKeyDown = (event: KeyboardEvent) => {
         if (event.key !== 'Escape') return;
+        // A chip picker inside a dialog handles Escape itself; keep the dialog open.
+        if (event.target instanceof Element && event.target.closest('.cdk-overlay-pane')) return;
 
         const open = [...this.overlays].filter((overlay) => overlay.isOpen());
         if (open.length) {

@@ -1,10 +1,11 @@
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { Overlay, OverlayContainer, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Injectable, Injector } from '@angular/core';
 import { Observable, Subject, take } from 'rxjs';
 import { ItemPickerOverlayComponent } from './item-picker-overlay.component';
 import { PageScrollLockService } from 'src/app/page-scroll-lock.service';
 import { PickerRequest, PickerResult } from './item-picker.model';
+import { ZIndexUtils } from 'primeng/utils';
 
 /**
  * Opens the chip picker.
@@ -16,11 +17,13 @@ import { PickerRequest, PickerResult } from './item-picker.model';
 @Injectable({ providedIn: 'root' })
 export class ItemPickerService {
   private ref?: OverlayRef;
+  private raisedContainer = false;
 
   constructor(
     private readonly overlay: Overlay,
     private readonly injector: Injector,
     private readonly pageScroll: PageScrollLockService,
+    private readonly container: OverlayContainer,
   ) {}
 
   /** Emits once — the pick, or a dismissal — and completes. */
@@ -51,6 +54,13 @@ export class ItemPickerService {
     });
 
     this.ref = ref;
+    // The creator reuses these pickers inside a PrimeNG dialog. Register above its
+    // mask so the picker stays clickable and subsequent tooltips still sit on top.
+    const mask = request.anchor.closest('.p-dialog-mask');
+    if (mask) {
+      ZIndexUtils.set('overlay', this.container.getContainerElement(), Number(getComputedStyle(mask).zIndex) || 1100);
+      this.raisedContainer = true;
+    }
     this.pageScroll.lock(ref.overlayElement);
 
     const instance = ref.attach(new ComponentPortal(ItemPickerOverlayComponent, null, this.injector)).instance;
@@ -89,5 +99,9 @@ export class ItemPickerService {
     const panel = ref.overlayElement;
     ref.dispose();
     this.pageScroll.unlock(panel);
+    if (this.raisedContainer) {
+      ZIndexUtils.clear(this.container.getContainerElement());
+      this.raisedContainer = false;
+    }
   }
 }

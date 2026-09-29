@@ -2,10 +2,11 @@ import { ItemModel, ItemScriptValue, itemBonusScriptEntries } from '../models/it
 import { ItemSubTypeId } from '../constants/item-sub-type.enum';
 import { ItemTypeId } from '../constants/item.const';
 import { createRawTotalBonus } from '../utils/create-raw-total-bonus';
-import { VALID_SKILL_IDS } from '../skills';
+import { resolveSkillById, VALID_SKILL_IDS } from '../skills';
 import { bonusKeyLabel } from './bonus-key-label';
 import { CardPosition } from '../constants/card-position.enum';
 import { WeaponSubTypeNameMapById } from '../constants/weapon-type-mapper';
+import { ElementType } from '../constants/element-type.const';
 
 export const CUSTOM_ITEM_MIN_ID = 1_000_000_000_000;
 export const CUSTOM_ITEM_MAX_ID = 9_000_000_000_000;
@@ -15,7 +16,7 @@ export const CUSTOM_ITEM_STORAGE_KEY = 'ro-custom-items-v1';
 
 export const CUSTOM_KINDS = [
   'weapon', 'leftWeapon', 'headUpper', 'headMiddle', 'headLower', 'armor', 'shield',
-  'garment', 'boot', 'accLeft', 'accRight', 'shadowWeapon', 'shadowArmor',
+  'garment', 'boot', 'accessory', 'accLeft', 'accRight', 'shadowWeapon', 'shadowArmor',
   'shadowShield', 'shadowBoot', 'shadowEarring', 'shadowPendant',
   'costumeUpper', 'costumeMiddle', 'costumeLower', 'costumeGarment',
   'card', 'enchant', 'costumeEnchantUpper', 'costumeEnchantMiddle',
@@ -26,7 +27,7 @@ export type CustomKind = typeof CUSTOM_KINDS[number];
 export const CUSTOM_KIND_LABELS: Record<CustomKind, string> = {
   weapon: 'Arma', leftWeapon: 'Arma secundária', headUpper: 'Topo', headMiddle: 'Meio', headLower: 'Baixo',
   armor: 'Armadura', shield: 'Escudo', garment: 'Capa', boot: 'Calçado', accLeft: 'Acessório esquerdo',
-  accRight: 'Acessório direito', shadowWeapon: 'Arma sombria', shadowArmor: 'Armadura sombria',
+  accessory: 'Acessório', accRight: 'Acessório direito', shadowWeapon: 'Arma sombria', shadowArmor: 'Armadura sombria',
   shadowShield: 'Escudo sombrio', shadowBoot: 'Calçado sombrio', shadowEarring: 'Brinco sombrio',
   shadowPendant: 'Colar sombrio', costumeUpper: 'Visual de topo', costumeMiddle: 'Visual de meio',
   costumeLower: 'Visual de baixo', costumeGarment: 'Visual de capa', card: 'Carta', enchant: 'Encantamento',
@@ -66,7 +67,7 @@ const SLOT_SUBTYPES: Record<string, number> = {
   weapon: 257, leftWeapon: 257, ammo: ItemSubTypeId.Arrow,
   headUpper: ItemSubTypeId.Upper, headMiddle: ItemSubTypeId.Upper, headLower: ItemSubTypeId.Upper,
   armor: ItemSubTypeId.Armor, shield: ItemSubTypeId.Shield, garment: ItemSubTypeId.Garment,
-  boot: ItemSubTypeId.Boot, accLeft: ItemSubTypeId.Acc_L, accRight: ItemSubTypeId.Acc_R,
+  boot: ItemSubTypeId.Boot, accessory: ItemSubTypeId.Acc, accLeft: ItemSubTypeId.Acc_L, accRight: ItemSubTypeId.Acc_R,
   shadowWeapon: ItemSubTypeId.ShadowWeapon, shadowArmor: ItemSubTypeId.ShadowArmor,
   shadowShield: ItemSubTypeId.ShadowShield, shadowBoot: ItemSubTypeId.ShadowBoot,
   shadowEarring: ItemSubTypeId.ShadowEarring, shadowPendant: ItemSubTypeId.ShadowPendant,
@@ -110,6 +111,11 @@ function itemTypeFor(kind: CustomKind): number {
 }
 
 export function inferCustomIcon(kind: CustomKind, subtype: number | null | undefined, catalog: Record<number, ItemModel>): number {
+  const representative: Partial<Record<CustomKind, number>> = {
+    headUpper: 2228, costumeUpper: 2228, headLower: 2265, costumeLower: 2265,
+    accessory: 2607, accLeft: 2607, accRight: 2607,
+  };
+  if (representative[kind]) return representative[kind]!;
   return Object.values(catalog).find((item) => !item.custom && item.itemTypeId === itemTypeFor(kind)
     && item.itemSubTypeId === (subtype ?? SLOT_SUBTYPES[kind] ?? 0))?.id
     ?? Object.values(catalog).find((item) => !item.custom && item.itemTypeId === itemTypeFor(kind))?.id
@@ -123,7 +129,7 @@ const CARD_POSITION_BY_KIND: Partial<Record<CustomKind, CardPosition>> = {
   weapon: CardPosition.Weapon, leftWeapon: CardPosition.Weapon,
   headUpper: CardPosition.Head, headMiddle: CardPosition.Head, headLower: CardPosition.Head,
   armor: CardPosition.Armor, shield: CardPosition.Shield, garment: CardPosition.Garment,
-  boot: CardPosition.Boot, accLeft: CardPosition.AccL, accRight: CardPosition.AccR,
+  boot: CardPosition.Boot, accessory: CardPosition.Acc, accLeft: CardPosition.AccL, accRight: CardPosition.AccR,
   shadowWeapon: CardPosition.Weapon, shadowArmor: CardPosition.Armor,
   shadowShield: CardPosition.Shield, shadowBoot: CardPosition.Boot,
   shadowEarring: CardPosition.AccL, shadowPendant: CardPosition.AccR,
@@ -286,7 +292,7 @@ export function validateCustomItems(raw: unknown, catalog: Record<number, ItemMo
     const kind = draft?.kind as CustomKind;
     if (!CUSTOM_KINDS.includes(kind)) errors.push({ path: `${path}.kind`, message: 'Tipo de item não reconhecido.' });
     const name = String(draft?.name ?? '').trim();
-    if (!name || name.length > 100) errors.push({ path: `${path}.name`, message: 'Informe um nome de até 100 caracteres.' });
+    if (!name) errors.push({ path: `${path}.name`, message: 'Informe um nome.' });
     const equip = customKindIsEquipment(kind);
     const subtype = Number(draft?.itemSubTypeId ?? SLOT_SUBTYPES[kind] ?? 0);
     if (WEAPON_KINDS.has(kind) && !(subtype in WeaponSubTypeNameMapById)) {
@@ -299,9 +305,12 @@ export function validateCustomItems(raw: unknown, catalog: Record<number, ItemMo
     for (const [field, min, max] of [
       ['itemSubTypeId', 0, 4096], ['itemLevel', 0, 5], ['attack', 0, 100000],
       ['baseMatk', 0, 100000], ['defense', 0, 100000], ['weight', 0, 100000],
-      ['propertyAtk', 0, 10], ['compositionPos', -1, 4096],
+      ['compositionPos', -1, 4096],
     ] as const) {
       if (draft?.[field] != null && draft[field] !== '') boundedInt(draft[field], min, max, `${path}.${field}`, errors);
+    }
+    if (draft?.propertyAtk != null && !Object.values(ElementType).includes(draft.propertyAtk)) {
+      errors.push({ path: `${path}.propertyAtk`, message: 'Escolha uma propriedade elemental da lista.' });
     }
     if (draft?.usableClass != null && (!Array.isArray(draft.usableClass)
       || draft.usableClass.some((value: unknown) => typeof value !== 'string' || value.length > 50))) {
@@ -337,7 +346,9 @@ export function validateCustomItems(raw: unknown, catalog: Record<number, ItemMo
       itemLevel: draft?.itemLevel ?? null, attack: draft?.attack ?? null,
       defense: draft?.defense ?? 0, weight: draft?.weight ?? 0,
       location: draft?.location ?? (kind === 'headMiddle' ? 'Middle' : kind === 'headLower' ? 'Lower' : kind === 'headUpper' ? 'Upper' : null),
-      compositionPos: draft?.compositionPos ?? null, usableClass: draft?.usableClass,
+      ...(Array.isArray(draft?.locations) ? { locations: [...draft.locations] } : {}),
+      ...(draft?.propertyAtk != null ? { propertyAtk: draft.propertyAtk } : {}),
+      compositionPos: draft?.compositionPos ?? null, usableClass: draft?.usableClass?.length ? draft.usableClass : undefined,
       isRefinable: Boolean(draft?.isRefinable), canGrade: Boolean(draft?.canGrade),
       script: structuredClone(script) as Record<string, ItemScriptValue>,
       custom: true, schemaVersion: 1, revision: Number(draft?.revision ?? 1), kind,
@@ -387,47 +398,77 @@ export function validateCustomItems(raw: unknown, catalog: Record<number, ItemMo
 }
 
 export function customItemDescription(item: CustomItemDefinition): string {
+  const position = (value: string) => value === 'me' ? 'este item' : CUSTOM_KIND_LABELS[value as CustomKind] ?? value;
+  const list = (value: string) => value.replace(/&&/g, ' e ').replace(/\|\|/g, ' ou ');
+  const stat = (value: string) => ({ level: 'nível de base', jobLevel: 'nível de classe' }[value] ?? bonusKeyLabel(value));
+  const skill = (value: string) => resolveSkillById(Number(value))?.name ?? value;
   const describe = (key: string, expression: string): string => {
     const label = bonusKeyLabel(key);
     const plain = expression.match(/^(-?\d+(?:\.\d+)?)$/);
     if (plain) return `${label} ${Number(plain[1]) >= 0 ? '+' : ''}${plain[1]}`;
     const exact = expression.match(/^(\d+)===(-?\d+(?:\.\d+)?)$/);
-    if (exact) return `No refino +${exact[1]}: ${label} ${Number(exact[2]) >= 0 ? '+' : ''}${exact[2]}`;
+    if (exact) return `A partir do refino +${exact[1]}: ${label} ${Number(exact[2]) >= 0 ? '+' : ''}${exact[2]}`;
     const step = expression.match(/^(\d+)---(-?\d+(?:\.\d+)?)$/);
     if (step) return `A cada ${step[1]} refino(s): ${label} ${Number(step[2]) >= 0 ? '+' : ''}${step[2]}`;
+    const statRule = expression.match(/^(level|jobLevel|str|agi|vit|int|dex|luk):(\d+)(?:\(([^)]+)\))?(---|===|&&)(.+)$/);
+    if (statRule) return `${statRule[4] === '---' ? 'A cada' : 'Com pelo menos'} ${statRule[2]} de ${stat(statRule[1])}${statRule[3] ? ' (faixa ' + statRule[3] + ')' : ''}: ${describe(key, statRule[5])}`;
+    const scale = expression.match(/^(REFINE|REFINE_NAME|SUM|GVALUE|SKILL_ID|LEARN_SKILL)\[(.+)==(\d+)(?:\((\d+)\))?]---(.+)$/);
+    if (scale) {
+      const subject = scale[1] === 'SUM' ? `soma de ${scale[2].split(',').map(stat).join(' + ')}`
+        : scale[1] === 'SKILL_ID' || scale[1] === 'LEARN_SKILL' ? `níveis de ${skill(scale[2])}`
+        : scale[1] === 'GVALUE' ? `graus de ${position(scale[2])}`
+        : `refinos de ${scale[2].split(',').map(position).join(' + ')}`;
+      return `A cada ${scale[3]} ${subject}${scale[4] ? ' (até ' + scale[4] + ')' : ''}: ${describe(key, scale[5])}`;
+    }
+    const refineFrom = expression.match(/^REFINE_FROM\[(\d+)]---(.+)$/);
+    if (refineFrom) return `A cada refino a partir de +${refineFrom[1]}: ${describe(key, refineFrom[2])}`;
     const combo = expression.match(/^EQUIP_ID\[([^\]]+)](?:===)?(-?\d+(?:\.\d+)?)$/);
-    if (combo) return `Com item(ns) ${combo[1]}: ${label} ${Number(combo[2]) >= 0 ? '+' : ''}${combo[2]}`;
-    const conditions: string[] = [];
-    let tail = expression;
+    if (combo) return `Com item(ns) ${list(combo[1])}: ${label} ${Number(combo[2]) >= 0 ? '+' : ''}${combo[2]}`;
     const simpleConditions: [RegExp, (value: string) => string][] = [
       [/^REFINE\[(\d+)]/, (n) => `refino mínimo +${n}`],
-      [/^GRADE\[me==([DCBA])]/, (grade) => `grau ${grade} ou superior`],
+      [/^GRADE\[([^\]]+)]/, (value) => { const [slot, grade] = value.split('=='); return `${position(slot)} no grau ${grade} ou superior`; }],
+      [/^GRADES\[([^\]]+)]/, (value) => value.split('&&').map((entry) => { const [slot, grade] = entry.split('=='); return `${position(slot)} no grau ${grade} ou superior`; }).join(' e ')],
+      [/^REFINE\[([^\]]+)]/, (value) => { const [slots, threshold] = value.split('=='); return `soma dos refinos de ${slots.split(',').map(position).join(' + ')} de pelo menos ${threshold}`; }],
       [/^LEVEL\[([^\]]+)]/, (range) => `nível ${range}`],
-      [/^LOYALTY\[([1-4])]/, (tier) => `lealdade ${tier}`],
-      [/^EQUIP_ID\[([^\]]+)]/, (ids) => `equipado com ID ${ids}`],
-      [/^SKILL_ID\[(\d+==\d+)]/, (skill) => `perícia ${skill}`],
-      [/^ACTIVE_SKILL_ID\[(\d+)]/, (skill) => `perícia ativa ${skill}`],
+      [/^LOYALTY\[([1-4])]/, (tier) => `lealdade ${['', 'baixa', 'nenhuma', 'normal', 'alta'][Number(tier)]}`],
+      [/^EQUIP_ID\[([^\]]+)]/, (ids) => `equipado com ID ${list(ids)}`],
+      [/^EQUIP\[([^\]]+)]/, (names) => `equipado com ${list(names)}`],
+      [/^SKILL_ID2?\[([^\]]+)]/, (value) => { const [id, level] = value.split('=='); return `${skill(id)} aprendida no nível ${level} ou superior`; }],
+      [/^LEARN_SKILL2?\[([^\]]+)]/, (value) => { const [name, level] = value.split('=='); return `${name} aprendida no nível ${level} ou superior`; }],
+      [/^ACTIVE_SKILL_ID\[(\d+)]/, (id) => `habilidade ${skill(id)} ativa`],
+      [/^ACTIVE_SKILL\[([^\]]+)]/, (name) => `habilidade ${name} ativa`],
       [/^WEAPON_TYPE\[([^\]]+)]/, (type) => `arma ${type}`],
       [/^AMMO_SUBTYPE\[([^\]]+)]/, (type) => `munição ${type}`],
-      [/^POS\[([^\]]+)]/, (position) => `posição ${position}`],
+      [/^POS\[([^\]]+)]/, (slot) => `posição ${position(slot)}`],
+      [/^POS_SPECIFIC\[([^\]]+)]/, (value) => { const [slot, name] = value.split('=='); return `${name} em ${position(slot)}`; }],
+      [/^ITEM_LV\[([^\]]+)]/, (value) => { const [slot, level] = value.split('=='); return `${position(slot)} de nível ${level}`; }],
+      [/^WEAPON_LEVEL\[([^\]]+)]/, (level) => `arma de nível ${level}`],
+      [/^\[weaponType=([^\]]+)]/, (type) => `arma do tipo ${type}`],
+      [/^XREFINEX\[([^\]]+)]/, (value) => { const [slot, level] = value.split('=='); return `${position(slot)} no refino +${level} ou superior`; }],
+      [/^SUM\[([^\]]+)]/, (value) => { const [stats, threshold] = value.split('=='); return `soma de ${stats.split(',').map(stat).join(' + ')} de pelo menos ${threshold}`; }],
       [/^SPAWN\[([^\]]+)]/, (map) => `mapa ${map}`],
       [/^UNTIL\[([^\]]+)]/, (date) => `até ${date}`],
-      [/^USED\[([^\]]+)]/, (name) => `classe ${name}`],
+      [/^USED\[([^\]]+)]/, (name) => `classe ${list(name)}`],
     ];
-    for (let i = 0; i < 8 && tail; i++) {
-      const found = simpleConditions.find(([pattern]) => pattern.test(tail));
-      if (!found) break;
-      const match = tail.match(found[0])!;
-      conditions.push(found[1](match[1]));
-      tail = tail.slice(match[0].length);
+    const condition = simpleConditions.find(([pattern]) => pattern.test(expression));
+    if (condition) {
+      const match = expression.match(condition[0])!;
+      return `${condition[1](match[1])}: ${describe(key, expression.slice(match[0].length).replace(/^===/, ''))}`;
     }
-    const numeric = tail.match(/^(?:===)?(-?\d+(?:\.\d+)?)$/);
-    if (conditions.length && numeric) return `${conditions.join(' e ')}: ${label} ${Number(numeric[1]) >= 0 ? '+' : ''}${numeric[1]}`;
-    return `${label}: ${expression}`;
+    const annotatedValue = expression.match(/^(.+\d)\(([^)]+)\)$/);
+    if (annotatedValue) return `${describe(key, annotatedValue[1])} (${annotatedValue[2]})`;
+    return `${label}: efeito condicional sem descrição disponível. Consulte o editor Script.`;
   };
   const rows = itemBonusScriptEntries(item.script).flatMap(([key, values]) => values.map((value) => describe(key, value)));
   for (const effect of (item.script['autoCast'] ?? []) as any[]) {
-    rows.push(`Autoconjuração da habilidade ${effect.skillId} (${effect.trigger}), nível ${effect.skillLevel?.join('/')}, chance ${effect.chance?.join('/')}.`);
+    const trigger = ({
+      'physical-attack': 'ao atacar fisicamente', 'physical-hit': 'ao acertar um ataque físico',
+      'melee-physical-attack': 'ao atacar corpo a corpo', 'melee-physical-hit': 'ao acertar corpo a corpo',
+      'ranged-physical-hit': 'ao acertar à distância', 'magic-attack': 'ao atacar com magia',
+    } as Record<string, string>)[effect.trigger] ?? 'gatilho automático';
+    rows.push(`Autoconjuração de ${skill(String(effect.skillId))} ${trigger}.`);
+    rows.push(...(effect.skillLevel ?? []).map((line: string) => describe('Nível', line)),
+      ...(effect.chance ?? []).map((line: string) => describe('Chance %', line)));
   }
   for (const effect of (item.script['autoCastEffect'] ?? []) as any[]) {
     rows.push(`Efeito automático ${effect.label}: chance ${effect.chance}%, duração ${effect.durationSeconds}s.`);

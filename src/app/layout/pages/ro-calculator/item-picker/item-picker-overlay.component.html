@@ -26,7 +26,8 @@
 
   <button *ngIf="createKind" type="button" tabindex="-1" class="picker__row picker__row--create"
     [class.picker__row--active]="active === -2" (mouseenter)="hover(-2)" (click)="choose(-2)">
-    <span class="picker__label">✦ Criar item personalizado</span>
+    <span class="picker__icon"><img [src]="512 | iconUrl: 'item'" alt="" missingIcon /></span>
+    <span class="picker__label">Criar item personalizado</span>
   </button>
 
   <!-- Outside the scroller so clearing is always one click away, however long the list. -->

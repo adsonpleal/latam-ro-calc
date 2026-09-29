@@ -3,7 +3,8 @@ import { readFileSync } from 'node:fs';
 import { createMainModel } from 'src/app/utils';
 import { makeCalculator, equipStatusOf } from './__tests__/make-calculator';
 import { CustomItemLibrary, decodeCustomBundle, encodeCustomBundle } from './custom-item-library';
-import { CUSTOM_ITEM_MIN_ID, validateCustomItems, validateScript } from './custom-items';
+import { CUSTOM_ITEM_MIN_ID, customItemDescription, inferCustomIcon, validateCustomItems, validateScript } from './custom-items';
+import { classifyItem } from '../../../mcp/src/data/slot-classifier';
 
 const ARMOR = CUSTOM_ITEM_MIN_ID + 101;
 const CARD = CUSTOM_ITEM_MIN_ID + 102;
@@ -11,6 +12,39 @@ const draft = (id: number, name: string, kind = 'armor', script: Record<string, 
   ({ id, name, kind, script, cardCapacity: kind === 'armor' ? 1 : 0, enchantCapacity: 0, baCapacity: kind === 'armor' ? 5 : 0 });
 
 describe('custom item batches', () => {
+  it('describes combined conditions and scaling without exposing raw expressions', () => {
+    const item = validateCustomItems([draft(ARMOR, 'Teste', 'armor', {
+      atk: ['GRADE[me==A]REFINE[weapon,headUpper==2]---5', 'str:10---2', 'LOYALTY[4]7===5'],
+    })]).items[0];
+    const description = customItemDescription(item);
+    expect(description).toContain('este item no grau A ou superior: A cada 2 refinos de Arma + Topo: ATQ +5');
+    expect(description).toContain('A cada 10 de FOR: ATQ +2');
+    expect(description).toContain('lealdade alta: A partir do refino +7: ATQ +5');
+    expect(description).not.toMatch(/===|---|GRADE\[|REFINE\[/);
+  });
+
+  it('allows long names and retains element, head occupancy and unrestricted classes', () => {
+    const name = 'Item personalizado '.repeat(30);
+    const result = validateCustomItems([{ ...draft(ARMOR, name, 'headUpper'), propertyAtk: 'Fire',
+      locations: ['Upper', 'Middle'], usableClass: [] }]);
+    expect(result.errors).toEqual([]);
+    expect(result.items[0]).toMatchObject({ name: name.trim(), propertyAtk: 'Fire', locations: ['Upper', 'Middle'] });
+    expect(result.items[0].usableClass).toBeUndefined();
+    expect(validateCustomItems([{ ...draft(ARMOR, 'Teste'), propertyAtk: 'invalid' }]).errors)
+      .toEqual(expect.arrayContaining([expect.objectContaining({ path: 'items[0].propertyAtk' })]));
+  });
+
+  it('creates an accessory for both sides and uses representative icons', () => {
+    const result = validateCustomItems([draft(ARMOR, 'Presilha personalizada', 'accessory')]);
+    expect(result.errors).toEqual([]);
+    expect(result.items[0]).toMatchObject({ itemSubTypeId: 517, iconItemId: 2607 });
+    expect(classifyItem(result.items[0])).toEqual(['accLeft', 'accRight']);
+    expect(inferCustomIcon('accLeft', undefined, {})).toBe(2607);
+    expect(inferCustomIcon('accRight', undefined, {})).toBe(2607);
+    expect(inferCustomIcon('headUpper', undefined, {})).toBe(2228);
+    expect(inferCustomIcon('headLower', undefined, {})).toBe(2265);
+  });
+
   it('can copy mapped official scripts without losing legacy clauses', () => {
     const official = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
     const invalid = Object.values<any>(official).flatMap((item) => validateScript(item.script ?? {})

@@ -166,6 +166,14 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.154-beta',
+      date: '29-09-2026',
+      logs: [
+        'Meus itens e o criador de itens personalizados agora seguem os componentes do simulador, com altura fixa e fechamento ao clicar fora. Slots e BAs usam os mesmos seletores de equipamentos, com busca, ícones e limites compartilhados entre cartas e encantamentos.',
+        'O criador ganhou buscas de tipo, arma, elemento e classes, ícones automáticos por posição e a categoria Acessório para uso em qualquer lado. A prévia exibe a descrição interpretada; a troca entre Visual e JSON foi corrigida e os nomes não têm mais limite de 100 caracteres. Melhorias no recurso solicitado por EliteTK.',
+      ],
+    },
+    {
       v: '0.1.153-beta',
       date: '28-09-2026',
       logs: [
