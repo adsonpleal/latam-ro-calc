@@ -172,6 +172,7 @@ export class AppTopBarComponent implements OnDestroy {
         'A Batalha agora guarda o Acúm. em cada espaço da rotação: a mesma habilidade pode aparecer mais de uma vez com quantidades diferentes. Reportado por BeLL.',
         'As quatro Insígnias no alvo podem ser selecionadas juntas. Determinação entrou para Cavaleiros Draconianos, com bônus de ataques básicos e contra Humanoides e Anjos. Bomba Relógio e as quatro armadilhas ofensivas do Falcão do Vento entraram no cálculo, conforme as fórmulas da bROWiki. Armadilhas reportadas por TrapBoom!.',
         'Gemini Lumen pode ser escolhida em Mimetismo, com suas duas luzes na Auto-conjuração. Fenda do Abismo entra como fonte de Auto-conjuração com Invocação ativa, e Amplificação Mística permite escolher o nível 5.',
+        'A explosão da Flecha Escarlate agora usa o dano base que o servidor LATAM aplica: 2.000% no nível 5, mais o bônus de FEI. A gravação com apenas Cetro do Éden III e Maestria Arcana fechou exatamente os dois danos (68.402 na flecha e 95.362 na explosão); a gravação equipada também ficou dentro de 0,002%. Gravações por Pazzolino.',
       ],
     },
     {
