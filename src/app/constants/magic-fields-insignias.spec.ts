@@ -154,26 +154,38 @@ describe('a field adds to the property modifier of its own element', () => {
 });
 
 describe('an Insígnia under the target: +50% from the element it is weak to', () => {
-  it('is a debuff picker of its own', () => {
-    expect(buff('_Sorcerer_Insignia_Target')).toMatchObject({ label: 'Insígnia no alvo', isDebuff: true });
+  it('offers four independent debuffs', () => {
+    for (let i = 1; i <= 4; i++) {
+      expect(buff(`_Sorcerer_Insignia_Target_${i}`)).toMatchObject({ isDebuff: true });
+    }
   });
 
   it.each([
-    { insignia: 'Fogo (dano de Água +50%)', hits: WATER_SKILL, misses: FIRE_SKILL },
-    { insignia: 'Água (dano de Vento +50%)', hits: WIND_SKILL, misses: WATER_SKILL },
-    { insignia: 'Vento (dano de Terra +50%)', hits: EARTH_SKILL, misses: WIND_SKILL },
-    { insignia: 'Terra (dano de Fogo +50%)', hits: FIRE_SKILL, misses: EARTH_SKILL },
-  ])('$insignia', ({ insignia, hits, misses }) => {
-    const buffs = { _Sorcerer_Insignia_Target: insignia };
+    { index: 1, label: 'Sim (dano de Água +50%)', hits: WATER_SKILL, misses: FIRE_SKILL },
+    { index: 2, label: 'Sim (dano de Vento +50%)', hits: WIND_SKILL, misses: WATER_SKILL },
+    { index: 3, label: 'Sim (dano de Terra +50%)', hits: EARTH_SKILL, misses: WIND_SKILL },
+    { index: 4, label: 'Sim (dano de Fogo +50%)', hits: FIRE_SKILL, misses: EARTH_SKILL },
+  ])('Insígnia $index', ({ index, label, hits, misses }) => {
+    const buffs = { [`_Sorcerer_Insignia_Target_${index}`]: label };
 
     expect(simulate({ skill: hits, buffs }).skillPropertyMultiplier).toBe(1.5);
     expect(simulate({ skill: misses, buffs }).skillPropertyMultiplier).toBe(1);
   });
 
   it('stacks with a field of the same element', () => {
-    const buffs = { _Sorcerer_Insignia_Target: 'Fogo (dano de Água +50%)', _Sage_Field: 'Dilúvio Nv 5' };
+    const buffs = { _Sorcerer_Insignia_Target_1: 'Sim (dano de Água +50%)', _Sage_Field: 'Dilúvio Nv 5' };
 
     expect(simulate({ skill: WATER_SKILL, buffs }).skillPropertyMultiplier).toBe(1.7);
+  });
+
+  it('allows all four target debuffs at once', () => {
+    const buffs = Object.fromEntries([1, 2, 3, 4].map((i) => {
+      const name = `_Sorcerer_Insignia_Target_${i}`;
+      return [name, buff(name).dropdown[1].label];
+    }));
+    for (const skill of [WATER_SKILL, WIND_SKILL, EARTH_SKILL, FIRE_SKILL]) {
+      expect(simulate({ skill, buffs }).skillPropertyMultiplier).toBe(1.5);
+    }
   });
 
   it('shows both in the element table column, next to the other resist reductions', () => {

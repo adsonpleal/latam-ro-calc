@@ -35,8 +35,8 @@ export class RotationListComponent {
   @Input() isInProcessingPreset = false;
   /** Total damage of one cycle, for the contribution tooltip. */
   @Input() damagePerCycle = 0;
-  @Output() rotationChange = new EventEmitter<string[]>();
-  @Output() stackChange = new EventEmitter<{ name: string; stack: number }>();
+  @Output() rotationChange = new EventEmitter<{ rotation: string[]; stacks: number[] }>();
+  @Output() stackChange = new EventEmitter<{ index: number; stack: number }>();
   @Output() optimizeClick = new EventEmitter<void>();
   @Output() clearClick = new EventEmitter<void>();
   @Output() detailsClick = new EventEmitter<{ index: number; event: Event }>();
@@ -145,7 +145,9 @@ export class RotationListComponent {
     if (event.previousIndex === event.currentIndex) return;
     const next = this.rotation.slice();
     moveItemInArray(next, event.previousIndex, event.currentIndex);
-    this.rotationChange.emit(next);
+    const stacks = this.entries.map((entry) => entry.stackCount);
+    moveItemInArray(stacks, event.previousIndex, event.currentIndex);
+    this.rotationChange.emit({ rotation: next, stacks });
   }
 
   /**
@@ -160,14 +162,18 @@ export class RotationListComponent {
 
     const next = this.rotation.slice();
     moveItemInArray(next, index, target);
+    const stacks = this.entries.map((entry) => entry.stackCount);
+    moveItemInArray(stacks, index, target);
     this.moveAnnouncement = `${this.entries[index]?.name ?? 'Habilidade'} movida para a posição ${target + 1} de ${next.length}`;
-    this.rotationChange.emit(next);
+    this.rotationChange.emit({ rotation: next, stacks });
   }
 
   remove(index: number) {
     const next = this.rotation.slice();
     next.splice(index, 1);
-    this.rotationChange.emit(next);
+    const stacks = this.entries.map((entry) => entry.stackCount);
+    stacks.splice(index, 1);
+    this.rotationChange.emit({ rotation: next, stacks });
   }
 
   /**
@@ -210,7 +216,9 @@ export class RotationListComponent {
 
   commitAdding(value: string) {
     if (!value) return this.cancelAdding();
-    this.rotationChange.emit([...this.rotation, value]);
+    const skill = this.atkSkills.find((entry) => entry.value === value || entry.values?.includes(value) || entry.levelList?.some((level) => level.value === value));
+    const defaultStack = skill?.defaultStack ?? skill?.maxStack ?? 0;
+    this.rotationChange.emit({ rotation: [...this.rotation, value], stacks: [...this.entries.map((entry) => entry.stackCount), defaultStack] });
     this.cancelAdding();
   }
 
@@ -219,7 +227,7 @@ export class RotationListComponent {
     if (!value || this.rotation[index] === value) return;
     const next = this.rotation.slice();
     next[index] = value;
-    this.rotationChange.emit(next);
+    this.rotationChange.emit({ rotation: next, stacks: this.entries.map((entry) => entry.stackCount) });
   }
 
   /** The compared build's entry at the same position, when the two line up. */

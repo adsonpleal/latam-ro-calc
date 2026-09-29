@@ -166,6 +166,15 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.153-beta',
+      date: '28-09-2026',
+      logs: [
+        'A Batalha agora guarda o Acúm. em cada espaço da rotação: a mesma habilidade pode aparecer mais de uma vez com quantidades diferentes. Reportado por BeLL.',
+        'As quatro Insígnias no alvo podem ser selecionadas juntas. Determinação entrou para Cavaleiros Draconianos, com bônus de ataques básicos e contra Humanoides e Anjos. Bomba Relógio e as quatro armadilhas ofensivas do Falcão do Vento entraram no cálculo, conforme as fórmulas da bROWiki. Armadilhas reportadas por TrapBoom!.',
+        'Gemini Lumen pode ser escolhida em Mimetismo, com suas duas luzes na Auto-conjuração. Fenda do Abismo entra como fonte de Auto-conjuração com Invocação ativa, e Amplificação Mística permite escolher o nível 5.',
+      ],
+    },
+    {
       v: '0.1.152-beta',
       date: '27-09-2026',
       logs: [

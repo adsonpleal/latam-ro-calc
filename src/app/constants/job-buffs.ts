@@ -431,11 +431,12 @@ const JobBuffsList: ActiveSkillModel[] = [
   SwingDanceFn(),
   {
     name: 'Mystical Amplification',
-    label: 'Ampl. Mística 10',
-    inputType: 'selectButton',
+    label: 'Amplificação Mística',
+    inputType: 'dropdown',
     dropdown: [
-      { label: 'Sim', isUse: true, value: 1, bonus: { mysticAmp: 50 } },
-      { label: 'Não', isUse: false, value: 0 },
+      { label: '-', isUse: false, value: 0 },
+      { label: 'Nv 5', isUse: true, value: 5, bonus: { mysticAmp: 25 } },
+      { label: 'Nv 10', isUse: true, value: 1, bonus: { mysticAmp: 50 } },
     ],
   },
   {
@@ -613,25 +614,24 @@ const JobBuffsList: ActiveSkillModel[] = [
       { label: 'Não', isUse: false, value: 0 },
     ],
   },
-  {
-    // A target standing in an Insígnia, at any level, takes +50% damage from the element its
-    // own element is weak to: Fogo → Água, Água → Vento, Vento → Terra, Terra → Fogo
-    // ("Qualquer alvo na área receberá 50% a mais de dano físico ou mágico de Água"). rAthena
-    // adds 50 to the property modifier (`tsc … ratio += 50`), with no boss exclusion; bROWiki
-    // adds it applies to the caster too. Tracker card 7eJx6XNmTPFTuRdYzv4L.
-    name: '_Sorcerer_Insignia_Target',
-    label: 'Insígnia no alvo',
-    icon: 2465,
-    inputType: 'dropdown',
+  // Each Insígnia under the target can be selected independently. The legacy single
+  // picker is migrated in setSkillModelArray when an older build is loaded.
+  ...([
+    ['Fogo', 2465, 'fireInsigniaOnTarget', 'Água'],
+    ['Água', 2466, 'waterInsigniaOnTarget', 'Vento'],
+    ['Vento', 2467, 'windInsigniaOnTarget', 'Terra'],
+    ['Terra', 2468, 'earthInsigniaOnTarget', 'Fogo'],
+  ] as const).map(([element, icon, bonusKey, weakTo], index) => ({
+    name: `_Sorcerer_Insignia_Target_${index + 1}` as ActiveSkillModel['name'],
+    label: `Insígnia de ${element} no alvo`,
+    icon,
+    inputType: 'selectButton' as const,
     isDebuff: true,
     dropdown: [
-      { label: '-', isUse: false, value: 0 },
-      { label: 'Fogo (dano de Água +50%)', isUse: true, value: 1, icon: 2465, bonus: { fireInsigniaOnTarget: 50 } },
-      { label: 'Água (dano de Vento +50%)', isUse: true, value: 2, icon: 2466, bonus: { waterInsigniaOnTarget: 50 } },
-      { label: 'Vento (dano de Terra +50%)', isUse: true, value: 3, icon: 2467, bonus: { windInsigniaOnTarget: 50 } },
-      { label: 'Terra (dano de Fogo +50%)', isUse: true, value: 4, icon: 2468, bonus: { earthInsigniaOnTarget: 50 } },
+      { label: 'Não', isUse: false, value: 0 },
+      { label: `Sim (dano de ${weakTo} +50%)`, isUse: true, value: 1, bonus: { [bonusKey]: 50 } },
     ],
-  },
+  })),
   {
     // Gravitação (Gravitational Field) — the debuff Ground Gravitation (HN_GROUND_GRAVITATION)
     // leaves on the target: it takes +10% physical AND magical damage (rAthena battle.cpp:
