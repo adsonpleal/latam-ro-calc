@@ -12,6 +12,7 @@ import { buildSharePath, readShareToken } from 'src/app/core/share-path';
 import { CharacterBase } from 'src/app/jobs/_character-base.abstract';
 import { MainModel } from 'src/app/models/main.model';
 import { toUpsertPresetModel } from 'src/app/utils';
+import { CustomItemDefinition } from 'src/app/core/custom-items';
 
 /** Legacy form, kept for links minted before the token moved into the path. */
 const TOKEN_IN_URL = /[?&]b=([^&#\s]+)/;
@@ -19,14 +20,15 @@ const TOKEN_IN_URL = /[?&]b=([^&#\s]+)/;
 export interface DecodedShare {
   preset: Record<string, any>;
   compare: CompareState | null;
+  items?: CustomItemDefinition[];
 }
 
 /** A build as the app serializes it for saving/sharing. */
 export const toPreset = (model: MainModel, char: CharacterBase): Record<string, any> =>
   toUpsertPresetModel(model, char) as unknown as Record<string, any>;
 
-export const buildShareUrl = (preset: Record<string, any>, appOrigin: string, compare?: CompareState | null): string =>
-  `${appOrigin.replace(/\/+$/, '')}${buildSharePath(encodeBuild(preset, compare))}`;
+export const buildShareUrl = (preset: Record<string, any>, appOrigin: string, compare?: CompareState | null, items?: CustomItemDefinition[]): string =>
+  `${appOrigin.replace(/\/+$/, '')}${buildSharePath(encodeBuild(preset, compare, items))}`;
 
 /**
  * Accepts a full URL in either form (`/s/<token>/` or the legacy `#/?b=…`), a bare

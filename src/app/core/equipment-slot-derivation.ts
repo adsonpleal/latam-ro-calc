@@ -3,6 +3,7 @@ import { getEnchants, getMalangdoEnchants, getMoraEnchants, getVerusEnchants } f
 import { ExtraOptionTable } from '../constants/extra-option-table';
 import { DropdownModel } from '../models/dropdown.model';
 import { ItemModel } from '../models/item.model';
+import { isCustomItem } from './custom-items';
 import { createNumberDropdownList } from '../utils/create-number-dropdown-list';
 import { getGradeList } from '../utils/to-grade-list';
 
@@ -14,6 +15,7 @@ import { getGradeList } from '../utils/to-grade-list';
  * why none of it was ever tested. Framework-free here so it can be.
  */
 export interface SlotDerivation {
+  custom?: { cards: number; enchants: number; bas: number };
   /** Card chips to draw — the item's sockets, clamped to the fields the slot has. */
   cardSlots: number;
   /** Aligned with `descriptor.enchantFields`. `null` where the slot exposes no position. */
@@ -91,6 +93,16 @@ const optionSlotsFor = (descriptor: EquipmentSlotDescriptor, item: ItemModel | u
 
 export function deriveSlot(input: DeriveSlotInput): SlotDerivation {
   const { descriptor, item, mapEnchant } = input;
+  if (isCustomItem(item)) {
+    return {
+      custom: { cards: item.cardCapacity, enchants: item.enchantCapacity, bas: item.baCapacity },
+      cardSlots: 0,
+      enchantLists: descriptor.enchantFields.map(() => null),
+      gradeList: item.canGrade ? GRADE_OPTIONS : [],
+      refineList: item.isRefinable ? (descriptor.group === 'shadow' ? input.shadowRefineList : input.refineList) : [],
+      optionSlots: 0,
+    };
+  }
   const { id, aegisName, name, canGrade, slots } = item ?? ({} as ItemModel);
 
   // Verus matches by id because several pieces have Korean aegis names, and the

@@ -9,6 +9,8 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { loadDatasetFromDisk } from '../data/dataset.node';
 import { createMcpServer } from '../mcp-server';
+import { decodeCustomBundle } from 'src/app/core/custom-item-library';
+import { CUSTOM_ITEM_MIN_ID } from 'src/app/core/custom-items';
 
 const dataset = loadDatasetFromDisk();
 let client: Client;
@@ -33,7 +35,9 @@ describe('tool surface', () => {
       [
         'calculate',
         'compare_builds',
+        'create_custom_items',
         'damage_table',
+        'get_custom_item_schema',
         'get_item',
         'get_monster',
         'item_description',
@@ -45,8 +49,46 @@ describe('tool surface', () => {
         'search_items',
         'search_monsters',
         'share_link',
+        'validate_custom_items',
       ].sort(),
     );
+  });
+});
+
+describe('custom item tools', () => {
+  const first = CUSTOM_ITEM_MIN_ID + 500;
+  const second = CUSTOM_ITEM_MIN_ID + 501;
+  const items = [
+    { id: first, name: 'Espada MCP', kind: 'weapon', itemSubTypeId: 257, itemLevel: 5, attack: 100,
+      script: { atk: [`EQUIP_ID[${second}]20`] } },
+    { id: second, name: 'Carta MCP', kind: 'card', script: { cri: ['5'] } },
+  ];
+
+  it('validates and returns one portable link for a forward-reference batch', async () => {
+    const validated = await call('validate_custom_items', { items });
+    expect(validated.data.valid).toBe(true);
+    const created = await call('create_custom_items', { items });
+    expect(created.data.valid).toBe(true);
+    const token = new URL(created.data.url).hash.split('customItem=')[1];
+    expect(decodeCustomBundle(token).map((item) => item.id)).toEqual([first, second]);
+  });
+
+  it('rejects a broken member without returning a partial link', async () => {
+    const result = await call('create_custom_items', { items: [items[0], { ...items[1], script: { madeUp: ['1'] } }] });
+    expect(result.isError).toBe(true);
+    expect(result.data.valid).toBe(false);
+    expect(result.data.errors[0].path).toContain('items[1]');
+    expect(result.data.url).toBeUndefined();
+  });
+
+  it('uses request-local definitions in calculation and carries them into share links', async () => {
+    const build = { class: 4257, level: 200, jobLevel: 50, stats: { dex: 130 },
+      gear: { weapon: first }, atkSkill: 'Focused Arrow Strike==5', customItems: items };
+    const calculated = await call('calculate', { build });
+    expect(calculated.isError).toBe(false);
+    expect(calculated.data.share).toContain('/s/');
+    const fromShare = await call('calculate', { build: { share: calculated.data.share } });
+    expect(fromShare.isError).toBe(false);
   });
 });
 

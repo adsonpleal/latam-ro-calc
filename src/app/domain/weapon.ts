@@ -164,7 +164,7 @@ export class Weapon {
     this._propertyAtk = propertyAtk;
     this._baseWeaponAtk = attack || 0;
     this._weight = weight || 0;
-    this._baseWeaponMatk = Number(script?.['matk']?.[0]) || 0;
+    this._baseWeaponMatk = itemData?.custom ? Number(itemData.baseMatk) || 0 : Number(script?.['matk']?.[0]) || 0;
     this._itemSubTypeId = itemSubTypeId;
     this._baseWeaponLevel = itemLevel || 0;
     this._typeName = WeaponTypeNameMapBySubTypeId[itemSubTypeId];

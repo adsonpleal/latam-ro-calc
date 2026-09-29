@@ -19,12 +19,14 @@
  */
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
 import { CompareState, sanitizeCompareState } from './compare-state';
+import { CUSTOM_ITEM_LIMIT, CustomItemDefinition, isCustomItem } from './custom-items';
 
 /** Identity fields kept even when they equal a default, so a token is never empty. */
 const ALWAYS_KEEP = new Set(['class', 'level', 'jobLevel']);
 
 /** Reserved key holding the comparison. Not a model field, so no build can collide with it. */
 const COMPARE_KEY = '__cmp';
+const ITEMS_KEY = '__customItems';
 
 const isEmpty = (value: unknown): boolean => {
   if (value === undefined || value === null || value === 0 || value === '') return true;
@@ -37,6 +39,7 @@ const isEmpty = (value: unknown): boolean => {
 export interface SharedBuild {
   preset: Record<string, any>;
   compare: CompareState | null;
+  items?: CustomItemDefinition[];
 }
 
 /**
@@ -56,8 +59,9 @@ export const dropDefaults = (source: Record<string, any> | null | undefined, alw
  *  lz-string's URI-safe output still contains '+', which a query string decodes
  *  to a space; we map '+'<->'.' ('.' is unreserved and never emitted by lz-string)
  *  so the token survives intact inside the '?b=' hash-query value. */
-export const encodeBuild = (preset: Record<string, any>, compare?: CompareState | null): string => {
+export const encodeBuild = (preset: Record<string, any>, compare?: CompareState | null, items?: CustomItemDefinition[]): string => {
   const delta = dropDefaults(preset, ALWAYS_KEEP);
+  if (items?.length) delta[ITEMS_KEY] = items;
   // Short keys: the comparison rides in every compared build's URL, so its own
   // field names are worth compressing away.
   if (compare?.itemNames?.length || compare?.stats || compare?.autoCast) {
@@ -80,15 +84,19 @@ export const decodeShared = (token: string | null | undefined, maxJsonChars?: nu
   try {
     const json = decompressFromEncodedURIComponent(token.replace(/\./g, '+'));
     if (!json) return null;
-    if (maxJsonChars != null && json.length > maxJsonChars) return null;
+    if (json.length > (maxJsonChars ?? 512 * 1024)) return null;
     const obj = JSON.parse(json);
     if (!obj || typeof obj !== 'object') return null;
 
     const raw = obj[COMPARE_KEY];
     delete obj[COMPARE_KEY];
+    if (obj[ITEMS_KEY] != null && (!Array.isArray(obj[ITEMS_KEY]) || obj[ITEMS_KEY].length > CUSTOM_ITEM_LIMIT
+      || !obj[ITEMS_KEY].every(isCustomItem))) return null;
+    const customItems = Array.isArray(obj[ITEMS_KEY]) ? obj[ITEMS_KEY] as CustomItemDefinition[] : undefined;
+    delete obj[ITEMS_KEY];
     const compare = raw && typeof raw === 'object' ? sanitizeCompareState({ itemNames: raw.i, model2: raw.m, stats: raw.s === 1, autoCast: raw.a === 1 }) : null;
 
-    return { preset: obj, compare };
+    return { preset: obj, compare, items: customItems };
   } catch (error) {
     console.error(error);
     return null;

@@ -11,6 +11,7 @@ import { PresetModel } from '../api-services/models/preset-model';
 import { StorageLike } from './calc-storage';
 import { CompareState } from './compare-state';
 import { PlayerTargetProfile } from './pvp';
+import { CustomItemDefinition } from './custom-items';
 
 const SAVES_KEY = 'ro-saves';
 
@@ -32,6 +33,7 @@ export interface SavedSimulation {
    * load. Absent on sims saved without a comparison (or before this feature).
    */
   compare?: CompareState;
+  customItems?: CustomItemDefinition[];
 }
 
 const newId = (): string => {
@@ -70,6 +72,7 @@ export class SavedSimulationStore {
     preset: PresetModel,
     targetProfile?: PlayerTargetProfile,
     compare?: CompareState | null,
+    customItems?: CustomItemDefinition[],
   ): SavedSimulation {
     const trimmed = name.trim();
     const n = trimmed.toLowerCase();
@@ -83,6 +86,7 @@ export class SavedSimulationStore {
       preset,
       targetProfile,
       compare: compare ?? undefined,
+      customItems,
     };
     const next = existing ? list.map((s) => (s.id === existing.id ? entry : s)) : [entry, ...list];
     this.writeAll(next);
@@ -104,6 +108,17 @@ export class SavedSimulationStore {
 
   remove(id: string): void {
     this.writeAll(this.list().filter((s) => s.id !== id));
+  }
+
+  invalidateProfilesForItem(id: number): void {
+    const list = this.list();
+    let changed = false;
+    for (const save of list) {
+      if (!save.customItems?.some((item) => item.id === id)) continue;
+      delete save.targetProfile;
+      changed = true;
+    }
+    if (changed) this.writeAll(list);
   }
 
   private writeAll(list: SavedSimulation[]): void {

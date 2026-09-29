@@ -1,8 +1,10 @@
 import { ElementType } from '../constants/element-type.const';
 import { EquipmentModel } from '../constants/item-type.enum';
 import { SlotColorMap } from '../core/slot-colors';
+import { CustomAttachments } from '../core/custom-attachments';
 
 export interface MainModel extends Partial<EquipmentModel> {
+  customAttachments?: CustomAttachments;
   class: number;
   level: number;
   jobLevel: number;

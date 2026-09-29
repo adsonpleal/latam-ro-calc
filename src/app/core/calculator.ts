@@ -31,6 +31,8 @@ import { ClassAutoCastDefinition, ItemAutoCastScript, ResolvedItemAutoCast, Reso
 import { DamageCalculator } from './damage-calculator';
 import { isEventRunning, readUntilCondition } from './event-window';
 import { HpSpCalculator } from './hp-sp-calculator';
+import { ensureCustomAttachment } from './custom-attachments';
+import { isCustomItem } from './custom-items';
 
 // const getItem = (id: number) => items[id] as ItemModel;
 const refinableItemTypes = [
@@ -643,6 +645,7 @@ export class Calculator {
   }
 
   loadItemFromModel(model: any) {
+    if (!this.items) throw new Error('Chame setMasterItems antes de loadItemFromModel.');
     this.model = { ...model };
     this.weaponData.set({ itemData: {} as any, refineLevel: 0, grade: '' });
     this.leftWeaponData.set({ itemData: {} as any, refineLevel: 0, grade: '' });
@@ -673,8 +676,10 @@ export class Calculator {
         seenHeadGear.add(itemId);
       }
 
-      const refine = model[`${mainItemType}Refine`];
-      const grade = model[`${mainItemType}Grade`];
+      const parent = this.items[itemId];
+      const custom = isCustomItem(parent) ? ensureCustomAttachment(model, mainItemType, parent) : undefined;
+      const refine = custom?.refine ?? model[`${mainItemType}Refine`];
+      const grade = custom?.grade ?? model[`${mainItemType}Grade`];
       // console.log({itemId, refine, itemRelations})
       if (mainItemType === ItemTypeEnum.weapon) {
         this.setWeapon({ itemId, refine, grade });
@@ -687,6 +692,17 @@ export class Calculator {
         this.leftWeaponData.set({ itemData: this.items[itemId], refineLevel: refine, grade });
       }
 
+      if (custom) {
+        // The sidecar is the only attachment source for a custom parent. Legacy
+        // card/enchant fields must never contribute alongside it.
+        custom.cards.forEach((id, index) => {
+          if (id) this.setItem({ itemType: `${mainItemType}CustomCard${index + 1}` as ItemTypeEnum, itemId: id, refine, grade });
+        });
+        custom.enchants.forEach((id, index) => {
+          if (id) this.setItem({ itemType: `${mainItemType}CustomEnchant${index + 1}` as ItemTypeEnum, itemId: id, refine, grade });
+        });
+        continue;
+      }
       for (const itemRelation of itemRelations) {
         const itemId2 = this.equipItem.get(mainItemType) ? model[itemRelation] : 0;
         if (!isNumber(itemId2)) continue;
@@ -1374,6 +1390,18 @@ export class Calculator {
     return total;
   }
 
+  /** Uses the same expression parser as a simulation for the creator's live preview. */
+  evaluateItemScript(itemType: ItemTypeEnum, item: ItemModel, refine = 0): Record<string, number> {
+    return this.calcItemStatus({ itemType, itemRefine: refine, item });
+  }
+
+  /** Inspect one clause with the same conditions and arithmetic used by the live build. */
+  evaluateItemRule(itemType: ItemTypeEnum, lineScript: string, refine = 0): { active: boolean; value: number } {
+    const result = this.validateCondition({ itemType, itemRefine: refine, script: lineScript });
+    const value = result.isValid ? this.calcScriptEntryValue({ itemType, itemRefine: refine, lineScript }) : 0;
+    return { active: result.isValid && value !== 0, value };
+  }
+
   private removeItemSlotName(itemName: string) {
     return itemName.replace(/\[\d]$/, '').trim();
   }
@@ -1403,13 +1431,10 @@ export class Calculator {
    * @returns refine level
    */
   private getRefineLevelByItemType(itemType: ItemTypeEnum) {
-    for (const _itemType of refinableItemTypes) {
-      if (itemType.startsWith(_itemType)) {
-        return this.mapRefine.get(_itemType) ?? 0;
-      }
-    }
-
-    return 0;
+    const parent = [...this.mapRefine.keys()]
+      .filter((slot) => itemType === slot || itemType.startsWith(`${slot}Custom`) || refinableItemTypes.includes(slot) && itemType.startsWith(slot))
+      .sort((a, b) => b.length - a.length)[0];
+    return parent ? this.mapRefine.get(parent) ?? 0 : 0;
   }
 
   private calcStatBoost(boostPercent: number, stat: 'agi' | 'dex'): number {
@@ -1425,7 +1450,8 @@ export class Calculator {
   }
 
   prepareAllItemBonus() {
-    const baseMatk = Number(this.equipItem.get(ItemTypeEnum.weapon)?.script?.['matk']?.[0]) || 0;
+    const weapon = this.equipItem.get(ItemTypeEnum.weapon);
+    const baseMatk = isCustomItem(weapon) ? 0 : Number(weapon?.script?.['matk']?.[0]) || 0;
 
     this.totalEquipStatus = { ...this.allStatus, matk: 0 - baseMatk, perfectHit: this.DEFAULT_PERFECT_HIT };
     this.equipStatus = {} as any;
@@ -1592,7 +1618,10 @@ export class Calculator {
 
     const consumableBonus: Record<string, number> = {};
     for (const cons of this.consumableBonuses) {
-      for (const [attr, value] of Object.entries(cons)) {
+      const effective = cons?.__customItem
+        ? this.calcItemStatus({ itemType: 'consumable' as ItemTypeEnum, itemRefine: 0, item: cons.__customItem })
+        : cons;
+      for (const [attr, value] of Object.entries(effective ?? {})) {
         const valNum = Number(value);
         if (mainStatuses.includes(attr as any) && consumableBonus[attr]) {
           consumableBonus[attr] = Math.max(consumableBonus[attr], valNum);

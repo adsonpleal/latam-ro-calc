@@ -67,7 +67,9 @@ export function collectConsumables(
     if (Object.keys(bonus).length) sources[`consumable_${id}`] = bonus;
   }
 
-  return { scripts: ids.map((id: ConsumableId) => items[id].script), sources, usedHpL, usedSupBattlePill };
+  return { scripts: ids.filter((id: ConsumableId) => !!items[id]?.script)
+    .map((id: ConsumableId) => (items[id] as any).custom ? { __customItem: items[id] } : items[id].script),
+    sources, usedHpL, usedSupBattlePill };
 }
 
 /**

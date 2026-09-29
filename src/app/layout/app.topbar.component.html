@@ -39,6 +39,9 @@
       <i class="pi pi-sparkles"></i>
       <span class="pl-1">MCP</span>
     </button>
+    <button pButton class="p-button-success p-button-raised px-2" (click)="openCustomItems()">
+      <i class="pi pi-box"></i><span class="pl-1">Meus itens</span>
+    </button>
     <button pButton class="p-button-info p-button-raised px-2" (click)="openItemSearch()">
       <i class="pi pi-search"></i>
       <span class="pl-1">Itens</span>
@@ -163,6 +166,7 @@
     </div>
 
     <h3 class="mt-0 mb-2 text-lg">O que dá para pedir</h3>
+    <p class="line-height-3">Também é possível criar <b>um ou até 20 itens personalizados de uma vez</b>. Peça, por exemplo: “Crie uma espada e duas cartas que formem um conjunto”. A IA devolverá um link; abri-lo neste navegador adiciona o lote em <b>Meus itens</b>. O link carrega os itens sem salvar nada no servidor.</p>
     <div class="flex flex-column gap-2 mb-3">
       <div *ngFor="let example of mcpExamples" class="p-2 border-round surface-50">
         <div class="flex align-items-center gap-2 font-medium">

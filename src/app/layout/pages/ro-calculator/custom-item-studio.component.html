@@ -1,0 +1,136 @@
+<p-dialog [(visible)]="visible" [modal]="true" [draggable]="false" [resizable]="false" [style]="{ width: 'min(92vw, 1100px)' }" [contentStyle]="{ 'max-height': '82vh', overflow: 'auto' }">
+  <ng-template pTemplate="header">
+    <div class="studio-header">
+      <div class="studio-mark">✦</div>
+      <div><strong>{{ libraryMode ? 'Meus itens' : (draft.id ? 'Editar item' : 'Criar item personalizado') }}</strong><small>Oficina de equipamentos · EliteTK</small></div>
+    </div>
+  </ng-template>
+
+  <div *ngIf="libraryMode" class="studio-library">
+    <div class="studio-toolbar">
+      <input type="search" placeholder="Buscar nome ou ID" [(ngModel)]="libraryQuery" />
+      <select [(ngModel)]="libraryKind"><option value="">Todas as categorias</option><option *ngFor="let kind of kinds" [value]="kind">{{ kindLabels[kind] }}</option></select>
+      <button type="button" class="studio-primary" (click)="openCreate()">+ Novo item</button>
+    </div>
+    <div class="studio-library-actions">
+      <button type="button" (click)="exportJson()">Exportar JSON</button>
+      <label class="studio-file">Importar JSON<input type="file" accept="application/json,.json" (change)="importJson($event)" /></label>
+      <button type="button" (click)="mcpVisible = true">✦ Criar com IA (MCP)</button>
+    </div>
+    <div class="studio-empty" *ngIf="!libraryItems.length">Nenhum item nesta seleção. Crie o primeiro ou importe um JSON.</div>
+    <div class="studio-item" *ngFor="let item of libraryItems">
+      <img [src]="item.iconItemId | iconUrl: 'item'" alt="" missingIcon />
+      <div class="studio-item-main"><strong>{{ item.name }}</strong><small>{{ kindLabels[item.kind] }} · ID {{ item.id }} · {{ item.cardCapacity }} carta(s), {{ item.enchantCapacity }} encantamento(s)</small></div>
+      <button type="button" (click)="edit(item); mobileView = 'preview'">Prévia</button>
+      <button type="button" (click)="edit(item)">Editar</button>
+      <button type="button" (click)="duplicate(item)">Duplicar</button>
+      <button type="button" (click)="share(item)">Compartilhar</button>
+      <button type="button" class="studio-danger" (click)="remove(item)">Excluir</button>
+    </div>
+    <p class="studio-hint" *ngIf="copied">Link copiado.</p>
+  </div>
+
+  <div *ngIf="!libraryMode" class="studio-mobile-toggle"><button type="button" [class.selected]="mobileView === 'editor'" (click)="mobileView = 'editor'">Editor</button><button type="button" [class.selected]="mobileView === 'preview'" (click)="mobileView = 'preview'">Prévia</button></div>
+  <div *ngIf="!libraryMode" class="studio-workspace" [class.studio-show-preview]="mobileView === 'preview'">
+    <div class="studio-main">
+      <div class="studio-tabs">
+        <button type="button" [class.selected]="section === 'item'" (click)="section = 'item'">01 · Item</button>
+        <button type="button" [class.selected]="section === 'sockets'" (click)="section = 'sockets'">02 · Encaixes</button>
+        <button type="button" [class.selected]="section === 'bonuses'" (click)="section = 'bonuses'">03 · Bônus</button>
+      </div>
+
+      <div class="studio-panel" *ngIf="section === 'item'">
+        <label for="studio-import-script">Importar script de outro item</label>
+        <div class="studio-source">
+          <input id="studio-import-script" type="search" [(ngModel)]="importQuery" (focus)="importOpen = true" placeholder="Buscar nome ou ID, inclusive itens personalizados" />
+          <button type="button" *ngIf="importedBackup" (click)="undoImport()">Desfazer importação</button>
+          <div class="studio-source-results" *ngIf="importOpen && importQuery">
+            <button type="button" *ngFor="let source of sourceResults" (click)="importScript(source)">
+              <img [src]="(source.custom ? source.iconItemId : source.id) | iconUrl: 'item'" alt="" missingIcon />
+              <span>{{ source.name }} <small>#{{ source.id }} · {{ sourceCategory(source) }} · {{ source.custom ? 'Meu item' : source.preRelease ? 'Prévia' : 'Banco' }}{{ !source.script || !(source.script | keyvalue).length ? ' · Sem bônus mapeados' : '' }}</small></span>
+            </button>
+            <span *ngIf="!sourceResults.length">Nenhum item com script encontrado.</span>
+          </div>
+        </div>
+
+        <div class="studio-fields">
+          <label>Nome<input type="text" [(ngModel)]="draft.name" (ngModelChange)="validate()" maxlength="100" placeholder="Nome do novo item" /></label>
+          <label>Tipo<select [ngModel]="draft.kind" (ngModelChange)="selectKind($event)"><option *ngFor="let kind of kinds" [value]="kind">{{ kindLabels[kind] }}</option></select></label>
+          <label *ngIf="draft.kind === 'weapon' || draft.kind === 'leftWeapon'">Tipo de arma<select [(ngModel)]="draft.itemSubTypeId" (ngModelChange)="validate()"><option [ngValue]="undefined">Escolher tipo</option><option *ngFor="let subtype of weaponSubtypes" [ngValue]="subtype.id">{{ subtype.label }} · {{ subtype.id }}</option></select></label>
+          <label *ngIf="draft.kind === 'ammo'">Tipo de munição<select [(ngModel)]="draft.itemSubTypeId" (ngModelChange)="validate()"><option [ngValue]="undefined">Escolher tipo</option><option *ngFor="let subtype of ammoSubtypes" [ngValue]="subtype.id">{{ subtype.label }}</option></select></label>
+          <label *ngIf="draft.kind === 'card'">Posição da carta<select [(ngModel)]="draft.compositionPos" (ngModelChange)="validate()"><option [ngValue]="null">Qualquer posição</option><option *ngFor="let position of cardPositions" [ngValue]="position[1]">{{ position[0] }}</option></select></label>
+          <label *ngIf="isEquipment(draft.kind)">Ícone de referência (ID)<input type="number" [(ngModel)]="draft.iconItemId" (ngModelChange)="validate()" placeholder="Automático pelo tipo" /></label>
+          <label *ngIf="isEquipment(draft.kind)">Nível do item<input type="number" min="0" max="5" [(ngModel)]="draft.itemLevel" (ngModelChange)="validate()" /></label>
+          <label *ngIf="draft.kind === 'weapon' || draft.kind === 'leftWeapon'">ATQ base<input type="number" [(ngModel)]="draft.attack" (ngModelChange)="validate()" /></label>
+          <label *ngIf="draft.kind === 'weapon' || draft.kind === 'leftWeapon'">ATQM base<input type="number" [(ngModel)]="draft.baseMatk" (ngModelChange)="validate()" /></label>
+          <label *ngIf="isEquipment(draft.kind)">DEF base<input type="number" [(ngModel)]="draft.defense" (ngModelChange)="validate()" /></label>
+          <label>Peso<input type="number" [(ngModel)]="draft.weight" (ngModelChange)="validate()" /></label>
+          <label *ngIf="draft.kind === 'ammo' || isEquipment(draft.kind)">Propriedade elemental<input type="number" [(ngModel)]="draft.propertyAtk" (ngModelChange)="validate()" placeholder="Código do elemento" /></label>
+          <label *ngIf="isEquipment(draft.kind)">Classes permitidas (separe por vírgulas)<input type="text" [(ngModel)]="allowedClasses" (ngModelChange)="validate()" placeholder="Todas as classes" /></label>
+        </div>
+        <div class="studio-switches" *ngIf="draft.kind === 'headUpper' || draft.kind === 'headMiddle' || draft.kind === 'headLower' || draft.kind === 'costumeUpper' || draft.kind === 'costumeMiddle' || draft.kind === 'costumeLower'">
+          <span>Ocupa</span><label *ngFor="let location of ['Upper','Middle','Lower']"><input type="checkbox" [checked]="headOccupancy.includes(location)" (change)="toggleHeadLocation(location, $any($event.target).checked)" /> {{ location === 'Upper' ? 'Topo' : location === 'Middle' ? 'Meio' : 'Baixo' }}</label>
+        </div>
+        <div class="studio-switches" *ngIf="isEquipment(draft.kind)">
+          <label><input type="checkbox" [(ngModel)]="draft.isRefinable" (ngModelChange)="validate()" /> Refinável</label>
+          <label><input type="checkbox" [(ngModel)]="draft.canGrade" (ngModelChange)="validate()" /> Graduável</label>
+        </div>
+      </div>
+
+      <div class="studio-panel" *ngIf="section === 'sockets'">
+        <div *ngIf="isEquipment(draft.kind); else noSockets">
+          <div class="studio-fields">
+            <label>Cartas<input type="number" min="0" max="4" [ngModel]="draft.cardCapacity" (ngModelChange)="changeCapacity('cardCapacity', $event)" /></label>
+            <label>Encantamentos<input type="number" min="0" max="4" [ngModel]="draft.enchantCapacity" (ngModelChange)="changeCapacity('enchantCapacity', $event)" /></label>
+            <label>Bônus Aleatórios<input type="number" min="0" max="5" [ngModel]="draft.baCapacity" (ngModelChange)="changeCapacity('baCapacity', $event)" /></label>
+          </div>
+          <div class="studio-sockets"><span *ngFor="let n of [0,1,2,3]" [class.card]="n < draft.cardCapacity" [class.enchant]="n >= draft.cardCapacity && n < draft.cardCapacity + draft.enchantCapacity">{{ n < draft.cardCapacity ? 'C' : n < draft.cardCapacity + draft.enchantCapacity ? 'E' : '+' }}</span></div>
+          <p class="studio-hint">Cartas e encantamentos ocupam as mesmas quatro posições. BAs usam uma trilha separada.</p>
+          <p class="studio-hint" *ngIf="capacityNotice">{{ capacityNotice }}</p>
+          <label for="studio-card-default">Cartas iniciais</label><div class="studio-inline"><select id="studio-card-default" [(ngModel)]="selectedCard"><option [ngValue]="0">Escolher carta</option><option *ngFor="let item of cardOptions" [ngValue]="item.id">{{ item.name }}</option></select><button type="button" (click)="addCard()">Adicionar</button></div>
+          <div class="studio-tags"><button type="button" *ngFor="let id of draft.defaultCards; let i = index" (click)="draft.defaultCards.splice(i, 1); validate()">#{{ id }} ×</button></div>
+          <label for="studio-enchant-default">Encantamentos iniciais</label><div class="studio-inline"><select id="studio-enchant-default" [(ngModel)]="selectedEnchant"><option [ngValue]="0">Escolher encantamento</option><option *ngFor="let item of enchantOptions" [ngValue]="item.id">{{ item.name }}</option></select><button type="button" (click)="addEnchant()">Adicionar</button></div>
+          <div class="studio-tags"><button type="button" *ngFor="let id of draft.defaultEnchants; let i = index" (click)="draft.defaultEnchants.splice(i, 1); validate()">#{{ id }} ×</button></div>
+          <label for="studio-ba-default">BAs iniciais (attr:valor)</label><div class="studio-inline"><input id="studio-ba-default" [(ngModel)]="selectedBa" list="custom-ba-options" placeholder="atk:10" /><datalist id="custom-ba-options"><option *ngFor="let ba of baOptions" [value]="ba[0]">{{ ba[1] }}</option></datalist><button type="button" (click)="addBa()">Adicionar</button></div>
+          <div class="studio-tags"><button type="button" *ngFor="let ba of draft.defaultBas; let i = index" (click)="draft.defaultBas.splice(i, 1); validate()">{{ ba }} ×</button></div>
+        </div>
+        <ng-template #noSockets><p class="studio-hint">Este tipo não usa encaixes de equipamento. Configure seus efeitos na aba Bônus.</p></ng-template>
+      </div>
+
+      <div class="studio-panel" *ngIf="section === 'bonuses'">
+        <div class="studio-mode"><button type="button" [class.selected]="mode === 'visual'" (click)="setMode('visual')">Visual</button><button type="button" [class.selected]="mode === 'json'" (click)="setMode('json')">JSON bruto</button></div>
+        <div *ngIf="mode === 'visual'">
+          <datalist id="custom-bonus-keys"><option *ngFor="let bonus of bonusKeys" [value]="bonus.key">{{ bonus.label }}</option></datalist>
+          <div class="studio-rule" *ngFor="let rule of rules; let i = index">
+            <input list="custom-bonus-keys" [(ngModel)]="rule.key" (ngModelChange)="writeRules()" placeholder="Bônus" />
+            <input [(ngModel)]="rule.expression" (ngModelChange)="writeRules()" placeholder="Valor ou expressão" />
+            <button type="button" aria-label="Remover regra" (click)="removeRule(i)">×</button>
+            <div class="studio-condition"><select [(ngModel)]="condition"><option *ngFor="let c of conditionKinds" [value]="c[0]">{{ c[1] }}</option></select><input [(ngModel)]="conditionValue" placeholder="Limite, ID ou classe" /><input [(ngModel)]="conditionExtra" placeholder="Nível" /><button type="button" (click)="applyCondition(i)">Aplicar condição</button></div>
+          </div>
+          <button type="button" (click)="addRule()">+ Adicionar regra</button>
+          <p class="studio-hint">Ex.: <code>7===10</code> concede +10 no refino 7; <code>2---5</code> concede +5 a cada dois refinos.</p>
+        </div>
+        <textarea *ngIf="mode === 'json'" class="studio-json" [(ngModel)]="rawScript" (ngModelChange)="onRawScript()" spellcheck="false" aria-label="Script JSON do item"></textarea>
+      </div>
+      <div class="studio-errors" role="alert" *ngIf="diagnostics.length"><div *ngFor="let error of diagnostics">{{ error }}</div></div>
+    </div>
+
+    <aside class="studio-preview">
+      <div class="studio-preview-head"><img [src]="previewIcon | iconUrl: 'item'" alt="" missingIcon /><div><small>PRÉVIA DO ITEM</small><strong>{{ draft.name || 'Novo item' }}</strong><span>{{ kindLabels[draft.kind] }}</span></div></div>
+      <div class="studio-preview-stats"><span *ngIf="draft.attack">ATQ {{ draft.attack }}</span><span *ngIf="draft.baseMatk">ATQM {{ draft.baseMatk }}</span><span *ngIf="draft.defense">DEF {{ draft.defense }}</span><span *ngIf="draft.canGrade">Graduável</span><span *ngIf="draft.isRefinable">Refinável</span></div>
+      <div class="studio-preview-controls"><label *ngIf="draft.isRefinable">Refino <input type="number" min="0" max="20" [(ngModel)]="previewRefine" (ngModelChange)="updatePreview()" /></label><label *ngIf="draft.canGrade">Grau <select [(ngModel)]="previewGrade" (ngModelChange)="updatePreview()"><option value="">Sem grau</option><option *ngFor="let grade of ['D','C','B','A']" [value]="grade">{{ grade }}</option></select></label><label *ngIf="draft.kind === 'pet'">Lealdade <select [(ngModel)]="previewLoyalty" (ngModelChange)="updatePreview()"><option [ngValue]="1">Baixa</option><option [ngValue]="2">Nenhuma</option><option [ngValue]="3">Normal</option><option [ngValue]="4">Alta</option></select></label></div>
+      <pre>{{ previewText || 'Adicione bônus para ver a descrição.' }}</pre>
+      <div class="studio-evaluated"><strong>Bônus nesta build</strong><span *ngFor="let bonus of previewBonuses">{{ bonus.label }} {{ bonus.value >= 0 ? '+' : '' }}{{ bonus.value }}</span><small *ngIf="!previewBonuses.length">Nenhum efeito ativo nesta configuração.</small></div>
+      <div class="studio-rule-status" *ngIf="previewRules.length"><strong>Condições</strong><div *ngFor="let rule of previewRules" [class.active]="rule.active"><span>{{ rule.active ? '●' : '○' }} {{ rule.label }}{{ rule.active ? ' ' + (rule.value >= 0 ? '+' : '') + rule.value : '' }}</span><small>{{ rule.reason }}</small></div></div>
+      <button type="button" class="studio-mcp" (click)="mcpVisible = true">✦ Criar com um agente via MCP</button>
+    </aside>
+  </div>
+
+  <ng-template pTemplate="footer"><div class="studio-footer"><button type="button" *ngIf="!libraryMode" (click)="openLibrary()">Meus itens</button><button type="button" *ngIf="!libraryMode" class="studio-primary" [disabled]="diagnostics.length > 0" (click)="save()">{{ context ? 'Salvar e equipar' : 'Salvar item' }}</button></div></ng-template>
+</p-dialog>
+
+<p-dialog header="Criar itens com IA" [(visible)]="mcpVisible" [modal]="true" [style]="{ width: 'min(92vw, 540px)' }">
+  <p>Conecte seu agente ao servidor MCP e peça, por exemplo: “Crie uma espada e duas cartas personalizadas que formem um conjunto.”</p>
+  <code class="studio-mcp-url">{{ mcpUrl }}</code>
+  <p>O agente pode criar até 20 itens em uma chamada e devolverá um link. Abra esse link neste navegador para adicioná-los aos Meus itens.</p>
+</p-dialog>

@@ -2,6 +2,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { Dataset } from './data/dataset';
 import { registerDiscoveryTools } from './tools/discovery';
 import { registerBridgeTools, registerCalculationTools } from './tools/calculate';
+import { registerCustomItemTools } from './tools/custom-items';
 
 /**
  * Keeps AJV out of the request path.
@@ -49,6 +50,7 @@ export function createMcpServer(dataset: Dataset): McpServer {
   registerDiscoveryTools(server, dataset);
   registerCalculationTools(server, dataset);
   registerBridgeTools(server, dataset);
+  registerCustomItemTools(server, dataset);
 
   return server;
 }

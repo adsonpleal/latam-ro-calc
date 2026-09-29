@@ -33,6 +33,7 @@ export interface Chip {
    * tier, not the absence of one.)
    */
   clearable?: boolean;
+  custom?: true;
 }
 
 export interface ChipContext {
@@ -114,6 +115,11 @@ export function buildChipRows(
       if (descriptor.converter) row1.push(chip('converter', 'propertyAtk', 0, 'Conversor'));
       if (descriptor.ammo && ctx.showAmmo) row1.push(chip('ammo', ItemTypeEnum.ammo, 0, 'Munição'));
 
+      if (derivation.custom) {
+        for (let index = 0; index < derivation.custom.cards; index++) row2.push({ ...chip('card', undefined, index, `Carta ${index + 1}`), custom: true });
+        for (let index = 0; index < derivation.custom.enchants; index++) row2.push({ ...chip('enchant', undefined, index, `Encant. ${index + 1}`), custom: true });
+        for (let index = 0; index < derivation.custom.bas; index++) row3.push({ ...chip('option', undefined, index, `Bônus ${index + 1}`), custom: true });
+      } else {
       descriptor.cardFields.slice(0, derivation.cardSlots).forEach((field, index) => {
         row2.push(chip('card', field, index, cardPlaceholder(descriptor, index)));
       });
@@ -127,6 +133,7 @@ export function buildChipRows(
       descriptor.optionIndexes.slice(0, derivation.optionSlots).forEach((optionIndex, index) => {
         row3.push({ ...chip('option', undefined, index, `Bônus ${index + 1}`), optionIndex });
       });
+      }
     }
   }
 

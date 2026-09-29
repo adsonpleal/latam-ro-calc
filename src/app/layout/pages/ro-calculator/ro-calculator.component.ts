@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService, SelectItemGroup } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, Subscription, debounceTime, finalize, forkJoin, mergeMap, switchMap, take, tap } from 'rxjs';
@@ -49,7 +49,6 @@ import {
   prettyItemDesc,
   resolveHeadSlotOccupancy,
   skillDescHtml,
-  sortObj,
   toDropdownList,
   toRawOptionTxtList,
   toUpsertPresetModel,
@@ -74,6 +73,7 @@ import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
 import { resolveOffHandEviction } from 'src/app/core/off-hand-slots';
 import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectChanceSources, collectConsumables, withoutWeaponlessTalismans } from 'src/app/core/calculator-controller';
+import { customOptionScripts } from 'src/app/core/custom-attachments';
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { ElementType } from 'src/app/constants/element-type.const';
 import { CompareState, STATS_COMPARE_KEYS, copyStatsFields } from 'src/app/core/compare-state';
@@ -113,6 +113,10 @@ import { shareEntryHref } from 'src/app/core/share-entry';
 import { buildSharePath, readShareToken, SHARE_PATH_PREFIX } from 'src/app/core/share-path';
 import { buildCharSpriteUrl, bareJobSprite } from 'src/app/domain/char-sprite-url';
 import { AutoCastSimulation, buildAutoCastSimulation } from 'src/app/core/auto-cast';
+import { CustomItemLibraryService } from 'src/app/api-services/custom-item-library.service';
+import { CustomItemDefinition, customDefinitionsForBuild, customItemDescriptionHtml, isCustomItem, validateCustomItems } from 'src/app/core/custom-items';
+import { decodeCustomBundle } from 'src/app/core/custom-item-library';
+import { CustomItemStudioComponent } from './custom-item-studio.component';
 
 type ImportMode = 'replace' | 'compare';
 
@@ -164,6 +168,9 @@ interface ClassModel extends Partial<Record<ItemTypeEnum, number>> {
   providers: [ConfirmationService, MessageService, DialogService],
 })
 export class RoCalculatorComponent implements OnInit, OnDestroy {
+  @ViewChild(CustomItemStudioComponent) customStudio?: CustomItemStudioComponent;
+  private sharedCustomItems: CustomItemDefinition[] = [];
+  private hiddenCustomIds = new Set<number>();
   updateItemEvent = new Subject();
   updateCompareEvent = new Subject();
   updateChanceEvent = new Subject();
@@ -608,6 +615,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     private readonly itemDescriptionStore: ItemDescriptionStore,
     private readonly slotColorPicker: SlotColorPickerService,
     private readonly layoutService: LayoutService,
+    private readonly customLibrary: CustomItemLibraryService,
   ) { }
 
   ngOnInit() {
@@ -615,9 +623,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // A share link (/s/<token>/ or the legacy ?b=...) wins over the local autosave;
     // falls back to it when absent.
     const shared = this.consumeSharedBuild();
+    this.sharedCustomItems = shared?.items ?? [];
     this.initData()
       .pipe(
-        switchMap(() => this.loadItemSet(shared?.preset ?? localStorage.getItem('ro-set'))),
+        switchMap(() => {
+          this.importCustomItemFromUrl();
+          return this.loadItemSet(shared?.preset ?? localStorage.getItem('ro-set'));
+        }),
         // In `finalize` so a network failure also releases it — otherwise the splash
         // would hang forever. If nothing ever triggered a calculation (an error, or no
         // saved preset), end the boot right here; otherwise `isCalculatingEvent` below
@@ -636,6 +648,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           if (shared) {
             this.messageService.add({ severity: 'success', summary: 'Simulação carregada', detail: 'Carregada a partir do link compartilhado.' });
           }
+          if (this.importedCustomLink) this.customStudio?.openLibrary();
         },
         error: (err) => {
           console.error(err);
@@ -649,6 +662,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       });
 
     this.allSubs.push(this.roService.getItemViews().subscribe((views) => (this.itemViews = views || {})));
+    this.allSubs.push(this.layoutService.customItemsOpen$.subscribe(() => this.customStudio?.openLibrary()));
+    this.allSubs.push(this.layoutService.customItemCreate$.subscribe((request) =>
+      this.customStudio?.openCreate(request.kind, { slot: request.slot, compare: request.compare })));
 
     // Deliberately outside the initial forkJoin: the descriptions are nearly half the
     // payload and only show on hover and in the search preview. When they arrive, the
@@ -896,7 +912,26 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       this.roService.getLatamClasses(),
     ]).pipe(
       tap(([items, monsters, hpSpTable, latamClasses]) => {
-        this.items = items;
+        if (this.sharedCustomItems.length) {
+          const checked = validateCustomItems(this.sharedCustomItems, items);
+          if (checked.errors.length) {
+            this.messageService.add({ severity: 'error', summary: 'Itens do link inválidos', detail: checked.errors[0].message });
+            this.sharedCustomItems = [];
+          } else this.sharedCustomItems = checked.items;
+        }
+        const autosave = (() => { try { return JSON.parse(localStorage.getItem('ro-set') ?? '{}').__customItems ?? []; } catch { return []; } })();
+        const fallbacks: CustomItemDefinition[] = [
+          ...this.savedSimStore.list().flatMap((save) => save.customItems ?? []), ...autosave,
+        ].filter(isCustomItem);
+        const localIds = new Set(this.customLibrary.items.map((item) => item.id));
+        for (const item of fallbacks) if (!localIds.has(item.id)) this.hiddenCustomIds.add(item.id);
+        this.items = { ...items, ...Object.fromEntries(fallbacks.map((item) => [item.id, item])),
+          ...Object.fromEntries(this.customLibrary.items.map((item) => [item.id, item])),
+          ...Object.fromEntries(this.sharedCustomItems.map((item) => [item.id, item])) };
+        for (const item of Object.values(this.items).filter(isCustomItem)) {
+          this.customLibrary.registerRuntime(item);
+          this.itemDescriptionStore.upsert(item.id, customItemDescriptionHtml(item));
+        }
         this.monsterDataMap = monsters;
         this.hpSpTable = hpSpTable;
 
@@ -913,13 +948,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         // compare calculator was added without one, which made every compare pass in the
         // PVP tab die inside setWeapon. A new instance is one entry away from working.
         for (const calc of [this.calculator, this.calculator2, this.calculatorPvp, this.calculatorPvp2]) {
-          calc.setMasterItems(items).setHpSpTable(hpSpTable);
+          calc.setMasterItems(this.items).setHpSpTable(hpSpTable);
         }
         this.refreshPvpTargets();
 
         const ens = [] as DropdownModel[];
         this.mapEnchant = new Map(
-          Object.values(items)
+          Object.values(this.items)
             .filter((item) => item.itemTypeId === ItemTypeId.ENCHANT)
             .map((item) => {
               ens.push({
@@ -949,6 +984,70 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         this.setItemList();
       }),
     );
+  }
+
+  private importedCustomLink = false;
+
+  private importCustomItemFromUrl(): void {
+    try {
+      const url = new URL(shareEntryHref());
+      const hashQuery = url.hash.includes('?') ? url.hash.slice(url.hash.indexOf('?') + 1) : '';
+      const token = new URLSearchParams(hashQuery).get('customItem');
+      if (!token) return;
+      const incoming = decodeCustomBundle(token, this.items);
+      const installed = this.customLibrary.store.import(incoming, this.items);
+      this.customLibrary.refresh();
+      for (const item of installed) this.addCustomRuntimeItem(item);
+      this.setItemList();
+      this.importedCustomLink = true;
+      url.hash = '#/';
+      history.replaceState(history.state, '', url.href);
+      this.messageService.add({ severity: 'success', summary: 'Itens importados', detail: `${installed.length} item(ns) adicionados aos Meus itens.` });
+    } catch (error) {
+      this.messageService.add({ severity: 'error', summary: 'Falha ao importar item', detail: error instanceof Error ? error.message : 'Link inválido.' });
+    }
+  }
+
+  private addCustomRuntimeItem(item: CustomItemDefinition): void {
+    this.items[item.id] = item;
+    this.customLibrary.registerRuntime(item);
+    this.itemDescriptionStore.upsert(item.id, customItemDescriptionHtml(item));
+    if (item.itemTypeId === ItemTypeId.ENCHANT) {
+      this.mapEnchant?.set(item.aegisName, item);
+      this.enchants = [...this.enchants.filter((row) => row.value !== item.id), { label: item.name, value: item.id }];
+    }
+  }
+
+  onCustomItemSaved(event: { item: CustomItemDefinition; context?: { slot: string; compare: boolean } }): void {
+    const { item, context } = event;
+    this.hiddenCustomIds.delete(item.id);
+    this.addCustomRuntimeItem(item);
+    this.savedSimStore.invalidateProfilesForItem(item.id);
+    this.setItemList();
+    if (this.selectedCharacter) this.setItemDropdownList();
+    if (context?.slot) {
+      const target = context.compare ? this.model2 : this.model;
+      const custom = context.slot.match(/^custom:([^:]+):(card|enchant):(\d+)$/);
+      if (custom) {
+        const state = (target as MainModel).customAttachments?.[custom[1]];
+        if (state) state[custom[2] === 'card' ? 'cards' : 'enchants'][Number(custom[3])] = item.id;
+        if (context.compare) this.updateCompareEvent.next(1); else this.updateItemEvent.next(custom[1] as ItemTypeEnum);
+      } else {
+        target[context.slot] = item.id;
+        if (!context.compare) this.onSelectItem(context.slot, item.id, Number(target[`${context.slot}Refine`]) || 0);
+        else this.updateCompareEvent.next(1);
+      }
+    } else {
+      this.updateItemEvent.next(item.kind as ItemTypeEnum);
+    }
+    this.refreshPvpTargets();
+  }
+
+  onCustomItemDeleted(id: number): void {
+    this.hiddenCustomIds.add(id);
+    this.setItemList();
+    if (this.selectedCharacter) this.setItemDropdownList();
+    this.updateItemEvent.next(ItemTypeEnum.weapon);
   }
 
   private prepare(calculator: Calculator, compareModel?: any, pvpTarget?: PlayerTargetProfile, pvpMode?: PvpMode) {
@@ -1082,7 +1181,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       buffMasterys,
       consumeData,
       aspdPotion,
-      extraOptionScripts: parseOptionScripts(!compareModel ? this.model.rawOptionTxts : rawOptionTxts),
+      extraOptionScripts: parseOptionScripts([
+        ...(!compareModel ? this.model.rawOptionTxts : rawOptionTxts),
+        ...customOptionScripts(compareModel ? this.model2 : this.model),
+      ]),
       activeSkillNames,
       learnedSkillMap,
       selectedAtkSkill,
@@ -1523,7 +1625,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   private saveCurrentStateItemset() {
-    localStorage.setItem('ro-set', JSON.stringify(toUpsertPresetModel(this.model, this.selectedCharacter)));
+    const preset = toUpsertPresetModel(this.model, this.selectedCharacter) as Record<string, any>;
+    preset['__customItems'] = customDefinitionsForBuild([preset], this.items);
+    localStorage.setItem('ro-set', JSON.stringify(preset));
   }
 
   // --- Save / preview / share simulations ---------------------------------
@@ -1612,7 +1716,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     } catch (err) {
       console.error('Falha ao computar o perfil de alvo PVP', err);
     }
-    this.savedSimStore.upsert(name, this.currentPreset(), targetProfile, this.currentCompareState());
+    const preset = this.currentPreset();
+    this.savedSimStore.upsert(name, preset, targetProfile, this.currentCompareState(),
+      customDefinitionsForBuild([preset, this.currentCompareState()?.model2 ?? {}], this.items));
     this.refreshPvpTargets();
     this.showSaveDialog = false;
     this.messageService.add({ severity: 'success', summary: 'Simulação salva', detail: name });
@@ -1725,7 +1831,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
         monster: this.monsterDataMap[this.selectedMonster],
         relieveLevel: this.relieveLevel,
         equipAtks: equippedAtks, masteryAtks, buffEquips, buffMasterys, consumeData, aspdPotion,
-        extraOptionScripts: parseOptionScripts(model.rawOptionTxts),
+        extraOptionScripts: parseOptionScripts([...model.rawOptionTxts, ...customOptionScripts(model)]),
         activeSkillNames, learnedSkillMap,
         selectedAtkSkill: model.selectedAtkSkill, selectedChances: [], usedHpL,
       });
@@ -1884,7 +1990,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // Drop a rotation that is just [selectedAtkSkill]: decoding rebuilds it, so a
     // single-skill build's token stays exactly what it was before rotations existed.
     const preset = compactRotationForShare(this.currentPreset() as unknown as Record<string, any>);
-    const token = encodeBuild(preset, this.currentCompareState());
+    const definitions = customDefinitionsForBuild([preset, this.currentCompareState()?.model2 ?? {}], this.items);
+    const token = encodeBuild(preset, this.currentCompareState(), definitions);
     // A real path, not a #fragment: the fragment never reaches a server, so no crawler
     // could tell one shared build from another and every preview looked the same.
     // `origin` alone, never `pathname` — opening the dialog while already on a share
@@ -1895,7 +2002,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   /** Read & consume a shared build from the URL — the canonical /s/<token>/ path or
    *  the legacy ?b=... query — then clean the URL so a refresh/copy doesn't re-apply
    *  or leak the token. `readShareToken` reads it raw, never via URLSearchParams. */
-  private consumeSharedBuild(): { preset: PresetModel; compare: CompareState | null } | null {
+  private consumeSharedBuild(): { preset: PresetModel; compare: CompareState | null; items: CustomItemDefinition[] } | null {
     try {
       // The URL the page was opened with — not the live one, which the router has
       // already rewritten to '#/' by now (see share-entry.ts).
@@ -1904,7 +2011,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       const shared = decodeShared(token);
       this.stripSharedBuildFromUrl();
       if (!shared) return null;
-      return { preset: shared.preset as PresetModel, compare: shared.compare };
+      return { preset: shared.preset as PresetModel, compare: shared.compare, items: shared.items ?? [] };
     } catch (error) {
       console.error(error);
       return null;
@@ -2675,8 +2782,8 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // the GRF extract). Non-LATAM items stay in the map for id lookups but are
     // hidden from the selection dropdowns.
     const sortedItems = Object.values(this.items)
-      .filter((item: any) => item.presentInLatam)
-      .sort(sortObj('name'));
+      .filter((item: any) => item.presentInLatam && !this.hiddenCustomIds.has(item.id))
+      .sort((a, b) => Number(!!(b as any).custom) - Number(!!(a as any).custom) || a.name.localeCompare(b.name, 'pt-BR'));
     for (const item of sortedItems) {
       const { itemTypeId, itemSubTypeId, compositionPos } = item;
 
@@ -2685,7 +2792,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
           // if (!item.name.startsWith('Furious')) continue;
           weaponList.push(item);
 
-          if (itemSubTypeId === 256 || itemSubTypeId === 257) {
+          if (itemSubTypeId === 256 || itemSubTypeId === 257 || (item as any).kind === 'leftWeapon') {
             leftWeaponList.push(item);
           }
           continue;
@@ -2791,6 +2898,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       }
 
       if (itemTypeId === ItemTypeId.CARD) {
+        if ((item as any).custom && compositionPos == null) {
+          weaponCardList.push(item); headCardList.push(item); shieldCardList.push(item);
+          armorCardList.push(item); garmentCardList.push(item); bootCardList.push(item);
+          accLeftCardList.push(item); accRightCardList.push(item); accCardList.push(item);
+          continue;
+        }
         switch (compositionPos) {
           case CardPosition.Weapon:
             weaponCardList.push(item);
@@ -2891,7 +3004,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.itemList.shadowPendantList = toDropdownList(shadowPendantList, 'name', 'id');
     this.itemList.shadowWeaponList = toDropdownList(shadowWeaponList, 'name', 'id');
 
-    this.consumableList = toDropdownList(consumableList.sort(sortObj('id')), 'name', 'id');
+    this.consumableList = toDropdownList(consumableList.sort((a, b) => Number(!!b.custom) - Number(!!a.custom) || a.id - b.id), 'name', 'id');
 
     if (!this.env.production) {
       for (const wea of weaponList) {

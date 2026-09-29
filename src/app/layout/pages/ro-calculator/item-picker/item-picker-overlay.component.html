@@ -24,6 +24,11 @@
     </ng-container>
   </div>
 
+  <button *ngIf="createKind" type="button" tabindex="-1" class="picker__row picker__row--create"
+    [class.picker__row--active]="active === -2" (mouseenter)="hover(-2)" (click)="choose(-2)">
+    <span class="picker__label">✦ Criar item personalizado</span>
+  </button>
+
   <!-- Outside the scroller so clearing is always one click away, however long the list. -->
   <button
     *ngIf="clearable"
@@ -70,6 +75,8 @@
     [attr.data-index]="i"
     [class.picker__row--active]="active === i"
     [class.picker__row--selected]="isSelected(row)"
+    [class.picker__row--create]="row.create"
+    [class.picker__row--section]="row.section"
     [style.height.px]="rowHeight"
     [pTooltip]="items ? (row.value | itemDescTooltip: items : itemDescriptions.version) : ''"
     [escape]="false"

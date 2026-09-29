@@ -166,6 +166,13 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.153-beta',
+      date: '28-09-2026',
+      logs: [
+        'A oficina Meus itens permite criar itens personalizados, copiar o script de qualquer item por nome ou ID, editar bônus em modo visual ou JSON, configurar encaixes e compartilhar a biblioteca por links. Agentes conectados ao MCP também podem criar lotes de itens para importar no navegador. Pedido de EliteTK.',
+      ],
+    },
+    {
       v: '0.1.152-beta',
       date: '27-09-2026',
       logs: [
@@ -1715,6 +1722,8 @@ export class AppTopBarComponent implements OnDestroy {
   openItemSearch() {
     this.layoutService.openItemSearch();
   }
+
+  openCustomItems() { this.layoutService.openCustomItems(); }
 
   openConfig() {
     this.layoutService.showConfigSidebar();

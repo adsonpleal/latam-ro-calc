@@ -11,6 +11,7 @@ import { ItemModel } from 'src/app/models/item.model';
 import { ExtraOptionMap } from 'src/app/utils/create-extra-option-list';
 import { getGradeList } from 'src/app/utils/to-grade-list';
 import { PickerRequest } from '../item-picker/item-picker.model';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { ItemPickerService } from '../item-picker/item-picker.service';
 import { SlotColorPickerService } from '../slot-color-picker/slot-color-picker.service';
 import { ChipView } from './chip-view.model';
@@ -80,6 +81,7 @@ export class EquipmentSlotCardComponent implements OnChanges {
   constructor(
     private readonly picker: ItemPickerService,
     private readonly colorPicker: SlotColorPickerService,
+    private readonly layoutService: LayoutService,
     private readonly cdr: ChangeDetectorRef,
     public readonly itemDescriptions: ItemDescriptionStore,
   ) {}
@@ -176,6 +178,10 @@ export class EquipmentSlotCardComponent implements OnChanges {
     if (!request) return;
 
     this.picker.open(request).subscribe((result) => {
+      if (result.create) {
+        this.layoutService.openCustomItem(result.create.kind, result.create.slot, result.create.compare);
+        return;
+      }
       if (!result.committed) return;
       this.pickField.emit({ chip: view.chip, value: result.value ?? null, compare });
     });
@@ -194,7 +200,10 @@ export class EquipmentSlotCardComponent implements OnChanges {
   }
 
   private toView(chip: Chip, model: Record<string, any>): ChipView {
-    const raw = chip.kind === 'option' ? model?.['rawOptionTxts']?.[chip.optionIndex!] : model?.[chip.field!];
+    const customState = chip.custom ? model?.['customAttachments']?.[chip.slotKey] : undefined;
+    const raw = chip.custom
+      ? customState?.[chip.kind === 'card' ? 'cards' : chip.kind === 'enchant' ? 'enchants' : 'bas']?.[chip.index]
+      : chip.kind === 'option' ? model?.['rawOptionTxts']?.[chip.optionIndex!] : model?.[chip.field!];
     const empty: ChipView = {
       chip,
       text: chip.placeholder,
@@ -258,25 +267,37 @@ export class EquipmentSlotCardComponent implements OnChanges {
   private pickerRequest(chip: Chip, anchor: HTMLElement, compare: boolean): PickerRequest | null {
     const model = compare ? this.model2 : this.model;
     const derivation = compare ? this.compareDerivation : this.derivation;
-    const value = chip.kind === 'option' ? model?.['rawOptionTxts']?.[chip.optionIndex!] : model?.[chip.field!];
+    const customState = chip.custom ? model?.['customAttachments']?.[chip.slotKey] : undefined;
+    const value = chip.custom
+      ? customState?.[chip.kind === 'card' ? 'cards' : chip.kind === 'enchant' ? 'enchants' : 'bas']?.[chip.index]
+      : chip.kind === 'option' ? model?.['rawOptionTxts']?.[chip.optionIndex!] : model?.[chip.field!];
     // `clearable` rides on the chip, so equipment-chips.ts stays the one place that
     // decides which fields have an empty state.
     const base = { anchor, title: this.pickerTitle(chip), value, clearable: chip.clearable };
 
     switch (chip.kind) {
       case 'item':
-        return { ...base, mode: 'flat', options: this.lists[this.descriptor.itemListKey] ?? [], filterKeys: ITEM_KEYS, iconKey: 'value', items: this.items };
+        return { ...base, mode: 'flat', options: this.lists[this.descriptor.itemListKey] ?? [], filterKeys: ITEM_KEYS, iconKey: 'value', items: this.items,
+          createKind: this.descriptor.key, createSlot: this.descriptor.key, createCompare: compare };
       case 'subItem': {
         const sub = this.descriptor.subItemSlots?.find((s) => s.key === chip.slotKey);
-        return { ...base, mode: 'flat', options: this.lists[sub?.itemListKey ?? ''] ?? [], filterKeys: ITEM_KEYS, iconKey: 'value', items: this.items };
+        return { ...base, mode: 'flat', options: this.lists[sub?.itemListKey ?? ''] ?? [], filterKeys: ITEM_KEYS, iconKey: 'value', items: this.items,
+          createKind: sub?.key, createSlot: sub?.key, createCompare: compare };
       }
       case 'card':
         // The acc-side prefix ("Dir."/"Esq.") is only reachable through cardPrefix.
-        return { ...base, mode: 'flat', options: this.lists[this.descriptor.cardListKey ?? ''] ?? [], filterKeys: CARD_KEYS, iconKey: 'value', items: this.items };
+        return { ...base, mode: 'flat', options: chip.custom
+          ? this.customCardOptions()
+          : this.lists[this.descriptor.cardListKey ?? ''] ?? [], filterKeys: CARD_KEYS, iconKey: 'value', items: this.items,
+          createKind: 'card', createSlot: chip.custom ? `custom:${chip.slotKey}:card:${chip.index}` : chip.field, createCompare: compare };
       case 'enchant':
-        return { ...base, mode: 'flat', options: derivation.enchantLists[chip.index] ?? [], filterKeys: ITEM_KEYS, iconKey: 'value', items: this.items };
+        return { ...base, mode: 'flat', options: chip.custom
+          ? Object.values(this.items).filter((item) => item.itemTypeId === 11).map((item) => ({ label: item.name, value: item.id }))
+          : derivation.enchantLists[chip.index] ?? [], filterKeys: ITEM_KEYS, iconKey: 'value', items: this.items,
+          createKind: 'enchant', createSlot: chip.custom ? `custom:${chip.slotKey}:enchant:${chip.index}` : chip.field, createCompare: compare };
       case 'ammo':
-        return { ...base, mode: 'flat', options: this.lists.ammoList ?? [], filterKeys: ITEM_KEYS, iconKey: 'value', elementColoured: true, items: this.items };
+        return { ...base, mode: 'flat', options: this.lists.ammoList ?? [], filterKeys: ITEM_KEYS, iconKey: 'value', elementColoured: true, items: this.items,
+          createKind: 'ammo', createSlot: 'ammo', createCompare: compare };
       case 'refine':
         return { ...base, mode: 'flat', options: refineOptions(derivation.refineList), filterKeys: ['label'] };
       case 'grade':
@@ -296,6 +317,16 @@ export class EquipmentSlotCardComponent implements OnChanges {
       default:
         return null;
     }
+  }
+
+  private customCardOptions(): DropdownModel[] {
+    const key = this.descriptor.cardListKey ?? ({
+      shadowWeapon: 'weaponCardList', shadowShield: 'shieldCardList', shadowArmor: 'armorCardList',
+      shadowBoot: 'bootCardList', shadowEarring: 'accCardList', shadowPendant: 'accCardList',
+      costumeUpper: 'headCardList', costumeMiddle: 'headCardList', costumeLower: 'headCardList',
+      costumeGarment: 'garmentCardList',
+    } as Record<string, string>)[this.descriptor.key];
+    return this.lists[key] ?? [];
   }
 
   private pickerTitle(chip: Chip): string {

@@ -45,6 +45,7 @@
   [offensiveSkills]="offensiveSkills"
   [onClassChanged]="onClassChanged$"
 ></app-item-search>
+<app-custom-item-studio [items]="items" [currentModel]="model" [character]="selectedCharacter" [currentMonster]="monsterDataMap[selectedMonster]" (saved)="onCustomItemSaved($event)" (deleted)="onCustomItemDeleted($event)"></app-custom-item-studio>
 
 <!-- A centred modal, not a side sheet: `position="left"` is what gave it the slide-in
      animation and pinned it to the edge. Without it PrimeNG centres the dialog and uses
@@ -1348,8 +1349,9 @@
                 <div class="item-description-meta">
                   <img [src]="itemId | iconUrl: 'item'" alt="" class="item-description-icon" missingIcon />
                   <div class="item-description-links">
-                    <a [href]="divinePrideItemUrl" target="_blank" rel="noopener noreferrer">Item ID: {{ itemId }}</a>
-                    <a [href]="marketItemUrl" target="_blank" rel="noopener noreferrer"><i class="pi pi-shopping-cart"></i> Mercado</a>
+                    <span *ngIf="items[itemId]?.custom">Item personalizado · ID {{ itemId }}</span>
+                    <a *ngIf="!items[itemId]?.custom" [href]="divinePrideItemUrl" target="_blank" rel="noopener noreferrer">Item ID: {{ itemId }}</a>
+                    <a *ngIf="!items[itemId]?.custom" [href]="marketItemUrl" target="_blank" rel="noopener noreferrer"><i class="pi pi-shopping-cart"></i> Mercado</a>
                   </div>
                 </div>
 
