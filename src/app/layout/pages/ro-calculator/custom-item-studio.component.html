@@ -136,10 +136,11 @@
               <button pButton type="button" class="p-button-text p-button-danger" icon="pi pi-times" aria-label="Remover regra" (click)="removeRule(i)"></button>
               <div class="studio-condition">
                 <p-dropdown [options]="conditionOptions" [(ngModel)]="condition" appendTo="body" ariaLabel="Condição"></p-dropdown>
-                <ng-container *ngIf="condition !== 'none'">
-                  <input pInputText [(ngModel)]="conditionValue" placeholder="Limite, ID ou classe" aria-label="Limite, ID ou classe" />
-                  <input pInputText [(ngModel)]="conditionExtra" placeholder="Nível" aria-label="Nível da condição" />
+                <ng-container *ngIf="conditionHelp as help">
+                  <input pInputText [(ngModel)]="conditionValue" [placeholder]="help.valueLabel + ' (ex.: ' + help.example + ')'" [attr.aria-label]="help.valueLabel" [attr.aria-describedby]="'studio-condition-help-' + i" />
+                  <input *ngIf="help.extraLabel" pInputText [(ngModel)]="conditionExtra" [placeholder]="help.extraLabel + ' (ex.: ' + help.extraExample + ')'" [attr.aria-label]="help.extraLabel" [attr.aria-describedby]="'studio-condition-help-' + i" />
                   <button pButton type="button" class="p-button-outlined p-button-sm" label="Aplicar condição" (click)="applyCondition(i)"></button>
+                  <small class="studio-wide text-color-secondary" [id]="'studio-condition-help-' + i">{{ help.help }}</small>
                 </ng-container>
               </div>
             </div>

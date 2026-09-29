@@ -31,6 +31,15 @@ import { ChipView } from './equipment-grid/chip-view.model';
 
 interface Rule { key: string; expression: string }
 interface CreateContext { slot: string; compare: boolean }
+interface RuleConditionOption {
+  value: string;
+  label: string;
+  valueLabel?: string;
+  example?: string;
+  help?: string;
+  extraLabel?: string;
+  extraExample?: string;
+}
 type AttachmentField = 'defaultCards' | 'defaultEnchants' | 'defaultBas';
 
 @Component({
@@ -125,17 +134,78 @@ export class CustomItemStudioComponent {
   readonly isEquipment = customKindIsEquipment;
   readonly mcpUrl = environment.mcpUrl;
   readonly bonusKeys = Object.keys(createRawTotalBonus()).map((key) => ({ key, label: bonusKeyLabel(key) }));
-  readonly conditionOptions = [
-    ['none', 'Sem condição'], ['refine', 'Refino mínimo'], ['refineStep', 'A cada X refinos'],
-    ['grade', 'Grau mínimo'], ['level', 'Nível mínimo'], ['stat', 'A cada X do atributo'],
-    ['equip', 'Equipado junto'], ['class', 'Classe'], ['skill', 'Perícia aprendida'],
-    ['activeSkill', 'Perícia ativa'], ['loyalty', 'Lealdade do pet'],
-    ['weaponType', 'Tipo de arma'], ['ammoType', 'Tipo de munição'],
-    ['position', 'Posição'], ['spawn', 'Mapa do monstro'], ['until', 'Válido até (data)'],
-  ].map(([value, label]) => ({ value, label }));
+  readonly conditionOptions: RuleConditionOption[] = [
+    { value: 'none', label: 'Sem condição' },
+    {
+      value: 'refine', label: 'Refino mínimo', valueLabel: 'Refino mínimo', example: '7',
+      help: 'Refino do próprio item, sem o sinal +. Ex.: 7 ativa o bônus a partir do refino +7.',
+    },
+    {
+      value: 'refineStep', label: 'A cada X refinos', valueLabel: 'Intervalo de refinos', example: '2',
+      help: 'Aplica o bônus a cada intervalo completo de refinos. Ex.: 2 aplica uma vez no +2, duas no +4 e assim por diante.',
+    },
+    {
+      value: 'grade', label: 'Grau mínimo', valueLabel: 'Graduação mínima', example: 'B',
+      help: 'Use D, C, B ou A. A graduação indicada e as superiores ativam o bônus.',
+    },
+    {
+      value: 'level', label: 'Nível mínimo', valueLabel: 'Nível base mínimo', example: '100',
+      help: 'Nível base do personagem a partir do qual o bônus fica ativo.',
+    },
+    {
+      value: 'stat', label: 'A cada X do atributo', valueLabel: 'Código do atributo', example: 'str',
+      extraLabel: 'Pontos por bônus', extraExample: '10',
+      help: 'Use str (FOR), agi (AGI), vit (VIT), int (INT), dex (DES) ou luk (SOR). Ex.: str e 10 aplicam o bônus a cada 10 pontos de FOR. Sem informar os pontos, usa 1.',
+    },
+    {
+      value: 'equip', label: 'Equipado junto', valueLabel: 'ID do item', example: '1101',
+      help: 'ID do item que precisa estar equipado. Combine IDs com && para exigir todos ou || para aceitar qualquer um.',
+    },
+    {
+      value: 'class', label: 'Classe', valueLabel: 'Código da classe', example: 'Mechanic',
+      help: 'Use o nome interno da classe, como Mechanic (Mecânico). Também aceita suas evoluções. Separe alternativas com ||.',
+    },
+    {
+      value: 'skill', label: 'Perícia aprendida', valueLabel: 'ID da perícia aprendida', example: '2418',
+      extraLabel: 'Nível mínimo da perícia', extraExample: '5',
+      help: 'Informe o ID numérico da perícia e o nível mínimo aprendido. Sem informar o nível, usa 1.',
+    },
+    {
+      value: 'activeSkill', label: 'Perícia ativa', valueLabel: 'ID da perícia ativa', example: '490',
+      help: 'ID numérico da perícia que precisa estar ativada na build. Esta condição não recebe um nível mínimo.',
+    },
+    {
+      value: 'loyalty', label: 'Lealdade do pet', valueLabel: 'Faixa de lealdade', example: '4',
+      help: 'Use 1 = Baixa, 2 = Nenhuma, 3 = Normal ou 4 = Alta. Aplica a partir dessa faixa; para o mesmo bônus, prevalece a maior faixa atingida.',
+    },
+    {
+      value: 'weaponType', label: 'Tipo de arma', valueLabel: 'Código do tipo de arma', example: 'bow',
+      help: 'Use o código do tipo, como bow (arco), sword (espada) ou spear (lança). Separe alternativas com ||.',
+    },
+    {
+      value: 'ammoType', label: 'Tipo de munição', valueLabel: 'Código do tipo de munição', example: '1024',
+      help: `Use ${this.ammoSubtypes.map(({ id, label }) => `${id} = ${label}`).join('; ')}.`,
+    },
+    {
+      value: 'position', label: 'Posição', valueLabel: 'Código da posição', example: 'accLeft',
+      help: 'Posição em que o item deve estar equipado. Exemplos: weapon (arma), armor (armadura), accLeft (acessório esquerdo) e accRight (direito).',
+    },
+    {
+      value: 'spawn', label: 'Mapa do monstro', valueLabel: 'Código do mapa', example: 'tur_d03_i',
+      help: 'Código de um mapa de aparição do monstro. Separe mapas alternativos com ||, como tur_d03_i||tur_d04_i.',
+    },
+    {
+      value: 'until', label: 'Válido até (data)', valueLabel: 'Último dia de validade', example: '2026-12-31',
+      help: 'Use o formato AAAA-MM-DD. O bônus permanece ativo até o fim do dia informado.',
+    },
+  ];
   condition = 'none';
   conditionValue = '';
   conditionExtra = '';
+
+  get conditionHelp(): RuleConditionOption | undefined {
+    return this.conditionOptions.find((option) => option.value === this.condition && option.value !== 'none');
+  }
 
   constructor(public readonly library: CustomItemLibraryService, private readonly picker: ItemPickerService) {}
 
