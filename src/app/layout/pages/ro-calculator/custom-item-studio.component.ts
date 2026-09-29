@@ -10,10 +10,11 @@ import { CardPosition } from 'src/app/constants/card-position.enum';
 import { bonusKeyLabel } from 'src/app/core/bonus-key-label';
 import { createRawTotalBonus } from 'src/app/utils/create-raw-total-bonus';
 import { createNumberDropdownList } from 'src/app/utils/create-number-dropdown-list';
+import { getGradeList } from 'src/app/utils/to-grade-list';
 import {
   CUSTOM_KINDS, CUSTOM_KIND_LABELS, CustomItemDefinition, CustomItemDraft, CustomKind,
   CUSTOM_ITEM_MAX_BYTES, customDefinitionsForBuild, customItemDescription, customItemId, validateCustomItems,
-  cardFitsCustomKind, customKindIsEquipment, inferCustomIcon,
+  cardFitsCustomKind, customKindIsEquipment, customKindIsShadow, inferCustomIcon,
 } from 'src/app/core/custom-items';
 import { CustomItemLibraryService } from 'src/app/api-services/custom-item-library.service';
 import { encodeCustomBundle } from 'src/app/core/custom-item-library';
@@ -31,6 +32,7 @@ import { DropdownModel } from 'src/app/models/dropdown.model';
 import { ItemPickerService } from './item-picker/item-picker.service';
 import { PickerRequest } from './item-picker/item-picker.model';
 import { ChipView } from './equipment-grid/chip-view.model';
+import { itemFailureMessages, itemValidationMessage, jsonSyntaxMessage } from './custom-item-feedback';
 
 interface CreateContext { slot: string; compare: boolean }
 interface RuleConditionOption {
@@ -45,6 +47,7 @@ interface RuleConditionOption {
   extraExample?: string;
 }
 type AttachmentField = 'defaultCards' | 'defaultEnchants' | 'defaultBas';
+type PreviewField = 'refine' | 'grade';
 const INTERNAL_ITEM_FIELDS = new Set(['refine', 'weight']);
 
 @Component({
@@ -88,6 +91,7 @@ export class CustomItemStudioComponent {
   previewRefine = 0;
   previewGrade = '';
   previewLoyalty = 4;
+  previewControls: { field: PreviewField; view: ChipView }[] = [];
   previewBonuses: { label: string; value: number }[] = [];
   previewRules: { label: string; reason: string; active: boolean; value: number }[] = [];
   previewText = '';
@@ -111,7 +115,9 @@ export class CustomItemStudioComponent {
   enchantCounts = this.counts;
   readonly elements = Object.values(ElementType).map((value) => ({ value, label: elementPtBr(value) }));
   readonly classes = getClassDropdownList().map(({ label, icon, instant }) => ({ label, icon, value: instant.className }));
-  readonly grades = [{ value: '', label: 'Sem grau' }, ...['D', 'C', 'B', 'A'].map((value) => ({ value, label: value }))];
+  readonly grades = getGradeList();
+  readonly previewRefines = createNumberDropdownList({ from: 0, to: 18, prefixLabel: '+ ' });
+  readonly previewShadowRefines = createNumberDropdownList({ from: 0, to: 10, prefixLabel: '+ ' });
   readonly loyaltyOptions = [{ value: 1, label: 'Baixa' }, { value: 2, label: 'Nenhuma' }, { value: 3, label: 'Normal' }, { value: 4, label: 'Alta' }];
   readonly weaponSubtypes = Object.entries(WeaponSubTypeNameMapById).map(([id, label]) => ({
     id: Number(id), label: ({
@@ -263,6 +269,7 @@ export class CustomItemStudioComponent {
     this.importQuery = ''; this.importOpen = false;
     this.visible = true; this.libraryMode = false;
     this.refreshAttachments();
+    this.updatePreview();
   }
 
   edit(item: CustomItemDefinition): void {
@@ -495,12 +502,7 @@ export class CustomItemStudioComponent {
   onRawScript(): void {
     try { this.draft.script = JSON.parse(this.rawScript); }
     catch (error) {
-      const message = error instanceof Error ? error.message : 'JSON inválido';
-      const position = Number(message.match(/position (\d+)/)?.[1]);
-      if (Number.isFinite(position)) {
-        const before = this.rawScript.slice(0, position).split('\n');
-        this.rawError = `JSON: linha ${before.length}, coluna ${before[before.length - 1].length + 1}: ${message}`;
-      } else this.rawError = `JSON: ${message}`;
+      this.rawError = jsonSyntaxMessage(error, this.rawScript);
       this.diagnostics = [this.rawError];
       return;
     }
@@ -528,7 +530,7 @@ export class CustomItemStudioComponent {
     this.draft.iconItemId = undefined;
     const input = { ...this.draft, id: this.draft.id ?? customItemId() };
     const result = validateCustomItems([input], this.items);
-    this.diagnostics = [...(this.rawError ? [this.rawError] : []), ...this.visualErrors, ...result.errors.map((e) => `${e.path}: ${e.message}`)];
+    this.diagnostics = [...(this.rawError ? [this.rawError] : []), ...this.visualErrors, ...result.errors.map((error) => itemValidationMessage(error))];
     this.previewItem = this.visualErrors.length ? undefined : result.items[0] ?? (!this.rawError && !input.name.trim()
       ? validateCustomItems([{ ...input, name: 'Novo item' }], this.items).items[0] : undefined);
     this.previewIcon = Number(this.previewItem?.iconItemId
@@ -538,7 +540,37 @@ export class CustomItemStudioComponent {
     this.updatePreview();
   }
 
+  pickPreview(field: PreviewField, anchor: HTMLElement): void {
+    this.picker.open({
+      mode: 'flat', anchor, title: field === 'refine' ? 'Refino' : 'Grau',
+      value: field === 'refine' ? this.previewRefine : this.previewGrade,
+      options: field === 'refine'
+        ? customKindIsShadow(this.draft.kind) ? this.previewShadowRefines : this.previewRefines
+        : this.grades.filter(({ value }) => value !== ''),
+      filterKeys: ['label'],
+    }).subscribe((result) => {
+      if (result.committed) this.setPreviewValue(field, result.value);
+    });
+  }
+
+  setPreviewValue(field: PreviewField, value: string | number | null | undefined): void {
+    if (field === 'refine') this.previewRefine = Number(value) || 0;
+    else this.previewGrade = String(value ?? '');
+    this.updatePreview();
+  }
+
   updatePreview(): void {
+    if (!this.draft.isRefinable) this.previewRefine = 0;
+    else this.previewRefine = Math.min(this.previewRefine, customKindIsShadow(this.draft.kind) ? 10 : 18);
+    if (!this.draft.canGrade) this.previewGrade = '';
+    this.previewControls = (['refine', 'grade'] as const)
+      .filter((field) => field === 'refine' ? this.draft.isRefinable : this.draft.canGrade)
+      .map((field) => ({ field, view: {
+        chip: { kind: field, index: 0, slotKey: this.draft.kind as ItemTypeEnum, placeholder: field === 'refine' ? '+ 0' : 'Grau' },
+        text: field === 'refine' ? `+ ${this.previewRefine}` : this.previewGrade ? `Grau ${this.previewGrade}` : 'Grau',
+        filled: field === 'refine' ? this.previewRefine > 0 : !!this.previewGrade,
+        icon: null, descId: null, elementClass: null, primary: false, preRelease: false,
+      } }));
     this.previewBonuses = [];
     this.previewRules = [];
     if (!this.currentModel || !this.previewItem) return;
@@ -588,18 +620,18 @@ export class CustomItemStudioComponent {
     if (this.diagnostics.length) return;
     const draft = { ...this.draft, id: this.draft.id ?? customItemId(), revision: (this.draft.revision ?? 0) + 1 };
     const result = validateCustomItems([draft], this.items);
-    if (result.errors.length) { this.diagnostics = result.errors.map((e) => `${e.path}: ${e.message}`); return; }
+    if (result.errors.length) { this.diagnostics = result.errors.map((error) => itemValidationMessage(error)); return; }
     try {
       this.library.save(result.items[0]);
       this.saved.emit({ item: result.items[0], context: this.context });
       this.visible = false;
-    } catch (error) { this.diagnostics = [error instanceof Error ? error.message : 'Falha ao salvar item.']; }
+    } catch (error) { this.diagnostics = itemFailureMessages(error, 'Não foi possível salvar o item. Seu rascunho foi mantido; tente novamente.'); }
   }
 
   remove(item: CustomItemDefinition): void {
     if (!window.confirm(`Excluir "${item.name}" dos Meus itens? As simulações salvas mantêm uma cópia.`)) return;
     try { this.library.remove(item.id); this.deleted.emit(item.id); }
-    catch (error) { this.diagnostics = [error instanceof Error ? error.message : 'Falha ao excluir item.']; }
+    catch (error) { this.diagnostics = itemFailureMessages(error, 'Não foi possível excluir o item. Tente novamente.'); }
   }
 
   async share(item: CustomItemDefinition): Promise<void> {
@@ -608,7 +640,7 @@ export class CustomItemStudioComponent {
       await navigator.clipboard.writeText(`${location.origin}/#/?customItem=${encodeCustomBundle(dependencies)}`);
       this.copied = true;
     }
-    catch (error) { this.diagnostics = [error instanceof Error ? error.message : 'Não foi possível copiar o link.']; }
+    catch (error) { this.diagnostics = itemFailureMessages(error, 'Não foi possível copiar o link. Verifique a permissão do navegador e tente novamente.'); }
   }
 
   exportJson(): void {
@@ -622,13 +654,15 @@ export class CustomItemStudioComponent {
   async importJson(event: Event): Promise<void> {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
+    let source = '';
     try {
       if (file.size > CUSTOM_ITEM_MAX_BYTES) throw new Error('Arquivo de itens grande demais (máximo de 256 KiB).');
-      const parsed = JSON.parse(await file.text());
+      source = await file.text();
+      const parsed = JSON.parse(source);
       if (parsed?.version !== 1) throw new Error('Versão do arquivo de itens não reconhecida.');
       this.library.store.import(parsed.items, this.items);
       this.library.refresh();
       for (const item of this.library.items) this.saved.emit({ item });
-    } catch (error) { this.diagnostics = [error instanceof Error ? error.message : 'Arquivo inválido.']; }
+    } catch (error) { this.diagnostics = itemFailureMessages(error, 'Não foi possível importar. Escolha um arquivo JSON de itens válido.', source); }
   }
 }

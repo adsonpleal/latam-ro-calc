@@ -47,7 +47,7 @@ describe('custom item creator editing', () => {
     ]);
     expect(component.previewText).toContain('ATQ +10');
     expect(component.previewText).not.toContain('7===');
-    expect(component.diagnostics).toContain('items[0].name: Informe um nome.');
+    expect(component.diagnostics).toContain('Dê um nome ao item.');
   });
 
   it('retains unfinished JSON until it can be represented visually', () => {

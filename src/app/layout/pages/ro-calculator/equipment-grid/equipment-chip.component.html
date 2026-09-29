@@ -33,6 +33,7 @@
        population is exactly what made Escape cost half a second (OverlayEscapeService). -->
   <span *ngIf="!view.descId" class="eq-chip__text" [pTooltip]="view.text" tooltipPosition="top" [showDelay]="350">{{ view.text }}</span>
   <span *ngIf="view.descId" class="eq-chip__text">{{ view.text }}</span>
+  <span *ngIf="view.descId && items?.[view.descId]?.custom" class="p-tag text-xs flex-shrink-0 mr-2">Personalizado</span>
   <span
     *ngIf="view.preRelease"
     class="pre_release_tag"

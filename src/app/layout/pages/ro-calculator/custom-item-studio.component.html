@@ -184,10 +184,11 @@
         <div class="studio-item-name"><small class="text-color-secondary">PRÉVIA DO ITEM</small><strong class="block text-lg">{{ draft.name || 'Novo item' }}</strong><span class="text-color-secondary text-sm">{{ kindLabels[draft.kind] }}</span></div>
       </div>
       <div class="flex flex-wrap gap-2 mb-3 text-sm"><span *ngIf="draft.attack">ATQ {{ draft.attack }}</span><span *ngIf="draft.baseMatk">ATQM {{ draft.baseMatk }}</span><span *ngIf="draft.defense">DEF {{ draft.defense }}</span><span *ngIf="draft.canGrade">Graduável</span><span *ngIf="draft.isRefinable">Refinável</span></div>
-      <div class="studio-fields p-fluid mb-3">
-        <div *ngIf="draft.isRefinable"><label for="studio-preview-refine">Refino</label><input pInputText id="studio-preview-refine" type="number" min="0" max="20" [(ngModel)]="previewRefine" (ngModelChange)="updatePreview()" /></div>
-        <div *ngIf="draft.canGrade"><label for="studio-preview-grade">Grau</label><p-dropdown inputId="studio-preview-grade" [options]="grades" [(ngModel)]="previewGrade" (ngModelChange)="updatePreview()" appendTo="body"></p-dropdown></div>
-        <div *ngIf="draft.kind === 'pet'"><label for="studio-loyalty">Lealdade</label><p-dropdown inputId="studio-loyalty" [options]="loyaltyOptions" [(ngModel)]="previewLoyalty" (ngModelChange)="updatePreview()" appendTo="body"></p-dropdown></div>
+      <div class="flex flex-wrap gap-2 mb-3" role="group" aria-label="Refino e grau da prévia" *ngIf="previewControls.length">
+        <app-equipment-chip *ngFor="let control of previewControls" [view]="control.view" (pick)="pickPreview(control.field, $event)" (clear)="setPreviewValue(control.field, null)"></app-equipment-chip>
+      </div>
+      <div class="studio-fields p-fluid mb-3" *ngIf="draft.kind === 'pet'">
+        <div><label for="studio-loyalty">Lealdade</label><p-dropdown inputId="studio-loyalty" [options]="loyaltyOptions" [(ngModel)]="previewLoyalty" (ngModelChange)="updatePreview()" appendTo="body"></p-dropdown></div>
       </div>
       <div class="studio-description border-top-1 surface-border pt-3">{{ previewText || 'Sem bônus mapeados' }}</div>
       <div class="border-top-1 surface-border pt-3 mt-3 text-sm">
