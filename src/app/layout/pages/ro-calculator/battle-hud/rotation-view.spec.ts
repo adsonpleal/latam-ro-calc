@@ -114,6 +114,23 @@ describe('buildRotationView', () => {
     expect(result.entries[0].stackCount).toBe(4);
     expect(result.entries[0].damage).toBe(18_000);
   });
+  it('keeps separate accumulation and damage for repeated rotation tiles', () => {
+    const value = 'Eternal Slash==5';
+    const first = summaryOf({ perHit: 4500, hits: 1 });
+    const second = summaryOf({ perHit: 4500, hits: 4 });
+    const result = buildRotationView({
+      rotation: [value, value],
+      summaryByValue: new Map([[value, first]]),
+      summaryByIndex: new Map([[0, first], [1, second]]),
+      baseSummary: first,
+      hasSelectedChances: false,
+      atkSkills: [{ value, label: 'Talho Eterno Nv5', minStack: 1, maxStack: 5, defaultStack: 1 }],
+      skillStacks: { 'Eternal Slash': 5 },
+      rotationStacks: [1, 4],
+    });
+    expect(result.entries.map((entry) => entry.stackCount)).toEqual([1, 4]);
+    expect(result.entries.map((entry) => entry.damage)).toEqual([4500, 18_000]);
+  });
   const base = summaryOf({ reducedAcd: 0.3, reducedCd: 0.5, perHit: 1000, hits: 3 });
   const summaryByValue = new Map<string, any>([
     ['Solar Kick==7', summaryOf({ reducedAcd: 0.3, reducedCd: 0.5, perHit: 1000, hits: 3 })],

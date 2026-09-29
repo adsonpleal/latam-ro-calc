@@ -1228,23 +1228,38 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Solve every distinct skill in the rotation on an already-prepared calculator and
-   * build the panel's view model.
+   * Solve each distinct skill and accumulation pair on an already-prepared calculator
+   * and build the panel's view model.
    *
-   * Solves are memoised by skill value: a skill's damage does not depend on where it
-   * sits in the rotation (nothing in the catalog gates on position), so a repeat reuses
-   * the first solve. Ataque básico needs no pass at all — its numbers live in
+   * Ataque básico needs no pass at all — its numbers live in
    * `dmg.basic*` / `calc.hitPerSecs`, which no offensive skill affects.
    */
   private solveRotation(calc: Calculator, input: CalcChainInput, baseSummary: any): RotationView {
     const summaryByValue = new Map<string, any>();
+    const summaryByIndex = new Map<number, any>();
+    const solved = new Map<string, any>();
+    const originalStacks = this.model.skillStacks;
 
-    for (const value of this.model.rotation ?? []) {
-      if (isBasicAttack(value) || summaryByValue.has(value)) continue;
-      summaryByValue.set(value, this.controller.solveSkill(calc, input, value).getTotalSummary());
+    for (const [index, value] of (this.model.rotation ?? []).entries()) {
+      if (isBasicAttack(value)) continue;
+      const name = value.split('==')[0];
+      const stack = this.model.rotationStacks?.[index];
+      const cacheKey = `${value}:${Number.isFinite(stack) ? stack : originalStacks?.[name] ?? ''}`;
+      if (solved.has(cacheKey)) {
+        summaryByIndex.set(index, solved.get(cacheKey));
+        continue;
+      }
+      calc.setSkillStacks(Number.isFinite(stack)
+        ? { ...(originalStacks ?? {}), [name]: stack }
+        : originalStacks);
+      const summary = this.controller.solveSkill(calc, input, value).getTotalSummary();
+      summaryByIndex.set(index, summary);
+      solved.set(cacheKey, summary);
+      if (!summaryByValue.has(value)) summaryByValue.set(value, summary);
     }
 
     // Leave the calculator on the skill the rest of the app expects to find it on.
+    calc.setSkillStacks(originalStacks);
     this.controller.solveSkill(calc, input, input.selectedAtkSkill);
 
     return buildRotationView({
@@ -1257,21 +1272,27 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       hasSelectedChances: (input.selectedChances?.length ?? 0) > 0,
       atkSkills: this.atkSkills,
       skillStacks: this.model.skillStacks,
+      rotationStacks: this.model.rotationStacks,
+      summaryByIndex,
     });
   }
 
   /** Applies a new rotation order/content from the panel and recalculates. */
-  onRotationChange(rotation: string[]) {
-    this.model.rotation = rotation;
+  onRotationChange(change: { rotation: string[]; stacks: number[] }) {
+    this.model.rotation = change.rotation;
+    this.model.rotationStacks = change.stacks;
     this.syncRotationMirror();
     this.updateItemEvent.next(true);
   }
 
-  onSkillStackChange(change: { name: string; stack: number }) {
-    const skill = this.atkSkills.find((entry) => entry.name === change.name);
+  onSkillStackChange(change: { index: number; stack: number }) {
+    const name = this.model.rotation?.[change.index]?.split('==')[0];
+    const skill = this.atkSkills.find((entry) => entry.name === name);
     if (!skill?.maxStack || !Number.isInteger(change.stack)) return;
     const stack = Math.max(skill.minStack ?? 0, Math.min(skill.maxStack, change.stack));
-    this.model.skillStacks = { ...(this.model.skillStacks ?? {}), [change.name]: stack };
+    const stacks = [...(this.model.rotationStacks ?? [])];
+    stacks[change.index] = stack;
+    this.model.rotationStacks = stacks;
     this.updateItemEvent.next(true);
   }
 
@@ -1303,24 +1324,34 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // Snapshot for the undo — the old panel only ever diagnosed, this one rewrites the
     // user's rotation, so the change has to be reversible in one click.
     const previous = (this.model.rotation ?? []).slice();
+    const previousStacks = [...(this.model.rotationStacks ?? [])];
+    const stacksByValue = new Map<string, number[]>();
+    previous.forEach((value, index) => {
+      const stacks = stacksByValue.get(value) ?? [];
+      stacks.push(previousStacks[index]);
+      stacksByValue.set(value, stacks);
+    });
     const gain = result.dpsBefore > 0 ? ((result.dpsAfter - result.dpsBefore) / result.dpsBefore) * 100 : 0;
     const fmt = (v: number) => v.toFixed(2).replace('.', ',');
 
-    this.onRotationChange(result.order);
+    this.onRotationChange({
+      rotation: result.order,
+      stacks: result.order.map((value) => stacksByValue.get(value)?.shift() ?? NaN),
+    });
     this.messageService.add({
       key: 'rotation-optimize',
       severity: 'success',
       summary: 'Ordem otimizada',
       detail: `Ciclo ${fmt(result.cycleBefore)}s → ${fmt(result.cycleAfter)}s (+${gain.toFixed(1).replace('.', ',')}% de DPS).`,
       life: 8000,
-      data: { previous },
+      data: { previous, previousStacks },
     });
   }
 
   /** Undo for the optimiser toast. */
-  undoOptimize(previous: string[]) {
+  undoOptimize(previous: string[], previousStacks: number[]) {
     this.messageService.clear('rotation-optimize');
-    this.onRotationChange(previous);
+    this.onRotationChange({ rotation: previous, stacks: previousStacks });
   }
 
   private calculate() {
@@ -2571,7 +2602,13 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
    * rotation — from here on the mirror follows the rotation, not the other way round.
    */
   private setDefaultRotation() {
-    this.model.rotation = pruneRotationForClass(this.model.rotation ?? [], this.atkSkills);
+    const rotation = this.model.rotation ?? [];
+    const keptIndices = rotation.flatMap((skill, index) =>
+      pruneRotationForClass([skill], this.atkSkills).length ? [index] : []);
+    this.model.rotation = keptIndices.map((index) => rotation[index]);
+    if (this.model.rotationStacks) {
+      this.model.rotationStacks = keptIndices.map((index) => this.model.rotationStacks[index]);
+    }
     if (!this.model.rotation.length && this.model.selectedAtkSkill) {
       this.model.rotation = [this.model.selectedAtkSkill];
     }
@@ -2630,8 +2667,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     if (!passiveSkillMap || typeof passiveSkillMap !== 'object') passiveSkillMap = {};
 
     const isEqualBuffLenght = passiveSkills?.length === this.model.passiveSkills?.length;
+    const legacyInsignia = Number(skillBuffMap['_Sorcerer_Insignia_Target']);
     this.model.skillBuffs = this.skillBuffs.map((skill, i) => {
-      const savedVal = skillBuffMap[skill.name] ?? (isEqualBuffLenght ? this.model.skillBuffs[i] : 0);
+      const legacyIndex = /^_Sorcerer_Insignia_Target_(\d)$/.exec(skill.name)?.[1];
+      const savedVal = skillBuffMap[skill.name]
+        ?? (legacyIndex ? Number(legacyIndex) === legacyInsignia ? 1 : 0 : isEqualBuffLenght ? this.model.skillBuffs[i] : 0);
       const found = skill.dropdown.find((a) => a.value === savedVal);
 
       return found ? savedVal : 0;

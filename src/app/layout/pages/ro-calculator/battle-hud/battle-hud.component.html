@@ -197,7 +197,7 @@
             (rotationChange)="rotationChange.emit($event)"
             (stackChange)="stackChange.emit($event)"
             (optimizeClick)="optimizeClick.emit()"
-            (clearClick)="rotationChange.emit([])"
+            (clearClick)="rotationChange.emit({ rotation: [], stacks: [] })"
             (detailsClick)="openSharedDetails($event, sharedSkillDetails)"
             (elementTableClick)="onShowElementalTableClick()"
             (critBreakdownClick)="openStepCritRate($event, critRatePanel)"

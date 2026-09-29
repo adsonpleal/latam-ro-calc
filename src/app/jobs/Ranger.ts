@@ -2,6 +2,7 @@ import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ARROW_STORM, WUG_STRIKE } from '../skills/shared-skills';
 import { NoLimitFn } from '../constants/share-active-skills';
+import { ElementType } from '../constants/element-type.const';
 import { InfoForClass } from '../models/info-for-class.model';
 import { Sniper } from './Sniper';
 import { ClassAutoCastDefinition, fearBreezeOutcomes, fearBreezeTotalChance } from '../models/auto-cast.model';
@@ -139,6 +140,23 @@ export class Ranger extends Sniper {
   private readonly atkSkillList3rd: AtkSkillModel[] = [
     { ...ARROW_STORM, values: ['[Improved] Arrow Storm==10'] },
     WUG_STRIKE,
+    {
+      name: 'Bomb Cluster',
+      label: 'Bomba Relógio Nv5',
+      value: 'Bomb Cluster==5',
+      levelList: Array.from({ length: 5 }, (_, i) => ({ label: `Nv ${i + 1}`, value: `Bomb Cluster==${i + 1}` })),
+      acd: 0,
+      fct: 0,
+      vct: 0,
+      cd: 0,
+      isMelee: true,
+      element: ElementType.Neutral,
+      // https://browiki.org/wiki/Bomba_Rel%C3%B3gio
+      formula: ({ model, skillLevel, status }) =>
+        200 + skillLevel * 100
+        + (skillLevel * status.totalDex + status.totalInt * 5 * (1.5 + model.level / 100))
+          * (this.learnLv('Trap Research') * 20 / 50),
+    },
     {
       name: 'Aimed Bolt',
       label: 'Aimed Bolt Lv10',

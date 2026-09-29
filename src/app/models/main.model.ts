@@ -62,6 +62,8 @@ export interface MainModel extends Partial<EquipmentModel> {
   rotation: string[];
   /** Selected accumulation for offensive skills that build up through repeated casts. */
   skillStacks?: Record<string, number>;
+  /** Accumulation for each rotation tile, in the same order as `rotation`. */
+  rotationStacks?: number[];
   /** Configurable auto-cast choices, stored as in-game skill ids. */
   autoCastSelections: {
     autoSpell?: number;

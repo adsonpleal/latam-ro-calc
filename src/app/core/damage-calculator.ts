@@ -1015,7 +1015,9 @@ export class DamageCalculator {
     const base = this.totalBonus['flatDmg'] || 0;
     if (skillName === 'basicAtk') {
       const flatBasicAtk = this.totalBonus['flatBasicDmg'] || 0;
-      return base + flatBasicAtk;
+      const vigorRace = ['demihuman', 'angel'].includes(this.monster.race)
+        ? this.totalBonus['vigorBasicRaceDmg'] || 0 : 0;
+      return base + flatBasicAtk + vigorRace;
     }
 
     if (skillName) {

@@ -6,6 +6,28 @@ import { addBonus, floor, genSkillList } from '../utils';
 import { ShadowChaser } from './ShadowChaser';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
+import { ClassAutoCastDefinition } from '../models/auto-cast.model';
+
+const ABYSS_SQUARE_AUTO_CAST: ClassAutoCastDefinition[] = [{
+  key: 'abyss-square',
+  resolve: ({ skillState, skillById }) => {
+    const fromAbyss = skillState.activeLevel('From the Abyss');
+    const squareLevel = skillState.learnedLevel('Abyss Square');
+    const skill = skillById(5321);
+    if (!fromAbyss || !squareLevel || !skill) {
+      return { blocked: [{
+        key: 'abyss-square', name: 'Fenda do Abismo', icon: 5321,
+        reason: !fromAbyss ? 'Ative Invocação do Abismo' : !squareLevel ? 'Aprenda Fenda do Abismo' : 'Fórmula indisponível',
+      }] };
+    }
+    return { sources: [{
+      key: 'abyss-square', kind: 'passive', skillId: 5321, skillLevel: squareLevel,
+      // rAthena battle.cpp uses 20%; its source marks the official chance as unconfirmed.
+      chance: 20, trigger: 'physical-attack', sourceName: 'Invocação do Abismo', skillData: skill,
+      chanceBreakdown: [{ label: 'Invocação do Abismo', value: '20% por ataque básico (rAthena; chance oficial a confirmar)' }],
+    }] };
+  },
+}];
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 0, 0, 1],
@@ -333,6 +355,12 @@ export class AbyssChaser extends ShadowChaser {
   ];
   private readonly activeSkillList4th: ActiveSkillModel[] = [
     {
+      name: 'From the Abyss',
+      label: 'Invocação do Abismo',
+      inputType: 'dropdown',
+      dropdown: genSkillList(5),
+    },
+    {
       name: 'Strip Shadow',
       label: 'Strip Shadow',
       isDebuff: true,
@@ -360,6 +388,12 @@ export class AbyssChaser extends ShadowChaser {
   ];
   private readonly passiveSkillList4th: PassiveSkillModel[] = [
     {
+      name: 'Abyss Square',
+      label: 'Fenda do Abismo aprendida',
+      inputType: 'dropdown',
+      dropdown: genSkillList(5),
+    },
+    {
       name: 'Dagger & Bow Mastery',
       label: 'Dagger & Bow Mastery',
       inputType: 'dropdown',
@@ -382,6 +416,7 @@ export class AbyssChaser extends ShadowChaser {
       passiveSkillList: this.passiveSkillList4th,
       classNames: this.classNames4th,
     });
+    this.inheritAutoCasts(ABYSS_SQUARE_AUTO_CAST);
   }
 
   override setAdditionalBonus(params: AdditionalBonusInput): EquipmentSummaryModel {

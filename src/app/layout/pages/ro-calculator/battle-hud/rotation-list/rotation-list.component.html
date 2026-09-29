@@ -120,7 +120,7 @@
               optionLabel="label"
               optionValue="value"
               [ngModel]="entry.stackCount"
-              (onChange)="stackChange.emit({ name: entry.value.split('==')[0], stack: $event.value })"
+              (onChange)="stackChange.emit({ index: entry.index, stack: $event.value })"
             ></p-dropdown>
           </div>
 

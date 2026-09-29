@@ -42,6 +42,7 @@ const EXCEPTIONS: Record<string, { fields: Field[]; why: string; }> = {
  */
 const NO_CLIENT_ROW = new Set([
   214, // Ataque Surpresa (Sightless Mind)
+  2239, // Bomba Relógio (Bomb Cluster): no client delay row
   2243, // Investida de Worg (Wug Strike)
   2308, // Toque do Oblívio (Banishing Point)
   2593, // Chute Solar (Blaze Kick)

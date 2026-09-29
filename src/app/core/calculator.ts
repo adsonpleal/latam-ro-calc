@@ -518,6 +518,12 @@ export class Calculator {
     return this;
   }
 
+  /** Override the accumulation used for one rotation solve without changing saved build state. */
+  setSkillStacks(stacks?: Record<string, number>) {
+    this.model.skillStacks = stacks;
+    return this;
+  }
+
   setWeapon(params: { itemId: number; refine: number; grade?: string; }) {
     const { itemId, refine, grade } = params;
 

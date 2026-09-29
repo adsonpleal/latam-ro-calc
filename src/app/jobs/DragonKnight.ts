@@ -295,6 +295,16 @@ export class DragonKnight extends RuneKnight {
   ];
   private readonly activeSkillList4th: ActiveSkillModel[] = [
     {
+      // https://browiki.org/wiki/Determina%C3%A7%C3%A3o — the skill does not affect abilities.
+      label: 'Determinação',
+      name: 'Vigor',
+      inputType: 'selectButton',
+      dropdown: [
+        { label: 'Sim', value: 10, isUse: true, bonus: { flatBasicDmg: 200, vigorBasicRaceDmg: 50 } },
+        { label: 'Não', value: 0, isUse: false },
+      ],
+    },
+    {
       label: 'Dragonic Aura 10',
       name: 'Dragonic Aura',
       inputType: 'selectButton',

@@ -23,7 +23,45 @@ describe('class-owned auto-cast definitions', () => {
 
   it('inherits Shadow Chaser definitions through Abyss Chaser', () => {
     expect(keysOf(new ShadowChaser())).toEqual(['shadow-spell']);
-    expect(keysOf(new AbyssChaser())).toEqual(['shadow-spell']);
+    expect(keysOf(new AbyssChaser())).toEqual(['shadow-spell', 'abyss-square']);
+  });
+
+  it('offers Gemini Lumen through Mimetismo as separate physical and magic melee procs', () => {
+    const rule = new ShadowChaser().autoCastDefinitions[0];
+    const result = rule.resolve({
+      skillState: {
+        activeLevel: () => 0,
+        learnedLevel: (name: string) => name === 'Reproduce' ? 5 : 0,
+      },
+      optionsFor: () => [],
+      model: { autoCastSelections: { reproduce: 2054 } },
+    } as any);
+    expect(result.slots?.find((slot) => slot.key === 'reproduce')?.options).toContainEqual(
+      expect.objectContaining({ value: 2054 }),
+    );
+    expect(result.sources).toHaveLength(2);
+    expect(result.blocked).toContainEqual(expect.objectContaining({ key: 'config-shadow-spell' }));
+    expect(result.sources?.map((source) => source.skillData?.formula({ skillLevel: 5 } as any)))
+      .toEqual([225, 600]);
+    for (const source of result.sources ?? []) {
+      expect(source).toMatchObject({ chance: 20, trigger: 'melee-physical-hit', skillLevel: 5 });
+    }
+  });
+
+  it('requires Invocação and a learned Fenda before autocasting Fenda do Abismo', () => {
+    const rule = new AbyssChaser().autoCastDefinitions.find(({ key }) => key === 'abyss-square')!;
+    const context = (active: number, learned: number) => ({
+      skillState: {
+        activeLevel: (name: string) => name === 'From the Abyss' ? active : 0,
+        learnedLevel: (name: string) => name === 'Abyss Square' ? learned : 0,
+      },
+      skillById: (id: number) => id === 5321 ? { name: 'Abyss Square' } : undefined,
+    } as any);
+    expect(rule.resolve(context(0, 5)).sources).toBeUndefined();
+    expect(rule.resolve(context(5, 0)).sources).toBeUndefined();
+    expect(rule.resolve(context(5, 3)).sources).toContainEqual(expect.objectContaining({
+      skillId: 5321, skillLevel: 3, chance: 20, trigger: 'physical-attack',
+    }));
   });
 
   it('accumulates Sniper and Ranger definitions on Windhawk', () => {

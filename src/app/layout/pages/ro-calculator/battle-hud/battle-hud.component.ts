@@ -95,8 +95,8 @@ export class BattleHudComponent {
   @Input() relieveLevel = 0;
 
   @Output() relieveLevelChange = new EventEmitter<number>();
-  @Output() rotationChange = new EventEmitter<string[]>();
-  @Output() stackChange = new EventEmitter<{ name: string; stack: number }>();
+  @Output() rotationChange = new EventEmitter<{ rotation: string[]; stacks: number[] }>();
+  @Output() stackChange = new EventEmitter<{ index: number; stack: number }>();
   @Output() optimizeClick = new EventEmitter<void>();
 
   @Output() selectedChancesChange = new EventEmitter<string[]>();
