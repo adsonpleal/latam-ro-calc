@@ -47,11 +47,13 @@ describe('custom item batches', () => {
 
   it('offers icons from the selected item category and weapon subtype', () => {
     const catalog: any = {
-      2: { id: 2, itemTypeId: 1, itemSubTypeId: 257 },
-      1: { id: 1, itemTypeId: 1, itemSubTypeId: 259 },
-      3: { id: 3, itemTypeId: 2, itemSubTypeId: 512, location: 'Upper' },
-      4: { id: 4, itemTypeId: 2, itemSubTypeId: 512, location: 'Middle' },
-      5: { id: 5, itemTypeId: 1, itemSubTypeId: 257, custom: true },
+      2: { id: 2, itemTypeId: 1, itemSubTypeId: 257, presentInLatam: true },
+      1: { id: 1, itemTypeId: 1, itemSubTypeId: 259, presentInLatam: true },
+      3: { id: 3, itemTypeId: 2, itemSubTypeId: 512, location: 'Upper', presentInLatam: true },
+      4: { id: 4, itemTypeId: 2, itemSubTypeId: 512, location: 'Middle', presentInLatam: true },
+      5: { id: 5, itemTypeId: 1, itemSubTypeId: 257, custom: true, presentInLatam: true },
+      6: { id: 6, itemTypeId: 1, itemSubTypeId: 257 },
+      7: { id: 7, itemTypeId: 1, itemSubTypeId: 257, presentInLatam: true, preRelease: true },
     };
     expect(customIconCandidates('weapon', 257, catalog).map((item) => item.id)).toEqual([2]);
     expect(customIconCandidates('weapon', 259, catalog).map((item) => item.id)).toEqual([1]);

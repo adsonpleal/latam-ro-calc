@@ -133,7 +133,7 @@ export function customIconCandidates(kind: CustomKind, subtype: number | null | 
     : kind === 'accLeft' ? [ItemSubTypeId.Acc, ItemSubTypeId.Acc_L]
       : kind === 'accRight' ? [ItemSubTypeId.Acc, ItemSubTypeId.Acc_R] : null;
   return Object.values(catalog).filter((item) => {
-    if (item.custom || item.itemTypeId !== expectedType) return false;
+    if (item.custom || !item.presentInLatam || item.preRelease || item.itemTypeId !== expectedType) return false;
     if (headLocation) return item.itemSubTypeId === ItemSubTypeId.Upper && item.location === headLocation;
     if (accessorySubtypes) return accessorySubtypes.includes(item.itemSubTypeId);
     return kind === 'consumable' || kind === 'card' || item.itemSubTypeId === expectedSubtype;

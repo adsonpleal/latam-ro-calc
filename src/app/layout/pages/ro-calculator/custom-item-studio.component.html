@@ -48,7 +48,7 @@
   </div>
   <div *ngIf="!libraryMode" class="studio-workspace" [class.studio-show-preview]="mobileView === 'preview'">
     <div class="studio-main">
-      <p-selectButton [options]="sections" [(ngModel)]="section" ariaLabelledBy="studio-sections-label"></p-selectButton>
+      <p-selectButton [options]="availableSections" [(ngModel)]="section" ariaLabelledBy="studio-sections-label"></p-selectButton>
       <span id="studio-sections-label" class="p-sr-only">Seções do item</span>
       <div class="studio-editor-scroll mt-3">
         <div *ngIf="section === 'item'">
@@ -71,7 +71,7 @@
             <div *ngIf="draft.kind === 'ammo'"><label for="studio-ammo-type">Tipo de munição</label><p-dropdown inputId="studio-ammo-type" [options]="ammoSubtypes" optionLabel="label" optionValue="id" [(ngModel)]="draft.itemSubTypeId" (ngModelChange)="onSubtypeChange()" [filter]="true" filterBy="label" appendTo="body"></p-dropdown></div>
             <div>
               <label for="studio-icon">Ícone</label>
-              <button pButton id="studio-icon" type="button" class="p-button-outlined w-full justify-content-start gap-2" (click)="iconPicker.toggle($event)">
+              <button pButton id="studio-icon" type="button" class="studio-icon-trigger p-button-outlined w-full justify-content-start gap-2" (click)="iconPicker.toggle($event)">
                 <img [src]="previewIcon | iconUrl: 'item'" class="item_img" alt="" missingIcon />
                 <span>Escolher ícone</span>
               </button>
@@ -83,8 +83,8 @@
                   <div *ngIf="iconFilteredOptions.length" class="studio-icon-viewport" (scroll)="loadMoreIcons($event)">
                     <div class="studio-icon-grid">
                       <button *ngFor="let option of visibleIcons; trackBy: trackIcon" type="button" class="studio-icon-option" [class.studio-icon-option--selected]="previewIcon === option.id"
-                        [attr.aria-label]="'Usar ícone de ' + option.name" [title]="option.name + ' · ID ' + option.id" (click)="selectIcon(option.id); iconPicker.hide()">
-                        <img [src]="option.id | iconUrl: 'item'" alt="" missingIcon />
+                        [attr.aria-label]="'Usar ícone de ' + option.name" [pTooltip]="option.name + ' · ID ' + option.id" tooltipPosition="top" [showDelay]="350" (click)="selectIcon(option.id); iconPicker.hide()">
+                        <img [src]="option.id | iconUrl: 'item'" alt="" (error)="iconLoadFailed(option.id)" missingIcon />
                       </button>
                     </div>
                   </div>
@@ -121,28 +121,25 @@
           </div>
         </div>
 
-        <div *ngIf="section === 'sockets'">
-          <ng-container *ngIf="isEquipment(draft.kind); else noSockets">
-            <div class="studio-fields p-fluid">
-              <div><label for="studio-card-count">Cartas</label><p-dropdown inputId="studio-card-count" [options]="cardCounts" [ngModel]="draft.cardCapacity" (ngModelChange)="changeCapacity('cardCapacity', $event)" appendTo="body"></p-dropdown></div>
-              <div><label for="studio-enchant-count">Encantamentos</label><p-dropdown inputId="studio-enchant-count" [options]="enchantCounts" [ngModel]="draft.enchantCapacity" (ngModelChange)="changeCapacity('enchantCapacity', $event)" appendTo="body"></p-dropdown></div>
-              <div><label for="studio-ba-count">Bônus Aleatórios</label><p-dropdown inputId="studio-ba-count" [options]="baCounts" [ngModel]="draft.baCapacity" (ngModelChange)="changeCapacity('baCapacity', $event)" appendTo="body"></p-dropdown></div>
-            </div>
-            <div class="studio-sockets" aria-label="Quatro posições compartilhadas">
-              <span *ngFor="let n of [0,1,2,3]" [class.studio-socket-filled]="n < draft.cardCapacity + draft.enchantCapacity" [attr.aria-label]="n < draft.cardCapacity ? 'Carta' : n < draft.cardCapacity + draft.enchantCapacity ? 'Encantamento' : 'Livre'">{{ n < draft.cardCapacity ? 'C' : n < draft.cardCapacity + draft.enchantCapacity ? 'E' : '+' }}</span>
-            </div>
-            <p class="text-color-secondary text-sm">Cartas e encantamentos compartilham quatro posições. BAs têm capacidade independente.</p>
-            <p class="text-color-secondary text-sm" *ngIf="capacityNotice">{{ capacityNotice }}</p>
-            <ng-container *ngFor="let row of attachmentRows">
-              <div class="mt-4" *ngIf="row.views.length">
-                <span class="block mb-2">{{ row.label }}</span>
-                <div class="flex flex-wrap gap-2">
-                  <app-equipment-chip *ngFor="let view of row.views" [view]="view" [items]="items" (pick)="pickAttachment(row.field, view, $event)" (clear)="setAttachment(row.field, view.chip.index, null)"></app-equipment-chip>
-                </div>
+        <div *ngIf="section === 'sockets' && isEquipment(draft.kind)">
+          <div class="studio-fields p-fluid">
+            <div><label for="studio-card-count">Cartas</label><p-dropdown inputId="studio-card-count" [options]="cardCounts" [ngModel]="draft.cardCapacity" (ngModelChange)="changeCapacity('cardCapacity', $event)" appendTo="body"></p-dropdown></div>
+            <div><label for="studio-enchant-count">Encantamentos</label><p-dropdown inputId="studio-enchant-count" [options]="enchantCounts" [ngModel]="draft.enchantCapacity" (ngModelChange)="changeCapacity('enchantCapacity', $event)" appendTo="body"></p-dropdown></div>
+            <div><label for="studio-ba-count">Bônus Aleatórios</label><p-dropdown inputId="studio-ba-count" [options]="baCounts" [ngModel]="draft.baCapacity" (ngModelChange)="changeCapacity('baCapacity', $event)" appendTo="body"></p-dropdown></div>
+          </div>
+          <div class="studio-sockets" aria-label="Quatro posições compartilhadas">
+            <span *ngFor="let n of [0,1,2,3]" [class.studio-socket-filled]="n < draft.cardCapacity + draft.enchantCapacity" [attr.aria-label]="n < draft.cardCapacity ? 'Carta' : n < draft.cardCapacity + draft.enchantCapacity ? 'Encantamento' : 'Livre'">{{ n < draft.cardCapacity ? 'C' : n < draft.cardCapacity + draft.enchantCapacity ? 'E' : '+' }}</span>
+          </div>
+          <p class="text-color-secondary text-sm">Cartas e encantamentos compartilham quatro posições. BAs têm capacidade independente.</p>
+          <p class="text-color-secondary text-sm" *ngIf="capacityNotice">{{ capacityNotice }}</p>
+          <ng-container *ngFor="let row of attachmentRows">
+            <div class="mt-4" *ngIf="row.views.length">
+              <span class="block mb-2">{{ row.label }}</span>
+              <div class="flex flex-wrap gap-2">
+                <app-equipment-chip *ngFor="let view of row.views" [view]="view" [items]="items" (pick)="pickAttachment(row.field, view, $event)" (clear)="setAttachment(row.field, view.chip.index, null)"></app-equipment-chip>
               </div>
-            </ng-container>
+            </div>
           </ng-container>
-          <ng-template #noSockets><p class="text-color-secondary">Este tipo não usa slots de equipamento. Configure seus efeitos na aba Script.</p></ng-template>
         </div>
 
         <div *ngIf="section === 'bonuses'">

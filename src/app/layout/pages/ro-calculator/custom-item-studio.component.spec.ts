@@ -16,6 +16,21 @@ function studio() {
 }
 
 describe('custom item creator editing', () => {
+  it('shows Slots e BAs only for equipment categories', () => {
+    const { component } = studio();
+    expect(component.availableSections.map((section) => section.value)).toContain('sockets');
+
+    component.section = 'sockets';
+    component.selectKind('consumable');
+    expect(component.section).toBe('item');
+    expect(component.availableSections.map((section) => section.value)).toEqual(['item', 'bonuses']);
+
+    component.selectKind('card');
+    expect(component.availableSections.map((section) => section.value)).toEqual(['item', 'bonuses']);
+    component.selectKind('armor');
+    expect(component.availableSections.map((section) => section.value)).toContain('sockets');
+  });
+
   it('keeps a selected icon through validation and editing, then resets it when the subtype changes', () => {
     const { component } = studio();
     component.selectIcon(1101);
@@ -28,6 +43,20 @@ describe('custom item creator editing', () => {
     component.draft.itemSubTypeId = 259;
     component.onSubtypeChange();
     expect(component.draft.iconItemId).toBeUndefined();
+  });
+
+  it('removes icon images that fail to load from the picker', () => {
+    const { component } = studio();
+    component.items = {
+      1101: { id: 1101, name: 'Espada', itemTypeId: 1, itemSubTypeId: 257, presentInLatam: true },
+      1102: { id: 1102, name: 'Espada', itemTypeId: 1, itemSubTypeId: 257, presentInLatam: true },
+    } as any;
+    component.selectKind('weapon');
+    expect(component.visibleIcons.map((item) => item.id)).toEqual([1101, 1102]);
+    component.iconLoadFailed(1101);
+    expect(component.visibleIcons.map((item) => item.id)).toEqual([1102]);
+    component.onSubtypeChange();
+    expect(component.visibleIcons.map((item) => item.id)).toEqual([1102]);
   });
 
   it('escapes a custom name in the library description tooltip', () => {

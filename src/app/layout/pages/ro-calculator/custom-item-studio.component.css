@@ -23,6 +23,8 @@
 .studio-editor-scroll { padding: 0 .25rem .5rem 0; }
 .studio-item-name { min-width: 0; overflow-wrap: anywhere; }
 .studio-actions-column { width: 1%; white-space: nowrap; text-align: right; }
+.studio-icon-trigger { height: 2.5rem; }
+.studio-icon-trigger img { max-width: 1.5rem; max-height: 1.5rem; object-fit: contain; }
 .studio-icon-picker { width: min(82vw, 360px); }
 .studio-icon-viewport { height: 200px; overflow-y: auto; overscroll-behavior: contain; }
 .studio-icon-grid { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 2px; }

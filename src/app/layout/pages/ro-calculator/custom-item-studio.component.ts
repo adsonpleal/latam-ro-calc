@@ -94,6 +94,7 @@ export class CustomItemStudioComponent {
   iconOptions: ItemModel[] = [];
   iconFilteredOptions: ItemModel[] = [];
   visibleIcons: ItemModel[] = [];
+  private readonly unavailableIconIds = new Set<number>();
   previewRefine = 0;
   previewGrade = '';
   previewLoyalty = 4;
@@ -111,6 +112,8 @@ export class CustomItemStudioComponent {
   readonly kindLabels = CUSTOM_KIND_LABELS;
   readonly baOptions = createExtraOptionList();
   readonly sections = [{ label: 'Item', value: 'item' }, { label: 'Slots e BAs', value: 'sockets' }, { label: 'Script', value: 'bonuses' }];
+  readonly sectionsWithoutSlots = this.sections.filter((section) => section.value !== 'sockets');
+  get availableSections() { return this.isEquipment(this.draft.kind) ? this.sections : this.sectionsWithoutSlots; }
   readonly modes = [{ label: 'Visual', value: 'visual' }, { label: 'JSON bruto', value: 'json' }];
   readonly yesNoOptions = [{ label: 'Sim', value: true }, { label: 'Não', value: false }];
   readonly scriptHelpExample = JSON.stringify({ atk: ['10', '7===20'], cri: ['2---5'] }, null, 2);
@@ -297,6 +300,7 @@ export class CustomItemStudioComponent {
   }
 
   selectKind(kind: CustomKind): void {
+    if (!this.isEquipment(kind) && this.section === 'sockets') this.section = 'item';
     const fresh = this.blank(kind);
     this.draft = { ...this.draft, kind, cardCapacity: fresh.cardCapacity, enchantCapacity: fresh.enchantCapacity,
       baCapacity: fresh.baCapacity, isRefinable: fresh.isRefinable, canGrade: fresh.canGrade,
@@ -315,7 +319,8 @@ export class CustomItemStudioComponent {
 
   private refreshIconOptions(): void {
     this.iconQuery = '';
-    this.iconOptions = customIconCandidates(this.draft.kind, this.draft.itemSubTypeId, this.items);
+    this.iconOptions = customIconCandidates(this.draft.kind, this.draft.itemSubTypeId, this.items)
+      .filter((item) => !this.unavailableIconIds.has(item.id));
     this.filterIconOptions();
   }
 
@@ -332,6 +337,13 @@ export class CustomItemStudioComponent {
     if (this.visibleIcons.length >= this.iconFilteredOptions.length
       || viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight > 160) return;
     this.visibleIcons = this.iconFilteredOptions.slice(0, this.visibleIcons.length + 90);
+  }
+
+  iconLoadFailed(id: number): void {
+    this.unavailableIconIds.add(id);
+    this.iconOptions = this.iconOptions.filter((item) => item.id !== id);
+    this.iconFilteredOptions = this.iconFilteredOptions.filter((item) => item.id !== id);
+    this.visibleIcons = this.iconFilteredOptions.slice(0, Math.max(90, this.visibleIcons.length));
   }
 
   selectIcon(id?: number): void {

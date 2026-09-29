@@ -347,3 +347,6 @@ html {
 .studio-icon-panel::after {
   display: none;
 }
+
+.studio-icon-panel.p-overlaypanel { margin-top: 0; }
+.studio-icon-panel.p-overlaypanel-flipped { margin-bottom: 0; }
