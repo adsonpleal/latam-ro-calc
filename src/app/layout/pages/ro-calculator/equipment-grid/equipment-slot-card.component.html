@@ -122,16 +122,20 @@
 
 <ng-template #body let-rows="rows" let-entry="entry" let-compare="compare">
   <div class="eq-card__body">
-    <span
-      class="eq-card__icon"
-      [class.eq-card__icon--compare]="compare"
-      [pTooltip]="entry ? (entry.id | itemDescTooltip: items : itemDescriptions.version) : ''"
-      [escape]="false"
-      tooltipPosition="top"
-      [showDelay]="350"
-      tooltipStyleClass="item_desc_tooltip"
-    >
-      <img *ngIf="entry" [src]="entry.id | iconUrl: 'item'" alt="" loading="lazy" missingIcon />
+    <span class="eq-card__icon-wrap">
+      <span
+        class="eq-card__icon"
+        [class.eq-card__icon--compare]="compare"
+        [pTooltip]="entry ? (entry.id | itemDescTooltip: items : itemDescriptions.version) : ''"
+        [escape]="false"
+        tooltipPosition="top"
+        [showDelay]="350"
+        tooltipStyleClass="item_desc_tooltip"
+      >
+        <img *ngIf="entry" [src]="entry.id | iconUrl: 'item'" alt="" loading="lazy" missingIcon />
+      </span>
+      <span *ngIf="entry?.custom" class="eq-card__personalized" role="img" aria-label="Item personalizado"
+        pTooltip="Este é um item personalizado." tooltipPosition="top" [showDelay]="300">P</span>
     </span>
 
     <div class="eq-card__chips">

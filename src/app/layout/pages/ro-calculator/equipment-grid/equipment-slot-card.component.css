@@ -260,17 +260,40 @@
   padding: 8px 12px 9px;
 }
 
-.eq-card__icon {
+.eq-card__icon-wrap {
+  position: relative;
   flex: 0 0 auto;
   align-self: center;
+  width: 52px;
+  height: 52px;
+}
+
+.eq-card__icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 52px;
+  width: 100%;
+  height: 100%;
   border: 1px solid #304562;
   border-radius: 4px;
   background: rgb(255 255 255 / 4%);
+}
+
+.eq-card__personalized {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: var(--surface-card);
+  color: var(--green-400);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .eq-card__icon img {

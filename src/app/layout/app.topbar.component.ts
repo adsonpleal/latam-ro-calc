@@ -175,7 +175,7 @@ export class AppTopBarComponent implements OnDestroy {
         'O editor de JSON ganhou formatação e destaque de sintaxe, com ajuda completa no botão “?”. Refinável e Graduável usam os botões Sim/Não e o espaçamento de Habilidades, e Lança usa o ícone básico da Azagaia.',
         'Os seletores de itens, opções e classes dentro de modais voltaram a fechar ao clicar fora. Os botões MCP usam o ícone de brilhos de IA. Refino e peso não aparecem mais como opções de bônus, e a condição de perícia aprendida foi renomeada para Habilidade aprendida. A prévia usa os mesmos seletores de refino e grau dos equipamentos.',
         'O editor visual separa o valor numérico das condições e aplica as alterações automaticamente. Cada bônus pode exigir várias condições ao mesmo tempo, como refino mínimo e graduação. Itens, classes e habilidades são escolhidos pelo nome; regras importadas mais avançadas são preservadas para edição no JSON.',
-        'Itens personalizados selecionados nos equipamentos recebem a etiqueta Personalizado, inclusive nas comparações, cartas e encantamentos. O criador mostra erros com nomes de campos em português e orientações para corrigir o preenchimento, preservando a indicação de linha e coluna no JSON.',
+        'Itens personalizados selecionados nos equipamentos recebem um P circulado sobre o ícone, com uma explicação ao passar o mouse, inclusive nas comparações. O criador mostra erros com nomes de campos em português e orientações para corrigir o preenchimento, preservando a indicação de linha e coluna no JSON.',
       ],
     },
     {
