@@ -17,6 +17,7 @@ const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'))
 const monsters = JSON.parse(readFileSync('src/assets/demo/data/monster.json', 'utf8'));
 const hpSpTable = JSON.parse(readFileSync('src/assets/demo/data/hp_sp_table.json', 'utf8'));
 const replay: any = decodeReplay(loadReplayFixture('mg-pazzolino-field-arrow.rrf'));
+const bareReplay: any = decodeReplay(loadReplayFixture('mg-pazzolino-crimson-bare-recognized.rrf'));
 const aid = replay.sessionInfo.aid;
 const ACTIVES = { 'Recognized Spell': 1, 'Mystical Amplification': 10 };
 
@@ -24,8 +25,8 @@ function packets(r: any, skillId: number) {
   return (r.damage ?? []).filter((d: any) => d.source === r.sessionInfo.aid && d.skillId === skillId);
 }
 
-function sim(skill: string, actives: Record<string, number> = ACTIVES) {
-  const model: any = replayToModel(replay, items).model;
+function sim(skill: string, actives: Record<string, number> = ACTIVES, source: any = replay) {
+  const model: any = replayToModel(source, items).model;
   const cls: any = new ArchMage();
   const b = cls.getJobBonusStatus(model.jobLevel);
   Object.assign(model, {
@@ -33,7 +34,7 @@ function sim(skill: string, actives: Record<string, number> = ACTIVES) {
     jobPow: b.pow, jobSta: b.sta, jobWis: b.wis, jobSpl: b.spl, jobCon: b.con, jobCrt: b.crt,
   });
   const learned: Record<number, number> = {};
-  for (const [id, level] of replay.learnedSkills) learned[id] = level;
+  for (const [id, level] of source.learnedSkills) learned[id] = level;
   const passiveSkillIds = cls.passiveSkills.map((p: any) => learned[SKILL_ID_BY_NAME[p.name]] ?? 0);
   const activeSkillIds = cls.activeSkills.map((a: any) => actives[a.name] ?? 0);
   const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = cls
@@ -81,6 +82,21 @@ describe('Magus ground spells — packets, not displayed white hit labels', () =
 });
 
 describe('Flecha Escarlate — separate arrow and explosion packets', () => {
+  it('matches both hits in the minimally equipped Maestria Arcana recording', () => {
+    expect(replayToModel(bareReplay, items).summary).toMatchObject({
+      equippedCount: 1, skippedItems: [],
+      traits: { pow: 0, sta: 39, wis: 39, spl: 100, con: 0, crt: 0 },
+    });
+    expect(packets(bareReplay, 5235)).toHaveLength(3);
+    expect(packets(bareReplay, 5236)).toHaveLength(3);
+    expect(packets(bareReplay, 5235).every((d: any) => Number(d.damage) === 68_402 && d.hits === 1)).toBe(true);
+    expect(packets(bareReplay, 5236).every((d: any) => Number(d.damage) === 95_362 && d.hits === 2)).toBe(true);
+    expect((bareReplay.skillUses ?? []).some((s: any) => s.source === bareReplay.sessionInfo.aid
+      && s.skillId === 2206 && s.time < packets(bareReplay, 5235)[0].time)).toBe(true);
+    const calculated = sim('Crimson Arrow==5', { 'Recognized Spell': 1 }, bareReplay);
+    expect(calculated.max).toBe(68_402);
+    expect(calculated.explosion).toBe(95_362);
+  });
   it('the long recording isolates the arrow, Climax, then Pólen on one build', () => {
     expect(packets(replay, 5235).map((d: any) => Number(d.damage))).toEqual([
       5_710_489, 5_710_489, 5_710_489, 5_710_489, 5_710_489,
@@ -112,8 +128,18 @@ describe('Flecha Escarlate — separate arrow and explosion packets', () => {
     expect(climax.explosion / plain.explosion).toBeCloseTo(2, 3);
     expect(plain.dpsInput).toBe(plain.max + plain.explosion);
     expect(climax.dpsInput).toBe(climax.max + climax.explosion);
-    // Open residual: the recorded explosion is 8,030,386, while the current ratio yields
-    // ~11.0m on this same build. One geared state cannot identify its missing ratio term.
-    expect(plain.explosion / 8_030_386).toBeGreaterThan(1.3);
+    expect(Math.abs(plain.explosion - 8_030_386)).toBeLessThan(150);
+    expect(Math.abs(climax.explosion - 16_060_772)).toBeLessThan(300);
+  });
+
+  it('Pazzolino screenshot confirms the same explosion-to-arrow ratio on a second damage state', () => {
+    // The chat log shows one 6,661,920 arrow and two 4,684,168 explosion hits.
+    // A replay packet combines the two explosion hits in its damage field.
+    const replayArrow = Number(packets(replay, 5235)[0].damage);
+    const replayExplosion = Number(packets(replay, 5236)[0].damage);
+    const screenshotArrow = 6_661_920;
+    const screenshotExplosion = 2 * 4_684_168;
+    expect(screenshotExplosion / screenshotArrow).toBeCloseTo(replayExplosion / replayArrow, 6);
+    expect(screenshotExplosion / screenshotArrow).toBeCloseTo(45 / 32, 5);
   });
 });

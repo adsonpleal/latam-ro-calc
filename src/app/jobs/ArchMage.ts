@@ -298,6 +298,8 @@ export class ArchMage extends Warlock {
         return floor((skillLevel * 300 + totalSpl * 3) * (baseLevel / 100));
       },
       // The arrow and its explosion are separate server packets (5235 and 5236).
+      // LATAM's explosion still uses 400% per level: Pazzolino's bare Magus replay
+      // records 95,362 exactly here, versus 132,700 with the wiki's 600% per level.
       // Climax doubles only the explosion packet, at every Climax level.
       part2: {
         label: 'Explosão',
@@ -310,7 +312,7 @@ export class ArchMage extends Warlock {
           const { model, skillLevel, status } = input;
           const { totalSpl } = status;
           const { level: baseLevel } = model;
-          return floor((skillLevel * 600 + totalSpl * 5) * (baseLevel / 100))
+          return floor((skillLevel * 400 + totalSpl * 5) * (baseLevel / 100))
             * (this.isSkillActive('Climax') ? 2 : 1);
         },
       },

@@ -166,6 +166,17 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.153-beta',
+      date: '28-09-2026',
+      logs: [
+        'A Batalha agora guarda o Acúm. em cada espaço da rotação: a mesma habilidade pode aparecer mais de uma vez com quantidades diferentes. Reportado por BeLL.',
+        'As quatro Insígnias no alvo podem ser selecionadas juntas. Determinação entrou para Cavaleiros Draconianos, com bônus de ataques básicos e contra Humanoides e Anjos. Bomba Relógio e as quatro armadilhas ofensivas do Falcão do Vento entraram no cálculo, conforme as fórmulas da bROWiki. Armadilhas reportadas por TrapBoom!.',
+        'Gemini Lumen pode ser escolhida em Mimetismo, com suas duas luzes na Auto-conjuração. Fenda do Abismo entra como fonte de Auto-conjuração com Invocação ativa, e Amplificação Mística permite escolher o nível 5.',
+        'A tabela de HP e SP base do Animista foi ajustada com valores registrados por jogadores entre os níveis 201 e 250: no nível 240, o HP base passou de 50.115 para 33.213. A antiga aproximação com bônus de Invocador superestimava o HP máximo. Reportado na comunidade.',
+        'A explosão da Flecha Escarlate agora usa o dano base que o servidor LATAM aplica: 2.000% no nível 5, mais o bônus de FEI. A gravação com apenas Cetro do Éden III e Maestria Arcana fechou exatamente os dois danos (68.402 na flecha e 95.362 na explosão); a gravação equipada também ficou dentro de 0,002%. Gravações por Pazzolino.',
+      ],
+    },
+    {
       v: '0.1.152-beta',
       date: '27-09-2026',
       logs: [

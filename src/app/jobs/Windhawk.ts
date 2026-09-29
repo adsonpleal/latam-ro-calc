@@ -193,6 +193,28 @@ export class Windhawk extends Ranger {
 
   private readonly classNames4th = [ClassName.Only_4th, ClassName.Windhawk];
   private readonly atkSkillList4th: AtkSkillModel[] = [
+    ...([
+      { name: 'Solid Trap', element: ElementType.Earth, cd: 20 },
+      { name: 'Flame Trap', element: ElementType.Fire, cd: 30 },
+      { name: 'Deep Blind Trap', element: ElementType.Dark, cd: 30 },
+      { name: 'Swift Trap', element: ElementType.Wind, cd: 30 },
+    ] as const).map(({ name, element, cd }): AtkSkillModel => ({
+      name,
+      label: `${name} Lv5`,
+      labelSuffix: '1 pulso',
+      value: `${name}==5`,
+      levelList: Array.from({ length: 5 }, (_, i) => ({ label: `Nv ${i + 1}`, value: `${name}==${i + 1}` })),
+      acd: 0.5,
+      fct: 1,
+      vct: 1,
+      cd,
+      isMelee: true,
+      element,
+      // One damage pulse. The field's later timed pulses are not part of the rotation.
+      // https://browiki.org/wiki/Armadilha_Avan%C3%A7ada
+      formula: ({ model, skillLevel, status }) =>
+        (skillLevel * 250 + status.totalCon * 3) * (1 + 0.2 * this.learnLv('Advanced Trap')) * (model.level / 100),
+    })),
     {
       name: 'Crescive Bolt',
       label: '[V3] Crescive Bolt Lv10',
@@ -276,6 +298,15 @@ export class Windhawk extends Ranger {
     },
   ];
   private readonly passiveSkillList4th: PassiveSkillModel[] = [
+    {
+      name: 'Advanced Trap',
+      label: 'Armadilha Avançada',
+      inputType: 'dropdown',
+      dropdown: [
+        { label: '-', value: 0, isUse: false },
+        ...Array.from({ length: 5 }, (_, i) => ({ label: `Nv ${i + 1}`, value: i + 1, skillLv: i + 1, isUse: true })),
+      ],
+    },
     {
       name: 'Hawk Rush',
       label: 'Hawk Rush',

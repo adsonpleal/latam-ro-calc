@@ -307,8 +307,10 @@ export function buildRotationView(input: {
   hasSelectedChances: boolean;
   atkSkills: RotationSkillMeta[];
   skillStacks?: Record<string, number>;
+  rotationStacks?: number[];
+  summaryByIndex?: Map<number, any>;
 }): RotationView {
-  const { rotation, summaryByValue, baseSummary, hasSelectedChances, atkSkills, skillStacks } = input;
+  const { rotation, summaryByValue, summaryByIndex, baseSummary, hasSelectedChances, atkSkills, skillStacks, rotationStacks } = input;
 
   const metaFor = (value: string): RotationSkillMeta | undefined =>
     atkSkills?.find((s) => s.value === value || s.values?.includes(value) || s.levelList?.some((l) => l.value === value));
@@ -318,13 +320,13 @@ export function buildRotationView(input: {
   const seen = new Map<string, number>();
   const partial = (rotation ?? []).map((value, index) => {
     const basic = isBasicAttack(value);
-    const summary = basic ? baseSummary : summaryByValue.get(value) ?? baseSummary;
+    const summary = basic ? baseSummary : summaryByIndex?.get(index) ?? summaryByValue.get(value) ?? baseSummary;
     const dmg = summary?.dmg;
     const { name, level } = splitValue(value);
     const meta = metaFor(value);
     const stackMin = meta?.minStack ?? 0;
     const stackMax = meta?.maxStack ?? 0;
-    const savedStack = skillStacks?.[name];
+    const savedStack = rotationStacks?.[index] ?? skillStacks?.[name];
     const stackCount = stackMax > 0
       ? Math.max(stackMin, Math.min(stackMax, Number.isFinite(savedStack) ? savedStack : (meta?.defaultStack ?? stackMax)))
       : 0;

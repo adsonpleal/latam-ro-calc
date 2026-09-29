@@ -7,10 +7,17 @@ import { ElementType } from '../constants/element-type.const';
 import { DoubleStrafeFn, SnatcherFn, VulturesEyeFn } from '../constants/share-passive-skills';
 import { WeaponTypeName } from '../constants/weapon-type-mapper';
 import { Stalker } from './Stalker';
-import { ClassAutoCastDefinition } from '../models/auto-cast.model';
+import { AutoCastSource, ClassAutoCastDefinition } from '../models/auto-cast.model';
 
 const PLAGIARISM_MAGIC = [19, 14, 20, 83, 89, 84, 88, 90, 91];
 const REPRODUCE_MAGIC = [...PLAGIARISM_MAGIC, 2213, 2211, 2204, 2202, 2214, 2216, 2203, 2212, 2210, 2449];
+const GEMINI_LUMEN_ID = 2054;
+const geminiLight = (magical: boolean): AtkSkillModel => ({
+  name: 'Duple Light', label: magical ? 'Gemini Lumen (luz mágica)' : 'Gemini Lumen (luz física)',
+  value: 'Duple Light==10', acd: 0, fct: 0, vct: 0, cd: 0,
+  isMatk: magical, isMelee: false, element: ElementType.Neutral, totalHit: 1,
+  formula: ({ skillLevel }) => magical ? 400 + 40 * skillLevel : 150 + 15 * skillLevel,
+});
 const SHADOW_CHANCE = [0, 28, 26, 24, 22, 20, 18, 16, 14, 12, 15];
 const SHADOW_CAST_LEVEL = [0, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
 
@@ -18,18 +25,29 @@ const SHADOW_CHASER_AUTO_CASTS: ClassAutoCastDefinition[] = [{
   key: 'shadow-spell',
   resolve: ({ skillState, optionsFor, model }) => {
     const shadowLevel = skillState.activeLevel('Shadow Spell');
-    if (shadowLevel <= 0) {
-      return { blocked: [{ key: 'config-shadow-spell', name: 'Desejo das Sombras', icon: 2286, reason: 'Selecione o nível em Habilidades' }] };
-    }
-
     const configs = [
       { key: 'plagiarism' as const, name: 'Plágio', icon: 225, level: skillState.learnedLevel('Plagiarism'), ids: PLAGIARISM_MAGIC },
       { key: 'reproduce' as const, name: 'Mimetismo', icon: 2285, level: skillState.learnedLevel('Reproduce'), ids: REPRODUCE_MAGIC },
     ].filter((config) => config.level > 0);
-    const slots = configs.map((config) => ({ ...config, options: optionsFor(config.ids) }));
-    const sources = slots.flatMap((slot) => {
+    const slots = configs.map((config) => ({ ...config, options: [
+      ...optionsFor(config.ids),
+      ...(config.key === 'reproduce' ? [{ label: 'Gemini Lumen', value: GEMINI_LUMEN_ID, icon: GEMINI_LUMEN_ID }] : []),
+    ] }));
+    const sources: AutoCastSource[] = slots.flatMap((slot): AutoCastSource[] => {
       const skillId = Number(model.autoCastSelections?.[slot.key]);
       if (!skillId || !slot.options.some((option) => option.value === skillId)) return [];
+      if (skillId === GEMINI_LUMEN_ID && slot.key === 'reproduce') {
+        const level = Math.min(10, slot.level);
+        return [false, true].map((magical) => ({
+          key: `config-reproduce-gemini-${magical ? 'magic' : 'physical'}`,
+          kind: 'configurable' as const, skillId, skillLevel: level,
+          chance: 10 + 2 * level, trigger: 'melee-physical-hit' as const,
+          sourceName: slot.name, slot: slot.key, enablingSkillId: slot.icon,
+          skillData: geminiLight(magical),
+          chanceBreakdown: [{ label: magical ? 'Luz mágica' : 'Luz física', value: `${10 + 2 * level}% por golpe corpo a corpo` }],
+        }));
+      }
+      if (shadowLevel <= 0) return [];
       return [{
         key: `config-${slot.key}-${skillId}`, kind: 'configurable' as const, skillId,
         skillLevel: SHADOW_CAST_LEVEL[shadowLevel] ?? 0,
@@ -42,7 +60,10 @@ const SHADOW_CHASER_AUTO_CASTS: ClassAutoCastDefinition[] = [{
         ],
       }];
     });
-    return { slots, sources };
+    const blocked = shadowLevel <= 0
+      ? [{ key: 'config-shadow-spell', name: 'Desejo das Sombras', icon: 2286, reason: 'Selecione o nível em Habilidades' }]
+      : [];
+    return { slots, sources, blocked };
   },
 }];
 
