@@ -69,6 +69,7 @@ describe('custom item tools', () => {
     expect(validated.data.valid).toBe(true);
     const created = await call('create_custom_items', { items });
     expect(created.data.valid).toBe(true);
+    expect(created.data.items[0].item).toMatchObject({ id: first, name: 'Espada MCP' });
     const token = new URL(created.data.url).hash.split('customItem=')[1];
     expect(decodeCustomBundle(token).map((item) => item.id)).toEqual([first, second]);
   });

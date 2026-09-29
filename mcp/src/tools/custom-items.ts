@@ -8,6 +8,12 @@ import { encodeCustomBundle } from 'src/app/core/custom-item-library';
 import { createRawTotalBonus } from 'src/app/utils/create-raw-total-bonus';
 import { bonusKeyLabel } from 'src/app/core/bonus-key-label';
 
+const itemWarnings = (item: { script: Record<string, unknown> }): string[] => [
+  ...((item.script['autoCastPending'] as unknown[] | undefined)?.length
+    ? ['O item contém autoconjurações documentadas, mas indisponíveis no cálculo.'] : []),
+  ...(!Object.keys(item.script).length ? ['Sem bônus mapeados.'] : []),
+];
+
 const draftsSchema = {
   items: z.array(z.record(z.string(), z.unknown())).min(1).max(CUSTOM_ITEM_LIMIT),
 };
@@ -44,6 +50,10 @@ export function registerCustomItemTools(server: McpServer, dataset: Dataset): vo
     constraints: ['A soma de cardCapacity e enchantCapacity não pode passar de 4.',
       'BAs usam capacidade própria de 0 a 5.', 'Uma falha invalida o lote completo.',
       'Scripts e combinações são validados antes de gerar o link.'],
+    semantics: ['Bônus percentuais usam a unidade da chave de script; reduções seguem o sinal do avaliador.',
+      'Algumas famílias escolhem o maior valor aplicável em vez de somar.',
+      'Faixas de lealdade de mascote substituem as anteriores, sem acumular.',
+      'autoCastPending descreve um efeito que o motor ainda não calcula.'],
     singleExample: { items: [{ name: 'Espada de Teste', kind: 'weapon', itemSubTypeId: 257,
       cardCapacity: 1, enchantCapacity: 3, baCapacity: 2, isRefinable: true, canGrade: true,
       itemLevel: 5, attack: 150, script: { atk: ['50', '7===20'] } }] },
@@ -61,7 +71,7 @@ export function registerCustomItemTools(server: McpServer, dataset: Dataset): vo
     const result = validateCustomItems(items, dataset.items as any);
     return json(result.errors.length
       ? { valid: false, errors: result.errors }
-      : { valid: true, items: result.items.map((item) => ({ item, description: customItemDescription(item) })) });
+      : { valid: true, items: result.items.map((item) => ({ item, description: customItemDescription(item), warnings: itemWarnings(item) })) });
   });
 
   registerJsonTool<{ items: unknown[] }>(server, 'create_custom_items', {
@@ -75,7 +85,7 @@ export function registerCustomItemTools(server: McpServer, dataset: Dataset): vo
     return json({
       valid: true,
       url: `${config.appOrigin.replace(/\/+$/, '')}/#/?customItem=${token}`,
-      items: result.items.map((item) => ({ id: item.id, name: item.name, description: customItemDescription(item) })),
+      items: result.items.map((item) => ({ item, description: customItemDescription(item), warnings: itemWarnings(item) })),
     });
   });
 }

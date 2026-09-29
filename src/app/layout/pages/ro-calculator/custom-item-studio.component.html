@@ -109,6 +109,7 @@
           </div>
           <button type="button" (click)="addRule()">+ Adicionar regra</button>
           <p class="studio-hint">Ex.: <code>7===10</code> concede +10 no refino 7; <code>2---5</code> concede +5 a cada dois refinos.</p>
+          <p class="studio-hint">Unidades e sinais seguem a chave do bônus; algumas famílias usam o maior valor, sem somar. Faixas de lealdade se substituem. Efeitos indisponíveis são descritos, mas não entram no cálculo.</p>
         </div>
         <textarea *ngIf="mode === 'json'" class="studio-json" [(ngModel)]="rawScript" (ngModelChange)="onRawScript()" spellcheck="false" aria-label="Script JSON do item"></textarea>
       </div>
