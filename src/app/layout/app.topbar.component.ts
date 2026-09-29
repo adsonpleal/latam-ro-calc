@@ -166,6 +166,13 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.154-beta',
+      date: '29-09-2026',
+      logs: [
+        'Plágio e Mimetismo agora oferecem Ira de Thor, Bolas de Fogo, Rajada Congelante, Espíritos Anciões, Ataque Espiritual, Tempestade de Raios, Coluna de Fogo, Supernova e Esfera d\'Água na Auto-conjuração. Desejo das Sombras limita o nível ao aprendido de Plágio ou Mimetismo, ao seu próprio nível e ao máximo da magia, e não autoconjura magias de classes 3, inclusive em seleções salvas. Gemini Lumen mantém suas duas luzes próprias. Supernova considera Chama Reveladora ativa, e Esfera d\'Água considera água suficiente ao redor do usuário. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.153-beta',
       date: '28-09-2026',
       logs: [
