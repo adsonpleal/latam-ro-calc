@@ -166,6 +166,13 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.154-beta',
+      date: '28-09-2026',
+      logs: [
+        'Plágio e Mimetismo agora oferecem Ira de Thor, Bolas de Fogo, Rajada Congelante, Espíritos Anciões, Ataque Espiritual, Tempestade de Raios, Coluna de Fogo, Supernova e Esfera d\'Água na Auto-conjuração. O nível usado por Desejo das Sombras respeita o máximo de cada magia. Supernova considera Chama Reveladora ativa, e Esfera d\'Água considera água suficiente ao redor do usuário. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.153-beta',
       date: '28-09-2026',
       logs: [

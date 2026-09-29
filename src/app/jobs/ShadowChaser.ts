@@ -9,7 +9,9 @@ import { WeaponTypeName } from '../constants/weapon-type-mapper';
 import { Stalker } from './Stalker';
 import { AutoCastSource, ClassAutoCastDefinition } from '../models/auto-cast.model';
 
-const PLAGIARISM_MAGIC = [19, 14, 20, 83, 89, 84, 88, 90, 91];
+// Copyable magic with existing damage formulas: https://browiki.org/wiki/Plágio
+// Mimetismo also copies these spells. Physical/hybrid skills are not Shadow Spell options.
+const PLAGIARISM_MAGIC = [19, 14, 20, 83, 89, 84, 88, 90, 91, 85, 17, 15, 13, 11, 21, 80, 81, 86];
 const REPRODUCE_MAGIC = [...PLAGIARISM_MAGIC, 2213, 2211, 2204, 2202, 2214, 2216, 2203, 2212, 2210, 2449];
 const GEMINI_LUMEN_ID = 2054;
 const geminiLight = (magical: boolean): AtkSkillModel => ({
@@ -23,7 +25,7 @@ const SHADOW_CAST_LEVEL = [0, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];
 
 const SHADOW_CHASER_AUTO_CASTS: ClassAutoCastDefinition[] = [{
   key: 'shadow-spell',
-  resolve: ({ skillState, optionsFor, model }) => {
+  resolve: ({ skillState, optionsFor, skillById, model }) => {
     const shadowLevel = skillState.activeLevel('Shadow Spell');
     const configs = [
       { key: 'plagiarism' as const, name: 'Plágio', icon: 225, level: skillState.learnedLevel('Plagiarism'), ids: PLAGIARISM_MAGIC },
@@ -48,9 +50,14 @@ const SHADOW_CHASER_AUTO_CASTS: ClassAutoCastDefinition[] = [{
         }));
       }
       if (shadowLevel <= 0) return [];
+      const skill = skillById(skillId);
+      if (!skill) return [];
+      // E.g. Esfera d'Água only has five levels, even when Shadow Spell requests seven.
+      const maxLevel = Math.max(...(skill.levelList ?? [{ value: skill.value }])
+        .map(({ value }) => Number(String(value).split('==')[1])));
       return [{
         key: `config-${slot.key}-${skillId}`, kind: 'configurable' as const, skillId,
-        skillLevel: SHADOW_CAST_LEVEL[shadowLevel] ?? 0,
+        skillLevel: Math.min(SHADOW_CAST_LEVEL[shadowLevel] ?? 0, maxLevel),
         chance: SHADOW_CHANCE[shadowLevel] ?? 0,
         trigger: 'physical-hit' as const, sourceName: slot.name, slot: slot.key,
         enablingSkillId: slot.icon,
