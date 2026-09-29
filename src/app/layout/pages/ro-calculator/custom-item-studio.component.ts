@@ -49,6 +49,7 @@ export class CustomItemStudioComponent {
   visible = false;
   libraryMode = true;
   mcpVisible = false;
+  scriptHelpVisible = false;
   mode: 'visual' | 'json' = 'visual';
   mobileView: 'editor' | 'preview' = 'editor';
   section: 'item' | 'sockets' | 'bonuses' = 'item';
@@ -86,6 +87,8 @@ export class CustomItemStudioComponent {
   readonly baOptions = createExtraOptionList();
   readonly sections = [{ label: 'Item', value: 'item' }, { label: 'Slots e BAs', value: 'sockets' }, { label: 'Script', value: 'bonuses' }];
   readonly modes = [{ label: 'Visual', value: 'visual' }, { label: 'JSON bruto', value: 'json' }];
+  readonly yesNoOptions = [{ label: 'Sim', value: true }, { label: 'Não', value: false }];
+  readonly scriptHelpExample = JSON.stringify({ atk: ['10', '7===20'], cri: ['2---5'] }, null, 2);
   readonly mobileViews = [{ label: 'Editor', value: 'editor' }, { label: 'Prévia', value: 'preview' }];
   readonly counts = createNumberDropdownList({ from: 0, to: 4 });
   readonly baCounts = createNumberDropdownList({ from: 0, to: 5 });
@@ -382,6 +385,11 @@ export class CustomItemStudioComponent {
     }
     this.rawError = '';
     this.validate();
+  }
+
+  formatJson(): void {
+    this.onRawScript();
+    if (!this.rawError) this.rawScript = JSON.stringify(this.draft.script, null, 2);
   }
 
   setMode(mode: 'visual' | 'json'): void {

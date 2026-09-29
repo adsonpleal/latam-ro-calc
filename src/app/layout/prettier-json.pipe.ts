@@ -7,6 +7,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class PrettyJsonPipe implements PipeTransform {
   transform(value: any, args: any[]): any {
+    // Editing needs the exact source, including whitespace and unfinished JSON.
+    if (args[2] === 'raw') return this.applyColors(String(value), args[0], args[1]);
     try {
       /**
        * check and try to parse value if it's not an object

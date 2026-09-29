@@ -94,8 +94,8 @@
             <span>Ocupa</span><p-checkbox *ngFor="let location of ['Upper','Middle','Lower']" [binary]="true" [ngModel]="headOccupancy.includes(location)" (ngModelChange)="toggleHeadLocation(location, $event)" [label]="location === 'Upper' ? 'Topo' : location === 'Middle' ? 'Meio' : 'Baixo'"></p-checkbox>
           </div>
           <div class="flex flex-wrap gap-3 mt-3" *ngIf="isEquipment(draft.kind)">
-            <div class="flex align-items-center gap-2"><p-inputSwitch inputId="studio-refinable" [(ngModel)]="draft.isRefinable" (ngModelChange)="validate()"></p-inputSwitch><label for="studio-refinable">Refinável</label></div>
-            <div class="flex align-items-center gap-2"><p-inputSwitch inputId="studio-gradable" [(ngModel)]="draft.canGrade" (ngModelChange)="validate()"></p-inputSwitch><label for="studio-gradable">Graduável</label></div>
+            <div class="flex align-items-center gap-2 skill-control-row"><span id="studio-refinable-label">Refinável</span><p-selectButton class="w-5rem" [options]="yesNoOptions" [(ngModel)]="draft.isRefinable" (ngModelChange)="validate()" ariaLabelledBy="studio-refinable-label"></p-selectButton></div>
+            <div class="flex align-items-center gap-2 skill-control-row"><span id="studio-gradable-label">Graduável</span><p-selectButton class="w-5rem" [options]="yesNoOptions" [(ngModel)]="draft.canGrade" (ngModelChange)="validate()" ariaLabelledBy="studio-gradable-label"></p-selectButton></div>
           </div>
         </div>
 
@@ -124,7 +124,10 @@
         </div>
 
         <div *ngIf="section === 'bonuses'">
-          <p-selectButton [options]="modes" [ngModel]="mode" (ngModelChange)="setMode($event)" ariaLabelledBy="studio-mode-label"></p-selectButton>
+          <div class="flex align-items-center justify-content-between gap-2">
+            <p-selectButton [options]="modes" [ngModel]="mode" (ngModelChange)="setMode($event)" ariaLabelledBy="studio-mode-label"></p-selectButton>
+            <button pButton type="button" class="p-button-text p-button-rounded" icon="pi pi-question-circle" aria-label="Ajuda do script" pTooltip="Ajuda do script" (click)="scriptHelpVisible = true"></button>
+          </div>
           <span id="studio-mode-label" class="p-sr-only">Modo do script</span>
           <div *ngIf="mode === 'visual'" class="mt-3">
             <div class="studio-rule surface-card border-1 surface-border border-round p-3 mb-3" *ngFor="let rule of rules; let i = index">
@@ -139,10 +142,14 @@
               </div>
             </div>
             <button pButton type="button" class="p-button-outlined p-button-sm" icon="pi pi-plus" label="Adicionar regra" (click)="addRule()"></button>
-            <p class="text-color-secondary text-sm">Ex.: <code>7===10</code> concede +10 a partir do refino 7; <code>2---5</code> concede +5 a cada dois refinos.</p>
-            <p class="text-color-secondary text-sm">Unidades e sinais seguem a chave do bônus. Algumas famílias usam o maior valor, sem somar; faixas de lealdade se substituem. Efeitos indisponíveis são descritos, mas não entram no cálculo.</p>
           </div>
-          <textarea *ngIf="mode === 'json'" pInputText class="studio-json mt-3" [(ngModel)]="rawScript" (ngModelChange)="onRawScript()" spellcheck="false" aria-label="Script JSON do item"></textarea>
+          <div *ngIf="mode === 'json'" class="mt-3">
+            <button pButton type="button" class="p-button-outlined p-button-sm" icon="pi pi-align-left" label="Formatar JSON" (click)="formatJson()"></button>
+            <div class="studio-json-editor json_display mt-2">
+              <pre #scriptHighlight class="studio-json-highlight" aria-hidden="true" [innerHTML]="(rawScript + '\n') | prettyjson: [false, 0, 'raw']"></pre>
+              <textarea #scriptInput pInputText [(ngModel)]="rawScript" (ngModelChange)="onRawScript()" (scroll)="scriptHighlight.scrollTop = scriptInput.scrollTop; scriptHighlight.scrollLeft = scriptInput.scrollLeft" wrap="off" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Script JSON do item"></textarea>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -176,6 +183,55 @@
       <button pButton type="button" *ngIf="!libraryMode" [disabled]="diagnostics.length > 0" [label]="context ? 'Salvar e equipar' : 'Salvar item'" (click)="save()"></button>
     </div>
   </ng-template>
+</p-dialog>
+
+<p-dialog header="Como editar o script" [(visible)]="scriptHelpVisible" [modal]="true" [dismissableMask]="true" [draggable]="false" [resizable]="false" [style]="{ width: 'min(92vw, 720px)', height: '85vh' }">
+  <p>O script define os bônus do item. ATQ e ATQM base, slots, refino e graduação são configurados nas outras abas; não é preciso repeti-los como bônus.</p>
+
+  <h3>Editor visual</h3>
+  <ol class="pl-4">
+    <li class="mb-2">Clique em <strong>Adicionar regra</strong>, procure o bônus e informe seu valor. Por exemplo, ATQ com valor <code>10</code> concede ATQ +10.</li>
+    <li class="mb-2">Para um efeito condicional, escolha a condição e preencha o limite, ID ou classe. Use o campo Nível quando a condição pedir um nível de habilidade ou um intervalo de atributo.</li>
+    <li>Clique em <strong>Aplicar condição</strong> na regra desejada. A condição será acrescentada à expressão; revise o resultado na prévia. O botão de remover exclui apenas aquela regra.</li>
+  </ol>
+
+  <h3>Valores, limites e intervalos</h3>
+  <p>Os exemplos abaixo podem ser usados no campo Valor ou expressão de uma regra de ATQ:</p>
+  <table class="w-full text-sm">
+    <thead><tr><th scope="col" class="text-left p-2">Expressão</th><th scope="col" class="text-left p-2">Resultado</th></tr></thead>
+    <tbody>
+      <tr><td class="p-2"><code>10</code></td><td class="p-2">ATQ +10, sem condição.</td></tr>
+      <tr><td class="p-2"><code>7===10</code></td><td class="p-2">ATQ +10 no refino +7 ou superior.</td></tr>
+      <tr><td class="p-2"><code>2---5</code></td><td class="p-2">ATQ +5 a cada dois refinos completos: +10 no refino +4 ou +5.</td></tr>
+      <tr><td class="p-2"><code>str:10---2</code></td><td class="p-2">ATQ +2 a cada 10 pontos de FOR base.</td></tr>
+      <tr><td class="p-2"><code>GRADE[me==A]7===10</code></td><td class="p-2">ATQ +10 quando este item tem grau A e refino +7 ou superior.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Condições</h3>
+  <p>É possível condicionar bônus a refino, grau, nível, atributos, itens equipados em conjunto, classe, habilidades aprendidas ou ativas, posição, tipo de arma ou munição, mapa do monstro, data e lealdade do mascote. <code>me</code> indica o próprio item.</p>
+  <p>Combos usam IDs de itens, como <code>EQUIP_ID[2607]10</code>. Dentro dessa condição, <code>&amp;&amp;</code> exige todos os IDs e <code>||</code> aceita qualquer um. Habilidades também usam IDs: <code>SKILL_ID[ID==NÍVEL]</code> verifica o nível aprendido, enquanto <code>ACTIVE_SKILL_ID[ID]</code> verifica se está ativa. Substitua os marcadores pelos IDs e níveis reais.</p>
+  <p>Condições podem ser combinadas, mas precisam seguir os formatos reconhecidos pelo simulador. Uma condição não atendida deixa a regra inativa na configuração atual.</p>
+
+  <h3>Unidades, sinais e acúmulo</h3>
+  <ul class="pl-4">
+    <li class="mb-2">A unidade depende do bônus: ATQ usa pontos; ATQ % usa porcentagem. Informe <code>10</code> para 10%, sem o símbolo <code>%</code>. Valores decimais usam ponto, como <code>0.3</code>.</li>
+    <li class="mb-2">Reduções de conjuração usam valores positivos: <code>vct</code> e <code>acd</code> usam porcentagem; <code>fct</code> usa segundos. Por exemplo, <code>fct: ["0.3"]</code> reduz a conjuração fixa em 0,3 s. O sinal não é universal: bônus de atributo negativos reduzem o atributo, e custos de SP preservam o sinal da descrição.</li>
+    <li class="mb-2">Bônus normalmente se somam. Entre equipamentos, a redução percentual global de conjuração fixa (<code>fctPercent</code>) usa o maior valor. Se vários itens habilitam a mesma habilidade, vale o maior nível concedido, sem somar os níveis.</li>
+    <li>Lealdade usa 1 = Baixa, 2 = Nenhuma, 3 = Normal e 4 = Alta. Para cada bônus, vale a faixa mais alta atingida. CRIT +2 na Normal e +3 na Alta resultam em +3 na Alta, e não +5. Regras sem condição de lealdade continuam valendo.</li>
+  </ul>
+
+  <h3>JSON bruto e importação</h3>
+  <p>Visual e JSON editam o mesmo script. No JSON, cada chave de bônus recebe uma lista de expressões entre aspas. Exemplo:</p>
+  <pre class="surface-ground border-round p-3 overflow-auto"><code>{{ scriptHelpExample }}</code></pre>
+  <p>Esse script concede ATQ +10, mais ATQ +20 a partir do refino +7, e Crítico +5 a cada dois refinos. O editor destaca chaves, textos, números e valores lógicos. <strong>Formatar JSON</strong> organiza a indentação sem alterar os valores.</p>
+  <p>Um JSON incompleto permanece no editor e não é substituído ao tentar formatar; corrija a sintaxe para voltar ao Visual. Erros de sintaxe ou de validação impedem salvar e indicam o campo afetado.</p>
+  <p>Na aba Item, <strong>Importar de…</strong> busca por nome ou ID e copia apenas o script. Nome, tipo e slots do rascunho permanecem como estão. A cópia é independente do item original, mantém suas referências de combo e pode ser revertida em <strong>Desfazer importação</strong>.</p>
+
+  <h3>Prévia e efeitos avançados</h3>
+  <p>A descrição mostra as regras do item; <strong>Bônus nesta build</strong> mostra seus valores na configuração atual. Ajuste refino, grau ou lealdade na prévia para conferir os limites. Classe, habilidades, equipamentos e alvo vêm da simulação atual. No celular, alterne entre Editor e Prévia.</p>
+  <p>Autoconjurações estruturadas são editadas no JSON: <code>autoCast</code> descreve a habilidade, gatilho, nível e chance; <code>autoCastEffect</code> descreve um efeito automático; <code>autoCastPending</code> registra uma autoconjuração ainda indisponível. Importar um script preserva essas diretivas.</p>
+  <p>Nem todo efeito descrito altera o dano. Bônus apenas informativos, como custo de SP, e efeitos ainda indisponíveis podem aparecer na descrição sem participar do cálculo. Use a prévia e os resultados da simulação para conferir o que está sendo aplicado.</p>
 </p-dialog>
 
 <p-dialog header="Criar itens com IA" [(visible)]="mcpVisible" [modal]="true" [dismissableMask]="true" [style]="{ width: 'min(92vw, 540px)' }">

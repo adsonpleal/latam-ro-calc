@@ -111,6 +111,8 @@ function itemTypeFor(kind: CustomKind): number {
 }
 
 export function inferCustomIcon(kind: CustomKind, subtype: number | null | undefined, catalog: Record<number, ItemModel>): number {
+  // Azagaia is the basic spear; the preceding ID 1400 is Pique Sobrenatural.
+  if (WEAPON_KINDS.has(kind) && subtype === 259) return 1401;
   const representative: Partial<Record<CustomKind, number>> = {
     headUpper: 2228, costumeUpper: 2228, headLower: 2265, costumeLower: 2265,
     accessory: 2607, accLeft: 2607, accRight: 2607,

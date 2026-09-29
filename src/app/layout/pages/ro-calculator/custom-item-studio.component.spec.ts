@@ -13,6 +13,25 @@ function studio() {
 }
 
 describe('custom item creator editing', () => {
+  it('formats JSON without changing its script, including structured directives', () => {
+    const { component } = studio();
+    const script = { atk: ['10'], autoCastPending: [{ skillName: 'Teste', reason: 'Ainda sem cálculo' }] };
+    component.rawScript = JSON.stringify(script);
+    component.formatJson();
+    expect(component.rawScript).toBe(JSON.stringify(script, null, 2));
+    expect(component.draft.script).toEqual(script);
+    component.setMode('visual');
+    expect(component.mode).toBe('visual');
+  });
+
+  it('preserves incomplete JSON when formatting and reports the syntax error', () => {
+    const { component } = studio();
+    component.rawScript = '{"atk": [';
+    component.formatJson();
+    expect(component.rawScript).toBe('{"atk": [');
+    expect(component.diagnostics[0]).toContain('JSON:');
+  });
+
   it('can return to Visual with an unnamed item and keeps a parsed preview', () => {
     const { component } = studio();
     component.setMode('json');
