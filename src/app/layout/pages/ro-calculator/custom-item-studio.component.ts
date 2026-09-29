@@ -3,8 +3,8 @@ import { environment } from 'src/environments/environment';
 import { ItemModel, itemBonusScriptEntries } from 'src/app/models/item.model';
 import { MainModel } from 'src/app/models/main.model';
 import { MonsterModel } from 'src/app/models/monster.model';
-import { CharacterBase } from 'src/app/jobs';
 import { Calculator } from 'src/app/core/calculator';
+import { ensureCustomAttachment } from 'src/app/core/custom-attachments';
 import { ItemTypeEnum } from 'src/app/constants/item-type.enum';
 import { CardPosition } from 'src/app/constants/card-position.enum';
 import { bonusKeyLabel } from 'src/app/core/bonus-key-label';
@@ -18,22 +18,26 @@ import {
 import { CustomItemLibraryService } from 'src/app/api-services/custom-item-library.service';
 import { encodeCustomBundle } from 'src/app/core/custom-item-library';
 import { createExtraOptionList, ExtraOptionMap } from 'src/app/utils/create-extra-option-list';
-import { WeaponSubTypeNameMapById } from 'src/app/constants/weapon-type-mapper';
+import { WeaponSubTypeNameMapById, WeaponTypeNameMapBySubTypeId } from 'src/app/constants/weapon-type-mapper';
+import { ItemSlotLabelPtBr } from 'src/app/constants/item-slot-i18n';
+import { VALID_SKILL_IDS, resolveSkillById } from 'src/app/skills';
+import { compileVisualItemRule, readVisualItemRule, VisualCondition, VisualConditionKind, VisualItemRule as Rule } from 'src/app/core/custom-item-visual-script';
 import { ItemSubTypeId } from 'src/app/constants/item-sub-type.enum';
 import { selectLoyaltyLines } from 'src/app/constants/pet-loyalty';
 import { ElementType } from 'src/app/constants/element-type.const';
 import { elementPtBr } from 'src/app/constants/monster-i18n';
-import { getClassDropdownList } from 'src/app/jobs/_class-list';
+import { CLASS_CTOR_BY_ID, getClassDropdownList } from 'src/app/jobs/_class-list';
 import { DropdownModel } from 'src/app/models/dropdown.model';
 import { ItemPickerService } from './item-picker/item-picker.service';
 import { PickerRequest } from './item-picker/item-picker.model';
 import { ChipView } from './equipment-grid/chip-view.model';
 
-interface Rule { key: string; expression: string }
 interface CreateContext { slot: string; compare: boolean }
 interface RuleConditionOption {
-  value: string;
+  value: VisualConditionKind;
   label: string;
+  input?: 'number' | 'select' | 'item' | 'text' | 'date';
+  options?: DropdownModel[];
   valueLabel?: string;
   example?: string;
   help?: string;
@@ -50,7 +54,6 @@ type AttachmentField = 'defaultCards' | 'defaultEnchants' | 'defaultBas';
 export class CustomItemStudioComponent {
   @Input() items: Record<number, ItemModel> = {};
   @Input() currentModel?: MainModel;
-  @Input() character?: CharacterBase;
   @Input() currentMonster?: MonsterModel;
   @Output() saved = new EventEmitter<{ item: CustomItemDefinition; context?: CreateContext }>();
   @Output() deleted = new EventEmitter<number>();
@@ -65,12 +68,13 @@ export class CustomItemStudioComponent {
   draft: CustomItemDraft = this.blank('weapon');
   rawScript = '{}';
   private rawError = '';
+  private visualErrors: string[] = [];
   rules: Rule[] = [];
   importQuery = '';
   importOpen = false;
   libraryQuery = '';
   libraryKind = '';
-  importedBackup: { raw: string; script: CustomItemDraft['script']; rules: Rule[] } | null = null;
+  importedBackup: { raw: string; script: CustomItemDraft['script']; rules: Rule[]; rawError: string; visualErrors: string[] } | null = null;
   diagnostics: string[] = [];
   context?: CreateContext;
   copied = false;
@@ -78,6 +82,7 @@ export class CustomItemStudioComponent {
   enchantOptions: DropdownModel[] = [];
   attachmentRows: { field: AttachmentField; label: string; views: ChipView[] }[] = [];
   private catalogRows: ItemModel[] = [];
+  conditionItemOptions: DropdownModel[] = [];
   previewIcon = 1101;
   previewRefine = 0;
   previewGrade = '';
@@ -134,77 +139,88 @@ export class CustomItemStudioComponent {
   readonly isEquipment = customKindIsEquipment;
   readonly mcpUrl = environment.mcpUrl;
   readonly bonusKeys = Object.keys(createRawTotalBonus()).map((key) => ({ key, label: bonusKeyLabel(key) }));
+  readonly bonusLabel = bonusKeyLabel;
+  readonly attributeOptions: DropdownModel[] = [
+    ['str', 'FOR'], ['agi', 'AGI'], ['vit', 'VIT'], ['int', 'INT'], ['dex', 'DES'], ['luk', 'SOR'],
+    ['level', 'Nível base'], ['jobLevel', 'Nível de classe'],
+  ].map(([value, label]) => ({ value, label }));
+  readonly conditionSkills: DropdownModel[] = [...VALID_SKILL_IDS].map((id) => {
+    const skill = resolveSkillById(id);
+    return { value: id, label: skill?.name ?? `Habilidade #${id}`, icon: id, iconType: skill?.iconType ?? 'skill' };
+  });
+  readonly conditionWeaponTypes: DropdownModel[] = [...new Map(this.weaponSubtypes.map(({ id, label }) =>
+    [WeaponTypeNameMapBySubTypeId[id], { value: WeaponTypeNameMapBySubTypeId[id], label: id >= 273 && id <= 277 ? 'Arma de fogo' : label }])).values()];
   readonly conditionOptions: RuleConditionOption[] = [
     { value: 'none', label: 'Sem condição' },
     {
-      value: 'refine', label: 'Refino mínimo', valueLabel: 'Refino mínimo', example: '7',
+      value: 'refine', label: 'Refino mínimo', input: 'number', valueLabel: 'Refino mínimo', example: '7',
       help: 'Refino do próprio item, sem o sinal +. Ex.: 7 ativa o bônus a partir do refino +7.',
     },
     {
-      value: 'refineStep', label: 'A cada X refinos', valueLabel: 'Intervalo de refinos', example: '2',
+      value: 'refineStep', label: 'A cada X refinos', input: 'number', valueLabel: 'Intervalo de refinos', example: '2',
       help: 'Aplica o bônus a cada intervalo completo de refinos. Ex.: 2 aplica uma vez no +2, duas no +4 e assim por diante.',
     },
     {
-      value: 'grade', label: 'Grau mínimo', valueLabel: 'Graduação mínima', example: 'B',
+      value: 'grade', label: 'Grau mínimo', input: 'select', options: this.grades.filter(({ value }) => !!value), valueLabel: 'Graduação mínima',
       help: 'Use D, C, B ou A. A graduação indicada e as superiores ativam o bônus.',
     },
     {
-      value: 'level', label: 'Nível mínimo', valueLabel: 'Nível base mínimo', example: '100',
+      value: 'level', label: 'Nível mínimo', input: 'number', valueLabel: 'Nível base mínimo', example: '100',
       help: 'Nível base do personagem a partir do qual o bônus fica ativo.',
     },
     {
-      value: 'stat', label: 'A cada X do atributo', valueLabel: 'Código do atributo', example: 'str',
+      value: 'stat', label: 'A cada X do atributo', input: 'select', options: this.attributeOptions, valueLabel: 'Atributo ou nível',
       extraLabel: 'Pontos por bônus', extraExample: '10',
-      help: 'Use str (FOR), agi (AGI), vit (VIT), int (INT), dex (DES) ou luk (SOR). Ex.: str e 10 aplicam o bônus a cada 10 pontos de FOR. Sem informar os pontos, usa 1.',
+      help: 'Aplica o valor do bônus a cada quantidade completa de pontos do atributo ou nível escolhido.',
     },
     {
-      value: 'equip', label: 'Equipado junto', valueLabel: 'ID do item', example: '1101',
-      help: 'ID do item que precisa estar equipado. Combine IDs com && para exigir todos ou || para aceitar qualquer um.',
+      value: 'statMin', label: 'Atributo mínimo', input: 'select', options: this.attributeOptions, valueLabel: 'Atributo ou nível',
+      extraLabel: 'Quantidade mínima', extraExample: '120', help: 'O bônus fica ativo quando o atributo base ou nível alcança esta quantidade.',
     },
     {
-      value: 'class', label: 'Classe', valueLabel: 'Código da classe', example: 'Mechanic',
-      help: 'Use o nome interno da classe, como Mechanic (Mecânico). Também aceita suas evoluções. Separe alternativas com ||.',
+      value: 'equip', label: 'Equipado junto', input: 'item', valueLabel: 'Item necessário',
+      help: 'Escolha o item que precisa estar equipado. Adicione outra condição deste tipo para exigir mais um item.',
     },
     {
-      value: 'skill', label: 'Perícia aprendida', valueLabel: 'ID da perícia aprendida', example: '2418',
+      value: 'class', label: 'Classe', input: 'select', options: this.classes.map((job) => ({ ...job, iconType: 'job' })), valueLabel: 'Classe necessária',
+      help: 'O bônus também vale para as evoluções da classe escolhida.',
+    },
+    {
+      value: 'skill', label: 'Perícia aprendida', input: 'select', options: this.conditionSkills, valueLabel: 'Perícia aprendida',
       extraLabel: 'Nível mínimo da perícia', extraExample: '5',
-      help: 'Informe o ID numérico da perícia e o nível mínimo aprendido. Sem informar o nível, usa 1.',
+      help: 'Escolha a perícia e o nível mínimo que o personagem precisa ter aprendido.',
     },
     {
-      value: 'activeSkill', label: 'Perícia ativa', valueLabel: 'ID da perícia ativa', example: '490',
-      help: 'ID numérico da perícia que precisa estar ativada na build. Esta condição não recebe um nível mínimo.',
+      value: 'activeSkill', label: 'Perícia ativa', input: 'select', options: this.conditionSkills, valueLabel: 'Perícia ativa',
+      help: 'Escolha a perícia que precisa estar ativada na build.',
     },
     {
-      value: 'loyalty', label: 'Lealdade do pet', valueLabel: 'Faixa de lealdade', example: '4',
-      help: 'Use 1 = Baixa, 2 = Nenhuma, 3 = Normal ou 4 = Alta. Aplica a partir dessa faixa; para o mesmo bônus, prevalece a maior faixa atingida.',
+      value: 'loyalty', label: 'Lealdade do pet', input: 'select', options: this.loyaltyOptions, valueLabel: 'Faixa de lealdade',
+      help: 'Aplica a partir dessa faixa; para o mesmo bônus, prevalece a maior faixa atingida.',
     },
     {
-      value: 'weaponType', label: 'Tipo de arma', valueLabel: 'Código do tipo de arma', example: 'bow',
-      help: 'Use o código do tipo, como bow (arco), sword (espada) ou spear (lança). Separe alternativas com ||.',
+      value: 'weaponType', label: 'Tipo de arma', input: 'select', options: this.conditionWeaponTypes, valueLabel: 'Tipo de arma',
+      help: 'O bônus exige uma arma deste tipo equipada.',
     },
     {
-      value: 'ammoType', label: 'Tipo de munição', valueLabel: 'Código do tipo de munição', example: '1024',
-      help: `Use ${this.ammoSubtypes.map(({ id, label }) => `${id} = ${label}`).join('; ')}.`,
+      value: 'ammoType', label: 'Tipo de munição', input: 'select', options: this.ammoSubtypes.map(({ id, label }) => ({ value: id, label })), valueLabel: 'Tipo de munição',
+      help: 'O bônus exige uma munição deste tipo equipada.',
     },
     {
-      value: 'position', label: 'Posição', valueLabel: 'Código da posição', example: 'accLeft',
-      help: 'Posição em que o item deve estar equipado. Exemplos: weapon (arma), armor (armadura), accLeft (acessório esquerdo) e accRight (direito).',
+      value: 'position', label: 'Posição', input: 'select', options: Object.entries(ItemSlotLabelPtBr).map(([value, label]) => ({ value, label })), valueLabel: 'Posição do item',
+      help: 'Posição em que este item precisa estar equipado.',
     },
     {
-      value: 'spawn', label: 'Mapa do monstro', valueLabel: 'Código do mapa', example: 'tur_d03_i',
-      help: 'Código de um mapa de aparição do monstro. Separe mapas alternativos com ||, como tur_d03_i||tur_d04_i.',
+      value: 'spawn', label: 'Mapa do monstro', input: 'text', valueLabel: 'Código do mapa', example: 'tur_d03_i',
+      help: 'Informe um mapa de aparição do monstro.',
     },
     {
-      value: 'until', label: 'Válido até (data)', valueLabel: 'Último dia de validade', example: '2026-12-31',
-      help: 'Use o formato AAAA-MM-DD. O bônus permanece ativo até o fim do dia informado.',
+      value: 'until', label: 'Válido até (data)', input: 'date', valueLabel: 'Último dia de validade',
+      help: 'O bônus permanece ativo até o fim do dia informado.',
     },
   ];
-  condition = 'none';
-  conditionValue = '';
-  conditionExtra = '';
-
-  get conditionHelp(): RuleConditionOption | undefined {
-    return this.conditionOptions.find((option) => option.value === this.condition && option.value !== 'none');
+  conditionHelp(kind: VisualConditionKind): RuleConditionOption {
+    return this.conditionOptions.find((option) => option.value === kind)!;
   }
 
   constructor(public readonly library: CustomItemLibraryService, private readonly picker: ItemPickerService) {}
@@ -231,13 +247,14 @@ export class CustomItemStudioComponent {
   openCreate(kind: string = 'weapon', context?: CreateContext): void {
     const selected = kind === 'leftWeapon' ? 'weapon' : CUSTOM_KINDS.includes(kind as CustomKind) ? kind as CustomKind : 'weapon';
     this.catalogRows = [...new Map(Object.values(this.items).map((item) => [item.id, item])).values()];
+    this.conditionItemOptions = this.catalogRows.map((item) => ({ label: item.name, value: item.id }));
     this.enchantOptions = this.catalogRows.filter((item) => item.itemTypeId === 11).map((item) => ({ label: item.name, value: item.id }));
     this.setCardOptions(selected);
     this.draft = this.blank(selected);
     this.previewIcon = inferCustomIcon(selected, this.draft.itemSubTypeId, this.items);
     this.rawScript = '{}'; this.rules = []; this.mode = 'visual'; this.section = 'item';
     this.mobileView = 'editor';
-    this.diagnostics = []; this.rawError = ''; this.importedBackup = null; this.context = context;
+    this.diagnostics = []; this.rawError = ''; this.visualErrors = []; this.importedBackup = null; this.context = context;
     this.previewRefine = 0; this.previewGrade = ''; this.previewLoyalty = 4; this.previewBonuses = []; this.previewRules = [];
     this.previewText = ''; this.previewItem = undefined;
     this.capacityNotice = '';
@@ -300,10 +317,10 @@ export class CustomItemStudioComponent {
   }
 
   importScript(source: ItemModel): void {
-    this.importedBackup = { raw: this.rawScript, script: structuredClone(this.draft.script ?? {}), rules: structuredClone(this.rules) };
+    this.importedBackup = { raw: this.rawScript, script: structuredClone(this.draft.script ?? {}), rules: structuredClone(this.rules), rawError: this.rawError, visualErrors: [...this.visualErrors] };
     this.draft.script = structuredClone(source.script);
     this.rawScript = JSON.stringify(this.draft.script, null, 2);
-    this.rawError = '';
+    this.rawError = ''; this.visualErrors = [];
     this.readRules();
     this.importOpen = false;
     this.importQuery = '';
@@ -315,8 +332,10 @@ export class CustomItemStudioComponent {
     this.rawScript = this.importedBackup.raw;
     this.draft.script = this.importedBackup.script;
     this.rules = this.importedBackup.rules;
+    this.rawError = this.importedBackup.rawError;
+    this.visualErrors = this.importedBackup.visualErrors;
     this.importedBackup = null;
-    this.onRawScript();
+    this.validate();
   }
 
   private setCardOptions(kind: CustomKind): void {
@@ -400,45 +419,69 @@ export class CustomItemStudioComponent {
     this.validate();
   }
 
-  addRule(): void { this.rules.push({ key: 'atk', expression: '1' }); this.writeRules(); }
+  addRule(): void { this.rules.push({ key: 'atk', value: 1, conditions: [] }); this.writeRules(); }
   removeRule(index: number): void { this.rules.splice(index, 1); this.writeRules(); }
 
-  applyCondition(index: number): void {
-    const value = this.conditionValue.trim();
-    if (!value) return;
-    const token = (() => {
-      switch (this.condition) {
-        case 'refine': return `REFINE[${value}]`;
-        case 'grade': return `GRADE[me==${value.toUpperCase()}]`;
-        case 'level': return `LEVEL[${value}]`;
-        case 'stat': return `${value}:${this.conditionExtra || '1'}---`;
-        case 'equip': return `EQUIP_ID[${value}]`;
-        case 'class': return `USED[${value}]`;
-        case 'skill': return `SKILL_ID[${value}==${this.conditionExtra || '1'}]`;
-        case 'activeSkill': return `ACTIVE_SKILL_ID[${value}]`;
-        case 'loyalty': return `LOYALTY[${value}]`;
-        case 'weaponType': return `WEAPON_TYPE[${value}]`;
-        case 'ammoType': return `AMMO_SUBTYPE[${value}]`;
-        case 'position': return `POS[${value}]`;
-        case 'spawn': return `SPAWN[${value}]`;
-        case 'until': return `UNTIL[${value}]`;
-        default: return '';
-      }
-    })();
-    if (this.condition === 'refineStep') this.rules[index].expression = `${value}---${this.rules[index].expression}`;
-    else this.rules[index].expression = `${token}${this.rules[index].expression}`;
+  addCondition(rule: Rule): void {
+    rule.conditions.push({ kind: 'none', value: null });
     this.writeRules();
   }
 
+  changeCondition(condition: VisualCondition, kind: VisualConditionKind): void {
+    condition.kind = kind;
+    condition.value = null;
+    condition.extra = this.conditionHelp(kind).extraLabel ? 1 : undefined;
+    this.writeRules();
+  }
+
+  removeCondition(rule: Rule, index: number): void {
+    rule.conditions.splice(index, 1);
+    this.writeRules();
+  }
+
+  pickConditionItem(condition: VisualCondition, anchor: HTMLElement): void {
+    this.picker.open({ mode: 'flat', anchor, title: 'Item necessário', value: condition.value,
+      options: this.conditionItemOptions, filterKeys: ['label', 'value'], iconKey: 'value', items: this.items,
+    }).subscribe((result) => {
+      if (!result.committed) return;
+      condition.value = result.value == null ? null : Number(result.value);
+      this.writeRules();
+    });
+  }
+
+  conditionItemName(condition: VisualCondition): string {
+    return this.items[Number(condition.value)]?.name ?? (condition.value ? `Item #${condition.value}` : 'Escolher item');
+  }
+
   private readRules(): void {
-    this.rules = Object.entries(this.draft.script ?? {}).filter(([, v]) => Array.isArray(v) && (v as unknown[]).every((x) => typeof x === 'string'))
-      .flatMap(([key, values]) => (values as string[]).map((expression) => ({ key, expression })));
+    this.visualErrors = [];
+    this.rules = itemBonusScriptEntries(this.draft.script).flatMap(([key, values]) => values.map((expression) => {
+      const rule = readVisualItemRule(key, expression);
+      if (rule.conditions.some((condition) => {
+        const options = this.conditionHelp(condition.kind).options;
+        return options && !options.some((option) => option.value === condition.value);
+      })) rule.readOnly = true;
+      if (rule.readOnly) rule.description = customItemDescription({ script: { [key]: [expression] } });
+      if (!this.bonusKeys.some((option) => option.key === key)) this.bonusKeys.push({ key, label: bonusKeyLabel(key) });
+      return rule;
+    }));
   }
 
   writeRules(): void {
-    const directives = Object.fromEntries(Object.entries(this.draft.script ?? {}).filter(([key]) => key.startsWith('autoCast')));
-    const script: Record<string, any> = { ...directives };
-    for (const rule of this.rules) (script[rule.key] ??= []).push(rule.expression);
+    const bonusKeys = new Set(itemBonusScriptEntries(this.draft.script).map(([key]) => key));
+    const script = Object.fromEntries(Object.entries(this.draft.script ?? {}).filter(([key]) => !bonusKeys.has(key)));
+    this.visualErrors = [];
+    this.rules.forEach((rule, index) => {
+      const result = compileVisualItemRule(rule);
+      this.visualErrors.push(...result.errors.map((error) => `Bônus ${index + 1}: ${error}`));
+      if (result.expression != null) {
+        const values = script[rule.key] ?? [];
+        if (!Array.isArray(values) || values.some((value) => typeof value !== 'string')) {
+          this.visualErrors.push(`Bônus ${index + 1}: este campo contém dados incompatíveis. Corrija-o no JSON.`);
+        } else script[rule.key] = [...values as string[], result.expression];
+      }
+    });
+    if (this.visualErrors.length) { this.validate(); return; }
     this.draft.script = script;
     this.rawScript = JSON.stringify(script, null, 2);
     this.rawError = '';
@@ -457,7 +500,7 @@ export class CustomItemStudioComponent {
       this.diagnostics = [this.rawError];
       return;
     }
-    this.rawError = '';
+    this.rawError = ''; this.visualErrors = [];
     this.validate();
   }
 
@@ -467,7 +510,8 @@ export class CustomItemStudioComponent {
   }
 
   setMode(mode: 'visual' | 'json'): void {
-    if (!mode) return;
+    if (!mode || mode === this.mode) return;
+    if (mode === 'json' && this.visualErrors.length) return;
     if (mode === 'visual') {
       this.onRawScript();
       if (this.rawError || !this.draft.script || typeof this.draft.script !== 'object' || Array.isArray(this.draft.script)) return;
@@ -480,8 +524,8 @@ export class CustomItemStudioComponent {
     this.draft.iconItemId = undefined;
     const input = { ...this.draft, id: this.draft.id ?? customItemId() };
     const result = validateCustomItems([input], this.items);
-    this.diagnostics = [...(this.rawError ? [this.rawError] : []), ...result.errors.map((e) => `${e.path}: ${e.message}`)];
-    this.previewItem = result.items[0] ?? (!this.rawError && !input.name.trim()
+    this.diagnostics = [...(this.rawError ? [this.rawError] : []), ...this.visualErrors, ...result.errors.map((e) => `${e.path}: ${e.message}`)];
+    this.previewItem = this.visualErrors.length ? undefined : result.items[0] ?? (!this.rawError && !input.name.trim()
       ? validateCustomItems([{ ...input, name: 'Novo item' }], this.items).items[0] : undefined);
     this.previewIcon = Number(this.previewItem?.iconItemId
       || inferCustomIcon(this.draft.kind, this.draft.itemSubTypeId, this.items));
@@ -493,7 +537,9 @@ export class CustomItemStudioComponent {
   updatePreview(): void {
     this.previewBonuses = [];
     this.previewRules = [];
-    if (!this.character || !this.currentModel || !this.previewItem) return;
+    if (!this.currentModel || !this.previewItem) return;
+    const Character = CLASS_CTOR_BY_ID[this.currentModel.class];
+    if (!Character) return;
     try {
       const item = this.previewItem;
       const id = item.id;
@@ -504,8 +550,18 @@ export class CustomItemStudioComponent {
       model[`${slot}Refine`] = this.previewRefine;
       model[`${slot}Grade`] = this.previewGrade;
       model['petLoyalty'] = this.previewLoyalty;
-      const calc = new Calculator().setMasterItems({ ...this.items, [id]: item }).setClass(this.character)
-        .loadItemFromModel(model);
+      if (this.isEquipment(item.kind)) {
+        const attachments = ensureCustomAttachment(model, slot, item)!;
+        attachments.refine = this.previewRefine;
+        attachments.grade = this.previewGrade;
+      }
+      const character = new Character().setLearnSkills({
+        activeSkillIds: this.currentModel.activeSkills,
+        passiveSkillIds: this.currentModel.passiveSkills,
+      });
+      const { activeSkillNames, learnedSkillMap } = character.getSkillBonusAndName();
+      const calc = new Calculator().setMasterItems({ ...this.items, [id]: item }).setClass(character)
+        .loadItemFromModel(model).setUsedSkillNames(activeSkillNames).setLearnedSkills(learnedSkillMap);
       if (this.currentMonster) calc.setMonster(this.currentMonster);
       this.previewBonuses = Object.entries(calc.evaluateItemScript(slot as ItemTypeEnum, item, this.previewRefine))
         .filter(([, value]) => Number.isFinite(value) && value !== 0)
@@ -524,7 +580,7 @@ export class CustomItemStudioComponent {
   }
 
   save(): void {
-    this.onRawScript();
+    if (this.mode === 'visual') this.writeRules(); else this.onRawScript();
     if (this.diagnostics.length) return;
     const draft = { ...this.draft, id: this.draft.id ?? customItemId(), revision: (this.draft.revision ?? 0) + 1 };
     const result = validateCustomItems([draft], this.items);

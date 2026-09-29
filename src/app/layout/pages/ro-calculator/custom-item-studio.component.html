@@ -131,19 +131,40 @@
           <span id="studio-mode-label" class="p-sr-only">Modo do script</span>
           <div *ngIf="mode === 'visual'" class="mt-3">
             <div class="studio-rule surface-card border-1 surface-border border-round p-3 mb-3" *ngFor="let rule of rules; let i = index">
-              <p-dropdown [options]="bonusKeys" optionLabel="label" optionValue="key" [filter]="true" filterBy="label,key" [editable]="true" appendTo="body" [(ngModel)]="rule.key" (ngModelChange)="writeRules()" placeholder="Bônus" ariaLabel="Bônus"></p-dropdown>
-              <input pInputText [(ngModel)]="rule.expression" (ngModelChange)="writeRules()" placeholder="Valor ou expressão" aria-label="Valor ou expressão" />
+              <ng-container *ngIf="!rule.readOnly; else preservedRule">
+                <p-dropdown [options]="bonusKeys" optionLabel="label" optionValue="key" [filter]="true" filterBy="label,key" appendTo="body" [(ngModel)]="rule.key" (ngModelChange)="writeRules()" placeholder="Bônus" ariaLabel="Bônus"></p-dropdown>
+                <input pInputText type="number" step="any" [(ngModel)]="rule.value" (ngModelChange)="writeRules()" placeholder="Valor do bônus" aria-label="Valor do bônus" />
+              </ng-container>
+              <ng-template #preservedRule><strong class="studio-preserved-title">{{ bonusLabel(rule.key) }}</strong></ng-template>
               <button pButton type="button" class="p-button-text p-button-danger" icon="pi pi-times" aria-label="Remover regra" (click)="removeRule(i)"></button>
-              <div class="studio-condition">
-                <p-dropdown [options]="conditionOptions" [(ngModel)]="condition" appendTo="body" ariaLabel="Condição"></p-dropdown>
-                <ng-container *ngIf="conditionHelp as help">
-                  <input pInputText [(ngModel)]="conditionValue" [placeholder]="help.valueLabel + ' (ex.: ' + help.example + ')'" [attr.aria-label]="help.valueLabel" [attr.aria-describedby]="'studio-condition-help-' + i" />
-                  <input *ngIf="help.extraLabel" pInputText [(ngModel)]="conditionExtra" [placeholder]="help.extraLabel + ' (ex.: ' + help.extraExample + ')'" [attr.aria-label]="help.extraLabel" [attr.aria-describedby]="'studio-condition-help-' + i" />
-                  <button pButton type="button" class="p-button-outlined p-button-sm" label="Aplicar condição" (click)="applyCondition(i)"></button>
-                  <small class="studio-wide text-color-secondary" [id]="'studio-condition-help-' + i">{{ help.help }}</small>
+              <div class="studio-wide" *ngIf="rule.readOnly">
+                <p class="text-sm mt-0">{{ rule.description }}</p>
+                <small class="block text-color-secondary mb-2">Esta regra importada foi preservada. Sua combinação ainda precisa ser editada no JSON.</small>
+                <button pButton type="button" class="p-button-outlined p-button-sm" label="Editar no JSON" (click)="setMode('json')"></button>
+              </div>
+              <div class="studio-wide" *ngIf="!rule.readOnly">
+                <small class="block text-color-secondary mb-2">{{ rule.conditions.length ? 'Todas as condições abaixo precisam ser atendidas.' : 'Sem condição' }}</small>
+                <ng-container *ngFor="let condition of rule.conditions; let j = index">
+                  <div class="studio-condition mb-2" *ngIf="conditionHelp(condition.kind) as help">
+                    <p-dropdown [options]="conditionOptions" [ngModel]="condition.kind" (ngModelChange)="changeCondition(condition, $event)" appendTo="body" [ariaLabel]="'Condição ' + (j + 1) + ' do bônus ' + (i + 1)"></p-dropdown>
+                    <div class="p-fluid" [ngSwitch]="help.input">
+                      <p-dropdown *ngSwitchCase="'select'" [options]="help.options" [(ngModel)]="condition.value" (ngModelChange)="writeRules()" [autoDisplayFirst]="false" [filter]="true" filterBy="label,value" [virtualScroll]="true" [virtualScrollItemSize]="38" [placeholder]="help.valueLabel" [ariaLabel]="help.valueLabel" appendTo="body">
+                        <ng-template pTemplate="item" let-option><div class="flex align-items-center gap-2"><img *ngIf="option.icon" [src]="option.icon | iconUrl: option.iconType" [ngClass]="option.iconType === 'job' ? 'job_img' : 'item_img'" alt="" missingIcon /><span>{{ option.label }}</span></div></ng-template>
+                      </p-dropdown>
+                      <button *ngSwitchCase="'item'" #conditionItem pButton type="button" class="p-button-outlined justify-content-start" aria-label="Item necessário" (click)="pickConditionItem(condition, conditionItem)"><img *ngIf="condition.value" [src]="condition.value | iconUrl: 'item'" class="item_img mr-2" alt="" missingIcon /><span>{{ conditionItemName(condition) }}</span></button>
+                      <input *ngSwitchCase="'number'" pInputText type="number" min="0" step="1" [(ngModel)]="condition.value" (ngModelChange)="writeRules()" [placeholder]="help.valueLabel + ' (ex.: ' + help.example + ')'" [attr.aria-label]="help.valueLabel" />
+                      <input *ngSwitchCase="'date'" pInputText type="date" [(ngModel)]="condition.value" (ngModelChange)="writeRules()" [attr.aria-label]="help.valueLabel" />
+                      <input *ngSwitchCase="'text'" pInputText [(ngModel)]="condition.value" (ngModelChange)="writeRules()" [placeholder]="help.valueLabel + ' (ex.: ' + help.example + ')'" [attr.aria-label]="help.valueLabel" />
+                      <input *ngIf="help.extraLabel" class="mt-2" pInputText type="number" min="1" step="1" [(ngModel)]="condition.extra" (ngModelChange)="writeRules()" [placeholder]="help.extraLabel + ' (ex.: ' + help.extraExample + ')'" [attr.aria-label]="help.extraLabel" />
+                    </div>
+                    <button pButton type="button" class="p-button-text p-button-danger p-button-sm" icon="pi pi-times" [attr.aria-label]="'Remover condição ' + (j + 1) + ' do bônus ' + (i + 1)" (click)="removeCondition(rule, j)"></button>
+                    <small *ngIf="help.help" class="studio-wide text-color-secondary">{{ help.help }}</small>
+                  </div>
                 </ng-container>
+                <button pButton type="button" class="p-button-text p-button-sm" icon="pi pi-plus" label="Adicionar condição" (click)="addCondition(rule)"></button>
               </div>
             </div>
+            <p class="text-sm text-color-secondary" *ngIf="draft.script?.['autoCast']?.length || draft.script?.['autoCastEffect']?.length || draft.script?.['autoCastPending']?.length">As autoconjurações importadas são preservadas e aparecem na prévia. Para editá-las, use JSON bruto.</p>
             <button pButton type="button" class="p-button-outlined p-button-sm" icon="pi pi-plus" label="Adicionar regra" (click)="addRule()"></button>
           </div>
           <div *ngIf="mode === 'json'" class="mt-3">
@@ -194,27 +215,27 @@
   <h3>Editor visual</h3>
   <ol class="pl-4">
     <li class="mb-2">Clique em <strong>Adicionar regra</strong>, procure o bônus e informe seu valor. Por exemplo, ATQ com valor <code>10</code> concede ATQ +10.</li>
-    <li class="mb-2">Para um efeito condicional, escolha a condição e preencha o limite, ID ou classe. Use o campo Nível quando a condição pedir um nível de habilidade ou um intervalo de atributo.</li>
-    <li>Clique em <strong>Aplicar condição</strong> na regra desejada. A condição será acrescentada à expressão; revise o resultado na prévia. O botão de remover exclui apenas aquela regra.</li>
+    <li class="mb-2">Use <strong>Adicionar condição</strong> no bônus desejado. Escolha o tipo e preencha os campos; a prévia e o script são atualizados automaticamente.</li>
+    <li>Um bônus pode ter várias condições. Todas precisam ser atendidas: por exemplo, refino mínimo +7 <strong>e</strong> graduação B ou superior. Cada bônus tem suas próprias condições; remover uma delas preserva as demais.</li>
   </ol>
 
   <h3>Valores, limites e intervalos</h3>
-  <p>Os exemplos abaixo podem ser usados no campo Valor ou expressão de uma regra de ATQ:</p>
+  <p>O campo Valor do bônus aceita apenas números. Configure os requisitos nos campos de condição:</p>
   <table class="w-full text-sm">
-    <thead><tr><th scope="col" class="text-left p-2">Expressão</th><th scope="col" class="text-left p-2">Resultado</th></tr></thead>
+    <thead><tr><th scope="col" class="text-left p-2">Configuração visual</th><th scope="col" class="text-left p-2">Resultado</th></tr></thead>
     <tbody>
-      <tr><td class="p-2"><code>10</code></td><td class="p-2">ATQ +10, sem condição.</td></tr>
-      <tr><td class="p-2"><code>7===10</code></td><td class="p-2">ATQ +10 no refino +7 ou superior.</td></tr>
-      <tr><td class="p-2"><code>2---5</code></td><td class="p-2">ATQ +5 a cada dois refinos completos: +10 no refino +4 ou +5.</td></tr>
-      <tr><td class="p-2"><code>str:10---2</code></td><td class="p-2">ATQ +2 a cada 10 pontos de FOR base.</td></tr>
-      <tr><td class="p-2"><code>GRADE[me==A]7===10</code></td><td class="p-2">ATQ +10 quando este item tem grau A e refino +7 ou superior.</td></tr>
+      <tr><td class="p-2">Valor 10, sem condições</td><td class="p-2">ATQ +10.</td></tr>
+      <tr><td class="p-2">Valor 10, Refino mínimo 7</td><td class="p-2">ATQ +10 no refino +7 ou superior.</td></tr>
+      <tr><td class="p-2">Valor 5, A cada 2 refinos</td><td class="p-2">ATQ +10 no refino +4 ou +5.</td></tr>
+      <tr><td class="p-2">Valor 2, A cada 10 pontos de FOR</td><td class="p-2">ATQ +2 a cada 10 pontos de FOR base.</td></tr>
+      <tr><td class="p-2">Valor 10, Grau mínimo B e Refino mínimo 7</td><td class="p-2">ATQ +10 somente quando os dois requisitos forem atendidos.</td></tr>
     </tbody>
   </table>
 
   <h3>Condições</h3>
-  <p>É possível condicionar bônus a refino, grau, nível, atributos, itens equipados em conjunto, classe, habilidades aprendidas ou ativas, posição, tipo de arma ou munição, mapa do monstro, data e lealdade do mascote. <code>me</code> indica o próprio item.</p>
-  <p>Combos usam IDs de itens, como <code>EQUIP_ID[2607]10</code>. Dentro dessa condição, <code>&amp;&amp;</code> exige todos os IDs e <code>||</code> aceita qualquer um. Habilidades também usam IDs: <code>SKILL_ID[ID==NÍVEL]</code> verifica o nível aprendido, enquanto <code>ACTIVE_SKILL_ID[ID]</code> verifica se está ativa. Substitua os marcadores pelos IDs e níveis reais.</p>
-  <p>Condições podem ser combinadas, mas precisam seguir os formatos reconhecidos pelo simulador. Uma condição não atendida deixa a regra inativa na configuração atual.</p>
+  <p>É possível condicionar bônus a refino, grau, nível, atributos, itens equipados em conjunto, classe, habilidades aprendidas ou ativas, posição, tipo de arma ou munição, mapa do monstro, data e lealdade do mascote.</p>
+  <p>Para conjuntos, escolha um item em Equipado junto. Adicione outra condição desse tipo para exigir outro item. Habilidades, classes, atributos, graduações e posições são escolhidos pelo nome, sem digitar comandos.</p>
+  <p>Uma condição não atendida deixa o bônus inativo. Combinações que o simulador não consegue calcular são sinalizadas e impedem salvar. Regras importadas mais avançadas são preservadas e podem ser editadas em JSON bruto.</p>
 
   <h3>Unidades, sinais e acúmulo</h3>
   <ul class="pl-4">

@@ -45,7 +45,7 @@
   [offensiveSkills]="offensiveSkills"
   [onClassChanged]="onClassChanged$"
 ></app-item-search>
-<app-custom-item-studio [items]="items" [currentModel]="model" [character]="selectedCharacter" [currentMonster]="monsterDataMap[selectedMonster]" (saved)="onCustomItemSaved($event)" (deleted)="onCustomItemDeleted($event)"></app-custom-item-studio>
+<app-custom-item-studio [items]="items" [currentModel]="model" [currentMonster]="monsterDataMap[selectedMonster]" (saved)="onCustomItemSaved($event)" (deleted)="onCustomItemDeleted($event)"></app-custom-item-studio>
 
 <!-- A centred modal, not a side sheet: `position="left"` is what gave it the slide-in
      animation and pinned it to the edge. Without it PrimeNG centres the dialog and uses

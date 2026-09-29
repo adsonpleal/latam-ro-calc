@@ -45,7 +45,8 @@
 .studio-sockets span.studio-socket-filled { border-style: solid; color: var(--text-color); background: var(--surface-card); }
 .studio-rule { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: .5rem; }
 .studio-rule input { min-width: 0; width: 100%; }
-.studio-condition { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .5rem; }
+.studio-condition { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: .5rem; }
+.studio-preserved-title { grid-column: span 2; }
 .studio-json-editor { position: relative; height: 340px; min-height: 180px; resize: vertical; overflow: hidden; }
 .studio-json-editor textarea, .studio-json-highlight {
   position: absolute;
@@ -75,4 +76,5 @@
 
 @media (max-width: 480px) {
   .studio-fields, .studio-rule, .studio-condition { grid-template-columns: minmax(0, 1fr); }
+  .studio-preserved-title { grid-column: auto; }
 }

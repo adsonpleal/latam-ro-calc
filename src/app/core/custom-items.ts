@@ -399,7 +399,7 @@ export function validateCustomItems(raw: unknown, catalog: Record<number, ItemMo
   return { items: errors.length ? [] : items, errors };
 }
 
-export function customItemDescription(item: CustomItemDefinition): string {
+export function customItemDescription(item: Pick<CustomItemDefinition, 'script'>): string {
   const position = (value: string) => value === 'me' ? 'este item' : CUSTOM_KIND_LABELS[value as CustomKind] ?? value;
   const list = (value: string) => value.replace(/&&/g, ' e ').replace(/\|\|/g, ' ou ');
   const stat = (value: string) => ({ level: 'nível de base', jobLevel: 'nível de classe' }[value] ?? bonusKeyLabel(value));

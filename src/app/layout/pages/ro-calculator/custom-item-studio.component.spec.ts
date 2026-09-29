@@ -4,6 +4,9 @@ import { of } from 'rxjs';
 import { CustomItemStudioComponent } from './custom-item-studio.component';
 import { CustomItemLibraryService } from 'src/app/api-services/custom-item-library.service';
 import { ItemPickerService } from './item-picker/item-picker.service';
+import { createMainModel } from 'src/app/utils/create-main-model';
+import { Mechanic } from 'src/app/jobs';
+import { CUSTOM_ITEM_MIN_ID } from 'src/app/core/custom-items';
 
 function studio() {
   const picker = { open: vi.fn().mockReturnValue(of({ committed: true, value: 'atk:10' })), close: vi.fn() };
@@ -38,7 +41,10 @@ describe('custom item creator editing', () => {
     component.rawScript = '{"atk":["10"],"cri":["7===5"]}';
     component.setMode('visual');
     expect(component.mode).toBe('visual');
-    expect(component.rules).toEqual([{ key: 'atk', expression: '10' }, { key: 'cri', expression: '7===5' }]);
+    expect(component.rules).toMatchObject([
+      { key: 'atk', value: 10, conditions: [] },
+      { key: 'cri', value: 5, conditions: [{ kind: 'refine', value: 7 }] },
+    ]);
     expect(component.previewText).toContain('ATQ +10');
     expect(component.previewText).not.toContain('7===');
     expect(component.diagnostics).toContain('items[0].name: Informe um nome.');
@@ -52,6 +58,115 @@ describe('custom item creator editing', () => {
     expect(component.mode).toBe('json');
     expect(component.rawScript).toBe('{"atk": [');
     expect(component.diagnostics[0]).toContain('JSON:');
+  });
+
+  it('updates conditions automatically, replaces old thresholds, and keeps each bonus independent', () => {
+    const { component } = studio();
+    component.addRule();
+    component.addRule();
+    const first = component.rules[0];
+    first.value = 10;
+    first.conditions = [{ kind: 'refine', value: 7 }, { kind: 'grade', value: 'B' }];
+    component.writeRules();
+    expect(component.draft.script.atk).toEqual(['GRADE[me==B]REFINE[7]===10', '1']);
+    first.conditions[0].value = 9;
+    component.writeRules();
+    expect(component.draft.script.atk).toEqual(['GRADE[me==B]REFINE[9]===10', '1']);
+    component.removeCondition(first, 0);
+    expect(component.draft.script.atk).toEqual(['GRADE[me==B]===10', '1']);
+    component.setMode('json');
+    component.setMode('visual');
+    expect(component.rules[0]).toMatchObject({ value: 10, conditions: [{ kind: 'grade', value: 'B' }] });
+    expect(component.rules[1].conditions).toEqual([]);
+  });
+
+  it('blocks saving or switching modes while a visual condition is unfinished', () => {
+    const { component } = studio();
+    component.draft.name = 'Teste';
+    component.addRule();
+    component.rules[0].conditions = [{ kind: 'refine', value: null }];
+    component.writeRules();
+    expect(component.diagnostics.join(' ')).toContain('Condição 1');
+    component.setMode('json');
+    expect(component.mode).toBe('visual');
+    const saved = vi.fn();
+    component.saved.subscribe(saved);
+    component.save();
+    expect(saved).not.toHaveBeenCalled();
+    component.rules[0].conditions[0].value = 7;
+    component.writeRules();
+    expect(component.diagnostics).toEqual([]);
+    expect(component.previewText).toContain('refino mínimo +7');
+  });
+
+  it('keeps advanced imported clauses and autocasts intact when a different visual rule changes', () => {
+    const { component } = studio();
+    const advanced = 'GRADE[me==A]REFINE[weapon,headUpper==2]---5';
+    const directive = [{ skillName: 'Teste', reason: 'Ainda sem cálculo' }];
+    component.setMode('json');
+    component.rawScript = JSON.stringify({ atk: [advanced, '10'], autoCastPending: directive });
+    component.setMode('visual');
+    expect(component.rules[0].readOnly).toBe(true);
+    expect(component.rules[0].description).toContain('A cada 2 refinos');
+    expect(component.rules[0].description).not.toContain('REFINE[');
+    component.rules[1].value = 20;
+    component.writeRules();
+    expect(component.draft.script).toEqual({ atk: [advanced, '20'], autoCastPending: directive });
+  });
+
+  it('restores an unfinished visual draft after undoing script import', () => {
+    const { component } = studio();
+    component.addRule();
+    component.rules[0].conditions = [{ kind: 'refine', value: null }];
+    component.writeRules();
+    const errors = [...component.diagnostics];
+    component.importScript({ script: { atk: ['30'] } } as any);
+    component.undoImport();
+    expect(component.rules[0].conditions).toEqual([{ kind: 'refine', value: null }]);
+    expect(component.diagnostics).toEqual(errors);
+  });
+
+  it('previews learned and active skill requirements from the build without changing its selections', () => {
+    const { component } = studio();
+    const character = new Mechanic();
+    component.currentModel = { ...createMainModel(), class: 10,
+      passiveSkills: character.passiveSkills.map((skill) => skill.name === 'Mammonite' ? 5 : 0),
+      activeSkills: character.activeSkills.map((skill) => skill.name === 'Crazy Uproar' ? 1 : 0),
+    };
+    component.draft.name = 'Teste';
+    component.addRule();
+    component.rules[0].conditions = [{ kind: 'skill', value: 42, extra: 5 }, { kind: 'activeSkill', value: 155 }];
+    const original = structuredClone(component.currentModel);
+    component.writeRules();
+    expect(component.previewBonuses).toEqual([{ label: 'ATQ', value: 1 }]);
+    expect(component.currentModel).toEqual(original);
+    component.currentModel.passiveSkills.fill(0);
+    component.updatePreview();
+    expect(component.previewBonuses).toEqual([]);
+    component.currentModel.passiveSkills = original.passiveSkills;
+    component.currentModel.activeSkills.fill(0);
+    component.updatePreview();
+    expect(component.previewBonuses).toEqual([]);
+  });
+
+  it('uses the preview grade when editing an equipped custom item without changing its saved attachments', () => {
+    const { component } = studio();
+    component.openCreate('armor');
+    component.draft.id = CUSTOM_ITEM_MIN_ID + 72;
+    component.draft.name = 'Teste';
+    component.currentModel = { ...createMainModel(), armor: component.draft.id,
+      customAttachments: { armor: { itemId: component.draft.id, cards: [], enchants: [], bas: [], refine: 0, grade: '' } },
+    };
+    component.previewRefine = 7;
+    component.previewGrade = 'B';
+    component.addRule();
+    component.rules[0].conditions = [{ kind: 'refine', value: 7 }, { kind: 'grade', value: 'B' }];
+    component.writeRules();
+    expect(component.previewBonuses).toEqual([{ label: 'ATQ', value: 1 }]);
+    expect(component.currentModel.customAttachments.armor).toMatchObject({ refine: 0, grade: '' });
+    component.previewGrade = 'C';
+    component.updatePreview();
+    expect(component.previewBonuses).toEqual([]);
   });
 
   it('enforces the shared socket budget and preserves unaffected defaults', () => {
