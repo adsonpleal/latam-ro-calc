@@ -4,7 +4,7 @@
  * would hit them — including the serialized-size ceilings, which are the regression
  * guard for token cost.
  */
-import { describe, expect, it, beforeAll } from 'vitest';
+import { describe, expect, it, beforeAll, vi } from 'vitest';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { loadDatasetFromDisk } from '../data/dataset.node';
@@ -67,11 +67,21 @@ describe('custom item tools', () => {
   it('validates and returns one portable link for a forward-reference batch', async () => {
     const validated = await call('validate_custom_items', { items });
     expect(validated.data.valid).toBe(true);
+    const mocked = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(new Response(null, { status: 503 }));
     const created = await call('create_custom_items', { items });
+    mocked.mockRestore();
     expect(created.data.valid).toBe(true);
     expect(created.data.items[0].item).toMatchObject({ id: first, name: 'Espada MCP' });
     const token = new URL(created.data.url).hash.split('customItem=')[1];
     expect(decodeCustomBundle(token).map((item) => item.id)).toEqual([first, second]);
+  });
+
+  it('returns a short link for a valid batch when the shortener responds', async () => {
+    const shortUrl = 'https://short.latam-tools.com.br/itens123';
+    const mocked = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(new Response(JSON.stringify({ short_url: shortUrl }), { status: 200 }));
+    const created = await call('create_custom_items', { items });
+    mocked.mockRestore();
+    expect(created.data.url).toBe(shortUrl);
   });
 
   it('rejects a broken member without returning a partial link', async () => {

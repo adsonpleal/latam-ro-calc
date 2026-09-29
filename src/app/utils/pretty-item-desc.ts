@@ -35,7 +35,10 @@ export const skillDescHtml = (skillId?: number): string => {
  *  second column, which broke reading down the middle. */
 export const itemDescPopoverHtml = (item?: { name?: string }, description?: string): string => {
   const desc = prettyItemDesc(description) || '';
-  const title = item?.name ? `<div class="item_desc_title"><b>${item.name}</b></div><br>` : '';
+  const safeName = item?.name?.replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  })[char]);
+  const title = safeName ? `<div class="item_desc_title"><b>${safeName}</b></div><br>` : '';
   if (!title && !desc) return '';
 
   return `${title}${desc}`;

@@ -6,7 +6,7 @@ import { CustomItemLibraryService } from 'src/app/api-services/custom-item-libra
 import { ItemPickerService } from './item-picker/item-picker.service';
 import { createMainModel } from 'src/app/utils/create-main-model';
 import { Mechanic } from 'src/app/jobs';
-import { CUSTOM_ITEM_MIN_ID } from 'src/app/core/custom-items';
+import { CUSTOM_ITEM_MIN_ID, validateCustomItems } from 'src/app/core/custom-items';
 
 function studio() {
   const picker = { open: vi.fn().mockReturnValue(of({ committed: true, value: 'atk:10' })), close: vi.fn() };
@@ -16,6 +16,26 @@ function studio() {
 }
 
 describe('custom item creator editing', () => {
+  it('keeps a selected icon through validation and editing, then resets it when the subtype changes', () => {
+    const { component } = studio();
+    component.selectIcon(1101);
+    expect(component.draft.iconItemId).toBe(1101);
+    component.draft.name = 'Espada';
+    component.validate();
+    const item = validateCustomItems([{ ...component.draft, id: CUSTOM_ITEM_MIN_ID + 40 }]).items[0];
+    component.edit(item);
+    expect(component.draft.iconItemId).toBe(1101);
+    component.draft.itemSubTypeId = 259;
+    component.onSubtypeChange();
+    expect(component.draft.iconItemId).toBeUndefined();
+  });
+
+  it('escapes a custom name in the library description tooltip', () => {
+    const { component } = studio();
+    const item = validateCustomItems([{ name: '<script>alert(1)</script>', kind: 'card', script: { cri: ['5'] } }]).items[0];
+    expect(component.descriptionTooltip(item)).toContain('&lt;script&gt;alert(1)&lt;/script&gt;');
+  });
+
   it('formats JSON without changing its script, including structured directives', () => {
     const { component } = studio();
     const script = { atk: ['10'], autoCastPending: [{ skillName: 'Teste', reason: 'Ainda sem cálculo' }] };

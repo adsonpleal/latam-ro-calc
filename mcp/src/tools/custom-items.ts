@@ -7,6 +7,7 @@ import { CUSTOM_ITEM_LIMIT, CUSTOM_ITEM_MIN_ID, CUSTOM_ITEM_MAX_ID, CUSTOM_KINDS
 import { encodeCustomBundle } from 'src/app/core/custom-item-library';
 import { createRawTotalBonus } from 'src/app/utils/create-raw-total-bonus';
 import { bonusKeyLabel } from 'src/app/core/bonus-key-label';
+import { shortenShareUrl } from '../engine/share';
 
 const itemWarnings = (item: { script: Record<string, unknown> }): string[] => [
   ...((item.script['autoCastPending'] as unknown[] | undefined)?.length
@@ -78,13 +79,14 @@ export function registerCustomItemTools(server: McpServer, dataset: Dataset): vo
     title: 'Criar itens personalizados',
     description: `Cria de 1 a ${CUSTOM_ITEM_LIMIT} itens de uma vez e devolve um link que importa todo o lote para o navegador. O servidor não armazena os itens.`,
     inputSchema: draftsSchema,
-  }, ({ items }) => {
+  }, async ({ items }) => {
     const result = validateCustomItems(items, dataset.items as any);
     if (result.errors.length) return json({ valid: false, errors: result.errors }, true);
     const token = encodeCustomBundle(result.items);
+    const url = `${config.appOrigin.replace(/\/+$/, '')}/#/?customItem=${token}`;
     return json({
       valid: true,
-      url: `${config.appOrigin.replace(/\/+$/, '')}/#/?customItem=${token}`,
+      url: await shortenShareUrl(url, config.shortenerUrl),
       items: result.items.map((item) => ({ item, description: customItemDescription(item), warnings: itemWarnings(item) })),
     });
   });

@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { createMainModel } from 'src/app/utils';
 import { makeCalculator, equipStatusOf } from './__tests__/make-calculator';
 import { CustomItemLibrary, decodeCustomBundle, encodeCustomBundle } from './custom-item-library';
-import { CUSTOM_ITEM_MIN_ID, customItemDescription, inferCustomIcon, validateCustomItems, validateScript } from './custom-items';
+import { CUSTOM_ITEM_MIN_ID, customIconCandidates, customItemDescription, inferCustomIcon, validateCustomItems, validateScript } from './custom-items';
 import { classifyItem } from '../../../mcp/src/data/slot-classifier';
 
 const ARMOR = CUSTOM_ITEM_MIN_ID + 101;
@@ -43,6 +43,20 @@ describe('custom item batches', () => {
     expect(inferCustomIcon('accRight', undefined, {})).toBe(2607);
     expect(inferCustomIcon('headUpper', undefined, {})).toBe(2228);
     expect(inferCustomIcon('headLower', undefined, {})).toBe(2265);
+  });
+
+  it('offers icons from the selected item category and weapon subtype', () => {
+    const catalog: any = {
+      2: { id: 2, itemTypeId: 1, itemSubTypeId: 257 },
+      1: { id: 1, itemTypeId: 1, itemSubTypeId: 259 },
+      3: { id: 3, itemTypeId: 2, itemSubTypeId: 512, location: 'Upper' },
+      4: { id: 4, itemTypeId: 2, itemSubTypeId: 512, location: 'Middle' },
+      5: { id: 5, itemTypeId: 1, itemSubTypeId: 257, custom: true },
+    };
+    expect(customIconCandidates('weapon', 257, catalog).map((item) => item.id)).toEqual([2]);
+    expect(customIconCandidates('weapon', 259, catalog).map((item) => item.id)).toEqual([1]);
+    expect(customIconCandidates('headUpper', undefined, catalog).map((item) => item.id)).toEqual([3]);
+    expect(customIconCandidates('headMiddle', undefined, catalog).map((item) => item.id)).toEqual([4]);
   });
 
   it('can copy mapped official scripts without losing legacy clauses', () => {

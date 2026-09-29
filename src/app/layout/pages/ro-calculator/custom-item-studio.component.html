@@ -1,5 +1,5 @@
 <p-dialog [(visible)]="visible" [modal]="true" [dismissableMask]="true" [draggable]="false" [resizable]="false"
-  [style]="{ width: 'min(94vw, 1100px)', height: '85vh' }"
+  [style]="{ width: 'min(94vw, 1100px)', height: '93vh' }"
   [contentStyle]="{ overflow: 'hidden', display: 'flex', 'flex-direction': 'column' }" (onHide)="closePickers()">
   <ng-template pTemplate="header">
     <div class="flex align-items-center gap-2">
@@ -21,15 +21,14 @@
     </div>
     <div class="studio-library-list">
       <p-table [value]="libraryItems" styleClass="p-datatable-sm" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" currentPageReportTemplate="{totalRecords} itens">
-        <ng-template pTemplate="header"><tr><th>Item</th><th>Ações</th></tr></ng-template>
+        <ng-template pTemplate="header"><tr><th>Item</th><th class="studio-actions-column">Ações</th></tr></ng-template>
         <ng-template pTemplate="body" let-item>
           <tr>
-            <td><div class="flex align-items-center gap-2">
+            <td [pTooltip]="descriptionTooltip(item)" [escape]="false" tooltipStyleClass="item_desc_tooltip" tooltipPosition="top" [showDelay]="350"><div class="flex align-items-center gap-2">
               <img [src]="item.iconItemId | iconUrl: 'item'" alt="" class="item_img" missingIcon />
               <div class="studio-item-name"><strong>{{ item.name }}</strong><small class="block text-color-secondary">{{ kindLabels[item.kind] }} · ID {{ item.id }}</small></div>
             </div></td>
-            <td><div class="flex flex-wrap gap-1">
-              <button pButton type="button" class="p-button-text p-button-sm" icon="pi pi-eye" aria-label="Prévia" pTooltip="Prévia" (click)="edit(item); mobileView = 'preview'"></button>
+            <td class="studio-actions-column"><div class="flex justify-content-end gap-1">
               <button pButton type="button" class="p-button-text p-button-sm" icon="pi pi-pencil" aria-label="Editar" pTooltip="Editar" (click)="edit(item)"></button>
               <button pButton type="button" class="p-button-text p-button-sm" icon="pi pi-copy" aria-label="Duplicar" pTooltip="Duplicar" (click)="duplicate(item)"></button>
               <button pButton type="button" class="p-button-text p-button-sm" icon="pi pi-share-alt" aria-label="Compartilhar" pTooltip="Compartilhar" (click)="share(item)"></button>
@@ -68,8 +67,31 @@
           <div class="studio-fields p-fluid">
             <div class="studio-wide"><label for="studio-name">Nome</label><input pInputText id="studio-name" [(ngModel)]="draft.name" (ngModelChange)="validate()" placeholder="Nome do item" /></div>
             <div><label for="studio-kind">Tipo</label><p-dropdown inputId="studio-kind" [options]="kindOptions" [ngModel]="draft.kind" (ngModelChange)="selectKind($event)" [filter]="true" filterBy="label" appendTo="body"></p-dropdown></div>
-            <div *ngIf="draft.kind === 'weapon'"><label for="studio-weapon-type">Tipo de arma</label><p-dropdown inputId="studio-weapon-type" [options]="weaponSubtypes" optionLabel="label" optionValue="id" [(ngModel)]="draft.itemSubTypeId" (ngModelChange)="validate()" [filter]="true" filterBy="label" appendTo="body"></p-dropdown></div>
-            <div *ngIf="draft.kind === 'ammo'"><label for="studio-ammo-type">Tipo de munição</label><p-dropdown inputId="studio-ammo-type" [options]="ammoSubtypes" optionLabel="label" optionValue="id" [(ngModel)]="draft.itemSubTypeId" (ngModelChange)="validate()" [filter]="true" filterBy="label" appendTo="body"></p-dropdown></div>
+            <div *ngIf="draft.kind === 'weapon'"><label for="studio-weapon-type">Tipo de arma</label><p-dropdown inputId="studio-weapon-type" [options]="weaponSubtypes" optionLabel="label" optionValue="id" [(ngModel)]="draft.itemSubTypeId" (ngModelChange)="onSubtypeChange()" [filter]="true" filterBy="label" appendTo="body"></p-dropdown></div>
+            <div *ngIf="draft.kind === 'ammo'"><label for="studio-ammo-type">Tipo de munição</label><p-dropdown inputId="studio-ammo-type" [options]="ammoSubtypes" optionLabel="label" optionValue="id" [(ngModel)]="draft.itemSubTypeId" (ngModelChange)="onSubtypeChange()" [filter]="true" filterBy="label" appendTo="body"></p-dropdown></div>
+            <div>
+              <label for="studio-icon">Ícone</label>
+              <button pButton id="studio-icon" type="button" class="p-button-outlined w-full justify-content-start gap-2" (click)="iconPicker.toggle($event)">
+                <img [src]="previewIcon | iconUrl: 'item'" class="item_img" alt="" missingIcon />
+                <span>Escolher ícone</span>
+              </button>
+              <p-overlayPanel #iconPicker appendTo="body" [baseZIndex]="1100" styleClass="studio-icon-panel">
+                <div class="studio-icon-picker">
+                  <strong class="block mb-2">Ícones de {{ kindLabels[draft.kind] }}</strong>
+                  <input pInputText type="search" class="w-full mb-2" placeholder="Buscar nome ou ID" aria-label="Buscar ícones" [(ngModel)]="iconQuery" (ngModelChange)="filterIconOptions()" />
+                  <button pButton type="button" class="p-button-text p-button-sm mb-2" label="Usar ícone automático" (click)="selectIcon(); iconPicker.hide()"></button>
+                  <div *ngIf="iconFilteredOptions.length" class="studio-icon-viewport" (scroll)="loadMoreIcons($event)">
+                    <div class="studio-icon-grid">
+                      <button *ngFor="let option of visibleIcons; trackBy: trackIcon" type="button" class="studio-icon-option" [class.studio-icon-option--selected]="previewIcon === option.id"
+                        [attr.aria-label]="'Usar ícone de ' + option.name" [title]="option.name + ' · ID ' + option.id" (click)="selectIcon(option.id); iconPicker.hide()">
+                        <img [src]="option.id | iconUrl: 'item'" alt="" missingIcon />
+                      </button>
+                    </div>
+                  </div>
+                  <span *ngIf="!iconFilteredOptions.length" class="text-color-secondary text-sm">Nenhum ícone nesta seleção.</span>
+                </div>
+              </p-overlayPanel>
+            </div>
             <div *ngIf="draft.kind === 'card'"><label for="studio-card-position">Posição da carta</label><p-dropdown inputId="studio-card-position" [options]="cardPositions" [(ngModel)]="draft.compositionPos" (ngModelChange)="validate()" [autoDisplayFirst]="false" placeholder="Qualquer posição" appendTo="body"></p-dropdown></div>
             <div *ngIf="isEquipment(draft.kind)"><label for="studio-level">Nível do item</label><input pInputText id="studio-level" type="number" min="0" max="5" [(ngModel)]="draft.itemLevel" (ngModelChange)="validate()" /></div>
             <div *ngIf="draft.kind === 'weapon'"><label for="studio-atk">ATQ base</label><input pInputText id="studio-atk" type="number" min="0" [(ngModel)]="draft.attack" (ngModelChange)="validate()" /></div>
@@ -262,5 +284,5 @@
 <p-dialog header="Criar itens com IA" [(visible)]="mcpVisible" [modal]="true" [dismissableMask]="true" [style]="{ width: 'min(92vw, 540px)' }">
   <p>Conecte seu agente ao servidor MCP e peça, por exemplo: “Crie uma espada e duas cartas personalizadas que formem um conjunto.”</p>
   <code class="block p-3 surface-ground border-round studio-item-name">{{ mcpUrl }}</code>
-  <p>O agente pode criar até 20 itens em uma chamada e devolverá um link. Abra esse link neste navegador para adicioná-los aos Meus itens.</p>
+  <p>O agente pode criar até 20 itens em uma chamada e devolverá um link curto quando o encurtador estiver disponível. Abra esse link neste navegador para adicioná-los aos Meus itens.</p>
 </p-dialog>

@@ -22,6 +22,14 @@
 
 .studio-editor-scroll { padding: 0 .25rem .5rem 0; }
 .studio-item-name { min-width: 0; overflow-wrap: anywhere; }
+.studio-actions-column { width: 1%; white-space: nowrap; text-align: right; }
+.studio-icon-picker { width: min(82vw, 360px); }
+.studio-icon-viewport { height: 200px; overflow-y: auto; overscroll-behavior: contain; }
+.studio-icon-grid { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 2px; }
+.studio-icon-option { display: grid; place-items: center; width: 100%; height: 38px; padding: 2px; border: 0; background: transparent; cursor: pointer; }
+.studio-icon-option:hover img, .studio-icon-option--selected img { filter: drop-shadow(0 0 3px var(--green-400)); }
+.studio-icon-option:focus-visible { outline: 1px solid var(--green-400); }
+.studio-icon-option img { max-width: 34px; max-height: 34px; image-rendering: pixelated; }
 .studio-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 .studio-fields label { display: block; margin-bottom: .4rem; font-size: .875rem; }
 .studio-wide { grid-column: 1 / -1; }

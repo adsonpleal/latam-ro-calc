@@ -115,6 +115,7 @@ import { buildCharSpriteUrl, bareJobSprite } from 'src/app/domain/char-sprite-ur
 import { AutoCastSimulation, buildAutoCastSimulation } from 'src/app/core/auto-cast';
 import { CustomItemLibraryService } from 'src/app/api-services/custom-item-library.service';
 import { CustomItemDefinition, customDefinitionsForBuild, customItemDescriptionHtml, isCustomItem, validateCustomItems } from 'src/app/core/custom-items';
+import { shortenUrl } from 'src/app/core/shorten-url';
 import { decodeCustomBundle } from 'src/app/core/custom-item-library';
 import { CustomItemStudioComponent } from './custom-item-studio.component';
 
@@ -665,6 +666,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.allSubs.push(this.layoutService.customItemsOpen$.subscribe(() => this.customStudio?.openLibrary()));
     this.allSubs.push(this.layoutService.customItemCreate$.subscribe((request) =>
       this.customStudio?.openCreate(request.kind, { slot: request.slot, compare: request.compare })));
+    this.allSubs.push(this.layoutService.customItemEdit$.subscribe((id) => this.openEditCustomItem(id)));
 
     // Deliberately outside the initial forkJoin: the descriptions are nearly half the
     // payload and only show on hover and in the search preview. When they arrive, the
@@ -1028,7 +1030,10 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     if (context?.slot) {
       const target = context.compare ? this.model2 : this.model;
       const custom = context.slot.match(/^custom:([^:]+):(card|enchant):(\d+)$/);
-      if (custom) {
+      if (context.slot === 'consumables') {
+        this.model.consumables = [...new Set([...(this.model.consumables ?? []), item.id])];
+        this.onConsumableChange();
+      } else if (custom) {
         const state = (target as MainModel).customAttachments?.[custom[1]];
         if (state) state[custom[2] === 'card' ? 'cards' : 'enchants'][Number(custom[3])] = item.id;
         if (context.compare) this.updateCompareEvent.next(1); else this.updateItemEvent.next(custom[1] as ItemTypeEnum);
@@ -1048,6 +1053,20 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.setItemList();
     if (this.selectedCharacter) this.setItemDropdownList();
     this.updateItemEvent.next(ItemTypeEnum.weapon);
+  }
+
+  openCreateConsumable(): void {
+    this.customStudio?.openCreate('consumable', { slot: 'consumables', compare: false });
+  }
+
+  editCustomConsumable(id: number, event: MouseEvent): void {
+    event.stopPropagation();
+    this.openEditCustomItem(id);
+  }
+
+  private openEditCustomItem(id: number): void {
+    const item = this.customLibrary.items.find((entry) => entry.id === id) ?? this.items[id];
+    if (item?.custom) this.customStudio?.edit(item as CustomItemDefinition);
   }
 
   private prepare(calculator: Calculator, compareModel?: any, pvpTarget?: PlayerTargetProfile, pvpMode?: PvpMode) {
@@ -1978,17 +1997,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     const longUrl = this.shareUrl;
     this.shareShortening = true;
     try {
-      const res = await fetch(`${environment.shortenerUrl}/api/links`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: longUrl }),
-      });
-      if (!res.ok) throw new Error(`shortener responded ${res.status}`);
-      const { short_url } = (await res.json()) as { short_url?: string };
       // Only swap if the dialog still shows the URL we shortened (it may have been reopened with a new build).
-      if (short_url && this.shareUrl === longUrl) this.shareUrl = short_url;
-    } catch (error) {
-      console.error(error);
+      const shortUrl = await shortenUrl(longUrl, environment.shortenerUrl);
+      if (this.shareUrl === longUrl) this.shareUrl = shortUrl;
     } finally {
       this.shareShortening = false;
     }

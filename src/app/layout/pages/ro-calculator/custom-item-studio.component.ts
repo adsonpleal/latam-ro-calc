@@ -13,8 +13,8 @@ import { createNumberDropdownList } from 'src/app/utils/create-number-dropdown-l
 import { getGradeList } from 'src/app/utils/to-grade-list';
 import {
   CUSTOM_KINDS, CUSTOM_KIND_LABELS, CustomItemDefinition, CustomItemDraft, CustomKind,
-  CUSTOM_ITEM_MAX_BYTES, customDefinitionsForBuild, customItemDescription, customItemId, validateCustomItems,
-  cardFitsCustomKind, customKindIsEquipment, customKindIsShadow, inferCustomIcon,
+  CUSTOM_ITEM_MAX_BYTES, customDefinitionsForBuild, customItemDescription, customItemDescriptionHtml, customItemId, validateCustomItems,
+  cardFitsCustomKind, customIconCandidates, customKindIsEquipment, customKindIsShadow, inferCustomIcon,
 } from 'src/app/core/custom-items';
 import { CustomItemLibraryService } from 'src/app/api-services/custom-item-library.service';
 import { encodeCustomBundle } from 'src/app/core/custom-item-library';
@@ -33,6 +33,8 @@ import { ItemPickerService } from './item-picker/item-picker.service';
 import { PickerRequest } from './item-picker/item-picker.model';
 import { ChipView } from './equipment-grid/chip-view.model';
 import { itemFailureMessages, itemValidationMessage, jsonSyntaxMessage } from './custom-item-feedback';
+import { itemDescPopoverHtml } from 'src/app/utils';
+import { shortenUrl } from 'src/app/core/shorten-url';
 
 interface CreateContext { slot: string; compare: boolean }
 interface RuleConditionOption {
@@ -88,6 +90,10 @@ export class CustomItemStudioComponent {
   private catalogRows: ItemModel[] = [];
   conditionItemOptions: DropdownModel[] = [];
   previewIcon = 1101;
+  iconQuery = '';
+  iconOptions: ItemModel[] = [];
+  iconFilteredOptions: ItemModel[] = [];
+  visibleIcons: ItemModel[] = [];
   previewRefine = 0;
   previewGrade = '';
   previewLoyalty = 4;
@@ -144,6 +150,7 @@ export class CustomItemStudioComponent {
     ['Acessório direito', CardPosition.AccR], ['Qualquer posição', CardPosition.All],
   ].map(([label, value]) => ({ label, value }));
   readonly isEquipment = customKindIsEquipment;
+  readonly trackIcon = (_: number, item: ItemModel) => item.id;
   readonly mcpUrl = environment.mcpUrl;
   readonly bonusKeys = Object.keys(createRawTotalBonus()).filter((key) => !INTERNAL_ITEM_FIELDS.has(key))
     .map((key) => ({ key, label: bonusKeyLabel(key) }));
@@ -259,6 +266,7 @@ export class CustomItemStudioComponent {
     this.enchantOptions = this.catalogRows.filter((item) => item.itemTypeId === 11).map((item) => ({ label: item.name, value: item.id }));
     this.setCardOptions(selected);
     this.draft = this.blank(selected);
+    this.refreshIconOptions();
     this.previewIcon = inferCustomIcon(selected, this.draft.itemSubTypeId, this.items);
     this.rawScript = '{}'; this.rules = []; this.mode = 'visual'; this.section = 'item';
     this.mobileView = 'editor';
@@ -276,7 +284,7 @@ export class CustomItemStudioComponent {
     this.openCreate(item.kind);
     this.draft = structuredClone(item);
     if (this.draft.kind === 'leftWeapon') this.draft.kind = 'weapon';
-    this.draft.iconItemId = undefined;
+    this.refreshIconOptions();
     this.rawScript = JSON.stringify(item.script ?? {}, null, 2);
     this.readRules();
     this.validate();
@@ -296,6 +304,39 @@ export class CustomItemStudioComponent {
       location: undefined, locations: undefined };
     this.setCardOptions(kind);
     this.changeCapacity('cardCapacity', 0);
+    this.refreshIconOptions();
+  }
+
+  onSubtypeChange(): void {
+    this.draft.iconItemId = undefined;
+    this.refreshIconOptions();
+    this.validate();
+  }
+
+  private refreshIconOptions(): void {
+    this.iconQuery = '';
+    this.iconOptions = customIconCandidates(this.draft.kind, this.draft.itemSubTypeId, this.items);
+    this.filterIconOptions();
+  }
+
+  filterIconOptions(): void {
+    const query = this.fold(this.iconQuery);
+    this.iconFilteredOptions = query
+      ? this.iconOptions.filter((item) => this.fold(`${item.name} ${item.id}`).includes(query))
+      : this.iconOptions;
+    this.visibleIcons = this.iconFilteredOptions.slice(0, 90);
+  }
+
+  loadMoreIcons(event: Event): void {
+    const viewport = event.target as HTMLElement;
+    if (this.visibleIcons.length >= this.iconFilteredOptions.length
+      || viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight > 160) return;
+    this.visibleIcons = this.iconFilteredOptions.slice(0, this.visibleIcons.length + 90);
+  }
+
+  selectIcon(id?: number): void {
+    this.draft.iconItemId = id;
+    this.validate();
   }
 
   get sourceResults(): ItemModel[] {
@@ -323,6 +364,10 @@ export class CustomItemStudioComponent {
     const q = this.fold(this.libraryQuery);
     return this.library.items.filter((item) => (!this.libraryKind || item.kind === this.libraryKind)
       && (!q || this.fold(`${item.name} ${item.id}`).includes(q)));
+  }
+
+  descriptionTooltip(item: CustomItemDefinition): string {
+    return itemDescPopoverHtml(item, customItemDescriptionHtml(item));
   }
 
   importScript(source: ItemModel): void {
@@ -527,7 +572,6 @@ export class CustomItemStudioComponent {
   }
 
   validate(): void {
-    this.draft.iconItemId = undefined;
     const input = { ...this.draft, id: this.draft.id ?? customItemId() };
     const result = validateCustomItems([input], this.items);
     this.diagnostics = [...(this.rawError ? [this.rawError] : []), ...this.visualErrors, ...result.errors.map((error) => itemValidationMessage(error))];
@@ -637,7 +681,8 @@ export class CustomItemStudioComponent {
   async share(item: CustomItemDefinition): Promise<void> {
     try {
       const dependencies = customDefinitionsForBuild([{ item: item.id }], this.items);
-      await navigator.clipboard.writeText(`${location.origin}/#/?customItem=${encodeCustomBundle(dependencies)}`);
+      const url = `${location.origin}/#/?customItem=${encodeCustomBundle(dependencies)}`;
+      await navigator.clipboard.writeText(await shortenUrl(url, environment.shortenerUrl));
       this.copied = true;
     }
     catch (error) { this.diagnostics = itemFailureMessages(error, 'Não foi possível copiar o link. Verifique a permissão do navegador e tente novamente.'); }

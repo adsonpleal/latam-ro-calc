@@ -173,6 +173,10 @@ export class EquipmentSlotCardComponent implements OnChanges {
     this.pickField.emit({ chip: view.chip, value: null, compare });
   }
 
+  onChipEdit(id: number): void {
+    this.layoutService.openCustomItemEdit(id);
+  }
+
   onChipPick(view: ChipView, anchor: HTMLElement, compare: boolean): void {
     const request = this.pickerRequest(view.chip, anchor, compare);
     if (!request) return;

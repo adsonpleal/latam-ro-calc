@@ -7,6 +7,7 @@
      attribute selector with a value — bind it and the popover silently loses its grace
      period (so it can no longer be hovered, scrolled or copied from) and its viewport
      fitting. A chip with no description passes an empty string, which shows nothing. -->
+<span class="eq-chip__picker">
 <button
   type="button"
   class="eq-chip"
@@ -57,3 +58,16 @@
 >
   ✕
 </button>
+</span>
+
+<button
+  *ngIf="view.descId && items?.[view.descId]?.custom"
+  type="button"
+  class="eq-chip__custom p-tag"
+  [class.eq-chip__custom--primary]="view.primary"
+  [attr.aria-label]="'Editar item customizado: ' + view.text"
+  pTooltip="Item customizado. Clique para editar."
+  tooltipPosition="top"
+  [showDelay]="300"
+  (click)="edit.emit(view.descId)"
+>Customizado</button>

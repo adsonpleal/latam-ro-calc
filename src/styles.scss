@@ -342,3 +342,8 @@ html {
 .p-overlaypanel {
   --stat-chip-bg: transparent;
 }
+
+.studio-icon-panel::before,
+.studio-icon-panel::after {
+  display: none;
+}

@@ -124,6 +124,22 @@ export function inferCustomIcon(kind: CustomKind, subtype: number | null | undef
     ?? 1101;
 }
 
+/** Catalog icons compatible with the creator's current category and weapon/ammo subtype. */
+export function customIconCandidates(kind: CustomKind, subtype: number | null | undefined, catalog: Record<number, ItemModel>): ItemModel[] {
+  const expectedType = itemTypeFor(kind);
+  const expectedSubtype = subtype ?? SLOT_SUBTYPES[kind] ?? 0;
+  const headLocation = ({ headUpper: 'Upper', headMiddle: 'Middle', headLower: 'Lower' } as Record<string, string>)[kind];
+  const accessorySubtypes = kind === 'accessory' ? [ItemSubTypeId.Acc, ItemSubTypeId.Acc_L, ItemSubTypeId.Acc_R]
+    : kind === 'accLeft' ? [ItemSubTypeId.Acc, ItemSubTypeId.Acc_L]
+      : kind === 'accRight' ? [ItemSubTypeId.Acc, ItemSubTypeId.Acc_R] : null;
+  return Object.values(catalog).filter((item) => {
+    if (item.custom || item.itemTypeId !== expectedType) return false;
+    if (headLocation) return item.itemSubTypeId === ItemSubTypeId.Upper && item.location === headLocation;
+    if (accessorySubtypes) return accessorySubtypes.includes(item.itemSubTypeId);
+    return kind === 'consumable' || kind === 'card' || item.itemSubTypeId === expectedSubtype;
+  }).sort((a, b) => a.id - b.id);
+}
+
 export function customKindIsEquipment(kind: string): boolean { return EQUIPMENT_KINDS.has(kind); }
 export function customKindIsShadow(kind: string): boolean { return SHADOW_KINDS.has(kind); }
 

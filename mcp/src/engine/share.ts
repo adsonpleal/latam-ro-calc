@@ -68,7 +68,7 @@ export async function resolveShortLink(url: string, timeoutMs = 3000): Promise<s
 }
 
 /**
- * Shorten a share URL via the same service the app uses. Best-effort: the long URL
+ * Shorten a build or custom-item URL via the same service the app uses. Best-effort: the long URL
  * always works, so a shortener hiccup must not fail the tool call.
  */
 export async function shortenShareUrl(url: string, shortenerUrl: string, timeoutMs = 3000): Promise<string> {
