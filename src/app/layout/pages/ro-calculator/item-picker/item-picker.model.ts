@@ -19,6 +19,10 @@ interface PickerRequestBase {
 
 export interface FlatPickerRequest extends PickerRequestBase {
   mode: 'flat';
+  /** Offer item creation as the first row for item/category lists. */
+  createKind?: string;
+  createSlot?: string;
+  createCompare?: boolean;
   options: readonly DropdownModel[];
   value: string | number | null | undefined;
   /** Fields the filter box searches — the old `filterBy` list, verbatim. */
@@ -56,4 +60,5 @@ export type PickerRequest = FlatPickerRequest | TreePickerRequest;
 export interface PickerResult {
   committed: boolean;
   value?: string | number | null;
+  create?: { kind: string; slot: string; compare: boolean };
 }

@@ -25,6 +25,7 @@ export class EquipmentChipComponent {
   @Input() compare = false;
 
   @Output() readonly pick = new EventEmitter<HTMLElement>();
+  @Output() readonly edit = new EventEmitter<number>();
   @Output() readonly clear = new EventEmitter<void>();
 
   constructor(public readonly itemDescriptions: ItemDescriptionStore) {}

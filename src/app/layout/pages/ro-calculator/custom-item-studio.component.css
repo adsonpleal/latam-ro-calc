@@ -1,0 +1,90 @@
+.studio-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(270px, .85fr);
+  gap: 1.25rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.studio-main, .studio-library {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+}
+
+.studio-editor-scroll, .studio-library-list, .studio-preview {
+  overflow: auto;
+  overscroll-behavior: contain;
+  min-height: 0;
+}
+
+.studio-editor-scroll { padding: 0 .25rem .5rem 0; }
+.studio-item-name { min-width: 0; overflow-wrap: anywhere; }
+.studio-actions-column { width: 1%; white-space: nowrap; text-align: right; }
+.studio-icon-trigger { height: 2.5rem; }
+.studio-icon-trigger img { max-width: 1.5rem; max-height: 1.5rem; object-fit: contain; }
+.studio-icon-picker { width: min(82vw, 360px); }
+.studio-icon-viewport { height: 200px; overflow-y: auto; overscroll-behavior: contain; }
+.studio-icon-grid { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 2px; }
+.studio-icon-option { display: grid; place-items: center; width: 100%; height: 38px; padding: 2px; border: 0; background: transparent; cursor: pointer; }
+.studio-icon-option:hover img, .studio-icon-option--selected img { filter: drop-shadow(0 0 3px var(--green-400)); }
+.studio-icon-option:focus-visible { outline: 1px solid var(--green-400); }
+.studio-icon-option img { max-width: 34px; max-height: 34px; image-rendering: pixelated; }
+.studio-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.studio-fields label { display: block; margin-bottom: .4rem; font-size: .875rem; }
+.studio-wide { grid-column: 1 / -1; }
+.studio-source { position: relative; display: flex; gap: .5rem; }
+.studio-source input { flex: 1; min-width: 0; }
+.studio-source-results { position: absolute; z-index: 1; top: 100%; left: 0; right: 0; max-height: 240px; overflow: auto; }
+.studio-source-results button { white-space: normal; }
+
+.studio-sockets { display: flex; gap: .5rem; margin: 1rem 0; }
+.studio-sockets span {
+  display: grid;
+  place-items: center;
+  flex: 0 0 3rem;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 1px dashed var(--surface-border);
+  border-radius: var(--border-radius);
+  color: var(--text-color-secondary);
+}
+.studio-sockets span.studio-socket-filled { border-style: solid; color: var(--text-color); background: var(--surface-card); }
+.studio-rule { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: .5rem; }
+.studio-rule input { min-width: 0; width: 100%; }
+.studio-condition { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: .5rem; }
+.studio-preserved-title { grid-column: span 2; }
+.studio-json-editor { position: relative; height: 340px; min-height: 180px; resize: vertical; overflow: hidden; }
+.studio-json-editor textarea, .studio-json-highlight {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: .75rem;
+  font: 13px/1.6 monospace;
+  white-space: pre;
+  tab-size: 2;
+}
+.studio-json-highlight { overflow: hidden; border: 1px solid transparent; border-radius: var(--border-radius); background: var(--surface-ground); color: var(--text-color); pointer-events: none; }
+.studio-json-editor textarea { resize: none; color: transparent; caret-color: var(--text-color); background: transparent; }
+.studio-json-editor textarea::selection { color: var(--text-color); background: var(--highlight-bg); }
+.studio-description { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.6; font-size: .875rem; }
+.studio-errors { max-height: 5rem; overflow: auto; overflow-wrap: anywhere; flex-shrink: 0; }
+.studio-mobile-toggle { display: none; }
+
+@media (max-width: 790px) {
+  .studio-mobile-toggle { display: block; }
+  .studio-workspace { display: flex; flex-direction: column; }
+  .studio-workspace .studio-preview { display: none; }
+  .studio-workspace.studio-show-preview .studio-main { display: none; }
+  .studio-workspace.studio-show-preview .studio-preview { display: block; flex: 1; }
+}
+
+@media (max-width: 480px) {
+  .studio-fields, .studio-rule, .studio-condition { grid-template-columns: minmax(0, 1fr); }
+  .studio-preserved-title { grid-column: auto; }
+}

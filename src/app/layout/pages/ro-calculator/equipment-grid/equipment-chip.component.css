@@ -1,4 +1,13 @@
 :host {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.eq-chip__picker {
   position: relative;
   display: inline-flex;
   flex: 0 1 auto;
@@ -10,7 +19,6 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  width: 100%;
   min-width: 0;
   height: 26px;
   padding: 0 8px;
@@ -23,6 +31,21 @@
   text-align: left;
   cursor: pointer;
 }
+
+.eq-chip__custom {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  height: 26px;
+  padding: 0 8px;
+  border: 0;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.eq-chip__custom--primary { font-size: 14px; }
 
 .eq-chip:hover,
 .eq-chip:focus-visible {
@@ -99,7 +122,7 @@
   line-height: 1;
 }
 
-:host(:hover) .eq-chip__clear,
+.eq-chip__picker:hover .eq-chip__clear,
 .eq-chip:focus-visible + .eq-chip__clear,
 .eq-chip__clear:focus-visible {
   display: inline-flex;

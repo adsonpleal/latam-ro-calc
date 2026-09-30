@@ -123,6 +123,9 @@
   grid-row: 2;
 }
 
+.consumable-stack .calc-section-heading::after { order: 1; }
+.consumable-create { order: 2; flex: 0 0 auto; width: max-content; text-transform: none; letter-spacing: normal; }
+
 .consumable-aspd-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -205,6 +208,9 @@
   gap: 0.5rem;
   min-width: 0;
 }
+
+.calc-option-main { display: inline-flex; align-items: center; gap: 0.5rem; min-width: 0; }
+.consumable-custom-tag { flex: 0 0 auto; border: 0; padding: 0.25rem 0.5rem; font: inherit; cursor: pointer; }
 
 .calc-option-icon {
   flex: 0 0 auto;

@@ -21,11 +21,17 @@ export class ItemDescriptionStore {
   version = 0;
 
   set(descriptions: Record<string, string> | null | undefined) {
-    this.map = descriptions ?? {};
+    const custom = Object.fromEntries(Object.entries(this.map).filter(([id]) => Number(id) >= 1_000_000_000_000));
+    this.map = { ...(descriptions ?? {}), ...custom };
     this.version++;
   }
 
   get(id: number | string | undefined): string | undefined {
     return id == null ? undefined : this.map[id];
+  }
+
+  upsert(id: number, description: string): void {
+    this.map[id] = description;
+    this.version++;
   }
 }

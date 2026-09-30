@@ -60,6 +60,7 @@ import { RotationListComponent } from './battle-hud/rotation-list/rotation-list.
 import { RotationTimelineComponent } from './battle-hud/rotation-timeline/rotation-timeline.component';
 import { AspdCurveComponent } from './aspd-curve/aspd-curve.component';
 import { ItemPickerOverlayComponent } from './item-picker/item-picker-overlay.component';
+import { CustomItemStudioComponent } from './custom-item-studio.component';
 import { SlotColorPickerComponent } from './slot-color-picker/slot-color-picker.component';
 import { EquipmentChipComponent } from './equipment-grid/equipment-chip.component';
 import { EquipmentGridComponent } from './equipment-grid/equipment-grid.component';
@@ -141,6 +142,7 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
     RotationTimelineComponent,
     AspdCurveComponent,
     ItemPickerOverlayComponent,
+    CustomItemStudioComponent,
     SlotColorPickerComponent,
     EquipmentChipComponent,
     EquipmentSlotCardComponent,

@@ -66,3 +66,15 @@ describe('SavedSimulationStore — compare state', () => {
     expect(store.list()[0].compare).toBeUndefined();
   });
 });
+
+describe('SavedSimulationStore — custom item fallbacks', () => {
+  it('keeps the saved definition but invalidates a cached PVP profile after an edit', () => {
+    const store = new SavedSimulationStore(fakeStorage());
+    const custom = { id: 1_000_000_000_001, custom: true, schemaVersion: 1, name: 'Item salvo' } as any;
+    store.upsert('A', preset({ weapon: custom.id }), profile, null, [custom]);
+    store.invalidateProfilesForItem(custom.id);
+    const saved = store.list()[0];
+    expect(saved.customItems).toEqual([custom]);
+    expect(saved.targetProfile).toBeUndefined();
+  });
+});

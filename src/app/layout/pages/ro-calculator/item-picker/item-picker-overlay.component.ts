@@ -15,6 +15,8 @@ interface PickerRow {
   preRelease?: boolean;
   group?: boolean;
   children?: readonly OptionTreeNode[];
+  create?: boolean;
+  section?: boolean;
 }
 
 const ROW_HEIGHT = 28;
@@ -107,8 +109,12 @@ export class ItemPickerOverlayComponent {
     return this.request?.clearable !== false;
   }
 
+  get createKind(): string | undefined {
+    return this.request?.mode === 'flat' ? this.request.createKind : undefined;
+  }
+
   private get minIndex(): number {
-    return this.clearable ? -1 : 0;
+    return this.createKind ? -2 : this.clearable ? -1 : 0;
   }
 
   get viewportHeight(): number {
@@ -187,6 +193,12 @@ export class ItemPickerOverlayComponent {
 
   /** `index` of -1 is the "Nenhum" row. */
   choose(index: number): void {
+    if (index === -2 && this.request.mode === 'flat' && this.request.createKind) {
+      this.closed.emit({ committed: false, create: {
+        kind: this.request.createKind, slot: this.request.createSlot ?? '', compare: !!this.request.createCompare,
+      } });
+      return;
+    }
     if (index < 0) {
       if (!this.clearable) return;
       this.closed.emit({ committed: true, value: null });
@@ -195,6 +207,13 @@ export class ItemPickerOverlayComponent {
 
     const row = this.rows[index];
     if (!row) return;
+    if (row.section) return;
+    if (row.create && this.request.mode === 'flat') {
+      this.closed.emit({ committed: false, create: {
+        kind: this.request.createKind!, slot: this.request.createSlot ?? '', compare: !!this.request.createCompare,
+      } });
+      return;
+    }
 
     if (row.group) {
       this.descend(row);
@@ -243,7 +262,7 @@ export class ItemPickerOverlayComponent {
   /** rebuild() returns fresh row literals on every keystroke, so without this the default
    *  differ tears down and recreates every rendered row — each an <img> and a tooltip
    *  directive — per character typed. Rows are already identified by value. */
-  trackRow = (_: number, row: { value: any }): any => row.value;
+  trackRow = (_: number, row: PickerRow): any => row.section ? `section:${row.label}` : row.value;
 
   private canAscend(): boolean {
     return this.request?.mode === 'tree' && !this.query.trim() && this.trail.length > 0;
@@ -282,7 +301,7 @@ export class ItemPickerOverlayComponent {
     const request = this.request as Extract<PickerRequest, { mode: 'flat' }>;
     this.capped = false;
 
-    return filterOptions(request.options, this.query, this.filterIndex).map((option: DropdownModel) => ({
+    const matches = filterOptions(request.options, this.query, this.filterIndex).map((option: DropdownModel) => ({
       label: option.label,
       value: option.value,
       icon: request.iconKey ? (option[request.iconKey] as string | number) : null,
@@ -291,6 +310,14 @@ export class ItemPickerOverlayComponent {
         (request.elementColoured && option.element ? `property_${option.element}` : undefined),
       preRelease: !!option['preRelease'],
     }));
+    if (!request.items || !request.iconKey) return matches;
+    const custom = matches.filter((row) => !!request.items?.[Number(row.value)]?.custom);
+    if (!custom.length) return matches;
+    const official = matches.filter((row) => !request.items?.[Number(row.value)]?.custom);
+    return [
+      { label: 'Meus itens', value: null, section: true }, ...custom,
+      ...(official.length ? [{ label: 'Banco de itens', value: null, section: true }, ...official] : []),
+    ];
   }
 
   private treeRows(): PickerRow[] {

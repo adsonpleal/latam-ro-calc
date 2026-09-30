@@ -18,6 +18,7 @@ import { applyGuaranaCandy, CalculatorController, collectBuffBonuses, collectCon
 import { parseOptionScripts } from 'src/app/core/option-scripts';
 import { Dataset } from '../data/dataset';
 import { ResolvedBuild } from './build-input';
+import { customOptionScripts } from 'src/app/core/custom-attachments';
 
 const controller = new CalculatorController();
 
@@ -36,7 +37,7 @@ export function solve(rb: ResolvedBuild, dataset: Dataset, monster: any, effects
     .setLearnSkills({ activeSkillIds: (model as any).activeSkills, passiveSkillIds: (model as any).passiveSkills })
     .getSkillBonusAndName();
 
-  const { scripts: consumeData, usedHpL } = collectConsumables(model as any, dataset.items);
+  const { scripts: consumeData, usedHpL } = collectConsumables(model as any, rb.items);
   const { aspdPotion, buffBonuses } = applyGuaranaCandy({
     consumables: (model as any).consumables,
     aspdPotion: (model as any).aspdPotion,
@@ -47,7 +48,7 @@ export function solve(rb: ResolvedBuild, dataset: Dataset, monster: any, effects
   });
 
   const calc = new Calculator()
-    .setMasterItems(dataset.items)
+    .setMasterItems(rb.items)
     .setHpSpTable(dataset.hpSpTable)
     .setClass(char)
     .loadItemFromModel(model as any);
@@ -60,7 +61,7 @@ export function solve(rb: ResolvedBuild, dataset: Dataset, monster: any, effects
     buffMasterys: buffBonuses.masteryAtk,
     consumeData,
     aspdPotion,
-    extraOptionScripts: parseOptionScripts((model as any).rawOptionTxts),
+    extraOptionScripts: parseOptionScripts([...(model as any).rawOptionTxts, ...customOptionScripts(model as any)]),
     activeSkillNames,
     learnedSkillMap,
     selectedAtkSkill: (model as any).selectedAtkSkill,

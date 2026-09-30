@@ -31,12 +31,15 @@ export function itemAutoCastPendingScripts(script: Record<string, ItemScriptValu
 export function itemBonusScriptEntries(script: Record<string, ItemScriptValue> | undefined): Array<[string, string[]]> {
   return Object.entries(script ?? {}).filter((entry): entry is [string, string[]] => (
     !STRUCTURED_SCRIPT_DIRECTIVES.has(entry[0])
-      && (entry[1] as unknown[]).every((value) => typeof value === 'string')
+      && Array.isArray(entry[1]) && (entry[1] as unknown[]).every((value) => typeof value === 'string')
   ));
 }
 
 export interface ItemModel {
   id: number;
+  custom?: boolean;
+  iconItemId?: number;
+  baseMatk?: number;
   aegisName: string;
   name: string;
   /** Original English display name, preserved by the LATAM overlay before `name`

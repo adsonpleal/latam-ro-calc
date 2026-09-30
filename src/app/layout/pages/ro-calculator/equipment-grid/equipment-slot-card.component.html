@@ -142,6 +142,7 @@
           [items]="items"
           [compare]="compare"
           (pick)="onChipPick(view, $event, compare)"
+          (edit)="onChipEdit($event)"
           (clear)="onChipClear(view, compare)"
         ></app-equipment-chip>
       </div>

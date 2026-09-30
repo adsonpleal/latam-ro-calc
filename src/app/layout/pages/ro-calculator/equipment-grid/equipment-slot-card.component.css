@@ -261,11 +261,11 @@
 }
 
 .eq-card__icon {
-  flex: 0 0 auto;
-  align-self: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 auto;
+  align-self: center;
   width: 52px;
   height: 52px;
   border: 1px solid #304562;

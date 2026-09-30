@@ -12,6 +12,8 @@ import { Dataset } from '../data/dataset';
 import { applyJobBonus, applySkillMaps, clampLevels, resolveAtkSkill } from './derive';
 import { applyPreset } from './preset';
 import { parseShare } from './share';
+import { CustomItemDefinition, validateCustomItems } from 'src/app/core/custom-items';
+import { ItemModel } from 'src/app/models/item.model';
 
 export const STAT_KEYS = ['str', 'agi', 'vit', 'int', 'dex', 'luk', 'pow', 'sta', 'wis', 'spl', 'con', 'crt'] as const;
 
@@ -41,6 +43,7 @@ export const buildInputSchema = z
       .optional()
       .describe('Link de compartilhamento do simulador (URL completa, encurtada, fragmento antigo #/?b=… ou o token puro). Base da build.'),
     preset: z.record(z.string(), z.unknown()).optional().describe('Preset bruto, alternativa ao `share`.'),
+    customItems: z.array(z.record(z.string(), z.unknown())).max(20).optional().describe('Definições de itens personalizados usadas apenas nesta requisição.'),
 
     class: z.number().int().optional().describe('Id interno da classe (ex.: 4261 Elementalista). Veja list_classes.'),
     level: z.number().int().min(1).max(300).optional(),
@@ -85,10 +88,12 @@ export interface ResolvedBuild {
   classInfo: ClassInfo | undefined;
   /** Non-fatal problems worth telling the agent about (unknown item ids, etc.). */
   warnings: string[];
+  items: Record<number, ItemModel>;
+  customItems: CustomItemDefinition[];
 }
 
 /** Apply the sparse overrides onto a model produced by `applyPreset`. */
-function applyOverrides(model: any, input: BuildInput, warnings: string[], dataset: Dataset): void {
+function applyOverrides(model: any, input: BuildInput, warnings: string[], dataset: Dataset, items: Record<number, ItemModel>): void {
   if (input.class !== undefined) model.class = input.class;
   if (input.level !== undefined) model.level = input.level;
   if (input.jobLevel !== undefined) model.jobLevel = input.jobLevel;
@@ -128,7 +133,7 @@ function applyOverrides(model: any, input: BuildInput, warnings: string[], datas
   // and ~6,6k LATAM items legitimately fall in that bucket — so say so out loud.
   for (const key of ITEM_ID_KEYS) {
     const id = model[key];
-    if (typeof id !== 'number' || id <= 0 || dataset.items[id]) continue;
+    if (typeof id !== 'number' || id <= 0 || items[id]) continue;
     const latamName = dataset.latamExtra[id]?.name;
     warnings.push(
       latamName
@@ -146,14 +151,23 @@ export function resolveBuild(input: BuildInput, dataset: Dataset): ResolvedBuild
   const warnings: string[] = [];
 
   let base: Record<string, any> | null = null;
+  let embedded: CustomItemDefinition[] = [];
   if (input.share) {
-    base = parseShare(input.share).preset;
+    const share = parseShare(input.share);
+    base = share.preset;
+    embedded = share.items ?? [];
   } else if (input.preset) {
     base = input.preset as Record<string, any>;
   }
 
+  const validation = validateCustomItems([...embedded, ...(input.customItems ?? [])], dataset.items);
+  if (validation.errors.length && (embedded.length || input.customItems?.length)) {
+    throw new Error(validation.errors.map((e) => `${e.path}: ${e.message}`).join('; '));
+  }
+  const customItems = validation.items;
+  const items: Record<number, ItemModel> = { ...dataset.items, ...Object.fromEntries(customItems.map((item) => [item.id, item])) };
   const model = applyPreset(base) as any;
-  applyOverrides(model, input, warnings, dataset);
+  applyOverrides(model, input, warnings, dataset, items);
 
   if (!dataset.classes.has(model.class)) {
     throw new Error(`Classe ${model.class} não existe ou não está disponível no LATAM. Use list_classes para ver as opções.`);
@@ -164,7 +178,7 @@ export function resolveBuild(input: BuildInput, dataset: Dataset): ResolvedBuild
   applyJobBonus(model, char);
   applySkillMaps(model, char);
   resolveAtkSkill(model, char);
-  model.rawOptionTxts = toRawOptionTxtList(model, dataset.items);
+  model.rawOptionTxts = toRawOptionTxtList(model, items);
 
-  return { model: model as ResolvedBuild['model'], char, classInfo: dataset.classes.get(model.class), warnings };
+  return { model: model as ResolvedBuild['model'], char, classInfo: dataset.classes.get(model.class), warnings, items, customItems };
 }

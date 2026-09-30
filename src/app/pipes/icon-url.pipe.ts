@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { CustomItemLibraryService } from 'src/app/api-services/custom-item-library.service';
 
 /**
  * Builds an icon URL served by ragassets (https://github.com/adsonpleal/ragassets),
@@ -16,9 +17,14 @@ import { environment } from 'src/environments/environment';
  */
 @Pipe({ name: 'iconUrl', standalone: true })
 export class IconUrlPipe implements PipeTransform {
+  constructor(private readonly customItems: CustomItemLibraryService) {}
   transform(id: string | number | null | undefined, type: 'item' | 'job' | 'skill' = 'item'): string {
     if (id === null || id === undefined || id === '') return '';
     const key = String(id);
+    if (type === 'item' && typeof id === 'number') {
+      const icon = this.customItems.iconFor(id);
+      if (icon) return `${environment.ragassetsUrl}/icons/item/${icon}.png`;
+    }
     if (!/^\d+$/.test(key)) return `assets/icons/${key}.png`;
 
     return `${environment.ragassetsUrl}/icons/${type}/${key}.png`;

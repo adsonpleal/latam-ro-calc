@@ -11,6 +11,7 @@ import { ItemTypeEnum, MainItemWithRelations } from 'src/app/constants/item-type
 import { itemSlotLabelPtBr } from 'src/app/constants/item-slot-i18n';
 import { Chip, slotOwnFields } from 'src/app/core/equipment-chips';
 import { SlotDerivation, cardsToClear, deriveSlot, reconcileEnchants } from 'src/app/core/equipment-slot-derivation';
+import { ensureCustomAttachment } from 'src/app/core/custom-attachments';
 import { SLOT_COLOR_BY_ID, SlotColor } from 'src/app/core/slot-colors';
 import { ItemModel } from 'src/app/models/item.model';
 import { SlotColorPickerService } from '../slot-color-picker/slot-color-picker.service';
@@ -242,6 +243,10 @@ export class EquipmentGridComponent implements OnChanges {
 
     if (this.model2[slot.key] == null) {
       for (const field of slotOwnFields(slot)) copy(field);
+      if (this.model['customAttachments']?.[slot.key]) {
+        this.model2['customAttachments'] ??= {};
+        this.model2['customAttachments'][slot.key] = structuredClone(this.model['customAttachments'][slot.key]);
+      }
 
       for (const index of slot.optionIndexes) {
         if (this.model2['rawOptionTxts'][index] == null) this.model2['rawOptionTxts'][index] = this.model['rawOptionTxts']?.[index];
@@ -292,6 +297,11 @@ export class EquipmentGridComponent implements OnChanges {
       this.model[field] = this.model2[field];
       this.model2[field] = mine;
     }
+    this.model['customAttachments'] ??= {};
+    this.model2['customAttachments'] ??= {};
+    const mineAttachments = this.model['customAttachments'][slot.key];
+    this.model['customAttachments'][slot.key] = this.model2['customAttachments'][slot.key];
+    this.model2['customAttachments'][slot.key] = mineAttachments;
 
     if (slot.comparable) {
       for (const index of slot.optionIndexes) {
@@ -380,6 +390,15 @@ export class EquipmentGridComponent implements OnChanges {
     const model = compare ? this.model2 : this.model;
     const slot = chip.slotKey;
 
+    if (chip.custom) {
+      const state = model['customAttachments']?.[slot];
+      if (!state) return null;
+      const field = chip.kind === 'card' ? 'cards' : chip.kind === 'enchant' ? 'enchants' : 'bas';
+      state[field][chip.index] = value ?? null;
+      if (compare) this.compareItemChange.emit(); else this.optionChange.emit();
+      return null;
+    }
+
     switch (chip.kind) {
       case 'item':
       case 'subItem': {
@@ -415,12 +434,14 @@ export class EquipmentGridComponent implements OnChanges {
       case 'refine': {
         const refine = Number(value) || 0;
         model[chip.field!] = refine;
+        if (model['customAttachments']?.[slot]?.itemId === model[slot]) model['customAttachments'][slot].refine = refine;
         if (!compare) this.selectItem.emit({ itemType: chip.field!, itemId: model[slot] ?? null, refine });
         break;
       }
       case 'grade': {
         const grade = (value as string) ?? '';
         model[chip.field!] = grade;
+        if (model['customAttachments']?.[slot]?.itemId === model[slot]) model['customAttachments'][slot].grade = grade;
         if (!compare) this.selectGrade.emit({ itemType: slot, itemId: model[slot] ?? null, grade });
         break;
       }
@@ -470,6 +491,7 @@ export class EquipmentGridComponent implements OnChanges {
     // sub slots need naming individually: a costume's enchants are slots of their own, and
     // the visual they ride on has no `MainItemWithRelations` entry to cascade into them.
     this.clearField('item', slot.key, slot.label);
+    if (this.model['customAttachments']) delete this.model['customAttachments'][slot.key];
     for (const sub of slot.subItemSlots ?? []) this.clearField('subItem', sub.key, sub.label);
     // onClearItem covers the weapon's converter and ammo, but nothing covers the pet's
     // loyalty tier — it is a model field, not a related item.
@@ -494,6 +516,7 @@ export class EquipmentGridComponent implements OnChanges {
     const fields = [...slotOwnFields(slot), ...(slot.subItemSlots ?? []).map((sub) => sub.key)];
 
     for (const field of fields) this.model2[field] = undefined;
+    if (this.model2['customAttachments']) delete this.model2['customAttachments'][slot.key];
     for (const index of slot.optionIndexes) this.model2['rawOptionTxts'][index] = undefined;
   }
 
@@ -546,6 +569,7 @@ export class EquipmentGridComponent implements OnChanges {
     compare: boolean,
   ): SlotDerivation {
     const itemId = model?.[slot.key];
+    ensureCustomAttachment(model, slot.key, this.items?.[itemId]);
     const derivation = deriveSlot({
       descriptor: slot,
       item: this.items?.[itemId],

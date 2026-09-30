@@ -1,0 +1,285 @@
+<p-dialog [(visible)]="visible" [modal]="true" [dismissableMask]="true" [draggable]="false" [resizable]="false"
+  [style]="{ width: 'min(94vw, 1100px)', height: '93vh' }"
+  [contentStyle]="{ overflow: 'hidden', display: 'flex', 'flex-direction': 'column' }" (onHide)="closePickers()">
+  <ng-template pTemplate="header">
+    <div class="flex align-items-center gap-2">
+      <img [src]="512 | iconUrl: 'item'" alt="" class="item_img" missingIcon />
+      <strong>{{ libraryMode ? 'Meus itens' : (draft.id ? 'Editar item' : 'Criar item personalizado') }}</strong>
+    </div>
+  </ng-template>
+
+  <div *ngIf="libraryMode" class="studio-library">
+    <div class="flex flex-wrap gap-2 mb-3">
+      <input pInputText type="search" class="flex-1" placeholder="Buscar nome ou ID" aria-label="Buscar meus itens" [(ngModel)]="libraryQuery" />
+      <p-dropdown [options]="libraryKindOptions" [(ngModel)]="libraryKind" [filter]="true" filterBy="label" appendTo="body" ariaLabel="Filtrar categoria"></p-dropdown>
+      <button pButton type="button" icon="pi pi-plus" label="Novo item" (click)="openCreate()"></button>
+    </div>
+    <div class="flex flex-wrap gap-2 mb-3">
+      <button pButton type="button" class="p-button-outlined p-button-sm" icon="pi pi-download" label="Exportar JSON" (click)="exportJson()"></button>
+      <button pButton type="button" class="p-button-outlined p-button-sm" icon="pi pi-upload" label="Importar JSON" (click)="importFile.click()"></button>
+      <input #importFile type="file" hidden accept="application/json,.json" (change)="importJson($event)" />
+    </div>
+    <div class="studio-library-list">
+      <p-table [value]="libraryItems" styleClass="p-datatable-sm" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" currentPageReportTemplate="{totalRecords} itens">
+        <ng-template pTemplate="header"><tr><th>Item</th><th class="studio-actions-column">Ações</th></tr></ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td [pTooltip]="descriptionTooltip(item)" [escape]="false" tooltipStyleClass="item_desc_tooltip" tooltipPosition="top" [showDelay]="350"><div class="flex align-items-center gap-2">
+              <img [src]="item.iconItemId | iconUrl: 'item'" alt="" class="item_img" missingIcon />
+              <div class="studio-item-name"><strong>{{ item.name }}</strong><small class="block text-color-secondary">{{ kindLabels[item.kind] }} · ID {{ item.id }}</small></div>
+            </div></td>
+            <td class="studio-actions-column"><div class="flex justify-content-end gap-1">
+              <button pButton type="button" class="p-button-text p-button-sm" icon="pi pi-pencil" aria-label="Editar" pTooltip="Editar" (click)="edit(item)"></button>
+              <button pButton type="button" class="p-button-text p-button-sm" icon="pi pi-copy" aria-label="Duplicar" pTooltip="Duplicar" (click)="duplicate(item)"></button>
+              <button pButton type="button" class="p-button-text p-button-sm" icon="pi pi-share-alt" aria-label="Compartilhar" pTooltip="Compartilhar" (click)="share(item)"></button>
+              <button pButton type="button" class="p-button-text p-button-danger p-button-sm" icon="pi pi-trash" aria-label="Excluir" pTooltip="Excluir" (click)="remove(item)"></button>
+            </div></td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage"><tr><td colspan="2" class="text-center text-color-secondary py-5">Nenhum item nesta seleção. Crie o primeiro ou importe um JSON.</td></tr></ng-template>
+      </p-table>
+    </div>
+    <p class="text-color-secondary" *ngIf="copied">Link copiado.</p>
+  </div>
+
+  <div *ngIf="!libraryMode" class="studio-mobile-toggle mb-3">
+    <p-selectButton [options]="mobileViews" [(ngModel)]="mobileView" ariaLabelledBy="studio-mobile-label"></p-selectButton>
+    <span id="studio-mobile-label" class="p-sr-only">Editor ou prévia</span>
+  </div>
+  <div *ngIf="!libraryMode" class="studio-workspace" [class.studio-show-preview]="mobileView === 'preview'">
+    <div class="studio-main">
+      <p-selectButton [options]="availableSections" [(ngModel)]="section" ariaLabelledBy="studio-sections-label"></p-selectButton>
+      <span id="studio-sections-label" class="p-sr-only">Seções do item</span>
+      <div class="studio-editor-scroll mt-3">
+        <div *ngIf="section === 'item'">
+          <label for="studio-import-script">Importar de…</label>
+          <div #importSource class="studio-source mt-2 mb-3" (focusout)="closeImportOutside($event, importSource)">
+            <input pInputText id="studio-import-script" type="search" [(ngModel)]="importQuery" (focus)="importOpen = true" placeholder="Buscar item por nome ou ID" />
+            <button pButton type="button" class="p-button-text p-button-sm" *ngIf="importedBackup" (click)="undoImport()" label="Desfazer importação"></button>
+            <div class="studio-source-results surface-overlay border-1 surface-border border-round" *ngIf="importOpen && importQuery">
+              <button pButton type="button" class="p-button-text w-full justify-content-start" *ngFor="let source of sourceResults" (click)="importScript(source)">
+                <img [src]="(source.iconItemId || source.id) | iconUrl: 'item'" class="item_img mr-2" alt="" missingIcon />
+                <span class="text-left">{{ source.name }}<small class="block text-color-secondary">#{{ source.id }} · {{ sourceCategory(source) }} {{ source.custom ? '· Meu item' : source.preRelease ? '· Prévia' : '' }} {{ (source.script | json) === '{}' ? '· Sem bônus mapeados' : '' }}</small></span>
+              </button>
+              <span class="block p-3 text-color-secondary" *ngIf="!sourceResults.length">Nenhum script encontrado.</span>
+            </div>
+          </div>
+          <div class="studio-fields p-fluid">
+            <div class="studio-wide"><label for="studio-name">Nome</label><input pInputText id="studio-name" [(ngModel)]="draft.name" (ngModelChange)="validate()" placeholder="Nome do item" /></div>
+            <div><label for="studio-kind">Tipo</label><p-dropdown inputId="studio-kind" [options]="kindOptions" [ngModel]="draft.kind" (ngModelChange)="selectKind($event)" [filter]="true" filterBy="label" appendTo="body"></p-dropdown></div>
+            <div *ngIf="draft.kind === 'weapon'"><label for="studio-weapon-type">Tipo de arma</label><p-dropdown inputId="studio-weapon-type" [options]="weaponSubtypes" optionLabel="label" optionValue="id" [(ngModel)]="draft.itemSubTypeId" (ngModelChange)="onSubtypeChange()" [filter]="true" filterBy="label" appendTo="body"></p-dropdown></div>
+            <div *ngIf="draft.kind === 'ammo'"><label for="studio-ammo-type">Tipo de munição</label><p-dropdown inputId="studio-ammo-type" [options]="ammoSubtypes" optionLabel="label" optionValue="id" [(ngModel)]="draft.itemSubTypeId" (ngModelChange)="onSubtypeChange()" [filter]="true" filterBy="label" appendTo="body"></p-dropdown></div>
+            <div>
+              <label for="studio-icon">Ícone</label>
+              <button pButton id="studio-icon" type="button" class="studio-icon-trigger p-button-outlined w-full justify-content-start gap-2" (click)="iconPicker.toggle($event)">
+                <img [src]="previewIcon | iconUrl: 'item'" class="item_img" alt="" missingIcon />
+                <span>Escolher ícone</span>
+              </button>
+              <p-overlayPanel #iconPicker appendTo="body" [baseZIndex]="1100" styleClass="studio-icon-panel">
+                <div class="studio-icon-picker">
+                  <strong class="block mb-2">Ícones de {{ kindLabels[draft.kind] }}</strong>
+                  <input pInputText type="search" class="w-full mb-2" placeholder="Buscar nome ou ID" aria-label="Buscar ícones" [(ngModel)]="iconQuery" (ngModelChange)="filterIconOptions()" />
+                  <button pButton type="button" class="p-button-text p-button-sm mb-2" label="Usar ícone automático" (click)="selectIcon(); iconPicker.hide()"></button>
+                  <div *ngIf="iconFilteredOptions.length" class="studio-icon-viewport" (scroll)="loadMoreIcons($event)">
+                    <div class="studio-icon-grid">
+                      <button *ngFor="let option of visibleIcons; trackBy: trackIcon" type="button" class="studio-icon-option" [class.studio-icon-option--selected]="previewIcon === option.id"
+                        [attr.aria-label]="'Usar ícone de ' + option.name" [pTooltip]="option.name + ' · ID ' + option.id" tooltipPosition="top" [showDelay]="350" (click)="selectIcon(option.id); iconPicker.hide()">
+                        <img [src]="option.id | iconUrl: 'item'" alt="" (error)="iconLoadFailed(option.id)" missingIcon />
+                      </button>
+                    </div>
+                  </div>
+                  <span *ngIf="!iconFilteredOptions.length" class="text-color-secondary text-sm">Nenhum ícone nesta seleção.</span>
+                </div>
+              </p-overlayPanel>
+            </div>
+            <div *ngIf="draft.kind === 'card'"><label for="studio-card-position">Posição da carta</label><p-dropdown inputId="studio-card-position" [options]="cardPositions" [(ngModel)]="draft.compositionPos" (ngModelChange)="validate()" [autoDisplayFirst]="false" placeholder="Qualquer posição" appendTo="body"></p-dropdown></div>
+            <div *ngIf="isEquipment(draft.kind)"><label for="studio-level">Nível do item</label><input pInputText id="studio-level" type="number" min="0" max="5" [(ngModel)]="draft.itemLevel" (ngModelChange)="validate()" /></div>
+            <div *ngIf="draft.kind === 'weapon'"><label for="studio-atk">ATQ base</label><input pInputText id="studio-atk" type="number" min="0" [(ngModel)]="draft.attack" (ngModelChange)="validate()" /></div>
+            <div *ngIf="draft.kind === 'weapon'"><label for="studio-matk">ATQM base</label><input pInputText id="studio-matk" type="number" min="0" [(ngModel)]="draft.baseMatk" (ngModelChange)="validate()" /></div>
+            <div *ngIf="isEquipment(draft.kind)"><label for="studio-def">DEF base</label><input pInputText id="studio-def" type="number" min="0" [(ngModel)]="draft.defense" (ngModelChange)="validate()" /></div>
+            <div><label for="studio-weight">Peso</label><input pInputText id="studio-weight" type="number" min="0" [(ngModel)]="draft.weight" (ngModelChange)="validate()" /></div>
+            <div *ngIf="draft.kind === 'ammo' || isEquipment(draft.kind)">
+              <label for="studio-element">Propriedade elemental</label>
+              <p-dropdown inputId="studio-element" [options]="elements" [(ngModel)]="draft.propertyAtk" (ngModelChange)="validate()" [autoDisplayFirst]="false" [showClear]="true" placeholder="Neutro" [filter]="true" filterBy="label" appendTo="body">
+                <ng-template pTemplate="item" let-element><p-tag [value]="element.label" [styleClass]="'property_' + element.value"></p-tag></ng-template>
+                <ng-template pTemplate="selectedItem" let-element><p-tag [value]="element.label" [styleClass]="'property_' + element.value"></p-tag></ng-template>
+              </p-dropdown>
+            </div>
+            <div *ngIf="isEquipment(draft.kind)" class="studio-wide">
+              <label for="studio-classes">Classes permitidas</label>
+              <p-multiSelect inputId="studio-classes" [options]="classes" [(ngModel)]="draft.usableClass" (ngModelChange)="validate()" optionLabel="label" optionValue="value" [filter]="true" filterBy="label" [showToggleAll]="false" defaultLabel="Todas as classes" selectedItemsLabel="{0} classes" appendTo="body">
+                <ng-template pTemplate="item" let-job><div class="flex align-items-center gap-2"><img [src]="job.icon | iconUrl: 'job'" class="job_img" alt="" missingIcon /><span>{{ job.label }}</span></div></ng-template>
+              </p-multiSelect>
+            </div>
+          </div>
+          <div class="flex flex-wrap align-items-center gap-3 mt-3" *ngIf="draft.kind === 'headUpper' || draft.kind === 'headMiddle' || draft.kind === 'headLower' || draft.kind === 'costumeUpper' || draft.kind === 'costumeMiddle' || draft.kind === 'costumeLower'">
+            <span>Ocupa</span><p-checkbox *ngFor="let location of ['Upper','Middle','Lower']" [binary]="true" [ngModel]="headOccupancy.includes(location)" (ngModelChange)="toggleHeadLocation(location, $event)" [label]="location === 'Upper' ? 'Topo' : location === 'Middle' ? 'Meio' : 'Baixo'"></p-checkbox>
+          </div>
+          <div class="flex flex-wrap gap-3 mt-3 p-fluid" *ngIf="isEquipment(draft.kind)">
+            <div class="flex align-items-center gap-2 skill-control-row"><span id="studio-refinable-label">Refinável</span><p-selectButton class="w-5rem" [options]="yesNoOptions" [(ngModel)]="draft.isRefinable" (ngModelChange)="validate()" ariaLabelledBy="studio-refinable-label"></p-selectButton></div>
+            <div class="flex align-items-center gap-2 skill-control-row"><span id="studio-gradable-label">Graduável</span><p-selectButton class="w-5rem" [options]="yesNoOptions" [(ngModel)]="draft.canGrade" (ngModelChange)="validate()" ariaLabelledBy="studio-gradable-label"></p-selectButton></div>
+          </div>
+        </div>
+
+        <div *ngIf="section === 'sockets' && isEquipment(draft.kind)">
+          <div class="studio-fields p-fluid">
+            <div><label for="studio-card-count">Cartas</label><p-dropdown inputId="studio-card-count" [options]="cardCounts" [ngModel]="draft.cardCapacity" (ngModelChange)="changeCapacity('cardCapacity', $event)" appendTo="body"></p-dropdown></div>
+            <div><label for="studio-enchant-count">Encantamentos</label><p-dropdown inputId="studio-enchant-count" [options]="enchantCounts" [ngModel]="draft.enchantCapacity" (ngModelChange)="changeCapacity('enchantCapacity', $event)" appendTo="body"></p-dropdown></div>
+            <div><label for="studio-ba-count">Bônus Aleatórios</label><p-dropdown inputId="studio-ba-count" [options]="baCounts" [ngModel]="draft.baCapacity" (ngModelChange)="changeCapacity('baCapacity', $event)" appendTo="body"></p-dropdown></div>
+          </div>
+          <div class="studio-sockets" aria-label="Quatro posições compartilhadas">
+            <span *ngFor="let n of [0,1,2,3]" [class.studio-socket-filled]="n < draft.cardCapacity + draft.enchantCapacity" [attr.aria-label]="n < draft.cardCapacity ? 'Carta' : n < draft.cardCapacity + draft.enchantCapacity ? 'Encantamento' : 'Livre'">{{ n < draft.cardCapacity ? 'C' : n < draft.cardCapacity + draft.enchantCapacity ? 'E' : '+' }}</span>
+          </div>
+          <p class="text-color-secondary text-sm">Cartas e encantamentos compartilham quatro posições. BAs têm capacidade independente.</p>
+          <p class="text-color-secondary text-sm" *ngIf="capacityNotice">{{ capacityNotice }}</p>
+          <ng-container *ngFor="let row of attachmentRows">
+            <div class="mt-4" *ngIf="row.views.length">
+              <span class="block mb-2">{{ row.label }}</span>
+              <div class="flex flex-wrap gap-2">
+                <app-equipment-chip *ngFor="let view of row.views" [view]="view" [items]="items" (pick)="pickAttachment(row.field, view, $event)" (clear)="setAttachment(row.field, view.chip.index, null)"></app-equipment-chip>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <div *ngIf="section === 'bonuses'">
+          <div class="flex align-items-center justify-content-between gap-2">
+            <p-selectButton [options]="modes" [ngModel]="mode" (ngModelChange)="setMode($event)" ariaLabelledBy="studio-mode-label"></p-selectButton>
+            <button pButton type="button" class="p-button-text p-button-rounded" icon="pi pi-question-circle" aria-label="Ajuda do script" pTooltip="Ajuda do script" (click)="scriptHelpVisible = true"></button>
+          </div>
+          <span id="studio-mode-label" class="p-sr-only">Modo do script</span>
+          <div *ngIf="mode === 'visual'" class="mt-3">
+            <div class="studio-rule surface-card border-1 surface-border border-round p-3 mb-3" *ngFor="let rule of rules; let i = index">
+              <ng-container *ngIf="!rule.readOnly; else preservedRule">
+                <p-dropdown [options]="bonusKeys" optionLabel="label" optionValue="key" [filter]="true" filterBy="label,key" appendTo="body" [(ngModel)]="rule.key" (ngModelChange)="writeRules()" placeholder="Bônus" ariaLabel="Bônus"></p-dropdown>
+                <input pInputText type="number" step="any" [(ngModel)]="rule.value" (ngModelChange)="writeRules()" placeholder="Valor do bônus" aria-label="Valor do bônus" />
+              </ng-container>
+              <ng-template #preservedRule><strong class="studio-preserved-title">{{ bonusLabel(rule.key) }}</strong></ng-template>
+              <button pButton type="button" class="p-button-text p-button-danger" icon="pi pi-times" aria-label="Remover regra" (click)="removeRule(i)"></button>
+              <div class="studio-wide" *ngIf="rule.readOnly">
+                <p class="text-sm mt-0">{{ rule.description }}</p>
+                <small class="block text-color-secondary mb-2">Esta regra importada foi preservada. Sua combinação ainda precisa ser editada no JSON.</small>
+                <button pButton type="button" class="p-button-outlined p-button-sm" label="Editar no JSON" (click)="setMode('json')"></button>
+              </div>
+              <div class="studio-wide" *ngIf="!rule.readOnly">
+                <small class="block text-color-secondary mb-2">{{ rule.conditions.length ? 'Todas as condições abaixo precisam ser atendidas.' : 'Sem condição' }}</small>
+                <ng-container *ngFor="let condition of rule.conditions; let j = index">
+                  <div class="studio-condition mb-2" *ngIf="conditionHelp(condition.kind) as help">
+                    <p-dropdown [options]="conditionOptions" [ngModel]="condition.kind" (ngModelChange)="changeCondition(condition, $event)" appendTo="body" [ariaLabel]="'Condição ' + (j + 1) + ' do bônus ' + (i + 1)"></p-dropdown>
+                    <div class="p-fluid" [ngSwitch]="help.input">
+                      <p-dropdown *ngSwitchCase="'select'" [options]="help.options" [(ngModel)]="condition.value" (ngModelChange)="writeRules()" [autoDisplayFirst]="false" [filter]="true" filterBy="label,value" [virtualScroll]="true" [virtualScrollItemSize]="38" [placeholder]="help.valueLabel" [ariaLabel]="help.valueLabel" appendTo="body">
+                        <ng-template pTemplate="item" let-option><div class="flex align-items-center gap-2"><img *ngIf="option.icon" [src]="option.icon | iconUrl: option.iconType" [ngClass]="option.iconType === 'job' ? 'job_img' : 'item_img'" alt="" missingIcon /><span>{{ option.label }}</span></div></ng-template>
+                      </p-dropdown>
+                      <button *ngSwitchCase="'item'" #conditionItem pButton type="button" class="p-button-outlined justify-content-start" aria-label="Item necessário" (click)="pickConditionItem(condition, conditionItem)"><img *ngIf="condition.value" [src]="condition.value | iconUrl: 'item'" class="item_img mr-2" alt="" missingIcon /><span>{{ conditionItemName(condition) }}</span></button>
+                      <input *ngSwitchCase="'number'" pInputText type="number" min="0" step="1" [(ngModel)]="condition.value" (ngModelChange)="writeRules()" [placeholder]="help.valueLabel + ' (ex.: ' + help.example + ')'" [attr.aria-label]="help.valueLabel" />
+                      <input *ngSwitchCase="'date'" pInputText type="date" [(ngModel)]="condition.value" (ngModelChange)="writeRules()" [attr.aria-label]="help.valueLabel" />
+                      <input *ngSwitchCase="'text'" pInputText [(ngModel)]="condition.value" (ngModelChange)="writeRules()" [placeholder]="help.valueLabel + ' (ex.: ' + help.example + ')'" [attr.aria-label]="help.valueLabel" />
+                      <input *ngIf="help.extraLabel" class="mt-2" pInputText type="number" min="1" step="1" [(ngModel)]="condition.extra" (ngModelChange)="writeRules()" [placeholder]="help.extraLabel + ' (ex.: ' + help.extraExample + ')'" [attr.aria-label]="help.extraLabel" />
+                    </div>
+                    <button pButton type="button" class="p-button-text p-button-danger p-button-sm" icon="pi pi-times" [attr.aria-label]="'Remover condição ' + (j + 1) + ' do bônus ' + (i + 1)" (click)="removeCondition(rule, j)"></button>
+                    <small *ngIf="help.help" class="studio-wide text-color-secondary">{{ help.help }}</small>
+                  </div>
+                </ng-container>
+                <button pButton type="button" class="p-button-text p-button-sm" icon="pi pi-plus" label="Adicionar condição" (click)="addCondition(rule)"></button>
+              </div>
+            </div>
+            <p class="text-sm text-color-secondary" *ngIf="draft.script?.['autoCast']?.length || draft.script?.['autoCastEffect']?.length || draft.script?.['autoCastPending']?.length">As autoconjurações importadas são preservadas e aparecem na prévia. Para editá-las, use JSON bruto.</p>
+            <button pButton type="button" class="p-button-outlined p-button-sm" icon="pi pi-plus" label="Adicionar regra" (click)="addRule()"></button>
+          </div>
+          <div *ngIf="mode === 'json'" class="mt-3">
+            <button pButton type="button" class="p-button-outlined p-button-sm" icon="pi pi-align-left" label="Formatar JSON" (click)="formatJson()"></button>
+            <div class="studio-json-editor json_display mt-2">
+              <pre #scriptHighlight class="studio-json-highlight" aria-hidden="true" [innerHTML]="(rawScript + '\n') | prettyjson: [false, 0, 'raw']"></pre>
+              <textarea #scriptInput pInputText [(ngModel)]="rawScript" (ngModelChange)="onRawScript()" (scroll)="scriptHighlight.scrollTop = scriptInput.scrollTop; scriptHighlight.scrollLeft = scriptInput.scrollLeft" wrap="off" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Script JSON do item"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="studio-preview surface-card border-1 surface-border border-round p-3">
+      <div class="flex align-items-center gap-2 mb-3">
+        <img [src]="previewIcon | iconUrl: 'item'" class="item_img" alt="" missingIcon />
+        <div class="studio-item-name"><small class="text-color-secondary">PRÉVIA DO ITEM</small><strong class="block text-lg">{{ draft.name || 'Novo item' }}</strong><span class="text-color-secondary text-sm">{{ kindLabels[draft.kind] }}</span></div>
+      </div>
+      <div class="flex flex-wrap gap-2 mb-3 text-sm"><span *ngIf="draft.attack">ATQ {{ draft.attack }}</span><span *ngIf="draft.baseMatk">ATQM {{ draft.baseMatk }}</span><span *ngIf="draft.defense">DEF {{ draft.defense }}</span><span *ngIf="draft.canGrade">Graduável</span><span *ngIf="draft.isRefinable">Refinável</span></div>
+      <div class="flex flex-wrap gap-2 mb-3" role="group" aria-label="Refino e grau da prévia" *ngIf="previewControls.length">
+        <app-equipment-chip *ngFor="let control of previewControls" [view]="control.view" (pick)="pickPreview(control.field, $event)" (clear)="setPreviewValue(control.field, null)"></app-equipment-chip>
+      </div>
+      <div class="studio-fields p-fluid mb-3" *ngIf="draft.kind === 'pet'">
+        <div><label for="studio-loyalty">Lealdade</label><p-dropdown inputId="studio-loyalty" [options]="loyaltyOptions" [(ngModel)]="previewLoyalty" (ngModelChange)="updatePreview()" appendTo="body"></p-dropdown></div>
+      </div>
+      <div class="studio-description border-top-1 surface-border pt-3">{{ previewText || 'Sem bônus mapeados' }}</div>
+      <div class="border-top-1 surface-border pt-3 mt-3 text-sm">
+        <strong>Bônus nesta build</strong><span class="block mt-1" *ngFor="let bonus of previewBonuses">{{ bonus.label }} {{ bonus.value >= 0 ? '+' : '' }}{{ bonus.value }}</span><small class="block mt-1 text-color-secondary" *ngIf="!previewBonuses.length">Nenhum efeito ativo nesta configuração.</small>
+      </div>
+      <div class="border-top-1 surface-border pt-3 mt-3 text-sm" *ngIf="previewRules.length">
+        <strong>Condições</strong><div *ngFor="let rule of previewRules" class="mt-2" [class.text-color-secondary]="!rule.active"><span>{{ rule.active ? '●' : '○' }} {{ rule.label }}{{ rule.active ? ' ' + (rule.value >= 0 ? '+' : '') + rule.value : '' }}</span><small class="block text-color-secondary">{{ rule.reason }}</small></div>
+      </div>
+    </aside>
+  </div>
+  <div class="studio-errors p-error text-sm mt-2" role="alert" *ngIf="diagnostics.length"><div *ngFor="let error of diagnostics">{{ error }}</div></div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex align-items-center flex-wrap gap-2">
+      <button pButton type="button" class="p-button-text p-button-sm mr-auto" icon="pi pi-sparkles" label="Criar com um agente via MCP" (click)="mcpVisible = true"></button>
+      <button pButton type="button" class="p-button-outlined" *ngIf="!libraryMode" label="Meus itens" (click)="openLibrary()"></button>
+      <button pButton type="button" *ngIf="!libraryMode" [disabled]="diagnostics.length > 0" [label]="context ? 'Salvar e equipar' : 'Salvar item'" (click)="save()"></button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Como editar o script" [(visible)]="scriptHelpVisible" [modal]="true" [dismissableMask]="true" [draggable]="false" [resizable]="false" [style]="{ width: 'min(92vw, 720px)', height: '85vh' }">
+  <p>O script define os bônus do item. ATQ e ATQM base, slots, refino e graduação são configurados nas outras abas; não é preciso repeti-los como bônus.</p>
+
+  <h3>Editor visual</h3>
+  <ol class="pl-4">
+    <li class="mb-2">Clique em <strong>Adicionar regra</strong>, procure o bônus e informe seu valor. Por exemplo, ATQ com valor <code>10</code> concede ATQ +10.</li>
+    <li class="mb-2">Use <strong>Adicionar condição</strong> no bônus desejado. Escolha o tipo e preencha os campos; a prévia e o script são atualizados automaticamente.</li>
+    <li>Um bônus pode ter várias condições. Todas precisam ser atendidas: por exemplo, refino mínimo +7 <strong>e</strong> graduação B ou superior. Cada bônus tem suas próprias condições; remover uma delas preserva as demais.</li>
+  </ol>
+
+  <h3>Valores, limites e intervalos</h3>
+  <p>O campo Valor do bônus aceita apenas números. Configure os requisitos nos campos de condição:</p>
+  <table class="w-full text-sm">
+    <thead><tr><th scope="col" class="text-left p-2">Configuração visual</th><th scope="col" class="text-left p-2">Resultado</th></tr></thead>
+    <tbody>
+      <tr><td class="p-2">Valor 10, sem condições</td><td class="p-2">ATQ +10.</td></tr>
+      <tr><td class="p-2">Valor 10, Refino mínimo 7</td><td class="p-2">ATQ +10 no refino +7 ou superior.</td></tr>
+      <tr><td class="p-2">Valor 5, A cada 2 refinos</td><td class="p-2">ATQ +10 no refino +4 ou +5.</td></tr>
+      <tr><td class="p-2">Valor 2, A cada 10 pontos de FOR</td><td class="p-2">ATQ +2 a cada 10 pontos de FOR base.</td></tr>
+      <tr><td class="p-2">Valor 10, Grau mínimo B e Refino mínimo 7</td><td class="p-2">ATQ +10 somente quando os dois requisitos forem atendidos.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Condições</h3>
+  <p>É possível condicionar bônus a refino, grau, nível, atributos, itens equipados em conjunto, classe, habilidades aprendidas ou ativas, posição, tipo de arma ou munição, mapa do monstro, data e lealdade do mascote.</p>
+  <p>Para conjuntos, escolha um item em Equipado junto. Adicione outra condição desse tipo para exigir outro item. Habilidades, classes, atributos, graduações e posições são escolhidos pelo nome, sem digitar comandos.</p>
+  <p>Uma condição não atendida deixa o bônus inativo. Combinações que o simulador não consegue calcular são sinalizadas e impedem salvar. Regras importadas mais avançadas são preservadas e podem ser editadas em JSON bruto.</p>
+
+  <h3>Unidades, sinais e acúmulo</h3>
+  <ul class="pl-4">
+    <li class="mb-2">A unidade depende do bônus: ATQ usa pontos; ATQ % usa porcentagem. Informe <code>10</code> para 10%, sem o símbolo <code>%</code>. Valores decimais usam ponto, como <code>0.3</code>.</li>
+    <li class="mb-2">Reduções de conjuração usam valores positivos: <code>vct</code> e <code>acd</code> usam porcentagem; <code>fct</code> usa segundos. Por exemplo, <code>fct: ["0.3"]</code> reduz a conjuração fixa em 0,3 s. O sinal não é universal: bônus de atributo negativos reduzem o atributo, e custos de SP preservam o sinal da descrição.</li>
+    <li class="mb-2">Bônus normalmente se somam. Entre equipamentos, a redução percentual global de conjuração fixa (<code>fctPercent</code>) usa o maior valor. Se vários itens habilitam a mesma habilidade, vale o maior nível concedido, sem somar os níveis.</li>
+    <li>Lealdade usa 1 = Baixa, 2 = Nenhuma, 3 = Normal e 4 = Alta. Para cada bônus, vale a faixa mais alta atingida. CRIT +2 na Normal e +3 na Alta resultam em +3 na Alta, e não +5. Regras sem condição de lealdade continuam valendo.</li>
+  </ul>
+
+  <h3>JSON bruto e importação</h3>
+  <p>Visual e JSON editam o mesmo script. No JSON, cada chave de bônus recebe uma lista de expressões entre aspas. Exemplo:</p>
+  <pre class="surface-ground border-round p-3 overflow-auto"><code>{{ scriptHelpExample }}</code></pre>
+  <p>Esse script concede ATQ +10, mais ATQ +20 a partir do refino +7, e Crítico +5 a cada dois refinos. O editor destaca chaves, textos, números e valores lógicos. <strong>Formatar JSON</strong> organiza a indentação sem alterar os valores.</p>
+  <p>Um JSON incompleto permanece no editor e não é substituído ao tentar formatar; corrija a sintaxe para voltar ao Visual. Erros de sintaxe ou de validação impedem salvar e indicam o campo afetado.</p>
+  <p>Na aba Item, <strong>Importar de…</strong> busca por nome ou ID e copia apenas o script. Nome, tipo e slots do rascunho permanecem como estão. A cópia é independente do item original, mantém suas referências de combo e pode ser revertida em <strong>Desfazer importação</strong>.</p>
+
+  <h3>Prévia e efeitos avançados</h3>
+  <p>A descrição mostra as regras do item; <strong>Bônus nesta build</strong> mostra seus valores na configuração atual. Ajuste refino, grau ou lealdade na prévia para conferir os limites. Classe, habilidades, equipamentos e alvo vêm da simulação atual. No celular, alterne entre Editor e Prévia.</p>
+  <p>Autoconjurações estruturadas são editadas no JSON: <code>autoCast</code> descreve a habilidade, gatilho, nível e chance; <code>autoCastEffect</code> descreve um efeito automático; <code>autoCastPending</code> registra uma autoconjuração ainda indisponível. Importar um script preserva essas diretivas.</p>
+  <p>Nem todo efeito descrito altera o dano. Bônus apenas informativos, como custo de SP, e efeitos ainda indisponíveis podem aparecer na descrição sem participar do cálculo. Use a prévia e os resultados da simulação para conferir o que está sendo aplicado.</p>
+</p-dialog>
+
+<p-dialog header="Criar itens com IA" [(visible)]="mcpVisible" [modal]="true" [dismissableMask]="true" [style]="{ width: 'min(92vw, 540px)' }">
+  <p>Conecte seu agente ao servidor MCP e peça, por exemplo: “Crie uma espada e duas cartas personalizadas que formem um conjunto.”</p>
+  <code class="block p-3 surface-ground border-round studio-item-name">{{ mcpUrl }}</code>
+  <p>O agente pode criar até 20 itens em uma chamada e devolverá um link curto quando o encurtador estiver disponível. Abra esse link neste navegador para adicioná-los aos Meus itens.</p>
+</p-dialog>

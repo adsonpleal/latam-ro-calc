@@ -42,7 +42,7 @@ function resolveTarget(dataset: Dataset, monsterId?: number) {
   return { id, monster };
 }
 
-const shareOf = (rb: ResolvedBuild, compare?: CompareState | null) => buildShareUrl(toPreset(rb.model, rb.char), config.appOrigin, compare);
+const shareOf = (rb: ResolvedBuild, compare?: CompareState | null) => buildShareUrl(toPreset(rb.model, rb.char), config.appOrigin, compare, rb.customItems);
 
 /** The two numbers `optimize_slot` and `compare_builds` rank on, read straight off the
  *  damage summary — `projectResult` would clone the whole 15-40 kB summary for them. */
@@ -88,7 +88,7 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
     const skillValue = rb.model.selectedAtkSkill;
     // Same flag solve() feeds runChain: HP Increase Potion (L) changes max HP, so
     // hardcoding false here would make this tool disagree with `calculate`.
-    const { usedHpL } = collectConsumables(rb.model, dataset.items);
+    const { usedHpL } = collectConsumables(rb.model, rb.items);
     const rows: any[] = [];
 
     // Seed the solve with the first id we actually have data for: the loop reports
@@ -198,7 +198,9 @@ export function registerCalculationTools(server: McpServer, dataset: Dataset): v
     const baseDps = dpsAndMax(solve(baseRb, dataset, monster)).dps;
 
     // Decode the share token once — resolveBuild would re-decompress it per candidate.
-    const perCandidate: BuildInput = { ...input, share: undefined, preset: input.share ? parseShare(input.share).preset : input.preset };
+    const importedShare = input.share ? parseShare(input.share) : null;
+    const perCandidate: BuildInput = { ...input, share: undefined, preset: importedShare?.preset ?? input.preset,
+      customItems: [...(importedShare?.items ?? []).map((item) => ({ ...item })), ...(input.customItems ?? [])] };
 
     const scored: any[] = [];
     for (const id of ids) {
@@ -276,16 +278,16 @@ export function registerBridgeTools(server: McpServer, dataset: Dataset): void {
     inputSchema: { share: z.string() },
   }, async ({ share }) => {
     const decoded = parseShare(await resolveIfShort(share, config.shortenerUrl));
-    const rb = resolveBuild({ preset: decoded.preset }, dataset);
+    const rb = resolveBuild({ preset: decoded.preset, customItems: (decoded.items ?? []).map((item) => ({ ...item })) }, dataset);
     const model = rb.model;
 
-    const nameOf = (id: number) => dataset.itemIndex.get(id)?.name ?? `#${id} (desconhecido)`;
+    const nameOf = (id: number) => rb.items[id]?.name ?? dataset.itemIndex.get(id)?.name ?? `#${id} (desconhecido)`;
     // Only the keys that actually hold equipment — a numeric-key sweep would also
     // report `aspdPotion` and `pet` as equipped pieces.
     const gear: Record<string, any> = {};
     for (const key of ITEM_ID_KEYS) {
       const value = model[key];
-      if (typeof value !== 'number' || value <= 0 || !dataset.itemIndex.get(value)) continue;
+      if (typeof value !== 'number' || value <= 0 || !rb.items[value]) continue;
       gear[key] = compact({ id: value, name: nameOf(value), refine: model[`${key}Refine`] || undefined });
     }
 
@@ -294,7 +296,7 @@ export function registerBridgeTools(server: McpServer, dataset: Dataset): void {
           slots: decoded.compare.itemNames,
           items: Object.fromEntries(
             Object.entries(decoded.compare.model2)
-              .filter(([, v]) => typeof v === 'number' && (v as number) > 0 && dataset.itemIndex.get(v as number))
+              .filter(([, v]) => typeof v === 'number' && (v as number) > 0 && rb.items[v as number])
               .map(([k, v]) => [k, { id: v, name: nameOf(v as number) }]),
           ),
         }
@@ -314,7 +316,7 @@ export function registerBridgeTools(server: McpServer, dataset: Dataset): void {
       gear,
       compare,
       /** Re-emit this (with overrides) into any other tool. */
-      buildInput: { preset: decoded.preset },
+      buildInput: { preset: decoded.preset, customItems: (decoded.items ?? []).map((item) => ({ ...item })) },
       ...(rb.warnings.length ? { warnings: rb.warnings } : {}),
     });
   });

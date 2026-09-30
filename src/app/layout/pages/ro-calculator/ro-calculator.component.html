@@ -45,6 +45,7 @@
   [offensiveSkills]="offensiveSkills"
   [onClassChanged]="onClassChanged$"
 ></app-item-search>
+<app-custom-item-studio [items]="items" [currentModel]="model" [currentMonster]="monsterDataMap[selectedMonster]" (saved)="onCustomItemSaved($event)" (deleted)="onCustomItemDeleted($event)"></app-custom-item-studio>
 
 <!-- A centred modal, not a side sheet: `position="left"` is what gave it the slide-in
      animation and pinned it to the edge. Without it PrimeNG centres the dialog and uses
@@ -689,20 +690,23 @@
           <ng-template #consumableOption let-option>
             <div
               class="calc-option-row"
-              [pTooltip]="itemDescTooltip(option?.value)"
-              [escape]="false"
-              tooltipPosition="right"
-              [showDelay]="500"
-              tooltipStyleClass="item_desc_tooltip"
             >
-              <img *ngIf="option" [src]="option.value | iconUrl: 'item'" alt="" class="calc-option-icon" missingIcon />
-              <span class="text_ellips">{{ option?.label }}</span>
+              <span class="calc-option-main" [pTooltip]="itemDescTooltip(option?.value)" [escape]="false"
+                tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
+                <img *ngIf="option" [src]="option.value | iconUrl: 'item'" alt="" class="calc-option-icon" missingIcon />
+                <span class="text_ellips">{{ option?.label }}</span>
+              </span>
+              <button *ngIf="option && items[option.value]?.custom" type="button" class="p-tag consumable-custom-tag"
+                [attr.aria-label]="'Editar item customizado: ' + option.label" pTooltip="Item customizado. Clique para editar."
+                tooltipPosition="top" [showDelay]="300" (click)="editCustomConsumable(option.value, $event)">Customizado</button>
             </div>
           </ng-template>
 
           <section class="calc-panel-section consumable-stack">
             <div class="calc-section-heading">
               <span>Itens acumuláveis</span>
+              <button pButton type="button" class="p-button-text p-button-sm consumable-create" icon="pi pi-plus"
+                label="Criar item" aria-label="Criar item consumível" (click)="openCreateConsumable()"></button>
             </div>
             <p-listbox
               [options]="consumableList"
@@ -1348,8 +1352,9 @@
                 <div class="item-description-meta">
                   <img [src]="itemId | iconUrl: 'item'" alt="" class="item-description-icon" missingIcon />
                   <div class="item-description-links">
-                    <a [href]="divinePrideItemUrl" target="_blank" rel="noopener noreferrer">Item ID: {{ itemId }}</a>
-                    <a [href]="marketItemUrl" target="_blank" rel="noopener noreferrer"><i class="pi pi-shopping-cart"></i> Mercado</a>
+                    <span *ngIf="items[itemId]?.custom">Item personalizado · ID {{ itemId }}</span>
+                    <a *ngIf="!items[itemId]?.custom" [href]="divinePrideItemUrl" target="_blank" rel="noopener noreferrer">Item ID: {{ itemId }}</a>
+                    <a *ngIf="!items[itemId]?.custom" [href]="marketItemUrl" target="_blank" rel="noopener noreferrer"><i class="pi pi-shopping-cart"></i> Mercado</a>
                   </div>
                 </div>
 

@@ -169,6 +169,13 @@ export class AppTopBarComponent implements OnDestroy {
       v: '0.1.154-beta',
       date: '29-09-2026',
       logs: [
+        'A oficina Meus itens permite criar itens personalizados, copiar o script de qualquer item por nome ou ID, editar bônus em modo visual ou JSON, configurar encaixes e compartilhar por links curtos. Agentes conectados ao MCP também podem criar lotes de itens para importar no navegador. Pedido de EliteTK.',
+        'Meus itens e o criador de itens personalizados agora seguem os componentes do simulador, com altura fixa e fechamento ao clicar fora. Slots e BAs usam os mesmos seletores de equipamentos, com busca, ícones e limites compartilhados entre cartas e encantamentos.',
+        'O criador ganhou buscas de tipo, arma, elemento e classes, além de uma grade de ícones filtrada pelo tipo e subtipo de arma. A categoria Acessório pode ser usada em qualquer lado. A prévia exibe a descrição interpretada; a troca entre Visual e JSON foi corrigida e os nomes não têm mais limite de 100 caracteres. Melhorias no recurso solicitado por EliteTK.',
+        'O editor de JSON ganhou formatação e destaque de sintaxe, com ajuda completa no botão “?”. Refinável e Graduável usam os botões Sim/Não e o espaçamento de Habilidades, e Lança usa o ícone básico da Azagaia.',
+        'Os seletores de itens, opções e classes dentro de modais voltaram a fechar ao clicar fora. Os botões MCP usam o ícone de brilhos de IA. Refino e peso não aparecem mais como opções de bônus, e a condição de perícia aprendida foi renomeada para Habilidade aprendida. A prévia usa os mesmos seletores de refino e grau dos equipamentos.',
+        'O editor visual separa o valor numérico das condições e aplica as alterações automaticamente. Cada bônus pode exigir várias condições ao mesmo tempo, como refino mínimo e graduação. Itens, classes e habilidades são escolhidos pelo nome; regras importadas mais avançadas são preservadas para edição no JSON.',
+        'Itens personalizados selecionados recebem a etiqueta Customizado ao lado do nome, com acesso direto à edição, inclusive nas comparações e nos consumíveis. A seção Itens acumuláveis permite criar um consumível ali mesmo. Em Meus itens, as ações ficam alinhadas à direita e a descrição aparece ao passar o mouse. O criador mostra erros com nomes de campos em português e orientações para corrigir o preenchimento, preservando a indicação de linha e coluna no JSON.',
         'Plágio e Mimetismo agora oferecem Ira de Thor, Bolas de Fogo, Rajada Congelante, Espíritos Anciões, Ataque Espiritual, Tempestade de Raios, Coluna de Fogo, Supernova e Esfera d\'Água na Auto-conjuração. Desejo das Sombras limita o nível ao aprendido de Plágio ou Mimetismo, ao seu próprio nível e ao máximo da magia, e não autoconjura magias de classes 3, inclusive em seleções salvas. Gemini Lumen mantém suas duas luzes próprias. Supernova considera Chama Reveladora ativa, e Esfera d\'Água considera água suficiente ao redor do usuário. Reportado por usuário anônimo.',
       ],
     },
@@ -1733,6 +1740,8 @@ export class AppTopBarComponent implements OnDestroy {
   openItemSearch() {
     this.layoutService.openItemSearch();
   }
+
+  openCustomItems() { this.layoutService.openCustomItems(); }
 
   openConfig() {
     this.layoutService.showConfigSidebar();

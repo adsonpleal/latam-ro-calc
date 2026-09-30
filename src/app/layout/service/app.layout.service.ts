@@ -46,6 +46,9 @@ export class LayoutService {
   private overlayOpen = new Subject<any>();
 
   private itemSearchOpen = new Subject<void>();
+  private customItemsOpen = new Subject<void>();
+  private customItemCreate = new Subject<{ kind: string; slot: string; compare: boolean }>();
+  private customItemEdit = new Subject<number>();
 
   private helpImproveOpen = new Subject<void>();
 
@@ -56,6 +59,9 @@ export class LayoutService {
   /** Fired by the topbar "Itens" button so the page-level item-search dialog opens
    *  (the trigger lives in the global topbar, the dialog lives inside the calculator). */
   itemSearchOpen$ = this.itemSearchOpen.asObservable();
+  customItemsOpen$ = this.customItemsOpen.asObservable();
+  customItemCreate$ = this.customItemCreate.asObservable();
+  customItemEdit$ = this.customItemEdit.asObservable();
 
   /** Opens the existing "Ajude o simulador" RRF submission dialog from page content. */
   helpImproveOpen$ = this.helpImproveOpen.asObservable();
@@ -97,6 +103,10 @@ export class LayoutService {
   openItemSearch() {
     this.itemSearchOpen.next();
   }
+
+  openCustomItems() { this.customItemsOpen.next(); }
+  openCustomItem(kind: string, slot: string, compare: boolean): void { this.customItemCreate.next({ kind, slot, compare }); }
+  openCustomItemEdit(id: number): void { this.customItemEdit.next(id); }
 
   openHelpImprove() {
     this.helpImproveOpen.next();
