@@ -74,7 +74,7 @@ export const WUG_STRIKE: AtkSkillModel = {
   vct: 0,
   cd: 0,
   element: ElementType.Neutral,
-  formula: ({ skillLevel }) => skillLevel * 200,
+  formula: ({ skillLevel, totalBonus }) => skillLevel * 200 + (totalBonus?.wugSkillRatio ?? 0),
 };
 
 /**

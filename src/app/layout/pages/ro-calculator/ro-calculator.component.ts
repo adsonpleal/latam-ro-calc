@@ -3665,7 +3665,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     // The selected option's own skill wins; otherwise the group's own icon (a picker
     // like Domínio Elemental, whose levels are modes of one skill).
     const selected = selectedValue === undefined ? undefined : (buff.dropdown || []).find((d) => d.value === selectedValue);
-    const desc = skillDescHtml(selected?.icon ?? buff.icon);
+    const desc = skillDescHtml(selected?.icon ?? buff.icon ?? SKILL_ID_BY_NAME[buff.name]);
 
     let html: string;
     if (desc) {
@@ -3678,7 +3678,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       const lines = (buff.dropdown || [])
         .filter((d) => d.isUse && d.bonus && Object.keys(d.bonus).length)
         .map((d) => {
-          const parts = Object.entries(d.bonus).map(([k, v]) => `${BUFF_BONUS_LABELS[k] ?? k} ${fmt(v)}`);
+          const parts = Object.entries(d.bonus).map(([k, v]) => `${BUFF_BONUS_LABELS[k] ?? bonusKeyLabel(k)} ${fmt(v)}`);
           return `<div>${d.label}: ${parts.join(', ')}</div>`;
         });
       const title = `<div class="item_desc_title"><b>${buff.label}</b></div>`;
@@ -3776,7 +3776,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       /^pene_/.test(k) ||
       isDefenderKey(k) ||
       /^(vct|acd|fctPercent)__/.test(k) ||
-      ['range', 'melee', 'criDmg', 'cri', 'criRange', 'perfectHit', 'acd', 'vct', 'vct_inc', 'vctBySkill', 'oratio', 'infection', 'intoxication', 'bitterCold', 'pollen', 'impalement', 'gravitation', 'shadowScar', 'acd_magic_wind'].includes(k) ||
+      ['range', 'melee', 'criDmg', 'cri', 'criRange', 'perfectHit', 'acd', 'vct', 'vct_inc', 'vctBySkill', 'oratio', 'infection', 'intoxication', 'bitterCold', 'pollen', 'impalement', 'gravitation', 'shadowScar', 'acd_magic_wind', 'movementSpeed', 'statusResist', 'wugSkillRatio'].includes(k) ||
       RESIST_REDUCTION_KEYS.includes(k) ||
       /^insignia_ratio_/.test(k)
     );

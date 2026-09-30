@@ -1,6 +1,7 @@
 import { ActiveSkillModel } from '../jobs/_character-base.abstract';
 import { ElementType } from './element-type.const';
 import { BragisPoemFn, DarkClawFn, ShieldSpellFn, SwingDanceFn } from './share-active-skills';
+import { ArtistPartyBuffs } from './artist-party-buffs';
 
 const JobBuffsList: ActiveSkillModel[] = [
   {
@@ -325,6 +326,7 @@ const JobBuffsList: ActiveSkillModel[] = [
   {
     name: 'Moonlight Serenade',
     label: 'Serenata ao Luar',
+    exclusiveGroup: 'wanderer_dance',
     inputType: 'dropdown',
     dropdown: [
       { label: '-', isUse: false, value: 0 },
@@ -470,6 +472,7 @@ const JobBuffsList: ActiveSkillModel[] = [
       { label: '+ 22', isUse: true, value: 6, bonus: { sMatk: 22 } },
     ],
   },
+  ...ArtistPartyBuffs,
 
   {
     name: 'Rhapsody of Mineworker',
