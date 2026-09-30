@@ -73,7 +73,7 @@ import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
 import { resolveOffHandEviction } from 'src/app/core/off-hand-slots';
 import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectChanceSources, collectConsumables, withoutWeaponlessTalismans } from 'src/app/core/calculator-controller';
-import { customOptionScripts } from 'src/app/core/custom-attachments';
+import { customOptionScripts, ensureCustomAttachment } from 'src/app/core/custom-attachments';
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { ElementType } from 'src/app/constants/element-type.const';
 import { CompareState, STATS_COMPARE_KEYS, copyStatsFields } from 'src/app/core/compare-state';
@@ -144,6 +144,7 @@ const Characters = getClassDropdownList();
 
 interface ClassModel extends Partial<Record<ItemTypeEnum, number>> {
   rawOptionTxts: string[];
+  customAttachments?: MainModel['customAttachments'];
   autoCastSelections?: MainModel['autoCastSelections'];
   weaponGrade?: any;
   leftWeaponGrade?: any;
@@ -761,6 +762,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         const model2 = {
           rawOptionTxts: this.model2?.rawOptionTxts || [],
+          customAttachments: {},
           autoCastSelections: { ...(this.model2?.autoCastSelections ?? {}) },
         } as ClassModel;
 
@@ -783,6 +785,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
             model2[itemTypeName] = this.model2[itemTypeName] || null;
 
             const hasMainItem = model2[itemTypeName] != null;
+            if (hasMainItem && isCustomItem(this.items[model2[itemTypeName]])) {
+              model2.customAttachments[itemTypeName] = structuredClone(
+                ensureCustomAttachment(this.model2, itemTypeName, this.items[model2[itemTypeName]]),
+              );
+            }
             if (hasMainItem && isOffered) {
               equipItemIdItemTypeMap2.set(itemTypeName, model2[itemTypeName]);
             }
@@ -840,6 +847,9 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
         this.equipCompareItemIdItemTypeMap = equipItemIdItemTypeMap2;
         this.equipCompareItems = this.buildEquipItemList(this.equipCompareItemIdItemTypeMap, model2);
+        if (!this.equipCompareItemIdItemTypeMap.has(this.selectedCompareItemDesc)) {
+          this.selectedCompareItemDesc = undefined;
+        }
         // console.log('model2', { ...model2 })
         if (this.isEnableCompare) {
           this.model2 = model2;
@@ -1102,7 +1112,11 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
       [ItemTypeEnum.shadowPendant]: true,
     };
     if (compareModel) {
-      const model2 = this.resolveCompareHeadSlots({ ...this.model, ...compareModel });
+      const model2 = this.resolveCompareHeadSlots({
+        ...this.model,
+        ...compareModel,
+        customAttachments: { ...this.model.customAttachments, ...compareModel.customAttachments },
+      });
       calc.loadItemFromModel(model2);
 
       // if compare the item, should get options from its.
@@ -2391,52 +2405,61 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   }
 
   private resetItemDescription() {
-    const equipItemTypes: string[] = [];
     const map = new Map<ItemTypeEnum, number>();
-    const mapRefine = new Map<string, number>();
 
     for (const [itemType, relations] of Object.entries(MainItemWithRelations)) {
       const itemId = this.equipItemMap.get(itemType as any);
       if (itemId) {
-        equipItemTypes.push(itemType);
         map.set(itemType as any, itemId);
-
-        mapRefine.set(itemType, this.model[`${itemType}Refine`]);
       }
 
       for (const itemType2 of relations) {
         const itemId = this.equipItemMap.get(itemType2 as any);
         if (itemId) {
-          equipItemTypes.push(itemType2);
           map.set(itemType2 as any, itemId);
         }
       }
     }
 
     this.equipItemIdItemTypeMap = map;
+    this.equipItems = this.buildEquipItemList(map, this.model);
 
-    if (!equipItemTypes.includes(this.selectedItemDesc)) {
+    if (!map.has(this.selectedItemDesc)) {
       this.selectedItemDesc = undefined;
     }
-    this.equipItems = this.buildEquipItemList(this.equipItemIdItemTypeMap, this.model);
   }
 
   private buildEquipItemList(itemMap: Map<ItemTypeEnum, number>, model: typeof this.model | typeof this.model2) {
-    return [...itemMap.entries()]
-      .filter(([itemType, id]) => this.items[id] && model[itemType])
-      .map(([itemType, id]) => {
-        const grade = model[`${itemType}Grade`];
-        const prefixGrade = grade && typeof grade === 'string' ? ` [${grade}] ` : '';
+    const customRelations = new Set(Object.entries(MainItemWithRelations)
+      .filter(([slot]) => isCustomItem(this.items[model[slot]]))
+      .flatMap(([, relations]) => relations));
+    const entries = [...itemMap.entries()];
+    const list: DropdownModel[] = [];
+    // Keep the selection lookup in sync with the visible rows, including custom sockets.
+    itemMap.clear();
+    const append = (itemType: ItemTypeEnum, id: number, label = this.items[id]?.name) => {
+      if (!this.items[id]) return;
+      itemMap.set(itemType, id);
+      list.push({ label, value: itemType, id });
+    };
 
-        const refine = model[`${itemType}Refine`];
-        const prefixRefine = refine && refine > 0 ? ` +${refine} ` : '';
+    for (const [itemType, id] of entries) {
+      if (!this.items[id] || !model[itemType] || customRelations.has(itemType)) continue;
+      const grade = model[`${itemType}Grade`];
+      const prefixGrade = grade && typeof grade === 'string' ? ` [${grade}] ` : '';
 
-        return {
-          label: `${prefixRefine}${prefixGrade}${this.items[id]?.name}`,
-          value: itemType,
-          id,
-        };
-      });
+      const refine = model[`${itemType}Refine`];
+      const prefixRefine = refine && refine > 0 ? ` +${refine} ` : '';
+
+      append(itemType, id, `${prefixRefine}${prefixGrade}${this.items[id].name}`);
+      if (!isCustomItem(this.items[id])) continue;
+
+      const attachments = ensureCustomAttachment(model, itemType, this.items[id]);
+      // Match Calculator.loadItemFromModel so selecting a socket resolves its bonuses.
+      attachments.cards.forEach((cardId, index) => append(`${itemType}CustomCard${index + 1}` as ItemTypeEnum, cardId));
+      attachments.enchants.forEach((enchantId, index) => append(`${itemType}CustomEnchant${index + 1}` as ItemTypeEnum, enchantId));
+    }
+    return list;
   }
 
   /** pt-BR label of the currently selected class (same lookup as the class picker),
