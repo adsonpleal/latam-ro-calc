@@ -42,7 +42,7 @@ interface RenderedGroup {
  * One tag in place of the ~1200 lines of markup that used to write every slot out twice,
  * once for the build and once for the comparison. What it owns is the translation between
  * a chip and the host's handlers: the emitted sequences have to match what the old
- * `p-dropdown`s produced, or the debounced buses, the head-slot occupancy rule, the clear
+ * `ui-dropdown`s produced, or the debounced buses, the head-slot occupancy rule, the clear
  * cascade and the compare pipeline all start to disagree with the numbers.
  *
  * Layout follows SLOT_GROUPS: an Equipamento column (the pet card included), then Visuais

@@ -122,9 +122,9 @@ export class BattleHudComponent {
   }
 
   // Elements without a `property_*` rule in styles.scss (Neutral is the only one —
-  // it never had a color, by design) must not fall through to p-tag's own default
+  // it never had a color, by design) must not fall through to ui-tag's own default
   // background. 'el-tag-neutral' (battle-hud.component.css) reproduces the old
-  // outlined/neutral badge look instead of an arbitrary PrimeNG color.
+  // outlined/neutral badge look instead of an arbitrary severity color.
   // The rule itself lives in battle-hud.logic.ts, shared with the rotation rows.
   elementTagClass = elementTagClassFn;
 

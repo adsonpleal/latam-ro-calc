@@ -47,7 +47,6 @@
 
     <link rel="icon" type="image/png" href="https://assets.latam-tools.com.br/image?job=1002&amp;action=0" />
     <link rel="manifest" href="manifest.webmanifest" />
-    <link id="theme-css" rel="stylesheet" type="text/css" href="assets/layout/styles/theme/vela-green/theme.css" />
 
     <!-- Splash pré-bootstrap. Fica dentro de <app-root>; o Angular substitui os filhos do
          elemento ao inicializar, então ele some sozinho e não precisa de teardown. Cores
@@ -61,8 +60,7 @@
       .ro-splash {
         position: fixed;
         inset: 0;
-        /* Acima das camadas do PrimeNG (máscara modal fica em 1101), para que nenhum
-           overlay dele apareça por cima durante a abertura. */
+        /* Acima das sobreposições da interface durante a abertura. */
         z-index: 2000;
         display: flex;
         flex-direction: column;

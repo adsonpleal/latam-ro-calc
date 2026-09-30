@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { OverlayPanel } from 'primeng/overlaypanel';
+import { UiPopoverComponent } from 'src/app/ui/popover.component';
 import { CritRateBreakdown, CritRateStep } from '../../../../../core/crit-rate';
 import { skillDescHtml } from '../../../../../utils';
 import { formatNumber } from '../../../../../utils/format-number';
@@ -37,8 +37,8 @@ export interface AutoCastDetails {
 export class BattleSkillDetailsComponent {
   private static activeInstance: BattleSkillDetailsComponent | null = null;
   readonly basicAttackIcon = BASIC_ATTACK_ICON;
-  @ViewChild('detailsPanel') detailsPanel: OverlayPanel;
-  @ViewChild('critRatePanel') critRatePanel: OverlayPanel;
+  @ViewChild('detailsPanel') detailsPanel: UiPopoverComponent;
+  @ViewChild('critRatePanel') critRatePanel: UiPopoverComponent;
   @ViewChild('damagePopovers') damagePopovers: BattleDamagePopoversComponent;
 
   @Output() breakdownClick = new EventEmitter<any>();
@@ -97,37 +97,13 @@ export class BattleSkillDetailsComponent {
 
     const raw: any = target || event.currentTarget || event.target;
     const anchor = raw?.nativeElement ?? raw;
-    const rect = anchor?.getBoundingClientRect?.();
     if (this.detailsPanel.overlayVisible && this.detailsPanel.target === anchor) {
       this.detailsPanel.hide();
       return;
     }
-    if (this.detailsPanel.overlayVisible) this.detailsPanel.hide();
     this.detailsPanel.show(event, anchor);
-    this.detailsPanel.target = anchor;
     if (this.detailsPanel.container) this.detailsPanel.container.style.visibility = 'hidden';
-    requestAnimationFrame(() => this.align(rect));
-  }
-
-  private align(target: DOMRect): void {
-    const container = this.detailsPanel?.container as HTMLElement;
-    if (!container || !target) return;
-    const overlay = container.getBoundingClientRect();
-    const scrollLeft = window.scrollX;
-    const scrollTop = window.scrollY;
-    let left = target.left + target.width / 2 + scrollLeft - overlay.width / 2;
-    left = Math.max(scrollLeft + 8, Math.min(left, scrollLeft + window.innerWidth - overlay.width - 8));
-    const fitsBelow = target.bottom + overlay.height + 8 <= window.innerHeight;
-    const top = fitsBelow ? target.bottom + scrollTop : target.top + scrollTop - overlay.height;
-    container.style.left = `${left}px`;
-    container.style.top = `${Math.max(scrollTop + 8, top)}px`;
-    const targetCenter = target.left + target.width / 2 + scrollLeft;
-    // PrimeNG's pseudo-elements center themselves on their `left` coordinate.
-    // Supply the anchor's exact center relative to the positioned panel.
-    const arrowLeft = Math.max(10, Math.min(overlay.width - 10, targetCenter - left));
-    container.style.setProperty('--overlayArrowLeft', `${arrowLeft}px`);
-    container.classList.toggle('p-overlaypanel-flipped', !fitsBelow);
-    container.style.visibility = 'visible';
+    requestAnimationFrame(() => this.detailsPanel?.align(true));
   }
 
   openDamage(branch: DamageBranch, event: Event): void {

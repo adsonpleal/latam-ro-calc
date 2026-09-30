@@ -12,7 +12,7 @@
       class="eq-card__color"
       [class.eq-card__color--idle]="!colorable"
       [attr.aria-label]="colorTitle"
-      [pTooltip]="colorTitle"
+      [appTooltip]="colorTitle"
       tooltipPosition="top"
       [showDelay]="300"
       (click)="onPickColor(colorAnchor)"
@@ -29,7 +29,7 @@
     <span
       *ngIf="item?.preRelease"
       class="pre_release_tag"
-      pTooltip="Prévia: item ainda não lançado no LATAM — nome e descrição em inglês, do kRO/iRO (divine-pride)."
+      appTooltip="Prévia: item ainda não lançado no LATAM — nome e descrição em inglês, do kRO/iRO (divine-pride)."
       tooltipPosition="top"
       [showDelay]="300"
       >Prévia</span
@@ -43,17 +43,12 @@
       [class.eq-card__compare--on]="comparingHere"
       [class.eq-card__compare--locked]="!!occupiedBy"
       [attr.aria-pressed]="comparingHere"
-      [pTooltip]="compareTitle"
+      [appTooltip]="compareTitle"
       tooltipPosition="top"
       [showDelay]="300"
       (click)="onToggleCompare()"
     >
-      <!-- PrimeIcons pi-lock, drawn at the same optical size as the ⇄ next to it. -->
-      <svg *ngIf="occupiedBy" viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true">
-        <path
-          d="M17,10.25h-.25V8a4.75,4.75,0,0,0-9.5,0v2.25H7A2.75,2.75,0,0,0,4.25,13v5A2.75,2.75,0,0,0,7,20.75H17A2.75,2.75,0,0,0,19.75,18V13A2.75,2.75,0,0,0,17,10.25ZM8.75,8a3.25,3.25,0,0,1,6.5,0v2.25H8.75Zm9.5,10A1.25,1.25,0,0,1,17,19.25H7A1.25,1.25,0,0,1,5.75,18V13A1.25,1.25,0,0,1,7,11.75H17A1.25,1.25,0,0,1,18.25,13Z"
-        />
-      </svg>
+      <app-icon *ngIf="occupiedBy" name="lock" style="font-size: 11px"></app-icon>
       <span *ngIf="!occupiedBy" aria-hidden="true">⇄</span>
       {{ comparingHere ? 'Comparando' : 'Comparar' }}
     </button>
@@ -63,7 +58,7 @@
       type="button"
       class="eq-card__clear"
       aria-label="Limpar slot"
-      pTooltip="Limpar slot"
+      appTooltip="Limpar slot"
       tooltipPosition="top"
       [showDelay]="300"
       (click)="clearSlot.emit()"
@@ -94,7 +89,7 @@
           type="button"
           class="eq-card__clear eq-card__clear--compare"
           aria-label="Inverter: trocar este item pelo comparado"
-          pTooltip="Inverter: o item comparado passa a ser o da build, e o da build passa a ser o comparado"
+          appTooltip="Inverter: o item comparado passa a ser o da build, e o da build passa a ser o comparado"
           tooltipPosition="left"
           [showDelay]="300"
           (click)="swapCompare.emit()"
@@ -107,7 +102,7 @@
           type="button"
           class="eq-card__clear eq-card__clear--compare"
           aria-label="Limpar a comparação deste slot"
-          pTooltip="Limpar a comparação deste slot"
+          appTooltip="Limpar a comparação deste slot"
           tooltipPosition="left"
           [showDelay]="300"
           (click)="clearCompare.emit()"
@@ -125,7 +120,7 @@
     <span
       class="eq-card__icon"
       [class.eq-card__icon--compare]="compare"
-      [pTooltip]="entry ? (entry.id | itemDescTooltip: items : itemDescriptions.version) : ''"
+      [appTooltip]="entry ? (entry.id | itemDescTooltip: items : itemDescriptions.version) : ''"
       [escape]="false"
       tooltipPosition="top"
       [showDelay]="350"

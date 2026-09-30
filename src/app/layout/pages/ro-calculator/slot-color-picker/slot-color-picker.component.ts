@@ -104,10 +104,6 @@ export class SlotColorPickerComponent {
 
   /**
    * Escape closes the panel, and never reaches the page.
-   *
-   * Not tidiness: PrimeNG binds `document:keydown.escape` once per pTooltip and there
-   * are hundreds on this screen, each re-entering the Angular zone. The item picker
-   * carries the same guard for the same measured reason.
    */
   onKeyDown(event: KeyboardEvent): void {
     if (event.key !== 'Escape') return;

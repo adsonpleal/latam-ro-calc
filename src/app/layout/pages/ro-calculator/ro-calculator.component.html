@@ -2,12 +2,12 @@
      for keyboard operation. These two a11y rules are static and can't see the directive, so they
      false-positive on every element that uses it — disabled file-wide here, still enforced elsewhere. -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-<p-toast></p-toast>
+<app-ui-toast></app-ui-toast>
 <!-- Durante a abertura quem cobre a tela é o splash; sem esta guarda a máscara do
-     p-blockUI apareceria por cima dele no meio do loadItemSet, piscando uma segunda
-     tela de carregamento. Depois disso o p-blockUI segue normal, para troca de classe
+     ui-blockUI apareceria por cima dele no meio do loadItemSet, piscando uma segunda
+     tela de carregamento. Depois disso o ui-blockUI segue normal, para troca de classe
      e carga de preset. -->
-<p-blockUI [blocked]="isInProcessingPreset && !isBooting"></p-blockUI>
+<app-ui-block [blocked]="isInProcessingPreset && !isBooting"></app-ui-block>
 
 <!-- O indicador da abertura é o #ro-splash do index.html, fora do <app-root>. Não é
      replicado aqui: um segundo elemento só apareceria quando este componente (lazy)
@@ -35,7 +35,7 @@
     </div>
   </div>
 </ng-template>
-<p-confirmDialog [position]="'top'" [style]="{ width: '25vw' }"></p-confirmDialog>
+<app-ui-confirm-dialog [position]="'top'" [style]="{ width: '25vw' }"></app-ui-confirm-dialog>
 
 <app-item-search
   [items]="items"
@@ -47,28 +47,21 @@
 ></app-item-search>
 <app-custom-item-studio [items]="items" [currentModel]="model" [currentMonster]="monsterDataMap[selectedMonster]" (saved)="onCustomItemSaved($event)" (deleted)="onCustomItemDeleted($event)"></app-custom-item-studio>
 
-<!-- A centred modal, not a side sheet: `position="left"` is what gave it the slide-in
-     animation and pinned it to the edge. Without it PrimeNG centres the dialog and uses
-     its own scale/fade. The height is capped rather than 100vh so it reads as a dialog
-     sitting over the page instead of a full-height panel. -->
-<p-dialog
+<!-- Keep the elemental table centered and bounded inside the viewport. -->
+<app-ui-dialog
   header=""
   [modal]="true"
   [(visible)]="isShowMonsterEle"
   [style]="{ width: '92vw', 'max-width': '1600px', height: '85vh', 'min-height': '500px' }"
-  [draggable]="false"
-  [resizable]="false"
 >
   <app-elemental-table [monsterMap]="monsterDataMap" [groupMonsterList]="groupMonsterList" [allSelectedMonsterIds]="allSelectedMonsterIds"></app-elemental-table>
-</p-dialog>
+</app-ui-dialog>
 
-<p-dialog
+<app-ui-dialog
   [header]="bonusBreakdownTitle"
   [(visible)]="isShowBonusBreakdown"
   [modal]="true"
   [dismissableMask]="true"
-  [draggable]="false"
-  [resizable]="false"
   [style]="{ width: '420px', 'max-width': '92vw' }"
 >
   <!-- A caveat about the value itself (where it applies), as opposed to where it comes
@@ -99,8 +92,7 @@
       [href]="link.url"
       target="_blank"
       rel="noopener noreferrer"
-      >{{ link.label }} <i class="pi pi-external-link"></i
-    ></a>
+      >{{ link.label }} <app-icon name="external-link"></app-icon></a>
   </div>
 
   <div *ngIf="bonusBreakdownRows.length === 0 && !bonusBreakdownCalc" class="p-2 text-center">
@@ -115,36 +107,34 @@
       <span
         class="{{ bonusBreakdownValueClass }} font-semibold ml-2"
         [class.bonus_tip]="r.tooltip"
-        [pTooltip]="r.tooltip"
+        [appTooltip]="r.tooltip"
         tooltipPosition="left"
         [showDelay]="150"
         >{{ r.display }}</span
       >
     </li>
   </ul>
-</p-dialog>
+</app-ui-dialog>
 
-<p-dialog
+<app-ui-dialog
   [header]="aspdCurveTitle"
   [(visible)]="isShowAspdCurve"
   [modal]="true"
   [dismissableMask]="true"
-  [draggable]="false"
-  [resizable]="false"
   [style]="{ width: '560px', 'max-width': '92vw' }"
 >
-  <!-- The *ngIf is load-bearing: PrimeNG projects dialog content with the declaring view,
+  <!-- The *ngIf is load-bearing: Angular projects dialog content with the declaring view,
        so without it the chart would be built at page load and recompute on every calc. -->
   <app-aspd-curve
     *ngIf="isShowAspdCurve"
     [aspd]="totalSummary?.calc?.totalAspd || 0"
     [aspd2]="isEnableCompare ? totalSummary2?.calc?.totalAspd : null"
   ></app-aspd-curve>
-</p-dialog>
+</app-ui-dialog>
 
 <div class="grid grid-nogutter" style="min-width: 1500px">
   <!-- Left Side -->
-  <div class="p-fluid col-7 editor_col">
+  <div class="ui-fluid col-7 editor_col">
     <!-- Create Update Class -->
     <!-- Who the character is runs as a band across the top; below it sit the two cards
          that need the height — what they spent, and the resulting ficha. Taking the
@@ -161,28 +151,28 @@
                with anyway. -->
           <button
             type="button"
-            pButton
-            class="p-button-info"
-            icon="pi pi-upload"
+            appButton
+            class="ui-button-info"
+            icon="upload"
             label="Importar"
-            pTooltip="Carregar classe, atributos e equipamentos de uma gravação .rrf"
+            appTooltip="Carregar classe, atributos e equipamentos de uma gravação .rrf"
             tooltipPosition="bottom"
             tooltipStyleClass="build_action_tip"
             [showDelay]="350"
             [disabled]="isInProcessingPreset || replayBusy"
             (click)="openReplayImport()"
           ></button>
-          <button type="button" pButton class="p-button-help" icon="pi pi-folder-open" label="Simulações" (click)="openSavesDialog()"></button>
+          <button type="button" appButton class="ui-button-help" icon="folder-open" label="Simulações" (click)="openSavesDialog()"></button>
           <!-- The same reset as "Nova simulação" in the Simulações dialog, where nobody
                found it. Beside it here, since that is where the other whole-build actions
                live. -->
           <button
             type="button"
-            pButton
-            class="p-button-danger"
-            icon="pi pi-file-o"
+            appButton
+            class="ui-button-danger"
+            icon="file-o"
             label="Limpar"
-            pTooltip="Limpar todos os campos e começar do zero"
+            appTooltip="Limpar todos os campos e começar do zero"
             tooltipPosition="bottom"
             tooltipStyleClass="build_action_tip"
             [showDelay]="350"
@@ -191,11 +181,11 @@
           ></button>
           <button
             type="button"
-            pButton
-            class="p-button-success p-button-icon-only"
-            icon="pi pi-save"
+            appButton
+            class="ui-button-success ui-button-icon-only"
+            icon="save"
             aria-label="Salvar"
-            pTooltip="Salvar simulação"
+            appTooltip="Salvar simulação"
             tooltipPosition="bottom"
             tooltipStyleClass="build_action_tip"
             [showDelay]="350"
@@ -204,11 +194,11 @@
           ></button>
           <button
             type="button"
-            pButton
-            class="p-button-success p-button-icon-only"
-            icon="pi pi-share-alt"
+            appButton
+            class="ui-button-success ui-button-icon-only"
+            icon="share-alt"
             aria-label="Link"
-            pTooltip="Gerar link para compartilhar"
+            appTooltip="Gerar link para compartilhar"
             tooltipPosition="bottom"
             tooltipStyleClass="build_action_tip"
             [showDelay]="350"
@@ -221,7 +211,7 @@
              placeholder covers the empty state. The addon was pure width, and in the band
              the job name is what takes up the slack. -->
         <div class="dropdown-joblist char_class">
-          <p-dropdown
+          <app-ui-dropdown
             inputId="character"
             [autoDisplayFirst]="false"
             [resetFilterOnHide]="true"
@@ -232,36 +222,37 @@
             placeholder="Classe"
             scrollHeight="350px"
             [disabled]="isInProcessingPreset"
-            (onChange)="onClassChange()"
+            (valueChange)="onClassChange()"
           >
-            <ng-template let-job pTemplate="selectedItem">
+            <ng-template let-job appTemplate="selectedItem">
               <div class="flex gap-2 py-0 align-items-center" *ngIf="model.class">
                 <img [src]="job.icon | iconUrl: 'job'" alt="" class="job_img" (error)="onCharSpriteError($event, job.icon)" />
                 <div class="text_ellips">{{ job.label }}</div>
               </div>
             </ng-template>
-            <ng-template let-job pTemplate="item">
+            <ng-template let-job appTemplate="item">
               <div class="flex gap-2 py-0">
                 <img [src]="job.icon | iconUrl: 'job'" alt="" class="job_img" (error)="onCharSpriteError($event, job.icon)" />
                 <div class="text_ellips">{{ job.label }}</div>
               </div>
             </ng-template>
-          </p-dropdown>
+          </app-ui-dropdown>
         </div>
 
         <!-- NV / JOB are part of the stats comparison: while the Comparação side is picked they
              edit the compared build, and wear its amber so that is visible up here too. -->
         <div class="char_levels" [class.char_levels--compare]="isEditingCompareStats">
-          <div class="p-inputgroup joined_field">
+          <div class="ui-inputgroup joined_field">
             <span
-              class="p-inputgroup-addon joined_caption char_addon"
+              class="ui-inputgroup-addon joined_caption char_addon"
               [class.char_addon--other]="otherStatsText('level')"
-              [pTooltip]="otherStatsText('level') ? 'Nível - ' + statsOtherLabel + ': ' + otherStatsText('level') : ''"
+              [appTooltip]="otherStatsText('level') ? 'Nível - ' + statsOtherLabel + ': ' + otherStatsText('level') : ''"
               [showDelay]="300"
               >NV<span *ngIf="otherStatsText('level')" class="char_addon_other">{{ otherStatsText('level') }}</span></span
             >
-            <p-dropdown
+            <app-ui-dropdown
               inputId="level"
+              panelStyleClass="joined-dropdown-panel"
               [autoDisplayFirst]="false"
               [options]="levelList"
               [filter]="true"
@@ -269,19 +260,20 @@
               scrollHeight="350px"
               [resetFilterOnHide]="true"
               [(ngModel)]="statsModel['level']"
-              (onChange)="onStatsLevelChange()"
-            ></p-dropdown>
+              (valueChange)="onStatsLevelChange()"
+            ></app-ui-dropdown>
           </div>
-          <div class="p-inputgroup joined_field">
+          <div class="ui-inputgroup joined_field">
             <span
-              class="p-inputgroup-addon joined_caption char_addon"
+              class="ui-inputgroup-addon joined_caption char_addon"
               [class.char_addon--other]="otherStatsText('jobLevel')"
-              [pTooltip]="otherStatsText('jobLevel') ? 'Nível de classe - ' + statsOtherLabel + ': ' + otherStatsText('jobLevel') : ''"
+              [appTooltip]="otherStatsText('jobLevel') ? 'Nível de classe - ' + statsOtherLabel + ': ' + otherStatsText('jobLevel') : ''"
               [showDelay]="300"
               >JOB<span *ngIf="otherStatsText('jobLevel')" class="char_addon_other">{{ otherStatsText('jobLevel') }}</span></span
             >
-            <p-dropdown
+            <app-ui-dropdown
               inputId="jobLevel"
+              panelStyleClass="joined-dropdown-panel"
               [autoDisplayFirst]="false"
               [options]="jobList"
               [filter]="true"
@@ -289,15 +281,15 @@
               scrollHeight="350px"
               [resetFilterOnHide]="true"
               [(ngModel)]="statsModel['jobLevel']"
-              (onChange)="onStatsJobLevelChange()"
-            ></p-dropdown>
+              (valueChange)="onStatsJobLevelChange()"
+            ></app-ui-dropdown>
           </div>
         </div>
 
         <!-- The "(Nv N)" hint the sentence used to carry has no room here; it moved to the
              box's tooltip rather than being dropped. -->
         <div class="char_points">
-          <div class="char_point_box" [pTooltip]="pointsHint" [showDelay]="300">
+          <div class="char_point_box" [appTooltip]="pointsHint" [showDelay]="300">
             <span class="char_point_label">Atributos</span>
             <!-- One line: the box is a fixed 34px tall, which has no room for a third row. -->
             <span class="char_point_row">
@@ -307,7 +299,7 @@
               >
             </span>
           </div>
-          <div class="char_point_box" [hidden]="!isAllowTraitStat" [pTooltip]="traitPointsHint" [showDelay]="300">
+          <div class="char_point_box" [hidden]="!isAllowTraitStat" [appTooltip]="traitPointsHint" [showDelay]="300">
             <span class="char_point_label">Talentos</span>
             <!-- One line: the box is a fixed 34px tall, which has no room for a third row. -->
             <span class="char_point_row">
@@ -332,7 +324,7 @@
               class="stats_compare_toggle"
               [class.stats_compare_toggle--on]="isCompareStats"
               [attr.aria-pressed]="isCompareStats"
-              [pTooltip]="isCompareStats ? 'Parar de comparar nível, atributos e talentos' : 'Comparar nível, atributos e talentos com outra distribuição'"
+              [appTooltip]="isCompareStats ? 'Parar de comparar nível, atributos e talentos' : 'Comparar nível, atributos e talentos com outra distribuição'"
               [showDelay]="300"
               [disabled]="isInProcessingPreset"
               (click)="toggleStatsCompare()"
@@ -526,7 +518,7 @@
         <div class="summary_cell">
           <div class="stats_summary">
             <div class="loading_block" *ngIf="isCalculating">
-              <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+              <app-icon style="font-size: 2rem" name="spinner"></app-icon>
             </div>
 
             <!-- The four figures people actually look at, ahead of the detail below. One
@@ -541,7 +533,7 @@
                   [class.bonus_clickable]="item.clickable"
                   (click)="onSummaryClick(item)"
                   [keyActivate]="item.clickable"
-                  [pTooltip]="item.tooltip"
+                  [appTooltip]="item.tooltip"
                   [showDelay]="300"
                   >{{ item.text }}</span
                 >
@@ -552,7 +544,7 @@
                   [class.bonus_clickable]="item.compareClickable"
                   (click)="onSummaryClick(item, true)"
                   [keyActivate]="item.compareClickable"
-                  [pTooltip]="item.compareTooltip"
+                  [appTooltip]="item.compareTooltip"
                   [showDelay]="300"
                   >&#8594; {{ item.compare.text }} {{ item.compare.deltaText }}</span
                 >
@@ -565,10 +557,10 @@
                   <div class="ss_group_header">
                     <span>{{ group.title }}</span>
                     <span *ngIf="group.showReduction" class="reduction-label ss_reduction bonus_clickable" (click)="reductionPanel.toggle($event)" keyActivate>
-                      <i class="pi pi-shield"></i> Redução de dano
+                      <app-icon name="shield"></app-icon> Redução de dano
                     </span>
                     <span *ngIf="group.showSustain" class="sustain-label ss_reduction bonus_clickable" (click)="sustainPanel.toggle($event)" keyActivate>
-                      <i class="pi pi-heart"></i> Cura e regen.
+                      <app-icon name="heart"></app-icon> Cura e regen.
                     </span>
                   </div>
                   <!-- Two cells per row: the delta sits inside the value cell rather than in
@@ -584,11 +576,11 @@
                         [class.bonus_clickable]="row.clickable"
                         (click)="onSummaryClick(row)"
                         [keyActivate]="row.clickable"
-                        [pTooltip]="row.tooltip"
+                        [appTooltip]="row.tooltip"
                         tooltipPosition="top"
                         [showDelay]="300"
                         >{{ row.text
-                        }}<span *ngIf="row.note" pTooltip="Mais CRIT à distância, que só vale no ataque básico" [showDelay]="300">*</span
+                        }}<span *ngIf="row.note" appTooltip="Mais CRIT à distância, que só vale no ataque básico" [showDelay]="300">*</span
                         ><span *ngIf="row.suffix" class="ss_suffix">{{ row.suffix }}</span></span
                       >
                       <span
@@ -598,7 +590,7 @@
                         [class.bonus_clickable]="row.compareClickable"
                         (click)="onSummaryClick(row, true)"
                         [keyActivate]="row.compareClickable"
-                        [pTooltip]="row.compareTooltip"
+                        [appTooltip]="row.compareTooltip"
                         tooltipPosition="top"
                         [showDelay]="300"
                         >&#8594; {{ row.compare.text }} {{ row.compare.deltaText }}</span
@@ -609,14 +601,14 @@
               </div>
             </div>
 
-            <p-overlayPanel #reductionPanel styleClass="reduction-panel">
+            <app-ui-popover #reductionPanel styleClass="reduction-panel">
               <ng-container *ngTemplateOutlet="reductionPop; context: { cats: selfReductionCategories, sources: bonusBreakdownSources, target: false }"></ng-container>
-            </p-overlayPanel>
+            </app-ui-popover>
 
             <!-- "Cura e regen." — the sustain stats, off the Recursos header. Same cells as
                  a grid row (value, delta, breakdown on click); only the layout differs, so
                  the popover can't drift from what the panel would have printed. -->
-            <p-overlayPanel #sustainPanel styleClass="reduction-panel">
+            <app-ui-popover #sustainPanel styleClass="reduction-panel">
               <div class="sustain-pop">
                 <div class="sustain-row" *ngFor="let row of statsSummary.sustain; trackBy: trackByLabel">
                   <span class="sustain-row-label">{{ row.label }}</span>
@@ -627,7 +619,7 @@
                       [class.bonus_clickable]="row.clickable"
                       (click)="onSummaryClick(row)"
                       [keyActivate]="row.clickable"
-                      [pTooltip]="row.tooltip"
+                      [appTooltip]="row.tooltip"
                       tooltipPosition="top"
                       [showDelay]="300"
                       >{{ row.text }}</span
@@ -639,7 +631,7 @@
                       [class.bonus_clickable]="row.compareClickable"
                       (click)="onSummaryClick(row, true)"
                       [keyActivate]="row.compareClickable"
-                      [pTooltip]="row.compareTooltip"
+                      [appTooltip]="row.compareTooltip"
                       tooltipPosition="top"
                       [showDelay]="300"
                       >&#8594; {{ row.compare.text }} {{ row.compare.deltaText }}</span
@@ -647,7 +639,7 @@
                   </span>
                 </div>
               </div>
-            </p-overlayPanel>
+            </app-ui-popover>
           </div>
 
         </div>
@@ -678,26 +670,26 @@
   </div>
 
   <!-- Right Side -->
-  <div class="p-fluid col-5">
-    <p-accordion
+  <div class="ui-fluid col-5">
+    <app-ui-accordion
       [multiple]="true"
       [activeIndex]="rightAccordionActiveIndices"
-      (onOpen)="onRightAccordionOpen($event)"
-      (onClose)="onRightAccordionClose($event)"
+      (tabOpened)="onRightAccordionOpen($event)"
+      (tabClosed)="onRightAccordionClose($event)"
     >
-      <p-accordionTab header="Consumíveis" class="consumable">
+      <app-ui-accordion-tab header="Consumíveis" class="consumable">
         <div class="calc-panel consumable-panel">
           <ng-template #consumableOption let-option>
             <div
               class="calc-option-row"
             >
-              <span class="calc-option-main" [pTooltip]="itemDescTooltip(option?.value)" [escape]="false"
+              <span class="calc-option-main" [appTooltip]="itemDescTooltip(option?.value)" [escape]="false"
                 tooltipPosition="right" [showDelay]="500" tooltipStyleClass="item_desc_tooltip">
                 <img *ngIf="option" [src]="option.value | iconUrl: 'item'" alt="" class="calc-option-icon" missingIcon />
                 <span class="text_ellips">{{ option?.label }}</span>
               </span>
-              <button *ngIf="option && items[option.value]?.custom" type="button" class="p-tag consumable-custom-tag"
-                [attr.aria-label]="'Editar item customizado: ' + option.label" pTooltip="Item customizado. Clique para editar."
+              <button *ngIf="option && items?.[option.value]?.custom" type="button" class="ui-tag consumable-custom-tag"
+                [attr.aria-label]="'Editar item customizado: ' + option.label" appTooltip="Item customizado. Clique para editar."
                 tooltipPosition="top" [showDelay]="300" (click)="editCustomConsumable(option.value, $event)">Customizado</button>
             </div>
           </ng-template>
@@ -705,20 +697,20 @@
           <section class="calc-panel-section consumable-stack">
             <div class="calc-section-heading">
               <span>Itens acumuláveis</span>
-              <button pButton type="button" class="p-button-text p-button-sm consumable-create" icon="pi pi-plus"
+              <button appButton type="button" class="ui-button-text ui-button-sm consumable-create" icon="plus"
                 label="Criar item" aria-label="Criar item consumível" (click)="openCreateConsumable()"></button>
             </div>
-            <p-listbox
+            <app-ui-listbox
               [options]="consumableList"
               [(ngModel)]="model.consumables"
               [multiple]="true"
               [metaKeySelection]="false"
-              (onChange)="onConsumableChange()"
+              (valueChange)="onConsumableChange()"
             >
-              <ng-template let-item pTemplate="item">
+              <ng-template let-item appTemplate="item">
                 <ng-container [ngTemplateOutlet]="consumableOption" [ngTemplateOutletContext]="{ $implicit: item }"></ng-container>
               </ng-template>
-            </p-listbox>
+            </app-ui-listbox>
           </section>
 
           <div class="consumable-side">
@@ -728,23 +720,23 @@
               </div>
               <div *ngFor="let con of consumableList2; let i = index" class="joined_field consumable-picker-field consumable-food-field">
                 <span class="joined_caption calc-select-label">{{ ['FOR', 'AGI', 'VIT', 'INT', 'DES', 'SOR'][i] }}</span>
-                <p-dropdown
+                <app-ui-dropdown
                   [autoDisplayFirst]="false"
                   [resetFilterOnHide]="true"
                   [options]="con"
                   [(ngModel)]="model.consumables2[i]"
-                  (onChange)="onConsumableChange()"
+                  (valueChange)="onConsumableChange()"
                   [showClear]="true"
                   placeholder="Nenhuma"
                   scrollHeight="300px"
                 >
-                  <ng-template let-option pTemplate="selectedItem">
+                  <ng-template let-option appTemplate="selectedItem">
                     <ng-container [ngTemplateOutlet]="consumableOption" [ngTemplateOutletContext]="{ $implicit: option }"></ng-container>
                   </ng-template>
-                  <ng-template let-option pTemplate="item">
+                  <ng-template let-option appTemplate="item">
                     <ng-container [ngTemplateOutlet]="consumableOption" [ngTemplateOutletContext]="{ $implicit: option }"></ng-container>
                   </ng-template>
-                </p-dropdown>
+                </app-ui-dropdown>
               </div>
             </section>
 
@@ -756,52 +748,52 @@
                 <div>
                   <span class="calc-field-label">Poção principal</span>
                   <div class="joined_field consumable-picker-field consumable-aspd-field">
-                    <p-dropdown
+                    <app-ui-dropdown
                       [autoDisplayFirst]="false"
                       [resetFilterOnHide]="true"
                       [options]="aspdPotionList"
                       [(ngModel)]="model.aspdPotion"
-                      (onChange)="onConsumableChange()"
+                      (valueChange)="onConsumableChange()"
                       [showClear]="true"
                       placeholder="Nenhuma"
                       scrollHeight="300px"
                     >
-                      <ng-template let-option pTemplate="selectedItem">
+                      <ng-template let-option appTemplate="selectedItem">
                         <ng-container [ngTemplateOutlet]="consumableOption" [ngTemplateOutletContext]="{ $implicit: option }"></ng-container>
                       </ng-template>
-                      <ng-template let-option pTemplate="item">
+                      <ng-template let-option appTemplate="item">
                         <ng-container [ngTemplateOutlet]="consumableOption" [ngTemplateOutletContext]="{ $implicit: option }"></ng-container>
                       </ng-template>
-                    </p-dropdown>
+                    </app-ui-dropdown>
                   </div>
                 </div>
                 <div>
                   <span class="calc-field-label">Efeitos adicionais</span>
-                  <p-listbox
+                  <app-ui-listbox
                     [options]="aspdPotionList2"
                     [(ngModel)]="model.aspdPotions"
                     [multiple]="true"
                     [metaKeySelection]="false"
-                    (onChange)="onConsumableChange()"
+                    (valueChange)="onConsumableChange()"
                   >
-                    <ng-template let-item pTemplate="item">
+                    <ng-template let-item appTemplate="item">
                       <ng-container [ngTemplateOutlet]="consumableOption" [ngTemplateOutletContext]="{ $implicit: item }"></ng-container>
                     </ng-template>
-                  </p-listbox>
+                  </app-ui-listbox>
                 </div>
               </div>
             </section>
           </div>
         </div>
-      </p-accordionTab>
+      </app-ui-accordion-tab>
 
-      <p-accordionTab header="Habilidades" class="select_skill">
+      <app-ui-accordion-tab header="Habilidades" class="select_skill">
         <div class="calc-panel skill-panel">
           <ng-template #sharedSkillRow let-skill="skill" let-i="index">
             <div class="skill-control-row" [ngSwitch]="skill.inputType">
               <span
                 class="skill-control-label"
-                [pTooltip]="buffTooltip(skill, skill.inputType === 'dropdown' ? model.skillBuffs[i] : undefined)"
+                [appTooltip]="buffTooltip(skill, skill.inputType === 'dropdown' ? model.skillBuffs[i] : undefined)"
                 [escape]="false"
                 tooltipPosition="top"
                 [showDelay]="400"
@@ -818,22 +810,22 @@
                 >
                 <span *ngIf="!skill.icon" class="skill_label_text">{{ skill.label }}</span>
               </span>
-              <p-dropdown
+              <app-ui-dropdown
                 *ngSwitchCase="'dropdown'"
                 [autoDisplayFirst]="false"
                 [resetFilterOnHide]="true"
                 [options]="skill.dropdown"
                 [(ngModel)]="model.skillBuffs[i]"
-                (onChange)="onSkillBuffChange(i)"
+                (valueChange)="onSkillBuffChange(i)"
                 [styleClass]="model.skillBuffs[i] ? '' : 'skill-dropdown-empty'"
                 scrollHeight="380px"
-              ></p-dropdown>
-              <p-selectButton
+              ></app-ui-dropdown>
+              <app-ui-select-button
                 *ngSwitchDefault
                 [options]="skill.dropdown"
                 [(ngModel)]="model.skillBuffs[i]"
                 (ngModelChange)="onSkillBuffChange(i)"
-              ></p-selectButton>
+              ></app-ui-select-button>
             </div>
           </ng-template>
 
@@ -841,7 +833,7 @@
             <div class="skill-control-row" [ngSwitch]="skill.inputType">
               <span
                 class="skill-control-label"
-                [pTooltip]="buffTooltip(skill, skill.inputType === 'dropdown' ? model.activeSkills[i] : undefined)"
+                [appTooltip]="buffTooltip(skill, skill.inputType === 'dropdown' ? model.activeSkills[i] : undefined)"
                 [escape]="false"
                 tooltipPosition="top"
                 [showDelay]="400"
@@ -858,26 +850,26 @@
                 >
                 <span *ngIf="!skill.icon" class="skill_label_text">{{ skill.label }}</span>
               </span>
-              <p-dropdown
+              <app-ui-dropdown
                 *ngSwitchCase="'dropdown'"
                 [autoDisplayFirst]="false"
                 [resetFilterOnHide]="true"
                 [options]="skill.dropdown"
                 [(ngModel)]="model.activeSkills[i]"
-                (onChange)="onSkillClassChange(i)"
+                (valueChange)="onSkillClassChange(i)"
                 [styleClass]="model.activeSkills[i] ? '' : 'skill-dropdown-empty'"
                 scrollHeight="380px"
               >
-                <ng-template let-option pTemplate="selectedItem">
+                <ng-template let-option appTemplate="selectedItem">
                   <div class="flex align-items-center gap-1">
                     <img *ngIf="option?.icon" [src]="option.icon | iconUrl: 'skill'" alt="" class="skill_icon" />
                     <span>{{ option?.label }}</span>
                   </div>
                 </ng-template>
-                <ng-template let-option pTemplate="item">
+                <ng-template let-option appTemplate="item">
                   <div
                     class="flex align-items-center gap-1"
-                    [pTooltip]="skillOptionTooltip(option)"
+                    [appTooltip]="skillOptionTooltip(option)"
                     [escape]="false"
                     tooltipPosition="left"
                     [showDelay]="400"
@@ -887,13 +879,13 @@
                     <span>{{ option.label }}</span>
                   </div>
                 </ng-template>
-              </p-dropdown>
-              <p-selectButton
+              </app-ui-dropdown>
+              <app-ui-select-button
                 *ngSwitchDefault
                 [options]="skill.dropdown"
                 [(ngModel)]="model.activeSkills[i]"
                 (ngModelChange)="onSkillClassChange(i)"
-              ></p-selectButton>
+              ></app-ui-select-button>
             </div>
           </ng-template>
 
@@ -909,7 +901,7 @@
             <div *ngFor="let skill of passiveSkills; let i = index" class="skill-control-row" [ngSwitch]="skill.inputType">
               <span
                 class="skill-control-label"
-                [pTooltip]="buffTooltip(skill)"
+                [appTooltip]="buffTooltip(skill)"
                 [escape]="false"
                 tooltipPosition="top"
                 [showDelay]="400"
@@ -926,22 +918,22 @@
                 >
                 <span *ngIf="!skill.icon" class="skill_label_text">{{ skill.label }}</span>
               </span>
-              <p-dropdown
+              <app-ui-dropdown
                 *ngSwitchCase="'dropdown'"
                 [autoDisplayFirst]="false"
                 [resetFilterOnHide]="true"
                 [options]="skill.dropdown"
                 [(ngModel)]="model.passiveSkills[i]"
-                (onChange)="onSkillClassChange()"
+                (valueChange)="onSkillClassChange()"
                 [styleClass]="model.passiveSkills[i] ? '' : 'skill-dropdown-empty'"
                 scrollHeight="380px"
-              ></p-dropdown>
-              <p-selectButton
+              ></app-ui-dropdown>
+              <app-ui-select-button
                 *ngSwitchDefault
                 [options]="skill.dropdown"
                 [(ngModel)]="model.passiveSkills[i]"
                 (ngModelChange)="onSkillClassChange()"
-              ></p-selectButton>
+              ></app-ui-select-button>
             </div>
           </section>
 
@@ -962,24 +954,24 @@
             </ng-container>
           </section>
         </div>
-      </p-accordionTab>
+      </app-ui-accordion-tab>
 
-      <p-accordionTab header="PVP">
+      <app-ui-accordion-tab header="PVP">
         <div class="grid grid-nogutter battle_summary">
           <div class="col-12">
             <div class="hud-selectors-row">
               <!-- Mode -->
               <div class="hud-selectors-col">
-                <p-selectButton
+                <app-ui-select-button
                   [options]="pvpModeOptions"
                   [(ngModel)]="pvpMode"
                   optionLabel="label"
                   optionValue="value"
-                  (onChange)="calculatePvp()"
+                  (valueChange)="calculatePvp()"
                 >
-                  <ng-template let-item pTemplate="item">
+                  <ng-template let-item appTemplate="item">
                     <span
-                      [pTooltip]="item.tooltip"
+                      [appTooltip]="item.tooltip"
                       [escape]="false"
                       tooltipPosition="top"
                       [showDelay]="300"
@@ -988,13 +980,13 @@
                       >{{ item.label }}</span
                     >
                   </ng-template>
-                </p-selectButton>
+                </app-ui-select-button>
               </div>
 
               <!-- Target (saved simulation) -->
               <div class="hud-selectors-col">
-                <div class="p-inputgroup">
-                  <p-dropdown
+                <div class="ui-inputgroup">
+                  <app-ui-dropdown
                     inputId="pvpTargetHud"
                     [autoDisplayFirst]="false"
                     [resetFilterOnHide]="true"
@@ -1008,8 +1000,8 @@
                     placeholder="Selecione um alvo salvo"
                     [showClear]="true"
                     [(ngModel)]="selectedPvpTargetId"
-                    (onChange)="calculatePvp()"
-                  ></p-dropdown>
+                    (valueChange)="calculatePvp()"
+                  ></app-ui-dropdown>
                 </div>
               </div>
             </div>
@@ -1063,16 +1055,16 @@
             ></app-battle-hud>
           </div>
         </div>
-      </p-accordionTab>
+      </app-ui-accordion-tab>
 
-      <p-accordionTab header="Batalha">
+      <app-ui-accordion-tab header="Batalha">
         <div class="grid grid-nogutter battle_summary">
           <div class="col-12">
             <div class="hud-selectors-row">
               <!-- Monster -->
               <div class="hud-selectors-col">
                 <div class="joined_field battle-target-field">
-                  <p-dropdown
+                  <app-ui-dropdown
                     inputId="monsterOpponentHud"
                     [autoDisplayFirst]="false"
                     [resetFilterOnHide]="true"
@@ -1084,14 +1076,14 @@
                     scrollHeight="400px"
                     placeholder="Monstro"
                     [(ngModel)]="selectedMonster"
-                    (onChange)="onMonsterChange()"
+                    (valueChange)="onMonsterChange()"
                   >
-                    <ng-template let-group pTemplate="group">
+                    <ng-template let-group appTemplate="group">
                       <div class="flex align-items-center font-bold dropdown_monster_group_label">
                         <span>{{ group.label }}</span>
                       </div>
                     </ng-template>
-                  </p-dropdown>
+                  </app-ui-dropdown>
                 </div>
               </div>
 
@@ -1137,14 +1129,14 @@
             ></app-battle-hud>
           </div>
         </div>
-      </p-accordionTab>
+      </app-ui-accordion-tab>
 
-      <p-accordionTab header="Auto-conjuração">
+      <app-ui-accordion-tab header="Auto-conjuração">
         <div class="grid grid-nogutter battle_summary">
           <div class="col-12">
             <div class="auto-cast-beta-alert" role="status">
               <div class="auto-cast-beta-copy">
-                <i class="pi pi-info-circle" aria-hidden="true"></i>
+                <app-icon aria-hidden="true" name="info-circle"></app-icon>
                 <div class="auto-cast-beta-text">
                   <b>Auto-conjuração está em teste beta.</b>
                   <span>Encontrou dano, chance ou ativações diferentes do jogo? Conte para a gente.</span>
@@ -1152,19 +1144,19 @@
               </div>
               <div class="auto-cast-beta-actions">
                 <a
-                  pButton
-                  class="p-button-sm p-button-success"
-                  icon="pi pi-comment"
+                  appButton
+                  class="ui-button-sm ui-button-success"
+                  icon="comment"
                   label="Bug ou sugestão"
                   [href]="autoCastIssuesReportUrl"
                   target="_blank"
                   rel="noreferrer noopener"
                 ></a>
                 <button
-                  pButton
+                  appButton
                   type="button"
-                  class="p-button-sm p-button-warning"
-                  icon="pi pi-upload"
+                  class="ui-button-sm ui-button-warning"
+                  icon="upload"
                   label="Fórmula ou cálculo"
                   (click)="openAutoCastFormulaReport()"
                 ></button>
@@ -1175,7 +1167,7 @@
             <div class="hud-selectors-row">
               <div class="hud-selectors-col">
                 <div class="joined_field battle-target-field">
-                  <p-dropdown
+                  <app-ui-dropdown
                     inputId="monsterOpponentAutoCast"
                     [autoDisplayFirst]="false"
                     [resetFilterOnHide]="true"
@@ -1187,14 +1179,14 @@
                     scrollHeight="400px"
                     placeholder="Monstro"
                     [(ngModel)]="selectedMonster"
-                    (onChange)="onMonsterChange()"
+                    (valueChange)="onMonsterChange()"
                   >
-                    <ng-template let-group pTemplate="group">
+                    <ng-template let-group appTemplate="group">
                       <div class="flex align-items-center font-bold dropdown_monster_group_label">
                         <span>{{ group.label }}</span>
                       </div>
                     </ng-template>
-                  </p-dropdown>
+                  </app-ui-dropdown>
                 </div>
               </div>
             </div>
@@ -1244,9 +1236,9 @@
             ></app-auto-cast-hud>
           </div>
         </div>
-      </p-accordionTab>
+      </app-ui-accordion-tab>
 
-      <p-accordionTab header="Bônus de Habilidade / Multiplicadores">
+      <app-ui-accordion-tab header="Bônus de Habilidade / Multiplicadores">
         <app-misc-detail
           [elementTable]="elementTable"
           [raceTable]="raceTable"
@@ -1258,13 +1250,13 @@
           [isComparing]="isComparing"
           (valueClick)="showBonusBreakdown($event)"
         ></app-misc-detail>
-      </p-accordionTab>
-      <p-accordionTab header="Resumo de Penetração">
+      </app-ui-accordion-tab>
+      <app-ui-accordion-tab header="Resumo de Penetração">
         <app-misc-detail [elementTable]="[]" [raceTable]="peneRaceTable" [sizeTable]="[]" [classTable]="peneClassTable" [skillMultiplierTable]="[]" [isPene]="true" [isComparing]="isComparing" (valueClick)="showBonusBreakdown($event)"></app-misc-detail>
-      </p-accordionTab>
+      </app-ui-accordion-tab>
 
       <!-- Hidden for now (code kept): flip *ngIf back to true to restore the "Resumo" tab. -->
-      <p-accordionTab header="Resumo" *ngIf="false">
+      <app-ui-accordion-tab header="Resumo" *ngIf="false">
         <div class="grid grid-nogutter" style="overflow: auto">
           <div class="col-6 json_display">
             <pre [innerHTML]="modelSummary | prettyjson: [true, 3]"></pre>
@@ -1274,10 +1266,10 @@
             <pre [innerHTML]="totalSummary | prettyjson: [true, 3]"></pre>
           </div>
         </div>
-      </p-accordionTab>
+      </app-ui-accordion-tab>
 
       <!-- Hidden for now (code kept): flip *ngIf back to true to restore the "Resumo de Equipamentos" tab. -->
-      <p-accordionTab header="Resumo de Equipamentos" *ngIf="false">
+      <app-ui-accordion-tab header="Resumo de Equipamentos" *ngIf="false">
         <div class="grid grid-nogutter">
           <div class="col-6 json_display">
             <pre [innerHTML]="itemSummary | prettyjson: [true, 3]"></pre>
@@ -1286,66 +1278,66 @@
             <pre [innerHTML]="itemSummary2 | prettyjson: [true, 3]"></pre>
           </div>
         </div>
-      </p-accordionTab>
+      </app-ui-accordion-tab>
 
-      <p-accordionTab header="Descrições dos Itens">
+      <app-ui-accordion-tab header="Descrições dos Itens">
         <div class="item-description-panel">
           <aside class="item-description-sidebar">
             <div class="calc-section-heading"><span>Servidor</span></div>
             <div class="item-description-server">
-              <p-dropdown
+              <app-ui-dropdown
                 [options]="shopServerOptions"
                 [(ngModel)]="selectedShopServer"
                 optionLabel="label"
                 optionValue="value"
                 styleClass="w-full"
-                (onChange)="onSelectShopServer()"
-              ></p-dropdown>
+                (valueChange)="onSelectShopServer()"
+              ></app-ui-dropdown>
             </div>
 
             <div class="item_label_compare" *ngIf="isEnableCompare && equipCompareItems?.length">
               <div class="calc-section-heading item-description-heading">
                 <span>Comparação</span>
               </div>
-              <p-listbox
+              <app-ui-listbox
                 styleClass="item-description-list"
                 [options]="equipCompareItems"
                 [(ngModel)]="selectedCompareItemDesc"
                 [metaKeySelection]="false"
-                (onChange)="onSelectItemDescription(true)"
+                (valueChange)="onSelectItemDescription(true)"
               >
-                <ng-template let-item pTemplate="item">
+                <ng-template let-item appTemplate="item">
                   <div class="flex gap-1 item_template">
                     <img [src]="item.id | iconUrl: 'item'" alt="" class="item_img" />
                     <div class="text_ellips">{{ item.label }}</div>
                   </div>
                 </ng-template>
-              </p-listbox>
+              </app-ui-listbox>
             </div>
 
             <div class="calc-section-heading item-description-heading">
               <span>Equipamentos</span>
             </div>
-            <p-listbox
+            <app-ui-listbox
               styleClass="item-description-list"
               [options]="equipItems"
               [(ngModel)]="selectedItemDesc"
               [metaKeySelection]="false"
-              (onChange)="onSelectItemDescription()"
+              (valueChange)="onSelectItemDescription()"
             >
-              <ng-template let-item pTemplate="item">
+              <ng-template let-item appTemplate="item">
                 <div class="flex gap-1 item_template item_label_{{ item.value }}" style="background-color: var(--border-radius)">
                   <img [src]="item.id | iconUrl: 'item'" alt="" class="item_img" />
                   <div class="text_ellips">{{ item.label }}</div>
                 </div>
               </ng-template>
-            </p-listbox>
+            </app-ui-listbox>
           </aside>
 
           <section class="item-description-card">
             <div class="item-description-content">
               <div *ngIf="!itemId" class="item-description-empty">
-                <i class="pi pi-arrow-circle-left" style="font-size: 2.5rem"></i>
+                <app-icon style="font-size: 2.5rem" name="arrow-circle-left"></app-icon>
                 <p class="mt-3 mb-0">Selecione um item na lista ao lado para ver seus bônus e descrição.</p>
               </div>
               <ng-container *ngIf="itemId">
@@ -1354,7 +1346,7 @@
                   <div class="item-description-links">
                     <span *ngIf="items[itemId]?.custom">Item personalizado · ID {{ itemId }}</span>
                     <a *ngIf="!items[itemId]?.custom" [href]="divinePrideItemUrl" target="_blank" rel="noopener noreferrer">Item ID: {{ itemId }}</a>
-                    <a *ngIf="!items[itemId]?.custom" [href]="marketItemUrl" target="_blank" rel="noopener noreferrer"><i class="pi pi-shopping-cart"></i> Mercado</a>
+                    <a *ngIf="!items[itemId]?.custom" [href]="marketItemUrl" target="_blank" rel="noopener noreferrer"><app-icon name="shopping-cart"></app-icon> Mercado</a>
                   </div>
                 </div>
 
@@ -1376,20 +1368,18 @@
             </div>
           </section>
         </div>
-      </p-accordionTab>
-    </p-accordion>
+      </app-ui-accordion-tab>
+    </app-ui-accordion>
   </div>
 </div>
 
 <!-- Changing class: keep the build, or start over. Closing the dialog puts the picker back. -->
-<p-dialog
+<app-ui-dialog
   header="Trocar de classe"
   [(visible)]="showClassSwitch"
   [modal]="true"
-  [draggable]="false"
-  [resizable]="false"
   [closable]="true"
-  (onHide)="onClassSwitchHide()"
+  (closed)="onClassSwitchHide()"
   [style]="{ width: '520px', 'max-width': '92vw' }"
 >
   <ng-container *ngIf="pendingClassSwitch as swap">
@@ -1399,7 +1389,7 @@
 
     <div *ngIf="swap.losses.length as lost; else noLosses" class="class_switch_losses">
       <p class="m-0 mb-2">
-        <i class="pi pi-exclamation-triangle mr-2"></i>
+        <app-icon class="mr-2" name="exclamation-triangle"></app-icon>
         {{ lost === 1 ? 'Este item será removido' : 'Estes ' + lost + ' itens serão removidos' }}, porque {{ swap.toLabel }} não pode
         {{ lost === 1 ? 'usá-lo' : 'usá-los' }}:
       </p>
@@ -1421,22 +1411,21 @@
     </ng-template>
   </ng-container>
 
-  <ng-template pTemplate="footer">
-    <button pButton class="p-button-text" label="Cancelar" (click)="cancelClassSwitch()"></button>
-    <button pButton class="p-button-outlined" icon="pi pi-file" label="Começar do zero" (click)="confirmClassSwitch(false)"></button>
-    <button pButton class="p-button-success" icon="pi pi-check" label="Manter a build" (click)="confirmClassSwitch(true)"></button>
+  <ng-template appTemplate="footer">
+    <button appButton class="ui-button-text" label="Cancelar" (click)="cancelClassSwitch()"></button>
+    <button appButton class="ui-button-outlined" icon="file" label="Começar do zero" (click)="confirmClassSwitch(false)"></button>
+    <button appButton class="ui-button-success" icon="check" label="Manter a build" (click)="confirmClassSwitch(true)"></button>
   </ng-template>
-</p-dialog>
+</app-ui-dialog>
 
 <!-- Import a build from a Ragnarok replay (.rrf) or a share link -->
-<p-dialog
+<app-ui-dialog
   header="Importar build"
   [(visible)]="showReplayImport"
   [modal]="true"
   [dismissableMask]="true"
-  [draggable]="false"
   [style]="{ width: '480px' }"
-  (onHide)="onImportDialogHide()"
+  (closed)="onImportDialogHide()"
 >
   <ng-container *ngIf="!pendingImport; else importChoice">
     <div
@@ -1448,14 +1437,14 @@
       (click)="replayInput.click()"
       keyActivate
     >
-      <i class="pi pi-upload replay-dropzone-icon"></i>
+      <app-icon class="replay-dropzone-icon" name="upload"></app-icon>
       <p class="m-0">Arraste um arquivo <b>.rrf</b> aqui</p>
       <p class="my-2 text-sm">ou</p>
       <button
         type="button"
-        pButton
-        class="p-button-sm p-button-outlined"
-        icon="pi pi-folder-open"
+        appButton
+        class="ui-button-sm ui-button-outlined"
+        icon="folder-open"
         label="Selecionar arquivo"
         (click)="$event.stopPropagation(); replayInput.click()"
       ></button>
@@ -1465,7 +1454,7 @@
     <div class="import_divider"><span>ou cole um link</span></div>
     <div class="import_link">
       <input
-        pInputText
+        appInputText
         type="text"
         class="import_link_input"
         placeholder="Link do simulador (também aceita link curto)"
@@ -1476,16 +1465,16 @@
       />
       <button
         type="button"
-        pButton
-        class="p-button-sm import_link_button"
-        icon="pi pi-link"
+        appButton
+        class="ui-button-sm import_link_button"
+        icon="link"
         label="Importar link"
         [disabled]="replayBusy || !importLinkText.trim()"
         (click)="importShareLink()"
       ></button>
     </div>
 
-    <div *ngIf="replayBusy" class="mt-3 text-center"><i class="pi pi-spin pi-spinner mr-2"></i>Lendo build…</div>
+    <div *ngIf="replayBusy" class="mt-3 text-center"><app-icon class="mr-2" name="spinner"></app-icon>Lendo build…</div>
     <p class="mt-3 mb-0 text-sm" style="opacity: 0.7">
       Importa classe, nível, atributos base (FOR/AGI/VIT/INT/DES/SOR) e equipamentos (refino, grau, cartas e encantos) do replay.
       Os <b>talentos (POD/STA/SAB/FEI/CON/CRV)</b> vêm junto quando a gravação os traz: eles chegam num pacote que o servidor manda a
@@ -1509,9 +1498,9 @@
     <div class="import_choices">
       <button
         type="button"
-        pButton
-        class="p-button-sm import_choice"
-        icon="pi pi-refresh"
+        appButton
+        class="ui-button-sm import_choice"
+        icon="refresh"
         label="Substituir simulação atual"
         (click)="pickImportMode('replace')"
       ></button>
@@ -1519,9 +1508,9 @@
 
       <button
         type="button"
-        pButton
-        class="p-button-sm p-button-warning p-button-outlined import_choice"
-        icon="pi pi-arrows-h"
+        appButton
+        class="ui-button-sm ui-button-warning ui-button-outlined import_choice"
+        icon="arrows-h"
         label="Importar como comparação"
         [disabled]="!canImportAsComparison"
         (click)="pickImportMode('compare')"
@@ -1536,19 +1525,17 @@
     </div>
 
     <div class="flex justify-content-end mt-3">
-      <button type="button" pButton class="p-button-sm p-button-text" label="Cancelar" (click)="pickImportMode(null)"></button>
+      <button type="button" appButton class="ui-button-sm ui-button-text" label="Cancelar" (click)="pickImportMode(null)"></button>
     </div>
   </ng-template>
-</p-dialog>
+</app-ui-dialog>
 
 <!-- Save the current simulation under a name (browser localStorage) -->
-<p-dialog
+<app-ui-dialog
   header="Salvar simulação"
   [(visible)]="showSaveDialog"
   [modal]="true"
   [dismissableMask]="true"
-  [draggable]="false"
-  [resizable]="false"
   [style]="{ width: '380px', 'max-width': '92vw' }"
 >
   <div class="flex flex-column gap-2 pt-2">
@@ -1556,33 +1543,31 @@
     <input
       id="saveSimName"
       type="text"
-      pInputText
+      appInputText
       [value]="saveName"
       (input)="saveName = $any($event.target).value"
       (keyup.enter)="confirmSave()"
       placeholder="Ex.: Rune Knight Nv 200"
     />
   </div>
-  <ng-template pTemplate="footer">
-    <button pButton class="p-button-text" label="Cancelar" (click)="showSaveDialog = false"></button>
-    <button pButton class="p-button-success" icon="pi pi-save" label="Salvar" (click)="confirmSave()"></button>
+  <ng-template appTemplate="footer">
+    <button appButton class="ui-button-text" label="Cancelar" (click)="showSaveDialog = false"></button>
+    <button appButton class="ui-button-success" icon="save" label="Salvar" (click)="confirmSave()"></button>
   </ng-template>
-</p-dialog>
+</app-ui-dialog>
 
 <!-- Preview / load / delete saved simulations (paper-doll cards) -->
-<p-dialog
+<app-ui-dialog
   [(visible)]="showSavesDialog"
   [modal]="true"
   [dismissableMask]="true"
-  [draggable]="false"
-  [resizable]="false"
   [style]="{ width: '900px', 'max-width': '95vw' }"
   [contentStyle]="{ 'padding-top': '1rem' }"
 >
-  <ng-template pTemplate="header">
+  <ng-template appTemplate="header">
     <div class="flex align-items-center justify-content-between" style="width: 100%">
       <span class="text-xl font-medium">Simulações salvas</span>
-      <button pButton class="p-button-sm p-button-outlined mr-3" icon="pi pi-plus" label="Nova simulação" (click)="newSimulation()"></button>
+      <button appButton class="ui-button-sm ui-button-outlined mr-3" icon="plus" label="Nova simulação" (click)="newSimulation()"></button>
     </div>
   </ng-template>
 
@@ -1604,34 +1589,32 @@
           <div class="text-sm" style="opacity: 0.7">{{ classLabel(sim.classId) }} · Nv {{ sim.preset.level }}/{{ sim.preset.jobLevel }}</div>
         </div>
         <div class="flex gap-2 justify-content-center mt-auto">
-          <button pButton class="p-button-sm p-button-success" icon="pi pi-upload" label="Carregar" (click)="$event.stopPropagation(); loadSavedSim(sim)"></button>
-          <button pButton class="p-button-sm p-button-danger p-button-outlined" icon="pi pi-trash" aria-label="Excluir" (click)="deleteSavedSim(sim, $event)"></button>
+          <button appButton class="ui-button-sm ui-button-success" icon="upload" label="Carregar" (click)="$event.stopPropagation(); loadSavedSim(sim)"></button>
+          <button appButton class="ui-button-sm ui-button-danger ui-button-outlined" icon="trash" aria-label="Excluir" (click)="deleteSavedSim(sim, $event)"></button>
         </div>
       </div>
     </div>
   </div>
-</p-dialog>
+</app-ui-dialog>
 
 <!-- Sharable link with the build embedded in the URL -->
-<p-dialog
+<app-ui-dialog
   header="Compartilhar simulação"
   [(visible)]="showShareDialog"
   [modal]="true"
   [dismissableMask]="true"
-  [draggable]="false"
-  [resizable]="false"
   [style]="{ width: '480px', 'max-width': '94vw' }"
 >
   <p class="mt-0 mb-2 text-sm" style="opacity: 0.8">Link com a simulação embutida — quem abrir verá exatamente esta build.</p>
-  <div class="p-inputgroup">
-    <input type="text" pInputText readonly [value]="shareShortening ? 'Encurtando o link…' : shareUrl" (focus)="$any($event.target).select()" />
+  <div class="ui-inputgroup">
+    <input type="text" appInputText readonly [value]="shareShortening ? 'Encurtando o link…' : shareUrl" (focus)="$any($event.target).select()" />
     <button
-      pButton
-      [icon]="shareShortening ? 'pi pi-spinner pi-spin' : 'pi pi-copy'"
-      class="p-button-success"
+      appButton
+      [icon]="shareShortening ? 'spinner' : 'copy'"
+      class="ui-button-success"
       aria-label="Copiar link"
       [disabled]="shareShortening"
       (click)="copyShareUrl()"
     ></button>
   </div>
-</p-dialog>
+</app-ui-dialog>

@@ -1,15 +1,13 @@
-<p-dialog
+<app-ui-dialog
   [visible]="visible"
   (visibleChange)="!$event && onHide()"
   [modal]="true"
-  [draggable]="false"
-  [resizable]="false"
   [style]="dialogStyle"
   [contentStyle]="{ maxHeight: '75vh' }"
 >
-  <ng-template pTemplate="header">
+  <ng-template appTemplate="header">
     <div class="flex align-items-center gap-2">
-      <i class="pi pi-heart-fill text-xl"></i>
+      <app-icon class="text-xl" name="heart-fill"></app-icon>
       <span class="text-xl font-medium">Ajude o simulador a acertar as contas</span>
     </div>
   </ng-template>
@@ -24,7 +22,7 @@
     o envio é recusado sem elas:
   </p>
   <div class="flex align-items-start gap-2 mb-3 p-3 border-round" style="background: var(--yellow-100); color: var(--yellow-900)">
-    <i class="pi pi-exclamation-triangle mt-1"></i>
+    <app-icon class="mt-1" name="exclamation-triangle"></app-icon>
     <div class="line-height-3">
       <b>1. No campo de treinamento</b> (<code>tra_fild</code>), <b>batendo nos dummies</b>. Os dummies têm DEF e RES zeradas, ficam
       parados e não revidam — é o único alvo cujos números são todos conhecidos. Em qualquer outro lugar o monstro tem defesas próprias e
@@ -39,8 +37,8 @@
     nome entra nas Novidades.
   </p>
 
-  <p-accordion>
-    <p-accordionTab header="1. Como abrir o gravador">
+  <app-ui-accordion>
+    <app-ui-accordion-tab header="1. Como abrir o gravador">
       <ul class="mt-0 line-height-3">
         <li>O gravador fica num botão dentro da <b>janela de informações do personagem</b>.</li>
         <li>Ele tem os botões <b>Início/Fim</b>, <b>Pausa</b> e <b>Opções</b>.</li>
@@ -48,11 +46,11 @@
         <li>O arquivo sai em <b>.rrf</b>, na pasta <b>Replay</b> de onde o jogo está instalado.</li>
       </ul>
       <a [href]="browikiUrl" target="_blank" rel="noreferrer noopener">Passo a passo completo no bROWiki →</a>
-    </p-accordionTab>
+    </app-ui-accordion-tab>
 
-    <p-accordionTab header="2. Antes de apertar Início — confira as Opções">
+    <app-ui-accordion-tab header="2. Antes de apertar Início — confira as Opções">
       <div class="flex align-items-start gap-2 mb-3 p-2 border-round" style="background: var(--yellow-100); color: var(--yellow-900)">
-        <i class="pi pi-exclamation-triangle mt-1"></i>
+        <app-icon class="mt-1" name="exclamation-triangle"></app-icon>
         <div class="line-height-3">
           A caixa <b>Skill</b> é o que põe a <b>árvore de habilidades</b> dentro do arquivo — sem ela não dá para conferir nada, e o envio
           é recusado. As caixas só podem ser mexidas <b>antes</b> de começar a gravar.
@@ -65,9 +63,9 @@
           Recomendamos <b>desmarcar</b> — nada da conferência depende do chat.
         </li>
       </ul>
-    </p-accordionTab>
+    </app-ui-accordion-tab>
 
-    <p-accordionTab header="3. O que fazer durante a gravação">
+    <app-ui-accordion-tab header="3. O que fazer durante a gravação">
       <p class="mt-0 line-height-3">
         Tudo numa <b>gravação só</b>. As trocas de equipamento ficam registradas com a hora, então dá para separar as fases depois — o que
         importa é comparar o mesmo personagem com e sem cada peça.
@@ -98,8 +96,8 @@
           não há como interpretar o que acontece fora dele.
         </li>
       </ul>
-    </p-accordionTab>
-  </p-accordion>
+    </app-ui-accordion-tab>
+  </app-ui-accordion>
 
   <!-- Drop the file (parsed and checked here, nothing leaves the browser yet) -->
   <div
@@ -113,21 +111,21 @@
     (keydown.enter)="replayInput.click()"
     tabindex="0"
   >
-    <i class="pi pi-upload replay-dropzone-icon"></i>
+    <app-icon class="replay-dropzone-icon" name="upload"></app-icon>
     <p class="m-0">Arraste sua gravação <b>.rrf</b> aqui</p>
     <p class="my-2 text-sm">ou</p>
     <button
       type="button"
-      pButton
-      class="p-button-sm p-button-outlined"
-      icon="pi pi-folder-open"
+      appButton
+      class="ui-button-sm ui-button-outlined"
+      icon="folder-open"
       label="Selecionar arquivo"
       (click)="$event.stopPropagation(); replayInput.click()"
     ></button>
     <input #replayInput type="file" accept=".rrf" hidden (change)="onInputChange($event)" />
   </div>
 
-  <div *ngIf="parsing" class="mt-3 text-center"><i class="pi pi-spin pi-spinner mr-2"></i>Conferindo a gravação…</div>
+  <div *ngIf="parsing" class="mt-3 text-center"><app-icon class="mr-2" name="spinner"></app-icon>Conferindo a gravação…</div>
 
   <!-- Rejected: say why, and what to change when recording again -->
   <div
@@ -136,7 +134,7 @@
     style="background: var(--red-100); color: var(--red-900)"
   >
     <div class="flex align-items-start gap-2">
-      <i class="pi pi-times-circle mt-1"></i>
+      <app-icon class="mt-1" name="times-circle"></app-icon>
       <div>
         <b>Essa gravação não serve.</b>
         <div class="mt-1">{{ bad.message }}</div>
@@ -176,16 +174,16 @@
 
       <div *ngIf="good.warnings.length" class="mt-2 p-2 border-round line-height-3" style="background: var(--yellow-100); color: var(--yellow-900)">
         <div *ngIf="good.warnings.includes('external-buffs')">
-          <i class="pi pi-exclamation-triangle mr-1"></i>A gravação tem <b>buffs de fora</b> ligados (Bênção, Agilidade, Bragi e
+          <app-icon class="mr-1" name="exclamation-triangle"></app-icon>A gravação tem <b>buffs de fora</b> ligados (Bênção, Agilidade, Bragi e
           parecidos). Ela ainda vai ser lida, mas eles inflam todos os números sem dizer em que etapa entraram — uma gravação sem eles
           vale bem mais.
         </div>
         <div *ngIf="good.warnings.includes('no-equip-change')">
-          <i class="pi pi-exclamation-triangle mr-1"></i>Você não trocou de equipamento durante a gravação. Ela ainda ajuda, mas a
+          <app-icon class="mr-1" name="exclamation-triangle"></app-icon>Você não trocou de equipamento durante a gravação. Ela ainda ajuda, mas a
           comparação fica bem mais fácil com as fases “sem equipamento / só arma / completo”.
         </div>
         <div *ngIf="good.warnings.includes('many-unknown-items')">
-          <i class="pi pi-exclamation-triangle mr-1"></i>Vários itens não estão no nosso banco. Se a gravação for mesmo do LATAM, ótimo —
+          <app-icon class="mr-1" name="exclamation-triangle"></app-icon>Vários itens não estão no nosso banco. Se a gravação for mesmo do LATAM, ótimo —
           é justamente o tipo de coisa que precisamos cadastrar.
         </div>
       </div>
@@ -214,7 +212,7 @@
           ></app-status-input>
         </div>
         <div *ngIf="traitsUntouched" class="mt-2 p-2 border-round line-height-3 text-sm" style="background: var(--yellow-100); color: var(--yellow-900)">
-          <i class="pi pi-exclamation-triangle mr-1"></i>Os seis talentos estão em zero. Preencha com os valores da sua janela de status —
+          <app-icon class="mr-1" name="exclamation-triangle"></app-icon>Os seis talentos estão em zero. Preencha com os valores da sua janela de status —
           uma gravação com talentos errados leva a conferência para o lado errado.
         </div>
       </div>
@@ -223,12 +221,12 @@
       <div class="grid">
         <div class="col-6">
           <label class="block mb-1 text-sm" for="helpImproveNick">Nick para os créditos</label>
-          <input pInputText id="helpImproveNick" class="w-full" maxlength="40" [(ngModel)]="nick" placeholder="como você quer ser citado" />
+          <input appInputText id="helpImproveNick" class="w-full" maxlength="40" [(ngModel)]="nick" placeholder="como você quer ser citado" />
         </div>
         <div class="col-6">
           <label class="block mb-1 text-sm" for="helpImproveDiscord">Discord</label>
           <input
-            pInputText
+            appInputText
             id="helpImproveDiscord"
             class="w-full"
             maxlength="60"
@@ -239,7 +237,7 @@
         <div class="col-12">
           <label class="block mb-1 text-sm" for="helpImproveNotes">O que você gravou / o que achou estranho (opcional)</label>
           <textarea
-            pInputTextarea
+            appInputTextarea
             id="helpImproveNotes"
             class="w-full"
             rows="3"
@@ -251,7 +249,7 @@
       </div>
 
       <div class="mt-2 flex align-items-start gap-2 p-2 border-round surface-100 line-height-3">
-        <p-checkbox [(ngModel)]="consent" [binary]="true" inputId="helpImproveConsent"></p-checkbox>
+        <app-ui-checkbox [(ngModel)]="consent" [binary]="true" inputId="helpImproveConsent"></app-ui-checkbox>
         <label for="helpImproveConsent" class="text-sm">
           Confirmo que esta gravação é do <b>RO LATAM</b> e autorizo o envio do arquivo para os servidores do LATAM Tools. Ela entra na
           <b>fila de conferência sem aparecer publicamente</b>. Se for aproveitada, pode virar um <b>teste no código</b>, que é aberto — e aí
@@ -265,10 +263,10 @@
 
       <div class="mt-3 flex justify-content-end">
         <button
-          pButton
-          class="p-button-success"
+          appButton
+          class="ui-button-success"
           [disabled]="!canSend"
-          [icon]="sending ? 'pi pi-spin pi-spinner' : 'pi pi-send'"
+          [icon]="sending ? 'spinner' : 'send'"
           [label]="sending ? 'Enviando…' : 'Enviar gravação'"
           (click)="send()"
         ></button>
@@ -279,7 +277,7 @@
   <!-- Sent -->
   <div *ngIf="sentId" class="mt-3 p-3 border-round line-height-3" style="background: var(--green-100); color: var(--green-900)">
     <div class="flex align-items-start gap-2">
-      <i class="pi pi-check-circle mt-1"></i>
+      <app-icon class="mt-1" name="check-circle"></app-icon>
       <div>
         <b>Recebido, obrigado!</b>
         <div class="mt-1">
@@ -287,14 +285,14 @@
           um.
         </div>
         <div class="mt-1 text-sm">Código do envio: <code>{{ sentId }}</code></div>
-        <button pButton class="p-button-sm p-button-text mt-2" icon="pi pi-plus" label="Enviar outra" (click)="startAnother()"></button>
+        <button appButton class="ui-button-sm ui-button-text mt-2" icon="plus" label="Enviar outra" (click)="startAnother()"></button>
       </div>
     </div>
   </div>
 
-  <ng-template pTemplate="footer">
+  <ng-template appTemplate="footer">
     <div class="flex align-items-center justify-content-end w-full">
-      <button pButton class="p-button-text" label="Fechar" (click)="onHide()"></button>
+      <button appButton class="ui-button-text" label="Fechar" (click)="onHide()"></button>
     </div>
   </ng-template>
-</p-dialog>
+</app-ui-dialog>

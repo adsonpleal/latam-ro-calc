@@ -13,7 +13,7 @@ import { DamageFormulaCalcRow, DamageFormulaGraph, DamageFormulaNode } from '../
 /** Neutro has no colour of its own; everything else gets the theme's property_* class. */
 const ELEMENT_COLOR_CLASSES: Set<string> = new Set(Object.values(ElementType).filter((e) => e !== ElementType.Neutral));
 
-/** `styleClass` for the element p-tag. Shared so the HUD and the rotation rows can't drift. */
+/** `styleClass` for the element ui-tag. Shared so the HUD and the rotation rows can't drift. */
 export function elementTagClass(elementUpper: string | undefined): string {
   return elementUpper && ELEMENT_COLOR_CLASSES.has(elementUpper) ? 'property_' + elementUpper : 'el-tag-neutral';
 }

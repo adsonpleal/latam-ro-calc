@@ -9,6 +9,8 @@ import { ItemDescriptionStore } from '../../../../api-services/item-description.
 import { itemDescPopoverHtml, skillDescHtml } from '../../../../utils/pretty-item-desc';
 import { ItemModel } from '../../../../models/item.model';
 import { dmgTypeLabel } from '../../../../utils/dmg-type-label';
+import { UiPopoverComponent } from '../../../../ui/popover.component';
+import { UiSelectComponent } from '../../../../ui/select.component';
 
 @Component({
   selector: 'app-auto-cast-hud',
@@ -46,6 +48,12 @@ export class AutoCastHudComponent {
   sourceSide: 'current' | 'compare' = 'current';
   private readonly critRateRowCache = new CritRateRowCache();
 
+  // These view models are rebuilt during change detection. Keep their DOM anchors
+  // alive while a popover or tooltip is open, including values nested in each row.
+  trackSource(_: number, source: { key: string }): string { return source.key; }
+  trackDetail(index: number): number { return index; }
+  trackDamageRange(_: number, range: { kind: string }): string { return range.kind; }
+
   private overlayAnchor(target: EventTarget | null | undefined, event: Event): any {
     const rawAnchor: any = target;
     const candidate = rawAnchor?.nativeElement ?? rawAnchor;
@@ -66,29 +74,13 @@ export class AutoCastHudComponent {
     return document.querySelector<HTMLElement>(selector) ?? fallback;
   }
 
-  private toggleOverlay(panel: any, event: Event, target?: EventTarget | null): void {
+  private toggleOverlay(panel: UiPopoverComponent, event: Event, target?: EventTarget | null): void {
     const anchor = this.overlayAnchor(target, event);
-    const targetRect = anchor?.getBoundingClientRect?.();
     this.changeDetector.detectChanges();
-    const align = () => {
-      const container = panel?.container as HTMLElement;
-      if (!container || !targetRect) return;
-      const overlay = container.getBoundingClientRect();
-      let left = targetRect.left + window.scrollX;
-      if (targetRect.left + overlay.width > window.innerWidth) left = Math.max(window.scrollX, targetRect.right + window.scrollX - overlay.width);
-      const flip = targetRect.bottom + overlay.height > window.innerHeight;
-      const top = flip ? targetRect.top + window.scrollY - overlay.height : targetRect.bottom + window.scrollY;
-      container.style.left = `${left}px`;
-      container.style.top = `${Math.max(window.scrollY, top)}px`;
-      container.style.setProperty('--overlayArrowLeft', `${Math.max(10, targetRect.left + targetRect.width / 2 + window.scrollX - left - 10)}px`);
-      container.classList.toggle('p-overlaypanel-flipped', flip);
-      container.style.visibility = 'visible';
-    };
     const showAtAnchor = () => {
       panel?.show(event, anchor);
-      if (panel) panel.target = anchor;
       if (panel?.container) panel.container.style.visibility = 'hidden';
-      requestAnimationFrame(align);
+      requestAnimationFrame(() => panel?.align());
     };
     if (panel?.overlayVisible) {
       panel.hide();
@@ -109,26 +101,8 @@ export class AutoCastHudComponent {
     return source ? this.uiSource(source) : null;
   }
   slotOptions(slot: ConfigurableAutoCastSlot) { return slot.options; }
-  alignSkillPicker(picker: any): void {
-    requestAnimationFrame(() => {
-      const panel = picker?.overlayViewChild?.overlayViewChild?.nativeElement as HTMLElement | undefined;
-      const host = picker?.containerViewChild?.nativeElement as HTMLElement | undefined;
-      if (!panel || !host) return;
-      const input = panel.querySelector<HTMLInputElement>('.p-dropdown-filter');
-      if (input) {
-        input.setAttribute('type', 'search');
-        input.setAttribute('name', 'auto-cast-skill-filter');
-        input.setAttribute('data-lpignore', 'true');
-        input.setAttribute('data-1p-ignore', '');
-        input.setAttribute('data-bwignore', 'true');
-        input.setAttribute('data-form-type', 'other');
-      }
-      const hostRect = host.getBoundingClientRect();
-      const width = Math.min(336, window.innerWidth - 16);
-      panel.style.width = `${width}px`;
-      panel.style.minWidth = `${width}px`;
-      panel.style.left = `${Math.max(window.scrollX + 8, hostRect.right + window.scrollX - width)}px`;
-    });
+  alignSkillPicker(picker: UiSelectComponent): void {
+    picker.setPanelWidth(Math.min(336, window.innerWidth - 16), true);
   }
   selectedSkill(slot: ConfigurableAutoCastSlot): number | undefined {
     const selections = this.showingComparisonSources ? this.model2?.autoCastSelections : this.model?.autoCastSelections;

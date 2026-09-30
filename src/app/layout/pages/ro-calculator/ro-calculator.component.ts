@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ConfirmationService, MessageService, SelectItemGroup } from 'primeng/api';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { UiConfirmationService as ConfirmationService, UiMessageService as MessageService } from 'src/app/ui/notifications';
+import { SelectItemGroup } from 'src/app/ui/value-control';
+import { IconName } from 'src/app/ui/icon-names';
 import { Subject, Subscription, debounceTime, finalize, forkJoin, mergeMap, switchMap, take, tap } from 'rxjs';
 import { PresetModel } from 'src/app/api-services';
 import { RoService } from 'src/app/api-services/ro.service';
@@ -167,7 +168,7 @@ interface ClassModel extends Partial<Record<ItemTypeEnum, number>> {
   selector: 'app-ro-calculator',
   templateUrl: './ro-calculator.component.html',
   styleUrls: ['./ro-calculator.component.css'],
-  providers: [ConfirmationService, MessageService, DialogService],
+  providers: [ConfirmationService, MessageService],
 })
 export class RoCalculatorComponent implements OnInit, OnDestroy {
   @ViewChild(CustomItemStudioComponent) customStudio?: CustomItemStudioComponent;
@@ -190,7 +191,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
   /**
    * One single indicator for the whole boot: download the data, build the preset and
    * run the first calculation. It used to be three loading screens in a row (splash,
-   * the p-blockUI mask, each panel's spinner), which gave the impression the page was
+   * the ui-blockUI mask, each panel's spinner), which gave the impression the page was
    * loading several times over.
    *
    * It only switches off once both ends finish — the ngOnInit chain and the initial
@@ -581,8 +582,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     return this as unknown as SlotListBag;
   }
 
-  ref: DynamicDialogRef | undefined;
-
   equipableItems: (DropdownModel & { id: number; position: string; })[] = [];
   offensiveSkills: (DropdownModel & { icon?: number })[] = [];
 
@@ -910,9 +909,6 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.finishBoot();
     for (const ob of this.allSubs) {
       ob?.unsubscribe();
-    }
-    if (this.ref) {
-      this.ref.close();
     }
   }
 
@@ -1574,12 +1570,12 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
     this.model2 = { rawOptionTxts: [] };
   }
 
-  private waitConfirm(message: string, icon?: string) {
+  private waitConfirm(message: string, icon?: IconName) {
     return new Promise((res) => {
       this.confirmationService.confirm({
         message: message,
         header: 'Confirmação',
-        icon: icon || 'pi pi-exclamation-triangle',
+        icon: icon || 'exclamation-triangle',
         accept: () => {
           res(true);
         },
@@ -3645,7 +3641,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   /** Popover for a single dropdown option that is itself a skill — the summons behind
    *  "Espírito Elemental", whose group label names no skill of its own. Empty when the
-   *  option carries no skill icon, so PrimeNG shows no box at all rather than an empty one. */
+   *  option carries no skill icon, so the dropdown shows no box at all rather than an empty one. */
   skillOptionTooltip(option: { icon?: number }): string {
     return skillDescHtml(option?.icon);
   }
@@ -4039,7 +4035,7 @@ export class RoCalculatorComponent implements OnInit, OnDestroy {
 
   /**
    * "Cancelar", the X and Escape all land here: the picker goes back to the class that is
-   * actually loaded. Idempotent, because PrimeNG's own hide event comes back through it.
+   * actually loaded. Idempotent, because the dialog close event comes back through it.
    */
   cancelClassSwitch() {
     if (this.pendingClassSwitch) this.model.class = this.pendingClassSwitch.fromClass;

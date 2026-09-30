@@ -3,7 +3,7 @@
 
      `tooltipStyleClass` stays a STATIC attribute: ItemDescTooltipHoverDirective and
      ItemDescTooltipFitDirective both attach by matching
-     `[pTooltip][tooltipStyleClass="item_desc_tooltip"]`, and a binding does not satisfy an
+     `[appTooltip][tooltipStyleClass="item_desc_tooltip"]`, and a binding does not satisfy an
      attribute selector with a value — bind it and the popover silently loses its grace
      period (so it can no longer be hovered, scrolled or copied from) and its viewport
      fitting. A chip with no description passes an empty string, which shows nothing. -->
@@ -16,7 +16,7 @@
   [class.eq-chip--compare]="compare"
   [class.eq-chip--element]="!!view.elementClass"
   [ngClass]="view.elementClass"
-  [pTooltip]="view.descId && items ? (view.descId | itemDescTooltip: items : itemDescriptions.version) : ''"
+  [appTooltip]="view.descId && items ? (view.descId | itemDescTooltip: items : itemDescriptions.version) : ''"
   [escape]="false"
   tooltipStyleClass="item_desc_tooltip"
   tooltipPosition="top"
@@ -28,16 +28,13 @@
        gets a plain tooltip of its own — on the inner span, so it never competes with the
        description popover on the button.
 
-       Two spans rather than one with an empty binding: a pTooltip that is always '' still
-       instantiates a PrimeNG Tooltip, and every Tooltip on the page holds a document
-       keydown listener for its whole life. A card grid runs to hundreds of chips, and that
-       population is exactly what made Escape cost half a second (OverlayEscapeService). -->
-  <span *ngIf="!view.descId" class="eq-chip__text" [pTooltip]="view.text" tooltipPosition="top" [showDelay]="350">{{ view.text }}</span>
+       Separate spans keep the plain label tooltip off items with a description. -->
+  <span *ngIf="!view.descId" class="eq-chip__text" [appTooltip]="view.text" tooltipPosition="top" [showDelay]="350">{{ view.text }}</span>
   <span *ngIf="view.descId" class="eq-chip__text">{{ view.text }}</span>
   <span
     *ngIf="view.preRelease"
     class="pre_release_tag"
-    pTooltip="Prévia: item ainda não lançado no LATAM — nome e descrição em inglês, do kRO/iRO (divine-pride)."
+    appTooltip="Prévia: item ainda não lançado no LATAM — nome e descrição em inglês, do kRO/iRO (divine-pride)."
     tooltipPosition="top"
     [showDelay]="300"
     >Prévia</span
@@ -51,7 +48,7 @@
   type="button"
   class="eq-chip__clear"
   [attr.aria-label]="'Remover ' + view.text"
-  pTooltip="Remover"
+  appTooltip="Remover"
   tooltipPosition="top"
   [showDelay]="300"
   (click)="clear.emit()"
@@ -63,10 +60,10 @@
 <button
   *ngIf="view.descId && items?.[view.descId]?.custom"
   type="button"
-  class="eq-chip__custom p-tag"
+  class="eq-chip__custom ui-tag"
   [class.eq-chip__custom--primary]="view.primary"
   [attr.aria-label]="'Editar item customizado: ' + view.text"
-  pTooltip="Item customizado. Clique para editar."
+  appTooltip="Item customizado. Clique para editar."
   tooltipPosition="top"
   [showDelay]="300"
   (click)="edit.emit(view.descId)"

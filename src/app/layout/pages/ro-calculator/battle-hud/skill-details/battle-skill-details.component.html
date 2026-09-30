@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-<p-overlayPanel #detailsPanel styleClass="rot-details-panel shared-skill-details">
+<app-ui-popover #detailsPanel styleClass="rot-details-panel shared-skill-details">
   <div class="ptitle">{{ entry?.isBasic ? 'Ataque básico' : 'Detalhes da habilidade' }}</div>
 
   <div class="pd-head" *ngIf="entry as e">
@@ -7,14 +7,14 @@
     <span class="pd-name">{{ e.name }}<span *ngIf="e.levelLabel"> {{ e.levelLabel }}</span></span>
     <ng-container *ngIf="!e.isBasic">
       <span class="pd-sep">·</span><span>{{ e.dmgTypeLabel }}</span>
-      <ng-container *ngIf="e.element"><span class="pd-sep">·</span><p-tag class="el-tag-clickable" icon="pi pi-search" [value]="e.element | monsterTerm: 'element'" [styleClass]="elementTagClass(e.element)" pTooltip="Ver tabela elemental" tooltipPosition="top" (click)="elementTableClick.emit()"></p-tag></ng-container>
+      <ng-container *ngIf="e.element"><span class="pd-sep">·</span><app-ui-tag class="el-tag-clickable" icon="search" [value]="e.element | monsterTerm: 'element'" [styleClass]="elementTagClass(e.element)" appTooltip="Ver tabela elemental" tooltipPosition="top" (click)="elementTableClick.emit()"></app-ui-tag></ng-container>
       <span *ngIf="e.propertyMultiplier != null">×{{ e.propertyMultiplier | number: '1.2-2' }}</span>
     </ng-container>
   </div>
 
   <ng-container *ngIf="description as desc">
     <div class="pd-desc-toggle" role="button" tabindex="0" keyActivate [attr.aria-expanded]="descriptionExpanded" (click)="descriptionExpanded = !descriptionExpanded">
-      <i class="pi" [ngClass]="descriptionExpanded ? 'pi-chevron-down' : 'pi-chevron-right'"></i><span>Descrição da habilidade</span>
+      <app-icon [name]="descriptionExpanded ? 'chevron-down' : 'chevron-right'"></app-icon><span>Descrição da habilidade</span>
     </div>
     <div class="pd-desc" *ngIf="descriptionExpanded" [innerHTML]="desc"></div>
   </ng-container>
@@ -96,9 +96,9 @@
     </div>
     <div class="optimize-whatif" *ngIf="info.whatIf as w">Zerando a pós-conjuração: DPS iria a <b>{{ w.newDps | number: '1.0-0' }}</b> ({{ w.gainPercent >= 0 ? '+' : '' }}{{ w.gainPercent | number: '1.0-1' }}%)</div>
   </ng-container>
-</p-overlayPanel>
+</app-ui-popover>
 
-<p-overlayPanel #critRatePanel>
+<app-ui-popover #critRatePanel>
   <div class="ptitle">Como a Tx. Crítico é calculada</div>
   <div class="graph-hint" style="max-width: 330px">O CRIT do personagem vem do SOR e dos equipamentos; a habilidade pode somar um valor fixo e aplicar só uma parte dele; e o alvo desconta o próprio escudo de crítico.</div>
   <ng-container *ngIf="critRate as c">
@@ -110,6 +110,6 @@
     </div>
     <div class="mut-note" *ngIf="c.isCapped">⚠ A taxa passa de 100%: todo uso já acerta crítico, e o excedente ({{ c.total - 100 | number: '1.0-0' }}) não rende nada.</div>
   </ng-container>
-</p-overlayPanel>
+</app-ui-popover>
 
 <app-battle-damage-popovers #damagePopovers (breakdownClick)="breakdownClick.emit($event)"></app-battle-damage-popovers>

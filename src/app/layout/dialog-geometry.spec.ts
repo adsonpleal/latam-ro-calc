@@ -13,11 +13,11 @@ import { HELP_IMPROVE_DIALOG_STYLE, UPDATE_DIALOG_STYLE } from './dialog-geometr
  */
 const topbarHtml = readFileSync('src/app/layout/app.topbar.component.html', 'utf8');
 
-/** The p-dialog element that holds the changelog. */
+/** The ui-dialog element that holds the changelog. */
 function updateDialogTag(): string {
   const start = topbarHtml.indexOf('[(visible)]="visibleUpdate"');
   expect(start, 'the Novidades dialog is still in the template').toBeGreaterThan(-1);
-  const open = topbarHtml.lastIndexOf('<p-dialog', start);
+  const open = topbarHtml.lastIndexOf('<app-ui-dialog', start);
   const close = topbarHtml.indexOf('>', start);
   return topbarHtml.slice(open, close + 1);
 }

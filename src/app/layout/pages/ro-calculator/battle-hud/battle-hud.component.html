@@ -36,7 +36,7 @@
         [class.bonus_clickable]="panel || isBreakdownClickable(bdKeys)"
         (click)="panel ? panel.toggle($event) : openBreakdown(bdLabel || label, bdKeys, 'summary_stat_atk', undefined, undefined, false, bdNote)"
         keyActivate
-        [pTooltip]="tip || ''"
+        [appTooltip]="tip || ''"
         tooltipPosition="top"
         >{{ cur | number: fmt }}<ng-container *ngIf="curMax != null && curMax !== cur">
           – {{ curMax | number: fmt }}</ng-container
@@ -125,7 +125,7 @@
 
 <div class="hud">
   <div class="loading_block" *ngIf="isCalculating">
-    <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+    <app-icon style="font-size: 2rem" name="spinner"></app-icon>
   </div>
 
   <!-- 1. Compare ribbon. Above the Efeitos, so that "Efeitos - comparação" is already
@@ -146,16 +146,16 @@
 
   <!-- 2. Flags (only rendered when active) -->
   <div class="hud-flags" *ngIf="dmg?.requireTxt || (showLeftWeapon && model?.leftWeapon) || isAutoSpell || hasFlashCombo">
-    <p-tag *ngIf="dmg?.requireTxt" severity="danger" value="⚠ Requer" [pTooltip]="dmg?.requireTxt" tooltipPosition="top"></p-tag>
-    <p-tag *ngIf="hasFlashCombo" severity="info" value="Combo Rápido" pTooltip="Conjura Punho do Dragão, Ruína e Garra de Tigre no maior nível aprendido. Selecione os níveis em Aprenda para incluir o dano de cada habilidade." tooltipPosition="top"></p-tag>
-    <p-tag
+    <app-ui-tag *ngIf="dmg?.requireTxt" severity="danger" value="⚠ Requer" [appTooltip]="dmg?.requireTxt" tooltipPosition="top"></app-ui-tag>
+    <app-ui-tag *ngIf="hasFlashCombo" severity="info" value="Combo Rápido" appTooltip="Conjura Punho do Dragão, Ruína e Garra de Tigre no maior nível aprendido. Selecione os níveis em Aprenda para incluir o dano de cada habilidade." tooltipPosition="top"></app-ui-tag>
+    <app-ui-tag
       *ngIf="showLeftWeapon && model?.leftWeapon"
       severity="danger"
       value="⚠ Mão esq."
-      pTooltip="ATK da mão esquerda ainda não calculado"
+      appTooltip="ATK da mão esquerda ainda não calculado"
       tooltipPosition="top"
-    ></p-tag>
-    <p-tag *ngIf="isAutoSpell" severity="warning" value="Autospell" pTooltip="DPS não exibido para autospell" tooltipPosition="top"></p-tag>
+    ></app-ui-tag>
+    <app-ui-tag *ngIf="isAutoSpell" severity="warning" value="Autospell" appTooltip="DPS não exibido para autospell" tooltipPosition="top"></app-ui-tag>
   </div>
   </div>
 
@@ -181,7 +181,7 @@
 
     <!-- Skill result card -->
     <div class="hud-card-col hud-card-col--skill">
-      <p-card styleClass="hud-card">
+      <app-ui-card styleClass="hud-card">
         <div class="hud-rot-layout">
           <!-- The rotation itself -->
           <app-rotation-list
@@ -216,7 +216,7 @@
                     class="pnum clickable"
                     (click)="dpsStepsPanel.toggle($event)"
                     keyActivate
-                    pTooltip="Como a taxa de DPS é calculada"
+                    appTooltip="Como a taxa de DPS é calculada"
                     tooltipPosition="top"
                     >{{ c.sustainedDps | number: '1.0-0' }}</span
                   >
@@ -228,7 +228,7 @@
                       class="pnum sim clickable"
                       (click)="dpsStepsPanel.toggle($event)"
                       keyActivate
-                      pTooltip="Como a taxa de DPS é calculada"
+                      appTooltip="Como a taxa de DPS é calculada"
                       tooltipPosition="top"
                       >{{ c2.sustainedDps | number: '1.0-0' }}</span
                     >
@@ -252,7 +252,7 @@
                     class="hud-percycle clickable"
                     (click)="dpsStepsPanel.toggle($event)"
                     keyActivate
-                    pTooltip="Como a taxa de DPS é calculada"
+                    appTooltip="Como a taxa de DPS é calculada"
                     tooltipPosition="top"
                     >{{ c.damagePerCycle | number: '1.0-0' }}</span
                   >
@@ -262,7 +262,7 @@
                       class="hud-percycle sim clickable"
                       (click)="dpsStepsPanel.toggle($event)"
                       keyActivate
-                      pTooltip="Como a taxa de DPS é calculada"
+                      appTooltip="Como a taxa de DPS é calculada"
                       tooltipPosition="top"
                       >{{ c2.damagePerCycle | number: '1.0-0' }}</span
                     >
@@ -286,7 +286,7 @@
                 <div class="hud-meta" *ngIf="isSingleEntryRotation; else cycleLen">
                   <span
                     class="habps clickable"
-                    pTooltip="Habilidades por segundo — clique para ver o cálculo"
+                    appTooltip="Habilidades por segundo — clique para ver o cálculo"
                     tooltipPosition="top"
                     (click)="castHelpPanel.toggle($event)"
                     keyActivate
@@ -323,17 +323,17 @@
             <!-- Timeline -->
             <div class="hud-tl-head">
               <span class="cap2">LINHA DO TEMPO DO CICLO</span>
-              <i
-                class="pi pi-question-circle hud-help"
+              <app-icon
+                class="hud-help"
                 role="button"
                 tabindex="0"
                 keyActivate
-                aria-label="Como a conjuração e a espera funcionam"
+                label="Como a conjuração e a espera funcionam"
                 (click)="castHelpPanel.toggle($event)"
-              ></i>
+               name="question-circle"></app-icon>
               <button
                 *ngIf="c.isAspdLimited"
-                pButton
+                appButton
                 type="button"
                 class="hud-warn-chip"
                 label="⚠ Vel.Atq limita a rotação"
@@ -351,12 +351,12 @@
             ></app-rotation-timeline>
           </div>
         </div>
-      </p-card>
+      </app-ui-card>
     </div>
   </div>
 
   <!-- Why the first pass is quicker than the sustained cycle. -->
-  <p-overlayPanel #firstCyclePanel>
+  <app-ui-popover #firstCyclePanel>
     <div class="ptitle">Primeiro ciclo</div>
     <div style="font-size: 11.5px; max-width: 280px; line-height: 1.5" *ngIf="cycle as c">
       Começando com todas as recargas zeradas, nada segura a rotação: o ciclo fecha em
@@ -364,10 +364,10 @@
       estão correndo e o ciclo passa a <b>{{ c.cycleDuration | number: '1.2-2' }}s</b>.
       <div style="margin-top: 6px">O número grande é o DPS sustentado, que é o que vale numa luta longa.</div>
     </div>
-  </p-overlayPanel>
+  </app-ui-popover>
 
   <!-- What the Vel.Atq floor is costing the rotation. -->
-  <p-overlayPanel #aspdLimitPanel>
+  <app-ui-popover #aspdLimitPanel>
     <div class="ptitle">Vel.Atq limita a rotação</div>
     <div style="font-size: 11.5px; max-width: 280px; line-height: 1.5" *ngIf="cycle as c">
       A Vel.Atq impõe um piso de <b>{{ rotationView?.aspdPeriod | number: '1.2-2' }}s</b> entre uma ação e a seguinte. Quando a
@@ -377,9 +377,9 @@
       </div>
       <div style="margin-top: 6px">Sobe com AGI e com Vel.Atq (%) em equipamentos.</div>
     </div>
-  </p-overlayPanel>
+  </app-ui-popover>
 
-  <p-overlayPanel #castHelpPanel>
+  <app-ui-popover #castHelpPanel>
     <div class="ptitle">Conjuração/Espera da habilidade</div>
     <div style="font-size: 11.5px; max-width: 260px; line-height: 1.5">
       Fixa e variável correm <b>em sequência</b>. Depois, pós-conjuração e recarga contam <b>ao mesmo tempo</b> — a maior define o bloqueio.
@@ -401,9 +401,9 @@
     <div class="pstats">
       <ng-container *ngTemplateOutlet="castTimingsRaw"></ng-container>
     </div>
-  </p-overlayPanel>
+  </app-ui-popover>
 
-  <p-overlayPanel #optimizePanel>
+  <app-ui-popover #optimizePanel>
     <div class="ptitle">O que dá para melhorar</div>
     <ng-container *ngIf="optimizeInfo as info">
       <div class="optimize-bottleneck" [class.is-optimized]="info.isOptimized">{{ info.headline }}</div>
@@ -416,11 +416,11 @@
         Zerando a pós-conjuração: DPS iria a <b>{{ w.newDps | number: '1.0-0' }}</b> ({{ w.gainPercent >= 0 ? '+' : '' }}{{ w.gainPercent | number: '1.0-1' }}%)
       </div>
     </ng-container>
-  </p-overlayPanel>
+  </app-ui-popover>
 
   <!-- "Como a taxa de DPS é calculada" — the combo version: one row per rotation entry,
        then the cycle division, then the first pass as its own section. -->
-  <p-overlayPanel #dpsStepsPanel>
+  <app-ui-popover #dpsStepsPanel>
     <div class="ptitle">Como a taxa de DPS é calculada</div>
     <div style="font-size: 11.5px; color: var(--text-color-secondary); max-width: 300px; margin-bottom: 6px">
       DPS sustentado = dano somado de um ciclo ÷ duração do ciclo. O ciclo é a rotação inteira, repetida.
@@ -437,7 +437,7 @@
             role="button"
             tabindex="0"
             keyActivate
-            [pTooltip]="entry.critWeighted ? 'Ver como a média por crítico é calculada' : 'Ver a fórmula do dano'"
+            [appTooltip]="entry.critWeighted ? 'Ver como a média por crítico é calculada' : 'Ver a fórmula do dano'"
             tooltipPosition="top"
             (click)="openSharedDamage({ index: i, event: $event, branch: 'mean' }, sharedDamagePopovers)"
             >{{ entry.damage | number: '1.0-0' }}</span
@@ -494,7 +494,7 @@
         </div>
       </ng-container>
     </ng-container>
-  </p-overlayPanel>
+  </app-ui-popover>
 
   <!-- Node-graph view of the damage formula: one column per formula stage (a
        DamageFormulaNode of kind 'stage'), flowing left→right; any contributing
@@ -570,7 +570,7 @@
     </ng-template>
   </ng-template>
 
-  <p-overlayPanel #damageFormulaPanel>
+  <app-ui-popover #damageFormulaPanel>
     <ng-container *ngIf="formulaPart as part; else combinedFormula">
       <button type="button" class="graph-back" (click)="formulaPart = null">← Voltar à soma</button>
       <div class="ptitle">{{ part.label }}</div>
@@ -597,12 +597,12 @@
     <ng-template #noFormulaTrace>
       <div class="mut-note">Fórmula passo a passo indisponível para esta habilidade (usa cálculo especial).</div>
     </ng-template>
-  </p-overlayPanel>
+  </app-ui-popover>
 
   <!-- The same, for "Dano sem crít." — only reachable when skillCanCri is true, which is
        exactly when skillFormulaGraphNoCri is populated. Each figure on the row opens its own
        branch and no more: the crit one explains the crit, this one explains the other. -->
-  <p-overlayPanel #damageFormulaNoCriPanel>
+  <app-ui-popover #damageFormulaNoCriPanel>
     <div class="ptitle">Como o dano sem crítico é calculado</div>
     <div class="graph-hint">Clique em qualquer valor para ver de onde ele vem.</div>
     <ng-container *ngIf="formulaGraphNoCri; else noFormulaTraceNoCri">
@@ -615,9 +615,9 @@
     <ng-template #noFormulaTraceNoCri>
       <div class="mut-note">Fórmula passo a passo indisponível para esta habilidade (usa cálculo especial).</div>
     </ng-template>
-  </p-overlayPanel>
+  </app-ui-popover>
 
-  <p-overlayPanel #critMeanPanel>
+  <app-ui-popover #critMeanPanel>
     <div class="ptitle">{{ meanPanelTitle }}</div>
     <div class="graph-hint" style="max-width: 320px">
       <ng-container *ngIf="isCritWeighted; else plainMeanHint">
@@ -692,13 +692,13 @@
         O jogo arredonda o dano médio por golpe para baixo, então as duas partes podem somar alguns pontos a mais.
       </div>
     </ng-container>
-  </p-overlayPanel>
+  </app-ui-popover>
 
   <!-- Every term behind the crit rate, in the order the engine applies them. The rows come
        straight off the object the rate itself is computed into (core/crit-rate.ts), so this
        cannot show a sum that disagrees with the number that was clicked. The equipment row
        still opens the per-item sources, which is all this used to offer. -->
-  <p-overlayPanel #critRatePanel>
+  <app-ui-popover #critRatePanel>
     <div class="ptitle">Como a Tx. Crítico é calculada</div>
     <div class="graph-hint" style="max-width: 330px">
       O CRIT do personagem vem do SOR e dos equipamentos; a habilidade pode somar um valor fixo e
@@ -724,7 +724,7 @@
               role="button"
               tabindex="0"
               keyActivate
-              pTooltip="Ver de quais itens vem"
+              appTooltip="Ver de quais itens vem"
               tooltipPosition="top"
               (click)="openBreakdown(row.step.label, row.step.keys, 'summary_stat_atk')"
               >{{ critStepText(row.step, row.step.value) }}</span
@@ -747,9 +747,9 @@
         CRIT à distância e o CRIT por raça/elemento/tamanho só entram no ataque básico — nenhuma habilidade os recebe.
       </div>
     </ng-container>
-  </p-overlayPanel>
+  </app-ui-popover>
 
-  <p-overlayPanel #detailsPanel styleClass="rot-details-panel">
+  <app-ui-popover #detailsPanel styleClass="rot-details-panel">
     <div class="ptitle">Detalhes da habilidade</div>
 
     <!-- Which entry this is describing, so the popover stands on its own. -->
@@ -759,15 +759,15 @@
       <span class="pd-sep">·</span>
       <span>{{ e.dmgTypeLabel }}</span>
       <span class="pd-sep">·</span>
-      <p-tag
+      <app-ui-tag
         class="el-tag-clickable"
-        icon="pi pi-search"
+        icon="search"
         [value]="e.element | monsterTerm: 'element'"
         [styleClass]="elementTagClass(e.element)"
-        pTooltip="Ver tabela elemental"
+        appTooltip="Ver tabela elemental"
         tooltipPosition="top"
         (click)="isInProcessingPreset ? null : onShowElementalTableClick()"
-      ></p-tag>
+      ></app-ui-tag>
       <span>×{{ e.propertyMultiplier | number: '1.2-2' }}</span>
     </div>
 
@@ -784,7 +784,7 @@
         [attr.aria-expanded]="isDescExpanded"
         (click)="isDescExpanded = !isDescExpanded"
       >
-        <i class="pi" [ngClass]="isDescExpanded ? 'pi-chevron-down' : 'pi-chevron-right'" aria-hidden="true"></i>
+        <app-icon [name]="isDescExpanded ? 'chevron-down' : 'chevron-right'" aria-hidden="true"></app-icon>
         <span>Descrição da habilidade</span>
       </div>
       <div class="pd-desc" *ngIf="isDescExpanded" [innerHTML]="desc"></div>
@@ -1008,26 +1008,26 @@
         Zerando a pós-conjuração: DPS iria a <b>{{ w.newDps | number: '1.0-0' }}</b> ({{ w.gainPercent >= 0 ? '+' : '' }}{{ w.gainPercent | number: '1.0-1' }}%)
       </div>
     </ng-container>
-  </p-overlayPanel>
+  </app-ui-popover>
 
   <!-- Not gated by *ngIf: it only opens from a basic-attack row's own trigger, so there is
        nothing to gate on, and a template reference declared on a *ngIf host isn't visible
        to sibling elements outside that structural view. -->
-  <p-overlayPanel #basicPanel styleClass="rot-details-panel">
+  <app-ui-popover #basicPanel styleClass="rot-details-panel">
     <div class="ptitle">Ataque básico</div>
     <div class="pstats">
       <div class="kv">
         <span>Elemento</span>
         <span>
-          <p-tag
+          <app-ui-tag
             class="el-tag-clickable"
-            icon="pi pi-search"
+            icon="search"
             [value]="totalSummary?.propertyAtk | monsterTerm: 'element'"
             [styleClass]="elementTagClass(totalSummary?.propertyAtk)"
-            pTooltip="Ver tabela elemental"
+            appTooltip="Ver tabela elemental"
             tooltipPosition="top"
             (click)="isInProcessingPreset ? null : onShowElementalTableClick()"
-          ></p-tag>
+          ></app-ui-tag>
           ×{{ dmg?.propertyMultiplier | number: '1.0-2' }}
         </span>
       </div>
@@ -1082,7 +1082,7 @@
       </ng-container>
     </div>
     <div *ngIf="showLeftWeapon && model?.leftWeapon" class="hud-left-weapon-warn">*** ATK da mão esquerda ainda não calculado</div>
-  </p-overlayPanel>
+  </app-ui-popover>
   <app-battle-skill-details
     #sharedSkillDetails
     (breakdownClick)="showBonusBreakdownClick.emit($event)"

@@ -12,53 +12,11 @@ function canScroll(el: Element): boolean {
 }
 
 /**
- * Freezes the page behind an open panel.
- *
- * Reference-counted because the events that drive it nest: a picker opened from inside a
- * dialog must not thaw the page when it closes.
- *
- * **It suppresses the scroll rather than moving the page, and that is the whole point.**
- * This used to hold the CDK's block strategy, which pins `<html>` with `position: fixed`
- * and a compensating `top`. That does hold the page still — but it also translates the
- * document out from under everything that positions itself in *document* coordinates, and
- * `pageYOffset` reads 0 while it is on. PrimeNG's Tooltip is one of those: `DomHandler`
- * offsets are `getBoundingClientRect() + pageYOffset`, so every item-description popover in
- * every picker rendered exactly `scrollY` pixels too high — at the top of the window on a
- * page scrolled any real distance. Preventing the wheel changes no layout at all, so
- * nothing is left to compensate for and nothing has to be restored on close.
- *
- * What passes is decided structurally — "does this gesture belong to a scroller that isn't
- * the page?" — rather than by a list of overlay class names. A list has to be extended for
- * every new panel, and the failure when it isn't is silent: the panel simply stops
- * scrolling, with nothing thrown and nothing a test would catch. The structural question
- * needs no knowledge of PrimeNG, and it answers correctly for the two cases a class list
- * gets wrong in opposite directions — a backdrop, which is *inside* the overlay container
- * and must still be blocked, and a sidebar or dialog body nobody thought to list.
- *
- * Keys are deliberately not blocked. Scrolling by keyboard needs focus on the page behind,
- * which an open overlay does not leave it with, and a PrimeNG dropdown keeps focus on its
- * *trigger* while its panel is open — so blocking the arrows there would break the picker's
- * own keyboard navigation to stop a scroll that cannot happen.
- *
- * ## Every lock names the panel it is held for, so a missed release cannot strand the page
- *
- * A plain counter cannot survive its callers, and one of them is PrimeNG, which does not
- * pair its own events. `onBeforeShow` and `onBeforeHide` are emitted from a single place —
- * the overlay content's Angular animation `start` callback, on `:enter` and on `:leave`
- * (`primeng-overlay`, `onOverlayContentAnimationStart`). A panel that goes away without its
- * leave transition ever playing therefore never announces it, and the plainest way for that
- * to happen is for the panel's component to be destroyed while it is open — a picker inside
- * a dialog that is closed, a section behind an `*ngIf` that flips. `Overlay.ngOnDestroy`
- * calls its own `hide()`, which raises `onHide` and *not* `onBeforeHide`. One such close and
- * a bare counter never returns to zero: the page is frozen for the rest of the visit, with
- * nothing on screen to explain it and a reload the only way out. That is what
- * `GgGPCGQUNQGRWZthqfS2` reported.
- *
- * So a lock is held *for an element* — the panel's own root, which the caller already has —
- * and a holder whose element has left the document is dropped on the spot. The check runs
- * where the answer is needed, on the gesture itself, which is both the cheapest place (there
- * is nothing to poll and nothing to unsubscribe) and the only one that matters. It turns a
- * missed release from a dead page into a single swallowed wheel tick.
+ * Holds the page still while allowing an overlay's own scrollers to move.
+ * Locks belong to panel elements, so nested overlays release independently and
+ * detached owners cannot strand the page. Wheel/touch suppression avoids moving
+ * the document or changing the coordinates used by anchored descriptions.
+ * Keyboard events remain available to the focused control's navigation.
  */
 @Injectable({ providedIn: 'root' })
 export class PageScrollLockService {
@@ -79,8 +37,7 @@ export class PageScrollLockService {
 
   /**
    * Releases the lock taken for `owner`, or the newest unnamed one when it is not held —
-   * which is also what a release with no lock behind it does: nothing. PrimeNG raises those
-   * from animations.
+   * which is also what a release with no lock behind it does: nothing.
    */
   unlock(owner?: Element | null): void {
     const held = owner ? this.holders.lastIndexOf(owner) : -1;

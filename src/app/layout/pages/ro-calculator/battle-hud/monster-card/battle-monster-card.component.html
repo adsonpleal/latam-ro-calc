@@ -1,7 +1,7 @@
 <!-- keyActivate provides keyboard operation; these static template rules cannot see it. -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
 <div class="hud-card-col hud-card-col--monster">
-  <p-card styleClass="hud-card">
+  <app-ui-card styleClass="hud-card">
     <div class="hud-monster-head">
       <div class="sprite" [class.sprite--doll]="spriteUrlOverride">
         <img
@@ -16,49 +16,48 @@
       <div class="hud-monster-info">
         <div class="np-name">{{ selectedMonsterName }}</div>
         <div class="np-badges">
-          <p-tag *ngIf="totalSummary?.monster?.typeUpper" severity="danger" [value]="totalSummary?.monster?.typeUpper | monsterTerm: 'type'"></p-tag>
-          <p-tag *ngIf="totalSummary?.monster?.isMvp" severity="warning" value="MVP"></p-tag>
-          <p-tag
+          <app-ui-tag *ngIf="totalSummary?.monster?.typeUpper" severity="danger" [value]="totalSummary?.monster?.typeUpper | monsterTerm: 'type'"></app-ui-tag>
+          <app-ui-tag *ngIf="totalSummary?.monster?.isMvp" severity="warning" value="MVP"></app-ui-tag>
+          <app-ui-tag
             *ngIf="totalSummary?.monster?.isRedAura"
             styleClass="tag-aura"
             value="AURA"
-            pTooltip="Aura vermelha: redução de 99,9% do dano final."
+            appTooltip="Aura vermelha: redução de 99,9% do dano final."
             tooltipPosition="top"
-          ></p-tag>
-          <p-tag
+          ></app-ui-tag>
+          <app-ui-tag
             *ngIf="totalSummary?.monster?.damageReduction"
             styleClass="tag-map-reduction"
             [value]="'REDUÇÃO ' + totalSummary.monster.damageReduction + '%'"
-            [pTooltip]="damageReductionTooltip"
+            [appTooltip]="damageReductionTooltip"
             tooltipPosition="top"
-          ></p-tag>
+          ></app-ui-tag>
         </div>
         <div class="hud-hp-line">HP {{ totalSummary?.monster?.hp | number }}</div>
 
         <div class="hud-relieve" *ngIf="isRelieveTarget">
           <span
             class="hud-relieve-label"
-            pTooltip="Aliviar reduz todo o dano físico e mágico recebido pelo monstro. Em Jardim Secreto o nível acompanha o Escudo de Energia: derrube as 4 Peças de Guardião para baixá-lo."
+            appTooltip="Aliviar reduz todo o dano físico e mágico recebido pelo monstro. Em Jardim Secreto o nível acompanha o Escudo de Energia: derrube as 4 Peças de Guardião para baixá-lo."
             tooltipPosition="top"
             >Aliviar</span
           >
-          <p-dropdown
+          <app-ui-dropdown
             styleClass="hud-relieve-dd"
-            appendTo="body"
             [options]="relieveLevelOptions"
             optionLabel="label"
             optionValue="value"
             [disabled]="isInProcessingPreset"
             [(ngModel)]="relieveLevel"
             (ngModelChange)="relieveLevelChange.emit(relieveLevel)"
-          ></p-dropdown>
+          ></app-ui-dropdown>
         </div>
 
         <div class="hud-reduction" *ngIf="reductionCategories?.length">
           <span class="reduction-label bonus_clickable" (click)="hudReductionPanel.toggle($event)" keyActivate>
-            <i class="pi pi-shield"></i> Redução de dano
+            <app-icon name="shield"></app-icon> Redução de dano
           </span>
-          <p-overlayPanel #hudReductionPanel styleClass="reduction-panel">
+          <app-ui-popover #hudReductionPanel styleClass="reduction-panel">
             <div class="reduction-pop">
               <div *ngFor="let cat of reductionCategories" class="reduction-cat">
                 <div class="reduction-cat-title">{{ cat.label }}</div>
@@ -74,7 +73,7 @@
                 </div>
               </div>
             </div>
-          </p-overlayPanel>
+          </app-ui-popover>
         </div>
 
         <a
@@ -84,7 +83,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          ID: {{ selectedMonster }}<i class="pi pi-external-link ml-1" style="font-size: 0.7rem"></i>
+          ID: {{ selectedMonster }}<app-icon class="ml-1" style="font-size: 0.7rem" name="external-link"></app-icon>
         </a>
       </div>
     </div>
@@ -101,15 +100,15 @@
       </div>
 
       <div class="hud-sub">
-        <p-tag
+        <app-ui-tag
           class="el-tag-clickable"
-          icon="pi pi-search"
+          icon="search"
           [value]="totalSummary?.monster?.elementLevelUpper | monsterTerm: 'element'"
           [styleClass]="elementTagClass(totalSummary?.monster?.elementUpper)"
-          pTooltip="Ver tabela elemental"
+          appTooltip="Ver tabela elemental"
           tooltipPosition="top"
           (click)="isInProcessingPreset ? null : showElementTableClick.emit()"
-        ></p-tag>
+        ></app-ui-tag>
         <span class="v-race">{{ totalSummary?.monster?.raceUpper | monsterTerm: 'race' }}</span>
         <span class="v-size">{{ totalSummary?.monster?.sizeFullUpper | monsterTerm: 'size' }}</span>
       </div>
@@ -123,5 +122,5 @@
         <div class="kv"><span>SOR</span><span class="v-vit">{{ totalSummary?.monster?.luk | number }}</span></div>
       </div>
     </div>
-  </p-card>
+  </app-ui-card>
 </div>

@@ -1,29 +1,26 @@
-import { Overlay, OverlayContainer, OverlayRef } from '@angular/cdk/overlay';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Injectable, Injector } from '@angular/core';
 import { Observable, Subject, take } from 'rxjs';
 import { ItemPickerOverlayComponent } from './item-picker-overlay.component';
-import { PageScrollLockService } from 'src/app/page-scroll-lock.service';
 import { PickerRequest, PickerResult } from './item-picker.model';
-import { ZIndexUtils } from 'primeng/utils';
+import { UiOverlayService } from 'src/app/ui/overlay.service';
 
 /**
  * Opens the chip picker.
  *
- * A CDK overlay rather than PrimeNG's: the panel has to flip above the chip when it does
+ * The CDK overlay flips: the panel has to flip above the chip when it does
  * not fit below and then clamp inside the viewport, which `FlexibleConnectedPositionStrategy`
  * expresses directly. The bottom-most shadow card is the case that needs it.
  */
 @Injectable({ providedIn: 'root' })
 export class ItemPickerService {
   private ref?: OverlayRef;
-  private raisedContainer = false;
 
   constructor(
     private readonly overlay: Overlay,
     private readonly injector: Injector,
-    private readonly pageScroll: PageScrollLockService,
-    private readonly container: OverlayContainer,
+    private readonly layers: UiOverlayService,
   ) {}
 
   /** Emits once — the pick, or a dismissal — and completes. */
@@ -54,17 +51,9 @@ export class ItemPickerService {
     });
 
     this.ref = ref;
-    // The creator reuses these pickers inside a PrimeNG dialog. Register above its
-    // mask so the picker stays clickable and subsequent tooltips still sit on top.
-    const mask = request.anchor.closest('.p-dialog-mask');
-    if (mask) {
-      ZIndexUtils.set('overlay', this.container.getContainerElement(), Number(getComputedStyle(mask).zIndex) || 1100);
-      this.raisedContainer = true;
-    }
-    this.pageScroll.lock(ref.overlayElement);
-
     const instance = ref.attach(new ComponentPortal(ItemPickerOverlayComponent, null, this.injector)).instance;
     instance.init(request);
+    this.layers.adopt(ref, () => this.close(), true, request.anchor);
 
     // Disposing the overlay makes it emit a detachment, which would re-enter finish and
     // overwrite the pick with a dismissal. One latch settles the race whichever way the
@@ -96,12 +85,6 @@ export class ItemPickerService {
     // by calling back in here, and a `this.ref` still set at that point would run the whole
     // body a second time — releasing the page scroll twice for the one panel.
     this.ref = undefined;
-    const panel = ref.overlayElement;
-    ref.dispose();
-    this.pageScroll.unlock(panel);
-    if (this.raisedContainer) {
-      ZIndexUtils.clear(this.container.getContainerElement());
-      this.raisedContainer = false;
-    }
+    this.layers.close(ref);
   }
 }

@@ -114,7 +114,7 @@ export class RotationListComponent {
   /**
    * Flat options for the add picker — ataque básico first, then the class's own skills.
    * Rebuilt only when the skill list itself changes: a fresh array on every change
-   * detection makes p-dropdown re-render every option, and an icon that fails to load
+   * detection makes ui-dropdown re-render every option, and an icon that fails to load
    * then errors again on each pass.
    */
   get skillOptions(): RotationPickerOption[] {
@@ -174,31 +174,6 @@ export class RotationListComponent {
     const stacks = this.entries.map((entry) => entry.stackCount);
     stacks.splice(index, 1);
     this.rotationChange.emit({ rotation: next, stacks });
-  }
-
-  /**
-   * PrimeNG's filter box is a bare `<input type="text">`, which password managers read as
-   * a login field and offer saved passwords into. `autocomplete="off"` (which PrimeNG
-   * already sets) is honoured by none of them.
-   *
-   * `type="search"` is the part that does the work: a search field is not a credential
-   * candidate for any classifier, and it is what this input actually is. The `data-*`
-   * attributes are each manager's own documented opt-out, kept as a belt-and-braces for
-   * the ones that classify by context rather than by type. Apple's iCloud Passwords
-   * extension publishes no opt-out at all, so `type` is the only lever it may respond to.
-   *
-   * Stamped on show because the overlay does not exist until then.
-   */
-  markFilterAsPlainText() {
-    const input = document.querySelector<HTMLInputElement>('.rot-add-dd-panel .p-dropdown-filter');
-    if (!input) return;
-
-    input.setAttribute('type', 'search');
-    input.setAttribute('name', 'rotation-skill-filter');
-    input.setAttribute('data-lpignore', 'true'); // LastPass
-    input.setAttribute('data-1p-ignore', ''); // 1Password
-    input.setAttribute('data-bwignore', 'true'); // Bitwarden
-    input.setAttribute('data-form-type', 'other'); // Dashlane
   }
 
   /** Opens a placeholder row with the picker focused. */
