@@ -68,6 +68,12 @@ export interface EquipmentSummaryModel {
   hpRestoreOnKill: number;
   spRestoreOnKill: number;
   spCostPercent: number;
+  /** Party-song utility values shown in Buffs; movement and recovery are outside damage simulation. */
+  movementSpeed?: number;
+  hpRegenPerSecond?: number;
+  statusResist?: number;
+  /** Dance with Wug adds this many points to a Worg skill's ATK ratio. */
+  wugSkillRatio?: number;
   def: number;
   defPercent: number;
   softDef: number;
