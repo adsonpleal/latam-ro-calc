@@ -166,6 +166,13 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.155-beta',
+      date: '30-09-2026',
+      logs: [
+        'Combo Rápido entrou em Habilidades e efeitos ativos para Shura e Inquisidor. O ATQ concedido durante os 4 segundos pode ser selecionado do Nv 1 ao 5 (+40 a +120) e passa a afetar os demais ataques. Ao calcular o próprio Combo Rápido, vale o bônus do nível usado na Batalha, sem somar duas vezes quando o efeito também está selecionado. Reportado por Ted.',
+      ],
+    },
+    {
       v: '0.1.154-beta',
       date: '29-09-2026',
       logs: [

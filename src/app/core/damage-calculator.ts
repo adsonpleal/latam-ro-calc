@@ -2819,10 +2819,15 @@ export class DamageCalculator {
     const names = ['Dragon Combo', 'Fallen Empire', 'Tiger Cannon'] as const;
     const bonusAtk = 20 * (flashLevel + 1); // +40 / +60 / +80 / +100 / +120 ATQ.
     const oldAtk = this.totalBonus.atk || 0;
+    const activeFlashBonus = this.equipAtkSkillBonus['Flash Combo'];
+    const oldActiveFlashAtk = activeFlashBonus?.atk;
     const pieces: Array<{ label: string; level: number; damage: SkillDamageSummaryModel }> = [];
 
     try {
-      this.totalBonus.atk = oldAtk + bonusAtk;
+      // The attack applies its own level's ATQ. Replace an already selected Flash
+      // Combo buff for this cast so the two sources do not stack.
+      if (activeFlashBonus) activeFlashBonus.atk = bonusAtk;
+      else this.totalBonus.atk = oldAtk + bonusAtk;
       for (const name of names) {
         const level = this.infoForClass.skills.learnedLevel(name);
         if (!level) continue;
@@ -2833,6 +2838,7 @@ export class DamageCalculator {
       }
     } finally {
       this.totalBonus.atk = oldAtk;
+      if (activeFlashBonus) activeFlashBonus.atk = oldActiveFlashAtk;
     }
 
     const min = pieces.reduce((sum, piece) => sum + piece.damage.skillMinDamage * piece.damage.skillTotalHit, 0);
