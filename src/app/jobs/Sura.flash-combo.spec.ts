@@ -11,13 +11,14 @@ const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'))
 const monsters = JSON.parse(readFileSync('src/assets/demo/data/monster.json', 'utf8'));
 const hpSpTable = JSON.parse(readFileSync('src/assets/demo/data/hp_sp_table.json', 'utf8'));
 
-function simulate(flashLevel: number, learned: [number, number, number], Job: typeof Sura = Sura) {
+function simulate(flashLevel: number, learned: [number, number, number], Job: typeof Sura = Sura, buffLevel = 0, selectedSkill = `Flash Combo==${flashLevel}`) {
   const cls = new Job();
-  const model: any = { ...createMainModel(), level: 175, jobLevel: 60, str: 110, dex: 90, selectedAtkSkill: `Flash Combo==${flashLevel}` };
+  const model: any = { ...createMainModel(), level: 175, jobLevel: 60, str: 110, dex: 90, selectedAtkSkill: selectedSkill };
   const levels: Record<string, number> = { 'Dragon Combo': learned[0], 'Fallen Empire': learned[1], 'Tiger Cannon': learned[2] };
   const passiveSkillIds = cls.passiveSkills.map((skill) => levels[skill.name] ?? 0);
+  const activeSkillIds = cls.activeSkills.map((skill) => skill.name === 'Flash Combo' ? buffLevel : 0);
   const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = cls
-    .setLearnSkills({ activeSkillIds: cls.activeSkills.map(() => 0), passiveSkillIds })
+    .setLearnSkills({ activeSkillIds, passiveSkillIds })
     .getSkillBonusAndName();
   const calc = new Calculator().setMasterItems(items).setHpSpTable(hpSpTable).setClass(cls);
   calc.loadItemFromModel(model);
@@ -33,7 +34,9 @@ describe('Combo Rápido sums the learned attacks', () => {
   it('is offered in Batalha and exposes the three contributing levels in Aprenda', () => {
     const sura = new Sura();
     expect(sura.atkSkills.find((skill) => skill.name === 'Flash Combo')?.levelList).toHaveLength(5);
-    expect(sura.activeSkills.some((skill) => skill.name === 'Flash Combo')).toBe(false);
+    const flashBuff = sura.activeSkills.find((skill) => skill.name === 'Flash Combo');
+    expect(flashBuff?.dropdown.map((option) => [option.value, option.bonus?.atk]).sort((a, b) => a[0] - b[0]))
+      .toEqual([[0, undefined], [1, 40], [2, 60], [3, 80], [4, 100], [5, 120]]);
     for (const name of ['Dragon Combo', 'Fallen Empire', 'Tiger Cannon']) {
       expect(sura.passiveSkills.find((skill) => skill.name === name)?.dropdown).toHaveLength(11);
     }
@@ -76,5 +79,24 @@ describe('Combo Rápido sums the learned attacks', () => {
 
   it('increases the ATQ during the sequence with Combo Rápido level', () => {
     expect(simulate(5, [10, 10, 10]).skillMinDamage).toBeGreaterThan(simulate(1, [10, 10, 10]).skillMinDamage);
+  });
+
+  it('applies the selected ATQ buff to other attacks for Sura and Inquisidor', () => {
+    for (const Job of [Sura, Inquisitor]) {
+      const without = simulate(5, [10, 10, 10], Job, 0, 'Dragon Combo==10');
+      const level1 = simulate(5, [10, 10, 10], Job, 1, 'Dragon Combo==10');
+      const level5 = simulate(5, [10, 10, 10], Job, 5, 'Dragon Combo==10');
+      expect(level1.skillMinDamage).toBeGreaterThan(without.skillMinDamage);
+      expect(level5.skillMinDamage).toBeGreaterThan(level1.skillMinDamage);
+    }
+  });
+
+  it('uses the cast level once when Combo Rápido is also selected as a buff', () => {
+    const learned: [number, number, number] = [10, 10, 10];
+    for (const Job of [Sura, Inquisitor]) {
+      expect(simulate(5, learned, Job, 5).skillMinDamage).toBe(simulate(5, learned, Job).skillMinDamage);
+      expect(simulate(5, learned, Job, 1).skillMinDamage).toBe(simulate(5, learned, Job).skillMinDamage);
+      expect(simulate(1, learned, Job, 5).skillMinDamage).toBe(simulate(1, learned, Job).skillMinDamage);
+    }
   });
 });

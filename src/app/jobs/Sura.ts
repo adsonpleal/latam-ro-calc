@@ -546,6 +546,12 @@ export class Sura extends Champion {
       inputType: 'dropdown',
       dropdown: genSkillList(5, (lv) => ({ cri: 7.5 + lv * 2.5 })),
     },
+    {
+      label: 'Flash Combo',
+      name: 'Flash Combo',
+      inputType: 'dropdown',
+      dropdown: genSkillList(5, (level) => ({ atk: 20 * (level + 1) })),
+    },
   ];
 
   private readonly passiveSkillList3rd: PassiveSkillModel[] = [
