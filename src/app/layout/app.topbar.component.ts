@@ -169,7 +169,7 @@ export class AppTopBarComponent implements OnDestroy {
       v: '0.1.156-beta',
       date: '30-09-2026',
       logs: [
-        'Dezessete buffs da linha de Bardo e Odalisca, incluindo as classes 3 e 4, entraram na seção Buffs. Músicas, danças, duetos e corais agora aplicam seus bônus ao grupo; Interlúdio permite escolher Solo ou Dueto em cada nível.',
+        'Dezessete buffs da linha de Bardo e Odalisca, incluindo as classes 3 e 4, entraram na seção Buffs. Músicas, danças, duetos e corais agora aplicam seus bônus ao grupo; Interlúdio permite escolher Solo ou Dueto em cada nível. Pedido de Ted.',
         'As descrições exibidas para todos os buffs da seção foram conferidas com os arquivos do cliente LATAM. Descrições ausentes ou resumidas foram substituídas pelo texto do jogo.',
       ],
     },
