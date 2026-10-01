@@ -1,4 +1,4 @@
-<div class="p-fluid">
+<div class="ui-fluid">
   <div class="grid grid-nogutter">
     <div class="grid grid-nogutter col-5">
       <div class="col-12" [hidden]="!isShowElementalTable">
@@ -18,10 +18,10 @@
     <div class="{{ isShowElementalTable ? 'col-7' : 'col-12' }}">
       <div class="grid grid-nogutter align-content-center">
         <div class="col-4">
-          <p-checkbox [(ngModel)]="isShowElementalTable" [binary]="true" label="Mostrar tabela elemental" (ngModelChange)="onToggleShowEleTableClick()"></p-checkbox>
+          <app-ui-checkbox [(ngModel)]="isShowElementalTable" [binary]="true" label="Mostrar tabela elemental" (ngModelChange)="onToggleShowEleTableClick()"></app-ui-checkbox>
         </div>
         <div class="col-8">
-          <p-multiSelect
+          <app-ui-multi-select
             [options]="groupMonsterList"
             [group]="true"
             [(ngModel)]="selectedMonsterIds"
@@ -32,15 +32,15 @@
             scrollHeight="400px"
             selectedItemsLabel="{0} monsters selected"
             placeholder="Escolher Monstros"
-            (onChange)="onMonsterListChange()"
-            (onClear)="onMonsterListChange()"
+            (valueChange)="onMonsterListChange()"
+            (cleared)="onMonsterListChange()"
           >
-            <ng-template let-group pTemplate="group">
+            <ng-template let-group appTemplate="group">
               <div class="flex align-items-center font-bold dropdown_monster_group_label">
                 <span>{{ group.label }}</span>
               </div>
             </ng-template>
-          </p-multiSelect>
+          </app-ui-multi-select>
         </div>
         <div class="col-12">
           <app-elemental-table-raw [calcMonsters]="calcMonsters" [isLoading]="isProcessing"></app-elemental-table-raw>

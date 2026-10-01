@@ -11,12 +11,13 @@
       class="joined_caption status_label"
       [class.status_label--other]="!!otherText"
       [attr.for]="label"
-      [pTooltip]="otherText ? label + ' - ' + otherLabel + ': ' + otherText : ''"
+      [appTooltip]="otherText ? label + ' - ' + otherLabel + ': ' + otherText : ''"
       tooltipPosition="top"
       [showDelay]="300"
       >{{ label }}<span *ngIf="otherText" class="status_other">{{ otherText }}</span></label
     >
-    <p-dropdown
+    <app-ui-dropdown
+      panelStyleClass="joined-dropdown-panel"
       [disabled]="disabled"
       inputId="{{ label }}"
       [autoDisplayFirst]="false"
@@ -26,11 +27,11 @@
       scrollHeight="350px"
       [resetFilterOnHide]="true"
       [(ngModel)]="value"
-      (onChange)="onBaseStatusChange()"
+      (valueChange)="onBaseStatusChange()"
       emptyFilterMessage=""
     >
-      <ng-template pTemplate="filtericon"> </ng-template>
-    </p-dropdown>
+      <ng-template appTemplate="filtericon"> </ng-template>
+    </app-ui-dropdown>
   </div>
   <!-- The equip bonus, with the compared build's value stacked under it. Stacked rather
        than beside, so a comparison costs no extra width on a grid of twelve of these. -->
@@ -49,7 +50,7 @@
         class="status_delta bonus_clickable"
         [class.status_delta--up]="compareDelta.better"
         [class.status_delta--down]="!compareDelta.better"
-        [pTooltip]="label + ' - Comparação'"
+        [appTooltip]="label + ' - Comparação'"
         tooltipPosition="top"
         [showDelay]="300"
         keyActivate

@@ -1,53 +1,66 @@
-:host ::ng-deep .json_display pre {
+::ng-deep app-ro-calculator .json_display pre,
+::ng-deep .ui-scope-app-ro-calculator .json_display pre {
   font-weight: 400 !important;
 }
 
-:host ::ng-deep .json_display .number-line {
+::ng-deep app-ro-calculator .json_display .number-line,
+::ng-deep .ui-scope-app-ro-calculator .json_display .number-line {
   color: #adadaf !important;
 }
 
-:host ::ng-deep .json_display .string {
+::ng-deep app-ro-calculator .json_display .string,
+::ng-deep .ui-scope-app-ro-calculator .json_display .string {
   color: #95c602 !important;
 }
 
-:host ::ng-deep .json_display .number {
+::ng-deep app-ro-calculator .json_display .number,
+::ng-deep .ui-scope-app-ro-calculator .json_display .number {
   color: #f2b619 !important;
 }
 
-:host ::ng-deep .json_display .boolean {
+::ng-deep app-ro-calculator .json_display .boolean,
+::ng-deep .ui-scope-app-ro-calculator .json_display .boolean {
   color: #0097f1 !important;
 }
 
-:host ::ng-deep .json_display .null {
+::ng-deep app-ro-calculator .json_display .null,
+::ng-deep .ui-scope-app-ro-calculator .json_display .null {
   color: #727990 !important;
 }
 
-:host ::ng-deep .json_display .key {
+::ng-deep app-ro-calculator .json_display .key,
+::ng-deep .ui-scope-app-ro-calculator .json_display .key {
   color: #fff !important;
 }
 
-.p-inputgroup p-dropdown {
+.ui-inputgroup app-ui-dropdown {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-:host ::ng-deep .p-inputgroup p-dropdown .p-dropdown-filter {
+::ng-deep app-ro-calculator .ui-inputgroup app-ui-dropdown .ui-dropdown-filter,
+::ng-deep .ui-scope-app-ro-calculator .ui-inputgroup app-ui-dropdown .ui-dropdown-filter {
   width: 100%;
 }
 
-:host ::ng-deep .p-dropdown-items-wrapper,
-:host ::ng-deep .p-multiselect-items-wrapper {
+::ng-deep app-ro-calculator .ui-dropdown-items-wrapper,
+::ng-deep .ui-scope-app-ro-calculator .ui-dropdown-items-wrapper,
+::ng-deep app-ro-calculator .ui-multiselect-items-wrapper,
+::ng-deep .ui-scope-app-ro-calculator .ui-multiselect-items-wrapper {
   overscroll-behavior: none;
 }
 
-:host ::ng-deep .p-accordion-header-link {
+::ng-deep app-ro-calculator .ui-accordion-header-link,
+::ng-deep .ui-scope-app-ro-calculator .ui-accordion-header-link {
   padding-top: 0.75rem !important;
   padding-bottom: 0.75rem !important;
 }
 
-:host ::ng-deep .consumable .p-accordion-content,
-:host ::ng-deep .select_skill .p-accordion-content {
+::ng-deep app-ro-calculator .consumable .ui-accordion-content,
+::ng-deep .ui-scope-app-ro-calculator .consumable .ui-accordion-content,
+::ng-deep app-ro-calculator .select_skill .ui-accordion-content,
+::ng-deep .ui-scope-app-ro-calculator .select_skill .ui-accordion-content {
   padding: 0.875rem;
 }
 
@@ -163,23 +176,26 @@
   width: 100%;
 }
 
-:host ::ng-deep .consumable-picker-field p-dropdown {
+::ng-deep app-ro-calculator .consumable-picker-field app-ui-dropdown,
+::ng-deep .ui-scope-app-ro-calculator .consumable-picker-field app-ui-dropdown {
   flex: 1 1 auto;
   width: auto;
 }
 
-:host ::ng-deep .calc-panel .consumable-picker-field .p-dropdown {
+::ng-deep app-ro-calculator .calc-panel .consumable-picker-field .ui-dropdown,
+::ng-deep .ui-scope-app-ro-calculator .calc-panel .consumable-picker-field .ui-dropdown {
   padding: 0 0.2rem 0 0.45rem;
 }
 
-:host ::ng-deep .consumable-picker-field .p-dropdown-clear-icon {
+::ng-deep app-ro-calculator .consumable-picker-field .ui-dropdown-clear-icon,
+::ng-deep .ui-scope-app-ro-calculator .consumable-picker-field .ui-dropdown-clear-icon {
   right: 2.15rem;
   width: 14px;
   height: 14px;
   color: rgba(255, 255, 255, 0.45);
 }
 
-.calc-panel .consumable-picker-field ::ng-deep .p-dropdown-label {
+.calc-panel .consumable-picker-field ::ng-deep .ui-dropdown-label {
   justify-content: flex-start;
   overflow: hidden;
   padding-right: 2rem;
@@ -188,14 +204,14 @@
   text-align: left;
 }
 
-.calc-panel .consumable-picker-field ::ng-deep .p-dropdown-label .calc-option-row {
+.calc-panel .consumable-picker-field ::ng-deep .ui-dropdown-label .calc-option-row {
   justify-content: flex-start;
   min-width: 0;
   width: 100%;
   overflow: hidden;
 }
 
-.calc-panel .consumable-picker-field ::ng-deep .p-dropdown-label .calc-option-row > span {
+.calc-panel .consumable-picker-field ::ng-deep .ui-dropdown-label .calc-option-row > span {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -220,22 +236,26 @@
   image-rendering: pixelated;
 }
 
-:host ::ng-deep .consumable .p-listbox {
+::ng-deep app-ro-calculator .consumable .ui-listbox,
+::ng-deep .ui-scope-app-ro-calculator .consumable .ui-listbox {
   border: 0;
   background: transparent;
 }
 
-:host ::ng-deep .consumable .p-listbox-list {
+::ng-deep app-ro-calculator .consumable .ui-listbox-list,
+::ng-deep .ui-scope-app-ro-calculator .consumable .ui-listbox-list {
   padding: 0;
 }
 
-:host ::ng-deep .consumable-stack .p-listbox-list {
+::ng-deep app-ro-calculator .consumable-stack .ui-listbox-list,
+::ng-deep .ui-scope-app-ro-calculator .consumable-stack .ui-listbox-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 0.5rem;
 }
 
-:host ::ng-deep .consumable .p-listbox-item {
+::ng-deep app-ro-calculator .consumable .ui-listbox-item,
+::ng-deep .ui-scope-app-ro-calculator .consumable .ui-listbox-item {
   min-width: 0;
   padding: 0.45rem 0.5rem;
   margin-bottom: 2px;
@@ -243,24 +263,29 @@
   border-radius: var(--border-radius);
 }
 
-:host ::ng-deep .consumable .p-listbox-item.p-highlight {
+::ng-deep app-ro-calculator .consumable .ui-listbox-item.ui-highlight,
+::ng-deep .ui-scope-app-ro-calculator .consumable .ui-listbox-item.ui-highlight {
   border-color: color-mix(in srgb, var(--primary-color) 45%, transparent);
   background: color-mix(in srgb, var(--primary-color) 16%, transparent);
 }
 
-:host ::ng-deep .consumable .p-dropdown,
-:host ::ng-deep .skill-control-row .p-dropdown {
+::ng-deep app-ro-calculator .consumable .ui-dropdown,
+::ng-deep .ui-scope-app-ro-calculator .consumable .ui-dropdown,
+::ng-deep app-ro-calculator .skill-control-row .ui-dropdown,
+::ng-deep .ui-scope-app-ro-calculator .skill-control-row .ui-dropdown {
   width: 100%;
   background: var(--surface-ground);
 }
 
-:host ::ng-deep .consumable .p-dropdown-label {
+::ng-deep app-ro-calculator .consumable .ui-dropdown-label,
+::ng-deep .ui-scope-app-ro-calculator .consumable .ui-dropdown-label {
   min-width: 0;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
 
-:host ::ng-deep .consumable-aspd .consumable-aspd-field .p-dropdown {
+::ng-deep app-ro-calculator .consumable-aspd .consumable-aspd-field .ui-dropdown,
+::ng-deep .ui-scope-app-ro-calculator .consumable-aspd .consumable-aspd-field .ui-dropdown {
   border-radius: var(--border-radius);
 }
 
@@ -278,7 +303,8 @@
   grid-column: 1 / -1;
 }
 
-:host ::ng-deep .skill-panel .skill-control-row .p-dropdown-label {
+::ng-deep app-ro-calculator .skill-panel .skill-control-row .ui-dropdown-label,
+::ng-deep .ui-scope-app-ro-calculator .skill-panel .skill-control-row .ui-dropdown-label {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -287,16 +313,19 @@
   text-align: center;
 }
 
-:host ::ng-deep .skill-panel .skill-control-row .skill-dropdown-empty .p-dropdown-label {
+::ng-deep app-ro-calculator .skill-panel .skill-control-row .skill-dropdown-empty .ui-dropdown-label,
+::ng-deep .ui-scope-app-ro-calculator .skill-panel .skill-control-row .skill-dropdown-empty .ui-dropdown-label {
   padding-left: 1.35rem;
 }
 
-:host ::ng-deep .skill-panel .skill-control-row .p-dropdown-trigger {
+::ng-deep app-ro-calculator .skill-panel .skill-control-row .ui-dropdown-trigger,
+::ng-deep .ui-scope-app-ro-calculator .skill-panel .skill-control-row .ui-dropdown-trigger {
   width: 1.35rem;
   padding-right: 0.2rem;
 }
 
-:host ::ng-deep .skill-panel .skill-control-row .p-dropdown-trigger svg {
+::ng-deep app-ro-calculator .skill-panel .skill-control-row .ui-dropdown-trigger .ui-icon,
+::ng-deep .ui-scope-app-ro-calculator .skill-panel .skill-control-row .ui-dropdown-trigger .ui-icon {
   width: 14px;
   height: 14px;
 }
@@ -327,12 +356,15 @@
   margin: 0;
 }
 
-:host ::ng-deep .skill-control-row p-selectbutton,
-:host ::ng-deep .skill-control-row .p-selectbutton {
+::ng-deep app-ro-calculator .skill-control-row app-ui-select-button,
+::ng-deep .ui-scope-app-ro-calculator .skill-control-row app-ui-select-button,
+::ng-deep app-ro-calculator .skill-control-row .ui-selectbutton,
+::ng-deep .ui-scope-app-ro-calculator .skill-control-row .ui-selectbutton {
   width: 100%;
 }
 
-:host ::ng-deep .skill-control-row .p-button {
+::ng-deep app-ro-calculator .skill-control-row .ui-button,
+::ng-deep .ui-scope-app-ro-calculator .skill-control-row .ui-button {
   flex: 1 1 0;
   justify-content: center;
   padding: 0.4rem 0;
@@ -340,7 +372,8 @@
   font-weight: 700;
 }
 
-:host ::ng-deep .battle_summary .p-fieldset-content {
+::ng-deep app-ro-calculator .battle_summary .ui-fieldset-content,
+::ng-deep .ui-scope-app-ro-calculator .battle_summary .ui-fieldset-content {
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -389,7 +422,8 @@
   margin-bottom: 1rem;
 }
 
-:host ::ng-deep .item-description-server .p-dropdown {
+::ng-deep app-ro-calculator .item-description-server .ui-dropdown,
+::ng-deep .ui-scope-app-ro-calculator .item-description-server .ui-dropdown {
   width: 100%;
   background: var(--surface-ground);
 }
@@ -398,16 +432,19 @@
   margin-top: 0.875rem;
 }
 
-:host ::ng-deep .item-description-list {
+::ng-deep app-ro-calculator .item-description-list,
+::ng-deep .ui-scope-app-ro-calculator .item-description-list {
   border: 0;
   background: transparent;
 }
 
-:host ::ng-deep .item-description-list .p-listbox-list {
+::ng-deep app-ro-calculator .item-description-list .ui-listbox-list,
+::ng-deep .ui-scope-app-ro-calculator .item-description-list .ui-listbox-list {
   padding: 0;
 }
 
-:host ::ng-deep .item-description-list .p-listbox-item {
+::ng-deep app-ro-calculator .item-description-list .ui-listbox-item,
+::ng-deep .ui-scope-app-ro-calculator .item-description-list .ui-listbox-item {
   min-width: 0;
   padding: 0.5rem 0.4rem;
   margin-bottom: 2px;
@@ -415,7 +452,8 @@
   border-radius: var(--border-radius);
 }
 
-:host ::ng-deep .item-description-list .p-listbox-item.p-highlight {
+::ng-deep app-ro-calculator .item-description-list .ui-listbox-item.ui-highlight,
+::ng-deep .ui-scope-app-ro-calculator .item-description-list .ui-listbox-item.ui-highlight {
   border-color: color-mix(in srgb, var(--primary-color) 45%, transparent);
   background: color-mix(in srgb, var(--primary-color) 16%, transparent);
 }
@@ -565,12 +603,15 @@ a.skill_link:hover {
   padding-left: 0.4375rem;
 }
 
-:host ::ng-deep .misc-detail-table .p-datatable,
-:host ::ng-deep .misc-detail-table .p-datatable table {
+::ng-deep app-ro-calculator .misc-detail-table .ui-datatable,
+::ng-deep .ui-scope-app-ro-calculator .misc-detail-table .ui-datatable,
+::ng-deep app-ro-calculator .misc-detail-table .ui-datatable table,
+::ng-deep .ui-scope-app-ro-calculator .misc-detail-table .ui-datatable table {
   background: transparent;
 }
 
-:host ::ng-deep .misc-detail-table .p-datatable .p-datatable-thead > tr > th {
+::ng-deep app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-thead > tr > th,
+::ng-deep .ui-scope-app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-thead > tr > th {
   padding: 0.45rem 0.3rem;
   border-width: 0 0 1px;
   border-color: var(--surface-border);
@@ -582,34 +623,41 @@ a.skill_link:hover {
   text-transform: uppercase;
 }
 
-:host ::ng-deep .misc-detail-table .p-datatable .p-datatable-tbody > tr {
+::ng-deep app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-tbody > tr,
+::ng-deep .ui-scope-app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-tbody > tr {
   background: transparent;
 }
 
-:host ::ng-deep .misc-detail-table .p-datatable .p-datatable-tbody > tr > td {
+::ng-deep app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-tbody > tr > td,
+::ng-deep .ui-scope-app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-tbody > tr > td {
   padding: 0.5rem 0.3rem;
   border-width: 0 0 1px;
   border-color: color-mix(in srgb, var(--surface-border) 55%, transparent);
   font-size: 12px;
 }
 
-:host ::ng-deep .misc-detail-table .p-datatable .p-datatable-tbody > tr:last-child > td {
+::ng-deep app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-tbody > tr:last-child > td,
+::ng-deep .ui-scope-app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-tbody > tr:last-child > td {
   border-bottom: 0;
 }
 
-:host ::ng-deep .misc-detail-table th:not(:first-child),
-:host ::ng-deep .misc-detail-table td:not(:first-child) {
+::ng-deep app-ro-calculator .misc-detail-table th:not(:first-child),
+::ng-deep .ui-scope-app-ro-calculator .misc-detail-table th:not(:first-child),
+::ng-deep app-ro-calculator .misc-detail-table td:not(:first-child),
+::ng-deep .ui-scope-app-ro-calculator .misc-detail-table td:not(:first-child) {
   text-align: right;
 }
 
-:host ::ng-deep .misc-detail-table .color_highlight {
+::ng-deep app-ro-calculator .misc-detail-table .color_highlight,
+::ng-deep .ui-scope-app-ro-calculator .misc-detail-table .color_highlight {
   background: transparent !important;
   color: var(--text-color-secondary) !important;
 }
 
 /* Match the neutral element tag used by Resumo de Batalha. Coloured elements already
    receive the shared global property_* classes through elementTagClass(). */
-:host ::ng-deep .misc-detail-table .el-tag-neutral.p-tag {
+::ng-deep app-ro-calculator .misc-detail-table .el-tag-neutral.ui-tag,
+::ng-deep .ui-scope-app-ro-calculator .misc-detail-table .el-tag-neutral.ui-tag {
   background-color: transparent !important;
   border: 1px solid var(--surface-border);
   color: var(--text-color-secondary) !important;
@@ -810,7 +858,7 @@ a.skill_link:hover {
   text-decoration: underline;
 }
 
-.bonus_breakdown_calc_link .pi {
+.bonus_breakdown_calc_link .ui-icon {
   font-size: 0.7rem;
 }
 
@@ -873,168 +921,285 @@ a.skill_link:hover {
   border: var(--border-radius) solid var(--surface-border);
 }
 
-:host ::ng-deep .item-position-weaponList,
-:host ::ng-deep .item-position-weaponCardList,
-:host ::ng-deep .item_label_weapon,
-:host ::ng-deep .item_label_weaponCard1,
-:host ::ng-deep .item_label_weaponCard2,
-:host ::ng-deep .item_label_weaponCard3,
-:host ::ng-deep .item_label_weaponCard4,
-:host ::ng-deep .item_label_ammo,
-:host ::ng-deep .item_label_weaponEnchant0,
-:host ::ng-deep .item_label_weaponEnchant1,
-:host ::ng-deep .item_label_weaponEnchant2,
-:host ::ng-deep .item_label_weaponEnchant3 {
+::ng-deep app-ro-calculator .item-position-weaponList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-weaponList,
+::ng-deep app-ro-calculator .item-position-weaponCardList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-weaponCardList,
+::ng-deep app-ro-calculator .item_label_weapon,
+::ng-deep .ui-scope-app-ro-calculator .item_label_weapon,
+::ng-deep app-ro-calculator .item_label_weaponCard1,
+::ng-deep .ui-scope-app-ro-calculator .item_label_weaponCard1,
+::ng-deep app-ro-calculator .item_label_weaponCard2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_weaponCard2,
+::ng-deep app-ro-calculator .item_label_weaponCard3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_weaponCard3,
+::ng-deep app-ro-calculator .item_label_weaponCard4,
+::ng-deep .ui-scope-app-ro-calculator .item_label_weaponCard4,
+::ng-deep app-ro-calculator .item_label_ammo,
+::ng-deep .ui-scope-app-ro-calculator .item_label_ammo,
+::ng-deep app-ro-calculator .item_label_weaponEnchant0,
+::ng-deep .ui-scope-app-ro-calculator .item_label_weaponEnchant0,
+::ng-deep app-ro-calculator .item_label_weaponEnchant1,
+::ng-deep .ui-scope-app-ro-calculator .item_label_weaponEnchant1,
+::ng-deep app-ro-calculator .item_label_weaponEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_weaponEnchant2,
+::ng-deep app-ro-calculator .item_label_weaponEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_weaponEnchant3 {
   /* background-color: var(--surface-0); */
   background-color: #121212;
   color: var(--pink-200);
 }
 
-:host ::ng-deep .item_label_leftWeapon,
-:host ::ng-deep .item_label_leftWeaponCard1,
-:host ::ng-deep .item_label_leftWeaponCard2,
-:host ::ng-deep .item_label_leftWeaponCard3,
-:host ::ng-deep .item_label_leftWeaponCard4,
-:host ::ng-deep .item_label_leftWeaponEnchant0,
-:host ::ng-deep .item_label_leftWeaponEnchant1,
-:host ::ng-deep .item_label_leftWeaponEnchant2,
-:host ::ng-deep .item_label_leftWeaponEnchant3 {
+::ng-deep app-ro-calculator .item_label_leftWeapon,
+::ng-deep .ui-scope-app-ro-calculator .item_label_leftWeapon,
+::ng-deep app-ro-calculator .item_label_leftWeaponCard1,
+::ng-deep .ui-scope-app-ro-calculator .item_label_leftWeaponCard1,
+::ng-deep app-ro-calculator .item_label_leftWeaponCard2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_leftWeaponCard2,
+::ng-deep app-ro-calculator .item_label_leftWeaponCard3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_leftWeaponCard3,
+::ng-deep app-ro-calculator .item_label_leftWeaponCard4,
+::ng-deep .ui-scope-app-ro-calculator .item_label_leftWeaponCard4,
+::ng-deep app-ro-calculator .item_label_leftWeaponEnchant0,
+::ng-deep .ui-scope-app-ro-calculator .item_label_leftWeaponEnchant0,
+::ng-deep app-ro-calculator .item_label_leftWeaponEnchant1,
+::ng-deep .ui-scope-app-ro-calculator .item_label_leftWeaponEnchant1,
+::ng-deep app-ro-calculator .item_label_leftWeaponEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_leftWeaponEnchant2,
+::ng-deep app-ro-calculator .item_label_leftWeaponEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_leftWeaponEnchant3 {
   /* background-color: var(--surface-0); */
   background-color: #121212;
   color: var(--pink-200);
 }
 
-:host ::ng-deep .item-position-shieldList,
-:host ::ng-deep .item-position-shieldCardList,
-:host ::ng-deep .item_label_shield,
-:host ::ng-deep .item_label_shieldCard,
-:host ::ng-deep .item_label_shieldEnchant1,
-:host ::ng-deep .item_label_shieldEnchant2,
-:host ::ng-deep .item_label_shieldEnchant3 {
+::ng-deep app-ro-calculator .item-position-shieldList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-shieldList,
+::ng-deep app-ro-calculator .item-position-shieldCardList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-shieldCardList,
+::ng-deep app-ro-calculator .item_label_shield,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shield,
+::ng-deep app-ro-calculator .item_label_shieldCard,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shieldCard,
+::ng-deep app-ro-calculator .item_label_shieldEnchant1,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shieldEnchant1,
+::ng-deep app-ro-calculator .item_label_shieldEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shieldEnchant2,
+::ng-deep app-ro-calculator .item_label_shieldEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shieldEnchant3 {
   /* background-color: var(--surface-0); */
   background-color: #121212;
   color: var(--pink-200);
 }
 
-:host ::ng-deep .item-position-headUpperList,
-:host ::ng-deep .item-position-headMiddleList,
-:host ::ng-deep .item-position-headLowerList,
-:host ::ng-deep .item-position-headCardList,
-:host ::ng-deep .item_label_headUpper,
-:host ::ng-deep .item_label_headUpperCard,
-:host ::ng-deep .item_label_headUpperEnchant1,
-:host ::ng-deep .item_label_headUpperEnchant2,
-:host ::ng-deep .item_label_headUpperEnchant3,
-:host ::ng-deep .item_label_headMiddle,
-:host ::ng-deep .item_label_headMiddleCard,
-:host ::ng-deep .item_label_headMiddleEnchant1,
-:host ::ng-deep .item_label_headMiddleEnchant2,
-:host ::ng-deep .item_label_headMiddleEnchant3,
-:host ::ng-deep .item_label_headLower,
-:host ::ng-deep .item_label_headLowerEnchant1,
-:host ::ng-deep .item_label_headLowerEnchant2,
-:host ::ng-deep .item_label_headLowerEnchant3 {
+::ng-deep app-ro-calculator .item-position-headUpperList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-headUpperList,
+::ng-deep app-ro-calculator .item-position-headMiddleList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-headMiddleList,
+::ng-deep app-ro-calculator .item-position-headLowerList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-headLowerList,
+::ng-deep app-ro-calculator .item-position-headCardList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-headCardList,
+::ng-deep app-ro-calculator .item_label_headUpper,
+::ng-deep .ui-scope-app-ro-calculator .item_label_headUpper,
+::ng-deep app-ro-calculator .item_label_headUpperCard,
+::ng-deep .ui-scope-app-ro-calculator .item_label_headUpperCard,
+::ng-deep app-ro-calculator .item_label_headUpperEnchant1,
+::ng-deep .ui-scope-app-ro-calculator .item_label_headUpperEnchant1,
+::ng-deep app-ro-calculator .item_label_headUpperEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_headUpperEnchant2,
+::ng-deep app-ro-calculator .item_label_headUpperEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_headUpperEnchant3,
+::ng-deep app-ro-calculator .item_label_headMiddle,
+::ng-deep .ui-scope-app-ro-calculator .item_label_headMiddle,
+::ng-deep app-ro-calculator .item_label_headMiddleCard,
+::ng-deep .ui-scope-app-ro-calculator .item_label_headMiddleCard,
+::ng-deep app-ro-calculator .item_label_headMiddleEnchant1,
+::ng-deep .ui-scope-app-ro-calculator .item_label_headMiddleEnchant1,
+::ng-deep app-ro-calculator .item_label_headMiddleEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_headMiddleEnchant2,
+::ng-deep app-ro-calculator .item_label_headMiddleEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_headMiddleEnchant3,
+::ng-deep app-ro-calculator .item_label_headLower,
+::ng-deep .ui-scope-app-ro-calculator .item_label_headLower,
+::ng-deep app-ro-calculator .item_label_headLowerEnchant1,
+::ng-deep .ui-scope-app-ro-calculator .item_label_headLowerEnchant1,
+::ng-deep app-ro-calculator .item_label_headLowerEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_headLowerEnchant2,
+::ng-deep app-ro-calculator .item_label_headLowerEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_headLowerEnchant3 {
   /* background-color: var(--surface-0); */
   background-color: #121212;
   color: var(--blue-200);
 }
 
-:host ::ng-deep .item-position-armorList,
-:host ::ng-deep .item-position-armorCardList,
-:host ::ng-deep .item-position-garmentList,
-:host ::ng-deep .item-position-garmentCardList,
-:host ::ng-deep .item-position-bootList,
-:host ::ng-deep .item-position-bootCardList,
-:host ::ng-deep .item_label_armor,
-:host ::ng-deep .item_label_armorCard,
-:host ::ng-deep .item_label_armorEnchant1,
-:host ::ng-deep .item_label_armorEnchant2,
-:host ::ng-deep .item_label_armorEnchant3,
-:host ::ng-deep .item_label_garment,
-:host ::ng-deep .item_label_garmentCard,
-:host ::ng-deep .item_label_garmentEnchant1,
-:host ::ng-deep .item_label_garmentEnchant2,
-:host ::ng-deep .item_label_garmentEnchant3,
-:host ::ng-deep .item_label_boot,
-:host ::ng-deep .item_label_bootCard,
-:host ::ng-deep .item_label_bootEnchant1,
-:host ::ng-deep .item_label_bootEnchant2,
-:host ::ng-deep .item_label_bootEnchant3 {
+::ng-deep app-ro-calculator .item-position-armorList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-armorList,
+::ng-deep app-ro-calculator .item-position-armorCardList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-armorCardList,
+::ng-deep app-ro-calculator .item-position-garmentList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-garmentList,
+::ng-deep app-ro-calculator .item-position-garmentCardList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-garmentCardList,
+::ng-deep app-ro-calculator .item-position-bootList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-bootList,
+::ng-deep app-ro-calculator .item-position-bootCardList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-bootCardList,
+::ng-deep app-ro-calculator .item_label_armor,
+::ng-deep .ui-scope-app-ro-calculator .item_label_armor,
+::ng-deep app-ro-calculator .item_label_armorCard,
+::ng-deep .ui-scope-app-ro-calculator .item_label_armorCard,
+::ng-deep app-ro-calculator .item_label_armorEnchant1,
+::ng-deep .ui-scope-app-ro-calculator .item_label_armorEnchant1,
+::ng-deep app-ro-calculator .item_label_armorEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_armorEnchant2,
+::ng-deep app-ro-calculator .item_label_armorEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_armorEnchant3,
+::ng-deep app-ro-calculator .item_label_garment,
+::ng-deep .ui-scope-app-ro-calculator .item_label_garment,
+::ng-deep app-ro-calculator .item_label_garmentCard,
+::ng-deep .ui-scope-app-ro-calculator .item_label_garmentCard,
+::ng-deep app-ro-calculator .item_label_garmentEnchant1,
+::ng-deep .ui-scope-app-ro-calculator .item_label_garmentEnchant1,
+::ng-deep app-ro-calculator .item_label_garmentEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_garmentEnchant2,
+::ng-deep app-ro-calculator .item_label_garmentEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_garmentEnchant3,
+::ng-deep app-ro-calculator .item_label_boot,
+::ng-deep .ui-scope-app-ro-calculator .item_label_boot,
+::ng-deep app-ro-calculator .item_label_bootCard,
+::ng-deep .ui-scope-app-ro-calculator .item_label_bootCard,
+::ng-deep app-ro-calculator .item_label_bootEnchant1,
+::ng-deep .ui-scope-app-ro-calculator .item_label_bootEnchant1,
+::ng-deep app-ro-calculator .item_label_bootEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_bootEnchant2,
+::ng-deep app-ro-calculator .item_label_bootEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_bootEnchant3 {
   /* background-color: var(--surface-0); */
   background-color: #121212;
   color: var(--red-200);
 }
 
-:host ::ng-deep .item-position-accList,
-:host ::ng-deep .item-position-accCardList,
-:host ::ng-deep .item_label_accLeft,
-:host ::ng-deep .item_label_accLeftCard,
-:host ::ng-deep .item_label_accLeftEnchant1,
-:host ::ng-deep .item_label_accLeftEnchant2,
-:host ::ng-deep .item_label_accLeftEnchant3,
-:host ::ng-deep .item_label_accRight,
-:host ::ng-deep .item_label_accRightCard,
-:host ::ng-deep .item_label_accRightEnchant1,
-:host ::ng-deep .item_label_accRightEnchant2,
-:host ::ng-deep .item_label_accRightEnchant3 {
+::ng-deep app-ro-calculator .item-position-accList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-accList,
+::ng-deep app-ro-calculator .item-position-accCardList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-accCardList,
+::ng-deep app-ro-calculator .item_label_accLeft,
+::ng-deep .ui-scope-app-ro-calculator .item_label_accLeft,
+::ng-deep app-ro-calculator .item_label_accLeftCard,
+::ng-deep .ui-scope-app-ro-calculator .item_label_accLeftCard,
+::ng-deep app-ro-calculator .item_label_accLeftEnchant1,
+::ng-deep .ui-scope-app-ro-calculator .item_label_accLeftEnchant1,
+::ng-deep app-ro-calculator .item_label_accLeftEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_accLeftEnchant2,
+::ng-deep app-ro-calculator .item_label_accLeftEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_accLeftEnchant3,
+::ng-deep app-ro-calculator .item_label_accRight,
+::ng-deep .ui-scope-app-ro-calculator .item_label_accRight,
+::ng-deep app-ro-calculator .item_label_accRightCard,
+::ng-deep .ui-scope-app-ro-calculator .item_label_accRightCard,
+::ng-deep app-ro-calculator .item_label_accRightEnchant1,
+::ng-deep .ui-scope-app-ro-calculator .item_label_accRightEnchant1,
+::ng-deep app-ro-calculator .item_label_accRightEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_accRightEnchant2,
+::ng-deep app-ro-calculator .item_label_accRightEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_accRightEnchant3 {
   /* background-color: var(--surface-0); */
   background-color: #121212;
   color: var(--purple-200);
 }
 
-:host ::ng-deep .item-position-petList,
-:host ::ng-deep .item_label_pet {
+::ng-deep app-ro-calculator .item-position-petList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-petList,
+::ng-deep app-ro-calculator .item_label_pet,
+::ng-deep .ui-scope-app-ro-calculator .item_label_pet {
   /* background-color: var(--surface-0); */
   background-color: #121212;
   color: var(--orange-200);
 }
 
-:host ::ng-deep .item-position-costumeList,
-:host ::ng-deep .item_label_costumeUpper,
-:host ::ng-deep .item_label_costumeMiddle,
-:host ::ng-deep .item_label_costumeLower,
-:host ::ng-deep .item_label_costumeGarment,
-:host ::ng-deep .item_label_costumeEnchantUpper,
-:host ::ng-deep .item_label_costumeEnchantMiddle,
-:host ::ng-deep .item_label_costumeEnchantLower,
-:host ::ng-deep .item_label_costumeEnchantGarment,
-:host ::ng-deep .item_label_costumeEnchantGarment2,
-:host ::ng-deep .item_label_costumeEnchantGarment4 {
+::ng-deep app-ro-calculator .item-position-costumeList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-costumeList,
+::ng-deep app-ro-calculator .item_label_costumeUpper,
+::ng-deep .ui-scope-app-ro-calculator .item_label_costumeUpper,
+::ng-deep app-ro-calculator .item_label_costumeMiddle,
+::ng-deep .ui-scope-app-ro-calculator .item_label_costumeMiddle,
+::ng-deep app-ro-calculator .item_label_costumeLower,
+::ng-deep .ui-scope-app-ro-calculator .item_label_costumeLower,
+::ng-deep app-ro-calculator .item_label_costumeGarment,
+::ng-deep .ui-scope-app-ro-calculator .item_label_costumeGarment,
+::ng-deep app-ro-calculator .item_label_costumeEnchantUpper,
+::ng-deep .ui-scope-app-ro-calculator .item_label_costumeEnchantUpper,
+::ng-deep app-ro-calculator .item_label_costumeEnchantMiddle,
+::ng-deep .ui-scope-app-ro-calculator .item_label_costumeEnchantMiddle,
+::ng-deep app-ro-calculator .item_label_costumeEnchantLower,
+::ng-deep .ui-scope-app-ro-calculator .item_label_costumeEnchantLower,
+::ng-deep app-ro-calculator .item_label_costumeEnchantGarment,
+::ng-deep .ui-scope-app-ro-calculator .item_label_costumeEnchantGarment,
+::ng-deep app-ro-calculator .item_label_costumeEnchantGarment2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_costumeEnchantGarment2,
+::ng-deep app-ro-calculator .item_label_costumeEnchantGarment4,
+::ng-deep .ui-scope-app-ro-calculator .item_label_costumeEnchantGarment4 {
   /* background-color: var(--surface-0); */
   background-color: #121212;
   color: var(--yellow-400);
 }
 
-:host ::ng-deep .item-position-shadowWeaponList,
-:host ::ng-deep .item-position-shadowShieldList,
-:host ::ng-deep .item-position-shadowArmorList,
-:host ::ng-deep .item-position-shadowBootList,
-:host ::ng-deep .item-position-shadowEarringList,
-:host ::ng-deep .item-position-shadowPendantList,
-:host ::ng-deep .item_label_shadowWeapon,
-:host ::ng-deep .item_label_shadowArmor,
-:host ::ng-deep .item_label_shadowShield,
-:host ::ng-deep .item_label_shadowBoot,
-:host ::ng-deep .item_label_shadowEarring,
-:host ::ng-deep .item_label_shadowPendant,
-:host ::ng-deep .item_label_shadowWeaponEnchant2,
-:host ::ng-deep .item_label_shadowWeaponEnchant3,
-:host ::ng-deep .item_label_shadowShieldEnchant2,
-:host ::ng-deep .item_label_shadowShieldEnchant3,
-:host ::ng-deep .item_label_shadowArmorEnchant2,
-:host ::ng-deep .item_label_shadowArmorEnchant3,
-:host ::ng-deep .item_label_shadowBootEnchant2,
-:host ::ng-deep .item_label_shadowBootEnchant3,
-:host ::ng-deep .item_label_shadowEarringEnchant2,
-:host ::ng-deep .item_label_shadowEarringEnchant3,
-:host ::ng-deep .item_label_shadowPendantEnchant2,
-:host ::ng-deep .item_label_shadowPendantEnchant3 {
+::ng-deep app-ro-calculator .item-position-shadowWeaponList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-shadowWeaponList,
+::ng-deep app-ro-calculator .item-position-shadowShieldList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-shadowShieldList,
+::ng-deep app-ro-calculator .item-position-shadowArmorList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-shadowArmorList,
+::ng-deep app-ro-calculator .item-position-shadowBootList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-shadowBootList,
+::ng-deep app-ro-calculator .item-position-shadowEarringList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-shadowEarringList,
+::ng-deep app-ro-calculator .item-position-shadowPendantList,
+::ng-deep .ui-scope-app-ro-calculator .item-position-shadowPendantList,
+::ng-deep app-ro-calculator .item_label_shadowWeapon,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowWeapon,
+::ng-deep app-ro-calculator .item_label_shadowArmor,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowArmor,
+::ng-deep app-ro-calculator .item_label_shadowShield,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowShield,
+::ng-deep app-ro-calculator .item_label_shadowBoot,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowBoot,
+::ng-deep app-ro-calculator .item_label_shadowEarring,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowEarring,
+::ng-deep app-ro-calculator .item_label_shadowPendant,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowPendant,
+::ng-deep app-ro-calculator .item_label_shadowWeaponEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowWeaponEnchant2,
+::ng-deep app-ro-calculator .item_label_shadowWeaponEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowWeaponEnchant3,
+::ng-deep app-ro-calculator .item_label_shadowShieldEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowShieldEnchant2,
+::ng-deep app-ro-calculator .item_label_shadowShieldEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowShieldEnchant3,
+::ng-deep app-ro-calculator .item_label_shadowArmorEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowArmorEnchant2,
+::ng-deep app-ro-calculator .item_label_shadowArmorEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowArmorEnchant3,
+::ng-deep app-ro-calculator .item_label_shadowBootEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowBootEnchant2,
+::ng-deep app-ro-calculator .item_label_shadowBootEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowBootEnchant3,
+::ng-deep app-ro-calculator .item_label_shadowEarringEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowEarringEnchant2,
+::ng-deep app-ro-calculator .item_label_shadowEarringEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowEarringEnchant3,
+::ng-deep app-ro-calculator .item_label_shadowPendantEnchant2,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowPendantEnchant2,
+::ng-deep app-ro-calculator .item_label_shadowPendantEnchant3,
+::ng-deep .ui-scope-app-ro-calculator .item_label_shadowPendantEnchant3 {
   /* background-color: var(--surface-0); */
   background-color: #121212;
   color: var(--green-200);
 }
 
-:host ::ng-deep .item_label_compare .p-listbox-item {
+::ng-deep app-ro-calculator .item_label_compare .ui-listbox-item,
+::ng-deep .ui-scope-app-ro-calculator .item_label_compare .ui-listbox-item {
   /* background-color: var(--surface-50); */
   background-color: #2a2a2a;
   color: var(--yellow-300);
@@ -1044,12 +1209,14 @@ a.skill_link:hover {
   font-size: 0.75rem;
 }
 
-:host ::ng-deep .divider .p-divider-horizontal {
+::ng-deep app-ro-calculator .divider .ui-divider-horizontal,
+::ng-deep .ui-scope-app-ro-calculator .divider .ui-divider-horizontal {
   margin: 0;
   padding: 0;
 }
 
-:host ::ng-deep .p-accordion-tab .p-accordion-header > a {
+::ng-deep app-ro-calculator .ui-accordion-tab .ui-accordion-header > button,
+::ng-deep .ui-scope-app-ro-calculator .ui-accordion-tab .ui-accordion-header > button {
   font-weight: 800;
   color: var(--highlight-text-color);
   background: var(--highlight-bg);
@@ -1057,8 +1224,10 @@ a.skill_link:hover {
   background: var(--indigo-300); */
 }
 
-:host ::ng-deep .p-accordion-tab .p-highlight > a,
-:host ::ng-deep .p-accordion-tab .p-accordion-header :hover {
+::ng-deep app-ro-calculator .ui-accordion-tab .ui-highlight > button,
+::ng-deep .ui-scope-app-ro-calculator .ui-accordion-tab .ui-highlight > button,
+::ng-deep app-ro-calculator .ui-accordion-tab .ui-accordion-header :hover,
+::ng-deep .ui-scope-app-ro-calculator .ui-accordion-tab .ui-accordion-header :hover {
   color: var(--primary-color-text) !important;
   background: var(--primary-color) !important;
   /* color: white !important;
@@ -1147,8 +1316,8 @@ a.skill_link:hover {
 }
 /* Every control in the band stands 34px tall (the joined Nv / Job pair gets it from
    .joined_field). */
-.char_band .build_actions ::ng-deep .p-button,
-.char_band .char_class ::ng-deep .p-dropdown,
+.char_band .build_actions ::ng-deep .ui-button,
+.char_band .char_class ::ng-deep .ui-dropdown,
 .char_band .char_point_box {
   height: 34px;
 }
@@ -1157,13 +1326,13 @@ a.skill_link:hover {
   display: flex;
   gap: 4px;
 }
-/* The page editor is a .p-fluid, which stretches every PrimeNG button to 100%; four of
+/* The page editor is a .ui-fluid, which stretches every shared button to 100%; four of
    those in a flex row come out equal and clip their own labels. In the band each action
    is as wide as what it says. */
 .build_actions > button {
   flex: 0 0 auto;
 }
-.build_actions ::ng-deep .p-button {
+.build_actions ::ng-deep .ui-button {
   width: auto;
   padding: 0 12px;
   gap: 6px;
@@ -1171,7 +1340,7 @@ a.skill_link:hover {
   font-weight: 600;
   white-space: nowrap;
 }
-.build_actions ::ng-deep .p-button .p-button-icon {
+.build_actions ::ng-deep .ui-button .ui-button-icon {
   font-size: 11px;
   margin: 0;
 }
@@ -1179,14 +1348,14 @@ a.skill_link:hover {
    band's own 34px and let the glyph grow into the space the words left.
    `gap: 0` is what centres the glyph. The row's 6px gap is there to space an icon from
    its label, and a labelless button still has a second flex item: the theme gives
-   `.p-button` an `::after` that is zero-width but `position: static`, so it lays out
+   `.ui-button` an `::after` that is zero-width but `position: static`, so it lays out
    like a child and collects the gap. The icon came out 3px left of centre. */
-.build_actions ::ng-deep .p-button.p-button-icon-only {
+.build_actions ::ng-deep .ui-button.ui-button-icon-only {
   width: 34px;
   padding: 0;
   gap: 0;
 }
-.build_actions ::ng-deep .p-button.p-button-icon-only .p-button-icon {
+.build_actions ::ng-deep .ui-button.ui-button-icon-only .ui-button-icon {
   font-size: 13px;
 }
 
@@ -1197,10 +1366,10 @@ a.skill_link:hover {
   flex: 1 1 0;
   min-width: 0;
 }
-.char_class ::ng-deep .p-dropdown {
+.char_class ::ng-deep .ui-dropdown {
   background: var(--surface-ground);
 }
-.char_class ::ng-deep .p-dropdown-label {
+.char_class ::ng-deep .ui-dropdown-label {
   flex: 1 1 auto;
   min-width: 0;
   display: flex;
@@ -1208,12 +1377,12 @@ a.skill_link:hover {
   padding: 0 8px;
   font-size: 13px;
 }
-.char_class ::ng-deep .p-dropdown.p-component {
+.char_class ::ng-deep .ui-dropdown.ui-component {
   display: flex;
   align-items: center;
   padding-right: 8px;
 }
-.char_class ::ng-deep .p-dropdown-label > div {
+.char_class ::ng-deep .ui-dropdown-label > div {
   gap: 6px;
 }
 .char_class ::ng-deep .job_img {
@@ -1222,20 +1391,20 @@ a.skill_link:hover {
 }
 /* The class picker is not a joined control (no caption, and it is the elastic item in the
    band), but its chevron is the same quiet glyph. */
-.char_class ::ng-deep .p-dropdown-trigger {
+.char_class ::ng-deep .ui-dropdown-trigger {
   flex: 0 0 auto;
   width: auto;
   padding: 0;
   color: rgba(255, 255, 255, 0.45);
 }
-.char_class ::ng-deep .p-dropdown-trigger svg {
+.char_class ::ng-deep .ui-dropdown-trigger .ui-icon {
   width: 14px;
   height: 14px;
 }
 
 /* ---------------------------------------------------------------------------
    The joined "label + value" control: a caption that gives up its right border and its
-   right corners, and a PrimeNG dropdown that gives up its left ones, so the pair reads as
+   right corners, and a shared dropdown that gives up its left ones, so the pair reads as
    one box. Used by Nv / Job in the band and by all twelve attribute fields, which reach
    these rules because status-input.component.ts lists this stylesheet in its styleUrls.
 
@@ -1246,7 +1415,7 @@ a.skill_link:hover {
   display: flex;
   height: 34px;
 }
-/* PrimeNG floors .p-inputgroup-addon at 2.357rem, which made "NV" a third of the control.
+/* The shared control floors .ui-inputgroup-addon at 2.357rem, which made "NV" a third of the control.
    A caption of two or three letters should be as wide as they are. */
 .joined_caption {
   min-width: 0;
@@ -1260,12 +1429,12 @@ a.skill_link:hover {
   border-right: 0;
   border-radius: var(--border-radius) 0 0 var(--border-radius);
 }
-/* A p-inputgroup lays its children out at `flex: 1 1 auto`, so the dropdown would never
+/* A ui-inputgroup lays its children out at `flex: 1 1 auto`, so the dropdown would never
    give up its intrinsic width; the value field is sized by its own rule instead. */
-.joined_field ::ng-deep p-dropdown {
+.joined_field ::ng-deep app-ui-dropdown {
   min-width: 0;
 }
-.joined_field ::ng-deep .p-dropdown {
+.joined_field ::ng-deep .ui-dropdown {
   width: 100%;
   min-width: 0;
   height: 100%;
@@ -1273,12 +1442,12 @@ a.skill_link:hover {
   align-items: center;
   gap: 5px;
   background: var(--surface-ground);
-  /* PrimeNG rounds all four corners on every .p-dropdown, which left a notch against the
+  /* The shared control rounds all four corners on every .ui-dropdown, which left a notch against the
      caption and made the two read as separate boxes. */
   border-radius: 0 var(--border-radius) var(--border-radius) 0;
 }
 /* Right-aligned, so "0" and "130" end at the same edge and a column of them reads as one. */
-.joined_field ::ng-deep .p-dropdown-label {
+.joined_field ::ng-deep .ui-dropdown-label {
   flex: 1 1 auto;
   display: flex;
   align-items: center;
@@ -1286,21 +1455,23 @@ a.skill_link:hover {
   padding: 0;
   line-height: 1;
 }
-/* PrimeNG's trigger is 2.357rem of chrome around the chevron; the design keeps the glyph
+/* The dropdown trigger is 2.357rem of chrome around the chevron; the design keeps the glyph
    but not the block, so it reads as part of the field rather than a button beside it. */
-.joined_field ::ng-deep .p-dropdown-trigger {
+.joined_field ::ng-deep .ui-dropdown-trigger {
   flex: 0 0 auto;
   width: auto;
   padding: 0;
+  margin-right: 5px;
   color: rgba(255, 255, 255, 0.45);
 }
-.joined_field ::ng-deep .p-dropdown-trigger svg {
+.joined_field ::ng-deep .ui-dropdown-trigger .ui-icon {
   width: 14px;
   height: 14px;
 }
 /* The panel takes the field's width by default, and these fields are 56-60px — enough for
    three digits, not for the search box inside the panel. Just wide enough to type in. */
-.joined_field ::ng-deep .p-dropdown-panel {
+::ng-deep .joined-dropdown-panel .ui-dropdown-panel {
+  width: 100px;
   min-width: 100px;
 }
 
@@ -1308,17 +1479,17 @@ a.skill_link:hover {
   width: 100%;
 }
 
-.battle-target-field ::ng-deep p-dropdown {
+.battle-target-field ::ng-deep app-ui-dropdown {
   flex: 1 1 auto;
   width: auto;
 }
 
-.battle-target-field ::ng-deep .p-dropdown {
+.battle-target-field ::ng-deep .ui-dropdown {
   padding: 0 0.45rem;
   border-radius: var(--border-radius);
 }
 
-.battle-target-field ::ng-deep .p-dropdown-label {
+.battle-target-field ::ng-deep .ui-dropdown-label {
   justify-content: flex-start;
   overflow: hidden;
   font-size: 12px;
@@ -1331,18 +1502,18 @@ a.skill_link:hover {
   display: flex;
   gap: 4px;
 }
-.char_levels .p-inputgroup {
+.char_levels .ui-inputgroup {
   width: auto;
   min-width: 0;
 }
-.char_levels ::ng-deep p-dropdown {
+.char_levels ::ng-deep app-ui-dropdown {
   flex: 0 0 60px;
   width: 60px;
 }
-.char_levels ::ng-deep .p-dropdown {
+.char_levels ::ng-deep .ui-dropdown {
   padding: 0 5px 0 6px;
 }
-.char_levels ::ng-deep .p-dropdown-label {
+.char_levels ::ng-deep .ui-dropdown-label {
   font-size: 12.5px;
 }
 .char_addon {
@@ -1502,7 +1673,7 @@ a.skill_link:hover {
   text-transform: none;
   white-space: nowrap;
 }
-.ss_reduction .pi {
+.ss_reduction .ui-icon {
   font-size: 11px;
 }
 
@@ -1675,7 +1846,7 @@ a.skill_link:hover {
   color: var(--red-300);
 }
 .char_levels--compare .joined_caption,
-.char_levels--compare ::ng-deep .p-dropdown {
+.char_levels--compare ::ng-deep .ui-dropdown {
   border-color: rgb(253 216 125 / 55%);
 }
 .char_levels--compare .joined_caption {
@@ -1793,7 +1964,7 @@ a.skill_link:hover {
   margin-left: 0;
 }
 
-.auto-cast-beta-actions .p-button {
+.auto-cast-beta-actions .ui-button {
   white-space: nowrap;
 }
 

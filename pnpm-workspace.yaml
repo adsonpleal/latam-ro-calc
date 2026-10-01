@@ -9,6 +9,8 @@
 allowBuilds:
   '@parcel/watcher': true
   esbuild: true
+  # Optional worker priority optimization; Angular builds work without this addon.
+  nice-napi: false
   nx: true
   workerd: true
 

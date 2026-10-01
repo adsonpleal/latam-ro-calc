@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ElementType } from '../../../../constants/element-type.const';
 import { MonsterModel } from '../../../../models/monster.model';
-import { SelectItemGroup } from 'primeng/api';
+import { SelectItemGroup } from 'src/app/ui/value-control';
 import { Subject, Subscription, debounceTime, tap } from 'rxjs';
 import { ElementMapper } from '../../../../constants/element-mapper';
 import { elementPtBr, racePtBr, sizePtBr } from '../../../../constants/monster-i18n';

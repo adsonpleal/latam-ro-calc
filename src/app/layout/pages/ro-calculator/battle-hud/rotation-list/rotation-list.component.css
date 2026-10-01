@@ -33,8 +33,8 @@
    inline-flex, gap .3rem, transparent, 1px solid #304562, radius 3px,
    padding .2rem .5rem, font-size 11.5px, icon 11x11 — and NO font-weight, which is
    what made the earlier bold version read so much heavier than the design. */
-.rot-optimize.p-button,
-.rot-clear.p-button {
+.rot-optimize.ui-button,
+.rot-clear.ui-button {
   background: transparent;
   border: 1px solid var(--surface-border);
   padding: 0.2rem 0.5rem;
@@ -44,8 +44,8 @@
   text-transform: none;
 }
 
-.rot-optimize.p-button,
-.rot-clear.p-button {
+.rot-optimize.ui-button,
+.rot-clear.ui-button {
   /* Hold each button to its label: they are flex items in a space-between row and were
      otherwise filling everything the heading left over. */
   width: auto;
@@ -54,35 +54,39 @@
 
 /* The handoff names the literal #FFE082, not --yellow-300 (#fdd87d) — that token is the
    dimmer yellow used for raça. Only Otimizar is yellow; Limpar stays neutral. */
-.rot-optimize.p-button {
+.rot-optimize.ui-button {
   color: #ffe082;
 }
 
-.rot-clear.p-button {
+.rot-clear.ui-button {
   color: var(--text-color-secondary);
 }
 
-/* PrimeNG renders button icons at 14px and spaces them at .5rem, which swamps an 11.5px
+/* Shared controls render button icons at 14px and spaces them at .5rem, which swamps an 11.5px
    label. The handoff's icon is 11x11 with a .3rem gap. */
-:host ::ng-deep .rot-optimize.p-button .p-button-icon,
-:host ::ng-deep .rot-clear.p-button .p-button-icon {
+::ng-deep app-rotation-list .rot-optimize.ui-button .ui-button-icon,
+::ng-deep .ui-scope-app-rotation-list .rot-optimize.ui-button .ui-button-icon,
+::ng-deep app-rotation-list .rot-clear.ui-button .ui-button-icon,
+::ng-deep .ui-scope-app-rotation-list .rot-clear.ui-button .ui-button-icon {
   font-size: 11px;
   font-weight: 400;
 }
 
-:host ::ng-deep .rot-optimize.p-button .p-button-icon-left,
-:host ::ng-deep .rot-clear.p-button .p-button-icon-left {
+::ng-deep app-rotation-list .rot-optimize.ui-button .ui-button-icon-left,
+::ng-deep .ui-scope-app-rotation-list .rot-optimize.ui-button .ui-button-icon-left,
+::ng-deep app-rotation-list .rot-clear.ui-button .ui-button-icon-left,
+::ng-deep .ui-scope-app-rotation-list .rot-clear.ui-button .ui-button-icon-left {
   margin-right: 0.3rem;
 }
 
-.rot-optimize.p-button:enabled:hover {
+.rot-optimize.ui-button:enabled:hover {
   background: rgba(255, 224, 130, 0.08);
   border-color: var(--surface-border);
   color: #ffe082;
 }
 
 /* Limpar throws work away, so it says so on hover. */
-.rot-clear.p-button:enabled:hover {
+.rot-clear.ui-button:enabled:hover {
   background: rgba(255, 137, 128, 0.08);
   border-color: var(--surface-border);
   color: var(--red-300, #ff8980);
@@ -90,7 +94,7 @@
 
 /* Adicionar habilidade is NOT the compact treatment above — the handoff gives it a
    full-size dashed button: gap .4rem, padding .45rem .75rem, .875rem text, 12x12 icon. */
-.rot-add.p-button {
+.rot-add.ui-button {
   background: transparent;
   border: 1px dashed var(--surface-border);
   padding: 0.45rem 0.75rem;
@@ -103,16 +107,18 @@
   width: 100%;
 }
 
-:host ::ng-deep .rot-add.p-button .p-button-icon {
+::ng-deep app-rotation-list .rot-add.ui-button .ui-button-icon,
+::ng-deep .ui-scope-app-rotation-list .rot-add.ui-button .ui-button-icon {
   font-size: 12px;
   font-weight: 400;
 }
 
-:host ::ng-deep .rot-add.p-button .p-button-icon-left {
+::ng-deep app-rotation-list .rot-add.ui-button .ui-button-icon-left,
+::ng-deep .ui-scope-app-rotation-list .rot-add.ui-button .ui-button-icon-left {
   margin-right: 0.4rem;
 }
 
-.rot-add.p-button:enabled:hover {
+.rot-add.ui-button:enabled:hover {
   background: var(--highlight-bg);
   border-color: var(--surface-border);
   color: var(--primary-color);
@@ -218,7 +224,7 @@
   gap: 4px;
   font-size: 13px;
   /* Shared by the level chip and the picker's label inside it — they have to agree, see
-     the .p-dropdown-label rule at the foot of this file. */
+     the .ui-dropdown-label rule at the foot of this file. */
   --rot-level-font-size: 10.5px;
 }
 
@@ -253,7 +259,8 @@
   white-space: nowrap;
 }
 
-:host ::ng-deep .rot-stack-dd.p-dropdown {
+::ng-deep app-rotation-list .rot-stack-dd.ui-dropdown,
+::ng-deep .ui-scope-app-rotation-list .rot-stack-dd.ui-dropdown {
   display: inline-flex;
   align-items: center;
   min-width: 38px;
@@ -264,12 +271,14 @@
   border-radius: 3px;
 }
 
-:host ::ng-deep .rot-stack-dd.p-dropdown .p-dropdown-label {
+::ng-deep app-rotation-list .rot-stack-dd.ui-dropdown .ui-dropdown-label,
+::ng-deep .ui-scope-app-rotation-list .rot-stack-dd.ui-dropdown .ui-dropdown-label {
   padding: 0;
   font-size: 10.5px;
 }
 
-:host ::ng-deep .rot-stack-dd.p-dropdown .p-dropdown-trigger {
+::ng-deep app-rotation-list .rot-stack-dd.ui-dropdown .ui-dropdown-trigger,
+::ng-deep .ui-scope-app-rotation-list .rot-stack-dd.ui-dropdown .ui-dropdown-trigger {
   width: 14px;
   color: var(--text-color-secondary);
 }
@@ -463,9 +472,10 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* The element p-tag, sized down to the row: PrimeNG's default is built for the monster
+/* The element app-ui-tag, sized down to the row: the default size is built for the monster
    card's 14px band and swamps an 11.5px line. Same tag, same colours, less of it. */
-:host ::ng-deep .rot-line2 .p-tag {
+::ng-deep app-rotation-list .rot-line2 .ui-tag,
+::ng-deep .ui-scope-app-rotation-list .rot-line2 .ui-tag {
   padding: 1px 5px;
   font-size: 10.5px;
   line-height: 1.35;
@@ -473,13 +483,15 @@
   cursor: pointer;
 }
 
-:host ::ng-deep .rot-line2 .p-tag .p-tag-icon {
+::ng-deep app-rotation-list .rot-line2 .ui-tag .ui-tag-icon,
+::ng-deep .ui-scope-app-rotation-list .rot-line2 .ui-tag .ui-tag-icon {
   font-size: 9px;
   margin-right: 3px;
 }
 
 /* Neutro carries no property_* colour of its own — outline it instead. */
-:host ::ng-deep .rot-line2 .p-tag.el-tag-neutral {
+::ng-deep app-rotation-list .rot-line2 .ui-tag.el-tag-neutral,
+::ng-deep .ui-scope-app-rotation-list .rot-line2 .ui-tag.el-tag-neutral {
   background: transparent;
   border: 1px solid var(--surface-border);
   color: var(--text-color);
@@ -588,7 +600,8 @@
    chevron is a sibling of the label, so a border on the span alone left it hanging off
    the right edge of the box it belongs to. Chrome here, none on the inner span — the
    static (non-picker) case keeps its own badge from the shared .rot-level rule. */
-:host ::ng-deep .rot-level-dd.p-dropdown {
+::ng-deep app-rotation-list .rot-level-dd.ui-dropdown,
+::ng-deep .ui-scope-app-rotation-list .rot-level-dd.ui-dropdown {
   display: inline-flex;
   align-items: center;
   background: transparent;
@@ -601,18 +614,21 @@
   height: auto;
 }
 
-:host ::ng-deep .rot-level-dd.p-dropdown .rot-level {
+::ng-deep app-rotation-list .rot-level-dd.ui-dropdown .rot-level,
+::ng-deep .ui-scope-app-rotation-list .rot-level-dd.ui-dropdown .rot-level {
   border: none;
   border-radius: 0;
   padding: 0;
 }
 
-:host ::ng-deep .rot-level-dd.p-dropdown .p-dropdown-trigger {
+::ng-deep app-rotation-list .rot-level-dd.ui-dropdown .ui-dropdown-trigger,
+::ng-deep .ui-scope-app-rotation-list .rot-level-dd.ui-dropdown .ui-dropdown-trigger {
   width: 16px;
   color: var(--text-color-secondary);
 }
 
-:host ::ng-deep .rot-level-dd.p-dropdown .p-dropdown-trigger .p-icon {
+::ng-deep app-rotation-list .rot-level-dd.ui-dropdown .ui-dropdown-trigger .ui-icon,
+::ng-deep .ui-scope-app-rotation-list .rot-level-dd.ui-dropdown .ui-dropdown-trigger .ui-icon {
   width: 14px;
   height: 14px;
 }
@@ -625,19 +641,21 @@
    baseline — which left 3,5px above the text and 1px below, i.e. sitting 2,5px low inside
    its own chip. Matching the strut to the text centres it, and drops the picker chip to
    the same height as the static .rot-level--static one beside it. */
-:host ::ng-deep .rot-level-dd.p-dropdown .p-dropdown-label {
+::ng-deep app-rotation-list .rot-level-dd.ui-dropdown .ui-dropdown-label,
+::ng-deep .ui-scope-app-rotation-list .rot-level-dd.ui-dropdown .ui-dropdown-label {
   padding: 0;
   font-size: var(--rot-level-font-size, 10.5px);
 }
 
-/* The flex child is the <p-dropdown> host element; `styleClass` only reaches the inner
-   .p-dropdown, so both have to be told to fill the row. */
-.rot-row--adding p-dropdown {
+/* The flex child is the <app-ui-dropdown> host element; `styleClass` only reaches the inner
+   .ui-dropdown, so both have to be told to fill the row. */
+.rot-row--adding app-ui-dropdown {
   flex: 1;
   min-width: 0;
 }
 
-:host ::ng-deep .rot-add-dd.p-dropdown {
+::ng-deep app-rotation-list .rot-add-dd.ui-dropdown,
+::ng-deep .ui-scope-app-rotation-list .rot-add-dd.ui-dropdown {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -648,7 +666,8 @@
   background: var(--surface-ground);
 }
 
-:host ::ng-deep .rot-add-dd.p-dropdown .p-dropdown-label {
+::ng-deep app-rotation-list .rot-add-dd.ui-dropdown .ui-dropdown-label,
+::ng-deep .ui-scope-app-rotation-list .rot-add-dd.ui-dropdown .ui-dropdown-label {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -658,23 +677,23 @@
   line-height: 1.25;
 }
 
-:host ::ng-deep .rot-add-dd.p-dropdown .p-dropdown-trigger {
+::ng-deep app-rotation-list .rot-add-dd.ui-dropdown .ui-dropdown-trigger,
+::ng-deep .ui-scope-app-rotation-list .rot-add-dd.ui-dropdown .ui-dropdown-trigger {
   flex: 0 0 auto;
   width: auto;
   padding: 0;
   color: rgba(255, 255, 255, 0.45);
 }
 
-:host ::ng-deep .rot-add-dd.p-dropdown .p-dropdown-trigger svg {
+::ng-deep app-rotation-list .rot-add-dd.ui-dropdown .ui-dropdown-trigger .ui-icon,
+::ng-deep .ui-scope-app-rotation-list .rot-add-dd.ui-dropdown .ui-dropdown-trigger .ui-icon {
   width: 14px;
   height: 14px;
 }
 
-/* The filter input is switched to type="search" (see markFilterAsPlainText), which makes
-   Chrome draw its own clear button on top of PrimeNG's search icon. The panel is portaled
-   to <body>, so `:host ::ng-deep` would never reach it — this rule has to be global. */
-::ng-deep .rot-add-dd-panel .p-dropdown-filter::-webkit-search-cancel-button,
-::ng-deep .rot-add-dd-panel .p-dropdown-filter::-webkit-search-decoration {
+/* Search inputs already have an authored search icon; hide Chrome's extra controls. */
+::ng-deep .rot-add-dd-panel .ui-dropdown-filter::-webkit-search-cancel-button,
+::ng-deep .rot-add-dd-panel .ui-dropdown-filter::-webkit-search-decoration {
   display: none;
 }
 
@@ -722,7 +741,7 @@
   display: flex;
 }
 
-.rot-addline .rot-add.p-button {
+.rot-addline .rot-add.ui-button {
   align-self: flex-start;
   width: auto;
   flex-shrink: 0;

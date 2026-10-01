@@ -79,7 +79,7 @@
     [class.picker__row--create]="row.create"
     [class.picker__row--section]="row.section"
     [style.height.px]="rowHeight"
-    [pTooltip]="items ? (row.value | itemDescTooltip: items : itemDescriptions.version) : ''"
+    [appTooltip]="items ? (row.value | itemDescTooltip: items : itemDescriptions.version) : ''"
     [escape]="false"
     tooltipPosition="right"
     [showDelay]="350"
@@ -96,7 +96,7 @@
     <span
       *ngIf="row.preRelease"
       class="pre_release_tag"
-      pTooltip="Prévia: item ainda não lançado no LATAM — nome e descrição em inglês, do kRO/iRO (divine-pride)."
+      appTooltip="Prévia: item ainda não lançado no LATAM — nome e descrição em inglês, do kRO/iRO (divine-pride)."
       tooltipPosition="top"
       [showDelay]="300"
       >Prévia</span

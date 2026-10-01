@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { OverlayPanel } from 'primeng/overlaypanel';
+import { UiPopoverComponent } from 'src/app/ui/popover.component';
 import { DamageFormulaCalc, DamageFormulaNode } from '../../../../../models/damage-summary.model';
 import { buildDpsSteps, buildGraphClusters, DpsSteps, FormulaGraphCluster, isCritWeighted, pickHeroDamage } from '../battle-hud.logic';
 import { DamageBranch } from '../rotation-list/rotation-list.component';
@@ -29,10 +29,10 @@ export interface DamagePopoverContext {
 export class BattleDamagePopoversComponent {
   constructor(private readonly changeDetector: ChangeDetectorRef) {}
 
-  @ViewChild('formulaPanel') formulaPanel: OverlayPanel;
-  @ViewChild('noCriPanel') noCriPanel: OverlayPanel;
-  @ViewChild('meanPanel') meanPanel: OverlayPanel;
-  @ViewChild('basicPanel') basicPanel: OverlayPanel;
+  @ViewChild('formulaPanel') formulaPanel: UiPopoverComponent;
+  @ViewChild('noCriPanel') noCriPanel: UiPopoverComponent;
+  @ViewChild('meanPanel') meanPanel: UiPopoverComponent;
+  @ViewChild('basicPanel') basicPanel: UiPopoverComponent;
 
   @Output() breakdownClick = new EventEmitter<{
     label: string; keys: string[]; valueClass: string; total?: number; calc?: DamageFormulaCalc; compare?: boolean;
@@ -61,35 +61,17 @@ export class BattleDamagePopoversComponent {
     return clusters;
   }
 
-  private alignPanel(panel: OverlayPanel, target: DOMRect, reveal = false): void {
-    const container = panel.container as HTMLElement;
-    if (!container || !target) return;
-    const overlay = container.getBoundingClientRect();
-    const scrollLeft = window.scrollX;
-    const scrollTop = window.scrollY;
-    let left = target.left + scrollLeft;
-    if (target.left + overlay.width > window.innerWidth) left = Math.max(scrollLeft, target.right + scrollLeft - overlay.width);
-    const flip = target.bottom + overlay.height > window.innerHeight;
-    const top = flip ? target.top + scrollTop - overlay.height : target.bottom + scrollTop;
-    container.style.left = `${left}px`;
-    container.style.top = `${Math.max(scrollTop, top)}px`;
-    container.style.setProperty('--overlayArrowLeft', `${Math.max(10, target.left + target.width / 2 + scrollLeft - left - 10)}px`);
-    container.classList.toggle('p-overlaypanel-flipped', flip);
-    if (reveal) container.style.visibility = 'visible';
-  }
-
   open(event: Event, branch: DamageBranch, context: DamagePopoverContext, target?: EventTarget | null): void {
     this.context = context;
     this.formulaPart = null;
     this.basicBranch = branch === 'cri' ? 'critical' : 'normal';
-    // Render the new formula before PrimeNG measures the overlay. Without this, a reused
+    // Render the new formula before the CDK measures the overlay. Without this, a reused
     // panel is first painted at the previous content's coordinates and visibly jumps.
     this.changeDetector.detectChanges();
     const pathElement = event.composedPath?.().find((node: any) => node?.nodeType === 1);
     const rawAnchor: any = target || pathElement || event.currentTarget || event.target;
     const candidate = rawAnchor?.nativeElement ?? rawAnchor;
     const anchor = candidate?.nodeType === 3 ? candidate.parentElement : candidate;
-    const targetRect = (anchor as HTMLElement)?.getBoundingClientRect?.();
     const panel = context.entry.isBasic && branch === 'mean'
       ? this.meanPanel
       : context.entry.isBasic
@@ -103,11 +85,9 @@ export class BattleDamagePopoversComponent {
       panel.hide();
       return;
     }
-    if (panel?.overlayVisible) panel.hide();
     panel?.show(event, anchor);
-    if (panel) panel.target = anchor;
     if (panel?.container) panel.container.style.visibility = 'hidden';
-    requestAnimationFrame(() => this.alignPanel(panel, targetRect, true));
+    requestAnimationFrame(() => panel?.align());
   }
 
   get entry(): DamagePopoverEntry | null { return this.context?.entry ?? null; }
@@ -198,8 +178,7 @@ export class BattleDamagePopoversComponent {
         this.formulaPart = { label: node.label, graph, hits: node.detail.hits,
           min: node.detail.min, max: node.detail.max, compare };
         this.changeDetector.detectChanges();
-        const anchor = this.formulaPanel?.target as HTMLElement | undefined;
-        if (anchor) this.alignPanel(this.formulaPanel, anchor.getBoundingClientRect());
+        this.formulaPanel?.align();
       }
       return;
     }
@@ -216,8 +195,7 @@ export class BattleDamagePopoversComponent {
   closeFormulaPart(): void {
     this.formulaPart = null;
     this.changeDetector.detectChanges();
-    const anchor = this.formulaPanel?.target as HTMLElement | undefined;
-    if (anchor) this.alignPanel(this.formulaPanel, anchor.getBoundingClientRect());
+    this.formulaPanel?.align();
   }
 
   openBreakdown(node: DamageFormulaNode, compare = false): void {

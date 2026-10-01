@@ -31,7 +31,7 @@
         type="button"
         class="cpicker__rename"
         [attr.aria-label]="'Renomear ' + labelOf(color)"
-        pTooltip="Renomear — só neste navegador, o nome não vai junto no link"
+        appTooltip="Renomear — só neste navegador, o nome não vai junto no link"
         tooltipPosition="right"
         [showDelay]="400"
         (click)="startRename(color, $event)"

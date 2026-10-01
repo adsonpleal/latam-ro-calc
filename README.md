@@ -24,9 +24,10 @@ turugrura.
 
 ## Stack
 
-- [Angular 16](https://angular.io/) + [PrimeNG 16](https://primeng.org/)
+- [Angular 16](https://angular.io/) + CDK + [design system próprio](docs/design-system.md)
 - TypeScript, RxJS
 - [Vitest](https://vitest.dev/) para testes unitários da engine de cálculo
+- Playwright para interações reais e comparação visual da interface
 - Node 22 + [pnpm](https://pnpm.io/); deploy via Cloudflare Workers
 
 ## Como rodar
@@ -56,12 +57,16 @@ pnpm start          # ng serve em http://localhost:4200
 | `pnpm test`         | Testes unitários (Vitest)                      |
 | `pnpm test:watch`   | Vitest em modo watch                           |
 | `pnpm test:cov`     | Testes com cobertura                           |
+| `pnpm e2e`         | Comparação visual e interações no navegador    |
+| `pnpm typecheck`   | Tipos da aplicação e do Worker                 |
+| `pnpm lint:check`  | ESLint sem alterar arquivos                    |
 | `pnpm lint`         | ESLint com `--fix`                             |
 
 ## Estrutura
 
 ```
 src/app/
+├── ui/          # controles próprios, tokens, ícones e overlays CDK
 ├── core/        # engine de cálculo (calculator, damage, hp/sp) — coberta por testes
 ├── jobs/        # uma classe por arquivo (70+); fórmulas e habilidades
 ├── replay/      # parser de replay .rrf → modelo de personagem

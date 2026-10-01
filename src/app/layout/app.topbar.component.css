@@ -1,9 +1,11 @@
-:host ::ng-deep .router-link .p-menuitem-link {
+::ng-deep app-topbar .router-link .ui-menuitem-link,
+::ng-deep .ui-scope-app-topbar .router-link .ui-menuitem-link {
   padding-bottom: 0.75rem !important;
   border-width: 0 0 4px 0 !important;
 }
 
-:host ::ng-deep .chip-profile .p-chip {
+::ng-deep app-topbar .chip-profile .ui-chip,
+::ng-deep .ui-scope-app-topbar .chip-profile .ui-chip {
   max-width: 15rem;
   overflow: hidden;
   /* text-overflow: ellipsis;

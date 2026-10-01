@@ -620,11 +620,11 @@ const JobBuffsList: ActiveSkillModel[] = [
   // Each Insígnia under the target can be selected independently. The legacy single
   // picker is migrated in setSkillModelArray when an older build is loaded.
   ...([
-    ['Fogo', 2465, 'fireInsigniaOnTarget', 'Água'],
-    ['Água', 2466, 'waterInsigniaOnTarget', 'Vento'],
-    ['Vento', 2467, 'windInsigniaOnTarget', 'Terra'],
-    ['Terra', 2468, 'earthInsigniaOnTarget', 'Fogo'],
-  ] as const).map(([element, icon, bonusKey, weakTo], index) => ({
+    ['Fogo', 2465, 'fireInsigniaOnTarget'],
+    ['Água', 2466, 'waterInsigniaOnTarget'],
+    ['Vento', 2467, 'windInsigniaOnTarget'],
+    ['Terra', 2468, 'earthInsigniaOnTarget'],
+  ] as const).map(([element, icon, bonusKey], index) => ({
     name: `_Sorcerer_Insignia_Target_${index + 1}` as ActiveSkillModel['name'],
     label: `Insígnia de ${element} no alvo`,
     icon,
@@ -632,7 +632,7 @@ const JobBuffsList: ActiveSkillModel[] = [
     isDebuff: true,
     dropdown: [
       { label: 'Não', isUse: false, value: 0 },
-      { label: `Sim (dano de ${weakTo} +50%)`, isUse: true, value: 1, bonus: { [bonusKey]: 50 } },
+      { label: 'Sim', isUse: true, value: 1, bonus: { [bonusKey]: 50 } },
     ],
   })),
   {

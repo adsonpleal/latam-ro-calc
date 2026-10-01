@@ -17,7 +17,7 @@
         role="button"
         tabindex="0"
         keyActivate
-        pTooltip="Detalhes da habilidade"
+        appTooltip="Detalhes da habilidade"
         tooltipPosition="top"
         (click)="iconClick.emit({ index: li, event: $event })"
       />
@@ -30,7 +30,7 @@
         role="button"
         tabindex="0"
         keyActivate
-        pTooltip="Detalhes da habilidade"
+        appTooltip="Detalhes da habilidade"
         tooltipPosition="top"
         (click)="iconClick.emit({ index: li, event: $event })"
       />
@@ -43,7 +43,7 @@
           [class.tl-block--full]="block.isFullHeight"
           [style.left.%]="block.leftPercent"
           [style.width.%]="block.widthPercent"
-          [pTooltip]="block.tooltip"
+          [appTooltip]="block.tooltip"
           tooltipPosition="top"
         >
           <span class="tl-block-label" *ngIf="block.label">{{ block.label }}</span>

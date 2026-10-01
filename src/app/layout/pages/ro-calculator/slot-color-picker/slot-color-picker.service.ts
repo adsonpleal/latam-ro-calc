@@ -3,7 +3,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { Injectable, Injector } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { SlotColorLabels } from 'src/app/core/slot-colors';
-import { PageScrollLockService } from 'src/app/page-scroll-lock.service';
+import { UiOverlayService } from 'src/app/ui/overlay.service';
 import { SlotColorPickerComponent } from './slot-color-picker.component';
 import { SlotColorPickerEvent, SlotColorPickerRequest } from './slot-color-picker.model';
 
@@ -39,7 +39,7 @@ export class SlotColorPickerService {
   constructor(
     private readonly overlay: Overlay,
     private readonly injector: Injector,
-    private readonly pageScroll: PageScrollLockService,
+    private readonly layers: UiOverlayService,
   ) {}
 
   /** Seed both local values from storage. Called once, by the host, at boot. */
@@ -80,10 +80,10 @@ export class SlotColorPickerService {
     });
 
     this.ref = ref;
-    this.pageScroll.lock(ref.overlayElement);
-
     const instance = ref.attach(new ComponentPortal(SlotColorPickerComponent, null, this.injector)).instance;
     instance.init(request, this.labels);
+    this.layers.adopt(ref, () => this.close(), true, request.anchor,
+      () => instance.editing ? instance.cancelRename() : this.close());
 
     // One latch, as in the item picker: disposing emits a detachment, which would
     // otherwise come back round and overwrite a pick with a dismissal.
@@ -115,8 +115,6 @@ export class SlotColorPickerService {
     // Cleared before disposing: disposing emits a detachment, `finish` answers it by
     // calling back in here, and a `this.ref` still set would run this twice.
     this.ref = undefined;
-    const panel = ref.overlayElement;
-    ref.dispose();
-    this.pageScroll.unlock(panel);
+    this.layers.close(ref);
   }
 }

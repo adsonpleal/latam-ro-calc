@@ -21,18 +21,21 @@
   flex: 1;
 }
 
-:host ::ng-deep .hud-card.p-card {
+::ng-deep app-auto-cast-hud .hud-card.ui-card,
+::ng-deep .ui-scope-app-auto-cast-hud .hud-card.ui-card {
   height: 100%;
   background: transparent;
   border: 1px solid var(--surface-border);
   box-shadow: none;
 }
 
-:host ::ng-deep .hud-card .p-card-body {
+::ng-deep app-auto-cast-hud .hud-card .ui-card-body,
+::ng-deep .ui-scope-app-auto-cast-hud .hud-card .ui-card-body {
   padding: 12px 14px;
 }
 
-:host ::ng-deep .hud-card .p-card-content {
+::ng-deep app-auto-cast-hud .hud-card .ui-card-content,
+::ng-deep .ui-scope-app-auto-cast-hud .hud-card .ui-card-content {
   padding: 0;
 }
 
@@ -211,15 +214,15 @@
   color: var(--yellow-200, #fde4a5);
 }
 
-::ng-deep .auto-cast-dps-panel.p-overlaypanel {
+::ng-deep .auto-cast-dps-panel.ui-overlaypanel {
   width: min(38rem, calc(100vw - 16px));
 }
 
-::ng-deep .auto-cast-dps-panel .p-overlaypanel-content {
+::ng-deep .auto-cast-dps-panel .ui-overlaypanel-content {
   width: 100%;
 }
 
-::ng-deep .auto-cast-effective-hit-panel.p-overlaypanel {
+::ng-deep .auto-cast-effective-hit-panel.ui-overlaypanel {
   width: min(26rem, calc(100vw - 16px));
 }
 
@@ -311,7 +314,8 @@
   white-space: pre-line;
 }
 
-:host ::ng-deep .auto-source-picker.p-dropdown {
+::ng-deep app-auto-cast-hud .auto-source-picker.ui-dropdown,
+::ng-deep .ui-scope-app-auto-cast-hud .auto-source-picker.ui-dropdown {
   width: min(28rem, 100%);
   max-width: 100%;
 }
@@ -348,7 +352,8 @@
     justify-content: space-between;
   }
 
-  :host ::ng-deep .auto-source-picker.p-dropdown {
+  ::ng-deep app-auto-cast-hud .auto-source-picker.ui-dropdown,
+::ng-deep .ui-scope-app-auto-cast-hud .auto-source-picker.ui-dropdown {
     width: min(28rem, 100%);
     max-width: 100%;
   }

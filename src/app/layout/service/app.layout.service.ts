@@ -3,17 +3,13 @@ import { Subject } from 'rxjs';
 
 export interface AppConfig {
   colorScheme: string;
-  theme: string;
-  ripple: boolean;
   menuMode: string;
-  scale: number;
 }
 
 interface LayoutState {
   staticMenuDesktopInactive: boolean;
   overlayMenuActive: boolean;
   profileSidebarVisible: boolean;
-  configSidebarVisible: boolean;
   staticMenuMobileActive: boolean;
   menuHoverActive: boolean;
   myProfileVisible: boolean;
@@ -24,18 +20,14 @@ interface LayoutState {
 })
 export class LayoutService {
   config: AppConfig = {
-    ripple: localStorage.getItem('ripple') === 'true',
-    menuMode: localStorage.getItem('menuMode') || 'overlay',
+    menuMode: 'overlay',
     colorScheme: 'dark',
-    theme: 'vela-green',
-    scale: +localStorage.getItem('scale') || 14,
   };
 
   state: LayoutState = {
     staticMenuDesktopInactive: false,
     overlayMenuActive: false,
     profileSidebarVisible: false,
-    configSidebarVisible: false,
     staticMenuMobileActive: false,
     menuHoverActive: false,
     myProfileVisible: false,
@@ -96,10 +88,6 @@ export class LayoutService {
     }
   }
 
-  showConfigSidebar() {
-    this.state.configSidebarVisible = true;
-  }
-
   openItemSearch() {
     this.itemSearchOpen.next();
   }
@@ -117,7 +105,6 @@ export class LayoutService {
   }
 
   isOverlay() {
-    localStorage.setItem('menuMode', this.config.menuMode);
 
     return this.config.menuMode === 'overlay';
   }

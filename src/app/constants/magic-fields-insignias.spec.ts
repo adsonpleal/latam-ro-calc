@@ -161,19 +161,19 @@ describe('an Insígnia under the target: +50% from the element it is weak to', (
   });
 
   it.each([
-    { index: 1, label: 'Sim (dano de Água +50%)', hits: WATER_SKILL, misses: FIRE_SKILL },
-    { index: 2, label: 'Sim (dano de Vento +50%)', hits: WIND_SKILL, misses: WATER_SKILL },
-    { index: 3, label: 'Sim (dano de Terra +50%)', hits: EARTH_SKILL, misses: WIND_SKILL },
-    { index: 4, label: 'Sim (dano de Fogo +50%)', hits: FIRE_SKILL, misses: EARTH_SKILL },
-  ])('Insígnia $index', ({ index, label, hits, misses }) => {
-    const buffs = { [`_Sorcerer_Insignia_Target_${index}`]: label };
+    { index: 1, hits: WATER_SKILL, misses: FIRE_SKILL },
+    { index: 2, hits: WIND_SKILL, misses: WATER_SKILL },
+    { index: 3, hits: EARTH_SKILL, misses: WIND_SKILL },
+    { index: 4, hits: FIRE_SKILL, misses: EARTH_SKILL },
+  ])('Insígnia $index', ({ index, hits, misses }) => {
+    const buffs = { [`_Sorcerer_Insignia_Target_${index}`]: 'Sim' };
 
     expect(simulate({ skill: hits, buffs }).skillPropertyMultiplier).toBe(1.5);
     expect(simulate({ skill: misses, buffs }).skillPropertyMultiplier).toBe(1);
   });
 
   it('stacks with a field of the same element', () => {
-    const buffs = { _Sorcerer_Insignia_Target_1: 'Sim (dano de Água +50%)', _Sage_Field: 'Dilúvio Nv 5' };
+    const buffs = { _Sorcerer_Insignia_Target_1: 'Sim', _Sage_Field: 'Dilúvio Nv 5' };
 
     expect(simulate({ skill: WATER_SKILL, buffs }).skillPropertyMultiplier).toBe(1.7);
   });

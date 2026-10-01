@@ -1,43 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
-
-$gutter: 1rem; //for primeflex grid system
+@import "app/ui/styles/tokens";
 @import "assets/layout/styles/layout/layout.scss";
-
-/* Reserve the viewport scrollbar gutter so opening a modal — which PrimeNG marks
-   with `p-overflow-hidden` (body { overflow: hidden }), making the document stop
-   overflowing and dropping the scrollbar — doesn't reclaim the scrollbar width
-   and shift the page content underneath the dialog. */
-html {
-  scrollbar-gutter: stable;
-}
-
-/* PrimeNG */
-@import "../node_modules/primeng/resources/primeng.min.css";
-@import "../node_modules/primeflex/primeflex.scss";
-@import "../node_modules/primeicons/primeicons.css";
-
-/* PrimeIcons 6 does not include the sparkle used by the MCP controls. */
-.pi-sparkles::before {
-  content: '';
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  background-color: currentColor;
-  mask: url('assets/icons/sparkles.svg') center / contain no-repeat;
-}
-
-/* The equipment picker's chip popover is a CDK overlay (PrimeNG's own overlay does not
-   flip-and-clamp the way the design needs). Without this the .cdk-overlay-container has
-   no positioning of its own and every panel lands at the document origin. */
 @import "../node_modules/@angular/cdk/overlay-prebuilt.css";
+@import "app/ui/styles/controls";
+@import "app/ui/styles/utilities";
 
-/* PrimeNG hands its tooltips a z-index in the 1100s via ZIndexUtils, and the CDK
-   container defaults to 1000 — so an item-description popover opened from a row inside
-   the picker would render behind it. Sit the overlay container between the two. */
-.cdk-overlay-container {
-  z-index: 1050;
-}
-
+html { scrollbar-gutter: stable; }
+.cdk-overlay-container { z-index: 1050; }
 
 .property_Water {
   /* background-color: #7ba7e1; */
@@ -118,7 +86,7 @@ html {
    English name and description came from divine-pride (iRO, or kRO English) instead of the
    client (ItemModel.preRelease). Labelled "Prévia".
    Global rather than component-scoped because both the equipment and the shadow-equipment
-   pickers render it, and PrimeNG moves the dropdown panel out of the component subtree. */
+   pickers render it, and the CDK moves the dropdown panel out of the component subtree. */
 .pre_release_tag {
   align-self: center;
   flex: 0 0 auto;
@@ -133,21 +101,21 @@ html {
 }
 
 /* The build-action tooltips in the character band. Wide enough that a one-sentence hint
-   stays one or two lines: PrimeNG centres a `bottom` tooltip on its trigger and flips it
+   stays one or two lines: The shared tooltip centres a `bottom` tooltip on its trigger and flips it
    to the side when that would run off screen, and "Importar" is the leftmost control on
    the page — at the default measure its hint wrapped to three lines, got flipped right,
    and then rode up over the topbar. */
-.build_action_tip.p-tooltip {
+.build_action_tip.ui-tooltip {
   max-width: 17rem;
 }
 
 /* Compact rules moved out of the auto-cast mockup need a readable hover measure.
-   `width: max-content` prevents PrimeNG from collapsing a sentence to its minimum width. */
-.auto_cast_tip.p-tooltip {
+   `width: max-content` prevents the browser from collapsing a sentence to its minimum width. */
+.auto_cast_tip.ui-tooltip {
   max-width: min(80vw, 20rem);
 }
 
-.auto_cast_tip .p-tooltip-text {
+.auto_cast_tip .ui-tooltip-text {
   width: max-content;
   max-width: min(80vw, 20rem);
   white-space: normal;
@@ -155,23 +123,13 @@ html {
 
 /* pt-BR item description popover (consumables hover) — mirrors the white
    "Descrições dos Itens" panel so the in-game colour codes stay legible. */
-.item_desc_tooltip.p-tooltip {
+.item_desc_tooltip.ui-tooltip {
   /* 90vw alone gave a ~1900px line on a wide monitor — one long paragraph ran the whole
      screen. Cap it at a readable measure and let it wrap; the vw term still keeps it
      inside a narrow window. */
   max-width: min(90vw, 34rem);
-  /* O PrimeNG revela o tooltip com DomHandler.fadeIn: ele zera o opacity inline e
-     sobe até 1 num laço de requestAnimationFrame. Quando esse laço não roda — aba
-     em segundo plano, janela encoberta, economia de energia —, o popover fica
-     montado, posicionado e com o conteúdo certo, só que em opacity 0: invisível,
-     sem nada de errado no DOM. Era o caso em que abrir o DevTools "consertava" o
-     problema, porque muda o agendamento do renderizador.
-
-     `!important` vence o estilo inline do fadeIn e torna a exibição determinística.
-     Custa a animação de 250ms, que num tooltip não faz falta. */
-  opacity: 1 !important;
 }
-.item_desc_tooltip .p-tooltip-text {
+.item_desc_tooltip .ui-tooltip-text {
   background: #ffffff;
   color: #000000;
   width: max-content;
@@ -180,33 +138,24 @@ html {
   font-size: 0.85rem;
   line-height: 1.25;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-  /* Uma descrição bem longa (o Chapéu de Kiwawa tem 56 linhas) passa da altura da
-     janela. Aqui ela rola na vertical: o popover para de crescer em 85vh e o resto
-     é alcançado com a roda do mouse. Rolar só é possível porque o popover sobrevive
-     ao ponteiro saindo do gatilho — ver ItemDescTooltipHoverDirective.
-
-     `overscroll-behavior: contain` impede o encadeamento: ao chegar no fim da
-     descrição a rolagem para aqui em vez de continuar na página. Além de ser o
-     comportamento esperado, rolar a página faria o PrimeNG esconder o popover (ele
-     escuta o scroll dos ancestrais do gatilho). */
+  /* Long descriptions scroll inside the tooltip. UiTooltipDirective keeps the
+     panel open while the pointer crosses from the trigger into its content. */
   max-height: 85vh;
   overflow-y: auto;
   overscroll-behavior: contain;
-  /* The popover survives the pointer leaving the trigger (ItemDescTooltipHoverDirective),
-     which is what lets it be read — so let the text be selected and copied as well.
-     PrimeNG leaves tooltips on the default `cursor: default`, which reads as "not text". */
+  /* Descriptions remain selectable and copyable while hovered. */
   user-select: text;
   cursor: auto;
 }
-/* Same reason as the popover's own `overscroll-behavior` above, for the PrimeNG panels:
+/* Same reason as the popover's own `overscroll-behavior` above, for the shared panels:
    the page is frozen while a panel is open (PageScrollLockService), and that freeze lets a
    gesture through on purpose once it is inside an overlay — without this, reaching the end
    of the list would start scrolling the page again. */
-.p-dropdown-items-wrapper,
-.p-multiselect-items-wrapper,
-.p-cascadeselect-panel .p-cascadeselect-items,
-.p-overlaypanel .p-overlaypanel-content,
-.p-dialog .p-dialog-content {
+.ui-dropdown-items-wrapper,
+.ui-multiselect-items-wrapper,
+.ui-cascadeselect-panel .ui-cascadeselect-items,
+.ui-overlaypanel .ui-overlaypanel-content,
+.ui-dialog .ui-dialog-content {
   overscroll-behavior: contain;
 }
 
@@ -214,28 +163,23 @@ html {
   font-weight: 700;
   font-size: 0.95rem;
 }
-/* Popover reposicionado para caber na janela (ItemDescTooltipFitDirective): a seta
-   ficou apontando para o lugar errado, então some. */
-.item_desc_tooltip--encaixado .p-tooltip-arrow {
-  display: none;
-}
 /* Colour ONLY the border that forms the arrow for each tooltip position. The
    arrow is a CSS border-triangle, so the two perpendicular borders must stay
    transparent — colouring them (as a blanket left+right rule did) turns the
    triangle into a square whenever the tooltip sits above/below its target. */
-.item_desc_tooltip.p-tooltip-right .p-tooltip-arrow {
+.item_desc_tooltip.ui-tooltip-right .ui-tooltip-arrow {
   border-right-color: #ffffff;
 }
-.item_desc_tooltip.p-tooltip-left .p-tooltip-arrow {
+.item_desc_tooltip.ui-tooltip-left .ui-tooltip-arrow {
   border-left-color: #ffffff;
 }
-.item_desc_tooltip.p-tooltip-top .p-tooltip-arrow {
+.item_desc_tooltip.ui-tooltip-top .ui-tooltip-arrow {
   border-top-color: #ffffff;
 }
-.item_desc_tooltip.p-tooltip-bottom .p-tooltip-arrow {
+.item_desc_tooltip.ui-tooltip-bottom .ui-tooltip-arrow {
   border-bottom-color: #ffffff;
 }
-/* "Redução de dano" popover (main stats + PVP HUD) — global because the p-overlayPanel
+/* "Redução de dano" popover (main stats + PVP HUD) — global because the app-ui-popover
    content is body-appended, so component-scoped styles from two different components
    wouldn't both reach it. */
 .reduction-label,
@@ -252,8 +196,8 @@ html {
 .sustain-label {
   color: var(--yellow-300, #fde047);
 }
-.reduction-label .pi-shield,
-.sustain-label .pi-heart {
+.reduction-label .ui-icon,
+.sustain-label .ui-icon {
   font-size: 0.9rem;
 }
 .reduction-pop {
@@ -324,8 +268,9 @@ html {
 :root {
   --page-gutter: 14px;
 }
-/* Both sidebar states are listed because each carries its own `padding-left: 2rem` in
-   _responsive.scss, at a specificity this has to match to win. */
+/* Keep the topbar aligned with the content. Both sidebar states carry their own
+   padding-left in _responsive.scss, so match their specificity here. */
+.layout-wrapper .layout-topbar,
 .layout-wrapper.layout-overlay .layout-main-container,
 .layout-wrapper.layout-static .layout-main-container,
 .layout-wrapper .layout-main-container {
@@ -338,8 +283,8 @@ html {
    alone on its line. One declaration per container drops it — the classes themselves read
    the chip from `--stat-chip-bg` (ro-calculator.component.css). Global rather than
    component-scoped because an overlay panel is appended to <body>. */
-.p-dialog,
-.p-overlaypanel {
+.ui-dialog,
+.ui-overlaypanel {
   --stat-chip-bg: transparent;
 }
 
@@ -348,5 +293,5 @@ html {
   display: none;
 }
 
-.studio-icon-panel.p-overlaypanel { margin-top: 0; }
-.studio-icon-panel.p-overlaypanel-flipped { margin-bottom: 0; }
+.studio-icon-panel.ui-overlaypanel { margin-top: 0; }
+.studio-icon-panel.ui-overlaypanel-flipped { margin-bottom: 0; }

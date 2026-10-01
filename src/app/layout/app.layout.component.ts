@@ -37,8 +37,7 @@ export class AppLayoutComponent implements OnDestroy {
             'layout-static': this.layoutService.config.menuMode === 'static',
             'layout-static-inactive': this.layoutService.state.staticMenuDesktopInactive && this.layoutService.config.menuMode === 'static',
             'layout-overlay-active': this.layoutService.state.overlayMenuActive,
-            'layout-mobile-active': this.layoutService.state.staticMenuMobileActive,
-            'p-ripple-disabled': !this.layoutService.config.ripple
+            'layout-mobile-active': this.layoutService.state.staticMenuMobileActive
         }
     }
 

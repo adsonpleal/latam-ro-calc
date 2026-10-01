@@ -38,7 +38,7 @@ export class MissingIconDirective implements OnDestroy {
 
   // Listened to outside the Angular zone: hiding the image changes nothing Angular renders,
   // and a @HostListener would run change detection on every failed load — inside a
-  // p-dropdown panel that re-renders its options, that became a load/error/render loop.
+  // ui-dropdown panel that re-renders its options, that became a load/error/render loop.
   constructor(el: ElementRef<HTMLImageElement>, zone: NgZone) {
     this.img = el.nativeElement;
     zone.runOutsideAngular(() => {

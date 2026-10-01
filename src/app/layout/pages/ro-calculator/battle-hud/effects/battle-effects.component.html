@@ -1,7 +1,7 @@
 <div class="battle-effects">
   <div class="hud-buffs" *ngIf="chanceList?.length">
     <span class="cap">Efeitos</span>
-    <p-selectButton
+    <app-ui-select-button
       [options]="chanceList"
       optionValue="name"
       [multiple]="true"
@@ -9,18 +9,18 @@
       (ngModelChange)="selectedChancesChange.emit($event)"
       styleClass="hud-buffs-select"
     >
-      <ng-template let-item pTemplate="item">
-        <span [pTooltip]="effectTooltip(item.label2)" tooltipPosition="top" class="hud-buff-item">
+      <ng-template let-item appTemplate="item">
+        <span [appTooltip]="effectTooltip(item.label2)" tooltipPosition="top" class="hud-buff-item">
           <img *ngIf="item.itemId" [src]="item.itemId | iconUrl" alt="" class="hud-buff-icon" missingIcon />
           {{ item.label }}
         </span>
       </ng-template>
-    </p-selectButton>
+    </app-ui-select-button>
   </div>
 
   <div class="hud-buffs" *ngIf="isComparing && chanceList2?.length">
     <span class="cap cap--cmp">Efeitos - comparação</span>
-    <p-selectButton
+    <app-ui-select-button
       [options]="chanceList2"
       optionValue="name"
       [multiple]="true"
@@ -28,12 +28,12 @@
       (ngModelChange)="selectedChances2Change.emit($event)"
       styleClass="hud-buffs-select"
     >
-      <ng-template let-item pTemplate="item">
-        <span [pTooltip]="effectTooltip(item.label2)" tooltipPosition="top" class="hud-buff-item">
+      <ng-template let-item appTemplate="item">
+        <span [appTooltip]="effectTooltip(item.label2)" tooltipPosition="top" class="hud-buff-item">
           <img *ngIf="item.itemId" [src]="item.itemId | iconUrl" alt="" class="hud-buff-icon" missingIcon />
           {{ item.label }}
         </span>
       </ng-template>
-    </p-selectButton>
+    </app-ui-select-button>
   </div>
 </div>

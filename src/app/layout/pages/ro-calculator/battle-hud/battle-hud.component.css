@@ -53,9 +53,10 @@
   }
 }
 
-/* Each column is a PrimeNG p-card. Tighten the default card padding and make
+/* Each column is a app-ui-card. Tighten the default card padding and make
    both cards stretch to equal height regardless of content length. */
-:host ::ng-deep .hud-card.p-card {
+::ng-deep app-battle-hud .hud-card.ui-card,
+::ng-deep .ui-scope-app-battle-hud .hud-card.ui-card {
   height: 100%;
   /* Border-only, like the legacy monster panel — no filled surface. */
   background: transparent;
@@ -63,11 +64,13 @@
   box-shadow: none;
 }
 
-:host ::ng-deep .hud-card .p-card-body {
+::ng-deep app-battle-hud .hud-card .ui-card-body,
+::ng-deep .ui-scope-app-battle-hud .hud-card .ui-card-body {
   padding: 12px 14px;
 }
 
-:host ::ng-deep .hud-card .p-card-content {
+::ng-deep app-battle-hud .hud-card .ui-card-content,
+::ng-deep .ui-scope-app-battle-hud .hud-card .ui-card-content {
   padding: 0;
 }
 
@@ -165,28 +168,31 @@
    112px and 122px. It is expressed in `ch` so it tracks the theme font rather than a
    pixel measurement: 13.5ch, not 12ch, because the label's widest character is an em dash
    and `ch` measures a digit. */
-:host ::ng-deep .hud-relieve-dd.p-dropdown {
+::ng-deep app-battle-hud .hud-relieve-dd.ui-dropdown,
+::ng-deep .ui-scope-app-battle-hud .hud-relieve-dd.ui-dropdown {
   height: 24px;
   width: max-content;
   /* The control owns the spacing, symmetrically: 7px in from each edge and 7px between
-     the text and the chevron. Left to PrimeNG the chevron sits centred in a 33px trigger,
+     the text and the chevron. By default the chevron sits centred in a 33px trigger,
      which put 16px between it and the text against 7px on the left. */
   padding: 0 7px;
 }
 
-/* The 7px before the chevron is a margin and NOT the control's `gap`: p-dropdown carries a
+/* The 7px before the chevron is a margin and NOT the control's `gap`: app-ui-dropdown carries a
    hidden accessibility input as a third flex child, so a gap is charged twice and leaves a
    phantom 7px hanging off the right end. */
-:host ::ng-deep .hud-relieve-dd .p-dropdown-trigger {
+::ng-deep app-battle-hud .hud-relieve-dd .ui-dropdown-trigger,
+::ng-deep .ui-scope-app-battle-hud .hud-relieve-dd .ui-dropdown-trigger {
   width: 14px;
   margin-left: 7px;
   padding: 0;
 }
 
-/* Centre the selected text with flex, like PrimeNG's own .p-dropdown-trigger does.
+/* Centre the selected text with flex, like the shared .ui-dropdown-trigger does.
    A fixed line-height cannot: the label's content box is shorter than the line box once
    padding is taken off, so the text rides high inside the control. */
-:host ::ng-deep .hud-relieve-dd .p-dropdown-label {
+::ng-deep app-battle-hud .hud-relieve-dd .ui-dropdown-label,
+::ng-deep .ui-scope-app-battle-hud .hud-relieve-dd .ui-dropdown-label {
   display: flex;
   align-items: center;
   /* Just the longest label, with the padding now on the control — 11.6ch rather than a
@@ -271,11 +277,12 @@
 }
 
 /* Elements with no property_* color (Neutral) — transparent fill + thin outline,
-   same look the old custom pill used, instead of p-tag's own default background.
-   ::ng-deep: the ".p-tag" span is rendered inside PrimeNG's own Tag component
+   same look the old custom pill used, instead of ui-tag's own default background.
+   ::ng-deep: the ".ui-tag" span is rendered inside the shared Tag component
    template, so it carries Tag's encapsulation attribute, not this component's —
    a plain selector here would never match it. */
-:host ::ng-deep .el-tag-neutral.p-tag {
+::ng-deep app-battle-hud .el-tag-neutral.ui-tag,
+::ng-deep .ui-scope-app-battle-hud .el-tag-neutral.ui-tag {
   background-color: transparent !important;
   border: 1px solid var(--surface-border);
   color: var(--text-color-secondary) !important;
@@ -582,21 +589,24 @@
 }
 
 /* AURA badge: vivid red, distinct from the pink "Chefe" danger tag. */
-:host ::ng-deep .tag-aura.p-tag {
+::ng-deep app-battle-hud .tag-aura.ui-tag,
+::ng-deep .ui-scope-app-battle-hud .tag-aura.ui-tag {
   background: #e11414 !important;
   color: #fff !important;
 }
 
 /* The Biosphere's map-wide reduction — purple so it never reads as the red aura. */
-:host ::ng-deep .tag-map-reduction.p-tag {
+::ng-deep app-battle-hud .tag-map-reduction.ui-tag,
+::ng-deep .ui-scope-app-battle-hud .tag-map-reduction.ui-tag {
   background: var(--purple-500) !important;
   color: #fff !important;
 }
 
-/* p-selectButton (multiple mode) container: wrap on narrow widths like the old
-   hand-rolled list did. ::ng-deep because the .p-selectbutton element carrying
-   this class is rendered by PrimeNG and lacks this component's attribute. */
-:host ::ng-deep .hud-buffs-select {
+/* app-ui-select-button (multiple mode) container: wrap on narrow widths like the old
+   hand-rolled list did. ::ng-deep because the .ui-selectbutton element carrying
+   this class is rendered by the shared component and lacks this component's attribute. */
+::ng-deep app-battle-hud .hud-buffs-select,
+::ng-deep .ui-scope-app-battle-hud .hud-buffs-select {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -605,12 +615,13 @@
 /* Render each effect as its own content-width chip: separate rounded corners,
    tighter padding, and no fixed width (so the label never wraps and the whole
    set wraps to the next line when it overflows). !important on flex beats
-   PrimeNG's higher-specificity equal-width rule. PrimeNG also styles
-   p-selectButton as a connected segmented control by default — it strips the
-   border between adjacent buttons (`.p-buttonset .p-button:not(:last-child)`
+   the equal-width rule. The shared component styles
+   app-ui-select-button as a connected segmented control by default — it strips the
+   border between adjacent buttons (`.ui-buttonset .ui-button:not(:last-child)`
    sets `border-right: 0`) so they read as one fused pill-group instead of
    separate chips. !important on border restores every side on every chip. */
-:host ::ng-deep .hud-buffs-select .p-button {
+::ng-deep app-battle-hud .hud-buffs-select .ui-button,
+::ng-deep .ui-scope-app-battle-hud .hud-buffs-select .ui-button {
   flex: 0 0 auto !important;
   width: auto !important;
   padding: 4px 9px;
@@ -853,8 +864,9 @@
 }
 
 /* Compact the "?" and "otimizar" icon buttons so they sit close together
-   (default rounded p-buttons carry wide horizontal padding). */
-:host ::ng-deep .hud-castbar .cap .p-button {
+   (default rounded ui-buttons carry wide horizontal padding). */
+::ng-deep app-battle-hud .hud-castbar .cap .ui-button,
+::ng-deep .ui-scope-app-battle-hud .hud-castbar .cap .ui-button {
   width: 1.6rem;
   height: 1.6rem;
   padding: 0;
@@ -1093,7 +1105,7 @@
    only reaches the band's top and bottom edges if that column is full height. The card
    padding moves onto the two columns for the same reason — padding on the shared parent
    would hold the divider away from the borders. */
-.hud-card-col--monster ::ng-deep .p-card-content {
+.hud-card-col--monster ::ng-deep .ui-card-content {
   display: flex;
   align-items: stretch;
   gap: 0;
@@ -1177,7 +1189,7 @@
 /* Below ~420px of container the band stacks completely — the PVP tab and any narrow
    embed (see the handoff's "Tela estreita" mock). */
 @container (max-width: 420px) {
-  .hud-card-col--monster ::ng-deep .p-card-content {
+  .hud-card-col--monster ::ng-deep .ui-card-content {
     display: block;
   }
 
@@ -1315,7 +1327,7 @@
   background: var(--highlight-bg);
 }
 
-.hud-warn-chip.p-button,
+.hud-warn-chip.ui-button,
 .hud-invalid-chip {
   /* A flex item at auto width stretches to fill the row; both chips are exactly as wide
      as their label, and never wrap it. */
@@ -1330,13 +1342,13 @@
   text-transform: none;
 }
 
-.hud-warn-chip.p-button {
+.hud-warn-chip.ui-button {
   background: transparent;
   border: 1px solid var(--surface-border);
   color: var(--yellow-300, #ffe082);
 }
 
-.hud-warn-chip.p-button:enabled:hover {
+.hud-warn-chip.ui-button:enabled:hover {
   background: rgba(255, 224, 130, 0.08);
   border-color: var(--surface-border);
   color: var(--yellow-300, #ffe082);
@@ -1406,19 +1418,19 @@
    not engage at all — never a wrapped stack with dividers hanging off the left. The
    panel renders at ~595px today, so in practice this stays off; see docs/combo.md §6. */
 @container (min-width: 1040px) {
-  .hud-card-col--monster ::ng-deep .p-card-content {
+  .hud-card-col--monster ::ng-deep .ui-card-content {
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
     gap: 16px;
   }
 
-  .hud-card-col--monster ::ng-deep .p-card-content > * {
+  .hud-card-col--monster ::ng-deep .ui-card-content > * {
     border-left: 1px solid var(--surface-border);
     padding-left: 16px;
   }
 
-  .hud-card-col--monster ::ng-deep .p-card-content > *:first-child {
+  .hud-card-col--monster ::ng-deep .ui-card-content > *:first-child {
     border-left: none;
     padding-left: 0;
   }
@@ -1583,8 +1595,8 @@
 }
 
 /* The band is one compact bordered row, not a card with card padding. */
-.hud-card-col--monster ::ng-deep .p-card-body,
-.hud-card-col--monster ::ng-deep .p-card-content {
+.hud-card-col--monster ::ng-deep .ui-card-body,
+.hud-card-col--monster ::ng-deep .ui-card-content {
   padding: 0;
 }
 
@@ -1592,11 +1604,11 @@
 
 
 /* --- Rotação and DPS as two separate cards ---------------------------------
-   The skill column's p-card is only a wrapper now: the rotation and the DPS block are
+   The skill column's app-ui-card is only a wrapper now: the rotation and the DPS block are
    each their own card, so the DPS no longer reads as nested inside the rotation. */
-.hud-card-col--skill ::ng-deep .p-card,
-.hud-card-col--skill ::ng-deep .p-card .p-card-body,
-.hud-card-col--skill ::ng-deep .p-card .p-card-content {
+.hud-card-col--skill ::ng-deep .ui-card,
+.hud-card-col--skill ::ng-deep .ui-card .ui-card-body,
+.hud-card-col--skill ::ng-deep .ui-card .ui-card-content {
   background: transparent;
   border: none;
   box-shadow: none;
@@ -1620,8 +1632,8 @@
    skills carry a full per-level table. The popover scrolls as a whole rather than the
    description scrolling inside it, so the numbers and the text stay one document.
    `overscroll-behavior: contain` stops the scroll chaining to the page at the ends,
-   which would otherwise close the panel (PrimeNG hides it on ancestor scroll). */
-::ng-deep .rot-details-panel.p-overlaypanel .p-overlaypanel-content {
+   which would otherwise close the panel when the anchor scrolls. */
+::ng-deep .rot-details-panel.ui-overlaypanel .ui-overlaypanel-content {
   max-height: 85vh;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -1672,12 +1684,12 @@
   color: var(--text-color);
 }
 
-.pd-desc-toggle .pi {
+.pd-desc-toggle .ui-icon {
   font-size: 10px;
 }
 
 /* The skill's client description, on white like every other description popover
-   (.item_desc_tooltip .p-tooltip-text in styles.scss). Not a theme choice: the text keeps
+   (.item_desc_tooltip .ui-tooltip-text in styles.scss). Not a theme choice: the text keeps
    the client's own ^RRGGBB codes, and those are written for the game's light tooltip —
    the ^000000 runs render black, so on the panel's dark surface they were invisible.
 
@@ -1856,7 +1868,7 @@
 
 /* The popover header's element tag, sized down the same way the rotation rows size
    theirs — component-scoped styles mean each needs its own copy. */
-::ng-deep .rot-details-panel .pd-head .p-tag {
+::ng-deep .rot-details-panel .pd-head .ui-tag {
   padding: 1px 5px;
   font-size: 10.5px;
   line-height: 1.35;
@@ -1864,12 +1876,12 @@
   cursor: pointer;
 }
 
-::ng-deep .rot-details-panel .pd-head .p-tag .p-tag-icon {
+::ng-deep .rot-details-panel .pd-head .ui-tag .ui-tag-icon {
   font-size: 9px;
   margin-right: 3px;
 }
 
-::ng-deep .rot-details-panel .pd-head .p-tag.el-tag-neutral {
+::ng-deep .rot-details-panel .pd-head .ui-tag.el-tag-neutral {
   background: transparent;
   border: 1px solid var(--surface-border);
   color: var(--text-color);

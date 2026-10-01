@@ -34,9 +34,9 @@ const SEARCH_LIMIT = 1000;
 /**
  * The panel behind every chip in the equipment picker.
  *
- * It replaces a `p-dropdown` (item, card, enchant, refine, grade, ammo, converter,
- * loyalty) or a `p-cascadeSelect` (Bônus Aleatório) — hence the two modes. The keyboard
- * contract is the one people already had from PrimeNG: type to filter, arrows to move,
+ * It replaces a `ui-dropdown` (item, card, enchant, refine, grade, ammo, converter,
+ * loyalty) or a `ui-cascadeSelect` (Bônus Aleatório) — hence the two modes. The keyboard
+ * keyboard contract remains unchanged: type to filter, arrows to move,
  * Enter to choose, Esc to close; tree mode adds left/right to walk the breadcrumb.
  */
 @Component({
@@ -137,9 +137,6 @@ export class ItemPickerOverlayComponent {
     const last = this.rows.length - 1;
 
     // A key this panel acts on is its own: it does not carry on to the page underneath.
-    // That matters beyond tidiness — PrimeNG binds `document:keydown.escape` once per
-    // pTooltip, ~300 of them here, and Angular re-enters the zone for every one it
-    // reaches. Letting Escape bubble cost 727ms; keeping it costs nothing.
     const consume = () => event.stopPropagation();
 
     switch (event.key) {

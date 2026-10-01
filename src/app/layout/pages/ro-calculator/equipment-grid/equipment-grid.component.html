@@ -4,12 +4,12 @@
        own, so hovering either says what it does. -->
   <div class="eq-grid__ribbon" *ngIf="compareCount">
     <span class="eq-ribbon">
-      <span class="eq-ribbon__text" [pTooltip]="ribbonTitle" tooltipPosition="right" [showDelay]="350">⇄ {{ ribbonText }}</span>
+      <span class="eq-ribbon__text" [appTooltip]="ribbonTitle" tooltipPosition="right" [showDelay]="350">⇄ {{ ribbonText }}</span>
       <button
         type="button"
         class="eq-ribbon__clear"
         aria-label="Limpar comparação"
-        pTooltip="Limpar comparação"
+        appTooltip="Limpar comparação"
         tooltipPosition="right"
         [showDelay]="350"
         (click)="onClearComparison()"

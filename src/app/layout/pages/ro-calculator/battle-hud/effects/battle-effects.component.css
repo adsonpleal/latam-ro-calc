@@ -22,13 +22,15 @@
   text-transform: uppercase;
 }
 
-:host ::ng-deep .hud-buffs-select {
+::ng-deep app-battle-effects .hud-buffs-select,
+::ng-deep .ui-scope-app-battle-effects .hud-buffs-select {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
 
-:host ::ng-deep .hud-buffs-select .p-button {
+::ng-deep app-battle-effects .hud-buffs-select .ui-button,
+::ng-deep .ui-scope-app-battle-effects .hud-buffs-select .ui-button {
   flex: 0 0 auto !important;
   width: auto !important;
   padding: 4px 9px;

@@ -42,7 +42,7 @@
 /assets/data/*
   Cache-Control: public, max-age=31536000, immutable
 
-# esbuild media output (primeicons fonts, colour-picker sprites)
+# esbuild media output
 /media/*
   Cache-Control: public, max-age=31536000, immutable
 
@@ -74,7 +74,7 @@
 
 # --- stable filenames: one day, then revalidate --------------------------------------
 
-# PrimeNG theme CSS and layout images. Vendor files, changed only by a PrimeNG upgrade.
+# Layout images and authored UI icons retain stable filenames.
 /assets/layout/*
   Cache-Control: public, max-age=86400
 

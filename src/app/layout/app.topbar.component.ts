@@ -1,3 +1,4 @@
+import { IconName } from 'src/app/ui/icon-names';
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -29,33 +30,33 @@ export class AppTopBarComponent implements OnDestroy {
   readonly mcpUrl = environment.mcpUrl;
 
   /** What the server is good at, phrased the way someone would actually ask. */
-  readonly mcpExamples: { icon: string; title: string; prompt: string; note: string }[] = [
+  readonly mcpExamples: { icon: IconName; title: string; prompt: string; note: string }[] = [
     {
-      icon: 'pi-search',
+      icon: 'search',
       title: 'Procurar itens',
       prompt: 'Quais chapéus dão dano de longa distância para Falcão do Vento?',
       note: 'Busca por nome (sem se importar com acentos), por bônus, por habilidade ou por slot. Inclui itens que existem no LATAM mas ainda não foram cadastrados aqui — esses vêm marcados.',
     },
     {
-      icon: 'pi-bolt',
+      icon: 'bolt',
       title: 'Calcular dano',
       prompt: 'Quanto de dano essa build faz em Implosão Tóxica contra o dummy neutro?',
       note: 'Usa o mesmo motor do simulador, então o número é idêntico ao que você vê na tela.',
     },
     {
-      icon: 'pi-sort-amount-up',
+      icon: 'sort-amount-up',
       title: 'Otimizar uma peça',
       prompt: 'Qual a melhor arma para essa build? Testa as opções e me diz o ganho de DPS.',
       note: 'Testa vários candidatos e devolve um link que já abre o simulador na comparação atual → simulado.',
     },
     {
-      icon: 'pi-link',
+      icon: 'link',
       title: 'Analisar a sua build',
       prompt: 'Cole aqui o link do simulador — o que dá para melhorar?',
       note: 'Qualquer link de compartilhamento (inclusive o encurtado) pode ser lido e devolvido com alterações.',
     },
     {
-      icon: 'pi-table',
+      icon: 'table',
       title: 'Comparar alvos e builds',
       prompt: 'Compara o dano dessa build contra Osíris, Bafomé e Doppelganger.',
       note: 'Também dá para pôr duas ou mais builds lado a lado contra o mesmo alvo.',
@@ -1765,8 +1766,4 @@ export class AppTopBarComponent implements OnDestroy {
   }
 
   openCustomItems() { this.layoutService.openCustomItems(); }
-
-  openConfig() {
-    this.layoutService.showConfigSidebar();
-  }
 }

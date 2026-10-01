@@ -1,6 +1,6 @@
-<div class="p-fluid">
-  <p-table styleClass="p-datatable-striped p-datatable-sm" [loading]="isLoading" filterValue="label" [value]="calcMonsters" [tableStyle]="{ 'min-width': '550px' }">
-    <ng-template pTemplate="header" let-columns>
+<div class="ui-fluid">
+  <app-ui-table styleClass="ui-datatable-striped ui-datatable-sm" [loading]="isLoading" [value]="calcMonsters" [tableStyle]="{ 'min-width': '550px' }">
+    <ng-template appTemplate="header" let-columns>
       <tr>
         <th rowspan="2" class="text-center font-semibold">Monstro</th>
         <th colspan="10" class="text-center font-semibold">Atacante</th>
@@ -18,7 +18,7 @@
         <th class="property_Undead text-center px-1">Maldito</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-item let-columns="columns">
+    <ng-template appTemplate="body" let-item let-columns="columns">
       <tr>
         <td class="{{ 'property_' + item.pureElementName }}">{{ item.info }}</td>
         <td class="{{ 'text-center font-semibold text-lg ' + item.NeutralStyle }}">{{ item.Neutral }}</td>
@@ -33,5 +33,5 @@
         <td class="{{ 'text-center font-semibold text-lg ' + item.UndeadStyle }}">{{ item.Undead }}</td>
       </tr>
     </ng-template>
-  </p-table>
+  </app-ui-table>
 </div>

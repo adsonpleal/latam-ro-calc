@@ -7,9 +7,9 @@ import { ChipView } from './chip-view.model';
  * One picker, drawn as a chip: dashed and muted while empty, solid once filled, with a ✕
  * on hover that clears just this field.
  *
- * The `[pTooltip]` contract is written out the same way the old dropdown rows wrote it,
+ * The `[appTooltip]` contract is written out the same way the old dropdown rows wrote it,
  * because `ItemDescTooltipHoverDirective` and `ItemDescTooltipFitDirective` attach by
- * matching `[pTooltip][tooltipStyleClass="item_desc_tooltip"]` — the popover keeps its
+ * matching `[appTooltip][tooltipStyleClass="item_desc_tooltip"]` — the popover keeps its
  * grace period and its viewport fitting for free.
  */
 @Component({

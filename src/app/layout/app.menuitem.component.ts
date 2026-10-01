@@ -19,11 +19,10 @@ import { LayoutService } from './service/app.layout.service';
         [ngClass]="item.class"
         [attr.target]="item.target"
         tabindex="0"
-        pRipple
       >
-        <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
+        <app-icon [name]="item.icon" class="layout-menuitem-icon"></app-icon>
         <span class="layout-menuitem-text">{{ item.label }}</span>
-        <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items"></i>
+        <app-icon class="layout-submenu-toggler" *ngIf="item.items" name="angle-down"></app-icon>
       </a>
       <a
         *ngIf="item.routerLink && !item.items && item.visible !== false"
@@ -48,11 +47,10 @@ import { LayoutService } from './service/app.layout.service';
         [queryParams]="item.queryParams"
         [attr.target]="item.target"
         tabindex="0"
-        pRipple
       >
-        <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
+        <app-icon [name]="item.icon" class="layout-menuitem-icon"></app-icon>
         <span class="layout-menuitem-text">{{ item.label }}</span>
-        <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items"></i>
+        <app-icon class="layout-submenu-toggler" *ngIf="item.items" name="angle-down"></app-icon>
       </a>
 
       <ul *ngIf="item.items && item.visible !== false" [@children]="submenuAnimation">

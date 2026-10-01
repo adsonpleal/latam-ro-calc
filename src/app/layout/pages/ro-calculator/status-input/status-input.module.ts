@@ -1,10 +1,8 @@
+import { UiModule } from 'src/app/ui/ui.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DropdownModule } from 'primeng/dropdown';
-import { TooltipModule } from 'primeng/tooltip';
 import { KeyActivateDirective } from '../../../../pipes/key-activate.directive';
-import { OverlayEscapeDirective } from '../overlay-escape.directive';
 import { StatusInputComponent } from './status-input.component';
 
 /**
@@ -16,9 +14,7 @@ import { StatusInputComponent } from './status-input.component';
  */
 @NgModule({
   declarations: [StatusInputComponent],
-  // KeyActivateDirective and OverlayEscapeDirective are standalone, hence imported
-  // rather than declared.
-  imports: [CommonModule, FormsModule, DropdownModule, TooltipModule, KeyActivateDirective, OverlayEscapeDirective],
+  imports: [CommonModule, FormsModule, UiModule, KeyActivateDirective],
   exports: [StatusInputComponent],
 })
 export class StatusInputModule {}
