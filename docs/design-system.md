@@ -117,8 +117,12 @@ outros ambientes, instale Chromium com `pnpm exec playwright install chromium`.
 `PLAYWRIGHT_CHANNEL` permite escolher outro canal. `UI_TEST_URL` aponta para um
 servidor já em execução; sem essa variável o runner inicia o dev server.
 
-`appearance.spec.ts` compara estados reais com a referência pós-pull
-(`150eff06`), no mesmo navegador/plataforma. Somente os glifos e a remoção do botão
+`appearance.spec.ts` compara estados reais no mesmo navegador/plataforma. As
+referências partiram do pós-pull (`150eff06`) e foram revistas para incorporar
+os ajustes solicitados de espaçamento da barra superior e foco, após corrigir
+altura/tipografia dos diálogos e paginação vazia. A suíte espera os sprites
+visíveis carregarem e usa um frame fixo do monstro (ver `e2e/fixtures/README.md`),
+mantendo a imagem e suas dimensões. Somente os glifos e a remoção do botão
 de configurações são excluídos da comparação. Para renovar referências após uma
 mudança visual intencional, rode `pnpm e2e:update` e revise cada imagem; não
 atualize snapshots para encobrir regressões. `interactions.spec.ts` exercita

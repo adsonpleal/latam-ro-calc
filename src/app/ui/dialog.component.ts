@@ -8,7 +8,7 @@ let dialogId = 0;
   selector: 'app-ui-dialog',
   template: `<ng-template #panel>
     <section class="ui-dialog ui-component" [ngClass]="styleClass" [ngStyle]="style" role="dialog" [attr.aria-modal]="modal" [attr.aria-labelledby]="id" tabindex="-1" [cdkTrapFocus]="modal" [cdkTrapFocusAutoCapture]="modal">
-      <div class="ui-dialog-header"><span class="ui-dialog-title" [id]="id"><ng-container *ngIf="template('header') as content; else title" [ngTemplateOutlet]="content"></ng-container><ng-template #title>{{header}}</ng-template></span>
+      <div class="ui-dialog-header"><span class="ui-dialog-title" [class.ui-dialog-title-custom]="template('header')" [id]="id"><ng-container *ngIf="template('header') as content; else title" [ngTemplateOutlet]="content"></ng-container><ng-template #title>{{header}}</ng-template></span>
         <button *ngIf="closable" type="button" class="ui-dialog-header-icon ui-dialog-header-close ui-link" aria-label="Fechar" (click)="close()"><app-icon name="times"></app-icon></button>
       </div>
       <div class="ui-dialog-content" [ngStyle]="contentStyle"><ng-content></ng-content></div>

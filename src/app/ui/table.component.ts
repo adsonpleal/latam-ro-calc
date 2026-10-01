@@ -41,7 +41,7 @@ export class UiTableComponent extends UiTemplated {
   @Output() rowSelected = new EventEmitter<{ data: any }>();
   @Output() rowUnselected = new EventEmitter<{ data: any }>();
   get total(): number { return this.totalRecords ?? this.value?.length ?? 0; }
-  get pageCount(): number { return Math.max(1, Math.ceil(this.total / this.rows)); }
+  get pageCount(): number { return Math.ceil(this.total / this.rows); }
   get page(): number { return Math.max(0, Math.min(this.pageCount - 1, Math.floor(this.first / this.rows))); }
   get start(): number { return this.paginator ? this.page * this.rows : 0; }
   get displayed(): any[] { return this.paginator ? (this.value ?? []).slice(this.start, this.start + this.rows) : this.value ?? []; }

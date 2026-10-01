@@ -145,14 +145,16 @@
 .ui-datatable-tbody > tr.ui-selectable-row:hover { background: rgba(255,255,255,.03); }
 .ui-datatable-loading-overlay { position: absolute; inset: 0; background: #0006; display: grid; place-items: center; font-size: 2rem; }
 .ui-paginator { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; background: var(--surface-card); color: var(--text-color-secondary); border: solid var(--surface-border); border-width: 0; padding: var(--ui-control-padding) var(--ui-button-padding-inline); border-radius: 3px; }
+.ui-datatable .ui-paginator { border-bottom-width: 1px; border-radius: 0; }
 .ui-paginator-element { display: inline-flex; align-items: center; justify-content: center; min-width: var(--ui-trigger-width); height: 2.357rem; margin: .143rem; border-radius: 3px; }
 .ui-paginator-current { margin: .143rem; padding: 0 .5rem; height: 2.357rem; display: inline-flex; align-items: center; }
 .ui-paginator-element:hover { background: rgba(255,255,255,.03); }.ui-paginator-element.ui-highlight { background: var(--highlight-bg); }
 .ui-dialog-mask { background: rgba(0,0,0,.4); }
-.ui-dialog { display: flex; flex-direction: column; pointer-events: auto; position: relative; max-height: 90%; max-width: 100%; border-radius: 3px; border: 1px solid var(--surface-border); background: var(--surface-card); box-shadow: var(--ui-dialog-shadow); }
+.ui-dialog { display: flex; flex-direction: column; pointer-events: auto; position: relative; max-height: 90vh; max-width: 100%; border-radius: 3px; border: 1px solid var(--surface-border); background: var(--surface-card); box-shadow: var(--ui-dialog-shadow); }
 .ui-dialog-pane { max-height: 90vh; max-width: 100%; }
 .ui-dialog-header { display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; padding: 1.5rem; border-radius: 3px 3px 0 0; color: var(--text-color); }
 .ui-dialog-title { flex: 1; min-width: 0; font-weight: 600; font-size: 1.25rem; }
+.ui-dialog-title-custom { font: inherit; }
 .ui-dialog-header-icon { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: 2rem; height: 2rem; color: var(--text-color-secondary); border-radius: 50%; }
 .ui-dialog-header-icon:hover { background: rgba(255,255,255,.03); }
 .ui-dialog-content { overflow-y: auto; flex-grow: 1; min-height: 0; padding: 0 1.5rem 2rem; color: var(--text-color); }

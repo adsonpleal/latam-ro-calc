@@ -1471,6 +1471,7 @@ a.skill_link:hover {
 /* The panel takes the field's width by default, and these fields are 56-60px — enough for
    three digits, not for the search box inside the panel. Just wide enough to type in. */
 ::ng-deep .joined-dropdown-panel .ui-dropdown-panel {
+  width: 100px;
   min-width: 100px;
 }
 

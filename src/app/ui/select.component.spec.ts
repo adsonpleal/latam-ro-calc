@@ -98,6 +98,22 @@ describe.each(['dropdown', 'listbox', 'buttons'] as const)('%s selection contrac
 });
 
 describe('table pagination and selection', () => {
+  it('keeps an empty result on the first offset without advertising a nonexistent page', () => {
+    const table = new UiTableComponent();
+    table.paginator = true; table.rows = 2; table.value = [1, 2, 3];
+    table.go(1);
+    table.value = [];
+    expect(table.pageCount).toBe(0);
+    expect(table.pages).toEqual([]);
+    expect(table.start).toBe(0);
+    expect(table.displayed).toEqual([]);
+    table.go(-1);
+    expect(table.first).toBe(0);
+    table.value = [1];
+    expect(table.pages).toEqual([0]);
+    expect(table.displayed).toEqual([1]);
+  });
+
   it('clamps the current page when filtering and recognizes refreshed objects by their key', () => {
     const table = new UiTableComponent();
     table.paginator = true; table.rows = 2; table.value = [{ id: 1 }, { id: 2 }, { id: 3 }];

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, TemplateRef, ViewChild, ViewContainerRef, forwardRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnDestroy, Output, TemplateRef, ViewChild, ViewContainerRef, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
@@ -86,6 +86,14 @@ export class UiSelectComponent extends UiValueControl implements OnChanges, OnDe
     return this.selectedOption != null ? this.labelOf(this.selectedOption) : this.placeholder || '\u00a0';
   }
   get hasValue(): boolean { return this.multi ? !!this.value?.length : this.value != null; }
+  @HostListener('click', ['$event']) onContainerClick(event: Event): void {
+    // Padding and the gap between the two buttons belong to the control too.
+    // Button clicks already toggle/clear, so do not handle their bubbling events.
+    if (!this.disabled && event.target === this.trigger.nativeElement.parentElement) {
+      this.trigger.nativeElement.focus({ preventScroll: true });
+      this.toggle();
+    }
+  }
   toggle(): void { this.ref ? this.hide() : this.show(); }
   show(): void {
     if (this.ref || this.disabled || this.destroyed) return;
