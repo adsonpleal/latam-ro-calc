@@ -151,23 +151,23 @@
 }
 
 /* CDK drag states. */
-.rot-row.cdk-drag-preview {
+.rot-row.ui-drag-preview {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   opacity: 0.9;
 }
 
 /* The landing slot: the dragged row's own box, emptied out and outlined, so the gap that
    opens up shows exactly where and how big the drop will be. */
-.rot-row.cdk-drag-placeholder {
+.rot-row.ui-drag-placeholder {
   background: var(--highlight-bg);
   border: 1px dashed var(--primary-color);
 }
 
-.rot-row.cdk-drag-placeholder > * {
+.rot-row.ui-drag-placeholder > * {
   visibility: hidden;
 }
 
-.rot-rows.cdk-drop-list-dragging .rot-row:not(.cdk-drag-placeholder) {
+.rot-rows.ui-dragging .rot-row:not(.ui-drag-placeholder) {
   transition: transform 180ms cubic-bezier(0, 0, 0.2, 1);
 }
 
@@ -755,3 +755,5 @@
   gap: 6px;
   flex-shrink: 0;
 }
+
+.rot-handle { touch-action: none; user-select: none; }

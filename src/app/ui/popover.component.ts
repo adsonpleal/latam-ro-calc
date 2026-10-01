@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
-import { FlexibleConnectedPositionStrategy, OverlayRef } from '@angular/cdk/overlay';
+import { ConnectedPositionStrategy, OverlayRef } from 'src/app/ui/overlay';
 import { Subscription } from 'rxjs';
 import { UiOverlayService } from './overlay.service';
 
@@ -63,7 +63,7 @@ export class UiPopoverComponent implements OnDestroy {
     this.ref.updatePosition();
     this.updateArrow();
   }
-  private watchPosition(strategy: FlexibleConnectedPositionStrategy): void {
+  private watchPosition(strategy: ConnectedPositionStrategy): void {
     this.positionSubscription?.unsubscribe();
     this.positionSubscription = strategy.positionChanges.subscribe(change => {
       this.container?.classList.toggle('ui-overlaypanel-flipped', change.connectionPair.overlayY === 'bottom');

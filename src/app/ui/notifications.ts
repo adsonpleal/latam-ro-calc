@@ -55,7 +55,7 @@ export class UiConfirmationService {
   selector: 'app-ui-confirm-dialog',
   template: `<app-ui-dialog [visible]="!!request" [header]="request?.header || 'Confirmação'" [style]="style" [position]="position" [modal]="true" styleClass="ui-confirm-dialog" (visibleChange)="!$event && service.resolve(false)">
     <div class="ui-confirm-dialog-message"><app-icon *ngIf="request?.icon" class="ui-confirm-dialog-icon" [name]="request.icon"></app-icon><span>{{request?.message}}</span></div>
-    <ng-template appTemplate="footer"><button type="button" appButton class="ui-confirm-dialog-reject" icon="times" label="Não" (click)="service.resolve(false)"></button><button type="button" appButton cdkFocusInitial class="ui-confirm-dialog-accept" icon="check" label="Sim" (click)="service.resolve(true)"></button></ng-template>
+    <ng-template appTemplate="footer"><button type="button" appButton class="ui-confirm-dialog-reject" icon="times" label="Não" (click)="service.resolve(false)"></button><button type="button" appButton appFocusInitial class="ui-confirm-dialog-accept" icon="check" label="Sim" (click)="service.resolve(true)"></button></ng-template>
   </app-ui-dialog>`,
 })
 export class UiConfirmDialogComponent implements OnDestroy {

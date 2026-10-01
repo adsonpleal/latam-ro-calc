@@ -1,4 +1,4 @@
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { VirtualListComponent } from 'src/app/ui/virtual-list.component';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { ItemDescriptionStore } from 'src/app/api-services/item-description.store';
 import { buildFilterIndex, filterOptions, searchOptionLeaves } from 'src/app/core/picker-filter';
@@ -48,7 +48,7 @@ const SEARCH_LIMIT = 1000;
 export class ItemPickerOverlayComponent {
   @Output() readonly closed = new EventEmitter<PickerResult>();
 
-  @ViewChild(CdkVirtualScrollViewport) private viewport?: CdkVirtualScrollViewport;
+  @ViewChild(VirtualListComponent) private viewport?: VirtualListComponent;
 
   request!: PickerRequest;
   query = '';

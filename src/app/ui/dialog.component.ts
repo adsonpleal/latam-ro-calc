@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, Output, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
-import { OverlayRef } from '@angular/cdk/overlay';
+import { OverlayRef } from 'src/app/ui/overlay';
 import { UiTemplated } from './template.directive';
 import { UiOverlayService } from './overlay.service';
 
@@ -7,7 +7,7 @@ let dialogId = 0;
 @Component({
   selector: 'app-ui-dialog',
   template: `<ng-template #panel>
-    <section class="ui-dialog ui-component" [ngClass]="styleClass" [ngStyle]="style" role="dialog" [attr.aria-modal]="modal" [attr.aria-labelledby]="id" tabindex="-1" [cdkTrapFocus]="modal" [cdkTrapFocusAutoCapture]="modal">
+    <section class="ui-dialog ui-component" [ngClass]="styleClass" [ngStyle]="style" role="dialog" [attr.aria-modal]="modal" [attr.aria-labelledby]="id" tabindex="-1" [appTrapFocus]="modal" [appTrapFocusAutoCapture]="modal">
       <div class="ui-dialog-header"><span class="ui-dialog-title" [class.ui-dialog-title-custom]="template('header')" [id]="id"><ng-container *ngIf="template('header') as content; else title" [ngTemplateOutlet]="content"></ng-container><ng-template #title>{{header}}</ng-template></span>
         <button *ngIf="closable" type="button" class="ui-dialog-header-icon ui-dialog-header-close ui-link" aria-label="Fechar" (click)="close()"><app-icon name="times"></app-icon></button>
       </div>

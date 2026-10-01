@@ -1,0 +1,11 @@
+{
+  "name": "ro-calculator-cloudflare-tools",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev --config ../../wrangler.jsonc",
+    "deploy": "wrangler deploy --config ../../wrangler.jsonc"
+  },
+  "devDependencies": {
+    "wrangler": "4.128.0"
+  }
+}

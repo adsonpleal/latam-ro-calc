@@ -20,7 +20,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: process.env['UI_TEST_URL'] ? undefined : {
-    command: 'node tools/build-web-data.mjs && node node_modules/@angular/cli/bin/ng.js serve --host 127.0.0.1 --port 4200 --hmr=false',
+    command: 'node tools/serve-web.mjs --host 127.0.0.1 --port 4200',
     url: baseURL,
     reuseExistingServer: !process.env['CI'],
     timeout: 120_000,

@@ -127,7 +127,7 @@ já está por vir e as pessoas querem montar a build antes do lançamento:
   `description` aqui é a exceção à regra de deixar `""`: como não há overlay pt-BR, é a
   única descrição que existe, e o gerador a publica sem depender do `--all-desc`.
 - Os pickers marcam essas linhas com uma etiqueta **Prévia**, para ninguém montar uma build
-  achando que já dá para equipar (`.pre_release_tag` em `src/styles.scss`).
+  achando que já dá para equipar (`.pre_release_tag` em `src/styles.css`).
 - **É temporário.** Quando o LATAM lançar o item, `sync-with-ragassets` traz o id para
   `latam-items.json` e `src/app/api-services/pre-release-items.spec.ts` **falha** listando
   os ids afetados. Esse é o gatilho para voltar aqui, apagar o `preRelease`, devolver

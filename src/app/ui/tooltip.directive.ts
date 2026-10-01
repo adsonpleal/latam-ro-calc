@@ -1,6 +1,6 @@
 import { Component, ComponentRef, Directive, ElementRef, HostListener, Input, OnChanges, OnDestroy } from '@angular/core';
-import { OverlayRef, ConnectedPosition } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
+import { OverlayRef, ConnectedPosition } from 'src/app/ui/overlay';
+import { ComponentPortal } from 'src/app/ui/overlay';
 import { UiOverlayService } from './overlay.service';
 
 let tooltipId = 0;
@@ -52,7 +52,7 @@ export class UiTooltipDirective implements OnDestroy, OnChanges {
     const direction = this.tooltipPosition in POSITIONS ? this.tooltipPosition : 'right';
     const positions = [POSITIONS[direction], ...Object.entries(POSITIONS).filter(([key]) => key !== direction).map(([, value]) => value)].map(position => ({ ...position }));
     const strategy = this.layers.connected(this.host.nativeElement, positions);
-    const ref = this.layers.overlay.create({ positionStrategy: strategy, scrollStrategy: this.layers.overlay.scrollStrategies.reposition(), panelClass: ['ui-tooltip', `ui-tooltip-${direction}`, ...this.tooltipStyleClass.split(' ').filter(Boolean)] });
+    const ref = this.layers.overlay.create({ positionStrategy: strategy, panelClass: ['ui-tooltip', `ui-tooltip-${direction}`, ...this.tooltipStyleClass.split(' ').filter(Boolean)] });
     this.ref = ref;
     const component = ref.attach(new ComponentPortal(UiTooltipContentComponent));
     this.content = component;
@@ -70,8 +70,7 @@ export class UiTooltipDirective implements OnDestroy, OnChanges {
     element.addEventListener('mouseenter', enter);
     element.addEventListener('mouseleave', leave);
     this.cleanup.push(() => { element.removeEventListener('mouseenter', enter); element.removeEventListener('mouseleave', leave); });
-    // Native scroll containers need not be registered with the CDK. Dismiss on
-    // outside scrolling, but let long descriptions scroll within their own box.
+    // Dismiss on outside scrolling, but let long descriptions scroll within their box.
     const document = this.host.nativeElement.ownerDocument;
     const scroll = (event: Event) => {
       if (!element.contains(event.target as Node)) this.hide();

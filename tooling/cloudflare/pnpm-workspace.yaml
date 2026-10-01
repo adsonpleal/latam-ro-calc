@@ -1,0 +1,4 @@
+# Separate install: this tooling is intentionally outside the root dependency tree.
+allowBuilds:
+  esbuild: true
+  workerd: true

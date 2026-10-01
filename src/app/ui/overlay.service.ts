@@ -1,6 +1,6 @@
 import { Injectable, TemplateRef, ViewContainerRef } from '@angular/core';
-import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
+import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef } from 'src/app/ui/overlay';
+import { TemplatePortal } from 'src/app/ui/overlay';
 import { PageScrollLockService } from '../page-scroll-lock.service';
 import { OverlayEscapeService } from './overlay-escape.service';
 
@@ -21,11 +21,11 @@ export class UiOverlayService {
   constructor(public readonly overlay: Overlay, private readonly scroll: PageScrollLockService, private readonly escapes: OverlayEscapeService) {}
 
   connected(anchor: HTMLElement, positions = PICKER_POSITIONS) {
-    return this.overlay.position().flexibleConnectedTo(anchor).withPositions(positions).withPush(true).withViewportMargin(8).withFlexibleDimensions(false);
+    return this.overlay.position().flexibleConnectedTo(anchor).withPositions(positions).withViewportMargin(8);
   }
 
   open(template: TemplateRef<any>, view: ViewContainerRef, config: OverlayConfig, dismiss: () => void, lock = true, origin: HTMLElement | null = null, escape = dismiss): OverlayRef {
-    const ref = this.overlay.create({ scrollStrategy: this.overlay.scrollStrategies.noop(), ...config });
+    const ref = this.overlay.create(config);
     this.inheritScopes(ref, view.element.nativeElement);
     ref.attach(new TemplatePortal(template, view));
     this.adopt(ref, dismiss, lock, origin, escape);

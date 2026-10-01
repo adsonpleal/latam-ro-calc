@@ -1,0 +1,141 @@
+{
+  "encode": [
+    {
+      "input": "",
+      "output": "Q"
+    },
+    {
+      "input": "Hello world",
+      "output": "BIUwNmD2AEDukCcwBMg"
+    },
+    {
+      "input": "ação 日本語 🐉",
+      "output": "IYc4xw9gBIp6aDTmg8qKoXg3CQO0A"
+    },
+    {
+      "input": "abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc",
+      "output": "IYIwxqHpPXUNo+TUvczase33BOR+xhJ5Zlp1FNVtD9TdLjrzbnH37vXfPfkMEiBY4eNETpU2ZPkyFcxSuVqlG1ZvVbdO-dsN6jB42dMWTV89cs37dx7ecOXT1x-de3Pz7+9+gQHB-qFBYSFaQA"
+    },
+    {
+      "input": "{\"v\":1,\"job\":4054,\"str\":130}",
+      "output": "N4IgbiBcCMA0ICsD2AjKAWADAVnfAzgC4BOU0AzJgL5A"
+    },
+    {
+      "input": "{\"name\":\"Minha espada\",\"script\":\"bonus bStr,10;\",\"slots\":4}",
+      "output": "N4IgdghgtgpiBcICyBLMALCACGBnADhACYQgA0IuAxgE4r4AuCIARgPZgCuuWLAygxpkAjAAYA3OUoAbNg1wIALAF8gA"
+    }
+  ],
+  "decode": [
+    {
+      "input": "",
+      "output": null
+    },
+    {
+      "input": "!",
+      "output": ""
+    },
+    {
+      "input": "not-a-token",
+      "output": null
+    },
+    {
+      "input": "Q",
+      "output": ""
+    },
+    {
+      "input": "Q",
+      "output": ""
+    },
+    {
+      "input": "BIUwNmD2AEDukCcwBMg",
+      "output": "Hello world"
+    },
+    {
+      "input": "IYc4xw9gBIp6aDTmg8qKoXg3CQO0A",
+      "output": "ação 日本語 🐉"
+    },
+    {
+      "input": "IYIwxqHpPXUNo+TUvczase33BOR+xhJ5Zlp1FNVtD9TdLjrzbnH37vXfPfkMEiBY4eNETpU2ZPkyFcxSuVqlG1ZvVbdO-dsN6jB42dMWTV89cs37dx7ecOXT1x-de3Pz7+9+gQHB-qFBYSFaQA",
+      "output": "abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc"
+    },
+    {
+      "input": "N4IgbiBcCMA0ICsD2AjKAWADAVnfAzgC4BOU0AzJgL5A",
+      "output": "{\"v\":1,\"job\":4054,\"str\":130}"
+    },
+    {
+      "input": "N4IgdghgtgpiBcICyBLMALCACGBnADhACYQgA0IuAxgE4r4AuCIARgPZgCuuWLAygxpkAjAAYA3OUoAbNg1wIALAF8gA",
+      "output": "{\"name\":\"Minha espada\",\"script\":\"bonus bStr,10;\",\"slots\":4}"
+    }
+  ],
+  "builds": [
+    {
+      "preset": {
+        "class": 4261,
+        "level": 230,
+        "jobLevel": 50,
+        "weapon": 700016,
+        "weaponRefine": 11
+      },
+      "compare": null,
+      "token": "N4IgxgNghgzjIC4AsAmAbARgDQggUwDc8JEUBmABhwCsB7AIwBlDjEBWKkAdzygAdaAO0QB2CuIxocPfkIBKeAGYBLQXkQYMAXyA"
+    },
+    {
+      "preset": {
+        "class": 4261,
+        "level": 230,
+        "jobLevel": 50,
+        "weapon": 700016,
+        "weaponRefine": 11
+      },
+      "compare": {
+        "itemNames": [
+          "weapon",
+          "armor"
+        ],
+        "model2": {
+          "weapon": 1291,
+          "weaponRefine": 9
+        }
+      },
+      "token": "N4IgxgNghgzjIC4AsAmAbARgDQggUwDc8JEUBmABhwCsB7AIwBlDjEBWKkAdzygAdaAO0QB2CuIxocPfkIBKeAGYBLQXkQZsIAPrawAWz6JQyxAG1uvAcJxQATvtp2QAXRz7jl2cIQYUATi0ZawUVNUR-AF9ooA"
+    }
+  ],
+  "customBundle": {
+    "items": [
+      {
+        "id": 1000000000101,
+        "name": "Armadura ação 🐉",
+        "aegisName": "custom_1000000000101",
+        "slots": 1,
+        "itemTypeId": 2,
+        "itemSubTypeId": 513,
+        "itemLevel": null,
+        "attack": null,
+        "defense": 0,
+        "weight": 0,
+        "location": null,
+        "compositionPos": null,
+        "isRefinable": false,
+        "canGrade": false,
+        "script": {
+          "str": [
+            "10"
+          ]
+        },
+        "custom": true,
+        "schemaVersion": 1,
+        "revision": 1,
+        "kind": "armor",
+        "iconItemId": 1101,
+        "cardCapacity": 1,
+        "enchantCapacity": 0,
+        "baCapacity": 5,
+        "defaultCards": [],
+        "defaultEnchants": [],
+        "defaultBas": [],
+        "presentInLatam": true
+      }
+    ],
+    "token": "N4IgbgpgTgzglgewHYgFwEYA0I4BcIC2MaA2qHACZroAMd99tWISAhgRGiAIJQGsUArlFYACVgHOAxwlGBeDcCQOyGysIAczgwAcu06oQAY0ExcCAgH1aDBk2UgYAGwS5iGbHkIAVAJ4AHCACSVKgATO74BADKggBGPv5BaACs6ADM4YQAMhCQDmhIgg4OKri4rAYA1vmFxSAUEABmEEgwejTYAO4QcGoAFrho7SBOBqy4iCioBUXYBma.CPDjyAAKi9UzODAASo1wbDEOeg2sDq2zrEgA4iL1aCdnENgwBlBwvgOooCZQpCC0IAAugBfWbGUwENC4KCCJ72Ay9QisABq0HgyGo2CgOU0E0xIAq.2CIFYfAQv3ccyQAQiiQwTAuUAoAGFWL5ynhvPjmgjLrhWeyDJzBtgYqwBRzcFzUElsPUToV.aSKK4SIC5Y1WIqAKJIXlIFykdV1TWKgBCrFVxt82NaBoCSEyY3YUJhEGBIKAA"
+  }
+}

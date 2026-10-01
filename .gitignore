@@ -10,7 +10,7 @@
 /bazel-out
 
 # Node
-/node_modules
+node_modules/
 npm-debug.log
 yarn-error.log
 
@@ -70,7 +70,8 @@ Thumbs.db
 /tools/data/
 
 # Compiled files
-layout.css
 src/assets/demo/styles/badges.css
 ssl
 backup-preset.json
+/.tmp/
+/.pnpm-store/

@@ -10,9 +10,11 @@
 // `public, max-age=0, must-revalidate` default. That is what keeps a deploy from being
 // stuck behind a stale index.html.
 
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { copyWebAssets } from './web-assets.mjs';
 
 const ROOT = resolve(__dirname, '..');
 const HEADERS_FILE = join(ROOT, 'src/_headers');
@@ -161,21 +163,27 @@ describe('src/_headers', () => {
       .filter((r) => r.hit.length > 1);
 
     expect(overlaps).toEqual([]);
+    for (const path of walk(DIST).filter(path => /^\/[^/]+\.(js|css)$/.test(path))) {
+      expect(matching(path).map(rule => rule.headers['Cache-Control']), path).toEqual([IMMUTABLE]);
+    }
   });
 });
 
-describe('angular.json', () => {
+describe('web asset build', () => {
   it('copies _headers into every build output', () => {
-    const config = JSON.parse(readFileSync(join(ROOT, 'angular.json'), 'utf8'));
-    const targets = config.projects['ro-calculator']?.architect ?? Object.values<any>(config.projects)[0].architect;
-
-    const withAssets = Object.entries<any>(targets).filter(([, t]) => Array.isArray(t.options?.assets));
-    expect(withAssets.length).toBeGreaterThan(0);
-
-    // ng build fails on a missing asset, so a target that lists it also proves the file
-    // exists — but only for the targets that actually list it. Hence: all of them.
-    for (const [name, target] of withAssets) {
-      expect(target.options.assets, `${name} does not copy src/_headers`).toContain('src/_headers');
-    }
+    const temporary = mkdtempSync(join(tmpdir(), 'ro-web-assets-'));
+    try {
+      const source = join(temporary, 'source'); const output = join(temporary, 'output');
+      mkdirSync(join(source, 'src/assets/demo/data'), { recursive: true });
+      mkdirSync(join(source, 'src/assets/data'), { recursive: true });
+      const headers = readFileSync(HEADERS_FILE, 'utf8');
+      writeFileSync(join(source, 'src/_headers'), headers);
+      writeFileSync(join(source, 'src/assets/data/items.hash.json'), '{}');
+      writeFileSync(join(source, 'src/assets/demo/data/item.json'), 'private source data');
+      copyWebAssets(source, output);
+      expect(readFileSync(join(output, '_headers'), 'utf8')).toBe(headers);
+      expect(existsSync(join(output, 'assets/data/items.hash.json'))).toBe(true);
+      expect(existsSync(join(output, 'assets/demo/data'))).toBe(false);
+    } finally { rmSync(temporary, { recursive: true, force: true }); }
   });
 });

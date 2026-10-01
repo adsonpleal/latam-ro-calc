@@ -10,7 +10,7 @@
  * The legacy `#/?b=…` form was immune to this (the router preserves the hash, since it
  * is what it routes on), which is exactly why the problem only appears now.
  *
- * `main.ts` calls `captureShareEntry` before `bootstrapModule` — an explicit call, not
+ * `main.ts` calls `captureShareEntry` before `bootstrapApplication` — an explicit call, not
  * a module side effect, so no bundler can drop it.
  *
  * Framework-free (src/app/core): no Angular/RxJS/PrimeNG, and no DOM read of its own —

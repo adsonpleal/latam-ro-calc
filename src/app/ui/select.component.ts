@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnDestroy, Output, TemplateRef, ViewChild, ViewContainerRef, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { OverlayRef } from '@angular/cdk/overlay';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { OverlayRef } from 'src/app/ui/overlay';
+import { VirtualListComponent } from 'src/app/ui/virtual-list.component';
 import { UiOverlayService } from './overlay.service';
 import { UiValueControl, optionLabel, optionValue, toggleSelection } from './value-control';
 
@@ -40,7 +40,7 @@ export class UiSelectComponent extends UiValueControl implements OnChanges, OnDe
   @Output() cleared = new EventEmitter<void>();
   @ViewChild('panel', { static: true }) panel!: TemplateRef<any>;
   @ViewChild('trigger', { static: true }) trigger!: ElementRef<HTMLButtonElement>;
-  @ViewChild(CdkVirtualScrollViewport) viewport?: CdkVirtualScrollViewport;
+  @ViewChild(VirtualListComponent) viewport?: VirtualListComponent;
   readonly id = `ui-select-${++selectId}`;
   readonly multi: boolean;
   readonly cascade: boolean;

@@ -7,7 +7,7 @@
 // start until that chunk has downloaded AND executed. Injecting the map into the
 // HTML costs zero extra round trips and moves the start of the ~275 KB core
 // download about 1,4 MB of JavaScript earlier. The app still falls back to
-// fetching assets/data-manifest.json when the injection is absent (`ng serve`).
+// fetching assets/data-manifest.json when the injection is absent (`pnpm start`).
 //
 // A real fetch() rather than <link rel="preload" as="fetch">: preload only
 // dedupes when the later request's CORS mode and credentials match exactly,
@@ -67,7 +67,7 @@ function main() {
   try {
     manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
   } catch {
-    fail(`could not read ${manifestPath} — did \`node tools/build-web-data.mjs --hash\` run before \`ng build\`?`);
+    fail(`could not read ${manifestPath} — did \`node tools/build-web-data.mjs --hash\` run before \`pnpm build\`?`);
   }
 
   for (const key of EAGER_KEYS) {

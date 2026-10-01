@@ -1,14 +1,14 @@
 <!-- The panel traps focus so the arrow keys belong to the list, not to the page behind it.
      Rows are real buttons but stay out of the tab order: the filter box keeps focus and
      drives the list, exactly as the dropdown this replaces did. -->
-<div class="picker" [class.picker--virtual]="virtualise" [style.width.px]="pinnedWidth" tabindex="-1" cdkTrapFocus cdkTrapFocusAutoCapture (keydown)="onKeyDown($event)">
+<div class="picker" [class.picker--virtual]="virtualise" [style.width.px]="pinnedWidth" tabindex="-1" appTrapFocus appTrapFocusAutoCapture (keydown)="onKeyDown($event)">
   <div class="picker__title">{{ title }}</div>
 
   <div class="picker__filter">
     <input
       #filter
       type="text"
-      cdkFocusInitial
+      appFocusInitial
       class="picker__input"
       placeholder="Filtrar…"
       [value]="query"
@@ -47,16 +47,16 @@
        content, so it contributes no intrinsic width and forces a fixed panel; a plain list
        lets the panel size to its longest label. Only the lists that are actually long
        (items, cards, a flat option search) pay that price. -->
-  <cdk-virtual-scroll-viewport
+  <app-virtual-list [items]="rows" [trackBy]="trackRow"
     *ngIf="rows.length && virtualise"
     class="picker__list"
     [itemSize]="rowHeight"
     [style.height.px]="viewportHeight"
   >
-    <ng-container *cdkVirtualFor="let row of rows; let i = index; trackBy: trackRow">
+    <ng-template let-row let-i="index">
       <ng-container *ngTemplateOutlet="rowTpl; context: { $implicit: row, i: i }"></ng-container>
-    </ng-container>
-  </cdk-virtual-scroll-viewport>
+    </ng-template>
+  </app-virtual-list>
 
   <div class="picker__list picker__list--plain" *ngIf="rows.length && !virtualise" [style.maxHeight.px]="viewportHeight">
     <ng-container *ngFor="let row of rows; let i = index; trackBy: trackRow">

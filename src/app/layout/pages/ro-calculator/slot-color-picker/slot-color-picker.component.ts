@@ -54,7 +54,7 @@ export class SlotColorPickerComponent {
     this.editing = color.id;
     this.draft = this.labelOf(color);
     this.cdr.markForCheck();
-    // The box does not exist until this pass renders; `cdkFocusInitial` only runs when
+    // The box does not exist until this pass renders; `appFocusInitial` only runs when
     // the trap is first attached, so the focus is placed by hand here instead.
     setTimeout(() => this.renameInputs?.first?.nativeElement.select());
   }

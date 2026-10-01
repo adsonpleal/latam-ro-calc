@@ -22,45 +22,44 @@ jobs:
           # the pre-push commit (github.event.before) to detect a version bump
           fetch-depth: 0
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          bun-version: latest
+          version: 11.7.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
 
       - name: Install dependencies
-        # bun auto-enables --frozen-lockfile in CI; the committed bun.lock drifts from
-        # package.json, so allow bun to reconcile it instead of failing the run.
-        run: bun install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
-      # Neither esbuild (tools/build-worker.mjs) nor wrangler typechecks anything, so this
-      # is the only thing standing between a type error in the Worker or the MCP server and
-      # a deploy. worker/tsconfig.json covers both.
-      - name: Typecheck the Worker
-        run: bun run typecheck:worker
+      - name: Source and template checks
+        run: pnpm lint:check && pnpm typecheck
 
       # The MCP server ships inside the Worker now, so this workflow inherits the gate
       # that mcp-deploy.yml used to provide — including the parity spec, which pins
       # absolute damage numbers through the whole engine.
       - name: Test
-        run: bun run test
+        run: pnpm test
 
       - name: Build
-        run: bun run build
+        run: pnpm build
 
       # Assets plus a Worker on two routes (share links and the MCP server), configured by
       # wrangler.jsonc. wrangler uploads the contents of dist/sakai-ng and the pre-bundled
       # Worker from dist/worker; cache policy for the assets travels with them in
       # dist/sakai-ng/_headers.
+      - name: Install deployment tools
+        run: pnpm --dir tooling/cloudflare install --frozen-lockfile
+
       - name: Deploy to Cloudflare Workers
-        uses: cloudflare/wrangler-action@v4
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy
-          # The action infers the package manager from committed lockfiles and would pick
-          # pnpm off pnpm-lock.yaml — but CI installs only bun, so the pnpm probe fails.
-          # npm is always on the runner.
-          packageManager: npm
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm deploy:worker
 
       # Lifted from the retired mcp-deploy.yml. A green wrangler deploy says the script
       # uploaded, not that the dataset it reads through the ASSETS binding actually parses

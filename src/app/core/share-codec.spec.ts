@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { compressToEncodedURIComponent } from 'lz-string';
+import { compressToEncodedURIComponent } from 'src/app/core/uri-compression';
 import { createMainModel } from 'src/app/utils';
 import { decodeBuild, decodeShared, dropDefaults, encodeBuild } from './share-codec';
 

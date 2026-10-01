@@ -1,11 +1,11 @@
-@import "app/ui/styles/tokens";
-@import "assets/layout/styles/layout/layout.scss";
-@import "../node_modules/@angular/cdk/overlay-prebuilt.css";
-@import "app/ui/styles/controls";
-@import "app/ui/styles/utilities";
+@import "app/ui/styles/_tokens.css";
+@import "assets/layout/styles/layout/layout.css";
+@import "app/ui/styles/overlay.css";
+@import "app/ui/styles/_controls.css";
+@import "app/ui/styles/_utilities.css";
 
 html { scrollbar-gutter: stable; }
-.cdk-overlay-container { z-index: 1050; }
+
 
 .property_Water {
   /* background-color: #7ba7e1; */
@@ -260,7 +260,7 @@ html { scrollbar-gutter: stable; }
   color: var(--text-color-secondary);
 }
 
-/* The shell (sakai's _content.scss / _responsive.scss) gutters the page at 2rem, which is
+/* The shell (sakai's _content.css / _responsive.css) gutters the page at 2rem, which is
    a lot of edge for a layout whose whole job is fitting a 1500px-wide build editor next to
    the damage HUD. Halved here rather than in the vendored layout files, and named so the
    gap between the two columns (.editor_col) is the same value rather than a literal that
@@ -269,7 +269,7 @@ html { scrollbar-gutter: stable; }
   --page-gutter: 14px;
 }
 /* Keep the topbar aligned with the content. Both sidebar states carry their own
-   padding-left in _responsive.scss, so match their specificity here. */
+   padding-left in _responsive.css, so match their specificity here. */
 .layout-wrapper .layout-topbar,
 .layout-wrapper.layout-overlay .layout-main-container,
 .layout-wrapper.layout-static .layout-main-container,
@@ -295,3 +295,8 @@ html { scrollbar-gutter: stable; }
 
 .studio-icon-panel.ui-overlaypanel { margin-top: 0; }
 .studio-icon-panel.ui-overlaypanel-flipped { margin-bottom: 0; }
+
+.menu-children { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 400ms cubic-bezier(.86,0,.07,1); }
+.menu-children--expanded { grid-template-rows: 1fr; }
+.menu-children > ul { min-height: 0; overflow: hidden; }
+@media (prefers-reduced-motion: reduce) { .menu-children { transition: none; } }

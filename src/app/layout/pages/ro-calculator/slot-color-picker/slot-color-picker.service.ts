@@ -1,5 +1,4 @@
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
+import { ComponentPortal, Overlay, OverlayRef } from 'src/app/ui/overlay';
 import { Injectable, Injector } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { SlotColorLabels } from 'src/app/core/slot-colors';
@@ -10,10 +9,9 @@ import { SlotColorPickerEvent, SlotColorPickerRequest } from './slot-color-picke
 /**
  * Opens the slot-colour panel, anchored to the swatch in a card's header.
  *
- * Same CDK setup as {@link ItemPickerService} — a flexible position that flips above the
+ * Same overlay setup as {@link ItemPickerService} — a position that flips above the
  * button when it will not fit below, a transparent backdrop, and the page held still
- * through PageScrollLockService rather than by the CDK's own block, which pins <html> and
- * takes every item-description popover on the screen down with it.
+ * through PageScrollLockService without displacing item-description popovers.
  */
 @Injectable({ providedIn: 'root' })
 export class SlotColorPickerService {
@@ -63,8 +61,7 @@ export class SlotColorPickerService {
     const result = new Subject<SlotColorPickerEvent>();
     const ref = this.overlay.create({
       hasBackdrop: true,
-      backdropClass: 'cdk-overlay-transparent-backdrop',
-      scrollStrategy: this.overlay.scrollStrategies.noop(),
+      backdropClass: 'ui-overlay-transparent-backdrop',
       positionStrategy: this.overlay
         .position()
         .flexibleConnectedTo(request.anchor)
@@ -74,13 +71,11 @@ export class SlotColorPickerService {
           { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 4 },
           { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -4 },
         ])
-        .withPush(true)
-        .withViewportMargin(8)
-        .withFlexibleDimensions(false),
+        .withViewportMargin(8),
     });
 
     this.ref = ref;
-    const instance = ref.attach(new ComponentPortal(SlotColorPickerComponent, null, this.injector)).instance;
+    const instance = ref.attach(new ComponentPortal(SlotColorPickerComponent, this.injector)).instance;
     instance.init(request, this.labels);
     this.layers.adopt(ref, () => this.close(), true, request.anchor,
       () => instance.editing ? instance.cancelRename() : this.close());

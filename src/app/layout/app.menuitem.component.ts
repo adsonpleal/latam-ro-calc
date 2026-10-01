@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MenuService } from './app.menu.service';
@@ -53,30 +52,13 @@ import { LayoutService } from './service/app.layout.service';
         <app-icon class="layout-submenu-toggler" *ngIf="item.items" name="angle-down"></app-icon>
       </a>
 
-      <ul *ngIf="item.items && item.visible !== false" [@children]="submenuAnimation">
+      <div *ngIf="item.items && item.visible !== false" class="menu-children" [class.menu-children--expanded]="root || active"><ul>
         <ng-template ngFor let-child let-i="index" [ngForOf]="item.items">
           <li app-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child.badgeClass"></li>
         </ng-template>
-      </ul>
+      </ul></div>
     </ng-container>
   `,
-  animations: [
-    trigger('children', [
-      state(
-        'collapsed',
-        style({
-          height: '0',
-        }),
-      ),
-      state(
-        'expanded',
-        style({
-          height: '*',
-        }),
-      ),
-      transition('collapsed <=> expanded', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')),
-    ]),
-  ],
 })
 export class AppMenuitemComponent implements OnInit, OnDestroy {
   @Input() item: any;
@@ -165,9 +147,6 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
     this.menuService.onMenuStateChange({ key: this.key });
   }
 
-  get submenuAnimation() {
-    return this.root ? 'expanded' : this.active ? 'expanded' : 'collapsed';
-  }
 
   @HostBinding('class.active-menuitem')
   get activeClass() {

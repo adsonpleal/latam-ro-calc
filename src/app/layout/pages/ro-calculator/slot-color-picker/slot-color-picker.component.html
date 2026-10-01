@@ -1,12 +1,12 @@
 <!-- Rows are ordinary tabbable buttons, unlike the item picker's: six of them navigate
      perfectly well with Tab, and the rename box has to be reachable the same way. The
      trap keeps both inside the panel. -->
-<div class="cpicker" tabindex="-1" cdkTrapFocus cdkTrapFocusAutoCapture (keydown)="onKeyDown($event)">
+<div class="cpicker" tabindex="-1" appTrapFocus appTrapFocusAutoCapture (keydown)="onKeyDown($event)">
   <div class="cpicker__title">Cor do slot</div>
 
   <button
     type="button"
-    cdkFocusInitial
+    appFocusInitial
     class="cpicker__row cpicker__row--none"
     [class.cpicker__row--selected]="!value"
     (click)="choose(null)"

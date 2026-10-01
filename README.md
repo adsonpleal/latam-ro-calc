@@ -24,7 +24,7 @@ turugrura.
 
 ## Stack
 
-- [Angular 16](https://angular.io/) + CDK + [design system próprio](docs/design-system.md)
+- [Angular 16](https://angular.io/) + [design system próprio](docs/design-system.md)
 - TypeScript, RxJS
 - [Vitest](https://vitest.dev/) para testes unitários da engine de cálculo
 - Playwright para interações reais e comparação visual da interface
@@ -35,38 +35,36 @@ turugrura.
 Requer **Node 22** (testado na v22.16) e **pnpm** (v11):
 
 ```bash
-pnpm install
-pnpm start          # ng serve em http://localhost:4200
+pnpm install --frozen-lockfile
+pnpm start          # servidor local em http://localhost:4200
 ```
 
-> O dev server usa o **webpack** (não o esbuild/Vite), pois o HMR via WebSocket do esbuild
-> não atravessa proxies reversos. `ng build` continua usando esbuild.
-
-> As configurações do pnpm ficam em `pnpm-workspace.yaml` (o pnpm 11 não lê mais o campo
-> `"pnpm"` do `package.json` nem as chaves equivalentes do `.npmrc`): `allowBuilds`
-> libera os build scripts de `esbuild`/`@parcel/watcher`/`nx`, e `publicHoistPattern`
-> eleva `@babel/*` para a raiz do `node_modules` — o build do Angular 16 resolve
-> `@babel/runtime` por caminho absoluto e não funciona com o layout estrito do pnpm.
+> O build usa o compilador AOT do Angular e esbuild, sem Angular CLI, webpack ou Sass.
+> O servidor Node recompila em um processo separado e recarrega a página por SSE após
+> um build bem-sucedido; continua servindo o último build durante a recompilação.
+> `pnpm start -- --host 127.0.0.1 --port 4200` altera host/porta.
+> As configurações do pnpm ficam em `pnpm-workspace.yaml`; apenas esbuild executa
+> postinstall na raiz. Os peers necessários são declarados explicitamente.
 
 ## Scripts úteis
 
 | Comando             | Descrição                                      |
 | ------------------- | ---------------------------------------------- |
-| `pnpm start`        | Dev server (webpack, HMR) na porta 4200        |
+| `pnpm start`        | Dev server (AOT/esbuild, reload) na porta 4200        |
 | `pnpm build`        | Build de produção (esbuild)                    |
 | `pnpm test`         | Testes unitários (Vitest)                      |
 | `pnpm test:watch`   | Vitest em modo watch                           |
 | `pnpm test:cov`     | Testes com cobertura                           |
 | `pnpm e2e`         | Comparação visual e interações no navegador    |
-| `pnpm typecheck`   | Tipos da aplicação e do Worker                 |
-| `pnpm lint:check`  | ESLint sem alterar arquivos                    |
-| `pnpm lint`         | ESLint com `--fix`                             |
+| `pnpm typecheck`   | Tipos, templates Angular e Worker                 |
+| `pnpm lint:check`  | Imports não usados e fronteiras da engine                    |
+| `pnpm lint`         | Mesmas verificações, sem alterar arquivos                             |
 
 ## Estrutura
 
 ```
 src/app/
-├── ui/          # controles próprios, tokens, ícones e overlays CDK
+├── ui/          # controles próprios, tokens, ícones e overlays locais
 ├── core/        # engine de cálculo (calculator, damage, hp/sp) — coberta por testes
 ├── jobs/        # uma classe por arquivo (70+); fórmulas e habilidades
 ├── replay/      # parser de replay .rrf → modelo de personagem
@@ -98,8 +96,14 @@ A política de cache fica em `src/_headers`, copiado para a raiz do build. Para 
 mão:
 
 ```bash
-pnpm build && npx wrangler deploy
+pnpm --dir tooling/cloudflare install --frozen-lockfile
+pnpm build
+pnpm deploy:worker
 ```
+
+Wrangler tem instalação e lockfile próprios em `tooling/cloudflare`; não integra
+a instalação da raiz. Para desenvolver o Worker, instale essa pasta e rode
+`pnpm dev:worker`. O SDK MCP/Zod e o parser compartilhado continuam preservados.
 
 ## Créditos
 

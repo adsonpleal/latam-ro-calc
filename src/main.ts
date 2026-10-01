@@ -1,5 +1,7 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import 'zone.js';
+import { AppComponent } from './app/app.component';
+import { importProvidersFrom, enableProdMode } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
 
 import { AppModule } from './app/app.module';
 import { captureShareEntry } from './app/core/share-entry';
@@ -13,5 +15,5 @@ if (environment.production) {
 // <base href="/"> and wipes the path, taking a /s/<token>/ share link with it.
 captureShareEntry(window.location.href);
 
-platformBrowserDynamic().bootstrapModule(AppModule)
+bootstrapApplication(AppComponent, { providers: [importProvidersFrom(AppModule)] })
   .catch(err => console.error(err));

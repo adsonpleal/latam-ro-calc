@@ -44,7 +44,7 @@
 //                                 [--src <dir>] [--out <dir>]
 //
 //   --hash      content-hash the emitted filenames (production builds). Off for
-//               `ng serve`, where stable names let a re-run be picked up by a
+//               `pnpm start`, where stable names let a re-run be picked up by a
 //               plain reload.
 //   --report    print raw/gzip/brotli sizes per artifact.
 //   --all-desc  also emit descriptions for items absent from LATAM. Off by
