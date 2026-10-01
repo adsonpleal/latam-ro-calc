@@ -2,10 +2,6 @@ import { UiModule } from 'src/app/ui/ui.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { A11yModule } from '@angular/cdk/a11y';
-import { OverlayModule } from '@angular/cdk/overlay';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { RoCalculatorComponent } from './ro-calculator.component';
 import { ItemDescTooltipPipe } from './item-desc-tooltip.pipe';
@@ -44,10 +40,9 @@ import { KeyActivateDirective } from '../../../pipes/key-activate.directive';
     UiModule,
     CommonModule,
     FormsModule,
-    DragDropModule,
-    A11yModule,
-    OverlayModule,
-    ScrollingModule,
+
+
+
     RoCalculatorRoutingModule,
     StatusInputModule,
     IconUrlPipe,

@@ -1,4 +1,4 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { moveItemInArray } from 'src/app/ui/reorder.directive';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BASIC_ATTACK_VALUE, MAX_ROTATION_LENGTH } from '../../../../../core/rotation';
 import { buildRotationPickerOptions, elementTagClass as elementTagClassFn, RotationPickerOption } from '../battle-hud.logic';
@@ -141,7 +141,7 @@ export class RotationListComponent {
     return index;
   }
 
-  onDrop(event: CdkDragDrop<RotationEntryView[]>) {
+  onDrop(event: { previousIndex: number; currentIndex: number }) {
     if (event.previousIndex === event.currentIndex) return;
     const next = this.rotation.slice();
     moveItemInArray(next, event.previousIndex, event.currentIndex);
@@ -151,9 +151,7 @@ export class RotationListComponent {
   }
 
   /**
-   * The keyboard path for reordering. CDK's drag-drop is pointer-only, and the handle is
-   * the only thing a keyboard user could grab, so Arrow Up/Down on it moves the row and
-   * announces where it landed.
+   * Arrow Up/Down on the handle moves the row and announces where it landed.
    */
   moveBy(index: number, delta: number, event: Event) {
     const target = index + delta;

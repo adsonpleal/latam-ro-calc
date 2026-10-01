@@ -92,7 +92,6 @@
     width: 33.3333%;
   }
 }
-
 .text-300 {
   color: var(--surface-300) !important;
 }
@@ -116,21 +115,27 @@
 .surface-900 {
   background-color: var(--surface-900) !important;
 }
+
 .text-green-400 {
   color: var(--green-400) !important;
 }
+
 .text-yellow-400 {
   color: var(--yellow-400) !important;
 }
+
 .text-cyan-300 {
   color: var(--cyan-300) !important;
 }
+
 .text-red-300 {
   color: var(--red-300) !important;
 }
+
 .text-red-500 {
   color: var(--red-500) !important;
 }
+
 .text-primary-500 {
   color: var(--primary-500) !important;
 }
@@ -166,6 +171,7 @@
 .surface-border {
   border-color: var(--surface-border) !important;
 }
+
 .field {
   margin-bottom: 1rem;
 }
@@ -235,6 +241,7 @@
 .inline-flex {
   display: inline-flex !important;
 }
+
 .text-center {
   text-align: center !important;
 }
@@ -242,6 +249,7 @@
 .text-left {
   text-align: left !important;
 }
+
 .underline {
   text-decoration: underline !important;
 }
@@ -269,6 +277,7 @@
 .font-bold {
   font-weight: 700 !important;
 }
+
 .font-italic {
   font-style: italic !important;
 }
@@ -296,9 +305,11 @@
 .flex-column {
   flex-direction: column !important;
 }
+
 .flex-wrap {
   flex-wrap: wrap !important;
 }
+
 .justify-content-start {
   justify-content: flex-start !important;
 }
@@ -326,6 +337,7 @@
 .align-items-center {
   align-items: center !important;
 }
+
 .flex-1 {
   flex: 1 1 0% !important;
 }
@@ -420,6 +432,7 @@
   padding-top: 2rem !important;
   padding-bottom: 2rem !important;
 }
+
 .m-0 {
   margin: 0rem !important;
 }
@@ -516,6 +529,7 @@
 .border-round {
   border-radius: var(--border-radius) !important;
 }
+
 .w-full {
   width: 100% !important;
 }
@@ -535,6 +549,7 @@
 .h-2rem {
   height: 2rem !important;
 }
+
 .static {
   position: static !important;
 }
@@ -554,6 +569,7 @@
 .sticky {
   position: sticky !important;
 }
+
 .overflow-auto {
   overflow: auto !important;
 }
@@ -561,6 +577,7 @@
 .overflow-hidden {
   overflow: hidden !important;
 }
+
 .select-none {
   user-select: none !important;
 }
@@ -576,6 +593,7 @@
 .reset {
   all: unset;
 }
+
 .fadein {
   animation: fadein 0.15s linear;
 }

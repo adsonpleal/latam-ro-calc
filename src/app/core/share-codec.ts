@@ -17,7 +17,7 @@
  *
  * Framework-free (src/app/core): no Angular/RxJS/PrimeNG, no DOM.
  */
-import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
+import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'src/app/core/uri-compression';
 import { CompareState, sanitizeCompareState } from './compare-state';
 import { CUSTOM_ITEM_LIMIT, CustomItemDefinition, isCustomItem } from './custom-items';
 

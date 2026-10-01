@@ -18,9 +18,9 @@
     </div>
     <ng-container *ngIf="cascade; else flat" [ngTemplateOutlet]="tree" [ngTemplateOutletContext]="{ $implicit: options, depth: 0 }"></ng-container>
     <ng-template #flat>
-      <cdk-virtual-scroll-viewport *ngIf="virtualScroll && rows.length; else ordinary" [itemSize]="virtualScrollItemSize" [style.height.px]="panelHeight" class="ui-select-viewport" role="listbox" [id]="id + '-list'" [attr.aria-multiselectable]="multi">
-        <ng-container *cdkVirtualFor="let row of rows; let index = index"><ng-container [ngTemplateOutlet]="rowTemplate" [ngTemplateOutletContext]="{ $implicit: row, index: index }"></ng-container></ng-container>
-      </cdk-virtual-scroll-viewport>
+      <app-virtual-list [items]="rows" *ngIf="virtualScroll && rows.length; else ordinary" [itemSize]="virtualScrollItemSize" [style.height.px]="panelHeight" class="ui-select-viewport" role="listbox" [id]="id + '-list'" [attr.aria-multiselectable]="multi">
+        <ng-template let-row let-index="index"><ng-container [ngTemplateOutlet]="rowTemplate" [ngTemplateOutletContext]="{ $implicit: row, index: index }"></ng-container></ng-template>
+      </app-virtual-list>
       <ng-template #ordinary><div class="ui-select-items-wrapper" [ngClass]="'ui-' + kind + '-items-wrapper'" [style.max-height]="scrollHeight"><ul class="ui-select-items" [ngClass]="'ui-' + kind + '-items'" role="listbox" [id]="id + '-list'" [attr.aria-multiselectable]="multi">
         <ng-container *ngFor="let row of rows; let index = index" [ngTemplateOutlet]="rowTemplate" [ngTemplateOutletContext]="{ $implicit: row, index: index }"></ng-container>
         <li *ngIf="!rows.length" class="ui-dropdown-empty-message">{{emptyFilterMessage}}</li>

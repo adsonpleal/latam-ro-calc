@@ -1,20 +1,20 @@
 # Design system do simulador
 
-A interface usa Angular 16, Forms e Angular CDK. Os componentes ficam em
+A interface usa Angular 16, Forms e primitivas locais. Os componentes ficam em
 `src/app/ui`; importe `UiModule` no módulo da funcionalidade. Não há biblioteca
 de controles de terceiros. O tema escuro/verde e a escala de **14px** são fixos.
 As antigas preferências de aparência não são lidas nem removidas do armazenamento.
 
 ## Estilos e ícones
 
-- `_tokens.scss`: paleta e variáveis públicas, como `--surface-ground`,
+- `_tokens.css`: paleta e variáveis públicas, como `--surface-ground`,
   `--surface-card`, `--surface-border`, `--text-color`, `--primary-color`,
   `--font-family`, `--border-radius` e `--focus-ring`.
   As medidas de controles e sombras usam `--ui-control-padding`,
   `--ui-button-padding-inline`, `--ui-trigger-width`, `--ui-overlay-shadow`
   e `--ui-dialog-shadow`.
-- `_controls.scss`: dimensões, estados e estrutura dos controles `ui-*`.
-- `_utilities.scss`: apenas as utilidades de layout usadas pelo app, incluindo
+- `_controls.css`: dimensões, estados e estrutura dos controles `ui-*`.
+- `_utilities.css`: apenas as utilidades de layout usadas pelo app, incluindo
   variantes responsivas (`sm:`, `md:`, `lg:`, `xl:`) e classes escolhidas em runtime.
   Ao adicionar uma classe dinâmica, inclua suas variantes aqui explicitamente.
 - `src/assets/icons/ui`: um SVG por ícone; os ícones são autorais, exceto pelo
@@ -68,16 +68,16 @@ nem consulte propriedades privadas para reposicionar uma sobreposição.
 
 ## Sobreposições e notificações
 
-`UiOverlayService` cria portais CDK e mantém ordem visual, Escape e descarte.
+`UiOverlayService` monta views pelas APIs públicas do Angular e mantém ordem visual, Escape e descarte.
 Cada sobreposição registra um fechamento; Escape alcança somente a última.
 `PageScrollLockService` mantém locks por elemento: fechar um seletor aninhado
 não libera o diálogo. Destruir um pai fecha seus descendentes ancorados e libera
-os locks. Diálogos prendem e restauram foco pelo CDK; seletores devolvem foco ao
+os locks. Diálogos prendem e restauram foco pela diretiva `appTrapFocus`; seletores devolvem foco ao
 gatilho ao confirmar ou fechar por Escape. Os pickers de equipamento mantêm
 sua apresentação própria e registram seus portais com `adopt`/`close`.
 
 Portais preservam escopos públicos dos componentes de origem através de classes
-`ui-scope-app-*` no wrapper CDK, sem depender dos atributos privados do Angular.
+`ui-scope-app-*` no wrapper local, sem depender dos atributos privados do Angular.
 Estilos de funcionalidade podem usar
 `::ng-deep app-item-search .ui-listbox, ::ng-deep .ui-scope-app-item-search .ui-listbox` para
 alcançar tanto o conteúdo local quanto o portaled. Use `panelStyleClass` para
@@ -94,7 +94,7 @@ o diálogo. Popovers oferecem `show`, `toggle`, `hide` e `align`.
 da janela. Somente tooltips visíveis entram na pilha de Escape.
 Tooltips e popovers fecham quando a página ou um painel externo rola. A rolagem
 dentro da descrição ou de um overlay filho continua funcionando sem fechar o pai.
-As setas dos popovers acompanham o gatilho, inclusive quando o CDK desloca ou
+As setas dos popovers acompanham o gatilho, inclusive quando o posicionador local desloca ou
 inverte a posição para caber na janela.
 
 Injete `UiMessageService` para `add({severity, summary, detail, life, sticky})`

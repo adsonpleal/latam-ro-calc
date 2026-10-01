@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, Directive, ElementRef, HostBinding, Input, OnChanges, Renderer2, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IconName } from './icon-names';
-import { UiTemplated } from './template.directive';
 import { UiValueControl, optionLabel, optionValue, toggleSelection } from './value-control';
 
 @Directive({ selector: 'button[appButton],a[appButton]' })
@@ -141,4 +140,4 @@ export class UiSelectButtonComponent extends UiValueControl {
 }
 
 // Referenced by consumers that need projected templates, without exporting a UI library API.
-export { UiTemplated };
+export { UiTemplated } from './template.directive';

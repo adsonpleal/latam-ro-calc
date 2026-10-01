@@ -1,4 +1,4 @@
-import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
+import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'src/app/core/uri-compression';
 import { StorageLike } from './calc-storage';
 import {
   CUSTOM_ITEM_MAX_BYTES, CUSTOM_ITEM_STORAGE_KEY, CustomItemDefinition,

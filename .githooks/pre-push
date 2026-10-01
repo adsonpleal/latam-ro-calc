@@ -3,19 +3,8 @@
 # if any of them fails. Wired up via `core.hooksPath=.githooks` (set by the `prepare`
 # script). In a genuine emergency you can bypass with `git push --no-verify`.
 #
-# Order is by cost: lint (seconds), then the type-check (~20 s), then the suite, so a
-# style/a11y slip or a bad type fails fast instead of waiting out the tests.
-#
-# The type-check exists because Vitest does not type-check: a buff named after a skill
-# the catalog does not have (`'Lauda Ramus'` in job-buffs.ts, 12/09/2026) kept the
-# suite green while every deploy failed at CI's `tsc -p worker/tsconfig.json` for a
-# whole day. `pnpm typecheck` runs the app's tsconfig and the Worker's, which between
-# them cover every .ts file CI compiles (templates are only checked by `ng build`).
-#
-# Deliberately `lint:check`, not `lint`: the latter is `ng lint --fix`, which would
-# rewrite source files mid-push — the fixes wouldn't be in the commit being pushed.
-# `lint:check` is read-only and adds `--max-warnings 0`, since `ng lint` exits 0 on
-# warnings and they would otherwise accumulate unnoticed (as they had).
+# Source checks are read-only; typecheck includes Angular templates and the Worker.
+# Vitest covers the engine, replay parser consumers, share codec and MCP parity.
 
 echo "▶ pre-push: running lint (pnpm lint:check)…"
 

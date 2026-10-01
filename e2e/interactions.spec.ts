@@ -156,7 +156,7 @@ test('destroying a dialog with an open selector releases every scroll lock', asy
   await page.getByRole('button', { name: 'Meus itens', exact: true }).click();
   await page.getByRole('combobox', { name: 'Filtrar categoria' }).click();
   await page.getByRole('dialog').getByRole('button', { name: 'Fechar', exact: true }).click();
-  await expect(page.locator('.cdk-overlay-pane')).toHaveCount(0);
+  await expect(page.locator('.ui-overlay-pane')).toHaveCount(0);
   const previous = await page.evaluate(() => window.scrollY);
   await page.mouse.move(1100, 850); await page.mouse.wheel(0, 300);
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(previous);
@@ -201,7 +201,7 @@ test('custom editor segmented controls and virtual options support keyboard sele
   await skill.click();
   const filter = page.getByRole('searchbox', { name: 'Filtrar opções' });
   await filter.press('End');
-  const viewport = page.locator('cdk-virtual-scroll-viewport');
+  const viewport = page.locator('app-virtual-list');
   await expect.poll(() => viewport.evaluate(el => el.scrollTop)).toBeGreaterThan(1000);
   const last = await viewport.getByRole('option').last().innerText();
   await filter.press('Enter'); await expect(skill).toHaveText(last); await expect(skill).toBeFocused();

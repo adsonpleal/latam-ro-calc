@@ -1,5 +1,5 @@
 # Cache policy for Cloudflare Workers static assets. Copied verbatim to the root of
-# dist/sakai-ng by the angular.json "assets" arrays (there are three — keep them in sync).
+# dist/sakai-ng by tools/web-assets.mjs.
 # Cloudflare parses this file and does not publish it, so it is never fetchable.
 #
 # READ THIS BEFORE ADDING A RULE.

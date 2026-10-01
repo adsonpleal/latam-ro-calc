@@ -1,9 +1,6 @@
 <!--
-  Clickable non-button elements here are made keyboard-operable by the shared
-  keyActivate directive, which the two a11y template rules cannot see.
+  Clickable non-button elements here are made keyboard-operable by keyActivate.
 -->
-<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 
 <div class="rot">
   <div class="rot-head">
@@ -40,17 +37,15 @@
     <button appButton type="button" label="Adicionar habilidade" icon="plus" (click)="startAdding()"></button>
   </div>
 
-  <div class="rot-rows" cdkDropList (cdkDropListDropped)="onDrop($event)">
-    <!-- No *cdkDragPlaceholder template: CDK's default clone of the dragged row is what
-         makes the landing slot exactly the right height, and rows are not all the same
-         height (a stalled recarga adds a line). It is emptied out in CSS. -->
-    <div class="rot-row" *ngFor="let entry of entries; let i = index; trackBy: trackByIndex" cdkDrag [cdkDragDisabled]="entries.length < 2">
+  <div class="rot-rows">
+    <!-- The local reorder directive retains the row's height as its placeholder. -->
+    <div class="rot-row" *ngFor="let entry of entries; let i = index; trackBy: trackByIndex">
       <!-- The handle leads the row: it grabs the whole step, so it reads as belonging to
            the number rather than trailing the row's contents. -->
       <app-icon
         class="rot-handle"
         [class.rot-handle--idle]="entries.length < 2"
-        cdkDragHandle
+        [appReorder]="i" [reorderDisabled]="entries.length < 2" (reordered)="onDrop($event)"
         role="button"
         [attr.tabindex]="entries.length > 1 ? 0 : null"
         [label]="'Reordenar ' + entry.name + '. Use as setas para cima e para baixo.'"

@@ -1,5 +1,4 @@
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
+import { ComponentPortal, Overlay, OverlayRef } from 'src/app/ui/overlay';
 import { Injectable, Injector } from '@angular/core';
 import { Observable, Subject, take } from 'rxjs';
 import { ItemPickerOverlayComponent } from './item-picker-overlay.component';
@@ -9,8 +8,8 @@ import { UiOverlayService } from 'src/app/ui/overlay.service';
 /**
  * Opens the chip picker.
  *
- * The CDK overlay flips: the panel has to flip above the chip when it does
- * not fit below and then clamp inside the viewport, which `FlexibleConnectedPositionStrategy`
+ * The panel has to flip above the chip when it does
+ * not fit below and then clamp inside the viewport, which `ConnectedPositionStrategy`
  * expresses directly. The bottom-most shadow card is the case that needs it.
  */
 @Injectable({ providedIn: 'root' })
@@ -30,12 +29,10 @@ export class ItemPickerService {
     const result = new Subject<PickerResult>();
     const ref = this.overlay.create({
       hasBackdrop: true,
-      backdropClass: 'cdk-overlay-transparent-backdrop',
+      backdropClass: 'ui-overlay-transparent-backdrop',
       // The page behind the panel holds still rather than scrolling out from under it, so
       // the chip this is anchored to cannot move — but through PageScrollLockService, which
-      // suppresses the wheel instead of pinning <html>. The CDK's own block does the latter,
-      // and it took every item-description popover in this panel with it (see that service).
-      scrollStrategy: this.overlay.scrollStrategies.noop(),
+      // suppresses the wheel instead of pinning <html> and displacing description popovers.
       positionStrategy: this.overlay
         .position()
         .flexibleConnectedTo(request.anchor)
@@ -45,19 +42,17 @@ export class ItemPickerService {
           { originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top', offsetY: 4 },
           { originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom', offsetY: -4 },
         ])
-        .withPush(true)
-        .withViewportMargin(8)
-        .withFlexibleDimensions(false),
+        .withViewportMargin(8),
     });
 
     this.ref = ref;
-    const instance = ref.attach(new ComponentPortal(ItemPickerOverlayComponent, null, this.injector)).instance;
+    const instance = ref.attach(new ComponentPortal(ItemPickerOverlayComponent, this.injector)).instance;
     instance.init(request);
     this.layers.adopt(ref, () => this.close(), true, request.anchor);
 
     // Disposing the overlay makes it emit a detachment, which would re-enter finish and
     // overwrite the pick with a dismissal. One latch settles the race whichever way the
-    // panel closes: a pick, the backdrop, or the scroll strategy detaching it.
+    // panel closes: a pick, the backdrop, or disposal.
     let settled = false;
     const finish = (value: PickerResult) => {
       if (settled) return;

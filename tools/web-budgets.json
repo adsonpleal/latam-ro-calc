@@ -1,0 +1,11 @@
+{
+  "initialWarning": 3000000,
+  "initialError": 5000000,
+  "componentStyleWarning": 6000,
+  "componentStyleError": 10000,
+  "existingStyleLimits": {
+    "src/app/layout/pages/ro-calculator/ro-calculator.component.css": 44000,
+    "src/app/layout/pages/ro-calculator/battle-hud/battle-hud.component.css": 22000,
+    "src/app/layout/pages/ro-calculator/battle-hud/rotation-list/rotation-list.component.css": 12000
+  }
+}

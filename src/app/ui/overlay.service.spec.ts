@@ -1,5 +1,5 @@
 import '@angular/compiler';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { Overlay, OverlayRef } from 'src/app/ui/overlay';
 import { Subject } from 'rxjs';
 import { describe, expect, it, vi } from 'vitest';
 import { PageScrollLockService } from '../page-scroll-lock.service';

@@ -119,6 +119,8 @@ test('battle panel, skill picker and damage details', async ({ page }) => {
   await imagesReady(page);
   await expect.soft(page.locator('.p-dropdown-panel:visible, .ui-dropdown-panel:visible')).toHaveScreenshot('skill-picker.png');
   await page.getByRole('option', { name: 'Ataque básico', exact: false }).click();
+  await expect(hud.locator('.rot-row')).toHaveCount(1, { timeout: 40_000 });
+  await expect(hud.locator('.loading_block')).toHaveCount(0);
   await hud.locator('.rot-icon--btn').last().click();
   await page.mouse.move(0, 0);
   await imagesReady(page);
