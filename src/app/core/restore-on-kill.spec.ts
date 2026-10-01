@@ -213,7 +213,7 @@ describe('every record with the line carries the key', () => {
   const RECOVERY = /\b(regenera|recupera)\b.*\bde (HP|SP)\b/i;
 
   /** Ids whose description carries the line but which have no record to carry the key. */
-  const NOT_IN_DB = [4932]; // Melhora de SP 1
+  const NOT_IN_DB = [4932, 315761, 315762, 315763]; // Melhora de SP 1; Florzinha 1–3 have no equip record
 
   const withLine = Object.entries<any>(latam)
     .filter(([, v]) => {
@@ -227,7 +227,7 @@ describe('every record with the line carries the key', () => {
     .map(([id]) => Number(id));
 
   it('finds the whole family, so the sweep below is not vacuous', () => {
-    expect(withLine.length).toBe(57);
+    expect(withLine.length).toBe(60);
   });
 
   it('none of them is left without hpRestoreOnKill or spRestoreOnKill', () => {

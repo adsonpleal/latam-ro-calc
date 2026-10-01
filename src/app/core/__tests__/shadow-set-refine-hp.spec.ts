@@ -49,8 +49,8 @@ const shadowPieces = Object.entries(items)
   }));
 
 describe('shadow set — the per-refine HP comes from the piece script', () => {
-  it('lists the expected pieces (544 with the line, 20 without)', () => {
-    expect(shadowPieces.length).toBe(564);
+  it('lists the expected pieces (544 with the line, 21 without)', () => {
+    expect(shadowPieces.length).toBe(565);
     expect(shadowPieces.filter((p) => p.promises).length).toBe(544);
   });
 
@@ -60,7 +60,7 @@ describe('shadow set — the per-refine HP comes from the piece script', () => {
   });
 
   /**
-   * The other direction, so removing `_shadowHP` cannot be undone by hand: the twenty that
+   * The other direction, so removing `_shadowHP` cannot be undone by hand: the twenty-one that
    * give no HP per refine must not declare it. The Armadura Sombria Transcendente has no
    * HP line at all, the Malha Sombria de Apoio gives +100 fixed rather than per refine, and
    * the ten Grupo do Éden pieces (24688-24697, shipped 14/09/2026) carry no refine line.

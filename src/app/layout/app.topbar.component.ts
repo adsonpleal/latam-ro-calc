@@ -166,6 +166,14 @@ export class AppTopBarComponent implements OnDestroy {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.157-beta',
+      date: '30-09-2026',
+      logs: [
+        'Os dados de itens e habilidades foram sincronizados com o cliente LATAM. Entraram 24 equipamentos: Motor Desbravador, Jardinzinho e 22 visuais. O Motor Desbravador calcula os bônus por nível e refino; o bônus de EXP aparece na lista de efeitos do item.',
+        'Nomes, descrições e identificadores de itens receberam as atualizações do cliente. Os dados de aparência ganharam 25 registros.',
+      ],
+    },
+    {
       v: '0.1.156-beta',
       date: '30-09-2026',
       logs: [
