@@ -9,6 +9,7 @@ export const createRawTotalBonus = (): EquipmentSummaryModel => {
     hpPercent: 0,
     sp: 0,
     spPercent: 0,
+    expGainPercent: 0,
     // Display only — see EquipmentSummaryModel.healReceived / .healPower.
     healReceived: 0,
     healPower: 0,

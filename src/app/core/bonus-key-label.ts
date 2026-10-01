@@ -10,6 +10,7 @@ export function resolveSkillKey(key: string): { id: number; name: string; iconTy
 // so the item-bonus list reads the same as the rest of the UI instead of raw EN abbreviations.
 export const ITEM_BONUS_LABELS: Record<string, string> = {
   hp: 'HP máx.', hpPercent: 'HP máx. %', sp: 'SP máx.', spPercent: 'SP máx. %',
+  expGainPercent: 'EXP ao derrotar monstros',
   healReceived: 'Cura recebida', healPower: 'Efetividade de cura',
   hpRecovRate: 'Regen. natural de HP', spRecovRate: 'Regen. natural de SP',
   hpDrain: 'Converte dano em HP', spDrain: 'Converte dano em SP',

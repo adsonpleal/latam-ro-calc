@@ -100,11 +100,10 @@ describe('items-desc-mcp answers everything the raw lookup used to', () => {
 describe('the index the Worker builds matches the one the box built', () => {
   const dataset = loadDatasetFromDisk();
 
-  it('indexes the same number of items — 11304 distinct ids plus 5938 LATAM-only', () => {
+  it('indexes the same number of items — 11593 distinct ids plus 5757 LATAM-only', () => {
     expect(dataset.itemIndex.size).toBe(calcIds.size + Object.keys(latamExtra).length);
-    // The EC2 server's /healthz reported 17081 off the raw files; the pre-release records
-    // added since then, including 24 Master Shadow items, are calculator-only ids.
-    expect(dataset.itemIndex.size).toBe(17242);
+    // Includes the latest client items and the 24 new calculator records.
+    expect(dataset.itemIndex.size).toBe(17350);
   });
 
   it('indexes the same monsters, including the ones with no stat block', () => {

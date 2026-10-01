@@ -66,7 +66,7 @@ describe('4421 Carta Drosera', () => {
   it('carries the magnitude its own pt-BR line prints', () => {
     const description = (latam[CARTA_DROSERA].description as string).replace(/\^[0-9a-fA-F]{6}/g, '');
 
-    expect(description).toContain('CRIT a distância +15');
+    expect(description).toMatch(/CR[ÍI]T a distância \+15/);
   });
 });
 
@@ -86,9 +86,9 @@ describe('the criRange key is only ever these three items', () => {
     const plain = (id: number) => (latam[id].description as string).replace(/\^[0-9a-fA-F]{6}/g, '');
 
     // The client spells it with and without the accent on "a"; both are the same bonus.
-    expect(plain(4421)).toMatch(/CRIT a distância/);
-    expect(plain(420748)).toMatch(/CRIT à distância/);
-    expect(plain(1764)).toMatch(/CRIT \+20 a distância/);
+    expect(plain(4421)).toMatch(/CR[ÍI]T a distância/);
+    expect(plain(420748)).toMatch(/CR[ÍI]T à distância/);
+    expect(plain(1764)).toMatch(/CR[ÍI]T \+20 a distância/);
   });
 });
 
