@@ -1,10 +1,11 @@
 import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { CalculatorSession } from './calculator-session';
 import { CalculatorData, CalculatorLayout, ItemShop, SlotColorPreferences } from '../services/calculator-services';
 import { DataClient } from '../services/data-client';
 import { CustomItems } from '../services/custom-items';
 import { Confirmations, Messages } from '../services/notifications';
-import { DataKey } from '../../app/core/data-manifest';
+import { DataKey, DataManifest, manifestPath } from '../../app/core/data-manifest';
 
 function makeSession() {
   const values = new Map<string, string>();
@@ -16,8 +17,9 @@ function makeSession() {
   vi.stubGlobal('document', { getElementById: () => null, querySelector: () => null, querySelectorAll: () => [], documentElement: { classList: { remove: vi.fn() } } });
   vi.stubGlobal('requestAnimationFrame', (callback: () => void) => setTimeout(callback, 0));
   const artifacts: Partial<Record<DataKey, Promise<unknown>>> = {};
-  for (const [key, file] of [['itemsCore', 'items-core'], ['monsters', 'monsters'], ['hpsp', 'hpsp'], ['classes', 'classes'], ['itemViews', 'item-views'], ['itemsDesc', 'items-desc']]) {
-    artifacts[key as DataKey] = Promise.resolve(JSON.parse(readFileSync(`src/assets/data/${file}.json`, 'utf8')));
+  const manifest = JSON.parse(readFileSync('src/assets/data-manifest.json', 'utf8')) as DataManifest;
+  for (const key of ['itemsCore', 'monsters', 'hpsp', 'classes', 'itemViews', 'itemsDesc'] as const) {
+    artifacts[key] = Promise.resolve(JSON.parse(readFileSync(join('src', manifestPath(manifest, key)), 'utf8')));
   }
   const data = new DataClient({ inFlight: artifacts });
   const session = new CalculatorSession(new CalculatorData(data), new Messages(), new Confirmations(), new ItemShop(),

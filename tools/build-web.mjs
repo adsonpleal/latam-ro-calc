@@ -71,6 +71,7 @@ export async function buildWeb({ production = true, outputDirectory = defaultOut
     .replace('</head>', `<link rel="stylesheet" href="${basename(styles[0])}">${main[1].cssBundle ? `<link rel="stylesheet" href="${basename(main[1].cssBundle)}">` : ''}\n</head>`)
     .replace('</body>', `<script type="module" src="${basename(main[0])}"></script>${production ? '' : '<script type="module">const events=new EventSource("/__reload");events.onmessage=()=>location.reload();</script>'}\n</body>`);
   writeFileSync(resolve(output, 'index.html'), html);
+  mkdirSync(resolve(root, 'out-tsc'), { recursive: true });
   writeFileSync(resolve(root, output === defaultOutput ? 'out-tsc/web-metafile.json' : 'out-tsc/web-dev-metafile.json'), JSON.stringify(result.metafile));
   console.log(`Web build complete; initial JS/CSS ${(initialBytes / 1024).toFixed(0)} KB`);
 }
