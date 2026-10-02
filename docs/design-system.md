@@ -1,7 +1,8 @@
 # Design system do simulador
 
-A interface usa Angular 16, Forms e primitivas locais. Os componentes ficam em
-`src/app/ui`; importe `UiModule` no módulo da funcionalidade. Não há biblioteca
+A interface usa React 19, hooks e primitivas locais em `src/react/ui`. Os serviços
+compartilhados vêm de `ServicesProvider`; a composição dos controles
+usados pelos fluxos preserva os elementos e classes existentes. Não há biblioteca
 de controles de terceiros. O tema escuro/verde e a escala de **14px** são fixos.
 As antigas preferências de aparência não são lidas nem removidas do armazenamento.
 
@@ -19,10 +20,10 @@ As antigas preferências de aparência não são lidas nem removidas do armazena
   Ao adicionar uma classe dinâmica, inclua suas variantes aqui explicitamente.
 - `src/assets/icons/ui`: um SVG por ícone; os ícones são autorais, exceto pelo
   símbolo oficial do Discord (origem em `THIRD_PARTY_NOTICES.md`). Adicione o nome à união
-  `IconName` em `icon-names.ts` e use `<app-icon name="save">`. O ícone herda
+  `IconName` em `icon-names.ts` e use `<Icon name="save" />`. O ícone herda
   `currentColor` e usa `1em`; `label="Salvar"` dá nome acessível a uma imagem
   informativa. Ícones decorativos ficam ocultos de leitores de tela. Em botões,
-  dê o nome acessível ao botão. Sprites do jogo continuam usando os pipes existentes.
+  dê o nome acessível ao botão. Sprites do jogo continuam usando os formatadores existentes.
 
 Mantenha cores e dimensões nos tokens/estilos compartilhados. Alterações em
 controles comuns devem passar pelas comparações visuais. A atribuição dos valores
@@ -39,25 +40,17 @@ iniciais de estilos fica em [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
 | Tabelas | `app-ui-table`, `appSelectableRow`, templates `header`, `body`, `emptymessage` |
 | Sobreposições | `app-ui-dialog`, `app-ui-popover`, `appTooltip`, `app-ui-toast`, `app-ui-confirm-dialog`, `app-ui-block` |
 
-Controles de formulário implementam `ControlValueAccessor`: use `[(ngModel)]`
-ou formulários reativos. `valueChange` emite `{ value, originalEvent }`; escrever
-um valor pelo formulário não dispara uma alteração do usuário. Opções aceitam
-primitivos, `{label, value}`, ou objetos com `optionLabel`/`optionValue`.
-Valores `0` e `false` são seleções válidas. Com `optionLabel` e sem `optionValue`,
-o valor é o próprio objeto. Não recrie as opções sem necessidade.
+Controles recebem `value` e callbacks de mudança. Escrever um valor pelo pai
+não dispara uma ação do usuário. Opções aceitam primitivos, `{label, value}`, ou
+objetos com `optionLabel`/`optionValue`. Valores `0` e `false` são seleções
+válidas. Com `optionLabel` e sem `optionValue`, o valor é o próprio objeto.
+Não recrie as opções sem necessidade.
 
-```html
-<app-ui-dropdown
-  inputId="server"
-  ariaLabel="Servidor"
-  [options]="servers"
-  optionLabel="label"
-  optionValue="id"
-  [filter]="true"
-  [showClear]="true"
-  [(ngModel)]="serverId">
-  <ng-template appTemplate="item" let-server>{{ server.label }}</ng-template>
-</app-ui-dropdown>
+```tsx
+<Select inputId="server" ariaLabel="Servidor" options={servers}
+  optionLabel="label" optionValue="id" filter showClear
+  value={serverId} onChange={setServerId}
+  renderItem={server => server.label} />
 ```
 
 Seletores oferecem busca, limpeza, opções desabilitadas, grupos e navegação por
@@ -68,28 +61,28 @@ nem consulte propriedades privadas para reposicionar uma sobreposição.
 
 ## Sobreposições e notificações
 
-`UiOverlayService` monta views pelas APIs públicas do Angular e mantém ordem visual, Escape e descarte.
+`Portal` usa `createPortal`; `LayerManager` mantém ordem visual, Escape e descarte.
 Cada sobreposição registra um fechamento; Escape alcança somente a última.
-`PageScrollLockService` mantém locks por elemento: fechar um seletor aninhado
+`ScrollLocks` mantém locks por elemento: fechar um seletor aninhado
 não libera o diálogo. Destruir um pai fecha seus descendentes ancorados e libera
-os locks. Diálogos prendem e restauram foco pela diretiva `appTrapFocus`; seletores devolvem foco ao
+os locks. Diálogos prendem e restauram foco por `trapFocus`; seletores devolvem foco ao
 gatilho ao confirmar ou fechar por Escape. Os pickers de equipamento mantêm
-sua apresentação própria e registram seus portais com `adopt`/`close`.
+sua apresentação própria e registram seus portais com `LayerManager.register` e cleanup do React.
 
 Portais preservam escopos públicos dos componentes de origem através de classes
 `ui-scope-app-*` no wrapper local, sem depender dos atributos privados do Angular.
-Estilos de funcionalidade podem usar
-`::ng-deep app-item-search .ui-listbox, ::ng-deep .ui-scope-app-item-search .ui-listbox` para
-alcançar tanto o conteúdo local quanto o portaled. Use `panelStyleClass` para
-modificadores específicos de um seletor; ancestrais como `.joined_field` não
-existem dentro do portal.
+Estilos de funcionalidade usam seletores explícitos como
+`:is(app-item-search, .ui-scope-app-item-search) .ui-listbox`. Regras do próprio
+host usam somente o elemento, para não deslocar o wrapper do portal. Use
+`panelClassName` para modificadores específicos de um seletor; ancestrais como
+`.joined_field` não existem dentro do portal.
 
-`app-ui-dialog` usa `[(visible)]`, `header`, `modal`, `style`, `contentStyle` e
-templates `header`/`footer`. O evento `closed` também ocorre quando o pai fecha
+`Dialog` usa `visible` e `onVisibleChange`, `header`, `modal`, `style`, `contentStyle` e
+props `header`/`footer`. O evento `closed` também ocorre quando o pai fecha
 o diálogo. Popovers oferecem `show`, `toggle`, `hide` e `align`.
 
 `appTooltip` aceita `showDelay`, `tooltipPosition`, `tooltipStyleClass` e
-`escape`. HTML passa pela sanitização do Angular. Descrições de itens usam
+`escape`. HTML passa pelo sanitizador DOM compartilhado com allowlist. Descrições de itens usam
 `item_desc_tooltip`: têm período de travessia de 150ms, rolagem interna e limites
 da janela. Somente tooltips visíveis entram na pilha de Escape.
 Tooltips e popovers fecham quando a página ou um painel externo rola. A rolagem

@@ -1,14 +1,15 @@
 import { readdirSync } from 'node:fs';
 import { resolve, relative } from 'node:path';
-import ts from 'typescript';
+import * as ts from 'typescript/unstable/ast';
+import { API } from 'typescript/unstable/sync';
 
 const root = resolve(import.meta.dirname, '..');
-const files = directory => readdirSync(directory, { withFileTypes: true }).flatMap(entry => entry.isDirectory() ? files(resolve(directory, entry.name)) : /\.ts$/.test(entry.name) ? [resolve(directory, entry.name)] : []);
+const files = directory => readdirSync(directory, { withFileTypes: true }).flatMap(entry => entry.isDirectory() ? files(resolve(directory, entry.name)) : /\.tsx?$/.test(entry.name) ? [resolve(directory, entry.name)] : []);
 const names = ['src', 'worker', 'mcp'].flatMap(directory => files(resolve(root, directory)));
-const config = ts.readConfigFile(resolve(root, 'tsconfig.json'), ts.sys.readFile);
-const parsed = ts.parseJsonConfigFileContent(config.config, ts.sys, root);
-const program = ts.createProgram(names, { ...parsed.options, noEmit: true });
-const checker = program.getTypeChecker();
+const api = new API({ cwd: root });
+const snapshot = api.updateSnapshot({ openProjects: [resolve(root, 'tsconfig.source-checks.json')] });
+const project = snapshot.getProject(resolve(root, 'tsconfig.source-checks.json'));
+const { program, checker } = project;
 let errors = 0;
 function report(file, node, message) {
   const location = file.getLineAndCharacterOfPosition(node.getStart(file));
@@ -20,8 +21,9 @@ for (const name of names) {
   const local = relative(root, name).replaceAll('\\', '/');
   const isolated = /^(src\/app\/core|worker|mcp)\//.test(local);
   function boundary(node, value) {
+    if (/^src\/react\//.test(local) && /^(?:@angular\/|rxjs(?:\/|$)|zone\.js(?:\/|$)|tslib(?:\/|$))/.test(value)) report(file, node, `Removed framework import in React source: ${value}`);
     if (!isolated) return;
-    if (/^(?:@angular\/|primeng(?:\/|$)|rxjs(?:\/|$))/.test(value) || /(?:^|\/)layout\//.test(value)) report(file, node, `Framework/UI import is forbidden in ${local.split('/')[0]}: ${value}`);
+    if (/^(?:@angular\/|primeng(?:\/|$)|rxjs(?:\/|$)|react(?:\/|$)|react-dom(?:\/|$))/.test(value) || /(?:^|\/)layout\//.test(value)) report(file, node, `Framework/UI import is forbidden in ${local.split('/')[0]}: ${value}`);
   }
   for (const statement of file.statements) {
     if (ts.isImportDeclaration(statement)) {
@@ -39,10 +41,12 @@ for (const name of names) {
       const entry = imports.get(symbol); if (entry) entry.used = true;
     }
     if (ts.isCallExpression(node) && (node.expression.kind === ts.SyntaxKind.ImportKeyword || node.expression.getText(file) === 'require') && node.arguments[0] && ts.isStringLiteral(node.arguments[0])) boundary(node, node.arguments[0].text);
-    ts.forEachChild(node, visit);
+    node.forEachChild(visit);
   }
   visit(file);
   for (const entry of imports.values()) if (!entry.used) report(file, entry.node, `Unused import: ${entry.node.text}`);
 }
+snapshot.dispose();
+api.close();
 if (errors) process.exitCode = 1;
 else console.log(`Source checks passed (${names.length} TypeScript files; unused imports and framework boundaries).`);

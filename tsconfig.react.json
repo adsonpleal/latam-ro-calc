@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "types": ["react", "react-dom"],
+    "experimentalDecorators": false,
+    "importHelpers": false
+  },
+  "include": ["src/react/**/*.ts", "src/react/**/*.tsx"],
+  "exclude": ["src/react/**/*.spec.ts"]
+}

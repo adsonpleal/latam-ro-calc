@@ -1,96 +1,57 @@
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { basename, relative, resolve, sep } from 'node:path';
-import { createRequire } from 'node:module';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { build, transformSync } from 'esbuild';
-import { createCompilerHost, formatDiagnostics, performCompilation, readConfiguration } from '@angular/compiler-cli';
-import linkerPlugin from '@angular/compiler-cli/linker/babel';
+import { build, transform } from 'esbuild';
 import { copyWebAssets } from './web-assets.mjs';
 
 const root = resolve(import.meta.dirname, '..');
-const compiled = resolve(root, 'out-tsc/web');
 const defaultOutput = resolve(root, 'dist/sakai-ng');
 const budgets = JSON.parse(readFileSync(resolve(root, 'tools/web-budgets.json'), 'utf8'));
-// Babel is already part of Angular compiler-cli. Resolve it from that compiler,
-// never through hoisting or an undeclared root package.
-const compilerRequire = createRequire(import.meta.resolve('@angular/compiler-cli'));
-const { transformAsync } = compilerRequire('@babel/core');
-const linkerCache = new Map();
-
-export function compileWeb({ production = true, checkOnly = false, emitDirectory = compiled } = {}) {
-  const { rootNames, options, errors } = readConfiguration(resolve(root, 'tsconfig.app.json'), {
-    rootDir: root, outDir: emitDirectory, noEmit: checkOnly, sourceMap: true,
-  });
-  if (errors.length) throw new Error(formatDiagnostics(errors));
-  const host = createCompilerHost({ options });
-  const read = host.readFile.bind(host);
-  host.readResource = file => {
-    if (!file.endsWith('.css')) return read(file);
-    const css = transformSync(read(file), { loader: 'css', minify: production }).code;
-    const bytes = Buffer.byteLength(css);
-    const local = relative(root, file).replaceAll('\\', '/');
-    // Angular's old esbuild builder ignored budgets. Freeze the three existing
-    // oversized resources; all other/new component styles use the original limits.
-    const limit = budgets.existingStyleLimits[local] ?? budgets.componentStyleError;
-    if (production && !checkOnly && bytes > limit) throw new Error(`Component style exceeds ${limit} bytes: ${file} (${bytes})`);
-    if (production && !checkOnly && bytes > budgets.componentStyleWarning) console.warn(`Component style warning: ${local} (${bytes} bytes; limit ${limit})`);
-    return css;
-  };
-  host.readFile = file => production && resolve(file) === resolve(root, 'src/environments/environment.ts')
-    ? read(resolve(root, 'src/environments/environment.prod.ts')) : read(file);
-  const result = performCompilation({ rootNames, options, host });
-  const failures = result.diagnostics.filter(diagnostic => diagnostic.category === 1);
-  if (failures.length) throw new Error(formatDiagnostics(failures));
+export function compileWeb() {
+  const result = spawnSync(process.execPath, [resolve(root, 'node_modules/typescript/bin/tsc'), '-p', resolve(root, 'tsconfig.app.json'), '--noEmit'], { cwd: root, encoding: 'utf8', windowsHide: true });
+  if (result.error) throw result.error;
+  if (result.status !== 0) throw new Error(result.stdout + result.stderr);
 }
 
 export async function buildWeb({ production = true, outputDirectory = defaultOutput } = {}) {
   const output = resolve(outputDirectory);
   if (output !== defaultOutput && !output.startsWith(resolve(root, '.tmp') + sep)) throw new Error('Custom web output must stay inside .tmp');
-  const emitDirectory = output === defaultOutput ? compiled : resolve(root, 'out-tsc/web-dev');
-  rmSync(emitDirectory, { recursive: true, force: true });
-  compileWeb({ production, emitDirectory });
+  compileWeb();
+  if (production) {
+    const stylesIn = directory => readdirSync(directory, { withFileTypes: true }).flatMap(entry => entry.isDirectory()
+      ? stylesIn(resolve(directory, entry.name)) : entry.name.endsWith('.component.css') ? [resolve(directory, entry.name)] : []);
+    for (const file of stylesIn(resolve(root, 'src/app'))) {
+      const bytes = Buffer.byteLength((await transform(readFileSync(file, 'utf8'), { loader: 'css', minify: true })).code);
+      const name = relative(root, file).replaceAll('\\', '/');
+      const limit = budgets.existingStyleLimits[name] ?? budgets.componentStyleError;
+      if (bytes > limit) throw new Error(`Component style budget exceeded: ${name} (${bytes} > ${limit})`);
+      if (bytes > budgets.componentStyleWarning) console.warn(`Component style warning: ${name} (${bytes} bytes)`);
+    }
+  }
   rmSync(output, { recursive: true, force: true });
   mkdirSync(output, { recursive: true });
   const result = await build({
     absWorkingDir: root,
-    entryPoints: { main: resolve(emitDirectory, 'src/main.js'), styles: resolve(root, 'src/styles.css') },
+    entryPoints: { main: resolve(root, 'src/main.ts'), styles: resolve(root, 'src/styles.css') },
     outdir: output, bundle: true, splitting: true, format: 'esm', platform: 'browser',
     target: 'es2022', minify: production, sourcemap: 'linked', metafile: true,
-    // Zone.js cannot intercept native async/await continuations. Angular CLI
-    // lowered these too; preserve change detection after fetch and FileReader.
-    supported: { 'async-await': false },
-    define: production ? { ngDevMode: 'false', ngJitMode: 'false', ngI18nClosureMode: 'false' } : {},
+    jsx: 'automatic',
+    define: { 'process.env.NODE_ENV': production ? '"production"' : '"development"' },
     entryNames: production ? '[name].[hash]' : '[name]', chunkNames: 'chunk-[hash]', assetNames: 'media/[name].[hash]',
     legalComments: 'external',
-    plugins: [{
-      name: 'angular-aot',
-      setup(builder) {
-        builder.onResolve({ filter: /^src\// }, args => {
-          const path = resolve(emitDirectory, args.path.replace(/\.ts$/, ''));
-          return { path: existsSync(path + '.js') ? path + '.js' : resolve(path, 'index.js') };
-        });
-        builder.onLoad({ filter: /\.m?js$/ }, async args => {
-          const code = readFileSync(args.path, 'utf8');
-          if (!code.includes('ɵɵngDeclare')) return null;
-          let linked = linkerCache.get(args.path);
-          if (!linked || linked.source !== code) {
-            const transformed = await transformAsync(code, {
-              filename: args.path, configFile: false, babelrc: false, sourceMaps: true,
-              plugins: [[linkerPlugin, { linkerJitMode: false }]],
-            });
-            linked = { source: code, code: transformed.code + '\n//# sourceMappingURL=data:application/json;base64,' + Buffer.from(JSON.stringify(transformed.map)).toString('base64') };
-            linkerCache.set(args.path, linked);
-          }
-          return { contents: linked.code, loader: 'js' };
-        });
-      },
-    }],
+    plugins: [{ name: 'environment', setup(builder) {
+      builder.onLoad({ filter: /src[\\/]environments[\\/]environment\.ts$/ }, args => production
+        ? { contents: readFileSync(resolve(root, 'src/environments/environment.prod.ts'), 'utf8'), loader: 'ts' } : null);
+    } }],
     logLevel: 'info',
   });
   copyWebAssets(root, output);
   const entries = Object.entries(result.metafile.outputs);
-  if (Object.keys(result.metafile.inputs).some(name => /[\\/]@angular[\\/]compiler[\\/]fesm/.test(name))) throw new Error('JIT compiler must not enter the browser bundle');
-  const main = entries.find(([, meta]) => meta.entryPoint?.endsWith('/src/main.js'));
+  const totalBytes = entries.filter(([name]) => /\.(js|css)$/.test(name)).reduce((sum, [, meta]) => sum + meta.bytes, 0);
+  if (production && totalBytes > budgets.totalBaseline) throw new Error(`Web JS/CSS regressed against the Angular baseline: ${totalBytes} > ${budgets.totalBaseline}`);
+  if (Object.keys(result.metafile.inputs).some(name => /node_modules.*(?:@angular|rxjs|zone\.js|tslib)/.test(name))) throw new Error('Removed framework dependency entered the browser bundle');
+  const main = entries.find(([, meta]) => meta.entryPoint?.endsWith('/src/main.ts') || meta.entryPoint === 'src/main.ts');
   const styles = entries.find(([, meta]) => meta.entryPoint === 'src/styles.css');
   if (!main || !styles) throw new Error('Missing web entry output');
   // Follow only static imports for the initial budget; lazy routes remain separate.
@@ -98,6 +59,8 @@ export async function buildWeb({ production = true, outputDirectory = defaultOut
   function collect(name) {
     if (initial.has(name)) return;
     initial.add(name);
+    const cssBundle = result.metafile.outputs[name]?.cssBundle;
+    if (cssBundle) collect(cssBundle);
     for (const entry of result.metafile.outputs[name]?.imports ?? []) if (!entry.external && entry.kind !== 'dynamic-import') collect(entry.path);
   }
   collect(main[0]); collect(styles[0]);
@@ -105,7 +68,7 @@ export async function buildWeb({ production = true, outputDirectory = defaultOut
   if (production && initialBytes > budgets.initialError) throw new Error(`Initial bundle exceeds 5 MB: ${initialBytes}`);
   if (production && initialBytes > budgets.initialWarning) console.warn(`Initial bundle exceeds 3 MB warning: ${initialBytes}`);
   const html = readFileSync(resolve(root, 'src/index.html'), 'utf8')
-    .replace('</head>', `<link rel="stylesheet" href="${basename(styles[0])}">\n</head>`)
+    .replace('</head>', `<link rel="stylesheet" href="${basename(styles[0])}">${main[1].cssBundle ? `<link rel="stylesheet" href="${basename(main[1].cssBundle)}">` : ''}\n</head>`)
     .replace('</body>', `<script type="module" src="${basename(main[0])}"></script>${production ? '' : '<script type="module">const events=new EventSource("/__reload");events.onmessage=()=>location.reload();</script>'}\n</body>`);
   writeFileSync(resolve(output, 'index.html'), html);
   writeFileSync(resolve(root, output === defaultOutput ? 'out-tsc/web-metafile.json' : 'out-tsc/web-dev-metafile.json'), JSON.stringify(result.metafile));

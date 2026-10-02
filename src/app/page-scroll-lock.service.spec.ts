@@ -1,6 +1,6 @@
-import { NgZone } from '@angular/core';
+
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { PageScrollLockService } from './page-scroll-lock.service';
+import { ScrollLocks as PageScrollLockService } from '../react/ui/scroll-locks';
 
 /**
  * The suite runs in plain Node (see vitest.config.ts) and jsdom is not a dependency, so the
@@ -37,7 +37,6 @@ function wheelOn(target: FakeElement | null): boolean {
   return prevented;
 }
 
-const zone = { runOutsideAngular: <T>(fn: () => T): T => fn() } as NgZone;
 
 let service: PageScrollLockService;
 
@@ -55,7 +54,7 @@ beforeEach(() => {
   } as unknown as Document;
   globalThis.getComputedStyle = ((el: FakeElement) => ({ overflowY: el.overflowY })) as unknown as typeof getComputedStyle;
 
-  service = new PageScrollLockService(zone);
+  service = new PageScrollLockService();
 });
 
 afterEach(() => {

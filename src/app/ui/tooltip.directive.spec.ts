@@ -1,9 +1,5 @@
-import '@angular/compiler';
-import { ElementRef } from '@angular/core';
-import { Subject } from 'rxjs';
+import { HoverLifetime } from '../../react/ui/hover-lifetime';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { UiOverlayService } from './overlay.service';
-import { UiTooltipDirective } from './tooltip.directive';
 
 class ElementStub extends EventTarget {
   ownerDocument = new EventTarget();
@@ -25,10 +21,19 @@ describe('hoverable descriptions', () => {
 
   function setup() {
     const host = new ElementStub(); const panel = new ElementStub();
-    const ref = { overlayElement: panel, attach: () => ({ instance: {}, changeDetectorRef: { detectChanges: vi.fn() } }), updatePosition: vi.fn() };
-    const layers = { connected: () => ({ positionChanges: new Subject() }), overlay: { create: vi.fn(() => ref), scrollStrategies: { reposition: vi.fn() } }, adopt: vi.fn(), close: vi.fn() };
-    const tooltip = new UiTooltipDirective(new ElementRef(host as unknown as HTMLElement), layers as unknown as UiOverlayService);
-    tooltip.text = 'Descrição'; tooltip.tooltipStyleClass = 'item_desc_tooltip'; tooltip.showDelay = 300;
+    const layers = { overlay: { create: vi.fn() }, close: vi.fn(), adopt: vi.fn() };
+    const tooltip = { text: 'Descrição', tooltipStyleClass: 'item_desc_tooltip', showDelay: 300, tooltipDisabled: false,
+      activate: () => hover.activate(), deactivate: () => hover.deactivate(), ngOnDestroy: () => hover.dispose() };
+    const enter = () => hover.cancelHide(); const leave = () => hover.deactivate();
+    const scroll = (event: Event) => { if (event.target !== panel) hover.hide(); };
+    const hover = new HoverLifetime(() => {
+      layers.overlay.create(); layers.adopt(panel, () => hover.hide());
+      panel.addEventListener('mouseenter', enter); panel.addEventListener('mouseleave', leave);
+      host.ownerDocument.addEventListener('scroll', scroll, true);
+    }, () => {
+      layers.close(); panel.removeEventListener('mouseenter', enter); panel.removeEventListener('mouseleave', leave);
+      host.ownerDocument.removeEventListener('scroll', scroll, true);
+    }, () => !!tooltip.text && !tooltip.tooltipDisabled && host.isConnected, () => tooltip.showDelay, () => 150);
     const show = () => { tooltip.activate(); vi.advanceTimersByTime(300); };
     return { host, panel, layers, tooltip, show };
   }

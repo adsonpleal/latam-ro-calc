@@ -1,0 +1,20 @@
+ app-topbar .router-link .ui-menuitem-link,
+ .ui-scope-app-topbar .router-link .ui-menuitem-link{
+  padding-bottom: 0.75rem !important;
+  border-width: 0 0 4px 0 !important;
+}
+ app-topbar .chip-profile .ui-chip,
+ .ui-scope-app-topbar .chip-profile .ui-chip{
+  max-width: 15rem;
+  overflow: hidden;
+
+}
+:is(app-topbar, .ui-scope-app-topbar) .icon-user{
+  color: var(--primary-color);
+}
+:is(app-topbar, .ui-scope-app-topbar) .youtube-link{
+  background-color: black;
+}
+:is(app-topbar, .ui-scope-app-topbar) .topbar-actions{
+  margin-left: auto;
+}

@@ -3,7 +3,7 @@ import { SLOTS_BY_KEY } from 'src/app/app-config/equipment-slots';
 import { ItemTypeEnum } from 'src/app/constants/item-type.enum';
 import { SLOT_COLOR_BY_ID } from 'src/app/core/slot-colors';
 import { ItemModel } from 'src/app/models/item.model';
-import { EquipmentGridComponent } from './equipment-grid.component';
+import { EquipmentGridComponent } from '../../../../../react/controllers/equipment-grid';
 import { SlotListBag } from './slot-list-bag.model';
 
 /**
@@ -24,7 +24,7 @@ const lists = () =>
 const colorPicker = () => ({ hintPending: true, labels: {} }) as any;
 
 function makeGrid(model: Record<string, any>, picker = colorPicker()) {
-  const grid = new EquipmentGridComponent({ markForCheck: () => undefined } as any, picker);
+  const grid = new EquipmentGridComponent(picker);
 
   grid.items = { 1: item(1), 2: item(2) };
   grid.mapEnchant = new Map(Object.values(grid.items).map((entry) => [entry.aegisName, entry]));
@@ -36,7 +36,7 @@ function makeGrid(model: Record<string, any>, picker = colorPicker()) {
 
   let colorChanges = 0;
   grid.slotColorChange.subscribe(() => (colorChanges += 1));
-  grid.ngOnChanges();
+  grid.refreshInputs();
 
   const slot = (key: ItemTypeEnum) => SLOTS_BY_KEY.get(key)!;
 

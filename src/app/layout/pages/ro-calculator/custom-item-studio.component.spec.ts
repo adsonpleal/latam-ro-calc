@@ -1,15 +1,15 @@
-import '@angular/compiler';
+
 import { describe, expect, it, vi } from 'vitest';
-import { of } from 'rxjs';
-import { CustomItemStudioComponent } from './custom-item-studio.component';
-import { CustomItemLibraryService } from 'src/app/api-services/custom-item-library.service';
-import { ItemPickerService } from './item-picker/item-picker.service';
+
+import { CustomItemStudioComponent } from '../../../../react/controllers/custom-item-studio';
+import { CustomItems as CustomItemLibraryService } from '../../../../react/services/custom-items';
+import { ItemPicker as ItemPickerService } from '../../../../react/services/pickers';
 import { createMainModel } from 'src/app/utils/create-main-model';
 import { Mechanic } from 'src/app/jobs';
 import { CUSTOM_ITEM_MIN_ID, validateCustomItems } from 'src/app/core/custom-items';
 
 function studio() {
-  const picker = { open: vi.fn().mockReturnValue(of({ committed: true, value: 'atk:10' })), close: vi.fn() };
+  const picker = { open: vi.fn().mockReturnValue(Promise.resolve({ committed: true, value: 'atk:10' })), close: vi.fn() };
   const component = new CustomItemStudioComponent({ items: [] } as unknown as CustomItemLibraryService, picker as unknown as ItemPickerService);
   component.openCreate();
   return { component, picker };
@@ -237,11 +237,12 @@ describe('custom item creator editing', () => {
     expect(component.enchantCounts.map((option) => option.value)).toEqual([0]);
   });
 
-  it('reuses the equipment tree picker for BAs', () => {
+  it('reuses the equipment tree picker for BAs', async () => {
     const { component, picker } = studio();
     component.changeCapacity('baCapacity', 1);
     component.pickAttachment('defaultBas', component.attachmentRows[2].views[0], {} as HTMLElement);
     expect(picker.open).toHaveBeenCalledWith(expect.objectContaining({ mode: 'tree', title: 'BA 1' }));
+    await Promise.resolve();
     expect(component.draft.defaultBas).toEqual(['atk:10']);
     expect(component.attachmentRows[2].views[0].filled).toBe(true);
   });

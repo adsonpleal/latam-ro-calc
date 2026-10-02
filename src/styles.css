@@ -163,22 +163,6 @@ html { scrollbar-gutter: stable; }
   font-weight: 700;
   font-size: 0.95rem;
 }
-/* Colour ONLY the border that forms the arrow for each tooltip position. The
-   arrow is a CSS border-triangle, so the two perpendicular borders must stay
-   transparent — colouring them (as a blanket left+right rule did) turns the
-   triangle into a square whenever the tooltip sits above/below its target. */
-.item_desc_tooltip.ui-tooltip-right .ui-tooltip-arrow {
-  border-right-color: #ffffff;
-}
-.item_desc_tooltip.ui-tooltip-left .ui-tooltip-arrow {
-  border-left-color: #ffffff;
-}
-.item_desc_tooltip.ui-tooltip-top .ui-tooltip-arrow {
-  border-top-color: #ffffff;
-}
-.item_desc_tooltip.ui-tooltip-bottom .ui-tooltip-arrow {
-  border-bottom-color: #ffffff;
-}
 /* "Redução de dano" popover (main stats + PVP HUD) — global because the app-ui-popover
    content is body-appended, so component-scoped styles from two different components
    wouldn't both reach it. */

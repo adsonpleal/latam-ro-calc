@@ -1,0 +1,6 @@
+app-battle-monster-card {
+  display: block;
+  min-width: 0;
+  width: 100%;
+  container-type: inline-size;
+}

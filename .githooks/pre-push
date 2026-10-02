@@ -3,7 +3,7 @@
 # if any of them fails. Wired up via `core.hooksPath=.githooks` (set by the `prepare`
 # script). In a genuine emergency you can bypass with `git push --no-verify`.
 #
-# Source checks are read-only; typecheck includes Angular templates and the Worker.
+# Source checks are read-only; typecheck includes React views and the Worker.
 # Vitest covers the engine, replay parser consumers, share codec and MCP parity.
 
 echo "▶ pre-push: running lint (pnpm lint:check)…"

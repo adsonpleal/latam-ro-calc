@@ -1,0 +1,1371 @@
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud{
+
+  --hud-gap: 14px;
+  background: transparent;
+  color: var(--text-color);
+  position: relative;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .loading_block{
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--border-radius);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-cards{
+  display: flex;
+  gap: var(--hud-gap);
+
+  margin-bottom: var(--hud-gap);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col{
+  min-width: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster{
+  flex: 40 1 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--skill{
+  flex: 60 1 0;
+}
+@media (max-width: 991px){:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-cards{
+    flex-direction: column;
+  }
+
+}
+ app-battle-hud .hud-card.ui-card,
+ .ui-scope-app-battle-hud .hud-card.ui-card{
+  height: 100%;
+
+  background: transparent;
+  border: 1px solid var(--surface-border);
+  box-shadow: none;
+}
+ app-battle-hud .hud-card .ui-card-body,
+ .ui-scope-app-battle-hud .hud-card .ui-card-body{
+  padding: 12px 14px;
+}
+ app-battle-hud .hud-card .ui-card-content,
+ .ui-scope-app-battle-hud .hud-card .ui-card-content{
+  padding: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-monster-head{
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .sprite{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 104px;
+  height: 104px;
+
+  overflow: visible;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .sprite--doll{
+  width: auto;
+  height: 104px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .sprite img{
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-monster-info .hud-reduction{
+  margin-top: 6px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-monster-info{
+  flex: 1;
+  min-width: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .np-name{
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--orange-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .np-badges{
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .el-tag-clickable{
+  cursor: pointer;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hp-line{
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--green-400);
+  margin-top: 4px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-relieve{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-relieve-label{
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--orange-300, #f9ae61);
+  cursor: default;
+}
+ app-battle-hud .hud-relieve-dd.ui-dropdown,
+ .ui-scope-app-battle-hud .hud-relieve-dd.ui-dropdown{
+  height: 24px;
+  width: max-content;
+
+  padding: 0 7px;
+}
+ app-battle-hud .hud-relieve-dd .ui-dropdown-trigger,
+ .ui-scope-app-battle-hud .hud-relieve-dd .ui-dropdown-trigger{
+  width: 14px;
+  margin-left: 7px;
+  padding: 0;
+}
+ app-battle-hud .hud-relieve-dd .ui-dropdown-label,
+ .ui-scope-app-battle-hud .hud-relieve-dd .ui-dropdown-label{
+  display: flex;
+  align-items: center;
+
+  min-width: 11.6ch;
+  padding: 0;
+  font-size: 12px;
+  line-height: 1;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-mstats,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-attrs{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px 16px;
+  margin: 8px 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-mstats .kv,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-attrs .kv{
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  gap: 8px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-mstats .kv span:last-child,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-attrs .kv span:last-child{
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-align: right;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .v-res{
+  color: var(--orange-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .v-resm{
+  color: var(--blue-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .v-race{
+  color: var(--yellow-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .v-size{
+  color: var(--cyan-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .v-for{
+  color: var(--red-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .v-int{
+  color: var(--blue-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .v-des{
+  color: var(--green-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .v-vit{
+  color: var(--yellow-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .v-def{
+  color: var(--red-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-sub{
+  font-size: 11.9px;
+  color: var(--text-color-secondary);
+  margin-top: 5px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+ app-battle-hud .el-tag-neutral.ui-tag,
+ .ui-scope-app-battle-hud .el-tag-neutral.ui-tag{
+  background-color: transparent !important;
+  border: 1px solid var(--surface-border);
+  color: var(--text-color-secondary) !important;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pstats{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 12px;
+  margin: 8px 0;
+  min-width: 220px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pstats.one{
+  grid-template-columns: 1fr;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pstats.tight .kv{
+  justify-content: flex-start;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pstats.tight .kv span:last-child{
+  text-align: left;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pstats .kv{
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  gap: 8px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pstats .kv span:last-child{
+  font-variant-numeric: tabular-nums;
+  color: var(--text-color);
+  text-align: right;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pstats .kv .sim{
+  color: var(--yellow-200);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pstats .kv .arr{
+  color: var(--text-color-secondary);
+  padding: 0 3px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pstats .kv.total{
+  border-top: 1px solid var(--surface-border);
+  margin-top: 4px;
+  padding-top: 6px;
+  font-weight: 700;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pstats .kv.total span:last-child{
+  color: var(--orange-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable{
+  border-collapse: collapse;
+  margin: 8px 0;
+  min-width: 220px;
+  width: 100%;
+  font-size: 13px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable th,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable td{
+  padding: 3px 10px;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-color);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable tbody th[scope='row']{
+  text-align: left;
+  padding-left: 0;
+  font-weight: 400;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable thead th{
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable thead tr:last-child th,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable thead tr:last-child td{
+  border-bottom: 1px solid var(--surface-border);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable .sim{
+  color: var(--yellow-200);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable.cast{
+  border: 1px solid var(--surface-border);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable.cast th,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable.cast td{
+  text-align: center;
+  padding: 3px 8px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable.cast tbody tr + tr th,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable.cast tbody tr + tr td{
+  border-top: 1px solid var(--surface-border);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable.cast tbody th[scope='row']{
+  text-align: center;
+  padding-left: 8px;
+  color: var(--text-color);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable.cast thead th[colspan]{
+  border-bottom: 1px solid var(--surface-border);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable.cast th + th,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable.cast td + td,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable.cast td + th,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable.cast th + td{
+  border-left: 1px solid var(--surface-border);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptable.cast tr.base td{
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .psec{
+  font-size: 11.9px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-color-secondary);
+  margin: 10px 0 4px;
+  font-weight: 700;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .mut-note{
+  font-size: 11.5px;
+  color: var(--text-color-secondary);
+  max-width: 260px;
+  margin-bottom: 6px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .formula-trace-scroll{
+  width: 960px;
+  max-width: 80vw;
+  max-height: min(calc(100vh - 240px), 760px);
+  overflow-y: auto;
+  overflow-x: auto;
+  padding-right: 4px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-row{
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  margin: 4px 0 10px;
+  width: max-content;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-col{
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 96px;
+  max-width: 130px;
+  flex-shrink: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-inputs{
+  display: flex;
+  flex-direction: column;
+  border: 1px dashed var(--surface-border);
+  border-radius: 4px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-input,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-stage{
+  display: flex;
+  flex-direction: column;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 1.3;
+  gap: 1px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-input{
+  background: transparent;
+  color: var(--text-color-secondary);
+  border-radius: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-input:not(:last-child){
+  border-bottom: 1px dashed var(--surface-border);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-stage{
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-input span:last-child,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-stage span:last-child{
+  font-variant-numeric: tabular-nums;
+  color: var(--text-color);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-stage span:last-child{
+  color: var(--orange-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-input .sim,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-stage .sim{
+  color: var(--yellow-200);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-hint{
+  font-size: 11px;
+  color: var(--text-color-secondary);
+  margin-bottom: 6px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-back{
+  border: 0;
+  padding: 0 0 8px;
+  background: none;
+  color: var(--orange-300);
+  cursor: pointer;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .graph-arrow{
+  color: var(--text-color-secondary);
+  font-size: 13px;
+  padding: 0 1px 8px;
+  flex-shrink: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .ptitle{
+  font-weight: 700;
+  color: var(--orange-300);
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-buffs{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  margin: 0 0 var(--hud-gap);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-buffs .cap{
+  font-size: 11.9px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-color-secondary);
+}
+ app-battle-hud .tag-aura.ui-tag,
+ .ui-scope-app-battle-hud .tag-aura.ui-tag{
+  background: #e11414 !important;
+  color: #fff !important;
+}
+ app-battle-hud .tag-map-reduction.ui-tag,
+ .ui-scope-app-battle-hud .tag-map-reduction.ui-tag{
+  background: var(--purple-500) !important;
+  color: #fff !important;
+}
+ app-battle-hud .hud-buffs-select,
+ .ui-scope-app-battle-hud .hud-buffs-select{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+ app-battle-hud .hud-buffs-select .ui-button,
+ .ui-scope-app-battle-hud .hud-buffs-select .ui-button{
+  flex: 0 0 auto !important;
+  width: auto !important;
+  padding: 4px 9px;
+  border: 1px solid var(--surface-border) !important;
+  border-radius: var(--border-radius) !important;
+  white-space: nowrap;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-buff-item{
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-buff-icon{
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-flags{
+  display: flex;
+  gap: 6px;
+  margin: 0 0 var(--hud-gap);
+  flex-wrap: wrap;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-left-weapon-warn{
+  color: var(--red-300);
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero{
+  text-align: left;
+  margin: 0 0 var(--hud-gap);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .cap2{
+  font-size: 11.9px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-color-secondary);
+  margin-bottom: 10px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .pairs{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 18px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .pcol{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .pnum{
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--orange-300);
+  cursor: default;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .clickable{
+  cursor: pointer;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .clickable:hover{
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .pcol.sim .pnum{
+  color: var(--yellow-200);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .pnum.big{
+  font-size: 34px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .pnum.small{
+  font-size: 27px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .pdano{
+
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--teal-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .pdano.big{
+  font-size: 24px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .pdano.small{
+  font-size: 19px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .pdelta{
+  font-size: 14px;
+  font-weight: 700;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .pdelta.neg{
+  color: var(--red-400);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .pdelta.pos{
+  color: var(--green-400);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .vsarrow{
+  color: var(--text-color-secondary);
+  font-size: 16px;
+
+  padding-top: 8px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .sub{
+  font-size: 11.9px;
+  color: var(--text-color-secondary);
+  margin-top: 10px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .sub .habps,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-meta .habps{
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--orange-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .sub-meta{
+  margin-top: 4px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .sub .ttk b{
+  color: var(--text-color);
+  font-weight: 700;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .sub .arr{
+  margin: 0 3px;
+  color: var(--text-color-secondary);
+  font-weight: 400;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .sub .sim{
+  color: var(--yellow-200);
+  font-weight: 700;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero .sub .mut{
+  color: var(--text-color-secondary);
+  font-family: inherit;
+  opacity: 0.75;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-subrows{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-subrow{
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-subrow .v{
+  color: var(--teal-300);
+  font-weight: 700;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-subrow .v.sim{
+  color: var(--yellow-200);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-cmp-ribbon{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius);
+  padding: 6px 12px;
+  font-size: 14px;
+  color: var(--yellow-200);
+  font-weight: 600;
+  margin: 0 0 var(--hud-gap);
+  flex-wrap: wrap;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar{
+  margin: 0 0 var(--hud-gap);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .cap{
+  font-size: 11.9px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-color-secondary);
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+ app-battle-hud .hud-castbar .cap .ui-button,
+ .ui-scope-app-battle-hud .hud-castbar .cap .ui-button{
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .bar2{
+  display: flex;
+  gap: 2px;
+  height: 34px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .bar2 + .bar2{
+  margin-top: 4px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .cmp-castbar-label{
+  font-size: 11.9px;
+  color: var(--yellow-200);
+  font-weight: 600;
+  margin: 8px 0 4px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .seg{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0a1526;
+  min-width: 38px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .seg.fixa{
+  background: var(--blue-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .seg.varv{
+  background: var(--blue-600);
+  color: #dbe9ff;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .seg.single{
+  background: var(--blue-600);
+  color: #dbe9ff;
+  flex: 1;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .par{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 60px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .lane{
+  flex: 1;
+  border-radius: 3px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  overflow: hidden;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .lane.pos{
+  background: var(--teal-400);
+  color: #04231d;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .lane.rec{
+  background: transparent;
+  color: var(--text-color-secondary);
+  border: 1px dashed var(--surface-border);
+  font-weight: 400;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .lane.rec .fill{
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--surface-border);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .lane.rec .ltxt{
+  position: relative;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .blegend{
+  font-size: 14px;
+  color: var(--text-color-secondary);
+  line-height: 1.5;
+  margin: 6px 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .blegend .op{
+  color: var(--text-color-secondary);
+  padding: 0 2px;
+  opacity: 0.7;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .castbar-legend{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .castbar-legend .li{
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .castbar-legend .sq{
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .castbar-legend .sq.fixa{
+  background: var(--blue-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .castbar-legend .sq.varv,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .castbar-legend .sq.single{
+  background: var(--blue-600);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .castbar-legend .sq.pos{
+  background: var(--teal-400);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-castbar .castbar-legend .sq.rec{
+  background: transparent;
+  border: 1px dashed var(--surface-border);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .optimize-bottleneck{
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--orange-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .optimize-bottleneck.is-optimized{
+  color: var(--green-400);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .optimize-component{
+  font-size: 14px;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .optimize-component b{
+  color: var(--text-color);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .optimize-component.is-bottleneck b{
+  color: var(--orange-300);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .optimize-done{
+  color: var(--green-400);
+  font-weight: 700;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .optimize-whatif{
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--surface-border);
+  font-size: 14px;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .optimize-whatif b{
+  color: var(--green-400);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-menu{
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  margin-top: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-menu button{
+  flex: 1 1 0;
+  min-width: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud{
+  container-type: inline-size;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-cards{
+  flex-direction: column;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--skill{
+  flex: 1 1 auto;
+  width: 100%;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster  .ui-card-content{
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .hud-monster-head{
+  flex-shrink: 0;
+
+  align-items: center;
+  margin-bottom: 0;
+  padding: 8px 12px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .hud-monster-info{
+  flex: 0 0 206px;
+  width: 206px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .sprite{
+  width: 64px;
+  height: 64px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .sprite--doll{
+  width: auto;
+  height: 64px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .sprite--doll img{
+  width: auto;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-band-right{
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  border-left: 1px solid var(--surface-border);
+  padding: 8px 12px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-band-right .hud-sub{
+  order: 1;
+  font-size: 13px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-band-right .hud-mstats{
+  order: 2;
+  grid-template-columns: repeat(2, 1fr);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-band-right .hud-attrs{
+  order: 3;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  grid-auto-flow: column;
+  border-top: 1px solid var(--surface-border);
+
+  margin: 0 -12px;
+  padding: 6px 12px 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .hud-reduction,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .monster_id_link{
+  order: 5;
+}
+@container (max-width: 420px){:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster  .ui-card-content{
+    display: block;
+  }
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .hud-monster-info{
+    width: auto;
+  }
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-band-right{
+    border-left: none;
+    padding-left: 0;
+    margin-top: 8px;
+  }
+
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-rot-layout{
+  display: flex;
+  flex-direction: column;
+  gap: var(--hud-gap, 14px);
+  align-items: stretch;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-rot-col{
+  width: 100%;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-dps-col{
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--surface-border);
+  border-radius: 3px;
+  padding: 12px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-row{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 16px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-main{
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-cycle{
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-percycle{
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--teal-300, #61beb5);
+  font-variant-numeric: tabular-nums;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-percycle.sim{
+  color: var(--yellow-200, #fde4a5);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-percycle-cap{
+  font-size: 14px;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-meta{
+  margin-top: 2px;
+  font-size: 11.9px;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-cycle-len{
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--orange-300, #f9ae61);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-sep{
+  margin: 0 4px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-meta.dotted{
+  border-bottom: 1px dotted var(--text-color-secondary);
+  align-self: flex-start;
+  cursor: pointer;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-tl-head{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-tl-head .cap2{
+  white-space: nowrap;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-help{
+  width: 1.6rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 14px;
+  color: var(--primary-color);
+  cursor: pointer;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-help:hover{
+  background: var(--highlight-bg);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-warn-chip.ui-button,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-invalid-chip{
+
+  width: auto;
+  flex-shrink: 0;
+  white-space: nowrap;
+  border-radius: 3px;
+  padding: 0.15rem 0.5rem;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-warn-chip.ui-button{
+  background: transparent;
+  border: 1px solid var(--surface-border);
+  color: var(--yellow-300, #ffe082);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-warn-chip.ui-button:enabled:hover{
+  background: rgba(255, 224, 130, 0.08);
+  border-color: var(--surface-border);
+  color: var(--yellow-300, #ffe082);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-invalid-chip{
+  border: 1px solid var(--red-300, #ff8980);
+  color: var(--red-300, #ff8980);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .cap--cmp{
+  color: var(--yellow-200, #fde4a5);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pstats .teal{
+  color: var(--teal-300, #61beb5);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pstats .orange{
+  color: var(--orange-300, #f9ae61);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pstats .mut{
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud{
+  container-type: inline-size;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-cards{
+  flex-direction: column;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--skill{
+  flex: 1 1 auto;
+  width: 100%;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .hud-monster-info{
+  min-width: 210px;
+}
+@container (min-width: 1040px){:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster  .ui-card-content{
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 16px;
+  }
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster  .ui-card-content > *{
+    border-left: 1px solid var(--surface-border);
+    padding-left: 16px;
+  }
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster  .ui-card-content > *:first-child{
+    border-left: none;
+    padding-left: 0;
+  }
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .hud-monster-head{ order: 1; }
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .hud-sub{ order: 2; }
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .hud-mstats{ order: 3; }
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .hud-attrs{ order: 4; }
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .hud-reduction{ order: 5; }
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .monster_id_link{ order: 6; }
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .hud-monster-head,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster .hud-monster-info{
+    white-space: nowrap;
+  }
+
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-efeitos-row{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  margin-bottom: var(--hud-gap);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-efeitos-row .hud-buffs{
+  margin-bottom: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-efeitos-row .hud-flags{
+  margin-left: auto;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-strip{
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-fig{
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-nums{
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-divider{
+  align-self: stretch;
+  width: 1px;
+  background: var(--surface-border);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-meta{
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-fig .cap2{
+  font-size: 11.9px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-fig .cap2--plain{
+  text-transform: none;
+  letter-spacing: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-strip .pnum{
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--orange-300, #f9ae61);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-strip .pnum.sim{
+  color: var(--yellow-200, #fde4a5);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-strip .clickable{
+  cursor: pointer;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-strip .clickable:hover{
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-strip .pdelta{
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-strip .pdelta.pos{
+  color: var(--green-400, #6ebe71);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-strip .pdelta.neg{
+  color: var(--red-400, #ff8980);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-hero-strip .vsarrow{
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-band-right .hud-mstats,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-band-right .hud-attrs{
+  gap: 2px 16px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-band-right .hud-mstats{
+  margin: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-band-right .hud-attrs{
+  margin: 0 -12px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-band-right .hud-sub{
+  margin-top: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-band-right .hud-mstats .kv,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-band-right .hud-attrs .kv{
+  font-size: 13px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster  .ui-card-body,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--monster  .ui-card-content{
+  padding: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--skill  .ui-card,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--skill  .ui-card .ui-card-body,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-card-col--skill  .ui-card .ui-card-content{
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-rot-col,
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-dps-col{
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: 3px;
+  padding: 12px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .hud-dps-col--empty{
+  opacity: 0.5;
+}
+ .rot-details-panel.ui-overlaypanel .ui-overlaypanel-content{
+  max-height: 85vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-head{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-icon{
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-name{
+  color: var(--text-color);
+  font-weight: 700;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-sep{
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-desc-toggle{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 9px;
+  font-size: 11.9px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-color-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-desc-toggle:hover{
+  color: var(--text-color);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-desc-toggle .ui-icon{
+  font-size: 10px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-desc{
+  margin-top: 5px;
+  padding: 6px 8px;
+  background: #ffffff;
+  color: #000000;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-cap{
+  margin-top: 10px;
+  margin-bottom: 3px;
+  font-size: 11.9px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-dmg{
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--teal-300, #61beb5);
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-dmg-val{
+  cursor: pointer;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-dmg-val:hover{
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-dmg-val:focus-visible{
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-perhit{
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .crit-op{
+  display: inline-block;
+  width: 10px;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .crit-detail{
+  display: block;
+  padding-left: 10px;
+  font-size: 10.5px;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .kv.crit-sub{
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 600;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-dmg-cap{
+  margin-top: 1px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-note{
+  margin-top: 6px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-head{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-icon{
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-name{
+  color: var(--text-color);
+  font-weight: 700;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-cap{
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 3px;
+  font-size: 11.9px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-dmg{
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--teal-300, #61beb5);
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-dmg-val{
+  cursor: pointer;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-dmg-val:hover{
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-dmg-val:focus-visible{
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-dmg-arrow{
+  margin: 0 6px;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-dmg-sim{
+  color: var(--yellow-200, #fde4a5);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-perhit{
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--text-color-secondary);
+}
+:is(app-battle-damage-popovers, .ui-scope-app-battle-damage-popovers) .pd-note{
+  margin-top: 6px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--text-color-secondary);
+}
+ .rot-details-panel .pd-head .ui-tag{
+  padding: 1px 5px;
+  font-size: 10.5px;
+  line-height: 1.35;
+  border-radius: 3px;
+  cursor: pointer;
+}
+ .rot-details-panel .pd-head .ui-tag .ui-tag-icon{
+  font-size: 9px;
+  margin-right: 3px;
+}
+ .rot-details-panel .pd-head .ui-tag.el-tag-neutral{
+  background: transparent;
+  border: 1px solid var(--surface-border);
+  color: var(--text-color);
+}
+
+
+app-battle-damage-popovers{
+  display: contents;
+}
+ .ui-overlaypanel:before,
+ .ui-overlaypanel:after{
+  left: var(--overlayArrowLeft, 1.25rem);
+}

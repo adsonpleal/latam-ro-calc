@@ -24,22 +24,26 @@ turugrura.
 
 ## Stack
 
-- [Angular 16](https://angular.io/) + [design system próprio](docs/design-system.md)
-- TypeScript, RxJS
+- [React 19](https://react.dev/) + [design system próprio](docs/design-system.md)
+- TypeScript 7, esbuild
 - [Vitest](https://vitest.dev/) para testes unitários da engine de cálculo
 - Playwright para interações reais e comparação visual da interface
 - Node 22 + [pnpm](https://pnpm.io/); deploy via Cloudflare Workers
 
+A aplicação usa React com serviços explícitos e uma sessão de cálculo externa ao
+render. A comparação com a versão Angular, dependências e medições ficam em
+[docs/react-migration.md](docs/react-migration.md).
+
 ## Como rodar
 
-Requer **Node 22** (testado na v22.16) e **pnpm** (v11):
+Requer **Node 22.12+**, Node 24 ou Node 26+, e **pnpm 12.8.1**:
 
 ```bash
 pnpm install --frozen-lockfile
 pnpm start          # servidor local em http://localhost:4200
 ```
 
-> O build usa o compilador AOT do Angular e esbuild, sem Angular CLI, webpack ou Sass.
+> O build usa TypeScript 7 e esbuild com TSX e JSX automático.
 > O servidor Node recompila em um processo separado e recarrega a página por SSE após
 > um build bem-sucedido; continua servindo o último build durante a recompilação.
 > `pnpm start -- --host 127.0.0.1 --port 4200` altera host/porta.
@@ -56,20 +60,23 @@ pnpm start          # servidor local em http://localhost:4200
 | `pnpm test:watch`   | Vitest em modo watch                           |
 | `pnpm test:cov`     | Testes com cobertura                           |
 | `pnpm e2e`         | Comparação visual e interações no navegador    |
-| `pnpm typecheck`   | Tipos, templates Angular e Worker                 |
+| `pnpm typecheck`   | React, Worker e testes de backend        |
+| `pnpm typecheck:react` | Tipos dos componentes e serviços React       |
 | `pnpm lint:check`  | Imports não usados e fronteiras da engine                    |
 | `pnpm lint`         | Mesmas verificações, sem alterar arquivos                             |
 
 ## Estrutura
 
 ```
+src/react/       # aplicação, telas TSX, controles/hooks, serviços e sessão
 src/app/
-├── ui/          # controles próprios, tokens, ícones e overlays locais
+├── ui/          # estilos compartilhados e nomes dos ícones
 ├── core/        # engine de cálculo (calculator, damage, hp/sp) — coberta por testes
 ├── jobs/        # uma classe por arquivo (70+); fórmulas e habilidades
 ├── replay/      # parser de replay .rrf → modelo de personagem
 ├── domain/      # tipos e modelos de domínio
-├── api-services/, pipes/, layout/, constants/, utils/
+├── api-services/, layout/ # modelos compatíveis e referências dos estilos
+├── constants/, utils/
 tools/           # scripts de build da base LATAM (itens, monstros, habilidades, ícones)
 ```
 

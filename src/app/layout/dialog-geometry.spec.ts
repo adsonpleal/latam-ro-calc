@@ -11,14 +11,14 @@ import { HELP_IMPROVE_DIALOG_STYLE, UPDATE_DIALOG_STYLE } from './dialog-geometr
  * carry a bounded width, and the template has to actually bind them and leave `position`
  * off so PrimeNG centres the dialog.
  */
-const topbarHtml = readFileSync('src/app/layout/app.topbar.component.html', 'utf8');
+const topbarHtml = readFileSync('src/react/views/content/app.topbar.tsx', 'utf8');
 
 /** The ui-dialog element that holds the changelog. */
 function updateDialogTag(): string {
-  const start = topbarHtml.indexOf('[(visible)]="visibleUpdate"');
+  const start = topbarHtml.indexOf('"visible": vm.visibleUpdate');
   expect(start, 'the Novidades dialog is still in the template').toBeGreaterThan(-1);
-  const open = topbarHtml.lastIndexOf('<app-ui-dialog', start);
-  const close = topbarHtml.indexOf('>', start);
+  const open = topbarHtml.lastIndexOf('<Render tag="app-ui-dialog"', start);
+  const close = topbarHtml.indexOf('"template_header"', start);
   return topbarHtml.slice(open, close + 1);
 }
 
@@ -41,7 +41,7 @@ describe('dialog geometry', () => {
   });
 
   it('binds the geometry from the template instead of inlining it', () => {
-    expect(updateDialogTag()).toContain('[style]="updateDialogStyle"');
+    expect(updateDialogTag()).toContain('normalizeStyle(vm.updateDialogStyle)');
   });
 
   /**

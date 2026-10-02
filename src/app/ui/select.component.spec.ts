@@ -1,16 +1,41 @@
-import '@angular/compiler';
-import { ElementRef, ViewContainerRef } from '@angular/core';
 import { describe, expect, it, vi } from 'vitest';
-import { UiSelectComponent } from './select.component';
-import { UiOverlayService } from './overlay.service';
-import { UiTableComponent } from './table.component';
-import { UiListboxComponent } from './listbox.component';
-import { UiSelectButtonComponent } from './primitives';
+import { chooseSelection, filteredRows, optionLabel, optionValue, toggleAllSelection } from '../../react/ui/selection';
+import { sameRow, tablePage } from '../../react/ui/table-values';
 
-const event = new Event('click');
-function select(multiple = false) {
-  return new UiSelectComponent(new ElementRef({ tagName: multiple ? 'APP-UI-MULTI-SELECT' : 'APP-UI-DROPDOWN' }), {} as UiOverlayService, {} as ViewContainerRef);
+// Fixtures drive the pure contracts shared by the React controls. Parent writes do not emit actions.
+class SelectionFixture {
+  value: any; options: any[] = []; optionLabel = ''; optionValue = ''; group = false; query = ''; disabled = false;
+  changed = (_value: any) => {};
+  constructor(public multiple: boolean, readonly kind: string) {}
+  registerOnChange(fn: (value: any) => void) { this.changed = fn; }
+  writeValue(value: any) { this.value = value; }
+  ngOnChanges() {}
+  setDisabledState(value: boolean) { this.disabled = value; }
+  get rows() { return filteredRows(this.options, this.query, this.group); }
+  get selectedOption() { return this.options.find(option => optionValue(option, this.optionValue, this.optionLabel) === this.value); }
+  get label() { return optionLabel(this.selectedOption, this.optionLabel); }
+  onFilter(value: string) { this.query = value; }
+  choose(option: any, _event: Event) {
+    if (this.disabled || option?.disabled) return;
+    this.value = chooseSelection(this.value, option, this.multiple, this.kind !== 'dropdown', this.disabled, this.optionValue, this.optionLabel);
+    this.changed(this.value);
+  }
+  toggleAll(_event: Event) { this.value = toggleAllSelection(this.value, this.rows, this.optionValue, this.optionLabel); this.changed(this.value); }
+  clear(_event: Event) { this.value = this.multiple ? [] : null; this.changed(this.value); }
 }
+class TableFixture {
+  paginator = false; rows = 10; value: any[] = []; first = 0; dataKey: string; selection: any;
+  get state() { return tablePage(this.value, this.rows, this.first, this.paginator); }
+  get pageCount() { return this.state.pageCount; }
+  get pages() { return this.state.pages; }
+  get start() { return this.state.start; }
+  get displayed() { return this.state.displayed; }
+  go(page: number) { this.first = Math.max(0, Math.min(this.pageCount - 1, page)) * Math.max(1, this.rows); }
+  selected(row: any) { return sameRow(this.selection, row, this.dataKey); }
+  choose(row: any) { this.selection = this.selected(row) ? null : row; }
+}
+const event = new Event('click');
+function select(multiple = false, kind = 'dropdown') { return new SelectionFixture(multiple, kind); }
 
 describe('selection forms contract', () => {
   it('preserves false and zero values and never emits a writeValue back to forms', () => {
@@ -60,10 +85,9 @@ describe('selection forms contract', () => {
 describe.each(['dropdown', 'listbox', 'buttons'] as const)('%s selection contract', kind => {
   function setup(multiple: boolean) {
     const control = kind === 'dropdown' ? select(multiple)
-      : kind === 'listbox' ? new UiListboxComponent() : new UiSelectButtonComponent();
+      : kind === 'listbox' ? select(false, 'listbox') : select(false, 'buttons');
     if ('multiple' in control) control.multiple = multiple;
-    const pick = (option: any) => control instanceof UiSelectComponent
-      ? control.choose(option, event) : control.pick(option, event);
+    const pick = (option: any) => control.choose(option, event);
     return { control, pick };
   }
 
@@ -99,7 +123,7 @@ describe.each(['dropdown', 'listbox', 'buttons'] as const)('%s selection contrac
 
 describe('table pagination and selection', () => {
   it('keeps an empty result on the first offset without advertising a nonexistent page', () => {
-    const table = new UiTableComponent();
+    const table = new TableFixture();
     table.paginator = true; table.rows = 2; table.value = [1, 2, 3];
     table.go(1);
     table.value = [];
@@ -115,7 +139,7 @@ describe('table pagination and selection', () => {
   });
 
   it('clamps the current page when filtering and recognizes refreshed objects by their key', () => {
-    const table = new UiTableComponent();
+    const table = new TableFixture();
     table.paginator = true; table.rows = 2; table.value = [{ id: 1 }, { id: 2 }, { id: 3 }];
     table.go(1); expect(table.displayed).toEqual([{ id: 3 }]);
     table.value = [{ id: 2 }]; expect(table.start).toBe(0); expect(table.displayed).toEqual([{ id: 2 }]);

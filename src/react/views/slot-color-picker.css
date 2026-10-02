@@ -1,0 +1,127 @@
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .picker,
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker{
+  --picker-surface: #1f2d40;
+  --picker-border: #304562;
+  --picker-field: #17212f;
+  --picker-text: rgba(255, 255, 255, 0.87);
+  --picker-muted: rgba(255, 255, 255, 0.5);
+  --picker-hover: rgba(129, 199, 132, 0.16);
+}
+
+
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker{
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  min-width: 200px;
+  max-width: 300px;
+  overflow: hidden;
+  background: var(--picker-surface);
+  border: 1px solid var(--picker-border);
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 50%);
+  color: var(--picker-text);
+  font-size: 14px;
+}
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__title{
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--picker-border);
+  color: var(--picker-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__entry{
+  display: flex;
+  align-items: center;
+}
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__row{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  height: 30px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__row--none{
+  font-style: italic;
+  color: var(--picker-muted);
+}
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__row:hover,
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__row:focus-visible{
+  background: var(--picker-hover);
+  outline: none;
+}
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__row--selected .cpicker__label{
+  font-weight: 700;
+}
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__dot{
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__dot--none{
+  border: 1px solid rgb(255 255 255 / 35%);
+}
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__label{
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__rename{
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 30px;
+  border: 0;
+  background: transparent;
+  color: rgb(255 255 255 / 30%);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__rename:hover,
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__rename:focus-visible{
+  color: var(--picker-text);
+  outline: none;
+}
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__edit{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 30px;
+  padding: 0 10px;
+}
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__input{
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 22px;
+  padding: 0 6px;
+  background: var(--picker-field);
+  border: 1px solid var(--picker-border);
+  border-radius: 3px;
+  color: var(--picker-text);
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+}
+:is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__input:focus{
+  border-color: rgb(255 255 255 / 45%);
+}

@@ -1,54 +1,50 @@
 {
-    "name": "ro-calculator",
-    "version": "0.1.157-beta",
-    "license": "MIT",
-    "scripts": {
-        "prepare": "node scripts/setup-hooks.mjs",
-        "start": "node tools/serve-web.mjs",
-        "start2": "node tools/serve-web.mjs --host localhost",
-        "build": "node tools/build-web-data.mjs --hash --report && node tools/build-web.mjs && node tools/inject-data-manifest.mjs && node tools/build-worker.mjs",
-        "data:build": "node tools/build-web-data.mjs --hash --report",
-        "data:dev": "node tools/build-web-data.mjs",
-        "build:worker": "node tools/build-worker.mjs",
-        "typecheck": "node tools/build-web.mjs --check && tsc -p worker/tsconfig.json",
-        "typecheck:worker": "tsc -p worker/tsconfig.json",
-        "dev:worker": "node tools/build-worker.mjs && pnpm --dir tooling/cloudflare dev",
-        "test": "vitest run",
-        "test:watch": "vitest",
-        "test:cov": "vitest run --coverage",
-        "lint": "node tools/check-source.mjs",
-        "lint:check": "node tools/check-source.mjs",
-        "e2e": "playwright test",
-        "e2e:update": "playwright test --update-snapshots",
-        "deploy:worker": "pnpm --dir tooling/cloudflare deploy"
-    },
-    "private": true,
-    "dependencies": {
-        "@angular/common": "^16.1.0",
-        "@angular/compiler": "^16.1.0",
-        "@angular/core": "^16.1.0",
-        "@angular/forms": "^16.1.0",
-        "@angular/platform-browser": "^16.1.0",
-        "@angular/router": "^16.1.0",
-        "rrfparser": "~1.3.0",
-        "rxjs": "~7.8.0",
-        "tslib": "^2.3.0",
-        "zone.js": "~0.13.0"
-    },
-    "devDependencies": {
-        "@angular/compiler-cli": "^16.1.0",
-        "@cloudflare/workers-types": "^5.20260822.1",
-        "@modelcontextprotocol/sdk": "^1.29.0",
-        "@playwright/test": "^1.63.0",
-        "@types/node": "^22.20.1",
-        "@vitest/coverage-v8": "~2.1.9",
-        "esbuild": "^0.28.1",
-        "typescript": "~5.1.3",
-        "vitest": "~2.1.9",
-        "zod": "^4.4.3"
-    },
-    "engines": {
-        "node": ">=22"
-    },
-    "packageManager": "pnpm@11.7.0"
+  "name": "ro-calculator",
+  "version": "0.1.157-beta",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "node scripts/setup-hooks.mjs",
+    "start": "node tools/serve-web.mjs",
+    "start2": "node tools/serve-web.mjs --host localhost",
+    "build": "node tools/build-web-data.mjs --hash --report && node tools/build-web.mjs && node tools/inject-data-manifest.mjs && node tools/build-worker.mjs",
+    "data:build": "node tools/build-web-data.mjs --hash --report",
+    "data:dev": "node tools/build-web-data.mjs",
+    "build:worker": "node tools/build-worker.mjs",
+    "typecheck": "node tools/build-web.mjs --check && tsc -p worker/tsconfig.json && tsc -p tsconfig.backend-tests.json && tsc -p tsconfig.react.json",
+    "typecheck:react": "tsc -p tsconfig.react.json",
+    "typecheck:worker": "tsc -p worker/tsconfig.json",
+    "dev:worker": "node tools/build-worker.mjs && pnpm --dir tooling/cloudflare dev",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage",
+    "lint": "node tools/check-source.mjs",
+    "lint:check": "node tools/check-source.mjs",
+    "e2e": "playwright test",
+    "e2e:update": "playwright test --update-snapshots",
+    "deploy:worker": "pnpm --dir tooling/cloudflare deploy"
+  },
+  "private": true,
+  "dependencies": {
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "rrfparser": "1.4.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261001.1",
+    "@modelcontextprotocol/sdk": "1.31.0",
+    "@playwright/test": "1.63.0",
+    "@types/node": "26.6.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitest/coverage-v8": "5.0.3",
+    "esbuild": "0.28.2",
+    "typescript": "7.0.2",
+    "vite": "8.3.2",
+    "vitest": "5.0.3",
+    "zod": "4.6.5"
+  },
+  "engines": {
+    "node": "^22.12.0 || ^24.0.0 || >=26.0.0"
+  },
+  "packageManager": "pnpm@12.8.1"
 }
