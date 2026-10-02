@@ -1,0 +1,86 @@
+app-equipment-grid{
+  display: block;
+
+  margin-top: 12px;
+
+  margin-bottom: 24px;
+}
+:is(app-equipment-grid, .ui-scope-app-equipment-grid) .eq-grid{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+:is(app-equipment-grid, .ui-scope-app-equipment-grid) .eq-grid__ribbon{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+:is(app-equipment-grid, .ui-scope-app-equipment-grid) .eq-ribbon{
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 26px;
+  padding: 0 4px 0 10px;
+  border: 1px solid rgb(253 216 125 / 45%);
+  border-radius: 13px;
+  background: rgb(253 216 125 / 8%);
+  color: #fdd87d;
+}
+:is(app-equipment-grid, .ui-scope-app-equipment-grid) .eq-ribbon__text{
+  cursor: default;
+
+  white-space: pre-line;
+}
+:is(app-equipment-grid, .ui-scope-app-equipment-grid) .eq-ribbon__clear{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: rgb(253 216 125 / 60%);
+  font: inherit;
+  font-size: 10px;
+  line-height: 1;
+  cursor: pointer;
+}
+:is(app-equipment-grid, .ui-scope-app-equipment-grid) .eq-ribbon__clear:hover,
+:is(app-equipment-grid, .ui-scope-app-equipment-grid) .eq-ribbon__clear:focus-visible{
+  background: rgb(253 216 125 / 20%);
+  color: #fdd87d;
+  outline: none;
+}
+:is(app-equipment-grid, .ui-scope-app-equipment-grid) .eq-grid__columns{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+:is(app-equipment-grid, .ui-scope-app-equipment-grid) .eq-grid__column{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+:is(app-equipment-grid, .ui-scope-app-equipment-grid) .eq-grid__group{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+:is(app-equipment-grid, .ui-scope-app-equipment-grid) .eq-grid__group-label{
+  color: rgb(255 255 255 / 70%);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+:is(app-equipment-grid, .ui-scope-app-equipment-grid) .eq-grid__rule{
+  flex: 1 1 auto;
+  height: 1px;
+  background: #304562;
+}

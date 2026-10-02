@@ -1,6 +1,6 @@
-import '@angular/compiler';
+
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { UiConfirmationService, UiMessageService } from './notifications';
+import { Confirmations as UiConfirmationService, Messages as UiMessageService } from '../../react/services/notifications';
 
 describe('notifications and confirmations', () => {
   afterEach(() => vi.useRealTimers());
@@ -10,10 +10,10 @@ describe('notifications and confirmations', () => {
     service.add({ detail: 'Temporary', life: 100 });
     const sticky = { detail: 'Progress', sticky: true, key: 'progress' };
     service.add(sticky); vi.advanceTimersByTime(100);
-    expect(service.messages.value).toEqual([sticky]);
+    expect(service.getSnapshot()).toEqual([sticky]);
     service.add({ detail: 'Another' }); service.clear('progress');
-    expect(service.messages.value).toHaveLength(1);
-    service.ngOnDestroy(); expect(vi.getTimerCount()).toBe(0);
+    expect(service.getSnapshot()).toHaveLength(1);
+    service.dispose(); expect(vi.getTimerCount()).toBe(0);
   });
 
   it('settles confirmations once, including cancellation and replacement', () => {

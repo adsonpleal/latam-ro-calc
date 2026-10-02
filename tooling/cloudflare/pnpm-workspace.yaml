@@ -1,4 +1,5 @@
 # Separate install: this tooling is intentionally outside the root dependency tree.
+autoInstallPeers: false
 allowBuilds:
   esbuild: true
   workerd: true

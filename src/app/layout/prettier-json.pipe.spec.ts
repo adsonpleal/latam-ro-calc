@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PrettyJsonPipe } from './prettier-json.pipe';
+import { PrettyJsonFormatter as PrettyJsonPipe } from '../utils/pretty-json';
 
 describe('raw JSON highlighting', () => {
   const pipe = new PrettyJsonPipe();

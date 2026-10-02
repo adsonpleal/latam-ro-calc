@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ItemDescriptionStore } from './item-description.store';
+import { DescriptionStore as ItemDescriptionStore } from '../../react/services/data-client';
 import { itemDescPopoverHtml } from 'src/app/utils';
 
 describe('ItemDescriptionStore', () => {
@@ -11,7 +11,7 @@ describe('ItemDescriptionStore', () => {
 
   it('accepts a numeric or string id — the map arrives with JSON keys', () => {
     const store = new ItemDescriptionStore();
-    store.set({ '1101': 'Uma espada.' });
+    store.setDescriptions({ '1101': 'Uma espada.' });
     expect(store.get(1101)).toBe('Uma espada.');
     expect(store.get('1101')).toBe('Uma espada.');
   });
@@ -19,15 +19,15 @@ describe('ItemDescriptionStore', () => {
   it('bumps the version on every load, so memoized caches discard', () => {
     const store = new ItemDescriptionStore();
     const inicial = store.version;
-    store.set({ '1': 'a' });
+    store.setDescriptions({ '1': 'a' });
     expect(store.version).toBe(inicial + 1);
-    store.set({ '1': 'b' });
+    store.setDescriptions({ '1': 'b' });
     expect(store.version).toBe(inicial + 2);
   });
 
   it('treats null/undefined as an empty map', () => {
     const store = new ItemDescriptionStore();
-    store.set(null);
+    store.setDescriptions(null);
     expect(store.get(1)).toBeUndefined();
   });
 });

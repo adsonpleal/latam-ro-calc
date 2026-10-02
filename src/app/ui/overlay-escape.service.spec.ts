@@ -1,6 +1,5 @@
-import { NgZone } from '@angular/core';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { OverlayEscapeService } from './overlay-escape.service';
+import { LayerManager } from '../../react/ui/layers';
 
 describe('owned overlay Escape stack', () => {
   afterEach(() => vi.unstubAllGlobals());
@@ -8,15 +7,21 @@ describe('owned overlay Escape stack', () => {
   function setup() {
     const document = new EventTarget();
     vi.stubGlobal('document', document);
-    const run = vi.fn(fn => fn());
-    const service = new OverlayEscapeService({ run, runOutsideAngular: fn => fn() } as unknown as NgZone);
+    const manager = new LayerManager();
+    const dismissed = vi.fn();
+    const service = {
+      register: (layer: { isOpen: () => boolean; dismiss: () => void }) => manager.register({
+        get isConnected() { return layer.isOpen(); }, parentElement: { style: {}, classList: { add: vi.fn() } },
+      } as unknown as HTMLElement, null, () => { dismissed(); layer.dismiss(); }, false),
+      dispose: () => manager.dispose(),
+    };
     const escape = () => {
       const event = new Event('keydown', { cancelable: true });
       Object.defineProperty(event, 'key', { value: 'Escape' });
       document.dispatchEvent(event);
       return event;
     };
-    return { document, service, escape, run };
+    return { document, service, escape, dismissed };
   }
 
   it('closes only the most recently opened overlay and consumes the event', () => {
@@ -31,15 +36,15 @@ describe('owned overlay Escape stack', () => {
     unregister();
     escape();
     expect(parent.dismiss).toHaveBeenCalledOnce();
-    service.ngOnDestroy();
+    service.dispose();
   });
 
   it('ignores detached overlays and releases the only listener after the last close', () => {
-    const { document, service, escape, run } = setup();
+    const { document, service, escape, dismissed } = setup();
     const remove = vi.spyOn(document, 'removeEventListener');
     const unregister = service.register({ isOpen: () => false, dismiss: vi.fn() });
     expect(escape().defaultPrevented).toBe(false);
-    expect(run).not.toHaveBeenCalled();
+    expect(dismissed).not.toHaveBeenCalled();
     unregister();
     expect(remove).toHaveBeenCalledOnce();
     expect(escape().defaultPrevented).toBe(false);
@@ -52,7 +57,7 @@ describe('owned overlay Escape stack', () => {
     service.register({ isOpen: () => true, dismiss: () => undefined });
     escape();
     expect(parent.dismiss).not.toHaveBeenCalled();
-    service.ngOnDestroy();
+    service.dispose();
     expect(escape().defaultPrevented).toBe(false);
   });
 });

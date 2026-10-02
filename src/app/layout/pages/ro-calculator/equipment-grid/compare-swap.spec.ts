@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { SLOTS_BY_KEY } from 'src/app/app-config/equipment-slots';
 import { ItemTypeEnum } from 'src/app/constants/item-type.enum';
 import { ItemModel } from 'src/app/models/item.model';
-import { EquipmentGridComponent, SelectGradeEvent, SelectItemEvent } from './equipment-grid.component';
+import { EquipmentGridComponent, SelectGradeEvent, SelectItemEvent } from '../../../../../react/controllers/equipment-grid';
 import { SlotListBag } from './slot-list-bag.model';
 
 /**
@@ -32,7 +32,7 @@ interface Emissions {
 }
 
 function makeGrid(model: Record<string, any>, model2: Record<string, any>, compareItemNames: string[]) {
-  const grid = new EquipmentGridComponent({ markForCheck: () => undefined } as any, { hintPending: false } as any);
+  const grid = new EquipmentGridComponent({ hintPending: false } as any);
 
   grid.items = { 1: item(1), 2: item(2), 3: item(3), 4: item(4), 5: item(5), 6: item(6) };
   // Known enchants, so an enchant the item's own table does not list is rescued on
@@ -54,7 +54,7 @@ function makeGrid(model: Record<string, any>, model2: Record<string, any>, compa
   grid.compareItemChange.subscribe(() => (seen.compareItem += 1));
   grid.compareSlotsChange.subscribe((clear) => seen.compareSlots.push(clear));
 
-  grid.ngOnChanges();
+  grid.refreshInputs();
 
   return { grid, seen, swap: (key: ItemTypeEnum) => grid.onSwapCompare(SLOTS_BY_KEY.get(key)!) };
 }

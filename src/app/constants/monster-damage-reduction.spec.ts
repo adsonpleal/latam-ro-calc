@@ -21,7 +21,7 @@ import { monsterDamageReductionPercent, monsterDamageReductionTooltip } from './
 const monsters = JSON.parse(readFileSync('src/assets/demo/data/monster.json', 'utf8'));
 
 const MONSTER_CARD_TEMPLATE =
-  'src/app/layout/pages/ro-calculator/battle-hud/monster-card/battle-monster-card.component.html';
+  'src/react/views/battle-monster-card.tsx';
 
 const dataOf = (id: number) => new Monster().setData(monsters[id] as MonsterModel).data;
 
@@ -66,10 +66,11 @@ describe('the "Redução N%" tag', () => {
     const data = dataOf(20994) as Record<string, unknown>;
     for (const template of [MONSTER_CARD_TEMPLATE]) {
       const html = readFileSync(template, 'utf8');
-      const bindings = [...html.matchAll(/totalSummary[?.]*\.monster[?.]*\.(\w*[Rr]eduction\w*)/g)].map((m) => m[1]);
+      expect(html, template).toContain('const monster = totalSummary?.monster');
+      const bindings = [...html.matchAll(/monster[?.]*\.(\w*[Rr]eduction\w*)/g)].map((m) => m[1]);
       expect(bindings.length, template).toBeGreaterThan(0);
       for (const property of new Set(bindings)) expect(data, `${template} binds ${property}`).toHaveProperty(property);
-      expect(html, template).toContain('damageReductionTooltip');
+      expect(html, template).toContain('monsterDamageReductionTooltip');
     }
   });
 });

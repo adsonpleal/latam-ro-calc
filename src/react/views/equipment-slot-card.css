@@ -1,0 +1,230 @@
+app-equipment-slot-card{
+  display: block;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card{
+  display: flex;
+  flex-direction: column;
+  background: #1b2635;
+  border: 1px solid #304562;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__head{
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 28px;
+  padding: 0 6px;
+  background: rgb(255 255 255 / 3%);
+  border-bottom: 1px solid #304562;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__label{
+  flex: 0 0 auto;
+  color: rgb(255 255 255 / 50%);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__spacer{
+  flex: 1 1 auto;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card--tinted{
+  border-color: rgb(var(--slot-color-rgb) / 45%);
+
+  background: linear-gradient(rgb(var(--slot-color-rgb) / 6%), rgb(var(--slot-color-rgb) / 6%)), #1b2635;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card--tinted .eq-card__head{
+  background: rgb(var(--slot-color-rgb) / 12%);
+  border-bottom-color: rgb(var(--slot-color-rgb) / 45%);
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color,
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__clear{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color:hover,
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__clear:hover{
+  border-color: #304562;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color{
+
+  margin-right: -10px;
+  padding: 0;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color--idle{
+  cursor: not-allowed;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color--idle:hover{
+  border-color: transparent;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color--idle .eq-card__color-dot--empty,
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color--idle:hover .eq-card__color-dot--empty{
+  border-color: rgb(255 255 255 / 14%);
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color-dot{
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color-dot--empty{
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 35%);
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color:hover .eq-card__color-dot--empty{
+  border-color: rgb(255 255 255 / 70%);
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__compare{
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 20px;
+  padding: 0 4px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: rgb(255 255 255 / 55%);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__compare--on{
+  padding: 0 8px;
+  border-color: rgb(253 216 125 / 55%);
+  background: rgb(253 216 125 / 16%);
+  color: #fdd87d;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__compare--locked{
+  color: rgb(255 255 255 / 25%);
+  cursor: not-allowed;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__clear{
+  padding: 0 0 2px;
+  color: rgb(255 255 255 / 45%);
+  font-size: 12px;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__clear:hover{
+  color: rgb(255 255 255 / 85%);
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color-hint{
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 4px;
+  z-index: 2;
+  padding: 4px 8px;
+  border: 1px solid #304562;
+  border-radius: 4px;
+  background: #263449;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 45%);
+  color: rgb(255 255 255 / 80%);
+  font-size: 11px;
+  white-space: nowrap;
+  pointer-events: none;
+
+  animation: eq-hint 11.5s ease-out both;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color-hint::before{
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 9px;
+  border: 5px solid transparent;
+  border-bottom-color: #304562;
+}
+@keyframes eq-hint{
+  0%,
+  22% {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  24%,
+  91% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__occupied{
+  padding: 14px 12px;
+  color: rgb(255 255 255 / 38%);
+  font-size: 13px;
+  font-style: italic;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__body{
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 12px 9px;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  align-self: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid #304562;
+  border-radius: 4px;
+  background: rgb(255 255 255 / 4%);
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__icon img{
+  max-width: 44px;
+  max-height: 44px;
+  image-rendering: pixelated;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__icon--compare{
+  border-color: rgb(253 216 125 / 30%);
+  background: rgb(253 216 125 / 6%);
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__chips{
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  min-height: 52px;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__line{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 26px;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__compare-row{
+  position: relative;
+  background: rgb(253 216 125 / 5%);
+  border-top: 1px dashed rgb(253 216 125 / 35%);
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__compare-actions{
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  z-index: 1;
+  display: flex;
+  gap: 2px;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__clear--compare{
+  color: rgb(253 216 125 / 55%);
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__clear--compare:hover{
+  border-color: rgb(253 216 125 / 45%);
+  color: #fdd87d;
+}

@@ -1,25 +1,27 @@
-import '@angular/compiler';
-import { ViewContainerRef } from '@angular/core';
-import { Subject } from 'rxjs';
+import { alignPopover } from '../../react/ui/popover-position';
+import { Events } from '../../react/services/events';
 import { describe, expect, it, vi } from 'vitest';
-import { UiPopoverComponent } from './popover.component';
-import { UiOverlayService } from './overlay.service';
 
 function setup() {
-  const positions = new Subject<{ connectionPair: { overlayY: string } }>();
+  const positions = new Events<{ connectionPair: { overlayY: string } }>();
   const ownerDocument = new EventTarget();
   const style = { visibility: '', setProperty: vi.fn() };
   const classList = { toggle: vi.fn() };
   const container = { style, classList, clientLeft: 1, clientWidth: 498, getBoundingClientRect: () => ({ left: 100, width: 500 }) };
   const target = { ownerDocument, isConnected: true, focus: vi.fn(), getBoundingClientRect: () => ({ left: 520, width: 40 }) } as unknown as HTMLElement;
-  const ref = {
-    overlayElement: { querySelector: () => container },
-    outsidePointerEvents: () => new Subject<MouseEvent>(),
-    updatePosition: () => positions.next({ connectionPair: { overlayY: 'top' } }),
-    updatePositionStrategy: vi.fn(),
+  const layers = { close: vi.fn(), isOutside: vi.fn(() => true) };
+  let subscription: { unsubscribe(): void };
+  let active = false;
+  const scroll = () => { if (layers.isOutside()) popover.hide(); };
+  const popover = {
+    show(_event?: Event) {
+      active = true;
+      subscription = positions.subscribe(event => alignPopover(container as unknown as HTMLElement, target, event.connectionPair as any));
+      positions.next({ connectionPair: { overlayY: 'top' } });
+      ownerDocument.addEventListener('scroll', scroll, true);
+    },
+    hide() { if (!active) return; active = false; subscription.unsubscribe(); ownerDocument.removeEventListener('scroll', scroll, true); layers.close(); }
   };
-  const layers = { connected: () => ({ positionChanges: positions }), open: () => ref, close: vi.fn(), isOutside: vi.fn(() => true) };
-  const popover = new UiPopoverComponent(layers as unknown as UiOverlayService, {} as ViewContainerRef);
   const show = () => popover.show({ currentTarget: target } as unknown as Event);
   return { popover, show, target, ownerDocument, layers, positions, style, classList };
 }

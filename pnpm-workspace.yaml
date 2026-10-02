@@ -5,8 +5,5 @@ autoInstallPeers: false
 
 minimumReleaseAgeExclude:
   - rrfparser
-
-# Angular platform-browser lists animations as an optional peer. Our UI uses CSS.
-peerDependencyRules:
-  ignoreMissing:
-    - '@angular/animations'
+  - '@cloudflare/workers-types@5.20261001.1'
+  - vite@8.3.2

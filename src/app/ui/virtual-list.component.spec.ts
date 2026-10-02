@@ -1,6 +1,6 @@
-import '@angular/compiler';
+
 import { describe, expect, it } from 'vitest';
-import { virtualRange } from './virtual-list.component';
+import { virtualRange } from '../../react/ui/selection';
 
 describe('fixed-row list window', () => {
   it('keeps large lists bounded and covers the visible rows while scrolling', () => {

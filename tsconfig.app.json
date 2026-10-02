@@ -1,14 +1,25 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-    "extends": "./tsconfig.json",
-    "compilerOptions": {
-        "outDir": "./out-tsc/app",
-        "types": []
-    },
-    "files": [
-        "src/main.ts"
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": [
+      "react",
+      "react-dom"
     ],
-    "include": [
-        "src/**/*.d.ts"
-    ]
+    "jsx": "react-jsx",
+    "experimentalDecorators": false,
+    "importHelpers": false,
+    "paths": {
+      "src/*": [
+        "./src/*"
+      ]
+    },
+    "moduleResolution": "bundler"
+  },
+  "files": [
+    "src/main.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ]
 }

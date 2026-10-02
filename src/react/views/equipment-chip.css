@@ -1,0 +1,129 @@
+app-equipment-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+app-equipment-chip .eq-chip__picker {
+  position: relative;
+  display: inline-flex;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+app-equipment-chip .eq-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  height: 26px;
+  padding: 0 8px;
+  border: 1px dashed rgb(255 255 255 / 16%);
+  border-radius: 4px;
+  background: transparent;
+  color: rgb(255 255 255 / 38%);
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+app-equipment-chip .eq-chip__custom {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  height: 26px;
+  padding: 0 8px;
+  border: 0;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+app-equipment-chip .eq-chip__custom--primary { font-size: 14px; }
+
+app-equipment-chip .eq-chip:hover,
+app-equipment-chip .eq-chip:focus-visible {
+  border-color: var(--green-400, #81c784);
+  outline: none;
+}
+
+app-equipment-chip .eq-chip--filled {
+  border-style: solid;
+  border-color: #304562;
+  background: rgb(255 255 255 / 5%);
+  color: rgb(255 255 255 / 87%);
+}
+
+app-equipment-chip .eq-chip--primary {
+  font-size: 14px;
+}
+
+/* The comparison row is amber throughout, so a compared chip reads as belonging to it
+   even when it sits next to an identical one from the main build. */
+app-equipment-chip .eq-chip--compare.eq-chip--filled {
+  border-color: rgb(253 216 125 / 35%);
+  background: rgb(253 216 125 / 8%);
+  color: #fdd87d;
+}
+
+app-equipment-chip .eq-chip--compare:hover,
+app-equipment-chip .eq-chip--compare:focus-visible {
+  border-color: #fdd87d;
+}
+
+/* An element chip carries the property_* palette, which paints its own background —
+   leave the fill alone and only keep the shape. */
+app-equipment-chip .eq-chip--element {
+  border-style: solid;
+  border-color: transparent;
+}
+
+/* A fixed box rather than max-* bounds, so a chip whose icon ragassets does not serve keeps
+   the icon's room (MissingIconDirective blanks it) and lines up with the chips that have one. */
+app-equipment-chip .eq-chip__icon {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+app-equipment-chip .eq-chip__text {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+app-equipment-chip .eq-chip__clear {
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  margin-top: -7px;
+  display: none;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  background: rgb(0 0 0 / 55%);
+  box-shadow: 0 0 0 3px rgb(0 0 0 / 25%);
+  color: #fff;
+  font-size: 9px;
+  line-height: 1;
+}
+
+app-equipment-chip .eq-chip__picker:hover .eq-chip__clear,
+app-equipment-chip .eq-chip:focus-visible + .eq-chip__clear,
+app-equipment-chip .eq-chip__clear:focus-visible {
+  display: inline-flex;
+}
