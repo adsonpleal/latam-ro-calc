@@ -11932,7 +11932,7 @@
       "matkPercent": [
         "1"
       ],
-      "vct": [
+      "fctPercent": [
         "1"
       ]
     }
@@ -11958,7 +11958,7 @@
       "matkPercent": [
         "2"
       ],
-      "vct": [
+      "fctPercent": [
         "1"
       ]
     }
@@ -13485,7 +13485,7 @@
         "12===1"
       ],
       "fctPercent": [
-        "12===17"
+        "12===7"
       ]
     }
   },
@@ -13518,7 +13518,7 @@
         "12===1"
       ],
       "fctPercent": [
-        "12===17"
+        "12===7"
       ]
     }
   },
@@ -13551,7 +13551,7 @@
         "12===1"
       ],
       "fctPercent": [
-        "12===17"
+        "12===7"
       ]
     }
   },
@@ -13584,7 +13584,7 @@
         "12===1"
       ],
       "fctPercent": [
-        "12===17"
+        "12===7"
       ]
     }
   },
@@ -13617,7 +13617,7 @@
         "12===1"
       ],
       "fctPercent": [
-        "12===17"
+        "12===7"
       ]
     }
   },
@@ -13650,7 +13650,7 @@
         "12===1"
       ],
       "fctPercent": [
-        "12===17"
+        "12===7"
       ]
     }
   },
@@ -370648,5 +370648,54 @@
       "all"
     ],
     "script": {}
+  },
+  "4848": {
+    "id": 4848,
+    "aegisName": "투명한보석",
+    "name": "Redução Neutra1",
+    "unidName": "Redução Neutra1",
+    "resName": "투명한보석",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "subele_neutral": [
+        "5"
+      ]
+    }
+  },
+  "4849": {
+    "id": 4849,
+    "aegisName": "진홍색보석",
+    "name": "Redução Humanoide 1",
+    "unidName": "Redução Humanoide 1",
+    "resName": "진홍색보석",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "subrace_player_human": [
+        "5"
+      ],
+      "subrace_demihuman": [
+        "5"
+      ]
+    }
   }
 }
