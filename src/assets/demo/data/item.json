@@ -274231,10 +274231,12 @@
         "EQUIP_ID[4913]5"
       ],
       "p_class_normal": [
-        "5"
+        "5",
+        "EQUIP_ID[4910]5"
       ],
       "p_class_boss": [
-        "5"
+        "5",
+        "EQUIP_ID[4910]5"
       ],
       "str": [
         "EQUIP_ID[4910]4"
@@ -274249,7 +274251,11 @@
         "EQUIP_ID[4919]4"
       ],
       "hpPercent": [
+        "EQUIP_ID[27323]15",
         "EQUIP_ID[4919]5"
+      ],
+      "spPercent": [
+        "EQUIP_ID[27322]15"
       ],
       "int": [
         "EQUIP_ID[4913]4"

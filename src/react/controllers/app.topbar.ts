@@ -163,6 +163,13 @@ export class AppTopBarComponent extends ViewState {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.159-beta',
+      date: '02-10-2026',
+      logs: [
+        'O Anel Anti-Heroico agora aplica HP máx. +15% com a Carta Shenime e SP máx. +15% com a Carta Ahat. O conjunto com Essência de FOR 3 também recebeu os +5% adicionais de dano físico contra monstros Normais e Chefes que faltavam. Reportado por TANK.',
+      ],
+    },
+    {
       v: '0.1.158-beta',
       date: '02-10-2026',
       logs: [
