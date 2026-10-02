@@ -163,6 +163,14 @@ export class AppTopBarComponent extends ViewState {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.158-beta',
+      date: '02-10-2026',
+      logs: [
+        'Corrigido um erro que interrompia a tela ao carregar simulações com Auto-conjuração, incluindo builds de Falcão dos Ventos. O ícone de detalhes sobrescrevia uma função do painel; agora os detalhes continuam funcionando ao recalcular e comparar simulações.',
+        'Asas de Arcanjo agora oferece os 33 encantamentos da tabela de Malangdo, incluindo Fator de Cura 2 a 4, Redução Neutra 1 e Redução Humanoide 1. Os bônus de conjuração fixa de ATQM +1% e +2% e dos seis Super atributos foram corrigidos conforme as descrições do cliente. Reportado por Luís.',
+      ],
+    },
+    {
       v: '0.1.157-beta',
       date: '30-09-2026',
       logs: [

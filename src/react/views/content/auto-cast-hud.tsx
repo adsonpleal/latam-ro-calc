@@ -190,7 +190,7 @@ const first = __index8 === 0; return <Fragment key={identityKey(vm.trackDetail(_
 <Render tag="span" props={{"className": ["auto-source-blocked-label"].filter(Boolean).join(' ')}}><Render tag="app-icon" props={{"name": "lock"}}></Render>
 {" Indisponível"}</Render></Render></Fragment>; })}
 {(vm.dpsSources ?? []).map((__entry18: any, __index18: number, __array18: any[]) => { const source = __entry18; return <Fragment key={identityKey(vm.trackSource(__index18, __entry18))}><Render tag="div" props={{"className": ["rot-row auto-source-row"].filter(Boolean).join(' ')}}>{(() => { let sourceIcon: any = vm["sourceIcon"];
-let sourceInfo: any = vm["sourceInfo"]; return <><Render tag="img" props={{"data-auto-anchor": "details",
+let sourceDetailsAnchor: any = vm["sourceDetailsAnchor"]; return <><Render tag="img" props={{"data-auto-anchor": "details",
 "role": "button",
 "tabIndex": "0",
 "tooltipPosition": "top",
@@ -283,11 +283,11 @@ const first = __index20 === 0; return <Fragment key={identityKey(vm.trackDetail(
 "name": "info-circle",
 "data-auto-source": source.key,
 "label": ("Detalhes de " + source.name),
-"click": (event: any) => vm.action(() => { const $event = event; vm.openDetails(source,$event,sharedSkillDetails,sourceInfo.nativeElement) }),
+"click": (event: any) => vm.action(() => { const $event = event; vm.openDetails(source,$event,sharedSkillDetails,sourceDetailsAnchor.nativeElement) }),
 "className": ["rot-info"].filter(Boolean).join(' '),
 "tooltip": {text: "Detalhes da habilidade", position: "top", className: "auto_cast_tip", showDelay: 0, hideDelay: 0, escape: true, disabled: false},
 "activateWithKeys": true,
-"reference": (value: any) => { sourceInfo = value; vm["sourceInfo"] = value; }}}></Render></>; })()}</Render></Fragment>; })}</Render>
+"reference": (value: any) => { sourceDetailsAnchor = value; vm["sourceDetailsAnchor"] = value; }}}></Render></>; })()}</Render></Fragment>; })}</Render>
 <Render tag="app-battle-damage-popovers" props={{"breakdownClick": (event: any) => vm.action(() => { const $event = event; vm.showBonusBreakdownClick.emit($event) }),
 "reference": (value: any) => { sharedDamagePopovers = value; vm["sharedDamagePopovers"] = value; }}}></Render>
 <Render tag="app-battle-skill-details" props={{"breakdownClick": (event: any) => vm.action(() => { const $event = event; vm.showBonusBreakdownClick.emit($event) }),

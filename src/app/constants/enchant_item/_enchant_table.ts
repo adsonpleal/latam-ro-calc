@@ -651,7 +651,10 @@ const brilliant3 = [
 ];
 
 const infityEnt4 = [...ea13, ...delay13, ...aspd13, ...critical24, ...fatal13, ...matkP35, ...BaseState._3];
-const wing4 = [...ea23, ...fs23, ...sp23, ...sh23, ...matk12, ...specials, ...base12];
+// Asas de Arcanjo: one enchant in slot 4, including healing and resistance stones.
+// https://browiki.org/wiki/Malangdo#Encantamento_Arcanjo
+const wing4 = [...ea23, ...fs23, ...sp23, ...sh23, ...matk12, ...specials, ...base12,
+  'Heal_Amount3', 'Heal_Amount4', 'Heal_Amount5', '투명한보석', '진홍색보석'];
 const subject = [...BaseState._5, ...fs68, ...ea35, ...sp46, ...delay13];
 
 const year2nd = [...allRunes, ...fs45, ...sp34, ...ea12, ...critical23, ...mhp34, ...shedding12, ...BaseState._1_3];
