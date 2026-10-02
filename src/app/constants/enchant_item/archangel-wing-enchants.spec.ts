@@ -7,7 +7,7 @@ import { equipStatusOf, makeCalculator } from '../../core/__tests__/make-calcula
 import { createMainModel } from '../../utils';
 import { getEnchants } from './_enchant_table';
 
-// Luís: tracker KtNEaMMzuxzM4NzSMYmW.
+// Reported by Luís.
 // Pool: https://browiki.org/wiki/Malangdo#Encantamento_Arcanjo
 // Effects: the client descriptions in latam-items.json.
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
