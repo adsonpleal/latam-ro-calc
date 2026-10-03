@@ -13,6 +13,7 @@ import { itemSlotLabelPtBr } from 'src/app/constants/item-slot-i18n';
 import { Chip, slotOwnFields } from 'src/app/core/equipment-chips';
 import { SlotDerivation, cardsToClear, deriveSlot, reconcileEnchants } from 'src/app/core/equipment-slot-derivation';
 import { ensureCustomAttachment } from 'src/app/core/custom-attachments';
+import { costumeSlotDescriptor } from 'src/app/core/costume-slot-descriptor';
 import { SLOT_COLOR_BY_ID, SlotColor } from 'src/app/core/slot-colors';
 import { ItemModel } from 'src/app/models/item.model';
 import { SlotColorPreferences } from '../services/calculator-services';
@@ -203,6 +204,7 @@ private readonly colorPicker: SlotColorPreferences,
   // ── compare ──────────────────────────────────────────────────────────────────
 
   onToggleCompare(slot: EquipmentSlotDescriptor): void {
+    slot = this.renderedSlot(slot);
     const keys = comparableKeysOf(slot);
     const isOn = keys.some((key) => this.compareItemNames.includes(key));
 
@@ -268,6 +270,7 @@ private readonly colorPicker: SlotColorPreferences,
    * rather than through the translation table the build's own fields use.
    */
   onClearCompareSlot(slot: EquipmentSlotDescriptor): void {
+    slot = this.renderedSlot(slot);
     this.clearComparedFields(slot);
     this.refresh(null);
     this.compareItemChange.emit();
@@ -285,6 +288,7 @@ private readonly colorPicker: SlotColorPreferences,
    * out of the build to make room for a comparison that never held one.
    */
   onSwapCompare(slot: EquipmentSlotDescriptor): void {
+    slot = this.renderedSlot(slot);
     if (!comparableKeysOf(slot).length) return;
 
     for (const field of this.swappedFields(slot)) {
@@ -475,6 +479,7 @@ private readonly colorPicker: SlotColorPreferences,
    * `compareItemNames`, or the row would come back the moment anything re-rendered.
    */
   onClearSlot(slot: EquipmentSlotDescriptor): void {
+    slot = this.renderedSlot(slot);
     const keys = comparableKeysOf(slot);
     const wasComparing = keys.some((key) => this.compareItemNames.includes(key));
 
@@ -621,7 +626,11 @@ private readonly colorPicker: SlotColorPreferences,
         default:
           return true;
       }
-    });
+    }).map((slot) => this.renderedSlot(slot));
+  }
+
+  private renderedSlot(slot: EquipmentSlotDescriptor): EquipmentSlotDescriptor {
+    return costumeSlotDescriptor(slot, this.items?.[this.model?.[slot.key]]);
   }
 }
 
