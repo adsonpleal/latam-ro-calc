@@ -163,6 +163,13 @@ export class AppTopBarComponent extends ViewState {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.161-beta',
+      date: '02-10-2026',
+      logs: [
+        'Visuais que ocupam mais de uma posição, como o Silenciador, agora oferecem um campo de encantamento para cada posição ocupada. As pedras de Topo, Meio e Baixo aparecem em seus respectivos campos, incluindo na comparação de equipamentos. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.160-beta',
       date: '02-10-2026',
       logs: [
