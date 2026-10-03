@@ -873,6 +873,8 @@ export const EnchantTable: EntTable[] = [
   { name: 'E_Illusion_Armor_A', enchants: [null, illusionArmor, illusionArmor, illusionArmor] },
   { name: 'E_Illusion_Engine_B', enchants: [null, illusionGarment, illusionGarment, illusionGarment] },
   { name: 'E_Illusion_Leg_A', enchants: [null, illusionBoot, illusionBoot, illusionBoot] },
+  { name: 'E_Illusion_B_R', enchants: [null, illusionAccR, illusionAccR, illusionAccR] },
+  { name: 'E_Illusion_B_L', enchants: [null, illusionAccL, illusionAccL, illusionAccL] },
 
   { name: '[Upgrade] Illusion Ring [1]', enchants: [null, illusionAcc, illusionAcc, illusionAcc] },
   { name: 'Secret Illusion Ring [1]', enchants: [null, ['Improve_Orb_L_Varmundt', ...illusionAcc], illusionAcc, illusionAcc] },

@@ -163,6 +163,13 @@ export class AppTopBarComponent extends ViewState {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.160-beta',
+      date: '02-10-2026',
+      logs: [
+        'As Turbinas Ilusión A e B de Apoio agora oferecem os três campos de encantamento, com as mesmas opções das versões regulares, incluindo U-Mental e U-Mana. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.159-beta',
       date: '02-10-2026',
       logs: [
