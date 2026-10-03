@@ -3,7 +3,7 @@
 //
 // Standard message = project name + version number + the newly-added items for
 // that version, as a single embed. Source of truth for the changelog is the
-// `updates` array in src/app/layout/app.topbar.component.ts (same list the app
+// `updates` array in src/react/controllers/app.topbar.ts (same list the app
 // shows in "Novidades"); the version is read from package.json.
 //
 // Usage:
@@ -41,7 +41,7 @@ function readVersion() {
 // `updates` array. We parse the single-quoted string literals directly so the
 // changelog stays a plain TS array (no separate data file to keep in sync).
 function readChangelogEntry(version) {
-  const src = readFileSync(resolve(ROOT, 'src/app/layout/app.topbar.component.ts'), 'utf8');
+  const src = readFileSync(resolve(ROOT, 'src/react/controllers/app.topbar.ts'), 'utf8');
   const anchor = src.indexOf(`v: '${version}'`);
   if (anchor < 0) return null;
 
@@ -97,7 +97,7 @@ async function main() {
   const version = readVersion();
   const entry = readChangelogEntry(version);
   if (!entry || entry.logs.length === 0) {
-    console.warn(`No changelog entry with logs for v${version} in app.topbar.component.ts — nothing to post.`);
+    console.warn(`No changelog entry with logs for v${version} in app.topbar.ts — nothing to post.`);
     return;
   }
 
