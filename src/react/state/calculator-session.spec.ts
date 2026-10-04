@@ -49,4 +49,24 @@ describe('plain calculator session', () => {
     expect(session.getSnapshot()).toBe(snapshot);
     expect(session.totalSummary).toBeUndefined();
   });
+  it.each(['success', 'offline'])('publishes the completed share link when shortening is %s', async (outcome) => {
+    const { session } = makeSession();
+    session.start();
+    await vi.advanceTimersByTimeAsync(1500);
+    const shortUrl = 'https://short.latam-tools.com.br/test12';
+    vi.stubGlobal('fetch', outcome === 'success'
+      ? vi.fn().mockResolvedValue(new Response(JSON.stringify({ short_url: shortUrl }), { status: 201 }))
+      : vi.fn().mockRejectedValue(new Error('offline')));
+    const rendered: { url: string; shortening: boolean }[] = [];
+    const stop = session.subscribe(() => rendered.push({ url: session.shareUrl, shortening: session.shareShortening }));
+
+    session.action(() => session.openShareDialog());
+    const longUrl = session.shareUrl;
+    expect(rendered.at(-1)?.shortening).toBe(true);
+    await vi.advanceTimersByTimeAsync(0);
+
+    expect(rendered.at(-1)).toEqual({ url: outcome === 'success' ? shortUrl : longUrl, shortening: false });
+    stop();
+    session.dispose();
+  });
 });

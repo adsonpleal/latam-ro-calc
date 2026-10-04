@@ -60,6 +60,34 @@ test('nested selectors close one at a time and dialogs restore focus', async ({ 
   await expect(page.getByRole('button', { name: 'Meus itens', exact: true })).toBeFocused();
 });
 
+for (const outcome of ['success', 'offline'] as const) {
+  test(`share dialog finishes shortening without another interaction (${outcome})`, async ({ page }) => {
+    await boot(page);
+    const shortUrl = 'https://short.latam-tools.com.br/test12';
+    let finishRequest!: () => void;
+    const pending = new Promise<void>(resolve => { finishRequest = resolve; });
+    await page.route('https://short.latam-tools.com.br/api/links', async route => {
+      await pending;
+      if (outcome === 'success') {
+        await route.fulfill({ status: 201, contentType: 'application/json', body: JSON.stringify({ short_url: shortUrl }) });
+      } else {
+        await route.abort();
+      }
+    });
+
+    const requested = page.waitForRequest('https://short.latam-tools.com.br/api/links');
+    await page.getByRole('button', { name: 'Link', exact: true }).click();
+    const longUrl = (await requested).postDataJSON().url;
+    const dialog = page.getByRole('dialog', { name: 'Compartilhar simulação' });
+    await expect(dialog.getByRole('textbox')).toHaveValue('Encurtando o link…');
+    await expect(dialog.getByRole('button', { name: 'Copiar link' })).toBeDisabled();
+    finishRequest();
+
+    await expect(dialog.getByRole('textbox')).toHaveValue(outcome === 'success' ? shortUrl : longUrl);
+    await expect(dialog.getByRole('button', { name: 'Copiar link' })).toBeEnabled();
+  });
+}
+
 test('save, clear, load, confirmation cancel, share and import retain the build', async ({ page }) => {
   await boot(page);
   await page.getByRole('combobox', { name: 'FOR', exact: true }).click();

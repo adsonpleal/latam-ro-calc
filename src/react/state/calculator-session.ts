@@ -1914,6 +1914,7 @@ await ((_event?: unknown) => {
       if (this.shareUrl === longUrl) this.shareUrl = shortUrl;
     } finally {
       this.shareShortening = false;
+      this.publish();
     }
   }
 
