@@ -163,6 +163,13 @@ export class AppTopBarComponent extends ViewState {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.162-beta',
+      date: '05-10-2026',
+      logs: [
+        'Corrigido o seletor de bônus aleatórios dos equipamentos, que fechava ao clicar em uma categoria antes de permitir a escolha do valor. Bônus como redução de pós-conjuração agora podem ser escolhidos pelas categorias, tanto na simulação atual quanto na comparação. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.161-beta',
       date: '02-10-2026',
       logs: [

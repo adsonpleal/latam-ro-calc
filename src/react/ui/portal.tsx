@@ -64,10 +64,14 @@ export function Portal({ children, origin = null, anchor, positions, panelClass 
     host.append(pane); document.body.append(host);
     const release = manager.register(pane, origin ?? document.activeElement as HTMLElement, () => callbacks.current.onDismiss(), lock,
       () => (callbacks.current.onEscape ?? callbacks.current.onDismiss)());
-    const outside = (event: MouseEvent) => { if (manager.isOutside(pane, event.target as Node) && !origin?.contains(event.target as Node)) callbacks.current.onOutside?.(); };
+    const outside = (event: MouseEvent) => {
+      const path = event.composedPath();
+      const onOrigin = origin && (path.includes(origin) || origin.contains(event.target as Node));
+      if (manager.isOutside(pane, event.target as Node, path) && !onOrigin) callbacks.current.onOutside?.();
+    };
     document.addEventListener('click', outside);
     const outsideScroll = (event: Event) => {
-      if (manager.isOutside(pane, event.target as Node)) callbacks.current.onOutsideScroll?.();
+      if (manager.isOutside(pane, event.target as Node, event.composedPath())) callbacks.current.onOutsideScroll?.();
     };
     document.addEventListener('scroll', outsideScroll, true);
     setContainer(pane);
