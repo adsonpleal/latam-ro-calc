@@ -49,6 +49,21 @@ describe('plain calculator session', () => {
     expect(session.getSnapshot()).toBe(snapshot);
     expect(session.totalSummary).toBeUndefined();
   });
+
+  it('offers Freyja Aliviar 0–8, resets a saved higher level and retains other targets’ 0–10', () => {
+    const { session, storage } = makeSession();
+    session.selectedMonster = 20994;
+    session.relieveLevel = 10;
+    expect(session.relieveLevelOptions.map((option) => option.value)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    session.selectedMonster = 21361;
+    session.onMonsterChange();
+    expect(session.isRelieveTarget).toBe(true);
+    expect(session.relieveLevelOptions.map((option) => option.value)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(session.relieveLevelOptions.at(-1)?.label).toContain('80%');
+    expect(session.relieveLevel).toBe(0);
+    expect(storage.getItem('monster')).toBe('21361');
+    session.dispose();
+  });
   it.each(['success', 'offline'])('publishes the completed share link when shortening is %s', async (outcome) => {
     const { session } = makeSession();
     session.start();

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { MAX_RELIEVE_LEVEL, RELIEVE_MONSTER_IDS, hasRelieve, relieveMultiplier, relieveReductionPercent } from './monster-relieve';
+import { MAX_RELIEVE_LEVEL, RELIEVE_MONSTER_IDS, hasRelieve, maxRelieveLevelForMonster, normalizeMonsterRelieveLevel, relieveMultiplier, relieveReductionPercent } from './monster-relieve';
 
 /**
  * The Aliviar table, held to https://browiki.org/wiki/Aliviar. The one number worth
@@ -83,12 +83,21 @@ describe('Aliviar (NPC_RELIEVE_ON, 771)', () => {
     // Torre da Constelação: the two configured MVPs.
     expect(hasRelieve(20996)).toBe(true); // Naght Sieger, Nv. 6-10 by Espinhos alive
     expect(hasRelieve(20994)).toBe(true); // Betelgeuse, Nv. 0-5 by ★ and up to 10 by Almas
+    expect(hasRelieve(21361)).toBe(true); // Freyja, Nv. 1-8 near the chandelier (Ted)
 
     expect(hasRelieve(1002)).toBe(false); // Poring
     expect(hasRelieve(1087)).toBe(false); // Orc Hero, a red-aura MVP
     expect(hasRelieve(20871)).toBe(false); // Alphonse — an Arena opponent, but not in the DB
     expect(hasRelieve(20891)).toBe(false); // Criatura Desconhecida: Queda do Aeroplano has none
     expect(hasRelieve(21356)).toBe(false); // Ifrit da Torre — a floor boss, not a configured MVP
-    expect(RELIEVE_MONSTER_IDS.size).toBe(20);
+    expect(RELIEVE_MONSTER_IDS.size).toBe(21);
+  });
+
+  it('limits Freyja to level 8 and drops levels left over from another target', () => {
+    expect(maxRelieveLevelForMonster(21361)).toBe(8);
+    expect(maxRelieveLevelForMonster(20994)).toBe(10);
+    expect(maxRelieveLevelForMonster(1002)).toBe(0);
+    expect(normalizeMonsterRelieveLevel(21361, 8)).toBe(8);
+    for (const level of [9, 10, -1, 1.5, NaN]) expect(normalizeMonsterRelieveLevel(21361, level)).toBe(0);
   });
 });

@@ -33,8 +33,9 @@ import { ShadowCross } from './ShadowCross';
  * Phantom of Amdarais); without it Betelgeuse needs a correction ninety times the other's.
  *
  * **divine-pride says it outright**, in the Attributes block of monster 20994: "Taking only
- * 1% of the damage dealt to it". The same line is on Twisted God Freyja (21361) and
- * Schulang (21360), and **not** on Naght Sieger (20996), the Torre's other boss — which is
+ * 1% of the damage dealt to it". This finding only covers Betelgeuse; Ted reported 90%
+ * reduction for Freyja (21361) and Schulang (21360) on 05/10/2026. Naght Sieger (20996),
+ * the Torre's other boss, does not have a flat reduction — which is
  * why `4eRVV9HGzk.rrf`, where one Cannon Spear splashes Naght Sieger and four Ilusões das
  * Trevas in the same millisecond, reads as Aliviar and nothing else.
  *
@@ -193,9 +194,6 @@ describe('Betelgeuse — what the recordings carry', () => {
 describe('Betelgeuse — the reduction the engine now applies', () => {
   it('is 99%: divine-pride\'s "taking only 1% of the damage dealt to it"', () => {
     expect(monsterDamageReductionPercent(20994)).toBe(99);
-    // The same attribute, same instance family.
-    expect(monsterDamageReductionPercent(21361)).toBe(99); // Twisted God Freyja
-    expect(monsterDamageReductionPercent(21360)).toBe(99); // Schulang
     // Naght Sieger, the Torre's other boss, does not carry it — its gap is Aliviar alone.
     expect(monsterDamageReductionPercent(20996)).toBe(0);
   });

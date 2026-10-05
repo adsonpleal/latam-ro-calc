@@ -26,6 +26,11 @@ export const SKILL_EFST: Record<string, number | number[]> = {
   'Enchant Deadly Poison': 114,
   'Improve Concentration': 3, // Concentrar
   'Intensification': [717, 1152], // Telecinesia (two client status ids)
+  'Laudaagnus': 331,
+  'Lauda Ramus': 332,
+  'Argutus Vita': 1198,
+  'Argutus Telum': 1199,
+  'Presens Acies': 1200,
 };
 
 /**

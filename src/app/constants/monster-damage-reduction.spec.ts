@@ -37,10 +37,10 @@ describe('monsterDamageReductionPercent', () => {
     for (const mvp of [21555, 21563, 21571, 21579]) expect(monsterDamageReductionPercent(mvp)).toBe(99);
   });
 
-  it('the EP19 instance MVPs: 99%, Aliviar on top', () => {
+  it('Betelgeuse takes 1%, Freyja and Schulang take 10% (Ted)', () => {
     expect(monsterDamageReductionPercent(20994)).toBe(99); // Betelgeuse
-    expect(monsterDamageReductionPercent(21361)).toBe(99); // Twisted God Freyja
-    expect(monsterDamageReductionPercent(21360)).toBe(99); // Schulang
+    expect(monsterDamageReductionPercent(21361)).toBe(90); // Twisted God Freyja
+    expect(monsterDamageReductionPercent(21360)).toBe(90); // Schulang
   });
 
   it('reaches the target through Monster.data, which is what the UI reads', () => {
@@ -49,6 +49,8 @@ describe('monsterDamageReductionPercent', () => {
     expect(dataOf(21077).damageReduction).toBe(0); // a training dummy, which reduces nothing
     // Betelgeuse also casts Aliviar, so the card shows the picker as well as the tag.
     expect(dataOf(20994).hasRelieve).toBe(true);
+    expect(dataOf(21361)).toMatchObject({ damageReduction: 90, hasRelieve: true });
+    expect(dataOf(21360).damageReduction).toBe(90);
   });
 });
 

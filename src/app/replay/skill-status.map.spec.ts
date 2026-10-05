@@ -36,6 +36,13 @@ describe('makeBuffGate — positive-confirmation buff/effect import gating', () 
     expect(makeBuffGate([1152])('Intensification')).toBe(true);
     expect(makeBuffGate([3])('Intensification')).toBe(false); // neither id up
   });
+
+  it('only imports learned cleric support buffs while their status is active', () => {
+    for (const [name, statusId] of [['Laudaagnus', 331], ['Lauda Ramus', 332], ['Argutus Vita', 1198], ['Argutus Telum', 1199], ['Presens Acies', 1200]] as const) {
+      expect(makeBuffGate([statusId])(name)).toBe(true);
+      expect(makeBuffGate([])(name)).toBe(false);
+    }
+  });
 });
 
 /**

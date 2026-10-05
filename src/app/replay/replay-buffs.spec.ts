@@ -28,4 +28,10 @@ describe('resolveBuffsFromStatus', () => {
   it('ignores unmapped / unknown statuses', () => {
     expect(resolveBuffsFromStatus([673, 999])).toEqual({});
   });
+
+  it('imports the two Laudas, Argutus and Presens Acies using client status IDs', () => {
+    expect(resolveBuffsFromStatus([331, 332, 1198, 1199, 1200])).toEqual({
+      Laudaagnus: 4, 'Lauda Ramus': 4, 'Argutus Vita': 5, 'Argutus Telum': 5, 'Presens Acies': 5,
+    });
+  });
 });

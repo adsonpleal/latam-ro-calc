@@ -1,5 +1,6 @@
 import { ElementType } from '../constants/element-type.const';
 import { RaceType } from '../constants/race-type.const';
+import { LaudaAgnusBuff, LaudaRamusBuff } from '../constants/cleric-party-buffs';
 import { InfoForClass } from '../models/info-for-class.model';
 import { HighPriest } from './HighPriest';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
@@ -214,6 +215,8 @@ export class ArchBishop extends HighPriest {
         },
       ],
     },
+    LaudaAgnusBuff,
+    LaudaRamusBuff,
   ];
   protected readonly passiveSkillList3rd: PassiveSkillModel[] = [
     {
@@ -297,7 +300,7 @@ export class ArchBishop extends HighPriest {
     },
     {
       inputType: 'dropdown',
-      label: 'Laudaagnus',
+      label: 'Lauda Agnus',
       name: 'Laudaagnus',
       dropdown: [
         { label: '-', value: 0, isUse: false },
