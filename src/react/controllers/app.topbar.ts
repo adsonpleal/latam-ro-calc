@@ -163,6 +163,13 @@ export class AppTopBarComponent extends ViewState {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.163-beta',
+      date: '05-10-2026',
+      logs: [
+        'As coroas Issgard Warrior, Magician e Ranger agora aparecem como Prévia para montar builds antes do lançamento no LATAM. As descrições e os bônus seguem a versão iRO, incluindo atributos-base, refinos, graus, encantamentos e conjuntos com as armas Glacier. Solicitado por Oden.',
+      ],
+    },
+    {
       v: '0.1.162-beta',
       date: '05-10-2026',
       logs: [

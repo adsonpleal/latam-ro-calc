@@ -9,6 +9,8 @@ const db = items as Record<string, ItemModel>;
 const enchantNames = new Set(Object.values(db).filter((item) => item.itemTypeId === 11).map((item) => item.aegisName));
 // Equipment table: https://irowiki.org/wiki/Issgard_Land_of_Snow_Flowers#Equipment
 const snowFlower = [450206, 450207, 480159, 480160, 470115, 470116, 490177, 490176, 490179, 490178];
+// Divine Pride iRO descriptions: /database/item/400105, /400106 and /400107.
+const crowns = [400105, 400106, 400107];
 const weaponPairs = [
   [600027, 600030], [610037, 610041], [620017, 620019], [630018, 630019],
   [640033, 640034], [650025, 650028], [700052, 700059], [800014, 800015],
@@ -20,6 +22,18 @@ const weaponPairs = [
 ];
 
 describe('Issgard equipment preview', () => {
+  it('publishes all three Issgard crowns with a card slot and their crystal pools', () => {
+    for (const id of crowns) {
+      const item = db[id];
+      expect(item).toMatchObject({ preRelease: true, location: 'Upper', slots: 1, requiredLevel: 230, usableClass: ['all'] });
+      expect(item.description).toContain('CON +');
+      const pools = getEnchants(item.aegisName);
+      expect(pools).toHaveLength(4);
+      expect(pools?.[0]).toBeNull();
+      expect(pools?.slice(1).flat().filter(name => !enchantNames.has(name!))).toEqual([]);
+    }
+  });
+
   it('lists every Snow Flower piece and both versions of every Glacier weapon', () => {
     expect(snowFlower).toHaveLength(10);
     expect(weaponPairs).toHaveLength(26);

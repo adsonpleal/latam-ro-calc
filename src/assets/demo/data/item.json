@@ -146427,7 +146427,7 @@
     "name": "Issgard Warrior Crown [1]",
     "unidName": "Headgear",
     "resName": "RCC2013챔피온투구",
-    "description": "Increases melee physical damage by 10%.\r\nEvery 2 refine rate, Atk + 3%.\r\nEvery 3 refine rate, increases physical damage against all size enemies by 4%.\r\nIf refine rate is 7 or higher, reduces global cooldown by 8%.\r\nIf refine rate is 9 or higher, P.Atk + 10, increases melee physical damage by 10%.\r\n\r\nWhen equipped with Glacier weapon, Atk + 5%, Atk + 50,\r\nevery 3 refine rate of weapon, increases attack speed (reduces delay after attack by 4%), increases melee physical damage by 5%.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] P.Atk + 5.\r\n[Grade C] Def + 150, Mdef + 30.\r\n[Grade B] POW + 5, CON + 5.\r\n[Grade A] Res + 50, Mres + 50.\r\nClass: ^777777Headgear^000000 Defense: ^77777780^000000\r\nLocation: ^777777Upper^000000 Weight: ^77777730^000000\r\nArmor Level: ^7777772^000000\r\nRequired Level: ^777777230^000000\r\nJobs: ^777777All Jobs^000000",
+    "description": "A crown imbued with the special magic of Ysgard.\nIt is said to be endowed with power specialized for close combat.\n\nPOW + 7, CON + 7.\n\nIncreases melee physical damage by 10%.\n------------------------\nFor every 2 refines, ATK + 3%.\n------------------------\nFor every 3 refines, increases physical damage to all size enemies by 4%.\n------------------------\nWhen refined to +7, reduces Global Cooldown by 8%.\n------------------------\nWhen refined to +9, P.ATK + 10, increases melee physical damage by 10%.\n------------------------\nSet Bonus:\nIssgard Warrior Crown [1]\nGlacier Weapon Series\n\nATK + 5%, ATK + 50,\nFor every 3 refines of the weapon, increases ASPD + 4% and increases melee physical damage by 5%.\n------------------------\n[Grade Bonus]\n[Grade D] P.ATK + 5.\n[Grade C] DEF + 150, MDEF + 30.\n[Grade B] POW + 5, CON + 5.\n[Grade A] RES + 50, MRES + 50.\n------------------------\nType : Headgear\nDefense : 80\nLocation : Upper\nWeight : 30\nArmor Level : 2\nRequired Level : 230\nUsable by : All Jobs",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 512,
@@ -146436,21 +146436,21 @@
     "defense": 80,
     "weight": 30,
     "requiredLevel": 230,
-    "location": null,
+    "location": "Upper",
     "compositionPos": null,
     "canGrade": true,
     "usableClass": [
-      "4th"
+      "all"
     ],
     "script": {
       "melee": [
         "10",
         "9===10",
-        "EQUIP[Glacier Sword||Glacier Basic Sword||Glacier Rogue Knife||Glacier Basic Knife||Glacier Axe||Glacier Spear||Glacier Book||Glacier Wand||Glacier Foxtail||Glacier Knuckle||Glacier Violin||Glacier Whip||Glacier Mace||Glacier Mechanic Mace||Glacier Two-handed Sword||Glacier Katar||Glacier Mechanic Axe||Glacier Lance||Glacier Staff||Glacier Huuma Shuriken||Glacier Bow||Glacier Revolver||Glacier Rifle||Glacier Shotgun||Glacier Gatling||Glacier Launcher]REFINE[weapon==3]---5"
+        "EQUIP_ID[500049||500050||510061||510062||520017||530025||540049||550069||550070||560032||570029||580030||590038||590039||600027||610037||620017||630018||640033||650025||700052||800014||810010||820008||830013||840009]REFINE[weapon==3]---5"
       ],
       "atkPercent": [
         "2---3",
-        "EQUIP[Glacier Sword||Glacier Basic Sword||Glacier Rogue Knife||Glacier Basic Knife||Glacier Axe||Glacier Spear||Glacier Book||Glacier Wand||Glacier Foxtail||Glacier Knuckle||Glacier Violin||Glacier Whip||Glacier Mace||Glacier Mechanic Mace||Glacier Two-handed Sword||Glacier Katar||Glacier Mechanic Axe||Glacier Lance||Glacier Staff||Glacier Huuma Shuriken||Glacier Bow||Glacier Revolver||Glacier Rifle||Glacier Shotgun||Glacier Gatling||Glacier Launcher]===5"
+        "EQUIP_ID[500049||500050||510061||510062||520017||530025||540049||550069||550070||560032||570029||580030||590038||590039||600027||610037||620017||630018||640033||650025||700052||800014||810010||820008||830013||840009]===5"
       ],
       "p_size_all": [
         "3---4"
@@ -146463,10 +146463,10 @@
         "GRADE[me==D]===5"
       ],
       "atk": [
-        "EQUIP[Glacier Sword||Glacier Basic Sword||Glacier Rogue Knife||Glacier Basic Knife||Glacier Axe||Glacier Spear||Glacier Book||Glacier Wand||Glacier Foxtail||Glacier Knuckle||Glacier Violin||Glacier Whip||Glacier Mace||Glacier Mechanic Mace||Glacier Two-handed Sword||Glacier Katar||Glacier Mechanic Axe||Glacier Lance||Glacier Staff||Glacier Huuma Shuriken||Glacier Bow||Glacier Revolver||Glacier Rifle||Glacier Shotgun||Glacier Gatling||Glacier Launcher]===50"
+        "EQUIP_ID[500049||500050||510061||510062||520017||530025||540049||550069||550070||560032||570029||580030||590038||590039||600027||610037||620017||630018||640033||650025||700052||800014||810010||820008||830013||840009]===50"
       ],
       "aspdPercent": [
-        "EQUIP[Glacier Sword||Glacier Basic Sword||Glacier Rogue Knife||Glacier Basic Knife||Glacier Axe||Glacier Spear||Glacier Book||Glacier Wand||Glacier Foxtail||Glacier Knuckle||Glacier Violin||Glacier Whip||Glacier Mace||Glacier Mechanic Mace||Glacier Two-handed Sword||Glacier Katar||Glacier Mechanic Axe||Glacier Lance||Glacier Staff||Glacier Huuma Shuriken||Glacier Bow||Glacier Revolver||Glacier Rifle||Glacier Shotgun||Glacier Gatling||Glacier Launcher]REFINE[weapon==3]---4"
+        "EQUIP_ID[500049||500050||510061||510062||520017||530025||540049||550069||550070||560032||570029||580030||590038||590039||600027||610037||620017||630018||640033||650025||700052||800014||810010||820008||830013||840009]REFINE[weapon==3]---4"
       ],
       "def": [
         "GRADE[me==C]===150"
@@ -146475,9 +146475,11 @@
         "GRADE[me==C]===30"
       ],
       "pow": [
+        "7",
         "GRADE[me==B]===5"
       ],
       "con": [
+        "7",
         "GRADE[me==B]===5"
       ],
       "res": [
@@ -146486,7 +146488,8 @@
       "mres": [
         "GRADE[me==A]===50"
       ]
-    }
+    },
+    "preRelease": true
   },
   "400106": {
     "id": 400106,
@@ -146494,7 +146497,7 @@
     "name": "Issgard Magician Crown [1]",
     "unidName": "Headgear",
     "resName": "RCC2013준우승투구",
-    "description": "Increases all property magical damage by 10%.\r\nEvery 2 refine rate, Matk + 3%.\r\nEvery 3 refine rate, increases magical damage against all size enemies by 4%.\r\nIf refine rate is 7 or higher, reduces global cooldown by 8%.\r\nIf refine rate is 9 or higher, S.Matk + 10, increases all property magical damage by 10%.\r\n\r\nWhen equipped with Glacier weapon, Matk + 5%, Matk + 50,\r\nevery 3 refine rate of weapon, increases attack speed (reduces delay after attack by 4%), increases all property magical damage by 5%.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] S.Matk + 5.\r\n[Grade C] Def + 150, Mdef + 30.\r\n[Grade B] SPL + 5, CON + 5.\r\n[Grade A] Res + 50, Mres + 50.\r\nClass: ^777777Headgear^000000 Defense: ^77777720^000000\r\nLocation: ^777777Upper^000000 Weight: ^77777710^000000\r\nArmor Level: ^7777772^000000\r\nRequired Level: ^777777230^000000\r\nJobs: ^777777All Jobs^000000",
+    "description": "A crown imbued with the special magic of Ysgard.\nIt is said to be endowed with power specialized for magical combat.\n\nSPL +7, CON +7.\n\nIncreases all property magic damage by 10%.\n------------------------\nFor every 2 refines, MATK +3%.\n------------------------\nFor every 3 refines, increases magical damage to all size enemies by 4%.\n------------------------\nWhen refined to +7, reduces Global Cooldown by 8%.\n------------------------\nWhen refined to +9, S.MATK +10, increases all property magic damage by 10%.\n------------------------\nSet Bonus:\nIssgard Magician Crown [1]\nGlacier Weapon Series\n\nMATK +5%, MATK +50,\nFor every 3 refines of the weapon, increases ASPD +4% and increases all property magic damage by 5%.\n------------------------\n[Grade Bonus]\n[Grade D] S.MATK +5.\n[Grade C] DEF +150, MDEF +30.\n[Grade B] SPL +5, CON +5.\n[Grade A] RES +50, MRES +50.\n------------------------\nType : Headgear\nDefense : 20\nLocation : Upper\nWeight : 10\nArmor Level : 2\nRequired Level : 230\nUsable by : All Jobs",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 512,
@@ -146503,21 +146506,21 @@
     "defense": 20,
     "weight": 10,
     "requiredLevel": 230,
-    "location": null,
+    "location": "Upper",
     "compositionPos": null,
     "canGrade": true,
     "usableClass": [
-      "4th"
+      "all"
     ],
     "script": {
       "m_my_element_all": [
         "10",
         "9===10",
-        "EQUIP[Glacier Sword||Glacier Basic Sword||Glacier Rogue Knife||Glacier Basic Knife||Glacier Axe||Glacier Spear||Glacier Book||Glacier Wand||Glacier Foxtail||Glacier Knuckle||Glacier Violin||Glacier Whip||Glacier Mace||Glacier Mechanic Mace||Glacier Two-handed Sword||Glacier Katar||Glacier Mechanic Axe||Glacier Lance||Glacier Staff||Glacier Huuma Shuriken||Glacier Bow||Glacier Revolver||Glacier Rifle||Glacier Shotgun||Glacier Gatling||Glacier Launcher]REFINE[weapon==3]---5"
+        "EQUIP_ID[500049||500050||510061||510062||520017||530025||540049||550069||550070||560032||570029||580030||590038||590039||600027||610037||620017||630018||640033||650025||700052||800014||810010||820008||830013||840009]REFINE[weapon==3]---5"
       ],
       "matkPercent": [
         "2---3",
-        "EQUIP[Glacier Sword||Glacier Basic Sword||Glacier Rogue Knife||Glacier Basic Knife||Glacier Axe||Glacier Spear||Glacier Book||Glacier Wand||Glacier Foxtail||Glacier Knuckle||Glacier Violin||Glacier Whip||Glacier Mace||Glacier Mechanic Mace||Glacier Two-handed Sword||Glacier Katar||Glacier Mechanic Axe||Glacier Lance||Glacier Staff||Glacier Huuma Shuriken||Glacier Bow||Glacier Revolver||Glacier Rifle||Glacier Shotgun||Glacier Gatling||Glacier Launcher]===5"
+        "EQUIP_ID[500049||500050||510061||510062||520017||530025||540049||550069||550070||560032||570029||580030||590038||590039||600027||610037||620017||630018||640033||650025||700052||800014||810010||820008||830013||840009]===5"
       ],
       "m_size_all": [
         "3---4"
@@ -146530,10 +146533,10 @@
         "GRADE[me==D]===5"
       ],
       "matk": [
-        "EQUIP[Glacier Sword||Glacier Basic Sword||Glacier Rogue Knife||Glacier Basic Knife||Glacier Axe||Glacier Spear||Glacier Book||Glacier Wand||Glacier Foxtail||Glacier Knuckle||Glacier Violin||Glacier Whip||Glacier Mace||Glacier Mechanic Mace||Glacier Two-handed Sword||Glacier Katar||Glacier Mechanic Axe||Glacier Lance||Glacier Staff||Glacier Huuma Shuriken||Glacier Bow||Glacier Revolver||Glacier Rifle||Glacier Shotgun||Glacier Gatling||Glacier Launcher]===50"
+        "EQUIP_ID[500049||500050||510061||510062||520017||530025||540049||550069||550070||560032||570029||580030||590038||590039||600027||610037||620017||630018||640033||650025||700052||800014||810010||820008||830013||840009]===50"
       ],
       "aspdPercent": [
-        "EQUIP[Glacier Sword||Glacier Basic Sword||Glacier Rogue Knife||Glacier Basic Knife||Glacier Axe||Glacier Spear||Glacier Book||Glacier Wand||Glacier Foxtail||Glacier Knuckle||Glacier Violin||Glacier Whip||Glacier Mace||Glacier Mechanic Mace||Glacier Two-handed Sword||Glacier Katar||Glacier Mechanic Axe||Glacier Lance||Glacier Staff||Glacier Huuma Shuriken||Glacier Bow||Glacier Revolver||Glacier Rifle||Glacier Shotgun||Glacier Gatling||Glacier Launcher]REFINE[weapon==3]---4"
+        "EQUIP_ID[500049||500050||510061||510062||520017||530025||540049||550069||550070||560032||570029||580030||590038||590039||600027||610037||620017||630018||640033||650025||700052||800014||810010||820008||830013||840009]REFINE[weapon==3]---4"
       ],
       "def": [
         "GRADE[me==C]===150"
@@ -146542,9 +146545,11 @@
         "GRADE[me==C]===30"
       ],
       "spl": [
+        "7",
         "GRADE[me==B]===5"
       ],
       "con": [
+        "7",
         "GRADE[me==B]===5"
       ],
       "res": [
@@ -146553,7 +146558,8 @@
       "mres": [
         "GRADE[me==A]===50"
       ]
-    }
+    },
+    "preRelease": true
   },
   "400107": {
     "id": 400107,
@@ -146561,7 +146567,7 @@
     "name": "Issgard Ranger Crown [1]",
     "unidName": "Headgear",
     "resName": "RCC20133등상투구",
-    "description": "Increases long ranged physical damage by 10%.\r\nEvery 2 refine rate, Atk + 3%.\r\nEvery 3 refine rate, increases physical damage against all size enemies by 4%.\r\nIf refine rate is 7 or higher, reduces global cooldown by 8%.\r\nIf refine rate is 9 or higher, P.Atk + 10, increases long ranged physical damage by 10%.\r\n\r\nWhen equipped with Glacier weapon, Atk + 5%, Atk + 50,\r\nevery 3 refine rate of weapon, increases attack speed (reduces delay after attack by 4%), increases long ranged physical damage by 5%.\r\n\r\n^CC3D3D[Bonus by grade]^000000\r\n[Grade D] P.Atk + 5.\r\n[Grade C] Def + 150, Mdef + 30.\r\n[Grade B] POW + 5, CON + 5.\r\n[Grade A] Res + 50, Mres + 50.\r\n\r\nClass: ^777777Headgear^000000 Defense: ^77777750^000000\r\nLocation: ^777777Upper^000000 Weight: ^77777720^000000\r\nArmor Level: ^7777772^000000\r\nRequired Level: ^777777230^000000\r\nJobs: ^777777All Jobs^000000",
+    "description": "A crown imbued with the special magic of Ysgard.\nIt is said to be endowed with power specialized for ranged combat.\n\nPOW +7, CON +7.\n\nIncreases ranged physical damage by 10%.\n------------------------\nFor every 2 refines, ATK +3%.\n------------------------\nFor every 3 refines, increases physical damage to all size enemies by 4%.\n------------------------\nWhen refined to +7, reduces Global Cooldown by 8%.\n------------------------\nWhen refined to +9, P.ATK +10, increases ranged physical damage by 10%.\n------------------------\nSet Bonus:\nIssgard Ranger Crown [1]\nGlacier Weapon Series\n\nATK +5%, ATK +50,\nFor every 3 refines of the weapon, increases ASPD +4% and increases ranged physical damage by 5%.\n------------------------\n[Grade Bonus]\n[Grade D] P.ATK +5.\n[Grade C] DEF +150, MDEF +30.\n[Grade B] POW +5, CON +5.\n[Grade A] RES +50, MRES +50.\n------------------------\nType : Headgear\nDefense : 50\nLocation : Upper\nWeight : 20\nArmor Level : 2\nRequired Level : 230\nUsable by : All Jobs",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 512,
@@ -146570,21 +146576,21 @@
     "defense": 50,
     "weight": 20,
     "requiredLevel": 230,
-    "location": null,
+    "location": "Upper",
     "compositionPos": null,
     "canGrade": true,
     "usableClass": [
-      "4th"
+      "all"
     ],
     "script": {
       "range": [
         "10",
         "9===10",
-        "EQUIP[Glacier Sword||Glacier Basic Sword||Glacier Rogue Knife||Glacier Basic Knife||Glacier Axe||Glacier Spear||Glacier Book||Glacier Wand||Glacier Foxtail||Glacier Knuckle||Glacier Violin||Glacier Whip||Glacier Mace||Glacier Mechanic Mace||Glacier Two-handed Sword||Glacier Katar||Glacier Mechanic Axe||Glacier Lance||Glacier Staff||Glacier Huuma Shuriken||Glacier Bow||Glacier Revolver||Glacier Rifle||Glacier Shotgun||Glacier Gatling||Glacier Launcher]REFINE[weapon==3]---5"
+        "EQUIP_ID[500049||500050||510061||510062||520017||530025||540049||550069||550070||560032||570029||580030||590038||590039||600027||610037||620017||630018||640033||650025||700052||800014||810010||820008||830013||840009]REFINE[weapon==3]---5"
       ],
       "atkPercent": [
         "2---3",
-        "EQUIP[Glacier Sword||Glacier Basic Sword||Glacier Rogue Knife||Glacier Basic Knife||Glacier Axe||Glacier Spear||Glacier Book||Glacier Wand||Glacier Foxtail||Glacier Knuckle||Glacier Violin||Glacier Whip||Glacier Mace||Glacier Mechanic Mace||Glacier Two-handed Sword||Glacier Katar||Glacier Mechanic Axe||Glacier Lance||Glacier Staff||Glacier Huuma Shuriken||Glacier Bow||Glacier Revolver||Glacier Rifle||Glacier Shotgun||Glacier Gatling||Glacier Launcher]===5"
+        "EQUIP_ID[500049||500050||510061||510062||520017||530025||540049||550069||550070||560032||570029||580030||590038||590039||600027||610037||620017||630018||640033||650025||700052||800014||810010||820008||830013||840009]===5"
       ],
       "p_size_all": [
         "3---4"
@@ -146597,10 +146603,10 @@
         "GRADE[me==D]===5"
       ],
       "atk": [
-        "EQUIP[Glacier Sword||Glacier Basic Sword||Glacier Rogue Knife||Glacier Basic Knife||Glacier Axe||Glacier Spear||Glacier Book||Glacier Wand||Glacier Foxtail||Glacier Knuckle||Glacier Violin||Glacier Whip||Glacier Mace||Glacier Mechanic Mace||Glacier Two-handed Sword||Glacier Katar||Glacier Mechanic Axe||Glacier Lance||Glacier Staff||Glacier Huuma Shuriken||Glacier Bow||Glacier Revolver||Glacier Rifle||Glacier Shotgun||Glacier Gatling||Glacier Launcher]===50"
+        "EQUIP_ID[500049||500050||510061||510062||520017||530025||540049||550069||550070||560032||570029||580030||590038||590039||600027||610037||620017||630018||640033||650025||700052||800014||810010||820008||830013||840009]===50"
       ],
       "aspdPercent": [
-        "EQUIP[Glacier Sword||Glacier Basic Sword||Glacier Rogue Knife||Glacier Basic Knife||Glacier Axe||Glacier Spear||Glacier Book||Glacier Wand||Glacier Foxtail||Glacier Knuckle||Glacier Violin||Glacier Whip||Glacier Mace||Glacier Mechanic Mace||Glacier Two-handed Sword||Glacier Katar||Glacier Mechanic Axe||Glacier Lance||Glacier Staff||Glacier Huuma Shuriken||Glacier Bow||Glacier Revolver||Glacier Rifle||Glacier Shotgun||Glacier Gatling||Glacier Launcher]REFINE[weapon==3]---4"
+        "EQUIP_ID[500049||500050||510061||510062||520017||530025||540049||550069||550070||560032||570029||580030||590038||590039||600027||610037||620017||630018||640033||650025||700052||800014||810010||820008||830013||840009]REFINE[weapon==3]---4"
       ],
       "def": [
         "GRADE[me==C]===150"
@@ -146609,9 +146615,11 @@
         "GRADE[me==C]===30"
       ],
       "pow": [
+        "7",
         "GRADE[me==B]===5"
       ],
       "con": [
+        "7",
         "GRADE[me==B]===5"
       ],
       "res": [
@@ -146620,7 +146628,8 @@
       "mres": [
         "GRADE[me==A]===50"
       ]
-    }
+    },
+    "preRelease": true
   },
   "400109": {
     "id": 400109,
