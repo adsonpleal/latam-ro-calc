@@ -72,10 +72,12 @@ export class LayerManager {
       if (!this.layers.length) this.removeListeners();
     };
   }
-  isOutside(panel: HTMLElement, target: Node | null): boolean {
-    if (!target || panel.contains(target)) return false;
+  isOutside(panel: HTMLElement, target: Node | null, path: readonly EventTarget[] = []): boolean {
+    // A React click can replace its row before the document listener runs. The
+    // event path retains the original panel even after that target is detached.
+    if (!target || path.includes(panel) || panel.contains(target)) return false;
     const at = this.layers.findIndex(layer => layer.panel === panel);
-    return !this.layers.slice(at + 1).some(layer => layer.panel.contains(target));
+    return !this.layers.slice(at + 1).some(layer => path.includes(layer.panel) || layer.panel.contains(target));
   }
   dispose(): void {
     for (const layer of [...this.layers].reverse()) layer.dismiss();
