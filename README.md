@@ -99,6 +99,19 @@ os campos, chaves de bônus, condições e exemplos comentados — está em
 O build de produção é publicado no Cloudflare Workers (static assets). Pushes na branch
 `main` disparam o deploy automático.
 
+PRs abertas a partir de branches deste repositório também geram um preview no Firebase
+Hosting, seguindo o workflow do `latamvisuais`. O workflow
+`.github/workflows/firebase-hosting-pull-request.yml` roda os checks, testes e build,
+publica no projeto `simulador-latam-ro` com o secret existente `FIREBASE_SERVICE_ACCOUNT`
+e comenta o link na PR. Novos commits atualizam o mesmo link; o preview expira sete dias
+após a última publicação. PRs de forks não publicam previews, pois não recebem o secret.
+
+O preview hospeda a interface e os dados estáticos de `dist/sakai-ng`. Os endpoints do
+Worker (`/mcp` e links curtos `/s/`) continuam no Cloudflare; o preview não executa esse
+Worker. A configuração de `firebase.json` serve os assets e retorna `index.html` nas
+rotas da interface. A action e os requisitos estão na
+[documentação do Firebase](https://firebase.google.com/docs/hosting/github-integration).
+
 A política de cache fica em `src/_headers`, copiado para a raiz do build. Para publicar à
 mão:
 

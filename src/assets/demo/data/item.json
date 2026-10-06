@@ -50724,7 +50724,7 @@
         "3---1"
       ],
       "fct": [
-        "EQUIP[Spell Caster Shadow Shoes]REFINE[shadowArmor,shadowBoot==20]===0.3"
+        "EQUIP_ID[24748]REFINE[shadowArmor,shadowBoot==20]===0.3"
       ]
     }
   },
@@ -50800,8 +50800,8 @@
         "3---1"
       ],
       "fct": [
-        "EQUIP[Spell Caster Shadow Shoes]REFINE[shadowEarring,shadowPendant==20]===0.3",
-        "EQUIP[Spell Caster Shadow Shoes]REFINE[shadowEarring,shadowPendant,shadowArmor,shadowBoot==40]===-0.3"
+        "EQUIP_ID[24750]REFINE[shadowEarring,shadowPendant==20]===0.3",
+        "EQUIP_ID[24750&&24747&&24748]REFINE[shadowEarring,shadowPendant,shadowArmor,shadowBoot==40]===-0.3"
       ]
     }
   },

@@ -88,6 +88,57 @@ for (const outcome of ['success', 'offline'] as const) {
   });
 }
 
+// Tracker 2UdDdFx3lIGom4q0GvVO: a leftover Angular $any call prevented editing.
+test('different simulation names can be typed and saved without replacing an earlier save', async ({ page }) => {
+  await boot(page);
+  for (const name of ['Primeira simulação', 'Segunda simulação']) {
+    await page.getByRole('button', { name: 'Salvar', exact: true }).click();
+    const input = page.getByLabel('Nome da simulação');
+    await input.fill('');
+    await input.pressSequentially(name);
+    await expect(input).toHaveValue(name);
+    await input.press('Enter');
+    await expect(page.getByRole('dialog', { name: 'Salvar simulação' })).toHaveCount(0);
+  }
+  await page.getByRole('button', { name: 'Simulações', exact: true }).click();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog.getByText('Primeira simulação', { exact: true })).toBeVisible();
+  await expect(dialog.getByText('Segunda simulação', { exact: true })).toBeVisible();
+});
+
+// Tracker q6eBuWuTYxie7edhXU0Y: the accessories work with the reporter's unrelated boots.
+test('Spell Caster shadow accessories display their fixed cast reduction', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('ro-set', JSON.stringify({
+    class: 4256, level: 240, jobLevel: 1,
+    shadowEarring: 24749, shadowEarringRefine: 10,
+    shadowPendant: 24750, shadowPendantRefine: 10,
+    shadowArmor: 24245, shadowArmorRefine: 10,
+    shadowBoot: 24243, shadowBootRefine: 9,
+  })));
+  await boot(page);
+  await expect(page.getByRole('button', { name: '-0,3s', exact: true })).toBeVisible();
+});
+
+test('Betelgeuse difficulty updates HP and survives reload', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('monster', '20994'));
+  await boot(page);
+  await page.getByRole('button', { name: 'Batalha', exact: true }).click();
+  const difficulty = page.getByRole('combobox', { name: 'Dificuldade do Betelgeuse' });
+  await expect(difficulty).toContainText('Nível 5');
+  for (const [label, hp] of [['Selado', '500.000.000'], ['Nível 1', '800.000.000'], ['Nível 2', '1.100.000.000'],
+    ['Nível 3', '1.400.000.000'], ['Nível 4', '1.700.000.000'], ['Nível 5', '2.000.000.000']]) {
+    await difficulty.click();
+    await page.getByRole('option', { name: new RegExp(label) }).click();
+    await expect(page.getByRole('region', { name: 'Batalha', exact: true }).locator('.hud-hp-line')).toHaveText(`HP ${hp}`);
+  }
+  await difficulty.click();
+  await page.getByRole('option', { name: /Selado/ }).click();
+  await page.reload();
+  await page.getByRole('button', { name: 'Batalha', exact: true }).click();
+  await expect(difficulty).toContainText('Selado');
+  await expect(page.getByRole('region', { name: 'Batalha', exact: true }).locator('.hud-hp-line')).toHaveText('HP 500.000.000');
+});
+
 test('save, clear, load, confirmation cancel, share and import retain the build', async ({ page }) => {
   await boot(page);
   await page.getByRole('combobox', { name: 'FOR', exact: true }).click();
@@ -95,6 +146,7 @@ test('save, clear, load, confirmation cancel, share and import retain the build'
   await page.getByRole('option', { name: '99', exact: true }).click();
   await page.getByRole('button', { name: 'Salvar', exact: true }).click();
   await page.getByLabel('Nome da simulação').fill('UI migration test');
+  await expect(page.getByLabel('Nome da simulação')).toHaveValue('UI migration test');
   await page.getByRole('dialog', { name: 'Salvar simulação' }).getByRole('button', { name: 'Salvar', exact: true }).click();
   await expect(page.locator('.ui-toast-message')).toContainText('salva');
   await page.getByRole('button', { name: 'Limpar', exact: true }).click();
