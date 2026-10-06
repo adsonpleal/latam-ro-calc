@@ -34,6 +34,13 @@ export const BUFF_EFST: Record<number, { name: string; value: number }> = {
   12: { name: 'Cantocandidus', value: 10 }, // Aumentar Agilidade
   15: { name: 'Impositio Manus', value: 5 },
   340: { name: 'Expiatio', value: 5 },
+  // Verified against the LATAM client's raw/status.json. As with the other
+  // support buffs, EFST does not carry a reliable level; default to max.
+  331: { name: 'Laudaagnus', value: 4 },
+  332: { name: 'Lauda Ramus', value: 4 },
+  1198: { name: 'Argutus Vita', value: 5 },
+  1199: { name: 'Argutus Telum', value: 5 },
+  1200: { name: 'Presens Acies', value: 5 },
   1201: { name: 'Competentia', value: 5 },
   1227: { name: 'Religio', value: 5 },
   1228: { name: 'Benedictum', value: 5 },

@@ -1,4 +1,4 @@
-import { ElementType, RED_AURA_MVP_IDS, hasRelieve, monsterDamageReductionPercent, relieveMultiplier } from '../constants';
+import { ElementType, RED_AURA_MVP_IDS, hasRelieve, monsterDamageReductionPercent, normalizeMonsterRelieveLevel, relieveMultiplier } from '../constants';
 import { PlayerTargetProfile } from '../core/pvp';
 import { MonsterModel } from '../models/monster.model';
 import { firstUppercase, floor } from '../utils';
@@ -44,7 +44,7 @@ interface PreparedMonsterModel {
   isRedAura: boolean;
   /**
    * The flat reduction the monster itself takes off every hit, as a percentage — 90 for
-   * Varmundt's Biosphere field monsters, 99 for its MVPs and for the EP19 instance MVPs,
+   * Varmundt's Biosphere field monsters and Freyja/Schulang, 99 for its MVPs and Betelgeuse,
    * 0 everywhere else (see constants/monster-damage-reduction).
    */
   damageReduction: number;
@@ -209,7 +209,7 @@ export class Monster {
       isRedAura: RED_AURA_MVP_IDS.has(monster.id),
       damageReduction: monsterDamageReductionPercent(monster.id),
       hasRelieve: hasRelieve(monster.id),
-      relieveLevel: hasRelieve(monster.id) ? relieveLevel : 0,
+      relieveLevel: normalizeMonsterRelieveLevel(monster.id, relieveLevel),
       typeUpper: firstUppercase(_class) as any,
       hp: health,
       def: defense,

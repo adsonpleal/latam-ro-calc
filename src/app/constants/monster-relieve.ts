@@ -49,18 +49,29 @@ export const MAX_RELIEVE_LEVEL = RELIEVE_REDUCTION_PERCENT.length - 1;
  * - 20994 `MD_BETELGEUSE` — Nv. 0 to 5 by the difficulty ★ configured at the Fonte da
  *   Deusa, then up to Nv. 10 as the traps make it summon Almas Mortas.
  *
- * The picker still offers every level 1-10 rather than each instance's own subset: those
- * numbers describe one script, while the reduction table is the skill's.
+ * Mansão da Desilusão (https://browiki.org/wiki/Mansão_da_Desilusão):
+ * - 21361 `EP18_MD_DEMI_FREYJA_L` — Freyja, levels 1-8 near the chandelier, off away
+ *   from it. Ted's wqerq.rrf also records her level-185 variant (21317) casting level 1.
+ *   This target's picker stops at level 8; the other targets offer the skill's 1-10.
  */
 export const RELIEVE_MONSTER_IDS: ReadonlySet<number> = new Set([
   20620, 20621,
   20856, 20857, 20858, 20859, 20860, 20861, 20862, 20863,
   20864, 20865, 20866, 20867, 20868, 20869, 20870, 20872,
   20994, 20996,
+  21361,
 ]);
 
 /** Whether the Aliviar picker should be offered for this monster id. */
 export const hasRelieve = (monsterId: number): boolean => RELIEVE_MONSTER_IDS.has(monsterId);
+
+/** Freyja's chandelier only activates levels 1-8. */
+export const maxRelieveLevelForMonster = (monsterId: number): number =>
+  hasRelieve(monsterId) ? (monsterId === 21361 ? 8 : MAX_RELIEVE_LEVEL) : 0;
+
+/** Drop stale or invalid saved levels, including levels another target can use. */
+export const normalizeMonsterRelieveLevel = (monsterId: number, level: number): number =>
+  Number.isInteger(level) && level >= 0 && level <= maxRelieveLevelForMonster(monsterId) ? level : 0;
 
 /**
  * Damage multiplier for an Aliviar level: 1 when it is off or the level is out of range,

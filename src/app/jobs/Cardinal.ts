@@ -1,5 +1,6 @@
 import { JOB_4_MAX_JOB_LEVEL, JOB_4_MIN_MAX_LEVEL } from '../app-config';
 import { ElementType, WeaponTypeName } from '../constants';
+import { ArgutusTelumBuff, ArgutusVitaBuff, PresensAciesBuff } from '../constants/cleric-party-buffs';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput } from '../models/info-for-class.model';
 import { addBonus, floor } from '../utils';
@@ -237,7 +238,7 @@ export class Cardinal extends ArchBishop {
       },
     },
   ];
-  private readonly activeSkillList4th: ActiveSkillModel[] = [];
+  private readonly activeSkillList4th: ActiveSkillModel[] = [ArgutusTelumBuff, ArgutusVitaBuff, PresensAciesBuff];
   private readonly passiveSkillList4th: PassiveSkillModel[] = [
     {
       name: 'Mace & Book Mastery',

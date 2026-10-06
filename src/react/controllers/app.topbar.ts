@@ -163,6 +163,14 @@ export class AppTopBarComponent extends ViewState {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.164-beta',
+      date: '05-10-2026',
+      logs: [
+        'Corrigida a redução de dano da Demi Freya e de Schulang de 99% para 90%. A Freya também ganhou o seletor de Aliviar, de desativado até o nível 8. Reportado por Ted, com gravação da batalha.',
+        'Argutus Telum, Argutus Vita e Presens Acies agora podem ser escolhidos do nível 1 ao 5. Lauda Agnus foi adicionado aos buffs, com HP máx. +4% a +10%; ele e Lauda Ramus também têm ativação própria no Arcebispo e no Cardeal. Os cinco buffs são reconhecidos ao importar gravações. Reportado por Ted.',
+      ],
+    },
+    {
       v: '0.1.163-beta',
       date: '05-10-2026',
       logs: [

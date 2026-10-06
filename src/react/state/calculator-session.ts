@@ -31,7 +31,8 @@ import {
   ItemTypeEnum,
   ItemTypeId,
   JobBuffs,
-  MAX_RELIEVE_LEVEL,
+  maxRelieveLevelForMonster,
+  normalizeMonsterRelieveLevel,
   hasRelieve,
   relieveReductionPercent,
   MainItemWithRelations,
@@ -400,15 +401,17 @@ export class CalculatorSession extends Store<number> {
    * the picker; see constants/monster-relieve. Target state like `selectedMonster`, so it
    * is persisted the same way and is not part of the saved build.
    */
-  relieveLevel = this.calcStorage.readRelieveLevel();
+  relieveLevel = normalizeMonsterRelieveLevel(this.selectedMonster, this.calcStorage.readRelieveLevel());
   /** Levels the Aliviar picker offers, each labelled with the reduction it applies. */
-  relieveLevelOptions: DropdownModel[] = [
-    { label: 'Desativado', value: 0 },
-    ...Array.from({ length: MAX_RELIEVE_LEVEL }, (_, i) => ({
-      label: `Nv. ${i + 1} — ${relieveReductionPercent(i + 1)}%`,
-      value: i + 1,
-    })),
-  ];
+  get relieveLevelOptions(): DropdownModel[] {
+    return [
+      { label: 'Desativado', value: 0 },
+      ...Array.from({ length: maxRelieveLevelForMonster(this.selectedMonster) }, (_, i) => ({
+        label: `Nv. ${i + 1} — ${relieveReductionPercent(i + 1)}%`,
+        value: i + 1,
+      })),
+    ];
+  }
   isShowMonsterEle = false;
   allSelectedMonsterIds: number[];
 
@@ -3452,6 +3455,8 @@ await ((_event?: unknown) => {
   }
 
   onMonsterChange() {
+    this.relieveLevel = normalizeMonsterRelieveLevel(this.selectedMonster, this.relieveLevel);
+    this.calcStorage.writeRelieveLevel(this.relieveLevel);
     localStorage.setItem('monster', this.selectedMonster.toString());
     this.selectedMonsterName = this.monsterDataMap?.[this.selectedMonster]?.name;
     this.updateItemEvent.next(1);

@@ -2,6 +2,7 @@ import { ActiveSkillModel } from '../jobs/_character-base.abstract';
 import { ElementType } from './element-type.const';
 import { BragisPoemFn, DarkClawFn, ShieldSpellFn, SwingDanceFn } from './share-active-skills';
 import { ArtistPartyBuffs } from './artist-party-buffs';
+import { ArgutusTelumBuff, ArgutusVitaBuff, LaudaAgnusBuff, LaudaRamusBuff, PresensAciesBuff } from './cleric-party-buffs';
 
 const JobBuffsList: ActiveSkillModel[] = [
   {
@@ -157,33 +158,9 @@ const JobBuffsList: ActiveSkillModel[] = [
       }),
     ],
   },
-  {
-    name: 'Argutus Vita',
-    label: 'Argutus Vita',
-    inputType: 'selectButton',
-    dropdown: [
-      { label: 'Sim', isUse: true, value: 5, bonus: { pene_mres: 25 } },
-      { label: 'Não', isUse: false, value: 0 },
-    ],
-  },
-  {
-    name: 'Argutus Telum',
-    label: 'Argutus Telum',
-    inputType: 'selectButton',
-    dropdown: [
-      { label: 'Sim', isUse: true, value: 5, bonus: { pene_res: 25 } },
-      { label: 'Não', isUse: false, value: 0 },
-    ],
-  },
-  {
-    name: 'Presens Acies',
-    label: 'Presens Acies 5',
-    inputType: 'selectButton',
-    dropdown: [
-      { label: 'Sim', isUse: true, value: 5, bonus: { cRate: 10 } },
-      { label: 'Não', isUse: false, value: 0 },
-    ],
-  },
+  ArgutusVitaBuff,
+  ArgutusTelumBuff,
+  PresensAciesBuff,
   {
     name: 'Crazy Uproar',
     label: 'Grito de Guerra',
@@ -194,22 +171,8 @@ const JobBuffsList: ActiveSkillModel[] = [
       { label: 'Não', value: 0, isUse: false },
     ],
   },
-  {
-    // Lauda Ramus (Arcebispo): "Chance de aumentar o Dano Crítico por 1 min." — +5% per
-    // level, +20% at Lv4. Priced on the Cardeal recording efDxy9DBTU: the basic critical
-    // drops 3,9% the moment the buff expires (Cardinal.gemini-lumen-autoattack.spec.ts).
-    name: 'Lauda Ramus',
-    label: 'Lauda Ramus',
-    icon: 2048,
-    inputType: 'dropdown',
-    dropdown: [
-      { label: '-', value: 0, isUse: false },
-      { label: 'Nv 1', value: 1, isUse: true, bonus: { criDmg: 5 } },
-      { label: 'Nv 2', value: 2, isUse: true, bonus: { criDmg: 10 } },
-      { label: 'Nv 3', value: 3, isUse: true, bonus: { criDmg: 15 } },
-      { label: 'Nv 4', value: 4, isUse: true, bonus: { criDmg: 20 } },
-    ],
-  },
+  LaudaAgnusBuff,
+  LaudaRamusBuff,
   {
     name: 'Adrenaline Rush',
     label: 'Adrenalina 5',
