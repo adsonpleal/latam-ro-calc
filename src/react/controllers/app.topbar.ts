@@ -163,6 +163,15 @@ export class AppTopBarComponent extends ViewState {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.166-beta',
+      date: '06-10-2026',
+      logs: [
+        'A busca de itens foi renovada e passou a se chamar Buscar itens. É possível combinar nome, tipo, habilidade e bônus em seletores pesquisáveis; os filtros por bônus aceitam qualquer quantidade de campos e os modos Sim/Não para exigir todos ou pelo menos um dos bônus selecionados.',
+        'Itens encontrados podem ser equipados diretamente pela busca. Os seletores de equipamento também abrem a busca completa com o tipo e o destino selecionados, inclusive na comparação; a escolha do destino aparece somente quando há mais de uma posição compatível.',
+        'A descrição dos itens acompanha o carregamento dos dados. Os filtros ficam em duas colunas, o botão de adicionar bônus acompanha o último campo e a lista e a descrição têm rolagens próprias, mantendo a paginação visível.',
+      ],
+    },
+    {
       v: '0.1.165-beta',
       date: '06-10-2026',
       logs: [

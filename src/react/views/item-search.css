@@ -1,7 +1,12 @@
 :is(app-item-search, .ui-scope-app-item-search) .item-search-dialog {
-  width: 75vw;
+  width: 60vw;
   max-width: calc(100vw - 2rem);
   height: 90vh;
+}
+:is(app-item-search, .ui-scope-app-item-search) .item-search-dialog > .ui-dialog-content {
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
 }
 :is(app-item-search, .ui-scope-app-item-search) .item-search-class {
   margin-left: 0.875rem;
@@ -10,9 +15,24 @@
   font-weight: 400;
 }
 :is(app-item-search, .ui-scope-app-item-search) .item-search-workspace {
-  display: grid;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   gap: 1rem;
   min-width: 0;
+  min-height: 0;
+}
+:is(app-item-search, .ui-scope-app-item-search) .item-search-filters {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 50%;
+}
+:is(app-item-search, .ui-scope-app-item-search) .item-search-filter-controls {
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 :is(app-item-search, .ui-scope-app-item-search) .calc-section-heading {
   display: flex;
@@ -41,7 +61,7 @@
 }
 :is(app-item-search, .ui-scope-app-item-search) .item-search-fields {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr)) minmax(0, 0.7fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.875rem;
 }
 :is(app-item-search, .ui-scope-app-item-search) .item-search-field,
@@ -59,12 +79,6 @@
 :is(app-item-search, .ui-scope-app-item-search) .ui-multiselect { height: 34px; }
 :is(app-item-search, .ui-scope-app-item-search) .ui-select-trigger { font-size: 12px; }
 :is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-heading { margin-top: 0.875rem; }
-:is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-heading::after { order: 1; }
-:is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-heading button {
-  order: 2;
-  width: 28px;
-  height: 28px;
-}
 :is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-pickers {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -79,6 +93,7 @@
 :is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-row button.ui-button { width: 28px; flex: 0 0 28px; }
 :is(app-item-search, .ui-scope-app-item-search) .item-search-actions {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
   gap: 0.875rem;
@@ -96,9 +111,35 @@
 }
 :is(app-item-search, .ui-scope-app-item-search) .item-search-results {
   display: grid;
-  grid-template-columns: minmax(240px, 1fr) minmax(0, 2fr);
-  align-items: start;
+  flex: 1;
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  grid-template-rows: minmax(0, 1fr);
   gap: 0.875rem;
+}
+:is(app-item-search, .ui-scope-app-item-search) .item-search-list,
+:is(app-item-search, .ui-scope-app-item-search) .item-search-detail {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+:is(app-item-search, .ui-scope-app-item-search) .item-search-results .calc-section-heading { flex-shrink: 0; }
+:is(app-item-search, .ui-scope-app-item-search) .item-search-list > app-ui-table,
+:is(app-item-search, .ui-scope-app-item-search) .item-search-list .ui-datatable {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+:is(app-item-search, .ui-scope-app-item-search) .item-search-list .ui-datatable-wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+:is(app-item-search, .ui-scope-app-item-search) .item-search-list .ui-paginator { flex-shrink: 0; }
+:is(app-item-search, .ui-scope-app-item-search) .item-search-list .ui-paginator-current {
+  flex-basis: 100%;
+  margin: 0;
 }
 :is(app-item-search, .ui-scope-app-item-search) .item-search-result-row {
   display: flex;
@@ -115,7 +156,9 @@
 }
 :is(app-item-search, .ui-scope-app-item-search) .item-search-empty-list { color: var(--text-color-secondary); padding: 1rem 0.4rem; }
 :is(app-item-search, .ui-scope-app-item-search) .item-description-card {
-  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
   min-width: 0;
   border: 1px solid var(--surface-border);
   border-radius: var(--border-radius);
@@ -123,7 +166,8 @@
 }
 :is(app-item-search, .ui-scope-app-item-search) .item-description-empty {
   display: flex;
-  min-height: 240px;
+  min-height: 0;
+  height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -145,12 +189,13 @@
 :is(app-item-search, .ui-scope-app-item-search) .item-description-links > div { display: flex; flex-wrap: wrap; gap: 0.35rem 0.875rem; }
 :is(app-item-search, .ui-scope-app-item-search) .item-description-links a { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--primary-color); font-size: 11px; text-decoration: none; }
 :is(app-item-search, .ui-scope-app-item-search) .item-description-links a:hover { text-decoration: underline; }
+:is(app-item-search, .ui-scope-app-item-search) .item-description-body { padding-top: 0.75rem; }
 :is(app-item-search, .ui-scope-app-item-search) .item-description-text {
   display: flex;
   align-items: start;
   gap: 0.75rem;
   padding: 0.75rem;
-  margin: 0.75rem;
+  margin: 0 0.75rem 0.75rem;
   border-radius: var(--border-radius);
   background: #fff;
   color: #000;
@@ -159,15 +204,13 @@
 :is(app-item-search, .ui-scope-app-item-search) .item-search-description { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 :is(app-item-search, .ui-scope-app-item-search) .item-search-options .ui-select-item { white-space: normal; }
 @media (max-width: 1000px) {
-  :is(app-item-search, .ui-scope-app-item-search) .item-search-fields,
   :is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-pickers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  :is(app-item-search, .ui-scope-app-item-search) .item-search-field:first-child { grid-column: 1 / -1; }
 }
 @media (max-width: 780px) {
   :is(app-item-search, .ui-scope-app-item-search) .item-search-dialog { width: calc(100vw - 1rem); max-width: calc(100vw - 1rem); }
-  :is(app-item-search, .ui-scope-app-item-search) .item-search-fields,
   :is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-pickers,
   :is(app-item-search, .ui-scope-app-item-search) .item-search-results { grid-template-columns: minmax(0, 1fr); }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-results { grid-template-rows: repeat(2, minmax(0, 1fr)); }
   :is(app-item-search, .ui-scope-app-item-search) .item-search-actions { align-items: stretch; flex-direction: column; }
   :is(app-item-search, .ui-scope-app-item-search) .item-search-mode { justify-content: space-between; }
   :is(app-item-search, .ui-scope-app-item-search) .item-search-class { display: block; margin: 0.25rem 0 0; }

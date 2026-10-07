@@ -129,7 +129,10 @@ a cobertura deve falhar enquanto essa opção estiver ausente. A descrição
 selecionada acompanha as atualizações de `DescriptionStore`. O botão Equipar usa
 as mesmas opções e o mesmo fluxo de atualização dos chips do equipamento. Nos
 pickers de itens, Buscar itens abre a busca completa com o tipo selecionado e
-preserva o destino de origem, incluindo a comparação.
+preserva o destino de origem, incluindo a comparação. O seletor de destino só
+aparece quando houver mais de uma opção. Os filtros usam duas colunas, e o botão
+para adicionar bônus fica junto ao último campo. A lista e a descrição têm
+rolagens independentes; a paginação permanece fora da área rolável da lista.
 
 `interactions.spec.ts` exercita
 formulários, overlays, buscas e os fluxos de simulação. Vitest cobre identidade

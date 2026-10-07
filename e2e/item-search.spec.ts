@@ -14,6 +14,13 @@ test.beforeEach(async ({ page }) => {
 
 test('search dropdowns expose all bonus and type options, and bonus rows have no four-picker cap', async ({ page }) => {
   const dialog = await openSearch(page);
+  const [nameBox, typeBox, skillBox, serverBox] = await Promise.all(
+    [0, 1, 2, 3].map(index => dialog.locator('.item-search-field').nth(index).boundingBox()));
+  expect(nameBox!.x).toBeCloseTo(skillBox!.x, 0);
+  expect(typeBox!.x).toBeCloseTo(serverBox!.x, 0);
+  expect(nameBox!.y).toBeCloseTo(typeBox!.y, 0);
+  expect(skillBox!.y).toBeCloseTo(serverBox!.y, 0);
+  expect(skillBox!.y).toBeGreaterThan(nameBox!.y);
   const types = dialog.getByRole('combobox', { name: 'Tipo', exact: true });
   await types.click();
   await expect(page.getByRole('option').locator('img')).toHaveCount(26);
@@ -124,7 +131,10 @@ test('equipment picker opens full search with its type selected and equips the c
   await expect(dialog.locator('tbody tr')).toHaveCount(14);
   await dialog.locator('tbody tr').first().click();
   const id = (await dialog.getByRole('link', { name: /^Item ID:/ }).innerText()).replace('Item ID: ', '');
-  await expect(dialog.getByRole('combobox', { name: 'Equipar em', exact: true })).toHaveText('Topo');
+  await expect(dialog.getByRole('combobox', { name: 'Equipar em', exact: true })).toHaveCount(0);
+  const descriptionGap = await dialog.locator('.item-description-text').evaluate(element =>
+    element.getBoundingClientRect().top - element.closest('.item-description-card')!.querySelector('.item-search-equip')!.getBoundingClientRect().bottom);
+  expect(descriptionGap).toBeGreaterThan(0);
   await dialog.getByRole('button', { name: 'Equipar', exact: true }).click();
   await expect(dialog).toHaveCount(0);
   await expect(card.locator('.eq-card__icon img').first()).toHaveAttribute('src', new RegExp('/' + id + '\.png$'));
@@ -160,6 +170,7 @@ test('full search from comparison equips only the comparison and cancellation pr
   await expect(dialog.getByRole('combobox', { name: 'Tipo', exact: true })).toHaveText('Topo');
   await dialog.locator('tbody tr').first().click();
   const id = (await dialog.getByRole('link', { name: /^Item ID:/ }).innerText()).replace('Item ID: ', '');
+  await expect(dialog.getByRole('combobox', { name: 'Equipar em', exact: true })).toHaveCount(0);
   await dialog.getByRole('button', { name: 'Equipar na comparação', exact: true }).click();
   await expect(card.locator('.eq-card__compare-row .eq-card__icon img')).toHaveAttribute('src', new RegExp('/' + id + '\.png$'));
   await expect(card.locator('.eq-card__body').first().locator('.eq-card__icon img')).toHaveCount(0);
@@ -170,4 +181,46 @@ test('full search from comparison equips only the comparison and cancellation pr
   await expect(page.locator('.picker')).toHaveCount(0);
   await expect(card.locator('.eq-card__compare-row .eq-card__icon img')).toHaveAttribute('src', new RegExp('/' + id + '\.png$'));
   await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden');
+});
+
+test('item list and description scroll independently while pagination stays visible', async ({ page }) => {
+  let pendingDescription: Route | undefined;
+  await page.route('**/items-desc*.json', route => { pendingDescription = route; });
+  const dialog = await openSearch(page);
+  await expect.poll(() => !!pendingDescription).toBe(true);
+  await dialog.getByRole('button', { name: 'Buscar', exact: true }).click();
+  await dialog.locator('tbody tr').first().click();
+  const id = (await dialog.getByRole('link', { name: /^Item ID:/ }).innerText()).replace('Item ID: ', '');
+  await pendingDescription!.fulfill({ json: { [id]: Array.from({ length: 200 }, (_, index) => 'Linha ' + index + ': descrição longa do item.').join('\n') } });
+  await expect(dialog.locator('.item-search-description')).toContainText('Linha 199');
+  const list = dialog.locator('.ui-datatable-wrapper');
+  const detail = dialog.getByRole('region', { name: 'Descrição do item', exact: true });
+  const pagination = dialog.getByRole('navigation', { name: 'Paginação', exact: true });
+  const content = dialog.locator('.ui-dialog-content');
+  for (const width of [1920, 390]) {
+    await page.setViewportSize({ width, height: width === 390 ? 844 : 918 });
+    const before = (await pagination.boundingBox())!;
+    await list.evaluate(element => { element.scrollTop = element.scrollHeight; });
+    await detail.evaluate(element => { element.scrollTop = element.scrollHeight; });
+    expect(await list.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+    expect(await detail.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+    expect(await content.evaluate(element => element.scrollTop)).toBe(0);
+    await expect(pagination).toBeInViewport({ ratio: 1 });
+    const after = (await pagination.boundingBox())!;
+    expect(after.y).toBeCloseTo(before.y, 0);
+    const panel = (await dialog.locator('.item-search-list').boundingBox())!;
+    expect(Math.abs(panel.y + panel.height - after.y - after.height)).toBeLessThanOrEqual(2);
+    expect(await dialog.evaluate(element => element.scrollWidth - element.clientWidth)).toBeLessThanOrEqual(1);
+  }
+  const firstItem = await dialog.locator('tbody tr').first().innerText();
+  await pagination.getByRole('button', { name: 'Próxima página', exact: true }).click();
+  await expect(dialog.locator('tbody tr').first()).not.toHaveText(firstItem);
+  for (let count = 0; count < 7; count++) await dialog.getByRole('button', { name: 'Adicionar bônus', exact: true }).click();
+  const lastPicker = (await dialog.locator('.item-search-bonus-row').last().locator('.ui-dropdown').boundingBox())!;
+  const add = (await dialog.getByRole('button', { name: 'Adicionar bônus', exact: true }).boundingBox())!;
+  expect(Math.abs(lastPicker.y + lastPicker.height / 2 - add.y - add.height / 2)).toBeLessThanOrEqual(1);
+  expect(add.x - lastPicker.x - lastPicker.width).toBeGreaterThanOrEqual(0);
+  expect(add.x - lastPicker.x - lastPicker.width).toBeLessThan(16);
+  await expect(pagination).toBeInViewport({ ratio: 1 });
+  expect(await content.evaluate(element => element.scrollTop)).toBe(0);
 });

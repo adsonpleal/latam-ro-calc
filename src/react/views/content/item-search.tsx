@@ -22,51 +22,55 @@ export function Content({ vm, services }: { vm: ItemSearchComponent; services: A
       <span>{option.label}</span>
     </span>;
   const itemIcon = (id: number) => iconUrl(id, 'item', customId => services.customItems.iconFor(customId));
+  const equipTargets = vm.equipTargetOptions;
   return <Dialog visible={vm.isShowSearchDialog} onVisibleChange={visible => action(() => { vm.isShowSearchDialog = visible; })}
     modal className="item-search-dialog"
     header={<><strong>Buscar itens</strong><span className="item-search-class">{vm.className || vm.selectedCharacter?.className}</span></>}>
     <div className="item-search-workspace">
       <form className="item-search-filters" onSubmit={event => { event.preventDefault(); action(() => vm.onItemSearchFilterChange()); }}>
-        <div className="calc-section-heading"><span>Filtros</span></div>
-        <div className="item-search-fields">
-          <div className="item-search-field">
-            <label className="calc-field-label" htmlFor="item-search-name">Nome</label>
-            <Input id="item-search-name" type="search" placeholder="Nome do item" autoComplete="off"
-              value={vm.searchName} onChange={event => action(() => { vm.searchName = event.target.value; })} />
+        <div className="item-search-filter-controls">
+          <div className="calc-section-heading"><span>Filtros</span></div>
+          <div className="item-search-fields">
+            <div className="item-search-field">
+              <label className="calc-field-label" htmlFor="item-search-name">Nome</label>
+              <Input id="item-search-name" type="search" placeholder="Nome do item" autoComplete="off"
+                value={vm.searchName} onChange={event => action(() => { vm.searchName = event.target.value; })} />
+            </div>
+            <div className="item-search-field">
+              <label className="calc-field-label" htmlFor="item-search-type">Tipo</label>
+              <Select kind="multiselect" inputId="item-search-type" ariaLabel="Tipo" options={typeOptions}
+                renderItem={option => renderFilterOption(option, 'item')}
+                optionLabel="label" optionValue="value" placeholder="Todos os tipos" filter showClear resetFilterOnHide
+                value={vm.selectedItemPositions} onChange={value => action(() => { vm.selectedItemPositions = value; })} />
+            </div>
+            <div className="item-search-field">
+              <label className="calc-field-label" htmlFor="item-search-skill">Habilidade</label>
+              <Select kind="multiselect" inputId="item-search-skill" ariaLabel="Habilidade" options={vm.offensiveSkills}
+                renderItem={option => renderFilterOption(option, 'skill')}
+                optionLabel="label" optionValue="value" placeholder="Todas as habilidades" filter showClear resetFilterOnHide
+                value={vm.selectedOffensiveSkills} onChange={value => action(() => { vm.selectedOffensiveSkills = value; })} />
+            </div>
+            <div className="item-search-field">
+              <label className="calc-field-label" htmlFor="item-search-server">Servidor</label>
+              <Select inputId="item-search-server" ariaLabel="Servidor" options={vm.shopServerOptions} optionLabel="label" optionValue="value"
+                value={vm.selectedShopServer} onChange={value => action(() => { vm.selectedShopServer = value; })} />
+            </div>
           </div>
-          <div className="item-search-field">
-            <label className="calc-field-label" htmlFor="item-search-type">Tipo</label>
-            <Select kind="multiselect" inputId="item-search-type" ariaLabel="Tipo" options={typeOptions}
-              renderItem={option => renderFilterOption(option, 'item')}
-              optionLabel="label" optionValue="value" placeholder="Todos os tipos" filter showClear resetFilterOnHide
-              value={vm.selectedItemPositions} onChange={value => action(() => { vm.selectedItemPositions = value; })} />
+          <div className="calc-section-heading item-search-bonus-heading">
+            <span>Bônus</span>
           </div>
-          <div className="item-search-field">
-            <label className="calc-field-label" htmlFor="item-search-skill">Habilidade</label>
-            <Select kind="multiselect" inputId="item-search-skill" ariaLabel="Habilidade" options={vm.offensiveSkills}
-              renderItem={option => renderFilterOption(option, 'skill')}
-              optionLabel="label" optionValue="value" placeholder="Todas as habilidades" filter showClear resetFilterOnHide
-              value={vm.selectedOffensiveSkills} onChange={value => action(() => { vm.selectedOffensiveSkills = value; })} />
+          <div className="item-search-bonus-pickers">
+            {vm.bonusPickers.map((picker, index) => <div key={picker.id} className="item-search-bonus-row">
+              <Select inputId={'item-search-bonus-' + picker.id} ariaLabel={'Bônus ' + (index + 1)}
+                options={vm.bonusNameList} optionLabel="label" optionValue="value" placeholder={'Bônus ' + (index + 1)}
+                filter showClear resetFilterOnHide scrollHeight="260px" panelClassName="item-search-options"
+                value={picker.value} onChange={value => action(() => { picker.value = value; })} />
+              {index === vm.bonusPickers.length - 1 && <Button icon="plus" className="ui-button-text" aria-label="Adicionar bônus"
+                onClick={() => action(() => vm.addBonusPicker())} />}
+              {vm.bonusPickers.length > 1 && <Button icon="minus" className="ui-button-text" aria-label={'Remover bônus ' + (index + 1)}
+                onClick={() => action(() => vm.removeBonusPicker(picker.id))} />}
+            </div>)}
           </div>
-          <div className="item-search-field">
-            <label className="calc-field-label" htmlFor="item-search-server">Servidor</label>
-            <Select inputId="item-search-server" ariaLabel="Servidor" options={vm.shopServerOptions} optionLabel="label" optionValue="value"
-              value={vm.selectedShopServer} onChange={value => action(() => { vm.selectedShopServer = value; })} />
-          </div>
-        </div>
-        <div className="calc-section-heading item-search-bonus-heading">
-          <span>Bônus</span>
-          <Button icon="plus" className="ui-button-text" aria-label="Adicionar bônus" onClick={() => action(() => vm.addBonusPicker())} />
-        </div>
-        <div className="item-search-bonus-pickers">
-          {vm.bonusPickers.map((picker, index) => <div key={picker.id} className="item-search-bonus-row">
-            <Select inputId={'item-search-bonus-' + picker.id} ariaLabel={'Bônus ' + (index + 1)}
-              options={vm.bonusNameList} optionLabel="label" optionValue="value" placeholder={'Bônus ' + (index + 1)}
-              filter showClear resetFilterOnHide scrollHeight="260px" panelClassName="item-search-options"
-              value={picker.value} onChange={value => action(() => { picker.value = value; })} />
-            {vm.bonusPickers.length > 1 && <Button icon="minus" className="ui-button-text" aria-label={'Remover bônus ' + (index + 1)}
-              onClick={() => action(() => vm.removeBonusPicker(picker.id))} />}
-          </div>)}
         </div>
         <div className="item-search-actions">
           <div className="item-search-mode">
@@ -95,7 +99,7 @@ export function Content({ vm, services }: { vm: ItemSearchComponent; services: A
         </section>
         <section className="item-search-detail">
           <div className="calc-section-heading"><span>Descrição</span></div>
-          <div className="item-description-card">
+          <div className="item-description-card" role="region" aria-label="Descrição do item" tabIndex={0}>
             {!vm.activeFilteredItem ? <div className="item-description-empty">
               <Icon name="arrow-circle-left" />
               <p>Selecione um item na lista ao lado para ver seus bônus e descrição.</p>
@@ -111,21 +115,23 @@ export function Content({ vm, services }: { vm: ItemSearchComponent; services: A
                 </div>
               </div>
               <div className="item-search-equip">
-                {vm.equipTargetOptions.length > 0 ? <>
-                  <div className="item-search-equip-target">
+                {equipTargets.length > 0 ? <>
+                  {equipTargets.length > 1 && <div className="item-search-equip-target">
                     <label className="calc-field-label" htmlFor="item-search-equip-target">Equipar em</label>
-                    <Select inputId="item-search-equip-target" ariaLabel="Equipar em" options={vm.equipTargetOptions}
+                    <Select inputId="item-search-equip-target" ariaLabel="Equipar em" options={equipTargets}
                       optionLabel="label" optionValue="value" value={vm.equipTargetValue}
                       onChange={value => action(() => { vm.selectedEquipTarget = value; })} />
-                  </div>
+                  </div>}
                   <Button icon="check" label={vm.equipInComparison ? 'Equipar na comparação' : 'Equipar'}
                     onClick={() => action(() => vm.equipSelectedItem())} />
                 </> : <span>Nenhum espaço compatível disponível nos equipamentos atuais.</span>}
               </div>
-              <div className="item-description-text">
-                {!vm.activeItem?.custom && <img className="item-search-collection" alt="" {...missingIcon}
-                  src={'https://www.divine-pride.net/img/items/collection/thROG/' + vm.activeFilteredItem.id} />}
-                <div className="item-search-description" dangerouslySetInnerHTML={{ __html: sanitizeHtml(vm.activeFilteredItemDesc) }} />
+              <div className="item-description-body">
+                <div className="item-description-text">
+                  {!vm.activeItem?.custom && <img className="item-search-collection" alt="" {...missingIcon}
+                    src={'https://www.divine-pride.net/img/items/collection/thROG/' + vm.activeFilteredItem.id} />}
+                  <div className="item-search-description" dangerouslySetInnerHTML={{ __html: sanitizeHtml(vm.activeFilteredItemDesc) }} />
+                </div>
               </div>
             </>}
           </div>
