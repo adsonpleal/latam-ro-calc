@@ -3068,6 +3068,7 @@ await ((_event?: unknown) => {
   private setEquipableItems() {
     const items = [
       { position: 'weaponList', values: this.weaponList },
+      { position: 'ammoList', values: this.ammoList ?? [] },
       { position: 'weaponCardList', values: this.weaponCardList },
       { position: 'headUpperList', values: this.headUpperList },
       { position: 'headMiddleList', values: this.headMiddleList },
@@ -3136,6 +3137,9 @@ await ((_event?: unknown) => {
     };
 
     this.ammoList = this.itemList.ammoList.filter(onlyMyAmmo);
+    this.equipableItems = this.equipableItems.filter(row => row.position !== 'ammoList').concat(
+      this.ammoList.map(option => ({ ...option, id: Number(option.value), position: 'ammoList' })),
+    );
   }
 
   private updateAvailablePoints() {
