@@ -1,6 +1,5 @@
 import { ViewState } from '../state/view-state';
-import { Events, Disposable } from '../services/events';
-import { equipmentSearchTargets } from '../../app/core/item-search-equipment';
+import { Events } from '../services/events';
 import {
   EQUIPMENT_SLOTS,
   EquipmentSlotDescriptor,
@@ -17,7 +16,7 @@ import { ensureCustomAttachment } from 'src/app/core/custom-attachments';
 import { costumeSlotDescriptor } from 'src/app/core/costume-slot-descriptor';
 import { SLOT_COLOR_BY_ID, SlotColor } from 'src/app/core/slot-colors';
 import { ItemModel } from 'src/app/models/item.model';
-import { CalculatorLayout, SlotColorPreferences } from '../services/calculator-services';
+import { SlotColorPreferences } from '../services/calculator-services';
 import { ChipPick } from './equipment-slot-card';
 import { SlotListBag } from '../../app/layout/pages/ro-calculator/equipment-grid/slot-list-bag.model';
 
@@ -108,24 +107,10 @@ export class EquipmentGridComponent extends ViewState {
    * and it stays avoided here.
    */
   private queued: (() => void)[] = [];
-  private searchSubscription?: Disposable;
 
   constructor(
 private readonly colorPicker: SlotColorPreferences,
-    private readonly layoutService?: CalculatorLayout,
   ) { super();}
-
-  ngOnInit(): void {
-    this.searchSubscription = this.layoutService?.itemSearchEquip.subscribe(({ targetKey, itemId }) => this.action(() => {
-      const target = this.layoutService!.itemSearchTargets.getSnapshot().find(target => target.targetKey === targetKey);
-      if (!target || !target.options.some(option => option.value === itemId)) return;
-      this.onPickField({ chip: target.chip, value: itemId, compare: target.compare });
-    }));
-  }
-  ngOnDestroy(): void {
-    this.searchSubscription?.unsubscribe();
-    this.layoutService?.itemSearchTargets.set([]);
-  }
 
   refreshInputs(): void {
     // The pipeline has run, so its answer beats the toggle's optimism from here on.
@@ -561,13 +546,6 @@ private readonly colorPicker: SlotColorPreferences,
     const visible = this.visibleSlots();
     this.firstMarkableSlot = visible.find((slot) => !this.occupiedBy(slot) && this.model?.[slot.key] != null)?.key ?? null;
     this.columns = buildColumns(visible);
-    if (this.layoutService && this.model && this.model2 && this.lists && this.items) {
-      const targets = visible.filter(slot => !this.occupiedBy(slot));
-      this.layoutService.itemSearchTargets.set([
-        ...equipmentSearchTargets(targets, this.model, derivations, this.lists, this.items, false, this.comparing, !this.hiddenMap.ammu),
-        ...equipmentSearchTargets(targets, this.model2, compareDerivations, this.lists, this.items, true, this.comparing, !this.hiddenMap.ammu),
-      ]);
-    }
     this.cardRevision += 1;
     this.publish();
     this.flush();

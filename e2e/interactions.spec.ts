@@ -172,13 +172,18 @@ test('save, clear, load, confirmation cancel, share and import retain the build'
   await expect(page.getByRole('combobox', { name: 'FOR', exact: true })).toHaveText('99');
 });
 
-test('item search supports bonus dropdown selection, clearing, table pagination and row selection', async ({ page }) => {
+test('item search supports cascading bonus selection, clearing, table pagination and row selection', async ({ page }) => {
   await boot(page);
-  await page.getByRole('button', { name: 'Buscar itens', exact: true }).click();
-  const dialog = page.getByRole('dialog', { name: /Buscar itens/ });
-  await dialog.getByRole('combobox', { name: 'Bônus 1', exact: true }).click();
-  await page.getByRole('searchbox', { name: 'Filtrar opções' }).fill('ATQ');
-  await page.getByRole('option', { name: 'ATQ', exact: true }).click();
+  await page.getByRole('button', { name: 'Itens', exact: true }).click();
+  const dialog = page.getByRole('dialog');
+  await page.getByRole('combobox', { name: 'Bônus 1', exact: true }).click();
+  const first = page.locator('.ui-cascadeselect-items').first().locator(':scope > li > button').first();
+  await first.focus(); await first.press('ArrowRight');
+  const submenu = page.locator('.ui-cascadeselect-sublist');
+  await expect(submenu).toBeVisible();
+  await expect(submenu.getByRole('button').first()).toBeFocused();
+  await submenu.getByRole('button').first().click();
+  await page.locator('.ui-cascadeselect-sublist button:not([aria-expanded])').first().click();
   await expect(page.locator('.ui-select-pane')).toHaveCount(0);
   await dialog.getByRole('button', { name: 'Limpar seleção' }).click();
   await dialog.getByRole('button', { name: 'Buscar', exact: true }).click();

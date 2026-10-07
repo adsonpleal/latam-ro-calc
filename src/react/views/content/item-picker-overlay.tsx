@@ -1,4 +1,3 @@
-import { Button } from '../../ui/primitives';
 import { Fragment } from 'react';
 import { Render, displayPipe, interpolate, classNames, normalizeStyle, identityKey } from '../render';
 export function Content({vm, services}: {vm: any; services: any}) {
@@ -25,9 +24,7 @@ const i = context["i"]; return <><Render tag="button" props={{"type": "button",
 "appTrapFocusAutoCapture": "",
 "keydown": (event: any) => vm.action(() => { const $event = event; vm.onKeyDown($event) }),
 "className": ["picker",(vm.virtualise ? "picker--virtual" : '')].filter(Boolean).join(' '),
-"style": normalizeStyle(Object.assign({}, {["width"]: vm.pinnedWidth == null ? null : String(vm.pinnedWidth) + "px"}))}}><Render tag="div" props={{"className": ["picker__title"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.title])}
-{vm.canSearch && <Button icon="search" label="Buscar itens" className="ui-button-text ui-button-sm picker__search"
-  onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') event.stopPropagation(); }} onClick={() => vm.action(() => vm.openSearch())} />}</Render>
+"style": normalizeStyle(Object.assign({}, {["width"]: vm.pinnedWidth == null ? null : String(vm.pinnedWidth) + "px"}))}}><Render tag="div" props={{"className": ["picker__title"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.title])}</Render>
 <Render tag="div" props={{"className": ["picker__filter"].filter(Boolean).join(' ')}}>{(() => { let filter: any = vm["filter"]; return <><Render tag="input" props={{"type": "text",
 "data-focus-initial": true,
 "placeholder": "Filtrar…",

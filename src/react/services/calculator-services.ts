@@ -1,5 +1,3 @@
-import { Store } from '../state/store';
-import type { ItemSearchOpenRequest, ItemSearchEquipTarget } from '../../app/core/item-search-equipment';
 import { DataClient, DescriptionStore } from './data-client';
 import { CustomItems } from './custom-items';
 import { Events } from './events';
@@ -22,14 +20,12 @@ export class CalculatorLayout {
   readonly customItemCreate = new Events<{ kind: string; slot: string; compare: boolean }>();
   readonly customItemEdit = new Events<number>();
   readonly helpImproveOpen = new Events<void>();
-  readonly itemSearchOpen = new Events<ItemSearchOpenRequest | undefined>();
-  readonly itemSearchTargets = new Store<readonly ItemSearchEquipTarget[]>([]);
-  readonly itemSearchEquip = new Events<{ targetKey: string; itemId: number }>();
+  readonly itemSearchOpen = new Events<void>();
   openCustomItems(): void { this.customItemsOpen.next(); }
   openCustomItem(kind: string, slot: string, compare: boolean): void { this.customItemCreate.next({ kind, slot, compare }); }
   openCustomItemEdit(id: number): void { this.customItemEdit.next(id); }
   openHelpImprove(): void { this.helpImproveOpen.next(); }
-  openItemSearch(request?: ItemSearchOpenRequest): void { this.itemSearchOpen.next(request); }
+  openItemSearch(): void { this.itemSearchOpen.next(); }
 }
 export class SlotColorPreferences {
   labels: SlotColorLabels = {};

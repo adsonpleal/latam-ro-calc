@@ -1,4 +1,3 @@
-import { itemChipOptions, itemSearchPosition, itemSearchTargetKey } from '../../app/core/item-search-equipment';
 import { ViewState } from '../state/view-state';
 import { Events } from '../services/events';
 import { EquipmentSlotDescriptor, comparableKeysOf } from 'src/app/app-config/equipment-slots';
@@ -178,10 +177,6 @@ public readonly itemDescriptions: ItemDescriptionStore,
     if (!request) return;
 
     this.picker.open(request).then((result) => { if (this.lifetime.active) this.action(() => {
-      if (result.search) {
-        this.layoutService.openItemSearch(result.search);
-        return;
-      }
       if (result.create) {
         this.layoutService.openCustomItem(result.create.kind, result.create.slot, result.create.compare);
         return;
@@ -279,26 +274,29 @@ public readonly itemDescriptions: ItemDescriptionStore,
     // decides which fields have an empty state.
     const base = { anchor, title: this.pickerTitle(chip), value, clearable: chip.clearable };
 
-    const position = itemSearchPosition(chip, this.descriptor);
-    const itemBase = { ...base, mode: 'flat' as const,
-      options: itemChipOptions(chip, this.descriptor, derivation, this.lists, this.items),
-      filterKeys: ITEM_KEYS, iconKey: 'value' as const, items: this.items,
-      search: position ? { position, targetKey: itemSearchTargetKey(chip, compare), compare } : undefined };
     switch (chip.kind) {
       case 'item':
-        return { ...itemBase, createKind: this.descriptor.key, createSlot: this.descriptor.key, createCompare: compare };
+        return { ...base, mode: 'flat', options: this.lists[this.descriptor.itemListKey] ?? [], filterKeys: ITEM_KEYS, iconKey: 'value', items: this.items,
+          createKind: this.descriptor.key, createSlot: this.descriptor.key, createCompare: compare };
       case 'subItem': {
-        const sub = this.descriptor.subItemSlots?.find(s => s.key === chip.slotKey);
-        return { ...itemBase, createKind: sub?.key, createSlot: sub?.key, createCompare: compare };
+        const sub = this.descriptor.subItemSlots?.find((s) => s.key === chip.slotKey);
+        return { ...base, mode: 'flat', options: this.lists[sub?.itemListKey ?? ''] ?? [], filterKeys: ITEM_KEYS, iconKey: 'value', items: this.items,
+          createKind: sub?.key, createSlot: sub?.key, createCompare: compare };
       }
       case 'card':
-        return { ...itemBase, filterKeys: CARD_KEYS, createKind: 'card',
-          createSlot: chip.custom ? 'custom:' + chip.slotKey + ':card:' + chip.index : chip.field, createCompare: compare };
+        // The acc-side prefix ("Dir."/"Esq.") is only reachable through cardPrefix.
+        return { ...base, mode: 'flat', options: chip.custom
+          ? this.customCardOptions()
+          : this.lists[this.descriptor.cardListKey ?? ''] ?? [], filterKeys: CARD_KEYS, iconKey: 'value', items: this.items,
+          createKind: 'card', createSlot: chip.custom ? `custom:${chip.slotKey}:card:${chip.index}` : chip.field, createCompare: compare };
       case 'enchant':
-        return { ...itemBase, createKind: 'enchant',
-          createSlot: chip.custom ? 'custom:' + chip.slotKey + ':enchant:' + chip.index : chip.field, createCompare: compare };
+        return { ...base, mode: 'flat', options: chip.custom
+          ? Object.values(this.items).filter((item) => item.itemTypeId === 11).map((item) => ({ label: item.name, value: item.id }))
+          : derivation.enchantLists[chip.index] ?? [], filterKeys: ITEM_KEYS, iconKey: 'value', items: this.items,
+          createKind: 'enchant', createSlot: chip.custom ? `custom:${chip.slotKey}:enchant:${chip.index}` : chip.field, createCompare: compare };
       case 'ammo':
-        return { ...itemBase, elementColoured: true, createKind: 'ammo', createSlot: 'ammo', createCompare: compare };
+        return { ...base, mode: 'flat', options: this.lists.ammoList ?? [], filterKeys: ITEM_KEYS, iconKey: 'value', elementColoured: true, items: this.items,
+          createKind: 'ammo', createSlot: 'ammo', createCompare: compare };
       case 'refine':
         return { ...base, mode: 'flat', options: refineOptions(derivation.refineList), filterKeys: ['label'] };
       case 'grade':
@@ -318,6 +316,16 @@ public readonly itemDescriptions: ItemDescriptionStore,
       default:
         return null;
     }
+  }
+
+  private customCardOptions(): DropdownModel[] {
+    const key = this.descriptor.cardListKey ?? ({
+      shadowWeapon: 'weaponCardList', shadowShield: 'shieldCardList', shadowArmor: 'armorCardList',
+      shadowBoot: 'bootCardList', shadowEarring: 'accCardList', shadowPendant: 'accCardList',
+      costumeUpper: 'headCardList', costumeMiddle: 'headCardList', costumeLower: 'headCardList',
+      costumeGarment: 'garmentCardList',
+    } as Record<string, string>)[this.descriptor.key];
+    return this.lists[key] ?? [];
   }
 
   private pickerTitle(chip: Chip): string {

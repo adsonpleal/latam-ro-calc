@@ -9,9 +9,6 @@ test.beforeEach(async ({ page }) => {
   // dimensions, but serve the same idle frame for every visual comparison.
   await page.route('https://assets.latam-tools.com.br/image?job=21067&action=0', route =>
     route.fulfill({ path: join(__dirname, 'fixtures/monster-21067.png'), contentType: 'image/png' }));
-  // Keep the selected illustration deterministic when the external host fails.
-  await page.route('https://www.divine-pride.net/img/items/collection/thROG/13186', route =>
-    route.fulfill({ path: join(__dirname, 'fixtures/item-13186.png'), contentType: 'image/png' }));
   await page.addInitScript(() => {
     localStorage.setItem('theme', 'vela-green');
     localStorage.setItem('colorScheme', 'dark');
@@ -86,17 +83,10 @@ test('stat selector and expanded calculator sections', async ({ page }) => {
 });
 
 test('item search', async ({ page }) => {
-  await page.getByRole('button', { name: 'Buscar itens', exact: true }).click();
+  await page.getByRole('button', { name: 'Itens', exact: true }).click();
   await page.mouse.move(0, 0);
   await imagesReady(page);
   await expect.soft(page).toHaveScreenshot('item-search.png');
-  const dialog = page.getByRole('dialog', { name: /Buscar itens/ });
-  await dialog.getByRole('button', { name: 'Buscar', exact: true }).click();
-  await dialog.locator('tbody tr').first().click();
-  await expect(dialog.locator('.item-search-description')).not.toBeEmpty();
-  await imagesReady(page);
-  await expect.soft(page).toHaveScreenshot('item-search-selected.png');
-
 });
 
 test('equipment picker on a scrolled page', async ({ page }) => {
@@ -150,7 +140,7 @@ test('confirmation and notification', async ({ page }) => {
   await expect.soft(toast).toHaveScreenshot('notification.png');
 });
 
-test('narrow import retains its layout and item search fits the viewport', async ({ page }) => {
+test('narrow dialogs preserve their existing overflow', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole('button', { name: 'Importar', exact: true }).click();
   await page.mouse.move(0, 0);
@@ -160,7 +150,7 @@ test('narrow import retains its layout and item search fits the viewport', async
   // The fixed toolbar is wider than a phone in the reference app. Open its
   // offscreen action before resizing, preserving that existing overflow.
   await page.setViewportSize({ width: 1920, height: 918 });
-  await page.getByRole('button', { name: 'Buscar itens', exact: true }).click();
+  await page.getByRole('button', { name: 'Itens', exact: true }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
   await page.setViewportSize({ width: 390, height: 844 });
   await page.mouse.move(0, 0);

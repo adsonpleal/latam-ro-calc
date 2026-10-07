@@ -49,7 +49,7 @@ return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean
 <Render tag="button" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.openItemSearch() }),
 "className": ["ui-button-info ui-button-raised px-2"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"name": "search"}}></Render>
-<Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{"Buscar itens"}</Render></Render></Render>
+<Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{"Itens"}</Render></Render></Render>
 <Render tag="app-ui-dialog" props={{"header": "Informações adicionais",
 "modal": true,
 "visible": vm.visibleInfo,
