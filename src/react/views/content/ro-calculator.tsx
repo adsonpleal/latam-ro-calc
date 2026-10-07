@@ -634,6 +634,9 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "isRelieveTarget": vm.isRelieveTarget,
 "relieveLevelOptions": vm.relieveLevelOptions,
 "relieveLevel": vm.relieveLevel,
+"betelgeuseHp": vm.betelgeuseHp,
+"betelgeuseHpOptions": vm.betelgeuseHpOptions,
+"betelgeuseHpChange": (value: number) => vm.action(() => { vm.betelgeuseHp = value; vm.onBetelgeuseHpChange() }),
 "compareItemNames": vm.compareItemNames,
 "compareStats": vm.isCompareStats,
 "rotationView": vm.rotationView,
@@ -695,6 +698,9 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "isRelieveTarget": vm.isRelieveTarget,
 "relieveLevelOptions": vm.relieveLevelOptions,
 "relieveLevel": vm.relieveLevel,
+"betelgeuseHp": vm.betelgeuseHp,
+"betelgeuseHpOptions": vm.betelgeuseHpOptions,
+"betelgeuseHpChange": (value: number) => vm.action(() => { vm.betelgeuseHp = value; vm.onBetelgeuseHpChange() }),
 "relieveLevelChange": (event: any) => vm.action(() => { const $event = event; (vm.relieveLevel = $event);vm.onRelieveLevelChange() }),
 "showElementTableClick": (event: any) => vm.action(() => { const $event = event; vm.onShowElementalTableClick() })}}></Render></Render>
 <Render tag="div" props={{"className": ["col-12"].filter(Boolean).join(' ')}}><Render tag="app-auto-cast-hud" props={{"simulation": vm.autoCastSimulation,
@@ -918,7 +924,7 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "type": "text",
 "placeholder": "Ex.: Rune Knight Nv 200",
 "value": vm.saveName,
-"input": (event: any) => vm.action(() => { const $event = event; (vm.saveName = vm.$any($event.target).value) }),
+"onModelChange": (value: string) => vm.action(() => { vm.saveName = value }),
 "keyup": (event: any) => vm.action(() => { const $event = event; if (event.key?.toLowerCase() === "enter") { vm.confirmSave() } }),
 "inputText": true}}></Render></Render>
 </Render>
@@ -970,7 +976,7 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 <Render tag="div" props={{"className": ["ui-inputgroup"].filter(Boolean).join(' ')}}><Render tag="input" props={{"type": "text",
 "readOnly": true,
 "value": (vm.shareShortening ? "Encurtando o link…" : vm.shareUrl),
-"focus": (event: any) => vm.action(() => { const $event = event; vm.$any($event.target).select() }),
+"focus": (event: any) => event.target.select(),
 "inputText": true}}></Render>
 <Render tag="button" props={{"aria-label": "Copiar link",
 "icon": (vm.shareShortening ? "spinner" : "copy"),

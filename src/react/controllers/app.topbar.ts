@@ -163,6 +163,15 @@ export class AppTopBarComponent extends ViewState {
    */
   updates: { v: string; date: string; logs: string[]; }[] = [
     {
+      v: '0.1.165-beta',
+      date: '06-10-2026',
+      logs: [
+        'Betelgeuse ganhou um seletor de dificuldade: Selado com 500 milhões de HP e níveis 1 a 5 com 800 milhões, 1,1 bilhão, 1,4 bilhão, 1,7 bilhão e 2 bilhões. A escolha atualiza o HP e os cálculos para derrotar o alvo. Reportado por Ynk.',
+        'Corrigido o campo de nome ao salvar uma simulação, que não aceitava edição. Agora é possível dar nomes diferentes às simulações e salvá-las sem sobrescrever a anterior. Reportado por usuário anônimo.',
+        'Corrigido o conjunto do Brinco e Colar Sombrios dos Feitiços, que exigia a Greva Sombria dos Feitiços por engano. Os dois acessórios agora reduzem a conjuração fixa em 0,3 segundo quando a soma dos refinos chega a 20, independentemente da greva equipada. A redução continua limitada a 0,3 segundo ao usar também a Malha e a Greva do conjunto. Reportado por usuário anônimo.',
+      ],
+    },
+    {
       v: '0.1.164-beta',
       date: '05-10-2026',
       logs: [

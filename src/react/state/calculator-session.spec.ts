@@ -50,6 +50,30 @@ describe('plain calculator session', () => {
     expect(session.totalSummary).toBeUndefined();
   });
 
+  it('uses the chosen Betelgeuse HP in both builds without changing the database or other targets', async () => {
+    const { session, storage } = makeSession();
+    session.start();
+    await vi.advanceTimersByTimeAsync(1500);
+    session.selectedMonster = 20994;
+    session.onMonsterChange();
+    session.toggleStatsCompare();
+    for (const hp of [500_000_000, 800_000_000, 1_100_000_000, 1_400_000_000, 1_700_000_000, 2_000_000_000]) {
+      session.betelgeuseHp = hp;
+      session.onBetelgeuseHpChange();
+      await vi.advanceTimersByTimeAsync(1500);
+      expect(session.totalSummary.monster.hp).toBe(hp);
+      expect(session.totalSummary2.monster.hp).toBe(hp);
+      expect(storage.getItem('betelgeuseHp')).toBe(String(hp));
+    }
+    expect(session.monsterDataMap[20994].stats.health).toBe(2_000_000_000);
+    session.betelgeuseHp = 500_000_000;
+    session.selectedMonster = 21067;
+    session.onMonsterChange();
+    await vi.advanceTimersByTimeAsync(1500);
+    expect(session.totalSummary.monster.hp).toBe(session.monsterDataMap[21067].stats.health);
+    session.dispose();
+  });
+
   it('offers Freyja Aliviar 0–8, resets a saved higher level and retains other targets’ 0–10', () => {
     const { session, storage } = makeSession();
     session.selectedMonster = 20994;

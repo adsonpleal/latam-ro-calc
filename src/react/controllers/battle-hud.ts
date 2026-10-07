@@ -90,6 +90,9 @@ export class BattleHudComponent extends ViewState {
    isRelieveTarget = false;
    relieveLevelOptions: DropdownModel[] = [];
    relieveLevel = 0;
+   betelgeuseHp = 2_000_000_000;
+   betelgeuseHpOptions: DropdownModel[] = [];
+   betelgeuseHpChange = new Events<number>();
 
    relieveLevelChange = new Events<number>();
    rotationChange = new Events<{ rotation: string[]; stacks: number[] }>();

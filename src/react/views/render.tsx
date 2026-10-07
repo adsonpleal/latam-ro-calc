@@ -121,6 +121,7 @@ export function Render({ tag, props: original, children }: { tag: string; props:
     case 'app-battle-effects': rendered = <BattleEffects {...props as any} onChange={props['selectedChancesChange']}
       onCompareChange={props['selectedChances2Change']} customIcon={id => services.customItems.iconFor(id)} />; break;
     case 'app-battle-monster-card': rendered = <BattleMonsterCard {...props as any} onRelieveLevelChange={props['relieveLevelChange']}
+      onBetelgeuseHpChange={props['betelgeuseHpChange']}
       onShowElementTable={props['showElementTableClick']} onReductionRowClick={props['reductionRowClick']} />; break;
     default: {
       const feature = featureViews.get(tag);

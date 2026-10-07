@@ -18,12 +18,14 @@ export interface BattleMonsterCardProps {
   totalSummary: any; selectedMonster: number; selectedMonsterName: string;
   isInProcessingPreset?: boolean; isRelieveTarget?: boolean; relieveLevelOptions?: DropdownModel[];
   relieveLevel?: number; onRelieveLevelChange?: (value: number) => void;
+  betelgeuseHp?: number; betelgeuseHpOptions?: DropdownModel[]; onBetelgeuseHpChange?: (value: number) => void;
   spriteUrlOverride?: string | null; spriteFallbackUrl?: string | null;
   reductionCategories?: ReductionCategory[]; reductionSources?: Record<string, any>;
   onShowElementTable?: () => void; onReductionRowClick?: (row: ReductionRow) => void;
 }
 export function BattleMonsterCard({ totalSummary, selectedMonster, selectedMonsterName, isInProcessingPreset = false,
   isRelieveTarget = false, relieveLevelOptions = [], relieveLevel = 0, onRelieveLevelChange,
+  betelgeuseHp, betelgeuseHpOptions = [], onBetelgeuseHpChange,
   spriteUrlOverride, spriteFallbackUrl, reductionCategories = [], reductionSources = {},
   onShowElementTable, onReductionRowClick }: BattleMonsterCardProps) {
   const monster = totalSummary?.monster;
@@ -46,6 +48,12 @@ export function BattleMonsterCard({ totalSummary, selectedMonster, selectedMonst
         {monster?.isRedAura && <Tag {...aura.triggerProps} className="tag-aura" value="AURA" />}
         {!!monster?.damageReduction && <Tag {...reduction.triggerProps} className="tag-map-reduction" value={`REDUÇÃO ${monster.damageReduction}%`} />}
       </div><div className="hud-hp-line">HP {number(monster?.hp)}</div>
+      {selectedMonster === 20994 && !!betelgeuseHpOptions.length && <div className="hud-relieve">
+        <span className="hud-relieve-label">Dificuldade</span>
+        <Select className="hud-relieve-dd" ariaLabel="Dificuldade do Betelgeuse" options={betelgeuseHpOptions}
+          optionLabel="label" optionValue="value" disabled={isInProcessingPreset} value={betelgeuseHp}
+          onChange={value => onBetelgeuseHpChange?.(value)} />
+      </div>}
       {isRelieveTarget && <div className="hud-relieve"><span {...relieve.triggerProps} className="hud-relieve-label">Aliviar</span>
         <Select className="hud-relieve-dd" options={relieveLevelOptions} optionLabel="label" optionValue="value"
           disabled={isInProcessingPreset} value={relieveLevel} onChange={value => onRelieveLevelChange?.(value)} />

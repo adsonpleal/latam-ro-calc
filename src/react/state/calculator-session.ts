@@ -71,6 +71,7 @@ import { HpSpTable } from '../../app/models/hp-sp-table.model';
 import { ItemListModel } from '../../app/models/item-list.model';
 import { ItemModel } from '../../app/models/item.model';
 import { MonsterModel } from '../../app/models/monster.model';
+import { BETELGEUSE_HP_OPTIONS, normalizeBetelgeuseHp, withBetelgeuseHp } from '../../app/constants/betelgeuse-hp';
 import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
 import { resolveOffHandEviction } from 'src/app/core/off-hand-slots';
@@ -391,6 +392,18 @@ export class CalculatorSession extends Store<number> {
   monsterList: DropdownModel[] = [];
   selectedMonsterName = '';
   selectedMonster = Number(localStorage.getItem('monster')) || 21067;
+  betelgeuseHp = normalizeBetelgeuseHp(Number(localStorage.getItem('betelgeuseHp')));
+  readonly betelgeuseHpOptions = BETELGEUSE_HP_OPTIONS;
+
+  get selectedMonsterModel(): MonsterModel {
+    return withBetelgeuseHp(this.monsterDataMap[this.selectedMonster], this.betelgeuseHp);
+  }
+
+  onBetelgeuseHpChange() {
+    this.betelgeuseHp = normalizeBetelgeuseHp(this.betelgeuseHp);
+    localStorage.setItem('betelgeuseHp', String(this.betelgeuseHp));
+    this.updateItemEvent.next(1);
+  }
   readonly autoCastIssuesReportUrl = `${environment.issuesUrl}/novo?projeto=simulador`;
 
   openAutoCastFormulaReport(): void {
@@ -1108,7 +1121,7 @@ await ((_event?: unknown) => {
     }
 
     const chainInput: CalcChainInput = {
-      monster: this.monsterDataMap[this.selectedMonster],
+      monster: this.selectedMonsterModel,
       relieveLevel: this.relieveLevel,
       playerTarget: pvpTarget,
       pvpMode,
@@ -1793,7 +1806,7 @@ await ((_event?: unknown) => {
       model.rawOptionTxts = toRawOptionTxtList(model, this.items);
       this.calculatorPvp.setClass(classInstance).loadItemFromModel(model);
       this.controller.runChain(this.calculatorPvp, {
-        monster: this.monsterDataMap[this.selectedMonster],
+        monster: this.selectedMonsterModel,
         relieveLevel: this.relieveLevel,
         equipAtks: equippedAtks, masteryAtks, buffEquips, buffMasterys, consumeData, aspdPotion,
         extraOptionScripts: parseOptionScripts([...model.rawOptionTxts, ...customOptionScripts(model)]),
