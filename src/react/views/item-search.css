@@ -1,73 +1,20 @@
- app-ro-calculator .json_display pre,
- .ui-scope-app-ro-calculator .json_display pre{
-  font-weight: 400 !important;
+:is(app-item-search, .ui-scope-app-item-search) .item-search-dialog {
+  width: 75vw;
+  max-width: calc(100vw - 2rem);
+  height: 90vh;
 }
- app-ro-calculator .json_display .number-line,
- .ui-scope-app-ro-calculator .json_display .number-line{
-  color: #adadaf !important;
+:is(app-item-search, .ui-scope-app-item-search) .item-search-class {
+  margin-left: 0.875rem;
+  color: var(--text-color-secondary);
+  font-size: 11px;
+  font-weight: 400;
 }
- app-ro-calculator .json_display .string,
- .ui-scope-app-ro-calculator .json_display .string{
-  color: #95c602 !important;
-}
- app-ro-calculator .json_display .number,
- .ui-scope-app-ro-calculator .json_display .number{
-  color: #f2b619 !important;
-}
- app-ro-calculator .json_display .boolean,
- .ui-scope-app-ro-calculator .json_display .boolean{
-  color: #0097f1 !important;
-}
- app-ro-calculator .json_display .null,
- .ui-scope-app-ro-calculator .json_display .null{
-  color: #727990 !important;
-}
- app-ro-calculator .json_display .key,
- .ui-scope-app-ro-calculator .json_display .key{
-  color: #fff !important;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ui-inputgroup app-ui-dropdown{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
- app-ro-calculator .ui-inputgroup app-ui-dropdown .ui-dropdown-filter,
- .ui-scope-app-ro-calculator .ui-inputgroup app-ui-dropdown .ui-dropdown-filter{
-  width: 100%;
-}
- app-ro-calculator .ui-dropdown-items-wrapper,
- .ui-scope-app-ro-calculator .ui-dropdown-items-wrapper,
- app-ro-calculator .ui-multiselect-items-wrapper,
- .ui-scope-app-ro-calculator .ui-multiselect-items-wrapper{
-  overscroll-behavior: none;
-}
- app-ro-calculator .ui-accordion-header-link,
- .ui-scope-app-ro-calculator .ui-accordion-header-link{
-  padding-top: 0.75rem !important;
-  padding-bottom: 0.75rem !important;
-}
- app-ro-calculator .consumable .ui-accordion-content,
- .ui-scope-app-ro-calculator .consumable .ui-accordion-content,
- app-ro-calculator .select_skill .ui-accordion-content,
- .ui-scope-app-ro-calculator .select_skill .ui-accordion-content{
-  padding: 0.875rem;
-}
-:is(app-item-search, .ui-scope-app-item-search) .calc-panel{
+:is(app-item-search, .ui-scope-app-item-search) .item-search-workspace {
   display: grid;
+  gap: 1rem;
   min-width: 0;
 }
-:is(app-item-search, .ui-scope-app-item-search) .consumable-panel{
-  grid-template-columns: minmax(0, 1fr);
-  align-items: start;
-}
-:is(app-item-search, .ui-scope-app-item-search) .calc-panel-section{
-  min-width: 0;
-  margin-bottom: 1rem;
-}
-:is(app-item-search, .ui-scope-app-item-search) .calc-panel-section:last-child{
-  margin-bottom: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .calc-section-heading{
+:is(app-item-search, .ui-scope-app-item-search) .calc-section-heading {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -79,316 +26,102 @@
   letter-spacing: 0.09em;
   text-transform: uppercase;
 }
-:is(app-item-search, .ui-scope-app-item-search) .calc-section-heading::after{
+:is(app-item-search, .ui-scope-app-item-search) .calc-section-heading::after {
   flex: 1 1 auto;
   height: 1px;
   background: var(--surface-border);
   content: '';
 }
-:is(app-item-search, .ui-scope-app-item-search) .calc-section-heading > span{
-  flex: 0 0 auto;
-}
-:is(app-item-search, .ui-scope-app-item-search) .consumable-side{
-  display: grid;
-  grid-column: 1;
-  grid-row: 1;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 0.875rem;
-  min-width: 0;
-  margin-bottom: 0.25rem;
-}
-:is(app-item-search, .ui-scope-app-item-search) .consumable-side .calc-panel-section{
-  margin-bottom: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .consumable-aspd{
-  grid-column: 1;
-  grid-row: 1;
-}
-:is(app-item-search, .ui-scope-app-item-search) .consumable-food{
-  grid-column: 2;
-  grid-row: 1;
-}
-:is(app-item-search, .ui-scope-app-item-search) .consumable-stack{
-  grid-column: 1;
-  grid-row: 2;
-}
-:is(app-item-search, .ui-scope-app-item-search) .consumable-stack .calc-section-heading::after{ order: 1; }
-:is(app-item-search, .ui-scope-app-item-search) .consumable-create{ order: 2; flex: 0 0 auto; width: max-content; text-transform: none; letter-spacing: normal; }
-:is(app-item-search, .ui-scope-app-item-search) .consumable-aspd-grid{
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0.75rem;
-}
-:is(app-item-search, .ui-scope-app-item-search) .calc-field-label{
+:is(app-item-search, .ui-scope-app-item-search) .calc-section-heading > span { flex: 0 0 auto; }
+:is(app-item-search, .ui-scope-app-item-search) .calc-field-label {
   display: block;
   margin-bottom: 0.3rem;
   color: var(--text-color-secondary);
   font-size: 11px;
 }
-:is(app-item-search, .ui-scope-app-item-search) .calc-select-label{
-  color: var(--text-color);
-  font-weight: 600;
+:is(app-item-search, .ui-scope-app-item-search) .item-search-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr)) minmax(0, 0.7fr);
+  gap: 0.875rem;
 }
-:is(app-item-search, .ui-scope-app-item-search) .consumable-food-field{
-  margin-bottom: 4px;
+:is(app-item-search, .ui-scope-app-item-search) .item-search-field,
+:is(app-item-search, .ui-scope-app-item-search) .item-search-list,
+:is(app-item-search, .ui-scope-app-item-search) .item-search-detail { min-width: 0; }
+:is(app-item-search, .ui-scope-app-item-search) .item-search-field input,
+:is(app-item-search, .ui-scope-app-item-search) .ui-dropdown,
+:is(app-item-search, .ui-scope-app-item-search) .ui-multiselect {
+  width: 100%;
+  min-width: 0;
+  background: var(--surface-ground);
 }
-:is(app-item-search, .ui-scope-app-item-search) .consumable-food-field:last-child{
-  margin-bottom: 0;
+:is(app-item-search, .ui-scope-app-item-search) .item-search-field input,
+:is(app-item-search, .ui-scope-app-item-search) .ui-dropdown,
+:is(app-item-search, .ui-scope-app-item-search) .ui-multiselect { height: 34px; }
+:is(app-item-search, .ui-scope-app-item-search) .ui-select-trigger { font-size: 12px; }
+:is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-heading { margin-top: 0.875rem; }
+:is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-heading::after { order: 1; }
+:is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-heading button {
+  order: 2;
+  width: 28px;
+  height: 28px;
 }
-:is(app-item-search, .ui-scope-app-item-search) .consumable-food-field .joined_caption{
-  flex: 0 0 44px;
-  justify-content: center;
-  padding: 0 0.4rem;
+:is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-pickers {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem 0.875rem;
+}
+:is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-row {
+  display: flex;
+  gap: 0.25rem;
+  min-width: 0;
+}
+:is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-row app-ui-dropdown { flex: 1; min-width: 0; }
+:is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-row button.ui-button { width: 28px; flex: 0 0 28px; }
+:is(app-item-search, .ui-scope-app-item-search) .item-search-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.875rem;
+  margin-top: 0.875rem;
+}
+:is(app-item-search, .ui-scope-app-item-search) .item-search-mode {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
   font-size: 11px;
 }
-:is(app-item-search, .ui-scope-app-item-search) .consumable-picker-field{
-  width: 100%;
+:is(app-item-search, .ui-scope-app-item-search) .item-search-mode .ui-button {
+  padding: 0.45rem 0.65rem;
+  font-size: 11px;
 }
- app-ro-calculator .consumable-picker-field app-ui-dropdown,
- .ui-scope-app-ro-calculator .consumable-picker-field app-ui-dropdown{
-  flex: 1 1 auto;
-  width: auto;
+:is(app-item-search, .ui-scope-app-item-search) .item-search-results {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(0, 2fr);
+  align-items: start;
+  gap: 0.875rem;
 }
- app-ro-calculator .calc-panel .consumable-picker-field .ui-dropdown,
- .ui-scope-app-ro-calculator .calc-panel .consumable-picker-field .ui-dropdown{
-  padding: 0 0.2rem 0 0.45rem;
-}
- app-ro-calculator .consumable-picker-field .ui-dropdown-clear-icon,
- .ui-scope-app-ro-calculator .consumable-picker-field .ui-dropdown-clear-icon{
-  right: 2.15rem;
-  width: 14px;
-  height: 14px;
-  color: rgba(255, 255, 255, 0.45);
-}
-:is(app-item-search, .ui-scope-app-item-search) .calc-panel .consumable-picker-field  .ui-dropdown-label{
-  justify-content: flex-start;
-  overflow: hidden;
-  padding-right: 2rem;
-  font-size: 12px;
-  line-height: 1.25;
-  text-align: left;
-}
-:is(app-item-search, .ui-scope-app-item-search) .calc-panel .consumable-picker-field  .ui-dropdown-label .calc-option-row{
-  justify-content: flex-start;
+:is(app-item-search, .ui-scope-app-item-search) .item-search-result-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   min-width: 0;
-  width: 100%;
-  overflow: hidden;
 }
-:is(app-item-search, .ui-scope-app-item-search) .calc-panel .consumable-picker-field  .ui-dropdown-label .calc-option-row > span{
+:is(app-item-search, .ui-scope-app-item-search) .item-search-result-row img { width: 21px; height: 21px; object-fit: contain; image-rendering: pixelated; }
+:is(app-item-search, .ui-scope-app-item-search) .item-search-result-row span {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-:is(app-item-search, .ui-scope-app-item-search) .calc-option-row{
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .calc-option-main{ display: inline-flex; align-items: center; gap: 0.5rem; min-width: 0; }
-:is(app-item-search, .ui-scope-app-item-search) .consumable-custom-tag{ flex: 0 0 auto; border: 0; padding: 0.25rem 0.5rem; font: inherit; cursor: pointer; }
-:is(app-item-search, .ui-scope-app-item-search) .calc-option-icon{
-  flex: 0 0 auto;
-  width: 21px;
-  height: 21px;
-  object-fit: contain;
-  image-rendering: pixelated;
-}
- app-ro-calculator .consumable .ui-listbox,
- .ui-scope-app-ro-calculator .consumable .ui-listbox{
-  border: 0;
-  background: transparent;
-}
- app-ro-calculator .consumable .ui-listbox-list,
- .ui-scope-app-ro-calculator .consumable .ui-listbox-list{
-  padding: 0;
-}
- app-ro-calculator .consumable-stack .ui-listbox-list,
- .ui-scope-app-ro-calculator .consumable-stack .ui-listbox-list{
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 0.5rem;
-}
- app-ro-calculator .consumable .ui-listbox-item,
- .ui-scope-app-ro-calculator .consumable .ui-listbox-item{
-  min-width: 0;
-  padding: 0.45rem 0.5rem;
-  margin-bottom: 2px;
-  border: 1px solid transparent;
-  border-radius: var(--border-radius);
-}
- app-ro-calculator .consumable .ui-listbox-item.ui-highlight,
- .ui-scope-app-ro-calculator .consumable .ui-listbox-item.ui-highlight{
-  border-color: color-mix(in srgb, var(--primary-color) 45%, transparent);
-  background: color-mix(in srgb, var(--primary-color) 16%, transparent);
-}
- app-ro-calculator .consumable .ui-dropdown,
- .ui-scope-app-ro-calculator .consumable .ui-dropdown,
- app-ro-calculator .skill-control-row .ui-dropdown,
- .ui-scope-app-ro-calculator .skill-control-row .ui-dropdown{
-  width: 100%;
-  background: var(--surface-ground);
-}
- app-ro-calculator .consumable .ui-dropdown-label,
- .ui-scope-app-ro-calculator .consumable .ui-dropdown-label{
-  min-width: 0;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
- app-ro-calculator .consumable-aspd .consumable-aspd-field .ui-dropdown,
- .ui-scope-app-ro-calculator .consumable-aspd .consumable-aspd-field .ui-dropdown{
-  border-radius: var(--border-radius);
-}
-:is(app-item-search, .ui-scope-app-item-search) .skill-panel{
-  grid-template-columns: minmax(0, 1fr);
-}
-:is(app-item-search, .ui-scope-app-item-search) .skill-panel .calc-panel-section{
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: 0.875rem;
-}
-:is(app-item-search, .ui-scope-app-item-search) .skill-panel .calc-section-heading{
-  grid-column: 1 / -1;
-}
- app-ro-calculator .skill-panel .skill-control-row .ui-dropdown-label,
- .ui-scope-app-ro-calculator .skill-panel .skill-control-row .ui-dropdown-label{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.45rem 0.25rem;
-  font-size: 11px;
-  text-align: center;
-}
- app-ro-calculator .skill-panel .skill-control-row .skill-dropdown-empty .ui-dropdown-label,
- .ui-scope-app-ro-calculator .skill-panel .skill-control-row .skill-dropdown-empty .ui-dropdown-label{
-  padding-left: 1.35rem;
-}
- app-ro-calculator .skill-panel .skill-control-row .ui-dropdown-trigger,
- .ui-scope-app-ro-calculator .skill-panel .skill-control-row .ui-dropdown-trigger{
-  width: 1.35rem;
-  padding-right: 0.2rem;
-}
- app-ro-calculator .skill-panel .skill-control-row .ui-dropdown-trigger .ui-icon,
- .ui-scope-app-ro-calculator .skill-panel .skill-control-row .ui-dropdown-trigger .ui-icon{
-  width: 14px;
-  height: 14px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .skill-control-row{
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 70px;
-  align-items: center;
-  gap: 0.3rem;
-  min-height: 42px;
-  padding: 0.3rem 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--surface-border) 55%, transparent);
-}
-:is(app-item-search, .ui-scope-app-item-search) .skill-control-row:last-child{
-  border-bottom: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .skill-control-label{
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .skill-control-label .skill_icon{
-  flex: 0 0 auto;
-  margin: 0;
-}
- app-ro-calculator .skill-control-row app-ui-select-button,
- .ui-scope-app-ro-calculator .skill-control-row app-ui-select-button,
- app-ro-calculator .skill-control-row .ui-selectbutton,
- .ui-scope-app-ro-calculator .skill-control-row .ui-selectbutton{
-  width: 100%;
-}
- app-ro-calculator .skill-control-row .ui-button,
- .ui-scope-app-ro-calculator .skill-control-row .ui-button{
-  flex: 1 1 0;
-  justify-content: center;
-  padding: 0.4rem 0;
-  font-size: 11px;
-  font-weight: 700;
-}
- app-ro-calculator .battle_summary .ui-fieldset-content,
- .ui-scope-app-ro-calculator .battle_summary .ui-fieldset-content{
-  padding-top: 0;
-  padding-bottom: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .loading_block{
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.4);
-  transition-duration: 0.2s;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-:is(app-item-search, .ui-scope-app-item-search) .item_template{
-  position: relative;
-
-}
-:is(app-item-search, .ui-scope-app-item-search) .item_template > .item_img{
-  position: absolute;
-  top: -3px;
-  left: -4px;
-  height: 25px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .item_template div{
-  margin-left: 24px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .item-description-panel{
-  display: grid;
-  grid-template-columns: 250px minmax(0, 1fr);
-  gap: 0.75rem;
-  min-width: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .item-description-sidebar,
-:is(app-item-search, .ui-scope-app-item-search) .item-description-card{
-  min-width: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .item-description-server{
-  margin-bottom: 1rem;
-}
- app-ro-calculator .item-description-server .ui-dropdown,
- .ui-scope-app-ro-calculator .item-description-server .ui-dropdown{
-  width: 100%;
-  background: var(--surface-ground);
-}
-:is(app-item-search, .ui-scope-app-item-search) .item-description-heading{
-  margin-top: 0.875rem;
-}
- app-ro-calculator .item-description-list,
- .ui-scope-app-ro-calculator .item-description-list{
-  border: 0;
-  background: transparent;
-}
- app-ro-calculator .item-description-list .ui-listbox-list,
- .ui-scope-app-ro-calculator .item-description-list .ui-listbox-list{
-  padding: 0;
-}
- app-ro-calculator .item-description-list .ui-listbox-item,
- .ui-scope-app-ro-calculator .item-description-list .ui-listbox-item{
-  min-width: 0;
-  padding: 0.5rem 0.4rem;
-  margin-bottom: 2px;
-  border: 1px solid transparent;
-  border-radius: var(--border-radius);
-}
- app-ro-calculator .item-description-list .ui-listbox-item.ui-highlight,
- .ui-scope-app-ro-calculator .item-description-list .ui-listbox-item.ui-highlight{
-  border-color: color-mix(in srgb, var(--primary-color) 45%, transparent);
-  background: color-mix(in srgb, var(--primary-color) 16%, transparent);
-}
-:is(app-item-search, .ui-scope-app-item-search) .item-description-card{
+:is(app-item-search, .ui-scope-app-item-search) .item-search-empty-list { color: var(--text-color-secondary); padding: 1rem 0.4rem; }
+:is(app-item-search, .ui-scope-app-item-search) .item-description-card {
   overflow: hidden;
+  min-width: 0;
   border: 1px solid var(--surface-border);
   border-radius: var(--border-radius);
   background: var(--surface-card);
 }
-:is(app-item-search, .ui-scope-app-item-search) .item-description-empty{
+:is(app-item-search, .ui-scope-app-item-search) .item-description-empty {
   display: flex;
   min-height: 240px;
   flex-direction: column;
@@ -398,1306 +131,81 @@
   text-align: center;
   opacity: 0.6;
 }
-:is(app-item-search, .ui-scope-app-item-search) .item-description-meta{
+:is(app-item-search, .ui-scope-app-item-search) .item-description-empty .ui-icon { font-size: 2.5rem; }
+:is(app-item-search, .ui-scope-app-item-search) .item-description-empty p { margin: 1rem 0 0; }
+:is(app-item-search, .ui-scope-app-item-search) .item-description-meta {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
   border-bottom: 1px solid var(--surface-border);
 }
-:is(app-item-search, .ui-scope-app-item-search) .item-description-icon{
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
-  image-rendering: pixelated;
-}
-:is(app-item-search, .ui-scope-app-item-search) .item-description-links{
+:is(app-item-search, .ui-scope-app-item-search) .item-description-icon { width: 36px; height: 36px; object-fit: contain; image-rendering: pixelated; }
+:is(app-item-search, .ui-scope-app-item-search) .item-description-links { display: grid; gap: 0.35rem; min-width: 0; overflow-wrap: anywhere; }
+:is(app-item-search, .ui-scope-app-item-search) .item-description-links > div { display: flex; flex-wrap: wrap; gap: 0.35rem 0.875rem; }
+:is(app-item-search, .ui-scope-app-item-search) .item-description-links a { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--primary-color); font-size: 11px; text-decoration: none; }
+:is(app-item-search, .ui-scope-app-item-search) .item-description-links a:hover { text-decoration: underline; }
+:is(app-item-search, .ui-scope-app-item-search) .item-description-text {
   display: flex;
-  min-width: 0;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.875rem;
-}
-:is(app-item-search, .ui-scope-app-item-search) .item-description-links a{
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  color: var(--primary-color);
-  font-size: 11px;
-  text-decoration: none;
-}
-:is(app-item-search, .ui-scope-app-item-search) .item-description-links a:hover{
-  text-decoration: underline;
-}
-:is(app-item-search, .ui-scope-app-item-search) .item-description-bonuses{
+  align-items: start;
+  gap: 0.75rem;
   padding: 0.75rem;
-}
-:is(app-item-search, .ui-scope-app-item-search) .item-description-text{
-  padding: 0.75rem;
-  margin: 0 0.75rem 0.75rem;
+  margin: 0.75rem;
   border-radius: var(--border-radius);
   background: #fff;
   color: #000;
 }
-:is(app-item-search, .ui-scope-app-item-search) .text_ellips{
-  height: 19px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+:is(app-item-search, .ui-scope-app-item-search) .item-search-collection { width: 100px; max-height: 150px; object-fit: contain; }
+:is(app-item-search, .ui-scope-app-item-search) .item-search-description { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+:is(app-item-search, .ui-scope-app-item-search) .item-search-options .ui-select-item { white-space: normal; }
+@media (max-width: 1000px) {
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-fields,
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-pickers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-field:first-child { grid-column: 1 / -1; }
+}
+@media (max-width: 780px) {
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-dialog { width: calc(100vw - 1rem); max-width: calc(100vw - 1rem); }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-fields,
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-pickers,
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-results { grid-template-columns: minmax(0, 1fr); }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-actions { align-items: stretch; flex-direction: column; }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-mode { justify-content: space-between; }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-class { display: block; margin: 0.25rem 0 0; }
+  :is(app-item-search, .ui-scope-app-item-search) .item-description-text { flex-direction: column; }
+}
 
-  min-width: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .text_ellips_no_height{
-  overflow: hidden;
-  white-space: nowrap;
-}
-:is(app-item-search, .ui-scope-app-item-search) .skill_label_text{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) a.skill_link{
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
-}
-:is(app-item-search, .ui-scope-app-item-search) a.skill_link:hover{
-  text-decoration: underline;
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_stat_atk{
-
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--orange-300);
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_stat_atk2{
-
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--orange-200);
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_stat_matk{
-
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--blue-300);
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_stat_matk2{
-
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--blue-200);
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_stat_yellow{
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--yellow-300);
-}
-:is(app-item-search, .ui-scope-app-item-search) .misc-detail-table{
-  --stat-chip-bg: transparent;
-}
-:is(app-item-search, .ui-scope-app-item-search) .misc-detail-table > .col-7{
-  padding-right: 0.4375rem;
-}
-:is(app-item-search, .ui-scope-app-item-search) .misc-detail-table > .col-5{
-  padding-left: 0.4375rem;
-}
-:is(app-item-search, .ui-scope-app-item-search) .misc-detail-table > .col-7 > .grid > .col-6:first-child{
-  padding-right: 0.4375rem;
-}
-:is(app-item-search, .ui-scope-app-item-search) .misc-detail-table > .col-7 > .grid > .col-6:last-child{
-  padding-left: 0.4375rem;
-}
- app-ro-calculator .misc-detail-table .ui-datatable,
- .ui-scope-app-ro-calculator .misc-detail-table .ui-datatable,
- app-ro-calculator .misc-detail-table .ui-datatable table,
- .ui-scope-app-ro-calculator .misc-detail-table .ui-datatable table{
-  background: transparent;
-}
- app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-thead > tr > th,
- .ui-scope-app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-thead > tr > th{
-  padding: 0.45rem 0.3rem;
-  border-width: 0 0 1px;
-  border-color: var(--surface-border);
-  background: transparent !important;
-  color: var(--text-color-secondary);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
- app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-tbody > tr,
- .ui-scope-app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-tbody > tr{
-  background: transparent;
-}
- app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-tbody > tr > td,
- .ui-scope-app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-tbody > tr > td{
-  padding: 0.5rem 0.3rem;
-  border-width: 0 0 1px;
-  border-color: color-mix(in srgb, var(--surface-border) 55%, transparent);
-  font-size: 12px;
-}
- app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-tbody > tr:last-child > td,
- .ui-scope-app-ro-calculator .misc-detail-table .ui-datatable .ui-datatable-tbody > tr:last-child > td{
-  border-bottom: 0;
-}
- app-ro-calculator .misc-detail-table th:not(:first-child),
- .ui-scope-app-ro-calculator .misc-detail-table th:not(:first-child),
- app-ro-calculator .misc-detail-table td:not(:first-child),
- .ui-scope-app-ro-calculator .misc-detail-table td:not(:first-child){
-  text-align: right;
-}
- app-ro-calculator .misc-detail-table .color_highlight,
- .ui-scope-app-ro-calculator .misc-detail-table .color_highlight{
-  background: transparent !important;
-  color: var(--text-color-secondary) !important;
-}
- app-ro-calculator .misc-detail-table .el-tag-neutral.ui-tag,
- .ui-scope-app-ro-calculator .misc-detail-table .el-tag-neutral.ui-tag{
-  background-color: transparent !important;
-  border: 1px solid var(--surface-border);
-  color: var(--text-color-secondary) !important;
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_stat_def{
-
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--purple-200);
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_stat_def2{
-
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--purple-100);
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_value{
-
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--blue-300);
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_damage{
-
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--teal-300);
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_damage2{
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--teal-200);
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_arrow{
-  margin: 0 0.15rem;
-  opacity: 0.6;
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_compare{
-
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--yellow-200);
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_highlight{
-
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--orange-400);
-}
-:is(app-item-search, .ui-scope-app-item-search) .color_primary{
-  background: var(--primary-color) !important;
-  color: var(--primary-color-text) !important;
-}
-:is(app-item-search, .ui-scope-app-item-search) .color_highlight{
-  background: var(--highlight-bg) !important;
-  color: var(--highlight-text-color) !important;
-}
-:is(app-item-search, .ui-scope-app-item-search) .compare_greater{
-
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--green-400);
-}
-:is(app-item-search, .ui-scope-app-item-search) .compare_lower{
-
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--red-400);
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_monster_value{
-
-  background-color: var(--stat-chip-bg, #121212);
-  color: var(--red-300);
-}
-:is(app-item-search, .ui-scope-app-item-search) .hud-selectors-row{
-  display: flex;
-  gap: 14px;
-  margin-bottom: 14px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .hud-selectors-col{
-  flex: 1 1 0;
-  min-width: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .auto-cast-shared-block{
-  margin-bottom: 14px;
-}
-@media (max-width: 768px){:is(app-item-search, .ui-scope-app-item-search) .hud-selectors-row{
-    flex-direction: column;
-    gap: 8px;
-  }
-
-}
-:is(app-item-search, .ui-scope-app-item-search) .dropdown_monster_group_label{
-  background-color: var(--green-900);
-  color: white;
-}
-:is(app-item-search, .ui-scope-app-item-search) .monster_sprite_container{
+:is(app-item-search, .ui-scope-app-item-search) .item-search-filter-option {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin: 0.75rem;
-  padding: 0.75rem;
-  border: 1px solid var(--surface-border);
-  border-radius: var(--border-radius);
-  background-color: var(--surface-card);
-}
-:is(app-item-search, .ui-scope-app-item-search) .bonus_clickable{
-  cursor: pointer;
-  text-decoration: underline dotted transparent;
-  transition: text-decoration-color 0.12s ease;
-}
-:is(app-item-search, .ui-scope-app-item-search) .bonus_clickable:hover{
-  text-decoration: underline dotted currentColor;
-}
-:is(app-item-search, .ui-scope-app-item-search) .bonus_breakdown_list{
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .bonus_breakdown_list li:not(:last-child){
-  border-bottom: 1px solid var(--surface-border);
-}
-:is(app-item-search, .ui-scope-app-item-search) .bonus_tip{
-  cursor: default;
-  text-decoration: underline dotted;
-  text-underline-offset: 3px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .bonus_breakdown_calc{
-  margin-bottom: 0.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--surface-border);
-  font-size: 0.85rem;
-}
-:is(app-item-search, .ui-scope-app-item-search) .bonus_breakdown_calc_title{
-  font-weight: 700;
-  color: var(--orange-300);
-  margin-bottom: 0.25rem;
-}
-:is(app-item-search, .ui-scope-app-item-search) .bonus_breakdown_calc .calc_total{
-  border-top: 1px solid var(--surface-border);
-  font-weight: 700;
-  color: var(--orange-300);
-}
-:is(app-item-search, .ui-scope-app-item-search) .bonus_breakdown_calc .calc_hint{
-  font-size: 0.75rem;
-  color: var(--text-color-secondary);
-  white-space: nowrap;
-}
-:is(app-item-search, .ui-scope-app-item-search) .bonus_breakdown_calc_note{
-  margin-top: 0.35rem;
-  font-size: 0.75rem;
-  color: var(--text-color-secondary);
-}
-:is(app-item-search, .ui-scope-app-item-search) .bonus_breakdown_calc_link{
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin-top: 0.4rem;
-  font-size: 0.75rem;
-  color: var(--primary-color);
-  text-decoration: none;
-}
-:is(app-item-search, .ui-scope-app-item-search) .bonus_breakdown_calc_link:hover{
-  text-decoration: underline;
-}
-:is(app-item-search, .ui-scope-app-item-search) .bonus_breakdown_calc_link .ui-icon{
-  font-size: 0.7rem;
-}
-:is(app-item-search, .ui-scope-app-item-search) .bonus_breakdown_note{
-  margin-bottom: 0.5rem;
-  font-size: 0.8rem;
-  color: var(--text-color-secondary);
-}
-:is(app-item-search, .ui-scope-app-item-search) .item_bonus_value{
-  color: #f2b619;
-  white-space: nowrap;
-}
-:is(app-item-search, .ui-scope-app-item-search) .monster_id_link{
-  margin-top: 0.25rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--primary-color);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-}
-:is(app-item-search, .ui-scope-app-item-search) .monster_id_link:hover{
-  text-decoration: underline;
-}
-:is(app-item-search, .ui-scope-app-item-search) .img_monster{
-
-
-
-
-  width: 95%;
-}
-:is(app-item-search, .ui-scope-app-item-search) .skill_icon{
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-}
-:is(app-item-search, .ui-scope-app-item-search) .skill_name_cell{
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
+  gap: 0.5rem;
   min-width: 0;
 }
-:is(app-item-search, .ui-scope-app-item-search) .skill_name_cell .skill_icon{
+:is(app-item-search, .ui-scope-app-item-search) .item-search-filter-icon {
   flex: 0 0 auto;
-}
-:is(app-item-search, .ui-scope-app-item-search) .border_default{
-  border: var(--border-radius) solid var(--surface-border);
-}
- app-ro-calculator .item-position-weaponList,
- .ui-scope-app-ro-calculator .item-position-weaponList,
- app-ro-calculator .item-position-weaponCardList,
- .ui-scope-app-ro-calculator .item-position-weaponCardList,
- app-ro-calculator .item_label_weapon,
- .ui-scope-app-ro-calculator .item_label_weapon,
- app-ro-calculator .item_label_weaponCard1,
- .ui-scope-app-ro-calculator .item_label_weaponCard1,
- app-ro-calculator .item_label_weaponCard2,
- .ui-scope-app-ro-calculator .item_label_weaponCard2,
- app-ro-calculator .item_label_weaponCard3,
- .ui-scope-app-ro-calculator .item_label_weaponCard3,
- app-ro-calculator .item_label_weaponCard4,
- .ui-scope-app-ro-calculator .item_label_weaponCard4,
- app-ro-calculator .item_label_ammo,
- .ui-scope-app-ro-calculator .item_label_ammo,
- app-ro-calculator .item_label_weaponEnchant0,
- .ui-scope-app-ro-calculator .item_label_weaponEnchant0,
- app-ro-calculator .item_label_weaponEnchant1,
- .ui-scope-app-ro-calculator .item_label_weaponEnchant1,
- app-ro-calculator .item_label_weaponEnchant2,
- .ui-scope-app-ro-calculator .item_label_weaponEnchant2,
- app-ro-calculator .item_label_weaponEnchant3,
- .ui-scope-app-ro-calculator .item_label_weaponEnchant3{
-
-  background-color: #121212;
-  color: var(--pink-200);
-}
- app-ro-calculator .item_label_leftWeapon,
- .ui-scope-app-ro-calculator .item_label_leftWeapon,
- app-ro-calculator .item_label_leftWeaponCard1,
- .ui-scope-app-ro-calculator .item_label_leftWeaponCard1,
- app-ro-calculator .item_label_leftWeaponCard2,
- .ui-scope-app-ro-calculator .item_label_leftWeaponCard2,
- app-ro-calculator .item_label_leftWeaponCard3,
- .ui-scope-app-ro-calculator .item_label_leftWeaponCard3,
- app-ro-calculator .item_label_leftWeaponCard4,
- .ui-scope-app-ro-calculator .item_label_leftWeaponCard4,
- app-ro-calculator .item_label_leftWeaponEnchant0,
- .ui-scope-app-ro-calculator .item_label_leftWeaponEnchant0,
- app-ro-calculator .item_label_leftWeaponEnchant1,
- .ui-scope-app-ro-calculator .item_label_leftWeaponEnchant1,
- app-ro-calculator .item_label_leftWeaponEnchant2,
- .ui-scope-app-ro-calculator .item_label_leftWeaponEnchant2,
- app-ro-calculator .item_label_leftWeaponEnchant3,
- .ui-scope-app-ro-calculator .item_label_leftWeaponEnchant3{
-
-  background-color: #121212;
-  color: var(--pink-200);
-}
- app-ro-calculator .item-position-shieldList,
- .ui-scope-app-ro-calculator .item-position-shieldList,
- app-ro-calculator .item-position-shieldCardList,
- .ui-scope-app-ro-calculator .item-position-shieldCardList,
- app-ro-calculator .item_label_shield,
- .ui-scope-app-ro-calculator .item_label_shield,
- app-ro-calculator .item_label_shieldCard,
- .ui-scope-app-ro-calculator .item_label_shieldCard,
- app-ro-calculator .item_label_shieldEnchant1,
- .ui-scope-app-ro-calculator .item_label_shieldEnchant1,
- app-ro-calculator .item_label_shieldEnchant2,
- .ui-scope-app-ro-calculator .item_label_shieldEnchant2,
- app-ro-calculator .item_label_shieldEnchant3,
- .ui-scope-app-ro-calculator .item_label_shieldEnchant3{
-
-  background-color: #121212;
-  color: var(--pink-200);
-}
- app-ro-calculator .item-position-headUpperList,
- .ui-scope-app-ro-calculator .item-position-headUpperList,
- app-ro-calculator .item-position-headMiddleList,
- .ui-scope-app-ro-calculator .item-position-headMiddleList,
- app-ro-calculator .item-position-headLowerList,
- .ui-scope-app-ro-calculator .item-position-headLowerList,
- app-ro-calculator .item-position-headCardList,
- .ui-scope-app-ro-calculator .item-position-headCardList,
- app-ro-calculator .item_label_headUpper,
- .ui-scope-app-ro-calculator .item_label_headUpper,
- app-ro-calculator .item_label_headUpperCard,
- .ui-scope-app-ro-calculator .item_label_headUpperCard,
- app-ro-calculator .item_label_headUpperEnchant1,
- .ui-scope-app-ro-calculator .item_label_headUpperEnchant1,
- app-ro-calculator .item_label_headUpperEnchant2,
- .ui-scope-app-ro-calculator .item_label_headUpperEnchant2,
- app-ro-calculator .item_label_headUpperEnchant3,
- .ui-scope-app-ro-calculator .item_label_headUpperEnchant3,
- app-ro-calculator .item_label_headMiddle,
- .ui-scope-app-ro-calculator .item_label_headMiddle,
- app-ro-calculator .item_label_headMiddleCard,
- .ui-scope-app-ro-calculator .item_label_headMiddleCard,
- app-ro-calculator .item_label_headMiddleEnchant1,
- .ui-scope-app-ro-calculator .item_label_headMiddleEnchant1,
- app-ro-calculator .item_label_headMiddleEnchant2,
- .ui-scope-app-ro-calculator .item_label_headMiddleEnchant2,
- app-ro-calculator .item_label_headMiddleEnchant3,
- .ui-scope-app-ro-calculator .item_label_headMiddleEnchant3,
- app-ro-calculator .item_label_headLower,
- .ui-scope-app-ro-calculator .item_label_headLower,
- app-ro-calculator .item_label_headLowerEnchant1,
- .ui-scope-app-ro-calculator .item_label_headLowerEnchant1,
- app-ro-calculator .item_label_headLowerEnchant2,
- .ui-scope-app-ro-calculator .item_label_headLowerEnchant2,
- app-ro-calculator .item_label_headLowerEnchant3,
- .ui-scope-app-ro-calculator .item_label_headLowerEnchant3{
-
-  background-color: #121212;
-  color: var(--blue-200);
-}
- app-ro-calculator .item-position-armorList,
- .ui-scope-app-ro-calculator .item-position-armorList,
- app-ro-calculator .item-position-armorCardList,
- .ui-scope-app-ro-calculator .item-position-armorCardList,
- app-ro-calculator .item-position-garmentList,
- .ui-scope-app-ro-calculator .item-position-garmentList,
- app-ro-calculator .item-position-garmentCardList,
- .ui-scope-app-ro-calculator .item-position-garmentCardList,
- app-ro-calculator .item-position-bootList,
- .ui-scope-app-ro-calculator .item-position-bootList,
- app-ro-calculator .item-position-bootCardList,
- .ui-scope-app-ro-calculator .item-position-bootCardList,
- app-ro-calculator .item_label_armor,
- .ui-scope-app-ro-calculator .item_label_armor,
- app-ro-calculator .item_label_armorCard,
- .ui-scope-app-ro-calculator .item_label_armorCard,
- app-ro-calculator .item_label_armorEnchant1,
- .ui-scope-app-ro-calculator .item_label_armorEnchant1,
- app-ro-calculator .item_label_armorEnchant2,
- .ui-scope-app-ro-calculator .item_label_armorEnchant2,
- app-ro-calculator .item_label_armorEnchant3,
- .ui-scope-app-ro-calculator .item_label_armorEnchant3,
- app-ro-calculator .item_label_garment,
- .ui-scope-app-ro-calculator .item_label_garment,
- app-ro-calculator .item_label_garmentCard,
- .ui-scope-app-ro-calculator .item_label_garmentCard,
- app-ro-calculator .item_label_garmentEnchant1,
- .ui-scope-app-ro-calculator .item_label_garmentEnchant1,
- app-ro-calculator .item_label_garmentEnchant2,
- .ui-scope-app-ro-calculator .item_label_garmentEnchant2,
- app-ro-calculator .item_label_garmentEnchant3,
- .ui-scope-app-ro-calculator .item_label_garmentEnchant3,
- app-ro-calculator .item_label_boot,
- .ui-scope-app-ro-calculator .item_label_boot,
- app-ro-calculator .item_label_bootCard,
- .ui-scope-app-ro-calculator .item_label_bootCard,
- app-ro-calculator .item_label_bootEnchant1,
- .ui-scope-app-ro-calculator .item_label_bootEnchant1,
- app-ro-calculator .item_label_bootEnchant2,
- .ui-scope-app-ro-calculator .item_label_bootEnchant2,
- app-ro-calculator .item_label_bootEnchant3,
- .ui-scope-app-ro-calculator .item_label_bootEnchant3{
-
-  background-color: #121212;
-  color: var(--red-200);
-}
- app-ro-calculator .item-position-accList,
- .ui-scope-app-ro-calculator .item-position-accList,
- app-ro-calculator .item-position-accCardList,
- .ui-scope-app-ro-calculator .item-position-accCardList,
- app-ro-calculator .item_label_accLeft,
- .ui-scope-app-ro-calculator .item_label_accLeft,
- app-ro-calculator .item_label_accLeftCard,
- .ui-scope-app-ro-calculator .item_label_accLeftCard,
- app-ro-calculator .item_label_accLeftEnchant1,
- .ui-scope-app-ro-calculator .item_label_accLeftEnchant1,
- app-ro-calculator .item_label_accLeftEnchant2,
- .ui-scope-app-ro-calculator .item_label_accLeftEnchant2,
- app-ro-calculator .item_label_accLeftEnchant3,
- .ui-scope-app-ro-calculator .item_label_accLeftEnchant3,
- app-ro-calculator .item_label_accRight,
- .ui-scope-app-ro-calculator .item_label_accRight,
- app-ro-calculator .item_label_accRightCard,
- .ui-scope-app-ro-calculator .item_label_accRightCard,
- app-ro-calculator .item_label_accRightEnchant1,
- .ui-scope-app-ro-calculator .item_label_accRightEnchant1,
- app-ro-calculator .item_label_accRightEnchant2,
- .ui-scope-app-ro-calculator .item_label_accRightEnchant2,
- app-ro-calculator .item_label_accRightEnchant3,
- .ui-scope-app-ro-calculator .item_label_accRightEnchant3{
-
-  background-color: #121212;
-  color: var(--purple-200);
-}
- app-ro-calculator .item-position-petList,
- .ui-scope-app-ro-calculator .item-position-petList,
- app-ro-calculator .item_label_pet,
- .ui-scope-app-ro-calculator .item_label_pet{
-
-  background-color: #121212;
-  color: var(--orange-200);
-}
- app-ro-calculator .item-position-costumeList,
- .ui-scope-app-ro-calculator .item-position-costumeList,
- app-ro-calculator .item_label_costumeUpper,
- .ui-scope-app-ro-calculator .item_label_costumeUpper,
- app-ro-calculator .item_label_costumeMiddle,
- .ui-scope-app-ro-calculator .item_label_costumeMiddle,
- app-ro-calculator .item_label_costumeLower,
- .ui-scope-app-ro-calculator .item_label_costumeLower,
- app-ro-calculator .item_label_costumeGarment,
- .ui-scope-app-ro-calculator .item_label_costumeGarment,
- app-ro-calculator .item_label_costumeEnchantUpper,
- .ui-scope-app-ro-calculator .item_label_costumeEnchantUpper,
- app-ro-calculator .item_label_costumeEnchantMiddle,
- .ui-scope-app-ro-calculator .item_label_costumeEnchantMiddle,
- app-ro-calculator .item_label_costumeEnchantLower,
- .ui-scope-app-ro-calculator .item_label_costumeEnchantLower,
- app-ro-calculator .item_label_costumeEnchantGarment,
- .ui-scope-app-ro-calculator .item_label_costumeEnchantGarment,
- app-ro-calculator .item_label_costumeEnchantGarment2,
- .ui-scope-app-ro-calculator .item_label_costumeEnchantGarment2,
- app-ro-calculator .item_label_costumeEnchantGarment4,
- .ui-scope-app-ro-calculator .item_label_costumeEnchantGarment4{
-
-  background-color: #121212;
-  color: var(--yellow-400);
-}
- app-ro-calculator .item-position-shadowWeaponList,
- .ui-scope-app-ro-calculator .item-position-shadowWeaponList,
- app-ro-calculator .item-position-shadowShieldList,
- .ui-scope-app-ro-calculator .item-position-shadowShieldList,
- app-ro-calculator .item-position-shadowArmorList,
- .ui-scope-app-ro-calculator .item-position-shadowArmorList,
- app-ro-calculator .item-position-shadowBootList,
- .ui-scope-app-ro-calculator .item-position-shadowBootList,
- app-ro-calculator .item-position-shadowEarringList,
- .ui-scope-app-ro-calculator .item-position-shadowEarringList,
- app-ro-calculator .item-position-shadowPendantList,
- .ui-scope-app-ro-calculator .item-position-shadowPendantList,
- app-ro-calculator .item_label_shadowWeapon,
- .ui-scope-app-ro-calculator .item_label_shadowWeapon,
- app-ro-calculator .item_label_shadowArmor,
- .ui-scope-app-ro-calculator .item_label_shadowArmor,
- app-ro-calculator .item_label_shadowShield,
- .ui-scope-app-ro-calculator .item_label_shadowShield,
- app-ro-calculator .item_label_shadowBoot,
- .ui-scope-app-ro-calculator .item_label_shadowBoot,
- app-ro-calculator .item_label_shadowEarring,
- .ui-scope-app-ro-calculator .item_label_shadowEarring,
- app-ro-calculator .item_label_shadowPendant,
- .ui-scope-app-ro-calculator .item_label_shadowPendant,
- app-ro-calculator .item_label_shadowWeaponEnchant2,
- .ui-scope-app-ro-calculator .item_label_shadowWeaponEnchant2,
- app-ro-calculator .item_label_shadowWeaponEnchant3,
- .ui-scope-app-ro-calculator .item_label_shadowWeaponEnchant3,
- app-ro-calculator .item_label_shadowShieldEnchant2,
- .ui-scope-app-ro-calculator .item_label_shadowShieldEnchant2,
- app-ro-calculator .item_label_shadowShieldEnchant3,
- .ui-scope-app-ro-calculator .item_label_shadowShieldEnchant3,
- app-ro-calculator .item_label_shadowArmorEnchant2,
- .ui-scope-app-ro-calculator .item_label_shadowArmorEnchant2,
- app-ro-calculator .item_label_shadowArmorEnchant3,
- .ui-scope-app-ro-calculator .item_label_shadowArmorEnchant3,
- app-ro-calculator .item_label_shadowBootEnchant2,
- .ui-scope-app-ro-calculator .item_label_shadowBootEnchant2,
- app-ro-calculator .item_label_shadowBootEnchant3,
- .ui-scope-app-ro-calculator .item_label_shadowBootEnchant3,
- app-ro-calculator .item_label_shadowEarringEnchant2,
- .ui-scope-app-ro-calculator .item_label_shadowEarringEnchant2,
- app-ro-calculator .item_label_shadowEarringEnchant3,
- .ui-scope-app-ro-calculator .item_label_shadowEarringEnchant3,
- app-ro-calculator .item_label_shadowPendantEnchant2,
- .ui-scope-app-ro-calculator .item_label_shadowPendantEnchant2,
- app-ro-calculator .item_label_shadowPendantEnchant3,
- .ui-scope-app-ro-calculator .item_label_shadowPendantEnchant3{
-
-  background-color: #121212;
-  color: var(--green-200);
-}
- app-ro-calculator .item_label_compare .ui-listbox-item,
- .ui-scope-app-ro-calculator .item_label_compare .ui-listbox-item{
-
-  background-color: #2a2a2a;
-  color: var(--yellow-300);
-}
-:is(app-item-search, .ui-scope-app-item-search) .vs_sign{
-  font-size: 0.75rem;
-}
- app-ro-calculator .divider .ui-divider-horizontal,
- .ui-scope-app-ro-calculator .divider .ui-divider-horizontal{
-  margin: 0;
-  padding: 0;
-}
- app-ro-calculator .ui-accordion-tab .ui-accordion-header > button,
- .ui-scope-app-ro-calculator .ui-accordion-tab .ui-accordion-header > button{
-  font-weight: 800;
-  color: var(--highlight-text-color);
-  background: var(--highlight-bg);
-
-}
- app-ro-calculator .ui-accordion-tab .ui-highlight > button,
- .ui-scope-app-ro-calculator .ui-accordion-tab .ui-highlight > button,
- app-ro-calculator .ui-accordion-tab .ui-accordion-header :hover,
- .ui-scope-app-ro-calculator .ui-accordion-tab .ui-accordion-header :hover{
-  color: var(--primary-color-text) !important;
-  background: var(--primary-color) !important;
-
-}
-:is(app-item-search, .ui-scope-app-item-search) .job_img{
-  width: 25px;
-  height: 25px;
-  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
   image-rendering: pixelated;
 }
-:is(app-item-search, .ui-scope-app-item-search) .replay-dropzone{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-  padding: 1.75rem 1rem;
-  border: 2px dashed var(--surface-400);
-  border-radius: 8px;
-  text-align: center;
-  cursor: pointer;
-  transition: border-color 0.15s, background-color 0.15s;
+:is(app-item-search, .ui-scope-app-item-search) .item-search-filter-icon-skill {
+  width: 20px;
+  height: 20px;
 }
-:is(app-item-search, .ui-scope-app-item-search) .replay-dropzone:hover{
-  border-color: var(--primary-color);
-}
-:is(app-item-search, .ui-scope-app-item-search) .replay-dropzone.dragover{
-  border-color: var(--primary-color);
-  background-color: var(--surface-100);
-}
-:is(app-item-search, .ui-scope-app-item-search) .replay-dropzone-icon{
-  font-size: 2rem;
-  margin-bottom: 0.25rem;
-  opacity: 0.7;
-}
-:is(app-item-search, .ui-scope-app-item-search) .editor_col{
-  padding-right: var(--page-gutter);
-}
-:is(app-item-search, .ui-scope-app-item-search) .stats_stack{
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .stats_row{
-  display: flex;
-  align-items: stretch;
-  flex-wrap: nowrap;
-  gap: 12px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_band,
-:is(app-item-search, .ui-scope-app-item-search) .attr_cell,
-:is(app-item-search, .ui-scope-app-item-search) .summary_cell{
-  background-color: var(--surface-card);
-  border: 1px solid var(--surface-border);
-  border-radius: var(--border-radius);
-  padding: 6px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_band{
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_band .build_actions  .ui-button,
-:is(app-item-search, .ui-scope-app-item-search) .char_band .char_class  .ui-dropdown,
-:is(app-item-search, .ui-scope-app-item-search) .char_band .char_point_box{
-  height: 34px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .build_actions{
-  display: flex;
-  gap: 4px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .build_actions > button{
-  flex: 0 0 auto;
-}
-:is(app-item-search, .ui-scope-app-item-search) .build_actions  .ui-button{
-  width: auto;
-  padding: 0 12px;
-  gap: 6px;
-  font-size: 11.5px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-:is(app-item-search, .ui-scope-app-item-search) .build_actions  .ui-button .ui-button-icon{
-  font-size: 11px;
-  margin: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .build_actions  .ui-button.ui-button-icon-only{
-  width: 34px;
-  padding: 0;
-  gap: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .build_actions  .ui-button.ui-button-icon-only .ui-button-icon{
-  font-size: 13px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_class{
-  flex: 1 1 0;
-  min-width: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_class  .ui-dropdown{
-  background: var(--surface-ground);
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_class  .ui-dropdown-label{
-  flex: 1 1 auto;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  padding: 0 8px;
-  font-size: 13px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_class  .ui-dropdown.ui-component{
-  display: flex;
-  align-items: center;
-  padding-right: 8px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_class  .ui-dropdown-label > div{
-  gap: 6px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_class  .job_img{
-  width: 22px;
-  height: 22px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_class  .ui-dropdown-trigger{
-  flex: 0 0 auto;
-  width: auto;
-  padding: 0;
-  color: rgba(255, 255, 255, 0.45);
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_class  .ui-dropdown-trigger .ui-icon{
-  width: 14px;
-  height: 14px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .joined_field{
-  display: flex;
-  height: 34px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .joined_caption{
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  background: var(--surface-card);
-  border: 1px solid var(--surface-border);
-  border-right: 0;
-  border-radius: var(--border-radius) 0 0 var(--border-radius);
-}
-:is(app-item-search, .ui-scope-app-item-search) .joined_field  app-ui-dropdown{
-  min-width: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .joined_field  .ui-dropdown{
-  width: 100%;
-  min-width: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: var(--surface-ground);
 
-  border-radius: 0 var(--border-radius) var(--border-radius) 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .joined_field  .ui-dropdown-label{
-  flex: 1 1 auto;
+:is(app-item-search, .ui-scope-app-item-search) .item-search-equip {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0;
-  line-height: 1;
-}
-:is(app-item-search, .ui-scope-app-item-search) .joined_field  .ui-dropdown-trigger{
-  flex: 0 0 auto;
-  width: auto;
-  padding: 0;
-  margin-right: 5px;
-  color: rgba(255, 255, 255, 0.45);
-}
-:is(app-item-search, .ui-scope-app-item-search) .joined_field  .ui-dropdown-trigger .ui-icon{
-  width: 14px;
-  height: 14px;
-}
- .joined-dropdown-panel .ui-dropdown-panel{
-  width: 100px;
-  min-width: 100px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .battle-target-field{
-  width: 100%;
-}
-:is(app-item-search, .ui-scope-app-item-search) .battle-target-field  app-ui-dropdown{
-  flex: 1 1 auto;
-  width: auto;
-}
-:is(app-item-search, .ui-scope-app-item-search) .battle-target-field  .ui-dropdown{
-  padding: 0 0.45rem;
-  border-radius: var(--border-radius);
-}
-:is(app-item-search, .ui-scope-app-item-search) .battle-target-field  .ui-dropdown-label{
-  justify-content: flex-start;
-  overflow: hidden;
-  font-size: 12px;
-  line-height: 1.25;
-  text-align: left;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_levels{
-  display: flex;
-  gap: 4px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_levels .ui-inputgroup{
-  width: auto;
-  min-width: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_levels  app-ui-dropdown{
-  flex: 0 0 60px;
-  width: 60px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_levels  .ui-dropdown{
-  padding: 0 5px 0 6px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_levels  .ui-dropdown-label{
-  font-size: 12.5px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_addon{
-  padding: 0 6px;
-  font-size: 10px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_points{
-  display: flex;
-  gap: 4px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_point_box{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  min-width: 78px;
-  padding: 0 10px;
-  background: var(--surface-ground);
-  border: 1px solid var(--surface-border);
-  border-radius: var(--border-radius);
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_point_label{
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
-  line-height: 1;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_point_value{
-  font-size: 12.5px;
-  font-weight: 600;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_point_neg{
-  color: var(--red-300);
-}
-:is(app-item-search, .ui-scope-app-item-search) .attr_cell{
-  flex: 0 0 280px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .attr_grid{
-  flex: 1 1 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 6px;
-  row-gap: 3px;
-  align-content: space-between;
-}
-:is(app-item-search, .ui-scope-app-item-search) .summary_cell{
-  flex: 1 1 0;
-  min-width: 0;
-  padding: 12px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .stats_summary{
-  position: relative;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ss_headline{
-  display: flex;
-  align-items: baseline;
+  align-items: end;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 12px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ss_headline_item{
-  display: flex;
-  align-items: baseline;
-  gap: 7px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ss_headline_value{
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1.1;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ss_headline_delta{
-  font-size: 11px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ss_grid{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 12px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ss_col{
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  column-gap: 6px;
-  align-items: baseline;
-  align-content: start;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ss_group_header{
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-
-  min-height: 19px;
-  font-size: 9.5px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
-  padding-bottom: 4px;
-  margin-bottom: 3px;
+  gap: 0.75rem;
+  padding: 0.75rem;
   border-bottom: 1px solid var(--surface-border);
 }
-:is(app-item-search, .ui-scope-app-item-search) .ss_group_header:not(:first-child){
-  margin-top: 16px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ss_group_header > span:first-child{
+:is(app-item-search, .ui-scope-app-item-search) .item-search-equip-target {
+  flex: 1 1 180px;
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  max-width: 320px;
 }
-:is(app-item-search, .ui-scope-app-item-search) .ss_reduction{
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11.5px;
-  line-height: 1;
-  font-weight: 600;
-  letter-spacing: normal;
-  text-transform: none;
-  white-space: nowrap;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ss_reduction .ui-icon{
-  font-size: 11px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ss_label{
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.55);
-  padding: 1px 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ss_value{
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 5px;
-  padding: 1px 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ss_value_text{
-  font-size: 12.5px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ss_delta{
-  font-size: 10px;
-  white-space: nowrap;
-}
-:is(app-item-search, .ui-scope-app-item-search) .ss_suffix{
-  font-size: 10px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.55);
-  margin-left: 5px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .stats_summary{
-  --stat-chip-bg: transparent;
-}
-:is(app-item-search, .ui-scope-app-item-search) .item_label_compare{
-  margin-top: 8px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .class_switch_losses{
-  border: 1px solid var(--surface-400);
-  border-left: 3px solid var(--yellow-500);
-  border-radius: 6px;
-  padding: 0.75rem;
-  background-color: var(--surface-100);
-}
-:is(app-item-search, .ui-scope-app-item-search) .class_switch_loss_list{
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  max-height: 220px;
-  overflow-y: auto;
-}
-:is(app-item-search, .ui-scope-app-item-search) .class_switch_loss_list li{
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding: 2px 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .class_switch_loss_slot,
-:is(app-item-search, .ui-scope-app-item-search) .class_switch_loss_note,
-:is(app-item-search, .ui-scope-app-item-search) .class_switch_note{
-  font-size: 11px;
-  opacity: 0.65;
-}
-:is(app-item-search, .ui-scope-app-item-search) .class_switch_loss_slot{
-  flex: 0 0 7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-:is(app-item-search, .ui-scope-app-item-search) .class_switch_loss_item{
-  font-weight: 600;
-}
-:is(app-item-search, .ui-scope-app-item-search) .stats_compare_bar{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 4px;
-  min-height: 18px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .stats_compare_toggle{
-  display: inline-flex;
-  align-items: center;
-  flex: 0 0 auto;
-  height: 18px;
-  padding: 0 5px;
-  border: 1px solid transparent;
-  border-radius: 9px;
-  background: transparent;
-  color: rgb(255 255 255 / 55%);
-  font: inherit;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  cursor: pointer;
-}
-:is(app-item-search, .ui-scope-app-item-search) .stats_compare_toggle:hover:not(:disabled){
-  color: #fdd87d;
-}
-:is(app-item-search, .ui-scope-app-item-search) .stats_compare_toggle--on{
-  padding: 0 6px;
-  border-color: rgb(253 216 125 / 55%);
-  background: rgb(253 216 125 / 16%);
-  color: #fdd87d;
-}
-:is(app-item-search, .ui-scope-app-item-search) .stats_side_switch{
-  flex: 0 0 auto;
-  display: inline-flex;
-  border: 1px solid var(--surface-border);
-  border-radius: 10px;
-  overflow: hidden;
-}
-:is(app-item-search, .ui-scope-app-item-search) .stats_side{
-  height: 18px;
-  padding: 0 6px;
-  border: 0;
-  background: transparent;
-  color: rgb(255 255 255 / 50%);
-  font: inherit;
-  font-size: 9.5px;
-  font-weight: 600;
-  cursor: pointer;
-}
-:is(app-item-search, .ui-scope-app-item-search) .stats_side--active{
-  background: var(--surface-ground);
-  color: rgb(255 255 255 / 90%);
-}
-:is(app-item-search, .ui-scope-app-item-search) .stats_side--compare.stats_side--active{
-  background: rgb(253 216 125 / 16%);
-  color: #fdd87d;
-}
-:is(app-item-search, .ui-scope-app-item-search) .attr_cell--compare{
-  border-color: rgb(253 216 125 / 45%);
-  background-image: linear-gradient(rgb(253 216 125 / 4%), rgb(253 216 125 / 4%));
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_point_row{
-  display: flex;
-  align-items: baseline;
-  gap: 5px;
-  white-space: nowrap;
-  line-height: 1;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_point_value--compare{
-  font-size: 10.5px;
-  color: #fdd87d;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_point_value--compare.char_point_neg{
-  color: var(--red-300);
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_levels--compare .joined_caption,
-:is(app-item-search, .ui-scope-app-item-search) .char_levels--compare  .ui-dropdown{
-  border-color: rgb(253 216 125 / 55%);
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_levels--compare .joined_caption{
-  color: #fdd87d;
-  background-color: rgb(253 216 125 / 10%);
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_addon--other{
-  flex-direction: column;
-  justify-content: center;
-  gap: 1px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .char_addon_other{
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0;
-  color: #fdd87d;
-}
-:is(app-item-search, .ui-scope-app-item-search) .import_divider{
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 14px 0 10px;
-  font-size: 12px;
-  color: rgb(255 255 255 / 55%);
-}
-:is(app-item-search, .ui-scope-app-item-search) .import_divider::before,
-:is(app-item-search, .ui-scope-app-item-search) .import_divider::after{
-  content: '';
-  flex: 1;
-  border-top: 1px solid var(--surface-border);
-}
-:is(app-item-search, .ui-scope-app-item-search) .import_link{
-  display: flex;
-  gap: 6px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .import_link_input{
-  flex: 1 1 auto;
-  min-width: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .import_link .import_link_button{
-  flex: 0 0 auto;
-  width: auto;
-}
-:is(app-item-search, .ui-scope-app-item-search) .import_summary{
-  padding: 10px 12px;
-  border: 1px solid var(--surface-border);
-  border-radius: var(--border-radius);
-  background: var(--surface-ground);
-}
-:is(app-item-search, .ui-scope-app-item-search) .import_summary_title{
-  font-weight: 600;
-}
-:is(app-item-search, .ui-scope-app-item-search) .import_summary_meta{
-  margin-top: 2px;
-  font-size: 12px;
-  color: rgb(255 255 255 / 60%);
-}
-:is(app-item-search, .ui-scope-app-item-search) .import_choices{
-  display: flex;
-  flex-direction: column;
-  margin-top: 14px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .import_choices .import_choice{
-  width: 100%;
-}
-:is(app-item-search, .ui-scope-app-item-search) .import_choice_note{
-  margin: 4px 2px 12px;
-  font-size: 12px;
-  color: rgb(255 255 255 / 60%);
-}
-:is(app-item-search, .ui-scope-app-item-search) .auto-cast-beta-alert{
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 12px;
-  padding: 10px 12px;
-  border: 1px solid rgba(255, 181, 94, 0.55);
-  border-left: 3px solid var(--orange-400, #ffb55e);
-  border-radius: 4px;
-  background: rgba(255, 181, 94, 0.08);
-}
-:is(app-item-search, .ui-scope-app-item-search) .auto-cast-beta-copy{
-  display: flex;
-  align-items: flex-start;
-  gap: 9px;
+:is(app-item-search, .ui-scope-app-item-search) .item-search-equip > span {
   color: var(--text-color-secondary);
-  line-height: 1.4;
-}
-:is(app-item-search, .ui-scope-app-item-search) .auto-cast-beta-copy i,
-:is(app-item-search, .ui-scope-app-item-search) .auto-cast-beta-copy b{
-  color: var(--orange-300, #ffb55e);
-}
-:is(app-item-search, .ui-scope-app-item-search) .auto-cast-beta-copy i{
-  margin-top: 2px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .auto-cast-beta-text{
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-:is(app-item-search, .ui-scope-app-item-search) .auto-cast-beta-actions{
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  gap: 8px;
-  margin-left: 0;
-}
-:is(app-item-search, .ui-scope-app-item-search) .auto-cast-beta-actions .ui-button{
-  white-space: nowrap;
-}
-@media (max-width: 1100px){:is(app-item-search, .ui-scope-app-item-search) .auto-cast-beta-alert{
-    align-items: stretch;
-    flex-direction: column;
-  }
-:is(app-item-search, .ui-scope-app-item-search) .auto-cast-beta-actions{
-    flex-wrap: wrap;
-    margin-left: 0;
-  }
-
-}
-
-
- app-item-search .item-position-list app-ui-listbox .ui-listbox-list,
- .ui-scope-app-item-search .item-position-list app-ui-listbox .ui-listbox-list{
-
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(9, auto);
-}
- app-item-search .item-position-list .ui-listbox-item,
- .ui-scope-app-item-search .item-position-list .ui-listbox-item{
-  padding: 0.25rem 0.25rem;
-}
- app-item-search .skill-list app-ui-listbox .ui-listbox-list,
- .ui-scope-app-item-search .skill-list app-ui-listbox .ui-listbox-list{
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-}
- app-item-search .skill-list .ui-listbox-item,
- .ui-scope-app-item-search .skill-list .ui-listbox-item{
-  padding: 0.25rem 0.25rem;
-}
- app-item-search .ui-dialog-header,
- .ui-scope-app-item-search .ui-dialog-header{
-  padding: 0.5rem 1.5rem;
-}
- app-item-search .ui-dialog-content,
- .ui-scope-app-item-search .ui-dialog-content{
-  padding-bottom: 0;
+  font-size: 12px;
 }

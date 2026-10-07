@@ -1,3 +1,4 @@
+import type { ItemSearchOpenRequest } from '../../../../core/item-search-equipment';
 import { DropdownModel } from 'src/app/models/dropdown.model';
 import { ItemModel } from 'src/app/models/item.model';
 
@@ -19,6 +20,8 @@ interface PickerRequestBase {
 
 export interface FlatPickerRequest extends PickerRequestBase {
   mode: 'flat';
+  /** Open the full search with this chip's type and destination. */
+  search?: ItemSearchOpenRequest;
   /** Offer item creation as the first row for item/category lists. */
   createKind?: string;
   createSlot?: string;
@@ -59,6 +62,7 @@ export type PickerRequest = FlatPickerRequest | TreePickerRequest;
  */
 export interface PickerResult {
   committed: boolean;
+  search?: ItemSearchOpenRequest;
   value?: string | number | null;
   create?: { kind: string; slot: string; compare: boolean };
 }
