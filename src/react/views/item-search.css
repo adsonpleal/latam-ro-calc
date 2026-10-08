@@ -155,7 +155,7 @@
   white-space: nowrap;
 }
 :is(app-item-search, .ui-scope-app-item-search) .item-search-empty-list { color: var(--text-color-secondary); padding: 1rem 0.4rem; }
-:is(app-item-search, .ui-scope-app-item-search) .item-description-card {
+:is(app-item-search, .ui-scope-app-item-search) .item-search-dialog .item-description-card {
   flex: 1;
   min-height: 0;
   overflow: auto;
