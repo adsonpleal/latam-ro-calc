@@ -201,7 +201,15 @@ test('item list and description scroll independently while pagination stays visi
     await page.setViewportSize({ width, height: width === 390 ? 844 : 918 });
     const before = (await pagination.boundingBox())!;
     await list.evaluate(element => { element.scrollTop = element.scrollHeight; });
-    await detail.evaluate(element => { element.scrollTop = element.scrollHeight; });
+    await detail.evaluate(element => { element.scrollTop = 0; });
+    expect(await list.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+    const detailBox = (await detail.boundingBox())!;
+    await page.mouse.move(detailBox.x + detailBox.width / 2, detailBox.y + detailBox.height / 2);
+    await page.mouse.wheel(0, 500);
+    await expect.poll(() => detail.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+    await detail.focus();
+    await detail.press('End');
+    await expect.poll(() => detail.evaluate(element => element.scrollTop + element.clientHeight >= element.scrollHeight - 1)).toBe(true);
     expect(await list.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
     expect(await detail.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
     expect(await content.evaluate(element => element.scrollTop)).toBe(0);
