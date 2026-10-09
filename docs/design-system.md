@@ -118,11 +118,27 @@ visíveis carregarem e usa um frame fixo do monstro (ver `e2e/fixtures/README.md
 mantendo a imagem e suas dimensões. Somente os glifos e a remoção do botão
 de configurações são excluídos da comparação. Para renovar referências após uma
 mudança visual intencional, rode `pnpm e2e:update` e revise cada imagem; não
-atualize snapshots para encobrir regressões. `interactions.spec.ts` exercita
+atualize snapshots para encobrir regressões.
+
+A busca de itens usa os mesmos seletores React: múltipla seleção para tipos e
+habilidades, dropdown pesquisável para cada bônus e `SelectButton` Sim/Não para
+o modo de correspondência. O catálogo explícito em `src/app/core/item-search.ts`
+é conferido contra o motor e o banco em `item-search.spec.ts`. Ao adicionar um
+bônus ou família de script, inclua a opção com rótulo em português e seu matcher;
+a cobertura deve falhar enquanto essa opção estiver ausente. A descrição
+selecionada acompanha as atualizações de `DescriptionStore`. O botão Equipar usa
+as mesmas opções e o mesmo fluxo de atualização dos chips do equipamento. Nos
+pickers de itens, Buscar itens abre a busca completa com o tipo selecionado e
+preserva o destino de origem, incluindo a comparação. O seletor de destino só
+aparece quando houver mais de uma opção. Os filtros usam duas colunas, e o botão
+para adicionar bônus fica junto ao último campo. A lista e a descrição têm
+rolagens independentes; a paginação permanece fora da área rolável da lista.
+
+`interactions.spec.ts` exercita
 formulários, overlays, buscas e os fluxos de simulação. Vitest cobre identidade
 de seleção, notificações e os ciclos de vida de tooltips/locks/Escape.
 
-A suíte inclui 17 capturas de referência no Chrome/Windows. Os cenários de
+A suíte inclui 18 capturas de referência no Chrome/Windows. Os cenários de
 interação incluem salvar/carregar/importar/compartilhar simulações, importação
 de replay, seleção virtual, cascatas, paginação e destruição de overlays aninhados.
 O manifesto, o lockfile, o grafo instalado e os bundles produzidos foram conferidos

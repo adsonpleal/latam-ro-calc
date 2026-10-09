@@ -108,6 +108,12 @@ private readonly host: { nativeElement: HTMLElement },
     return this.request?.mode === 'flat' ? this.request.createKind : undefined;
   }
 
+  get canSearch(): boolean { return this.request?.mode === 'flat' && !!this.request.search; }
+
+  openSearch(): void {
+    if (this.request.mode === 'flat' && this.request.search) this.closed.emit({ committed: false, search: this.request.search });
+  }
+
   private get minIndex(): number {
     return this.createKind ? -2 : this.clearable ? -1 : 0;
   }

@@ -1,117 +1,142 @@
-import { Render, displayPipe, interpolate, classNames, parseStyle, normalizeStyle } from '../render';
+import { useMemo } from 'react';
+import { inferCustomIcon } from '../../../app/core/custom-items';
+import type { ApplicationServices } from '../../services/application';
+import type { ItemSearchComponent } from '../../controllers/item-search';
+import { iconUrl, missingIcon } from '../../services/assets';
+import { Dialog } from '../../ui/dialog';
+import { Button, Icon, Input } from '../../ui/primitives';
+import { Select } from '../../ui/select';
+import { SelectButton } from '../../ui/select-button';
+import { Table } from '../../ui/table';
 import { sanitizeHtml } from '../../ui/sanitize-html';
-export function Content({vm, services}: {vm: any; services: any}) {
-return <><Render tag="app-ui-dialog" props={{"header": interpolate(["",""], [(vm.className || vm.selectedCharacter?.className)]),
-"modal": true,
-"closeOnEscape": true,
-"visible": vm.isShowSearchDialog,
-"visibleChange": (event: any) => vm.action(() => { const $event = event; (vm.isShowSearchDialog = $event) }),
-"style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "75vw","height": "90vh","min-width": "750px"})))}}><Render tag="div" props={{"className": ["ui-fluid grid grid-nogutter"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["col-12 item-position-list"].filter(Boolean).join(' ')}}><Render tag="app-ui-listbox" props={{"options": vm.itemPositionOptions,
-"metaKeySelection": false,
-"multiple": true,
-"listStyle": {"max-height": "600px"},
-"value": vm.selectedItemPositions,
-"onModelChange": (value: any, event: any) => vm.action(() => { ((event: any) => vm.action(() => { const $event = event; (vm.selectedItemPositions = $event) }))(value); }),
-"template_item": (context: any) => { const item = context["$implicit"]; return <><Render tag="div" props={{"className": [classNames(interpolate(["flex item-position-",""], [item.value]))].filter(Boolean).join(' '),
-"style": normalizeStyle(Object.assign({}, parseStyle("background-color: var(--border-radius)")))}}><Render tag="div" props={{}}>{interpolate(["",""], [item.label])}</Render></Render></>; }}}></Render></Render>
-<Render tag="div" props={{"className": ["col-12 grid grid-nogutter"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["col-6 grid grid-nogutter"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["col-6"].filter(Boolean).join(' ')}}><Render tag="app-ui-cascade-select" props={{"optionValue": "value",
-"optionGroupLabel": "label",
-"optionLabel": "label",
-"placeholder": "Bônus 1",
-"options": vm.bonusNameList,
-"optionGroupChildren": ["children","children"],
-"showClear": true,
-"value": vm.selectedBonus[0],
-"onModelChange": (value: any, event: any) => vm.action(() => { ((event: any) => vm.action(() => { const $event = event; (vm.selectedBonus[0] = $event) }))(value); })}}></Render></Render>
-<Render tag="div" props={{"className": ["col-6"].filter(Boolean).join(' ')}}><Render tag="app-ui-cascade-select" props={{"optionValue": "value",
-"optionGroupLabel": "label",
-"optionLabel": "label",
-"placeholder": "Bônus 2",
-"options": vm.bonusNameList,
-"optionGroupChildren": ["children","children"],
-"showClear": true,
-"value": vm.selectedBonus[1],
-"onModelChange": (value: any, event: any) => vm.action(() => { ((event: any) => vm.action(() => { const $event = event; (vm.selectedBonus[1] = $event) }))(value); })}}></Render></Render>
-<Render tag="div" props={{"className": ["col-6"].filter(Boolean).join(' ')}}><Render tag="app-ui-cascade-select" props={{"optionValue": "value",
-"optionGroupLabel": "label",
-"optionLabel": "label",
-"placeholder": "Bônus 3",
-"options": vm.bonusNameList,
-"optionGroupChildren": ["children","children"],
-"showClear": true,
-"value": vm.selectedBonus[2],
-"onModelChange": (value: any, event: any) => vm.action(() => { ((event: any) => vm.action(() => { const $event = event; (vm.selectedBonus[2] = $event) }))(value); })}}></Render></Render>
-<Render tag="div" props={{"className": ["col-6"].filter(Boolean).join(' ')}}><Render tag="app-ui-cascade-select" props={{"optionValue": "value",
-"optionGroupLabel": "label",
-"optionLabel": "label",
-"placeholder": "Bônus 4",
-"options": vm.bonusNameList,
-"optionGroupChildren": ["children","children"],
-"showClear": true,
-"value": vm.selectedBonus[3],
-"onModelChange": (value: any, event: any) => vm.action(() => { ((event: any) => vm.action(() => { const $event = event; (vm.selectedBonus[3] = $event) }))(value); })}}></Render></Render>
-<Render tag="div" props={{"className": ["col-12 px-2 py-2 flex justify-content-between"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["search-mode flex"].filter(Boolean).join(' ')}}><Render tag="app-ui-input-switch" props={{"inputId": "search_mode",
-"value": vm.isSerchMatchAllBonus,
-"onModelChange": (value: any, event: any) => vm.action(() => { ((event: any) => vm.action(() => { const $event = event; (vm.isSerchMatchAllBonus = $event) }))(value); })}}></Render>
-{(() => { const __condition1 = vm.isSerchMatchAllBonus;  return __condition1 ? <><Render tag="span" props={{"className": ["px-2"].filter(Boolean).join(' ')}}>{"Item deve incluir todos os bônus selecionados"}</Render></> : null; })()}
-{(() => { const __condition2 = !(vm.isSerchMatchAllBonus);  return __condition2 ? <><Render tag="span" props={{"className": ["px-2"].filter(Boolean).join(' ')}}>{"Item deve incluir pelo menos 1 dos bônus selecionados"}</Render></> : null; })()}</Render>
-<Render tag="div" props={{"className": ["search-btn"].filter(Boolean).join(' ')}}><Render tag="button" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.onItemSearchFilterChange() }),
-"className": ["ui-button-info"].filter(Boolean).join(' '),
-"button": true}}>{"Buscar"}</Render></Render></Render></Render>
-<Render tag="div" props={{"className": ["col-6 grid grid-nogutter"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["col-12 skill-list"].filter(Boolean).join(' ')}}><Render tag="app-ui-listbox" props={{"options": vm.offensiveSkills,
-"metaKeySelection": false,
-"multiple": true,
-"value": vm.selectedOffensiveSkills,
-"onModelChange": (value: any, event: any) => vm.action(() => { ((event: any) => vm.action(() => { const $event = event; (vm.selectedOffensiveSkills = $event) }))(value); })}}></Render></Render></Render></Render>
-<Render tag="div" props={{"className": ["col-4 search_table"].filter(Boolean).join(' ')}}><Render tag="app-ui-table" props={{"dataKey": "id",
-"selectionMode": "single",
-"styleClass": "ui-datatable-sm",
-"currentPageReportTemplate": "{totalRecords} itens",
-"value": vm.filteredItems,
-"selection": vm.activeFilteredItem,
-"tableStyle": {"min-width": "20rem"},
-"paginator": true,
-"rows": 14,
-"showCurrentPageReport": true,
-"pageLinks": 4,
-"first": vm.itemSearchFirst,
-"totalRecords": vm.totalFilteredItems,
-"selectionChange": (event: any) => vm.action(() => { const $event = event; (vm.activeFilteredItem = $event) }),
-"firstChange": (event: any) => vm.action(() => { const $event = event; (vm.itemSearchFirst = $event) }),
-"rowSelected": (event: any) => vm.action(() => { const $event = event; vm.onSelectFilteredItem($event.data) }),
-"rowUnselected": (event: any) => vm.action(() => { const $event = event; vm.onSelectFilteredItem($event.data) }),
-"template_body": (context: any) => { const item = context["$implicit"];
-const rowIndex = context["rowIndex"]; return <><Render tag="tr" props={{"appSelectableRow": item}}><Render tag="td" props={{}}><Render tag="div" props={{"className": [classNames(interpolate(["flex gap-1 item_template item_label_",""], [item.value]))].filter(Boolean).join(' '),
-"style": normalizeStyle(Object.assign({}, parseStyle("background-color: var(--border-radius)")))}}><Render tag="img" props={{"alt": "",
-"src": displayPipe("iconUrl", item.id, ["item"], services),
-"className": ["item_img"].filter(Boolean).join(' ')}}></Render>
-<Render tag="div" props={{"className": ["text_ellips"].filter(Boolean).join(' ')}}>{interpolate([" "," "], [item.label])}</Render></Render></Render></Render></>; }}}></Render></Render>
-<Render tag="div" props={{"className": ["col-8"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["flex align-items-center gap-2 px-2 py-2 ml-2"].filter(Boolean).join(' ')}}><Render tag="span" props={{"className": ["text-sm white-space-nowrap"].filter(Boolean).join(' ')}}>{"Servidor:"}</Render>
-<Render tag="app-ui-dropdown" props={{"optionLabel": "label",
-"optionValue": "value",
-"styleClass": "w-full",
-"options": vm.shopServerOptions,
-"value": vm.selectedShopServer,
-"onModelChange": (value: any, event: any) => vm.action(() => { ((event: any) => vm.action(() => { const $event = event; (vm.selectedShopServer = $event) }))(value); }),
-"className": ["flex-1"].filter(Boolean).join(' ')}}></Render></Render>
-<Render tag="div" props={{"className": ["grid grid-nogutter ml-2"].filter(Boolean).join(' '),
-"style": normalizeStyle(Object.assign({}, parseStyle("max-height: 460px; overflow: auto")))}}>{(() => { const __condition3 = !(vm.activeFilteredItem);  return __condition3 ? <><Render tag="div" props={{"className": ["col-12 flex flex-column align-items-center justify-content-center text-center px-3"].filter(Boolean).join(' '),
-"style": normalizeStyle(Object.assign({}, parseStyle("min-height: 240px; opacity: 0.6")))}}><Render tag="app-icon" props={{"name": "arrow-circle-left",
-"style": normalizeStyle(Object.assign({}, parseStyle("font-size: 2.5rem")))}}></Render>
-<Render tag="p" props={{"className": ["mt-3 mb-0"].filter(Boolean).join(' ')}}>{"Selecione um item na lista ao lado para ver seus bônus e descrição."}</Render></Render></> : null; })()}
-{(() => { const __condition4 = vm.activeFilteredItem;  return __condition4 ? <><><Render tag="div" props={{"className": ["col-12 json_display"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["flex flex-column align-items-start gap-1"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{" Item ID: "}
-<Render tag="a" props={{"target": "_blank",
-"rel": "noopener noreferrer",
-"href": vm.divinePrideItemUrl}}>{interpolate(["",""], [vm.activeFilteredItem.id])}</Render></Render>
-<Render tag="a" props={{"target": "_blank",
-"rel": "noopener noreferrer",
-"href": vm.marketItemUrl,
-"className": ["flex align-items-center gap-1"].filter(Boolean).join(' ')}}><Render tag="app-icon" props={{"name": "shopping-cart"}}></Render>
-{" Mercado "}</Render></Render></Render>
-<Render tag="div" props={{"className": ["col-fixed px-2 py-2 mt-3"].filter(Boolean).join(' '),
-"style": normalizeStyle(Object.assign({}, parseStyle("color: #000; background-color: #fff; width: 100px")))}}>{(() => { const __condition5 = vm.seletedItemId;  return __condition5 ? <><Render tag="img" props={{"alt": "",
-"src": interpolate(["https://www.divine-pride.net/img/items/collection/thROG/",""], [vm.seletedItemId])}}></Render></> : null; })()}</Render>
-<Render tag="div" props={{"dangerouslySetInnerHTML": {__html: sanitizeHtml(vm.activeFilteredItemDesc ?? '')},
-"className": ["col px-2 py-2 mt-3"].filter(Boolean).join(' '),
-"style": normalizeStyle(Object.assign({}, parseStyle("color: #000; background-color: #fff")))}}></Render></></> : null; })()}</Render></Render></Render></Render></>;
+
+export function Content({ vm, services }: { vm: ItemSearchComponent; services: ApplicationServices }) {
+  const action = (fn: () => void) => vm.action(fn);
+  const typeOptions = useMemo(() => vm.itemPositionOptions.map(option => ({
+    ...option, icon: inferCustomIcon(option.iconKind, null, vm.items ?? {}),
+  })), [vm.itemPositionOptions, vm.items]);
+  const renderFilterOption = (option: { label: string; icon?: number }, type: 'item' | 'skill') =>
+    <span className="item-search-filter-option">
+      {option.icon != null && <img className={'item-search-filter-icon item-search-filter-icon-' + type}
+        src={iconUrl(option.icon, type)} alt="" {...missingIcon} />}
+      <span>{option.label}</span>
+    </span>;
+  const itemIcon = (id: number) => iconUrl(id, 'item', customId => services.customItems.iconFor(customId));
+  const equipTargets = vm.equipTargetOptions;
+  return <Dialog visible={vm.isShowSearchDialog} onVisibleChange={visible => action(() => { vm.isShowSearchDialog = visible; })}
+    modal className="item-search-dialog"
+    header={<><strong>Buscar itens</strong><span className="item-search-class">{vm.className || vm.selectedCharacter?.className}</span></>}>
+    <div className="item-search-workspace">
+      <form className="item-search-filters" onSubmit={event => { event.preventDefault(); action(() => vm.onItemSearchFilterChange()); }}>
+        <div className="item-search-filter-controls">
+          <div className="calc-section-heading"><span>Filtros</span></div>
+          <div className="item-search-fields">
+            <div className="item-search-field">
+              <label className="calc-field-label" htmlFor="item-search-name">Nome</label>
+              <Input id="item-search-name" type="search" placeholder="Nome do item" autoComplete="off"
+                value={vm.searchName} onChange={event => action(() => { vm.searchName = event.target.value; })} />
+            </div>
+            <div className="item-search-field">
+              <label className="calc-field-label" htmlFor="item-search-type">Tipo</label>
+              <Select kind="multiselect" inputId="item-search-type" ariaLabel="Tipo" options={typeOptions}
+                renderItem={option => renderFilterOption(option, 'item')}
+                optionLabel="label" optionValue="value" placeholder="Todos os tipos" filter showClear resetFilterOnHide
+                value={vm.selectedItemPositions} onChange={value => action(() => { vm.selectedItemPositions = value; })} />
+            </div>
+            <div className="item-search-field">
+              <label className="calc-field-label" htmlFor="item-search-skill">Habilidade</label>
+              <Select kind="multiselect" inputId="item-search-skill" ariaLabel="Habilidade" options={vm.offensiveSkills}
+                renderItem={option => renderFilterOption(option, 'skill')}
+                optionLabel="label" optionValue="value" placeholder="Todas as habilidades" filter showClear resetFilterOnHide
+                value={vm.selectedOffensiveSkills} onChange={value => action(() => { vm.selectedOffensiveSkills = value; })} />
+            </div>
+            <div className="item-search-field">
+              <label className="calc-field-label" htmlFor="item-search-server">Servidor</label>
+              <Select inputId="item-search-server" ariaLabel="Servidor" options={vm.shopServerOptions} optionLabel="label" optionValue="value"
+                value={vm.selectedShopServer} onChange={value => action(() => { vm.selectedShopServer = value; })} />
+            </div>
+          </div>
+          <div className="calc-section-heading item-search-bonus-heading">
+            <span>Bônus</span>
+          </div>
+          <div className="item-search-bonus-pickers">
+            {vm.bonusPickers.map((picker, index) => <div key={picker.id} className="item-search-bonus-row">
+              <Select inputId={'item-search-bonus-' + picker.id} ariaLabel={'Bônus ' + (index + 1)}
+                options={vm.bonusNameList} optionLabel="label" optionValue="value" placeholder={'Bônus ' + (index + 1)}
+                filter showClear resetFilterOnHide scrollHeight="260px" panelClassName="item-search-options"
+                value={picker.value} onChange={value => action(() => { picker.value = value; })} />
+              {index === vm.bonusPickers.length - 1 && <Button icon="plus" className="ui-button-text" aria-label="Adicionar bônus"
+                onClick={() => action(() => vm.addBonusPicker())} />}
+              {vm.bonusPickers.length > 1 && <Button icon="minus" className="ui-button-text" aria-label={'Remover bônus ' + (index + 1)}
+                onClick={() => action(() => vm.removeBonusPicker(picker.id))} />}
+            </div>)}
+          </div>
+        </div>
+        <div className="item-search-actions">
+          <div className="item-search-mode">
+            <span id="item-search-mode-label">Item deve incluir todos os bônus selecionados</span>
+            <SelectButton ariaLabelledBy="item-search-mode-label" options={vm.yesNoOptions} optionLabel="label" optionValue="value"
+              value={vm.matchAllBonuses} onChange={value => action(() => { vm.matchAllBonuses = value ?? vm.matchAllBonuses; })} />
+          </div>
+          <Button type="submit" icon="search" label="Buscar" className="ui-button-info" />
+        </div>
+      </form>
+      <div className="item-search-results">
+        <section className="item-search-list">
+          <div className="calc-section-heading"><span>Resultados</span></div>
+          <Table value={vm.filteredItems} header={null} dataKey="id" className="ui-datatable-sm"
+            paginator rows={14} first={vm.itemSearchFirst} totalRecords={vm.totalFilteredItems} pageLinks={4}
+            showCurrentPageReport currentPageReportTemplate="{totalRecords} itens"
+            onFirstChange={first => action(() => { vm.itemSearchFirst = first; })}
+            selection={vm.activeFilteredItem} onSelectionChange={item => action(() => { vm.activeFilteredItem = item; })}
+            emptyMessage={<tr><td className="item-search-empty-list">Nenhum item encontrado.</td></tr>}
+            renderRow={(item, _index, selectionProps) => <tr key={item.id} {...selectionProps}>
+              <td><div className="item-search-result-row">
+                <img src={itemIcon(item.id)} alt="" {...missingIcon} />
+                <span>{item.label}</span>
+              </div></td>
+            </tr>} />
+        </section>
+        <section className="item-search-detail">
+          <div className="calc-section-heading"><span>Descrição</span></div>
+          <div className="item-description-card" role="region" aria-label="Descrição do item" tabIndex={0}>
+            {!vm.activeFilteredItem ? <div className="item-description-empty">
+              <Icon name="arrow-circle-left" />
+              <p>Selecione um item na lista ao lado para ver seus bônus e descrição.</p>
+            </div> : <>
+              <div className="item-description-meta">
+                <img className="item-description-icon" src={itemIcon(vm.activeFilteredItem.id)} alt="" {...missingIcon} />
+                <div className="item-description-links">
+                  <strong>{vm.activeItem?.name}</strong>
+                  {vm.activeItem?.custom ? <span>Item personalizado · ID {vm.activeFilteredItem.id}</span> : <div>
+                    <a href={vm.divinePrideItemUrl} target="_blank" rel="noopener noreferrer">Item ID: {vm.activeFilteredItem.id}</a>
+                    <a href={vm.marketItemUrl} target="_blank" rel="noopener noreferrer"><Icon name="shopping-cart" /> Mercado</a>
+                  </div>}
+                </div>
+              </div>
+              <div className="item-search-equip">
+                {equipTargets.length > 0 ? <>
+                  {equipTargets.length > 1 && <div className="item-search-equip-target">
+                    <label className="calc-field-label" htmlFor="item-search-equip-target">Equipar em</label>
+                    <Select inputId="item-search-equip-target" ariaLabel="Equipar em" options={equipTargets}
+                      optionLabel="label" optionValue="value" value={vm.equipTargetValue}
+                      onChange={value => action(() => { vm.selectedEquipTarget = value; })} />
+                  </div>}
+                  <Button icon="check" label={vm.equipInComparison ? 'Equipar na comparação' : 'Equipar'}
+                    onClick={() => action(() => vm.equipSelectedItem())} />
+                </> : <span>Nenhum espaço compatível disponível nos equipamentos atuais.</span>}
+              </div>
+              <div className="item-description-body">
+                <div className="item-description-text">
+                  {!vm.activeItem?.custom && <img className="item-search-collection" alt="" {...missingIcon}
+                    src={'https://www.divine-pride.net/img/items/collection/thROG/' + vm.activeFilteredItem.id} />}
+                  <div className="item-search-description" dangerouslySetInnerHTML={{ __html: sanitizeHtml(vm.activeFilteredItemDesc) }} />
+                </div>
+              </div>
+            </>}
+          </div>
+        </section>
+      </div>
+    </div>
+  </Dialog>;
 }
