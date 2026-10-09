@@ -370712,5 +370712,51 @@
         "5"
       ]
     }
+  },
+  "4896": {
+    "id": 4896,
+    "aegisName": "Matk2p",
+    "name": "ATQM 2",
+    "unidName": "ATQM 2",
+    "resName": "마력석_빨강",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "matkPercent": [
+        "2"
+      ]
+    }
+  },
+  "4929": {
+    "id": 4929,
+    "aegisName": "aegis_4929",
+    "name": "SP + 1%",
+    "unidName": "SP + 1%",
+    "resName": "마력석_파랑",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "spPercent": [
+        "1"
+      ]
+    }
   }
 }

@@ -40,6 +40,7 @@ import {
   PetLoyaltyList,
   getMonsterGroupName,
 } from 'src/app/constants';
+import { isEquipmentEnchant } from 'src/app/constants/enchant_item';
 import { ActiveSkillModel, AtkSkillModel, CharacterBase, ClassIdBySpriteJob, ClassName, PassiveSkillModel, SkillModel } from 'src/app/jobs';
 import {
   createBaseHPSPOptionList,
@@ -885,7 +886,7 @@ await ((_event?: unknown) => {
         const ens = [] as DropdownModel[];
         this.mapEnchant = new Map(
           Object.values(this.items)
-            .filter((item) => item.itemTypeId === ItemTypeId.ENCHANT)
+            .filter(isEquipmentEnchant)
             .map((item) => {
               ens.push({
                 label: item.name,

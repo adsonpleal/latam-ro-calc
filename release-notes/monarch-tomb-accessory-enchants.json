@@ -1,0 +1,6 @@
+{
+  "type": "patch",
+  "logs": [
+    "Adicionados os 44 encantamentos dos acessórios comuns do Túmulo do Monarca e as opções físicas, mágicas e à distância nos dois campos do Anel do Monarca. Os encantamentos acompanham o acessório em ambos os lados. Piercing da Marinha e Tornozeleira da Marinha têm suas tabelas cadastradas, mas ainda não constam no banco de itens LATAM."
+  ]
+}

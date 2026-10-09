@@ -1,5 +1,5 @@
 import { EquipmentSlotDescriptor } from '../app-config/equipment-slots';
-import { getEnchants, getMalangdoEnchants, getMoraEnchants, getVerusEnchants } from '../constants/enchant_item';
+import { getEnchants, getMalangdoEnchants, getMonarchTombEnchants, getMoraEnchants, getVerusEnchants } from '../constants/enchant_item';
 import { ExtraOptionTable } from '../constants/extra-option-table';
 import { DropdownModel } from '../models/dropdown.model';
 import { ItemModel } from '../models/item.model';
@@ -107,7 +107,7 @@ export function deriveSlot(input: DeriveSlotInput): SlotDerivation {
 
   // Verus matches by id because several pieces have Korean aegis names, and the
   // slotted and unslotted Carburador share one. It overrides their old incomplete pools.
-  const enchants = getVerusEnchants(id) ?? getEnchants(aegisName) ?? getEnchants(name) ?? getMoraEnchants(id) ?? getMalangdoEnchants(id, slots);
+  const enchants = getMonarchTombEnchants(id) ?? getVerusEnchants(id) ?? getEnchants(aegisName) ?? getEnchants(name) ?? getMoraEnchants(id) ?? getMalangdoEnchants(id, slots);
   const positions = Array.isArray(enchants) ? enchants : [];
 
   return {

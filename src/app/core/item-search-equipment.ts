@@ -4,6 +4,7 @@ import { SlotDerivation } from './equipment-slot-derivation';
 import { costumeSlotDescriptor } from './costume-slot-descriptor';
 import { DropdownModel } from '../models/dropdown.model';
 import { ItemModel } from '../models/item.model';
+import { isEquipmentEnchant } from '../constants/enchant_item';
 
 export type ItemChipLists = Readonly<Record<string, readonly DropdownModel[] | undefined>>;
 
@@ -36,7 +37,7 @@ export function itemChipOptions(chip: Chip, descriptor: EquipmentSlotDescriptor,
     case 'subItem': return lists[descriptor.subItemSlots?.find(sub => sub.key === chip.slotKey)?.itemListKey ?? ''] ?? [];
     case 'card': return lists[cardListKey(descriptor) ?? ''] ?? [];
     case 'enchant': return chip.custom
-      ? Object.values(items).filter(item => item.itemTypeId === 11).map(item => ({ label: item.name, value: item.id }))
+      ? Object.values(items).filter(isEquipmentEnchant).map(item => ({ label: item.name, value: item.id }))
       : derivation.enchantLists[chip.index] ?? [];
     case 'ammo': return lists['ammoList'] ?? [];
     default: return [];

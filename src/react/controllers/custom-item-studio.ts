@@ -7,6 +7,7 @@ import { MonsterModel } from 'src/app/models/monster.model';
 import { Calculator } from 'src/app/core/calculator';
 import { ensureCustomAttachment } from 'src/app/core/custom-attachments';
 import { ItemTypeEnum } from 'src/app/constants/item-type.enum';
+import { isEquipmentEnchant } from 'src/app/constants/enchant_item';
 import { CardPosition } from 'src/app/constants/card-position.enum';
 import { bonusKeyLabel } from 'src/app/core/bonus-key-label';
 import { createRawTotalBonus } from 'src/app/utils/create-raw-total-bonus';
@@ -265,7 +266,7 @@ export class CustomItemStudioComponent extends ViewState {
     const selected = kind === 'leftWeapon' ? 'weapon' : CUSTOM_KINDS.includes(kind as CustomKind) ? kind as CustomKind : 'weapon';
     this.catalogRows = [...new Map(Object.values(this.items).map((item) => [item.id, item])).values()];
     this.conditionItemOptions = this.catalogRows.map((item) => ({ label: item.name, value: item.id }));
-    this.enchantOptions = this.catalogRows.filter((item) => item.itemTypeId === 11).map((item) => ({ label: item.name, value: item.id }));
+    this.enchantOptions = this.catalogRows.filter(isEquipmentEnchant).map((item) => ({ label: item.name, value: item.id }));
     this.setCardOptions(selected);
     this.draft = this.blank(selected);
     this.refreshIconOptions();

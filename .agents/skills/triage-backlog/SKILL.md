@@ -201,8 +201,10 @@ The plan is per card, and each entry says:
   anything else the edit is known to move;
 - **what stays out**, and whether it becomes its own card.
 
-Close with the batch-level pieces: the order to do them in, the version bump and the
-Novidades lines (credits already resolved in §4), and how it gets verified in the preview.
+Close with the batch-level pieces: the order to do them in, the uniquely named
+release-notes fragment and its Novidades lines (credits already resolved in §4),
+and how it gets verified in the preview. Do not bump package.json or edit published
+history; the main workflow assigns the next version. See docs/releases.md.
 
 Then **stop again** and let the user approve the plan. Build only what the approved plan
 says; if the code turns out to disagree with the plan mid-way — the cause is not where the

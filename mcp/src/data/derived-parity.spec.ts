@@ -100,7 +100,7 @@ describe('items-desc-mcp answers everything the raw lookup used to', () => {
 describe('the index the Worker builds matches the one the box built', () => {
   const dataset = loadDatasetFromDisk();
 
-  it('indexes the same number of items — 11593 distinct ids plus 5757 LATAM-only', () => {
+  it('indexes the same number of items — 11595 distinct ids plus 5755 LATAM-only', () => {
     expect(dataset.itemIndex.size).toBe(calcIds.size + Object.keys(latamExtra).length);
     // Includes the latest client items and the 24 new calculator records.
     expect(dataset.itemIndex.size).toBe(17350);
