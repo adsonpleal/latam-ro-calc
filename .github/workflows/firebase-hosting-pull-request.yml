@@ -32,6 +32,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Validate release fragments
+        run: node tools/release-notes.mjs
+
       - name: Source and type checks
         run: pnpm lint:check && pnpm typecheck
 

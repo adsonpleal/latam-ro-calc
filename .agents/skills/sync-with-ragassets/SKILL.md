@@ -119,7 +119,9 @@ Then:
 
 ## Publishing
 
-The data files are committed. If the sync changed anything users would notice, bump
-`version` in `package.json` and add the matching entry to the `updates` array in
-`src/app/layout/app.topbar.component.ts` (the deploy workflow posts to Discord on a version
-change — check it with `node tools/post-novidades.mjs --dry-run`).
+The data files are committed. If the sync changed anything users would notice, add
+one uniquely named `release-notes/<sync-slug>.json` fragment with
+`{"type":"patch","logs":["..."]}`. Preserve user-facing Portuguese wording and
+credits. Do not bump `package.json` or edit published history; the main workflow
+allocates the next version and announces after deployment. Validate with
+`node tools/release-notes.mjs`. See `docs/releases.md`.
