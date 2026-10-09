@@ -8,7 +8,7 @@ const index = dataset.itemIndex;
 
 describe('ItemIndex composition', () => {
   it('unions both files into one row per id', () => {
-    // 11593 calculator ids + 5757 LATAM-only ids = 17350 unique.
+    // 11595 calculator ids + 5755 LATAM-only ids = 17350 unique.
     expect(index.size).toBe(17350);
   });
 
