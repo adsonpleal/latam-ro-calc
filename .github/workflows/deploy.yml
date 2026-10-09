@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 # Two overlapping runs would race to activate different asset manifests. Serialising is
 # free, and matters more now that this workflow also ships the MCP server.
@@ -18,8 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # full history so the post-deploy step can compare package.json against
-          # the pre-push commit (github.event.before) to detect a version bump
+          # Full history and tags for release allocation and announcement receipts.
           fetch-depth: 0
 
       - name: Setup pnpm
@@ -33,20 +36,9 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Source and type checks
-        run: pnpm lint:check && pnpm typecheck
-
-      # The MCP server ships inside the Worker now, so this workflow inherits the gate
-      # that mcp-deploy.yml used to provide — including the parity spec, which pins
-      # absolute damage numbers through the whole engine.
-      - name: Test
-        run: pnpm test
-
-      - name: Build
-        run: pnpm build
+      - name: Prepare, verify, and commit release on latest main
+        id: release
+        run: node tools/release-main.mjs
 
       # Assets plus a Worker on two routes (share links and the MCP server), configured by
       # wrangler.jsonc. wrangler uploads the contents of dist/sakai-ng and the pre-bundled
@@ -78,28 +70,11 @@ jobs:
             -H 'accept: application/json, text/event-stream' \
             -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' | grep -q '"calculate"'
 
-      # Announce the release in Discord — only when this push actually bumped the
-      # version (so routine main pushes don't spam #novidades). Runs after a
-      # successful deploy; a missing DISCORD_BOT_TOKEN secret is a no-op.
-      - name: Detect version bump
-        id: ver
-        env:
-          BEFORE: ${{ github.event.before }}
-        run: |
-          NEW=$(node -p "require('./package.json').version")
-          OLD=""
-          if [ -n "$BEFORE" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ] && git cat-file -e "$BEFORE:package.json" 2>/dev/null; then
-            OLD=$(git show "$BEFORE:package.json" | node -p "JSON.parse(require('fs').readFileSync(0,'utf8')).version")
-          fi
-          echo "New version: $NEW / previous: ${OLD:-<none>}"
-          if [ "$NEW" != "$OLD" ]; then echo "changed=true" >> "$GITHUB_OUTPUT"; else echo "changed=false" >> "$GITHUB_OUTPUT"; fi
-
-      - name: Post novidades to Discord
-        if: steps.ver.outputs.changed == 'true'
-        # best-effort: the deploy already shipped, so a Discord hiccup (perms,
-        # outage) shouldn't fail the run — it's still logged as a failed step.
+      # Durable tags record successful announcements. A rerun can recover a
+      # failed deployment or Discord post without allocating another version.
+      - name: Post pending novidades to Discord
         continue-on-error: true
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
           DISCORD_CHANNEL_ID: "1524025278471471295"
-        run: node tools/post-novidades.mjs
+        run: node tools/announce-pending-releases.mjs

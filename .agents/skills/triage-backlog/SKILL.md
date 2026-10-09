@@ -251,10 +251,11 @@ Per card, following the plan:
 
 Then close the loop:
 
-- Bump `version` in `package.json` and add the entry at the top of `updates` in
-  `src/app/layout/app.topbar.component.ts` — one log per card, in the register the file
-  already uses: what was wrong, what it is now, what stays out and why, then the credit.
-  Check it with `node tools/post-novidades.mjs --dry-run`.
+- Add a uniquely named `release-notes/<batch-slug>.json` fragment with
+  `{"type":"patch","logs":["..."]}` — one user-facing log per card, preserving
+  reporter credits and impersonal Portuguese wording. Do not edit `package.json`
+  or published release history: the main workflow assigns the version.
+  Validate with `node tools/release-notes.mjs`. See `docs/releases.md`.
 - Move the cards:
   ```
   node .agents/skills/triage-backlog/backlog.mjs --mark <id> --status resolvido --note "..."

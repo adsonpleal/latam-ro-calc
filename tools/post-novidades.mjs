@@ -2,9 +2,8 @@
 // Post the current version's "novidades" (changelog) to Discord after a deploy.
 //
 // Standard message = project name + version number + the newly-added items for
-// that version, as a single embed. Source of truth for the changelog is the
-// `updates` array in src/react/controllers/app.topbar.ts (same list the app
-// shows in "Novidades"); the version is read from package.json.
+// that version, as a single embed. Source of truth is src/releases/history.json, also used by the app;
+// the version is read from package.json.
 //
 // Usage:
 //   DISCORD_BOT_TOKEN=xxx node tools/post-novidades.mjs            # posts
@@ -15,8 +14,8 @@
 //                       Actions secret, never in the repo.
 //   DISCORD_CHANNEL_ID  (optional) — defaults to the #novidades channel below.
 //
-// Exit codes: 0 = posted / dry-run / not-configured (no token). 1 = a token was
-// given but the Discord API rejected the request (surface real misconfig).
+// Exit codes: 0 = posted / dry-run. 1 = missing configuration, missing notes,
+// or a rejected Discord request; the release remains pending for retry.
 
 import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
@@ -37,45 +36,10 @@ function readVersion() {
   return pkg.version;
 }
 
-// Pull the { v, date, logs } entry for `version` out of the component's
-// `updates` array. We parse the single-quoted string literals directly so the
-// changelog stays a plain TS array (no separate data file to keep in sync).
 function readChangelogEntry(version) {
-  const src = readFileSync(resolve(ROOT, 'src/react/controllers/app.topbar.ts'), 'utf8');
-  const anchor = src.indexOf(`v: '${version}'`);
-  if (anchor < 0) return null;
-
-  const grabString = (from) => {
-    let i = src.indexOf("'", from);
-    if (i < 0) return null;
-    i++;
-    let s = '';
-    while (i < src.length && src[i] !== "'") {
-      if (src[i] === '\\') {
-        const n = src[i + 1];
-        s += n === 'n' ? '\n' : n === 't' ? '\t' : n;
-        i += 2;
-      } else {
-        s += src[i++];
-      }
-    }
-    return { value: s, end: i + 1 };
-  };
-
-  const date = grabString(src.indexOf('date:', anchor))?.value ?? '';
-
-  const logsOpen = src.indexOf('[', src.indexOf('logs:', anchor));
-  const logs = [];
-  let i = logsOpen + 1;
-  while (i < src.length) {
-    while (i < src.length && /[\s,]/.test(src[i])) i++;
-    if (src[i] !== "'") break; // hit the closing ] (or anything non-string)
-    const got = grabString(i);
-    if (!got) break;
-    logs.push(got.value);
-    i = got.end;
-  }
-  return { version, date, logs };
+  const history = JSON.parse(readFileSync(resolve(ROOT, 'src/releases/history.json'), 'utf8'));
+  const entry = history.find(entry => entry.v === version);
+  return entry ? { version, date: entry.date, logs: entry.logs } : null;
 }
 
 function buildEmbed({ version, date, logs }) {
@@ -94,15 +58,15 @@ function buildEmbed({ version, date, logs }) {
 }
 
 async function main() {
-  const version = readVersion();
+  const version = process.env.RELEASE_VERSION || readVersion();
   const entry = readChangelogEntry(version);
   if (!entry || entry.logs.length === 0) {
-    console.warn(`No changelog entry with logs for v${version} in app.topbar.ts — nothing to post.`);
-    return;
+    console.warn(`No changelog entry with logs for v${version} in src/releases/history.json — nothing to post.`);
+    throw new Error(`Missing release notes for ${version}`);
   }
 
   const embed = buildEmbed(entry);
-  const payload = { embeds: [embed] };
+  const payload = { embeds: [embed], nonce: version, enforce_nonce: true };
 
   if (dryRun) {
     console.log(JSON.stringify(payload, null, 2));
@@ -111,8 +75,7 @@ async function main() {
 
   const token = process.env.DISCORD_BOT_TOKEN;
   if (!token) {
-    console.warn('DISCORD_BOT_TOKEN not set — skipping Discord post (not configured).');
-    return;
+    throw new Error('DISCORD_BOT_TOKEN not set — announcement remains pending.');
   }
   const channelId = process.env.DISCORD_CHANNEL_ID || DEFAULT_CHANNEL_ID;
 
