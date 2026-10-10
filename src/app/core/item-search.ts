@@ -52,6 +52,8 @@ const fixedKeys = [
   ...keysFor('cri_race', races.filter(race => race !== 'all')),
   ...keysFor('subele', elements), ...keysFor('subrace', races), ...keysFor('subclass', classes),
   ...keysFor('subsize', sizes),
+  ...races.flatMap(race => ['subrace_' + race + '_physical', 'subrace_' + race + '_magical']),
+  ...elements.flatMap(element => ['subele_' + element + '_physical', 'subele_' + element + '_magical']),
   ...sizes.flatMap(size => ['subsize_' + size + '_physical', 'subsize_' + size + '_magical']),
 ];
 

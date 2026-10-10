@@ -2028,6 +2028,15 @@ export class Calculator {
       ...this.getObjSummary(sheet.totalBonus),
       monster: { ...this.monster.data },
       propertyAtk: this.propertyBasicAtk,
+      incomingDamage: this.monster.attackProfile ? {
+        attacker: this.monster.attackProfile,
+        defender: {
+          hp: sheet.maxHp,
+          ...sheet.defenses,
+          bonus: pickDefenderBonus(sheet.totalBonus as unknown as Record<string, number>),
+          armorElement: this.getItem(this.model.armorCard)?.armorElement ?? this.getItem(this.model.armor)?.armorElement ?? ElementType.Neutral,
+        },
+      } : null,
       weapon: this.weaponData.data,
       calcSkill: {
         dmgType: this.damageSummary.dmgType,

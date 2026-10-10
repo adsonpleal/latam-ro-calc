@@ -140,6 +140,7 @@ function renderElement({ tag, props: original, children }: RenderProps, { servic
       onCompareChange={props['selectedChances2Change']} customIcon={id => services.customItems.iconFor(id)} />; break;
     case 'app-battle-monster-card': rendered = <BattleMonsterCard {...props as any} onRelieveLevelChange={props['relieveLevelChange']}
       onBetelgeuseHpChange={props['betelgeuseHpChange']}
+      onIncomingReductionClick={props['incomingReductionClick']}
       onShowElementTable={props['showElementTableClick']} onReductionRowClick={props['reductionRowClick']} />; break;
     default: {
       const feature = featureViews.get(tag);

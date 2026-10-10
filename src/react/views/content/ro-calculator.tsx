@@ -636,6 +636,7 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "relieveLevel": vm.relieveLevel,
 "betelgeuseHp": vm.betelgeuseHp,
 "betelgeuseHpOptions": vm.betelgeuseHpOptions,
+"incomingReductionClick": (step: any) => vm.action(() => vm.showBonusBreakdown({ label: step.label, keys: step.keys, valueClass: "summary_stat_def2", sources: vm.bonusBreakdownSources, itemMap: vm.equipItemIdItemTypeMap })),
 "betelgeuseHpChange": (value: number) => vm.action(() => { vm.betelgeuseHp = value; vm.onBetelgeuseHpChange() }),
 "compareItemNames": vm.compareItemNames,
 "compareStats": vm.isCompareStats,
@@ -692,6 +693,7 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "selectedChancesChange": (event: any) => vm.action(() => { const $event = event; (vm.selectedChances = $event);vm.onSelecteChance($event) }),
 "selectedChances2Change": (event: any) => vm.action(() => { const $event = event; (vm.selectedChances2 = $event);vm.onSelecteChance($event) })}}></Render></Render></> : null; })()}
 <Render tag="div" props={{"className": ["col-12 auto-cast-shared-block"].filter(Boolean).join(' ')}}><Render tag="app-battle-monster-card" props={{"totalSummary": vm.totalSummary,
+"incomingReductionClick": (step: any) => vm.action(() => vm.showBonusBreakdown({ label: step.label, keys: step.keys, valueClass: "summary_stat_def2", sources: vm.bonusBreakdownSources, itemMap: vm.equipItemIdItemTypeMap })),
 "selectedMonster": vm.selectedMonster,
 "selectedMonsterName": vm.selectedMonsterName,
 "isInProcessingPreset": vm.isInProcessingPreset,

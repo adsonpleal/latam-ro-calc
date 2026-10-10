@@ -30,6 +30,11 @@ import { CARDS_WITH_A_SET, classOf, lineUpsFor, scenarioKey, setClausesOf } from
  *
  * Same method as costume-enchant-combo-migration.spec.ts, which migrated the Visual-enchant
  * stones (159 records, 330 clauses).
+ *
+ * Reviewed description corrections for incoming PvE damage update only four records:
+ * 27111's small-size combo is physical-only; 27264 adds its printed physical
+ * resistances/vulnerabilities; 300122/300123 add their printed Pitaya combo.
+ * See docs/damage-taken.md and monster-damage-taken.spec.ts for the independent checks.
  */
 
 const BASELINE = 'src/app/core/__tests__/card-set-baseline.json';

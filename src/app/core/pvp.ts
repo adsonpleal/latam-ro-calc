@@ -211,9 +211,16 @@ export function defenderReductionSteps(input: DefenderReductionInput): DefenderR
     ? [`subrace_${input.attackerRace}`]
     : ['subrace_all', `subrace_${input.attackerRace}`];
 
+  // Type-limited race/element resistances share their category with the untyped
+  // values, just like type-limited size resistance. Keep unused keys out of traces.
+  const typedRaceKeys = raceKeys.map(key => key + sizeType).filter(key => v(key) !== 0);
+  raceKeys.push(...typedRaceKeys);
+  const elementKeys = ['subele_all', `subele_${input.attackerElement}`];
+  elementKeys.push(...elementKeys.map(key => key + sizeType).filter(key => v(key) !== 0));
+
   const cats: { pct: number; label: string; keys: string[] }[] = [
     { pct: raceKeys.reduce((total, key) => total + v(key), 0), label: `Redução ${RACE_PT[input.attackerRace] ?? input.attackerRace}`, keys: raceKeys },
-    { pct: v('subele_all') + v(`subele_${input.attackerElement}`), label: `Redução ${ELE_PT[input.attackerElement] ?? input.attackerElement}`, keys: ['subele_all', `subele_${input.attackerElement}`] },
+    { pct: elementKeys.reduce((total, key) => total + v(key), 0), label: `Redução ${ELE_PT[input.attackerElement] ?? input.attackerElement}`, keys: elementKeys },
     { pct: sizeKeys.reduce((total, key) => total + v(key), 0), label: `Redução ${SIZE_PT[input.attackerSize] ?? input.attackerSize}`, keys: sizeKeys },
     { pct: v('subclass_all') + v(`subclass_${input.attackerType}`), label: `Redução ${CLASS_PT[input.attackerType] ?? input.attackerType}`, keys: ['subclass_all', `subclass_${input.attackerType}`] },
     // Long-ranged physical reduction (Gazeti-card family) — only vs a ranged physical hit.

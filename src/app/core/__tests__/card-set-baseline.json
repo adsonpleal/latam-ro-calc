@@ -2488,7 +2488,7 @@
     "subsize_m": 20
    },
    "with:27110": {
-    "subsize_s": 20
+    "subsize_s_physical": 20
    }
   },
   "clauses": [
@@ -2502,13 +2502,13 @@
     "tail": "20"
    },
    {
-    "key": "subsize_s",
+    "key": "subsize_s_physical",
     "groups": [
      [
       27110
      ]
     ],
-    "tail": "20"
+    "tail": "===20"
    }
   ]
  },
@@ -2951,12 +2951,21 @@
  },
  "27264": {
   "scenarios": {
-   "alone": {},
+   "alone": {
+    "subele_fire_physical": -30,
+    "subele_holy_physical": -30,
+    "subele_dark_physical": 30,
+    "subele_undead_physical": 30
+   },
    "with:27265": {
     "p_element_dark": 15,
     "p_element_undead": 15,
     "m_element_dark": 15,
     "m_element_undead": 15,
+    "subele_fire_physical": -30,
+    "subele_holy_physical": -30,
+    "subele_dark_physical": 30,
+    "subele_undead_physical": 30,
     "subele_dark": 15,
     "subele_undead": 15
    }
@@ -5842,6 +5851,52 @@
      ]
     ],
     "tail": "15"
+   }
+  ]
+ },
+ "300122": {
+  "scenarios": {
+   "alone": {
+    "m_my_element_holy": 45,
+    "subele_neutral": 15
+   },
+   "with:300121": {
+    "m_my_element_holy": 45,
+    "subele_neutral": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "subele_neutral",
+    "groups": [
+     [
+      300121
+     ]
+    ],
+    "tail": "===5"
+   }
+  ]
+ },
+ "300123": {
+  "scenarios": {
+   "alone": {
+    "m_my_element_neutral": 45,
+    "subele_neutral": 15
+   },
+   "with:300121": {
+    "m_my_element_neutral": 45,
+    "subele_neutral": 20
+   }
+  },
+  "clauses": [
+   {
+    "key": "subele_neutral",
+    "groups": [
+     [
+      300121
+     ]
+    ],
+    "tail": "===5"
    }
   ]
  },

@@ -155,6 +155,7 @@ let sharedDamagePopovers: any = vm["sharedDamagePopovers"]; return <>{(() => { c
 "spriteFallbackUrl": vm.spriteFallbackUrl,
 "reductionCategories": vm.reductionCategories,
 "reductionSources": vm.reductionSources,
+"incomingReductionClick": (step: any) => vm.action(() => vm.incomingReductionClick.emit(step)),
 "relieveLevelChange": (event: any) => vm.action(() => { const $event = event; vm.relieveLevelChange.emit($event) }),
 "reductionRowClick": (event: any) => vm.action(() => { const $event = event; vm.reductionRowClick.emit($event) }),
 "showElementTableClick": (event: any) => vm.action(() => { const $event = event; vm.onShowElementalTableClick() })}}></Render>

@@ -4,6 +4,8 @@ import { elementPtBr, monsterTypePtBr, racePtBr, sizePtBr } from '../../app/cons
 import { elementTagClass } from '../../app/layout/pages/ro-calculator/battle-hud/battle-hud.logic';
 import { ReductionCategory, ReductionRow, reductionRowClickable } from '../../app/layout/pages/ro-calculator/reduction-breakdown';
 import { DropdownModel } from '../../app/models/dropdown.model';
+import { getMonsterOffensiveSkills } from '../../app/constants/monster-offensive-skills';
+import { IncomingDamageStep } from '../../app/core/monster-damage-taken';
 import { formatNumber } from '../../app/utils/format-number';
 import { missingIcon, monsterSpriteUrl } from '../services/assets';
 import { keyActivate } from '../ui/key-activate';
@@ -13,6 +15,7 @@ import { Select } from '../ui/select';
 import { useTooltip } from '../ui/tooltip';
 import './battle-monster-card.css';
 import './battle-hud.css';
+import { BattleDamageTakenCard } from './battle-damage-taken-card';
 
 export interface BattleMonsterCardProps {
   totalSummary: any; selectedMonster: number; selectedMonsterName: string;
@@ -22,12 +25,13 @@ export interface BattleMonsterCardProps {
   spriteUrlOverride?: string | null; spriteFallbackUrl?: string | null;
   reductionCategories?: ReductionCategory[]; reductionSources?: Record<string, any>;
   onShowElementTable?: () => void; onReductionRowClick?: (row: ReductionRow) => void;
+  onIncomingReductionClick?: (step: IncomingDamageStep) => void;
 }
 export function BattleMonsterCard({ totalSummary, selectedMonster, selectedMonsterName, isInProcessingPreset = false,
   isRelieveTarget = false, relieveLevelOptions = [], relieveLevel = 0, onRelieveLevelChange,
   betelgeuseHp, betelgeuseHpOptions = [], onBetelgeuseHpChange,
   spriteUrlOverride, spriteFallbackUrl, reductionCategories = [], reductionSources = {},
-  onShowElementTable, onReductionRowClick }: BattleMonsterCardProps) {
+  onShowElementTable, onReductionRowClick, onIncomingReductionClick }: BattleMonsterCardProps) {
   const monster = totalSummary?.monster;
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const aura = useTooltip({ text: 'Aura vermelha: redução de 99,9% do dano final.', position: 'top' });
@@ -86,5 +90,7 @@ export function BattleMonsterCard({ totalSummary, selectedMonster, selectedMonst
         .map(([label, key, color]) => <div className="kv" key={key}><span>{label}</span><span className={`v-${color}`}>{number(monster?.[key])}</span></div>)}
     </div></div>
     {monster?.isRedAura && aura.tooltip}{reduction.tooltip}{isRelieveTarget && relieve.tooltip}{element.tooltip}
-  </Card></div>);
+  </Card>{totalSummary?.incomingDamage?.attacker.id === selectedMonster && !!getMonsterOffensiveSkills(selectedMonster).length &&
+    <BattleDamageTakenCard key={selectedMonster} profile={totalSummary.incomingDamage} disabled={isInProcessingPreset} onReductionClick={onIncomingReductionClick} />}
+  </div>);
 }

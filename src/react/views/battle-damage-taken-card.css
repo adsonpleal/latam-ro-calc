@@ -1,0 +1,22 @@
+.damage-taken-card { margin-top: .75rem; }
+.hud-card-col--monster .damage-taken-card .ui-card-content { display: block; }
+.damage-taken-card .ui-card-body { padding: 0; }
+.damage-taken-toggle { display: flex; align-items: center; gap: .6rem; width: 100%; padding: .85rem 1rem; border: 0; background: transparent; color: var(--text-color); cursor: pointer; font: inherit; font-weight: 600; text-align: left; }
+.damage-taken-toggle span { flex: 1; }
+.damage-taken-toggle:focus-visible, .damage-taken-formula summary:focus-visible { outline: 2px solid var(--primary-color); outline-offset: -2px; border-radius: .4rem; }
+.damage-taken-content { padding: 0 1rem 1rem; }
+.damage-taken-content[hidden] { display: none; }
+.damage-taken-field { display: flex; flex-direction: column; gap: .35rem; margin: .65rem 0; font-size: .85rem; }
+.damage-taken-field .ui-dropdown { width: 100%; min-width: 0; }
+.damage-taken-badges { display: flex; flex-wrap: wrap; gap: .5rem; font-size: .8rem; color: var(--text-color-secondary); }
+.damage-taken-result { display: flex; flex-direction: column; gap: .4rem; margin: 1rem 0; padding: .8rem; background: var(--surface-ground); border-radius: .5rem; font-size: .85rem; }
+.damage-taken-result strong { color: var(--primary-color); font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+.damage-taken-note { margin: .6rem 0; color: var(--text-color-secondary); font-size: .8rem; line-height: 1.5; }
+.damage-taken-formula { margin-top: .75rem; font-size: .8rem; }
+.damage-taken-formula summary { cursor: pointer; padding: .4rem 0; }
+.damage-taken-formula dl { margin: .5rem 0; }
+.damage-taken-formula dl > div { display: flex; justify-content: space-between; gap: .75rem; padding: .3rem 0; border-bottom: 1px solid var(--surface-border); }
+.damage-taken-formula dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+.damage-taken-formula button { padding: 0; color: inherit; background: transparent; border: 0; font: inherit; text-decoration: underline dotted; cursor: pointer; text-align: left; }
+.damage-taken-formula small { color: var(--text-color-secondary); }
+.damage-taken-source { display: inline-flex; align-items: center; gap: .35rem; margin-top: .8rem; font-size: .8rem; }

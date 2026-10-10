@@ -310,6 +310,56 @@ export interface EquipmentSummaryModel {
    *  vs a ranged physical hit (see core/pvp.ts `isRanged`). Percentage (0-100). */
   dmg_taken_range: number;
 
+  /** Element and race resistances limited to physical or magical incoming damage. */
+  subele_all_physical: number;
+  subele_all_magical: number;
+  subele_neutral_physical: number;
+  subele_neutral_magical: number;
+  subele_water_physical: number;
+  subele_water_magical: number;
+  subele_earth_physical: number;
+  subele_earth_magical: number;
+  subele_fire_physical: number;
+  subele_fire_magical: number;
+  subele_wind_physical: number;
+  subele_wind_magical: number;
+  subele_poison_physical: number;
+  subele_poison_magical: number;
+  subele_holy_physical: number;
+  subele_holy_magical: number;
+  subele_dark_physical: number;
+  subele_dark_magical: number;
+  subele_ghost_physical: number;
+  subele_ghost_magical: number;
+  subele_undead_physical: number;
+  subele_undead_magical: number;
+  subrace_all_physical: number;
+  subrace_all_magical: number;
+  subrace_formless_physical: number;
+  subrace_formless_magical: number;
+  subrace_undead_physical: number;
+  subrace_undead_magical: number;
+  subrace_brute_physical: number;
+  subrace_brute_magical: number;
+  subrace_plant_physical: number;
+  subrace_plant_magical: number;
+  subrace_insect_physical: number;
+  subrace_insect_magical: number;
+  subrace_fish_physical: number;
+  subrace_fish_magical: number;
+  subrace_demon_physical: number;
+  subrace_demon_magical: number;
+  subrace_demihuman_physical: number;
+  subrace_demihuman_magical: number;
+  subrace_angel_physical: number;
+  subrace_angel_magical: number;
+  subrace_dragon_physical: number;
+  subrace_dragon_magical: number;
+  subrace_player_human_physical: number;
+  subrace_player_human_magical: number;
+  subrace_player_doram_physical: number;
+  subrace_player_doram_magical: number;
+
   subele_all: number;
   subele_neutral: number;
   subele_water: number;

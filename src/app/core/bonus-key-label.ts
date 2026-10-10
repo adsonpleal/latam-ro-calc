@@ -49,11 +49,11 @@ export const ITEM_BONUS_LABELS: Record<string, string> = {
   perfectDodge: 'Esquiva Perfeita', flee: 'Esquiva', forceCri: 'Força crítico',
   ignore_size_penalty: 'Ignora penalidade de tamanho', p_infiltration: 'Infiltração física',
   mildwind: 'Vento Suave',
-  // Defender-side reductions vs players (PVP) — see docs/pvp.md §4
-  dmg_taken_all: 'Redução de dano recebido de jogadores',
-  dmg_taken_physical: 'Redução de dano físico recebido de jogadores',
-  dmg_taken_magical: 'Redução de dano mágico recebido de jogadores',
-  dmg_taken_range: 'Redução de dano físico à distância recebido de jogadores',
+  // General defender-side reductions, shared by PvP and incoming monster damage.
+  dmg_taken_all: 'Redução de dano recebido',
+  dmg_taken_physical: 'Redução de dano físico recebido',
+  dmg_taken_magical: 'Redução de dano mágico recebido',
+  dmg_taken_range: 'Redução de dano físico à distância recebido',
 };
 
 /**
@@ -153,7 +153,7 @@ export function decodeStructuredBonusKey(key: string): string | undefined {
     return `Dano ${atk[m[1]]} (${cat[m[2]]}: ${sub[m[3]] ?? m[3]})`;
   }
   // Defender-side PVP reductions: sub{race,element,size,class}_X → "Resistência (Cat.: X)".
-  // Only the size ones have the per-damage-type variant (subsize_m_physical), and the
+  // Race, element and size have the per-damage-type variant (subsize_m_physical), and the
   // suffix has to come off before the lookup — otherwise the target becomes "m_physical"
   // and the label comes out raw.
   if ((m = key.match(/^sub(race|ele|size|class)_(\w+?)(_physical|_magical)?$/))) {
