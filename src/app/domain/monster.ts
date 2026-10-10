@@ -167,6 +167,15 @@ export class Monster {
     return this._monster.spawn || '';
   }
 
+  /** Published attack ranges for incoming PvE damage, independent of target HP scaling. */
+  get attackProfile() {
+    if (!this._monster?.stats || this.isPlayerTarget) return null;
+    const { attack, magicAttack } = this._monster.stats;
+    if (!attack || !magicAttack) return null;
+    return { id: this._monster.id, race: this.race, size: this.size, type: this.type,
+      attack: { ...attack }, magicAttack: { ...magicAttack } };
+  }
+
   /** A PVP target rather than a monster — setPlayerTargetData writes id -1. */
   get isPlayerTarget() {
     return this._monster?.id === -1;

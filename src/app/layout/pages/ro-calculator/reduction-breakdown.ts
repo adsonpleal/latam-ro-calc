@@ -106,16 +106,19 @@ export function buildReductionCategories(
   };
 
   // Raça — one row per race the defender resists.
-  push('Raça', raceRows.map((r) => ({
-    label: r.label,
-    keys: [`subrace_${r.key}`],
-    percent: v(`subrace_${r.key}`),
-  })));
+  push('Raça', raceRows.flatMap((r) => [
+    { label: r.label, keys: [`subrace_${r.key}`], percent: v(`subrace_${r.key}`) },
+    ...(['physical', 'magical'] as const).map(type => ({ label: `${r.label} (${type === 'physical' ? 'físico' : 'mágico'})`,
+      keys: [`subrace_${r.key}_${type}`], percent: v(`subrace_${r.key}_${type}`) })),
+  ]));
 
   // Elemento — one row per element the defender resists.
   push('Elemento', [
     { label: 'Todos os elementos', keys: ['subele_all'], percent: v('subele_all') },
     ...ELEMENTS.map((e) => ({ label: e.label, keys: [`subele_${e.key}`], percent: v(`subele_${e.key}`) })),
+    ...[{ key: 'all', label: 'Todos os elementos' }, ...ELEMENTS].flatMap(e =>
+      (['physical', 'magical'] as const).map(type => ({ label: `${e.label} (${type === 'physical' ? 'físico' : 'mágico'})`,
+        keys: [`subele_${e.key}_${type}`], percent: v(`subele_${e.key}_${type}`) }))),
   ]);
 
   // Size — the `_physical`/`_magical` rows apply only against their own damage type, so

@@ -35,6 +35,7 @@ const HITS_PER_SEC_EPSILON = 0.005;
 import { DamageFormulaCalc, DamageFormulaNode } from '../../app/models/damage-summary.model';
 import { formatNumber } from '../../app/utils/format-number';
 import { ReductionCategory, ReductionRow } from '../../app/layout/pages/ro-calculator/reduction-breakdown';
+import { IncomingDamageStep } from '../../app/core/monster-damage-taken';
 
 
 export class BattleHudComponent extends ViewState {
@@ -114,6 +115,7 @@ export class BattleHudComponent extends ViewState {
     compare?: boolean;
   }>();
    reductionRowClick = new Events<ReductionRow>();
+   incomingReductionClick = new Events<IncomingDamageStep>();
 
   // Display-only pt-BR for the skill damage type (see dmgTypeLabelUtil;
   // the raw value still drives the [hidden] logic elsewhere, e.g. Magical-only chips).

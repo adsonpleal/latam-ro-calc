@@ -1,4 +1,5 @@
 import { ItemAutoCastEffectScript, ItemAutoCastPendingScript, ItemAutoCastScript } from './auto-cast.model';
+import { ElementType } from '../constants/element-type.const';
 
 export type ItemScriptValue = string[] | ItemAutoCastScript[] | ItemAutoCastPendingScript[] | ItemAutoCastEffectScript[];
 export const ITEM_AUTO_CAST_DIRECTIVE = 'autoCast' as const;
@@ -60,6 +61,8 @@ export interface ItemModel {
   itemLevel: any;
   attack: any;
   propertyAtk?: any;
+  /** Always-on armor property from the LATAM description; an armor card overrides it. */
+  armorElement?: ElementType;
   defense: any;
   weight: number;
   location: any;
