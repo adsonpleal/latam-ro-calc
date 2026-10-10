@@ -13,6 +13,10 @@ export default defineConfig({
   use: {
     baseURL,
     channel: process.env['PLAYWRIGHT_CHANNEL'] || (process.platform === 'win32' ? 'chrome' : undefined),
+    launchOptions: {
+      ...(process.env['PLAYWRIGHT_EXECUTABLE_PATH'] ? { executablePath: process.env['PLAYWRIGHT_EXECUTABLE_PATH'] } : {}),
+      ...(process.env['HTTPS_PROXY'] ? { proxy: { server: process.env['HTTPS_PROXY'], bypass: '127.0.0.1,localhost' } } : {}),
+    },
     viewport: { width: 1920, height: 918 },
     locale: 'pt-BR',
     timezoneId: 'America/Sao_Paulo',

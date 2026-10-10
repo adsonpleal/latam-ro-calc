@@ -1,4 +1,5 @@
 import { ScrollLocks } from './scroll-locks';
+import { needsCompactOverlay } from './input-capabilities';
 
 export interface ConnectedPosition {
   originX: 'start' | 'center' | 'end'; originY: 'top' | 'center' | 'bottom';
@@ -17,6 +18,12 @@ export function positionConnected(panel: HTMLElement, anchor: HTMLElement, posit
   const rect = anchor.getBoundingClientRect();
   const size = panel.getBoundingClientRect();
   const viewport = anchor.ownerDocument.defaultView!;
+  const adaptive = needsCompactOverlay();
+  const visible = adaptive ? viewport.visualViewport : null;
+  const leftEdge = (visible?.offsetLeft ?? 0) + margin;
+  const topEdge = (visible?.offsetTop ?? 0) + margin;
+  const rightEdge = (visible?.offsetLeft ?? 0) + (visible?.width ?? viewport.innerWidth) - margin;
+  const bottomEdge = (visible?.offsetTop ?? 0) + (visible?.height ?? viewport.innerHeight) - margin;
   const coordinate = (side: string, start: number, length: number) => start + (side === 'center' ? length / 2 : side === 'end' || side === 'bottom' ? length : 0);
   const candidates = positions.map(connection => ({
     connection,
@@ -24,13 +31,14 @@ export function positionConnected(panel: HTMLElement, anchor: HTMLElement, posit
     top: coordinate(connection.originY, rect.top, rect.height) - coordinate(connection.overlayY, 0, size.height) + (connection.offsetY ?? 0),
   }));
   const area = (candidate: typeof candidates[number]) =>
-    Math.max(0, Math.min(candidate.left + size.width, viewport.innerWidth - margin) - Math.max(candidate.left, margin)) *
-    Math.max(0, Math.min(candidate.top + size.height, viewport.innerHeight - margin) - Math.max(candidate.top, margin));
-  const chosen = candidates.find(candidate => candidate.left >= margin && candidate.top >= margin && candidate.left + size.width <= viewport.innerWidth - margin && candidate.top + size.height <= viewport.innerHeight - margin)
+    Math.max(0, Math.min(candidate.left + size.width, rightEdge) - Math.max(candidate.left, leftEdge)) *
+    Math.max(0, Math.min(candidate.top + size.height, bottomEdge) - Math.max(candidate.top, topEdge));
+  const chosen = candidates.find(candidate => candidate.left >= leftEdge && candidate.top >= topEdge && candidate.left + size.width <= rightEdge && candidate.top + size.height <= bottomEdge)
     ?? candidates.reduce<typeof candidates[number] | undefined>((best, next) => !best || area(next) > area(best) ? next : best, undefined);
   if (!chosen) return undefined;
-  panel.style.left = `${Math.max(margin, Math.min(chosen.left, viewport.innerWidth - margin - size.width))}px`;
-  panel.style.top = `${Math.max(margin, Math.min(chosen.top, viewport.innerHeight - margin - size.height))}px`;
+  const host = adaptive ? panel.parentElement?.getBoundingClientRect() : null;
+  panel.style.left = `${Math.max(leftEdge, Math.min(chosen.left, rightEdge - size.width)) - (host?.left ?? 0)}px`;
+  panel.style.top = `${Math.max(topEdge, Math.min(chosen.top, bottomEdge - size.height)) - (host?.top ?? 0)}px`;
   return chosen.connection;
 }
 
@@ -41,6 +49,7 @@ export class LayerManager {
   readonly scrollLocks = new ScrollLocks();
   private depth = 1100;
   private layers: Layer[] = [];
+  private readonly parents = new WeakMap<HTMLElement, HTMLElement>();
   private readonly key = (event: KeyboardEvent) => {
     if (event.key !== 'Escape') return;
     const top = [...this.layers].reverse().find(layer => layer.panel.isConnected);
@@ -50,6 +59,8 @@ export class LayerManager {
     top.escape();
   };
   register(panel: HTMLElement, origin: HTMLElement | null, dismiss: () => void, lock = true, escape = dismiss): () => void {
+    const parent = [...this.layers].reverse().find(layer => origin && layer.panel.contains(origin));
+    if (parent) this.parents.set(panel, parent.panel);
     if (!this.layers.length) {
       document.addEventListener('keydown', this.key, true);
     }
@@ -76,6 +87,9 @@ export class LayerManager {
     // A React click can replace its row before the document listener runs. The
     // event path retains the original panel even after that target is detached.
     if (!target || path.includes(panel) || panel.contains(target)) return false;
+    if (needsCompactOverlay()) for (const element of path) {
+      for (let owner = this.parents.get(element as HTMLElement); owner; owner = this.parents.get(owner)) if (owner === panel) return false;
+    }
     const at = this.layers.findIndex(layer => layer.panel === panel);
     return !this.layers.slice(at + 1).some(layer => path.includes(layer.panel) || layer.panel.contains(target));
   }

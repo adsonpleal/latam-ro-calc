@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "archive": {
+    "filename": "responsiveness-checkpoint.tar.gz",
+    "bytes": 421307924,
+    "sha256": "499b3a6d6c4d6c22604d0599482ba4a4ecaad70123f2b5b15d947baba8f2fe59"
+  },
+  "parts": [
+    {
+      "filename": "responsiveness-checkpoint.tar.gz.part01",
+      "bytes": 31457280,
+      "sha256": "81ec6739310a223389e9e35fa73ce1b8b816e41d42a3d90462bd806395063b78"
+    },
+    {
+      "filename": "responsiveness-checkpoint.tar.gz.part02",
+      "bytes": 31457280,
+      "sha256": "26ccd076b7d70a02917d8e69aa341bc909c099f980b78c526f626c1e9a81f104"
+    },
+    {
+      "filename": "responsiveness-checkpoint.tar.gz.part03",
+      "bytes": 31457280,
+      "sha256": "6abd2aa62747abd06385181ee0b4f2810e6493ea9ad0dd4dc12531b294e8df3e"
+    },
+    {
+      "filename": "responsiveness-checkpoint.tar.gz.part04",
+      "bytes": 31457280,
+      "sha256": "7b305c4e3952a635554cf86a4927f3c01107eccd7fbf4e16ba7b20343d404e1c"
+    },
+    {
+      "filename": "responsiveness-checkpoint.tar.gz.part05",
+      "bytes": 31457280,
+      "sha256": "527e5052a8bb703c911b340efea695684cc657dcc92fc5c4e8e86ea5eed146bb"
+    },
+    {
+      "filename": "responsiveness-checkpoint.tar.gz.part06",
+      "bytes": 31457280,
+      "sha256": "c42c1bf390b7e574de5c9bad6e6d7f81d07bc5c77750190d89c73d553969c969"
+    },
+    {
+      "filename": "responsiveness-checkpoint.tar.gz.part07",
+      "bytes": 31457280,
+      "sha256": "c9c4528eb4ba8ef2b1924161579ef6d89b78913dc0f9a2090e381f339828ab6d"
+    },
+    {
+      "filename": "responsiveness-checkpoint.tar.gz.part08",
+      "bytes": 31457280,
+      "sha256": "77ea65977faf807661108f3e8b0265801d7d710010ff906294a1b7a28a655e28"
+    },
+    {
+      "filename": "responsiveness-checkpoint.tar.gz.part09",
+      "bytes": 31457280,
+      "sha256": "6327a13256f37adb2c5bfe9650bfe0586e66ce77bbbf6d5b94a06d2264353d64"
+    },
+    {
+      "filename": "responsiveness-checkpoint.tar.gz.part10",
+      "bytes": 31457280,
+      "sha256": "9b08feea48eea17b232c8c67e148bce63725c3a5ebe0f3d0330af65964e53cd3"
+    },
+    {
+      "filename": "responsiveness-checkpoint.tar.gz.part11",
+      "bytes": 31457280,
+      "sha256": "f1ffcf8cdaff04b348dfbdad44d15c0dacefce9684359c905d9690661f9a5884"
+    },
+    {
+      "filename": "responsiveness-checkpoint.tar.gz.part12",
+      "bytes": 31457280,
+      "sha256": "2b0e8ae15ef191a691acffedd561fed809758392be94627bc0657a94a0124f79"
+    },
+    {
+      "filename": "responsiveness-checkpoint.tar.gz.part13",
+      "bytes": 31457280,
+      "sha256": "458291d3a53ef4fd23a7dd5b2de53d6a64f68e5d78136727bd1e82881c40a7a6"
+    },
+    {
+      "filename": "responsiveness-checkpoint.tar.gz.part14",
+      "bytes": 12363284,
+      "sha256": "fb5661c633c52fd0b3a2e43ff3215597872648c7134d81543af1c070758f89ff"
+    }
+  ],
+  "archive_roots": [
+    ".scratch/responsiveness/baseline",
+    ".scratch/responsiveness/baseline-additional-evidence.json",
+    ".scratch/responsiveness/original-source",
+    ".scratch/responsiveness/iteration-003",
+    ".scratch/responsiveness/neutral-fixtures",
+    ".scratch/responsiveness/browser-support.json",
+    ".scratch/responsiveness/browser-capture-notes.json",
+    ".scratch/responsiveness/serve-static.mjs",
+    ".scratch/responsiveness/fingerprint.mjs",
+    ".scratch/responsiveness/check-frozen.mjs",
+    ".scratch/responsiveness/checkpoint.json",
+    ".scratch/responsiveness/RESUME.md",
+    ".scratch/responsiveness/implementation-files.md",
+    ".tmp/responsiveness/baseline-build",
+    ".tmp/responsiveness/iteration-003-build"
+  ],
+  "baseline_build_id": "baseline-1e5bd8a-original",
+  "baseline_resource_digest": "b8654f2d99a95c3af87b3c09ac5112527c29b0342154bdfd229b95a880019992",
+  "baseline_frozen_contract_sha256": "dfb45e7541a1cdb9aad175514b919a37579590bd292ad5497fcd2a64a41cb977",
+  "baseline_expected_contract_sha256": "cca7fbcd583410208f545ec76f56129595db7618c719fa0fcf4637e7852103f3",
+  "candidate_build_id": "candidate-003-533b05a5fba96440",
+  "candidate_resource_digest": "70e4679e6288b28accb9920ca81938f1c1ddd9b960e4ba1a1668047885478563",
+  "candidate_expected_contract_sha256": "a84f91db0e18b0bcfab2c765233d14edbb8d06a0177202567c21da76be073b07",
+  "required_matrix_checks": 464,
+  "baseline_frozen_files": 544,
+  "status": "INCOMPLETE; no acceptance grades are carried forward",
+  "upload_part_max_bytes": 31457280
+}

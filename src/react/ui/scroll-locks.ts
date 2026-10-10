@@ -1,3 +1,5 @@
+import { needsCompactOverlay } from './input-capabilities';
+
 /** Owned locks preserve scrolling inside overlays while suppressing the page. */
 export class ScrollLocks {
   private readonly anonymousOwner = { isConnected: true } as Element;
@@ -6,6 +8,8 @@ export class ScrollLocks {
   private readonly attempt = (event: Event) => {
     for (let index = this.holders.length - 1; index >= 0; index--) if (!this.holders[index].isConnected) this.holders.splice(index, 1);
     if (!this.holders.length) { this.unlisten(); return; }
+    const top = this.holders[this.holders.length - 1];
+    if (needsCompactOverlay() && top !== this.anonymousOwner && !top.contains(event.target as Node)) { event.preventDefault(); return; }
     for (let element = event.target as Element | null; element && element !== document.scrollingElement; element = element.parentElement) {
       if (element.scrollHeight > element.clientHeight && ['auto', 'scroll', 'overlay'].includes(getComputedStyle(element).overflowY)) return;
     }

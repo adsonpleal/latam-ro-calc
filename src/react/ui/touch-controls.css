@@ -1,0 +1,36 @@
+/* Shared input adaptations preserve the desktop control defaults. */
+@media (hover: none), (pointer: coarse) {
+  .ui-button, .ui-link, button:not(.ui-select-trigger), input:not([type="file"]):not([type="checkbox"]), select,
+  .ui-select-trigger, [role="button"], .ui-listbox-item, .ui-select-item, .ui-cascadeselect-item-content {
+    min-height: 44px;
+  }
+  button:not(.ui-select-trigger), .ui-link, [role="button"] { min-width: 44px; }
+  [role="button"]:not(button):not(img) { display: inline-flex; align-items: center; justify-content: center; }
+  a[href] { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
+  .ui-button-icon-only, .ui-dialog-header-icon, .ui-toast-icon-close, .ui-select-clear { width: 44px !important; height: 44px !important; }
+  .ui-icon-button { display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+  .ui-icon-button > .ui-icon { flex: none; width: 1em; height: 1em; }
+  .ui-checkbox-label { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; }
+  .ui-checkbox { flex: 0 0 44px; width: 44px; height: 44px; display: inline-flex; justify-content: center; align-items: center; }
+  .ui-checkbox input { width: 44px; height: 44px; }
+  .ui-inputswitch { min-width: 44px; min-height: 44px; }
+  .ui-inputswitch-slider { top: 10px; bottom: 10px; }
+  .ui-dropdown, .ui-multiselect, .ui-cascadeselect { position: relative; min-height: 44px !important; min-width: 60px !important; height: auto !important; }
+  .ui-select-trigger { width: 100%; min-width: 44px !important; padding-right: 24px !important; }
+  .ui-select-chevron--decorative { position: absolute; inset: 0 6px 0 auto; width: 14px !important; pointer-events: none; }
+  .ui-select-clear { position: static !important; margin: 0 20px 0 0; flex: 0 0 44px; }
+  .ui-select-pane { max-width: calc(var(--ui-viewport-width, 100vw) - 16px); }
+  .ui-dropdown-panel, .ui-multiselect-panel, .ui-cascadeselect-panel { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+  .ui-select-header { flex: none; }
+  .ui-select-items-wrapper, .ui-select-viewport, .ui-cascadeselect-items { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+  .ui-cascadeselect-sublist { width: 100%; position: static !important; padding-left: .75rem; max-height: none !important; }
+  .ui-select-item { display: flex; align-items: center; min-width: 44px; min-height: 48px; white-space: normal; }
+  .ui-selectbutton { flex-wrap: wrap; gap: .25rem; }
+}
+
+.ui-touch-information, .ui-touch-information-group { display: inline-flex; align-items: center; gap: 2px; min-width: 0; max-width: 100%; }
+.ui-touch-information-group > button { flex: 1; min-width: 44px; }
+.ui-touch-info { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 44px; width: 44px; height: 44px; padding: 0; border: 0; border-radius: var(--border-radius); background: transparent; color: var(--primary-color); cursor: pointer; }
+.ui-touch-info:focus-visible { box-shadow: var(--focus-ring); outline: 0; }
+.ui-touch-details .ui-tooltip-text { max-width: none; max-height: none; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ui-touch-details.item_desc_tooltip .ui-tooltip-text { white-space: normal; }

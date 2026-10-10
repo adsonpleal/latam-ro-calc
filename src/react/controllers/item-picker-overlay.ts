@@ -66,7 +66,7 @@ export class ItemPickerOverlayComponent extends ViewState {
    */
   pinnedWidth: number | null = null;
 
-  readonly rowHeight = ROW_HEIGHT;
+  rowHeight = ROW_HEIGHT;
 
   constructor(
 private readonly host: { nativeElement: HTMLElement },
@@ -119,7 +119,7 @@ private readonly host: { nativeElement: HTMLElement },
   }
 
   get viewportHeight(): number {
-    return Math.min(this.rows.length * ROW_HEIGHT, MAX_VIEWPORT);
+    return Math.min(this.rows.length * this.rowHeight, MAX_VIEWPORT);
   }
 
   /** Tree mode only, and only while browsing — a search has no place in the tree. */

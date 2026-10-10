@@ -1,6 +1,7 @@
 import { CSSProperties, ReactNode, createElement, useId, useLayoutEffect, useRef, useState } from 'react';
 import { Portal } from './portal';
 import { Icon } from './primitives';
+import { useTouchInput } from './input-capabilities';
 
 export interface DialogProps {
   visible: boolean;
@@ -21,6 +22,7 @@ export interface DialogProps {
 export function Dialog({ visible, onVisibleChange, onClosed, header = '', footer, children, modal = false,
   closable = true, closeOnEscape = true, dismissableMask = false, style, contentStyle, className = '', position }: DialogProps) {
   const id = useId();
+  const touch = useTouchInput();
   const [host, setHost] = useState<HTMLElement | null>(null);
   const closed = useRef(onClosed); closed.current = onClosed;
   const lifecycle = useRef<object | null>(null);
@@ -32,7 +34,7 @@ export function Dialog({ visible, onVisibleChange, onClosed, header = '', footer
     };
   }, [visible]);
   const close = () => onVisibleChange(false);
-  return createElement('app-ui-dialog', { ref: setHost }, visible ? <Portal origin={host} modal={modal} trap={modal} panelClass="ui-dialog-pane" position={position} minWidth={typeof style?.minWidth === 'string' ? parseFloat(style.minWidth) : style?.minWidth}
+  return createElement('app-ui-dialog', { ref: setHost, onClick: touch ? (event: React.MouseEvent) => event.stopPropagation() : undefined }, visible ? <Portal origin={host} modal={modal} trap={modal} panelClass="ui-dialog-pane" position={position} minWidth={typeof style?.minWidth === 'string' ? parseFloat(style.minWidth) : style?.minWidth}
     onDismiss={close} onEscape={() => { if (closable && closeOnEscape) close(); }}
     onBackdrop={() => { if (dismissableMask) close(); }}>
     <section className={`ui-dialog ui-component ${className}`} style={style} role="dialog" aria-modal={modal} aria-labelledby={id} tabIndex={-1}>

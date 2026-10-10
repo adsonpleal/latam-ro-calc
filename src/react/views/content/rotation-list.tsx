@@ -1,6 +1,8 @@
 import { Fragment } from 'react';
 import { Render, displayPipe, interpolate, classNames, identityKey } from '../render';
+import { useTouchInput } from '../../ui/input-capabilities';
 export function Content({vm, services}: {vm: any; services: any}) {
+const touch = useTouchInput();
 return <><Render tag="div" props={{"className": ["rot"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["rot-head"].filter(Boolean).join(' ')}}><Render tag="span" props={{"className": ["cap2"].filter(Boolean).join(' ')}}>{"ROTAÇÃO"}
 {(() => { const __condition1 = vm.rotation.length;  return __condition1 ? <><>{interpolate([" · "," ",""], [vm.rotation.length,((vm.rotation.length === 1) ? "HABILIDADE" : "HABILIDADES")])}</></> : null; })()}</Render>
 <Render tag="span" props={{"className": ["rot-head-actions"].filter(Boolean).join(' ')}}><Render tag="button" props={{"type": "button",
@@ -47,6 +49,7 @@ const i = __index3; return <Fragment key={identityKey(vm.trackByIndex(__index3, 
 "reorderIndex": i,
 "reorderDisabled": (vm.entries.length < 2)}}></Render>
 <Render tag="span" props={{"className": ["rot-step"].filter(Boolean).join(' ')}}>{interpolate(["",""], [(i + 1)])}</Render>
+{touch && <span className="rot-touch-order"><button type="button" className="ui-button ui-button-text" aria-label={`Subir ${entry.name}`} disabled={i === 0} onClick={event => vm.action(() => vm.moveBy(i, -1, event))}>↑</button><button type="button" className="ui-button ui-button-text" aria-label={`Descer ${entry.name}`} disabled={i === vm.entries.length - 1} onClick={event => vm.action(() => vm.moveBy(i, 1, event))}>↓</button></span>}
 {(() => { const __condition4 = entry.isBasic;  return __condition4 ? <><Render tag="img" props={{"role": "button",
 "tabIndex": "0",
 "tooltipPosition": "top",

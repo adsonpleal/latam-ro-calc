@@ -27,7 +27,7 @@ export function EquipmentChip({ view, items, descriptions, compare = false, cust
       {view.icon && <img className="eq-chip__icon" src={iconUrl(view.icon, 'item', customIcon)} alt="" loading="lazy" {...missingIcon} />}
       <span {...plain.triggerProps} className="eq-chip__text">{view.text}</span>
       {view.preRelease && <span {...preview.triggerProps} className="pre_release_tag">Prévia</span>}
-    </button>
+    </button>{rich.touchInfo}{plain.touchInfo}{view.preRelease && preview.touchInfo}
       {view.filled && view.chip.clearable !== false && <button {...clear.triggerProps} type="button" className="eq-chip__clear" aria-label={`Remover ${view.text}`} onClick={onClear}>✕</button>}
     </span>
     {view.descId && items?.[view.descId]?.custom && <button {...edit.triggerProps} type="button" className={`eq-chip__custom ui-tag ${view.primary ? 'eq-chip__custom--primary' : ''}`}

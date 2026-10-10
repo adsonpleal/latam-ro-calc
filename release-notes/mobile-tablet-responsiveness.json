@@ -1,0 +1,6 @@
+{
+  "type": "patch",
+  "logs": [
+    "Adaptados os layouts do simulador para celulares e tablets, com controles de toque e acesso às informações dos componentes."
+  ]
+}

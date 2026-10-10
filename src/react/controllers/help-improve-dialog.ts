@@ -6,6 +6,7 @@ import { ReplayTraits, TRAIT_KEYS, TRAIT_LABELS } from 'src/app/replay/replay-tr
 import { SubmissionCheck, validateReplaySubmission } from 'src/app/replay/validate-submission';
 import { createNumberDropdownList } from 'src/app/utils/create-number-dropdown-list';
 import { HELP_IMPROVE_DIALOG_STYLE } from '../../app/layout/dialog-geometry';
+import { needsCompactOverlay } from '../ui/input-capabilities';
 
 const ZERO_TRAITS: ReplayTraits = { pow: 0, sta: 0, wis: 0, spl: 0, con: 0, crt: 0 };
 
@@ -131,6 +132,8 @@ export class HelpImproveDialogComponent extends ViewState {
       this.bytes = null;
     } finally {
       this.parsing = false;
+      // Compact/touch forms must announce completion without another input action.
+      if (needsCompactOverlay()) this.publish();
     }
   }
 
@@ -159,6 +162,7 @@ export class HelpImproveDialogComponent extends ViewState {
       this.sendError = 'Não deu para enviar agora. Tente de novo daqui a pouco — se insistir, avise no Discord.';
     } finally {
       this.sending = false;
+      if (needsCompactOverlay()) this.publish();
     }
   }
 

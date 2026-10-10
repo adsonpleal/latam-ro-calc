@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useContext, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ConnectedPosition, LayerManager, positionConnected, trapFocus } from './layers';
+import { needsCompactOverlay, useTouchInput } from './input-capabilities';
 
 const LayersContext = createContext<LayerManager | null>(null);
 export function useLayers(): LayerManager {
@@ -37,6 +38,7 @@ export function Portal({ children, origin = null, anchor, positions, panelClass 
   trap = false, position = 'center', minWidth, width, role, id, onDismiss, onEscape, onBackdrop, onOutside,
   onOutsideScroll, onPosition }: PortalProps) {
   const manager = useLayers();
+  const touch = useTouchInput();
   const callbacks = useRef({ onDismiss, onEscape, onBackdrop, onOutside, onOutsideScroll, onPosition });
   callbacks.current = { onDismiss, onEscape, onBackdrop, onOutside, onOutsideScroll, onPosition };
   const [container, setContainer] = useState<HTMLElement | null>(null);
@@ -69,33 +71,55 @@ export function Portal({ children, origin = null, anchor, positions, panelClass 
       const onOrigin = origin && (path.includes(origin) || origin.contains(event.target as Node));
       if (manager.isOutside(pane, event.target as Node, path) && !onOrigin) callbacks.current.onOutside?.();
     };
-    document.addEventListener('click', outside);
+    // Touch dialogs stop bubbling to underlying actions. Observe their outside
+    // taps before that boundary so nested selectors can still dismiss.
+    document.addEventListener('click', outside, touch);
     const outsideScroll = (event: Event) => {
       if (manager.isOutside(pane, event.target as Node, event.composedPath())) callbacks.current.onOutsideScroll?.();
     };
     document.addEventListener('scroll', outsideScroll, true);
     setContainer(pane);
     return () => {
-      release(); document.removeEventListener('click', outside); document.removeEventListener('scroll', outsideScroll, true); host.remove();
+      release(); document.removeEventListener('click', outside, touch); document.removeEventListener('scroll', outsideScroll, true); host.remove();
     };
-  }, [manager, origin, anchor, panelClass, modal, lock, position, minWidth, width, role, id]);
+  }, [manager, origin, anchor, panelClass, modal, lock, position, minWidth, width, role, id, touch]);
   useLayoutEffect(() => {
     if (!container) return undefined;
     const reposition = () => {
+      const host = container.parentElement!;
+      if (needsCompactOverlay()) {
+        const visible = window.visualViewport;
+        const visibleWidth = visible?.width ?? window.innerWidth;
+        const visibleHeight = visible?.height ?? window.innerHeight;
+        Object.assign(host.style, { left: `${visible?.offsetLeft ?? 0}px`, top: `${visible?.offsetTop ?? 0}px`, right: 'auto', bottom: 'auto', width: `${visibleWidth}px`, height: `${visibleHeight}px` });
+        host.style.setProperty('--ui-viewport-width', `${visibleWidth}px`);
+        host.style.setProperty('--ui-viewport-height', `${visibleHeight}px`);
+        if (minWidth != null) container.style.minWidth = `${Math.min(minWidth, visibleWidth - 16)}px`;
+        if (width != null) container.style.width = `${Math.min(width, visibleWidth - 16)}px`;
+      } else {
+        for (const name of ['left', 'top', 'right', 'bottom', 'width', 'height', '--ui-viewport-width', '--ui-viewport-height']) host.style.removeProperty(name);
+        if (minWidth != null) container.style.minWidth = `${minWidth}px`;
+        if (width != null) container.style.width = `${width}px`;
+      }
       if (!anchor?.isConnected) return;
       const connection = positionConnected(container, anchor, positions);
       if (connection) callbacks.current.onPosition?.(connection, container);
     };
     reposition();
     const observer = new ResizeObserver(reposition); observer.observe(container);
+    if (anchor && needsCompactOverlay()) observer.observe(anchor);
     window.addEventListener('resize', reposition);
+    window.visualViewport?.addEventListener('resize', reposition);
+    window.visualViewport?.addEventListener('scroll', reposition);
     document.addEventListener('scroll', reposition, true);
     const frame = requestAnimationFrame(reposition);
     const restore = trap ? trapFocus(container.querySelector<HTMLElement>('[role="dialog"]') ?? container) : undefined;
     return () => {
       cancelAnimationFrame(frame); observer.disconnect();
       window.removeEventListener('resize', reposition); document.removeEventListener('scroll', reposition, true); restore?.();
+      window.visualViewport?.removeEventListener('resize', reposition);
+      window.visualViewport?.removeEventListener('scroll', reposition);
     };
-  }, [container, anchor, positions, trap]);
+  }, [container, anchor, positions, trap, minWidth, width, touch]);
   return container ? createPortal(children, container) : null;
 }

@@ -1,8 +1,7 @@
 import { Fragment } from 'react';
 import { Render, interpolate, parseStyle, normalizeStyle, identityKey } from '../render';
 export function Content({vm, services}: {vm: any; services: any}) {
-return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean).join(' '),
-"style": normalizeStyle(Object.assign({}, parseStyle("min-width: 1500px")))}}><Render tag="span" props={{"className": ["pr-2"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.lastestVersion])}</Render>
+return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean).join(' ')}}><Render tag="span" props={{"className": ["pr-2"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.lastestVersion])}</Render>
 <Render tag="button" props={{"aria-label": "Novidades",
 "click": (event: any) => vm.action(() => { const $event = event; vm.showUpdateDialog() }),
 "className": ["ui-button-text ui-button-info"].filter(Boolean).join(' '),
