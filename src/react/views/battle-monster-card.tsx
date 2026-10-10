@@ -11,6 +11,7 @@ import { Popover } from '../ui/popover';
 import { Card, Icon, Tag } from '../ui/primitives';
 import { Select } from '../ui/select';
 import { useTooltip } from '../ui/tooltip';
+import { useTouchInput } from '../ui/input-capabilities';
 import './battle-monster-card.css';
 import './battle-hud.css';
 
@@ -29,6 +30,7 @@ export function BattleMonsterCard({ totalSummary, selectedMonster, selectedMonst
   spriteUrlOverride, spriteFallbackUrl, reductionCategories = [], reductionSources = {},
   onShowElementTable, onReductionRowClick }: BattleMonsterCardProps) {
   const monster = totalSummary?.monster;
+  const touch = useTouchInput();
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const aura = useTooltip({ text: 'Aura vermelha: redução de 99,9% do dano final.', position: 'top' });
   const reduction = useTooltip({ text: monster?.damageReduction > 0 ? monsterDamageReductionTooltip(monster.damageReduction) : '', position: 'top' });
@@ -45,8 +47,8 @@ export function BattleMonsterCard({ totalSummary, selectedMonster, selectedMonst
       <div className="np-name">{selectedMonsterName}</div><div className="np-badges">
         {monster?.typeUpper && <Tag severity="danger" value={monsterTypePtBr(monster.typeUpper)} />}
         {monster?.isMvp && <Tag severity="warning" value="MVP" />}
-        {monster?.isRedAura && <Tag {...aura.triggerProps} className="tag-aura" value="AURA" />}
-        {!!monster?.damageReduction && <Tag {...reduction.triggerProps} className="tag-map-reduction" value={`REDUÇÃO ${monster.damageReduction}%`} />}
+        {monster?.isRedAura && <><Tag {...aura.triggerProps} className="tag-aura" value="AURA" />{aura.touchInfo}</>}
+        {!!monster?.damageReduction && <><Tag {...reduction.triggerProps} className="tag-map-reduction" value={`REDUÇÃO ${monster.damageReduction}%`} />{reduction.touchInfo}</>}
       </div><div className="hud-hp-line">HP {number(monster?.hp)}</div>
       {selectedMonster === 20994 && !!betelgeuseHpOptions.length && <div className="hud-relieve">
         <span className="hud-relieve-label">Dificuldade</span>
@@ -54,7 +56,7 @@ export function BattleMonsterCard({ totalSummary, selectedMonster, selectedMonst
           optionLabel="label" optionValue="value" disabled={isInProcessingPreset} value={betelgeuseHp}
           onChange={value => onBetelgeuseHpChange?.(value)} />
       </div>}
-      {isRelieveTarget && <div className="hud-relieve"><span {...relieve.triggerProps} className="hud-relieve-label">Aliviar</span>
+      {isRelieveTarget && <div className="hud-relieve"><span {...relieve.triggerProps} className="hud-relieve-label">Aliviar</span>{relieve.touchInfo}
         <Select className="hud-relieve-dd" options={relieveLevelOptions} optionLabel="label" optionValue="value"
           disabled={isInProcessingPreset} value={relieveLevel} onChange={value => onRelieveLevelChange?.(value)} />
       </div>}
@@ -79,6 +81,7 @@ export function BattleMonsterCard({ totalSummary, selectedMonster, selectedMonst
       <div className="kv"><span>TEN / TENM</span><span><span className="v-res">{number(monster?.res)}</span> / <span className="v-resm">{number(monster?.mres)}</span></span></div>
     </div><div className="hud-sub">
       <Tag {...element.triggerProps} className={`el-tag-clickable ${elementTagClass(monster?.elementUpper)}`} icon="search" value={elementPtBr(monster?.elementLevelUpper)}
+        {...(touch ? { ...keyActivate(), 'aria-label': `Ver tabela elemental: ${elementPtBr(monster?.elementLevelUpper)}` } : {})}
         onClick={() => { if (!isInProcessingPreset) onShowElementTable?.(); }} />
       <span className="v-race">{racePtBr(monster?.raceUpper)}</span><span className="v-size">{sizePtBr(monster?.sizeFullUpper)}</span>
     </div><div className="hud-attrs">

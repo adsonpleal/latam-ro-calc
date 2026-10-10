@@ -2,6 +2,8 @@ import { ReactNode, createElement } from 'react';
 import { ConnectedPosition } from './layers';
 import { Portal } from './portal';
 import { alignPopover } from './popover-position';
+import { useTouchInput } from './input-capabilities';
+import { Button } from './primitives';
 
 const CENTERED: ConnectedPosition[] = [
   { originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top' },
@@ -17,6 +19,7 @@ export interface PopoverProps {
   containerRef?: (element: HTMLDivElement | null) => void;
 }
 export function Popover({ anchor, onClose, className = '', ariaLabel, centered = false, children, containerRef }: PopoverProps) {
+  const touch = useTouchInput();
   if (!anchor) return null;
   const align = (position: ConnectedPosition, panel: HTMLElement) => {
     const container = panel.querySelector<HTMLElement>('.ui-overlaypanel');
@@ -27,7 +30,7 @@ export function Popover({ anchor, onClose, className = '', ariaLabel, centered =
     panelClass="ui-popover-pane" lock={false} onDismiss={() => { onClose(); if (anchor.isConnected) anchor.focus({ preventScroll: true }); }}
     onOutside={onClose} onOutsideScroll={onClose} onPosition={align}>
     <div ref={containerRef} className={`ui-overlaypanel ui-component ${className}`} role="region" aria-label={ariaLabel}>
-      <div className="ui-overlaypanel-content">{children}</div>
+      <div className="ui-overlaypanel-content">{touch && <Button className="ui-button-text ui-touch-popover-close" icon="times" label="Fechar detalhes" onClick={onClose} />}{children}</div>
     </div>
   </Portal>);
 }

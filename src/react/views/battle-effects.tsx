@@ -9,7 +9,7 @@ function Effect({ item, customIcon }: { item: BattleEffect; customIcon?: (id: nu
   const tip = useTooltip({ text: (item.label2 || '').replace(/^\s*\[\s*/, '').replace(/\s*\]\s*$/, ''), position: 'top' });
   return <><span {...tip.triggerProps} className="hud-buff-item">
     {item.itemId && <img src={iconUrl(item.itemId, 'item', customIcon)} alt="" className="hud-buff-icon" {...missingIcon} />}{item.label}
-  </span>{tip.tooltip}</>;
+  </span>{tip.touchInfo}{tip.tooltip}</>;
 }
 export interface BattleEffectsProps {
   chanceList: BattleEffect[]; selectedChances: string[]; onChange: (selected: string[]) => void;

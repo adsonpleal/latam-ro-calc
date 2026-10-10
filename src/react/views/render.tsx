@@ -4,6 +4,7 @@ import { missingIcon } from '../services/assets';
 import { Accordion } from '../ui/accordion';
 import { Block } from '../ui/block';
 import { Dialog } from '../ui/dialog';
+import { useTouchInput } from '../ui/input-capabilities';
 import { keyActivate } from '../ui/key-activate';
 import { Listbox } from '../ui/listbox';
 import { ConfirmDialog, Toast } from '../ui/notifications';
@@ -14,7 +15,7 @@ import { useReorder } from '../ui/reorder';
 import { Select } from '../ui/select';
 import { SelectButton } from '../ui/select-button';
 import { Table } from '../ui/table';
-import { useTooltip } from '../ui/tooltip';
+import { TouchInformationGroup, useTooltip } from '../ui/tooltip';
 import { VirtualList } from '../ui/virtual-list';
 import { BattleEffects } from './battle-effects';
 import { BattleMonsterCard } from './battle-monster-card';
@@ -51,10 +52,11 @@ function ManagedPopover({ handle, props, children }: { handle: PopoverHandle; pr
 /** Binds local React primitives; calculation and feature logic live in their views. */
 export function Render({ tag, props: original, children }: { tag: string; props: Props; children?: ReactNode }) {
   const services = useServices();
+  const touch = useTouchInput();
   const rowSelection = useContext(RowSelectionContext);
   const { tooltip: tooltipOptions, activateWithKeys, reorderIndex, reorderDisabled, reordered, reference,
     missingIcon: hideBrokenIcon, button, inputText, badge, ...props } = original;
-  const { triggerProps, tooltip } = useTooltip(tooltipOptions ?? { text: '' });
+  const { triggerProps, tooltip, touchInfo } = useTooltip(tooltipOptions ?? { text: '' });
   const reorder = useReorder(reorderIndex ?? 0, reordered ?? (() => {}), reorderIndex == null || reorderDisabled);
   const [popover] = useState(() => new PopoverHandle());
   const attach = useCallback((element: any) => { reference?.(element); }, [reference]);
@@ -76,7 +78,9 @@ export function Render({ tag, props: original, children }: { tag: string; props:
       {badge && <span className={`ui-badge ui-component ui-badge-${props['severity'] ?? ''}${String(props['value']).length === 1 ? ' ui-badge-single' : ''}`}>{props['value']}</span>}
     </Icon>; break;
     case 'app-ui-card': rendered = <Card className={props['styleClass'] ?? props['className']}>{children}</Card>; break;
-    case 'app-ui-tag': rendered = <Tag {...props as any} {...triggerProps} className={props['styleClass'] ?? props['className']} />; break;
+    case 'app-ui-tag': rendered = <Tag {...(touch && mappedProps['onClick'] ? {
+      ...mappedProps, ...keyActivate(), 'aria-label': props['aria-label'] ?? tooltipOptions?.text ?? props['value'],
+    } : props) as any} {...triggerProps} className={props['styleClass'] ?? props['className']} />; break;
     case 'app-ui-chip': rendered = <Chip {...props as any} />; break;
     case 'app-ui-dropdown': case 'app-ui-multi-select': case 'app-ui-multiselect': case 'app-ui-cascade-select': case 'app-ui-cascadeselect':
       rendered = <Select {...selection as any} ref={attach} kind={tag === 'app-ui-dropdown' ? 'dropdown' : tag === 'app-ui-multiselect' || tag === 'app-ui-multi-select' ? 'multiselect' : 'cascadeselect'} />; break;
@@ -154,5 +158,6 @@ export function Render({ tag, props: original, children }: { tag: string; props:
       else rendered = createElement(tag, decorated, children);
     }
   }
-  return <>{rendered}{tooltip}</>;
+  const action = tag === 'button' ? <TouchInformationGroup>{rendered}</TouchInformationGroup> : rendered;
+  return <>{touchInfo ? <span className="ui-touch-information">{action}{touchInfo}</span> : action}{tooltip}</>;
 }

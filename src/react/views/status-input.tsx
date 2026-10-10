@@ -26,13 +26,14 @@ export function StatusInput({ label, dropdownList, value, onChange, extraValue =
       <Select panelClassName="joined-dropdown-panel" disabled={disabled} inputId={label} autoDisplayFirst={false}
         options={dropdownList} filter filterBy="label" scrollHeight="350px" resetFilterOnHide value={value} onChange={onChange}
         emptyFilterMessage="" renderFilterIcon={() => null} />
-    </div>
+    </div>{captionTip.touchInfo}
     {showExtra && <span className="status_badges"><span className={`status_badge_stack ${delta ? 'status_badge_stack--delta' : ''}`}>
       <span {...keyActivate(clickable)} className={`status_extra ${badgeSeverity === 'info' ? 'text-cyan-300' : 'text-yellow-400'} ${clickable ? 'bonus_clickable' : ''}`}
         onClick={() => { if (clickable) onExtraClick?.(); }}>{signed(extraValue)}</span>
       {delta && <span {...deltaTip.triggerProps} {...keyActivate()} className={`status_delta bonus_clickable status_delta--${compareExtraValue! > extraValue ? 'up' : 'down'}`}
         onClick={onCompareExtraClick}>{signed(compareExtraValue!)}</span>}
       {delta && deltaTip.tooltip}
+      {delta && deltaTip.touchInfo}
     </span></span>}
   </div>);
 }

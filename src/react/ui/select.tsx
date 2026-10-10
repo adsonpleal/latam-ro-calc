@@ -3,6 +3,7 @@ import { Portal } from './portal';
 import { Icon } from './primitives';
 import { optionLabel, optionValue, chooseSelection, filteredRows, toggleAllSelection } from './selection';
 import { VirtualList, VirtualListHandle } from './virtual-list';
+import { needsCompactOverlay, useTouchInput } from './input-capabilities';
 
 export interface SelectHandle { setPanelWidth(width: number, constrain?: boolean): void; }
 export interface SelectProps {
@@ -32,6 +33,8 @@ export function Select({ options, value, onChange, kind = 'dropdown', optionLabe
   optionGroupLabel = 'label', optionGroupChildren = ['items'], renderItem, renderSelected, renderGroup, renderFilterIcon,
   onOpened, onClosed, onCleared, onBlur, ref }: SelectProps) {
   const id = `ui-select-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
+  const touch = useTouchInput();
+  const rowHeight = touch ? Math.max(48, virtualScrollItemSize) : virtualScrollItemSize;
   const multi = kind === 'multiselect';
   const cascade = kind === 'cascadeselect';
   const trigger = useRef<HTMLButtonElement>(null);
@@ -114,7 +117,7 @@ export function Select({ options, value, onChange, kind = 'dropdown', optionLabe
     let alive = true;
     const frame = requestAnimationFrame(() => {
       if (!alive) return;
-      panel.current?.querySelector<HTMLInputElement>('.ui-dropdown-filter')?.focus({ preventScroll: true });
+      if (!touch) panel.current?.querySelector<HTMLInputElement>('.ui-dropdown-filter')?.focus({ preventScroll: true });
       onOpened?.();
     });
     return () => { alive = false; cancelAnimationFrame(frame); };
@@ -126,6 +129,7 @@ export function Select({ options, value, onChange, kind = 'dropdown', optionLabe
   }, [active, open, id]);
   useLayoutEffect(() => {
     panel.current?.querySelectorAll<HTMLElement>('.ui-cascadeselect-sublist').forEach(list => {
+      if (needsCompactOverlay()) { list.style.position = 'static'; list.style.maxHeight = 'none'; return; }
       list.style.left = '100%'; list.style.right = 'auto'; list.style.top = '0'; list.style.maxHeight = `${window.innerHeight - 16}px`;
       const rect = list.getBoundingClientRect();
       if (rect.right > window.innerWidth - 8) { list.style.left = 'auto'; list.style.right = '100%'; }
@@ -151,7 +155,7 @@ export function Select({ options, value, onChange, kind = 'dropdown', optionLabe
     event.stopPropagation();
   };
   const tree = (entries: any[], depth = 0): ReactNode => <ul className={`ui-cascadeselect-items ${depth > 0 ? 'ui-cascadeselect-sublist' : ''}`} role="listbox" id={depth === 0 ? `${id}-list` : undefined}>
-    {entries.map((option, index) => <li key={index} className={`ui-cascadeselect-item ${path[depth] === option ? 'ui-highlight' : ''}`} role="option" aria-selected={selected(option)} onMouseEnter={() => expand(option, depth)}>
+    {entries.map((option, index) => <li key={index} className={`ui-cascadeselect-item ${path[depth] === option ? 'ui-highlight' : ''}`} role="option" aria-selected={selected(option)} onMouseEnter={() => { if (!touch) expand(option, depth); }}>
       <button type="button" className="ui-cascadeselect-item-content ui-link" disabled={option.disabled}
         aria-expanded={childrenOf(option, depth).length ? path[depth] === option : undefined}
         onClick={event => childrenOf(option, depth).length ? expand(option, depth) : choose(option, event)} onKeyDown={event => treeKey(option, depth, event)}>
@@ -160,9 +164,9 @@ export function Select({ options, value, onChange, kind = 'dropdown', optionLabe
     </li>)}
   </ul>;
   const rowView = (row: Row, index: number) => row.group
-    ? <li className={`ui-select-item-group ui-${kind}-item-group`} style={virtualScroll ? { height: virtualScrollItemSize } : undefined} role="presentation">{renderGroup ? renderGroup(row.option) : row.option.label}</li>
+    ? <li className={`ui-select-item-group ui-${kind}-item-group`} style={virtualScroll ? { height: rowHeight } : undefined} role="presentation">{renderGroup ? renderGroup(row.option) : row.option.label}</li>
     : <li className={`ui-select-item ui-${kind}-item ${selected(row.option) ? 'ui-highlight' : ''} ${keyboardActive && active === index ? 'ui-focus' : ''} ${row.option?.disabled ? 'ui-disabled' : ''}`}
-      style={virtualScroll ? { height: virtualScrollItemSize } : undefined} id={`${id}-option-${index}`} role="option" tabIndex={-1}
+      style={virtualScroll ? { height: rowHeight } : undefined} id={`${id}-option-${index}`} role="option" tabIndex={-1}
       aria-selected={selected(row.option)} aria-disabled={!!row.option?.disabled} onClick={event => choose(row.option, event)}
       onKeyDown={event => { if (event.key === 'Enter') choose(row.option, event); }}>
       {multi && <span className={`ui-checkbox-box ${selected(row.option) ? 'ui-highlight' : ''}`}>{selected(row.option) && <Icon name="check" />}</span>}
@@ -180,10 +184,11 @@ export function Select({ options, value, onChange, kind = 'dropdown', optionLabe
       </button>
       {showClear && hasValue && <button type="button" className={`ui-select-clear ui-link ui-${kind}-clear-icon`} aria-label="Limpar seleção" disabled={disabled}
         onClick={event => { event.stopPropagation(); onChange(multi ? [] : null, event); onCleared?.(); }}><Icon name="times" /></button>}
-      <button type="button" className={`ui-select-chevron ui-link ui-${kind}-trigger`} tabIndex={-1} disabled={disabled} aria-label="Abrir opções" onClick={() => open ? hide() : show()}><Icon name="chevron-down" /></button>
+      {touch ? <span className={`ui-select-chevron ui-select-chevron--decorative ui-${kind}-trigger`} aria-hidden="true"><Icon name="chevron-down" /></span>
+        : <button type="button" className={`ui-select-chevron ui-link ui-${kind}-trigger`} tabIndex={-1} disabled={disabled} aria-label="Abrir opções" onClick={() => open ? hide() : show()}><Icon name="chevron-down" /></button>}
     </div>
     {open && <Portal anchor={trigger.current?.parentElement} origin={trigger.current?.parentElement} width={panelWidth} panelClass={`ui-select-pane ${panelClassName}`}
-      minWidth={trigger.current?.parentElement?.getBoundingClientRect().width} onDismiss={() => hide(true)} onOutside={() => hide()}>
+      minWidth={touch ? Math.max(80, trigger.current?.parentElement?.getBoundingClientRect().width ?? 0) : trigger.current?.parentElement?.getBoundingClientRect().width} onDismiss={() => hide(true)} onOutside={() => hide()}>
       <div ref={panel} className={`ui-component ui-${kind}-panel ${panelClassName}`} tabIndex={-1} onKeyDown={onKey}>
         {(filter || multi && showToggleAll) && <div className={`ui-select-header ui-${kind}-header`}>
           {multi && showToggleAll && <button type="button" className="ui-link ui-select-all" aria-label="Selecionar todos" onClick={event => {
@@ -198,7 +203,7 @@ export function Select({ options, value, onChange, kind = 'dropdown', optionLabe
           {multi && <button type="button" className="ui-link" aria-label="Fechar opções" onClick={() => hide(true)}><Icon name="times" /></button>}
         </div>}
         {cascade ? tree(options) : virtualScroll && rows.length > 0
-          ? <VirtualList ref={viewport} items={rows} itemSize={virtualScrollItemSize} height={Math.min(parseFloat(scrollHeight) || 200, rows.length * virtualScrollItemSize)}
+          ? <VirtualList ref={viewport} items={rows} itemSize={rowHeight} height={Math.min(parseFloat(scrollHeight) || 200, rows.length * rowHeight)}
             className="ui-select-viewport" role="listbox" id={`${id}-list`} multiselectable={multi} renderItem={rowView} />
           : <div className={`ui-select-items-wrapper ui-${kind}-items-wrapper`} style={{ maxHeight: scrollHeight }}><ul className={`ui-select-items ui-${kind}-items`} role="listbox" id={`${id}-list`} aria-multiselectable={multi}>
             {rows.map((row, index) => <Fragment key={index}>{rowView(row, index)}</Fragment>)}

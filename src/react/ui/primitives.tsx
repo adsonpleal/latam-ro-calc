@@ -1,8 +1,15 @@
 import { ButtonHTMLAttributes, CSSProperties, HTMLAttributes, InputHTMLAttributes, ReactNode, createElement, useId } from 'react';
 import { IconName } from '../../app/ui/icon-names';
+import { useTouchInput } from './input-capabilities';
 
 export interface IconProps extends HTMLAttributes<HTMLElement> { name: IconName; label?: string; ref?: React.Ref<HTMLElement>; }
 export function Icon({ name, label, className = '', style, ...props }: IconProps) {
+  const touch = useTouchInput();
+  if (touch && props.role === 'button') return createElement('button', {
+    ...props, type: 'button', className: `ui-icon-button ${className}`, style,
+    'aria-label': label || props['aria-label'],
+  }, createElement('app-icon', { className: `ui-icon ${name === 'spinner' ? 'ui-spin' : ''}`, 'aria-hidden': true,
+    style: { '--ui-icon': `url("assets/icons/ui/${name}.svg")` } as CSSProperties }));
   return createElement('app-icon', { ...props, className: `ui-icon ${name === 'spinner' ? 'ui-spin' : ''} ${className}`,
     role: props.role ?? (label ? 'img' : undefined), 'aria-label': label || props['aria-label'], 'aria-hidden': props['aria-hidden'] ?? (label || props.role ? undefined : true),
     style: { ...style, '--ui-icon': `url("assets/icons/ui/${name}.svg")` } as CSSProperties });

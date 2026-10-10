@@ -1,0 +1,143 @@
+/* The original desktop defaults stay in force above the compact boundary. */
+.layout-topbar, app-ro-calculator .calculator-layout { min-width: 1500px; }
+
+@media (max-width: 1535px) {
+  .layout-wrapper .layout-topbar {
+    position: static;
+    min-width: 0;
+    height: auto;
+    min-height: 3rem;
+    flex-wrap: wrap;
+    gap: .5rem;
+    padding-block: .5rem;
+  }
+  .layout-wrapper .layout-main-container { padding-top: .75rem; }
+  app-topbar .topbar-actions { display: flex; flex-wrap: wrap; gap: .4rem; margin-left: 0; }
+  app-ro-calculator .calculator-layout { min-width: 0; }
+  app-ro-calculator .calculator-layout > .col-7,
+  app-ro-calculator .calculator-layout > .col-5 { width: 100%; min-width: 0; }
+  app-ro-calculator .calculator-layout > .editor_col { padding-right: 0; margin-bottom: 1rem; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .char_band { flex-wrap: wrap; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .build_actions { flex-wrap: wrap; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .stats_row { flex-wrap: wrap; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .attr_cell { flex: 1 1 280px; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .summary_cell { flex: 3 1 480px; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .ss_grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: .75rem; }
+  :is(app-equipment-grid, .ui-scope-app-equipment-grid) .eq-grid__columns { grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr)); }
+  .ui-overlay-pane { max-width: calc(var(--ui-viewport-width, 100vw) - 16px); max-height: calc(var(--ui-viewport-height, 100dvh) - 16px); min-width: 0; }
+  .ui-dialog-pane { max-width: calc(var(--ui-viewport-width, 100vw) - 16px); max-height: calc(var(--ui-viewport-height, 100dvh) - 16px); }
+  .ui-dialog {
+    min-height: 0 !important;
+    min-width: min(32rem, calc(var(--ui-viewport-width, 100vw) - 16px));
+    max-width: calc(var(--ui-viewport-width, 100vw) - 16px) !important;
+    max-height: calc(var(--ui-viewport-height, 100dvh) - 16px) !important;
+  }
+  .ui-dialog-header { padding: .75rem; gap: .5rem; }
+  .ui-dialog-content { padding: 0 .75rem .75rem; overscroll-behavior: contain; }
+  .ui-dialog-footer { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; padding: .75rem; }
+  .ui-dialog-footer button { margin: 0; }
+  .ui-overlaypanel { max-width: 100%; max-height: calc(var(--ui-viewport-height, 100dvh) - 16px); overflow: auto; overscroll-behavior: contain; }
+  .ui-overlaypanel-content { min-width: 0; overflow-wrap: anywhere; }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-dialog { width: min(72rem, calc(100vw - 16px)); }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-dialog > .ui-dialog-content { overflow-y: auto; display: block; }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-workspace { min-height: min-content; }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-filters { max-height: none; flex: none; }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-filter-controls { overflow: visible; }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-results { flex: none; grid-template-rows: auto; }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-list .ui-datatable-wrapper { flex: none; max-height: 42dvh; overflow: auto; overscroll-behavior: contain; }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-dialog .item-description-card { overflow: visible; }
+  .ui-paginator { flex-wrap: wrap; }
+  .ui-paginator-pages { display: flex; flex-wrap: wrap; justify-content: center; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .item-description-panel { grid-template-columns: minmax(0, 1fr); }
+  :is(app-elemental-table, .ui-scope-app-elemental-table) .grid > :is(.col-4, .col-8) { width: 100%; min-width: 0; }
+  :is(app-elemental-table, .ui-scope-app-elemental-table) .align-content-center { row-gap: .5rem; }
+}
+
+@media (max-width: 767px) {
+  .layout-wrapper .layout-main-container, .layout-wrapper .layout-topbar { padding-left: .5rem; padding-right: .5rem; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .char_class { flex: 1 1 100%; min-width: 0; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .char_levels { flex-wrap: wrap; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .summary_cell { flex-basis: 100%; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .skill-panel .calc-panel-section { grid-template-columns: minmax(0, 1fr); }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-stack .ui-listbox-list { grid-template-columns: minmax(0, 1fr); }
+  .ui-dialog { width: calc(var(--ui-viewport-width, 100vw) - 16px) !important; }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-fields,
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-pickers,
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-results { grid-template-columns: minmax(0, 1fr); }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-result-row span { white-space: normal; }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-description { overflow-wrap: anywhere; }
+  :is(app-custom-item-studio, .ui-scope-app-custom-item-studio) .studio-fields,
+  :is(app-custom-item-studio, .ui-scope-app-custom-item-studio) .studio-rule,
+  :is(app-custom-item-studio, .ui-scope-app-custom-item-studio) .studio-condition { grid-template-columns: minmax(0, 1fr); }
+  .ui-dialog .grid > .col-6 { width: 100%; }
+  .ui-toast { max-width: calc(100vw - 16px); right: 8px; }
+  :is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card, app-auto-cast-hud) .hud-card-col--monster .hud-monster-info { min-width: 0; width: auto; flex: 1 1 0; }
+  .np-name { overflow-wrap: anywhere; }
+  :is(app-elemental-table, .ui-scope-app-elemental-table) .grid > :is(.col-5, .col-7) { width: 100%; min-width: 0; }
+  :is(app-elemental-table, .ui-scope-app-elemental-table) .grid > .col-5 { order: 1; }
+  :is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-relieve { flex-wrap: wrap; }
+}
+
+/* Larger hit areas retain the original glyph, sprite, typography and palette. */
+@media (hover: none), (pointer: coarse) {
+  .layout-wrapper .layout-topbar { height: auto; min-height: 52px; gap: .5rem; }
+  .layout-wrapper .layout-main-container { padding-top: calc(52px + .75rem); }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .build_actions .ui-button,
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .char_class .ui-dropdown,
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .char_point_box { height: auto; min-height: 44px; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .char_band { flex-wrap: wrap; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .char_class { min-width: min(100%, 160px); }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .joined_field { height: auto; min-height: 44px; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .attr_cell { flex-basis: 344px; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .attr_grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 152px), 1fr)); gap: .5rem; }
+  app-status-input .status_input { flex-wrap: wrap; }
+  app-status-input .status_badges { width: auto; flex-basis: 44px; }
+  app-status-input .status_extra.bonus_clickable, app-status-input .status_delta { display: flex; align-items: center; justify-content: center; }
+  app-status-input .status_badge_stack { display: flex; flex-wrap: wrap; padding-bottom: 0; }
+  app-status-input .status_delta { position: static; }
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .ss_value { min-height: 44px; }
+  :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__head { height: auto; min-height: 48px; flex-wrap: wrap; }
+  :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__body > .ui-touch-information { flex: none; flex-direction: column; align-self: center; }
+  :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color { margin-right: 0; }
+  :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color,
+  :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__clear,
+  :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__compare { height: 44px; min-width: 44px; }
+  :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__compare-actions { position: static; justify-content: flex-end; padding: .25rem .5rem; }
+  app-equipment-chip { flex-wrap: wrap; }
+  app-equipment-chip .eq-chip__picker { flex-wrap: wrap; align-items: center; gap: 2px; }
+  app-equipment-chip .eq-chip { height: auto; min-height: 44px; min-width: 44px; }
+  app-equipment-chip .eq-chip__text { white-space: normal; overflow-wrap: anywhere; }
+  app-equipment-chip .eq-chip__clear { position: static; display: inline-flex; width: 44px; height: 44px; margin: 0; border-radius: 4px; box-shadow: none; }
+  app-equipment-chip .eq-chip__custom { height: auto; min-height: 44px; }
+  :is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker { width: min(380px, calc(var(--ui-viewport-width, 100vw) - 16px)) !important; max-width: 100%; max-height: calc(var(--ui-viewport-height, 100dvh) - 16px); }
+  :is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__row { height: 48px; }
+  :is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__input { height: 44px; }
+  :is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__list { min-height: 48px; }
+  :is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__search { height: 44px; }
+  .picker__list .ui-touch-information { display: flex; width: 100%; height: 48px; }
+  .picker__list .ui-touch-information > :first-child { flex: 1; min-width: 0; }
+  .picker__list .ui-touch-information-group { min-width: 0; }
+  .picker__list .picker__row { min-width: 0; flex: 1; }
+  .ui-paginator-element { min-width: 44px; min-height: 44px; }
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-bonus-row button.ui-button { width: 44px; flex-basis: 44px; }
+  :is(app-custom-item-studio, .ui-scope-app-custom-item-studio) .studio-icon-grid { grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); }
+  :is(app-custom-item-studio, .ui-scope-app-custom-item-studio) .studio-icon-option { height: 48px; }
+  :is(app-rotation-list, .ui-scope-app-rotation-list, app-auto-cast-hud, .ui-scope-app-auto-cast-hud) .rot-row { flex-wrap: wrap; gap: .25rem; }
+  :is(app-rotation-list, .ui-scope-app-rotation-list, app-auto-cast-hud, .ui-scope-app-auto-cast-hud) :is(.rot-head, .rot-head-actions) { flex-wrap: wrap; gap: .25rem; }
+  :is(app-rotation-list, .ui-scope-app-rotation-list, app-auto-cast-hud, .ui-scope-app-auto-cast-hud) .rot-body { flex: 1 1 100%; min-width: 0; }
+  :is(app-rotation-list, .ui-scope-app-rotation-list, app-auto-cast-hud, .ui-scope-app-auto-cast-hud) :is(.rot-line1, .rot-line2, .rot-dmg-main, .rot-dmg-figs) { flex-wrap: wrap; }
+  :is(app-rotation-list, .ui-scope-app-rotation-list, app-auto-cast-hud, .ui-scope-app-auto-cast-hud) .rot-dmg { min-width: 0; max-width: 100%; flex-wrap: wrap; white-space: normal; }
+  .rot-icon--btn { width: 44px !important; height: 44px !important; padding: 10px; object-fit: contain; }
+  .rot-touch-order { display: inline-flex; gap: .25rem; }
+  .ui-overlay-pane { max-width: calc(var(--ui-viewport-width, 100vw) - 16px); max-height: calc(var(--ui-viewport-height, 100dvh) - 16px); }
+  .ui-overlay-pane > * { min-width: 0; max-width: 100%; }
+  .ui-overlaypanel { max-width: 100%; max-height: calc(var(--ui-viewport-height, 100dvh) - 16px); overflow: auto; overscroll-behavior: contain; }
+  .ui-touch-popover-close { display: flex; margin-left: auto; margin-bottom: .5rem; }
+  .ui-dialog-header-icon { flex-shrink: 0; }
+  :is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-relieve { flex-wrap: wrap; }
+  .ui-dialog, .ui-dialog-pane { min-height: 0 !important; max-height: calc(var(--ui-viewport-height, 100dvh) - 16px) !important; }
+}
+
+@media (max-width: 1535px) and (hover: none), (max-width: 1535px) and (pointer: coarse) {
+  .layout-wrapper .layout-main-container { padding-top: .75rem; }
+}

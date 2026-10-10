@@ -9,17 +9,21 @@ import { identityKey } from './template-values';
 import { SlotColorPickerComponent } from '../controllers/slot-color-picker';
 import { Content as ColorContent } from './content/slot-color-picker';
 import { SlotColorPickerRequest } from '../../app/layout/pages/ro-calculator/slot-color-picker/slot-color-picker.model';
+import { useTouchInput } from '../ui/input-capabilities';
 
 const itemPositions = PICKER_POSITIONS.map(position => ({ ...position, offsetY: position.originY === 'bottom' ? 4 : -4 }));
 
 function PickerPanel({ request, services }: { request: PickerRequest; services: ApplicationServices }) {
+  const touch = useTouchInput();
   const [host] = useState<{ nativeElement: HTMLElement }>(() => ({ nativeElement: null! }));
   const [vm] = useState(() => {
     const controller = new ItemPickerOverlayComponent(host, services.data.descriptions);
+    controller.rowHeight = touch ? 48 : 28;
     controller.init(request);
     return controller;
   });
   useSyncExternalStore(vm.subscribe, vm.getSnapshot);
+  useLayoutEffect(() => { vm.rowHeight = touch ? 48 : 28; vm.publish(); }, [touch, vm]);
   useSyncExternalStore(services.data.descriptions.subscribe, services.data.descriptions.getSnapshot);
   useEffect(() => {
     const subscription = vm.closed.subscribe(value => services.itemPicker.settle(value));

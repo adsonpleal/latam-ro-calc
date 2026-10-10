@@ -15,12 +15,14 @@ for (const width of [1920, 390]) {
     await expect(card.locator('.hud-monster-head')).toHaveCSS('display', 'flex');
     await expect(card.locator('.hud-mstats')).toHaveCSS('display', 'grid');
     await expect(card.locator('.ui-card-body')).toHaveCSS('padding', '0px');
-    // The Angular page deliberately retains a wide calculator on phones.
-    // Its card is 595px wide at a 390px viewport, so the row still applies.
-    await expect(card.locator('.ui-card-content')).toHaveCSS('display', 'flex');
+    if (width === 1920) await expect(card.locator('.ui-card-content')).toHaveCSS('display', 'flex');
     const box = (await card.boundingBox())!;
     expect(box.height).toBeLessThan(400);
-    if (width === 390) expect(box.width).toBeCloseTo(595, 0);
+    if (width === 390) {
+      expect(box.width).toBeLessThanOrEqual(width);
+      expect(box.x).toBeGreaterThanOrEqual(0);
+      expect(box.x + box.width).toBeLessThanOrEqual(width);
+    }
     const stats = (await card.locator('.hud-band-right').boundingBox())!;
     expect(stats.x + stats.width).toBeLessThanOrEqual(box.x + box.width);
     await expect(section.getByRole('link', { name: 'Bug ou sugestão', exact: true })).toHaveClass(/ui-button/);

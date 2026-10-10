@@ -67,8 +67,7 @@ const target = context["target"]; return <><Render tag="div" props={{"className"
 "visibleChange": (event: any) => vm.action(() => { const $event = event; (vm.isShowAspdCurve = $event) }),
 "style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "560px","max-width": "92vw"})))}}>{(() => { const __condition16 = vm.isShowAspdCurve;  return __condition16 ? <><Render tag="app-aspd-curve" props={{"aspd": (vm.totalSummary?.calc?.totalAspd || 0),
 "aspd2": (vm.isEnableCompare ? vm.totalSummary2?.calc?.totalAspd : null)}}></Render></> : null; })()}</Render>
-<Render tag="div" props={{"className": ["grid grid-nogutter"].filter(Boolean).join(' '),
-"style": normalizeStyle(Object.assign({}, parseStyle("min-width: 1500px")))}}><Render tag="div" props={{"className": ["ui-fluid col-7 editor_col"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["stats_stack"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["char_band"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["build_actions"].filter(Boolean).join(' ')}}><Render tag="button" props={{"type": "button",
+<Render tag="div" props={{"className": ["grid grid-nogutter calculator-layout"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["ui-fluid col-7 editor_col"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["stats_stack"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["char_band"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["build_actions"].filter(Boolean).join(' ')}}><Render tag="button" props={{"type": "button",
 "icon": "upload",
 "label": "Importar",
 "tooltipPosition": "bottom",

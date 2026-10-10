@@ -319,7 +319,8 @@ test('auto-cast damage, critical, DPS and details popups retain their source ele
   await page.evaluate(() => document.fonts.ready);
   await page.getByRole('button', { name: 'Auto-conjuração', exact: true }).click();
   for (const kind of ['crit', 'damage-flat', 'dps', 'details']) {
-    const trigger = page.locator(`[data-auto-source="basic-attack"][data-auto-anchor="${kind}"]`).first();
+    // The local details control remains available when a remote skill image fails.
+    const trigger = page.locator(`${kind === 'details' ? 'app-icon' : ''}[data-auto-source="basic-attack"][data-auto-anchor="${kind}"]`).first();
     await trigger.scrollIntoViewIfNeeded();
     const anchor = await trigger.elementHandle();
     await trigger.click();

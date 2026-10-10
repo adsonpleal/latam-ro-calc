@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { optionLabel, optionValue, chooseSelection } from './selection';
+import { TouchInformationGroup } from './tooltip';
 
 export interface SelectButtonProps {
   options: any[];
@@ -21,10 +22,10 @@ export function SelectButton({ options, value, onChange, disabled, multiple, opt
     {options.map((option, index) => {
       const selectedValue = optionValue(option, valueKey, labelKey);
       const selected = multiple ? (value ?? []).includes(selectedValue) : value === selectedValue;
-      return <button key={index} type="button" className={`ui-button ui-component ${selected ? 'ui-highlight' : ''}`}
+      return <TouchInformationGroup key={index}><button type="button" className={`ui-button ui-component ${selected ? 'ui-highlight' : ''}`}
         aria-pressed={selected} disabled={disabled || option?.disabled} onClick={event => {
           onChange(chooseSelection(value, option, !!multiple, true, disabled, valueKey, labelKey), event);
-        }}>{renderItem ? renderItem(option) : <span className="ui-button-label">{optionLabel(option, labelKey)}</span>}</button>;
+        }}>{renderItem ? renderItem(option) : <span className="ui-button-label">{optionLabel(option, labelKey)}</span>}</button></TouchInformationGroup>;
     })}
   </div>;
 }
