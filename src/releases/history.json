@@ -1,5 +1,12 @@
 [
   {
+    "v": "0.1.168-beta",
+    "date": "10-10-2026",
+    "logs": [
+      "Reduzido o carregamento inicial do simulador: as novidades são carregadas ao abrir o histórico, e as descrições chegam depois do primeiro cálculo. Reportado por Adson."
+    ]
+  },
+  {
     "v": "0.1.167-beta",
     "date": "09-10-2026",
     "logs": [
