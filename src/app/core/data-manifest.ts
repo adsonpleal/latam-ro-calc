@@ -14,6 +14,7 @@
 export const DATA_KEYS = [
   'itemsCore',
   'itemsDesc',
+  'skillDescriptions',
   'monsters',
   'hpsp',
   'classes',

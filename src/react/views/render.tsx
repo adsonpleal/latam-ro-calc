@@ -48,17 +48,36 @@ function ManagedPopover({ handle, props, children }: { handle: PopoverHandle; pr
   return <Popover anchor={anchor} onClose={() => { handle.hide(); props['onHide']?.(); }} className={props['styleClass'] ?? props['className']}
     centered={props['centered']} ariaLabel={props['ariaLabel']} containerRef={containerRef}>{children}</Popover>;
 }
+function PopoverView({ props, reference, children }: { props: Props; reference?: (value: any) => void; children?: ReactNode }) {
+  const [popover] = useState(() => new PopoverHandle());
+  const handle = props['handle'] ?? popover;
+  reference?.(handle);
+  return <ManagedPopover handle={handle} props={props}>{children}</ManagedPopover>;
+}
+interface RenderProps { tag: string; props: Props; children?: ReactNode; }
+interface RenderContext { services: ReturnType<typeof useServices>; rowSelection: Props | null; }
+function InteractiveRender({ input, context }: { input: RenderProps; context: RenderContext }) {
+  const { tooltip: options, reorderIndex, reorderDisabled, reordered } = input.props;
+  const { triggerProps, tooltip } = useTooltip(options ?? { text: '' });
+  const reorder = useReorder(reorderIndex ?? 0, reordered ?? (() => {}), reorderIndex == null || reorderDisabled);
+  return <>{renderElement(input, context, triggerProps, reorder)}{tooltip}</>;
+}
 /** Binds local React primitives; calculation and feature logic live in their views. */
-export function Render({ tag, props: original, children }: { tag: string; props: Props; children?: ReactNode }) {
+export function Render(input: RenderProps) {
   const services = useServices();
   const rowSelection = useContext(RowSelectionContext);
+  const context = { services, rowSelection };
+  // Plain elements and controls need no tooltip timers, drag effects or popover
+  // stores. Keep hooks in a separate component so optional bindings stay legal.
+  return input.props['tooltip'] || input.props['reorderIndex'] != null
+    ? <InteractiveRender input={input} context={context} /> : renderElement(input, context);
+}
+function renderElement({ tag, props: original, children }: RenderProps, { services, rowSelection }: RenderContext,
+  triggerProps: Props = {}, reorder?: (event: any) => void): ReactNode {
   const { tooltip: tooltipOptions, activateWithKeys, reorderIndex, reorderDisabled, reordered, reference,
     missingIcon: hideBrokenIcon, button, inputText, badge, ...props } = original;
-  const { triggerProps, tooltip } = useTooltip(tooltipOptions ?? { text: '' });
-  const reorder = useReorder(reorderIndex ?? 0, reordered ?? (() => {}), reorderIndex == null || reorderDisabled);
-  const [popover] = useState(() => new PopoverHandle());
-  const attach = useCallback((element: any) => { reference?.(element); }, [reference]);
-  const attachIcon = useCallback((element: HTMLElement | null) => { reference?.(element ? { nativeElement: element } : null); }, [reference]);
+  const attach = reference ? (element: any) => reference(element) : undefined;
+  const attachIcon = reference ? (element: HTMLElement | null) => reference(element ? { nativeElement: element } : null) : undefined;
   const mappedProps = Object.fromEntries(Object.entries(props).map(([key, value]) => [eventNames[key] ?? key, value]));
   const modelChange = (value: any, event: any) => { props['onModelChange']?.(value, event); props['onChange']?.({ originalEvent: event, value }); };
   const template = (name: string) => props[`template_${name}`];
@@ -87,8 +106,7 @@ export function Render({ tag, props: original, children }: { tag: string; props:
     case 'app-ui-dialog': rendered = <Dialog {...props as any} header={template('header')?.({}) ?? props['header']}
       footer={template('footer')?.({})} contentStyle={normalizeStyle(props['contentStyle'])} className={props['styleClass'] ?? props['className']} onVisibleChange={props['visibleChange']} onClosed={props['onHide']}>{children}</Dialog>; break;
     case 'app-ui-popover':
-      reference?.(props['handle'] ?? popover);
-      rendered = <ManagedPopover handle={props['handle'] ?? popover} props={props}>{children}</ManagedPopover>; break;
+      rendered = <PopoverView props={props} reference={reference}>{children}</PopoverView>; break;
     case 'app-ui-block': rendered = <Block blocked={props['blocked']} />; break;
     case 'app-ui-toast': rendered = <Toast service={services.messages} />; break;
     case 'app-ui-confirm-dialog': rendered = <ConfirmDialog service={services.confirmations} />; break;
@@ -154,5 +172,5 @@ export function Render({ tag, props: original, children }: { tag: string; props:
       else rendered = createElement(tag, decorated, children);
     }
   }
-  return <>{rendered}{tooltip}</>;
+  return rendered;
 }

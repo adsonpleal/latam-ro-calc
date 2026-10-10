@@ -1,5 +1,6 @@
 import { DataKey, DataManifest, manifestPath } from '../../app/core/data-manifest';
 import { Store } from '../state/store';
+import { setSkillDescriptions } from '../../app/skills';
 
 export class DescriptionStore extends Store<number> {
   private descriptions: Record<string, string> = {};
@@ -26,6 +27,7 @@ interface BootData {
 export class DataClient {
   private manifest?: Promise<DataManifest>;
   private descriptionsLoad?: Promise<void>;
+  private skillDescriptionsLoad?: Promise<void>;
   private readonly pending = new Map<DataKey, Promise<unknown>>();
   constructor(
     private readonly boot: BootData,
@@ -62,5 +64,17 @@ export class DataClient {
       void pending.catch(() => { if (this.descriptionsLoad === pending) this.descriptionsLoad = undefined; });
     }
     return this.descriptionsLoad;
+  }
+  loadSkillDescriptions(): Promise<void> {
+    if (!this.skillDescriptionsLoad) {
+      const pending = this.load<Record<number, string>>('skillDescriptions').then(descriptions => {
+        setSkillDescriptions(descriptions);
+        // The existing description subscription also refreshes skill tooltips and details.
+        this.descriptions.set(this.descriptions.getSnapshot() + 1);
+      });
+      this.skillDescriptionsLoad = pending;
+      void pending.catch(() => { if (this.skillDescriptionsLoad === pending) this.skillDescriptionsLoad = undefined; });
+    }
+    return this.skillDescriptionsLoad;
   }
 }

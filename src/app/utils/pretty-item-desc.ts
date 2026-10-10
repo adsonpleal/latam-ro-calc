@@ -19,7 +19,8 @@ export const skillDescHtml = (skillId?: number): string => {
   if (cached !== undefined) return cached;
 
   const html = prettyItemDesc(SKILL_DESC_BY_ID[skillId]) || '';
-  skillDescCache.set(skillId, html);
+  // A missing description can still be in flight; do not cache that empty result.
+  if (html) skillDescCache.set(skillId, html);
 
   return html;
 };

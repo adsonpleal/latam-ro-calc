@@ -12,9 +12,10 @@ import { sanitizeHtml } from '../../ui/sanitize-html';
 
 export function Content({ vm, services }: { vm: ItemSearchComponent; services: ApplicationServices }) {
   const action = (fn: () => void) => vm.action(fn);
-  const typeOptions = useMemo(() => vm.itemPositionOptions.map(option => ({
+  // Catalog scans for filter icons belong to opening search, not calculator startup.
+  const typeOptions = useMemo(() => !vm.isShowSearchDialog ? [] : vm.itemPositionOptions.map(option => ({
     ...option, icon: inferCustomIcon(option.iconKind, null, vm.items ?? {}),
-  })), [vm.itemPositionOptions, vm.items]);
+  })), [vm.isShowSearchDialog, vm.itemPositionOptions, vm.items]);
   const renderFilterOption = (option: { label: string; icon?: number }, type: 'item' | 'skill') =>
     <span className="item-search-filter-option">
       {option.icon != null && <img className={'item-search-filter-icon item-search-filter-icon-' + type}

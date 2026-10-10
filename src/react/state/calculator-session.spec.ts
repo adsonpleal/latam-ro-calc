@@ -6,8 +6,9 @@ import { DataClient } from '../services/data-client';
 import { CustomItems } from '../services/custom-items';
 import { Confirmations, Messages } from '../services/notifications';
 import { DataKey, DataManifest, manifestPath } from '../../app/core/data-manifest';
+import { SKILL_DESC_BY_ID } from '../../app/skills';
 
-function makeSession() {
+function makeSession(overrides: Partial<Record<DataKey, Promise<unknown>>> = {}) {
   const values = new Map<string, string>();
   const storage = { getItem: (key: string) => values.get(key) ?? null, setItem: (key: string, value: string) => { values.set(key, value); }, removeItem: (key: string) => { values.delete(key); } };
   vi.stubGlobal('localStorage', storage);
@@ -18,13 +19,14 @@ function makeSession() {
   vi.stubGlobal('requestAnimationFrame', (callback: () => void) => setTimeout(callback, 0));
   const artifacts: Partial<Record<DataKey, Promise<unknown>>> = {};
   const manifest = JSON.parse(readFileSync('src/assets/data-manifest.json', 'utf8')) as DataManifest;
-  for (const key of ['itemsCore', 'monsters', 'hpsp', 'classes', 'itemViews', 'itemsDesc'] as const) {
+  for (const key of ['itemsCore', 'monsters', 'hpsp', 'classes', 'itemViews', 'itemsDesc', 'skillDescriptions'] as const) {
     artifacts[key] = Promise.resolve(JSON.parse(readFileSync(join('src', manifestPath(manifest, key)), 'utf8')));
   }
+  Object.assign(artifacts, overrides);
   const data = new DataClient({ inFlight: artifacts });
   const session = new CalculatorSession(new CalculatorData(data), new Messages(), new Confirmations(), new ItemShop(),
     data.descriptions, new SlotColorPreferences(), new CalculatorLayout(), new CustomItems(storage));
-  return { session, storage };
+  return { session, storage, data };
 }
 describe('plain calculator session', () => {
   beforeEach(() => vi.useFakeTimers());
@@ -33,6 +35,8 @@ describe('plain calculator session', () => {
     const { session, storage } = makeSession();
     session.start();
     await vi.advanceTimersByTimeAsync(1500);
+    session.viewReady();
+    await vi.advanceTimersByTimeAsync(300);
     expect(session.isInProcessingPreset).toBe(false);
     expect(session.isCalculating).toBe(false);
     expect(session.totalSummary?.calc?.totalAspd).toBeGreaterThan(0);
@@ -48,6 +52,22 @@ describe('plain calculator session', () => {
     await vi.advanceTimersByTimeAsync(1500);
     expect(session.getSnapshot()).toBe(snapshot);
     expect(session.totalSummary).toBeUndefined();
+  });
+
+  it('replaces cached skill fallbacks when deferred descriptions arrive', async () => {
+    const id = 999_998;
+    const { session, data } = makeSession({ skillDescriptions: Promise.resolve({ [id]: 'Descrição completa da habilidade' }) });
+    const skill = { name: 'delayed-skill', label: 'Habilidade', icon: id, dropdown: [] };
+    try {
+      expect(session.buffTooltip(skill)).not.toContain('Descrição completa');
+      expect(session.skillTooltip(skill)).not.toContain('Descrição completa');
+      await data.loadSkillDescriptions();
+      expect(session.buffTooltip(skill)).toContain('Descrição completa da habilidade');
+      expect(session.skillTooltip(skill)).toContain('Descrição completa da habilidade');
+    } finally {
+      delete SKILL_DESC_BY_ID[id];
+      session.dispose();
+    }
   });
 
   it('uses the chosen Betelgeuse HP in both builds without changing the database or other targets', async () => {

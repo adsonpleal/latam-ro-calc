@@ -22,7 +22,9 @@
 //                              `requiredLevel`, none of which the browser reads.
 //
 //   items-desc[.<hash>].json   { "<key>": "<pt-BR description>" } — fetched
-//                              lazily, after items-core resolves.
+//                              after the calculator's first visible calculation.
+//   skill-descriptions[.<hash>].json — skill prose extracted from the authored
+//                              TypeScript catalog using esbuild, also deferred.
 //
 //   monsters[.<hash>].json     monster.json with the pt-BR names from
 //                              latam-monsters.json already applied.
@@ -56,6 +58,7 @@ import { brotliCompressSync, gzipSync } from 'node:zlib';
 import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readSkillCatalog, splitSkillCatalog } from './browser-data.mjs';
 
 const ROOT = resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 
@@ -234,7 +237,7 @@ export function buildMonsters(monsters, latamMonsters) {
   return monsters;
 }
 
-export function main() {
+export async function main() {
   const args = parseArgs(process.argv);
 
   const items = readJson(args.src, 'item.json');
@@ -246,10 +249,12 @@ export function main() {
   const itemViews = readJson(args.src, 'item-views.json');
 
   const { core, desc } = buildItems(items, latam, args);
+  const { descriptions: skillDescriptions } = splitSkillCatalog(await readSkillCatalog(ROOT));
 
   const artifacts = [
     ['itemsCore', 'items-core', core],
     ['itemsDesc', 'items-desc', desc],
+    ['skillDescriptions', 'skill-descriptions', skillDescriptions],
     ['monsters', 'monsters', buildMonsters(monsters, latamMonsters)],
     ['hpsp', 'hpsp', hpSpTable],
     ['classes', 'classes', latamClasses],
@@ -306,4 +311,4 @@ export function main() {
 }
 
 // Só executa quando chamado direto pela CLI; a spec importa buildItems/canGradeItem.
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await main();

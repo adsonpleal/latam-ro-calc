@@ -1,5 +1,7 @@
 import { DataClient, DescriptionStore } from './data-client';
 import { DataManifest } from '../../app/core/data-manifest';
+import { skillDescHtml } from '../../app/utils/pretty-item-desc';
+import { SKILL_DESC_BY_ID } from '../../app/skills';
 
 describe('React data loading', () => {
   it('adopts preload promises without issuing duplicate requests', async () => {
@@ -33,6 +35,23 @@ describe('React data loading', () => {
   it('rejects an HTTP error instead of presenting it as a dataset', async () => {
     const client = new DataClient({}, undefined, async () => new Response('failure', { status: 503 }));
     await expect(client.load('itemsCore')).rejects.toThrow('HTTP 503');
+  });
+  it('refreshes descriptions once and does not keep a skill tooltip cached as empty', async () => {
+    const id = 999_999;
+    expect(skillDescHtml(id)).toBe('');
+    const manifest = { base: 'assets/data/', files: { skillDescriptions: 'skills.json' } } as unknown as DataManifest;
+    const fetcher = vi.fn(async () => new Response(JSON.stringify({ [id]: 'Descrição da habilidade' })));
+    const descriptions = new DescriptionStore();
+    const changed = vi.fn();
+    descriptions.subscribe(changed);
+    const client = new DataClient({ manifest }, descriptions, fetcher);
+    const loading = client.loadSkillDescriptions();
+    expect(client.loadSkillDescriptions()).toBe(loading);
+    await loading;
+    expect(skillDescHtml(id)).toBe('Descrição da habilidade');
+    expect(changed).toHaveBeenCalledTimes(1);
+    expect(fetcher).toHaveBeenCalledTimes(1);
+    delete SKILL_DESC_BY_ID[id];
   });
   it('allows a failed manifest request to be retried', async () => {
     const manifest = { base: 'assets/data/', files: { itemsCore: 'items.json' } } as unknown as DataManifest;
