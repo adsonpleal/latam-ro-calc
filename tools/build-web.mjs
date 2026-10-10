@@ -4,6 +4,8 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { build, transform } from 'esbuild';
 import { copyWebAssets } from './web-assets.mjs';
+import { browserDataPlugin } from './browser-data.mjs';
+import { startupOutputs } from './web-startup.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const defaultOutput = resolve(root, 'dist/sakai-ng');
@@ -40,7 +42,7 @@ export async function buildWeb({ production = true, outputDirectory = defaultOut
     define: { 'process.env.NODE_ENV': production ? '"production"' : '"development"' },
     entryNames: production ? '[name].[hash]' : '[name]', chunkNames: 'chunk-[hash]', assetNames: 'media/[name].[hash]',
     legalComments: 'external',
-    plugins: [{ name: 'environment', setup(builder) {
+    plugins: [browserDataPlugin(root), { name: 'environment', setup(builder) {
       builder.onLoad({ filter: /src[\\/]environments[\\/]environment\.ts$/ }, args => production
         ? { contents: readFileSync(resolve(root, 'src/environments/environment.prod.ts'), 'utf8'), loader: 'ts' } : null);
     } }],
@@ -53,26 +55,25 @@ export async function buildWeb({ production = true, outputDirectory = defaultOut
   if (Object.keys(result.metafile.inputs).some(name => /node_modules.*(?:@angular|rxjs|zone\.js|tslib)/.test(name))) throw new Error('Removed framework dependency entered the browser bundle');
   const main = entries.find(([, meta]) => meta.entryPoint?.endsWith('/src/main.ts') || meta.entryPoint === 'src/main.ts');
   const styles = entries.find(([, meta]) => meta.entryPoint === 'src/styles.css');
-  if (!main || !styles) throw new Error('Missing web entry output');
-  // Follow only static imports for the initial budget; lazy routes remain separate.
-  const initial = new Set();
-  function collect(name) {
-    if (initial.has(name)) return;
-    initial.add(name);
-    const cssBundle = result.metafile.outputs[name]?.cssBundle;
-    if (cssBundle) collect(cssBundle);
-    for (const entry of result.metafile.outputs[name]?.imports ?? []) if (!entry.external && entry.kind !== 'dynamic-import') collect(entry.path);
-  }
-  collect(main[0]); collect(styles[0]);
+  const bootstrap = entries.find(([, meta]) => meta.entryPoint === 'src/react/bootstrap.tsx');
+  if (!main || !styles || !bootstrap) throw new Error('Missing web startup output');
+  // A dynamic import of the bootstrap is still critical to the first usable screen.
+  // esbuild's main CSS bundle already includes bootstrap CSS; do not count its copy.
+  const initial = startupOutputs(result.metafile.outputs, [main[0], bootstrap[0], styles[0], ...(main[1].cssBundle ? [main[1].cssBundle] : [])]);
   const initialBytes = [...initial].reduce((sum, name) => sum + (result.metafile.outputs[name]?.bytes ?? 0), 0);
-  if (production && initialBytes > budgets.initialError) throw new Error(`Initial bundle exceeds 5 MB: ${initialBytes}`);
-  if (production && initialBytes > budgets.initialWarning) console.warn(`Initial bundle exceeds 3 MB warning: ${initialBytes}`);
+  if (production && initialBytes > budgets.initialError) throw new Error(`Startup JS/CSS exceeds budget: ${initialBytes} > ${budgets.initialError}`);
+  if (production && initialBytes > budgets.initialWarning) console.warn(`Startup JS/CSS warning: ${initialBytes} > ${budgets.initialWarning}`);
+  const preloads = [...initial].filter(name => name.endsWith('.js'))
+    .map(name => `<link rel="modulepreload" href="${basename(name)}">`).join('\n');
+  const stylesheetLinks = [styles[0], ...(main[1].cssBundle ? [main[1].cssBundle] : [])]
+    .map(name => `<link rel="preload" as="style" href="${basename(name)}"><link rel="stylesheet" data-ro-styles media="print" href="${basename(name)}">`).join('\n');
   const html = readFileSync(resolve(root, 'src/index.html'), 'utf8')
-    .replace('</head>', `<link rel="stylesheet" href="${basename(styles[0])}">${main[1].cssBundle ? `<link rel="stylesheet" href="${basename(main[1].cssBundle)}">` : ''}\n</head>`)
+    .replace('</head>', `${stylesheetLinks}\n${preloads}\n</head>`)
     .replace('</body>', `<script type="module" src="${basename(main[0])}"></script>${production ? '' : '<script type="module">const events=new EventSource("/__reload");events.onmessage=()=>location.reload();</script>'}\n</body>`);
   writeFileSync(resolve(output, 'index.html'), html);
   mkdirSync(resolve(root, 'out-tsc'), { recursive: true });
   writeFileSync(resolve(root, output === defaultOutput ? 'out-tsc/web-metafile.json' : 'out-tsc/web-dev-metafile.json'), JSON.stringify(result.metafile));
+  writeFileSync(resolve(root, output === defaultOutput ? 'out-tsc/web-startup.json' : 'out-tsc/web-dev-startup.json'), JSON.stringify({ bytes: initialBytes, files: [...initial] }, null, 2));
   console.log(`Web build complete; initial JS/CSS ${(initialBytes / 1024).toFixed(0)} KB`);
 }
 

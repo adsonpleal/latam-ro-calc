@@ -141,6 +141,7 @@ interface MonsterSelectItemGroup extends SelectItemGroup {
 }
 
 const Characters = getClassDropdownList();
+const compareItemNames = new Intl.Collator('pt-BR').compare;
 
 interface ClassModel extends Partial<Record<ItemTypeEnum, number>> {
   rawOptionTxts: string[];
@@ -223,7 +224,32 @@ export class CalculatorSession extends Store<number> {
   private finishBoot() {
     if (!this.isBooting) return;
     this.isBooting = false;
+  }
+
+  private viewMounted = false;
+  /** Called after React commits the complete editor, including overlay references. */
+  viewReady(): void {
+    if (this.isBooting || this.viewMounted || !this.lifetime.active) return;
+    this.viewMounted = true;
     this.hideBootSplash();
+    if (this.importedCustomLink) this.customStudio?.openLibrary();
+    // Let the calculator paint and the splash fade before optional prose competes
+    // for bandwidth, JSON parsing or a full view refresh.
+    if (this.lifetime.active) {
+      this.lifetime.watch(this.lifetime.wait(0.3).then(() => {
+        this.lifetime.check();
+        this.loadDescriptions();
+      }), () => undefined, () => undefined);
+    }
+  }
+
+  private loadDescriptions(): void {
+    this.allSubs.push(this.lifetime.watch(this.roService.getItemDescriptions(), () => {
+      if (this.selectedItemDesc || this.selectedCompareItemDesc) {
+        this.onSelectItemDescription(!!this.selectedCompareItemDesc);
+      }
+    }, () => this.publish()));
+    this.allSubs.push(this.lifetime.watch(this.roService.getSkillDescriptions(), () => undefined, () => this.publish()));
   }
 
   // --- Save / preview / share simulations (browser localStorage) ----------
@@ -659,7 +685,6 @@ await ((_event?: unknown) => {
           if (shared) {
             this.messageService.add({ severity: 'success', summary: 'Simulação carregada', detail: 'Carregada a partir do link compartilhado.' });
           }
-          if (this.importedCustomLink) this.customStudio?.openLibrary();
         },
         error: (err) => {
           console.error(err);
@@ -677,17 +702,6 @@ await ((_event?: unknown) => {
     this.allSubs.push(this.layoutService.customItemCreate.subscribe((request) =>
       this.customStudio?.openCreate(request.kind, { slot: request.slot, compare: request.compare })));
     this.allSubs.push(this.layoutService.customItemEdit.subscribe((id) => this.openEditCustomItem(id)));
-
-    // Deliberately outside the initial forkJoin: the descriptions are nearly half the
-    // payload and only show on hover and in the search preview. When they arrive, the
-    // open panel is rewritten (the tooltips invalidate themselves off the store version).
-    this.allSubs.push(
-      this.lifetime.watch(this.roService.getItemDescriptions(), () => {
-        if (this.selectedItemDesc || this.selectedCompareItemDesc) {
-          this.onSelectItemDescription(!!this.selectedCompareItemDesc);
-        }
-      }, () => this.publish()),
-    );
 
     const isCalcSubs = listenDebounced(this.isCalculatingEvent, 100, value => { ((_event?: unknown) => {
       this.isCalculating = false;
@@ -830,6 +844,7 @@ await ((_event?: unknown) => {
     // Safety net: the splash is not part of the template, so leaving the screen mid-boot
     // would leave it hanging over the app.
     this.finishBoot();
+    this.hideBootSplash();
     for (const ob of this.allSubs) {
       ob?.unsubscribe();
     }
@@ -2776,7 +2791,7 @@ await ((_event?: unknown) => {
     // hidden from the selection dropdowns.
     const sortedItems = Object.values(this.items)
       .filter((item: any) => item.presentInLatam && !this.hiddenCustomIds.has(item.id))
-      .sort((a, b) => Number(!!(b as any).custom) - Number(!!(a as any).custom) || a.name.localeCompare(b.name, 'pt-BR'));
+      .sort((a, b) => Number(!!(b as any).custom) - Number(!!(a as any).custom) || compareItemNames(a.name, b.name));
     for (const item of sortedItems) {
       const { itemTypeId, itemSubTypeId, compositionPos } = item;
 

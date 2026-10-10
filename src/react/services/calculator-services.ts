@@ -16,6 +16,7 @@ export class CalculatorData {
   getLatamClasses(): Promise<number[]> { return this.client.load('classes'); }
   getItemViews(): Promise<Record<string, [number, number]>> { return this.client.load('itemViews'); }
   getItemDescriptions(): Promise<void> { return this.client.loadDescriptions(); }
+  getSkillDescriptions(): Promise<void> { return this.client.loadSkillDescriptions(); }
 }
 export class CalculatorLayout {
   readonly customItemsOpen = new Events<void>();

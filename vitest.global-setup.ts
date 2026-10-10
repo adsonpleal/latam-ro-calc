@@ -17,6 +17,7 @@ import { join } from 'node:path';
 const SRC = 'src/assets/demo/data';
 const OUT = 'src/assets/data';
 const MANIFEST = 'src/assets/data-manifest.json';
+const SKILLS = 'src/app/skills/skill-meta.generated.ts';
 
 const newest = (dir: string): number => {
   try {
@@ -34,7 +35,7 @@ const newest = (dir: string): number => {
 function complete(): boolean {
   try {
     const manifest = JSON.parse(readFileSync(MANIFEST, 'utf8')) as { base: string; files: Record<string, string> };
-    return Object.values(manifest.files).every((file) => existsSync(join('src', manifest.base + file)));
+    return !!manifest.files['skillDescriptions'] && Object.values(manifest.files).every((file) => existsSync(join('src', manifest.base + file)));
   } catch {
     return false;
   }
@@ -42,7 +43,7 @@ function complete(): boolean {
 
 export default function setup(): void {
   const generated = newest(OUT);
-  if (generated > 0 && generated >= newest(SRC) && complete()) return;
+  if (generated > 0 && generated >= Math.max(newest(SRC), statSync(SKILLS).mtimeMs) && complete()) return;
 
   execFileSync(process.execPath, ['tools/build-web-data.mjs'], { stdio: 'inherit' });
 }

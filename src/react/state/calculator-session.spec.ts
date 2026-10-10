@@ -18,7 +18,7 @@ function makeSession() {
   vi.stubGlobal('requestAnimationFrame', (callback: () => void) => setTimeout(callback, 0));
   const artifacts: Partial<Record<DataKey, Promise<unknown>>> = {};
   const manifest = JSON.parse(readFileSync('src/assets/data-manifest.json', 'utf8')) as DataManifest;
-  for (const key of ['itemsCore', 'monsters', 'hpsp', 'classes', 'itemViews', 'itemsDesc'] as const) {
+  for (const key of ['itemsCore', 'monsters', 'hpsp', 'classes', 'itemViews', 'itemsDesc', 'skillDescriptions'] as const) {
     artifacts[key] = Promise.resolve(JSON.parse(readFileSync(join('src', manifestPath(manifest, key)), 'utf8')));
   }
   const data = new DataClient({ inFlight: artifacts });
@@ -33,6 +33,8 @@ describe('plain calculator session', () => {
     const { session, storage } = makeSession();
     session.start();
     await vi.advanceTimersByTimeAsync(1500);
+    session.viewReady();
+    await vi.advanceTimersByTimeAsync(300);
     expect(session.isInProcessingPreset).toBe(false);
     expect(session.isCalculating).toBe(false);
     expect(session.totalSummary?.calc?.totalAspd).toBeGreaterThan(0);

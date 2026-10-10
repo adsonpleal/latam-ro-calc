@@ -1,4 +1,4 @@
-import releaseHistory from '../../releases/history.json';
+import { releaseVersions } from '../../releases/summary';
 import { ViewState } from '../state/view-state';
 import { Disposable } from '../services/events';
 import { IconName } from 'src/app/ui/icon-names';
@@ -151,15 +151,18 @@ export class AppTopBarComponent extends ViewState {
   ];
 
   /** Published release history shared with Discord. */
-  updates: { v: string; date: string; logs: string[]; }[] = releaseHistory;
+  updates: { v: string; date: string; logs: string[]; }[] = [];
+  updatesLoading = false;
+  updatesError = false;
+  private updatesLoad?: Promise<void>;
   localVersion = localStorage.getItem('version') || '';
   /** Reading width for the changelog; see dialog-geometry.ts. */
   readonly updateDialogStyle = UPDATE_DIALOG_STYLE;
 
-  lastestVersion = this.updates[0].v;
+  lastestVersion = releaseVersions[0];
 
-  unreadVersion = this.updates.findIndex((a) => a.v === this.localVersion);
-  showUnreadVersion = this.unreadVersion === -1 ? this.updates.length + 1 : this.unreadVersion;
+  unreadVersion = releaseVersions.indexOf(this.localVersion);
+  showUnreadVersion = this.unreadVersion === -1 ? releaseVersions.length + 1 : this.unreadVersion;
 
   // Don't auto-open the changelog on load; it's still reachable via the "what's new" button.
   visibleUpdate = false;
@@ -175,8 +178,19 @@ export class AppTopBarComponent extends ViewState {
     this.visibleHelpImprove = true;
   }
 
-  showUpdateDialog() {
+  showUpdateDialog(): Promise<void> {
     this.visibleUpdate = true;
+    if (!this.updatesLoad) {
+      this.updatesLoading = true;
+      this.updatesError = false;
+      this.updatesLoad = import('../../releases/history.json').then(({ default: history }) => {
+        if (this.lifetime.active) this.updates = history;
+      }).catch(() => {
+        this.updatesError = true;
+        this.updatesLoad = undefined;
+      }).finally(() => { this.updatesLoading = false; this.publish(); });
+    }
+    return this.updatesLoad;
   }
 
   showReferenceDialog() {
@@ -190,8 +204,8 @@ export class AppTopBarComponent extends ViewState {
 
   onReadUpdateClick(version: string) {
     localStorage.setItem('version', version);
-    this.unreadVersion = this.updates.findIndex((a) => a.v === version);
-    this.showUnreadVersion = this.unreadVersion === -1 ? this.updates.length + 1 : this.unreadVersion;
+    this.unreadVersion = releaseVersions.indexOf(version);
+    this.showUnreadVersion = this.unreadVersion === -1 ? releaseVersions.length + 1 : this.unreadVersion;
   }
 
   showInfoDialog() {

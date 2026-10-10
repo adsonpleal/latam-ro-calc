@@ -24,6 +24,14 @@ for (const meta of Object.values(SKILL_META) as SkillMetaEntry[]) {
   if (meta.id !== undefined && meta.description) SKILL_DESC_BY_ID[meta.id] = meta.description;
 }
 
+/** Browser builds load the prose separately, after the first calculation is visible. */
+export function setSkillDescriptions(descriptions: Record<number, string>): void {
+  Object.assign(SKILL_DESC_BY_ID, descriptions);
+  for (const meta of Object.values(SKILL_META) as SkillMetaEntry[]) {
+    if (meta.id !== undefined && descriptions[meta.id]) meta.description = descriptions[meta.id];
+  }
+}
+
 /** Every in-game skill id known to the catalog (the item.json validator uses this). */
 export const VALID_SKILL_IDS = new Set<number>(Object.values(SKILL_ID_BY_NAME));
 

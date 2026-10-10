@@ -74,7 +74,9 @@ return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean
 "closed": (event: any) => vm.action(() => { const $event = event; vm.onHideUpdateDialog() }),
 "style": normalizeStyle(Object.assign({}, normalizeStyle(vm.updateDialogStyle))),
 "template_header": (context: any) => {  return <><Render tag="div" props={{"className": ["flex"].filter(Boolean).join(' ')}}><Render tag="span" props={{"className": ["text-xl mr-3 font-medium"].filter(Boolean).join(' ')}}>{"NOVIDADES"}</Render></Render></>; }}}>
-{(vm.updates ?? []).map((__entry4: any, __index4: number, __array4: any[]) => { const update = __entry4;
+{vm.visibleUpdate && vm.updatesLoading ? <p role="status">Carregando novidades…</p> : null}
+{vm.visibleUpdate && vm.updatesError ? <p role="alert">Não foi possível carregar as novidades. <button type="button" onClick={() => vm.action(() => vm.showUpdateDialog())}>Tentar novamente</button></p> : null}
+{(vm.visibleUpdate ? vm.updates : []).map((__entry4: any, __index4: number, __array4: any[]) => { const update = __entry4;
 const i = __index4; return <Fragment key={identityKey(__entry4)}><Render tag="div" props={{"style": normalizeStyle(Object.assign({}, normalizeStyle({"color": (((i + 1) > vm.showUnreadVersion) ? "var(--gray-300)" : "white")})))}}><Render tag="div" props={{"className": ["grid grid-nogutter"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["ui-col-12"].filter(Boolean).join(' '),
 "style": normalizeStyle(Object.assign({}, parseStyle("display: flex; align-content: center; justify-content: center; align-items: center")))}}><Render tag="span" props={{"className": ["pr-2"].filter(Boolean).join(' ')}}>{interpolate(["",""], [update.v])}</Render>
 <Render tag="span" props={{}}>{interpolate([""," "], [update.date])}</Render>

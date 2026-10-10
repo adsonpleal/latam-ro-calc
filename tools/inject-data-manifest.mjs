@@ -17,7 +17,7 @@
 // Usage:
 //   node tools/inject-data-manifest.mjs [--dist dist/sakai-ng]
 
-import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -45,7 +45,7 @@ function fail(message) {
   process.exit(1);
 }
 
-function buildSnippet(manifest, chunkPreloads) {
+function buildSnippet(manifest) {
   const boot = `<script>window.${MARKER}=${JSON.stringify(manifest)};
 (function(m){var b=m.base,f=m.files,o={};
 ${JSON.stringify(EAGER_KEYS)}.forEach(function(k){
@@ -53,8 +53,7 @@ var p=fetch(b+f[k]).then(function(r){if(!r.ok)throw new Error(k+" "+r.status);re
 p.catch(function(){});o[k]=p;});
 window.__RO_BOOT__=o;})(window.${MARKER});</script>`;
 
-  const preloads = chunkPreloads.map((f) => `<link rel="modulepreload" href="${f}">`).join('\n');
-  return [boot, preloads].filter(Boolean).join('\n');
+  return boot;
 }
 
 function main() {
@@ -95,18 +94,11 @@ function main() {
   if (html.includes(MARKER)) fail('index.html already carries an injection — build output is stale, clean dist/ first');
   if (!html.includes('</head>')) fail('index.html has no </head> to inject before');
 
-  // O builder já emite modulepreload para os chunks compartilhados, mas não para
-  // o da rota lazy — que só é descoberto depois que o main.js executa. Há uma
-  // única rota, então pré-carregar o que sobrou é o certo aqui.
-  const chunks = readdirSync(dist).filter((f) => /^chunk-[\w]+\.js$/.test(f));
-  const missing = chunks.filter((f) => !html.includes(f));
-  if (missing.length > 2) {
-    console.warn(`inject-data-manifest: ${missing.length} chunks sem preload — se a app ganhou rotas, revise se pré-carregar todas ainda faz sentido`);
-  }
+  // build-web follows the startup graph. Scanning every chunk would also fetch
+  // on-demand history and undo its lazy loading.
+  writeFileSync(indexPath, html.replace('</head>', `${buildSnippet(manifest)}\n</head>`));
 
-  writeFileSync(indexPath, html.replace('</head>', `${buildSnippet(manifest, missing)}\n</head>`));
-
-  console.log(`inject-data-manifest: ${EAGER_KEYS.length} fetches + ${missing.length} modulepreload injetados em ${indexPath}`);
+  console.log(`inject-data-manifest: ${EAGER_KEYS.length} fetches injected in ${indexPath}`);
 }
 
 main();

@@ -1,0 +1,6 @@
+{
+  "type": "patch",
+  "logs": [
+    "Reduzido o carregamento inicial do simulador: as novidades são carregadas ao abrir o histórico, e as descrições chegam depois do primeiro cálculo. Reportado por Adson."
+  ]
+}
