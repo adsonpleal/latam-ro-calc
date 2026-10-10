@@ -3582,6 +3582,7 @@ await ((_event?: unknown) => {
   }
 
   private buffTooltipCache = new Map<string, string>();
+  private buffTooltipVersion = -1;
 
   /** Popover for a single dropdown option that is itself a skill — the summons behind
    *  "Espírito Elemental", whose group label names no skill of its own. Empty when the
@@ -3598,6 +3599,11 @@ await ((_event?: unknown) => {
    *  own, so the popover follows whichever summon is selected. The cache key has to carry
    *  that value, or the first selection would stick for the rest of the session. */
   buffTooltip(buff: { name: string; label: string; icon?: number; isDebuff?: boolean; dropdown: any[] }, selectedValue?: number): string {
+    // A fallback rendered during startup must not outlive the deferred skill prose.
+    if (this.buffTooltipVersion !== this.itemDescriptionStore.version) {
+      this.buffTooltipCache.clear();
+      this.buffTooltipVersion = this.itemDescriptionStore.version;
+    }
     const cacheKey = selectedValue === undefined ? buff.name : `${buff.name}:${selectedValue}`;
     const cached = this.buffTooltipCache.get(cacheKey);
     if (cached !== undefined) return cached;
