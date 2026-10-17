@@ -1,3 +1,4 @@
+import { learnedSkill } from '../constants/share-passive-skills/learned-skill';
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { CartBoost } from '../constants/share-active-skills';
@@ -320,6 +321,7 @@ export class Genetic extends Creator {
         { label: 'Nv 5', value: 5, isUse: true },
       ],
     },
+    learnedSkill('Cart Tornado', 5),
   ];
 
   constructor() {

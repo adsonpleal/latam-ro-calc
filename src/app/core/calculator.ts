@@ -481,6 +481,10 @@ export class Calculator {
     return this._resolvedItemAutoCasts;
   }
 
+  getGrantedSkillLevel(skillId: number): number {
+    return this.totalEquipStatus[`enable_skill__${skillId}`] ?? 0;
+  }
+
   get resolvedItemAutoCastPending(): readonly ResolvedItemAutoCastPending[] {
     return this._resolvedItemAutoCastPending;
   }
@@ -1388,13 +1392,18 @@ export class Calculator {
       const duration = effect.durationSeconds + (effect.durationPerShieldRefineEvery
         ? Math.floor(shieldRefine / effect.durationPerShieldRefineEvery) : 0);
       const rate = effect.chance + itemRefine * (effect.chancePerRefine ?? 0);
-      const bonus = Object.fromEntries(Object.entries(effect.bonusPerRefine ?? {})
-        .map(([key, value]) => [key, value * itemRefine]));
+      const bonus = { ...effect.bonus };
+      for (const [key, value] of Object.entries(effect.bonusPerRefine ?? {})) {
+        bonus[key] = (bonus[key] ?? 0) + value * itemRefine;
+      }
+      const activation = effect.activationSkillId
+        ? `Ao usar ${resolveSkillById(effect.activationSkillId)?.name ?? effect.activationSkillId}`
+        : `${rate.toLocaleString('pt-BR')}% por ataque ${effect.trigger === 'physical-or-magical' ? 'físico ou mágico' : 'físico'}`;
       const existing = this._chanceList.find((entry) => entry.itemId === item.id && entry.name === item.name);
       const entry = {
         name: effect.name,
         label: effect.label,
-        label2: `[ ${rate.toLocaleString('pt-BR')}% por ataque ${effect.trigger === 'physical-or-magical' ? 'físico ou mágico' : 'físico'} · ${duration} segundos${effect.note ? ` · ${effect.note}` : ''} ]`,
+        label2: `[ ${activation} · ${duration} segundos${effect.note ? ` · ${effect.note}` : ''} ]`,
         bonus: { ...(existing?.bonus ?? {}), ...bonus },
         itemId: item.id,
       };

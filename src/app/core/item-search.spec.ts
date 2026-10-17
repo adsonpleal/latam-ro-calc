@@ -57,6 +57,13 @@ describe('item search catalogue coverage', () => {
 });
 
 describe('item search matching', () => {
+  it('finds damage skills granted by a temporary state, including Eswhoo on the Xamânico cap', () => {
+    const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
+    expect(search([db[19397]], { skillIds: [2604], bonuses: ['skillDamage'] })).toEqual([19397]);
+    expect(search([db[19397]], { skillIds: [2604], bonuses: ['autoCast'] })).toEqual([]);
+    expect(search([db[19396]], { skillIds: [2592], bonuses: ['skillDamage'] })).toEqual([19396]);
+    expect(search([db[19195]], { bonuses: ['unbreakableWeapon'] })).toEqual([19195]);
+  });
   // https://issues.latam-tools.com.br/t/nYekDmxodzefe4XMjBZQ
   it('includes lower/equal required levels and items without a requirement, with an optional cap', () => {
     const items = [99, 100, 101, 0, null, undefined].map((requiredLevel, index) => ({ ...makeItem(index + 1), requiredLevel }));

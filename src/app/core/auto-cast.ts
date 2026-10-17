@@ -155,7 +155,7 @@ function itemRuleEnabled(calc: Calculator, rule: ResolvedItemAutoCast): boolean 
 }
 
 function itemSources(calc: Calculator): AutoCastSource[] {
-  return calc.resolvedItemAutoCasts.filter((rule) => itemRuleEnabled(calc, rule)).map((rule) => ({
+  const sources: AutoCastSource[] = calc.resolvedItemAutoCasts.filter((rule) => itemRuleEnabled(calc, rule)).map((rule) => ({
     key: rule.key,
     kind: 'item',
     skillId: rule.skillId,
@@ -166,6 +166,20 @@ function itemSources(calc: Calculator): AutoCastSource[] {
     sourceName: rule.itemName,
     chanceBreakdown: [{ label: `${rule.chance}% ${rule.itemName}`, value: 'por ataque elegível' }],
   }));
+  // An equipment grant works with every weapon, using the higher learned level.
+  // Critical hits can be doubled too: https://browiki.org/wiki/Ataque_Duplo
+  const granted = calc.getGrantedSkillLevel?.(48) ?? 0;
+  if (granted > 0) {
+    const level = Math.min(10, Math.max(granted, calc.skillState.learnedLevel('Double Attack')));
+    const chance = 7 * level;
+    sources.push({
+      key: 'item-double-attack', kind: 'extra-hit', skillId: 48, skillLevel: level,
+      chance, trigger: 'physical-attack', sourceName: 'Ataque Duplo (equipamento)',
+      extraHitOutcomes: [{ totalHits: 2, chance: chance / 100 }],
+      chanceBreakdown: [{ label: 'Ataque Duplo', value: `${chance}% de atingir mais uma vez` }],
+    });
+  }
+  return sources;
 }
 
 function itemBlockedSources(calc: Calculator): BlockedAutoCastSource[] {
@@ -363,7 +377,7 @@ export function buildAutoCastSimulation(input: {
     const dps = activationsPerSecond * expectedDamagePerActivation;
     sources.push({
       source,
-      name: source.skillId === 2054 ? skill.label : (resolveSkillById(source.skillId)?.name ?? skill.label),
+      name: source.label ?? resolveSkillById(source.skillId)?.name ?? skill.label,
       icon: source.skillId,
       activationsPerSecond,
       triggerAttacksPerSecond: triggerRate,
@@ -381,7 +395,7 @@ export function buildAutoCastSimulation(input: {
   const totalDps = basicAttackDps + autoCastDps;
   for (const source of sources) source.contributionPercent = totalDps > 0 ? source.dps / totalDps * 100 : 0;
   const hp = Number(summary?.monster?.hp ?? 0);
-  const extraHitSource = sourceDefs.find((source) => source.kind === 'extra-hit');
+  const extraHitSource = sourceDefs.find((source) => source.kind === 'extra-hit' && source.skillId === 2234);
   return {
     attacksPerSecond,
     basicHitsPerAttack: 1,

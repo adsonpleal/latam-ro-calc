@@ -8,7 +8,7 @@ import { DoubleStrafeFn, SnatcherFn, VulturesEyeFn } from '../constants/share-pa
 import { WeaponTypeName } from '../constants/weapon-type-mapper';
 import { Stalker } from './Stalker';
 import { AutoCastSource, ClassAutoCastDefinition } from '../models/auto-cast.model';
-import { geminiLight } from '../skills/gemini-lumen';
+import { geminiSources } from '../skills/gemini-lumen';
 
 // Copyable magic with existing damage formulas: https://browiki.org/wiki/Plágio
 // Both copy slots obey Shadow Spell's restrictions, including no third-class spells:
@@ -36,14 +36,8 @@ const SHADOW_CHASER_AUTO_CASTS: ClassAutoCastDefinition[] = [{
       // Copied Gemini Lumen grants its own procs; Shadow Spell does not cast it.
       if (skillId === GEMINI_LUMEN_ID && slot.key === 'reproduce') {
         const level = Math.min(10, slot.level);
-        return [false, true].map((magical) => ({
-          key: `config-reproduce-gemini-${magical ? 'magic' : 'physical'}`,
-          kind: 'configurable' as const, skillId, skillLevel: level,
-          chance: 10 + 2 * level, trigger: 'melee-physical-hit' as const,
-          sourceName: slot.name, slot: slot.key, enablingSkillId: slot.icon,
-          skillData: geminiLight(magical),
-          chanceBreakdown: [{ label: magical ? 'Luz mágica' : 'Luz física', value: `${10 + 2 * level}% por golpe corpo a corpo` }],
-        }));
+        return geminiSources(level, { key: 'config-reproduce-gemini', kind: 'configurable',
+          sourceName: slot.name, slot: slot.key, enablingSkillId: slot.icon });
       }
       if (shadowLevel <= 0) return [];
       const skill = skillById(skillId);

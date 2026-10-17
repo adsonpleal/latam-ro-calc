@@ -46,6 +46,17 @@ function hud() {
 }
 
 describe('Auto-cast HUD references (tracker Rsz5Q3EJQ8Hy9hawE3zC)', () => {
+  it.each([48, 2234])('uses the basic-attack damage breakdown for extra-hit skill %i', (skillId) => {
+    const vm = hud();
+    const result = vm.simulation!.sources[0];
+    Object.assign(result.source, { kind: 'extra-hit', skillId });
+    const source = vm.dpsSources.find((entry) => !entry.isBasic)!;
+    const open = vi.fn();
+    vi.spyOn(vm as any, 'sourceAnchor').mockReturnValue(null);
+    vm.openDamage(source, 'nocri', {} as Event, { open });
+    expect(open.mock.calls[0][2].entry.isBasic).toBe(true);
+    expect(open.mock.calls[0][2].summary).toBe(vm.summary);
+  });
   it.each([false, true])('renders again after mounting details icons, comparing=%s', comparing => {
     const vm = hud();
     vm.isComparing = comparing;

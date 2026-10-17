@@ -230,7 +230,7 @@ public readonly itemDescriptions: ItemDescriptionStore,
   openDamage(source: any, branch: 'nocri' | 'cri' | 'flat', event: Event, popovers: any, target?: EventTarget | null): void {
     this.activeSource = source;
     this.activeBranch = branch;
-    const usesBasicDamage = source.isBasic || source.result?.source?.skillId === 2234;
+    const usesBasicDamage = source.isBasic || source.result?.source?.kind === 'extra-hit';
     const anchor = this.sourceAnchor(source, `damage-${branch}`, this.overlayAnchor(target, event));
     popovers?.open(event, branch, {
       entry: {

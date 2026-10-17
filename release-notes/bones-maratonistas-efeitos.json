@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "logs": [
+    "Corrigidos os efeitos dos Bonés Maratonistas, incluindo bônus por habilidade aprendida, recargas, custo de SP, velocidade de ataque, Ataque Duplo e efeitos temporários. O Sagrado passa a aplicar seu bônus às duas luzes de Gemini Lumen, e as autoconjurações de dano respeitam o maior nível aprendido. Reportado por usuário anônimo.",
+    "Adicionados os bônus de conjunto dos Bonés do Aluno Exemplar e do Aluno Travesso com Uniforme Escolar e seus respectivos lápis."
+  ]
+}

@@ -6,8 +6,8 @@ import { HighPriest } from './HighPriest';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
 import { ClassAutoCastDefinition } from '../models/auto-cast.model';
-import { geminiLight } from '../skills/gemini-lumen';
-import { genSkillList } from '../utils/gen-skill-list';
+import { geminiSources } from '../skills/gemini-lumen';
+import { learnedSkill } from '../constants/share-passive-skills/learned-skill';
 
 const GEMINI_LUMEN_AUTO_CASTS: ClassAutoCastDefinition[] = [{
   key: 'gemini-lumen',
@@ -17,13 +17,9 @@ const GEMINI_LUMEN_AUTO_CASTS: ClassAutoCastDefinition[] = [{
       key: 'gemini-lumen', name: 'Gemini Lumen', icon: 2054,
       reason: 'Ative Gemini Lumen em Habilidades',
     }] };
-    return { sources: [false, true].map((magical) => ({
-      key: `gemini-lumen-${magical ? 'magic' : 'physical'}`,
-      kind: 'passive' as const, skillId: 2054, skillLevel: level,
-      chance: 10 + 2 * level, trigger: 'melee-physical-hit' as const,
-      sourceName: 'Gemini Lumen', enablingSkillId: 2054, skillData: geminiLight(magical),
-      chanceBreakdown: [{ label: magical ? 'Luz mágica' : 'Luz física', value: `${10 + 2 * level}% por golpe corpo a corpo` }],
-    })) };
+    return { sources: geminiSources(level, {
+      key: 'gemini-lumen', kind: 'passive', sourceName: 'Gemini Lumen', enablingSkillId: 2054,
+    }) };
   },
 }];
 
@@ -238,10 +234,7 @@ export class ArchBishop extends HighPriest {
     },
     LaudaAgnusBuff,
     LaudaRamusBuff,
-    {
-      inputType: 'dropdown', name: 'Duple Light', label: 'Gemini Lumen',
-      dropdown: genSkillList(10),
-    },
+    learnedSkill('Duple Light', 10),
   ];
   protected readonly passiveSkillList3rd: PassiveSkillModel[] = [
     {
@@ -361,6 +354,7 @@ export class ArchBishop extends HighPriest {
         { label: 'Nv 5', value: 5, isUse: true },
       ],
     },
+    learnedSkill('Adoramus', 10),
   ];
 
   constructor() {

@@ -26080,7 +26080,10 @@
         "3---2"
       ],
       "criDmg": [
-        "8===25"
+        "REFINE[8]SKILL_ID[113==1]---5"
+      ],
+      "enable_skill__48": [
+        "11===5"
       ]
     }
   },
@@ -26220,6 +26223,14 @@
       ],
       "aspdPercent": [
         "3---2"
+      ],
+      "cd__2217": [
+        "REFINE[8]SKILL_ID[85==1]---0.5",
+        "REFINE[8]SKILL_ID[83==1]---0.5"
+      ],
+      "fctPercent__366": [
+        "11===50",
+        "EQUIP_ID[2000]-50"
       ]
     }
   },
@@ -26293,6 +26304,12 @@
       ],
       "criDmg": [
         "REFINE[8]LEARN_SKILL[Two hand Quicken==2]---5"
+      ],
+      "enable_skill__48": [
+        "11===5"
+      ],
+      "unbreakableWeapon": [
+        "11===1"
       ]
     }
   },
@@ -26397,14 +26414,17 @@
       "Sura"
     ],
     "script": {
+      "2336": [
+        "11===50"
+      ],
       "atk": [
         "2---10"
       ],
       "aspdPercent": [
         "3---2"
       ],
-      "2336": [
-        "11===30"
+      "spCost__2336": [
+        "REFINE[8]SKILL_ID[263==1]----1"
       ]
     }
   },
@@ -26560,7 +26580,7 @@
         "REFINE[8]LEARN_SKILL[Wounding Shot==1]---2"
       ],
       "cd__2566": [
-        "REFINE[8]LEARN_SKILL[Gunslinger Mine==1]---0.2"
+        "REFINE[8]SKILL_ID[521==1]---0.5"
       ],
       "cd__2560": [
         "11===1"
@@ -26666,20 +26686,20 @@
       "matk": [
         "2---5"
       ],
-      "aspd": [
-        "3---2"
-      ],
       "cd__5046": [
-        "REFINE[8]LEARN_SKILL[Lunatic Carrot Beat==1]---4"
+        "REFINE[8]SKILL_ID[5036==1]---4"
       ],
       "cd__5048": [
-        "REFINE[8]LEARN_SKILL[Catnip Meteor==1]---8"
+        "REFINE[8]SKILL_ID[5028==1]---8"
       ],
       "cd__5051": [
-        "REFINE[8]LEARN_SKILL[Fresh Shrimp==1]---4"
+        "REFINE[8]SKILL_ID[5041==1]---4"
       ],
       "acd": [
         "11===15"
+      ],
+      "aspdPercent": [
+        "3---2"
       ]
     }
   },
@@ -27725,8 +27745,18 @@
       "aspdPercent": [
         "3---2"
       ],
-      "2592": [
-        "11===30"
+      "autoCastEffect": [
+        {
+          "name": "Efeito do Boné Maratonista Estelar",
+          "label": "Boné Maratonista Estelar — Explosão Solar",
+          "chance": 100,
+          "durationSeconds": 10,
+          "minimumRefine": 11,
+          "activationSkillId": 2593,
+          "bonus": {
+            "2592": 30
+          }
+        }
       ]
     }
   },
@@ -27760,8 +27790,19 @@
       "sp": [
         "REFINE[8]LEARN_SKILL[Happy Break==1]---100"
       ],
-      "2602": [
-        "REFINE[11]ACTIVE_SKILL[Esma]30"
+      "autoCastEffect": [
+        {
+          "name": "Efeito do Boné Maratonista Xamânico",
+          "label": "Boné Maratonista Xamânico — Espa e Eswhoo",
+          "chance": 100,
+          "durationSeconds": 10,
+          "minimumRefine": 11,
+          "activationSkillId": 469,
+          "bonus": {
+            "2602": 30,
+            "2604": 30
+          }
+        }
       ]
     }
   },
@@ -253645,8 +253686,8 @@
     "itemSubTypeId": 512,
     "itemLevel": null,
     "attack": null,
-    "defense": 0,
-    "weight": 0,
+    "defense": 4,
+    "weight": 10,
     "requiredLevel": 1,
     "location": "Upper",
     "compositionPos": null,
@@ -253662,6 +253703,12 @@
       ],
       "luk": [
         "1"
+      ],
+      "matk": [
+        "EQUIP_ID[15088&&18818]level:3---1"
+      ],
+      "expGainPercent": [
+        "EQUIP_ID[15088&&18818]5"
       ]
     }
   },
@@ -253677,8 +253724,8 @@
     "itemSubTypeId": 512,
     "itemLevel": null,
     "attack": null,
-    "defense": 0,
-    "weight": 0,
+    "defense": 4,
+    "weight": 10,
     "requiredLevel": 1,
     "location": "Upper",
     "compositionPos": null,
@@ -253694,6 +253741,12 @@
       ],
       "luk": [
         "1"
+      ],
+      "atk": [
+        "EQUIP_ID[15088&&18819]level:3---1"
+      ],
+      "expGainPercent": [
+        "EQUIP_ID[15088&&18819]5"
       ]
     }
   },

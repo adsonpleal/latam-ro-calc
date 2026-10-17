@@ -15,6 +15,8 @@ export interface EquipmentSummaryModel {
   spPercent: number;
   /** EXP gained from defeated monsters. Display only: damage calculation has no EXP stage. */
   expGainPercent: number;
+  /** Display only: the simulator does not break equipment during combat. */
+  unbreakableWeapon: number;
   /**
    * "Cura recebida +N%" — how much more HP a heal cast ON this character restores.
    *

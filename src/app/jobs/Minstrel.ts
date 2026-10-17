@@ -1,3 +1,4 @@
+import { learnedSkill } from '../constants/share-passive-skills/learned-skill';
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ARROW_VULCAN, METALIC_SOUND, REVERBERATION, SEVERE_RAINSTORM } from '../skills/shared-skills';
@@ -158,6 +159,7 @@ export class Minstrel extends Bard {
     FriggsSongFn(),
     MetalicSoundFn(),
     GreatEchoFn(),
+    learnedSkill('Reverberation', 5),
   ];
 
   constructor() {

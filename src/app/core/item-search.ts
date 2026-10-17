@@ -29,7 +29,7 @@ const statKeys = [
   'res', 'monster_res', 'mres', 'monster_mres', 'melee', 'range', 'bowRange',
   'vct', 'vct_inc', 'acd', 'fct', 'fctPercent', 'cri', 'criRange', 'criDmg', 'nonCriticalDamage',
   'perfectHit', 'hit', 'flee', 'perfectDodge', 'flatDmg', 'mildwind', 'dmg',
-  'ignore_size_penalty', 'p_infiltration', 'pene_res', 'pene_mres',
+  'ignore_size_penalty', 'p_infiltration', 'pene_res', 'pene_mres', 'unbreakableWeapon',
   'dmg_taken_physical', 'dmg_taken_magical', 'dmg_taken_all', 'dmg_taken_range',
 ];
 const races = ['all', 'formless', 'undead', 'brute', 'plant', 'insect', 'fish', 'demon',
@@ -109,16 +109,18 @@ export function filterSearchItems(items: Readonly<Record<number, ItemModel>>, ro
     const rank = rankName(item.name);
     if (!Number.isFinite(rank)) return false;
     ranks.set(row.id, rank);
-    const entries = itemBonusScriptEntries(item.script).filter(([, expressions]) => expressions.length).map(([key]) => readKey(key));
     const casts = itemAutoCastScripts(item.script);
     const effects = itemAutoCastEffectScripts(item.script);
+    const entries = [
+      ...itemBonusScriptEntries(item.script).filter(([, expressions]) => expressions.length).map(([key]) => readKey(key)),
+      ...effects.flatMap(effect => Object.keys({ ...effect.bonusPerRefine, ...effect.bonus }).map(readKey)),
+    ];
     if (skills.size && !entries.some(entry => entry.skillId != null && skills.has(entry.skillId)) && !casts.some(cast => skills.has(cast.skillId))) return false;
     const matches = (value: string) => {
       const option = optionsByValue.get(value);
       if (!option) return false;
       if (option.kind === 'autoCast') return casts.some(cast => !skills.size || skills.has(cast.skillId));
       if (option.kind === 'autoCastEffect') return effects.length > 0;
-      if (option.kind === 'key' && effects.some(effect => Object.hasOwn(effect.bonusPerRefine ?? {}, value))) return true;
       return entries.some(entry => {
         if (entry.skillId != null && skills.size && !skills.has(entry.skillId)) return false;
         if (option.kind === 'key') return entry.key === value;

@@ -1,3 +1,4 @@
+import { learnedSkill } from '../constants/share-passive-skills/learned-skill';
 import { ElementType } from '../constants/element-type.const';
 import { IntensificationFn } from '../constants/share-active-skills';
 import { ClassName } from './_class-name';
@@ -421,6 +422,8 @@ export class Warlock extends HighWizard {
         { label: 'Nv 5', isUse: true, value: 5 },
       ],
     },
+    learnedSkill('Lord of Vermilion', 10),
+    learnedSkill('Meteor Storm', 10),
   ];
 
   constructor() {

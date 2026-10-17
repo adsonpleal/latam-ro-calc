@@ -30,6 +30,10 @@ export interface ItemAutoCastEffectScript {
   chancePerRefine?: number;
   durationPerShieldRefineEvery?: number;
   bonusPerRefine?: Record<string, number>;
+  /** Flat bonuses while the temporary state is selected in Efeitos. */
+  bonus?: Record<string, number>;
+  /** A guaranteed state activated by using this skill, rather than an attack roll. */
+  activationSkillId?: number;
   trigger?: 'physical' | 'physical-or-magical';
   note?: string;
 }
@@ -86,6 +90,8 @@ export function fearBreezeTotalChance(level: number): number {
 
 export interface AutoCastSource {
   key: string;
+  /** Distinguishes damage components that share the same parent skill id. */
+  label?: string;
   kind: AutoCastKind;
   skillId: number;
   skillLevel: number;

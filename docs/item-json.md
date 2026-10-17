@@ -209,6 +209,19 @@ Use isso para rolagem compartilhada, nível/chance ausente, habilidade fora do c
 estado ainda não modelado. Cura, buff, dano recebido e ataque mágico continuam fora desta
 auditoria física até que seus gatilhos tenham um modelo próprio.
 
+`autoCastEffect` também registra estados temporários selecionáveis em **Efeitos**.
+`bonus` guarda os bônus fixos do estado; `bonusPerRefine` guarda os bônus multiplicados
+pelo refino. Para um efeito garantido ao usar uma habilidade, `activationSkillId`
+identifica o gatilho e `durationSeconds` informa a duração. Por exemplo, o Boné
+Maratonista Xamânico usa `activationSkillId: 469` (Esma), `minimumRefine: 11`,
+`chance: 100`, `durationSeconds: 10` e `bonus: {"2602": 30, "2604": 30}`. O bônus
+só entra no cálculo enquanto o efeito estiver selecionado; isso não autoconjura Esma.
+
+`enable_skill__48` habilita Ataque Duplo e integra seu golpe adicional à simulação de
+ataques básicos, usando o maior nível entre o concedido e o aprendido. O golpe extra
+não cria novas rolagens de autoconjuração. `unbreakableWeapon` apenas exibe a propriedade
+de arma indestrutível em batalha; não altera o dano.
+
 ---
 
 ## 3. Chaves de bônus (o "o quê")

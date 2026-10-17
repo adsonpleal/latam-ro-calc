@@ -1,3 +1,4 @@
+import { learnedSkill } from '../constants/share-passive-skills/learned-skill';
 import { ElementType } from '../constants/element-type.const';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
@@ -399,5 +400,7 @@ export class Doram extends CharacterBase {
         { label: 'Nv 5', value: 5, isUse: true },
       ],
     },
+    learnedSkill('Catnip Meteor', 5),
+    learnedSkill('Lunatic Carrot Beat', 5),
   ];
 }

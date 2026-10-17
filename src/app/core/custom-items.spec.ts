@@ -12,6 +12,20 @@ const draft = (id: number, name: string, kind = 'armor', script: Record<string, 
   ({ id, name, kind, script, cardCapacity: kind === 'armor' ? 1 : 0, enchantCapacity: 0, baCapacity: kind === 'armor' ? 5 : 0 });
 
 describe('custom item batches', () => {
+  it('validates and describes flat temporary bonuses activated by a known skill', () => {
+    const effect = { name: 'Solar', label: 'Explosão Solar', chance: 100, durationSeconds: 10,
+      activationSkillId: 2593, bonus: { '2592': 30 } };
+    expect(validateScript({ autoCastEffect: [effect] })).toEqual([]);
+    expect(validateScript({ autoCastEffect: [{ ...effect, bonus: { unknown: 30 } }] })).toEqual([
+      expect.objectContaining({ path: expect.stringContaining('.bonus') }),
+    ]);
+    expect(validateScript({ autoCastEffect: [{ ...effect, activationSkillId: -1 }] })).toEqual([
+      expect.objectContaining({ path: expect.stringContaining('.activationSkillId') }),
+    ]);
+    const result = validateCustomItems([draft(ARMOR, 'Solar', 'armor', { autoCastEffect: [effect] })]);
+    expect(customItemDescription(result.items[0])).toContain('ao usar Chute Solar');
+    expect(customItemDescription(result.items[0])).toContain('Explosão Solar +30 durante o efeito');
+  });
   it('describes combined conditions and scaling without exposing raw expressions', () => {
     const item = validateCustomItems([draft(ARMOR, 'Teste', 'armor', {
       atk: ['GRADE[me==A]REFINE[weapon,headUpper==2]---5', 'str:10---2', 'LOYALTY[4]7===5'],

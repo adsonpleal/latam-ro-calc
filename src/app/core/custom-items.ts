@@ -217,10 +217,16 @@ export function validateScript(script: unknown, path = 'script'): ItemValidation
             || value['requiredEquippedItemIds'].some((id: unknown) => !Number.isSafeInteger(id)))) {
             errors.push({ path: `${field}.requiredEquippedItemIds`, message: 'Use uma lista de IDs de itens.' });
           }
-          if (value['bonusPerRefine'] != null && (!value['bonusPerRefine'] || typeof value['bonusPerRefine'] !== 'object'
-            || Array.isArray(value['bonusPerRefine']) || Object.entries(value['bonusPerRefine']).some(([bonus, amount]) =>
-              !catalogBonusKey(bonus) || typeof amount !== 'number' || !Number.isFinite(amount)))) {
-            errors.push({ path: `${field}.bonusPerRefine`, message: 'Bônus por refino deve usar chaves conhecidas e valores numéricos.' });
+          for (const bonusField of ['bonusPerRefine', 'bonus'] as const) {
+            const bonuses = value[bonusField];
+            if (bonuses != null && (!bonuses || typeof bonuses !== 'object'
+              || Array.isArray(bonuses) || Object.entries(bonuses).some(([bonus, amount]) =>
+                !catalogBonusKey(bonus) || typeof amount !== 'number' || !Number.isFinite(amount)))) {
+              errors.push({ path: `${field}.${bonusField}`, message: 'Bônus do efeito deve usar chaves conhecidas e valores numéricos.' });
+            }
+          }
+          if (value['activationSkillId'] != null && !VALID_SKILL_IDS.has(value['activationSkillId'] as number)) {
+            errors.push({ path: `${field}.activationSkillId`, message: 'Habilidade de ativação deve usar ID conhecido.' });
           }
         }
         if (key === 'autoCastPending' && (typeof value['skillName'] !== 'string' || typeof value['reason'] !== 'string')) {
@@ -491,7 +497,12 @@ export function customItemDescription(item: Pick<CustomItemDefinition, 'script'>
       ...(effect.chance ?? []).map((line: string) => describe('Chance %', line)));
   }
   for (const effect of (item.script['autoCastEffect'] ?? []) as any[]) {
-    rows.push(`Efeito automático ${effect.label}: chance ${effect.chance}%, duração ${effect.durationSeconds}s.`);
+    const activation = effect.activationSkillId ? `ao usar ${skill(String(effect.activationSkillId))}` : `chance ${effect.chance}%`;
+    rows.push(`Efeito automático ${effect.label}: ${activation}, duração ${effect.durationSeconds}s.`);
+    for (const [key, value] of Object.entries(effect.bonus ?? {})) {
+      const label = /^\d+$/.test(key) ? skill(key) : bonusKeyLabel(key);
+      rows.push(`${label} ${Number(value) >= 0 ? '+' : ''}${value} durante o efeito.`);
+    }
   }
   for (const effect of (item.script['autoCastPending'] ?? []) as any[]) {
     rows.push(`Autoconjuração indisponível de ${effect.skillName}: ${effect.reason}.`);

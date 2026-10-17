@@ -1,3 +1,4 @@
+import { learnedSkill } from '../constants/share-passive-skills/learned-skill';
 import { WeaponTypeName } from '../constants';
 import { AdditionalBonusInput, InfoForClass } from '../models/info-for-class.model';
 import { Whitesmith } from './Whitesmith';
@@ -351,6 +352,7 @@ export class Mechanic extends Whitesmith {
         { label: 'Nv 3', value: 3, isUse: true },
       ],
     },
+    learnedSkill('Power Thrust', 5),
   ];
 
   constructor() {
