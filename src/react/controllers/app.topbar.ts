@@ -21,7 +21,7 @@ export class AppTopBarComponent extends ViewState {
   visibleInfo: boolean = false;
   visibleReference = false;
   visibleMcp = false;
-  visibleSettings = false;
+  visibleSettings = false; visibleMobileMenu = false;
   mcpUrlCopied = false;
 
   /** Public MCP endpoint. Agents connect here; the browser never calls it. */

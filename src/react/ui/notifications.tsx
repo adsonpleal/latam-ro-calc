@@ -31,7 +31,7 @@ export function ConfirmDialog({ service }: { service: Confirmations }) {
     };
   }, [service]);
   return <Dialog visible={!!request} onVisibleChange={visible => { if (!visible) service.resolve(false); }}
-    header={request?.header || 'Confirmação'} modal className="ui-confirm-dialog" style={{ width: '25vw' }} position="top"
+    header={request?.header || 'Confirmação'} modal className="ui-confirm-dialog" style={{ width: '26rem', maxWidth: '92vw' }} position="top"
     footer={<><Button className="ui-confirm-dialog-reject" icon="times" label="Não" onClick={() => service.resolve(false)} />
       <Button className="ui-confirm-dialog-accept" data-focus-initial icon="check" label="Sim" onClick={() => service.resolve(true)} /></>}>
     <div className="ui-confirm-dialog-message">{request?.icon && <Icon className="ui-confirm-dialog-icon" name={request.icon} />}<span>{request?.message}</span></div>

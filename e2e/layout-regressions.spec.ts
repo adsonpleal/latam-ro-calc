@@ -14,15 +14,13 @@ for (const width of [1920, 390]) {
     const card = section.locator('app-battle-monster-card');
     await expect(card.locator('.hud-monster-head')).toHaveCSS('display', 'flex');
     await expect(card.locator('.hud-mstats')).toHaveCSS('display', 'grid');
-    await expect(card.locator('.ui-card-body')).toHaveCSS('padding', '0px');
-    // The Angular page deliberately retains a wide calculator on phones.
-    // Its card is 595px wide at a 390px viewport, so the row still applies.
-    await expect(card.locator('.ui-card-content')).toHaveCSS('display', 'flex');
+    await expect(card.locator('.ui-card-body').first()).toHaveCSS('padding', '0px');
+    await expect(card.locator('.ui-card-content').first()).toHaveCSS('display', 'flex');
     const box = (await card.boundingBox())!;
-    expect(box.height).toBeLessThan(400);
-    if (width === 390) expect(box.width).toBeCloseTo(595, 0);
+    expect(box.height).toBeLessThan(width === 390 ? 520 : 400);
+    if (width === 390) expect(box.width).toBeLessThanOrEqual(390);
     const stats = (await card.locator('.hud-band-right').boundingBox())!;
-    expect(stats.x + stats.width).toBeLessThanOrEqual(box.x + box.width);
+    expect(stats.x + stats.width).toBeLessThanOrEqual(box.x + box.width + 1);
     await expect(section.getByRole('link', { name: 'Bug ou sugestão', exact: true })).toHaveClass(/ui-button/);
     await expect(section.getByRole('button', { name: 'Fórmula ou cálculo', exact: true })).toBeVisible();
   });
@@ -46,4 +44,38 @@ test('custom-item library and editor keep icons inline and preview in its column
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(dialog.locator('.studio-preview')).toBeHidden();
   expect((await dialog.boundingBox())!.width).toBeLessThanOrEqual(390);
+});
+
+test('mobile viewport has no horizontal overflow and supports menu drawer, sticky HUD, and bottom-sheet item preview', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+
+  const menuBtn = page.getByRole('button', { name: 'Menu', exact: true });
+  await expect(menuBtn).toBeVisible();
+  await menuBtn.click();
+  const menuDialog = page.getByRole('dialog', { name: 'Menu e Configurações', exact: true });
+  await expect(menuDialog).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(menuDialog).toHaveCount(0);
+
+  const mobileHud = page.getByRole('region', { name: 'Resumo rápido de dano e navegação', exact: true });
+  await expect(mobileHud).toBeVisible();
+  await expect(mobileHud.getByRole('button', { name: 'Ir para Build', exact: true })).toBeVisible();
+  await expect(mobileHud.getByRole('button', { name: 'Ir para Batalha', exact: true })).toBeVisible();
+
+  const head = page.locator('.eq-card').filter({ has: page.locator('.eq-card__label').filter({ hasText: /^Topo$/ }) });
+  await head.getByRole('button', { name: 'Topo', exact: true }).click();
+  const picker = page.locator('.picker');
+  await expect(picker).toBeVisible();
+  const filter = picker.getByPlaceholder('Filtrar…');
+  await filter.fill('Kiwawa');
+  const row = picker.locator('.picker__row').filter({ hasText: 'Kiwawa' }).first();
+  await expect(row).toBeVisible();
+  await row.locator('.picker__info').click();
+  await expect(picker.locator('.picker__preview')).toBeVisible();
+  await expect(picker).toBeVisible();
+  await filter.fill('Chapéu');
+  await expect(picker.locator('.picker__preview')).toHaveCount(0);
+  await picker.locator('.picker__row').filter({ hasText: 'Chapéu' }).first().click();
+  await expect(picker).toHaveCount(0);
 });

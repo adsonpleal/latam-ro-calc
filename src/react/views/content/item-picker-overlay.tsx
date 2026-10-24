@@ -1,4 +1,6 @@
 import { Button } from '../../ui/primitives';
+import { isCoarsePointer } from '../../ui/layers';
+import { sanitizeHtml } from '../../ui/sanitize-html';
 import { Fragment } from 'react';
 import { Render, displayPipe, interpolate, classNames, normalizeStyle, identityKey } from '../render';
 export function Content({vm, services}: {vm: any; services: any}) {
@@ -12,7 +14,7 @@ const i = context["i"]; return <><Render tag="button" props={{"type": "button",
 "click": (event: any) => vm.action(() => { const $event = event; vm.choose(i) }),
 "className": ["picker__row",((vm.active === i) ? "picker__row--active" : ''),(vm.isSelected(row) ? "picker__row--selected" : ''),(row.create ? "picker__row--create" : ''),(row.section ? "picker__row--section" : '')].filter(Boolean).join(' '),
 "style": normalizeStyle(Object.assign({}, {["height"]: vm.rowHeight == null ? null : String(vm.rowHeight) + "px"})),
-"tooltip": {text: (vm.items ? displayPipe("itemDescTooltip", row.value, [vm.items,vm.itemDescriptions.version], services) : ""), position: "right", className: "item_desc_tooltip", showDelay: 350, hideDelay: 0, escape: false, disabled: false}}}>{(() => { const __condition1 = vm.showIcons;  return __condition1 ? <><Render tag="span" props={{"className": ["picker__icon"].filter(Boolean).join(' ')}}>{(() => { const __condition2 = row.icon;  return __condition2 ? <><Render tag="img" props={{"alt": "",
+"tooltip": {text: (vm.items ? displayPipe("itemDescTooltip", row.value, [vm.items,vm.itemDescriptions.version], services) : ""), position: "right", className: "item_desc_tooltip", showDelay: 350, hideDelay: 0, escape: false, disabled: isCoarsePointer()}}}>{(() => { const __condition1 = vm.showIcons;  return __condition1 ? <><Render tag="span" props={{"className": ["picker__icon"].filter(Boolean).join(' ')}}>{(() => { const __condition2 = row.icon;  return __condition2 ? <><Render tag="img" props={{"alt": "",
 "loading": "lazy",
 "src": displayPipe("iconUrl", row.icon, ["item"], services),
 "missingIcon": true}}></Render></> : null; })()}</Render></> : null; })()}
@@ -20,14 +22,14 @@ const i = context["i"]; return <><Render tag="button" props={{"type": "button",
 {(() => { const __condition3 = row.preRelease;  return __condition3 ? <><Render tag="span" props={{"tooltipPosition": "top",
 "className": ["pre_release_tag"].filter(Boolean).join(' '),
 "tooltip": {text: "Prévia: item ainda não lançado no LATAM — nome e descrição em inglês, do kRO/iRO (divine-pride).", position: "top", className: '', showDelay: 300, hideDelay: 0, escape: true, disabled: false}}}>{"Prévia"}</Render></> : null; })()}
-{(() => { const __condition4 = row.group;  return __condition4 ? <><Render tag="span" props={{"className": ["picker__chevron"].filter(Boolean).join(' ')}}>{"›"}</Render></> : null; })()}</Render></>; }; return <><Render tag="div" props={{"tabIndex": "-1",
+{(() => { const __condition4 = row.group;  return __condition4 ? <><Render tag="span" props={{"className": ["picker__chevron"].filter(Boolean).join(' ')}}>{"›"}</Render></> : null; })()}{vm.items && row.value != null && !row.section && !row.create && !row.group ? <span title="Ver descrição do item" aria-hidden="true" className={`picker__info ${vm.previewValue === row.value ? 'picker__info--active' : ''}`} onClick={event => { event.stopPropagation(); vm.action(() => vm.togglePreview(row.value, event)); }}>i</span> : null}</Render></>; }; return <><Render tag="div" props={{"tabIndex": "-1",
 "appTrapFocus": "",
 "appTrapFocusAutoCapture": "",
 "keydown": (event: any) => vm.action(() => { const $event = event; vm.onKeyDown($event) }),
 "className": ["picker",(vm.virtualise ? "picker--virtual" : '')].filter(Boolean).join(' '),
 "style": normalizeStyle(Object.assign({}, {["width"]: vm.pinnedWidth == null ? null : String(vm.pinnedWidth) + "px"}))}}><Render tag="div" props={{"className": ["picker__title"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.title])}
 {vm.canSearch && <Button icon="search" label="Buscar itens" className="ui-button-text ui-button-sm picker__search"
-  onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') event.stopPropagation(); }} onClick={() => vm.action(() => vm.openSearch())} />}</Render>
+  onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') event.stopPropagation(); }} onClick={() => vm.action(() => vm.openSearch())} />}<button type="button" className="picker__close" aria-label="Fechar" onClick={() => vm.action(() => vm.dismiss())}>✕</button></Render>
 <Render tag="div" props={{"className": ["picker__filter"].filter(Boolean).join(' ')}}>{(() => { let filter: any = vm["filter"]; return <><Render tag="input" props={{"type": "text",
 "data-focus-initial": true,
 "placeholder": "Filtrar…",
@@ -37,7 +39,7 @@ const i = context["i"]; return <><Render tag="button" props={{"type": "button",
 "reference": (value: any) => { filter = value; vm["filter"] = value; }}}></Render>
 {vm.query && <Button icon="times" aria-label="Limpar busca" className="ui-button-text ui-button-sm"
   onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') event.stopPropagation(); }}
-  onClick={() => vm.action(() => { vm.onQuery(''); filter?.focus(); })} />}</>; })()}</Render>
+  onClick={() => vm.action(() => { vm.onQuery(''); filter?.focus(); })} />}</>; })()}</Render>{vm.previewValue != null && vm.items ? (() => { const html = displayPipe("itemDescTooltip", vm.previewValue, [vm.items, vm.itemDescriptions.version], services); return html ? <div className="picker__preview"><div className="picker__preview-head"><span>Descrição do item</span><button type="button" className="picker__preview-close" aria-label="Fechar descrição" onClick={() => vm.action(() => vm.togglePreview(null))}>✕</button></div><div className="picker__preview-body" dangerouslySetInnerHTML={{ __html: sanitizeHtml(html) }} /></div> : null; })() : null}
 {(() => { const __condition5 = vm.breadcrumb.length;  return __condition5 ? <><Render tag="div" props={{"className": ["picker__crumbs"].filter(Boolean).join(' ')}}><Render tag="button" props={{"type": "button",
 "click": (event: any) => vm.action(() => { const $event = event; vm.goToLevel(-(1)) }),
 "className": ["picker__crumb"].filter(Boolean).join(' ')}}>{"Todos"}</Render>

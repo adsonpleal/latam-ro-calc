@@ -10,7 +10,7 @@ const previewTooltip = useTooltip({
   position: 'left', showDelay: 300, disabled: !vm.visibleSettings,
 });
 return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean).join(' '),
-"style": normalizeStyle(Object.assign({}, parseStyle("min-width: 1500px")))}}><Render tag="span" props={{"className": ["pr-2"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.lastestVersion])}</Render>
+}}><Render tag="span" props={{"className": ["pr-2 topbar-version"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.lastestVersion])}</Render>
 <Render tag="button" props={{"aria-label": "Novidades",
 "click": (event: any) => vm.action(() => { const $event = event; vm.showUpdateDialog() }),
 "className": ["ui-button-text ui-button-info"].filter(Boolean).join(' '),
@@ -23,9 +23,9 @@ return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean
 "name": "bell",
 "className": ["text-xl"].filter(Boolean).join(' ')}}></Render></> : null; })()}</Render>
 <Render tag="button" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.showReferenceDialog() }),
-"className": ["pl-2 ui-button-text ui-button-info ui-button-raised"].filter(Boolean).join(' '),
+"className": ["pl-2 ui-button-text ui-button-info ui-button-raised topbar-desktop-only"].filter(Boolean).join(' '),
 "button": true}}>{"Referências"}</Render>
-<Render tag="div" props={{"className": ["flex align-items-center gap-2 ml-2"].filter(Boolean).join(' ')}}><Render tag="a" props={{"target": "_blank",
+<Render tag="div" props={{"className": ["topbar-community flex align-items-center gap-2 ml-2 topbar-desktop-only"].filter(Boolean).join(' ')}}><Render tag="a" props={{"target": "_blank",
 "rel": "noreferrer noopener",
 "href": vm.issuesReportUrl}}><Render tag="button" props={{"aria-label": "Reportar",
 "className": ["ui-button-warning ui-button-raised px-2"].filter(Boolean).join(' '),
@@ -47,20 +47,20 @@ return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean
 <Render tag="div" props={{"className": ["topbar-actions flex align-items-center gap-2"].filter(Boolean).join(' ')}}>
 <Render tag="button" props={{"aria-label": "Servidor MCP",
 "click": (event: any) => vm.action(() => { const $event = event; vm.showMcpDialog() }),
-"className": ["ui-button-help ui-button-raised px-2"].filter(Boolean).join(' '),
+"className": ["ui-button-help ui-button-raised px-2 topbar-desktop-only"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"aria-hidden": "true",
 "name": "sparkles"}}></Render>
 <Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{"MCP"}</Render></Render>
 <Render tag="button" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.openCustomItems() }),
-"className": ["ui-button-success ui-button-raised px-2"].filter(Boolean).join(' '),
+"className": ["ui-button-success ui-button-raised px-2 topbar-primary-btn"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"name": "box"}}></Render>
 <Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{"Meus itens"}</Render></Render>
 <Render tag="button" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.openItemSearch() }),
-"className": ["ui-button-info ui-button-raised px-2"].filter(Boolean).join(' '),
+"className": ["ui-button-info ui-button-raised px-2 topbar-primary-btn"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"name": "search"}}></Render>
 <Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{"Buscar itens"}</Render></Render>
-<Button icon="cog" aria-label="Configurações" aria-haspopup="dialog" aria-expanded={vm.visibleSettings}
-  className="ui-button-success ui-button-raised topbar-settings" onClick={() => vm.action(() => { vm.visibleSettings = true; })} />
+<Button icon="bars" aria-label="Menu" aria-haspopup="dialog" aria-expanded={vm.visibleMobileMenu} className="ui-button-secondary ui-button-raised topbar-mobile-menu-btn" onClick={() => vm.action(() => { vm.visibleMobileMenu = true; })} /><Button icon="cog" aria-label="Configurações" aria-haspopup="dialog" aria-expanded={vm.visibleSettings}
+  className="ui-button-success ui-button-raised topbar-settings topbar-desktop-only" onClick={() => vm.action(() => { vm.visibleSettings = true; })} />
 </Render>
 <Dialog header="Configurações" visible={vm.visibleSettings} modal dismissableMask position="right"
   onVisibleChange={visible => vm.action(() => { vm.visibleSettings = visible; })}>
@@ -69,13 +69,13 @@ return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean
     <SelectButton ariaLabel="Mostrar prévias" options={vm.previewOptions} value={vm.showPreviews}
       onChange={value => vm.action(() => vm.setShowPreviews(value))} />
   </div>
-  {previewTooltip.tooltip}
+  {previewTooltip.tooltip}</Dialog><Dialog header="Menu e Configurações" visible={vm.visibleMobileMenu} modal dismissableMask position="right" style={{ width: '21rem', maxWidth: '92vw' }} onVisibleChange={visible => vm.action(() => { vm.visibleMobileMenu = visible; })}><div className="topbar-mobile-sheet flex flex-column gap-3"><div className="flex align-items-center justify-content-between gap-2 pb-2" style={{ borderBottom: '1px solid var(--surface-border)' }}><div><div className="font-semibold">Mostrar prévias</div><small className="text-color-secondary">Itens/skills futuros e rebalanceamento</small></div><SelectButton ariaLabel="Mostrar prévias" options={vm.previewOptions} value={vm.showPreviews} onChange={value => vm.action(() => vm.setShowPreviews(value))} /></div><div className="flex flex-column gap-2"><Button icon="search" label="Buscar itens" className="ui-button-info ui-button-raised w-full" onClick={() => vm.action(() => { vm.visibleMobileMenu = false; vm.openItemSearch(); })} /><Button icon="box" label="Meus itens" className="ui-button-success ui-button-raised w-full" onClick={() => vm.action(() => { vm.visibleMobileMenu = false; vm.openCustomItems(); })} /><Button icon="sparkles" label="Servidor MCP (IA)" className="ui-button-help ui-button-raised w-full" onClick={() => vm.action(() => { vm.visibleMobileMenu = false; vm.showMcpDialog(); })} /><Button icon="bell" label="Novidades" className="ui-button-info ui-button-outlined w-full" onClick={() => vm.action(() => { vm.visibleMobileMenu = false; vm.showUpdateDialog(); })} /><Button icon="list" label="Referências" className="ui-button-info ui-button-outlined w-full" onClick={() => vm.action(() => { vm.visibleMobileMenu = false; vm.showReferenceDialog(); })} /></div><div className="flex flex-column gap-2 pt-2" style={{ borderTop: '1px solid var(--surface-border)' }}><span className="text-sm text-color-secondary font-semibold">Comunidade e Suporte</span><div className="flex gap-2 flex-wrap"><a target="_blank" rel="noreferrer noopener" href={vm.issuesReportUrl} className="flex-1"><Button icon="comment" label="Reportar" className="ui-button-warning ui-button-raised w-full" /></a><a target="_blank" rel="noreferrer noopener" href={vm.issuesBoardUrl} className="flex-1"><Button icon="list" label="Acompanhar" className="ui-button-help ui-button-raised w-full" /></a></div><a target="_blank" rel="noreferrer noopener" href={vm.discordUrl}><Button icon="discord" label="Entrar no Discord" className="ui-button-raised w-full" style={{ background: '#5865f2', borderColor: '#5865f2' }} /></a></div></div>
 </Dialog>
 <Render tag="app-ui-dialog" props={{"header": "Informações adicionais",
 "modal": true,
 "visible": vm.visibleInfo,
 "visibleChange": (event: any) => vm.action(() => { const $event = event; (vm.visibleInfo = $event) }),
-"style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "50vw"})))}}><Render tag="div" props={{"className": ["card flex flex-column align-items-center gap-2 flex-wrap"].filter(Boolean).join(' ')}}><Render tag="ul" props={{}}>{(vm.infos ?? []).map((__entry3: any, __index3: number, __array3: any[]) => { const info = __entry3; return <Fragment key={identityKey(__entry3)}><Render tag="li" props={{}}>{interpolate(["",""], [info])}</Render></Fragment>; })}</Render>
+"style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "42rem","maxWidth": "94vw"})))}}><Render tag="div" props={{"className": ["card flex flex-column align-items-center gap-2 flex-wrap"].filter(Boolean).join(' ')}}><Render tag="ul" props={{}}>{(vm.infos ?? []).map((__entry3: any, __index3: number, __array3: any[]) => { const info = __entry3; return <Fragment key={identityKey(__entry3)}><Render tag="li" props={{}}>{interpolate(["",""], [info])}</Render></Fragment>; })}</Render>
 <Render tag="div" props={{"className": ["flex gap-2 flex-wrap justify-content-center"].filter(Boolean).join(' ')}}>{" Reportar problema "}
 <Render tag="a" props={{"target": "_blank",
 "rel": "noreferrer noopener",
@@ -201,7 +201,7 @@ const i = __index4; return <Fragment key={identityKey(__entry4)}><Render tag="di
 "modal": true,
 "visible": vm.visibleReference,
 "visibleChange": (event: any) => vm.action(() => { const $event = event; (vm.visibleReference = $event) }),
-"style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "50vw","height": "70vh"})))}}><Render tag="ul" props={{}}>{(vm.references ?? []).map((__entry9: any, __index9: number, __array9: any[]) => { const reference = __entry9; return <Fragment key={identityKey(__entry9)}><Render tag="li" props={{}}><Render tag="span" props={{}}>{interpolate(["[ por "," ]"], [reference.writer])}</Render>
+"style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "42rem","maxWidth": "94vw","height": "70vh"})))}}><Render tag="ul" props={{}}>{(vm.references ?? []).map((__entry9: any, __index9: number, __array9: any[]) => { const reference = __entry9; return <Fragment key={identityKey(__entry9)}><Render tag="li" props={{}}><Render tag="span" props={{}}>{interpolate(["[ por "," ]"], [reference.writer])}</Render>
 <Render tag="span" props={{"className": ["mx-2"].filter(Boolean).join(' ')}}>{interpolate(["",""], [reference.label])}</Render>
 <Render tag="a" props={{"target": "_blank",
 "rel": "noreferrer noopener",

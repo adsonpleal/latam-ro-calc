@@ -1,0 +1,490 @@
+/* ==========================================================================
+   Mobile & Touch Responsiveness (latam-ro-calc)
+   ========================================================================== */
+
+/* Always prevent browser scroll from hijacking rotation drag-and-drop */
+:is(app-rotation-list, .ui-scope-app-rotation-list, app-battle-hud, .ui-scope-app-battle-hud) .rot-handle {
+  touch-action: none;
+}
+
+/* Item Picker inline description preview ('i' button) & close button */
+:is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__title,
+:is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__filter,
+:is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__crumbs,
+:is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__row--create {
+  flex-shrink: 0;
+}
+
+:is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__info {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: 4px;
+  border-radius: 50%;
+  border: 1px solid var(--picker-border, #304562);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--picker-text, rgba(255, 255, 255, 0.87));
+  font-family: Georgia, serif;
+  font-size: 11px;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+}
+
+:is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__info:hover,
+:is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__info--active {
+  border-color: var(--green-400, #81c784);
+  background: rgba(129, 199, 132, 0.24);
+  color: var(--green-400, #81c784);
+}
+
+:is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__close {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--picker-text, rgba(255, 255, 255, 0.87));
+  font-size: 13px;
+  cursor: pointer;
+}
+
+:is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__preview {
+  display: flex;
+  flex-direction: column;
+  max-height: 180px;
+  margin: 0 10px 8px;
+  border: 1px solid var(--picker-border, #304562);
+  border-radius: 4px;
+  background: #ffffff;
+  color: #000000;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+:is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  background: #f1f5f9;
+  border-bottom: 1px solid #cbd5e1;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+:is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__preview-close {
+  padding: 2px 6px;
+  border: 0;
+  background: transparent;
+  color: #334155;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+:is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__preview-body {
+  padding: 8px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+/* Bottom Sheet mode for Item Picker & Slot Color Picker on Mobile */
+.ui-item-picker-pane--sheet,
+.ui-slot-color-picker-pane--sheet {
+  width: 100% !important;
+  max-width: 100% !important;
+  max-height: 82dvh !important;
+  margin: 0 !important;
+}
+.ui-item-picker-pane--sheet > app-item-picker-overlay,
+.ui-slot-color-picker-pane--sheet > app-slot-color-picker {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 82dvh;
+  min-height: 0;
+}
+
+.ui-item-picker-pane--sheet :is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker,
+.ui-slot-color-picker-pane--sheet :is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker {
+  width: 100% !important;
+  max-width: 100% !important;
+  max-height: 82dvh !important;
+  border-radius: 14px 14px 0 0 !important;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom, 8px);
+}
+
+.ui-item-picker-pane--sheet :is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__close {
+  display: inline-flex;
+}
+
+/* Sticky Mobile Mini-HUD (hidden on Desktop) */
+.ro-mobile-hud {
+  display: none;
+}
+
+/* Coarse pointer (Touch) ergonomics */
+@media (pointer: coarse) {
+  :is(app-rotation-list, .ui-scope-app-rotation-list, app-battle-hud, .ui-scope-app-battle-hud) .rot-handle {
+    padding: 6px 4px;
+    margin: -6px -2px;
+  }
+  :is(app-rotation-list, .ui-scope-app-rotation-list, app-battle-hud, .ui-scope-app-battle-hud) .rot-info,
+  :is(app-rotation-list, .ui-scope-app-rotation-list, app-battle-hud, .ui-scope-app-battle-hud) .rot-remove {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__color,
+  :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__clear {
+    min-width: 26px;
+    min-height: 26px;
+  }
+  :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__compare {
+    min-height: 26px;
+    padding: 0 8px;
+  }
+  :is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__info {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+}
+
+/* Tablet & Mobile Stack (< 1024px) */
+@media (max-width: 1024px) {
+  .layout-wrapper .layout-main-container {
+    padding-bottom: 5.25rem !important;
+  }
+
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .editor_col.col-7,
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) > .grid > .col-5 {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    padding-right: 0 !important;
+  }
+
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .editor_col.col-7 {
+    margin-bottom: 14px;
+  }
+
+  .ro-mobile-hud {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 995;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+    background: rgba(23, 33, 47, 0.96);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--surface-border);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.45);
+  }
+
+  .ro-mobile-hud__summary {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 2px 4px;
+    border: 0;
+    background: transparent;
+    color: var(--text-color);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .ro-mobile-hud__target {
+    font-size: 11px;
+    color: var(--text-color-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ro-mobile-hud__dps {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .ro-mobile-hud__dps-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--text-color-secondary);
+    text-transform: uppercase;
+  }
+
+  .ro-mobile-hud__dps-val {
+    color: var(--green-400, #81c784);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ro-mobile-hud__arrow {
+    color: var(--text-color-secondary);
+    font-size: 11px;
+  }
+
+  .ro-mobile-hud__dps-sim {
+    color: #fdd87d;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ro-mobile-hud__delta {
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .ro-mobile-hud__delta--up {
+    background: rgba(74, 222, 128, 0.16);
+    color: #4ade80;
+  }
+
+  .ro-mobile-hud__delta--down {
+    background: rgba(248, 113, 113, 0.16);
+    color: #f87171;
+  }
+
+  .ro-mobile-hud__nav {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ro-mobile-hud__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 34px;
+    padding: 0 10px;
+    border-radius: 6px;
+    border: 1px solid var(--surface-border);
+    background: var(--surface-card);
+    color: var(--text-color);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .ro-mobile-hud__btn--primary {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--primary-color-text, #17212f);
+  }
+}
+
+/* Phone & Small Tablet Breakpoint (< 768px) */
+@media (max-width: 768px) {
+  html {
+    scrollbar-gutter: auto;
+  }
+
+  :root {
+    --page-gutter: 10px;
+  }
+
+  /* Prevent iOS Safari zoom on input focus */
+  :is(app-item-picker-overlay, .ui-scope-app-item-picker-overlay) .picker__input,
+  :is(app-slot-color-picker, .ui-scope-app-slot-color-picker) .cpicker__input,
+  input.ui-inputtext {
+    font-size: 16px !important;
+  }
+
+  .ui-toast {
+    width: min(25rem, calc(100vw - 24px)) !important;
+    right: 12px !important;
+    left: auto !important;
+  }
+
+  /* Character Band responsive wrapping */
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .char_band {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .build_actions {
+    flex: 1 1 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .build_actions > .ui-button {
+    padding-left: 0.55rem !important;
+    padding-right: 0.55rem !important;
+    font-size: 12px !important;
+  }
+
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .build_actions > .ui-button:not(.ui-button-icon-only) {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .char_class {
+    flex: 1 1 170px !important;
+    max-width: none !important;
+  }
+
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .char_points {
+    flex: 1 1 100%;
+    margin-left: 0 !important;
+    display: flex;
+    gap: 8px;
+  }
+
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .char_point_box {
+    flex: 1 1 0;
+  }
+
+  /* Attributes + Summary Row vertical stack */
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .stats_row {
+    flex-direction: column !important;
+  }
+
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .attr_cell {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+  }
+
+  /* Skills, Item Descriptions & Misc Detail Panels */
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .skill-panel .calc-panel-section {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .item-description-panel {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  :is(app-misc-detail, .ui-scope-app-misc-detail) .col-7,
+  :is(app-misc-detail, .ui-scope-app-misc-detail) .col-6,
+  :is(app-misc-detail, .ui-scope-app-misc-detail) .col-5,
+  :is(app-elemental-table, .ui-scope-app-elemental-table) .col-4,
+  :is(app-elemental-table, .ui-scope-app-elemental-table) .col-5,
+  :is(app-elemental-table, .ui-scope-app-elemental-table) .col-7,
+  :is(app-elemental-table, .ui-scope-app-elemental-table) .col-8 {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+/* Narrow Viewports (< 640px) — Rotation Rows, Stats Summary Grid & Battle HUD */
+@media (max-width: 640px) {
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .ss_grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    row-gap: 8px;
+  }
+
+  :is(app-rotation-list, .ui-scope-app-rotation-list, app-battle-hud, .ui-scope-app-battle-hud) .rot-head {
+    flex-wrap: wrap !important;
+    row-gap: 6px;
+  }
+
+  :is(app-rotation-list, .ui-scope-app-rotation-list, app-battle-hud, .ui-scope-app-battle-hud) .rot-row {
+    flex-wrap: wrap !important;
+    row-gap: 6px;
+  }
+
+  :is(app-rotation-list, .ui-scope-app-rotation-list, app-battle-hud, .ui-scope-app-battle-hud) .rot-body {
+    flex: 1 1 calc(100% - 80px) !important;
+    min-width: 150px !important;
+  }
+
+  :is(app-rotation-list, .ui-scope-app-rotation-list, app-battle-hud, .ui-scope-app-battle-hud) .rot-dmg {
+    flex: 1 1 auto;
+    margin-left: auto;
+    justify-content: flex-end;
+  }
+
+  :is(app-battle-hud, .ui-scope-app-battle-hud) .hud-hero-divider {
+    display: none !important;
+  }
+
+  :is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card, .ui-scope-app-battle-monster-card) .hud-card-col--monster .ui-card-content {
+    flex-direction: column !important;
+  }
+
+  :is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card, .ui-scope-app-battle-monster-card) .hud-card-col--monster .hud-monster-info {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+  }
+
+  :is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card, .ui-scope-app-battle-monster-card) .hud-band-right {
+    border-left: none !important;
+    border-top: 1px solid var(--surface-border);
+    padding-left: 12px !important;
+    margin-top: 0 !important;
+  }
+
+  .rot-details-panel,
+  .ui-overlaypanel {
+    max-width: calc(100vw - 16px) !important;
+    overflow-x: auto;
+  }
+}
+
+/* Consumables & Skill Panel Single-Column Breakpoints (< 560px & < 480px) */
+@media (max-width: 560px) {
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-side,
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-stack .ui-listbox-list {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .skill-panel .calc-panel-section {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  :is(app-item-search, .ui-scope-app-item-search) .item-search-fields {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+@media (max-width: 420px) {
+  :is(app-ro-calculator, .ui-scope-app-ro-calculator) .ss_grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* Ensure rotation header actions & formula selector wrap cleanly on narrow viewports */
+:is(app-rotation-list, .ui-scope-app-rotation-list, app-battle-hud, .ui-scope-app-battle-hud) .rot-head-actions,
+.skill-formula-selector {
+  flex-wrap: wrap !important;
+  max-width: 100%;
+  row-gap: 4px;
+}
+:is(app-battle-hud, .ui-scope-app-battle-hud) .hud-tl-head {
+  flex-wrap: wrap !important;
+  row-gap: 4px;
+}

@@ -1,4 +1,5 @@
 import { Fragment, KeyboardEvent, ReactNode, Ref, SyntheticEvent, createElement, useId, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { isCoarsePointer } from './layers';
 import { Portal } from './portal';
 import { Icon } from './primitives';
 import { optionLabel, optionValue, chooseSelection, filteredRows, toggleAllSelection } from './selection';
@@ -115,7 +116,7 @@ export function Select({ options, value, onChange, kind = 'dropdown', optionLabe
     let alive = true;
     const frame = requestAnimationFrame(() => {
       if (!alive) return;
-      panel.current?.querySelector<HTMLInputElement>('.ui-dropdown-filter')?.focus({ preventScroll: true });
+      if (!isCoarsePointer()) panel.current?.querySelector<HTMLInputElement>('.ui-dropdown-filter')?.focus({ preventScroll: true });
       onOpened?.();
     });
     return () => { alive = false; cancelAnimationFrame(frame); };

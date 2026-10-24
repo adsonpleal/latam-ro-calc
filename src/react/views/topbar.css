@@ -18,10 +18,37 @@
 :is(app-topbar, .ui-scope-app-topbar) .topbar-actions{
   margin-left: auto;
 }
-:is(app-topbar, .ui-scope-app-topbar) .topbar-settings{
+:is(app-topbar, .ui-scope-app-topbar) .topbar-settings,
+:is(app-topbar, .ui-scope-app-topbar) .topbar-mobile-menu-btn{
   align-self: stretch;
   width: 34px;
 }
-:is(app-topbar, .ui-scope-app-topbar) .topbar-settings .ui-button-icon{
+:is(app-topbar, .ui-scope-app-topbar) .topbar-settings .ui-button-icon,
+:is(app-topbar, .ui-scope-app-topbar) .topbar-mobile-menu-btn .ui-button-icon{
   font-size: 13px;
+}
+:is(app-topbar, .ui-scope-app-topbar) .topbar-mobile-menu-btn{
+  display: none;
+}
+@media (max-width: 960px) {
+  :is(app-topbar, .ui-scope-app-topbar) .topbar-desktop-only {
+    display: none !important;
+  }
+  :is(app-topbar, .ui-scope-app-topbar) .topbar-mobile-menu-btn {
+    display: inline-flex;
+  }
+}
+@media (max-width: 420px) {
+  :is(app-topbar, .ui-scope-app-topbar) .topbar-version {
+    font-size: 0.85rem;
+    padding-right: 0.25rem !important;
+  }
+  :is(app-topbar, .ui-scope-app-topbar) .topbar-actions {
+    gap: 0.35rem !important;
+  }
+  :is(app-topbar, .ui-scope-app-topbar) .topbar-primary-btn {
+    padding-left: 0.45rem !important;
+    padding-right: 0.45rem !important;
+    font-size: 0.85rem;
+  }
 }

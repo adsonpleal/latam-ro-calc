@@ -90,6 +90,9 @@ export class LayerManager {
   }
 }
 
+export function isCoarsePointer(): boolean {
+  return typeof window !== 'undefined' && typeof window.matchMedia === 'function' && window.matchMedia('(pointer: coarse)').matches;
+}
 const focusSelector = 'button,input,select,textarea,a[href],[tabindex],[contenteditable="true"]';
 export function trapFocus(panel: HTMLElement): () => void {
   const previous = document.activeElement as HTMLElement | null;
@@ -97,7 +100,7 @@ export function trapFocus(panel: HTMLElement): () => void {
     .filter(element => element.tabIndex >= 0 && !element.matches(':disabled,[inert]') && !element.closest('[inert]') && element.getClientRects().length > 0 && getComputedStyle(element).visibility !== 'hidden');
   let alive = true;
   queueMicrotask(() => {
-    if (alive) (panel.querySelector<HTMLElement>('[data-focus-initial]') ?? focusables()[0] ?? panel).focus({ preventScroll: true });
+    if (alive) { const coarse = isCoarsePointer(); const initial = panel.querySelector<HTMLElement>('[data-focus-initial]'); (initial && !(coarse && initial.matches('input,textarea')) ? initial : focusables().find(el => !(coarse && el.matches('input,textarea'))) ?? panel).focus({ preventScroll: true }); }
   });
   const key = (event: KeyboardEvent) => {
     if (event.key !== 'Tab') return;

@@ -14,7 +14,7 @@ const target = context["target"]; return <><Render tag="div" props={{"className"
 <Render tag="app-ui-block" props={{"blocked": (vm.isInProcessingPreset && !(vm.isBooting))}}></Render>
 
 <Render tag="app-ui-confirm-dialog" props={{"position": "top",
-"style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "25vw"})))}}></Render>
+"style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "26rem","max-width": "92vw"})))}}></Render>
 <Render tag="app-item-search" props={{"items": vm.items,
 "selectedCharacter": vm.selectedCharacter,
 "className": vm.selectedClassLabel,
@@ -70,7 +70,7 @@ const target = context["target"]; return <><Render tag="div" props={{"className"
 "style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "560px","max-width": "92vw"})))}}>{(() => { const __condition16 = vm.isShowAspdCurve;  return __condition16 ? <><Render tag="app-aspd-curve" props={{"aspd": (vm.totalSummary?.calc?.totalAspd || 0),
 "aspd2": (vm.isEnableCompare ? vm.totalSummary2?.calc?.totalAspd : null)}}></Render></> : null; })()}</Render>
 <Render tag="div" props={{"className": ["grid grid-nogutter"].filter(Boolean).join(' '),
-"style": normalizeStyle(Object.assign({}, parseStyle("min-width: 1500px")))}}><Render tag="div" props={{"className": ["ui-fluid col-7 editor_col"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["stats_stack"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["char_band"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["build_actions"].filter(Boolean).join(' ')}}><Render tag="button" props={{"type": "button",
+}}><Render tag="div" props={{"id": "ro-build-section", "className": ["ui-fluid col-7 editor_col"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["stats_stack"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["char_band"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["build_actions"].filter(Boolean).join(' ')}}><Render tag="button" props={{"type": "button",
 "icon": "upload",
 "label": "Importar",
 "tooltipPosition": "bottom",
@@ -612,7 +612,7 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "showElementTableClick": (event: any) => vm.action(() => { const $event = event; vm.onShowElementalTableClick() }),
 "showBonusBreakdownClick": (event: any) => vm.action(() => { const $event = event; vm.showBonusBreakdown($event) }),
 "reductionRowClick": (event: any) => vm.action(() => { const $event = event; vm.openReductionRow($event,true) })}}></Render></Render></> : null; })()}</Render></Render>
-<Render tag="app-ui-accordion-tab" props={{"header": "Batalha"}}><Render tag="div" props={{"className": ["grid grid-nogutter battle_summary"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["col-12"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["hud-selectors-row"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["hud-selectors-col"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["joined_field battle-target-field"].filter(Boolean).join(' ')}}><Render tag="app-ui-dropdown" props={{"inputId": "monsterOpponentHud",
+<Render tag="app-ui-accordion-tab" props={{"header": "Batalha", "className": "ro-battle-tab"}}><Render tag="div" props={{"className": ["grid grid-nogutter battle_summary"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["col-12"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["hud-selectors-row"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["hud-selectors-col"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["joined_field battle-target-field"].filter(Boolean).join(' ')}}><Render tag="app-ui-dropdown" props={{"inputId": "monsterOpponentHud",
 "filterBy": "label,searchVal",
 "filterPlaceholder": "Buscar por nome ou ID (ex: 21361)",
 "scrollHeight": "400px",
@@ -843,7 +843,7 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "dismissableMask": true,
 "visibleChange": (event: any) => vm.action(() => { const $event = event; (vm.showReplayImport = $event) }),
 "closed": (event: any) => vm.action(() => { const $event = event; vm.onImportDialogHide() }),
-"style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "480px"})))}}>{(() => { const importChoice = (context: any) => {  return <><Render tag="div" props={{"className": ["import_summary"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["import_summary_title"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.pendingImportClassLabel])}</Render>
+"style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "480px","max-width": "92vw"})))}}>{(() => { const importChoice = (context: any) => {  return <><Render tag="div" props={{"className": ["import_summary"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["import_summary_title"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.pendingImportClassLabel])}</Render>
 <Render tag="div" props={{"className": ["import_summary_meta"].filter(Boolean).join(' ')}}>{interpolate([" "," · Nv "," / Job "," · "," equipamentos "], [((vm.pendingImport.source === "replay") ? ("Replay" + (vm.pendingImport.summary?.player ? (" de " + vm.pendingImport.summary.player) : "")) : "Link"),vm.pendingImport.model.level,vm.pendingImport.model.jobLevel,vm.pendingImportEquipCount])}</Render></Render>
 <Render tag="div" props={{"className": ["import_choices"].filter(Boolean).join(' ')}}><Render tag="button" props={{"type": "button",
 "icon": "refresh",
@@ -994,5 +994,5 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "disabled": vm.shareShortening,
 "click": (event: any) => vm.action(() => { const $event = event; vm.copyShareUrl() }),
 "className": ["ui-button-success"].filter(Boolean).join(' '),
-"button": true}}></Render></Render></Render></>; })()}</>;
+"button": true}}></Render></Render></Render>{(() => { const timingUnknown = !!(vm.rotationView?.timingUnknown || (vm.isComparing && vm.rotationView2?.timingUnknown)); const raw1 = vm.rotationView?.cycle?.sustainedDps ?? 0; const raw2 = vm.isComparing && vm.rotationView2?.cycle ? (vm.rotationView2.cycle.sustainedDps ?? 0) : null; const delta = !timingUnknown && raw2 != null && raw1 > 0 ? ((raw2 - raw1) / raw1) * 100 : null; const jumpToBattle = () => vm.action(() => { if (!Array.isArray(vm.rightAccordionActiveIndices) || !vm.rightAccordionActiveIndices.includes(3)) vm.onRightAccordionOpen({ index: 3 }); requestAnimationFrame(() => document.querySelector('.ro-battle-tab')?.scrollIntoView({ behavior: 'smooth', block: 'start' })); }); const jumpToBuild = () => document.getElementById('ro-build-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return <div className="ro-mobile-hud" role="region" aria-label="Resumo rápido de dano e navegação"><button type="button" className="ro-mobile-hud__summary" onClick={jumpToBattle}><span className="ro-mobile-hud__target">{vm.selectedMonsterName || 'Alvo'}</span><span className="ro-mobile-hud__dps"><span className="ro-mobile-hud__dps-label">DPS</span><span className="ro-mobile-hud__dps-val">{timingUnknown ? '—' : displayPipe('number', raw1, ['1.0-0'], services)}</span>{!timingUnknown && raw2 != null && <><span className="ro-mobile-hud__arrow">→</span><span className="ro-mobile-hud__dps-sim">{displayPipe('number', raw2, ['1.0-0'], services)}</span></>}{delta != null && <span className={`ro-mobile-hud__delta ${delta > 0 ? 'ro-mobile-hud__delta--up' : delta < 0 ? 'ro-mobile-hud__delta--down' : ''}`}>{delta > 0 ? '+' : ''}{displayPipe('number', delta, ['1.1-1'], services)}%</span>}</span></button><div className="ro-mobile-hud__nav"><button type="button" aria-label="Ir para Build" className="ro-mobile-hud__btn" onClick={jumpToBuild}><Render tag="app-icon" props={{"name": "shield"}} /><span>Build</span></button><button type="button" aria-label="Ir para Batalha" className="ro-mobile-hud__btn ro-mobile-hud__btn--primary" onClick={jumpToBattle}><Render tag="app-icon" props={{"name": "bolt"}} /><span>Batalha</span></button></div></div>; })()}</>; })()}</>;
 }

@@ -1,5 +1,5 @@
 import { HTMLAttributes, createElement, useEffect, useId, useMemo, useRef, useState } from 'react';
-import { ConnectedPosition } from './layers';
+import { ConnectedPosition, isCoarsePointer } from './layers';
 import { Portal } from './portal';
 import { sanitizeHtml } from './sanitize-html';
 import { HoverLifetime } from './hover-lifetime';
@@ -19,6 +19,23 @@ export interface TooltipOptions {
   escape?: boolean;
   disabled?: boolean;
   describedBy?: string;
+}
+export function handleTooltipTouchClick(
+  event: { currentTarget: HTMLElement; target: EventTarget | null; preventDefault(): void },
+  anchor: HTMLElement | null,
+  disabled: boolean,
+  text: string | null | undefined,
+  open: (el: HTMLElement) => void,
+  hide: () => void,
+): void {
+  if (!isCoarsePointer() || disabled || !text) return;
+  const el = event.currentTarget;
+  if (el.closest('button,input,select,[role="button"],[role="option"],.bonus_clickable,.clickable')) return;
+  const link = (event.target as HTMLElement | null)?.closest?.('a[href]');
+  if (anchor !== el) {
+    if (link && el.contains(link)) event.preventDefault();
+    open(el);
+  } else if (!link) hide();
 }
 /** Adds no DOM wrapper, preserving the feature's native element and CSS geometry. */
 export function useTooltip({ text, position = 'right', className = '', showDelay = 0, hideDelay = 0,
@@ -59,13 +76,13 @@ export function useTooltip({ text, position = 'right', className = '', showDelay
     panel.style.marginTop = chosen === 'right' || chosen === 'left' ? `${correction}px` : '0';
   };
   const triggerProps: HTMLAttributes<HTMLElement> = {
-    onMouseEnter: event => activate(event.currentTarget), onMouseLeave: deactivate,
-    onFocus: event => activate(event.currentTarget), onBlur: deactivate,
+    onMouseEnter: event => { if (!isCoarsePointer()) activate(event.currentTarget); }, onMouseLeave: () => { if (!isCoarsePointer()) deactivate(); },
+    onFocus: event => { if (!isCoarsePointer()) activate(event.currentTarget); }, onBlur: deactivate, onClick: event => handleTooltipTouchClick(event, anchor, disabled, text, el => { target.current = el; setAnchor(el); }, hide),
     'aria-describedby': [describedBy, anchor ? id : null].filter(Boolean).join(' ') || undefined,
   };
   const tooltip = anchor && text && !disabled ? <Portal anchor={anchor} origin={anchor} positions={positions}
     panelClass={`ui-tooltip ui-tooltip-${position} ${className}`} role="tooltip" id={id} lock={false}
-    onDismiss={hide} onOutsideScroll={hide} onPosition={align}>
+    onDismiss={hide} onOutside={hide} onOutsideScroll={hide} onPosition={align}>
     {createElement('app-ui-tooltip-content', { onMouseEnter: cancelHide, onMouseLeave: deactivate }, <>
       {escape ? <div className="ui-tooltip-text">{text}</div> : <div className="ui-tooltip-text" dangerouslySetInnerHTML={{ __html: sanitizeHtml(text) }} />}
     </>)}

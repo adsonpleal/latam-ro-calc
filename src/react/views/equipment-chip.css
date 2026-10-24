@@ -127,3 +127,22 @@ app-equipment-chip .eq-chip:focus-visible + .eq-chip__clear,
 app-equipment-chip .eq-chip__clear:focus-visible {
   display: inline-flex;
 }
+
+@media (hover: none), (pointer: coarse) {
+  app-equipment-chip .eq-chip {
+    min-height: 30px;
+  }
+  app-equipment-chip .eq-chip__picker:has(.eq-chip__clear) .eq-chip {
+    padding-right: 26px;
+  }
+  app-equipment-chip .eq-chip__clear {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    right: 3px;
+    border-radius: 10px;
+    font-size: 10px;
+    background: rgb(0 0 0 / 68%);
+  }
+}
