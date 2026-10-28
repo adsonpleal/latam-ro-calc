@@ -17,9 +17,6 @@ export const catalog: TranslatedCatalog = {
   'common.no': 'No',
 
   'locale.label': 'Idioma',
-  'locale.pt-BR': 'Português',
-  'locale.es': 'Español',
-  'locale.en': 'English',
 
   'ui.loading': 'Cargando',
   'ui.select.clearSelection': 'Borrar selección',

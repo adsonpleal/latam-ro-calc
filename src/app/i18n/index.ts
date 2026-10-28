@@ -14,10 +14,10 @@ import { ptBR } from './pt-br';
  */
 export type TextKey = keyof typeof ptBR;
 
-/** Bundled, not loaded: it is the fallback for every lookup and must be synchronous. */
+/** Bundled, not loaded: it is what every catalog is laid over, and must be synchronous. */
 export const DEFAULT_CATALOG: Catalog = ptBR;
 
-/** A translation may be incomplete — `translate` falls back to pt-BR per key. */
+/** A translation may be incomplete — `loadCatalog` fills the gaps with pt-BR. */
 export type TranslatedCatalog = Partial<Record<TextKey, string>>;
 
 /**
@@ -29,8 +29,14 @@ const loaders: Partial<Record<Locale, () => Promise<{ catalog: TranslatedCatalog
   en: () => import('./en'),
 };
 
-/** The catalog for `locale`, or the bundled pt-BR one when it is the source locale. */
+/**
+ * The catalog for `locale`, laid over pt-BR so every key resolves to text.
+ *
+ * Doing the fallback once here rather than on every lookup is what keeps `translate`
+ * a plain map read: a key the translation has not reached yet is already Portuguese
+ * by the time anything asks for it.
+ */
 export async function loadCatalog(locale: Locale): Promise<Catalog> {
   const load = loaders[locale];
-  return load ? (await load()).catalog : DEFAULT_CATALOG;
+  return load ? { ...ptBR, ...(await load()).catalog } : DEFAULT_CATALOG;
 }

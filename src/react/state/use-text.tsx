@@ -1,35 +1,49 @@
 import { ReactNode, createContext, useContext, useMemo, useSyncExternalStore } from 'react';
-import { DEFAULT_LOCALE, Locale, TextParams, translate } from '../../app/core/i18n';
-import { DEFAULT_CATALOG, TextKey } from '../../app/i18n';
-import { LocalePreferences, LocaleState } from '../services/locale';
+import { Locale, TextParams, translate } from '../../app/core/i18n';
+import { TextKey } from '../../app/i18n';
+import { LocalePreferences } from '../services/locale';
 
 /** Translates a key into the language the reader chose. Keys are typed by `pt-br.ts`. */
 export type Text = (key: TextKey, params?: TextParams) => string;
 
-const LocaleContext = createContext<LocalePreferences | null>(null);
-
-// Without a provider the text is Portuguese. That keeps a `src/react/ui` primitive
-// renderable on its own — the control specs mount them outside the application tree —
-// instead of throwing the way `useServices` does.
-const UNPROVIDED: LocaleState = { locale: DEFAULT_LOCALE, catalog: DEFAULT_CATALOG };
-const noSubscribe = () => () => {};
-const noSnapshot = () => UNPROVIDED;
-
-export function LocaleProvider({ locale, children }: { locale: LocalePreferences; children: ReactNode }) {
-  return <LocaleContext.Provider value={locale}>{children}</LocaleContext.Provider>;
+interface LocaleContextValue {
+  locale: Locale;
+  t: Text;
 }
 
-export function useLocaleState(): LocaleState {
-  const store = useContext(LocaleContext);
-  return useSyncExternalStore(store?.subscribe ?? noSubscribe, store?.getSnapshot ?? noSnapshot);
+const LocaleContext = createContext<LocaleContextValue | null>(null);
+
+/**
+ * Subscribes to the chosen language once, here, and hands the whole tree one `t`.
+ *
+ * Deliberately not read off `useServices`, even though `services.locale` is reachable
+ * there: a hook that subscribed per component would register a listener and build a
+ * closure for every `Select`, `Table` and `Dialog` on screen, and give each a `t` of
+ * its own identity — so no two consumers could share a memo keyed on it.
+ */
+export function LocaleProvider({ locale, children }: { locale: LocalePreferences; children: ReactNode }) {
+  const state = useSyncExternalStore(locale.subscribe, locale.getSnapshot);
+  const value = useMemo<LocaleContextValue>(() => ({
+    locale: state.locale,
+    t: (key, params) => translate(state.catalog, key, params),
+  }), [state]);
+  return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
+}
+
+function useLocaleContext(): LocaleContextValue {
+  const value = useContext(LocaleContext);
+  // Loud on purpose, like `useServices`. A subtree mounted outside the provider would
+  // otherwise render Portuguese to a Spanish reader and look like a missing
+  // translation rather than the wiring bug it is.
+  if (!value) throw new Error('Views that read text require a LocaleProvider');
+  return value;
 }
 
 /** The chosen language, for the selector and for locale-aware formatting. */
 export function useLocale(): Locale {
-  return useLocaleState().locale;
+  return useLocaleContext().locale;
 }
 
 export function useText(): Text {
-  const { catalog } = useLocaleState();
-  return useMemo<Text>(() => (key, params) => translate(catalog, DEFAULT_CATALOG, key, params), [catalog]);
+  return useLocaleContext().t;
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isLocale, translate } from './i18n';
+import { LOCALES, LOCALE_NAMES, fill, isLocale, translate } from './i18n';
 
 describe('isLocale', () => {
   it('rejects anything that is not a shipped locale, including junk from storage', () => {
@@ -12,27 +12,38 @@ describe('isLocale', () => {
   });
 });
 
-describe('translate', () => {
-  const fallback = { greeting: 'Olá', only: 'Somente pt-BR', count: '{n} itens' };
-
-  it('prefers the active catalog', () => {
-    expect(translate({ greeting: 'Hola' }, fallback, 'greeting')).toBe('Hola');
+describe('LOCALE_NAMES', () => {
+  it('names every shipped locale, so the selector can never show a blank row', () => {
+    expect(LOCALES.filter(locale => !LOCALE_NAMES[locale])).toEqual([]);
   });
+});
 
-  it('falls back per key, so an incomplete translation shows Portuguese and not a key', () => {
-    expect(translate({ greeting: 'Hola' }, fallback, 'only')).toBe('Somente pt-BR');
-  });
-
-  it('interpolates named placeholders', () => {
-    expect(translate({ count: '{n} objetos' }, fallback, 'count', { n: 3 })).toBe('3 objetos');
-    expect(translate({}, fallback, 'count', { n: 0 })).toBe('0 itens');
+describe('fill', () => {
+  it('replaces named placeholders', () => {
+    expect(fill('{n} de {total}', { n: 3, total: 9 })).toBe('3 de 9');
   });
 
   it('leaves a placeholder written out when its value is missing', () => {
-    expect(translate({}, fallback, 'count', { other: 1 })).toBe('{n} itens');
+    expect(fill('{n} itens', { other: 1 })).toBe('{n} itens');
   });
 
-  it('answers the key itself when neither catalog has it, rather than throwing', () => {
-    expect(translate({}, fallback, 'absent.key')).toBe('absent.key');
+  it('fills the same placeholder everywhere it appears', () => {
+    expect(fill('{n} de {n}', { n: 2 })).toBe('2 de 2');
+  });
+});
+
+describe('translate', () => {
+  const catalog = { greeting: 'Olá', count: '{n} itens' };
+
+  it('looks a key up', () => {
+    expect(translate(catalog, 'greeting')).toBe('Olá');
+  });
+
+  it('interpolates named placeholders', () => {
+    expect(translate(catalog, 'count', { n: 3 })).toBe('3 itens');
+  });
+
+  it('answers the key itself when the catalog has not got it, rather than throwing', () => {
+    expect(translate(catalog, 'absent.key')).toBe('absent.key');
   });
 });

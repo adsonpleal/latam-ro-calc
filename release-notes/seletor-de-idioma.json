@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "logs": [
+    "Adicionado um seletor de idioma na barra superior, com português, espanhol e inglês. O idioma escolhido fica guardado no navegador e vale também ao abrir um link compartilhado.",
+    "Traduzida por completo a tela de Buscar itens, junto dos textos comuns de listas, tabelas, caixas de diálogo e avisos. O restante da interface e os nomes de itens, habilidades e monstros seguem em português por enquanto."
+  ]
+}

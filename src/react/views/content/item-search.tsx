@@ -14,11 +14,15 @@ import { sanitizeHtml } from '../../ui/sanitize-html';
 export function Content({ vm, services }: { vm: ItemSearchComponent; services: ApplicationServices }) {
   const t = useText();
   const action = (fn: () => void) => vm.action(fn);
-  // Catalog scans for filter icons belong to opening search, not calculator startup.
-  const typeOptions = useMemo(() => !vm.isShowSearchDialog ? [] : vm.itemPositions.map(option => ({
-    value: option.value, label: t(`itemPosition.${option.value}`),
-    icon: inferCustomIcon(option.iconKind, null, vm.items ?? {}),
-  })), [vm.isShowSearchDialog, vm.itemPositions, vm.items, t]);
+  // Catalog scans for filter icons belong to opening search, not calculator startup —
+  // and not to a language change either, which is why the icons are memoized apart
+  // from the labels that `t` does affect.
+  const typeIcons = useMemo(() => !vm.isShowSearchDialog ? [] : vm.itemPositions.map(option => ({
+    value: option.value, icon: inferCustomIcon(option.iconKind, null, vm.items ?? {}),
+  })), [vm.isShowSearchDialog, vm.itemPositions, vm.items]);
+  const typeOptions = useMemo(() => typeIcons.map(option => ({
+    ...option, label: t(`itemPosition.${option.value}`),
+  })), [typeIcons, t]);
   const yesNoOptions = useMemo(() => [{ label: t('common.yes'), value: true }, { label: t('common.no'), value: false }], [t]);
   const renderFilterOption = (option: { label: string; icon?: number }, type: 'item' | 'skill') =>
     <span className="item-search-filter-option">

@@ -44,10 +44,11 @@ export class LocalePreferences extends Store<LocaleState> {
     // pt-BR is bundled, so the first snapshot is always complete: a stored `es`
     // renders Portuguese for the moment before its catalog lands, never raw keys.
     super({ locale: DEFAULT_LOCALE, catalog: DEFAULT_CATALOG });
-    // An explicit choice, or Portuguese. See DEFAULT_LOCALE for why the browser's
-    // own language is not consulted yet.
+    // An explicit choice, or Portuguese. See DEFAULT_LOCALE for why the browser's own
+    // language is not consulted yet. Portuguese needs no load at all: it is already
+    // the snapshot above, and `index.html` ships `lang="pt-BR"`.
     const stored = storage?.getItem(STORAGE_KEY);
-    this.ready = this.apply(isLocale(stored) ? stored : DEFAULT_LOCALE);
+    this.ready = isLocale(stored) && stored !== DEFAULT_LOCALE ? this.apply(stored) : Promise.resolve();
   }
 
   get locale(): Locale { return this.getSnapshot().locale; }

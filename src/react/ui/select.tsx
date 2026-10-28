@@ -1,4 +1,5 @@
 import { Fragment, KeyboardEvent, ReactNode, Ref, SyntheticEvent, createElement, useId, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { fill } from '../../app/core/i18n';
 import { useText } from '../state/use-text';
 import { Portal } from './portal';
 import { Icon } from './primitives';
@@ -64,7 +65,7 @@ export function Select({ options, value, onChange, kind = 'dropdown', optionLabe
     setActive(rows.findIndex(row => !row.group && !row.option?.disabled));
   }, [query, rows]);
   const selectedLeaves = multi ? leaves.filter(selected) : [];
-  const label = multi ? selectedLeaves.length > 3 ? (selectedItemsLabel ?? t('ui.select.selectedCount')).replace('{0}', String(selectedLeaves.length)) : selectedLeaves.length ? selectedLeaves.map(labelOf).join(', ') : placeholder || defaultLabel || '\u00a0'
+  const label = multi ? selectedLeaves.length > 3 ? fill(selectedItemsLabel ?? t('ui.select.selectedCount'), { 0: selectedLeaves.length }) : selectedLeaves.length ? selectedLeaves.map(labelOf).join(', ') : placeholder || defaultLabel || '\u00a0'
     : selectedOption != null ? labelOf(selectedOption) : placeholder || '\u00a0';
   const hasValue = multi ? !!value?.length : value != null;
   const hide = (restore = false) => {

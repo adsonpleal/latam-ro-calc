@@ -15,9 +15,6 @@ export const ptBR = {
   'common.no': 'Não',
 
   'locale.label': 'Idioma',
-  'locale.pt-BR': 'Português',
-  'locale.es': 'Español',
-  'locale.en': 'English',
 
   // Design-system primitives (src/react/ui). Mostly accessible names, which is
   // exactly why they belong here: a screen reader in Spanish should not read
