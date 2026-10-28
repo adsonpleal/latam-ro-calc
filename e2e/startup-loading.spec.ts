@@ -25,9 +25,13 @@ test('calculator becomes usable before optional descriptions and history arrive'
   await expect(page.locator('#ro-splash')).toHaveCount(0, { timeout: 40_000 });
   await expect(page.getByRole('button', { name: 'ATQ 26', exact: true })).toBeVisible();
 
-  const files = await page.evaluate(() => {
+  // `pnpm build` injects the manifest into the HTML. The development server the e2e
+  // harness starts does not, and the app falls back to fetching it; read whichever is there.
+  const files = await page.evaluate(async () => {
     const boot = window as Window & { __RO_DATA__?: { files: Record<string, string> } };
-    return boot.__RO_DATA__?.files;
+    if (boot.__RO_DATA__?.files) return boot.__RO_DATA__.files;
+    const manifest = await (await fetch('assets/data-manifest.json')).json() as { files: Record<string, string> };
+    return manifest.files;
   });
   expect(files).toBeDefined();
   await expect.poll(() => requested.some(url => url.includes(files!.skillDescriptions))).toBe(true);
@@ -48,7 +52,9 @@ test('hover descriptions refresh when the deferred datasets arrive', async ({ pa
   const skillsPending = new Promise<void>(resolve => { finishSkills = resolve; });
   const itemsPending = new Promise<void>(resolve => { finishItems = resolve; });
   await page.route('**/assets/data/skill-descriptions*.json', async route => { await skillsPending; await route.continue(); });
-  await page.route('**/assets/data/items-desc.*.json', async route => {
+  // Hashed in a production build, bare in the development one the harness serves;
+  // the -mcp dataset stays out of it.
+  await page.route(/\/assets\/data\/items-desc(\.[^/]+)?\.json$/, async route => {
     await itemsPending;
     await route.fulfill({ json: { 401147: 'Descrição do item carregada depois do primeiro cálculo.' } });
   });

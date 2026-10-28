@@ -49,7 +49,9 @@ async function rotation(page: Page) {
   await expect(hud.locator('.rot-row')).toHaveCount(1, { timeout: 40_000 });
   await hud.getByRole('button', { name: 'Adicionar habilidade', exact: true }).click();
   await hud.locator('.rot-add-dd').click();
-  const options = page.getByRole('option');
+  // Scope to the open panel: the collapsed formula-version select on the page is a
+  // native one, and its options answer to the option role even while it is closed.
+  const options = page.locator('.ui-select-pane').getByRole('option');
   await expect(options.nth(1)).toBeVisible(); await options.nth(1).click();
   await expect(hud.locator('.rot-row')).toHaveCount(2);
   return hud;

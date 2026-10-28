@@ -31,8 +31,11 @@ test('Betelgeuse damage card is collapsible, lists seven unique skills plus basi
   await expect(region.getByRole('combobox', { name: 'Elemento da armadura' })).toContainText('Equipamento (Sombrio)');
   const picker = region.getByRole('combobox', { name: 'Ataque do monstro' });
   await picker.click();
-  await expect(page.getByRole('option')).toHaveCount(8);
-  await expect(page.getByRole('option', { name: 'Ataque básico', exact: true })).toHaveCount(1);
+  // Scope to the open panel: the collapsed formula-version select on the page is a
+  // native one, and its options answer to the option role even while it is closed.
+  const options = page.locator('.ui-select-pane').getByRole('option');
+  await expect(options).toHaveCount(8);
+  await expect(options.filter({ hasText: 'Ataque básico' })).toHaveCount(1);
   await page.getByRole('option', { name: 'Ataque Sombrio · Nv. 10', exact: true }).click();
   await expect(region.locator('.damage-taken-result strong')).toHaveText('0');
   await toggle.click();
@@ -85,10 +88,16 @@ test('Earthquake target count changes damage and Aura remains fixed; reductions 
   await expect(region.getByRole('combobox', { name: 'Alvos vivos na área' })).toHaveCount(0);
 });
 
-test('unsupported monsters have no damage card', async ({ page }) => {
+test('a monster outside the skill catalog offers the shared basic attack alone', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('monster', '21361'));
   await boot(page);
-  await expect(page.getByRole('button', { name: 'Dano recebido', exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Dano recebido', exact: true }).click();
+  const region = page.getByRole('region', { name: 'Dano recebido', exact: true });
+  const picker = region.getByRole('combobox', { name: 'Ataque do monstro' });
+  await picker.click();
+  const options = page.locator('.ui-select-pane').getByRole('option');
+  await expect(options).toHaveCount(1);
+  await expect(options).toHaveText('Ataque básico');
 });
 
 test('the shared auto-cast monster card uses the current build for incoming reduction breakdowns', async ({ page }) => {

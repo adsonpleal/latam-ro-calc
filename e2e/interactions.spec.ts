@@ -21,7 +21,13 @@ test('fixed appearance ignores old preferences while preserving stored data', as
   await boot(page);
   await expect(page.locator('html')).toHaveCSS('font-size', '14px');
   await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(23, 33, 47)');
-  await expect(page.getByRole('button', { name: 'Configurações' })).toHaveCount(0);
+  // Appearance is fixed: settings keep the preview toggle and nothing that themes or scales the page.
+  await page.getByRole('button', { name: 'Configurações' }).click();
+  const settings = page.getByRole('dialog');
+  await expect(settings).toContainText('Prévias');
+  await expect(settings.getByText(/Tema|Escala|Aparência/)).toHaveCount(0);
+  await page.keyboard.press('Escape');
+  await expect(settings).toHaveCount(0);
   expect(await page.evaluate(() => localStorage.getItem('ui-test-unrelated'))).toBe('keep-me');
   expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('arya-orange');
   await expect(page.getByRole('button', { name: 'ATQ 26', exact: true })).toBeVisible();

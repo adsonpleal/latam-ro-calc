@@ -11,7 +11,9 @@ for (const width of [1920, 390]) {
     await page.setViewportSize({ width, height: 918 });
     await page.getByRole('button', { name: 'Auto-conjuração', exact: true }).click();
     const section = page.getByRole('region', { name: 'Auto-conjuração', exact: true });
-    const card = section.locator('app-battle-monster-card');
+    // The element also carries the incoming-damage card below the monster one,
+    // so every assertion here addresses the monster card itself.
+    const card = section.locator('app-battle-monster-card .hud-card');
     await expect(card.locator('.hud-monster-head')).toHaveCSS('display', 'flex');
     await expect(card.locator('.hud-mstats')).toHaveCSS('display', 'grid');
     await expect(card.locator('.ui-card-body')).toHaveCSS('padding', '0px');
