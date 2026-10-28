@@ -40,6 +40,11 @@ export const ptBR = {
   'ui.confirm.header': 'Confirmação',
 
   'topbar.settings': 'Configurações',
+  'updates.title': 'NOVIDADES',
+  'updates.loading': 'Carregando novidades…',
+  'updates.error': 'Não foi possível carregar as novidades.',
+  'updates.retry': 'Tentar novamente',
+  'updates.originalHistory': 'Histórico original (pré-fork) →',
 
   'itemSearch.title': 'Buscar itens',
   'itemSearch.filters': 'Filtros',

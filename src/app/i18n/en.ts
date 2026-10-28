@@ -39,6 +39,11 @@ export const catalog: TranslatedCatalog = {
   'ui.confirm.header': 'Confirmation',
 
   'topbar.settings': 'Settings',
+  'updates.title': 'WHAT’S NEW',
+  'updates.loading': 'Loading the release notes…',
+  'updates.error': 'The release notes could not be loaded.',
+  'updates.retry': 'Try again',
+  'updates.originalHistory': 'Original history (pre-fork) →',
 
   'itemSearch.title': 'Search items',
   'itemSearch.filters': 'Filters',

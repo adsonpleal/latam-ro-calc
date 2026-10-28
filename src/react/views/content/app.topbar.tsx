@@ -5,9 +5,11 @@ import { useTooltip } from '../../ui/tooltip';
 import { Dialog } from '../../ui/dialog';
 import { Button } from '../../ui/primitives';
 import { LocaleSelect } from '../locale-select';
-import { useText } from '../../state/use-text';
+import { useLocale, useText } from '../../state/use-text';
+import { entryLogs } from '../../../releases/entry-logs';
 export function Content({vm, services}: {vm: any; services: any}) {
 const t = useText();
+const locale = useLocale();
 const previewTooltip = useTooltip({
   text: 'Exibe itens e habilidades ainda não disponíveis no LATAM e permite testar o rebalanceamento. Em Não, oculta as prévias, desativa seus buffs, remove seus ataques da rotação e volta às fórmulas LATAM. Itens já equipados são mantidos. A escolha fica salva neste navegador.',
   position: 'left', showDelay: 300, disabled: !vm.visibleSettings,
@@ -98,9 +100,9 @@ return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean
 "visibleChange": (event: any) => vm.action(() => { const $event = event; (vm.visibleUpdate = $event) }),
 "closed": (event: any) => vm.action(() => { const $event = event; vm.onHideUpdateDialog() }),
 "style": normalizeStyle(Object.assign({}, normalizeStyle(vm.updateDialogStyle))),
-"template_header": (context: any) => {  return <><Render tag="div" props={{"className": ["flex"].filter(Boolean).join(' ')}}><Render tag="span" props={{"className": ["text-xl mr-3 font-medium"].filter(Boolean).join(' ')}}>{"NOVIDADES"}</Render></Render></>; }}}>
-{vm.visibleUpdate && vm.updatesLoading ? <p role="status">Carregando novidades…</p> : null}
-{vm.visibleUpdate && vm.updatesError ? <p role="alert">Não foi possível carregar as novidades. <button type="button" onClick={() => vm.action(() => vm.showUpdateDialog())}>Tentar novamente</button></p> : null}
+"template_header": (context: any) => {  return <><Render tag="div" props={{"className": ["flex"].filter(Boolean).join(' ')}}><Render tag="span" props={{"className": ["text-xl mr-3 font-medium"].filter(Boolean).join(' ')}}>{t('updates.title')}</Render></Render></>; }}}>
+{vm.visibleUpdate && vm.updatesLoading ? <p role="status">{t('updates.loading')}</p> : null}
+{vm.visibleUpdate && vm.updatesError ? <p role="alert">{t('updates.error')} <button type="button" onClick={() => vm.action(() => vm.showUpdateDialog())}>{t('updates.retry')}</button></p> : null}
 {(vm.visibleUpdate ? vm.updates : []).map((__entry4: any, __index4: number, __array4: any[]) => { const update = __entry4;
 const i = __index4; return <Fragment key={identityKey(__entry4)}><Render tag="div" props={{"style": normalizeStyle(Object.assign({}, normalizeStyle({"color": (((i + 1) > vm.showUnreadVersion) ? "var(--gray-300)" : "white")})))}}><Render tag="div" props={{"className": ["grid grid-nogutter"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["ui-col-12"].filter(Boolean).join(' '),
 "style": normalizeStyle(Object.assign({}, parseStyle("display: flex; align-content: center; justify-content: center; align-items: center")))}}><Render tag="span" props={{"className": ["pr-2"].filter(Boolean).join(' ')}}>{interpolate(["",""], [update.v])}</Render>
@@ -111,10 +113,10 @@ const i = __index4; return <Fragment key={identityKey(__entry4)}><Render tag="di
 "button": true}}></Render></> : null; })()}
 {(() => { const __condition6 = !(((vm.unreadVersion === -(1)) || (vm.unreadVersion > i)));  return __condition6 ? <><Render tag="app-icon" props={{"name": "eye-slash",
 "className": ["ml-2"].filter(Boolean).join(' ')}}></Render></> : null; })()}</Render></Render></Render>
-<Render tag="ul" props={{"className": ["mt-0"].filter(Boolean).join(' ')}}>{(update.logs ?? []).map((__entry7: any, __index7: number, __array7: any[]) => { const log = __entry7; return <Fragment key={identityKey(__entry7)}><Render tag="li" props={{}}>{interpolate(["",""], [log])}</Render></Fragment>; })}</Render></Render></Fragment>; })}
+<Render tag="ul" props={{"className": ["mt-0"].filter(Boolean).join(' ')}}>{entryLogs(update, locale).map((__entry7: any, __index7: number, __array7: any[]) => { const log = __entry7; return <Fragment key={identityKey(__entry7)}><Render tag="li" props={{}}>{interpolate(["",""], [log])}</Render></Fragment>; })}</Render></Render></Fragment>; })}
 <Render tag="div" props={{"className": ["mt-3 text-center"].filter(Boolean).join(' ')}}><Render tag="a" props={{"target": "_blank",
 "rel": "noreferrer noopener",
-"href": vm.originalChangelogUrl}}>{"Histórico original (pré-fork) →"}</Render></Render></Render>
+"href": vm.originalChangelogUrl}}>{t('updates.originalHistory')}</Render></Render></Render>
 <Render tag="app-ui-dialog" props={{"modal": true,
 "visible": vm.visibleMcp,
 "contentStyle": {"maxHeight": "75vh"},

@@ -2,6 +2,17 @@
   "type": "patch",
   "logs": [
     "Adicionado um seletor de idioma na barra superior, com português, espanhol e inglês. O idioma escolhido fica guardado no navegador e vale também ao abrir um link compartilhado.",
-    "Traduzida por completo a tela de Buscar itens, junto dos textos comuns de listas, tabelas, caixas de diálogo e avisos. O restante da interface e os nomes de itens, habilidades e monstros seguem em português por enquanto."
+    "Traduzida por completo a tela de Buscar itens, junto dos textos comuns de listas, tabelas, caixas de diálogo e avisos. O restante da interface e os nomes de itens, habilidades e monstros seguem em português por enquanto.",
+    "As novidades passam a ser publicadas nos três idiomas e acompanham o idioma escolhido. As novidades anteriores a esta versão seguem em português."
+  ],
+  "logs_es": [
+    "Agregado un selector de idioma en la barra superior, con portugués, español e inglés. El idioma elegido queda guardado en el navegador y también vale al abrir un enlace compartido.",
+    "Traducida por completo la pantalla de Buscar objetos, junto con los textos comunes de listas, tablas, cuadros de diálogo y avisos. El resto de la interfaz y los nombres de objetos, habilidades y monstruos siguen en portugués por ahora.",
+    "Las novedades pasan a publicarse en los tres idiomas y siguen el idioma elegido. Las novedades anteriores a esta versión siguen en portugués."
+  ],
+  "logs_en": [
+    "Added a language selector to the top bar, with Portuguese, Spanish and English. The chosen language is kept in the browser and also applies when opening a shared link.",
+    "Fully translated the Search items screen, along with the shared text of lists, tables, dialogs and notices. The rest of the interface and the names of items, skills and monsters remain in Portuguese for now.",
+    "Release notes are now published in all three languages and follow the chosen language. Notes from before this release remain in Portuguese."
   ]
 }

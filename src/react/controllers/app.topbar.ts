@@ -1,4 +1,5 @@
 import { releaseVersions } from '../../releases/summary';
+import { ReleaseEntry } from '../../releases/entry-logs';
 import { ViewState } from '../state/view-state';
 import { Disposable } from '../services/events';
 import { IconName } from 'src/app/ui/icon-names';
@@ -152,7 +153,7 @@ export class AppTopBarComponent extends ViewState {
   ];
 
   /** Published release history shared with Discord. */
-  updates: { v: string; date: string; logs: string[]; }[] = [];
+  updates: ReleaseEntry[] = [];
   updatesLoading = false;
   updatesError = false;
   private updatesLoad?: Promise<void>;
