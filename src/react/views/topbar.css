@@ -25,3 +25,8 @@
 :is(app-topbar, .ui-scope-app-topbar) .topbar-settings .ui-button-icon{
   font-size: 13px;
 }
+:is(app-topbar, .ui-scope-app-topbar) .topbar-locale{
+  /* Narrower than --ui-trigger-width: the three language names are short and the bar
+     is already at its 1500px minimum. */
+  width: 7.5rem;
+}

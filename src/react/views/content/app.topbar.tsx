@@ -4,7 +4,10 @@ import { SelectButton } from '../../ui/select-button';
 import { useTooltip } from '../../ui/tooltip';
 import { Dialog } from '../../ui/dialog';
 import { Button } from '../../ui/primitives';
+import { LocaleSelect } from '../locale-select';
+import { useText } from '../../state/use-text';
 export function Content({vm, services}: {vm: any; services: any}) {
+const t = useText();
 const previewTooltip = useTooltip({
   text: 'Exibe itens e habilidades ainda não disponíveis no LATAM e permite testar o rebalanceamento. Em Não, oculta as prévias, desativa seus buffs, remove seus ataques da rotação e volta às fórmulas LATAM. Itens já equipados são mantidos. A escolha fica salva neste navegador.',
   position: 'left', showDelay: 300, disabled: !vm.visibleSettings,
@@ -59,10 +62,11 @@ return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean
 "className": ["ui-button-info ui-button-raised px-2"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"name": "search"}}></Render>
 <Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{"Buscar itens"}</Render></Render>
-<Button icon="cog" aria-label="Configurações" aria-haspopup="dialog" aria-expanded={vm.visibleSettings}
+<LocaleSelect />
+<Button icon="cog" aria-label={t('topbar.settings')} aria-haspopup="dialog" aria-expanded={vm.visibleSettings}
   className="ui-button-success ui-button-raised topbar-settings" onClick={() => vm.action(() => { vm.visibleSettings = true; })} />
 </Render>
-<Dialog header="Configurações" visible={vm.visibleSettings} modal dismissableMask position="right"
+<Dialog header={t('topbar.settings')} visible={vm.visibleSettings} modal dismissableMask position="right"
   onVisibleChange={visible => vm.action(() => { vm.visibleSettings = visible; })}>
   <div {...previewTooltip.triggerProps} className="flex align-items-center justify-content-between gap-3">
     <span>Prévias</span>
