@@ -104,15 +104,15 @@ Startup then stood at 2,396,283 — 3,717 bytes under the *error* threshold, the
 where the production build throws and CI fails. Only one copy of `responsive.css`
 counts there, but it counts for every reader on the first paint.
 
-The item text and the first-run language dialog took 3,461 of those bytes: baseline
-3,718,493 to 3,721,954, startup to 2,399,243. The dialog and its sheet are most of it,
+The item text and the first-run language dialog took 3,802 of those bytes: baseline
+3,718,493 to 3,722,295, startup to 2,399,442. The dialog and its sheet are most of it,
 and they are startup work by definition — a new visitor is asked before anything else
 renders. The per-language item names and descriptions cost the bundle almost nothing,
 because they are fetched JSON (`items-name-<locale>`, `items-desc-<locale>`) and the
 descriptions replace the Portuguese file rather than joining it; only the client code
 that picks between them is here.
 
-That left 757 bytes of headroom, which is not headroom. `initialError` goes to
+That left 558 bytes of headroom, which is not headroom. `initialError` goes to
 2,420,000 — the first time it has moved — buying back about 20 KB. It is a guard rail
 on the first paint, so the next change to spend it should say what it bought, exactly
 as this paragraph does; the ceiling is not the budget, and each raise makes the real

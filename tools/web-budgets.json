@@ -1,7 +1,7 @@
 {
   "initialWarning": 2300000,
   "initialError": 2420000,
-  "totalBaseline": 3721954,
+  "totalBaseline": 3722295,
   "componentStyleWarning": 6000,
   "componentStyleError": 10000,
   "existingStyleLimits": {
