@@ -426,8 +426,8 @@ export class BattleHudComponent extends ViewState {
    *  printed a plural for a single thing. */
   get killCountLabel(): string {
     const one = this.rotationView?.cyclesToKill === 1;
-    if (this.isSingleEntryRotation) return one ? 'uso' : 'usos';
-    return one ? 'ciclo' : 'ciclos';
+    if (this.isSingleEntryRotation) return this.text(one ? 'hud.use' : 'hud.uses');
+    return this.text(one ? 'hud.cycle' : 'hud.cycles');
   }
 
   /**
@@ -640,7 +640,7 @@ export class BattleHudComponent extends ViewState {
 
   /** The popover explains two different averages, so it says which one it is showing. */
   get meanPanelTitle(): string {
-    return this.isCritWeighted ? 'Como a média por crítico é calculada' : 'Como o dano médio é calculado';
+    return this.text(this.isCritWeighted ? 'pop.howCriMean' : 'pop.howMean');
   }
 
   // True when the attack speed caps the achieved Hab./s below what the cast timings
