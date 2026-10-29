@@ -160,9 +160,9 @@ describe('third fourth-job / second expanded-job rebalance, June 2022', () => {
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
 const monsters = JSON.parse(readFileSync('src/assets/demo/data/monster.json', 'utf8'));
 const table = JSON.parse(readFileSync('src/assets/demo/data/hp_sp_table.json', 'utf8'));
-function solve(name: ClassName, skill: string, formulaVersion: SkillFormulaVersion, active: Record<string, number> = {}, stacks?: Record<string, number>) {
+function solve(name: ClassName, skill: string, formulaVersion: SkillFormulaVersion, active: Record<string, number> = {}, overrides: Partial<ReturnType<typeof createMainModel>> = {}) {
   const cls = job(name, active);
-  const model = { ...createMainModel(), class: cls.classId, level: 250, jobLevel: 1, str: 130, int: 130, dex: 130, spl: 100, selectedAtkSkill: skill, skillFormulaVersion: formulaVersion, skillStacks: stacks };
+  const model = { ...createMainModel(), class: cls.classId, level: 250, jobLevel: 1, str: 130, int: 130, dex: 130, spl: 100, selectedAtkSkill: skill, skillFormulaVersion: formulaVersion, ...overrides };
   const calc = new Calculator().setMasterItems(items).setHpSpTable(table).setClass(cls);
   calc.loadItemFromModel(model);
   new CalculatorController().runChain(calc, { monster: monsters['21077'], ...cls.getSkillBonusAndName(), buffEquips: {}, buffMasterys: {}, consumeData: [], aspdPotion: undefined, extraOptionScripts: [], selectedAtkSkill: skill, selectedChances: [], usedHpL: false } as any);
@@ -180,10 +180,18 @@ describe('historical formulas in real damage and autocasts', () => {
     expect(solve(ClassName.ArchMage, 'Frozen Slash==5', 'current').dmg).toEqual(old.dmg);
   });
 
+  // Fúria Estridente needs an instrument and an arrow (client: "Apenas com Chicote ou
+  // Instrumento", "Consome 1 Flecha equipada"). The requirement arrived with the skill's
+  // "Atual (LATAM)" entry in `shared-skills.ts`, which this version now patches instead
+  // of being synthesised bare, so the build has to carry both.
+  const BARD_INSTRUMENT = 570028;
+  const FIRE_ARROW = 1752;
+
   it('passes selected marked-target counts to Metallic Fury secondary damage', () => {
     const active = { '_Debuf_Sonic_Brand': 1 };
-    const one = solve(ClassName.Troubadour, 'Metallic Fury==5', version, active, { 'Metallic Fury': 1 });
-    const five = solve(ClassName.Troubadour, 'Metallic Fury==5', version, active, { 'Metallic Fury': 5 });
+    const equip = { weapon: BARD_INSTRUMENT, ammo: FIRE_ARROW };
+    const one = solve(ClassName.Troubadour, 'Metallic Fury==5', version, active, { ...equip, skillStacks: { 'Metallic Fury': 1 } });
+    const five = solve(ClassName.Troubadour, 'Metallic Fury==5', version, active, { ...equip, skillStacks: { 'Metallic Fury': 5 } });
     expect(five.dmg.baseSkillDamage - one.dmg.baseSkillDamage).toBe(15000);
     expect(five.dmg.skillMaxDamage2).toBeGreaterThan(one.dmg.skillMaxDamage2);
     expect(five.dmg.skillMaxDamage).toBe(one.dmg.skillMaxDamage);
