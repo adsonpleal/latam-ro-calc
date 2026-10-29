@@ -43,8 +43,17 @@ test('custom-item library and editor keep icons inline and preview in its column
   const dialog = page.getByRole('dialog');
   const headerIcon = dialog.locator('.ui-dialog-header img');
   await expect(headerIcon).toHaveCSS('position', 'static');
-  const heading = (await dialog.locator('.ui-dialog-header strong').boundingBox())!;
-  const icon = (await headerIcon.boundingBox())!;
+  // `.item_img` sets a height and leaves the width to the PNG, so the icon is zero wide
+  // until it loads and the heading sits where the icon is about to be. Wait for the load
+  // and read both boxes at one moment, or a cold icon fetch reads them a frame apart.
+  await expect(headerIcon).toHaveJSProperty('complete', true);
+  const [icon, heading] = await dialog.locator('.ui-dialog-header').evaluate((header) => {
+    const box = (element: Element) => {
+      const { x, y, width, height } = element.getBoundingClientRect();
+      return { x, y, width, height };
+    };
+    return [box(header.querySelector('img')!), box(header.querySelector('strong')!)];
+  });
   expect(icon.x + icon.width).toBeLessThanOrEqual(heading.x);
   expect(Math.abs(icon.y + icon.height / 2 - heading.y - heading.height / 2)).toBeLessThan(2);
   await dialog.getByRole('button', { name: 'Novo item', exact: false }).click();
