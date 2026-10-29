@@ -363,7 +363,7 @@ const autoCastDpsFallback = (context: any) => {  return <><Render tag="div" prop
 {(() => { const __condition50 = vm.basicAlwaysCrit;  return __condition50 ? <><Render tag="div" props={{"className": ["kv"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{t('ac.effectiveCriRate')}</Render>
 <Render tag="span" props={{}}>{"100,0%"}
 <Render tag="span" props={{"className": ["mut"].filter(Boolean).join(' ')}}>{interpolate([" (","% antes do limite)"], [displayPipe("number", vm.displayedSimulation?.criticalRate, ["1.1-1"], services)])}</Render></Render></Render></> : null; })()}
-{(() => { const __condition51 = !(vm.basicAlwaysCrit);  return __condition51 ? <><Render tag="div" props={{"className": ["kv"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{interpolate(["",""], [(vm.basicCritIsWeighted ? "Precisão (só sem crít.)" : "Precisão")])}</Render>
+{(() => { const __condition51 = !(vm.basicAlwaysCrit);  return __condition51 ? <><Render tag="div" props={{"className": ["kv"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{vm.basicCritIsWeighted ? t('ac.hitNoCritOnly') : t('ss.hit')}</Render>
 <Render tag="span" props={{}}>{interpolate(["","%"], [displayPipe("number", steps.accuracy, ["1.0-1"], services)])}</Render></Render></> : null; })()}
 {(() => { const __condition52 = vm.basicCritIsWeighted;  return __condition52 ? <><><Render tag="div" props={{"className": ["kv"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{t('ac.criPartRow', { rate: displayPipe("number", steps.criRate, ["1.0-1"], services) })}</Render>
 <Render tag="span" props={{}}>{interpolate(["",""], [displayPipe("number", steps.criPart, ["1.0-0"], services)])}</Render></Render>

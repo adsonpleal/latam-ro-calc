@@ -24,15 +24,15 @@ import { ChipPick } from './equipment-slot-card';
 import { SlotListBag } from '../../app/layout/pages/ro-calculator/equipment-grid/slot-list-bag.model';
 
 /** The first term of both off-hand questions: there is no off hand to speak of yet. */
-const NO_WEAPON_NOTE: Record<OffHandSlot, string> = {
-  [ItemTypeEnum.shield]: 'Equipe uma arma para poder usar escudo',
-  [ItemTypeEnum.leftWeapon]: 'Equipe uma arma para poder usar outra arma',
+const NO_WEAPON_NOTE: Record<OffHandSlot, TextKey> = {
+  [ItemTypeEnum.shield]: 'eq.needWeaponForShield',
+  [ItemTypeEnum.leftWeapon]: 'eq.needWeaponForLeftWeapon',
 };
 
 /** How to name the rival holding the hand when the catalogue has no name for it. */
-const RIVAL_FALLBACK: Record<OffHandSlot, string> = {
-  [ItemTypeEnum.shield]: 'O escudo',
-  [ItemTypeEnum.leftWeapon]: 'A arma da mão esquerda',
+const RIVAL_FALLBACK: Record<OffHandSlot, TextKey> = {
+  [ItemTypeEnum.shield]: 'eq.shieldFallback',
+  [ItemTypeEnum.leftWeapon]: 'eq.leftWeaponFallback',
 };
 
 /** What the host needs to run onSelectItem — the same three arguments it always took. */
@@ -188,12 +188,14 @@ private readonly colorPicker: SlotColorPreferences,
 
   /** The three reasons are the three terms of the row's question, in the same order. */
   private offHandBlockedNote(slot: OffHandSlot): string {
-    if (!this.model?.['weapon']) return NO_WEAPON_NOTE[slot];
+    if (!this.model?.['weapon']) return this.text(NO_WEAPON_NOTE[slot]);
 
     const rival = OFF_HAND_RIVAL[slot];
-    if (this.model?.[rival]) return `${this.itemName(this.model[rival]) ?? RIVAL_FALLBACK[rival]} ocupa a outra mão`;
+    if (this.model?.[rival]) {
+      return this.text('eq.occupiesOtherHand', { item: this.itemName(this.model[rival]) ?? this.text(RIVAL_FALLBACK[rival]) });
+    }
 
-    return `${this.itemName(this.model['weapon']) ?? 'A arma'} ocupa as duas mãos`;
+    return this.text('eq.occupiesBothHands', { item: this.itemName(this.model['weapon']) ?? this.text('eq.weaponFallback') });
   }
 
   private itemName(itemId: number): string | undefined {
