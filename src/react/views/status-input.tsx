@@ -2,6 +2,7 @@ import { createElement } from 'react';
 import { Select } from '../ui/select';
 import { keyActivate } from '../ui/key-activate';
 import { useTooltip } from '../ui/tooltip';
+import { useText } from '../state/use-text';
 import './status-input.css';
 
 export interface StatusInputProps {
@@ -14,11 +15,12 @@ const signed = (value: number) => value < 0 ? String(value) : `+${value}`;
 export function StatusInput({ label, dropdownList, value, onChange, extraValue = 0, showExtra = true,
   badgeSeverity = 'info', disabled = false, extraClickable = true, compareExtraValue = null,
   otherValue = null, otherLabel = '', onExtraClick, onCompareExtraClick }: StatusInputProps) {
+  const t = useText();
   const otherText = otherValue == null || otherValue === (Number(value) || 0) ? null : String(otherValue);
   const delta = compareExtraValue != null && compareExtraValue !== extraValue;
   const clickable = !!extraValue && extraClickable;
-  const captionTip = useTooltip({ text: otherText ? `${label} - ${otherLabel}: ${otherText}` : '', position: 'top', showDelay: 300 });
-  const deltaTip = useTooltip({ text: `${label} - Comparação`, position: 'top', showDelay: 300 });
+  const captionTip = useTooltip({ text: otherText ? t('calc.statOther', { stat: label, side: otherLabel, value: otherText }) : '', position: 'top', showDelay: 300 });
+  const deltaTip = useTooltip({ text: t('calc.statCompare', { stat: label }), position: 'top', showDelay: 300 });
   return createElement('app-status-input', null, <div className="status_input">
     <div className="joined_field">
       <label {...captionTip.triggerProps} className={`joined_caption status_label ${otherText ? 'status_label--other' : ''}`} htmlFor={label}>{label}{otherText && <span className="status_other">{otherText}</span>}</label>
