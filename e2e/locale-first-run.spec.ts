@@ -45,7 +45,7 @@ test.describe('first-run language dialog', () => {
   test('switches the interface to the language picked before OK', async ({ page }) => {
     await page.goto('/');
     const dialog = page.locator('.locale-first-run');
-    await dialog.locator('.ui-select').click();
+    await dialog.locator('.ui-select-trigger').click();
     await page.getByRole('option', { name: 'English' }).click();
     await dialog.getByRole('button', { name: 'OK' }).click();
 
