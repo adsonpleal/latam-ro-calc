@@ -79,7 +79,7 @@ describe('Fúria Estridente', () => {
     // `resolveRebalancedSkill` rebuilds the list as `${label} Nv${n}`, and the UI only
     // swaps the English name for the pt-BR one. A label of "Metallic Fury Lv5" would
     // therefore read "Fúria Estridente Lv5 Nv1" once this entry exists in `current`.
-    for (const version of ['rebalance-2022-06', 'rebalance-2026-02'] as const) {
+    for (const version of ['pre-rebalance', 'rebalance-2026-02'] as const) {
       const skill = new Trouvere().getAtkSkills(version).find((s) => s.name === 'Metallic Fury');
       expect(skill?.levelList?.[0].label).toBe('Metallic Fury Nv1');
     }
