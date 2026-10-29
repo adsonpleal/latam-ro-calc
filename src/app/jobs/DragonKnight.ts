@@ -5,6 +5,7 @@ import { RuneKnight } from './RuneKnight';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
 import type { AdditionalBonusInput } from '../models/info-for-class.model';
+import { isLatamBaseline } from '../skills/skill-formula-version';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [1, 0, 0, 0, 0, 0],
@@ -376,7 +377,7 @@ export class DragonKnight extends RuneKnight {
 
   override setAdditionalBonus(params: AdditionalBonusInput) {
     super.setAdditionalBonus(params);
-    if (params.model.skillFormulaVersion === 'rebalance-2022-06' && this.isSkillActive('Vigor')) {
+    if (isLatamBaseline(params.model.skillFormulaVersion) && this.isSkillActive('Vigor')) {
       // The existing control selects Nv10; the third rebalance raises 200/50 to 250/100.
       params.totalBonus.flatBasicDmg = (params.totalBonus.flatBasicDmg || 0) + 50;
       params.totalBonus.vigorBasicRaceDmg = (params.totalBonus.vigorBasicRaceDmg || 0) + 50;
