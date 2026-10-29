@@ -35,7 +35,9 @@ export function LocaleProvider({ locale, children }: { locale: LocalePreferences
       rich: (key, params) => textRuns(t(key, params)).map((run, index) =>
         run.emphasis
           ? <b key={index}>{run.text}</b>
-          : <Fragment key={index}>{run.text}</Fragment>),
+          : run.code
+            ? <code key={index}>{run.text}</code>
+            : <Fragment key={index}>{run.text}</Fragment>),
     };
   }, [state]);
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
@@ -61,7 +63,8 @@ export function useText(): Text {
 
 /**
  * For the sentences that carry bold in the middle of a clause. Same catalog, same
- * keys — `textRuns` is what turns the `*…*` in the entry back into `<b>`.
+ * keys — `textRuns` is what turns the `*…*` in the entry back into `<b>` and the
+ * `` `…` `` into `<code>`.
  */
 export function useRichText(): RichText {
   return useLocaleContext().rich;

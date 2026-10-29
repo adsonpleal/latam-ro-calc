@@ -75,6 +75,22 @@ describe('textRuns', () => {
     expect(textRuns(note)).toEqual([{ text: note, emphasis: false }]);
   });
 
+  it('marks a backtick run as code', () => {
+    expect(textRuns('a redução global (`fctPercent`) usa o maior valor')).toEqual([
+      { text: 'a redução global (', emphasis: false },
+      { text: 'fctPercent', emphasis: false, code: true },
+      { text: ') usa o maior valor', emphasis: false },
+    ]);
+  });
+
+  it('mixes emphasis and code in one entry', () => {
+    expect(textRuns('*Formatar JSON* organiza `0.3`')).toEqual([
+      { text: 'Formatar JSON', emphasis: true },
+      { text: ' organiza ', emphasis: false },
+      { text: '0.3', emphasis: false, code: true },
+    ]);
+  });
+
   it('answers nothing for an empty entry', () => {
     expect(textRuns('')).toEqual([]);
   });

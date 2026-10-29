@@ -88,9 +88,11 @@ export function translate(catalog: Catalog, key: string, params?: TextParams): s
 export interface TextRun {
   readonly text: string;
   readonly emphasis: boolean;
+  /** Set only on a run the catalog marked as code, so a plain run stays two fields. */
+  readonly code?: boolean;
 }
 
-const EMPHASIS = /\*([^*]+)\*/g;
+const MARKUP = /\*([^*]+)\*|`([^`]+)`/g;
 
 /**
  * Splits a catalog entry on the `*emphasis*` written into it.
@@ -103,13 +105,19 @@ const EMPHASIS = /\*([^*]+)\*/g;
  *
  * A lone `*` has no pair and is left alone, which is why `*** ATK da mão esquerda` is
  * still printed as written.
+ *
+ * Backticks mark a code run the same way, for the script documentation in the custom
+ * item studio: its sentences name JSON keys and literal values in the middle of a
+ * clause, and those keep the monospace run instead of becoming separate entries.
  */
 export function textRuns(text: string): TextRun[] {
   const runs: TextRun[] = [];
   let index = 0;
-  for (const match of text.matchAll(EMPHASIS)) {
+  for (const match of text.matchAll(MARKUP)) {
     if (match.index > index) runs.push({ text: text.slice(index, match.index), emphasis: false });
-    runs.push({ text: match[1], emphasis: true });
+    runs.push(match[1] == null
+      ? { text: match[2], emphasis: false, code: true }
+      : { text: match[1], emphasis: true });
     index = match.index + match[0].length;
   }
   if (index < text.length) runs.push({ text: text.slice(index), emphasis: false });
