@@ -94,13 +94,13 @@ That also put the startup bundle past its *warning* threshold — 2,340,069 agai
 raised: it is reporting a real cost, and the next startup-sized addition should have
 to answer for it.
 
-The baseline moved again, from 3,610,840 to 3,717,847, when the responsive layer
+The baseline moved again, from 3,610,840 to 3,718,493, when the responsive layer
 landed. Half of the 107 KB is one file counted twice: `responsive.css` is emitted at
 26,135 bytes into both `main`'s CSS bundle and a shared CSS chunk, and the total adds
 up every emitted file. The rest is the JS of the touch affordances and the compact
 layouts, with the catalog keys they needed.
 
-Startup is now 2,395,890 — 4,110 bytes under the *error* threshold, the point where
+Startup is now 2,396,283 — 3,717 bytes under the *error* threshold, the point where
 the production build throws and CI fails. Only one copy of `responsive.css` counts
 there, but it counts for every reader on the first paint. The next addition of any
 size has to come with a removal, or raise `initialError` on the record of what it
