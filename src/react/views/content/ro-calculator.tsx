@@ -381,7 +381,7 @@ let sustainPanel: any = vm["sustainPanel"]; return <>{(() => { const __condition
 "activateWithKeys": item.compareClickable}}>{interpolate(["→ "," ",""], [item.compare.text,item.compare.deltaText])}</Render></> : null; })()}</Render></Fragment>; })}</Render>
 <Render tag="div" props={{"className": ["ss_grid"].filter(Boolean).join(' ')}}>{(vm.statsSummary.columns ?? []).map((__entry26: any, __index26: number, __array26: any[]) => { const column = __entry26; return <Fragment key={identityKey(vm.trackByIndex(__index26, __entry26))}><Render tag="div" props={{"className": ["ss_col"].filter(Boolean).join(' ')}}>{(column ?? []).map((__entry27: any, __index27: number, __array27: any[]) => { const group = __entry27; return <Fragment key={identityKey(vm.trackByTitle(__index27, __entry27))}><><Render tag="div" props={{"className": ["ss_group_header"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{interpolate(["",""], [group.title])}</Render>
 <button type="button" className="ss_group_toggle" aria-expanded={!foldedGroups[group.title]}
-  aria-label={`${foldedGroups[group.title] ? 'Expandir' : 'Recolher'} ${group.title}`} onClick={() => toggleGroup(group.title)}>
+  aria-label={t(foldedGroups[group.title] ? 'calc.expandGroup' : 'calc.collapseGroup', { name: group.title })} onClick={() => toggleGroup(group.title)}>
   <Icon name={foldedGroups[group.title] ? 'chevron-down' : 'chevron-up'} aria-hidden="true" /></button>
 {(() => { const __condition28 = group.showReduction;  return __condition28 ? <><Render tag="span" props={{"click": (event: any) => vm.action(() => { const $event = event; reductionPanel.toggle($event) }),
 "className": ["reduction-label ss_reduction bonus_clickable"].filter(Boolean).join(' '),
