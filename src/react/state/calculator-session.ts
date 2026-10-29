@@ -1,4 +1,5 @@
 import { Store } from '../state/store';
+import { Locale } from '../../app/core/i18n';
 import { normalizeClassLimits } from '../../app/core/class-limits';
 import { normalizeSkillFormulaVersion, SkillFormulaVersion } from '../../app/skills/skill-formula-version';
 import { Lifetime } from '../state/lifetime';
@@ -168,6 +169,37 @@ interface ClassModel extends Partial<Record<ItemTypeEnum, number>> {
   propertyAtk?: ElementType;
 }
 
+/** What the session needs of the chosen language: which one it is, and when it changes. */
+export interface ItemTextLocale {
+  readonly locale: Locale;
+  subscribe(listener: () => void): () => void;
+}
+
+/**
+ * The core item map with `name` in the reader's language.
+ *
+ * Only the renamed records are copied, and each copy keeps the name items-core carried
+ * as `enName` when it had none: set and combo scripts match their partners on
+ * `enName ?? name` (see `matchName` in core/calculator.ts), so renaming in place would
+ * quietly unmatch every partner whose languages spell it differently.
+ *
+ * Returns the map it was given when there is nothing to lay over it — Portuguese reads
+ * items-core as it is, and so does any language the client spells identically.
+ */
+export function localizeItemNames(
+  core: Record<number, ItemModel>, names: Record<string, string>,
+): Record<number, ItemModel> {
+  const keys = Object.keys(names);
+  if (!keys.length) return core;
+  const out: Record<number, ItemModel> = { ...core };
+  for (const key of keys) {
+    const item = out[key as unknown as number];
+    if (!item || item.name === names[key]) continue;
+    out[key as unknown as number] = { ...item, name: names[key], enName: item.enName ?? item.name };
+  }
+  return out;
+}
+
 export class CalculatorSession extends Store<number> {
   private readonly lifetime = new Lifetime();
   private readonly chanceSettled = new Events<any>();
@@ -248,7 +280,7 @@ export class CalculatorSession extends Store<number> {
   }
 
   private loadDescriptions(): void {
-    this.allSubs.push(this.lifetime.watch(this.roService.getItemDescriptions(), () => {
+    this.allSubs.push(this.lifetime.watch(this.roService.getItemDescriptions(this.localeStore.locale), () => {
       if (this.selectedItemDesc || this.selectedCompareItemDesc) {
         this.onSelectItemDescription(!!this.selectedCompareItemDesc);
       }
@@ -718,6 +750,7 @@ export class CalculatorSession extends Store<number> {
     private readonly layoutService: LayoutService,
     private readonly customLibrary: CustomItemLibraryService,
     private readonly text: Translate,
+    private readonly localeStore: ItemTextLocale,
   ) {
     super(0);
     const unsubscribe = this.layoutService.previews.subscribe(() => this.action(() => {
@@ -730,6 +763,64 @@ export class CalculatorSession extends Store<number> {
       this.updateItemEvent.next(true);
     }));
     this.allSubs.push({ unsubscribe });
+    // Item names come from the client's own tables, one file per language, so a switch
+    // has to rebuild every list that carries one. Same refresh the preview toggle above
+    // does, with the relabelling of the master map in front of it.
+    this.allSubs.push({ unsubscribe: this.localeStore.subscribe(() => { void this.relabelItems(); }) });
+  }
+
+  /**
+   * Re-reads the item names for the language now chosen and repaints what shows them.
+   *
+   * Rebuilt from the artifact rather than translated in place: `itemsCore` is the one
+   * copy every locale starts from, and mutating it would make the second switch
+   * translate an already-translated name.
+   */
+  private async relabelItems(): Promise<void> {
+    // Nothing to relabel yet, and nothing lost: `initData` reconciles the language
+    // itself once the master map exists (see the end of its callback).
+    if (!this.items) return;
+    const locale = this.localeStore.locale;
+    const [core, names] = await Promise.all([
+      this.roService.getItems<Record<number, ItemModel>>(),
+      this.roService.getItemNames(locale),
+    ]);
+    if (!this.lifetime.active || this.localeStore.locale !== locale) return;
+    this.republishItems(localizeItemNames(core, names));
+    this.loadDescriptions();
+    this.action(() => {
+      this.setItemList();
+      if (this.selectedCharacter) {
+        this.setItemDropdownList();
+        this.setAmmoDropdownList();
+      }
+      this.setMonsterDropdownList();
+      this.updateItemEvent.next(true);
+    });
+  }
+
+  /**
+   * Swaps in a freshly named master map, keeping the custom items this session holds.
+   *
+   * The custom ones are carried across by hand because they are not in the artifact:
+   * they come from the library, a share link and the autosave, and a rebuild that
+   * dropped them would empty every slot holding one.
+   */
+  private republishItems(localized: Record<number, ItemModel>): void {
+    this.items = { ...localized, ...Object.fromEntries(Object.values(this.items).filter(isCustomItem).map((item) => [item.id, item])) };
+    const ens: DropdownModel[] = [];
+    this.mapEnchant = new Map(
+      Object.values(this.items)
+        .filter(isEquipmentEnchant)
+        .map((item) => {
+          ens.push({ label: item.name, value: item.id });
+          return [item.aegisName, item];
+        }),
+    );
+    this.enchants = ens;
+    for (const calc of [this.calculator, this.calculator2, this.calculatorPvp, this.calculatorPvp2]) {
+      calc.setMasterItems(this.items);
+    }
   }
 
   get showPreviews(): boolean { return this.layoutService.previews.getSnapshot(); }
@@ -927,13 +1018,19 @@ await ((_event?: unknown) => {
   }
 
   private initData() {
+    const bootLocale = this.localeStore.locale;
     return (async () => { try { const result = await Promise.all([
       this.roService.getItems<Record<number, ItemModel>>(),
       this.roService.getMonsters<Record<number, MonsterModel>>(),
       this.roService.getHpSpTable<HpSpTable>(),
       this.roService.getLatamClasses(),
+      // Beside the core table rather than after it: the names are a ~250 KB overlay and
+      // waiting for a second round trip would hold the first paint for a Spanish or
+      // English reader. Portuguese resolves immediately with nothing to lay over.
+      this.roService.getItemNames(bootLocale),
     ]); this.lifetime.check();
-(([items, monsters, hpSpTable, latamClasses]) => {
+(([core, monsters, hpSpTable, latamClasses, itemNames]) => {
+        const items = localizeItemNames(core, itemNames);
         if (this.sharedCustomItems.length) {
           const checked = validateCustomItems(this.sharedCustomItems, items);
           if (checked.errors.length) {
@@ -1004,6 +1101,11 @@ await ((_event?: unknown) => {
 
         this.setMonsterDropdownList();
         this.setItemList();
+
+        // The first-run dialog is answered over a booting calculator, so the language
+        // can change between the request above and this line. The names fetched then
+        // are the old ones, and `relabelItems` had no master map to work on yet.
+        if (this.localeStore.locale !== bootLocale) void this.relabelItems();
       })(result); } finally {  this.publish(); } })();
   }
 
