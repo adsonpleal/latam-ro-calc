@@ -54,6 +54,13 @@ export class LocalePreferences extends Store<LocaleState> {
   get locale(): Locale { return this.getSnapshot().locale; }
 
   /**
+   * Whether the reader has ever picked a language. Read from storage rather than from
+   * the snapshot, which cannot tell a deliberate Portuguese apart from the default one
+   * — that difference is the whole question the first-run dialog exists to settle.
+   */
+  get chosen(): boolean { return isLocale(this.storage?.getItem(STORAGE_KEY)); }
+
+  /**
    * The same lookup `useText` gives a component, for the controllers — they are plain
    * classes and cannot hold a hook. Arrow-bound so it can be handed to a pure function
    * in `core` as a labeller, and it always reads the catalog published right now, so a
@@ -65,10 +72,17 @@ export class LocalePreferences extends Store<LocaleState> {
   readonly text = (key: TextKey, params?: TextParams): string =>
     translate(this.getSnapshot().catalog, key, params);
 
-  /** Chooses `locale` and remembers it for the next visit. */
+  /**
+   * Chooses `locale` and remembers it for the next visit.
+   *
+   * Writes before the no-op check, not after: picking the language already on screen is
+   * still a choice, and it is the one the first-run dialog most needs recorded —
+   * Portuguese is both its default and what an unanswered dialog would leave behind.
+   */
   select(locale: Locale): Promise<void> {
-    if (!isLocale(locale) || locale === this.locale) return Promise.resolve();
+    if (!isLocale(locale)) return Promise.resolve();
     this.storage?.setItem(STORAGE_KEY, locale);
+    if (locale === this.locale) return Promise.resolve();
     return this.apply(locale);
   }
 

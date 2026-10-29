@@ -7,6 +7,7 @@ import { Content } from './views/content/ro-calculator';
 import { ColorPickerOverlay, ItemPickerOverlay } from './views/item-picker';
 import { Render, registerViews } from './views/render';
 import { ElementalTable } from './views/elemental-table';
+import { LocaleFirstRun } from './views/locale-first-run';
 import { AspdCurve } from './views/aspd-curve';
 import { useText } from './state/use-text';
 import './views/calculator-styles';
@@ -44,6 +45,6 @@ export function Application({ services, session }: { services: ApplicationServic
       <div className="layout-main-container"><div className="layout-main"><Calculator services={services} session={session} /></div><Footer session={session} /></div>
       <div className="layout-mask" />
     </div>
-    <ItemPickerOverlay /><ColorPickerOverlay />
+    <ItemPickerOverlay /><ColorPickerOverlay /><LocaleFirstRun />
   </ServicesProvider>;
 }

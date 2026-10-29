@@ -26,6 +26,18 @@ export const LOCALE_NAMES: Readonly<Record<Locale, string>> = {
 };
 
 /**
+ * "Choose your language", in each of them.
+ *
+ * The first-run dialog has to ask before it knows what the reader reads, so the
+ * question is printed three times instead of translated once. It lives beside
+ * {@link LOCALE_NAMES} for the same reason those do: a catalog entry would follow the
+ * language currently on screen, which is the one thing the reader has not chosen yet.
+ */
+export const LOCALE_PROMPTS: Readonly<Record<Locale, string>> = {
+  'pt-BR': 'Escolha seu idioma', es: 'Elige tu idioma', en: 'Choose your language',
+};
+
+/**
  * The source locale, and what the app opens in until someone picks otherwise.
  *
  * Its catalog is the one every key is written in first, it is bundled with the app

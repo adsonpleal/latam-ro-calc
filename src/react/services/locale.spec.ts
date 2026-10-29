@@ -69,14 +69,48 @@ describe('LocalePreferences', () => {
     expect(preferences.getSnapshot().catalog['itemSearch.title']).toBe('Search items');
   });
 
-  it('does nothing when the chosen locale is already active', async () => {
+  it('republishes nothing when the chosen locale is already active', async () => {
     const preferences = new LocalePreferences(storage, fakeEnvironment());
     await preferences.ready;
     let published = 0;
     preferences.subscribe(() => { published += 1; });
     await preferences.select('pt-BR');
     expect(published).toBe(0);
-    expect(storage.getItem('ro-locale')).toBeNull();
+  });
+
+  it('records a choice of the language already on screen', async () => {
+    const preferences = new LocalePreferences(storage, fakeEnvironment());
+    await preferences.ready;
+    await preferences.select('pt-BR');
+    expect(storage.getItem('ro-locale')).toBe('pt-BR');
+  });
+
+  describe('chosen', () => {
+    it('is false on a first visit', () => {
+      expect(new LocalePreferences(storage, fakeEnvironment()).chosen).toBe(false);
+    });
+
+    it('separates a deliberate Portuguese from the default one', async () => {
+      const preferences = new LocalePreferences(storage, fakeEnvironment());
+      await preferences.ready;
+      expect(preferences.locale).toBe('pt-BR');
+      expect(preferences.chosen).toBe(false);
+      await preferences.select('pt-BR');
+      expect(preferences.locale).toBe('pt-BR');
+      expect(preferences.chosen).toBe(true);
+    });
+
+    it('stays false for a stored value that is not a shipped locale', () => {
+      storage.setItem('ro-locale', 'klingon');
+      expect(new LocalePreferences(storage, fakeEnvironment()).chosen).toBe(false);
+    });
+
+    it('is true on a later visit', async () => {
+      storage.setItem('ro-locale', 'es');
+      const preferences = new LocalePreferences(storage, fakeEnvironment());
+      await preferences.ready;
+      expect(preferences.chosen).toBe(true);
+    });
   });
 
   it('lets the last selection win when two are made in a row', async () => {
