@@ -1,22 +1,24 @@
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 import { Render, interpolate, parseStyle, normalizeStyle, identityKey } from '../render';
 import { SelectButton } from '../../ui/select-button';
 import { useTooltip } from '../../ui/tooltip';
 import { Dialog } from '../../ui/dialog';
 import { Button } from '../../ui/primitives';
 import { LocaleSelect } from '../locale-select';
-import { useLocale, useText } from '../../state/use-text';
+import { useLocale, useRichText, useText } from '../../state/use-text';
 import { entryLogs } from '../../../releases/entry-logs';
 export function Content({vm, services}: {vm: any; services: any}) {
 const t = useText();
+const rich = useRichText();
 const locale = useLocale();
+const previewOptions = useMemo(() => [{ label: t('common.yes'), value: true }, { label: t('common.no'), value: false }], [t]);
 const previewTooltip = useTooltip({
-  text: 'Exibe itens e habilidades ainda não disponíveis no LATAM e permite testar o rebalanceamento. Em Não, oculta as prévias, desativa seus buffs, remove seus ataques da rotação e volta às fórmulas LATAM. Itens já equipados são mantidos. A escolha fica salva neste navegador.',
+  text: t('settings.previewsTooltip'),
   position: 'left', showDelay: 300, disabled: !vm.visibleSettings,
 });
 return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean).join(' '),
 "style": normalizeStyle(Object.assign({}, parseStyle("min-width: 1500px")))}}><Render tag="span" props={{"className": ["pr-2"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.lastestVersion])}</Render>
-<Render tag="button" props={{"aria-label": "Novidades",
+<Render tag="button" props={{"aria-label": t('topbar.updates'),
 "click": (event: any) => vm.action(() => { const $event = event; vm.showUpdateDialog() }),
 "className": ["ui-button-text ui-button-info"].filter(Boolean).join(' '),
 "button": true}}>{(() => { const __condition1 = (vm.showUnreadVersion > 0);  return __condition1 ? <><Render tag="app-icon" props={{"severity": "danger",
@@ -29,19 +31,19 @@ return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean
 "className": ["text-xl"].filter(Boolean).join(' ')}}></Render></> : null; })()}</Render>
 <Render tag="button" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.showReferenceDialog() }),
 "className": ["pl-2 ui-button-text ui-button-info ui-button-raised"].filter(Boolean).join(' '),
-"button": true}}>{"Referências"}</Render>
+"button": true}}>{t('topbar.references')}</Render>
 <Render tag="div" props={{"className": ["flex align-items-center gap-2 ml-2"].filter(Boolean).join(' ')}}><Render tag="a" props={{"target": "_blank",
 "rel": "noreferrer noopener",
-"href": vm.issuesReportUrl}}><Render tag="button" props={{"aria-label": "Reportar",
+"href": vm.issuesReportUrl}}><Render tag="button" props={{"aria-label": t('topbar.report'),
 "className": ["ui-button-warning ui-button-raised px-2"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"name": "comment"}}></Render>
-<Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{"Reportar"}</Render></Render></Render>
+<Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{t('topbar.report')}</Render></Render></Render>
 <Render tag="a" props={{"target": "_blank",
 "rel": "noreferrer noopener",
-"href": vm.issuesBoardUrl}}><Render tag="button" props={{"aria-label": "Acompanhar",
+"href": vm.issuesBoardUrl}}><Render tag="button" props={{"aria-label": t('topbar.follow'),
 "className": ["ui-button-help ui-button-raised px-2"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"name": "list"}}></Render>
-<Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{"Acompanhar"}</Render></Render></Render>
+<Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{t('topbar.follow')}</Render></Render></Render>
 <Render tag="a" props={{"target": "_blank",
 "rel": "noreferrer noopener",
 "href": vm.discordUrl}}><Render tag="button" props={{"aria-label": "Discord",
@@ -50,7 +52,7 @@ return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean
 "button": true}}><Render tag="app-icon" props={{"name": "discord"}}></Render>
 <Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{"Discord"}</Render></Render></Render></Render>
 <Render tag="div" props={{"className": ["topbar-actions flex align-items-center gap-2"].filter(Boolean).join(' ')}}>
-<Render tag="button" props={{"aria-label": "Servidor MCP",
+<Render tag="button" props={{"aria-label": t('topbar.mcpServer'),
 "click": (event: any) => vm.action(() => { const $event = event; vm.showMcpDialog() }),
 "className": ["ui-button-help ui-button-raised px-2"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"aria-hidden": "true",
@@ -59,11 +61,11 @@ return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean
 <Render tag="button" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.openCustomItems() }),
 "className": ["ui-button-success ui-button-raised px-2"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"name": "box"}}></Render>
-<Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{"Meus itens"}</Render></Render>
+<Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{t('topbar.myItems')}</Render></Render>
 <Render tag="button" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.openItemSearch() }),
 "className": ["ui-button-info ui-button-raised px-2"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"name": "search"}}></Render>
-<Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{"Buscar itens"}</Render></Render>
+<Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{t('itemSearch.title')}</Render></Render>
 <LocaleSelect />
 <Button icon="cog" aria-label={t('topbar.settings')} aria-haspopup="dialog" aria-expanded={vm.visibleSettings}
   className="ui-button-success ui-button-raised topbar-settings" onClick={() => vm.action(() => { vm.visibleSettings = true; })} />
@@ -71,30 +73,12 @@ return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean
 <Dialog header={t('topbar.settings')} visible={vm.visibleSettings} modal dismissableMask position="right"
   onVisibleChange={visible => vm.action(() => { vm.visibleSettings = visible; })}>
   <div {...previewTooltip.triggerProps} className="flex align-items-center justify-content-between gap-3">
-    <span>Prévias</span>
-    <SelectButton ariaLabel="Mostrar prévias" options={vm.previewOptions} value={vm.showPreviews}
+    <span>{t('settings.previews')}</span>
+    <SelectButton ariaLabel={t('settings.showPreviews')} options={previewOptions} value={vm.showPreviews}
       onChange={value => vm.action(() => vm.setShowPreviews(value))} />
   </div>
   {previewTooltip.tooltip}
 </Dialog>
-<Render tag="app-ui-dialog" props={{"header": "Informações adicionais",
-"modal": true,
-"visible": vm.visibleInfo,
-"visibleChange": (event: any) => vm.action(() => { const $event = event; (vm.visibleInfo = $event) }),
-"style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "50vw"})))}}><Render tag="div" props={{"className": ["card flex flex-column align-items-center gap-2 flex-wrap"].filter(Boolean).join(' ')}}><Render tag="ul" props={{}}>{(vm.infos ?? []).map((__entry3: any, __index3: number, __array3: any[]) => { const info = __entry3; return <Fragment key={identityKey(__entry3)}><Render tag="li" props={{}}>{interpolate(["",""], [info])}</Render></Fragment>; })}</Render>
-<Render tag="div" props={{"className": ["flex gap-2 flex-wrap justify-content-center"].filter(Boolean).join(' ')}}>{" Reportar problema "}
-<Render tag="a" props={{"target": "_blank",
-"rel": "noreferrer noopener",
-"href": vm.issuesReportUrl}}><Render tag="app-ui-chip" props={{"label": "Reportar",
-"icon": "comment"}}></Render></Render>
-<Render tag="a" props={{"target": "_blank",
-"rel": "noreferrer noopener",
-"href": vm.issuesBoardUrl}}><Render tag="app-ui-chip" props={{"label": "Acompanhar",
-"icon": "list"}}></Render></Render>
-<Render tag="a" props={{"target": "_blank",
-"rel": "noreferrer noopener",
-"href": vm.discordUrl}}><Render tag="app-ui-chip" props={{"label": "Discord",
-"icon": "discord"}}></Render></Render></Render></Render></Render>
 <Render tag="app-ui-dialog" props={{"modal": true,
 "visible": vm.visibleUpdate,
 "visibleChange": (event: any) => vm.action(() => { const $event = event; (vm.visibleUpdate = $event) }),
@@ -124,78 +108,47 @@ const i = __index4; return <Fragment key={identityKey(__entry4)}><Render tag="di
 "style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "46rem","maxWidth": "95vw"}))),
 "template_header": (context: any) => {  return <><Render tag="div" props={{"className": ["flex align-items-center gap-2"].filter(Boolean).join(' ')}}><Render tag="app-icon" props={{"name": "sparkles",
 "className": ["text-xl"].filter(Boolean).join(' ')}}></Render>
-<Render tag="span" props={{"className": ["text-xl font-medium"].filter(Boolean).join(' ')}}>{"Conecte sua IA ao simulador"}</Render>
-<Render tag="app-ui-chip" props={{"label": "Experimental",
+<Render tag="span" props={{"className": ["text-xl font-medium"].filter(Boolean).join(' ')}}>{t('mcp.title')}</Render>
+<Render tag="app-ui-chip" props={{"label": t('mcp.experimental'),
 "styleClass": "text-sm"}}></Render></Render></>; }}}>
 <Render tag="div" props={{"className": ["flex align-items-start gap-2 mb-3 p-2 border-round"].filter(Boolean).join(' '),
 "style": normalizeStyle(Object.assign({}, parseStyle("background: var(--yellow-100); color: var(--yellow-900)")))}}><Render tag="app-icon" props={{"name": "exclamation-triangle",
 "className": ["mt-1"].filter(Boolean).join(' ')}}></Render>
-<Render tag="div" props={{"className": ["line-height-3"].filter(Boolean).join(' ')}}><Render tag="b" props={{}}>{"Recurso altamente experimental."}</Render>
-{" Acabou de sair do forno, pode mudar, sair do ar ou responder besteira sem aviso. Trate como curiosidade, não como fonte final — na dúvida, confira o resultado aqui no simulador. "}</Render></Render>
-<Render tag="p" props={{"className": ["mt-0 line-height-3"].filter(Boolean).join(' ')}}>{" O simulador tem um servidor "}
-<Render tag="b" props={{}}>{"MCP"}</Render>
-{" aberto: você conecta uma IA (Claude, ChatGPT e outras) e ela passa a usar o mesmo motor de cálculo desta página — os mesmos itens, monstros e fórmulas. Os números que ela responder são idênticos aos daqui. "}</Render>
-<Render tag="p" props={{"className": ["line-height-3"].filter(Boolean).join(' ')}}>{" O caminho mais simples é "}
-<Render tag="b" props={{}}>{"colar o link da sua build"}</Render>
-{": monte tudo aqui, clique em "}
-<Render tag="b" props={{}}>{"Link"}</Render>
-{" na barra de cima e cole o endereço na conversa. A IA lê a build inteira — classe, níveis, atributos e cada peça com refino, cartas e encantamentos — e devolve outro link com o que ela sugerir, já pronto para abrir de volta no simulador. O link encurtado também funciona. "}</Render>
+<Render tag="div" props={{"className": ["line-height-3"].filter(Boolean).join(' ')}}>{rich('mcp.warning')}</Render></Render>
+<Render tag="p" props={{"className": ["mt-0 line-height-3"].filter(Boolean).join(' ')}}>{rich('mcp.intro')}</Render>
+<Render tag="p" props={{"className": ["line-height-3"].filter(Boolean).join(' ')}}>{rich('mcp.shareLink')}</Render>
 <Render tag="div" props={{"className": ["flex align-items-center gap-2 mb-3 p-2 border-round surface-100"].filter(Boolean).join(' ')}}><Render tag="app-icon" props={{"name": "link"}}></Render>
 <Render tag="code" props={{"className": ["flex-1 text-sm"].filter(Boolean).join(' '),
 "style": normalizeStyle(Object.assign({}, parseStyle("word-break: break-all")))}}>{interpolate(["",""], [vm.mcpUrl])}</Render>
 <Render tag="button" props={{"icon": (vm.mcpUrlCopied ? "check" : "copy"),
-"label": (vm.mcpUrlCopied ? "Copiado" : "Copiar"),
+"label": (vm.mcpUrlCopied ? t('common.copied') : t('common.copy')),
 "click": (event: any) => vm.action(() => { const $event = event; vm.copyMcpUrl() }),
 "className": ["ui-button-sm",(vm.mcpUrlCopied ? "ui-button-success" : '')].filter(Boolean).join(' '),
 "button": true}}></Render></Render>
-<Render tag="h3" props={{"className": ["mt-0 mb-2 text-lg"].filter(Boolean).join(' ')}}>{"O que dá para pedir"}</Render>
-<Render tag="p" props={{"className": ["line-height-3"].filter(Boolean).join(' ')}}>{"Também é possível criar "}
-<Render tag="b" props={{}}>{"um ou até 20 itens personalizados de uma vez"}</Render>
-{". Peça, por exemplo: “Crie uma espada e duas cartas que formem um conjunto”. A IA devolverá um link; abri-lo neste navegador adiciona o lote em "}
-<Render tag="b" props={{}}>{"Meus itens"}</Render>
-{". O link carrega os itens sem salvar nada no servidor."}</Render>
+<Render tag="h3" props={{"className": ["mt-0 mb-2 text-lg"].filter(Boolean).join(' ')}}>{t('mcp.whatToAsk')}</Render>
+<Render tag="p" props={{"className": ["line-height-3"].filter(Boolean).join(' ')}}>{rich('mcp.customItems')}</Render>
 <Render tag="div" props={{"className": ["flex flex-column gap-2 mb-3"].filter(Boolean).join(' ')}}>{(vm.mcpExamples ?? []).map((__entry8: any, __index8: number, __array8: any[]) => { const example = __entry8; return <Fragment key={identityKey(__entry8)}><Render tag="div" props={{"className": ["p-2 border-round surface-50"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["flex align-items-center gap-2 font-medium"].filter(Boolean).join(' ')}}><Render tag="app-icon" props={{"name": example.icon}}></Render>
-<Render tag="span" props={{}}>{interpolate(["",""], [example.title])}</Render></Render>
-<Render tag="p" props={{"className": ["my-1 font-italic text-primary"].filter(Boolean).join(' ')}}>{interpolate(["“","”"], [example.prompt])}</Render>
-<Render tag="small" props={{"className": ["line-height-3"].filter(Boolean).join(' ')}}>{interpolate(["",""], [example.note])}</Render></Render></Fragment>; })}</Render>
-<Render tag="h3" props={{"className": ["mt-0 mb-2 text-lg"].filter(Boolean).join(' ')}}>{"Como conectar"}</Render>
+<Render tag="span" props={{}}>{t(example.title)}</Render></Render>
+<Render tag="p" props={{"className": ["my-1 font-italic text-primary"].filter(Boolean).join(' ')}}>{interpolate(["“","”"], [t(example.prompt)])}</Render>
+<Render tag="small" props={{"className": ["line-height-3"].filter(Boolean).join(' ')}}>{t(example.note)}</Render></Render></Fragment>; })}</Render>
+<Render tag="h3" props={{"className": ["mt-0 mb-2 text-lg"].filter(Boolean).join(' ')}}>{t('mcp.howToConnect')}</Render>
 <Render tag="app-ui-accordion" props={{}}><Render tag="app-ui-accordion-tab" props={{"header": "Claude"}}><Render tag="p" props={{"className": ["mt-0 line-height-3"].filter(Boolean).join(' ')}}><Render tag="b" props={{}}>{"Claude.ai / Claude Desktop"}</Render></Render>
-<Render tag="ol" props={{"className": ["mt-0 line-height-3"].filter(Boolean).join(' ')}}><Render tag="li" props={{}}>{"Configurações → "}
-<Render tag="b" props={{}}>{"Conectores"}</Render>
-{"."}</Render>
-<Render tag="li" props={{}}><Render tag="b" props={{}}>{"Adicionar conector personalizado"}</Render>
-{"."}</Render>
-<Render tag="li" props={{}}>{"Cole a URL acima e salve. Não precisa de login nem de chave."}</Render></Render>
-<Render tag="p" props={{"className": ["mb-1 line-height-3"].filter(Boolean).join(' ')}}><Render tag="b" props={{}}>{"Claude Code"}</Render>
-{", pelo terminal:"}</Render>
+<Render tag="ol" props={{"className": ["mt-0 line-height-3"].filter(Boolean).join(' ')}}><Render tag="li" props={{}}>{rich('mcp.claudeStep1')}</Render>
+<Render tag="li" props={{}}>{rich('mcp.claudeStep2')}</Render>
+<Render tag="li" props={{}}>{t('mcp.claudeStep3')}</Render></Render>
+<Render tag="p" props={{"className": ["mb-1 line-height-3"].filter(Boolean).join(' ')}}>{rich('mcp.claudeCodeStep')}</Render>
 <Render tag="pre" props={{"className": ["p-2 border-round surface-100 text-sm"].filter(Boolean).join(' '),
 "style": normalizeStyle(Object.assign({}, parseStyle("white-space: pre-wrap; word-break: break-all")))}}>{interpolate(["claude mcp add --transport http ro-calc ",""], [vm.mcpUrl])}</Render></Render>
-<Render tag="app-ui-accordion-tab" props={{"header": "ChatGPT"}}><Render tag="p" props={{"className": ["mt-0 line-height-3"].filter(Boolean).join(' ')}}>{" Conectores personalizados ficam no "}
-<Render tag="b" props={{}}>{"modo desenvolvedor"}</Render>
-{", hoje em beta e disponível nos planos "}
-<Render tag="b" props={{}}>{"Plus e Pro"}</Render>
-{". "}</Render>
-<Render tag="ol" props={{"className": ["mt-0 line-height-3"].filter(Boolean).join(' ')}}><Render tag="li" props={{}}>{"Configurações → "}
-<Render tag="b" props={{}}>{"Conectores"}</Render>
-{" → "}
-<Render tag="b" props={{}}>{"Configurações avançadas"}</Render>
-{"."}</Render>
-<Render tag="li" props={{}}>{"Ative o "}
-<Render tag="b" props={{}}>{"modo desenvolvedor"}</Render>
-{"."}</Render>
-<Render tag="li" props={{}}>{"Volte em Conectores e crie um conector personalizado com a URL acima."}</Render>
-<Render tag="li" props={{}}>{"Em autenticação, escolha "}
-<Render tag="b" props={{}}>{"sem autenticação"}</Render>
-{"."}</Render></Render></Render>
-<Render tag="app-ui-accordion-tab" props={{"header": "Dúvidas comuns"}}><Render tag="ul" props={{"className": ["mt-0 line-height-3"].filter(Boolean).join(' ')}}><Render tag="li" props={{}}><Render tag="b" props={{}}>{"Precisa pagar ou criar conta?"}</Render>
-{" Não. O servidor é público e só lê dados — ele não altera nada."}</Render>
-<Render tag="li" props={{}}><Render tag="b" props={{}}>{"Minha build vai para algum lugar?"}</Render>
-{" Só o que você mandar para a IA. O servidor não guarda nada."}</Render>
-<Render tag="li" props={{}}><Render tag="b" props={{}}>{"A IA erra a conta?"}</Render>
-{" Ela não faz a conta: quem calcula é o simulador. Se um número parecer estranho, abra o link que ela devolve e confira aqui."}</Render>
-<Render tag="li" props={{}}><Render tag="b" props={{}}>{"Item “fora do banco de dados”?"}</Render>
-{" Existe no LATAM mas ainda não foi cadastrado aqui, então não entra nos cálculos. Avise no Discord que a gente adiciona."}</Render></Render></Render></Render>
-<Render tag="div" props={{"className": ["mt-3 flex gap-2 flex-wrap justify-content-center align-items-center"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{"Deu problema?"}</Render>
+<Render tag="app-ui-accordion-tab" props={{"header": "ChatGPT"}}><Render tag="p" props={{"className": ["mt-0 line-height-3"].filter(Boolean).join(' ')}}>{rich('mcp.chatgptIntro')}</Render>
+<Render tag="ol" props={{"className": ["mt-0 line-height-3"].filter(Boolean).join(' ')}}><Render tag="li" props={{}}>{rich('mcp.chatgptStep1')}</Render>
+<Render tag="li" props={{}}>{rich('mcp.chatgptStep2')}</Render>
+<Render tag="li" props={{}}>{t('mcp.chatgptStep3')}</Render>
+<Render tag="li" props={{}}>{rich('mcp.chatgptStep4')}</Render></Render></Render>
+<Render tag="app-ui-accordion-tab" props={{"header": t('mcp.faq')}}><Render tag="ul" props={{"className": ["mt-0 line-height-3"].filter(Boolean).join(' ')}}><Render tag="li" props={{}}>{rich('mcp.faqAccount')}</Render>
+<Render tag="li" props={{}}>{rich('mcp.faqBuild')}</Render>
+<Render tag="li" props={{}}>{rich('mcp.faqMath')}</Render>
+<Render tag="li" props={{}}>{rich('mcp.faqMissingItem')}</Render></Render></Render></Render>
+<Render tag="div" props={{"className": ["mt-3 flex gap-2 flex-wrap justify-content-center align-items-center"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{t('mcp.trouble')}</Render>
 <Render tag="a" props={{"target": "_blank",
 "rel": "noreferrer noopener",
 "href": vm.discordUrl}}><Render tag="app-ui-chip" props={{"label": "Discord",
@@ -203,13 +156,13 @@ const i = __index4; return <Fragment key={identityKey(__entry4)}><Render tag="di
 <Render tag="app-help-improve" props={{"visible": vm.visibleHelpImprove,
 "appVersion": vm.lastestVersion,
 "visibleChange": (event: any) => vm.action(() => { const $event = event; (vm.visibleHelpImprove = $event) })}}></Render>
-<Render tag="app-ui-dialog" props={{"header": "Referências",
+<Render tag="app-ui-dialog" props={{"header": t('topbar.references'),
 "modal": true,
 "visible": vm.visibleReference,
 "visibleChange": (event: any) => vm.action(() => { const $event = event; (vm.visibleReference = $event) }),
-"style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "50vw","height": "70vh"})))}}><Render tag="ul" props={{}}>{(vm.references ?? []).map((__entry9: any, __index9: number, __array9: any[]) => { const reference = __entry9; return <Fragment key={identityKey(__entry9)}><Render tag="li" props={{}}><Render tag="span" props={{}}>{interpolate(["[ por "," ]"], [reference.writer])}</Render>
-<Render tag="span" props={{"className": ["mx-2"].filter(Boolean).join(' ')}}>{interpolate(["",""], [reference.label])}</Render>
+"style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "50vw","height": "70vh"})))}}><Render tag="ul" props={{}}>{(vm.references ?? []).map((__entry9: any, __index9: number, __array9: any[]) => { const reference = __entry9; return <Fragment key={identityKey(__entry9)}><Render tag="li" props={{}}><Render tag="span" props={{}}>{t('topbar.referenceWriter', { writer: reference.writer })}</Render>
+<Render tag="span" props={{"className": ["mx-2"].filter(Boolean).join(' ')}}>{reference.labelKey ? t(reference.labelKey) : reference.label}</Render>
 <Render tag="a" props={{"target": "_blank",
 "rel": "noreferrer noopener",
-"href": interpolate(["",""], [reference.link])}}>{"Link"}</Render></Render></Fragment>; })}</Render></Render></Render></>;
+"href": interpolate(["",""], [reference.link])}}>{t('topbar.referenceLink')}</Render></Render></Fragment>; })}</Render></Render></Render></>;
 }

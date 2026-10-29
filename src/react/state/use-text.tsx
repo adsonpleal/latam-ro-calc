@@ -1,14 +1,18 @@
-import { ReactNode, createContext, useContext, useMemo, useSyncExternalStore } from 'react';
-import { Locale, TextParams, translate } from '../../app/core/i18n';
+import { Fragment, ReactNode, createContext, useContext, useMemo, useSyncExternalStore } from 'react';
+import { Locale, TextParams, textRuns, translate } from '../../app/core/i18n';
 import { TextKey } from '../../app/i18n';
 import { LocalePreferences } from '../services/locale';
 
 /** Translates a key into the language the reader chose. Keys are typed by `pt-br.ts`. */
 export type Text = (key: TextKey, params?: TextParams) => string;
 
+/** Same lookup, with the `*emphasis*` in the entry rendered as `<b>`. */
+export type RichText = (key: TextKey, params?: TextParams) => ReactNode;
+
 interface LocaleContextValue {
   locale: Locale;
   t: Text;
+  rich: RichText;
 }
 
 const LocaleContext = createContext<LocaleContextValue | null>(null);
@@ -23,10 +27,17 @@ const LocaleContext = createContext<LocaleContextValue | null>(null);
  */
 export function LocaleProvider({ locale, children }: { locale: LocalePreferences; children: ReactNode }) {
   const state = useSyncExternalStore(locale.subscribe, locale.getSnapshot);
-  const value = useMemo<LocaleContextValue>(() => ({
-    locale: state.locale,
-    t: (key, params) => translate(state.catalog, key, params),
-  }), [state]);
+  const value = useMemo<LocaleContextValue>(() => {
+    const t: Text = (key, params) => translate(state.catalog, key, params);
+    return {
+      locale: state.locale,
+      t,
+      rich: (key, params) => textRuns(t(key, params)).map((run, index) =>
+        run.emphasis
+          ? <b key={index}>{run.text}</b>
+          : <Fragment key={index}>{run.text}</Fragment>),
+    };
+  }, [state]);
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
 }
 
@@ -46,4 +57,12 @@ export function useLocale(): Locale {
 
 export function useText(): Text {
   return useLocaleContext().t;
+}
+
+/**
+ * For the sentences that carry bold in the middle of a clause. Same catalog, same
+ * keys — `textRuns` is what turns the `*…*` in the entry back into `<b>`.
+ */
+export function useRichText(): RichText {
+  return useLocaleContext().rich;
 }

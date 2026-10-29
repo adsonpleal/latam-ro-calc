@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { LOCALES, LOCALE_NAMES, fill, isLocale, translate } from './i18n';
+import { LOCALES, LOCALE_NAMES, fill, isLocale, textRuns, translate } from './i18n';
 
 describe('isLocale', () => {
   it('rejects anything that is not a shipped locale, including junk from storage', () => {
@@ -45,5 +45,37 @@ describe('translate', () => {
 
   it('answers the key itself when the catalog has not got it, rather than throwing', () => {
     expect(translate(catalog, 'absent.key')).toBe('absent.key');
+  });
+});
+
+describe('textRuns', () => {
+  it('keeps a plain sentence as a single run', () => {
+    expect(textRuns('O ciclo fecha em 4s')).toEqual([{ text: 'O ciclo fecha em 4s', emphasis: false }]);
+  });
+
+  it('splits the emphasis out of the middle of a clause', () => {
+    expect(textRuns('limita o Hab./s a *2,5* por segundo')).toEqual([
+      { text: 'limita o Hab./s a ', emphasis: false },
+      { text: '2,5', emphasis: true },
+      { text: ' por segundo', emphasis: false },
+    ]);
+  });
+
+  it('handles emphasis at either end and several in one entry', () => {
+    expect(textRuns('*Prévias*: itens e *habilidades*')).toEqual([
+      { text: 'Prévias', emphasis: true },
+      { text: ': itens e ', emphasis: false },
+      { text: 'habilidades', emphasis: true },
+    ]);
+  });
+
+  // The left-hand ATK note is written with three asterisks, and it has to survive.
+  it('leaves unpaired asterisks as written', () => {
+    const note = '*** ATK da mão esquerda ainda não calculado';
+    expect(textRuns(note)).toEqual([{ text: note, emphasis: false }]);
+  });
+
+  it('answers nothing for an empty entry', () => {
+    expect(textRuns('')).toEqual([]);
   });
 });

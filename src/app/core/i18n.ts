@@ -83,3 +83,35 @@ export function translate(catalog: Catalog, key: string, params?: TextParams): s
   if (template == null) return key;
   return params ? fill(template, params) : template;
 }
+
+/** A stretch of a sentence, and whether the catalog asked for it to stand out. */
+export interface TextRun {
+  readonly text: string;
+  readonly emphasis: boolean;
+}
+
+const EMPHASIS = /\*([^*]+)\*/g;
+
+/**
+ * Splits a catalog entry on the `*emphasis*` written into it.
+ *
+ * Several sentences in this interface put a word or a number in bold in the middle of
+ * a clause. Shipping them as "text before", `<b>`, "text after" would hand each
+ * translation three fragments and no way to reorder them — and Spanish and English do
+ * reorder them. So the whole sentence stays one catalog entry, with the emphasis
+ * marked inside it, and the view rebuilds the markup from these runs.
+ *
+ * A lone `*` has no pair and is left alone, which is why `*** ATK da mão esquerda` is
+ * still printed as written.
+ */
+export function textRuns(text: string): TextRun[] {
+  const runs: TextRun[] = [];
+  let index = 0;
+  for (const match of text.matchAll(EMPHASIS)) {
+    if (match.index > index) runs.push({ text: text.slice(index, match.index), emphasis: false });
+    runs.push({ text: match[1], emphasis: true });
+    index = match.index + match[0].length;
+  }
+  if (index < text.length) runs.push({ text: text.slice(index), emphasis: false });
+  return runs;
+}
