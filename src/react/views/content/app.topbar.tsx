@@ -1,10 +1,11 @@
-import { Fragment, useMemo } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { Render, interpolate, parseStyle, normalizeStyle, identityKey } from '../render';
 import { SelectButton } from '../../ui/select-button';
 import { useTooltip } from '../../ui/tooltip';
 import { Dialog } from '../../ui/dialog';
-import { Button } from '../../ui/primitives';
+import { Button, Icon } from '../../ui/primitives';
 import { LocaleSelect } from '../locale-select';
+import { useViewportBand } from '../../ui/viewport';
 import { useLocale, useRichText, useText } from '../../state/use-text';
 import { entryLogs } from '../../../releases/entry-logs';
 export function Content({vm, services}: {vm: any; services: any}) {
@@ -12,15 +13,19 @@ const t = useText();
 const rich = useRichText();
 const locale = useLocale();
 const previewOptions = useMemo(() => [{ label: t('common.yes'), value: true }, { label: t('common.no'), value: false }], [t]);
+const [menuOpen, setMenuOpen] = useState(false);
+// Below desktop the language select moves into the menu sheet, where the row has the
+// width its three self-names need; the topbar there is down to icons.
+const compact = useViewportBand() !== 'desktop';
 const previewTooltip = useTooltip({
   text: t('settings.previewsTooltip'),
   position: 'left', showDelay: 300, disabled: !vm.visibleSettings,
 });
-return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean).join(' '),
-"style": normalizeStyle(Object.assign({}, parseStyle("min-width: 1500px")))}}><Render tag="span" props={{"className": ["pr-2"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.lastestVersion])}</Render>
+const closeMenu = () => setMenuOpen(false);
+return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean).join(' ')}}><Render tag="span" props={{"className": ["pr-2 topbar-version"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.lastestVersion])}</Render>
 <Render tag="button" props={{"aria-label": t('topbar.updates'),
 "click": (event: any) => vm.action(() => { const $event = event; vm.showUpdateDialog() }),
-"className": ["ui-button-text ui-button-info"].filter(Boolean).join(' '),
+"className": ["ui-button-text ui-button-info topbar-bell"].filter(Boolean).join(' '),
 "button": true}}>{(() => { const __condition1 = (vm.showUnreadVersion > 0);  return __condition1 ? <><Render tag="app-icon" props={{"severity": "danger",
 "name": "bell",
 "value": interpolate(["",""], [vm.showUnreadVersion]),
@@ -30,23 +35,26 @@ return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean
 "name": "bell",
 "className": ["text-xl"].filter(Boolean).join(' ')}}></Render></> : null; })()}</Render>
 <Render tag="button" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.showReferenceDialog() }),
-"className": ["pl-2 ui-button-text ui-button-info ui-button-raised"].filter(Boolean).join(' '),
+"className": ["pl-2 ui-button-text ui-button-info ui-button-raised topbar-nav"].filter(Boolean).join(' '),
 "button": true}}>{t('topbar.references')}</Render>
 <Render tag="div" props={{"className": ["flex align-items-center gap-2 ml-2"].filter(Boolean).join(' ')}}><Render tag="a" props={{"target": "_blank",
 "rel": "noreferrer noopener",
-"href": vm.issuesReportUrl}}><Render tag="button" props={{"aria-label": t('topbar.report'),
+"href": vm.issuesReportUrl,
+"className": "topbar-nav"}}><Render tag="button" props={{"aria-label": t('topbar.report'),
 "className": ["ui-button-warning ui-button-raised px-2"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"name": "comment"}}></Render>
 <Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{t('topbar.report')}</Render></Render></Render>
 <Render tag="a" props={{"target": "_blank",
 "rel": "noreferrer noopener",
-"href": vm.issuesBoardUrl}}><Render tag="button" props={{"aria-label": t('topbar.follow'),
+"href": vm.issuesBoardUrl,
+"className": "topbar-nav"}}><Render tag="button" props={{"aria-label": t('topbar.follow'),
 "className": ["ui-button-help ui-button-raised px-2"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"name": "list"}}></Render>
 <Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{t('topbar.follow')}</Render></Render></Render>
 <Render tag="a" props={{"target": "_blank",
 "rel": "noreferrer noopener",
-"href": vm.discordUrl}}><Render tag="button" props={{"aria-label": "Discord",
+"href": vm.discordUrl,
+"className": "topbar-nav"}}><Render tag="button" props={{"aria-label": "Discord",
 "className": ["ui-button-raised px-2"].filter(Boolean).join(' '),
 "style": normalizeStyle(Object.assign({}, parseStyle("background: #5865f2; border-color: #5865f2"))),
 "button": true}}><Render tag="app-icon" props={{"name": "discord"}}></Render>
@@ -54,26 +62,63 @@ return <><Render tag="div" props={{"className": ["layout-topbar"].filter(Boolean
 <Render tag="div" props={{"className": ["topbar-actions flex align-items-center gap-2"].filter(Boolean).join(' ')}}>
 <Render tag="button" props={{"aria-label": t('topbar.mcpServer'),
 "click": (event: any) => vm.action(() => { const $event = event; vm.showMcpDialog() }),
-"className": ["ui-button-help ui-button-raised px-2"].filter(Boolean).join(' '),
+"className": ["ui-button-help ui-button-raised px-2 topbar-nav"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"aria-hidden": "true",
 "name": "sparkles"}}></Render>
 <Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{"MCP"}</Render></Render>
 <Render tag="button" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.openCustomItems() }),
-"className": ["ui-button-success ui-button-raised px-2"].filter(Boolean).join(' '),
+"className": ["ui-button-success ui-button-raised px-2 topbar-nav"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"name": "box"}}></Render>
 <Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{t('topbar.myItems')}</Render></Render>
 <Render tag="button" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.openItemSearch() }),
-"className": ["ui-button-info ui-button-raised px-2"].filter(Boolean).join(' '),
+"aria-label": t('itemSearch.title'),
+"className": ["ui-button-info ui-button-raised px-2 topbar-search"].filter(Boolean).join(' '),
 "button": true}}><Render tag="app-icon" props={{"name": "search"}}></Render>
-<Render tag="span" props={{"className": ["pl-1"].filter(Boolean).join(' ')}}>{t('itemSearch.title')}</Render></Render>
-<LocaleSelect />
+<Render tag="span" props={{"className": ["pl-1 topbar-label"].filter(Boolean).join(' ')}}>{t('itemSearch.title')}</Render></Render>
+{!compact && <LocaleSelect />}
+<Button icon="bars" aria-label={t('topbar.menu')} aria-haspopup="dialog" aria-expanded={menuOpen}
+  className="ui-button-secondary ui-button-raised topbar-icon topbar-menu" onClick={() => setMenuOpen(true)} />
 <Button icon="cog" aria-label={t('topbar.settings')} aria-haspopup="dialog" aria-expanded={vm.visibleSettings}
   className="ui-button-success ui-button-raised topbar-settings" onClick={() => vm.action(() => { vm.visibleSettings = true; })} />
 </Render>
+{/* Everything the compact topbar has no room for, as one list of full-width rows. */}
+<Dialog header={t('topbar.menu')} visible={menuOpen} modal dismissableMask position="right" onVisibleChange={setMenuOpen}>
+  <nav className="topbar-menu-list" aria-label={t('topbar.menu')}>
+    <div className="topbar-menu-row topbar-menu-row--control">
+      <Icon name="globe" aria-hidden="true" /><span>{t('locale.label')}</span>{compact && <LocaleSelect />}
+    </div>
+    <button type="button" className="topbar-menu-row" onClick={() => { closeMenu(); vm.action(() => vm.showUpdateDialog()); }}>
+      <Icon name="bell" aria-hidden="true" /><span>{t('topbar.updates')}</span><span className="topbar-menu-meta">{vm.lastestVersion}</span>{vm.showUnreadVersion > 0 && <span className="topbar-menu-badge">{vm.showUnreadVersion}</span>}
+    </button>
+    <button type="button" className="topbar-menu-row" onClick={() => { closeMenu(); vm.action(() => vm.openCustomItems()); }}>
+      <Icon name="box" aria-hidden="true" /><span>{t('topbar.myItems')}</span>
+    </button>
+    <button type="button" className="topbar-menu-row" onClick={() => { closeMenu(); vm.action(() => vm.showMcpDialog()); }}>
+      <Icon name="sparkles" aria-hidden="true" /><span>{t('topbar.mcpServer')}</span>
+    </button>
+    <button type="button" className="topbar-menu-row" onClick={() => { closeMenu(); vm.action(() => vm.showReferenceDialog()); }}>
+      <Icon name="list" aria-hidden="true" /><span>{t('topbar.references')}</span>
+    </button>
+    <a className="topbar-menu-row" href={vm.issuesReportUrl} target="_blank" rel="noreferrer noopener" onClick={closeMenu}>
+      <Icon name="comment" aria-hidden="true" /><span>{t('topbar.report')}</span><Icon name="external-link" aria-hidden="true" className="topbar-menu-external" />
+    </a>
+    <a className="topbar-menu-row" href={vm.issuesBoardUrl} target="_blank" rel="noreferrer noopener" onClick={closeMenu}>
+      <Icon name="list" aria-hidden="true" /><span>{t('topbar.follow')}</span><Icon name="external-link" aria-hidden="true" className="topbar-menu-external" />
+    </a>
+    <a className="topbar-menu-row" href={vm.discordUrl} target="_blank" rel="noreferrer noopener" onClick={closeMenu}>
+      <Icon name="discord" aria-hidden="true" /><span>Discord</span><Icon name="external-link" aria-hidden="true" className="topbar-menu-external" />
+    </a>
+    <button type="button" className="topbar-menu-row" onClick={() => { closeMenu(); vm.action(() => { vm.visibleSettings = true; }); }}>
+      <Icon name="cog" aria-hidden="true" /><span>{t('topbar.settings')}</span>
+    </button>
+  </nav>
+</Dialog>
 <Dialog header={t('topbar.settings')} visible={vm.visibleSettings} modal dismissableMask position="right"
   onVisibleChange={visible => vm.action(() => { vm.visibleSettings = visible; })}>
-  <div {...previewTooltip.triggerProps} className="flex align-items-center justify-content-between gap-3">
-    <span>{t('settings.previews')}</span>
+  {/* A tap opens the tip from the label only; on the yes / no buttons it just picks. */}
+  <div {...previewTooltip.triggerProps} className="flex align-items-center justify-content-between gap-3"
+    onClick={event => { if (!(event.target as HTMLElement).closest('[role=group]')) previewTooltip.triggerProps.onClick?.(event); }}>
+    <span className="settings-preview-label" tabIndex={0}>{t('settings.previews')}</span>
     <SelectButton ariaLabel={t('settings.showPreviews')} options={previewOptions} value={vm.showPreviews}
       onChange={value => vm.action(() => vm.setShowPreviews(value))} />
   </div>
@@ -100,6 +145,7 @@ const i = __index4; return <Fragment key={identityKey(__entry4)}><Render tag="di
 <Render tag="ul" props={{"className": ["mt-0"].filter(Boolean).join(' ')}}>{entryLogs(update, locale).map((__entry7: any, __index7: number, __array7: any[]) => { const log = __entry7; return <Fragment key={identityKey(__entry7)}><Render tag="li" props={{}}>{interpolate(["",""], [log])}</Render></Fragment>; })}</Render></Render></Fragment>; })}
 <Render tag="div" props={{"className": ["mt-3 text-center"].filter(Boolean).join(' ')}}><Render tag="a" props={{"target": "_blank",
 "rel": "noreferrer noopener",
+"className": ["changelog-original-link"].filter(Boolean).join(' '),
 "href": vm.originalChangelogUrl}}>{t('updates.originalHistory')}</Render></Render></Render>
 <Render tag="app-ui-dialog" props={{"modal": true,
 "visible": vm.visibleMcp,

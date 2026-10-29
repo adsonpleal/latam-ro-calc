@@ -3,6 +3,7 @@ import { Select } from '../ui/select';
 import { keyActivate } from '../ui/key-activate';
 import { useTooltip } from '../ui/tooltip';
 import { useText } from '../state/use-text';
+import { hoverless } from '../ui/viewport';
 import './status-input.css';
 
 export interface StatusInputProps {
@@ -20,10 +21,14 @@ export function StatusInput({ label, dropdownList, value, onChange, extraValue =
   const delta = compareExtraValue != null && compareExtraValue !== extraValue;
   const clickable = !!extraValue && extraClickable;
   const captionTip = useTooltip({ text: otherText ? t('calc.statOther', { stat: label, side: otherLabel, value: otherText }) : '', position: 'top', showDelay: 300 });
-  const deltaTip = useTooltip({ text: t('calc.statCompare', { stat: label }), position: 'top', showDelay: 300 });
+  const deltaTip = useTooltip({ text: t('calc.statCompare', { stat: label }), position: 'top', showDelay: 300, tap: false });
   return createElement('app-status-input', null, <div className="status_input">
     <div className="joined_field">
-      <label {...captionTip.triggerProps} className={`joined_caption status_label ${otherText ? 'status_label--other' : ''}`} htmlFor={label}>{label}{otherText && <span className="status_other">{otherText}</span>}</label>
+      {/* With the other build's value the label holds a tip: it takes focus, and on touch a
+          tap opens the tip only (not also the field the label points at). */}
+      <label {...captionTip.triggerProps} tabIndex={otherText ? 0 : undefined}
+        onClick={event => { if (otherText && hoverless()) event.preventDefault(); captionTip.triggerProps.onClick?.(event); }}
+        className={`joined_caption status_label ${otherText ? 'status_label--other' : ''}`} htmlFor={label}>{label}{otherText && <span className="status_other">{otherText}</span>}</label>
       {captionTip.tooltip}
       <Select panelClassName="joined-dropdown-panel" disabled={disabled} inputId={label} autoDisplayFirst={false}
         options={dropdownList} filter filterBy="label" scrollHeight="350px" resetFilterOnHide value={value} onChange={onChange}

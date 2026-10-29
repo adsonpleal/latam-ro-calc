@@ -5,7 +5,7 @@ import { useText } from '../../state/use-text';
 export function Content({vm, services}: {vm: any; services: any}) {
 const t = useText();
 return <>{(() => { const rowTpl = (context: any) => { const row = context["$implicit"];
-const i = context["i"]; return <><Render tag="button" props={{"type": "button",
+const i = context["i"]; return <><div className="picker__item"><Render tag="button" props={{"type": "button",
 "tabIndex": "-1",
 "tooltipPosition": "right",
 "tooltipStyleClass": "item_desc_tooltip",
@@ -22,7 +22,7 @@ const i = context["i"]; return <><Render tag="button" props={{"type": "button",
 {(() => { const __condition3 = row.preRelease;  return __condition3 ? <><Render tag="span" props={{"tooltipPosition": "top",
 "className": ["pre_release_tag"].filter(Boolean).join(' '),
 "tooltip": {text: t('eq.preReleaseTooltip'), position: "top", className: '', showDelay: 300, hideDelay: 0, escape: true, disabled: false}}}>{t('eq.preReleaseTag')}</Render></> : null; })()}
-{(() => { const __condition4 = row.group;  return __condition4 ? <><Render tag="span" props={{"className": ["picker__chevron"].filter(Boolean).join(' ')}}>{"›"}</Render></> : null; })()}</Render></>; }; return <><Render tag="div" props={{"tabIndex": "-1",
+{(() => { const __condition4 = row.group;  return __condition4 ? <><Render tag="span" props={{"className": ["picker__chevron"].filter(Boolean).join(' ')}}>{"›"}</Render></> : null; })()}</Render></div></>; }; return <><Render tag="div" props={{"tabIndex": "-1",
 "appTrapFocus": "",
 "appTrapFocusAutoCapture": "",
 "keydown": (event: any) => vm.action(() => { const $event = event; vm.onKeyDown($event) }),

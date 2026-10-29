@@ -156,7 +156,18 @@ const i = __index3; return <Fragment key={identityKey(vm.trackByIndex(__index3, 
 "click": (event: any) => vm.action(() => { const $event = event; vm.remove(i) }),
 "className": ["rot-remove"].filter(Boolean).join(' '),
 "tooltip": {text: t('eq.remove'), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false},
-"activateWithKeys": true}}></Render></>; })()}</Render></Fragment>; })}</Render>
+"activateWithKeys": true}}></Render>
+{/* The drag handle's tap equivalent: touch screens show these instead of asking for a drag. */}
+{(() => { const __conditionMove = vm.entries.length > 1;  return __conditionMove ? <><Render tag="button" props={{"type": "button",
+"aria-label": t('rot.moveUp', { name: entry.name }),
+"disabled": i === 0,
+"click": (event: any) => vm.action(() => { const $event = event; vm.moveBy(i,-(1),$event) }),
+"className": ["rot-move"].filter(Boolean).join(' ')}}><Render tag="app-icon" props={{"name": "chevron-up"}}></Render></Render>
+<Render tag="button" props={{"type": "button",
+"aria-label": t('rot.moveDown', { name: entry.name }),
+"disabled": i === vm.entries.length - 1,
+"click": (event: any) => vm.action(() => { const $event = event; vm.moveBy(i,1,$event) }),
+"className": ["rot-move"].filter(Boolean).join(' ')}}><Render tag="app-icon" props={{"name": "chevron-down"}}></Render></Render></> : null; })()}</>; })()}</Render></Fragment>; })}</Render>
 {(() => { const __condition23 = (vm.addingAt !== null);  return __condition23 ? <><Render tag="div" props={{"className": ["rot-row rot-row--adding"].filter(Boolean).join(' ')}}><Render tag="app-icon" props={{"aria-hidden": "true",
 "name": "bars",
 "className": ["rot-handle rot-handle--spacer"].filter(Boolean).join(' ')}}></Render>
@@ -199,7 +210,7 @@ const i = __index3; return <Fragment key={identityKey(vm.trackByIndex(__index3, 
 "click": (event: any) => vm.action(() => { const $event = event; vm.startAdding() }),
 "className": ["rot-add"].filter(Boolean).join(' '),
 "tooltip": {text: (vm.isFull ? t('rot.full', { max: vm.maxLength }) : t('rot.repeatHint')), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false},
-"button": true}}></Render></Render></> : null; })()}
+"button": true}}></Render>{vm.isFull && <span className="rot-full-note">{t('rot.full', { max: vm.maxLength })}</span>}</Render></> : null; })()}
 <Render tag="span" props={{"aria-live": "polite",
 "className": ["sr-only"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.moveAnnouncement])}</Render></Render></>;
 }

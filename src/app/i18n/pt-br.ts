@@ -22,6 +22,8 @@ export const ptBR = {
   // exactly why they belong here: a screen reader in Spanish should not read
   // Portuguese button names.
   'ui.loading': 'Carregando',
+  'ui.viewDescription': 'Ver descrição',
+  'ui.closeDescription': 'Fechar descrição',
   'ui.select.clearSelection': 'Limpar seleção',
   'ui.select.openOptions': 'Abrir opções',
   'ui.select.closeOptions': 'Fechar opções',
@@ -45,6 +47,8 @@ export const ptBR = {
   'ui.confirm.header': 'Confirmação',
 
   'topbar.settings': 'Configurações',
+  // The compact top bar's menu sheet, which holds what does not fit a narrow row.
+  'topbar.menu': 'Menu',
   'topbar.updates': 'Novidades',
   'topbar.references': 'Referências',
   'topbar.report': 'Reportar',
@@ -193,6 +197,11 @@ export const ptBR = {
   'calc.penetrationTab': 'Resumo de Penetração',
   'calc.itemDescriptionsTab': 'Descrições dos Itens',
   'calc.equipments': 'Equipamentos',
+  // The pane switcher below the two-column width (one pane at a time).
+  'calc.panes': 'Painéis do simulador',
+  'calc.paneBuild': 'Build',
+  'calc.paneEquip': 'Equip.',
+  'calc.paneResult': 'Resultado',
   'calc.calculatedBonuses': 'Bônus calculados',
   'calc.noBonuses': 'Sem bônus.',
 
@@ -263,6 +272,7 @@ export const ptBR = {
   'itemSearch.description': 'Descrição',
   'itemSearch.itemDescription': 'Descrição do item',
   'itemSearch.selectPrompt': 'Selecione um item na lista ao lado para ver seus bônus e descrição.',
+  'itemSearch.selectPromptAbove': 'Selecione um item na lista acima para ver seus bônus e descrição.',
   'itemSearch.customItem': 'Item personalizado · ID {id}',
   'itemSearch.itemId': 'Item ID: {id}',
   'itemSearch.market': 'Mercado',
@@ -342,6 +352,7 @@ export const ptBR = {
   'eq.preReleaseTag': 'Prévia',
   'eq.preReleaseTooltip': 'Prévia: item ainda não lançado no LATAM — nome e descrição em inglês, do kRO/iRO (divine-pride).',
   'eq.remove': 'Remover',
+  'eq.viewDescription': 'Ver descrição: {name}',
   'eq.removeNamed': 'Remover {name}',
   'eq.custom': 'Customizado',
   'eq.customTooltip': 'Item customizado. Clique para editar.',
@@ -406,6 +417,7 @@ export const ptBR = {
   'misc.cdLabel': '{name} (CD)',
 
   'elemTable.show': 'Mostrar tabela elemental',
+  'elemTable.scrollHint': 'Deslize as tabelas para o lado para ver todas as propriedades.',
   'elemTable.pickMonsters': 'Escolher Monstros',
   'elemTable.selected': '{0} monstros selecionados',
   'elemTable.monster': 'Monstro',
@@ -1122,6 +1134,9 @@ export const ptBR = {
   'rot.empty': 'Nenhuma habilidade na rotação.',
   'rot.addSkill': 'Adicionar habilidade',
   'rot.reorderLabel': 'Reordenar {name}. Use as setas para cima e para baixo.',
+  // The drag handle's tap equivalent, on touch screens.
+  'rot.moveUp': 'Mover {name} para cima',
+  'rot.moveDown': 'Mover {name} para baixo',
   'rot.stack': 'Acúm.',
   'rot.occurrence': '{n}ª vez',
   'rot.critLabel': '• Crít.',
