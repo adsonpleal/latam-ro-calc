@@ -17,6 +17,9 @@ import { ClassName } from './_class-name';
 const levelList = (name: string, maxLv: number) =>
   Array.from({ length: maxLv }, (_, i) => ({ label: `${name} Nv${i + 1}`, value: `${name}==${i + 1}` }));
 
+/** Meteoritos de Colisão Astral: um a cada 0,3 s durante os 15 s que a passagem fica aberta. */
+const ASTRAL_STRIKE_METEORS = 15 / 0.3;
+
 /** What each Potencializar Magia level does to Cacos de Gelo, for the ratio breakdown. */
 const CRYSTAL_IMPACT_CLIMAX_EFFECT: Record<number, string> = {
   1: 'a habilidade deixa de causar dano e ativa [Geleira]',
@@ -187,7 +190,7 @@ export class ArchMage extends Warlock {
       name: 'Mystery Illusion',
       label: '[V3] Mystery Illusion Lv5',
       value: 'Mystery Illusion==5',
-      acd: 1,
+      acd: 0.5,
       fct: 1.5,
       vct: 4,
       cd: 4,
@@ -206,7 +209,7 @@ export class ArchMage extends Warlock {
       name: 'Floral Flare Road',
       label: '[V3] Floral Flare Road Lv5',
       value: 'Floral Flare Road==5',
-      acd: 0.5,
+      acd: 0.25,
       fct: 1.5,
       vct: 3,
       cd: 5,
@@ -226,7 +229,7 @@ export class ArchMage extends Warlock {
       name: 'Rain of Crystal',
       label: '[V3] Rain of Crystal Lv5',
       value: 'Rain of Crystal==5',
-      acd: 0.5,
+      acd: 0.25,
       fct: 1.5,
       vct: 3,
       cd: 5,
@@ -246,7 +249,7 @@ export class ArchMage extends Warlock {
       name: 'Tornado Storm',
       label: '[V3] Tornado Storm Lv5',
       value: 'Tornado Storm==5',
-      acd: 0.5,
+      acd: 0.25,
       fct: 1.5,
       vct: 3,
       cd: 5,
@@ -265,7 +268,7 @@ export class ArchMage extends Warlock {
       name: 'Stratum Tremor',
       label: '[V3] Stratum Tremor Lv5',
       value: 'Stratum Tremor==5',
-      acd: 0.5,
+      acd: 0.25,
       fct: 1.5,
       vct: 3,
       cd: 4,
@@ -324,7 +327,7 @@ export class ArchMage extends Warlock {
       acd: 0.5,
       fct: 1.5,
       vct: 4,
-      cd: 0.3,
+      cd: 0.45,
       isMatk: true,
       element: ElementType.Water,
       hit: 3,
@@ -388,7 +391,7 @@ export class ArchMage extends Warlock {
       label: '[V3] All Bloom Lv5',
       value: 'All Bloom==5',
       levelList: levelList('All Bloom', 5),
-      acd: 1,
+      acd: 0.5,
       fct: 1.5,
       vct: 4,
       cd: 6,
@@ -425,7 +428,7 @@ export class ArchMage extends Warlock {
       label: '[V3] Violent Quake Lv5',
       value: 'Violent Quake==5',
       levelList: levelList('Violent Quake', 5),
-      acd: 1,
+      acd: 0.5,
       fct: 1.5,
       vct: 4,
       cd: 6,
@@ -455,10 +458,10 @@ export class ArchMage extends Warlock {
       label: '[V3] Destructive Hurricane Lv5',
       value: 'Destructive Hurricane==5',
       levelList: levelList('Destructive Hurricane', 5),
-      acd: 1,
+      acd: 0.5,
       fct: 1.5,
       vct: 4,
-      cd: 6,
+      cd: 2,
       isMatk: true,
       element: ElementType.Wind,
       formula: (input: AtkSkillFormulaInput): number => {
@@ -485,10 +488,10 @@ export class ArchMage extends Warlock {
       label: '[V3] Crystal Impact Lv5',
       value: 'Crystal Impact==5',
       levelList: levelList('Crystal Impact', 5),
-      acd: 1,
+      acd: 0.5,
       fct: 1.5,
       vct: 4,
-      cd: 6,
+      cd: 2,
       isMatk: true,
       element: ElementType.Water,
       // Two Water shards, each carrying the full ratio: the first lands at once, the
@@ -519,28 +522,58 @@ export class ArchMage extends Warlock {
         ratioCalc: (input: AtkSkillFormulaInput) => this.crystalImpactRatioCalc(2, input),
       },
     },
-    // {
-    //   name: 'Astral Strike',
-    //   label: '[V2] Astral Strike Lv10',
-    //   value: 'Astral Strike==10',
-    //   acd: 0.5,
-    //   fct: 1.5,
-    //   vct: 4,
-    //   cd: 60,
-    //   isMatk: true,
-    //   element: ElementType.Neutral,
-    //   formula: (input: AtkSkillFormulaInput): number => {
-    //     const { model, skillLevel, status, monster } = input;
-    //     const { totalSpl } = status;
-    //     const { level: baseLevel } = model;
-    //     const raceBonus = monster.isRace('undead', 'dragon') ? 600 : 0;
+    {
+      /**
+       * Colisão Astral — o asteroide cai uma vez e abre passagem para meteoritos que
+       * atingem o alvo a cada 0,3 segundo por 15 segundos, ou seja 50 quedas.
+       *
+       * A tabela do cliente tem duas colunas de dano, ATQM e ATQM (Bônus): 500% e 1.100%
+       * por nível, a segunda contra Morto-vivo e Dragão — daí o +600. O bROWiki publica a
+       * mesma tabela com uma coluna a mais, a dos meteoritos, a 200% por nível por queda.
+       * As duas partes somam (10 x FEI) e escalam pelo nível de base.
+       *
+       * Os 15 segundos vêm só do wiki; o cliente diz "a cada 0,3 segundo" e não diz por
+       * quanto tempo. Se a duração mudar, é {@link ASTRAL_STRIKE_METEORS} que muda.
+       *
+       * @see https://browiki.org/wiki/Colis%C3%A3o_Astral
+       */
+      name: 'Astral Strike',
+      label: '[V2] Astral Strike Lv10',
+      value: 'Astral Strike==10',
+      levelList: levelList('Astral Strike', 10),
+      acd: 0.5,
+      fct: 1.5,
+      vct: 4,
+      cd: 6,
+      isMatk: true,
+      element: ElementType.Neutral,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { model, skillLevel, status, monster } = input;
+        const { totalSpl } = status;
+        const { level: baseLevel } = model;
+        const raceBonus = monster.isRace('undead', 'dragon') ? 600 : 0;
 
-    //     const primary = floor((skillLevel * (500 + raceBonus) + totalSpl * 10) * (baseLevel / 100));
-    //     const second = floor((skillLevel * 200 + totalSpl * 10) * (baseLevel / 100));
+        return floor((skillLevel * (500 + raceBonus) + totalSpl * 10) * (baseLevel / 100));
+      },
+      part2: {
+        label: 'Meteoritos',
+        isIncludeMain: false,
+        element: ElementType.Neutral,
+        isMatk: true,
+        isMelee: false,
+        hit: 1,
+        // Cada meteorito é um impacto à parte e come a DEFM do alvo sozinho, então são
+        // 50 pacotes repetidos, não um pacote de 50 golpes.
+        damageRepeat: ASTRAL_STRIKE_METEORS,
+        formula: (input: AtkSkillFormulaInput): number => {
+          const { model, skillLevel, status } = input;
+          const { totalSpl } = status;
+          const { level: baseLevel } = model;
 
-    //     return primary + second * 50;
-    //   },
-    // },
+          return floor((skillLevel * 200 + totalSpl * 10) * (baseLevel / 100));
+        },
+      },
+    },
   ];
   private readonly activeSkillList4th: ActiveSkillModel[] = [
     {

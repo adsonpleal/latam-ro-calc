@@ -1088,6 +1088,7 @@ export const catalog: TranslatedCatalog = {
   'rot.critLabel': '• CRÍT',
   'rot.critConditional': 'El crítico de esta habilidad depende del estado actual del personaje — mira la condición en (i).',
   'rot.noCrit': '• Sin CRÍT',
+  'rot.noDamage': 'No causa daño',
   'rot.requires': '⚠ Requiere {what}',
   'rot.stalled': 'La recarga no cierra — faltan {seconds}s',
   'rot.howDamage': 'Ver cómo se calcula el daño',

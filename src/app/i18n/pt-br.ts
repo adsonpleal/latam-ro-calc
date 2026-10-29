@@ -1127,6 +1127,7 @@ export const ptBR = {
   'rot.critLabel': '• Crít.',
   'rot.critConditional': 'O crítico desta habilidade depende do estado atual do personagem — veja a condição em (i).',
   'rot.noCrit': '• Sem crít.',
+  'rot.noDamage': 'Não causa dano',
   'rot.requires': '⚠ Requer {what}',
   'rot.stalled': 'Recarga não fecha — faltam {seconds}s',
   'rot.howDamage': 'Ver como o dano é calculado',

@@ -1086,6 +1086,7 @@ export const catalog: TranslatedCatalog = {
   'rot.critLabel': '• Crit',
   'rot.critConditional': "This skill's crit depends on the character's current state — see the condition under (i).",
   'rot.noCrit': '• No crit',
+  'rot.noDamage': 'Deals no damage',
   'rot.requires': '⚠ Requires {what}',
   'rot.stalled': 'The cooldown does not close — {seconds}s short',
   'rot.howDamage': 'See how the damage is calculated',
