@@ -33,7 +33,7 @@ export class ApplicationServices {
   /** Constructed by the entry before its React root mounts. */
   createCalculator(): CalculatorSession {
     return this.calculator ??= new CalculatorSession(new CalculatorData(this.data), this.messages, this.confirmations,
-      this.itemShop, this.data.descriptions, this.slotColors, this.layout, this.customItems);
+      this.itemShop, this.data.descriptions, this.slotColors, this.layout, this.customItems, this.locale.text);
   }
   constructor(storage: StorageLike, boot: { manifest?: DataManifest; inFlight?: Partial<Record<DataKey, Promise<unknown>>> }) {
     this.data = new DataClient(boot);

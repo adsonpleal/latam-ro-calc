@@ -10,6 +10,8 @@ import { SKILL_DESC_BY_ID } from '../../app/skills';
 import { previewBuffsForClass } from '../../app/skills/preview-275';
 import { ClassName } from '../../app/jobs/_class-name';
 import { ItemTypeEnum } from '../../app/constants/item-type.enum';
+import { translate } from '../../app/core/i18n';
+import { DEFAULT_CATALOG } from '../../app/i18n';
 
 function makeSession(overrides: Partial<Record<DataKey, Promise<unknown>>> = {}) {
   const values = new Map<string, string>();
@@ -29,7 +31,8 @@ function makeSession(overrides: Partial<Record<DataKey, Promise<unknown>>> = {})
   const data = new DataClient({ inFlight: artifacts });
   const layout = new CalculatorLayout(storage);
   const session = new CalculatorSession(new CalculatorData(data), new Messages(), new Confirmations(), new ItemShop(),
-    data.descriptions, new SlotColorPreferences(), layout, new CustomItems(storage));
+    data.descriptions, new SlotColorPreferences(), layout, new CustomItems(storage),
+    (key, params) => translate(DEFAULT_CATALOG, key, params));
   return { session, storage, data, layout };
 }
 describe('plain calculator session', () => {

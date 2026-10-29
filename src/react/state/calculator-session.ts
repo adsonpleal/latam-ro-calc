@@ -10,6 +10,7 @@ import { CalculatorData as RoService, DescriptionStore as ItemDescriptionStore, 
 interface SelectItemGroup { label: string; value?: unknown; items: any[]; }
 import { prepareCompareEquipment } from '../../app/core/compare-equipment';
 import { IconName } from 'src/app/ui/icon-names';
+import { Translate } from 'src/app/i18n';
 import { PresetModel } from 'src/app/api-services/models/preset-model';
 import { SKILL_ID_BY_NAME, resolveSkillMeta } from 'src/app/skills';
 import { BUFF_BONUS_LABELS, bonusKeyLabel, resolveSkillKey } from 'src/app/core/bonus-key-label';
@@ -266,23 +267,13 @@ export class CalculatorSession extends Store<number> {
   // --- PVP -----------------------------------------------------------------
   /** Mode selector for the PVP tab (open PVP / normal castle / TE castle). */
   pvpMode: PvpMode = 'pvp';
-  pvpModeOptions = [
-    {
-      label: 'PVP',
-      value: 'pvp' as PvpMode,
-      tooltip: 'PVP aberto: dano cheio (1:1). Valem só as defesas e reduções do próprio alvo — sem a redução da guerra. A esquiva do alvo é a normal.',
-    },
-    {
-      label: 'WOE',
-      value: 'woe' as PvpMode,
-      tooltip: 'Guerra do Emperium: o ataque básico corpo a corpo cai para 10% (−90%), o ataque básico à distância para 5% (−95%) e as habilidades para 10% (−90%). A esquiva do alvo cai 20%.',
-    },
-    {
-      label: 'WOE TE',
-      value: 'woe-te' as PvpMode,
-      tooltip: 'Guerra TE: mesmos valores da guerra normal desde a atualização de 18/08 — corpo a corpo 10% (−90%), à distância 5% (−95%) e habilidades 10% (−90%). A esquiva do alvo cai 20%.',
-    },
-  ];
+  get pvpModeOptions() {
+    return [
+      { label: 'PVP', value: 'pvp' as PvpMode, tooltip: this.text('cs.pvpTooltip') },
+      { label: 'WOE', value: 'woe' as PvpMode, tooltip: this.text('cs.woeTooltip') },
+      { label: 'WOE TE', value: 'woe-te' as PvpMode, tooltip: this.text('cs.woeTeTooltip') },
+    ];
+  }
   /** Saved sims usable as PVP targets (those carrying a cached targetProfile). */
   pvpTargets: SavedSimulation[] = [];
   selectedPvpTargetId: string | null = null;
@@ -399,14 +390,18 @@ export class CalculatorSession extends Store<number> {
   get pointsHint(): string {
     if (!this.appropriateLevel) return '';
 
-    return this.appropriateLevel > 200 ? 'Estes atributos não cabem em nenhum nível' : `Estes atributos cabem a partir do Nv ${this.appropriateLevel}`;
+    return this.appropriateLevel > 200
+      ? this.text('cs.statsNoLevel')
+      : this.text('cs.statsFromLevel', { level: this.appropriateLevel });
   }
 
   /** Same for Talentos, which the old line capped at 300 rather than 200. */
   get traitPointsHint(): string {
     if (!this.appropriateLevelForTrait) return '';
 
-    return this.appropriateLevelForTrait > 300 ? 'Estes talentos não cabem em nenhum nível' : `Estes talentos cabem a partir do Nv ${this.appropriateLevelForTrait}`;
+    return this.appropriateLevelForTrait > 300
+      ? this.text('cs.traitsNoLevel')
+      : this.text('cs.traitsFromLevel', { level: this.appropriateLevelForTrait });
   }
 
   // Declared above the target fields on purpose: class fields initialise in source order,
@@ -447,9 +442,9 @@ export class CalculatorSession extends Store<number> {
   /** Levels the Aliviar picker offers, each labelled with the reduction it applies. */
   get relieveLevelOptions(): DropdownModel[] {
     return [
-      { label: 'Desativado', value: 0 },
+      { label: this.text('cs.relieveOff'), value: 0 },
       ...Array.from({ length: maxRelieveLevelForMonster(this.selectedMonster) }, (_, i) => ({
-        label: `Nv. ${i + 1} — ${relieveReductionPercent(i + 1)}%`,
+        label: this.text('cs.relieveLevel', { level: i + 1, percent: relieveReductionPercent(i + 1) }),
         value: i + 1,
       })),
     ];
@@ -498,7 +493,7 @@ export class CalculatorSession extends Store<number> {
   private bonusBreakdownKeys = new Set<string>();
   isShowBonusBreakdown = false;
   isShowAspdCurve = false;
-  aspdCurveTitle = 'Golpes por segundo';
+  aspdCurveTitle = '';
   bonusBreakdownTitle = '';
   /** A caveat about the value itself, shown above the source rows — for a bonus whose rows
    *  alone would read as if it applied everywhere (CRIT à distância counts on the basic
@@ -660,6 +655,7 @@ export class CalculatorSession extends Store<number> {
     private readonly slotColorPicker: SlotColorPickerService,
     private readonly layoutService: LayoutService,
     private readonly customLibrary: CustomItemLibraryService,
+    private readonly text: Translate,
   ) {
     super(0);
     const unsubscribe = this.layoutService.previews.subscribe(() => this.action(() => {
@@ -700,15 +696,15 @@ await ((_event?: unknown) => {
           // comparison, matching how loading a saved sim behaves.
           this.restoreCompareState(shared ? shared.compare : this.calcStorage.readCompareState());
           if (shared) {
-            this.messageService.add({ severity: 'success', summary: 'Simulação carregada', detail: 'Carregada a partir do link compartilhado.' });
+            this.messageService.add({ severity: 'success', summary: this.text('cs.simLoaded'), detail: this.text('cs.loadedFromLink') });
           }
         },
         error: (err) => {
           console.error(err);
           this.messageService.add({
             severity: 'error',
-            summary: 'Falha ao carregar os dados',
-            detail: 'Não foi possível baixar a base de itens. Recarregue a página.',
+            summary: this.text('cs.dataFailed'),
+            detail: this.text('cs.dataFailedDetail'),
             life: 10000,
           });
         },
@@ -878,7 +874,7 @@ await ((_event?: unknown) => {
         if (this.sharedCustomItems.length) {
           const checked = validateCustomItems(this.sharedCustomItems, items);
           if (checked.errors.length) {
-            this.messageService.add({ severity: 'error', summary: 'Itens do link inválidos', detail: checked.errors[0].message });
+            this.messageService.add({ severity: 'error', summary: this.text('cs.linkItemsInvalid'), detail: checked.errors[0].message });
             this.sharedCustomItems = [];
           } else this.sharedCustomItems = checked.items;
         }
@@ -964,9 +960,9 @@ await ((_event?: unknown) => {
       this.importedCustomLink = true;
       url.hash = '#/';
       history.replaceState(history.state, '', url.href);
-      this.messageService.add({ severity: 'success', summary: 'Itens importados', detail: `${installed.length} item(ns) adicionados aos Meus itens.` });
+      this.messageService.add({ severity: 'success', summary: this.text('cs.itemsImported'), detail: this.text('cs.itemsImportedDetail', { count: installed.length }) });
     } catch (error) {
-      this.messageService.add({ severity: 'error', summary: 'Falha ao importar item', detail: error instanceof Error ? error.message : 'Link inválido.' });
+      this.messageService.add({ severity: 'error', summary: this.text('cs.itemImportFailed'), detail: error instanceof Error ? error.message : this.text('cs.invalidLinkDetail') });
     }
   }
 
@@ -1297,7 +1293,7 @@ await ((_event?: unknown) => {
    */
   onOptimizeRotation() {
     if (this.rotationView?.timingUnknown) {
-      this.messageService.add({ severity: 'info', summary: 'Prévia', detail: 'Os tempos destas habilidades ainda não estão disponíveis para calcular ou otimizar o DPS.' });
+      this.messageService.add({ severity: 'info', summary: this.text('eq.preReleaseTag'), detail: this.text('cs.timingUnavailable') });
       return;
     }
     const cycle = this.rotationView?.cycle;
@@ -1316,7 +1312,7 @@ await ((_event?: unknown) => {
     });
 
     if (!result.changed) {
-      this.messageService.add({ severity: 'info', summary: 'Otimizar', detail: 'Já está na melhor ordem que encontrei.' });
+      this.messageService.add({ severity: 'info', summary: this.text('cs.optimize'), detail: this.text('cs.alreadyOptimal') });
       return;
     }
 
@@ -1340,8 +1336,10 @@ await ((_event?: unknown) => {
     this.messageService.add({
       key: 'rotation-optimize',
       severity: 'success',
-      summary: 'Ordem otimizada',
-      detail: `Ciclo ${fmt(result.cycleBefore)}s → ${fmt(result.cycleAfter)}s (+${gain.toFixed(1).replace('.', ',')}% de DPS).`,
+      summary: this.text('cs.orderOptimized'),
+      detail: this.text('cs.cycleGain', {
+        before: fmt(result.cycleBefore), after: fmt(result.cycleAfter), gain: gain.toFixed(1).replace('.', ','),
+      }),
       life: 8000,
       data: { previous, previousStacks },
     });
@@ -1544,7 +1542,7 @@ await ((_event?: unknown) => {
     return new Promise((res) => {
       this.confirmationService.confirm({
         message: message,
-        header: 'Confirmação',
+        header: this.text('ui.confirm.header'),
         icon: icon || 'exclamation-triangle',
         accept: () => {
           res(true);
@@ -1720,19 +1718,19 @@ await ((_event?: unknown) => {
   }
 
   openSaveDialog(): void {
-    const label = this.classLabel(this.model.class) || 'Simulação';
-    this.saveName = `${label} Nv ${this.model.level}`;
+    const label = this.classLabel(this.model.class) || this.text('cs.simulation');
+    this.saveName = this.text('cs.saveNameDefault', { label, level: this.model.level });
     this.showSaveDialog = true;
   }
 
   async confirmSave(): Promise<void> {
     const name = (this.saveName || '').trim();
     if (!name) {
-      this.messageService.add({ severity: 'warn', summary: 'Nome obrigatório', detail: 'Dê um nome à simulação.' });
+      this.messageService.add({ severity: 'warn', summary: this.text('cs.nameRequired'), detail: this.text('cs.nameRequiredDetail') });
       return;
     }
     if (this.savedSimStore.nameExists(name)) {
-      const ok = await this.waitConfirm(`Já existe uma simulação chamada "${name}". Substituir?`);
+      const ok = await this.waitConfirm(this.text('cs.nameExists', { name }));
       if (!ok) return;
     }
     // Cache the build's PVP defensive profile from the already-solved calculator
@@ -1748,7 +1746,7 @@ await ((_event?: unknown) => {
       customDefinitionsForBuild([preset, this.currentCompareState()?.model2 ?? {}], this.items));
     this.refreshPvpTargets();
     this.showSaveDialog = false;
-    this.messageService.add({ severity: 'success', summary: 'Simulação salva', detail: name });
+    this.messageService.add({ severity: 'success', summary: this.text('cs.simSaved'), detail: name });
   }
 
   openSavesDialog(): void {
@@ -1757,7 +1755,7 @@ await ((_event?: unknown) => {
   }
 
   async loadSavedSim(sim: SavedSimulation): Promise<void> {
-    const ok = await this.waitConfirm('Isso vai substituir a simulação atual. Continuar?');
+    const ok = await this.waitConfirm(this.text('cs.replaceCurrent'));
     if (!ok) return;
     this.lifetime.watch(this.loadItemSet(sim.preset), {
       complete: () => {
@@ -1765,25 +1763,25 @@ await ((_event?: unknown) => {
         this.restoreCompareState(sim.compare ?? null);
         this.showSavesDialog = false;
         this.onBaseStatusChange();
-        this.messageService.add({ severity: 'success', summary: 'Simulação carregada', detail: sim.name });
+        this.messageService.add({ severity: 'success', summary: this.text('cs.simLoaded'), detail: sim.name });
       },
       error: (err) => {
         console.error(err);
-        this.messageService.add({ severity: 'error', summary: 'Falha ao carregar', detail: 'Erro ao aplicar a simulação.' });
+        this.messageService.add({ severity: 'error', summary: this.text('cs.loadFailed'), detail: this.text('cs.loadFailedDetail') });
       },
     }, () => this.publish());
   }
 
   async deleteSavedSim(sim: SavedSimulation, event: Event): Promise<void> {
     event.stopPropagation();
-    const ok = await this.waitConfirm(`Excluir a simulação "${sim.name}"?`);
+    const ok = await this.waitConfirm(this.text('cs.deleteSim', { name: sim.name }));
     if (!ok) return;
     this.savedSimStore.remove(sim.id);
     this.savedSims = this.savedSimStore.list();
     // Keep the PVP target list in sync — refreshPvpTargets clears the selection
     // and the HUD if the deleted sim was the current target.
     this.refreshPvpTargets();
-    this.messageService.add({ severity: 'info', summary: 'Simulação excluída', detail: sim.name });
+    this.messageService.add({ severity: 'info', summary: this.text('cs.simDeleted'), detail: sim.name });
   }
 
   /**
@@ -1795,7 +1793,7 @@ await ((_event?: unknown) => {
    * and a second write to it costs nothing.
    */
   private async resetBuild(summary: string, detail: string): Promise<void> {
-    const ok = await this.waitConfirm('Isso vai limpar a simulação atual e começar do zero. Continuar?');
+    const ok = await this.waitConfirm(this.text('cs.resetConfirm'));
     if (!ok) return;
     this.lifetime.watch(this.loadItemSet(createMainModel() as any), {
       complete: () => {
@@ -1808,11 +1806,11 @@ await ((_event?: unknown) => {
   }
 
   newSimulation(): Promise<void> {
-    return this.resetBuild('Nova simulação', 'Tudo foi limpo.');
+    return this.resetBuild(this.text('cs.newSim'), this.text('cs.newSimDetail'));
   }
 
   clearAll(): Promise<void> {
-    return this.resetBuild('Simulação limpa', 'Todos os campos voltaram ao padrão.');
+    return this.resetBuild(this.text('cs.simCleared'), this.text('cs.simClearedDetail'));
   }
 
   // --- PVP ------------------------------------------------------------------
@@ -1927,7 +1925,7 @@ await ((_event?: unknown) => {
       this.pvpSummary2 = null;
       this.rotationViewPvp2 = null;
       this.targetReductionCategories = [];
-      this.messageService.add({ severity: 'warn', summary: 'Não foi possível carregar o alvo', detail: 'Abra essa simulação e salve de novo.' });
+      this.messageService.add({ severity: 'warn', summary: this.text('cs.targetLoadFailed'), detail: this.text('cs.targetLoadFailedDetail') });
       return;
     }
     this.targetReductionCategories = buildReductionCategories(profile.defenderBonus, this.pvpMode);
@@ -1986,10 +1984,10 @@ await ((_event?: unknown) => {
   async copyShareUrl(): Promise<void> {
     try {
       await navigator.clipboard.writeText(this.shareUrl);
-      this.messageService.add({ severity: 'success', summary: 'Link copiado', detail: 'Cole para compartilhar a simulação.' });
+      this.messageService.add({ severity: 'success', summary: this.text('cs.linkCopied'), detail: this.text('cs.linkCopiedDetail') });
     } catch (error) {
       console.error(error);
-      this.messageService.add({ severity: 'warn', summary: 'Copie manualmente', detail: 'Selecione o link e copie.' });
+      this.messageService.add({ severity: 'warn', summary: this.text('cs.copyManually'), detail: this.text('cs.copyManuallyDetail') });
     }
   }
 
@@ -2163,7 +2161,7 @@ await ((_event?: unknown) => {
     } catch (e) {
       this.replayBusy = false;
       console.error(e);
-      this.messageService.add({ severity: 'error', summary: 'Arquivo inválido', detail: 'Não foi possível ler o arquivo .rrf.' });
+      this.messageService.add({ severity: 'error', summary: this.text('cs.fileInvalid'), detail: this.text('cs.rrfUnreadable') });
       return;
     }
     await this.offerImport(imported);
@@ -2174,7 +2172,7 @@ await ((_event?: unknown) => {
     if (this.replayBusy) return;
     const input = parseShareInput(this.importLinkText, environment.shortenerUrl);
     if (!input) {
-      this.messageService.add({ severity: 'error', summary: 'Link inválido', detail: 'Cole um link de simulação do simulador.' });
+      this.messageService.add({ severity: 'error', summary: this.text('cs.linkInvalid'), detail: this.text('cs.pasteSimLink') });
       return;
     }
 
@@ -2193,7 +2191,7 @@ await ((_event?: unknown) => {
       }
       if (!token) {
         this.replayBusy = false;
-        this.messageService.add({ severity: 'error', summary: 'Link curto não encontrado', detail: 'Não foi possível abrir este link curto.' });
+        this.messageService.add({ severity: 'error', summary: this.text('cs.shortLinkNotFound'), detail: this.text('cs.shortLinkNotFoundDetail') });
         return;
       }
     }
@@ -2202,7 +2200,7 @@ await ((_event?: unknown) => {
     const preset = decodeShared(token)?.preset;
     if (!preset) {
       this.replayBusy = false;
-      this.messageService.add({ severity: 'error', summary: 'Link inválido', detail: 'O link não contém uma simulação válida.' });
+      this.messageService.add({ severity: 'error', summary: this.text('cs.linkInvalid'), detail: this.text('cs.linkNoSim') });
       return;
     }
     await this.offerImport({ source: 'link', model: normalizeSavedModel(preset), preset });
@@ -2218,11 +2216,11 @@ await ((_event?: unknown) => {
     // (keeping the current build) if the build's class isn't one of them.
     if (!this.characterList?.some((c) => c.value === model.class)) {
       this.replayBusy = false;
-      const who = imported.source === 'replay' ? `${imported.summary.player || 'personagem'}, ` : '';
+      const who = imported.source === 'replay' ? `${imported.summary.player || this.text('cs.someone')}, ` : '';
       this.messageService.add({
         severity: 'warn',
-        summary: 'Classe indisponível',
-        detail: `A classe desta build (${who}job ${model.class}) não está disponível na calculadora.`,
+        summary: this.text('cs.classUnavailable'),
+        detail: this.text('cs.classUnavailableDetail', { who, job: model.class }),
         life: 7000,
       });
       return;
@@ -2291,17 +2289,15 @@ await ((_event?: unknown) => {
     this.showReplayImport = false;
     this.messageService.add({
       severity: 'success',
-      summary: 'Importado como comparação',
-      detail:
-        `${this.importSourceLabel(imported)}: equipamentos, nível, atributos e talentos entraram como comparação. ` +
-        'Habilidades e buffs continuam os da simulação atual.',
+      summary: this.text('cs.importedAsCompare'),
+      detail: this.text('cs.importedAsCompareDetail', { source: this.importSourceLabel(imported) }),
       life: 9000,
     });
   }
 
   private importSourceLabel(imported: PendingImport): string {
-    if (imported.source === 'replay') return imported.summary.player || 'Replay';
-    return 'Link';
+    if (imported.source === 'replay') return imported.summary.player || this.text('calc.importFromReplay');
+    return this.text('calc.importFromLink');
   }
 
   private applyLinkImport(imported: PendingImport) {
@@ -2310,12 +2306,12 @@ await ((_event?: unknown) => {
         this.restoreCompareState(null);
         this.replayBusy = false;
         this.showReplayImport = false;
-        this.messageService.add({ severity: 'success', summary: 'Link importado', detail: 'A simulação do link substituiu a atual.', life: 6000 });
+        this.messageService.add({ severity: 'success', summary: this.text('cs.linkImported'), detail: this.text('cs.linkImportedDetail'), life: 6000 });
       },
       error: (err) => {
         this.replayBusy = false;
         console.error(err);
-        this.messageService.add({ severity: 'error', summary: 'Falha ao importar', detail: 'Erro ao aplicar o link.' });
+        this.messageService.add({ severity: 'error', summary: this.text('cs.importFailed'), detail: this.text('cs.linkApplyFailed') });
       },
     }, () => this.publish());
   }
@@ -2338,22 +2334,24 @@ await ((_event?: unknown) => {
           this.showReplayImport = false;
           const skipped = summary.skippedItems.length;
           const detail =
-            `${summary.player || 'Personagem'} — nível ${summary.baseLevel}, ${summary.equippedCount} equipamentos` +
-            (summary.appliedOptions ? `, ${summary.appliedOptions} bônus aleatórios` : '') +
-            (summary.learnedSkillCount ? `, ${summary.learnedSkillCount} habilidades` : '') +
-            (summary.traits ? ', talentos' : '') +
-            (skipped ? `, ${skipped} ignorado(s) (fora do banco de dados)` : '') + '.';
-          this.messageService.add({ severity: 'success', summary: 'Replay importado', detail, life: 9000 });
+            this.text('cs.replaySummary', {
+              player: summary.player || this.text('cs.replayPlayerFallback'),
+              level: summary.baseLevel,
+              equipped: summary.equippedCount,
+            }) +
+            (summary.appliedOptions ? this.text('cs.replayOptions', { count: summary.appliedOptions }) : '') +
+            (summary.learnedSkillCount ? this.text('cs.replaySkills', { count: summary.learnedSkillCount }) : '') +
+            (summary.traits ? this.text('cs.replayTraits') : '') +
+            (skipped ? this.text('cs.replaySkipped', { count: skipped }) : '') + '.';
+          this.messageService.add({ severity: 'success', summary: this.text('cs.replayImported'), detail, life: 9000 });
           // The traits ride on a packet the server only sends on a map load, so a
           // recording that never changed map arrives without them — say so, and only
           // then. On a class that has no traits at all there is nothing to warn about.
           if (!summary.traits && this.isAllowTraitStat) {
             this.messageService.add({
               severity: 'warn',
-              summary: 'Talentos',
-              detail:
-                '⚠️ Esta gravação não trouxe os talentos (POD/STA/SAB/FEI/CON/CRV) — ajuste-os manualmente. ' +
-                'Eles só entram no arquivo quando o personagem troca de mapa durante a gravação.',
+              summary: this.text('calc.traitPoints'),
+              detail: this.text('cs.traitsMissingDetail'),
               life: 9000,
             });
           }
@@ -2361,13 +2359,13 @@ await ((_event?: unknown) => {
         error: (err) => {
           this.replayBusy = false;
           console.error(err);
-          this.messageService.add({ severity: 'error', summary: 'Falha ao importar', detail: 'Erro ao aplicar o replay.' });
+          this.messageService.add({ severity: 'error', summary: this.text('cs.importFailed'), detail: this.text('cs.replayApplyFailed') });
         },
       }, () => this.publish());
     } catch (e) {
       this.replayBusy = false;
       console.error(e);
-      this.messageService.add({ severity: 'error', summary: 'Falha ao importar', detail: 'Erro ao aplicar o replay.' });
+      this.messageService.add({ severity: 'error', summary: this.text('cs.importFailed'), detail: this.text('cs.replayApplyFailed') });
     }
   }
 
@@ -2552,7 +2550,7 @@ await ((_event?: unknown) => {
     });
     this.offensiveSkills = [...new Set(catalog.map((a) => a.name)).values()].map((name) => {
       const pt = this.resolveSkill(name);
-      return { label: (pt?.name ?? name) + (catalog.some(s => s.name === name && s.preview) ? ' (Prévia)' : ''), value: name, icon: pt?.id };
+      return { label: (pt?.name ?? name) + (catalog.some(s => s.name === name && s.preview) ? this.text('cs.previewSuffix') : ''), value: name, icon: pt?.id };
     });
     this.isShowSelectableSkillLevel = catalog.some((a) => a.levelList?.length > 0);
   }
@@ -3380,7 +3378,7 @@ await ((_event?: unknown) => {
 
   /** pt-BR name of the side the amber hints belong to. */
   get statsOtherLabel(): string {
-    return this.isEditingCompareStats ? 'Principal' : 'Comparação';
+    return this.text(this.isEditingCompareStats ? 'calc.sideMain' : 'calc.sideCompare');
   }
 
   /** The compared build's job bonus for a stat: its own while stats are compared, the main build's otherwise. */
@@ -3589,7 +3587,7 @@ await ((_event?: unknown) => {
         }, 0);
         if (!value) continue;
         const [row] = this.buildItemBonusRows({ [key]: value });
-        this.itemBonusRows.push({ ...row, note: 'Inativo para o alvo selecionado. Aplica-se aos monstros listados na descrição.' });
+        this.itemBonusRows.push({ ...row, note: this.text('cs.inactiveForTarget') });
       }
     }
     this.itemDescription = prettyItemDesc(this.itemDescriptionStore.get(itemId));
@@ -3679,7 +3677,7 @@ await ((_event?: unknown) => {
     let html: string;
     if (desc) {
       // the client description already opens with the skill name
-      const debuff = buff.isDebuff ? `<div style="color:#b00000">Debuff no monstro</div>` : '';
+      const debuff = buff.isDebuff ? `<div style="color:#b00000">${this.text('cs.debuffOnMonster')}</div>` : '';
       html = `${debuff}${desc}`;
     } else {
       // fallback: summarise what the calc applies, one line per usable level
@@ -3691,7 +3689,7 @@ await ((_event?: unknown) => {
           return `<div>${d.label}: ${parts.join(', ')}</div>`;
         });
       const title = `<div class="item_desc_title"><b>${buff.label}</b></div>`;
-      const debuff = buff.isDebuff ? `<div style="color:#b00000">Debuff no monstro</div>` : '';
+      const debuff = buff.isDebuff ? `<div style="color:#b00000">${this.text('cs.debuffOnMonster')}</div>` : '';
       html = `${title}${debuff}${buff.previewDescription ? `<div>${prettyItemDesc(buff.previewDescription)}</div>` : ''}${lines.length ? lines.join('') : buff.preview ? '' : '<div>—</div>'}`;
     }
     if (buff.preview && !desc) html += `<div>Preview kRO ${buff.previewVersion ?? '275/60'}. Unannounced coefficients and timings are provisional and may change.</div>`;
@@ -3849,7 +3847,7 @@ await ((_event?: unknown) => {
     const sources = target ? this.pvpTargetSources : this.bonusBreakdownSources;
     if (!this.reductionRowClickable(row, sources)) return;
     const itemMap = target ? this.pvpTargetItemMap : this.equipItemIdItemTypeMap;
-    this.showBonusBreakdown({ label: `Redução: ${row.label}`, keys: row.keys, valueClass: 'summary_stat_def2', sources, itemMap });
+    this.showBonusBreakdown({ label: this.text('cs.reductionTitle', { label: row.label }), keys: row.keys, valueClass: 'summary_stat_def2', sources, itemMap });
   }
 
   showBonusBreakdown(event: { label: string; keys: string[]; valueClass: string; note?: string; total?: number; calc?: DamageFormulaCalc; sources?: Record<string, any>; itemMap?: Map<any, number>; compare?: boolean }): void {
@@ -3922,7 +3920,7 @@ await ((_event?: unknown) => {
 
     // One naming rule for a compared breakdown, at the single point the summary panel and
     // the Battle HUD both funnel through.
-    this.bonusBreakdownTitle = event.compare ? `${event.label} (comparação)` : event.label;
+    this.bonusBreakdownTitle = event.compare ? this.text('cs.compareSuffix', { label: event.label }) : event.label;
     this.bonusBreakdownNote = event.note ?? '';
     this.bonusBreakdownValueClass = event.valueClass || 'summary_damage';
     this.bonusBreakdownRows = rows;
@@ -3954,7 +3952,7 @@ await ((_event?: unknown) => {
    *  differs, so a click on the "→ simulado" rate opens the same curve and only the title
    *  says which value was clicked. */
   showAspdCurve(compare = false): void {
-    this.aspdCurveTitle = compare ? 'Golpes por segundo (comparação)' : 'Golpes por segundo';
+    this.aspdCurveTitle = this.text(compare ? 'cs.hitsPerSecondCompare' : 'cs.hitsPerSecond');
     this.isShowAspdCurve = true;
   }
 
@@ -4005,7 +4003,9 @@ await ((_event?: unknown) => {
     if (namedSkill) {
       return { label: namedSkill.name, icon: namedSkill.id, iconType: namedSkill.iconType ?? 'skill', value };
     }
-    const fallback: Record<string, string> = { extra: 'Bônus Aleatórios', consumableBonuses: 'Consumíveis' };
+    const fallback: Record<string, string> = {
+      extra: this.text('cis.randomOptions'), consumableBonuses: this.text('calc.consumables'),
+    };
     return { label: fallback[srcKey] ?? srcKey, iconType: 'item', value };
   }
 
