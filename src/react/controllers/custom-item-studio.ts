@@ -23,7 +23,8 @@ import { CustomItems as CustomItemLibraryService } from '../services/custom-item
 import { encodeCustomBundle } from 'src/app/core/custom-item-library';
 import { createExtraOptionList, ExtraOptionMap } from 'src/app/utils/create-extra-option-list';
 import { WEAPON_SUBTYPE_LABEL_PT_BR, WeaponSubTypeNameMapById, WeaponTypeNameMapBySubTypeId } from 'src/app/constants/weapon-type-mapper';
-import { ItemSlotLabelPtBr } from 'src/app/constants/item-slot-i18n';
+import { ItemSlotLabelKey } from 'src/app/constants/item-slot-i18n';
+import { Translate, resolveText } from 'src/app/i18n';
 import { VALID_SKILL_IDS, resolveSkillById } from 'src/app/skills';
 import { compileVisualItemRule, readVisualItemRule, VisualCondition, VisualConditionKind, VisualItemRule as Rule } from 'src/app/core/custom-item-visual-script';
 import { ItemSubTypeId } from 'src/app/constants/item-sub-type.enum';
@@ -216,7 +217,7 @@ export class CustomItemStudioComponent extends ViewState {
       help: 'O bônus exige uma munição deste tipo equipada.',
     },
     {
-      value: 'position', label: 'Posição', input: 'select', options: Object.entries(ItemSlotLabelPtBr).map(([value, label]) => ({ value, label })), valueLabel: 'Posição do item',
+      value: 'position', label: 'Posição', input: 'select', options: Object.entries(ItemSlotLabelKey).map(([value, key]) => ({ value, label: this.text(key) })), valueLabel: 'Posição do item',
       help: 'Posição em que este item precisa estar equipado.',
     },
     {
@@ -233,7 +234,7 @@ export class CustomItemStudioComponent extends ViewState {
   }
 
   constructor(public readonly library: CustomItemLibraryService, private readonly picker: ItemPickerService,
-    private readonly layout?: CalculatorLayout) { super();}
+    private readonly text: Translate, private readonly layout?: CalculatorLayout) { super();}
 
   blank(kind: CustomKind): CustomItemDraft {
     return {
@@ -444,16 +445,17 @@ export class CustomItemStudioComponent extends ViewState {
     this.cardCounts = this.counts.filter(({ value }) => Number(value) <= 4 - Number(this.draft.enchantCapacity ?? 0));
     this.enchantCounts = this.counts.filter(({ value }) => Number(value) <= 4 - Number(this.draft.cardCapacity ?? 0));
     this.attachmentRows = ([
-      ['defaultCards', 'Cartas iniciais', 'card', this.draft.cardCapacity, 'Carta'],
-      ['defaultEnchants', 'Encantamentos iniciais', 'enchant', this.draft.enchantCapacity, 'Encantamento'],
-      ['defaultBas', 'BAs iniciais', 'option', this.draft.baCapacity, 'BA'],
-    ] as const).map(([field, label, kind, capacity, placeholder]) => ({
+      ['defaultCards', 'Cartas iniciais', 'card', this.draft.cardCapacity, 'chip.cardNumber'],
+      ['defaultEnchants', 'Encantamentos iniciais', 'enchant', this.draft.enchantCapacity, 'studio.enchantNumber'],
+      ['defaultBas', 'BAs iniciais', 'option', this.draft.baCapacity, 'studio.baNumber'],
+    ] as const).map(([field, label, kind, capacity, placeholderKey]) => ({
       field, label, views: Array.from({ length: capacity ?? 0 }, (_, index): ChipView => {
         const value = this.draft[field]?.[index];
         const item = kind !== 'option' && value ? this.items[Number(value)] : undefined;
+        const placeholder = { key: placeholderKey, params: { number: index + 1 } };
         return {
-          chip: { kind, index, slotKey: this.draft.kind as ItemTypeEnum, placeholder: `${placeholder} ${index + 1}` },
-          text: item?.name ?? (value ? ExtraOptionMap.get(String(value)) ?? String(value) : `${placeholder} ${index + 1}`),
+          chip: { kind, index, slotKey: this.draft.kind as ItemTypeEnum, placeholder },
+          text: item?.name ?? (value ? ExtraOptionMap.get(String(value)) ?? String(value) : resolveText(this.text, placeholder)),
           filled: !!value, icon: item?.id ?? null, descId: item?.id ?? null,
           elementClass: null, primary: false, preRelease: !!item?.preRelease,
         };
@@ -462,7 +464,7 @@ export class CustomItemStudioComponent extends ViewState {
   }
 
   pickAttachment(field: AttachmentField, view: ChipView, anchor: HTMLElement): void {
-    const base = { anchor, title: view.chip.placeholder, value: this.draft[field]?.[view.chip.index] };
+    const base = { anchor, title: resolveText(this.text, view.chip.placeholder), value: this.draft[field]?.[view.chip.index] };
     const request: PickerRequest = field === 'defaultBas'
       ? { ...base, value: String(base.value ?? ''), mode: 'tree', roots: this.baOptions, leafIndex: ExtraOptionMap }
       : { ...base, mode: 'flat', options: field === 'defaultCards' ? this.cardOptions : this.enchantOptions,
@@ -622,8 +624,9 @@ export class CustomItemStudioComponent extends ViewState {
     this.previewControls = (['refine', 'grade'] as const)
       .filter((field) => field === 'refine' ? this.draft.isRefinable : this.draft.canGrade)
       .map((field) => ({ field, view: {
-        chip: { kind: field, index: 0, slotKey: this.draft.kind as ItemTypeEnum, placeholder: field === 'refine' ? '+ 0' : 'Grau' },
-        text: field === 'refine' ? `+ ${this.previewRefine}` : this.previewGrade ? `Grau ${this.previewGrade}` : 'Grau',
+        chip: { kind: field, index: 0, slotKey: this.draft.kind as ItemTypeEnum, placeholder: { key: field === 'refine' ? 'chip.refine' : 'chip.grade' } },
+        text: field === 'refine' ? `+ ${this.previewRefine}`
+          : this.previewGrade ? this.text('eq.gradeValue', { grade: this.previewGrade }) : this.text('chip.grade'),
         filled: field === 'refine' ? this.previewRefine > 0 : !!this.previewGrade,
         icon: null, descId: null, elementClass: null, primary: false, preRelease: false,
       } }));

@@ -4,7 +4,7 @@
  * The primitive (`Locale`, `translate`) lives in `src/app/core/i18n.ts`; this module
  * is the only place that knows which catalogs exist.
  */
-import { Catalog, Locale } from '../core/i18n';
+import { Catalog, Locale, TextParams } from '../core/i18n';
 import { ptBR } from './pt-br';
 
 /**
@@ -13,6 +13,25 @@ import { ptBR } from './pt-br';
  * resolves.
  */
 export type TextKey = keyof typeof ptBR;
+
+/**
+ * A catalog key plus what to fill into it, for text composed where no catalog is at hand.
+ *
+ * The equipment slots and chips are built by pure modules that run long before a locale
+ * is known, so they name themselves with one of these and whatever renders them resolves
+ * it. Carrying the key rather than the word is also what makes a language switch repaint
+ * them without rebuilding the slot tree.
+ */
+export interface TextRef {
+  readonly key: TextKey;
+  readonly params?: TextParams;
+}
+
+/** What a pure module takes so it can name things without reaching for a catalog. */
+export type Translate = (key: TextKey, params?: TextParams) => string;
+
+/** A {@link TextRef} as words. */
+export const resolveText = (text: Translate, ref: TextRef): string => text(ref.key, ref.params);
 
 /** Bundled, not loaded: it is what every catalog is laid over, and must be synchronous. */
 export const DEFAULT_CATALOG: Catalog = ptBR;

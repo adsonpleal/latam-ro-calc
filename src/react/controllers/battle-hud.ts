@@ -1,7 +1,8 @@
 import { ViewState } from '../state/view-state';
 import { Events } from '../services/events';
 import type { SkillFormulaVersion } from '../../app/skills/skill-formula-version';
-import { itemSlotLabelPtBr } from '../../app/constants/item-slot-i18n';
+import { itemSlotLabelKey } from '../../app/constants/item-slot-i18n';
+import { Translate } from '../../app/i18n';
 import { DropdownModel } from '../../app/models/dropdown.model';
 import { dmgTypeLabel as dmgTypeLabelUtil, skillDescHtml } from '../../app/utils';
 import { RotationCycle } from '../../app/core/rotation-schedule';
@@ -118,6 +119,8 @@ export class BattleHudComponent extends ViewState {
   }>();
    reductionRowClick = new Events<ReductionRow>();
    incomingReductionClick = new Events<IncomingDamageStep>();
+
+  constructor(private readonly text: Translate) { super(); }
 
   // Display-only pt-BR for the skill damage type (see dmgTypeLabelUtil;
   // the raw value still drives the [hidden] logic elsewhere, e.g. Magical-only chips).
@@ -496,11 +499,11 @@ export class BattleHudComponent extends ViewState {
     return !!this.dmg?.isAutoSpell;
   }
 
-  // pt-BR item-slot labels for the compare ribbon, e.g. ['boot'] -> 'Bota' — same
-  // util the compare-slot picker uses (ro-calculator.component.ts line ~341).
+  // Item-slot labels for the compare ribbon, e.g. ['boot'] -> 'Botas' — same util the
+  // compare-slot picker uses (ro-calculator.component.ts line ~341).
   get compareRibbonText(): string {
-    const slots = (this.compareItemNames || []).map((v) => itemSlotLabelPtBr(v));
-    return (this.compareStats ? ['Nível e atributos', ...slots] : slots).join(', ');
+    const slots = (this.compareItemNames || []).map((v) => this.text(itemSlotLabelKey(v)));
+    return (this.compareStats ? [this.text('eq.compareRibbonLevels'), ...slots] : slots).join(', ');
   }
 
   // --- Hero (DPS / damage per use) -------------------------------------------

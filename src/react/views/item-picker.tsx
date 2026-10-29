@@ -15,7 +15,7 @@ const itemPositions = PICKER_POSITIONS.map(position => ({ ...position, offsetY: 
 function PickerPanel({ request, services }: { request: PickerRequest; services: ApplicationServices }) {
   const [host] = useState<{ nativeElement: HTMLElement }>(() => ({ nativeElement: null! }));
   const [vm] = useState(() => {
-    const controller = new ItemPickerOverlayComponent(host, services.data.descriptions);
+    const controller = new ItemPickerOverlayComponent(host, services.data.descriptions, services.locale.text);
     controller.init(request);
     return controller;
   });
@@ -41,7 +41,7 @@ export function ItemPickerOverlay() {
 
 function ColorPanel({ request, services, controller }: { request: SlotColorPickerRequest; services: ApplicationServices; controller: MutableRefObject<SlotColorPickerComponent | null> }) {
   const [vm] = useState(() => {
-    const controller = new SlotColorPickerComponent(); controller.init(request, services.slotColors.labels); return controller;
+    const controller = new SlotColorPickerComponent(services.locale.text); controller.init(request, services.slotColors.labels); return controller;
   });
   useSyncExternalStore(vm.subscribe, vm.getSnapshot);
   controller.current = vm;

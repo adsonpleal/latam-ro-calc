@@ -1,6 +1,6 @@
 import { StorageLike } from '../../app/core/calc-storage';
-import { Catalog, DEFAULT_LOCALE, Locale, isLocale } from '../../app/core/i18n';
-import { DEFAULT_CATALOG, loadCatalog } from '../../app/i18n';
+import { Catalog, DEFAULT_LOCALE, Locale, TextParams, isLocale, translate } from '../../app/core/i18n';
+import { DEFAULT_CATALOG, TextKey, loadCatalog } from '../../app/i18n';
 import { LatestRequest, Store } from '../state/store';
 
 const STORAGE_KEY = 'ro-locale';
@@ -52,6 +52,18 @@ export class LocalePreferences extends Store<LocaleState> {
   }
 
   get locale(): Locale { return this.getSnapshot().locale; }
+
+  /**
+   * The same lookup `useText` gives a component, for the controllers — they are plain
+   * classes and cannot hold a hook. Arrow-bound so it can be handed to a pure function
+   * in `core` as a labeller, and it always reads the catalog published right now, so a
+   * language switch changes what the next render computes.
+   *
+   * `controllerView` subscribes every controller to this store, which is what makes
+   * that next render happen.
+   */
+  readonly text = (key: TextKey, params?: TextParams): string =>
+    translate(this.getSnapshot().catalog, key, params);
 
   /** Chooses `locale` and remembers it for the next visit. */
   select(locale: Locale): Promise<void> {
