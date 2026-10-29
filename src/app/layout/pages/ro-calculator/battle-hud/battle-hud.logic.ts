@@ -637,8 +637,9 @@ export interface RotationPickerOption {
 export function buildRotationPickerOptions(
   basicAttackValue: string,
   atkSkills: { label: string; value: string; icon?: number; levelList?: any[] }[] | null | undefined,
+  text: Translate,
 ): RotationPickerOption[] {
-  const options: RotationPickerOption[] = [{ label: 'Ataque básico', value: basicAttackValue, isBasic: true }];
+  const options: RotationPickerOption[] = [{ label: text('skd.basicAttack'), value: basicAttackValue, isBasic: true }];
 
   for (const skill of atkSkills ?? []) {
     options.push({ label: skill.label, value: skill.value, icon: skill.icon, levelList: skill.levelList });

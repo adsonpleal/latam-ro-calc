@@ -119,7 +119,7 @@ export class RotationListComponent extends ViewState {
   get skillOptions(): RotationPickerOption[] {
     if (this.skillOptionsFor !== this.atkSkills) {
       this.skillOptionsFor = this.atkSkills;
-      this.skillOptionsCache = buildRotationPickerOptions(BASIC_ATTACK_VALUE, this.atkSkills);
+      this.skillOptionsCache = buildRotationPickerOptions(BASIC_ATTACK_VALUE, this.atkSkills, this.text);
     }
     return this.skillOptionsCache;
   }

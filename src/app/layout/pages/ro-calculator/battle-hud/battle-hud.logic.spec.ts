@@ -621,7 +621,7 @@ describe('buildRotationPickerOptions', () => {
   const MAGNUM_BREAK = { label: 'Magnum Break', value: 'Magnum Break==10', icon: 7, levelList: [] };
 
   it('offers ataque básico first, ahead of the class skills', () => {
-    const options = buildRotationPickerOptions(BASIC, [BOWLING_BASH, MAGNUM_BREAK]);
+    const options = buildRotationPickerOptions(BASIC, [BOWLING_BASH, MAGNUM_BREAK], text);
 
     expect(options[0]).toEqual({ label: 'Ataque básico', value: BASIC, isBasic: true });
     expect(options.map((o) => o.value)).toEqual([BASIC, BOWLING_BASH.value, MAGNUM_BREAK.value]);
@@ -630,7 +630,7 @@ describe('buildRotationPickerOptions', () => {
   it('offers it to a class with no offensive skills at all', () => {
     // The floor of the guarantee: whatever the class, the picker is never empty.
     for (const atkSkills of [[], null, undefined]) {
-      const options = buildRotationPickerOptions(BASIC, atkSkills);
+      const options = buildRotationPickerOptions(BASIC, atkSkills, text);
 
       expect(options).toHaveLength(1);
       expect(options[0].value).toBe(BASIC);
@@ -640,7 +640,7 @@ describe('buildRotationPickerOptions', () => {
   it('flags only ataque básico as basic', () => {
     // `isBasic` is what makes the row render the sword icon and read its damage off
     // `dmg.basic*` instead of a skill solve.
-    const options = buildRotationPickerOptions(BASIC, [BOWLING_BASH]);
+    const options = buildRotationPickerOptions(BASIC, [BOWLING_BASH], text);
 
     expect(options.filter((o) => o.isBasic)).toHaveLength(1);
     expect(options[1].isBasic).toBeUndefined();

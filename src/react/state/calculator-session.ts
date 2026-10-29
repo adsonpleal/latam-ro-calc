@@ -1242,6 +1242,7 @@ await ((_event?: unknown) => {
     this.controller.solveSkill(calc, input, input.selectedAtkSkill);
 
     return buildRotationView({
+      text: this.text,
       rotation: this.model.rotation ?? [],
       summaryByValue,
       baseSummary,
@@ -1506,6 +1507,7 @@ await ((_event?: unknown) => {
     this.atkTypeTable = buildAtkTypeTable(this.totalSummary, cmp);
     this.skillMultiplierTable = buildSkillMultiplierTable(this.totalSummary, (key) => resolveSkillKey(key), cmp);
     this.statsSummary = buildStatsSummary(this.totalSummary, cmp ?? null, {
+      text: this.text,
       bonusValueText: (key, value) => this.bonusValueText(key, value),
       canBreakdown: (keys, compare) => this.canBreakdown(keys, compare),
     });
@@ -2467,6 +2469,27 @@ await ((_event?: unknown) => {
     return { id: meta.id, name: meta.label ?? name, iconType: meta.iconType };
   }
 
+  /**
+   * The on/off words of a skill toggle, in the reader's language.
+   *
+   * The 246 "Sim"/"Não" entries live in the job and buff catalogs beside the bonuses they
+   * grant, where they are data rather than copy — so the pair is swapped here, at render,
+   * by matching the pt-BR source word. Any other label (a skill level, "1 estrela") is a
+   * name and passes through untouched.
+   */
+  private translateToggleOptions<T>(skill: T): T {
+    const dropdown = (skill as any).dropdown;
+    if (!Array.isArray(dropdown)) return skill;
+    let changed = false;
+    const translated = dropdown.map((option: { label?: string }) => {
+      const key = option?.label === 'Sim' ? 'common.yes' : option?.label === 'Não' ? 'common.no' : null;
+      if (!key) return option;
+      changed = true;
+      return { ...option, label: this.text(key) };
+    });
+    return changed ? { ...skill, dropdown: translated } : skill;
+  }
+
   private setClassSkill() {
     if (!this.showPreviews) {
       this.model.skillFormulaVersion = 'current';
@@ -2488,7 +2511,8 @@ await ((_event?: unknown) => {
     // and render no icon (the template guards on `icon`).
     const localize = <T extends { name: string }>(skill: T) => {
       const pt = this.resolveSkill(skill.name);
-      const base = pt ? { ...skill, label: (skill as any).preview && !(skill as any).labelSuffix ? (skill as any).label : pt.name, icon: pt.id, iconType: pt.iconType } : skill;
+      const named = pt ? { ...skill, label: (skill as any).preview && !(skill as any).labelSuffix ? (skill as any).label : pt.name, icon: pt.id, iconType: pt.iconType } : skill;
+      const base = this.translateToggleOptions(named);
       // A skill whose level-list entries are really *other* skills (Fist Spell
       // casts Fire/Cold/Lightning Bolt) exposes a `treatedAsSkillNameFn`. Relabel
       // each entry with the underlying bolt's pt-BR name + icon so the picker drops
@@ -2527,7 +2551,7 @@ await ((_event?: unknown) => {
       const pt = this.resolveSkill(skill.name);
       return pt ? { ...skill, icon: skill.icon ?? pt.id } : skill;
     };
-    this.skillBuffs = JobBuffs.map(attachIcon);
+    this.skillBuffs = JobBuffs.map(attachIcon).map((skill) => this.translateToggleOptions(skill));
     this.activeSkills = this.selectedCharacter.activeSkills.map(localize);
     this.passiveSkills = this.selectedCharacter.passiveSkills.map(localize);
     // Atk skills can repeat the same name with different fixed properties (e.g. Adoramus
@@ -3912,7 +3936,7 @@ await ((_event?: unknown) => {
       const baseAmount = total - originEquipSum;
       if (baseAmount !== 0) {
         const display = this.formatSignedValue(baseAmount, event.keys.every((k) => this.isPercentKey(k)));
-        rows.push({ label: origin.label, iconType: 'skill', value: baseAmount, display });
+        rows.push({ label: this.text(origin.label), iconType: 'skill', value: baseAmount, display });
       }
     }
 

@@ -290,7 +290,7 @@ public readonly itemDescriptions: ItemDescriptionStore,
         isBasic: source.isBasic,
         // `solveAutoCast()` returns the per-skill damage summary directly, unlike
         // Batalha's full summary where these values live under `calcSkill`.
-        dmgTypeLabel: source.isBasic ? undefined : dmgTypeLabel(summary?.dmgType ?? ''),
+        dmgTypeLabel: source.isBasic ? undefined : dmgTypeLabel(summary?.dmgType ?? '', this.text),
         element: source.isBasic ? undefined : summary?.skillPropertyAtk,
         propertyMultiplier: source.isBasic ? undefined : summary?.skillPropertyMultiplier,
         hasDamageSpread: source.damageRanges?.length > 1,

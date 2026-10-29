@@ -122,10 +122,10 @@ export class BattleHudComponent extends ViewState {
 
   constructor(private readonly text: Translate) { super(); }
 
-  // Display-only pt-BR for the skill damage type (see dmgTypeLabelUtil;
+  // Display-only label for the skill damage type (see dmgTypeLabelUtil;
   // the raw value still drives the [hidden] logic elsewhere, e.g. Magical-only chips).
   dmgTypeLabel(type: string): string {
-    return dmgTypeLabelUtil(type);
+    return dmgTypeLabelUtil(type, this.text);
   }
 
   // Elements without a `property_*` rule in styles.css (Neutral is the only one —
