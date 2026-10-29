@@ -100,11 +100,23 @@ landed. Half of the 107 KB is one file counted twice: `responsive.css` is emitte
 up every emitted file. The rest is the JS of the touch affordances and the compact
 layouts, with the catalog keys they needed.
 
-Startup is now 2,396,283 — 3,717 bytes under the *error* threshold, the point where
-the production build throws and CI fails. Only one copy of `responsive.css` counts
-there, but it counts for every reader on the first paint. The next addition of any
-size has to come with a removal, or raise `initialError` on the record of what it
-bought; a few keys in a catalog are now enough to break the build for everyone.
+Startup then stood at 2,396,283 — 3,717 bytes under the *error* threshold, the point
+where the production build throws and CI fails. Only one copy of `responsive.css`
+counts there, but it counts for every reader on the first paint.
+
+The item text and the first-run language dialog took 3,461 of those bytes: baseline
+3,718,493 to 3,721,954, startup to 2,399,243. The dialog and its sheet are most of it,
+and they are startup work by definition — a new visitor is asked before anything else
+renders. The per-language item names and descriptions cost the bundle almost nothing,
+because they are fetched JSON (`items-name-<locale>`, `items-desc-<locale>`) and the
+descriptions replace the Portuguese file rather than joining it; only the client code
+that picks between them is here.
+
+That left 757 bytes of headroom, which is not headroom. `initialError` goes to
+2,420,000 — the first time it has moved — buying back about 20 KB. It is a guard rail
+on the first paint, so the next change to spend it should say what it bought, exactly
+as this paragraph does; the ceiling is not the budget, and each raise makes the real
+cost of the next one harder to see.
 
 The final simplify pass removed the unused portal view argument, redundant
 virtual-list end state and a duplicate filesystem probe. It also consolidated
