@@ -9,6 +9,22 @@
       "Adicionados 11 trajes visuais que o cliente já trazia e que não podiam ser escolhidos no simulador.",
       "Conjuração e espera conferidas contra a tabela do cliente em 68 habilidades das classes de 4ª e corrigidas onde divergiam. As maiores mudanças estão na recarga de Punho Labareda, Meteoro Ômega, Círculo Elemental, Mandala das Feras e Firmamento, que caiu de 60 para 2 a 5 segundos, e na das Armadilhas Terrestre, Ardente, Sombria e Zéfira, que caiu de 20 a 30 para 2,5 segundos. A recarga de Colisão Astral caiu de 60 para 6 segundos e a dos Kunais e do Dragão Negro do Pesadelo de 5 para 1 segundo.",
       "Cadastrados o custo de SP e as resistências que o novo texto do cliente explicita em doze cartas de Issgard."
+    ],
+    "logs_es": [
+      "Datos del cliente actualizados: 527 objetos nuevos pasan a ser reconocidos por el simulador y 112 descripciones fueron reemplazadas por el texto en portugués del cliente.",
+      "Corregidos 83 nombres de objetos que estaban desactualizados — entre ellos las armas \"Vil Invernal\", antes con el nombre antiguo, las cartas de Issgard y los encantos \"Flor Invernal\" y \"Cristal Invernal\".",
+      "Los 44 equipos que aparecían marcados como Vista previa, con nombre y descripción en inglés — entre ellos las piezas y armas Invernales de Issgard —, salieron de la vista previa: ya están en LATAM y pasan a mostrar el texto en portugués.",
+      "Agregados 11 trajes visuales que el cliente ya traía y que no podían elegirse en el simulador.",
+      "Lanzamiento y espera verificados contra la tabla del cliente en 68 habilidades de las clases de 4ª y corregidos donde divergían. Los mayores cambios están en la recarga de Lanzallamas Masivo, Impacto Omega del Abismo, Círculo Elemental, Círculo de Direcciones y Elementales y Todo en el Cielo, que bajó de 60 a 2 o 5 segundos, y en la de las Trampas Sólida, de Llamas, de Ceguera Profunda y Veloz, que bajó de 20 o 30 a 2,5 segundos. La recarga de Golpe Astral bajó de 60 a 6 segundos y la de los Kunai y de Dragón Oscuro: Pesadilla, de 5 a 1 segundo.",
+      "Registrados el costo de SP y las resistencias que el nuevo texto del cliente explicita en doce cartas de Issgard."
+    ],
+    "logs_en": [
+      "Client data updated: 527 new items are now recognised by the simulator and 112 descriptions were replaced with the client's Portuguese text.",
+      "Fixed 83 item names that were out of date — among them the \"Dim Glacier\" weapons, which carried the older name, the Issgard cards and the \"Ice Flower Spell\" and \"Glacier Flower Spell\" enchants.",
+      "The 44 pieces of equipment that showed up tagged as Preview, with an English name and description — Issgard's winter gear and weapons among them — left the preview: they are on LATAM already and now show the Portuguese text.",
+      "Added 11 costumes the client already shipped and that could not be picked in the simulator.",
+      "Cast and delay checked against the client's table on 68 fourth-class skills and fixed where they diverged. The biggest changes are the cooldowns of Massive Flame Blaster, Omega Abyss Strike, Elemental Buster, Circle of Directions and Elementals and All in the Sky, which dropped from 60 to 2-5 seconds, and of the Solid, Flame, Darkness and Swift traps, which dropped from 20-30 to 2.5 seconds. Astral Strike's cooldown dropped from 60 to 6 seconds, and those of the Kunai skills and of Dark Dragon - Nightmare from 5 to 1 second.",
+      "Recorded the SP cost and the resistances the client's new text spells out on twelve Issgard cards."
     ]
   },
   {
@@ -22,6 +38,24 @@
       "A linha do escudo agora aparece quando a build comparada pode usar um, mesmo que a principal esteja com uma arma de duas mãos: dá para comparar um cajado de duas mãos com um de uma mão mais escudo. Reportado por iukkeN.",
       "A arma da mão esquerda ganhou a mesma abertura: com um katar na build principal, dá para comparar com uma adaga mais outra na mão esquerda — e a arma comparada entra na conta, com a Vel.Atq de duas armas junto.",
       "Os botões de dois estados da aba de habilidades ficam todos na mesma ordem, com o \"Sim\" à esquerda. Eram 26 que apareciam ao contrário, entre eles as quatro insígnias no alvo e os buffs de prévia."
+    ],
+    "logs_es": [
+      "Agregado Golpe Astral del Magus: el asteroide y las 50 caídas de meteoritos entran como dos partes de la misma conjuración, con el bono de daño contra Muerto Viviente y Dragón.",
+      "Agregadas las ultimates de Pesadilla, Kunai: Pesadilla y Dragón Oscuro: Pesadilla, y un botón para indicar que el objetivo está en [Pesadelo], caso en que las dos causan 1,5 vez más daño.",
+      "La velocidad de ataque dejó de retener Golpe de Tierra, que se paga con su propia posconjuración. Reportado por Hatakashi.",
+      "Ocultarse e Infiltration (que el cliente todavía no traduce) ahora pueden entrar en la rotación. No suman daño alguno: ocupan el tiempo que ocupan en el juego, que era lo que faltaba para que el DPS del ciclo cerrara. Reportado por Samuel Costa y .Neblina.",
+      "La línea del escudo ahora aparece cuando la build comparada puede usar uno, incluso si la principal tiene un arma de dos manos: se puede comparar un báculo de dos manos con uno de una mano más escudo. Reportado por iukkeN.",
+      "El arma de la mano izquierda ganó la misma apertura: con un katar en la build principal, se puede comparar con una daga más otra en la mano izquierda — y el arma comparada entra en la cuenta, con la Vel.Atq de dos armas incluida.",
+      "Los botones de dos estados de la pestaña de habilidades quedan todos en el mismo orden, con el \"Sí\" a la izquierda. Eran 26 los que aparecían al revés, entre ellos las cuatro insignias en el objetivo y los buffs de vista previa."
+    ],
+    "logs_en": [
+      "Added the Magus's Astral Strike: the asteroid and the 50 meteor falls go in as two parts of the same cast, with the damage bonus against Undead and Dragon.",
+      "Added the Nightmare ultimates, Kunai - Nightmare and Dark Dragon - Nightmare, plus a button to say the target is under [Pesadelo], in which case both deal 1.5 times more damage.",
+      "Attack speed no longer holds Earth Drive back; it is paid for by its own after-cast. Reported by Hatakashi.",
+      "Hiding and Infiltration (which the client still does not translate) can now go into the rotation. They add no damage at all: they take the time they take in game, which was what the cycle's DPS was missing. Reported by Samuel Costa and .Neblina.",
+      "The shield row now appears when the compared build can use one, even if the main build is holding a two-handed weapon: a two-handed staff can be compared with a one-handed staff plus a shield. Reported by iukkeN.",
+      "The left-hand weapon got the same opening: with a katar on the main build, it can be compared with a dagger plus another in the left hand — and the compared weapon counts, with the two weapons' ASPD along with it.",
+      "The skills tab's two-state buttons are all in the same order now, with \"Yes\" on the left. There were 26 showing the other way round, among them the four insignias on the target and the preview buffs."
     ]
   },
   {
@@ -32,6 +66,18 @@
       "Cadastrado o efeito [Ataque Duplo] nos onze equipamentos que o concedem no jogo — entre eles a Carta Sorrateiro, o Chapéu de Jiboia, a Pedra de Ataque Duplo (Capa), o encante de visual Ataque Duplo, o Nagan, a Lança Peçonhenta e o Chapéu de Pintinho —, de modo que a habilidade passa a aparecer na aba de Auto-conjuração. Reportado por GetLemonade.",
       "Completados os encantos dos equipamentos Ilusión: N-DEF e N-DEFM passam a ser oferecidos no Colete, no Motor e na Perna, o S-SPMax na Perna, e os encantos S-HPR, S-SPR, U-Vida e U-Alma foram cadastrados. U-Mental e U-Mana deixaram de aparecer nos dois acessórios ao mesmo tempo e voltaram a ser exclusivos de um lado cada, e agora somam a regeneração que concedem.",
       "Adicionados os atributos dos chefes Aquila, Simulation Juncea, Lasgand, Fallen Angel Slug e Snowstorm Angel, que já apareciam pelo nome mas não podiam ser escolhidos como alvo."
+    ],
+    "logs_es": [
+      "Corregida la probabilidad de autoconjuración de Abismo Cuadrático: ahora es 1% por nivel de la habilidad, como en la tabla del bROWiki, y no el 20% fijo que venía del rAthena.",
+      "Registrado el efecto [Doble Ataque] en los once equipos que lo conceden en el juego — entre ellos la Carta Crótalo, la Cabeza de Serpiente, la Piedra de Doble Ataque, el encanto visual Doble Ataque, el Nagan, la Lanza Forjada con Veneno y el Sombrero de pollito —, de modo que la habilidad pasa a aparecer en la pestaña de Auto-conjuración. Reportado por GetLemonade.",
+      "Completados los encantos de los equipos Ilusión: N-DEF y N-DEFM pasan a ser ofrecidos en la Armadura, en el Motor y en la Pierna, el S-SPMax en la Pierna, y los encantos S-HPR, S-SPR, U-Vida y U-Alma fueron registrados. U-Mental y U-Mana dejaron de aparecer en los dos accesorios al mismo tiempo y volvieron a ser exclusivos de un lado cada uno, y ahora suman la regeneración que conceden.",
+      "Agregados los atributos de los jefes Aquila, Simulation Juncea, Lasgand, Fallen Angel Slug y Snowstorm Angel, que ya aparecían por el nombre pero no podían elegirse como objetivo."
+    ],
+    "logs_en": [
+      "Fixed Abyss Rift's autocast chance: it is now 1% per skill level, as in the bROWiki table, and not the flat 20% that came from rAthena.",
+      "Recorded the [Double Attack] effect on the eleven pieces of equipment that grant it in game — among them the Sidewinder Card, the Snake Hat, the Double Attack Stone, the Double Attack costume enchant, the Nagan, the Poison Forged Spear and the Chick Hat — so the skill now appears on the Auto-cast tab. Reported by GetLemonade.",
+      "Completed the Illusion equipment's enchants: N-DEF and N-DEFM are now offered on the Armor, the Engine and the Leg, S-SPMax on the Leg, and the S-HPR, S-SPR, U-Vida and U-Alma enchants were recorded. U-Mental and U-Mana stopped appearing on both accessories at once and went back to being exclusive to one side each, and now add the regeneration they grant.",
+      "Added the stats of the Aquila, Simulation Juncea, Lasgand, Fallen Angel Slug and Snowstorm Angel bosses, which already appeared by name but could not be picked as a target."
     ]
   },
   {

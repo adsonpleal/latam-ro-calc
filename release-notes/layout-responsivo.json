@@ -4,5 +4,15 @@
     "Adaptado o simulador para tablets e celulares: no tablet, Build e Resultado alternam por um seletor fixo no topo; no celular, Build, Equip. e Resultado ficam em abas na parte de baixo da tela. Sugerido por Octávio Moreira.",
     "Adicionado suporte a toque: dicas e detalhes abrem com um toque, botões e campos ganharam tamanho para o dedo e a rotação pode ser reordenada com botões de subir e descer.",
     "No celular, o seletor de itens, a busca de itens e os detalhes (como os da habilidade na Batalha) abrem como painel inferior; a busca rola por inteiro e recolhe os filtros depois de cada busca."
+  ],
+  "logs_es": [
+    "Adaptado el simulador para tablets y celulares: en la tablet, Build y Resultado se alternan con un selector fijo arriba; en el celular, Build, Equip. y Resultado quedan en pestañas en la parte de abajo de la pantalla. Sugerido por Octávio Moreira.",
+    "Agregado soporte para pantallas táctiles: las ayudas y los detalles abren con un toque, los botones y los campos ganaron tamaño para el dedo y la rotación puede reordenarse con botones de subir y bajar.",
+    "En el celular, el selector de objetos, la búsqueda de objetos y los detalles (como los de la habilidad en Batalla) abren como panel inferior; la búsqueda se desplaza por completo y recoge los filtros después de cada búsqueda."
+  ],
+  "logs_en": [
+    "Adapted the simulator for tablets and phones: on a tablet, Build and Result swap through a selector pinned to the top; on a phone, Build, Gear and Result sit in tabs at the bottom of the screen. Suggested by Octávio Moreira.",
+    "Added touch support: tips and details open with a tap, buttons and fields grew to finger size, and the rotation can be reordered with up and down buttons.",
+    "On a phone, the item picker, the item search and the details (such as a skill's in Battle) open as a bottom sheet; the search scrolls as a whole and folds the filters away after each search."
   ]
 }
