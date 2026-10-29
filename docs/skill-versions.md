@@ -19,6 +19,23 @@ The 28/10/2026 client moved the fourth-job and expanded-fourth trees onto the 02
 The recordings made up to 09/2026 measured the pre-patch server, so the ~29 replay and gear-state specs ask for `pre-rebalance` by name and keep asserting the packets they always did. Nothing was retired; each one says in a comment that it predates the patch. **No post-patch recording has been taken yet**, so the baseline is sourced from the client and the articles, not from packets: a recording made after 28/10/2026 is what would confirm it, and is the first thing to ask for if a damage figure looks wrong.
 
 One divergence stays unapplied. Dilacerar's client table reads 270 / **340** / 610 / 780 / 950%, and every level but Nv2 fits `100 + 170*Nv`; 340 breaks that progression by exactly 100, so it is read as a client typo and the engine keeps 440. It is listed in that spec's `EXCEPTIONS` with the reason.
+
+### Checked against the LATAM announcement
+
+LATAM published the patch as ["Rebalanceamento de habilidades: Edição 1"](https://ro.gnjoyamericas.com/pt/news/notice/446) on 29/10/2026, with `Antes` / `Agora` tables for 152 skills. It is the player-facing statement of this patch, so the whole notice was read against the engine on 29/10/2026: **`pre-rebalance` reproduces its `Antes` column and `current` reproduces its `Agora` column.** Of the 102 rows that name a skill the reference covers and publish a damage figure, 96 match outright.
+
+The notice prints one headline figure per skill, while the client publishes a per-level table; where the two disagree the client wins, because `skill-ratio-client-table.spec.ts` can check it level by level and because it is the text the player reads in game. All six disagreements have a cause, and in each the engine already matches the client:
+
+| Skill | Notice `Agora` | Why it differs |
+| --- | --- | --- |
+| Arremessar Escudo | 14.440% | The client's table is 11.900% at Nv5 plus `Perícia Nv x75`, i.e. 12.650% at mastery 10, and the Korean final notice's 12.840% is that figure plus the example's shield (weight 150, refine +10 × 4). 14.440% is the inflated English-translation number, which the table above already records as superseded. |
+| Explosão de Faíscas | 3.300% | Repeats the 3.300% printed for Laser Triplo in the row immediately above — a copy error in the notice. The client gives 1.000% to 7.750% across ten levels. |
+| Atirar Rosas | 11.200% 15.250% | Those are the two packets' **[Desarranjo Musical]** values. The client's bare Nv5 row is 10.200% / 14.250%, which is what the engine reports with the mark off. |
+| Cólera Esmagadora | 5.150% | The client's table is 4.400% at Nv5, and its description says weapon level and weight scale the damage; the notice's figure reflects an equipped weapon the table does not assume. |
+| Lança Galhada | 7.300% | The English post's number; the Korean final notice and the client both give 7.350%, as the table above records. |
+| Cortar em Espiral | 4.050% | Printed before the target-size factor. Against a Medium target the engine applies ×1,3, giving 5.265%, which is the `EXCEPTIONS` entry in `skill-ratio-client-table.spec.ts`. |
+
+Two of these — the Explosão de Faíscas copy error and the Arremessar Escudo translation figure — are errors in the notice itself, confirmed against the Korean notice and the client. The remaining four are the notice describing a loaded example where the client prints the bare table.
 ## June 2022 rebalance coverage (information shared by Shummuy)
 
 The [linked announcement](https://www.divine-pride.net/forum/index.php?/topic/3723-kro-jobs-improvement-project/page/13/#comment-11126) is the **third rebalance of fourth jobs and second rebalance of expanded jobs**. The follow-up [May corrections](https://www.divine-pride.net/forum/index.php?/topic/3723-kro-jobs-improvement-project/page/13/#comment-11497) belong to this same bundle. The 2025 dates on Sigma's complete v3/v2 articles are publication dates of the formula reference, not a separate rebalance. Research checked on 2026-10-13.

@@ -8,14 +8,14 @@
     "\"Choque do Carrinho\" renomeada para \"Choque de Carrinho\", o nome que o cliente passou a usar."
   ],
   "logs_es": [
-    "El rebalanceo del 02/06/2022 de kRO pasa a ser el valor por defecto del simulador: el cliente del 28/10/2026 trajo las nuevas tablas de daño y los nuevos tiempos de las clases de 4.ª y de las 4.ª expandidas, y el selector \"Fórmulas\" lo refleja en \"Atual (LATAM)\". Las fórmulas anteriores siguen disponibles en \"Pré-rebalanceamento (até 28/10/2026)\", para comparar con grabaciones antiguas.",
+    "El rebalanceo del 02/06/2022 de kRO pasa a ser el valor por defecto del simulador: el cliente del 28/10/2026 trajo las nuevas tablas de daño y los nuevos tiempos de las clases de 4.ª y de las 4.ª expandidas, y el selector \"Fórmulas\" lo refleja en \"Actual (LATAM)\". Las fórmulas anteriores siguen disponibles en \"Pre-rebalanceo (hasta el 28/10/2026)\", para comparar con grabaciones antiguas.",
     "Descripciones de habilidad actualizadas con el texto del cliente del 28/10/2026: 156 fueron reescritas y 41 que faltaban quedaron registradas.",
     "Colisión Astral y Lanzamiento de Escudo corregidas contra la tabla del cliente, que no coincide con las tablas de referencia en ningún nivel salvo el último.",
     "Aliento Dracónico llegó a LATAM: la habilidad sale de la vista previa, muestra nombre y descripción localizados y tiene el daño del Nv2 corregido de 700% a 750%.",
     "\"Choque do Carrinho\" renombrada a \"Choque de Carrinho\", el nombre que el cliente pasó a usar."
   ],
   "logs_en": [
-    "The 02/06/2022 kRO rebalance is now the simulator's default: the 28/10/2026 client brought the new damage tables and the new timings for the fourth and expanded fourth classes, and the \"Fórmulas\" selector shows that under \"Atual (LATAM)\". The earlier formulas stay available under \"Pré-rebalanceamento (até 28/10/2026)\", to compare against older recordings.",
+    "The 02/06/2022 kRO rebalance is now the simulator's default: the 28/10/2026 client brought the new damage tables and the new timings for the fourth and expanded fourth classes, and the \"Formulas\" selector shows that under \"Current (LATAM)\". The earlier formulas stay available under \"Pre-rebalance (until 28/10/2026)\", to compare against older recordings.",
     "Skill descriptions refreshed from the 28/10/2026 client text: 156 were rewritten and 41 that were missing are now registered.",
     "Astral Strike and Shield Shooting corrected against the client table, which disagrees with the reference tables at every level but the last.",
     "Dragonic Breath has reached LATAM: the skill leaves the preview, shows its localized name and description, and has its Nv2 damage corrected from 700% to 750%.",
