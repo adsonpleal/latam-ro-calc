@@ -104,13 +104,23 @@ Startup then stood at 2,396,283 — 3,717 bytes under the *error* threshold, the
 where the production build throws and CI fails. Only one copy of `responsive.css`
 counts there, but it counts for every reader on the first paint.
 
-The item text and the first-run language dialog took 3,802 of those bytes: baseline
-3,718,493 to 3,722,295, startup to 2,399,442. The dialog and its sheet are most of it,
+The item text and the first-run language dialog took 4,307 of those bytes: baseline
+3,718,493 to 3,722,800, startup to 2,399,442. The dialog and its sheet are most of it,
 and they are startup work by definition — a new visitor is asked before anything else
 renders. The per-language item names and descriptions cost the bundle almost nothing,
 because they are fetched JSON (`items-name-<locale>`, `items-desc-<locale>`) and the
 descriptions replace the Portuguese file rather than joining it; only the client code
 that picks between them is here.
+
+A note on that baseline: CI measures 3,722,800 where this machine measures 3,722,295 —
+same commit, 505 bytes apart, almost all of it in the largest vendor chunk. Ruled out:
+chunk drift around the catalog exclusion (each catalog chunk holds exactly one input, so
+nothing shared rides out with it), line endings (the bundle is minified), and a stale
+install (`node_modules/.modules.yaml` and `pnpm-lock.yaml` are in step, and the lockfile
+has not moved since October 2nd). It is a Linux/Windows difference in the emitted vendor
+code that has not been pinned down; before this change the two agreed, so it is worth
+re-checking if the gap grows. The baseline tracks CI, because CI is the gate — a local
+build now passes with 505 bytes of slack instead of exactly at the line.
 
 That left 558 bytes of headroom, which is not headroom. `initialError` goes to
 2,420,000 — the first time it has moved — buying back about 20 KB. It is a guard rail
