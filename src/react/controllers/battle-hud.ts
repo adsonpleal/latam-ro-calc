@@ -820,7 +820,7 @@ export class BattleHudComponent extends ViewState {
       dps: this.heroPrimaryCurrent || 0,
       sumDex2Int1: this.calcSkill?.sumDex2Int1 || 0,
       aspdHitsPerSec: this.totalSummary?.calc?.hitPerSecs || 0,
-    });
+    }, this.text);
   }
 }
 
