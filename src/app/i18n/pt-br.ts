@@ -383,6 +383,84 @@ export const ptBR = {
   'studio.enchantNumber': 'Encantamento {number}',
   'studio.baNumber': 'BA {number}',
 
+  // The "Outros" tables: the per-race / size / class / element bonus columns. The row
+  // names are game vocabulary and come from the engine, not from here.
+  'misc.skill': 'Habilidade',
+  'misc.skillNameTitle': 'Nome da habilidade',
+  'misc.skillBonusTitle': 'Bônus de dano da habilidade',
+  'misc.cdTitle': 'Modificador de tempo de recarga (Cooldown)',
+  'misc.class': 'Classe',
+  'misc.size': 'Tamanho',
+  'misc.race': 'Raça',
+  'misc.element': 'Elemento',
+  'misc.physical': 'Físico',
+  'misc.magical': 'Mágico',
+  'misc.physicalShort': 'F',
+  'misc.magicalShort': 'M',
+  'misc.magicElement': 'Elem. Mágico',
+  'misc.elementRR': 'R.R. Elem.',
+  'misc.elementRRTooltip': 'Redução de Resistência Elemental',
+  'misc.elementRRLabel': 'R.R. Elemental ({name})',
+  'misc.kindLabel': '{name} ({kind})',
+  'misc.magicElementLabel': '{name} (Elem. Mágico)',
+  'misc.cdLabel': '{name} (CD)',
+
+  'elemTable.show': 'Mostrar tabela elemental',
+  'elemTable.pickMonsters': 'Escolher Monstros',
+  'elemTable.selected': '{0} monstros selecionados',
+  'elemTable.monster': 'Monstro',
+  'elemTable.attacker': 'Atacante',
+
+  // Combat vocabulary the panels share. The abbreviations are the client's own — see
+  // the glossary note in the session folder before changing one.
+  'combat.aspd': 'Vel.Atq',
+  'combat.aspdLong': 'Velocidade de ataque',
+  'combat.hitsPerSecond': 'Golpes/s',
+
+  // The monster card beside the damage panel.
+  'hud.auraTooltip': 'Aura vermelha: redução de 99,9% do dano final.',
+  'hud.relieve': 'Aliviar',
+  'hud.relieveTooltip': 'Aliviar reduz todo o dano físico e mágico recebido pelo monstro. Em Jardim Secreto o nível acompanha o Escudo de Energia: derrube as 4 Peças de Guardião para baixá-lo.',
+  'hud.elementTable': 'Ver tabela elemental',
+  'hud.difficulty': 'Dificuldade',
+  'hud.betelgeuseDifficulty': 'Dificuldade do Betelgeuse',
+  'hud.damageReduction': 'Redução de dano',
+  'hud.mapReduction': 'REDUÇÃO {percent}%',
+  'hud.hitFor100': 'HIT p/100%',
+  'hud.monsterId': 'ID: {id}',
+
+  // The rotation timeline and its legend.
+  'tl.skillDetails': 'Detalhes da habilidade',
+  'tl.fixedCast': 'Conj. fixa',
+  'tl.variableCast': 'Conj. variável',
+  'tl.afterCast': 'Pós-conjuração',
+  'tl.cooldown': 'Recarga',
+  'tl.aspdWait': 'Espera por Vel.Atq',
+  'tl.twoChartsNote': 'Os dois gráficos são completos e independentes: mesma escala de tempo, cada um com o seu próprio marcador de fim de ciclo.',
+
+  // The hits-per-second curve opened from the Golpes/s value.
+  'aspd.legendFormula': 'Golpes/s = 50 ÷ (200 − Vel.Atq)',
+  'aspd.legendYours': 'Sua velocidade de ataque',
+  'aspd.legendCompare': 'Comparação',
+  'aspd.tableCaption': 'Referência: Vel.Atq de cada golpe/s cheio',
+  'aspd.cap': '(teto)',
+  'aspd.note': 'A Vel.Atq é hiperbólica: cada ponto vale mais que o anterior, então não há degraus a alcançar — todo ponto rende golpes/s. A tabela é só referência; o teto é {cap}.',
+  'aspd.summary': 'Vel.Atq {aspd} → {hits} golpes/s.',
+  'aspd.atCap': 'No teto de Vel.Atq ({cap}), o máximo de {hits} golpes/s.',
+  'aspd.gain': '+{plus} de Vel.Atq (chegar a {aspd}) levaria a {hits} golpes/s — +{delta}/s, ou +{percent}% de golpes.',
+
+  // The skill-formula version picker, shown only while previews are on.
+  'formula.label': 'Fórmulas',
+  'formula.selectAria': 'Versão das fórmulas de habilidades',
+  'formula.references': 'Referências dos rebalanceamentos',
+  'formula.datesNote': 'As datas indicam quando cada rebalanceamento chegou ao kRO (servidor coreano).',
+  'formula.current': 'Atual (LATAM)',
+  'formula.rebalance2022': 'Rebalance - 02/06/2022 - (kRO)',
+  'formula.rebalance2026': 'Rebalance - 21/12/2022 - (kRO)',
+  'formula.refKro': 'Comunicado de implementação no kRO (coreano)',
+  'formula.refDivinePride': 'Anúncio e alterações em inglês — Divine Pride',
+  'formula.refSigma': 'Fórmulas por classe — Sigma',
+
   // Equipment positions the item-search type filter offers. They name slots, not
   // items, so they are UI text and not something the ragassets tables answer.
   'itemPosition.weaponList': 'Arma',
