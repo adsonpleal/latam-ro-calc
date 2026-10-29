@@ -108,17 +108,24 @@ export class CustomItemStudioComponent extends ViewState {
   // Off-hand is an equip destination; the weapon itself uses the same category.
   readonly kinds = CUSTOM_KINDS.filter((kind) => kind !== 'leftWeapon');
   readonly kindOptions = this.kinds.map((value) => ({ value, label: CUSTOM_KIND_LABELS[value] }));
-  readonly libraryKindOptions = [{ value: '', label: this.text('cis.allCategories') }, ...this.kindOptions];
+  get libraryKindOptions() { return [{ value: '', label: this.text('cis.allCategories') }, ...this.kindOptions]; }
   readonly kindLabels = CUSTOM_KIND_LABELS;
   readonly baOptions = createExtraOptionList();
-  readonly sections = [{ label: this.text('cis.secItem'), value: 'item' },
-    { label: this.text('cis.secSockets'), value: 'sockets' }, { label: this.text('cis.secScript'), value: 'bonuses' }];
-  readonly sectionsWithoutSlots = this.sections.filter((section) => section.value !== 'sockets');
-  get availableSections() { return this.isEquipment(this.draft.kind) ? this.sections : this.sectionsWithoutSlots; }
-  readonly modes = [{ label: this.text('cis.modeVisual'), value: 'visual' }, { label: this.text('cis.modeJson'), value: 'json' }];
-  readonly yesNoOptions = [{ label: this.text('cis.yes'), value: true }, { label: this.text('cis.no'), value: false }];
+  // Every list below names itself through the catalog, so each is read on render: the
+  // controller is built once and outlives a language switch, and a field initializer
+  // would keep whichever language was on screen at the time.
+  get sections() {
+    return [{ label: this.text('cis.secItem'), value: 'item' },
+      { label: this.text('cis.secSockets'), value: 'sockets' }, { label: this.text('cis.secScript'), value: 'bonuses' }];
+  }
+  get availableSections() {
+    const sections = this.sections;
+    return this.isEquipment(this.draft.kind) ? sections : sections.filter((section) => section.value !== 'sockets');
+  }
+  get modes() { return [{ label: this.text('cis.modeVisual'), value: 'visual' }, { label: this.text('cis.modeJson'), value: 'json' }]; }
+  get yesNoOptions() { return [{ label: this.text('cis.yes'), value: true }, { label: this.text('cis.no'), value: false }]; }
   readonly scriptHelpExample = JSON.stringify({ atk: ['10', '7===20'], cri: ['2---5'] }, null, 2);
-  readonly mobileViews = [{ label: this.text('cis.viewEditor'), value: 'editor' }, { label: this.text('cis.viewPreview'), value: 'preview' }];
+  get mobileViews() { return [{ label: this.text('cis.viewEditor'), value: 'editor' }, { label: this.text('cis.viewPreview'), value: 'preview' }]; }
   readonly counts = createNumberDropdownList({ from: 0, to: 4 });
   readonly baCounts = createNumberDropdownList({ from: 0, to: 5 });
   cardCounts = this.counts;
@@ -138,30 +145,53 @@ export class CustomItemStudioComponent extends ViewState {
       [ItemSubTypeId.Kunai]: 'Kunai', [ItemSubTypeId.Bullet]: 'Projétil',
       [ItemSubTypeId.ThrowingDagger]: 'Adaga de arremesso',
     } as Record<number, string>)[id] }));
-  readonly cardPositions = ([
+  get cardPositions() { return ([
     ['itemSlot.weapon', CardPosition.Weapon], ['cis.cardPosHead', CardPosition.Head],
     ['itemSlot.shield', CardPosition.Shield], ['itemSlot.armor', CardPosition.Armor],
     ['itemSlot.garment', CardPosition.Garment], ['cis.cardPosBoot', CardPosition.Boot],
     ['cis.cardPosAcc', CardPosition.Acc], ['cis.cardPosAccLeft', CardPosition.AccL],
     ['cis.cardPosAccRight', CardPosition.AccR], ['cis.anyPosition', CardPosition.All],
-  ] as [TextKey, CardPosition][]).map(([key, value]) => ({ label: this.text(key), value }));
+    ] as [TextKey, CardPosition][]).map(([key, value]) => ({ label: this.text(key), value }));
+  }
   readonly isEquipment = customKindIsEquipment;
   readonly trackIcon = (_: number, item: ItemModel) => item.id;
   readonly mcpUrl = environment.mcpUrl;
   readonly bonusKeys = Object.keys(createRawTotalBonus()).filter((key) => !INTERNAL_ITEM_FIELDS.has(key))
     .map((key) => ({ key, label: bonusKeyLabel(key) }));
   readonly bonusLabel = bonusKeyLabel;
-  readonly attributeOptions: DropdownModel[] = ([
+  get attributeOptions(): DropdownModel[] { return ([
     ['str', 'stat.str'], ['agi', 'stat.agi'], ['vit', 'stat.vit'], ['int', 'stat.int'], ['dex', 'stat.dex'], ['luk', 'stat.luk'],
     ['level', 'cis.baseLevel'], ['jobLevel', 'cis.jobLevel'],
-  ] as [string, TextKey][]).map(([value, key]) => ({ value, label: this.text(key) }));
+    ] as [string, TextKey][]).map(([value, key]) => ({ value, label: this.text(key) }));
+  }
   readonly conditionSkills: DropdownModel[] = [...VALID_SKILL_IDS].map((id) => {
     const skill = resolveSkillById(id);
     return { value: id, label: skill?.name ?? this.text('cis.skillPlaceholder', { id }), icon: id, iconType: skill?.iconType ?? 'skill' };
   });
-  readonly conditionWeaponTypes: DropdownModel[] = [...new Map(this.weaponSubtypes.map(({ id, label }) =>
-    [WeaponTypeNameMapBySubTypeId[id], { value: WeaponTypeNameMapBySubTypeId[id], label: id >= 273 && id <= 277 ? this.text('cis.firearm') : label }])).values()];
-  readonly conditionOptions: RuleConditionOption[] = [
+  get conditionWeaponTypes(): DropdownModel[] {
+    return [...new Map(this.weaponSubtypes.map(({ id, label }) =>
+      [WeaponTypeNameMapBySubTypeId[id], { value: WeaponTypeNameMapBySubTypeId[id], label: id >= 273 && id <= 277 ? this.text('cis.firearm') : label }])).values()];
+  }
+  /**
+   * Rebuilt only when the language changed: the view asks for it once per condition on
+   * every render, and the list carries the whole class and skill catalogs. The first
+   * entry's text is the cache key — a cheap stand-in for the locale, which a plain
+   * `Translate` does not carry.
+   */
+  get conditionOptions(): RuleConditionOption[] {
+    const stamp = this.text('cis.condNone');
+    if (this.conditionOptionsStamp !== stamp) {
+      this.conditionOptionsStamp = stamp;
+      this.conditionOptionsCache = this.buildConditionOptions();
+    }
+    return this.conditionOptionsCache;
+  }
+
+  private conditionOptionsStamp = '';
+  private conditionOptionsCache: RuleConditionOption[] = [];
+
+  private buildConditionOptions(): RuleConditionOption[] {
+    return [
     { value: 'none', label: this.text('cis.condNone') },
     {
       value: 'refine', label: this.text('cis.condRefine'), input: 'number', valueLabel: this.text('cis.condRefine'), example: '7',
@@ -229,7 +259,9 @@ export class CustomItemStudioComponent extends ViewState {
       value: 'until', label: this.text('cis.condUntil'), input: 'date', valueLabel: this.text('cis.condUntilValue'),
       help: this.text('cis.condUntilHelp'),
     },
-  ];
+    ];
+  }
+
   conditionHelp(kind: VisualConditionKind): RuleConditionOption {
     return this.conditionOptions.find((option) => option.value === kind)!;
   }
