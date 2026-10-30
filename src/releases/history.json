@@ -1,5 +1,48 @@
 [
   {
+    "v": "0.1.193-beta",
+    "date": "30-10-2026",
+    "logs": [
+      "Fúria Estridente adicionada às habilidades de simulação da Diva e do Maestro na versão Atual (LATAM), com os cinco níveis, dano mágico pela propriedade da flecha equipada, exigência de Chicote ou Instrumento e o aumento contra alvo em [Desarranjo Musical]. Reportado por ! Faw ~~*.",
+      "O rebalanceamento de 02/06/2022 do kRO passa a ser o padrão do simulador: o cliente de 28/10/2026 trouxe as novas tabelas de dano e os novos tempos das classes de 4ª e das 4ª expandidas, e o seletor \"Fórmulas\" mostra isso em \"Atual (LATAM)\". As fórmulas anteriores continuam disponíveis em \"Pré-rebalanceamento (até 28/10/2026)\", para comparar com gravações antigas.",
+      "Descrições de habilidade atualizadas pelo texto do cliente de 28/10/2026: 156 foram reescritas e 41 que faltavam foram cadastradas.",
+      "Colisão Astral e Arremessar Escudo corrigidas contra a tabela do cliente, que discorda das tabelas de referência em todos os níveis menos o último.",
+      "Baforada Draconiana chegou ao LATAM: a habilidade sai da prévia, passa a mostrar nome e descrição em português e tem o dano do Nv2 corrigido de 700% para 750%.",
+      "\"Choque do Carrinho\" renomeada para \"Choque de Carrinho\", o nome que o cliente passou a usar.",
+      "Adicionado um seletor de idioma na barra superior, com português, espanhol e inglês. No celular e no tablet ele fica no menu. O idioma escolhido fica guardado no navegador e vale também ao abrir um link compartilhado.",
+      "Na primeira visita o simulador pergunta qual idioma usar, com a pergunta escrita nos três idiomas, e guarda a resposta para não perguntar de novo.",
+      "Traduzida por completo a interface: todas as telas, painéis, caixas de diálogo, mensagens e avisos aparecem no idioma escolhido.",
+      "Os nomes e as descrições dos itens passam a acompanhar o idioma escolhido: em espanhol e em inglês eles vêm das tabelas do próprio cliente. Os nomes de habilidades, classes e monstros — e as raças, tamanhos e propriedades dos alvos — seguem em português por enquanto.",
+      "As novidades passam a ser publicadas nos três idiomas e acompanham o idioma escolhido. Todo o histórico anterior também foi traduzido: as 192 versões já publicadas aparecem em espanhol e inglês."
+    ],
+    "logs_es": [
+      "Furia Metálica añadida a las habilidades de simulación de la Diva y del Maestro en la versión Actual (LATAM), con los cinco niveles, daño mágico según la propiedad de la flecha equipada, exigencia de instrumento o látigo y el aumento contra un objetivo afectado por Marca Sonora. Reportado por ! Faw ~~*.",
+      "El rebalanceo del 02/06/2022 de kRO pasa a ser el valor por defecto del simulador: el cliente del 28/10/2026 trajo las nuevas tablas de daño y los nuevos tiempos de las clases de 4.ª y de las 4.ª expandidas, y el selector \"Fórmulas\" lo refleja en \"Actual (LATAM)\". Las fórmulas anteriores siguen disponibles en \"Pre-rebalanceo (hasta el 28/10/2026)\", para comparar con grabaciones antiguas.",
+      "Descripciones de habilidad actualizadas con el texto del cliente del 28/10/2026: 156 fueron reescritas y 41 que faltaban quedaron registradas.",
+      "Colisión Astral y Lanzamiento de Escudo corregidas contra la tabla del cliente, que no coincide con las tablas de referencia en ningún nivel salvo el último.",
+      "Aliento Dracónico llegó a LATAM: la habilidad sale de la vista previa, muestra nombre y descripción localizados y tiene el daño del Nv2 corregido de 700% a 750%.",
+      "\"Choque do Carrinho\" renombrada a \"Choque de Carrinho\", el nombre que el cliente pasó a usar.",
+      "Agregado un selector de idioma en la barra superior, con portugués, español e inglés. En el celular y en la tablet está en el menú. El idioma elegido queda guardado en el navegador y también vale al abrir un enlace compartido.",
+      "En la primera visita el simulador pregunta qué idioma usar, con la pregunta escrita en los tres idiomas, y guarda la respuesta para no volver a preguntar.",
+      "Traducida por completo la interfaz: todas las pantallas, paneles, cuadros de diálogo, mensajes y avisos aparecen en el idioma elegido.",
+      "Los nombres y las descripciones de los objetos pasan a seguir el idioma elegido: en español y en inglés vienen de las tablas del propio cliente. Los nombres de habilidades, clases y monstruos — y las razas, tamaños y propiedades de los objetivos — siguen en portugués por ahora.",
+      "Las novedades pasan a publicarse en los tres idiomas y siguen el idioma elegido. Todo el historial anterior también fue traducido: las 192 versiones ya publicadas aparecen en español e inglés."
+    ],
+    "logs_en": [
+      "Metallic Fury added to the Diva's and the Maestro's simulated skills in the Current (LATAM) version, with all five levels, magic damage from the equipped arrow's element, an Instrument or Whip requirement and the bonus against a target affected by Sound Stigma. Reported by ! Faw ~~*.",
+      "The 02/06/2022 kRO rebalance is now the simulator's default: the 28/10/2026 client brought the new damage tables and the new timings for the fourth and expanded fourth classes, and the \"Formulas\" selector shows that under \"Current (LATAM)\". The earlier formulas stay available under \"Pre-rebalance (until 28/10/2026)\", to compare against older recordings.",
+      "Skill descriptions refreshed from the 28/10/2026 client text: 156 were rewritten and 41 that were missing are now registered.",
+      "Astral Strike and Shield Shooting corrected against the client table, which disagrees with the reference tables at every level but the last.",
+      "Dragonic Breath has reached LATAM: the skill leaves the preview, shows its localized name and description, and has its Nv2 damage corrected from 700% to 750%.",
+      "\"Choque do Carrinho\" renamed to \"Choque de Carrinho\", the name the client now uses.",
+      "Added a language selector to the top bar, with Portuguese, Spanish and English. On a phone or tablet it sits in the menu. The chosen language is kept in the browser and also applies when opening a shared link.",
+      "On the first visit the simulator asks which language to use, with the question written in all three, and remembers the answer so it never asks again.",
+      "Fully translated the interface: every screen, panel, dialog, message and notice appears in the chosen language.",
+      "Item names and descriptions now follow the chosen language: in Spanish and English they come from the client's own tables. The names of skills, classes and monsters — and the races, sizes and properties of targets — remain in Portuguese for now.",
+      "Release notes are now published in all three languages and follow the chosen language. The whole earlier history was translated too: the 192 releases already published appear in Spanish and English."
+    ]
+  },
+  {
     "v": "0.1.192-beta",
     "date": "29-10-2026",
     "logs": [
