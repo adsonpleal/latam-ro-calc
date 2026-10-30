@@ -18,6 +18,12 @@ const SRC = 'src/assets/demo/data';
 const OUT = 'src/assets/data';
 const MANIFEST = 'src/assets/data-manifest.json';
 const SKILLS = 'src/app/skills/skill-meta.generated.ts';
+/**
+ * The changelog is an input too, and the one that moves on its own: `prepareRelease`
+ * rewrites it inside the deploy, between the install and this suite. Leaving it out would
+ * let the release step run the tests against the previous release's artifact.
+ */
+const HISTORY = 'src/releases/history.json';
 
 const newest = (dir: string): number => {
   try {
@@ -35,7 +41,8 @@ const newest = (dir: string): number => {
 function complete(): boolean {
   try {
     const manifest = JSON.parse(readFileSync(MANIFEST, 'utf8')) as { base: string; files: Record<string, string> };
-    return !!manifest.files['skillDescriptions'] && Object.values(manifest.files).every((file) => existsSync(join('src', manifest.base + file)));
+    return !!manifest.files['skillDescriptions'] && !!manifest.files['releaseHistory']
+      && Object.values(manifest.files).every((file) => existsSync(join('src', manifest.base + file)));
   } catch {
     return false;
   }
@@ -43,7 +50,7 @@ function complete(): boolean {
 
 export default function setup(): void {
   const generated = newest(OUT);
-  if (generated > 0 && generated >= Math.max(newest(SRC), statSync(SKILLS).mtimeMs) && complete()) return;
+  if (generated > 0 && generated >= Math.max(newest(SRC), statSync(SKILLS).mtimeMs, statSync(HISTORY).mtimeMs) && complete()) return;
 
   execFileSync(process.execPath, ['tools/build-web-data.mjs'], { stdio: 'inherit' });
 }
