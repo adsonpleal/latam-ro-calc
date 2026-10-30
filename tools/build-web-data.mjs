@@ -33,6 +33,13 @@
 //   skill-descriptions[.<hash>].json — skill prose extracted from the authored
 //                              TypeScript catalog using esbuild, also deferred.
 //
+//   release-history[.<hash>].json  src/releases/history.json verbatim — the whole
+//                              changelog, in all three languages. Fetched only when the
+//                              reader opens the Novidades dialog. It is here rather than
+//                              bundled because it is append-only: every release adds an
+//                              entry, so bundling it charged the `totalBaseline` ratchet
+//                              for publishing notes. See docs/dependency-reduction.md.
+//
 //   monsters[.<hash>].json     monster.json with the pt-BR names from
 //                              latam-monsters.json already applied.
 //
@@ -306,6 +313,7 @@ export async function main() {
     ['itemsDescEs', 'items-desc-es', es.desc],
     ['itemsDescEn', 'items-desc-en', en.desc],
     ['skillDescriptions', 'skill-descriptions', skillDescriptions],
+    ['releaseHistory', 'release-history', readJson(resolve(ROOT, 'src/releases'), 'history.json')],
     ['monsters', 'monsters', buildMonsters(monsters, latamMonsters)],
     ['hpsp', 'hpsp', hpSpTable],
     ['classes', 'classes', latamClasses],

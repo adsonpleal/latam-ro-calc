@@ -154,6 +154,50 @@ The 505-byte Linux/Windows gap described above is closed: this machine now measu
 3,722,800 on `origin/main` and 3,723,208 on this branch, both exactly what CI reports,
 so the baseline is again a figure either side can reproduce.
 
+### The ratchet was measuring the changelog
+
+Every raise above was paid for by code. Two deploys then failed on the ratchet without
+any code having grown, and the reason was structural: the gate was counting the release
+notes it was publishing.
+
+`tools/release-main.mjs` prepares the release *before* it builds — `prepareRelease()`
+folds the pending `release-notes/` fragments into `src/releases/history.json`, and only
+then does `pnpm build` run. `history.json` was a bundled import (`app.topbar.ts` loaded
+it with `import()` for the Novidades dialog), so it was emitted as its own 818 KB chunk
+and counted in `totalBaseline`. Publishing notes therefore grew the very bundle the
+ratchet measures, in a commit that only the failing step would have created — so no pull
+request could have seen the number, and no baseline raise could have been prepared for
+it. The ES and EN translations made each entry cost about 2,3 KB instead of 0,8 KB,
+which is why it started failing now:
+
+| deploy | measured | baseline | over by |
+|---|---|---|---|
+| i18n (#69) | 3,725,907 | 3,722,800 | 3,107 — one new entry |
+| rebalance (#75) | 3,730,085 | 3,723,208 | 6,877 — three, #69's fragment still pending |
+
+It compounds, too: a failed deploy leaves its fragments pending, so the next one carries
+them as well. Those two failures left `main` unreleased and production serving the build
+before them.
+
+The changelog is now a fetched artifact, `release-history[.<hash>].json`, emitted by
+`build-web-data.mjs` beside `skill-descriptions` and the item text and fetched only when
+the dialog opens. That is where the repository already keeps large prose, and the dialog
+was already asynchronous, with its own loading and error states, so nothing about it
+changed. Dropping the chunk takes 818,291 bytes off the total, and the exclusion below
+another 2,794: the baseline goes from 3,723,208 to 2,902,123 — a ratchet tightening, not
+slack.
+
+`releaseVersions` stays bundled, and is now subtracted from the total like the
+alternative catalogs: the unread badge needs the ordered version list before any fetch,
+and that list grows by one string — about 15 bytes — per release. Charging it would
+reproduce the same bug in miniature, so it is excluded and budgeted on its own instead,
+`releaseVersionsLimit` at 8,000 bytes against 2,794 today. The same 15 bytes also land
+in the startup figure, which is a warning until 2,420,000 and so has room for roughly a
+thousand releases; the ceiling, not the budget, is what would eventually need answering.
+
+What the ratchet now measures is code again, which is the only thing it can usefully
+guard.
+
 The final simplify pass removed the unused portal view argument, redundant
 virtual-list end state and a duplicate filesystem probe. It also consolidated
 imports and removed stale CDK comments without changing interaction contracts.

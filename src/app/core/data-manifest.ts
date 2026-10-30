@@ -19,6 +19,7 @@ export const DATA_KEYS = [
   'itemsDescEs',
   'itemsDescEn',
   'skillDescriptions',
+  'releaseHistory',
   'monsters',
   'hpsp',
   'classes',

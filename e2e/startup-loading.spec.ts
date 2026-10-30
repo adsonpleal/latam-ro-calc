@@ -38,10 +38,15 @@ test('calculator becomes usable before optional descriptions and history arrive'
   expect(initialChunks.every(url => preloadLinks.includes(url))).toBe(true);
 
   finishDescriptions();
+  // The changelog is a fetched artifact rather than a bundled chunk, so booting the
+  // calculator must not touch it: it is ~780 KB of prose that most readers never open.
+  // tools/changelog-out-of-bundle.spec.ts guards the other half, that nothing imports it.
+  expect(requested.some(url => url.includes(files!.releaseHistory))).toBe(false);
+
   await page.getByRole('button', { name: 'Novidades', exact: true }).click();
   await expect(page.getByRole('dialog').getByText('Histórico original (pré-fork) →')).toBeVisible();
   await expect(page.getByRole('dialog').locator('li')).not.toHaveCount(0);
-  expect(requested.filter(url => /\/chunk-.*\.js$/.test(url)).some(url => !preloadLinks.includes(url))).toBe(true);
+  await expect.poll(() => requested.some(url => url.includes(files!.releaseHistory))).toBe(true);
 });
 
 test('hover descriptions refresh when the deferred datasets arrive', async ({ page }) => {

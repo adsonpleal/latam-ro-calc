@@ -7,12 +7,20 @@ import { TextKey } from '../../app/i18n';
 import { environment } from 'src/environments/environment';
 import { UPDATE_DIALOG_STYLE } from '../../app/layout/dialog-geometry';
 import { CalculatorLayout as LayoutService } from '../services/calculator-services';
+import { DataClient } from '../services/data-client';
 
 
 export class AppTopBarComponent extends ViewState {
   private readonly helpImproveSubscription: Disposable;
 
-  constructor(private layoutService: LayoutService) { super();
+  /**
+   * The changelog arrives as a fetched artifact, not a bundled import: it is append-only
+   * and already 800 KB, so every release used to grow the browser bundle by its own
+   * release notes. `releaseVersions` above is the one projection that stays bundled —
+   * `browser-data.mjs` reduces it to the version strings, which is what the unread badge
+   * needs before anyone opens the dialog.
+   */
+  constructor(private layoutService: LayoutService, private readonly data: DataClient) { super();
     this.helpImproveSubscription = this.layoutService.helpImproveOpen.subscribe(() => this.action(() => this.showHelpImproveDialog()));
   }
 
@@ -158,7 +166,7 @@ export class AppTopBarComponent extends ViewState {
     if (!this.updatesLoad) {
       this.updatesLoading = true;
       this.updatesError = false;
-      this.updatesLoad = import('../../releases/history.json').then(({ default: history }) => {
+      this.updatesLoad = this.data.load<ReleaseEntry[]>('releaseHistory').then(history => {
         if (this.lifetime.active) this.updates = history;
       }).catch(() => {
         this.updatesError = true;

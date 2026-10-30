@@ -58,8 +58,18 @@ export async function buildWeb({ production = true, outputDirectory = defaultOut
   const code = entries.filter(([name]) => /\.(js|css)$/.test(name));
   const isAltCatalog = ([, meta]) => Object.keys(meta.inputs || {}).some(input => /src[\/]app[\/]i18n[\/](?!pt-br|index)[a-z-]+\.ts$/.test(input));
   const altCatalogs = code.filter(isAltCatalog);
-  const totalBytes = code.filter(entry => !isAltCatalog(entry)).reduce((sum, [, meta]) => sum + meta.bytes, 0)
-    + Math.max(0, ...altCatalogs.map(([, meta]) => meta.bytes));
+  const counted = code.filter(entry => !isAltCatalog(entry));
+  // Same reasoning as the catalogs, for the one payload that grows by publishing rather
+  // than by writing code: `releaseVersions` (the version strings behind the unread badge)
+  // gains one entry per release, so charging it to the ratchet would make every release
+  // fail the gate that the release itself trips. The changelog prose left the bundle for
+  // this reason; this is the 15 bytes a release still adds. Budgeted on its own below.
+  const releaseVersionsBytes = counted.reduce((sum, [, meta]) =>
+    sum + Object.entries(meta.inputs || {}).reduce((inner, [input, { bytesInOutput }]) =>
+      inner + (/src[\/]releases[\/]summary\.ts$/.test(input) ? bytesInOutput : 0), 0), 0);
+  const totalBytes = counted.reduce((sum, [, meta]) => sum + meta.bytes, 0)
+    + Math.max(0, ...altCatalogs.map(([, meta]) => meta.bytes)) - releaseVersionsBytes;
+  if (production && releaseVersionsBytes > budgets.releaseVersionsLimit) throw new Error(`Bundled release version list exceeds budget: ${releaseVersionsBytes} > ${budgets.releaseVersionsLimit}`);
   if (production && totalBytes > budgets.totalBaseline) throw new Error(`Web JS/CSS regressed against the Angular baseline: ${totalBytes} > ${budgets.totalBaseline}`);
   if (Object.keys(result.metafile.inputs).some(name => /node_modules.*(?:@angular|rxjs|zone\.js|tslib)/.test(name))) throw new Error('Removed framework dependency entered the browser bundle');
   const main = entries.find(([, meta]) => meta.entryPoint?.endsWith('/src/main.ts') || meta.entryPoint === 'src/main.ts');
