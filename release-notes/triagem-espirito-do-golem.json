@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "O Espírito do Golem agora aumenta a DEF em 300 e a DEFM em 40, como no nível 5 da habilidade. Antes, ativá-lo não mudava nada. Reportado por Zant-."
+  ],
+  "logs_es": [
+    "El Espíritu del Golem ahora aumenta la DEF en 300 y la DEFM en 40, como en el nivel 5 de la habilidad. Antes, activarlo no cambiaba nada. Reportado por Zant-."
+  ],
+  "logs_en": [
+    "Golem Soul now raises DEF by 300 and MDEF by 40, matching skill level 5. Before, turning it on changed nothing. Reported by Zant-."
+  ]
+}
