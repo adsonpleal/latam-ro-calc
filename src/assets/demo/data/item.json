@@ -313630,7 +313630,27 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "range": [
+        "UNTIL[2026-11-22]===10"
+      ],
+      "melee": [
+        "UNTIL[2026-11-22]===10"
+      ],
+      "m_element_all": [
+        "UNTIL[2026-11-22]===10"
+      ],
+      "atkPercent": [
+        "UNTIL[2026-11-22]EQUIP_ID[31368]10"
+      ],
+      "matkPercent": [
+        "UNTIL[2026-11-22]EQUIP_ID[31580]10"
+      ],
+      "fct": [
+        "UNTIL[2026-11-22]EQUIP_ID[31368]0.2",
+        "UNTIL[2026-11-22]EQUIP_ID[31580]0.2"
+      ]
+    }
   },
   "400046": {
     "id": 400046,
