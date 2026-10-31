@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "[Visual] Batata Quente passa a aplicar os bônus do Festival da Colheita até 22/11/2026: dano físico à distância, dano físico corpo a corpo e dano mágico de todas as propriedades +10%. No conjunto com [Visual] Chapéu do Festival da Colheita, dano físico +10% e conjuração fixa -0,2 s; no conjunto com [Visual] Espetinhos, dano mágico +10% e conjuração fixa -0,2 s."
+  ],
+  "logs_es": [
+    "[Disfraz] Batata Caliente ahora aplica las bonificaciones del Festival de la Cosecha hasta el 22/11/2026: daño físico a distancia, daño físico cuerpo a cuerpo y daño mágico de todas las propiedades +10%. En el conjunto con [Disfraz] Gorra del Festival de la Cosecha, daño físico +10% y conjuración fija -0,2 s; en el conjunto con [Disfraz] Brochetas, daño mágico +10% y conjuración fija -0,2 s."
+  ],
+  "logs_en": [
+    "[Costume] Hot Sweet Potato now applies its Harvest Festival bonuses through 11/22/2026: ranged physical damage, melee physical damage and magical damage of all properties +10%. In the set with [Costume] Harvest Festival Hat, physical damage +10% and fixed casting -0.2 s; in the set with [Costume] Taste of Autumn, magical damage +10% and fixed casting -0.2 s."
+  ]
+}
