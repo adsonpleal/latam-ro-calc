@@ -209,11 +209,7 @@ export class GuillotineCross extends AssassinCross {
         // A toxin whose self effect is not a damage stat (Cicuta, Squamata...) still leaves the
         // skill's own melee bonus: +2% per level (bROWiki, Aplicar Toxina). Values 3-7 are
         // appended so builds saved with 1/2 keep their toxin.
-        { label: 'Sem status Nv 1', isUse: true, value: 3, bonus: { melee: 2 } },
-        { label: 'Sem status Nv 2', isUse: true, value: 4, bonus: { melee: 4 } },
-        { label: 'Sem status Nv 3', isUse: true, value: 5, bonus: { melee: 6 } },
-        { label: 'Sem status Nv 4', isUse: true, value: 6, bonus: { melee: 8 } },
-        { label: 'Sem status Nv 5', isUse: true, value: 7, bonus: { melee: 10 } },
+        ...[1, 2, 3, 4, 5].map((lv) => ({ label: `Sem status Nv ${lv}`, isUse: true, value: lv + 2, bonus: { melee: lv * 2 } })),
       ],
     },
     {
