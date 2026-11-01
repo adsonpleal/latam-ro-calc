@@ -9,6 +9,28 @@ import { HighWizard } from './HighWizard';
  *  cast/delay numbers that moves with the level. */
 const jackFrostVct = (skillLevel: number) => 1.5 + skillLevel * 0.5;
 
+/**
+ * Tetra Vortex, one entry per Esfera element. The client (28/10/2026) says the skill
+ * "causa 4 danos mágicos da propriedade das Esferas" at 800 + 400 × Nv % ATQM per Esfera,
+ * with no base-level term; divine-pride still shows the older 5-level 500 + 500 × Nv
+ * table, which LATAM no longer runs. The picker's element dedup turns the four entries
+ * into "Tetra Vortex - Fogo/Água/Vento/Terra", so the element is chosen like any skill.
+ */
+const tetraVortex = (element: ElementType): AtkSkillModel => ({
+  name: 'Tetra Vortex',
+  label: 'Tetra Vortex Lv10',
+  value: `Tetra Vortex ${element}==10`,
+  levelList: Array.from({ length: 10 }, (_, i) => ({ label: `Tetra Vortex Nv${i + 1}`, value: `Tetra Vortex ${element}==${i + 1}` })),
+  acd: 0,
+  fct: 1,
+  vct: (skillLevel) => 4 + skillLevel,
+  cd: 15,
+  isMatk: true,
+  totalHit: 4,
+  element,
+  formula: ({ skillLevel }: AtkSkillFormulaInput): number => 800 + skillLevel * 400,
+});
+
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 1, 0, 0],
   2: [0, 0, 0, 2, 0, 0],
@@ -287,26 +309,10 @@ export class Warlock extends HighWizard {
         return (skillLevel * 200 + status.totalInt) * (baseLevel / 100);
       },
     },
-    // {
-    //   name: 'Tetra Vortex',
-    //   label: 'Tetra Vortex Lv10',
-    //   value: 'Tetra Vortex==10',
-    //   acd: 0,
-    //   fct: 1,
-    //   vct: 14,
-    //   cd: 15,
-    //   isMatk: true,
-    //   // getElement(skillValue) {
-
-    //   // },
-    //   totalHit: 4,
-    //   formula: (input: AtkSkillFormulaInput): number => {
-    //     const { model, skillLevel } = input;
-    //     const baseLevel = model.level;
-
-    //     return 800 + skillLevel * 400;
-    //   },
-    // },
+    tetraVortex(ElementType.Fire),
+    tetraVortex(ElementType.Water),
+    tetraVortex(ElementType.Wind),
+    tetraVortex(ElementType.Earth),
   ];
   private readonly activeSkillList3rd: ActiveSkillModel[] = [
     {
