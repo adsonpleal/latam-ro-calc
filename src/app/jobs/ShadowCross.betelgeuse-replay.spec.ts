@@ -93,6 +93,8 @@ function simulate(state: State) {
   const src: any = replay(state.file);
   const m: any = replayToModel(src, items).model;
   m.class = 4254;
+  // Recorded before the 28/10/2026 client, so Adulterar Veneno still ignored 3% TEN per level.
+  m.skillFormulaVersion = 'pre-rebalance';
   Object.assign(m, src.traits);
   m.propertyAtk = state.endow;
   m.consumables = [];

@@ -1,0 +1,6 @@
+{
+  "type": "patch",
+  "logs": ["[Adulterar Veneno] passou a ignorar 2% da Tenacidade por nível (20% no Nv10), como no rebalanceamento de 29/10/2026; antes ignorava 3% por nível (30% no Nv10). A fórmula Pré-rebalanceamento mantém os valores antigos. Reportado por Ametsuky."],
+  "logs_es": ["[Veneno Potente] pasó a ignorar 2% de la Tenacidad por nivel (20% en Nv10), como en el rebalanceo del 29/10/2026; antes ignoraba 3% por nivel (30% en Nv10). La fórmula Pre-rebalanceo mantiene los valores anteriores. Reportado por Ametsuky."],
+  "logs_en": ["[Potent Venom] now ignores 2% of Tenacity per level (20% at Lv10), as in the 29/10/2026 rebalance; it used to ignore 3% per level (30% at Lv10). The Pre-rebalance formula keeps the old values. Reported by Ametsuky."]
+}
