@@ -196,6 +196,17 @@ describe('Sicário — Lâminas Retalhadoras por estado de equipamento (LfVVfKMZ
   });
 
   /**
+   * Magic Mushroom's own effect is cast delay, which no packet sees, so on damage it is the
+   * bare skill bonus — the same numbers a toxin with no status (Cicuta, Squamata) at Nv 5 gives.
+   */
+  it('simulates a no-status toxin at Nv 5 exactly like Magic Mushroom, above no toxin', () => {
+    const noStatus = sim(TOXINA, { 'Poisonous Weapon': 7 });
+    const mushroom = sim(TOXINA, MAGIC_MUSHROOM);
+    expect([noStatus.criMin, noStatus.criMax]).toEqual([mushroom.criMin, mushroom.criMax]);
+    expect(noStatus.criMin).toBeGreaterThan(sim(TOXINA).criMin);
+  });
+
+  /**
    * The two states with enough packets to bound a range. Both are criticals — the engine's
    * non-crit ceiling is far below the recorded floor — and both sit inside the simulated
    * critical range while hugging each end of it, which is what a correct range looks like
