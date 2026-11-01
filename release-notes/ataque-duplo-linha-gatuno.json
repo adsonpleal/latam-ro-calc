@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Adicionada a passiva [Ataque Duplo] às classes da linha Gatuno (do Gatuno ao Renegado, ao Sicário e às 4ª classes): com uma Adaga, o golpe extra de 7% por nível passa a aparecer na aba de Auto-conjuração e a somar no dano. Concedida por equipamento, a habilidade continua valendo com qualquer arma, no maior dos dois níveis."
+  ],
+  "logs_es": [
+    "Se añadió la pasiva [Ataque Duplo] a las clases de la línea Gatuno (del Gatuno al Renegado, al Sicário y a las 4ª clases): con una Adaga, el golpe extra de 7% por nivel ahora aparece en la pestaña de Auto-conjuração y se suma al daño. Si la concede un equipo, la habilidad sigue funcionando con cualquier arma, al mayor de los dos niveles."
+  ],
+  "logs_en": [
+    "Added the [Ataque Duplo] passive to the Gatuno line classes (from Gatuno to Renegado, Sicário and the 4th classes): with an Adaga, the 7%-per-level extra hit now shows on the Auto-conjuração tab and adds to the damage. When granted by equipment, the skill still works with any weapon, at the higher of the two levels."
+  ]
+}
