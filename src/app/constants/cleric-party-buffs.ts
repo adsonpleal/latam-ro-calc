@@ -62,3 +62,17 @@ export const LaudaRamusBuff: ActiveSkillModel = {
     ...Array.from({ length: 4 }, (_, i) => ({ label: `Nv ${i + 1}`, value: i + 1, isUse: true, bonus: { criDmg: (i + 1) * 5 } })),
   ],
 };
+
+// https://browiki.org/wiki/Sacramentum — matches the client table (-10% Conj. Fixa per
+// level). It does not stack with other % fixed-cast reductions, which is how
+// fctPercent already combines: the highest source wins.
+export const SacramentumBuff: ActiveSkillModel = {
+  name: 'Sacramentum',
+  label: 'Sacramentum',
+  icon: 2515,
+  inputType: 'dropdown',
+  dropdown: [
+    { label: '-', value: 0, isUse: false },
+    ...Array.from({ length: 5 }, (_, i) => ({ label: `Nv ${i + 1}`, value: i + 1, isUse: true, bonus: { fctPercent: (i + 1) * 10 } })),
+  ],
+};
