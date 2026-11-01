@@ -1,6 +1,6 @@
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
-import { ImproveDodgeFn } from '../constants/share-passive-skills';
+import { DoubleAttackFn, ImproveDodgeFn } from '../constants/share-passive-skills';
 
 const jobBonusTableHi: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 0, 0, 0],
@@ -179,6 +179,7 @@ export class Thief extends CharacterBase {
   protected readonly _activeSkillList: ActiveSkillModel[] = [];
   protected readonly _passiveSkillList: PassiveSkillModel[] = [
     ImproveDodgeFn(),
+    DoubleAttackFn(),
     {
       name: 'Hiding',
       label: 'Hiding',
