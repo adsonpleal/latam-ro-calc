@@ -1,0 +1,6 @@
+{
+  "type": "patch",
+  "logs": ["Adicionado Sacramentum: o Arcebispo pode ativá-lo em Habilidades, e as outras classes podem recebê-lo em Buffs. Reduz a conjuração fixa em 10% por nível, sem acumular com outras reduções percentuais de conjuração fixa. Sugerido por Holy Cheetos."],
+  "logs_es": ["Se agregó Sacramentum: el Arcebispo puede activarlo en Habilidades y las demás clases pueden recibirlo en Buffs. Reduce la conjuración fija un 10% por nivel, sin acumularse con otras reducciones porcentuales de conjuración fija. Sugerido por Holy Cheetos."],
+  "logs_en": ["Added Sacramentum: the Arch Bishop can turn it on under Skills, and other classes can receive it under Buffs. It reduces fixed cast time by 10% per level and does not stack with other percentage fixed-cast reductions. Suggested by Holy Cheetos."]
+}

@@ -1,6 +1,6 @@
 import { ElementType } from '../constants/element-type.const';
 import { RaceType } from '../constants/race-type.const';
-import { LaudaAgnusBuff, LaudaRamusBuff } from '../constants/cleric-party-buffs';
+import { LaudaAgnusBuff, LaudaRamusBuff, SacramentumBuff } from '../constants/cleric-party-buffs';
 import { InfoForClass } from '../models/info-for-class.model';
 import { HighPriest } from './HighPriest';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
@@ -234,6 +234,7 @@ export class ArchBishop extends HighPriest {
     },
     LaudaAgnusBuff,
     LaudaRamusBuff,
+    SacramentumBuff,
     learnedSkill('Duple Light', 10),
   ];
   protected readonly passiveSkillList3rd: PassiveSkillModel[] = [
