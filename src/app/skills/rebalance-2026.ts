@@ -220,9 +220,11 @@ export const REBALANCE_2022_PATCHES: Record<string, Patch> = {
   'Deft Stab': { formula: linear(350, 550, 'pow', 5), totalHit: 1, hit: 5, damageRepeat: i => 1 + lv(i) * 0.05 },
   'Frenzy Shot': { formula: linear(0, 400, 'con', 5), totalHit: i => 1 + lv(i) * 0.1, canCri: true },
 
-  'Explosion Blaster': { formula: i => scale(i, lv(i) * (active(i, 'Oleum Sanctum') ? 3200 : 2800) + pow(i) * 15), canCri: false },
+  // The 28/10/2026 LATAM client prints exactly this bundle's tables for both blasters and
+  // says of each "Tem chance do ataque ser crítico. A chance é igual ao CRIT do usuário."
+  'Explosion Blaster': { formula: i => scale(i, lv(i) * (active(i, 'Oleum Sanctum') ? 3200 : 2800) + pow(i) * 15), canCri: true },
   'Second Flame': { formula: linear(200, 2900, 'pow', 9) },
-  'Massive Flame Blaster': { formula: i => scale(i, lv(i) * (race(i, 'demihuman', 'brute') ? 2300 : 2150) + pow(i) * 15), canCri: false },
+  'Massive Flame Blaster': { formula: i => scale(i, lv(i) * (race(i, 'demihuman', 'brute') ? 2300 : 2150) + pow(i) * 15), canCri: true },
   'Overslash': { ...REBALANCE_2026_PATCHES['Overslash'], formula: i => scale(i, lv(i) * (120 + learned(i, 'Spear & Sword Mastery') * 10) + pow(i) * 5) },
   // Korean final notice: Nv5, mastery10, shield150/+10 = 12840%, not the
   // English translation's 14440%. Historical rAthena supplies 1400 + 2100*Lv.
