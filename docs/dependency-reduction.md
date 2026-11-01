@@ -225,3 +225,9 @@ tests check every emitted root JavaScript/CSS file receives immutable caching.
 
 Existing untracked replay recordings and reports were preserved. No deployment or
 publication was performed.
+
+Adulterar Veneno's per-version TEN penetration moved it from 2,902,123 to 2,902,229. The
+106 bytes are `ShadowCross.ts` choosing 2% or 3% per level from the build's formula
+version in `setAdditionalBonus`, where the dropdown used to carry a fixed 3%. That is what CI
+measured for the first form of the change; the final, shorter form measures 90 here, so
+the baseline carries the CI figure and a few bytes of slack rather than a guess.
