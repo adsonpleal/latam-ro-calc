@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Aplicar Toxina (Sicário) ganha a opção \"Sem status\", do Nv 1 ao Nv 5, para toxinas como Cicuta e Squamata: aplica só o dano físico corpo a corpo da própria habilidade, +2% por nível, sem os efeitos de Pyrexia ou Magic Mushroom. Sugerido por Ametsuky."
+  ],
+  "logs_es": [
+    "Aplicar Toxina (Sicário) recibe la opción \"Sem status\", del Nv 1 al Nv 5, para toxinas como Cicuta y Squamata: aplica solo el daño físico cuerpo a cuerpo de la propia habilidad, +2% por nivel, sin los efectos de Pyrexia o Magic Mushroom. Sugerido por Ametsuky."
+  ],
+  "logs_en": [
+    "Aplicar Toxina (Sicário) gets the \"Sem status\" option, from Lv 1 to Lv 5, for toxins such as Cicuta and Squamata: it applies only the skill's own melee physical damage, +2% per level, without the effects of Pyrexia or Magic Mushroom. Suggested by Ametsuky."
+  ]
+}
