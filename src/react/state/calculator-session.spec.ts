@@ -563,6 +563,42 @@ describe('rotation tabs', () => {
     session.dispose();
   });
 
+  // The strip is a comparison, so the wait is the whole point of the complaint: the build
+  // has not moved, only which rotation is on screen, and both were solvable before the
+  // click. The switch therefore recalculates in the click's own tick and never raises the
+  // "calculando" flag the debounced item pipeline raises on the way in.
+  it('switches with no wait and no loading flag', async () => {
+    const { session, first, second } = await booted();
+    session.onRotationChange({ rotation: first, stacks: [] });
+    session.onAddRotationTab();
+    session.onRotationChange({ rotation: second, stacks: [] });
+    await vi.advanceTimersByTimeAsync(1000);
+    expect(session.isCalculating).toBe(false);
+
+    session.onSelectRotationTab(0);
+
+    // No timer advanced: the panel is already showing the other rotation's numbers.
+    expect(session.isCalculating).toBe(false);
+    expect(session.rotationView?.entries.map(entry => entry.value)).toEqual(first);
+    const dps = session.rotationView?.cycle?.sustainedDps;
+
+    session.onSelectRotationTab(1);
+    expect(session.isCalculating).toBe(false);
+    expect(session.rotationView?.entries.map(entry => entry.value)).toEqual(second);
+    expect(session.rotationView?.cycle?.sustainedDps).not.toBe(dps);
+
+    // And the same for the "+" and the "x", which also change which rotation is open.
+    session.onAddRotationTab();
+    expect(session.isCalculating).toBe(false);
+    expect(session.rotationView?.entries ?? []).toHaveLength(0);
+
+    session.onRemoveRotationTab(2);
+    expect(session.isCalculating).toBe(false);
+    expect(session.rotationView?.entries.map(entry => entry.value)).toEqual(second);
+
+    session.dispose();
+  });
+
   it('carries the whole strip through the autosave and reopens on the same tab', async () => {
     const { session, storage, first, second } = await booted();
     session.onRotationChange({ rotation: first, stacks: [] });

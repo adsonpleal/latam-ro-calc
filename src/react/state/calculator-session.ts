@@ -1459,11 +1459,26 @@ await ((_event?: unknown) => {
     if (removeRotationTab(this.model, index)) this.afterRotationTabChange();
   }
 
-  /** A tab switch swaps the whole rotation under the panel, so it is the same recalculate
-   *  any other rotation change asks for. */
+  /**
+   * Bring the panel onto the rotation the strip now holds, in this very tick.
+   *
+   * Switching tabs does not go through `updateItemEvent`: that pipeline is debounced by
+   * 250ms and raises `isCalculating` on the way in, so a click that only changes which
+   * rotation is open would flash a spinner before showing numbers that were already
+   * within reach. Nothing about the build moved — same gear, same stats, same target —
+   * so the equipment rules that pipeline exists for (ammo and shield occupancy, the
+   * head-slot overlap, the ammo dropdown) have nothing to settle, and the rotation pass
+   * itself costs about a frame on a four-skill rotation. Running it straight through
+   * keeps every rotation-derived number honest without the wait.
+   */
   private afterRotationTabChange() {
     this.syncRotationMirror();
-    this.updateItemEvent.next(true);
+    this.calculate();
+    this.calcCompare();
+    this.saveCurrentStateItemset();
+    this.applySummaryTables();
+    this.refreshChanceList();
+    this.publish();
   }
 
   onSkillFormulaVersionChange(version: SkillFormulaVersion) {

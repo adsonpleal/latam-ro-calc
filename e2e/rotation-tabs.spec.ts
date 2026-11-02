@@ -60,8 +60,13 @@ test('each tab keeps its own rotation and its own figures', async ({ page }) => 
   expect(second).not.toEqual(first);
 
   await hud.locator('.hud-rot-tab-pick').first().click();
-  await expect(rows).toHaveText(first, { timeout: 40_000 });
-  await expect.poll(() => hud.locator('.hud-dps-col').innerText()).toBe(firstDps);
+  // The build has not moved, so the switch lands in the click's own tick: no spinner on
+  // the way, and the figures are already the other rotation's.
+  await expect(page.locator('.loading_block')).toHaveCount(0);
+  await expect(rows).toHaveText(first, { timeout: 2_000 });
+  // Raw innerText, not toHaveText: the figures carry their own line breaks, which
+  // toHaveText would normalise away before comparing.
+  await expect.poll(() => hud.locator('.hud-dps-col').innerText(), { timeout: 2_000 }).toBe(firstDps);
 
   await hud.locator('.hud-rot-tab-pick').last().click();
   await expect(rows).toHaveText(second, { timeout: 40_000 });
