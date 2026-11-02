@@ -407,13 +407,8 @@ export class SuperNovice extends CharacterBase {
         { label: 'Não', value: 0, isUse: false },
       ],
     },
-    // Encantar com Veneno Mortal (EDP) does NOT belong here, however tempting the slot
-    // looks: bROWiki puts it in the Algozes tree behind Criar Veneno Mortal 1, and neither
-    // the Superaprendizes nor the Hiperaprendizes page lists it — not in the base tree and
-    // not under "Expansão", which stops at the regular Assassino poison column (Névoa
-    // Tóxica, Explosão Tóxica). No item grants it either: nothing in item.json carries
-    // `enable_skill__378`. It came in with upstream commit 7596f4c0 and was wrong from the
-    // start; `super-novice-skills.spec.ts` keeps it out.
+    // Encantar com Veneno Mortal (EDP) is Algoz-only and does not belong here; the evidence
+    // is in `super-novice-skills.spec.ts`, which fails if it comes back.
   ];
 
   protected readonly _passiveSkillList: PassiveSkillModel[] = [
