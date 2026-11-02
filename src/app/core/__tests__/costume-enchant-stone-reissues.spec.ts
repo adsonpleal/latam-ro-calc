@@ -77,9 +77,10 @@ describe('re-issued Visual-enchant stones', () => {
         Object.values(db).filter((i: any) => i.itemSubTypeId === sub).length;
 
       // Includes the nine class re-issues, two EXP enchants and four graphical effects
-      // added in October, plus the three Shadow Chaser Stone II previews (314185-314187).
+      // added in October, the three Shadow Chaser Stone II previews (314185-314187), and
+      // the eight LATAM graphical effects registered for card vR5h55mOQVjZvABbndcz.
       // Bump these deliberately when the client adds more.
-      expect([71, 72, 73, 74, 75, 76].map(perSlot)).toEqual([122, 145, 138, 80, 16, 27]);
+      expect([71, 72, 73, 74, 75, 76].map(perSlot)).toEqual([124, 148, 139, 80, 18, 27]);
     });
   });
 
