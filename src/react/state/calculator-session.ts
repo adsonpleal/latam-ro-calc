@@ -1469,11 +1469,9 @@ await ((_event?: unknown) => {
   onSkillFormulaVersionChange(version: SkillFormulaVersion) {
     this.model.skillFormulaVersion = this.showPreviews ? normalizeSkillFormulaVersion(version) : 'current';
     this.setClassSkill();
-    const rotation = this.model.rotation ?? [];
-    const kept = rotation.flatMap((value, index) => pruneRotationForClass([value], this.atkSkills).length ? [index] : []);
-    this.model.rotation = kept.map(index => rotation[index]);
-    if (this.model.rotationStacks) this.model.rotationStacks = kept.map(index => this.model.rotationStacks[index]);
-    this.syncRotationMirror();
+    // Every tab, for the same reason setDefaultRotation prunes every tab: a version switch
+    // takes skills out of the catalog, and a parked rotation must not keep one.
+    this.pruneRotationTabsForClass();
     if (!pruneRotationForClass([this.model.selectedAtkSkill], this.atkSkills).length) {
       this.model.selectedAtkSkill = defaultAtkSkill(this.atkSkills);
     }
@@ -2846,19 +2844,33 @@ await ((_event?: unknown) => {
     // Every tab, not just the live one: a rotation parked in another tab was built on
     // whatever class was loaded then, and switching to it later must not resurrect a
     // skill this class cannot cast.
-    mapRotationTabs(this.model, (tab) => {
-      const keptIndices = tab.rotation.flatMap((skill, index) =>
-        pruneRotationForClass([skill], this.atkSkills).length ? [index] : []);
-      return {
-        rotation: keptIndices.map((index) => tab.rotation[index]),
-        stacks: tab.stacks.length ? keptIndices.map((index) => tab.stacks[index]) : [],
-      };
-    });
+    // One pass per tab, not one per skill: pruneRotationForClass rebuilds the class's
+    // whole known-value set on each call, and a filled strip would pay for that hundreds
+    // of times on every class switch, preset load and level change.
+    this.pruneRotationTabsForClass();
 
     if (!this.model.rotation.length && this.model.selectedAtkSkill) {
       this.model.rotation = [this.model.selectedAtkSkill];
     }
 
+    this.syncRotationMirror();
+  }
+
+  /**
+   * Drop from every rotation the build holds — the parked tabs as much as the live one —
+   * the skills the class and formula version now loaded cannot cast. One
+   * `pruneRotationForClass` pass per tab rather than one per skill: it rebuilds the
+   * class's whole known-value set on each call.
+   */
+  private pruneRotationTabsForClass() {
+    mapRotationTabs(this.model, (tab) => {
+      const castable = new Set(pruneRotationForClass(tab.rotation, this.atkSkills));
+      const keptIndices = tab.rotation.flatMap((skill, index) => (castable.has(skill) ? [index] : []));
+      return {
+        rotation: keptIndices.map((index) => tab.rotation[index]),
+        stacks: keptIndices.map((index) => tab.stacks[index]),
+      };
+    });
     this.syncRotationMirror();
   }
 
