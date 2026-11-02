@@ -1,5 +1,18 @@
 [
   {
+    "v": "0.1.202-beta",
+    "date": "02-11-2026",
+    "logs": [
+      "A rotação agora vive em abas: começa como uma só, e o + cria Rotação 1, Rotação 2 e quantas mais forem precisas. Cada aba guarda a sua própria rotação e mostra o DPS e a linha do tempo dela, sobre o mesmo personagem, equipamento e alvo — em Batalha e em PVP. As abas viajam no link compartilhado e na simulação salva. Sugerido por Ted."
+    ],
+    "logs_es": [
+      "La rotación ahora vive en pestañas: empieza con una sola, y el + crea Rotación 1, Rotación 2 y cuantas más hagan falta. Cada pestaña guarda su propia rotación y muestra su DPS y su línea de tiempo, sobre el mismo personaje, equipo y objetivo — en Batalla y en PVP. Las pestañas viajan en el enlace compartido y en la simulación guardada. Sugerido por Ted."
+    ],
+    "logs_en": [
+      "The rotation now lives in tabs: it starts as a single one, and the + creates Rotation 1, Rotation 2 and as many more as needed. Each tab keeps its own rotation and shows its own DPS and timeline, over the same character, equipment and target — in Battle and in PVP. The tabs travel in the share link and in the saved simulation. Suggested by Ted."
+    ]
+  },
+  {
     "v": "0.1.201-beta",
     "date": "02-11-2026",
     "logs": [
