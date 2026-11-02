@@ -162,7 +162,21 @@ let sharedDamagePopovers: any = vm["sharedDamagePopovers"]; return <>{(() => { c
 "relieveLevelChange": (event: any) => vm.action(() => { const $event = event; vm.relieveLevelChange.emit($event) }),
 "reductionRowClick": (event: any) => vm.action(() => { const $event = event; vm.reductionRowClick.emit($event) }),
 "showElementTableClick": (event: any) => vm.action(() => { const $event = event; vm.onShowElementalTableClick() })}}></Render>
-<Render tag="div" props={{"className": ["hud-card-col hud-card-col--skill"].filter(Boolean).join(' ')}}><Render tag="app-ui-card" props={{"styleClass": "hud-card"}}><Render tag="div" props={{"className": ["hud-rot-layout"].filter(Boolean).join(' ')}}><Render tag="app-rotation-list" props={{"entries": (vm.rotationView?.entries || []),
+<Render tag="div" props={{"className": ["hud-card-col hud-card-col--skill"].filter(Boolean).join(' ')}}><Render tag="app-ui-card" props={{"styleClass": "hud-card"}}>{/* The comparison strip. Buttons in a group rather than ARIA tabs, like the PVP/WOE
+  control above it: the rotation card and the figures under it are the one panel this
+  switches, and the pattern already in the panel is the one a reader knows. */}
+<div className="hud-rot-tabs" role="group" aria-label={t('rot.tabsLabel')}>{Array.from({ length: vm.rotationTabCount }, (_unused, index: number) => {
+  const label = vm.rotationTabLabel(index);
+  const active = index === vm.activeRotationTab;
+  return <span key={index} className={["hud-rot-tab", active ? "hud-rot-tab--active" : ''].filter(Boolean).join(' ')}>
+    <button type="button" className="hud-rot-tab-pick" aria-pressed={active} onClick={() => vm.action(() => vm.rotationTabSelect.emit(index))}>{label}</button>
+    {vm.rotationTabCount > 1 && <button type="button" className="hud-rot-tab-close" aria-label={t('rot.removeTab', { name: label })}
+      onClick={() => vm.action(() => vm.rotationTabRemove.emit(index))}><Render tag="app-icon" props={{"name": "times"}}></Render></button>}
+  </span>;
+})}
+{vm.canAddRotationTab && <button type="button" className="hud-rot-tab-add" aria-label={t('rot.addTab')}
+  onClick={() => vm.action(() => vm.rotationTabAdd.emit())}><Render tag="app-icon" props={{"name": "plus"}}></Render></button>}</div>
+<Render tag="div" props={{"className": ["hud-rot-layout"].filter(Boolean).join(' ')}}><Render tag="app-rotation-list" props={{"entries": (vm.rotationView?.entries || []),
 "entries2": (vm.rotationView2?.entries || null),
 "isComparing": vm.isComparing,
 "rotation": vm.rotation,

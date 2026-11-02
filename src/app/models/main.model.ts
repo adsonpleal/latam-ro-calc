@@ -1,5 +1,6 @@
 import { ElementType } from '../constants/element-type.const';
 import { EquipmentModel } from '../constants/item-type.enum';
+import { RotationTab } from '../core/rotation-tabs';
 import { SlotColorMap } from '../core/slot-colors';
 import { CustomAttachments } from '../core/custom-attachments';
 import type { SkillFormulaVersion } from '../skills/skill-formula-version';
@@ -66,6 +67,18 @@ export interface MainModel extends Partial<EquipmentModel> {
   skillStacks?: Record<string, number>;
   /** Accumulation for each rotation tile, in the same order as `rotation`. */
   rotationStacks?: number[];
+  /**
+   * The rotations this build keeps side by side, as the "Rotação 1 | Rotação 2 | +" strip
+   * draws them, with {@link MainModel.rotationTab} saying which one `rotation` is holding.
+   * Empty while the build has the single rotation it starts with, which is also what a
+   * build saved before the strip existed loads as.
+   *
+   * Read it through `readRotationTabs()` (src/app/core/rotation-tabs.ts) and never by
+   * hand: the active tab's slot here is a stale copy that only that function refreshes.
+   */
+  rotationTabs: RotationTab[];
+  /** Which tab of {@link MainModel.rotationTabs} `rotation` is currently holding. */
+  rotationTab?: number;
   /** Configurable auto-cast choices, stored as in-game skill ids. */
   autoCastSelections: {
     autoSpell?: number;

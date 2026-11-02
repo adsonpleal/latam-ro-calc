@@ -80,6 +80,17 @@ export class BattleHudComponent extends ViewState {
    rotationView2: RotationView | null = null;
   /** The raw ordered values — the list edits this, not the view. */
    rotation: string[] = [];
+  /**
+   * The comparison strip above the card. One tab is the plain rotation this panel always
+   * showed, so the strip only draws once there is something to compare against.
+   */
+   rotationTabCount = 1;
+   activeRotationTab = 0;
+   canAddRotationTab = true;
+  /** The strip's labels: a lone tab is just "Rotação", numbered once there are more. */
+  rotationTabLabel(index: number): string {
+    return this.rotationTabCount > 1 ? this.text('rot.tabNumbered', { n: index + 1 }) : this.text('rot.tab');
+  }
   get hasFlashCombo(): boolean {
     return this.rotation.some((skill) => skill.startsWith('Flash Combo=='));
   }
@@ -100,6 +111,9 @@ export class BattleHudComponent extends ViewState {
 
    relieveLevelChange = new Events<number>();
    rotationChange = new Events<{ rotation: string[]; stacks: number[] }>();
+   rotationTabSelect = new Events<number>();
+   rotationTabAdd = new Events<void>();
+   rotationTabRemove = new Events<number>();
    stackChange = new Events<{ index: number; stack: number }>();
    optimizeClick = new Events<void>();
 

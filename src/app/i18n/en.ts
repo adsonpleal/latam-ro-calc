@@ -1098,6 +1098,11 @@ export const catalog: TranslatedCatalog = {
   'opt.headlineBottleneck': 'Current bottleneck: {component}',
 
   'rot.cap': 'ROTATION',
+  'rot.tab': 'Rotation',
+  'rot.tabNumbered': 'Rotation {n}',
+  'rot.tabsLabel': 'Rotations to compare',
+  'rot.addTab': 'Add a rotation to compare',
+  'rot.removeTab': 'Remove {name}',
   'rot.oneSkill': '{n} SKILL',
   'rot.manySkills': '{n} SKILLS',
   'rot.clearTooltip': 'Removes every skill from the rotation.',

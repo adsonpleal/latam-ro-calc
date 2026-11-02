@@ -1141,6 +1141,12 @@ export const ptBR = {
 
   // The rotation column: the row list, its picker and the per-row hover notes.
   'rot.cap': 'ROTAÇÃO',
+  // The comparison strip above the card: one rotation needs no number, several do.
+  'rot.tab': 'Rotação',
+  'rot.tabNumbered': 'Rotação {n}',
+  'rot.tabsLabel': 'Rotações para comparar',
+  'rot.addTab': 'Adicionar rotação para comparar',
+  'rot.removeTab': 'Remover {name}',
   'rot.oneSkill': '{n} HABILIDADE',
   'rot.manySkills': '{n} HABILIDADES',
   'rot.clearTooltip': 'Remove todas as habilidades da rotação.',
