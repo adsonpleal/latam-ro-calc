@@ -43,7 +43,10 @@ describe('Esquife de Gelo is WL_JACKFROST (2204)', () => {
 
   it('leaves no item bonus behind on the old id', () => {
     expect(scriptKeysEndingIn('720')).toEqual([]);
-    expect(scriptKeysEndingIn('2204').length).toBe(32);
+    // The 33rd is 314672, the Warlock Stone II (Lower) preview of card
+    // vR5h55mOQVjZvABbndcz — the Warlock's own Jack Frost, not the Hyper Novice's
+    // Jack Frost Nova (5457), which other stones of the same sweep key separately.
+    expect(scriptKeysEndingIn('2204').length).toBe(33);
   });
 });
 
