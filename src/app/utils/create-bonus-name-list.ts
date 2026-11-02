@@ -21,7 +21,8 @@ const TR: Record<string, string> = {
   'Atk %': 'ATQ %',
   Matk: 'ATQM',
   'Matk %': 'ATQM %',
-  'Long Range': 'Longo Alcance',
+  // Same name the Bônus Aleatório picker uses — see create-extra-option-list.ts.
+  'Long Range': 'À distância',
   Melee: 'Corpo a corpo',
   'CRI Rate': 'Taxa Crít.',
   'CRI Dmg': 'Dano Crít.',

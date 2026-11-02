@@ -62,6 +62,16 @@ describe('searchOptionLeaves', () => {
     expect(capped).toBe(true);
   });
 
+  it('finds the ranged roll whether or not the accents are typed', () => {
+    // Reported as missing from the Bônus Aleatórios. The roll was there, named "Longo
+    // Alcance"; renaming it to "À distância" only helps if the search reaches it when
+    // typed the way people type it, which is without the accents.
+    expect(searchOptionLeaves(ExtraOptionMap, 'distancia').matches.map((m) => m.value)).toContain('range:12');
+    expect(searchOptionLeaves(ExtraOptionMap, 'a distancia +12').matches.map((m) => m.value)).toEqual(['range:12']);
+    expect(searchOptionLeaves(ExtraOptionMap, 'À distância +12').matches.map((m) => m.value)).toEqual(['range:12']);
+    expect(searchOptionLeaves(ExtraOptionMap, 'demonio 12').matches.map((m) => m.value)).toContain('p_pene_race_demon:12');
+  });
+
   it('does not flag a term that fits under the limit', () => {
     const { capped } = searchOptionLeaves(ExtraOptionMap, 'Esquiva Perfeita +30', 1000);
     expect(capped).toBe(false);

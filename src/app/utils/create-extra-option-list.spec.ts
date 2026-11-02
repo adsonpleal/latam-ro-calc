@@ -54,3 +54,45 @@ describe('createExtraOptionList — HP roll', () => {
     for (let v = 20; v <= 400; v += 20) expect(sp).toContain(v);
   });
 });
+
+/** Every leaf in the whole tree, with the labels of the groups it sits under. */
+function allLeaves(): { label: string; value: string; path: string[] }[] {
+  const out: { label: string; value: string; path: string[] }[] = [];
+  const walk = (nodes: any[], path: string[]) => {
+    for (const node of nodes) {
+      if (node.children?.length) walk(node.children, [...path, node.label]);
+      else if (node.value) out.push({ label: node.label, value: node.value, path });
+    }
+  };
+  walk(list as any[], []);
+
+  return out;
+}
+
+/**
+ * The ranged-damage roll, reported as absent from the Bônus Aleatórios of both ordinary and
+ * shadow gear. It was never absent: it sat under "Longo Alcance", a literal port of the
+ * English "Long Range" that matches neither the client nor the rest of the app, so nobody
+ * looking for it found it. The client calls the roll "Dano físico a distância +N%"
+ * (AddRandomOptionNameTable_ptBR, RANGE_ATTACK_DAMAGE_TARGET).
+ */
+describe('createExtraOptionList — ranged damage roll', () => {
+  const ranged = allLeaves().filter((leaf) => leaf.value.startsWith('range:'));
+
+  it('is named the way the client names it', () => {
+    // The group already says "Físico", and the melee roll beside it already drops that
+    // prefix ("Corpo a corpo"), so the roll itself reads "À distância" — the same name
+    // bonus-key-label and the Resumo de Batalha give the key.
+    expect(new Set(ranged.map((leaf) => leaf.path[0]))).toEqual(new Set(['Físico']));
+    expect(ranged.map((leaf) => leaf.label)).toContain('À distância +12 %');
+    expect(allLeaves().filter((leaf) => leaf.label.includes('Longo Alcance'))).toEqual([]);
+  });
+
+  it('offers +1% to +30%, the same span as the melee roll beside it', () => {
+    const span = (prop: string) => allLeaves().filter((l) => l.value.startsWith(`${prop}:`))
+      .map((l) => Number(l.value.split(':')[1])).sort((a, b) => a - b);
+    const expected = Array.from({ length: 30 }, (_, k) => k + 1);
+    expect(span('range')).toEqual(expected);
+    expect(span('melee')).toEqual(expected);
+  });
+});

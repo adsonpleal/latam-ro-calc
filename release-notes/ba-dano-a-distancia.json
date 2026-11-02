@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "A rolagem de dano à distância dos Bônus Aleatórios passou a se chamar [À distância], dentro do grupo [Físico]; antes aparecia como [Longo Alcance], nome que o cliente não usa em lugar nenhum — ele a chama de [Dano físico a distância]. A busca dos Bônus Aleatórios também passou a ignorar acentos, então procurar por \"distancia\" encontra a rolagem. O bônus em si sempre foi aplicado: só o nome o escondia."
+  ],
+  "logs_es": [
+    "La tirada de daño a distancia de los Bonus Aleatorios ahora se llama [À distância], dentro del grupo [Físico]; antes aparecía como [Longo Alcance], un nombre que el cliente no usa en ninguna parte — él la llama [Dano físico a distância]. La búsqueda de los Bonus Aleatorios también pasó a ignorar los acentos, así que buscar \"distancia\" encuentra la tirada. El bono en sí siempre se aplicó: solo el nombre lo escondía."
+  ],
+  "logs_en": [
+    "The long-range damage roll in Random Options is now called [À distância], inside the [Físico] group; it used to read [Longo Alcance], a name the client uses nowhere — the client calls it [Dano físico a distância]. The Random Options search now ignores accents as well, so searching for \"distancia\" finds the roll. The bonus itself was always applied: only the name hid it."
+  ]
+}
