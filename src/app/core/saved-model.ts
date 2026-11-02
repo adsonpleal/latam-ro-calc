@@ -2,6 +2,7 @@ import { MAX_OPTION_NUMBER } from '../constants/item-option-number.enum';
 import { MainModel } from '../models/main.model';
 import { createMainModel } from '../utils/create-main-model';
 import { normalizeRotation } from './rotation';
+import { normalizeRotationTabs } from './rotation-tabs';
 import { sanitizeSlotColors } from './slot-colors';
 import { normalizeSkillFormulaVersion } from '../skills/skill-formula-version';
 
@@ -62,6 +63,12 @@ export function normalizeSavedModel(savedData: Record<string, any> | null | unde
   // A build saved before rotations existed carries no `rotation` key, arrives as [],
   // and becomes a rotation of one holding its selectedAtkSkill.
   rawModel.rotation = normalizeRotation(rawModel.rotation, rawModel.selectedAtkSkill);
+
+  // The comparison strip. A build with a single rotation — every build saved before the
+  // strip existed among them — comes back with no tabs at all, which is what one tab is.
+  const tabs = normalizeRotationTabs(rawModel.rotationTabs, rawModel.rotationTab);
+  rawModel.rotationTabs = tabs.tabs;
+  rawModel.rotationTab = tabs.tab;
 
   // Validation, not defaulting: the loop above already restores an absent map. This is
   // the one gate a hand-edited share token passes through, so a slot key the grid does

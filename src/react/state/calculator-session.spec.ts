@@ -489,3 +489,113 @@ describe('item text follows the chosen language', () => {
     expect(session.items[ILLUSION_BUTCHER].name).toBe('Illusion Butcher');
   });
 });
+
+/**
+ * The comparison strip, through the real session: the panel's "+" and the tab buttons
+ * only ever call these three, and what matters is that each tab keeps the rotation the
+ * user left in it while everything outside the strip stays put.
+ */
+describe('rotation tabs', () => {
+  beforeEach(() => vi.useFakeTimers());
+  afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); });
+
+  async function booted(saved?: Record<string, unknown>) {
+    const made = makeSession();
+    if (saved) made.storage.setItem('ro-set', JSON.stringify(saved));
+    made.session.start();
+    await vi.advanceTimersByTimeAsync(1500);
+    made.session.viewReady();
+    await vi.advanceTimersByTimeAsync(300);
+    // Two real skills of whatever class booted, so the rotations below are castable and
+    // survive the class pruning the same way a rotation the user built by hand does.
+    const skills = made.session.atkSkills.filter(skill => !skill.isUtility).map(skill => skill.value);
+    return { ...made, first: [skills[0], '__basic'], second: [skills[1]] };
+  }
+
+  it('starts on a single rotation, which costs the saved build nothing', async () => {
+    const { session, storage } = await booted();
+
+    expect(session.rotationTabCount).toBe(1);
+    expect(session.activeRotationTab).toBe(0);
+    expect(session.canAddRotationTab).toBe(true);
+    expect(JSON.parse(storage.getItem('ro-set')!).rotationTabs).toEqual([]);
+
+    session.dispose();
+  });
+
+  it('adds a second rotation, switches between them and keeps each one', async () => {
+    const { session, first, second } = await booted();
+    session.onRotationChange({ rotation: first, stacks: [] });
+
+    session.onAddRotationTab();
+    expect(session.rotationTabCount).toBe(2);
+    expect(session.activeRotationTab).toBe(1);
+    // A fresh tab starts empty, so the panel shows its "add a skill" state.
+    expect(session.model.rotation).toEqual([]);
+
+    session.onRotationChange({ rotation: second, stacks: [] });
+
+    session.onSelectRotationTab(0);
+    expect(session.activeRotationTab).toBe(0);
+    expect(session.model.rotation).toEqual(first);
+
+    session.onSelectRotationTab(1);
+    expect(session.model.rotation).toEqual(second);
+
+    session.dispose();
+  });
+
+  it('solves the rotation the open tab holds', async () => {
+    const { session, first, second } = await booted();
+    session.onRotationChange({ rotation: first, stacks: [] });
+    await vi.advanceTimersByTimeAsync(600);
+    expect(session.rotationView?.entries).toHaveLength(2);
+
+    session.onAddRotationTab();
+    session.onRotationChange({ rotation: second, stacks: [] });
+    await vi.advanceTimersByTimeAsync(600);
+    expect(session.rotationView?.entries.map(entry => entry.value)).toEqual(second);
+
+    session.onSelectRotationTab(0);
+    await vi.advanceTimersByTimeAsync(600);
+    expect(session.rotationView?.entries).toHaveLength(2);
+
+    session.dispose();
+  });
+
+  it('carries the whole strip through the autosave and reopens on the same tab', async () => {
+    const { session, storage, first, second } = await booted();
+    session.onRotationChange({ rotation: first, stacks: [] });
+    session.onAddRotationTab();
+    session.onRotationChange({ rotation: second, stacks: [] });
+    await vi.advanceTimersByTimeAsync(1000);
+    const saved = JSON.parse(storage.getItem('ro-set')!);
+    session.dispose();
+
+    expect(saved.rotationTab).toBe(1);
+    expect(saved.rotationTabs.map((tab: { rotation: string[] }) => tab.rotation)).toEqual([first, second]);
+
+    const reopened = await booted(saved);
+    expect(reopened.session.rotationTabCount).toBe(2);
+    expect(reopened.session.activeRotationTab).toBe(1);
+    expect(reopened.session.model.rotation).toEqual(second);
+    reopened.session.onSelectRotationTab(0);
+    expect(reopened.session.model.rotation).toEqual(first);
+    reopened.session.dispose();
+  });
+
+  it('closing the last extra rotation leaves the build as it started', async () => {
+    const { session, first, second } = await booted();
+    session.onRotationChange({ rotation: first, stacks: [] });
+    session.onAddRotationTab();
+    session.onRotationChange({ rotation: second, stacks: [] });
+
+    session.onRemoveRotationTab(1);
+
+    expect(session.rotationTabCount).toBe(1);
+    expect(session.model.rotation).toEqual(first);
+    expect(session.model.rotationTabs).toEqual([]);
+
+    session.dispose();
+  });
+});

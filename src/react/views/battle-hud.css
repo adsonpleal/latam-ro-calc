@@ -868,6 +868,61 @@
 :is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-card-col--monster .monster_id_link{
   order: 5;
 }
+/* The comparison strip. It sits on the card's top edge and the active tab joins the
+   content below it, so the rotation and the figures under it read as one sheet. */
+:is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-rot-tabs{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 4px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--surface-border);
+}
+:is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-rot-tab{
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-radius: 3px 3px 0 0;
+  margin-bottom: -1px;
+}
+:is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-rot-tab--active{
+  border-color: var(--surface-border);
+  background: var(--surface-hover);
+}
+:is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-rot-tab-pick,
+:is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-rot-tab-close,
+:is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-rot-tab-add{
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--text-color-secondary);
+  font: inherit;
+  padding: 6px 4px;
+}
+:is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-rot-tab-pick{
+  padding-inline: 10px 6px;
+  white-space: nowrap;
+}
+:is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-rot-tab--active .hud-rot-tab-pick{
+  color: var(--primary-color);
+  font-weight: 600;
+}
+:is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-rot-tab-close{
+  padding-inline: 2px 8px;
+  font-size: 11px;
+  opacity: .55;
+}
+:is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-rot-tab-add{
+  padding-inline: 10px;
+  margin-bottom: -1px;
+}
+:is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-rot-tab-pick:hover,
+:is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-rot-tab-add:hover,
+:is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-rot-tab-close:hover{
+  color: var(--primary-color);
+  opacity: 1;
+}
 :is(app-battle-hud, .ui-scope-app-battle-hud, app-battle-monster-card) .hud-rot-layout{
   display: flex;
   flex-direction: column;

@@ -170,3 +170,26 @@ describe('the attack rotation in a share token', () => {
     expect(build?.['selectedAtkSkill']).toBe('Solar Kick==7');
   });
 });
+
+describe('the rotation comparison strip in a share token', () => {
+  const strip = [
+    { rotation: ['Solar Kick==7', '__basic'], stacks: [] },
+    { rotation: ['Lunar Eclipse==7'], stacks: [2] },
+  ];
+
+  it('carries every rotation and the one that was open', () => {
+    const build = decodeBuild(encodeBuild({ ...preset, rotation: strip[1].rotation, rotationTabs: strip, rotationTab: 1 }));
+
+    expect(build?.['rotationTabs']).toEqual(strip);
+    expect(build?.['rotationTab']).toBe(1);
+  });
+
+  it('costs a build with a single rotation nothing', () => {
+    // The whole point of leaving `rotationTabs` empty until there is something to compare:
+    // every link shared before this feature existed is still the link it was.
+    const build = decodeBuild(encodeBuild({ ...preset, rotationTabs: [], rotationTab: 0 }));
+
+    expect(build).not.toHaveProperty('rotationTabs');
+    expect(build).not.toHaveProperty('rotationTab');
+  });
+});

@@ -1100,6 +1100,11 @@ export const catalog: TranslatedCatalog = {
   'opt.headlineBottleneck': 'Cuello de botella actual: {component}',
 
   'rot.cap': 'ROTACIÓN',
+  'rot.tab': 'Rotación',
+  'rot.tabNumbered': 'Rotación {n}',
+  'rot.tabsLabel': 'Rotaciones para comparar',
+  'rot.addTab': 'Agregar una rotación para comparar',
+  'rot.removeTab': 'Quitar {name}',
   'rot.oneSkill': '{n} HABILIDAD',
   'rot.manySkills': '{n} HABILIDADES',
   'rot.clearTooltip': 'Quita todas las habilidades de la rotación.',

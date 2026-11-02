@@ -93,6 +93,7 @@ import { canUsedByClass } from 'src/app/utils/can-used-by-class';
 import { SLOTS_BY_KEY } from 'src/app/app-config/equipment-slots';
 import { SlotListBag } from '../../app/layout/pages/ro-calculator/equipment-grid/slot-list-bag.model';
 import { compactRotationForShare, defaultAtkSkill, firstRealSkill, isBasicAttack, isOffensiveSkill, pruneRotationForClass } from 'src/app/core/rotation';
+import { MAX_ROTATION_TABS, activeRotationTab, addRotationTab, mapRotationTabs, readRotationTabs, removeRotationTab, selectRotationTab, syncRotationTabs } from 'src/app/core/rotation-tabs';
 import { RotationScheduleStep } from 'src/app/core/rotation-schedule';
 import { optimizeRotation } from 'src/app/core/rotation-optimize';
 import { buildRotationView, RotationView, toScheduleStep } from '../../app/layout/pages/ro-calculator/battle-hud/rotation-view';
@@ -1430,6 +1431,41 @@ await ((_event?: unknown) => {
     this.updateItemEvent.next(true);
   }
 
+  /** How many rotations the comparison strip is drawing. One until the "+" is used. */
+  get rotationTabCount(): number {
+    return readRotationTabs(this.model).length;
+  }
+
+  /** Which of them the panel is editing and solving. */
+  get activeRotationTab(): number {
+    return activeRotationTab(this.model);
+  }
+
+  get canAddRotationTab(): boolean {
+    return this.rotationTabCount < MAX_ROTATION_TABS;
+  }
+
+  /** The "+": a new empty rotation, switched to straight away so it can be filled. */
+  onAddRotationTab() {
+    if (addRotationTab(this.model)) this.afterRotationTabChange();
+  }
+
+  /** Park the rotation being edited and bring another one up. */
+  onSelectRotationTab(index: number) {
+    if (selectRotationTab(this.model, index)) this.afterRotationTabChange();
+  }
+
+  onRemoveRotationTab(index: number) {
+    if (removeRotationTab(this.model, index)) this.afterRotationTabChange();
+  }
+
+  /** A tab switch swaps the whole rotation under the panel, so it is the same recalculate
+   *  any other rotation change asks for. */
+  private afterRotationTabChange() {
+    this.syncRotationMirror();
+    this.updateItemEvent.next(true);
+  }
+
   onSkillFormulaVersionChange(version: SkillFormulaVersion) {
     this.model.skillFormulaVersion = this.showPreviews ? normalizeSkillFormulaVersion(version) : 'current';
     this.setClassSkill();
@@ -1452,6 +1488,7 @@ await ((_event?: unknown) => {
     const stacks = [...(this.model.rotationStacks ?? [])];
     stacks[change.index] = stack;
     this.model.rotationStacks = stacks;
+    this.syncRotationMirror();
     this.updateItemEvent.next(true);
   }
 
@@ -1738,6 +1775,9 @@ await ((_event?: unknown) => {
   private syncRotationMirror() {
     const mirrored = firstRealSkill(this.model.rotation);
     if (mirrored) this.model.selectedAtkSkill = mirrored;
+    // The comparison strip is stored as part of the model, so the tab being edited has to
+    // hold what is on screen before anything spreads the model into a save or a token.
+    syncRotationTabs(this.model);
   }
 
   loadItemSet(presetStrOrModel: string | PresetModel, isSetMinLevel = false) {
@@ -2803,13 +2843,18 @@ await ((_event?: unknown) => {
    * rotation — from here on the mirror follows the rotation, not the other way round.
    */
   private setDefaultRotation() {
-    const rotation = this.model.rotation ?? [];
-    const keptIndices = rotation.flatMap((skill, index) =>
-      pruneRotationForClass([skill], this.atkSkills).length ? [index] : []);
-    this.model.rotation = keptIndices.map((index) => rotation[index]);
-    if (this.model.rotationStacks) {
-      this.model.rotationStacks = keptIndices.map((index) => this.model.rotationStacks[index]);
-    }
+    // Every tab, not just the live one: a rotation parked in another tab was built on
+    // whatever class was loaded then, and switching to it later must not resurrect a
+    // skill this class cannot cast.
+    mapRotationTabs(this.model, (tab) => {
+      const keptIndices = tab.rotation.flatMap((skill, index) =>
+        pruneRotationForClass([skill], this.atkSkills).length ? [index] : []);
+      return {
+        rotation: keptIndices.map((index) => tab.rotation[index]),
+        stacks: tab.stacks.length ? keptIndices.map((index) => tab.stacks[index]) : [],
+      };
+    });
+
     if (!this.model.rotation.length && this.model.selectedAtkSkill) {
       this.model.rotation = [this.model.selectedAtkSkill];
     }
