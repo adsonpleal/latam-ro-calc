@@ -1,35 +1,35 @@
 #!/usr/bin/env node
-// Baixa a gravação por trás de um link do RagnaRecap e grava o .rrf.
+// Downloads the recording behind a RagnaRecap link and writes the .rrf.
 //
 //   node .agents/skills/review-rrf-class/fetch-recap.mjs "https://recap.latam-tools.com.br/?r=HdHAKyBShW"
 //   node .agents/skills/review-rrf-class/fetch-recap.mjs HdHAKyBShW --out src/app/replay/__tests__/fixtures/ted-em.rrf
 //
-// O `?r=<id>` é o **id do documento** no Firestore do projeto `ragreplaystats`, coleção
-// `replays`. A leitura é pública, então basta a apiKey de produção — não precisa de login
-// nem de navegador (a página é renderizada no cliente, WebFetch não devolve nada útil).
-// O campo `bytes` é o RRF em base64.
+// The `?r=<id>` **is the document id** in the Firestore of project `ragreplaystats`,
+// collection `replays`. Reads are public, so the production apiKey is enough — no login
+// and no browser needed (the page is client-rendered, WebFetch returns nothing useful).
+// The `bytes` field is the RRF in base64.
 
 import { writeFileSync } from 'node:fs';
 
-/** apiKey pública de produção (mesma de ../ragreplaystats/src/firebase.ts). */
+/** Public production apiKey (the same one as ../ragreplaystats/src/firebase.ts). */
 const API_KEY = 'AIzaSyBqceBTU2JscflNsx8L0pNJJpNhJMgqOSE';
-const PROJETO = 'ragreplaystats';
+const PROJECT = 'ragreplaystats';
 
 const args = process.argv.slice(2);
-const entrada = args.find((a) => !a.startsWith('--'));
-const saidaIdx = args.indexOf('--out');
-if (!entrada) {
-  console.error('uso: fetch-recap.mjs <url-ou-id> [--out arquivo.rrf]');
+const input = args.find((a) => !a.startsWith('--'));
+const outIdx = args.indexOf('--out');
+if (!input) {
+  console.error('usage: fetch-recap.mjs <url-or-id> [--out file.rrf]');
   process.exit(2);
 }
 
-const id = entrada.includes('?') || entrada.includes('/') ? new URL(entrada).searchParams.get('r') : entrada;
+const id = input.includes('?') || input.includes('/') ? new URL(input).searchParams.get('r') : input;
 if (!id) {
-  console.error('não achei o ?r=<id> no link');
+  console.error('no ?r=<id> found in the link');
   process.exit(2);
 }
 
-const url = `https://firestore.googleapis.com/v1/projects/${PROJETO}/databases/(default)/documents/replays/${id}?key=${API_KEY}`;
+const url = `https://firestore.googleapis.com/v1/projects/${PROJECT}/databases/(default)/documents/replays/${id}?key=${API_KEY}`;
 const doc = await fetch(url).then((r) => r.json());
 if (doc.error) {
   console.error(`Firestore ${doc.error.status}: ${doc.error.message}`);
@@ -39,14 +39,14 @@ if (doc.error) {
 const f = doc.fields ?? {};
 const b64 = f.bytes?.bytesValue ?? f.bytes?.stringValue;
 if (!b64) {
-  console.error('o documento não tem o campo `bytes`');
+  console.error('the document has no `bytes` field');
   process.exit(1);
 }
 
-const saida = saidaIdx >= 0 ? args[saidaIdx + 1] : `.scratch/${id}.rrf`;
-writeFileSync(saida, Buffer.from(b64, 'base64'));
+const out = outIdx >= 0 ? args[outIdx + 1] : `.scratch/${id}.rrf`;
+writeFileSync(out, Buffer.from(b64, 'base64'));
 
 const v = (k) => Object.values(f[k] ?? {})[0];
-console.log(`${saida}  (${Buffer.from(b64, 'base64').length} bytes)`);
-console.log(`personagem: ${v('player')}  mapa: ${v('map')}  gravado em: ${v('recordedAt') ?? v('uploadedAt')}`);
-console.log(`duração: ${v('durationMs')} ms  pacotes de dano: ${v('damageEvents')}  dano total: ${v('totalDamage')}`);
+console.log(`${out}  (${Buffer.from(b64, 'base64').length} bytes)`);
+console.log(`character: ${v('player')}  map: ${v('map')}  recorded at: ${v('recordedAt') ?? v('uploadedAt')}`);
+console.log(`duration: ${v('durationMs')} ms  damage packets: ${v('damageEvents')}  total damage: ${v('totalDamage')}`);

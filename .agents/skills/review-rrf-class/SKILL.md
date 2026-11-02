@@ -69,7 +69,7 @@ Players share the recording in one of three ways, and all end up as the same byt
 node .agents/skills/review-rrf-class/fetch-recap.mjs "https://recap.latam-tools.com.br/?r=HdHAKyBShW"
 ```
 
-It takes the full link or the bare id, writes `.scratch/<ID>.rrf` (or `--out <caminho>`, e.g.
+It takes the full link or the bare id, writes `.scratch/<ID>.rrf` (or `--out <path>`, e.g.
 straight into `src/app/replay/__tests__/fixtures/`) and prints the character, map, date,
 duration and packet count — enough to confirm it's the right recording before spending a pass
 on it. The doc's summary fields (`damageEvents`, `totalDamage`, `avgDps`) also make a cheap
@@ -92,7 +92,7 @@ it. That is ~170 MB and a few minutes for the whole collection; the id list is c
 `sessionInfo.job` (4065 Sicário, 4254 Executor…); read one off a known fixture if unsure.
 The summary it writes per file — talents, buff count, whether a status window exists, equip
 changes, packets and the targets with their **elements** — is what you filter on, so a
-question like "EDP against a non-Neutro target" is one pass over `_achados.json`.
+question like "EDP against a non-Neutro target" is one pass over `_found.json`.
 
 ## 2. Decode
 
@@ -169,15 +169,15 @@ Mestre Celestial buff on a Sicário belongs to somebody else.
 
 ```js
 const me = replay.sessionInfo.aid;
-const meusDanos = (replay.damage ?? []).filter((d) => d.source === me);
-const meusStatus = (replay.statusEvents ?? []).filter((s) => s.aid === me);
+const myDamage = (replay.damage ?? []).filter((d) => d.source === me);
+const myStatus = (replay.statusEvents ?? []).filter((s) => s.aid === me);
 ```
 
 Then drop the bookkeeping ids. Every recording carries them, none is a buff, and leaving
 them in inflates the count by a dozen:
 
 ```js
-const RUIDO = new Set([46, 622, 673, 695, 802, 942, 983, 984, 987, 993, 994, 1084, 1085, 1312]);
+const NOISE = new Set([46, 622, 673, 695, 802, 942, 983, 984, 987, 993, 994, 1084, 1085, 1312]);
 ```
 
 (46 `EFST_POSTDELAY`, 622 sitting, 673 cart, 695 arrow-equipped, 987 vending, and the
@@ -207,9 +207,9 @@ Four containers nobody reads by default, and what each one caught:
 
 ```js
 const me = replay.sessionInfo.aid;
-const semNome = [...new Set((replay.skillUses ?? []).filter((s) => s.source === me).map((s) => s.skillId))]
+const uncatalogued = [...new Set((replay.skillUses ?? []).filter((s) => s.source === me).map((s) => s.skillId))]
   .filter((id) => !Object.values(SKILL_ID_BY_NAME).includes(id));
-const consumidos = [...new Set((replay.itemDeletes ?? []).map((d) => d.itemId))].filter((id) => !items[id]);
+const consumed = [...new Set((replay.itemDeletes ?? []).map((d) => d.itemId))].filter((id) => !items[id]);
 ```
 
 **Lift the `source === me` filter once, for the homunculus.** Its casts sit in the same
@@ -247,13 +247,13 @@ hunting a dead combo that works fine — which cost a whole pass here. Equip the
 `make-calculator` harness and read `totalEquipStatus` back:
 
 ```ts
-const so = equipStatusOf(makeCalculator(db, new Biolo()), { ...createMainModel(), accRight: 490167 });
-const par = equipStatusOf(makeCalculator(db, new Biolo()),
+const alone = equipStatusOf(makeCalculator(db, new Biolo()), { ...createMainModel(), accRight: 490167 });
+const withPartner = equipStatusOf(makeCalculator(db, new Biolo()),
   { ...createMainModel(), accRight: 490167, weapon: 500039, weaponRefine: 11, weaponGrade: 'C' });
-// o que o conjunto paga é a diferença, e ela tem de bater com a descrição pt-BR
+// what the set pays is the difference, and it has to match the pt-BR description
 ```
 
-When a combo *is* on the legacy `EQUIP[<nome>]` form, migrate it to `EQUIP_ID[]` even if it
+When a combo *is* on the legacy `EQUIP[<name>]` form, migrate it to `EQUIP_ID[]` even if it
 currently works — that is the whole point of the form, and the fragility is real. Follow
 CLAUDE.md: record a behavioural baseline first, splice `item.json` by byte span (never a JSON
 round-trip — the keys are not numerically ordered), assert the baseline unchanged, pin that
@@ -326,8 +326,8 @@ a build error and a formula error are then **inseparable** — say so in the ver
 reporting the damage match as if it confirmed the stats too.
 
 ```js
-const janela = (replay.paramChanges ?? []).filter((p) => [41, 42, 52, 53, 225].includes(p.type));
-if (!janela.length) console.log('sem janela de status — dano só se valida contra a build importada');
+const statusWindow = (replay.paramChanges ?? []).filter((p) => [41, 42, 52, 53, 225].includes(p.type));
+if (!statusWindow.length) console.log('no status window — damage only validates against the imported build');
 ```
 
 **Job and trait bonus tables are part of the build — verify them on irowiki.** A class page
@@ -338,8 +338,8 @@ Do this before hunting a stat gap in the equipment, because a wrong column looks
 a missing item bonus — and it is cheap:
 
 ```js
-// irowiki lista os níveis; o bônus no nível lv é quantos deles já passaram
-const esperado = (niveis, lv) => niveis.filter((n) => n <= lv).length;
+// irowiki lists the levels; the bonus at level lv is how many of them have passed
+const expected = (levels, lv) => levels.filter((n) => n <= lv).length;
 ```
 
 Two cautions, both of which have bitten:
@@ -423,7 +423,7 @@ divergence to the chain rather than to a missing item bonus.
 `damage` is the packet total; `hits` is its `count` field — and `count` is NOT always the
 number of damage hits:
 
-| caso | como dividir |
+| case | how to divide |
 |---|---|
 | `count` == the sim's `skillTotalHit` | divide by `count` |
 | skill declares `hit: N` (display only, `totalHit` 1) | **don't divide** — the whole packet is one hit |
@@ -474,15 +474,15 @@ packet by packet, instead of a bracket to argue about.
 ```ts
 // Exactly the stages the engine's own `damageSummary.skillFormulaTrace` prints, in its
 // order, in integer arithmetic. Read the stage list off the trace — do not guess it.
-function danoDe(atq: number, rangedPct: number, skillPct: number): number {
-  let t = Math.floor((atq * (100 + rangedPct)) / 100);
-  t = Math.floor((t * 3178) / 100);   // Hab. Base — a razão da habilidade
-  t = t - 50;                          // DEF (soft) — um valor plano contra dummy
+function damageFrom(atk: number, rangedPct: number, skillPct: number): number {
+  let t = Math.floor((atk * (100 + rangedPct)) / 100);
+  t = Math.floor((t * 3178) / 100);   // Hab. Base — the skill ratio
+  t = t - 50;                          // DEF (soft) — a flat value against a dummy
   return Math.floor((t * (100 + skillPct)) / 100);
 }
-function atqDe(dano: number, rangedPct: number, skillPct: number): number[] {
+function atkFrom(damage: number, rangedPct: number, skillPct: number): number[] {
   const out: number[] = [];
-  for (let a = 1; a < 4000; a++) if (danoDe(a, rangedPct, skillPct) === dano) out.push(a);
+  for (let a = 1; a < 4000; a++) if (damageFrom(a, rangedPct, skillPct) === damage) out.push(a);
   return out;
 }
 ```
@@ -609,17 +609,17 @@ reading them all is not worth the pass. Pull every number out of the description
 boilerplate lines (Peso/Nível/Classes/Tipo…), and list the ones the script never mentions:
 
 ```js
-const limpa = (s) => (s ?? '').replace(/\^[0-9a-fA-F]{6}/g, '');
+const clean = (s) => (s ?? '').replace(/\^[0-9a-fA-F]{6}/g, '');
 const BOILERPLATE = /^(Peso|Nível|Classes|Posição|Tipo|Armadura|Defesa|Ataque|Slots?|Arma)/i;
 
-for (const [id, slots] of usados) {
+for (const [id, slots] of used) {
   const rec = items[id];
-  const desc = limpa(latam[id]?.description)
+  const desc = clean(latam[id]?.description)
     .split('\n').filter((l) => !BOILERPLATE.test(l.trim())).join(' ');
   const noScript = new Set((JSON.stringify(rec.script ?? {}).match(/\d+/g) ?? []).map(Number));
-  const faltando = [...new Set((desc.match(/\d+/g) ?? []).map(Number))]
+  const missing = [...new Set((desc.match(/\d+/g) ?? []).map(Number))]
     .filter((n) => n > 0 && n <= 1000 && !noScript.has(n));
-  if (faltando.length) console.log(id, latam[id]?.name, faltando.join(','));
+  if (missing.length) console.log(id, latam[id]?.name, missing.join(','));
 }
 ```
 

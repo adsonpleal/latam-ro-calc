@@ -206,10 +206,10 @@ const byStatus = (cards, status) => (status === 'todas' ? cards : cards.filter((
 const replayNote = (d) => {
   if (d.tipo !== 'replay') return '';
   const t = d.replay?.traits;
-  const talentos = t
+  const traits = t
     ? `POD ${t.pow ?? '?'} STA ${t.sta ?? '?'} SAB ${t.wis ?? '?'} FEI ${t.spl ?? '?'} CON ${t.con ?? '?'} CRV ${t.crt ?? '?'}`
     : 'NÃO INFORMADOS';
-  return `  ↳ gravação (.rrf com review-rrf-class) · talentos: ${talentos}`;
+  return `  ↳ gravação (.rrf com review-rrf-class) · talentos: ${traits}`;
 };
 
 /**
@@ -234,8 +234,8 @@ function printReplayBlock(d) {
   console.log(`${Math.round((r.durationMs ?? 0) / 1000)}s  ·  ${r.dummyHits ?? 0} golpes em dummy  ·  ${r.equipChangeCount ?? 0} trocas de equipamento  ·  simulador ${r.appVersion ?? '?'}`);
   const t = r.traits;
   if (t) {
-    const origem = r.traitsSource === 'form' ? 'informados por quem gravou' : 'lidos da gravação';
-    console.log(`talentos (${origem}): POD ${t.pow} STA ${t.sta} SAB ${t.wis} FEI ${t.spl} CON ${t.con} CRV ${t.crt}`);
+    const source = r.traitsSource === 'form' ? 'informados por quem gravou' : 'lidos da gravação';
+    console.log(`talentos (${source}): POD ${t.pow} STA ${t.sta} SAB ${t.wis} FEI ${t.spl} CON ${t.con} CRV ${t.crt}`);
   } else {
     console.log('talentos: NÃO INFORMADOS — sem eles review-rrf-class não reconstrói a build (§0)');
   }
