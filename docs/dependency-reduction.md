@@ -213,7 +213,7 @@ blocked entry and the second source label. `Thief.ts` is the import and the list
 the passive table shrank because its Precisão figure went from `5 × level` to the
 client's `1 × level`.
 
-Tetra Vortex then moved the baseline from 2,902,450 (after the Golem buff and Ataque Duplo) to 2,902,787. All 337 bytes are
+Tetra Vortex then moved the baseline from 2,902,556 (after the Golem buff, Ataque Duplo and Adulterar Veneno) to 2,902,893. All 337 bytes are
 `src/app/jobs/Warlock.ts`: the skill had been commented out, and it now ships as four entries,
 one per Esfera element (Fogo, Água, Vento, Terra), built by one `tetraVortex(element)` factory
 with a ten-level `levelList`. Measured on this machine against `origin/main`, with the same
@@ -246,3 +246,9 @@ tests check every emitted root JavaScript/CSS file receives immutable caching.
 
 Existing untracked replay recordings and reports were preserved. No deployment or
 publication was performed.
+
+Adulterar Veneno's per-version TEN penetration moved it from 2,902,450 to 2,902,556. The
+106 bytes are `ShadowCross.ts` choosing 2% or 3% per level from the build's formula
+version in `setAdditionalBonus`, where the dropdown used to carry a fixed 3%. That is what CI
+measured for the first form of the change; the final, shorter form measures 90 here, so
+the baseline carries the CI figure and a few bytes of slack rather than a guess.
