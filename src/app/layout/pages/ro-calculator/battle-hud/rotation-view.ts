@@ -89,6 +89,15 @@ export interface RotationEntryView {
    */
   critWeighted: boolean;
   /**
+   * The chance a non-crit use lands on this target, in percent, and whether it is what
+   * pulls {@link damage} below the rolls beside it. A miss deals nothing, so a skill that
+   * lands 15% of the time shows a mean at 15% of its roll — card 6TEgB1eIAGs1iJxxTnWY read
+   * that as the DPS being wrong, because nothing on the row said the target was dodging.
+   * Not weighted when every use crits: crits never miss.
+   */
+  hitRate: number;
+  hitWeighted: boolean;
+  /**
    * The outcomes {@link damage} averages, each as the min–max roll it actually is: the
    * non-crit roll and the crit one where the skill crits some of the time, a single roll
    * where it does not. The same figures the skill card prints.
@@ -362,6 +371,9 @@ export function buildRotationView(input: {
     const occurrence = seen.get(value) ?? 0;
     seen.set(value, occurrence + 1);
 
+    const critRate = basic ? dmg?.criRateToMonster ?? 0 : edmg?.skillCriRateToMonster ?? 0;
+    const hitRate = Math.min(100, (basic ? dmg?.accuracy : edmg?.skillAccuracy) ?? 100);
+
     return {
       index,
       value,
@@ -384,7 +396,9 @@ export function buildRotationView(input: {
       // Ataque básico always rolls crit; a skill only where the engine says so.
       isMagic: !basic && summary?.calcSkill?.dmgType === SkillType.MAGICAL,
       canCrit: basic ? (dmg?.criRateToMonster ?? 0) > 0 : !!dmg?.skillCanCri,
-      critRate: basic ? dmg?.criRateToMonster ?? 0 : edmg?.skillCriRateToMonster ?? 0,
+      critRate,
+      hitRate,
+      hitWeighted: !noDamage && hitRate < 100 && critRate < 100,
       critConditional: !basic && typeof meta?.canCri === 'function',
       // Ataque básico's own damage figure is recovered from basicDps, which is averaged
       // the same way, so both kinds of row answer this the same question.

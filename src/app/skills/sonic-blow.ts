@@ -24,7 +24,11 @@ export const SONIC_BLOW: AtkSkillModel = {
     { label: 'Lâminas Aceleradas', display: `× ${acceleration(input)}` },
     { label: 'Alvo abaixo de 50% de HP', display: `× ${lowHp(input)}` },
   ] }),
-  accuracy: input => input.accuracy * acceleration(input),
+  // rAthena: `hitrate += hitrate * 90 / 100` on the uncapped rate, so a target the build
+  // cannot hit stays at the 5% floor instead of the old 5% x 1,9.
+  accuracy: input => input.skills.learnedLevel('Sonic Acceleration') > 0
+    ? input.accuracy + Math.trunc((input.accuracy * 90) / 100)
+    : input.accuracy,
   finalDmgFormula: input => Math.floor(input.damage * spirit(input)),
   finalDmgCalc: input => ({ rows: [
     { label: 'Dano anterior', display: String(input.damageBefore) },

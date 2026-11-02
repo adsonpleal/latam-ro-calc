@@ -5,6 +5,7 @@ import { solve } from '../../../mcp/src/engine/solve';
 import { applySkillMaps } from '../../../mcp/src/engine/derive';
 import { encodeBuild } from '../core/share-codec';
 import { CalculatorController } from '../core/calculator-controller';
+import { hitChance } from '../core/damage-calculator';
 import type { PvpMode } from '../core/pvp';
 import { buildAutoCastSimulation } from '../core/auto-cast';
 import { canUsedByClass } from '../utils/can-used-by-class';
@@ -149,13 +150,31 @@ describe('Lâminas Destruidoras', () => {
     expect(accel.dmg.baseSkillDamage).toBe(2280);
     expect(low.dmg.baseSkillDamage).toBe(1800);
     expect(both.dmg.baseSkillDamage).toBe(3420);
-    expect(accel.dmg.skillAccuracy).toBe(Math.min(100, plain.dmg.skillAccuracy * 1.9));
+    // This target is out of reach (rate below 0), and rAthena scales the uncapped rate, so
+    // the +90% leaves it on the 5% floor rather than turning the floor into 9,5%.
+    expect(plain.summary.calc.rawHitRate).toBeLessThan(0);
+    expect(accel.dmg.skillAccuracy).toBe(plain.dmg.skillAccuracy);
     expect(accel.dmg.accuracy).toBe(plain.dmg.accuracy);
     expect(accel.dmg.basicMinDamage).toBe(plain.dmg.basicMinDamage);
     expect(both.summary.calcSkill.reducedCd).toBe(1);
     expect(accel.dmg.skillFormulaGraph.max.nodes.some(n => n.calc?.rows.some(r => r.label === 'Lâminas Aceleradas'))).toBe(true);
     expect(accel.dmg.skillDps).toBeGreaterThan(plain.dmg.skillDps);
     expect(calculate({ options: { '0': 'hit:1000' }, skills: modified }).dmg.skillAccuracy).toBe(100);
+  });
+
+  it('scales the hit rate before the cap and rolls perfect hit on top (rAthena is_attack_hitting)', () => {
+    // A HIT bonus that puts the plain rate at exactly 50%: +90% makes it 95%.
+    const extraHit = 50 - calculate().summary.calc.rawHitRate;
+    const plain = calculate({ options: { '0': `hit:${extraHit}` } });
+    const accel = calculate({ options: { '0': `hit:${extraHit}` }, skills: { passive: { 'Sonic Acceleration': 1 } } });
+    const perfect = plain.summary.calc.totalPerfectHit;
+
+    expect(plain.summary.calc.rawHitRate).toBe(50);
+    expect(plain.dmg.skillAccuracy).toBe(hitChance(50, perfect));
+    expect(accel.dmg.skillAccuracy).toBe(hitChance(95, perfect));
+    // Perfect hit is its own roll: 5% perfect over a 50% rate lands 52,5%, not 50%.
+    expect(hitChance(50, 5)).toBe(52.5);
+    expect(hitChance(-44, 15)).toBe(19.25);
   });
 
   it.each(['none', 'pvp', 'woe', 'woe-te'] as const)('applies Spirit before player reductions in %s', mode => {

@@ -1103,6 +1103,8 @@ export const catalog: TranslatedCatalog = {
   'rot.critLabel': '• Crit',
   'rot.critConditional': "This skill's crit depends on the character's current state — see the condition under (i).",
   'rot.noCrit': '• No crit',
+  'rot.hitLabel': '• Hit',
+  'rot.tipHit': 'Only {pct}% of the non-crit uses land on this target; it dodges the rest, and a miss deals no damage. The mean and the DPS already discount those misses — more HIT raises that chance.',
   'rot.noDamage': 'Deals no damage',
 
   'eq.needWeaponForShield': 'Equip a weapon to use a shield',

@@ -1105,6 +1105,8 @@ export const catalog: TranslatedCatalog = {
   'rot.critLabel': '• CRÍT',
   'rot.critConditional': 'El crítico de esta habilidad depende del estado actual del personaje — mira la condición en (i).',
   'rot.noCrit': '• Sin CRÍT',
+  'rot.hitLabel': '• Acierto',
+  'rot.tipHit': 'Solo el {pct}% de los usos sin crítico aciertan a este objetivo; en los demás esquiva y el golpe no hace daño. El promedio y el DPS ya descuentan esos fallos — más Precisión sube esa probabilidad.',
   'rot.noDamage': 'No causa daño',
 
   'eq.needWeaponForShield': 'Equipa un arma para poder usar escudo',
