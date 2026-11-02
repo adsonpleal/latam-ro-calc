@@ -868,6 +868,16 @@ export const catalog: TranslatedCatalog = {
   'cs.previewSuffix': ' (Vista previa)',
   'cs.inactiveForTarget': 'Inactivo para el objetivo elegido. Se aplica a los monstruos listados en la descripción.',
   'cs.debuffOnMonster': 'Debuff en el monstruo',
+  // Client item names (items_es, 12717-12724). "Ovido" is the client's own spelling.
+  'cs.toxinApplied': 'Toxina aplicada',
+  'cs.toxin.12717': 'Parálisis',
+  'cs.toxin.12718': 'Fluido de Sanguijuela',
+  'cs.toxin.12719': 'Maldición del Ovido',
+  'cs.toxin.12720': 'Herida de Muerte',
+  'cs.toxin.12721': 'Toxina',
+  'cs.toxin.12722': 'Pirexia',
+  'cs.toxin.12723': 'Hongo Mágico',
+  'cs.toxin.12724': 'Sangre Envenenada',
   'cs.reductionTitle': 'Reducción: {label}',
   'cs.compareSuffix': '{label} (comparación)',
 

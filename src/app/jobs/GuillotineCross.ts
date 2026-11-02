@@ -198,18 +198,43 @@ export class GuillotineCross extends AssassinCross {
         { label: '10', isUse: true, value: 10 },
       ],
     },
+    // Aplicar Toxina is two controls: its level, and the toxin it carries. The level alone
+    // does nothing — the skill needs a toxin — so none of its options is "in use"; value 0
+    // is Nv 5, which makes every build saved before the split read as the maximum level.
+    {
+      name: 'Poisonous Weapon Lv',
+      label: 'Aplicar Toxina',
+      inputType: 'dropdown',
+      dropdown: [
+        { label: 'Nv 5', isUse: false, value: 0, skillLv: 5 },
+        { label: 'Nv 4', isUse: false, value: 4, skillLv: 4 },
+        { label: 'Nv 3', isUse: false, value: 3, skillLv: 3 },
+        { label: 'Nv 2', isUse: false, value: 2, skillLv: 2 },
+        { label: 'Nv 1', isUse: false, value: 1, skillLv: 1 },
+      ],
+    },
+    // The toxin keeps the control's old name and values 1 (Pirexia) and 2 (Waraitake), so
+    // saved builds keep their toxin. Each option carries only the toxin's "No usuário"
+    // effect from its client description (items 12717-12724); the skill's own melee bonus
+    // is added per level in getSkillBonusAndName. Effects the engine does not model
+    // (movement speed, tolerances, HP/SP regeneration, reflected-damage resistance) are
+    // name-only. Antídoto, also learned through Pesquisa de Toxinas, is not a toxin the
+    // skill can apply.
     {
       name: 'Poisonous Weapon',
-      label: 'Poisoning',
+      label: 'Toxina aplicada',
+      labelKey: 'cs.toxinApplied',
       inputType: 'dropdown',
       dropdown: [
         { label: '-', isUse: false, value: 0 },
-        { label: 'Pyrexia', isUse: true, value: 1, bonus: { criDmg: 15, flatDmg: 5, melee: 10 } },
-        { label: 'Magic Mushroom', isUse: true, value: 2, bonus: { acd: 10, melee: 10 } },
-        // A toxin whose self effect is not a damage stat (Cicuta, Squamata...) still leaves the
-        // skill's own melee bonus: +2% per level (bROWiki, Aplicar Toxina). Values 3-7 are
-        // appended so builds saved with 1/2 keep their toxin.
-        ...[1, 2, 3, 4, 5].map((lv) => ({ label: `Sem status Nv ${lv}`, isUse: true, value: lv + 2, bonus: { melee: lv * 2 } })),
+        { label: 'Curare', labelKey: 'cs.toxin.12717', isUse: true, value: 8 },
+        { label: 'Squamata', labelKey: 'cs.toxin.12720', isUse: true, value: 7 },
+        { label: 'Vipera', labelKey: 'cs.toxin.12718', isUse: true, value: 6 },
+        { label: 'Beladona', labelKey: 'cs.toxin.12724', isUse: true, value: 5 },
+        { label: 'Cicuta', labelKey: 'cs.toxin.12721', isUse: true, value: 4 },
+        { label: 'Oblivium', labelKey: 'cs.toxin.12719', isUse: true, value: 3 },
+        { label: 'Waraitake', labelKey: 'cs.toxin.12723', isUse: true, value: 2, bonus: { acd: 10 } },
+        { label: 'Pirexia', labelKey: 'cs.toxin.12722', isUse: true, value: 1, bonus: { criDmg: 15, flatBasicDmg: 5 } },
       ],
     },
     {
@@ -318,5 +343,22 @@ export class GuillotineCross extends AssassinCross {
       passiveSkillList: this.passiveSkillList3rd,
       classNames: this.classNames3rd,
     });
+  }
+
+  /**
+   * With any toxin applied, Aplicar Toxina raises melee physical damage by 2% per level
+   * (bROWiki, Aplicar Toxina: +2/4/6/8/10% at Nv 1-5). It is written into the toxin's own
+   * bonus entry so the breakdown credits it to the skill.
+   */
+  override getSkillBonusAndName() {
+    const result = super.getSkillBonusAndName();
+    if (!result.activeSkillNames.has('Poisonous Weapon')) return result;
+
+    const index = this.activeSkills.findIndex((skill) => skill.name === 'Poisonous Weapon Lv');
+    const level = this.activeSkills[index]?.dropdown.find((option) => option.value === (this.activeSkillIds[index] ?? 0))?.skillLv ?? 5;
+    const bonus = { ...result.equipAtks['Poisonous Weapon'], melee: level * 2 };
+    result.equipAtks['Poisonous Weapon'] = bonus;
+    this.activeBonus.set('Poisonous Weapon', bonus);
+    return result;
   }
 }

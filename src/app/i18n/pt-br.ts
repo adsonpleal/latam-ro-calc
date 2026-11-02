@@ -896,6 +896,16 @@ export const ptBR = {
   'cs.previewSuffix': ' (Prévia)',
   'cs.inactiveForTarget': 'Inativo para o alvo selecionado. Aplica-se aos monstros listados na descrição.',
   'cs.debuffOnMonster': 'Debuff no monstro',
+  // Toxin names are the client's own item names (items 12717-12724), one per locale.
+  'cs.toxinApplied': 'Toxina aplicada',
+  'cs.toxin.12717': 'Curare',
+  'cs.toxin.12718': 'Vipera',
+  'cs.toxin.12719': 'Oblivium',
+  'cs.toxin.12720': 'Squamata',
+  'cs.toxin.12721': 'Cicuta',
+  'cs.toxin.12722': 'Pirexia',
+  'cs.toxin.12723': 'Waraitake',
+  'cs.toxin.12724': 'Beladona',
   'cs.reductionTitle': 'Redução: {label}',
   'cs.compareSuffix': '{label} (comparação)',
 
