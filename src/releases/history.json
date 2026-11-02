@@ -1,5 +1,18 @@
 [
   {
+    "v": "0.1.200-beta",
+    "date": "02-11-2026",
+    "logs": [
+      "A linha da rotação passou a mostrar a chance de acerto quando o alvo esquiva parte dos usos, já que a média e o DPS descontam os erros. A chance de acerto também passou a seguir a ordem do servidor: Precisão perfeita é uma rolagem à parte, e Lâminas Aceleradas não tira mais do mínimo de 5% um alvo que a build não acerta. Reportado por usuário anônimo."
+    ],
+    "logs_es": [
+      "La fila de la rotación ahora muestra la probabilidad de acierto cuando el objetivo esquiva parte de los usos, ya que el promedio y el DPS descuentan los fallos. La probabilidad de acierto también sigue ahora el orden del servidor: la Precisión perfecta es una tirada aparte, y Lâminas Aceleradas ya no saca del mínimo de 5% a un objetivo que la build no acierta. Reportado por usuario anónimo."
+    ],
+    "logs_en": [
+      "The rotation row now shows the hit chance when the target dodges part of the uses, since the mean and the DPS discount the misses. The hit chance also follows the server's order now: perfect hit is a roll of its own, and Lâminas Aceleradas no longer lifts a target the build cannot hit off the 5% floor. Reported by an anonymous user."
+    ]
+  },
+  {
     "v": "0.1.199-beta",
     "date": "02-11-2026",
     "logs": [
