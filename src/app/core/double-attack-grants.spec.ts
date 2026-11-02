@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { AssassinCross } from '../jobs';
+import { AssassinCross, ShadowChaser, SuperNovice } from '../jobs';
 import { createMainModel } from '../utils';
 import { buildAutoCastSimulation } from './auto-cast';
 import { Calculator } from './calculator';
@@ -78,32 +78,36 @@ describe.each(SCRIPTS)('%s (%s)', (_name, id, expected) => {
   });
 });
 
+/** Builds the Auto-conjuração tab for a class, weapon, headgear and learned Ataque Duplo level. */
+const simulateWith = ({ cls = new AssassinCross(), weapon = 1201, headgear, learned = 0 }: {
+  cls?: AssassinCross | ShadowChaser | SuperNovice; weapon?: number; headgear?: number; learned?: number;
+}) => {
+  const bonuses = cls.setLearnSkills({
+    activeSkillIds: cls.activeSkills.map(() => 0),
+    passiveSkillIds: cls.passiveSkills.map((skill) => (skill.name === 'Double Attack' ? learned : 0)),
+  }).getSkillBonusAndName();
+  const model = {
+    ...createMainModel(), class: cls.classId, level: 200, jobLevel: 1,
+    str: 120, agi: 120, weapon, headUpper: headgear,
+  };
+  const calc = new Calculator().setMasterItems(items).setHpSpTable(hpSpTable).setClass(cls);
+  calc.loadItemFromModel(model);
+  new CalculatorController().runChain(calc, {
+    monster: monsters[21067], ...bonuses, buffEquips: {}, buffMasterys: {}, consumeData: [],
+    extraOptionScripts: [], selectedAtkSkill: '', selectedChances: [], usedHpL: false,
+  } as any);
+  return buildAutoCastSimulation({
+    calc, model, hasSelectedEffects: false,
+    summary: {
+      ...calc.getTotalSummary(), calc: { hitPerSecs: 4 },
+      dmg: { accuracy: 100, criRateToMonster: 0, basicDps: 400 },
+    },
+  });
+};
+
 /** The end the reporter was looking at: the source showing up on the Auto-conjuração tab. */
 describe('Auto-conjuração shows the grant', () => {
-  const simulate = (headgear?: number) => {
-    const cls = new AssassinCross();
-    const bonuses = cls.setLearnSkills({
-      activeSkillIds: cls.activeSkills.map(() => 0),
-      passiveSkillIds: cls.passiveSkills.map(() => 0),
-    }).getSkillBonusAndName();
-    const model = {
-      ...createMainModel(), class: cls.classId, level: 200, jobLevel: 1,
-      str: 120, agi: 120, weapon: 1201, headUpper: headgear,
-    };
-    const calc = new Calculator().setMasterItems(items).setHpSpTable(hpSpTable).setClass(cls);
-    calc.loadItemFromModel(model);
-    new CalculatorController().runChain(calc, {
-      monster: monsters[21067], ...bonuses, buffEquips: {}, buffMasterys: {}, consumeData: [],
-      extraOptionScripts: [], selectedAtkSkill: '', selectedChances: [], usedHpL: false,
-    } as any);
-    return buildAutoCastSimulation({
-      calc, model, hasSelectedEffects: false,
-      summary: {
-        ...calc.getTotalSummary(), calc: { hitPerSecs: 4 },
-        dmg: { accuracy: 100, criRateToMonster: 0, basicDps: 400 },
-      },
-    });
-  };
+  const simulate = (headgear?: number) => simulateWith({ headgear });
 
   it('has no Ataque Duplo source with nothing granting it', () => {
     expect(simulate().sources.find(entry => entry.source.skillId === 48)).toBeUndefined();
@@ -114,5 +118,54 @@ describe('Auto-conjuração shows the grant', () => {
     expect(source).toBeDefined();
     expect(source.source).toMatchObject({ kind: 'extra-hit', skillLevel: 5, chance: 35 });
     expect(source.source.extraHitOutcomes).toEqual([{ totalHits: 2, chance: 0.35 }]);
+  });
+});
+
+/**
+ * The learned skill. Card BFTG7SnSb2VDI6gPaX6U ("Falta a habilidade do gatuno de Double
+ * Attack"): a Renegado had no Ataque Duplo to learn, because only the Super Novice listed
+ * the passive. The client text (skill-meta, "Double Attack"): 7% per level, "Apenas com
+ * Adagas" — while an item grant "funciona com qualquer arma". On a Katar the skill raises the
+ * left-hand damage instead of striking again.
+ */
+describe('the Thief-line passive', () => {
+  const doubleAttack = (result: ReturnType<typeof simulateWith>) =>
+    result.sources.find(entry => entry.source.skillId === 48)?.source;
+  const blocked = (result: ReturnType<typeof simulateWith>) =>
+    result.blockedSources.find(entry => entry.icon === 48);
+
+  it.each([
+    ['Renegado', () => new ShadowChaser()],
+    ['Sicário', () => new AssassinCross()],
+    ['Super Aprendiz', () => new SuperNovice()],
+  ])('is learnable by the %s', (_name, make) => {
+    expect(make().passiveSkills.filter(skill => skill.name === 'Double Attack')).toHaveLength(1);
+  });
+
+  it.each([1, 5, 10])('strikes again at %i × 7%% with a dagger', (level) => {
+    const source = doubleAttack(simulateWith({ cls: new ShadowChaser(), weapon: 1201, learned: level }));
+    expect(source).toMatchObject({ kind: 'extra-hit', skillLevel: level, chance: 7 * level, sourceName: 'Passiva de classe' });
+    expect(source!.extraHitOutcomes).toEqual([{ totalHits: 2, chance: 7 * level / 100 }]);
+  });
+
+  it.each([['a sword', 1101], ['a katar', 1250]])('does nothing with %s, and says why', (_name, weapon) => {
+    const result = simulateWith({ cls: new ShadowChaser(), weapon, learned: 10 });
+    expect(doubleAttack(result)).toBeUndefined();
+    expect(blocked(result)).toMatchObject({ reason: 'Requer Adaga' });
+  });
+
+  it('keeps the item grant working with any weapon (the #68 case)', () => {
+    const source = doubleAttack(simulateWith({ weapon: 1101, headgear: 5388 }));
+    expect(source).toMatchObject({ skillLevel: 5, chance: 35, sourceName: 'Ataque Duplo (equipamento)' });
+  });
+
+  it.each([
+    ['the learned level is higher', 10, 70],
+    ['the granted level is higher', 3, 35],
+  ])('counts once, at the higher level, when %s', (_case, learned, chance) => {
+    const result = simulateWith({ cls: new ShadowChaser(), weapon: 1101, headgear: 5388, learned });
+    expect(result.sources.filter(entry => entry.source.skillId === 48)).toHaveLength(1);
+    expect(doubleAttack(result)).toMatchObject({ chance });
+    expect(blocked(result)).toBeUndefined();
   });
 });
