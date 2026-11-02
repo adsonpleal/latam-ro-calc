@@ -22,10 +22,13 @@ function worn(ids: number[], learned: Array<[string, number]> = []) {
 }
 
 describe('missing LATAM visual enchants requested by Samuel Costa', () => {
-  it('registers every slot-labelled enchant in the client catalog', () => {
+  it('registers every enchant in the client catalog', () => {
     const missing = Object.entries<any>(latam)
-      // The client omits the closing parenthesis on Pegadas do Banguela.
-      .filter(([, item]) => /\((Topo|Meio|Baixo|Capa|Dual)\)?/.test(item.name))
+      // The client omits the closing parenthesis on Pegadas do Banguela, and names the
+      // graphical effects "Gráfico: X" / "Pegada: X" with no slot at all — eighteen of
+      // those hid from the slot pattern until card vR5h55mOQVjZvABbndcz swept the boxes.
+      .filter(([, item]) => /\((Topo|Meio|Baixo|Capa|Dual)\)?/.test(item.name)
+        || /^(Gráfico|Pegada):/.test(item.name))
       .filter(([id]) => !fieldBySub[db[id]?.itemSubTypeId])
       .map(([id, item]) => `${id} ${item.name}`);
     expect(missing).toEqual([]);

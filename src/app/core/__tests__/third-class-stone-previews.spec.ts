@@ -23,9 +23,6 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  * ids (1000527-1000530, 1000855, 1000856), so flagging the old generation would only put a
  * second, Prévia-labelled copy of a stone players already own in the picker. The last test
  * here holds that line.
- *
- * Every garment partner is named in both generations, as the family requires — the old
- * 25xxx/310xxx id and the re-issued 29xxx/1000xxx one.
  */
 
 const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
@@ -49,6 +46,27 @@ const SLOT: Record<number, readonly [string, number]> = {
   311915: UPPER, 311916: MIDDLE, 311917: LOWER, // Oboro
   311918: UPPER, 311919: MIDDLE, 311920: LOWER, // Summoner
 };
+
+/**
+ * The garment stones the sets pair with, each named in both generations — the old
+ * 25xxx/310xxx id and the re-issued 29xxx/1000xxx one — as the family requires.
+ */
+const ARCHBISHOP = [25709, 29516] as const;
+const ARCHBISHOP_II = [310011, 1000019] as const;
+const RANGER = [25416, 29431] as const;
+const RANGER_II = [310003, 1000011] as const;
+const SURA = [25412, 29426] as const;
+const SURA_II = [25797, 29427] as const;
+const MECHANIC = [25497, 29484] as const;
+const MECHANIC_II = [310007, 1000015] as const;
+const GUILLOTINE_CROSS = [25717, 29524] as const;
+const GUILLOTINE_CROSS_II = [310188, 1000221] as const;
+const STAR_EMPEROR = [25849, 29658] as const;
+const REBELLION = [25858, 29667] as const;
+const SOUL_REAPER = [25842, 29654] as const;
+const KAGEROU = [25853, 29662] as const;
+const OBORO = [25854, 29663] as const;
+const DORAM = [25862, 29671] as const;
 
 /** Equip a stone (and optionally a garment stone) and read the summed bonus back. */
 function worn(
@@ -95,13 +113,22 @@ describe('third-class costume-enchant stone previews', () => {
     [311428, 'Gentle Touch - Alive', 'melee', 2],
     [311429, 'Gentle Touch - Opposite', 'range', 2],
     [311430, 'Fire Earth Research', 'vct', 1],
+    // The Mechanic (Meio) clause pays melee and ranged alike.
+    [311431, 'Madogear License', 'melee', 1],
+    [311431, 'Madogear License', 'range', 1],
     [311432, 'Axe Mastery', 'acd', 1],
     [311434, 'Dark Illusion', 'melee', 2],
     [311435, 'Cross Ripper Slasher', 'range', 2],
     [311460, 'Blessing of Moon', '2576', 3],
     [311461, 'Blessing of Sun', 'melee', 2],
     [311462, 'Blessing of Star', '2584', 4],
+    // Rebellion (Topo): size damage and Dragon Tail, both off Platinum Altar.
+    [311463, 'Platinum Altar', 'p_size_all', 2],
+    [311463, 'Platinum Altar', '2566', 4],
     [311464, 'Fire Rain', 'range', 2],
+    // Rebellion (Baixo): Fire Dance and Hammer of God, both off Heat Barrel ("Hot Barrel").
+    [311465, 'Hot Barrel', '2561', 4],
+    [311465, 'Hot Barrel', '2571', 4],
     [311466, 'Espa', 'm_my_element_all', 1],
     [311467, 'Eswhoo', 'm_size_all', 1],
     [311912, 'Righthand Mastery', 'p_size_all', 2],
@@ -109,6 +136,13 @@ describe('third-class costume-enchant stone previews', () => {
     [311914, 'Pure Soul', '3007', 5],
     [311915, 'Righthand Mastery', 'm_size_all', 2],
     [311916, 'Pure Soul', 'spPercent', 3],
+    // Oboro (Baixo): Flaming Petals, Freezing Spear and Wind Blade off 16th Night.
+    [311917, '16th Night', '534', 4],
+    [311917, '16th Night', '537', 4],
+    [311917, '16th Night', '540', 4],
+    // Summoner (Topo): one clause per skill, each on its own meter.
+    [311918, 'Picky Peck', '5036', 5],
+    [311918, 'Silvervine Stem Spear', '5028', 5],
     [311919, 'Frash Shrimp', 'vct', 2],
     [311920, 'Arclouse Dash', 'range', 2],
   ] as const)('%i scales %s by %s per level', (id, skill, key, perLevel) => {
@@ -127,86 +161,64 @@ describe('third-class costume-enchant stone previews', () => {
     expect(worn(311433, { skills: [['New Poison Research', 4]] }).acd).toBe(2);
   });
 
-  it('pays the Mechanic (Meio) clause on both melee and ranged', () => {
-    expect(worn(311431, { skills: [['Madogear License', 3]] })).toMatchObject({ melee: 3, range: 3 });
-  });
-
-  it('pays the two-clause stones on every skill their text names', () => {
-    // Rebellion (Topo): size damage AND Dragon Tail, both off Platinum Altar.
-    const rebellion = worn(311463, { skills: [['Platinum Altar', 5]] });
-    expect(rebellion).toMatchObject({ p_size_all: 10, '2566': 20 });
-    // Rebellion (Baixo): Fire Dance and Hammer of God, both off Heat Barrel ("Hot Barrel").
-    expect(worn(311465, { skills: [['Hot Barrel', 5]] })).toMatchObject({ '2561': 20, '2571': 20 });
-    // Oboro (Baixo): Flaming Petals, Freezing Spear and Wind Blade off 16th Night.
-    expect(worn(311917, { skills: [['16th Night', 5]] })).toMatchObject({
-      '534': 20, '537': 20, '540': 20,
-    });
-    // Summoner (Topo): one clause per skill, each on its own meter.
-    expect(worn(311918, { skills: [['Picky Peck', 5], ['Silvervine Stem Spear', 2]] })).toMatchObject({
-      '5036': 25, '5028': 10,
-    });
-  });
-
   it.each([
-    // [stone, garment (old gen), garment (re-issue), key, value]
-    [311356, 25709, 29516, 'm_my_element_all', 15],
-    [311356, 310011, 1000019, 'm_size_all', 15],
-    [311357, 25709, 29516, '2040', 15], // Adoramus
-    [311357, 310011, 1000019, '2038', 15], // Judex
-    [311358, 25709, 29516, 'm_race_all', 15],
-    [311358, 310011, 1000019, 'm_my_element_all', 15],
-    [311359, 25416, 29431, 'cd__5002', 45], // No Limits cooldown, in seconds
-    [311359, 310003, 1000011, '382', 15], // Focused Arrow Strike
-    [311360, 25416, 29431, '2233', 15], // Arrow Storm
-    [311360, 310003, 1000011, '2236', 15], // Aimed Bolt
-    [311361, 25416, 29431, 'spDrain', 1],
-    [311361, 310003, 1000011, 'p_size_all', 15],
-    [311427, 25412, 29426, '2518', 20], // Lightning Ride
-    [311427, 25797, 29427, '2336', 15], // Knuckle Arrow
-    [311428, 25412, 29426, '2518', 20],
-    [311428, 25797, 29427, '2330', 15], // Tiger Cannon
-    [311429, 25412, 29426, '2332', 15], // Rampage Blast
-    [311429, 25797, 29427, '2336', 15],
-    [311430, 25497, 29484, '2280', 15], // Axe Tornado
-    [311430, 310007, 1000015, '2256', 15], // Knuckle Boost
-    [311431, 25497, 29484, '2278', 15], // Axe Boomerang
-    [311431, 310007, 1000015, '2261', 15], // Arm Cannon
-    [311432, 25497, 29484, '2279', 15], // Power Swing
-    [311432, 310007, 1000015, '2258', 15], // Vulcan Arm
-    [311433, 25717, 29524, '2037', 15], // Cross Ripper Slasher
-    [311433, 310188, 1000221, '2029', 15], // Counter Slash
-    [311434, 25717, 29524, '2036', 15], // Rolling Cutter
-    [311434, 310188, 1000221, '2022', 15], // Cross Impact
-    [311435, 25717, 29524, '2037', 15],
-    [311435, 310188, 1000221, 'p_race_all', 15],
-    [311460, 25849, 29658, '2579', 15], // New Moon Kick
-    [311461, 25849, 29658, '2592', 15], // Solar Burst
-    [311462, 25849, 29658, 'spDrain', 1],
-    [311463, 25858, 29667, '2554', 15], // Vanishing Buster
-    [311464, 25858, 29667, '2565', 15], // Round Trip
-    [311465, 25858, 29667, 'fct', 0.5],
-    [311467, 25842, 29654, '2604', 15], // Eswhoo
-    [311468, 25842, 29654, 'fct', 0.5],
-    [311912, 25853, 29662, '3009', 25], // Swirling Petal
-    [311913, 25853, 29662, '3004', 25], // Cross Slash
-    [311914, 25853, 29662, '3007', 25], // Kunai Splash
-    [311915, 25854, 29663, '537', 25], // Freezing Spear
-    [311915, 25854, 29663, '540', 25], // Wind Blade
-    [311916, 25854, 29663, '536', 30], // Exploding Dragon
-    [311917, 25854, 29663, 'vct', 15],
-    [311918, 25862, 29671, 'fct', 0.5],
-    [311919, 25862, 29671, '5028', 25], // Catnip Meteor
-    [311920, 25862, 29671, '5036', 25], // Lunatic Carrot Beat
-  ] as const)('%i pays %s/%s for %s', (stone, oldGen, reissue, key, value) => {
+    [311356, ARCHBISHOP, 'm_my_element_all', 15],
+    [311356, ARCHBISHOP_II, 'm_size_all', 15],
+    [311357, ARCHBISHOP, '2040', 15], // Adoramus
+    [311357, ARCHBISHOP_II, '2038', 15], // Judex
+    [311358, ARCHBISHOP, 'm_race_all', 15],
+    [311358, ARCHBISHOP_II, 'm_my_element_all', 15],
+    [311359, RANGER, 'cd__5002', 45], // No Limits cooldown, in seconds
+    [311359, RANGER_II, '382', 15], // Focused Arrow Strike
+    [311360, RANGER, '2233', 15], // Arrow Storm
+    [311360, RANGER_II, '2236', 15], // Aimed Bolt
+    [311361, RANGER, 'spDrain', 1],
+    [311361, RANGER_II, 'p_size_all', 15],
+    [311427, SURA, '2518', 20], // Lightning Ride
+    [311427, SURA_II, '2336', 15], // Knuckle Arrow
+    [311428, SURA, '2518', 20],
+    [311428, SURA_II, '2330', 15], // Tiger Cannon
+    [311429, SURA, '2332', 15], // Rampage Blast
+    [311429, SURA_II, '2336', 15],
+    [311430, MECHANIC, '2280', 15], // Axe Tornado
+    [311430, MECHANIC_II, '2256', 15], // Knuckle Boost
+    [311431, MECHANIC, '2278', 15], // Axe Boomerang
+    [311431, MECHANIC_II, '2261', 15], // Arm Cannon
+    [311432, MECHANIC, '2279', 15], // Power Swing
+    [311432, MECHANIC_II, '2258', 15], // Vulcan Arm
+    [311433, GUILLOTINE_CROSS, '2037', 15], // Cross Ripper Slasher
+    [311433, GUILLOTINE_CROSS_II, '2029', 15], // Counter Slash
+    [311434, GUILLOTINE_CROSS, '2036', 15], // Rolling Cutter
+    [311434, GUILLOTINE_CROSS_II, '2022', 15], // Cross Impact
+    [311435, GUILLOTINE_CROSS, '2037', 15],
+    [311435, GUILLOTINE_CROSS_II, 'p_race_all', 15],
+    [311460, STAR_EMPEROR, '2579', 15], // New Moon Kick
+    [311461, STAR_EMPEROR, '2592', 15], // Solar Burst
+    [311462, STAR_EMPEROR, 'spDrain', 1],
+    [311463, REBELLION, '2554', 15], // Vanishing Buster
+    [311464, REBELLION, '2565', 15], // Round Trip
+    [311465, REBELLION, 'fct', 0.5],
+    [311467, SOUL_REAPER, '2604', 15], // Eswhoo
+    [311468, SOUL_REAPER, 'fct', 0.5],
+    [311912, KAGEROU, '3009', 25], // Swirling Petal
+    [311913, KAGEROU, '3004', 25], // Cross Slash
+    [311914, KAGEROU, '3007', 25], // Kunai Splash
+    [311915, OBORO, '537', 25], // Freezing Spear
+    [311915, OBORO, '540', 25], // Wind Blade
+    [311916, OBORO, '536', 30], // Exploding Dragon
+    [311917, OBORO, 'vct', 15],
+    [311918, DORAM, 'fct', 0.5],
+    [311919, DORAM, '5028', 25], // Catnip Meteor
+    [311920, DORAM, '5036', 25], // Lunatic Carrot Beat
+  ] as const)('%i with %j pays %s', (stone, garments, key, value) => {
     expect(worn(stone)[key] ?? 0).toBe(0);
-    for (const garment of [oldGen, reissue]) {
+    for (const garment of garments) {
       expect(setBonus(stone, garment, key)).toBeCloseTo(value);
     }
   });
 
   it('leaves the stones LATAM already has under a re-issued id unflagged', () => {
-    // Flagging these would show a second, Prévia-labelled copy of a stone already in the
-    // picker. The re-issue on the right is the one LATAM ships.
+    // The re-issue on the right is the one LATAM ships.
     const twinned = [
       [310664, 1000528], [310665, 1000529], [310666, 1000530], [310667, 1000527],
       [311354, 1000855], [311355, 1000856],

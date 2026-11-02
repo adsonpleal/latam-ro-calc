@@ -374759,5 +374759,15 @@
     "location": null,
     "compositionPos": 65535,
     "script": {}
-  }
+  },
+  "29162": {"id":29162,"aegisName":null,"name":"Gráfico: Sombra","unidName":"Gráfico: Sombra","resName":"블루크리스탈조각","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":72,"itemLevel":null,"attack":null,"defense":null,"weight":10,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
+  "29727": {"id":29727,"aegisName":null,"name":"Gráfico: Dragão Alado","unidName":"Gráfico: Dragão Alado","resName":"Roar_Effect_Top","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":71,"itemLevel":null,"attack":null,"defense":null,"weight":1,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
+  "300385": {"id":300385,"aegisName":null,"name":"Gráfico: Popstar","unidName":"Gráfico: Popstar","resName":"Valhalla_F_Effect_T","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":72,"itemLevel":null,"attack":null,"defense":null,"weight":10,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
+  "300419": {"id":300419,"aegisName":null,"name":"Gráfico: Camélia","unidName":"Gráfico: Camélia","resName":"CamelliaEffect_Top","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":71,"itemLevel":null,"attack":null,"defense":null,"weight":10,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
+  "311926": {"id":311926,"aegisName":null,"name":"Gráfico: Rosas Românticas","unidName":"Gráfico: Rosas Românticas","resName":"RR_Effect_Top_TW","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":72,"itemLevel":null,"attack":null,"defense":null,"weight":10,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
+  "313558": {"id":313558,"aegisName":null,"name":"Pegada: Bolinhos","unidName":"Pegada: Bolinhos","resName":"Dumpling_Foot_Robe","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":10,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
+  "313559": {"id":313559,"aegisName":null,"name":"Pegada: Pandas","unidName":"Pegada: Pandas","resName":"Panda_Basic_Foot_Robe","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":10,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
+  "314094": {"id":314094,"aegisName":"블루크리스탈조각","name":"Gráfico: Espírito de Liderança","unidName":"Gráfico: Espírito de Liderança","resName":"","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":72,"itemLevel":null,"attack":null,"defense":null,"weight":10,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
+  "314095": {"id":314095,"aegisName":"블루크리스탈조각","name":"Gráfico: Espírito de Influência","unidName":"Gráfico: Espírito de Influência","resName":"","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":72,"itemLevel":null,"attack":null,"defense":null,"weight":10,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
+  "314802": {"id":314802,"aegisName":null,"name":"Gráfico: Espaço Digital","unidName":"Gráfico: Espaço Digital","resName":"Magic_D_Space_TW","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":73,"itemLevel":null,"attack":null,"defense":null,"weight":10,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}}
 }
