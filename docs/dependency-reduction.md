@@ -198,6 +198,21 @@ thousand releases; the ceiling, not the budget, is what would eventually need an
 What the ratchet now measures is code again, which is the only thing it can usefully
 guard.
 
+The Thief-line [Ataque Duplo] passive moved it from 2,902,123 to 2,902,435. The 312
+bytes, measured per input against `origin/main` (this machine and CI agree):
+
+| input | bytes |
+|---|---|
+| `src/app/core/auto-cast.ts` | +315 |
+| `src/app/jobs/Thief.ts` | +5 |
+| `src/app/constants/share-passive-skills/double-attack-fn.ts` | −8 |
+
+`auto-cast.ts` carries `doubleAttackSources`, which folds the equipment grant the engine
+already read together with the learned passive: the dagger gate, the "Requer Adaga"
+blocked entry and the second source label. `Thief.ts` is the import and the list entry;
+the passive table shrank because its Precisão figure went from `5 × level` to the
+client's `1 × level`.
+
 The final simplify pass removed the unused portal view argument, redundant
 virtual-list end state and a duplicate filesystem probe. It also consolidated
 imports and removed stale CDK comments without changing interaction contracts.
@@ -226,7 +241,7 @@ tests check every emitted root JavaScript/CSS file receives immutable caching.
 Existing untracked replay recordings and reports were preserved. No deployment or
 publication was performed.
 
-Adulterar Veneno's per-version TEN penetration moved it from 2,902,138 to 2,902,244. The
+Adulterar Veneno's per-version TEN penetration moved it from 2,902,450 to 2,902,556. The
 106 bytes are `ShadowCross.ts` choosing 2% or 3% per level from the build's formula
 version in `setAdditionalBonus`, where the dropdown used to carry a fixed 3%. That is what CI
 measured for the first form of the change; the final, shorter form measures 90 here, so

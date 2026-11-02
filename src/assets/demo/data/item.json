@@ -109990,7 +109990,8 @@
     "name": "Shadow Chaser Stone (Upper)",
     "unidName": "Shadow Chaser Stone (Upper)",
     "resName": "Stalker_Figure",
-    "description": "ทุก ๆ การเรียนรู้ Urgent Escape 1 เลเวล ASPD + 2%\nเมื่อใช้งานร่วมกับ Shadow Chaser Stone (Garment), เพิ่ม Damage สกิล Feint Bomb 15%\nเมื่อใช้งานร่วมกับ Shadow Chaser Stone II (Garment), มีโอกาส 1% ที่จะฟื้นฟู SP ของ Damage ทางกายภาพที่ทำต่อศัตรู",
+    "description": "For every level of Urgent Escape learned, increases ASPD by 2%.\n------------------------\nSet Bonus\nShadow Chaser Stone (Upper)\nShadow Chaser Stone (Garment)\n\nIncreases Feint Bomb damage by 15%.\n------------------------\nSet Bonus\nShadow Chaser Stone (Upper)\nShadow Chaser Stone II (Garment)\n\nHas a 1% chance to restore 1% of damage as SP when dealing physical damage.",
+    "preRelease": true,
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 71,
@@ -110007,6 +110008,9 @@
       ],
       "2304": [
         "EQUIP_ID[25493||29480]===15"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25805||29618]===1"
       ]
     }
   },
@@ -110016,7 +110020,8 @@
     "name": "Shadow Chaser Stone (Middle)",
     "unidName": "Shadow Chaser Stone (Middle)",
     "resName": "Stalker_Figure",
-    "description": "ทุก ๆ การเรียนรู้ Shadow Formation 1 เลเวล ลด Delay หลังใช้สกิล 1%\nเมื่อใช้งานร่วมกับ Shadow Chaser Stone (Garment), เพิ่ม Damage สกิล Triangle Shot 15%\nเมื่อใช้งานร่วมกับ Shadow Chaser Stone II (Garment), เพิ่ม Damage สกิล Fatal Menace 15%",
+    "description": "For every level of Shadow Formation learned, reduces global cooldown by 1%.\n------------------------\nSet Bonus\nShadow Chaser Stone (Middle)\nShadow Chaser Stone (Garment)\n\nIncreases Triangle Shot damage by 15%.\n------------------------\nSet Bonus\nShadow Chaser Stone (Middle)\nShadow Chaser Stone II (Garment)\n\nIncreases Fatal Menace damage by 15%.",
+    "preRelease": true,
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 72,
@@ -110045,7 +110050,8 @@
     "name": "Shadow Chaser Stone (Lower)",
     "unidName": "Shadow Chaser Stone (Lower)",
     "resName": "Stalker_Figure",
-    "description": "ทุก ๆ การเรียนรู้ Reproduce 1 เลเวล เพิ่ม Damage ทางกายภาพระยะใกล้/ไกล 1%\nเมื่อใช้งานร่วมกับ Shadow Chaser Stone (Garment), เพิ่ม Damage ทางกายภาพต่อศัตรูทุกธาตุ 15%\nเมื่อใช้งานร่วมกับ Shadow Chaser Stone II (Garment), เพิ่ม Damage ทางกายภาพต่อศัตรูทุกขนาด 15%",
+    "description": "For every level of Reproduce learned, Increases melee and long ranged physical damage by 1%.\n------------------------\nSet Bonus\nShadow Chaser Stone (Lower)\nShadow Chaser Stone (Garment)\n\nIncreases physical damage against all property enemies by 15%.\n------------------------\nSet Bonus\nShadow Chaser Stone (Lower)\nShadow Chaser Stone II (Garment)\n\nIncreases physical damage against all size enemies by 15%.",
+    "preRelease": true,
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 73,
@@ -318787,6 +318793,99 @@
       "all"
     ],
     "script": {}
+  },
+  "314185": {
+    "id": 314185,
+    "aegisName": null,
+    "name": "Shadow Chaser Stone II (Upper)",
+    "unidName": "Shadow Chaser Stone II (Upper)",
+    "resName": "Stalker_Figure",
+    "description": "Every level of Urgent Escape user learned, increases melee / long ranged physical damage by 1%.\nWhen equipped with Shadow Chaser Stone (Garment), increases Triangle Shot damage by 15%.\nWhen equipped with Shadow Chaser Stone II (Garment), when dealing physical damage, has a 1% chance to restore 1% of damage as SP.",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2288": [
+        "EQUIP_ID[25493||29480]===20"
+      ],
+      "melee": [
+        "LEARN_SKILL[Urgent Escape==1]---1"
+      ],
+      "range": [
+        "LEARN_SKILL[Urgent Escape==1]---1"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25805||29618]===1"
+      ]
+    }
+  },
+  "314186": {
+    "id": 314186,
+    "aegisName": null,
+    "name": "Shadow Chaser Stone II (Middle)",
+    "unidName": "Shadow Chaser Stone II (Middle)",
+    "resName": "Stalker_Figure",
+    "description": "Every level of Shadow Formation user learned, reduces global cooldown by 1%.\nWhen equipped with Shadow Chaser Stone (Garment), increases Feint Bomb damage by 15%.\nWhen equipped with Shadow Chaser Stone II (Garment), increases Fatal Menace damage by 15%.",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2284": [
+        "EQUIP_ID[25805||29618]===15"
+      ],
+      "2304": [
+        "EQUIP_ID[25493||29480]===15"
+      ],
+      "acd": [
+        "LEARN_SKILL[Shadow Formation==1]---1"
+      ]
+    }
+  },
+  "314187": {
+    "id": 314187,
+    "aegisName": null,
+    "name": "Shadow Chaser Stone II (Lower)",
+    "unidName": "Shadow Chaser Stone II (Lower)",
+    "resName": "Stalker_Figure",
+    "description": "Every level of Reproduce user learned, increases attack speed (reduces delay after attack by 1%).\nWhen equipped with Shadow Chaser Stone (Garment), increases Triangle Shot damage by 15%.\nWhen equipped with Shadow Chaser Stone II (Garment), increases Fatal Menace damage by 15%.",
+    "preRelease": true,
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2284": [
+        "EQUIP_ID[25805||29618]===15"
+      ],
+      "2288": [
+        "EQUIP_ID[25493||29480]===15"
+      ],
+      "aspdPercent": [
+        "LEARN_SKILL[Reproduce==1]---1"
+      ]
+    }
   },
   "314198": {
     "id": 314198,
