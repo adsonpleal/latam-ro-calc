@@ -198,7 +198,7 @@ thousand releases; the ceiling, not the budget, is what would eventually need an
 What the ratchet now measures is code again, which is the only thing it can usefully
 guard.
 
-Tetra Vortex then moved the baseline from 2,902,123 to 2,902,460. All 337 bytes are
+Tetra Vortex then moved the baseline from 2,902,138 (after the Golem buff) to 2,902,475. All 337 bytes are
 `src/app/jobs/Warlock.ts`: the skill had been commented out, and it now ships as four entries,
 one per Esfera element (Fogo, Água, Vento, Terra), built by one `tetraVortex(element)` factory
 with a ten-level `levelList`. Measured on this machine against `origin/main`, with the same
