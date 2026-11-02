@@ -198,7 +198,22 @@ thousand releases; the ceiling, not the budget, is what would eventually need an
 What the ratchet now measures is code again, which is the only thing it can usefully
 guard.
 
-Tetra Vortex then moved the baseline from 2,902,138 (after the Golem buff) to 2,902,475. All 337 bytes are
+The Thief-line [Ataque Duplo] passive moved it from 2,902,123 to 2,902,435. The 312
+bytes, measured per input against `origin/main` (this machine and CI agree):
+
+| input | bytes |
+|---|---|
+| `src/app/core/auto-cast.ts` | +315 |
+| `src/app/jobs/Thief.ts` | +5 |
+| `src/app/constants/share-passive-skills/double-attack-fn.ts` | −8 |
+
+`auto-cast.ts` carries `doubleAttackSources`, which folds the equipment grant the engine
+already read together with the learned passive: the dagger gate, the "Requer Adaga"
+blocked entry and the second source label. `Thief.ts` is the import and the list entry;
+the passive table shrank because its Precisão figure went from `5 × level` to the
+client's `1 × level`.
+
+Tetra Vortex then moved the baseline from 2,902,450 (after the Golem buff and Ataque Duplo) to 2,902,787. All 337 bytes are
 `src/app/jobs/Warlock.ts`: the skill had been commented out, and it now ships as four entries,
 one per Esfera element (Fogo, Água, Vento, Terra), built by one `tetraVortex(element)` factory
 with a ten-level `levelList`. Measured on this machine against `origin/main`, with the same
