@@ -166,6 +166,8 @@ export interface SkillModel {
   bonus?: any;
   /** ragassets skill-icon id shown next to this option in the dropdown (optional). */
   icon?: number;
+  /** i18n key for an option that names something other than a level (a toxin); `label` is its pt-BR text. */
+  labelKey?: string;
 }
 
 export interface ActiveSkillModel {
@@ -176,6 +178,9 @@ export interface ActiveSkillModel {
   isMasteryAtk?: boolean;
   inputType: 'dropdown' | 'selectButton';
   label: string;
+  /** i18n key for a control that names a part of a skill rather than the skill itself, so the
+   *  client skill name is not laid over it ("Toxina aplicada" under Aplicar Toxina). */
+  labelKey?: string;
   isDebuff?: boolean;
   name: SKILL_NAME;
   dropdown: SkillModel[];

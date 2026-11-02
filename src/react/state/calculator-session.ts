@@ -11,7 +11,7 @@ import { CalculatorData as RoService, DescriptionStore as ItemDescriptionStore, 
 interface SelectItemGroup { label: string; value?: unknown; items: any[]; }
 import { prepareCompareEquipment } from '../../app/core/compare-equipment';
 import { IconName } from 'src/app/ui/icon-names';
-import { Translate } from 'src/app/i18n';
+import { TextKey, Translate } from 'src/app/i18n';
 import { PresetModel } from 'src/app/api-services/models/preset-model';
 import { SKILL_ID_BY_NAME, resolveSkillMeta } from 'src/app/skills';
 import { BUFF_BONUS_LABELS, bonusKeyLabel, resolveSkillKey } from 'src/app/core/bonus-key-label';
@@ -2648,8 +2648,8 @@ await ((_event?: unknown) => {
     const dropdown = (skill as any).dropdown;
     if (!Array.isArray(dropdown)) return skill;
     let changed = false;
-    const translated = dropdown.map((option: { label?: string }) => {
-      const key = option?.label === 'Sim' ? 'common.yes' : option?.label === 'Não' ? 'common.no' : null;
+    const translated = dropdown.map((option: { label?: string; labelKey?: TextKey }) => {
+      const key = option?.labelKey ?? (option?.label === 'Sim' ? 'common.yes' : option?.label === 'Não' ? 'common.no' : null);
       if (!key) return option;
       changed = true;
       return { ...option, label: this.text(key) };
@@ -2678,7 +2678,8 @@ await ((_event?: unknown) => {
     // and render no icon (the template guards on `icon`).
     const localize = <T extends { name: string }>(skill: T) => {
       const pt = this.resolveSkill(skill.name);
-      const named = pt ? { ...skill, label: (skill as any).preview && !(skill as any).labelSuffix ? (skill as any).label : pt.name, icon: pt.id, iconType: pt.iconType } : skill;
+      const labelKey = (skill as any).labelKey;
+      const named = pt ? { ...skill, label: labelKey ? this.text(labelKey) : (skill as any).preview && !(skill as any).labelSuffix ? (skill as any).label : pt.name, icon: pt.id, iconType: pt.iconType } : skill;
       const base = this.translateToggleOptions(named);
       // A skill whose level-list entries are really *other* skills (Fist Spell
       // casts Fire/Cold/Lightning Bolt) exposes a `treatedAsSkillNameFn`. Relabel

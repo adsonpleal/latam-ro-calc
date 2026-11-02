@@ -1,0 +1,15 @@
+{
+  "type": "patch",
+  "logs": [
+    "Aplicar Toxina (Sicário) passa a ter dois seletores: o nível da habilidade (Nv 1 a 5, Nv 5 por padrão) e a Toxina aplicada, agora com todas as toxinas: Curare, Squamata, Vipera, Beladona, Cicuta, Oblivium, Waraitake e Pirexia. Com qualquer toxina aplicada, o dano físico corpo a corpo sobe 2% por nível; Pirexia soma dano crítico +15% e dano de ataques básicos +5%, Waraitake soma pós-conjuração -10%, e as demais não alteram o dano. Sugerido por Ametsuky.",
+    "Pirexia: o dano físico +5% passa a valer só para ataques básicos, como na descrição do item; antes também aumentava o dano das habilidades."
+  ],
+  "logs_es": [
+    "Aplicar Toxina (Sicário) ahora tiene dos selectores: el nivel de la habilidad (Nv 1 a 5, Nv 5 por defecto) y la Toxina aplicada, ahora con todas las toxinas: Parálisis, Herida de Muerte, Fluido de Sanguijuela, Sangre Envenenada, Toxina, Maldición del Ovido, Hongo Mágico y Pirexia. Con cualquier toxina aplicada, el daño físico cuerpo a cuerpo sube 2% por nivel; Pirexia suma daño crítico +15% y daño de ataques básicos +5%, Hongo Mágico suma posconjuración -10%, y las demás no cambian el daño. Sugerido por Ametsuky.",
+    "Pirexia: el daño físico +5% ahora vale solo para ataques básicos, como en la descripción del objeto; antes también aumentaba el daño de las habilidades."
+  ],
+  "logs_en": [
+    "Aplicar Toxina (Sicário) now has two selectors: the skill level (Lv 1 to 5, Lv 5 by default) and the Applied toxin, now listing every toxin: Paralysis, Death Hurt, Leech End, Venom Bleed, Toxin, Oblivion Curse, Magic Mushroom and Pyrexia. With any toxin applied, melee physical damage rises 2% per level; Pyrexia adds critical damage +15% and basic attack damage +5%, Magic Mushroom adds after-cast delay -10%, and the others do not change damage. Suggested by Ametsuky.",
+    "Pyrexia: the +5% physical damage now applies only to basic attacks, as the item description says; it used to raise skill damage too."
+  ]
+}
