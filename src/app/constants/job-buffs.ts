@@ -2,7 +2,7 @@ import { ActiveSkillModel } from '../jobs/_character-base.abstract';
 import { ElementType } from './element-type.const';
 import { BragisPoemFn, DarkClawFn, ShieldSpellFn, SwingDanceFn } from './share-active-skills';
 import { ArtistPartyBuffs } from './artist-party-buffs';
-import { ArgutusTelumBuff, ArgutusVitaBuff, LaudaAgnusBuff, LaudaRamusBuff, PresensAciesBuff } from './cleric-party-buffs';
+import { ArgutusTelumBuff, ArgutusVitaBuff, LaudaAgnusBuff, LaudaRamusBuff, PresensAciesBuff, SacramentumBuff } from './cleric-party-buffs';
 
 const JobBuffsList: ActiveSkillModel[] = [
   {
@@ -173,6 +173,7 @@ const JobBuffsList: ActiveSkillModel[] = [
   },
   LaudaAgnusBuff,
   LaudaRamusBuff,
+  SacramentumBuff,
   {
     name: 'Adrenaline Rush',
     label: 'Adrenalina 5',
