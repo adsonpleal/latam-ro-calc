@@ -7,9 +7,11 @@
  * own release step — after the pull request's build had already passed. Two deploys died
  * that way (see docs/dependency-reduction.md) before the file moved out.
  *
- * So these are not style preferences. The first test is the regression guard: one
- * `import` of history.json anywhere under src/ puts 800 KB back in the bundle and breaks
- * every future release.
+ * That account still holds, but the ratchet that caught it no longer exists: the total
+ * JS/CSS gate was removed, and this test is now the only thing standing between
+ * history.json and the bundle. So these are not style preferences. The first test is the
+ * regression guard: one `import` of history.json anywhere under src/ puts 800 KB back in
+ * the bundle and breaks every future release, and nothing else would notice.
  */
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';

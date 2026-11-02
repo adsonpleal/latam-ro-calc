@@ -37,8 +37,10 @@
 //                              changelog, in all three languages. Fetched only when the
 //                              reader opens the Novidades dialog. It is here rather than
 //                              bundled because it is append-only: every release adds an
-//                              entry, so bundling it charged the `totalBaseline` ratchet
-//                              for publishing notes. See docs/dependency-reduction.md.
+//                              entry, and bundling it charged the former `totalBaseline`
+//                              ratchet for publishing notes — two deploys died that way.
+//                              The ratchet is gone; `changelog-out-of-bundle.spec.ts` is
+//                              what keeps it out now. See docs/dependency-reduction.md.
 //
 //   monsters[.<hash>].json     monster.json with the pt-BR names from
 //                              latam-monsters.json already applied.
