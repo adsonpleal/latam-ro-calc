@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Adicionada a Tetra Vortex às habilidades do Arcano, do nível 1 ao 10, com o elemento das Esferas à escolha (Fogo, Água, Vento ou Terra): 4 golpes de 800% + 400% por nível de ATQM, como na descrição do jogo."
+  ],
+  "logs_es": [
+    "Añadido Tetra Vortex a las habilidades del Brujo, del nivel 1 al 10, con el elemento de las esferas a elección (Fuego, Agua, Viento o Tierra): 4 golpes de 800% + 400% por nivel de ATQM, como en la descripción del juego."
+  ],
+  "logs_en": [
+    "Added Tetra Vortex to the Warlock skills, levels 1 to 10, with the spheres' element to choose (Fire, Water, Wind or Earth): 4 hits of 800% + 400% per level MATK, as in the in-game description."
+  ]
+}
