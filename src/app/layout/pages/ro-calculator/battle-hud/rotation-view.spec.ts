@@ -30,6 +30,7 @@ const summaryOf = (over: {
   critMax?: number;
   noCriMin?: number;
   noCriMax?: number;
+  accuracy?: number;
 }) => ({
   calcSkill: {
     castPeriod: over.castPeriod ?? 0,
@@ -59,7 +60,7 @@ const summaryOf = (over: {
     skillMaxDamage: over.critMax ?? (over.canCri ? over.criDmg ?? 0 : over.perHit ?? 1000),
     skillMinDamageNoCri: over.noCriMin ?? over.perHit ?? 1000,
     skillMaxDamageNoCri: over.noCriMax ?? over.perHit ?? 1000,
-    skillAccuracy: 100,
+    skillAccuracy: over.accuracy ?? 100,
     skillTotalHit: over.hits ?? 1,
     skillPropertyMultiplier: 1,
     basicDps: over.basicDps ?? 4760, // 2000 per use at 2,38 hits/s
@@ -498,6 +499,30 @@ describe('crit-weighted rows', () => {
     const every = viewFor({ canCri: true, criRate: 100 }).entries[0];
 
     expect(every.damageRanges.map((r) => r.kind)).toEqual(['cri']);
+  });
+  it('names the hit chance when the target dodges part of the uses', () => {
+    // Card 6TEgB1eIAGs1iJxxTnWY: Lâminas Destruidoras rolls ~448k on Sapo Cinzento but lands
+    // 15% of the time, so the row's mean (and the 1-use/s DPS) is 15% of that roll. Without
+    // the hit chance on the row the figure read as a broken DPS.
+    const summary = summaryOf({ perHit: 448_764, accuracy: 15 });
+    const entry = buildRotationView({
+      text,
+      rotation: ['Solar Kick==7'],
+      summaryByValue: new Map([['Solar Kick==7', summary]]),
+      baseSummary: summary,
+      hasSelectedChances: false,
+      atkSkills,
+    }).entries[0];
+
+    expect(entry.damage).toBe(67_314);
+    expect(entry.hitRate).toBe(15);
+    expect(entry.hitWeighted).toBe(true);
+  });
+
+  it('leaves the hit chance out when it changes nothing', () => {
+    // Every use crits (crits never miss), or every use lands: nothing to explain.
+    expect(viewFor({ canCri: true, criRate: 100 }).entries[0].hitWeighted).toBe(false);
+    expect(viewFor({ canCri: false, criRate: 0 }).entries[0].hitWeighted).toBe(false);
   });
 });
 

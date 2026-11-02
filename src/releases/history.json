@@ -1,5 +1,43 @@
 [
   {
+    "v": "0.1.200-beta",
+    "date": "02-11-2026",
+    "logs": [
+      "A linha da rotação passou a mostrar a chance de acerto quando o alvo esquiva parte dos usos, já que a média e o DPS descontam os erros. A chance de acerto também passou a seguir a ordem do servidor: Precisão perfeita é uma rolagem à parte, e Lâminas Aceleradas não tira mais do mínimo de 5% um alvo que a build não acerta. Reportado por usuário anônimo."
+    ],
+    "logs_es": [
+      "La fila de la rotación ahora muestra la probabilidad de acierto cuando el objetivo esquiva parte de los usos, ya que el promedio y el DPS descuentan los fallos. La probabilidad de acierto también sigue ahora el orden del servidor: la Precisión perfecta es una tirada aparte, y Lâminas Aceleradas ya no saca del mínimo de 5% a un objetivo que la build no acierta. Reportado por usuario anónimo."
+    ],
+    "logs_en": [
+      "The rotation row now shows the hit chance when the target dodges part of the uses, since the mean and the DPS discount the misses. The hit chance also follows the server's order now: perfect hit is a roll of its own, and Lâminas Aceleradas no longer lifts a target the build cannot hit off the 5% floor. Reported by an anonymous user."
+    ]
+  },
+  {
+    "v": "0.1.199-beta",
+    "date": "02-11-2026",
+    "logs": [
+      "Aplicar Toxina (Sicário) passa a ter dois seletores: o nível da habilidade (Nv 1 a 5, Nv 5 por padrão) e a Toxina aplicada, agora com todas as toxinas: Curare, Squamata, Vipera, Beladona, Cicuta, Oblivium, Waraitake e Pirexia. Com qualquer toxina aplicada, o dano físico corpo a corpo sobe 2% por nível; Pirexia soma dano crítico +15% e dano de ataques básicos +5%, Waraitake soma pós-conjuração -10%, e as demais não alteram o dano. Sugerido por Ametsuky.",
+      "Pirexia: o dano físico +5% passa a valer só para ataques básicos, como na descrição do item; antes também aumentava o dano das habilidades.",
+      "A rolagem de dano à distância dos Bônus Aleatórios passou a se chamar [À distância], dentro do grupo [Físico]; antes aparecia como [Longo Alcance], nome que o cliente não usa em lugar nenhum — ele a chama de [Dano físico a distância]. A busca dos Bônus Aleatórios também passou a ignorar acentos, então procurar por \"distancia\" encontra a rolagem. O bônus em si sempre foi aplicado: só o nome o escondia.",
+      "Removida a habilidade [Encantar com Veneno Mortal] (EDP) da lista de habilidades e efeitos ativos do Superaprendiz e do Hiperaprendiz: ela é da árvore dos Algozes e nenhuma das duas classes a aprende no LATAM. Reportado por Elt.",
+      "Adicionado Sacramentum: o Arcebispo pode ativá-lo em Habilidades, e as outras classes podem recebê-lo em Buffs. Reduz a conjuração fixa em 10% por nível, sem acumular com outras reduções percentuais de conjuração fixa. Sugerido por Holy Cheetos."
+    ],
+    "logs_es": [
+      "Aplicar Toxina (Sicário) ahora tiene dos selectores: el nivel de la habilidad (Nv 1 a 5, Nv 5 por defecto) y la Toxina aplicada, ahora con todas las toxinas: Parálisis, Herida de Muerte, Fluido de Sanguijuela, Sangre Envenenada, Toxina, Maldición del Ovido, Hongo Mágico y Pirexia. Con cualquier toxina aplicada, el daño físico cuerpo a cuerpo sube 2% por nivel; Pirexia suma daño crítico +15% y daño de ataques básicos +5%, Hongo Mágico suma posconjuración -10%, y las demás no cambian el daño. Sugerido por Ametsuky.",
+      "Pirexia: el daño físico +5% ahora vale solo para ataques básicos, como en la descripción del objeto; antes también aumentaba el daño de las habilidades.",
+      "La tirada de daño a distancia de los Bonus Aleatorios ahora se llama [À distância], dentro del grupo [Físico]; antes aparecía como [Longo Alcance], un nombre que el cliente no usa en ninguna parte — él la llama [Dano físico a distância]. La búsqueda de los Bonus Aleatorios también pasó a ignorar los acentos, así que buscar \"distancia\" encuentra la tirada. El bono en sí siempre se aplicó: solo el nombre lo escondía.",
+      "Se eliminó la habilidad [Encantar com Veneno Mortal] (EDP) de la lista de habilidades y efectos activos del Superaprendiz y del Hiperaprendiz: pertenece al árbol de los Algozes y ninguna de las dos clases la aprende en LATAM. Reportado por Elt.",
+      "Se agregó Sacramentum: el Arcebispo puede activarlo en Habilidades y las demás clases pueden recibirlo en Buffs. Reduce la conjuración fija un 10% por nivel, sin acumularse con otras reducciones porcentuales de conjuración fija. Sugerido por Holy Cheetos."
+    ],
+    "logs_en": [
+      "Aplicar Toxina (Sicário) now has two selectors: the skill level (Lv 1 to 5, Lv 5 by default) and the Applied toxin, now listing every toxin: Paralysis, Death Hurt, Leech End, Venom Bleed, Toxin, Oblivion Curse, Magic Mushroom and Pyrexia. With any toxin applied, melee physical damage rises 2% per level; Pyrexia adds critical damage +15% and basic attack damage +5%, Magic Mushroom adds after-cast delay -10%, and the others do not change damage. Suggested by Ametsuky.",
+      "Pyrexia: the +5% physical damage now applies only to basic attacks, as the item description says; it used to raise skill damage too.",
+      "The long-range damage roll in Random Options is now called [À distância], inside the [Físico] group; it used to read [Longo Alcance], a name the client uses nowhere — the client calls it [Dano físico a distância]. The Random Options search now ignores accents as well, so searching for \"distancia\" finds the roll. The bonus itself was always applied: only the name hid it.",
+      "Removed the [Encantar com Veneno Mortal] (EDP) skill from the Superaprendiz and Hiperaprendiz list of active skills and effects: it belongs to the Algoz skill tree and neither class learns it on LATAM. Reported by Elt.",
+      "Added Sacramentum: the Arch Bishop can turn it on under Skills, and other classes can receive it under Buffs. It reduces fixed cast time by 10% per level and does not stack with other percentage fixed-cast reductions. Suggested by Holy Cheetos."
+    ]
+  },
+  {
     "v": "0.1.198-beta",
     "date": "02-11-2026",
     "logs": [

@@ -6,6 +6,7 @@ import { BASIC_ATTACK_VALUE, MAX_ROTATION_LENGTH } from '../../app/core/rotation
 import { buildRotationPickerOptions, elementTagClass as elementTagClassFn, RotationPickerOption } from '../../app/layout/pages/ro-calculator/battle-hud/battle-hud.logic';
 import { DamageRange, RotationEntryView } from '../../app/layout/pages/ro-calculator/battle-hud/rotation-view';
 import { Translate } from '../../app/i18n';
+import { formatNumber } from '../../app/utils/format-number';
 
 /** Which of a row's three damage readings was clicked: the crit-weighted mean, or one of
  *  the two outcomes it averages. */
@@ -78,7 +79,14 @@ export class RotationListComponent extends ViewState {
    *  right beside the figure and reads as something still to apply; a plain min–max row only
    *  needs saying what the number is. */
   meanTagTooltip(entry: RotationEntryView): string {
-    return this.text(entry.damageRanges.length > 1 ? 'rot.tipMeanCrit' : 'rot.tipMean');
+    const mean = this.text(entry.damageRanges.length > 1 ? 'rot.tipMeanCrit' : 'rot.tipMean');
+
+    return entry.hitWeighted ? `${mean} ${this.hitTooltip(entry)}` : mean;
+  }
+
+  /** Why the row's figure sits below its roll when the target dodges: a miss deals 0. */
+  hitTooltip(entry: RotationEntryView): string {
+    return this.text('rot.tipHit', { pct: formatNumber(entry.hitRate, 0, 1) });
   }
 
   /** A row's figure is explained by whatever it is: the average where there is a roll to
