@@ -354,10 +354,12 @@ export class ShadowCross extends GuillotineCross {
       ),
     },
     {
+      // Adulterar Veneno (SHC_POTENT_VENOM 5290): the TEN it ignores depends on the formula
+      // version, so setAdditionalBonus adds it rather than the dropdown.
       name: 'Potent Venom',
       label: 'Potent Venom',
       inputType: 'dropdown',
-      dropdown: genSkillList(10, (lv) => ({ pene_res: lv * 3 })),
+      dropdown: genSkillList(10),
     },
     {
       name: 'Shadow Exceed',
@@ -401,6 +403,12 @@ export class ShadowCross extends GuillotineCross {
       if (weapon.isType('katar')) criBonus = 5 + shadowSenseLv * 2;
       addBonus(totalBonus, 'cri', criBonus);
     }
+
+    // The 28/10/2026 patch cut it from 3% to 2% per level, 30% -> 20% at Nv10: the client
+    // description of that date and LATAM's notice (https://ro.gnjoyamericas.com/pt/news/notice/446,
+    // "Ignora 30%" -> "Ignora 20%"). The replays recorded before it measured the 3%.
+    const venomPerLv = params.model.skillFormulaVersion === 'pre-rebalance' ? 3 : 2;
+    addBonus(totalBonus, 'pene_res', this.activeSkillLv('Potent Venom') * venomPerLv);
 
     return totalBonus;
   }
