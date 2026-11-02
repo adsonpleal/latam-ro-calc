@@ -142,7 +142,8 @@ pointer/touch reordering. Rich descriptions use the shared DOM allowlist sanitiz
   recorded above. Angular/RxJS/Zone.js/tslib are absent from the root lock graph
   and production web metafile.
 - Production web/data/Worker builds and restored component-style/initial-bundle
-  budgets passed. A total JS/CSS gate also enforces the Angular baseline ceiling.
+  budgets passed. A total JS/CSS gate also enforced the Angular baseline ceiling
+  at the time; it was removed later (see docs/dependency-reduction.md).
 - Development compile-error recovery passed: the last good generation remained
   available, then exact source restoration rebuilt successfully.
 - Wrangler deployment dry run passed without publishing.
