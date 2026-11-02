@@ -18,7 +18,11 @@ const TR: Record<string, string> = {
   Element: 'Elemento',
   Size: 'Tamanho',
   Class: 'Classe',
-  'Long Range': 'Longo Alcance',
+  // The client names this roll "Dano físico a distância +N%"
+  // (AddRandomOptionNameTable_ptBR, RANGE_ATTACK_DAMAGE_TARGET), and the whole app calls
+  // the key "Dano à distância" / "À distância". "Longo Alcance" was a literal port of the
+  // English "Long Range" and matched neither, so nobody looking for the roll found it.
+  'Long Range': 'À distância',
   Melee: 'Corpo a corpo',
   'CRI Rate': 'Taxa Crít.',
   'CRI Dmg': 'Dano Crít.',
