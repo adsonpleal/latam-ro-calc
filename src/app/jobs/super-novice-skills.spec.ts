@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ArchMage, SuperNovice, Warlock } from './index';
+import { ArchMage, AssassinCross, HyperNovice, SuperNovice, Warlock } from './index';
 import { SKILL_ID_BY_NAME } from '../skills';
 import { IntensificationFn } from '../constants/share-active-skills';
 import { ElementType } from '../constants/element-type.const';
@@ -93,7 +93,7 @@ describe('Superaprendiz — Telecinesia / Impacto Espiritual', () => {
     for (const name of ['Fire Bolt', 'Psychic Wave', 'Tiger Cannon', 'Ignition Break']) {
       expect(atk(superNovice, name), name).toBeDefined();
     }
-    for (const name of ['Improve Concentration', 'Cart Boost', 'Enchant Deadly Poison']) {
+    for (const name of ['Improve Concentration', 'Cart Boost']) {
       expect(active(superNovice, name), name).toBeDefined();
     }
   });
@@ -199,5 +199,44 @@ describe('Superaprendiz — Nevasca, Chuva de Meteoros e Meteoro Escarlate', () 
     for (const name of ['Fire Bolt', 'Lord of Vermilion', 'Gravitational Field', 'Psychic Wave', 'Soul Expansion']) {
       expect(atk(superNovice, name), name).toBeDefined();
     }
+  });
+});
+
+/**
+ * Reported by Elt (tracker XK979rJsV9ozsFpP4X7b): Hiperaprendiz offered an EDP toggle under
+ * Habilidades/efeitos ativos. It never belonged to this line.
+ *
+ * bROWiki files Encantar com Veneno Mortal under Algozes, behind Criar Veneno Mortal 1 —
+ * both Algoz-only. The Superaprendizes page does not mention "Veneno Mortal" anywhere: its
+ * "Expansão" section stops at the regular Assassino poison skills (Névoa Tóxica, Explosão
+ * Tóxica), and the Hiperaprendizes page lists only the fourth-class kit. No equipment opens
+ * it either — `enable_skill__378` appears in no item.json record, and the only EDP-related
+ * gear in the base (the Racing enchants, Katar Turbinada) is Algoz-line gear.
+ *
+ * The toggle rode in with upstream commit 7596f4c0 "[feat] supported Super Novice class",
+ * which built the class with `bonus: { edp: 1 }` already in the active list, and HyperNovice
+ * inherits that list wholesale.
+ */
+describe('Superaprendiz / Hiperaprendiz — EDP is not theirs', () => {
+  const hyperNovice = new HyperNovice();
+
+  it('offers no EDP toggle on either class', () => {
+    expect(active(superNovice, 'Enchant Deadly Poison')).toBeUndefined();
+    expect(active(hyperNovice, 'Enchant Deadly Poison')).toBeUndefined();
+  });
+
+  it('grants the poison bonus through no active skill at all', () => {
+    // Guards the re-add under a different name or label: what mattered was the `edp` bonus.
+    for (const char of [superNovice, hyperNovice]) {
+      const offenders = char.activeSkills
+        .flatMap((skill: any) => skill.dropdown ?? [])
+        .filter((option: any) => option?.bonus?.edp);
+
+      expect(offenders).toEqual([]);
+    }
+  });
+
+  it('leaves the Algoz its own copy', () => {
+    expect(active(new AssassinCross(), 'Enchant Deadly Poison')).toBeDefined();
   });
 });
