@@ -112,6 +112,20 @@ const RES_MAX_REDUCTION = 0.5;
  * RESM goes through the same expression in rAthena, but no recording has hit a RESM target
  * with Penetrar TENM yet, so the magical side is left fractional until one does.
  */
+/**
+ * The chance a non-crit hit lands, the way rAthena's is_attack_hitting rolls it:
+ * perfect hit is its own roll, taken before the flee check, and only what it misses falls
+ * through to the hit rate — capped to 5..100 *after* any skill modifier has scaled it.
+ * Taking the larger of the two (the old reading) under-counted every build that relies on
+ * both, and a skill modifier applied to the capped rate turned the 5% floor into 9,5%.
+ */
+export function hitChance(hitRate: number, perfectHit: number): number {
+  const rolled = Math.min(100, Math.max(5, hitRate));
+  const perfect = Math.min(100, Math.max(0, perfectHit));
+
+  return perfect + ((100 - perfect) * rolled) / 100;
+}
+
 function remainingResAfterPenetration(res: number, penetrationPercent: number): number {
   return Math.floor(res - (penetrationPercent * res) / 100);
 }
@@ -699,8 +713,9 @@ export class DamageCalculator {
 
     const { hitRequireFor100 } = this.monster.data;
 
-    let accuracy = Math.max(5, floor(100 + totalHit - hitRequireFor100));
-    accuracy = Math.min(100, Math.max(accuracy, totalPerfectHit));
+    // Uncapped on purpose: a skill's hit modifier scales this before the 5..100 cap.
+    const rawHitRate = floor(100 + totalHit - hitRequireFor100);
+    const accuracy = hitChance(rawHitRate, totalPerfectHit);
 
     const totalFlee = 100 + 0 + floor(baseLvl + totalAgi + totalLuk / 5 + flee) * 1 + totalCon * 2;
     const totalPerfectDodge = floor(1 + totalLuk * 0.1 + perfectDodge);
@@ -708,6 +723,7 @@ export class DamageCalculator {
     return {
       totalHit,
       totalPerfectHit,
+      rawHitRate,
       accuracy,
       totalFlee,
       totalPerfectDodge,
@@ -2796,8 +2812,9 @@ export class DamageCalculator {
     });
     const actualCri = skillCriRateBreakdown.total;
 
-    const skillAccRate = isHit100 || isMatk ? 100 : Math.max(0, Math.min(100,
-      skillData.accuracy?.({ ...formulaParams, accuracy: misc.accuracy }) ?? misc.accuracy));
+    const skillAccRate = isHit100 || isMatk ? 100
+      : skillData.accuracy ? hitChance(skillData.accuracy({ ...formulaParams, accuracy: misc.rawHitRate }), misc.totalPerfectHit)
+      : misc.accuracy;
     const { avgCriDamage, avgNoCriDamage } = calculated;
 
     const totalHit = typeof _totalHit === 'function' ? _totalHit(formulaParams) : _totalHit;

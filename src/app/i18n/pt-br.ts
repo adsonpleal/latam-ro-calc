@@ -1157,6 +1157,8 @@ export const ptBR = {
   'rot.critLabel': '• Crít.',
   'rot.critConditional': 'O crítico desta habilidade depende do estado atual do personagem — veja a condição em (i).',
   'rot.noCrit': '• Sem crít.',
+  'rot.hitLabel': '• Acerto',
+  'rot.tipHit': 'Só {pct}% dos usos sem crítico acertam este alvo; nos outros ele esquiva e o golpe não causa dano. A média e o DPS já descontam esses erros — mais Precisão aumenta essa chance.',
   'rot.noDamage': 'Não causa dano',
 
   'eq.needWeaponForShield': 'Equipe uma arma para poder usar escudo',

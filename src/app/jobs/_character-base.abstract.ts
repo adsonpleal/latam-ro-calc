@@ -56,7 +56,9 @@ export interface AtkSkillModel {
   cd: number | ((skillLevel: number) => number);
   levelList?: { label: string; value: any; }[];
   formula: (input: AtkSkillFormulaInput) => number;
-  /** Adjust this skill's final hit chance, without changing basic attacks. */
+  /** Adjust this skill's hit rate, without changing basic attacks. `accuracy` is the raw,
+   *  uncapped `100 + HIT − (HIT for 100%)`; the engine caps the result to 5..100 and rolls
+   *  perfect hit afterwards, as rAthena does. */
   accuracy?: (input: AtkSkillFormulaInput & { accuracy: number }) => number;
   /** Flat skill damage added after the ATK ratio, before defenses and skill bonuses. */
   flatDamage?: (input: AtkSkillFormulaInput) => number;

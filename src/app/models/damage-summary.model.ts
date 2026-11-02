@@ -266,6 +266,9 @@ export interface BasicAspdModel {
 export interface MiscModel {
   totalHit: number;
   totalPerfectHit: number;
+  /** `100 + HIT − (HIT for 100%)`, uncapped: what a skill's hit modifier scales. */
+  rawHitRate: number;
+  /** The chance a non-crit hit lands, perfect hit included (see hitChance). */
   accuracy: number;
   totalFlee: number;
   totalPerfectDodge: number;

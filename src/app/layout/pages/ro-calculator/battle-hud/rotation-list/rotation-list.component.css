@@ -691,6 +691,15 @@
   font-weight: 700;
 }
 
+/* The target dodges part of the uses, which is what pulls the mean below the roll. */
+.rot-hit {
+  cursor: default;
+}
+
+.rot-hit b {
+  color: var(--yellow-300, #ffe082);
+}
+
 .rot-crit--none {
   color: rgba(255, 255, 255, 0.35);
 }
