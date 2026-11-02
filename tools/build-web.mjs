@@ -50,27 +50,16 @@ export async function buildWeb({ production = true, outputDirectory = defaultOut
   });
   copyWebAssets(root, output);
   const entries = Object.entries(result.metafile.outputs);
-  // The translation catalogs are mutually exclusive: `loadCatalog` fetches the one chunk
-  // for the chosen language and no reader ever downloads another. Counting all of them
-  // against the ratchet would charge every future language to the same baseline, so the
-  // total carries the largest of them and leaves the rest out — a Spanish catalog that
-  // doubled would still be caught, a fourth language would not be charged twice.
   const code = entries.filter(([name]) => /\.(js|css)$/.test(name));
-  const isAltCatalog = ([, meta]) => Object.keys(meta.inputs || {}).some(input => /src[\/]app[\/]i18n[\/](?!pt-br|index)[a-z-]+\.ts$/.test(input));
-  const altCatalogs = code.filter(isAltCatalog);
-  const counted = code.filter(entry => !isAltCatalog(entry));
-  // Same reasoning as the catalogs, for the one payload that grows by publishing rather
-  // than by writing code: `releaseVersions` (the version strings behind the unread badge)
-  // gains one entry per release, so charging it to the ratchet would make every release
-  // fail the gate that the release itself trips. The changelog prose left the bundle for
-  // this reason; this is the 15 bytes a release still adds. Budgeted on its own below.
-  const releaseVersionsBytes = counted.reduce((sum, [, meta]) =>
+  // `releaseVersions` (the version strings behind the unread badge) is the one bundled
+  // payload that grows by publishing rather than by writing code: it gains one entry per
+  // release. The changelog prose left the bundle for that reason, and while a total-size
+  // ratchet existed these bytes were excluded from it (see docs/dependency-reduction.md);
+  // the gate is gone and this budget is what guards them now.
+  const releaseVersionsBytes = code.reduce((sum, [, meta]) =>
     sum + Object.entries(meta.inputs || {}).reduce((inner, [input, { bytesInOutput }]) =>
       inner + (/src[\/]releases[\/]summary\.ts$/.test(input) ? bytesInOutput : 0), 0), 0);
-  const totalBytes = counted.reduce((sum, [, meta]) => sum + meta.bytes, 0)
-    + Math.max(0, ...altCatalogs.map(([, meta]) => meta.bytes)) - releaseVersionsBytes;
   if (production && releaseVersionsBytes > budgets.releaseVersionsLimit) throw new Error(`Bundled release version list exceeds budget: ${releaseVersionsBytes} > ${budgets.releaseVersionsLimit}`);
-  if (production && totalBytes > budgets.totalBaseline) throw new Error(`Web JS/CSS regressed against the Angular baseline: ${totalBytes} > ${budgets.totalBaseline}`);
   if (Object.keys(result.metafile.inputs).some(name => /node_modules.*(?:@angular|rxjs|zone\.js|tslib)/.test(name))) throw new Error('Removed framework dependency entered the browser bundle');
   const main = entries.find(([, meta]) => meta.entryPoint?.endsWith('/src/main.ts') || meta.entryPoint === 'src/main.ts');
   const styles = entries.find(([, meta]) => meta.entryPoint === 'src/styles.css');

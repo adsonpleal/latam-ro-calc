@@ -219,6 +219,53 @@ one per Esfera element (Fogo, Água, Vento, Terra), built by one `tetraVortex(el
 with a ten-level `levelList`. Measured on this machine against `origin/main`, with the same
 figures CI reports.
 
+### The ratchet is removed
+
+`totalBaseline` is gone from `tools/web-budgets.json`, and with it the check in
+`tools/build-web.mjs` and the translation-catalog exclusion that existed only to feed it.
+Everything above this line stays as written: it is the record of what each raise bought,
+and it is the evidence for this one. The startup budgets, the component-style budgets,
+the `releaseVersionsLimit` guard and the check that rejects a removed framework
+dependency are all untouched.
+
+What the gate covered that nothing else does: the lazy chunks, and only those. The first
+paint is already guarded twice over — `initialWarning` at 2,300,000 and `initialError` at
+2,420,000 — and `tools/web-startup.mjs` leaves dynamic imports out of that figure on
+purpose. So the ~500 KB between the 2,902,893 total the gate stood at and the 2,400,650
+startup this branch measures was the ratchet's alone; `initialError` never saw it,
+and never will.
+
+What it caught, in the end, was one thing, and the right thing: `src/releases/history.json`
+as a bundled import, emitted as an 818 KB chunk that grew with every release. That is the
+section above. But that case now has its own guard, and a better one —
+`tools/changelog-out-of-bundle.spec.ts` fails if any file under `src/` imports
+`history.json` at all. It names the mistake instead of measuring its weight, costs
+nothing to run, and carries no number anyone has to keep current.
+
+What it cost is the rest of this section. Two deploys died in the release step after the
+pull request's build had already passed, because `tools/release-main.mjs` folds the notes
+in before it builds and no pull request could therefore see the number. A 505-byte
+Linux/Windows difference in the vendor chunk had to be chased down, an investigation that
+only an exact-fit gate makes necessary at all — a gate with slack does not care which
+machine is measuring. The translation catalogs needed an exclusion, and `releaseVersions`
+a second one. And most recently six parallel automated-triage pull requests each
+conflicted twice on that single line, one of them arriving with a ceiling *below* `main`,
+because each had measured a total that no longer existed by the time it was reviewed.
+That last cost is the decisive one: an exact-fit ratchet is only sustainable with one
+pull request in flight at a time. It was never raised for slack, which was the point of
+it, and that is exactly why it cannot be shared.
+
+What is lost, stated plainly so that nobody has to rediscover it: **nothing watches the
+lazy chunks any more.** The first usable screen is still guarded, twice; the roughly
+500 KB that loads after it now has no ceiling at all, no warning, and no figure recorded
+anywhere. A dependency pulled into a lazily imported route, a second copy of a library
+reachable only from the Novidades dialog or the replay importer, a data blob turned back
+into a bundled `import` — none of that fails a build today. If that becomes a problem, the
+measurement to add is not this one: `out-tsc/web-metafile.json` is written on every build
+and holds the per-chunk bytes, so a guard on *individual* chunk growth, or a reported
+figure with real slack, would catch the same regressions without charging every change for
+the sum of all previous ones.
+
 The final simplify pass removed the unused portal view argument, redundant
 virtual-list end state and a duplicate filesystem probe. It also consolidated
 imports and removed stale CDK comments without changing interaction contracts.
