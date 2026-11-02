@@ -213,6 +213,12 @@ blocked entry and the second source label. `Thief.ts` is the import and the list
 the passive table shrank because its Precisão figure went from `5 × level` to the
 client's `1 × level`.
 
+Tetra Vortex then moved the baseline from 2,902,556 (after the Golem buff, Ataque Duplo and Adulterar Veneno) to 2,902,893. All 337 bytes are
+`src/app/jobs/Warlock.ts`: the skill had been commented out, and it now ships as four entries,
+one per Esfera element (Fogo, Água, Vento, Terra), built by one `tetraVortex(element)` factory
+with a ten-level `levelList`. Measured on this machine against `origin/main`, with the same
+figures CI reports.
+
 The final simplify pass removed the unused portal view argument, redundant
 virtual-list end state and a duplicate filesystem probe. It also consolidated
 imports and removed stale CDK comments without changing interaction contracts.
