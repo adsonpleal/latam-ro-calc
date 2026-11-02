@@ -7,11 +7,10 @@ export const foldForSearch = (text: string) =>
 
 /** Literal words rank before fuzzy character subsequences; unmatched names rank last. */
 export function createFuzzyRanker(query: string): (text: string) => number {
-  const normalize = foldForSearch;
-  const tokens = normalize(query).trim().split(/\s+/).filter(Boolean);
+  const tokens = foldForSearch(query).trim().split(/\s+/).filter(Boolean);
   if (!tokens.length) return () => 0;
   return (text: string) => {
-    const normalized = normalize(text);
+    const normalized = foldForSearch(text);
     let rank = 0;
     for (const token of tokens) {
       if (normalized.includes(token)) continue;
