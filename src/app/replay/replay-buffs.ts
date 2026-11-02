@@ -41,6 +41,7 @@ export const BUFF_EFST: Record<number, { name: string; value: number }> = {
   1198: { name: 'Argutus Vita', value: 5 },
   1199: { name: 'Argutus Telum', value: 5 },
   1200: { name: 'Presens Acies', value: 5 },
+  472: { name: 'Sacramentum', value: 5 },
   1201: { name: 'Competentia', value: 5 },
   1227: { name: 'Religio', value: 5 },
   1228: { name: 'Benedictum', value: 5 },

@@ -866,6 +866,16 @@ export const catalog: TranslatedCatalog = {
   'cs.previewSuffix': ' (Preview)',
   'cs.inactiveForTarget': 'Inactive against the chosen target. It applies to the monsters named in the description.',
   'cs.debuffOnMonster': 'Debuff on the monster',
+  // Client item names (items_en, 12717-12724).
+  'cs.toxinApplied': 'Applied toxin',
+  'cs.toxin.12717': 'Paralysis',
+  'cs.toxin.12718': 'Leech End',
+  'cs.toxin.12719': 'Oblivion Curse',
+  'cs.toxin.12720': 'Death Hurt',
+  'cs.toxin.12721': 'Toxin',
+  'cs.toxin.12722': 'Pyrexia',
+  'cs.toxin.12723': 'Magic Mushroom',
+  'cs.toxin.12724': 'Venom Bleed',
   'cs.reductionTitle': 'Reduction: {label}',
   'cs.compareSuffix': '{label} (comparison)',
 

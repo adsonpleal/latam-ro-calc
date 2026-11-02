@@ -1,10 +1,16 @@
+/**
+ * Lowercase and strip accents, so a term typed without them still matches. Nobody types
+ * "\u00c0 dist\u00e2ncia" or "Dem\u00f4nio" with the accents in a search box.
+ */
+export const foldForSearch = (text: string) =>
+  text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR');
+
 /** Literal words rank before fuzzy character subsequences; unmatched names rank last. */
 export function createFuzzyRanker(query: string): (text: string) => number {
-  const normalize = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR');
-  const tokens = normalize(query).trim().split(/\s+/).filter(Boolean);
+  const tokens = foldForSearch(query).trim().split(/\s+/).filter(Boolean);
   if (!tokens.length) return () => 0;
   return (text: string) => {
-    const normalized = normalize(text);
+    const normalized = foldForSearch(text);
     let rank = 0;
     for (const token of tokens) {
       if (normalized.includes(token)) continue;

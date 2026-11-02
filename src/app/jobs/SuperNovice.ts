@@ -407,15 +407,8 @@ export class SuperNovice extends CharacterBase {
         { label: 'Não', value: 0, isUse: false },
       ],
     },
-    {
-      inputType: 'selectButton',
-      label: 'EDP',
-      name: 'Enchant Deadly Poison',
-      dropdown: [
-        { label: 'Sim', value: 1, isUse: true, bonus: { edp: 1 } },
-        { label: 'Não', value: 0, isUse: false },
-      ],
-    },
+    // Encantar com Veneno Mortal (EDP) is Algoz-only and does not belong here; the evidence
+    // is in `super-novice-skills.spec.ts`, which fails if it comes back.
   ];
 
   protected readonly _passiveSkillList: PassiveSkillModel[] = [

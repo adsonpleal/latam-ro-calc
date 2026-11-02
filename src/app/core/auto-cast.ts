@@ -155,7 +155,7 @@ function itemRuleEnabled(calc: Calculator, rule: ResolvedItemAutoCast): boolean 
 }
 
 function itemSources(calc: Calculator): AutoCastSource[] {
-  const sources: AutoCastSource[] = calc.resolvedItemAutoCasts.filter((rule) => itemRuleEnabled(calc, rule)).map((rule) => ({
+  return calc.resolvedItemAutoCasts.filter((rule) => itemRuleEnabled(calc, rule)).map((rule) => ({
     key: rule.key,
     kind: 'item',
     skillId: rule.skillId,
@@ -166,20 +166,31 @@ function itemSources(calc: Calculator): AutoCastSource[] {
     sourceName: rule.itemName,
     chanceBreakdown: [{ label: `${rule.chance}% ${rule.itemName}`, value: 'por ataque elegível' }],
   }));
-  // An equipment grant works with every weapon, using the higher learned level.
-  // Critical hits can be doubled too: https://browiki.org/wiki/Ataque_Duplo
+}
+
+/**
+ * [Ataque Duplo] (48), from an equipment grant or the Thief-line passive — one source at
+ * the higher of the two levels. The client text: "Apenas com Adagas", but "ao habilitar
+ * [Ataque Duplo] através de itens, funciona com qualquer arma". On a Katar the skill raises
+ * the left-hand damage instead of striking again, so it is no extra hit there.
+ * Critical hits can be doubled too: https://browiki.org/wiki/Ataque_Duplo
+ */
+function doubleAttackSources(calc: Calculator, summary: any): { sources: AutoCastSource[]; blocked: BlockedAutoCastSource[] } {
   const granted = calc.getGrantedSkillLevel?.(48) ?? 0;
-  if (granted > 0) {
-    const level = Math.min(10, Math.max(granted, calc.skillState.learnedLevel('Double Attack')));
-    const chance = 7 * level;
-    sources.push({
-      key: 'item-double-attack', kind: 'extra-hit', skillId: 48, skillLevel: level,
-      chance, trigger: 'physical-attack', sourceName: 'Ataque Duplo (equipamento)',
-      extraHitOutcomes: [{ totalHits: 2, chance: chance / 100 }],
-      chanceBreakdown: [{ label: 'Ataque Duplo', value: `${chance}% de atingir mais uma vez` }],
-    });
+  const learned = calc.skillState?.learnedLevel('Double Attack') ?? 0;
+  const byItem = granted > 0;
+  if (!byItem && learned <= 0) return { sources: [], blocked: [] };
+  if (!byItem && summary?.weapon?.typeName !== 'dagger') {
+    return { sources: [], blocked: [{ key: 'passive-double-attack', name: 'Ataque Duplo', icon: 48, reason: 'Requer Adaga' }] };
   }
-  return sources;
+  const level = Math.min(10, Math.max(granted, learned));
+  const chance = 7 * level;
+  return { blocked: [], sources: [{
+    key: byItem ? 'item-double-attack' : 'passive-double-attack', kind: 'extra-hit', skillId: 48, skillLevel: level,
+    chance, trigger: 'physical-attack', sourceName: byItem ? 'Ataque Duplo (equipamento)' : 'Passiva de classe',
+    extraHitOutcomes: [{ totalHits: 2, chance: chance / 100 }],
+    chanceBreakdown: [{ label: 'Ataque Duplo', value: `${chance}% de atingir mais uma vez` }],
+  }] };
 }
 
 function itemBlockedSources(calc: Calculator): BlockedAutoCastSource[] {
@@ -306,7 +317,8 @@ export function buildAutoCastSimulation(input: {
   const eligibleAttacksPerSecond = attacksPerSecond * effectiveHitRate / 100;
   const basicAttackDps = Number((hasSelectedEffects && dmg.effectedBasicDps) || dmg.basicDps || 0);
   const classResult = classSources(calc, model, summary);
-  const sourceDefs = [...classResult.sources, ...itemSources(calc)].filter((source) => triggerMatches(source, summary));
+  const doubleAttack = doubleAttackSources(calc, summary);
+  const sourceDefs = [...classResult.sources, ...itemSources(calc), ...doubleAttack.sources].filter((source) => triggerMatches(source, summary));
   const sources: AutoCastResult[] = [];
 
   for (const source of sourceDefs) {
@@ -411,6 +423,6 @@ export function buildAutoCastSimulation(input: {
     timeToKillSeconds: totalDps > 0 && hp > 0 ? hp / totalDps : null,
     sources,
     slots: classResult.slots,
-    blockedSources: [...classResult.blocked, ...itemBlockedSources(calc)],
+    blockedSources: [...classResult.blocked, ...itemBlockedSources(calc), ...doubleAttack.blocked],
   };
 }

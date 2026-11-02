@@ -2,7 +2,7 @@ import { ActiveSkillModel } from '../jobs/_character-base.abstract';
 import { ElementType } from './element-type.const';
 import { BragisPoemFn, DarkClawFn, ShieldSpellFn, SwingDanceFn } from './share-active-skills';
 import { ArtistPartyBuffs } from './artist-party-buffs';
-import { ArgutusTelumBuff, ArgutusVitaBuff, LaudaAgnusBuff, LaudaRamusBuff, PresensAciesBuff } from './cleric-party-buffs';
+import { ArgutusTelumBuff, ArgutusVitaBuff, LaudaAgnusBuff, LaudaRamusBuff, PresensAciesBuff, SacramentumBuff } from './cleric-party-buffs';
 
 const JobBuffsList: ActiveSkillModel[] = [
   {
@@ -173,6 +173,7 @@ const JobBuffsList: ActiveSkillModel[] = [
   },
   LaudaAgnusBuff,
   LaudaRamusBuff,
+  SacramentumBuff,
   {
     name: 'Adrenaline Rush',
     label: 'Adrenalina 5',
@@ -234,14 +235,15 @@ const JobBuffsList: ActiveSkillModel[] = [
     ],
   },
   {
-    // Defensive soul (DEF/MDEF, unbreakable equipment) — no offensive effect to model.
+    // Level 5, like the other souls. The client description of skill 2596 gives
+    // DEF +60 and DEFM +20 at Nv 1, rising to DEF +300 and DEFM +40 at Nv 5.
     name: 'Golem Soul',
     label: 'Espírito do Golem',
     icon: 2596,
     exclusiveGroup: 'soul',
     inputType: 'selectButton',
     dropdown: [
-      { label: 'Sim', isUse: true, value: 1, bonus: {} },
+      { label: 'Sim', isUse: true, value: 1, bonus: { def: 300, mdef: 40 } },
       { label: 'Não', isUse: false, value: 0 },
     ],
   },

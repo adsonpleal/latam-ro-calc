@@ -31,6 +31,7 @@ export const SKILL_EFST: Record<string, number | number[]> = {
   'Argutus Vita': 1198,
   'Argutus Telum': 1199,
   'Presens Acies': 1200,
+  'Sacramentum': 472,
 };
 
 /**

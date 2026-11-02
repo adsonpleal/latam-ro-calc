@@ -1,5 +1,60 @@
 [
   {
+    "v": "0.1.198-beta",
+    "date": "02-11-2026",
+    "logs": [
+      "Adicionada a Tetra Vortex às habilidades do Arcano, do nível 1 ao 10, com o elemento das Esferas à escolha (Fogo, Água, Vento ou Terra): 4 golpes de 800% + 400% por nível de ATQM, como na descrição do jogo."
+    ],
+    "logs_es": [
+      "Añadido Tetra Vortex a las habilidades del Brujo, del nivel 1 al 10, con el elemento de las esferas a elección (Fuego, Agua, Viento o Tierra): 4 golpes de 800% + 400% por nivel de ATQM, como en la descripción del juego."
+    ],
+    "logs_en": [
+      "Added Tetra Vortex to the Warlock skills, levels 1 to 10, with the spheres' element to choose (Fire, Water, Wind or Earth): 4 hits of 800% + 400% per level MATK, as in the in-game description."
+    ]
+  },
+  {
+    "v": "0.1.197-beta",
+    "date": "02-11-2026",
+    "logs": [
+      "[Adulterar Veneno] passou a ignorar 2% da Tenacidade por nível (20% no Nv10), como no rebalanceamento de 29/10/2026; antes ignorava 3% por nível (30% no Nv10). A fórmula Pré-rebalanceamento mantém os valores antigos. Reportado por Ametsuky."
+    ],
+    "logs_es": [
+      "[Veneno Potente] pasó a ignorar 2% de la Tenacidad por nivel (20% en Nv10), como en el rebalanceo del 29/10/2026; antes ignoraba 3% por nivel (30% en Nv10). La fórmula Pre-rebalanceo mantiene los valores anteriores. Reportado por Ametsuky."
+    ],
+    "logs_en": [
+      "[Potent Venom] now ignores 2% of Tenacity per level (20% at Lv10), as in the 29/10/2026 rebalance; it used to ignore 3% per level (30% at Lv10). The Pre-rebalance formula keeps the old values. Reported by Ametsuky."
+    ]
+  },
+  {
+    "v": "0.1.196-beta",
+    "date": "02-11-2026",
+    "logs": [
+      "Adicionada a passiva [Ataque Duplo] às classes da linha Gatuno (do Gatuno ao Renegado, ao Sicário e às 4ª classes): com uma Adaga, o golpe extra de 7% por nível passa a aparecer na aba de Auto-conjuração e a somar no dano. Concedida por equipamento, a habilidade continua valendo com qualquer arma, no maior dos dois níveis.",
+      "A pedido de Samuel Costa, as seis pedras de Renegado dos encantamentos visuais de topo, meio e baixo, Shadow Chaser Stone e Shadow Chaser Stone II, passam a aparecer como Prévia, com nome e descrição em inglês, incluindo os conjuntos com Pedra de Renegado (Capa) e Pedra de Renegado II (Capa)."
+    ],
+    "logs_es": [
+      "Se añadió la pasiva [Ataque Duplo] a las clases de la línea Gatuno (del Gatuno al Renegado, al Sicário y a las 4ª clases): con una Adaga, el golpe extra de 7% por nivel ahora aparece en la pestaña de Auto-conjuração y se suma al daño. Si la concede un equipo, la habilidad sigue funcionando con cualquier arma, al mayor de los dos niveles.",
+      "A pedido de Samuel Costa, las seis piedras de Renegado de los encantamientos de disfraz superior, medio e inferior, Shadow Chaser Stone y Shadow Chaser Stone II, aparecen ahora como Vista previa, con nombre y descripción en inglés, incluidos los conjuntos con Piedra de Renegado (Capa) y Piedra de Perseguidor de Sombras II (Capa)."
+    ],
+    "logs_en": [
+      "Added the [Ataque Duplo] passive to the Gatuno line classes (from Gatuno to Renegado, Sicário and the 4th classes): with an Adaga, the 7%-per-level extra hit now shows on the Auto-conjuração tab and adds to the damage. When granted by equipment, the skill still works with any weapon, at the higher of the two levels.",
+      "At Samuel Costa's request, the six Shadow Chaser stones for the upper, middle and lower costume enchantments, Shadow Chaser Stone and Shadow Chaser Stone II, now appear as Preview, with English name and description, including the sets with Renegade Stone (Garment) and Shadow Chaser II Stone (Garment)."
+    ]
+  },
+  {
+    "v": "0.1.195-beta",
+    "date": "02-11-2026",
+    "logs": [
+      "O Espírito do Golem agora aumenta a DEF em 300 e a DEFM em 40, como no nível 5 da habilidade. Antes, ativá-lo não mudava nada. Reportado por Zant-."
+    ],
+    "logs_es": [
+      "El Espíritu del Golem ahora aumenta la DEF en 300 y la DEFM en 40, como en el nivel 5 de la habilidad. Antes, activarlo no cambiaba nada. Reportado por Zant-."
+    ],
+    "logs_en": [
+      "Golem Soul now raises DEF by 300 and MDEF by 40, matching skill level 5. Before, turning it on changed nothing. Reported by Zant-."
+    ]
+  },
+  {
     "v": "0.1.194-beta",
     "date": "31-10-2026",
     "logs": [
