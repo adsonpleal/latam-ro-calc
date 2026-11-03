@@ -1,0 +1,15 @@
+{
+  "type": "patch",
+  "logs": [
+    "Conjunto do Robe Puente Ilusional com a Maça Longa Ilusional completado: o ATQM +50 adicional com arma e armadura no +7 e o Pós-conjuração -15% com a soma dos refinos em 22 ou mais passaram a ser aplicados.",
+    "Robe Puente Ilusional: a Conjuração fixa -3%, e os -3% a cada refino, passaram a ser contabilizadas."
+  ],
+  "logs_es": [
+    "Conjunto de la Bata Puente Ilusoria con la Maza Larga Ilusorio completado: el ATQM +50 adicional con arma y armadura en +7 y la Posconjuración -15% con la suma de los refinamientos en 22 o más pasaron a aplicarse.",
+    "Bata Puente Ilusoria: la Conjuración fija -3%, y el -3% por cada refinación, pasaron a contabilizarse."
+  ],
+  "logs_en": [
+    "Illusion Puente Robe set with the Illusion Long Mace completed: the extra MATK +50 with weapon and armor at +7 and the Skill delay -15% at a refine sum of 22 or more are now applied.",
+    "Illusion Puente Robe: the Fixed casting -3%, and the -3% per refine, are now counted."
+  ]
+}
