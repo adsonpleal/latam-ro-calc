@@ -5,6 +5,7 @@ import { ElementType } from '../constants/element-type.const';
 import { WeaponTypeName } from '../constants';
 import { AdditionalBonusInput, InfoForClass } from '../models/info-for-class.model';
 import { ShieldSpellFn } from '../constants/share-active-skills';
+import { addBonus, floor, genSkillList, sortSkill } from '../utils';
 
 /** Every level of a skill, for the level picker in the UI. */
 const levelList = (name: string, maxLv = 10) =>
@@ -82,6 +83,38 @@ const jobBonusTable: Record<number, [number, number, number, number, number, num
   69: [8, 3, 8, 10, 8, 3],
   70: [9, 3, 9, 10, 9, 3],
 };
+
+/**
+ * The two Royal Guard support buffs, inherited by the Guardião Imperial. The client
+ * tabulates only the Rage Point chance/limit and Prestige's duration, never the DEF or
+ * the HP, so the magnitudes come from bROWiki — the per-level tables, and the reason
+ * Prestige's DEF is computed instead of tabulated, are pinned in
+ * `RoyalGuard.vanguard-support-buffs.spec.ts`.
+ *
+ * Deliberately not modelled, for want of anywhere to put them: the Rage Points (their
+ * only consumer, Retribuição da Vanguarda, is not an atk skill here), Prestige's chance
+ * to block magic (a random avoid, not a modifier), the SP drain, and the Formação Real
+ * exclusivity — Banding is not modelled either, so there is nothing to exclude against.
+ *
+ * Sorted here with the very comparator the base getter applies, because these are
+ * appended past that pass (see `activeSkills` below) and would otherwise be the only
+ * level dropdowns in the panel ordered differently from their neighbours.
+ */
+const VANGUARD_SUPPORT_BUFFS: ActiveSkillModel[] = [
+  {
+    name: 'Vanguard Force',
+    label: 'Vanguard Force',
+    inputType: 'dropdown',
+    dropdown: genSkillList(5, (lv) => ({ hpPercent: lv * 3, defPercent: lv * 2 })).sort(sortSkill),
+  },
+  {
+    // No static bonus: the DEF is base-level scaled, applied in setAdditionalBonus.
+    name: 'Prestige',
+    label: 'Prestige',
+    inputType: 'dropdown',
+    dropdown: genSkillList(5).sort(sortSkill),
+  },
+];
 
 export class RoyalGuard extends Paladin {
   protected override CLASS_NAME = ClassName.RoyalGuard;
@@ -473,7 +506,7 @@ export class RoyalGuard extends Paladin {
   }
 
   override setAdditionalBonus(params: AdditionalBonusInput) {
-    const { totalBonus, weapon } = params;
+    const { totalBonus, weapon, model } = params;
     const { typeName } = weapon.data;
 
     const { masteryAtks, equipAtks } = this.bonuses;
@@ -508,6 +541,26 @@ export class RoyalGuard extends Paladin {
       totalBonus.aspdPercent = (totalBonus.aspdPercent || 0) + 10;
     }
 
+    // Prestígio Divino's DEF is the only part of the two Vanguard buffs that cannot be
+    // tabulated: bROWiki gives it as [(lv x 15) + (Aura Sagrada lv x 10)] x (base lv / 100),
+    // and a dropdown bonus is a plain value with no access to the model. Aura Sagrada is
+    // CR_DEFENDER, which no class models, so its term is 0.
+    const prestigeLv = this.activeSkillLv('Prestige');
+    if (prestigeLv > 0) {
+      addBonus(totalBonus, 'def', floor(prestigeLv * 15 * (model.level / 100)));
+    }
+
     return totalBonus;
+  }
+
+  // Appended after the final job's catalog so every legacy Guardião Real / Guardião
+  // Imperial positional save keeps its indices, as AssassinCross does for Sonic Blow.
+  override get activeSkills() {
+    return [...super.activeSkills, ...VANGUARD_SUPPORT_BUFFS];
+  }
+
+  override matchesSavedSkillCount(kind: 'active' | 'passive', count: number | undefined): boolean {
+    const current = (kind === 'active' ? this.activeSkills : this.passiveSkills).length;
+    return count === current || (kind === 'active' && count === current - VANGUARD_SUPPORT_BUFFS.length);
   }
 }
