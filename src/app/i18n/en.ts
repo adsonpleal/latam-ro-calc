@@ -1138,6 +1138,8 @@ export const catalog: TranslatedCatalog = {
   'rot.searchPlaceholder': 'Search by name or ID',
   'rot.skillPlaceholder': 'Skill',
   'rot.removeLabel': 'Remove {name}',
+  'rot.duplicateLabel': 'Duplicate {name}',
+  'rot.duplicateTooltip': 'Puts a copy of this skill right below it, with the same level and the same stacks.',
   'rot.full': 'The rotation reached its limit of {max} skills.',
   'rot.repeatHint': 'The same skill can go in more than once',
   'rot.tipNoCri': 'The hit when it does not crit — it varies between the minimum and the maximum.',

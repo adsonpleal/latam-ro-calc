@@ -1140,6 +1140,8 @@ export const catalog: TranslatedCatalog = {
   'rot.searchPlaceholder': 'Buscar por nombre o ID',
   'rot.skillPlaceholder': 'Habilidad',
   'rot.removeLabel': 'Quitar {name}',
+  'rot.duplicateLabel': 'Duplicar {name}',
+  'rot.duplicateTooltip': 'Coloca una copia de esta habilidad justo debajo, con el mismo nivel y la misma acumulación.',
   'rot.full': 'La rotación llegó al límite de {max} habilidades.',
   'rot.repeatHint': 'La misma habilidad puede entrar más de una vez',
   'rot.tipNoCri': 'El golpe cuando no sale crítico — varía entre el mínimo y el máximo.',

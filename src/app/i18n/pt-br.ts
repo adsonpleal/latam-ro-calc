@@ -1183,6 +1183,8 @@ export const ptBR = {
   'rot.searchPlaceholder': 'Buscar por nome ou ID',
   'rot.skillPlaceholder': 'Habilidade',
   'rot.removeLabel': 'Remover {name}',
+  'rot.duplicateLabel': 'Duplicar {name}',
+  'rot.duplicateTooltip': 'Coloca uma cópia desta habilidade logo abaixo, com o mesmo nível e o mesmo acúmulo.',
   'rot.full': 'A rotação chegou ao limite de {max} habilidades.',
   'rot.repeatHint': 'A mesma habilidade pode entrar mais de uma vez',
   'rot.tipNoCri': 'O golpe quando não sai crítico — varia entre o mínimo e o máximo.',
