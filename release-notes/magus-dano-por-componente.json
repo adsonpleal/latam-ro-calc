@@ -1,12 +1,12 @@
 {
   "type": "patch",
   "logs": [
-    "As habilidades que causam dano em duas partes passam a mostrar cada parte em separado. Em Detalhes da habilidade, Colisão Astral lista o Asteroide, os Meteoritos com o dano de cada um e o Dano total; em Como o dano é calculado, cada parte ganhou o seu próprio gráfico, fechados por um nó de Dano total. Vale também para Flecha Escarlate, Cacos de Gelo, Florescer, Tufão Destrutivo e Chamas de Hela. Reportado por pazzoLino."
+    "As habilidades que causam dano em duas partes passam a mostrar cada parte em separado. Em Detalhes da habilidade, Colisão Astral lista o Asteroide, os Meteoritos com o dano de cada um e o Dano total; em Como o dano é calculado, cada parte ganhou o seu próprio gráfico, fechados por um nó de Dano total. Vale também para Flecha Escarlate, Cacos de Gelo, Florescer, Tufão Destrutivo e Chamas de Hela. O nome de cada parte segue a descrição do cliente no idioma em que você joga. Reportado por pazzoLino."
   ],
   "logs_es": [
-    "Las habilidades que causan daño en dos partes ahora muestran cada parte por separado. En Detalles de la habilidad, Golpe Astral lista el Asteroide, los Meteoritos con el daño de cada uno y el Daño total; en Cómo se calcula el daño, cada parte tiene su propio gráfico, cerrados por un nodo de Daño total. También vale para Flecha Carmesí, Impacto de Cristal, Explosión Floreciente, Huracán Destructor e Infierno Abismal. Reportado por pazzoLino."
+    "Las habilidades que causan daño en dos partes ahora muestran cada parte por separado. En Detalles de la habilidad, Golpe Astral lista el Asteroide, los Meteoritos con el daño de cada uno y el Daño total; en Cómo se calcula el daño, cada parte tiene su propio gráfico, cerrados por un nodo de Daño total. También vale para Flecha Carmesí, Impacto de Cristal, Explosión Floreciente, Huracán Destructor e Infierno Abismal. El nombre de cada parte sigue la descripción del cliente en el idioma en que juegas. Reportado por pazzoLino."
   ],
   "logs_en": [
-    "Skills that deal damage in two parts now show each part separately. In Skill details, Astral Strike lists the Asteroide, the Meteoritos with the damage of each one and the Total damage; in How the damage is calculated, each part has its own graph, closed by a Total damage node. It also covers Crimson Arrow, Crystal Impact, All Bloom, Destructive Hurricane and Hell Inferno. Reported by pazzoLino."
+    "Skills that deal damage in two parts now show each part separately. In Skill details, Astral Strike lists the Meteor, the Impacts with the damage of each one and the Total damage; in How the damage is calculated, each part has its own graph, closed by a Total damage node. It also covers Crimson Arrow, Crystal Impact, All Bloom, Destructive Hurricane and Hell Inferno. Each part is named after the client's own description in the language you play in. Reported by pazzoLino."
   ]
 }

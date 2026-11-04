@@ -9,6 +9,7 @@ import { EquipmentSummaryModel } from 'src/app/models/equipment-summary.model';
 import { InfoForClass } from 'src/app/models/info-for-class.model';
 import { MainModel } from 'src/app/models/main.model';
 import { StatusSummary } from 'src/app/models/status-summary.model';
+import type { TextKey } from 'src/app/i18n';
 import { SKILL_ID_BY_NAME, resolveSkillMeta } from 'src/app/skills';
 import { resolveRebalancedSkill } from 'src/app/skills/rebalance-2026';
 import { applyPreviewBuffs } from 'src/app/skills/preview-275';
@@ -75,7 +76,7 @@ function packetCount(repeat: AtkSkillModel['damageRepeat'], input: AtkSkillFormu
 function componentGraphs(
   components: SkillDamageComponent[],
   graphs: Array<{ min: DamageFormulaGraph; max: DamageFormulaGraph } | undefined>,
-  sumLabel: string,
+  sumLabelKey: TextKey,
 ): { min: DamageFormulaGraph; max: DamageFormulaGraph } {
   const build = (side: 'min' | 'max'): DamageFormulaGraph => {
     const nodes: DamageFormulaNode[] = components.map((component, index) => {
@@ -85,6 +86,7 @@ function componentGraphs(
 
       return {
         id: `component${index}`,
+        labelKey: component.labelKey,
         label: component.label,
         value: side === 'min' ? min : max,
         detail: graph && { graph, hits: component.hits, min, max },
@@ -94,7 +96,7 @@ function componentGraphs(
     });
     nodes.push({
       id: 'componentSum',
-      label: sumLabel,
+      labelKey: sumLabelKey,
       value: nodes.reduce((sum, node) => sum + node.value, 0),
       inputs: nodes.map((node) => node.id),
       kind: 'stage',
@@ -2809,7 +2811,7 @@ export class DamageCalculator {
     // the soft-MDEF floor leaves, as a second line the skill does not have.
     const hasPart2 = typeof part2?.formula === 'function' && part2.formula(formulaParams) + this.getFlatDmg(skillName) > 0;
     if (hasPart2) {
-      const { formula: formula2, isMatk: isPart2Matk, isIncludeMain, label = 'Dano adicional' } = part2;
+      const { formula: formula2, isMatk: isPart2Matk, isIncludeMain, labelKey = 'skd.part.additional' } = part2;
       const _baseSkillDamage2 =
         formula2(formulaParams) + this.getFlatDmg(skillName);
       const baseSkillDamage2 = floor(_baseSkillDamage2);
@@ -2843,10 +2845,15 @@ export class DamageCalculator {
       // calculateFlashCombo). The second part counts either way, folded into the main
       // figure or not, because the rotation counts it either way. `totalHit` repeats the
       // pair as a whole, so it belongs to both counts.
+      // Only a part the client names carries a key; the first part of a skill whose
+      // client text names neither falls back to the skill's own name, which is as
+      // translated as every other skill name in the app.
+      const part1LabelKey = skillData.part1LabelKey;
+      const part1Label = part1LabelKey ? undefined : resolveSkillMeta(skillName)?.label ?? skillName;
       skillComponents = [
-        { label: skillData.part1Label ?? resolveSkillMeta(skillName)?.label ?? skillName,
+        { labelKey: part1LabelKey, label: part1Label,
           hits: mainRepeat * totalHit, perHitMin: mainPacket.minDamage, perHitMax: mainPacket.maxDamage },
-        { label, hits: part2Repeat * totalHit, perHitMin: part2Result.minDamage, perHitMax: part2Result.maxDamage },
+        { labelKey, hits: part2Repeat * totalHit, perHitMin: part2Result.minDamage, perHitMax: part2Result.maxDamage },
       ];
       const noCriComponents: SkillDamageComponent[] = [
         { ...skillComponents[0], perHitMin: mainPacket.rawMinNoCri, perHitMax: mainPacket.rawMaxNoCri },
@@ -2855,9 +2862,9 @@ export class DamageCalculator {
       calculated = {
         ...calculated,
         skillFormulaGraph: calculated.skillFormulaGraph
-          && componentGraphs(skillComponents, [calculated.skillFormulaGraph, calcPart2.skillFormulaGraph], 'Dano total'),
+          && componentGraphs(skillComponents, [calculated.skillFormulaGraph, calcPart2.skillFormulaGraph], 'skd.damageTotal'),
         skillFormulaGraphNoCri: calculated.skillFormulaGraphNoCri
-          && componentGraphs(noCriComponents, [calculated.skillFormulaGraphNoCri, calcPart2.skillFormulaGraphNoCri], 'Dano total'),
+          && componentGraphs(noCriComponents, [calculated.skillFormulaGraphNoCri, calcPart2.skillFormulaGraphNoCri], 'skd.damageTotal'),
       };
     }
 
@@ -3047,7 +3054,7 @@ export class DamageCalculator {
       skillDpsInputMax: max,
       skillDpsInputCriDmg: 0,
       skillDpsInputHitsPerSec: hitsPerSec,
-      skillFormulaGraph: componentGraphs(components, pieces.map((piece) => piece.damage.skillFormulaGraph), 'Soma dos golpes'),
+      skillFormulaGraph: componentGraphs(components, pieces.map((piece) => piece.damage.skillFormulaGraph), 'skd.hitsSum'),
       // The rows belong to the skill the first piece came from, not to the sequence.
       skillComponents: undefined,
       skillFormulaTrace: {

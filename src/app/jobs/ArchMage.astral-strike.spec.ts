@@ -65,7 +65,7 @@ describe('Colisão Astral', () => {
 
   describe('meteoritos', () => {
     it('falls 50 times — one every 0,3 s while the passage is open for 15 s', () => {
-      expect(skill().part2).toMatchObject({ label: 'Meteoritos', damageRepeat: 50, isMatk: true, isIncludeMain: false });
+      expect(skill().part2).toMatchObject({ labelKey: 'skd.part.astralStrike2', damageRepeat: 50, isMatk: true, isIncludeMain: false });
     });
 
     it.each([

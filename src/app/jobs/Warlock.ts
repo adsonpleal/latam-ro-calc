@@ -264,7 +264,7 @@ export class Warlock extends HighWizard {
     {
       name: 'Hell Inferno',
       label: 'Hell Inferno Lv5',
-      part1Label: 'Fogo',
+      part1LabelKey: 'skd.part.hellInferno1',
       value: 'Hell Inferno==5',
       fct: 1,
       vct: 3,
@@ -279,7 +279,7 @@ export class Warlock extends HighWizard {
         return skillLevel * 400 * (baseLevel / 100);
       },
       part2: {
-        label: 'Sombrio',
+        labelKey: 'skd.part.hellInferno2',
         isIncludeMain: true,
         element: ElementType.Dark,
         isMatk: true,

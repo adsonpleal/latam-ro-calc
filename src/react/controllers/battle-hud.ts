@@ -711,7 +711,7 @@ export class BattleHudComponent extends ViewState {
     if (!graph) return null;
     const cached = this.graphClusterCache.get(graph);
     if (cached) return cached;
-    const built = { min: buildGraphClusters(graph.min), max: buildGraphClusters(graph.max) };
+    const built = { min: buildGraphClusters(graph.min, this.text), max: buildGraphClusters(graph.max, this.text) };
     this.graphClusterCache.set(graph, built);
     return built;
   }

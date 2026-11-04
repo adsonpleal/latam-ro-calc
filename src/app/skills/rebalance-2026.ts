@@ -356,7 +356,7 @@ export function resolveRebalancedSkill(skill: AtkSkillModel, version?: SkillForm
     ...patch,
     // A patch replaces `part2` wholesale, which used to drop the name the job file
     // gives the second packet and leave every one of them reading `Dano adicional`.
-    ...(patch.part2 ? { part2: { label: skill.part2?.label, ...patch.part2 } } : {}),
+    ...(patch.part2 ? { part2: { labelKey: skill.part2?.labelKey, ...patch.part2 } } : {}),
     ...(historical && patch.canCri ? { criDmgPercentage: 0.5 } : {}),
     ...hyperVariant(skill),
   };

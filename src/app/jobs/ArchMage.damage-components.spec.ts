@@ -5,6 +5,10 @@ import { ArchMage } from './ArchMage';
 import { ClassName } from './_class-name';
 import { Calculator } from '../core/calculator';
 import { CalculatorController } from '../core/calculator-controller';
+import { TextKey } from '../i18n';
+import { catalog as en } from '../i18n/en';
+import { catalog as es } from '../i18n/es';
+import { ptBR } from '../i18n/pt-br';
 import { SkillDamageComponent } from '../models/damage-summary.model';
 import { SkillFormulaVersion } from '../skills/skill-formula-version';
 import { createMainModel } from '../utils/create-main-model';
@@ -48,15 +52,15 @@ describe('the Magus skills whose damage splits in two', () => {
   // offers, base 100 and no FEI — the two columns the skill prints side by side.
   it.each([
     // "Nível l ATQM l Bônus l Meteoritos": 18.300% and 6.500% at Nv10.
-    ['Astral Strike', 'Asteroide', 'Meteoritos', 10, 18300, 6500],
+    ['Astral Strike', 'skd.part.astralStrike1', 'skd.part.astralStrike2', 10, 18300, 6500],
     // "Nível l ATQM l ATQM (Explosão)": 1.500% and 3.000% at Nv5.
-    ['Crimson Arrow', 'Flecha', 'Explosão', 5, 1500, 3000],
+    ['Crimson Arrow', 'skd.part.crimsonArrow1', 'skd.part.crimsonArrow2', 5, 1500, 3000],
     // "Nível l ATQM": 6.750% at Nv5, carried whole by each of the two attacks.
-    ['Crystal Impact', '1º ataque', '2º ataque', 5, 6750, 6750],
-  ])('%s deals %s at one ratio and %s at another', (name, part1Label, part2Label, level, ratio1, ratio2) => {
+    ['Crystal Impact', 'skd.part.crystalImpact1', 'skd.part.crystalImpact2', 5, 6750, 6750],
+  ])('%s deals one ratio as %s and another as %s', (name, part1Key, part2Key, level, ratio1, ratio2) => {
     const entry = skill(name as string);
-    expect(entry.part1Label).toBe(part1Label);
-    expect(entry.part2?.label).toBe(part2Label);
+    expect(entry.part1LabelKey).toBe(part1Key);
+    expect(entry.part2?.labelKey).toBe(part2Key);
     expect(entry.formula(base({ skillLevel: level as number }))).toBeCloseTo(ratio1 as number);
     expect(entry.part2!.formula(base({ skillLevel: level as number }))).toBeCloseTo(ratio2 as number);
   });
@@ -70,12 +74,14 @@ describe('the Magus skills whose damage splits in two', () => {
   });
 
   // "Nv.5: Quando todas as flores explodirem, causa dano mágico [...] equivalente a
-  // 85.000% do ATQM", on top of the flowers' own 6.200% each at Nv5.
+  // 85.000% do ATQM", on top of the flowers' own 6.200% each at Nv5. The client names that
+  // burst in none of the three languages — it only describes it — so the part carries no
+  // key and takes the same words as any other unnamed second packet.
   it('Florescer burns the garden once after its flowers, each at its own ratio', () => {
     const bloom = skill('All Bloom');
     const climax5 = { ...base({ skillLevel: 5 }), skills: { isActive: () => true, activeLevel: () => 5, learnedLevel: () => 0 } } as AtkSkillFormulaInput;
-    expect(bloom.part1Label).toBe('Flores');
-    expect(bloom.part2?.label).toBe('Queima do Jardim');
+    expect(bloom.part1LabelKey).toBe('skd.part.allBloom1');
+    expect(bloom.part2?.labelKey).toBeUndefined();
     expect(bloom.formula(climax5)).toBeCloseTo(6200);
     expect(bloom.part2!.formula(climax5)).toBe(85000);
     // The client's "Flores" column: 4 per skill level, 20 at Nv5.
@@ -86,8 +92,8 @@ describe('the Magus skills whose damage splits in two', () => {
   it('Tufão Destrutivo adds its extra strike at a ratio of its own', () => {
     const hurricane = skill('Destructive Hurricane');
     const climax1 = { ...base({ skillLevel: 5 }), skills: { isActive: () => true, activeLevel: () => 1, learnedLevel: () => 0 } } as AtkSkillFormulaInput;
-    expect(hurricane.part1Label).toBe('Tufão');
-    expect(hurricane.part2?.label).toBe('Golpe Adicional');
+    expect(hurricane.part1LabelKey).toBe('skd.part.destructiveHurricane1');
+    expect(hurricane.part2?.labelKey).toBe('skd.part.destructiveHurricane2');
     expect(hurricane.formula(climax1)).toBeCloseTo(14250);
     expect(hurricane.part2!.formula(climax1)).toBe(12500);
   });
@@ -96,8 +102,8 @@ describe('the Magus skills whose damage splits in two', () => {
   // "Nível l ATQM (Fogo) l ATQM (Sombrio)" — 2.000% and 3.000% at Nv5.
   it('Chamas de Hela deals its Fogo and Sombrio parts at different ratios', () => {
     const inferno = skill('Hell Inferno');
-    expect(inferno.part1Label).toBe('Fogo');
-    expect(inferno.part2?.label).toBe('Sombrio');
+    expect(inferno.part1LabelKey).toBe('skd.part.hellInferno1');
+    expect(inferno.part2?.labelKey).toBe('skd.part.hellInferno2');
     expect(inferno.formula(base({ skillLevel: 5 }))).toBeCloseTo(2000);
     expect(inferno.part2!.formula(base({ skillLevel: 5 }))).toBeCloseTo(3000);
   });
@@ -106,9 +112,8 @@ describe('the Magus skills whose damage splits in two', () => {
   // leave every one of these reading "Dano adicional"; `current` is the bundle every case
   // above already runs on.
   it.each(['rebalance-2026-02', 'pre-rebalance'] as const)('keeps the names on the %s bundle', (version) => {
-    expect(skill('Astral Strike', version).part2?.label).toBe('Meteoritos');
-    expect(skill('Crimson Arrow', version).part2?.label).toBe('Explosão');
-    expect(skill('All Bloom', version).part2?.label).toBe('Queima do Jardim');
+    expect(skill('Astral Strike', version).part2?.labelKey).toBe('skd.part.astralStrike2');
+    expect(skill('Crimson Arrow', version).part2?.labelKey).toBe('skd.part.crimsonArrow2');
   });
 
   // The ones the report asks about and the ones it does not. Each of these lands the same
@@ -119,6 +124,42 @@ describe('the Magus skills whose damage splits in two', () => {
     'Earth Strain', 'Comet', 'Crimson Rock', 'Frost Misty', 'Tetra Vortex',
   ])('%s repeats one ratio and has no second part', (name) => {
     expect(skill(name).part2).toBeUndefined();
+  });
+});
+
+/**
+ * A part names itself with a catalog key, so the reader gets the word their own client
+ * uses. Each row is [key, pt-BR, Spanish, English], and every value is quoted from the
+ * matching language tree of the LATAM client's `skillinfoz/skilldescript.lub` — the pt-BR
+ * one that skill-meta.generated.ts is built from, plus its `data/spanish` and
+ * `data/english` siblings.
+ *
+ * Where a language's description names a part with no noun of its own, the row carries
+ * that language's words for an unnamed extra packet rather than a translation of the
+ * Portuguese: Cacos de Gelo's two attacks are "1er/2do ataque" in Spanish but an "ice
+ * wave" and its "additional damage" in English, and Colisão Astral drops an asteroid
+ * trailing meteors in Portuguese and Spanish but "a massive meteor" whose "impact [...]
+ * causes additional damage at regular intervals" in English.
+ */
+describe('the three languages of a part name', () => {
+  it.each([
+    ['skd.part.astralStrike1', 'Asteroide', 'Asteroide', 'Meteor'],
+    ['skd.part.astralStrike2', 'Meteoritos', 'Meteoritos', 'Impacts'],
+    ['skd.part.crimsonArrow1', 'Flecha', 'Flecha', 'Arrow'],
+    ['skd.part.crimsonArrow2', 'Explosão', 'Explosión', 'Explosion'],
+    ['skd.part.crystalImpact1', '1º ataque', '1er ataque', 'Ice wave'],
+    ['skd.part.crystalImpact2', '2º ataque', '2do ataque', 'Additional damage'],
+    ['skd.part.allBloom1', 'Flores', 'Flores', 'Flower buds'],
+    ['skd.part.destructiveHurricane1', 'Tufão', 'Huracán', 'Hurricane'],
+    ['skd.part.destructiveHurricane2', 'Golpe adicional', 'Golpe adicional', 'Additional hit'],
+    ['skd.part.hellInferno1', 'Fogo', 'Fuego', 'Fire'],
+    ['skd.part.hellInferno2', 'Sombrio', 'Sombra', 'Shadow'],
+    ['skd.part.additional', 'Dano adicional', 'Daño adicional', 'Additional damage'],
+    ['skd.damageTotal', 'Dano total', 'Daño total', 'Total damage'],
+  ])('%s reads %s, %s and %s', (key, ptbr, spanish, english) => {
+    expect(ptBR[key as TextKey]).toBe(ptbr);
+    expect(es[key as TextKey]).toBe(spanish);
+    expect(en[key as TextKey]).toBe(english);
   });
 });
 
@@ -148,9 +189,9 @@ describe('the parts a solved Magus skill reports', () => {
 
   it('reports the asteroid and the 19 meteors of Colisão Astral apart', () => {
     const damage = solve('Astral Strike==10');
-    expect(damage.skillComponents.map((component: SkillDamageComponent) => [component.label, component.hits])).toEqual([
-      ['Asteroide', 1],
-      ['Meteoritos', 19],
+    expect(damage.skillComponents.map((component: SkillDamageComponent) => [component.labelKey, component.hits])).toEqual([
+      ['skd.part.astralStrike1', 1],
+      ['skd.part.astralStrike2', 19],
     ]);
     // The asteroid is the figure the headline shows; the meteors are the second packet.
     expect(damage.skillComponents[0].perHitMin).toBe(damage.skillMinDamage);
@@ -161,9 +202,17 @@ describe('the parts a solved Magus skill reports', () => {
   // parts have to add up to that same number rather than to something larger.
   it('adds Chamas de Hela\'s parts back up to the damage it reports', () => {
     const damage = solve('Hell Inferno==5');
-    expect(damage.skillComponents.map((component: SkillDamageComponent) => component.label)).toEqual(['Fogo', 'Sombrio']);
+    expect(damage.skillComponents.map((component: SkillDamageComponent) => component.labelKey))
+      .toEqual(['skd.part.hellInferno1', 'skd.part.hellInferno2']);
     expect(sum(damage.skillComponents, 'Min')).toBe(damage.skillMinDamage);
     expect(sum(damage.skillComponents, 'Max')).toBe(damage.skillMaxDamage);
+  });
+
+  // Florescer's burst has no name of its own, so the engine's own key stands in for it.
+  it('falls back to the unnamed-packet key where the client names no second part', () => {
+    const damage = solve('All Bloom==5', 5);
+    expect(damage.skillComponents.map((component: SkillDamageComponent) => component.labelKey))
+      .toEqual(['skd.part.allBloom1', 'skd.part.additional']);
   });
 
   it.each([
@@ -180,8 +229,9 @@ describe('the parts a solved Magus skill reports', () => {
 
     for (const side of ['Min', 'Max'] as const) {
       const nodes = damage.skillFormulaGraph[side.toLowerCase()].nodes;
-      // A node per part, each carrying its own complete derivation, then the sum.
-      expect(nodes.map((node: any) => node.label)).toEqual([...components.map((component) => component.label), 'Dano total']);
+      // A node per part, each carrying its own complete derivation, then the sum. The
+      // nodes name themselves with keys too, so the graph switches language with the page.
+      expect(nodes.map((node: any) => node.labelKey)).toEqual([...components.map((component) => component.labelKey), 'skd.damageTotal']);
       expect(nodes.slice(0, 2).map((node: any) => node.value)).toEqual(components.map((component) => component[`perHit${side}`] * component.hits));
       expect(nodes.slice(0, 2).every((node: any) => node.detail?.graph?.min?.nodes?.length)).toBe(true);
       expect(nodes.at(-1).value).toBe(sum(components, side));

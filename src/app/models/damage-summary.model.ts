@@ -1,5 +1,6 @@
 import { CritRateBreakdown } from '../core/crit-rate';
 import { ElementType } from '../constants/element-type.const';
+import type { TextKey } from '../i18n';
 
 export interface BasicDamageSummaryModel {
   basicMinDamage: number;
@@ -62,7 +63,11 @@ export interface DamageFormulaTrace {
  *  calcMagicalSkillDamage. */
 export interface DamageFormulaNode {
   id: string;
-  label: string;
+  /** Resolved by whatever renders the graph, in preference to `label` — the one way a
+   *  node emitted by the engine, which has no catalog, can speak the reader's language.
+   *  buildGraphClusters resolves it, so everything downstream reads `label`. */
+  labelKey?: TextKey;
+  label?: string;
   value: number;
   /** A component hit in a combined skill can expose its own complete formula graph. */
   detail?: { graph: { min: DamageFormulaGraph; max: DamageFormulaGraph }; hits: number; min: number; max: number };
@@ -138,8 +143,13 @@ export interface DamageFormulaGraph {
  * and `skillTotalHit` already says how many times it lands.
  */
 export interface SkillDamageComponent {
-  /** The component's name in the client's own words — see AtkSkillModel.part1Label. */
-  label: string;
+  /** The component's name in the client's own words, as a catalog key — see
+   *  AtkSkillModel.part1LabelKey. Absent only where the name is already a resolved
+   *  string, as `label` describes. */
+  labelKey?: TextKey;
+  /** The name to print when there is no `labelKey`: the skill's own name for a first
+   *  part the client does not name, or a Combo Rápido piece's `<skill> Nv <n>`. */
+  label?: string;
   /** Packets of this component that land in one use (Colisão Astral's 19 meteors). */
   hits: number;
   /** One packet's damage; `perHit x hits` is what the component contributes to the use. */

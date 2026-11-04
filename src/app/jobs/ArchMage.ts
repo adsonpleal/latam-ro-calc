@@ -304,13 +304,13 @@ export class ArchMage extends Warlock {
       // "Lança uma flecha no alvo, causando dano em linha reta até explodir": the client
       // names the two parts in that sentence and splits its damage table the same way,
       // `ATQM` against `ATQM (Explosão)`.
-      part1Label: 'Flecha',
+      part1LabelKey: 'skd.part.crimsonArrow1',
       // The arrow and its explosion are separate server packets (5235 and 5236).
       // LATAM's explosion still uses 400% per level: Pazzolino's bare Magus replay
       // records 95,362 exactly here, versus 132,700 with the wiki's 600% per level.
       // Climax doubles only the explosion packet, at every Climax level.
       part2: {
-        label: 'Explosão',
+        labelKey: 'skd.part.crimsonArrow2',
         isIncludeMain: false,
         element: ElementType.Fire,
         isMatk: true,
@@ -407,7 +407,7 @@ export class ArchMage extends Warlock {
       // of [Pólen] on the target — the debuff toggle in constants/job-buffs.ts.
       totalHit: ({ skillLevel }) => skillLevel * 4 * (this.activeSkillLv('Climax') === 2 ? 2 : 1),
       // The client's table counts them in a `Flores` column of its own.
-      part1Label: 'Flores',
+      part1LabelKey: 'skd.part.allBloom1',
       formula: (input: AtkSkillFormulaInput): number => {
         if (this.activeSkillLv('Climax') === 4) return 0;
 
@@ -421,7 +421,6 @@ export class ArchMage extends Warlock {
       // for "7.000% do ATQM" — a flat percentage the client gives no base-level or FEI term
       // for, at every level of Florescer.
       part2: {
-        label: 'Queima do Jardim',
         isIncludeMain: false,
         element: ElementType.Fire,
         isMatk: true,
@@ -463,7 +462,7 @@ export class ArchMage extends Warlock {
       // the caster — the Zephyr toggle below. browiki.org/wiki/Tufão_Destrutivo
       name: 'Destructive Hurricane',
       label: '[V3] Destructive Hurricane Lv5',
-      part1Label: 'Tufão',
+      part1LabelKey: 'skd.part.destructiveHurricane1',
       value: 'Destructive Hurricane==5',
       levelList: levelList('Destructive Hurricane', 5),
       acd: 0.5,
@@ -482,7 +481,7 @@ export class ArchMage extends Warlock {
         return (skillLevel * 1600 + totalSpl * 5) * (baseLevel / 100);
       },
       part2: {
-        label: 'Golpe Adicional',
+        labelKey: 'skd.part.destructiveHurricane2',
         isIncludeMain: false,
         element: ElementType.Wind,
         isMatk: true,
@@ -505,7 +504,7 @@ export class ArchMage extends Warlock {
       // Two Water shards, each carrying the full ratio: the first lands at once, the
       // second a fraction of a second later. Climax reweights them per level, so the
       // second shard is a `part2` rather than a hit count on the first.
-      part1Label: '1º ataque',
+      part1LabelKey: 'skd.part.crystalImpact1',
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const { totalSpl } = status;
@@ -515,7 +514,7 @@ export class ArchMage extends Warlock {
       },
       ratioCalc: (input: AtkSkillFormulaInput) => this.crystalImpactRatioCalc(1, input),
       part2: {
-        label: '2º ataque',
+        labelKey: 'skd.part.crystalImpact2',
         isIncludeMain: false,
         element: ElementType.Water,
         isMatk: true,
@@ -548,7 +547,7 @@ export class ArchMage extends Warlock {
        */
       name: 'Astral Strike',
       label: '[V2] Astral Strike Lv10',
-      part1Label: 'Asteroide',
+      part1LabelKey: 'skd.part.astralStrike1',
       value: 'Astral Strike==10',
       levelList: levelList('Astral Strike', 10),
       acd: 0.5,
@@ -566,7 +565,7 @@ export class ArchMage extends Warlock {
         return floor((skillLevel * (500 + raceBonus) + totalSpl * 10) * (baseLevel / 100));
       },
       part2: {
-        label: 'Meteoritos',
+        labelKey: 'skd.part.astralStrike2',
         isIncludeMain: false,
         element: ElementType.Neutral,
         isMatk: true,
