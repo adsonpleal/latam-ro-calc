@@ -9,7 +9,12 @@ return <>{(() => { let detailsPanel: any = vm["detailsPanel"];
 let critRatePanel: any = vm["critRatePanel"];
 let damagePopovers: any = vm["damagePopovers"]; return <><Render tag="app-ui-popover" props={{"styleClass": "rot-details-panel shared-skill-details",
 "reference": (value: any) => { detailsPanel = value; vm["detailsPanel"] = value; },
-"handle": vm["detailsPanel"]}}>{(() => { const skillDetails = (context: any) => {  return <><Render tag="div" props={{"className": ["cap2 pd-cap"].filter(Boolean).join(' ')}}>{t('skd.damageCap')}</Render>
+"handle": vm["detailsPanel"]}}>{(() => { const damageComponents = (context: any) => { const rows = vm.damageComponents; if (!rows) return null; return <>{rows.map((row: any, index: number) => <Fragment key={identityKey(index)}><Render tag="div" props={{"className": [row.isTotal ? "kv total" : "kv"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{interpolate(["",""], [row.label])}
+{(() => { return row.repeat ? <Render tag="span" props={{"className": ["mut"].filter(Boolean).join(' ')}}>{' '}{interpolate(["",""], [row.repeat])}</Render> : null; })()}</Render>
+<Render tag="span" props={{}}><Render tag="span" props={{"className": [row.isTotal ? "teal" : "v"].filter(Boolean).join(' ')}}>{interpolate(["",""], [row.damage])}</Render>
+{(() => { return row.simDamage ? <><Render tag="span" props={{"className": ["arr"].filter(Boolean).join(' ')}}>{"→"}</Render>
+<Render tag="span" props={{"className": ["sim"].filter(Boolean).join(' ')}}>{interpolate(["",""], [row.simDamage])}</Render></> : null; })()}</Render></Render></Fragment>)}</>; };
+const skillDetails = (context: any) => {  return <><Render tag="div" props={{"className": ["cap2 pd-cap"].filter(Boolean).join(' ')}}>{t('skd.damageCap')}</Render>
 <Render tag="div" props={{"className": ["pd-dmg"].filter(Boolean).join(' ')}}><Render tag="span" props={{"role": "button",
 "tabIndex": "0",
 "click": (event: any) => vm.action(() => { const $event = event; vm.openDamage((vm.skillIsCritWeighted ? "cri" : "flat"),$event) }),
@@ -17,7 +22,8 @@ let damagePopovers: any = vm["damagePopovers"]; return <><Render tag="app-ui-pop
 "activateWithKeys": true}}>{interpolate(["",""], [displayPipe("number", vm.skillDamageMin, ["1.0-0"], services)])}
 {(() => { const __condition1 = (vm.skillDamageMax !== vm.skillDamageMin);  return __condition1 ? <><Render tag="span" props={{}}>{interpolate([" – ",""], [displayPipe("number", vm.skillDamageMax, ["1.0-0"], services)])}</Render></> : null; })()}</Render></Render>
 {(() => { const __condition2 = vm.skillIsCritWeighted;  return __condition2 ? <><Render tag="div" props={{"className": ["pd-dmg-cap"].filter(Boolean).join(' ')}}>{t('skd.withCrit')}</Render></> : null; })()}
-<Render tag="div" props={{"className": ["pstats one tight"].filter(Boolean).join(' ')}}>{(() => { const __condition3 = vm.dmg?.skillCanCri;  return __condition3 ? <><Render tag="div" props={{"className": ["kv"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{t('skd.noCriDamage')}</Render>
+<Render tag="div" props={{"className": ["pstats one tight"].filter(Boolean).join(' ')}}>{damageComponents({})}
+{(() => { const __condition3 = vm.dmg?.skillCanCri;  return __condition3 ? <><Render tag="div" props={{"className": ["kv"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{t('skd.noCriDamage')}</Render>
 <Render tag="span" props={{"role": "button",
 "tabIndex": "0",
 "click": (event: any) => vm.action(() => { const $event = event; vm.openDamage("nocri",$event) }),

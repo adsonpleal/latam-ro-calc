@@ -4,7 +4,15 @@ import { PopoverHandle as UiPopoverComponent } from '../ui/popover-handle';
 import { CritRateBreakdown, CritRateStep } from '../../app/core/crit-rate';
 import { skillDescHtml } from '../../app/utils';
 import { formatNumber } from '../../app/utils/format-number';
-import { CritRateRow, CritRateRowCache, elementTagClass as elementTagClassFn, isCritWeighted } from '../../app/layout/pages/ro-calculator/battle-hud/battle-hud.logic';
+import {
+  buildComponentRows,
+  CritRateRow,
+  CritRateRowCache,
+  DamageComponentRow,
+  elementTagClass as elementTagClassFn,
+  isCritWeighted,
+} from '../../app/layout/pages/ro-calculator/battle-hud/battle-hud.logic';
+import { Translate } from '../../app/i18n';
 import { BattleDamagePopoversComponent, DamagePopoverContext } from './battle-damage-popovers';
 import { BASIC_ATTACK_ICON, DamageBranch } from './rotation-list';
 
@@ -52,8 +60,7 @@ export class BattleSkillDetailsComponent extends ViewState {
   private readonly critRows = new CritRateRowCache();
   readonly elementTagClass = elementTagClassFn;
 
-  constructor(
-) { super();}
+  constructor(private readonly text: Translate) { super(); }
 
   get dmg(): any { return this.summary?.dmg ?? this.summary; }
   get dmg2(): any { return this.summary2?.dmg ?? this.summary2; }
@@ -65,6 +72,12 @@ export class BattleSkillDetailsComponent extends ViewState {
   get critRateRows(): CritRateRow[] {
     const compare = this.entry?.isBasic ? this.dmg2?.criRateBreakdown : this.dmg2?.skillCriRateBreakdown;
     return this.critRows.get(this.critRate, compare);
+  }
+  /** The parts a split skill's damage is made of, closed by the total they add up to — the
+   *  asteroid and the meteors behind Colisão Astral. Null when the skill has one part,
+   *  which is every skill without a second packet. */
+  get damageComponents(): DamageComponentRow[] | null {
+    return buildComponentRows(this.dmg, this.isComparing ? this.dmg2 : null, this.text);
   }
   get skillIsCritWeighted(): boolean { return isCritWeighted(this.dmg?.skillCanCri, this.dmg?.skillCriRateToMonster); }
   get skillDamageMin(): number { return this.dmg?.skillMinDamage ?? 0; }

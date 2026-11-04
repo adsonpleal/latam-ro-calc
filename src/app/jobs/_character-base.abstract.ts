@@ -5,6 +5,7 @@ import { SKILL_NAME } from '../constants/skill-name';
 import { WeaponTypeName } from '../constants/weapon-type-mapper';
 import { Weapon } from '../domain';
 import { DamageFormulaCalc } from '../models/damage-summary.model';
+import type { TextKey } from '../i18n';
 import { ClassAutoCastDefinition } from '../models/auto-cast.model';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput, InfoForClass, SkillRef, SkillStateCtx } from '../models/info-for-class.model';
@@ -75,9 +76,18 @@ export interface AtkSkillModel {
       propertyMultiplier: number;
     } & DefForCalcModel,
   ) => number;
+  /** What the skill's own packet is called when a `part2` splits the damage in two —
+   *  Colisão Astral's `Asteroide` against its `Meteoritos`. A catalog key rather than a
+   *  word, because the reader picks the language: each entry carries what the client's
+   *  own description calls that packet in pt-BR, Spanish and English. Without one the
+   *  breakdown falls back to the skill's name. */
+  part1LabelKey?: TextKey;
   part2?: {
     damageRepeat?: number | ((input: AtkSkillFormulaInput) => number);
-    label: string;
+    /** What the client calls this packet, as a catalog key — see `part1LabelKey`. A
+     *  rebalance patch that leaves it out inherits the one the job file gives, see
+     *  resolveRebalancedSkill. */
+    labelKey?: TextKey;
     /** Omitted when the additional packet inherits the main attack's element. */
     element?: ElementType;
     isIncludeMain: boolean;

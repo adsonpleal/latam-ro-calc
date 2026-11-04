@@ -40,7 +40,7 @@ export const ITEM_AUTO_CAST_SKILLS: AtkSkillModel[] = [
   // Grand Cross is hybrid: each half uses the client ATK/ATQM ratio. Its ground field hits three times.
   skill('Grand Cross', 10, ElementType.Holy, ({ skillLevel }) => (100 + 40 * skillLevel) / 2, {
     isMelee: true, totalHit: 3,
-    part2: { label: 'ATQM', element: ElementType.Holy, isIncludeMain: true, hit: 1,
+    part2: { labelKey: 'ss.matk', element: ElementType.Holy, isIncludeMain: true, hit: 1,
       isMatk: true, isMelee: false, formula: ({ skillLevel }) => (100 + 40 * skillLevel) / 2 },
   }),
   skill('Spread Shot', 10, ElementType.Neutral, ({ skillLevel }) => 200 + 30 * skillLevel),

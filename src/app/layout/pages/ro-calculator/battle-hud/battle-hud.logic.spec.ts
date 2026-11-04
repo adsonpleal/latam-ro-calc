@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  buildComponentRows,
   buildDpsSteps,
   buildGraphClusters,
   buildOptimizeInfo,
@@ -15,13 +16,19 @@ import {
   pickBiggerDpsSide,
   pickHeroDamage,
   pickHitsPerSec,
+  resolveNodeLabel,
 } from './battle-hud.logic';
 import { DamageFormulaNode } from '../../../../models/damage-summary.model';
 import { DEFAULT_CATALOG, TextKey } from 'src/app/i18n';
+import { catalog as en } from 'src/app/i18n/en';
+import { catalog as es } from 'src/app/i18n/es';
 import { TextParams, translate } from 'src/app/core/i18n';
 
 /** buildOptimizeInfo names the cast components through a translator; pt-BR is the source catalog. */
 const text = (key: TextKey, params?: TextParams) => translate(DEFAULT_CATALOG, key, params);
+/** The other two, laid over pt-BR exactly as `loadCatalog` does it. */
+const spanish = (key: TextKey, params?: TextParams) => translate({ ...DEFAULT_CATALOG, ...es }, key, params);
+const english = (key: TextKey, params?: TextParams) => translate({ ...DEFAULT_CATALOG, ...en }, key, params);
 
 describe('buildGraphClusters', () => {
   /** The engine-emitted chips only — drops the "%"/"Adicional" chips buildGraphClusters
@@ -33,7 +40,7 @@ describe('buildGraphClusters', () => {
       { id: 'a', label: 'A', value: 10, inputs: [], kind: 'stage' },
       { id: 'b', label: 'B', value: 20, inputs: ['a'], kind: 'stage' },
     ];
-    const clusters = buildGraphClusters({ nodes });
+    const clusters = buildGraphClusters({ nodes }, text);
     expect(clusters).toHaveLength(2);
     expect(clusters.map((c) => c.stage)).toEqual(nodes);
     expect(engineInputs(clusters[0])).toEqual([]);
@@ -45,7 +52,7 @@ describe('buildGraphClusters', () => {
     const weaponAtk: DamageFormulaNode = { id: 'weaponAtk', label: 'Arma', value: 50, inputs: [], kind: 'input' };
     const atkBase: DamageFormulaNode = { id: 'atkBase', label: 'Base', value: 50, inputs: ['weaponAtk'], kind: 'stage' };
     const atk: DamageFormulaNode = { id: 'atk', label: 'ATQ', value: 150, inputs: ['statusAtk', 'atkBase'], kind: 'stage' };
-    const clusters = buildGraphClusters({ nodes: [statusAtk, weaponAtk, atkBase, atk] });
+    const clusters = buildGraphClusters({ nodes: [statusAtk, weaponAtk, atkBase, atk] }, text);
 
     expect(clusters).toHaveLength(2);
     // atkBase depends on weaponAtk (input) -> chip; statusAtk isn't one of its inputs
@@ -60,15 +67,15 @@ describe('buildGraphClusters', () => {
     const shared: DamageFormulaNode = { id: 'shared', label: 'Shared', value: 5, inputs: [], kind: 'input' };
     const stageA: DamageFormulaNode = { id: 'stageA', label: 'A', value: 5, inputs: ['shared'], kind: 'stage' };
     const stageB: DamageFormulaNode = { id: 'stageB', label: 'B', value: 5, inputs: ['shared', 'stageA'], kind: 'stage' };
-    const clusters = buildGraphClusters({ nodes: [shared, stageA, stageB] });
+    const clusters = buildGraphClusters({ nodes: [shared, stageA, stageB] }, text);
 
     expect(engineInputs(clusters[0])).toEqual([shared]);
     expect(engineInputs(clusters[1])).toEqual([]); // already consumed by stageA's cluster
   });
 
   it('returns an empty array for an undefined/empty graph', () => {
-    expect(buildGraphClusters(undefined)).toEqual([]);
-    expect(buildGraphClusters({ nodes: [] })).toEqual([]);
+    expect(buildGraphClusters(undefined, text)).toEqual([]);
+    expect(buildGraphClusters({ nodes: [] }, text)).toEqual([]);
   });
 });
 
@@ -80,7 +87,7 @@ describe('buildGraphClusters synthesized chips', () => {
 
   it('adds a "%" chip carrying the stage\'s percent and its source keys', () => {
     const nodes = chain({ id: 'atk', value: 1000 }, { id: 'atkPercentStage', value: 1250, percent: 25, keys: ['atkPercent'] });
-    const [, stage] = buildGraphClusters({ nodes });
+    const [, stage] = buildGraphClusters({ nodes }, text);
 
     expect(chip(stage, '_pct')).toMatchObject({ id: 'atkPercentStage_pct', value: 25, unit: 'percent', keys: ['atkPercent'], kind: 'input' });
   });
@@ -90,7 +97,7 @@ describe('buildGraphClusters synthesized chips', () => {
       { id: 'atk', value: 100, label: 'ATQ' },
       { id: 'baseSkillDmg', value: 2475, label: 'Hab. Base 2475%', percent: 2375, keys: ['flatDmg'] },
     );
-    const [, stage] = buildGraphClusters({ nodes });
+    const [, stage] = buildGraphClusters({ nodes }, text);
 
     expect(chip(stage, '_pct')!.label).toBe('Hab. Base %');
     expect(chip(stage, '_delta')!.label).toBe('Hab. Base Adicional');
@@ -98,12 +105,12 @@ describe('buildGraphClusters synthesized chips', () => {
 
   it('strips a signed percentage too ("ATQ +25%")', () => {
     const nodes = chain({ id: 'atk', value: 100 }, { id: 'atkPercentStage', value: 125, label: 'ATQ +25%', percent: 25, keys: ['atkPercent'] });
-    expect(chip(buildGraphClusters({ nodes })[1], '_pct')!.label).toBe('ATQ %');
+    expect(chip(buildGraphClusters({ nodes }, text)[1], '_pct')!.label).toBe('ATQ %');
   });
 
   it('omits the "%" chip for additive stages that carry no percent', () => {
     const nodes = chain({ id: 'atk', value: 1000 }, { id: 'atkMastery', value: 1100 });
-    const [, stage] = buildGraphClusters({ nodes });
+    const [, stage] = buildGraphClusters({ nodes }, text);
 
     expect(chip(stage, '_pct')).toBeUndefined();
     // ...but the delta chip still shows what the step added
@@ -114,7 +121,7 @@ describe('buildGraphClusters synthesized chips', () => {
     // 1000 * 1.25 = 1250, but the engine floored an intermediate to 1249 — the chip must
     // report the real difference (249), not the 250 the percentage implies.
     const nodes = chain({ id: 'atk', value: 1000 }, { id: 'atkPercentStage', value: 1249, percent: 25, keys: ['atkPercent'] });
-    const [prev, stage] = buildGraphClusters({ nodes });
+    const [prev, stage] = buildGraphClusters({ nodes }, text);
 
     const delta = chip(stage, '_delta')!;
     expect(delta.value).toBe(249);
@@ -144,7 +151,7 @@ describe('buildGraphClusters synthesized chips', () => {
         },
       },
     );
-    const delta = chip(buildGraphClusters({ nodes })[1], '_delta')!;
+    const delta = chip(buildGraphClusters({ nodes }, text)[1], '_delta')!;
 
     expect(delta.calc?.rows.map((r) => r.label)).toEqual([
       'Valor anterior (P.ATQ +95%)',
@@ -161,7 +168,7 @@ describe('buildGraphClusters synthesized chips', () => {
 
   it('omits the "Adicional" chip on the first stage and whenever the value did not move', () => {
     const nodes = chain({ id: 'first', value: 1000 }, { id: 'noop', value: 1000, percent: 0, keys: ['x'] });
-    const [first, noop] = buildGraphClusters({ nodes });
+    const [first, noop] = buildGraphClusters({ nodes }, text);
 
     expect(chip(first, '_delta')).toBeUndefined(); // nothing precedes it
     expect(chip(noop, '_delta')).toBeUndefined(); // delta is 0
@@ -170,12 +177,103 @@ describe('buildGraphClusters synthesized chips', () => {
 
   it('reports a negative adicional for reduction stages', () => {
     const nodes = chain({ id: 'atk', value: 1000 }, { id: 'defReduction', value: 700, percent: -30, keys: ['pene_res'] });
-    const [, stage] = buildGraphClusters({ nodes });
+    const [, stage] = buildGraphClusters({ nodes }, text);
 
     const delta = chip(stage, '_delta')!;
     expect(delta.value).toBe(-300);
     expect(delta.calc?.rows).toContainEqual({ label: 'Adicional', display: '-300' });
     expect(delta.calc?.rows).toContainEqual({ label: 'Multiplicador', display: '-30%' });
+  });
+});
+
+describe('buildComponentRows', () => {
+  /** Colisão Astral Nv10 on the solve this panel describes: one asteroid, 19 meteors. */
+  const astral = {
+    skillComponents: [
+      { labelKey: 'skd.part.astralStrike1' as TextKey, hits: 1, perHitMin: 502257, perHitMax: 502257 },
+      { labelKey: 'skd.part.astralStrike2' as TextKey, hits: 19, perHitMin: 195162, perHitMax: 195162 },
+    ],
+  };
+
+  it('names each part, prints the repeat only where it repeats, and closes on the sum', () => {
+    const rows = buildComponentRows(astral, null, text)!;
+    expect(rows.map((row) => [row.label, row.repeat, row.damage, row.isTotal])).toEqual([
+      ['Asteroide', '', '502.257', false],
+      ['Meteoritos', '19 × 195.162 cada', '3.708.078', false],
+      ['Dano total', '', '4.210.335', true],
+    ]);
+    expect(rows.every((row) => row.simDamage === null)).toBe(true);
+  });
+
+  // The whole point of the keys: the reader's own client's words, not Portuguese ones.
+  it('names the parts in the reader\'s language', () => {
+    const rows = buildComponentRows(astral, null, spanish)!;
+    expect(rows.map((row) => row.label)).toEqual(['Asteroide', 'Meteoritos', 'Daño total']);
+    expect(rows[1].repeat).toBe('19 × 195.162 cada uno');
+    expect(buildComponentRows(astral, null, english)!.map((row) => row.label))
+      .toEqual(['Meteor', 'Impacts', 'Total damage']);
+  });
+
+  // A first part the client does not name carries the skill's own name instead of a key.
+  it('prints a part that came with its name already resolved', () => {
+    const rows = buildComponentRows({ skillComponents: [{ label: 'Bombardeio', hits: 3, perHitMin: 10, perHitMax: 10 }] }, null, english)!;
+    expect(rows[0].label).toBe('Bombardeio');
+  });
+
+  it('prints a range for a part whose roll is not flat', () => {
+    const rows = buildComponentRows({ skillComponents: [{ labelKey: 'skd.part.crimsonArrow1' as TextKey, hits: 2, perHitMin: 100, perHitMax: 140 }] }, null, text)!;
+    expect(rows[0].repeat).toBe('2 × 100 – 140 cada');
+    expect(rows[0].damage).toBe('200 – 280');
+  });
+
+  it('has nothing to say about a skill with a single part', () => {
+    expect(buildComponentRows({}, null, text)).toBeNull();
+    expect(buildComponentRows({ skillComponents: [] }, null, text)).toBeNull();
+    expect(buildComponentRows(null, null, text)).toBeNull();
+  });
+
+  it('pairs the compare build part by part', () => {
+    const compare = {
+      skillComponents: [
+        { labelKey: 'skd.part.astralStrike1' as TextKey, hits: 1, perHitMin: 600000, perHitMax: 600000 },
+        { labelKey: 'skd.part.astralStrike2' as TextKey, hits: 19, perHitMin: 200000, perHitMax: 200000 },
+      ],
+    };
+    const rows = buildComponentRows(astral, compare, text)!;
+    expect(rows.map((row) => row.simDamage)).toEqual(['600.000', '3.800.000', '4.400.000']);
+  });
+
+  // Swapping gear cannot change which parts a skill has, but swapping the selected skill
+  // can — and an asteroid lined up against an arrow compares two different things.
+  it('drops the compare side when the parts are not the same ones', () => {
+    const other = { skillComponents: [{ labelKey: 'skd.part.crimsonArrow1' as TextKey, hits: 1, perHitMin: 1, perHitMax: 1 }] };
+    const rows = buildComponentRows(astral, other, text)!;
+    expect(rows.every((row) => row.simDamage === null)).toBe(true);
+  });
+});
+
+describe('resolveNodeLabel', () => {
+  const node = { id: 'componentSum', labelKey: 'skd.damageTotal' as TextKey, value: 1, inputs: [], kind: 'stage' as const };
+
+  it('leaves a node that already carries words alone', () => {
+    const plain = { ...node, labelKey: undefined, label: 'Hab. Base' };
+    expect(resolveNodeLabel(plain, english)).toBe(plain);
+  });
+
+  // The clusters are cached per graph to keep the clicked cell in the DOM, so a resolved
+  // node has to answer in whatever language is on screen when it is read, not in the one
+  // it was built in.
+  it('reads the catalog on every lookup rather than freezing a word', () => {
+    let current = text;
+    const resolved = resolveNodeLabel(node, (key, params) => current(key, params));
+    expect(resolved.label).toBe('Dano total');
+    current = english;
+    expect(resolved.label).toBe('Total damage');
+  });
+
+  it('names a graph node through the catalog', () => {
+    const [cluster] = buildGraphClusters({ nodes: [node] }, spanish);
+    expect(cluster.stage.label).toBe('Daño total');
   });
 });
 

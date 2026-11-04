@@ -22,7 +22,7 @@ const linear = (base: number, perLevel: number, trait: 'pow' | 'spl' | 'con', co
 const race = (i: Input, ...names: Parameters<Input['monster']['isRace']>) => i.monster.isRace(...names);
 const climax = (i: Input) => state(i, 'Climax');
 const part = (formula: Formula, element: ElementType, isMatk = true, hit = 1): NonNullable<AtkSkillModel['part2']> =>
-  ({ label: 'Dano adicional', isIncludeMain: false, element, isMatk, isMelee: false, hit, formula });
+  ({ isIncludeMain: false, element, isMatk, isMelee: false, hit, formula });
 
 /** Ratios from the February class articles; hit is a display split, totalHit is a full-ratio packet. */
 export const REBALANCE_2026_PATCHES: Record<string, Patch> = {
@@ -354,6 +354,9 @@ export function resolveRebalancedSkill(skill: AtkSkillModel, version?: SkillForm
     // Legacy explanations describe the legacy ratio and must not survive the switch.
     ratioCalc: undefined, finalDmgCalc: undefined,
     ...patch,
+    // A patch replaces `part2` wholesale, which used to drop the name the job file
+    // gives the second packet and leave every one of them reading `Dano adicional`.
+    ...(patch.part2 ? { part2: { labelKey: skill.part2?.labelKey, ...patch.part2 } } : {}),
     ...(historical && patch.canCri ? { criDmgPercentage: 0.5 } : {}),
     ...hyperVariant(skill),
   };

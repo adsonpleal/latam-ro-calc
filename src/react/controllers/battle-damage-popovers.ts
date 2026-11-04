@@ -54,7 +54,7 @@ export class BattleDamagePopoversComponent extends ViewState {
     if (!graph) return null;
     const cached = this.graphClusterCache.get(graph);
     if (cached) return cached;
-    const clusters = { min: buildGraphClusters(graph.min), max: buildGraphClusters(graph.max) };
+    const clusters = { min: buildGraphClusters(graph.min, this.text), max: buildGraphClusters(graph.max, this.text) };
     this.graphClusterCache.set(graph, clusters);
     return clusters;
   }

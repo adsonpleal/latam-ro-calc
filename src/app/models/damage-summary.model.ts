@@ -1,5 +1,6 @@
 import { CritRateBreakdown } from '../core/crit-rate';
 import { ElementType } from '../constants/element-type.const';
+import type { TextKey } from '../i18n';
 
 export interface BasicDamageSummaryModel {
   basicMinDamage: number;
@@ -62,7 +63,11 @@ export interface DamageFormulaTrace {
  *  calcMagicalSkillDamage. */
 export interface DamageFormulaNode {
   id: string;
-  label: string;
+  /** Resolved by whatever renders the graph, in preference to `label` — the one way a
+   *  node emitted by the engine, which has no catalog, can speak the reader's language.
+   *  buildGraphClusters resolves it, so everything downstream reads `label`. */
+  labelKey?: TextKey;
+  label?: string;
   value: number;
   /** A component hit in a combined skill can expose its own complete formula graph. */
   detail?: { graph: { min: DamageFormulaGraph; max: DamageFormulaGraph }; hits: number; min: number; max: number };
@@ -129,6 +134,29 @@ export interface DamageFormulaGraph {
   nodes: DamageFormulaNode[];
 }
 
+/**
+ * One of the differently-scaled components a split skill deals in a single use: Colisão
+ * Astral's asteroid against its meteors, Flecha Escarlate's arrow against its explosion.
+ *
+ * Only a skill with a `part2` has these. A plain multi-hit skill — Abalo Sísmico's ten
+ * identical hits — repeats one component and gets none: there is nothing to break apart,
+ * and `skillTotalHit` already says how many times it lands.
+ */
+export interface SkillDamageComponent {
+  /** The component's name in the client's own words, as a catalog key — see
+   *  AtkSkillModel.part1LabelKey. Absent only where the name is already a resolved
+   *  string, as `label` describes. */
+  labelKey?: TextKey;
+  /** The name to print when there is no `labelKey`: the skill's own name for a first
+   *  part the client does not name, or a Combo Rápido piece's `<skill> Nv <n>`. */
+  label?: string;
+  /** Packets of this component that land in one use (Colisão Astral's 19 meteors). */
+  hits: number;
+  /** One packet's damage; `perHit x hits` is what the component contributes to the use. */
+  perHitMin: number;
+  perHitMax: number;
+}
+
 export interface SkillDamageSummaryModel {
   skillDamageLabel: string;
   skillNoStackDamageLabel: string;
@@ -160,7 +188,6 @@ export interface SkillDamageSummaryModel {
   /** Fraction of the character's crit-damage bonus this skill actually applies
    *  (1 = full bonus; e.g. 0.5 for skills like Sonic Blow that only get half). */
   skillCriDmgPercentage: number;
-  skillPart2Label: string;
   skillMinDamage2: number;
   skillMaxDamage2: number;
   skillBonusFromEquipment: number;
@@ -185,6 +212,11 @@ export interface SkillDamageSummaryModel {
 
   /** Same, but for the no-crit variant — only populated when skillCanCri is true. */
   skillFormulaGraphNoCri?: { min: DamageFormulaGraph; max: DamageFormulaGraph };
+
+  /** The components behind one use's damage, in the order the engine applies them, for a
+   *  skill that deals more than one — see SkillDamageComponent. Their `min`/`max` sum to
+   *  the figure the formula graph's own closing node shows. */
+  skillComponents?: SkillDamageComponent[];
 
   /** Verbatim inputs to the engine's calcDmgDps() call — see damage-calculator.ts. */
   skillDpsInputMin: number;
