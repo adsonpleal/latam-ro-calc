@@ -372677,6 +372677,9 @@
       "cd__2321": [
         "EQUIP_ID[500027]1"
       ],
+      "cd__5267": [
+        "EQUIP_ID[500027]REFINE[weapon==10]0.7"
+      ],
       "spl": [
         "EQUIP_ID[500027]GRADE[weapon==C]5"
       ],

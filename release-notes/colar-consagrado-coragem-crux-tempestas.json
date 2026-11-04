@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Conjunto do Colar Consagrado: Coragem com a Espada Vivatus Fides: a Recarga de [Crux Tempestas] -0,7 segundos, com a arma refinada no +10, passou a ser aplicada."
+  ],
+  "logs_es": [
+    "Conjunto del Collar Consagrado: Coraje con la Espada Vivatus Fides: la Recarga de [Crux Tempestas] -0,7 segundos, con el arma refinada en +10, pasó a aplicarse."
+  ],
+  "logs_en": [
+    "Consecrated Necklace: Courage set with the Vivatus Fides Guardian Sword: the [Cross Rain] cooldown -0.7 seconds, with the weapon refined to +10, is now applied."
+  ]
+}
