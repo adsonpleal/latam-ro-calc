@@ -4,7 +4,6 @@ import { AssassinCross } from '../jobs/AssassinCross';
 import { Cardinal } from '../jobs/Cardinal';
 import { ElementalMaster } from '../jobs/ElementalMaster';
 import { Genetic } from '../jobs/Genetic';
-import { GuillotineCross } from '../jobs/GuillotineCross';
 import { Mechanic } from '../jobs/Mechanic';
 import { Minstrel } from '../jobs/Minstrel';
 import { Oboro } from '../jobs/Oboro';
@@ -28,7 +27,6 @@ const assassin = new AssassinCross();
 const cardinal = new Cardinal();
 const elementalMaster = new ElementalMaster();
 const genetic = new Genetic();
-const guillotine = new GuillotineCross();
 const mechanic = new Mechanic();
 const minstrel = new Minstrel();
 const oboro = new Oboro();
@@ -56,7 +54,7 @@ export const ITEM_CLASS_AUTO_CAST_SKILLS: AtkSkillModel[] = [
   },
   LORD_OF_VERMILION,
   native(oboro, 'Snow Flake Draft'),
-  native(guillotine, 'Soul Destroyer'),
+  native(assassin, 'Soul Destroyer'),
   {
     ...native(genetic, 'Cart Tornado'),
     formula: ({ skillLevel, status, skills }) =>

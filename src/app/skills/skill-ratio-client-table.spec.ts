@@ -19,7 +19,7 @@ import { AtkSkillFormulaInput, CharacterBase } from '../jobs/_character-base.abs
 import { ClassName } from '../jobs/_class-name';
 import { ElementType } from '../constants/element-type.const';
 import { REBALANCE_2022_REFERENCE } from './rebalance-2022-reference';
-import { SKILL_META } from './index';
+import { clientRatioTable } from './client-ratio-table';
 
 /** Divergences that are not engine bugs. Each one needs a reason, never a silent edit. */
 const EXCEPTIONS: Record<string, string> = {
@@ -34,32 +34,6 @@ const EXCEPTIONS: Record<string, string> = {
 
 /** Attacks whose description publishes no per-level ATQ column to compare against. */
 const NO_TABLE = 48;
-
-const plain = (text?: string) => (text ?? '').replace(/\^[0-9a-fA-F]{6}/g, '');
-const num = (text: string) => Number(text.replace(/\./g, '').replace(',', '.'));
-
-/**
- * The client prints `Nível l ATQ l <other columns>` and then one `[Nv n]` line per level.
- * Read the column the header names, so cells like "7x7 células" are never taken as ratios.
- */
-function clientTable(name: string): Map<number, number> | null {
-  const lines = plain(SKILL_META[name]?.description).split('\n');
-  for (let index = 0; index < lines.length; index++) {
-    const header = lines[index].split(' l ').map((part) => part.trim());
-    if (header[0] !== 'Nível') continue;
-    const column = header.findIndex((part) => part === 'ATQ' || part === 'ATQM');
-    if (column < 1) continue;
-    const table = new Map<number, number>();
-    for (let next = index + 1; next < lines.length; next++) {
-      const row = lines[next].match(/^\[Nv\.? ?(\d+)\]:? ?(.*)$/);
-      if (!row) break;
-      const percent = (row[2].split(' l ')[column - 1] ?? '').trim().match(/^([\d.]+(?:,\d+)?)%$/);
-      if (percent) table.set(Number(row[1]), num(percent[1]));
-    }
-    if (table.size) return table;
-  }
-  return null;
-}
 
 function job(name: ClassName): CharacterBase {
   const cls = new Jobs[name]() as CharacterBase;
@@ -86,7 +60,7 @@ describe('baseline skill ratios against the client table', () => {
 
   for (const group of REBALANCE_2022_REFERENCE) {
     for (const [name, reference] of Object.entries(group.skills)) {
-      const table = clientTable(name);
+      const table = clientRatioTable(name);
       if (!table) { untabled.push(name); continue; }
       checked.push(name);
       const label = EXCEPTIONS[name] ? `${name} (diverges: ${EXCEPTIONS[name]})` : name;

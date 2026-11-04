@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Destruidor de Almas agora pode ser escolhida como habilidade ofensiva no Algoz, na Batalha e no PVP, do Nv 1 ao Nv 10 — antes só existia na lista de passivas da classe."
+  ],
+  "logs_es": [
+    "Destructor de Almas ahora puede elegirse como habilidad ofensiva en el Asesino Cruzado, en la Batalla y en el PVP, del Nv 1 al Nv 10 — antes solo existía en la lista de pasivas de la clase."
+  ],
+  "logs_en": [
+    "Soul Destroyer can now be chosen as an offensive skill on the Assassin Cross, in Battle and in PVP, from Lv 1 to Lv 10 — before, it existed only in the class's passive list."
+  ]
+}
