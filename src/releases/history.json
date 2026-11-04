@@ -1,5 +1,30 @@
 [
   {
+    "v": "0.1.205-beta",
+    "date": "04-11-2026",
+    "logs": [
+      "Destruidor de Almas agora pode ser escolhida como habilidade ofensiva no Algoz, na Batalha e no PVP, do Nv 1 ao Nv 10 — antes só existia na lista de passivas da classe.",
+      "Conjunto do Colar Consagrado: Coragem com a Espada Vivatus Fides: a Recarga de [Crux Tempestas] -0,7 segundos, com a arma refinada no +10, passou a ser aplicada.",
+      "As habilidades que causam dano em duas partes passam a mostrar cada parte em separado. Em Detalhes da habilidade, Colisão Astral lista o Asteroide, os Meteoritos com o dano de cada um e o Dano total; em Como o dano é calculado, cada parte ganhou o seu próprio gráfico, fechados por um nó de Dano total. Vale também para Flecha Escarlate, Cacos de Gelo, Florescer, Tufão Destrutivo e Chamas de Hela. O nome de cada parte segue a descrição do cliente no idioma em que você joga. Reportado por pazzoLino.",
+      "Técnica da Mão Explosiva e Punho Labareda voltaram a causar dano crítico nas fórmulas atuais do LATAM, como diz a descrição das habilidades no jogo. Reportado por Gambetta.",
+      "Os buffs [Proteção da Vanguarda] e [Prestígio Divino], que faltavam, entraram na lista de habilidades e efeitos ativos do Guardião Real e do Guardião Imperial: a Proteção da Vanguarda dá +3% de HP máx. e +2% de DEF dos equipamentos por nível, e o Prestígio Divino dá DEF conforme o nível da habilidade e o nível de base. A chance de bloquear magia e os Pontos de Fúria ficaram de fora, por não entrarem no cálculo de dano."
+    ],
+    "logs_es": [
+      "Destructor de Almas ahora puede elegirse como habilidad ofensiva en el Asesino Cruzado, en la Batalla y en el PVP, del Nv 1 al Nv 10 — antes solo existía en la lista de pasivas de la clase.",
+      "Conjunto del Collar Consagrado: Coraje con la Espada Vivatus Fides: la Recarga de [Crux Tempestas] -0,7 segundos, con el arma refinada en +10, pasó a aplicarse.",
+      "Las habilidades que causan daño en dos partes ahora muestran cada parte por separado. En Detalles de la habilidad, Golpe Astral lista el Asteroide, los Meteoritos con el daño de cada uno y el Daño total; en Cómo se calcula el daño, cada parte tiene su propio gráfico, cerrados por un nodo de Daño total. También vale para Flecha Carmesí, Impacto de Cristal, Explosión Floreciente, Huracán Destructor e Infierno Abismal. El nombre de cada parte sigue la descripción del cliente en el idioma en que juegas. Reportado por pazzoLino.",
+      "Destello Explosivo y Lanzallamas Masivo vuelven a infligir daño crítico con las fórmulas actuales de LATAM, como indica la descripción de las habilidades en el juego. Reportado por Gambetta.",
+      "Los buffs [Fuerza de Vanguardia] y [Prestigio], que faltaban, entraron en la lista de habilidades y efectos activos del Guardia Real y del Guardia Imperial: la Fuerza de Vanguardia da +3% de HP máx. y +2% de DEF de los equipos por nivel, y el Prestigio da DEF según el nivel de la habilidad y el nivel base. La probabilidad de bloquear magia y los contadores de ira quedaron fuera, por no entrar en el cálculo de daño."
+    ],
+    "logs_en": [
+      "Soul Destroyer can now be chosen as an offensive skill on the Assassin Cross, in Battle and in PVP, from Lv 1 to Lv 10 — before, it existed only in the class's passive list.",
+      "Consecrated Necklace: Courage set with the Vivatus Fides Guardian Sword: the [Cross Rain] cooldown -0.7 seconds, with the weapon refined to +10, is now applied.",
+      "Skills that deal damage in two parts now show each part separately. In Skill details, Astral Strike lists the Meteor, the Impacts with the damage of each one and the Total damage; in How the damage is calculated, each part has its own graph, closed by a Total damage node. It also covers Crimson Arrow, Crystal Impact, All Bloom, Destructive Hurricane and Hell Inferno. Each part is named after the client's own description in the language you play in. Reported by pazzoLino.",
+      "Explosion Blaster and Massive Flame Blaster can deal critical damage again under the current LATAM formulas, as the in-game skill descriptions state. Reported by Gambetta.",
+      "The [Vanguard Force] and [Prestige] buffs, which were missing, were added to the active skills and effects list of the Royal Guard and the Imperial Guard: Vanguard Force gives +3% max HP and +2% equipment DEF per level, and Prestige gives DEF according to the skill level and the base level. The chance to block magic and the rage counters were left out, as they do not enter the damage calculation."
+    ]
+  },
+  {
     "v": "0.1.204-beta",
     "date": "04-11-2026",
     "logs": [

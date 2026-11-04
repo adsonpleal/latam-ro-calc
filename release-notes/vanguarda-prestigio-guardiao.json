@@ -1,6 +1,0 @@
-{
-  "type": "patch",
-  "logs": ["Os buffs [Proteção da Vanguarda] e [Prestígio Divino], que faltavam, entraram na lista de habilidades e efeitos ativos do Guardião Real e do Guardião Imperial: a Proteção da Vanguarda dá +3% de HP máx. e +2% de DEF dos equipamentos por nível, e o Prestígio Divino dá DEF conforme o nível da habilidade e o nível de base. A chance de bloquear magia e os Pontos de Fúria ficaram de fora, por não entrarem no cálculo de dano."],
-  "logs_es": ["Los buffs [Fuerza de Vanguardia] y [Prestigio], que faltaban, entraron en la lista de habilidades y efectos activos del Guardia Real y del Guardia Imperial: la Fuerza de Vanguardia da +3% de HP máx. y +2% de DEF de los equipos por nivel, y el Prestigio da DEF según el nivel de la habilidad y el nivel base. La probabilidad de bloquear magia y los contadores de ira quedaron fuera, por no entrar en el cálculo de daño."],
-  "logs_en": ["The [Vanguard Force] and [Prestige] buffs, which were missing, were added to the active skills and effects list of the Royal Guard and the Imperial Guard: Vanguard Force gives +3% max HP and +2% equipment DEF per level, and Prestige gives DEF according to the skill level and the base level. The chance to block magic and the rage counters were left out, as they do not enter the damage calculation."]
-}
