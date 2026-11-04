@@ -4,6 +4,10 @@ import { Thief } from './Thief';
 import { SONIC_ACCELERATION, SONIC_BLOW, SONIC_BLOW_BUFFS } from '../skills/sonic-blow';
 import type { InfoForClass } from '../models/info-for-class.model';
 
+/** Every level of a skill, for the level picker in the UI. */
+const levelList = (name: string, maxLv = 10) =>
+  Array.from({ length: maxLv }, (_, i) => ({ label: `${name} Nv${i + 1}`, value: `${name}==${i + 1}` }));
+
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   // https://irowiki.org/wiki/Assassin_Cross#Job_Bonuses: first AGI is job 3.
   1: [0, 0, 0, 0, 0, 0],
@@ -100,6 +104,30 @@ export class AssassinCross extends Thief {
         const bonusStr = status.totalStr * 5;
 
         return (bonusStr + skillLevel * 120 + 200) * (baseLevel / 100);
+      },
+    },
+    {
+      // Declared here, not on the Guillotine Cross, because the client puts the skill in
+      // the Assassin Cross tree — living on the 3rd job left the Algoz able to learn it
+      // and never to attack with it. Sources in AssassinCross.soul-destroyer.spec.ts.
+      label: 'Soul Destroyer',
+      name: 'Soul Destroyer',
+      value: 'Soul Destroyer==10',
+      values: ['[Improved 1st] Soul Destroyer==10', '[Improved 2nd] Soul Destroyer==10'],
+      levelList: levelList('Soul Destroyer'),
+      acd: 1,
+      fct: 0.25,
+      vct: 0.25,
+      cd: 0.25,
+      canCri: true,
+      baseCriPercentage: 0.5,
+      criDmgPercentage: 0.5,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { skillLevel, model, status } = input;
+        const baseLevel = model.level;
+        const { totalStr, totalInt } = status;
+
+        return (skillLevel * 150 + totalStr + totalInt) * (baseLevel / 100);
       },
     },
   ];
