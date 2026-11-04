@@ -131,7 +131,11 @@ describe('third fourth-job / second expanded-job rebalance, June 2022', () => {
     expect(count(attack('Mayhemic Thorns').totalHit, report)).toBe(5);
     expect(count(attack('Twinkling Galaxy').totalHit, input(5))).toBe(15);
     expect(attack('Hack and Slasher').canCri).toBe(false);
-    expect(attack('Explosion Blaster').canCri).toBe(false);
+    // The LATAM client: both blasters crit at the user's CRIT and apply half the crit-damage bonus.
+    for (const blaster of ['Explosion Blaster', 'Massive Flame Blaster']) {
+      expect(attack(blaster).canCri).toBe(true);
+      expect(attack(blaster).criDmgPercentage).toBe(0.5);
+    }
     expect(attack('Shadow Flash').canCri).toBe(false);
     expect(attack('Triple Laser').canCri).toBe(true);
     expect(attack('Mega Sonic Blow').formula(input(10, { 'Angel of Power': 1, '_Preview_Target Below Half HP': 1 }, { 'Self Study Tactics': 10 }))).toBe(22870);
