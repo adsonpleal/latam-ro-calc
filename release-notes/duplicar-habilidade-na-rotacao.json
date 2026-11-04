@@ -1,6 +1,0 @@
-{
-  "type": "patch",
-  "logs": ["Cada habilidade da rotação ganhou um botão de duplicar, ao lado do de remover: a cópia entra logo abaixo da original, com o mesmo nível e o mesmo acúmulo. Sugerido por pazzoLino."],
-  "logs_es": ["Cada habilidad de la rotación ganó un botón de duplicar, al lado del de quitar: la copia entra justo debajo de la original, con el mismo nivel y la misma acumulación. Sugerido por pazzoLino."],
-  "logs_en": ["Each rotation skill gained a duplicate button, next to the remove one: the copy goes in right below the original, with the same level and the same stacks. Suggested by pazzoLino."]
-}
