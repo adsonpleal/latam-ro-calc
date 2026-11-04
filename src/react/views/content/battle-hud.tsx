@@ -37,6 +37,11 @@ const simMax = context["simMax"]; return <>{(() => { const __condition1 = !(hidd
 {(() => { const __condition8 = ((simMax != null) && (simMax !== sim));  return __condition8 ? <><>{interpolate([" – ",""], [displayPipe("number", simMax, [fmt], services)])}</></> : null; })()}
 {interpolate(["",""], [((sim != null) ? unit : "")])}</Render></> : plainSim({}); })()}
 </>; })()}</></> : null; })()}</>; })()}</Render></Render></> : null; })()}</>; };
+const damageComponents = (context: any) => { const rows = vm.damageComponents; if (!rows) return null; return <>{rows.map((row: any, index: number) => <Fragment key={identityKey(index)}><Render tag="div" props={{"className": [row.isTotal ? "kv total" : "kv"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{interpolate(["",""], [row.label])}
+{(() => { return row.repeat ? <Render tag="span" props={{"className": ["mut"].filter(Boolean).join(' ')}}>{' '}{interpolate(["",""], [row.repeat])}</Render> : null; })()}</Render>
+<Render tag="span" props={{}}><Render tag="span" props={{"className": [row.isTotal ? "teal" : "v"].filter(Boolean).join(' ')}}>{interpolate(["",""], [row.damage])}</Render>
+{(() => { return row.simDamage ? <><Render tag="span" props={{"className": ["arr"].filter(Boolean).join(' ')}}>{"→"}</Render>
+<Render tag="span" props={{"className": ["sim"].filter(Boolean).join(' ')}}>{interpolate(["",""], [row.simDamage])}</Render></> : null; })()}</Render></Render></Fragment>)}</>; };
 const castTimingsRaw = (context: any) => {  return <><Render tag="div" props={{"className": ["kv"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{t('hud.castVariable')}</Render>
 <Render tag="span" props={{}}>{interpolate([""," → ",""], [displayPipe("number", vm.calcSkill?.vct, ["1.0-3"], services),displayPipe("number", vm.calcSkill?.reducedVct, ["1.0-3"], services)])}</Render></Render>
 <Render tag="div" props={{"className": ["kv"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{t('hud.castFixed')}</Render>
@@ -449,12 +454,13 @@ const noFormulaTrace = (context: any) => {  return <><Render tag="div" props={{"
 {(() => { const __condition87 = (s.max !== s.min);  return __condition87 ? <><Render tag="span" props={{}}>{interpolate([" – ",""], [displayPipe("number", s.max, ["1.0-0"], services)])}</Render></> : null; })()}</Render></></> : null; })()}</Render>
 {(() => { const __condition88 = vm.isCritWeighted;  return __condition88 ? <><Render tag="div" props={{"className": ["pd-dmg-cap"].filter(Boolean).join(' ')}}>{t('skd.withCrit')}</Render></> : null; })()}
 {(() => { const __condition89 = vm.activePerHit; const ph = __condition89; return __condition89 ? <><Render tag="div" props={{"className": ["pd-perhit"].filter(Boolean).join(' ')}}>{' '}{t('hud.perHitSum', { hits: ph.hits, min: displayPipe("number", ph.min, ["1.0-0"], services), max: displayPipe("number", ph.max, ["1.0-0"], services) })}{' '}</Render></> : null; })()}
-<Render tag="div" props={{"className": ["pstats one tight"].filter(Boolean).join(' ')}}>{kvPair({"label": t('skd.noCriDamage'),"cur": vm.dmg?.skillMinDamageNoCri,"curMax": vm.dmg?.skillMaxDamageNoCri,"sim": vm.dmg2?.skillMinDamageNoCri,"simMax": vm.dmg2?.skillMaxDamageNoCri,"hidden": !(vm.dmg?.skillCanCri),"panel": damageFormulaNoCriPanel})}
+<Render tag="div" props={{"className": ["pstats one tight"].filter(Boolean).join(' ')}}>{damageComponents({})}
+{kvPair({"label": t('skd.noCriDamage'),"cur": vm.dmg?.skillMinDamageNoCri,"curMax": vm.dmg?.skillMaxDamageNoCri,"sim": vm.dmg2?.skillMinDamageNoCri,"simMax": vm.dmg2?.skillMaxDamageNoCri,"hidden": !(vm.dmg?.skillCanCri),"panel": damageFormulaNoCriPanel})}
 {kvPair({"label": t('hud.meanDamage'),"cur": vm.critMean?.damagePerUse,"sim": vm.critMeanSim?.damagePerUse,"hidden": !(vm.isCritWeighted),"panel": critMeanPanel,"tip": t('hud.meanTip')})}
 {kvPair({"label": t('pop.criRate'),"cur": vm.dmg?.skillCriRateToMonster,"sim": vm.dmg2?.skillCriRateToMonster,"unit": "%","fmt": "1.0-1","hidden": !(vm.dmg?.skillCanCri),"panel": critRatePanel,"tip": t('hud.critRateTip')})}
 {kvPair({"label": t('skd.criDamage'),"cur": vm.dmg?.skillCriDmgToMonster,"sim": vm.dmg2?.skillCriDmgToMonster,"unit": "%","fmt": "1.0-1","hidden": !(vm.dmg?.skillCanCri),"bdLabel": t('hud.critDamage'),"bdKeys": ["criDmg"],"tip": vm.criDmgPercentageTooltip(vm.dmg)})}
 {kvPair({"label": t('hud.noEffects'),"cur": vm.dmg?.skillMinDamage,"sim": vm.dmg2?.skillMinDamage,"hidden": !(vm.selectedChances?.length)})}
-{kvPair({"label": vm.dmg?.skillPart2Label,"cur": vm.dmg?.skillMinDamage2,"sim": vm.dmg2?.skillMinDamage2,"hidden": !(vm.dmg?.skillPart2Label)})}</Render>
+</Render>
 {(() => { const __condition90 = vm.activeEntry?.critConditional;  return __condition90 ? <><Render tag="div" props={{"className": ["pd-note"].filter(Boolean).join(' ')}}>{t('hud.critConditionalNote')}</Render></> : null; })()}</></> : null; })()}
 <Render tag="div" props={{"className": ["cap2 pd-cap"].filter(Boolean).join(' ')}}>{t('skd.skillCap')}</Render>
 <Render tag="table" props={{"className": ["ptable"].filter(Boolean).join(' ')}}>{(() => { const __condition91 = vm.isComparing;  return __condition91 ? <><Render tag="thead" props={{}}><Render tag="tr" props={{}}><Render tag="td" props={{"className": ["corner"].filter(Boolean).join(' ')}}></Render>

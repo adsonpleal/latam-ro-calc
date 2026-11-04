@@ -10,6 +10,7 @@ import { RotationEntryView, RotationView } from '../../app/layout/pages/ro-calcu
 import { DamageBranch } from './rotation-list';
 import { CritRateBreakdown, CritRateStep } from '../../app/core/crit-rate';
 import {
+  buildComponentRows,
   buildDpsSteps,
   buildGraphClusters,
   buildOptimizeInfo,
@@ -18,6 +19,7 @@ import {
   computeTimeToKill,
   CritRateRow,
   CritRateRowCache,
+  DamageComponentRow,
   deltaPercent,
   DpsSide,
   DpsSteps,
@@ -318,6 +320,13 @@ export class BattleHudComponent extends ViewState {
     const entry = this.activeEntry;
 
     return entry?.isBasic ? '' : skillDescHtml(entry?.icon);
+  }
+
+  /** The parts a split skill's damage is made of, closed by the total they add up to — the
+   *  asteroid and the meteors behind Colisão Astral. Null when the skill has one part,
+   *  which is every skill without a second packet. */
+  get damageComponents(): DamageComponentRow[] | null {
+    return buildComponentRows(this.dmg, this.isComparing ? this.dmg2 : null, this.text);
   }
 
   /** Per-hit range behind a multi-hit total: the design's "soma de N golpes · X – Y cada". */

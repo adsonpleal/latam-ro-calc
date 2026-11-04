@@ -75,9 +75,16 @@ export interface AtkSkillModel {
       propertyMultiplier: number;
     } & DefForCalcModel,
   ) => number;
+  /** What the skill's own packet is called when a `part2` splits the damage in two —
+   *  Colisão Astral's `Asteroide` against its `Meteoritos`. Both names come from the
+   *  client's own description and damage columns; without one the breakdown falls back
+   *  to the skill's name. */
+  part1Label?: string;
   part2?: {
     damageRepeat?: number | ((input: AtkSkillFormulaInput) => number);
-    label: string;
+    /** The client's own name for this packet. A rebalance patch that leaves it out
+     *  inherits the one the job file gives — see resolveRebalancedSkill. */
+    label?: string;
     /** Omitted when the additional packet inherits the main attack's element. */
     element?: ElementType;
     isIncludeMain: boolean;

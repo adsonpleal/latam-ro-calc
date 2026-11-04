@@ -4,7 +4,7 @@ import { elementPtBr, racePtBr } from 'src/app/constants/monster-i18n';
 import { Monster, Weapon } from 'src/app/domain';
 import { AtkSkillFormulaInput, AtkSkillModel, CharacterBase } from 'src/app/jobs/_character-base.abstract';
 import { ClassName } from 'src/app/jobs/_class-name';
-import { BasicDamageSummaryModel, DamageFormulaCalc, DamageFormulaCalcRow, DamageFormulaGraph, DamageFormulaNode, DamageFormulaStep, DamageFormulaTrace, DamageSummaryModel, MiscModel, SkillDamageSummaryModel, SkillType } from 'src/app/models/damage-summary.model';
+import { BasicDamageSummaryModel, DamageFormulaCalc, DamageFormulaCalcRow, DamageFormulaGraph, DamageFormulaNode, DamageFormulaStep, DamageFormulaTrace, DamageSummaryModel, MiscModel, SkillDamageComponent, SkillDamageSummaryModel, SkillType } from 'src/app/models/damage-summary.model';
 import { EquipmentSummaryModel } from 'src/app/models/equipment-summary.model';
 import { InfoForClass } from 'src/app/models/info-for-class.model';
 import { MainModel } from 'src/app/models/main.model';
@@ -56,6 +56,54 @@ function noDamage(propertyAtk: ElementType, sizePenalty: number): DamageResultMo
     propertyMultiplier: 1,
     sizePenalty,
   };
+}
+
+/** How many packets of a part land in one use — `damageRepeat`, resolved. */
+function packetCount(repeat: AtkSkillModel['damageRepeat'], input: AtkSkillFormulaInput): number {
+  return (typeof repeat === 'function' ? repeat(input) : repeat) ?? 1;
+}
+
+/**
+ * The graph of damage made of more than one component: one node per component, each
+ * carrying its own complete derivation, closed by the node that adds them up. The
+ * components are `input` nodes rather than a chain because none of them feeds the next —
+ * they are separate packets that only meet in the total.
+ *
+ * `graphs` lines up with `components` by index; a component with no graph of its own still
+ * gets its node and its value, only without the drill-in.
+ */
+function componentGraphs(
+  components: SkillDamageComponent[],
+  graphs: Array<{ min: DamageFormulaGraph; max: DamageFormulaGraph } | undefined>,
+  sumLabel: string,
+): { min: DamageFormulaGraph; max: DamageFormulaGraph } {
+  const build = (side: 'min' | 'max'): DamageFormulaGraph => {
+    const nodes: DamageFormulaNode[] = components.map((component, index) => {
+      const graph = graphs[index];
+      const min = component.perHitMin * component.hits;
+      const max = component.perHitMax * component.hits;
+
+      return {
+        id: `component${index}`,
+        label: component.label,
+        value: side === 'min' ? min : max,
+        detail: graph && { graph, hits: component.hits, min, max },
+        inputs: [],
+        kind: 'input',
+      };
+    });
+    nodes.push({
+      id: 'componentSum',
+      label: sumLabel,
+      value: nodes.reduce((sum, node) => sum + node.value, 0),
+      inputs: nodes.map((node) => node.id),
+      kind: 'stage',
+    });
+
+    return { nodes };
+  };
+
+  return { min: build('min'), max: build('max') };
 }
 
 function repeatPackets(result: DamageResultModel, count: number): DamageResultModel {
@@ -195,7 +243,6 @@ export class DamageCalculator {
     skillCriRateToMonster: 0,
     skillCriDmgToMonster: 0,
     skillCriDmgPercentage: 1,
-    skillPart2Label: '',
     skillMinDamage2: 0,
     skillMaxDamage2: 0,
     skillBonusFromEquipment: 0,
@@ -2746,17 +2793,23 @@ export class DamageCalculator {
       }
     }
 
-    calculated = repeatPackets(calculated, typeof skillData.damageRepeat === 'function' ? skillData.damageRepeat(formulaParams) : skillData.damageRepeat ?? 1);
+    const totalHit = typeof _totalHit === 'function' ? _totalHit(formulaParams) : _totalHit;
+    const mainRepeat = packetCount(skillData.damageRepeat, formulaParams);
+    // The packet as it lands, before the repeat multiplies it, so a component can print
+    // "19 x 7.526 cada" instead of only the product. `repeatPackets` returns a copy, so
+    // this keeps holding the per-packet figures.
+    const mainPacket = calculated;
+    calculated = repeatPackets(calculated, mainRepeat);
     let { minDamage, maxDamage } = calculated;
-    let skillPart2Label = '';
     let skillMinDamage2 = 0;
     let skillMaxDamage2 = 0;
+    let skillComponents: SkillDamageComponent[] | undefined;
     // A part2 whose ratio comes out at zero is not there at all (Tufão Destrutivo's extra hit
     // off Potencializar Magia Nv1): run through the chain it would still print the 1 damage
     // the soft-MDEF floor leaves, as a second line the skill does not have.
     const hasPart2 = typeof part2?.formula === 'function' && part2.formula(formulaParams) + this.getFlatDmg(skillName) > 0;
     if (hasPart2) {
-      const { formula: formula2, isMatk: isPart2Matk, isIncludeMain, label } = part2;
+      const { formula: formula2, isMatk: isPart2Matk, isIncludeMain, label = 'Dano adicional' } = part2;
       const _baseSkillDamage2 =
         formula2(formulaParams) + this.getFlatDmg(skillName);
       const baseSkillDamage2 = floor(_baseSkillDamage2);
@@ -2772,29 +2825,40 @@ export class DamageCalculator {
       };
 
       const part2Result = isPart2Matk ? this.calcMagicalSkillDamage(params2) : this.calcPhysicalSkillDamage(params2);
-      const calcPart2 = repeatPackets(part2Result, typeof part2.damageRepeat === 'function' ? part2.damageRepeat(formulaParams) : part2.damageRepeat ?? 1);
+      const part2Repeat = packetCount(part2.damageRepeat, formulaParams);
+      const calcPart2 = repeatPackets(part2Result, part2Repeat);
 
       if (isIncludeMain) {
         minDamage += calcPart2.minDamage;
         maxDamage += calcPart2.maxDamage;
       } else {
-        skillPart2Label = label;
         skillMinDamage2 = calcPart2.minDamage;
         skillMaxDamage2 = calcPart2.maxDamage;
       }
 
-      // The graph is built inside the main part's own calc, so its last stage is the
-      // first hit alone while the row above it shows both. Append the second part as a
-      // step of its own — whether or not it is folded into the main figure, since the
-      // rotation counts it either way — so the chain closes on the number the reader
-      // is looking at.
-      const appendPart2Step = (nodes: DamageFormulaNode[] | undefined, extra: number) => {
-        if (!nodes?.length || !extra) return;
-        const prev = nodes[nodes.length - 1];
-        nodes.push({ id: 'part2Dmg', label: `+ ${label}`, value: prev.value + extra, inputs: [prev.id], kind: 'stage' });
+      // The two parts carry different ratios, so one chain cannot explain both: the main
+      // part's graph closes on its own figure while the row above it shows the pair. Name
+      // each part and expose it with its own complete derivation, then close on the sum —
+      // the same composition Combo Rápido already uses for its three skills (see
+      // calculateFlashCombo). The second part counts either way, folded into the main
+      // figure or not, because the rotation counts it either way. `totalHit` repeats the
+      // pair as a whole, so it belongs to both counts.
+      skillComponents = [
+        { label: skillData.part1Label ?? resolveSkillMeta(skillName)?.label ?? skillName,
+          hits: mainRepeat * totalHit, perHitMin: mainPacket.minDamage, perHitMax: mainPacket.maxDamage },
+        { label, hits: part2Repeat * totalHit, perHitMin: part2Result.minDamage, perHitMax: part2Result.maxDamage },
+      ];
+      const noCriComponents: SkillDamageComponent[] = [
+        { ...skillComponents[0], perHitMin: mainPacket.rawMinNoCri, perHitMax: mainPacket.rawMaxNoCri },
+        { ...skillComponents[1], perHitMin: part2Result.rawMinNoCri, perHitMax: part2Result.rawMaxNoCri },
+      ];
+      calculated = {
+        ...calculated,
+        skillFormulaGraph: calculated.skillFormulaGraph
+          && componentGraphs(skillComponents, [calculated.skillFormulaGraph, calcPart2.skillFormulaGraph], 'Dano total'),
+        skillFormulaGraphNoCri: calculated.skillFormulaGraphNoCri
+          && componentGraphs(noCriComponents, [calculated.skillFormulaGraphNoCri, calcPart2.skillFormulaGraphNoCri], 'Dano total'),
       };
-      appendPart2Step(calculated.skillFormulaGraph?.min?.nodes, calcPart2.minDamage);
-      appendPart2Step(calculated.skillFormulaGraph?.max?.nodes, calcPart2.maxDamage);
     }
 
     const skillAspd = calcSkillAspd({ skillData, status: this.status, totalEquipStatus: this.totalBonus, skillLevel });
@@ -2817,7 +2881,6 @@ export class DamageCalculator {
       : misc.accuracy;
     const { avgCriDamage, avgNoCriDamage } = calculated;
 
-    const totalHit = typeof _totalHit === 'function' ? _totalHit(formulaParams) : _totalHit;
     const isAutoSpell = autoSpellChance != 1;
     // The `||` is the "skill has no cast data at all" fallback. It used to fire on every
     // slow skill too — `totalHitPerSec` was floored to one decimal, so anything past a 10s
@@ -2881,7 +2944,6 @@ export class DamageCalculator {
       // (e.g. Sonic Blow's criDmgPercentage: 0.5) — exposed so the UI can flag when
       // "Dano Crít." isn't the full crit bonus.
       skillCriDmgPercentage: skillData?.criDmgPercentage ?? 1,
-      skillPart2Label,
       skillMinDamage2,
       skillMaxDamage2,
       maxStack,
@@ -2899,6 +2961,7 @@ export class DamageCalculator {
       skillFormulaTraceNoCri: calculated.skillFormulaTraceNoCri,
       skillFormulaGraph: calculated.skillFormulaGraph,
       skillFormulaGraphNoCri: calculated.skillFormulaGraphNoCri,
+      skillComponents,
 
       // Verbatim inputs to the calcDmgDps() call above — exposed so the UI can
       // render a step-by-step DPS derivation that always reconciles with
@@ -2959,23 +3022,12 @@ export class DamageCalculator {
     const skillAspd = { ...timing, hitPeriod, totalHitPerSec: floor(1 / hitPeriod, 6) };
     const hitsPerSec = Math.min(skillAspd.totalHitPerSec, base.basicAspd.hitsPerSec);
     const skillDps = calcDmgDps({ min, max, cri: 0, criDmg: 0, hitsPerSec, accRate: base.misc.accuracy });
-    const graph = (side: 'min' | 'max'): DamageFormulaGraph => {
-      const nodes: DamageFormulaNode[] = pieces.map((piece, index) => ({
-        id: `comboPart${index}`,
-        label: `${piece.label} Nv ${piece.level}`,
-        value: (side === 'min' ? piece.damage.skillMinDamage : piece.damage.skillMaxDamage) * piece.damage.skillTotalHit,
-        detail: piece.damage.skillFormulaGraph ? {
-          graph: piece.damage.skillFormulaGraph,
-          hits: piece.damage.skillTotalHit,
-          min: piece.damage.skillMinDamage * piece.damage.skillTotalHit,
-          max: piece.damage.skillMaxDamage * piece.damage.skillTotalHit,
-        } : undefined,
-        inputs: [], kind: 'input',
-      }));
-      nodes.push({ id: 'comboSum', label: 'Soma dos golpes', value: side === 'min' ? min : max,
-        inputs: nodes.map((node) => node.id), kind: 'stage' });
-      return { nodes };
-    };
+    const components: SkillDamageComponent[] = pieces.map((piece) => ({
+      label: `${piece.label} Nv ${piece.level}`,
+      hits: piece.damage.skillTotalHit,
+      perHitMin: piece.damage.skillMinDamage,
+      perHitMax: piece.damage.skillMaxDamage,
+    }));
     const skillDmg: SkillDamageSummaryModel = {
       ...(pieces[0]?.damage ?? this.zeroSkillDmg),
       baseSkillDamage: 0,
@@ -2995,7 +3047,9 @@ export class DamageCalculator {
       skillDpsInputMax: max,
       skillDpsInputCriDmg: 0,
       skillDpsInputHitsPerSec: hitsPerSec,
-      skillFormulaGraph: { min: graph('min'), max: graph('max') },
+      skillFormulaGraph: componentGraphs(components, pieces.map((piece) => piece.damage.skillFormulaGraph), 'Soma dos golpes'),
+      // The rows belong to the skill the first piece came from, not to the sequence.
+      skillComponents: undefined,
       skillFormulaTrace: {
         min: pieces.map((piece) => ({ label: `${piece.label} Nv ${piece.level}`, value: piece.damage.skillMinDamage * piece.damage.skillTotalHit })),
         max: pieces.map((piece) => ({ label: `${piece.label} Nv ${piece.level}`, value: piece.damage.skillMaxDamage * piece.damage.skillTotalHit })),

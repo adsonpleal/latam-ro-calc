@@ -8,7 +8,7 @@ import { ElementType } from '../../../../constants/element-type.const';
 import { CritRateBreakdown, CritRateStep } from '../../../../core/crit-rate';
 import { calcDmgDpsDetailed } from '../../../../utils/calc-dmg-dps';
 import { formatCalcNumber, formatNumber, formatRate, formatSignedCalcNumber } from '../../../../utils/format-number';
-import { DamageFormulaCalcRow, DamageFormulaGraph, DamageFormulaNode } from '../../../../models/damage-summary.model';
+import { DamageFormulaCalcRow, DamageFormulaGraph, DamageFormulaNode, SkillDamageComponent } from '../../../../models/damage-summary.model';
 import { Translate } from '../../../../i18n';
 
 /** Neutro has no colour of its own; everything else gets the theme's property_* class. */
@@ -536,6 +536,80 @@ export function buildGraphClusters(graph: DamageFormulaGraph | undefined | null)
   }
 
   return clusters;
+}
+
+/** One line of the damage breakdown: what a component is worth in a single use. */
+export interface DamageComponentRow {
+  label: string;
+  /** "20 × 174.342 cada" — only for a component that lands more than once. */
+  repeat: string;
+  /** Already formatted: "21.214", or "21.214 – 24.000" when the roll is not flat. */
+  damage: string;
+  /** The compare build's figure, or null when there is nothing to compare it with. */
+  simDamage: string | null;
+  /** The closing line, the components added up. */
+  isTotal: boolean;
+}
+
+/**
+ * Splits a skill's damage into the parts the engine already solved separately, and closes
+ * on the total they add up to — what Colisão Astral's asteroid and its meteors are worth
+ * on their own, which the panel used to leave as one headline and one unexplained row.
+ *
+ * Null for a skill with a single component: there is nothing to break apart, and a
+ * one-row "breakdown" closing on a total identical to the row above says nothing.
+ *
+ * The compare side is matched by position and only when the labels agree — swapping a
+ * build cannot change a skill's parts, but switching the selected skill can, and pairing
+ * an asteroid against an arrow would print a comparison of two different things.
+ */
+export function buildComponentRows(
+  dmg: { skillComponents?: SkillDamageComponent[] } | null | undefined,
+  compare: { skillComponents?: SkillDamageComponent[] } | null | undefined,
+  text: Translate,
+): DamageComponentRow[] | null {
+  const components = dmg?.skillComponents;
+  if (!components?.length) return null;
+  const simComponents = compare?.skillComponents ?? null;
+  const paired = simComponents?.length === components.length
+    && simComponents.every((component, index) => component.label === components[index].label);
+
+  const total = { min: 0, max: 0, simMin: 0, simMax: 0 };
+  const rows = components.map((component, index) => {
+    const min = component.perHitMin * component.hits;
+    const max = component.perHitMax * component.hits;
+    const sim = paired ? simComponents![index] : null;
+    total.min += min;
+    total.max += max;
+    if (sim) {
+      total.simMin += sim.perHitMin * sim.hits;
+      total.simMax += sim.perHitMax * sim.hits;
+    }
+
+    return {
+      label: component.label,
+      repeat: component.hits > 1
+        ? text('skd.componentRepeat', { hits: formatNumber(component.hits, 0, 0), damage: damageRange(component.perHitMin, component.perHitMax) })
+        : '',
+      damage: damageRange(min, max),
+      simDamage: sim ? damageRange(sim.perHitMin * sim.hits, sim.perHitMax * sim.hits) : null,
+      isTotal: false,
+    };
+  });
+  rows.push({
+    label: text('skd.damageTotal'),
+    repeat: '',
+    damage: damageRange(total.min, total.max),
+    simDamage: paired ? damageRange(total.simMin, total.simMax) : null,
+    isTotal: true,
+  });
+
+  return rows;
+}
+
+/** `min` alone when the roll is flat, `min – max` when it is not. */
+function damageRange(min: number, max: number): string {
+  return min === max ? formatNumber(min, 0, 0) : `${formatNumber(min, 0, 0)} – ${formatNumber(max, 0, 0)}`;
 }
 
 export interface DpsSteps {

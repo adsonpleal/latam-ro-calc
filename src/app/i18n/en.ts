@@ -1043,6 +1043,8 @@ export const catalog: TranslatedCatalog = {
   'skd.skillCap': 'SKILL',
   'skd.damageCap': 'DAMAGE',
   'skd.withCrit': 'with crit',
+  'skd.componentRepeat': '{hits} × {damage} each',
+  'skd.damageTotal': 'Total damage',
   'skd.noCriDamage': 'Non-critical damage',
   'skd.criRate': 'Crit rate',
   'skd.criDamage': 'Critical damage',

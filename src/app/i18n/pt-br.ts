@@ -1084,6 +1084,8 @@ export const ptBR = {
   'skd.skillCap': 'HABILIDADE',
   'skd.damageCap': 'DANO',
   'skd.withCrit': 'com crítico',
+  'skd.componentRepeat': '{hits} × {damage} cada',
+  'skd.damageTotal': 'Dano total',
   'skd.noCriDamage': 'Dano sem crít.',
   'skd.criRate': 'Tx. Crít.',
   'skd.criDamage': 'Dano Crít.',

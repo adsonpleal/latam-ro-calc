@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  buildComponentRows,
   buildDpsSteps,
   buildGraphClusters,
   buildOptimizeInfo,
@@ -176,6 +177,57 @@ describe('buildGraphClusters synthesized chips', () => {
     expect(delta.value).toBe(-300);
     expect(delta.calc?.rows).toContainEqual({ label: 'Adicional', display: '-300' });
     expect(delta.calc?.rows).toContainEqual({ label: 'Multiplicador', display: '-30%' });
+  });
+});
+
+describe('buildComponentRows', () => {
+  /** Colisão Astral Nv10 on the solve this panel describes: one asteroid, 19 meteors. */
+  const astral = {
+    skillComponents: [
+      { label: 'Asteroide', hits: 1, perHitMin: 502257, perHitMax: 502257 },
+      { label: 'Meteoritos', hits: 19, perHitMin: 195162, perHitMax: 195162 },
+    ],
+  };
+
+  it('names each part, prints the repeat only where it repeats, and closes on the sum', () => {
+    const rows = buildComponentRows(astral, null, text)!;
+    expect(rows.map((row) => [row.label, row.repeat, row.damage, row.isTotal])).toEqual([
+      ['Asteroide', '', '502.257', false],
+      ['Meteoritos', '19 × 195.162 cada', '3.708.078', false],
+      ['Dano total', '', '4.210.335', true],
+    ]);
+    expect(rows.every((row) => row.simDamage === null)).toBe(true);
+  });
+
+  it('prints a range for a part whose roll is not flat', () => {
+    const rows = buildComponentRows({ skillComponents: [{ label: 'Flecha', hits: 2, perHitMin: 100, perHitMax: 140 }] }, null, text)!;
+    expect(rows[0].repeat).toBe('2 × 100 – 140 cada');
+    expect(rows[0].damage).toBe('200 – 280');
+  });
+
+  it('has nothing to say about a skill with a single part', () => {
+    expect(buildComponentRows({}, null, text)).toBeNull();
+    expect(buildComponentRows({ skillComponents: [] }, null, text)).toBeNull();
+    expect(buildComponentRows(null, null, text)).toBeNull();
+  });
+
+  it('pairs the compare build part by part', () => {
+    const compare = {
+      skillComponents: [
+        { label: 'Asteroide', hits: 1, perHitMin: 600000, perHitMax: 600000 },
+        { label: 'Meteoritos', hits: 19, perHitMin: 200000, perHitMax: 200000 },
+      ],
+    };
+    const rows = buildComponentRows(astral, compare, text)!;
+    expect(rows.map((row) => row.simDamage)).toEqual(['600.000', '3.800.000', '4.400.000']);
+  });
+
+  // Swapping gear cannot change which parts a skill has, but swapping the selected skill
+  // can — and an asteroid lined up against an arrow compares two different things.
+  it('drops the compare side when the parts are not the same ones', () => {
+    const other = { skillComponents: [{ label: 'Flecha', hits: 1, perHitMin: 1, perHitMax: 1 }] };
+    const rows = buildComponentRows(astral, other, text)!;
+    expect(rows.every((row) => row.simDamage === null)).toBe(true);
   });
 });
 
