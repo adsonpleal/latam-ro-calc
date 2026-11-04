@@ -185,6 +185,25 @@ export class RotationListComponent extends ViewState {
     this.rotationChange.emit({ rotation: next, stacks });
   }
 
+  /**
+   * Puts a copy of one entry directly after it, with its level and its accumulation.
+   * The picker could already repeat a skill, but only at the end of the list and at the
+   * catalog's defaults — which is the part that had to be redone by hand every time.
+   *
+   * The index guard is the one thing `remove` does not need: splicing an absent entry in
+   * would leave a hole in the rotation, where splicing one out is simply a no-op.
+   */
+  duplicate(index: number) {
+    const value = this.rotation[index];
+    if (this.isFull || value == null) return;
+
+    const next = this.rotation.slice();
+    next.splice(index + 1, 0, value);
+    const stacks = this.entries.map((entry) => entry.stackCount);
+    stacks.splice(index + 1, 0, stacks[index]);
+    this.rotationChange.emit({ rotation: next, stacks });
+  }
+
   /** Opens a placeholder row with the picker focused. */
   startAdding() {
     if (this.isFull) return;
