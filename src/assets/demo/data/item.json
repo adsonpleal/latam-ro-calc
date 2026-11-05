@@ -6997,7 +6997,7 @@
             "5"
           ],
           "chance": [
-            "2"
+            "USED[Priest]2"
           ],
           "trigger": "physical-hit"
         }
@@ -257846,7 +257846,7 @@
             "5"
           ],
           "chance": [
-            "REFINE[9]===10"
+            "USED[Crusader]REFINE[9]===10"
           ],
           "trigger": "physical-hit"
         }
@@ -332295,7 +332295,7 @@
             "5"
           ],
           "chance": [
-            "1"
+            "USED[Swordman]1"
           ],
           "trigger": "physical-hit"
         }

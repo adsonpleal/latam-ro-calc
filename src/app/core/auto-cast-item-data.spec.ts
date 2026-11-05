@@ -2,11 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { createMainModel } from '../utils';
 import { itemBonusScriptEntries } from '../models/item.model';
-import { ArchBishop, ArchMage, ImperialGuard, NightWatch, Paladin, RoyalGuard, RuneKnight, Scholar, Sorcerer, Sura } from '../jobs';
+import { AbyssChaser, ArchBishop, ArchMage, Cardinal, CharacterBase, ImperialGuard, NightWatch, Paladin, RoyalGuard, RuneKnight, Scholar, Sorcerer, Sura } from '../jobs';
 import { buildAutoCastSimulation } from './auto-cast';
 import { Calculator } from './calculator';
 import { makeCalculator } from './__tests__/make-calculator';
 import { ITEM_CLASS_AUTO_CAST_SKILLS } from '../skills/item-class-auto-cast-skills';
+import { resolveSkillById } from '../skills';
 
 const ITEMS = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8')) as Record<string, any>;
 const LATAM_ITEMS = JSON.parse(readFileSync('src/assets/demo/data/latam-items.json', 'utf8')) as Record<string, any>;
@@ -509,5 +510,113 @@ describe('old Rifle Primordial-LT report', () => {
     });
     expect(simulation.sources.map((s) => s.source.skillId)).toEqual([13, 400, 2202]);
     expect(simulation.blockedSources).toEqual([]);
+  });
+});
+
+/**
+ * Auto-casts the client hands to one job line only.
+ *
+ * The LATAM description heads such a clause with the line that owns it — "Sacerdotes e
+ * evoluções:" above "2% de chance de autoconjurar [Crux Magnum] nv.5." on the Carta
+ * Conforto. The engine already has the gate: a `USED[...]` clause on the proc's `chance`,
+ * resolved against `classNameSet`, where a base-job token reaches the whole line below it
+ * (see class-lineage.spec.ts). What was missing was the clause itself in item.json, so the
+ * Carta Conforto offered Crux Magnum to every class — reported from a Mandraque, which
+ * shares no ancestor with the Priest line.
+ *
+ * `auto-cast-audit.json` could not have caught it: its clause splitter breaks the
+ * description before every `Heading:` line, so the class heading lands in a chunk of its
+ * own and the proc's chunk reads as unconditional. The ratchet below reads the heading and
+ * the proc together instead, and pairs them by the skill the clause names — the Lança
+ * Gloriosa carries two job lines and only one of their procs is modelled.
+ */
+
+/** The client paints its descriptions; the headings below are read off the plain text. */
+const stripColorCodes = (text: string) => text.replace(/\^[0-9a-fA-F]{6}/g, '');
+
+/** A clause heading that names a job line, e.g. "Templários e evoluções:". */
+const CLASS_HEADING = /^([^\n:]+?)\s+e evoluções:?/gm;
+
+/** The stretch a job-line heading governs: up to the next heading or the next `---` rule. */
+const classSectionsOf = (description: string) =>
+  stripColorCodes(description).split(/\n\s*-{3,}\s*\n/).flatMap((chunk) => {
+    const headings = [...chunk.matchAll(CLASS_HEADING)];
+    return headings.map((heading, index) => ({
+      heading: heading[1],
+      text: chunk.slice(heading.index, headings[index + 1]?.index ?? chunk.length),
+    }));
+  });
+
+/** Every modelled proc whose LATAM clause sits under a job-line heading. */
+const classHeadedProcs = Object.entries(ITEMS)
+  .filter(([, item]) => Array.isArray(item?.script?.autoCast))
+  .flatMap(([id, item]) => classSectionsOf(LATAM_ITEMS[id]?.description ?? '')
+    .filter((section) => /autoconjur/i.test(section.text))
+    .flatMap((section) => (item.script.autoCast as any[])
+      .filter((rule) => section.text.includes(`[${resolveSkillById(rule.skillId)?.name}]`))
+      .map((rule) => ({
+        itemId: Number(id), heading: section.heading, skillId: rule.skillId,
+        chance: (rule.chance as string[]).join(' '),
+      }))));
+
+/** The gate each of those procs must carry, as the script grammar spells the job line. */
+const CLASS_GATES = [
+  { itemId: 1426, heading: 'Templários', skillId: 367, token: 'Crusader' }, // Lança Gloriosa
+  { itemId: 1486, heading: 'Templários', skillId: 367, token: 'Crusader' }, // Lança de Duas Mãos Gloriosa
+  { itemId: 1565, heading: 'Sábios', skillId: 662, token: 'Sage' }, // Death Note
+  { itemId: 4163, heading: 'Espadachins', skillId: 62, token: 'Swordman' }, // Carta Grifo
+  { itemId: 4394, heading: 'Sacerdotes', skillId: 254, token: 'Priest' }, // Carta Conforto
+];
+
+describe('class-gated item auto-casts', () => {
+  const procsOf = (character: CharacterBase, overrides: Record<string, any>, itemId: number) => {
+    const calc = makeCalculator(ITEMS, character);
+    calc.loadItemFromModel({ ...createMainModel(), ...overrides }).prepareAllItemBonus();
+
+    return calc.resolvedItemAutoCasts.filter((rule) => rule.itemId === itemId);
+  };
+  // A card only resolves while its host weapon is equipped, and this harness equips by id
+  // without the UI's class filter, so one Faca keeps the class as the only variable.
+  const KNIFE = 1201;
+
+  it('finds no proc under a job-line heading without the matching USED gate', () => {
+    expect(classHeadedProcs.map(({ chance, ...proc }) => proc)).toEqual(
+      CLASS_GATES.map(({ token, ...gate }) => gate),
+    );
+    for (const [index, proc] of classHeadedProcs.entries()) {
+      expect(proc.chance).toContain(`USED[${CLASS_GATES[index].token}]`);
+    }
+  });
+
+  it('offers Carta Conforto Crux Magnum to the Priest line only', () => {
+    const crossOf = (character: CharacterBase) => procsOf(character, { weapon: KNIFE, weaponCard1: 4394 }, 4394);
+    const cross = expect.objectContaining({ skillId: 254, skillLevel: 5, chance: 2, trigger: 'physical-hit' });
+
+    expect(crossOf(new ArchBishop())).toEqual([cross]);
+    expect(crossOf(new Cardinal())).toEqual([cross]);
+    // The reported class, and the other half of the Acolyte tree: neither descends from Priest.
+    expect(crossOf(new AbyssChaser())).toEqual([]);
+    expect(crossOf(new Sura())).toEqual([]);
+  });
+
+  it('offers Carta Grifo Impacto de Tyr to the Swordman line only', () => {
+    const impact = { weapon: KNIFE, weaponCard1: 4163 };
+
+    expect(procsOf(new RuneKnight(), impact, 4163)).toEqual([
+      expect.objectContaining({ skillId: 62, skillLevel: 5, chance: 1 }),
+    ]);
+    expect(procsOf(new AbyssChaser(), impact, 4163)).toEqual([]);
+  });
+
+  it('keeps both Gloriosa spears Gloria Domini on the Crusader half of the Swordman line', () => {
+    // Both halves equip the spears — usableClass is the base job — so only the gate separates them.
+    expect(ITEMS[1426].usableClass).toEqual(['Swordman']);
+    expect(ITEMS[1486].usableClass).toEqual(['Swordman']);
+    expect(procsOf(new RoyalGuard(), { weapon: 1426, weaponRefine: 9 }, 1426)).toEqual([
+      expect.objectContaining({ skillId: 367, skillLevel: 5, chance: 10 }),
+    ]);
+    expect(procsOf(new RoyalGuard(), { weapon: 1426, weaponRefine: 8 }, 1426)).toEqual([]);
+    expect(procsOf(new RuneKnight(), { weapon: 1426, weaponRefine: 9 }, 1426)).toEqual([]);
+    expect(procsOf(new RuneKnight(), { weapon: 1486, weaponRefine: 9 }, 1486)).toEqual([]);
   });
 });
