@@ -375215,5 +375215,8 @@
         "7===50"
       ]
     }
-  }
+  },
+  "310861": {"id":310861,"aegisName":"Mad_Bunny_Enchant_4_1","name":"Pedra Defensora 1","unidName":"Pedra Defensora 1","resName":"마력석_검정","description":"","slots":0,"itemTypeId":11,"itemSubTypeId":0,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["100"]}},
+  "310862": {"id":310862,"aegisName":"Mad_Bunny_Enchant_4_2","name":"Pedra Defensora 2","unidName":"Pedra Defensora 2","resName":"마력석_검정","description":"","slots":0,"itemTypeId":11,"itemSubTypeId":0,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["150"]}},
+  "310863": {"id":310863,"aegisName":"Mad_Bunny_Enchant_4_3","name":"Pedra Defensora 3","unidName":"Pedra Defensora 3","resName":"마력석_검정","description":"","slots":0,"itemTypeId":11,"itemSubTypeId":0,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["200"],"subele_all":["5"]}}
 }
