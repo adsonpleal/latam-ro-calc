@@ -1,0 +1,6 @@
+{
+  "type": "patch",
+  "logs": ["As Pedras Defensoras 1, 2 e 3 do Coelho Macabro-LT entraram no banco de itens e agora aparecem nos encantes do escudo: DEF +100, +150 e +200, e a de nível 3 ainda dá resistência a todas as propriedades +5%. Reportado por iVitor."],
+  "logs_es": ["Las piedras Defensa 1Lv, 2Lv y 3Lv del Conejo Macabro-LT entraron en la base de ítems y ya aparecen entre los encantes del escudo: DEF +100, +150 y +200, y la de nivel 3 además da resistencia contra ataques de todos los atributos +5%. Reportado por iVitor."],
+  "logs_en": ["The Mad Bunny-LT's Defense 1Lv, 2Lv and 3Lv stones are in the item database and now show up among the shield's enchants: DEF +100, +150 and +200, with the level 3 one also granting +5% resistance to all-attribute attacks. Reported by iVitor."]
+}
