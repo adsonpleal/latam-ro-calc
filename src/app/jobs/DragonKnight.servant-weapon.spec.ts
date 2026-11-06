@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { buildAutoCastSimulation } from '../core/auto-cast';
 import { Calculator } from '../core/calculator';
+import { simulateRotation } from '../core/rotation-schedule';
 import { createMainModel } from '../utils';
 import { DragonKnight } from './DragonKnight';
 import { RuneKnight } from './RuneKnight';
@@ -67,6 +68,32 @@ describe('Espada Alada autocast', () => {
     expect(source.triggerAttacksPerSecond).toBe(4);
     expect(source.activationsPerSecond).toBeCloseTo(0.6);
     expect(simulate(5, 0).sources.find(entry => entry.icon === 5201)!.dps).toBe(0);
+  });
+
+  /**
+   * Tracker 3h6mqVwB592eZ1V0R9wl: a rotation with Espada Alada read "Recarga não fecha —
+   * faltam 149,31s". The 150s the client prints at Nv5 is how long the servants stay out
+   * and how long until they can be summoned again — never a wait between damage packets,
+   * which land off basic melee attacks. So no level may carry it into the schedule.
+   */
+  it.each([1, 2, 3, 4, 5])('never holds a rotation on the Nv%i summon cooldown', (level) => {
+    const skill = new DragonKnight().getAtkSkills('current').find(entry => entry.name === 'Servant Weapon')!;
+    const cd = typeof skill.cd === 'function' ? skill.cd(level) : skill.cd;
+
+    expect(cd).toBe(0);
+    // Two entries, because a lone skill waiting on its own recarga is the normal case the
+    // view suppresses; the pair is what the report had.
+    const cycle = simulateRotation({
+      aspdPeriod: 0.25,
+      steps: [
+        { key: 'Servant Weapon', cast: 0, acd: 0, cd, damage: 1000 },
+        { key: 'Hack and Slasher', cast: 0, acd: 0.25, cd: 0.7, damage: 1000 },
+      ],
+    });
+
+    // Only Espada Alada's own lane: Hack and Slasher idling 0,20s on its real 0,7s
+    // recarga is the schedule working, not the bug.
+    expect(cycle.lanes[0].cdWait).toBe(0);
   });
 
   it.each([[1, 1 / 3], [2, 1 / 2.5], [3, 1 / 2], [4, 1 / 1.5], [5, 1]])(
