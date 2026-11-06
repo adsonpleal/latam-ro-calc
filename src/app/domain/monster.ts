@@ -1,4 +1,4 @@
-import { ElementType, RED_AURA_MVP_IDS, hasRelieve, monsterDamageReductionPercent, normalizeMonsterRelieveLevel, relieveMultiplier } from '../constants';
+import { ElementType, RED_AURA_MVP_IDS, hasRelieve, monsterDamageReductionPercent, monsterDefMultiplier, normalizeMonsterRelieveLevel, relieveMultiplier } from '../constants';
 import { PlayerTargetProfile } from '../core/pvp';
 import { MonsterModel } from '../models/monster.model';
 import { firstUppercase, floor } from '../utils';
@@ -49,6 +49,12 @@ interface PreparedMonsterModel {
    */
   damageReduction: number;
   /**
+   * How many times its published DEF the instance hands this monster, 1 when it hands it
+   * nothing (see constants/monster-instance-def). `def` below is already multiplied by it;
+   * this is here so the card can say why the number sits so far above the published one.
+   */
+  defMultiplier: number;
+  /**
    * Whether this monster casts Aliviar (see RELIEVE_MONSTER_IDS) — the calculator only
    * offers the level picker when it does.
    */
@@ -92,6 +98,7 @@ export class Monster {
     isMvp: false,
     isRedAura: false,
     damageReduction: 0,
+    defMultiplier: 1,
     hasRelieve: false,
     relieveLevel: 0,
     typeUpper: 'Normal',
@@ -203,6 +210,7 @@ export class Monster {
 
     const [pureElement, eleLvl] = elementName.split(' ');
     const _class = monsterTypeId === 0 ? 'normal' : 'boss';
+    const defMultiplier = monsterDefMultiplier(monster.id);
 
     this._monster = monster;
     this._monsterData = {
@@ -222,11 +230,12 @@ export class Monster {
       isMvp: mvp === 1,
       isRedAura: RED_AURA_MVP_IDS.has(monster.id),
       damageReduction: monsterDamageReductionPercent(monster.id),
+      defMultiplier,
       hasRelieve: hasRelieve(monster.id),
       relieveLevel: normalizeMonsterRelieveLevel(monster.id, relieveLevel),
       typeUpper: firstUppercase(_class) as any,
       hp: health,
-      def: defense,
+      def: defense * defMultiplier,
       softDef: floor((level + vit) / 2),
       mdef: magicDefense,
       softMDef: floor((level + int) / 4),
@@ -279,6 +288,7 @@ export class Monster {
       isMvp: false,
       isRedAura: false,
       damageReduction: 0,
+      defMultiplier: 1,
       hasRelieve: false,
       relieveLevel: 0,
       typeUpper: 'Normal',

@@ -17,6 +17,7 @@ export * from './item-type.enum';
 export * from './item.const';
 export * from './job-buffs';
 export * from './monster-damage-reduction';
+export * from './monster-instance-def';
 export * from './monster-relieve';
 export * from './monster-spawn-mapper';
 export * from './pet-loyalty';

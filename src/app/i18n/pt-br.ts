@@ -440,6 +440,8 @@ export const ptBR = {
   'hud.betelgeuseDifficulty': 'Dificuldade do Betelgeuse',
   'hud.damageReduction': 'Redução de dano',
   'hud.mapReduction': 'REDUÇÃO {percent}%',
+  'hud.defMultiplier': 'DEF x{factor}',
+  'hud.defMultiplierTooltip': 'Defesa de Ferro: na instância o MVP luta com {factor} vezes a DEF do banco de dados, do começo ao fim. A DEF ao lado já está multiplicada.',
   'hud.hitFor100': 'HIT p/100%',
   'hud.monsterId': 'ID: {id}',
 
