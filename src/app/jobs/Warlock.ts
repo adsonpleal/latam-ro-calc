@@ -152,6 +152,10 @@ export class Warlock extends HighWizard {
       // the same ("Se estiverem sofrendo de [Calafrio] causa um dano mágico ainda
       // maior"). Both are Water, so the picker's element-based dedup cannot tell them
       // apart — without these suffixes it listed "Esquife de Gelo - Água" twice.
+      //
+      // Both entries are on `hit`: the column is the whole cast, split over the four
+      // packets the client prints. The Normal one was on `totalHit` and applied its
+      // ratio four times — measured in game, the cast deals the column once.
       name: 'Jack Frost',
       label: 'Jack Frost Lv5',
       labelSuffix: 'Normal',
@@ -160,7 +164,7 @@ export class Warlock extends HighWizard {
       fct: 1,
       vct: jackFrostVct,
       cd: 4,
-      totalHit: 4,
+      hit: 4,
       isMatk: true,
       element: ElementType.Water,
       formula: (input: AtkSkillFormulaInput): number => {
