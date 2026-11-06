@@ -421,6 +421,8 @@ export const catalog: TranslatedCatalog = {
   'hud.betelgeuseDifficulty': 'Dificultad de Betelgeuse',
   'hud.damageReduction': 'Reducción de daño',
   'hud.mapReduction': 'REDUCCIÓN {percent}%',
+  'hud.defMultiplier': 'DEF x{factor}',
+  'hud.defMultiplierTooltip': 'Defensa de Hierro: en la instancia el MVP pelea con {factor} veces la DEF de la base de datos, de principio a fin. La DEF de al lado ya está multiplicada.',
   'hud.hitFor100': 'Precisión para 100%',
   'hud.monsterId': 'ID: {id}',
 

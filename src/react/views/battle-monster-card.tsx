@@ -41,6 +41,7 @@ export function BattleMonsterCard({ totalSummary, selectedMonster, selectedMonst
   // The tag's click opens the table, so the tip only names that action: no tap.
   const element = useTooltip({ text: t('hud.elementTable'), position: 'top', tap: false });
   const relieve = useTooltip({ text: t('hud.relieveTooltip'), position: 'top' });
+  const defMultiplier = useTooltip({ text: monster?.defMultiplier > 1 ? t('hud.defMultiplierTooltip', { factor: monster.defMultiplier }) : '', position: 'top' });
   // Angular's number pipe renders an absent value as an empty string.
   const number = (value: number | null | undefined) => value == null ? '' : formatNumber(value);
   return createElement('app-battle-monster-card', null, <div className="hud-card-col hud-card-col--monster"><Card className="hud-card">
@@ -54,6 +55,7 @@ export function BattleMonsterCard({ totalSummary, selectedMonster, selectedMonst
         {monster?.isMvp && <Tag severity="warning" value="MVP" />}
         {monster?.isRedAura && <Tag {...aura.triggerProps} tabIndex={0} className="tag-aura" value="AURA" />}
         {!!monster?.damageReduction && <Tag {...reduction.triggerProps} tabIndex={0} className="tag-map-reduction" value={t('hud.mapReduction', { percent: monster.damageReduction })} />}
+        {monster?.defMultiplier > 1 && <Tag {...defMultiplier.triggerProps} tabIndex={0} className="tag-map-reduction" value={t('hud.defMultiplier', { factor: monster.defMultiplier })} />}
       </div><div className="hud-hp-line">HP {number(monster?.hp)}</div>
       {selectedMonster === 20994 && !!betelgeuseHpOptions.length && <div className="hud-relieve">
         <span className="hud-relieve-label">{t('hud.difficulty')}</span>
@@ -92,7 +94,7 @@ export function BattleMonsterCard({ totalSummary, selectedMonster, selectedMonst
       {([['stat.str', 'str', 'for'], ['stat.int', 'int', 'int'], ['stat.dex', 'dex', 'des'], ['stat.agi', 'agi', 'des'], ['stat.vit', 'vit', 'vit'], ['stat.luk', 'luk', 'vit']] as const)
         .map(([label, key, color]) => <div className="kv" key={key}><span>{t(label)}</span><span className={`v-${color}`}>{number(monster?.[key])}</span></div>)}
     </div></div>
-    {monster?.isRedAura && aura.tooltip}{reduction.tooltip}{isRelieveTarget && relieve.tooltip}{element.tooltip}
+    {monster?.isRedAura && aura.tooltip}{reduction.tooltip}{defMultiplier.tooltip}{isRelieveTarget && relieve.tooltip}{element.tooltip}
   </Card>{totalSummary?.incomingDamage?.attacker.id === selectedMonster && !!getMonsterOffensiveSkills(selectedMonster).length &&
     <BattleDamageTakenCard key={selectedMonster} profile={totalSummary.incomingDamage} disabled={isInProcessingPreset} onReductionClick={onIncomingReductionClick} />}
   </div>);

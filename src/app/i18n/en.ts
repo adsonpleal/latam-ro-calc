@@ -419,6 +419,8 @@ export const catalog: TranslatedCatalog = {
   'hud.betelgeuseDifficulty': 'Betelgeuse difficulty',
   'hud.damageReduction': 'Damage reduction',
   'hud.mapReduction': 'REDUCTION {percent}%',
+  'hud.defMultiplier': 'DEF x{factor}',
+  'hud.defMultiplierTooltip': 'Iron Defense: inside the instance the MVP fights with {factor} times the DEF in the database, from start to finish. The DEF beside it is already multiplied.',
   'hud.hitFor100': 'Hit for 100%',
   'hud.monsterId': 'ID: {id}',
 
