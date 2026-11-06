@@ -29,23 +29,21 @@ describe('Apoio Turbina Ilusión enchants', () => {
     expect(support.enchantLists).toEqual(derive(regularId, slot).enchantLists);
     expect(support.enchantLists[0]).toBeNull();
     for (const options of support.enchantLists.slice(1)) {
-      expect(options).toHaveLength(11);
+      expect(options).toHaveLength(13);
       const values = options!.map(option => option.value);
       expect(values).toEqual(expect.arrayContaining(own));
       for (const id of other) expect(values).not.toContain(id);
     }
   });
 
-  it('keeps the side-specific attribute pools', () => {
+  it('shares every attribute encanto between the two sides', () => {
+    // The side split is the S-/U- pairs above, not the N- attribute módulos — see the
+    // comment on the `illusionAcc*` pools in `_enchant_table.ts`.
     const names = (id: number, slot: ItemTypeEnum) => derive(id, slot).enchantLists[1]!
       .map(option => items[option.value].aegisName);
-    const right = names(490072, ItemTypeEnum.accRight);
-    const left = names(490073, ItemTypeEnum.accLeft);
-    expect(right).toEqual(expect.arrayContaining(['Strength3', 'Agility3']));
-    expect(left).toEqual(expect.arrayContaining(['Inteligence3', 'Dexterity3']));
-    expect(right).not.toContain('Inteligence3');
-    expect(right).not.toContain('Dexterity3');
-    expect(left).not.toContain('Strength3');
-    expect(left).not.toContain('Agility3');
+    const attributes = ['Strength3', 'Agility3', 'Vitality3', 'Inteligence3', 'Dexterity3', 'Luck3'];
+
+    expect(names(490072, ItemTypeEnum.accRight)).toEqual(expect.arrayContaining(attributes));
+    expect(names(490073, ItemTypeEnum.accLeft)).toEqual(expect.arrayContaining(attributes));
   });
 });
