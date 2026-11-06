@@ -6,6 +6,8 @@ import { ItemModel, itemAutoCastEffectScripts,
   ITEM_AUTO_CAST_DIRECTIVE, ITEM_AUTO_CAST_EFFECT_DIRECTIVE, ITEM_AUTO_CAST_PENDING_DIRECTIVE } from '../models/item.model';
 import { filterSearchItems, isSearchableItemBonusKey, ITEM_SEARCH_BONUS_OPTIONS, ItemSearchFilters, ItemSearchRow } from './item-search';
 
+// Parsed once: the file is ~12 MB, and three describes below read from it.
+const database = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8')) as Record<number, ItemModel>;
 const defaults: ItemSearchFilters = { name: '', positions: [], skillIds: [], bonuses: [], matchAllBonuses: true };
 const makeItem = (id: number, script?: ItemModel['script'], name = 'Chapéu de Teste') => ({ id, name, script } as ItemModel);
 const row = (id: number, position = 'headUpperList'): ItemSearchRow => ({ id, value: id, label: 'Item ' + id, position });
@@ -14,7 +16,6 @@ function search(items: ItemModel[], filters: Partial<ItemSearchFilters> = {}, ro
 }
 
 describe('item search catalogue coverage', () => {
-  const database = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8')) as Record<number, ItemModel>;
   // Metadata and unmodelled client entries, not supported bonuses. Keep exclusions
   // specific so a new supported stat/family cannot hide in an open-ended exception.
   const excluded = new Set(['refine', 'weight', 'dmg__Lucifer Morocc', ITEM_AUTO_CAST_PENDING_DIRECTIVE]);
@@ -58,11 +59,10 @@ describe('item search catalogue coverage', () => {
 
 describe('item search matching', () => {
   it('finds damage skills granted by a temporary state, including Eswhoo on the Xamânico cap', () => {
-    const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
-    expect(search([db[19397]], { skillIds: [2604], bonuses: ['skillDamage'] })).toEqual([19397]);
-    expect(search([db[19397]], { skillIds: [2604], bonuses: ['autoCast'] })).toEqual([]);
-    expect(search([db[19396]], { skillIds: [2592], bonuses: ['skillDamage'] })).toEqual([19396]);
-    expect(search([db[19195]], { bonuses: ['unbreakableWeapon'] })).toEqual([19195]);
+    expect(search([database[19397]], { skillIds: [2604], bonuses: ['skillDamage'] })).toEqual([19397]);
+    expect(search([database[19397]], { skillIds: [2604], bonuses: ['autoCast'] })).toEqual([]);
+    expect(search([database[19396]], { skillIds: [2592], bonuses: ['skillDamage'] })).toEqual([19396]);
+    expect(search([database[19195]], { bonuses: ['unbreakableWeapon'] })).toEqual([19195]);
   });
   // https://issues.latam-tools.com.br/t/nYekDmxodzefe4XMjBZQ
   it('includes lower/equal required levels and items without a requirement, with an optional cap', () => {
@@ -142,5 +142,20 @@ describe('item search matching', () => {
     expect(search(items, { bonuses: ['autoCast'], skillIds: [157] })).toEqual([]);
     expect(search(items, { bonuses: ['autoCastEffect', 'atk'] })).toEqual([2]);
     expect(search(items, { skillIds: [156] })).toEqual([1]);
+  });
+
+  // https://issues.latam-tools.com.br/t/zO96XyN1eIGLqhZdIRCV — "Resistência a propriedade
+  // fogo" over the Pedra de Encantamento position came back without the Excelion R-
+  // diagrams. The matcher was never at fault: the whole family was missing from item.json,
+  // and the search can only find a bonus an item's own script declares. So the guard goes
+  // on the data — these ids have to keep their subele keys to stay findable.
+  it('finds the Excelion resistance diagrams by element resistance at the enchant position', () => {
+    const family = [4974, 4975, 4976, 4977].map(id => database[id]);
+    const rows = family.map(item => row(item.id, 'enchants'));
+
+    expect(search(family, { bonuses: ['subele_fire'], positions: ['enchants'] }, rows)).toEqual([4974, 4976]);
+    expect(search(family, { bonuses: ['subele_water'], positions: ['enchants'] }, rows)).toEqual([4974, 4975]);
+    expect(search(family, { bonuses: ['subele_earth'], positions: ['enchants'] }, rows)).toEqual([4976, 4977]);
+    expect(search(family, { bonuses: ['subele_wind'], positions: ['enchants'] }, rows)).toEqual([4975, 4977]);
   });
 });

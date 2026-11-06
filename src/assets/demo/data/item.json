@@ -33063,8 +33063,12 @@
     ],
     "script": {
       "atk": [
+        "1---1",
         "10",
         "EQUIP[Critical Shadow Armor]REFINE[shadowWeapon,shadowArmor==1]---1"
+      ],
+      "matk": [
+        "1---1"
       ],
       "criDmg": [
         "7===1",
@@ -48594,6 +48598,12 @@
       "all"
     ],
     "script": {
+      "atk": [
+        "1---1"
+      ],
+      "matk": [
+        "1---1"
+      ],
       "hpPercent": [
         "3"
       ],
@@ -51121,6 +51131,12 @@
       "all"
     ],
     "script": {
+      "atk": [
+        "1---1"
+      ],
+      "matk": [
+        "1---1"
+      ],
       "con": [
         "1---1"
       ],
@@ -51194,6 +51210,12 @@
       "all"
     ],
     "script": {
+      "atk": [
+        "1---1"
+      ],
+      "matk": [
+        "1---1"
+      ],
       "wis": [
         "1---1"
       ],
@@ -51258,6 +51280,12 @@
       "all"
     ],
     "script": {
+      "atk": [
+        "1---1"
+      ],
+      "matk": [
+        "1---1"
+      ],
       "sta": [
         "1---1"
       ],
@@ -51322,6 +51350,12 @@
       "all"
     ],
     "script": {
+      "atk": [
+        "1---1"
+      ],
+      "matk": [
+        "1---1"
+      ],
       "crt": [
         "2---1"
       ],
@@ -234768,7 +234802,7 @@
   },
   "4990": {
     "id": 4990,
-    "aegisName": "리액토_보조",
+    "aegisName": "Reactor_A_FROZ",
     "name": "I-Gelo",
     "unidName": "I-Gelo",
     "resName": "",
@@ -234786,7 +234820,11 @@
     "usableClass": [
       "all"
     ],
-    "script": {}
+    "script": {
+      "freezeResist": [
+        "100"
+      ]
+    }
   },
   "470373": {
     "id": 470373,
@@ -374881,6 +374919,206 @@
   "1002830": {"id":1002830,"aegisName":"FP_Fox_Footprints","name":"Fox Footprints (Garment)","unidName":"Fox Footprints (Garment)","resName":"발자국이펙트","description":"Gives an effect of Fox Footprints\n------------------------\nYou can socket it on Costume Garment through [Lace La Zard].\n------------------------\nWeight : 10","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":75,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
   "1002855": {"id":1002855,"aegisName":"Blossom_Foot_Robe","name":"Cherry Blossom Footprints (Garment)","unidName":"Cherry Blossom Footprints (Garment)","resName":"발자국이펙트","description":"Gives an effect of Cherry Blossom Footprints.\n------------------------\nYou can socket it on Costume Garment through [Lace La Zard].\n------------------------\nWeight : 10","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":75,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
   "1002856": {"id":1002856,"aegisName":null,"name":"Sprout Footprints (Garment)","unidName":"Sprout Footprints (Garment)","resName":"발자국이펙트","description":"Enchants the 4th slot of a costume garment to add an effect.\nSprout Footprints\nRace La Zard\nWeight: 10","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":75,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
+  "4974": {
+    "id": 4974,
+    "aegisName": "Reactor_T_FIRE",
+    "name": "R-Fogo",
+    "unidName": "Fire Resistance Reactor",
+    "resName": "리액토_내성",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "subele_fire": [
+        "25"
+      ],
+      "subele_water": [
+        "-25"
+      ]
+    }
+  },
+  "4975": {
+    "id": 4975,
+    "aegisName": "Reactor_T_WATER",
+    "name": "R-Água",
+    "unidName": "Water Resistance Reactor",
+    "resName": "리액토_내성",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "subele_water": [
+        "25"
+      ],
+      "subele_wind": [
+        "-25"
+      ]
+    }
+  },
+  "4976": {
+    "id": 4976,
+    "aegisName": "Reactor_T_GROUND",
+    "name": "R-Terra",
+    "unidName": "Earth Resistance Reactor",
+    "resName": "리액토_내성",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "subele_earth": [
+        "25"
+      ],
+      "subele_fire": [
+        "-25"
+      ]
+    }
+  },
+  "4977": {
+    "id": 4977,
+    "aegisName": "Reactor_T_WIND",
+    "name": "R-Vento",
+    "unidName": "Wind Resistance Reactor",
+    "resName": "리액토_내성",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "subele_wind": [
+        "25"
+      ],
+      "subele_earth": [
+        "-25"
+      ]
+    }
+  },
+  "4978": {
+    "id": 4978,
+    "aegisName": "Reactor_Cure_101",
+    "name": "C-Corpo",
+    "unidName": "Recovery Reactor 101",
+    "resName": "리액토_회복",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "hpRegenPerSecond": [
+        "10",
+        "7===10"
+      ]
+    }
+  },
+  "4979": {
+    "id": 4979,
+    "aegisName": "Reactor_Cure_102",
+    "name": "C-Alma",
+    "unidName": "Recovery Reactor 102",
+    "resName": "리액토_회복",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "spRegenPerSecond": [
+        "0.6",
+        "7===0.4"
+      ]
+    }
+  },
+  "4980": {
+    "id": 4980,
+    "aegisName": "Reactor_Cure_201",
+    "name": "C-Físico",
+    "unidName": "Recovery Reactor 201",
+    "resName": "리액토_회복",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "hpRecovRate": [
+        "50",
+        "7===50"
+      ]
+    }
+  },
+  "4981": {
+    "id": 4981,
+    "aegisName": "Reactor_Cure_202",
+    "name": "C-Mental",
+    "unidName": "Recovery Reactor 202",
+    "resName": "리액토_회복",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 11,
+    "itemSubTypeId": 0,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "spRecovRate": [
+        "50",
+        "7===50"
+      ]
+    }
+  },
   "310861": {"id":310861,"aegisName":"Mad_Bunny_Enchant_4_1","name":"Pedra Defensora 1","unidName":"Pedra Defensora 1","resName":"마력석_검정","description":"","slots":0,"itemTypeId":11,"itemSubTypeId":0,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["100"]}},
   "310862": {"id":310862,"aegisName":"Mad_Bunny_Enchant_4_2","name":"Pedra Defensora 2","unidName":"Pedra Defensora 2","resName":"마력석_검정","description":"","slots":0,"itemTypeId":11,"itemSubTypeId":0,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["150"]}},
   "310863": {"id":310863,"aegisName":"Mad_Bunny_Enchant_4_3","name":"Pedra Defensora 3","unidName":"Pedra Defensora 3","resName":"마력석_검정","description":"","slots":0,"itemTypeId":11,"itemSubTypeId":0,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["200"],"subele_all":["5"]}}

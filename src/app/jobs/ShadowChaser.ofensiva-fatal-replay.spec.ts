@@ -54,31 +54,38 @@ import { ShadowChaser } from './ShadowChaser';
  * global JobBuffs row `Raid` — so what the recording adds there is the proof that the
  * split and the branch are both right, to within 0,1 pp. The **skill** was the missing
  * half, and it was added off the back of this file (Stalker `atkSkillListHi`); its single
- * recorded packet, 23.144, lands within 0,1% of the midpoint of what the client's 800%
- * ratio predicts.
+ * recorded packet, 23.144, lands inside the window the client's 800% ratio predicts.
  *
  * Because the debuff is a target-side multiplier, the Ofensiva Fatal comparison below is
  * run in both states: the 19 packets against the plain build, the 23 against the same
  * build with the toggle on.
  *
- * **Open residual, ~1–2%.** The recorded maxima sit slightly above what the engine calls
- * its own maximum, consistently and in every channel:
+ * **Residual, ~0,1–1,3%** — most of what used to be open here has since closed. The
+ * recorded maxima still sit slightly above what the engine calls its own maximum:
  *
- *   ataque básico normal (por golpe)   gravado 2.792–3.041   motor 2.693–3.009   +1,1%
- *   ataque básico crítico (por golpe)  gravado 5.131–5.357   motor 4.970–5.240   +2,2%
- *   Ofensiva Fatal Nv10 (pacote)       gravado 302.314–321.106  motor 292.696–326.440
+ *   ataque básico normal (por golpe)   gravado 2.792–3.041   motor 2.725–3.037   +0,1%
+ *   ataque básico crítico (por golpe)  gravado 5.131–5.357   motor 5.021–5.287   +1,3%
+ *   Ofensiva Fatal Nv10 (pacote)       gravado 302.314–321.106  motor 296.114–329.432
  *
  * The skill's own window sits inside the engine's range, so it is asserted; the two basic
  * channels overshoot and are pinned instead. What has been ruled out: a hidden buff (the
  * EFST stream is exhausted above, and both consumables are ASPD-only), a proc (every
  * "chance" line in all 38 equipped pieces, cards and enchants is either HP/SP leech,
  * Assumptio, or the Delírio card — which fires only "ao receber danos físicos" and cannot
- * on a dummy field), and a mis-split packet (the parity argument above). What could not be
- * ruled out: the recording carries **no status window** — its only `ZC_PAR_CHANGE` types
- * are 7/0/5/53 (SP, HP, MaxHP, amotion), so there is no SP_ATK1/SP_ATK2 to check the ATK
- * against, and with a single gear state the §9 method cannot separate an ATK-side stage
- * from a missing multiplier. A second Renegado recording — bare-handed, or swapping the
- * dagger on camera — is what would close it.
+ * on a dummy field), and a mis-split packet (the parity argument above).
+ *
+ * The two basic channels read +1,1% and +2,2% when this file was written, and what closed
+ * most of that was the one thing the recording could not separate from a multiplier, having
+ * carried **no status window** — an ATK-side stage genuinely missing. Its only
+ * `ZC_PAR_CHANGE` types are 7/0/5/53 (SP, HP, MaxHP, amotion), so there is no
+ * SP_ATK1/SP_ATK2 to check the ATK against. The character wears the 24686 Manopla Sombria
+ * de Absorção **+10**, whose own "ATQ e ATQM +1 por refino" was absent from `item.json`
+ * until tracker ANKIJTUCORKtBHxAWxKv: the build was being simulated 10 ATQ short. Supplying
+ * it moved every channel the right way at once — the two overshoots down to the figures
+ * above, and the 19-packet Ofensiva Fatal window from 0,7% off centre to 0,3% — which makes
+ * this recording the measurement that confirms the fix (`shadow-weapon-refine-atk.spec.ts`
+ * is where it is pinned). A second Renegado recording — bare-handed, or swapping the dagger
+ * on camera — is still what would close the rest.
  */
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
@@ -220,16 +227,18 @@ describe('Shadow Chaser — what this recording leaves open', () => {
   const r = simular('Fatal Manace==10');
 
   /**
-   * Pinned, not asserted as correct: the recorded basic attacks overshoot the engine's own
-   * maximum by ~1–2%. Ratcheted so that the gap can only shrink — if a later fix lands, one
-   * of these fails and gets tightened, and if something regresses it fails too.
+   * Pinned, not asserted as correct: the recorded basic attacks still overshoot the engine's
+   * own maximum. Ratcheted so that the gap can only shrink — if a later fix lands, one of
+   * these fails and gets tightened, and if something regresses it fails too.
+   *
+   * Tightened once already, when the 24686's 10 ATQ was supplied (see the header).
    */
-  it('basic attacks still land above the engine ceiling, by no more than 2.5%', () => {
+  it('basic attacks still land above the engine ceiling', () => {
     const normalGravadoMax = 3041; // por golpe, dos pacotes count=2 (pares, logo exatos)
     const criticoGravadoMax = 5357;
-    expect(normalGravadoMax / r.basicoMax).toBeLessThan(1.025);
+    expect(normalGravadoMax / r.basicoMax).toBeLessThan(1.005);
     expect(normalGravadoMax / r.basicoMax).toBeGreaterThan(1); // ainda aberto
-    expect(criticoGravadoMax / r.criticoMax).toBeLessThan(1.025);
+    expect(criticoGravadoMax / r.criticoMax).toBeLessThan(1.015);
     expect(criticoGravadoMax / r.criticoMax).toBeGreaterThan(1); // ainda aberto
   });
 
@@ -264,9 +273,15 @@ describe('Shadow Chaser — Ataque Surpresa Nv5 vs "Dummy - Fantasma"', () => {
     const GRAVADO = 23144;
     expect(GRAVADO).toBeGreaterThanOrEqual(r.minPacote);
     expect(GRAVADO).toBeLessThanOrEqual(r.maxPacote);
-    // It lands within 0,1% of the midpoint, which is what says the 800% is the right
-    // ratio rather than merely a ratio the window happens to admit.
-    expect(GRAVADO / ((r.minPacote + r.maxPacote) / 2)).toBeCloseTo(1, 2);
+    // It lands near the midpoint, which is what says the 800% is the right ratio rather
+    // than merely a ratio the window happens to admit — a wrong level of the table (650%
+    // or 950%) misses the window outright.
+    //
+    // The tolerance was 0,1% before the header's ATQ fix, which no single packet could ever
+    // have supported: one roll out of a ±5,3% window had landed on the midpoint by chance.
+    // The three channels with dozens of packets each all centred *better* once the ATQ was
+    // supplied, so 1,5% is what this one packet is worth.
+    expect(Math.abs(GRAVADO / ((r.minPacote + r.maxPacote) / 2) - 1)).toBeLessThan(0.015);
   });
 
   it('the simulated range is tight enough for that to mean something', () => {

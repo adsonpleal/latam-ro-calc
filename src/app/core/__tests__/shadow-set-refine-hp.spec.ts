@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { promisesPerRefine } from './refine-line';
 
 /**
  * The shadow set's "HP máx. +10 por refino" lives in each piece's own `script`, and only
@@ -26,25 +27,15 @@ const SHADOW_SLOTS = [526, 527, 528, 529, 530];
 /** The step script for "+10 de HP a cada 1 refino" (calculator.ts#calcStepBonus). */
 const PER_REFINE_HP = '1---10';
 
-/**
- * The two shapes the client writes it in: a single line ("HP máx. +10 por refino.") and a
- * headed block ("A cada refino:" … "HP máx. +10."), which can carry other lines in
- * between — Colar Sombrio FOR puts "ATQ +1." first. Read block by block, since a later
- * block's "HP máx. +10." (a flat bonus) must not borrow an earlier "A cada refino:".
- */
-function promisesPerRefineHp(description: string): boolean {
-  return description
-    .replace(/\^[0-9a-fA-F]{6}/g, '')
-    .split(/-{5,}/)
-    .some((block) => /HP máx\. \+10\s+por refino/i.test(block) || (/A cada refino:/i.test(block) && /HP máx\. \+10\./i.test(block)));
-}
+/** The client's wording; `refine-line.ts` holds the two shapes it is printed in. */
+const HP_MAX = /HP máx\. \+10/i;
 
 const shadowPieces = Object.entries(items)
   .filter(([id, item]: [string, any]) => SHADOW_SLOTS.includes(item.itemSubTypeId) && latam[id])
   .map(([id, item]: [string, any]) => ({
     id,
     name: latam[id].name as string,
-    promises: promisesPerRefineHp(latam[id].description ?? ''),
+    promises: promisesPerRefine(latam[id].description, HP_MAX),
     declares: Array.isArray(item.script?.hp) && item.script.hp.includes(PER_REFINE_HP),
   }));
 
