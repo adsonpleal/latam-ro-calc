@@ -1,5 +1,21 @@
 [
   {
+    "v": "0.1.207-beta",
+    "date": "06-11-2026",
+    "logs": [
+      "Os encantamentos Excelion de resistência (R-Fogo, R-Água, R-Terra, R-Vento) e de recuperação (C-Corpo, C-Alma, C-Físico, C-Mental) foram cadastrados, e o I-Gelo ganhou sua tolerância a Congelamento. Eles agora aparecem em Buscar Item e nas pedras de encantamento do Colete, Motor, Escudo e Perna Excelion. Reportado por leziszi.",
+      "Todas as Manoplas Sombrias com \"ATQ e ATQM +1 por refino\" agora aplicam esse bônus no cálculo. Reportado por Ametsuky."
+    ],
+    "logs_es": [
+      "Los encantamientos Excelion de resistencia (R-Fuego, R-Agua, R-Tierra, R-Viento) y de recuperación (C-Cuerpo, C-Alma, C-Físico, C-Mental) fueron registrados, y el I-Hielo recibió su tolerancia a Congelamiento. Ahora aparecen en Buscar Ítem y en las piedras de encantamiento del Traje, Motor, Escudo y Pierna Excelion. Reportado por leziszi.",
+      "Todos los Guanteletes Sombríos con «ATQ y ATQM +1 por refinación» ahora aplican ese bono en el cálculo. Reportado por Ametsuky."
+    ],
+    "logs_en": [
+      "The Excelion resistance enchantments (R-Fire, R-Water, R-Earth, R-Wind) and the recovery ones (C-Body, C-Soul, C-Physical, C-Mental) are now registered, and I-Freeze gained its Freeze tolerance. They show up in Item Search and in the enchantment stones of the Excelion Suit, Wing, Shield and Leg. Reported by leziszi.",
+      "Every Shadow Weapon with \"ATK and MATK +1 per refine\" now applies that bonus in the calculation. Reported by Ametsuky."
+    ]
+  },
+  {
     "v": "0.1.206-beta",
     "date": "05-11-2026",
     "logs": [
