@@ -5,6 +5,7 @@
 //   node tools/register-missing-cards.mjs --check   # report, write nothing
 //   node tools/register-missing-cards.mjs --audit   # every registered card vs its own text
 //   node tools/register-missing-cards.mjs --combos  # top up the records already there
+//   node tools/register-missing-cards.mjs --skills  # top up their per-skill damage keys
 //   node tools/register-missing-cards.mjs           # splice the records into item.json
 //
 // What a card is, where it goes and which of its description lines the engine can hold are
@@ -56,7 +57,7 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { DATA, latam, items, plain, effectLines, mapLine, isCard, classify, assertKeysExist, assertBatchStillMaps } from './card-catalog.mjs';
+import { DATA, latam, items, plain, effectLines, mapLine, isCard, classify, assertKeysExist, assertBatchStillMaps, isSkillKey, SKILL_NAME_BY_ID } from './card-catalog.mjs';
 
 const ITEM_JSON = join(DATA, 'item.json');
 const args = new Set(process.argv.slice(2));
@@ -336,8 +337,16 @@ function foldRefineBands(byKey) {
   return byKey;
 }
 
-/** Every entry a card's pt-BR description yields, keyed by bonus key, in reading order. */
-function scriptOf(id) {
+/**
+ * The {value, gates} a card's description yields per bonus key, before any of it is
+ * written — one element per line that named the key.
+ *
+ * Split out of `scriptOf` because the count matters on its own: an entry `entryFor`
+ * refuses is dropped silently, so "the key has fewer entries than it has lines" is how a
+ * caller sees that the grammar could not write all of them. Reading that off a second walk
+ * of the description would be the same rules in two places, free to drift apart.
+ */
+function entriesByKey(id) {
   const byKey = {};
   for (const { text, gates } of effectLines(latam[id].description)) {
     if (/:$/.test(text)) continue; // the gate's own header line
@@ -345,6 +354,12 @@ function scriptOf(id) {
     if (!entries) continue;
     for (const { key, value } of entries) (byKey[key] ||= []).push({ value, gates });
   }
+  return byKey;
+}
+
+/** Every entry a card's pt-BR description yields, keyed by bonus key, in reading order. */
+function scriptOf(id) {
+  const byKey = entriesByKey(id);
 
   const script = {};
   for (const [key, entries] of Object.entries(foldRefineBands(byKey))) {
@@ -554,6 +569,60 @@ function pendingSetEntries() {
   return { pending, clashes };
 }
 
+// ── --skills: the per-skill damage keys those records never got ──────────────────────
+
+/**
+ * Add to each registered card the per-skill damage entries its own description names and
+ * its record does not hold — the key being the skill id itself (docs/item-json.md §3.1).
+ *
+ * This is the half of the catalogue that was invisible: the phrase table had no rule for
+ * "Dano de [Perícia] +N%", so a card whose whole effect is that line was registered with
+ * an empty script and read as modelled. Tracker card tsasuuTzUtOWBW78UJo4 ("Carta Banshee
+ * não está aplicando o dano na skill vulcão napalm") is one of 21 cards, and 4345, 4350,
+ * 4380, 4429 and 27173 are cards that did nothing at all in the calculator.
+ *
+ * Only a key the record carries NOTHING under, which is the same caution --combos takes:
+ * a record already paying the skill — under the id, or under the legacy English-name key
+ * the engine still falls back to — may be spelling the same bonus another way, and
+ * appending this file's spelling next to it would pay it twice. Those are reported.
+ *
+ * And only a key whose every line the grammar writes. 27173 Carta Bandido de Elite names
+ * the same skill under three refine bands ("+10%", then "+20% adicional" at +10 and again
+ * at +14) and `entryFor` can write only the first two, because `effectLines` hands the
+ * third line BOTH thresholds and an entry holds one value. Registering the writable part
+ * would pay +30% at +14 where the card says +50% — wrong at the refines people build for,
+ * which is the mistake `foldRefineBands` exists to avoid. Out whole, and reported.
+ */
+function pendingSkillEntries() {
+  const pending = [];
+  const clashes = [];
+
+  for (const id of Object.keys(latam)) {
+    if (!isCard(latam[id], id) || !items[id]) continue;
+
+    const actual = items[id].script || {};
+    const named = entriesByKey(id);
+    const additions = {};
+    for (const [key, values] of Object.entries(scriptOf(id))) {
+      if (!isSkillKey(key)) continue;
+
+      const held = [...(actual[key] || []), ...(actual[SKILL_NAME_BY_ID[key]] || [])];
+      if (held.length) { clashes.push(`${id} ${latam[id].name}: ${key} already carries ${held.join(', ')}`); continue; }
+
+      const lines = named[key].length;
+      if (values.length < lines) {
+        clashes.push(`${id} ${latam[id].name}: ${key} names ${lines} line(s) and the grammar writes ${values.length}`);
+        continue;
+      }
+
+      additions[key] = values;
+    }
+    if (Object.keys(additions).length) pending.push([Number(id), additions]);
+  }
+
+  return { pending, clashes };
+}
+
 /**
  * Splice the added entries into each record's `script`, in place.
  *
@@ -602,6 +671,19 @@ if (args.has('--combos')) {
   for (const [id, additions] of pending) console.log(`  ${id} ${latam[id].name}  ${JSON.stringify(additions)}`);
   console.log(`\n${pending.length} card(s) gain the set their own Conjunto block declares.`);
   for (const [id, why] of unwritableSets) console.log(`  skipped ${id} ${latam[id].name}: ${why}`);
+  for (const clash of clashes) console.log(`  skipped ${clash}`);
+
+  if (!args.has('--check')) {
+    mergeInto(pending);
+    console.log(`\nmerged into src/assets/demo/data/item.json`);
+  }
+  process.exit(0);
+}
+
+if (args.has('--skills')) {
+  const { pending, clashes } = pendingSkillEntries();
+  for (const [id, additions] of pending) console.log(`  ${id} ${latam[id].name}  ${JSON.stringify(additions)}`);
+  console.log(`\n${pending.length} card(s) gain the per-skill damage their own description names.`);
   for (const clash of clashes) console.log(`  skipped ${clash}`);
 
   if (!args.has('--check')) {

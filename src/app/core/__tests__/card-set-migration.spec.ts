@@ -45,6 +45,11 @@ import { CARDS_WITH_A_SET, classOf, lineUpsFor, scenarioKey, setClausesOf } from
  * 27265 (Fanático das Trevas) gained its printed "-30% contra Fogo e Sagrado" in an audit
  * of card penalties the records had dropped (card-penalties.spec.ts); the baseline was
  * regenerated to add those four keys, and its set clauses are unchanged.
+ *
+ * Six cards gained the per-skill damage their Conjunto block prints and their record had
+ * never held — 4191, 4321, 4332, 4343, 4348 and 4382, from tracker tsasuuTzUtOWBW78UJo4
+ * (see card-skill-damage.spec.ts). The baseline was regenerated to add those keys: 182
+ * lines added and nothing removed, every clause keeping the partners it had.
  */
 
 const BASELINE = 'src/app/core/__tests__/card-set-baseline.json';

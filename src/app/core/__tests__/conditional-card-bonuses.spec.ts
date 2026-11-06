@@ -129,9 +129,14 @@ describe('a class lineage — "X e evoluções:" is the "USED[...]" clause', () 
     expect(inArmor(4405, { cls: new RuneKnight() })).toEqual({});
   });
 
-  // 4438 Carta Banshee: Magos e evoluções: HP máx. -100. SP máx. +100.
+  // 4438 Carta Banshee: Magos e evoluções: HP máx. -100. SP máx. +100. Dano de
+  // [Espíritos Anciões], [Ataque Espiritual] e [Vulcão Napalm] +20%.
+  //
+  // The lineage covers all four lines, the per-skill damage included — and that third line
+  // is what card-skill-damage.spec.ts was written for (tracker tsasuuTzUtOWBW78UJo4).
   it('4438 Carta Banshee keeps the lineage on the penalty as well as the bonus', () => {
-    expect(granted({ headUpper: ELMO, cls: new ArchMage() }, 'headUpperCard', 4438)).toEqual({ hp: -100, sp: 100 });
+    expect(granted({ headUpper: ELMO, cls: new ArchMage() }, 'headUpperCard', 4438))
+      .toEqual({ hp: -100, sp: 100, 11: 20, 13: 20, 400: 20 });
     expect(granted({ headUpper: ELMO, cls: new RuneKnight() }, 'headUpperCard', 4438)).toEqual({});
   });
 
@@ -171,12 +176,14 @@ describe('a Conjunto block, whose gate reaches the lines nested inside it', () =
 });
 
 describe('a cast-time line, which the engine stores as a reduction', () => {
-  // 4327 Carta Borboleta Sanguinária: Conjuração variável +30%. A cast-time PENALTY, and
-  // `vct` counts reductions positive — docs/item-json.md §3 — so it is stored negative.
-  // Flipping the sign would turn the card's cost into its benefit.
+  // 4327 Carta Borboleta Sanguinária: Conjuração variável +30%. Dano de [Barreira de
+  // Fogo] +5%. A cast-time PENALTY, and `vct` counts reductions positive —
+  // docs/item-json.md §3 — so it is stored negative. Flipping the sign would turn the
+  // card's cost into its benefit. The 18 is Barreira de Fogo's per-skill damage, which
+  // rides along and is pinned by card-skill-damage.spec.ts.
   it('4327 Carta Borboleta Sanguinária stores "+30%" as vct -30', () => {
     expect(ITEM_DB[4327].script.vct).toEqual(['-30']);
-    expect(granted({ accRight: ACESSORIO_D }, 'accRightCard', 4327)).toEqual({ vct: -30 });
+    expect(granted({ accRight: ACESSORIO_D }, 'accRightCard', 4327)).toEqual({ vct: -30, 18: 5 });
   });
 });
 
