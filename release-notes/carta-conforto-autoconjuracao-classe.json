@@ -1,6 +1,0 @@
-{
-  "type": "patch",
-  "logs": ["A Carta Conforto só autoconjura [Crux Magnum] em Sacerdotes e evoluções, como diz a descrição do item no jogo; em um Mandraque a autoconjuração não aparece mais. A Carta Grifo (Espadachins e evoluções) e a Lança Gloriosa (Templários e evoluções) estavam sem a mesma restrição e também foram limitadas à linha de classe da descrição. Reportado por Ladrão da ZL."],
-  "logs_es": ["La Carta Confort solo autolanza [Gran Cruz] en Sacerdotes y evoluciones, como indica la descripción del objeto en el juego; en un Mandraque la autoconjuración ya no aparece. La Carta Grifo (Espadachines y evoluciones) y la Lanza glorificada (Cruzados y evoluciones) estaban sin la misma restricción y también quedaron limitadas a la línea de clase de la descripción. Reportado por Ladrão da ZL."],
-  "logs_en": ["The Lady Solace Card only auto-casts [Grand Cross] on Priests and their evolutions, as the in-game item description states; on a Mandraque the auto-cast no longer appears. The Gryphon Card (Swordmen and their evolutions) and the Glorious Spear (Crusaders and their evolutions) were missing the same restriction and are now limited to the class line in their description. Reported by Ladrão da ZL."]
-}
