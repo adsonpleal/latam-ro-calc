@@ -436,9 +436,9 @@ const whiteWingSuit = [...tempOpts._1_3, ...BaseState._1_3];
 // the armour or its card only, never from an enchant, so an entry here would be inert.
 const excelionCure = ['Reactor_Cure_101', 'Reactor_Cure_102', 'Reactor_Cure_201', 'Reactor_Cure_202'];
 const excelionGear = ['Reactor_A_DEF', 'Reactor_A_ATK', 'Reactor_A_MATK', 'Reactor_A_MHP', 'Reactor_A_MSP', 'Reactor_A_ASPD', ...excelionCure];
-const excelionResist = ['Reactor_T_FIRE', 'Reactor_T_WATER', 'Reactor_T_GROUND', 'Reactor_T_WIND'];
-const excelion = ['Reactor_A_AVOI', ...excelionResist, ...excelionGear];
-const excelionSuit = ['Reactor_A_STR', 'Reactor_A_INT', 'Reactor_A_FROZ', 'Reactor_A_AVOI', ...excelionGear];
+const excelionAvoi = ['Reactor_A_AVOI', ...excelionGear];
+const excelionWing = ['Reactor_T_FIRE', 'Reactor_T_WATER', 'Reactor_T_GROUND', 'Reactor_T_WIND', ...excelionAvoi];
+const excelionSuit = ['Reactor_A_STR', 'Reactor_A_INT', 'Reactor_A_FROZ', ...excelionAvoi];
 
 const racingShoes = [...ea45, FS._6, ...sp45, ...aspd34, ...critical34, ...BaseState._1_3];
 
@@ -880,7 +880,7 @@ export const EnchantTable: EntTable[] = [
   { name: 'Fallen Angel Wing [1]', enchants: [null, eaFsSp15, eaFsSp15, eaFsSp15] },
 
   { name: 'Excelion_Suit', enchants: [null, excelionSuit, excelionSuit, excelionSuit] },
-  { name: 'Excelion_Wing', enchants: [null, excelion, excelion, excelion] },
+  { name: 'Excelion_Wing', enchants: [null, excelionWing, excelionWing, excelionWing] },
   { name: 'Excelion_Shield', enchants: [null, excelionGear, excelionGear, excelionGear] },
   { name: 'Excelion_Boots', enchants: [null, excelionGear, excelionGear, excelionGear] },
 

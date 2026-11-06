@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { EnchantTable } from 'src/app/constants/enchant_item/_enchant_table';
+import { getEnchants } from 'src/app/constants/enchant_item/_enchant_table';
+import { isEquipmentEnchant } from 'src/app/constants/enchant_item';
 import { createMainModel } from 'src/app/utils';
 import { equipStatusOf, makeCalculator } from './make-calculator';
 
@@ -38,7 +39,11 @@ function shieldTotals(level: number): Record<string, number> {
   return equipStatusOf(makeCalculator(items), model);
 }
 
-const enchantsOf = (aegisName: string) => EnchantTable.find((row) => row.name === aegisName)?.enchants;
+const enchantsOf = getEnchants;
+
+/** The four pieces, as EnchantTable names them. */
+const PIECES = ['Excelion_Suit', 'Excelion_Wing', 'Excelion_Shield', 'Excelion_Boots'];
+const CURE = ['Reactor_Cure_101', 'Reactor_Cure_102', 'Reactor_Cure_201', 'Reactor_Cure_202'];
 
 describe('Escudo Excelion (28941) — LATAM effects, not the upstream record', () => {
   it('gives variable cast -10% at any level', () => {
@@ -69,8 +74,7 @@ describe('Escudo Excelion (28941) — LATAM effects, not the upstream record', (
 describe('Excelion diagrams reach the shield and the boot', () => {
   // browiki, Equipamento Excelion: the four pieces take 3 diagrams each, but A-ESQV is
   // the Colete's and the Motor's alone, and A-FOR / A-INT only the Colete's.
-  const shieldAndBoot = ['Reactor_A_DEF', 'Reactor_A_ATK', 'Reactor_A_MATK', 'Reactor_A_MHP', 'Reactor_A_MSP', 'Reactor_A_ASPD',
-    'Reactor_Cure_101', 'Reactor_Cure_102', 'Reactor_Cure_201', 'Reactor_Cure_202'];
+  const shieldAndBoot = ['Reactor_A_DEF', 'Reactor_A_ATK', 'Reactor_A_MATK', 'Reactor_A_MHP', 'Reactor_A_MSP', 'Reactor_A_ASPD', ...CURE];
 
   it.each(['Excelion_Shield', 'Excelion_Boots'])('offers three diagram slots on %s', (aegisName) => {
     const enchants = enchantsOf(aegisName);
@@ -105,13 +109,14 @@ describe('Excelion diagrams reach the shield and the boot', () => {
  *
  * `latam-items.json` gives one aegisName to a whole family (리액토_내성 for all four R-
  * diagrams) because that field is the client's resource name there, not an Aegis name.
- * calculator-session keys its enchant map by aegisName, so the duplicates would have
- * collapsed four items into one and left the search finding nothing — hence the
- * distinctness check below.
+ * calculator-session keys its enchant map by aegisName, so registering them as the client
+ * spells them would have collapsed four items into one and left the search finding
+ * nothing. The records carry the real Aegis names; mora-enchants.spec.ts already holds the
+ * whole database to one item per aegisName, so the guard needed here is only that every
+ * pooled name resolves.
  */
 describe('Excelion resistance, regen and freeze diagrams', () => {
-  const byId = (id: number) => db[id];
-  const scriptOf = (id: number) => byId(id).script;
+  const scriptOf = (id: number) => db[id].script;
 
   it('registers the R- family with the resistance it trades away', () => {
     // "Resistência a propriedade Fogo +25%. / Resistência a propriedade Água -25%."
@@ -134,43 +139,33 @@ describe('Excelion resistance, regen and freeze diagrams', () => {
   it('gives I-Gelo the freeze tolerance it was registered without', () => {
     // "Tolerância a [Congelamento] +100%." The record existed with an empty script and the
     // client's resource name in `aegisName`, so no pool could reference it.
-    expect(byId(4990).aegisName).toBe('Reactor_A_FROZ');
+    expect(db[4990].aegisName).toBe('Reactor_A_FROZ');
     expect(scriptOf(4990)).toEqual({ freezeResist: ['100'] });
   });
 
-  it('keeps the R- family to the Motor and I-Gelo to the Colete', () => {
-    const resist = ['Reactor_T_FIRE', 'Reactor_T_WATER', 'Reactor_T_GROUND', 'Reactor_T_WIND'];
-    for (const aegisName of ['Excelion_Suit', 'Excelion_Shield', 'Excelion_Boots']) {
-      expect(enchantsOf(aegisName)[1]).not.toContain('Reactor_T_FIRE');
-    }
-    expect(enchantsOf('Excelion_Wing')[1]).toEqual(expect.arrayContaining(resist));
-
-    expect(enchantsOf('Excelion_Suit')[1]).toContain('Reactor_A_FROZ');
-    for (const aegisName of ['Excelion_Wing', 'Excelion_Shield', 'Excelion_Boots']) {
-      expect(enchantsOf(aegisName)[1]).not.toContain('Reactor_A_FROZ');
-    }
-  });
-
-  it('offers the C- family on all four pieces', () => {
-    const cure = ['Reactor_Cure_101', 'Reactor_Cure_102', 'Reactor_Cure_201', 'Reactor_Cure_202'];
-    for (const aegisName of ['Excelion_Suit', 'Excelion_Wing', 'Excelion_Shield', 'Excelion_Boots']) {
-      for (const slot of enchantsOf(aegisName).slice(1)) expect(slot).toEqual(expect.arrayContaining(cure));
+  // browiki's table, column by column: the R- family is the Motor's alone, I-Gelo the
+  // Colete's, and the C- family is the only one all four pieces share.
+  it.each([
+    ['Reactor_T_FIRE', ['Excelion_Wing']], ['Reactor_T_WATER', ['Excelion_Wing']],
+    ['Reactor_T_GROUND', ['Excelion_Wing']], ['Reactor_T_WIND', ['Excelion_Wing']],
+    ['Reactor_A_FROZ', ['Excelion_Suit']],
+    ...CURE.map((aegisName) => [aegisName, PIECES] as const),
+  ])('offers %s on exactly %s', (entry, pieces) => {
+    for (const piece of PIECES) {
+      for (const slot of enchantsOf(piece).slice(1)) expect(slot.includes(entry), piece).toBe(pieces.includes(piece));
     }
   });
 
-  it('resolves every Excelion pool entry to one registered enchant, with no shared aegisName', () => {
-    const pooled = [...new Set(['Excelion_Suit', 'Excelion_Wing', 'Excelion_Shield', 'Excelion_Boots']
-      .flatMap((aegisName) => enchantsOf(aegisName).slice(1).flat()))];
-    const enchants = Object.values(db).filter((item: any) => item.itemTypeId === 11);
+  it('resolves every Excelion pool entry to a registered enchant, so a typo cannot empty a slot', () => {
+    const byAegis = new Set(Object.values(db).filter(isEquipmentEnchant).map((item: any) => item.aegisName));
+    const pooled = new Set(PIECES.flatMap((piece) => enchantsOf(piece).slice(1).flat()));
 
-    for (const aegisName of pooled) {
-      expect(enchants.filter((item: any) => item.aegisName === aegisName), aegisName).toHaveLength(1);
-    }
+    expect([...pooled].filter((aegisName) => !byAegis.has(aegisName))).toEqual([]);
   });
 
   it('leaves the E- family unregistered on purpose', () => {
     // "Encanta a armadura com a propriedade Fogo": calculator.ts reads `armorElement` from
     // the armour or its card only, never from an enchant, so a record here would be inert.
-    for (const id of [4970, 4971, 4972, 4973]) expect(byId(id)).toBeUndefined();
+    for (const id of [4970, 4971, 4972, 4973]) expect(db[id]).toBeUndefined();
   });
 });
