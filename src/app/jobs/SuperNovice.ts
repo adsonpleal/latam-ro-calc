@@ -2,7 +2,7 @@ import { ElementType } from '../constants/element-type.const';
 import { IntensificationFn } from '../constants/share-active-skills';
 import { BeastBaneFn, DemonBane, DoubleAttackFn, FaithFn, HiltBindingFn, ImproveDodgeFn, IncreaseSPRecoveryFn, SnatcherFn } from '../constants/share-passive-skills';
 import { InfoForClass } from '../models/info-for-class.model';
-import { floor, genSkillList } from '../utils';
+import { genSkillList } from '../utils';
 import {
   BACK_STAB,
   EARTH_SPIKE,
@@ -15,6 +15,7 @@ import {
   SIGHTRASHER,
   SIGHTLESS_MIND,
   STORM_GUST,
+  TIGER_CANNON,
   WATER_BALL,
 } from '../skills/shared-skills';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
@@ -315,34 +316,7 @@ export class SuperNovice extends CharacterBase {
         return skillLevel * 450 * (baseLevel / 100);
       },
     },
-    {
-      name: 'Tiger Cannon',
-      label: 'Tiger Cannon Lv10',
-      value: 'Tiger Cannon==10',
-      fct: 0,
-      vct: 2,
-      acd: 1,
-      cd: 3,
-      isMelee: true,
-      formula: (input: AtkSkillFormulaInput): number => {
-        const { model, skillLevel, maxHp, maxSp, monster } = input;
-        if (monster.isElement(ElementType.Ghost)) return 0;
-
-        const baseLevel = model.level;
-        const baseDamage = (maxHp * (10 + skillLevel * 2) * 0.01 + maxSp * (5 + skillLevel) * 0.01) / 4;
-
-        return floor(baseDamage * (baseLevel / 100));
-      },
-      finalDmgFormula: ({ damage, skillLevel, monster, model }): number => {
-        if (!model.propertyAtk || model.propertyAtk === ElementType.Neutral) {
-          if (monster.isElement(ElementType.Ghost)) return 0;
-        }
-
-        const bonusDamge = skillLevel * 240 + monster.level * 40;
-
-        return damage + bonusDamge;
-      },
-    },
+    TIGER_CANNON,
     // Impacto Espiritual — same skill the Magus line gets (see Warlock's copy); the Super
     // Novice learns it too, so it belongs in the battle summary here as well.
     {

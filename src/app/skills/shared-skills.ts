@@ -1,6 +1,7 @@
 import { ElementType } from '../constants/element-type.const';
 import type { WeaponTypeName } from '../constants/weapon-type-mapper';
-import type { ActiveSkillModel, AtkSkillModel } from '../jobs/_character-base.abstract';
+import type { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel } from '../jobs/_character-base.abstract';
+import { floor, formatCalcNumber } from '../utils';
 
 /** Apunhalar: client table (212); dagger packets: https://browiki.org/wiki/Apunhalar. */
 export const BACK_STAB: AtkSkillModel = {
@@ -584,3 +585,82 @@ export const CROSS_SLASH: AtkSkillModel = {
     return skillLevel * 200 * (model.level / 100) + bonus;
   },
 };
+
+/**
+ * Garra de Tigre: https://browiki.org/wiki/Garra_de_Tigre
+ *
+ * The skill lands as two parts, and only the first one is damage the target reduces:
+ *
+ *   ATQ           = (fator / 4,0) x (nível de base / 100)   — / 1,5 when it follows Ruína
+ *   dano especial = nível x 240 (x 500 as a combo) + nível de base do alvo x 40
+ *
+ * The fator is the client's own HP/SP table — 12% of max HP + 6% of max SP at Nv1, up to
+ * 30% + 15% at Nv10 — which is why the skill grows with max HP and max SP and not only
+ * with ATQ, and why every level has to be selectable rather than Nv10 alone.
+ *
+ * The dano especial cannot be reduced and no item raises it, so it is added by
+ * `finalDmgFormula`, after every reduction the chain applies.
+ */
+const tigerCannonFactor = ({ maxHp, maxSp, skillLevel }: AtkSkillFormulaInput): number =>
+  maxHp * (10 + skillLevel * 2) * 0.01 + maxSp * (5 + skillLevel) * 0.01;
+
+const tigerCannon = (args: {
+  /** The `==level` value base: either 'Tiger Cannon' or 'Tiger Cannon Combo'. */
+  skillValue: string;
+  /** Dropdown label base, without the level suffix. */
+  labelBase: string;
+  /** The reducible part's ATQ, already divided by the branch's 4,0 or 1,5. */
+  ratio: (factor: number, baseLevel: number) => number;
+  /** Dano especial per skill level: 240 on its own, 500 after Ruína. */
+  specialPerLevel: number;
+}): AtkSkillModel => ({
+  name: 'Tiger Cannon',
+  label: `${args.labelBase} Lv10`,
+  value: `${args.skillValue}==10`,
+  levelList: Array.from({ length: 10 }, (_, i) => ({ label: `${args.labelBase} Nv${i + 1}`, value: `${args.skillValue}==${i + 1}` })),
+  fct: 0,
+  // 1,1 s at Nv1 up to 2,0 s at Nv10 (skill-delay.json); it was pinned at the Nv10 cast.
+  vct: (skillLevel) => 1 + skillLevel * 0.1,
+  acd: 1,
+  cd: 3,
+  isMelee: true,
+  formula: (input: AtkSkillFormulaInput): number => {
+    if (input.monster.isElement(ElementType.Ghost)) return 0;
+
+    return floor(args.ratio(tigerCannonFactor(input), input.model.level));
+  },
+  finalDmgFormula: ({ damage, skillLevel, monster, model }): number => {
+    if (!model.propertyAtk || model.propertyAtk === ElementType.Neutral) {
+      if (monster.isElement(ElementType.Ghost)) return 0;
+    }
+
+    return damage + skillLevel * args.specialPerLevel + monster.level * 40;
+  },
+  finalDmgCalc: ({ skillLevel, monster, damageBefore, damageAfter }) => ({
+    rows: damageAfter === 0 ? [
+      { label: 'Propriedade Fantasma', display: 'Dano bloqueado' },
+      { label: 'Resultado', display: formatCalcNumber(damageAfter), emphasis: true },
+    ] : [
+      { label: 'Dano anterior', display: formatCalcNumber(damageBefore) },
+      { label: `Nível ${skillLevel} × ${args.specialPerLevel}`, display: formatCalcNumber(skillLevel * args.specialPerLevel) },
+      { label: `Nível do alvo ${monster.level} × 40`, display: formatCalcNumber(monster.level * 40) },
+      { label: 'Resultado', display: formatCalcNumber(damageAfter), emphasis: true },
+    ],
+  }),
+});
+
+export const TIGER_CANNON: AtkSkillModel = tigerCannon({
+  skillValue: 'Tiger Cannon',
+  labelBase: 'Tiger Cannon',
+  ratio: (factor, baseLevel) => (factor / 4) * (baseLevel / 100),
+  specialPerLevel: 240,
+});
+
+export const TIGER_CANNON_COMBO: AtkSkillModel = tigerCannon({
+  skillValue: 'Tiger Cannon Combo',
+  labelBase: 'Tiger Cannon (Combo)',
+  // Kept as "/ 2 x 4 / 3" rather than the wiki's "/ 1,5": the two forms land one damage
+  // apart on about 0,1% of builds, and this is the one the Nv10 figures were read at.
+  ratio: (factor, baseLevel) => ((factor / 2) * (baseLevel / 100) * 4) / 3,
+  specialPerLevel: 500,
+});
