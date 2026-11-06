@@ -146,6 +146,30 @@ const RACE = {
 const SIZE = { Pequeno: 's', 'Médio': 'm', Grande: 'l' };
 const STAT = { FOR: 'str', AGI: 'agi', VIT: 'vit', INT: 'int', DES: 'dex', SOR: 'luk' };
 
+/**
+ * pt-BR skill label -> the skill id that IS the bonus key for that skill's damage
+ * (docs/item-json.md §3.1), read off the generated catalog so this cannot drift from it.
+ *
+ * The 651 labels are unique, so the label the card prints identifies one skill. A label
+ * the catalog has no id for is absent here, which blocks the line it appears in — see
+ * `skillIdsOf`.
+ */
+function readSkillIds() {
+  const src = readFileSync(join(ROOT, 'src/app/skills/skill-meta.generated.ts'), 'utf8');
+  const byLabel = {}, nameById = {};
+  for (const m of src.matchAll(/"([^"]+)":\s*\{\s*id:\s*(\d+),\s*label:\s*"([^"]+)"/g)) {
+    byLabel[m[3]] = m[2];
+    nameById[m[2]] = m[1];
+  }
+  if (!Object.keys(byLabel).length) throw new Error('skill-meta.generated.ts yielded no id/label pair — has its shape changed?');
+  return { byLabel, nameById };
+}
+
+const { byLabel: SKILL, nameById: SKILL_NAME_BY_ID } = readSkillIds();
+
+/** A per-skill bonus key is the skill id itself; every other key is a name. */
+const isSkillKey = (key) => /^\d+$/.test(key);
+
 /** `Weapon = 0` -> { Weapon: 0 }. Read, not copied, so this file cannot drift from it. */
 function readCardPositions() {
   const src = readFileSync(join(ROOT, 'src/app/constants/card-position.enum.ts'), 'utf8');
@@ -254,6 +278,29 @@ function labelIn(table, label) {
   return found === undefined ? undefined : table[found];
 }
 
+/**
+ * "[Espíritos Anciões], [Ataque Espiritual] e [Vulcão Napalm]" -> ['13', '11', '400'].
+ *
+ * The client brackets every skill it names and joins them with commas, " e ", " ou " — or
+ * with nothing at all: 4191 prints "[Lanças de Gelo] [Relâmpago] e [Lanças de Fogo]". The
+ * brackets are what the members are read off, so none of those joiners has to be known.
+ *
+ * Null when ANY member is a label the Skill Catalog has no id for, which is the same rule
+ * `listOf` follows for a list of elements: half a line is not a bonus, and writing the
+ * members that happened to resolve would register a cheaper card than the one the client
+ * ships. 4304 ("[Punição Divina] e [Escudo Bumerangue]") and 4371 ("[Choque Rápido] e
+ * [Sacrifício do Mártir]") are the two cards this blocks today — they are waiting on a
+ * catalog id, not on this table.
+ *
+ * A bare label with no brackets resolves too, so `keysOfRule`'s probe can feed one.
+ */
+function skillIdsOf(text) {
+  const bracketed = [...String(text).matchAll(/\[([^\]]+)]/g)].map((m) => m[1].trim());
+  const labels = bracketed.length ? bracketed : [String(text).trim()];
+  const ids = labels.map((label) => labelIn(SKILL, label));
+  return ids.includes(undefined) ? null : ids;
+}
+
 /** "Fogo, Terra e Vento" -> ['subele_fire', …]; null if any member is unknown. */
 function listOf(text, table, prefix) {
   const parts = text.split(/\s*,\s*|\s+e\s+/).map((p) => p.trim()).filter(Boolean);
@@ -300,13 +347,30 @@ const RULES = [
   ['flee', new RegExp(`^Esquiva\\s*${NUM}$`, 'i'), () => ['flee'], 'Esquiva +'],
   // "CRIT" and "Crítico" are the same stat under two client generations. Only the bare
   // forms: "CRIT +3 contra a raça Peixe" is conditional and stays blocked.
-  ['cri', new RegExp(`^(?:CRIT|Cr[íi]tico)\\s*${NUM}$`, 'i'), () => ['cri'], 'Crítico +'],
+  // "CRIT", "CRÍT" and "Crítico" are the same stat under three client generations: the
+  // LATAM database prints the accented "CRÍT" on 348 descriptions and the bare "CRIT" on
+  // exactly one, so a rule that knew only the unaccented form had stopped reading almost
+  // every card that names the stat (4006, 4272 and 4328, all registered with `cri` from
+  // the days it was still spelled "Crítico", are the witnesses that this is that key).
+  ['cri', new RegExp(`^(?:CR[ÍI]T|Cr[íi]tico)\\s*${NUM}$`, 'i'), () => ['cri'], 'Crítico +'],
   ['criDmg', new RegExp(`^Dano cr[íi]tico\\s*${NUM}%$`, 'i'), () => ['criDmg'], 'Dano crítico +'],
   ['aspd%', new RegExp(`^Velocidade de ataque\\s*${NUM}%$`, 'i'), () => ['aspdPercent'], 'Velocidade de ataque +'],
   ['range', new RegExp(`^Dano f[íi]sico a dist[âa]ncia\\s*${NUM}%$`, 'i'), () => ['range'], 'Dano físico a distância +'],
   ['melee', new RegExp(`^Dano f[íi]sico corpo a corpo\\s*${NUM}%$`, 'i'), () => ['melee'], 'Dano físico corpo a corpo +'],
   ['matk%', new RegExp(`^Dano m[áa]gico\\s*${NUM}%$`, 'i'), () => ['matkPercent'], 'Dano mágico +'],
   ['atk%2', new RegExp(`^Dano f[íi]sico\\s*${NUM}%$`, 'i'), () => ['atkPercent'], 'Dano físico +'],
+  /**
+   * "Dano de [Vulcão Napalm] +20%" — a per-skill bonus, whose key IS the skill id
+   * (docs/item-json.md §3.1). Ahead of nothing and behind nothing: "Dano de [" is a
+   * shape no other rule matches.
+   *
+   * "+20% adicional" is the same key one more time. The client writes it on the refine
+   * bands of 27173 ("+10%", then "+20% adicional" at +10 and again at +14) and the entries
+   * under one key SUM, so `["10", "10===20", "14===20"]` pays exactly the 10/30/50 the
+   * card prints. Dropping the word would have blocked those two lines; reading it as a
+   * replacement is what would be wrong.
+   */
+  ['skillDmg', new RegExp(`^Dano de ((?:\\[[^\\]]+]\\s*(?:,|e|ou)?\\s*)+)\\s*${NUM}%(?:\\s+adicional)?$`, 'i'), (m) => skillIdsOf(m[1]), 'Dano de ['],
   ['vct', new RegExp(`^Conjura[çc][ãa]o vari[áa]vel\\s*${NUM}%$`, 'i'), () => ['vct'], 'Conjuração variável '],
   // Only the % form. The flat one is `fct` (2016 Cetro de Vellum), the % one `fctPercent`
   // (4456 Carta Sombra do Guardião) — reading one as the other is off by a whole unit.
@@ -344,7 +408,9 @@ const RULES = [
 
 function knownBonusKeys() {
   const src = readFileSync(join(ROOT, 'src/app/utils/create-raw-total-bonus.ts'), 'utf8');
-  return new Set([...src.matchAll(/^ {4}([a-zA-Z_][\w]*):/gm)].map((m) => m[1]));
+  // The Skill Catalog is the other half of the vocabulary: a per-skill bonus is keyed by
+  // the skill id itself, which createRawTotalBonus does not list (docs/item-json.md §3.1).
+  return new Set([...src.matchAll(/^ {4}([a-zA-Z_][\w]*):/gm)].map((m) => m[1]).concat(Object.values(SKILL)));
 }
 
 /**
@@ -354,7 +420,7 @@ function knownBonusKeys() {
  */
 function keysOfRule(fn) {
   const keys = new Set();
-  for (const table of [ELEMENT, RACE, SIZE, STAT]) {
+  for (const table of [ELEMENT, RACE, SIZE, STAT, SKILL]) {
     for (const label of Object.keys(table)) {
       // Same label in every capture slot: rules with two captures (statPair) need m[2].
       try { for (const k of fn([null, label, label]) || []) keys.add(k); } catch { /* rule takes no capture */ }
@@ -671,6 +737,9 @@ export {
   items,
   plain,
   CARD_POSITION,
+  SKILL,
+  SKILL_NAME_BY_ID,
+  isSkillKey,
   RULES,
   STORED_INVERTED,
   effectLines,

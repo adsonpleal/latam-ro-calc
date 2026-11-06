@@ -1,5 +1,5 @@
-// Triage: items with a Conjunto block whose pt-BR description names a skill-damage,
-// cooldown or cast bonus that is absent from their own `script`.
+// Triage: items whose pt-BR description names a skill-damage, cooldown or cast bonus that
+// is absent from their own `script`.
 //
 //   node tools/audit-skill-bonuses.mjs
 //
@@ -17,16 +17,21 @@
 //
 // Written for the 13/08/2026 sweep. Everything it reported that was self-contained (no
 // partner needed) has been fixed; what is left needs a partner id resolved by hand.
+//
+// It used to read ONLY items printing "Conjunto", because the sweep was about set bonuses
+// declared on the wrong side. That gate is also what hid tracker card tsasuuTzUtOWBW78UJo4
+// ("Carta Banshee não está aplicando o dano na skill vulcão napalm") for as long as it
+// existed: the Banshee card has no set, so the one tool that would have named the gap never
+// looked at it — and behind it stood 21 cards and about a hundred other items. Reading every
+// item is what makes the family visible; the sets are still told apart by COVERED.
 import fs from 'fs';
+// The same label -> id join the phrase table writes its per-skill keys from, read off the
+// generated catalog once rather than re-scanned here.
+import { SKILL, SKILL_NAME_BY_ID } from './card-catalog.mjs';
 
 const items = JSON.parse(fs.readFileSync('src/assets/demo/data/item.json', 'utf8'));
 const latam = JSON.parse(fs.readFileSync('src/assets/demo/data/latam-items.json', 'utf8'));
-const meta = fs.readFileSync('src/app/skills/skill-meta.generated.ts', 'utf8');
 
-const idByLabel = new Map(), enByLabel = new Map();
-for (const m of meta.matchAll(/"([^"]+)":\s*\{\s*id:\s*(\d+),\s*label:\s*"([^"]+)"/g)) {
-  idByLabel.set(m[3], m[2]); enByLabel.set(m[3], m[1]);
-}
 const plain = (d) => (d || '').replace(/\^[0-9a-fA-F]{6}/g, '');
 const keysOf = (s) => { const o = new Set(); for (const k of Object.keys(s || {})) { if (k === 'autoCast') continue; o.add(k); o.add(k.split('__').pop()); } return o; };
 
@@ -64,15 +69,15 @@ for (const [id, entry] of Object.entries(latam)) {
   const it = items[id];
   if (!it) continue;
   const desc = plain(entry.description);
-  if (!desc || !/Conjunto/.test(desc)) continue;
+  if (!desc) continue;
   const keys = keysOf(it.script);
 
   for (const m of desc.matchAll(/(Dano|Recarga|Conjuração variável|Pós-conjuração) de ((?:\[[^\]]+\](?:\s*(?:,|e|ou)\s*)?)+)/g)) {
     for (const s of m[2].matchAll(/\[([^\]]+)\]/g)) {
       const label = s[1].trim();
-      const skillId = idByLabel.get(label);
+      const skillId = SKILL[label];
       if (!skillId) continue;
-      if (keys.has(skillId) || keys.has(enByLabel.get(label))) continue;
+      if (keys.has(skillId) || keys.has(SKILL_NAME_BY_ID[skillId])) continue;
 
       const partner = coveredByPartner(id, skillId);
       rows.push({

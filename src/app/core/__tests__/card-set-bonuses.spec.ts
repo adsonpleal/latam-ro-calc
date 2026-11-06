@@ -109,8 +109,12 @@ describe('a set whose partners are all weapon cards', () => {
 
 describe('a set that then asks for a class', () => {
   // 4382 Carta Novus Dourado: Conjunto [Carta Harpia] [Carta Ninfa Perversa] [Carta Miyabi
-  // Ningyo] [Carta Borboleta Sanguinária] -> INT +3, and "Sábios e evoluções: Conjuração
-  // variável -20%". The class gate is nested INSIDE the Conjunto, so it needs both.
+  // Ningyo] [Carta Borboleta Sanguinária] -> INT +3 and "Dano de [Fúria da Terra] e
+  // [Tempestade de Raios] +10%", and "Sábios e evoluções: Conjuração variável -20%". The
+  // class gate is nested INSIDE the Conjunto, so it needs both.
+  //
+  // 91 is Fúria da Terra and 21 Tempestade de Raios — the set's per-skill damage, which
+  // the Conjunto gates and the class does not (card-skill-damage.spec.ts).
   const PARTNERS = { garmentCard: 4325, headUpperCard: 4258, bootCard: 4208, accRightCard: 4327 };
   const doll: Worn = { armor: ARMADURA, garment: CAPA, headUpper: ELMO, boot: CALCADO, accRight: ACESSORIO_D };
 
@@ -122,15 +126,15 @@ describe('a set that then asks for a class', () => {
 
   it('pays the INT to any class and the cast time only to the Sage line', () => {
     // vct stores a reduction as a positive number — docs/item-json.md §3.
-    expect(setFor(new ElementalMaster())).toEqual({ hp: 500, hpRecovRate: 10, int: 3, vct: 20 });
+    expect(setFor(new ElementalMaster())).toEqual({ hp: 500, hpRecovRate: 10, int: 3, vct: 20, 21: 10, 91: 10 });
   });
 
-  it('pays a Mage outside the Sage branch the INT alone', () => {
-    expect(setFor(new ArchMage())).toEqual({ hp: 500, hpRecovRate: 10, int: 3 });
+  it('pays a Mage outside the Sage branch everything but the cast time', () => {
+    expect(setFor(new ArchMage())).toEqual({ hp: 500, hpRecovRate: 10, int: 3, 21: 10, 91: 10 });
   });
 
-  it('pays a class outside the Mage tree the INT alone', () => {
-    expect(setFor(new RuneKnight())).toEqual({ hp: 500, hpRecovRate: 10, int: 3 });
+  it('pays a class outside the Mage tree everything but the cast time', () => {
+    expect(setFor(new RuneKnight())).toEqual({ hp: 500, hpRecovRate: 10, int: 3, 21: 10, 91: 10 });
   });
 });
 
