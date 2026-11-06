@@ -1,5 +1,18 @@
 [
   {
+    "v": "0.1.208-beta",
+    "date": "06-11-2026",
+    "logs": [
+      "Schmidt Corrompido passa a ser simulado com a Defesa de Ferro da instância: 10 vezes a DEF no Ruína de Glastheim e 33 vezes no Queda de Glastheim. O dano exibido contra ele era alto demais porque o cálculo usava a DEF do banco de dados, sem a mecânica do salão."
+    ],
+    "logs_es": [
+      "Schmidt Corrompido ahora se simula con la Defensa de Hierro de la instancia: 10 veces la DEF en Ruína de Glastheim y 33 veces en Queda de Glastheim. El daño mostrado contra él era demasiado alto porque el cálculo usaba la DEF de la base de datos, sin la mecánica del salón."
+    ],
+    "logs_en": [
+      "Corrupted Schmidt is now simulated with the instance's Iron Defense: 10 times its DEF in Ruína de Glastheim and 33 times in Queda de Glastheim. The damage shown against him was too high because the calculation used the database DEF, without the hall's mechanic."
+    ]
+  },
+  {
     "v": "0.1.207-beta",
     "date": "06-11-2026",
     "logs": [
