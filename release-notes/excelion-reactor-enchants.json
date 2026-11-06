@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Os encantamentos Excelion de resistência (R-Fogo, R-Água, R-Terra, R-Vento) e de recuperação (C-Corpo, C-Alma, C-Físico, C-Mental) foram cadastrados, e o I-Gelo ganhou sua tolerância a Congelamento. Eles agora aparecem em Buscar Item e nas pedras de encantamento do Colete, Motor, Escudo e Perna Excelion. Reportado por leziszi."
+  ],
+  "logs_es": [
+    "Los encantamientos Excelion de resistencia (R-Fuego, R-Agua, R-Tierra, R-Viento) y de recuperación (C-Cuerpo, C-Alma, C-Físico, C-Mental) fueron registrados, y el I-Hielo recibió su tolerancia a Congelamiento. Ahora aparecen en Buscar Ítem y en las piedras de encantamiento del Traje, Motor, Escudo y Pierna Excelion. Reportado por leziszi."
+  ],
+  "logs_en": [
+    "The Excelion resistance enchantments (R-Fire, R-Water, R-Earth, R-Wind) and the recovery ones (C-Body, C-Soul, C-Physical, C-Mental) are now registered, and I-Freeze gained its Freeze tolerance. They show up in Item Search and in the enchantment stones of the Excelion Suit, Wing, Shield and Leg. Reported by leziszi."
+  ]
+}

@@ -428,13 +428,17 @@ const twinCannon = [Fatal._3, AttackDelay._3, Spell._4, EA._3, ...BaseState._3];
 
 const whiteWingSuit = [...tempOpts._1_3, ...BaseState._1_3];
 // Excelion "Diagramas", by the table on browiki's Equipamento Excelion page. The four
-// pieces share one pool of three slots but not the same entries: A-ESQV is armour/garment
-// only, A-FOR and A-INT are the Colete's alone, and the shield and the boot take neither.
-// The E-/I-/R-/C- categories are element, freeze immunity, resistance and regen — none of
-// them exist as items here, so they cannot be offered.
-const excelionGear = ['Reactor_A_DEF', 'Reactor_A_ATK', 'Reactor_A_MATK', 'Reactor_A_MHP', 'Reactor_A_MSP', 'Reactor_A_ASPD'];
-const excelion = ['Reactor_A_AVOI', ...excelionGear];
-const excelionSuit = ['Reactor_A_STR', 'Reactor_A_INT', ...excelion];
+// pieces take three slots each but not the same entries: the C- regen family is the only
+// one all four share, A-ESQV is the Colete's and the Motor's, A-FOR / A-INT / I-Gelo are
+// the Colete's alone, and the R- resistance family is the Motor's alone. The wiki's
+// "x1/x3" column is the NPC's repeat cap, not a restriction on the list.
+// The E- family (element on the armour) stays out: the engine reads `armorElement` from
+// the armour or its card only, never from an enchant, so an entry here would be inert.
+const excelionCure = ['Reactor_Cure_101', 'Reactor_Cure_102', 'Reactor_Cure_201', 'Reactor_Cure_202'];
+const excelionGear = ['Reactor_A_DEF', 'Reactor_A_ATK', 'Reactor_A_MATK', 'Reactor_A_MHP', 'Reactor_A_MSP', 'Reactor_A_ASPD', ...excelionCure];
+const excelionResist = ['Reactor_T_FIRE', 'Reactor_T_WATER', 'Reactor_T_GROUND', 'Reactor_T_WIND'];
+const excelion = ['Reactor_A_AVOI', ...excelionResist, ...excelionGear];
+const excelionSuit = ['Reactor_A_STR', 'Reactor_A_INT', 'Reactor_A_FROZ', 'Reactor_A_AVOI', ...excelionGear];
 
 const racingShoes = [...ea45, FS._6, ...sp45, ...aspd34, ...critical34, ...BaseState._1_3];
 

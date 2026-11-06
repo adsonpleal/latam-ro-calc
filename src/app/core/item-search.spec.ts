@@ -143,4 +143,20 @@ describe('item search matching', () => {
     expect(search(items, { bonuses: ['autoCastEffect', 'atk'] })).toEqual([2]);
     expect(search(items, { skillIds: [156] })).toEqual([1]);
   });
+
+  // https://issues.latam-tools.com.br/t/zO96XyN1eIGLqhZdIRCV — "Resistência a propriedade
+  // fogo" over the Pedra de Encantamento position came back without the Excelion R-
+  // diagrams. The matcher was never at fault: the whole family was missing from item.json,
+  // and the search can only find a bonus an item's own script declares. So the guard goes
+  // on the data — these ids have to keep their subele keys to stay findable.
+  it('finds the Excelion resistance diagrams by element resistance at the enchant position', () => {
+    const db = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
+    const family = [4974, 4975, 4976, 4977].map(id => db[id] as ItemModel);
+    const rows = family.map(item => row(item.id, 'enchants'));
+
+    expect(search(family, { bonuses: ['subele_fire'], positions: ['enchants'] }, rows)).toEqual([4974, 4976]);
+    expect(search(family, { bonuses: ['subele_water'], positions: ['enchants'] }, rows)).toEqual([4974, 4975]);
+    expect(search(family, { bonuses: ['subele_earth'], positions: ['enchants'] }, rows)).toEqual([4976, 4977]);
+    expect(search(family, { bonuses: ['subele_wind'], positions: ['enchants'] }, rows)).toEqual([4975, 4977]);
+  });
 });
