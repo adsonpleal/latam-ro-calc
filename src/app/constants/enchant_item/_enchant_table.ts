@@ -265,16 +265,19 @@ const illusionBoot = [...illusionNormalDef, ...illusionBootOrbs, '마력석_파�
 /** The four encantos every Ilusión accessory column opens with. */
 const illusionAccShared = [EA._5, Spell._5, AttackDelay._4, Fatal._4];
 const illusionAcc = [...illusionAccShared, ...BaseState._3];
-// U-Mental and U-Vida are the right accessory's alone, U-Mana and U-Alma the left's —
-// the wiki's Ac. D. and Ac. E. columns do not share them, though both used to carry both.
+// S-HPR, U-Vida and U-Mental are the right accessory's alone, S-SPR, U-Alma and U-Mana the
+// left's: each of those módulos names only that side's two pieces in its client description.
+// The six N- attribute módulos name all four pieces, so they go on both sides — the client
+// spells a side out whenever there is one, which the wiki's grid does not. The pools spec
+// holds every entry here against that client text.
 const illusionAccR = [
-  ...illusionAccShared, Str._3, Agi._3, Vit._3, Luk._3,
+  ...illusionAcc,
   '청록색보석', // S-HPR (29529)
   '마법석화', // U-Vida (29543)
   '마법석성', // U-Mental (29545)
 ];
 const illusionAccL = [
-  ...illusionAccShared, Int._3, Dex._3, Vit._3, Luk._3,
+  ...illusionAcc,
   '파란색보석', // S-SPR (29532)
   '마법석풍', // U-Alma (29544)
   '마법석암', // U-Mana (29546)
@@ -400,7 +403,7 @@ const automaticBoot = [
   'Automatic_Orb44',
   'Automatic_Orb45',
 ];
-/** The Escudo column — M-Cura and P-Refletor stay out, see the note above. */
+/** The Escudo column, which takes M-Rapidez at x1 where the Motor takes it at x2. */
 const automaticShield = [
   ...automaticBasicDef, // B-DEF x3, B-DEFM x3
   'Automatic_Orb15', // M-HPMax x2

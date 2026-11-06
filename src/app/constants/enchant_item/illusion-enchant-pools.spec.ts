@@ -14,12 +14,10 @@ import { isEquipmentEnchant } from './equipment_enchants';
  * item.json altogether, and U-Mental/U-Mana were offered by both accessories instead of
  * one each.
  *
- * Each "Módulo de ..." (25670-25705) also names its pieces in its own client description,
- * and the two sources agree everywhere except the six N- attribute modules: the client lists
- * all four accessory pieces for each of them, while the wiki splits them by side (FOR/AGI on
- * the right, INT/DES on the left, VIT/SOR on both). The split is what the pools have always
- * had and what the wiki prints, so it stays; if the client turns out to be the stricter
- * reading, this is the line to revisit.
+ * Each "Módulo de ..." (25670-25705) also names its pieces in its own client description, and
+ * for the six N- attribute modules the two sources disagree. `the client decides which
+ * accessory takes a módulo` below holds the pools against the client text and says why that
+ * is the source to follow.
  *
  * @see https://browiki.org/wiki/Equipamentos_Ilusi%C3%B3n
  */
@@ -27,7 +25,7 @@ import { isEquipmentEnchant } from './equipment_enchants';
 type Item = { id: number; aegisName?: string; name: string; itemTypeId: number; script?: object };
 const read = <T,>(file: string) => JSON.parse(readFileSync(`src/assets/demo/data/${file}`, 'utf8')) as T;
 const items = read<Record<string, Item>>('item.json');
-const latam = read<Record<string, { name?: string }>>('latam-items.json');
+const latam = read<Record<string, { name?: string; description?: string }>>('latam-items.json');
 
 /** Exactly how the app builds its enchant dropdowns: aegisName -> item, pt-BR label. */
 const LABEL_BY_AEGIS = new Map<string, string>();
@@ -43,6 +41,9 @@ const ACC_SHARED = ['Mira Apurada 5', 'Pedra de Encantamento 5', 'Anti-Atraso 4'
 
 /** The N- column, which Colete, Motor and Perna all take. */
 const N_DEF = ['N-DEF', 'N-DEFM'];
+
+/** The six N- attribute encantos, which both accessories take. */
+const N_STATS = ['FOR +3', 'AGI +3', 'VIT +3', 'INT +3', 'DES +3', 'SOR +3'];
 
 /** One entry per column of the table: the pieces that share it and the encantos it takes. */
 const COLUMNS: [string, string[], string[]][] = [
@@ -65,12 +66,12 @@ const COLUMNS: [string, string[], string[]][] = [
   [
     'Acessório direito (Soquete A / Turbina A)',
     ['Illusion_B_R', 'Illusion_BC_R', 'E_Illusion_B_R'],
-    [...ACC_SHARED, 'FOR +3', 'AGI +3', 'VIT +3', 'SOR +3', 'S-HPR', 'U-Vida', 'U-Mental'],
+    [...ACC_SHARED, ...N_STATS, 'S-HPR', 'U-Vida', 'U-Mental'],
   ],
   [
     'Acessório esquerdo (Soquete B / Turbina B)',
     ['Illusion_B_L', 'Illusion_BC_L', 'E_Illusion_B_L'],
-    [...ACC_SHARED, 'INT +3', 'DES +3', 'VIT +3', 'SOR +3', 'S-SPR', 'U-Alma', 'U-Mana'],
+    [...ACC_SHARED, ...N_STATS, 'S-SPR', 'U-Alma', 'U-Mana'],
   ],
 ];
 
@@ -115,6 +116,50 @@ describe('the encanto Ilusión family', () => {
       .map((item) => `${latam[String(item.id)]?.name ?? item.name} (${item.id})`);
 
     expect(empty).toEqual([]);
+  });
+});
+
+describe('the client decides which accessory takes a módulo', () => {
+  /** The four pieces as a módulo's [Itens] block names them: A is the right side, B the left. */
+  const PIECE_BY_CLIENT_NAME: Record<string, string> = {
+    'Turbina Ilusión A': 'Illusion_B_R',
+    'Soquete Ilusión A': 'Illusion_BC_R',
+    'Turbina Ilusión B': 'Illusion_B_L',
+    'Soquete Ilusión B': 'Illusion_BC_L',
+  };
+
+  /** Every módulo whose [Itens] block names an accessory, and the encanto it grants. */
+  const ACCESSORY_MODULES: [number, string][] = [
+    [25674, 'FOR +3'], [25675, 'AGI +3'], [25672, 'VIT +3'],
+    [25676, 'INT +3'], [25677, 'DES +3'], [25673, 'SOR +3'],
+    [25678, 'S-HPR'], [25679, 'S-SPR'],
+    [25680, 'Pedra de Encantamento 5'], [25681, 'Anti-Atraso 4'],
+    [25682, 'Fatal 4'], [25683, 'Mira Apurada 5'],
+    [25696, 'U-Vida'], [25697, 'U-Alma'], [25698, 'U-Mental'], [25699, 'U-Mana'],
+  ];
+
+  /** The pieces a módulo's own client description names, as aegisNames. */
+  const piecesOf = (id: number) => {
+    // Client descriptions carry ^RRGGBB colour codes, which land inside the item names.
+    const description = (latam[String(id)]?.description ?? '').replace(/\^[0-9a-fA-F]{6}/g, '');
+    const block = /\[Itens\]([\s\S]*?)(?:-{4,}|$)/.exec(description)?.[1] ?? '';
+    return Object.entries(PIECE_BY_CLIENT_NAME)
+      .filter(([piece]) => block.includes(piece))
+      .map(([, aegisName]) => aegisName);
+  };
+
+  it.each(ACCESSORY_MODULES)('%d names the pieces its encanto is offered on', (id, encanto) => {
+    const named = piecesOf(id);
+
+    // A módulo whose [Itens] block stopped parsing would make the comparison vacuous.
+    expect(named.length).toBeGreaterThan(0);
+
+    const offering = Object.values(PIECE_BY_CLIENT_NAME).filter((aegisName) => {
+      const [, socket] = getEnchants(aegisName) || [];
+      return labels(socket as string[]).includes(encanto);
+    });
+
+    expect(offering.sort()).toEqual(named.sort());
   });
 });
 
