@@ -1131,6 +1131,7 @@ export const catalog: TranslatedCatalog = {
   'rot.moveUp': 'Move {name} up',
   'rot.moveDown': 'Move {name} down',
   'rot.stack': 'Stacks',
+  'rot.hits': 'Hits',
   'rot.occurrence': 'use #{n}',
   'rot.critLabel': '• Crit',
   'rot.critConditional': "This skill's crit depends on the character's current state — see the condition under (i).",

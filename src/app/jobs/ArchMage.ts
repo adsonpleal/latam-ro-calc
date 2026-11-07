@@ -6,17 +6,11 @@ import { AdditionalBonusInput } from '../models/info-for-class.model';
 import { DamageFormulaCalc } from '../models/damage-summary.model';
 import { SKILL_ID_BY_NAME } from '../skills';
 import { isLatamBaseline } from '../skills/skill-formula-version';
-import { SOUL_VULCAN_STRIKE } from '../skills/shared-skills';
-import { addBonus, floor, formatCalcNumber, genSkillList } from '../utils';
+import { landedHits, SCATTERED_HITS, SOUL_VULCAN_STRIKE } from '../skills/shared-skills';
+import { addBonus, atkSkillLevelList, floor, formatCalcNumber, genSkillList } from '../utils';
 import { Warlock } from './Warlock';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
-
-/** Every level of a skill, for the level picker in the UI. The label has to keep the
- *  English skill name as its prefix — setClassSkill() swaps that prefix for the pt-BR
- *  one and preserves whatever follows. */
-const levelList = (name: string, maxLv: number) =>
-  Array.from({ length: maxLv }, (_, i) => ({ label: `${name} Nv${i + 1}`, value: `${name}==${i + 1}` }));
 
 /** Meteoritos de Colisão Astral: um a cada 0,3 s durante os 15 s que a passagem fica aberta. */
 const ASTRAL_STRIKE_METEORS = 15 / 0.3;
@@ -395,7 +389,7 @@ export class ArchMage extends Warlock {
       name: 'All Bloom',
       label: '[V3] All Bloom Lv5',
       value: 'All Bloom==5',
-      levelList: levelList('All Bloom', 5),
+      levelList: atkSkillLevelList('All Bloom', 5),
       acd: 0.5,
       fct: 1.5,
       vct: 4,
@@ -405,7 +399,9 @@ export class ArchMage extends Warlock {
       // (Skill level x 4) flowers land randomly within the garden. Potencializar Magia Nv2
       // doubles them (at -50%, see setAdditionalBonus) and Nv4 stops the damage in favour
       // of [Pólen] on the target — the debuff toggle in constants/job-buffs.ts.
-      totalHit: ({ skillLevel }) => skillLevel * 4 * (this.activeSkillLv('Climax') === 2 ? 2 : 1),
+      // The random cell is why the rotation row asks how many of them landed.
+      ...SCATTERED_HITS,
+      totalHit: input => landedHits(input) * (this.activeSkillLv('Climax') === 2 ? 2 : 1),
       // The client's table counts them in a `Flores` column of its own.
       part1LabelKey: 'skd.part.allBloom1',
       formula: (input: AtkSkillFormulaInput): number => {
@@ -433,7 +429,7 @@ export class ArchMage extends Warlock {
       name: 'Violent Quake',
       label: '[V3] Violent Quake Lv5',
       value: 'Violent Quake==5',
-      levelList: levelList('Violent Quake', 5),
+      levelList: atkSkillLevelList('Violent Quake', 5),
       acd: 0.5,
       fct: 1.5,
       vct: 4,
@@ -443,7 +439,9 @@ export class ArchMage extends Warlock {
       // (Skill level x 4) pillars rise randomly within the area. Potencializar Magia Nv1
       // doubles them (at -50%, see setAdditionalBonus) and Nv4 stops the damage in favour
       // of [Empalamento] on the target — the debuff toggle in constants/job-buffs.ts.
-      totalHit: ({ skillLevel }) => skillLevel * 4 * (this.activeSkillLv('Climax') === 1 ? 2 : 1),
+      // The random cell is why the rotation row asks how many of them landed.
+      ...SCATTERED_HITS,
+      totalHit: input => landedHits(input) * (this.activeSkillLv('Climax') === 1 ? 2 : 1),
       formula: (input: AtkSkillFormulaInput): number => {
         if (this.activeSkillLv('Climax') === 4) return 0;
 
@@ -464,7 +462,7 @@ export class ArchMage extends Warlock {
       label: '[V3] Destructive Hurricane Lv5',
       part1LabelKey: 'skd.part.destructiveHurricane1',
       value: 'Destructive Hurricane==5',
-      levelList: levelList('Destructive Hurricane', 5),
+      levelList: atkSkillLevelList('Destructive Hurricane', 5),
       acd: 0.5,
       fct: 1.5,
       vct: 4,
@@ -494,7 +492,7 @@ export class ArchMage extends Warlock {
       name: 'Crystal Impact',
       label: '[V3] Crystal Impact Lv5',
       value: 'Crystal Impact==5',
-      levelList: levelList('Crystal Impact', 5),
+      levelList: atkSkillLevelList('Crystal Impact', 5),
       acd: 0.5,
       fct: 1.5,
       vct: 4,
@@ -549,7 +547,7 @@ export class ArchMage extends Warlock {
       label: '[V2] Astral Strike Lv10',
       part1LabelKey: 'skd.part.astralStrike1',
       value: 'Astral Strike==10',
-      levelList: levelList('Astral Strike', 10),
+      levelList: atkSkillLevelList('Astral Strike', 10),
       acd: 0.5,
       fct: 1.5,
       vct: 4,

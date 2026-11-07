@@ -33,4 +33,14 @@ describe('normalizeSavedModel', () => {
     const restored = normalizeSavedModel(decodeBuild(token));
     expect(restored.skillStacks).toEqual({ 'Eternal Slash': 5, 'Crescive Bolt': 0 });
   });
+
+  // The per-tile counts say how many of Florescer's twenty flowers landed, and they were
+  // being written to the token and then dropped on the way back in: the loop above only
+  // restores keys `createMainModel()` declares, and `rotationStacks` was not one of them.
+  // A single-tab build reopened with every tile at its default. Card mkvqph0HW51cDiRaXxKS.
+  it('restores the per-tile counts of a single-rotation build', () => {
+    const token = encodeBuild({ class: 4252, level: 250, jobLevel: 70, rotation: ['All Bloom==5', 'All Bloom==5'], rotationStacks: [12, 20] });
+    const restored = normalizeSavedModel(decodeBuild(token));
+    expect(restored.rotationStacks).toEqual([12, 20]);
+  });
 });

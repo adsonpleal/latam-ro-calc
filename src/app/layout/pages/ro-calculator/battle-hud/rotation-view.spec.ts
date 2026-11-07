@@ -121,6 +121,45 @@ describe('buildRotationView', () => {
     expect(result.entries[0].stackCount).toBe(4);
     expect(result.entries[0].damage).toBe(18_000);
   });
+  // Card mkvqph0HW51cDiRaXxKS: Florescer scatters `nível × 4` explosions over random
+  // cells, so the row asks how many landed and the bound follows the tile's own level.
+  it('sizes a scattered skill’s picker by the level the tile is cast at, and names it', () => {
+    const scattered = { minStack: 1, maxStack: (lv: number) => lv * 4, defaultStack: (lv: number) => lv * 4, stackLabelKey: 'rot.hits' as const };
+    const summary = summaryOf({ perHit: 1000, hits: 20 });
+    const view = (value: string, saved?: number) => buildRotationView({
+      text,
+      rotation: [value],
+      summaryByValue: new Map([[value, summary]]),
+      baseSummary: summary,
+      hasSelectedChances: false,
+      atkSkills: [{ value: 'All Bloom==5', values: ['All Bloom==1'], label: 'Florescer Nv5', ...scattered }],
+      rotationStacks: saved === undefined ? undefined : [saved],
+    }).entries[0];
+
+    expect(view('All Bloom==5').stackOptions).toHaveLength(20);
+    expect(view('All Bloom==5').stackCount).toBe(20);
+    expect(view('All Bloom==5').stackLabel).toBe(text('rot.hits'));
+    // The same tile moved down to Nv1 plants four flowers, and a count saved at Nv5
+    // cannot survive the level that allowed it.
+    expect(view('All Bloom==1').stackOptions).toHaveLength(4);
+    expect(view('All Bloom==1', 12).stackCount).toBe(4);
+  });
+
+  it('leaves an accumulation reading "Acúm."', () => {
+    const value = 'Eternal Slash==5';
+    const summary = summaryOf({ perHit: 4500, hits: 4 });
+    const result = buildRotationView({
+      text,
+      rotation: [value],
+      summaryByValue: new Map([[value, summary]]),
+      baseSummary: summary,
+      hasSelectedChances: false,
+      atkSkills: [{ value, label: 'Talho Eterno Nv5', minStack: 1, maxStack: 5, defaultStack: 1 }],
+    });
+
+    expect(result.entries[0].stackLabel).toBe(text('rot.stack'));
+  });
+
   it('cala as leituras de dano de uma habilidade que não bate', () => {
     // Esconderijo e Infiltrar entram na rotação pelo tempo que ocupam, não pelo dano
     // (cards bLnU1DLpGeA2vxQ794I4 e FPpmOoKCq7KzPxV4NUZ3). A linha lia "0" ao lado de um

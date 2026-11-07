@@ -5,6 +5,8 @@ import type { SKILL_NAME } from '../constants/skill-name';
 import { REBALANCE_2026_REFERENCE, RebalanceTiming } from './rebalance-2026-reference';
 import { REBALANCE_2022_REFERENCE } from './rebalance-2022-reference';
 import { isLatamBaseline, type SkillFormulaVersion } from './skill-formula-version';
+import { landedHits } from './shared-skills';
+import { atkSkillLevelList } from '../utils/atk-skill-level-list';
 
 type Input = AtkSkillFormulaInput;
 type Formula = AtkSkillModel['formula'];
@@ -37,10 +39,10 @@ export const REBALANCE_2026_PATCHES: Record<string, Patch> = {
   'Frozen Slash': { formula: i => scale(i, (climax(i) ? 550 : 400) + lv(i) * (climax(i) ? 1250 : 900) + spl(i) * 5), hit: 3 },
   'Storm Cannon': { formula: i => scale(i, lv(i) * (climax(i) ? 1500 : 1200) + spl(i) * 5), hit: 2 },
   'Rock Down': { formula: i => scale(i, lv(i) * (climax(i) ? 1500 : 1200) + spl(i) * 5), hit: 5 },
-  'All Bloom': { formula: i => climax(i) === 4 ? 0 : scale(i, 200 + lv(i) * 1200 + spl(i) * 5), damageRepeat: i => lv(i) * 4 * (climax(i) === 2 ? 2 : 1), totalHit: 1, part2: part(i => climax(i) === 5 ? 85000 : 0, ElementType.Fire) },
+  'All Bloom': { formula: i => climax(i) === 4 ? 0 : scale(i, 200 + lv(i) * 1200 + spl(i) * 5), damageRepeat: i => landedHits(i) * (climax(i) === 2 ? 2 : 1), totalHit: 1, part2: part(i => climax(i) === 5 ? 85000 : 0, ElementType.Fire) },
   'Crystal Impact': { formula: i => scale(i, 250 + lv(i) * 1300 + spl(i) * 5) * crystalFactor(i, 1), damageRepeat: i => climax(i) === 2 ? 2 : 1, totalHit: 1, part2: part(i => scale(i, 250 + lv(i) * 1300 + spl(i) * 5) * crystalFactor(i, 2), ElementType.Water) },
   'Destructive Hurricane': { formula: i => climax(i) === 4 ? 0 : scale(i, 600 + lv(i) * 2850 + spl(i) * 5), part2: part(i => climax(i) === 1 ? 12500 : 0, ElementType.Wind) },
-  'Violent Quake': { formula: i => climax(i) === 4 ? 0 : scale(i, 200 + lv(i) * 1200 + spl(i) * 5), totalHit: i => lv(i) * 4 * (climax(i) === 1 ? 2 : 1) },
+  'Violent Quake': { formula: i => climax(i) === 4 ? 0 : scale(i, 200 + lv(i) * 1200 + spl(i) * 5), totalHit: i => landedHits(i) * (climax(i) === 1 ? 2 : 1) },
   'Astral Strike': { formula: i => scale(i, (race(i, 'undead', 'dragon') ? 400 : 300) + lv(i) * (race(i, 'undead', 'dragon') ? 2100 : 1800) + spl(i) * 10), part2: { ...part(i => scale(i, lv(i) * 650 + spl(i) * 10), ElementType.Neutral), damageRepeat: 19 } },
 
   'Servant Weapon': { formula: linear(500, 400, 'pow', 5), totalHit: 2, canCri: true },
@@ -333,6 +335,28 @@ const referenceMap = (groups: typeof REBALANCE_2026_REFERENCE) => new Map(groups
 const references2026 = referenceMap(REBALANCE_2026_REFERENCE);
 const references2022 = referenceMap(REBALANCE_2022_REFERENCE);
 
+/**
+ * The level picker's entries for a rebalanced skill: every entry the job file wrote, up
+ * to the level the rebalance allows, and a generated one for each level beyond it.
+ *
+ * Keeping the job file's own entries is what preserves the disambiguators a generated
+ * label cannot reproduce ("(Prévia)", "(1 estrela)"); generating the rest is what covers
+ * a rebalance that moved the max level, and a skill the job file gives no list at all.
+ *
+ * Reading the label off `skill.label` instead is what put "[V3] All Bloom Lv5 Nv1" in the
+ * Magus picker — card mkvqph0HW51cDiRaXxKS. {@link atkSkillLevelList} holds the rule it
+ * broke; every fourth-job label of the "Storm Slash Lv5" shape had the same doubling, and
+ * metallic-fury.spec.ts had already worked around it one skill at a time.
+ */
+function levelListFor(skill: AtkSkillModel, maxLevel: number): AtkSkillModel['levelList'] {
+  const written = skill.levelList ?? [];
+  // Same entries, without rebuilding them: getAtkSkills() is uncached and runs once per
+  // skill solve.
+  if (written.length === maxLevel) return written;
+
+  return atkSkillLevelList(skill.name, maxLevel, skill.value.split('==')[0]).map((generated, index) => written[index] ?? generated);
+}
+
 /** Pure, per-calculation selection. Never writes to a shared job or skill definition. */
 export function resolveRebalancedSkill(skill: AtkSkillModel, version?: SkillFormulaVersion): AtkSkillModel {
   if (version === 'pre-rebalance') return skill;
@@ -349,7 +373,7 @@ export function resolveRebalancedSkill(skill: AtkSkillModel, version?: SkillForm
   if (!reference || !patch) return skill;
   return {
     ...skill,
-    levelList: Array.from({length:reference.maxLevel}, (_, index) => ({label:`${skill.label} Nv${index + 1}`,value:`${skill.value.split('==')[0]}==${index + 1}`})),
+    levelList: levelListFor(skill, reference.maxLevel),
     hit: reference.hit, totalHit: reference.totalHit, damageRepeat: undefined,
     isMatk: reference.isMatk,
     vct: timing(reference.vct), fct: timing(reference.fct), acd: timing(reference.acd), cd: timing(reference.cd),
@@ -392,7 +416,7 @@ export function rebalancedSkillCatalog(skills: AtkSkillModel[], className: Class
       if (!patch?.formula) continue;
       catalog.push(resolveRebalancedSkill({
         name: name as SKILL_NAME, label: name, value: `${name}==${data.maxLevel}`,
-        levelList: Array.from({ length: data.maxLevel }, (_, index) => ({ label: `${name} Nv${index + 1}`, value: `${name}==${index + 1}` })),
+        levelList: atkSkillLevelList(name, data.maxLevel),
         acd: 0, cd: 0, vct: 0, fct: 0, formula: patch.formula,
         isMatk: data.isMatk, isMelee: data.isMelee,
         element: data.element ? data.element[0].toUpperCase() + data.element.slice(1) as ElementType : undefined,

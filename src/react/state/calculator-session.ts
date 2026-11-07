@@ -90,9 +90,10 @@ import { normalizeSavedModel } from 'src/app/core/saved-model';
 import { parseShareInput } from 'src/app/core/share-link-input';
 import { ClassSwitchLoss, applyClassSwitch, findClassSwitchLosses, hasBuildToKeep, slotEquipFilter } from 'src/app/core/class-switch';
 import { canUsedByClass } from 'src/app/utils/can-used-by-class';
+import { stackRange } from 'src/app/utils/skill-stack';
 import { SLOTS_BY_KEY } from 'src/app/app-config/equipment-slots';
 import { SlotListBag } from '../../app/layout/pages/ro-calculator/equipment-grid/slot-list-bag.model';
-import { compactRotationForShare, defaultAtkSkill, firstRealSkill, isBasicAttack, isOffensiveSkill, pruneRotationForClass } from 'src/app/core/rotation';
+import { compactRotationForShare, defaultAtkSkill, firstRealSkill, isBasicAttack, isOffensiveSkill, pruneRotationForClass, splitSkillValue } from 'src/app/core/rotation';
 import { MAX_ROTATION_TABS, activeRotationTab, addRotationTab, mapRotationTabs, readRotationTabs, removeRotationTab, selectRotationTab, syncRotationTabs } from 'src/app/core/rotation-tabs';
 import { RotationScheduleStep } from 'src/app/core/rotation-schedule';
 import { optimizeRotation } from 'src/app/core/rotation-optimize';
@@ -1387,9 +1388,15 @@ await ((_event?: unknown) => {
 
     for (const [index, value] of (this.model.rotation ?? []).entries()) {
       if (isBasicAttack(value)) continue;
-      const name = value.split('==')[0];
+      const { name, level } = splitSkillValue(value);
       const stack = this.model.rotationStacks?.[index];
-      const cacheKey = `${value}:${Number.isFinite(stack) ? stack : originalStacks?.[name] ?? ''}`;
+      // Keyed on the count the engine will actually use, not on what was saved: a tile
+      // added today carries the default as a concrete number while one restored from a
+      // token carries none, and a count saved at Nv5 clamps down at Nv1 — all of which
+      // reach the same solve.
+      const { count } = stackRange(this.atkSkills.find((entry) => entry.name === name), Number(level) || 0,
+        Number.isFinite(stack) ? stack : originalStacks?.[name]);
+      const cacheKey = `${value}:${count}`;
       if (solved.has(cacheKey)) {
         summaryByIndex.set(index, solved.get(cacheKey));
         continue;
@@ -1494,10 +1501,13 @@ await ((_event?: unknown) => {
   }
 
   onSkillStackChange(change: { index: number; stack: number }) {
-    const name = this.model.rotation?.[change.index]?.split('==')[0];
+    const { name, level } = splitSkillValue(this.model.rotation?.[change.index] ?? '');
     const skill = this.atkSkills.find((entry) => entry.name === name);
-    if (!skill?.maxStack || !Number.isInteger(change.stack)) return;
-    const stack = Math.max(skill.minStack ?? 0, Math.min(skill.maxStack, change.stack));
+    if (!skill || !Number.isInteger(change.stack)) return;
+    // Clamped at this tile's own level: a ground skill scatters more hits the higher it
+    // is cast, so the bound is read the way the row's picker reads it.
+    const { max, count: stack } = stackRange(skill, Number(level) || 0, change.stack);
+    if (max <= 0) return;
     const stacks = [...(this.model.rotationStacks ?? [])];
     stacks[change.index] = stack;
     this.model.rotationStacks = stacks;

@@ -1133,6 +1133,7 @@ export const catalog: TranslatedCatalog = {
   'rot.moveUp': 'Mover {name} hacia arriba',
   'rot.moveDown': 'Mover {name} hacia abajo',
   'rot.stack': 'Acum.',
+  'rot.hits': 'Impactos',
   'rot.occurrence': '{n}ª vez',
   'rot.critLabel': '• CRÍT',
   'rot.critConditional': 'El crítico de esta habilidad depende del estado actual del personaje — mira la condición en (i).',
