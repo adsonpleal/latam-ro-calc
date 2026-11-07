@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Os bônus de \"Dano mágico de propriedade\" de sete itens voltaram a contar no dano. Eles estavam gravados no canal de \"contra oponentes de propriedade\", que só rende quando o monstro é daquela propriedade, ou simplesmente não existiam. Agora a Carta Plaga, o Rutilus-OS e o Rutilus-OSAD somam os +5% e +10% de dano Neutro contra qualquer alvo; a Bota Natalina, o Cajado Dínamo e a Guardiã do Natal ganharam as linhas de refino +11 que faltavam; e a Cruz Real deixou de mandar o bônus do conjunto de Schmidt para o dano físico. Numa build de autoconjuração de Mandraque, a Fenda do Abismo contra alvo de outra propriedade sobe os 5% que a Carta Plaga promete."
+  ],
+  "logs_es": [
+    "Los bonos de \"Daño mágico de propiedad\" de siete ítems vuelven a contar en el daño. Estaban guardados en el canal de \"contra enemigos de propiedad\", que solo rinde cuando el monstruo es de esa propiedad, o simplemente no existían. Ahora la Carta Plaga, el Rutilus-OS y el Rutilus-OSAD suman los +5% y +10% de daño Neutro contra cualquier objetivo; la Bota Natalina, el Cajado Dínamo y la Guardiã do Natal recibieron las líneas de refinamiento +11 que faltaban; y la Cruz Real dejó de enviar el bono del conjunto de Schmidt al daño físico. En una build de autoconjuro de Mandraque, la Fenda do Abismo contra un objetivo de otra propiedad sube el 5% que promete la Carta Plaga."
+  ],
+  "logs_en": [
+    "The \"magic damage of property\" bonuses on seven items count towards damage again. They were stored in the \"against opponents of property\" channel, which only pays off when the monster is of that property, or were simply absent. The Carta Plaga, Rutilus-OS and Rutilus-OSAD now add their +5% and +10% Neutral damage against any target; Bota Natalina, Cajado Dínamo and Guardiã do Natal gained the missing refine +11 lines; and Cruz Real no longer sends the Schmidt set bonus to physical damage. On a Mandraque auto-cast build, Fenda do Abismo against a target of another property goes up by the 5% the Carta Plaga promises."
+  ]
+}
