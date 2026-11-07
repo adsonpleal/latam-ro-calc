@@ -247,6 +247,8 @@ export const ptBR = {
   'calc.load': 'Carregar',
   'calc.delete': 'Excluir',
   'calc.simMeta': '{class} · Nv {level}/{jobLevel}',
+  'calc.compareSavedSim': 'Comparar com a simulação atual',
+  'calc.compareSavedSimTooltip': 'Entra como comparação da build atual, sem substituí-la. Substitui qualquer comparação existente.',
   'calc.shareTitle': 'Compartilhar simulação',
   'calc.shareNote': 'Link com a simulação embutida — quem abrir verá exatamente esta build.',
   'calc.shortening': 'Encurtando o link…',

@@ -240,6 +240,8 @@ export const catalog: TranslatedCatalog = {
   'calc.load': 'Cargar',
   'calc.delete': 'Eliminar',
   'calc.simMeta': '{class} · Nv {level}/{jobLevel}',
+  'calc.compareSavedSim': 'Comparar con la simulación actual',
+  'calc.compareSavedSimTooltip': 'Entra como comparación de la build actual, sin reemplazarla. Reemplaza cualquier comparación existente.',
   'calc.shareTitle': 'Compartir simulación',
   'calc.shareNote': 'Enlace con la simulación incrustada — quien lo abra verá exactamente esta build.',
   'calc.shortening': 'Acortando el enlace…',

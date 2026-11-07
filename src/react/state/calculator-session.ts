@@ -85,7 +85,7 @@ import { customOptionScripts, ensureCustomAttachment } from 'src/app/core/custom
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { ElementType } from 'src/app/constants/element-type.const';
 import { CompareState, STATS_COMPARE_KEYS, copyStatsFields } from 'src/app/core/compare-state';
-import { buildComparisonFromImport } from 'src/app/core/import-comparison';
+import { buildComparisonFromImport, buildComparisonFromSavedSim, canCompareSavedPreset } from 'src/app/core/import-comparison';
 import { normalizeSavedModel } from 'src/app/core/saved-model';
 import { parseShareInput } from 'src/app/core/share-link-input';
 import { ClassSwitchLoss, applyClassSwitch, findClassSwitchLosses, hasBuildToKeep, slotEquipFilter } from 'src/app/core/class-switch';
@@ -1994,6 +1994,26 @@ await ((_event?: unknown) => {
     }, () => this.publish());
   }
 
+  /** Whether a saved sim's card offers the comparison icon, or dims it and says why. */
+  canCompareSavedSim(sim: SavedSimulation): boolean {
+    return canCompareSavedPreset(sim?.preset, this.model.class);
+  }
+
+  /**
+   * Bring a saved sim in as the comparison instead of loading it over the build, through
+   * the same conversion a share link imported as a comparison goes through. The build on
+   * screen, its skills and its buffs stay untouched.
+   *
+   * The icon is `aria-disabled`, not `disabled` — that is what keeps its tip reachable —
+   * so it still takes a click, and the builder is what turns a sim of another class down.
+   */
+  compareSavedSim(sim: SavedSimulation): void {
+    const state = buildComparisonFromSavedSim(sim.preset, this.model.class, this.compareSlotsForClass());
+    if (!state) return;
+    this.showSavesDialog = false;
+    this.applyComparison(state, sim.name);
+  }
+
   async deleteSavedSim(sim: SavedSimulation, event: Event): Promise<void> {
     event.stopPropagation();
     const ok = await this.waitConfirm(this.text('cs.deleteSim', { name: sim.name }));
@@ -2504,15 +2524,24 @@ await ((_event?: unknown) => {
   }
 
   private applyImportAsComparison(imported: PendingImport) {
-    const state = buildComparisonFromImport(imported.model, this.compareSlotsForClass());
-    this.restoreCompareState(state);
-    this.statsSide = 'main';
     this.replayBusy = false;
     this.showReplayImport = false;
+    this.applyComparison(buildComparisonFromImport(imported.model, this.compareSlotsForClass()),
+      this.importSourceLabel(imported));
+  }
+
+  /**
+   * Put a built comparison up and say so. Shared by the import dialog and the saved-sim
+   * card, which name a different source but promise the reader the same thing — so the
+   * wording, the severity and the stats side it resets live in one place.
+   */
+  private applyComparison(state: CompareState, source: string) {
+    this.restoreCompareState(state);
+    this.statsSide = 'main';
     this.messageService.add({
       severity: 'success',
       summary: this.text('cs.importedAsCompare'),
-      detail: this.text('cs.importedAsCompareDetail', { source: this.importSourceLabel(imported) }),
+      detail: this.text('cs.importedAsCompareDetail', { source }),
       life: 9000,
     });
   }
