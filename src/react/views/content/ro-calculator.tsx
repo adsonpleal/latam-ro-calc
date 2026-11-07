@@ -977,6 +977,7 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "modal": true,
 "dismissableMask": true,
 "visibleChange": (event: any) => vm.action(() => { const $event = event; (vm.showSaveDialog = $event) }),
+"contentStyle": {"min-height": "8rem"},
 "style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "380px","max-width": "92vw"}))),
 "template_footer": (context: any) => {  return <><Render tag="button" props={{"label": t('calc.cancel'),
 "click": (event: any) => vm.action(() => { const $event = event; (vm.showSaveDialog = false) }),
@@ -995,6 +996,27 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "keyup": (event: any) => vm.action(() => { const $event = event; if (event.key?.toLowerCase() === "enter") { vm.confirmSave() } }),
 "inputText": true}}></Render></Render>
 </Render>
+<Render tag="app-ui-dialog" props={{"header": t('calc.saveTitle'),
+"visible": vm.showSaveChoiceDialog,
+"modal": true,
+"dismissableMask": true,
+"visibleChange": (event: any) => vm.action(() => { const $event = event; (vm.showSaveChoiceDialog = $event) }),
+"contentStyle": {"min-height": "8rem"},
+"style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "380px","max-width": "92vw"}))),
+"template_footer": (context: any) => {  return <><Render tag="button" props={{"label": t('calc.cancel'),
+"click": (event: any) => vm.action(() => { const $event = event; (vm.showSaveChoiceDialog = false) }),
+"className": ["ui-button-text"].filter(Boolean).join(' '),
+"button": true}}></Render></>; }}}><Render tag="div" props={{"className": ["flex flex-column gap-2 pt-2"].filter(Boolean).join(' ')}}><Render tag="button" props={{"icon": "copy",
+"label": t('calc.saveReplaceExisting'),
+"click": (event: any) => vm.action(() => { const $event = event; vm.chooseReplaceSim() }),
+"className": ["ui-button-outlined"].filter(Boolean).join(' '),
+"button": true}}></Render>
+<Render tag="button" props={{"icon": "plus",
+"label": t('calc.saveAsNew'),
+"click": (event: any) => vm.action(() => { const $event = event; vm.chooseNewSim() }),
+"className": ["ui-button-success"].filter(Boolean).join(' '),
+"button": true}}></Render></Render>
+</Render>
 <Render tag="app-ui-dialog" props={{"visible": vm.showSavesDialog,
 "modal": true,
 "dismissableMask": true,
@@ -1003,18 +1025,18 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "styleClass": "saves-dialog",
 "style": normalizeStyle(Object.assign({}, normalizeStyle({"width": "900px","max-width": "95vw"}))),
 "template_header": (context: any) => {  return <><Render tag="div" props={{"className": ["flex align-items-center justify-content-between"].filter(Boolean).join(' '),
-"style": normalizeStyle(Object.assign({}, parseStyle("width: 100%")))}}><Render tag="span" props={{"className": ["text-xl font-medium"].filter(Boolean).join(' ')}}>{t('calc.savesTitle')}</Render>
-<Render tag="button" props={{"icon": "plus",
+"style": normalizeStyle(Object.assign({}, parseStyle("width: 100%")))}}><Render tag="span" props={{"className": ["text-xl font-medium"].filter(Boolean).join(' ')}}>{t(vm.isReplacingSim ? 'calc.savesReplaceTitle' : 'calc.savesTitle')}</Render>
+{!vm.isReplacingSim && <Render tag="button" props={{"icon": "plus",
 "label": t('calc.newSimulation'),
 "click": (event: any) => vm.action(() => { const $event = event; vm.newSimulation() }),
 "className": ["ui-button-sm ui-button-outlined mr-3"].filter(Boolean).join(' '),
-"button": true}}></Render></Render></>; }}}>
+"button": true}}></Render>}</Render></>; }}}>
 {(() => { const __condition85 = (vm.savedSims.length === 0);  return __condition85 ? <><Render tag="div" props={{"className": ["p-5 text-center"].filter(Boolean).join(' '),
 "style": normalizeStyle(Object.assign({}, parseStyle("opacity: 0.7")))}}>{rich('calc.savesEmpty')}</Render></> : null; })()}
-{(() => { const __condition86 = vm.savedSims.length;  return __condition86 ? <><Render tag="div" props={{"className": ["grid"].filter(Boolean).join(' ')}}>{(vm.savedSims ?? []).map((__entry87: any, __index87: number, __array87: any[]) => { const sim = __entry87; const canCompare = vm.canCompareSavedSim(sim); return <Fragment key={identityKey(__entry87)}><Render tag="div" props={{"className": ["col-12 sm:col-6 lg:col-4 p-2"].filter(Boolean).join(' ')}}><Render tag="div" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.loadSavedSim(sim) }),
+{(() => { const __condition86 = vm.savedSims.length;  return __condition86 ? <><Render tag="div" props={{"className": ["grid"].filter(Boolean).join(' ')}}>{(vm.savedSims ?? []).map((__entry87: any, __index87: number, __array87: any[]) => { const sim = __entry87; const canCompare = vm.canCompareSavedSim(sim); return <Fragment key={identityKey(__entry87)}><Render tag="div" props={{"className": ["col-12 sm:col-6 lg:col-4 p-2"].filter(Boolean).join(' ')}}><Render tag="div" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.isReplacingSim ? vm.replaceSavedSim(sim) : vm.loadSavedSim(sim) }),
 "className": ["sim_card border_default px-3 py-2 flex flex-column align-items-center gap-1 cursor-pointer"].filter(Boolean).join(' '),
 "style": normalizeStyle(Object.assign({}, parseStyle("height: 100%"))),
-"activateWithKeys": true}}><Render tag="app-icon" props={{"role": "button",
+"activateWithKeys": true}}>{!vm.isReplacingSim && <Render tag="app-icon" props={{"role": "button",
 "tabIndex": "0",
 "name": "arrows-h",
 "aria-disabled": (canCompare ? undefined : "true"),
@@ -1022,7 +1044,7 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "click": (event: any) => vm.action(() => { const $event = event; $event.stopPropagation();vm.compareSavedSim(sim) }),
 "className": ["sim_compare"].filter(Boolean).join(' '),
 "tooltip": {text: t('calc.compareSavedSimTooltip', { detail: canCompare ? t('calc.compareSavedSimDetail') : t('calc.importSameClassOnly', { class: vm.classLabel(vm.model.class) }) }), position: "left", className: '', showDelay: 150, hideDelay: 0, escape: true, disabled: false},
-"activateWithKeys": true}}></Render>
+"activateWithKeys": true}}></Render>}
 <Render tag="img" props={{"src": vm.charSpriteUrl(sim.preset),
 "alt": sim.name,
 "error": (event: any) => vm.action(() => { const $event = event; vm.onCharSpriteError($event,sim.classId) }),
@@ -1031,7 +1053,14 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "style": normalizeStyle(Object.assign({}, parseStyle("width: 100%")))}}><Render tag="div" props={{"className": ["font-semibold overflow-hidden text-overflow-ellipsis white-space-nowrap"].filter(Boolean).join(' ')}}>{interpolate(["",""], [sim.name])}</Render>
 <Render tag="div" props={{"className": ["text-sm"].filter(Boolean).join(' '),
 "style": normalizeStyle(Object.assign({}, parseStyle("opacity: 0.7")))}}>{t('calc.simMeta', { class: vm.classLabel(sim.classId), level: sim.preset.level, jobLevel: sim.preset.jobLevel })}</Render></Render>
-<Render tag="div" props={{"className": ["flex gap-2 justify-content-center mt-auto"].filter(Boolean).join(' ')}}><Render tag="button" props={{"icon": "upload",
+<Render tag="div" props={{"className": ["flex gap-2 justify-content-center mt-auto"].filter(Boolean).join(' ')}}>
+{vm.isReplacingSim
+  ? <Render tag="button" props={{"icon": "save",
+"label": t('calc.saveReplaceExisting'),
+"click": (event: any) => vm.action(() => { const $event = event; $event.stopPropagation();vm.replaceSavedSim(sim) }),
+"className": ["ui-button-sm ui-button-success"].filter(Boolean).join(' '),
+"button": true}}></Render>
+  : <><Render tag="button" props={{"icon": "upload",
 "label": t('calc.load'),
 "click": (event: any) => vm.action(() => { const $event = event; $event.stopPropagation();vm.loadSavedSim(sim) }),
 "className": ["ui-button-sm ui-button-success"].filter(Boolean).join(' '),
@@ -1040,7 +1069,7 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "aria-label": t('calc.delete'),
 "click": (event: any) => vm.action(() => { const $event = event; vm.deleteSavedSim(sim,$event) }),
 "className": ["ui-button-sm ui-button-danger ui-button-outlined"].filter(Boolean).join(' '),
-"button": true}}></Render></Render></Render></Render></Fragment>; })}</Render></> : null; })()}</Render>
+"button": true}}></Render></>}</Render></Render></Render></Fragment>; })}</Render></> : null; })()}</Render>
 <Render tag="app-ui-dialog" props={{"header": t('calc.shareTitle'),
 "visible": vm.showShareDialog,
 "modal": true,

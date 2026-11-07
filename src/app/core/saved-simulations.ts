@@ -44,6 +44,25 @@ const newId = (): string => {
   }
 };
 
+/** The stored shape of one save, shared by `upsert` and `replace`. */
+const buildEntry = (
+  id: string,
+  name: string,
+  preset: PresetModel,
+  targetProfile?: PlayerTargetProfile,
+  compare?: CompareState | null,
+  customItems?: CustomItemDefinition[],
+): SavedSimulation => ({
+  id,
+  name,
+  classId: Number(preset.class) || 0,
+  savedAt: Date.now(),
+  preset,
+  targetProfile,
+  compare: compare ?? undefined,
+  customItems,
+});
+
 export class SavedSimulationStore {
   constructor(private readonly storage: StorageLike) {}
 
@@ -78,18 +97,33 @@ export class SavedSimulationStore {
     const n = trimmed.toLowerCase();
     const list = this.list();
     const existing = list.find((s) => s.name.trim().toLowerCase() === n);
-    const entry: SavedSimulation = {
-      id: existing?.id ?? newId(),
-      name: trimmed,
-      classId: Number(preset.class) || 0,
-      savedAt: Date.now(),
-      preset,
-      targetProfile,
-      compare: compare ?? undefined,
-      customItems,
-    };
+    const entry = buildEntry(existing?.id ?? newId(), trimmed, preset, targetProfile, compare, customItems);
     const next = existing ? list.map((s) => (s.id === existing.id ? entry : s)) : [entry, ...list];
     this.writeAll(next);
+    return entry;
+  }
+
+  /**
+   * Overwrite one save's content in place, keeping its id and its name — the save
+   * dialog's "substituir" mode, where the reader picks which save to replace instead
+   * of retyping its name byte for byte (which is all `upsert` could match on).
+   *
+   * Returns null when the id is already gone, so the caller can say so instead of
+   * silently writing a new save: another tab may have deleted it while the dialog
+   * sat open on this one.
+   */
+  replace(
+    id: string,
+    preset: PresetModel,
+    targetProfile?: PlayerTargetProfile,
+    compare?: CompareState | null,
+    customItems?: CustomItemDefinition[],
+  ): SavedSimulation | null {
+    const list = this.list();
+    const existing = list.find((s) => s.id === id);
+    if (!existing) return null;
+    const entry = buildEntry(id, existing.name, preset, targetProfile, compare, customItems);
+    this.writeAll(list.map((s) => (s.id === id ? entry : s)));
     return entry;
   }
 
