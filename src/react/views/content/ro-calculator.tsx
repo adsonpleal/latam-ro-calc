@@ -1021,7 +1021,7 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "label": t('calc.compareSavedSim'),
 "click": (event: any) => vm.action(() => { const $event = event; $event.stopPropagation();vm.compareSavedSim(sim) }),
 "className": ["sim_compare"].filter(Boolean).join(' '),
-"tooltip": {text: (canCompare ? t('calc.compareSavedSimTooltip') : t('calc.importSameClassOnly', { class: vm.classLabel(vm.model.class) })), position: "left", className: '', showDelay: 150, hideDelay: 0, escape: true, disabled: false},
+"tooltip": {text: t('calc.compareSavedSimTooltip', { detail: canCompare ? t('calc.compareSavedSimDetail') : t('calc.importSameClassOnly', { class: vm.classLabel(vm.model.class) }) }), position: "left", className: '', showDelay: 150, hideDelay: 0, escape: true, disabled: false},
 "activateWithKeys": true}}></Render>
 <Render tag="img" props={{"src": vm.charSpriteUrl(sim.preset),
 "alt": sim.name,
