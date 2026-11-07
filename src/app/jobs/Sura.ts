@@ -3,6 +3,7 @@ import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { InfoForClass } from '../models/info-for-class.model';
 import { floor, formatCalcNumber, genSkillList } from '../utils';
+import { TIGER_CANNON, TIGER_CANNON_COMBO } from '../skills/shared-skills';
 import { ElementType } from '../constants/element-type.const';
 import { Champion } from './Champion';
 
@@ -78,18 +79,6 @@ const jobBonusTable: Record<number, [number, number, number, number, number, num
   69: [9, 9, 6, 7, 8, 1],
   70: [10, 10, 6, 8, 8, 1],
 };
-
-const tigerCannonFinalDmgCalc: AtkSkillModel['finalDmgCalc'] = ({ skillLevel, monster, damageBefore, damageAfter }) => ({
-  rows: damageAfter === 0 ? [
-    { label: 'Propriedade Fantasma', display: 'Dano bloqueado' },
-    { label: 'Resultado', display: formatCalcNumber(damageAfter), emphasis: true },
-  ] : [
-    { label: 'Dano anterior', display: formatCalcNumber(damageBefore) },
-    { label: `Nível ${skillLevel} × 240`, display: formatCalcNumber(skillLevel * 240) },
-    { label: `Nível do alvo ${monster.level} × 40`, display: formatCalcNumber(monster.level * 40) },
-    { label: 'Resultado', display: formatCalcNumber(damageAfter), emphasis: true },
-  ],
-});
 
 export class Sura extends Champion {
   protected override CLASS_NAME = ClassName.Sura;
@@ -247,64 +236,8 @@ export class Sura extends Champion {
         return floor(totalDmg);
       },
     },
-    {
-      name: 'Tiger Cannon',
-      label: 'Tiger Cannon Lv10',
-      value: 'Tiger Cannon==10',
-      fct: 0,
-      vct: 2,
-      acd: 1,
-      cd: 3,
-      isMelee: true,
-      formula: (input: AtkSkillFormulaInput): number => {
-        const { model, skillLevel, maxHp, maxSp, monster } = input;
-        if (monster.isElement(ElementType.Ghost)) return 0;
-
-        const baseLevel = model.level;
-        const baseDamage = (maxHp * (10 + skillLevel * 2) * 0.01 + maxSp * (5 + skillLevel) * 0.01) / 4;
-
-        return floor(baseDamage * (baseLevel / 100));
-      },
-      finalDmgFormula: ({ damage, skillLevel, monster, model }): number => {
-        if (!model.propertyAtk || model.propertyAtk === ElementType.Neutral) {
-          if (monster.isElement(ElementType.Ghost)) return 0;
-        }
-
-        const bonusDamge = skillLevel * 240 + monster.level * 40;
-
-        return damage + bonusDamge;
-      },
-      finalDmgCalc: tigerCannonFinalDmgCalc,
-    },
-    {
-      name: 'Tiger Cannon',
-      label: 'Tiger Cannon Lv10 (Combo)',
-      value: 'Tiger Cannon Combo==10',
-      fct: 0,
-      vct: 2,
-      acd: 1,
-      cd: 3,
-      isMelee: true,
-      formula: (input: AtkSkillFormulaInput): number => {
-        const { model, skillLevel, monster, maxHp, maxSp } = input;
-        if (monster.isElement(ElementType.Ghost)) return 0;
-
-        const baseLevel = model.level;
-        const baseDamage = (maxHp * (10 + skillLevel * 2) * 0.01 + maxSp * (5 + skillLevel) * 0.01) / 2;
-
-        return floor((baseDamage * (baseLevel / 100) * 4) / 3);
-      },
-      finalDmgFormula: ({ damage, skillLevel, monster, model }): number => {
-        if (!model.propertyAtk || model.propertyAtk === ElementType.Neutral) {
-          if (monster.isElement(ElementType.Ghost)) return 0;
-        }
-
-        const bonusDamge = skillLevel * 500 + monster.level * 40;
-
-        return damage + bonusDamge;
-      },
-      finalDmgCalc: tigerCannonFinalDmgCalc,
-    },
+    TIGER_CANNON,
+    TIGER_CANNON_COMBO,
     {
       name: 'Knuckle Arrow',
       label: 'Knuckle Arrow Lv10',

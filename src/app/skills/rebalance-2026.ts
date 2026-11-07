@@ -45,7 +45,12 @@ export const REBALANCE_2026_PATCHES: Record<string, Patch> = {
   'Violent Quake': { formula: i => climax(i) === 4 ? 0 : scale(i, 200 + lv(i) * 1200 + spl(i) * 5), totalHit: i => landedHits(i) * (climax(i) === 1 ? 2 : 1) },
   'Astral Strike': { formula: i => scale(i, (race(i, 'undead', 'dragon') ? 400 : 300) + lv(i) * (race(i, 'undead', 'dragon') ? 2100 : 1800) + spl(i) * 10), part2: { ...part(i => scale(i, lv(i) * 650 + spl(i) * 10), ElementType.Neutral), damageRepeat: 19 } },
 
-  'Servant Weapon': { formula: linear(500, 400, 'pow', 5), totalHit: 2, canCri: true },
+  // No `cd`: the client's 30/60/90/120/150s curve is the cooldown of *summoning* the
+  // servants, and it is also how long they stay out, so a rotation never waits on it.
+  // This entry is one servant's hit, which the summon then fires off on its own — see
+  // the matching exception in skill-delay.spec.ts. Taking the reference's cooldown here
+  // made the rotation report "Recarga não fecha — faltam 149,31s" at Nv5.
+  'Servant Weapon': { formula: linear(500, 400, 'pow', 5), totalHit: 2, canCri: true, cd: 0 },
   'Servant Weapon-Phantom': { formula: linear(200, 300, 'pow', 5), totalHit: i => i.stack ?? 5, maxStack: 5, minStack: 1, defaultStack: 5, canCri: true },
   'Servant Weapon-Demolition': { formula: linear(0, 500, 'pow', 5), totalHit: i => i.stack ?? 5, maxStack: 5, minStack: 1, defaultStack: 5, canCri: true },
   'Hack and Slasher': { formula: linear(200, 750, 'pow', 7), totalHit: 2, canCri: true, criDmgPercentage: 0.5, isMelee: i => i === 'twohandSword' },
@@ -242,7 +247,10 @@ export const REBALANCE_2022_PATCHES: Record<string, Patch> = {
   'Arbitrium': { formula: i => scale(i, lv(i) * (1000 + learned(i, 'Fidus Animus') * 10) + spl(i) * 7), part2: part(i => scale(i, lv(i) * (1250 + learned(i, 'Fidus Animus') * 10) + spl(i) * 7), ElementType.Holy) },
   'Petitio': { formula: i => scale(i, lv(i) * (1050 + learned(i, 'Mace & Book Mastery') * 10) + pow(i) * 5) },
   'Explosive Powder': { ...REBALANCE_2026_PATCHES['Explosive Powder'], formula: i => scale(i, 400 + lv(i) * (active(i, 'Research Report') ? 550 : 450) + pow(i) * (active(i, 'Research Report') ? 10 : 7)) },
-  'Mayhemic Thorns': { ...REBALANCE_2026_PATCHES['Mayhemic Thorns'], formula: i => scale(i, (active(i, 'Research Report') ? 250 : 200) + lv(i) * (active(i, 'Research Report') ? 300 : 250) + pow(i) * (active(i, 'Research Report') ? 10 : 7)), totalHit: i => active(i, 'Research Report') ? 5 : 3 },
+  // Espinhos Furiosos has no job file, so the article's 1,5s variável would be the
+  // calculator's only answer; LATAM's own Conjuração/Espera window says 1s. Baseline only:
+  // the February 2026 bundle is kRO's, and its retuned delays are supposed to differ.
+  'Mayhemic Thorns': { ...REBALANCE_2026_PATCHES['Mayhemic Thorns'], vct: 1, formula: i => scale(i, (active(i, 'Research Report') ? 250 : 200) + lv(i) * (active(i, 'Research Report') ? 300 : 250) + pow(i) * (active(i, 'Research Report') ? 10 : 7)), totalHit: i => active(i, 'Research Report') ? 5 : 3 },
   'Axe Stomp': { ...REBALANCE_2026_PATCHES['Axe Stomp'], formula: linear(350, 850, 'pow', 5) },
   'Spark Blaster': { formula: linear(250, 750, 'pow', 7), totalHit: 2, isIgnoreDef: true, isIgnoreSDef: true },
   'Triple Laser': { formula: linear(300, 600, 'pow', 10), totalHit: 3, canCri: true },

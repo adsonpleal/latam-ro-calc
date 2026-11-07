@@ -112,10 +112,24 @@ export interface AtkSkillModel extends StackLimits {
    */
   criDmgPercentage?: number;
   /**
+   * How many packets one cast *prints*, when the ratio still lands only once: the cast
+   * deals `formula()` in total and the client splits it N ways. Damage is unchanged by
+   * it — it only floors each packet (see `applyAuraReduction`) and feeds the display.
+   *
    * Will be round down
    */
   hit?: number;
   hitByLevel?: (skillLevel: number) => number;
+  /**
+   * How many times one cast *applies* the ratio: the cast deals `formula()` × N. This is
+   * the "por esfera" / "× N cristais" shape, and the per-second tick of a field.
+   *
+   * Choosing between this and {@link hit} is the whole difference between a skill that
+   * deals its table figure and one that deals N times it, and a client table printing a
+   * single ATQM column does not settle it on its own — bROWiki writes Zero Absoluto's as
+   * "700% × 5 cristais" where the client prints only 700%. Settle it against a recorded
+   * or measured in-game number, as Warlock.jack-frost-hits.spec.ts does.
+   */
   totalHit?: number | ((parmas: AtkSkillFormulaInput) => number);
   /** Apply defenses to each packet before aggregating multipart casts. */
   damageRepeat?: number | ((input: AtkSkillFormulaInput) => number);

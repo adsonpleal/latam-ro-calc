@@ -1,5 +1,30 @@
 [
   {
+    "v": "0.1.211-beta",
+    "date": "07-11-2026",
+    "logs": [
+      "Os bônus de \"Dano mágico de propriedade\" de sete itens voltaram a contar no dano. Eles estavam gravados no canal de \"contra oponentes de propriedade\", que só rende quando o monstro é daquela propriedade, ou simplesmente não existiam. Agora a Carta Plaga, o Rutilus-OS e o Rutilus-OSAD somam os +5% e +10% de dano Neutro contra qualquer alvo; a Bota Natalina, o Cajado Dínamo e a Guardiã do Natal ganharam as linhas de refino +11 que faltavam; e a Cruz Real deixou de mandar o bônus do conjunto de Schmidt para o dano físico. Numa build de autoconjuração de Mandraque, a Fenda do Abismo contra alvo de outra propriedade sobe os 5% que a Carta Plaga promete.",
+      "A Espada Alada não segura mais a rotação. A recarga de 150 segundos é o tempo de invocação das espadas — e também quanto elas duram —, não a espera entre os golpes, que saem dos ataques básicos corpo a corpo: uma rotação com a habilidade avisava \"Recarga não fecha\" e media o ciclo em 150 segundos. Reportado por YuukiiBr.",
+      "Espinhos Furiosos passou a usar a conjuração variável de 1 segundo que a janela de Conjuração/Espera do cliente mostra, no lugar de 1,5 segundo.",
+      "O Esquife de Gelo conjurado em alvo sem [Calafrio] simulava quatro vezes o dano real: a porcentagem da tabela valia por golpe em vez de valer pela conjuração inteira. As duas colunas da descrição agora batem com o jogo, e o DPS da rotação acompanha. O mesmo valia para o Esquife de Gelo conjurado pela Malha Sombria de Automagia.",
+      "Garra de Tigre agora pode ser simulada em qualquer nível, e não só no 10: o nível escolhido entra no fator de HP e SP da habilidade (12% de HP + 6% de SP no nível 1 até 30% + 15% no nível 10) e também na conjuração, que vai de 1,1 a 2,0 segundos. No detalhamento do dano, a linha do dano especial da versão em combo, depois de Ruína, passou a mostrar os 500 por nível que ela soma, no lugar dos 240 da versão normal."
+    ],
+    "logs_es": [
+      "Los bonos de \"Daño mágico de propiedad\" de siete ítems vuelven a contar en el daño. Estaban guardados en el canal de \"contra enemigos de propiedad\", que solo rinde cuando el monstruo es de esa propiedad, o simplemente no existían. Ahora la Carta Plaga, el Rutilus-OS y el Rutilus-OSAD suman los +5% y +10% de daño Neutro contra cualquier objetivo; la Bota Natalina, el Cajado Dínamo y la Guardiã do Natal recibieron las líneas de refinamiento +11 que faltaban; y la Cruz Real dejó de enviar el bono del conjunto de Schmidt al daño físico. En una build de autoconjuro de Mandraque, la Fenda do Abismo contra un objetivo de otra propiedad sube el 5% que promete la Carta Plaga.",
+      "La Espada Alada ya no retiene la rotación. La recarga de 150 segundos es el tiempo de invocación de las espadas — y también cuánto duran —, no la espera entre los golpes, que salen de los ataques básicos cuerpo a cuerpo: una rotación con la habilidad avisaba \"La recarga no cierra\" y medía el ciclo en 150 segundos. Reportado por YuukiiBr.",
+      "Espinhos Furiosos pasó a usar la conjuración variable de 1 segundo que muestra la ventana de Conjuración/Espera del cliente, en lugar de 1,5 segundo.",
+      "Jack Escarcha lanzado sobre un objetivo sin [Congelado] simulaba cuatro veces el daño real: el porcentaje de la tabla valía por golpe en lugar de valer por el lanzamiento entero. Las dos columnas de la descripción ya coinciden con el juego, y el DPS de la rotación lo acompaña. Lo mismo ocurría con Jack Escarcha lanzado por la Malha Sombria de Automagia.",
+      "Cañón de Tigre ahora puede simularse en cualquier nivel, y no solo en el 10: el nivel elegido entra en el factor de HP y SP de la habilidad (12% de HP + 6% de SP en el nivel 1 hasta 30% + 15% en el nivel 10) y también en el lanzamiento, que va de 1,1 a 2,0 segundos. En el desglose del daño, la línea del daño especial de la versión en combo, después de Imperio Caído, pasó a mostrar los 500 por nivel que suma, en lugar de los 240 de la versión normal."
+    ],
+    "logs_en": [
+      "The \"magic damage of property\" bonuses on seven items count towards damage again. They were stored in the \"against opponents of property\" channel, which only pays off when the monster is of that property, or were simply absent. The Carta Plaga, Rutilus-OS and Rutilus-OSAD now add their +5% and +10% Neutral damage against any target; Bota Natalina, Cajado Dínamo and Guardiã do Natal gained the missing refine +11 lines; and Cruz Real no longer sends the Schmidt set bonus to physical damage. On a Mandraque auto-cast build, Fenda do Abismo against a target of another property goes up by the 5% the Carta Plaga promises.",
+      "Servant Weapon no longer holds the rotation back. The 150-second cooldown is how long the swords take to summon — and how long they stay out —, not the wait between their hits, which come off basic melee attacks: a rotation with the skill warned \"The cooldown does not close\" and measured the cycle at 150 seconds. Reported by YuukiiBr.",
+      "Espinhos Furiosos now uses the 1-second variable cast the client Cast/Delay window shows, instead of 1.5 seconds.",
+      "Jack Frost cast on a target without [Frozen] was simulating four times the real damage: the table's percentage counted per hit instead of covering the whole cast. Both columns of the description now match the game, and the rotation's DPS follows. The same held for the Jack Frost cast by the Major Auto Spell Shadow Armor.",
+      "Tiger Cannon can now be simulated at any level, not only at 10: the chosen level feeds the skill's HP and SP factor (12% HP + 6% SP at level 1 up to 30% + 15% at level 10) and the cast time as well, which goes from 1.1 to 2.0 seconds. In the damage breakdown, the special damage line of the combo version, after Fallen Empire, now shows the 500 per level it adds instead of the normal version's 240."
+    ]
+  },
+  {
     "v": "0.1.210-beta",
     "date": "06-11-2026",
     "logs": [
