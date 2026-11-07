@@ -288,10 +288,12 @@ export const FROST_MISTY: AtkSkillModel = {
   isMatk: true, element: ElementType.Water, totalHit: 5,
   formula: ({ model, skillLevel }) => (200 + skillLevel * 100) * (model.level / 100),
 };
+// Auto-cast by Major Auto Spell Shadow Armor (24728). `hit`, like the Warlock's own two
+// entries: the cast deals the column once, printed as four packets.
 export const JACK_FROST: AtkSkillModel = {
   name: 'Jack Frost', label: 'Jack Frost Lv5', value: 'Jack Frost==5', levelList: allLevels('Jack Frost', 5),
   acd: 0, fct: 0, vct: 0, cd: 0,
-  isMatk: true, element: ElementType.Water, totalHit: 4,
+  isMatk: true, element: ElementType.Water, hit: 4,
   formula: ({ model, skillLevel }) => (1000 + skillLevel * 300) * (model.level / 100),
 };
 export const HELL_INFERNO: AtkSkillModel = {
