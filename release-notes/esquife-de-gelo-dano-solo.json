@@ -1,6 +1,0 @@
-{
-  "type": "patch",
-  "logs": ["O Esquife de Gelo conjurado em alvo sem [Calafrio] simulava quatro vezes o dano real: a porcentagem da tabela valia por golpe em vez de valer pela conjuração inteira. As duas colunas da descrição agora batem com o jogo, e o DPS da rotação acompanha. O mesmo valia para o Esquife de Gelo conjurado pela Malha Sombria de Automagia."],
-  "logs_es": ["Jack Escarcha lanzado sobre un objetivo sin [Congelado] simulaba cuatro veces el daño real: el porcentaje de la tabla valía por golpe en lugar de valer por el lanzamiento entero. Las dos columnas de la descripción ya coinciden con el juego, y el DPS de la rotación lo acompaña. Lo mismo ocurría con Jack Escarcha lanzado por la Malha Sombria de Automagia."],
-  "logs_en": ["Jack Frost cast on a target without [Frozen] was simulating four times the real damage: the table's percentage counted per hit instead of covering the whole cast. Both columns of the description now match the game, and the rotation's DPS follows. The same held for the Jack Frost cast by the Major Auto Spell Shadow Armor."]
-}
