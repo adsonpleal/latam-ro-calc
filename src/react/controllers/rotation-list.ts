@@ -2,11 +2,12 @@ import { ViewState } from '../state/view-state';
 import { Events } from '../services/events';
 import type { SkillFormulaVersion } from '../../app/skills/skill-formula-version';
 import { moveItemInArray } from '../ui/reorder';
-import { BASIC_ATTACK_VALUE, MAX_ROTATION_LENGTH } from '../../app/core/rotation';
+import { BASIC_ATTACK_VALUE, MAX_ROTATION_LENGTH, splitSkillValue } from '../../app/core/rotation';
 import { buildRotationPickerOptions, elementTagClass as elementTagClassFn, RotationPickerOption } from '../../app/layout/pages/ro-calculator/battle-hud/battle-hud.logic';
 import { DamageRange, RotationEntryView } from '../../app/layout/pages/ro-calculator/battle-hud/rotation-view';
 import { Translate } from '../../app/i18n';
 import { formatNumber } from '../../app/utils/format-number';
+import { stackRange } from '../../app/utils/skill-stack';
 
 /** Which of a row's three damage readings was clicked: the crit-weighted mean, or one of
  *  the two outcomes it averages. */
@@ -220,7 +221,7 @@ export class RotationListComponent extends ViewState {
   commitAdding(value: string) {
     if (!value) return this.cancelAdding();
     const skill = this.atkSkills.find((entry) => entry.value === value || entry.values?.includes(value) || entry.levelList?.some((level) => level.value === value));
-    const defaultStack = skill?.defaultStack ?? skill?.maxStack ?? 0;
+    const { count: defaultStack } = stackRange(skill, Number(splitSkillValue(value).level) || 0);
     this.rotationChange.emit({ rotation: [...this.rotation, value], stacks: [...this.entries.map((entry) => entry.stackCount), defaultStack] });
     this.cancelAdding();
   }

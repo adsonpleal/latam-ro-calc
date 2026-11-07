@@ -4,22 +4,20 @@ import { Translate } from 'src/app/i18n';
 // plain Vitest. It only reshapes numbers the engine already produced — it never
 // re-derives game truth. The timing itself lives in src/app/core/rotation-schedule.ts.
 
-import { BASIC_ATTACK_VALUE, isBasicAttack } from '../../../../core/rotation';
+import { BASIC_ATTACK_VALUE, isBasicAttack, splitSkillValue } from '../../../../core/rotation';
 import { RotationCycle, RotationLane, RotationScheduleStep, simulateRotation } from '../../../../core/rotation-schedule';
 import { SkillType } from '../../../../models/damage-summary.model';
 import { dmgTypeLabel } from '../../../../utils/dmg-type-label';
+import { StackLimits, stackRange } from '../../../../utils/skill-stack';
 import { buildDpsSteps, formatDuration, isCritWeighted, TimeToKill, TTK_CAP_SECONDS } from './battle-hud.logic';
 
 /** The catalog fields a rotation row needs to render itself. */
-export interface RotationSkillMeta {
+export interface RotationSkillMeta extends StackLimits {
   value?: string;
   values?: string[];
   label?: string;
   icon?: number;
   levelList?: { label: string; value: any }[];
-  maxStack?: number;
-  minStack?: number;
-  defaultStack?: number;
   /** `boolean` when the skill always (or never) crits; a function when it depends on
    *  the character's state — which is what makes the row's crit reading conditional. */
   canCri?: boolean | ((input: any) => boolean);
@@ -42,6 +40,9 @@ export interface RotationEntryView {
   levelList: { label: string; value: any }[];
   stackOptions: { label: string; value: number }[];
   stackCount: number;
+  /** The caption drawn beside the counter: "Acúm." for an accumulation, "Acertos" for a
+   *  ground skill whose hits are scattered at random. Empty when the row has no counter. */
+  stackLabel: string;
   /** Total damage for one use, summed over every hit. */
   damage: number;
   contributionPercent: number;
@@ -139,11 +140,6 @@ export interface RotationView {
   /** Seconds per action imposed by VelAtq. */
   aspdPeriod: number;
 }
-
-const splitValue = (value: string): { name: string; level: string } => {
-  const [, name, level] = value?.match(/(.+)==(\d+)/) ?? [];
-  return { name: name ?? value ?? '', level: level ?? '' };
-};
 
 /**
  * One outcome a row's damage can take, as the roll it is rather than a single point.
@@ -279,7 +275,7 @@ export function toScheduleStep(input: { value: string; summary: any; damage: num
 
   return {
     // Recarga is per skill, shared across its levels, so the name is the identity.
-    key: splitValue(value).name,
+    key: splitSkillValue(value).name,
     timingUnknown: calcSkill.timingUnknown,
     cast,
     acd: channelled ? 0 : calcSkill.reducedAcd || 0,
@@ -350,14 +346,12 @@ export function buildRotationView(input: {
     const basic = isBasicAttack(value);
     const summary = basic ? baseSummary : summaryByIndex?.get(index) ?? summaryByValue.get(value) ?? baseSummary;
     const dmg = summary?.dmg;
-    const { name, level } = splitValue(value);
+    const { name, level } = splitSkillValue(value);
     const meta = metaFor(value);
-    const stackMin = meta?.minStack ?? 0;
-    const stackMax = meta?.maxStack ?? 0;
     const savedStack = rotationStacks?.[index] ?? skillStacks?.[name];
-    const stackCount = stackMax > 0
-      ? Math.max(stackMin, Math.min(stackMax, Number.isFinite(savedStack) ? savedStack : (meta?.defaultStack ?? stackMax)))
-      : 0;
+    // Read at this row's level, since a ground skill scatters more hits the higher it is
+    // cast: switching Florescer from Nv5 to Nv1 drops the picker from 20 options to 4.
+    const { min: stackMin, max: stackMax, count: stackCount } = stackRange(meta, Number(level) || 0, savedStack);
 
     // One effected-or-base view of this skill's numbers, so the crit the row prints is
     // the crit its damage was computed with.
@@ -384,6 +378,7 @@ export function buildRotationView(input: {
       levelList: meta?.levelList ?? [],
       stackOptions: stackMax > 0 ? Array.from({ length: stackMax - stackMin + 1 }, (_, n) => ({ label: String(n + stackMin), value: n + stackMin })) : [],
       stackCount,
+      stackLabel: stackMax > 0 ? text(meta?.stackLabelKey ?? 'rot.stack') : '',
       damage: readings.damage,
       damageRanges: readings.ranges,
       hasDamageSpread: isSpread(readings.ranges),

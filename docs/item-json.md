@@ -245,7 +245,7 @@ Categorias principais:
 | Avançados            | `pAtk` `sMatk` `cRate` `hplus` `range` |
 | Dano por raça        | `p_race_<raça>` (físico) · `m_race_<raça>` (mágico) |
 | Dano por tamanho     | `p_size_<s\|m\|l>` |
-| Dano por elemento    | `p_element_<e>` · `m_element_<e>` · `m_my_element_<e>` |
+| Dano por elemento    | `p_element_<e>` · `m_element_<e>` · `m_my_element_<e>` — a redação decide a chave: `contra (oponentes de\|as propriedades) X` é a propriedade do **alvo** (`*_element_`, só rende contra monstro daquela propriedade); `de propriedade X` pelada é a propriedade do **atacante** (`m_my_element_`, rende contra qualquer alvo). Guardar uma na via da outra deixa o bônus sem efeito sem quebrar nada (ver `own-element-magic-bonus-key.spec.ts`) |
 | Penetração           | `p_pene_race_<raça>` · `m_pene_race_<raça>` |
 | Dano vs. classe      | `p_class_all` |
 | Dano vs. monstro     | `dmg__<aegisDoMonstro>` |

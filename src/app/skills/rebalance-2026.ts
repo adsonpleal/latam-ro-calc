@@ -5,6 +5,8 @@ import type { SKILL_NAME } from '../constants/skill-name';
 import { REBALANCE_2026_REFERENCE, RebalanceTiming } from './rebalance-2026-reference';
 import { REBALANCE_2022_REFERENCE } from './rebalance-2022-reference';
 import { isLatamBaseline, type SkillFormulaVersion } from './skill-formula-version';
+import { GARDEN_HITS, METEOR_BUSTER_HITS, scatteredHits } from './shared-skills';
+import { atkSkillLevelList } from '../utils/atk-skill-level-list';
 
 type Input = AtkSkillFormulaInput;
 type Formula = AtkSkillModel['formula'];
@@ -24,6 +26,15 @@ const climax = (i: Input) => state(i, 'Climax');
 const part = (formula: Formula, element: ElementType, isMatk = true, hit = 1): NonNullable<AtkSkillModel['part2']> =>
   ({ isIncludeMain: false, element, isMatk, isMelee: false, hit, formula });
 
+/**
+ * Colisão Astral's meteoritos on this bundle: 19 falls, against the 50 of the [V2] entry
+ * in ArchMage.ts. The count is the one this patch has carried since the rebalance entries
+ * landed — the client's "a cada 0,3 segundos durante 6 segundos" would read 20, and
+ * settling that is not this picker's job. Only the ceiling moves with it; the default is
+ * still the whole fall, so no figure changes.
+ */
+const ASTRAL_METEORS = scatteredHits(19);
+
 /** Ratios from the February class articles; hit is a display split, totalHit is a full-ratio packet. */
 export const REBALANCE_2026_PATCHES: Record<string, Patch> = {
   'Soul Vulcan Strike': { formula: linear(0, 250, 'spl', 3), totalHit: i => lv(i) + 2 },
@@ -37,13 +48,18 @@ export const REBALANCE_2026_PATCHES: Record<string, Patch> = {
   'Frozen Slash': { formula: i => scale(i, (climax(i) ? 550 : 400) + lv(i) * (climax(i) ? 1250 : 900) + spl(i) * 5), hit: 3 },
   'Storm Cannon': { formula: i => scale(i, lv(i) * (climax(i) ? 1500 : 1200) + spl(i) * 5), hit: 2 },
   'Rock Down': { formula: i => scale(i, lv(i) * (climax(i) ? 1500 : 1200) + spl(i) * 5), hit: 5 },
-  'All Bloom': { formula: i => climax(i) === 4 ? 0 : scale(i, 200 + lv(i) * 1200 + spl(i) * 5), damageRepeat: i => lv(i) * 4 * (climax(i) === 2 ? 2 : 1), totalHit: 1, part2: part(i => climax(i) === 5 ? 85000 : 0, ElementType.Fire) },
+  'All Bloom': { formula: i => climax(i) === 4 ? 0 : scale(i, 200 + lv(i) * 1200 + spl(i) * 5), damageRepeat: i => GARDEN_HITS.landed(i) * (climax(i) === 2 ? 2 : 1), totalHit: 1, part2: part(i => climax(i) === 5 ? 85000 : 0, ElementType.Fire) },
   'Crystal Impact': { formula: i => scale(i, 250 + lv(i) * 1300 + spl(i) * 5) * crystalFactor(i, 1), damageRepeat: i => climax(i) === 2 ? 2 : 1, totalHit: 1, part2: part(i => scale(i, 250 + lv(i) * 1300 + spl(i) * 5) * crystalFactor(i, 2), ElementType.Water) },
   'Destructive Hurricane': { formula: i => climax(i) === 4 ? 0 : scale(i, 600 + lv(i) * 2850 + spl(i) * 5), part2: part(i => climax(i) === 1 ? 12500 : 0, ElementType.Wind) },
-  'Violent Quake': { formula: i => climax(i) === 4 ? 0 : scale(i, 200 + lv(i) * 1200 + spl(i) * 5), totalHit: i => lv(i) * 4 * (climax(i) === 1 ? 2 : 1) },
-  'Astral Strike': { formula: i => scale(i, (race(i, 'undead', 'dragon') ? 400 : 300) + lv(i) * (race(i, 'undead', 'dragon') ? 2100 : 1800) + spl(i) * 10), part2: { ...part(i => scale(i, lv(i) * 650 + spl(i) * 10), ElementType.Neutral), damageRepeat: 19 } },
+  'Violent Quake': { formula: i => climax(i) === 4 ? 0 : scale(i, 200 + lv(i) * 1200 + spl(i) * 5), totalHit: i => GARDEN_HITS.landed(i) * (climax(i) === 1 ? 2 : 1) },
+  'Astral Strike': { ...ASTRAL_METEORS.limits, formula: i => scale(i, (race(i, 'undead', 'dragon') ? 400 : 300) + lv(i) * (race(i, 'undead', 'dragon') ? 2100 : 1800) + spl(i) * 10), part2: { ...part(i => scale(i, lv(i) * 650 + spl(i) * 10), ElementType.Neutral), damageRepeat: i => ASTRAL_METEORS.landed(i) } },
 
-  'Servant Weapon': { formula: linear(500, 400, 'pow', 5), totalHit: 2, canCri: true },
+  // No `cd`: the client's 30/60/90/120/150s curve is the cooldown of *summoning* the
+  // servants, and it is also how long they stay out, so a rotation never waits on it.
+  // This entry is one servant's hit, which the summon then fires off on its own — see
+  // the matching exception in skill-delay.spec.ts. Taking the reference's cooldown here
+  // made the rotation report "Recarga não fecha — faltam 149,31s" at Nv5.
+  'Servant Weapon': { formula: linear(500, 400, 'pow', 5), totalHit: 2, canCri: true, cd: 0 },
   'Servant Weapon-Phantom': { formula: linear(200, 300, 'pow', 5), totalHit: i => i.stack ?? 5, maxStack: 5, minStack: 1, defaultStack: 5, canCri: true },
   'Servant Weapon-Demolition': { formula: linear(0, 500, 'pow', 5), totalHit: i => i.stack ?? 5, maxStack: 5, minStack: 1, defaultStack: 5, canCri: true },
   'Hack and Slasher': { formula: linear(200, 750, 'pow', 7), totalHit: 2, canCri: true, criDmgPercentage: 0.5, isMelee: i => i === 'twohandSword' },
@@ -186,7 +202,11 @@ export const REBALANCE_2026_PATCHES: Record<string, Patch> = {
   'Mega Sonic Blow': { formula: i => hyper(i, 900 + lv(i) * (750 + learned(i, 'Self Study Tactics') * 5) + pow(i) * 4, false, 2, 1, 5) * (active(i, '_Preview_Target Below Half HP') ? 2 : 1), hit: 8 },
   'Shield Chain Rush': { formula: i => hyper(i, 700 + lv(i) * (500 + learned(i, 'Self Study Tactics') * 3) + pow(i) * 3, false, 1.7, 2, 10), hit: 5 },
   'Spiral Pierce Max': { formula: i => hyper(i, (700 + lv(i) * (800 + learned(i, 'Self Study Tactics') * 3)) * ({ s: 1.5, m: 1.3, l: 1.2 }[i.monster.size]) + pow(i) * 3, false, 2, 1, 5), hit: 5 },
-  'Meteor Storm Buster': { formula: i => hyper(i, 300 + lv(i) * (320 + learned(i, 'Self Study Sorcery') * 5) + spl(i) * 3, true, 1.5) },
+  // `damageRepeat` is repeated here because `resolveRebalancedSkill` clears the field
+  // before applying a patch: it is the legacy bundle's packet shape, which the reference
+  // row replaces. The count of scattered hits is not bundle data — the client publishes
+  // the same "Meteoros" column for every bundle — so it has to come back.
+  'Meteor Storm Buster': { formula: i => hyper(i, 300 + lv(i) * (320 + learned(i, 'Self Study Sorcery') * 5) + spl(i) * 3, true, 1.5), damageRepeat: i => METEOR_BUSTER_HITS.landed(i) },
   'Jupitel Thunderstorm': { formula: i => hyper(i, lv(i) * (1800 + learned(i, 'Self Study Sorcery') * 3) + spl(i) * 3, true, 1.7), hitByLevel: level => 5 + Math.ceil(level / 2) },
   'Jack Frost Nova': { formula: i => hyper(i, 400 + lv(i) * (500 + learned(i, 'Self Study Sorcery') * 5) + spl(i) * 4, true, 1.7), totalHit: i => [0, 4, 5, 6, 6, 7, 7, 8, 9, 9, 10][lv(i)] },
   "Hell's Drive": { formula: i => hyper(i, 1500 + lv(i) * (700 + learned(i, 'Self Study Sorcery') * 4) + spl(i) * 3, true, 1.7) },
@@ -240,7 +260,10 @@ export const REBALANCE_2022_PATCHES: Record<string, Patch> = {
   'Arbitrium': { formula: i => scale(i, lv(i) * (1000 + learned(i, 'Fidus Animus') * 10) + spl(i) * 7), part2: part(i => scale(i, lv(i) * (1250 + learned(i, 'Fidus Animus') * 10) + spl(i) * 7), ElementType.Holy) },
   'Petitio': { formula: i => scale(i, lv(i) * (1050 + learned(i, 'Mace & Book Mastery') * 10) + pow(i) * 5) },
   'Explosive Powder': { ...REBALANCE_2026_PATCHES['Explosive Powder'], formula: i => scale(i, 400 + lv(i) * (active(i, 'Research Report') ? 550 : 450) + pow(i) * (active(i, 'Research Report') ? 10 : 7)) },
-  'Mayhemic Thorns': { ...REBALANCE_2026_PATCHES['Mayhemic Thorns'], formula: i => scale(i, (active(i, 'Research Report') ? 250 : 200) + lv(i) * (active(i, 'Research Report') ? 300 : 250) + pow(i) * (active(i, 'Research Report') ? 10 : 7)), totalHit: i => active(i, 'Research Report') ? 5 : 3 },
+  // Espinhos Furiosos has no job file, so the article's 1,5s variável would be the
+  // calculator's only answer; LATAM's own Conjuração/Espera window says 1s. Baseline only:
+  // the February 2026 bundle is kRO's, and its retuned delays are supposed to differ.
+  'Mayhemic Thorns': { ...REBALANCE_2026_PATCHES['Mayhemic Thorns'], vct: 1, formula: i => scale(i, (active(i, 'Research Report') ? 250 : 200) + lv(i) * (active(i, 'Research Report') ? 300 : 250) + pow(i) * (active(i, 'Research Report') ? 10 : 7)), totalHit: i => active(i, 'Research Report') ? 5 : 3 },
   'Axe Stomp': { ...REBALANCE_2026_PATCHES['Axe Stomp'], formula: linear(350, 850, 'pow', 5) },
   'Spark Blaster': { formula: linear(250, 750, 'pow', 7), totalHit: 2, isIgnoreDef: true, isIgnoreSDef: true },
   'Triple Laser': { formula: linear(300, 600, 'pow', 10), totalHit: 3, canCri: true },
@@ -333,6 +356,28 @@ const referenceMap = (groups: typeof REBALANCE_2026_REFERENCE) => new Map(groups
 const references2026 = referenceMap(REBALANCE_2026_REFERENCE);
 const references2022 = referenceMap(REBALANCE_2022_REFERENCE);
 
+/**
+ * The level picker's entries for a rebalanced skill: every entry the job file wrote, up
+ * to the level the rebalance allows, and a generated one for each level beyond it.
+ *
+ * Keeping the job file's own entries is what preserves the disambiguators a generated
+ * label cannot reproduce ("(Prévia)", "(1 estrela)"); generating the rest is what covers
+ * a rebalance that moved the max level, and a skill the job file gives no list at all.
+ *
+ * Reading the label off `skill.label` instead is what put "[V3] All Bloom Lv5 Nv1" in the
+ * Magus picker — card mkvqph0HW51cDiRaXxKS. {@link atkSkillLevelList} holds the rule it
+ * broke; every fourth-job label of the "Storm Slash Lv5" shape had the same doubling, and
+ * metallic-fury.spec.ts had already worked around it one skill at a time.
+ */
+function levelListFor(skill: AtkSkillModel, maxLevel: number): AtkSkillModel['levelList'] {
+  const written = skill.levelList ?? [];
+  // Same entries, without rebuilding them: getAtkSkills() is uncached and runs once per
+  // skill solve.
+  if (written.length === maxLevel) return written;
+
+  return atkSkillLevelList(skill.name, maxLevel, skill.value.split('==')[0]).map((generated, index) => written[index] ?? generated);
+}
+
 /** Pure, per-calculation selection. Never writes to a shared job or skill definition. */
 export function resolveRebalancedSkill(skill: AtkSkillModel, version?: SkillFormulaVersion): AtkSkillModel {
   if (version === 'pre-rebalance') return skill;
@@ -349,7 +394,7 @@ export function resolveRebalancedSkill(skill: AtkSkillModel, version?: SkillForm
   if (!reference || !patch) return skill;
   return {
     ...skill,
-    levelList: Array.from({length:reference.maxLevel}, (_, index) => ({label:`${skill.label} Nv${index + 1}`,value:`${skill.value.split('==')[0]}==${index + 1}`})),
+    levelList: levelListFor(skill, reference.maxLevel),
     hit: reference.hit, totalHit: reference.totalHit, damageRepeat: undefined,
     isMatk: reference.isMatk,
     vct: timing(reference.vct), fct: timing(reference.fct), acd: timing(reference.acd), cd: timing(reference.cd),
@@ -392,7 +437,7 @@ export function rebalancedSkillCatalog(skills: AtkSkillModel[], className: Class
       if (!patch?.formula) continue;
       catalog.push(resolveRebalancedSkill({
         name: name as SKILL_NAME, label: name, value: `${name}==${data.maxLevel}`,
-        levelList: Array.from({ length: data.maxLevel }, (_, index) => ({ label: `${name} Nv${index + 1}`, value: `${name}==${index + 1}` })),
+        levelList: atkSkillLevelList(name, data.maxLevel),
         acd: 0, cd: 0, vct: 0, fct: 0, formula: patch.formula,
         isMatk: data.isMatk, isMelee: data.isMelee,
         element: data.element ? data.element[0].toUpperCase() + data.element.slice(1) as ElementType : undefined,

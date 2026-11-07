@@ -71,7 +71,7 @@ const i = __index3; return <Fragment key={identityKey(vm.trackByIndex(__index3, 
 "onModelChange": (value: any, event: any) => vm.action(() => { ((event: any) => vm.action(() => { const $event = event; vm.changeLevel(i,$event.value) }))({value, originalEvent: event}); }),
 "template_selectedItem": (context: any) => {  return <><Render tag="span" props={{"className": ["rot-level"].filter(Boolean).join(' ')}}>{interpolate(["",""], [entry.levelLabel])}</Render></>; }}}></Render></> : levelText({}); })()}
 
-{(() => { const __condition7 = entry.stackOptions.length;  return __condition7 ? <><Render tag="div" props={{"className": ["rot-stack"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{t('rot.stack')}</Render>
+{(() => { const __condition7 = entry.stackOptions.length;  return __condition7 ? <><Render tag="div" props={{"className": ["rot-stack"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{entry.stackLabel}</Render>
 <Render tag="app-ui-dropdown" props={{"styleClass": "rot-stack-dd",
 "optionLabel": "label",
 "optionValue": "value",

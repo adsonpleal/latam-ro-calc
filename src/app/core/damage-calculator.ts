@@ -13,7 +13,7 @@ import type { TextKey } from 'src/app/i18n';
 import { SKILL_ID_BY_NAME, resolveSkillMeta } from 'src/app/skills';
 import { resolveRebalancedSkill } from 'src/app/skills/rebalance-2026';
 import { applyPreviewBuffs } from 'src/app/skills/preview-275';
-import { calcDmgDps, calcSkillAspd, engineHitsPerSec, floor, formatCalcNumber, isSkillCanEDP, round } from 'src/app/utils';
+import { calcDmgDps, calcSkillAspd, engineHitsPerSec, floor, formatCalcNumber, isSkillCanEDP, round, stackRange } from 'src/app/utils';
 import { computeBasicCritRate, computeSkillCritRate, EMPTY_CRIT_RATE } from './crit-rate';
 import { targetReduction } from './target-reduction';
 import { RESIST_REDUCTION_KEYS, RESIST_REDUCTION_KEYS_BY_ELE } from './summary-tables';
@@ -2690,17 +2690,14 @@ export class DamageCalculator {
       getElement,
       currentHpFn,
       currentSpFn,
-      maxStack: stackLimit = 0,
-      minStack = 0,
-      defaultStack = stackLimit,
       forceCri = false,
       verifyItemFn,
     } = skillData;
 
     const chosenStack = this.infoForClass.model.skillStacks?.[skillName];
-    const maxStack = stackLimit > 0
-      ? Math.max(minStack, Math.min(stackLimit, Number.isFinite(chosenStack) ? chosenStack! : defaultStack))
-      : 0;
+    // Resolved here rather than destructured because the bound itself can be per level:
+    // Florescer scatters 4 flowers at Nv1 and 20 at Nv5.
+    const { count: stackCount } = stackRange(skillData, skillLevel, chosenStack);
 
     const currentHp = typeof currentHpFn === 'function' ? currentHpFn(maxHp) : 0;
     const currentSp = typeof currentSpFn === 'function' ? currentSpFn(maxSp) : 0;
@@ -2711,7 +2708,7 @@ export class DamageCalculator {
       maxSp,
       currentHp,
       currentSp,
-      stack: maxStack,
+      stack: stackCount,
       pAtk,
     };
 
@@ -2785,7 +2782,7 @@ export class DamageCalculator {
     } else {
       calculated = isMatk ? this.calcMagicalSkillDamage(params) : this.calcPhysicalSkillDamage(params);
 
-      if (maxStack > 0) {
+      if (stackCount > 0) {
         const noStackParam = { ...params, baseSkillDamage: noStackNaseSkillDamage };
         const noStackCalculated = isMatk ? this.calcMagicalSkillDamage(noStackParam) : this.calcPhysicalSkillDamage(noStackParam);
         noStackMinDamage = noStackCalculated.rawMinNoCri;
@@ -2923,7 +2920,7 @@ export class DamageCalculator {
     const { totalPeneRes, totalPeneMres } = this.getPeneResMres();
 
     const skillDmg: SkillDamageSummaryModel = {
-      skillDamageLabel: `${label}` + (maxStack > 0 ? ` ${maxStack} stacks` : ''),
+      skillDamageLabel: `${label}` + (stackCount > 0 ? ` ${stackCount} stacks` : ''),
       skillNoStackDamageLabel: `${label} 0 stack`,
       baseSkillDamage,
       dmgType: isMatk ? SkillType.MAGICAL : isMelee ? SkillType.MELEE : SkillType.RANGE,
@@ -2953,7 +2950,7 @@ export class DamageCalculator {
       skillCriDmgPercentage: skillData?.criDmgPercentage ?? 1,
       skillMinDamage2,
       skillMaxDamage2,
-      maxStack,
+      maxStack: stackCount,
       noStackMaxCriDamage,
       noStackMaxDamage,
       noStackMinCriDamage,
