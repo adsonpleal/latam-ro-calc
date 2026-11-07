@@ -145,6 +145,9 @@ test('Substituir writes the current build over a chosen save, keeping its name',
   const picker = page.getByRole('dialog', { name: 'Escolha a simulação a substituir' });
   await expect(picker.getByRole('button', { name: 'Nova simulação', exact: true })).toHaveCount(0);
   await expect(picker.getByRole('button', { name: 'Carregar', exact: true })).toHaveCount(0);
+  // Comparar is the other thing a card can do; in the picker the only thing it can do
+  // is be written over.
+  await expect(picker.getByRole('button', { name: 'Comparar com a simulação atual', exact: true })).toHaveCount(0);
   await picker.getByRole('button', { name: 'Substituir', exact: true }).click();
   const confirm = page.getByRole('dialog', { name: 'Confirmação' });
   await expect(confirm).toContainText('Simulação a substituir');
@@ -232,6 +235,8 @@ test('save, clear, load, confirmation cancel, share and import retain the build'
   await page.getByRole('button', { name: 'Sim', exact: true }).click();
   await expect(page.getByRole('combobox', { name: 'FOR', exact: true })).toHaveText('1');
   await page.getByRole('button', { name: 'Simulações', exact: true }).click();
+  // The replace picker hides Comparar; this dialog is not it.
+  await expect(page.getByRole('button', { name: 'Comparar com a simulação atual', exact: true })).toHaveCount(1);
   await page.getByRole('button', { name: 'Carregar', exact: true }).click();
   await expect(page.getByRole('dialog')).toHaveCount(2);
   await page.getByRole('button', { name: 'Sim', exact: true }).click();
