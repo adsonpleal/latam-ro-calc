@@ -66,11 +66,13 @@ describe('the Magus skills whose damage splits in two', () => {
   });
 
   // Colisão Astral's passage stays open for a fixed time, so the meteors are a count the
-  // asteroid does not have: 19 falls on the current bundle.
+  // asteroid does not have: 19 falls on the current bundle. Since the row now lets the
+  // player say how many of them landed, that count is a function of the choice —
+  // scattered-hits.spec.ts holds the picker itself.
   it('repeats Colisão Astral\'s meteors and nothing else', () => {
     const astral = skill('Astral Strike');
     expect(astral.damageRepeat).toBeUndefined();
-    expect(astral.part2!.damageRepeat).toBe(19);
+    expect((astral.part2!.damageRepeat as (input: AtkSkillFormulaInput) => number)(base({ skillLevel: 10 }))).toBe(19);
   });
 
   // "Nv.5: Quando todas as flores explodirem, causa dano mágico [...] equivalente a

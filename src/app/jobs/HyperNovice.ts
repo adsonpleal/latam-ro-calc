@@ -1,5 +1,6 @@
 import { JOB_4_MAX_JOB_LEVEL, JOB_4_MIN_MAX_LEVEL } from '../app-config';
 import { ElementType } from '../constants';
+import { METEOR_BUSTER_HITS } from '../skills/shared-skills';
 import { genSkillList } from '../utils';
 import { SuperNovice } from './SuperNovice';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
@@ -320,6 +321,10 @@ export class HyperNovice extends SuperNovice {
       hit: 3,
       isMatk: true,
       element: ElementType.Fire,
+      ...METEOR_BUSTER_HITS.limits,
+      // One packet per meteorito: each lands on its own cell and eats the target's DEFM
+      // by itself.
+      damageRepeat: (input: AtkSkillFormulaInput): number => METEOR_BUSTER_HITS.landed(input),
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const sorceryLv = this.learnLv('Self Study Sorcery');
@@ -349,6 +354,8 @@ export class HyperNovice extends SuperNovice {
       hit: 1,
       isMatk: true,
       element: ElementType.Fire,
+      ...METEOR_BUSTER_HITS.limits,
+      damageRepeat: (input: AtkSkillFormulaInput): number => METEOR_BUSTER_HITS.landed(input),
       formula: (input: AtkSkillFormulaInput): number => {
         const { model, skillLevel, status } = input;
         const sorceryLv = this.learnLv('Self Study Sorcery');

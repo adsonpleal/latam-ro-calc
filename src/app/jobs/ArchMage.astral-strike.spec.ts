@@ -65,7 +65,10 @@ describe('Colisão Astral', () => {
 
   describe('meteoritos', () => {
     it('falls 50 times — one every 0,3 s while the passage is open for 15 s', () => {
-      expect(skill().part2).toMatchObject({ labelKey: 'skd.part.astralStrike2', damageRepeat: 50, isMatk: true, isIncludeMain: false });
+      expect(skill().part2).toMatchObject({ labelKey: 'skd.part.astralStrike2', isMatk: true, isIncludeMain: false });
+      // A count, not a constant, since the row lets the player say how many of the 50
+      // reached the target; with nothing picked it is still the whole fall.
+      expect((skill().part2!.damageRepeat as (i: any) => number)(input({ skillLevel: 10 }))).toBe(50);
     });
 
     it.each([

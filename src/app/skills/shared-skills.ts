@@ -6,6 +6,7 @@ import type { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel } from '../j
 import { atkSkillLevelList } from '../utils/atk-skill-level-list';
 import { floor } from '../utils/floor';
 import { formatCalcNumber } from '../utils/format-number';
+import { StackCount, StackLimits, stackRange } from '../utils/skill-stack';
 
 /** Apunhalar: client table (212); dagger packets: https://browiki.org/wiki/Apunhalar. */
 export const BACK_STAB: AtkSkillModel = {
@@ -110,6 +111,61 @@ export const WUG_STRIKE: AtkSkillModel = {
  */
 
 /**
+ * A skill that drops its hits on the ground one at a time, so how many fall is not how
+ * many a single target takes. rAthena places each fall on its own cell, independent of
+ * where anybody is standing (`skill_timerskill`, and the meteor family in
+ * `skill_unit_onplace_timer`), which is why the rotation row asks the player how many
+ * landed instead of assuming the whole volley did. Card mkvqph0HW51cDiRaXxKS, reported by
+ * pazzoLino.
+ *
+ * `spawned` is the ceiling — how many the client says fall, as a function of the level
+ * when its table publishes a column. `landing` is the count the engine uses until the
+ * player picks one, and defaults to `spawned`; a skill whose client table has a separate
+ * "how many hit one target" column (Chuva de Meteoros' *Golpes*) passes that column, and
+ * one the engine prices per fall passes 1. Either way the default reproduces the figure
+ * the skill printed before it had a picker.
+ *
+ * Returns the two halves of one declaration, which have to agree on the count: `limits`
+ * is spread into the skill and `landed` is read by its
+ * `formula`/`totalHit`/`damageRepeat`.
+ */
+export function scatteredHits(spawned: StackCount, landing?: StackCount) {
+  const limits: StackLimits = { minStack: 1, maxStack: spawned, defaultStack: landing, stackLabelKey: 'rot.hits' };
+
+  return {
+    limits,
+    /** The hits that reached the target: the player's pick, or — for a formula called
+     *  without a resolved count — the default, resolved by the one resolver. */
+    landed: (input: AtkSkillFormulaInput) => input.stack || stackRange(limits, input.skillLevel).count,
+  };
+}
+
+/**
+ * Florescer and Pilares de Pedra plant a garden of `nível × 4` explosions — 4 at Nv1, 20
+ * at Nv5 — and the client picks *one random cell* for each ("A cada 0,3 segundos, uma
+ * célula aleatória será escolhida", skilldescript.lub ids 5222 and 5218). Only a target
+ * that never leaves the garden takes all of them.
+ *
+ * Declared here because both the job file and the 2026 patch formulas need it, and the
+ * size of the garden is one game fact.
+ */
+export const GARDEN_HITS = scatteredHits((skillLevel) => skillLevel * 4);
+
+/**
+ * Chuva de Meteoritos drops its meteoritos on random cells — rAthena's
+ * `HN_METEOR_STORM_BUSTER` draws a fresh one for every fall in `skill_timerskill` — and
+ * the client's "Meteoros" column says how many fall: 3 up to Nv3, then one more every
+ * three levels, 6 at Nv10.
+ *
+ * Both of the Hiperaprendiz's entries, the landing and the explosion behind it, price ONE
+ * meteorito: that is what the client's two ATQM columns publish and what every bundle's
+ * reference row carries (`totalHit: 1`). So the default stays 1 and the picker is what
+ * adds the rest. Declared here, like {@link GARDEN_HITS}, because the job file and the
+ * patch table both need the same count.
+ */
+export const METEOR_BUSTER_HITS = scatteredHits((skillLevel) => 3 + Math.floor((skillLevel - 1) / 3), 1);
+
+/**
  * "Chuva de Meteoros" — shared by HighWizard (so the Bruxo and, through inheritance, the
  * Arcano) and SuperNovice. 125% of ATQM per meteor, and the client's "Golpes" column is
  * how many land on one target: 1,1,2,2,3,3,4,4,5,5 = ceil(nível / 2). The cast and delay
@@ -120,41 +176,32 @@ export const WUG_STRIKE: AtkSkillModel = {
  * placeholder — hidden from the Bruxo's list, 125 flat with no hit count and the
  * [V2]-era 6,72 / 5 / 7 s timings — while the Superaprendiz copy was already this
  * (tracker simulador-chuva-de-meteoros-do-bruxo-e-um-placeholder-escondido).
+ *
+ * The one skill whose client table answers the picker's question itself: the meteors fall
+ * "aleatoriamente numa área de 13x13 células", the *Meteoros* column is how many fall
+ * (2 at Nv1 up to 7 at Nv10 = 2 + ⌊nível / 2⌋) and *Golpes* is how many of those reach one
+ * target. So the ceiling is the first column and the default stays the second — the count
+ * this skill has always used. The hits stay in `totalHit` rather than moving to
+ * `damageRepeat`, which would re-apply the target's DEFM per meteor and change every
+ * figure this skill prints.
  */
+const METEOR_STORM_HITS = scatteredHits((lv) => 2 + Math.floor(lv / 2), (lv) => Math.ceil(lv / 2));
+
 export const METEOR_STORM: AtkSkillModel = {
   name: 'Meteor Storm',
   label: 'Meteor Storm Lv10',
   value: 'Meteor Storm==10',
-  levelList: Array.from({ length: 10 }, (_, i) => ({ label: `Meteor Storm Nv${i + 1}`, value: `Meteor Storm==${i + 1}` })),
+  levelList: atkSkillLevelList('Meteor Storm', 10),
   acd: 1,
   fct: 1.5,
   vct: 6.3,
   cd: (lv) => 2 + lv * 0.5,
   isMatk: true,
-  totalHit: ({ skillLevel }) => Math.ceil(skillLevel / 2),
+  ...METEOR_STORM_HITS.limits,
+  totalHit: (input) => METEOR_STORM_HITS.landed(input),
   element: ElementType.Fire,
   formula: () => 125,
 };
-
-/**
- * Florescer and Pilares de Pedra plant a garden of `nível × 4` explosions — 4 at Nv1, 20
- * at Nv5 — and the client picks *one random cell* for each ("A cada 0,3 segundos, uma
- * célula aleatória será escolhida", skilldescript.lub ids 5222 and 5218). Only a target
- * that never leaves the garden takes all of them, so the rotation row asks how many
- * landed. Card mkvqph0HW51cDiRaXxKS, reported by pazzoLino.
- *
- * Declared here because both the job file and the 2026 patch formulas need it, and the
- * size of the garden is one game fact.
- */
-const garden = (skillLevel: number) => skillLevel * 4;
-
-/** No `defaultStack`: `stackRange` already treats an absent one as the whole garden,
- *  which is the count the engine used before the picker existed. */
-export const SCATTERED_HITS = { minStack: 1, maxStack: garden, stackLabelKey: 'rot.hits' } as const satisfies Partial<AtkSkillModel>;
-
-/** The explosions that reached the target: the player's pick, or the whole garden for a
- *  formula called without a resolved count. */
-export const landedHits = (input: AtkSkillFormulaInput) => input.stack || garden(input.skillLevel);
 
 // --- The Bruxo column ---
 //

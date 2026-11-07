@@ -2,14 +2,17 @@
   "type": "patch",
   "logs": [
     "Florescer e Pilares de Pedra ganharam um seletor de \"Acertos\" na rotação, logo depois do seletor de nível: as flores e os pilares caem em células aleatórias, então dá para dizer quantos dos 20 atingiram o alvo. O padrão continua sendo o jardim inteiro, como já era calculado. Reportado por pazzoLino.",
+    "O mesmo seletor de \"Acertos\" chegou a Colisão Astral (19 meteoritos), Chuva de Meteoros (até 7 meteoros, com os 5 golpes da tabela do cliente como padrão) e Chuva de Meteoritos do Hiperaprendiz (até 6 meteoritos). Nenhum número muda sozinho: o padrão de cada uma é o que já vinha sendo calculado.",
     "Corrigido o seletor de nível das habilidades da rotação, que mostrava o nome em inglês e o nível duas vezes (\"[V3] All Bloom Lv5 Nv1\" em vez de \"Florescer Nv1\"). Valia para todas as habilidades de 4ª classe."
   ],
   "logs_es": [
     "Florecer y Pilares de Piedra ganaron un selector de \"Impactos\" en la rotación, justo después del selector de nivel: las flores y los pilares caen en celdas aleatorias, así que se puede indicar cuántos de los 20 alcanzaron al objetivo. El valor por defecto sigue siendo el jardín entero, como ya se calculaba. Reportado por pazzoLino.",
+    "El mismo selector de \"Impactos\" llegó a Golpe Astral (19 meteoritos), Tormenta de Meteoros (hasta 7 meteoros, con los 5 golpes de la tabla del cliente como valor por defecto) y Lluvia de Meteoritos del Hiperaprendiz (hasta 6 meteoritos). Ningún número cambia por sí solo: el valor por defecto de cada una es el que ya se calculaba.",
     "Corregido el selector de nivel de las habilidades de la rotación, que mostraba el nombre en inglés y el nivel dos veces (\"[V3] All Bloom Lv5 Nv1\" en lugar de \"Florecer Nv1\"). Afectaba a todas las habilidades de 4ª clase."
   ],
   "logs_en": [
     "All Bloom and Violent Quake gained a \"Hits\" picker in the rotation, right after the level picker: the flowers and the pillars land on random cells, so you can say how many of the 20 reached the target. The default is still the whole garden, which is what was being calculated already. Reported by pazzoLino.",
+    "The same \"Hits\" picker reached Astral Strike (19 meteors), Meteor Storm (up to 7 meteors, with the client table's 5 hits as the default) and the Hyper Novice's Meteor Storm Buster (up to 6 meteors). No figure moves on its own: each one defaults to the count that was already being calculated.",
     "Fixed the level picker of the rotation skills, which showed the English name and the level twice (\"[V3] All Bloom Lv5 Nv1\" instead of \"All Bloom Nv1\"). It affected every 4th-class skill."
   ]
 }

@@ -5,7 +5,7 @@ import type { SKILL_NAME } from '../constants/skill-name';
 import { REBALANCE_2026_REFERENCE, RebalanceTiming } from './rebalance-2026-reference';
 import { REBALANCE_2022_REFERENCE } from './rebalance-2022-reference';
 import { isLatamBaseline, type SkillFormulaVersion } from './skill-formula-version';
-import { landedHits } from './shared-skills';
+import { GARDEN_HITS, METEOR_BUSTER_HITS, scatteredHits } from './shared-skills';
 import { atkSkillLevelList } from '../utils/atk-skill-level-list';
 
 type Input = AtkSkillFormulaInput;
@@ -26,6 +26,15 @@ const climax = (i: Input) => state(i, 'Climax');
 const part = (formula: Formula, element: ElementType, isMatk = true, hit = 1): NonNullable<AtkSkillModel['part2']> =>
   ({ isIncludeMain: false, element, isMatk, isMelee: false, hit, formula });
 
+/**
+ * Colisão Astral's meteoritos on this bundle: 19 falls, against the 50 of the [V2] entry
+ * in ArchMage.ts. The count is the one this patch has carried since the rebalance entries
+ * landed — the client's "a cada 0,3 segundos durante 6 segundos" would read 20, and
+ * settling that is not this picker's job. Only the ceiling moves with it; the default is
+ * still the whole fall, so no figure changes.
+ */
+const ASTRAL_METEORS = scatteredHits(19);
+
 /** Ratios from the February class articles; hit is a display split, totalHit is a full-ratio packet. */
 export const REBALANCE_2026_PATCHES: Record<string, Patch> = {
   'Soul Vulcan Strike': { formula: linear(0, 250, 'spl', 3), totalHit: i => lv(i) + 2 },
@@ -39,11 +48,11 @@ export const REBALANCE_2026_PATCHES: Record<string, Patch> = {
   'Frozen Slash': { formula: i => scale(i, (climax(i) ? 550 : 400) + lv(i) * (climax(i) ? 1250 : 900) + spl(i) * 5), hit: 3 },
   'Storm Cannon': { formula: i => scale(i, lv(i) * (climax(i) ? 1500 : 1200) + spl(i) * 5), hit: 2 },
   'Rock Down': { formula: i => scale(i, lv(i) * (climax(i) ? 1500 : 1200) + spl(i) * 5), hit: 5 },
-  'All Bloom': { formula: i => climax(i) === 4 ? 0 : scale(i, 200 + lv(i) * 1200 + spl(i) * 5), damageRepeat: i => landedHits(i) * (climax(i) === 2 ? 2 : 1), totalHit: 1, part2: part(i => climax(i) === 5 ? 85000 : 0, ElementType.Fire) },
+  'All Bloom': { formula: i => climax(i) === 4 ? 0 : scale(i, 200 + lv(i) * 1200 + spl(i) * 5), damageRepeat: i => GARDEN_HITS.landed(i) * (climax(i) === 2 ? 2 : 1), totalHit: 1, part2: part(i => climax(i) === 5 ? 85000 : 0, ElementType.Fire) },
   'Crystal Impact': { formula: i => scale(i, 250 + lv(i) * 1300 + spl(i) * 5) * crystalFactor(i, 1), damageRepeat: i => climax(i) === 2 ? 2 : 1, totalHit: 1, part2: part(i => scale(i, 250 + lv(i) * 1300 + spl(i) * 5) * crystalFactor(i, 2), ElementType.Water) },
   'Destructive Hurricane': { formula: i => climax(i) === 4 ? 0 : scale(i, 600 + lv(i) * 2850 + spl(i) * 5), part2: part(i => climax(i) === 1 ? 12500 : 0, ElementType.Wind) },
-  'Violent Quake': { formula: i => climax(i) === 4 ? 0 : scale(i, 200 + lv(i) * 1200 + spl(i) * 5), totalHit: i => landedHits(i) * (climax(i) === 1 ? 2 : 1) },
-  'Astral Strike': { formula: i => scale(i, (race(i, 'undead', 'dragon') ? 400 : 300) + lv(i) * (race(i, 'undead', 'dragon') ? 2100 : 1800) + spl(i) * 10), part2: { ...part(i => scale(i, lv(i) * 650 + spl(i) * 10), ElementType.Neutral), damageRepeat: 19 } },
+  'Violent Quake': { formula: i => climax(i) === 4 ? 0 : scale(i, 200 + lv(i) * 1200 + spl(i) * 5), totalHit: i => GARDEN_HITS.landed(i) * (climax(i) === 1 ? 2 : 1) },
+  'Astral Strike': { ...ASTRAL_METEORS.limits, formula: i => scale(i, (race(i, 'undead', 'dragon') ? 400 : 300) + lv(i) * (race(i, 'undead', 'dragon') ? 2100 : 1800) + spl(i) * 10), part2: { ...part(i => scale(i, lv(i) * 650 + spl(i) * 10), ElementType.Neutral), damageRepeat: i => ASTRAL_METEORS.landed(i) } },
 
   // No `cd`: the client's 30/60/90/120/150s curve is the cooldown of *summoning* the
   // servants, and it is also how long they stay out, so a rotation never waits on it.
@@ -193,7 +202,11 @@ export const REBALANCE_2026_PATCHES: Record<string, Patch> = {
   'Mega Sonic Blow': { formula: i => hyper(i, 900 + lv(i) * (750 + learned(i, 'Self Study Tactics') * 5) + pow(i) * 4, false, 2, 1, 5) * (active(i, '_Preview_Target Below Half HP') ? 2 : 1), hit: 8 },
   'Shield Chain Rush': { formula: i => hyper(i, 700 + lv(i) * (500 + learned(i, 'Self Study Tactics') * 3) + pow(i) * 3, false, 1.7, 2, 10), hit: 5 },
   'Spiral Pierce Max': { formula: i => hyper(i, (700 + lv(i) * (800 + learned(i, 'Self Study Tactics') * 3)) * ({ s: 1.5, m: 1.3, l: 1.2 }[i.monster.size]) + pow(i) * 3, false, 2, 1, 5), hit: 5 },
-  'Meteor Storm Buster': { formula: i => hyper(i, 300 + lv(i) * (320 + learned(i, 'Self Study Sorcery') * 5) + spl(i) * 3, true, 1.5) },
+  // `damageRepeat` is repeated here because `resolveRebalancedSkill` clears the field
+  // before applying a patch: it is the legacy bundle's packet shape, which the reference
+  // row replaces. The count of scattered hits is not bundle data — the client publishes
+  // the same "Meteoros" column for every bundle — so it has to come back.
+  'Meteor Storm Buster': { formula: i => hyper(i, 300 + lv(i) * (320 + learned(i, 'Self Study Sorcery') * 5) + spl(i) * 3, true, 1.5), damageRepeat: i => METEOR_BUSTER_HITS.landed(i) },
   'Jupitel Thunderstorm': { formula: i => hyper(i, lv(i) * (1800 + learned(i, 'Self Study Sorcery') * 3) + spl(i) * 3, true, 1.7), hitByLevel: level => 5 + Math.ceil(level / 2) },
   'Jack Frost Nova': { formula: i => hyper(i, 400 + lv(i) * (500 + learned(i, 'Self Study Sorcery') * 5) + spl(i) * 4, true, 1.7), totalHit: i => [0, 4, 5, 6, 6, 7, 7, 8, 9, 9, 10][lv(i)] },
   "Hell's Drive": { formula: i => hyper(i, 1500 + lv(i) * (700 + learned(i, 'Self Study Sorcery') * 4) + spl(i) * 3, true, 1.7) },
