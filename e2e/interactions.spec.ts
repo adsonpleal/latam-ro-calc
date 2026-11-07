@@ -158,6 +158,30 @@ test('Substituir writes the current build over a chosen save, keeping its name',
   expect(Number(saves[0].preset.str)).toBe(50);
 });
 
+test('the fork and the name dialog are one box, so neither jumps when you pass between them', async ({ page }) => {
+  await boot(page);
+  // One save, so that the next Salvar forks instead of going straight to the name.
+  await page.getByRole('button', { name: 'Salvar', exact: true }).click();
+  await page.getByLabel('Nome da simulação').fill('Build salva');
+  await page.getByRole('dialog', { name: 'Salvar simulação' }).getByRole('button', { name: 'Salvar', exact: true }).click();
+  await expect(page.locator('.ui-toast-message')).toContainText('salva');
+
+  // Both dialogs carry the same header, so one locator follows the reader through.
+  const dialog = page.getByRole('dialog', { name: 'Salvar simulação' });
+  const newSim = dialog.getByRole('button', { name: 'Nova simulação', exact: true });
+  const box = async () => {
+    const b = await dialog.boundingBox();
+    return b && { x: Math.round(b.x), y: Math.round(b.y), width: Math.round(b.width), height: Math.round(b.height) };
+  };
+
+  await page.getByRole('button', { name: 'Salvar', exact: true }).click();
+  await expect(newSim).toBeVisible();
+  const fork = await box();
+  await newSim.click();
+  await expect(page.getByLabel('Nome da simulação')).toBeVisible();
+  expect(await box()).toEqual(fork);
+});
+
 // Tracker q6eBuWuTYxie7edhXU0Y: the accessories work with the reporter's unrelated boots.
 test('Spell Caster shadow accessories display their fixed cast reduction', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('ro-set', JSON.stringify({
