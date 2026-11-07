@@ -94,11 +94,18 @@ for (const outcome of ['success', 'offline'] as const) {
   });
 }
 
+async function readSaves(page: Page) {
+  return page.evaluate(() => JSON.parse(localStorage.getItem('ro-saves') || '[]'));
+}
+
 // Tracker 2UdDdFx3lIGom4q0GvVO: a leftover Angular $any call prevented editing.
 test('different simulation names can be typed and saved without replacing an earlier save', async ({ page }) => {
   await boot(page);
-  for (const name of ['Primeira simulação', 'Segunda simulação']) {
+  for (const [index, name] of ['Primeira simulação', 'Segunda simulação'].entries()) {
     await page.getByRole('button', { name: 'Salvar', exact: true }).click();
+    // From the second save on there is something to write over, so Salvar asks which of
+    // the two it is. This test is the "nova simulação" branch of that fork.
+    if (index) await page.getByRole('button', { name: 'Nova simulação', exact: true }).click();
     const input = page.getByLabel('Nome da simulação');
     await input.fill('');
     await input.pressSequentially(name);
@@ -110,6 +117,45 @@ test('different simulation names can be typed and saved without replacing an ear
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByText('Primeira simulação', { exact: true })).toBeVisible();
   await expect(dialog.getByText('Segunda simulação', { exact: true })).toBeVisible();
+});
+
+// Card ErXswhoEC5KgDN7Cw2SJ: overwriting a save meant retyping its name byte for byte.
+test('Substituir writes the current build over a chosen save, keeping its name', async ({ page }) => {
+  await boot(page);
+  const strength = page.getByRole('combobox', { name: 'FOR', exact: true });
+  const setStrength = async (value: string) => {
+    await strength.click();
+    await page.getByRole('searchbox', { name: 'Filtrar opções' }).fill(value);
+    await page.getByRole('option', { name: value, exact: true }).click();
+    await expect(strength).toHaveText(value);
+  };
+
+  await setStrength('99');
+  await page.getByRole('button', { name: 'Salvar', exact: true }).click();
+  await page.getByLabel('Nome da simulação').fill('Simulação a substituir');
+  await page.getByRole('dialog', { name: 'Salvar simulação' }).getByRole('button', { name: 'Salvar', exact: true }).click();
+  await expect(page.locator('.ui-toast-message')).toContainText('salva');
+  const [before] = await readSaves(page);
+
+  // The build moves on, and writing over that save takes no name at all: its card is the
+  // whole input, which is what the name matching in `upsert` could never offer.
+  await setStrength('50');
+  await page.getByRole('button', { name: 'Salvar', exact: true }).click();
+  await page.getByRole('button', { name: 'Substituir', exact: true }).click();
+  const picker = page.getByRole('dialog', { name: 'Escolha a simulação a substituir' });
+  await expect(picker.getByRole('button', { name: 'Nova simulação', exact: true })).toHaveCount(0);
+  await expect(picker.getByRole('button', { name: 'Carregar', exact: true })).toHaveCount(0);
+  await picker.getByRole('button', { name: 'Substituir', exact: true }).click();
+  const confirm = page.getByRole('dialog', { name: 'Confirmação' });
+  await expect(confirm).toContainText('Simulação a substituir');
+  await confirm.getByRole('button', { name: 'Sim', exact: true }).click();
+  await expect(picker).toHaveCount(0);
+
+  const saves = await readSaves(page);
+  expect(saves).toHaveLength(1);
+  expect(saves[0].id).toBe(before.id);
+  expect(saves[0].name).toBe('Simulação a substituir');
+  expect(Number(saves[0].preset.str)).toBe(50);
 });
 
 // Tracker q6eBuWuTYxie7edhXU0Y: the accessories work with the reporter's unrelated boots.

@@ -2016,6 +2016,7 @@ await ((_event?: unknown) => {
     if (!saved) {
       this.refreshSavedSims();
       this.messageService.add({ severity: 'error', summary: this.text('cs.replaceGone'), detail: this.text('cs.replaceGoneDetail', { name: sim.name }) });
+      this.publish();
       return;
     }
     this.finishSave(saved.name, () => { this.showSavesDialog = false; });
@@ -2042,6 +2043,10 @@ await ((_event?: unknown) => {
     this.refreshSavedSims();
     close();
     this.messageService.add({ severity: 'success', summary: this.text('cs.simSaved'), detail: name });
+    // Both writers arrive here after awaiting a confirmation, and the template hands
+    // `action` a callback that drops the promise they return — so its own publish has
+    // already fired and nothing else would repaint the dialog just closed.
+    this.publish();
   }
 
   /** Re-reads the saves once and hands the same array to the PVP target list. */

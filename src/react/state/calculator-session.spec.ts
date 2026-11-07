@@ -794,4 +794,19 @@ describe('save dialog — the substituir / nova simulação fork', () => {
 
     session.dispose();
   });
+
+  it('repaints once the overwrite lands, so the picker does not sit over a written save', async () => {
+    const { session, confirmations } = await withOneSave(150);
+
+    session.openSaveDialog();
+    session.chooseReplaceSim();
+    const before = session.getSnapshot();
+    await confirmed(confirmations, () => session.replaceSavedSim(session.savedSims[0]));
+
+    // The template drops the promise this returns, so the session has to publish the
+    // change itself; without it ro-saves holds the new content behind an open dialog.
+    expect(session.getSnapshot()).toBeGreaterThan(before);
+
+    session.dispose();
+  });
 });
