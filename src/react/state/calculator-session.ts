@@ -127,8 +127,8 @@ import { decodeCustomBundle } from 'src/app/core/custom-item-library';
 
 type ImportMode = 'replace' | 'compare';
 
-/** Save dialog: write a new save under a typed name, or overwrite a save already there. */
-type SaveMode = 'new' | 'replace';
+/** What the Simulações dialog is open for: loading a save, or picking one to write over. */
+type SavesMode = 'open' | 'replace';
 
 /**
  * A build read by the import dialog, waiting for the user to choose how to apply it.
@@ -301,24 +301,21 @@ export class CalculatorSession extends Store<number> {
   showSaveDialog = false;
   saveName = '';
   /**
-   * Which half of the save dialog is live: a new save (a name) or an overwrite (a save
-   * picked from the list). The selector only appears when there is something to
-   * overwrite, so with an empty list this stays 'new' and the dialog is the old one.
+   * The fork "Salvar" opens when there is already something to write over: substituir or
+   * nova simulação. With nothing saved yet there is no fork to offer, and "Salvar" goes
+   * straight to the name dialog as it always did.
    */
-  saveMode: SaveMode = 'new';
-  /** The save `saveMode: 'replace'` writes over; '' until the reader picks one. */
-  replaceSimId = '';
+  showSaveChoiceDialog = false;
+  /**
+   * What the Simulações dialog is open for. 'open' is the dialog as it has always been
+   * (carregar / excluir); 'replace' is the same grid used as a picker — each card offers
+   * Substituir instead, and the header drops "Nova simulação", which would walk out of
+   * the save the reader came here to make.
+   */
+  savesMode: SavesMode = 'open';
 
-  get saveModeOptions() {
-    return [
-      { label: this.text('cs.saveModeNew'), value: 'new' as SaveMode },
-      { label: this.text('cs.saveModeReplace'), value: 'replace' as SaveMode },
-    ];
-  }
-
-  /** No saves yet means nothing to overwrite, so the dialog hides the selector. */
-  get canReplaceSim(): boolean {
-    return this.savedSims.length > 0;
+  get isReplacingSim(): boolean {
+    return this.savesMode === 'replace';
   }
 
   // --- PVP -----------------------------------------------------------------
@@ -1962,67 +1959,89 @@ await ((_event?: unknown) => {
     return Characters.find((c) => c.value === classId)?.label ?? '';
   }
 
+  /**
+   * "Salvar" in the band. With saves already there it asks which of the two the reader
+   * means — write over one, or start another — and with none it is the name dialog it
+   * has always been, since there would be nothing to write over.
+   */
   openSaveDialog(): void {
+    this.refreshSavedSims();
+    if (this.savedSims.length) this.showSaveChoiceDialog = true;
+    else this.openNewSimDialog();
+  }
+
+  /** "Nova simulação" on the fork: the name dialog, unchanged. */
+  chooseNewSim(): void {
+    this.showSaveChoiceDialog = false;
+    this.openNewSimDialog();
+  }
+
+  /** "Substituir" on the fork: the Simulações grid as a picker (see `savesMode`). */
+  chooseReplaceSim(): void {
+    this.showSaveChoiceDialog = false;
+    this.savesMode = 'replace';
+    this.showSavesDialog = true;
+  }
+
+  private openNewSimDialog(): void {
     const label = this.classLabel(this.model.class) || this.text('cs.simulation');
     this.saveName = this.text('cs.saveNameDefault', { label, level: this.model.level });
-    // The overwrite picker reads this list, which until now only the Simulações dialog
-    // filled — so the save dialog has to refresh it on its own way in.
-    this.refreshSavedSims();
-    this.saveMode = 'new';
-    this.replaceSimId = '';
     this.showSaveDialog = true;
   }
 
-  /**
-   * Both halves of the save dialog. "Nova simulação" asks for a name and writes under it;
-   * "substituir" asks for one of the saves already there and writes over it, keeping its
-   * id and its name — no name is typed in that mode, which is the whole point of it.
-   */
   async confirmSave(): Promise<void> {
-    const replacing = this.saveMode === 'replace';
-    const target = replacing ? this.savedSims.find((s) => s.id === this.replaceSimId) : null;
-    const name = replacing ? target?.name : (this.saveName || '').trim();
-    if (replacing ? !target : !name) {
-      const missing = replacing
-        ? { summary: this.text('cs.replaceTargetRequired'), detail: this.text('cs.replaceTargetRequiredDetail') }
-        : { summary: this.text('cs.nameRequired'), detail: this.text('cs.nameRequiredDetail') };
-      this.messageService.add({ severity: 'warn', ...missing });
+    const name = (this.saveName || '').trim();
+    if (!name) {
+      this.messageService.add({ severity: 'warn', summary: this.text('cs.nameRequired'), detail: this.text('cs.nameRequiredDetail') });
       return;
     }
-    // Overwriting is what both confirmations guard; a brand-new name needs none.
-    const overwrite = replacing ? this.text('cs.replaceSimConfirm', { name }) : this.savedSimStore.nameExists(name) ? this.text('cs.nameExists', { name }) : '';
-    if (overwrite && !(await this.waitConfirm(overwrite))) return;
-
-    const preset = this.currentPreset();
-    const compare = this.currentCompareState();
-    const customItems = customDefinitionsForBuild([preset, compare?.model2 ?? {}], this.items);
-    const profile = this.targetProfileFor(name);
-    const saved = replacing
-      ? this.savedSimStore.replace(target.id, preset, profile, compare, customItems)
-      : this.savedSimStore.upsert(name, preset, profile, compare, customItems);
-    // Gone from storage while the dialog sat open (another tab deleted it): say so rather
-    // than quietly saving nothing or creating a second save under the same name.
-    if (!saved) {
-      this.refreshSavedSims();
-      this.messageService.add({ severity: 'error', summary: this.text('cs.replaceGone'), detail: this.text('cs.replaceGoneDetail', { name }) });
-      return;
+    if (this.savedSimStore.nameExists(name)) {
+      const ok = await this.waitConfirm(this.text('cs.nameExists', { name }));
+      if (!ok) return;
     }
-    this.refreshSavedSims();
-    this.showSaveDialog = false;
-    this.messageService.add({ severity: 'success', summary: this.text('cs.simSaved'), detail: saved.name });
+    const saved = this.savedSimStore.upsert(name, ...this.saveContent(name));
+    this.finishSave(saved.name, () => { this.showSaveDialog = false; });
   }
 
   /**
-   * The build's PVP defensive profile, cached from the already-solved calculator so it
-   * can be picked as an enemy target without re-solving (docs/pvp.md §3).
+   * A card picked in the picker: that save keeps its id and its name and takes this
+   * build's content, so nothing has to be typed.
    */
-  private targetProfileFor(name: string): PlayerTargetProfile | undefined {
+  async replaceSavedSim(sim: SavedSimulation): Promise<void> {
+    const ok = await this.waitConfirm(this.text('cs.replaceSimConfirm', { name: sim.name }));
+    if (!ok) return;
+    const saved = this.savedSimStore.replace(sim.id, ...this.saveContent(sim.name));
+    // Gone from storage while the picker sat open (another tab deleted it): say so rather
+    // than quietly saving nothing or creating a second save under the same name.
+    if (!saved) {
+      this.refreshSavedSims();
+      this.messageService.add({ severity: 'error', summary: this.text('cs.replaceGone'), detail: this.text('cs.replaceGoneDetail', { name: sim.name }) });
+      return;
+    }
+    this.finishSave(saved.name, () => { this.showSavesDialog = false; });
+  }
+
+  /**
+   * What a save stores of the build, in the order both store writers take it. `name` only
+   * reaches the PVP profile, which is cached from the already-solved calculator so the
+   * save can be an enemy target without re-solving (docs/pvp.md §3).
+   */
+  private saveContent(name: string): [PresetModel, PlayerTargetProfile | undefined, CompareState | null, CustomItemDefinition[]] {
+    const preset = this.currentPreset();
+    const compare = this.currentCompareState();
+    let profile: PlayerTargetProfile | undefined;
     try {
-      return this.calculator.getAsPlayerTarget(name);
+      profile = this.calculator.getAsPlayerTarget(name);
     } catch (err) {
       console.error('Falha ao computar o perfil de alvo PVP', err);
-      return undefined;
     }
+    return [preset, profile, compare, customDefinitionsForBuild([preset, compare?.model2 ?? {}], this.items)];
+  }
+
+  private finishSave(name: string, close: () => void): void {
+    this.refreshSavedSims();
+    close();
+    this.messageService.add({ severity: 'success', summary: this.text('cs.simSaved'), detail: name });
   }
 
   /** Re-reads the saves once and hands the same array to the PVP target list. */
@@ -2033,6 +2052,7 @@ await ((_event?: unknown) => {
 
   openSavesDialog(): void {
     this.savedSims = this.savedSimStore.list();
+    this.savesMode = 'open';
     this.showSavesDialog = true;
   }
 

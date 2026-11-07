@@ -638,11 +638,12 @@ describe('rotation tabs', () => {
   });
 });
 
+
 /**
- * The save dialog's two modes, through the real session: "nova simulação" asks for a
- * name, "substituir" asks for one of the saves already there and writes over it.
+ * Saving, through the real session. "Salvar" forks into substituir / nova simulação once
+ * there is something to write over; substituir reuses the Simulações grid as a picker.
  */
-describe('save dialog — new vs. replace', () => {
+describe('save dialog — the substituir / nova simulação fork', () => {
   beforeEach(() => vi.useFakeTimers());
   afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); });
 
@@ -655,7 +656,7 @@ describe('save dialog — new vs. replace', () => {
     return made;
   }
 
-  /** Answers the one confirmation `confirmSave` raises before overwriting. */
+  /** Answers the one confirmation an overwrite raises. */
   async function confirmed(confirmations: Confirmations, run: () => Promise<void>, accept = true) {
     const done = run();
     await vi.advanceTimersByTimeAsync(0);
@@ -666,102 +667,127 @@ describe('save dialog — new vs. replace', () => {
   const saves = (storage: { getItem: (key: string) => string | null }) =>
     JSON.parse(storage.getItem('ro-saves') ?? '[]') as { id: string; name: string; preset: { level: number } }[];
 
-  it('offers no mode selector until there is something to overwrite', async () => {
-    const { session } = await booted();
+  /** The first save, made the only way available before there is anything to replace. */
+  async function withOneSave(level: number) {
+    const made = await booted();
+    made.session.openSaveDialog();
+    made.session.saveName = 'Build do Batuta';
+    made.session.model.level = level;
+    await made.session.confirmSave();
+    return { ...made, first: saves(made.storage)[0] };
+  }
+
+  it('goes straight to the name dialog while there is nothing to write over', async () => {
+    const { session, storage } = await booted();
 
     session.openSaveDialog();
-    expect(session.canReplaceSim).toBe(false);
-    expect(session.saveMode).toBe('new');
+    expect(session.showSaveChoiceDialog).toBe(false);
+    expect(session.showSaveDialog).toBe(true);
 
     session.saveName = 'Primeira';
     await session.confirmSave();
 
-    session.openSaveDialog();
-    expect(session.canReplaceSim).toBe(true);
-    // Still 'new' on the way in: the dialog opens on the mode it always had.
-    expect(session.saveMode).toBe('new');
-    expect(session.savedSims.map(sim => sim.name)).toEqual(['Primeira']);
-
-    session.dispose();
-  });
-
-  it('writes the build over the picked save, keeping its name and leaving no second save', async () => {
-    const { session, storage, confirmations } = await booted();
-    session.openSaveDialog();
-    session.saveName = 'Build do Batuta';
-    session.model.level = 150;
-    await session.confirmSave();
-    const [first] = saves(storage);
-    expect(first.preset.level).toBe(150);
-
-    session.openSaveDialog();
-    session.saveMode = 'replace';
-    session.replaceSimId = first.id;
-    session.model.level = 200;
-    // No name typed in this mode, and the prefilled one must not leak into the save.
-    session.saveName = '';
-    await confirmed(confirmations, () => session.confirmSave());
-
-    const after = saves(storage);
-    expect(after).toHaveLength(1);
-    expect(after[0]).toMatchObject({ id: first.id, name: 'Build do Batuta' });
-    expect(after[0].preset.level).toBe(200);
+    expect(saves(storage).map(s => s.name)).toEqual(['Primeira']);
     expect(session.showSaveDialog).toBe(false);
 
     session.dispose();
   });
 
-  it('keeps the save as it was when the overwrite is refused', async () => {
-    const { session, storage, confirmations } = await booted();
-    session.openSaveDialog();
-    session.saveName = 'Build';
-    session.model.level = 150;
-    await session.confirmSave();
-    const [first] = saves(storage);
+  it('asks which of the two once a save exists, and opens neither dialog by itself', async () => {
+    const { session } = await withOneSave(150);
 
     session.openSaveDialog();
-    session.saveMode = 'replace';
-    session.replaceSimId = first.id;
+
+    expect(session.showSaveChoiceDialog).toBe(true);
+    expect(session.showSaveDialog).toBe(false);
+    expect(session.showSavesDialog).toBe(false);
+
+    session.dispose();
+  });
+
+  it('"nova simulação" on the fork is the name dialog, prefilled as it always was', async () => {
+    const { session } = await withOneSave(150);
+    session.openSaveDialog();
+
+    session.chooseNewSim();
+
+    expect(session.showSaveChoiceDialog).toBe(false);
+    expect(session.showSaveDialog).toBe(true);
+    expect(session.saveName).toBe(translate(DEFAULT_CATALOG, 'cs.saveNameDefault',
+      { label: session.classLabel(session.model.class), level: session.model.level }));
+
+    session.dispose();
+  });
+
+  it('"substituir" on the fork opens the Simulações grid as a picker', async () => {
+    const { session } = await withOneSave(150);
+    session.openSaveDialog();
+
+    session.chooseReplaceSim();
+
+    expect(session.showSaveChoiceDialog).toBe(false);
+    expect(session.showSavesDialog).toBe(true);
+    expect(session.isReplacingSim).toBe(true);
+
+    session.dispose();
+  });
+
+  it('opening Simulações on its own is the ordinary dialog, not the picker', async () => {
+    const { session } = await withOneSave(150);
+    session.openSaveDialog();
+    session.chooseReplaceSim();
+
+    session.openSavesDialog();
+
+    expect(session.isReplacingSim).toBe(false);
+
+    session.dispose();
+  });
+
+  it('writes the build over the picked card, keeping its name and leaving no second save', async () => {
+    const { session, storage, confirmations, first } = await withOneSave(150);
+    expect(first.preset.level).toBe(150);
+
+    session.openSaveDialog();
+    session.chooseReplaceSim();
     session.model.level = 200;
-    await confirmed(confirmations, () => session.confirmSave(), false);
+    // Nothing is typed in this mode, and the prefill must not leak into the save.
+    session.saveName = '';
+    await confirmed(confirmations, () => session.replaceSavedSim(session.savedSims[0]));
+
+    const after = saves(storage);
+    expect(after).toHaveLength(1);
+    expect(after[0]).toMatchObject({ id: first.id, name: 'Build do Batuta' });
+    expect(after[0].preset.level).toBe(200);
+    expect(session.showSavesDialog).toBe(false);
+
+    session.dispose();
+  });
+
+  it('keeps the save as it was when the overwrite is refused', async () => {
+    const { session, storage, confirmations, first } = await withOneSave(150);
+
+    session.openSaveDialog();
+    session.chooseReplaceSim();
+    session.model.level = 200;
+    await confirmed(confirmations, () => session.replaceSavedSim(session.savedSims[0]), false);
 
     expect(saves(storage)[0].preset.level).toBe(150);
-    expect(session.showSaveDialog).toBe(true);
+    expect(saves(storage)[0].id).toBe(first.id);
+    expect(session.showSavesDialog).toBe(true);
 
     session.dispose();
   });
 
-  it('asks for a pick instead of saving when the replace mode has none', async () => {
-    const { session, storage, messages } = await booted();
-    session.openSaveDialog();
-    session.saveName = 'Build';
-    await session.confirmSave();
+  it('says the save is gone instead of recreating it when it vanished mid-pick', async () => {
+    const { session, storage, messages, confirmations } = await withOneSave(150);
 
     session.openSaveDialog();
-    session.saveMode = 'replace';
-    session.replaceSimId = '';
-    await session.confirmSave();
-
-    expect(saves(storage)).toHaveLength(1);
-    expect(session.showSaveDialog).toBe(true);
-    expect(messages.getSnapshot().at(-1)).toMatchObject({ severity: 'warn', summary: translate(DEFAULT_CATALOG, 'cs.replaceTargetRequired') });
-
-    session.dispose();
-  });
-
-  it('says the save is gone instead of recreating it when it vanished mid-dialog', async () => {
-    const { session, storage, messages, confirmations } = await booted();
-    session.openSaveDialog();
-    session.saveName = 'Build';
-    await session.confirmSave();
-    const [first] = saves(storage);
-
-    session.openSaveDialog();
-    session.saveMode = 'replace';
-    session.replaceSimId = first.id;
-    // What another tab deleting it looks like from here: the id is still on screen.
+    session.chooseReplaceSim();
+    const picked = session.savedSims[0];
+    // What another tab deleting it looks like from here: the card is still on screen.
     storage.setItem('ro-saves', '[]');
-    await confirmed(confirmations, () => session.confirmSave());
+    await confirmed(confirmations, () => session.replaceSavedSim(picked));
 
     expect(saves(storage)).toHaveLength(0);
     expect(messages.getSnapshot().at(-1)).toMatchObject({ severity: 'error', summary: translate(DEFAULT_CATALOG, 'cs.replaceGone') });
