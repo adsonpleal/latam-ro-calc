@@ -1,6 +1,10 @@
 import { ElementType } from '../constants/element-type.const';
 import type { WeaponTypeName } from '../constants/weapon-type-mapper';
-import type { ActiveSkillModel, AtkSkillModel } from '../jobs/_character-base.abstract';
+import type { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel } from '../jobs/_character-base.abstract';
+// Deep imports, not the '../utils' barrel: core/auto-cast.ts imports this file and avoids
+// that barrel on purpose, and pulling it in here would drag its ~31 modules back in.
+import { floor } from '../utils/floor';
+import { formatCalcNumber } from '../utils/format-number';
 
 /** Apunhalar: client table (212); dagger packets: https://browiki.org/wiki/Apunhalar. */
 export const BACK_STAB: AtkSkillModel = {
@@ -584,3 +588,91 @@ export const CROSS_SLASH: AtkSkillModel = {
     return skillLevel * 200 * (model.level / 100) + bonus;
   },
 };
+
+/**
+ * Garra de Tigre: https://browiki.org/wiki/Garra_de_Tigre
+ *
+ * The skill lands as two parts, and only the first one is damage the target reduces:
+ *
+ *   ATQ           = (fator / 4,0) x (nível de base / 100)   — / 1,5 when it follows Ruína
+ *   dano especial = nível x 240 (x 500 as a combo) + nível de base do alvo x 40
+ *
+ * The fator is the client's own HP/SP table — 12% of max HP + 6% of max SP at Nv1, up to
+ * 30% + 15% at Nv10 — which is why the skill grows with max HP and max SP and not only
+ * with ATQ, and why every level has to be selectable rather than Nv10 alone.
+ *
+ * The dano especial cannot be reduced and no item raises it, so it is added by
+ * `finalDmgFormula`, after every reduction the chain applies.
+ *
+ * Nothing here is special to this skill: plenty of attack skills are still pinned to a
+ * single level, and each one hides a cast copied from that level the same way this one did.
+ * They come off that list one at a time, because offering a level means publishing a damage
+ * number for it, and each needs its own reference table checked first.
+ */
+const tigerCannonFactor = ({ maxHp, maxSp, skillLevel }: AtkSkillFormulaInput): number =>
+  maxHp * (10 + skillLevel * 2) * 0.01 + maxSp * (5 + skillLevel) * 0.01;
+
+const tigerCannon = (args: {
+  /** The `==level` value base: either 'Tiger Cannon' or 'Tiger Cannon Combo'. */
+  skillValue: string;
+  /** Picker label, which keeps saying "(Combo)" after the level for the combo branch. */
+  label: string;
+  /** The reducible part's ATQ, already divided by the branch's 4,0 or 1,5. */
+  ratio: (factor: number, baseLevel: number) => number;
+  /** Dano especial per skill level: 240 on its own, 500 after Ruína. */
+  specialPerLevel: number;
+}): AtkSkillModel => ({
+  name: 'Tiger Cannon',
+  label: args.label,
+  value: `${args.skillValue}==10`,
+  levelList: allLevels(args.skillValue, 10),
+  fct: 0,
+  // The client's own row for id 2330 (skill-delay.json), copied rather than fitted. It used
+  // to be the scalar 2, the Nv10 cast, which was right only because Nv10 was the only level
+  // the skill could be selected at — the same shape many other skills here still carry.
+  vct: (skillLevel) => [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2][skillLevel - 1],
+  acd: 1,
+  cd: 3,
+  isMelee: true,
+  formula: (input: AtkSkillFormulaInput): number => {
+    if (input.monster.isElement(ElementType.Ghost)) return 0;
+
+    return floor(args.ratio(tigerCannonFactor(input), input.model.level));
+  },
+  finalDmgFormula: ({ damage, skillLevel, monster, model }): number => {
+    if (!model.propertyAtk || model.propertyAtk === ElementType.Neutral) {
+      if (monster.isElement(ElementType.Ghost)) return 0;
+    }
+
+    return damage + skillLevel * args.specialPerLevel + monster.level * 40;
+  },
+  finalDmgCalc: ({ skillLevel, monster, damageBefore, damageAfter }) => ({
+    rows: damageAfter === 0 ? [
+      { label: 'Propriedade Fantasma', display: 'Dano bloqueado' },
+      { label: 'Resultado', display: formatCalcNumber(damageAfter), emphasis: true },
+    ] : [
+      { label: 'Dano anterior', display: formatCalcNumber(damageBefore) },
+      { label: `Nível ${skillLevel} × ${args.specialPerLevel}`, display: formatCalcNumber(skillLevel * args.specialPerLevel) },
+      { label: `Nível do alvo ${monster.level} × 40`, display: formatCalcNumber(monster.level * 40) },
+      { label: 'Resultado', display: formatCalcNumber(damageAfter), emphasis: true },
+    ],
+  }),
+});
+
+export const TIGER_CANNON: AtkSkillModel = tigerCannon({
+  skillValue: 'Tiger Cannon',
+  label: 'Tiger Cannon Lv10',
+  ratio: (factor, baseLevel) => (factor / 4) * (baseLevel / 100),
+  specialPerLevel: 240,
+});
+
+export const TIGER_CANNON_COMBO: AtkSkillModel = tigerCannon({
+  skillValue: 'Tiger Cannon Combo',
+  label: 'Tiger Cannon Lv10 (Combo)',
+  // Algebraically the wiki's "÷ 1,5", written the long way because floating point makes
+  // the two land one damage apart on about 0,1% of builds and this is the form the
+  // published Nv10 figures were read at. The spec checks the result against "÷ 1,5", so
+  // a rewrite that drifted at the levels it pins would fail rather than pass quietly.
+  ratio: (factor, baseLevel) => ((factor / 2) * (baseLevel / 100) * 4) / 3,
+  specialPerLevel: 500,
+});
