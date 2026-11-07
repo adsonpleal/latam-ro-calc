@@ -3,13 +3,15 @@ import type { WeaponTypeName } from '../constants/weapon-type-mapper';
 import type { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel } from '../jobs/_character-base.abstract';
 // Deep imports, not the '../utils' barrel: core/auto-cast.ts imports this file and avoids
 // that barrel on purpose, and pulling it in here would drag its ~31 modules back in.
+import { atkSkillLevelList } from '../utils/atk-skill-level-list';
 import { floor } from '../utils/floor';
 import { formatCalcNumber } from '../utils/format-number';
+import { StackCount, StackLimits, stackRange } from '../utils/skill-stack';
 
 /** Apunhalar: client table (212); dagger packets: https://browiki.org/wiki/Apunhalar. */
 export const BACK_STAB: AtkSkillModel = {
   name: 'Back Stab', label: 'Back Stab Lv10', value: 'Back Stab==10',
-  levelList: Array.from({ length: 10 }, (_, i) => ({ label: `Back Stab Nv${i + 1}`, value: `Back Stab==${i + 1}` })),
+  levelList: atkSkillLevelList('Back Stab', 10),
   acd: 0.5, fct: 0, vct: 0, cd: 0.5,
   isMelee: true,
   totalHit: ({ weapon }) => weapon.data?.typeName === 'dagger' ? 2 : 1,
@@ -109,6 +111,61 @@ export const WUG_STRIKE: AtkSkillModel = {
  */
 
 /**
+ * A skill that drops its hits on the ground one at a time, so how many fall is not how
+ * many a single target takes. rAthena places each fall on its own cell, independent of
+ * where anybody is standing (`skill_timerskill`, and the meteor family in
+ * `skill_unit_onplace_timer`), which is why the rotation row asks the player how many
+ * landed instead of assuming the whole volley did. Card mkvqph0HW51cDiRaXxKS, reported by
+ * pazzoLino.
+ *
+ * `spawned` is the ceiling — how many the client says fall, as a function of the level
+ * when its table publishes a column. `landing` is the count the engine uses until the
+ * player picks one, and defaults to `spawned`; a skill whose client table has a separate
+ * "how many hit one target" column (Chuva de Meteoros' *Golpes*) passes that column, and
+ * one the engine prices per fall passes 1. Either way the default reproduces the figure
+ * the skill printed before it had a picker.
+ *
+ * Returns the two halves of one declaration, which have to agree on the count: `limits`
+ * is spread into the skill and `landed` is read by its
+ * `formula`/`totalHit`/`damageRepeat`.
+ */
+export function scatteredHits(spawned: StackCount, landing?: StackCount) {
+  const limits: StackLimits = { minStack: 1, maxStack: spawned, defaultStack: landing, stackLabelKey: 'rot.hits' };
+
+  return {
+    limits,
+    /** The hits that reached the target: the player's pick, or — for a formula called
+     *  without a resolved count — the default, resolved by the one resolver. */
+    landed: (input: AtkSkillFormulaInput) => input.stack || stackRange(limits, input.skillLevel).count,
+  };
+}
+
+/**
+ * Florescer and Pilares de Pedra plant a garden of `nível × 4` explosions — 4 at Nv1, 20
+ * at Nv5 — and the client picks *one random cell* for each ("A cada 0,3 segundos, uma
+ * célula aleatória será escolhida", skilldescript.lub ids 5222 and 5218). Only a target
+ * that never leaves the garden takes all of them.
+ *
+ * Declared here because both the job file and the 2026 patch formulas need it, and the
+ * size of the garden is one game fact.
+ */
+export const GARDEN_HITS = scatteredHits((skillLevel) => skillLevel * 4);
+
+/**
+ * Chuva de Meteoritos drops its meteoritos on random cells — rAthena's
+ * `HN_METEOR_STORM_BUSTER` draws a fresh one for every fall in `skill_timerskill` — and
+ * the client's "Meteoros" column says how many fall: 3 up to Nv3, then one more every
+ * three levels, 6 at Nv10.
+ *
+ * Both of the Hiperaprendiz's entries, the landing and the explosion behind it, price ONE
+ * meteorito: that is what the client's two ATQM columns publish and what every bundle's
+ * reference row carries (`totalHit: 1`). So the default stays 1 and the picker is what
+ * adds the rest. Declared here, like {@link GARDEN_HITS}, because the job file and the
+ * patch table both need the same count.
+ */
+export const METEOR_BUSTER_HITS = scatteredHits((skillLevel) => 3 + Math.floor((skillLevel - 1) / 3), 1);
+
+/**
  * "Chuva de Meteoros" — shared by HighWizard (so the Bruxo and, through inheritance, the
  * Arcano) and SuperNovice. 125% of ATQM per meteor, and the client's "Golpes" column is
  * how many land on one target: 1,1,2,2,3,3,4,4,5,5 = ceil(nível / 2). The cast and delay
@@ -119,25 +176,32 @@ export const WUG_STRIKE: AtkSkillModel = {
  * placeholder — hidden from the Bruxo's list, 125 flat with no hit count and the
  * [V2]-era 6,72 / 5 / 7 s timings — while the Superaprendiz copy was already this
  * (tracker simulador-chuva-de-meteoros-do-bruxo-e-um-placeholder-escondido).
+ *
+ * The one skill whose client table answers the picker's question itself: the meteors fall
+ * "aleatoriamente numa área de 13x13 células", the *Meteoros* column is how many fall
+ * (2 at Nv1 up to 7 at Nv10 = 2 + ⌊nível / 2⌋) and *Golpes* is how many of those reach one
+ * target. So the ceiling is the first column and the default stays the second — the count
+ * this skill has always used. The hits stay in `totalHit` rather than moving to
+ * `damageRepeat`, which would re-apply the target's DEFM per meteor and change every
+ * figure this skill prints.
  */
+const METEOR_STORM_HITS = scatteredHits((lv) => 2 + Math.floor(lv / 2), (lv) => Math.ceil(lv / 2));
+
 export const METEOR_STORM: AtkSkillModel = {
   name: 'Meteor Storm',
   label: 'Meteor Storm Lv10',
   value: 'Meteor Storm==10',
-  levelList: Array.from({ length: 10 }, (_, i) => ({ label: `Meteor Storm Nv${i + 1}`, value: `Meteor Storm==${i + 1}` })),
+  levelList: atkSkillLevelList('Meteor Storm', 10),
   acd: 1,
   fct: 1.5,
   vct: 6.3,
   cd: (lv) => 2 + lv * 0.5,
   isMatk: true,
-  totalHit: ({ skillLevel }) => Math.ceil(skillLevel / 2),
+  ...METEOR_STORM_HITS.limits,
+  totalHit: (input) => METEOR_STORM_HITS.landed(input),
   element: ElementType.Fire,
   formula: () => 125,
 };
-
-/** `levelList` entries for every level of a skill, in the picker's "Nv" form. */
-const allLevels = (name: string, maxLevel: number) =>
-  Array.from({ length: maxLevel }, (_, i) => ({ label: `${name} Nv${i + 1}`, value: `${name}==${i + 1}` }));
 
 // --- The Bruxo column ---
 //
@@ -157,7 +221,7 @@ export const JUPITEL_THUNDER: AtkSkillModel = {
   name: 'Jupitel Thunder',
   label: 'Jupitel Thunder Lv10',
   value: 'Jupitel Thunder==10',
-  levelList: allLevels('Jupitel Thunder', 10),
+  levelList: atkSkillLevelList('Jupitel Thunder', 10),
   acd: 0,
   fct: 0.5,
   vct: (lv) => 1.8 + lv * 0.2,
@@ -176,7 +240,7 @@ export const LORD_OF_VERMILION: AtkSkillModel = {
   name: 'Lord of Vermilion',
   label: 'Lord of Vermilion Lv10',
   value: 'Lord of Vermilion==10',
-  levelList: allLevels('Lord of Vermilion', 10),
+  levelList: atkSkillLevelList('Lord of Vermilion', 10),
   acd: 1,
   fct: 1.5,
   vct: (lv) => 6.5 - lv * 0.2,
@@ -196,7 +260,7 @@ export const STORM_GUST: AtkSkillModel = {
   name: 'Storm Gust',
   label: 'Storm Gust Lv10',
   value: 'Storm Gust==10',
-  levelList: allLevels('Storm Gust', 10),
+  levelList: atkSkillLevelList('Storm Gust', 10),
   acd: 1,
   fct: 1.5,
   vct: (lv) => 4.3 + lv * 0.2,
@@ -215,7 +279,7 @@ export const EARTH_SPIKE: AtkSkillModel = {
   name: 'Earth Spike',
   label: 'Earth Spike Lv5',
   value: 'Earth Spike==5',
-  levelList: allLevels('Earth Spike', 5),
+  levelList: atkSkillLevelList('Earth Spike', 5),
   acd: 1.4,
   fct: (lv) => 0.2 + lv * 0.2,
   vct: (lv) => 0.2 + lv * 0.6,
@@ -234,7 +298,7 @@ export const HEAVENS_DRIVE: AtkSkillModel = {
   name: "Heaven's Drive",
   label: "Heaven's Drive Lv5",
   value: "Heaven's Drive==5",
-  levelList: allLevels("Heaven's Drive", 5),
+  levelList: atkSkillLevelList("Heaven's Drive", 5),
   acd: 0.5,
   fct: 0.8,
   vct: (lv) => 0.9 + lv * 0.2,
@@ -253,7 +317,7 @@ export const FROST_NOVA: AtkSkillModel = {
   name: 'Frost Nova',
   label: 'Frost Nova Lv10',
   value: 'Frost Nova==10',
-  levelList: allLevels('Frost Nova', 10),
+  levelList: atkSkillLevelList('Frost Nova', 10),
   acd: 0.2,
   // The client shortens the cast every second level: 0,16 s fixed at Nv1-2, 0,144 at Nv3-4…
   fct: (lv) => 0.16 - Math.floor((lv - 1) / 2) * 0.016,
@@ -266,28 +330,28 @@ export const FROST_NOVA: AtkSkillModel = {
 
 /** Canonical foreign-spell definitions used by item auto-casts. */
 export const FIRE_BOLT: AtkSkillModel = {
-  name: 'Fire Bolt', label: 'Fire Bolt Lv10', value: 'Fire Bolt==10', levelList: allLevels('Fire Bolt', 10),
+  name: 'Fire Bolt', label: 'Fire Bolt Lv10', value: 'Fire Bolt==10', levelList: atkSkillLevelList('Fire Bolt', 10),
   acd: 0, fct: 0, vct: 0, cd: 0,
   isMatk: true, element: ElementType.Fire, totalHit: ({ skillLevel }) => skillLevel, formula: () => 100,
 };
 export const COLD_BOLT: AtkSkillModel = {
-  name: 'Cold Bolt', label: 'Cold Bolt Lv10', value: 'Cold Bolt==10', levelList: allLevels('Cold Bolt', 10),
+  name: 'Cold Bolt', label: 'Cold Bolt Lv10', value: 'Cold Bolt==10', levelList: atkSkillLevelList('Cold Bolt', 10),
   acd: 0, fct: 0, vct: 0, cd: 0,
   isMatk: true, element: ElementType.Water, totalHit: ({ skillLevel }) => skillLevel, formula: () => 100,
 };
 export const LIGHTNING_BOLT: AtkSkillModel = {
-  name: 'Lightening Bolt', label: 'Lightening Bolt Lv10', value: 'Lightening Bolt==10', levelList: allLevels('Lightening Bolt', 10),
+  name: 'Lightening Bolt', label: 'Lightening Bolt Lv10', value: 'Lightening Bolt==10', levelList: atkSkillLevelList('Lightening Bolt', 10),
   acd: 0, fct: 0, vct: 0, cd: 0,
   isMatk: true, element: ElementType.Wind, totalHit: ({ skillLevel }) => skillLevel, formula: () => 100,
 };
 export const CRIMSON_ROCK: AtkSkillModel = {
-  name: 'Crimson Rock', label: 'Crimson Rock Lv5', value: 'Crimson Rock==5', levelList: allLevels('Crimson Rock', 5),
+  name: 'Crimson Rock', label: 'Crimson Rock Lv5', value: 'Crimson Rock==5', levelList: atkSkillLevelList('Crimson Rock', 5),
   acd: 0, fct: 0, vct: 0, cd: 0,
   isMatk: true, element: ElementType.Fire,
   formula: ({ model, skillLevel }) => (700 + skillLevel * 600) * (model.level / 100),
 };
 export const FROST_MISTY: AtkSkillModel = {
-  name: 'Frost Misty', label: 'Frost Misty Lv5', value: 'Frost Misty==5', levelList: allLevels('Frost Misty', 5),
+  name: 'Frost Misty', label: 'Frost Misty Lv5', value: 'Frost Misty==5', levelList: atkSkillLevelList('Frost Misty', 5),
   acd: 0, fct: 0, vct: 0, cd: 0,
   isMatk: true, element: ElementType.Water, totalHit: 5,
   formula: ({ model, skillLevel }) => (200 + skillLevel * 100) * (model.level / 100),
@@ -295,45 +359,45 @@ export const FROST_MISTY: AtkSkillModel = {
 // Auto-cast by Major Auto Spell Shadow Armor (24728). `hit`, like the Warlock's own two
 // entries: the cast deals the column once, printed as four packets.
 export const JACK_FROST: AtkSkillModel = {
-  name: 'Jack Frost', label: 'Jack Frost Lv5', value: 'Jack Frost==5', levelList: allLevels('Jack Frost', 5),
+  name: 'Jack Frost', label: 'Jack Frost Lv5', value: 'Jack Frost==5', levelList: atkSkillLevelList('Jack Frost', 5),
   acd: 0, fct: 0, vct: 0, cd: 0,
   isMatk: true, element: ElementType.Water, hit: 4,
   formula: ({ model, skillLevel }) => (1000 + skillLevel * 300) * (model.level / 100),
 };
 export const HELL_INFERNO: AtkSkillModel = {
-  name: 'Hell Inferno', label: 'Hell Inferno Lv5', value: 'Hell Inferno==5', levelList: allLevels('Hell Inferno', 5),
+  name: 'Hell Inferno', label: 'Hell Inferno Lv5', value: 'Hell Inferno==5', levelList: atkSkillLevelList('Hell Inferno', 5),
   acd: 0, fct: 0, vct: 0, cd: 0,
   isMatk: true, element: ElementType.Fire,
   formula: ({ model, skillLevel }) => skillLevel * 400 * (model.level / 100),
 };
 export const KILLING_CLOUD: AtkSkillModel = {
-  name: 'Killing Cloud', label: 'Killing Cloud Lv5', value: 'Killing Cloud==5', levelList: allLevels('Killing Cloud', 5),
+  name: 'Killing Cloud', label: 'Killing Cloud Lv5', value: 'Killing Cloud==5', levelList: atkSkillLevelList('Killing Cloud', 5),
   acd: 0, fct: 0, vct: 0, cd: 0,
   isMatk: true, element: ElementType.Poison, totalHit: 4,
   formula: ({ model, skillLevel, status }) => (skillLevel * 40 + status.totalInt * 3) * (model.level / 100),
 };
 export const SOUL_EXPANSION: AtkSkillModel = {
-  name: 'Soul Expansion', label: 'Soul Expansion Lv5', value: 'Soul Expansion==5', levelList: allLevels('Soul Expansion', 5),
+  name: 'Soul Expansion', label: 'Soul Expansion Lv5', value: 'Soul Expansion==5', levelList: atkSkillLevelList('Soul Expansion', 5),
   acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Ghost, hit: 2,
   formula: ({ model, skillLevel, status }) => (1000 + skillLevel * 200 + status.totalInt) * (model.level / 100),
 };
 export const EARTH_STRAIN: AtkSkillModel = {
-  name: 'Earth Strain', label: 'Earth Strain Lv5', value: 'Earth Strain==5', levelList: allLevels('Earth Strain', 5),
+  name: 'Earth Strain', label: 'Earth Strain Lv5', value: 'Earth Strain==5', levelList: atkSkillLevelList('Earth Strain', 5),
   acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Earth, hit: 10,
   formula: ({ model, skillLevel }) => (1000 + skillLevel * 600) * (model.level / 100),
 };
 export const CHAIN_LIGHTNING: AtkSkillModel = {
-  name: 'Chain Lightning', label: 'Chain Lightning Lv5', value: 'Chain Lightning==5', levelList: allLevels('Chain Lightning', 5),
+  name: 'Chain Lightning', label: 'Chain Lightning Lv5', value: 'Chain Lightning==5', levelList: atkSkillLevelList('Chain Lightning', 5),
   acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Wind,
   formula: ({ model, skillLevel }) => (500 + skillLevel * 100) * (model.level / 100) + 900,
 };
 export const DIAMOND_DUST: AtkSkillModel = {
-  name: 'Diamond Dust', label: 'Diamond Dust Lv5', value: 'Diamond Dust==5', levelList: allLevels('Diamond Dust', 5),
+  name: 'Diamond Dust', label: 'Diamond Dust Lv5', value: 'Diamond Dust==5', levelList: atkSkillLevelList('Diamond Dust', 5),
   acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Water, hit: 2,
   formula: ({ model, skillLevel, status }) => ((skillLevel + 2) * status.totalInt) * (model.level / 100),
 };
 export const JUDEX: AtkSkillModel = {
-  name: 'Judex', label: 'Judex Lv10', value: 'Judex==10', levelList: allLevels('Judex', 10),
+  name: 'Judex', label: 'Judex Lv10', value: 'Judex==10', levelList: atkSkillLevelList('Judex', 10),
   acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Holy, hit: 3,
   formula: ({ model, skillLevel }) => (300 + skillLevel * 70) * (model.level / 100),
 };
@@ -348,7 +412,7 @@ export const FIRE_PILLAR: AtkSkillModel = {
   name: 'Fire Pillar',
   label: 'Fire Pillar Lv10',
   value: 'Fire Pillar==10',
-  levelList: allLevels('Fire Pillar', 10),
+  levelList: atkSkillLevelList('Fire Pillar', 10),
   acd: 1,
   fct: (lv) => 0.528 - lv * 0.048,
   vct: (lv) => 2.112 - lv * 0.192,
@@ -370,7 +434,7 @@ export const SIGHTRASHER: AtkSkillModel = {
   name: 'Sightrasher',
   label: 'Sightrasher Lv10',
   value: 'Sightrasher==10',
-  levelList: allLevels('Sightrasher', 10),
+  levelList: atkSkillLevelList('Sightrasher', 10),
   acd: 2,
   fct: 0.08,
   vct: 0.32,
@@ -390,7 +454,7 @@ export const WATER_BALL: AtkSkillModel = {
   name: 'Water Ball',
   label: 'Water Ball Lv5',
   value: 'Water Ball==5',
-  levelList: allLevels('Water Ball', 5),
+  levelList: atkSkillLevelList('Water Ball', 5),
   acd: 0,
   fct: (lv) => lv * 0.16,
   vct: (lv) => lv * 0.64,
@@ -501,7 +565,7 @@ export const METALLIC_FURY: AtkSkillModel = {
   // in the rebalance versions' picker.
   label: 'Metallic Fury',
   value: 'Metallic Fury==5',
-  levelList: allLevels('Metallic Fury', 5),
+  levelList: atkSkillLevelList('Metallic Fury', 5),
   // Timings from the client feed row for 5356.
   acd: 0.3,
   fct: 0,
@@ -627,7 +691,7 @@ const tigerCannon = (args: {
   name: 'Tiger Cannon',
   label: args.label,
   value: `${args.skillValue}==10`,
-  levelList: allLevels(args.skillValue, 10),
+  levelList: atkSkillLevelList(args.skillValue, 10),
   fct: 0,
   // The client's own row for id 2330 (skill-delay.json), copied rather than fitted. It used
   // to be the scalar 2, the Nv10 cast, which was right only because Nv10 was the only level

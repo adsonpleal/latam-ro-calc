@@ -1176,6 +1176,7 @@ export const ptBR = {
   'rot.moveUp': 'Mover {name} para cima',
   'rot.moveDown': 'Mover {name} para baixo',
   'rot.stack': 'Acúm.',
+  'rot.hits': 'Acertos',
   'rot.occurrence': '{n}ª vez',
   'rot.critLabel': '• Crít.',
   'rot.critConditional': 'O crítico desta habilidade depende do estado atual do personagem — veja a condição em (i).',

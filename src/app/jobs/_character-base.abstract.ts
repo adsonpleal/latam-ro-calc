@@ -9,7 +9,7 @@ import type { TextKey } from '../i18n';
 import { ClassAutoCastDefinition } from '../models/auto-cast.model';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput, InfoForClass, SkillRef, SkillStateCtx } from '../models/info-for-class.model';
-import { ASPD_CAP, sortSkill } from '../utils';
+import { ASPD_CAP, sortSkill, StackLimits } from '../utils';
 import { AspdTable } from './_aspd-table';
 import { ClassName } from './_class-name';
 import { rebalancedSkillCatalog } from '../skills/rebalance-2026';
@@ -36,7 +36,7 @@ export interface DefForCalcModel {
   finalSoftDef: number;
 }
 
-export interface AtkSkillModel {
+export interface AtkSkillModel extends StackLimits {
   preview?: boolean;
   previewVersion?: string;
   previewDescription?: string;
@@ -100,9 +100,6 @@ export interface AtkSkillModel {
   finalDmgFormula?: (input: AtkSkillFormulaInput & { damage: number; }) => number;
   /** Explains a finalDmgFormula adjustment in the damage graph when the skill has one. */
   finalDmgCalc?: (input: AtkSkillFormulaInput & { damageBefore: number; damageAfter: number }) => DamageFormulaCalc;
-  maxStack?: number;
-  minStack?: number;
-  defaultStack?: number;
   canCri?: boolean | ((input: AtkSkillFormulaInput) => boolean);
   baseCri?: number;
   forceCri?: boolean;

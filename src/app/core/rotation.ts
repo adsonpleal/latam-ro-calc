@@ -31,6 +31,21 @@ export const MAX_ROTATION_LENGTH = 20;
 export const isBasicAttack = (value: string): boolean => value === BASIC_ATTACK_VALUE;
 
 /**
+ * The two halves of an entry, for the callers that need the skill apart from the level —
+ * the row's level picker, and the per-level bound of its accumulation counter.
+ *
+ * An entry carrying no `==<level>` (ataque básico, or a token from an older build) keeps
+ * the whole string as its name and an empty level, which every caller already reads as
+ * "no level". This is the only parser of the format: a second one drifts from the module
+ * that defines it, and the engine resolves a stored value by exact string.
+ */
+export const splitSkillValue = (value: string): { name: string; level: string } => {
+  const [, name, level] = value?.match(/(.+)==(\d+)/) ?? [];
+
+  return { name: name ?? value ?? '', level: level ?? '' };
+};
+
+/**
  * A shape with just the two fields the default-skill rule reads, declared structurally
  * for the same reason {@link RotationSkillOption} is.
  */
