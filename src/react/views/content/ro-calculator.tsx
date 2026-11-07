@@ -1011,10 +1011,19 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "button": true}}></Render></Render></>; }}}>
 {(() => { const __condition85 = (vm.savedSims.length === 0);  return __condition85 ? <><Render tag="div" props={{"className": ["p-5 text-center"].filter(Boolean).join(' '),
 "style": normalizeStyle(Object.assign({}, parseStyle("opacity: 0.7")))}}>{rich('calc.savesEmpty')}</Render></> : null; })()}
-{(() => { const __condition86 = vm.savedSims.length;  return __condition86 ? <><Render tag="div" props={{"className": ["grid"].filter(Boolean).join(' ')}}>{(vm.savedSims ?? []).map((__entry87: any, __index87: number, __array87: any[]) => { const sim = __entry87; return <Fragment key={identityKey(__entry87)}><Render tag="div" props={{"className": ["col-12 sm:col-6 lg:col-4 p-2"].filter(Boolean).join(' ')}}><Render tag="div" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.loadSavedSim(sim) }),
-"className": ["border_default px-3 py-2 flex flex-column align-items-center gap-1 cursor-pointer"].filter(Boolean).join(' '),
+{(() => { const __condition86 = vm.savedSims.length;  return __condition86 ? <><Render tag="div" props={{"className": ["grid"].filter(Boolean).join(' ')}}>{(vm.savedSims ?? []).map((__entry87: any, __index87: number, __array87: any[]) => { const sim = __entry87; const canCompare = vm.canCompareSavedSim(sim); return <Fragment key={identityKey(__entry87)}><Render tag="div" props={{"className": ["col-12 sm:col-6 lg:col-4 p-2"].filter(Boolean).join(' ')}}><Render tag="div" props={{"click": (event: any) => vm.action(() => { const $event = event; vm.loadSavedSim(sim) }),
+"className": ["sim_card border_default px-3 py-2 flex flex-column align-items-center gap-1 cursor-pointer"].filter(Boolean).join(' '),
 "style": normalizeStyle(Object.assign({}, parseStyle("height: 100%"))),
-"activateWithKeys": true}}><Render tag="img" props={{"src": vm.charSpriteUrl(sim.preset),
+"activateWithKeys": true}}><Render tag="app-icon" props={{"role": "button",
+"tabIndex": "0",
+"name": "arrows-h",
+"aria-disabled": (canCompare ? undefined : "true"),
+"label": t('calc.compareSavedSim'),
+"click": (event: any) => vm.action(() => { const $event = event; $event.stopPropagation();vm.compareSavedSim(sim) }),
+"className": ["sim_compare"].filter(Boolean).join(' '),
+"tooltip": {text: t('calc.compareSavedSimTooltip', { detail: canCompare ? t('calc.compareSavedSimDetail') : t('calc.importSameClassOnly', { class: vm.classLabel(vm.model.class) }) }), position: "left", className: '', showDelay: 150, hideDelay: 0, escape: true, disabled: false},
+"activateWithKeys": true}}></Render>
+<Render tag="img" props={{"src": vm.charSpriteUrl(sim.preset),
 "alt": sim.name,
 "error": (event: any) => vm.action(() => { const $event = event; vm.onCharSpriteError($event,sim.classId) }),
 "style": normalizeStyle(Object.assign({}, parseStyle("height: 175px; object-fit: contain; image-rendering: pixelated")))}}></Render>

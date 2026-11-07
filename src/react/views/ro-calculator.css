@@ -1695,3 +1695,30 @@
 :is(app-ro-calculator, .ui-scope-app-ro-calculator) .auto-cast-beta-actions .ui-button{
   white-space: nowrap;
 }
+/* The saved-sim card anchors its compare icon in the top-right corner, clear of the
+   paper-doll and of the Carregar / Excluir row the card already carries. */
+:is(app-ro-calculator, .ui-scope-app-ro-calculator) .sim_card{
+  position: relative;
+}
+:is(app-ro-calculator, .ui-scope-app-ro-calculator) .sim_compare{
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+  /* `.ui-icon` is `1em` square, so the tap-target padding has to sit outside that box. */
+  box-sizing: content-box;
+  padding: 0.3rem;
+  font-size: 1.1rem;
+  color: var(--text-color-secondary, rgba(255, 255, 255, 0.6));
+  cursor: pointer;
+}
+@media (hover: hover){:is(app-ro-calculator, .ui-scope-app-ro-calculator) .sim_compare:not([aria-disabled="true"]):hover{
+  color: var(--primary-color);
+}}
+@media (hover: none){:is(app-ro-calculator, .ui-scope-app-ro-calculator) .sim_compare:not([aria-disabled="true"]):active{
+  color: var(--primary-color);
+}}
+/* Dimmed rather than `disabled`, which would take the tip that says why away with it. */
+:is(app-ro-calculator, .ui-scope-app-ro-calculator) .sim_compare[aria-disabled="true"]{
+  opacity: 0.35;
+  cursor: default;
+}

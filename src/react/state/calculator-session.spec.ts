@@ -635,3 +635,103 @@ describe('rotation tabs', () => {
     session.dispose();
   });
 });
+
+describe('comparing a saved simulation', () => {
+  beforeEach(() => vi.useFakeTimers());
+  afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); });
+
+  /** A named save as `SavedSimulationStore.upsert` writes it. */
+  const savedSim = (name: string, classId: number, preset: Record<string, unknown>) =>
+    ({ id: name, name, classId, savedAt: 1, preset: { class: classId, level: 250, jobLevel: 55, ...preset } });
+
+  async function booted(saves: unknown[], current: Record<string, unknown>) {
+    const made = makeSession();
+    made.storage.setItem('ro-saves', JSON.stringify(saves));
+    made.storage.setItem('ro-set', JSON.stringify(current));
+    made.session.start();
+    await vi.advanceTimersByTimeAsync(1500);
+    made.session.openSavesDialog();
+    return made;
+  }
+
+  it('brings the save in as the comparison and leaves the build on screen alone', async () => {
+    const { session } = await booted(
+      [savedSim('Comparada', 4252, { weapon: 1291, weaponRefine: 12, str: 130 })],
+      { class: 4252, level: 250, jobLevel: 55, weapon: 1250, weaponRefine: 0, str: 90 });
+
+    session.compareSavedSim(session.savedSims[0]);
+    await vi.advanceTimersByTimeAsync(1500);
+
+    expect(session.isEnableCompare).toBe(true);
+    expect(session.model2).toMatchObject({ weapon: 1291, weaponRefine: 12, str: 130 });
+    // The build on screen keeps its own weapon and stats: this is a comparison, not a load.
+    expect(session.model).toMatchObject({ weapon: 1250, str: 90 });
+    // And the dialog closes, so the comparison it just applied is visible.
+    expect(session.showSavesDialog).toBe(false);
+
+    session.dispose();
+  });
+
+  it('refuses a save of another class, and the card icon reads the same gate', async () => {
+    const { session } = await booted(
+      [savedSim('Outra classe', 4257, { weapon: 1291 })],
+      { class: 4252, level: 250, jobLevel: 55, weapon: 1250 });
+
+    expect(session.canCompareSavedSim(session.savedSims[0])).toBe(false);
+    session.compareSavedSim(session.savedSims[0]);
+    await vi.advanceTimersByTimeAsync(1500);
+
+    expect(session.isEnableCompare).toBe(false);
+    // The dialog stays open: nothing happened, so there is nothing to go and look at.
+    expect(session.showSavesDialog).toBe(true);
+
+    session.dispose();
+  });
+
+  it('replaces the comparison that was already up instead of merging into it', async () => {
+    const { session } = await booted(
+      [savedSim('Nova', 4252, { weapon: 1291, weaponRefine: 12 }),
+        savedSim('Antiga', 4252, { armor: 15000, armorRefine: 9 })],
+      { class: 4252, level: 250, jobLevel: 55, weapon: 1250 });
+
+    session.compareSavedSim(session.savedSims[1]);
+    await vi.advanceTimersByTimeAsync(1500);
+    expect(session.model2).toMatchObject({ armor: 15000, armorRefine: 9 });
+
+    session.openSavesDialog();
+    session.compareSavedSim(session.savedSims[0]);
+    await vi.advanceTimersByTimeAsync(1500);
+    expect(session.model2).toMatchObject({ weapon: 1291, weaponRefine: 12 });
+    // Every comparable slot comes from the new save, so the old one's armour is gone.
+    expect(session.model2['armor']).toBeNull();
+
+    session.dispose();
+  });
+
+  it('keeps the comparison in the autosave, so a refresh still shows it', async () => {
+    const { session, storage } = await booted(
+      [savedSim('Comparada', 4252, { weapon: 1291, weaponRefine: 12 })],
+      { class: 4252, level: 250, jobLevel: 55, weapon: 1250 });
+
+    session.compareSavedSim(session.savedSims[0]);
+    await vi.advanceTimersByTimeAsync(1500);
+
+    expect(JSON.parse(storage.getItem('ro-set-compare')!).model2).toMatchObject({ weapon: 1291 });
+
+    session.dispose();
+  });
+
+  it('does not offer the off-hand slot to a class that has no off hand', async () => {
+    const { session } = await booted(
+      [savedSim('Comparada', 4252, { weapon: 1291, leftWeapon: 1250 })],
+      { class: 4252, level: 250, jobLevel: 55 });
+
+    session.compareSavedSim(session.savedSims[0]);
+    await vi.advanceTimersByTimeAsync(1500);
+
+    expect(session.isAllowLeftWeaponByClass).toBe(false);
+    expect(session.compareItemNames).not.toContain(ItemTypeEnum.leftWeapon);
+
+    session.dispose();
+  });
+});

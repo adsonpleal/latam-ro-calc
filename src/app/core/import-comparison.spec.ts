@@ -3,7 +3,7 @@ import { AllowedCompareItemTypes } from 'src/app/app-config/allowed-compare-item
 import { PetLoyalty } from 'src/app/constants/pet-loyalty';
 import { createMainModel } from 'src/app/utils/create-main-model';
 import { STATS_COMPARE_KEYS, sanitizeCompareState } from './compare-state';
-import { buildComparisonFromImport } from './import-comparison';
+import { buildComparisonFromImport, buildComparisonFromSavedSim, canCompareSavedPreset } from './import-comparison';
 
 const SLOTS = [...AllowedCompareItemTypes] as string[];
 
@@ -69,5 +69,43 @@ describe('buildComparisonFromImport', () => {
     const { model2 } = buildComparisonFromImport(importedBuild(), SLOTS);
     const merged = { ...main, ...model2 };
     expect(merged).toMatchObject({ level: 250, str: 130, weapon: 1291, boot: null });
+  });
+});
+
+describe('buildComparisonFromSavedSim', () => {
+  /** A named save as the store holds it: a preset, not a full model. */
+  const savedPreset = (overrides: Record<string, any> = {}) => ({
+    class: 4252, level: 250, jobLevel: 55, str: 130, pow: 80,
+    weapon: 1291, weaponRefine: 12, armor: 15000, ...overrides,
+  });
+
+  it('compares a save of the class on screen', () => {
+    const state = buildComparisonFromSavedSim(savedPreset(), 4252, SLOTS);
+    expect(state?.itemNames).toEqual(SLOTS);
+    expect(state?.stats).toBe(true);
+    expect(state?.model2).toMatchObject({ weapon: 1291, weaponRefine: 12, armor: 15000, level: 250, str: 130 });
+  });
+
+  it('refuses a save of another class, which is what disables the card icon', () => {
+    expect(buildComparisonFromSavedSim(savedPreset(), 4257, SLOTS)).toBeNull();
+  });
+
+  it('reads the class the way it comes back out of localStorage, as a string or a number', () => {
+    expect(canCompareSavedPreset(savedPreset({ class: '4252' }), 4252)).toBe(true);
+    expect(canCompareSavedPreset(savedPreset(), 4252)).toBe(true);
+    expect(canCompareSavedPreset(savedPreset(), 4257)).toBe(false);
+    expect(canCompareSavedPreset(null, 4252)).toBe(false);
+  });
+
+  it('fills in the defaults of a preset saved before a field existed', () => {
+    // A preset carries no `rawOptionTxts` when it was saved before random options, and
+    // the compare pass reads that array; normalizeSavedModel is what puts it back.
+    const state = buildComparisonFromSavedSim(savedPreset(), 4252, SLOTS);
+    expect(state?.model2['rawOptionTxts']).toEqual([]);
+    expect(state?.model2['boot']).toBeNull();
+  });
+
+  it('refuses a save with no preset at all rather than comparing an empty build', () => {
+    expect(buildComparisonFromSavedSim(null, 4252, SLOTS)).toBeNull();
   });
 });

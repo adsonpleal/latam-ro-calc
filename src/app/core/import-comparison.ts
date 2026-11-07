@@ -3,6 +3,7 @@ import { MainItemWithRelations } from '../constants/item-type.enum';
 import { DEFAULT_PET_LOYALTY } from '../constants/pet-loyalty';
 import { MainModel } from '../models/main.model';
 import { CompareState, copyStatsFields } from './compare-state';
+import { normalizeSavedModel } from './saved-model';
 
 /**
  * An imported build (a replay or a share link) turned into a comparison against the
@@ -42,4 +43,35 @@ export function buildComparisonFromImport(imported: MainModel, slots: readonly s
   copyStatsFields(source, model2);
 
   return { itemNames: [...slots], model2, stats: true };
+}
+
+/**
+ * Whether a saved build may be compared against the build on screen: only one of the
+ * same class. A comparison is drawn slot by slot against the current class's cards, so
+ * a build of another class would land items on slots that class never offers — the same
+ * rule the import dialog's "Importar como comparação" button follows.
+ *
+ * `Number` on both sides because a named save comes back from `JSON.parse(localStorage)`
+ * rather than from a typed constructor; `SavedSimulationStore.upsert` coerces the class
+ * for the same reason.
+ *
+ * One predicate, so the icon that offers the comparison and the builder that refuses it
+ * cannot drift apart.
+ */
+export function canCompareSavedPreset(preset: Record<string, any> | null | undefined, currentClass: number): boolean {
+  return !!preset && Number(preset['class']) === Number(currentClass);
+}
+
+/**
+ * A named save turned into a comparison against the build on screen — the same
+ * conversion a share link goes through, applied to the preset the save holds. `null`
+ * when `canCompareSavedPreset` refuses it.
+ */
+export function buildComparisonFromSavedSim(
+  preset: Record<string, any> | null | undefined,
+  currentClass: number,
+  slots: readonly string[],
+): CompareState | null {
+  if (!canCompareSavedPreset(preset, currentClass)) return null;
+  return buildComparisonFromImport(normalizeSavedModel(preset!), slots);
 }
