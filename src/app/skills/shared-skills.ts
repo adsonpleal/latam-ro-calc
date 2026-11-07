@@ -644,7 +644,7 @@ const tigerCannon = (args: {
   name: 'Tiger Cannon',
   label: args.label,
   value: `${args.skillValue}==10`,
-  levelList: allLevels(args.skillValue, 10),
+  levelList: atkSkillLevelList(args.skillValue, 10),
   fct: 0,
   // The client's own row for id 2330 (skill-delay.json), copied rather than fitted. It used
   // to be the scalar 2, the Nv10 cast, which was right only because Nv10 was the only level
