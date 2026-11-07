@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Garra de Tigre agora pode ser simulada em qualquer nível, e não só no 10: o nível escolhido entra no fator de HP e SP da habilidade (12% de HP + 6% de SP no nível 1 até 30% + 15% no nível 10) e também na conjuração, que vai de 1,1 a 2,0 segundos. No detalhamento do dano, a linha do dano especial da versão em combo, depois de Ruína, passou a mostrar os 500 por nível que ela soma, no lugar dos 240 da versão normal."
+  ],
+  "logs_es": [
+    "Cañón de Tigre ahora puede simularse en cualquier nivel, y no solo en el 10: el nivel elegido entra en el factor de HP y SP de la habilidad (12% de HP + 6% de SP en el nivel 1 hasta 30% + 15% en el nivel 10) y también en el lanzamiento, que va de 1,1 a 2,0 segundos. En el desglose del daño, la línea del daño especial de la versión en combo, después de Imperio Caído, pasó a mostrar los 500 por nivel que suma, en lugar de los 240 de la versión normal."
+  ],
+  "logs_en": [
+    "Tiger Cannon can now be simulated at any level, not only at 10: the chosen level feeds the skill's HP and SP factor (12% HP + 6% SP at level 1 up to 30% + 15% at level 10) and the cast time as well, which goes from 1.1 to 2.0 seconds. In the damage breakdown, the special damage line of the combo version, after Fallen Empire, now shows the 500 per level it adds instead of the normal version's 240."
+  ]
+}
