@@ -1,6 +1,0 @@
-{
-  "type": "patch",
-  "logs": ["Cada card de Simulações salvas ganhou um ícone de comparação no canto direito: ele põe a simulação salva como comparação da build atual, sem substituí-la — os equipamentos, o nível, os atributos e os talentos entram como comparação, e as habilidades e os buffs continuam os da simulação atual. O ícone fica apagado nas simulações de outra classe, e o balão diz por quê. Sugerido por pazzoLino."],
-  "logs_es": ["Cada tarjeta de Simulaciones guardadas ganó un ícono de comparación en la esquina derecha: pone la simulación guardada como comparación de la build actual, sin reemplazarla — el equipamiento, el nivel, los atributos y los talentos entran como comparación, y las habilidades y los buffs siguen siendo los de la simulación actual. El ícono queda apagado en las simulaciones de otra clase, y el globo dice por qué. Sugerido por pazzoLino."],
-  "logs_en": ["Each Saved simulations card gained a comparison icon in the right corner: it brings the saved simulation in as the comparison of the current build, without replacing it — equipment, level, stats and traits come in as the comparison, and skills and buffs stay the ones of the current simulation. The icon is dimmed on simulations of another class, and its tooltip says why. Suggested by pazzoLino."]
-}
