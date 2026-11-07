@@ -78,3 +78,37 @@ describe('SavedSimulationStore — custom item fallbacks', () => {
     expect(saved.targetProfile).toBeUndefined();
   });
 });
+
+describe('SavedSimulationStore.replace', () => {
+  it('overwrites the content of the picked save, keeping its id and its name', () => {
+    const store = new SavedSimulationStore(fakeStorage());
+    const a = store.upsert('Nome antigo', preset({ level: 99 }));
+    store.upsert('Outra', preset());
+
+    const saved = store.replace(a.id, preset({ level: 200, class: 4252 }), profile);
+
+    expect(saved).toMatchObject({ id: a.id, name: 'Nome antigo', classId: 4252 });
+    const list = store.list();
+    expect(list).toHaveLength(2); // replaced in place, not added
+    const after = list.find((s) => s.id === a.id)!;
+    expect(after.preset.level).toBe(200);
+    expect(after.targetProfile).toEqual(profile);
+    expect(list.find((s) => s.name === 'Outra')!.preset.level).toBe(99); // sibling untouched
+  });
+
+  it('drops a comparison the save was holding when replaced without one', () => {
+    const store = new SavedSimulationStore(fakeStorage());
+    const a = store.upsert('A', preset(), undefined, { itemNames: ['weapon'], model2: { weapon: 1201, rawOptionTxts: [] } });
+    store.replace(a.id, preset(), undefined, null);
+    expect(store.list()[0].compare).toBeUndefined();
+  });
+
+  it('returns null and writes nothing for an id that is already gone', () => {
+    const store = new SavedSimulationStore(fakeStorage());
+    const a = store.upsert('A', preset({ level: 99 }));
+    store.remove(a.id);
+
+    expect(store.replace(a.id, preset({ level: 200 }))).toBeNull();
+    expect(store.list()).toHaveLength(0);
+  });
+});

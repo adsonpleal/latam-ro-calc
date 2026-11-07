@@ -986,14 +986,36 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "label": t('calc.save'),
 "click": (event: any) => vm.action(() => { const $event = event; vm.confirmSave() }),
 "className": ["ui-button-success"].filter(Boolean).join(' '),
-"button": true}}></Render></>; }}}><Render tag="div" props={{"className": ["flex flex-column gap-2 pt-2"].filter(Boolean).join(' ')}}><Render tag="label" props={{"htmlFor": "saveSimName"}}>{t('calc.saveName')}</Render>
+"button": true}}></Render></>; }}}><Render tag="div" props={{"className": ["flex flex-column gap-2 pt-2"].filter(Boolean).join(' ')}}>
+{vm.canReplaceSim && <Render tag="app-ui-select-button" props={{"optionLabel": "label",
+"optionValue": "value",
+"ariaLabel": t('calc.saveMode'),
+"options": vm.saveModeOptions,
+"value": vm.saveMode,
+"onModelChange": (value: any) => vm.action(() => { vm.saveMode = value })}}></Render>}
+{vm.saveMode === 'replace'
+  ? <><Render tag="label" props={{"htmlFor": "saveSimTarget"}}>{t('calc.saveReplaceTarget')}</Render>
+<Render tag="app-ui-dropdown" props={{"inputId": "saveSimTarget",
+"optionLabel": "name",
+"optionValue": "id",
+"filterBy": "name",
+"filterPlaceholder": t('calc.saveReplaceTargetFilter'),
+"scrollHeight": "320px",
+"placeholder": t('calc.saveReplaceTargetPlaceholder'),
+"autoDisplayFirst": false,
+"resetFilterOnHide": true,
+"options": vm.savedSims,
+"filter": true,
+"value": vm.replaceSimId,
+"onModelChange": (value: any) => vm.action(() => { vm.replaceSimId = value })}}></Render></>
+  : <><Render tag="label" props={{"htmlFor": "saveSimName"}}>{t('calc.saveName')}</Render>
 <Render tag="input" props={{"id": "saveSimName",
 "type": "text",
 "placeholder": t('calc.saveNamePlaceholder'),
 "value": vm.saveName,
 "onModelChange": (value: string) => vm.action(() => { vm.saveName = value }),
 "keyup": (event: any) => vm.action(() => { const $event = event; if (event.key?.toLowerCase() === "enter") { vm.confirmSave() } }),
-"inputText": true}}></Render></Render>
+"inputText": true}}></Render></>}</Render>
 </Render>
 <Render tag="app-ui-dialog" props={{"visible": vm.showSavesDialog,
 "modal": true,
