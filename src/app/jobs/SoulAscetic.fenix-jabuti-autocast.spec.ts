@@ -41,7 +41,7 @@ import { SoulAscetic } from './SoulAscetic';
  * the Jabuti/Fênix mean ratio is 1,18016, while the ratio of the two skills' columns with
  * this class's talisman tail (`Perícia × 15 × Nv + FEI × 5`, Perícia Lv10) lands at
  * 1,1667..1,1597 across FEI 90..140 — above the whole plausible band, by about 1,2%. That
- * is the talisman FEI coefficient `SoulAscetic.exorcismo-replay.spec.ts` already leaves
+ * is the talisman FEI coefficient `SoulAscetic.exorcism-replay.spec.ts` already leaves
  * open ("close but probably low"), not this clause: the same tail sits in both skills and
  * every multiplier on this build — the necklace's own +10% to both talismans included —
  * cancels in the ratio. One gear state cannot close it, so the ratio is recorded here as
