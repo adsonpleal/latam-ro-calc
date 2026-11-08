@@ -42,7 +42,8 @@ describe('missing LATAM visual enchants requested by Samuel Costa', () => {
     [1000670, 'Cart Remodeling', 'vct', 2],
     [1000671, 'Sword Mastery', 'fct', 0.1],
     [1000672, 'Striking', 'fct', 0.1],
-    [1000673, 'Diamond Dust', 'vct', 1],
+    // 2, not the 1% the pt-BR client prints — see sorcerer-middle-stone.spec.ts.
+    [1000673, 'Diamond Dust', 'vct', 2],
     [1000674, 'Earth Grave', 'm_my_element_all', 2],
   ] as const)('%i scales %s only by learned levels', (id, skill, key, perLevel) => {
     expect(worn([id])[key] || 0).toBe(0);
