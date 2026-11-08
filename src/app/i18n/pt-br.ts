@@ -1287,10 +1287,12 @@ export const ptBR = {
   'ac.triggerPhysical': 'Ataque físico, mesmo se errar',
   'ac.triggerMelee': 'Ataque físico corpo a corpo, mesmo se errar',
   'ac.triggerMagic': 'Uso de habilidade mágica',
+  'ac.triggerSkillUse': 'Uso da habilidade selecionada',
   'ac.triggerMeleeHit': 'Ataque físico corpo a corpo que acertar',
   'ac.triggerRangedHit': 'Ataque físico à distância que acertar',
   'ac.triggerPhysicalHit': 'Ataque físico que acertar',
   'ac.rateMagic': 'Usos mágicos/s',
+  'ac.rateSkillUses': 'Usos da habilidade/s',
   'ac.rateAttacks': 'Ataques/s',
   'ac.rateEligible': 'Ataques elegíveis/s',
 

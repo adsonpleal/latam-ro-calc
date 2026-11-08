@@ -127,18 +127,25 @@ describe('verified item auto-casts', () => {
     expect(byName.get('Lava Flow')!.formula(input(2))).toBe(550);
   });
 
-  it('resolves all 222 stored item rules even without native class skills', () => {
+  it('resolves all 223 stored item rules even without native class skills', () => {
     const addedIds = new Set(ITEM_AUTO_CAST_SKILLS.map((skill) => SKILL_ID_BY_NAME[skill.name]));
     const promotedIds = new Set(ITEM_CLASS_AUTO_CAST_SKILLS.map((skill) => SKILL_ID_BY_NAME[skill.name]));
     const rules = Object.values(ITEMS).flatMap((item: any) =>
       (item.script?.autoCast ?? []).map((rule: any) => ({ rule, item })),
     );
-    expect(rules).toHaveLength(222);
+    expect(rules).toHaveLength(223);
     expect(rules.filter(({ rule }) => addedIds.has(rule.skillId))).toHaveLength(64);
     expect(promotedIds.size).toBe(25);
     expect(rules.filter(({ rule }) => promotedIds.has(rule.skillId))).toHaveLength(66);
 
-    for (const { rule, item } of rules) {
+    // A `skill-use` proc is the one shape that cannot be priced class-independently, and it
+    // does not need to be: it only fires while its trigger skill is the selected one, which
+    // is only reachable on the class that owns that skill, so `calc.atkSkills` always has
+    // the formula. Covered for real in SoulAscetic.fenix-jabuti-autocast.spec.ts.
+    const skillUse = rules.filter(({ rule }) => rule.trigger === 'skill-use');
+    expect(skillUse.map(({ item, rule }) => [item.id, rule.triggerSkillId, rule.skillId])).toEqual([[491119, 5428, 5429]]);
+
+    for (const { rule, item } of rules.filter(({ rule }) => rule.trigger !== 'skill-use')) {
       const seen: AtkSkillModel[] = [];
       const calc = {
         atkSkills: [], autoCastDefinitions: [],

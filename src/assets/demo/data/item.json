@@ -373508,6 +373508,19 @@
       ],
       "cd__5425": [
         "EQUIP_ID[550063]REFINE[weapon==10]0.2"
+      ],
+      "autoCast": [
+        {
+          "skillId": 5429,
+          "skillLevel": [
+            "EQUIP_ID[550064]REFINE[weapon==10]4"
+          ],
+          "chance": [
+            "EQUIP_ID[550064]REFINE[weapon==10]100"
+          ],
+          "trigger": "skill-use",
+          "triggerSkillId": 5428
+        }
       ]
     }
   },

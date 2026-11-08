@@ -1,6 +1,7 @@
 import { AtkSkillModel } from '../jobs';
 import {
   AutoCastSource,
+  AutoCastTrigger,
   BlockedAutoCastSource,
   ConfigurableAutoCastSlot,
   ExtraHitOutcome,
@@ -8,6 +9,7 @@ import {
 } from '../models/auto-cast.model';
 import { MainModel } from '../models/main.model';
 import { resolveSkillById, SKILL_ID_BY_NAME } from '../skills';
+import { splitSkillValue } from './rotation';
 import { ITEM_AUTO_CAST_SKILLS } from '../skills/item-auto-cast-skills';
 import { ITEM_CLASS_AUTO_CAST_SKILLS } from '../skills/item-class-auto-cast-skills';
 import {
@@ -154,6 +156,11 @@ function itemRuleEnabled(calc: Calculator, rule: ResolvedItemAutoCast): boolean 
   return !rule.requiredEffect || calc.isChanceSelected(rule.requiredEffect);
 }
 
+/** The skill a `skill-use` rule waits on, named the way the panel shows it. */
+function triggerSkillName(rule: ResolvedItemAutoCast): string {
+  return resolveSkillById(rule.triggerSkillId)?.name ?? rule.itemName;
+}
+
 function itemSources(calc: Calculator): AutoCastSource[] {
   return calc.resolvedItemAutoCasts.filter((rule) => itemRuleEnabled(calc, rule)).map((rule) => ({
     key: rule.key,
@@ -162,9 +169,12 @@ function itemSources(calc: Calculator): AutoCastSource[] {
     skillLevel: rule.skillLevel,
     chance: rule.chance,
     trigger: rule.trigger,
+    triggerSkillId: rule.triggerSkillId,
     sourceItemId: rule.itemId,
     sourceName: rule.itemName,
-    chanceBreakdown: [{ label: `${rule.chance}% ${rule.itemName}`, value: 'por ataque elegível' }],
+    chanceBreakdown: [{ label: `${rule.chance}% ${rule.itemName}`, value: rule.trigger === 'skill-use'
+      ? `por uso de ${triggerSkillName(rule)}`
+      : 'por ataque elegível' }],
   }));
 }
 
@@ -193,23 +203,46 @@ function doubleAttackSources(calc: Calculator, summary: any): { sources: AutoCas
   }] };
 }
 
-function itemBlockedSources(calc: Calculator): BlockedAutoCastSource[] {
+/**
+ * Why a stored rule fires nothing right now, or `null` while it does. A rule the panel
+ * drops without a row reads as "not modelled", so every reason the engine has is here —
+ * and here only, since {@link triggerMatches} decides the same question for the sources.
+ */
+function itemRuleBlockedReason(calc: Calculator, rule: ResolvedItemAutoCast, selectedSkillId: number): string | null {
+  if (!itemRuleEnabled(calc, rule)) {
+    return `Selecione ${rule.requiredEffect} em Efeitos para ativar ${rule.chance}% de chance.`;
+  }
+  // A skill-use proc only exists while its trigger skill is the one being solved.
+  if (rule.trigger === 'skill-use' && rule.triggerSkillId !== selectedSkillId) {
+    return `Selecione ${triggerSkillName(rule)} como habilidade para ativar.`;
+  }
+  return null;
+}
+
+function itemBlockedSources(calc: Calculator, selectedSkillId: number): BlockedAutoCastSource[] {
   const pending = (calc.resolvedItemAutoCastPending ?? []).map((source) => ({
     key: source.key,
     name: source.skillName,
     icon: source.skillId ?? 0,
     reason: `${source.itemName}: ${source.reason}`,
   }));
-  const locked = calc.resolvedItemAutoCasts.filter((rule) => !itemRuleEnabled(calc, rule)).map((rule) => ({
-    key: rule.key,
-    name: resolveSkillById(rule.skillId)?.name ?? rule.itemName,
-    icon: rule.skillId,
-    reason: `Selecione ${rule.requiredEffect} em Efeitos para ativar ${rule.chance}% de chance.`,
-  }));
-  return [...pending, ...locked];
+  const blocked: BlockedAutoCastSource[] = [];
+  for (const rule of calc.resolvedItemAutoCasts) {
+    const reason = itemRuleBlockedReason(calc, rule, selectedSkillId);
+    if (reason) {
+      blocked.push({ key: rule.key, name: resolveSkillById(rule.skillId)?.name ?? rule.itemName, icon: rule.skillId, reason });
+    }
+  }
+  return [...pending, ...blocked];
 }
 
-function triggerMatches(source: AutoCastSource, summary: any): boolean {
+/** The id of the single skill the engine is solving against (`model.selectedAtkSkill`). */
+function selectedSkillIdOf(model: MainModel): number {
+  return SKILL_ID_BY_NAME[splitSkillValue(String(model?.selectedAtkSkill ?? '')).name] ?? 0;
+}
+
+function triggerMatches(source: AutoCastSource, summary: any, selectedSkillId: number): boolean {
+  if (source.trigger === 'skill-use') return !!source.triggerSkillId && source.triggerSkillId === selectedSkillId;
   if (source.trigger === 'magic-attack') return summary?.calcSkill?.dmgType === 'Magical';
   const ranged = summary?.weapon?.rangeType === 'range';
   if (source.trigger === 'melee-physical-hit' || source.trigger === 'melee-physical-attack') return !ranged;
@@ -318,14 +351,26 @@ export function buildAutoCastSimulation(input: {
   const basicAttackDps = Number((hasSelectedEffects && dmg.effectedBasicDps) || dmg.basicDps || 0);
   const classResult = classSources(calc, model, summary);
   const doubleAttack = doubleAttackSources(calc, summary);
-  const sourceDefs = [...classResult.sources, ...itemSources(calc), ...doubleAttack.sources].filter((source) => triggerMatches(source, summary));
+  const selectedSkillId = selectedSkillIdOf(model);
+  const sourceDefs = [...classResult.sources, ...itemSources(calc), ...doubleAttack.sources]
+    .filter((source) => triggerMatches(source, summary, selectedSkillId));
+  // Uses per second of the skill being solved, under the same ASPD cap the engine applies
+  // to that skill's own DPS (damage-calculator.ts).
+  const skillUsesPerSecond = Math.min(attacksPerSecond, Number(summary?.calcSkill?.totalHitPerSec ?? 0));
+  // What each trigger is priced off: a roll per swing, per landed swing, or per skill use.
+  const rateOfTrigger: Record<AutoCastTrigger, number> = {
+    'physical-attack': attacksPerSecond,
+    'melee-physical-attack': attacksPerSecond,
+    'physical-hit': eligibleAttacksPerSecond,
+    'melee-physical-hit': eligibleAttacksPerSecond,
+    'ranged-physical-hit': eligibleAttacksPerSecond,
+    'magic-attack': skillUsesPerSecond,
+    'skill-use': skillUsesPerSecond,
+  };
   const sources: AutoCastResult[] = [];
 
   for (const source of sourceDefs) {
-    const triggerRate = source.trigger === 'magic-attack'
-      ? Math.min(attacksPerSecond, Number(summary?.calcSkill?.totalHitPerSec ?? 0))
-      : source.trigger === 'physical-attack' || source.trigger === 'melee-physical-attack'
-        ? attacksPerSecond : eligibleAttacksPerSecond;
+    const triggerRate = rateOfTrigger[source.trigger];
     const activationsPerSecond = Math.min(triggerRate * source.chance / 100,
       source.maxActivationsPerSecond ?? Infinity);
 
@@ -423,6 +468,6 @@ export function buildAutoCastSimulation(input: {
     timeToKillSeconds: totalDps > 0 && hp > 0 ? hp / totalDps : null,
     sources,
     slots: classResult.slots,
-    blockedSources: [...classResult.blocked, ...itemBlockedSources(calc), ...doubleAttack.blocked],
+    blockedSources: [...classResult.blocked, ...itemBlockedSources(calc, selectedSkillId), ...doubleAttack.blocked],
   };
 }

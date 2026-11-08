@@ -91,10 +91,23 @@ describe('Colares Consagrados', () => {
     expect(totals({ accLeft: 491119, weapon: 540046, weaponRefine: 10 }, master).spCostPercent).toBe(-10);
   });
 
-  it('does not register skill-use procs as basic-attack sources', () => {
+  /**
+    * The five necklaces whose set block reads "Ao usar [X] ... autoconjura [Y]". Those procs
+    * fire on one named skill and never on a basic attack, so an attack trigger on any of
+    * them would price them off a rate they have nothing to do with.
+    *
+    * Destino's clause is the only one a recording settles — see
+    * `SoulAscetic.fenix-jabuti-autocast.spec.ts` — and so the only one modelled. The other
+    * four stay unmodelled rather than carry a chance nobody measured.
+    */
+  it('registers skill-use procs on the skill that fires them, never on a basic attack', () => {
     for (const id of [491112, 491115, 491116, 491117, 491119]) {
-      expect(db[id].script.autoCast ?? []).toEqual([]);
+      for (const rule of db[id].script.autoCast ?? []) {
+        expect(rule.trigger, String(id)).toBe('skill-use');
+      }
     }
+    expect((db[491119].script.autoCast ?? []).map((rule: any) => [rule.triggerSkillId, rule.skillId, rule.skillLevel, rule.chance]))
+      .toEqual([[5428, 5429, ['EQUIP_ID[550064]REFINE[weapon==10]4'], ['EQUIP_ID[550064]REFINE[weapon==10]100']]]);
   });
 });
 

@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { VALID_SKILL_IDS } from '../skills';
+import { AUTO_CAST_TRIGGERS } from '../models/auto-cast.model';
 
 const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8')) as Record<string, any>;
 const latam = JSON.parse(readFileSync('src/assets/demo/data/latam-items.json', 'utf8')) as Record<string, any>;
@@ -40,8 +41,13 @@ describe('LATAM item auto-cast audit', () => {
         expect(VALID_SKILL_IDS.has(rule.skillId), `${itemId}/${rule.skillId}`).toBe(true);
         expect(rule.skillLevel).toEqual(expect.arrayContaining([expect.any(String)]));
         expect(rule.chance).toEqual(expect.arrayContaining([expect.any(String)]));
-        expect(rule.trigger).toMatch(/^(physical-attack|physical-hit|melee-physical-attack|melee-physical-hit|ranged-physical-hit|magic-attack)$/);
+        expect(AUTO_CAST_TRIGGERS, `${itemId}/trigger`).toContain(rule.trigger);
         expect(rule.skillLevelMode ?? 'fixed').toMatch(/^(fixed|highest-learned|learned-only)$/);
+        // A skill-use proc is priced off the uses of one named skill, so that skill has to
+        // be on the rule — and no other trigger may carry one, or the rate it is priced at
+        // would not be the rate the rule describes.
+        if (rule.trigger === 'skill-use') expect(VALID_SKILL_IDS.has(rule.triggerSkillId), `${itemId}/trigger`).toBe(true);
+        else expect(rule.triggerSkillId, `${itemId}/trigger`).toBeUndefined();
       }
       for (const pending of item.script?.autoCastPending ?? []) {
         expect(pending.skillName, `${itemId}/pending`).toEqual(expect.any(String));

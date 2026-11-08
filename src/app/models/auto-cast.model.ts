@@ -2,7 +2,15 @@ import type { AtkSkillModel } from '../jobs/_character-base.abstract';
 import type { SkillStateCtx } from './info-for-class.model';
 import type { MainModel } from './main.model';
 
-export type AutoCastTrigger = 'physical-attack' | 'physical-hit' | 'melee-physical-attack' | 'melee-physical-hit' | 'ranged-physical-hit' | 'magic-attack';
+/**
+ * Every trigger a stored rule may name. One list: the validator, the audit spec and the
+ * documentation all read it, so a new trigger cannot reach half of them.
+ */
+export const AUTO_CAST_TRIGGERS = [
+  'physical-attack', 'physical-hit', 'melee-physical-attack', 'melee-physical-hit',
+  'ranged-physical-hit', 'magic-attack', 'skill-use',
+] as const;
+export type AutoCastTrigger = typeof AUTO_CAST_TRIGGERS[number];
 export type AutoCastKind = 'item' | 'passive' | 'configurable' | 'extra-hit';
 export type AutoCastSlotKey = 'autoSpell' | 'plagiarism' | 'reproduce';
 
@@ -14,6 +22,12 @@ export interface ItemAutoCastScript {
   /** Existing item-script expressions. Applicable entries resolve with sum semantics. */
   chance: string[];
   trigger: AutoCastTrigger;
+  /**
+   * The skill whose use fires the proc, for a `skill-use` trigger — the `[X]` of
+   * "Ao usar [X] autoconjura [Y]". Required for that trigger and meaningless for the
+   * others, which roll on an attack and not on one named skill.
+   */
+  triggerSkillId?: number;
   skillLevelMode?: 'fixed' | 'highest-learned' | 'learned-only';
   /** Name of an item effect that must be selected in Efeitos before this proc can fire. */
   requiredEffect?: string;
@@ -53,6 +67,7 @@ export interface ResolvedItemAutoCast {
   skillLevel: number;
   chance: number;
   trigger: AutoCastTrigger;
+  triggerSkillId?: number;
   requiredEffect?: string;
 }
 
@@ -97,6 +112,8 @@ export interface AutoCastSource {
   skillLevel: number;
   chance: number;
   trigger: AutoCastTrigger;
+  /** Set together with the `skill-use` trigger: the skill that has to be the selected one. */
+  triggerSkillId?: number;
   sourceItemId?: number;
   enablingSkillId?: number;
   sourceName: string;

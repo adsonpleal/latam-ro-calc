@@ -3,6 +3,7 @@ import { ItemSubTypeId } from '../constants/item-sub-type.enum';
 import { ItemTypeId } from '../constants/item.const';
 import { createRawTotalBonus } from '../utils/create-raw-total-bonus';
 import { resolveSkillById, VALID_SKILL_IDS } from '../skills';
+import { AUTO_CAST_TRIGGERS, AutoCastTrigger } from '../models/auto-cast.model';
 import { bonusKeyLabel } from './bonus-key-label';
 import { CardPosition } from '../constants/card-position.enum';
 import { WeaponSubTypeNameMapById } from '../constants/weapon-type-mapper';
@@ -192,10 +193,15 @@ export function validateScript(script: unknown, path = 'script'): ItemValidation
         const value = entry as Record<string, unknown>;
         if (key === 'autoCast' && (typeof value['skillId'] !== 'number' || !Number.isSafeInteger(value['skillId']) || !VALID_SKILL_IDS.has(Number(value['skillId']))
           || !Array.isArray(value['skillLevel']) || !Array.isArray(value['chance'])
-          || !['physical-attack', 'physical-hit', 'melee-physical-attack', 'melee-physical-hit', 'ranged-physical-hit', 'magic-attack'].includes(String(value['trigger'])))) {
+          || !AUTO_CAST_TRIGGERS.includes(String(value['trigger']) as AutoCastTrigger))) {
           errors.push({ path: field, message: 'Autoconjuração exige skillId válido, skillLevel[], chance[] e trigger suportado.' });
         }
         if (key === 'autoCast') {
+          // A skill-use proc is priced off the uses of one named skill, so that skill is
+          // part of the rule and not optional metadata.
+          if (value['trigger'] === 'skill-use' && !VALID_SKILL_IDS.has(Number(value['triggerSkillId']))) {
+            errors.push({ path: field, message: 'Autoconjuração por uso de habilidade exige triggerSkillId válido.' });
+          }
           for (const nested of ['skillLevel', 'chance'] as const) {
             const lines = value[nested];
             if (!Array.isArray(lines)) continue;
@@ -422,6 +428,13 @@ export function validateCustomItems(raw: unknown, catalog: Record<number, ItemMo
   return { items: errors.length ? [] : items, errors };
 }
 
+/** How each attack trigger reads in an item description. `skill-use` names its own skill. */
+const TRIGGER_TEXT: Record<string, string> = {
+  'physical-attack': 'ao atacar fisicamente', 'physical-hit': 'ao acertar um ataque físico',
+  'melee-physical-attack': 'ao atacar corpo a corpo', 'melee-physical-hit': 'ao acertar corpo a corpo',
+  'ranged-physical-hit': 'ao acertar à distância', 'magic-attack': 'ao atacar com magia',
+};
+
 export function customItemDescription(item: Pick<CustomItemDefinition, 'script'>): string {
   const position = (value: string) => value === 'me' ? 'este item' : CUSTOM_KIND_LABELS[value as CustomKind] ?? value;
   const list = (value: string) => value.replace(/&&/g, ' e ').replace(/\|\|/g, ' ou ');
@@ -487,11 +500,9 @@ export function customItemDescription(item: Pick<CustomItemDefinition, 'script'>
   };
   const rows = itemBonusScriptEntries(item.script).flatMap(([key, values]) => values.map((value) => describe(key, value)));
   for (const effect of (item.script['autoCast'] ?? []) as any[]) {
-    const trigger = ({
-      'physical-attack': 'ao atacar fisicamente', 'physical-hit': 'ao acertar um ataque físico',
-      'melee-physical-attack': 'ao atacar corpo a corpo', 'melee-physical-hit': 'ao acertar corpo a corpo',
-      'ranged-physical-hit': 'ao acertar à distância', 'magic-attack': 'ao atacar com magia',
-    } as Record<string, string>)[effect.trigger] ?? 'gatilho automático';
+    const trigger = effect.trigger === 'skill-use'
+      ? `ao usar ${skill(String(effect.triggerSkillId))}`
+      : TRIGGER_TEXT[effect.trigger] ?? 'gatilho automático';
     rows.push(`Autoconjuração de ${skill(String(effect.skillId))} ${trigger}.`);
     rows.push(...(effect.skillLevel ?? []).map((line: string) => describe('Nível', line)),
       ...(effect.chance ?? []).map((line: string) => describe('Chance %', line)));

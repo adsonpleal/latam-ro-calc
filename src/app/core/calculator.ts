@@ -1320,6 +1320,7 @@ export class Calculator {
         skillLevel,
         chance,
         trigger: definition.trigger,
+        triggerSkillId: definition.triggerSkillId,
         requiredEffect: definition.requiredEffect,
       });
     });

@@ -1241,10 +1241,12 @@ export const catalog: TranslatedCatalog = {
   'ac.triggerPhysical': 'A physical attack, even on a miss',
   'ac.triggerMelee': 'A melee physical attack, even on a miss',
   'ac.triggerMagic': 'Casting a magic skill',
+  'ac.triggerSkillUse': 'Using the selected skill',
   'ac.triggerMeleeHit': 'A melee physical attack that lands',
   'ac.triggerRangedHit': 'A ranged physical attack that lands',
   'ac.triggerPhysicalHit': 'A physical attack that lands',
   'ac.rateMagic': 'Magic uses/s',
+  'ac.rateSkillUses': 'Skill uses/s',
   'ac.rateAttacks': 'Attacks/s',
   'ac.rateEligible': 'Eligible attacks/s',
 
