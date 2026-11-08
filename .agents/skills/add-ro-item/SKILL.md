@@ -112,7 +112,10 @@ ambiguous shared-roll/one-of semantics in the audit rather than guessing.
 - `skillLevel` uses the same grammar but takes the **highest** applicable entry. Add
   `"skillLevelMode": "highest-learned"` when the text says "ou no maior nível aprendido".
 - Triggers are `physical-attack` (attempts including misses), `physical-hit`,
-  `melee-physical-hit`, or `ranged-physical-hit`.
+  `melee-physical-attack`, `melee-physical-hit`, `ranged-physical-hit`, `magic-attack`, or
+  `skill-use`. `skill-use` is the "Ao usar [X] autoconjura [Y]" clause and also needs
+  `"triggerSkillId": <id of X>`. The list lives in `AUTO_CAST_TRIGGERS`
+  (`src/app/models/auto-cast.model.ts`).
 - Combo/refine gates belong inside the chance/level expressions, using the existing
   `EQUIP_ID` and `REFINE` grammar. Ammo is equipped too, so use `EQUIP_ID[<arrowId>]`.
 - Each object is an independent proc. Do not encode a shared roll until the engine has an

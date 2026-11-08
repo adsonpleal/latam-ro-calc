@@ -1243,10 +1243,12 @@ export const catalog: TranslatedCatalog = {
   'ac.triggerPhysical': 'Ataque físico, aunque falle',
   'ac.triggerMelee': 'Ataque físico cuerpo a cuerpo, aunque falle',
   'ac.triggerMagic': 'Uso de habilidad mágica',
+  'ac.triggerSkillUse': 'Uso de la habilidad seleccionada',
   'ac.triggerMeleeHit': 'Ataque físico cuerpo a cuerpo que acierte',
   'ac.triggerRangedHit': 'Ataque físico a distancia que acierte',
   'ac.triggerPhysicalHit': 'Ataque físico que acierte',
   'ac.rateMagic': 'Usos mágicos/s',
+  'ac.rateSkillUses': 'Usos de la habilidad/s',
   'ac.rateAttacks': 'Ataques/s',
   'ac.rateEligible': 'Ataques elegibles/s',
 

@@ -13,8 +13,24 @@ import { ItemModel } from '../../app/models/item.model';
 import { dmgTypeLabel } from '../../app/utils/dmg-type-label';
 import { PopoverHandle as UiPopoverComponent } from '../ui/popover-handle';
 import { SelectHandle as UiSelectComponent } from '../ui/select';
-import { Translate } from '../../app/i18n';
+import { TextKey, Translate } from '../../app/i18n';
 
+
+/** What fires each trigger, and the rate it is priced off. Anything else rolls per landed hit. */
+const TRIGGER_LABEL_KEY: Record<string, TextKey> = {
+  'physical-attack': 'ac.triggerPhysical',
+  'melee-physical-attack': 'ac.triggerMelee',
+  'magic-attack': 'ac.triggerMagic',
+  'skill-use': 'ac.triggerSkillUse',
+  'melee-physical-hit': 'ac.triggerMeleeHit',
+  'ranged-physical-hit': 'ac.triggerRangedHit',
+};
+const TRIGGER_RATE_KEY: Record<string, TextKey> = {
+  'physical-attack': 'ac.rateAttacks',
+  'melee-physical-attack': 'ac.rateAttacks',
+  'magic-attack': 'ac.rateMagic',
+  'skill-use': 'ac.rateSkillUses',
+};
 
 export class AutoCastHudComponent extends ViewState {
    skillFormulaVersionChange = new Events<SkillFormulaVersion>();
@@ -304,21 +320,13 @@ public readonly itemDescriptions: ItemDescriptionStore,
     }, anchor);
   }
   private triggerLabel(trigger: string | undefined): string {
-    if (trigger === 'physical-attack') return this.text('ac.triggerPhysical');
-    if (trigger === 'melee-physical-attack') return this.text('ac.triggerMelee');
-    if (trigger === 'magic-attack') return this.text('ac.triggerMagic');
-    if (trigger === 'melee-physical-hit') return this.text('ac.triggerMeleeHit');
-    if (trigger === 'ranged-physical-hit') return this.text('ac.triggerRangedHit');
-    return this.text('ac.triggerPhysicalHit');
+    return this.text(TRIGGER_LABEL_KEY[trigger ?? ''] ?? 'ac.triggerPhysicalHit');
   }
   get activeTriggerLabel(): string {
     return this.triggerLabel(this.activeSource?.result?.source?.trigger);
   }
   get activeTriggerRateLabel(): string {
-    const trigger = this.activeSource?.result?.source?.trigger;
-    if (trigger === 'magic-attack') return this.text('ac.rateMagic');
-    return this.text(trigger === 'physical-attack' || trigger === 'melee-physical-attack'
-      ? 'ac.rateAttacks' : 'ac.rateEligible');
+    return this.text(TRIGGER_RATE_KEY[this.activeSource?.result?.source?.trigger ?? ''] ?? 'ac.rateEligible');
   }
   get basicDpsSteps(): BasicDpsBreakdown | null {
     const sim = this.simulation;
