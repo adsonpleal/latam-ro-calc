@@ -1192,7 +1192,6 @@ export const catalog: TranslatedCatalog = {
   'rot.autoFrom': 'Autocast by {source}',
   'rot.autoDpsTag': 'DPS',
   'rot.tipAutoChance': 'Chance to autocast on every use of {trigger}.',
-  'rot.tipAutoDps': 'Damage per second this autocast adds: the damage of one activation × {pct}% chance, divided by the cycle duration. It is already counted in the cycle total and in the time to kill. Click to see the breakdown.',
 
   'ac.autoCasts': 'Autocasts',
   'ac.diesIn': 'Dies in',

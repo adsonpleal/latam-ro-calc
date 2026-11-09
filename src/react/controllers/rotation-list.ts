@@ -4,7 +4,7 @@ import type { SkillFormulaVersion } from '../../app/skills/skill-formula-version
 import { moveItemInArray } from '../ui/reorder';
 import { BASIC_ATTACK_VALUE, MAX_ROTATION_LENGTH, splitSkillValue } from '../../app/core/rotation';
 import { buildRotationPickerOptions, elementTagClass as elementTagClassFn, RotationPickerOption } from '../../app/layout/pages/ro-calculator/battle-hud/battle-hud.logic';
-import { DamageRange, RotationAutoCastView, RotationEntryView } from '../../app/layout/pages/ro-calculator/battle-hud/rotation-view';
+import { DamageRange, RotationEntryView } from '../../app/layout/pages/ro-calculator/battle-hud/rotation-view';
 import { Translate } from '../../app/i18n';
 import { formatNumber } from '../../app/utils/format-number';
 import { stackRange } from '../../app/utils/skill-stack';
@@ -109,15 +109,6 @@ export class RotationListComponent extends ViewState {
    *  the one thing a percentage sitting on its own row cannot say by itself. */
   autoCastChanceTooltip(entry: RotationEntryView): string {
     return this.text('rot.tipAutoChance', { trigger: entry.name });
-  }
-
-  /**
-   * The glued row's figure is a rate over the whole cycle, and it is deliberately left out
-   * of the cycle total, the contribution shares and the time to kill — a proc occupies no
-   * step in the rotation. Nothing on screen could show that absence, so the tooltip says it.
-   */
-  autoCastDpsTooltip(cast: RotationAutoCastView): string {
-    return this.text('rot.tipAutoDps', { pct: formatNumber(cast.chance, 0, 1) });
   }
 
   /** A one-skill rotation is all of the damage by definition, so its "100,0%" states the

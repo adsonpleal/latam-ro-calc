@@ -1194,7 +1194,6 @@ export const catalog: TranslatedCatalog = {
   'rot.autoFrom': 'Autoconjurada por {source}',
   'rot.autoDpsTag': 'DPS',
   'rot.tipAutoChance': 'Probabilidad de autoconjurar en cada uso de {trigger}.',
-  'rot.tipAutoDps': 'Daño por segundo que esta autoconjuración añade: el daño de una activación × {pct}% de probabilidad, dividido por la duración del ciclo. Ya está sumado al total del ciclo y al tiempo de muerte. Haz clic para ver el cálculo.',
 
   'ac.autoCasts': 'Autoconjuraciones',
   'ac.diesIn': 'Muere en',

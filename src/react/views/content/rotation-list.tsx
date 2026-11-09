@@ -204,13 +204,13 @@ const i = __index3; return <Fragment key={identityKey(vm.trackByIndex(__index3, 
 <Render tag="span" props={{"tooltipPosition": "top",
 "className": ["rot-tag rot-tag--sm",classNames(("rot-tag--" + range.kind))].filter(Boolean).join(' '),
 "tooltip": {text: vm.rangeTagTooltip(range), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false}}}>{range.label}</Render></Fragment>)}</span> : null}
+{/* No tooltip: the click opens the whole derivation, and a hover note repeating it would
+    only cover the panel it just opened. */}
 <span className="rot-dmg-main"><span className="rot-dmg-figs"><Render tag="span" props={{"role": "button",
 "tabIndex": "0",
-"tooltipPosition": "top",
-"tooltipStyleClass": "auto_cast_tip",
+"aria-label": t('pop.howAutoDps'),
 "click": (event: any) => vm.action(() => { const $event = event; vm.autoCastDpsClick.emit({"index": i,"key": cast.key,"event": $event}) }),
 "className": ["rot-dmg-val rot-auto-dps"].filter(Boolean).join(' '),
-"tooltip": {text: vm.autoCastDpsTooltip(cast), position: "top", className: "auto_cast_tip", showDelay: 0, hideDelay: 0, escape: true, disabled: false},
 "activateWithKeys": true}}>{displayPipe("number", cast.dps, ["1.0-0"], services)}</Render></span>
 <span className="rot-dmg-meta"><span className="rot-tag rot-tag--dps">{t('rot.autoDpsTag')}</span></span></span></span></div>)}
 </div></Fragment>; })}</Render>
