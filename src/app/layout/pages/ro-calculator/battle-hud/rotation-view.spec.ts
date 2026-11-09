@@ -623,9 +623,9 @@ describe('buildRotationView glued auto-conjurações', () => {
 
   /** A 2s cast with nothing else in the rotation: one use, and one cycle, every 2 seconds. */
   const trigger = 'Talisman of Red Phoenix==5';
-  const view = (casts?: any[]) => buildRotationView({
+  const view = (casts?: any[], rotation = [trigger]) => buildRotationView({
     text,
-    rotation: [trigger],
+    rotation,
     summaryByValue: new Map([[trigger, summaryOf({ castPeriod: 2, perHit: 10_000 })]]),
     baseSummary: summaryOf({ castPeriod: 2, perHit: 10_000 }),
     hasSelectedChances: false,
@@ -650,14 +650,25 @@ describe('buildRotationView glued auto-conjurações', () => {
     expect(cast.dps).toBeCloseTo(15_000, 6);
   });
 
-  it('leaves the cycle, the contribution and the time to kill untouched', () => {
+  it('counts the proc on the use that fired it, so the cycle and the time to kill carry it', () => {
     const without = view();
     const with_ = view([PROC]);
 
-    expect(with_.cycle).toEqual(without.cycle);
-    expect(with_.ttk).toEqual(without.ttk);
-    expect(with_.entries[0].contributionPercent).toBe(without.entries[0].contributionPercent);
+    // A proc waits on no timer, so the schedule is the same one — only richer.
+    expect(with_.cycle.cycleDuration).toBeCloseTo(without.cycle.cycleDuration, 6);
+    expect(with_.cycle.damagePerCycle - without.cycle.damagePerCycle).toBeCloseTo(30_000, 6);
+    expect(with_.ttk.seconds).toBeLessThan(without.ttk.seconds);
     expect(without.entries[0].autoCasts).toEqual([]);
+  });
+
+  it('lifts the share of the tile that fires it, since the proc lands on that tile’s step', () => {
+    const rotation = [trigger, BASIC_ATTACK_VALUE];
+    const without = view(undefined, rotation).entries.map((entry) => entry.contributionPercent);
+    const with_ = view([PROC], rotation).entries.map((entry) => entry.contributionPercent);
+
+    expect(with_[0]).toBeGreaterThan(without[0]);
+    expect(with_[1]).toBeLessThan(without[1]);
+    expect(with_[0] + with_[1]).toBeCloseTo(100, 6);
   });
 
   it('tags the proc’s rolls in the reader’s language, not the panel’s pt-BR', () => {

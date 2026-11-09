@@ -189,7 +189,8 @@ export interface RotationAutoCastView {
   hasDamageSpread: boolean;
   canCrit: boolean;
   critRate: number;
-  /** What the proc adds per second over the cycle the trigger tile belongs to. */
+  /** What the proc adds per second over the cycle the trigger tile belongs to. This same
+   *  damage is already inside the cycle's own total — see {@link procDamagePerUse}. */
   dps: number;
   /** The proc's own solve, for its (i) popover. */
   summary: any;
@@ -371,15 +372,24 @@ export function computeRotationTimeToKill(hp: number, cycle: RotationCycle): Tim
 }
 
 /**
+ * What one use of a tile adds through the procs it fires: each clause's chance against the
+ * damage one activation deals.
+ *
+ * This rides on the tile's own step rather than becoming a step of its own. A proc waits on
+ * no timer and occupies no slot in the order — it lands on the use that fired it — so the
+ * honest place for its damage is that use. Everything the scheduler derives then carries it:
+ * the cycle's damage, the contribution shares and the time to kill.
+ */
+function procDamagePerUse(casts: RotationAutoCast[] | undefined): number {
+  return (casts ?? []).reduce((total, cast) => total + (cast.chance / 100) * cast.expectedDamagePerActivation, 0);
+}
+
+/**
  * The procs glued under one tile.
  *
  * The tile fires once per cycle, so the proc fires `chance/100` times in that same cycle —
  * which is the whole reason this cannot be computed with the rest of the row: the cycle's
  * length is only known once every row has been scheduled.
- *
- * The figure is deliberately NOT folded into the cycle's own damage, its contribution
- * shares or the time to kill. Those come from `simulateRotation`, which schedules casts;
- * a proc takes no slot and waits on no timer, so adding it there would invent a step.
  */
 function autoCastViews(casts: RotationAutoCast[] | undefined, cycleDuration: number, text: Translate): RotationAutoCastView[] {
   return (casts ?? []).map((cast) => ({
@@ -489,7 +499,11 @@ export function buildRotationView(input: {
   });
 
   const cycle = simulateRotation({
-    steps: partial.map((entry) => toScheduleStep({ value: entry.value, summary: entry.summary, damage: entry.damage })),
+    steps: partial.map((entry, i) => toScheduleStep({
+      value: entry.value,
+      summary: entry.summary,
+      damage: entry.damage + procDamagePerUse(autoCastsByIndex?.get(i)),
+    })),
     aspdPeriod,
   });
 

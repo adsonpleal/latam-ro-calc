@@ -52,6 +52,9 @@ export class RotationListComponent extends ViewState {
   /** A damage figure was clicked — the parent opens the explanation of *that* figure.
    *  `branch` says which of the row's three readings it was. */
    damageClick = new Events<{ index: number; event: Event; branch: DamageBranch }>();
+  /** A glued auto-conjuração's DPS was clicked — the parent opens that proc's derivation.
+   *  `key` picks the proc, since one tile can fire more than one. */
+   autoCastDpsClick = new Events<{ index: number; key: string; event: Event }>();
 
   /** Same rule the HUD's own element tags use. */
   elementTagClass = elementTagClassFn;
@@ -148,11 +151,14 @@ export class RotationListComponent extends ViewState {
     return this.skillOptionsCache;
   }
 
+  /** The share is the whole tile's: the skill plus whatever it procs, since a proc lands on
+   *  the use that fired it and is counted on that use's step. A row with a glued proc under
+   *  it says so, or the two readings look like they are about different things. */
   contributionTooltip(entry: RotationEntryView): string {
     const pct = entry.contributionPercent.toFixed(1).replace('.', ',');
     const total = Math.round(this.damagePerCycle).toLocaleString('pt-BR');
 
-    return this.text('rot.tipContribution', { pct, total });
+    return this.text(entry.autoCasts?.length ? 'rot.tipContributionWithAuto' : 'rot.tipContribution', { pct, total });
   }
 
   /** Marks options already in the rotation, so the picker can flag a repeat. */

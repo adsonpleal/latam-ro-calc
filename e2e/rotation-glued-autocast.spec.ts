@@ -63,3 +63,24 @@ test('the proc travels with its tile when the rotation is reordered', async ({ p
   await expect(groups.nth(0).locator('.rot-auto-row .rot-name')).toHaveText(PROC);
   await expect(groups.nth(1).locator('.rot-auto-row')).toHaveCount(0);
 });
+
+test('clicking the glued DPS opens the derivation behind it', async ({ page }) => {
+  const hud = page.locator('app-battle-hud').filter({ visible: true });
+  const glued = hud.locator('.rot-item').nth(1).locator('.rot-auto-row');
+  await expect(glued).toHaveCount(1, { timeout: 40_000 });
+
+  const dps = glued.locator('.rot-auto-dps');
+  const printed = (await dps.innerText()).trim();
+  await dps.click();
+
+  const panel = page.locator('.ui-overlaypanel').filter({ hasText: 'Como o DPS da autoconjuração é calculado' });
+  await expect(panel).toBeVisible();
+  // Every step of the figure, and the figure itself — the panel has to reconcile with the
+  // row it was opened from, not restate it.
+  await expect(panel).toContainText(PROC);
+  await expect(panel).toContainText('Dano médio por ativação');
+  await expect(panel).toContainText('× Chance');
+  await expect(panel).toContainText('100%');
+  await expect(panel).toContainText('÷ Duração do ciclo');
+  await expect(panel).toContainText(printed);
+});

@@ -1089,6 +1089,13 @@ export const ptBR = {
   'pop.avgPerHit': '= Dano médio por golpe',
   'pop.timesHits': '× Golpes',
   'pop.avgPerUse': '= Dano médio por uso',
+  'pop.howAutoDps': 'Como o DPS da autoconjuração é calculado',
+  'pop.autoDpsNote': 'A autoconjuração não ocupa lugar na rotação: ela dispara junto com cada uso de {trigger}, e esse dano já está somado no ciclo e no tempo de morte.',
+  'pop.autoActivation': 'Dano médio por ativação',
+  'pop.autoChance': '× Chance',
+  'pop.autoPerUse': '= Dano por uso de {trigger}',
+  'pop.autoCycle': '÷ Duração do ciclo',
+  'pop.autoDps': '= DPS da autoconjuração',
 
   // The skill-details panel: the damage block, the cast/delay tables and the autocast
   // table. Skill, element and bonus names inside it come from the game data.
@@ -1224,12 +1231,13 @@ export const ptBR = {
   'rot.tipCompareMean': 'Dano da comparação — ver como o dano médio é calculado',
   'rot.tipCompareFlat': 'Dano da comparação — ver a fórmula do dano',
   'rot.tipContribution': 'Contribuição desta habilidade no dano total da rotação — {pct}% dos {total} por ciclo',
+  'rot.tipContributionWithAuto': 'Contribuição desta habilidade, com a autoconjuração que ela dispara, no dano total da rotação — {pct}% dos {total} por ciclo',
   'rot.movedAnnouncement': '{name} movida para a posição {position} de {total}',
   'rot.autoChance': '{pct}% de chance',
   'rot.autoFrom': 'Autoconjurada por {source}',
   'rot.autoDpsTag': 'DPS',
   'rot.tipAutoChance': 'Chance de autoconjurar a cada uso de {trigger}.',
-  'rot.tipAutoDps': 'Dano por segundo que esta autoconjuração acrescenta: o dano de uma ativação × {pct}% de chance, dividido pela duração do ciclo. Não está somado ao total do ciclo nem ao tempo de morte.',
+  'rot.tipAutoDps': 'Dano por segundo que esta autoconjuração acrescenta: o dano de uma ativação × {pct}% de chance, dividido pela duração do ciclo. Já está somado ao total do ciclo e ao tempo de morte. Clique para ver a conta.',
 
   // The auto-cast HUD: the DPS hero strip, the source list and the step-by-step panels.
   'ac.autoCasts': 'Auto-conjurações',

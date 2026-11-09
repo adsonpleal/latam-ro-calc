@@ -427,6 +427,26 @@ export class BattleHudComponent extends ViewState {
     });
   }
 
+  /**
+   * A glued auto-conjuração's DPS was clicked. The proc is found by key rather than by
+   * position, because one tile can fire more than one and the order they resolve in is the
+   * item's, not the reader's.
+   */
+  openAutoCastDps(payload: { index: number; key: string; event: Event }, popovers: any): void {
+    const entry = this.rotationView?.entries?.[payload.index];
+    const cast = entry?.autoCasts?.find((proc) => proc.key === payload.key);
+    if (!entry || !cast) return;
+    popovers?.openAutoCast(payload.event, {
+      name: cast.name,
+      levelLabel: cast.levelLabel,
+      trigger: entry.name,
+      chance: cast.chance,
+      damage: cast.damage,
+      cycleDuration: this.cycle?.cycleDuration ?? 0,
+      dps: cast.dps,
+    });
+  }
+
   trackByIndex(index: number): number {
     return index;
   }

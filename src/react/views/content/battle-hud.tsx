@@ -199,6 +199,7 @@ let sharedDamagePopovers: any = vm["sharedDamagePopovers"]; return <>{(() => { c
 "elementTableClick": (event: any) => vm.action(() => { const $event = event; vm.onShowElementalTableClick() }),
 "critBreakdownClick": (event: any) => vm.action(() => { const $event = event; vm.openStepCritRate($event,critRatePanel) }),
 "damageClick": (event: any) => vm.action(() => { const $event = event; vm.openSharedDamage($event,sharedDamagePopovers) }),
+"autoCastDpsClick": (event: any) => vm.action(() => { const $event = event; vm.openAutoCastDps($event,sharedDamagePopovers) }),
 "className": ["hud-rot-col"].filter(Boolean).join(' ')}}></Render>
 {(vm.rotationView?.timingUnknown || vm.rotationView2?.timingUnknown) && <p className="pd-note">{t('hud.timingUnknownFull')}</p>}
 {(() => { const __condition26 = !vm.rotationView?.timingUnknown && !vm.rotationView2?.timingUnknown && vm.cycle; const c = __condition26; return __condition26 ? <><Render tag="div" props={{"className": ["hud-dps-col",(!(vm.rotation.length) ? "hud-dps-col--empty" : '')].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["hud-hero-strip"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["hud-hero-fig"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["cap2"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.isSingleEntryRotation ? 'DPS' : t('hud.dpsCombo')])}</Render>
