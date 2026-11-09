@@ -1,5 +1,6 @@
 import { translate } from 'src/app/core/i18n';
 import { DEFAULT_CATALOG } from 'src/app/i18n';
+import { catalog as en } from 'src/app/i18n/en';
 import { describe, expect, it } from 'vitest';
 import { BASIC_ATTACK_VALUE } from '../../../../core/rotation';
 import { buildRotationView, computeRotationTimeToKill, RotationSkillMeta, toScheduleStep } from './rotation-view';
@@ -593,5 +594,120 @@ describe('computeRotationTimeToKill', () => {
   it('reports nothing when nothing can die', () => {
     expect(computeRotationTimeToKill(0, burstCycle())).toBeNull();
     expect(computeRotationTimeToKill(1000, burstCycle({ damage: 0 }))).toBeNull();
+  });
+});
+
+/**
+ * The auto-conjurações glued under the tile that fires them.
+ *
+ * The engine decides *whether* a proc fires and what one activation is worth
+ * (consagrado-skill-use-autocasts.spec.ts covers that); what is checked here is the only
+ * reading that needs the rotation — the per-second figure — and the fact that it is kept
+ * out of the cycle the panel reports.
+ */
+describe('buildRotationView glued auto-conjurações', () => {
+  const PROC: any = {
+    key: 'item-491119-5429',
+    skillId: 5429,
+    name: 'Talismã do Jabuti',
+    skillLevel: 4,
+    chance: 50,
+    sourceName: 'Colar Consagrado do Destino',
+    sourceItemId: 491119,
+    expectedDamagePerActivation: 60_000,
+    damageRanges: [{ kind: 'flat', label: 'dano', min: 55_000, max: 65_000 }],
+    canCrit: false,
+    criticalRate: 0,
+    summary: {},
+  };
+
+  /** A 2s cast with nothing else in the rotation: one use, and one cycle, every 2 seconds. */
+  const trigger = 'Talisman of Red Phoenix==5';
+  const view = (casts?: any[], rotation = [trigger]) => buildRotationView({
+    text,
+    rotation,
+    summaryByValue: new Map([[trigger, summaryOf({ castPeriod: 2, perHit: 10_000 })]]),
+    baseSummary: summaryOf({ castPeriod: 2, perHit: 10_000 }),
+    hasSelectedChances: false,
+    atkSkills: [{ value: trigger, label: 'Talismã da Fênix Nv5', icon: 5428 }],
+    autoCastsByIndex: casts ? new Map([[0, casts]]) : undefined,
+  });
+
+  it('hangs the proc off the tile whose use fires it, priced over that tile’s cycle', () => {
+    const [cast] = view([PROC]).entries[0].autoCasts;
+
+    expect(cast).toMatchObject({
+      key: PROC.key,
+      name: 'Talismã do Jabuti',
+      levelLabel: 'Nv4',
+      icon: 5429,
+      chance: 50,
+      sourceName: 'Colar Consagrado do Destino',
+      damage: 60_000,
+      hasDamageSpread: true,
+    });
+    // 50% of 60.000 once every 2s. Not 60.000/2: the chance is what makes it a rate.
+    expect(cast.dps).toBeCloseTo(15_000, 6);
+  });
+
+  it('counts the proc on the use that fired it, so the cycle and the time to kill carry it', () => {
+    const without = view();
+    const with_ = view([PROC]);
+
+    // A proc waits on no timer, so the schedule is the same one — only richer.
+    expect(with_.cycle.cycleDuration).toBeCloseTo(without.cycle.cycleDuration, 6);
+    expect(with_.cycle.damagePerCycle - without.cycle.damagePerCycle).toBeCloseTo(30_000, 6);
+    expect(with_.ttk.seconds).toBeLessThan(without.ttk.seconds);
+    expect(without.entries[0].autoCasts).toEqual([]);
+  });
+
+  it('shares the cycle between the tiles and the procs, one slice each', () => {
+    const rotation = [trigger, BASIC_ATTACK_VALUE];
+    const without = view(undefined, rotation).entries.map((entry) => entry.contributionPercent);
+    const result = view([PROC], rotation);
+    const [fired, basic] = result.entries.map((entry) => entry.contributionPercent);
+    const [cast] = result.entries[0].autoCasts;
+
+    // A tile reports its skill alone, so the proc dilutes the tile it hangs from exactly as
+    // it dilutes every other row — it never swells the one that fires it.
+    expect(fired).toBeLessThan(without[0]);
+    expect(basic).toBeLessThan(without[1]);
+    // Both kinds of row are slices of the same whole, so the column adds up to 100%.
+    expect(fired + basic + cast.contributionPercent).toBeCloseTo(100, 6);
+  });
+
+  it('reports the proc’s own share beside the tile’s, and its rate per second', () => {
+    const result = view([PROC]);
+    const [cast] = result.entries[0].autoCasts;
+
+    // 50% of one 60.000 activation, over everything the cycle deals — to the tenth of a
+    // percent the row prints, which is where the shares are rounded to total exactly 100.
+    expect(cast.contributionPercent).toBeCloseTo(30_000 / result.cycle.damagePerCycle * 100, 1);
+    // With one tile on the card, the tile and its proc are all of the cycle between them.
+    expect(result.entries[0].contributionPercent + cast.contributionPercent).toBeCloseTo(100, 6);
+    // One use every 2s at 50% — and the DPS is that rate against one activation.
+    expect(cast.activationsPerSecond).toBeCloseTo(0.25, 6);
+    expect(cast.dps).toBeCloseTo(cast.activationsPerSecond * cast.damage, 6);
+  });
+
+  it('tags the proc’s rolls in the reader’s language, not the panel’s pt-BR', () => {
+    // core/auto-cast.ts labels its rolls for the Auto-conjuração panel, which hard-codes
+    // Portuguese; the glued row sits between rows that do not, so it relabels by kind.
+    const english = (key: any, params?: any) => translate({ ...DEFAULT_CATALOG, ...en }, key, params);
+    const crit = { ...PROC, damageRanges: [
+      { kind: 'nocri', label: 'sem crít.', min: 1, max: 2 },
+      { kind: 'cri', label: 'crít.', min: 3, max: 4 },
+    ] };
+    const result = buildRotationView({
+      text: english,
+      rotation: [trigger],
+      summaryByValue: new Map([[trigger, summaryOf({ castPeriod: 2 })]]),
+      baseSummary: summaryOf({ castPeriod: 2 }),
+      hasSelectedChances: false,
+      atkSkills: [{ value: trigger, label: 'Talismã da Fênix Nv5' }],
+      autoCastsByIndex: new Map([[0, [crit as any]]]),
+    });
+
+    expect(result.entries[0].autoCasts[0].damageRanges.map((range) => range.label)).toEqual(['no crit', 'crit']);
   });
 });

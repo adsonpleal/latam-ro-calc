@@ -1179,7 +1179,13 @@ export const catalog: TranslatedCatalog = {
   'rot.tipCompareMean': 'Compared damage — see how the mean damage is calculated',
   'rot.tipCompareFlat': 'Compared damage — see the damage formula',
   'rot.tipContribution': "This skill's share of the rotation's total damage — {pct}% of the {total} per cycle",
+  'rot.tipContributionWithAuto': 'The share of this skill alone in the rotation’s total damage — {pct}% of the {total} per cycle; the autocast below brings its own share',
   'rot.movedAnnouncement': '{name} moved to position {position} of {total}',
+  'rot.autoChance': '{pct}% chance',
+  'rot.autoFrom': 'Autocast by {source}',
+  'rot.tipAutoChance': 'Chance to autocast on every use of {trigger}.',
+  'rot.autoTrigger': 'On using {trigger}',
+  'rot.tipAutoContribution': 'This auto-cast’s share of the rotation’s total damage — {pct}% of the {total} per cycle, counted apart from the skill that fires it.',
 
   'ac.autoCasts': 'Autocasts',
   'ac.diesIn': 'Dies in',

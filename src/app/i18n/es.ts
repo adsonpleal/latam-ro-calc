@@ -1181,7 +1181,13 @@ export const catalog: TranslatedCatalog = {
   'rot.tipCompareMean': 'Daño de la comparación — ver cómo se calcula el daño promedio',
   'rot.tipCompareFlat': 'Daño de la comparación — ver la fórmula del daño',
   'rot.tipContribution': 'Contribución de esta habilidad al daño total de la rotación — {pct}% de los {total} por ciclo',
+  'rot.tipContributionWithAuto': 'Contribución solo de esta habilidad al daño total de la rotación — {pct}% de los {total} por ciclo; la autoconjuración de abajo entra con su propia parte',
   'rot.movedAnnouncement': '{name} se movió a la posición {position} de {total}',
+  'rot.autoChance': '{pct}% de probabilidad',
+  'rot.autoFrom': 'Autoconjurada por {source}',
+  'rot.tipAutoChance': 'Probabilidad de autoconjurar en cada uso de {trigger}.',
+  'rot.autoTrigger': 'Al usar {trigger}',
+  'rot.tipAutoContribution': 'Contribución de esta autoconjuración al daño total de la rotación — {pct}% de los {total} por ciclo, contados aparte de la habilidad que la dispara.',
 
   'ac.autoCasts': 'Autoconjuraciones',
   'ac.diesIn': 'Muere en',

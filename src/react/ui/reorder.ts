@@ -5,10 +5,23 @@ export function moveItemInArray<T>(items: T[], from: number, to: number): void {
   if (from === to) return;
   const [item] = items.splice(from, 1); items.splice(to, 0, item);
 }
+/**
+ * What the drag actually moves. A rotation tile can own rows that belong to it rather than
+ * to the order — the auto-conjurações glued under it — and those have to travel with it, so
+ * the unit is the group when there is one and the bare row otherwise. `.rot-item` is checked
+ * first because `closest` would otherwise stop at the inner `.rot-row`.
+ */
+const unitOf = (host: HTMLElement): HTMLElement | null =>
+  host.closest<HTMLElement>('.rot-item') ?? host.closest<HTMLElement>('.rot-row');
+
+/** The siblings a drop position is measured against: one per rotation entry, plus the
+ *  placeholder row the add picker opens. */
+const isUnit = (el: Element): boolean => el.classList.contains('rot-item') || el.classList.contains('rot-row');
+
 /** Restore the original DOM before publishing so React reconciles its own keyed rows. */
 function startReorder(host: HTMLElement, event: PointerEvent, index: number,
   onReordered: (event: ReorderEvent) => void, onStopped: () => void): (() => void) | undefined {
-    const row = host.closest<HTMLElement>('.rot-row');
+    const row = unitOf(host);
     if (!row) return undefined;
     const parent = row.parentElement!;
     const originalNext = row.nextSibling;
@@ -17,7 +30,7 @@ function startReorder(host: HTMLElement, event: PointerEvent, index: number,
     let preview: HTMLElement | undefined;
     let y = event.clientY;
     let frame = 0;
-    const rows = () => Array.from(parent.children).filter(el => el !== preview && el.classList.contains('rot-row')) as HTMLElement[];
+    const rows = () => Array.from(parent.children).filter(el => el !== preview && isUnit(el)) as HTMLElement[];
     const place = () => {
       if (!preview) return;
       preview.style.top = `${y - (event.clientY - rect.top)}px`;

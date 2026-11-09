@@ -372917,6 +372917,30 @@
       ],
       "sMatk": [
         "EQUIP_ID[570020||580020]GRADE[weapon==C]5"
+      ],
+      "autoCast": [
+        {
+          "skillId": 382,
+          "skillLevel": [
+            "EQUIP_ID[700035]REFINE[weapon==10]5"
+          ],
+          "chance": [
+            "EQUIP_ID[700035]REFINE[weapon==10]50"
+          ],
+          "trigger": "skill-use",
+          "triggerSkillId": 5334
+        },
+        {
+          "skillId": 5356,
+          "skillLevel": [
+            "EQUIP_ID[570020||580020]REFINE[weapon==10]3"
+          ],
+          "chance": [
+            "EQUIP_ID[570020||580020]REFINE[weapon==10]50"
+          ],
+          "trigger": "skill-use",
+          "triggerSkillId": 2413
+        }
       ]
     }
   },
@@ -373176,6 +373200,19 @@
       ],
       "con": [
         "EQUIP_ID[700033]GRADE[weapon==C]5"
+      ],
+      "autoCast": [
+        {
+          "skillId": 2288,
+          "skillLevel": [
+            "EQUIP_ID[700033]REFINE[weapon==10]8"
+          ],
+          "chance": [
+            "EQUIP_ID[700033]REFINE[weapon==10]50"
+          ],
+          "trigger": "skill-use",
+          "triggerSkillId": 5322
+        }
       ]
     }
   },
@@ -373261,6 +373298,19 @@
       ],
       "atkPercent": [
         "EQUIP_ID[560020]10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 5252,
+          "skillLevel": [
+            "EQUIP_ID[560020]REFINE[weapon==10]4"
+          ],
+          "chance": [
+            "EQUIP_ID[560020]REFINE[weapon==10]100"
+          ],
+          "trigger": "skill-use",
+          "triggerSkillId": 5248
+        }
       ]
     }
   },
@@ -373341,6 +373391,30 @@
       ],
       "atkPercent": [
         "EQUIP_ID[650022]10"
+      ],
+      "autoCast": [
+        {
+          "skillId": 5483,
+          "skillLevel": [
+            "EQUIP_ID[650021]REFINE[weapon==10]8"
+          ],
+          "chance": [
+            "EQUIP_ID[650021]REFINE[weapon==10]50"
+          ],
+          "trigger": "skill-use",
+          "triggerSkillId": 3009
+        },
+        {
+          "skillId": 5486,
+          "skillLevel": [
+            "EQUIP_ID[650022]REFINE[weapon==10]4"
+          ],
+          "chance": [
+            "EQUIP_ID[650022]REFINE[weapon==10]50"
+          ],
+          "trigger": "skill-use",
+          "triggerSkillId": 5477
+        }
       ]
     }
   },

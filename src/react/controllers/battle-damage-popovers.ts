@@ -23,7 +23,6 @@ export interface DamagePopoverContext {
   hasSelectedChances2?: boolean;
 }
 
-
 export class BattleDamagePopoversComponent extends ViewState {
   constructor(private readonly text: Translate) { super();}
 
@@ -59,6 +58,28 @@ export class BattleDamagePopoversComponent extends ViewState {
     return clusters;
   }
 
+  /**
+   * Show `panel` anchored on whatever the reader actually clicked, or close it when it is
+   * already open on that same anchor — the click is a toggle.
+   *
+   * The anchor hunt is not defensive clutter: `event.target` can be the text node inside the
+   * figure, and a `Render`-wrapped element arrives as a component handle rather than a DOM
+   * node, so the element the overlay has to measure is whichever of those turns up first.
+   */
+  private toggleAt(panel: UiPopoverComponent, event: Event, target?: EventTarget | null): void {
+    const pathElement = event.composedPath?.().find((node: any) => node?.nodeType === 1);
+    const rawAnchor: any = target || pathElement || event.currentTarget || event.target;
+    const candidate = rawAnchor?.nativeElement ?? rawAnchor;
+    const anchor = candidate?.nodeType === 3 ? candidate.parentElement : candidate;
+    if (panel?.overlayVisible && panel.target === anchor) {
+      panel.hide();
+      return;
+    }
+    panel?.show(event, anchor);
+    if (panel?.container) panel.container.style.visibility = 'hidden';
+    requestAnimationFrame(() => panel?.align());
+  }
+
   open(event: Event, branch: DamageBranch, context: DamagePopoverContext, target?: EventTarget | null): void {
     this.context = context;
     this.formulaPart = null;
@@ -66,10 +87,6 @@ export class BattleDamagePopoversComponent extends ViewState {
     // Render the new formula before the CDK measures the overlay. Without this, a reused
     // panel is first painted at the previous content's coordinates and visibly jumps.
     this.publish();
-    const pathElement = event.composedPath?.().find((node: any) => node?.nodeType === 1);
-    const rawAnchor: any = target || pathElement || event.currentTarget || event.target;
-    const candidate = rawAnchor?.nativeElement ?? rawAnchor;
-    const anchor = candidate?.nodeType === 3 ? candidate.parentElement : candidate;
     const panel = context.entry.isBasic && branch === 'mean'
       ? this.meanPanel
       : context.entry.isBasic
@@ -79,13 +96,7 @@ export class BattleDamagePopoversComponent extends ViewState {
         : branch === 'mean' && context.entry.hasDamageSpread
           ? this.meanPanel
           : this.formulaPanel;
-    if (panel?.overlayVisible && panel.target === anchor) {
-      panel.hide();
-      return;
-    }
-    panel?.show(event, anchor);
-    if (panel?.container) panel.container.style.visibility = 'hidden';
-    requestAnimationFrame(() => panel?.align());
+    this.toggleAt(panel, event, target);
   }
 
   get entry(): DamagePopoverEntry | null { return this.context?.entry ?? null; }

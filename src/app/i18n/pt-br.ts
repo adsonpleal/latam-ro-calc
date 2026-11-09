@@ -1224,7 +1224,13 @@ export const ptBR = {
   'rot.tipCompareMean': 'Dano da comparação — ver como o dano médio é calculado',
   'rot.tipCompareFlat': 'Dano da comparação — ver a fórmula do dano',
   'rot.tipContribution': 'Contribuição desta habilidade no dano total da rotação — {pct}% dos {total} por ciclo',
+  'rot.tipContributionWithAuto': 'Contribuição só desta habilidade no dano total da rotação — {pct}% dos {total} por ciclo; a autoconjuração abaixo entra com a fatia dela',
   'rot.movedAnnouncement': '{name} movida para a posição {position} de {total}',
+  'rot.autoChance': '{pct}% de chance',
+  'rot.autoFrom': 'Autoconjurada por {source}',
+  'rot.tipAutoChance': 'Chance de autoconjurar a cada uso de {trigger}.',
+  'rot.autoTrigger': 'Ao usar {trigger}',
+  'rot.tipAutoContribution': 'Contribuição desta autoconjuração no dano total da rotação — {pct}% dos {total} por ciclo, contados à parte da habilidade que a dispara.',
 
   // The auto-cast HUD: the DPS hero strip, the source list and the step-by-step panels.
   'ac.autoCasts': 'Auto-conjurações',

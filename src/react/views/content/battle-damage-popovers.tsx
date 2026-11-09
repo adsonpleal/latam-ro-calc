@@ -36,7 +36,8 @@ const compare = context["compare"]; return <>{(() => { const flatBranch = (conte
 let formulaPanel: any = vm["formulaPanel"];
 let noCriPanel: any = vm["noCriPanel"];
 let meanPanel: any = vm["meanPanel"];
-let basicPanel: any = vm["basicPanel"]; return <>
+let basicPanel: any = vm["basicPanel"];
+return <>
 
 
 <Render tag="app-ui-popover" props={{"reference": (value: any) => { formulaPanel = value; vm["formulaPanel"] = value; },
@@ -87,5 +88,6 @@ let basicPanel: any = vm["basicPanel"]; return <>
 "handle": vm["basicPanel"]}}>{(() => { const noBasicFormula = (context: any) => {  return <><Render tag="div" props={{"className": ["mut-note"].filter(Boolean).join(' ')}}>{t('pop.noBasicFormula')}</Render></>; }; return <><Render tag="div" props={{"className": ["ptitle"].filter(Boolean).join(' ')}}>{interpolate(["",""], [vm.basicTitle])}</Render>
 <Render tag="div" props={{"className": ["graph-hint"].filter(Boolean).join(' ')}}>{t('pop.clickHint')}</Render>
 {(() => { const __condition19 = vm.basicGraph; const graph = __condition19; return __condition19 ? <><><Render tag="div" props={{"className": ["formula-trace-scroll"].filter(Boolean).join(' ')}}>{formulaBranch({"graph": graph,"graph2": vm.basicGraph2,"flat": vm.basicGraphIsFlat})}</Render></></> : noBasicFormula({}); })()}
-</>; })()}</Render></>; })()}</>;
+</>; })()}</Render>
+</>; })()}</>;
 }

@@ -76,3 +76,26 @@ describe('duplicating a rotation entry (card UN4v6VjMMk6WkpFDDcuH)', () => {
     expect(emitted).toEqual([]);
   });
 });
+
+/**
+ * Whether the row prints its share of the cycle.
+ *
+ * A figure that can only read 100,0% says nothing, which is why a lone tile goes without —
+ * but a tile with an auto-conjuração glued under it no longer reads 100,0%: the proc takes
+ * a slice of its own, and the pair only makes sense with both figures on screen.
+ */
+describe('the share column', () => {
+  const listing = (entries: any[]) => Object.assign(new RotationListComponent(text), { entries });
+
+  it('stays hidden on a lone tile, which is all of the damage by definition', () => {
+    expect(listing([{ autoCasts: [] }]).showsContribution).toBe(false);
+  });
+
+  it('shows once there is a second tile to share with', () => {
+    expect(listing([{ autoCasts: [] }, { autoCasts: [] }]).showsContribution).toBe(true);
+  });
+
+  it('shows on a lone tile that fires an auto-conjuração', () => {
+    expect(listing([{ autoCasts: [{ key: 'item-491119-5429' }] }]).showsContribution).toBe(true);
+  });
+});

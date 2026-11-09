@@ -121,7 +121,7 @@ import { shareEntryHref } from 'src/app/core/share-entry';
 import { buildSharePath, readShareToken, SHARE_PATH_PREFIX } from 'src/app/core/share-path';
 import { buildCharSpriteUrl, bareJobSprite } from 'src/app/domain/char-sprite-url';
 import { itemAllowsShield } from 'src/app/domain/weapon';
-import { AutoCastSimulation, buildAutoCastSimulation } from 'src/app/core/auto-cast';
+import { AutoCastSimulation, buildAutoCastSimulation, RotationAutoCast, rotationAutoCasts } from 'src/app/core/auto-cast';
 import { CustomItemDefinition, customDefinitionsForBuild, customItemDescriptionHtml, isCustomItem, validateCustomItems } from 'src/app/core/custom-items';
 import { shortenUrl } from 'src/app/core/shorten-url';
 import { decodeCustomBundle } from 'src/app/core/custom-item-library';
@@ -1403,7 +1403,8 @@ await ((_event?: unknown) => {
   private solveRotation(calc: Calculator, input: CalcChainInput, baseSummary: any): RotationView {
     const summaryByValue = new Map<string, any>();
     const summaryByIndex = new Map<number, any>();
-    const solved = new Map<string, any>();
+    const autoCastsByIndex = new Map<number, RotationAutoCast[]>();
+    const solved = new Map<string, { summary: any; casts: RotationAutoCast[] }>();
     const originalStacks = this.model.skillStacks;
 
     for (const [index, value] of (this.model.rotation ?? []).entries()) {
@@ -1418,15 +1419,21 @@ await ((_event?: unknown) => {
         Number.isFinite(stack) ? stack : originalStacks?.[name]);
       const cacheKey = `${value}:${count}`;
       if (solved.has(cacheKey)) {
-        summaryByIndex.set(index, solved.get(cacheKey));
+        const cached = solved.get(cacheKey);
+        summaryByIndex.set(index, cached.summary);
+        autoCastsByIndex.set(index, cached.casts);
         continue;
       }
       calc.setSkillStacks(Number.isFinite(stack)
         ? { ...(originalStacks ?? {}), [name]: stack }
         : originalStacks);
       const summary = this.controller.solveSkill(calc, input, value).getTotalSummary();
+      // Solved here, on the pass that has the calculator on this very skill: a proc that
+      // fires on using it is priced off the same state the tile itself reports.
+      const casts = rotationAutoCasts({ calc, summary, triggerSkillId: SKILL_ID_BY_NAME[name] ?? 0 });
       summaryByIndex.set(index, summary);
-      solved.set(cacheKey, summary);
+      autoCastsByIndex.set(index, casts);
+      solved.set(cacheKey, { summary, casts });
       if (!summaryByValue.has(value)) summaryByValue.set(value, summary);
     }
 
@@ -1447,6 +1454,7 @@ await ((_event?: unknown) => {
       skillStacks: this.model.skillStacks,
       rotationStacks: this.model.rotationStacks,
       summaryByIndex,
+      autoCastsByIndex,
     });
   }
 
