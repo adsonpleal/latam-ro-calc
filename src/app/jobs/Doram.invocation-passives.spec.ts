@@ -41,10 +41,8 @@ describe.each(CLASSES)('%s', (_className, make) => {
   });
 
   it('gives the family the same shape it has in the client: three capstones, one per path', () => {
-    const names = make().passiveSkills.map((s) => s.name);
-    expect(names).toContain('Sprit Of Life');
-    expect(names).toContain('Spirit Of Land');
-    expect(names).toContain('Spirit Of Sea');
+    const family = ['Sprit Of Life', 'Spirit Of Land', 'Spirit Of Sea'];
+    expect(make().passiveSkills.map((s) => s.name).filter((n) => family.includes(n))).toEqual(family);
   });
 
   // They are appended, never inserted: a positional save written before they existed
@@ -64,15 +62,10 @@ describe.each(CLASSES)('%s', (_className, make) => {
 });
 
 it('keeps the Animista’s own passives addressable by the indices they already had', () => {
-  // The three 4th-job passives sit where inheritSkills put them, ahead of the appended pair.
+  // The three 4th-job passives sit where inheritSkills put them, immediately ahead of the
+  // appended pair the case above pins.
   const names = new SpiritHandler().passiveSkills.map((s) => s.name);
-  expect(names.slice(-5)).toEqual([
-    'Commune with Chulho',
-    'Commune with Hyunrok',
-    'Mystical Creature Mastery',
-    'Spirit Of Land',
-    'Spirit Of Sea',
-  ]);
+  expect(names.slice(-5, -2)).toEqual(['Commune with Chulho', 'Commune with Hyunrok', 'Mystical Creature Mastery']);
 });
 
 // The panel shows the catalog's pt-BR label, not the English `label` in the class, so a

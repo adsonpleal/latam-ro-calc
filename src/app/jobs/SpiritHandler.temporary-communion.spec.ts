@@ -26,16 +26,16 @@ const activeOf = (char: Doram, name: string) => {
   return skill;
 };
 
-/** The dropdown as a level -> bonus table, dropping the "-" (off) option. */
-const tableOf = (char: Doram) =>
-  activeOf(char, 'Temporary Communion')
+/** Aliança Animal's dropdown as a level -> bonus table, dropping the "-" (off) option. */
+const communionTable = () =>
+  activeOf(new SpiritHandler(), 'Temporary Communion')
     .dropdown.filter((o) => o.isUse)
     .map((o) => ({ level: o.value, ...(o.bonus as Record<string, number>) }))
     .sort((a, b) => a.level - b.level);
 
 describe('Aliança Animal — P.ATQ and S.ATQM +3 per level', () => {
   it('covers all five levels, with the client’s table', () => {
-    expect(tableOf(new SpiritHandler())).toEqual([
+    expect(communionTable()).toEqual([
       { level: 1, pAtk: 3, sMatk: 3 },
       { level: 2, pAtk: 6, sMatk: 6 },
       { level: 3, pAtk: 9, sMatk: 9 },
@@ -78,9 +78,10 @@ describe('it is the last active control, so older saves keep their indices', () 
   it('orders its levels exactly like a dropdown the base getter sorted', () => {
     const char = new SpiritHandler();
     const labels = (name: string) => activeOf(char, name).dropdown.map((o) => o.label);
+    const neighbour = labels('Arclouse Dash');
 
-    expect(labels('Arclouse Dash')).toEqual(['-', 'Nv 5', 'Nv 4', 'Nv 3', 'Nv 2', 'Nv 1']);
-    expect(labels('Temporary Communion')).toEqual(labels('Arclouse Dash'));
+    expect(neighbour).toEqual(['-', 'Nv 5', 'Nv 4', 'Nv 3', 'Nv 2', 'Nv 1']);
+    expect(labels('Temporary Communion')).toEqual(neighbour);
   });
 });
 

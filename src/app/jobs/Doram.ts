@@ -445,8 +445,9 @@ export class Doram extends CharacterBase {
     return [...super.passiveSkills, ...INVOCATION_PASSIVES];
   }
 
+  // A save written before the pair existed is exactly that much shorter, and every index in it
+  // still addresses the control it always did.
   override matchesSavedSkillCount(kind: 'active' | 'passive', count: number | undefined): boolean {
-    const current = (kind === 'active' ? this.activeSkills : this.passiveSkills).length;
-    return count === current || (kind === 'passive' && count === current - INVOCATION_PASSIVES.length);
+    return super.matchesSavedSkillCount(kind, count) || (kind === 'passive' && count === this.passiveSkills.length - INVOCATION_PASSIVES.length);
   }
 }

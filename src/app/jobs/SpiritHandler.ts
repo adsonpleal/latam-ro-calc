@@ -171,6 +171,9 @@ const TEMPORARY_COMMUNION: ActiveSkillModel = {
   dropdown: genSkillList(5, (lv) => ({ pAtk: lv * 3, sMatk: lv * 3 })).sort(sortSkill),
 };
 
+/** Named so `matchesSavedSkillCount` counts the appended tail instead of a bare literal. */
+const APPENDED_ACTIVES: ActiveSkillModel[] = [TEMPORARY_COMMUNION];
+
 export class SpiritHandler extends Doram {
   protected override CLASS_NAME = ClassName.SpiritHandler;
   protected override JobBonusTable = jobBonusTable;
@@ -354,12 +357,12 @@ export class SpiritHandler extends Doram {
   // this control is genuinely last and every legacy Animista positional save keeps its
   // indices. Doram's own appended passives answer the 'passive' half.
   override get activeSkills() {
-    return [...super.activeSkills, TEMPORARY_COMMUNION];
+    return [...super.activeSkills, ...APPENDED_ACTIVES];
   }
 
+  // Reads like Doram's, one list down: the inherited call answers the exact match and the
+  // 'passive' half, and this adds the one older length the appended control leaves behind.
   override matchesSavedSkillCount(kind: 'active' | 'passive', count: number | undefined): boolean {
-    if (kind === 'passive') return super.matchesSavedSkillCount(kind, count);
-    const current = this.activeSkills.length;
-    return count === current || count === current - 1;
+    return super.matchesSavedSkillCount(kind, count) || (kind === 'active' && count === this.activeSkills.length - APPENDED_ACTIVES.length);
   }
 }
