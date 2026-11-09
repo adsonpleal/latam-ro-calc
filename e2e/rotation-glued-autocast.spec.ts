@@ -46,6 +46,9 @@ test('the proc is drawn under its trigger tile, with its chance and its DPS', as
   await expect(glued.locator('.rot-auto-chance')).toContainText('100%');
   await expect(glued.locator('.rot-auto-from')).toContainText('Colar Consagrado: Destino');
   await expect(glued.locator('.rot-dmg-val')).not.toHaveText('0');
+  // The proc’s own slice of the cycle. It is drawn under a tile whose share already counts
+  // it, so a reading of 0,0% would mean the fold into the cycle never happened.
+  await expect(glued.locator('.rot-pct')).not.toHaveText('0,0%');
 });
 
 test('the proc travels with its tile when the rotation is reordered', async ({ page }) => {
@@ -83,4 +86,50 @@ test('clicking the glued DPS opens the derivation behind it', async ({ page }) =
   await expect(panel).toContainText('100%');
   await expect(panel).toContainText('÷ Duração do ciclo');
   await expect(panel).toContainText(printed);
+});
+
+test('the glued (i) and its icon open the proc’s own skill details', async ({ page }) => {
+  const hud = page.locator('app-battle-hud').filter({ visible: true });
+  const glued = hud.locator('.rot-item').nth(1).locator('.rot-auto-row');
+  await expect(glued).toHaveCount(1, { timeout: 40_000 });
+
+  await glued.locator('.rot-info').click();
+
+  // The proc’s panel, not the trigger tile’s: it is titled with the skill that fires and
+  // it carries the AUTO-CONJURAÇÃO block, which a tile’s own details never have.
+  const panel = page.locator('.ui-overlaypanel').filter({ hasText: 'AUTO-CONJURAÇÃO' });
+  await expect(panel).toBeVisible();
+  await expect(panel).toContainText(PROC);
+  await expect(panel).toContainText('Colar Consagrado: Destino');
+  // The trigger named, rather than the Auto-conjuração tab’s "habilidade selecionada".
+  await expect(panel).toContainText(`Ao usar ${TRIGGER}`);
+  await expect(panel).toContainText('Ativações/s');
+  await expect(panel).toContainText('Contribuição');
+
+  // The (i) toggles, so a second click is the app’s own way of closing it.
+  await glued.locator('.rot-info').click();
+  await expect(panel).toBeHidden();
+
+  // Same panel from the skill icon, which is the other half of the ask.
+  await glued.locator('.rot-icon').click();
+  await expect(page.locator('.ui-overlaypanel').filter({ hasText: 'AUTO-CONJURAÇÃO' })).toBeVisible();
+});
+
+test('clicking a glued roll opens how that damage is calculated', async ({ page }) => {
+  const hud = page.locator('app-battle-hud').filter({ visible: true });
+  const glued = hud.locator('.rot-item').nth(1).locator('.rot-auto-row');
+  await expect(glued).toHaveCount(1, { timeout: 40_000 });
+
+  // Every roll is clickable, including a lone one: on this row the mean is a DPS, so the
+  // roll is the only figure that can carry the damage formula.
+  const rolls = glued.locator('.rot-auto-range');
+  expect(await rolls.count()).toBeGreaterThan(0);
+  const printed = (await rolls.first().innerText()).split('\u2013').map((part) => part.trim());
+  await rolls.first().click();
+
+  // The panel carries no skill name, so what ties it to this row is its arithmetic: the
+  // derivation has to close on the very figures the roll prints.
+  const panel = page.locator('.ui-overlaypanel').filter({ hasText: 'Como o dano é calculado' });
+  await expect(panel).toBeVisible();
+  for (const figure of printed) await expect(panel).toContainText(figure);
 });

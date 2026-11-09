@@ -1192,6 +1192,8 @@ export const catalog: TranslatedCatalog = {
   'rot.autoFrom': 'Autocast by {source}',
   'rot.autoDpsTag': 'DPS',
   'rot.tipAutoChance': 'Chance to autocast on every use of {trigger}.',
+  'rot.autoTrigger': 'On using {trigger}',
+  'rot.tipAutoContribution': 'The share of the rotation total this auto-cast brings — {pct}% of the {total} per cycle, already counted in the share of the skill that fires it.',
 
   'ac.autoCasts': 'Autocasts',
   'ac.diesIn': 'Dies in',

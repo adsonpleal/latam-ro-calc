@@ -185,9 +185,15 @@ const i = __index3; return <Fragment key={identityKey(vm.trackByIndex(__index3, 
     fires them, so they carry no step number, no handle and no place of their own. The
     group wrapper is what the drag moves, which is what keeps them attached. */}
 {(entry.autoCasts ?? []).map((cast: any) => <div className="rot-row rot-auto-row" key={cast.key}><span className="rot-auto-tee" aria-hidden="true"></span>
-<Render tag="img" props={{"alt": cast.name,
+<Render tag="img" props={{"role": "button",
+"tabIndex": "0",
+"tooltipPosition": "top",
+"alt": cast.name,
 "src": displayPipe("iconUrl", cast.icon, ["skill"], services),
-"className": ["rot-icon"].filter(Boolean).join(' '),
+"click": (event: any) => vm.action(() => { const $event = event; vm.autoCastDetailsClick.emit({"index": i,"key": cast.key,"event": $event}) }),
+"className": ["rot-icon rot-icon--btn"].filter(Boolean).join(' '),
+"tooltip": {text: t('tl.skillDetails'), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false},
+"activateWithKeys": true,
 "missingIcon": true}}></Render>
 <div className="rot-body"><div className="rot-line1"><Render tag="span" props={{"tooltipPosition": "top",
 "className": ["rot-name"].filter(Boolean).join(' '),
@@ -200,19 +206,45 @@ const i = __index3; return <Fragment key={identityKey(vm.trackByIndex(__index3, 
 {/* No "sem crít." counterpart: a magic proc never crits, and the solve carries no damage
     type to tell the two apart — so the row states the rate it has and nothing else. */}
 {cast.canCrit ? <span className="rot-crit">{' '}{t('rot.critLabel')}{' '}<b>{interpolate(["","%"], [displayPipe("number", cast.critRate, ["1.1-1"], services)])}</b></span> : null}</div></div>
-<span className="rot-dmg">{cast.hasDamageSpread ? <span className="rot-dmg-split">{(cast.damageRanges ?? []).map((range: any) => <Fragment key={identityKey(range.kind)}><span className="rot-auto-range">{displayPipe("number", range.min, ["1.0-0"], services)}{range.max !== range.min ? interpolate([" – ",""], [displayPipe("number", range.max, ["1.0-0"], services)]) : null}</span>
-<Render tag="span" props={{"tooltipPosition": "top",
+{/* The rolls show even where there is only one of them, unlike the tiles above: a tile's
+    own mean is clickable and carries the formula, while the main figure here is a DPS, so
+    the roll is the only place "como o dano é calculado" can hang. The tag is what a lone
+    roll does not need — with nothing to contrast it against, it labels the obvious. */}
+<span className="rot-dmg"><span className="rot-dmg-split">{(cast.damageRanges ?? []).map((range: any) => <Fragment key={identityKey(range.kind)}><Render tag="span" props={{"role": "button",
+"tabIndex": "0",
+"tooltipPosition": "top",
+"tooltipStyleClass": "auto_cast_tip",
+"click": (event: any) => vm.action(() => { const $event = event; vm.autoCastDamageClick.emit({"index": i,"key": cast.key,"event": $event,"branch": range.kind}) }),
+"className": ["rot-auto-range rot-dmg-branch"].filter(Boolean).join(' '),
+"tooltip": {text: t('rot.howDamage'), position: "top", className: "auto_cast_tip", showDelay: 0, hideDelay: 0, escape: true, disabled: false},
+"activateWithKeys": true}}>{displayPipe("number", range.min, ["1.0-0"], services)}{range.max !== range.min ? interpolate([" – ",""], [displayPipe("number", range.max, ["1.0-0"], services)]) : null}</Render>
+{cast.hasDamageSpread ? <Render tag="span" props={{"tooltipPosition": "top",
 "className": ["rot-tag rot-tag--sm",classNames(("rot-tag--" + range.kind))].filter(Boolean).join(' '),
-"tooltip": {text: vm.rangeTagTooltip(range), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false}}}>{range.label}</Render></Fragment>)}</span> : null}
-{/* No tooltip: the click opens the whole derivation, and a hover note repeating it would
-    only cover the panel it just opened. */}
+"tooltip": {text: vm.rangeTagTooltip(range), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false}}}>{range.label}</Render> : null}</Fragment>)}</span>
 <span className="rot-dmg-main"><span className="rot-dmg-figs"><Render tag="span" props={{"role": "button",
 "tabIndex": "0",
+"tooltipPosition": "top",
 "aria-label": t('pop.howAutoDps'),
 "click": (event: any) => vm.action(() => { const $event = event; vm.autoCastDpsClick.emit({"index": i,"key": cast.key,"event": $event}) }),
 "className": ["rot-dmg-val rot-auto-dps"].filter(Boolean).join(' '),
+"tooltip": {text: t('ac.howDps'), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false},
 "activateWithKeys": true}}>{displayPipe("number", cast.dps, ["1.0-0"], services)}</Render></span>
-<span className="rot-dmg-meta"><span className="rot-tag rot-tag--dps">{t('rot.autoDpsTag')}</span></span></span></span></div>)}
+<span className="rot-dmg-meta"><span className="rot-tag rot-tag--dps">{t('rot.autoDpsTag')}</span>
+{/* The proc's own slice of the cycle rather than a figure beside the tile's: the tile
+    already counts this damage in its share, which is what the hover note says. */}
+<span className="rot-sep">{"·"}</span>
+<Render tag="span" props={{"tooltipPosition": "top",
+"className": ["rot-pct"].filter(Boolean).join(' '),
+"tooltip": {text: vm.autoCastContributionTooltip(cast), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false}}}>{interpolate(["","%"], [displayPipe("number", cast.contributionPercent, ["1.1-1"], services)])}</Render></span></span></span>
+<Render tag="app-icon" props={{"role": "button",
+"tabIndex": "0",
+"tooltipPosition": "top",
+"name": "info-circle",
+"label": t('tl.skillDetails'),
+"click": (event: any) => vm.action(() => { const $event = event; vm.autoCastDetailsClick.emit({"index": i,"key": cast.key,"event": $event}) }),
+"className": ["rot-info"].filter(Boolean).join(' '),
+"tooltip": {text: t('tl.skillDetails'), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false},
+"activateWithKeys": true}}></Render></div>)}
 </div></Fragment>; })}</Render>
 {(() => { const __condition23 = (vm.addingAt !== null);  return __condition23 ? <><Render tag="div" props={{"className": ["rot-row rot-row--adding"].filter(Boolean).join(' ')}}><Render tag="app-icon" props={{"aria-hidden": "true",
 "name": "bars",

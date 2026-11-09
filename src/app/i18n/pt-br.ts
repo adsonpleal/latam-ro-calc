@@ -1237,6 +1237,8 @@ export const ptBR = {
   'rot.autoFrom': 'Autoconjurada por {source}',
   'rot.autoDpsTag': 'DPS',
   'rot.tipAutoChance': 'Chance de autoconjurar a cada uso de {trigger}.',
+  'rot.autoTrigger': 'Ao usar {trigger}',
+  'rot.tipAutoContribution': 'Parte desta autoconjuração no dano total da rotação — {pct}% dos {total} por ciclo, já contados na porcentagem da habilidade que a dispara.',
 
   // The auto-cast HUD: the DPS hero strip, the source list and the step-by-step panels.
   'ac.autoCasts': 'Auto-conjurações',

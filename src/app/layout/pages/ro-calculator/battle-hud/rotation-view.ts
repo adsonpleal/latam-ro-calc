@@ -192,6 +192,16 @@ export interface RotationAutoCastView {
   /** What the proc adds per second over the cycle the trigger tile belongs to. This same
    *  damage is already inside the cycle's own total — see {@link procDamagePerUse}. */
   dps: number;
+  /** How often it fires per second: the trigger tile's own rate times the chance. */
+  activationsPerSecond: number;
+  /**
+   * The proc's share of the cycle's damage, in percent.
+   *
+   * A *part* of the firing tile's own share rather than a figure beside it — the tile's
+   * percentage already counts this damage, since the proc rides that tile's step. Adding
+   * the two would double it, which is why the row's hover note says so outright.
+   */
+  contributionPercent: number;
   /** The proc's own solve, for its (i) popover. */
   summary: any;
 }
@@ -391,23 +401,34 @@ function procDamagePerUse(casts: RotationAutoCast[] | undefined): number {
  * which is the whole reason this cannot be computed with the rest of the row: the cycle's
  * length is only known once every row has been scheduled.
  */
-function autoCastViews(casts: RotationAutoCast[] | undefined, cycleDuration: number, text: Translate): RotationAutoCastView[] {
-  return (casts ?? []).map((cast) => ({
-    key: cast.key,
-    skillId: cast.skillId,
-    name: cast.name,
-    levelLabel: cast.skillLevel ? text('rv.levelChip', { level: cast.skillLevel }) : '',
-    icon: cast.skillId,
-    sourceName: cast.sourceName,
-    chance: cast.chance,
-    damage: cast.expectedDamagePerActivation,
-    damageRanges: cast.damageRanges.map((range) => ({ ...range, label: text(RANGE_LABEL_KEY[range.kind]) })),
-    hasDamageSpread: isSpread(cast.damageRanges),
-    canCrit: cast.canCrit,
-    critRate: cast.criticalRate,
-    dps: cycleDuration > 0 ? (cast.chance / 100) * cast.expectedDamagePerActivation / cycleDuration : 0,
-    summary: cast.summary,
-  }));
+function autoCastViews(casts: RotationAutoCast[] | undefined, cycle: RotationCycle, text: Translate): RotationAutoCastView[] {
+  const { cycleDuration, damagePerCycle } = cycle;
+
+  return (casts ?? []).map((cast) => {
+    // The tile fires once per cycle, so the proc’s rate is its chance spread over that
+    // cycle — and everything else it reports is that rate against one activation.
+    const activationsPerSecond = cycleDuration > 0 ? cast.chance / 100 / cycleDuration : 0;
+    const damagePerUse = (cast.chance / 100) * cast.expectedDamagePerActivation;
+
+    return {
+      key: cast.key,
+      skillId: cast.skillId,
+      name: cast.name,
+      levelLabel: cast.skillLevel ? text('rv.levelChip', { level: cast.skillLevel }) : '',
+      icon: cast.skillId,
+      sourceName: cast.sourceName,
+      chance: cast.chance,
+      damage: cast.expectedDamagePerActivation,
+      damageRanges: cast.damageRanges.map((range) => ({ ...range, label: text(RANGE_LABEL_KEY[range.kind]) })),
+      hasDamageSpread: isSpread(cast.damageRanges),
+      canCrit: cast.canCrit,
+      critRate: cast.criticalRate,
+      dps: activationsPerSecond * cast.expectedDamagePerActivation,
+      activationsPerSecond,
+      contributionPercent: damagePerCycle > 0 ? damagePerUse / damagePerCycle * 100 : 0,
+      summary: cast.summary,
+    };
+  });
 }
 
 export function buildRotationView(input: {
@@ -514,7 +535,7 @@ export function buildRotationView(input: {
     contributionPercent: cycle.lanes[i]?.contributionPercent ?? 0,
     lane: cycle.lanes[i],
     stalled: !isSingleEntry && (cycle.lanes[i]?.cdWait ?? 0) > 1e-3,
-    autoCasts: autoCastViews(autoCastsByIndex?.get(i), cycle.cycleDuration, text),
+    autoCasts: autoCastViews(autoCastsByIndex?.get(i), cycle, text),
   }));
 
   const monsterHp = baseSummary?.monster?.hp || 0;

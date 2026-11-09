@@ -4,7 +4,7 @@ import type { SkillFormulaVersion } from '../../app/skills/skill-formula-version
 import { moveItemInArray } from '../ui/reorder';
 import { BASIC_ATTACK_VALUE, MAX_ROTATION_LENGTH, splitSkillValue } from '../../app/core/rotation';
 import { buildRotationPickerOptions, elementTagClass as elementTagClassFn, RotationPickerOption } from '../../app/layout/pages/ro-calculator/battle-hud/battle-hud.logic';
-import { DamageRange, RotationEntryView } from '../../app/layout/pages/ro-calculator/battle-hud/rotation-view';
+import { DamageRange, RotationAutoCastView, RotationEntryView } from '../../app/layout/pages/ro-calculator/battle-hud/rotation-view';
 import { Translate } from '../../app/i18n';
 import { formatNumber } from '../../app/utils/format-number';
 import { stackRange } from '../../app/utils/skill-stack';
@@ -55,6 +55,12 @@ export class RotationListComponent extends ViewState {
   /** A glued auto-conjuração's DPS was clicked — the parent opens that proc's derivation.
    *  `key` picks the proc, since one tile can fire more than one. */
    autoCastDpsClick = new Events<{ index: number; key: string; event: Event }>();
+  /** A glued auto-conjuração's icon or (i) was clicked — the parent opens the proc's own
+   *  skill details, not the trigger tile's. */
+   autoCastDetailsClick = new Events<{ index: number; key: string; event: Event }>();
+  /** One of a glued auto-conjuração's damage rolls was clicked — the parent opens that
+   *  roll's formula, the same explanation the tiles above offer for theirs. */
+   autoCastDamageClick = new Events<{ index: number; key: string; event: Event; branch: DamageBranch }>();
 
   /** Same rule the HUD's own element tags use. */
   elementTagClass = elementTagClassFn;
@@ -146,10 +152,20 @@ export class RotationListComponent extends ViewState {
    *  the use that fired it and is counted on that use's step. A row with a glued proc under
    *  it says so, or the two readings look like they are about different things. */
   contributionTooltip(entry: RotationEntryView): string {
-    const pct = entry.contributionPercent.toFixed(1).replace('.', ',');
-    const total = Math.round(this.damagePerCycle).toLocaleString('pt-BR');
+    return this.shareNote(entry.autoCasts?.length ? 'rot.tipContributionWithAuto' : 'rot.tipContribution', entry.contributionPercent);
+  }
 
-    return this.text(entry.autoCasts?.length ? 'rot.tipContributionWithAuto' : 'rot.tipContribution', { pct, total });
+  /** The glued proc's own share. It is a slice of the tile's above rather than a figure
+   *  beside it, and the note has to say so — see RotationAutoCastView.contributionPercent. */
+  autoCastContributionTooltip(cast: RotationAutoCastView): string {
+    return this.shareNote('rot.tipAutoContribution', cast.contributionPercent);
+  }
+
+  private shareNote(key: 'rot.tipContribution' | 'rot.tipContributionWithAuto' | 'rot.tipAutoContribution', percent: number): string {
+    return this.text(key, {
+      pct: percent.toFixed(1).replace('.', ','),
+      total: Math.round(this.damagePerCycle).toLocaleString('pt-BR'),
+    });
   }
 
   /** Marks options already in the rotation, so the picker can flag a repeat. */

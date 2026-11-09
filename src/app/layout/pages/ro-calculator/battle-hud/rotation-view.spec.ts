@@ -671,6 +671,20 @@ describe('buildRotationView glued auto-conjurações', () => {
     expect(with_[0] + with_[1]).toBeCloseTo(100, 6);
   });
 
+  it('reports the proc’s own share as a slice of the firing tile’s, and its rate per second', () => {
+    const result = view([PROC]);
+    const [cast] = result.entries[0].autoCasts;
+
+    // 50% of one 60.000 activation, over everything the cycle deals.
+    expect(cast.contributionPercent).toBeCloseTo(30_000 / result.cycle.damagePerCycle * 100, 6);
+    // Never a figure to add to the tile’s: that percentage already counts this damage, so
+    // the proc’s own share can only ever be a part of it.
+    expect(cast.contributionPercent).toBeLessThan(result.entries[0].contributionPercent);
+    // One use every 2s at 50% — and the DPS is that rate against one activation.
+    expect(cast.activationsPerSecond).toBeCloseTo(0.25, 6);
+    expect(cast.dps).toBeCloseTo(cast.activationsPerSecond * cast.damage, 6);
+  });
+
   it('tags the proc’s rolls in the reader’s language, not the panel’s pt-BR', () => {
     // core/auto-cast.ts labels its rolls for the Auto-conjuração panel, which hard-codes
     // Portuguese; the glued row sits between rows that do not, so it relabels by kind.
