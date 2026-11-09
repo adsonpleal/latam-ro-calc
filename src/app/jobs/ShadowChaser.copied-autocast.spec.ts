@@ -80,7 +80,10 @@ describe.each([ShadowChaser, AbyssChaser].map((Job) => ({ name: Job.name, Job })
   it.each(slots)('rejects third-class spells, including saved selections, in %s', (slot) => {
     // https://browiki.org/wiki/Desejo_das_Sombras#Notas
     // These were previously allowed through Mimetismo despite being ineligible for Shadow Spell.
-    for (const id of [2213, 2211, 2204, 2202, 2214, 2216, 2203, 2212, 2210, 2449]) {
+    // The last three close the Arco Híbrido's set (card YuCYWGJl6T71nXVIyoCd): being castable
+    // as a copy does not make a spell auto-castable here. "Não autoconjura magias de classes
+    // 3, expandidas e de propriedade Sagrado" — which rules Judex out twice over.
+    for (const id of [2213, 2211, 2204, 2202, 2214, 2216, 2203, 2212, 2210, 2449, 2038, 2447, 2450]) {
       const result = simulate(new Job(), slot, id);
       expect(result.slots.find(({ key }) => key === slot)?.options.some(({ value }) => value === id), `skill ${id}`).toBe(false);
       expect(result.sources.filter(({ source }) => source.slot === slot), `skill ${id}`).toEqual([]);
