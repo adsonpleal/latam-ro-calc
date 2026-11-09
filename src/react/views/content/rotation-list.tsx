@@ -31,7 +31,7 @@ return <><Render tag="div" props={{"className": ["rot"].filter(Boolean).join(' '
 "click": (event: any) => vm.action(() => { const $event = event; vm.startAdding() }),
 "button": true}}></Render></Render></> : null; })()}
 <Render tag="div" props={{"className": ["rot-rows"].filter(Boolean).join(' ')}}>{(vm.entries ?? []).map((__entry3: any, __index3: number, __array3: any[]) => { const entry = __entry3;
-const i = __index3; return <Fragment key={identityKey(vm.trackByIndex(__index3, __entry3))}><Render tag="div" props={{"className": ["rot-row"].filter(Boolean).join(' ')}}>{(() => { const skillIcon = (context: any) => {  return <><Render tag="img" props={{"role": "button",
+const i = __index3; return <Fragment key={identityKey(vm.trackByIndex(__index3, __entry3))}><div className="rot-item"><Render tag="div" props={{"className": ["rot-row"].filter(Boolean).join(' ')}}>{(() => { const skillIcon = (context: any) => {  return <><Render tag="img" props={{"role": "button",
 "tabIndex": "0",
 "tooltipPosition": "top",
 "src": displayPipe("iconUrl", entry.icon, ["skill"], services),
@@ -180,7 +180,35 @@ const i = __index3; return <Fragment key={identityKey(vm.trackByIndex(__index3, 
 "aria-label": t('rot.moveDown', { name: entry.name }),
 "disabled": i === vm.entries.length - 1,
 "click": (event: any) => vm.action(() => { const $event = event; vm.moveBy(i,1,$event) }),
-"className": ["rot-move"].filter(Boolean).join(' ')}}><Render tag="app-icon" props={{"name": "chevron-down"}}></Render></Render></> : null; })()}</>; })()}</Render></Fragment>; })}</Render>
+"className": ["rot-move"].filter(Boolean).join(' ')}}><Render tag="app-icon" props={{"name": "chevron-down"}}></Render></Render></> : null; })()}</>; })()}</Render>
+{/* The auto-conjurações this tile's skill fires, glued under it: they ride the use that
+    fires them, so they carry no step number, no handle and no place of their own. The
+    group wrapper is what the drag moves, which is what keeps them attached. */}
+{(entry.autoCasts ?? []).map((cast: any) => <div className="rot-row rot-auto-row" key={cast.key}><span className="rot-auto-tee" aria-hidden="true"></span>
+<Render tag="img" props={{"alt": cast.name,
+"src": displayPipe("iconUrl", cast.icon, ["skill"], services),
+"className": ["rot-icon"].filter(Boolean).join(' '),
+"missingIcon": true}}></Render>
+<div className="rot-body"><div className="rot-line1"><Render tag="span" props={{"tooltipPosition": "top",
+"className": ["rot-name"].filter(Boolean).join(' '),
+"tooltip": {text: cast.name, position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false}}}>{cast.name}</Render>
+{cast.levelLabel ? <span className="rot-level rot-level--static">{cast.levelLabel}</span> : null}
+<Render tag="span" props={{"tooltipPosition": "top",
+"className": ["rot-auto-chance"].filter(Boolean).join(' '),
+"tooltip": {text: vm.autoCastChanceTooltip(entry, cast), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false}}}>{t('rot.autoChance', { pct: displayPipe("number", cast.chance, ["1.0-1"], services) })}</Render></div>
+<div className="rot-line2"><span className="rot-auto-from">{t('rot.autoFrom', { source: cast.sourceName })}</span>
+{/* No "sem crít." counterpart: a magic proc never crits, and the solve carries no damage
+    type to tell the two apart — so the row states the rate it has and nothing else. */}
+{cast.canCrit ? <span className="rot-crit">{' '}{t('rot.critLabel')}{' '}<b>{interpolate(["","%"], [displayPipe("number", cast.critRate, ["1.1-1"], services)])}</b></span> : null}</div></div>
+<span className="rot-dmg">{cast.hasDamageSpread ? <span className="rot-dmg-split">{(cast.damageRanges ?? []).map((range: any) => <Fragment key={identityKey(range.kind)}><span className="rot-auto-range">{displayPipe("number", range.min, ["1.0-0"], services)}{range.max !== range.min ? interpolate([" – ",""], [displayPipe("number", range.max, ["1.0-0"], services)]) : null}</span>
+<Render tag="span" props={{"tooltipPosition": "top",
+"className": ["rot-tag rot-tag--sm",classNames(("rot-tag--" + range.kind))].filter(Boolean).join(' '),
+"tooltip": {text: vm.rangeTagTooltip(range), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false}}}>{range.label}</Render></Fragment>)}</span> : null}
+<span className="rot-dmg-main"><span className="rot-dmg-figs"><Render tag="span" props={{"tooltipPosition": "top",
+"className": ["rot-dmg-val"].filter(Boolean).join(' '),
+"tooltip": {text: vm.autoCastDpsTooltip(cast), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false}}}>{displayPipe("number", cast.dps, ["1.0-0"], services)}</Render></span>
+<span className="rot-dmg-meta"><span className="rot-tag rot-tag--dps">{t('rot.autoDpsTag')}</span></span></span></span></div>)}
+</div></Fragment>; })}</Render>
 {(() => { const __condition23 = (vm.addingAt !== null);  return __condition23 ? <><Render tag="div" props={{"className": ["rot-row rot-row--adding"].filter(Boolean).join(' ')}}><Render tag="app-icon" props={{"aria-hidden": "true",
 "name": "bars",
 "className": ["rot-handle rot-handle--spacer"].filter(Boolean).join(' ')}}></Render>

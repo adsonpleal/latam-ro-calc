@@ -4,6 +4,7 @@ import { Translate } from 'src/app/i18n';
 // plain Vitest. It only reshapes numbers the engine already produced — it never
 // re-derives game truth. The timing itself lives in src/app/core/rotation-schedule.ts.
 
+import { RotationAutoCast } from '../../../../core/auto-cast';
 import { BASIC_ATTACK_VALUE, isBasicAttack, splitSkillValue } from '../../../../core/rotation';
 import { RotationCycle, RotationLane, RotationScheduleStep, simulateRotation } from '../../../../core/rotation-schedule';
 import { SkillType } from '../../../../models/damage-summary.model';
@@ -125,6 +126,15 @@ export interface RotationEntryView {
   /** The full `getTotalSummary()` this entry was solved with, for its (i) popover. */
   summary: any;
   lane: RotationLane;
+  /**
+   * The item procs that fire on *using* this entry's skill, drawn glued under its tile.
+   *
+   * They are not rotation entries: a proc has no place of its own in the order and no
+   * timer of its own to wait on — it rides the use that fired it. Which is why they hang
+   * off the entry instead of sitting in {@link RotationView.entries}, and why reordering
+   * the tile carries them along.
+   */
+  autoCasts: RotationAutoCastView[];
 }
 
 export interface RotationView {
@@ -154,6 +164,37 @@ export interface DamageRange {
   max: number;
 }
 
+/**
+ * One auto-conjuração glued under the tile that fires it.
+ *
+ * Everything but {@link dps} describes a single activation, because that is what the item
+ * clause describes: "ao usar X, autoconjura Y". The per-second figure is the only reading
+ * that needs the rotation — a proc at 50% on a tile that comes round every 4s is a very
+ * different line of damage from the same proc on a tile that comes round every 0,3s.
+ */
+export interface RotationAutoCastView {
+  key: string;
+  skillId: number;
+  name: string;
+  /** "Nv4", always set: an auto-conjuração is cast at the level the clause fixes. */
+  levelLabel: string;
+  icon: number;
+  /** The equipment whose clause grants the proc — the answer to "where is this from?". */
+  sourceName: string;
+  /** Chance of firing per use, in percent, as the clause states it. */
+  chance: number;
+  /** Damage of one activation, summed over every hit. */
+  damage: number;
+  damageRanges: DamageRange[];
+  hasDamageSpread: boolean;
+  canCrit: boolean;
+  critRate: number;
+  /** What the proc adds per second over the cycle the trigger tile belongs to. */
+  dps: number;
+  /** The proc's own solve, for its (i) popover. */
+  summary: any;
+}
+
 /** One row's damage readings: the mean, and the rolls it is a mean of. */
 interface DamageReadings {
   damage: number;
@@ -165,6 +206,15 @@ const NO_DAMAGE: DamageReadings = { damage: 0, ranges: [] };
 /** A roll earns its place on the row when it is a real span, or when there is a sibling to
  *  contrast it with. One roll that never varies is already the mean. */
 const isSpread = (ranges: DamageRange[]): boolean => ranges.length > 1 || ranges.some((r) => r.min !== r.max);
+
+/** `rangesOf` in core/auto-cast.ts tags its rolls for the Auto-conjuração panel, which was
+ *  written before the app spoke three languages. `kind` is what carries the meaning, so the
+ *  glued row rebuilds the tag from it and reads like the rows around it. */
+const RANGE_LABEL_KEY: Record<DamageRange['kind'], 'rv.rangeNoCrit' | 'rv.rangeCrit' | 'rv.rangeFlat'> = {
+  nocri: 'rv.rangeNoCrit',
+  cri: 'rv.rangeCrit',
+  flat: 'rv.rangeFlat',
+};
 
 /**
  * The effected pass's DPS inputs when Efeitos are ticked, the base ones otherwise —
@@ -320,6 +370,36 @@ export function computeRotationTimeToKill(hp: number, cycle: RotationCycle): Tim
   return null;
 }
 
+/**
+ * The procs glued under one tile.
+ *
+ * The tile fires once per cycle, so the proc fires `chance/100` times in that same cycle —
+ * which is the whole reason this cannot be computed with the rest of the row: the cycle's
+ * length is only known once every row has been scheduled.
+ *
+ * The figure is deliberately NOT folded into the cycle's own damage, its contribution
+ * shares or the time to kill. Those come from `simulateRotation`, which schedules casts;
+ * a proc takes no slot and waits on no timer, so adding it there would invent a step.
+ */
+function autoCastViews(casts: RotationAutoCast[] | undefined, cycleDuration: number, text: Translate): RotationAutoCastView[] {
+  return (casts ?? []).map((cast) => ({
+    key: cast.key,
+    skillId: cast.skillId,
+    name: cast.name,
+    levelLabel: cast.skillLevel ? text('rv.levelChip', { level: cast.skillLevel }) : '',
+    icon: cast.skillId,
+    sourceName: cast.sourceName,
+    chance: cast.chance,
+    damage: cast.expectedDamagePerActivation,
+    damageRanges: cast.damageRanges.map((range) => ({ ...range, label: text(RANGE_LABEL_KEY[range.kind]) })),
+    hasDamageSpread: isSpread(cast.damageRanges),
+    canCrit: cast.canCrit,
+    critRate: cast.criticalRate,
+    dps: cycleDuration > 0 ? (cast.chance / 100) * cast.expectedDamagePerActivation / cycleDuration : 0,
+    summary: cast.summary,
+  }));
+}
+
 export function buildRotationView(input: {
   /** The chosen language's lookup — the only label this builder names itself. */
   text: Translate;
@@ -333,8 +413,10 @@ export function buildRotationView(input: {
   skillStacks?: Record<string, number>;
   rotationStacks?: number[];
   summaryByIndex?: Map<number, any>;
+  /** The item procs each entry's own skill fires, solved on that entry's pass. */
+  autoCastsByIndex?: Map<number, RotationAutoCast[]>;
 }): RotationView {
-  const { text, rotation, summaryByValue, summaryByIndex, baseSummary, hasSelectedChances, atkSkills, skillStacks, rotationStacks } = input;
+  const { text, rotation, summaryByValue, summaryByIndex, baseSummary, hasSelectedChances, atkSkills, skillStacks, rotationStacks, autoCastsByIndex } = input;
 
   const metaFor = (value: string): RotationSkillMeta | undefined =>
     atkSkills?.find((s) => s.value === value || s.values?.includes(value) || s.levelList?.some((l) => l.value === value));
@@ -418,6 +500,7 @@ export function buildRotationView(input: {
     contributionPercent: cycle.lanes[i]?.contributionPercent ?? 0,
     lane: cycle.lanes[i],
     stalled: !isSingleEntry && (cycle.lanes[i]?.cdWait ?? 0) > 1e-3,
+    autoCasts: autoCastViews(autoCastsByIndex?.get(i), cycle.cycleDuration, text),
   }));
 
   const monsterHp = baseSummary?.monster?.hp || 0;
