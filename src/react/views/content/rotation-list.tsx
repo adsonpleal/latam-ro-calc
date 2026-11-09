@@ -206,11 +206,10 @@ const i = __index3; return <Fragment key={identityKey(vm.trackByIndex(__index3, 
 {/* No "sem crít." counterpart: a magic proc never crits, and the solve carries no damage
     type to tell the two apart — so the row states the rate it has and nothing else. */}
 {cast.canCrit ? <span className="rot-crit">{' '}{t('rot.critLabel')}{' '}<b>{interpolate(["","%"], [displayPipe("number", cast.critRate, ["1.1-1"], services)])}</b></span> : null}</div></div>
-{/* The rolls show even where there is only one of them, unlike the tiles above: a tile's
-    own mean is clickable and carries the formula, while the main figure here is a DPS, so
-    the roll is the only place "como o dano é calculado" can hang. The tag is what a lone
-    roll does not need — with nothing to contrast it against, it labels the obvious. */}
-<span className="rot-dmg"><span className="rot-dmg-split">{(cast.damageRanges ?? []).map((range: any) => <Fragment key={identityKey(range.kind)}><Render tag="span" props={{"role": "button",
+{/* The row reads like the tiles above it: the rolls where there is a spread to show, then
+    the mean of one activation — the figure that opens how that damage is calculated. The
+    per-second reading is the DPS do combo card's, not this row's. */}
+<span className="rot-dmg">{cast.hasDamageSpread ? <span className="rot-dmg-split">{(cast.damageRanges ?? []).map((range: any) => <Fragment key={identityKey(range.kind)}><Render tag="span" props={{"role": "button",
 "tabIndex": "0",
 "tooltipPosition": "top",
 "tooltipStyleClass": "auto_cast_tip",
@@ -218,20 +217,21 @@ const i = __index3; return <Fragment key={identityKey(vm.trackByIndex(__index3, 
 "className": ["rot-auto-range rot-dmg-branch"].filter(Boolean).join(' '),
 "tooltip": {text: t('rot.howDamage'), position: "top", className: "auto_cast_tip", showDelay: 0, hideDelay: 0, escape: true, disabled: false},
 "activateWithKeys": true}}>{displayPipe("number", range.min, ["1.0-0"], services)}{range.max !== range.min ? interpolate([" – ",""], [displayPipe("number", range.max, ["1.0-0"], services)]) : null}</Render>
-{cast.hasDamageSpread ? <Render tag="span" props={{"tooltipPosition": "top",
+<Render tag="span" props={{"tooltipPosition": "top",
 "className": ["rot-tag rot-tag--sm",classNames(("rot-tag--" + range.kind))].filter(Boolean).join(' '),
-"tooltip": {text: vm.rangeTagTooltip(range), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false}}}>{range.label}</Render> : null}</Fragment>)}</span>
+"tooltip": {text: vm.rangeTagTooltip(range), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false}}}>{range.label}</Render></Fragment>)}</span> : null}
 <span className="rot-dmg-main"><span className="rot-dmg-figs"><Render tag="span" props={{"role": "button",
 "tabIndex": "0",
 "tooltipPosition": "top",
-"aria-label": t('pop.howAutoDps'),
-"click": (event: any) => vm.action(() => { const $event = event; vm.autoCastDpsClick.emit({"index": i,"key": cast.key,"event": $event}) }),
-"className": ["rot-dmg-val rot-auto-dps"].filter(Boolean).join(' '),
-"tooltip": {text: t('ac.howDps'), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false},
-"activateWithKeys": true}}>{displayPipe("number", cast.dps, ["1.0-0"], services)}</Render></span>
-<span className="rot-dmg-meta"><span className="rot-tag rot-tag--dps">{t('rot.autoDpsTag')}</span>
-{/* The proc's own slice of the cycle rather than a figure beside the tile's: the tile
-    already counts this damage in its share, which is what the hover note says. */}
+"click": (event: any) => vm.action(() => { const $event = event; vm.autoCastDamageClick.emit({"index": i,"key": cast.key,"event": $event,"branch": "mean"}) }),
+"className": ["rot-dmg-val"].filter(Boolean).join(' '),
+"tooltip": {text: vm.damageTooltip(cast), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false},
+"activateWithKeys": true}}>{displayPipe("number", cast.damage, ["1.0-0"], services)}</Render></span>
+<span className="rot-dmg-meta">{cast.hasDamageSpread ? <Render tag="span" props={{"tooltipPosition": "top",
+"className": ["rot-tag rot-tag--mean"].filter(Boolean).join(' '),
+"tooltip": {text: vm.autoCastMeanTagTooltip(cast), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false}}}>{t('rot.mean')}</Render> : null}
+{/* The proc's own slice of the cycle, beside the firing tile's rather than inside it — so
+    the two rows read as parts of one 100%. */}
 <span className="rot-sep">{"·"}</span>
 <Render tag="span" props={{"tooltipPosition": "top",
 "className": ["rot-pct"].filter(Boolean).join(' '),

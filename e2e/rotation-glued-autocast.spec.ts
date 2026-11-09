@@ -31,7 +31,7 @@ test.beforeEach(async ({ page }) => {
   await page.getByRole('button', { name: 'Batalha', exact: true }).click();
 });
 
-test('the proc is drawn under its trigger tile, with its chance and its DPS', async ({ page }) => {
+test('the proc is drawn under its trigger tile, with its chance and its mean damage', async ({ page }) => {
   const hud = page.locator('app-battle-hud').filter({ visible: true });
   const groups = hud.locator('.rot-item');
   await expect(groups).toHaveCount(2, { timeout: 40_000 });
@@ -45,9 +45,13 @@ test('the proc is drawn under its trigger tile, with its chance and its DPS', as
   await expect(glued.locator('.rot-level')).toHaveText('Nv4');
   await expect(glued.locator('.rot-auto-chance')).toContainText('100%');
   await expect(glued.locator('.rot-auto-from')).toContainText('Colar Consagrado: Destino');
+  // The mean of one activation, read the way the tiles above read theirs — the per-second
+  // figure belongs to the DPS do combo card.
   await expect(glued.locator('.rot-dmg-val')).not.toHaveText('0');
-  // The proc’s own slice of the cycle. It is drawn under a tile whose share already counts
-  // it, so a reading of 0,0% would mean the fold into the cycle never happened.
+  await expect(glued.locator('.rot-tag--mean')).toHaveText('média');
+  await expect(glued.locator('.rot-tag--dps')).toHaveCount(0);
+  // The proc’s own slice of the cycle, beside the tile’s: a reading of 0,0% would mean the
+  // fold into the cycle never happened.
   await expect(glued.locator('.rot-pct')).not.toHaveText('0,0%');
 });
 
@@ -67,24 +71,19 @@ test('the proc travels with its tile when the rotation is reordered', async ({ p
   await expect(groups.nth(1).locator('.rot-auto-row')).toHaveCount(0);
 });
 
-test('clicking the glued DPS opens the derivation behind it', async ({ page }) => {
+test('clicking the glued mean opens how it is calculated, as a tile’s does', async ({ page }) => {
   const hud = page.locator('app-battle-hud').filter({ visible: true });
   const glued = hud.locator('.rot-item').nth(1).locator('.rot-auto-row');
   await expect(glued).toHaveCount(1, { timeout: 40_000 });
 
-  const dps = glued.locator('.rot-auto-dps');
-  const printed = (await dps.innerText()).trim();
-  await dps.click();
+  const mean = glued.locator('.rot-dmg-val');
+  const printed = (await mean.innerText()).trim();
+  await mean.click();
 
-  const panel = page.locator('.ui-overlaypanel').filter({ hasText: 'Como o DPS da autoconjuração é calculado' });
+  // The proc’s mean is weighted the same way a tile’s is, so it opens the same panel — and
+  // that panel has to close on the very figure the row prints.
+  const panel = page.locator('.ui-overlaypanel').filter({ hasText: 'Como o dano médio é calculado' });
   await expect(panel).toBeVisible();
-  // Every step of the figure, and the figure itself — the panel has to reconcile with the
-  // row it was opened from, not restate it.
-  await expect(panel).toContainText(PROC);
-  await expect(panel).toContainText('Dano médio por ativação');
-  await expect(panel).toContainText('× Chance');
-  await expect(panel).toContainText('100%');
-  await expect(panel).toContainText('÷ Duração do ciclo');
   await expect(panel).toContainText(printed);
 });
 
@@ -120,8 +119,8 @@ test('clicking a glued roll opens how that damage is calculated', async ({ page 
   const glued = hud.locator('.rot-item').nth(1).locator('.rot-auto-row');
   await expect(glued).toHaveCount(1, { timeout: 40_000 });
 
-  // Every roll is clickable, including a lone one: on this row the mean is a DPS, so the
-  // roll is the only figure that can carry the damage formula.
+  // The rolls the mean is a mean of, each one clickable — the same explanation the tiles
+  // above offer for theirs.
   const rolls = glued.locator('.rot-auto-range');
   expect(await rolls.count()).toBeGreaterThan(0);
   const printed = (await rolls.first().innerText()).split('\u2013').map((part) => part.trim());

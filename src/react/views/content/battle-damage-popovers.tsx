@@ -37,7 +37,7 @@ let formulaPanel: any = vm["formulaPanel"];
 let noCriPanel: any = vm["noCriPanel"];
 let meanPanel: any = vm["meanPanel"];
 let basicPanel: any = vm["basicPanel"];
-let autoDpsPanel: any = vm["autoDpsPanel"]; return <>
+return <>
 
 
 <Render tag="app-ui-popover" props={{"reference": (value: any) => { formulaPanel = value; vm["formulaPanel"] = value; },
@@ -89,22 +89,5 @@ let autoDpsPanel: any = vm["autoDpsPanel"]; return <>
 <Render tag="div" props={{"className": ["graph-hint"].filter(Boolean).join(' ')}}>{t('pop.clickHint')}</Render>
 {(() => { const __condition19 = vm.basicGraph; const graph = __condition19; return __condition19 ? <><><Render tag="div" props={{"className": ["formula-trace-scroll"].filter(Boolean).join(' ')}}>{formulaBranch({"graph": graph,"graph2": vm.basicGraph2,"flat": vm.basicGraphIsFlat})}</Render></></> : noBasicFormula({}); })()}
 </>; })()}</Render>
-{/* A glued auto-conjuração's per-second figure, step by step: what one activation deals,
-    how often the clause lands it, and the cycle it is spread over. */}
-<Render tag="app-ui-popover" props={{"reference": (value: any) => { autoDpsPanel = value; vm["autoDpsPanel"] = value; },
-"handle": vm["autoDpsPanel"]}}>{(() => { const cast = vm.autoCast; return cast ? <><Render tag="div" props={{"className": ["ptitle"].filter(Boolean).join(' ')}}>{t('pop.howAutoDps')}</Render>
-<Render tag="div" props={{"className": ["graph-hint"].filter(Boolean).join(' '),
-"style": normalizeStyle(Object.assign({}, parseStyle("max-width: 320px")))}}>{t('pop.autoDpsNote', { trigger: cast.trigger })}</Render>
-<Render tag="div" props={{"className": ["pstats one tight"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["kv"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{cast.name}</Render>
-<Render tag="span" props={{"className": ["v"].filter(Boolean).join(' ')}}>{cast.levelLabel}</Render></Render>
-<Render tag="div" props={{"className": ["kv"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{t('pop.autoActivation')}</Render>
-<Render tag="span" props={{"className": ["v"].filter(Boolean).join(' ')}}>{interpolate(["",""], [displayPipe("number", cast.damage, ["1.0-0"], services)])}</Render></Render></Render>
-<Render tag="div" props={{"className": ["pstats one"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["kv"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{t('pop.autoChance')}</Render>
-<Render tag="span" props={{}}>{interpolate(["","%"], [displayPipe("number", cast.chance, ["1.0-1"], services)])}</Render></Render>
-<Render tag="div" props={{"className": ["kv total"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{t('pop.autoPerUse', { trigger: cast.trigger })}</Render>
-<Render tag="span" props={{"className": ["teal"].filter(Boolean).join(' ')}}>{interpolate(["",""], [displayPipe("number", vm.autoCastPerUse, ["1.0-0"], services)])}</Render></Render>
-<Render tag="div" props={{"className": ["kv"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{t('pop.autoCycle')}</Render>
-<Render tag="span" props={{}}>{interpolate(["","s"], [displayPipe("number", cast.cycleDuration, ["1.2-2"], services)])}</Render></Render>
-<Render tag="div" props={{"className": ["kv total"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{t('pop.autoDps')}</Render>
-<Render tag="span" props={{"className": ["orange"].filter(Boolean).join(' ')}}>{interpolate(["",""], [displayPipe("number", cast.dps, ["1.0-0"], services)])}</Render></Render></Render></> : null; })()}</Render></>; })()}</>;
+</>; })()}</>;
 }

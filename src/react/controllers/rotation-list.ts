@@ -52,9 +52,6 @@ export class RotationListComponent extends ViewState {
   /** A damage figure was clicked — the parent opens the explanation of *that* figure.
    *  `branch` says which of the row's three readings it was. */
    damageClick = new Events<{ index: number; event: Event; branch: DamageBranch }>();
-  /** A glued auto-conjuração's DPS was clicked — the parent opens that proc's derivation.
-   *  `key` picks the proc, since one tile can fire more than one. */
-   autoCastDpsClick = new Events<{ index: number; key: string; event: Event }>();
   /** A glued auto-conjuração's icon or (i) was clicked — the parent opens the proc's own
    *  skill details, not the trigger tile's. */
    autoCastDetailsClick = new Events<{ index: number; key: string; event: Event }>();
@@ -85,6 +82,12 @@ export class RotationListComponent extends ViewState {
     return this.text('rot.tipFlat');
   }
 
+  /** The same note for a glued proc's tag. It carries no hit rate of its own: an
+   *  auto-conjuração that fires is the trigger's own hit, already counted on the tile. */
+  autoCastMeanTagTooltip(cast: RotationAutoCastView): string {
+    return this.text(cast.damageRanges.length > 1 ? 'rot.tipMeanCrit' : 'rot.tipMean');
+  }
+
   /** Hover note for the "média" tag. A crit row needs the warning — the rate is on screen
    *  right beside the figure and reads as something still to apply; a plain min–max row only
    *  needs saying what the number is. */
@@ -100,9 +103,10 @@ export class RotationListComponent extends ViewState {
   }
 
   /** A row's figure is explained by whatever it is: the average where there is a roll to
-   *  average, the formula itself where the damage never varies. */
-  damageTooltip(entry: RotationEntryView): string {
-    return this.text(entry.hasDamageSpread ? 'rot.tipDamageMean' : 'rot.tipDamageFlat');
+   *  average, the formula itself where the damage never varies. Takes a glued proc's row
+   *  too — its figure is the same reading of the same kind. */
+  damageTooltip(row: { hasDamageSpread: boolean }): string {
+    return this.text(row.hasDamageSpread ? 'rot.tipDamageMean' : 'rot.tipDamageFlat');
   }
 
   /** The compared build's figure sits directly under the current one, and since the arrow
@@ -118,9 +122,10 @@ export class RotationListComponent extends ViewState {
   }
 
   /** A one-skill rotation is all of the damage by definition, so its "100,0%" states the
-   *  obvious. The share only earns its place once there is something to share it with. */
+   *  obvious. The share only earns its place once there is something to share it with — and
+   *  a proc glued under that single tile is exactly that: the tile no longer reads 100%. */
   get showsContribution(): boolean {
-    return this.entries.length > 1;
+    return this.entries.length > 1 || this.entries.some((entry) => entry.autoCasts?.length);
   }
 
   get isFull(): boolean {
@@ -148,15 +153,15 @@ export class RotationListComponent extends ViewState {
     return this.skillOptionsCache;
   }
 
-  /** The share is the whole tile's: the skill plus whatever it procs, since a proc lands on
-   *  the use that fired it and is counted on that use's step. A row with a glued proc under
-   *  it says so, or the two readings look like they are about different things. */
+  /** The share is the skill's own. A tile with a proc glued under it says so, since the row
+   *  below carries a share of its own and the reader has to know the two are parts of one
+   *  whole rather than one figure counted twice. */
   contributionTooltip(entry: RotationEntryView): string {
     return this.shareNote(entry.autoCasts?.length ? 'rot.tipContributionWithAuto' : 'rot.tipContribution', entry.contributionPercent);
   }
 
-  /** The glued proc's own share. It is a slice of the tile's above rather than a figure
-   *  beside it, and the note has to say so — see RotationAutoCastView.contributionPercent. */
+  /** The glued proc's own share: a slice beside the tile's, not inside it — see
+   *  RotationAutoCastView.contributionPercent. */
   autoCastContributionTooltip(cast: RotationAutoCastView): string {
     return this.shareNote('rot.tipAutoContribution', cast.contributionPercent);
   }

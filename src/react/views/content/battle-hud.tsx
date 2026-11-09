@@ -199,7 +199,6 @@ let sharedDamagePopovers: any = vm["sharedDamagePopovers"]; return <>{(() => { c
 "elementTableClick": (event: any) => vm.action(() => { const $event = event; vm.onShowElementalTableClick() }),
 "critBreakdownClick": (event: any) => vm.action(() => { const $event = event; vm.openStepCritRate($event,critRatePanel) }),
 "damageClick": (event: any) => vm.action(() => { const $event = event; vm.openSharedDamage($event,sharedDamagePopovers) }),
-"autoCastDpsClick": (event: any) => vm.action(() => { const $event = event; vm.openAutoCastDps($event,sharedDamagePopovers) }),
 "autoCastDetailsClick": (event: any) => vm.action(() => { const $event = event; vm.openAutoCastDetails($event,sharedSkillDetails) }),
 "autoCastDamageClick": (event: any) => vm.action(() => { const $event = event; vm.openAutoCastDamage($event,sharedDamagePopovers) }),
 "className": ["hud-rot-col"].filter(Boolean).join(' ')}}></Render>

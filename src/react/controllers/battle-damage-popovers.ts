@@ -23,23 +23,6 @@ export interface DamagePopoverContext {
   hasSelectedChances2?: boolean;
 }
 
-/** One glued auto-conjuração's per-second figure, broken into the steps that make it. */
-export interface AutoCastDpsContext {
-  /** The proc, the level the clause fixes (already localized), and the skill whose use
-   *  fires it. */
-  name: string;
-  levelLabel: string;
-  trigger: string;
-  /** Percent, as the item clause states it. */
-  chance: number;
-  /** Damage of one activation, summed over every hit. */
-  damage: number;
-  /** Seconds the rotation's cycle takes — what the per-use damage is spread over. */
-  cycleDuration: number;
-  dps: number;
-}
-
-
 export class BattleDamagePopoversComponent extends ViewState {
   constructor(private readonly text: Translate) { super();}
 
@@ -47,14 +30,12 @@ export class BattleDamagePopoversComponent extends ViewState {
    noCriPanel = new UiPopoverComponent();
    meanPanel = new UiPopoverComponent();
    basicPanel = new UiPopoverComponent();
-   autoDpsPanel = new UiPopoverComponent();
 
    breakdownClick = new Events<{
     label: string; keys: string[]; valueClass: string; total?: number; calc?: DamageFormulaCalc; compare?: boolean;
   }>();
 
   context: DamagePopoverContext | null = null;
-  autoCast: AutoCastDpsContext | null = null;
   basicBranch: 'normal' | 'critical' = 'normal';
   formulaPart: {
     label: string;
@@ -116,19 +97,6 @@ export class BattleDamagePopoversComponent extends ViewState {
           ? this.meanPanel
           : this.formulaPanel;
     this.toggleAt(panel, event, target);
-  }
-
-  /** The derivation behind a glued auto-conjuração's DPS. */
-  openAutoCast(event: Event, context: AutoCastDpsContext, target?: EventTarget | null): void {
-    this.autoCast = context;
-    this.publish();
-    this.toggleAt(this.autoDpsPanel, event, target);
-  }
-
-  /** Damage the proc adds to one use of its trigger — the step between the two figures the
-   *  glued row prints, and the amount the cycle carries on that tile's step. */
-  get autoCastPerUse(): number {
-    return (this.autoCast?.chance ?? 0) / 100 * (this.autoCast?.damage ?? 0);
   }
 
   get entry(): DamagePopoverEntry | null { return this.context?.entry ?? null; }

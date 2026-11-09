@@ -661,25 +661,30 @@ describe('buildRotationView glued auto-conjurações', () => {
     expect(without.entries[0].autoCasts).toEqual([]);
   });
 
-  it('lifts the share of the tile that fires it, since the proc lands on that tile’s step', () => {
+  it('shares the cycle between the tiles and the procs, one slice each', () => {
     const rotation = [trigger, BASIC_ATTACK_VALUE];
     const without = view(undefined, rotation).entries.map((entry) => entry.contributionPercent);
-    const with_ = view([PROC], rotation).entries.map((entry) => entry.contributionPercent);
+    const result = view([PROC], rotation);
+    const [fired, basic] = result.entries.map((entry) => entry.contributionPercent);
+    const [cast] = result.entries[0].autoCasts;
 
-    expect(with_[0]).toBeGreaterThan(without[0]);
-    expect(with_[1]).toBeLessThan(without[1]);
-    expect(with_[0] + with_[1]).toBeCloseTo(100, 6);
+    // A tile reports its skill alone, so the proc dilutes the tile it hangs from exactly as
+    // it dilutes every other row — it never swells the one that fires it.
+    expect(fired).toBeLessThan(without[0]);
+    expect(basic).toBeLessThan(without[1]);
+    // Both kinds of row are slices of the same whole, so the column adds up to 100%.
+    expect(fired + basic + cast.contributionPercent).toBeCloseTo(100, 6);
   });
 
-  it('reports the proc’s own share as a slice of the firing tile’s, and its rate per second', () => {
+  it('reports the proc’s own share beside the tile’s, and its rate per second', () => {
     const result = view([PROC]);
     const [cast] = result.entries[0].autoCasts;
 
-    // 50% of one 60.000 activation, over everything the cycle deals.
-    expect(cast.contributionPercent).toBeCloseTo(30_000 / result.cycle.damagePerCycle * 100, 6);
-    // Never a figure to add to the tile’s: that percentage already counts this damage, so
-    // the proc’s own share can only ever be a part of it.
-    expect(cast.contributionPercent).toBeLessThan(result.entries[0].contributionPercent);
+    // 50% of one 60.000 activation, over everything the cycle deals — to the tenth of a
+    // percent the row prints, which is where the shares are rounded to total exactly 100.
+    expect(cast.contributionPercent).toBeCloseTo(30_000 / result.cycle.damagePerCycle * 100, 1);
+    // With one tile on the card, the tile and its proc are all of the cycle between them.
+    expect(result.entries[0].contributionPercent + cast.contributionPercent).toBeCloseTo(100, 6);
     // One use every 2s at 50% — and the DPS is that rate against one activation.
     expect(cast.activationsPerSecond).toBeCloseTo(0.25, 6);
     expect(cast.dps).toBeCloseTo(cast.activationsPerSecond * cast.damage, 6);

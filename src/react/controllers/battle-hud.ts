@@ -427,21 +427,6 @@ export class BattleHudComponent extends ViewState {
     });
   }
 
-  openAutoCastDps(payload: { index: number; key: string; event: Event }, popovers: any): void {
-    const found = this.findAutoCast(payload);
-    if (!found) return;
-    const { entry, cast } = found;
-    popovers?.openAutoCast(payload.event, {
-      name: cast.name,
-      levelLabel: cast.levelLabel,
-      trigger: entry.name,
-      chance: cast.chance,
-      damage: cast.damage,
-      cycleDuration: this.cycle?.cycleDuration ?? 0,
-      dps: cast.dps,
-    });
-  }
-
   /**
    * The glued proc's own skill details, which is the panel the tiles open for themselves.
    *

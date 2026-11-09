@@ -183,28 +183,11 @@
 :is(app-rotation-list, .ui-scope-app-rotation-list) .rot-auto-range{
   color: var(--text-color-secondary);
 }
-:is(app-rotation-list, .ui-scope-app-rotation-list) .rot-auto-row .rot-dmg-val{
-  color: var(--teal-300, #61beb5);
-}
-:is(app-rotation-list, .ui-scope-app-rotation-list) .rot-auto-dps{
-  cursor: pointer;
-}
-@media (hover: hover){:is(app-rotation-list, .ui-scope-app-rotation-list) .rot-auto-dps:hover{
-  text-decoration: underline;
-}}
-@media (hover: none){:is(app-rotation-list, .ui-scope-app-rotation-list) .rot-auto-dps:active{
-  text-decoration: underline;
-}}
 /* The glued row carries the (i) alone, while a tile carries copy and remove after it. The
    margin stands in for those two: 12px + 8px gap, twice over, so both (i) sit in one column
    instead of the glued one landing under the tile's remove. */
 :is(app-rotation-list, .ui-scope-app-rotation-list) .rot-auto-row .rot-info{
   margin-right: 40px;
-}
-:is(app-rotation-list, .ui-scope-app-rotation-list) .rot-tag--dps{
-  color: var(--teal-300, #61beb5);
-  border-color: rgba(97, 190, 181, 0.45);
-  font-size: 10px;
 }
 :is(app-rotation-list, .ui-scope-app-rotation-list) .rot-step{
   width: 12px;

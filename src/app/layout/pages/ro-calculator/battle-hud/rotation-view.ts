@@ -6,7 +6,7 @@ import { Translate } from 'src/app/i18n';
 
 import { RotationAutoCast } from '../../../../core/auto-cast';
 import { BASIC_ATTACK_VALUE, isBasicAttack, splitSkillValue } from '../../../../core/rotation';
-import { RotationCycle, RotationLane, RotationScheduleStep, simulateRotation } from '../../../../core/rotation-schedule';
+import { distributePercents, RotationCycle, RotationLane, RotationScheduleStep, simulateRotation } from '../../../../core/rotation-schedule';
 import { SkillType } from '../../../../models/damage-summary.model';
 import { dmgTypeLabel } from '../../../../utils/dmg-type-label';
 import { StackLimits, stackRange } from '../../../../utils/skill-stack';
@@ -46,6 +46,9 @@ export interface RotationEntryView {
   stackLabel: string;
   /** Total damage for one use, summed over every hit. */
   damage: number;
+  /** This tile's share of the cycle's damage, in percent — the skill alone. What the procs
+   *  glued under it add is shared out beside it rather than inside it, so every figure the
+   *  card prints, tiles and procs alike, is one slice of the same 100%. */
   contributionPercent: number;
   /** "Corpo a corpo" / "À distância" / "Mágico". */
   dmgTypeLabel: string;
@@ -190,16 +193,17 @@ export interface RotationAutoCastView {
   canCrit: boolean;
   critRate: number;
   /** What the proc adds per second over the cycle the trigger tile belongs to. This same
-   *  damage is already inside the cycle's own total — see {@link procDamagePerUse}. */
+   *  damage is already inside the cycle's own total — see {@link procDamagePerUse}. The row
+   *  prints the mean of one activation instead; this is for the details panel. */
   dps: number;
   /** How often it fires per second: the trigger tile's own rate times the chance. */
   activationsPerSecond: number;
   /**
    * The proc's share of the cycle's damage, in percent.
    *
-   * A *part* of the firing tile's own share rather than a figure beside it — the tile's
-   * percentage already counts this damage, since the proc rides that tile's step. Adding
-   * the two would double it, which is why the row's hover note says so outright.
+   * A slice beside the firing tile's rather than inside it: the tile reports its skill
+   * alone, so the two rows can be read one against the other and the column still totals
+   * 100%. See the shares built in {@link buildRotationView}.
    */
   contributionPercent: number;
   /** The proc's own solve, for its (i) popover. */
@@ -391,24 +395,26 @@ export function computeRotationTimeToKill(hp: number, cycle: RotationCycle): Tim
  * the cycle's damage, the contribution shares and the time to kill.
  */
 function procDamagePerUse(casts: RotationAutoCast[] | undefined): number {
-  return (casts ?? []).reduce((total, cast) => total + (cast.chance / 100) * cast.expectedDamagePerActivation, 0);
+  return (casts ?? []).reduce((total, cast) => total + procDamage(cast), 0);
 }
+
+/** What one proc is worth on a use of its trigger: the activation, weighted by the chance
+ *  the clause lands it at all. */
+const procDamage = (cast: RotationAutoCast): number => (cast.chance / 100) * cast.expectedDamagePerActivation;
 
 /**
  * The procs glued under one tile.
  *
  * The tile fires once per cycle, so the proc fires `chance/100` times in that same cycle —
  * which is the whole reason this cannot be computed with the rest of the row: the cycle's
- * length is only known once every row has been scheduled.
+ * length is only known once every row has been scheduled. `shares` arrives for the same
+ * reason, one already-rounded slice per proc.
  */
-function autoCastViews(casts: RotationAutoCast[] | undefined, cycle: RotationCycle, text: Translate): RotationAutoCastView[] {
-  const { cycleDuration, damagePerCycle } = cycle;
-
-  return (casts ?? []).map((cast) => {
+function autoCastViews(casts: RotationAutoCast[], cycleDuration: number, text: Translate, shares: number[]): RotationAutoCastView[] {
+  return casts.map((cast, i) => {
     // The tile fires once per cycle, so the proc’s rate is its chance spread over that
     // cycle — and everything else it reports is that rate against one activation.
     const activationsPerSecond = cycleDuration > 0 ? cast.chance / 100 / cycleDuration : 0;
-    const damagePerUse = (cast.chance / 100) * cast.expectedDamagePerActivation;
 
     return {
       key: cast.key,
@@ -425,7 +431,7 @@ function autoCastViews(casts: RotationAutoCast[] | undefined, cycle: RotationCyc
       critRate: cast.criticalRate,
       dps: activationsPerSecond * cast.expectedDamagePerActivation,
       activationsPerSecond,
-      contributionPercent: damagePerCycle > 0 ? damagePerUse / damagePerCycle * 100 : 0,
+      contributionPercent: shares[i] ?? 0,
       summary: cast.summary,
     };
   });
@@ -530,13 +536,28 @@ export function buildRotationView(input: {
 
   // A one-entry rotation cannot stall on itself — see RotationEntryView.stalled.
   const isSingleEntry = partial.length < 2;
-  const entries: RotationEntryView[] = partial.map((entry, i) => ({
-    ...entry,
-    contributionPercent: cycle.lanes[i]?.contributionPercent ?? 0,
-    lane: cycle.lanes[i],
-    stalled: !isSingleEntry && (cycle.lanes[i]?.cdWait ?? 0) > 1e-3,
-    autoCasts: autoCastViews(autoCastsByIndex?.get(i), cycle, text),
-  }));
+  // Every figure the card prints a share for, in the order the rows are drawn: each tile's
+  // own damage, then the damage of the procs glued under it. Shared out in one pass, so a
+  // tile and its proc read as two slices of one cycle and the column still adds up to
+  // exactly 100,0%. Deliberately not the lane's own percentage, which keeps the proc inside
+  // the tile — the timeline's bar is the whole step, procs and all.
+  const shares = distributePercents(partial.flatMap(
+    (entry, i) => [entry.damage, ...(autoCastsByIndex?.get(i) ?? []).map(procDamage)]));
+
+  let next = 0;
+  const entries: RotationEntryView[] = partial.map((entry, i) => {
+    const casts = autoCastsByIndex?.get(i) ?? [];
+    const contributionPercent = shares[next++] ?? 0;
+    const castShares = casts.map(() => shares[next++] ?? 0);
+
+    return {
+      ...entry,
+      contributionPercent,
+      lane: cycle.lanes[i],
+      stalled: !isSingleEntry && (cycle.lanes[i]?.cdWait ?? 0) > 1e-3,
+      autoCasts: autoCastViews(casts, cycle.cycleDuration, text, castShares),
+    };
+  });
 
   const monsterHp = baseSummary?.monster?.hp || 0;
 
