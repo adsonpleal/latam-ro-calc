@@ -33,10 +33,13 @@ import { SkyEmperor } from './SkyEmperor';
 import { Sorcerer } from './Sorcerer';
 import { SoulReaper } from './SoulReaper';
 import { SoulAscetic } from './SoulAscetic';
+import { SoulLinker } from './SoulLinker';
 import { SpiritHandler } from './SpiritHandler';
 import { StarEmperor } from './StarEmperor';
+import { StarGladiator } from './StarGladiator';
 import { SuperNovice } from './SuperNovice';
 import { Sura } from './Sura';
+import { Taekwondo } from './Taekwondo';
 import { Troubadour } from './Troubadour';
 import { Trouvere } from './Trouvere';
 import { Wanderer } from './Wanderer';
@@ -86,8 +89,11 @@ const CLASS_ORDER: ReadonlyArray<readonly [id: number, ctor: CharacterCtor]> = [
   [9, Genetic],
   [4259, Biolo],
 
+  [4046, Taekwondo],
+  [4047, StarGladiator],
   [33, StarEmperor],
   [4302, SkyEmperor],
+  [4049, SoulLinker],
   [3, SoulReaper],
   [4303, SoulAscetic],
 

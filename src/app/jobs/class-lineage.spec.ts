@@ -66,6 +66,9 @@ const LINEAGE: Record<number, ClassName[]> = {
   4264: [ClassName.Archer, ClassName.Dancer, ClassName.Gypsy, ClassName.Wanderer, ClassName.Trouvere], // Diva
 
   // Expanded classes — no rebirth, so no transcendent step.
+  4046: [ClassName.Taekwondo], // Taekwon
+  4047: [ClassName.Taekwondo, ClassName.StarGladiator], // Mestre Taekwon
+  4049: [ClassName.Taekwondo, ClassName.SoulLinker], // Espiritualista
   33: [ClassName.Taekwondo, ClassName.StarGladiator, ClassName.StarEmperor], // Mestre Estelar
   4302: [ClassName.Taekwondo, ClassName.StarGladiator, ClassName.StarEmperor, ClassName.SkyEmperor], // Mestre Celestial
   3: [ClassName.Taekwondo, ClassName.SoulLinker, ClassName.SoulReaper], // Ceifador de Almas

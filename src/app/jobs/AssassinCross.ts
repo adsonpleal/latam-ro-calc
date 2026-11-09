@@ -234,16 +234,6 @@ export class AssassinCross extends Thief {
     });
   }
 
-  override get minMaxLevelCap() {
-    return this.className === ClassName.AssassinCross
-      ? { minMaxLevel: [1, 99] as [number, number], maxJob: 70 }
-      : super.minMaxLevelCap;
-  }
-
-  override get maxBaseStat() { return this.className === ClassName.AssassinCross ? 99 : super.maxBaseStat; }
-  override get maxAspd() { return this.className === ClassName.AssassinCross ? 190 : super.maxAspd; }
-  override get excludedJobLevels() { return this.className === ClassName.AssassinCross ? [] : super.excludedJobLevels; }
-
   // Append controls after the final job's existing catalog, keeping every legacy
   // Sicário/Executor positional index intact. Algoz has no pre-existing saves.
   override get activeSkills() {

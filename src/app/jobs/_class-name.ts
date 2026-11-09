@@ -105,6 +105,9 @@ export enum ClassName {
 
 export enum ClassIDEnum {
   AssassinCross = 4013,
+  Taekwondo = 4046,
+  StarGladiator = 4047,
+  SoulLinker = 4049,
   RoyalGuard = 11,
   RuneKnight = 12,
   ArchBishop = 7,
@@ -152,6 +155,9 @@ export enum ClassIDEnum {
  */
 export const ClassID = {
   [ClassIDEnum.AssassinCross]: 'Assassin Cross',
+  [ClassIDEnum.Taekwondo]: 'Taekwon',
+  [ClassIDEnum.StarGladiator]: 'Star Gladiator',
+  [ClassIDEnum.SoulLinker]: 'Soul Linker',
   [ClassIDEnum.RoyalGuard]: 'Royal Guard',
   [ClassIDEnum.RuneKnight]: 'Rune Knight',
   [ClassIDEnum.ArchBishop]: 'Arch Bishop',
@@ -227,8 +233,11 @@ export const ClassNamePtBr: Partial<Record<ClassIDEnum, string>> = {
   [ClassIDEnum.Meister]: 'Engenheiro',
   [ClassIDEnum.Genetic]: 'Bioquímico',
   [ClassIDEnum.Biolo]: 'Cientista',
+  [ClassIDEnum.Taekwondo]: 'Taekwon',
+  [ClassIDEnum.StarGladiator]: 'Mestre Taekwon',
   [ClassIDEnum.StarEmperor]: 'Mestre Estelar',
   [ClassIDEnum.SkyEmperor]: 'Mestre Celestial',
+  [ClassIDEnum.SoulLinker]: 'Espiritualista',
   [ClassIDEnum.SoulReaper]: 'Ceifador de Almas',
   [ClassIDEnum.SoulAscetic]: 'Asceta das Almas',
   [ClassIDEnum.Kagerou]: 'Kagerou',
@@ -266,6 +275,9 @@ export const ClassNamePtBr: Partial<Record<ClassIDEnum, string>> = {
  */
 export const ClassIcon: Record<ClassIDEnum, number> = {
   4013: 4013,
+  4046: 4046,
+  4047: 4047,
+  4049: 4049,
   11: 4073,
   12: 4060,
   7: 4063,

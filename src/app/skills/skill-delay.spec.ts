@@ -47,6 +47,18 @@ const NO_CLIENT_ROW = new Set([
   2243, // Investida de Worg (Wug Strike)
   2308, // Toque do Oblívio (Banishing Point)
   2593, // Chute Solar (Blaze Kick)
+  // The five Taekwon kicks: not cast at all, they fire off an ordinary attack once their
+  // stance procs, so the client ships no Conjuração/Espera row for any of them.
+  413, // Chute do Tornado (Tornado Kick)
+  415, // Patada Voadora (Heel Drop)
+  417, // Rasteira (Roundhouse)
+  419, // Contrachute (Counter Kick)
+  421, // Chute Aéreo (Flying Kick)
+  // The Mestre Taekwon's three heat fields: toggled, not cast — the client's table prints
+  // only their duration.
+  428, // Calor Solar (Solar Heat)
+  429, // Calor Lunar (Lunar Heat)
+  430, // Calor Estelar (Stellar Heat)
 ]);
 
 const at = (value: number | number[], level: number): number => (Array.isArray(value) ? value[level - 1] : value);

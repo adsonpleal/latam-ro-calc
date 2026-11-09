@@ -1,6 +1,45 @@
-import { Taekwondo } from './Taekwondo';
-import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
+import { Taekwondo, TAEKWON_KICK_NAMES } from './Taekwondo';
+import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
+import { ElementType } from '../constants/element-type.const';
+import { atkSkillLevelList } from '../utils';
+
+/**
+ * The kicks the Espiritualista gives up. The client prints "Não pode ser usada por
+ * Espiritualistas" on each of the five, and bROWiki says it the other way round on the
+ * class page: "por seu foco nos estudos, os Espiritualistas perdem todas as habilidades
+ * que envolvem chutes dos Taekwons".
+ *
+ * `inheritSkills` only ever passes skills down, so a class that loses one has to filter
+ * it out — the same shape the Algoz uses to drop Venom Impression. Filtering here covers
+ * the Ceifador de Almas and the Asceta das Almas too, which is right: neither gets the
+ * kicks back.
+ */
+const TAEKWON_KICKS: ReadonlySet<string> = new Set<string>(TAEKWON_KICK_NAMES);
+
+/**
+ * Estin, Estun and Esma differ only in their ratio and their cast: all three are Neutro
+ * magic with a 0,5 s pós-conjuração, as the client's "Informação de Conjuração" rows say.
+ */
+const es = (
+  name: 'Estin' | 'Estun' | 'Esma',
+  maxLv: number,
+  cast: { fct: number; vct: number },
+  formula: (input: AtkSkillFormulaInput) => number,
+  extra: Partial<AtkSkillModel> = {},
+): AtkSkillModel => ({
+  name,
+  label: `${name} Nv${maxLv}`,
+  value: `${name}==${maxLv}`,
+  levelList: atkSkillLevelList(name, maxLv),
+  ...cast,
+  acd: 0.5,
+  cd: 0,
+  isMatk: true,
+  element: ElementType.Neutral,
+  formula,
+  ...extra,
+});
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 1, 0, 0],
@@ -81,7 +120,34 @@ export class SoulLinker extends Taekwondo {
   protected override initialStatusPoint = 40;
 
   protected readonly classNamesHi = [ClassName.SoulLinker];
-  protected readonly atkSkillListHi: AtkSkillModel[] = [];
+  /**
+   * The three Es- attacks. Every ratio below is the client's own `Nível l ATQM` table,
+   * which bROWiki repeats figure for figure — except Esma, whose table prints the number
+   * of spirit circles instead, so its ratio comes from bROWiki's "Fórmula" line.
+   *
+   * All three are Neutro and all three say "a propriedade muda conforme Brisa Leve". That
+   * element change is not modelled: the engine's Brisa Leve (`mildwind`) moves the
+   * *physical* attack property only, and these are magic.
+   *
+   * They also only work on monsters ("Alvo: Apenas monstros"), which the calculator's
+   * target always is.
+   */
+  protected readonly atkSkillListHi: AtkSkillModel[] = [
+    // Only Small targets take the damage, and that decides whether the skill does
+    // anything at all — so it is said next to the name rather than silently zeroing.
+    // It goes in `labelSuffix`, the one part `localize` keeps when it swaps `label` for
+    // the client's pt-BR name.
+    es('Estin', 7, { fct: 0.02, vct: 0.08 }, ({ skillLevel }) => skillLevel * 10, { labelSuffix: 'alvo Pequeno' }),
+    // bROWiki: "causa dano mágico em alvos de todos os tamanhos"; only the Atordoamento
+    // is restricted to Médios, and status effects are outside the damage model.
+    es('Estun', 7, { fct: 0.02, vct: 0.08 }, ({ skillLevel }) => skillLevel * 5),
+    // One circle per skill level, each worth (Nv. de base + 40)% MATK — bROWiki's
+    // "ATQM por círculo = [Nv. de base + 40]%". The client's table counts the circles
+    // and leaves the ratio out, which is why the level column drives totalHit here.
+    es('Esma', 10, { fct: 0.4, vct: 1.6 }, ({ model }) => model.level + 40, {
+      totalHit: ({ skillLevel }: AtkSkillFormulaInput): number => skillLevel,
+    }),
+  ];
   protected readonly activeSkillListHi: ActiveSkillModel[] = [
     {
       label: 'Esma Lv10',
@@ -121,4 +187,6 @@ export class SoulLinker extends Taekwondo {
       classNames: this.classNamesHi,
     });
   }
+
+  override get atkSkills() { return super.atkSkills.filter((skill) => !TAEKWON_KICKS.has(skill.name)); }
 }

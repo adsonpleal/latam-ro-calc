@@ -65,6 +65,13 @@ export const AspdTable: Partial<Record<ClassName, XX>> = {
   [ClassName.Rebellion]: { base: 151, shield: -10, Revolver: -5, Rifle: -10, 'Gatling Gun': -3, Shotgun: -30, 'Grenade Launcher': -35 },
   [ClassName.NightWatch]: { base: 151, shield: -10, Revolver: -5, Rifle: -10, 'Gatling Gun': -3, Shotgun: -30, 'Grenade Launcher': -35 },
 
+  // The Taekwon equips no weapon at all, so bROWiki lists only "Sem arma" and "Escudo";
+  // the Mestre Taekwon adds Livro and the Espiritualista a whole different unarmed base.
+  // https://browiki.org/wiki/Taekwons · /Mestres_Taekwons · /Espiritualistas
+  [ClassName.Taekwondo]: { base: 156, shield: -6 },
+  [ClassName.StarGladiator]: { base: 156, shield: -6, Book: -10 },
+  [ClassName.SoulLinker]: { base: 146, shield: -8, Dagger: 0, Rod: -3, 'Two-Handed Rod': -3 },
+
   // bROWiki gives Adaga Esquerda (off-hand dagger) -11; it does not list an
   // off-hand sword, so `left-Sword` keeps the engine's existing estimate.
   [ClassName.Oboro]: { base: 156, shield: -3, Dagger: -5, Shuriken: -10, 'left-Dagger': -11, 'left-Sword': -10 },
