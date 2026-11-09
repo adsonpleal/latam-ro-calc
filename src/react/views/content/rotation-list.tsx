@@ -195,7 +195,7 @@ const i = __index3; return <Fragment key={identityKey(vm.trackByIndex(__index3, 
 {cast.levelLabel ? <span className="rot-level rot-level--static">{cast.levelLabel}</span> : null}
 <Render tag="span" props={{"tooltipPosition": "top",
 "className": ["rot-auto-chance"].filter(Boolean).join(' '),
-"tooltip": {text: vm.autoCastChanceTooltip(entry, cast), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false}}}>{t('rot.autoChance', { pct: displayPipe("number", cast.chance, ["1.0-1"], services) })}</Render></div>
+"tooltip": {text: vm.autoCastChanceTooltip(entry), position: "top", className: '', showDelay: 0, hideDelay: 0, escape: true, disabled: false}}}>{t('rot.autoChance', { pct: displayPipe("number", cast.chance, ["1.0-1"], services) })}</Render></div>
 <div className="rot-line2"><span className="rot-auto-from">{t('rot.autoFrom', { source: cast.sourceName })}</span>
 {/* No "sem crít." counterpart: a magic proc never crits, and the solve carries no damage
     type to tell the two apart — so the row states the rate it has and nothing else. */}

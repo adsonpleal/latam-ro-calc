@@ -104,8 +104,8 @@ export class RotationListComponent extends ViewState {
 
   /** The chance chip on a glued row is a chance *per use of the tile above it* — which is
    *  the one thing a percentage sitting on its own row cannot say by itself. */
-  autoCastChanceTooltip(entry: RotationEntryView, cast: RotationAutoCastView): string {
-    return this.text('rot.tipAutoChance', { trigger: entry.name, name: cast.name });
+  autoCastChanceTooltip(entry: RotationEntryView): string {
+    return this.text('rot.tipAutoChance', { trigger: entry.name });
   }
 
   /**

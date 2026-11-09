@@ -1,0 +1,15 @@
+{
+  "type": "patch",
+  "logs": [
+    "A Rotação agora mostra a autoconjuração logo abaixo da habilidade que a dispara: a chance do conjunto, o dano de uma ativação e o DPS que ela acrescenta no ciclo. A linha anda junto com a habilidade quando a ordem muda, e esse valor não entra no total do ciclo nem no tempo de morte.",
+    "Adicionadas as autoconjurações dos demais Colares Consagrados (Amizade, Confiança, Luz e Amor), cada uma presa à arma do conjunto em +10."
+  ],
+  "logs_es": [
+    "La Rotación ahora muestra la autoconjuración justo debajo de la habilidad que la dispara: la probabilidad del conjunto, el daño de una activación y el DPS que añade al ciclo. La línea se mueve junto con la habilidad cuando cambia el orden, y ese valor no entra en el total del ciclo ni en el tiempo de muerte.",
+    "Añadidas las autoconjuraciones de los demás Colares Consagrados (Amizade, Confiança, Luz y Amor), cada una sujeta al arma del conjunto en +10."
+  ],
+  "logs_en": [
+    "Rotation now shows the autocast right below the skill that fires it: the set's chance, the damage of one activation and the DPS it adds over the cycle. The line travels with the skill when the order changes, and that figure is not added into the cycle total or the time to kill.",
+    "Added the autocasts of the remaining Colares Consagrados (Amizade, Confiança, Luz and Amor), each one gated on the set weapon at +10."
+  ]
+}
