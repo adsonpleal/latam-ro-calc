@@ -12,6 +12,7 @@ import { AdditionalBonusInput, InfoForClass, SkillRef, SkillStateCtx } from '../
 import { ASPD_CAP, sortSkill, StackLimits } from '../utils';
 import { AspdTable } from './_aspd-table';
 import { ClassName } from './_class-name';
+import { JOB_TIER_CAPS } from './_job-tier';
 import { rebalancedSkillCatalog } from '../skills/rebalance-2026';
 import type { SkillFormulaVersion } from '../skills/skill-formula-version';
 import { previewSkillsForClass, previewBuffsForClass, applyPreviewBuffs } from '../skills/preview-275';
@@ -377,18 +378,23 @@ export abstract class CharacterBase {
     return this._initialTraitPoint;
   }
 
+  /** The played job's own caps (see `_job-tier.ts`); no row means the 3rd/4th-job defaults. */
+  private get tierCaps() { return JOB_TIER_CAPS[this.className]; }
+
   get minMaxLevelCap() {
+    const caps = this.tierCaps;
+
     return {
-      minMaxLevel: this.minMaxLevel,
-      maxJob: this.maxJob,
+      minMaxLevel: caps?.minMaxLevel ?? this.minMaxLevel,
+      maxJob: caps?.maxJobLevel ?? this.maxJob,
     };
   }
 
-  get maxBaseStat() { return 130; }
+  get maxBaseStat() { return this.tierCaps?.maxBaseStat ?? 130; }
 
-  get maxAspd() { return ASPD_CAP; }
+  get maxAspd() { return this.tierCaps?.maxAspd ?? ASPD_CAP; }
 
-  get excludedJobLevels(): number[] { return [66, 67, 68, 69]; }
+  get excludedJobLevels(): number[] { return this.tierCaps?.excludedJobLevels ?? [66, 67, 68, 69]; }
 
   /** Older positional saves may precede newly appended class controls. */
   matchesSavedSkillCount(kind: 'active' | 'passive', count: number | undefined): boolean {

@@ -12,6 +12,20 @@ import { ElementalMaster } from './ElementalMaster';
 import { Genetic } from './Genetic';
 import { GuillotineCross } from './GuillotineCross';
 import { AssassinCross } from './AssassinCross';
+import { Bard } from './Bard';
+import { Champion } from './Champion';
+import { Creator } from './Creator';
+import { Dancer } from './Dancer';
+import { Gunslinger } from './Gunslinger';
+import { HighPriest } from './HighPriest';
+import { HighWizard } from './HighWizard';
+import { LordKnight } from './LordKnight';
+import { Ninja } from './Ninja';
+import { Paladin } from './Paladin';
+import { Scholar } from './Scholar';
+import { Sniper } from './Sniper';
+import { Stalker } from './Stalker';
+import { Whitesmith } from './Whitesmith';
 import { HyperNovice } from './HyperNovice';
 import { ImperialGuard } from './ImperialGuard';
 import { Inquisitor } from './Inquisitor';
@@ -33,10 +47,13 @@ import { SkyEmperor } from './SkyEmperor';
 import { Sorcerer } from './Sorcerer';
 import { SoulReaper } from './SoulReaper';
 import { SoulAscetic } from './SoulAscetic';
+import { SoulLinker } from './SoulLinker';
 import { SpiritHandler } from './SpiritHandler';
 import { StarEmperor } from './StarEmperor';
+import { StarGladiator } from './StarGladiator';
 import { SuperNovice } from './SuperNovice';
 import { Sura } from './Sura';
+import { Taekwondo } from './Taekwondo';
 import { Troubadour } from './Troubadour';
 import { Trouvere } from './Trouvere';
 import { Wanderer } from './Wanderer';
@@ -53,49 +70,66 @@ export type CharacterCtor = new () => CharacterBase;
  * and `CLASS_CTOR_BY_ID` — adding a class here is enough.
  */
 const CLASS_ORDER: ReadonlyArray<readonly [id: number, ctor: CharacterCtor]> = [
+  [4015, Paladin],
   [11, RoyalGuard],
   [4258, ImperialGuard],
+  [4008, LordKnight],
   [12, RuneKnight],
   [4252, DragonKnight],
 
+  [4009, HighPriest],
   [7, ArchBishop],
   [4256, Cardinal],
+  [4016, Champion],
   [13, Sura],
   [4262, Inquisitor],
 
+  [4012, Sniper],
   [2, Ranger],
   [4257, Windhawk],
+  [4020, Bard],
   [21, Minstrel],
   [4263, Troubadour],
+  [4021, Dancer],
   [22, Wanderer],
   [4264, Trouvere],
 
   [4013, AssassinCross],
   [5, GuillotineCross],
   [4254, ShadowCross],
+  [4018, Stalker],
   [4, ShadowChaser],
   [4260, AbyssChaser],
 
+  [4010, HighWizard],
   [6, Warlock],
   [4255, ArchMage],
+  [4017, Scholar],
   [8, Sorcerer],
   [4261, ElementalMaster],
 
+  [4011, Whitesmith],
   [10, Mechanic],
   [4253, Meister],
+  [4019, Creator],
   [9, Genetic],
   [4259, Biolo],
 
+  [4046, Taekwondo],
+  [4047, StarGladiator],
   [33, StarEmperor],
   [4302, SkyEmperor],
+  [4049, SoulLinker],
   [3, SoulReaper],
   [4303, SoulAscetic],
 
+  [25, Ninja],
   [18, Kagerou],
   [4304, Shinkiro],
   [17, Oboro],
   [4305, Shiranui],
 
+  [24, Gunslinger],
   [1, Rebellion],
   [4306, NightWatch],
 

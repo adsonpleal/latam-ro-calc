@@ -1,6 +1,7 @@
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { Archer } from './Archer';
+import { ARROW_VULCAN, melodicStrike } from '../skills/shared-skills';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 1, 0, 0, 0, 0],
@@ -75,13 +76,28 @@ const jobBonusTable: Record<number, [number, number, number, number, number, num
   70: [8, 12, 2, 5, 14, 4],
 };
 
+/**
+ * The transcendental Bard — the Menestrel (JT_BARD_H 4020), the class the Trovador is
+ * promoted from. Its job-bonus table runs to row 70 and it starts with the rebirth's 100
+ * status points, so what this file models is the trans tier, not the 2nd job it is named
+ * after. `CLASS_NAME` is what `AspdTable`, `JOB_TIER_CAPS` and `hp_sp_table.json` key on;
+ * `classNamesHi` keeps both names, so an item condition written either way still matches.
+ */
 export class Bard extends Archer {
-  protected override CLASS_NAME = ClassName.Bard;
+  protected override CLASS_NAME = ClassName.Clown;
   protected override JobBonusTable = jobBonusTable;
   protected override initialStatusPoint = 100;
 
   protected readonly classNamesHi = [ClassName.Bard, ClassName.HiClass, ClassName.Clown];
-  protected readonly atkSkillListHi: AtkSkillModel[] = [];
+  protected readonly atkSkillListHi: AtkSkillModel[] = [
+    // Flecha Melódica (BA_MUSICALSTRIKE) is a Bardo skill, declared here because the
+    // Menestrel is the lowest class the picker offers in this line; it reaches the
+    // Trovador and the Maestro by inheritance.
+    melodicStrike('Melody Strike'),
+    // Vulcão de Flechas (CG_ARROWVULCAN) is the Menestrel's and the Cigana's own skill;
+    // it used to be declared on the Trovador and the Musa.
+    ARROW_VULCAN,
+  ];
   protected readonly activeSkillListHi: ActiveSkillModel[] = [];
   protected readonly passiveSkillListHi: PassiveSkillModel[] = [];
 

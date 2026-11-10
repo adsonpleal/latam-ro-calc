@@ -6416,6 +6416,7 @@
         "jobs": {
             "Sage": true,
             "Professor": true,
+            "Scholar": true,
             "BabySage": true
         },
         "baseHp": {

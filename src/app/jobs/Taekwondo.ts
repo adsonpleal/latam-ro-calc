@@ -1,7 +1,47 @@
 import { ClassName } from './_class-name';
-import { ActiveSkillModel, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
+import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
 import { ElementType } from '../constants/element-type.const';
 import { InfoForClass } from '../models/info-for-class.model';
+import { atkSkillLevelList } from '../utils';
+
+/** The five kicks, in picker order; the Espiritualista line drops exactly this set. */
+export const TAEKWON_KICK_NAMES = ['Tornado Kick', 'Heel Drop', 'Roundhouse', 'Counter Kick', 'Flying Kick'] as const;
+
+/**
+ * The five kicks, which are the whole of the Taekwon's damage.
+ *
+ * Each ratio is the client's own `Nível l ATQ` table, level for level, and bROWiki prints
+ * the same figures (`taekwon-branch.spec.ts` checks the formula against both). There is no
+ * stat or base-level term: the percentage multiplies ATQ and nothing else.
+ *
+ * All four timing fields are zero because the client ships no "Informação de Conjuração"
+ * row for them at all — and that is the game, not missing data: a kick is not cast, it
+ * fires off an ordinary attack once its stance procs, so the attack motion is what paces
+ * it. bROWiki states the only exception, "ao entrar para o Ranking, a habilidade passa a
+ * ter 0,5 segundos de pós-conjuração", which the calculator has no ranking state to model.
+ */
+const kick = (
+  name: (typeof TAEKWON_KICK_NAMES)[number],
+  base: number,
+  step: number,
+  extra: Partial<AtkSkillModel> = {},
+): AtkSkillModel => {
+  const maxLv = 7;
+
+  return {
+    name,
+    label: `${name} Nv${maxLv}`,
+    value: `${name}==${maxLv}`,
+    levelList: atkSkillLevelList(name, maxLv),
+    acd: 0,
+    fct: 0,
+    vct: 0,
+    cd: 0,
+    isMelee: true,
+    formula: ({ skillLevel }: AtkSkillFormulaInput): number => base + step * skillLevel,
+    ...extra,
+  };
+};
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [1, 0, 0, 0, 0, 0],
@@ -82,7 +122,21 @@ export class Taekwondo extends CharacterBase {
   protected initialStatusPoint = 40;
 
   protected readonly classNames = [ClassName.Taekwondo];
-  protected readonly _atkSkillList: AtkSkillModel[] = [];
+  protected readonly _atkSkillList: AtkSkillModel[] = [
+    // 5x5 around the user, after the Postura do Tornado procs. Client id 413.
+    kick('Tornado Kick', 160, 20),
+    // Single target, chance of Atordoamento. Client id 415.
+    kick('Heel Drop', 160, 20),
+    // Single target plus a 3x3 knockback. Client id 417.
+    kick('Roundhouse', 190, 30),
+    // "Causa um dano físico que ignora a esquiva" — hence isHit100. Client id 419.
+    kick('Counter Kick', 190, 30, { isHit100: true }),
+    // The one kick the client does NOT call "corpo a corpo", and bROWiki gives it 10
+    // cells of range, so it lands as ranged damage. The client's extra damage "após um
+    // bloqueio de [Cambalhota] ou durante a [Corrida]" is base-level scaled but published
+    // nowhere, so only the plain form is modelled. Client id 421.
+    kick('Flying Kick', 30, 10, { isMelee: false }),
+  ];
   protected readonly _activeSkillList: ActiveSkillModel[] = [
     {
       label: 'Seven Wind',

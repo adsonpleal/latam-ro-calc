@@ -17,7 +17,10 @@ const skill = (
 /** Client (LATAM) ratios take precedence over server and translated descriptions. */
 export const ITEM_AUTO_CAST_SKILLS: AtkSkillModel[] = [
   skill('Tracking', 10, ElementType.Neutral, ({ skillLevel }) => 200 + 100 * skillLevel),
-  skill('Lightning Jolt', 5, ElementType.Wind, ({ skillLevel }) => 160 + 40 * skillLevel, { isMatk: true }),
+  // Descarga Elétrica: the client's own table is 200% at Nv1, +100% per level. The 160 + 40·Nv
+  // this used to carry matched no published source, and since the Ninja became playable the class
+  // entry shadows this one for a Ninja build — two different numbers for one skill.
+  skill('Lightning Jolt', 5, ElementType.Wind, ({ skillLevel }) => 100 + 100 * skillLevel, { isMatk: true }),
   skill('Bash', 10, ElementType.Neutral, ({ skillLevel }) => 100 + 30 * skillLevel, { isMelee: true }),
   skill('Magnum Break', 10, ElementType.Fire, ({ skillLevel }) => 100 + 20 * skillLevel, { isMelee: true }),
   skill('Napalm Beat', 10, ElementType.Ghost, ({ skillLevel }) => 70 + 10 * skillLevel, { isMatk: true }),

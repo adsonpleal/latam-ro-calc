@@ -106,9 +106,11 @@ describe('custom item tools', () => {
 describe('discovery', () => {
   it('list_classes stays small', async () => {
     const { data, bytes } = await call('list_classes');
-    expect(data.classes).toHaveLength(41);
+    expect(data.classes).toHaveLength(58);
     expect(data.classes[0]).toMatchObject({ id: expect.any(Number), name: expect.any(String), maxLevel: expect.any(Number) });
-    expect(bytes).toBeLessThan(8000);
+    // ~150 bytes per class, so the budget tracks the roster: 58 classes since the
+    // transclasses and the two expanded starters became playable.
+    expect(bytes).toBeLessThan(10000);
   });
 
   it('search_items covers both databases and flags which is which', async () => {

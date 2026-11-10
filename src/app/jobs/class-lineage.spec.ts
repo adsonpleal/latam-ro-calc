@@ -27,12 +27,16 @@ import { ClassName } from './_class-name';
 /** classId -> the ancestry that class must carry, in job order, ending with itself. */
 const LINEAGE: Record<number, ClassName[]> = {
   // Espadachim (JT_SWORDMAN)
+  4015: [ClassName.Swordman, ClassName.Crusader, ClassName.Paladin], // Paladino
+  4008: [ClassName.Swordman, ClassName.Knight, ClassName.LordKnight], // Lorde
   12: [ClassName.Swordman, ClassName.Knight, ClassName.LordKnight, ClassName.RuneKnight], // Cavaleiro Rúnico
   4252: [ClassName.Swordman, ClassName.Knight, ClassName.LordKnight, ClassName.RuneKnight, ClassName.DragonKnight], // Cavaleiro Draconiano
   11: [ClassName.Swordman, ClassName.Crusader, ClassName.Paladin, ClassName.RoyalGuard], // Guardião Real
   4258: [ClassName.Swordman, ClassName.Crusader, ClassName.Paladin, ClassName.RoyalGuard, ClassName.ImperialGuard], // Guardião Imperial
 
   // Mago (JT_MAGICIAN)
+  4010: [ClassName.Mage, ClassName.Wizard, ClassName.HighWizard], // Arquimago
+  4017: [ClassName.Mage, ClassName.Sage, ClassName.Scholar], // Professor
   6: [ClassName.Mage, ClassName.Wizard, ClassName.HighWizard, ClassName.Warlock], // Arcano
   4255: [ClassName.Mage, ClassName.Wizard, ClassName.HighWizard, ClassName.Warlock, ClassName.ArchMage], // Magus
   8: [ClassName.Mage, ClassName.Sage, ClassName.Scholar, ClassName.Sorcerer], // Feiticeiro
@@ -40,24 +44,32 @@ const LINEAGE: Record<number, ClassName[]> = {
 
   // Gatuno (JT_THIEF). Mercenário is JT_ASSASSIN, not the NPC mercenary.
   4013: [ClassName.Thief, ClassName.Assassin, ClassName.AssassinCross], // Algoz
+  4018: [ClassName.Thief, ClassName.Rogue, ClassName.Stalker], // Desordeiro
   5: [ClassName.Thief, ClassName.Assassin, ClassName.AssassinCross, ClassName.GuillotineCross], // Sicário
   4254: [ClassName.Thief, ClassName.Assassin, ClassName.AssassinCross, ClassName.GuillotineCross, ClassName.ShadowCross], // Executor
   4: [ClassName.Thief, ClassName.Rogue, ClassName.Stalker, ClassName.ShadowChaser], // Renegado
   4260: [ClassName.Thief, ClassName.Rogue, ClassName.Stalker, ClassName.ShadowChaser, ClassName.AbyssChaser], // Mandraque
 
   // Mercador (JT_MERCHANT)
+  4011: [ClassName.Merchant, ClassName.Blacksmith, ClassName.Whitesmith], // Mestre Ferreiro
+  4019: [ClassName.Merchant, ClassName.Alchemist, ClassName.Creator], // Criador
   10: [ClassName.Merchant, ClassName.Blacksmith, ClassName.Whitesmith, ClassName.Mechanic], // Mecânico
   4253: [ClassName.Merchant, ClassName.Blacksmith, ClassName.Whitesmith, ClassName.Mechanic, ClassName.Meister], // Engenheiro
   9: [ClassName.Merchant, ClassName.Alchemist, ClassName.Creator, ClassName.Genetic], // Bioquímico
   4259: [ClassName.Merchant, ClassName.Alchemist, ClassName.Creator, ClassName.Genetic, ClassName.Biolo], // Cientista
 
   // Noviço (JT_ACOLYTE) — the Acolyte, not the Aprendiz.
+  4009: [ClassName.Acolyte, ClassName.Priest, ClassName.HighPriest], // Sumo Sacerdote
+  4016: [ClassName.Acolyte, ClassName.Monk, ClassName.Champion], // Mestre
   7: [ClassName.Acolyte, ClassName.Priest, ClassName.HighPriest, ClassName.ArchBishop], // Arcebispo
   4256: [ClassName.Acolyte, ClassName.Priest, ClassName.HighPriest, ClassName.ArchBishop, ClassName.Cardinal], // Cardeal
   13: [ClassName.Acolyte, ClassName.Monk, ClassName.Champion, ClassName.Sura], // Shura
   4262: [ClassName.Acolyte, ClassName.Monk, ClassName.Champion, ClassName.Sura, ClassName.Inquisitor], // Inquisidor
 
   // Arqueiro (JT_ARCHER). Bardo -> Menestrel -> Trovador, Odalisca -> Cigana -> Musa.
+  4012: [ClassName.Archer, ClassName.Hunter, ClassName.Sniper], // Atirador de Elite
+  4020: [ClassName.Archer, ClassName.Bard, ClassName.Clown], // Menestrel
+  4021: [ClassName.Archer, ClassName.Dancer, ClassName.Gypsy], // Cigana
   2: [ClassName.Archer, ClassName.Hunter, ClassName.Sniper, ClassName.Ranger], // Sentinela
   4257: [ClassName.Archer, ClassName.Hunter, ClassName.Sniper, ClassName.Ranger, ClassName.Windhawk], // Falcão do Vento
   21: [ClassName.Archer, ClassName.Bard, ClassName.Clown, ClassName.Minstrel], // Trovador
@@ -66,15 +78,20 @@ const LINEAGE: Record<number, ClassName[]> = {
   4264: [ClassName.Archer, ClassName.Dancer, ClassName.Gypsy, ClassName.Wanderer, ClassName.Trouvere], // Diva
 
   // Expanded classes — no rebirth, so no transcendent step.
+  4046: [ClassName.Taekwondo], // Taekwon
+  4047: [ClassName.Taekwondo, ClassName.StarGladiator], // Mestre Taekwon
+  4049: [ClassName.Taekwondo, ClassName.SoulLinker], // Espiritualista
   33: [ClassName.Taekwondo, ClassName.StarGladiator, ClassName.StarEmperor], // Mestre Estelar
   4302: [ClassName.Taekwondo, ClassName.StarGladiator, ClassName.StarEmperor, ClassName.SkyEmperor], // Mestre Celestial
   3: [ClassName.Taekwondo, ClassName.SoulLinker, ClassName.SoulReaper], // Ceifador de Almas
   4303: [ClassName.Taekwondo, ClassName.SoulLinker, ClassName.SoulReaper, ClassName.SoulAscetic], // Asceta das Almas
+  25: [ClassName.Ninja], // Ninja
   18: [ClassName.Ninja, ClassName.Kagerou], // Kagerou
   4304: [ClassName.Ninja, ClassName.Kagerou, ClassName.Shinkiro], // Shinkiro
   17: [ClassName.Ninja, ClassName.Oboro], // Oboro
   4305: [ClassName.Ninja, ClassName.Oboro, ClassName.Shiranui], // Shiranui
-  1: [ClassName.Gunslinger, ClassName.Rebellion], // Insurgente — Justiceiro is JT_GUNSLINGER
+  24: [ClassName.Gunslinger], // Justiceiro (JT_GUNSLINGER)
+  1: [ClassName.Gunslinger, ClassName.Rebellion], // Insurgente
   4306: [ClassName.Gunslinger, ClassName.Rebellion, ClassName.NightWatch], // Guerrilheiro
   30: [ClassName.Novice, ClassName.SuperNovice], // Superaprendiz — Aprendiz is JT_NOVICE
   4307: [ClassName.Novice, ClassName.SuperNovice, ClassName.HyperNovice], // Hiperaprendiz
@@ -111,10 +128,10 @@ describe('class lineage', () => {
         .map(Number)
         .sort((a, b) => a - b);
 
-    expect(reaches(ClassName.Bard)).toEqual([21, 4263]); // Trovador, Maestro
-    expect(reaches(ClassName.Clown)).toEqual([21, 4263]);
-    expect(reaches(ClassName.Dancer)).toEqual([22, 4264]); // Musa, Diva
-    expect(reaches(ClassName.Gypsy)).toEqual([22, 4264]);
+    expect(reaches(ClassName.Bard)).toEqual([21, 4020, 4263]); // Trovador, Menestrel, Maestro
+    expect(reaches(ClassName.Clown)).toEqual([21, 4020, 4263]);
+    expect(reaches(ClassName.Dancer)).toEqual([22, 4021, 4264]); // Musa, Cigana, Diva
+    expect(reaches(ClassName.Gypsy)).toEqual([22, 4021, 4264]);
   });
 
   it('lets a base-job token reach the whole line below it', () => {
@@ -122,8 +139,8 @@ describe('class lineage', () => {
     const reaches = (token: ClassName) => Object.keys(LINEAGE).filter((id) => lineageOf(id).includes(token)).length;
 
     expect(reaches(ClassName.Assassin)).toBe(3); // Algoz + Sicário + Executor
-    expect(reaches(ClassName.Thief)).toBe(5); // …plus Renegado + Mandraque
-    expect(reaches(ClassName.Acolyte)).toBe(4); // Arcebispo, Cardeal, Shura, Inquisidor
-    expect(reaches(ClassName.Priest)).toBe(2); // Arcebispo, Cardeal — never the Monk side
+    expect(reaches(ClassName.Thief)).toBe(6); // …plus Desordeiro + Renegado + Mandraque
+    expect(reaches(ClassName.Acolyte)).toBe(6); // Sumo Sacerdote, Arcebispo, Cardeal, Mestre, Shura, Inquisidor
+    expect(reaches(ClassName.Priest)).toBe(3); // Sumo Sacerdote, Arcebispo, Cardeal — never the Monk side
   });
 });

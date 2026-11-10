@@ -1,5 +1,6 @@
 import { ClassName } from './_class-name';
-import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
+import { atkSkillLevelList } from '../utils';
+import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { Acolyte } from './Acolyte';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
@@ -81,7 +82,56 @@ export class Champion extends Acolyte {
   protected override initialStatusPoint = 100;
 
   protected readonly classNamesHi = [ClassName.Monk, ClassName.HiClass, ClassName.Champion];
-  protected readonly atkSkillListHi: AtkSkillModel[] = [];
+  /**
+   * The Mestre's three offensive skills. Punho Supremo de Asura (MO_EXTREMITYFIST) is the
+   * fourth and stays on the Shura, whose definition reads that class's own sphere and
+   * current-SP inputs; moving it needs those inputs moved too, and a replay to confirm it.
+   *
+   * The client ships no Conjuração/Espera row for Punho do Tigre or Combo Esmagador —
+   * both are combo follow-ups, not cast skills (see `skill-delay.spec.ts`).
+   */
+  protected readonly atkSkillListHi: AtkSkillModel[] = [
+    {
+      // Golpe da Palma em Fúria (CH_PALMSTRIKE, id 370): 200% per level.
+      name: 'Palm Strike',
+      label: 'Palm Strike Lv5',
+      value: 'Palm Strike==5',
+      levelList: atkSkillLevelList('Palm Strike', 5),
+      acd: 0.3,
+      fct: 0,
+      vct: 0,
+      cd: 0,
+      isMelee: true,
+      formula: ({ skillLevel }: AtkSkillFormulaInput): number => skillLevel * 200,
+    },
+    {
+      // Punho do Tigre (CH_TIGERFIST, id 371): 650% at Nv1, +150% per level, scaled by
+      // base level ("O nível de base influencia no dano causado").
+      name: 'Tiger Fist',
+      label: 'Tiger Fist Lv5',
+      value: 'Tiger Fist==5',
+      levelList: atkSkillLevelList('Tiger Fist', 5),
+      acd: 0,
+      fct: 0,
+      vct: 0,
+      cd: 0,
+      isMelee: true,
+      formula: ({ model, skillLevel }: AtkSkillFormulaInput): number => (500 + skillLevel * 150) * (model.level / 100),
+    },
+    {
+      // Combo Esmagador (CH_CHAINCRUSH, id 372): 200% per level, scaled by base level.
+      name: 'Chain Crush Combo',
+      label: 'Chain Crush Combo Lv10',
+      value: 'Chain Crush Combo==10',
+      levelList: atkSkillLevelList('Chain Crush Combo', 10),
+      acd: 0,
+      fct: 0,
+      vct: 0,
+      cd: 0,
+      isMelee: true,
+      formula: ({ model, skillLevel }: AtkSkillFormulaInput): number => skillLevel * 200 * (model.level / 100),
+    },
+  ];
   protected readonly activeSkillListHi: ActiveSkillModel[] = [];
   protected readonly passiveSkillListHi: PassiveSkillModel[] = [];
 

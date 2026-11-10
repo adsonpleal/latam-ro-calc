@@ -1,9 +1,8 @@
 import { ClassName } from './_class-name';
-import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
+import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { CROSS_SLASH, CROSS_WOUND } from '../skills/shared-skills';
 import { Ninja } from './Ninja';
 import { ShadowWarrior } from '../constants/share-active-skills/shadow-warrior';
-import { ElementType } from '../constants/element-type.const';
 import { AdditionalBonusInput, InfoForClass } from '../models/info-for-class.model';
 import { floor } from '../utils';
 import { DistortedCrescent, S16thNight } from '../constants/share-active-skills';
@@ -89,122 +88,12 @@ export class Oboro extends Ninja {
 
   private readonly classNames2nd = [ClassName.Oboro];
 
-  private readonly atkSkillList2nd: AtkSkillModel[] = [
-    {
-      label: 'Flaming Petals Lv10',
-      name: 'Flaming Petals',
-      value: 'Flaming Petals==10',
-      acd: 0,
-      fct: 1.4,
-      vct: 5.6,
-      cd: 0,
-      element: ElementType.Fire,
-      isMatk: true,
-      totalHit: 10,
-      formula: (): number => {
-        return 90;
-      },
-    },
-    {
-      label: 'Freezing Spear Lv10',
-      name: 'Freezing Spear',
-      value: 'Freezing Spear==10',
-      acd: 0,
-      fct: 1.4,
-      vct: 5.6,
-      cd: 0,
-      element: ElementType.Water,
-      isMatk: true,
-      totalHit: 12,
-      formula: (): number => {
-        return 70;
-      },
-    },
-    {
-      label: 'Freezing Spear Lv10 (in Watery Evasion)',
-      name: 'Freezing Spear',
-      value: 'Freezing Spear Water==10',
-      acd: 0,
-      fct: 1.4,
-      vct: 5.6,
-      cd: 0,
-      element: ElementType.Water,
-      isMatk: true,
-      totalHit: 12,
-      formula: (input: AtkSkillFormulaInput): number => {
-        const { skillLevel } = input;
-
-        return 70 + skillLevel * 2;
-      },
-    },
-    {
-      label: 'Wind Blade Lv10',
-      name: 'Wind Blade',
-      value: 'Wind Blade==10',
-      acd: 0,
-      fct: 1.1,
-      vct: 4.4,
-      cd: 0,
-      element: ElementType.Wind,
-      isMatk: true,
-      totalHit: 6,
-      formula: (): number => {
-        return 150;
-      },
-    },
-    {
-      label: 'Exploding Dragon Lv5',
-      name: 'Exploding Dragon',
-      value: 'Exploding Dragon==5',
-      acd: 0.5,
-      fct: 0.8,
-      vct: 2,
-      cd: 0.3,
-      element: ElementType.Fire,
-      isMatk: true,
-      hit: 3,
-      formula: (input: AtkSkillFormulaInput): number => {
-        const { skillLevel } = input;
-
-        return 150 + skillLevel * 150;
-      },
-    },
-    {
-      label: 'Snow Flake Draft Lv5',
-      name: 'Snow Flake Draft',
-      value: 'Snow Flake Draft==5',
-      acd: 0.5,
-      fct: 0.8,
-      vct: 2.5,
-      cd: 0.3,
-      element: ElementType.Water,
-      isMatk: true,
-      hit: 5,
-      formula: (input: AtkSkillFormulaInput): number => {
-        const { skillLevel } = input;
-
-        return 150 + skillLevel * 150;
-      },
-    },
-    {
-      label: 'First Wind Lv5',
-      name: 'First Wind',
-      value: 'First Wind==5',
-      acd: 0,
-      fct: 0.3,
-      vct: 1.2,
-      cd: 0,
-      element: ElementType.Wind,
-      isMatk: true,
-      hit: 5,
-      formula: (input: AtkSkillFormulaInput): number => {
-        const { skillLevel } = input;
-
-        return 100 + skillLevel * 100;
-      },
-    },
-    CROSS_SLASH,
-  ];
+  /**
+   * The seven NJ_ magic skills that used to live here moved up to Ninja.ts: the client's
+   * `JT_NINJA` tree owns every one of them, so the Kagerou and the Shinkiro were
+   * missing skills the Oboro had. Corte das Sombras is the Oboro's own and stays.
+   */
+  private readonly atkSkillList2nd: AtkSkillModel[] = [CROSS_SLASH];
 
   private readonly activeSkillList2nd: ActiveSkillModel[] = [
     ShadowWarrior,
@@ -213,61 +102,9 @@ export class Oboro extends Ninja {
     CROSS_WOUND,
   ];
 
+  // The learned-level inputs for Pétalas Flamejantes, Lança Congelante and Lâmina de
+  // Vento went up with their attacks (Ninja.ts).
   private readonly passiveSkillList2nd: PassiveSkillModel[] = [
-    {
-      label: 'Flaming Petals',
-      name: 'Flaming Petals',
-      inputType: 'dropdown',
-      dropdown: [
-        { label: '-', value: 0, isUse: false },
-        { label: 'Nv 1', value: 1, isUse: true },
-        { label: 'Nv 2', value: 2, isUse: true },
-        { label: 'Nv 3', value: 3, isUse: true },
-        { label: 'Nv 4', value: 4, isUse: true },
-        { label: 'Nv 5', value: 5, isUse: true },
-        { label: 'Nv 6', value: 6, isUse: true },
-        { label: 'Nv 7', value: 7, isUse: true },
-        { label: 'Nv 8', value: 8, isUse: true },
-        { label: 'Nv 9', value: 9, isUse: true },
-        { label: 'Nv 10', value: 10, isUse: true },
-      ],
-    },
-    {
-      label: 'Freezing Spear',
-      name: 'Freezing Spear',
-      inputType: 'dropdown',
-      dropdown: [
-        { label: '-', value: 0, isUse: false },
-        { label: 'Nv 1', value: 1, isUse: true },
-        { label: 'Nv 2', value: 2, isUse: true },
-        { label: 'Nv 3', value: 3, isUse: true },
-        { label: 'Nv 4', value: 4, isUse: true },
-        { label: 'Nv 5', value: 5, isUse: true },
-        { label: 'Nv 6', value: 6, isUse: true },
-        { label: 'Nv 7', value: 7, isUse: true },
-        { label: 'Nv 8', value: 8, isUse: true },
-        { label: 'Nv 9', value: 9, isUse: true },
-        { label: 'Nv 10', value: 10, isUse: true },
-      ],
-    },
-    {
-      label: 'Wind Blade',
-      name: 'Wind Blade',
-      inputType: 'dropdown',
-      dropdown: [
-        { label: '-', value: 0, isUse: false },
-        { label: 'Nv 1', value: 1, isUse: true },
-        { label: 'Nv 2', value: 2, isUse: true },
-        { label: 'Nv 3', value: 3, isUse: true },
-        { label: 'Nv 4', value: 4, isUse: true },
-        { label: 'Nv 5', value: 5, isUse: true },
-        { label: 'Nv 6', value: 6, isUse: true },
-        { label: 'Nv 7', value: 7, isUse: true },
-        { label: 'Nv 8', value: 8, isUse: true },
-        { label: 'Nv 9', value: 9, isUse: true },
-        { label: 'Nv 10', value: 10, isUse: true },
-      ],
-    },
     {
       label: 'Illusion - Bewitch',
       name: 'Illusion - Bewitch',

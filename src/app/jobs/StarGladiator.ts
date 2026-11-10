@@ -2,6 +2,51 @@ import { Taekwondo } from './Taekwondo';
 import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
 
+/**
+ * Calor Solar / Lunar / Estelar — the Mestre Taekwon's only damage.
+ *
+ * A standing heat wave that hits whatever walks into it. The client's own table prints
+ * duration and nothing else, so the ratio comes from bROWiki, which states it in words
+ * for all three: "causa dano físico corpo a corpo equivalente a 100% do ATQ". It does not
+ * change with the skill level — only the duration does (10 / 20 / 60 s) — so the picker
+ * offers the single level the calculator can say anything about.
+ *
+ * The map restriction rides in `labelSuffix` because it decides whether the skill can be
+ * used at all and the calculator has no map: each one works only on a SOLAR / LUNAR /
+ * ESTELAR map, and none of them damages other players. It has to be the suffix and not
+ * the label: `localize` replaces `label` wholesale with the pt-BR name from the client,
+ * and only `labelSuffix` survives that swap.
+ *
+ * The client ships no cast or delay row for them, which fits a toggled field rather than
+ * a cast: what paces the hits is the monster walking back in. That interval is not
+ * published anywhere, so `timingUnknown` withholds a DPS rather than reading four zeros
+ * as "spammable at full Vel.Atq." — damage per use is all this can honestly state.
+ * https://browiki.org/wiki/Calor_Solar · /Calor_Lunar · /Calor_Estelar
+ */
+export const STAR_GLADIATOR_HEATS = [
+  ['Solar Heat', 'SOLAR'],
+  ['Lunar Heat', 'LUNAR'],
+  ['Stellar Heat', 'ESTELAR'],
+] as const;
+
+const heat = ([name, map]: (typeof STAR_GLADIATOR_HEATS)[number]): AtkSkillModel => {
+  const maxLv = 3;
+
+  return {
+    name,
+    label: `${name} Nv${maxLv}`,
+    labelSuffix: `mapa ${map}`,
+    value: `${name}==${maxLv}`,
+    acd: 0,
+    fct: 0,
+    vct: 0,
+    cd: 0,
+    timingUnknown: true,
+    isMelee: true,
+    formula: (): number => 100,
+  };
+};
+
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [1, 0, 0, 0, 0, 0],
   2: [2, 0, 0, 0, 0, 0],
@@ -82,7 +127,7 @@ export class StarGladiator extends Taekwondo {
 
   protected readonly classNamesHi = [ClassName.StarGladiator];
 
-  protected readonly atkSkillListHi: AtkSkillModel[] = [];
+  protected readonly atkSkillListHi: AtkSkillModel[] = STAR_GLADIATOR_HEATS.map(heat);
 
   protected readonly activeSkillListHi: ActiveSkillModel[] = [
     // Kihop does NOT belong here: the client describes it as "Tipo: Passiva" and it

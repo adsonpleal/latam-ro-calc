@@ -55,6 +55,27 @@ describe('calcAspd — Super Novice Rod penalty is applied', () => {
 // for a class are intentionally omitted (nothing to assert there).
 describe('AspdTable — bROWiki-authoritative values', () => {
   const expected: Record<string, Record<string, number>> = {
+    // The thirteen transclasses and the two expanded starters, each from its own bROWiki
+    // "Velocidade de ataque" table. Every weapon bROWiki lists for the class is pinned
+    // here, so a later edit cannot quietly drop one into the 0 penalty the way the Super
+    // Novice's Cajado was dropped.
+    LordKnight: { base: 156, shield: -5, Dagger: -9, Sword: -5, 'Two-Handed Sword': -12, Mace: -5, Axe: -10, 'Two-Handed Axe': -15, Spear: -15, 'Two-Handed Spear': -25 },
+    Paladin: { base: 156, shield: -5, Dagger: -8, Sword: -3, 'Two-Handed Sword': -15, Mace: -5, Axe: -10, 'Two-Handed Axe': -15, Spear: -13, 'Two-Handed Spear': -12 },
+    HighPriest: { base: 156, shield: -5, Mace: -3, Rod: -20, 'Two-Handed Rod': -20, Book: -4, Fistweapon: -20 },
+    Champion: { base: 156, shield: -5, Mace: -3, Rod: -20, 'Two-Handed Rod': -18, Fistweapon: 0 },
+    HighWizard: { base: 146, shield: -8, Dagger: -4, Rod: -3, 'Two-Handed Rod': -3 },
+    // The one class whose Livro is a bonus rather than a penalty.
+    Scholar: { base: 151, shield: -10, Dagger: -8, Rod: -10, 'Two-Handed Rod': -10, Book: 2 },
+    Sniper: { base: 156, shield: -9, Dagger: -13, Bow: -8 },
+    Clown: { base: 156, shield: -7, Dagger: -13, Bow: -8, Instrument: -5 },
+    Gypsy: { base: 156, shield: -7, Dagger: -13, Bow: -8, Whip: -5 },
+    Whitesmith: { base: 156, shield: -5, Dagger: -10, Sword: -10, Mace: -8, Axe: -6, 'Two-Handed Axe': -13 },
+    Creator: { base: 156, shield: -4, Dagger: -10, Sword: -5, Mace: -5, Axe: -5, 'Two-Handed Axe': -12 },
+    Stalker: { base: 156, shield: -5, Dagger: -5, Sword: -10, Bow: -10 },
+    // A different table from the Insurgente's, and the only row in the file where a
+    // weapon is faster than bare hands.
+    Gunslinger: { base: 146, shield: -6, Revolver: 5, Rifle: -5, 'Gatling Gun': 0, Shotgun: -40, 'Grenade Launcher': -50 },
+    Ninja: { base: 156, shield: -6, Dagger: -3, Shuriken: -15 },
     // Regression: Rod (Cajado) was missing entirely, so it applied 0 penalty and
     // inflated ASPD instead of -25. Screenshot ground truth: Adaga -15, Espada -17,
     // Maça -10, Machado -10, Cajado -25.
