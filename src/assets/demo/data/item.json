@@ -27214,19 +27214,22 @@
         "1"
       ],
       "atk": [
-        "EQUIP[Giant God Snake Skin]SUM[str==20]---5"
+        "EQUIP_ID[20717||20718]SUM[str==20]---5"
       ],
-      "acd": [
-        "EQUIP[Giant God Snake Skin]SUM[agi==20]---3"
+      "aspdPercent": [
+        "EQUIP_ID[20717||20718]SUM[agi==20]---3"
+      ],
+      "subele_neutral": [
+        "EQUIP_ID[20717||20718]SUM[vit==20]---1"
       ],
       "vct": [
-        "EQUIP[Giant God Snake Skin]SUM[int==20]---4"
+        "EQUIP_ID[20717||20718]SUM[int==20]---4"
       ],
       "range": [
-        "EQUIP[Giant God Snake Skin]SUM[dex==20]---1"
+        "EQUIP_ID[20717||20718]SUM[dex==20]---1"
       ],
       "criDmg": [
-        "EQUIP[Giant God Snake Skin]SUM[luk==20]---3"
+        "EQUIP_ID[20717||20718]SUM[luk==20]---3"
       ]
     }
   },
