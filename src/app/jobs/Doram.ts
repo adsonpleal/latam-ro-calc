@@ -1,5 +1,6 @@
 import { learnedSkill } from '../constants/share-passive-skills/learned-skill';
 import { ElementType } from '../constants/element-type.const';
+import type { SKILL_NAME } from '../constants/skill-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
 
@@ -85,6 +86,38 @@ export const ColorOfHyunrokValue = {
   6: ElementType.Holy,
   7: ElementType.Neutral,
 } as const;
+
+/** A one-level learned passive, shaped like its sibling `Sprit Of Life`. */
+const invocationPassive = (name: SKILL_NAME): PassiveSkillModel => ({
+  name,
+  label: name,
+  inputType: 'selectButton',
+  dropdown: [
+    { label: 'Sim', value: 1, skillLv: 1, isUse: true },
+    { label: 'Não', value: 0, isUse: false },
+  ],
+});
+
+/**
+ * Invocação da Selva (SU_SPIRITOFLAND 5054) and Invocação das Marés (SU_SPIRITOFSEA 5056),
+ * the Selva and Maré capstones of the family whose Fauna branch — Invocação da Fauna, the
+ * `Sprit Of Life` above — was the only one registered. Reported missing on the public board
+ * (card T7UVxhArHcwjN9RcSbH6).
+ *
+ * Neither carries a bonus this engine can apply, and both are here as learned levels only:
+ *
+ *   Marés  adds heal effectiveness to Camarão Fresquinho and Festa do Camarão, +120 s to
+ *          Chuva de Mariscos' duration, -5 s to Dádiva do Atum's cooldown and durability to
+ *          Proteção da Orla's tuna. Duration, cooldown and a support skill's own healing are
+ *          none of them stages of the damage calculation.
+ *   Selva  grants its ATQM +1 per base level for the 3 seconds that follow a Floresta cast,
+ *          so it is a timed window gated on another skill's use, not a standing bonus. Left
+ *          as a level rather than turned into a permanent toggle, which would overstate it.
+ */
+const INVOCATION_PASSIVES: PassiveSkillModel[] = [
+  invocationPassive('Spirit Of Land'),
+  invocationPassive('Spirit Of Sea'),
+];
 
 export class Doram extends CharacterBase {
   protected override CLASS_NAME = ClassName.Doram;
@@ -403,4 +436,18 @@ export class Doram extends CharacterBase {
     learnedSkill('Catnip Meteor', 5),
     learnedSkill('Lunatic Carrot Beat', 5),
   ];
+
+  // Appended after the final job's catalog, as AssassinCross does for Sonic Blow, so every
+  // legacy Invocador / Animista positional save keeps its indices. The Animista is what
+  // forces this: inheritSkills pushes its own passives after this list, so putting these two
+  // in _passiveSkillList would shift all three of them.
+  override get passiveSkills() {
+    return [...super.passiveSkills, ...INVOCATION_PASSIVES];
+  }
+
+  // A save written before the pair existed is exactly that much shorter, and every index in it
+  // still addresses the control it always did.
+  override matchesSavedSkillCount(kind: 'active' | 'passive', count: number | undefined): boolean {
+    return super.matchesSavedSkillCount(kind, count) || (kind === 'passive' && count === this.passiveSkills.length - INVOCATION_PASSIVES.length);
+  }
 }

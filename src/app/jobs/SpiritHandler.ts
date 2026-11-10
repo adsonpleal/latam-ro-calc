@@ -1,6 +1,6 @@
 import { JOB_4_MAX_JOB_LEVEL, JOB_4_MIN_MAX_LEVEL } from '../app-config';
 import { ElementType } from '../constants';
-import { floor, genSkillList } from '../utils';
+import { floor, genSkillList, sortSkill } from '../utils';
 import { ColorOfHyunrokValue, Doram } from './Doram';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
@@ -150,6 +150,29 @@ const traitBonusTable: Record<number, [number, number, number, number, number, n
   69: [9, 6, 5, 9, 7, 4],
   70: [9, 6, 5, 9, 7, 4],
 };
+
+/**
+ * Aliança Animal (SH_TEMPORARY_COMMUNION 5447), reported missing on the public board
+ * (card T7UVxhArHcwjN9RcSbH6). The client table and bROWiki agree on it: P.ATQ, S.ATQM and
+ * C.Mais +3 per level, for 30 seconds per level.
+ *
+ * C.Mais — Cura Extra, the client's H.Plus — has no key here: this engine computes damage,
+ * and its healing keys are display-only, so there is no stage for it to enter. The two
+ * attack stats are the whole of what the buff contributes to a damage number.
+ *
+ * Sorted with the comparator the base getter applies, because it is appended past that pass
+ * (see `activeSkills` below) and would otherwise be the one dropdown in the panel ordered
+ * differently from its neighbours.
+ */
+const TEMPORARY_COMMUNION: ActiveSkillModel = {
+  name: 'Temporary Communion',
+  label: 'Temporary Communion',
+  inputType: 'dropdown',
+  dropdown: genSkillList(5, (lv) => ({ pAtk: lv * 3, sMatk: lv * 3 })).sort(sortSkill),
+};
+
+/** Named so `matchesSavedSkillCount` counts the appended tail instead of a bare literal. */
+const APPENDED_ACTIVES: ActiveSkillModel[] = [TEMPORARY_COMMUNION];
 
 export class SpiritHandler extends Doram {
   protected override CLASS_NAME = ClassName.SpiritHandler;
@@ -328,5 +351,18 @@ export class SpiritHandler extends Doram {
       passiveSkillList: this.passiveSkillList4th,
       classNames: this.classNames4th,
     });
+  }
+
+  // Appended past inheritSkills, which pushes the preview buffs after activeSkillList4th, so
+  // this control is genuinely last and every legacy Animista positional save keeps its
+  // indices. Doram's own appended passives answer the 'passive' half.
+  override get activeSkills() {
+    return [...super.activeSkills, ...APPENDED_ACTIVES];
+  }
+
+  // Reads like Doram's, one list down: the inherited call answers the exact match and the
+  // 'passive' half, and this adds the one older length the appended control leaves behind.
+  override matchesSavedSkillCount(kind: 'active' | 'passive', count: number | undefined): boolean {
+    return super.matchesSavedSkillCount(kind, count) || (kind === 'active' && count === this.activeSkills.length - APPENDED_ACTIVES.length);
   }
 }
