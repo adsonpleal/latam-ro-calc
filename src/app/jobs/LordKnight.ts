@@ -1,5 +1,7 @@
 import { ClassName } from './_class-name';
-import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
+import { atkSkillLevelList } from '../utils';
+import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
+import { requiresWeaponType } from '../constants/weapon-type-mapper';
 import { Swordman } from './Swordman';
 import { SpearMastery } from '../constants/share-passive-skills';
 import { CavalierMastery } from '../constants/share-passive-skills/cavalier-mastery';
@@ -83,7 +85,40 @@ export class LordKnight extends Swordman {
   protected override initialStatusPoint = 100;
 
   protected readonly classNamesHi = [ClassName.Knight, ClassName.HiClass, ClassName.LordKnight];
-  protected readonly atkSkillListHi: AtkSkillModel[] = [];
+  /**
+   * The Lorde's own two offensive skills. Perfurar em Espiral (LK_SPIRALPIERCE) is the
+   * third and is deliberately absent: its damage scales with the weapon's weight, which
+   * no formula in this engine reads, and the client prints the ratio before that factor.
+   */
+  protected readonly atkSkillListHi: AtkSkillModel[] = [
+    {
+      // Golpe Traumático (LK_HEADCRUSH, id 398): 140% at Nv1, +40% per level.
+      name: 'Head Crush',
+      label: 'Head Crush Lv5',
+      value: 'Head Crush==5',
+      levelList: atkSkillLevelList('Head Crush', 5),
+      acd: 0.5,
+      fct: 0,
+      vct: 0,
+      cd: 0,
+      formula: ({ skillLevel }: AtkSkillFormulaInput): number => 100 + skillLevel * 40,
+    },
+    {
+      // Ataque Vital (LK_JOINTBEAT, id 399): 60% at Nv1, +10% per level. The client's
+      // pós-conjuração column has five rows for a ten-level skill — 0,8s four times then
+      // 1,0s — so the levels past it keep that last value.
+      name: 'Vital Strike',
+      label: 'Vital Strike Lv10',
+      value: 'Vital Strike==10',
+      levelList: atkSkillLevelList('Vital Strike', 10),
+      acd: (skillLevel: number): number => (skillLevel <= 4 ? 0.8 : 1),
+      fct: 0,
+      vct: 0,
+      cd: 0,
+      verifyItemFn: requiresWeaponType('spear', 'twohandSpear'),
+      formula: ({ skillLevel }: AtkSkillFormulaInput): number => 50 + skillLevel * 10,
+    },
+  ];
   protected readonly activeSkillListHi: ActiveSkillModel[] = [
     {
       label: 'Two hand Quick 10',

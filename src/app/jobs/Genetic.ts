@@ -85,25 +85,9 @@ export class Genetic extends Creator {
   protected override JobBonusTable = jobBonusTable;
 
   private readonly classNames3rd = [ClassName.Only_3rd, ClassName.Genetic];
+  // Bomba Ácida moved down to the Criador (Creator.ts), whose tier owns it
+  // (CR_ACIDDEMONSTRATION); it still reaches the Bioquímico and the Cientista.
   private readonly atkSkillList3rd: AtkSkillModel[] = [
-    {
-      name: 'Acid Bomb',
-      label: 'Acid Bomb Lv10',
-      value: 'Acid Bomb==10',
-      values: ['[Improved] Acid Bomb==10'],
-      acd: 1,
-      fct: 1,
-      vct: 0,
-      cd: 0.15,
-      isExcludeCannanball: true,
-      formula: (input: AtkSkillFormulaInput): number => {
-        const { skillLevel, model, status, monster } = input;
-        const baseLevel = model.level;
-        const bonusStat = status.totalInt + monster.data.vit;
-
-        return (skillLevel * 200 + bonusStat) * (baseLevel / 100);
-      },
-    },
     {
       name: 'Cart Cannon',
       label: 'Cart Cannon Lv5',

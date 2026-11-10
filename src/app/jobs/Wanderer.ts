@@ -1,7 +1,7 @@
 import { learnedSkill } from '../constants/share-passive-skills/learned-skill';
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
-import { ARROW_VULCAN, METALIC_SOUND, REVERBERATION, SEVERE_RAINSTORM } from '../skills/shared-skills';
+import { METALIC_SOUND, REVERBERATION, SEVERE_RAINSTORM } from '../skills/shared-skills';
 import { AdditionalBonusInput, InfoForClass } from '../models/info-for-class.model';
 import {
   CirclingNatureFn,
@@ -95,7 +95,8 @@ export class Wanderer extends Dancer {
   protected override JobBonusTable = jobBonusTable;
 
   private readonly classNames3rd = [ClassName.Only_3rd, ClassName.Wanderer];
-  private readonly atkSkillList3rd: AtkSkillModel[] = [ARROW_VULCAN, METALIC_SOUND, SEVERE_RAINSTORM, REVERBERATION];
+  // Vulcão de Flechas moved down to the Cigana (Dancer.ts) — see Minstrel.ts.
+  private readonly atkSkillList3rd: AtkSkillModel[] = [METALIC_SOUND, SEVERE_RAINSTORM, REVERBERATION];
 
   private readonly activeSkillList3rd: ActiveSkillModel[] = [SwingDanceFn(), BragisPoemFn()];
 

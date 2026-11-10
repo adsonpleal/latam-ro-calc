@@ -1,7 +1,7 @@
 import { learnedSkill } from '../constants/share-passive-skills/learned-skill';
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
-import { ARROW_VULCAN, METALIC_SOUND, REVERBERATION, SEVERE_RAINSTORM } from '../skills/shared-skills';
+import { METALIC_SOUND, REVERBERATION, SEVERE_RAINSTORM } from '../skills/shared-skills';
 import { InfoForClass } from '../models/info-for-class.model';
 import {
   CirclingNatureFn,
@@ -96,7 +96,9 @@ export class Minstrel extends Bard {
 
   private readonly classNames3rd = [ClassName.Only_3rd, ClassName.Minstrel];
 
-  private readonly atkSkillList3rd: AtkSkillModel[] = [ARROW_VULCAN, METALIC_SOUND, SEVERE_RAINSTORM, REVERBERATION];
+  // Vulcão de Flechas moved down to the Menestrel (Bard.ts), whose tier owns it
+  // (CG_ARROWVULCAN); it still reaches the Trovador and the Maestro by inheritance.
+  private readonly atkSkillList3rd: AtkSkillModel[] = [METALIC_SOUND, SEVERE_RAINSTORM, REVERBERATION];
 
   private readonly activeSkillList3rd: ActiveSkillModel[] = [
     {

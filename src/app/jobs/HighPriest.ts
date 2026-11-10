@@ -1,6 +1,8 @@
 import { ClassName } from './_class-name';
-import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
+import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { Acolyte } from './Acolyte';
+import { ElementType } from '../constants/element-type.const';
+import { RaceType } from '../constants/race-type.const';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 1, 0, 0],
@@ -81,7 +83,55 @@ export class HighPriest extends Acolyte {
   protected override initialStatusPoint = 100;
 
   protected readonly classNamesHi = [ClassName.HiClass, ClassName.Priest, ClassName.HighPriest];
-  protected readonly atkSkillListHi: AtkSkillModel[] = [];
+  /**
+   * Luz Sagrada and Magnus Exorcismus, moved down from the Arcebispo.
+   *
+   * The client's tree puts them on the Noviço (AL_HOLYLIGHT) and the Sacerdote
+   * (PR_MAGNUS), neither of which the calculator offers — the Sumo Sacerdote is the
+   * lowest class that carries them, and `inheritSkills` only ever passes a skill
+   * downward, so the Arcebispo and the Cardeal keep them unchanged.
+   *
+   * The Sumo Sacerdote's own tier (Assumptio, Basílica, Meditatio, Recarga de Mana)
+   * adds no offensive skill at all, so without this move the class would ship with none.
+   */
+  protected readonly atkSkillListHi: AtkSkillModel[] = [
+    {
+      name: 'Holy Light',
+      label: 'Holy Light',
+      value: 'Holy Light==1',
+      acd: 0,
+      cd: 0,
+      fct: 0.2,
+      vct: 0.8,
+      isMatk: true,
+      element: ElementType.Holy,
+      formula: (): number => {
+        return 125;
+      },
+    },
+    {
+      name: 'Magnus Exorcismus',
+      label: 'Magnus Exorcismus Lv10',
+      value: 'Magnus Exorcismus==10',
+      acd: 1,
+      cd: 6,
+      fct: 1,
+      vct: 4,
+      isMatk: true,
+      element: ElementType.Holy,
+      totalHit: 10,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { race, element } = input.monster;
+        const inCludeBonus =
+          [RaceType.Demon.toLowerCase(), RaceType.Undead.toLowerCase()].includes(race) ||
+          [ElementType.Undead.toLowerCase(), ElementType.Dark.toLowerCase()].includes(element);
+
+        if (inCludeBonus) return 130;
+
+        return 100;
+      },
+    },
+  ];
   protected readonly activeSkillListHi: ActiveSkillModel[] = [];
   protected readonly passiveSkillListHi: PassiveSkillModel[] = [];
 

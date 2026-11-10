@@ -59,6 +59,11 @@ const NO_CLIENT_ROW = new Set([
   428, // Calor Solar (Solar Heat)
   429, // Calor Lunar (Lunar Heat)
   430, // Calor Estelar (Stellar Heat)
+  // Three pre-rebirth skills the feed simply does not carry a row for. Their job files
+  // model all four fields as 0, so nothing but Vel. de Atq. paces them.
+  42, // Mammonita (Mammonite)
+  371, // Punho do Tigre (Tiger Fist)
+  372, // Golpe Combinado (Chain Crush Combo)
 ]);
 
 const at = (value: number | number[], level: number): number => (Array.isArray(value) ? value[level - 1] : value);

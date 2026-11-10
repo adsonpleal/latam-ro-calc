@@ -1,5 +1,13 @@
 import { ClassName } from './_class-name';
-import { ActiveSkillModel, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
+import {
+  ActiveSkillModel,
+  AtkSkillFormulaInput,
+  AtkSkillModel,
+  CharacterBase,
+  PassiveSkillModel,
+} from './_character-base.abstract';
+import { requiresWeaponSubType } from '../constants/weapon-type-mapper';
+import { atkSkillLevelList } from '../utils';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 0, 1, 0],
@@ -80,7 +88,140 @@ export class Gunslinger extends CharacterBase {
   protected initialStatusPoint = 40;
 
   protected readonly classNames = [ClassName.Gunslinger];
-  protected readonly _atkSkillList: AtkSkillModel[] = [];
+  /**
+   * The Justiceiro's eight offensive skills. Every ratio is the per-level ATQ column the
+   * client prints in the skill's own description, and every fct/vct/acd/cd is the
+   * Conjuração/Espera row from `skill-delay.json` — `skill-delay.spec.ts` holds both to it.
+   *
+   * **The ratio is modelled as the whole cast, not as per-shot damage.** Five of these
+   * fire several projectiles ("Dispara 5 tiros", "atirando até 10 vezes") while the client
+   * prints a single ATQ figure, and as `totalHit`'s own documentation says, that does not
+   * settle which of the two it is. So the shot count goes in `hit`, which splits the
+   * packets for display and leaves the damage at the published figure; the day a recording
+   * says otherwise, the count moves to `totalHit`.
+   *
+   * Left out, for want of a published number rather than by choice: Ataque Triplo
+   * (GS_TRIPLEACTION) and Ataque Certeiro (GS_BULLSEYE), whose descriptions carry no ATQ
+   * table at all, and Desarmar / Atirar Moedas / Tiro Bombinha, which do no damage.
+   */
+  protected readonly _atkSkillList: AtkSkillModel[] = [
+    {
+      // Rastrear o Alvo (GS_TRACKING, id 512): 300% at Nv1, +100% per level. Its variable
+      // cast is the only one the client prints per level, 0,6s to 1,5s.
+      name: 'Tracking',
+      label: 'Tracking Lv10',
+      value: 'Tracking==10',
+      levelList: atkSkillLevelList('Tracking', 10),
+      acd: 1.5,
+      fct: 0,
+      vct: (skillLevel: number): number => 0.5 + skillLevel * 0.1,
+      cd: 0,
+      verifyItemFn: requiresWeaponSubType('Revolver', 'Rifle'),
+      formula: ({ skillLevel }: AtkSkillFormulaInput): number => 200 + skillLevel * 100,
+    },
+    {
+      // Ferir Alvo (GS_PIERCINGSHOT, id 514): the one skill whose table has a column per
+      // weapon — 220% +20%/level with a Pistola, 280% +30%/level with a Rifle. It also
+      // "atira contra um oponente, ignorando a DEF".
+      name: 'Wounding Shot',
+      label: 'Wounding Shot Lv5',
+      value: 'Wounding Shot==5',
+      levelList: atkSkillLevelList('Wounding Shot', 5),
+      acd: 0.5,
+      fct: 0.3,
+      vct: 1.2,
+      cd: 0,
+      isIgnoreDef: true,
+      verifyItemFn: requiresWeaponSubType('Revolver', 'Rifle'),
+      formula: ({ skillLevel, weapon }: AtkSkillFormulaInput): number =>
+        (weapon.isSubType('Rifle') ? 250 + skillLevel * 30 : 200 + skillLevel * 20),
+    },
+    {
+      // Rajada Certeira (GS_RAPIDSHOWER, id 515): 550% at Nv1, +50% per level, 5 shots.
+      name: 'Rapid Shower',
+      label: 'Rapid Shower Lv10',
+      value: 'Rapid Shower==10',
+      levelList: atkSkillLevelList('Rapid Shower', 10),
+      acd: 1.5,
+      fct: 0,
+      vct: 0,
+      cd: 0,
+      hit: 5,
+      verifyItemFn: requiresWeaponSubType('Revolver'),
+      formula: ({ skillLevel }: AtkSkillFormulaInput): number => 500 + skillLevel * 50,
+    },
+    {
+      // Desperado (GS_DESPERADO, id 516): 100% at Nv1, +50% per level, up to 10 shots.
+      name: 'Desperado',
+      label: 'Desperado Lv10',
+      value: 'Desperado==10',
+      levelList: atkSkillLevelList('Desperado', 10),
+      acd: 1,
+      fct: 0,
+      vct: 0,
+      cd: 0,
+      hit: 10,
+      verifyItemFn: requiresWeaponSubType('Revolver'),
+      formula: ({ skillLevel }: AtkSkillFormulaInput): number => 50 + skillLevel * 50,
+    },
+    {
+      // Controle de Multidão (GS_DUST, id 518): 150% at Nv1, +50% per level.
+      name: 'Dust',
+      label: 'Dust Lv10',
+      value: 'Dust==10',
+      levelList: atkSkillLevelList('Dust', 10),
+      acd: 1,
+      fct: 0,
+      vct: 0,
+      cd: 0,
+      verifyItemFn: requiresWeaponSubType('Shotgun'),
+      formula: ({ skillLevel }: AtkSkillFormulaInput): number => 100 + skillLevel * 50,
+    },
+    {
+      // Ataque Total (GS_FULLBUSTER, id 519): 400% at Nv1, +100% per level, 2 projectiles.
+      // Its pós-conjuração grows with the level, 1,2s to 3,0s.
+      name: 'Full Blast',
+      label: 'Full Blast Lv10',
+      value: 'Full Blast==10',
+      levelList: atkSkillLevelList('Full Blast', 10),
+      acd: (skillLevel: number): number => 1 + skillLevel * 0.2,
+      fct: 0.2,
+      vct: 0.8,
+      cd: 0,
+      hit: 2,
+      verifyItemFn: requiresWeaponSubType('Shotgun'),
+      formula: ({ skillLevel }: AtkSkillFormulaInput): number => 300 + skillLevel * 100,
+    },
+    {
+      // Disparo Espalhado (GS_SPREADATTACK, id 520): 230% at Nv1, +30% per level, 5
+      // projectiles over an area that widens with the level.
+      name: 'Spread Shot',
+      label: 'Spread Shot Lv10',
+      value: 'Spread Shot==10',
+      levelList: atkSkillLevelList('Spread Shot', 10),
+      acd: 1,
+      fct: 0,
+      vct: 0,
+      cd: 0,
+      hit: 5,
+      verifyItemFn: requiresWeaponSubType('Shotgun', 'Grenade Launcher'),
+      formula: ({ skillLevel }: AtkSkillFormulaInput): number => 200 + skillLevel * 30,
+    },
+    {
+      // Mina do Justiceiro (GS_GROUNDDRIFT, id 521): 220% at Nv1, +20% per level. The
+      // damage is the mine's, which the engine prices as one hit on the selected target.
+      name: 'Gunslinger Mine',
+      label: 'Gunslinger Mine Lv10',
+      value: 'Gunslinger Mine==10',
+      levelList: atkSkillLevelList('Gunslinger Mine', 10),
+      acd: 1,
+      fct: 0.2,
+      vct: 0.8,
+      cd: 0,
+      verifyItemFn: requiresWeaponSubType('Grenade Launcher'),
+      formula: ({ skillLevel }: AtkSkillFormulaInput): number => 200 + skillLevel * 20,
+    },
+  ];
   protected readonly _activeSkillList: ActiveSkillModel[] = [];
   protected readonly _passiveSkillList: PassiveSkillModel[] = [];
 }

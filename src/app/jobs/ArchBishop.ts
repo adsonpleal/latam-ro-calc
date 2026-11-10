@@ -1,5 +1,4 @@
 import { ElementType } from '../constants/element-type.const';
-import { RaceType } from '../constants/race-type.const';
 import { LaudaAgnusBuff, LaudaRamusBuff, SacramentumBuff } from '../constants/cleric-party-buffs';
 import { InfoForClass } from '../models/info-for-class.model';
 import { HighPriest } from './HighPriest';
@@ -102,42 +101,6 @@ export class ArchBishop extends HighPriest {
 
   protected readonly classNames3rd = [ClassName.Only_3rd, ClassName.ArchBishop];
   protected readonly atkSkillList3rd: AtkSkillModel[] = [
-    {
-      name: 'Holy Light',
-      label: 'Holy Light',
-      value: 'Holy Light==1',
-      acd: 0,
-      cd: 0,
-      fct: 0.2,
-      vct: 0.8,
-      isMatk: true,
-      element: ElementType.Holy,
-      formula: (): number => {
-        return 125;
-      },
-    },
-    {
-      name: 'Magnus Exorcismus',
-      label: 'Magnus Exorcismus Lv10',
-      value: 'Magnus Exorcismus==10',
-      acd: 1,
-      cd: 6,
-      fct: 1,
-      vct: 4,
-      isMatk: true,
-      element: ElementType.Holy,
-      totalHit: 10,
-      formula: (input: AtkSkillFormulaInput): number => {
-        const { race, element } = input.monster;
-        const inCludeBonus =
-          [RaceType.Demon.toLowerCase(), RaceType.Undead.toLowerCase()].includes(race) ||
-          [ElementType.Undead.toLowerCase(), ElementType.Dark.toLowerCase()].includes(element);
-
-        if (inCludeBonus) return 130;
-
-        return 100;
-      },
-    },
     {
       name: 'Judex',
       label: 'Judex Lv10',

@@ -37,7 +37,7 @@ export interface RotationEntryView {
   levelLabel: string;
   icon?: number;
   /** Levels this entry can be switched between; empty when the catalog fixes the level.
-   *  Only 7 job files declare `levelList`, so most rows show a static level. */
+   *  Most job files declare no `levelList`, so most rows show a static level. */
   levelList: { label: string; value: any }[];
   stackOptions: { label: string; value: number }[];
   stackCount: number;
@@ -367,18 +367,25 @@ export function toScheduleStep(input: { value: string; summary: any; damage: num
 export function computeRotationTimeToKill(hp: number, cycle: RotationCycle): TimeToKill | null {
   if (!(hp > 0) || !(cycle?.damagePerCycle > 0) || !(cycle.cycleDuration > 0)) return null;
 
-  const cycles = Math.ceil(hp / cycle.damagePerCycle);
-  let dealt = 0;
+  // Every pass deals the same `damagePerCycle`, so the passes before the fatal one are
+  // arithmetic rather than something to walk: after `full` of them the running total is
+  // still short of the target's HP, and the next pass is guaranteed to close it. Only
+  // that last pass is walked, lane by lane, for the moment inside it when the blow
+  // lands. Walking all of them meant one iteration per point of HP the rotation does not
+  // deal: a level-99 build with no weapon against a 4th-class target asked for millions
+  // of passes and froze the panel for ten seconds.
+  // `hp > 0` and `damagePerCycle > 0` are checked above, so the ceiling is at least 1.
+  const full = Math.ceil(hp / cycle.damagePerCycle) - 1;
+  let dealt = full * cycle.damagePerCycle;
 
-  for (let c = 0; c < cycles; c++) {
-    for (const lane of cycle.lanes) {
-      if (!(lane.damage > 0)) continue;
-      dealt += lane.damage;
-      if (dealt >= hp) {
-        // The blow lands when its cast ends, not when the step was scheduled.
-        const seconds = c * cycle.cycleDuration + lane.castEnd;
-        return { seconds, text: seconds > TTK_CAP_SECONDS ? '> 24h' : formatDuration(seconds) };
-      }
+  for (const lane of cycle.lanes) {
+    if (!(lane.damage > 0)) continue;
+    dealt += lane.damage;
+    if (dealt >= hp) {
+      // The blow lands when its cast ends, not when the step was scheduled.
+      const seconds = full * cycle.cycleDuration + lane.castEnd;
+
+      return { seconds, text: seconds > TTK_CAP_SECONDS ? '> 24h' : formatDuration(seconds) };
     }
   }
 

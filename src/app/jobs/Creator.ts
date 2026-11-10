@@ -1,5 +1,5 @@
 import { ClassName } from './_class-name';
-import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
+import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { Merchant } from './Merchant';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
@@ -81,7 +81,31 @@ export class Creator extends Merchant {
   protected override initialStatusPoint = 100;
 
   protected readonly classNamesHi = [ClassName.Alchemist, ClassName.HiClass, ClassName.Creator];
-  protected readonly atkSkillListHi: AtkSkillModel[] = [];
+  /**
+   * Bomba Ácida (CR_ACIDDEMONSTRATION, id 490), moved down from the Bioquímico. It is the
+   * Criador's own skill — the client's `JT_ALCHEMIST_H` tree is Mistura Fortificante,
+   * Bomba Ácida and Proteção Total, and it is the only one of the three that deals damage.
+   */
+  protected readonly atkSkillListHi: AtkSkillModel[] = [
+    {
+      name: 'Acid Bomb',
+      label: 'Acid Bomb Lv10',
+      value: 'Acid Bomb==10',
+      values: ['[Improved] Acid Bomb==10'],
+      acd: 1,
+      fct: 1,
+      vct: 0,
+      cd: 0.15,
+      isExcludeCannanball: true,
+      formula: (input: AtkSkillFormulaInput): number => {
+        const { skillLevel, model, status, monster } = input;
+        const baseLevel = model.level;
+        const bonusStat = status.totalInt + monster.data.vit;
+
+        return (skillLevel * 200 + bonusStat) * (baseLevel / 100);
+      },
+    },
+  ];
   protected readonly activeSkillListHi: ActiveSkillModel[] = [];
   protected readonly passiveSkillListHi: PassiveSkillModel[] = [
     {

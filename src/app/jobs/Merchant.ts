@@ -1,5 +1,6 @@
 import { ClassName } from './_class-name';
-import { ActiveSkillModel, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
+import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
+import { atkSkillLevelList } from '../utils';
 
 const jobBonusTableHi: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 0, 0, 0],
@@ -81,7 +82,29 @@ export class Merchant extends CharacterBase {
   protected override initialStatusPoint = 40;
   protected readonly classNames = [ClassName.Merchant];
 
-  protected readonly _atkSkillList: AtkSkillModel[] = [];
+  protected readonly _atkSkillList: AtkSkillModel[] = [
+    {
+      /**
+       * Mammonita (MC_MAMMONITE, id 42) — 150% at Nv1, +50% per level, from the client's
+       * own table in `skill-meta.generated.ts`. It sits on the Merchant because that is
+       * where the client's skill tree puts it, so the Mestre Ferreiro, the Criador and
+       * every promotion below them read one definition.
+       *
+       * The client ships no Conjuração/Espera row for it (see `skill-delay.spec.ts`'s
+       * `NO_CLIENT_ROW`): it is an ordinary swing that costs zeny, paced by Vel. de Atq.
+       */
+      name: 'Mammonite',
+      label: 'Mammonite Lv10',
+      value: 'Mammonite==10',
+      levelList: atkSkillLevelList('Mammonite', 10),
+      acd: 0,
+      fct: 0,
+      vct: 0,
+      cd: 0,
+      isMelee: true,
+      formula: ({ skillLevel }: AtkSkillFormulaInput): number => 100 + skillLevel * 50,
+    },
+  ];
 
   protected readonly _activeSkillList: ActiveSkillModel[] = [
     {

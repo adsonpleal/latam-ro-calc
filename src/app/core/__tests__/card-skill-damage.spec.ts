@@ -163,6 +163,9 @@ describe('every card that prints a skill in a damage line registers that skill',
     // refines people build for. Out whole until gates of the same family are read as the
     // siblings they are.
     [27173, 'the +14 band needs sibling refine gates'],
+    // The same card for Rajada Certeira, and the same three bands. Only visible since the
+    // Justiceiro's skills entered the catalog — before that the label resolved to nothing.
+    [27174, 'the +14 band needs sibling refine gates'],
   ]);
 
   const CARDS = Object.keys(latam).filter((id) => /^Carta /.test(latam[id].name || '') && ITEM_DB[id]);

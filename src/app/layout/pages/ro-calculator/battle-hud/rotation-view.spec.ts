@@ -595,6 +595,22 @@ describe('computeRotationTimeToKill', () => {
     expect(computeRotationTimeToKill(0, burstCycle())).toBeNull();
     expect(computeRotationTimeToKill(1000, burstCycle({ damage: 0 }))).toBeNull();
   });
+
+  // The Insurgente the picker opens on: level 99, nothing equipped, one skill in the
+  // rotation, against a 4th-class target. Nine million passes are needed, and the walk
+  // used to take one iteration per pass — twelve seconds of frozen panel for a reading
+  // that is arithmetic. The figures below are the ones that walk would have produced.
+  it('answers in constant time when the rotation barely scratches the target', () => {
+    const chip = burstCycle({ damage: 1, castEnd: 0.5, cycleDuration: 1.5 });
+
+    const start = Date.now();
+    const ttk = computeRotationTimeToKill(9_000_000, chip)!;
+    const spent = Date.now() - start;
+
+    expect(ttk.seconds).toBeCloseTo(8_999_999 * 1.5 + 0.5, 5);
+    expect(ttk.text).toBe('> 24h');
+    expect(spent).toBeLessThan(50);
+  });
 });
 
 /**

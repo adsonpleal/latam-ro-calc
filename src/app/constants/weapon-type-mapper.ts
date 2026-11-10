@@ -94,6 +94,27 @@ const GEAR_LABEL_PT_BR: Record<string, string> = { Shield: 'Escudo', Arrow: 'Fle
  * back untouched, so prose written in the class survives verbatim. The list reads as
  * alternatives, because `verifyItemFn` accepts any one of them.
  */
+/**
+ * The "Apenas com …" line of a skill, in the shape `verifyItemFn` wants: an empty string
+ * when the equipped weapon is one of them, the list of names when it is not — which
+ * `localizeRequirement` right below turns into the pt-BR warning. Declared here, next to
+ * that half of the contract, so a class states the requirement instead of re-deriving it.
+ *
+ * Structural parameter rather than `AtkSkillFormulaInput`: this module is what
+ * `_character-base.abstract` imports its weapon names from, so it cannot import back.
+ */
+interface WeaponCheck {
+  weapon: { isType(name: WeaponTypeName): boolean; isSubType(name: WeaponSubTypeName): boolean };
+}
+
+export const requiresWeaponType = (...requires: WeaponTypeName[]) =>
+  ({ weapon }: WeaponCheck): string =>
+    (requires.some((wType) => weapon.isType(wType)) ? '' : requires.join(', '));
+
+export const requiresWeaponSubType = (...requires: WeaponSubTypeName[]) =>
+  ({ weapon }: WeaponCheck): string =>
+    (requires.some((subType) => weapon.isSubType(subType)) ? '' : requires.join(', '));
+
 export const localizeRequirement = (requirement: string): string => {
   const parts = requirement.split(',').map((part) => part.trim()).filter(Boolean);
   const labelOf = (part: string) =>

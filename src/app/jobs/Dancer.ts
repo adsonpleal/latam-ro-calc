@@ -1,6 +1,7 @@
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { Archer } from './Archer';
+import { ARROW_VULCAN, melodicStrike } from '../skills/shared-skills';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 0, 1, 0],
@@ -75,13 +76,18 @@ const jobBonusTable: Record<number, [number, number, number, number, number, num
   70: [6, 14, 2, 5, 16, 2],
 };
 
+/** The transcendental Dancer — the Cigana (JT_DANCER_H 4021); see Bard.ts. */
 export class Dancer extends Archer {
-  protected override CLASS_NAME = ClassName.Dancer;
+  protected override CLASS_NAME = ClassName.Gypsy;
   protected override JobBonusTable = jobBonusTable;
   protected override initialStatusPoint = 100;
 
   protected readonly classNamesHi = [ClassName.Dancer, ClassName.HiClass, ClassName.Gypsy];
-  protected readonly atkSkillListHi: AtkSkillModel[] = [];
+  protected readonly atkSkillListHi: AtkSkillModel[] = [
+    // Estilingue (DC_THROWARROW): the Odalisca's whip counterpart of Flecha Melódica.
+    melodicStrike('Throw Arrow'),
+    ARROW_VULCAN,
+  ];
   protected readonly activeSkillListHi: ActiveSkillModel[] = [];
   protected readonly passiveSkillListHi: PassiveSkillModel[] = [];
 

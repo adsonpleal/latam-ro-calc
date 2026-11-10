@@ -481,6 +481,26 @@ export const ARROW_STORM: AtkSkillModel = {
   },
 };
 
+// --- Menestrel / Cigana (and, by inheritance, Maestro and Musa) ---
+
+/**
+ * Flecha Melódica (BA_MUSICALSTRIKE, id 316) and Estilingue (DC_THROWARROW, id 324) are
+ * the same skill with two names — the Bardo plays it on an instrument, the Odalisca on a
+ * whip — and the client prints the same table for both: 150% at Nv1, +40% per level.
+ * One definition so the pair cannot drift apart.
+ */
+export const melodicStrike = (name: 'Melody Strike' | 'Throw Arrow'): AtkSkillModel => ({
+  name,
+  label: `${name} Lv5`,
+  value: `${name}==5`,
+  levelList: atkSkillLevelList(name, 5),
+  acd: 0.3,
+  fct: 0,
+  vct: 0.5,
+  cd: 0,
+  formula: ({ skillLevel }) => 110 + skillLevel * 40,
+});
+
 // --- Maestro / Wanderer (Minstrel + Wanderer share these identically) ---
 
 export const ARROW_VULCAN: AtkSkillModel = {
