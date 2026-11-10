@@ -47,8 +47,8 @@ describe('health', () => {
   it('reports the loaded dataset', async () => {
     const res = await call(new Request('https://simulador.latam-tools.com.br/mcp/healthz'));
     expect(res.status).toBe(200);
-    // 11755 distinct calculator ids + 5996 LATAM-only ids: the raw-data union.
-    await expect(res.json()).resolves.toMatchObject({ ok: true, items: 17751, classes: 58 });
+    // 11801 distinct calculator ids + 5989 LATAM-only ids: the raw-data union.
+    await expect(res.json()).resolves.toMatchObject({ ok: true, items: 17790, classes: 58 });
   });
 });
 
