@@ -1,6 +1,8 @@
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
-import { ARROW_STORM } from '../skills/shared-skills';
+import {
+  ARROW_STORM, CHAIN_LIGHTNING, CRIMSON_ROCK, DIAMOND_DUST, EARTH_STRAIN, JUDEX, KILLING_CLOUD, SOUL_EXPANSION,
+} from '../skills/shared-skills';
 import { DarkClawFn, NoLimitFn, ShieldSpellFn } from '../constants/share-active-skills';
 import { InfoForClass } from '../models/info-for-class.model';
 import { ElementType } from '../constants/element-type.const';
@@ -234,6 +236,53 @@ export class ShadowChaser extends Stalker {
 
         return input.damage;
       },
+    },
+    /**
+     * The seven spells below, plus Onda Psíquica above, are the ones the Arco Híbrido
+     * (700132) names — and all eight are on bROWiki's list of third-class skills a
+     * Renegado can copy with Mimetismo and then cast himself:
+     * https://browiki.org/wiki/Mimetismo#Habilidades
+     * That list is wider than the bow's eight, and what is here is the bow's set, not the
+     * list. Still copyable and still not offered, each with a formula already in the
+     * engine: Zero Absoluto, Esquife de Gelo, Drenar Vida, Chamas de Hela, Implosão Tóxica
+     * and Castigo de Nerthus. They wait on a card of their own.
+     *
+     * Casting a copy is not the same path as Desejo das Sombras auto-casting one, which
+     * takes no third-class, expanded or Holy magic (that page's Notas) — which is why
+     * these ids stay out of `SHADOW_SPELL_MAGIC` above.
+     *
+     * A copy never becomes a learned skill — "Mimetizar ou Habilitar uma habilidade não é
+     * o mesmo que Aprender uma habilidade", same page — so none of them gets the
+     * bonus-less passive mirror that a learned attack carries, and no `LEARN_SKILL[...]`
+     * item clause fires from them.
+     *
+     * Each one is the engine's shared definition of the spell, which is already what the
+     * bow's own auto-cast of that id resolves to (`SHARED_BY_ID` in core/auto-cast.ts,
+     * which a class entry of the same name now takes over). Reusing it is what keeps the
+     * two from printing different numbers for one spell, and it is also the right ratio to
+     * copy: the shared ones carry none of the owner's own tree, which a copy does not
+     * bring along either — Arma Congelante on Pó de Diamante, the elemental spirits on
+     * both of the Feiticeiro's.
+     *
+     * What each overrides is cast and delay, which the shared definitions zero because an
+     * auto-cast has none. These are cast by hand, so they take the client's own
+     * Conjuração/Espera window, per level, since Mimetismo's level caps the copy:
+     * src/assets/demo/data/skill-delay.json, checked by skills/skill-delay.spec.ts.
+     */
+    { ...SOUL_EXPANSION, acd: 0.5, fct: 0, vct: 2, cd: 0 },
+    { ...EARTH_STRAIN, acd: 0.5, fct: 1, vct: (lv) => 1 + lv, cd: 7 },
+    { ...CRIMSON_ROCK, acd: 0.5, fct: 1, vct: 5, cd: 5 },
+    { ...DIAMOND_DUST, acd: 1, fct: (lv) => 1 - lv * 0.2, vct: (lv) => 4.5 + lv * 0.5, cd: 5 },
+    { ...CHAIN_LIGHTNING, acd: 3, fct: 1, vct: (lv) => 3 + lv * 0.5, cd: 0 },
+    { ...JUDEX, acd: 0.5, fct: 0.5, vct: 2, cd: 0 },
+    {
+      ...KILLING_CLOUD,
+      acd: 1,
+      // The client flattens the fixed cast to zero at Nv5 instead of carrying the
+      // -0,2 s step past it, so the step is clamped rather than extrapolated.
+      fct: (lv) => Math.max(0, 0.9 - lv * 0.2),
+      vct: (lv) => 2.1 + lv * 0.2,
+      cd: 5,
     },
     {
       name: 'Comet',
