@@ -1,5 +1,27 @@
 [
   {
+    "v": "0.1.217-beta",
+    "date": "09-11-2026",
+    "logs": [
+      "Renegado e Mandraque agora podem selecionar as sete habilidades de terceira classe do Arco Híbrido que faltavam — Impacto Espiritual, Abalo Sísmico, Meteoro Escarlate, Pó de Diamante, Corrente Elétrica, Judex e Maldição de Jormungand —, todas copiáveis por Mimetismo, em todos os níveis. O bônus de +10% da flecha do conjunto passa a entrar na conta ao selecionar a habilidade que ela nomeia.",
+      "As habilidades [Invocação das Marés] e [Invocação da Selva], que faltavam, entraram na lista Aprenda para ganhar bônus do Invocador e do Animista, ao lado da [Invocação da Fauna] que já estava lá, e o buff [Aliança Animal] entrou na lista de habilidades e efeitos ativos do Animista, dando +3 de P.ATQ e +3 de S.ATQM por nível. As duas Invocações ficam só como nível aprendido, porque nenhuma mexe no dano: uma altera cura, duração e recarga de habilidades de suporte, e a outra vale apenas pelos 3 segundos seguintes a uma habilidade da Floresta. Reportado por YuukiiBr.",
+      "Corrigido o conjunto [Pele da Rainha Verme] do Hálito de Verme com Rosto: o bônus a cada 20 de AGI base agora conta como velocidade de ataque, e não como pós-conjuração.",
+      "Adicionada ao mesmo conjunto a linha que faltava: a cada 20 de VIT base, resistência a propriedade Neutro +1%."
+    ],
+    "logs_es": [
+      "Perseguidor de Sombras y evoluciones ahora pueden seleccionar las siete habilidades de clase 3 del Arco Híbrido que faltaban — Impacto Espiritual, Temblor Sísmico, Roca Carmesí, Polvo Diamantino, Relámpago de Cadena, Judex y Nube Asesina —, todas copiables por Mimetismo, en todos los niveles. El bono de +10% de la flecha del conjunto pasa a entrar en el cálculo al seleccionar la habilidad que ella nombra.",
+      "Las habilidades [Espíritu de Mar] y [Espíritu de Tierra], que faltaban, entraron en la lista Aprende para ganar bonificaciones del Invocador y del Domador de Espíritus, junto al [Espíritu de Vida] que ya estaba allí, y el buff [Comunión temporal] entró en la lista de habilidades y efectos activos del Domador de Espíritus, dando +3 de ATQF y +3 de ATQMH por nivel. Los dos Espíritus quedan solo como nivel aprendido, porque ninguno cambia el daño: uno altera curación, duración y tiempo de espera de habilidades de soporte, y el otro vale únicamente por los 3 segundos siguientes a una habilidad de Planta. Reportado por YuukiiBr.",
+      "Corregido el conjunto [Piel de Reina Gusano] del Aliento de Cara de Gusano: el bono por cada 20 de AGI base ahora cuenta como velocidad de ataque, y no como posconjuración.",
+      "Añadida al mismo conjunto la línea que faltaba: cada 20 de VIT base, resistencia a propiedades neutrales +1%."
+    ],
+    "logs_en": [
+      "Shadow Chaser and evolutions can now select the seven third-class skills of the Hybrid Bow that were missing — Soul Expansion, Earth Strain, Crimson Rock, Diamond Dust, Chain Lightning, Judex and Killing Cloud —, all copyable by Mimetismo, at every level. The set arrow's +10% bonus now counts when the skill it names is selected.",
+      "The [Spirit of Sea] and [Spirit of Land] skills, which were missing, were added to the Learn to get bonuses list of the Summoner and the Spirit Handler, next to the [Spirit of Life] that was already there, and the [Temporary Communion] buff was added to the active skills and effects list of the Spirit Handler, giving +3 P.ATK and +3 S.MATK per level. The two Spirits stay as a learned level only, because neither changes damage: one alters healing, duration and cooldown of support skills, and the other counts only for the 3 seconds following a Plant skill. Reported by YuukiiBr.",
+      "Fixed the [Giant Faceworm Snake Skin] set on Faceworm Breath: the bonus for every 20 base AGI now counts as attack speed, not as after-cast delay.",
+      "Added the line that was missing from the same set: for every 20 base VIT, resistance to Neutral property attacks +1%."
+    ]
+  },
+  {
     "v": "0.1.216-beta",
     "date": "09-11-2026",
     "logs": [
