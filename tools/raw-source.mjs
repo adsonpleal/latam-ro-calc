@@ -8,6 +8,17 @@
 // repo only ever *downloads* those files; it never opens a GRF and never calls
 // an upstream API. See tools/sync-latam-db.mjs (items/views/classes) and
 // tools/mob-source.mjs (monsters).
+//
+// Every table that carries text is published once per locale — `items.json` is
+// pt-BR, `items_en.json` and `items_es.json` the client's own English and Spanish
+// copies — for `items`, `jobs`, `skills`, `status`, `randomopt` and `classes`.
+// Only the item ones are consumed here (sync-latam-db.mjs); the rest of the UI's
+// translations are hand-written i18n files, not client text. The locales are
+// indexable by the same ids as pt-BR except `items`, where the client's own
+// tables disagree by a few rows, so never assume a locale row exists.
+// `mobs_en.json` / `mobs_es.json` do not exist: monster names are not client
+// data. These files are mutable at a stable URL (`max-age=300`), unlike the
+// content-addressed assets, so a sync that finds nothing new costs one 304.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";

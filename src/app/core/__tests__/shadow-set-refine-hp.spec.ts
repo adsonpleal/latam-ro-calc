@@ -40,9 +40,9 @@ const shadowPieces = Object.entries(items)
   }));
 
 describe('shadow set — the per-refine HP comes from the piece script', () => {
-  it('lists the expected pieces (552 with the line, 21 without)', () => {
-    expect(shadowPieces.length).toBe(573);
-    expect(shadowPieces.filter((p) => p.promises).length).toBe(552);
+  it('lists the expected pieces (556 with the line, 21 without)', () => {
+    expect(shadowPieces.length).toBe(577);
+    expect(shadowPieces.filter((p) => p.promises).length).toBe(556);
   });
 
   it('every piece promising +10 per refine declares "1---10"', () => {

@@ -19,10 +19,17 @@
 //
 // Two shapes in the source need care, and this script normalises both:
 //
-//  - **The arrays are zero-padded past `maxLevel`.** "Grito de Guerra" is a Lv1 skill
-//    and still arrives as ten entries, nine of them 0. Reading index 4 for a "Lv5"
-//    would silently yield 0, so every array is trimmed to `maxLevel` and the level
-//    cap is carried into the output for the spec to enforce.
+//  - **The array length is not the level cap.** It is usually `maxLevel` but upstream
+//    says not to rely on it: 278 of the 3,106 columns in the current client are padded
+//    past the cap and 53 stop short of it. "Grito de Guerra" is a Lv1 skill that still
+//    arrives as ten entries, nine of them 0, so reading index 4 for a "Lv5" would
+//    silently yield 0; conversely Ataque Vital (399) is a Lv10 skill whose pós column
+//    has five entries, so reading index 9 would yield `undefined`. Every array is
+//    therefore clamped to `maxLevel` in both directions — trimmed when long, extended
+//    with its last entry when short — and the cap is carried into the output for the
+//    spec to enforce. Repeating the last entry is upstream's own reading of a short
+//    column, and it is what the job files already model: Ataque Vital's `acd` is
+//    `skillLevel <= 4 ? 0.8 : 1`.
 //  - **`null` means "no such delay"**, i.e. 0 — the client simply omits the column.
 //    A field that is null, or constant across all levels, collapses to one number.
 
@@ -41,12 +48,16 @@ const FIELDS = [
   ['cooldown', 'cd'],
 ];
 
-/** Trim to the skill's level cap, then collapse a constant curve to a single value. */
+/** Clamp to the skill's level cap, then collapse a constant curve to a single value. */
 const compact = (values, maxLevel) => {
   if (!values) return 0;
 
   const levels = values.slice(0, maxLevel);
   if (levels.length === 0) return 0;
+  // A column that stops short of the cap says nothing about the levels past it, and the
+  // client holds the last value there. Padding it is what keeps the spec's per-level
+  // lookup from reading `undefined` — which compares equal to nothing and so passes.
+  while (levels.length < maxLevel) levels.push(levels[levels.length - 1]);
 
   return levels.every((v) => v === levels[0]) ? levels[0] : levels;
 };

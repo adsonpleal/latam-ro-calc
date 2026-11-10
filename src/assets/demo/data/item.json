@@ -52875,8 +52875,7 @@
     "name": "M. Windhawk Shadow Armor",
     "unidName": "Shadow Armor",
     "resName": "BK_Armor_Shadow",
-    "description": "Set Bonus:\nM. Windhawk Shadow Armor\nMaster Shadow Shield\n\nAll Talent Status + 2.\n------------------------\nSet Bonus:\nM. Windhawk Shadow Armor\nM. Windhawk Shadow Shoes\nMaster Shadow Shield\n\nP.ATK + 1, S.MATK + 1.\n\nWhen the total refine level of set is 27 or higher,\nignore physical and magical defense of all race monsters (except Player) by 50%.\n------------------------\nSet Bonus:\nM. Windhawk Shadow Armor\nM. Windhawk Shadow Shoes\nM. Windhawk Shadow Earring\nM. Windhawk Shadow Pendant\nMaster Shadow Shield\nMaster Shadow Weapon\n\nIgnore physical and magical resistance of all race monsters (except Player) by 20%.\n------------------------\nType: Shadow Equipment\nLocation: Armor\nWeight: 0\nRequired Level: 200\nClass: Windhawk",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 10,
     "itemSubTypeId": 526,
@@ -52891,6 +52890,9 @@
       "Windhawk"
     ],
     "script": {
+      "hp": [
+        "1---10"
+      ],
       "allTrait": [
         "EQUIP[Master Shadow Shield]===2"
       ],
@@ -52920,8 +52922,7 @@
     "name": "M. Windhawk Shadow Shoes",
     "unidName": "Shadow Shoes",
     "resName": "BK_Shoes_Shadow",
-    "description": "Set Bonus:\nM. Windhawk Shadow Shoes\nMaster Shadow Shield\n\nAll Talent Status + 2.\n------------------------\nType: Shadow Equipment\nLocation: Shoes\nWeight: 0\nRequired Level: 200\nClass: Windhawk",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 10,
     "itemSubTypeId": 528,
@@ -52936,6 +52937,9 @@
       "Windhawk"
     ],
     "script": {
+      "hp": [
+        "1---10"
+      ],
       "allTrait": [
         "EQUIP[Master Shadow Shield]===2"
       ]
@@ -52947,8 +52951,7 @@
     "name": "M. Windhawk Shadow Earring",
     "unidName": "Shadow Earring",
     "resName": "BK_Earring_Shadow",
-    "description": "Set Bonus:\nM. Windhawk Shadow Earring\nMaster Shadow Weapon\n\nAll Talent Status + 2.\n------------------------\nSet Bonus:\nM. Windhawk Shadow Earring\nM. Windhawk Shadow Pendant\nMaster Shadow Weapon\n\nP.ATK + 1, S.MATK + 1.\n\nWhen the total refine level of set is 27 or higher,\nignore physical and magical defense of all race monsters (except Player) by 50%.\n------------------------\nType: Shadow Equipment\nLocation: Earring\nWeight: 0\nRequired Level: 200\nClass: Windhawk",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 10,
     "itemSubTypeId": 529,
@@ -52963,6 +52966,9 @@
       "Windhawk"
     ],
     "script": {
+      "hp": [
+        "1---10"
+      ],
       "allTrait": [
         "EQUIP[Master Shadow Weapon]===2"
       ],
@@ -52986,8 +52992,7 @@
     "name": "M. Windhawk Shadow Pendant",
     "unidName": "Shadow Pendant",
     "resName": "BK_Pendant_Shadow",
-    "description": "Set Bonus:\nM. Windhawk Shadow Pendant\nMaster Shadow Weapon\n\nAll Talent Status + 2.\n------------------------\nType: Shadow Equipment\nLocation: Pendant\nWeight: 0\nRequired Level: 200\nClass: Windhawk",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 10,
     "itemSubTypeId": 530,
@@ -53002,6 +53007,9 @@
       "Windhawk"
     ],
     "script": {
+      "hp": [
+        "1---10"
+      ],
       "allTrait": [
         "EQUIP[Master Shadow Weapon]===2"
       ]
@@ -118160,12 +118168,11 @@
   },
   "312014": {
     "id": 312014,
-    "preRelease": true,
     "aegisName": "Justice_Power",
     "name": "Good Spell",
     "unidName": "Good Spell",
     "resName": "신성한스크롤",
-    "description": "The ability is activated when equipped with the Crown of Good and Evil and the Weapon of Good.",
+    "description": "",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -118180,12 +118187,11 @@
   },
   "312021": {
     "id": 312021,
-    "preRelease": true,
     "aegisName": "Injustice_Power",
     "name": "Evil Spell",
     "unidName": "Evil Spell",
     "resName": "악마힘스크롤",
-    "description": "The ability is activated when equipped with the Crown of Good and Evil and the Weapon of Evil.",
+    "description": "",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -132617,12 +132623,11 @@
   },
   "312649": {
     "id": 312649,
-    "preRelease": true,
     "aegisName": "Justice_Vigor_MT",
     "name": "Good Vigor (Meister)",
     "unidName": "Good Vigor (Meister)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "Set Bonus:\nGood Spell\nGood Vigor (Meister)\n          \nincreases Mighty Smash damage by 20%,\nincreases Axe Stomp damage by 40%,\nincreases physical damage against all property enemies by 20%,\nASPD +5%.",
+    "description": "",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -132716,12 +132721,11 @@
   },
   "312652": {
     "id": 312652,
-    "preRelease": true,
     "aegisName": "Injustice_Vigor_MT",
     "name": "Evil Vigor (Meister)",
     "unidName": "Evil Vigor (Meister)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Meister)\n          \nincreases Triple Laser damage by 30%,\nincreases critical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nCRI +5.",
+    "description": "",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -136387,12 +136391,11 @@
   },
   "312801": {
     "id": 312801,
-    "preRelease": true,
     "aegisName": "Justice_Vigor_IG",
     "name": "Good Vigor (Imperial Guard)",
     "unidName": "Good Vigor (Imperial Guard)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "Set Bonus:\nGood Spell\nGood Vigor (Imperial Guard)\n          \nincreases Overslash damage by 30%,\nincreases melee physical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nASPD +5%.",
+    "description": "",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -136420,12 +136423,11 @@
   },
   "312802": {
     "id": 312802,
-    "preRelease": true,
     "aegisName": "Injustice_Vigor_IG",
     "name": "Evil Vigor (Imperial Guard)",
     "unidName": "Evil Vigor (Imperial Guard)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Imperial Guard)\n          \nincreases Cross Rain damage by 30%,\nincreases Holy property magical damage by 20%,\nincreases magical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
+    "description": "",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -136453,12 +136455,11 @@
   },
   "312803": {
     "id": 312803,
-    "preRelease": true,
     "aegisName": "Justice_Vigor_AG",
     "name": "Good Vigor (Arch Mage)",
     "unidName": "Good Vigor (Arch Mage)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "Set Bonus:\nGood Spell\nGood Vigor (Arch Mage)\n          \nincreases Frozen Slash damage by 20%,\nincreases Crystal Rain damage by 40%,\nincreases magical damage against all property enemies by 20%,\nreduces after cast delay by 5%.",
+    "description": "",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -136486,12 +136487,11 @@
   },
   "312804": {
     "id": 312804,
-    "preRelease": true,
     "aegisName": "Injustice_Vigor_AG",
     "name": "Evil Vigor (Arch Mage)",
     "unidName": "Evil Vigor (Arch Mage)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Arch Mage)\n          \nincreases Soul Vulcan Strike damage by 20%,\nincreases Mystery Illusion damage by 40%,\nincreases magical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
+    "description": "",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -151059,12 +151059,11 @@
   },
   "400375": {
     "id": 400375,
-    "preRelease": true,
     "aegisName": "GoodnEvil_Circlet_IG",
     "name": "Crown of Good and Evil (Imperial Guard) [1]",
     "unidName": "Helm",
     "resName": "GoodnEvil_Circlet",
-    "description": "Crown imbued with the power of good and evil.\n------------------------\nFor every 3 refine level, increase physical and magic damage against all races enemies by 5%.\n------------------------\nFor every 4 refine level, increase melee physical and Holy property magic damage by 7%.\n------------------------\nWhen refined to +7 or higher, RES + 50.\n------------------------\nWhen refined to +9 or higher, reduce Variable Casting Time by 5%, ASPD + 5%.\n------------------------\nWhen refined to +11 or higher, ATK + 5%, MATK + 5%, reduce Fixed Casting Time by 0.3 seconds.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Imperial Guard) [1]\nDevil Guardian Sword [2]\n          \nFor every 3 refine level of Weapon, increase Cross Rain damage by 4%, increase Holy property magic damage by 5%.\nWhen weapon grade is B or higher, increase Cross Rain damage by additional 10%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Imperial Guard) [1]\nDevil Guardian Sword [2]\nEvil Spell\n          \nIncrease Cross Rain damage by additional 15%, increase Holy property magic damage by additional 20%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Imperial Guard) [1]\nHoly Light Spear [2]\n          \nFor every 3 refine level of Weapon, increase Overslash damage by 4%, increase melee physical damage by 5%.\nWhen weapon grade is B or higher, increase Overslash damage by additional 10%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Imperial Guard) [1]\nHoly Light Spear [2]\nGood Spell\n          \nIncrease Overslash damage by additional 15%, increase melee physical damage by additional 20%.\n------------------------\n[Grade Bonus]\n[Grade D] MHP + 5%.\n[Grade C] P.ATK + 3, S.MATK + 3.\n[Grade B] P.ATK + 2, S.MATK + 2, POW + 2, SPL + 2.\n[Grade A] RES + 50, MRES + 50, When refined to +12 or higher, reduce Fixed Casting Time by additional 0.2 seconds.\n------------------------\nType : Headgear\nDef : 10\nLocation : Upper\nWeight : 10\nArmor Level : 2\nRequired Level : 215\nClass : Imperial Guard",
+    "description": "",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 512,
@@ -151150,12 +151149,11 @@
   },
   "400376": {
     "id": 400376,
-    "preRelease": true,
     "aegisName": "GoodnEvil_Circlet_AG",
     "name": "Crown of Good and Evil (Arch Mage) [1]",
     "unidName": "Helm",
     "resName": "GoodnEvil_Circlet",
-    "description": "Crown imbued with the power of good and evil.\n------------------------\nFor every 3 refine level, increase magic damage against all races enemies by 5%.\n------------------------\nFor every 4 refine level, increae Ghost, Shadow, and Water property magic damage by 7%.\n------------------------\nWhen refined to +7 or higher, RES + 50.\n------------------------\nWhen refined to +9 or higher, reduce Variable Casting Time by 10%.\n------------------------\nWhen refined to +11 or higher, MATK + 5%, reduce Fixed Casting Time by 0.3 seconds.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Arch Mage) [1]\nDevil Wing Staff [2]\n          \nFor every 3 refine level of Weapon, increase Soul Vulcan Strike damage by 4%, increase Mystery Illusion damage by 5%.\nWhen weapon grade is B or higher, increase Soul Vulcan Strike damage by additional 10%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Arch Mage) [1]\nDevil Wing Staff [2]\nEvil Spell\n          \nIncrease Soul Vulcan Strike damage by additional 15%, increase Mystery Illusion damage by additional 20%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Arch Mage) [1]\nDestiny Staff [2]\n          \nFor every 3 refine level of Weapon, increase Frozen Slash damage by 4%, increase Crystal Rain damage by 5%.\nWhen weapon grade is B or higher, increase Frozen Slash damage by additional 10%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Arch Mage) [1]\nDestiny Staff [2]\nGood Spell\n          \nIncrease Frozen Slash damage by additional 15%, increase Crystal Rain damage by additional 20%.\n------------------------\n[Grade Bonus]\n[Grade D] MHP + 5%.\n[Grade C] P.ATK + 3, S.MATK + 3.\n[Grade B] P.ATK + 2, S.MATK + 2, POW + 2, SPL + 2.\n[Grade A] RES + 50, MRES + 50, When refined to +12 or higher, reduce Fixed Casting Time by additional 0.2 seconds.\n------------------------\nType : Headgear\nDef : 10\nLocation : Upper\nWeight : 10\nArmor Level : 2\nRequired Level : 215\nClass : Arch Mage",
+    "description": "",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 512,
@@ -151512,12 +151510,11 @@
   },
   "400380": {
     "id": 400380,
-    "preRelease": true,
     "aegisName": "GoodnEvil_Circlet_MT",
     "name": "Crown of Good and Evil (Meister) [1]",
     "unidName": "Helm",
     "resName": "GoodnEvil_Circlet",
-    "description": "Crown imbued with the power of good and evil.\n------------------------\nFor every 3 refine level, increase physical damage against all races enemies by 5%.\n------------------------\nFor every 4 refine level, increase melee and long-range physical damage by 7%.\n------------------------\nWhen refined to +7 or higher, RES + 50.\n------------------------\nWhen refined to +9 or higher, CRI + 5, ASPD + 5%.\n------------------------\nWhen refined to +11 or higher, ATK + 5%, reduce Fixed Casting Time by 0.3 seconds.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Meister) [1]\nDestruction Axe [2]\n          \nFor every 3 refine level of Weapon, increase Triple Laser damage by 4%, and Critical Damage by 10%.\nWhen weapon grade is B or higher, increase Triple Laser damage by additional 10%.\nWhen equipped with Evil Spell, increase Triple Laser damage by additional 15% and Critical Damage by additional 25%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Meister) [1]\nDivine Buster [2]\n          \nFor every 3 refine level of Weapon, increase Mighty Smash damage by 4%, and Axe Stomp damage by 5%.\nWhen weapon grade is B or higher, increase Mighty Smash damage by additional 10%.\nWhen equipped with Good Spell, increase Mighty Smash damage by additional 15% and Axe Stomp damage by additional 20%.\n------------------------\n[Grade Bonus]\n[Grade D] MHP + 5%.\n[Grade C] P.ATK + 3, S.MATK + 3.\n[Grade B] P.ATK + 2, S.MATK + 2, POW + 2, SPL + 2.\n[Grade A] RES + 50, MRES + 50, When refined to +12 or higher, reduce Fixed Casting Time by additional 0.2 seconds.\n------------------------\nType : Headgear\nDef : 10\nLocation : Upper\nWeight : 10\nArmor Level : 2\nRequired Level : 215\nClass : Meister",
+    "description": "",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 512,
@@ -174381,12 +174378,11 @@
   },
   "470221": {
     "id": 470221,
-    "preRelease": true,
     "aegisName": "FateSin_Boots_MT",
     "name": "Boots of Good and Evil (Meister) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_MT",
-    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase melee and long-ranged physical damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Meister",
+    "description": "",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -174788,12 +174784,11 @@
   },
   "470236": {
     "id": 470236,
-    "preRelease": true,
     "aegisName": "FateSin_Boots_IG",
     "name": "Boots of Good and Evil (Imperial Guard) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_IG",
-    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK, MATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase melee physical and Holy property magic damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical and magical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Imperial Guard",
+    "description": "",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -174859,12 +174854,11 @@
   },
   "470237": {
     "id": 470237,
-    "preRelease": true,
     "aegisName": "FateSin_Boots_AG",
     "name": "Boots of Good and Evil (Arch Mage) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_AG",
-    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, MATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase Ghost, Shadow, and Water property magic damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase magical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType : Shoes\nDef : 20\nWeight : 60\nArmor Level : 2\nRequired Level : 210\nClass : Arch Mage",
+    "description": "",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -197463,12 +197457,11 @@
   },
   "500065": {
     "id": 500065,
-    "preRelease": true,
     "aegisName": "Blood_Rapier",
     "name": "Blood Rapier [2]",
     "unidName": "Bastard Sword",
     "resName": "Sins_Rapier",
-    "description": "A rapier stained crimson from countless battles and the blood it has spilled.\n------------------------\nATK + 5%, POW + 2.\n------------------------\nIncreases Mayhemic Thorns damage by 5%.\n------------------------\nWhen refined to +5 or higher, increases Mayhemic Thorns damage by 10%.\n------------------------\nWhen refined to +7 or higher, increases long-range physical damage by 5%.\n------------------------\nWhen refined to +9 or higher, increases Mayhemic Thorns damage by 10%.\n------------------------\nWhen refined to +10 or higher, CRI + 10.\n------------------------\nWhen refined to +11 or higher, increases Mayhemic Thorns damage by 5%, and critical damage by 20%.\n------------------------\n[Grade Bonus]\n[Grade D] Increases long-range physical damage by 10%.\n[Grade C] Increases physical damage against all size enemies by 10%.\n[Grade B] Increases physical damage against all race enemies by 10%.\n[Grade A] Increases physical damage against all property enemies by 10%.\n------------------------\nType : One-handed Sword\nAttack : 210\nWeight : 150\nWeapon Level : 5\nRequired Level : 215\nClass : Biolo",
+    "description": "",
     "slots": 2,
     "itemTypeId": 1,
     "itemSubTypeId": 257,
@@ -200121,12 +200114,11 @@
   },
   "510092": {
     "id": 510092,
-    "preRelease": true,
     "aegisName": "Holy_Light_Dagger",
     "name": "Holy Light Dagger [2]",
     "unidName": "Knife",
     "resName": "Fate_Dagger",
-    "description": "A shining dagger imbued with sacred power to eridicate evil.\n------------------------\nATK + 5%, POW + 2.\n------------------------\nIncrease Abyss Dagger damage by 5%.\n------------------------\nWhen refined to +5 or higher, increase Abyss Dagger damage by additional 10%.\n------------------------\nWhen refined to +7 or higher, increase melee physical damage by 5%.\n------------------------\nWhen refined to +9 or higher, increase Abyss Dagger damage by additional 10%.\n------------------------\nWhen refined to +10 or higher, ASPD + 10%.\n------------------------\nWhen refined to +11 or higher, increase Abyss Dagger damage by additional 5% and Deft Stab damage by 15%.\n------------------------\n[Grade Bonus]\n[Grade D] Increase melee physical damage by 10%.\n[Grade C] Increase physical damage against all sizes enemies by 10%.\n[Grade B] Increase physical damage against all races enemies by 10%.\n[Grade A] Increase physical damage against all property enemies by 10%.\n------------------------\nType : Dagger\nAttack : 205\nWeight : 80\nWeapon Level : 5\nRequired Level : 215\nClass : Abyss Chaser",
+    "description": "",
     "slots": 2,
     "itemTypeId": 1,
     "itemSubTypeId": 256,
@@ -208309,12 +208301,11 @@
   },
   "550093": {
     "id": 550093,
-    "preRelease": true,
     "aegisName": "Soul_Harvest",
     "name": "Soul Harvest [2]",
     "unidName": "Rod",
     "resName": "Sins_Wand",
-    "description": "A one-handed staff with the ability to collect souls.\n          \nIndestructible in battle.\n          \nMATK + 220.\n          \nMATK + 5%, SPL + 2.\n          \nExorcism of Malicious Soul damage +5%.\n------------------------\nWhen refine level 5 or more, Exorcism of Malicious Soul damage +10%.\n------------------------\nWhen refine level 7 or more, All property magic damage +5%.\n------------------------\nWhen refine level 9 or more, Exorcism of Malicious Soul damage +10% additional.\n------------------------\nWhen refine level 10 or more, Variable Casting Time -10%.\n------------------------\nWhen refine level 11 or more, Exorcism of Malicious Soul damage +5% additional, Talisman of Soul Stealing damage +15%.\n------------------------\n[Bonus by Grade]\n[Grade D] All property magic damage +10%.\n[Grade C] Magic damage to all size enemies +10%.\n[Grade B] Magic damage to all race enemies +10%.\n[Grade A] Magic damage to all property enemies +10%.\n------------------------\nType : One-handed Staff\nAttack : 100\nWeight : 90\nWeapon Level : 5\nRequired Level : 215\nClass : Soul Ascetic",
+    "description": "",
     "slots": 2,
     "itemTypeId": 1,
     "itemSubTypeId": 265,
@@ -218977,12 +218968,11 @@
   },
   "620022": {
     "id": 620022,
-    "preRelease": true,
     "aegisName": "Divine_Buster",
     "name": "Divine Buster [2]",
     "unidName": "Axe",
     "resName": "Fate_Hammer",
-    "description": "A two-handed axe imbued with holy power, once wielded by the Divine Order.\n------------------------\nIndestructible in battle.\n------------------------\nATK + 5%, POW + 2.\n------------------------\nIncreases Mighty Smash damage by 5%.\n------------------------\nWhen refined to +5 or higher, increases Mighty Smash damage by 10%.\n------------------------\nWhen refined to +7 or higher, increases melee physical damage by 5%.\n------------------------\nWhen refined to +9 or higher, increases Mighty Smash damage by 10%.\n------------------------\nWhen refined to +10 or higher, ASPD + 10%.\n------------------------\nWhen refined to +11 or higher, increases Mighty Smash damage by 5%, and Axe Stomp damage by 15%.\n------------------------\n[Grade Bonus]\n[Grade D] Increases melee physical damage by 10%.\n[Grade C] Increases physical damage against all size enemies by 10%.\n[Grade B] Increases physical damage against all race enemies by 10%.\n[Grade A] Increases physical damage against all property enemies by 10%.\n------------------------\nType : Two-handed Axe\nAttack : 330\nWeight : 660\nWeapon Level : 5\nRequired Level : 215\nClass : Meister",
+    "description": "",
     "slots": 2,
     "itemTypeId": 1,
     "itemSubTypeId": 262,
@@ -375331,5 +375321,141 @@
   },
   "310861": {"id":310861,"aegisName":"Mad_Bunny_Enchant_4_1","name":"Pedra Defensora 1","unidName":"Pedra Defensora 1","resName":"마력석_검정","description":"","slots":0,"itemTypeId":11,"itemSubTypeId":0,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["100"]}},
   "310862": {"id":310862,"aegisName":"Mad_Bunny_Enchant_4_2","name":"Pedra Defensora 2","unidName":"Pedra Defensora 2","resName":"마력석_검정","description":"","slots":0,"itemTypeId":11,"itemSubTypeId":0,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["150"]}},
-  "310863": {"id":310863,"aegisName":"Mad_Bunny_Enchant_4_3","name":"Pedra Defensora 3","unidName":"Pedra Defensora 3","resName":"마력석_검정","description":"","slots":0,"itemTypeId":11,"itemSubTypeId":0,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["200"],"subele_all":["5"]}}
+  "310863": {"id":310863,"aegisName":"Mad_Bunny_Enchant_4_3","name":"Pedra Defensora 3","unidName":"Pedra Defensora 3","resName":"마력석_검정","description":"","slots":0,"itemTypeId":11,"itemSubTypeId":0,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["200"],"subele_all":["5"]}},
+  "400100": {
+    "id": 400100,
+    "aegisName": "C_VIP_Hair_2024",
+    "name": "[Visual] Cabelo de Leon",
+    "unidName": "[Visual] Cabelo de Leon",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 521,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "400325": {
+    "id": 400325,
+    "aegisName": "C_Wondering_Wolf_V",
+    "name": "[Visual] Elmo do Rei do Norte",
+    "unidName": "[Visual] Elmo do Rei do Norte",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "locations": [
+      "Upper",
+      "Middle"
+    ],
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "400965": {
+    "id": 400965,
+    "aegisName": "C_Divine_Veil",
+    "name": "[Visual] Véu de Friederike",
+    "unidName": "[Visual] Véu de Friederike",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "420204": {
+    "id": 420204,
+    "aegisName": "C_VIP_Hair_2023",
+    "name": "[Visual] Cabelo de Juncea",
+    "unidName": "[Visual] Cabelo de Juncea",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 521,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "420703": {
+    "id": 420703,
+    "aegisName": "C_Aurelie_Hair",
+    "name": "[Visual] Cabelo de Aurelie",
+    "unidName": "[Visual] Cabelo de Aurelie",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 521,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Lower",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480488": {
+    "id": 480488,
+    "aegisName": "C_Juncea_Wing",
+    "name": "[Visual] Asas de Juncea",
+    "unidName": "[Visual] Asas de Juncea",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  }
 }

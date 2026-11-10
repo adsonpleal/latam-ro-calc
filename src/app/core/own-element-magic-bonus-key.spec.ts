@@ -134,7 +134,10 @@ describe('own-property magic damage reads the caster-side bonus key', () => {
    * whose lines belong to sets this database does not model yet (26119's is one third of a
    * five-piece block); 4457 and 27166 are registered cards whose damage half the catalogue
    * never read; 550010 and 640010 word theirs as "A cada nível de [perícia]", which the
-   * script grammar cannot express. Clearing them is a sweep of its own, not this report.
+   * script grammar cannot express. 312021 Dom Infernal arrived with the 10/11/2026 client:
+   * its holy line is one clause of the EP19 Bem e Mal bundle — three crowns, six weapons
+   * and two enchants whose whole effect is set bonuses — which is a port of its own, not a
+   * sync. Clearing them is a sweep of its own, not this report.
    */
   it('freezes the own-property lines no script registers yet', () => {
     const unregistered = MAGIC_LINES.filter((row) => row.channel === 'own').flatMap(({ id, elements }) =>
@@ -148,7 +151,7 @@ describe('own-property magic damage reads the caster-side bonus key', () => {
       '2007 wind', '2008 water', '2009 fire', '2010 earth', '2011 wind', '2012 water',
       '2013 fire', '2014 earth', '2039 dark', '2039 fire', '2039 wind', '2046 fire',
       '4457 ghost', '19264 holy', '20840 fire', '26119 neutral', '27166 fire', '28255 ghost',
-      '28616 holy', '480683 fire', '480683 water', '550010 poison', '640010 ghost',
+      '28616 holy', '312021 holy', '480683 fire', '480683 water', '550010 poison', '640010 ghost',
     ]);
   });
 
