@@ -1,5 +1,18 @@
 [
   {
+    "v": "0.1.220-beta",
+    "date": "11-11-2026",
+    "logs": [
+      "Corrigido Lançar Magia: a conjuração e a Recarga só são zeradas nas magias que Memorizar guarda. Espíritos Ancestrais e as demais habilidades de 4ª classe mantêm a Recarga delas."
+    ],
+    "logs_es": [
+      "Corregida Liberación: la conjuración y la Recarga solo se ponen a cero en los hechizos que Leer Libro de Hechizos guarda. Espíritus Ancestrales y las demás habilidades de 4.ª clase mantienen su Recarga."
+    ],
+    "logs_en": [
+      "Fixed Release: the cast and the Cooldown are only zeroed on the spells Reading Spellbook stores. Soul Vulcan Strike and the other 4th-class skills keep their Cooldown."
+    ]
+  },
+  {
     "v": "0.1.219-beta",
     "date": "10-11-2026",
     "logs": [
