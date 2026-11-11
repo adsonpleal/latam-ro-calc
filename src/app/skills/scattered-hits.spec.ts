@@ -6,6 +6,7 @@ import { HyperNovice } from 'src/app/jobs/HyperNovice';
 import { SkyEmperor } from 'src/app/jobs/SkyEmperor';
 import { AtkSkillFormulaInput, AtkSkillModel } from 'src/app/jobs/_character-base.abstract';
 import { SKILL_FORMULA_VERSION_OPTIONS, type SkillFormulaVersion } from 'src/app/skills/skill-formula-version';
+import { SKILL_META } from 'src/app/skills/skill-meta.generated';
 import { stackRange } from 'src/app/utils';
 
 /**
@@ -104,6 +105,46 @@ describe.each(SCATTERED)('$name asks how many of its falls landed', ({ job, valu
 
     for (const [index, level] of levels.entries()) {
       expect(resolve(field(skill), level)).toBe(Number(offers[index].split('/')[1]));
+    }
+  });
+});
+
+/**
+ * The ceiling of Chuva de Meteoritos, read out of the client's own description rather
+ * than transcribed into an expectation — a re-extraction that changes the Meteoros column
+ * fails here instead of drifting away from the table above, which samples five levels and
+ * happens to skip four of the five where rAthena disagrees.
+ *
+ * rAthena publishes no meteor count for `HN_METEOR_STORM_BUSTER`: its implementation
+ * schedules `1 + Duration1/Duration2` falls, which on master's `Duration1` works out to
+ * 3,3,4,4,5,5,5,6,6,6 — shifted one level from the client's 3,3,3,4,4,4,5,5,5,6 at Nv3,
+ * Nv5, Nv6, Nv8 and Nv9. bROWiki and divine-pride's LATAM section both read with the
+ * client, so the client is what the engine follows.
+ */
+describe('Chuva de Meteoritos stops at the Meteoros the client publishes', () => {
+  /** The Meteoros column of client id 5455: the figure at the end of each level's
+   *  continuation line ("[Nv 4]: …" then "… 7x7 células l 4"). */
+  const clientMeteors = (): number[] => {
+    const lines = SKILL_META['Meteor Storm Buster'].description.replace(/\^[0-9a-fA-F]{6}/g, '').split('\n');
+    return Array.from({ length: 10 }, (_, index) => {
+      const at = lines.findIndex((line) => line.startsWith(`[Nv ${index + 1}]:`));
+      const count = Number(lines[at + 1]?.match(/l\s*(\d+)\s*$/)?.[1]);
+      if (!count) throw new Error(`the client table has no Meteoros for Nv${index + 1}`);
+
+      return count;
+    });
+  };
+
+  it('reads the column the client ships, which is 3 up to Nv3 and 6 at Nv10', () => {
+    expect(clientMeteors()).toEqual([3, 3, 3, 4, 4, 4, 5, 5, 5, 6]);
+  });
+
+  it.each(['Meteor Storm Buster==10', 'Meteor Storm Buster (Explosão)==10'])('offers no more than those on %s', (value) => {
+    const published = clientMeteors();
+
+    for (const version of VERSIONS) {
+      const skill = skillOf(new HyperNovice(), value, version);
+      expect(published.map((_, index) => stackRange(skill, index + 1).max)).toEqual(published);
     }
   });
 });

@@ -703,6 +703,76 @@ describe('rotation tabs', () => {
   });
 });
 
+/**
+ * The Acertos a rotation row keeps, through the real session.
+ *
+ * A catalog entry's `name` is the engine's key and several entries can share it, told
+ * apart only by `value`: Chuva de Meteoritos ships as two rows, and the explosion's value
+ * is "Meteor Storm Buster (Explosão)==10" on an entry whose `name` is plain "Meteor Storm
+ * Buster". Resolving that row by the name in front of `==` found nothing, and finding
+ * nothing is indistinguishable from "this skill has no counter", so the picker offered
+ * 1..6 and then dropped every pick above 1 — card ArW4NZ4HUERKHTYBeksi, reported by
+ * Frimel. Both rows are checked, so the next by-name shortcut fails on the one that
+ * already worked too.
+ */
+describe('the Acertos a rotation row keeps', () => {
+  beforeEach(() => vi.useFakeTimers());
+  afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); });
+
+  /** Hiperaprendiz (4307) with one Chuva de Meteoritos row, at the level asked for. */
+  async function booted(value: string) {
+    const made = makeSession();
+    made.storage.setItem('ro-set', JSON.stringify({ class: 4307, level: 250, jobLevel: 50,
+      selectedAtkSkill: value, rotation: [value] }));
+    made.session.start();
+    await vi.advanceTimersByTimeAsync(1500);
+    made.session.viewReady();
+    await vi.advanceTimersByTimeAsync(300);
+    return made;
+  }
+
+  const ROWS = [
+    { row: 'queda', skill: 'Meteor Storm Buster' },
+    { row: 'explosão', skill: 'Meteor Storm Buster (Explosão)' },
+  ];
+
+  // Nv10 offers six meteoritos and Nv4 four, so the pick is exercised at two different
+  // ceilings rather than only at the top one. Both are written out rather than computed:
+  // restating the engine's own rule here would make this spec follow a wrong rule instead
+  // of catching it, and the ceiling has its own pin against the client's table in
+  // scattered-hits.spec.ts.
+  describe.each(ROWS)('$row', ({ skill }) => {
+    it.each([[10, 3, [1, 2, 3, 4, 5, 6]], [4, 2, [1, 2, 3, 4]]] as const)(
+      'keeps the pick the player made at Nv%i', async (level, pick, offered) => {
+        const { session } = await booted(`${skill}==${level}`);
+
+        expect(session.rotationView?.entries[0].stackOptions.map(option => option.value)).toEqual([...offered]);
+
+        session.onSkillStackChange({ index: 0, stack: pick });
+        await vi.advanceTimersByTimeAsync(300);
+
+        expect(session.model.rotationStacks?.[0]).toBe(pick);
+        expect(session.rotationView?.entries[0].stackCount).toBe(pick);
+
+        session.dispose();
+      });
+
+    it('prices every meteorito the player picked, not just the first', async () => {
+      const { session } = await booted(`${skill}==10`);
+      const one = session.rotationView!.entries[0].damage;
+
+      session.onSkillStackChange({ index: 0, stack: 3 });
+      await vi.advanceTimersByTimeAsync(300);
+
+      // Each meteorito is its own packet against the target's DEFM, so three of them are
+      // three times one — the picker is worth nothing if the damage does not follow it.
+      expect(one).toBeGreaterThan(0);
+      expect(session.rotationView!.entries[0].damage).toBe(one * 3);
+
+      session.dispose();
+    });
+  });
+});
 
 /**
  * Saving, through the real session. "Salvar" forks into substituir / nova simulação once

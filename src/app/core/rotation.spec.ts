@@ -4,6 +4,7 @@ import {
   MAX_ROTATION_LENGTH,
   compactRotationForShare,
   defaultAtkSkill,
+  findRotationSkill,
   firstRealSkill,
   isBasicAttack,
   normalizeRotation,
@@ -82,6 +83,33 @@ describe('pruneRotationForClass', () => {
 
   it('can prune everything away, leaving the caller to reseed', () => {
     expect(pruneRotationForClass(['Cross Impact==5'], atkSkills)).toEqual([]);
+  });
+});
+
+describe('findRotationSkill', () => {
+  // The catalog as HyperNovice writes it: two entries of one skill, sharing the engine's
+  // `name` and told apart only by `value`. Resolving the second by the name in front of
+  // `==` finds nothing, which is what dropped the Acertos picked on its row.
+  const atkSkills = [
+    { name: 'Meteor Storm Buster', value: 'Meteor Storm Buster==10', levelList: [{ value: 'Meteor Storm Buster==4' }] },
+    { name: 'Meteor Storm Buster', value: 'Meteor Storm Buster (Explosão)==10', levelList: [{ value: 'Meteor Storm Buster (Explosão)==4' }] },
+    { name: 'Sunset Blast', value: 'Sunset Blast==5', values: ['Sunset Blast==4'] },
+  ];
+
+  it('tells two entries of one skill apart by value, suffix included', () => {
+    expect(findRotationSkill(atkSkills, 'Meteor Storm Buster==10')).toBe(atkSkills[0]);
+    expect(findRotationSkill(atkSkills, 'Meteor Storm Buster (Explosão)==10')).toBe(atkSkills[1]);
+  });
+
+  it('resolves a levelList entry and a values[] alias to the entry that owns it', () => {
+    expect(findRotationSkill(atkSkills, 'Meteor Storm Buster (Explosão)==4')).toBe(atkSkills[1]);
+    expect(findRotationSkill(atkSkills, 'Sunset Blast==4')).toBe(atkSkills[2]);
+  });
+
+  it('finds nothing for a value no entry carries, and survives an empty catalog', () => {
+    expect(findRotationSkill(atkSkills, 'Cross Impact==5')).toBeUndefined();
+    expect(findRotationSkill(undefined, 'Solar Kick==7')).toBeUndefined();
+    expect(findRotationSkill(atkSkills, BASIC_ATTACK_VALUE)).toBeUndefined();
   });
 });
 

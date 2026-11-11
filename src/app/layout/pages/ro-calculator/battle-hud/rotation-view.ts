@@ -5,7 +5,7 @@ import { Translate } from 'src/app/i18n';
 // re-derives game truth. The timing itself lives in src/app/core/rotation-schedule.ts.
 
 import { RotationAutoCast } from '../../../../core/auto-cast';
-import { BASIC_ATTACK_VALUE, isBasicAttack, splitSkillValue } from '../../../../core/rotation';
+import { BASIC_ATTACK_VALUE, findRotationSkill, isBasicAttack, splitSkillValue } from '../../../../core/rotation';
 import { distributePercents, RotationCycle, RotationLane, RotationScheduleStep, simulateRotation } from '../../../../core/rotation-schedule';
 import { SkillType } from '../../../../models/damage-summary.model';
 import { dmgTypeLabel } from '../../../../utils/dmg-type-label';
@@ -14,6 +14,9 @@ import { buildDpsSteps, formatDuration, isCritWeighted, TimeToKill, TTK_CAP_SECO
 
 /** The catalog fields a rotation row needs to render itself. */
 export interface RotationSkillMeta extends StackLimits {
+  /** The engine's own key for this skill, which the legacy `skillStacks` record is keyed
+   *  by. Not the name in front of `==` — see `findRotationSkill`. */
+  name?: string;
   value?: string;
   values?: string[];
   label?: string;
@@ -462,9 +465,6 @@ export function buildRotationView(input: {
 }): RotationView {
   const { text, rotation, summaryByValue, summaryByIndex, baseSummary, hasSelectedChances, atkSkills, skillStacks, rotationStacks, autoCastsByIndex } = input;
 
-  const metaFor = (value: string): RotationSkillMeta | undefined =>
-    atkSkills?.find((s) => s.value === value || s.values?.includes(value) || s.levelList?.some((l) => l.value === value));
-
   const aspdPeriod = baseSummary?.calc?.hitPerSecs > 0 ? 1 / baseSummary.calc.hitPerSecs : 0;
 
   const seen = new Map<string, number>();
@@ -473,8 +473,8 @@ export function buildRotationView(input: {
     const summary = basic ? baseSummary : summaryByIndex?.get(index) ?? summaryByValue.get(value) ?? baseSummary;
     const dmg = summary?.dmg;
     const { name, level } = splitSkillValue(value);
-    const meta = metaFor(value);
-    const savedStack = rotationStacks?.[index] ?? skillStacks?.[name];
+    const meta = findRotationSkill(atkSkills, value);
+    const savedStack = rotationStacks?.[index] ?? skillStacks?.[meta?.name ?? name];
     // Read at this row's level, since a ground skill scatters more hits the higher it is
     // cast: switching Florescer from Nv5 to Nv1 drops the picker from 20 options to 4.
     const { min: stackMin, max: stackMax, count: stackCount } = stackRange(meta, Number(level) || 0, savedStack);
