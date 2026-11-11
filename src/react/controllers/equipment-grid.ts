@@ -23,17 +23,26 @@ import { CalculatorLayout, SlotColorPreferences } from '../services/calculator-s
 import { ChipPick } from './equipment-slot-card';
 import { SlotListBag } from '../../app/layout/pages/ro-calculator/equipment-grid/slot-list-bag.model';
 
-/** The first term of both off-hand questions: there is no off hand to speak of yet. */
-const NO_WEAPON_NOTE: Record<OffHandSlot, TextKey> = {
-  [ItemTypeEnum.shield]: 'eq.needWeaponForShield',
-  [ItemTypeEnum.leftWeapon]: 'eq.needWeaponForLeftWeapon',
-};
-
 /** How to name the rival holding the hand when the catalogue has no name for it. */
 const RIVAL_FALLBACK: Record<OffHandSlot, TextKey> = {
   [ItemTypeEnum.shield]: 'eq.shieldFallback',
   [ItemTypeEnum.leftWeapon]: 'eq.leftWeaponFallback',
 };
+
+/**
+ * The tooltip behind each short note, per row and per reason. The note says *that* the
+ * hand is taken; the tooltip says what to do about it.
+ */
+const BLOCKED_TOOLTIP: Record<OffHandSlot, { rival: TextKey; twoHanded: TextKey }> = {
+  [ItemTypeEnum.shield]: { rival: 'eq.shieldBlockedByRivalTooltip', twoHanded: 'eq.shieldBlockedByTwoHandedTooltip' },
+  [ItemTypeEnum.leftWeapon]: { rival: 'eq.leftWeaponBlockedByRivalTooltip', twoHanded: 'eq.leftWeaponBlockedByTwoHandedTooltip' },
+};
+
+/** What a blocked off-hand card draws: the line in place of the picker, and the longer why. */
+export interface BlockedReason {
+  note: string;
+  tooltip: string;
+}
 
 /** What the host needs to run onSelectItem — the same three arguments it always took. */
 export interface SelectItemEvent {
@@ -84,6 +93,8 @@ export class EquipmentGridComponent extends ViewState {
    isCompareLeftWeaponShown = false;
    isShieldShown = false;
    isCompareShieldShown = false;
+  /** The shield row stays on screen to explain itself: a two-handed weapon holds the hand. */
+   isShieldBlockedByWeapon = false;
   /**
    * Bumped by the host at the end of each debounced pass. The models are mutated in place,
    * so nothing else tells the cards that a preset, a replay import or a share link landed.
@@ -174,28 +185,38 @@ private readonly colorPicker: SlotColorPreferences,
   }
 
   /**
-   * Why the main build is not offered this off-hand slot while the row is on screen for
-   * the comparison's sake. The row is there so the compared build can be given a shield or
-   * a second weapon; this half of it has to say what is holding the hand, or it would hand
-   * out a picker whose item the engine then ignores.
+   * Why the main build is not offered this off-hand slot while the row is on screen — for
+   * the comparison's sake, or because a two-handed weapon is blocking the shield. This
+   * half of the row has to say what is holding the hand, or it would hand out a picker
+   * whose item the engine then ignores. `note` is the line drawn in place of the picker;
+   * `tooltip` is the longer answer, hovered on it.
    */
-  mainBlockedNote(slot: EquipmentSlotDescriptor): string | null {
-    if (slot.visibility === 'shield') return this.isShieldShown ? null : this.offHandBlockedNote(ItemTypeEnum.shield);
-    if (slot.visibility === 'leftWeapon') return this.isLeftWeaponShown ? null : this.offHandBlockedNote(ItemTypeEnum.leftWeapon);
+  mainBlocked(slot: EquipmentSlotDescriptor): BlockedReason | null {
+    if (slot.visibility === 'shield') return this.isShieldShown ? null : this.offHandBlockedReason(ItemTypeEnum.shield);
+    if (slot.visibility === 'leftWeapon') return this.isLeftWeaponShown ? null : this.offHandBlockedReason(ItemTypeEnum.leftWeapon);
 
     return null;
   }
 
   /** The three reasons are the three terms of the row's question, in the same order. */
-  private offHandBlockedNote(slot: OffHandSlot): string {
-    if (!this.model?.['weapon']) return this.text(NO_WEAPON_NOTE[slot]);
-
+  private offHandBlockedReason(slot: OffHandSlot): BlockedReason {
+    const tooltips = BLOCKED_TOOLTIP[slot];
     const rival = OFF_HAND_RIVAL[slot];
     if (this.model?.[rival]) {
-      return this.text('eq.occupiesOtherHand', { item: this.itemName(this.model[rival]) ?? this.text(RIVAL_FALLBACK[rival]) });
+      const item = this.itemName(this.model[rival]) ?? this.text(RIVAL_FALLBACK[rival]);
+
+      return { note: this.text('eq.occupiesOtherHand', { item }), tooltip: this.text(tooltips.rival) };
     }
 
-    return this.text('eq.occupiesBothHands', { item: this.itemName(this.model['weapon']) ?? this.text('eq.weaponFallback') });
+    // A second weapon needs a first one; a shield does not, so an empty main hand reaches
+    // one of the two rows only — see `OFF_HAND_NEEDS_WEAPON`.
+    if (!this.model?.['weapon']) {
+      return { note: this.text('eq.needWeaponForLeftWeapon'), tooltip: this.text('eq.needWeaponForLeftWeaponTooltip') };
+    }
+
+    const item = this.itemName(this.model['weapon']) ?? this.text('eq.weaponFallback');
+
+    return { note: this.text('eq.occupiesBothHands', { item }), tooltip: this.text(tooltips.twoHanded) };
   }
 
   private itemName(itemId: number): string | undefined {
@@ -697,7 +718,7 @@ private readonly colorPicker: SlotColorPreferences,
         case 'leftWeapon':
           return this.isLeftWeaponShown || this.isCompareLeftWeaponShown;
         case 'shield':
-          return this.isShieldShown || this.isCompareShieldShown;
+          return this.isShieldShown || this.isCompareShieldShown || this.isShieldBlockedByWeapon;
         default:
           return true;
       }

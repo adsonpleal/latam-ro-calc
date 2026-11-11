@@ -433,6 +433,7 @@ let sustainPanel: any = vm["sustainPanel"]; return <>{(() => { const __condition
 "isCompareLeftWeaponShown": vm.isCompareLeftWeaponShown,
 "isShieldShown": vm.isShieldShown,
 "isCompareShieldShown": vm.isCompareShieldShown,
+"isShieldBlockedByWeapon": vm.isShieldBlockedByWeapon,
 "revision": vm.equipRevision,
 "selectItem": (event: any) => vm.action(() => { const $event = event; vm.onSelectItem($event.itemType,$event.itemId,$event.refine) }),
 "clearItem": (event: any) => vm.action(() => { const $event = event; vm.onClearItem($event) }),

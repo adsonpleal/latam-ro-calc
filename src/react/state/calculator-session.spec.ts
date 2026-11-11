@@ -224,6 +224,69 @@ describe('plain calculator session', () => {
     expect(session.isCompareShieldShown).toBe(false);
     session.dispose();
   });
+
+  /**
+   * Card `JyzsGnX6LBTsVMnCW4d2`: "falta colocar o escudo". The slot was there all along —
+   * it was the empty main hand that hid it, because the row asked for a weapon before it
+   * would grant the hand. A shield needs no weapon: `isAllowShield()` has always said yes
+   * to a build with nothing equipped, and the engine counts a shield worn on one. The
+   * off-hand *weapon* keeps that term, because a second weapon does need a first.
+   */
+  it('offers the shield with no weapon equipped, and still asks the off-hand weapon for one', async () => {
+    const { session, storage } = makeSession();
+    // 4254 is the Shadow Cross: a class that dual wields, so both rows are in play.
+    storage.setItem('ro-set', JSON.stringify({ class: 4254, level: 200, jobLevel: 1 }));
+    session.start();
+    await vi.advanceTimersByTimeAsync(1500);
+
+    expect(session.model.weapon).toBeFalsy();
+    expect(session.hiddenMap.shield).toBe(false);
+    expect(session.isShieldShown).toBe(true);
+    expect(session.isLeftWeaponShown).toBe(false);
+    session.dispose();
+  });
+
+  /**
+   * The class rule and the weapon rule are separate: a Shadow Cross may put a weapon in
+   * the off hand, and a katar still takes both of its hands.
+   */
+  it('denies the shield to a dual-wielding class holding a katar', async () => {
+    const KATAR = 1250, SHIELD = 2101;
+    const { session, storage } = makeSession();
+    storage.setItem('monster', '1038');
+    storage.setItem('ro-set', JSON.stringify({ class: 4254, level: 200, jobLevel: 1, weapon: KATAR, shield: SHIELD }));
+    session.start();
+    await vi.advanceTimersByTimeAsync(1500);
+
+    expect(session.isAllowLeftWeaponByClass).toBe(true);
+    expect(session.hiddenMap.shield).toBe(true);
+    expect(session.isShieldShown).toBe(false);
+    // Rule three of the card: the shield does not quietly stay on a two-handed build.
+    expect(session.model.shield).toBeFalsy();
+    session.dispose();
+  });
+
+  /**
+   * The engine used to answer this from the weapon *type*, which files all five firearms
+   * under `gun`, so the one-handed Revólver lost its shield along with the four that do
+   * take both hands.
+   */
+  it.each([
+    ['revólver', 13100, true],
+    ['rifle', 13150, false],
+  ] as const)('keeps the Insurgente’s shield with a %s', async (_name, weapon, keeps) => {
+    const SHIELD = 2101;
+    const { session, storage } = makeSession();
+    storage.setItem('monster', '1038');
+    storage.setItem('ro-set', JSON.stringify({ class: 4215, level: 200, jobLevel: 1, weapon, shield: SHIELD }));
+    session.start();
+    await vi.advanceTimersByTimeAsync(1500);
+
+    expect(session.hiddenMap.shield).toBe(!keeps);
+    expect(session.isShieldShown).toBe(keeps);
+    expect(session.model.shield).toBe(keeps ? SHIELD : undefined);
+    session.dispose();
+  });
   /**
    * A arma da mão esquerda tinha a mesma limitação do escudo, pelo mesmo motivo: a linha era
    * só da build principal. Com um katar (duas mãos) na principal, "duas mãos contra uma mão

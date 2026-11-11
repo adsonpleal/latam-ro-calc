@@ -115,21 +115,44 @@ const weaponUpgradeTable: Record<number, Record<number, { bonus: number; overUpg
   },
 };
 
-export const AllowShieldTable: Partial<Record<WeaponTypeName, true>> = {
-  sword: true,
-  whip: true,
-  instrument: true,
-  fist: true,
-  dagger: true,
-  mace: true,
-  rod: true,
-  book: true,
-  spear: true,
-  axe: true,
-};
+/**
+ * The weapon subtypes that take both hands, by the client's own subtype id.
+ *
+ * Ids, not the engine's weapon *type* and not the subtype's name — both of them get this
+ * question wrong on their own:
+ *
+ * - `WeaponTypeNameMapBySubTypeId` collapses the five firearms into a single `gun`, and a
+ *   Revólver (273) is one-handed while Rifle, Metralhadora, Espingarda and Lança-granadas
+ *   (274-277) are not. A check that reads the type cannot tell them apart, and the old
+ *   type-keyed `AllowShieldTable` therefore denied a shield to every Gunslinger, Revólver
+ *   included.
+ * - `startsWith('twohand')` misses Katar (272), Arco (267) and Shuriken (278), none of
+ *   which carries the prefix and all three of which take both hands.
+ *
+ * Sources: bROWiki's weapon pages (Arco, Katar, Shuriken, and the Arma de Fogo family) and
+ * rAthena's `weapon_db` two-handed flags, which agree on all twelve.
+ */
+export const TwoHandedWeaponSubTypeIds: ReadonlySet<number> = new Set([
+  258, // Espada de duas mãos
+  260, // Lança de duas mãos
+  262, // Machado de duas mãos
+  264, // Maça de duas mãos
+  266, // Cajado de duas mãos
+  267, // Arco
+  272, // Katar
+  274, // Rifle
+  275, // Metralhadora
+  276, // Espingarda
+  277, // Lança-granadas
+  278, // Shuriken (the Huuma the Ninja line throws, not the thrown kunai)
+]);
 
-/** Whether a weapon type leaves the off hand free. No weapon at all means no restriction. */
-export const typeAllowsShield = (typeName?: WeaponTypeName): boolean => !typeName || AllowShieldTable[typeName] === true;
+/**
+ * Whether a weapon subtype leaves the off hand free. No weapon at all means no
+ * restriction: an empty main hand is exactly the state in which a shield fits.
+ */
+export const subTypeIdAllowsShield = (itemSubTypeId?: number): boolean =>
+  !itemSubTypeId || !TwoHandedWeaponSubTypeIds.has(itemSubTypeId);
 
 /**
  * The same question asked of an item.
@@ -139,7 +162,7 @@ export const typeAllowsShield = (typeName?: WeaponTypeName): boolean => !typeNam
  * passes through a `Weapon` — see `isCompareShieldShown`.
  */
 export const itemAllowsShield = (itemData?: Pick<ItemModel, 'itemSubTypeId'>): boolean =>
-  typeAllowsShield(WeaponTypeNameMapBySubTypeId[itemData?.itemSubTypeId as keyof typeof WeaponTypeNameMapBySubTypeId]);
+  subTypeIdAllowsShield(itemData?.itemSubTypeId);
 
 
 const IsLongRange: Partial<Record<WeaponTypeName, boolean>> = {
@@ -214,7 +237,7 @@ export class Weapon {
   }
 
   isAllowShield() {
-    return typeAllowsShield(this._typeName);
+    return subTypeIdAllowsShield(this._itemSubTypeId);
   }
 
   get data() {

@@ -1,0 +1,21 @@
+{
+  "type": "patch",
+  "logs": [
+    "O quadro de Escudo voltou a aparecer no Equipamento quando nenhuma arma está equipada, que era a tela em que ele ficava escondido.",
+    "Ao escolher uma arma de duas mãos, o escudo é retirado e o quadro continua na tela, bloqueado, com uma explicação ao passar o mouse.",
+    "O Revólver voltou a aceitar escudo: ele é uma arma de uma mão, mas era tratado junto com as outras armas de fogo, que ocupam as duas mãos.",
+    "Abrir uma simulação que já trazia escudo junto de uma arma de duas mãos deixou de quebrar os quadros de bônus."
+  ],
+  "logs_es": [
+    "El recuadro de Escudo vuelve a aparecer en el Equipo cuando no hay ningún arma equipada, que era la pantalla en la que quedaba oculto.",
+    "Al elegir un arma de dos manos, el escudo se quita y el recuadro sigue en pantalla, bloqueado, con una explicación al pasar el ratón.",
+    "El Revólver vuelve a aceptar escudo: es un arma de una mano, pero se trataba junto con las demás armas de fuego, que ocupan las dos manos.",
+    "Abrir una simulación que ya traía escudo junto a un arma de dos manos dejó de romper los recuadros de bonificaciones."
+  ],
+  "logs_en": [
+    "The Shield card shows up in Equipment again when no weapon is equipped, which was the screen where it stayed hidden.",
+    "Picking a two-handed weapon removes the shield and the card stays on screen, blocked, with an explanation on hover.",
+    "The Revolver takes a shield again: it is a one-handed weapon, but it was treated alongside the other firearms, which take both hands.",
+    "Opening a simulation that already carried a shield together with a two-handed weapon no longer breaks the bonus cards."
+  ]
+}
