@@ -15,6 +15,16 @@ export const OFF_HAND_RIVAL: Record<OffHandSlot, OffHandSlot> = {
   [ItemTypeEnum.leftWeapon]: ItemTypeEnum.shield,
 };
 
+/**
+ * Whether the slot needs something in the main hand before it can be offered. A second
+ * weapon does: dual wielding is the second of two. A shield does not — an empty main hand
+ * leaves the off hand free, and that is the state the picker opens in.
+ */
+export const OFF_HAND_NEEDS_WEAPON: Record<OffHandSlot, boolean> = {
+  [ItemTypeEnum.shield]: false,
+  [ItemTypeEnum.leftWeapon]: true,
+};
+
 export interface OffHandState {
   /** True when the compared build's main weapon needs both hands. */
   isWeaponTwoHanded: boolean;

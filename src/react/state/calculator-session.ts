@@ -79,7 +79,7 @@ import { MonsterModel } from '../../app/models/monster.model';
 import { BETELGEUSE_HP_OPTIONS, normalizeBetelgeuseHp, withBetelgeuseHp } from '../../app/constants/betelgeuse-hp';
 import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
-import { OFF_HAND_RIVAL, OffHandSlot, resolveOffHandEviction } from 'src/app/core/off-hand-slots';
+import { OFF_HAND_NEEDS_WEAPON, OFF_HAND_RIVAL, OffHandSlot, resolveOffHandEviction } from 'src/app/core/off-hand-slots';
 import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectChanceSources, collectConsumables, withoutWeaponlessTalismans } from 'src/app/core/calculator-controller';
 import { customOptionScripts, ensureCustomAttachment } from 'src/app/core/custom-attachments';
 import { CalcStorage } from 'src/app/core/calc-storage';
@@ -657,12 +657,16 @@ export class CalculatorSession extends Store<number> {
    * build's weapon loaded, so `hiddenMap.shield` is already its verdict, settled by the
    * debounced item pass; the compared weapon never passes through a `Weapon`, so the
    * screen asks the item itself.
+   *
+   * An empty main hand frees the off hand rather than taking it: `isAllowShield()` has
+   * always said yes to a build with no weapon, and the engine counts a shield equipped on
+   * one. Answering no here was what kept the shield card off the screen the picker opens
+   * in (card JyzsGnX6LBTsVMnCW4d2).
    */
   private weaponFreesOffHand(side: 'main' | 'compare'): boolean {
-    const weaponId = this.wears(side, ItemTypeEnum.weapon);
-    if (!weaponId) return false;
+    if (side === 'main') return !this.hiddenMap.shield;
 
-    return side === 'main' ? !this.hiddenMap.shield : itemAllowsShield(this.items?.[weaponId]);
+    return itemAllowsShield(this.items?.[this.wears(side, ItemTypeEnum.weapon)]);
   }
 
   /**
@@ -682,6 +686,7 @@ export class CalculatorSession extends Store<number> {
   private isOffHandShown(side: 'main' | 'compare', slot: OffHandSlot): boolean {
     if (side === 'compare' && !this.isEnableCompare) return false;
     if (slot === ItemTypeEnum.leftWeapon && !this.isAllowLeftWeaponByClass) return false;
+    if (OFF_HAND_NEEDS_WEAPON[slot] && !this.wears(side, ItemTypeEnum.weapon)) return false;
 
     return this.weaponFreesOffHand(side) && !this.wears(side, OFF_HAND_RIVAL[slot]);
   }
@@ -701,6 +706,20 @@ export class CalculatorSession extends Store<number> {
 
   get isCompareLeftWeaponShown(): boolean {
     return this.isOffHandShown('compare', ItemTypeEnum.leftWeapon);
+  }
+
+  /**
+   * Whether the shield card stays on screen only to say why the main build cannot fill it:
+   * its weapon takes both hands.
+   *
+   * A two-handed weapon empties the shield and used to take the card with it, which read
+   * as the slot not existing at all — which is how the board filed it ("falta colocar o
+   * escudo", card JyzsGnX6LBTsVMnCW4d2). The card stays and the grid explains. The rival
+   * holding the hand is not this: that one the user can simply take off, and the row it
+   * belongs to is already on screen.
+   */
+  get isShieldBlockedByWeapon(): boolean {
+    return !!this.model?.[ItemTypeEnum.weapon] && !this.weaponFreesOffHand('main');
   }
 
   /**
@@ -1752,6 +1771,12 @@ await ((_event?: unknown) => {
    * this just wires the pure builders to the bound view fields.
    */
   private applySummaryTables(): void {
+    // Nothing has been solved yet, so there is nothing to shape and every builder below
+    // would index an undefined summary. An item pass that clears a slot and bails reaches
+    // here before the first calculation — booting a preset whose two-handed weapon evicts
+    // its own shield is the one the board found (card JyzsGnX6LBTsVMnCW4d2).
+    if (!this.totalSummary) return;
+
     // While comparing, feed the compared build's summary so each table row carries a
     // `*2` value and the misc-detail template can render the "main → simulado" arrow.
     const cmp = this.isComparing ? this.totalSummary2 : undefined;

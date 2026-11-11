@@ -60,7 +60,7 @@ describe('Weapon', () => {
     expect(w.data.rangeType).toBe('range');
     expect(w.isType('bow')).toBe(true);
     expect(w.isType('sword')).toBe(false);
-    expect(w.isAllowShield()).toBe(false); // bow not in AllowShieldTable
+    expect(w.isAllowShield()).toBe(false); // a bow is a two-handed subtype
   });
 
   it('classifies a sword as melee that allows a shield', () => {

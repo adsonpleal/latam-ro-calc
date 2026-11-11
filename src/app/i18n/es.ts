@@ -1151,8 +1151,12 @@ export const catalog: TranslatedCatalog = {
   'rot.tipHit': 'Solo el {pct}% de los usos sin crítico aciertan a este objetivo; en los demás esquiva y el golpe no hace daño. El promedio y el DPS ya descuentan esos fallos — más Precisión sube esa probabilidad.',
   'rot.noDamage': 'No causa daño',
 
-  'eq.needWeaponForShield': 'Equipa un arma para poder usar escudo',
   'eq.needWeaponForLeftWeapon': 'Equipa un arma para poder usar otra arma',
+  'eq.needWeaponForLeftWeaponTooltip': 'La segunda arma va en la mano izquierda, así que primero hay que equipar el arma de la mano derecha.',
+  'eq.shieldBlockedByTwoHandedTooltip': 'Las armas de dos manos ocupan las dos manos, así que no queda mano libre para el escudo. Equipa un arma de una mano para volver a usar escudo.',
+  'eq.leftWeaponBlockedByTwoHandedTooltip': 'Las armas de dos manos ocupan las dos manos, así que no queda mano libre para una segunda arma. Equipa un arma de una mano para empuñar dos.',
+  'eq.shieldBlockedByRivalTooltip': 'La mano izquierda ya tiene un arma, y es ahí donde va el escudo. Quita el arma de la mano izquierda para equipar un escudo.',
+  'eq.leftWeaponBlockedByRivalTooltip': 'La mano izquierda ya tiene el escudo, y es ahí donde va la segunda arma. Quita el escudo para empuñar dos armas.',
   'eq.shieldFallback': 'El escudo',
   'eq.leftWeaponFallback': 'El arma de la mano izquierda',
   'eq.weaponFallback': 'El arma',

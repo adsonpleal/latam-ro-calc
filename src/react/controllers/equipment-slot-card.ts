@@ -19,6 +19,7 @@ import { ItemPicker as ItemPickerService } from '../services/pickers';
 import { SlotColorPreferences } from '../services/calculator-services';
 import { ChipView } from '../../app/layout/pages/ro-calculator/equipment-grid/chip-view.model';
 import { SlotListBag } from '../../app/layout/pages/ro-calculator/equipment-grid/slot-list-bag.model';
+import { BlockedReason } from './equipment-grid';
 
 /** What a chip click asks the grid to write. `value` of null means the field was cleared. */
 export interface ChipPick {
@@ -48,11 +49,12 @@ export class EquipmentSlotCardComponent extends ViewState {
   /** Name of the multi-slot head gear that already fills this position, if any. */
    occupiedBy: string | null = null;
   /**
-   * Why the main build has no picker here while the compared one does — the shield row
+   * Why the main build has no picker here while the row is on screen — the shield row
    * against a two-handed weapon. Unlike `occupiedBy` it leaves the comparison alone: the
-   * row is on screen precisely so the other build can be given a shield.
+   * row may be on screen precisely so the other build can be given a shield. `note` is
+   * drawn in place of the picker, `tooltip` is the longer answer hovered on it.
    */
-   mainBlockedNote: string | null = null;
+   mainBlocked: BlockedReason | null = null;
   /** Slot keys currently in the comparison. */
    comparing: ReadonlySet<string> = new Set();
   /** False when the class or the weapon takes no ammo. */

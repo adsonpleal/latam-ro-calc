@@ -1194,8 +1194,12 @@ export const ptBR = {
   'rot.tipHit': 'Só {pct}% dos usos sem crítico acertam este alvo; nos outros ele esquiva e o golpe não causa dano. A média e o DPS já descontam esses erros — mais Precisão aumenta essa chance.',
   'rot.noDamage': 'Não causa dano',
 
-  'eq.needWeaponForShield': 'Equipe uma arma para poder usar escudo',
   'eq.needWeaponForLeftWeapon': 'Equipe uma arma para poder usar outra arma',
+  'eq.needWeaponForLeftWeaponTooltip': 'A segunda arma vai para a mão esquerda, então primeiro é preciso equipar a arma da mão direita.',
+  'eq.shieldBlockedByTwoHandedTooltip': 'Armas de duas mãos ocupam as duas mãos, então não sobra mão para o escudo. Equipe uma arma de uma mão para voltar a usar escudo.',
+  'eq.leftWeaponBlockedByTwoHandedTooltip': 'Armas de duas mãos ocupam as duas mãos, então não sobra mão para uma segunda arma. Equipe uma arma de uma mão para empunhar duas.',
+  'eq.shieldBlockedByRivalTooltip': 'A mão esquerda já está com uma arma, e é nela que vai o escudo. Remova a arma da mão esquerda para equipar um escudo.',
+  'eq.leftWeaponBlockedByRivalTooltip': 'A mão esquerda já está com o escudo, e é nela que vai a segunda arma. Remova o escudo para empunhar duas armas.',
   'eq.shieldFallback': 'O escudo',
   'eq.leftWeaponFallback': 'A arma da mão esquerda',
   'eq.weaponFallback': 'A arma',

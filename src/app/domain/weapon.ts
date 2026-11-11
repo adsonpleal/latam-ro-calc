@@ -115,21 +115,52 @@ const weaponUpgradeTable: Record<number, Record<number, { bonus: number; overUpg
   },
 };
 
-export const AllowShieldTable: Partial<Record<WeaponTypeName, true>> = {
-  sword: true,
-  whip: true,
-  instrument: true,
-  fist: true,
-  dagger: true,
-  mace: true,
-  rod: true,
-  book: true,
-  spear: true,
-  axe: true,
-};
+/**
+ * The weapon subtypes that take both hands, by the client's own subtype id.
+ *
+ * Verified against rAthena's `db/re/item_db_equip.yml`, counting the `Locations` of all
+ * 2806 weapon entries: every subtype below is `Both_Hand` on effectively every item it
+ * has (Bow 205/205, Katar 132/132, Huuma 78/78, Revolver 77/78, Rifle 56/57, Gatling
+ * 45/47, Shotgun 45/46, Grenade 41/42, and the five `2h*` families likewise), and every
+ * subtype absent below is `Right_Hand` on effectively every item it has.
+ *
+ * Keyed by subtype id rather than by the engine's weapon *type* name, because the name is
+ * the thing that gets this wrong: `twohandSword`, `twohandSpear`, `twohandAxe`,
+ * `twohandMace` and `twohandRod` announce themselves, while Arco (267), Katar (272) and
+ * Shuriken (278) take both hands with no `twohand` prefix anywhere in the name, so
+ * `startsWith('twohand')` hands a shield to all three. All five firearms do agree with
+ * each other, so the `gun` type collapse costs nothing today — but it is one level
+ * coarser than the client states the rule at, and the ids keep the two apart.
+ *
+ * rAthena carries ~19 per-item overrides against its own subtype (a one-handed Metal
+ * Deathadder revolver, a two-handed Diva Blade). The simulator has no equip-location
+ * field to honour those, but it does not need one for the four that reach LATAM: the
+ * client already files them under the subtype that matches the hand — Ganbantein and
+ * Vingativa as two-handed, the Hellfire and Icicle staves as one-handed — rather than
+ * overriding the location of a mismatched subtype.
+ */
+export const TwoHandedWeaponSubTypeIds: ReadonlySet<number> = new Set([
+  258, // Espada de duas mãos
+  260, // Lança de duas mãos
+  262, // Machado de duas mãos
+  264, // Maça de duas mãos — the client lists it; no item has ever shipped with it
+  266, // Cajado de duas mãos
+  267, // Arco
+  272, // Katar
+  273, // Revólver — one-handed in the sense of ASPD, two-handed to equip, like every gun
+  274, // Rifle
+  275, // Metralhadora
+  276, // Espingarda
+  277, // Lança-granadas
+  278, // Shuriken (the Huuma the Ninja line throws, not the thrown kunai)
+]);
 
-/** Whether a weapon type leaves the off hand free. No weapon at all means no restriction. */
-export const typeAllowsShield = (typeName?: WeaponTypeName): boolean => !typeName || AllowShieldTable[typeName] === true;
+/**
+ * Whether a weapon subtype leaves the off hand free. No weapon at all means no
+ * restriction: an empty main hand is exactly the state in which a shield fits.
+ */
+export const subTypeIdAllowsShield = (itemSubTypeId?: number): boolean =>
+  !itemSubTypeId || !TwoHandedWeaponSubTypeIds.has(itemSubTypeId);
 
 /**
  * The same question asked of an item.
@@ -139,7 +170,7 @@ export const typeAllowsShield = (typeName?: WeaponTypeName): boolean => !typeNam
  * passes through a `Weapon` — see `isCompareShieldShown`.
  */
 export const itemAllowsShield = (itemData?: Pick<ItemModel, 'itemSubTypeId'>): boolean =>
-  typeAllowsShield(WeaponTypeNameMapBySubTypeId[itemData?.itemSubTypeId as keyof typeof WeaponTypeNameMapBySubTypeId]);
+  subTypeIdAllowsShield(itemData?.itemSubTypeId);
 
 
 const IsLongRange: Partial<Record<WeaponTypeName, boolean>> = {
@@ -214,7 +245,7 @@ export class Weapon {
   }
 
   isAllowShield() {
-    return typeAllowsShield(this._typeName);
+    return subTypeIdAllowsShield(this._itemSubTypeId);
   }
 
   get data() {

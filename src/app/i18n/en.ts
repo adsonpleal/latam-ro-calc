@@ -1149,8 +1149,12 @@ export const catalog: TranslatedCatalog = {
   'rot.tipHit': 'Only {pct}% of the non-crit uses land on this target; it dodges the rest, and a miss deals no damage. The mean and the DPS already discount those misses — more HIT raises that chance.',
   'rot.noDamage': 'Deals no damage',
 
-  'eq.needWeaponForShield': 'Equip a weapon to use a shield',
   'eq.needWeaponForLeftWeapon': 'Equip a weapon to use a second weapon',
+  'eq.needWeaponForLeftWeaponTooltip': 'The second weapon goes in the left hand, so the right-hand weapon has to be equipped first.',
+  'eq.shieldBlockedByTwoHandedTooltip': 'Two-handed weapons take both hands, so there is no hand left for a shield. Equip a one-handed weapon to use a shield again.',
+  'eq.leftWeaponBlockedByTwoHandedTooltip': 'Two-handed weapons take both hands, so there is no hand left for a second weapon. Equip a one-handed weapon to dual wield.',
+  'eq.shieldBlockedByRivalTooltip': 'The left hand already holds a weapon, and that is where the shield goes. Remove the left-hand weapon to equip a shield.',
+  'eq.leftWeaponBlockedByRivalTooltip': 'The left hand already holds the shield, and that is where the second weapon goes. Remove the shield to dual wield.',
   'eq.shieldFallback': 'The shield',
   'eq.leftWeaponFallback': 'The left-hand weapon',
   'eq.weaponFallback': 'The weapon',
