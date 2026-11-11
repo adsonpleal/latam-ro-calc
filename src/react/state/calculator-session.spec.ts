@@ -267,24 +267,26 @@ describe('plain calculator session', () => {
   });
 
   /**
-   * The engine used to answer this from the weapon *type*, which files all five firearms
-   * under `gun`, so the one-handed Revólver lost its shield along with the four that do
-   * take both hands.
+   * Every firearm takes both hands, the Revólver included — the one the board's screenshot
+   * caught still offering a shield. rAthena files all five as `Both_Hand` in
+   * `db/re/item_db_equip.yml`.
    */
   it.each([
-    ['revólver', 13100, true],
-    ['rifle', 13150, false],
-  ] as const)('keeps the Insurgente’s shield with a %s', async (_name, weapon, keeps) => {
-    const SHIELD = 2101;
+    ['revólver', 13100],
+    ['rifle', 13150],
+    ['metralhadora', 28225],
+    ['espingarda', 13154],
+    ['lança-granadas', 28226],
+  ] as const)('denies the Insurgente’s shield with a %s', async (_name, weapon) => {
     const { session, storage } = makeSession();
     storage.setItem('monster', '1038');
-    storage.setItem('ro-set', JSON.stringify({ class: 4215, level: 200, jobLevel: 1, weapon, shield: SHIELD }));
+    storage.setItem('ro-set', JSON.stringify({ class: 4215, level: 200, jobLevel: 1, weapon, shield: 2101 }));
     session.start();
     await vi.advanceTimersByTimeAsync(1500);
 
-    expect(session.hiddenMap.shield).toBe(!keeps);
-    expect(session.isShieldShown).toBe(keeps);
-    expect(session.model.shield).toBe(keeps ? SHIELD : undefined);
+    expect(session.hiddenMap.shield).toBe(true);
+    expect(session.isShieldShown).toBe(false);
+    expect(session.model.shield).toBeFalsy();
     session.dispose();
   });
   /**

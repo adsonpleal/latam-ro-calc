@@ -118,28 +118,36 @@ const weaponUpgradeTable: Record<number, Record<number, { bonus: number; overUpg
 /**
  * The weapon subtypes that take both hands, by the client's own subtype id.
  *
- * Ids, not the engine's weapon *type* and not the subtype's name — both of them get this
- * question wrong on their own:
+ * Verified against rAthena's `db/re/item_db_equip.yml`, counting the `Locations` of all
+ * 2806 weapon entries: every subtype below is `Both_Hand` on effectively every item it
+ * has (Bow 205/205, Katar 132/132, Huuma 78/78, Revolver 77/78, Rifle 56/57, Gatling
+ * 45/47, Shotgun 45/46, Grenade 41/42, and the five `2h*` families likewise), and every
+ * subtype absent below is `Right_Hand` on effectively every item it has.
  *
- * - `WeaponTypeNameMapBySubTypeId` collapses the five firearms into a single `gun`, and a
- *   Revólver (273) is one-handed while Rifle, Metralhadora, Espingarda and Lança-granadas
- *   (274-277) are not. A check that reads the type cannot tell them apart, and the old
- *   type-keyed `AllowShieldTable` therefore denied a shield to every Gunslinger, Revólver
- *   included.
- * - `startsWith('twohand')` misses Katar (272), Arco (267) and Shuriken (278), none of
- *   which carries the prefix and all three of which take both hands.
+ * Keyed by subtype id rather than by the engine's weapon *type* name, because the name is
+ * the thing that gets this wrong: `twohandSword`, `twohandSpear`, `twohandAxe`,
+ * `twohandMace` and `twohandRod` announce themselves, while Arco (267), Katar (272) and
+ * Shuriken (278) take both hands with no `twohand` prefix anywhere in the name, so
+ * `startsWith('twohand')` hands a shield to all three. All five firearms do agree with
+ * each other, so the `gun` type collapse costs nothing today — but it is one level
+ * coarser than the client states the rule at, and the ids keep the two apart.
  *
- * Sources: bROWiki's weapon pages (Arco, Katar, Shuriken, and the Arma de Fogo family) and
- * rAthena's `weapon_db` two-handed flags, which agree on all twelve.
+ * rAthena carries ~19 per-item overrides against its own subtype (a one-handed Metal
+ * Deathadder revolver, a two-handed Diva Blade). The simulator has no equip-location
+ * field to honour those, but it does not need one for the four that reach LATAM: the
+ * client already files them under the subtype that matches the hand — Ganbantein and
+ * Vingativa as two-handed, the Hellfire and Icicle staves as one-handed — rather than
+ * overriding the location of a mismatched subtype.
  */
 export const TwoHandedWeaponSubTypeIds: ReadonlySet<number> = new Set([
   258, // Espada de duas mãos
   260, // Lança de duas mãos
   262, // Machado de duas mãos
-  264, // Maça de duas mãos
+  264, // Maça de duas mãos — the client lists it; no item has ever shipped with it
   266, // Cajado de duas mãos
   267, // Arco
   272, // Katar
+  273, // Revólver — one-handed in the sense of ASPD, two-handed to equip, like every gun
   274, // Rifle
   275, // Metralhadora
   276, // Espingarda

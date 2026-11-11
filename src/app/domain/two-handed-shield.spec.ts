@@ -8,20 +8,21 @@ import { ItemModel } from '../models/item.model';
 /**
  * Which weapons leave the off hand free, asked of every subtype the client ships.
  *
- * The question used to be asked of the engine's weapon *type*, and the type cannot answer
- * it: `WeaponTypeNameMapBySubTypeId` collapses the five firearms into one `gun`, so a
- * Revólver — one-handed — was denied a shield along with the four that are not. The
- * subtype's *name* cannot answer it either: Katar, Arco and Shuriken take both hands and
- * carry no `twohand` prefix. Both traps are pinned below, because both read as plausible
- * shortcuts the next time somebody touches this.
+ * Asking the subtype's *name* cannot answer it: Katar, Arco and Shuriken take both hands
+ * and carry none of the `twohand` prefix that the other five two-handers announce
+ * themselves with, so `startsWith('twohand')` hands all three a shield. That trap is
+ * pinned below, because it reads as a plausible shortcut the next time somebody touches
+ * this.
  *
- * Sources: bROWiki's weapon pages and rAthena's `weapon_db` two-handed flags.
+ * Source: the `Locations` of all 2806 weapon entries in rAthena's
+ * `db/re/item_db_equip.yml` — `Both_Hand` for every subtype in `TWO_HANDED`, `Right_Hand`
+ * for every subtype in `ONE_HANDED`.
  */
 
 const subTypeName = (id: number) => WeaponSubTypeNameMapById[id as keyof typeof WeaponSubTypeNameMapById];
 
-const ONE_HANDED = [256, 257, 259, 261, 263, 265, 268, 269, 270, 271, 273];
-const TWO_HANDED = [258, 260, 262, 264, 266, 267, 272, 274, 275, 276, 277, 278];
+const ONE_HANDED = [256, 257, 259, 261, 263, 265, 268, 269, 270, 271];
+const TWO_HANDED = [258, 260, 262, 264, 266, 267, 272, 273, 274, 275, 276, 277, 278];
 
 describe('subTypeIdAllowsShield', () => {
   it.each(ONE_HANDED.map((id) => [id, subTypeName(id)]))('leaves the off hand free for %i (%s)', (id: number) => {
@@ -46,14 +47,17 @@ describe('subTypeIdAllowsShield', () => {
   });
 });
 
-describe('the two shortcuts that get this wrong', () => {
-  it('separates the Revólver from the four firearms the engine files under the same type', () => {
+describe('the shortcut that gets this wrong', () => {
+  /**
+   * The board's screenshot was a Revólver with the shield slot open. All five firearms take
+   * both hands, so the engine's `gun` type is right about them by accident — the subtype is
+   * where the client states the rule, and is what this answers from.
+   */
+  it('takes the off hand for every firearm, the Revólver included', () => {
     const firearms = [273, 274, 275, 276, 277];
     expect(firearms.map((id) => WeaponTypeNameMapBySubTypeId[id as keyof typeof WeaponTypeNameMapBySubTypeId]))
       .toEqual(['gun', 'gun', 'gun', 'gun', 'gun']);
-
-    expect(subTypeIdAllowsShield(273)).toBe(true); // Revolver
-    expect(firearms.slice(1).map((id) => subTypeIdAllowsShield(id))).toEqual([false, false, false, false]);
+    expect(firearms.map((id) => subTypeIdAllowsShield(id))).toEqual([false, false, false, false, false]);
   });
 
   it('catches the three two-handers whose name carries no "twohand" prefix', () => {
