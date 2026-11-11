@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Na Rotação, o seletor de Acertos de Chuva de Meteoritos (Explosão) passou a guardar o número escolhido, que voltava sozinho para 1, e o dano da linha acompanha a quantidade de meteoritos marcada. Reportado por Frimel."
+  ],
+  "logs_es": [
+    "En la Rotación, el selector de Impactos de Chuva de Meteoritos (Explosão) ahora guarda el número elegido, que volvía solo a 1, y el daño de la línea acompaña la cantidad de meteoritos marcada. Reportado por Frimel."
+  ],
+  "logs_en": [
+    "In the Rotation, the Hits selector on Chuva de Meteoritos (Explosão) now keeps the number chosen, which used to snap back to 1, and the row's damage follows the number of meteors picked. Reported by Frimel."
+  ]
+}

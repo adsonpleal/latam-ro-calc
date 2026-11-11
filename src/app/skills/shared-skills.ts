@@ -157,6 +157,12 @@ export const GARDEN_HITS = scatteredHits((skillLevel) => skillLevel * 4);
  * the client's "Meteoros" column says how many fall: 3 up to Nv3, then one more every
  * three levels, 6 at Nv10.
  *
+ * rAthena is not the source of that count and must not be used to "correct" it: it
+ * publishes no meteor count at all, scheduling `1 + Duration1/Duration2` falls instead,
+ * which on master reads 3,3,4,4,5,5,5,6,6,6 — one level off the client at Nv3, Nv5, Nv6,
+ * Nv8 and Nv9. bROWiki and divine-pride's LATAM section both read with the client, and
+ * `scattered-hits.spec.ts` pins the column against the client's own description.
+ *
  * Both of the Hiperaprendiz's entries, the landing and the explosion behind it, price ONE
  * meteorito: that is what the client's two ATQM columns publish and what every bundle's
  * reference row carries (`totalHit: 1`). So the default stays 1 and the picker is what

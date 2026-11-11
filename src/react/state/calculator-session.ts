@@ -93,7 +93,7 @@ import { canUsedByClass } from 'src/app/utils/can-used-by-class';
 import { stackRange } from 'src/app/utils/skill-stack';
 import { SLOTS_BY_KEY } from 'src/app/app-config/equipment-slots';
 import { SlotListBag } from '../../app/layout/pages/ro-calculator/equipment-grid/slot-list-bag.model';
-import { compactRotationForShare, defaultAtkSkill, firstRealSkill, isBasicAttack, isOffensiveSkill, pruneRotationForClass, splitSkillValue } from 'src/app/core/rotation';
+import { compactRotationForShare, defaultAtkSkill, findRotationSkill, firstRealSkill, isBasicAttack, isOffensiveSkill, pruneRotationForClass, splitSkillValue } from 'src/app/core/rotation';
 import { MAX_ROTATION_TABS, activeRotationTab, addRotationTab, mapRotationTabs, readRotationTabs, removeRotationTab, selectRotationTab, syncRotationTabs } from 'src/app/core/rotation-tabs';
 import { RotationScheduleStep } from 'src/app/core/rotation-schedule';
 import { optimizeRotation } from 'src/app/core/rotation-optimize';
@@ -1429,13 +1429,17 @@ await ((_event?: unknown) => {
     for (const [index, value] of (this.model.rotation ?? []).entries()) {
       if (isBasicAttack(value)) continue;
       const { name, level } = splitSkillValue(value);
+      const skill = findRotationSkill(this.atkSkills, value);
+      // The engine keys `skillStacks` by the catalog entry's own `name`, which is not
+      // always the name in front of `==` — see findRotationSkill.
+      const stackKey = skill?.name ?? name;
       const stack = this.model.rotationStacks?.[index];
       // Keyed on the count the engine will actually use, not on what was saved: a tile
       // added today carries the default as a concrete number while one restored from a
       // token carries none, and a count saved at Nv5 clamps down at Nv1 — all of which
       // reach the same solve.
-      const { count } = stackRange(this.atkSkills.find((entry) => entry.name === name), Number(level) || 0,
-        Number.isFinite(stack) ? stack : originalStacks?.[name]);
+      const { count } = stackRange(skill, Number(level) || 0,
+        Number.isFinite(stack) ? stack : originalStacks?.[stackKey]);
       const cacheKey = `${value}:${count}`;
       if (solved.has(cacheKey)) {
         const cached = solved.get(cacheKey);
@@ -1444,11 +1448,16 @@ await ((_event?: unknown) => {
         continue;
       }
       calc.setSkillStacks(Number.isFinite(stack)
-        ? { ...(originalStacks ?? {}), [name]: stack }
+        ? { ...(originalStacks ?? {}), [stackKey]: stack }
         : originalStacks);
       const summary = this.controller.solveSkill(calc, input, value).getTotalSummary();
       // Solved here, on the pass that has the calculator on this very skill: a proc that
       // fires on using it is priced off the same state the tile itself reports.
+      //
+      // Keyed on the value's own name, deliberately, rather than on `stackKey`: a row
+      // that is the second half of one cast then fires no procs of its own. Chuva de
+      // Meteoritos' explosion is not a second use of the skill, so pricing 5455's
+      // skill-use procs on both of its rows would charge one cast twice.
       const casts = rotationAutoCasts({ calc, summary, triggerSkillId: SKILL_ID_BY_NAME[name] ?? 0 });
       summaryByIndex.set(index, summary);
       autoCastsByIndex.set(index, casts);
@@ -1548,8 +1557,9 @@ await ((_event?: unknown) => {
   }
 
   onSkillStackChange(change: { index: number; stack: number }) {
-    const { name, level } = splitSkillValue(this.model.rotation?.[change.index] ?? '');
-    const skill = this.atkSkills.find((entry) => entry.name === name);
+    const value = this.model.rotation?.[change.index] ?? '';
+    const { level } = splitSkillValue(value);
+    const skill = findRotationSkill(this.atkSkills, value);
     if (!skill || !Number.isInteger(change.stack)) return;
     // Clamped at this tile's own level: a ground skill scatters more hits the higher it
     // is cast, so the bound is read the way the row's picker reads it.

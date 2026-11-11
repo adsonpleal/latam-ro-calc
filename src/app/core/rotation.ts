@@ -86,6 +86,23 @@ export interface RotationSkillOption {
 }
 
 /**
+ * The catalog entry a rotation value belongs to, resolved the three ways
+ * {@link pruneRotationForClass} and `setDefaultSkill` already resolve one: the skill's own
+ * `value`, its `values[]` aliases and each `levelList[].value`.
+ *
+ * Never by the name in front of `==`. The two halves of this module's opening note meet
+ * here: an entry's `name` is the engine's key and several entries can share it, told apart
+ * only by `value` — `"Meteor Storm Buster (Explosão)==10"` belongs to an entry whose `name`
+ * is plain `"Meteor Storm Buster"`. A by-name lookup finds nothing for those, and finding
+ * nothing is indistinguishable from "this skill has no counter", which is how the
+ * Hiperaprendiz's explosion row silently dropped every Acertos the player picked.
+ */
+export function findRotationSkill<T extends RotationSkillOption>(atkSkills: T[] | undefined, value: string): T | undefined {
+  return (atkSkills ?? []).find((skill) =>
+    skill?.value === value || skill?.values?.includes(value) || skill?.levelList?.some((level) => level?.value === value));
+}
+
+/**
  * Sanitise whatever a share token, an autosave or a saved simulation carried, and
  * supply the migration for builds saved before rotations existed: those have no
  * `rotation` key at all, so they land here as `[]` and come back out as a rotation of
