@@ -2,7 +2,7 @@ import { AtkSkillModel } from '../jobs/_character-base.abstract';
 import { SkillAspdModel } from '../models/damage-summary.model';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { StatusSummary } from '../models/status-summary.model';
-import { SKILL_ID_BY_NAME } from '../skills';
+import { isMemorizableSkill, SKILL_ID_BY_NAME } from '../skills';
 import { floor } from './floor';
 import { round, roundUp } from './round';
 
@@ -44,15 +44,20 @@ export const calcSkillAspd = (params: {
   // client's own numbers — src/app/skills/skill-delay.spec.ts holds every class to them.
   const client = { fct: skillFct, vct: skillVct, acd: skillAcd, cd: skillCd };
 
-  if (totalEquipStatus['releasedSkill']) {
+  // item.json keys cast/cooldown reductions by skill id; fall back to the name for
+  // skills without a catalog id yet.
+  const id = SKILL_ID_BY_NAME[name] ?? name;
+
+  // [Lançar Magia] (Release) fires a spell [Memorizar] put away, so it pays neither the
+  // cast nor the recarga — but only for a spell that has a Grimório. The toggle lives on
+  // the Warlock and every later class inherits it, so without this gate a fourth-class
+  // skill the spellbook cannot hold came out with no recarga at all: Espíritos Ancestrais
+  // read "Recarga 0s" with the toggle on (card yZwUijZVK81HxNrvkVrV).
+  if (totalEquipStatus['releasedSkill'] && isMemorizableSkill(id)) {
     skillCd = 0;
     skillFct = 0;
     skillVct = 0;
   }
-
-  // item.json keys cast/cooldown reductions by skill id; fall back to the name for
-  // skills without a catalog id yet.
-  const id = SKILL_ID_BY_NAME[name] ?? name;
   const reduceSkillCd = totalEquipStatus[`cd__${id}`] || 0;
   const reduceSkillVct = totalEquipStatus[`vct__${id}`] || 0;
   const reduceSkillVctFix = totalEquipStatus[`fix_vct__${id}`] || 0;
