@@ -2,6 +2,7 @@ import { SKILL_META, SkillMetaEntry, SkillName } from './skill-meta.generated';
 
 export { SKILL_META };
 export type { SkillMetaEntry, SkillName };
+export { MEMORIZABLE_SKILL_IDS, isMemorizableSkill } from './spellbook';
 
 /**
  * The Skill Catalog — single source of truth for skill localization metadata

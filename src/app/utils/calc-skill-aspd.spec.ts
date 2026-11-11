@@ -46,9 +46,11 @@ describe('calcSkillAspd', () => {
     expect(r.totalHitPerSec).toBe(2);
   });
 
-  it('releasedSkill zeroes cast, cooldown and fixed-cast times', () => {
+  // [Memorizar] only stores the spells the client ships a Grimório for, so only those
+  // reach the player through [Lançar Magia] — see skills/spellbook.ts.
+  it('releasedSkill zeroes cast, cooldown and fixed-cast times of a memorizable spell', () => {
     const r = calcSkillAspd({
-      skillData: skill({ acd: 1, cd: 5, fct: 2, vct: 3 }),
+      skillData: skill({ name: 'Comet', acd: 1, cd: 5, fct: 2, vct: 3 }),
       totalEquipStatus: { ...equip, releasedSkill: 1 },
       status,
       skillLevel: 5,
@@ -58,8 +60,17 @@ describe('calcSkillAspd', () => {
     expect(r.reducedFct).toBe(0);
   });
 
+  it('leaves a spell with no Grimório alone, however the toggle is set', () => {
+    const skillData = skill({ name: 'Soul Vulcan Strike', acd: 0.5, cd: 0.7, fct: 1, vct: 3 });
+    const r = calcSkillAspd({ skillData, totalEquipStatus: { ...equip, releasedSkill: 1 }, status, skillLevel: 5 });
+
+    expect(r.reducedCd).toBe(0.7);
+    expect(r.reducedFct).toBe(1);
+    expect(r.reducedVct).toBe(3);
+  });
+
   it('keeps the client row intact through releasedSkill, so the UI can show what was reduced', () => {
-    const skillData = skill({ acd: 1, cd: 5, fct: 2, vct: 3 });
+    const skillData = skill({ name: 'Comet', acd: 1, cd: 5, fct: 2, vct: 3 });
     const plain = calcSkillAspd({ skillData, totalEquipStatus: equip, status, skillLevel: 5 });
     const released = calcSkillAspd({ skillData, totalEquipStatus: { ...equip, releasedSkill: 1 }, status, skillLevel: 5 });
     const clientRow = { clientAcd: 1, clientCd: 5, clientFct: 2, clientVct: 3 };
