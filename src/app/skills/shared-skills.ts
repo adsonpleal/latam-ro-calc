@@ -681,6 +681,58 @@ export const CROSS_SLASH: AtkSkillModel = {
   },
 };
 
+/** rAthena's `MAX_SPIRITCHARM` (pc.hpp) — the full stack the engine's charm toggles stand for. */
+const MAX_SPIRIT_CHARM = 10;
+
+/** Each charm toggle (constants/share-active-skills/element-charm.ts) and the property it throws. */
+const SPIRIT_CHARMS = [
+  ['_Charm_Fire', ElementType.Fire],
+  ['_Charm_Ice', ElementType.Water],
+  ['_Charm_Wind', ElementType.Wind],
+  ['_Charm_Earth', ElementType.Earth],
+] as const;
+
+/**
+ * Arremessar Amuleto (KO_KAIHOU, 3019) — the Kagerou/Oboro charm dump. Shared because the
+ * client gives it to both of them, and their 4th classes inherit it from there.
+ *
+ * This is one of the few attacks whose client description publishes no ATQM column: all it
+ * says is "Atira todos os amuletos invocados para causar dano mágico no alvo de acordo com a
+ * propriedade dos amuletos". The two sources that do publish a ratio agree with each other,
+ * so the formula below is theirs rather than a reading of that prose:
+ *
+ *   bROWiki   ATQM = {ATQM × [(200 × número de amuletos) × (Nv. de base ÷ 100)]}%
+ *             https://browiki.org/wiki/Arremessar_Amuleto
+ *   rAthena   `skillratio += -100 + 200 * sd->spiritcharm;` followed by `RE_LVL_DMOD(100)`
+ *             (src/map/skills/ninja/releaseninjaspell.cpp)
+ *
+ * "Número de amuletos" is the cap here, because that is what the charm toggles already
+ * describe: Amuleto de Terra's +150% ATQ de arma is rAthena's `15 * spiritcharm` at ten
+ * charms, and the +30% the toggles grant against the countered property is the block
+ * rAthena gates on `spiritcharm >= MAX_SPIRITCHARM`. A partial stack is not a state this
+ * calculator can express — the toggles are Sim/Não, not a count — so the skill requires a
+ * charm and then throws the stack that charm stands for.
+ *
+ * The element follows the charm, as both the client ("de acordo com a propriedade dos
+ * amuletos") and rAthena's `modifyElement` have it.
+ */
+export const RELEASE_NINJA_SPELL: AtkSkillModel = {
+  name: 'Release Ninja Spell',
+  label: 'Release Ninja Spell Lv1',
+  value: 'Release Ninja Spell==1',
+  // The client ships no Conjuração/Espera row for it (`delay: null` in the feed), and
+  // rAthena's skill_db gives it no cast, no pós-conjuração and no recarga either.
+  acd: 0,
+  fct: 0,
+  vct: 0,
+  cd: 0,
+  isMatk: true,
+  verifyItemFn: ({ skills }) => (SPIRIT_CHARMS.some(([charm]) => skills.isActive(charm)) ? '' : 'Amuleto invocado'),
+  getElement: (_skillValue, info) =>
+    SPIRIT_CHARMS.find(([charm]) => info?.skills.isActive(charm))?.[1] ?? ElementType.Neutral,
+  formula: ({ model }) => 200 * MAX_SPIRIT_CHARM * (model.level / 100),
+};
+
 /**
  * Garra de Tigre: https://browiki.org/wiki/Garra_de_Tigre
  *
