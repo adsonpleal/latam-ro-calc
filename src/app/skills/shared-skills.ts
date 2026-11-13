@@ -1,6 +1,8 @@
 import { ElementType } from '../constants/element-type.const';
+import { MAX_SPIRIT_CHARM, SPIRIT_CHARMS } from '../constants/share-active-skills/element-charm';
 import type { WeaponTypeName } from '../constants/weapon-type-mapper';
 import type { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel } from '../jobs/_character-base.abstract';
+import type { SkillStateCtx } from '../models/info-for-class.model';
 // Deep imports, not the '../utils' barrel: core/auto-cast.ts imports this file and avoids
 // that barrel on purpose, and pulling it in here would drag its ~31 modules back in.
 import { atkSkillLevelList } from '../utils/atk-skill-level-list';
@@ -652,7 +654,7 @@ export const REVERBERATION: AtkSkillModel = {
   formula: ({ skillLevel, model }) => (700 + skillLevel * 300) * (model.level / 100),
 };
 
-// --- Oboro / Kagerou (Ninja) — Cross Slash + the Cross Wound debuff toggle it reads ---
+// --- Oboro / Kagerou (Ninja) — what the pair shares, and the toggles those skills read ---
 
 export const CROSS_WOUND: ActiveSkillModel = {
   label: 'Ferida Cruzada',
@@ -681,16 +683,8 @@ export const CROSS_SLASH: AtkSkillModel = {
   },
 };
 
-/** rAthena's `MAX_SPIRITCHARM` (pc.hpp) — the full stack the engine's charm toggles stand for. */
-const MAX_SPIRIT_CHARM = 10;
-
-/** Each charm toggle (constants/share-active-skills/element-charm.ts) and the property it throws. */
-const SPIRIT_CHARMS = [
-  ['_Charm_Fire', ElementType.Fire],
-  ['_Charm_Ice', ElementType.Water],
-  ['_Charm_Wind', ElementType.Wind],
-  ['_Charm_Earth', ElementType.Earth],
-] as const;
+/** The property of the Amuleto that is out, or `undefined` when the player has none up. */
+const charmElement = (skills?: SkillStateCtx) => SPIRIT_CHARMS.find(([charm]) => skills?.isActive(charm))?.[1];
 
 /**
  * Arremessar Amuleto (KO_KAIHOU, 3019) — the Kagerou/Oboro charm dump. Shared because the
@@ -706,12 +700,10 @@ const SPIRIT_CHARMS = [
  *   rAthena   `skillratio += -100 + 200 * sd->spiritcharm;` followed by `RE_LVL_DMOD(100)`
  *             (src/map/skills/ninja/releaseninjaspell.cpp)
  *
- * "Número de amuletos" is the cap here, because that is what the charm toggles already
- * describe: Amuleto de Terra's +150% ATQ de arma is rAthena's `15 * spiritcharm` at ten
- * charms, and the +30% the toggles grant against the countered property is the block
- * rAthena gates on `spiritcharm >= MAX_SPIRITCHARM`. A partial stack is not a state this
- * calculator can express — the toggles are Sim/Não, not a count — so the skill requires a
- * charm and then throws the stack that charm stands for.
+ * "Número de amuletos" is MAX_SPIRIT_CHARM here, because the full stack is what the charm
+ * toggles already describe (element-charm.ts carries both the count and the reasoning). A
+ * partial stack is not a state this calculator can express — the toggles are Sim/Não, not
+ * a count — so the skill requires a charm and then throws the stack that charm stands for.
  *
  * The element follows the charm, as both the client ("de acordo com a propriedade dos
  * amuletos") and rAthena's `modifyElement` have it.
@@ -727,9 +719,8 @@ export const RELEASE_NINJA_SPELL: AtkSkillModel = {
   vct: 0,
   cd: 0,
   isMatk: true,
-  verifyItemFn: ({ skills }) => (SPIRIT_CHARMS.some(([charm]) => skills.isActive(charm)) ? '' : 'Amuleto invocado'),
-  getElement: (_skillValue, info) =>
-    SPIRIT_CHARMS.find(([charm]) => info?.skills.isActive(charm))?.[1] ?? ElementType.Neutral,
+  verifyItemFn: ({ skills }) => (charmElement(skills) ? '' : 'Amuleto invocado'),
+  getElement: (_skillValue, info) => charmElement(info?.skills) ?? ElementType.Neutral,
   formula: ({ model }) => 200 * MAX_SPIRIT_CHARM * (model.level / 100),
 };
 

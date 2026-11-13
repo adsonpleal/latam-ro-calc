@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { ElementType } from '../constants/element-type.const';
+import { SPIRIT_CHARMS } from '../constants/share-active-skills/element-charm';
 import { Calculator } from '../core/calculator';
 import { CalculatorController } from '../core/calculator-controller';
 import { resolveSkillMeta } from '../skills';
@@ -17,35 +18,28 @@ import { CharacterBase } from './_character-base.abstract';
  * testar o dano de arremessar amuleto". It was absent from the catalog altogether, so the
  * Kagerou and the Oboro had no way to pick it.
  *
- * The ratio has no client table behind it (the description publishes no ATQM column), so
- * what this pins is the two sources that do publish one and agree — bROWiki's
- * `ATQM = {ATQM × [(200 × número de amuletos) × (Nv. de base ÷ 100)]}%` and rAthena's
- * `skillratio += -100 + 200 * sd->spiritcharm` + `RE_LVL_DMOD(100)` — at the ten-charm
- * stack the engine's Amuleto toggles stand for. See shared-skills.ts for the whole note.
+ * The client publishes no ATQM column for this one, so what the ratio below pins is the
+ * number bROWiki and rAthena agree on, at the ten-charm stack the engine's Amuleto toggles
+ * stand for. Both sources, and the reason for that count, are on the skill itself
+ * (skills/shared-skills.ts) — they are not repeated here so they cannot drift apart.
  */
 
-const items = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
 const monsters = JSON.parse(readFileSync('src/assets/demo/data/monster.json', 'utf8'));
 const hpSpTable = JSON.parse(readFileSync('src/assets/demo/data/hp_sp_table.json', 'utf8'));
-
-/** The four Amuleto toggles and the property each one makes the skill throw. */
-const CHARMS: [string, number, ElementType][] = [
-  ['_Charm_Fire', 10, ElementType.Fire],
-  ['_Charm_Earth', 20, ElementType.Earth],
-  ['_Charm_Ice', 30, ElementType.Water],
-  ['_Charm_Wind', 40, ElementType.Wind],
-];
 
 /** A Neutral-property target, so the elemental multiplier never hides a wrong element. */
 const TARGET = monsters['20573'];
 
+/**
+ * One run of the engine with `charm`'s toggle on (or nothing on, for `null`). The build
+ * wears no gear, so no item id is ever resolved and the item DB can stay empty.
+ */
 function solve(cls: CharacterBase, charm: string | null, baseLevel = 200) {
   const bonuses = cls
     .setLearnSkills({
-      activeSkillIds: cls.activeSkills.map((skill) => {
-        const match = CHARMS.find(([name]) => name === skill.name && name === charm);
-        return match ? match[1] : 0;
-      }),
+      activeSkillIds: cls.activeSkills.map((skill) =>
+        skill.name === charm ? (skill.dropdown?.find((option) => option.isUse)?.value ?? 0) : 0,
+      ),
       passiveSkillIds: cls.passiveSkills.map(() => 0),
     })
     .getSkillBonusAndName();
@@ -58,7 +52,7 @@ function solve(cls: CharacterBase, charm: string | null, baseLevel = 200) {
     spl: 50,
     selectedAtkSkill: 'Release Ninja Spell==1',
   };
-  const calc = new Calculator().setMasterItems(items).setHpSpTable(hpSpTable).setClass(cls);
+  const calc = new Calculator().setMasterItems({}).setHpSpTable(hpSpTable).setClass(cls);
   calc.loadItemFromModel(model);
   new CalculatorController().runChain(calc, {
     monster: TARGET, ...bonuses, buffEquips: {}, buffMasterys: {}, consumeData: [],
@@ -106,17 +100,18 @@ describe('Arremessar Amuleto', () => {
   });
 
   it('takes the property of the Amuleto that is out', () => {
-    for (const [charm, , element] of CHARMS) {
+    // The one pairing in the table that is not its name read literally: the toggle the
+    // client calls Amuleto de Água is `_Charm_Ice` in here, and throws Water.
+    expect(SPIRIT_CHARMS.find(([charm]) => charm === '_Charm_Ice')?.[1]).toBe(ElementType.Water);
+
+    for (const [charm, element] of SPIRIT_CHARMS) {
       expect(solve(new Kagerou(), charm).skillPropertyAtk, charm).toBe(element);
       expect(solve(new Oboro(), charm).skillPropertyAtk, charm).toBe(element);
     }
   });
 
   it('gives the Oboro the same number as the Kagerou — the pair shares the skill', () => {
-    const kagerou = solve(new Kagerou(), '_Charm_Wind');
-    const oboro = solve(new Oboro(), '_Charm_Wind');
-
-    expect(oboro.baseSkillDamage).toBe(kagerou.baseSkillDamage);
-    expect(oboro.skillPropertyAtk).toBe(kagerou.skillPropertyAtk);
+    // The element is covered for both classes above; what is left to pin is the damage.
+    expect(solve(new Oboro(), '_Charm_Wind').baseSkillDamage).toBe(solve(new Kagerou(), '_Charm_Wind').baseSkillDamage);
   });
 });
