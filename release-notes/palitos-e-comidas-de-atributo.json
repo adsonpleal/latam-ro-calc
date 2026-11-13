@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Em Consumíveis, cada atributo passou a aceitar o palito e a comida +20 ao mesmo tempo, como no jogo, e os dois bônus somam. Reportado por Ted."
+  ],
+  "logs_es": [
+    "En Consumibles, cada atributo ahora acepta el palito y la comida +20 al mismo tiempo, como en el juego, y los dos bonus se suman. Reportado por Ted."
+  ],
+  "logs_en": [
+    "In Consumables, each stat now takes its stick and its +20 food at the same time, as in the game, and both bonuses add up. Reported by Ted."
+  ]
+}

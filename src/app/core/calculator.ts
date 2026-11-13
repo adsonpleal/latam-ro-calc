@@ -1644,33 +1644,44 @@ export class Calculator {
     }
 
     const consumableBonus: Record<string, number> = {};
+    // Two main-stat consumables replace each other only when they run on the same in-game
+    // status: a dish is SC_FOOD_<STAT>, a biscuit stick is SC_FOOD_<STAT>_CASH. The groups
+    // are summed at the end, which is what lets a player hold Churrasco de Selvagem and
+    // Palitos de FOR at the same time. Everything else stays in the main bucket, so a
+    // stick's non-stat lines still merge with the rest.
+    const cashStatBonus: Record<string, number> = {};
     for (const cons of this.consumableBonuses) {
+      const cashStatFood = cons?.__cashStatFood;
       const effective = cons?.__customItem
         ? this.calcItemStatus({ itemType: 'consumable' as ItemTypeEnum, itemRefine: 0, item: cons.__customItem })
-        : cons;
+        : cashStatFood ?? cons;
       for (const [attr, value] of Object.entries(effective ?? {})) {
         const valNum = Number(value);
-        if (mainStatuses.includes(attr as any) && consumableBonus[attr]) {
-          consumableBonus[attr] = Math.max(consumableBonus[attr], valNum);
+        const isMain = mainStatuses.includes(attr as any);
+        const bucket = cashStatFood && isMain ? cashStatBonus : consumableBonus;
+        if (isMain && bucket[attr]) {
+          bucket[attr] = Math.max(bucket[attr], valNum);
           continue;
         }
 
-        if (consumableBonus[attr]) {
-          consumableBonus[attr] += valNum;
+        if (bucket[attr]) {
+          bucket[attr] += valNum;
         } else {
-          consumableBonus[attr] = valNum;
+          bucket[attr] = valNum;
         }
       }
     }
     const consumAllStat = consumableBonus['allStatus'] || 0;
-    for (const [attr, value] of Object.entries(consumableBonus)) {
-      let newVal = value;
-      // stat +20 can stack with other
-      if (mainStatuses.includes(attr as any) && newVal !== 20) {
-        newVal = Math.max(value - consumAllStat, 0);
-      }
+    for (const bonus of [consumableBonus, cashStatBonus]) {
+      for (const [attr, value] of Object.entries(bonus)) {
+        let newVal = value;
+        // stat +20 can stack with other
+        if (mainStatuses.includes(attr as any) && newVal !== 20) {
+          newVal = Math.max(value - consumAllStat, 0);
+        }
 
-      updateTotalStatus(attr as any, newVal);
+        updateTotalStatus(attr as any, newVal);
+      }
     }
 
     const allStatus = this.totalEquipStatus.allStatus ?? 0;

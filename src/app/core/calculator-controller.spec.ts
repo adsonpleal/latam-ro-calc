@@ -43,6 +43,16 @@ describe('collectConsumables', () => {
     expect(sel.scripts).toEqual(['regular-pill']);
   });
 
+  // Board card EaFyaPWUTldpRPFX7YMs: a biscuit stick runs on SC_FOOD_<STAT>_CASH and a dish
+  // on SC_FOOD_<STAT>, so the engine has to see them as two groups instead of one stat
+  // bonus competing with itself. The tag is what carries that apart.
+  it('tags a biscuit stick so the engine keeps it out of the dish group', () => {
+    const foods = { 14616: { script: { str: ['15'] } }, 12429: { script: { str: ['20'] } } } as Record<number, { script?: any }>;
+    const sel = collectConsumables({ consumables: [], consumables2: [14616, 12429], aspdPotions: [] }, foods);
+    expect(sel.scripts).toEqual([{ __cashStatFood: { str: ['15'] } }, { str: ['20'] }]);
+    expect(sel.sources).toEqual({ consumable_14616: { str: 15 }, consumable_12429: { str: 20 } });
+  });
+
   it('ignores falsy ids and tolerates missing arrays', () => {
     const sel = collectConsumables({ consumables: [0, 100] as any, consumables2: undefined as any, aspdPotions: undefined as any }, items);
     expect(sel.scripts).toEqual(['a']);

@@ -7,6 +7,7 @@ import { MainModel } from 'src/app/models/main.model';
 import { MonsterModel } from 'src/app/models/monster.model';
 import { createMainModel } from 'src/app/utils';
 import { Calculator } from './calculator';
+import { collectConsumables } from './calculator-controller';
 
 // The real item DB, read once — it is ~11 MB, and three describe blocks below need it.
 const itemDb: Record<string, ItemModel> = JSON.parse(readFileSync('src/assets/demo/data/item.json', 'utf8'));
@@ -172,6 +173,45 @@ describe('Calculator', () => {
       expect(total.dmg_taken_all).toBe(8); // 5 + 3
       expect(total.subrace_player_human).toBe(7);
       expect(total.subele_neutral).toBe(10); // 4 + 6
+    });
+  });
+
+  // Board card EaFyaPWUTldpRPFX7YMs, reported by Ted: "no jogo é possivel usar os dois
+  // juntos". The +20 dishes run on SC_FOOD_<STAT> and the biscuit sticks on
+  // SC_FOOD_<STAT>_CASH — two statuses, two icons, two durations (5 min against 30 min in
+  // the client description) — so the two add up. Real scripts out of item.json.
+  describe('stat foods: a biscuit stick stacks with the dish of the same stat', () => {
+    const foodItems = (): Record<number, Partial<ItemModel>> => ({
+      14616: { ...itemDb['14616'] },  // Palitos de FOR — FOR +15 (SC_FOOD_STR_CASH)
+      12429: { ...itemDb['12429'] },  // Churrasco de Selvagem — FOR +20 (SC_FOOD_STR)
+      12883: { ...itemDb['12883'] },  // Almighty — all stats +10
+    });
+
+    const strWith = (ids: number[]): number => {
+      const calc = new Calculator();
+      calc.setMasterItems(foodItems() as any).setHpSpTable(mockHpSpTable).setClass(mockCharacter).setMonster(mockMonster);
+      const model = Object.assign(createMainModel(), { level: 200, consumables2: ids });
+      const selection = collectConsumables(model, foodItems() as any);
+      calc.loadItemFromModel(model).setConsumables(selection.scripts).prepareAllItemBonus();
+      return (calc as any).totalEquipStatus.str || 0;
+    };
+
+    it('gives each food on its own what its script says', () => {
+      expect(strWith([14616])).toBe(15);
+      expect(strWith([12429])).toBe(20);
+    });
+
+    it('sums the stick and the dish instead of keeping only the larger one', () => {
+      expect(strWith([14616, 12429])).toBe(35);
+      expect(strWith([12429, 14616])).toBe(35);  // order of selection must not matter
+    });
+
+    it('leaves the all-stat consumable overlapping the cash food as it did before', () => {
+      // Untouched by the card: Almighty's +10 still eats into the stick's +15 (and not into
+      // the dish's +20), which is the engine's long-standing all-stat rule, not a new one.
+      expect(strWith([12883, 14616])).toBe(15);
+      expect(strWith([12883, 12429])).toBe(30);
+      expect(strWith([12883, 14616, 12429])).toBe(35);
     });
   });
 
