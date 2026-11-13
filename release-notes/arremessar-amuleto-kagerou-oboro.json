@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Arremessar Amuleto entrou na Rotação do Kagerou e da Oboro, e também do Shinkiro e da Shiranui: a habilidade não existia no simulador e não dava para testar o dano dela. O dano é mágico, sai na propriedade do Amuleto que estiver ligado nos buffs e conta os 10 amuletos invocados; sem nenhum Amuleto ligado, a linha avisa que a habilidade exige um."
+  ],
+  "logs_es": [
+    "Liberar Amuleto entró en la Rotación del Kagerou y de la Oboro, y también del Shinkiro y de la Shiranui: la habilidad no existía en el simulador y no se podía probar su daño. El daño es mágico, sale en la propiedad del Amuleto que esté activado en los buffs y cuenta los 10 amuletos invocados; sin ningún Amuleto activado, la línea avisa que la habilidad exige uno."
+  ],
+  "logs_en": [
+    "Release Ninja Spell is now in the Rotation for the Kagerou and the Oboro, and for the Shinkiro and the Shiranui too: the skill was not in the simulator at all, so its damage could not be tested. The damage is magic, takes the property of whichever Charm is switched on in the buffs and counts the 10 summoned charms; with no Charm on, the row says the skill requires one."
+  ]
+}

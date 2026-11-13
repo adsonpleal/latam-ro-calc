@@ -1,6 +1,6 @@
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
-import { CROSS_SLASH, CROSS_WOUND } from '../skills/shared-skills';
+import { CROSS_SLASH, CROSS_WOUND, RELEASE_NINJA_SPELL } from '../skills/shared-skills';
 import { Ninja } from './Ninja';
 import { ShadowWarrior } from '../constants/share-active-skills/shadow-warrior';
 import { AdditionalBonusInput, InfoForClass } from '../models/info-for-class.model';
@@ -89,6 +89,7 @@ export class Kagerou extends Ninja {
   private readonly classNames2nd = [ClassName.Kagerou];
   private readonly atkSkillList2nd: AtkSkillModel[] = [
     CROSS_SLASH,
+    RELEASE_NINJA_SPELL,
     {
       label: 'Kunai Explosion Lv5',
       name: 'Kunai Explosion',

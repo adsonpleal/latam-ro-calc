@@ -1,6 +1,6 @@
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
-import { CROSS_SLASH, CROSS_WOUND } from '../skills/shared-skills';
+import { CROSS_SLASH, CROSS_WOUND, RELEASE_NINJA_SPELL } from '../skills/shared-skills';
 import { Ninja } from './Ninja';
 import { ShadowWarrior } from '../constants/share-active-skills/shadow-warrior';
 import { AdditionalBonusInput, InfoForClass } from '../models/info-for-class.model';
@@ -93,7 +93,7 @@ export class Oboro extends Ninja {
    * `JT_NINJA` tree owns every one of them, so the Kagerou and the Shinkiro were
    * missing skills the Oboro had. Corte das Sombras is the Oboro's own and stays.
    */
-  private readonly atkSkillList2nd: AtkSkillModel[] = [CROSS_SLASH];
+  private readonly atkSkillList2nd: AtkSkillModel[] = [CROSS_SLASH, RELEASE_NINJA_SPELL];
 
   private readonly activeSkillList2nd: ActiveSkillModel[] = [
     ShadowWarrior,

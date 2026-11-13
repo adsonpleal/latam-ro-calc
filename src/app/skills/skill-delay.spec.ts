@@ -47,6 +47,9 @@ const NO_CLIENT_ROW = new Set([
   2243, // Investida de Worg (Wug Strike)
   2308, // Toque do Oblívio (Banishing Point)
   2593, // Chute Solar (Blaze Kick)
+  // Arremessar Amuleto (Release Ninja Spell): the feed carries the skill with `delay: null`,
+  // and rAthena's skill_db gives it no cast, no after-cast and no cooldown either.
+  3019,
   // The five Taekwon kicks: not cast at all, they fire off an ordinary attack once their
   // stance procs, so the client ships no Conjuração/Espera row for any of them.
   413, // Chute do Tornado (Tornado Kick)

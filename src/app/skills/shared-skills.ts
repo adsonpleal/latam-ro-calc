@@ -1,6 +1,8 @@
 import { ElementType } from '../constants/element-type.const';
+import { MAX_SPIRIT_CHARM, SPIRIT_CHARMS } from '../constants/share-active-skills/element-charm';
 import type { WeaponTypeName } from '../constants/weapon-type-mapper';
 import type { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel } from '../jobs/_character-base.abstract';
+import type { SkillStateCtx } from '../models/info-for-class.model';
 // Deep imports, not the '../utils' barrel: core/auto-cast.ts imports this file and avoids
 // that barrel on purpose, and pulling it in here would drag its ~31 modules back in.
 import { atkSkillLevelList } from '../utils/atk-skill-level-list';
@@ -652,7 +654,7 @@ export const REVERBERATION: AtkSkillModel = {
   formula: ({ skillLevel, model }) => (700 + skillLevel * 300) * (model.level / 100),
 };
 
-// --- Oboro / Kagerou (Ninja) — Cross Slash + the Cross Wound debuff toggle it reads ---
+// --- Oboro / Kagerou (Ninja) — what the pair shares, and the toggles those skills read ---
 
 export const CROSS_WOUND: ActiveSkillModel = {
   label: 'Ferida Cruzada',
@@ -679,6 +681,47 @@ export const CROSS_SLASH: AtkSkillModel = {
     const bonus = skills.isActive('Cross Wound') ? model.level * skillLevel : 0;
     return skillLevel * 200 * (model.level / 100) + bonus;
   },
+};
+
+/** The property of the Amuleto that is out, or `undefined` when the player has none up. */
+const charmElement = (skills?: SkillStateCtx) => SPIRIT_CHARMS.find(([charm]) => skills?.isActive(charm))?.[1];
+
+/**
+ * Arremessar Amuleto (KO_KAIHOU, 3019) — the Kagerou/Oboro charm dump. Shared because the
+ * client gives it to both of them, and their 4th classes inherit it from there.
+ *
+ * This is one of the few attacks whose client description publishes no ATQM column: all it
+ * says is "Atira todos os amuletos invocados para causar dano mágico no alvo de acordo com a
+ * propriedade dos amuletos". The two sources that do publish a ratio agree with each other,
+ * so the formula below is theirs rather than a reading of that prose:
+ *
+ *   bROWiki   ATQM = {ATQM × [(200 × número de amuletos) × (Nv. de base ÷ 100)]}%
+ *             https://browiki.org/wiki/Arremessar_Amuleto
+ *   rAthena   `skillratio += -100 + 200 * sd->spiritcharm;` followed by `RE_LVL_DMOD(100)`
+ *             (src/map/skills/ninja/releaseninjaspell.cpp)
+ *
+ * "Número de amuletos" is MAX_SPIRIT_CHARM here, because the full stack is what the charm
+ * toggles already describe (element-charm.ts carries both the count and the reasoning). A
+ * partial stack is not a state this calculator can express — the toggles are Sim/Não, not
+ * a count — so the skill requires a charm and then throws the stack that charm stands for.
+ *
+ * The element follows the charm, as both the client ("de acordo com a propriedade dos
+ * amuletos") and rAthena's `modifyElement` have it.
+ */
+export const RELEASE_NINJA_SPELL: AtkSkillModel = {
+  name: 'Release Ninja Spell',
+  label: 'Release Ninja Spell Lv1',
+  value: 'Release Ninja Spell==1',
+  // The client ships no Conjuração/Espera row for it (`delay: null` in the feed), and
+  // rAthena's skill_db gives it no cast, no pós-conjuração and no recarga either.
+  acd: 0,
+  fct: 0,
+  vct: 0,
+  cd: 0,
+  isMatk: true,
+  verifyItemFn: ({ skills }) => (charmElement(skills) ? '' : 'Amuleto invocado'),
+  getElement: (_skillValue, info) => charmElement(info?.skills) ?? ElementType.Neutral,
+  formula: ({ model }) => 200 * MAX_SPIRIT_CHARM * (model.level / 100),
 };
 
 /**

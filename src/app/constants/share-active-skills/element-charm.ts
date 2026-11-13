@@ -1,3 +1,4 @@
+import { ElementType } from '../element-type.const';
 import { ActiveSkillModel } from '../../jobs/_character-base.abstract';
 
 // Ninja/Kagerou/Oboro elemental Spirit Charms. Split into one mutually-exclusive
@@ -81,3 +82,23 @@ export const ElementCharm: ActiveSkillModel[] = [
     ],
   },
 ];
+
+/**
+ * rAthena's `MAX_SPIRITCHARM` (pc.hpp): the full stack one of the toggles above stands
+ * for. Every bonus on them is already written at this count — Amuleto de Terra's
+ * `weaponAtkPercent: 150` is rAthena's `15 * spiritcharm` at ten charms, and the
+ * `p_element_*: 30` block is the one it gates on `spiritcharm >= MAX_SPIRITCHARM` — so a
+ * skill that throws the stack (Arremessar Amuleto, skills/shared-skills.ts) counts ten too.
+ */
+export const MAX_SPIRIT_CHARM = 10;
+
+/**
+ * The property each charm throws, in the order the toggles are declared above. One entry
+ * per toggle: a charm missing from here is a charm Arremessar Amuleto cannot be cast with.
+ */
+export const SPIRIT_CHARMS = [
+  ['_Charm_Fire', ElementType.Fire],
+  ['_Charm_Earth', ElementType.Earth],
+  ['_Charm_Ice', ElementType.Water],
+  ['_Charm_Wind', ElementType.Wind],
+] as const;
