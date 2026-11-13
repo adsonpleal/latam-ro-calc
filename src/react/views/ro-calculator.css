@@ -146,45 +146,11 @@
   color: var(--text-color);
   font-weight: 600;
 }
-/* A stat holds two foods that stack (the stick and the dish), so the row grew from a
-   single dropdown to a two-option list and can no longer ride `.joined_field`'s fixed
-   height — the caption stretches alongside however many options the search leaves. */
-:is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-food .consumable-food-field{
-  height: auto;
-  margin-bottom: 6px;
-}
-:is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-food-field:last-child{
-  margin-bottom: 0;
-}
-:is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-food-field .joined_caption{
-  flex: 0 0 44px;
-  justify-content: center;
-  padding: 0 0.4rem;
-  font-size: 11px;
-}
-:is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-food-field app-ui-listbox{
-  flex: 1 1 auto;
-  min-width: 0;
-}
-:is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-food-field .ui-listbox{
-  height: 100%;
-  border: 1px solid var(--surface-border);
-  border-radius: 0 var(--border-radius) var(--border-radius) 0;
-  background: var(--surface-ground);
-}
-:is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-food-field .ui-listbox-list{
-  padding: 2px;
-}
-:is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-food .consumable-food-field .ui-listbox-item{
-  padding: 0.2rem 0.35rem;
-  margin-bottom: 0;
-  font-size: 12px;
-  line-height: 1.25;
-}
-:is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-food-field .ui-listbox-item .text_ellips{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+/* A stat holds two foods that stack (the stick and the dish), so each one is a caption
+   with its foods listed under it, exactly like "Efeitos adicionais" in the section next
+   door — the listbox itself is already styled by the `.consumable` rules below. */
+:is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-food-field + .consumable-food-field{
+  margin-top: 0.75rem;
 }
 :is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-picker-field{
   width: 100%;

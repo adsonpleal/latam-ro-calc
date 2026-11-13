@@ -477,11 +477,13 @@ let sustainPanel: any = vm["sustainPanel"]; return <>{(() => { const __condition
 "template_item": (context: any) => { const item = context["$implicit"]; return <>{consumableOption({"$implicit": item})}</>; }}}></Render></Render>
 <Render tag="div" props={{"className": ["consumable-side"].filter(Boolean).join(' ')}}><Render tag="section" props={{"hidden": !vm.consumableList2.flat().some((option: any) => matches(option.label)), "className": ["calc-panel-section consumable-food"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["calc-section-heading"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{t('calc.statFoods')}</Render></Render>
 {(vm.consumableList2 ?? []).map((__entry38: any, __index38: number, __array38: any[]) => { const con = __entry38;
-const i = __index38; const shown = con.filter((option: any) => matches(option.label)); if (!shown.length) return null; return <Fragment key={identityKey(__entry38)}><Render tag="div" props={{"className": ["joined_field consumable-picker-field consumable-food-field"].filter(Boolean).join(' ')}}><Render tag="span" props={{"className": ["joined_caption calc-select-label"].filter(Boolean).join(' ')}}>{interpolate(["",""], [t(FOOD_STATS[i])])}</Render>
+const i = __index38; const shown = con.filter((option: any) => matches(option.label)); if (!shown.length) return null; return <Fragment key={identityKey(__entry38)}><Render tag="div" props={{"className": ["consumable-food-field"].filter(Boolean).join(' ')}}><Render tag="span" props={{"className": ["calc-field-label"].filter(Boolean).join(' ')}}>{interpolate(["",""], [t(FOOD_STATS[i])])}</Render>
 {/* A stat's biscuit stick and its dish are different in-game buffs and are eaten together,
-    so the picker is a multi-select rather than one food per stat. */}
+    so the picker is a multi-select rather than one food per stat — laid out like
+    "Efeitos adicionais" next door: the stat's name above, its foods listed under it. */}
 <Render tag="app-ui-listbox" props={{"options": shown,
 "multiple": true,
+"metaKeySelection": false,
 "ariaLabel": t(FOOD_STATS[i]),
 "value": vm.statFoodSelection(i),
 "onModelChange": (value: any, event: any) => vm.action(() => { ((event: any) => vm.action(() => { const $event = event; vm.setStatFoodSelection(i, $event) }))(value); ((event: any) => vm.action(() => { const $event = event; vm.onConsumableChange() }))({value, originalEvent: event}); }),
