@@ -97,6 +97,25 @@ describe('localizeItemNames', () => {
 describe('plain calculator session', () => {
   beforeEach(() => vi.useFakeTimers());
   afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); });
+  // Board card EaFyaPWUTldpRPFX7YMs: the stat-food picker holds a set of ids, so one stat's
+  // control must write its own two foods and leave every other stat's alone.
+  it('keeps a stat’s stick and dish together without disturbing the other stats', () => {
+    const { session } = makeSession();
+    session.model.consumables2 = [12431];  // Carne ao Vinho, the VIT dish
+    session.setStatFoodSelection(0, [14616, 12429]);  // Palitos de FOR + Churrasco de Selvagem
+    expect(session.statFoodSelection(0)).toEqual([14616, 12429]);
+    expect(session.model.consumables2).toEqual([12431, 14616, 12429]);
+
+    session.setStatFoodSelection(0, [12429]);
+    expect(session.statFoodSelection(0)).toEqual([12429]);
+    expect(session.model.consumables2).toEqual([12431, 12429]);
+
+    session.setStatFoodSelection(0, []);
+    expect(session.statFoodSelection(0)).toEqual([]);
+    expect(session.model.consumables2).toEqual([12431]);
+    expect(session.statFoodSelection(2)).toEqual([12431]);
+  });
+
   it('restores Algoz with base 99, every job through 70 and named Sonic Blow controls', async () => {
     const { session, storage } = makeSession();
     storage.setItem('ro-set', JSON.stringify({ class: 4013, level: 200, jobLevel: 68, str: 130, pow: 50, weapon: 1250,

@@ -43,4 +43,19 @@ describe('normalizeSavedModel', () => {
     const restored = normalizeSavedModel(decodeBuild(token));
     expect(restored.rotationStacks).toEqual([12, 20]);
   });
+
+  // Board card EaFyaPWUTldpRPFX7YMs: the stat foods used to be one per stat, so a build
+  // shared back then carries `consumables2` indexed by stat, with a hole wherever a stat
+  // was left empty. They are a plain set of chosen ids now, and the link has to come back
+  // with exactly the foods it was shared with — no buff gained, none lost.
+  it('loads a stat-food selection shared before the two foods could stack', () => {
+    const token = encodeBuild({ class: 4252, level: 250, jobLevel: 70, consumables2: [null, null, 12431, null, 14620] });
+    const restored = normalizeSavedModel(decodeBuild(token));
+    expect(restored.consumables2).toEqual([12431, 14620]);
+  });
+
+  it('keeps a stick and a dish of the same stat, and never repeats one', () => {
+    const restored = normalizeSavedModel({ consumables2: [14616, 12429, 14616] });
+    expect(restored.consumables2).toEqual([14616, 12429]);
+  });
 });

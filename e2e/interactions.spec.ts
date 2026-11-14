@@ -423,3 +423,34 @@ test('auto-cast damage, critical, DPS and details popups retain their source ele
     await expect(trigger).toBeFocused();
   }
 });
+
+// Board card EaFyaPWUTldpRPFX7YMs, reported by Ted: in game a stat's biscuit stick and its
+// dish are two separate buffs and are eaten together, so the picker has to take both and
+// the sheet has to show the sum.
+test('a stat takes its stick and its dish at once, and old links keep the food they carried', async ({ page }) => {
+  // The shape builds were saved in while a stat held one food: indexed by stat, holes where
+  // the stat was empty. It has to come back as the same two foods, no more and no less.
+  await page.addInitScript(() => localStorage.setItem('ro-set', JSON.stringify({
+    class: 4252, level: 250, jobLevel: 70, consumables2: [null, null, 12431, null, 14620],
+  })));
+  await boot(page);
+  await page.getByRole('button', { name: 'Consumíveis', exact: true }).click();
+  const panel = page.getByRole('region', { name: 'Consumíveis', exact: true });
+  await expect(panel.getByRole('option', { name: 'Carne ao Vinho' })).toHaveAttribute('aria-selected', 'true');
+  await expect(panel.getByRole('option', { name: 'Palitos de DES' })).toHaveAttribute('aria-selected', 'true');
+  await expect(panel.getByRole('option', { name: 'Palitos de VIT' })).toHaveAttribute('aria-selected', 'false');
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('ro-set')!).consumables2)).toEqual([12431, 14620]);
+
+  const strBonus = page.locator('app-status-input').filter({ has: page.locator('label[for="FOR"]') }).locator('.status_extra');
+  const strBefore = Number((await strBonus.textContent())!.replace(/[^\d-]/g, ''));
+  await panel.getByRole('option', { name: 'Palitos de FOR' }).click();
+  await expect(panel.getByRole('option', { name: 'Palitos de FOR' })).toHaveAttribute('aria-selected', 'true');
+  await panel.getByRole('option', { name: 'Churrasco de Selvagem' }).click();
+  // Both ticked at once — picking one no longer drops the other.
+  await expect(panel.getByRole('option', { name: 'Palitos de FOR' })).toHaveAttribute('aria-selected', 'true');
+  await expect(panel.getByRole('option', { name: 'Churrasco de Selvagem' })).toHaveAttribute('aria-selected', 'true');
+  // FOR +15 from the stick and FOR +20 from the dish, added.
+  await expect(strBonus).toHaveText(`+${strBefore + 35}`);
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('ro-set')!).consumables2))
+    .toEqual([12431, 14620, 14616, 12429]);
+});

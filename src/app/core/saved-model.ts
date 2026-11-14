@@ -60,6 +60,13 @@ export function normalizeSavedModel(savedData: Record<string, any> | null | unde
     }
   }
 
+  // `consumables2` used to be one stat food per stat, indexed by stat, so a build saved
+  // back then carries `null` where a stat was left empty. A stat's stick and its dish
+  // stack in game, so it is a plain set of chosen food ids now — and the ids an old build
+  // carries are already exactly that set, which is why dropping the holes is the whole
+  // migration: the same link loads the same buffs.
+  rawModel.consumables2 = [...new Set(rawModel.consumables2.filter(Boolean))];
+
   // A build saved before rotations existed carries no `rotation` key, arrives as [],
   // and becomes a rotation of one holding its selectedAtkSkill.
   rawModel.rotation = normalizeRotation(rawModel.rotation, rawModel.selectedAtkSkill);

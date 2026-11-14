@@ -3898,6 +3898,30 @@ await ((_event?: unknown) => {
     this.updateItemEvent.next(1);
   }
 
+  /**
+   * The stat foods chosen for one stat (the stick and/or the dish of `consumableList2[index]`).
+   *
+   * `model.consumables2` is a flat set of food ids rather than one entry per stat, because
+   * a stick and a dish of the same stat are different in-game buffs and are eaten together.
+   * The per-stat controls read and write their own slice of that set.
+   */
+  statFoodSelection(index: number): number[] {
+    return this.statFoodIds(index).filter((id) => this.model.consumables2.includes(id));
+  }
+
+  setStatFoodSelection(index: number, ids: number[]) {
+    const group = this.statFoodIds(index);
+    const picked = ids ?? [];
+    this.model.consumables2 = [
+      ...this.model.consumables2.filter((id) => !group.includes(id)),
+      ...group.filter((id) => picked.includes(id)),
+    ];
+  }
+
+  private statFoodIds(index: number): number[] {
+    return (this.consumableList2[index] ?? []).map((option) => Number(option.value));
+  }
+
   onSkillClassChange(i?: number) {
     // turning on an active skill in an exclusive group (e.g. the Inquisitor Faiths)
     // turns the rest of that group off — mirrors onSkillBuffChange for the souls.

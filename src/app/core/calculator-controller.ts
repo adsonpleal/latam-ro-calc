@@ -1,3 +1,4 @@
+import { StatStickIds } from 'src/app/constants/food-stat-list';
 import { MainModel } from 'src/app/models/main.model';
 import { MonsterModel } from 'src/app/models/monster.model';
 import { ChanceModel } from 'src/app/models/chance-model';
@@ -78,7 +79,11 @@ export function collectConsumables(
   }
 
   return { scripts: ids.filter((id: ConsumableId) => !!items[id]?.script)
-    .map((id: ConsumableId) => (items[id] as any).custom ? { __customItem: items[id] } : scriptFor(id)),
+    .map((id: ConsumableId) => (items[id] as any).custom ? { __customItem: items[id] }
+      // Tagged, not flattened: the engine merges main-stat consumables per in-game status
+      // group, and a biscuit stick's `_CASH` buff adds on top of the dish's instead of
+      // replacing it. See {@link StatStickIds}.
+      : StatStickIds.has(id) ? { __cashStatFood: scriptFor(id) } : scriptFor(id)),
     sources, usedHpL, usedSupBattlePill };
 }
 
