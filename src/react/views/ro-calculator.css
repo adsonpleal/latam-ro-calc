@@ -105,25 +105,21 @@
 :is(app-ro-calculator, .ui-scope-app-ro-calculator) .calc-section-heading > span{
   flex: 0 0 auto;
 }
+/* The two sections take the panel's full width, one above the other, and each one splits
+   its own contents into columns instead — the attack-speed pair side by side, the six
+   stats two across. `auto-fit` is what drops them back to a single column on a phone,
+   where the panel is roughly one of these columns wide. */
 :is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-side{
   display: grid;
   grid-column: 1;
   grid-row: 1;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.875rem;
   min-width: 0;
   margin-bottom: 0.25rem;
 }
 :is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-side .calc-panel-section{
   margin-bottom: 0;
-}
-:is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-aspd{
-  grid-column: 1;
-  grid-row: 1;
-}
-:is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-food{
-  grid-column: 2;
-  grid-row: 1;
 }
 :is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-stack{
   grid-column: 1;
@@ -133,7 +129,8 @@
 :is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-create{ order: 2; flex: 0 0 auto; width: max-content; text-transform: none; letter-spacing: normal; }
 :is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-aspd-grid{
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  align-items: start;
   gap: 0.75rem;
 }
 :is(app-ro-calculator, .ui-scope-app-ro-calculator) .calc-field-label{
@@ -147,10 +144,13 @@
   font-weight: 600;
 }
 /* A stat holds two foods that stack (the stick and the dish), so each one is a caption
-   with its foods listed under it, exactly like "Efeitos adicionais" in the section next
-   door — the listbox itself is already styled by the `.consumable` rules below. */
-:is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-food-field + .consumable-food-field{
-  margin-top: 0.75rem;
+   with its foods listed under it, exactly like "Efeitos adicionais" above — the listbox
+   itself is already styled by the `.consumable` rules below. */
+:is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-food-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  align-items: start;
+  gap: 0.75rem 0.875rem;
 }
 :is(app-ro-calculator, .ui-scope-app-ro-calculator) .consumable-picker-field{
   width: 100%;
