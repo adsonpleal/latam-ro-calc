@@ -112094,10 +112094,7 @@
         "GRADE[weapon==D]===5"
       ],
       "pAtk": [
-        "GRADE[weapon==C]===4"
-      ],
-      "sMatk": [
-        "GRADE[weapon==C]===4"
+        "GRADE[weapon==C]3---4"
       ],
       "pow": [
         "GRADE[weapon==B]2---1"
@@ -112366,11 +112363,8 @@
       "matkPercent": [
         "GRADE[weapon==D]===5"
       ],
-      "pAtk": [
-        "GRADE[weapon==C]===4"
-      ],
       "sMatk": [
-        "GRADE[weapon==C]===4"
+        "GRADE[weapon==C]3---4"
       ],
       "spl": [
         "GRADE[weapon==B]2---1"
