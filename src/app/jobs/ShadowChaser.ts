@@ -1,8 +1,11 @@
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import {
-  ARROW_STORM, CHAIN_LIGHTNING, CRIMSON_ROCK, DIAMOND_DUST, EARTH_STRAIN, JUDEX, KILLING_CLOUD, SOUL_EXPANSION,
+  ADORAMUS, ARROW_STORM, CHAIN_LIGHTNING, CRIMSON_ROCK, DIAMOND_DUST, DRAIN_LIFE, EARTH_GRAVE, EARTH_STRAIN,
+  FROST_MISTY, HELL_INFERNO, HELL_INFERNO_DARK, JACK_FROST, JUDEX, KILLING_CLOUD, METALIC_SOUND, POISON_BURST,
+  SOUL_EXPANSION, VARETYR_SPEAR,
 } from '../skills/shared-skills';
+import { atkSkillLevelList } from '../utils';
 import { DarkClawFn, NoLimitFn, ShieldSpellFn } from '../constants/share-active-skills';
 import { InfoForClass } from '../models/info-for-class.model';
 import { ElementType } from '../constants/element-type.const';
@@ -11,6 +14,10 @@ import { WeaponTypeName } from '../constants/weapon-type-mapper';
 import { Stalker } from './Stalker';
 import { AutoCastSource, ClassAutoCastDefinition } from '../models/auto-cast.model';
 import { geminiSources } from '../skills/gemini-lumen';
+
+/** The variable cast the client gives both of the Arcano's ice spells, 1,5 + 0,5 per
+ *  level — the only one of their four cast/delay numbers that moves with the level. */
+const iceVct = (skillLevel: number) => 1.5 + skillLevel * 0.5;
 
 // Copyable magic with existing damage formulas: https://browiki.org/wiki/Plágio
 // Both copy slots obey Shadow Spell's restrictions, including no third-class spells:
@@ -238,14 +245,15 @@ export class ShadowChaser extends Stalker {
       },
     },
     /**
-     * The seven spells below, plus Onda Psíquica above, are the ones the Arco Híbrido
-     * (700132) names — and all eight are on bROWiki's list of third-class skills a
-     * Renegado can copy with Mimetismo and then cast himself:
+     * Every third-class spell that deals magic damage on bROWiki's list of what Mimetismo
+     * copies, so a Renegado can cast by hand whatever he copied:
      * https://browiki.org/wiki/Mimetismo#Habilidades
-     * That list is wider than the bow's eight, and what is here is the bow's set, not the
-     * list. Still copyable and still not offered, each with a formula already in the
-     * engine: Zero Absoluto, Esquife de Gelo, Drenar Vida, Chamas de Hela, Implosão Tóxica
-     * and Castigo de Nerthus. They wait on a card of their own.
+     * The first seven, plus Onda Psíquica above, are the eight the Arco Híbrido (700132)
+     * names, which is the set card YuCYWGJl6T71nXVIyoCd brought in; the nine after them
+     * close the list — card xdHALIZd5ORoGrBwMufK.
+     *
+     * Three magic entries on that list stay out, and the why of each is written down in
+     * ShadowChaser.copied-third-class-magic.spec.ts. Every other entry is physical.
      *
      * Casting a copy is not the same path as Desejo das Sombras auto-casting one, which
      * takes no third-class, expanded or Holy magic (that page's Notas) — which is why
@@ -283,6 +291,41 @@ export class ShadowChaser extends Stalker {
       fct: (lv) => Math.max(0, 0.9 - lv * 0.2),
       vct: (lv) => 2.1 + lv * 0.2,
       cd: 5,
+    },
+    // A copy deals what the class it was taken from deals, so this one takes the Arcano's
+    // own hit shape: the column once, printed over five crystals. The shared constant's
+    // `totalHit: 5` is the auto-cast copy and disagrees — see the note on it.
+    { ...FROST_MISTY, totalHit: undefined, hit: 5, acd: 1, fct: 0.5, vct: iceVct, cd: 8 },
+    { ...JACK_FROST, acd: 0.5, fct: 1, vct: iceVct, cd: 4 },
+    { ...DRAIN_LIFE, acd: 0, fct: 1, vct: 4, cd: 2 },
+    // Cast by hand the spell is both of its halves, where an auto-cast prints the Fogo one
+    // alone — so this entry adds the Sombrio half the shared definition leaves out.
+    { ...HELL_INFERNO, part1LabelKey: 'skd.part.hellInferno1', part2: HELL_INFERNO_DARK, acd: 0.5, fct: 1, vct: 3, cd: 3 },
+    { ...EARTH_GRAVE, acd: 1, fct: (lv) => 2 - lv * 0.2, vct: (lv) => 2 + lv * 0.2, cd: 5 },
+    {
+      ...POISON_BURST,
+      acd: 1,
+      fct: (lv) => 1 - lv * 0.2,
+      // The client's variable cast stops stepping at Nv5 (5,8 s then 6 s, not 7 s).
+      vct: (lv) => [2.2, 3.4, 4.6, 5.8, 6][lv - 1],
+      cd: 2,
+    },
+    {
+      ...VARETYR_SPEAR,
+      acd: 1,
+      // The client's fixed cast drops 0,2 s every second level, not every level.
+      fct: (lv) => 2 - Math.ceil(lv / 2) * 0.2,
+      vct: (lv) => 2 + lv * 0.2,
+      cd: 5,
+    },
+    { ...ADORAMUS, acd: 0.5, fct: 0.5, vct: 2, cd: 2.5 },
+    {
+      ...METALIC_SOUND,
+      // The Menestrel offers this one at Nv10 alone; a copy is capped by Mimetismo, so
+      // every level has to be pickable here. Its other three cast fields are already the
+      // client's own on the shared definition — only the variable cast moves per level.
+      levelList: atkSkillLevelList('Metalic Sound', 10),
+      vct: (lv) => 1 + lv * 0.3,
     },
     {
       name: 'Comet',
