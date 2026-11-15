@@ -371,6 +371,29 @@ const JobBuffsList: ActiveSkillModel[] = [
     ],
   },
   {
+    // Geleira — the 15-minute state Cacos de Gelo (AG_CRYSTAL_IMPACT 5225) puts on the
+    // Arch Mage and every party member standing in the area when it is cast under
+    // Potencializar Magia Nv1. The client's own description of 5225 is the whole table:
+    // "Geleira: DEF +300, DEFM +100, dano mágico de Água +30%, resistência a Água +30%".
+    // The English and Spanish clients repeat the same four numbers, the Spanish one naming
+    // the state [Glaciar]. Plain "dano mágico de Água" is the character's own-element stage
+    // (`m_my_element_water`, see calcMagicalSkillDamage), not "contra oponentes de Água";
+    // the resistance is the defender-side `subele_water`, which the reduction panel reads.
+    //
+    // Received buff and nothing else: the state outlives the cast and does not follow the
+    // Potencializar Magia level chosen afterwards, so an Arch Mage who cast it himself ticks
+    // this same row — the only place the +30% comes from, since Climax Nv1 only suppresses
+    // the Cacos de Gelo damage and grants no bonus of its own.
+    name: '_Geleira',
+    label: 'Geleira',
+    icon: 5225,
+    inputType: 'selectButton',
+    dropdown: [
+      { label: 'Sim', isUse: true, value: 1, bonus: { def: 300, mdef: 100, m_my_element_water: 30, subele_water: 30 } },
+      { label: 'Não', isUse: false, value: 0 },
+    ],
+  },
+  {
     name: 'Raid',
     label: 'Ataque Surpresa',
     icon: 214, // RG_RAID
@@ -640,19 +663,6 @@ const JobBuffsList: ActiveSkillModel[] = [
       { label: 'Não', value: 0, isUse: false },
     ],
   },
-  // {
-  //   name: 'Climax',
-  //   label: 'Climax',
-  //   inputType: 'dropdown',
-  //   dropdown: [
-  //     { label: '-', value: 0, isUse: false },
-  //     { label: 'Nv 1', value: 1, isUse: true, bonus:{def: 300, mdef: 100, m_my_element_water: 30} },
-  //     { label: 'Nv 2', value: 2, isUse: true },
-  //     { label: 'Nv 3', value: 3, isUse: true },
-  //     { label: 'Nv 4', value: 4, isUse: true },
-  //     { label: 'Nv 5', value: 5, isUse: true },
-  //   ],
-  // },
 ];
 
 // Buffs first, monster debuffs last (stable within each group).
