@@ -235,10 +235,14 @@ export function collectBuffBonuses(buffDefs: BuffDef[], selectedValues: any[], a
  * A target-side debuff can reach the monster two ways — a party member casts it on you
  * (the shared row) or you cast it yourself (the class's own active row) — and the two
  * catalogs name it identically. `collectBuffBonuses` above already drops the shared row's
- * bonus in that case, so the debuff is never counted twice; the panel uses this set to
- * drop the row as well, because both rows carry `isDebuff` and "Debuffs no monstro"
- * listed each of them in turn: Cometa for the Warlock line, Garra Sombria for the Algoz
- * line, Oleum Sanctum for the Inquisidor.
+ * bonus whenever the class row is switched on, so the debuff is never counted twice; the
+ * panel uses this set to drop the row as well, because both rows carry `isDebuff` and
+ * "Debuffs no monstro" listed each of them in turn: Cometa for the Warlock line, Garra
+ * Sombria for the Algoz line, Oleum Sanctum for the Inquisidor.
+ *
+ * The two tests deliberately differ. The bonus asks what is switched on right now
+ * (`activeSkillNames`); the row asks what the class can cast at all, because a control
+ * that is off has to disappear too — that is the common case, and the whole report.
  *
  * The class row is the one that survives: it is what the engine honours when both are
  * selected, and the only one `isSkillActive()` gates can see (Explosão de Chamas reads

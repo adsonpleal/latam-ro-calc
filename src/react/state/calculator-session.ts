@@ -153,6 +153,10 @@ interface MonsterSelectItemGroup extends SelectItemGroup {
 const Characters = getClassDropdownList();
 const compareItemNames = new Intl.Collator('pt-BR').compare;
 
+/** True when `value` picks an option of `dropdown` that counts as "on" (`isUse`). */
+const isOptionOn = (dropdown: { value: any; isUse?: boolean }[], value: any) =>
+  !!dropdown.find((option) => option.value === value)?.isUse;
+
 interface ClassModel extends Partial<Record<ItemTypeEnum, number>> {
   rawOptionTxts: string[];
   customAttachments?: MainModel['customAttachments'];
@@ -1811,17 +1815,15 @@ await ((_event?: unknown) => {
     return this.isEnableCompare && !!this.totalSummary2;
   }
 
-  /** The skill panel groups every target-side effect together without changing the
-   * source arrays: the template keeps each row's original index for its model binding. */
-  get hasSkillDebuffs(): boolean {
-    return this.skillBuffs.some((skill) => this.isMonsterDebuffRow(skill)) || this.activeSkills.some((skill) => skill.isDebuff && this.isSkillVisible(skill));
-  }
-
   /**
-   * True for a shared buff row that belongs in "Debuffs no monstro". A debuff the
-   * selected class casts itself is listed from its own active row instead, so the panel
-   * shows one control per debuff rather than the same one at the top and at the bottom
-   * (see {@link supersededDebuffNames}).
+   * True for a shared buff row that belongs in "Debuffs no monstro". The panel groups
+   * every target-side effect into that one section without changing the source arrays —
+   * each row keeps its original index for its model binding — so this is the membership
+   * test for the shared half of it.
+   *
+   * A debuff the selected class casts itself is listed from its own active row instead,
+   * so the section shows one control per debuff rather than the same one at the top and
+   * at the bottom (see {@link supersededDebuffNames}).
    */
   isMonsterDebuffRow(skill: { name: string; isDebuff?: boolean; preview?: boolean }): boolean {
     return !!skill.isDebuff && !this.supersededDebuffs.has(skill.name) && this.isSkillVisible(skill);
@@ -3164,13 +3166,17 @@ await ((_event?: unknown) => {
       const activeIndex = activeSkills.findIndex((skill) => skill.name === name);
       if (buffIndex < 0 || activeIndex < 0) continue;
 
-      const shared = this.model.skillBuffs[buffIndex];
-      const isShared = this.skillBuffs[buffIndex].dropdown.find((option) => option.value === shared)?.isUse;
-      const isClassRowOn = activeSkills[activeIndex].dropdown.find((option) => option.value === this.model.activeSkills[activeIndex])?.isUse;
-      if (isShared && !isClassRowOn && activeSkills[activeIndex].dropdown.some((option) => option.value === shared)) {
-        this.model.activeSkills[activeIndex] = shared;
+      const shared = this.skillBuffs[buffIndex].dropdown;
+      const classRow = activeSkills[activeIndex].dropdown;
+      const saved = this.model.skillBuffs[buffIndex];
+
+      // The value carries over only if the class row spells it the same way, which every
+      // colliding pair does today (both sides of Cometa, Garra Sombria and Oleum Sanctum
+      // ship the same dropdown).
+      if (isOptionOn(shared, saved) && !isOptionOn(classRow, this.model.activeSkills[activeIndex]) && isOptionOn(classRow, saved)) {
+        this.model.activeSkills[activeIndex] = saved;
       }
-      this.model.skillBuffs[buffIndex] = this.skillBuffs[buffIndex].dropdown.find((option) => !option.isUse)?.value ?? 0;
+      this.model.skillBuffs[buffIndex] = shared.find((option) => !option.isUse)?.value ?? 0;
     }
   }
 
