@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Punho do Dragão e Ruína passaram a oferecer os dez níveis na Rotação do Shura e do Inquisidor, em vez de só o Nv10, e o dano acompanha o nível escolhido — 180% a 900% no Punho do Dragão e 400% a 3.100% na Ruína, como está na descrição do cliente. Reportado por Ametsuky."
+  ],
+  "logs_es": [
+    "Combo de Dragón e Imperio Caído pasaron a ofrecer los diez niveles en la Rotación del Shura y del Inquisidor, en lugar de solo el Nv10, y el daño acompaña el nivel elegido — 180% a 900% en Combo de Dragón y 400% a 3.100% en Imperio Caído, como está en la descripción del cliente. Reportado por Ametsuky."
+  ],
+  "logs_en": [
+    "Dragon Combo and Fallen Empire now offer all ten levels in the Sura's and the Inquisitor's Rotation instead of only Lv10, and the damage follows the level picked — 180% to 900% on Dragon Combo and 400% to 3,100% on Fallen Empire, as the client description has it. Reported by Ametsuky."
+  ]
+}

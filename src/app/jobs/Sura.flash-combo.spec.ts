@@ -91,6 +91,16 @@ describe('Combo Rápido sums the learned attacks', () => {
     }
   });
 
+  it('casts each hit at the level learned in Aprenda, not at the one the picker shows', () => {
+    // Punho do Dragão and Ruína offer all ten levels in the picker since card
+    // F4MPEs41zKPoAYrXjiih; the tip says the sequence takes the learned level instead.
+    const partial = simulate(5, [3, 5, 10]);
+    const labels = (result: any) => result.skillFormulaTrace.min.map((part: any) => part.label);
+
+    expect(labels(partial)).toEqual(['Punho do Dragão Nv 3', 'Ruína Nv 5', 'Garra de Tigre Nv 10']);
+    expect(partial.skillMinDamage).toBeLessThan(simulate(5, [10, 10, 10]).skillMinDamage);
+  });
+
   it('uses the cast level once when Combo Rápido is also selected as a buff', () => {
     const learned: [number, number, number] = [10, 10, 10];
     for (const Job of [Sura, Inquisitor]) {

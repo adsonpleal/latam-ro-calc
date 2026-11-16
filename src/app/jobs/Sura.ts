@@ -2,7 +2,7 @@ import { learnedSkill } from '../constants/share-passive-skills/learned-skill';
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { InfoForClass } from '../models/info-for-class.model';
-import { floor, formatCalcNumber, genSkillList } from '../utils';
+import { atkSkillLevelList, floor, formatCalcNumber, genSkillList } from '../utils';
 import { TIGER_CANNON, TIGER_CANNON_COMBO } from '../skills/shared-skills';
 import { ElementType } from '../constants/element-type.const';
 import { Champion } from './Champion';
@@ -90,7 +90,7 @@ export class Sura extends Champion {
       name: 'Asura Strike',
       label: 'Punho Supremo de Asura',
       value: 'Asura Strike==5',
-      levelList: Array.from({ length: 5 }, (_, i) => ({ label: `Asura Strike Nv${i + 1}`, value: `Asura Strike==${i + 1}` })),
+      levelList: atkSkillLevelList('Asura Strike', 5),
       fct: (level) => 2.25 - level * 0.25,
       vct: (level) => 2.25 - level * 0.25,
       acd: 1, // LATAM client: 1 second at every level (skill-delay.json).
@@ -114,9 +114,12 @@ export class Sura extends Champion {
       ] }),
     },
     {
+      // Punho do Dragão (id 2326): the client's ATQ column is 100 + 80 per level,
+      // 180% at Nv1 up to 900% at Nv10, scaled by base level.
       name: 'Dragon Combo',
       label: 'Dragon Combo Lv10',
       value: 'Dragon Combo==10',
+      levelList: atkSkillLevelList('Dragon Combo', 10),
       fct: 0,
       vct: 0,
       acd: 0,
@@ -131,9 +134,12 @@ export class Sura extends Champion {
       },
     },
     {
+      // Ruína (id 2329): the client's ATQ column is 100 + 300 per level, 400% at Nv1 up
+      // to 3.100% at Nv10, scaled by base level, plus the FOR term the description names.
       name: 'Fallen Empire',
       label: 'Fallen Empire Lv10',
       value: 'Fallen Empire==10',
+      levelList: atkSkillLevelList('Fallen Empire', 10),
       fct: 0,
       vct: 0,
       acd: 0,
@@ -155,7 +161,7 @@ export class Sura extends Champion {
       name: 'Flash Combo',
       label: 'Flash Combo Lv5',
       value: 'Flash Combo==5',
-      levelList: Array.from({ length: 5 }, (_, i) => ({ label: `Flash Combo Nv${i + 1}`, value: `Flash Combo==${i + 1}` })),
+      levelList: atkSkillLevelList('Flash Combo', 5),
       fct: 0,
       vct: 0,
       acd: 1,
