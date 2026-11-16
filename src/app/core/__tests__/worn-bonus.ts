@@ -32,6 +32,8 @@ export interface Worn {
   weaponCard?: number;
   /** Sockets 1-4 of the weapon, for the sets whose partners are all weapon cards. */
   weaponCards?: number[];
+  /** Enchant slots of the weapon, by enchant item id. */
+  weaponEnchants?: number[];
   headUpper?: number;
   headUpperRefine?: number;
   headUpperGrade?: string;
@@ -81,6 +83,12 @@ export function wornBonus(worn: Worn): Record<string, number> {
     model.weapon = worn.weapon;
     model.weaponRefine = worn.weaponRefine ?? 0;
     if (worn.weaponGrade) model.weaponGrade = worn.weaponGrade;
+    // Enchants ride the same slot. The weapon's fields are 0-based, unlike the head and
+    // boot ones below — `weaponEnchant0` is the first slot the UI shows.
+    (worn.weaponEnchants ?? []).forEach((enchant, i) => {
+      items[enchant] = db[enchant];
+      model[`weaponEnchant${i}`] = enchant;
+    });
   }
   if (worn.weaponCard) {
     items[worn.weaponCard] = withSlot(worn.weaponCard, 6, 0);
