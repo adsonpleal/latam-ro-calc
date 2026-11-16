@@ -132,6 +132,72 @@ test('the phone menu lists every hidden topbar action as a full-width row', asyn
   }
 });
 
+/**
+ * The comparison sub-row's ⇅ and ✕ used to be absolutely positioned in its top-right
+ * corner, so a weapon whose enchants wrap the chips over several lines had that first
+ * line running underneath them. Stacking the pair would not have been enough on its own:
+ * out of flow, a column reserves no room either, and it reaches further down the row than
+ * the side-by-side pair did. They are laid out in flow now, which is what the sweep pins —
+ * no chip may touch them at any width the grid can hand the card.
+ */
+test('a compared slot keeps its chips clear of the corner buttons at every card width', async ({ page }) => {
+  const enchants = [311192, 311193, 311194, 311195];
+  await page.addInitScript(ids => {
+    // Atirador de Elite: an Archer-line class, so the bow survives hydration.
+    localStorage.setItem('ro-set', JSON.stringify({
+      skillFormulaVersion: 'current', class: 4012, level: 200, jobLevel: 70, rawOptionTxts: [],
+      weapon: 700052, weaponRefine: 12,
+      weaponEnchant0: ids[0], weaponEnchant1: ids[1], weaponEnchant2: ids[2], weaponEnchant3: ids[3],
+    }));
+  }, enchants);
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await boot(page);
+  // Comparar seeds the alternative from what the slot already wears, so the compared row
+  // gets the same long enchant set — no second hand-written copy of the saved state.
+  const card = page.locator('.eq-card').filter({ has: page.getByText('Arco Invernal') }).first();
+  await card.getByRole('button', { name: 'Comparar', exact: true }).click();
+  const row = card.locator('.eq-card__compare-row');
+  // Without the enchants the chips would not wrap and the sweep below would prove nothing.
+  await expect(row.locator('.eq-chip').filter({ hasText: 'Cristal Invernal' })).toHaveCount(enchants.length);
+
+  // Stacked, not side by side — what the report asked for.
+  const actions = row.locator('.eq-card__compare-actions');
+  await expect(actions).toHaveCSS('flex-direction', 'column-reverse');
+
+  // And the ✕ keeps the top of that stack, in line with the card's own clear button one
+  // row up, rather than handing the corner to the ⇅.
+  const clear = (await row.getByRole('button', { name: 'Limpar a comparação deste slot', exact: true }).boundingBox())!;
+  const swap = (await row.getByRole('button', { name: 'Inverter: trocar este item pelo comparado', exact: true }).boundingBox())!;
+  const cardClear = (await page.locator('.eq-card__head .eq-card__clear').first().boundingBox())!;
+  expect(clear.y).toBeLessThan(swap.y);
+  expect(Math.abs((clear.x + clear.width) - (cardClear.x + cardClear.width))).toBeLessThanOrEqual(2);
+
+  // One evaluate for the whole sweep: a setViewportSize per step would relayout the page
+  // and re-run the media queries 37 times over.
+  const collisions = await row.evaluate((element: HTMLElement) => {
+    const host = element.closest('.eq-card')!.parentElement as HTMLElement;
+    const previous = host.style.width;
+    // Resizing re-wraps the chips, it never adds or removes one, so the nodes are stable.
+    const corner = element.querySelector('.eq-card__compare-actions')!;
+    const chips = [...element.querySelectorAll('.eq-chip')];
+    const found: { width: number; chip: string }[] = [];
+    for (let width = 600; width >= 240; width -= 10) {
+      host.style.width = `${width}px`;
+      const over = corner.getBoundingClientRect();
+      // One report per width keeps a failure readable instead of a few hundred rows.
+      const hit = chips.find(chip => {
+        const box = chip.getBoundingClientRect();
+        return Math.min(over.right, box.right) > Math.max(over.left, box.left)
+          && Math.min(over.bottom, box.bottom) > Math.max(over.top, box.top);
+      });
+      if (hit) found.push({ width, chip: (hit.textContent ?? '').trim() });
+    }
+    host.style.width = previous;
+    return found;
+  });
+  expect(collisions).toEqual([]);
+});
+
 test.describe('touch', () => {
   test.use({ hasTouch: true });
 

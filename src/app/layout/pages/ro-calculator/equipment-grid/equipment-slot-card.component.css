@@ -323,22 +323,34 @@
   min-height: 26px;
 }
 
+/* The sub-row has no header to sit in, so it lays its buttons out itself: `row-reverse`
+   puts them at the right edge, where the card's own clear button sits one row up, and
+   leaves the rest of the width to the chips. They used to be absolutely positioned in
+   that corner, which is what let a long enchant set wrap underneath them — out of flow,
+   they reserved no room, and no amount of stacking fixes that on its own. In flow the
+   chips cannot reach them, with no gutter width to keep in step with the button size. */
 .eq-card__compare-row {
-  position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
   background: rgb(253 216 125 / 5%);
   border-top: 1px dashed rgb(253 216 125 / 35%);
 }
 
-/* The sub-row has no header to sit in, so its buttons are parked in the corner instead —
-   at the same inset as the card's own clear, so they line up down the right edge. The
-   ✕ keeps the rightmost place it has always had, whether or not the ⇅ is drawn beside it. */
+/* Stacked rather than side by side, so the pair costs the chips one button of width.
+   `column-reverse` is what keeps the ✕ in the corner it has always had: it comes second
+   in the markup, so reversing lifts it back to the top and the ⇅ hangs below it. */
 .eq-card__compare-actions {
-  position: absolute;
-  top: 6px;
-  right: 8px;
-  z-index: 1;
+  flex: 0 0 auto;
   display: flex;
+  flex-direction: column-reverse;
   gap: 2px;
+  padding: 6px 8px 0 0;
+}
+
+.eq-card__compare-row .eq-card__body {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 /* Keeps the amber of the row it belongs to rather than the header's grey. */

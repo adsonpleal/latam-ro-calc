@@ -227,17 +227,22 @@ app-equipment-slot-card{
   min-height: 26px;
 }
 :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__compare-row{
-  position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
   background: rgb(253 216 125 / 5%);
   border-top: 1px dashed rgb(253 216 125 / 35%);
 }
 :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__compare-actions{
-  position: absolute;
-  top: 6px;
-  right: 8px;
-  z-index: 1;
+  flex: 0 0 auto;
   display: flex;
+  flex-direction: column-reverse;
   gap: 2px;
+  padding: 6px 8px 0 0;
+}
+:is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__compare-row .eq-card__body{
+  flex: 1 1 auto;
+  min-width: 0;
 }
 :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__clear--compare{
   color: rgb(253 216 125 / 55%);

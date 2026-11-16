@@ -1057,10 +1057,15 @@ app-elemental-table .elemental-scroll-hint {
   :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__compare {
     min-height: var(--touch-icon);
   }
-  /* The comparison row's swap / clear buttons float at its top right with a mouse; at
-     44px they would cover the row's chips, so on touch they take their own line above. */
+  /* The comparison row's swap / clear buttons sit in a column beside its chips with a
+     mouse; at 44px that column would eat the width the chip names need, so on touch the
+     row stacks instead and the pair takes its own line above them, back in a row. */
+  :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__compare-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
   :is(app-equipment-slot-card, .ui-scope-app-equipment-slot-card) .eq-card__compare-actions {
-    position: static;
+    flex-direction: row;
     justify-content: flex-end;
     padding: 4px 8px 0;
   }

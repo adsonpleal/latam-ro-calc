@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Na linha de comparação dos cards de equipamento, os botões de inverter e limpar passaram a ficar empilhados em coluna no canto, e a linha reserva o espaço deles: os encantamentos de um item com muitos chips não passam mais por baixo dos botões."
+  ],
+  "logs_es": [
+    "En la fila de comparación de las tarjetas de equipo, los botones de invertir y limpiar ahora quedan apilados en columna en la esquina, y la fila reserva su espacio: los encantamientos de un objeto con muchos chips ya no pasan por debajo de los botones."
+  ],
+  "logs_en": [
+    "In the equipment cards' comparison row, the swap and clear buttons are now stacked in a column in the corner, and the row reserves their space: the enchants of an item with many chips no longer run underneath the buttons."
+  ]
+}
