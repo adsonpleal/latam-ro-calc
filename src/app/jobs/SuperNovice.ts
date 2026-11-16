@@ -352,25 +352,8 @@ export class SuperNovice extends CharacterBase {
     // Telecinesia — boosts Ghost-element damage, so it only does anything alongside
     // Impacto Espiritual above; the two were added together.
     IntensificationFn(),
-    {
-      name: 'Improve Concentration',
-      label: 'Improve Con',
-      inputType: 'dropdown',
-      isEquipAtk: true,
-      dropdown: [
-        { label: '-', value: 0, isUse: false },
-        { label: 'Nv 1', value: 1, isUse: true, bonus: { agiBoost: 3, dexBoost: 3 } },
-        { label: 'Nv 2', value: 2, isUse: true, bonus: { agiBoost: 4, dexBoost: 4 } },
-        { label: 'Nv 3', value: 3, isUse: true, bonus: { agiBoost: 5, dexBoost: 5 } },
-        { label: 'Nv 4', value: 4, isUse: true, bonus: { agiBoost: 6, dexBoost: 6 } },
-        { label: 'Nv 5', value: 5, isUse: true, bonus: { agiBoost: 7, dexBoost: 7 } },
-        { label: 'Nv 6', value: 6, isUse: true, bonus: { agiBoost: 8, dexBoost: 8 } },
-        { label: 'Nv 7', value: 7, isUse: true, bonus: { agiBoost: 9, dexBoost: 9 } },
-        { label: 'Nv 8', value: 8, isUse: true, bonus: { agiBoost: 10, dexBoost: 10 } },
-        { label: 'Nv 9', value: 9, isUse: true, bonus: { agiBoost: 11, dexBoost: 11 } },
-        { label: 'Nv 10', value: 10, isUse: true, bonus: { agiBoost: 12, dexBoost: 12 } },
-      ],
-    },
+    // Concentrar lives in the shared buff list (`JobBuffs`): a copy here would give the
+    // Superaprendiz a second selectable row for it.
     {
       name: 'Cart Boost',
       label: 'Cart Boost',

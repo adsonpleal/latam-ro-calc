@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { ArchMage, AssassinCross, HyperNovice, SuperNovice, Warlock } from './index';
 import { SKILL_ID_BY_NAME } from '../skills';
 import { IntensificationFn } from '../constants/share-active-skills';
+import { JobBuffs } from '../constants/job-buffs';
 import { ElementType } from '../constants/element-type.const';
 import { AtkSkillModel } from './_character-base.abstract';
 
@@ -93,9 +94,11 @@ describe('Superaprendiz — Telecinesia / Impacto Espiritual', () => {
     for (const name of ['Fire Bolt', 'Psychic Wave', 'Tiger Cannon', 'Ignition Break']) {
       expect(atk(superNovice, name), name).toBeDefined();
     }
-    for (const name of ['Improve Concentration', 'Cart Boost']) {
-      expect(active(superNovice, name), name).toBeDefined();
-    }
+    expect(active(superNovice, 'Cart Boost')).toBeDefined();
+    // Concentrar is still offered, from the shared buff list rather than the class panel,
+    // so the Superaprendiz gets exactly one row for it instead of two.
+    expect(active(superNovice, 'Improve Concentration')).toBeUndefined();
+    expect(JobBuffs.some((buff) => buff.name === 'Improve Concentration')).toBe(true);
   });
 });
 

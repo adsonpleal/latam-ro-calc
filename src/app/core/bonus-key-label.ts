@@ -90,6 +90,8 @@ export const BUFF_BONUS_LABELS: Record<string, string> = {
   aspd: 'Vel.Atq', aspdPercent: 'Vel.Atq %', skillAspd: 'Vel.Atq (hab.)',
   vct: 'Conj. Variável', vctBySkill: 'Conj. Variável (hab.)', acd: 'Pós-conjuração', fctPercent: 'Conj. Fixa %',
   str: 'FOR', agi: 'AGI', vit: 'VIT', int: 'INT', dex: 'DES', luk: 'SOR',
+  // Concentrar grants its DES/AGI as a percentage of the stat, not as flat points.
+  agiBoost: 'AGI %', dexBoost: 'DES %',
   pow: 'POD', sta: 'STA', wis: 'SAB', spl: 'FEI', con: 'CON', crt: 'CRV',
   def: 'DEF', defPercent: 'DEF %', mdef: 'DEFM', mdefPercent: 'DEFM %',
   softMdefPercent: 'DEFM Leve %', res: 'TEN', allStatus: 'Todos os atributos',

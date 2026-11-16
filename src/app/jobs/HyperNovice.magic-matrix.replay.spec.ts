@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { decodeReplay } from 'rrfparser';
 import { Calculator } from 'src/app/core/calculator';
 import { CalculatorController } from 'src/app/core/calculator-controller';
+import { jobBuffBonuses } from 'src/app/core/__tests__/job-buff-bonus';
 import { createMainModel } from 'src/app/utils';
 import { importReplayBuffer } from 'src/app/replay/replay-to-model';
 import { parseOptionScripts } from 'src/app/core/option-scripts';
@@ -73,7 +74,6 @@ function sim(skillValue: string, st: State) {
   };
   const activeLv: Record<string, number> = {
     'Angel of Magic': st.ult ? 1 : 0,
-    'Improve Concentration': st.conc ? CONCENTRATION : 0,
   };
   // setLearnSkills reads the two lists positionally, so build them off the class's own.
   const passiveIds = (cls as any)._passiveSkillList.map((s: any) => passiveLv[s.name] ?? 0);
@@ -81,6 +81,8 @@ function sim(skillValue: string, st: State) {
   const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = cls
     .setLearnSkills({ activeSkillIds: activeIds, passiveSkillIds: passiveIds })
     .getSkillBonusAndName();
+  // Concentrar comes off the shared buff list, not the class panel.
+  const buffBonuses = jobBuffBonuses(st.conc ? { 'Improve Concentration': CONCENTRATION } : {}, activeSkillNames);
 
   const bonus = cls.getJobBonusStatus(JOB_LEVEL);
   const model: any = createMainModel();
@@ -115,7 +117,7 @@ function sim(skillValue: string, st: State) {
     monster: monsters[TARGET],
     equipAtks,
     masteryAtks,
-    buffEquips: {}, buffMasterys: {},
+    buffEquips: buffBonuses.equipAtk, buffMasterys: buffBonuses.masteryAtk,
     consumeData: [], aspdPotion: undefined,
     extraOptionScripts: parseOptionScripts(rawOpts),
     activeSkillNames, learnedSkillMap,

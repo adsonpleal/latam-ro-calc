@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { decodeReplay } from 'rrfparser';
 import { Calculator } from 'src/app/core/calculator';
 import { CalculatorController } from 'src/app/core/calculator-controller';
+import { jobBuffBonuses } from 'src/app/core/__tests__/job-buff-bonus';
 import { parseOptionScripts } from 'src/app/core/option-scripts';
 import { loadReplayFixture } from 'src/app/replay/__tests__/load-fixture';
 import { replayToModel } from 'src/app/replay/replay-to-model';
@@ -102,15 +103,19 @@ function simular(untilMs: number, skillValue: string, monsterId: string) {
     const id = SKILL_ID_BY_NAME[s.name];
     return id ? learnedSkills[id] ?? 0 : 0;
   });
-  const activeSkillIds = cls.activeSkills.map((s: any) => (s.name === 'Improve Concentration' ? 10 : 0));
+  const activeSkillIds = cls.activeSkills.map(() => 0);
   const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = cls
     .setLearnSkills({ activeSkillIds, passiveSkillIds })
     .getSkillBonusAndName();
+  // Concentrar 10 was up in the recording. It is a shared buff, not a Musa control, so it
+  // arrives the way the buff panel delivers it.
+  const buffBonuses = jobBuffBonuses({ 'Improve Concentration': 10 }, activeSkillNames);
 
   const calc = new Calculator().setMasterItems(items).setHpSpTable(hpSpTable).setClass(cls);
   calc.loadItemFromModel(m);
   new CalculatorController().runChain(calc, {
-    monster: monsters[monsterId], equipAtks, masteryAtks, buffEquips: {}, buffMasterys: {},
+    monster: monsters[monsterId], equipAtks, masteryAtks,
+    buffEquips: buffBonuses.equipAtk, buffMasterys: buffBonuses.masteryAtk,
     consumeData: [], aspdPotion: undefined,
     extraOptionScripts: parseOptionScripts((m.rawOptionTxts ?? []).filter(Boolean)),
     activeSkillNames, learnedSkillMap, selectedAtkSkill: skillValue, selectedChances: [], usedHpL: false,
