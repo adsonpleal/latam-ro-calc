@@ -358,6 +358,10 @@ export const CRIMSON_ROCK: AtkSkillModel = {
   isMatk: true, element: ElementType.Fire,
   formula: ({ model, skillLevel }) => (700 + skillLevel * 600) * (model.level / 100),
 };
+// This copy applies the column five times where the Arcano's own entry splits it over
+// five crystals (`hit: 5`), and the two have disagreed since before either was shared.
+// Settling that needs a measured cast, the way Warlock.jack-frost-hits.spec.ts settled
+// Esquife de Gelo, so it is left as found — whoever spreads this one picks the shape.
 export const FROST_MISTY: AtkSkillModel = {
   name: 'Frost Misty', label: 'Frost Misty Lv5', value: 'Frost Misty==5', levelList: atkSkillLevelList('Frost Misty', 5),
   acd: 0, fct: 0, vct: 0, cd: 0,
@@ -377,6 +381,23 @@ export const HELL_INFERNO: AtkSkillModel = {
   acd: 0, fct: 0, vct: 0, cd: 0,
   isMatk: true, element: ElementType.Fire,
   formula: ({ model, skillLevel }) => skillLevel * 400 * (model.level / 100),
+};
+/**
+ * The spell's second half, which `HELL_INFERNO` leaves out because an auto-cast of it
+ * prints the Fogo packet alone. A hand-cast entry adds this one: bROWiki gives it as
+ * "ATQM (sombrio) = {[(Nv. da habilidade × 600)] × (Nv. de base ÷ 100)}%" over three
+ * printed packets of the one column (https://browiki.org/wiki/Chamas_de_Hela). The
+ * client's own table reads 1.000% at Nv1, breaking its own ×600 step, so the formula is
+ * what this follows.
+ */
+export const HELL_INFERNO_DARK: NonNullable<AtkSkillModel['part2']> = {
+  labelKey: 'skd.part.hellInferno2',
+  isIncludeMain: true,
+  element: ElementType.Dark,
+  isMatk: true,
+  isMelee: false,
+  hit: 3,
+  formula: ({ model, skillLevel }) => skillLevel * 600 * (model.level / 100),
 };
 export const KILLING_CLOUD: AtkSkillModel = {
   name: 'Killing Cloud', label: 'Killing Cloud Lv5', value: 'Killing Cloud==5', levelList: atkSkillLevelList('Killing Cloud', 5),
@@ -408,6 +429,54 @@ export const JUDEX: AtkSkillModel = {
   name: 'Judex', label: 'Judex Lv10', value: 'Judex==10', levelList: atkSkillLevelList('Judex', 10),
   acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Holy, hit: 3,
   formula: ({ model, skillLevel }) => (300 + skillLevel * 70) * (model.level / 100),
+};
+
+/*
+ * The five below are spells their owners already model, shared so that both the picker and
+ * a proc of the same id read one ratio (`skillForId` in core/auto-cast.ts). Each one's
+ * figures are the client's own "Informação de Habilidade" column, and the owner's entry
+ * stays where it is — collapsing those onto these is a separate change.
+ *
+ * The Feiticeiro's three drop his own tree, which a copy does not bring along: the endows
+ * on Castigo de Nerthus and Lanças dos Aesir, the Encanto de Órion on the second. Drenar
+ * Vida and Adoramus have no such term, so those two are the owner's ratio unchanged (the
+ * Arcebispo's Ancilla variant is a picker entry of its own, not a term in the formula).
+ */
+export const DRAIN_LIFE: AtkSkillModel = {
+  name: 'Drain Life', label: 'Drain Life Lv5', value: 'Drain Life==5', levelList: atkSkillLevelList('Drain Life', 5),
+  acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Neutral,
+  // Client: ATQM 200% … 1.000%, plus the INT term the Bruxo's own entry carries.
+  formula: ({ model, skillLevel, status }) => (skillLevel * 200 + status.totalInt) * (model.level / 100),
+};
+export const EARTH_GRAVE: AtkSkillModel = {
+  name: 'Earth Grave', label: 'Earth Grave Lv5', value: 'Earth Grave==5', levelList: atkSkillLevelList('Earth Grave', 5),
+  acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Earth,
+  // Client: "O dano é afetado pela INT, nível de base e pelo nível de Encantar com
+  // Terremoto" — and Encantar com Terremoto is the Feiticeiro's, so a copy keeps the
+  // (Nv. + 2) × INT term alone.
+  formula: ({ model, skillLevel, status }) => ((skillLevel + 2) * status.totalInt) * (model.level / 100),
+};
+export const POISON_BURST: AtkSkillModel = {
+  name: 'Poison Burst', label: 'Poison Burst Lv5', value: 'Poison Burst==5', levelList: atkSkillLevelList('Poison Burst', 5),
+  acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Poison,
+  // Client: ATQM 1.300% … 2.500%, and 1.500% … 3.500% "Se o alvo estiver sofrendo de
+  // [Infecção]" — a target state, not something the caster's tree grants.
+  formula: ({ model, skillLevel, status, totalBonus }) =>
+    (1000 + skillLevel * (totalBonus['infection'] ? 500 : 300) + status.totalInt) * (model.level / 100),
+};
+export const VARETYR_SPEAR: AtkSkillModel = {
+  name: 'Varetyr Spear', label: 'Varetyr Spear Lv10', value: 'Varetyr Spear==10', levelList: atkSkillLevelList('Varetyr Spear', 10),
+  acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Wind, hit: 3,
+  // Client: "afetado pelo nível de base, INT, Encantar com Ventania e Encanto de Órion" —
+  // both of those are the Feiticeiro's own, so only the INT term survives a copy.
+  formula: ({ model, skillLevel, status }) => (((skillLevel + 4) * status.totalInt) / 2) * (model.level / 100),
+};
+export const ADORAMUS: AtkSkillModel = {
+  name: 'Adoramus', label: 'Adoramus Lv10', value: 'Adoramus==10', levelList: atkSkillLevelList('Adoramus', 10),
+  acd: 0, fct: 0, vct: 0, cd: 0, isMatk: true, element: ElementType.Holy, hit: 10,
+  // Client: ATQM 550% … 2.800%. The Neutral variant needs Ancilla, which is the
+  // Arcebispo's own skill, so a copy is always the Sagrado one.
+  formula: ({ model, skillLevel }) => (300 + skillLevel * 250) * (model.level / 100),
 };
 
 /**
