@@ -219,6 +219,11 @@ export class Ninja extends CharacterBase {
     {
       label: 'Freezing Spear Lv10 (in Watery Evasion)',
       name: 'Freezing Spear',
+      // Both branches are the same `name` *and* the same element, so the picker's
+      // element-based fallback cannot split them — they both read "Lança Congelante -
+      // Água". "Evasão Aquática" is the client's own name for Watery Evasion, taken from
+      // Grande Floco de Neve's prerequisite line (the skill itself is not in SKILL_META).
+      labelSuffix: 'em Evasão Aquática',
       value: 'Freezing Spear Water==10',
       acd: 0,
       fct: 1.4,

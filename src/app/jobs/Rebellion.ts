@@ -149,6 +149,10 @@ export class Rebellion extends Gunslinger {
     {
       label: "God's Hammer Lv10 (0 coin)",
       name: "God's Hammer",
+      // Both entries are the same skill name, so the picker needs the coin count to tell
+      // them apart — the client's own table is an ATQ "por moeda" and the two rows differ
+      // only by how many moedas are spent.
+      labelSuffix: '0 moedas',
       value: "God's Hammer_0==10",
       acd: 0.5,
       fct: 0,
@@ -165,6 +169,7 @@ export class Rebellion extends Gunslinger {
     {
       label: "God's Hammer Lv10 (10 coins)",
       name: "God's Hammer",
+      labelSuffix: '10 moedas',
       value: "God's Hammer==10",
       acd: 0.5,
       fct: 0,

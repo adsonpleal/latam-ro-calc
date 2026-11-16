@@ -68,7 +68,7 @@ import { MainModel } from '../../app/models/main.model';
 import { environment } from 'src/environments/environment';
 import { getClassDropdownList } from '../../app/jobs/_class-list';
 import { HIDDEN_CLASS_IDS } from '../../app/jobs/hidden-classes';
-import { racePtBr, sizePtBr, elementPtBr } from '../../app/constants/monster-i18n';
+import { racePtBr, sizePtBr } from '../../app/constants/monster-i18n';
 import { ChanceModel } from '../../app/models/chance-model';
 import { DamageFormulaCalc } from '../../app/models/damage-summary.model';
 import { DropdownModel, ItemDropdownModel } from '../../app/models/dropdown.model';
@@ -93,6 +93,7 @@ import { canUsedByClass } from 'src/app/utils/can-used-by-class';
 import { stackRange } from 'src/app/utils/skill-stack';
 import { SLOTS_BY_KEY } from 'src/app/app-config/equipment-slots';
 import { SlotListBag } from '../../app/layout/pages/ro-calculator/equipment-grid/slot-list-bag.model';
+import { disambiguateAtkSkillLabels } from 'src/app/core/atk-skill-picker-label';
 import { compactRotationForShare, defaultAtkSkill, findRotationSkill, firstRealSkill, isBasicAttack, isOffensiveSkill, pruneRotationForClass, splitSkillValue } from 'src/app/core/rotation';
 import { MAX_ROTATION_TABS, activeRotationTab, addRotationTab, mapRotationTabs, readRotationTabs, removeRotationTab, selectRotationTab, syncRotationTabs } from 'src/app/core/rotation-tabs';
 import { RotationScheduleStep } from 'src/app/core/rotation-schedule';
@@ -2943,23 +2944,10 @@ await ((_event?: unknown) => {
     this.activeSkills = this.selectedCharacter.activeSkills.map(localize);
     this.passiveSkills = this.selectedCharacter.passiveSkills.map(localize);
     // Atk skills can repeat the same name with different fixed properties (e.g. Adoramus
-    // cast as Holy vs Neutral). After localizing the bare skill name, disambiguate any
-    // repeated name by appending its element, so the picker reads "Adoramus - Sagrado".
+    // cast as Holy vs Neutral). The rule that keeps two picker rows from reading the same
+    // lives in core/atk-skill-picker-label.ts, where a spec holds every class to it.
     const catalog = this.selectedCharacter.getAtkSkills(this.model.skillFormulaVersion).filter(skill => this.isSkillVisible(skill));
-    const localizedAtkSkills = catalog.map(localize);
-    const seenLabel = new Set<string>();
-    const dupLabels = new Set<string>();
-    for (const s of localizedAtkSkills) {
-      if (seenLabel.has(s.label)) dupLabels.add(s.label);
-      seenLabel.add(s.label);
-    }
-    this.atkSkills = localizedAtkSkills.map((s) => {
-      // An explicit labelSuffix always wins — it disambiguates same-name/same-element
-      // variants (e.g. a ground skill's Inicial burst vs its Contínuo field) that the
-      // element-based fallback below can't tell apart.
-      if ((s as any).labelSuffix) return { ...s, label: `${s.label} (${(s as any).labelSuffix})` };
-      return dupLabels.has(s.label) && s.element ? { ...s, label: `${s.label} - ${elementPtBr(s.element)}` } : s;
-    });
+    this.atkSkills = disambiguateAtkSkillLabels(catalog.map(localize));
     // Utility entries (Esconderijo, Infiltrar) exist for the rotation only: the old
     // single-skill panel asks "how much does this skill hit for", which they never answer.
     this.offensiveSkills = [...new Set(catalog.filter(isOffensiveSkill).map((a) => a.name)).values()].map((name) => {

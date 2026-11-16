@@ -327,6 +327,10 @@ export class Sura extends Champion {
     {
       name: 'Hell Gate',
       label: 'Hell Gate (Combo)',
+      // Same `name` as the plain branch above, so both rows localize to "Portões do
+      // Inferno" and only this suffix tells them apart. The client's own wording for the
+      // stronger branch is "Se usada após [Ruína]".
+      labelSuffix: 'após Ruína',
       value: 'Hell Gate (Combo)==10',
       fct: 0,
       vct: (lv) => 0.8 + lv * 0.2,

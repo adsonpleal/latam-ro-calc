@@ -752,6 +752,10 @@ const tigerCannon = (args: {
   skillValue: string;
   /** Picker label, which keeps saying "(Combo)" after the level for the combo branch. */
   label: string;
+  /** Disambiguator for the combo branch. Both branches are the same skill `name`, so the
+   *  picker localizes both to "Garra de Tigre" and only this tells the rows apart — see
+   *  `AtkSkillModel.labelSuffix`. The client's own wording is "Se usada após [Ruína]". */
+  labelSuffix?: string;
   /** The reducible part's ATQ, already divided by the branch's 4,0 or 1,5. */
   ratio: (factor: number, baseLevel: number) => number;
   /** Dano especial per skill level: 240 on its own, 500 after Ruína. */
@@ -759,6 +763,7 @@ const tigerCannon = (args: {
 }): AtkSkillModel => ({
   name: 'Tiger Cannon',
   label: args.label,
+  labelSuffix: args.labelSuffix,
   value: `${args.skillValue}==10`,
   levelList: atkSkillLevelList(args.skillValue, 10),
   fct: 0,
@@ -804,6 +809,7 @@ export const TIGER_CANNON: AtkSkillModel = tigerCannon({
 export const TIGER_CANNON_COMBO: AtkSkillModel = tigerCannon({
   skillValue: 'Tiger Cannon Combo',
   label: 'Tiger Cannon Lv10 (Combo)',
+  labelSuffix: 'após Ruína',
   // Algebraically the wiki's "÷ 1,5", written the long way because floating point makes
   // the two land one damage apart on about 0,1% of builds and this is the form the
   // published Nv10 figures were read at. The spec checks the result against "÷ 1,5", so
