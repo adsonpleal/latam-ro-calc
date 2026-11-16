@@ -229,6 +229,30 @@ export function collectBuffBonuses(buffDefs: BuffDef[], selectedValues: any[], a
   return { equipAtk, masteryAtk };
 }
 
+/**
+ * The shared `JobBuffs` debuff rows the selected class also casts itself, by skill name.
+ *
+ * A target-side debuff can reach the monster two ways — a party member casts it on you
+ * (the shared row) or you cast it yourself (the class's own active row) — and the two
+ * catalogs name it identically. `collectBuffBonuses` above already drops the shared row's
+ * bonus in that case, so the debuff is never counted twice; the panel uses this set to
+ * drop the row as well, because both rows carry `isDebuff` and "Debuffs no monstro"
+ * listed each of them in turn: Cometa for the Warlock line, Garra Sombria for the Algoz
+ * line, Oleum Sanctum for the Inquisidor.
+ *
+ * The class row is the one that survives: it is what the engine honours when both are
+ * selected, and the only one `isSkillActive()` gates can see (Explosão de Chamas reads
+ * Oleum Sanctum that way).
+ */
+export function supersededDebuffNames(
+  buffDefs: readonly { name: string; isDebuff?: boolean }[],
+  activeSkills: readonly { name: string; isDebuff?: boolean }[],
+): Set<string> {
+  const castByClass = new Set(activeSkills.filter((skill) => skill.isDebuff).map((skill) => skill.name));
+
+  return new Set(buffDefs.filter((buff) => buff.isDebuff && castByClass.has(buff.name)).map((buff) => buff.name));
+}
+
 /** Everything the fluent solve pipeline needs once items are loaded. */
 export interface CalcChainInput {
   monster: MonsterModel;

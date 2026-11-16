@@ -1064,3 +1064,66 @@ describe('comparing a saved simulation', () => {
     session.dispose();
   });
 });
+
+describe('the monster-debuff rows a class is offered', () => {
+  beforeEach(() => vi.useFakeTimers());
+  afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); });
+
+  const COMET_AMP = 'Comet Amp';
+  const sharedRow = (session: CalculatorSession) => session.skillBuffs.find(buff => buff.name === COMET_AMP)!;
+  const indexOfShared = (session: CalculatorSession) => session.skillBuffs.findIndex(buff => buff.name === COMET_AMP);
+  const indexOfActive = (session: CalculatorSession) => session.activeSkills.findIndex(skill => skill.name === COMET_AMP);
+
+  it('hides the shared Cometa row for a Warlock, who has his own', async () => {
+    const { session, storage } = makeSession();
+    storage.setItem('ro-set', JSON.stringify({ class: 6, level: 200, jobLevel: 60, int: 130 }));
+    session.start();
+    await vi.advanceTimersByTimeAsync(1500);
+
+    expect(session.supersededDebuffs.has(COMET_AMP)).toBe(true);
+    expect(session.isMonsterDebuffRow(sharedRow(session))).toBe(false);
+    expect(session.activeSkills.filter(skill => skill.isDebuff && skill.name === COMET_AMP)).toHaveLength(1);
+
+    session.dispose();
+  });
+
+  it('keeps it for a class that only receives the debuff', async () => {
+    const { session, storage } = makeSession();
+    storage.setItem('ro-set', JSON.stringify({ class: 4010, level: 200, jobLevel: 60, int: 130 }));
+    session.start();
+    await vi.advanceTimersByTimeAsync(1500);
+
+    expect(session.supersededDebuffs.has(COMET_AMP)).toBe(false);
+    expect(session.isMonsterDebuffRow(sharedRow(session))).toBe(true);
+    expect(session.activeSkills.some(skill => skill.name === COMET_AMP)).toBe(false);
+
+    session.dispose();
+  });
+
+  // A build saved while the shared row was the one on screen must not lose its 50%.
+  it('moves a saved shared selection onto the class row that replaces it', async () => {
+    const { session, storage } = makeSession();
+    storage.setItem('ro-set', JSON.stringify({ class: 6, level: 200, jobLevel: 60, int: 130,
+      skillBuffMap: { [COMET_AMP]: 1 } }));
+    session.start();
+    await vi.advanceTimersByTimeAsync(1500);
+
+    expect(session.model.skillBuffs[indexOfShared(session)]).toBe(0);
+    expect(session.model.activeSkills[indexOfActive(session)]).toBe(1);
+
+    session.dispose();
+  });
+
+  it('leaves the class row alone when it is already on', async () => {
+    const { session, storage } = makeSession();
+    storage.setItem('ro-set', JSON.stringify({ class: 6, level: 200, jobLevel: 60, int: 130,
+      skillBuffMap: { [COMET_AMP]: 1 }, activeSkillMap: { [COMET_AMP]: 1 } }));
+    session.start();
+    await vi.advanceTimersByTimeAsync(1500);
+
+    expect(session.model.skillBuffs[indexOfShared(session)]).toBe(0);
+    expect(session.model.activeSkills[indexOfActive(session)]).toBe(1);
+
+    session.dispose();
+  });
+});
