@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Cometa, Garra Sombria 5 e Oleum Sanctum 5 apareciam duas vezes em Debuffs no monstro para as classes que lançam o próprio debuff; agora cada um tem uma linha só, e o efeito aplicado continua o mesmo. Reportado por Reagan*."
+  ],
+  "logs_es": [
+    "Cometa, Garra Tenebrosa 5 y Oleum Sanctum 5 aparecían dos veces en Debuffs en el monstruo para las clases que lanzan el propio debuff; ahora cada uno tiene una sola fila, y el efecto aplicado sigue siendo el mismo. Reportado por Reagan*."
+  ],
+  "logs_en": [
+    "Comet, Dark Claw 5 and Oleum Sanctum 5 appeared twice under Debuffs on the monster for the classes that cast the debuff themselves; each now has a single row, and the effect applied is unchanged. Reported by Reagan*."
+  ]
+}

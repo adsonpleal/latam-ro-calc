@@ -80,7 +80,7 @@ import { BETELGEUSE_HP_OPTIONS, normalizeBetelgeuseHp, withBetelgeuseHp } from '
 import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
 import { OFF_HAND_NEEDS_WEAPON, OFF_HAND_RIVAL, OffHandSlot, resolveOffHandEviction } from 'src/app/core/off-hand-slots';
-import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectChanceSources, collectConsumables, withoutWeaponlessTalismans } from 'src/app/core/calculator-controller';
+import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectChanceSources, collectConsumables, supersededDebuffNames, withoutWeaponlessTalismans } from 'src/app/core/calculator-controller';
 import { customOptionScripts, ensureCustomAttachment } from 'src/app/core/custom-attachments';
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { ElementType } from 'src/app/constants/element-type.const';
@@ -152,6 +152,10 @@ interface MonsterSelectItemGroup extends SelectItemGroup {
 
 const Characters = getClassDropdownList();
 const compareItemNames = new Intl.Collator('pt-BR').compare;
+
+/** True when `value` picks an option of `dropdown` that counts as "on" (`isUse`). */
+const isOptionOn = (dropdown: { value: any; isUse?: boolean }[], value: any) =>
+  !!dropdown.find((option) => option.value === value)?.isUse;
 
 interface ClassModel extends Partial<Record<ItemTypeEnum, number>> {
   rawOptionTxts: string[];
@@ -228,6 +232,8 @@ export class CalculatorSession extends Store<number> {
   mapEnchant!: Map<string, ItemModel>;
   enchants: DropdownModel[] = [];
   skillBuffs = JobBuffs;
+  /** Shared debuff rows the selected class casts itself; see {@link supersededDebuffNames}. */
+  supersededDebuffs = new Set<string>();
 
   isInProcessingPreset = false;
 
@@ -1809,10 +1815,18 @@ await ((_event?: unknown) => {
     return this.isEnableCompare && !!this.totalSummary2;
   }
 
-  /** The skill panel groups every target-side effect together without changing the
-   * source arrays: the template keeps each row's original index for its model binding. */
-  get hasSkillDebuffs(): boolean {
-    return this.skillBuffs.some((skill) => skill.isDebuff && this.isSkillVisible(skill)) || this.activeSkills.some((skill) => skill.isDebuff && this.isSkillVisible(skill));
+  /**
+   * True for a shared buff row that belongs in "Debuffs no monstro". The panel groups
+   * every target-side effect into that one section without changing the source arrays —
+   * each row keeps its original index for its model binding — so this is the membership
+   * test for the shared half of it.
+   *
+   * A debuff the selected class casts itself is listed from its own active row instead,
+   * so the section shows one control per debuff rather than the same one at the top and
+   * at the bottom (see {@link supersededDebuffNames}).
+   */
+  isMonsterDebuffRow(skill: { name: string; isDebuff?: boolean; preview?: boolean }): boolean {
+    return !!skill.isDebuff && !this.supersededDebuffs.has(skill.name) && this.isSkillVisible(skill);
   }
 
   /** Class-specific active effects stay separate from target-side debuffs. */
@@ -2830,6 +2844,9 @@ await ((_event?: unknown) => {
   private setClassInstant() {
     this.selectedCharacter = this.classInstanceOf(this.model.class);
     this.loadedClassId = this.model.class;
+    // Before setSkillModelArray(), which folds a superseded row's saved value into the
+    // class row it hides.
+    this.supersededDebuffs = supersededDebuffNames(JobBuffs, this.selectedCharacter.activeSkills);
     this.calculator.setClass(this.selectedCharacter);
     this.isAllowTraitStat = this.selectedCharacter.isAllowTraitStat();
     this.mainStatusList = createNumberDropdownList({ from: 1, to: this.selectedCharacter.maxBaseStat });
@@ -3139,6 +3156,35 @@ await ((_event?: unknown) => {
 
       return found ? savedVal : 0;
     });
+
+    this.foldSupersededDebuffs(activeSkills);
+  }
+
+  /**
+   * A build saved before the duplicate row went away — or carried in from a class that
+   * does not cast the debuff — can hold the shared row selected while the class row that
+   * replaces it is off. The row is no longer on screen, so its value moves to the class
+   * row and the shared one is cleared; leaving it set would keep the debuff applying with
+   * no control to turn it off.
+   */
+  private foldSupersededDebuffs(activeSkills: { name: string; dropdown: { value: any; isUse?: boolean }[] }[]) {
+    for (const name of this.supersededDebuffs) {
+      const buffIndex = this.skillBuffs.findIndex((buff) => buff.name === name);
+      const activeIndex = activeSkills.findIndex((skill) => skill.name === name);
+      if (buffIndex < 0 || activeIndex < 0) continue;
+
+      const shared = this.skillBuffs[buffIndex].dropdown;
+      const classRow = activeSkills[activeIndex].dropdown;
+      const saved = this.model.skillBuffs[buffIndex];
+
+      // The value carries over only if the class row spells it the same way, which every
+      // colliding pair does today (both sides of Cometa, Garra Sombria and Oleum Sanctum
+      // ship the same dropdown).
+      if (isOptionOn(shared, saved) && !isOptionOn(classRow, this.model.activeSkills[activeIndex]) && isOptionOn(classRow, saved)) {
+        this.model.activeSkills[activeIndex] = saved;
+      }
+      this.model.skillBuffs[buffIndex] = shared.find((option) => !option.isUse)?.value ?? 0;
+    }
   }
 
   private setJobBonus() {
