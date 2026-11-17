@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Flor Invernal (Variável): a redução de conjuração variável sem refino passou de 8% para 10%, como diz a descrição da pedra, e o total no refino +11 passou de 32% para 34%. Reportado por Reagan*."
+  ],
+  "logs_es": [
+    "Flor Invernal (Variable): la reducción de conjuración variable sin refino pasó de 8% a 10%, como dice la descripción de la piedra, y el total en el refino +11 pasó de 32% a 34%. Reportado por Reagan*."
+  ],
+  "logs_en": [
+    "Ice Flower Spell (Caster): the variable cast time reduction with no refine went from 8% to 10%, as the stone's description says, and the total at refine +11 went from 32% to 34%. Reported by Reagan*."
+  ]
+}
