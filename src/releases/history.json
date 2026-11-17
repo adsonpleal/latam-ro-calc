@@ -1,5 +1,36 @@
 [
   {
+    "v": "0.1.226-beta",
+    "date": "17-11-2026",
+    "logs": [
+      "Na linha de comparação dos cards de equipamento, os botões de inverter e limpar passaram a ficar empilhados em coluna no canto, e a linha reserva o espaço deles: os encantamentos de um item com muitos chips não passam mais por baixo dos botões.",
+      "Cometa, Garra Sombria 5 e Oleum Sanctum 5 apareciam duas vezes em Debuffs no monstro para as classes que lançam o próprio debuff; agora cada um tem uma linha só, e o efeito aplicado continua o mesmo. Reportado por Reagan*.",
+      "Disparo Perfurante aparecia duas vezes no seletor de habilidades da Rotação, com um dano diferente em cada linha. Agora é uma linha só, com os 120% por nível + (FOR x nível)% que a própria descrição da habilidade publica, e as rotações já salvas na outra linha continuam valendo. Reportado por Cctavio.",
+      "Ainda no seletor da Rotação, as habilidades que apareciam com o mesmo nome em duas linhas passaram a dizer o que diferencia cada uma: Garra de Tigre e Portões do Inferno após Ruína, Execução pelas moedas gastas e Lança Congelante em Evasão Aquática.",
+      "Flor Invernal (Variável): a redução de conjuração variável sem refino passou de 8% para 10%, como diz a descrição da pedra, e o total no refino +11 passou de 32% para 34%. Reportado por Reagan*.",
+      "A Glória do Sacerdote entrou na lista de buffs recebidos e pode ser ligada por qualquer classe: SOR +30, que rende +9 de Crítico pelo caminho normal dos atributos. O nível da habilidade só muda a duração, então o buff tem uma opção só. Reportado por Haruka.",
+      "O Concentrar deixou de ser exclusivo do Arqueiro e do Superaprendiz e passou para a lista de buffs recebidos, disponível a qualquer classe nos dez níveis (DES e AGI +3% no Nv 1 até +12% no Nv 10), porque o Elixir Rubro concede a habilidade a quem não a aprende. Quem já usava o buff continua com uma linha só para ele, agora em Buffs. Reportado por Haruka."
+    ],
+    "logs_es": [
+      "En la fila de comparación de las tarjetas de equipo, los botones de invertir y limpiar ahora quedan apilados en columna en la esquina, y la fila reserva su espacio: los encantamientos de un objeto con muchos chips ya no pasan por debajo de los botones.",
+      "Cometa, Garra Tenebrosa 5 y Oleum Sanctum 5 aparecían dos veces en Debuffs en el monstruo para las clases que lanzan el propio debuff; ahora cada uno tiene una sola fila, y el efecto aplicado sigue siendo el mismo. Reportado por Reagan*.",
+      "Lanza Cañón aparecía dos veces en el selector de habilidades de la Rotación, con un daño distinto en cada línea. Ahora es una sola línea, con el 120% por nivel + (FUE x nivel)% que publica la propia descripción de la habilidad, y las rotaciones ya guardadas en la otra línea siguen valiendo. Reportado por Cctavio.",
+      "También en el selector de la Rotación, las habilidades que aparecían con el mismo nombre en dos líneas ahora dicen qué diferencia a cada una: Cañón de Tigre y Puertas del Infierno tras Imperio Caído, Martillo de los Dioses por las monedas gastadas y Lanza Gélida en Evasión Acuática.",
+      "Flor Invernal (Variable): la reducción de conjuración variable sin refino pasó de 8% a 10%, como dice la descripción de la piedra, y el total en el refino +11 pasó de 32% a 34%. Reportado por Reagan*.",
+      "La Gloria del Sacerdote entró en la lista de buffs recibidos y la puede activar cualquier clase: SUE +30, que rinde +9 de Crítico por el camino normal de los atributos. El nivel de la habilidad solo cambia la duración, así que el buff tiene una sola opción. Reportado por Haruka.",
+      "Mejorar Concentración dejó de ser exclusiva del Arquero y del Superprincipiante y pasó a la lista de buffs recibidos, disponible para cualquier clase en los diez niveles (DES y AGI +3% en Nv 1 hasta +12% en Nv 10), porque el Elixir Rubro concede la habilidad a quien no la aprende. Quien ya usaba el buff sigue con una sola línea para él, ahora en Buffs. Reportado por Haruka."
+    ],
+    "logs_en": [
+      "In the equipment cards' comparison row, the swap and clear buttons are now stacked in a column in the corner, and the row reserves their space: the enchants of an item with many chips no longer run underneath the buttons.",
+      "Comet, Dark Claw 5 and Oleum Sanctum 5 appeared twice under Debuffs on the monster for the classes that cast the debuff themselves; each now has a single row, and the effect applied is unchanged. Reported by Reagan*.",
+      "Cannon Spear was listed twice in the Rotation's skill picker, with a different damage on each row. It is now a single row, carrying the 120% per level + (STR x level)% the skill's own description publishes, and rotations already saved on the other row still work. Reported by Cctavio.",
+      "Also in the Rotation's picker, the skills that showed the same name on two rows now say what tells them apart: Tiger Cannon and Gates of Hell after Fallen Empire, God's Hammer by the coins spent, and Freezing Spear in Watery Evasion.",
+      "Ice Flower Spell (Caster): the variable cast time reduction with no refine went from 8% to 10%, as the stone's description says, and the total at refine +11 went from 32% to 34%. Reported by Reagan*.",
+      "The Priest's Gloria is now in the received buffs list and any class can switch it on: LUK +30, which yields +9 Crit through the normal stat path. The skill level only changes the duration, so the buff has a single option. Reported by Haruka.",
+      "Improve Concentration is no longer exclusive to the Archer and the Super Novice and moved to the received buffs list, available to any class at all ten levels (DEX and AGI +3% at Lv 1 up to +12% at Lv 10), because the Elixir Rubro grants the skill to anyone who does not learn it. Anyone already using the buff still has a single row for it, now under Buffs. Reported by Haruka."
+    ]
+  },
+  {
     "v": "0.1.225-beta",
     "date": "16-11-2026",
     "logs": [
