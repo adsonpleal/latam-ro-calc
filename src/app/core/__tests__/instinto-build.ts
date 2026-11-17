@@ -3,6 +3,7 @@ import { Windhawk } from 'src/app/jobs';
 import { createMainModel } from 'src/app/utils';
 import { Calculator } from '../calculator';
 import { CalcChainInput, CalculatorController } from '../calculator-controller';
+import { jobBuffBonuses } from './job-buff-bonus';
 
 /**
  * The Windhawk build both Instinto specs are written against, in one place.
@@ -27,17 +28,20 @@ export const INSTINTO_ID = 4879;
  *  the UI applies on top, so a chance is keyed by whichever name the db holds. */
 export const INSTINTO_NAME: string = db[INSTINTO_ID].name;
 
-/** Concentrar 10, Caminho do Vento 5, Visão Real 10, Disparo Selvagem 5, Ilimitar 5,
- *  Ventos Sinistros 1 — keyed by skill so adding another inherited control cannot shift
- *  the fixture onto the wrong rows. */
+/** Caminho do Vento 5, Visão Real 10, Disparo Selvagem 5, Ilimitar 5, Ventos Sinistros 1 —
+ *  keyed by skill so adding another inherited control cannot shift the fixture onto the
+ *  wrong rows. */
 const ACTIVE_SKILL_LEVELS: Record<string, number> = {
-  'Improve Concentration': 10,
   'Wind Walk': 5,
   'Falcon Eyes': 10,
   'Fear Breeze': 5,
   'No Limits': 5,
   'Calamity Gale': 1,
 };
+
+/** Concentrar 10 — a shared buff rather than a class control, so it rides the same
+ *  `buffEquips` route the buff panel uses. */
+const BUFF_LEVELS: Record<string, number> = { 'Improve Concentration': 10 };
 
 /** Poring with every defence and resistance zeroed, so what a spec asserts comes from the
  *  build. Not `INERT_MONSTER` from ./make-calculator: these specs read hit and flee, which
@@ -74,6 +78,8 @@ export function solveInstintoBuild(params: { dex: number; selectedChances: strin
     .setLearnSkills({ activeSkillIds, passiveSkillIds: [] })
     .getSkillBonusAndName();
 
+  const buffBonuses = jobBuffBonuses(BUFF_LEVELS, activeSkillNames);
+
   const calc = new Calculator();
   calc
     .setMasterItems(items)
@@ -105,8 +111,8 @@ export function solveInstintoBuild(params: { dex: number; selectedChances: strin
     monster: MONSTER,
     equipAtks,
     masteryAtks,
-    buffEquips: {},
-    buffMasterys: {},
+    buffEquips: buffBonuses.equipAtk,
+    buffMasterys: buffBonuses.masteryAtk,
     consumeData: [],
     aspdPotion: 0,
     extraOptionScripts: [],

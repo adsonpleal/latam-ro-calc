@@ -175,6 +175,47 @@ const JobBuffsList: ActiveSkillModel[] = [
   LaudaRamusBuff,
   SacramentumBuff,
   {
+    // Glória (PR_GLORIA 75) buffs "todos os membros do grupo na tela", so every class can
+    // receive it. The client's table: SOR +30 flat, the level buying duration only (10s at
+    // Nv 1 up to 30s at Nv 5) — hence one option rather than five identical ones. Plain
+    // `luk` is what makes the CRIT the card asks about follow: getBaseCriRate counts
+    // `totalLuk * 3` tenths, so +30 SOR is +9 de Crítico through the normal stat path.
+    //
+    // Deliberately not declared on the Priest line as well: the view model builds the class
+    // list and this one independently and filters neither against the other, so a second
+    // copy there would render a second selectable row for the same buff.
+    name: 'Gloria',
+    label: 'Glória',
+    icon: 75,
+    inputType: 'selectButton',
+    dropdown: [
+      { label: 'Sim', isUse: true, value: 5, skillLv: 5, bonus: { luk: 30 } },
+      { label: 'Não', isUse: false, value: 0 },
+    ],
+  },
+  {
+    // Concentrar (AC_CONCENTRATION 45) — DES e AGI +3% at Nv 1 up to +12% at Nv 10, the
+    // client's table unchanged by the 28/10/2026 rebalance. `agiBoost`/`dexBoost` are the
+    // percent-boost keys (calculator.ts applies them through calcStatBoost).
+    //
+    // A self-buff of the Archer line and the Superaprendiz in game, but any class can hold
+    // it: 12796 Elixir Rubro autocasts "[Concentrar] nv.3 ou no maior nível aprendido" on
+    // physical attacks. The row is left ungated — a one-shot damage figure cannot gate on a
+    // 1% proc (auto-cast-audit.json books that clause as `reviewed-non-damaging`), and the
+    // player knows whether the buff is up. Nv 3 is what the elixir grants outside the line.
+    name: 'Improve Concentration',
+    label: 'Concentrar',
+    icon: 45,
+    inputType: 'dropdown',
+    dropdown: [
+      { label: '-', value: 0, isUse: false },
+      ...Array.from({ length: 10 }, (_, i) => ({
+        label: `Nv ${i + 1}`, value: i + 1, skillLv: i + 1, isUse: true,
+        bonus: { agiBoost: i + 3, dexBoost: i + 3 },
+      })),
+    ],
+  },
+  {
     name: 'Adrenaline Rush',
     label: 'Adrenalina 5',
     inputType: 'selectButton',

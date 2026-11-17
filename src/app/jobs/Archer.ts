@@ -155,17 +155,8 @@ export class Archer extends CharacterBase {
   protected initialStatusPoint = 100;
   protected classNames = [ClassName.Archer];
   protected _atkSkillList: AtkSkillModel[] = [];
-  protected _activeSkillList: ActiveSkillModel[] = [
-    {
-      isEquipAtk: true,
-      inputType: 'selectButton',
-      label: 'Improve Concen 10',
-      name: 'Improve Concentration',
-      dropdown: [
-        { label: 'Sim', value: 10, skillLv: 10, isUse: true, bonus: { agiBoost: 12, dexBoost: 12 } },
-        { label: 'Não', value: 0, isUse: false },
-      ],
-    },
-  ];
+  // Concentrar lives in the shared buff list (`JobBuffs`): a copy here would give the
+  // whole Archer line a second selectable row for it.
+  protected _activeSkillList: ActiveSkillModel[] = [];
   protected _passiveSkillList: PassiveSkillModel[] = [OwlsEyeFn(), VulturesEyeFn(), DoubleStrafeFn()];
 }

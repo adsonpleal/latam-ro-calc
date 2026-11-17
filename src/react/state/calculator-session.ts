@@ -3108,9 +3108,16 @@ await ((_event?: unknown) => {
 
     const isEqualBuffLenght = this.selectedCharacter.matchesSavedSkillCount('passive', this.model.passiveSkills?.length);
     const legacyInsignia = Number(skillBuffMap['_Sorcerer_Insignia_Target']);
+    // Buffs that used to be class controls and now live in the shared list: an older build
+    // carries the level under `activeSkillMap`, where nothing reads it any more. Concentrar
+    // kept the same level values on both sides (1-10, and the Archer's single option was
+    // 10), so the saved level carries over as it is. The next buff to move adds a line.
+    const movedFromClassPanel: Record<string, number | undefined> = {
+      'Improve Concentration': Number(activeSkillMap['Improve Concentration']) || undefined,
+    };
     this.model.skillBuffs = this.skillBuffs.map((skill, i) => {
       const legacyIndex = /^_Sorcerer_Insignia_Target_(\d)$/.exec(skill.name)?.[1];
-      const savedVal = skillBuffMap[skill.name]
+      const savedVal = skillBuffMap[skill.name] ?? movedFromClassPanel[skill.name]
         ?? (legacyIndex ? Number(legacyIndex) === legacyInsignia ? 1 : 0 : isEqualBuffLenght ? this.model.skillBuffs[i] : 0);
       const found = skill.dropdown.find((a) => a.value === savedVal);
 

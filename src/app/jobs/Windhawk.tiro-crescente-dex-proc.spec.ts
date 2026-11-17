@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { decodeReplay } from 'rrfparser';
-import { JobBuffs } from 'src/app/constants/job-buffs';
+import { jobBuffBonuses } from 'src/app/core/__tests__/job-buff-bonus';
 import { Calculator } from 'src/app/core/calculator';
 import { CalculatorController } from 'src/app/core/calculator-controller';
 import { parseOptionScripts } from 'src/app/core/option-scripts';
@@ -58,7 +58,10 @@ const hpSpTable = JSON.parse(readFileSync('src/assets/demo/data/hp_sp_table.json
 const TIRO_CRESCENTE = 5334;
 const DEX_PROC = 'Unknown Dexterity Boots [1]';
 const TRAITS = { pow: 100, sta: 0, wis: 0, spl: 0, con: 68, crt: 0 };
-const ACTIVES: Record<string, number> = { 'No Limits': 5, 'Calamity Gale': 1, 'Improve Concentration': 10, 'Falcon Eyes': 10, 'Wind Walk': 5 };
+const ACTIVES: Record<string, number> = { 'No Limits': 5, 'Calamity Gale': 1, 'Falcon Eyes': 10, 'Wind Walk': 5 };
+/** Received buffs that were up in the recording: Aumentar Agilidade 10 (EFST 12) and
+ *  Concentrar 10, both shared rows rather than class controls. */
+const BUFFS: Record<string, number> = { Cantocandidus: 10, 'Improve Concentration': 10 };
 const CONSUMABLES = [12883, 14766, 23475, 100232, 102803]; // Bolinho, Ilimitada, Infinita, Energético Físico, Estimulante
 /** With CON unknown the level is held to ±3,5%; the structure below is held exactly. */
 const LEVEL_TOLERANCE = 0.035;
@@ -107,9 +110,7 @@ function sim(key: string, proc: boolean) {
   const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = cls
     .setLearnSkills({ activeSkillIds: activeIds, passiveSkillIds: passiveIds })
     .getSkillBonusAndName();
-  const buffEquips: Record<string, any> = {};
-  const agi = JobBuffs.find((d) => d.name === 'Cantocandidus')!;
-  buffEquips[agi.name] = agi.dropdown.find((d: any) => d.value === 10).bonus; // EFST 12
+  const { equipAtk: buffEquips, masteryAtk: buffMasterys } = jobBuffBonuses(BUFFS, activeSkillNames);
   const skill = 'Crescive Bolt==10';
   m.selectedAtkSkill = skill;
   const calc = new Calculator().setMasterItems(items).setHpSpTable(hpSpTable).setClass(cls);
@@ -117,7 +118,7 @@ function sim(key: string, proc: boolean) {
   m.skillFormulaVersion = 'pre-rebalance';
   calc.loadItemFromModel(m);
   new CalculatorController().runChain(calc, {
-    monster: monsters[FILES[key].monster], equipAtks, masteryAtks, buffEquips, buffMasterys: {},
+    monster: monsters[FILES[key].monster], equipAtks, masteryAtks, buffEquips, buffMasterys,
     consumeData: CONSUMABLES.map((id) => items[id].script), aspdPotion: m.aspdPotion,
     extraOptionScripts: parseOptionScripts((m.rawOptionTxts ?? []).filter(Boolean)),
     activeSkillNames, learnedSkillMap, selectedAtkSkill: skill, selectedChances: proc ? [DEX_PROC] : [], usedHpL: false,
