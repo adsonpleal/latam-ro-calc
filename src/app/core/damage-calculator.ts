@@ -15,6 +15,7 @@ import { resolveRebalancedSkill } from 'src/app/skills/rebalance-2026';
 import { applyPreviewBuffs } from 'src/app/skills/preview-275';
 import { calcDmgDps, calcSkillAspd, engineHitsPerSec, floor, formatCalcNumber, isSkillCanEDP, round, stackRange } from 'src/app/utils';
 import { computeBasicCritRate, computeSkillCritRate, EMPTY_CRIT_RATE } from './crit-rate';
+import { findRotationSkill } from './rotation';
 import { targetReduction } from './target-reduction';
 import { RESIST_REDUCTION_KEYS, RESIST_REDUCTION_KEYS_BY_ELE } from './summary-tables';
 import { DEFAULT_PVP_CONTEXT, DefenderReductionStep, PvpContext, defenderReductionSteps, pvpChannelOf, woeGlobalMultiplier } from './pvp';
@@ -2666,8 +2667,14 @@ export class DamageCalculator {
     };
 
     const [, _skillName, skillLevelStr] = skillValue?.match(/(.+)==(\d+)/) ?? [];
+    // Resolved the same three ways the rotation resolves one — the entry's own `value`, its
+    // `values[]` aliases and each `levelList[].value`. The aliases matter: a skill that used
+    // to be two catalog entries keeps the retired entry's string in `values`, and a share
+    // link or saved simulation built before the merge still carries it. Without the alias
+    // leg such a rotation row resolves to nothing, which `isValidSkill` below reads as
+    // "basic attack only" — the row would silently stop dealing damage.
     let skillData = args.skillData ? applyPreviewBuffs(resolveRebalancedSkill(args.skillData, this.infoForClass.model.skillFormulaVersion))
-      : this._class.getAtkSkills(this.infoForClass.model.skillFormulaVersion).find((a) => a.value === skillValue || a.levelList?.findIndex((b) => b.value === skillValue) >= 0);
+      : findRotationSkill(this._class.getAtkSkills(this.infoForClass.model.skillFormulaVersion), skillValue);
     const isValidSkill = !!_skillName && !!skillLevelStr && typeof skillData?.formula === 'function';
 
     if (!isValidSkill) return { basicDmg, misc, basicAspd };

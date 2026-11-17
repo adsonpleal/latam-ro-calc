@@ -219,9 +219,22 @@ export class RoyalGuard extends Paladin {
       },
     },
     {
+      /**
+       * One entry, not two — reported by Cctavio, who saw "Disparo Perfurante" twice in the
+       * rotation picker, each row with a different damage. There is only one Disparo
+       * Perfurante in the game: the client's own table is 120% per level + (FOR x level)%
+       * (skill 2307, client of 28/10/2026), which is the formula below. The second entry
+       * carried the pre-rebalance 50% per level under the same `name`, so both rows
+       * localized to the same pt-BR label and nothing on screen told them apart.
+       *
+       * `[Improved] Cannon Spear==5` stays as an alias so a share link or a saved
+       * simulation built on the old entry still resolves here — the same treatment Toque do
+       * Oblívio, Lança do Destino and Aegis Inferi in this same list already get.
+       */
       name: 'Cannon Spear',
       label: 'Cannon Spear Lv5',
       value: 'Cannon Spear==5',
+      values: ['[Improved] Cannon Spear==5'],
       acd: 0,
       fct: 0,
       vct: 0,
@@ -233,27 +246,6 @@ export class RoyalGuard extends Paladin {
         const baseLevel = model.level;
         const { totalStr } = status;
 
-        if (this.isSkillActive('Grand Judgement')) {
-          return skillLevel * (200 + totalStr) * (baseLevel / 100);
-        }
-
-        return skillLevel * (50 + totalStr) * (baseLevel / 100);
-      },
-    },
-    {
-      name: 'Cannon Spear',
-      label: '[Improved] Cannon Spear Lv5',
-      value: '[Improved] Cannon Spear==5',
-      acd: 0,
-      fct: 0,
-      vct: 0,
-      cd: 1.7,
-      canCri: true,
-      criDmgPercentage: 0.5,
-      formula: (input: AtkSkillFormulaInput): number => {
-        const { model, skillLevel, status } = input;
-        const baseLevel = model.level;
-        const { totalStr } = status;
         if (this.isSkillActive('Grand Judgement')) {
           return skillLevel * (200 + totalStr) * (baseLevel / 100);
         }
