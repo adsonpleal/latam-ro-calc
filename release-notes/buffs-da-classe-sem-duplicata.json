@@ -1,15 +1,15 @@
 {
   "type": "patch",
   "logs": [
-    "Buffs que a própria classe lança aparecem agora só em Habilidades e efeitos ativos e saíram da lista de Buffs: o Poema de Bragi não aparece mais duas vezes no Maestro, e o mesmo vale para outros 26 buffs e debuffs compartilhados. Simulações salvas com o buff marcado em Buffs mantêm o bônus, que passa para a linha da classe.",
+    "Buffs que a própria classe lança aparecem agora só em Habilidades e efeitos ativos e saíram da lista de Buffs: o Poema de Bragi não aparece mais duas vezes no Maestro, e o mesmo vale para outros 20 buffs e debuffs compartilhados. Simulações salvas com o buff marcado em Buffs mantêm o bônus, que passa para a linha da classe.",
     "O Concentrar voltou a ser habilidade do Arqueiro e do Superaprendiz — e de toda a linha, Maestro incluído — e a Glória, do Sacerdote; nas outras classes os dois continuam em Buffs, com os mesmos dez níveis de DES e AGI e os mesmos +30 de SOR."
   ],
   "logs_es": [
-    "Los buffs que la propia clase lanza aparecen ahora solo en Habilidades y efectos activos y salieron de la lista de Buffs: el Poema de Bragi ya no aparece dos veces en el Maestro, y lo mismo vale para otros 26 buffs y debuffs compartidos. Las simulaciones guardadas con el buff marcado en Buffs mantienen el bono, que pasa a la línea de la clase.",
+    "Los buffs que la propia clase lanza aparecen ahora solo en Habilidades y efectos activos y salieron de la lista de Buffs: el Poema de Bragi ya no aparece dos veces en el Maestro, y lo mismo vale para otros 20 buffs y debuffs compartidos. Las simulaciones guardadas con el buff marcado en Buffs mantienen el bono, que pasa a la línea de la clase.",
     "Mejorar Concentración volvió a ser habilidad del Arquero y del Superprincipiante — y de toda la línea, Maestro incluido — y Gloria, del Sacerdote; en las otras clases ambos siguen en Buffs, con los mismos diez niveles de DES y AGI y los mismos +30 de SUE."
   ],
   "logs_en": [
-    "Buffs the class casts itself now appear only under Active skills and effects and left the Buffs list: Magic Strings no longer appears twice for the Maestro, and the same goes for another 26 shared buffs and debuffs. Saved simulations with the buff ticked under Buffs keep the bonus, which moves to the class row.",
+    "Buffs the class casts itself now appear only under Active skills and effects and left the Buffs list: Magic Strings no longer appears twice for the Maestro, and the same goes for another 20 shared buffs and debuffs. Saved simulations with the buff ticked under Buffs keep the bonus, which moves to the class row.",
     "Improve Concentration is an Archer and Super Novice skill again — and the whole line's, Maestro included — and Gloria a Priest one; for every other class both stay under Buffs, with the same ten levels of DEX and AGI and the same +30 LUK."
   ]
 }
