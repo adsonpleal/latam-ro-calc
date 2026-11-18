@@ -1,5 +1,5 @@
 import { ElementType } from '../constants/element-type.const';
-import { IntensificationFn } from '../constants/share-active-skills';
+import { ImproveConcentrationFn, IntensificationFn } from '../constants/share-active-skills';
 import { BeastBaneFn, DemonBane, DoubleAttackFn, FaithFn, HiltBindingFn, ImproveDodgeFn, IncreaseSPRecoveryFn, SnatcherFn } from '../constants/share-passive-skills';
 import { InfoForClass } from '../models/info-for-class.model';
 import { genSkillList } from '../utils';
@@ -352,8 +352,10 @@ export class SuperNovice extends CharacterBase {
     // Telecinesia — boosts Ghost-element damage, so it only does anything alongside
     // Impacto Espiritual above; the two were added together.
     IntensificationFn(),
-    // Concentrar lives in the shared buff list (`JobBuffs`): a copy here would give the
-    // Superaprendiz a second selectable row for it.
+    // The Superaprendiz learns the whole first-class tree, Concentrar included, so it is
+    // one of his own active effects. Same factory as the shared `JobBuffs` row, which the
+    // panel hides for him (`supersededBuffNames`).
+    ImproveConcentrationFn(),
     {
       name: 'Cart Boost',
       label: 'Cart Boost',

@@ -95,9 +95,10 @@ describe('Superaprendiz — Telecinesia / Impacto Espiritual', () => {
       expect(atk(superNovice, name), name).toBeDefined();
     }
     expect(active(superNovice, 'Cart Boost')).toBeDefined();
-    // Concentrar is still offered, from the shared buff list rather than the class panel,
-    // so the Superaprendiz gets exactly one row for it instead of two.
-    expect(active(superNovice, 'Improve Concentration')).toBeUndefined();
+    // Concentrar is one of the Superaprendiz's own effects, so his row is the class one.
+    // The shared buff list carries the same factory for everyone else, and the panel hides
+    // that copy for him — see buff-panel-duplicate-rows.spec.ts.
+    expect(active(superNovice, 'Improve Concentration')).toBeDefined();
     expect(JobBuffs.some((buff) => buff.name === 'Improve Concentration')).toBe(true);
   });
 });

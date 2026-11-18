@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { JobBuffs } from './job-buffs';
 import { getClassDropdownList } from '../jobs';
 import { SKILL_ID_BY_NAME } from '../skills';
-import { CalculatorController } from '../core/calculator-controller';
+import { CalculatorController, supersededBuffNames } from '../core/calculator-controller';
 import { jobBuffBonuses, jobBuffEntry, jobBuffOption } from '../core/__tests__/job-buff-bonus';
 import { INERT_MONSTER, makeCalculator } from '../core/__tests__/make-calculator';
 import { createMainModel } from '../utils';
@@ -57,22 +57,42 @@ describe('Concentrar', () => {
 });
 
 /**
- * The duplicate-row trap. A buff declared both in `JobBuffs` and in a class's own active
- * skills renders twice for that class — once under the class section and once under
- * "Buffs" — because the view model builds the two lists independently and filters neither
- * against the other. `collectBuffBonuses` stops the bonus being counted twice, but not the
- * second row.
+ * The duplicate-row trap, and the rule card v8ColE3Z8QamyuHAmWTM settled. A buff declared
+ * both in `JobBuffs` and in a class's own active skills renders twice for that class,
+ * because the view model builds the two lists independently and filters neither against the
+ * other. `collectBuffBonuses` stops the bonus being counted twice, but not the second row.
  *
- * So neither of these two may ever also be a class control. The classes that could plausibly
- * grow one are the three the cards name: Arqueiro casts Concentrar, the Superaprendiz learns
- * it, and the Arcebispo casts Glória.
+ * Both of these are cast by a class and received by everyone else, so both sides are
+ * declared — from one factory, so the two rows cannot drift apart — and `supersededBuffNames`
+ * is what keeps a class that casts the buff from being offered the shared copy as well. The
+ * class row is the survivor, which is what puts Concentrar under the Maestro's "Habilidades
+ * e efeitos ativos" instead of his "Buffs". buff-panel-duplicate-rows.spec.ts holds every
+ * class to that; this is the pair the two cards named.
  */
-describe('no class offers a second row for either buff', () => {
-  const shared = ['Gloria', 'Improve Concentration'];
+describe('each class is offered exactly one row for either buff', () => {
+  const shared = ['Gloria', 'Improve Concentration'] as const;
+  /**
+   * Who casts each one, by class id — not by panel label, which is the client's pt-BR name
+   * and would make this a test of the translation. Glória is PR_GLORIA, so the Sacerdote
+   * line has it (Sumo Sacerdote, Arcebispo, Cardeal); Concentrar is AC_CONCENTRATION, which
+   * the Arqueiro declares, so inheritance carries it to all ten of his descendants, plus the
+   * Superaprendiz line that borrows the first classes' skills.
+   */
+  const castByClass: Record<string, number[]> = {
+    Gloria: [7, 4009, 4256],
+    'Improve Concentration': [2, 21, 22, 30, 4012, 4020, 4021, 4257, 4263, 4264, 4307],
+  };
 
-  it.each(getClassDropdownList().map((c) => [c.label, c.instant] as const))('%s', (_label, character) => {
-    expect(character.activeSkills.filter((skill) => shared.includes(skill.name)).map((s) => s.name)).toEqual([]);
-    expect(character.passiveSkills.filter((skill) => shared.includes(skill.name)).map((s) => s.name)).toEqual([]);
+  it.each(getClassDropdownList().map((c) => [c.label, c.value, c.instant] as const))('%s', (label, classId, character) => {
+    const casts = shared.filter((name) => castByClass[name].includes(classId as number));
+    const superseded = supersededBuffNames(JobBuffs, character.activeSkills);
+
+    // The class's own row for every buff it casts, and only those.
+    expect(character.activeSkills.filter((skill) => shared.includes(skill.name as typeof shared[number])).map((s) => s.name)).toEqual(casts);
+    // The shared row drops out for exactly the same set.
+    expect(shared.filter((name) => superseded.has(name))).toEqual(casts);
+    // Neither is a learned-level row ("Aprender para bônus") on any class.
+    expect(character.passiveSkills.filter((skill) => shared.includes(skill.name as typeof shared[number])).map((s) => s.name)).toEqual([]);
   });
 
   it('keeps one selectable row per buff in the shared list itself', () => {

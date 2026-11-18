@@ -1,6 +1,7 @@
 import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
 import { DoubleStrafeFn, OwlsEyeFn, VulturesEyeFn } from '../constants/share-passive-skills';
+import { ImproveConcentrationFn } from '../constants/share-active-skills';
 
 const jobBonusTableHi: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 0, 0, 0],
@@ -155,8 +156,10 @@ export class Archer extends CharacterBase {
   protected initialStatusPoint = 100;
   protected classNames = [ClassName.Archer];
   protected _atkSkillList: AtkSkillModel[] = [];
-  // Concentrar lives in the shared buff list (`JobBuffs`): a copy here would give the
-  // whole Archer line a second selectable row for it.
-  protected _activeSkillList: ActiveSkillModel[] = [];
+  // Concentrar is the Arqueiro's own buff, so the whole line gets it here, under
+  // "Habilidades e efeitos ativos". The shared `JobBuffs` row — the one every other class
+  // receives from a party or from 12796 Elixir Rubro — is the same factory, and the panel
+  // hides it for a class that has this one (`supersededBuffNames`).
+  protected _activeSkillList: ActiveSkillModel[] = [ImproveConcentrationFn()];
   protected _passiveSkillList: PassiveSkillModel[] = [OwlsEyeFn(), VulturesEyeFn(), DoubleStrafeFn()];
 }
