@@ -80,7 +80,7 @@ import { BETELGEUSE_HP_OPTIONS, normalizeBetelgeuseHp, withBetelgeuseHp } from '
 import { BaseStateCalculator } from 'src/app/core/base-state-calculator';
 import { Calculator } from 'src/app/core/calculator';
 import { OFF_HAND_NEEDS_WEAPON, OFF_HAND_RIVAL, OffHandSlot, resolveOffHandEviction } from 'src/app/core/off-hand-slots';
-import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectChanceSources, collectConsumables, supersededDebuffNames, withoutWeaponlessTalismans } from 'src/app/core/calculator-controller';
+import { applyGuaranaCandy, CalcChainInput, CalculatorController, collectAspdPotionSources, collectBuffBonuses, collectChanceSources, collectConsumables, matchingClassOption, supersededBuffNames, withoutWeaponlessTalismans } from 'src/app/core/calculator-controller';
 import { customOptionScripts, ensureCustomAttachment } from 'src/app/core/custom-attachments';
 import { CalcStorage } from 'src/app/core/calc-storage';
 import { ElementType } from 'src/app/constants/element-type.const';
@@ -233,8 +233,8 @@ export class CalculatorSession extends Store<number> {
   mapEnchant!: Map<string, ItemModel>;
   enchants: DropdownModel[] = [];
   skillBuffs = JobBuffs;
-  /** Shared debuff rows the selected class casts itself; see {@link supersededDebuffNames}. */
-  supersededDebuffs = new Set<string>();
+  /** Shared buff rows the selected class casts itself; see {@link supersededBuffNames}. */
+  supersededBuffs = new Set<string>();
 
   isInProcessingPreset = false;
 
@@ -1817,17 +1817,28 @@ await ((_event?: unknown) => {
   }
 
   /**
-   * True for a shared buff row that belongs in "Debuffs no monstro". The panel groups
-   * every target-side effect into that one section without changing the source arrays —
-   * each row keeps its original index for its model binding — so this is the membership
-   * test for the shared half of it.
+   * True for a shared `JobBuffs` row the panel still shows this class. The two sections fed
+   * from that catalog — "Buffs" and the top half of "Debuffs no monstro" — ask the same
+   * question and differ only in which side of `isDebuff` they take, so the rule lives here
+   * once and each section adds its own half below.
    *
-   * A debuff the selected class casts itself is listed from its own active row instead,
-   * so the section shows one control per debuff rather than the same one at the top and
-   * at the bottom (see {@link supersededDebuffNames}).
+   * A buff the selected class casts itself is listed from its own row instead, under
+   * "Habilidades e efeitos ativos" or at the bottom of the debuff section: Concentrar for
+   * the Arqueiro line, Poema de Bragi for the Maestro, Cometa for the Bruxo. See
+   * {@link supersededBuffNames}, which also says why a few pairs keep both rows.
    */
+  private isSharedRowShown(skill: { name: string; preview?: boolean }): boolean {
+    return !this.supersededBuffs.has(skill.name) && this.isSkillVisible(skill);
+  }
+
+  /** The shared half of "Debuffs no monstro"; the class's own debuff rows follow it. */
   isMonsterDebuffRow(skill: { name: string; isDebuff?: boolean; preview?: boolean }): boolean {
-    return !!skill.isDebuff && !this.supersededDebuffs.has(skill.name) && this.isSkillVisible(skill);
+    return !!skill.isDebuff && this.isSharedRowShown(skill);
+  }
+
+  /** The "Buffs" section: everything received rather than cast by the class itself. */
+  isSharedBuffRow(skill: { name: string; isDebuff?: boolean; preview?: boolean }): boolean {
+    return !skill.isDebuff && this.isSharedRowShown(skill);
   }
 
   /** Class-specific active effects stay separate from target-side debuffs. */
@@ -2847,7 +2858,7 @@ await ((_event?: unknown) => {
     this.loadedClassId = this.model.class;
     // Before setSkillModelArray(), which folds a superseded row's saved value into the
     // class row it hides.
-    this.supersededDebuffs = supersededDebuffNames(JobBuffs, this.selectedCharacter.activeSkills);
+    this.supersededBuffs = supersededBuffNames(JobBuffs, this.selectedCharacter.activeSkills);
     this.calculator.setClass(this.selectedCharacter);
     this.isAllowTraitStat = this.selectedCharacter.isAllowTraitStat();
     this.mainStatusList = createNumberDropdownList({ from: 1, to: this.selectedCharacter.maxBaseStat });
@@ -3113,16 +3124,9 @@ await ((_event?: unknown) => {
 
     const isEqualBuffLenght = this.selectedCharacter.matchesSavedSkillCount('passive', this.model.passiveSkills?.length);
     const legacyInsignia = Number(skillBuffMap['_Sorcerer_Insignia_Target']);
-    // Buffs that used to be class controls and now live in the shared list: an older build
-    // carries the level under `activeSkillMap`, where nothing reads it any more. Concentrar
-    // kept the same level values on both sides (1-10, and the Archer's single option was
-    // 10), so the saved level carries over as it is. The next buff to move adds a line.
-    const movedFromClassPanel: Record<string, number | undefined> = {
-      'Improve Concentration': Number(activeSkillMap['Improve Concentration']) || undefined,
-    };
     this.model.skillBuffs = this.skillBuffs.map((skill, i) => {
       const legacyIndex = /^_Sorcerer_Insignia_Target_(\d)$/.exec(skill.name)?.[1];
-      const savedVal = skillBuffMap[skill.name] ?? movedFromClassPanel[skill.name]
+      const savedVal = skillBuffMap[skill.name]
         ?? (legacyIndex ? Number(legacyIndex) === legacyInsignia ? 1 : 0 : isEqualBuffLenght ? this.model.skillBuffs[i] : 0);
       const found = skill.dropdown.find((a) => a.value === savedVal);
 
@@ -3145,33 +3149,37 @@ await ((_event?: unknown) => {
       return found ? savedVal : 0;
     });
 
-    this.foldSupersededDebuffs(activeSkills);
+    this.foldSupersededBuffs(activeSkills);
   }
 
   /**
-   * A build saved before the duplicate row went away — or carried in from a class that
-   * does not cast the debuff — can hold the shared row selected while the class row that
-   * replaces it is off. The row is no longer on screen, so its value moves to the class
-   * row and the shared one is cleared; leaving it set would keep the debuff applying with
-   * no control to turn it off.
+   * A build saved before the duplicate row went away — or carried in from a class that does
+   * not cast the buff itself — can hold the shared row selected while the class row that
+   * replaces it is off. The row is no longer on screen, so its value moves to the class row
+   * and the shared one is cleared; leaving it set would keep the buff applying with no
+   * control to turn it off.
+   *
+   * The two rows are matched on what they grant rather than on the number that encodes it:
+   * `supersededBuffNames` already guarantees the class row can grant everything the shared
+   * one could, but not that they spell it the same way — the Doram's Petisco de Camarão is
+   * `value: 5` on his row and `value: 1` on the shared one, and the Ceifador's shared "Sim"
+   * is Nv 5 of a class row where `value: 1` means Nv 1. Carrying the raw number across would
+   * have downgraded that buff silently.
    */
-  private foldSupersededDebuffs(activeSkills: { name: string; dropdown: { value: any; isUse?: boolean }[] }[]) {
-    for (const name of this.supersededDebuffs) {
+  private foldSupersededBuffs(activeSkills: { name: string; dropdown: { value: any; isUse?: boolean; bonus?: any }[] }[]) {
+    for (const name of this.supersededBuffs) {
       const buffIndex = this.skillBuffs.findIndex((buff) => buff.name === name);
       const activeIndex = activeSkills.findIndex((skill) => skill.name === name);
       if (buffIndex < 0 || activeIndex < 0) continue;
 
-      const shared = this.skillBuffs[buffIndex].dropdown;
-      const classRow = activeSkills[activeIndex].dropdown;
-      const saved = this.model.skillBuffs[buffIndex];
+      const shared = this.skillBuffs[buffIndex];
+      const classRow = activeSkills[activeIndex];
+      const carried = matchingClassOption(shared, classRow, this.model.skillBuffs[buffIndex]);
 
-      // The value carries over only if the class row spells it the same way, which every
-      // colliding pair does today (both sides of Cometa, Garra Sombria and Oleum Sanctum
-      // ship the same dropdown).
-      if (isOptionOn(shared, saved) && !isOptionOn(classRow, this.model.activeSkills[activeIndex]) && isOptionOn(classRow, saved)) {
-        this.model.activeSkills[activeIndex] = saved;
+      if (carried && !isOptionOn(classRow.dropdown, this.model.activeSkills[activeIndex])) {
+        this.model.activeSkills[activeIndex] = carried.value;
       }
-      this.model.skillBuffs[buffIndex] = shared.find((option) => !option.isUse)?.value ?? 0;
+      this.model.skillBuffs[buffIndex] = shared.dropdown.find((option) => !option.isUse)?.value ?? 0;
     }
   }
 

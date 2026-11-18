@@ -229,32 +229,88 @@ export function collectBuffBonuses(buffDefs: BuffDef[], selectedValues: any[], a
   return { equipAtk, masteryAtk };
 }
 
+/** A dropdown row of either catalog, as the superseding rule needs to see it. */
+interface SupersedableRow {
+  name: string;
+  dropdown: readonly { value: any; isUse?: boolean; bonus?: any }[];
+}
+
+/** A bonus map as a string that ignores key order, so two spellings of one effect match. */
+const bonusSignature = (bonus: any): string =>
+  JSON.stringify(Object.entries(bonus ?? {}).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)));
+
+/** What a row can actually grant: one signature per option that counts as "on". */
+const grantableBonuses = (row: SupersedableRow): string[] =>
+  row.dropdown.filter((option) => option.isUse).map((option) => bonusSignature(option.bonus));
+
 /**
- * The shared `JobBuffs` debuff rows the selected class also casts itself, by skill name.
+ * The option on `classRow` that grants exactly what the shared row's `sharedValue` granted,
+ * or undefined. Used to carry a saved selection across: the two catalogs agree on the
+ * effect far more reliably than on the number used to encode it — the Doram's Petisco de
+ * Camarão is `value: 5` on his own row and `value: 1` on the shared one, and the Ceifador's
+ * single shared "Sim" is Nv 5 of a five-level class row whose `value: 1` means Nv 1.
+ */
+export function matchingClassOption(
+  sharedRow: SupersedableRow,
+  classRow: SupersedableRow,
+  sharedValue: any,
+): { value: any } | undefined {
+  const selected = sharedRow.dropdown.find((option) => option.value === sharedValue);
+  if (!selected?.isUse) return undefined;
+  const wanted = bonusSignature(selected.bonus);
+
+  return classRow.dropdown.find((option) => option.isUse && bonusSignature(option.bonus) === wanted);
+}
+
+/**
+ * The shared `JobBuffs` rows the selected class also casts itself, by skill name.
  *
- * A target-side debuff can reach the monster two ways — a party member casts it on you
- * (the shared row) or you cast it yourself (the class's own active row) — and the two
- * catalogs name it identically. `collectBuffBonuses` above already drops the shared row's
- * bonus whenever the class row is switched on, so the debuff is never counted twice; the
- * panel uses this set to drop the row as well, because both rows carry `isDebuff` and
- * "Debuffs no monstro" listed each of them in turn: Cometa for the Warlock line, Garra
- * Sombria for the Algoz line, Oleum Sanctum for the Inquisidor.
+ * A buff can reach the character two ways — a party member casts it on him (the shared row)
+ * or he casts it himself (the class's own active row) — and the two catalogs name it
+ * identically. `collectBuffBonuses` above already drops the shared row's bonus whenever the
+ * class row is switched on, so the buff is never counted twice; the panel uses this set to
+ * drop the row as well, because the two lists are built independently and filtered neither
+ * against the other, so every name on both sides renders a second selectable control.
+ *
+ * Where the second row lands depends on `isDebuff`, and the report covers both: a Maestro
+ * saw "Poema de Bragi 10" under his own skills and again under "Buffs", a Warlock saw
+ * "Cometa" at both ends of "Debuffs no monstro". The two sides need not agree on `isDebuff`
+ * either — the Algoz's own "Potencializar Veneno" is an active effect while the shared row is
+ * a monster debuff — so `isDebuff` is not part of the test.
+ *
+ * The name is not enough on its own, though, and this is the one place the rule is stricter
+ * than PR #133's: a shared row is dropped only when the class row can grant everything it
+ * could. Six pairs in the catalog carry the same name over genuinely different numbers —
+ * the shared Magnum Break offers "Limpar EDP", which the Espadachim line's row does not;
+ * Amplificação Mística is Nv 5 *and* Nv 10 shared but one level only on each class that
+ * casts it; Força Violenta is 15 shared against 25 on the Mecânico line — and hiding the
+ * shared row there would take an option away from the player rather than de-duplicate it.
+ * Those keep both controls until the two sides are reconciled, which needs a source rather
+ * than a refactor.
  *
  * The two tests deliberately differ. The bonus asks what is switched on right now
- * (`activeSkillNames`); the row asks what the class can cast at all, because a control
- * that is off has to disappear too — that is the common case, and the whole report.
+ * (`activeSkillNames`); the row asks what the class can cast at all, because a control that
+ * is off has to disappear too — that is the common case, and the whole report.
  *
  * The class row is the one that survives: it is what the engine honours when both are
  * selected, and the only one `isSkillActive()` gates can see (Explosão de Chamas reads
  * Oleum Sanctum that way).
  */
-export function supersededDebuffNames(
-  buffDefs: readonly { name: string; isDebuff?: boolean }[],
-  activeSkills: readonly { name: string; isDebuff?: boolean }[],
+export function supersededBuffNames(
+  buffDefs: readonly SupersedableRow[],
+  activeSkills: readonly SupersedableRow[],
 ): Set<string> {
-  const castByClass = new Set(activeSkills.filter((skill) => skill.isDebuff).map((skill) => skill.name));
+  const castByClass = new Map(activeSkills.map((skill) => [skill.name, skill]));
 
-  return new Set(buffDefs.filter((buff) => buff.isDebuff && castByClass.has(buff.name)).map((buff) => buff.name));
+  return new Set(buffDefs
+    .filter((buff) => {
+      const classRow = castByClass.get(buff.name);
+      if (!classRow) return false;
+      const covered = new Set(grantableBonuses(classRow));
+
+      return grantableBonuses(buff).every((bonus) => covered.has(bonus));
+    })
+    .map((buff) => buff.name));
 }
 
 /** Everything the fluent solve pipeline needs once items are loaded. */

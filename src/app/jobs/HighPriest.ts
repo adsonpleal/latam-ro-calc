@@ -3,6 +3,7 @@ import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillMode
 import { Acolyte } from './Acolyte';
 import { ElementType } from '../constants/element-type.const';
 import { RaceType } from '../constants/race-type.const';
+import { GloriaFn } from '../constants/share-active-skills';
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 1, 0, 0],
@@ -132,7 +133,10 @@ export class HighPriest extends Acolyte {
       },
     },
   ];
-  protected readonly activeSkillListHi: ActiveSkillModel[] = [];
+  // Glória is the Sacerdote's own buff, so the Priest line casts it from here. It is also
+  // party-wide, which is why the same factory sits in the shared `JobBuffs` list for every
+  // other class; `supersededBuffNames` keeps this line from being offered both rows.
+  protected readonly activeSkillListHi: ActiveSkillModel[] = [GloriaFn()];
   protected readonly passiveSkillListHi: PassiveSkillModel[] = [];
 
   constructor() {

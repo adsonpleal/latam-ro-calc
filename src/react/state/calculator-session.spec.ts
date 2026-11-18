@@ -1065,22 +1065,37 @@ describe('comparing a saved simulation', () => {
   });
 });
 
-describe('the monster-debuff rows a class is offered', () => {
+describe('the buff rows a class is offered', () => {
   beforeEach(() => vi.useFakeTimers());
   afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); });
 
   const COMET_AMP = 'Comet Amp';
-  const sharedRow = (session: CalculatorSession) => session.skillBuffs.find(buff => buff.name === COMET_AMP)!;
-  const indexOfShared = (session: CalculatorSession) => session.skillBuffs.findIndex(buff => buff.name === COMET_AMP);
-  const indexOfActive = (session: CalculatorSession) => session.activeSkills.findIndex(skill => skill.name === COMET_AMP);
-
-  it('hides the shared Cometa row for a Warlock, who has his own', async () => {
+  const CONCENTRATION = 'Improve Concentration';
+  const BRAGI = "Bragi's Poem";
+  const WARLOCK = 6;
+  const HIGH_WIZARD = 4010;
+  const TROUBADOUR = 4263;
+  const SOUL_REAPER = 3;
+  const sharedRowOf = (session: CalculatorSession, name: string) => session.skillBuffs.find(buff => buff.name === name)!;
+  const sharedRow = (session: CalculatorSession) => sharedRowOf(session, COMET_AMP);
+  const indexOfShared = (session: CalculatorSession, name = COMET_AMP) => session.skillBuffs.findIndex(buff => buff.name === name);
+  const indexOfActive = (session: CalculatorSession, name = COMET_AMP) => session.activeSkills.findIndex(skill => skill.name === name);
+  const load = async (set: Record<string, unknown>) => {
     const { session, storage } = makeSession();
-    storage.setItem('ro-set', JSON.stringify({ class: 6, level: 200, jobLevel: 60, int: 130 }));
+    storage.setItem('ro-set', JSON.stringify({ level: 200, jobLevel: 60, int: 130, ...set }));
     session.start();
     await vi.advanceTimersByTimeAsync(1500);
 
-    expect(session.supersededDebuffs.has(COMET_AMP)).toBe(true);
+    return session;
+  };
+
+  it('hides the shared Cometa row for a Warlock, who has his own', async () => {
+    const { session, storage } = makeSession();
+    storage.setItem('ro-set', JSON.stringify({ class: WARLOCK, level: 200, jobLevel: 60, int: 130 }));
+    session.start();
+    await vi.advanceTimersByTimeAsync(1500);
+
+    expect(session.supersededBuffs.has(COMET_AMP)).toBe(true);
     expect(session.isMonsterDebuffRow(sharedRow(session))).toBe(false);
     expect(session.activeSkills.filter(skill => skill.isDebuff && skill.name === COMET_AMP)).toHaveLength(1);
 
@@ -1089,11 +1104,11 @@ describe('the monster-debuff rows a class is offered', () => {
 
   it('keeps it for a class that only receives the debuff', async () => {
     const { session, storage } = makeSession();
-    storage.setItem('ro-set', JSON.stringify({ class: 4010, level: 200, jobLevel: 60, int: 130 }));
+    storage.setItem('ro-set', JSON.stringify({ class: HIGH_WIZARD, level: 200, jobLevel: 60, int: 130 }));
     session.start();
     await vi.advanceTimersByTimeAsync(1500);
 
-    expect(session.supersededDebuffs.has(COMET_AMP)).toBe(false);
+    expect(session.supersededBuffs.has(COMET_AMP)).toBe(false);
     expect(session.isMonsterDebuffRow(sharedRow(session))).toBe(true);
     expect(session.activeSkills.some(skill => skill.name === COMET_AMP)).toBe(false);
 
@@ -1103,7 +1118,7 @@ describe('the monster-debuff rows a class is offered', () => {
   // A build saved while the shared row was the one on screen must not lose its 50%.
   it('moves a saved shared selection onto the class row that replaces it', async () => {
     const { session, storage } = makeSession();
-    storage.setItem('ro-set', JSON.stringify({ class: 6, level: 200, jobLevel: 60, int: 130,
+    storage.setItem('ro-set', JSON.stringify({ class: WARLOCK, level: 200, jobLevel: 60, int: 130,
       skillBuffMap: { [COMET_AMP]: 1 } }));
     session.start();
     await vi.advanceTimersByTimeAsync(1500);
@@ -1116,13 +1131,90 @@ describe('the monster-debuff rows a class is offered', () => {
 
   it('leaves the class row alone when it is already on', async () => {
     const { session, storage } = makeSession();
-    storage.setItem('ro-set', JSON.stringify({ class: 6, level: 200, jobLevel: 60, int: 130,
+    storage.setItem('ro-set', JSON.stringify({ class: WARLOCK, level: 200, jobLevel: 60, int: 130,
       skillBuffMap: { [COMET_AMP]: 1 }, activeSkillMap: { [COMET_AMP]: 1 } }));
     session.start();
     await vi.advanceTimersByTimeAsync(1500);
 
     expect(session.model.skillBuffs[indexOfShared(session)]).toBe(0);
     expect(session.model.activeSkills[indexOfActive(session)]).toBe(1);
+
+    session.dispose();
+  });
+
+  /**
+   * The card's own two examples, on the "Buffs" side of the same rule: the Maestro casts
+   * Concentrar (down the Arqueiro line) and Poema de Bragi, so both belong under
+   * "Habilidades e efeitos ativos" and neither may still be listed under "Buffs".
+   */
+  it('hides the shared Concentrar and Poema de Bragi rows for a Maestro, who casts both', async () => {
+    const session = await load({ class: TROUBADOUR });
+
+    for (const name of [CONCENTRATION, BRAGI]) {
+      expect(session.supersededBuffs.has(name), name).toBe(true);
+      expect(session.isSharedBuffRow(sharedRowOf(session, name)), name).toBe(false);
+      expect(session.activeSkills.filter(skill => skill.name === name), name).toHaveLength(1);
+    }
+
+    session.dispose();
+  });
+
+  it('keeps Concentrar under "Buffs" for a class that only receives it', async () => {
+    const session = await load({ class: HIGH_WIZARD });
+
+    expect(session.supersededBuffs.has(CONCENTRATION)).toBe(false);
+    expect(session.isSharedBuffRow(sharedRowOf(session, CONCENTRATION))).toBe(true);
+    expect(session.activeSkills.some(skill => skill.name === CONCENTRATION)).toBe(false);
+
+    session.dispose();
+  });
+
+  // Builds saved while Concentrar was a shared-only row (between PR #135 and this change)
+  // name it under `skillBuffMap`; the level has to land on the class row that replaced it.
+  it('moves a saved shared buff level onto the class row that replaces it', async () => {
+    const session = await load({ class: TROUBADOUR, skillBuffMap: { [CONCENTRATION]: 7 } });
+
+    expect(session.model.skillBuffs[indexOfShared(session, CONCENTRATION)]).toBe(0);
+    expect(session.model.activeSkills[indexOfActive(session, CONCENTRATION)]).toBe(7);
+
+    session.dispose();
+  });
+
+  // Older builds, saved while the Arqueiro line had its own row, name it under
+  // `activeSkillMap` instead — and that is the row again, so the level is simply read.
+  it('reads a saved class level straight back', async () => {
+    const session = await load({ class: TROUBADOUR, activeSkillMap: { [CONCENTRATION]: 10 } });
+
+    expect(session.model.activeSkills[indexOfActive(session, CONCENTRATION)]).toBe(10);
+    expect(session.model.skillBuffs[indexOfShared(session, CONCENTRATION)]).toBe(0);
+
+    session.dispose();
+  });
+
+  it('leaves a shared level alone for a class that has no row of its own', async () => {
+    const session = await load({ class: HIGH_WIZARD, skillBuffMap: { [CONCENTRATION]: 7 } });
+
+    expect(session.model.skillBuffs[indexOfShared(session, CONCENTRATION)]).toBe(7);
+
+    session.dispose();
+  });
+
+  /**
+   * Espírito da Fada is why the carry is written in terms of the bonus rather than the stored
+   * number. The shared row is a yes/no whose "Sim" is stored as 1; the class row is a
+   * ten-level ladder whose 1 is Nv 1 (MATK +10). Carrying the number across would read the
+   * saved build as Nv 1 and quietly drop 40 MATK — what the two have in common is the bonus
+   * the shared "Sim" grants, which on the class ladder is Nv 5.
+   */
+  it('carries a saved shared selection by what it grants, not by its stored number', async () => {
+    const session = await load({ class: SOUL_REAPER, skillBuffMap: { 'Fairy Soul': 1 } });
+    const classRow = session.activeSkills.find(skill => skill.name === 'Fairy Soul')!;
+    const carried = session.model.activeSkills[indexOfActive(session, 'Fairy Soul')];
+
+    expect(session.model.skillBuffs[indexOfShared(session, 'Fairy Soul')]).toBe(0);
+    expect(classRow.dropdown.find(option => option.value === carried)!.bonus)
+      .toEqual(sharedRowOf(session, 'Fairy Soul').dropdown.find(option => option.value === 1)!.bonus);
+    expect(carried).toBe(5);
 
     session.dispose();
   });
