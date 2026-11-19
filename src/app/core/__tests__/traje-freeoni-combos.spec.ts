@@ -1,9 +1,12 @@
 import { describe, expect, it } from 'vitest';
+import { PetLoyalty } from 'src/app/constants';
 import { FACA_3, ITEM_DB, wornBonus } from './worn-bonus';
 
 const SUIT = 450217;
 const PHREEONI = 4121;
 const INFINITE_PHREEONI = 4649;
+const OVO_FREEONI = 9111;
+const OVO_PORING = 9001;
 
 function comboBonus(refine: number, card: number, key: string): number {
   const withoutCard = wornBonus({ armor: SUIT, armorRefine: refine, weapon: FACA_3 });
@@ -49,4 +52,56 @@ describe('Traje de Freeoni card combos', () => {
     expect(comboBonus(refine, INFINITE_PHREEONI, 'cRate')).toBe(5);
     expect(comboBonus(refine, PHREEONI, 'criDmg')).toBe(0);
   });
+});
+
+/**
+ * The fourth set on the same armour pairs it with the pet rather than with a card, and it
+ * paid nothing at all until this spec existed: the condition was written `EQUIP[Q-pet
+ * Phreeoni]`, and no item in the database answers to that name. `EQUIP[...]` is matched by
+ * `matchName()` against the item's English display name, which for the egg is "Phreeoni
+ * Egg" ("Freeoni Egg" once the LATAM overlay is on) — "Q-pet Phreeoni" is the kRO wording
+ * for the *summoned* pet, and it reached item.json as prose, not as anything matchable.
+ *
+ * Matching the egg by id is what the rest of the database already does for a pet partner
+ * (see Cesta de Mascotes, 410599), and it is the form that survives the pt-BR renaming.
+ *
+ * Figures from the LATAM client's own description of the armour, which names the set
+ * "Mascote Freeoni" and no intimacy tier: "Dano físico +7%. Velocidade de ataque +2."
+ */
+describe('Traje de Freeoni pet combo', () => {
+  it('matches the pet by its LATAM item id, not by a name nothing carries', () => {
+    expect(ITEM_DB[SUIT].script.atkPercent).toContain('EQUIP_ID[9111]===7');
+    expect(ITEM_DB[SUIT].script.aspd).toContain('EQUIP_ID[9111]===2');
+  });
+
+  /** What the egg adds on top of the armour worn alone — the set bonus and nothing else. */
+  const petBonus = (pet: number | undefined, key: string, petLoyalty?: PetLoyalty) =>
+    (wornBonus({ armor: SUIT, armorRefine: 12, weapon: FACA_3, pet, petLoyalty })[key] ?? 0)
+    - (wornBonus({ armor: SUIT, armorRefine: 12, weapon: FACA_3 })[key] ?? 0);
+
+  it('grants physical damage +7% and ASPD +2 with the Ovo de Freeoni equipped', () => {
+    expect(petBonus(OVO_FREEONI, 'atkPercent')).toBe(7);
+    expect(petBonus(OVO_FREEONI, 'aspd')).toBe(2);
+  });
+
+  it('grants nothing with the pet slot empty', () => {
+    expect(petBonus(undefined, 'atkPercent')).toBe(0);
+    expect(petBonus(undefined, 'aspd')).toBe(0);
+  });
+
+  it('grants nothing to a different pet', () => {
+    expect(petBonus(OVO_PORING, 'atkPercent')).toBe(0);
+    expect(petBonus(OVO_PORING, 'aspd')).toBe(0);
+  });
+
+  /*
+   * The set carries no `LOYALTY[n]`, and the LATAM description names no tier — unlike the
+   * egg's own HIT bonus, which does. So the armour pays the same at every intimacy, and a
+   * later edit that gates it on a tier has to break this.
+   */
+  it.each([PetLoyalty.Baixa, PetLoyalty.Nenhuma, PetLoyalty.Normal, PetLoyalty.Alta])(
+    'pays the same at loyalty tier %i', (tier) => {
+      expect(petBonus(OVO_FREEONI, 'atkPercent', tier)).toBe(7);
+      expect(petBonus(OVO_FREEONI, 'aspd', tier)).toBe(2);
+    });
 });
