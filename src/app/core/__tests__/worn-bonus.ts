@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { PetLoyalty } from 'src/app/constants';
 import { CharacterBase } from 'src/app/jobs';
 import { createMainModel } from 'src/app/utils';
 import { equipStatusOf, makeCalculator } from './make-calculator';
@@ -65,6 +66,10 @@ export interface Worn {
   shieldCard?: number;
   /** Base attributes, for the cards gated on one ("FOR base 80 ou mais:"). */
   stats?: Partial<Record<'str' | 'agi' | 'vit' | 'int' | 'dex' | 'luk', number>>;
+  /** Pet egg id, for the combos that pair a piece of gear with a summoned pet. */
+  pet?: number;
+  /** Intimacy of that pet. Left out, the engine applies its own default, Alta. */
+  petLoyalty?: PetLoyalty;
   /** Base level, for the cards gated on it ("Nv. base 100 ou maior:"). Defaults to 200. */
   level?: number;
   /** The character wearing all this, for the cards gated on a class lineage. */
@@ -180,6 +185,14 @@ export function wornBonus(worn: Worn): Record<string, number> {
   if (worn.shieldCard) {
     items[worn.shieldCard] = withSlot(worn.shieldCard, 6, 0);
     model.shieldCard = worn.shieldCard;
+  }
+  // The egg goes in without `withSlot`: a pet record already carries the type/subtype its
+  // model slot expects. The tier is only written when a spec names one, so an unset
+  // `petLoyalty` keeps whatever default the engine applies.
+  if (worn.pet) {
+    items[worn.pet] = db[worn.pet];
+    model.pet = worn.pet;
+    if (worn.petLoyalty) model.petLoyalty = worn.petLoyalty;
   }
 
   return equipStatusOf(makeCalculator(items, worn.cls), model);

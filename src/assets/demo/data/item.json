@@ -167124,11 +167124,11 @@
         "EQUIP_ID[4649]3---4"
       ],
       "atkPercent": [
-        "EQUIP[Q-pet Phreeoni]===7",
+        "EQUIP_ID[9111]===7",
         "GRADE[armor==D]===5"
       ],
       "aspd": [
-        "EQUIP[Q-pet Phreeoni]===2"
+        "EQUIP_ID[9111]===2"
       ],
       "p_size_all": [
         "GRADE[armor==B]===15"
