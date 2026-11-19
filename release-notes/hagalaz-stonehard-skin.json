@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "A Runa Hagalaz entrou na lista de habilidades do Cavaleiro Rúnico e do Cavaleiro Draconiano: ligando as Escamas Rochosas, a DEF e a DEFM sobem [nível de classe × Perícia em Runas ÷ 4], e o detalhamento da DEF mostra quanto veio da runa. O bônus é defensivo, então aparece no painel de atributos sem mexer no dano simulado."
+  ],
+  "logs_es": [
+    "La Piedra Rúnica Hagalas entró en la lista de habilidades del Caballero Rúnico y del Caballero Dragón: al activar las Escamas de Roca, la DEF y la DEFM suben [nivel de clase × Maestría en Runas ÷ 4], y el desglose de la DEF muestra cuánto vino de la runa. La bonificación es defensiva, así que aparece en el panel de atributos sin cambiar el daño simulado."
+  ],
+  "logs_en": [
+    "The Hagalas Runestone joined the skill list of the Rune Knight and the Dragon Knight: switching Skin of Stone on raises DEF and MDEF by [class level × Rune Mastery ÷ 4], and the DEF breakdown shows how much came from the rune. The bonus is defensive, so it shows in the stat panel without changing the simulated damage."
+  ]
+}

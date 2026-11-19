@@ -717,6 +717,22 @@ export abstract class CharacterBase {
     if (source && source[attr]) source[attr] = 0;
   }
 
+  /**
+   * The other half of that problem, for a bonus this method *adds* rather than cancels.
+   *
+   * A buff whose value depends on the build (a level-scaled DEF, say) carries no static
+   * dropdown `bonus`, so the summation that fills `totalEquipStatus` never saw it and the
+   * modal behind the figure cannot name it. Declaring it in `bonusSources` instead would
+   * make the next pass sum it a second time — that map is the live `equipAtkSkillBonus`.
+   *
+   * So it goes in a map that is merged into the summary and never summed, which
+   * `prepareAllItemBonus` rebuilds per pass. Pair it with the `totalBonus[attr] += ...`
+   * it describes; the two numbers are written in one place so they cannot drift.
+   */
+  protected attributeDisplayBonus(params: AdditionalBonusInput, sourceName: string, bonus: Record<string, number>): void {
+    if (params.displaySources) params.displaySources[sourceName] = bonus;
+  }
+
   protected inheritSkills(params: { atkSkillList: AtkSkillModel[]; activeSkillList: ActiveSkillModel[]; passiveSkillList: ActiveSkillModel[]; classNames: ClassName[]; }) {
     const { activeSkillList, atkSkillList, classNames, passiveSkillList } = params;
 

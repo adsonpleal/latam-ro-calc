@@ -356,6 +356,17 @@ export class RuneKnight extends LordKnight {
         { label: 'Não', value: 0, isUse: false },
       ],
     },
+    {
+      name: 'Hagalas Runestone',
+      label: 'Rune: Hagalas',
+      inputType: 'selectButton',
+      // No static bonus: Escamas Rochosas scales with the build's own job level and
+      // Perícia em Runas, so the DEF/DEFM it grants is solved in setAdditionalBonus.
+      dropdown: [
+        { label: 'Sim', value: 1, isUse: true },
+        { label: 'Não', value: 0, isUse: false },
+      ],
+    },
   ];
 
   protected readonly passiveSkillList3rd: PassiveSkillModel[] = [
@@ -551,6 +562,18 @@ export class RuneKnight extends LordKnight {
       const equipAspdPercent = totalBonus.aspdPercent || 0;
       const asirRuneAspd = Math.max(0, Math.floor((4 * (100 - equipAspdPercent)) / 100));
       totalBonus.aspd = (totalBonus.aspd || 0) + asirRuneAspd;
+    }
+
+    if (this.isSkillActive('Hagalas Runestone')) {
+      // Escamas Rochosas: DEF and DEFM += floor(job level × Perícia em Runas ÷ 4). The rune's
+      // own description names both inputs ("de acordo com o nível de [Perícia em Runas] e o
+      // nível de classe do usuário") without the divisor; browiki and irowiki both give it as
+      // ÷ 4. Floored, as the server int-casts. Unlike Aura de Combate above, here Rune Mastery
+      // really is a multiplier — with it unlearned the rune grants nothing, as in game.
+      const stonehardSkinDef = Math.floor(((params.model.jobLevel || 0) * this.learnLv('Rune Mastery')) / 4);
+      totalBonus.def = (totalBonus.def || 0) + stonehardSkinDef;
+      totalBonus.mdef = (totalBonus.mdef || 0) + stonehardSkinDef;
+      this.attributeDisplayBonus(params, 'Hagalas Runestone', { def: stonehardSkinDef, mdef: stonehardSkinDef });
     }
 
     const wType = weapon.data?.typeName;
