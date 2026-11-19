@@ -210,6 +210,13 @@ export class Calculator {
   private learnedSkillIdMap = new Map<number, number>();
   private usedSkillIdSet = new Set<number>();
   private equipAtkSkillBonus: Record<string, Record<string, any>> = {};
+  /** Attribution-only rows for the bonus-breakdown modal, keyed like the maps above.
+   *  A job whose bonus is solved in `setAdditionalBonus` — after the summation that
+   *  builds `totalEquipStatus` — has nowhere honest to declare itself: writing into
+   *  `equipAtkSkillBonus` would be summed again on the next pass and double the
+   *  contribution. These rows are merged into `getItemSummary()` and never summed.
+   *  Rebuilt per pass by `prepareAllItemBonus`, so they cannot go stale. */
+  private displayBonusSources: Record<string, Record<string, number>> = {};
   private buffMasteryAtkBonus: Record<string, Record<string, any>> = {};
   private buffEquipAtkBonus: Record<string, Record<string, any>> = {};
   private masteryAtkSkillBonus: Record<string, any> = {};
@@ -403,6 +410,7 @@ export class Calculator {
       // it here too, or the modal keeps listing a contribution the damage never got —
       // see CharacterBase.clearSupersededBonusSource.
       bonusSources: this.equipAtkSkillBonus,
+      displaySources: this.displayBonusSources,
     };
   }
 
@@ -1488,6 +1496,7 @@ export class Calculator {
     this._chanceList = [];
     this._resolvedItemAutoCasts = [];
     this._resolvedItemAutoCastPending = [];
+    this.displayBonusSources = {};
     this.equipCombo.clear();
     const resolvedAutoCastItems = new Set<number>();
 
@@ -2129,6 +2138,8 @@ export class Calculator {
       ...obj,
       ...this.equipAtkSkillBonus,
       ...this.masteryAtkSkillBonus,
+      // Bonuses solved too late to be declared above — see displayBonusSources.
+      ...this.displayBonusSources,
       // job buffs (Bênção, Aumentar Agilidade, …) — name-keyed numeric maps, so the
       // bonus-breakdown modal can attribute their contribution like any other source
       ...this.buffEquipAtkBonus,

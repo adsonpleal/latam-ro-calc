@@ -44,4 +44,7 @@ export interface AdditionalBonusInput {
   /** Per-skill bonus map backing the bonus-breakdown modal, keyed by skill name.
    *  Only touch it via CharacterBase.clearSupersededBonusSource. */
   bonusSources?: Record<string, Record<string, any>>;
+  /** Attribution-only rows for that same modal, for a bonus this method computes
+   *  itself. Only touch it via CharacterBase.attributeDisplayBonus. */
+  displaySources?: Record<string, Record<string, number>>;
 }
