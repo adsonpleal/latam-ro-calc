@@ -30,7 +30,9 @@ describe('LATAM item auto-cast audit', () => {
     // A client-data update must deliberately reclassify the changed set rather than
     // silently making a new proc eligible for production.
     // 311221 Cristal Invernal (Autoconjuração) entrou com o cliente de 28/10/2026 e segue pendente.
-    expect(candidates).toHaveLength(244);
+    // 32245 Anel dos Esquecidos entrou com o cliente de 24/11/2026: o proc dele é [Remover
+    // Capacete], um debuff, que está fora do escopo de script.autoCast — segue pendente.
+    expect(candidates).toHaveLength(245);
     const dispositions = candidates.map(([id]) => items[id].script?.autoCast ? 'verified-direct-damage' : 'pending-verification');
     expect(dispositions).toHaveLength(candidates.length);
   });

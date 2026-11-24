@@ -5,7 +5,12 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
 
 /**
  * The eleven third-class Visual-enchant families of Topo/Meio/Baixo stones that kRO ships
- * in Costume Enchant Stone boxes 25-30 and LATAM has not — tracker card vR5h55mOQVjZvABbndcz.
+ * in Costume Enchant Stone boxes 25-30 — tracker card vR5h55mOQVjZvABbndcz.
+ *
+ * The 24/11/2026 client named all 33 of them, and the re-issued id of each one with them,
+ * so they are no longer previews: the per-id test below reads the flag off whether LATAM
+ * has the row. Everything else here still holds — the scripts came with the import and the
+ * set relations are the record of what divine-pride said.
  *
  * All 33 records were already in item.json, imported with their scripts but with no way to
  * reach them: a stone shows up in a picker only when it is in latam-items.json or carries
@@ -96,9 +101,17 @@ function setBonus(stone: number, garment: number, key: string): number {
 }
 
 describe('third-class costume-enchant stone previews', () => {
-  it.each(Object.keys(SLOT).map(Number))('%i is a preview in its costume-enchant slot', (id) => {
-    expect(db[id]).toMatchObject({ id, preRelease: true, itemTypeId: 6, itemSubTypeId: SLOT[id][1] });
-    expect(latam[id], `${id} is on LATAM — drop the flag instead`).toBeUndefined();
+  it.each(Object.keys(SLOT).map(Number))('%i sits in its costume-enchant slot', (id) => {
+    expect(db[id]).toMatchObject({ id, itemTypeId: 6, itemSubTypeId: SLOT[id][1] });
+    if (latam[id]) {
+      // Graduated with the 24/11/2026 client: the flag is gone and `description` is back
+      // to "" so the pt-BR overlay wins. The re-issued id of the same stone is registered
+      // beside it (costume-enchant-stone-reissues.spec.ts).
+      expect(db[id].preRelease, `${id} is on LATAM — the flag no longer does anything`).toBeUndefined();
+      expect(db[id].description).toBe('');
+      return;
+    }
+    expect(db[id].preRelease, `${id} is not on LATAM yet`).toBe(true);
     // preRelease rows have no pt-BR overlay, so the English text is the only one there is.
     expect(db[id].description).toMatch(/[A-Za-z]/);
     expect(db[id].description, `${id} still carries the Thai description`).not.toMatch(/[฀-๿]/);
@@ -218,7 +231,10 @@ describe('third-class costume-enchant stone previews', () => {
   });
 
   it('leaves the stones LATAM already has under a re-issued id unflagged', () => {
-    // The re-issue on the right is the one LATAM ships.
+    // The re-issue on the right is the one LATAM shipped first. Since 24/11/2026 the
+    // client names both generations of most of these, so the old id is no longer absent
+    // from latam-items.json — what still has to hold is that neither copy is flagged as a
+    // preview, which is what would put a second, Prévia-labelled row in the picker.
     const twinned = [
       [310664, 1000528], [310665, 1000529], [310666, 1000530], [310667, 1000527],
       [311354, 1000855], [311355, 1000856],
@@ -227,7 +243,7 @@ describe('third-class costume-enchant stone previews', () => {
     for (const [oldGen, reissue] of twinned) {
       expect(latam[reissue], `${reissue} should be the LATAM copy`).toBeDefined();
       expect(db[oldGen].preRelease, `${oldGen} duplicates ${reissue}`).toBeUndefined();
-      expect(latam[oldGen]).toBeUndefined();
+      expect(db[reissue]?.preRelease, `${reissue} duplicates ${oldGen}`).toBeUndefined();
     }
   });
 });

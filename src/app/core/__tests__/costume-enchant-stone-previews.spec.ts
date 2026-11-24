@@ -4,11 +4,12 @@ import { createMainModel } from 'src/app/utils';
 import { equipStatusOf, makeCalculator } from './make-calculator';
 
 /**
- * The hundred Visual-enchant stones kRO ships and LATAM has not, swept out of the 44
- * Costume Enchant Stone boxes for tracker card vR5h55mOQVjZvABbndcz — reported by
- * Samuel Costa. They are previews (`preRelease`), so the name and description are the
- * English text divine-pride publishes, which is the convention for an item that has not
- * launched here (docs/item-json.md).
+ * The hundred Visual-enchant stones kRO ships, swept out of the 44 Costume Enchant Stone
+ * boxes for tracker card vR5h55mOQVjZvABbndcz — reported by Samuel Costa. They arrived as
+ * previews (`preRelease`), so the name and description are the English text divine-pride
+ * publishes, which is the convention for an item that has not launched here
+ * (docs/item-json.md). The 24/11/2026 client shipped part of the sweep, so the per-id test
+ * below reads each row's state off whether latam-items.json has it.
  *
  * Every number comes off that item's own divine-pride page: the English prose when it
  * states the step ("every level" / "every 2 levels"), and the parsed server script when
@@ -248,11 +249,18 @@ describe('costume-enchant stone previews', () => {
     expect(bonusless).toEqual([]);
   });
 
-  it.each(PREVIEW)('%i is a preview in its costume-enchant slot', (id, sub) => {
+  it.each(PREVIEW)('%i sits in its costume-enchant slot', (id, sub) => {
     expect(db[id]).toMatchObject({
-      id, preRelease: true, itemTypeId: 6, itemSubTypeId: sub, slots: 0, compositionPos: 65535,
+      id, itemTypeId: 6, itemSubTypeId: sub, slots: 0, compositionPos: 65535,
     });
-    expect(latam[id], `${id} is on LATAM — register it properly instead`).toBeUndefined();
+    if (latam[id]) {
+      // The 24/11/2026 client named part of this sweep, so those rows graduated: the flag
+      // is gone and `description` is back to "" for the pt-BR overlay to win.
+      expect(db[id].preRelease, `${id} is on LATAM — the flag no longer does anything`).toBeUndefined();
+      expect(db[id].description).toBe('');
+      return;
+    }
+    expect(db[id].preRelease, `${id} is not on LATAM yet`).toBe(true);
     // A preRelease row has no pt-BR overlay, so the English text is the only one there is.
     expect(db[id].description).toMatch(/[A-Za-z]/);
     expect(db[id].description, `${id} still carries the Thai description`).not.toMatch(/[฀-๿]/);

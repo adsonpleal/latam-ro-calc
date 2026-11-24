@@ -8,7 +8,12 @@ import { equipStatusOf, makeCalculator } from './make-calculator';
  * The six Shadow Chaser costume-enchant stones (Topo/Meio/Baixo, I and II), listed as
  * `preRelease` previews — tracker card zzjOcURfgk5TIIlzwxC6.
  *
- * None of them is on LATAM yet. 311362-311364 were already in item.json with the Thai
+ * The 24/11/2026 client shipped the first trio (311362-311364, "Desordeiro"), and their
+ * re-issued ids 1000863-1000865 ("Pedra de Renegado") with them, so those three graduated:
+ * no flag, `description` back to "" and the pt-BR overlay in charge. The II trio
+ * (314185-314187) is still a preview.
+ *
+ * 311362-311364 were already in item.json with the Thai
  * description; 314185-314187 had no record at all. The effects come from divine-pride:
  * the iRO English text for 3113xx, the dpRO one for 3141xx (no iRO release yet), and the
  * parsed server script as the tie-breaker. That is why 314185's Triangle Shot clause is
@@ -31,6 +36,8 @@ const SLOT: Record<number, readonly [string, number]> = {
 };
 const GARMENT_I = 25493;
 const GARMENT_II = 25805;
+/** The trio the 24/11/2026 client shipped; the rest are still waiting on LATAM. */
+const SHIPPED = new Set([311362, 311363, 311364]);
 
 /** Equip `stone` (and optionally a garment stone) on a Shadow Chaser and read the bonus back. */
 function statusOf(stone: number | null, opts: { skills?: Record<string, number>; garment?: number } = {}) {
@@ -65,8 +72,9 @@ function setBonus(stone: number, garment: number, key: string): number {
 }
 
 describe('Shadow Chaser costume-enchant stone previews', () => {
-  it.each(Object.keys(SLOT).map(Number))('%i is a preview in its costume-enchant slot', (id) => {
-    expect(db[id]).toMatchObject({ id, preRelease: true, itemTypeId: 6, itemSubTypeId: SLOT[id][1] });
+  it.each(Object.keys(SLOT).map(Number))('%i sits in its costume-enchant slot', (id) => {
+    expect(db[id]).toMatchObject({ id, itemTypeId: 6, itemSubTypeId: SLOT[id][1] });
+    expect(db[id].preRelease).toBe(SHIPPED.has(id) ? undefined : true);
   });
 
   it('scales with the learned skill level', () => {
