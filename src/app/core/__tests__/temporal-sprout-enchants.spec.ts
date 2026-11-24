@@ -46,12 +46,13 @@ const SLOT_3 = [
 /**
  * Slot 2 — "Talento +N" is all six talentos; the other four are named outright.
  *
- * 311088 is the T.CRÍT +1 enchant — its own description still reads "T.CRÍT +1." — but the
- * client table of 28/10/2026 labels it "Flor Invernal (FOR)", which is 311092's name. The
- * mislabel is upstream in the client and latam-items.json mirrors the client as it is.
+ * 311088 is the T.CRÍT +1 enchant. The client table of 28/10/2026 labelled it
+ * "Flor Invernal (FOR)", which is 311092's name; the publish of 24/11/2026 corrected it to
+ * "T.CRÍT +1", the name its own description always carried. latam-items.json mirrors the
+ * client as it is, so the expected label moves with it.
  */
 const SLOT_2 = [
-  'POD +1', 'STA +1', 'SAB +1', 'FEI +1', 'CON +1', 'CRV +1', 'Flor Invernal (FOR)', 'C.Mais +1', 'P.ATQ +1', 'S.ATQM +1',
+  'POD +1', 'STA +1', 'SAB +1', 'FEI +1', 'CON +1', 'CRV +1', 'T.CRÍT +1', 'C.Mais +1', 'P.ATQ +1', 'S.ATQM +1',
   'POD +2', 'STA +2', 'SAB +2', 'FEI +2', 'CON +2', 'CRV +2', 'T.CRÍT +2', 'C.Mais +2', 'P.ATQ +2', 'S.ATQM +2',
 ];
 

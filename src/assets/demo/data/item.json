@@ -52323,8 +52323,7 @@
     "name": "M. Cardinal Shadow Armor",
     "unidName": "Shadow Armor",
     "resName": "BK_Armor_Shadow",
-    "description": "Set Bonus:\nM. Cardinal Shadow Armor\nMaster Shadow Shield\n\nAll Talent Status + 2.\n------------------------\nSet Bonus:\nM. Cardinal Shadow Armor\nM. Cardinal Shadow Shoes\nMaster Shadow Shield\n\nP.ATK + 1, S.MATK + 1.\n\nWhen the total refine level of set is 27 or higher,\nignore physical and magical defense of all race monsters (except Player) by 50%.\n------------------------\nSet Bonus:\nM. Cardinal Shadow Armor\nM. Cardinal Shadow Shoes\nM. Cardinal Shadow Earring\nM. Cardinal Shadow Pendant\nMaster Shadow Shield\nMaster Shadow Weapon\n\nIgnore physical and magical resistance of all race monsters (except Player) by 20%.\n------------------------\nType: Shadow Equipment\nLocation: Armor\nWeight: 0\nRequired Level: 200\nClass: Cardinal",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 10,
     "itemSubTypeId": 526,
@@ -52339,6 +52338,9 @@
       "Cardinal"
     ],
     "script": {
+      "hp": [
+        "1---10"
+      ],
       "allTrait": [
         "EQUIP[Master Shadow Shield]===2"
       ],
@@ -52368,8 +52370,7 @@
     "name": "M. Cardinal Shadow Shoes",
     "unidName": "Shadow Shoes",
     "resName": "BK_Shoes_Shadow",
-    "description": "Set Bonus:\nM. Cardinal Shadow Shoes\nMaster Shadow Shield\n\nAll Talent Status + 2.\n------------------------\nType: Shadow Equipment\nLocation: Shoes\nWeight: 0\nRequired Level: 200\nClass: Cardinal",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 10,
     "itemSubTypeId": 528,
@@ -52384,6 +52385,9 @@
       "Cardinal"
     ],
     "script": {
+      "hp": [
+        "1---10"
+      ],
       "allTrait": [
         "EQUIP[Master Shadow Shield]===2"
       ]
@@ -52395,8 +52399,7 @@
     "name": "M. Cardinal Shadow Earring",
     "unidName": "Shadow Earring",
     "resName": "BK_Earring_Shadow",
-    "description": "Set Bonus:\nM. Cardinal Shadow Earring\nMaster Shadow Weapon\n\nAll Talent Status + 2.\n------------------------\nSet Bonus:\nM. Cardinal Shadow Earring\nM. Cardinal Shadow Pendant\nMaster Shadow Weapon\n\nP.ATK + 1, S.MATK + 1.\n\nWhen the total refine level of set is 27 or higher,\nignore physical and magical defense of all race monsters (except Player) by 50%.\n------------------------\nType: Shadow Equipment\nLocation: Earring\nWeight: 0\nRequired Level: 200\nClass: Cardinal",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 10,
     "itemSubTypeId": 529,
@@ -52411,6 +52414,9 @@
       "Cardinal"
     ],
     "script": {
+      "hp": [
+        "1---10"
+      ],
       "allTrait": [
         "EQUIP[Master Shadow Weapon]===2"
       ],
@@ -52434,8 +52440,7 @@
     "name": "M. Cardinal Shadow Pendant",
     "unidName": "Shadow Pendant",
     "resName": "BK_Pendant_Shadow",
-    "description": "Set Bonus:\nM. Cardinal Shadow Pendant\nMaster Shadow Weapon\n\nAll Talent Status + 2.\n------------------------\nType: Shadow Equipment\nLocation: Pendant\nWeight: 0\nRequired Level: 200\nClass: Cardinal",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 10,
     "itemSubTypeId": 530,
@@ -52450,6 +52455,9 @@
       "Cardinal"
     ],
     "script": {
+      "hp": [
+        "1---10"
+      ],
       "allTrait": [
         "EQUIP[Master Shadow Weapon]===2"
       ]
@@ -109864,8 +109872,7 @@
     "name": "Archbishop Stone (Upper)",
     "unidName": "Archbishop Stone (Upper)",
     "resName": "High_Priest_Figure",
-    "description": "For every level of Clementia learned, reduces global cooldown by 3%.\n------------------------\nSet Bonus\nArchbishop Stone (Upper)\nArchbishop Stone (Garment)\n\nIncreases all property magical damage by 15%.\n------------------------\nSet Bonus\nArchbishop Stone (Upper)\nArchbishop Stone II (Garment)\n\nIncreases magical damage against all size enemies by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 71,
@@ -109894,8 +109901,7 @@
     "name": "Archbishop Stone (Middle)",
     "unidName": "Archbishop Stone (Middle)",
     "resName": "High_Priest_Figure",
-    "description": "For every level of Lauda Agnus learned, reduces variable casting by 3%.\n------------------------\nSet Bonus\nArchbishop Stone (Middle)\nArchbishop Stone (Garment)\n\nIncreases Adoramus damage by 15%.\n------------------------\nSet Bonus\nArchbishop Stone (Middle)\nArchbishop Stone II (Garment)\n\nIncreases Judex damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 72,
@@ -109924,8 +109930,7 @@
     "name": "Archbishop Stone (Lower)",
     "unidName": "Archbishop Stone (Lower)",
     "resName": "High_Priest_Figure",
-    "description": "For every level of Expiatio learned, reduces fixed casting time by 0.1 seconds.\n------------------------\nSet Bonus\nArchbishop Stone (Lower)\nArchbishop Stone (Garment)\n\nIncreases magical damage against all race monsters (except players) by 15%.\n------------------------\nSet Bonus\nArchbishop Stone (Lower)\nArchbishop Stone II (Garment)\n\nIncreases all property magical damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 73,
@@ -109954,8 +109959,7 @@
     "name": "Ranger Stone (Upper)",
     "unidName": "Ranger Stone (Upper)",
     "resName": "Sniper_Figure",
-    "description": "For every 2 skill level of Main Ranger learned, reduces global cooldown by 1%.\n------------------------\nSet Bonus\nRanger Stone (Upper)\nRanger Stone (Garment)\n\nReduces skill cooldown of No Limits by 45 seconds.\n------------------------\nSet Bonus\nRanger Stone (Upper)\nRanger Stone II (Garment)\n\nIncreases Focused Arrow Strike damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 71,
@@ -109984,8 +109988,7 @@
     "name": "Ranger Stone (Middle)",
     "unidName": "Ranger Stone (Middle)",
     "resName": "Sniper_Figure",
-    "description": "For every level of Trap Research learned, reduces variable casting time by 1%.\n------------------------\nSet Bonus\nRanger Stone (Middle)\nRanger Stone (Garment)\n\nIncreases Arrow Storm damage by 15%.\n------------------------\nSet Bonus\nRanger Stone (Middle)\nRanger Stone II (Garment)\n\nIncreases Aimed Bolt damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 72,
@@ -110014,8 +110017,7 @@
     "name": "Ranger Stone (Lower)",
     "unidName": "Ranger Stone (Lower)",
     "resName": "Sniper_Figure",
-    "description": "For every level of Fear Breeze learned, increases long range physical damage by 2%.\n------------------------\nSet Bonus\nRanger Stone (Lower)\nRanger Stone (Garment)\n\nHas a 2% chance to restore 1% of damage as SP when dealing physical damage.\n------------------------\nSet Bonus\nRanger Stone (Lower)\nRanger Stone II (Garment)\n\nIncreases physical damage against all size enemies by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 73,
@@ -110044,8 +110046,7 @@
     "name": "Shadow Chaser Stone (Upper)",
     "unidName": "Shadow Chaser Stone (Upper)",
     "resName": "Stalker_Figure",
-    "description": "For every level of Urgent Escape learned, increases ASPD by 2%.\n------------------------\nSet Bonus\nShadow Chaser Stone (Upper)\nShadow Chaser Stone (Garment)\n\nIncreases Feint Bomb damage by 15%.\n------------------------\nSet Bonus\nShadow Chaser Stone (Upper)\nShadow Chaser Stone II (Garment)\n\nHas a 1% chance to restore 1% of damage as SP when dealing physical damage.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 71,
@@ -110074,8 +110075,7 @@
     "name": "Shadow Chaser Stone (Middle)",
     "unidName": "Shadow Chaser Stone (Middle)",
     "resName": "Stalker_Figure",
-    "description": "For every level of Shadow Formation learned, reduces global cooldown by 1%.\n------------------------\nSet Bonus\nShadow Chaser Stone (Middle)\nShadow Chaser Stone (Garment)\n\nIncreases Triangle Shot damage by 15%.\n------------------------\nSet Bonus\nShadow Chaser Stone (Middle)\nShadow Chaser Stone II (Garment)\n\nIncreases Fatal Menace damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 72,
@@ -110104,8 +110104,7 @@
     "name": "Shadow Chaser Stone (Lower)",
     "unidName": "Shadow Chaser Stone (Lower)",
     "resName": "Stalker_Figure",
-    "description": "For every level of Reproduce learned, Increases melee and long ranged physical damage by 1%.\n------------------------\nSet Bonus\nShadow Chaser Stone (Lower)\nShadow Chaser Stone (Garment)\n\nIncreases physical damage against all property enemies by 15%.\n------------------------\nSet Bonus\nShadow Chaser Stone (Lower)\nShadow Chaser Stone II (Garment)\n\nIncreases physical damage against all size enemies by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 73,
@@ -111408,8 +111407,7 @@
     "name": "Sura Stone (Upper)",
     "unidName": "Sura Stone (Upper)",
     "resName": "Champion_Figure",
-    "description": "Reduces fixed casting time by 0.1 seconds per 2 levels of Rising Dragon user learned.\nWhen equipped with Sura Stone (Garment), increases Lightning Ride damage by 20%.\nWhen equipped with Sura Stone II (Garment), increases Knuckle Arrow damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 71,
@@ -111438,8 +111436,7 @@
     "name": "Sura Stone (Middle)",
     "unidName": "Sura Stone (Middle)",
     "resName": "Champion_Figure",
-    "description": "Increases melee physical damage by 2% per each level of Gentle Touch-Revitalize user learned.\nWhen equipped with Sura Stone (Garment), increases Lightning Ride damage by 20%.\nWhen equipped with Sura Stone II (Garment), increases Tiger Cannon damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 72,
@@ -111468,8 +111465,7 @@
     "name": "Sura Stone (Lower)",
     "unidName": "Sura Stone (Lower)",
     "resName": "Champion_Figure",
-    "description": "Increases long ranged physical damage by 2% per each level of Gentle Touch-Convert user learned.\nWhen equipped with Sura Stone (Garment), increases Rampage Blast damage by 15%.\nWhen equipped with Sura Stone II (Garment), increases Knuckle Arrow damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 73,
@@ -111498,8 +111494,7 @@
     "name": "Mechanic Stone (Upper)",
     "unidName": "Mechanic Stone (Upper)",
     "resName": "White_Smith_Figure",
-    "description": "Reduces variable casting time by 1% per each level of Fire Earth Research user learned.\nWhen equipped with Mechanic Stone (Garment), increases Axe Tornado damage by 15%.\nWhen equipped with Mechanic Stone II (Garment), increases Knuckle Boost damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 71,
@@ -111528,8 +111523,7 @@
     "name": "Mechanic Stone (Middle)",
     "unidName": "Mechanic Stone (Middle)",
     "resName": "White_Smith_Figure",
-    "description": "Increases melee and long ranged physical damage by 1% per each level of Madogear License user learned.\nWhen equipped with Mechanic Stone (Garment), increases Axe Boomerang damage by 15%.\nWhen equipped with Mechanic Stone II (Garment), increases Arm Cannon damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 72,
@@ -111561,8 +111555,7 @@
     "name": "Mechanic Stone (Lower)",
     "unidName": "Mechanic Stone (Lower)",
     "resName": "White_Smith_Figure",
-    "description": "Reduces global cooldown by 1% per each level of Axe Mastery user learned.\nWhen equipped with Mechanic Stone (Garment), increases Power Swing damage by 15%.\nWhen equipped with Mechanic Stone II (Garment), increases Vulcan Arm damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 73,
@@ -111591,8 +111584,7 @@
     "name": "Guillotine Cross Stone (Upper)",
     "unidName": "Guillotine Cross Stone (Upper)",
     "resName": "Assasin_Cross_Figure",
-    "description": "Reduces global cooldown by 1% per 2 levels of New Poison Research user learned.\nWhen equipped with Guillotine Cross Stone (Garment), increases Cross Ripper Slasher damage by 15%.\nWhen equipped with Guillotine Cross Stone II (Garment), increases Counter Slash damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 71,
@@ -111621,8 +111613,7 @@
     "name": "Guillotine Cross Stone (Middle)",
     "unidName": "Guillotine Cross Stone (Middle)",
     "resName": "Assasin_Cross_Figure",
-    "description": "Increases melee physical damage by 2% per each level of Dark Illusion user learned.\nWhen equipped with Guillotine Cross Stone (Garment), increases Rolling Cutter Slasher damage by 15%.\nWhen equipped with Guillotine Cross Stone II (Garment), increases Cross Impact damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 72,
@@ -111651,8 +111642,7 @@
     "name": "Guillotine Cross Stone (Lower)",
     "unidName": "Guillotine Cross Stone (Lower)",
     "resName": "Assasin_Cross_Figure",
-    "description": "Increases long ranged physical damage by 2% per each level of Cross Ripper Slasher user learned.\nWhen equipped with Guillotine Cross Stone (Garment), increases Cross Ripper Slasher Slasher damage by 15%.\nWhen equipped with Guillotine Cross Stone II (Garment), increases physical damage against all race monsters (except players) by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 73,
@@ -112386,8 +112376,7 @@
     "name": "Star Emperor Stone (Upper)",
     "unidName": "Star Emperor Stone (Upper)",
     "resName": "푸른야광석",
-    "description": "Increases Full Moon Kick damage by 3% per each level of Blessing of Moon user learned.\r\nWhen equipped with Star Emperor Stone (Garment), increases New Moon Kick damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 71,
@@ -112413,8 +112402,7 @@
     "name": "Star Emperor Stone (Middle)",
     "unidName": "Star Emperor Stone (Middle)",
     "resName": "푸른야광석",
-    "description": "Increases melee physical damage by 2% per each level of Blessing of Sun user learned.\r\nWhen equipped with Star Emperor Stone (Garment), increases Solar Burst damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 72,
@@ -112440,8 +112428,7 @@
     "name": "Star Emperor Stone (Lower)",
     "unidName": "Star Emperor Stone (Lower)",
     "resName": "푸른야광석",
-    "description": "Increases Falling Star damage by 4% per each level of Blessing of Star user learned.\r\nWhen equipped with Star Emperor Stone (Garment), has a 2% chance to restore 1% of damage as SP when dealing physical damage.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 73,
@@ -112467,8 +112454,7 @@
     "name": "Rebellion Stone (Upper)",
     "unidName": "Rebellion Stone (Upper)",
     "resName": "정화탄",
-    "description": "Increases physical damage against all size enemies by 2% and increases Dragon Tail damage by 4% per each level of Platinum Altar user learned.\r\nWhen equipped with Rebellion Stone (Garment), increases Vanishing Buster damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 71,
@@ -112497,8 +112483,7 @@
     "name": "Rebellion Stone (Middle)",
     "unidName": "Rebellion Stone (Middle)",
     "resName": "정화탄",
-    "description": "Increases longed ranged physical damage by 2% per each level of Fire Rain user learned.\r\nWhen equipped with Rebellion Stone (Garment), increases Round Trip damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 72,
@@ -112524,8 +112509,7 @@
     "name": "Rebellion Stone (Lower)",
     "unidName": "Rebellion Stone (Lower)",
     "resName": "정화탄",
-    "description": "Increases Fire Dance and Hammer of God damage by 4% per each level of Heat Barrel user learned.\r\nWhen equipped with Rebellion Stone (Garment), reduces fixed casting time by 0.5 seconds.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 73,
@@ -112554,8 +112538,7 @@
     "name": "Soul Reaper Stone (Upper)",
     "unidName": "Soul Reaper Stone (Upper)",
     "resName": "도깨비불",
-    "description": "Increases all property magical damage by 1% per each level of Espa user learned.\r\nWhen equipped with Soul Reaper Stone (Garment), reduces SP consumption of Espa by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 71,
@@ -112578,8 +112561,7 @@
     "name": "Soul Reaper Stone (Middle)",
     "unidName": "Soul Reaper Stone (Middle)",
     "resName": "도깨비불",
-    "description": "Increases magical damage against all size enemies by 1% per each level of Eswhoo user learned.\r\nWhen equipped with Soul Reaper Stone (Garment), increases Eswhoo damage by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 72,
@@ -112605,8 +112587,7 @@
     "name": "Soul Reaper Stone (Lower)",
     "unidName": "Soul Reaper Stone (Lower)",
     "resName": "도깨비불",
-    "description": "Reduces skill cooldown of Curse Explosion by 0.1 seconds per each level of Evil Spirit's Curse user learned.\r\nWhen equipped with Soul Reaper Stone (Garment), reduces fixed casting time by 0.5 seconds.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 73,
@@ -115713,8 +115694,7 @@
     "name": "Kagerou Stone (Upper)",
     "unidName": "Kagerou Stone (Upper)",
     "resName": "불의부적",
-    "description": "Increases physical damage against all size enemies by 2% per each level of Kagerou & Oboro's Righthand Mastery user learned.\r\nWhen equipped with Kagerou Stone (Garment), increases Swirling Petal damage by 25%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 71,
@@ -115740,8 +115720,7 @@
     "name": "Kagerou Stone (Middle)",
     "unidName": "Kagerou Stone (Middle)",
     "resName": "불의부적",
-    "description": "Increases long ranged physical damage by 2% per each level of 16th Night user learned.\r\nWhen equipped with Kagerou Stone (Garment), increases Cross Slash damage by 25%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 72,
@@ -115767,8 +115746,7 @@
     "name": "Kagerou Stone (Lower)",
     "unidName": "Kagerou Stone (Lower)",
     "resName": "불의부적",
-    "description": "Increases Kunai Splash damage by 5% per each level of Pure Soul user learned.\r\nWhen equipped with Kagerou Stone (Garment), increases Kunai Splash damage by 25%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 73,
@@ -115792,8 +115770,7 @@
     "name": "Oboro Stone (Upper)",
     "unidName": "Oboro Stone (Upper)",
     "resName": "불의부적",
-    "description": "Increases magical damage against all size enemies by 2% per each level of Kagerou & Oboro's Righthand Mastery user learned.\r\nWhen equipped with Oboro Stone (Garment), increases Freezing Spear and Wind Blade damage by 25%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 71,
@@ -115822,8 +115799,7 @@
     "name": "Oboro Stone (Middle)",
     "unidName": "Oboro Stone (Middle)",
     "resName": "불의부적",
-    "description": "Increases MaxSP by 3% per each level of Pure Soul user learned.\r\nWhen equipped with Oboro Stone (Garment), increases Exploding Dragon, Snow Flake Draft and First Wind damage by 30%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 72,
@@ -115855,8 +115831,7 @@
     "name": "Oboro Stone (Lower)",
     "unidName": "Oboro Stone (Lower)",
     "resName": "불의부적",
-    "description": "Increases Flaming Petals, Freezing Spear and Wind Blade damage by 4% per each level of 16th Night user learned.\r\nWhen equipped with Oboro Stone (Garment), reduces variable casting time by 15%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 73,
@@ -115888,8 +115863,7 @@
     "name": "Summoner Stone (Upper)",
     "unidName": "Summoner Stone (Upper)",
     "resName": "블랙캣",
-    "description": "Increases Lunatic Carrot Beat damage by 5% per each level of Picky Peck user learned.\r\nIncreases Catnip Meteor damage by 5% per each level of Silvervine Stem Spear user learned.\r\nWhen equipped with Doram Stone (Garment), reduces fixed casting time by 0.5 seconds.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 71,
@@ -115918,8 +115892,7 @@
     "name": "Summoner Stone (Middle)",
     "unidName": "Summoner Stone (Middle)",
     "resName": "블랙캣",
-    "description": "Reduces variable casting time by 2% per each level of Fresh Shrimp user learned.\r\nWhen equipped with Doram Stone (Garment), increases Catnip Meteor damage by 25%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 72,
@@ -115945,8 +115918,7 @@
     "name": "Summoner Stone (Lower)",
     "unidName": "Summoner Stone (Lower)",
     "resName": "블랙캣",
-    "description": "Increases long ranged physical damage by 2% per each level of Arclouse Dash user learned.\r\nWhen equipped with Doram Stone (Garment), increases Lunatic Carrot Beat damage by 25%.",
-    "preRelease": true,
+    "description": "",
     "slots": 0,
     "itemTypeId": 6,
     "itemSubTypeId": 73,
@@ -127323,12 +127295,11 @@
   },
   "312422": {
     "id": 312422,
-    "preRelease": true,
     "aegisName": "Justice_Vigor_CD",
     "name": "Good Vigor (Cardinal)",
     "unidName": "Good Vigor (Cardinal)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "Set Bonus:\nGood Spell\nGood Vigor (Cardinal)\n          \nincreases Flamen damage by 20%,\nincreases Arbitrium damage by 40%,\nincreases magic damage to all attribute enemies by 20%,\nreduces after cast delay by 5%.",
+    "description": "",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -127422,12 +127393,11 @@
   },
   "312425": {
     "id": 312425,
-    "preRelease": true,
     "aegisName": "Injustice_Vigor_CD",
     "name": "Evil Vigor (Cardinal)",
     "unidName": "Evil Vigor (Cardinal)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Cardinal)\n          \nincreases Petitio damage by 30%,\nincreases critical damage by 20%,\nincreases physical damage against all property enemies by 20%,\nCRI +5.",
+    "description": "",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -132682,12 +132652,11 @@
   },
   "312651": {
     "id": 312651,
-    "preRelease": true,
     "aegisName": "Justice_Vigor_SS",
     "name": "Good Vigor (Shinkiro & Shiranui)",
     "unidName": "Good Vigor (Shinkiro & Shiranui)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "Set Bonus:\nGood Spell\nGood Vigor (Shinkiro & Shiranui)\n          \nincreases Huuma Shuriken - Construct damage by 20%,\nincreases Huuma Shuriken - Grasp damage by 40%,\niincreases physical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
+    "description": "",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -132780,12 +132749,11 @@
   },
   "312654": {
     "id": 312654,
-    "preRelease": true,
     "aegisName": "Injustice_Vigor_SS",
     "name": "Evil Vigor (Shinkiro & Shiranui)",
     "unidName": "Evil Vigor (Shinkiro & Shiranui)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Shinkiro & Shiranui)\n          \nincreases Darkening Cannon damage by 20%,\nincreases Red Flame Cannon damage by 40%,\nincreases magical damage against all property enemies by 20%,\nreduces variable casting time by 5%.",
+    "description": "",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -133503,12 +133471,11 @@
   },
   "312685": {
     "id": 312685,
-    "preRelease": true,
     "aegisName": "Justice_Vigor_ABC",
     "name": "Good Vigor (Abyss Chaser)",
     "unidName": "Good Vigor (Abyss Chaser)",
     "resName": "C_160LV_Mechanic_Gold",
-    "description": "Set Bonus:\nGood Spell\nGood Vigor (Abyss Chaser)\n          \nincreases Abyss Dagger damage by 20%,\nincreases Deft Stab damage by 40%,\nincreases physical damage against all property enemies by 20%,\nASPD +5%.",
+    "description": "",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -133536,12 +133503,11 @@
   },
   "312686": {
     "id": 312686,
-    "preRelease": true,
     "aegisName": "Injustice_Vigor_ABC",
     "name": "Evil Vigor (Abyss Chaser)",
     "unidName": "Evil Vigor (Abyss Chaser)",
     "resName": "C_160LV_Warlock_Violet",
-    "description": "Set Bonus:\nEvil Spell\nEvil Vigor (Abyss Chaser)\n          \nincreases Chain Reaction Shot damage by 20%,\nincreases Frenzy Shot damage by 40%,\nincreases physical damage against all property enemies by 20%,\nCRI +5.",
+    "description": "",
     "slots": 0,
     "itemTypeId": 11,
     "itemSubTypeId": 0,
@@ -151323,12 +151289,11 @@
   },
   "400378": {
     "id": 400378,
-    "preRelease": true,
     "aegisName": "GoodnEvil_Circlet_CD",
     "name": "Crown of Good and Evil (Cardinal) [1]",
     "unidName": "Helm",
     "resName": "GoodnEvil_Circlet",
-    "description": "Crown imbued with the power of good and evil.\n------------------------\nFor every 3 refine level, increase physical and magic damage against all races enemies by 5%.\n------------------------\nFor every 4 refine level, increase melee physical damage and Holy property magic damage by 7%.\n------------------------\nWhen refined to +7 or higher, RES + 50.\n------------------------\nWhen refined to +9 or higher, reduce After Cast Delay by 5%, CRI + 5.\n------------------------\nWhen refined to +11 or higher, ATK + 5%, MATK + 5%, reduce Fixed Casting Time by 0.3 seconds.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Cardinal) [1]\nSealed Bible [2]\n          \nFor every 3 refine level of Weapon, increase Petitio damage by 4%, increase Critical damage by 10%.\nWhen weapon grade is B or higher, increase Petitio damage by additional 10%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Cardinal) [1]\nSealed Bible [2]\nEvil Spell\n          \nIncrease Petitio damage by additional 15%, increase Critical damage by additional 25%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Cardinal) [1]\nSaint Bringer [2]\n          \nFor every 3 refine level of Weapon, increase Flamen damage by 4%, increase Arbitrium damage by 5%.\nWhen weapon grade is B or higher, increase Flamen damage by additional 10%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Cardinal) [1]\nSaint Bringer [2]\nGood Spell\n          \nIncrease Flamen damage by additional 15%, increase Arbitrium damage by additional 20%.\n------------------------\n[Grade Bonus]\n[Grade D] MHP + 5%.\n[Grade C] P.ATK + 3, S.MATK + 3.\n[Grade B] P.ATK + 2, S.MATK + 2, POW + 2, SPL + 2.\n[Grade A] RES + 50, MRES + 50, When refined to +12 or higher, reduce Fixed Casting Time by additional 0.2 seconds.\n------------------------\nType : Headgear\nDef : 10\nLocation : Upper\nWeight : 10\nArmor Level : 2\nRequired Level : 215\nClass : Cardinal",
+    "description": "",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 512,
@@ -151760,12 +151725,11 @@
   },
   "400383": {
     "id": 400383,
-    "preRelease": true,
     "aegisName": "GoodnEvil_Circlet_ABC",
     "name": "Crown of Good and Evil (Abyss Chaser) [1]",
     "unidName": "Helm",
     "resName": "GoodnEvil_Circlet",
-    "description": "Crown imbued with the power of good and evil.\n------------------------\nFor every 3 refine level, increase physical damage against all races enemies by 5%.\n------------------------\nFor every 4 refine level, increase melee and long-range physical damage by 7%.\n------------------------\nWhen refined to +7 or higher, RES + 50.\n------------------------\nWhen refined to +9 or higher, CRI + 5, ASPD + 5%.\n------------------------\nWhen refined to +11 or higher, ATK + 5%, reduce Fixed Casting Time by 0.3 seconds.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Abyss Chaser) [1]\nDark Angel Ray Bow [2]\n          \nFor every 3 refine level of Weapon, increase Chain Reaction Shot damage by 4%, increase Frenzy Shot damage by 5%.\nWhen weapon grade is B or higher, increase Chain Reaction Shot damage by additional 10%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Abyss Chaser) [1]\nDark Angel Ray Bow [2]\nEvil Spell\n          \nIncrease Chain Reaction Shot damage by additional 15%, increase Frenzy Shot damage by additional 20%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Abyss Chaser) [1]\nHoly Light Dagger [2]\n          \nFor every 3 refine level of Weapon, increase Abyss Dagger damage by 4%, increase Deft Stab damage by 5%.\nWhen weapon grade is B or higher, increase Abyss Dagger damage by additional 10%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Abyss Chaser) [1]\nHoly Light Dagger [2]\nGood Spell\n          \nIncrease Abyss Dagger damage by additional 15%, increase Deft Stab damage by additional 20%.\n------------------------\n[Grade Bonus]\n[Grade D] MHP + 5%.\n[Grade C] P.ATK + 3, S.MATK + 3.\n[Grade B] P.ATK + 2, S.MATK + 2, CON + 2, SPL + 2.\n[Grade A] RES + 50, MRES + 50, When refined to +12 or higher, reduce Fixed Casting Time by additional 0.2 seconds.\n------------------------\nType : Headgear\nDef : 10\nLocation : Upper\nWeight : 10\nArmor Level : 2\nRequired Level : 215\nClass : Abyss Chaser",
+    "description": "",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 512,
@@ -152040,12 +152004,11 @@
   },
   "400386": {
     "id": 400386,
-    "preRelease": true,
     "aegisName": "GoodnEvil_Circlet_SS",
     "name": "Crown of Good and Evil (Shinkiro&Shiranui) [1]",
     "unidName": "Helm",
     "resName": "GoodnEvil_Circlet",
-    "description": "Crown imbued with the power of good and evil.\n------------------------\nFor every 3 refinement levels, increases Physical and Magical damage against all races by 5%.\n------------------------\nFor every 4 refinement levels, increases Ranged Physical damage and all property Magic damage by 7%.\n------------------------\nWhen refined to +7 or higher, RES + 50.\n------------------------\nWhen refined to +9 or higher, reduce Variable Casting Time by 5%, reduce after cast delay by 5%.\n------------------------\nWhen refined to +11 or higher, ATK + 5%, MATK + 5%, reduce Fixed Casting Time by 0.3 seconds.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Shinkiro & Shiranui) [1]\nDevil Claw [2]\n          \nFor every 3 refine level of Weapon, increases Darkening Cannon damage by 4% and Red Flame Cannon damage by 5%,\nWhen weapon grade is B or higher, increases Darkening Cannon damage by additional 10%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Shinkiro & Shiranui) [1]\nDevil Claw [2]\nEvil Spell\n          \nincreases Darkening Cannon damage by additional 15% and Red Flame Cannon damage by additional 20%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Shinkiro & Shiranui) [1]\nHuuma Shuriken Brilliance [2]\n          \nFor every 3 refine level of Weapon, increases Darkening Cannon damage by 4% and Red Flame Cannon damage by 5%,\nWhen weapon grade is B or higher, increases Darkening Cannon damage by additional 10%.\n------------------------\nSet Bonus:\nCrown of Good and Evil (Shinkiro & Shiranui) [1]\nHuuma Shuriken Brilliance [2]\nGood Spell\n          \nincreases Huuma Shuriken - Construct damage by additional 15% and Huuma Shuriken - Grasp damage by additional 20%.\n------------------------\n[Bonus by Grade]\n[Grade D]  MHP + 5%.\n[Grade C] P.ATK + 3, S.MATK + 3.\n[Grade B] P.ATK + 2, S.MATK + 2, POW + 2, SPL + 2.\n[Grade A] RES + 50, MRES + 50, When refined to +12 or higher, reduce Fixed Casting Time by 0.2 seconds.\n------------------------\nType : Headgear\nDefense : 10\nPosition : Upper\nWeight : 10\nArmor Level : 2\nRequired Level : 215\nClass: Shinkiro, Shiranui",
+    "description": "",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 512,
@@ -173787,12 +173750,11 @@
   },
   "470207": {
     "id": 470207,
-    "preRelease": true,
     "aegisName": "FateSin_Boots_CD",
     "name": "Boots of Good and Evil (Cardinal) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_CD",
-    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%, MATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase melee physical damage and all property magic damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical and magical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Cardinal",
+    "description": "",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -174498,12 +174460,11 @@
   },
   "470223": {
     "id": 470223,
-    "preRelease": true,
     "aegisName": "FateSin_Boots_SS",
     "name": "Boots of Good and Evil (Shinkiro & Shiranui) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_SS",
-    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%, MATK + 7%.\n------------------------\nWhen refined to +9 or higher,\nincreases long ranged physical damage by 10%,\nincreases all property magical damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical and magical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Shiranui, Shinkiro",
+    "description": "",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -174570,12 +174531,11 @@
   },
   "470224": {
     "id": 470224,
-    "preRelease": true,
     "aegisName": "FateSin_Boots_ABC",
     "name": "Boots of Good and Evil (Abyss Chaser) [1]",
     "unidName": "Shoes",
     "resName": "FateSin_Boots_ABC",
-    "description": "Boots imbued with the power of good and evil.\n------------------------\nMHP + 500, MSP + 100.\n------------------------\nFor every 2 refine level, MHP + 1%, MSP + 1%.\n------------------------\nWhen refined to +7 or higher, ATK + 7%.\n------------------------\nWhen refined to +9 or higher, increase melee and long-ranged physical damage by 10%.\n------------------------\nWhen refined to +11 or higher, reduce Fixed Casting Time by 0.5 seconds.\n------------------------\n[Grade Bonus]\n[Grade D] RES + 50, MRES + 50.\n[Grade C] Increase physical and magical damage against all size enemies by 10%.\n[Grade B] P.ATK + 7, S.MATK + 7.\n[Grade A] Reduce Fixed Casting Time by additional 0.5 seconds.\n------------------------\nType: Shoes\nDef: 20\nWeight: 60\nArmor Level: 2\nRequired Level: 210\nClass: Abyss Chaser",
+    "description": "",
     "slots": 1,
     "itemTypeId": 2,
     "itemSubTypeId": 516,
@@ -204158,12 +204118,11 @@
   },
   "540060": {
     "id": 540060,
-    "preRelease": true,
     "aegisName": "Blessed_Bible",
     "name": "Blessed Bible [2]",
     "unidName": "Book",
     "resName": "Fate_MagicBook",
-    "description": "A holy bible blessed by priests.\n------------------------\nCannot be destroyed.\n------------------------\nMATK + 220.\n------------------------\nMATK + 5%, SPL + 2.\n------------------------\nIncrease Diamond Storm damage by 5%.\n------------------------\nWhen refined to +5 or higher, increase Diamond Storm damage by additional 10%.\n------------------------\nWhen refined to +7 or higher, increase Water and Earth property magic damage by 5%.\n------------------------\nWhen refined to +9 or higher, increase Diamond Storm damage by additional 10%.\n------------------------\nWhen refined to +10 or higher, reduce Variable Casting Time by 10%.\n------------------------\nWhen refined to +11 or higher, increase Diamond Storm damage by additional 5% and Terra Drive damage by 15%.\n------------------------\n[Grade Bonus]\n[Grade D] Increase Water and Earth property magic damage by 10%.\n[Grade C] Increase magic damage against all sizes enemies by 10%.\n[Grade B] Increase magic damage against all races enemies by 10%.\n[Grade A] Increase magic damage against all property enemies by 10%.\n------------------------\nType : Book\nAttack : 60\nWeight : 80\nWeapon Level : 5\nRequired Level : 215\nClass : Elemental Master",
+    "description": "",
     "slots": 2,
     "itemTypeId": 1,
     "itemSubTypeId": 271,
@@ -208034,12 +207993,11 @@
   },
   "550088": {
     "id": 550088,
-    "preRelease": true,
     "aegisName": "Saint_Bringer",
     "name": "Saint Bringer [2]",
     "unidName": "Rod",
     "resName": "Fate_HolyStick",
-    "description": "A staff for guides who lead on the path of sacred light.\n------------------------\nCannot be destroyed.\n------------------------\nMATK + 220.\n------------------------\nMATK + 5%, SPL + 2.\n------------------------\nIncrease Flamen damage by 5%.\n------------------------\nWhen refined to +5 or higher, increase Flamen damage by additional 10%.\n------------------------\nWhen refined to +7 or higher, increase Holy property magic damage by 5%.\n------------------------\nWhen refined to +9 or higher, increase Flamen damage by additional 10%.\n------------------------\nWhen refined to +10 or higher, reduce After Cast Delay by 10%.\n------------------------\nWhen refined to +11 or higher, increase Flamen damage by additional 5% and Arbitrium damage by 15%.\n------------------------\n[Grade Bonus]\n[Grade D] Increase Holy property magic damage by 10%.\n[Grade C] Increase magic damage against all sizes enemies by 10%.\n[Grade B] Increase magic damage against all races enemies by 10%.\n[Grade A] Increase magic damage against all property enemies by 10%.\n------------------------\nType : One-handed Staff\nAttack : 60\nWeight : 100\nWeapon Level : 5\nRequired Level : 215\nClass : Cardinal",
+    "description": "",
     "slots": 2,
     "itemTypeId": 1,
     "itemSubTypeId": 265,
@@ -222429,12 +222387,11 @@
   },
   "650033": {
     "id": 650033,
-    "preRelease": true,
     "aegisName": "Devil_Claw",
     "name": "Devil Claw [2]",
     "unidName": "Huuma Shuriken",
     "resName": "Sins_Huuma",
-    "description": "Imbued with demonic power, this Fuuma Shuriken has transformed to resemble a demon's claw.\n          \nIndestructible in battle.\n          \nMATK + 330.\n          \nMATK + 5%, SPL + 2.\n          \nDarkening Cannon damage +5%.\n------------------------\nWhen refine level 5 or more, Darkening Cannon damage +10%.\n------------------------\nWhen refine level 7 or more, Shadow and Fire magic damage +5%.\n------------------------\nWhen refine level 9 or more, Darkening Cannon damage +10% additional.\n------------------------\nWhen refine level 10 or more, Variable Casting Time -10%.\n------------------------\nWhen refine level 11 or more, Darkening Cannon damage +5% additional, Red Flame Cannon damage +15%.\n------------------------\n[Bonus by Grade]\n[Grade D] Shadow and Fire magic damage +10%.\n[Grade C] Magic damage to all size enemies +10%.\n[Grade B] Magic damage to all race enemies +10%.\n[Grade A] Magic damage to all property enemies +10%.\n------------------------\nType : Fuuma Shuriken\nAttack : 100\nWeight : 200\nWeapon Level : 5\nRequired Level : 215\nClass : Kagerou, Shiranui",
+    "description": "",
     "slots": 2,
     "itemTypeId": 1,
     "itemSubTypeId": 278,
@@ -225438,12 +225395,11 @@
   },
   "800026": {
     "id": 800026,
-    "preRelease": true,
     "aegisName": "Devils_Bullet",
     "name": "Devil's Bullet [2]",
     "unidName": "Six Shooter",
     "resName": "Sins_Revolver",
-    "description": "A revolver said to use demonic bullets.\n          \nATK + 5%, CON + 2.\n          \nOnly One Bullet damage +5%.\n------------------------\nWhen refine level 5 or more, Only One Bullet damage +10%.\n------------------------\nWhen refine level 7 or more, Ranged physical damage +5%.\n------------------------\nWhen refine level 9 or more, Only One Bullet damage +10% additional.\n------------------------\nWhen refine level 10 or more, ASPD +10%.\n------------------------\nWhen refine level 11 or more, Only One Bullet damage +5% additional, Ranged physical damage +15%.\n------------------------\n[Bonus by Grade]\n[Grade D] Ranged physical damage +10%.\n[Grade C] Physical damage to all size enemies +10%.\n[Grade B] Physical damage to all race enemies +10%.\n[Grade A] Physical damage to all property enemies +10%.\n------------------------\nType : Revolver\nAttack : 250\nWeight : 200\nWeapon Level : 5\nRequired Level : 215\nClass : Night Watch",
+    "description": "",
     "slots": 2,
     "itemTypeId": 1,
     "itemSubTypeId": 273,
@@ -375014,35 +374970,35 @@
   "314095": {"id":314095,"aegisName":"블루크리스탈조각","name":"Gráfico: Espírito de Influência","unidName":"Gráfico: Espírito de Influência","resName":"","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":72,"itemLevel":null,"attack":null,"defense":null,"weight":10,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
   "314802": {"id":314802,"aegisName":null,"name":"Gráfico: Espaço Digital","unidName":"Gráfico: Espaço Digital","resName":"Magic_D_Space_TW","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":73,"itemLevel":null,"attack":null,"defense":null,"weight":10,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
   "25206": {"id":25206,"aegisName":"ElectricEffect_Top","name":"Electric Effect (Upper)","unidName":"Electric Effect (Upper)","resName":"블루크리스탈조각","description":"Enchant in the 4th slot of the upper costume gear to grant the effect.\nElectric\nBring this to Gurgio Gulmani in Malangdo to enchant your costume item.\nWeight: 10","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":71,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
-  "311426": {"id":311426,"aegisName":"Smatk_Robe","name":"Spell Magic Attack Stone (Garment)","unidName":"Spell Magic Attack Stone (Garment)","resName":"Barmund_Spl","description":"S.MATK + 3.\n------------------------\nSet Bonus\nSpell Magic Attack Stone (Garment)\nMagic Power Stone (Upper)\nS.MATK + 1, SPL + 1.\n------------------------\nSet Bonus\nSpell Magic Attack Stone (Garment)\nMagic Power Stone (Middle)\nS.MATK + 1, SPL + 1.\n------------------------\nSet Bonus\nSpell Magic Attack Stone (Garment)\nMagic Power Stone (Lower)\nS.MATK + 1, SPL + 1.\n------------------------\nSet Bonus\nSpell Magic Attack Stone (Garment)\nSpell Stone (Dual)\nS.MATK + 5, SPL + 3.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"sMatk":["3","EQUIP_ID[310664]===1","EQUIP_ID[310665]===1","EQUIP_ID[310666]===1","EQUIP_ID[1000921]===5"],"spl":["EQUIP_ID[310664]===1","EQUIP_ID[310665]===1","EQUIP_ID[310666]===1","EQUIP_ID[1000921]===3"]}},
-  "311469": {"id":311469,"aegisName":"M_PATK_Robe","name":"Melee Physical Attack Stone (Garment)","unidName":"Melee Physical Attack Stone (Garment)","resName":"Barmund_Pow","description":"P.ATK + 3\n------------------------\nSet Bonus:\nMelee Physical Attack Stone (Garment)\nMelee Stone (Upper)\nP.ATK + 1, POW + 1.\n------------------------\nSet Bonus:\nMelee Physical Attack Stone (Garment)\nMelee Stone (Middle)\nP.ATK + 1, POW + 1.\n------------------------\nSet Bonus:\nMelee Physical Attack Stone (Garment)\nMelee Stone (Lower)\nP.ATK + 1, POW + 1.\n------------------------\nSet Bonus:\nMelee Physical Attack Stone (Garment)\nPower Stone (Dual)\nP.ATK + 5, POW + 3.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"pAtk":["3","EQUIP_ID[310327||1000377]===1","EQUIP_ID[310328||1000378]===1","EQUIP_ID[310329||1000379]===1","EQUIP_ID[1001055]===5"],"pow":["EQUIP_ID[310327||1000377]===1","EQUIP_ID[310328||1000378]===1","EQUIP_ID[310329||1000379]===1","EQUIP_ID[1001055]===3"]}},
-  "311470": {"id":311470,"aegisName":"R_PATK_Robe","name":"Range Physical Attack Stone (Garment)","unidName":"Range Physical Attack Stone (Garment)","resName":"Barmund_Con","description":"P.ATK + 3\n------------------------\nSet Bonus:\nRange Physical Attack Stone (Garment)\nRange Stone (Upper)\nP.ATK + 1, CON + 1.\n------------------------\nSet Bonus:\nRange Physical Attack Stone (Garment)\nRange Stone (Middle)\nP.ATK + 1, CON + 1.\n------------------------\nSet Bonus:\nRange Physical Attack Stone (Garment)\nRange Stone (Lower)\nP.ATK + 1, CON + 1.\n------------------------\nSet Bonus:\nRange Physical Attack Stone (Garment)\nConcentration Stone (Dual)\nP.ATK + 5, CON + 3.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"pAtk":["3","EQUIP_ID[310325||1000375]===1","EQUIP_ID[25061||310330]===1","EQUIP_ID[310326||1000376]===1","EQUIP_ID[311355]===5"],"con":["EQUIP_ID[310325||1000375]===1","EQUIP_ID[25061||310330]===1","EQUIP_ID[310326||1000376]===1","EQUIP_ID[311355]===3"]}},
-  "311921": {"id":311921,"aegisName":"DefenseTop","name":"Defense Stone (Upper)","unidName":"Defense Stone (Upper)","resName":"마력석_검정","description":"DEF + 20, MDEF + 4.\n------------------------\nSet Bonus:\nDefense Stone (Upper)\nDefense Stone (Middle)\nDefense Stone (Lower)\nDEF + 100, MDEF + 25, RES + 5, MRES + 5.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":71,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["20","EQUIP_ID[311922&&311923]===100"],"mdef":["4","EQUIP_ID[311922&&311923]===25"],"res":["EQUIP_ID[311922&&311923]===5"],"mres":["EQUIP_ID[311922&&311923]===5"]}},
-  "311922": {"id":311922,"aegisName":"DefenseMiddle","name":"Defense Stone (Middle)","unidName":"Defense Stone (Middle)","resName":"마력석_검정","description":"DEF + 20, MDEF + 4.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":72,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["20"],"mdef":["4"]}},
-  "311923": {"id":311923,"aegisName":"DefenseBottom","name":"Defense Stone (Lower)","unidName":"Defense Stone (Lower)","resName":"마력석_검정","description":"DEF + 20, MDEF + 4.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":73,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["20"],"mdef":["4"]}},
-  "311924": {"id":311924,"aegisName":"ResistDef_Robe","name":"Resist Defense Stone (Garment)","unidName":"Resist Defense Stone (Garment)","resName":"투명한보석","description":"DEF + 100, MDEF + 25, RES + 20, MRES + 20.\n------------------------\nSet Bonus:\nResist Defense Stone (Garment)\nDefense Stone (Upper)\nDefense Stone (Middle)\nDefense Stone (Lower)\nRES + 10, MRES + 10.\n------------------------\nResist Defense Stone (Garment)\nStamina Wisdom Stone (Dual)\nRES + 15, MRES + 15.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["100"],"mdef":["25"],"res":["20","EQUIP_ID[311921&&311922&&311923]===10","EQUIP_ID[1001172]===15"],"mres":["20","EQUIP_ID[311921&&311922&&311923]===10","EQUIP_ID[1001172]===15"]}},
-  "312398": {"id":312398,"aegisName":"Shinkiro_Robe","name":"Shinkiro Stone (Garment)","unidName":"Shinkiro Stone (Garment)","resName":"Kagerou_Figure","description":"Increases Kunai - Distortion damage by 5%.\n------------------------\nSet Bonus:\nShinkiro Stone (Garment)\nKagerou Stone (Upper)\nIncreases Kunai - Distortion damage by additional 10%.\n------------------------\nSet Bonus:\nShinkiro Stone (Garment)\nKagerou Stone (Middle)\nIncreases Huuma Shuriken - Construct damage by 10%.\n------------------------\nSet Bonus:\nShinkiro Stone (Garment)\nKagerou Stone (Lower)\nEvery level of Infiltrate learned,\nIncreases long ranged physical damage by 3%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5484":["EQUIP_ID[311913]===10"],"5485":["5","EQUIP_ID[311912]===10"],"range":["EQUIP_ID[311914]LEARN_SKILL[Infiltration==1]---3"]}},
-  "312399": {"id":312399,"aegisName":"Shiranui_Robe","name":"Shiranui Stone (Garment)","unidName":"Shiranui Stone (Garment)","resName":"Oboro_Figure","description":"Increases Darkening Cannon damage by 10%.\n------------------------\nSet Bonus:\nShiranui Stone (Garment)\nOboro Stone (Upper)\nIncreases Red Flame Cannon damage by 10%.\n------------------------\nSet Bonus:\nShiranui Stone (Garment)\nOboro Stone (Middle)\nEvery level of Melt Away learned,\nReduces variable casting time by 3%.\n------------------------\nSet Bonus:\nShiranui Stone (Garment)\nOboro Stone (Lower)\nIncreases Thundering Cannon damage by 10%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5488":["EQUIP_ID[311915]===10"],"5490":["EQUIP_ID[311917]===10"],"5492":["10"],"vct":["EQUIP_ID[311916]LEARN_SKILL[Melting==1]---3"]}},
-  "312400": {"id":312400,"aegisName":"ShaCross_Robe","name":"Shadow Cross Stone (Garment)","unidName":"Shadow Cross Stone (Garment)","resName":"Assasin_Cross_Figure","description":"Every 2 level of Shadow Sense learned,\nIncreases critical damage by 4%.\n------------------------\nSet Bonus:\nShadow Cross Stone (Garment)\nGuillotine Cross Stone (Upper)\nincreases Impact Crater damage by 10%.\n------------------------\nSet Bonus:\nShadow Cross Stone (Garment)\nGuillotine Cross Stone (Middle)\nincreases Eternal Slash damage by 10%.\n------------------------\nSet Bonus:\nShadow Cross Stone (Garment)\nGuillotine Cross Stone (Lower)\nEvery level of Shadow Sense learned,\nC.RATE +1.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5289":["EQUIP_ID[311434]===10"],"5292":["EQUIP_ID[311433]===10"],"criDmg":["LEARN_SKILL[Shadow Sense==2]---4"],"cRate":["EQUIP_ID[311435]LEARN_SKILL[Shadow Sense==1]---1"]}},
-  "312401": {"id":312401,"aegisName":"Cardinal_Robe","name":"Cardinal Stone (Garment)","unidName":"Cardinal Stone (Garment)","resName":"High_Priest_Figure","description":"Increases Flamen damage by 5%.\n------------------------\nSet Bonus:\nCardinal Stone (Garment)\nArchbishop Stone (Upper)\nincreases Flamen damage by additional 10%.\n------------------------\nSet Bonus:\nCardinal Stone (Garment)\nArchbishop Stone (Middle)\nEvery 2 level of Fidus Animus learned,\nincreases holy property magical damage by 3%.\n------------------------\nSet Bonus:\nCardinal Stone (Garment)\nArchbishop Stone (Lower)\nincreases Arbitrium damage by 10%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5273":["EQUIP_ID[311358]===10"],"5284":["5","EQUIP_ID[311356]===10"],"m_my_element_holy":["EQUIP_ID[311357]LEARN_SKILL[Fidus Animus==2]---3"]}},
-  "312402": {"id":312402,"aegisName":"SuNovice_Robe","name":"Super Novice Stone (Garment)","unidName":"Super Novice Stone (Garment)","resName":"피규어","description":"If user learned Breakthrough level 5, enables to use Wind Cutter level 5.\nIf user learned Transcendence level 5, enables to use Judex level 10.\nWhen equipped with Paladin Stone (Upper), Def + 120, Mdef + 15.\nWhen equipped with High Wizard Stone (Middle), increases Judex damage by 3% per each level of Transcendence user learned.\nWhen equipped with Stalker Stone (Lower), increases Wind Cutter damage by 3% per each level of Breakthrough user learned.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2005":["EQUIP_ID[25492||29479]LEARN_SKILL[Break Through==1]---3"],"2038":["EQUIP_ID[25454||29469]LEARN_SKILL[Transcendence==1]---3"],"enable_skill__2005":["LEARN_SKILL[Break Through==5]===5"],"enable_skill__2038":["LEARN_SKILL[Transcendence==5]===10"],"def":["EQUIP_ID[25710||29517]===120"],"mdef":["EQUIP_ID[25710||29517]===15"]}},
-  "312403": {"id":312403,"aegisName":"SuNovice_Top","name":"Super Novice Stone (Upper)","unidName":"Super Novice Stone (Upper)","resName":"피규어","description":"Every level of Transcendence learned,\nReduces variable casting time by 3%.\n------------------------\nSet Bonus:\nSuper Novice Stone (Upper)\nSuper Novice Stone (Garment)\nEvery level of Transcendence learned,\nincreases Judex damage by 3%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":71,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2038":["EQUIP_ID[312402]LEARN_SKILL[Transcendence==1]---3"],"vct":["LEARN_SKILL[Transcendence==1]---3"]}},
-  "312404": {"id":312404,"aegisName":"SuNovice_Middle","name":"Super Novice Stone (Middle)","unidName":"Super Novice Stone (Middle)","resName":"피규어","description":"Every level of Breakthrough learned,\nIncreases melee physical damage by 2%.\n------------------------\nSet Bonus:\nSuper Novice Stone (Middle)\nSuper Novice Stone (Garment)\nEvery level of Breakthrough learned,\nincreases Wind Cutter damage by 3%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":72,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2005":["EQUIP_ID[312402]LEARN_SKILL[Break Through==1]---3"],"melee":["LEARN_SKILL[Break Through==1]---2"]}},
-  "312405": {"id":312405,"aegisName":"SuNovice_Bottom","name":"Super Novice Stone (Lower)","unidName":"Super Novice Stone (Lower)","resName":"피규어","description":"When using Help, Angel!,\nincreases all property magical damage by 15% for 300 seconds.\n------------------------\nSet Bonus:\nSuper Novice Stone (Lower)\nSuper Novice Stone (Garment)\nMaxHP + 15%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":73,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"hpPercent":["EQUIP_ID[312402]===15"]}},
-  "312476": {"id":312476,"aegisName":"Skyemperor_Robe","name":"Sky Emperor Stone (Garment)","unidName":"Sky Emperor Stone (Garment)","resName":"푸른야광석","description":"For every 2 level of Sky Mastery, increase physical damage against all race (excluding players) by 1%.\nCRI + 10\n------------------------\nSet Bonus:\nSky Emperor Stone (Garment)\nStar Emperor Stone (Upper)\nFor every 2 level of War Book Mastery, Cri + 1, C.Rate + 1.\n------------------------\nSet Bonus:\nSky Emperor Stone (Garment)\nStar Emperor Stone (Middle)\nIncrease Noon Blast damage by 10%.\n------------------------\nSet Bonus:\nSky Emperor Stone (Garment)\nStar Emperor Stone (Lower)\nIncrease Sunset Blast damage by 15%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5466":["EQUIP_ID[311461]===10"],"5467":["EQUIP_ID[311462]===15"],"cri":["10","EQUIP_ID[311460]LEARN_SKILL[War Book Mastery==2]---1"],"p_race_all":["LEARN_SKILL[Sky Mastery==2]---1"],"cRate":["EQUIP_ID[311460]LEARN_SKILL[War Book Mastery==2]---1"]}},
-  "312477": {"id":312477,"aegisName":"Elemental_Robe","name":"Elemental Master Stone (Garment)","unidName":"Elemental Master Stone (Garment)","resName":"Professor_Figure","description":"For every level of Increase AP, increases fire and poison property magical damage by 2%.\n------------------------\nSet Bonus:\nElemental Master Stone (Garment)\nSorcerer Stone (Upper)\nIncrease Conflagration and Terra Drive damage by 10%.\n------------------------\nSet Bonus:\nElemental Master Stone (Garment)\nSorcerer Stone (Middle)\nIncrease Venom Swamp damage by 10%.\n------------------------\nSet Bonus:\nElemental Master Stone (Garment)\nSorcerer Stone (Lower)\nFor every level of Spell Enchanting, increase Magic damage against all property enemies by 3%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5371":["EQUIP_ID[311012]===10"],"5372":["EQUIP_ID[311011]===10"],"5373":["EQUIP_ID[311011]===10"],"m_element_all":["EQUIP_ID[311013]LEARN_SKILL[Spell Enchanting==1]---3"]}},
-  "312478": {"id":312478,"aegisName":"Meister_Robe","name":"Meister Stone (Garment)","unidName":"Meister Stone (Garment)","resName":"White_Smith_Figure","description":"For every level of Manufacture Machine, increases long ranged physical damage by 2%.\n------------------------\nSet Bonus:\nMeister Stone (Garment)\nMechanic Stone (Upper)\nIncrease Triple Laser damage by 10%.\n------------------------\nSet Bonus:\nMeister Stone (Garment)\nMechanic Stone (Middle)\nFor every 2 level of Two-handed Axe Defense, increases physical damage against all size enemies by 3%.\n------------------------\nSet Bonus:\nMeister Stone (Garment)\nMechanic Stone (Lower)\nIncrease Spark Blaster damage by 15%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"6002":["EQUIP_ID[311432]===15"],"6003":["EQUIP_ID[311430]===10"],"p_size_all":["EQUIP_ID[311431]LEARN_SKILL[Two Hand Defending==2]---3"]}},
-  "312692": {"id":312692,"aegisName":"Abysschaser_Robe","name":"Abyss Chaser Stone (Garment)","unidName":"Abyss Chaser Stone (Garment)","resName":"Stalker_Figure","description":"Every 2 level of Frenzy Shot learned,\nIncrease physical damage against all race (excluding players) by 1%.\n------------------------\nSet Bonus:\nAbyss Chaser Stone (Garment)\nShadow Chaser Stone (Upper)\nEvery 2 level of Dagger Bow Mastery learned,\nIncrease physical damage against all size enemies by 3%.\n------------------------\nSet Bonus:\nAbyss Chaser Stone (Garment)\nShadow Chaser Stone (Middle)\nCRI + 10, Increase Frenzy Shot damage by 10%.\n------------------------\nSet Bonus:\nAbyss Chaser Stone (Garment)\nShadow Chaser Stone (Lower)\nIncrease Chain Reaction Shot damage by 15%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5316":["EQUIP_ID[311364]===15"],"5322":["EQUIP_ID[311363]===10"],"p_race_all":["LEARN_SKILL[Frenzy Shot==2]---1"],"p_size_all":["EQUIP_ID[311362]LEARN_SKILL[Dagger & Bow Mastery==2]---3"],"cri":["EQUIP_ID[311363]===10"]}},
-  "312693": {"id":312693,"aegisName":"TRTR_Robe","name":"Troubadour & Trouvere Stone (Garment)","unidName":"Troubadour & Trouvere Stone (Garment)","resName":"ClownGypsy_Figure","description":"Every level of Rhythm Shooting learned,\nIncrease long ranged physical damage by 2%.\n------------------------\nSet Bonus:\nTroubadour & Trouvere Stone (Garment)\nWanderer Maestro Stone Stone (Upper)\nEvery level of Stage Etiquette learned,\nIncrease physical damage against all property enemies by 3%.\n------------------------\nSet Bonus:\nTroubadour & Trouvere Stone (Garment)\nWanderer Maestro Stone Stone (Middle)\nIncrease Rose Blossom damage by 10%.\n------------------------\nSet Bonus:\nTroubadour & Trouvere Stone (Garment)\nWanderer Maestro Stone Stone (Lower)\nP.ATK + 3, Increase Rhythm Shooting damage by 15%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5353":["EQUIP_ID[311006]===10"],"5355":["EQUIP_ID[311007]===15"],"range":["LEARN_SKILL[Rhythm Shooting==1]---2"],"p_element_all":["EQUIP_ID[311005]LEARN_SKILL[Stage Manner==1]---3"],"pAtk":["EQUIP_ID[311007]===3"]}},
-  "312694": {"id":312694,"aegisName":"HNovice_Robe","name":"Hyper Novice Stone (Garment)","unidName":"Hyper Novice Stone (Garment)","resName":"피규어","description":"Increase Napalm Vulcan Strike damage by 10%.\nEvery level of Self Study Sorcery learned,\nIncrease Water, Wind and Ghost property magical damage by 1%.\n------------------------\nSet Bonus:\nHyper Novice Stone (Garment)\nSuper Novice Stone (Upper)\nEvery 2 level of Jack Frost Nova learned,\nIncrease magical damage against all property enemies by 3%.\n------------------------\nSet Bonus:\nHyper Novice Stone (Garment)\nSuper Novice Stone (Middle)\nS.MATK + 5, Increase Jupitel Thunderstorm damage by 10%.\n------------------------\nSet Bonus:\nHyper Novice Stone (Garment)\nSuper Novice Stone (Lower)\nIncrease Jack Frost Nova damage by 10%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5456":["EQUIP_ID[312404]===10"],"5457":["EQUIP_ID[312405]===10"],"5460":["10"],"m_my_element_water":["LEARN_SKILL[Self Study Sorcery==1]---1"],"m_my_element_wind":["LEARN_SKILL[Self Study Sorcery==1]---1"],"m_my_element_ghost":["LEARN_SKILL[Self Study Sorcery==1]---1"],"m_element_all":["EQUIP_ID[312403]LEARN_SKILL[Jack Frost Nova==2]---3"],"sMatk":["EQUIP_ID[312404]===5"]}},
+  "311426": {"id":311426,"aegisName":"Smatk_Robe","name":"Spell Magic Attack Stone (Garment)","unidName":"Spell Magic Attack Stone (Garment)","resName":"Barmund_Spl","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"sMatk":["3","EQUIP_ID[310664]===1","EQUIP_ID[310665]===1","EQUIP_ID[310666]===1","EQUIP_ID[1000921||311425]===5"],"spl":["EQUIP_ID[310664]===1","EQUIP_ID[310665]===1","EQUIP_ID[310666]===1","EQUIP_ID[1000921||311425]===3"]}},
+  "311469": {"id":311469,"aegisName":"M_PATK_Robe","name":"Melee Physical Attack Stone (Garment)","unidName":"Melee Physical Attack Stone (Garment)","resName":"Barmund_Pow","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"pAtk":["3","EQUIP_ID[310327||1000377]===1","EQUIP_ID[310328||1000378]===1","EQUIP_ID[310329||1000379]===1","EQUIP_ID[1001055||311471]===5"],"pow":["EQUIP_ID[310327||1000377]===1","EQUIP_ID[310328||1000378]===1","EQUIP_ID[310329||1000379]===1","EQUIP_ID[1001055||311471]===3"]}},
+  "311470": {"id":311470,"aegisName":"R_PATK_Robe","name":"Range Physical Attack Stone (Garment)","unidName":"Range Physical Attack Stone (Garment)","resName":"Barmund_Con","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"pAtk":["3","EQUIP_ID[310325||1000375]===1","EQUIP_ID[25061||310330]===1","EQUIP_ID[310326||1000376]===1","EQUIP_ID[311355]===5"],"con":["EQUIP_ID[310325||1000375]===1","EQUIP_ID[25061||310330]===1","EQUIP_ID[310326||1000376]===1","EQUIP_ID[311355]===3"]}},
+  "311921": {"id":311921,"aegisName":"DefenseTop","name":"Defense Stone (Upper)","unidName":"Defense Stone (Upper)","resName":"마력석_검정","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":71,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["20","EQUIP_ID[311922||1001169&&311923||1001170]===100"],"mdef":["4","EQUIP_ID[311922||1001169&&311923||1001170]===25"],"res":["EQUIP_ID[311922||1001169&&311923||1001170]===5"],"mres":["EQUIP_ID[311922||1001169&&311923||1001170]===5"]}},
+  "311922": {"id":311922,"aegisName":"DefenseMiddle","name":"Defense Stone (Middle)","unidName":"Defense Stone (Middle)","resName":"마력석_검정","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":72,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["20"],"mdef":["4"]}},
+  "311923": {"id":311923,"aegisName":"DefenseBottom","name":"Defense Stone (Lower)","unidName":"Defense Stone (Lower)","resName":"마력석_검정","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":73,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["20"],"mdef":["4"]}},
+  "311924": {"id":311924,"aegisName":"ResistDef_Robe","name":"Resist Defense Stone (Garment)","unidName":"Resist Defense Stone (Garment)","resName":"투명한보석","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"def":["100"],"mdef":["25"],"res":["20","EQUIP_ID[311921||1001168&&311922||1001169&&311923||1001170]===10","EQUIP_ID[1001172||311925]===15"],"mres":["20","EQUIP_ID[311921||1001168&&311922||1001169&&311923||1001170]===10","EQUIP_ID[1001172||311925]===15"]}},
+  "312398": {"id":312398,"aegisName":"Shinkiro_Robe","name":"Shinkiro Stone (Garment)","unidName":"Shinkiro Stone (Garment)","resName":"Kagerou_Figure","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5484":["EQUIP_ID[311913||1001160]===10"],"5485":["5","EQUIP_ID[311912||1001159]===10"],"range":["EQUIP_ID[311914||1001161]LEARN_SKILL[Infiltration==1]---3"]}},
+  "312399": {"id":312399,"aegisName":"Shiranui_Robe","name":"Shiranui Stone (Garment)","unidName":"Shiranui Stone (Garment)","resName":"Oboro_Figure","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5488":["EQUIP_ID[311915||1001162]===10"],"5490":["EQUIP_ID[311917||1001164]===10"],"5492":["10"],"vct":["EQUIP_ID[311916||1001163]LEARN_SKILL[Melting==1]---3"]}},
+  "312400": {"id":312400,"aegisName":"ShaCross_Robe","name":"Shadow Cross Stone (Garment)","unidName":"Shadow Cross Stone (Garment)","resName":"Assasin_Cross_Figure","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5289":["EQUIP_ID[311434||1000975]===10"],"5292":["EQUIP_ID[311433||1000974]===10"],"criDmg":["LEARN_SKILL[Shadow Sense==2]---4"],"cRate":["EQUIP_ID[311435||1000976]LEARN_SKILL[Shadow Sense==1]---1"]}},
+  "312401": {"id":312401,"aegisName":"Cardinal_Robe","name":"Cardinal Stone (Garment)","unidName":"Cardinal Stone (Garment)","resName":"High_Priest_Figure","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5273":["EQUIP_ID[311358||1000859]===10"],"5284":["5","EQUIP_ID[311356||1000857]===10"],"m_my_element_holy":["EQUIP_ID[311357||1000858]LEARN_SKILL[Fidus Animus==2]---3"]}},
+  "312402": {"id":312402,"aegisName":"SuNovice_Robe","name":"Super Novice Stone (Garment)","unidName":"Super Novice Stone (Garment)","resName":"피규어","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2005":["EQUIP_ID[25492||29479]LEARN_SKILL[Break Through==1]---3"],"2038":["EQUIP_ID[25454||29469]LEARN_SKILL[Transcendence==1]---3"],"enable_skill__2005":["LEARN_SKILL[Break Through==5]===5"],"enable_skill__2038":["LEARN_SKILL[Transcendence==5]===10"],"def":["EQUIP_ID[25710||29517]===120"],"mdef":["EQUIP_ID[25710||29517]===15"]}},
+  "312403": {"id":312403,"aegisName":"SuNovice_Top","name":"Super Novice Stone (Upper)","unidName":"Super Novice Stone (Upper)","resName":"피규어","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":71,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2038":["EQUIP_ID[312402||1001326]LEARN_SKILL[Transcendence==1]---3"],"vct":["LEARN_SKILL[Transcendence==1]---3"]}},
+  "312404": {"id":312404,"aegisName":"SuNovice_Middle","name":"Super Novice Stone (Middle)","unidName":"Super Novice Stone (Middle)","resName":"피규어","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":72,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2005":["EQUIP_ID[312402||1001326]LEARN_SKILL[Break Through==1]---3"],"melee":["LEARN_SKILL[Break Through==1]---2"]}},
+  "312405": {"id":312405,"aegisName":"SuNovice_Bottom","name":"Super Novice Stone (Lower)","unidName":"Super Novice Stone (Lower)","resName":"피규어","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":73,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"hpPercent":["EQUIP_ID[312402||1001326]===15"]}},
+  "312476": {"id":312476,"aegisName":"Skyemperor_Robe","name":"Sky Emperor Stone (Garment)","unidName":"Sky Emperor Stone (Garment)","resName":"푸른야광석","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5466":["EQUIP_ID[311461||1001045]===10"],"5467":["EQUIP_ID[311462||1001046]===15"],"cri":["10","EQUIP_ID[311460||1001044]LEARN_SKILL[War Book Mastery==2]---1"],"p_race_all":["LEARN_SKILL[Sky Mastery==2]---1"],"cRate":["EQUIP_ID[311460||1001044]LEARN_SKILL[War Book Mastery==2]---1"]}},
+  "312477": {"id":312477,"aegisName":"Elemental_Robe","name":"Elemental Master Stone (Garment)","unidName":"Elemental Master Stone (Garment)","resName":"Professor_Figure","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5371":["EQUIP_ID[311012]===10"],"5372":["EQUIP_ID[311011]===10"],"5373":["EQUIP_ID[311011]===10"],"m_element_all":["EQUIP_ID[311013]LEARN_SKILL[Spell Enchanting==1]---3"]}},
+  "312478": {"id":312478,"aegisName":"Meister_Robe","name":"Meister Stone (Garment)","unidName":"Meister Stone (Garment)","resName":"White_Smith_Figure","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"6002":["EQUIP_ID[311432||1000973]===15"],"6003":["EQUIP_ID[311430||1000971]===10"],"p_size_all":["EQUIP_ID[311431||1000972]LEARN_SKILL[Two Hand Defending==2]---3"]}},
+  "312692": {"id":312692,"aegisName":"Abysschaser_Robe","name":"Abyss Chaser Stone (Garment)","unidName":"Abyss Chaser Stone (Garment)","resName":"Stalker_Figure","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5316":["EQUIP_ID[311364||1000865]===15"],"5322":["EQUIP_ID[311363||1000864]===10"],"p_race_all":["LEARN_SKILL[Frenzy Shot==2]---1"],"p_size_all":["EQUIP_ID[311362||1000863]LEARN_SKILL[Dagger & Bow Mastery==2]---3"],"cri":["EQUIP_ID[311363||1000864]===10"]}},
+  "312693": {"id":312693,"aegisName":"TRTR_Robe","name":"Troubadour & Trouvere Stone (Garment)","unidName":"Troubadour & Trouvere Stone (Garment)","resName":"ClownGypsy_Figure","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5353":["EQUIP_ID[311006]===10"],"5355":["EQUIP_ID[311007]===15"],"range":["LEARN_SKILL[Rhythm Shooting==1]---2"],"p_element_all":["EQUIP_ID[311005]LEARN_SKILL[Stage Manner==1]---3"],"pAtk":["EQUIP_ID[311007]===3"]}},
+  "312694": {"id":312694,"aegisName":"HNovice_Robe","name":"Hyper Novice Stone (Garment)","unidName":"Hyper Novice Stone (Garment)","resName":"피규어","description":"","slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5456":["EQUIP_ID[312404||1001328]===10"],"5457":["EQUIP_ID[312405||1001329]===10"],"5460":["10"],"m_my_element_water":["LEARN_SKILL[Self Study Sorcery==1]---1"],"m_my_element_wind":["LEARN_SKILL[Self Study Sorcery==1]---1"],"m_my_element_ghost":["LEARN_SKILL[Self Study Sorcery==1]---1"],"m_element_all":["EQUIP_ID[312403||1001327]LEARN_SKILL[Jack Frost Nova==2]---3"],"sMatk":["EQUIP_ID[312404||1001328]===5"]}},
   "313059": {"id":313059,"aegisName":"Dragonknight_Robe","name":"Dragon Knight Stone (Garment)","unidName":"Dragon Knight Stone (Garment)","resName":"Lord_Knight_Figure","description":"For every 2 levels of [Hack and Slash], increases physical damage to all race enemies(excluding players) by 1%.\n------------------------\nSet Bonus:\nDragon Knight Stone (Garment)\nRune Knight Stone (Upper)\nFor every 2 levels of [Two-handed Defense], increases physical damage to all size enemies by 3%.\n------------------------\nSet Bonus:\nDragon Knight Stone (Garment)\nRune Knight Stone (Middle)\nincreases [Hack and Slash] damage by 10%.\n------------------------\nSet Bonus:\nDragon Knight Stone (Garment)\nRune Knight Stone (Lower)\nC.RATE + 3, increases [Storm Slash] damage by 15%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5208":["EQUIP_ID[310882||1000611]===10"],"5213":["EQUIP_ID[310883||1000612]===15"],"p_race_all":["LEARN_SKILL[Hack and Slasher==2]---1"],"cRate":["EQUIP_ID[310883||1000612]===3"]}},
   "313060": {"id":313060,"aegisName":"Imperialguard_Robe","name":"Imperial Guard Stone (Garment)","unidName":"Imperial Guard Stone (Garment)","resName":"Paladin_Figure","description":"For every 2 levels of [Cross Rain], increases [Genesis Ray] damage by 10%.\n------------------------\nSet Bonus:\nImperial Guard Stone (Garment)\nRoyal Guard Stone (Upper)\nincreases [Cross Rain] damage by 15%.\n------------------------\nSet Bonus:\nImperial Guard Stone (Garment)\nRoyal Guard Stone (Middle)\nincreases magical damage to all size enemies by 10%.\n------------------------\nSet Bonus:\nImperial Guard Stone (Garment)\nRoyal Guard Stone (Lower)\nfor every 2 levels of [Shield Mastery], increases magical damage to all element enemies by 3%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2321":["LEARN_SKILL[Cross Rain==2]---10"],"5267":["EQUIP_ID[310887||1000616]===15"],"m_size_all":["EQUIP_ID[310888||1000617]===10"],"m_element_all":["EQUIP_ID[310889||1000618]LEARN_SKILL[Shield Mastery==2]---3"]}},
   "313324": {"id":313324,"aegisName":"Biolo_Robe","name":"Biolo Stone (Garment)","unidName":"Biolo Stone (Garment)","resName":"Creator_Figure","description":"For every levels of [Mayhemic Thorns], increase long-range physical damage by 2%.\n------------------------\nSet Bonus:\nBiolo Stone (Garment)\nGeneticist Stone (Upper)\nFor every levels of [Bionic Pharmacy], increase physical damage against all property enemies by 3%.\n------------------------\nSet Bonus:\nBiolo Stone (Garment)\nGeneticist Stone (Middle)\nIncrease [Mayhemic Thorns] damage by 10%.\n------------------------\nSet Bonus:\nBiolo Stone (Garment)\nGeneticist Stone (Lower)\nIncrease [Acidified Zone (Water/Wind/Earth/Fire)] damage by 10%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5340":["EQUIP_ID[311010]===10"],"5341":["EQUIP_ID[311010]===10"],"5342":["EQUIP_ID[311010]===10"],"5343":["EQUIP_ID[311010]===10"],"6006":["EQUIP_ID[311009]===10"],"range":["LEARN_SKILL[Mayhemic Thorns==1]---2"],"p_element_all":["EQUIP_ID[311008]LEARN_SKILL[Bionic Pharmacy==1]---3"]}},
-  "313325": {"id":313325,"aegisName":"Inquisitor_Robe","name":"Inquisitor Stone (Garment)","unidName":"Inquisitor Stone (Garment)","resName":"Champion_Figure","description":"For every levels of [Oleum Sanctum], increase long-range physical damage by 2%.\n------------------------\nSet Bonus:\nInquisitor Stone (Garment)\nSura Stone (Upper)\nFor every 2 levels of [Will of Faith], increase physical damage against all property enemies by 3%.\n------------------------\nSet Bonus:\nInquisitor Stone (Garment)\nSura Stone (Middle)\nIncrease [Explosion Blaster] damage by 10%.\n------------------------\nSet Bonus:\nInquisitor Stone (Garment)\nSura Stone (Lower)\nP.ATK + 3, increase [Oleum Sanctum] damage by 10%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5241":["EQUIP_ID[311429]===10"],"5244":["EQUIP_ID[311428]===10"],"range":["LEARN_SKILL[Oleum Sanctum==1]---2"],"p_element_all":["EQUIP_ID[311427]LEARN_SKILL[Will of Faith==2]---3"],"pAtk":["EQUIP_ID[311429]===3"]}},
-  "313326": {"id":313326,"aegisName":"SpiritHandler_Robe","name":"Spirit Handler Stone (Garment)","unidName":"Spirit Handler Stone (Garment)","resName":"블랙캣","description":"For every levels of [Howling of Chulho], ATK + 4, increase ranged physical damage by 1%.\n------------------------\nSet Bonus:\nSpirit Handler Stone (Garment)\nSummoner Stone (Upper)\nIncrease [Chulho Sonic Claw] damage by 15%.\n------------------------\nSet Bonus:\nSpirit Handler Stone (Garment)\nSummoner Stone (Middle)\nFor every 2 levels of [Mystical Creature Mastery], increase physical damage against all races enemies by 3% (excluding players).\n------------------------\nSet Bonus:\nSpirit Handler Stone (Garment)\nSummoner Stone (Lower)\nIncrease [Hogogong Strike] damage by 10%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5435":["EQUIP_ID[311918]===15"],"5437":["EQUIP_ID[311920]===10"],"atk":["LEARN_SKILL[Howling of Chulho==1]---4"],"range":["LEARN_SKILL[Howling of Chulho==1]---1"],"p_race_all":["EQUIP_ID[311919]LEARN_SKILL[Mystical Creature Mastery==2]---3"]}},
+  "313325": {"id":313325,"aegisName":"Inquisitor_Robe","name":"Inquisitor Stone (Garment)","unidName":"Inquisitor Stone (Garment)","resName":"Champion_Figure","description":"For every levels of [Oleum Sanctum], increase long-range physical damage by 2%.\n------------------------\nSet Bonus:\nInquisitor Stone (Garment)\nSura Stone (Upper)\nFor every 2 levels of [Will of Faith], increase physical damage against all property enemies by 3%.\n------------------------\nSet Bonus:\nInquisitor Stone (Garment)\nSura Stone (Middle)\nIncrease [Explosion Blaster] damage by 10%.\n------------------------\nSet Bonus:\nInquisitor Stone (Garment)\nSura Stone (Lower)\nP.ATK + 3, increase [Oleum Sanctum] damage by 10%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5241":["EQUIP_ID[311429||1000970]===10"],"5244":["EQUIP_ID[311428||1000969]===10"],"range":["LEARN_SKILL[Oleum Sanctum==1]---2"],"p_element_all":["EQUIP_ID[311427||1000968]LEARN_SKILL[Will of Faith==2]---3"],"pAtk":["EQUIP_ID[311429||1000970]===3"]}},
+  "313326": {"id":313326,"aegisName":"SpiritHandler_Robe","name":"Spirit Handler Stone (Garment)","unidName":"Spirit Handler Stone (Garment)","resName":"블랙캣","description":"For every levels of [Howling of Chulho], ATK + 4, increase ranged physical damage by 1%.\n------------------------\nSet Bonus:\nSpirit Handler Stone (Garment)\nSummoner Stone (Upper)\nIncrease [Chulho Sonic Claw] damage by 15%.\n------------------------\nSet Bonus:\nSpirit Handler Stone (Garment)\nSummoner Stone (Middle)\nFor every 2 levels of [Mystical Creature Mastery], increase physical damage against all races enemies by 3% (excluding players).\n------------------------\nSet Bonus:\nSpirit Handler Stone (Garment)\nSummoner Stone (Lower)\nIncrease [Hogogong Strike] damage by 10%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5435":["EQUIP_ID[311918||1001165]===15"],"5437":["EQUIP_ID[311920||1001167]===10"],"atk":["LEARN_SKILL[Howling of Chulho==1]---4"],"range":["LEARN_SKILL[Howling of Chulho==1]---1"],"p_race_all":["EQUIP_ID[311919||1001166]LEARN_SKILL[Mystical Creature Mastery==2]---3"]}},
   "313359": {"id":313359,"aegisName":null,"name":"Arch Mage Stone (Garment)","unidName":"Arch Mage Stone (Garment)","resName":"High_Wizard_Figure","description":"For every levels of [Soul Vulcan Strike], increase magic damage against all property by 1%.\n------------------------\nSet Bonus:\nArch Mage Stone (Garment)\nWarlock Stone (Upper)\nIncrease [Soul Vulcan Strike] damage by 10%.\n------------------------\nSet Bonus:\nArch Mage Stone (Garment)\nWarlock Stone (Middle)\nIncrease [Mystery Illusion] damage by 10%.\n------------------------\nSet Bonus:\nArch Mage Stone (Garment)\nWarlock Stone (Lower)\nFor every 2 levels of [Two-handed Staff Mastery], increase magic damage against all size enemies by 3%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5217":["EQUIP_ID[310885||1000614]===10"],"5220":["EQUIP_ID[310884||1000613]===10"],"m_element_all":["LEARN_SKILL[Soul Vulcan Strike==1]---1"],"m_size_all":["EQUIP_ID[310886||1000615]LEARN_SKILL[Two hand Staff Mastery==2]---3"]}},
-  "313360": {"id":313360,"aegisName":null,"name":"Windhawk Stone (Garment)","unidName":"Windhawk Stone (Garment)","resName":"Sniper_Figure","description":"For every levels of [Gale Storm], increase ranged physical damage by 1%.\n------------------------\nSet Bonus:\nWindhawk Stone (Garment)\nRanger Stone (Upper)\nFor every levels of [Wind Sign], increase physical damage against all property enemies by 3%.\n------------------------\nSet Bonus:\nWindhawk Stone (Garment)\nRanger Stone (Middle)\nIncrease [Crescive Bolt] damage by 15%.\n------------------------\nSet Bonus:\nWindhawk Stone (Garment)\nRanger Stone (Lower)\nPATK + 3, increase [Gale Storm] damage by 10%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5330":["EQUIP_ID[311361]===10"],"5334":["EQUIP_ID[311360]===15"],"range":["LEARN_SKILL[Gale Storm==1]---1"],"pAtk":["EQUIP_ID[311361]===3"]}},
-  "313361": {"id":313361,"aegisName":null,"name":"Soul Ascetic Stone (Garment)","unidName":"Soul Ascetic Stone (Garment)","resName":"도깨비불","description":"For every levels of [Circle of Directions and Elementals], increase damage against all size by 2%.\n------------------------\nSet Bonus:\nSoul Ascetic Stone (Garment)\nSoul Reaper Stone (Upper)\nIncrease damage [Talisman of Blue Dragon] and [Talisman of Red Phoenix] by 15%.\n------------------------\nSet Bonus:\nSoul Ascetic Stone (Garment)\nSoul Reaper Stone (Middle)\nIncrease damage [Talisman of White Tiger] and [Talisman of Black Tortoise] by 10%.\n------------------------\nSet Bonus:\nSoul Ascetic Stone (Garment)\nSoul Reaper Stone (Lower)\nIncrease damage [Talisman of Four Bearing God] by 10%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5426":["EQUIP_ID[311466]===15"],"5427":["EQUIP_ID[311467]===10"],"5428":["EQUIP_ID[311466]===15"],"5429":["EQUIP_ID[311467]===10"],"5430":["EQUIP_ID[311468]===10"]}},
+  "313360": {"id":313360,"aegisName":null,"name":"Windhawk Stone (Garment)","unidName":"Windhawk Stone (Garment)","resName":"Sniper_Figure","description":"For every levels of [Gale Storm], increase ranged physical damage by 1%.\n------------------------\nSet Bonus:\nWindhawk Stone (Garment)\nRanger Stone (Upper)\nFor every levels of [Wind Sign], increase physical damage against all property enemies by 3%.\n------------------------\nSet Bonus:\nWindhawk Stone (Garment)\nRanger Stone (Middle)\nIncrease [Crescive Bolt] damage by 15%.\n------------------------\nSet Bonus:\nWindhawk Stone (Garment)\nRanger Stone (Lower)\nPATK + 3, increase [Gale Storm] damage by 10%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5330":["EQUIP_ID[311361||1000862]===10"],"5334":["EQUIP_ID[311360||1000861]===15"],"range":["LEARN_SKILL[Gale Storm==1]---1"],"pAtk":["EQUIP_ID[311361||1000862]===3"]}},
+  "313361": {"id":313361,"aegisName":null,"name":"Soul Ascetic Stone (Garment)","unidName":"Soul Ascetic Stone (Garment)","resName":"도깨비불","description":"For every levels of [Circle of Directions and Elementals], increase damage against all size by 2%.\n------------------------\nSet Bonus:\nSoul Ascetic Stone (Garment)\nSoul Reaper Stone (Upper)\nIncrease damage [Talisman of Blue Dragon] and [Talisman of Red Phoenix] by 15%.\n------------------------\nSet Bonus:\nSoul Ascetic Stone (Garment)\nSoul Reaper Stone (Middle)\nIncrease damage [Talisman of White Tiger] and [Talisman of Black Tortoise] by 10%.\n------------------------\nSet Bonus:\nSoul Ascetic Stone (Garment)\nSoul Reaper Stone (Lower)\nIncrease damage [Talisman of Four Bearing God] by 10%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5426":["EQUIP_ID[311466||1001050]===15"],"5427":["EQUIP_ID[311467||1001051]===10"],"5428":["EQUIP_ID[311466||1001050]===15"],"5429":["EQUIP_ID[311467||1001051]===10"],"5430":["EQUIP_ID[311468||1001052]===10"]}},
   "313726": {"id":313726,"aegisName":null,"name":"Rune Knight Stone II (Upper)","unidName":"Rune Knight Stone II (Upper)","resName":"Lord_Knight_Figure","description":"Every level of Dragon Training user learned, Increases melee / long ranged physical damage by 2%.\nWhen equipped with Rune Knight Stone (Garment), reduces variable casting time by 10%.\nWhen equipped with Rune Knight Stone II (Garment), increases Ignition Break damage by 15%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":71,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2006":["EQUIP_ID[310257||1000296]15"],"2008":["EQUIP_ID[25448||29463]15"],"5004":["EQUIP_ID[25448||29463]15"],"melee":["LEARN_SKILL[Dragon Training==1]---2"],"range":["LEARN_SKILL[Dragon Training==1]---2"]}},
   "313727": {"id":313727,"aegisName":null,"name":"Rune Knight Stone II (Middle)","unidName":"Rune Knight Stone II (Middle)","resName":"Lord_Knight_Figure","description":"Every level of Rune Mastery user learned, increases Wind Cutter damage by 5%.\nWhen equipped with Rune Knight Stone (Garment), reduces global cooldown by 5%.\nWhen equipped with Rune Knight Stone II (Garment), increases Hundread Spears damage by 15%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":72,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2004":["EQUIP_ID[310257||1000296]15"],"2005":["LEARN_SKILL[Rune Mastery==1]---5"],"acd":["EQUIP_ID[25448||29463]5"]}},
   "313728": {"id":313728,"aegisName":null,"name":"Rune Knight Stone II (Lower)","unidName":"Rune Knight Stone II (Lower)","resName":"Lord_Knight_Figure","description":"Every level of Enchant Blade user learned, increases critical damage by 1%.\nWhen equipped with Rune Knight Stone (Garment), MaxHP/MaxSP + 10%.\nWhen equipped with Rune Knight Stone II (Garment), increases Sonic Wave damage by 15%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":73,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2002":["EQUIP_ID[310257||1000296]15"],"criDmg":["LEARN_SKILL[Enchant Blade==1]---1"],"hpPercent":["EQUIP_ID[25448||29463]10"],"spPercent":["EQUIP_ID[25448||29463]10"]}},
@@ -375072,9 +375028,9 @@
   "314183": {"id":314183,"aegisName":null,"name":"Archbishop Stone II (Lower)","unidName":"Archbishop Stone II (Lower)","resName":"High_Priest_Figure","description":"Every level of Oratio user learned, reduces fixed casting time by 0.1 seconds.\nWhen equipped with Archbishop Stone (Garment), increases Adoramus damage by 15%.\nWhen equipped with Archbishop Stone II (Garment), increases Judex damage by 15%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":73,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2038":["EQUIP_ID[310011||1000019]15"],"2040":["EQUIP_ID[25709||29516]15"],"fct":["LEARN_SKILL[Oratio==2]---0.1"]}},
   "314184": {"id":314184,"aegisName":null,"name":"Cardinal Stone II (Garment)","unidName":"Cardinal Stone II (Garment)","resName":"High_Priest_Figure","description":"CRI + 10, increases Divinus Flos damage by 15%.\nWhen equipped with Archbishop Stone II (Upper), every 2 levels of Mace & Book Mastery user learned, increases physical damage against all race monsters (except players) by 3%, every 2 levels of Fidus Animus user learned, increases magical damage against all race monsters (except players) by 3%.\nWhen equipped with Archbishop Stone II (Middle), C.RATE + 5, increases Petitio damage by 15%.\nWhen equipped with Archbishop Stone II (Lower), increases Pneumaticus Procella and Effligo damage by 10%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5277":["EQUIP_ID[314183]===10"],"5279":["EQUIP_ID[314183]===10"],"5283":["EQUIP_ID[314182]===15"],"6518":["15"],"cri":["10"],"p_race_all":["EQUIP_ID[314181]LEARN_SKILL[Mace & Book Mastery==2]---3"],"m_race_all":["EQUIP_ID[314181]LEARN_SKILL[Fidus Animus==2]---3"],"cRate":["EQUIP_ID[314182]===5"]}},
   "314188": {"id":314188,"aegisName":null,"name":"Abyss Chaser Stone II (Garment)","unidName":"Abyss Chaser Stone II (Garment)","resName":"Stalker_Figure","description":"Increases Abyss Dagger damage by 10%.\nWhen equipped with Shadow Chaser Stone II (Upper), every 2 levels of Dagger & Bow Mastery user learned, increases physical damage against all size enemies by 3%.\nWhen equipped with Shadow Chaser Stone II (Middle), increases Deft Stab damage by 15%.\nWhen equipped with Shadow Chaser Stone II (Lower), increases Chasing Break damage by 15%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5314":["10"],"5320":["EQUIP_ID[314186]===15"],"6513":["EQUIP_ID[314187]===15"],"p_size_all":["EQUIP_ID[314185]LEARN_SKILL[Dagger & Bow Mastery==2]---3"]}},
-  "314189": {"id":314189,"aegisName":null,"name":"Super Novice Stone II (Upper)","unidName":"Super Novice Stone II (Upper)","resName":"피규어","description":"Every level of Breakthrough user learned, increases physical and magical damage against all size enemies by 3%.\nWhen equipped with Super Novice Stone (Garment), every level of Faith user learned, increases Wind Cutter damage by 4%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":71,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2005":["EQUIP_ID[312402]LEARN_SKILL[Faith==1]---4"],"p_size_all":["LEARN_SKILL[Break Through==1]---3"]}},
-  "314190": {"id":314190,"aegisName":null,"name":"Super Novice Stone II (Middle)","unidName":"Super Novice Stone II (Middle)","resName":"피규어","description":"Every level of Transcendence user learned, increases water, wind, earth, fire, neutral, holy and ghost property magical damage by 2%.\nWhen equipped with Super Novice Stone (Garment), DEF + 120, MDEF + 15.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":72,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"m_my_element_water":["LEARN_SKILL[Transcendence==1]---2"],"m_my_element_wind":["LEARN_SKILL[Transcendence==1]---2"],"m_my_element_earth":["LEARN_SKILL[Transcendence==1]---2"],"m_my_element_fire":["LEARN_SKILL[Transcendence==1]---2"],"m_my_element_neutral":["LEARN_SKILL[Transcendence==1]---2"],"m_my_element_holy":["LEARN_SKILL[Transcendence==1]---2"],"m_my_element_ghost":["LEARN_SKILL[Transcendence==1]---2"],"def":["EQUIP_ID[312402]===120"],"mdef":["EQUIP_ID[312402]===15"]}},
-  "314191": {"id":314191,"aegisName":null,"name":"Super Novice Stone II (Lower)","unidName":"Super Novice Stone II (Lower)","resName":"피규어","description":"When user learned Help, Angel! level 1, increases melee / long ranged physical damage by 15%.\nWhen equipped with Super Novice Stone (Garment), every level of Jupitel Thunder user learned, increases Judex damage by 4%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":73,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2038":["EQUIP_ID[312402]LEARN_SKILL[Jupitel Thunder==1]---4"]}},
+  "314189": {"id":314189,"aegisName":null,"name":"Super Novice Stone II (Upper)","unidName":"Super Novice Stone II (Upper)","resName":"피규어","description":"Every level of Breakthrough user learned, increases physical and magical damage against all size enemies by 3%.\nWhen equipped with Super Novice Stone (Garment), every level of Faith user learned, increases Wind Cutter damage by 4%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":71,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2005":["EQUIP_ID[312402||1001326]LEARN_SKILL[Faith==1]---4"],"p_size_all":["LEARN_SKILL[Break Through==1]---3"]}},
+  "314190": {"id":314190,"aegisName":null,"name":"Super Novice Stone II (Middle)","unidName":"Super Novice Stone II (Middle)","resName":"피규어","description":"Every level of Transcendence user learned, increases water, wind, earth, fire, neutral, holy and ghost property magical damage by 2%.\nWhen equipped with Super Novice Stone (Garment), DEF + 120, MDEF + 15.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":72,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"m_my_element_water":["LEARN_SKILL[Transcendence==1]---2"],"m_my_element_wind":["LEARN_SKILL[Transcendence==1]---2"],"m_my_element_earth":["LEARN_SKILL[Transcendence==1]---2"],"m_my_element_fire":["LEARN_SKILL[Transcendence==1]---2"],"m_my_element_neutral":["LEARN_SKILL[Transcendence==1]---2"],"m_my_element_holy":["LEARN_SKILL[Transcendence==1]---2"],"m_my_element_ghost":["LEARN_SKILL[Transcendence==1]---2"],"def":["EQUIP_ID[312402||1001326]===120"],"mdef":["EQUIP_ID[312402||1001326]===15"]}},
+  "314191": {"id":314191,"aegisName":null,"name":"Super Novice Stone II (Lower)","unidName":"Super Novice Stone II (Lower)","resName":"피규어","description":"When user learned Help, Angel! level 1, increases melee / long ranged physical damage by 15%.\nWhen equipped with Super Novice Stone (Garment), every level of Jupitel Thunder user learned, increases Judex damage by 4%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":73,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2038":["EQUIP_ID[312402||1001326]LEARN_SKILL[Jupitel Thunder==1]---4"]}},
   "314192": {"id":314192,"aegisName":null,"name":"Hyper Novice Stone II (Garment)","unidName":"Hyper Novice Stone II (Garment)","resName":"피규어","description":"Increases Double Bowling Bash damage by 15%.\nWhen equipped with Super Novice Stone II (Upper), every 2 levels of Self Study Tactics user learned, increases physical damage against all property enemies by 3%.\nWhen equipped with Super Novice Stone II (Middle), C.RATE + 5, increases Mega Sonic Blow damage by 10%.\nWhen equipped with Super Novice Stone II (Lower), when user learned Breaking Limit level 1, increases melee physical damage by 15%","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5451":["15"],"5452":["EQUIP_ID[314190]===10"],"p_element_all":["EQUIP_ID[314189]LEARN_SKILL[Self Study Tactics==2]---3"],"cRate":["EQUIP_ID[314190]===5"],"melee":["EQUIP_ID[314191]LEARN_SKILL[Angel of Power==1]---15"]}},
   "314667": {"id":314667,"aegisName":null,"name":"Arch Mage Stone II (Garment)","unidName":"Arch Mage Stone II (Garment)","resName":"High_Wizard_Figure","description":"Increases Rain of Crystal and Stratum Tremor damage by 10%.\nWhen equipped with Warlock Stone II (Upper), increases Crimson Arrow damage by 15% and All Bloom damage by 10%.\nWhen equipped with Warlock Stone II (Middle), increases Rock Down damage by 15% and Violent Quake damage by 10%.\nWhen equipped with Warlock Stone II (Lower), every 2 levels of Two Hand Staff Mastery user learned, increases magical damage against all size enemies by 3%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"5216":["10"],"5218":["EQUIP_ID[314671]===10"],"5221":["10"],"5222":["EQUIP_ID[314670]===10"],"5233":["EQUIP_ID[314671]===15"],"5235":["EQUIP_ID[314670]===15"],"m_size_all":["EQUIP_ID[314672]LEARN_SKILL[Two hand Staff Mastery==2]---3"]}},
   "314668": {"id":314668,"aegisName":null,"name":"Biolo Stone II (Garment)","unidName":"Biolo Stone II (Garment)","resName":"Creator_Figure","description":"Increases Explosive Powder damage by 10%.\nWhen equipped with Genetic Stone II (Upper), every level of Bionic Pharmacy user learned, increases physical damage against all property enemies by 3%.\nWhen equipped with Genetic Stone II (Middle), increases Dust Explosion damage by 15%.\nWhen equipped with Genetic Stone II (Lower), increases Mystery Powder damage by 15%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":74,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"6005":["10"],"6509":["EQUIP_ID[314675]===15"],"6510":["EQUIP_ID[314674]===15"],"p_element_all":["EQUIP_ID[314673]LEARN_SKILL[Bionic Pharmacy==1]---3"]}},
@@ -375107,7 +375063,7 @@
   "315066": {"id":315066,"aegisName":null,"name":"Rebellion Stone II (Upper)","unidName":"Rebellion Stone II (Upper)","resName":"정화탄","description":"Every level of Platinum Altar user learned, increases Fire Dance and Hammer of God damage by 7%.\nWhen equipped with Rebellion Stone (Garment), increases Hammer of God damage by 25%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":71,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2561":["LEARN_SKILL[Platinum Altar==1]---7"],"2571":["LEARN_SKILL[Platinum Altar==1]---7","EQUIP_ID[25858||29667]25"]}},
   "315067": {"id":315067,"aegisName":null,"name":"Rebellion Stone II (Middle)","unidName":"Rebellion Stone II (Middle)","resName":"정화탄","description":"Every level of Shatter Storm user learned, increases Vanishing Buster damage by 5%.\nWhen equipped with Rebellion Stone (Garment), increases Vanishing Buster damage by 20%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":72,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2554":["LEARN_SKILL[Shatter Storm==1]---5","EQUIP_ID[25858||29667]20"]}},
   "315068": {"id":315068,"aegisName":null,"name":"Rebellion Stone II (Lower)","unidName":"Rebellion Stone II (Lower)","resName":"정화탄","description":"Every level of Heat Barrel user learned, increases Dragon Tail damage by 7%.\nWhen equipped with Rebellion Stone (Garment), increases Round Trip damage by 20%.","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":73,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{"2565":["EQUIP_ID[25858||29667]20"],"2566":["LEARN_SKILL[Hot Barrel==1]---7"]}},
-  "1002623": {"id":1002623,"aegisName":"BlueStar_Foot_Robe","name":"Blue Star Footprints (Garment)","unidName":"Blue Star Footprints (Garment)","resName":null,"description":"Gives an effect of Blue Star Footprint.\n------------------------\nYou can socket it on Costume Garment through [Lace La Zard].\n------------------------\nWeight : 10","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":75,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
+  "1002623": {"id":1002623,"aegisName":"BlueStar_Foot_Robe","name":"Blue Star Footprints (Garment)","unidName":"Blue Star Footprints (Garment)","resName":null,"description":"","slots":0,"itemTypeId":6,"itemSubTypeId":75,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
   "1002624": {"id":1002624,"aegisName":"Divine_B_Foot_Robe","name":"Sacred Blue Light Footprints (Garment)","unidName":"Sacred Blue Light Footprints (Garment)","resName":null,"description":"Gives an effect of Divine Blue Light Footprint.\n------------------------\nYou can socket it on Costume Garment through [Lace La Zard].\n------------------------\nWeight : 10","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":75,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
   "1002822": {"id":1002822,"aegisName":"FP_Flower_Garden","name":"[Footprints] Flower Garden","unidName":"[Footprints] Flower Garden","resName":"발자국이펙트","description":"Gives an effect of Flower Garden Footprint\n------------------------\nYou can socket it on Costume Garment through [Lace La Zard].\n------------------------\nWeight : 10","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":75,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
   "1002830": {"id":1002830,"aegisName":"FP_Fox_Footprints","name":"Fox Footprints (Garment)","unidName":"Fox Footprints (Garment)","resName":"발자국이펙트","description":"Gives an effect of Fox Footprints\n------------------------\nYou can socket it on Costume Garment through [Lace La Zard].\n------------------------\nWeight : 10","preRelease":true,"slots":0,"itemTypeId":6,"itemSubTypeId":75,"itemLevel":null,"attack":null,"defense":null,"weight":null,"requiredLevel":null,"location":null,"compositionPos":65535,"script":{}},
@@ -375347,17 +375303,13 @@
     "description": "",
     "slots": 0,
     "itemTypeId": 9,
-    "itemSubTypeId": 520,
+    "itemSubTypeId": 519,
     "itemLevel": null,
     "attack": null,
     "defense": 0,
     "weight": 0,
     "requiredLevel": 1,
-    "location": "Middle",
-    "locations": [
-      "Upper",
-      "Middle"
-    ],
+    "location": "Upper",
     "compositionPos": null,
     "usableClass": [
       "all"
@@ -375446,6 +375398,2188 @@
     "weight": 0,
     "requiredLevel": 1,
     "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "311425": {
+    "id": 311425,
+    "aegisName": "Barmund_Spl",
+    "name": "Pedra de Feitiço (Dual)",
+    "unidName": "Pedra de Feitiço (Dual)",
+    "resName": "영혼의조각",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 76,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "spl": [
+        "5"
+      ]
+    }
+  },
+  "311471": {
+    "id": 311471,
+    "aegisName": "Barmund_Pow",
+    "name": "Pedra de Poder (Dual)",
+    "unidName": "Pedra de Poder (Dual)",
+    "resName": "영혼의조각",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 76,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "pow": [
+        "5"
+      ]
+    }
+  },
+  "311925": {
+    "id": 311925,
+    "aegisName": "초록색보석",
+    "name": "Pedra de Stamina Wisdom (Dual)",
+    "unidName": "Pedra de Stamina Wisdom (Dual)",
+    "resName": "영혼의조각",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 76,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 10,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "wis": [
+        "5"
+      ],
+      "sta": [
+        "5"
+      ]
+    }
+  },
+  "314846": {
+    "id": 314846,
+    "aegisName": "발자국이펙트",
+    "name": "Pegada: Estrela Azul",
+    "unidName": "Pegada: Estrela Azul",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 75,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
+  },
+  "1000857": {
+    "id": 1000857,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Arcebispo (Topo)",
+    "unidName": "Pedra de Arcebispo (Topo)",
+    "resName": "High_Priest_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "acd": [
+        "LEARN_SKILL[Clementia==1]---3"
+      ],
+      "m_my_element_all": [
+        "EQUIP_ID[25709||29516]===15"
+      ],
+      "m_size_all": [
+        "EQUIP_ID[310011||1000019]===15"
+      ]
+    }
+  },
+  "1000858": {
+    "id": 1000858,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Arcebispo (Meio)",
+    "unidName": "Pedra de Arcebispo (Meio)",
+    "resName": "High_Priest_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2038": [
+        "EQUIP_ID[310011||1000019]===15"
+      ],
+      "2040": [
+        "EQUIP_ID[25709||29516]===15"
+      ],
+      "vct": [
+        "LEARN_SKILL[Laudaagnus==1]---3"
+      ]
+    }
+  },
+  "1000859": {
+    "id": 1000859,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Arcebispo (Baixo)",
+    "unidName": "Pedra de Arcebispo (Baixo)",
+    "resName": "High_Priest_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "fct": [
+        "LEARN_SKILL[Expiatio==1]---0.1"
+      ],
+      "m_race_all": [
+        "EQUIP_ID[25709||29516]===15"
+      ],
+      "m_my_element_all": [
+        "EQUIP_ID[310011||1000019]===15"
+      ]
+    }
+  },
+  "1000860": {
+    "id": 1000860,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Sentinela (Topo)",
+    "unidName": "Pedra de Sentinela (Topo)",
+    "resName": "Sniper_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "382": [
+        "EQUIP_ID[310003||1000011]===15"
+      ],
+      "acd": [
+        "LEARN_SKILL[Main Ranger==2]---1"
+      ],
+      "cd__5002": [
+        "EQUIP_ID[25416||29431]===45"
+      ]
+    }
+  },
+  "1000861": {
+    "id": 1000861,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Sentinela (Meio)",
+    "unidName": "Pedra de Sentinela (Meio)",
+    "resName": "Sniper_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2233": [
+        "EQUIP_ID[25416||29431]===15"
+      ],
+      "2236": [
+        "EQUIP_ID[310003||1000011]===15"
+      ],
+      "vct": [
+        "LEARN_SKILL[Trap Research==1]---1"
+      ]
+    }
+  },
+  "1000862": {
+    "id": 1000862,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Sentinela (Baixo)",
+    "unidName": "Pedra de Sentinela (Baixo)",
+    "resName": "Sniper_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "range": [
+        "LEARN_SKILL[Fear Breeze==1]---2"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[310003||1000011]===15"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25416||29431]===1"
+      ]
+    }
+  },
+  "1000863": {
+    "id": 1000863,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Renegado (Topo)",
+    "unidName": "Pedra de Renegado (Topo)",
+    "resName": "Stalker_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2304": [
+        "EQUIP_ID[25493||29480]===15"
+      ],
+      "aspdPercent": [
+        "LEARN_SKILL[Urgent Escape==1]---2"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25805||29618]===1"
+      ]
+    }
+  },
+  "1000864": {
+    "id": 1000864,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Renegado (Meio)",
+    "unidName": "Pedra de Renegado (Meio)",
+    "resName": "Stalker_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2284": [
+        "EQUIP_ID[25805||29618]===15"
+      ],
+      "2288": [
+        "EQUIP_ID[25493||29480]===15"
+      ],
+      "acd": [
+        "LEARN_SKILL[Shadow Formation==1]---1"
+      ]
+    }
+  },
+  "1000865": {
+    "id": 1000865,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Renegado (Baixo)",
+    "unidName": "Pedra de Renegado (Baixo)",
+    "resName": "Stalker_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "melee": [
+        "LEARN_SKILL[Reproduce==1]---1"
+      ],
+      "range": [
+        "LEARN_SKILL[Reproduce==1]---1"
+      ],
+      "p_element_all": [
+        "EQUIP_ID[25493||29480]===15"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[25805||29618]===15"
+      ]
+    }
+  },
+  "1000968": {
+    "id": 1000968,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Shura (Topo)",
+    "unidName": "Pedra de Shura (Topo)",
+    "resName": "Champion_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2336": [
+        "EQUIP_ID[25797||29427]===15"
+      ],
+      "2518": [
+        "EQUIP_ID[25412||29426]===20"
+      ],
+      "fct": [
+        "LEARN_SKILL[Rising Dragon==2]---0.1"
+      ]
+    }
+  },
+  "1000969": {
+    "id": 1000969,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Shura (Meio)",
+    "unidName": "Pedra de Shura (Meio)",
+    "resName": "Champion_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2330": [
+        "EQUIP_ID[25797||29427]===15"
+      ],
+      "2518": [
+        "EQUIP_ID[25412||29426]===20"
+      ],
+      "melee": [
+        "LEARN_SKILL[Gentle Touch - Alive==1]---2"
+      ]
+    }
+  },
+  "1000970": {
+    "id": 1000970,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Shura (Baixo)",
+    "unidName": "Pedra de Shura (Baixo)",
+    "resName": "Champion_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2332": [
+        "EQUIP_ID[25412||29426]===15"
+      ],
+      "2336": [
+        "EQUIP_ID[25797||29427]===15"
+      ],
+      "range": [
+        "LEARN_SKILL[Gentle Touch - Opposite==1]---2"
+      ]
+    }
+  },
+  "1000971": {
+    "id": 1000971,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Mecânico (Topo)",
+    "unidName": "Pedra de Mecânico (Topo)",
+    "resName": "White_Smith_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2256": [
+        "EQUIP_ID[310007||1000015]===15"
+      ],
+      "2280": [
+        "EQUIP_ID[25497||29484]===15"
+      ],
+      "vct": [
+        "LEARN_SKILL[Fire Earth Research==1]---1"
+      ]
+    }
+  },
+  "1000972": {
+    "id": 1000972,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Mecânico (Meio)",
+    "unidName": "Pedra de Mecânico (Meio)",
+    "resName": "White_Smith_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2261": [
+        "EQUIP_ID[310007||1000015]===15"
+      ],
+      "2278": [
+        "EQUIP_ID[25497||29484]===15"
+      ],
+      "melee": [
+        "LEARN_SKILL[Madogear License==1]---1"
+      ],
+      "range": [
+        "LEARN_SKILL[Madogear License==1]---1"
+      ]
+    }
+  },
+  "1000973": {
+    "id": 1000973,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Mecânico (Baixo)",
+    "unidName": "Pedra de Mecânico (Baixo)",
+    "resName": "White_Smith_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2258": [
+        "EQUIP_ID[310007||1000015]===15"
+      ],
+      "2279": [
+        "EQUIP_ID[25497||29484]===15"
+      ],
+      "acd": [
+        "LEARN_SKILL[Axe Mastery==1]---1"
+      ]
+    }
+  },
+  "1000974": {
+    "id": 1000974,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Sicário (Topo)",
+    "unidName": "Pedra de Sicário (Topo)",
+    "resName": "Assasin_Cross_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2029": [
+        "EQUIP_ID[310188||1000221]===15"
+      ],
+      "2037": [
+        "EQUIP_ID[25717||29524]===15"
+      ],
+      "acd": [
+        "LEARN_SKILL[New Poison Research==2]---1"
+      ]
+    }
+  },
+  "1000975": {
+    "id": 1000975,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Sicário (Meio)",
+    "unidName": "Pedra de Sicário (Meio)",
+    "resName": "Assasin_Cross_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2022": [
+        "EQUIP_ID[310188||1000221]===15"
+      ],
+      "2036": [
+        "EQUIP_ID[25717||29524]===15"
+      ],
+      "melee": [
+        "LEARN_SKILL[Dark Illusion==1]---2"
+      ]
+    }
+  },
+  "1000976": {
+    "id": 1000976,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Sicário (Baixo)",
+    "unidName": "Pedra de Sicário (Baixo)",
+    "resName": "Assasin_Cross_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2037": [
+        "EQUIP_ID[25717||29524]===15"
+      ],
+      "range": [
+        "LEARN_SKILL[Cross Ripper Slasher==1]---2"
+      ],
+      "p_race_all": [
+        "EQUIP_ID[310188||1000221]===15"
+      ]
+    }
+  },
+  "1001044": {
+    "id": 1001044,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Mestre Estelar (Topo)",
+    "unidName": "Pedra de Mestre Estelar (Topo)",
+    "resName": "푸른야광석",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2576": [
+        "LEARN_SKILL[Blessing of Moon==1]---3"
+      ],
+      "2579": [
+        "EQUIP_ID[25849||29658]===15"
+      ]
+    }
+  },
+  "1001045": {
+    "id": 1001045,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Mestre Estelar (Meio)",
+    "unidName": "Pedra de Mestre Estelar (Meio)",
+    "resName": "푸른야광석",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2592": [
+        "EQUIP_ID[25849||29658]===15"
+      ],
+      "melee": [
+        "LEARN_SKILL[Blessing of Sun==1]---2"
+      ]
+    }
+  },
+  "1001046": {
+    "id": 1001046,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Mestre Estelar (Baixo)",
+    "unidName": "Pedra de Mestre Estelar (Baixo)",
+    "resName": "푸른야광석",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2584": [
+        "LEARN_SKILL[Blessing of Star==1]---4"
+      ],
+      "spDrain": [
+        "EQUIP_ID[25849||29658]===1"
+      ]
+    }
+  },
+  "1001047": {
+    "id": 1001047,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Insurgente (Topo)",
+    "unidName": "Pedra de Insurgente (Topo)",
+    "resName": "정화탄",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2554": [
+        "EQUIP_ID[25858||29667]===15"
+      ],
+      "2566": [
+        "LEARN_SKILL[Platinum Altar==1]---4"
+      ],
+      "p_size_all": [
+        "LEARN_SKILL[Platinum Altar==1]---2"
+      ]
+    }
+  },
+  "1001048": {
+    "id": 1001048,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Insurgente (Meio)",
+    "unidName": "Pedra de Insurgente (Meio)",
+    "resName": "정화탄",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2565": [
+        "EQUIP_ID[25858||29667]===15"
+      ],
+      "range": [
+        "LEARN_SKILL[Fire Rain==1]---2"
+      ]
+    }
+  },
+  "1001049": {
+    "id": 1001049,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Insurgente (Baixo)",
+    "unidName": "Pedra de Insurgente (Baixo)",
+    "resName": "정화탄",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2561": [
+        "LEARN_SKILL[Hot Barrel==1]---4"
+      ],
+      "2571": [
+        "LEARN_SKILL[Hot Barrel==1]---4"
+      ],
+      "fct": [
+        "EQUIP_ID[25858||29667]===0.5"
+      ]
+    }
+  },
+  "1001050": {
+    "id": 1001050,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Ceifador de Alma (Topo)",
+    "unidName": "Pedra de Ceifador de Alma (Topo)",
+    "resName": "도깨비불",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "m_my_element_all": [
+        "LEARN_SKILL[Espa==1]---1"
+      ]
+    }
+  },
+  "1001051": {
+    "id": 1001051,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Ceifador de Alma (Meio)",
+    "unidName": "Pedra de Ceifador de Alma (Meio)",
+    "resName": "도깨비불",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2604": [
+        "EQUIP_ID[25842||29654]===15"
+      ],
+      "m_size_all": [
+        "LEARN_SKILL[Eswhoo==1]---1"
+      ]
+    }
+  },
+  "1001052": {
+    "id": 1001052,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Ceifador de Alma (Baixo)",
+    "unidName": "Pedra de Ceifador de Alma (Baixo)",
+    "resName": "도깨비불",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "cd__2600": [
+        "LEARN_SKILL[Evil Soul Curse==1]---0.1"
+      ],
+      "fct": [
+        "EQUIP_ID[25842||29654]===0.5"
+      ]
+    }
+  },
+  "1001053": {
+    "id": 1001053,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Corpo (Capa)",
+    "unidName": "Pedra de Corpo (Capa)",
+    "resName": "Barmund_Pow",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "pAtk": [
+        "3",
+        "EQUIP_ID[310327||1000377]===1",
+        "EQUIP_ID[310328||1000378]===1",
+        "EQUIP_ID[310329||1000379]===1",
+        "EQUIP_ID[1001055||311471]===5"
+      ],
+      "pow": [
+        "EQUIP_ID[310327||1000377]===1",
+        "EQUIP_ID[310328||1000378]===1",
+        "EQUIP_ID[310329||1000379]===1",
+        "EQUIP_ID[1001055||311471]===3"
+      ]
+    }
+  },
+  "1001054": {
+    "id": 1001054,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Alcance (Capa)",
+    "unidName": "Pedra de Alcance (Capa)",
+    "resName": "Barmund_Con",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "pAtk": [
+        "3",
+        "EQUIP_ID[310325||1000375]===1",
+        "EQUIP_ID[25061||310330]===1",
+        "EQUIP_ID[310326||1000376]===1",
+        "EQUIP_ID[311355]===5"
+      ],
+      "con": [
+        "EQUIP_ID[310325||1000375]===1",
+        "EQUIP_ID[25061||310330]===1",
+        "EQUIP_ID[310326||1000376]===1",
+        "EQUIP_ID[311355]===3"
+      ]
+    }
+  },
+  "1001159": {
+    "id": 1001159,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Kagerou (Topo)",
+    "unidName": "Pedra de Kagerou (Topo)",
+    "resName": "불의부적",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "3009": [
+        "EQUIP_ID[25853||29662]===25"
+      ],
+      "p_size_all": [
+        "LEARN_SKILL[Righthand Mastery==1]---2"
+      ]
+    }
+  },
+  "1001160": {
+    "id": 1001160,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Kagerou (Meio)",
+    "unidName": "Pedra de Kagerou (Meio)",
+    "resName": "불의부적",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "3004": [
+        "EQUIP_ID[25853||29662]===25"
+      ],
+      "range": [
+        "LEARN_SKILL[16th Night==1]---2"
+      ]
+    }
+  },
+  "1001161": {
+    "id": 1001161,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Kagerou (Baixo)",
+    "unidName": "Pedra de Kagerou (Baixo)",
+    "resName": "불의부적",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "3007": [
+        "LEARN_SKILL[Pure Soul==1]---5",
+        "EQUIP_ID[25853||29662]===25"
+      ]
+    }
+  },
+  "1001162": {
+    "id": 1001162,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Oboro (Topo)",
+    "unidName": "Pedra de Oboro (Topo)",
+    "resName": "불의부적",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "537": [
+        "EQUIP_ID[25854||29663]===25"
+      ],
+      "540": [
+        "EQUIP_ID[25854||29663]===25"
+      ],
+      "m_size_all": [
+        "LEARN_SKILL[Righthand Mastery==1]---2"
+      ]
+    }
+  },
+  "1001163": {
+    "id": 1001163,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Oboro (Meio)",
+    "unidName": "Pedra de Oboro (Meio)",
+    "resName": "불의부적",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "536": [
+        "EQUIP_ID[25854||29663]===30"
+      ],
+      "539": [
+        "EQUIP_ID[25854||29663]===30"
+      ],
+      "542": [
+        "EQUIP_ID[25854||29663]===30"
+      ],
+      "spPercent": [
+        "LEARN_SKILL[Pure Soul==1]---3"
+      ]
+    }
+  },
+  "1001164": {
+    "id": 1001164,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Oboro (Baixo)",
+    "unidName": "Pedra de Oboro (Baixo)",
+    "resName": "불의부적",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "534": [
+        "LEARN_SKILL[16th Night==1]---4"
+      ],
+      "537": [
+        "LEARN_SKILL[16th Night==1]---4"
+      ],
+      "540": [
+        "LEARN_SKILL[16th Night==1]---4"
+      ],
+      "vct": [
+        "EQUIP_ID[25854||29663]===15"
+      ]
+    }
+  },
+  "1001165": {
+    "id": 1001165,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Invocador (Topo)",
+    "unidName": "Pedra de Invocador (Topo)",
+    "resName": "블랙캣",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "5028": [
+        "LEARN_SKILL[Silvervine Stem Spear==1]---5"
+      ],
+      "5036": [
+        "LEARN_SKILL[Picky Peck==1]---5"
+      ],
+      "fct": [
+        "EQUIP_ID[25862||29671]===0.5"
+      ]
+    }
+  },
+  "1001166": {
+    "id": 1001166,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Invocador (Meio)",
+    "unidName": "Pedra de Invocador (Meio)",
+    "resName": "블랙캣",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "5028": [
+        "EQUIP_ID[25862||29671]===25"
+      ],
+      "vct": [
+        "LEARN_SKILL[Frash Shrimp==1]---2"
+      ]
+    }
+  },
+  "1001167": {
+    "id": 1001167,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Invocador (Baixo)",
+    "unidName": "Pedra de Invocador (Baixo)",
+    "resName": "블랙캣",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "5036": [
+        "EQUIP_ID[25862||29671]===25"
+      ],
+      "range": [
+        "LEARN_SKILL[Arclouse Dash==1]---2"
+      ]
+    }
+  },
+  "1001168": {
+    "id": 1001168,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Defesa (Topo)",
+    "unidName": "Pedra de Defesa (Topo)",
+    "resName": "마력석_검정",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "def": [
+        "20",
+        "EQUIP_ID[311922||1001169&&311923||1001170]===100"
+      ],
+      "mdef": [
+        "4",
+        "EQUIP_ID[311922||1001169&&311923||1001170]===25"
+      ],
+      "res": [
+        "EQUIP_ID[311922||1001169&&311923||1001170]===5"
+      ],
+      "mres": [
+        "EQUIP_ID[311922||1001169&&311923||1001170]===5"
+      ]
+    }
+  },
+  "1001169": {
+    "id": 1001169,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Defesa (Meio)",
+    "unidName": "Pedra de Defesa (Meio)",
+    "resName": "마력석_검정",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "def": [
+        "20"
+      ],
+      "mdef": [
+        "4"
+      ]
+    }
+  },
+  "1001170": {
+    "id": 1001170,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Defesa (Baixo)",
+    "unidName": "Pedra de Defesa (Baixo)",
+    "resName": "마력석_검정",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "def": [
+        "20"
+      ],
+      "mdef": [
+        "4"
+      ]
+    }
+  },
+  "1001171": {
+    "id": 1001171,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Resistência (Capa)",
+    "unidName": "Pedra de Resistência (Capa)",
+    "resName": "투명한보석",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "def": [
+        "100"
+      ],
+      "mdef": [
+        "25"
+      ],
+      "res": [
+        "20",
+        "EQUIP_ID[311921||1001168&&311922||1001169&&311923||1001170]===10",
+        "EQUIP_ID[1001172||311925]===15"
+      ],
+      "mres": [
+        "20",
+        "EQUIP_ID[311921||1001168&&311922||1001169&&311923||1001170]===10",
+        "EQUIP_ID[1001172||311925]===15"
+      ]
+    }
+  },
+  "1001322": {
+    "id": 1001322,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Shinkiro (Capa)",
+    "unidName": "Pedra de Shinkiro (Capa)",
+    "resName": "Kagerou_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "5484": [
+        "EQUIP_ID[311913||1001160]===10"
+      ],
+      "5485": [
+        "5",
+        "EQUIP_ID[311912||1001159]===10"
+      ],
+      "range": [
+        "EQUIP_ID[311914||1001161]LEARN_SKILL[Infiltration==1]---3"
+      ]
+    }
+  },
+  "1001323": {
+    "id": 1001323,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Shiranui (Capa)",
+    "unidName": "Pedra de Shiranui (Capa)",
+    "resName": "Oboro_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "5488": [
+        "EQUIP_ID[311915||1001162]===10"
+      ],
+      "5490": [
+        "EQUIP_ID[311917||1001164]===10"
+      ],
+      "5492": [
+        "10"
+      ],
+      "vct": [
+        "EQUIP_ID[311916||1001163]LEARN_SKILL[Melting==1]---3"
+      ]
+    }
+  },
+  "1001324": {
+    "id": 1001324,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Executor (Capa)",
+    "unidName": "Pedra de Executor (Capa)",
+    "resName": "Assasin_Cross_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "5289": [
+        "EQUIP_ID[311434||1000975]===10"
+      ],
+      "5292": [
+        "EQUIP_ID[311433||1000974]===10"
+      ],
+      "criDmg": [
+        "LEARN_SKILL[Shadow Sense==2]---4"
+      ],
+      "cRate": [
+        "EQUIP_ID[311435||1000976]LEARN_SKILL[Shadow Sense==1]---1"
+      ]
+    }
+  },
+  "1001325": {
+    "id": 1001325,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Cardeal (Capa)",
+    "unidName": "Pedra de Cardeal (Capa)",
+    "resName": "High_Priest_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "5273": [
+        "EQUIP_ID[311358||1000859]===10"
+      ],
+      "5284": [
+        "5",
+        "EQUIP_ID[311356||1000857]===10"
+      ],
+      "m_my_element_holy": [
+        "EQUIP_ID[311357||1000858]LEARN_SKILL[Fidus Animus==2]---3"
+      ]
+    }
+  },
+  "1001326": {
+    "id": 1001326,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Superaprendiz (Capa)",
+    "unidName": "Pedra de Superaprendiz (Capa)",
+    "resName": "피규어",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2005": [
+        "EQUIP_ID[25492||29479]LEARN_SKILL[Break Through==1]---3"
+      ],
+      "2038": [
+        "EQUIP_ID[25454||29469]LEARN_SKILL[Transcendence==1]---3"
+      ],
+      "enable_skill__2005": [
+        "LEARN_SKILL[Break Through==5]===5"
+      ],
+      "enable_skill__2038": [
+        "LEARN_SKILL[Transcendence==5]===10"
+      ],
+      "def": [
+        "EQUIP_ID[25710||29517]===120"
+      ],
+      "mdef": [
+        "EQUIP_ID[25710||29517]===15"
+      ]
+    }
+  },
+  "1001327": {
+    "id": 1001327,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Superaprendiz (Topo)",
+    "unidName": "Pedra de Superaprendiz (Topo)",
+    "resName": "피규어",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 71,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2038": [
+        "EQUIP_ID[312402||1001326]LEARN_SKILL[Transcendence==1]---3"
+      ],
+      "vct": [
+        "LEARN_SKILL[Transcendence==1]---3"
+      ]
+    }
+  },
+  "1001328": {
+    "id": 1001328,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Superaprendiz (Meio)",
+    "unidName": "Pedra de Superaprendiz (Meio)",
+    "resName": "피규어",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 72,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "2005": [
+        "EQUIP_ID[312402||1001326]LEARN_SKILL[Break Through==1]---3"
+      ],
+      "melee": [
+        "LEARN_SKILL[Break Through==1]---2"
+      ]
+    }
+  },
+  "1001329": {
+    "id": 1001329,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Superaprendiz (Baixo)",
+    "unidName": "Pedra de Superaprendiz (Baixo)",
+    "resName": "피규어",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 73,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "hpPercent": [
+        "EQUIP_ID[312402||1001326]===15"
+      ]
+    }
+  },
+  "1001419": {
+    "id": 1001419,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Mestre Celestial (Capa)",
+    "unidName": "Pedra de Mestre Celestial (Capa)",
+    "resName": "푸른야광석",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "5466": [
+        "EQUIP_ID[311461||1001045]===10"
+      ],
+      "5467": [
+        "EQUIP_ID[311462||1001046]===15"
+      ],
+      "cri": [
+        "10",
+        "EQUIP_ID[311460||1001044]LEARN_SKILL[War Book Mastery==2]---1"
+      ],
+      "p_race_all": [
+        "LEARN_SKILL[Sky Mastery==2]---1"
+      ],
+      "cRate": [
+        "EQUIP_ID[311460||1001044]LEARN_SKILL[War Book Mastery==2]---1"
+      ]
+    }
+  },
+  "1001420": {
+    "id": 1001420,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Elementalista (Capa)",
+    "unidName": "Pedra de Elementalista (Capa)",
+    "resName": "Professor_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "5371": [
+        "EQUIP_ID[311012]===10"
+      ],
+      "5372": [
+        "EQUIP_ID[311011]===10"
+      ],
+      "5373": [
+        "EQUIP_ID[311011]===10"
+      ],
+      "m_element_all": [
+        "EQUIP_ID[311013]LEARN_SKILL[Spell Enchanting==1]---3"
+      ]
+    }
+  },
+  "1001421": {
+    "id": 1001421,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Engenheiro (Capa)",
+    "unidName": "Pedra de Engenheiro (Capa)",
+    "resName": "White_Smith_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "6002": [
+        "EQUIP_ID[311432||1000973]===15"
+      ],
+      "6003": [
+        "EQUIP_ID[311430||1000971]===10"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[311431||1000972]LEARN_SKILL[Two Hand Defending==2]---3"
+      ]
+    }
+  },
+  "1001487": {
+    "id": 1001487,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Mandraque (Capa)",
+    "unidName": "Pedra de Mandraque (Capa)",
+    "resName": "Stalker_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "5316": [
+        "EQUIP_ID[311364||1000865]===15"
+      ],
+      "5322": [
+        "EQUIP_ID[311363||1000864]===10"
+      ],
+      "p_race_all": [
+        "LEARN_SKILL[Frenzy Shot==2]---1"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[311362||1000863]LEARN_SKILL[Dagger & Bow Mastery==2]---3"
+      ],
+      "cri": [
+        "EQUIP_ID[311363||1000864]===10"
+      ]
+    }
+  },
+  "1001488": {
+    "id": 1001488,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Diva & Maestro (Capa)",
+    "unidName": "Pedra de Diva & Maestro (Capa)",
+    "resName": "ClownGypsy_Figure",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "5353": [
+        "EQUIP_ID[311006]===10"
+      ],
+      "5355": [
+        "EQUIP_ID[311007]===15"
+      ],
+      "range": [
+        "LEARN_SKILL[Rhythm Shooting==1]---2"
+      ],
+      "p_element_all": [
+        "EQUIP_ID[311005]LEARN_SKILL[Stage Manner==1]---3"
+      ],
+      "pAtk": [
+        "EQUIP_ID[311007]===3"
+      ]
+    }
+  },
+  "1001489": {
+    "id": 1001489,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Hiperaprendiz (Capa)",
+    "unidName": "Pedra de Hiperaprendiz (Capa)",
+    "resName": "피규어",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {
+      "5456": [
+        "EQUIP_ID[312404||1001328]===10"
+      ],
+      "5457": [
+        "EQUIP_ID[312405||1001329]===10"
+      ],
+      "5460": [
+        "10"
+      ],
+      "m_my_element_water": [
+        "LEARN_SKILL[Self Study Sorcery==1]---1"
+      ],
+      "m_my_element_wind": [
+        "LEARN_SKILL[Self Study Sorcery==1]---1"
+      ],
+      "m_my_element_ghost": [
+        "LEARN_SKILL[Self Study Sorcery==1]---1"
+      ],
+      "m_element_all": [
+        "EQUIP_ID[312403||1001327]LEARN_SKILL[Jack Frost Nova==2]---3"
+      ],
+      "sMatk": [
+        "EQUIP_ID[312404||1001328]===5"
+      ]
+    }
+  },
+  "314066": {
+    "id": 314066,
+    "aegisName": "발자국이펙트",
+    "name": "Pegada: ROStars",
+    "unidName": "Pegada: ROStars",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 75,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
+  },
+  "1000922": {
+    "id": 1000922,
+    "aegisName": "영혼의조각",
+    "name": "Pedra de Propriedade (Capa)",
+    "unidName": "Pedra de Propriedade (Capa)",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 74,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
+  },
+  "1002286": {
+    "id": 1002286,
+    "aegisName": "발자국이펙트",
+    "name": "Pedra de Pegada: ROStars (Capa)",
+    "unidName": "Pedra de Pegada: ROStars (Capa)",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 6,
+    "itemSubTypeId": 75,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": null,
+    "requiredLevel": null,
+    "location": null,
+    "compositionPos": 65535,
+    "script": {}
+  },
+  "32245": {
+    "id": 32245,
+    "aegisName": "RingOfThought_TW",
+    "name": "Anel dos Esquecidos",
+    "unidName": "Anel dos Esquecidos",
+    "resName": "",
+    "description": "",
+    "slots": 1,
+    "itemTypeId": 2,
+    "itemSubTypeId": 511,
+    "itemLevel": null,
+    "attack": null,
+    "defense": 0,
+    "weight": 10,
+    "requiredLevel": 100,
+    "location": null,
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {
+      "aspdPercent": [
+        "5"
+      ],
+      "cri": [
+        "EQUIP_ID[4357]===15"
+      ],
+      "p_size_all": [
+        "EQUIP_ID[4357]===6"
+      ],
+      "mdef": [
+        "EQUIP_ID[4365]===20"
+      ],
+      "m_element_all": [
+        "EQUIP_ID[4365]===6"
+      ],
+      "def": [
+        "EQUIP_ID[4363]===20"
+      ],
+      "subele_all": [
+        "EQUIP_ID[4363]===6"
+      ],
+      "flee": [
+        "EQUIP_ID[4359]===20"
+      ],
+      "hit": [
+        "EQUIP_ID[4367]===20"
+      ],
+      "aspd": [
+        "EQUIP_ID[4361]===2"
+      ]
+    }
+  },
+  "15904": {
+    "id": 15904,
+    "aegisName": "C_Love_Guard_V",
+    "name": "[Visual] Mitra da Guardiã",
+    "unidName": "[Visual] Mitra da Guardiã",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "20503": {
+    "id": 20503,
+    "aegisName": "C_Bag_Of_Antonio",
+    "name": "[Visual] Sacola Roubada do Antonio",
+    "unidName": "[Visual] Sacola Roubada do Antonio",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "31309": {
+    "id": 31309,
+    "aegisName": "C_PW_Marching_Hat",
+    "name": "[Visual] Chapéu da Banda Fantasma",
+    "unidName": "[Visual] Chapéu da Banda Fantasma",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "400633": {
+    "id": 400633,
+    "aegisName": "C_Chic_Peony",
+    "name": "[Visual] Chapéu Multiclasse Azul",
+    "unidName": "[Visual] Chapéu Multiclasse Azul",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410556": {
+    "id": 410556,
+    "aegisName": "C_Emperor_Penguin",
+    "name": "[Visual] Pinguim-Imperador",
+    "unidName": "[Visual] Pinguim-Imperador",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480810": {
+    "id": 480810,
+    "aegisName": "C_Magnus_Dominus",
+    "name": "[Visual] Magnus Dominus",
+    "unidName": "[Visual] Magnus Dominus",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480866": {
+    "id": 480866,
+    "aegisName": "C_Qualifier26_1st",
+    "name": "[Visual] Pentáculo Dourado",
+    "unidName": "[Visual] Pentáculo Dourado",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480867": {
+    "id": 480867,
+    "aegisName": "C_Qualifier26_2nd",
+    "name": "[Visual] Pentáculo Escarlate",
+    "unidName": "[Visual] Pentáculo Escarlate",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "480868": {
+    "id": 480868,
+    "aegisName": "C_Qualifier26_3rd",
+    "name": "[Visual] Pentáculo Bronze",
+    "unidName": "[Visual] Pentáculo Bronze",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 522,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Garment",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "400280": {
+    "id": 400280,
+    "aegisName": "C_AI_Nabi",
+    "name": "Visual Mini-Nabi IA",
+    "unidName": "Visual Mini-Nabi IA",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 519,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Upper",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410145": {
+    "id": 410145,
+    "aegisName": "C_Agnes_Mini",
+    "name": "Visual Agnes Mini",
+    "unidName": "Visual Agnes Mini",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410146": {
+    "id": 410146,
+    "aegisName": "C_Debris_Mini",
+    "name": "Visual Debris Mini",
+    "unidName": "Visual Debris Mini",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410147": {
+    "id": 410147,
+    "aegisName": "C_ElenaVolkova_Mini",
+    "name": "Visual Elena Mini",
+    "unidName": "Visual Elena Mini",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410148": {
+    "id": 410148,
+    "aegisName": "C_Elumina_Mini",
+    "name": "Visual Elumina Mini",
+    "unidName": "Visual Elumina Mini",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
+    "compositionPos": null,
+    "usableClass": [
+      "all"
+    ],
+    "script": {}
+  },
+  "410149": {
+    "id": 410149,
+    "aegisName": "C_Berner_Mini",
+    "name": "Visual Eisen Mini",
+    "unidName": "Visual Eisen Mini",
+    "resName": "",
+    "description": "",
+    "slots": 0,
+    "itemTypeId": 9,
+    "itemSubTypeId": 520,
+    "itemLevel": null,
+    "attack": null,
+    "defense": null,
+    "weight": 0,
+    "requiredLevel": 1,
+    "location": "Middle",
     "compositionPos": null,
     "usableClass": [
       "all"

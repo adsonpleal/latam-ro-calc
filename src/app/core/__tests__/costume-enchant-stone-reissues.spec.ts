@@ -80,8 +80,10 @@ describe('re-issued Visual-enchant stones', () => {
       // added in October, the three Shadow Chaser Stone II previews (314185-314187), and
       // for card vR5h55mOQVjZvABbndcz the 33 third-class previews, 18 LATAM graphical
       // effects and the 100 kRO previews of costume-enchant-stone-previews.spec.ts.
+      // The 24/11/2026 client named 63 more re-issues (14 Topo, 14 Meio, 14 Baixo,
+      // 15 Capa, 3 Capa 4 and 3 Dual), all registered from their counterparts.
       // Bump these deliberately when the client adds more.
-      expect([71, 72, 73, 74, 75, 76].map(perSlot)).toEqual([145, 171, 158, 121, 24, 27]);
+      expect([71, 72, 73, 74, 75, 76].map(perSlot)).toEqual([159, 185, 172, 136, 27, 30]);
     });
   });
 

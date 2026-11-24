@@ -24,6 +24,9 @@ describe('classifyItem', () => {
     // 20494 [Visual] Poring OVNI and 20371 Costume Special Kafra Hat hid behind these.
     expect(classifyItem(entry('[Visual] Poring OVNI', 'Tipo : Visual DEF : 0\nPosição : Superior'))).toBe('costume');
     expect(classifyItem(entry('Costume Special Kafra Hat', 'Type : Costume Defense : 0\nEquip on: Upper'))).toBe('costume');
+    // 400280 Visual Mini-Nabi IA and the five Coleção Fantástica "Mini" visuals (410145-410149)
+    // spell the type out and carry no "[Visual]" prefix in the name.
+    expect(classifyItem(entry('Visual Mini-Nabi IA', 'Tipo : Equipamento visual DEF : 0\nPosição : Superior'))).toBe('costume');
   });
 
   it('reads the type out of the first Classes: line of old descriptions', () => {

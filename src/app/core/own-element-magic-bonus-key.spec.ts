@@ -70,6 +70,20 @@ function magicPropertyLines() {
 
 const MAGIC_LINES = magicPropertyLines();
 
+/**
+ * `<id> <element>` pairs the sweep below cannot judge, because the item carries one line
+ * of each channel and the registered one is keyed `_all`, which reads as covering the
+ * element the other line names.
+ *
+ * 312477 Pedra de Elementalista (Capa) arrived with the 24/11/2026 client. Its target-side
+ * line ("Dano mágico contra oponentes de todas as propriedades +3% por nível de Spell
+ * Enchanting", with the Sorcerer (Baixo) stone) is registered as `m_element_all`; its
+ * own-property line ("Dano mágico de propriedade fogo e veneno +2% cada por nível de
+ * Increasing Activity") is not registered at all, because Increasing Activity is not in
+ * the Skill Catalog and the gate cannot be written without it.
+ */
+const UNJUDGED_OWN = new Set(['312477 fire', '312477 poison']);
+
 /** Lines whose wording points at `channel` but whose script stores that element in the
  *  other one. An item carrying *both* keys for the element is not an offender: several
  *  legitimately describe one line of each kind (26165 below is one). */
@@ -79,6 +93,7 @@ function misKeyed(channel: Channel): string[] {
   return MAGIC_LINES.filter((row) => row.channel === channel).flatMap(({ id, name, line, elements }) =>
     elements
       .filter((element) => hasKey(ITEM_DB[id].script ?? {}, stored, element) && !hasKey(ITEM_DB[id].script ?? {}, wanted, element))
+      .filter((element) => !(channel === 'own' && UNJUDGED_OWN.has(`${id} ${element}`)))
       .map((element) => `${id} ${name}: ${element} — ${line}`),
   );
 }

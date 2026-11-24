@@ -37,6 +37,8 @@ const TYPE_CATEGORY = new Map(
     munição: "ammo",
     visual: "costume",
     costume: "costume",
+    // The Coleção Fantástica "Mini" visuals (400280, 410145-410149) spell it out in full.
+    "equipamento visual": "costume",
     carta: "card",
     "equip. sombrio": "shadow",
     "encantamento especial": "enchant",
