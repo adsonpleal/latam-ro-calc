@@ -156,6 +156,18 @@ const traitBonusTable: Record<number, [number, number, number, number, number, n
   70: [7, 7, 4, 7, 11, 4],
 };
 
+/**
+ * Ilimitar nv.3, the only level the Maestro can hold: the class never learns the skill and
+ * receives it from Colar Consagrado: Amizade (491112) with the Violino Vivatus Fides at
+ * refine +10 — see NoLimitFn for the clause and why the rest of the table is left out. The
+ * weapon is long-range (IsLongRange in src/app/domain/weapon.ts), so the bonus does reach
+ * Atirar Rosas and Disparo Rítmico.
+ *
+ * Appended after the final job catalog rather than pushed into it, so every legacy positional
+ * save keeps its indices — the same reason RoyalGuard appends its Vanguard buffs.
+ */
+const NECKLACE_ACTIVE_BUFFS: ActiveSkillModel[] = [NoLimitFn([3])];
+
 export class Troubadour extends Minstrel {
   protected override CLASS_NAME = ClassName.Troubadour;
   protected override JobBonusTable = jobBonusTable;
@@ -228,11 +240,7 @@ export class Troubadour extends Minstrel {
       },
     },
   ];
-  // Ilimitar at nv.3 only: these two never learn it, and the single source that grants it
-  // to them is Colar Consagrado: Amizade (491112) on an Açoite or Violino Vivatus Fides at
-  // refine +10, whose clause names that level. Both weapons are long-range (see IsLongRange),
-  // so the ranged bonus does reach Atirar Rosas and Disparo Rítmico.
-  private readonly activeSkillList4th: ActiveSkillModel[] = [MysticSymphonyFn(), DebufSonicBrandFn(), NoLimitFn([3])];
+  private readonly activeSkillList4th: ActiveSkillModel[] = [MysticSymphonyFn(), DebufSonicBrandFn()];
   private readonly passiveSkillList4th: PassiveSkillModel[] = [StageMannerFn()];
 
   constructor() {
@@ -244,6 +252,15 @@ export class Troubadour extends Minstrel {
       passiveSkillList: this.passiveSkillList4th,
       classNames: this.classNames4th,
     });
+  }
+
+  override get activeSkills() {
+    return [...super.activeSkills, ...NECKLACE_ACTIVE_BUFFS];
+  }
+
+  override matchesSavedSkillCount(kind: 'active' | 'passive', count: number | undefined): boolean {
+    const current = (kind === 'active' ? this.activeSkills : this.passiveSkills).length;
+    return count === current || (kind === 'active' && count === current - NECKLACE_ACTIVE_BUFFS.length);
   }
 
   override setAdditionalBonus(params: AdditionalBonusInput): EquipmentSummaryModel {
