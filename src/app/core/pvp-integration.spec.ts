@@ -38,7 +38,7 @@ const bareTarget = (defenderBonus: PlayerTargetProfile['defenderBonus'] = {}): P
   defenderBonus,
 });
 
-const skillMax = (mode: PvpMode, defenderBonus: PlayerTargetProfile['defenderBonus'] = {}) => {
+const skillMax = (mode: PvpMode, defenderBonus: PlayerTargetProfile['defenderBonus'] = {}, atkSkill = 'Focused Arrow Strike==5') => {
   const cls = new Windhawk();
   const { equipAtks, masteryAtks, activeSkillNames, learnedSkillMap } = cls
     .setLearnSkills({ activeSkillIds: [10, 5, 10, 5, 5, 1], passiveSkillIds: [] })
@@ -59,7 +59,7 @@ const skillMax = (mode: PvpMode, defenderBonus: PlayerTargetProfile['defenderBon
   model.jobStr = 2; model.jobAgi = 12; model.jobVit = 7; model.jobInt = 8; model.jobDex = 7; model.jobLuk = 4;
   model.jobPow = 7; model.jobSta = 4; model.jobWis = 5; model.jobSpl = 4; model.jobCon = 8; model.jobCrt = 4;
   model.weapon = 700016; model.weaponRefine = 11; model.ammo = 1773;
-  model.selectedAtkSkill = 'Focused Arrow Strike==5';
+  model.selectedAtkSkill = atkSkill;
   calc.loadItemFromModel(model);
 
   new CalculatorController().runChain(calc, {
@@ -126,6 +126,19 @@ describe('PVP damage pipeline (Windhawk / Focused Arrow Strike, skill channel)',
     expect(skillMax('pvp', { subrace_player_human: 50 }) / skillMax('pvp')).toBeCloseTo(0.5, 2);
     // Both together are still just the one that applies.
     expect(skillMax('pvp', { subrace_all: 50, subrace_player_human: 50 }) / skillMax('pvp')).toBeCloseTo(0.5, 2);
+  });
+
+  /**
+   * Ataque Aéreo is declared with a `customFormula`, so it builds its total outside the
+   * traced skill paths that hold the cut — it took none of it until card
+   * oua6mspqhIrWSikUbSCO. Still the "habilidade" channel, like any other skill.
+   */
+  it('Ataque Aéreo (a customFormula skill) takes the same cut as any other skill', () => {
+    const blitz = 'Blitz Beat==5';
+    expect(skillMax('pvp', {}, blitz)).toBeGreaterThan(0);
+    expect(skillMax('woe', {}, blitz) / skillMax('pvp', {}, blitz)).toBeCloseTo(0.1, 2);
+    expect(skillMax('woe-te', {}, blitz) / skillMax('pvp', {}, blitz)).toBeCloseTo(0.1, 2);
+    expect(skillMax('pvp', { dmg_taken_all: 50 }, blitz) / skillMax('pvp', {}, blitz)).toBeCloseTo(0.5, 2);
   });
 
   // Basic bow attack = the "ataque a distância" (phys_ranged) channel.

@@ -918,23 +918,24 @@ export class DamageCalculator {
    * Apply the PVP reduction to a skill's running total AND record it in the formula
    * graph: one node per gear-reduction category (named + clickable into the target's
    * gear) plus the WoE-castle step. Shared by the physical and magical skill formulas.
-   * Returns the new running total.
+   * Returns the new running total. `push`/`emit` are optional: a `customFormula` skill has
+   * no trace or graph to record the steps in, and still has to take the cut.
    */
   private applyPvpReduction(
     total: number,
     parts: { steps: DefenderReductionStep[]; woe: number },
-    push: (label: string, value: number, keys?: string[]) => void,
-    emit: (id: string, label: string, value: number, keys?: string[], opts?: { extraInputs?: string[]; multiplier?: number }) => void,
+    push?: (label: string, value: number, keys?: string[]) => void,
+    emit?: (id: string, label: string, value: number, keys?: string[], opts?: { extraInputs?: string[]; multiplier?: number }) => void,
   ): number {
     for (const s of parts.steps) {
       total = floor(total * s.factor);
-      push(s.label, total, s.keys);
-      emit(`pvpRed_${s.keys[0]}`, s.label, total, s.keys, { multiplier: s.factor });
+      push?.(s.label, total, s.keys);
+      emit?.(`pvpRed_${s.keys[0]}`, s.label, total, s.keys, { multiplier: s.factor });
     }
     if (parts.woe !== 1) {
       total = floor(total * parts.woe);
-      push('Redução da guerra', total);
-      emit('pvpWoeReduction', 'Redução da guerra', total, [], { multiplier: parts.woe });
+      push?.('Redução da guerra', total);
+      emit?.('pvpWoeReduction', 'Redução da guerra', total, [], { multiplier: parts.woe });
     }
     return total;
   }
@@ -2749,6 +2750,8 @@ export class DamageCalculator {
       formulaParams,
     };
 
+    const isMelee = typeof _isMelee === 'function' ? _isMelee(this.weaponData.data.typeName, formulaParams) : !!_isMelee;
+
     let calculated: DamageResultModel;
     let noStackMaxCriDamage = 0;
     let noStackMaxDamage = 0;
@@ -2761,17 +2764,35 @@ export class DamageCalculator {
       const skillPropertyAtk = typeof getElement === 'function' ? getElement(skillValue, this.infoForClass) : skillData.element || propertyAtk;
       const propertyMultiplier = this.getPropertyMultiplier(skillPropertyAtk);
 
+      // A customFormula builds the whole total itself, so every stage the pipeline owns has
+      // to be re-applied here or it is simply missing for these skills.
+      //
       // The target's own reduction (red aura, Aliviar) belongs to the monster, not to the
       // formula, so it is applied here rather than left to each customFormula — the two
       // dragon breaths used to skip it, and Aliviar on Betelgeuse changed nothing for them.
+      //
+      // PVP was the same hole: the defender's gear reductions and the WoE-castle layer live
+      // at the two traced call sites (calcPhysicalSkillDamage / calcMagicalSkillDamage),
+      // which this branch replaces, so a breath landed on a player for exactly its dummy
+      // damage — reported on card oua6mspqhIrWSikUbSCO. Applied before the aura, the same
+      // order as the traced paths, and in the "habilidade" channel since this is a skill
+      // (docs/pvp.md §2). It takes the cut without a trace node: these skills have no
+      // formula trace at all (see skillFormulaTrace), so there is nothing to push into.
+      //
+      // What the branch still skips is skipped on purpose — the custom formulas subtract
+      // DEF, scale by the element and read their own equip-skill bonus themselves.
+      const pvpPartsCustom = this.pvp.mode !== 'none'
+        ? this.getPvpReductionParts({ dmgType: isMatk ? 'magical' : 'physical', isSkill: true, isMelee, attackElement: skillPropertyAtk })
+        : null;
+      const rawCustom = customFormula({
+        ...formulaParams,
+        baseSkillDamage,
+        sizePenalty,
+        propertyMultiplier,
+        ...this.getPhisicalDefData(),
+      });
       const d = this.applyAuraReduction(
-        customFormula({
-          ...formulaParams,
-          baseSkillDamage,
-          sizePenalty,
-          propertyMultiplier,
-          ...this.getPhisicalDefData(),
-        }),
+        pvpPartsCustom ? this.applyPvpReduction(rawCustom, pvpPartsCustom) : rawCustom,
       );
       calculated = {
         canCri: false,
@@ -2921,7 +2942,6 @@ export class DamageCalculator {
     const hitKill = Math.ceil(this.monster.data.hp / minDamage);
 
     const totalPene = isMatk ? this.getTotalMagicalPene() : basicDmg.totalPene;
-    const isMelee = _isMelee != null && typeof _isMelee === 'function' ? _isMelee(this.weaponData.data.typeName, formulaParams) : !!_isMelee;
 
     const label = calculated.canCri ? 'SkillCri' : 'Skill';
     const { totalPeneRes, totalPeneMres } = this.getPeneResMres();
