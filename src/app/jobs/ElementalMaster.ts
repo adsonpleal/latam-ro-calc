@@ -28,36 +28,44 @@ import { ClassName } from './_class-name';
  */
 const SPIRIT_AUTO_CAST_CHANCE = 7;
 
-/** `_ElementalMaster_spirit` value → the spell Modo Passivo auto-casts, and the status granting it. */
-const SPIRIT_AUTO_CASTS: Record<number, { skillId: number; skillName: SKILL_NAME; status: string }> = {
-  1: { skillId: 14, skillName: 'Cold Bolt', status: 'Força Gélida' },
-  2: { skillId: 19, skillName: 'Fire Bolt', status: 'Técnica das Chamas' },
-  3: { skillId: 20, skillName: 'Lightening Bolt', status: 'Brisa Refrescante' },
-  4: { skillId: 90, skillName: 'Earth Spike', status: 'Cuidado com a Terra' },
-  5: { skillId: 2448, skillName: 'Poison Burst', status: 'Serpente Venenosa' },
+/**
+ * `_ElementalMaster_spirit` dropdown value → the spell Modo Passivo auto-casts, and the
+ * status granting it. Keyed by the dropdown value, the same identity `_spirit` and the
+ * picker use; `setSpiritBonus`'s `mapSkill` is the parallel table for the damage half and
+ * is keyed by the internal spirit name instead. Serpens is why the two cannot be merged.
+ */
+const SPIRIT_AUTO_CASTS: Record<number, { skillName: SKILL_NAME; status: string }> = {
+  1: { skillName: 'Cold Bolt', status: 'Força Gélida' }, // Diluvium
+  2: { skillName: 'Fire Bolt', status: 'Técnica das Chamas' }, // Ardor
+  3: { skillName: 'Lightening Bolt', status: 'Brisa Refrescante' }, // Procella
+  4: { skillName: 'Earth Spike', status: 'Cuidado com a Terra' }, // Terremotus
+  5: { skillName: 'Poison Burst', status: 'Serpente Venenosa' }, // Serpens
 };
+
+const ELEMENTAL_CONTROL_ID = SKILL_ID_BY_NAME['Elemental Control'];
 
 const ELEMENTAL_MASTER_AUTO_CASTS: ClassAutoCastDefinition[] = [
   {
     key: 'elemental-spirit-passive',
     resolve: ({ skillState, skillById }) => {
       const spirit = SPIRIT_AUTO_CASTS[skillState.activeLevel('_ElementalMaster_spirit')];
+      const isPassive = skillState.activeLevel('_ElementalMaster_el_control') === ElementalControlMode.Passive;
       const reasons = [
-        ...(!spirit ? ['Invoque um Espírito Elemental'] : []),
-        ...(skillState.activeLevel('_ElementalMaster_el_control') !== ElementalControlMode.Passive
-          ? ['Selecione Domínio Elemental: Passivo'] : []),
-      ];
-      if (reasons.length || !spirit) {
-        return { blocked: [{ key: 'passive-elemental-spirit', name: 'Espírito Elemental', icon: 2456, reason: reasons.join(' · ') }] };
+        !spirit && 'Invoque um Espírito Elemental',
+        !isPassive && 'Selecione Domínio Elemental: Passivo',
+      ].filter(Boolean);
+      if (reasons.length) {
+        return { blocked: [{ key: 'passive-elemental-spirit', name: 'Espírito Elemental', icon: ELEMENTAL_CONTROL_ID, reason: reasons.join(' · ') }] };
       }
-      const skillData = skillById(spirit.skillId);
+      const skillId = SKILL_ID_BY_NAME[spirit.skillName];
+      const skillData = skillById(skillId);
       if (!skillData) return {};
       // "nv.1 ou no maior nível aprendido": a spell nobody put points into still fires at 1.
       const skillLevel = Math.max(1, skillState.learnedLevel(spirit.skillName));
 
       return { sources: [{
-        key: 'passive-elemental-spirit', kind: 'passive', skillId: spirit.skillId,
-        enablingSkillId: 2456, skillLevel, chance: SPIRIT_AUTO_CAST_CHANCE,
+        key: 'passive-elemental-spirit', kind: 'passive', skillId,
+        enablingSkillId: ELEMENTAL_CONTROL_ID, skillLevel, chance: SPIRIT_AUTO_CAST_CHANCE,
         trigger: 'melee-physical-attack', sourceName: spirit.status, skillData,
         chanceBreakdown: [
           { label: spirit.status, value: `Domínio Elemental: Passivo · ${SPIRIT_AUTO_CAST_CHANCE}% por ataque básico corpo a corpo` },

@@ -107,11 +107,10 @@ describe('Lanças Duplas — repeating the bolt', () => {
     const resolution = resolve(5, 'Storm Gust==10');
 
     expect(sourcesOf(resolution)).toHaveLength(0);
-    expect(blockedOf(resolution).map(({ reason }) => reason)).toEqual([
-      'Selecione Lanças de Fogo como habilidade para ativar Lanças Duplas.',
-      'Selecione Lanças de Gelo como habilidade para ativar Lanças Duplas.',
-      'Selecione Relâmpago como habilidade para ativar Lanças Duplas.',
-    ]);
+    // Each row is named after the spell in the pt-BR the client uses, not the internal name.
+    expect(blockedOf(resolution).map(({ name, reason }) => [name, reason])).toEqual(
+      BOLTS.map(({ label }) => [label, `Selecione ${label} como habilidade para ativar Lanças Duplas.`]),
+    );
   });
 
   it('blocks the other two bolts while one of them is selected', () => {

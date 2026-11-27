@@ -66,9 +66,9 @@ const blockedOf = (resolution: ClassAutoCastResolution): BlockedAutoCastSource[]
 
 describe('Elemental Master — Modo Passivo auto-cast', () => {
   for (const [name, spirit] of Object.entries(SPIRIT)) {
-    const { skillId, status } = AUTO_CAST[name as keyof typeof AUTO_CAST];
+    const { skillId, skillName, status } = AUTO_CAST[name as keyof typeof AUTO_CAST];
 
-    it(`${name} at Passivo auto-casts ${skillId} at 7% on melee physical attacks`, () => {
+    it(`${name} at Passivo auto-casts ${skillName} (${skillId}) at 7% on melee physical attacks`, () => {
       const sources = sourcesOf(resolve(spirit, MODE.Passive));
 
       expect(sources).toHaveLength(1);
@@ -99,17 +99,14 @@ describe('Elemental Master — Modo Passivo auto-cast', () => {
     expect(sourcesOf(resolve(SPIRIT.Ardor, MODE.Passive, 10))[0].skillLevel).toBe(10);
   });
 
-  it('auto-casts Implosão Tóxica for Serpens, not the Maldição de Jormungand it boosts', () => {
-    // The one elemental whose auto-cast spell differs from its damage-bonus spell.
-    expect(sourcesOf(resolve(SPIRIT.Serpens, MODE.Passive))[0].skillId).toBe(2448);
-    expect(sourcesOf(resolve(SPIRIT.Serpens, MODE.Passive))[0].skillId).not.toBe(2450);
-  });
-
   it('every spirit auto-casts its own element, never a shared default', () => {
     const ids = Object.values(SPIRIT).map((spirit) => sourcesOf(resolve(spirit, MODE.Passive))[0].skillId);
 
     expect(ids).toEqual([14, 19, 20, 90, 2448]);
     expect(new Set(ids).size).toBe(5);
+    // Serpens is the one elemental whose auto-cast spell differs from the spell its
+    // damage bonus boosts (Implosão Tóxica 2448, not Maldição de Jormungand 2450).
+    expect(ids).not.toContain(2450);
   });
 
   it('asks for a summon when none is out, instead of dropping the row silently', () => {
@@ -121,9 +118,5 @@ describe('Elemental Master — Modo Passivo auto-cast', () => {
     expect(blockedOf(resolve(0, MODE.None))[0].reason)
       .toBe('Invoque um Espírito Elemental · Selecione Domínio Elemental: Passivo');
     expect(sourcesOf(resolve(0, MODE.Passive))).toHaveLength(0);
-  });
-
-  it('is wired on the Elementalista and reaches no earlier generation', () => {
-    expect(definitionOf()).toBeTruthy();
   });
 });

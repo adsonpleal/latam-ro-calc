@@ -5,7 +5,7 @@ import { Mage } from './Mage';
 import { EARTH_SPIKE, HEAVENS_DRIVE } from '../skills/shared-skills';
 import { SKILL_ID_BY_NAME, resolveSkillById } from '../skills';
 import { genSkillList } from '../utils';
-import { ClassAutoCastDefinition, ClassAutoCastResolution } from '../models/auto-cast.model';
+import { ClassAutoCastDefinition } from '../models/auto-cast.model';
 
 const AUTO_SPELL_TIERS: Array<[number, number[]]> = [
   [1, [19, 14, 20]],
@@ -28,43 +28,52 @@ const AUTO_SPELL_TIERS: Array<[number, number[]]> = [
  */
 const LUCKY_CAST_BOLTS = ['Fire Bolt', 'Cold Bolt', 'Lightening Bolt'] as const;
 const LUCKY_CAST_CHANCE = [40, 50, 60, 70, 80];
+const LUCKY_CAST_ID = SKILL_ID_BY_NAME['Lucky Cast'];
+
+/** A bolt's catalog id and the pt-BR name the panel shows for it. */
+const boltOf = (name: (typeof LUCKY_CAST_BOLTS)[number]) => {
+  const skillId = SKILL_ID_BY_NAME[name];
+
+  return { skillId, label: resolveSkillById(skillId)?.name ?? name };
+};
 
 const LUCKY_CAST_AUTO_CAST: ClassAutoCastDefinition = {
   key: 'lucky-cast',
   resolve: ({ skillState, model }) => {
     const level = skillState.activeLevel('Lucky Cast');
     if (level <= 0) {
-      return { blocked: [{ key: 'lucky-cast', name: 'Lanças Duplas', icon: 482,
+      return { blocked: [{ key: 'lucky-cast', name: 'Lanças Duplas', icon: LUCKY_CAST_ID,
         reason: 'Selecione o nível de Lanças Duplas em Habilidades.' }] };
     }
     const chance = LUCKY_CAST_CHANCE[level - 1];
     // "repetir a magia no mesmo nível": the repeat copies the cast that fired it, so both
     // the spell and its level come from the attack picker, never from the learned level.
     const [selectedName, selectedLevel] = String(model?.selectedAtkSkill ?? '').split('==');
-    const sources: ClassAutoCastResolution['sources'] = [];
-    const blocked: ClassAutoCastResolution['blocked'] = [];
+    const castLevel = Number(selectedLevel) || 1;
+    const selected = LUCKY_CAST_BOLTS.find((name) => name === selectedName);
+    const blocked = LUCKY_CAST_BOLTS.filter((name) => name !== selected).map((name) => {
+      const { skillId, label } = boltOf(name);
 
-    for (const name of LUCKY_CAST_BOLTS) {
-      const skillId = SKILL_ID_BY_NAME[name];
-      const label = resolveSkillById(skillId)?.name ?? name;
-      if (name !== selectedName) {
-        blocked.push({ key: `lucky-cast-${skillId}`, name: label, icon: skillId,
-          reason: `Selecione ${label} como habilidade para ativar Lanças Duplas.` });
-        continue;
-      }
-      sources.push({
+      return { key: `lucky-cast-${skillId}`, name: label, icon: skillId,
+        reason: `Selecione ${label} como habilidade para ativar Lanças Duplas.` };
+    });
+    if (!selected) return { sources: [], blocked };
+
+    const { skillId, label } = boltOf(selected);
+
+    return {
+      blocked,
+      sources: [{
         key: `lucky-cast-${skillId}`, kind: 'passive', skillId,
-        skillLevel: Number(selectedLevel) || 1, chance,
+        skillLevel: castLevel, chance,
         trigger: 'skill-use', triggerSkillId: skillId,
-        sourceName: 'Lanças Duplas', enablingSkillId: 482,
+        sourceName: 'Lanças Duplas', enablingSkillId: LUCKY_CAST_ID,
         chanceBreakdown: [
           { label: 'Lanças Duplas', value: `Nv. ${level} · ${chance}% por conjuração de ${label}` },
-          { label: 'Nível repetido', value: `o mesmo da magia conjurada (Nv. ${Number(selectedLevel) || 1})` },
+          { label: 'Nível repetido', value: `o mesmo da magia conjurada (Nv. ${castLevel})` },
         ],
-      });
-    }
-
-    return { sources, blocked };
+      }],
+    };
   },
 };
 
