@@ -1,5 +1,6 @@
 import { JOB_4_MAX_JOB_LEVEL, JOB_4_MIN_MAX_LEVEL } from '../app-config';
 import { WeaponTypeName } from '../constants';
+import { NoLimitFn } from '../constants/share-active-skills';
 import { DebufSonicBrandFn, MysticSymphonyFn, StageMannerFn } from '../constants/share-passive-skills';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput } from '../models/info-for-class.model';
@@ -227,7 +228,11 @@ export class Troubadour extends Minstrel {
       },
     },
   ];
-  private readonly activeSkillList4th: ActiveSkillModel[] = [MysticSymphonyFn(), DebufSonicBrandFn()];
+  // Ilimitar at nv.3 only: these two never learn it, and the single source that grants it
+  // to them is Colar Consagrado: Amizade (491112) on an Açoite or Violino Vivatus Fides at
+  // refine +10, whose clause names that level. Both weapons are long-range (see IsLongRange),
+  // so the ranged bonus does reach Atirar Rosas and Disparo Rítmico.
+  private readonly activeSkillList4th: ActiveSkillModel[] = [MysticSymphonyFn(), DebufSonicBrandFn(), NoLimitFn([3])];
   private readonly passiveSkillList4th: PassiveSkillModel[] = [StageMannerFn()];
 
   constructor() {
