@@ -39,6 +39,26 @@ const JobBuffsList: ActiveSkillModel[] = [
     ],
   },
   {
+    // Party-wide, like Bênção above: "para todos do grupo que estão na tela do usuário".
+    // The client table (skill id 33) and bROWiki agree on both columns — DEF +5% and HP máx.
+    // +50 per level. The DEF column is the VIT-derived portion only ("DEF proveniente da
+    // VIT", which bROWiki spells out as a note), so it is `softDefPercent` and not `def`.
+    // https://browiki.org/wiki/Angelus
+    name: 'Angelus',
+    label: 'Angelus',
+    icon: 33,
+    inputType: 'dropdown',
+    dropdown: [
+      { label: '-', value: 0, isUse: false },
+      ...Array.from({ length: 10 }, (_, i) => ({
+        label: `Nv ${i + 1}`,
+        value: i + 1,
+        isUse: true,
+        bonus: { softDefPercent: (i + 1) * 5, hp: (i + 1) * 50 },
+      })),
+    ],
+  },
+  {
     name: 'Impositio Manus',
     label: 'Impositio 5',
     inputType: 'selectButton',
