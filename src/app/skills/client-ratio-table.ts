@@ -33,7 +33,9 @@ export function clientRatioTable(name: string, column?: string): Map<number, num
     for (let next = index + 1; next < lines.length; next++) {
       const row = lines[next].match(/^\[Nv\.? ?(\d+)\]:? ?(.*)$/);
       if (!row) break;
-      const percent = (cells(row[2])[at - 1] ?? '').match(/^([\d.]+(?:,\d+)?)%$/);
+      // A trailing "xN" is the hit count, not part of the ratio — Rajada de Flechas is the one
+      // description that prints its column as "100% x2", the figure being what each arrow deals.
+      const percent = (cells(row[2])[at - 1] ?? '').match(/^([\d.]+(?:,\d+)?)%(?: ?x ?\d+)?$/);
       if (percent) table.set(Number(row[1]), num(percent[1]));
     }
     if (table.size) return table;

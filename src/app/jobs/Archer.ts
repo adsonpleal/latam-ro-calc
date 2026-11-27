@@ -1,7 +1,8 @@
 import { ClassName } from './_class-name';
-import { ActiveSkillModel, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
+import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, CharacterBase, PassiveSkillModel } from './_character-base.abstract';
 import { DoubleStrafeFn, OwlsEyeFn, VulturesEyeFn } from '../constants/share-passive-skills';
 import { ImproveConcentrationFn } from '../constants/share-active-skills';
+import { atkSkillLevelList } from '../utils';
 
 const jobBonusTableHi: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 0, 0, 0],
@@ -155,7 +156,61 @@ export class Archer extends CharacterBase {
 
   protected initialStatusPoint = 100;
   protected classNames = [ClassName.Archer];
-  protected _atkSkillList: AtkSkillModel[] = [];
+  /**
+   * The Arqueiro's own two offensive skills — card fLHaAqiBPMgALZZ0V9O7 asked for them so a
+   * Sentinela can see what they hit for, the list having been empty until now. They are declared
+   * here because this is the tier they belong to, so `inheritSkills` carries them to every class
+   * promoted from the Arqueiro. A parent's entries come first in the picker and so open it for
+   * those classes, as the Mercador's Mammonita already does for the Criador.
+   *
+   * Neither carries an `element`: each takes the equipped arrow's, which is what a bow skill does
+   * and what Flecha Melódica and Disparo Certeiro leave unset for the same reason.
+   *
+   * https://browiki.org/wiki/Rajada_de_Flechas
+   * https://browiki.org/wiki/Chuva_de_Flechas
+   */
+  protected readonly _atkSkillList: AtkSkillModel[] = [
+    {
+      /**
+       * Rajada de Flechas (AC_DOUBLE, 46): 100% at Nv1, +10% per level, twice. The client prints
+       * the column as "100% x2" and bROWiki as "Atira 2 flechas em 1 único ataque", so the figure
+       * is what *each* arrow deals — `totalHit`, which applies the ratio twice, rather than `hit`,
+       * which would split one ratio into two packets and halve the damage.
+       *
+       * Kept equal to the `ITEM_AUTO_CAST_SKILLS` copy, which an item fires on classes that never
+       * learn the skill; `skillForId` prefers this entry, so the two must not drift.
+       *
+       * The passive dropdown of the same name (`DoubleStrafeFn`) is not a second source of damage
+       * — it is the learned level an item's skill-damage bonus keys on.
+       */
+      name: 'Double Strafe',
+      label: 'Double Strafe Lv10',
+      value: 'Double Strafe==10',
+      levelList: atkSkillLevelList('Double Strafe', 10),
+      acd: 0.1,
+      fct: 0,
+      vct: 0,
+      cd: 0,
+      totalHit: 2,
+      formula: ({ skillLevel }: AtkSkillFormulaInput): number => 90 + skillLevel * 10,
+    },
+    {
+      /**
+       * Chuva de Flechas (AC_SHOWER, 47): 160% at Nv1, +10% per level. The 3x3-to-5x5 area and
+       * the 2-cell knockback both sources describe are not damage, so nothing here models them —
+       * the figure is what one target takes.
+       */
+      name: 'Arrow Shower',
+      label: 'Arrow Shower Lv10',
+      value: 'Arrow Shower==10',
+      levelList: atkSkillLevelList('Arrow Shower', 10),
+      acd: 0.1,
+      fct: 0,
+      vct: 0,
+      cd: 0,
+      formula: ({ skillLevel }: AtkSkillFormulaInput): number => 150 + skillLevel * 10,
+    },
+  ];
   // Concentrar is the Arqueiro's own buff, so the whole line gets it here, under
   // "Habilidades e efeitos ativos". The shared `JobBuffs` row — the one every other class
   // receives from a party or from 12796 Elixir Rubro — is the same factory, and the panel
