@@ -1,6 +1,7 @@
 import { JOB_4_MAX_JOB_LEVEL, JOB_4_MIN_MAX_LEVEL } from '../app-config';
 import { ElementType, ElementalControlMode, ElementalMasterSpirit } from '../constants';
 import { SKILL_NAME } from '../constants/skill-name';
+import { ClassAutoCastDefinition } from '../models/auto-cast.model';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput } from '../models/info-for-class.model';
 import { SKILL_ID_BY_NAME } from '../skills';
@@ -8,6 +9,64 @@ import { addBonus, genSkillList } from '../utils';
 import { Sorcerer } from './Sorcerer';
 import { ActiveSkillModel, AtkSkillFormulaInput, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { ClassName } from './_class-name';
+
+/**
+ * Modo Passivo's second half. Besides the skill-damage bonus `setSpiritBonus` applies,
+ * the summon rolls an auto-cast on the Elementalista's own basic attacks — browiki, one
+ * page per elemental, under "Efeitos no Elementalista":
+ *
+ *   "Ao realizar ataques físicos corpo a corpo, 7% de chance de autoconjurar
+ *    [X] nv.1 ou no maior nível aprendido."
+ *
+ * The spell that is auto-cast is not always the one the damage bonus boosts: Serpens
+ * boosts Maldição de Jormungand (2450) and auto-casts Implosão Tóxica (2448).
+ *
+ * `melee-physical-attack` and not `-hit`: the wiki conditions the roll on *performing*
+ * the melee attack and says nothing about it landing, the same reading Espada Alada
+ * carries (DragonKnight.ts). No replay measures this proc yet, so the rate is the
+ * wiki's and the trigger is its wording.
+ */
+const SPIRIT_AUTO_CAST_CHANCE = 7;
+
+/** `_ElementalMaster_spirit` value → the spell Modo Passivo auto-casts, and the status granting it. */
+const SPIRIT_AUTO_CASTS: Record<number, { skillId: number; skillName: SKILL_NAME; status: string }> = {
+  1: { skillId: 14, skillName: 'Cold Bolt', status: 'Força Gélida' },
+  2: { skillId: 19, skillName: 'Fire Bolt', status: 'Técnica das Chamas' },
+  3: { skillId: 20, skillName: 'Lightening Bolt', status: 'Brisa Refrescante' },
+  4: { skillId: 90, skillName: 'Earth Spike', status: 'Cuidado com a Terra' },
+  5: { skillId: 2448, skillName: 'Poison Burst', status: 'Serpente Venenosa' },
+};
+
+const ELEMENTAL_MASTER_AUTO_CASTS: ClassAutoCastDefinition[] = [
+  {
+    key: 'elemental-spirit-passive',
+    resolve: ({ skillState, skillById }) => {
+      const spirit = SPIRIT_AUTO_CASTS[skillState.activeLevel('_ElementalMaster_spirit')];
+      const reasons = [
+        ...(!spirit ? ['Invoque um Espírito Elemental'] : []),
+        ...(skillState.activeLevel('_ElementalMaster_el_control') !== ElementalControlMode.Passive
+          ? ['Selecione Domínio Elemental: Passivo'] : []),
+      ];
+      if (reasons.length || !spirit) {
+        return { blocked: [{ key: 'passive-elemental-spirit', name: 'Espírito Elemental', icon: 2456, reason: reasons.join(' · ') }] };
+      }
+      const skillData = skillById(spirit.skillId);
+      if (!skillData) return {};
+      // "nv.1 ou no maior nível aprendido": a spell nobody put points into still fires at 1.
+      const skillLevel = Math.max(1, skillState.learnedLevel(spirit.skillName));
+
+      return { sources: [{
+        key: 'passive-elemental-spirit', kind: 'passive', skillId: spirit.skillId,
+        enablingSkillId: 2456, skillLevel, chance: SPIRIT_AUTO_CAST_CHANCE,
+        trigger: 'melee-physical-attack', sourceName: spirit.status, skillData,
+        chanceBreakdown: [
+          { label: spirit.status, value: `Domínio Elemental: Passivo · ${SPIRIT_AUTO_CAST_CHANCE}% por ataque básico corpo a corpo` },
+          { label: 'Nível', value: `Nv. 1 ou o maior aprendido = Nv. ${skillLevel}` },
+        ],
+      }] };
+    },
+  },
+];
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 1, 0, 0],
@@ -373,6 +432,7 @@ export class ElementalMaster extends Sorcerer {
       passiveSkillList: this.passiveSkillList4th,
       classNames: this.classNames4th,
     });
+    this.inheritAutoCasts(ELEMENTAL_MASTER_AUTO_CASTS);
   }
 
   override setAdditionalBonus(params: AdditionalBonusInput): EquipmentSummaryModel {
@@ -399,10 +459,11 @@ export class ElementalMaster extends Sorcerer {
 
     /**
      * Modo Passivo (Domínio Elemental nv.1) only — browiki's "Efeitos no Elementalista"
-     * block, one page per elemental. The other two modes grant nothing the engine can
-     * measure: Defensivo is armour enchant + element resistances (no character-side
-     * element-resistance key exists), and Ofensivo is an attack cast by the *elemental*,
-     * off the elemental's own MATK.
+     * block, one page per elemental. That same block also grants the 7% auto-cast wired
+     * in ELEMENTAL_MASTER_AUTO_CASTS above; this half is the flat skill-damage bonus.
+     * The other two modes grant nothing the engine can measure: Defensivo is armour
+     * enchant + element resistances (no character-side element-resistance key exists),
+     * and Ofensivo is an attack cast by the *elemental*, off the elemental's own MATK.
      *
      * Keyed by the game's skill **id**: getSkillBonus reads
      * `totalBonus[SKILL_ID_BY_NAME[name] ?? name]`, so a name key is never read back.

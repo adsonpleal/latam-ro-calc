@@ -3,7 +3,9 @@ import { ClassName } from './_class-name';
 import { ActiveSkillModel, AtkSkillModel, PassiveSkillModel } from './_character-base.abstract';
 import { Mage } from './Mage';
 import { EARTH_SPIKE, HEAVENS_DRIVE } from '../skills/shared-skills';
-import { ClassAutoCastDefinition } from '../models/auto-cast.model';
+import { SKILL_ID_BY_NAME, resolveSkillById } from '../skills';
+import { genSkillList } from '../utils';
+import { ClassAutoCastDefinition, ClassAutoCastResolution } from '../models/auto-cast.model';
 
 const AUTO_SPELL_TIERS: Array<[number, number[]]> = [
   [1, [19, 14, 20]],
@@ -11,6 +13,60 @@ const AUTO_SPELL_TIERS: Array<[number, number[]]> = [
   [7, [88, 90]],
   [10, [21, 91]],
 ];
+
+/**
+ * Lanças Duplas (Lucky Cast / PF_DOUBLECASTING, 482) — the Professor buff that repeats a
+ * bolt you just cast: "Concede a chance de repetir a magia no mesmo nível ao atacar com
+ * Lanças de Gelo, Lanças de Fogo e Relâmpago", 90 seconds, chance by level below.
+ * https://browiki.org/wiki/Lanças_Duplas, and the client's own text (skill-meta, 482).
+ *
+ * One `skill-use` source per bolt, repeating that same bolt at that same level: the
+ * trigger fires on casting the spell rather than on a swing, so only the source whose
+ * `triggerSkillId` is the selected skill is priced, and the other two show as blocked
+ * rows naming the spell to select. A single source cannot cover all three, since
+ * `triggerSkillId` names exactly one trigger skill.
+ */
+const LUCKY_CAST_BOLTS = ['Fire Bolt', 'Cold Bolt', 'Lightening Bolt'] as const;
+const LUCKY_CAST_CHANCE = [40, 50, 60, 70, 80];
+
+const LUCKY_CAST_AUTO_CAST: ClassAutoCastDefinition = {
+  key: 'lucky-cast',
+  resolve: ({ skillState, model }) => {
+    const level = skillState.activeLevel('Lucky Cast');
+    if (level <= 0) {
+      return { blocked: [{ key: 'lucky-cast', name: 'Lanças Duplas', icon: 482,
+        reason: 'Selecione o nível de Lanças Duplas em Habilidades.' }] };
+    }
+    const chance = LUCKY_CAST_CHANCE[level - 1];
+    // "repetir a magia no mesmo nível": the repeat copies the cast that fired it, so both
+    // the spell and its level come from the attack picker, never from the learned level.
+    const [selectedName, selectedLevel] = String(model?.selectedAtkSkill ?? '').split('==');
+    const sources: ClassAutoCastResolution['sources'] = [];
+    const blocked: ClassAutoCastResolution['blocked'] = [];
+
+    for (const name of LUCKY_CAST_BOLTS) {
+      const skillId = SKILL_ID_BY_NAME[name];
+      const label = resolveSkillById(skillId)?.name ?? name;
+      if (name !== selectedName) {
+        blocked.push({ key: `lucky-cast-${skillId}`, name: label, icon: skillId,
+          reason: `Selecione ${label} como habilidade para ativar Lanças Duplas.` });
+        continue;
+      }
+      sources.push({
+        key: `lucky-cast-${skillId}`, kind: 'passive', skillId,
+        skillLevel: Number(selectedLevel) || 1, chance,
+        trigger: 'skill-use', triggerSkillId: skillId,
+        sourceName: 'Lanças Duplas', enablingSkillId: 482,
+        chanceBreakdown: [
+          { label: 'Lanças Duplas', value: `Nv. ${level} · ${chance}% por conjuração de ${label}` },
+          { label: 'Nível repetido', value: `o mesmo da magia conjurada (Nv. ${Number(selectedLevel) || 1})` },
+        ],
+      });
+    }
+
+    return { sources, blocked };
+  },
+};
 
 const SCHOLAR_AUTO_CASTS: ClassAutoCastDefinition[] = [{
   key: 'auto-spell',
@@ -36,7 +92,7 @@ const SCHOLAR_AUTO_CASTS: ClassAutoCastDefinition[] = [{
       }],
     };
   },
-}];
+}, LUCKY_CAST_AUTO_CAST];
 
 const jobBonusTable: Record<number, [number, number, number, number, number, number]> = {
   1: [0, 0, 0, 1, 0, 0],
@@ -187,6 +243,16 @@ export class Scholar extends Mage {
         { label: 'Nv 4', isUse: true, value: 4, bonus: { m_my_element_earth: 4 } },
         { label: 'Nv 5', isUse: true, value: 5, bonus: { m_my_element_earth: 5 } },
       ],
+    },
+    {
+      // Lanças Duplas (482) — a 90 s self-buff that grants no stat, so it carries no
+      // bonus: the level it is set to is read back by SCHOLAR_AUTO_CASTS alone. Appended
+      // last on purpose; saves restore these by name and the positional fallback only
+      // runs while the count matches (see matchesSavedSkillCount).
+      inputType: 'dropdown',
+      label: 'Lucky Cast',
+      name: 'Lucky Cast',
+      dropdown: genSkillList(5),
     },
   ];
   protected readonly passiveSkillListHi: PassiveSkillModel[] = [
