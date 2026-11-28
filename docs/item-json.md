@@ -145,6 +145,12 @@ já está por vir e as pessoas querem montar a build antes do lançamento:
   `latam-items.json` e `src/app/api-services/pre-release-items.spec.ts` **falha** listando
   os ids afetados. Esse é o gatilho para voltar aqui, apagar o `preRelease`, devolver
   `description` para `""` e deixar o overlay pt-BR assumir.
+- **Ao marcar uma leva inteira**, confira também que todo encanto oferecido por uma peça de
+  prévia está visível: um registro que existe mas continua escondido deixa um buraco no
+  meio da escada do dropdown. `src/app/api-services/roadmap-2027-preview.spec.ts` guarda
+  essa invariante nos dois sentidos (nenhum buraco na prévia, nenhuma opção nova em item já
+  lançado). O catálogo de quais levas estão em prévia está em
+  [roadmap-2027-preview.md](roadmap-2027-preview.md).
 
 ---
 
