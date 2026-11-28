@@ -2205,6 +2205,13 @@ export class Calculator {
    * level is bROWiki's `Efetividade` column — the client's description says the passive
    * "melhora a efetividade de cura" but prints only the SP columns. Offertorium's is the
    * client's own per-level table, +30% a level.
+   *
+   * The two skills are summed here rather than declared as `bonus: { healPower: N }` on
+   * their own dropdown rows in `jobs/ArchBishop.ts`, which is where the engine's other
+   * skill bonuses live. That is a deliberate first cut, and it has one trap: the
+   * `equipment` line below is `totalEquipStatus.healPower`, which a `bonus` declaration
+   * would already be part of. **Moving either skill into its dropdown means deleting its
+   * branch here in the same change**, or the panel counts it twice.
    */
   private healPowerSources(): HealPowerSource[] {
     const sources: HealPowerSource[] = [{ key: 'equipment', value: this.totalEquipStatus.healPower || 0 }];
