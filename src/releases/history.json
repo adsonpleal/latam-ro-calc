@@ -1,5 +1,18 @@
 [
   {
+    "v": "0.1.230-beta",
+    "date": "28-11-2026",
+    "logs": [
+      "Corrigida a redução de dano contra jogadores em Sopro do Dragão, Bafo do Dragão e Ataque Aéreo: as três davam no PVP, no WOE e no WOE TE exatamente o mesmo dano do dummy, ignorando a redução da guerra e as reduções do próprio alvo."
+    ],
+    "logs_es": [
+      "Corregida la reducción de daño contra jugadores en Aliento de Dragón, Aliento de Dragón de Agua y Bombardeo Feroz: las tres daban en PVP, en WOE y en WOE TE exactamente el mismo daño que al dummy, ignorando la reducción de la guerra y las reducciones del propio objetivo."
+    ],
+    "logs_en": [
+      "Fixed the vs-player damage reduction on Dragon's Breath, Dragon's Water Breath and Blitz Beat: all three dealt exactly the same damage in PVP, WOE and WOE TE as against the dummy, ignoring the war reduction and the target's own reductions."
+    ]
+  },
+  {
     "v": "0.1.229-beta",
     "date": "24-11-2026",
     "logs": [
