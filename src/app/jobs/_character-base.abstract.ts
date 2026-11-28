@@ -9,6 +9,12 @@ import type { TextKey } from '../i18n';
 import { ClassAutoCastDefinition } from '../models/auto-cast.model';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput, InfoForClass, SkillRef, SkillStateCtx } from '../models/info-for-class.model';
+import {
+  JOB_4_MAX_JOB_LEVEL,
+  JOB_4_MIN_MAX_LEVEL,
+  JOB_4_PREVIEW_MAX_JOB_LEVEL,
+  JOB_4_PREVIEW_MIN_MAX_LEVEL,
+} from '../app-config';
 import { ASPD_CAP, sortSkill, StackLimits } from '../utils';
 import { AspdTable } from './_aspd-table';
 import { ClassName } from './_class-name';
@@ -388,6 +394,25 @@ export abstract class CharacterBase {
       minMaxLevel: caps?.minMaxLevel ?? this.minMaxLevel,
       maxJob: caps?.maxJobLevel ?? this.maxJob,
     };
+  }
+
+  /**
+   * The 275/60 caps when this class takes part in kRO's level expansion, `null` when it
+   * does not.
+   *
+   * Membership is read from the class's own live caps instead of a second list of class
+   * names: the expansion raised the fourth-job 250/50, so a class running exactly those
+   * caps is exactly a class the expansion covers. A third job stays at 200, a pre-third at
+   * 99, and neither answers here — which also means a new fourth job needs no edit.
+   */
+  get previewLevelCap(): { minMaxLevel: [number, number]; maxJob: number } | null {
+    const { minMaxLevel, maxJob } = this.minMaxLevelCap;
+    const isFourthJobCap =
+      minMaxLevel[0] === JOB_4_MIN_MAX_LEVEL[0] &&
+      minMaxLevel[1] === JOB_4_MIN_MAX_LEVEL[1] &&
+      maxJob === JOB_4_MAX_JOB_LEVEL;
+
+    return isFourthJobCap ? { minMaxLevel: JOB_4_PREVIEW_MIN_MAX_LEVEL, maxJob: JOB_4_PREVIEW_MAX_JOB_LEVEL } : null;
   }
 
   get maxBaseStat() { return this.tierCaps?.maxBaseStat ?? 130; }

@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Adicionada a prévia do aumento de nível máximo do ROADMAP 2027: nível de base até 275 e nível de classe até 60 para as classes de quarta. Os níveis acima do limite atual aparecem marcados como Prévia nas listas de Nível e Nível de classe, e podem ser escondidos em Configurações > Prévias. O HP e o SP base param no nível 250, que é o último publicado."
+  ],
+  "logs_es": [
+    "Añadida la vista previa del aumento de nivel máximo del ROADMAP 2027: nivel de base hasta 275 y nivel de clase hasta 60 para las clases de cuarta. Los niveles por encima del límite actual aparecen marcados como Vista previa en las listas de Nivel y Nivel de clase, y pueden ocultarse en Configuración > Vistas previas. El HP y el SP base se detienen en el nivel 250, que es el último publicado."
+  ],
+  "logs_en": [
+    "Added the preview of the ROADMAP 2027 level cap increase: base level up to 275 and job level up to 60 for the fourth classes. The levels above the current cap are marked Preview in the Level and Job Level lists, and can be hidden under Settings > Previews. Base HP and SP stop at level 250, which is the last one published."
+  ]
+}

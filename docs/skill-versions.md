@@ -6,7 +6,7 @@ The persisted version IDs are `current`, `pre-rebalance` and `rebalance-2026-02`
 
 The legacy class definitions in `src/app/jobs/*.ts` remain the source for `pre-rebalance`; `current` and `rebalance-2026-02` are resolved from them per calculation by `resolveRebalancedSkill`, which never writes to a shared job or skill definition. Each rebalance catalog uses copies and adds attacks the legacy catalog lacks. Preview attacks are available in all three versions and are explicitly labelled **Prévia**; all new buff/condition controls start disabled.
 
-The cog button at the far right of the topbar opens the **Configurações** sidebar on the right. Its only setting is the **Prévias** Sim/Não control, which defaults to **Sim** and persists separately from builds in `ro-show-previews`. Its hover tooltip explains preview visibility, the LATAM reset and persistence. Turning it off hides preview item/enchant choices and skill controls, removes preview attacks from rotations, disables hidden preview buffs, and resets formulas to **Atual (LATAM)**, which is the baseline. Formula selectors in Batalha, PVP and Auto-conjuração stay hidden while it is off, including after loading a saved/shared build. Turning it back on restores the catalogs without re-enabling buffs or rebalance. Existing equipped items are preserved. The sidebar closes with its close button, Escape or a backdrop click. The 285/65 skills were requested by Oden.
+The cog button at the far right of the topbar opens the **Configurações** sidebar on the right. Its only setting is the **Prévias** Sim/Não control, which defaults to **Sim** and persists separately from builds in `ro-show-previews`. Its hover tooltip explains preview visibility, the LATAM reset and persistence. Turning it off hides preview item/enchant choices and skill controls, removes preview attacks from rotations, disables hidden preview buffs, drops the 275/60 levels from the Nível dropdowns and pulls a character past the live cap back under it, and resets formulas to **Atual (LATAM)**, which is the baseline. Formula selectors in Batalha, PVP and Auto-conjuração stay hidden while it is off, including after loading a saved/shared build. Turning it back on restores the catalogs without re-enabling buffs or rebalance. Existing equipped items are preserved. The sidebar closes with its close button, Escape or a backdrop click. The 285/65 skills were requested by Oden.
 
 ## The 28/10/2026 LATAM patch
 
@@ -137,7 +137,38 @@ Existing stance, Axe Stomp, Research Report, Shadow Exceed, Mystic Symphony, Dra
 
 The announcement supplies base ratios, hit counts, stated passive dependencies, buff effects and restrictions. It mentions scaling with traits and base level without publishing every coefficient or cast delay. Those missing coefficients and timings use the [rAthena renewal skill database](https://github.com/rathena/rathena/blob/master/db/re/skill_db.yml) and [skill implementations](https://github.com/rathena/rathena/tree/master/src/map/skills), inspected on 2026-10-11. They are provisional and have not been validated against LATAM recordings. Later rAthena base-ratio balance changes do not replace the requested announcement ratios.
 
-The calculator's existing supported character levels and job stat tables are unchanged. These previews do not add level-275 character progression or a combat/resource state machine.
+These previews do not add a combat/resource state machine. The level cap they belong to is a separate preview, described below.
+
+## The 275/60 level cap
+
+kRO's level expansion shipped on 2024-08-07: base 275, job 60, and the pure trait cap raised from 100 to 110. LATAM has not shipped it — it is the Q4 entry of the ROADMAP 2027 ("nível máximo 275 (base) e 60 (classe)") — so the calculator offers it as a **Prévia** beside LATAM's live 250/50 rather than in place of it.
+
+**The player raises their own cap by picking a level.** The levels past the live cap sit in the same Nível and Nível de classe dropdowns, each marked *(Prévia)*, so there is no second setting to find. Configurações > **Prévias** = Não removes them and pulls a character already past the live cap back under it — to 250/50, the strongest LATAM build that spread can express, rather than resetting to 200/1. The allowance is off by default everywhere else, so MCP build resolution and a share link read with Prévias off both land on the live cap.
+
+Only the twenty fourth-job classes take part, which is read from a class's own caps rather than a second list of names: the expansion raised the fourth-job 250/50, so a class running exactly those caps is a class it covers. A third job stays at 200 and a pre-third at 99.
+
+### Why this is a cap change and not a data import
+
+Almost everything the ten job levels and twenty-five base levels need was already in the repo:
+
+- **Job bonuses.** Every fourth-job class's `jobBonusTable` and `TraitBonusTable` already carry real rows through job level 59 (they are padded to 70, which `_job-tier.ts` already notes). Seventeen of the twenty grow a trait bonus between job 51 and 60; Shinkiro and Shiranui grow a main stat instead. `JOB_4_MAX_JOB_LEVEL = 50` was the only thing keeping those rows out of reach. `preview-level-cap.spec.ts` asserts the rows still change in that range, because padding would hand the player ten empty levels.
+- **Trait points.** `BaseStateCalculator` has always accumulated them to 275 — 7 at level 200, +3 per level and +4 more on every fifth, so 292 at 275 against 197 at 250.
+- **Status points.** They stop growing at 200 for every class by design, so nothing changes.
+- **Skill ratios.** They scale with `model.level` as a formula, so a level-275 figure is exact.
+
+### The one figure that plateaus
+
+**Base HP/SP stops at level 250 and stays there.** `HpSpCalculator` has always clamped the lookup to the last row in `hp_sp_table.json`; the clamp now has a name, `HP_SP_TABLE_LAST_LEVEL`, and the reason beside it. No source publishes base HP/SP above 250:
+
+- rAthena's `db/re/job_basepoints.yml` stops its `BaseHp`/`BaseSp` tables at level 200 and derives the rest from per-class `HpFactor`/`HpIncrease`. Its `BaseAp` block does run 200–275, so the expansion is implemented there — the HP tables simply are not part of it.
+- The twelve fourth-job rows in `hp_sp_table.json` do not reproduce that formula at **any** (factor, increase) pair, checked over the whole plausible range against all 51 levels. They are observed figures with no recoverable generator, so there is no curve to continue. The six Expanded 4th rows do fit it, as `expanded-fourth-hp-sp-table.spec.ts` documents, but mixing a formula row with a measured one would make the two halves of the table mean different things.
+- The upstream calculator ([tong-calc-ro](https://github.com/turugrura/tong-calc-ro)) stops at 250 as well.
+
+So a level-275 preview character shows its level-250 base HP/SP. That is a stated plateau rather than an extrapolation, which is the trade this repo makes everywhere else: a missing figure beats an invented one.
+
+### Left out
+
+**The pure trait cap stays at 100.** Raising it to 110 is a stat ceiling rather than a level, it needs its own clamp-down path for a build saved past 100, and nothing about the level cap depends on it. Leaving it makes the preview conservative, never wrong: at base 275 a single trait can still take the 100 the live game allows.
 
 ## 285/65 previews
 
@@ -171,7 +202,7 @@ Surge boosts non-critical physical damage, critical damage and melee/ranged dama
 
 Elemental Integration resolves the element from its active level and proc strength from its learned level (falling back to active level when learning is unset). It triggers from basic physical attacks with 25% chance and gains the matching higher elemental's bonus. Phantom Dagger uses an expected count of 3.15–3.75 full-ratio hits. Seven-Star Heavenly Kick uses a manually selected satellite count, initially zero; seven selects the enhanced ratio.
 
-**Limits:** 285/65 trait coefficients and cast timings are unpublished in these sources and are not borrowed from unrelated skills. Known base-level scaling and published mastery terms are included; the missing POW/CON/SPL terms and Breaking Limit's new-skill multipliers are not. These are partial preview damage estimates, not LATAM-validated formulas. Individual damage remains available, but DPS, combo timing, time to kill and rotation optimization are unavailable when a rotation contains unknown timings. Movement, clone attacks, duration/resource consumption, healing and automatic state transitions remain descriptive. Alitea needs a separate class implementation before its two catalog entries can be simulated. Character progression still uses the supported LATAM level/job/stat tables.
+**Limits:** 285/65 trait coefficients and cast timings are unpublished in these sources and are not borrowed from unrelated skills. Known base-level scaling and published mastery terms are included; the missing POW/CON/SPL terms and Breaking Limit's new-skill multipliers are not. These are partial preview damage estimates, not LATAM-validated formulas. Individual damage remains available, but DPS, combo timing, time to kill and rotation optimization are unavailable when a rotation contains unknown timings. Movement, clone attacks, duration/resource consumption, healing and automatic state transitions remain descriptive. Alitea needs a separate class implementation before its two catalog entries can be simulated. Character progression follows whichever cap is active — see "The 275/60 level cap" above.
 
 ## Verification
 
