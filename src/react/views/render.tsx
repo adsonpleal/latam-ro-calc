@@ -19,6 +19,7 @@ import { useTooltip } from '../ui/tooltip';
 import { VirtualList } from '../ui/virtual-list';
 import { BattleEffects } from './battle-effects';
 import { BattleMonsterCard } from './battle-monster-card';
+import { HealHud } from './heal-hud';
 import { CalcValue } from './calc-value';
 import { EquipmentChip } from './equipment-chip';
 import { StatusInput } from './status-input';
@@ -162,6 +163,10 @@ function renderElement({ tag, props: original, children }: RenderProps, { servic
       customIcon={id => services.customItems.iconFor(id)} onPick={props['pick']} onEdit={props['edit']} onClear={props['clear']} />; break;
     case 'app-battle-effects': rendered = <BattleEffects {...props as any} onChange={props['selectedChancesChange']}
       onCompareChange={props['selectedChances2Change']} customIcon={id => services.customItems.iconFor(id)} />; break;
+    case 'app-heal-hud': rendered = <HealHud {...props as any} onSkillChange={props['skillChange']}
+      onSkillLevelChange={props['skillLevelChange']} onHealLevelChange={props['healLevelChange']}
+      onPartyMembersChange={props['partyMembersChange']}
+      onTargetEffectivenessChange={props['targetEffectivenessChange']} />; break;
     case 'app-battle-monster-card': rendered = <BattleMonsterCard {...props as any} onRelieveLevelChange={props['relieveLevelChange']}
       onBetelgeuseHpChange={props['betelgeuseHpChange']}
       onIncomingReductionClick={props['incomingReductionClick']}

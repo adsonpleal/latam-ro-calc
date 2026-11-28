@@ -1,0 +1,59 @@
+/*
+ * The Cura panel's own styles — only what the Batalha panel's stylesheet does not
+ * already give it. Everything structural (`.hud-card`, `.pstats`, `.kv`, `.psec`,
+ * `.hud-cards`, `.hud-card-col`) comes from `battle-hud.css` through the
+ * `ui-scope-app-battle-hud` class on this panel's root, so the two read alike.
+ */
+app-heal-hud {
+  display: block;
+  min-width: 0;
+  width: 100%;
+  container-type: inline-size;
+}
+
+app-heal-hud .heal-selectors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+app-heal-hud .heal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 180px;
+  flex: 1 1 180px;
+}
+
+app-heal-hud .heal-field--narrow {
+  min-width: 120px;
+  flex: 0 1 140px;
+}
+
+app-heal-hud .heal-field label {
+  font-size: 12px;
+  color: var(--text-color-secondary);
+}
+
+/* The three cards sit side by side where there is room and stack on a phone, the same
+   way the battle HUD's own card row behaves. */
+app-heal-hud .heal-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+app-heal-hud .heal-note {
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-color-secondary);
+}
+
+app-heal-hud .heal-empty {
+  padding: 16px 0;
+  font-size: 14px;
+  color: var(--text-color-secondary);
+}

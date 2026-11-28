@@ -100496,6 +100496,13 @@
         "GRADE[me==C]SUM[wis==20]---1",
         "GRADE[me==B]SUM[wis==20]---1",
         "GRADE[me==A]SUM[wis==20]---1"
+      ],
+      "healPower": [
+        "SUM[wis==20]---1",
+        "GRADE[me==D]SUM[wis==20]---1",
+        "GRADE[me==C]SUM[wis==20]---1",
+        "GRADE[me==B]SUM[wis==20]---2",
+        "GRADE[me==A]SUM[wis==20]---2"
       ]
     }
   },
@@ -100529,6 +100536,12 @@
       ],
       "hplus": [
         "GRADE[me==A]SUM[wis==20]---1"
+      ],
+      "healPower": [
+        "SUM[wis==20]---2",
+        "GRADE[me==D]SUM[wis==20]---1",
+        "GRADE[me==C]SUM[wis==20]---2",
+        "GRADE[me==B]SUM[wis==20]---2"
       ]
     }
   },
@@ -100563,6 +100576,11 @@
       "hplus": [
         "GRADE[me==B]SUM[wis==20]---1",
         "GRADE[me==A]SUM[wis==20]---2"
+      ],
+      "healPower": [
+        "SUM[wis==20]---3",
+        "GRADE[me==D]SUM[wis==20]---1",
+        "GRADE[me==C]SUM[wis==20]---2"
       ]
     }
   },
@@ -355383,6 +355401,9 @@
       ],
       "luk": [
         "1"
+      ],
+      "healPower": [
+        "SKILL_ID[22==1]---1"
       ]
     }
   },
@@ -360162,7 +360183,11 @@
       "Acolyte",
       "Merchant"
     ],
-    "script": {}
+    "script": {
+      "healPower": [
+        "1---1"
+      ]
+    }
   },
   "16020": {
     "id": 16020,

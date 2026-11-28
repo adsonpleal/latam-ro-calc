@@ -14,6 +14,34 @@ import { IconName } from 'src/app/ui/icon-names';
 import { TextKey, Translate } from 'src/app/i18n';
 import { PresetModel } from 'src/app/api-services/models/preset-model';
 import { SKILL_ID_BY_NAME, resolveSkillMeta } from 'src/app/skills';
+import { findHealSkill, hasHealingPanel, healSkillsForClass } from 'src/app/skills/healing-skills';
+
+/**
+ * The Cura panel's controls as localStorage left them, clamped to what the catalog
+ * allows. Read at construction, the way `betelgeuseHp` is, and deliberately forgiving:
+ * a blocked, cleared or hand-edited store just means the panel opens on Curar Nv 10.
+ */
+const storedHealingPanel = (): { skill: string; skillLevel: number; healLevel: number; partyMembers: number; targetEffectiveness: number; } => {
+  const fallback = { skill: 'Heal', skillLevel: 10, healLevel: 10, partyMembers: 0, targetEffectiveness: 0 };
+  let stored: any = {};
+  try {
+    stored = JSON.parse(localStorage.getItem('ro-healing-panel') || '{}') || {};
+  } catch {
+    return fallback;
+  }
+
+  const skill = findHealSkill(stored.skill) ? stored.skill : fallback.skill;
+  const clamp = (value: any, min: number, max: number, fallbackValue: number) =>
+    Number.isFinite(value) ? Math.max(min, Math.min(max, Math.floor(value))) : fallbackValue;
+
+  return {
+    skill,
+    skillLevel: clamp(stored.skillLevel, 1, findHealSkill(skill)?.maxLevel ?? 10, findHealSkill(skill)?.maxLevel ?? 10),
+    healLevel: clamp(stored.healLevel, 1, 10, fallback.healLevel),
+    partyMembers: clamp(stored.partyMembers, 0, 11, fallback.partyMembers),
+    targetEffectiveness: clamp(stored.targetEffectiveness, 0, 1000, fallback.targetEffectiveness),
+  };
+};
 import { BUFF_BONUS_LABELS, bonusKeyLabel, resolveSkillKey } from 'src/app/core/bonus-key-label';
 import { AllowedCompareItemTypes } from 'src/app/app-config';
 import {
@@ -343,6 +371,21 @@ export class CalculatorSession extends Store<number> {
   pvpSummary: any = null;
   /** The compared build against the same PVP target; null when not comparing. */
   pvpSummary2: any = null;
+  /**
+   * The Cura panel's reading, and the controls that produce it — card
+   * c3W2qySdAGV69qMOyM5w.
+   *
+   * Session state persisted in localStorage rather than fields on `MainModel`, the way
+   * `betelgeuseHp` is: which heal to look at is a reading preference, not part of the
+   * character. One consequence is deliberate and worth knowing — it does not travel in a
+   * share link or a named save, so the panel opens on Curar for whoever follows a link.
+   */
+  healSummary: any = null;
+  healSkill = storedHealingPanel().skill;
+  healSkillLevel = storedHealingPanel().skillLevel;
+  healLevel = storedHealingPanel().healLevel;
+  healPartyMembers = storedHealingPanel().partyMembers;
+  healTargetEffectiveness = storedHealingPanel().targetEffectiveness;
   /** "Redução de dano" popover data: the current build's own reductions (main stats,
    *  mode-independent) and the selected PVP target's reductions (HUD, with the WoE
    *  layer for the active mode). Recomputed on each calculate()/calculatePvp(). */
@@ -1643,10 +1686,109 @@ await ((_event?: unknown) => {
     this.onRotationChange({ rotation: previous, stacks: previousStacks });
   }
 
+  /**
+   * Whether the Cura panel is shown at all: only for the ArchBishop line, as the card
+   * asks. Read by the accordion, which leaves the tab out entirely for anyone else.
+   */
+  get hasHealingPanel(): boolean {
+    return hasHealingPanel(this.selectedCharacter?.className);
+  }
+
+  /** The healing skills this class can cast, by the client's own pt-BR names. */
+  get healSkillOptions(): DropdownModel[] {
+    return healSkillsForClass(this.selectedCharacter?.className).map((skill) => ({
+      label: resolveSkillMeta(skill.name)?.label ?? skill.name,
+      value: skill.name,
+    }));
+  }
+
+  get healLevelOptions(): DropdownModel[] {
+    return this.levelOptionsUpTo(findHealSkill('Heal')?.maxLevel ?? 10);
+  }
+
+  get healSkillLevelOptions(): DropdownModel[] {
+    return this.levelOptionsUpTo(findHealSkill(this.healSkill)?.maxLevel ?? 10);
+  }
+
+  /** Curar is its own base, so its "Nível de Curar" control would repeat the level above it. */
+  get showHealLevel(): boolean {
+    return this.healSkill !== 'Heal';
+  }
+
+  /** Only Sopro Divino's amount reads the party size. */
+  get showHealPartyMembers(): boolean {
+    return this.healSkill === 'Coluceo Heal';
+  }
+
+  private levelOptionsUpTo(maxLevel: number): DropdownModel[] {
+    return Array.from({ length: maxLevel }, (_unused, index) => ({
+      label: this.text('heal.level') + ' ' + (index + 1), value: index + 1,
+    }));
+  }
+
+  onHealSkillChange(skill: string) {
+    this.healSkill = skill;
+    // Each skill has its own ceiling (10 / 5 / 3), so a level carried over from the
+    // previous pick can be out of range — clamp rather than leaving the Select blank.
+    const maxLevel = findHealSkill(skill)?.maxLevel ?? 10;
+    this.healSkillLevel = Math.min(this.healSkillLevel, maxLevel);
+    this.persistHealing();
+  }
+
+  onHealSkillLevelChange(level: number) {
+    this.healSkillLevel = level;
+    this.persistHealing();
+  }
+
+  onHealLevelChange(level: number) {
+    this.healLevel = level;
+    this.persistHealing();
+  }
+
+  onHealPartyMembersChange(members: number) {
+    // 12 members is a full party, the caster included, so 11 others at most.
+    this.healPartyMembers = Math.max(0, Math.min(11, Math.floor(members) || 0));
+    this.persistHealing();
+  }
+
+  onHealTargetEffectivenessChange(percent: number) {
+    this.healTargetEffectiveness = Math.max(0, Math.floor(percent) || 0);
+    this.persistHealing();
+  }
+
+  private persistHealing() {
+    try {
+      localStorage.setItem('ro-healing-panel', JSON.stringify({
+        skill: this.healSkill, skillLevel: this.healSkillLevel, healLevel: this.healLevel,
+        partyMembers: this.healPartyMembers, targetEffectiveness: this.healTargetEffectiveness,
+      }));
+    } catch {
+      // A blocked or full localStorage is not a reason to stop showing the panel.
+    }
+    this.updateItemEvent.next(1);
+  }
+
+  /**
+   * The Cura panel's figures, or null when this class has no healing panel. Pure
+   * delegation to the engine — see `Calculator.getHealSummary`.
+   */
+  private solveHealing(calc: Calculator) {
+    if (!this.hasHealingPanel) return null;
+
+    return calc.getHealSummary({
+      skillName: this.healSkill,
+      skillLevel: this.healSkillLevel,
+      healLevel: this.healLevel,
+      partyMembers: this.healPartyMembers,
+      targetHealReceived: this.healTargetEffectiveness,
+    });
+  }
+
   private calculate() {
     const calc = this.prepare(this.calculator);
 
     this.totalSummary = calc.getTotalSummary();
+    this.healSummary = this.solveHealing(calc);
     this.autoCastSimulation = buildAutoCastSimulation({
       calc,
       model: this.model,

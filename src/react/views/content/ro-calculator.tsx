@@ -726,6 +726,26 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "optimizeClick": (event: any) => vm.action(() => { const $event = event; vm.onOptimizeRotation() }),
 "showElementTableClick": (event: any) => vm.action(() => { const $event = event; vm.onShowElementalTableClick() }),
 "showBonusBreakdownClick": (event: any) => vm.action(() => { const $event = event; vm.showBonusBreakdown($event) })}}></Render></Render></Render></Render>
+{/* Cura — card c3W2qySdAGV69qMOyM5w. Sits directly below Batalha, and only for the
+  ArchBishop line: `hasHealingPanel` leaves the tab out of the accordion entirely for
+  every other class rather than rendering it empty. */}
+{vm.hasHealingPanel && <Render tag="app-ui-accordion-tab" props={{"header": t('calc.healing')}}><Render tag="div" props={{"className": ["grid grid-nogutter battle_summary"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["col-12"].filter(Boolean).join(' ')}}><Render tag="app-heal-hud" props={{"summary": vm.healSummary,
+"skillOptions": vm.healSkillOptions,
+"levelOptions": vm.healSkillLevelOptions,
+"healLevelOptions": vm.healLevelOptions,
+"skill": vm.healSkill,
+"skillLevel": vm.healSkillLevel,
+"healLevel": vm.healLevel,
+"partyMembers": vm.healPartyMembers,
+"targetEffectiveness": vm.healTargetEffectiveness,
+"showHealLevel": vm.showHealLevel,
+"showPartyMembers": vm.showHealPartyMembers,
+"isInProcessingPreset": vm.isInProcessingPreset,
+"skillChange": (value: string) => vm.action(() => vm.onHealSkillChange(value)),
+"skillLevelChange": (value: number) => vm.action(() => vm.onHealSkillLevelChange(value)),
+"healLevelChange": (value: number) => vm.action(() => vm.onHealLevelChange(value)),
+"partyMembersChange": (value: number) => vm.action(() => vm.onHealPartyMembersChange(value)),
+"targetEffectivenessChange": (value: number) => vm.action(() => vm.onHealTargetEffectivenessChange(value))}}></Render></Render></Render></Render>}
 <Render tag="app-ui-accordion-tab" props={{"header": t('calc.autoCast')}}><Render tag="div" props={{"className": ["grid grid-nogutter battle_summary"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["col-12"].filter(Boolean).join(' ')}}><Render tag="div" props={{"role": "status",
 "className": ["auto-cast-beta-alert"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["auto-cast-beta-copy"].filter(Boolean).join(' ')}}><Render tag="app-icon" props={{"aria-hidden": "true",
 "name": "info-circle"}}></Render>
