@@ -94,7 +94,7 @@ export const BUFF_BONUS_LABELS: Record<string, string> = {
   agiBoost: 'AGI %', dexBoost: 'DES %',
   pow: 'POD', sta: 'STA', wis: 'SAB', spl: 'FEI', con: 'CON', crt: 'CRV',
   def: 'DEF', defPercent: 'DEF %', mdef: 'DEFM', mdefPercent: 'DEFM %',
-  softMdefPercent: 'DEFM Leve %', res: 'TEN', allStatus: 'Todos os atributos',
+  softDefPercent: 'DEF Leve %', softMdefPercent: 'DEFM Leve %', res: 'TEN', allStatus: 'Todos os atributos',
   p_pene_race_all: 'Penetração Física (Raça)', m_pene_race_all: 'Penetração Mágica (Raça)',
   pene_res: 'Penetrar TEN', pene_mres: 'Penetrar TENM',
   monster_res: 'TEN do alvo', monster_mres: 'TENM do alvo', oratio: 'Reduz Res. Sagrado do alvo',
