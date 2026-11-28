@@ -1,5 +1,24 @@
 [
   {
+    "v": "0.1.233-beta",
+    "date": "28-11-2026",
+    "logs": [
+      "As invocações do Elementalista agora autoconjuram no Modo Passivo: 7% de chance por ataque corpo a corpo, com a magia de cada elemental — Ardor conjura Lanças de Fogo, Diluvium Lanças de Gelo, Procella Relâmpago, Terremotus Coluna de Pedra e Serpens Implosão Tóxica.",
+      "Lanças Duplas do Professor foi adicionada à lista de habilidades e ao painel de Auto-conjuração, repetindo Lanças de Fogo, Lanças de Gelo ou Relâmpago no mesmo nível conjurado.",
+      "Explosão Espiritual e Tempestade Espiritual passaram a oferecer os cinco níveis em Aprenda para ganhar bônus no Shura e no Inquisidor, em vez de só o nível 5, e uma gravação importada passou a manter o nível que estava gravado. Reportado por Ametsuky."
+    ],
+    "logs_es": [
+      "Las invocaciones del Elementalista ahora autolanzan en Modo Pasivo: 7% de probabilidad por ataque cuerpo a cuerpo, con el hechizo de cada elemental — Ardor lanza Lanzas de Fuego, Diluvio Lanzas de Hielo, Procella Relámpago, Terremotus Pico de Tierra y Serpens Ráfaga Venenosa.",
+      "Duplicar Lanza del Profesor fue añadida a la lista de habilidades y al panel de Autolanzamiento, repitiendo Lanzas de Fuego, Lanzas de Hielo o Relámpago en el mismo nivel lanzado.",
+      "Ráfaga de Explosiones y Ataque Relámpago pasaron a ofrecer los cinco niveles en Aprende para ganar bonificaciones en el Shura y en el Inquisidor, en lugar de solo el nivel 5, y una grabación importada pasó a mantener el nivel que estaba grabado. Reportado por Ametsuky."
+    ],
+    "logs_en": [
+      "The Elemental Master's summons now autocast in Passive Mode: 7% chance per melee attack, with each elemental's own spell — Ador casts Fire Bolt, Diluvio Cold Bolt, Procella Lightning Bolt, Terremotus Earth Spike and Serpens Poison Burst.",
+      "The Professor's Double Bolt was added to the skill list and to the Auto-cast panel, repeating Fire Bolt, Cold Bolt or Lightning Bolt at the same level cast.",
+      "Rampage Blast and Lightning Ride now offer all five levels under Learn to get bonuses on the Sura and the Inquisitor, instead of only level 5, and an imported replay now keeps the level it had recorded. Reported by Ametsuky."
+    ]
+  },
+  {
     "v": "0.1.232-beta",
     "date": "28-11-2026",
     "logs": [
