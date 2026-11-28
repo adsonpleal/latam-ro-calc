@@ -25,6 +25,23 @@ const eligibleVitIntItems = Object.entries(MainItemWithRelations)
     return [mainItem, ...relatedItems];
   });
 
+/**
+ * The last base level `hp_sp_table.json` has a row for, and therefore the level the base
+ * HP/SP lookup plateaus at. The clamp is older than the 275/60 preview; naming it records
+ * why it cannot simply be raised with the cap.
+ *
+ * No source publishes base HP/SP above 250. rAthena's `job_basepoints.yml` stops its
+ * `BaseHp`/`BaseSp` tables at level 200 and computes the rest from per-class factors, and
+ * the twelve fourth-job rows in this table do not follow that formula at any (factor,
+ * increase) pair — they are observed figures with no recoverable generator — so there is
+ * nothing to continue them with. The upstream calculator stops at 250 as well.
+ *
+ * A level-275 preview character therefore shows its level-250 base HP/SP. Everything else
+ * about the level is exact: skill ratios scale with `model.level`, and trait points are
+ * accumulated to 275 by `BaseStateCalculator`. See docs/skill-versions.md.
+ */
+export const HP_SP_TABLE_LAST_LEVEL = 250;
+
 export class HpSpCalculator {
   private hpSpTable: HpSpTable;
   private _totalBonus: EquipmentSummaryModel;
@@ -125,8 +142,8 @@ export class HpSpCalculator {
 
   calculate() {
     try {
-      const baseHp = this.hpSpTable[this._dataIndex].baseHp[Math.min(this._level, 250)];
-      const baseSp = this.hpSpTable[this._dataIndex].baseSp[Math.min(this._level, 250)];
+      const baseHp = this.hpSpTable[this._dataIndex].baseHp[Math.min(this._level, HP_SP_TABLE_LAST_LEVEL)];
+      const baseSp = this.hpSpTable[this._dataIndex].baseSp[Math.min(this._level, HP_SP_TABLE_LAST_LEVEL)];
 
       const { hp, hpPercent, sp, spPercent } = this._totalBonus;
       // console.log({ baseHp, baseSp, hp, hpPercent, sp, spPercent });

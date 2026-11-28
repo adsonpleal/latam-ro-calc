@@ -808,6 +808,15 @@ export class CalculatorSession extends Store<number> {
       this.setAmmoDropdownList();
       this.setClassSkill();
       this.setDefaultSkill();
+      // The 275/60 levels live in the same dropdowns as the live ones, so the toggle has to
+      // rebuild them — and pull a character already past the live cap back under it. A level
+      // it actually moves has to go through the same two recomputations a manual change
+      // does, or the trait budget keeps the figure it had at the preview level.
+      this.setClassMinMaxLvl();
+      const { level, jobLevel } = this.model;
+      normalizeClassLimits(this.model, this.selectedCharacter, { allowPreviewLevels: this.showPreviews });
+      if (this.model.level !== level) this.updateAvailablePoints();
+      if (this.model.jobLevel !== jobLevel) this.setJobBonus();
       this.updateItemEvent.next(true);
     }));
     this.allSubs.push({ unsubscribe });
@@ -2990,9 +2999,20 @@ await ((_event?: unknown) => {
       minMaxLevel: [min, max],
       maxJob,
     } = this.selectedCharacter.minMaxLevelCap;
+    // kRO's 275/60 expansion, which LATAM has not shipped. The levels past the live cap are
+    // offered in the same two dropdowns, marked Prévia, so the player raises their own cap
+    // by picking a level instead of flipping a second setting. Prévias = Não removes them.
+    const preview = this.showPreviews ? this.selectedCharacter.previewLevelCap : null;
+    const suffix = this.text('cs.previewSuffix');
+    const tagAbove = (liveCap: number) => (option: DropdownModel) =>
+      Number(option.value) > liveCap ? { ...option, label: `${option.label}${suffix}` } : option;
 
-    this.levelList = createNumberDropdownList({ from: min, to: max });
-    this.jobList = createNumberDropdownList({ from: 1, to: maxJob, excludingNumbers: this.selectedCharacter.excludedJobLevels });
+    this.levelList = createNumberDropdownList({ from: min, to: preview?.minMaxLevel[1] ?? max }).map(tagAbove(max));
+    this.jobList = createNumberDropdownList({
+      from: 1,
+      to: preview?.maxJob ?? maxJob,
+      excludingNumbers: this.selectedCharacter.excludedJobLevels,
+    }).map(tagAbove(maxJob));
   }
 
   private setClassLvl(params: { currentLvl: number; currentJob: number; isSetMinLevel?: boolean; }) {
@@ -3004,7 +3024,7 @@ await ((_event?: unknown) => {
     this.model.level = isSetMinLevel ? min : currentLvl;
     this.model.jobLevel = isSetMinLevel ? 1 : currentJob;
 
-    normalizeClassLimits(this.model, this.selectedCharacter);
+    normalizeClassLimits(this.model, this.selectedCharacter, { allowPreviewLevels: this.showPreviews });
   }
 
   private setDefaultSkill(selectedSkill?: string) {
