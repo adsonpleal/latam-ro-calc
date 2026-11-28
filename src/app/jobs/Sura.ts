@@ -636,24 +636,12 @@ export class Sura extends Champion {
         { label: 'Nv 5', value: 5, isUse: true },
       ],
     },
-    {
-      label: 'Rampage Blast',
-      name: 'Rampage Blast',
-      inputType: 'dropdown',
-      dropdown: [
-        { label: '-', value: 0, isUse: false },
-        { label: 'Nv 5', value: 5, isUse: true },
-      ],
-    },
-    {
-      label: 'Lightning Ride',
-      name: 'Lightning Ride',
-      inputType: 'dropdown',
-      dropdown: [
-        { label: '-', value: 0, isUse: false },
-        { label: 'Nv 5', value: 5, isUse: true },
-      ],
-    },
+    // Explosão Espiritual (id 2332) and Tempestade Espiritual (id 2518) both cap at
+    // Nv 5 in the client, which only ever offered the cap here. The replay import
+    // picks the highest option at or below the recorded level, so levels 1-4 found
+    // no option at all and imported as unlearned.
+    learnedSkill('Rampage Blast', 5),
+    learnedSkill('Lightning Ride', 5),
     {
       label: 'Vigor condensation',
       name: 'Vigor condensation',
