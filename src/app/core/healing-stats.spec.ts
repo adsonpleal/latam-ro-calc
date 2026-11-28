@@ -4,6 +4,7 @@ import { createMainModel } from 'src/app/utils';
 import { createRawTotalBonus } from 'src/app/utils/create-raw-total-bonus';
 import { ITEM_BONUS_LABELS } from './bonus-key-label';
 import { equipStatusOf, makeCalculator } from './__tests__/make-calculator';
+import { healReceivedExamples } from './healing';
 
 /**
  * The two healing stats: `healReceived` ("Cura recebida", the heal cast ON you, 20 items)
@@ -478,5 +479,44 @@ describe('the sustain family stays out of the damage pipeline', () => {
       expect(withIt[key] || 0, key).toBe(bare[key] || 0);
     }
     for (const key of SUSTAIN) expect(bare[key] || 0, key).toBe(0);
+  });
+});
+
+/**
+ * The field for the target's "Cura recebida" asks for a number the reader has no way to
+ * know, so its help popover names a few items that grant it. The list is computed from
+ * item.json rather than written down, which is the only way it cannot go stale.
+ */
+describe('the items the Cura recebida popover names', () => {
+  const examples = healReceivedExamples(db, 4);
+
+  it('names real items, biggest bonus first', () => {
+    expect(examples).toHaveLength(4);
+    for (const example of examples) {
+      expect(db[example.id], `item ${example.id} missing from item.json`).toBeDefined();
+      expect(example.name).toBe(db[example.id].name);
+      // The figure shown has to be the one the item's own script grants.
+      const script = db[example.id].script.healReceived;
+      expect(Number(Array.isArray(script) ? script[0] : script)).toBe(example.value);
+    }
+    expect([...examples].sort((a, b) => b.value - a.value || a.id - b.id)).toEqual(examples);
+  });
+
+  it('skips the conditional scripts, whose figure does not apply on its own', () => {
+    // A "SUM[...]---N" or "GRADE[...]" script grants its bonus only under a condition the
+    // popover has no room to explain, so naming it beside a bare "+10%" would mislead.
+    const conditional = Object.entries<any>(db)
+      .filter(([, item]) => {
+        const script = item?.script?.healReceived;
+        const first = Array.isArray(script) ? script[0] : script;
+        return first != null && !/^\s*\d+(\.\d+)?\s*$/.test(String(first));
+      })
+      .map(([id]) => Number(id));
+    expect(examples.filter(example => conditional.includes(example.id))).toEqual([]);
+  });
+
+  it('asks for nothing and gets nothing, rather than throwing', () => {
+    expect(healReceivedExamples(db, 0)).toEqual([]);
+    expect(healReceivedExamples({})).toEqual([]);
   });
 });

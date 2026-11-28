@@ -166,7 +166,8 @@ function renderElement({ tag, props: original, children }: RenderProps, { servic
     case 'app-heal-hud': rendered = <HealHud {...props as any} onSkillChange={props['skillChange']}
       onSkillLevelChange={props['skillLevelChange']}
       onPartyMembersChange={props['partyMembersChange']}
-      onTargetEffectivenessChange={props['targetEffectivenessChange']} />; break;
+      onTargetEffectivenessChange={props['targetEffectivenessChange']}
+      onSearchHealReceived={props['searchHealReceived']} />; break;
     case 'app-battle-monster-card': rendered = <BattleMonsterCard {...props as any} onRelieveLevelChange={props['relieveLevelChange']}
       onBetelgeuseHpChange={props['betelgeuseHpChange']}
       onIncomingReductionClick={props['incomingReductionClick']}

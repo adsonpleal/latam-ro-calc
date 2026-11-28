@@ -10,11 +10,19 @@ import { Translate, resolveText } from '../i18n';
 export type ItemChipLists = Readonly<Record<string, readonly DropdownModel[] | undefined>>;
 
 export interface ItemSearchOpenRequest {
-  position: string;
-  targetKey: string;
+  /** The slot to filter by. Left out when the search is opened by bonus alone. */
+  position?: string;
+  targetKey?: string;
   compare: boolean;
+  /**
+   * Bonus keys to pre-select in the search's own bonus filter, as the Cura panel does
+   * with `healReceived`. Any value of `ITEM_SEARCH_BONUS_OPTIONS`.
+   */
+  bonuses?: readonly string[];
 }
 export interface ItemSearchEquipTarget extends ItemSearchOpenRequest {
+  position: string;
+  targetKey: string;
   label: string;
   chip: Chip;
   options: readonly DropdownModel[];

@@ -135,3 +135,39 @@ export const calcHeal = (input: HealInput): HealBreakdown => {
  */
 export const calcHealPerSecond = (healPerCast: number, usesPerSec: number): number =>
   floor(healPerCast * usesPerSec);
+
+/** One item the Cura panel offers as an example of where "Cura recebida" comes from. */
+export interface HealReceivedExample {
+  id: number;
+  name: string;
+  value: number;
+}
+
+/**
+ * A few real items that raise the *target's* "Cura recebida", for the field's help popover.
+ *
+ * Read off `script.healReceived` rather than written by hand, so the names follow the
+ * reader's language and the list cannot go stale against the item data. Only entries whose
+ * script is a bare number are offered: the rest are conditional (`EQUIP_ID[...]`,
+ * `REFINE[...]`, a refine ladder) and there is no single honest percentage to print for
+ * them. Highest first, so the examples are the ones worth knowing.
+ */
+export const healReceivedExamples = (
+  items: Readonly<Record<number, { id?: number; name?: string; script?: Record<string, any>; }>>,
+  limit = 4,
+): HealReceivedExample[] => {
+  const found: HealReceivedExample[] = [];
+
+  for (const [key, item] of Object.entries(items || {})) {
+    const script = item?.script?.['healReceived'];
+    const first = Array.isArray(script) ? script[0] : script;
+    const value = typeof first === 'number' ? first : Number(first);
+    if (!item?.name || !Number.isFinite(value) || value <= 0 || !/^\s*\d+(\.\d+)?\s*$/.test(String(first))) continue;
+
+    found.push({ id: item.id ?? Number(key), name: item.name, value });
+  }
+
+  return found
+    .sort((a, b) => b.value - a.value || a.id - b.id)
+    .slice(0, Math.max(0, limit));
+};

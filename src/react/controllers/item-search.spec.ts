@@ -52,6 +52,26 @@ describe('item search state', () => {
     expect(vm.bonusPickers).toHaveLength(1);
     vm.ngOnDestroy();
   });
+  it('opens on a bonus alone, dropping the slot a previous search left behind', () => {
+    const { vm, layout } = setup();
+    vm.items = {
+      1: { id: 1, name: 'Chapéu', script: {} } as ItemModel,
+      2: { id: 2, name: 'Poção', script: { healReceived: ['10'] } } as ItemModel,
+    };
+    vm.equipableItems = [
+      { id: 1, value: 1, label: 'Chapéu', position: 'headUpperList' },
+      { id: 2, value: 2, label: 'Poção', position: 'armorList' },
+    ];
+    // Where the Cura panel's "buscar itens" link comes in: it knows the bonus and nothing
+    // about slots, so a headgear filter left over from the last search must not survive.
+    vm.selectedItemPositions = ['headUpperList'];
+    layout.openItemSearch({ compare: false, bonuses: ['healReceived'] });
+    expect(vm.isShowSearchDialog).toBe(true);
+    expect(vm.selectedItemPositions).toEqual([]);
+    expect(vm.bonusPickers.map(picker => picker.value)).toEqual(['healReceived']);
+    expect(vm.filteredItems.map(item => item.id)).toEqual([2]);
+    vm.ngOnDestroy();
+  });
   it('reads descriptions loaded after selection, and never keeps another item’s preview', () => {
     const { vm, descriptions } = setup();
     vm.onItemSearchFilterChange();

@@ -737,11 +737,13 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "partyMembers": vm.healPartyMembers,
 "targetEffectiveness": vm.healTargetEffectiveness,
 "showPartyMembers": vm.showHealPartyMembers,
+"healReceivedExamples": vm.healReceivedExamples,
 "isInProcessingPreset": vm.isInProcessingPreset,
 "skillChange": (value: string) => vm.action(() => vm.onHealSkillChange(value)),
 "skillLevelChange": (value: number) => vm.action(() => vm.onHealSkillLevelChange(value)),
 "partyMembersChange": (value: number) => vm.action(() => vm.onHealPartyMembersChange(value)),
-"targetEffectivenessChange": (value: number) => vm.action(() => vm.onHealTargetEffectivenessChange(value))}}></Render></Render></Render></Render>}
+"targetEffectivenessChange": (value: number) => vm.action(() => vm.onHealTargetEffectivenessChange(value)),
+"searchHealReceived": () => vm.action(() => vm.openHealReceivedSearch())}}></Render></Render></Render></Render>}
 <Render tag="app-ui-accordion-tab" props={{"header": t('calc.autoCast')}}><Render tag="div" props={{"className": ["grid grid-nogutter battle_summary"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["col-12"].filter(Boolean).join(' ')}}><Render tag="div" props={{"role": "status",
 "className": ["auto-cast-beta-alert"].filter(Boolean).join(' ')}}><Render tag="div" props={{"className": ["auto-cast-beta-copy"].filter(Boolean).join(' ')}}><Render tag="app-icon" props={{"aria-hidden": "true",
 "name": "info-circle"}}></Render>

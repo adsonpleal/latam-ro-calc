@@ -15,6 +15,7 @@ import { TextKey, Translate } from 'src/app/i18n';
 import { PresetModel } from 'src/app/api-services/models/preset-model';
 import { SKILL_ID_BY_NAME, resolveSkillMeta } from 'src/app/skills';
 import { findHealSkill, hasHealingPanel, healSkillsForClass } from 'src/app/skills/healing-skills';
+import { HealReceivedExample, healReceivedExamples } from 'src/app/core/healing';
 
 import { BUFF_BONUS_LABELS, bonusKeyLabel, resolveSkillKey } from 'src/app/core/bonus-key-label';
 import { AllowedCompareItemTypes } from 'src/app/app-config';
@@ -1716,6 +1717,28 @@ await ((_event?: unknown) => {
   /** Only Sopro Divino's amount reads the party size. */
   get showHealPartyMembers(): boolean {
     return this.healSkill === 'Coluceo Heal';
+  }
+
+  /**
+   * A few real items carrying `healReceived`, named in the field's help popover: the
+   * bonus belongs to the *target*, so the panel says where it comes from rather than
+   * leaving the reader to guess at an empty field.
+   *
+   * Memoized on the item map's identity, which is what `republishItems` swaps when the
+   * locale changes or a custom item lands, so the names follow the UI language without
+   * re-scanning every record on each render.
+   */
+  private healExamples: { source?: Record<number, ItemModel>; list: HealReceivedExample[] } = { list: [] };
+  get healReceivedExamples(): HealReceivedExample[] {
+    if (this.healExamples.source !== this.items) {
+      this.healExamples = { source: this.items, list: healReceivedExamples(this.items) };
+    }
+    return this.healExamples.list;
+  }
+
+  /** Opens the app's own item search with the "Cura recebida" bonus already picked. */
+  openHealReceivedSearch() {
+    this.layoutService.openItemSearch({ compare: false, bonuses: ['healReceived'] });
   }
 
   onHealSkillChange(skill: string) {
