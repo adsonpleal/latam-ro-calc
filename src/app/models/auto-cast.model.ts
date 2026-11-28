@@ -41,12 +41,24 @@ export interface ItemAutoCastEffectScript {
   durationSeconds: number;
   requiredEquippedItemIds?: number[];
   minimumRefine?: number;
+  /**
+   * Refine the equipped **weapon** must reach, for a clause whose refine condition is on
+   * the weapon and not on the item carrying the effect — which is what `minimumRefine`
+   * reads. A Conjunto effect is usually written that way ("com a arma refinada em +10").
+   */
+  minimumWeaponRefine?: number;
   chancePerRefine?: number;
   durationPerShieldRefineEvery?: number;
   bonusPerRefine?: Record<string, number>;
   /** Flat bonuses while the temporary state is selected in Efeitos. */
   bonus?: Record<string, number>;
-  /** A guaranteed state activated by using this skill, rather than an attack roll. */
+  /**
+   * A guaranteed state activated by using this skill, rather than an attack roll.
+   *
+   * The effect is then only offered in Efeitos when that skill is in the build's
+   * rotation: nothing else can switch it on, so a build whose rotation never casts it
+   * could otherwise price a buff it can never hold.
+   */
   activationSkillId?: number;
   trigger?: 'physical' | 'physical-or-magical';
   note?: string;

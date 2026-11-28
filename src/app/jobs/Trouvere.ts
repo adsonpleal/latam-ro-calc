@@ -1,6 +1,5 @@
 import { JOB_4_MAX_JOB_LEVEL, JOB_4_MIN_MAX_LEVEL } from '../app-config';
 import { WeaponTypeName } from '../constants';
-import { NoLimitFn } from '../constants/share-active-skills';
 import { DebufSonicBrandFn, MysticSymphonyFn, StageMannerFn } from '../constants/share-passive-skills';
 import { EquipmentSummaryModel } from '../models/equipment-summary.model';
 import { AdditionalBonusInput } from '../models/info-for-class.model';
@@ -156,18 +155,6 @@ const traitBonusTable: Record<number, [number, number, number, number, number, n
   70: [7, 7, 4, 7, 11, 4],
 };
 
-/**
- * Ilimitar nv.3, the only level the Diva can hold: the class never learns the skill and
- * receives it from Colar Consagrado: Amizade (491112) with the Açoite Vivatus Fides at
- * refine +10 — see NoLimitFn for the clause and why the rest of the table is left out. The
- * weapon is long-range (IsLongRange in src/app/domain/weapon.ts), so the bonus does reach
- * Atirar Rosas and Disparo Rítmico.
- *
- * Appended after the final job catalog rather than pushed into it, so every legacy positional
- * save keeps its indices — the same reason RoyalGuard appends its Vanguard buffs.
- */
-const NECKLACE_ACTIVE_BUFFS: ActiveSkillModel[] = [NoLimitFn([3])];
-
 export class Trouvere extends Wanderer {
   protected override CLASS_NAME = ClassName.Trouvere;
   protected override JobBonusTable = jobBonusTable;
@@ -252,15 +239,6 @@ export class Trouvere extends Wanderer {
       passiveSkillList: this.passiveSkillList4th,
       classNames: this.classNames4th,
     });
-  }
-
-  override get activeSkills() {
-    return [...super.activeSkills, ...NECKLACE_ACTIVE_BUFFS];
-  }
-
-  override matchesSavedSkillCount(kind: 'active' | 'passive', count: number | undefined): boolean {
-    const current = (kind === 'active' ? this.activeSkills : this.passiveSkills).length;
-    return count === current || (kind === 'active' && count === current - NECKLACE_ACTIVE_BUFFS.length);
   }
 
   override setAdditionalBonus(params: AdditionalBonusInput): EquipmentSummaryModel {
