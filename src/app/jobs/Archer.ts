@@ -157,17 +157,18 @@ export class Archer extends CharacterBase {
   protected initialStatusPoint = 100;
   protected classNames = [ClassName.Archer];
   /**
-   * The Arqueiro's own two offensive skills — card fLHaAqiBPMgALZZ0V9O7 asked for them so a
+   * The Arqueiro's own three offensive skills — card fLHaAqiBPMgALZZ0V9O7 asked for them so a
    * Sentinela can see what they hit for, the list having been empty until now. They are declared
    * here because this is the tier they belong to, so `inheritSkills` carries them to every class
    * promoted from the Arqueiro. A parent's entries come first in the picker and so open it for
    * those classes, as the Mercador's Mammonita already does for the Criador.
    *
-   * Neither carries an `element`: each takes the equipped arrow's, which is what a bow skill does
+   * None carries an `element`: each takes the equipped arrow's, which is what a bow skill does
    * and what Flecha Melódica and Disparo Certeiro leave unset for the same reason.
    *
    * https://browiki.org/wiki/Rajada_de_Flechas
    * https://browiki.org/wiki/Chuva_de_Flechas
+   * https://browiki.org/wiki/Disparo_Violento
    */
   protected readonly _atkSkillList: AtkSkillModel[] = [
     {
@@ -209,6 +210,29 @@ export class Archer extends CharacterBase {
       vct: 0,
       cd: 0,
       formula: ({ skillLevel }: AtkSkillFormulaInput): number => 150 + skillLevel * 10,
+    },
+    {
+      /**
+       * Disparo Violento (AC_CHARGEARROW, 148): one level, 150% of ATQ. It is a quest skill
+       * ("Pré-requisitos: Completar Missão"), not learnt by levelling, which is why it sits last
+       * here and does not open the picker.
+       *
+       * Alone among the three it has no `Nível l ATQ` table to parse, the client stating the
+       * ratio in prose instead — there being only one level to tabulate. The spec beside this
+       * file holds the 150 to that sentence; the cast numbers below are the client's as usual.
+       *
+       * The 5-cell knockback the description also mentions is not damage, so nothing models it.
+       * The three client languages disagree on it anyway (pt-BR says 5 cells, the Spanish and
+       * English texts 4), which is one more reason to read only the pt-BR ratio here.
+       */
+      name: 'Charge Arrow',
+      label: 'Charge Arrow',
+      value: 'Charge Arrow==1',
+      acd: 0,
+      fct: 0.8,
+      vct: 0.4,
+      cd: 0,
+      formula: (): number => 150,
     },
   ];
   // Concentrar is the Arqueiro's own buff, so the whole line gets it here, under

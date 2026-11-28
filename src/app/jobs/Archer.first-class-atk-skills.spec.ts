@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { Archer } from './Archer';
 import { CLASS_CTOR_BY_ID } from './_class-list';
+import { AtkSkillFormulaInput } from './_character-base.abstract';
 import { ITEM_AUTO_CAST_SKILLS } from '../skills/item-auto-cast-skills';
+import { SKILL_META } from '../skills';
 import { defaultAtkSkill } from '../core/rotation';
 
 /**
@@ -9,11 +11,20 @@ import { defaultAtkSkill } from '../core/rotation';
  * `Archer._atkSkillList` was empty, and `inheritSkills` only pushes a child's skills onto the
  * parent's list, so no Arqueiro attack skill reached any class promoted from it.
  *
- * What this pins is the reach, and the handful of facts that make the two skills safe to
- * inherit. Their per-level ratios belong to `skills/pre-third-skill-ratio-client-table.spec.ts`
- * and their cast and delay numbers to `skills/skill-delay.spec.ts`, so neither is restated here.
+ * What this pins is the reach, and the handful of facts that make the three skills safe to
+ * inherit. The two tabulated ratios belong to `skills/pre-third-skill-ratio-client-table.spec.ts`
+ * and every cast and delay number to `skills/skill-delay.spec.ts`, so neither is restated here.
+ * Disparo Violento's ratio is the exception and is checked below, its one level being stated in
+ * prose rather than in a table for that spec to read.
  */
-const SKILLS = ['Double Strafe', 'Arrow Shower'] as const;
+const SKILLS = ['Double Strafe', 'Arrow Shower', 'Charge Arrow'] as const;
+
+/** The levels each one offers, which is the client's cap: the quest skill has a single one. */
+const LEVELS: Record<(typeof SKILLS)[number], number> = {
+  'Double Strafe': 10,
+  'Arrow Shower': 10,
+  'Charge Arrow': 1,
+};
 
 /**
  * Every selectable class promoted from the Arqueiro. `class-lineage.spec.ts` owns that tree and
@@ -22,16 +33,38 @@ const SKILLS = ['Double Strafe', 'Arrow Shower'] as const;
 const PROMOTED_FROM_ARCHER = Object.values(CLASS_CTOR_BY_ID).filter((Ctor) => new Ctor() instanceof Archer);
 
 describe("the Arqueiro's own attack skills", () => {
-  it('offers both of them, at the ten levels the client publishes', () => {
+  it('offers all three, at the levels the client publishes', () => {
     const archer = new Archer();
 
     for (const name of SKILLS) {
       const skill = archer.atkSkills.find((entry) => entry.name === name);
+      const levels = LEVELS[name];
 
       expect(skill, `${name} is not on the Arqueiro`).toBeDefined();
-      expect(skill!.levelList!.map((entry) => entry.value))
-        .toEqual(Array.from({ length: 10 }, (_, index) => `${name}==${index + 1}`));
+      expect(skill!.value).toBe(`${name}==${levels}`);
+      // A one-level skill carries no level dropdown, as Holy Light does not.
+      expect(skill!.levelList?.map((entry) => entry.value))
+        .toEqual(levels === 1 ? undefined : Array.from({ length: levels }, (_, index) => `${name}==${index + 1}`));
     }
+  });
+
+  /**
+   * Disparo Violento is the one of the three whose ratio the client states in prose — one level
+   * means no `Nível l ATQ` table for the client-table spec to drive. So the sentence itself is
+   * the expectation: the figure in the engine has to be the figure in that description.
+   */
+  it('takes the 150% of Disparo Violento from the client description', () => {
+    const description = SKILL_META['Charge Arrow'].description ?? '';
+    const stated = description.replace(/\^[0-9a-fA-F]{6}/g, '').match(/causar (\d+)% do ATQ/);
+
+    expect(stated, 'the client no longer states the ratio in prose').not.toBeNull();
+    expect(description).not.toContain('Nível l ATQ');
+
+    const skill = new Archer().atkSkills.find((entry) => entry.name === 'Charge Arrow')!;
+
+    // The formula takes no input at one level, so the level alone stands in for the whole state.
+    expect(skill.formula({ skillLevel: 1 } as AtkSkillFormulaInput)).toBe(Number(stated![1]));
+    expect(Number(stated![1])).toBe(150);
   });
 
   /**
@@ -60,17 +93,18 @@ describe("the Arqueiro's own attack skills", () => {
    * `skillForId` prefers the class entry — these nine classes would otherwise read a different
    * number from every other build. Only the element differs between the two, deliberately.
    */
-  it('fires Rajada de Flechas twice per cast, and Chuva de Flechas once', () => {
+  it('fires Rajada de Flechas twice per cast, and the other two once', () => {
     const skills = new Archer().atkSkills;
-    const doubleStrafe = skills.find((entry) => entry.name === 'Double Strafe')!;
-    const arrowShower = skills.find((entry) => entry.name === 'Arrow Shower')!;
+    const find = (name: string) => skills.find((entry) => entry.name === name)!;
 
-    expect(doubleStrafe.totalHit).toBe(2);
-    expect(doubleStrafe.hit).toBeUndefined();
+    expect(find('Double Strafe').totalHit).toBe(2);
+    expect(find('Double Strafe').hit).toBeUndefined();
     expect(ITEM_AUTO_CAST_SKILLS.find((entry) => entry.name === 'Double Strafe')!.totalHit).toBe(2);
 
-    expect(arrowShower.totalHit).toBeUndefined();
-    expect(arrowShower.hit).toBeUndefined();
+    for (const name of ['Arrow Shower', 'Charge Arrow']) {
+      expect(find(name).totalHit, `${name} hits once`).toBeUndefined();
+      expect(find(name).hit, `${name} prints one packet`).toBeUndefined();
+    }
   });
 
   /** A bow skill takes the equipped arrow's property, which is what leaving `element` unset means. */
