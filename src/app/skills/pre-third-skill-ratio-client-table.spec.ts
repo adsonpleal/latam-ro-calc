@@ -21,6 +21,7 @@ import { ElementType } from '../constants/element-type.const';
 import { clientRatioTable } from './client-ratio-table';
 import { ITEM_AUTO_CAST_SKILLS } from './item-auto-cast-skills';
 import { SKILL_META } from './index';
+import { Archer } from '../jobs/Archer';
 import { Bard } from '../jobs/Bard';
 import { Champion } from '../jobs/Champion';
 import { Creator } from '../jobs/Creator';
@@ -75,6 +76,9 @@ interface RatioCase {
 }
 
 const CASES: RatioCase[] = [
+  // Arqueiro, whose own tier the whole bow line and both artist lines reach.
+  { label: 'Arqueiro — Rajada de Flechas', Klass: Archer, skill: 'Double Strafe', maxLevel: 10 },
+  { label: 'Arqueiro — Chuva de Flechas', Klass: Archer, skill: 'Arrow Shower', maxLevel: 10 },
   // Lorde
   { label: 'Lorde — Golpe Traumático', Klass: LordKnight, skill: 'Head Crush', maxLevel: 5 },
   { label: 'Lorde — Ataque Vital', Klass: LordKnight, skill: 'Vital Strike', maxLevel: 10 },
@@ -173,7 +177,7 @@ describe('pre-3rd damage skills against the client table', () => {
     }
 
     // Named, so the check cannot quietly become vacuous when a skill moves or is renamed.
-    expect(checked.sort()).toEqual(['Lightning Jolt', 'Spread Shot', 'Tracking', 'Vital Strike']);
+    expect(checked.sort()).toEqual(['Double Strafe', 'Lightning Jolt', 'Spread Shot', 'Tracking', 'Vital Strike']);
     expect(diffs).toEqual([]);
   });
 });
