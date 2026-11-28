@@ -1,8 +1,8 @@
 import { createElement } from 'react';
 import { DropdownModel } from '../../app/models/dropdown.model';
+import { resolveSkillMeta } from '../../app/skills';
 import { formatNumber } from '../../app/utils/format-number';
-import { Card } from '../ui/primitives';
-import { Input } from '../ui/primitives';
+import { Card, Input } from '../ui/primitives';
 import { Select } from '../ui/select';
 import { useTooltip } from '../ui/tooltip';
 import { useText } from '../state/use-text';
@@ -27,28 +27,23 @@ export interface HealHudProps {
   summary: any;
   skillOptions: DropdownModel[];
   levelOptions: DropdownModel[];
-  healLevelOptions: DropdownModel[];
   skill: string;
   skillLevel: number;
-  healLevel: number;
   partyMembers: number;
   targetEffectiveness: number;
-  /** True while the chosen skill relays Curar at a level of its own — everything but Curar. */
-  showHealLevel: boolean;
   /** True for Sopro Divino, the one skill whose amount reads the party size. */
   showPartyMembers: boolean;
   isInProcessingPreset?: boolean;
   onSkillChange?: (value: string) => void;
   onSkillLevelChange?: (value: number) => void;
-  onHealLevelChange?: (value: number) => void;
   onPartyMembersChange?: (value: number) => void;
   onTargetEffectivenessChange?: (value: number) => void;
 }
 
 export function HealHud({
-  summary, skillOptions, levelOptions, healLevelOptions, skill, skillLevel, healLevel,
-  partyMembers, targetEffectiveness, showHealLevel, showPartyMembers, isInProcessingPreset = false,
-  onSkillChange, onSkillLevelChange, onHealLevelChange, onPartyMembersChange, onTargetEffectivenessChange,
+  summary, skillOptions, levelOptions, skill, skillLevel,
+  partyMembers, targetEffectiveness, showPartyMembers, isInProcessingPreset = false,
+  onSkillChange, onSkillLevelChange, onPartyMembersChange, onTargetEffectivenessChange,
 }: HealHudProps) {
   const t = useText();
   const healLevelTip = useTooltip({ text: t('heal.healLevelTip'), position: 'top' });
@@ -70,7 +65,7 @@ export function HealHud({
     <div className="hud ui-scope-app-battle-hud">
       <div className="hud-selectors-row heal-selectors">
         <div className="heal-field">
-          <label htmlFor="healSkill">{t('heal.skill')}</label>
+          <label htmlFor="healSkill">{t('misc.skill')}</label>
           <Select inputId="healSkill" options={skillOptions} optionLabel="label" optionValue="value"
             disabled={isInProcessingPreset} value={skill} onChange={value => onSkillChange?.(value)} />
         </div>
@@ -79,11 +74,10 @@ export function HealHud({
           <Select inputId="healSkillLevel" options={levelOptions} optionLabel="label" optionValue="value"
             disabled={isInProcessingPreset} value={skillLevel} onChange={value => onSkillLevelChange?.(value)} />
         </div>
-        {showHealLevel && <div className="heal-field heal-field--narrow">
-          <label htmlFor="healBaseLevel" {...healLevelTip.triggerProps} tabIndex={0}>{t('heal.healLevel')}</label>
-          <Select inputId="healBaseLevel" options={healLevelOptions} optionLabel="label" optionValue="value"
-            disabled={isInProcessingPreset} value={healLevel} onChange={value => onHealLevelChange?.(value)} />
-        </div>}
+        <div className="heal-field heal-field--narrow">
+          <label {...healLevelTip.triggerProps} tabIndex={0}>{t('heal.healLevel')}</label>
+          <span className="heal-read">{summary?.healLevel ? `${t('heal.level')} ${summary.healLevel}` : t('heal.healLevelUnset')}</span>
+        </div>
         {showPartyMembers && <div className="heal-field heal-field--narrow">
           <label htmlFor="healParty" {...partyTip.triggerProps} tabIndex={0}>{t('heal.partyMembers')}</label>
           <Input id="healParty" type="number" min={0} max={11} value={partyMembers}
@@ -96,8 +90,7 @@ export function HealHud({
         </div>
       </div>
 
-      {!summary ? <div className="heal-empty">{t('heal.empty')}</div> : <>
-        <div className="hud-cards heal-cards">
+      <div className="hud-cards">
           <div className="hud-card-col"><Card className="hud-card">
             <div className="psec">{t('heal.breakdown')}</div>
             <div className="pstats one tight">
@@ -113,13 +106,14 @@ export function HealHud({
           <div className="hud-card-col"><Card className="hud-card">
             <div className="psec">{t('heal.perCast')}</div>
             <div className="pstats one tight">
-              {row(t('heal.perCast'), number(summary.total), 'total')}
               {row(t('heal.perSecond'), number(summary.healPerSecond), 'total')}
             </div>
             <div className="psec">{t('heal.healPowerSources')}</div>
             <div className="pstats one tight">
               {(summary.healPowerSources ?? []).map((source: any) => row(
-                source.key === 'equipment' ? t('heal.sourceEquipment') : `${source.key} ${t('heal.level')} ${source.level}`,
+                source.key === 'equipment'
+                  ? t('calc.equipments')
+                  : `${resolveSkillMeta(source.key)?.label ?? source.key} ${t('heal.level')} ${source.level}`,
                 `+${number(source.value)}%`,
               ))}
               {row(t('heal.ownHealReceived'), `+${number(summary.ownHealReceived)}%`)}
@@ -137,8 +131,7 @@ export function HealHud({
           </Card></div>
         </div>
 
-        <p className="heal-note">{t('heal.note')}</p>
-      </>}
+      <p className="heal-note">{t('heal.note')}</p>
     </div>
   ));
 }

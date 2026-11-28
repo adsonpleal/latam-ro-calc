@@ -43,6 +43,19 @@ import { floor } from '../utils/floor';
  */
 export const healFactor = (skillLevel: number): number => 3 * Math.max(0, skillLevel);
 
+/**
+ * One line of the "Efetividade de cura" breakdown the panel prints: where a slice of
+ * `healPower` came from, and how much it is worth.
+ *
+ * `key` is either the literal `'equipment'` or a catalog skill name, which the view
+ * resolves through `resolveSkillMeta` so the reader sees the client's own pt-BR label.
+ */
+export interface HealPowerSource {
+  key: string;
+  level?: number;
+  value: number;
+}
+
 export interface HealInput {
   /** The caster's base level — `Nv. de Base`, not job level. */
   baseLevel: number;

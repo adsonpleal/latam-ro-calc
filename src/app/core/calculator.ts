@@ -15,11 +15,11 @@ import { SKILL_NAME } from 'src/app/constants/skill-name';
 import { Monster, Weapon } from 'src/app/domain';
 import { AtkSkillModel, CharacterBase, Doram } from 'src/app/jobs';
 import { resolveSkillById, SKILL_ID_BY_NAME } from 'src/app/skills';
-import { findHealSkill, healSkillTiming } from 'src/app/skills/healing-skills';
+import { findHealSkill } from 'src/app/skills/healing-skills';
 import { DEFAULT_PVP_CONTEXT, pickDefenderBonus, PlayerTargetProfile, PvpContext, PvpMode, woeFleeMultiplier } from './pvp';
 import { bonusKeyLabel } from 'src/app/core/bonus-key-label';
 import { calcSkillAspd, createRawTotalBonus, floor, HEAD_SLOTS, isNumber, round } from 'src/app/utils';
-import { calcHeal, calcHealPerSecond } from './healing';
+import { calcHeal, calcHealPerSecond, HealPowerSource } from './healing';
 import { ChanceModel } from 'src/app/models/chance-model';
 import { BasicAspdModel, BasicDamageSummaryModel, MiscModel, SkillAspdModel, SkillDamageSummaryModel } from 'src/app/models/damage-summary.model';
 import { EquipmentSummaryModel } from 'src/app/models/equipment-summary.model';
@@ -2143,11 +2143,18 @@ export class Calculator {
    * input field rather than from this build's equipment — a heal lands on somebody else,
    * whose gear the simulator does not hold. The caster's own figure is reported beside it
    * as `ownHealReceived`, which is what to type in when healing yourself.
+   *
+   * The Curar level is *not* a parameter: Curar is already a Nv 0-10 dropdown every
+   * Acolyte-line build owns (`constants/share-passive-skills/heal.ts`), persisted in the
+   * model and carried in the share link. The panel reads that one rather than keeping a
+   * second level of its own that could disagree with it.
    */
-  getHealSummary(params: { skillName: string; skillLevel: number; healLevel: number; partyMembers?: number; targetHealReceived?: number; }) {
-    const { skillName, skillLevel, healLevel, partyMembers = 0, targetHealReceived = 0 } = params;
+  getHealSummary(params: { skillName: string; skillLevel: number; partyMembers?: number; targetHealReceived?: number; }) {
+    const { skillName, skillLevel, partyMembers = 0, targetHealReceived = 0 } = params;
     const skill = findHealSkill(skillName);
     if (!skill) return null;
+
+    const healLevel = this.skillState?.learnedLevel('Heal') || 0;
 
     const { baseWeaponMatk, baseWeaponLevel, refineBonus, highUpgradeBonus } = this.weaponData.data;
     // The same sum `getWeaponMatk` calls `rawWeaponMATK`, without the variance it then
@@ -2157,6 +2164,7 @@ export class Calculator {
 
     const healPowerSources = this.healPowerSources();
     const healPower = healPowerSources.reduce((sum, source) => sum + source.value, 0);
+    const skillEffectiveness = skill.effectiveness(skillLevel, partyMembers);
 
     const heal = calcHeal({
       baseLevel: this.model.level,
@@ -2165,28 +2173,24 @@ export class Calculator {
       weaponMatk,
       weaponLevel: baseWeaponLevel,
       healPower,
-      skillEffectiveness: skill.effectiveness(skillLevel, partyMembers),
+      skillEffectiveness,
       targetHealReceived,
     });
 
     const frequency = calcSkillAspd({
-      skillData: healSkillTiming(skill),
+      skillData: skill,
       totalEquipStatus: this.totalEquipStatus,
       status: this.dmgCalculator.status,
       skillLevel,
     });
 
     return {
-      skillId: skill.id,
-      skillName,
-      skillLevel,
       healLevel,
       healPower,
       healPowerSources,
       ownHealReceived: this.totalEquipStatus.healReceived || 0,
       targetHealReceived,
-      skillEffectiveness: skill.effectiveness(skillLevel, partyMembers),
-      partyMembers,
+      skillEffectiveness,
       ...heal,
       healPerSecond: calcHealPerSecond(heal.total, frequency.totalHitPerSec),
       frequency,
@@ -2202,9 +2206,8 @@ export class Calculator {
    * "melhora a efetividade de cura" but prints only the SP columns. Offertorium's is the
    * client's own per-level table, +30% a level.
    */
-  private healPowerSources(): { key: string; level?: number; value: number; }[] {
-    const sources: { key: string; level?: number; value: number; }[] =
-      [{ key: 'equipment', value: this.totalEquipStatus.healPower || 0 }];
+  private healPowerSources(): HealPowerSource[] {
+    const sources: HealPowerSource[] = [{ key: 'equipment', value: this.totalEquipStatus.healPower || 0 }];
 
     const meditatio = this.skillState?.learnedLevel('Meditation') || 0;
     if (meditatio > 0) sources.push({ key: 'Meditation', level: meditatio, value: meditatio * 2 });

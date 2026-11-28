@@ -1337,10 +1337,10 @@ export const ptBR = {
   'itemPosition.shadowPendantList': 'Pingente Sombrio',
   // The Cura panel (card c3W2qySdAGV69qMOyM5w). Game vocabulary is the client's own:
   // "Efetividade de cura" and "Cura recebida" are the lines printed on the items.
-  'heal.skill': 'Habilidade',
-  'heal.level': 'Nível',
+  'heal.level': 'Nv',
   'heal.healLevel': 'Nível de Curar',
-  'heal.healLevelTip': 'Curatio e Sopro Divino conjuram [Curar]: a cura sai deste nível, e o nível da própria habilidade define a conjuração e a área.',
+  'heal.healLevelUnset': 'não aprendida',
+  'heal.healLevelTip': 'A cura sai do nível de [Curar] desta montagem, definido em Habilidades — Curatio e Sopro Divino apenas o conjuram. O nível da própria habilidade define a conjuração e a área.',
   'heal.partyMembers': 'Membros do grupo',
   'heal.partyMembersTip': 'Cada membro aumenta a cura em 2,5%.',
   'heal.targetEffectiveness': 'Cura recebida do alvo',
@@ -1355,10 +1355,7 @@ export const ptBR = {
   'heal.withSkillEffectiveness': 'Com a habilidade',
   'heal.total': 'Total no alvo',
   'heal.healPowerSources': 'Efetividade de cura',
-  'heal.sourceEquipment': 'Equipamentos',
   'heal.ownHealReceived': 'Cura recebida deste personagem',
   'heal.timings': 'Conjuração e espera',
-  'heal.skillEffectiveness': 'Efetividade da habilidade',
   'heal.note': 'A cura não é afetada pelo ATQM de equipamentos, apenas pelo da arma. Fórmula da bROWiki; tabelas de nível e de conjuração do próprio cliente.',
-  'heal.empty': 'Selecione uma habilidade de cura.',
 } as const;

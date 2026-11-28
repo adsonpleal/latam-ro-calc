@@ -16,32 +16,6 @@ import { PresetModel } from 'src/app/api-services/models/preset-model';
 import { SKILL_ID_BY_NAME, resolveSkillMeta } from 'src/app/skills';
 import { findHealSkill, hasHealingPanel, healSkillsForClass } from 'src/app/skills/healing-skills';
 
-/**
- * The Cura panel's controls as localStorage left them, clamped to what the catalog
- * allows. Read at construction, the way `betelgeuseHp` is, and deliberately forgiving:
- * a blocked, cleared or hand-edited store just means the panel opens on Curar Nv 10.
- */
-const storedHealingPanel = (): { skill: string; skillLevel: number; healLevel: number; partyMembers: number; targetEffectiveness: number; } => {
-  const fallback = { skill: 'Heal', skillLevel: 10, healLevel: 10, partyMembers: 0, targetEffectiveness: 0 };
-  let stored: any = {};
-  try {
-    stored = JSON.parse(localStorage.getItem('ro-healing-panel') || '{}') || {};
-  } catch {
-    return fallback;
-  }
-
-  const skill = findHealSkill(stored.skill) ? stored.skill : fallback.skill;
-  const clamp = (value: any, min: number, max: number, fallbackValue: number) =>
-    Number.isFinite(value) ? Math.max(min, Math.min(max, Math.floor(value))) : fallbackValue;
-
-  return {
-    skill,
-    skillLevel: clamp(stored.skillLevel, 1, findHealSkill(skill)?.maxLevel ?? 10, findHealSkill(skill)?.maxLevel ?? 10),
-    healLevel: clamp(stored.healLevel, 1, 10, fallback.healLevel),
-    partyMembers: clamp(stored.partyMembers, 0, 11, fallback.partyMembers),
-    targetEffectiveness: clamp(stored.targetEffectiveness, 0, 1000, fallback.targetEffectiveness),
-  };
-};
 import { BUFF_BONUS_LABELS, bonusKeyLabel, resolveSkillKey } from 'src/app/core/bonus-key-label';
 import { AllowedCompareItemTypes } from 'src/app/app-config';
 import {
@@ -154,6 +128,38 @@ import { AutoCastSimulation, buildAutoCastSimulation, RotationAutoCast, rotation
 import { CustomItemDefinition, customDefinitionsForBuild, customItemDescriptionHtml, isCustomItem, validateCustomItems } from 'src/app/core/custom-items';
 import { shortenUrl } from 'src/app/core/shorten-url';
 import { decodeCustomBundle } from 'src/app/core/custom-item-library';
+
+/** 12 players is a full party, the caster included, so 11 others at most. */
+const MAX_PARTY_OTHERS = 11;
+/** The ceiling the stored value and the input agree on, so a refresh never moves a figure. */
+const MAX_HEAL_RECEIVED = 1000;
+
+/**
+ * The Cura panel's controls as localStorage left them, clamped to what the catalog
+ * allows. Read at construction, the way `betelgeuseHp` is, and deliberately forgiving:
+ * a blocked, cleared or hand-edited store just means the panel opens on Curar Nv 10.
+ */
+const storedHealingPanel = (): { skill: string; skillLevel: number; partyMembers: number; targetEffectiveness: number; } => {
+  const fallback = { skill: 'Heal', skillLevel: 10, partyMembers: 0, targetEffectiveness: 0 };
+  let stored: any = {};
+  try {
+    stored = JSON.parse(localStorage.getItem('ro-healing-panel') || '{}') || {};
+  } catch {
+    return fallback;
+  }
+
+  const skill = findHealSkill(stored.skill) ? stored.skill : fallback.skill;
+  const maxLevel = findHealSkill(skill)?.maxLevel ?? 10;
+  const clamp = (value: any, min: number, max: number, fallbackValue: number) =>
+    Number.isFinite(value) ? Math.max(min, Math.min(max, Math.floor(value))) : fallbackValue;
+
+  return {
+    skill,
+    skillLevel: clamp(stored.skillLevel, 1, maxLevel, maxLevel),
+    partyMembers: clamp(stored.partyMembers, 0, MAX_PARTY_OTHERS, fallback.partyMembers),
+    targetEffectiveness: clamp(stored.targetEffectiveness, 0, MAX_HEAL_RECEIVED, fallback.targetEffectiveness),
+  };
+};
 
 type ImportMode = 'replace' | 'compare';
 
@@ -381,11 +387,11 @@ export class CalculatorSession extends Store<number> {
    * share link or a named save, so the panel opens on Curar for whoever follows a link.
    */
   healSummary: any = null;
-  healSkill = storedHealingPanel().skill;
-  healSkillLevel = storedHealingPanel().skillLevel;
-  healLevel = storedHealingPanel().healLevel;
-  healPartyMembers = storedHealingPanel().partyMembers;
-  healTargetEffectiveness = storedHealingPanel().targetEffectiveness;
+  private readonly healDefaults = storedHealingPanel();
+  healSkill = this.healDefaults.skill;
+  healSkillLevel = this.healDefaults.skillLevel;
+  healPartyMembers = this.healDefaults.partyMembers;
+  healTargetEffectiveness = this.healDefaults.targetEffectiveness;
   /** "Redução de dano" popover data: the current build's own reductions (main stats,
    *  mode-independent) and the selected PVP target's reductions (HUD, with the WoE
    *  layer for the active mode). Recomputed on each calculate()/calculatePvp(). */
@@ -1702,28 +1708,14 @@ await ((_event?: unknown) => {
     }));
   }
 
-  get healLevelOptions(): DropdownModel[] {
-    return this.levelOptionsUpTo(findHealSkill('Heal')?.maxLevel ?? 10);
-  }
-
   get healSkillLevelOptions(): DropdownModel[] {
-    return this.levelOptionsUpTo(findHealSkill(this.healSkill)?.maxLevel ?? 10);
-  }
-
-  /** Curar is its own base, so its "Nível de Curar" control would repeat the level above it. */
-  get showHealLevel(): boolean {
-    return this.healSkill !== 'Heal';
+    // The app's own level picker, so the Cura panel reads "Nv 3" like every other one.
+    return createNumberDropdownList({ from: 1, to: findHealSkill(this.healSkill)?.maxLevel ?? 10, prefixLabel: 'Nv ' });
   }
 
   /** Only Sopro Divino's amount reads the party size. */
   get showHealPartyMembers(): boolean {
     return this.healSkill === 'Coluceo Heal';
-  }
-
-  private levelOptionsUpTo(maxLevel: number): DropdownModel[] {
-    return Array.from({ length: maxLevel }, (_unused, index) => ({
-      label: this.text('heal.level') + ' ' + (index + 1), value: index + 1,
-    }));
   }
 
   onHealSkillChange(skill: string) {
@@ -1740,26 +1732,22 @@ await ((_event?: unknown) => {
     this.persistHealing();
   }
 
-  onHealLevelChange(level: number) {
-    this.healLevel = level;
-    this.persistHealing();
-  }
-
   onHealPartyMembersChange(members: number) {
-    // 12 members is a full party, the caster included, so 11 others at most.
-    this.healPartyMembers = Math.max(0, Math.min(11, Math.floor(members) || 0));
+    this.healPartyMembers = Math.max(0, Math.min(MAX_PARTY_OTHERS, Math.floor(members) || 0));
     this.persistHealing();
   }
 
   onHealTargetEffectivenessChange(percent: number) {
-    this.healTargetEffectiveness = Math.max(0, Math.floor(percent) || 0);
+    // The same ceiling `storedHealingPanel` clamps to, so a typed 99999 does not come
+    // back as 1000 after a refresh.
+    this.healTargetEffectiveness = Math.max(0, Math.min(MAX_HEAL_RECEIVED, Math.floor(percent) || 0));
     this.persistHealing();
   }
 
   private persistHealing() {
     try {
       localStorage.setItem('ro-healing-panel', JSON.stringify({
-        skill: this.healSkill, skillLevel: this.healSkillLevel, healLevel: this.healLevel,
+        skill: this.healSkill, skillLevel: this.healSkillLevel,
         partyMembers: this.healPartyMembers, targetEffectiveness: this.healTargetEffectiveness,
       }));
     } catch {
@@ -1778,7 +1766,6 @@ await ((_event?: unknown) => {
     return calc.getHealSummary({
       skillName: this.healSkill,
       skillLevel: this.healSkillLevel,
-      healLevel: this.healLevel,
       partyMembers: this.healPartyMembers,
       targetHealReceived: this.healTargetEffectiveness,
     });

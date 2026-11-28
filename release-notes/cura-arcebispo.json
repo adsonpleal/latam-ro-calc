@@ -1,0 +1,18 @@
+{
+  "type": "patch",
+  "logs": [
+    "Nova seção Cura para a linha do Arcebispo, com Curar, Curatio e Sopro Divino: cura por uso, cura por segundo e o detalhamento da fórmula, com conjuração, recarga e pós-conjuração como na seção Batalha.",
+    "A seção Cura traz um campo para a cura recebida pelo alvo e lista os bônus de poder de cura em uso (equipamento, Meditatio e Offertorium).",
+    "Poder de cura passou a ser contabilizado em Martelo Veterano, Maça Aprimorável e nas Sabedorias de Varmunt 1, 2 e 3."
+  ],
+  "logs_es": [
+    "Nueva sección Curación para la línea del Arzobispo, con Curar, Curatio y Sopro Divino: curación por uso, curación por segundo y el detalle de la fórmula, con conjuración, recarga y post-conjuración como en la sección Batalla.",
+    "La sección Curación incluye un campo para la curación recibida por el objetivo y lista los bonos de poder de curación en uso (equipo, Meditatio y Offertorium).",
+    "El poder de curación pasó a contabilizarse en Martillo de veterano, Maza Mejorada y en las Sabidurías de Varmunt 1, 2 y 3."
+  ],
+  "logs_en": [
+    "New Healing section for the Arch Bishop line, with Heal, Highness Heal and Coluceo Heal: healing per cast, healing per second and the formula breakdown, with cast time, cooldown and after-cast delay as in the Battle section.",
+    "The Healing section has a field for the heal effectiveness the target receives and lists the heal-power bonuses in play (equipment, Meditatio and Offertorium).",
+    "Heal power is now counted on Veteran Hammer, Upgrade Mace and Varmunt Wisdom 1, 2 and 3."
+  ]
+}

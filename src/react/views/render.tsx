@@ -164,7 +164,7 @@ function renderElement({ tag, props: original, children }: RenderProps, { servic
     case 'app-battle-effects': rendered = <BattleEffects {...props as any} onChange={props['selectedChancesChange']}
       onCompareChange={props['selectedChances2Change']} customIcon={id => services.customItems.iconFor(id)} />; break;
     case 'app-heal-hud': rendered = <HealHud {...props as any} onSkillChange={props['skillChange']}
-      onSkillLevelChange={props['skillLevelChange']} onHealLevelChange={props['healLevelChange']}
+      onSkillLevelChange={props['skillLevelChange']}
       onPartyMembersChange={props['partyMembersChange']}
       onTargetEffectivenessChange={props['targetEffectivenessChange']} />; break;
     case 'app-battle-monster-card': rendered = <BattleMonsterCard {...props as any} onRelieveLevelChange={props['relieveLevelChange']}

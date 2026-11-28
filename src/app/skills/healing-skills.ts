@@ -19,38 +19,25 @@ import type { SkillTimingModel } from '../utils/calc-skill-aspd';
  * same in words — Curatio "recupera o HP do alvo de forma mais eficiente que a habilidade
  * [Curar]" and Sopro Divino "conjura [Curar] nos membros do grupo ao redor do usuário".
  *
- * That is why {@link HealSkillModel} carries `relaysHeal` and an `effectiveness` instead
- * of a formula: the base comes from `calcHeal` at the Curar level, and each skill applies
- * its own percentage on top.
+ * That is why {@link HealSkillModel} carries an `effectiveness` instead of a formula: the
+ * base comes from `calcHeal` at the caster's own Curar level — the level the build already
+ * holds, read off its Curar dropdown — and each skill applies its own percentage on top.
  *
  * ## Timings
  *
  * `fct`/`vct`/`acd`/`cd` are the client's own "Informação de Conjuração / Espera" window,
  * read from `src/assets/demo/data/skill-delay.json` (ids 28, 2051 and 2043) — the same
- * table `skill-delay.spec.ts` holds every attack skill to, and healing-skills.spec.ts now
- * holds these three to. Seconds here, milliseconds there.
+ * table `skill-delay.spec.ts` holds every attack skill to. Seconds here, milliseconds
+ * there, which is why `healing.spec.ts` re-reads that file and pins all four fields of
+ * all three rows against it rather than trusting the transcription.
  */
-export interface HealSkillModel {
+export interface HealSkillModel extends SkillTimingModel {
   /** Catalog name, so `resolveSkillMeta` can give the client's own pt-BR label. */
   name: SkillName;
   /** In-game id — the icon, the description, and the `cd__<id>` item reductions. */
   id: number;
   /** Highest level the client publishes for it. */
   maxLevel: number;
-  /** Fixed cast, in seconds. An array is per level, index 0 = Nv 1. */
-  fct: number | number[];
-  /** Variable cast, in seconds. */
-  vct: number | number[];
-  /** After-cast delay, in seconds. */
-  acd: number | number[];
-  /** Cooldown, in seconds. */
-  cd: number | number[];
-  /**
-   * Whether the heal itself comes from Curar at the caster's Curar level. True for all
-   * three: Curar is trivially its own relay, which keeps the panel's base-heal reading
-   * the same expression for every row.
-   */
-  relaysHeal: true;
   /**
    * What this skill restores, as a percentage of the base heal, at `level`. `members` is
    * the party size, which only Sopro Divino reads.
@@ -90,7 +77,6 @@ export const HEAL_SKILLS: HealSkillModel[] = [
     vct: 0,
     acd: 0.5,
     cd: 0,
-    relaysHeal: true,
     effectiveness: () => 100,
     from: ClassName.Acolyte,
   },
@@ -102,7 +88,6 @@ export const HEAL_SKILLS: HealSkillModel[] = [
     vct: 1,
     acd: 1,
     cd: 3,
-    relaysHeal: true,
     effectiveness: curatioEffectiveness,
     from: ClassName.ArchBishop,
   },
@@ -110,12 +95,12 @@ export const HEAL_SKILLS: HealSkillModel[] = [
     name: 'Coluceo Heal',
     id: 2043,
     maxLevel: 3,
-    // The one per-level row of the three: 1,0 / 0,5 / 0,0 s.
-    fct: [1, 0.5, 0],
+    // The one per-level row of the three: 1,0 / 0,5 / 0,0 s, written as the level
+    // function `calcSkillAspd` reads — the same idiom the attack skills use.
+    fct: (level: number) => [1, 0.5, 0][Math.max(1, level) - 1] ?? 0,
     vct: 3,
     acd: 0,
     cd: 2,
-    relaysHeal: true,
     effectiveness: soproDivinoEffectiveness,
     from: ClassName.ArchBishop,
   },
@@ -155,23 +140,3 @@ export const healSkillsForClass = (className: ClassName): HealSkillModel[] => {
 export const findHealSkill = (name: string): HealSkillModel | undefined =>
   HEAL_SKILLS.find((skill) => skill.name === name);
 
-/**
- * The healing skill as `calcSkillAspd` wants to read it.
- *
- * Only the shape differs: that function takes each timing as a number or a function of
- * the level, while the client's table is naturally a per-level array for the one skill
- * whose fixed cast moves. Converting here keeps the catalog readable as the table it was
- * transcribed from.
- */
-export const healSkillTiming = (skill: HealSkillModel): SkillTimingModel => {
-  const perLevel = (value: number | number[]) =>
-    Array.isArray(value) ? (level: number) => value[Math.max(1, level) - 1] ?? value[value.length - 1] : value;
-
-  return {
-    name: skill.name,
-    fct: perLevel(skill.fct),
-    vct: perLevel(skill.vct),
-    acd: perLevel(skill.acd),
-    cd: perLevel(skill.cd),
-  };
-};

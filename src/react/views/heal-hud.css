@@ -11,11 +11,10 @@ app-heal-hud {
   container-type: inline-size;
 }
 
+/* `hud-selectors-row` already gives the row its flex, gap and margin; the panel has one
+   control more than the Batalha row, so all it adds is permission to wrap. */
 app-heal-hud .heal-selectors {
-  display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 12px;
 }
 
 app-heal-hud .heal-field {
@@ -36,13 +35,12 @@ app-heal-hud .heal-field label {
   color: var(--text-color-secondary);
 }
 
-/* The three cards sit side by side where there is room and stack on a phone, the same
-   way the battle HUD's own card row behaves. */
-app-heal-hud .heal-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
-  align-items: start;
+/* The level this panel only reports, drawn where its sibling fields draw their control. */
+app-heal-hud .heal-read {
+  display: flex;
+  align-items: center;
+  min-height: 34px;
+  font-weight: 600;
 }
 
 app-heal-hud .heal-note {
@@ -52,8 +50,3 @@ app-heal-hud .heal-note {
   color: var(--text-color-secondary);
 }
 
-app-heal-hud .heal-empty {
-  padding: 16px 0;
-  font-size: 14px;
-  color: var(--text-color-secondary);
-}

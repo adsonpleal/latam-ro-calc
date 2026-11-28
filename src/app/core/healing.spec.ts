@@ -3,10 +3,24 @@ import { ArchBishop } from 'src/app/jobs';
 import { ClassName } from 'src/app/jobs/_class-name';
 import { createMainModel } from 'src/app/utils';
 import {
-  findHealSkill, hasHealingPanel, HEAL_SKILLS, healSkillsForClass, healSkillTiming,
+  findHealSkill, hasHealingPanel, HEAL_SKILLS, healSkillsForClass,
 } from 'src/app/skills/healing-skills';
 import { calcHeal, calcHealPerSecond, healFactor } from './healing';
 import { equipStatusOf, makeCalculator } from './__tests__/make-calculator';
+
+/**
+ * Curar's own level, as the build holds it.
+ *
+ * `getHealSummary` no longer takes it as a parameter: it reads the `Heal` passive every
+ * Acolyte-line class already carries, so a spec that wants a heal has to learn it. The
+ * dropdown ids are positional, hence the map over `passiveSkills`.
+ */
+const learnHeal = (job: any, level = 10, extra: Record<string, number> = {}) => {
+  const levels = job.passiveSkills.map((skill: any) => (skill.name === 'Heal' ? level : extra[skill.name] ?? 0));
+  job.setLearnSkills({ activeSkillIds: [], passiveSkillIds: levels }).getSkillBonusAndName();
+
+  return job;
+};
 
 /**
  * The Cura panel's model — card c3W2qySdAGV69qMOyM5w.
@@ -98,11 +112,16 @@ describe('the three skills, against the client\'s own tables', () => {
       expect(row, `skill ${skill.id} missing from skill-delay.json`).toBeDefined();
       expect(skill.maxLevel).toBe(row.maxLevel);
 
+      // Per level, because the catalog writes a moving timing as the level function
+      // `calcSkillAspd` reads, the same idiom the attack skills use.
+      const at = (value: any, level: number) => (typeof value === 'function' ? value(level) : value);
+
       for (const field of ['fct', 'vct', 'acd', 'cd'] as const) {
-        const client = row[field];
-        const mine = skill[field];
-        const expected = Array.isArray(client) ? client.map((ms) => ms / 1000) : client / 1000;
-        expect(mine, `${skill.name} ${field}`).toEqual(expected);
+        for (let level = 1; level <= skill.maxLevel; level += 1) {
+          const client = row[field];
+          const expected = (Array.isArray(client) ? client[level - 1] : client) / 1000;
+          expect(at(skill[field], level), `${skill.name} ${field} Nv ${level}`).toBe(expected);
+        }
       }
     },
   );
@@ -132,9 +151,63 @@ describe('the three skills, against the client\'s own tables', () => {
   });
 
   it('Sopro Divino\'s fixed cast is the one per-level row, 1,0 / 0,5 / 0,0 s', () => {
-    const timing = healSkillTiming(findHealSkill('Coluceo Heal'));
+    const { fct } = findHealSkill('Coluceo Heal');
 
-    expect([1, 2, 3].map((lv) => (timing.fct as (l: number) => number)(lv))).toEqual([1, 0.5, 0]);
+    expect([1, 2, 3].map((lv) => (fct as (l: number) => number)(lv))).toEqual([1, 0.5, 0]);
+  });
+
+  it('Curatio reproduces its published effectiveness column, 200 to 320%', () => {
+    const curatio = findHealSkill('Highness Heal');
+
+    expect([1, 2, 3, 4, 5].map((lv) => curatio.effectiveness(lv, 0))).toEqual([200, 230, 260, 290, 320]);
+  });
+
+  it('Curatio multiplies the base heal by that percentage', () => {
+    const heal = calcHeal({
+      baseLevel: 200, int: 150, skillLevel: 10, weaponMatk: 0, weaponLevel: 0,
+      healPower: 0, skillEffectiveness: 320,
+    });
+
+    expect(heal.total).toBe(6720); // 2100 x 3,2
+  });
+
+  it('Sopro Divino adds 2,5% of the base per party member, and its level does not', () => {
+    const sopro = findHealSkill('Coluceo Heal');
+
+    expect(sopro.effectiveness(1, 0)).toBe(100);
+    expect(sopro.effectiveness(1, 12)).toBe(130);
+    // The level sets the area and the fixed cast, never the amount.
+    expect(sopro.effectiveness(3, 12)).toBe(sopro.effectiveness(1, 12));
+  });
+
+  it('Sopro Divino\'s fixed cast is the one per-level row, 1,0 / 0,5 / 0,0 s', () => {
+    const { fct } = findHealSkill('Coluceo Heal');
+
+    expect([1, 2, 3].map((lv) => (fct as (l: number) => number)(lv))).toEqual([1, 0.5, 0]);
+  });
+
+  /**
+   * The catalog transcribes the client's own window. `skill-delay.json` is the feed that
+   * window is generated from, so re-read it here rather than trusting the transcription:
+   * this is what notices when the next client retune moves one of the three.
+   */
+  it('every timing matches skill-delay.json, the feed it was transcribed from', () => {
+    const feed = JSON.parse(readFileSync('src/assets/demo/data/skill-delay.json', 'utf8'));
+    const at = (value: any, level: number) => (typeof value === 'function' ? value(level) : value);
+
+    for (const skill of HEAL_SKILLS) {
+      const row = feed[skill.id];
+      expect(row, `skill-delay.json has no row for ${skill.name} (${skill.id})`).toBeTruthy();
+      expect(skill.maxLevel).toBe(row.maxLevel);
+
+      for (let level = 1; level <= skill.maxLevel; level += 1) {
+        // Seconds in the catalog, milliseconds in the feed.
+        for (const field of ['fct', 'vct', 'acd', 'cd'] as const) {
+          const fed = Array.isArray(row[field]) ? row[field][level - 1] : row[field];
+          expect(at(skill[field], level) * 1000, `${skill.name} ${field} Nv ${level}`).toBe(fed);
+        }
+      }
+    }
   });
 });
 
@@ -177,13 +250,13 @@ describe('which classes get the panel', () => {
  */
 describe('a geared ArchBishop', () => {
   const healSummary = (model: Record<string, any>, items: Record<string, any>, params: Record<string, any> = {}) => {
-    const cls = new ArchBishop();
-    cls.setLearnSkills({ activeSkillIds: [], passiveSkillIds: [] }).getSkillBonusAndName();
+    const cls = learnHeal(new ArchBishop());
     const calc = makeCalculator(items, cls);
+    learnHeal(cls);
     calc.loadItemFromModel({ ...createMainModel(), level: 200, int: 150, ...model })
       .prepareAllItemBonus().calcAllAtk().calcAllDefs();
 
-    return calc.getHealSummary({ skillName: 'Heal', skillLevel: 10, healLevel: 10, ...params });
+    return calc.getHealSummary({ skillName: 'Heal', skillLevel: 10, ...params });
   };
 
   it('Cajado de Cinzas 1669: its 15% effectiveness and its 200 ATQM both land', () => {
@@ -263,13 +336,13 @@ describe('the heal panel changes no damage number', () => {
 
     const solve = (readHeal: boolean) => {
       const cls = new ArchBishop();
-      cls.setLearnSkills({ activeSkillIds: [], passiveSkillIds: [] }).getSkillBonusAndName();
       const calc = makeCalculator(items, cls);
+      learnHeal(cls);
       calc.setHpSpTable(JSON.parse(readFileSync('src/assets/demo/data/hp_sp_table.json', 'utf8')))
         .setMonster(JSON.parse(readFileSync('src/assets/demo/data/monster.json', 'utf8'))[1038]);
       calc.loadItemFromModel(model).prepareAllItemBonus().calcAllAtk().calcAllDefs()
         .calculateHpSp({ isUseHpL: false }).calculateAllDamages('');
-      if (readHeal) calc.getHealSummary({ skillName: 'Heal', skillLevel: 10, healLevel: 10 });
+      if (readHeal) calc.getHealSummary({ skillName: 'Heal', skillLevel: 10 });
 
       return calc.getTotalSummary().dmg;
     };
@@ -297,12 +370,12 @@ describe('the heal panel changes no damage number', () => {
 describe('where "Efetividade de cura" comes from', () => {
   const sources = (opts: { items?: Record<string, any>; model?: Record<string, any>; learn?: any; } = {}) => {
     const cls = new ArchBishop();
-    cls.setLearnSkills(opts.learn ?? { activeSkillIds: [], passiveSkillIds: [] }).getSkillBonusAndName();
     const calc = makeCalculator(opts.items ?? {}, cls);
+    if (opts.learn) cls.setLearnSkills(opts.learn).getSkillBonusAndName(); else learnHeal(cls);
     calc.loadItemFromModel({ ...createMainModel(), level: 200, int: 150, ...opts.model })
       .prepareAllItemBonus().calcAllAtk().calcAllDefs();
 
-    return calc.getHealSummary({ skillName: 'Heal', skillLevel: 10, healLevel: 10 });
+    return calc.getHealSummary({ skillName: 'Heal', skillLevel: 10 });
   };
 
   it('with nothing learned and nothing worn it is zero, from the equipment line alone', () => {
@@ -327,14 +400,19 @@ describe('where "Efetividade de cura" comes from', () => {
     // After makeCalculator, never before: that harness resets whatever class it is
     // handed to "nothing learned", which is right for an item spec and wrong here.
     const calc = makeCalculator({}, job);
+    if (kind === 'passive') {
+      levels[job.passiveSkills.findIndex((skill: any) => skill.name === 'Heal')] = 10;
+    } else {
+      learnHeal(job);
+    }
     job.setLearnSkills({
       activeSkillIds: kind === 'active' ? levels : [],
-      passiveSkillIds: kind === 'passive' ? levels : [],
+      passiveSkillIds: kind === 'passive' ? levels : job.passiveSkills.map((s: any) => (s.name === 'Heal' ? 10 : 0)),
     }).getSkillBonusAndName();
     calc.loadItemFromModel({ ...createMainModel(), level: 200, int: 150 })
       .prepareAllItemBonus().calcAllAtk().calcAllDefs();
 
-    return calc.getHealSummary({ skillName: 'Heal', skillLevel: 10, healLevel: 10 });
+    return calc.getHealSummary({ skillName: 'Heal', skillLevel: 10 });
   };
 
   it('Meditatio adds 2% a level, the column the client description omits', () => {
@@ -356,12 +434,40 @@ describe('where "Efetividade de cura" comes from', () => {
     const index = job.passiveSkills.findIndex((skill: any) => skill.name === 'Meditation');
     const levels = job.passiveSkills.map((_s: any, i: number) => (i === index ? 10 : 0));
     const calc = makeCalculator({ 1669: { ...db[1669], usableClass: ['all'] } }, job);
+    levels[job.passiveSkills.findIndex((skill: any) => skill.name === 'Heal')] = 10;
     job.setLearnSkills({ activeSkillIds: [], passiveSkillIds: levels }).getSkillBonusAndName();
     calc.loadItemFromModel({ ...createMainModel(), level: 200, int: 150, weapon: 1669 })
       .prepareAllItemBonus().calcAllAtk().calcAllDefs();
-    const summary = calc.getHealSummary({ skillName: 'Heal', skillLevel: 10, healLevel: 10 });
+    const summary = calc.getHealSummary({ skillName: 'Heal', skillLevel: 10 });
 
     expect(summary.healPower).toBe(35);
     expect(summary.total).toBe(Math.floor(summary.baseHeal * 1.35));
+  });
+});
+
+/**
+ * The level the panel heals at is the build's own Curar — the `Heal` passive every
+ * Acolyte-line class already carries, which travels in a share link and a saved sim.
+ * The panel reports it and follows it; it holds no level of its own to disagree with.
+ */
+describe('the Curar level comes from the build', () => {
+  const summaryAt = (healLevel: number) => {
+    const cls = new ArchBishop();
+    const calc = makeCalculator({}, cls);
+    learnHeal(cls, healLevel);
+    calc.loadItemFromModel({ ...createMainModel(), level: 200, int: 150 })
+      .prepareAllItemBonus().calcAllAtk().calcAllDefs();
+
+    return calc.getHealSummary({ skillName: 'Heal', skillLevel: 10 });
+  };
+
+  it('heals nothing while Curar is unlearned, and says so', () => {
+    expect(summaryAt(0).healLevel).toBe(0);
+    expect(summaryAt(0).total).toBe(0);
+  });
+
+  it('follows it: the factor is 3 a level, so Nv 5 is half of Nv 10', () => {
+    expect(summaryAt(5).healLevel).toBe(5);
+    expect(summaryAt(5).total * 2).toBe(summaryAt(10).total);
   });
 });

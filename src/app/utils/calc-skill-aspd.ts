@@ -28,9 +28,9 @@ const HIT_PER_SEC_PRECISION = 6;
  * shorten a heal exactly as it shortens a damage skill. An `AtkSkillModel` still
  * satisfies it, so every existing caller is unchanged.
  */
-export type SkillTimingModel =
-  Pick<AtkSkillModel, 'name' | 'acd' | 'fct' | 'vct' | 'cd'> &
-  Partial<Pick<AtkSkillModel, 'hitEveryNSec' | 'isMatk' | 'element' | 'timingUnknown' | 'ignoreAspdFloor'>>;
+export type SkillTimingModel = Pick<AtkSkillModel,
+  'name' | 'acd' | 'fct' | 'vct' | 'cd' |
+  'hitEveryNSec' | 'isMatk' | 'element' | 'timingUnknown' | 'ignoreAspdFloor'>;
 
 export const calcSkillAspd = (params: {
   skillData: SkillTimingModel;
