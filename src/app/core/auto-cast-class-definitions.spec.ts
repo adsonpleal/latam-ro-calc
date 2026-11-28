@@ -16,9 +16,13 @@ const keysOf = (character: { autoCastDefinitions: ReadonlyArray<{ key: string }>
 
 describe('class-owned auto-cast definitions', () => {
   it('inherits Scholar definitions through Sorcerer and Elemental Master', () => {
-    expect(keysOf(new Scholar())).toEqual(['auto-spell']);
-    expect(keysOf(new Sorcerer())).toEqual(['auto-spell']);
-    expect(keysOf(new ElementalMaster())).toEqual(['auto-spell', 'preview-elemental-integration']);
+    // Lanças Duplas is a Professor skill, so it rides the Sage line down the same way
+    // Desejo Arcano does — the Feiticeiro and the Elementalista cast it too.
+    expect(keysOf(new Scholar())).toEqual(['auto-spell', 'lucky-cast']);
+    expect(keysOf(new Sorcerer())).toEqual(['auto-spell', 'lucky-cast']);
+    expect(keysOf(new ElementalMaster())).toEqual([
+      'auto-spell', 'lucky-cast', 'preview-elemental-integration', 'elemental-spirit-passive',
+    ]);
   });
 
   it('inherits Shadow Chaser definitions through Abyss Chaser', () => {
