@@ -15,8 +15,15 @@
 //
 // Usage:
 //   node .agents/skills/add-ro-monster/extract.mjs <id> [<id> ...] [--src <mobs.json>] [--out <file>]
+//     [--source ragassets|divine-pride] [--preview]
 // Writes the records array to --out (default: <os tmp>/latam-monster-recs.json)
 // and prints a summary. Feed that file to apply.mjs.
+//
+// --source divine-pride is for the one case mobs.json cannot serve: a monster LATAM has
+// not shipped. That file is generated from LATAM server data, so it can never carry a
+// preview monster — see dp-source.mjs. Pair it with --preview, which sets `preRelease`
+// on each record so the target picker tags it **Prévia** and Configurações > Prévias
+// hides it. Use the default ragassets source for anything already live on LATAM.
 
 import { writeFileSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
@@ -32,14 +39,58 @@ const argv = process.argv.slice(2);
 const ids = [];
 let src;
 let outPath = join(tmpdir(), "latam-monster-recs.json");
+let source = "ragassets";
+let preview = false;
 for (let i = 0; i < argv.length; i++) {
   if (argv[i] === "--src") src = argv[++i];
   else if (argv[i] === "--out") outPath = argv[++i];
+  else if (argv[i] === "--source") source = argv[++i];
+  else if (argv[i] === "--preview") preview = true;
   else if (/^\d+$/.test(argv[i])) ids.push(Number(argv[i]));
 }
 if (!ids.length) {
-  console.error("usage: node .agents/skills/add-ro-monster/extract.mjs <id> [<id> ...] [--src <mobs.json>] [--out <file>]");
+  console.error("usage: node .agents/skills/add-ro-monster/extract.mjs <id> [<id> ...] [--src <mobs.json>] [--out <file>] [--source ragassets|divine-pride] [--preview]");
   process.exit(1);
+}
+if (!["ragassets", "divine-pride", "dp"].includes(source)) {
+  console.error(`unknown --source "${source}" (expected ragassets or divine-pride)`);
+  process.exit(1);
+}
+
+if (source !== "ragassets") {
+  const { fetchMonsterPage, parseMonsterPage, DP_URL } = await import("./dp-source.mjs");
+  console.log(`source: divine-pride (${DP_URL("<id>")})\n`);
+  const dpRecs = [];
+  for (const id of ids) {
+    let rec;
+    try {
+      rec = parseMonsterPage(await fetchMonsterPage(id), id);
+    } catch (error) {
+      console.error(`=== ${id} FAILED — ${error.message}`);
+      console.error(`    Refusing to emit a partial record. Report the gap rather than filling it in.\n`);
+      continue;
+    }
+    const { takesPercent, ...record } = rec;
+    if (preview) record.preRelease = true;
+    dpRecs.push(record);
+    const s = record.stats;
+    console.log(`=== ${id}  ${record.dbname || "(no dbname)"}  "${record.name}"  [${s.mvp ? "MVP" : s.class ? "Boss" : "Normal"}]${preview ? " (preview)" : ""}`);
+    console.log(`  Lv ${s.level} | ${s.raceName}/${s.scaleName}/${s.elementName} | HP ${s.health.toLocaleString()} | DEF ${s.defense} MDEF ${s.magicDefense} | RES ${s.res} MRES ${s.mres}`);
+    console.log(`  STR ${s.str} AGI ${s.agi} VIT ${s.vit} INT ${s.int} DEX ${s.dex} LUK ${s.luk}`);
+    if (takesPercent != null) {
+      console.log(`  Takes only ${takesPercent}% of the damage dealt to it — add ${id} to`);
+      console.log(`  src/app/constants/monster-damage-reduction.ts (the engine reads that id list, not stats.attr).`);
+    }
+    console.log("");
+  }
+  if (!dpRecs.length) { console.error("no records extracted."); process.exit(1); }
+  writeFileSync(outPath, JSON.stringify(dpRecs, null, 2));
+  console.log(`wrote ${dpRecs.length} record(s) -> ${outPath}`);
+  console.log(`Fields divine-pride does not publish (sp, atk1/atk2, exp, aggro/escape range, speeds) are 0,`);
+  console.log(`not guesses; the calc reads none of them.`);
+  console.log(`Next: set each record's "spawn" (the map code), add a monster-spawn-mapper.ts group, then:`);
+  console.log(`  node .agents/skills/add-ro-monster/apply.mjs "${outPath}"`);
+  process.exit(0);
 }
 
 const byId = indexById(await loadMobs(src));

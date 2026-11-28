@@ -44,8 +44,22 @@ const BIOSPHERE_MVP_IDS = [21555, 21563, 21571, 21579] as const;
 /** Every Biosphere monster: 21548-21579, one field per element, eight monsters each. */
 const BIOSPHERE_IDS = Array.from({ length: 21579 - 21548 + 1 }, (_, i) => 21548 + i);
 
+/**
+ * The ROADMAP 2027 Biosphere expansions, not on LATAM yet (preview records — see
+ * `docs/roadmap-2027-preview.md`). Each mob's own divine-pride page publishes the line,
+ * and it is the same split the live block has: the area MVPs take 1%, everything else 10%.
+ */
+const BIOSPHERE_RENEWAL_MVP_IDS = [21927, 21935, 21943] as const;
+const BIOSPHERE_RENEWAL_IDS = Array.from({ length: 21943 - 21920 + 1 }, (_, i) => 21920 + i);
+/** Deep Level 1. All sixteen are on the boss protocol, and all of them take 10%. */
+const BIOSPHERE_DEEP_1_IDS = Array.from({ length: 22155 - 22140 + 1 }, (_, i) => 22140 + i);
+
 const MONSTER_DAMAGE_REDUCTION_PERCENT: ReadonlyMap<number, number> = new Map([
   ...BIOSPHERE_IDS.map((id) => [id, (BIOSPHERE_MVP_IDS as readonly number[]).includes(id) ? 99 : 90] as const),
+  ...BIOSPHERE_RENEWAL_IDS.map(
+    (id) => [id, (BIOSPHERE_RENEWAL_MVP_IDS as readonly number[]).includes(id) ? 99 : 90] as const,
+  ),
+  ...BIOSPHERE_DEEP_1_IDS.map((id) => [id, 90] as const),
   [20994, 99], // Betelgeuse
   [21360, 90], // Schulang — Ted
   [21361, 90], // Freyja — Ted

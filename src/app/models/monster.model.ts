@@ -4,6 +4,15 @@ export interface MonsterModel {
   name: string;
   spawn: string;
   stats: Stats;
+  /**
+   * Monster is not on LATAM yet — the target picker marks it **Prévia** and
+   * Configurações > Prévias hides it, the same contract `ItemModel.preRelease` has.
+   *
+   * It is hand-authored for the same reason: the ragassets `mobs.json` feed is LATAM
+   * server data, so it can never carry a monster LATAM has not shipped. See
+   * `docs/roadmap-2027-preview.md`.
+   */
+  preRelease?: boolean;
 }
 
 export interface Stats {

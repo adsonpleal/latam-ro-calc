@@ -90,28 +90,59 @@ same id, and renaming records would be editing data the next client sync owns.
 
 ### Monsters
 
-Nothing. The three Biosphere expansions above do bring monsters, and divine-pride publishes
-all of them: `bl_temple` / `bl_venom` / `bl_soul` (21920–21943, the renewal), `bl_depth1`
-(22140–22155) and `bl_depth2` (22252–22261). They are not here for two reasons.
+40 of them are in, under four new picker groups. `monster.json` records now carry the same
+`preRelease` flag items do, so the target picker tags them **Prévia** and Configurações >
+**Prévias** hides them.
 
-The first is that **`monster.json` has no `preRelease` equivalent**. All 537 records are
-plain; neither `monster.ts`, `monster-spawn-mapper.ts` nor the target picker knows the
-concept. Adding unreleased mobs today would show them exactly like live ones, with nothing
-marking them and no way to hide them — the opposite of what the **Prévia** tag does for
-items. That marker is a product decision and wants making before the data lands.
+| Group | Map | Ids | Mobs |
+|---|---|---|---|
+| Q1 Renovação · Temple | `bl_temple` | 21920–21927 | 8, one MVP at 260 |
+| Q1 Renovação · Venom | `bl_venom` | 21928–21935 | 8, one MVP at 260 |
+| Q1 Renovação · Soul | `bl_soul` | 21936–21943 | 8, one MVP at 260 |
+| Q2 Profundezas da Ecosfera | `bl_depth1` | 22140–22155 | 16, all boss-protocol, none MVP |
 
-The second is volume. These mobs are not in the ragassets `mobs.json` feed and cannot be:
-it is LATAM server data. divine-pride is an accepted source here — `monster-damage-reduction.ts`
-records that 20994, 21360 and 21361 "were added by hand", and the original Biosphere block
-(21548–21579) is feed-absent too — but 40 records of roughly seventeen engine-read fields
-each, transcribed rather than machine-read, is an import that comes out silently wrong. A
-`--source divine-pride` mode for `.agents/skills/add-ro-monster/extract.mjs` is the fix.
+**They could not come from the usual source, and never will.** The ragassets `mobs.json`
+feed is generated from LATAM server data, so it cannot carry a monster LATAM has not
+shipped — waiting for it is waiting forever. `.agents/skills/add-ro-monster/dp-source.mjs`
+reads the upstream kRO block from divine-pride instead, which is still not hand-writing: the
+numbers are machine-read and re-running reproduces the record. divine-pride was in fact this
+repo's original monster source, and `monster-damage-reduction.ts` already records that
+20994, 21360 and 21361 "were added by hand".
 
-Two things that pass will need beyond a stat block: each mob publishes its own *"Taking only
-N% of the damage dealt to it"* line (10% for field mobs, 1% for the three level-260 MVPs),
-which belongs in `monster-damage-reduction.ts` rather than being read off `stats.attr`; and
-the ten Deep Abyss mobs have **no English name on any server tab**, only Korean, so they
-stay out until a client ships one rather than being transliterated.
+That parser was validated by pointing it at **21548**, a live Biosphere mob already in
+`monster.json`, and reproducing all 24 engine-read fields exactly. Two traps showed up and
+are handled rather than documented: divine-pride says `Human` where the engine requires
+`DemiHuman` (it now reuses `RACE_NORMALIZATION` from `tools/mob-source.mjs`, which throws on
+anything unmapped), and the site-wide Tools menu contains an "MVP Timer" entry that a
+whole-document search reads as a boss flag.
+
+Three things worth knowing about the result:
+
+- **`res`/`mres` are published** and are imported — the open question in the earlier notes.
+  The ragassets path leaves them 0; this one does not.
+- Fields divine-pride does not publish (`sp`, `atk1`/`atk2`, the exp values, aggro/escape
+  range, the speeds) are **0 rather than guessed**. The engine reads none of them.
+- Each mob's own *"Taking only N% of the damage dealt to it"* line is in
+  `monster-damage-reduction.ts` — 1% for the three MVPs, 10% for the other 37. The engine
+  reads that explicit id list, not `stats.attr`, because bit 512 is also set on MVPs already
+  in `RED_AURA_MVP_IDS`.
+
+**Graduation works differently from items.** `latam-monsters.json` looks like the item side's
+`latam-items.json` but is not its equivalent: it is a 4170-entry *name overlay* that already
+carries these ids (with their English names), so it cannot say what LATAM has shipped. The
+real signal is the feed, so `tools/sync-monster-db.mjs` clears `preRelease` for any id the
+feed has begun carrying and says so loudly in its report. Running it today changes nothing
+(`records changed: 0 / 577`) and lists all 40 as feed-absent.
+
+**Picker labels** follow the pattern the four live Biosphere maps already use — a level range
+plus the raw map code, as in `'240 - 250 bl_ice'` — with the range taken from the mobs' own
+levels. None of these maps has a published pt-BR name, and inventing one is exactly what
+[[no-guessing-translations]] forbids. Their displayed names are English for the same reason a
+preview item's is.
+
+Still out: the ten **Deep Abyss** mobs (`bl_depth2`, 22252–22261). They have no English name
+on any server tab, only Korean, so they wait for a client to ship one rather than being
+transliterated.
 
 ### Level caps
 

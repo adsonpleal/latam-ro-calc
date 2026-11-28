@@ -71,6 +71,7 @@ const SYNTHETIC_IDS = new Set([205731, 205732, 205733, 205734, 205735, 205736, 2
 const changes = [];
 const retentions = [];
 const notInSource = [];
+const graduated = [];
 
 for (const key of keyOrder) {
   const rec = db[key];
@@ -78,6 +79,16 @@ for (const key of keyOrder) {
   if (!mob) {
     notInSource.push(`${rec.id} (${rec.name})`);
     continue;
+  }
+
+  // The feed is LATAM server data, so an id appearing in it is precisely the signal that
+  // LATAM has shipped that monster — which is the moment a `preRelease` preview stops
+  // being a preview. This is the monster equivalent of pre-release-items.spec.ts failing
+  // when sync-with-ragassets pulls an item id into latam-items.json; monsters have no
+  // such generated list to compare against, so the graduation happens here instead.
+  if (rec.preRelease) {
+    delete rec.preRelease;
+    graduated.push(`${rec.id} (${rec.name})`);
   }
 
   const { stats, retained } = mapMobStats(mob, rec.stats);
@@ -122,6 +133,13 @@ for (const c of changes) {
   for (const d of c.diffs) console.log(`      ${d.field}: ${JSON.stringify(d.from)} -> ${JSON.stringify(d.to)}`);
 }
 
+if (graduated.length) {
+  console.log(`\nLATAM HAS SHIPPED THESE — preRelease cleared, they are no longer previews (${graduated.length}):`);
+  for (const r of graduated) console.log(`  ${r}`);
+  console.log(`  ^ their stats above now come from the feed instead of divine-pride. Drop them from`);
+  console.log(`    src/app/api-services/roadmap-2027-monsters.spec.ts, and check whether the picker`);
+  console.log(`    group label in constants/monster-spawn-mapper.ts should become the real map name.`);
+}
 if (retentions.length) {
   console.log(`\nnull in source, existing value kept (${retentions.length}):`);
   for (const r of retentions) console.log(`  ${r}`);

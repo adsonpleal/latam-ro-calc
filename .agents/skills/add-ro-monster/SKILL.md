@@ -48,6 +48,48 @@ It **refuses to emit a partial record**: an id the feed doesn't carry, or a null
 any field the calc reads, is reported and skipped. Report that gap to the user —
 the fix belongs upstream in ragassets. Never hand-write a stat block from another site.
 
+#### The one exception: a monster LATAM has not shipped
+
+`mobs.json` is generated from **LATAM server data**, so it can never carry a monster that
+is not on LATAM yet. Waiting for the feed is waiting forever, and preview content is
+exactly that case. For it:
+
+```
+node .agents/skills/add-ro-monster/extract.mjs <id> ... --source divine-pride --preview
+```
+
+[dp-source.mjs](.agents/skills/add-ro-monster/dp-source.mjs) reads the upstream (kRO) stat
+block from divine-pride. This is **still not hand-writing**: the numbers are machine-read
+and re-running reproduces the record, which is what the rule above protects. divine-pride
+is already an accepted source here — `monster-damage-reduction.ts` records that 20994,
+21360 and 21361 "were added by hand", and the original Biosphere block (21548-21579) is
+feed-absent too.
+
+`--preview` sets **`preRelease: true`** on each record, which the target picker reads to tag
+it **Prévia** and which Configurações > Prévias hides — the same contract
+`ItemModel.preRelease` has for items. Never flag a monster that is live on LATAM.
+
+What that source does and does not give you:
+
+- It validates every enum against the calc's vocabulary and **throws** on anything
+  unrecognized, reusing `RACE_NORMALIZATION` from `tools/mob-source.mjs` (divine-pride
+  says "Human" where the calc needs DemiHuman).
+- `res`/`mres` **are** published and are read — unlike the ragassets path, where they stay 0.
+- Fields divine-pride does not publish (`sp`, `atk1`/`atk2`, the exp values, aggro/escape
+  range, the speeds) are written as **0 rather than guessed**. The calc reads none of them.
+- It prints the *"Taking only N% of the damage dealt to it"* line when a mob has one. That
+  belongs in `src/app/constants/monster-damage-reduction.ts`, which is an explicit id list —
+  the engine does **not** read `stats.attr`, because bit 512 is also set on MVPs already in
+  `RED_AURA_MVP_IDS`.
+- The pt-BR name overlay is built from `mobs.json`, so a preview monster has none. Its
+  English name stands, exactly as a preview item's does. Do not invent a translation.
+- It refuses a page carrying more than one stat block (divine-pride splits older monsters
+  per server) rather than silently taking the first.
+
+Validate the parser before trusting a batch: run it against an id whose record is already
+in `monster.json` and diff the calc-read fields. It was built that way — 21548 reproduces
+all 24 of them exactly.
+
 ### 2. Spawn + group (the "grouped by map code" step)
 For each record, set the top-level **`spawn`** to the instance's map code (e.g.
 `1@gl_kh`). All mobs of the same instance share one code. Then add a

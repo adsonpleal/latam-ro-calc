@@ -56,6 +56,14 @@ const Mapper = {
   bl_grass: '240 - 250 bl_grass',
   bl_lava: '240 - 250 bl_lava',
   bl_death: '240 - 250 bl_death',
+  // ROADMAP 2027 preview, not on LATAM yet (the records carry `preRelease`, so
+  // Configurações > Prévias hides these groups). Labels follow the pattern the four
+  // live Biosphere maps above already use, with the range taken from the mobs' own
+  // levels — the maps have no published pt-BR name to use instead.
+  bl_temple: '253 - 260 bl_temple',
+  bl_venom: '253 - 260 bl_venom',
+  bl_soul: '253 - 260 bl_soul',
+  bl_depth1: '262 - 265 bl_depth1',
   gl_cas01_: 'gl_cas01_',
   '1@gl_k': 'Glastheim Antiga',
   '1@gl_kh': 'Glastheim Infernal',
