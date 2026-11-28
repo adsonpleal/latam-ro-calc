@@ -80785,6 +80785,7 @@
   },
   "300422": {
     "id": 300422,
+    "preRelease": true,
     "aegisName": "S_Catherine_Card",
     "name": "Catherine Gaebolg Card",
     "unidName": "Catherine Gaebolg Card",
@@ -80811,6 +80812,7 @@
   },
   "300424": {
     "id": 300424,
+    "preRelease": true,
     "aegisName": "S_Friedrich_Card",
     "name": "Friedrich S. Heine Card",
     "unidName": "Friedrich S. Heine Card",
@@ -80837,6 +80839,7 @@
   },
   "300426": {
     "id": 300426,
+    "preRelease": true,
     "aegisName": "S_Crux_Card",
     "name": "Crux Findel Card",
     "unidName": "Crux Findel Card",
@@ -80863,6 +80866,7 @@
   },
   "300441": {
     "id": 300441,
+    "preRelease": true,
     "aegisName": "Burning_Knight_Card",
     "name": "Burning Knight Card",
     "unidName": "Burning Knight Card",
@@ -80892,6 +80896,7 @@
   },
   "300442": {
     "id": 300442,
+    "preRelease": true,
     "aegisName": "Dedsera_Card",
     "name": "Deadsera Card",
     "unidName": "Deadsera Card",
@@ -80921,6 +80926,7 @@
   },
   "300443": {
     "id": 300443,
+    "preRelease": true,
     "aegisName": "Hardrock_Titan_Card",
     "name": "Hardrock Titan Card",
     "unidName": "Hardrock Titan Card",
@@ -80949,6 +80955,7 @@
   },
   "300444": {
     "id": 300444,
+    "preRelease": true,
     "aegisName": "Deadween_Card",
     "name": "Deadween Card",
     "unidName": "Deadween Card",
@@ -80975,6 +80982,7 @@
   },
   "300445": {
     "id": 300445,
+    "preRelease": true,
     "aegisName": "Gaia_Pol_Card",
     "name": "Gaia Pol Card",
     "unidName": "Gaia Pol Card",
@@ -81008,6 +81016,7 @@
   },
   "300446": {
     "id": 300446,
+    "preRelease": true,
     "aegisName": "Punch_Bug_Card",
     "name": "Punch Bug Card",
     "unidName": "Punch Bug Card",
@@ -81037,6 +81046,7 @@
   },
   "300447": {
     "id": 300447,
+    "preRelease": true,
     "aegisName": "Aferde_Card",
     "name": "Aferde Card",
     "unidName": "Aferde Card",
@@ -81062,6 +81072,7 @@
   },
   "300448": {
     "id": 300448,
+    "preRelease": true,
     "aegisName": "Dispol_Card",
     "name": "Dispol Card",
     "unidName": "Dispol Card",
@@ -81086,6 +81097,7 @@
   },
   "300449": {
     "id": 300449,
+    "preRelease": true,
     "aegisName": "Timbers_Card",
     "name": "Timbers Card",
     "unidName": "Timbers Card",
@@ -81110,6 +81122,7 @@
   },
   "300450": {
     "id": 300450,
+    "preRelease": true,
     "aegisName": "Renire_Card",
     "name": "Renire Card",
     "unidName": "Renire Card",
@@ -81134,6 +81147,7 @@
   },
   "300454": {
     "id": 300454,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Hp",
     "name": "Glacier Flower (Vital)",
     "unidName": "Glacier Flower Meow Power (Vital)",
@@ -81162,6 +81176,7 @@
   },
   "300455": {
     "id": 300455,
+    "preRelease": true,
     "aegisName": "Copo_Card",
     "name": "Copo Card",
     "unidName": "Copo Card",
@@ -81199,6 +81214,7 @@
   },
   "300456": {
     "id": 300456,
+    "preRelease": true,
     "aegisName": "Icewind_Egg_Card",
     "name": "Icewind Egg Card",
     "unidName": "Icewind Egg Card",
@@ -81228,6 +81244,7 @@
   },
   "300457": {
     "id": 300457,
+    "preRelease": true,
     "aegisName": "Grey_Icewind_Card",
     "name": "Grey Icewind Card",
     "unidName": "Grey Icewind Card",
@@ -81266,6 +81283,7 @@
   },
   "300458": {
     "id": 300458,
+    "preRelease": true,
     "aegisName": "Icewind_Card",
     "name": "Icewind Card",
     "unidName": "Icewind Card",
@@ -81304,6 +81322,7 @@
   },
   "300459": {
     "id": 300459,
+    "preRelease": true,
     "aegisName": "E_Rgan_Healer_Card",
     "name": "Jormungandr Church Bishop Card",
     "unidName": "Jormungandr Church Bishop Card",
@@ -81334,6 +81353,7 @@
   },
   "300460": {
     "id": 300460,
+    "preRelease": true,
     "aegisName": "Jormun_Guardian_Card",
     "name": "Jormungandr Guardian Card",
     "unidName": "Jormungandr Guardian Card",
@@ -81376,6 +81396,7 @@
   },
   "300461": {
     "id": 300461,
+    "preRelease": true,
     "aegisName": "Fake_Iwin_S_Card",
     "name": "Suspicious Iwin Soldier Card",
     "unidName": "Suspicious Iwin Soldier Card",
@@ -81406,6 +81427,7 @@
   },
   "300462": {
     "id": 300462,
+    "preRelease": true,
     "aegisName": "S_Rgan_Warlock_Card",
     "name": "Superior Rgan Warlock Card",
     "unidName": "Superior Rgan Warlock Card",
@@ -81448,6 +81470,7 @@
   },
   "300463": {
     "id": 300463,
+    "preRelease": true,
     "aegisName": "S_Rgan_Healer_Card",
     "name": "Superior Rgan Healer Card",
     "unidName": "Superior Rgan Healer Card",
@@ -81490,6 +81513,7 @@
   },
   "300464": {
     "id": 300464,
+    "preRelease": true,
     "aegisName": "E_Rgan_Warlock_Card",
     "name": "Jormungandr Church Warlock Card",
     "unidName": "Jormungandr Church Warlock Card",
@@ -81520,6 +81544,7 @@
   },
   "300465": {
     "id": 300465,
+    "preRelease": true,
     "aegisName": "E_Rgan_Guardian_Card",
     "name": "Jormungandr Sanctuary Guardian Card",
     "unidName": "Jormungandr Sanctuary Guardian Card",
@@ -81574,6 +81599,7 @@
   },
   "300466": {
     "id": 300466,
+    "preRelease": true,
     "aegisName": "E_Rgan_Cleaner_Card",
     "name": "Jormungandr Sanctuary Cleaner Card",
     "unidName": "Jormungandr Sanctuary Cleaner Card",
@@ -81604,6 +81630,7 @@
   },
   "300467": {
     "id": 300467,
+    "preRelease": true,
     "aegisName": "Angel_Iceslug_Card",
     "name": "Angel Iceslug Card",
     "unidName": "Angel Iceslug Card",
@@ -81631,6 +81658,7 @@
   },
   "300468": {
     "id": 300468,
+    "preRelease": true,
     "aegisName": "Rabbit_Iceslug_card",
     "name": "Snow Rabbit Slug Card",
     "unidName": "Snow Rabbit Slug Card",
@@ -81658,6 +81686,7 @@
   },
   "300469": {
     "id": 300469,
+    "preRelease": true,
     "aegisName": "Melibe_Iceslug_Card",
     "name": "Melibe Slug Card",
     "unidName": "Melibe Slug Card",
@@ -81688,6 +81717,7 @@
   },
   "300470": {
     "id": 300470,
+    "preRelease": true,
     "aegisName": "Icebear_Card",
     "name": "Bear Bug Card",
     "unidName": "Bear Bug Card",
@@ -81718,6 +81748,7 @@
   },
   "300471": {
     "id": 300471,
+    "preRelease": true,
     "aegisName": "F_Angel_Iceslug_Card",
     "name": "Fallen Angel Slug Card",
     "unidName": "Fallen Angel Slug Card",
@@ -81754,6 +81785,7 @@
   },
   "300472": {
     "id": 300472,
+    "preRelease": true,
     "aegisName": "Demigod_Lasgand_Card",
     "name": "Ultimate Lasgand Card",
     "unidName": "Ultimate Lasgand Card",
@@ -81790,6 +81822,7 @@
   },
   "300473": {
     "id": 300473,
+    "preRelease": true,
     "aegisName": "Snow_Angel_Card",
     "name": "Snowstorm Angel Card",
     "unidName": "Snowstorm Angel Card",
@@ -81821,6 +81854,7 @@
   },
   "300474": {
     "id": 300474,
+    "preRelease": true,
     "aegisName": "Rgan_Chief_Clean_Card",
     "name": "Sanctuary Cleaning Chief Card",
     "unidName": "Sanctuary Cleaning Chief Card",
@@ -112724,6 +112758,7 @@
   },
   "311782": {
     "id": 311782,
+    "preRelease": true,
     "aegisName": "Pow_Orb_6",
     "name": "Power Orb Lv.6",
     "unidName": "Power Orb Lv.6",
@@ -112750,6 +112785,7 @@
   },
   "311783": {
     "id": 311783,
+    "preRelease": true,
     "aegisName": "Pow_Orb_7",
     "name": "Power Orb Lv.7",
     "unidName": "Power Orb Lv.7",
@@ -112776,6 +112812,7 @@
   },
   "311784": {
     "id": 311784,
+    "preRelease": true,
     "aegisName": "Pow_Orb_8",
     "name": "Power Orb Lv.8",
     "unidName": "Power Orb Lv.8",
@@ -112802,6 +112839,7 @@
   },
   "311785": {
     "id": 311785,
+    "preRelease": true,
     "aegisName": "Pow_Orb_9",
     "name": "Power Orb Lv.9",
     "unidName": "Power Orb Lv.9",
@@ -112828,6 +112866,7 @@
   },
   "311786": {
     "id": 311786,
+    "preRelease": true,
     "aegisName": "Pow_Orb_10",
     "name": "Power Orb  Lv.10",
     "unidName": "Power Orb  Lv.10",
@@ -112854,6 +112893,7 @@
   },
   "311787": {
     "id": 311787,
+    "preRelease": true,
     "aegisName": "Pow_Orb_11",
     "name": "Power Orb  Lv.11",
     "unidName": "Power Orb  Lv.11",
@@ -112883,6 +112923,7 @@
   },
   "311788": {
     "id": 311788,
+    "preRelease": true,
     "aegisName": "Pow_Orb_12",
     "name": "Power Orb  Lv.12",
     "unidName": "Power Orb  Lv.12",
@@ -112912,6 +112953,7 @@
   },
   "311789": {
     "id": 311789,
+    "preRelease": true,
     "aegisName": "Pow_Orb_13",
     "name": "Power Orb  Lv.13",
     "unidName": "Power Orb  Lv.13",
@@ -112941,6 +112983,7 @@
   },
   "311790": {
     "id": 311790,
+    "preRelease": true,
     "aegisName": "Pow_Orb_14",
     "name": "Power Orb  Lv.14",
     "unidName": "Power Orb  Lv.14",
@@ -112970,6 +113013,7 @@
   },
   "311791": {
     "id": 311791,
+    "preRelease": true,
     "aegisName": "Pow_Orb_15",
     "name": "Power Orb  Lv.15",
     "unidName": "Power Orb  Lv.15",
@@ -112999,6 +113043,7 @@
   },
   "311792": {
     "id": 311792,
+    "preRelease": true,
     "aegisName": "Pow_Orb_16",
     "name": "Power Orb  Lv.16",
     "unidName": "Power Orb  Lv.16",
@@ -113029,6 +113074,7 @@
   },
   "311793": {
     "id": 311793,
+    "preRelease": true,
     "aegisName": "Pow_Orb_17",
     "name": "Power Orb  Lv.17",
     "unidName": "Power Orb  Lv.17",
@@ -113059,6 +113105,7 @@
   },
   "311794": {
     "id": 311794,
+    "preRelease": true,
     "aegisName": "Pow_Orb_18",
     "name": "Power Orb  Lv.18",
     "unidName": "Power Orb  Lv.18",
@@ -113090,6 +113137,7 @@
   },
   "311795": {
     "id": 311795,
+    "preRelease": true,
     "aegisName": "Pow_Orb_19",
     "name": "Power Orb  Lv.19",
     "unidName": "Power Orb  Lv.19",
@@ -113121,6 +113169,7 @@
   },
   "311796": {
     "id": 311796,
+    "preRelease": true,
     "aegisName": "Pow_Orb_20",
     "name": "Power Orb  Lv.20",
     "unidName": "Power Orb  Lv.20",
@@ -113267,6 +113316,7 @@
   },
   "311802": {
     "id": 311802,
+    "preRelease": true,
     "aegisName": "Spl_Orb_6",
     "name": "Spell Orb Lv.6",
     "unidName": "Spell Orb Lv.6",
@@ -113293,6 +113343,7 @@
   },
   "311803": {
     "id": 311803,
+    "preRelease": true,
     "aegisName": "Spl_Orb_7",
     "name": "Spell Orb Lv.7",
     "unidName": "Spell Orb Lv.7",
@@ -113319,6 +113370,7 @@
   },
   "311804": {
     "id": 311804,
+    "preRelease": true,
     "aegisName": "Spl_Orb_8",
     "name": "Spell Orb Lv.8",
     "unidName": "Spell Orb Lv.8",
@@ -113345,6 +113397,7 @@
   },
   "311805": {
     "id": 311805,
+    "preRelease": true,
     "aegisName": "Spl_Orb_9",
     "name": "Spell Orb Lv.9",
     "unidName": "Spell Orb Lv.9",
@@ -113371,6 +113424,7 @@
   },
   "311806": {
     "id": 311806,
+    "preRelease": true,
     "aegisName": "Spl_Orb_10",
     "name": "Spell Orb Lv.10",
     "unidName": "Spell Orb Lv.10",
@@ -113397,6 +113451,7 @@
   },
   "311807": {
     "id": 311807,
+    "preRelease": true,
     "aegisName": "Spl_Orb_11",
     "name": "Spell Orb Lv.11",
     "unidName": "Spell Orb Lv.11",
@@ -113426,6 +113481,7 @@
   },
   "311808": {
     "id": 311808,
+    "preRelease": true,
     "aegisName": "Spl_Orb_12",
     "name": "Spell Orb Lv.12",
     "unidName": "Spell Orb Lv.12",
@@ -113455,6 +113511,7 @@
   },
   "311809": {
     "id": 311809,
+    "preRelease": true,
     "aegisName": "Spl_Orb_13",
     "name": "Spell Orb Lv.13",
     "unidName": "Spell Orb Lv.13",
@@ -113484,6 +113541,7 @@
   },
   "311810": {
     "id": 311810,
+    "preRelease": true,
     "aegisName": "Spl_Orb_14",
     "name": "Spell Orb Lv.14",
     "unidName": "Spell Orb Lv.14",
@@ -113513,6 +113571,7 @@
   },
   "311811": {
     "id": 311811,
+    "preRelease": true,
     "aegisName": "Spl_Orb_15",
     "name": "Spell Orb Lv.15",
     "unidName": "Spell Orb Lv.15",
@@ -113542,6 +113601,7 @@
   },
   "311812": {
     "id": 311812,
+    "preRelease": true,
     "aegisName": "Spl_Orb_16",
     "name": "Spell Orb Lv.16",
     "unidName": "Spell Orb Lv.16",
@@ -113572,6 +113632,7 @@
   },
   "311813": {
     "id": 311813,
+    "preRelease": true,
     "aegisName": "Spl_Orb_17",
     "name": "Spell Orb Lv.17",
     "unidName": "Spell Orb Lv.17",
@@ -113602,6 +113663,7 @@
   },
   "311814": {
     "id": 311814,
+    "preRelease": true,
     "aegisName": "Spl_Orb_18",
     "name": "Spell Orb Lv.18",
     "unidName": "Spell Orb Lv.18",
@@ -113633,6 +113695,7 @@
   },
   "311815": {
     "id": 311815,
+    "preRelease": true,
     "aegisName": "Spl_Orb_19",
     "name": "Spell Orb Lv.19",
     "unidName": "Spell Orb Lv.19",
@@ -113664,6 +113727,7 @@
   },
   "311816": {
     "id": 311816,
+    "preRelease": true,
     "aegisName": "Spl_Orb_20",
     "name": "Spell Orb Lv.20",
     "unidName": "Spell Orb Lv.20",
@@ -113810,6 +113874,7 @@
   },
   "311822": {
     "id": 311822,
+    "preRelease": true,
     "aegisName": "Warrior_Orb_6",
     "name": "Warrior Orb Lv.6",
     "unidName": "Warrior Orb Lv.6",
@@ -113833,6 +113898,7 @@
   },
   "311823": {
     "id": 311823,
+    "preRelease": true,
     "aegisName": "Warrior_Orb_7",
     "name": "Warrior Orb Lv.7",
     "unidName": "Warrior Orb Lv.7",
@@ -113856,6 +113922,7 @@
   },
   "311824": {
     "id": 311824,
+    "preRelease": true,
     "aegisName": "Warrior_Orb_8",
     "name": "Warrior Orb Lv.8",
     "unidName": "Warrior Orb Lv.8",
@@ -113879,6 +113946,7 @@
   },
   "311825": {
     "id": 311825,
+    "preRelease": true,
     "aegisName": "Warrior_Orb_9",
     "name": "Warrior Orb Lv.9",
     "unidName": "Warrior Orb Lv.9",
@@ -113902,6 +113970,7 @@
   },
   "311826": {
     "id": 311826,
+    "preRelease": true,
     "aegisName": "Warrior_Orb_10",
     "name": "Warrior Orb Lv.10",
     "unidName": "Warrior Orb Lv.10",
@@ -113925,6 +113994,7 @@
   },
   "311827": {
     "id": 311827,
+    "preRelease": true,
     "aegisName": "Warrior_Orb_11",
     "name": "Warrior Orb Lv.11",
     "unidName": "Warrior Orb Lv.11",
@@ -113948,6 +114018,7 @@
   },
   "311828": {
     "id": 311828,
+    "preRelease": true,
     "aegisName": "Warrior_Orb_12",
     "name": "Warrior Orb Lv.12",
     "unidName": "Warrior Orb Lv.12",
@@ -113971,6 +114042,7 @@
   },
   "311829": {
     "id": 311829,
+    "preRelease": true,
     "aegisName": "Warrior_Orb_13",
     "name": "Warrior Orb Lv.13",
     "unidName": "Warrior Orb Lv.13",
@@ -113994,6 +114066,7 @@
   },
   "311830": {
     "id": 311830,
+    "preRelease": true,
     "aegisName": "Warrior_Orb_14",
     "name": "Warrior Orb Lv.14",
     "unidName": "Warrior Orb Lv.14",
@@ -114017,6 +114090,7 @@
   },
   "311831": {
     "id": 311831,
+    "preRelease": true,
     "aegisName": "Warrior_Orb_15",
     "name": "Warrior Orb Lv.15",
     "unidName": "Warrior Orb Lv.15",
@@ -114155,6 +114229,7 @@
   },
   "311837": {
     "id": 311837,
+    "preRelease": true,
     "aegisName": "Magician_Orb_6",
     "name": "Magician Orb Lv.6",
     "unidName": "Magician Orb Lv.6",
@@ -114178,6 +114253,7 @@
   },
   "311838": {
     "id": 311838,
+    "preRelease": true,
     "aegisName": "Magician_Orb_7",
     "name": "Magician Orb Lv.7",
     "unidName": "Magician Orb Lv.7",
@@ -114201,6 +114277,7 @@
   },
   "311839": {
     "id": 311839,
+    "preRelease": true,
     "aegisName": "Magician_Orb_8",
     "name": "Magician Orb Lv.8",
     "unidName": "Magician Orb Lv.8",
@@ -114224,6 +114301,7 @@
   },
   "311840": {
     "id": 311840,
+    "preRelease": true,
     "aegisName": "Magician_Orb_9",
     "name": "Magician Orb Lv.9",
     "unidName": "Magician Orb Lv.9",
@@ -114247,6 +114325,7 @@
   },
   "311841": {
     "id": 311841,
+    "preRelease": true,
     "aegisName": "Magician_Orb_10",
     "name": "Magician Orb Lv.10",
     "unidName": "Magician Orb Lv.10",
@@ -114270,6 +114349,7 @@
   },
   "311842": {
     "id": 311842,
+    "preRelease": true,
     "aegisName": "Magician_Orb_11",
     "name": "Magician Orb Lv.11",
     "unidName": "Magician Orb Lv.11",
@@ -114293,6 +114373,7 @@
   },
   "311843": {
     "id": 311843,
+    "preRelease": true,
     "aegisName": "Magician_Orb_12",
     "name": "Magician Orb Lv.12",
     "unidName": "Magician Orb Lv.12",
@@ -114316,6 +114397,7 @@
   },
   "311844": {
     "id": 311844,
+    "preRelease": true,
     "aegisName": "Magician_Orb_13",
     "name": "Magician Orb Lv.13",
     "unidName": "Magician Orb Lv.13",
@@ -114339,6 +114421,7 @@
   },
   "311845": {
     "id": 311845,
+    "preRelease": true,
     "aegisName": "Magician_Orb_14",
     "name": "Magician Orb Lv.14",
     "unidName": "Magician Orb Lv.14",
@@ -114362,6 +114445,7 @@
   },
   "311846": {
     "id": 311846,
+    "preRelease": true,
     "aegisName": "Magician_Orb_15",
     "name": "Magician Orb Lv.15",
     "unidName": "Magician Orb Lv.15",
@@ -114500,6 +114584,7 @@
   },
   "311852": {
     "id": 311852,
+    "preRelease": true,
     "aegisName": "Shooter_Orb_6",
     "name": "Shooter Orb Lv.6",
     "unidName": "Shooter Orb Lv.6",
@@ -114523,6 +114608,7 @@
   },
   "311853": {
     "id": 311853,
+    "preRelease": true,
     "aegisName": "Shooter_Orb_7",
     "name": "Shooter Orb Lv.7",
     "unidName": "Shooter Orb Lv.7",
@@ -114546,6 +114632,7 @@
   },
   "311854": {
     "id": 311854,
+    "preRelease": true,
     "aegisName": "Shooter_Orb_8",
     "name": "Shooter Orb Lv.8",
     "unidName": "Shooter Orb Lv.8",
@@ -114569,6 +114656,7 @@
   },
   "311855": {
     "id": 311855,
+    "preRelease": true,
     "aegisName": "Shooter_Orb_9",
     "name": "Shooter Orb Lv.9",
     "unidName": "Shooter Orb Lv.9",
@@ -114592,6 +114680,7 @@
   },
   "311856": {
     "id": 311856,
+    "preRelease": true,
     "aegisName": "Shooter_Orb_10",
     "name": "Shooter Orb Lv.10",
     "unidName": "Shooter Orb Lv.10",
@@ -114615,6 +114704,7 @@
   },
   "311857": {
     "id": 311857,
+    "preRelease": true,
     "aegisName": "Shooter_Orb_11",
     "name": "Shooter Orb Lv.11",
     "unidName": "Shooter Orb Lv.11",
@@ -114638,6 +114728,7 @@
   },
   "311858": {
     "id": 311858,
+    "preRelease": true,
     "aegisName": "Shooter_Orb_12",
     "name": "Shooter Orb Lv.12",
     "unidName": "Shooter Orb Lv.12",
@@ -114661,6 +114752,7 @@
   },
   "311859": {
     "id": 311859,
+    "preRelease": true,
     "aegisName": "Shooter_Orb_13",
     "name": "Shooter Orb Lv.13",
     "unidName": "Shooter Orb Lv.13",
@@ -114684,6 +114776,7 @@
   },
   "311860": {
     "id": 311860,
+    "preRelease": true,
     "aegisName": "Shooter_Orb_14",
     "name": "Shooter Orb Lv.14",
     "unidName": "Shooter Orb Lv.14",
@@ -114707,6 +114800,7 @@
   },
   "311861": {
     "id": 311861,
+    "preRelease": true,
     "aegisName": "Shooter_Orb_15",
     "name": "Shooter Orb Lv.15",
     "unidName": "Shooter Orb Lv.15",
@@ -114730,6 +114824,7 @@
   },
   "311862": {
     "id": 311862,
+    "preRelease": true,
     "aegisName": "Barmund_Flame1",
     "name": "Varmundt's Crystal (Flame) Lv.1",
     "unidName": "Varmundt's Crystal (Flame) Lv.1",
@@ -114778,6 +114873,7 @@
   },
   "311863": {
     "id": 311863,
+    "preRelease": true,
     "aegisName": "Barmund_Flame2",
     "name": "Varmundt's Crystal (Flame) Lv.2",
     "unidName": "Varmundt's Crystal (Flame) Lv.2",
@@ -114826,6 +114922,7 @@
   },
   "311864": {
     "id": 311864,
+    "preRelease": true,
     "aegisName": "Barmund_Flame3",
     "name": "Varmundt's Crystal (Flame) Lv.3",
     "unidName": "Varmundt's Crystal (Flame) Lv.3",
@@ -114874,6 +114971,7 @@
   },
   "311865": {
     "id": 311865,
+    "preRelease": true,
     "aegisName": "Barmund_Flame4",
     "name": "Varmundt's Crystal (Flame) Lv.4",
     "unidName": "Varmundt's Crystal (Flame) Lv.4",
@@ -114922,6 +115020,7 @@
   },
   "311866": {
     "id": 311866,
+    "preRelease": true,
     "aegisName": "Barmund_Flame5",
     "name": "Varmundt's Crystal (Flame) Lv.5",
     "unidName": "Varmundt's Crystal (Flame) Lv.5",
@@ -114970,6 +115069,7 @@
   },
   "311867": {
     "id": 311867,
+    "preRelease": true,
     "aegisName": "Barmund_Ice1",
     "name": "Varmundt's Crystal (Ice) Lv.1",
     "unidName": "Varmundt's Crystal (Ice) Lv.1",
@@ -115018,6 +115118,7 @@
   },
   "311868": {
     "id": 311868,
+    "preRelease": true,
     "aegisName": "Barmund_Ice2",
     "name": "Varmundt's Crystal (Ice) Lv.2",
     "unidName": "Varmundt's Crystal (Ice) Lv.2",
@@ -115066,6 +115167,7 @@
   },
   "311869": {
     "id": 311869,
+    "preRelease": true,
     "aegisName": "Barmund_Ice3",
     "name": "Varmundt's Crystal (Ice) Lv.3",
     "unidName": "Varmundt's Crystal (Ice) Lv.3",
@@ -115114,6 +115216,7 @@
   },
   "311870": {
     "id": 311870,
+    "preRelease": true,
     "aegisName": "Barmund_Ice4",
     "name": "Varmundt's Crystal (Ice) Lv.4",
     "unidName": "Varmundt's Crystal (Ice) Lv.4",
@@ -115162,6 +115265,7 @@
   },
   "311871": {
     "id": 311871,
+    "preRelease": true,
     "aegisName": "Barmund_Ice5",
     "name": "Varmundt's Crystal (Ice) Lv.5",
     "unidName": "Varmundt's Crystal (Ice) Lv.5",
@@ -115210,6 +115314,7 @@
   },
   "311872": {
     "id": 311872,
+    "preRelease": true,
     "aegisName": "Barmund_Plain1",
     "name": "Varmundt's Crystal (Plain) Lv.1",
     "unidName": "Varmundt's Crystal (Plain) Lv.1",
@@ -115258,6 +115363,7 @@
   },
   "311873": {
     "id": 311873,
+    "preRelease": true,
     "aegisName": "Barmund_Plain2",
     "name": "Varmundt's Crystal (Plain) Lv.2",
     "unidName": "Varmundt's Crystal (Plain) Lv.2",
@@ -115306,6 +115412,7 @@
   },
   "311874": {
     "id": 311874,
+    "preRelease": true,
     "aegisName": "Barmund_Plain3",
     "name": "Varmundt's Crystal (Plain) Lv.3",
     "unidName": "Varmundt's Crystal (Plain) Lv.3",
@@ -115354,6 +115461,7 @@
   },
   "311875": {
     "id": 311875,
+    "preRelease": true,
     "aegisName": "Barmund_Plain4",
     "name": "Varmundt's Crystal (Plain) Lv.4",
     "unidName": "Varmundt's Crystal (Plain) Lv.4",
@@ -115402,6 +115510,7 @@
   },
   "311876": {
     "id": 311876,
+    "preRelease": true,
     "aegisName": "Barmund_Plain5",
     "name": "Varmundt's Crystal (Plain) Lv.5",
     "unidName": "Varmundt's Crystal (Plain) Lv.5",
@@ -115450,6 +115559,7 @@
   },
   "311877": {
     "id": 311877,
+    "preRelease": true,
     "aegisName": "Barmund_Death1",
     "name": "Varmundt's Crystal (Death) Lv.1",
     "unidName": "Varmundt's Crystal (Death) Lv.1",
@@ -115498,6 +115608,7 @@
   },
   "311878": {
     "id": 311878,
+    "preRelease": true,
     "aegisName": "Barmund_Death2",
     "name": "Varmundt's Crystal (Death) Lv.2",
     "unidName": "Varmundt's Crystal (Death) Lv.2",
@@ -115546,6 +115657,7 @@
   },
   "311879": {
     "id": 311879,
+    "preRelease": true,
     "aegisName": "Barmund_Death3",
     "name": "Varmundt's Crystal (Death) Lv.3",
     "unidName": "Varmundt's Crystal (Death) Lv.3",
@@ -115594,6 +115706,7 @@
   },
   "311880": {
     "id": 311880,
+    "preRelease": true,
     "aegisName": "Barmund_Death4",
     "name": "Varmundt's Crystal (Death) Lv.4",
     "unidName": "Varmundt's Crystal (Death) Lv.4",
@@ -115642,6 +115755,7 @@
   },
   "311881": {
     "id": 311881,
+    "preRelease": true,
     "aegisName": "Barmund_Death5",
     "name": "Varmundt's Crystal (Death) Lv.5",
     "unidName": "Varmundt's Crystal (Death) Lv.5",
@@ -115940,6 +116054,7 @@
   },
   "311927": {
     "id": 311927,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Df1",
     "name": "Broken Biosphere Gem (Dragon Fishing)",
     "unidName": "Broken Biosphere Gem (Dragon Fishing)",
@@ -115972,6 +116087,7 @@
   },
   "311928": {
     "id": 311928,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Df2",
     "name": "Biosphere Gem (Dragon Fishing)",
     "unidName": "Biosphere Gem (Dragon Fishing)",
@@ -116004,6 +116120,7 @@
   },
   "311929": {
     "id": 311929,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Df3",
     "name": "Brilliant Biosphere Gem (Dragon Fishing)",
     "unidName": "Brilliant Biosphere Gem (Dragon Fishing)",
@@ -116036,6 +116153,7 @@
   },
   "311930": {
     "id": 311930,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Es1",
     "name": "Broken Biosphere Gem (Exor-scissor)",
     "unidName": "Broken Biosphere Gem (Exor-scissor)",
@@ -116068,6 +116186,7 @@
   },
   "311931": {
     "id": 311931,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Es2",
     "name": "Biosphere Gem (Exor-scissor)",
     "unidName": "Biosphere Gem (Exor-scissor)",
@@ -116100,6 +116219,7 @@
   },
   "311932": {
     "id": 311932,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Es3",
     "name": "Brilliant Biosphere Gem (Exor-scissor)",
     "unidName": "Brilliant Biosphere Gem (Exor-scissor)",
@@ -116132,6 +116252,7 @@
   },
   "311933": {
     "id": 311933,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Vl1",
     "name": "Broken Biosphere Gem (Vibra-rupt)",
     "unidName": "Broken Biosphere Gem (Vibra-rupt)",
@@ -116164,6 +116285,7 @@
   },
   "311934": {
     "id": 311934,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Vl2",
     "name": "Biosphere Gem (Vibra-rupt)",
     "unidName": "Biosphere Gem (Vibra-rupt)",
@@ -116196,6 +116318,7 @@
   },
   "311935": {
     "id": 311935,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Vl3",
     "name": "Brilliant Biosphere Gem (Vibra-rupt)",
     "unidName": "Brilliant Biosphere Gem (Vibra-rupt)",
@@ -116228,6 +116351,7 @@
   },
   "311936": {
     "id": 311936,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Eq1",
     "name": "Broken Biosphere Gem (Execu-sect)",
     "unidName": "Broken Biosphere Gem (Execu-sect)",
@@ -116260,6 +116384,7 @@
   },
   "311937": {
     "id": 311937,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Eq2",
     "name": "Biosphere Gem (Execu-sect)",
     "unidName": "Biosphere Gem (Execu-sect)",
@@ -116292,6 +116417,7 @@
   },
   "311938": {
     "id": 311938,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Eq3",
     "name": "Brilliant Biosphere Gem (Execu-sect)",
     "unidName": "Brilliant Biosphere Gem (Execu-sect)",
@@ -116324,6 +116450,7 @@
   },
   "311939": {
     "id": 311939,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Hd1",
     "name": "Broken Biosphere Gem (Hunting Divine)",
     "unidName": "Broken Biosphere Gem (Hunting Divine)",
@@ -116356,6 +116483,7 @@
   },
   "311940": {
     "id": 311940,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Hd2",
     "name": "Biosphere Gem (Hunting Divine)",
     "unidName": "Biosphere Gem (Hunting Divine)",
@@ -116388,6 +116516,7 @@
   },
   "311941": {
     "id": 311941,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Hd3",
     "name": "Brilliant Biosphere Gem (Hunting Divine)",
     "unidName": "Brilliant Biosphere Gem (Hunting Divine)",
@@ -116420,6 +116549,7 @@
   },
   "311942": {
     "id": 311942,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Normal",
     "name": "Brilliant Biosphere Gem (Normal Type)",
     "unidName": "Brilliant Biosphere Gem (Normal Type)",
@@ -116446,6 +116576,7 @@
   },
   "311943": {
     "id": 311943,
+    "preRelease": true,
     "aegisName": "Bio_Jam_Boss",
     "name": "Brilliant Biosphere Gem (Boss Type)",
     "unidName": "Brilliant Biosphere Gem (Boss Type)",
@@ -116472,6 +116603,7 @@
   },
   "311944": {
     "id": 311944,
+    "preRelease": true,
     "aegisName": "Ba_Stead1",
     "name": "Stead of Varmundt Lv1",
     "unidName": "Stead of Varmundt Lv1",
@@ -116498,6 +116630,7 @@
   },
   "311945": {
     "id": 311945,
+    "preRelease": true,
     "aegisName": "Ba_Stead2",
     "name": "Stead of Varmundt Lv2",
     "unidName": "Stead of Varmundt Lv2",
@@ -116524,6 +116657,7 @@
   },
   "311946": {
     "id": 311946,
+    "preRelease": true,
     "aegisName": "Ba_Stead3",
     "name": "Stead of Varmundt Lv3",
     "unidName": "Stead of Varmundt Lv3",
@@ -116550,6 +116684,7 @@
   },
   "311947": {
     "id": 311947,
+    "preRelease": true,
     "aegisName": "Ba_Stead4",
     "name": "Stead of Varmundt Lv4",
     "unidName": "Stead of Varmundt Lv4",
@@ -116576,6 +116711,7 @@
   },
   "311948": {
     "id": 311948,
+    "preRelease": true,
     "aegisName": "Ba_Stead5",
     "name": "Stead of Varmundt Lv5",
     "unidName": "Stead of Varmundt Lv5",
@@ -116602,6 +116738,7 @@
   },
   "311949": {
     "id": 311949,
+    "preRelease": true,
     "aegisName": "Ba_Tenacity1",
     "name": "Tenacity of Varmundt Lv1",
     "unidName": "Tenacity of Varmundt Lv1",
@@ -116628,6 +116765,7 @@
   },
   "311950": {
     "id": 311950,
+    "preRelease": true,
     "aegisName": "Ba_Tenacity2",
     "name": "Tenacity of Varmundt Lv2",
     "unidName": "Tenacity of Varmundt Lv2",
@@ -116654,6 +116792,7 @@
   },
   "311951": {
     "id": 311951,
+    "preRelease": true,
     "aegisName": "Ba_Tenacity3",
     "name": "Tenacity of Varmundt Lv3",
     "unidName": "Tenacity of Varmundt Lv3",
@@ -116680,6 +116819,7 @@
   },
   "311952": {
     "id": 311952,
+    "preRelease": true,
     "aegisName": "Ba_Tenacity4",
     "name": "Tenacity of Varmundt Lv4",
     "unidName": "Tenacity of Varmundt Lv4",
@@ -116706,6 +116846,7 @@
   },
   "311953": {
     "id": 311953,
+    "preRelease": true,
     "aegisName": "Ba_Tenacity5",
     "name": "Tenacity of Varmundt Lv5",
     "unidName": "Tenacity of Varmundt Lv5",
@@ -116732,6 +116873,7 @@
   },
   "311954": {
     "id": 311954,
+    "preRelease": true,
     "aegisName": "Ba_Intelligence1",
     "name": "Intelligence of Varmundt Lv1",
     "unidName": "Intelligence of Varmundt Lv1",
@@ -116758,6 +116900,7 @@
   },
   "311955": {
     "id": 311955,
+    "preRelease": true,
     "aegisName": "Ba_Intelligence2",
     "name": "Intelligence of Varmundt Lv2",
     "unidName": "Intelligence of Varmundt Lv2",
@@ -116784,6 +116927,7 @@
   },
   "311956": {
     "id": 311956,
+    "preRelease": true,
     "aegisName": "Ba_Intelligence3",
     "name": "Intelligence of Varmundt Lv3",
     "unidName": "Intelligence of Varmundt Lv3",
@@ -116810,6 +116954,7 @@
   },
   "311957": {
     "id": 311957,
+    "preRelease": true,
     "aegisName": "Ba_Intelligence4",
     "name": "Intelligence of Varmundt Lv4",
     "unidName": "Intelligence of Varmundt Lv4",
@@ -116836,6 +116981,7 @@
   },
   "311958": {
     "id": 311958,
+    "preRelease": true,
     "aegisName": "Ba_Intelligence5",
     "name": "Intelligence of Varmundt Lv5",
     "unidName": "Intelligence of Varmundt Lv5",
@@ -116862,6 +117008,7 @@
   },
   "311959": {
     "id": 311959,
+    "preRelease": true,
     "aegisName": "Ba_focus1",
     "name": "Focus of Varmundt Lv1",
     "unidName": "Focus of Varmundt Lv1",
@@ -116888,6 +117035,7 @@
   },
   "311960": {
     "id": 311960,
+    "preRelease": true,
     "aegisName": "Ba_focus2",
     "name": "Focus of Varmundt Lv2",
     "unidName": "Focus of Varmundt Lv2",
@@ -116914,6 +117062,7 @@
   },
   "311961": {
     "id": 311961,
+    "preRelease": true,
     "aegisName": "Ba_focus3",
     "name": "Focus of Varmundt Lv3",
     "unidName": "Focus of Varmundt Lv3",
@@ -116940,6 +117089,7 @@
   },
   "311962": {
     "id": 311962,
+    "preRelease": true,
     "aegisName": "Ba_focus4",
     "name": "Focus of Varmundt Lv4",
     "unidName": "Focus of Varmundt Lv4",
@@ -116966,6 +117116,7 @@
   },
   "311963": {
     "id": 311963,
+    "preRelease": true,
     "aegisName": "Ba_focus5",
     "name": "Focus of Varmundt Lv5",
     "unidName": "Focus of Varmundt Lv5",
@@ -116992,6 +117143,7 @@
   },
   "311964": {
     "id": 311964,
+    "preRelease": true,
     "aegisName": "Ba_Agility1",
     "name": "Agility of Varmundt Lv1",
     "unidName": "Agility of Varmundt Lv1",
@@ -117018,6 +117170,7 @@
   },
   "311965": {
     "id": 311965,
+    "preRelease": true,
     "aegisName": "Ba_Agility2",
     "name": "Agility of Varmundt Lv2",
     "unidName": "Agility of Varmundt Lv2",
@@ -117044,6 +117197,7 @@
   },
   "311966": {
     "id": 311966,
+    "preRelease": true,
     "aegisName": "Ba_Agility3",
     "name": "Agility of Varmundt Lv3",
     "unidName": "Agility of Varmundt Lv3",
@@ -117070,6 +117224,7 @@
   },
   "311967": {
     "id": 311967,
+    "preRelease": true,
     "aegisName": "Ba_Agility4",
     "name": "Agility of Varmundt Lv4",
     "unidName": "Agility of Varmundt Lv4",
@@ -117096,6 +117251,7 @@
   },
   "311968": {
     "id": 311968,
+    "preRelease": true,
     "aegisName": "Ba_Agility5",
     "name": "Agility of Varmundt Lv5",
     "unidName": "Agility of Varmundt Lv5",
@@ -117122,6 +117278,7 @@
   },
   "311969": {
     "id": 311969,
+    "preRelease": true,
     "aegisName": "Ba_Mental1",
     "name": "Mental of Varmundt Lv1",
     "unidName": "Mental of Varmundt Lv1",
@@ -117148,6 +117305,7 @@
   },
   "311970": {
     "id": 311970,
+    "preRelease": true,
     "aegisName": "Ba_Mental2",
     "name": "Mental of Varmundt Lv2",
     "unidName": "Mental of Varmundt Lv2",
@@ -117174,6 +117332,7 @@
   },
   "311971": {
     "id": 311971,
+    "preRelease": true,
     "aegisName": "Ba_Mental3",
     "name": "Mental of Varmundt Lv3",
     "unidName": "Mental of Varmundt Lv3",
@@ -117200,6 +117359,7 @@
   },
   "311972": {
     "id": 311972,
+    "preRelease": true,
     "aegisName": "Ba_Mental4",
     "name": "Mental of Varmundt Lv4",
     "unidName": "Mental of Varmundt Lv4",
@@ -117226,6 +117386,7 @@
   },
   "311973": {
     "id": 311973,
+    "preRelease": true,
     "aegisName": "Ba_Mental5",
     "name": "Mental of Varmundt Lv5",
     "unidName": "Mental of Varmundt Lv5",
@@ -117252,6 +117413,7 @@
   },
   "311974": {
     "id": 311974,
+    "preRelease": true,
     "aegisName": "Ba_Pow1",
     "name": "Fragment of Varmundt (POW) Lv1",
     "unidName": "Fragment of Varmundt (POW) Lv1",
@@ -117275,6 +117437,7 @@
   },
   "311975": {
     "id": 311975,
+    "preRelease": true,
     "aegisName": "Ba_Pow2",
     "name": "Fragment of Varmundt (POW) Lv2",
     "unidName": "Fragment of Varmundt (POW) Lv2",
@@ -117298,6 +117461,7 @@
   },
   "311976": {
     "id": 311976,
+    "preRelease": true,
     "aegisName": "Ba_Pow3",
     "name": "Fragment of Varmundt (POW) Lv3",
     "unidName": "Fragment of Varmundt (POW) Lv3",
@@ -117321,6 +117485,7 @@
   },
   "311977": {
     "id": 311977,
+    "preRelease": true,
     "aegisName": "Ba_Pow4",
     "name": "Fragment of Varmundt (POW) Lv4",
     "unidName": "Fragment of Varmundt (POW) Lv4",
@@ -117344,6 +117509,7 @@
   },
   "311978": {
     "id": 311978,
+    "preRelease": true,
     "aegisName": "Ba_Pow5",
     "name": "Fragment of Varmundt (POW) Lv5",
     "unidName": "Fragment of Varmundt (POW) Lv5",
@@ -117367,6 +117533,7 @@
   },
   "311979": {
     "id": 311979,
+    "preRelease": true,
     "aegisName": "Ba_Con1",
     "name": "Fragment of Varmundt (CON) Lv1",
     "unidName": "Fragment of Varmundt (CON) Lv1",
@@ -117390,6 +117557,7 @@
   },
   "311980": {
     "id": 311980,
+    "preRelease": true,
     "aegisName": "Ba_Con2",
     "name": "Fragment of Varmundt (CON) Lv2",
     "unidName": "Fragment of Varmundt (CON) Lv2",
@@ -117413,6 +117581,7 @@
   },
   "311981": {
     "id": 311981,
+    "preRelease": true,
     "aegisName": "Ba_Con3",
     "name": "Fragment of Varmundt (CON) Lv3",
     "unidName": "Fragment of Varmundt (CON) Lv3",
@@ -117436,6 +117605,7 @@
   },
   "311982": {
     "id": 311982,
+    "preRelease": true,
     "aegisName": "Ba_Con4",
     "name": "Fragment of Varmundt (CON) Lv4",
     "unidName": "Fragment of Varmundt (CON) Lv4",
@@ -117459,6 +117629,7 @@
   },
   "311983": {
     "id": 311983,
+    "preRelease": true,
     "aegisName": "Ba_Con5",
     "name": "Fragment of Varmundt (CON) Lv5",
     "unidName": "Fragment of Varmundt (CON) Lv5",
@@ -117482,6 +117653,7 @@
   },
   "311984": {
     "id": 311984,
+    "preRelease": true,
     "aegisName": "Ba_Crt1",
     "name": "Fragment of Varmundt (CRT) Lv1",
     "unidName": "Fragment of Varmundt (CRT) Lv1",
@@ -117505,6 +117677,7 @@
   },
   "311985": {
     "id": 311985,
+    "preRelease": true,
     "aegisName": "Ba_Crt2",
     "name": "Fragment of Varmundt (CRT) Lv2",
     "unidName": "Fragment of Varmundt (CRT) Lv2",
@@ -117528,6 +117701,7 @@
   },
   "311986": {
     "id": 311986,
+    "preRelease": true,
     "aegisName": "Ba_Crt3",
     "name": "Fragment of Varmundt (CRT) Lv3",
     "unidName": "Fragment of Varmundt (CRT) Lv3",
@@ -117551,6 +117725,7 @@
   },
   "311987": {
     "id": 311987,
+    "preRelease": true,
     "aegisName": "Ba_Crt4",
     "name": "Fragment of Varmundt (CRT) Lv4",
     "unidName": "Fragment of Varmundt (CRT) Lv4",
@@ -117574,6 +117749,7 @@
   },
   "311988": {
     "id": 311988,
+    "preRelease": true,
     "aegisName": "Ba_Crt5",
     "name": "Fragment of Varmundt (CRT) Lv5",
     "unidName": "Fragment of Varmundt (CRT) Lv5",
@@ -117597,6 +117773,7 @@
   },
   "311989": {
     "id": 311989,
+    "preRelease": true,
     "aegisName": "Ba_Sta1",
     "name": "Fragment of Varmundt (STA) Lv1",
     "unidName": "Fragment of Varmundt (STA) Lv1",
@@ -117620,6 +117797,7 @@
   },
   "311990": {
     "id": 311990,
+    "preRelease": true,
     "aegisName": "Ba_Sta2",
     "name": "Fragment of Varmundt (STA) Lv2",
     "unidName": "Fragment of Varmundt (STA) Lv2",
@@ -117643,6 +117821,7 @@
   },
   "311991": {
     "id": 311991,
+    "preRelease": true,
     "aegisName": "Ba_Sta3",
     "name": "Fragment of Varmundt (STA) Lv3",
     "unidName": "Fragment of Varmundt (STA) Lv3",
@@ -117666,6 +117845,7 @@
   },
   "311992": {
     "id": 311992,
+    "preRelease": true,
     "aegisName": "Ba_Sta4",
     "name": "Fragment of Varmundt (STA) Lv4",
     "unidName": "Fragment of Varmundt (STA) Lv4",
@@ -117689,6 +117869,7 @@
   },
   "311993": {
     "id": 311993,
+    "preRelease": true,
     "aegisName": "Ba_Sta5",
     "name": "Fragment of Varmundt (STA) Lv5",
     "unidName": "Fragment of Varmundt (STA) Lv5",
@@ -117712,6 +117893,7 @@
   },
   "311994": {
     "id": 311994,
+    "preRelease": true,
     "aegisName": "Ba_Spl1",
     "name": "Fragment of Varmundt (SPL) Lv1",
     "unidName": "Fragment of Varmundt (SPL) Lv1",
@@ -117735,6 +117917,7 @@
   },
   "311995": {
     "id": 311995,
+    "preRelease": true,
     "aegisName": "Ba_Spl2",
     "name": "Fragment of Varmundt (SPL) Lv2",
     "unidName": "Fragment of Varmundt (SPL) Lv2",
@@ -117758,6 +117941,7 @@
   },
   "311996": {
     "id": 311996,
+    "preRelease": true,
     "aegisName": "Ba_Spl3",
     "name": "Fragment of Varmundt (SPL) Lv3",
     "unidName": "Fragment of Varmundt (SPL) Lv3",
@@ -117781,6 +117965,7 @@
   },
   "311997": {
     "id": 311997,
+    "preRelease": true,
     "aegisName": "Ba_Spl4",
     "name": "Fragment of Varmundt (SPL) Lv4",
     "unidName": "Fragment of Varmundt (SPL) Lv4",
@@ -117804,6 +117989,7 @@
   },
   "311998": {
     "id": 311998,
+    "preRelease": true,
     "aegisName": "Ba_Spl5",
     "name": "Fragment of Varmundt (SPL) Lv5",
     "unidName": "Fragment of Varmundt (SPL) Lv5",
@@ -117827,6 +118013,7 @@
   },
   "311999": {
     "id": 311999,
+    "preRelease": true,
     "aegisName": "Ba_Wis1",
     "name": "Fragment of Varmundt (WIS) Lv1",
     "unidName": "Fragment of Varmundt (WIS) Lv1",
@@ -117850,6 +118037,7 @@
   },
   "312000": {
     "id": 312000,
+    "preRelease": true,
     "aegisName": "Ba_Wis2",
     "name": "Fragment of Varmundt (WIS) Lv2",
     "unidName": "Fragment of Varmundt (WIS) Lv2",
@@ -117873,6 +118061,7 @@
   },
   "312001": {
     "id": 312001,
+    "preRelease": true,
     "aegisName": "Ba_Wis3",
     "name": "Fragment of Varmundt (WIS) Lv3",
     "unidName": "Fragment of Varmundt (WIS) Lv3",
@@ -117896,6 +118085,7 @@
   },
   "312002": {
     "id": 312002,
+    "preRelease": true,
     "aegisName": "Ba_Wis4",
     "name": "Fragment of Varmundt (WIS) Lv4",
     "unidName": "Fragment of Varmundt (WIS) Lv4",
@@ -117919,6 +118109,7 @@
   },
   "312003": {
     "id": 312003,
+    "preRelease": true,
     "aegisName": "Ba_Wis5",
     "name": "Fragment of Varmundt (WIS) Lv5",
     "unidName": "Fragment of Varmundt (WIS) Lv5",
@@ -118172,6 +118363,7 @@
   },
   "312050": {
     "id": 312050,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Str",
     "name": "Glacier Flower (STR)",
     "unidName": "Glacier Flower Meow Power (STR)",
@@ -118196,6 +118388,7 @@
   },
   "312051": {
     "id": 312051,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Dex",
     "name": "Glacier Flower (DEX)",
     "unidName": "Glacier Flower Meow Power (DEX)",
@@ -118220,6 +118413,7 @@
   },
   "312052": {
     "id": 312052,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Agi",
     "name": "Glacier Flower (AGI)",
     "unidName": "Glacier Flower Meow Power (AGI)",
@@ -118244,6 +118438,7 @@
   },
   "312053": {
     "id": 312053,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Int",
     "name": "Glacier Flower (INT)",
     "unidName": "Glacier Flower Meow Power (INT)",
@@ -118268,6 +118463,7 @@
   },
   "312054": {
     "id": 312054,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Vit",
     "name": "Glacier Flower (VIT)",
     "unidName": "Glacier Flower Meow Power (VIT)",
@@ -118292,6 +118488,7 @@
   },
   "312055": {
     "id": 312055,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Luk",
     "name": "Glacier Flower (LUK)",
     "unidName": "Glacier Flower Meow Power (LUK)",
@@ -118316,6 +118513,7 @@
   },
   "312056": {
     "id": 312056,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Def",
     "name": "Glacier Flower (Physical Defense)",
     "unidName": "Glacier Flower Meow Power (Physical Defense)",
@@ -118346,6 +118544,7 @@
   },
   "312057": {
     "id": 312057,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Mdef",
     "name": "Glacier Flower (Magical Defense)",
     "unidName": "Glacier Flower Meow Power (Magical Defense)",
@@ -118376,6 +118575,7 @@
   },
   "312058": {
     "id": 312058,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Pow_S",
     "name": "Glacier Flower (POW & STA)",
     "unidName": "Glacier Flower Meow Power (POW & STA)",
@@ -118408,6 +118608,7 @@
   },
   "312059": {
     "id": 312059,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Spl_W",
     "name": "Glacier Flower (SPL & WIS)",
     "unidName": "Glacier Flower Meow Power (SPL & WIS)",
@@ -118440,6 +118641,7 @@
   },
   "312060": {
     "id": 312060,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Con_C",
     "name": "Glacier Flower (CON & CRT)",
     "unidName": "Glacier Flower Meow Power (CON & CRT)",
@@ -118472,6 +118674,7 @@
   },
   "312061": {
     "id": 312061,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_War",
     "name": "Glacier Flower (Warrior)",
     "unidName": "Glacier Flower Meow Power (Warrior)",
@@ -118499,6 +118702,7 @@
   },
   "312062": {
     "id": 312062,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Ran",
     "name": "Glacier Flower (Shooter)",
     "unidName": "Glacier Flower Meow Power (Shooter)",
@@ -118526,6 +118730,7 @@
   },
   "312063": {
     "id": 312063,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Mag",
     "name": "Glacier Flower (Mage)",
     "unidName": "Glacier Flower Meow Power (Mage)",
@@ -118553,6 +118758,7 @@
   },
   "312064": {
     "id": 312064,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_War2",
     "name": "Glacier Flower (Berserker)",
     "unidName": "Glacier Flower Meow Power (Berserker)",
@@ -118585,6 +118791,7 @@
   },
   "312065": {
     "id": 312065,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Ran2",
     "name": "Glacier Flower (Marksman)",
     "unidName": "Glacier Flower Meow Power (Marksman)",
@@ -118617,6 +118824,7 @@
   },
   "312066": {
     "id": 312066,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Mag2",
     "name": "Glacier Flower (Grand Mage)",
     "unidName": "Glacier Flower Meow Power (Grand Mage)",
@@ -118649,6 +118857,7 @@
   },
   "312067": {
     "id": 312067,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Force",
     "name": "Glacier Flower (Power Force)",
     "unidName": "Glacier Flower Meow Power (Power Force)",
@@ -118685,6 +118894,7 @@
   },
   "312068": {
     "id": 312068,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_S_Delay",
     "name": "Glacier Flower (Global Cooldown)",
     "unidName": "Glacier Flower Meow Power (Global Cooldown)",
@@ -118711,6 +118921,7 @@
   },
   "312069": {
     "id": 312069,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Speed",
     "name": "Glacier Flower (Fast)",
     "unidName": "Glacier Flower Meow Power (Fast)",
@@ -118739,6 +118950,7 @@
   },
   "312070": {
     "id": 312070,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Caster",
     "name": "Glacier Flower (Caster)",
     "unidName": "Glacier Flower Meow Power (Caster)",
@@ -118768,6 +118980,7 @@
   },
   "312071": {
     "id": 312071,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Guide",
     "name": "Glacier Flower (Guide Attack)",
     "unidName": "Glacier Flower Meow Power (Guide Attack)",
@@ -118815,6 +119028,7 @@
   },
   "312073": {
     "id": 312073,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_P_Full",
     "name": "Glacier Flower (Powerful)",
     "unidName": "Glacier Flower Meow Power (Powerful)",
@@ -118856,6 +119070,7 @@
   },
   "312074": {
     "id": 312074,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Sp",
     "name": "Glacier Flower (Mental)",
     "unidName": "Glacier Flower Meow Power (Mental)",
@@ -118884,6 +119099,7 @@
   },
   "312075": {
     "id": 312075,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Robust",
     "name": "Glacier Flower (Robust)",
     "unidName": "Glacier Flower Meow Power (Robust)",
@@ -118916,6 +119132,7 @@
   },
   "312076": {
     "id": 312076,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_F_Cast",
     "name": "Glacier Flower (Fixed Casting)",
     "unidName": "Glacier Flower Meow Power (Fixed Casting)",
@@ -118939,6 +119156,7 @@
   },
   "312077": {
     "id": 312077,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_P_F",
     "name": "Glacier Flower (Physical Force)",
     "unidName": "Glacier Flower Meow Power (Physical Force)",
@@ -118965,6 +119183,7 @@
   },
   "312078": {
     "id": 312078,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_M_F",
     "name": "Glacier Flower (Magical Force)",
     "unidName": "Glacier Flower Meow Power (Magical Force)",
@@ -118991,6 +119210,7 @@
   },
   "312079": {
     "id": 312079,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Ov_Pow",
     "name": "Glacier Flower (Over Power)",
     "unidName": "Glacier Flower Meow Power (Over Power)",
@@ -119034,6 +119254,7 @@
   },
   "312080": {
     "id": 312080,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Bu_Spl",
     "name": "Glacier Flower (Spell Buster)",
     "unidName": "Glacier Flower Meow Power (Spell Buster)",
@@ -119073,6 +119294,7 @@
   },
   "312081": {
     "id": 312081,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Fi_Con",
     "name": "Glacier Flower (Firing Shot)",
     "unidName": "Glacier Flower Meow Power (Firing Shot)",
@@ -119116,6 +119338,7 @@
   },
   "312082": {
     "id": 312082,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Spd",
     "name": "Glacier Flower (Speed)",
     "unidName": "Glacier Flower Meow Power (Speed)",
@@ -119142,6 +119365,7 @@
   },
   "312083": {
     "id": 312083,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_F_Spirit",
     "name": "Glacier Flower (Fighting Spirit)",
     "unidName": "Glacier Flower Meow Power (Fighting Spirit)",
@@ -119165,6 +119389,7 @@
   },
   "312084": {
     "id": 312084,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_E_Archer",
     "name": "Glacier Flower (Expert Archer)",
     "unidName": "Glacier Flower Meow Power (Expert Archer)",
@@ -119188,6 +119413,7 @@
   },
   "312085": {
     "id": 312085,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Spell",
     "name": "Glacier Flower (Spell)",
     "unidName": "Glacier Flower Meow Power (Spell)",
@@ -119211,6 +119437,7 @@
   },
   "312086": {
     "id": 312086,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Fatal",
     "name": "Glacier Flower (Fatal)",
     "unidName": "Glacier Flower Meow Power (Fatal)",
@@ -119234,6 +119461,7 @@
   },
   "312087": {
     "id": 312087,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_P_P",
     "name": "Glacier Flower (Physical Power)",
     "unidName": "Glacier Flower Meow Power (Physical Power)",
@@ -119260,6 +119488,7 @@
   },
   "312088": {
     "id": 312088,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_M_P",
     "name": "Glacier Flower (Magical Power)",
     "unidName": "Glacier Flower Meow Power (Magical Power)",
@@ -119286,6 +119515,7 @@
   },
   "312089": {
     "id": 312089,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_A_Force",
     "name": "Glacier Flower (All Force)",
     "unidName": "Glacier Flower Meow Power (All Force)",
@@ -119315,6 +119545,7 @@
   },
   "312090": {
     "id": 312090,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_D",
     "name": "Glacier Flower (Defense)",
     "unidName": "Glacier Flower Meow Power (Defense)",
@@ -119345,6 +119576,7 @@
   },
   "312091": {
     "id": 312091,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_A",
     "name": "Glacier Flower (Attack)",
     "unidName": "Glacier Flower Meow Power (Attack)",
@@ -119372,6 +119604,7 @@
   },
   "312092": {
     "id": 312092,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Res",
     "name": "Glacier Flower (Physical Resistance)",
     "unidName": "Glacier Flower Meow Power (Physical Resistance)",
@@ -119397,6 +119630,7 @@
   },
   "312093": {
     "id": 312093,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Mres",
     "name": "Glacier Flower (Magical Resistance)",
     "unidName": "Glacier Flower Meow Power (Magical Resistance)",
@@ -119422,6 +119656,7 @@
   },
   "312094": {
     "id": 312094,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Guard",
     "name": "Glacier Flower (Guardian)",
     "unidName": "Glacier Flower Meow Power (Guardian)",
@@ -119452,6 +119687,7 @@
   },
   "312095": {
     "id": 312095,
+    "preRelease": true,
     "aegisName": "Ice_C_Orb_Intel",
     "name": "Glacier Flower (Intelligence)",
     "unidName": "Glacier Flower Meow Power (Intelligence)",
@@ -119575,6 +119811,7 @@
   },
   "312099": {
     "id": 312099,
+    "preRelease": true,
     "aegisName": "Snake_A_Def_4",
     "name": "Warmth of the Snake God (Def) 4Lv",
     "unidName": "Warmth of the Snake God (Def) 4Lv",
@@ -119598,6 +119835,7 @@
   },
   "312100": {
     "id": 312100,
+    "preRelease": true,
     "aegisName": "Snake_A_Def_5",
     "name": "Warmth of the Snake God (Def) 5Lv",
     "unidName": "Warmth of the Snake God (Def) 5Lv",
@@ -119621,6 +119859,7 @@
   },
   "312101": {
     "id": 312101,
+    "preRelease": true,
     "aegisName": "Snake_A_Def_6",
     "name": "Warmth of the Snake God (Def) 6Lv",
     "unidName": "Warmth of the Snake God (Def) 6Lv",
@@ -119644,6 +119883,7 @@
   },
   "312102": {
     "id": 312102,
+    "preRelease": true,
     "aegisName": "Snake_A_Def_7",
     "name": "Warmth of the Snake God (Def) 7Lv",
     "unidName": "Warmth of the Snake God (Def) 7Lv",
@@ -119667,6 +119907,7 @@
   },
   "312103": {
     "id": 312103,
+    "preRelease": true,
     "aegisName": "Snake_A_Def_8",
     "name": "Warmth of the Snake God (Def) 8Lv",
     "unidName": "Warmth of the Snake God (Def) 8Lv",
@@ -119690,6 +119931,7 @@
   },
   "312104": {
     "id": 312104,
+    "preRelease": true,
     "aegisName": "Snake_A_Def_9",
     "name": "Warmth of the Snake God (Def) 9Lv",
     "unidName": "Warmth of the Snake God (Def) 9Lv",
@@ -119713,6 +119955,7 @@
   },
   "312105": {
     "id": 312105,
+    "preRelease": true,
     "aegisName": "Snake_A_Def_10",
     "name": "Warmth of the Snake God (Def) 10Lv",
     "unidName": "Warmth of the Snake God (Def) 10Lv",
@@ -119805,6 +120048,7 @@
   },
   "312109": {
     "id": 312109,
+    "preRelease": true,
     "aegisName": "Snake_A_Atk_4",
     "name": "Warmth of the Snake God (Atk) 4Lv",
     "unidName": "Warmth of the Snake God (Atk) 4Lv",
@@ -119828,6 +120072,7 @@
   },
   "312110": {
     "id": 312110,
+    "preRelease": true,
     "aegisName": "Snake_A_Atk_5",
     "name": "Warmth of the Snake God (Atk) 5Lv",
     "unidName": "Warmth of the Snake God (Atk) 5Lv",
@@ -119851,6 +120096,7 @@
   },
   "312111": {
     "id": 312111,
+    "preRelease": true,
     "aegisName": "Snake_A_Atk_6",
     "name": "Warmth of the Snake God (Atk) 6Lv",
     "unidName": "Warmth of the Snake God (Atk) 6Lv",
@@ -119874,6 +120120,7 @@
   },
   "312112": {
     "id": 312112,
+    "preRelease": true,
     "aegisName": "Snake_A_Atk_7",
     "name": "Warmth of the Snake God (Atk) 7Lv",
     "unidName": "Warmth of the Snake God (Atk) 7Lv",
@@ -119897,6 +120144,7 @@
   },
   "312113": {
     "id": 312113,
+    "preRelease": true,
     "aegisName": "Snake_A_Atk_8",
     "name": "Warmth of the Snake God (Atk) 8Lv",
     "unidName": "Warmth of the Snake God (Atk) 8Lv",
@@ -119920,6 +120168,7 @@
   },
   "312114": {
     "id": 312114,
+    "preRelease": true,
     "aegisName": "Snake_A_Atk_9",
     "name": "Warmth of the Snake God (Atk) 9Lv",
     "unidName": "Warmth of the Snake God (Atk) 9Lv",
@@ -119943,6 +120192,7 @@
   },
   "312115": {
     "id": 312115,
+    "preRelease": true,
     "aegisName": "Snake_A_Atk_10",
     "name": "Warmth of the Snake God (Atk) 10Lv",
     "unidName": "Warmth of the Snake God (Atk) 10Lv",
@@ -120035,6 +120285,7 @@
   },
   "312119": {
     "id": 312119,
+    "preRelease": true,
     "aegisName": "Snake_A_Matk_4",
     "name": "Warmth of the Snake God (Matk) 4Lv",
     "unidName": "Warmth of the Snake God (Matk) 4Lv",
@@ -120058,6 +120309,7 @@
   },
   "312120": {
     "id": 312120,
+    "preRelease": true,
     "aegisName": "Snake_A_Matk_5",
     "name": "Warmth of the Snake God (Matk) 5Lv",
     "unidName": "Warmth of the Snake God (Matk) 5Lv",
@@ -120081,6 +120333,7 @@
   },
   "312121": {
     "id": 312121,
+    "preRelease": true,
     "aegisName": "Snake_A_Matk_6",
     "name": "Warmth of the Snake God (Matk) 6Lv",
     "unidName": "Warmth of the Snake God (Matk) 6Lv",
@@ -120104,6 +120357,7 @@
   },
   "312122": {
     "id": 312122,
+    "preRelease": true,
     "aegisName": "Snake_A_Matk_7",
     "name": "Warmth of the Snake God (Matk) 7Lv",
     "unidName": "Warmth of the Snake God (Matk) 7Lv",
@@ -120127,6 +120381,7 @@
   },
   "312123": {
     "id": 312123,
+    "preRelease": true,
     "aegisName": "Snake_A_Matk_8",
     "name": "Warmth of the Snake God (Matk) 8Lv",
     "unidName": "Warmth of the Snake God (Matk) 8Lv",
@@ -120150,6 +120405,7 @@
   },
   "312124": {
     "id": 312124,
+    "preRelease": true,
     "aegisName": "Snake_A_Matk_9",
     "name": "Warmth of the Snake God (Matk) 9Lv",
     "unidName": "Warmth of the Snake God (Matk) 9Lv",
@@ -120173,6 +120429,7 @@
   },
   "312125": {
     "id": 312125,
+    "preRelease": true,
     "aegisName": "Snake_A_Matk_10",
     "name": "Warmth of the Snake God (Matk) 10Lv",
     "unidName": "Warmth of the Snake God (Matk) 10Lv",
@@ -120196,6 +120453,7 @@
   },
   "312126": {
     "id": 312126,
+    "preRelease": true,
     "aegisName": "Snake_G_Blessing",
     "name": "Blessing of the Snake God",
     "unidName": "Blessing of the Snake God",
@@ -120308,6 +120566,7 @@
   },
   "312130": {
     "id": 312130,
+    "preRelease": true,
     "aegisName": "Snake_H_Def_4",
     "name": "Malice of the Snake God (Def) 4Lv",
     "unidName": "Malice of the Snake God (Def) 4Lv",
@@ -120331,6 +120590,7 @@
   },
   "312131": {
     "id": 312131,
+    "preRelease": true,
     "aegisName": "Snake_H_Def_5",
     "name": "Malice of the Snake God (Def) 5Lv",
     "unidName": "Malice of the Snake God (Def) 5Lv",
@@ -120354,6 +120614,7 @@
   },
   "312132": {
     "id": 312132,
+    "preRelease": true,
     "aegisName": "Snake_H_Def_6",
     "name": "Malice of the Snake God (Def) 6Lv",
     "unidName": "Malice of the Snake God (Def) 6Lv",
@@ -120377,6 +120638,7 @@
   },
   "312133": {
     "id": 312133,
+    "preRelease": true,
     "aegisName": "Snake_H_Def_7",
     "name": "Malice of the Snake God (Def) 7Lv",
     "unidName": "Malice of the Snake God (Def) 7Lv",
@@ -120400,6 +120662,7 @@
   },
   "312134": {
     "id": 312134,
+    "preRelease": true,
     "aegisName": "Snake_H_Def_8",
     "name": "Malice of the Snake God (Def) 8Lv",
     "unidName": "Malice of the Snake God (Def) 8Lv",
@@ -120423,6 +120686,7 @@
   },
   "312135": {
     "id": 312135,
+    "preRelease": true,
     "aegisName": "Snake_H_Def_9",
     "name": "Malice of the Snake God (Def) 9Lv",
     "unidName": "Malice of the Snake God (Def) 9Lv",
@@ -120446,6 +120710,7 @@
   },
   "312136": {
     "id": 312136,
+    "preRelease": true,
     "aegisName": "Snake_H_Def_10",
     "name": "Malice of the Snake God (Def) 10Lv",
     "unidName": "Malice of the Snake God (Def) 10Lv",
@@ -120538,6 +120803,7 @@
   },
   "312140": {
     "id": 312140,
+    "preRelease": true,
     "aegisName": "Snake_H_Atk_4",
     "name": "Malice of the Snake God (Atk) 4Lv",
     "unidName": "Malice of the Snake God (Atk) 4Lv",
@@ -120561,6 +120827,7 @@
   },
   "312141": {
     "id": 312141,
+    "preRelease": true,
     "aegisName": "Snake_H_Atk_5",
     "name": "Malice of the Snake God (Atk) 5Lv",
     "unidName": "Malice of the Snake God (Atk) 5Lv",
@@ -120584,6 +120851,7 @@
   },
   "312142": {
     "id": 312142,
+    "preRelease": true,
     "aegisName": "Snake_H_Atk_6",
     "name": "Malice of the Snake God (Atk) 6Lv",
     "unidName": "Malice of the Snake God (Atk) 6Lv",
@@ -120607,6 +120875,7 @@
   },
   "312143": {
     "id": 312143,
+    "preRelease": true,
     "aegisName": "Snake_H_Atk_7",
     "name": "Malice of the Snake God (Atk) 7Lv",
     "unidName": "Malice of the Snake God (Atk) 7Lv",
@@ -120630,6 +120899,7 @@
   },
   "312144": {
     "id": 312144,
+    "preRelease": true,
     "aegisName": "Snake_H_Atk_8",
     "name": "Malice of the Snake God (Atk) 8Lv",
     "unidName": "Malice of the Snake God (Atk) 8Lv",
@@ -120653,6 +120923,7 @@
   },
   "312145": {
     "id": 312145,
+    "preRelease": true,
     "aegisName": "Snake_H_Atk_9",
     "name": "Malice of the Snake God (Atk) 9Lv",
     "unidName": "Malice of the Snake God (Atk) 9Lv",
@@ -120676,6 +120947,7 @@
   },
   "312146": {
     "id": 312146,
+    "preRelease": true,
     "aegisName": "Snake_H_Atk_10",
     "name": "Malice of the Snake God (Atk) 10Lv",
     "unidName": "Malice of the Snake God (Atk) 10Lv",
@@ -120768,6 +121040,7 @@
   },
   "312150": {
     "id": 312150,
+    "preRelease": true,
     "aegisName": "Snake_H_Matk_4",
     "name": "Malice of the Snake God (Matk) 4Lv",
     "unidName": "Malice of the Snake God (Matk) 4Lv",
@@ -120791,6 +121064,7 @@
   },
   "312151": {
     "id": 312151,
+    "preRelease": true,
     "aegisName": "Snake_H_Matk_5",
     "name": "Malice of the Snake God (Matk) 5Lv",
     "unidName": "Malice of the Snake God (Matk) 5Lv",
@@ -120814,6 +121088,7 @@
   },
   "312152": {
     "id": 312152,
+    "preRelease": true,
     "aegisName": "Snake_H_Matk_6",
     "name": "Malice of the Snake God (Matk) 6Lv",
     "unidName": "Malice of the Snake God (Matk) 6Lv",
@@ -120837,6 +121112,7 @@
   },
   "312153": {
     "id": 312153,
+    "preRelease": true,
     "aegisName": "Snake_H_Matk_7",
     "name": "Malice of the Snake God (Matk) 7Lv",
     "unidName": "Malice of the Snake God (Matk) 7Lv",
@@ -120860,6 +121136,7 @@
   },
   "312154": {
     "id": 312154,
+    "preRelease": true,
     "aegisName": "Snake_H_Matk_8",
     "name": "Malice of the Snake God (Matk) 8Lv",
     "unidName": "Malice of the Snake God (Matk) 8Lv",
@@ -120883,6 +121160,7 @@
   },
   "312155": {
     "id": 312155,
+    "preRelease": true,
     "aegisName": "Snake_H_Matk_9",
     "name": "Malice of the Snake God (Matk) 9Lv",
     "unidName": "Malice of the Snake God (Matk) 9Lv",
@@ -120906,6 +121184,7 @@
   },
   "312156": {
     "id": 312156,
+    "preRelease": true,
     "aegisName": "Snake_H_Matk_10",
     "name": "Malice of the Snake God (Matk) 10Lv",
     "unidName": "Malice of the Snake God (Matk) 10Lv",
@@ -120929,6 +121208,7 @@
   },
   "312157": {
     "id": 312157,
+    "preRelease": true,
     "aegisName": "Snake_G_Grace",
     "name": "Grace of the Snake God",
     "unidName": "Grace of the Snake God",
@@ -121035,6 +121315,7 @@
   },
   "312161": {
     "id": 312161,
+    "preRelease": true,
     "aegisName": "Snake_S_Def_4",
     "name": "Mystery of the Snake God (Def) 4Lv",
     "unidName": "Mystery of the Snake God (Def) 4Lv",
@@ -121058,6 +121339,7 @@
   },
   "312162": {
     "id": 312162,
+    "preRelease": true,
     "aegisName": "Snake_S_Def_5",
     "name": "Mystery of the Snake God (Def) 5Lv",
     "unidName": "Mystery of the Snake God (Def) 5Lv",
@@ -121081,6 +121363,7 @@
   },
   "312163": {
     "id": 312163,
+    "preRelease": true,
     "aegisName": "Snake_S_Def_6",
     "name": "Mystery of the Snake God (Def) 6Lv",
     "unidName": "Mystery of the Snake God (Def) 6Lv",
@@ -121104,6 +121387,7 @@
   },
   "312164": {
     "id": 312164,
+    "preRelease": true,
     "aegisName": "Snake_S_Def_7",
     "name": "Mystery of the Snake God (Def) 7Lv",
     "unidName": "Mystery of the Snake God (Def) 7Lv",
@@ -121127,6 +121411,7 @@
   },
   "312165": {
     "id": 312165,
+    "preRelease": true,
     "aegisName": "Snake_S_Def_8",
     "name": "Mystery of the Snake God (Def) 8Lv",
     "unidName": "Mystery of the Snake God (Def) 8Lv",
@@ -121150,6 +121435,7 @@
   },
   "312166": {
     "id": 312166,
+    "preRelease": true,
     "aegisName": "Snake_S_Def_9",
     "name": "Mystery of the Snake God (Def) 9Lv",
     "unidName": "Mystery of the Snake God (Def) 9Lv",
@@ -121173,6 +121459,7 @@
   },
   "312167": {
     "id": 312167,
+    "preRelease": true,
     "aegisName": "Snake_S_Def_10",
     "name": "Mystery of the Snake God (Def) 10Lv",
     "unidName": "Mystery of the Snake God (Def) 10Lv",
@@ -121265,6 +121552,7 @@
   },
   "312171": {
     "id": 312171,
+    "preRelease": true,
     "aegisName": "Snake_S_Atk_4",
     "name": "Mystery of the Snake God (Atk) 4Lv",
     "unidName": "Mystery of the Snake God (Atk) 4Lv",
@@ -121288,6 +121576,7 @@
   },
   "312172": {
     "id": 312172,
+    "preRelease": true,
     "aegisName": "Snake_S_Atk_5",
     "name": "Mystery of the Snake God (Atk) 5Lv",
     "unidName": "Mystery of the Snake God (Atk) 5Lv",
@@ -121311,6 +121600,7 @@
   },
   "312173": {
     "id": 312173,
+    "preRelease": true,
     "aegisName": "Snake_S_Atk_6",
     "name": "Mystery of the Snake God (Atk) 6Lv",
     "unidName": "Mystery of the Snake God (Atk) 6Lv",
@@ -121334,6 +121624,7 @@
   },
   "312174": {
     "id": 312174,
+    "preRelease": true,
     "aegisName": "Snake_S_Atk_7",
     "name": "Mystery of the Snake God (Atk) 7Lv",
     "unidName": "Mystery of the Snake God (Atk) 7Lv",
@@ -121357,6 +121648,7 @@
   },
   "312175": {
     "id": 312175,
+    "preRelease": true,
     "aegisName": "Snake_S_Atk_8",
     "name": "Mystery of the Snake God (Atk) 8Lv",
     "unidName": "Mystery of the Snake God (Atk) 8Lv",
@@ -121380,6 +121672,7 @@
   },
   "312176": {
     "id": 312176,
+    "preRelease": true,
     "aegisName": "Snake_S_Atk_9",
     "name": "Mystery of the Snake God (Atk) 9Lv",
     "unidName": "Mystery of the Snake God (Atk) 9Lv",
@@ -121403,6 +121696,7 @@
   },
   "312177": {
     "id": 312177,
+    "preRelease": true,
     "aegisName": "Snake_S_Atk_10",
     "name": "Mystery of the Snake God (Atk) 10Lv",
     "unidName": "Mystery of the Snake God (Atk) 10Lv",
@@ -121495,6 +121789,7 @@
   },
   "312181": {
     "id": 312181,
+    "preRelease": true,
     "aegisName": "Snake_S_Matk_4",
     "name": "Mystery of the Snake God (Matk) 4Lv",
     "unidName": "Mystery of the Snake God (Matk) 4Lv",
@@ -121518,6 +121813,7 @@
   },
   "312182": {
     "id": 312182,
+    "preRelease": true,
     "aegisName": "Snake_S_Matk_5",
     "name": "Mystery of the Snake God (Matk) 5Lv",
     "unidName": "Mystery of the Snake God (Matk) 5Lv",
@@ -121541,6 +121837,7 @@
   },
   "312183": {
     "id": 312183,
+    "preRelease": true,
     "aegisName": "Snake_S_Matk_6",
     "name": "Mystery of the Snake God (Matk) 6Lv",
     "unidName": "Mystery of the Snake God (Matk) 6Lv",
@@ -121564,6 +121861,7 @@
   },
   "312184": {
     "id": 312184,
+    "preRelease": true,
     "aegisName": "Snake_S_Matk_7",
     "name": "Mystery of the Snake God (Matk) 7Lv",
     "unidName": "Mystery of the Snake God (Matk) 7Lv",
@@ -121587,6 +121885,7 @@
   },
   "312185": {
     "id": 312185,
+    "preRelease": true,
     "aegisName": "Snake_S_Matk_8",
     "name": "Mystery of the Snake God (Matk) 8Lv",
     "unidName": "Mystery of the Snake God (Matk) 8Lv",
@@ -121610,6 +121909,7 @@
   },
   "312186": {
     "id": 312186,
+    "preRelease": true,
     "aegisName": "Snake_S_Matk_9",
     "name": "Mystery of the Snake God (Matk) 9Lv",
     "unidName": "Mystery of the Snake God (Matk) 9Lv",
@@ -121633,6 +121933,7 @@
   },
   "312187": {
     "id": 312187,
+    "preRelease": true,
     "aegisName": "Snake_S_Matk_10",
     "name": "Mystery of the Snake God (Matk) 10Lv",
     "unidName": "Mystery of the Snake God (Matk) 10Lv",
@@ -121656,6 +121957,7 @@
   },
   "312188": {
     "id": 312188,
+    "preRelease": true,
     "aegisName": "Snake_G_Glory",
     "name": "Glory of the Snake God",
     "unidName": "Glory of the Snake God",
@@ -124799,6 +125101,7 @@
   },
   "312315": {
     "id": 312315,
+    "preRelease": true,
     "aegisName": "Flame_R_1",
     "name": "Flame Rune 1Lv",
     "unidName": "Flame Rune 1Lv",
@@ -124825,6 +125128,7 @@
   },
   "312316": {
     "id": 312316,
+    "preRelease": true,
     "aegisName": "Flame_R_2",
     "name": "Flame Rune 2Lv",
     "unidName": "Flame Rune 2Lv",
@@ -124851,6 +125155,7 @@
   },
   "312317": {
     "id": 312317,
+    "preRelease": true,
     "aegisName": "Flame_R_3",
     "name": "Flame Rune 3Lv",
     "unidName": "Flame Rune 3Lv",
@@ -124877,6 +125182,7 @@
   },
   "312318": {
     "id": 312318,
+    "preRelease": true,
     "aegisName": "Flame_R_4",
     "name": "Flame Rune 4Lv",
     "unidName": "Flame Rune 4Lv",
@@ -124903,6 +125209,7 @@
   },
   "312319": {
     "id": 312319,
+    "preRelease": true,
     "aegisName": "Flame_R_5",
     "name": "Flame Rune 5Lv",
     "unidName": "Flame Rune 5Lv",
@@ -124932,6 +125239,7 @@
   },
   "312320": {
     "id": 312320,
+    "preRelease": true,
     "aegisName": "Earth_R_1",
     "name": "Earth Rune 1Lv",
     "unidName": "Earth Rune 1Lv",
@@ -124958,6 +125266,7 @@
   },
   "312321": {
     "id": 312321,
+    "preRelease": true,
     "aegisName": "Earth_R_2",
     "name": "Earth Rune 2Lv",
     "unidName": "Earth Rune 2Lv",
@@ -124984,6 +125293,7 @@
   },
   "312322": {
     "id": 312322,
+    "preRelease": true,
     "aegisName": "Earth_R_3",
     "name": "Earth Rune 3Lv",
     "unidName": "Earth Rune 3Lv",
@@ -125010,6 +125320,7 @@
   },
   "312323": {
     "id": 312323,
+    "preRelease": true,
     "aegisName": "Earth_R_4",
     "name": "Earth Rune 4Lv",
     "unidName": "Earth Rune 4Lv",
@@ -125036,6 +125347,7 @@
   },
   "312324": {
     "id": 312324,
+    "preRelease": true,
     "aegisName": "Earth_R_5",
     "name": "Earth Rune 5Lv",
     "unidName": "Earth Rune 5Lv",
@@ -125065,6 +125377,7 @@
   },
   "312325": {
     "id": 312325,
+    "preRelease": true,
     "aegisName": "Flame_Earth_R_1",
     "name": "Fiery Earth Rune 1Lv",
     "unidName": "Fiery Earth Rune 1Lv",
@@ -125088,6 +125401,7 @@
   },
   "312326": {
     "id": 312326,
+    "preRelease": true,
     "aegisName": "Flame_Earth_R_2",
     "name": "Fiery Earth Rune 2Lv",
     "unidName": "Fiery Earth Rune 2Lv",
@@ -125117,6 +125431,7 @@
   },
   "312327": {
     "id": 312327,
+    "preRelease": true,
     "aegisName": "Flame_Earth_R_3",
     "name": "Fiery Earth Rune 3Lv",
     "unidName": "Fiery Earth Rune 3Lv",
@@ -125149,6 +125464,7 @@
   },
   "312328": {
     "id": 312328,
+    "preRelease": true,
     "aegisName": "Flame_Earth_R_4",
     "name": "Fiery Earth Rune 4Lv",
     "unidName": "Fiery Earth Rune 4Lv",
@@ -125184,6 +125500,7 @@
   },
   "312329": {
     "id": 312329,
+    "preRelease": true,
     "aegisName": "Flame_Earth_R_5",
     "name": "Fiery Earth Rune 5Lv",
     "unidName": "Fiery Earth Rune 5Lv",
@@ -125220,6 +125537,7 @@
   },
   "312330": {
     "id": 312330,
+    "preRelease": true,
     "aegisName": "Flame_Earth_R_6",
     "name": "Fiery Earth Rune 6Lv",
     "unidName": "Fiery Earth Rune 6Lv",
@@ -125257,6 +125575,7 @@
   },
   "312331": {
     "id": 312331,
+    "preRelease": true,
     "aegisName": "Flame_Earth_R_7",
     "name": "Fiery Earth Rune 7Lv",
     "unidName": "Fiery Earth Rune 7Lv",
@@ -125295,6 +125614,7 @@
   },
   "312332": {
     "id": 312332,
+    "preRelease": true,
     "aegisName": "Flame_Earth_R_8",
     "name": "Fiery Earth Rune 8Lv",
     "unidName": "Fiery Earth Rune 8Lv",
@@ -125334,6 +125654,7 @@
   },
   "312333": {
     "id": 312333,
+    "preRelease": true,
     "aegisName": "Flame_Earth_R_9",
     "name": "Fiery Earth Rune 9Lv",
     "unidName": "Fiery Earth Rune 9Lv",
@@ -125374,6 +125695,7 @@
   },
   "312334": {
     "id": 312334,
+    "preRelease": true,
     "aegisName": "Flame_Earth_R_10",
     "name": "Fiery Earth Rune 10Lv",
     "unidName": "Fiery Earth Rune 10Lv",
@@ -125415,6 +125737,7 @@
   },
   "312335": {
     "id": 312335,
+    "preRelease": true,
     "aegisName": "Ice_R_1",
     "name": "Ice Rune 1Lv",
     "unidName": "Ice Rune 1Lv",
@@ -125441,6 +125764,7 @@
   },
   "312336": {
     "id": 312336,
+    "preRelease": true,
     "aegisName": "Ice_R_2",
     "name": "Ice Rune 2Lv",
     "unidName": "Ice Rune 2Lv",
@@ -125467,6 +125791,7 @@
   },
   "312337": {
     "id": 312337,
+    "preRelease": true,
     "aegisName": "Ice_R_3",
     "name": "Ice Rune 3Lv",
     "unidName": "Ice Rune 3Lv",
@@ -125493,6 +125818,7 @@
   },
   "312338": {
     "id": 312338,
+    "preRelease": true,
     "aegisName": "Ice_R_4",
     "name": "Ice Rune 4Lv",
     "unidName": "Ice Rune 4Lv",
@@ -125519,6 +125845,7 @@
   },
   "312339": {
     "id": 312339,
+    "preRelease": true,
     "aegisName": "Ice_R_5",
     "name": "Ice Rune 5Lv",
     "unidName": "Ice Rune 5Lv",
@@ -125548,6 +125875,7 @@
   },
   "312340": {
     "id": 312340,
+    "preRelease": true,
     "aegisName": "Storm_R_1",
     "name": "Storm Rune 1Lv",
     "unidName": "Storm Rune 1Lv",
@@ -125574,6 +125902,7 @@
   },
   "312341": {
     "id": 312341,
+    "preRelease": true,
     "aegisName": "Storm_R_2",
     "name": "Storm Rune 2Lv",
     "unidName": "Storm Rune 2Lv",
@@ -125600,6 +125929,7 @@
   },
   "312342": {
     "id": 312342,
+    "preRelease": true,
     "aegisName": "Storm_R_3",
     "name": "Storm Rune 3Lv",
     "unidName": "Storm Rune 3Lv",
@@ -125626,6 +125956,7 @@
   },
   "312343": {
     "id": 312343,
+    "preRelease": true,
     "aegisName": "Storm_R_4",
     "name": "Storm Rune 4Lv",
     "unidName": "Storm Rune 4Lv",
@@ -125652,6 +125983,7 @@
   },
   "312344": {
     "id": 312344,
+    "preRelease": true,
     "aegisName": "Storm_R_5",
     "name": "Storm Rune 5Lv",
     "unidName": "Storm Rune 5Lv",
@@ -125681,6 +126013,7 @@
   },
   "312345": {
     "id": 312345,
+    "preRelease": true,
     "aegisName": "Ice_Storm_R_1",
     "name": "Icy Storm Rune 1Lv",
     "unidName": "Icy Storm Rune 1Lv",
@@ -125704,6 +126037,7 @@
   },
   "312346": {
     "id": 312346,
+    "preRelease": true,
     "aegisName": "Ice_Storm_R_2",
     "name": "Icy Storm Rune 2Lv",
     "unidName": "Icy Storm Rune 2Lv",
@@ -125733,6 +126067,7 @@
   },
   "312347": {
     "id": 312347,
+    "preRelease": true,
     "aegisName": "Ice_Storm_R_3",
     "name": "Icy Storm Rune 3Lv",
     "unidName": "Icy Storm Rune 3Lv",
@@ -125765,6 +126100,7 @@
   },
   "312348": {
     "id": 312348,
+    "preRelease": true,
     "aegisName": "Ice_Storm_R_4",
     "name": "Icy Storm Rune 4Lv",
     "unidName": "Icy Storm Rune 4Lv",
@@ -125800,6 +126136,7 @@
   },
   "312349": {
     "id": 312349,
+    "preRelease": true,
     "aegisName": "Ice_Storm_R_5",
     "name": "Icy Storm Rune 5Lv",
     "unidName": "Icy Storm Rune 5Lv",
@@ -125836,6 +126173,7 @@
   },
   "312350": {
     "id": 312350,
+    "preRelease": true,
     "aegisName": "Ice_Storm_R_6",
     "name": "Icy Storm Rune 6Lv",
     "unidName": "Icy Storm Rune 6Lv",
@@ -125873,6 +126211,7 @@
   },
   "312351": {
     "id": 312351,
+    "preRelease": true,
     "aegisName": "Ice_Storm_R_7",
     "name": "Icy Storm Rune 7Lv",
     "unidName": "Icy Storm Rune 7Lv",
@@ -125911,6 +126250,7 @@
   },
   "312352": {
     "id": 312352,
+    "preRelease": true,
     "aegisName": "Ice_Storm_R_8",
     "name": "Icy Storm Rune 8Lv",
     "unidName": "Icy Storm Rune 8Lv",
@@ -125950,6 +126290,7 @@
   },
   "312353": {
     "id": 312353,
+    "preRelease": true,
     "aegisName": "Ice_Storm_R_9",
     "name": "Icy Storm Rune 9Lv",
     "unidName": "Icy Storm Rune 9Lv",
@@ -125990,6 +126331,7 @@
   },
   "312354": {
     "id": 312354,
+    "preRelease": true,
     "aegisName": "Ice_Storm_R_10",
     "name": "Icy Storm Rune 10Lv",
     "unidName": "Icy Storm Rune 10Lv",
@@ -126031,6 +126373,7 @@
   },
   "312355": {
     "id": 312355,
+    "preRelease": true,
     "aegisName": "Soul_R_1",
     "name": "Soul Rune 1Lv",
     "unidName": "Soul Rune 1Lv",
@@ -126057,6 +126400,7 @@
   },
   "312356": {
     "id": 312356,
+    "preRelease": true,
     "aegisName": "Soul_R_2",
     "name": "Soul Rune 2Lv",
     "unidName": "Soul Rune 2Lv",
@@ -126083,6 +126427,7 @@
   },
   "312357": {
     "id": 312357,
+    "preRelease": true,
     "aegisName": "Soul_R_3",
     "name": "Soul Rune 3Lv",
     "unidName": "Soul Rune 3Lv",
@@ -126109,6 +126454,7 @@
   },
   "312358": {
     "id": 312358,
+    "preRelease": true,
     "aegisName": "Soul_R_4",
     "name": "Soul Rune 4Lv",
     "unidName": "Soul Rune 4Lv",
@@ -126135,6 +126481,7 @@
   },
   "312359": {
     "id": 312359,
+    "preRelease": true,
     "aegisName": "Soul_R_5",
     "name": "Soul Rune 5Lv",
     "unidName": "Soul Rune 5Lv",
@@ -126164,6 +126511,7 @@
   },
   "312360": {
     "id": 312360,
+    "preRelease": true,
     "aegisName": "Purify_R_1",
     "name": "Purifying Rune 1Lv",
     "unidName": "Purifying Rune 1Lv",
@@ -126190,6 +126538,7 @@
   },
   "312361": {
     "id": 312361,
+    "preRelease": true,
     "aegisName": "Purify_R_2",
     "name": "Purifying Rune 2Lv",
     "unidName": "Purifying Rune 2Lv",
@@ -126216,6 +126565,7 @@
   },
   "312362": {
     "id": 312362,
+    "preRelease": true,
     "aegisName": "Purify_R_3",
     "name": "Purifying Rune 3Lv",
     "unidName": "Purifying Rune 3Lv",
@@ -126242,6 +126592,7 @@
   },
   "312363": {
     "id": 312363,
+    "preRelease": true,
     "aegisName": "Purify_R_4",
     "name": "Purifying Rune 4Lv",
     "unidName": "Purifying Rune 4Lv",
@@ -126268,6 +126619,7 @@
   },
   "312364": {
     "id": 312364,
+    "preRelease": true,
     "aegisName": "Purify_R_5",
     "name": "Purifying Rune 5Lv",
     "unidName": "Purifying Rune 5Lv",
@@ -126297,6 +126649,7 @@
   },
   "312365": {
     "id": 312365,
+    "preRelease": true,
     "aegisName": "Soul_Purify_R_1",
     "name": "Soul Purifying Rune 1Lv",
     "unidName": "Soul Purifying Rune 1Lv",
@@ -126320,6 +126673,7 @@
   },
   "312366": {
     "id": 312366,
+    "preRelease": true,
     "aegisName": "Soul_Purify_R_2",
     "name": "Soul Purifying Rune 2Lv",
     "unidName": "Soul Purifying Rune 2Lv",
@@ -126349,6 +126703,7 @@
   },
   "312367": {
     "id": 312367,
+    "preRelease": true,
     "aegisName": "Soul_Purify_R_3",
     "name": "Soul Purifying Rune 3Lv",
     "unidName": "Soul Purifying Rune 3Lv",
@@ -126381,6 +126736,7 @@
   },
   "312368": {
     "id": 312368,
+    "preRelease": true,
     "aegisName": "Soul_Purify_R_4",
     "name": "Soul Purifying Rune 4Lv",
     "unidName": "Soul Purifying Rune 4Lv",
@@ -126416,6 +126772,7 @@
   },
   "312369": {
     "id": 312369,
+    "preRelease": true,
     "aegisName": "Soul_Purify_R_5",
     "name": "Soul Purifying Rune 5Lv",
     "unidName": "Soul Purifying Rune 5Lv",
@@ -126452,6 +126809,7 @@
   },
   "312370": {
     "id": 312370,
+    "preRelease": true,
     "aegisName": "Soul_Purify_R_6",
     "name": "Soul Purifying Rune 6Lv",
     "unidName": "Soul Purifying Rune 6Lv",
@@ -126489,6 +126847,7 @@
   },
   "312371": {
     "id": 312371,
+    "preRelease": true,
     "aegisName": "Soul_Purify_R_7",
     "name": "Soul Purifying Rune 7Lv",
     "unidName": "Soul Purifying Rune 7Lv",
@@ -126527,6 +126886,7 @@
   },
   "312372": {
     "id": 312372,
+    "preRelease": true,
     "aegisName": "Soul_Purify_R_8",
     "name": "Soul Purifying Rune 8Lv",
     "unidName": "Soul Purifying Rune 8Lv",
@@ -126566,6 +126926,7 @@
   },
   "312373": {
     "id": 312373,
+    "preRelease": true,
     "aegisName": "Soul_Purify_R_9",
     "name": "Soul Purifying Rune 9Lv",
     "unidName": "Soul Purifying Rune 9Lv",
@@ -126606,6 +126967,7 @@
   },
   "312374": {
     "id": 312374,
+    "preRelease": true,
     "aegisName": "Soul_Purify_R_10",
     "name": "Soul Purifying Rune 10Lv",
     "unidName": "Soul Purifying Rune 10Lv",
@@ -126647,6 +127009,7 @@
   },
   "312375": {
     "id": 312375,
+    "preRelease": true,
     "aegisName": "Corrupt_R_1",
     "name": "Corruption Rune 1Lv",
     "unidName": "Corruption Rune 1Lv",
@@ -126673,6 +127036,7 @@
   },
   "312376": {
     "id": 312376,
+    "preRelease": true,
     "aegisName": "Corrupt_R_2",
     "name": "Corruption Rune 2Lv",
     "unidName": "Corruption Rune 2Lv",
@@ -126699,6 +127063,7 @@
   },
   "312377": {
     "id": 312377,
+    "preRelease": true,
     "aegisName": "Corrupt_R_3",
     "name": "Corruption Rune 3Lv",
     "unidName": "Corruption Rune 3Lv",
@@ -126725,6 +127090,7 @@
   },
   "312378": {
     "id": 312378,
+    "preRelease": true,
     "aegisName": "Corrupt_R_4",
     "name": "Corruption Rune 4Lv",
     "unidName": "Corruption Rune 4Lv",
@@ -126751,6 +127117,7 @@
   },
   "312379": {
     "id": 312379,
+    "preRelease": true,
     "aegisName": "Corrupt_R_5",
     "name": "Corruption Rune 5Lv",
     "unidName": "Corruption Rune 5Lv",
@@ -126780,6 +127147,7 @@
   },
   "312380": {
     "id": 312380,
+    "preRelease": true,
     "aegisName": "Poison_R_1",
     "name": "Poison Rune 1Lv",
     "unidName": "Poison Rune 1Lv",
@@ -126806,6 +127174,7 @@
   },
   "312381": {
     "id": 312381,
+    "preRelease": true,
     "aegisName": "Poison_R_2",
     "name": "Poison Rune 2Lv",
     "unidName": "Poison Rune 2Lv",
@@ -126832,6 +127201,7 @@
   },
   "312382": {
     "id": 312382,
+    "preRelease": true,
     "aegisName": "Poison_R_3",
     "name": "Poison Rune 3Lv",
     "unidName": "Poison Rune 3Lv",
@@ -126858,6 +127228,7 @@
   },
   "312383": {
     "id": 312383,
+    "preRelease": true,
     "aegisName": "Poison_R_4",
     "name": "Poison Rune 4Lv",
     "unidName": "Poison Rune 4Lv",
@@ -126884,6 +127255,7 @@
   },
   "312384": {
     "id": 312384,
+    "preRelease": true,
     "aegisName": "Poison_R_5",
     "name": "Poison Rune 5Lv",
     "unidName": "Poison Rune 5Lv",
@@ -126913,6 +127285,7 @@
   },
   "312385": {
     "id": 312385,
+    "preRelease": true,
     "aegisName": "Corrupt_Poison_R_1",
     "name": "Corrupted Poison Rune 1Lv",
     "unidName": "Corrupted Poison Rune 1Lv",
@@ -126936,6 +127309,7 @@
   },
   "312386": {
     "id": 312386,
+    "preRelease": true,
     "aegisName": "Corrupt_Poison_R_2",
     "name": "Corrupted Poison Rune 2Lv",
     "unidName": "Corrupted Poison Rune 2Lv",
@@ -126965,6 +127339,7 @@
   },
   "312387": {
     "id": 312387,
+    "preRelease": true,
     "aegisName": "Corrupt_Poison_R_3",
     "name": "Corrupted Poison Rune 3Lv",
     "unidName": "Corrupted Poison Rune 3Lv",
@@ -126997,6 +127372,7 @@
   },
   "312388": {
     "id": 312388,
+    "preRelease": true,
     "aegisName": "Corrupt_Poison_R_4",
     "name": "Corrupted Poison Rune 4Lv",
     "unidName": "Corrupted Poison Rune 4Lv",
@@ -127035,6 +127411,7 @@
   },
   "312389": {
     "id": 312389,
+    "preRelease": true,
     "aegisName": "Corrupt_Poison_R_5",
     "name": "Corrupted Poison Rune 5Lv",
     "unidName": "Corrupted Poison Rune 5Lv",
@@ -127074,6 +127451,7 @@
   },
   "312390": {
     "id": 312390,
+    "preRelease": true,
     "aegisName": "Corrupt_Poison_R_6",
     "name": "Corrupted Poison Rune 6Lv",
     "unidName": "Corrupted Poison Rune 6Lv",
@@ -127115,6 +127493,7 @@
   },
   "312391": {
     "id": 312391,
+    "preRelease": true,
     "aegisName": "Corrupt_Poison_R_7",
     "name": "Corrupted Poison Rune 7Lv",
     "unidName": "Corrupted Poison Rune 7Lv",
@@ -127157,6 +127536,7 @@
   },
   "312392": {
     "id": 312392,
+    "preRelease": true,
     "aegisName": "Corrupt_Poison_R_8",
     "name": "Corrupted Poison Rune 8Lv",
     "unidName": "Corrupted Poison Rune 8Lv",
@@ -127202,6 +127582,7 @@
   },
   "312393": {
     "id": 312393,
+    "preRelease": true,
     "aegisName": "Corrupt_Poison_R_9",
     "name": "Corrupted Poison Rune 9Lv",
     "unidName": "Corrupted Poison Rune 9Lv",
@@ -127248,6 +127629,7 @@
   },
   "312394": {
     "id": 312394,
+    "preRelease": true,
     "aegisName": "Corrupt_Poison_R_10",
     "name": "Corrupted Poison Rune 10Lv",
     "unidName": "Corrupted Poison Rune 10Lv",
@@ -133667,6 +134049,7 @@
   },
   "312695": {
     "id": 312695,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_STR_1",
     "name": "Time Dimension Jewel (Strength) 1Lv",
     "unidName": "Time Dimension Jewel (Strength) 1Lv",
@@ -133693,6 +134076,7 @@
   },
   "312696": {
     "id": 312696,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_STR_2",
     "name": "Time Dimension Jewel (Strength) 2Lv",
     "unidName": "Time Dimension Jewel (Strength) 2Lv",
@@ -133722,6 +134106,7 @@
   },
   "312697": {
     "id": 312697,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_STR_3",
     "name": "Time Dimension Jewel (Strength) 3Lv",
     "unidName": "Time Dimension Jewel (Strength) 3Lv",
@@ -133751,6 +134136,7 @@
   },
   "312698": {
     "id": 312698,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_AGI_1",
     "name": "Time Dimension Jewel (Agility) 1Lv",
     "unidName": "Time Dimension Jewel (Agility) 1Lv",
@@ -133783,6 +134169,7 @@
   },
   "312699": {
     "id": 312699,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_AGI_2",
     "name": "Time Dimension Jewel (Agility) 2Lv",
     "unidName": "Time Dimension Jewel (Agility) 2Lv",
@@ -133821,6 +134208,7 @@
   },
   "312700": {
     "id": 312700,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_AGI_3",
     "name": "Time Dimension Jewel (Agility) 3Lv",
     "unidName": "Time Dimension Jewel (Agility) 3Lv",
@@ -133859,6 +134247,7 @@
   },
   "312701": {
     "id": 312701,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_DEX_1",
     "name": "Time Dimension Jewel (Dexterity) 1Lv",
     "unidName": "Time Dimension Jewel (Dexterity) 1Lv",
@@ -133885,6 +134274,7 @@
   },
   "312702": {
     "id": 312702,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_DEX_2",
     "name": "Time Dimension Jewel (Dexterity) 2Lv",
     "unidName": "Time Dimension Jewel (Dexterity) 2Lv",
@@ -133914,6 +134304,7 @@
   },
   "312703": {
     "id": 312703,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_DEX_3",
     "name": "Time Dimension Jewel (Dexterity) 3Lv",
     "unidName": "Time Dimension Jewel (Dexterity) 3Lv",
@@ -133943,6 +134334,7 @@
   },
   "312704": {
     "id": 312704,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_VIT_1",
     "name": "Time Dimension Jewel (Vitality) 1Lv",
     "unidName": "Time Dimension Jewel (Vitality) 1Lv",
@@ -133972,6 +134364,7 @@
   },
   "312705": {
     "id": 312705,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_VIT_2",
     "name": "Time Dimension Jewel (Vitality) 2Lv",
     "unidName": "Time Dimension Jewel (Vitality) 2Lv",
@@ -134007,6 +134400,7 @@
   },
   "312706": {
     "id": 312706,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_VIT_3",
     "name": "Time Dimension Jewel (Vitality) 3Lv",
     "unidName": "Time Dimension Jewel (Vitality) 3Lv",
@@ -134042,6 +134436,7 @@
   },
   "312707": {
     "id": 312707,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_INT_1",
     "name": "Time Dimension Jewel (Intelligence) 1Lv",
     "unidName": "Time Dimension Jewel (Intelligence) 1Lv",
@@ -134068,6 +134463,7 @@
   },
   "312708": {
     "id": 312708,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_INT_2",
     "name": "Time Dimension Jewel (Intelligence) 2Lv",
     "unidName": "Time Dimension Jewel (Intelligence) 2Lv",
@@ -134097,6 +134493,7 @@
   },
   "312709": {
     "id": 312709,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_INT_3",
     "name": "Time Dimension Jewel (Intelligence) 3Lv",
     "unidName": "Time Dimension Jewel (Intelligence) 3Lv",
@@ -134126,6 +134523,7 @@
   },
   "312710": {
     "id": 312710,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_LUK_1",
     "name": "Time Dimension Jewel (Luck) 1Lv",
     "unidName": "Time Dimension Jewel (Luck) 1Lv",
@@ -134152,6 +134550,7 @@
   },
   "312711": {
     "id": 312711,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_LUK_2",
     "name": "Time Dimension Jewel (Luck) 2Lv",
     "unidName": "Time Dimension Jewel (Luck) 2Lv",
@@ -134184,6 +134583,7 @@
   },
   "312712": {
     "id": 312712,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_LUK_3",
     "name": "Time Dimension Jewel (Luck) 3Lv",
     "unidName": "Time Dimension Jewel (Luck) 3Lv",
@@ -134216,6 +134616,7 @@
   },
   "312713": {
     "id": 312713,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_SPR_1",
     "name": "Time Dimension Jewel (Spirit) 1Lv",
     "unidName": "Time Dimension Jewel (Spirit) 1Lv",
@@ -134245,6 +134646,7 @@
   },
   "312714": {
     "id": 312714,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_SPR_2",
     "name": "Time Dimension Jewel (Spirit) 2Lv",
     "unidName": "Time Dimension Jewel (Spirit) 2Lv",
@@ -134280,6 +134682,7 @@
   },
   "312715": {
     "id": 312715,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_SPR_3",
     "name": "Time Dimension Jewel (Spirit) 3Lv",
     "unidName": "Time Dimension Jewel (Spirit) 3Lv",
@@ -134315,6 +134718,7 @@
   },
   "312716": {
     "id": 312716,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_WIS_1",
     "name": "Time Dimension Jewel (Wisdom) 1Lv",
     "unidName": "Time Dimension Jewel (Wisdom) 1Lv",
@@ -134347,6 +134751,7 @@
   },
   "312717": {
     "id": 312717,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_WIS_2",
     "name": "Time Dimension Jewel (Wisdom) 2Lv",
     "unidName": "Time Dimension Jewel (Wisdom) 2Lv",
@@ -134385,6 +134790,7 @@
   },
   "312718": {
     "id": 312718,
+    "preRelease": true,
     "aegisName": "T_D_Jewel_WIS_3",
     "name": "Time Dimension Jewel (Wisdom) 3Lv",
     "unidName": "Time Dimension Jewel (Wisdom) 3Lv",
@@ -134475,6 +134881,7 @@
   },
   "312721": {
     "id": 312721,
+    "preRelease": true,
     "aegisName": "Mettle_Jewel_3",
     "name": "Mettle Jewel 3Lv",
     "unidName": "Mettle Jewel 3Lv",
@@ -134501,6 +134908,7 @@
   },
   "312722": {
     "id": 312722,
+    "preRelease": true,
     "aegisName": "Mettle_Jewel_4",
     "name": "Mettle Jewel 4Lv",
     "unidName": "Mettle Jewel 4Lv",
@@ -134527,6 +134935,7 @@
   },
   "312723": {
     "id": 312723,
+    "preRelease": true,
     "aegisName": "Mettle_Jewel_5",
     "name": "Mettle Jewel 5Lv",
     "unidName": "Mettle Jewel 5Lv",
@@ -134553,6 +134962,7 @@
   },
   "312724": {
     "id": 312724,
+    "preRelease": true,
     "aegisName": "Mettle_Jewel_6",
     "name": "Mettle Jewel 6Lv",
     "unidName": "Mettle Jewel 6Lv",
@@ -134579,6 +134989,7 @@
   },
   "312725": {
     "id": 312725,
+    "preRelease": true,
     "aegisName": "Mettle_Jewel_7",
     "name": "Mettle Jewel 7Lv",
     "unidName": "Mettle Jewel 7Lv",
@@ -134605,6 +135016,7 @@
   },
   "312726": {
     "id": 312726,
+    "preRelease": true,
     "aegisName": "Mettle_Jewel_8",
     "name": "Mettle Jewel 8Lv",
     "unidName": "Mettle Jewel 8Lv",
@@ -134631,6 +135043,7 @@
   },
   "312727": {
     "id": 312727,
+    "preRelease": true,
     "aegisName": "Mettle_Jewel_9",
     "name": "Mettle Jewel 9Lv",
     "unidName": "Mettle Jewel 9Lv",
@@ -134657,6 +135070,7 @@
   },
   "312728": {
     "id": 312728,
+    "preRelease": true,
     "aegisName": "Mettle_Jewel_10",
     "name": "Mettle Jewel 10Lv",
     "unidName": "Mettle Jewel 10Lv",
@@ -134735,6 +135149,7 @@
   },
   "312731": {
     "id": 312731,
+    "preRelease": true,
     "aegisName": "Tenacity_Jewel_3",
     "name": "Tenacity Jewel 3Lv",
     "unidName": "Tenacity Jewel 3Lv",
@@ -134761,6 +135176,7 @@
   },
   "312732": {
     "id": 312732,
+    "preRelease": true,
     "aegisName": "Tenacity_Jewel_4",
     "name": "Tenacity Jewel 4Lv",
     "unidName": "Tenacity Jewel 4Lv",
@@ -134787,6 +135203,7 @@
   },
   "312733": {
     "id": 312733,
+    "preRelease": true,
     "aegisName": "Tenacity_Jewel_5",
     "name": "Tenacity Jewel 5Lv",
     "unidName": "Tenacity Jewel 5Lv",
@@ -134813,6 +135230,7 @@
   },
   "312734": {
     "id": 312734,
+    "preRelease": true,
     "aegisName": "Tenacity_Jewel_6",
     "name": "Tenacity Jewel 6Lv",
     "unidName": "Tenacity Jewel 6Lv",
@@ -134839,6 +135257,7 @@
   },
   "312735": {
     "id": 312735,
+    "preRelease": true,
     "aegisName": "Tenacity_Jewel_7",
     "name": "Tenacity Jewel 7Lv",
     "unidName": "Tenacity Jewel 7Lv",
@@ -134865,6 +135284,7 @@
   },
   "312736": {
     "id": 312736,
+    "preRelease": true,
     "aegisName": "Tenacity_Jewel_8",
     "name": "Tenacity Jewel 8Lv",
     "unidName": "Tenacity Jewel 8Lv",
@@ -134891,6 +135311,7 @@
   },
   "312737": {
     "id": 312737,
+    "preRelease": true,
     "aegisName": "Tenacity_Jewel_9",
     "name": "Tenacity Jewel 9Lv",
     "unidName": "Tenacity Jewel 9Lv",
@@ -134917,6 +135338,7 @@
   },
   "312738": {
     "id": 312738,
+    "preRelease": true,
     "aegisName": "Tenacity_Jewel_10",
     "name": "Tenacity Jewel 10Lv",
     "unidName": "Tenacity Jewel 10Lv",
@@ -134995,6 +135417,7 @@
   },
   "312741": {
     "id": 312741,
+    "preRelease": true,
     "aegisName": "Master_A_Jewel_3",
     "name": "Master Archer Jewel 3Lv",
     "unidName": "Master Archer Jewel 3Lv",
@@ -135021,6 +135444,7 @@
   },
   "312742": {
     "id": 312742,
+    "preRelease": true,
     "aegisName": "Master_A_Jewel_4",
     "name": "Master Archer Jewel 4Lv",
     "unidName": "Master Archer Jewel 4Lv",
@@ -135047,6 +135471,7 @@
   },
   "312743": {
     "id": 312743,
+    "preRelease": true,
     "aegisName": "Master_A_Jewel_5",
     "name": "Master Archer Jewel 5Lv",
     "unidName": "Master Archer Jewel 5Lv",
@@ -135073,6 +135498,7 @@
   },
   "312744": {
     "id": 312744,
+    "preRelease": true,
     "aegisName": "Master_A_Jewel_6",
     "name": "Master Archer Jewel 6Lv",
     "unidName": "Master Archer Jewel 6Lv",
@@ -135099,6 +135525,7 @@
   },
   "312745": {
     "id": 312745,
+    "preRelease": true,
     "aegisName": "Master_A_Jewel_7",
     "name": "Master Archer Jewel 7Lv",
     "unidName": "Master Archer Jewel 7Lv",
@@ -135125,6 +135552,7 @@
   },
   "312746": {
     "id": 312746,
+    "preRelease": true,
     "aegisName": "Master_A_Jewel_8",
     "name": "Master Archer Jewel 8Lv",
     "unidName": "Master Archer Jewel 8Lv",
@@ -135151,6 +135579,7 @@
   },
   "312747": {
     "id": 312747,
+    "preRelease": true,
     "aegisName": "Master_A_Jewel_9",
     "name": "Master Archer Jewel 9Lv",
     "unidName": "Master Archer Jewel 9Lv",
@@ -135177,6 +135606,7 @@
   },
   "312748": {
     "id": 312748,
+    "preRelease": true,
     "aegisName": "Master_A_Jewel_10",
     "name": "Master Archer Jewel 10Lv",
     "unidName": "Master Archer Jewel 10Lv",
@@ -135261,6 +135691,7 @@
   },
   "312751": {
     "id": 312751,
+    "preRelease": true,
     "aegisName": "Acute_Jewel_3",
     "name": "Acute Jewel 3Lv",
     "unidName": "Acute Jewel 3Lv",
@@ -135290,6 +135721,7 @@
   },
   "312752": {
     "id": 312752,
+    "preRelease": true,
     "aegisName": "Acute_Jewel_4",
     "name": "Acute Jewel 4Lv",
     "unidName": "Acute Jewel 4Lv",
@@ -135319,6 +135751,7 @@
   },
   "312753": {
     "id": 312753,
+    "preRelease": true,
     "aegisName": "Acute_Jewel_5",
     "name": "Acute Jewel 5Lv",
     "unidName": "Acute Jewel 5Lv",
@@ -135348,6 +135781,7 @@
   },
   "312754": {
     "id": 312754,
+    "preRelease": true,
     "aegisName": "Acute_Jewel_6",
     "name": "Acute Jewel 6Lv",
     "unidName": "Acute Jewel 6Lv",
@@ -135377,6 +135811,7 @@
   },
   "312755": {
     "id": 312755,
+    "preRelease": true,
     "aegisName": "Acute_Jewel_7",
     "name": "Acute Jewel 7Lv",
     "unidName": "Acute Jewel 7Lv",
@@ -135406,6 +135841,7 @@
   },
   "312756": {
     "id": 312756,
+    "preRelease": true,
     "aegisName": "Acute_Jewel_8",
     "name": "Acute Jewel 8Lv",
     "unidName": "Acute Jewel 8Lv",
@@ -135435,6 +135871,7 @@
   },
   "312757": {
     "id": 312757,
+    "preRelease": true,
     "aegisName": "Acute_Jewel_9",
     "name": "Acute Jewel 9Lv",
     "unidName": "Acute Jewel 9Lv",
@@ -135464,6 +135901,7 @@
   },
   "312758": {
     "id": 312758,
+    "preRelease": true,
     "aegisName": "Acute_Jewel_10",
     "name": "Acute Jewel 10Lv",
     "unidName": "Acute Jewel 10Lv",
@@ -135545,6 +135983,7 @@
   },
   "312761": {
     "id": 312761,
+    "preRelease": true,
     "aegisName": "Magic_E_Jewel_3",
     "name": "Magic Essence Jewel 3Lv",
     "unidName": "Magic Essence Jewel 3Lv",
@@ -135571,6 +136010,7 @@
   },
   "312762": {
     "id": 312762,
+    "preRelease": true,
     "aegisName": "Magic_E_Jewel_4",
     "name": "Magic Essence Jewel 4Lv",
     "unidName": "Magic Essence Jewel 4Lv",
@@ -135597,6 +136037,7 @@
   },
   "312763": {
     "id": 312763,
+    "preRelease": true,
     "aegisName": "Magic_E_Jewel_5",
     "name": "Magic Essence Jewel 5Lv",
     "unidName": "Magic Essence Jewel 5Lv",
@@ -135623,6 +136064,7 @@
   },
   "312764": {
     "id": 312764,
+    "preRelease": true,
     "aegisName": "Magic_E_Jewel_6",
     "name": "Magic Essence Jewel 6Lv",
     "unidName": "Magic Essence Jewel 6Lv",
@@ -135649,6 +136091,7 @@
   },
   "312765": {
     "id": 312765,
+    "preRelease": true,
     "aegisName": "Magic_E_Jewel_7",
     "name": "Magic Essence Jewel 7Lv",
     "unidName": "Magic Essence Jewel 7Lv",
@@ -135675,6 +136118,7 @@
   },
   "312766": {
     "id": 312766,
+    "preRelease": true,
     "aegisName": "Magic_E_Jewel_8",
     "name": "Magic Essence Jewel 8Lv",
     "unidName": "Magic Essence Jewel 8Lv",
@@ -135701,6 +136145,7 @@
   },
   "312767": {
     "id": 312767,
+    "preRelease": true,
     "aegisName": "Magic_E_Jewel_9",
     "name": "Magic Essence Jewel 9Lv",
     "unidName": "Magic Essence Jewel 9Lv",
@@ -135727,6 +136172,7 @@
   },
   "312768": {
     "id": 312768,
+    "preRelease": true,
     "aegisName": "Magic_E_Jewel_10",
     "name": "Magic Essence Jewel 10Lv",
     "unidName": "Magic Essence Jewel 10Lv",
@@ -135805,6 +136251,7 @@
   },
   "312771": {
     "id": 312771,
+    "preRelease": true,
     "aegisName": "Spell_Jewel_3",
     "name": "Spell Jewel 3Lv",
     "unidName": "Spell Jewel 3Lv",
@@ -135831,6 +136278,7 @@
   },
   "312772": {
     "id": 312772,
+    "preRelease": true,
     "aegisName": "Spell_Jewel_4",
     "name": "Spell Jewel 4Lv",
     "unidName": "Spell Jewel 4Lv",
@@ -135857,6 +136305,7 @@
   },
   "312773": {
     "id": 312773,
+    "preRelease": true,
     "aegisName": "Spell_Jewel_5",
     "name": "Spell Jewel 5Lv",
     "unidName": "Spell Jewel 5Lv",
@@ -135883,6 +136332,7 @@
   },
   "312774": {
     "id": 312774,
+    "preRelease": true,
     "aegisName": "Spell_Jewel_6",
     "name": "Spell Jewel 6Lv",
     "unidName": "Spell Jewel 6Lv",
@@ -135909,6 +136359,7 @@
   },
   "312775": {
     "id": 312775,
+    "preRelease": true,
     "aegisName": "Spell_Jewel_7",
     "name": "Spell Jewel 7Lv",
     "unidName": "Spell Jewel 7Lv",
@@ -135935,6 +136386,7 @@
   },
   "312776": {
     "id": 312776,
+    "preRelease": true,
     "aegisName": "Spell_Jewel_8",
     "name": "Spell Jewel 8Lv",
     "unidName": "Spell Jewel 8Lv",
@@ -135961,6 +136413,7 @@
   },
   "312777": {
     "id": 312777,
+    "preRelease": true,
     "aegisName": "Spell_Jewel_9",
     "name": "Spell Jewel 9Lv",
     "unidName": "Spell Jewel 9Lv",
@@ -135987,6 +136440,7 @@
   },
   "312778": {
     "id": 312778,
+    "preRelease": true,
     "aegisName": "Spell_Jewel_10",
     "name": "Spell Jewel 10Lv",
     "unidName": "Spell Jewel 10Lv",
@@ -136071,6 +136525,7 @@
   },
   "312781": {
     "id": 312781,
+    "preRelease": true,
     "aegisName": "Adamatine_Jewel_3",
     "name": "Adamantine Jewel 3Lv",
     "unidName": "Adamantine Jewel 3Lv",
@@ -136100,6 +136555,7 @@
   },
   "312782": {
     "id": 312782,
+    "preRelease": true,
     "aegisName": "Adamatine_Jewel_4",
     "name": "Adamantine Jewel 4Lv",
     "unidName": "Adamantine Jewel 4Lv",
@@ -136129,6 +136585,7 @@
   },
   "312783": {
     "id": 312783,
+    "preRelease": true,
     "aegisName": "Adamatine_Jewel_5",
     "name": "Adamantine Jewel 5Lv",
     "unidName": "Adamantine Jewel 5Lv",
@@ -136158,6 +136615,7 @@
   },
   "312784": {
     "id": 312784,
+    "preRelease": true,
     "aegisName": "Adamatine_Jewel_6",
     "name": "Adamantine Jewel 6Lv",
     "unidName": "Adamantine Jewel 6Lv",
@@ -136187,6 +136645,7 @@
   },
   "312785": {
     "id": 312785,
+    "preRelease": true,
     "aegisName": "Adamatine_Jewel_7",
     "name": "Adamantine Jewel 7Lv",
     "unidName": "Adamantine Jewel 7Lv",
@@ -136216,6 +136675,7 @@
   },
   "312786": {
     "id": 312786,
+    "preRelease": true,
     "aegisName": "Adamatine_Jewel_8",
     "name": "Adamantine Jewel 8Lv",
     "unidName": "Adamantine Jewel 8Lv",
@@ -136245,6 +136705,7 @@
   },
   "312787": {
     "id": 312787,
+    "preRelease": true,
     "aegisName": "Adamatine_Jewel_9",
     "name": "Adamantine Jewel 9Lv",
     "unidName": "Adamantine Jewel 9Lv",
@@ -136274,6 +136735,7 @@
   },
   "312788": {
     "id": 312788,
+    "preRelease": true,
     "aegisName": "Adamatine_Jewel_10",
     "name": "Adamantine Jewel 10Lv",
     "unidName": "Adamantine Jewel 10Lv",
@@ -136303,6 +136765,7 @@
   },
   "312800": {
     "id": 312800,
+    "preRelease": true,
     "aegisName": "Barmund_Poison3",
     "name": "Varmundt's Crystal (Poison) Lv3",
     "unidName": "Varmundt's Crystal (Poison) Lv3",
@@ -138672,6 +139135,7 @@
   },
   "313070": {
     "id": 313070,
+    "preRelease": true,
     "aegisName": "Ep21_4_Def",
     "name": "Forest Magic Orb (Physical Defense)",
     "unidName": "Forest Magic Orb (Physical Defense)",
@@ -138704,6 +139168,7 @@
   },
   "313071": {
     "id": 313071,
+    "preRelease": true,
     "aegisName": "Ep21_4_Mdef",
     "name": "Forest Magic Orb (Magical Defense)",
     "unidName": "Forest Magic Orb (Magical Defense)",
@@ -138736,6 +139201,7 @@
   },
   "313072": {
     "id": 313072,
+    "preRelease": true,
     "aegisName": "Ep21_4_Warrior",
     "name": "Forest Magic Orb (Warrior)",
     "unidName": "Forest Magic Orb (Warrior)",
@@ -138767,6 +139233,7 @@
   },
   "313073": {
     "id": 313073,
+    "preRelease": true,
     "aegisName": "Ep21_4_Archer",
     "name": "Forest Magic Orb (Archer)",
     "unidName": "Forest Magic Orb (Archer)",
@@ -138798,6 +139265,7 @@
   },
   "313074": {
     "id": 313074,
+    "preRelease": true,
     "aegisName": "Ep21_4_Assassin",
     "name": "Forest Magic Orb (Assassin)",
     "unidName": "Forest Magic Orb (Assassin)",
@@ -138832,6 +139300,7 @@
   },
   "313075": {
     "id": 313075,
+    "preRelease": true,
     "aegisName": "Ep21_4_Magician",
     "name": "Forest Magic Orb (Magician)",
     "unidName": "Forest Magic Orb (Magician)",
@@ -138863,6 +139332,7 @@
   },
   "313076": {
     "id": 313076,
+    "preRelease": true,
     "aegisName": "Ep21_3_Berserker",
     "name": "Forest Magic Orb (Berserker)",
     "unidName": "Forest Magic Orb (Berserker)",
@@ -138900,6 +139370,7 @@
   },
   "313077": {
     "id": 313077,
+    "preRelease": true,
     "aegisName": "Ep21_3_Marksman",
     "name": "Forest Magic Orb (Marksman)",
     "unidName": "Forest Magic Orb (Marksman)",
@@ -138937,6 +139408,7 @@
   },
   "313078": {
     "id": 313078,
+    "preRelease": true,
     "aegisName": "Ep21_3_Executioner",
     "name": "Forest Magic Orb (Executioner)",
     "unidName": "Forest Magic Orb (Executioner)",
@@ -138977,6 +139449,7 @@
   },
   "313079": {
     "id": 313079,
+    "preRelease": true,
     "aegisName": "Ep21_3_Wizard",
     "name": "Forest Magic Orb (Wizard)",
     "unidName": "Forest Magic Orb (Wizard)",
@@ -139014,6 +139487,7 @@
   },
   "313080": {
     "id": 313080,
+    "preRelease": true,
     "aegisName": "Ep21_2_P_Force",
     "name": "Forest Magic Orb (Power Force)",
     "unidName": "Forest Magic Orb (Power Force)",
@@ -139046,6 +139520,7 @@
   },
   "313081": {
     "id": 313081,
+    "preRelease": true,
     "aegisName": "Ep21_2_M_Force",
     "name": "Forest Magic Orb (Magic Force)",
     "unidName": "Forest Magic Orb (Magic Force)",
@@ -139078,6 +139553,7 @@
   },
   "313082": {
     "id": 313082,
+    "preRelease": true,
     "aegisName": "Ep21_2_G_Cooldown",
     "name": "Forest Magic Orb (Global Cooldown)",
     "unidName": "Forest Magic Orb (Global Cooldown)",
@@ -139104,6 +139580,7 @@
   },
   "313083": {
     "id": 313083,
+    "preRelease": true,
     "aegisName": "Ep21_3_Speed",
     "name": "Forest Magic Orb (Speed)",
     "unidName": "Forest Magic Orb (Speed)",
@@ -139130,6 +139607,7 @@
   },
   "313084": {
     "id": 313084,
+    "preRelease": true,
     "aegisName": "Ep21_3_Caster",
     "name": "Forest Magic Orb (Caster)",
     "unidName": "Forest Magic Orb (Caster)",
@@ -139156,6 +139634,7 @@
   },
   "313085": {
     "id": 313085,
+    "preRelease": true,
     "aegisName": "Ep21_2_Melee",
     "name": "Forest Magic Orb (Melee)",
     "unidName": "Forest Magic Orb (Melee)",
@@ -139191,6 +139670,7 @@
   },
   "313086": {
     "id": 313086,
+    "preRelease": true,
     "aegisName": "Ep21_2_Range",
     "name": "Forest Magic Orb (Range)",
     "unidName": "Forest Magic Orb (Range)",
@@ -139226,6 +139706,7 @@
   },
   "313087": {
     "id": 313087,
+    "preRelease": true,
     "aegisName": "Ep21_2_Critical",
     "name": "Forest Magic Orb (Critical)",
     "unidName": "Forest Magic Orb (Critical)",
@@ -139263,6 +139744,7 @@
   },
   "313088": {
     "id": 313088,
+    "preRelease": true,
     "aegisName": "Ep21_2_Spell",
     "name": "Forest Magic Orb (Spell)",
     "unidName": "Forest Magic Orb (Spell)",
@@ -139298,6 +139780,7 @@
   },
   "313089": {
     "id": 313089,
+    "preRelease": true,
     "aegisName": "Ep21_2_Ab_All",
     "name": "Forest Magic Orb (Above All)",
     "unidName": "Forest Magic Orb (Above All)",
@@ -139317,6 +139800,7 @@
   },
   "313090": {
     "id": 313090,
+    "preRelease": true,
     "aegisName": "Ep21_4_Hp",
     "name": "Forest Magic Orb (HP)",
     "unidName": "Forest Magic Orb (HP)",
@@ -139345,6 +139829,7 @@
   },
   "313091": {
     "id": 313091,
+    "preRelease": true,
     "aegisName": "Ep21_4_Sp",
     "name": "Forest Magic Orb (SP)",
     "unidName": "Forest Magic Orb (SP)",
@@ -139373,6 +139858,7 @@
   },
   "313092": {
     "id": 313092,
+    "preRelease": true,
     "aegisName": "Ep21_4_Phy_Force",
     "name": "Forest Magic Orb (Physical Force)",
     "unidName": "Forest Magic Orb (Physical Force)",
@@ -139402,6 +139888,7 @@
   },
   "313093": {
     "id": 313093,
+    "preRelease": true,
     "aegisName": "Ep21_4_Mag_Force",
     "name": "Forest Magic Orb (Magical Force)",
     "unidName": "Forest Magic Orb (Magical Force)",
@@ -139431,6 +139918,7 @@
   },
   "313094": {
     "id": 313094,
+    "preRelease": true,
     "aegisName": "Ep21_3_Size_Atk",
     "name": "Forest Magic Orb (Size Attack)",
     "unidName": "Forest Magic Orb (Size Attack)",
@@ -139457,6 +139945,7 @@
   },
   "313095": {
     "id": 313095,
+    "preRelease": true,
     "aegisName": "Ep21_3_Size_Matk",
     "name": "Forest Magic Orb (Size Spell)",
     "unidName": "Forest Magic Orb (Size Spell)",
@@ -139483,6 +139972,7 @@
   },
   "313096": {
     "id": 313096,
+    "preRelease": true,
     "aegisName": "Ep21_2_Ov_Power",
     "name": "Forest Magic Orb (Over Power)",
     "unidName": "Forest Magic Orb (Over Power)",
@@ -139516,6 +140006,7 @@
   },
   "313097": {
     "id": 313097,
+    "preRelease": true,
     "aegisName": "Ep21_2_Fi_Shot",
     "name": "Forest Magic Orb (Firing Shot)",
     "unidName": "Forest Magic Orb (Firing Shot)",
@@ -139549,6 +140040,7 @@
   },
   "313098": {
     "id": 313098,
+    "preRelease": true,
     "aegisName": "Ep21_2_Luk_Strike",
     "name": "Forest Magic Orb (Lucky Strike)",
     "unidName": "Forest Magic Orb (Lucky Strike)",
@@ -139584,6 +140076,7 @@
   },
   "313099": {
     "id": 313099,
+    "preRelease": true,
     "aegisName": "Ep21_2_Spl_Buster",
     "name": "Forest Magic Orb (Spell Buster)",
     "unidName": "Forest Magic Orb (Spell Buster)",
@@ -139617,6 +140110,7 @@
   },
   "313100": {
     "id": 313100,
+    "preRelease": true,
     "aegisName": "Ep21_4_F_Spirit",
     "name": "Forest Magic Orb (Fighting Spirit)",
     "unidName": "Forest Magic Orb (Fighting Spirit)",
@@ -139643,6 +140137,7 @@
   },
   "313101": {
     "id": 313101,
+    "preRelease": true,
     "aegisName": "Ep21_4_E_Archer",
     "name": "Forest Magic Orb (Expert Archer)",
     "unidName": "Forest Magic Orb (Expert Archer)",
@@ -139669,6 +140164,7 @@
   },
   "313102": {
     "id": 313102,
+    "preRelease": true,
     "aegisName": "Ep21_4_Fatal",
     "name": "Forest Magic Orb (Fatal)",
     "unidName": "Forest Magic Orb (Fatal)",
@@ -139695,6 +140191,7 @@
   },
   "313103": {
     "id": 313103,
+    "preRelease": true,
     "aegisName": "Ep21_4_Sp_Power",
     "name": "Forest Magic Orb (Spell Power)",
     "unidName": "Forest Magic Orb (Spell Power)",
@@ -139721,6 +140218,7 @@
   },
   "313104": {
     "id": 313104,
+    "preRelease": true,
     "aegisName": "Ep21_3_Tenacity",
     "name": "Forest Magic Orb (Tenacity)",
     "unidName": "Forest Magic Orb (Tenacity)",
@@ -139747,6 +140245,7 @@
   },
   "313105": {
     "id": 313105,
+    "preRelease": true,
     "aegisName": "Ep21_3_M_Archer",
     "name": "Forest Magic Orb (Master Archer)",
     "unidName": "Forest Magic Orb (Master Archer)",
@@ -139773,6 +140272,7 @@
   },
   "313106": {
     "id": 313106,
+    "preRelease": true,
     "aegisName": "Ep21_3_Acute",
     "name": "Forest Magic Orb (Acute)",
     "unidName": "Forest Magic Orb (Acute)",
@@ -139799,6 +140299,7 @@
   },
   "313107": {
     "id": 313107,
+    "preRelease": true,
     "aegisName": "Ep21_3_M_Eessence",
     "name": "Forest Magic Orb (Magic Essence)",
     "unidName": "Forest Magic Orb (Magic Essence)",
@@ -139825,6 +140326,7 @@
   },
   "313108": {
     "id": 313108,
+    "preRelease": true,
     "aegisName": "Ep21_2_Phy_Power",
     "name": "Forest Magic Orb (Physical Power)",
     "unidName": "Forest Magic Orb (Physical Power)",
@@ -139851,6 +140353,7 @@
   },
   "313109": {
     "id": 313109,
+    "preRelease": true,
     "aegisName": "Ep21_2_Mag_Power",
     "name": "Forest Magic Orb (Magical Power)",
     "unidName": "Forest Magic Orb (Magical Power)",
@@ -141808,6 +142311,7 @@
   },
   "313406": {
     "id": 313406,
+    "preRelease": true,
     "aegisName": "Yorscalp_Str1",
     "name": "Strength of Yorscalp 1Lv",
     "unidName": "Strength of Yorscalp 1Lv",
@@ -141834,6 +142338,7 @@
   },
   "313407": {
     "id": 313407,
+    "preRelease": true,
     "aegisName": "Yorscalp_Str2",
     "name": "Strength of Yorscalp 2Lv",
     "unidName": "Strength of Yorscalp 2Lv",
@@ -141860,6 +142365,7 @@
   },
   "313408": {
     "id": 313408,
+    "preRelease": true,
     "aegisName": "Yorscalp_Str3",
     "name": "Strength of Yorscalp 3Lv",
     "unidName": "Strength of Yorscalp 3Lv",
@@ -141886,6 +142392,7 @@
   },
   "313409": {
     "id": 313409,
+    "preRelease": true,
     "aegisName": "Yorscalp_Str4",
     "name": "Strength of Yorscalp 4Lv",
     "unidName": "Strength of Yorscalp 4Lv",
@@ -141912,6 +142419,7 @@
   },
   "313410": {
     "id": 313410,
+    "preRelease": true,
     "aegisName": "Yorscalp_Int1",
     "name": "Intelligence of Yorscalp 1Lv",
     "unidName": "Intelligence of Yorscalp 1Lv",
@@ -141938,6 +142446,7 @@
   },
   "313411": {
     "id": 313411,
+    "preRelease": true,
     "aegisName": "Yorscalp_Int2",
     "name": "Intelligence of Yorscalp 2Lv",
     "unidName": "Intelligence of Yorscalp 2Lv",
@@ -141964,6 +142473,7 @@
   },
   "313412": {
     "id": 313412,
+    "preRelease": true,
     "aegisName": "Yorscalp_Int3",
     "name": "Intelligence of Yorscalp 3Lv",
     "unidName": "Intelligence of Yorscalp 3Lv",
@@ -141990,6 +142500,7 @@
   },
   "313413": {
     "id": 313413,
+    "preRelease": true,
     "aegisName": "Yorscalp_Int4",
     "name": "Intelligence of Yorscalp 4Lv",
     "unidName": "Intelligence of Yorscalp 4Lv",
@@ -142016,6 +142527,7 @@
   },
   "313414": {
     "id": 313414,
+    "preRelease": true,
     "aegisName": "Yorscalp_Smart1",
     "name": "Smart of Yorscalp 1Lv",
     "unidName": "Smart of Yorscalp 1Lv",
@@ -142048,6 +142560,7 @@
   },
   "313415": {
     "id": 313415,
+    "preRelease": true,
     "aegisName": "Yorscalp_Smart3",
     "name": "Smart of Yorscalp 3Lv",
     "unidName": "Smart of Yorscalp 3Lv",
@@ -142080,6 +142593,7 @@
   },
   "313416": {
     "id": 313416,
+    "preRelease": true,
     "aegisName": "Yorscalp_Smart2",
     "name": "Smart of Yorscalp 2Lv",
     "unidName": "Smart of Yorscalp 2Lv",
@@ -142112,6 +142626,7 @@
   },
   "313417": {
     "id": 313417,
+    "preRelease": true,
     "aegisName": "Yorscalp_Smart4",
     "name": "Smart of Yorscalp 4Lv",
     "unidName": "Smart of Yorscalp 4Lv",
@@ -142144,6 +142659,7 @@
   },
   "313418": {
     "id": 313418,
+    "preRelease": true,
     "aegisName": "Yorscalp_Speed1",
     "name": "Speed of Yorscalp 1Lv",
     "unidName": "Speed of Yorscalp 1Lv",
@@ -142176,6 +142692,7 @@
   },
   "313419": {
     "id": 313419,
+    "preRelease": true,
     "aegisName": "Yorscalp_Speed2",
     "name": "Speed of Yorscalp 2Lv",
     "unidName": "Speed of Yorscalp 2Lv",
@@ -142208,6 +142725,7 @@
   },
   "313420": {
     "id": 313420,
+    "preRelease": true,
     "aegisName": "Yorscalp_Speed3",
     "name": "Speed of Yorscalp 3Lv",
     "unidName": "Speed of Yorscalp 3Lv",
@@ -142240,6 +142758,7 @@
   },
   "313421": {
     "id": 313421,
+    "preRelease": true,
     "aegisName": "Yorscalp_Speed4",
     "name": "Speed of Yorscalp 4Lv",
     "unidName": "Speed of Yorscalp 4Lv",
@@ -142272,6 +142791,7 @@
   },
   "313426": {
     "id": 313426,
+    "preRelease": true,
     "aegisName": "Arbiter_Warrant",
     "name": "Warrant of Arbiter",
     "unidName": "Warrant of Arbiter",
@@ -142307,6 +142827,7 @@
   },
   "313427": {
     "id": 313427,
+    "preRelease": true,
     "aegisName": "Bailiff_Warrant",
     "name": "Warrant of Bailiff",
     "unidName": "Warrant of Bailiff",
@@ -153041,6 +153562,7 @@
   },
   "400529": {
     "id": 400529,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_DK",
     "name": "Time Dimensions Rune Crown (Dragon Knight) [1]",
     "unidName": "Headgear",
@@ -153110,6 +153632,7 @@
   },
   "400530": {
     "id": 400530,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_IG",
     "name": "Time Dimensions Rune Crown (Imperial Guard) [1]",
     "unidName": "Headgear",
@@ -153192,6 +153715,7 @@
   },
   "400531": {
     "id": 400531,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_MT",
     "name": "Time Dimensions Rune Crown (Meister) [1]",
     "unidName": "Headgear",
@@ -153261,6 +153785,7 @@
   },
   "400532": {
     "id": 400532,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_BO",
     "name": "Time Dimensions Rune Crown (Biolo) [1]",
     "unidName": "Headgear",
@@ -153330,6 +153855,7 @@
   },
   "400533": {
     "id": 400533,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_SHC",
     "name": "Time Dimensions Rune Crown (Shadow Cross) [1]",
     "unidName": "Headgear",
@@ -153392,6 +153918,7 @@
   },
   "400534": {
     "id": 400534,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_ABC",
     "name": "Time Dimensions Rune Crown (Abyss Chaser) [1]",
     "unidName": "Headgear",
@@ -153461,6 +153988,7 @@
   },
   "400535": {
     "id": 400535,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_AG",
     "name": "Time Dimensions Rune Crown (Arch Mage) [1]",
     "unidName": "Headgear",
@@ -153532,6 +154060,7 @@
   },
   "400536": {
     "id": 400536,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_EM",
     "name": "Time Dimensions Rune Crown (Elemental Master) [1]",
     "unidName": "Headgear",
@@ -153603,6 +154132,7 @@
   },
   "400537": {
     "id": 400537,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_CD",
     "name": "Time Dimensions Rune Crown (Cardinal) [1]",
     "unidName": "Headgear",
@@ -153685,6 +154215,7 @@
   },
   "400538": {
     "id": 400538,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_IQ",
     "name": "Time Dimensions Rune Crown (Inquisitor) [1]",
     "unidName": "Headgear",
@@ -153752,6 +154283,7 @@
   },
   "400539": {
     "id": 400539,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_WH",
     "name": "Time Dimensions Rune Crown (Windhawk) [1]",
     "unidName": "Headgear",
@@ -153817,6 +154349,7 @@
   },
   "400540": {
     "id": 400540,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_TR",
     "name": "Time Dimensions Rune Crown (Troubadour & Trouvere) [1]",
     "unidName": "Headgear",
@@ -153898,6 +154431,7 @@
   },
   "400541": {
     "id": 400541,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_SS",
     "name": "Time Dimensions Rune Crown (Shinkiro & Shiranui) [1]",
     "unidName": "Headgear",
@@ -153984,6 +154518,7 @@
   },
   "400542": {
     "id": 400542,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_NW",
     "name": "Time Dimensions Rune Crown (Night Watch) [1]",
     "unidName": "Headgear",
@@ -154049,6 +154584,7 @@
   },
   "400543": {
     "id": 400543,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_SKE",
     "name": "Time Dimensions Rune Crown (Sky Emperor) [1]",
     "unidName": "Headgear",
@@ -154114,6 +154650,7 @@
   },
   "400544": {
     "id": 400544,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_SOA",
     "name": "Time Dimensions Rune Crown (Soul Ascetic) [1]",
     "unidName": "Headgear",
@@ -154185,6 +154722,7 @@
   },
   "400545": {
     "id": 400545,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_HN",
     "name": "Time Dimensions Rune Crown (Hyper Novice) [1]",
     "unidName": "Headgear",
@@ -154270,6 +154808,7 @@
   },
   "400546": {
     "id": 400546,
+    "preRelease": true,
     "aegisName": "Time_DM_R_Crown_SH",
     "name": "Time Dimensions Rune Crown (Spirit Handler) [1]",
     "unidName": "Headgear",
@@ -155815,6 +156354,7 @@
   },
   "400723": {
     "id": 400723,
+    "preRelease": true,
     "aegisName": "Yorscalp_P_Circlet",
     "name": "Yorscalp Crown of Execution [1]",
     "unidName": "Headgear",
@@ -155887,6 +156427,7 @@
   },
   "400724": {
     "id": 400724,
+    "preRelease": true,
     "aegisName": "Yorscalp_M_Circlet",
     "name": "Yorscalp Crown of Judgment [1]",
     "unidName": "Headgear",
@@ -167100,6 +167641,7 @@
   },
   "450234": {
     "id": 450234,
+    "preRelease": true,
     "aegisName": "Flame_Rune_Armor",
     "name": "Flame Rune Armor [1]",
     "unidName": "Plate",
@@ -167147,6 +167689,7 @@
   },
   "450243": {
     "id": 450243,
+    "preRelease": true,
     "aegisName": "Plain_Rune_Armor",
     "name": "Plain Rune Armor [1]",
     "unidName": "Plate",
@@ -167194,6 +167737,7 @@
   },
   "450244": {
     "id": 450244,
+    "preRelease": true,
     "aegisName": "Ice_Rune_Armor",
     "name": "Ice Rune Armor [1]",
     "unidName": "Plate",
@@ -167241,6 +167785,7 @@
   },
   "450245": {
     "id": 450245,
+    "preRelease": true,
     "aegisName": "Death_Rune_Armor",
     "name": "Death Rune Robe [1]",
     "unidName": "Cotton Shirt",
@@ -167288,6 +167833,7 @@
   },
   "450264": {
     "id": 450264,
+    "preRelease": true,
     "aegisName": "Glacier_Armor",
     "name": "Glacier Armor [1]",
     "unidName": "Armor",
@@ -167348,6 +167894,7 @@
   },
   "450265": {
     "id": 450265,
+    "preRelease": true,
     "aegisName": "Glacier_Robe",
     "name": "Glacier Robe [1]",
     "unidName": "Armor",
@@ -167405,6 +167952,7 @@
   },
   "450266": {
     "id": 450266,
+    "preRelease": true,
     "aegisName": "Glacier_Manteau",
     "name": "Glacier Manteau [1]",
     "unidName": "Garment",
@@ -167459,6 +168007,7 @@
   },
   "450267": {
     "id": 450267,
+    "preRelease": true,
     "aegisName": "Glacier_Muffler",
     "name": "Glacier Muffler [1]",
     "unidName": "Garment",
@@ -167510,6 +168059,7 @@
   },
   "450268": {
     "id": 450268,
+    "preRelease": true,
     "aegisName": "Glacier_Shoes",
     "name": "Glacier Shoes [1]",
     "unidName": "Shoes",
@@ -167570,6 +168120,7 @@
   },
   "450270": {
     "id": 450270,
+    "preRelease": true,
     "aegisName": "D_Glacier_Armor",
     "name": "Dim Glacier Armor [1]",
     "unidName": "Armor",
@@ -167646,6 +168197,7 @@
   },
   "450271": {
     "id": 450271,
+    "preRelease": true,
     "aegisName": "D_Glacier_Robe",
     "name": "Dim Glacier Robe [1]",
     "unidName": "Robe",
@@ -167717,6 +168269,7 @@
   },
   "450274": {
     "id": 450274,
+    "preRelease": true,
     "aegisName": "Flame_E_R_Armor",
     "name": "Fiery Earth Rune Armor [1]",
     "unidName": "Armor",
@@ -167783,6 +168336,7 @@
   },
   "450279": {
     "id": 450279,
+    "preRelease": true,
     "aegisName": "Ice_S_R_Suits",
     "name": "Icy Storm Rune Suit [1]",
     "unidName": "Robe",
@@ -167849,6 +168403,7 @@
   },
   "450280": {
     "id": 450280,
+    "preRelease": true,
     "aegisName": "Soul_P_R_Robe",
     "name": "Soul Purifying Rune Robe [1]",
     "unidName": "Robe",
@@ -167912,6 +168467,7 @@
   },
   "450281": {
     "id": 450281,
+    "preRelease": true,
     "aegisName": "Corrupt_P_R_Cloth",
     "name": "Corrupted Poison Rune Cloth [1]",
     "unidName": "Robe",
@@ -167988,6 +168544,7 @@
   },
   "450282": {
     "id": 450282,
+    "preRelease": true,
     "aegisName": "Flame_E_R_Armor2",
     "name": "Engraved Fiery Earth Rune Armor [1]",
     "unidName": "Armor",
@@ -168056,6 +168613,7 @@
   },
   "450283": {
     "id": 450283,
+    "preRelease": true,
     "aegisName": "Ice_S_R_Suits2",
     "name": "Engraved Icy Storm Rune Suit [1]",
     "unidName": "Robe",
@@ -168124,6 +168682,7 @@
   },
   "450284": {
     "id": 450284,
+    "preRelease": true,
     "aegisName": "Soul_P_R_Robe2",
     "name": "Engraved Soul Purifying Rune Robe [1]",
     "unidName": "Robe",
@@ -168189,6 +168748,7 @@
   },
   "450285": {
     "id": 450285,
+    "preRelease": true,
     "aegisName": "Corrupt_P_R_Cloth2",
     "name": "Engraved Corrupted Poison Rune Cloth [1]",
     "unidName": "Robe",
@@ -168363,6 +168923,7 @@
   },
   "450350": {
     "id": 450350,
+    "preRelease": true,
     "aegisName": "Gaebolg_Armor",
     "name": "Gaebolg Armor [1]",
     "unidName": "Armor",
@@ -168433,6 +168994,7 @@
   },
   "450351": {
     "id": 450351,
+    "preRelease": true,
     "aegisName": "Gaebolg_Robe",
     "name": "Gaebolg Robe [1]",
     "unidName": "Robe",
@@ -169011,6 +169573,7 @@
   },
   "450412": {
     "id": 450412,
+    "preRelease": true,
     "aegisName": "Yorscalp_Armor",
     "name": "Yorscalp Armor [1]",
     "unidName": "Armor",
@@ -169081,6 +169644,7 @@
   },
   "450413": {
     "id": 450413,
+    "preRelease": true,
     "aegisName": "Yorscalp_Robe",
     "name": "Yorscalp Robe [1]",
     "unidName": "Robe",
@@ -169842,6 +170406,7 @@
   },
   "460040": {
     "id": 460040,
+    "preRelease": true,
     "aegisName": "Glacier_Guard",
     "name": "Glacier Guard [1]",
     "unidName": "Shield",
@@ -173100,6 +173665,7 @@
   },
   "470173": {
     "id": 470173,
+    "preRelease": true,
     "aegisName": "Flame_Rune_Boots",
     "name": "Flame Rune Boots [1]",
     "unidName": "Boots",
@@ -173146,6 +173712,7 @@
   },
   "470174": {
     "id": 470174,
+    "preRelease": true,
     "aegisName": "Plain_Rune_Boots",
     "name": "Plain Rune Boots [1]",
     "unidName": "Boots",
@@ -173192,6 +173759,7 @@
   },
   "470175": {
     "id": 470175,
+    "preRelease": true,
     "aegisName": "Ice_Rune_Boots",
     "name": "Ice Rune Boots [1]",
     "unidName": "Boots",
@@ -173240,6 +173808,7 @@
   },
   "470176": {
     "id": 470176,
+    "preRelease": true,
     "aegisName": "Death_Rune_Boots",
     "name": "Death Rune Boots [1]",
     "unidName": "Boots",
@@ -173431,6 +174000,7 @@
   },
   "470196": {
     "id": 470196,
+    "preRelease": true,
     "aegisName": "Glacier_Boots",
     "name": "Glacier Boots [1]",
     "unidName": "Shoes",
@@ -173494,6 +174064,7 @@
   },
   "470197": {
     "id": 470197,
+    "preRelease": true,
     "aegisName": "D_Glacier_Boots",
     "name": "Dim Glacier Boots [1]",
     "unidName": "Shoes",
@@ -173546,6 +174117,7 @@
   },
   "470198": {
     "id": 470198,
+    "preRelease": true,
     "aegisName": "D_Glacier_Shoes",
     "name": "Dim Glacier Shoes [1]",
     "unidName": "Shoes",
@@ -175240,6 +175812,7 @@
   },
   "470260": {
     "id": 470260,
+    "preRelease": true,
     "aegisName": "Gaebolg_Boots",
     "name": "Gaebolg Boots [1]",
     "unidName": "Shoes",
@@ -175311,6 +175884,7 @@
   },
   "470261": {
     "id": 470261,
+    "preRelease": true,
     "aegisName": "Gaebolg_Shoes",
     "name": "Gaebolg Shoes [1]",
     "unidName": "Shoes",
@@ -175820,6 +176394,7 @@
   },
   "470303": {
     "id": 470303,
+    "preRelease": true,
     "aegisName": "Yorscalp_Boots",
     "name": "Yorscalp Boots [1]",
     "unidName": "Shoes",
@@ -175891,6 +176466,7 @@
   },
   "470304": {
     "id": 470304,
+    "preRelease": true,
     "aegisName": "Yorscalp_Shoes",
     "name": "Yorscalp Shoes [1]",
     "unidName": "Shoes",
@@ -178144,6 +178720,7 @@
   },
   "480230": {
     "id": 480230,
+    "preRelease": true,
     "aegisName": "Flame_Rune_Hood",
     "name": "Flame Rune Manteau [1]",
     "unidName": "Hood",
@@ -178194,6 +178771,7 @@
   },
   "480231": {
     "id": 480231,
+    "preRelease": true,
     "aegisName": "Plain_Rune_Hood",
     "name": "Plain Rune Manteau [1]",
     "unidName": "Hood",
@@ -178248,6 +178826,7 @@
   },
   "480232": {
     "id": 480232,
+    "preRelease": true,
     "aegisName": "Ice_Rune_Hood",
     "name": "Ice Rune Manteau [1]",
     "unidName": "Hood",
@@ -178298,6 +178877,7 @@
   },
   "480233": {
     "id": 480233,
+    "preRelease": true,
     "aegisName": "Death_Rune_Hood",
     "name": "Death Rune Manteau [1]",
     "unidName": "Hood",
@@ -178434,6 +179014,7 @@
   },
   "480283": {
     "id": 480283,
+    "preRelease": true,
     "aegisName": "D_Glacier_Manteau",
     "name": "Dim Glacier Manteau [1]",
     "unidName": "Garment",
@@ -178488,6 +179069,7 @@
   },
   "480284": {
     "id": 480284,
+    "preRelease": true,
     "aegisName": "D_Glacier_Muffler",
     "name": "Dim Glacier Muffler [1]",
     "unidName": "Garment",
@@ -179906,6 +180488,7 @@
   },
   "480415": {
     "id": 480415,
+    "preRelease": true,
     "aegisName": "Gaebolg_Manteau",
     "name": "Gaebolg Manteau [1]",
     "unidName": "Garment",
@@ -179969,6 +180552,7 @@
   },
   "480416": {
     "id": 480416,
+    "preRelease": true,
     "aegisName": "Gaebolg_Muffler",
     "name": "Gaebolg Muffler [1]",
     "unidName": "Garment",
@@ -180490,6 +181074,7 @@
   },
   "480495": {
     "id": 480495,
+    "preRelease": true,
     "aegisName": "Yorscalp_Manteau",
     "name": "Yorscalp Manteau [1]",
     "unidName": "Garment",
@@ -180553,6 +181138,7 @@
   },
   "480496": {
     "id": 480496,
+    "preRelease": true,
     "aegisName": "Yorscalp_Muffler",
     "name": "Yorscalp Muffler [1]",
     "unidName": "Garment",
@@ -186443,6 +187029,7 @@
   },
   "490276": {
     "id": 490276,
+    "preRelease": true,
     "aegisName": "Dimmension_W_Key",
     "name": "Dimensional Wanderer's Key [1]",
     "unidName": "Ribbon",
@@ -186496,6 +187083,7 @@
   },
   "490277": {
     "id": 490277,
+    "preRelease": true,
     "aegisName": "Dimmension_W_Padlock",
     "name": "Dimensional Wanderer's Lock [1]",
     "unidName": "Ribbon",
@@ -186549,6 +187137,7 @@
   },
   "490278": {
     "id": 490278,
+    "preRelease": true,
     "aegisName": "Dimmension_W_Keyring",
     "name": "Dimensional Wanderer's Keyring [1]",
     "unidName": "Ribbon",
@@ -186681,6 +187270,7 @@
   },
   "490299": {
     "id": 490299,
+    "preRelease": true,
     "aegisName": "Barmund_Soul_Ring",
     "name": "Varmundt Soul Rune Ring [1]",
     "unidName": "Ring",
@@ -186713,6 +187303,7 @@
   },
   "490300": {
     "id": 490300,
+    "preRelease": true,
     "aegisName": "Barmund_Venom_Ring",
     "name": "Varmundt Venom Rune Ring [1]",
     "unidName": "Ring",
@@ -186745,6 +187336,7 @@
   },
   "490301": {
     "id": 490301,
+    "preRelease": true,
     "aegisName": "Barmund_Temple_Ring",
     "name": "Varmundt Temple Rune Ring [1]",
     "unidName": "Ring",
@@ -186777,6 +187369,7 @@
   },
   "490302": {
     "id": 490302,
+    "preRelease": true,
     "aegisName": "Soul_Rune_Ring",
     "name": "Soul Rune Ring [1]",
     "unidName": "Ring",
@@ -186809,6 +187402,7 @@
   },
   "490303": {
     "id": 490303,
+    "preRelease": true,
     "aegisName": "Venom_Rune_Ring",
     "name": "Venom Rune Ring [1]",
     "unidName": "Ring",
@@ -186841,6 +187435,7 @@
   },
   "490304": {
     "id": 490304,
+    "preRelease": true,
     "aegisName": "Temple_Rune_Ring",
     "name": "Temple Rune Ring [1]",
     "unidName": "Ring",
@@ -186873,6 +187468,7 @@
   },
   "490305": {
     "id": 490305,
+    "preRelease": true,
     "aegisName": "Soul_M_Ring",
     "name": "Soul Magic Ring [1]",
     "unidName": "Ring",
@@ -186905,6 +187501,7 @@
   },
   "490306": {
     "id": 490306,
+    "preRelease": true,
     "aegisName": "Venom_M_Ring",
     "name": "Venom Magic Ring [1]",
     "unidName": "Ring",
@@ -186937,6 +187534,7 @@
   },
   "490307": {
     "id": 490307,
+    "preRelease": true,
     "aegisName": "Temple_M_Ring",
     "name": "Temple Magic Ring [1]",
     "unidName": "Ring",
@@ -187143,6 +187741,7 @@
   },
   "490327": {
     "id": 490327,
+    "preRelease": true,
     "aegisName": "Glacier_Ring",
     "name": "Glacier Ring [1]",
     "unidName": "Accessory",
@@ -187175,6 +187774,7 @@
   },
   "490328": {
     "id": 490328,
+    "preRelease": true,
     "aegisName": "Glacier_Pendant",
     "name": "Glacier Pendant [1]",
     "unidName": "Accessory",
@@ -187220,6 +187820,7 @@
   },
   "490329": {
     "id": 490329,
+    "preRelease": true,
     "aegisName": "Glacier_Earring",
     "name": "Glacier Earring [1]",
     "unidName": "Accessory",
@@ -187252,6 +187853,7 @@
   },
   "490330": {
     "id": 490330,
+    "preRelease": true,
     "aegisName": "Glacier_Necklace",
     "name": "Glacier Necklace [1]",
     "unidName": "Accessory",
@@ -189168,6 +189770,7 @@
   },
   "490507": {
     "id": 490507,
+    "preRelease": true,
     "aegisName": "Gaebolg_Ring",
     "name": "Gaebolg Ring [1]",
     "unidName": "Accessory",
@@ -189206,6 +189809,7 @@
   },
   "490508": {
     "id": 490508,
+    "preRelease": true,
     "aegisName": "Gaebolg_Glove",
     "name": "Gaebolg Glove [1]",
     "unidName": "Accessory",
@@ -189241,6 +189845,7 @@
   },
   "490509": {
     "id": 490509,
+    "preRelease": true,
     "aegisName": "Gaebolg_Earring",
     "name": "Gaebolg Earring [1]",
     "unidName": "Accessory",
@@ -189279,6 +189884,7 @@
   },
   "490510": {
     "id": 490510,
+    "preRelease": true,
     "aegisName": "Gaebolg_Necklace",
     "name": "Gaebolg Necklace [1]",
     "unidName": "Accessory",
@@ -191127,6 +191733,7 @@
   },
   "490620": {
     "id": 490620,
+    "preRelease": true,
     "aegisName": "Yorscalp_Ring",
     "name": "Yorscalp Ring [1]",
     "unidName": "Accessory",
@@ -191165,6 +191772,7 @@
   },
   "490621": {
     "id": 490621,
+    "preRelease": true,
     "aegisName": "Yorscalp_Glove",
     "name": "Yorscalp Glove [1]",
     "unidName": "Accessory",
@@ -191200,6 +191808,7 @@
   },
   "490622": {
     "id": 490622,
+    "preRelease": true,
     "aegisName": "Yorscalp_Earring",
     "name": "Yorscalp Earring [1]",
     "unidName": "Accessory",
@@ -191238,6 +191847,7 @@
   },
   "490623": {
     "id": 490623,
+    "preRelease": true,
     "aegisName": "Yorscalp_Necklace",
     "name": "Yorscalp Necklace [1]",
     "unidName": "Accessory",
@@ -197626,6 +198236,7 @@
   },
   "500092": {
     "id": 500092,
+    "preRelease": true,
     "aegisName": "Dimen_IG_Sword",
     "name": "Dimensions Imperial Sword [2]",
     "unidName": "Sword",
@@ -197695,6 +198306,7 @@
   },
   "500093": {
     "id": 500093,
+    "preRelease": true,
     "aegisName": "Dimen_BO_Sword",
     "name": "Dimensions Biological Sword [2]",
     "unidName": "Sword",
@@ -197767,6 +198379,7 @@
   },
   "500094": {
     "id": 500094,
+    "preRelease": true,
     "aegisName": "Dimen_HN_Sword",
     "name": "Dimensions Hyper Sword [2]",
     "unidName": "Sword",
@@ -200322,6 +200935,7 @@
   },
   "510139": {
     "id": 510139,
+    "preRelease": true,
     "aegisName": "Dimen_ABC_Knife",
     "name": "Dimensions Abyss Knife [2]",
     "unidName": "Dagger",
@@ -201895,6 +202509,7 @@
   },
   "530054": {
     "id": 530054,
+    "preRelease": true,
     "aegisName": "Dimen_IG_Spear",
     "name": "Dimensions Imperial Spear [2]",
     "unidName": "Spear",
@@ -204290,6 +204905,7 @@
   },
   "540079": {
     "id": 540079,
+    "preRelease": true,
     "aegisName": "Dimen_EM_M_Book",
     "name": "Dimensions Elemental Magic Book [2]",
     "unidName": "Book",
@@ -204361,6 +204977,7 @@
   },
   "540080": {
     "id": 540080,
+    "preRelease": true,
     "aegisName": "Dimen_EM_S_Book",
     "name": "Dimensions Elemental Spell Book [2]",
     "unidName": "Book",
@@ -204436,6 +205053,7 @@
   },
   "540081": {
     "id": 540081,
+    "preRelease": true,
     "aegisName": "Dimen_CD_Bible",
     "name": "Dimensions Saint Bible [2]",
     "unidName": "Book",
@@ -204497,6 +205115,7 @@
   },
   "540082": {
     "id": 540082,
+    "preRelease": true,
     "aegisName": "Dimen_SKE_M_Book",
     "name": "Dimensions Emperor Moon Book [2]",
     "unidName": "Book",
@@ -204551,6 +205170,7 @@
   },
   "540083": {
     "id": 540083,
+    "preRelease": true,
     "aegisName": "Dimen_SKE_S_Book",
     "name": "Dimensions Emperor Sun Book [2]",
     "unidName": "Book",
@@ -208662,6 +209282,7 @@
   },
   "550130": {
     "id": 550130,
+    "preRelease": true,
     "aegisName": "Dimen_CD_Rod",
     "name": "Dimensions Saint Rod [2]",
     "unidName": "Staff",
@@ -208725,6 +209346,7 @@
   },
   "550131": {
     "id": 550131,
+    "preRelease": true,
     "aegisName": "Dimen_SOA_Stick",
     "name": "Dimensions Soul Stick [2]",
     "unidName": "Staff",
@@ -208787,6 +209409,7 @@
   },
   "550132": {
     "id": 550132,
+    "preRelease": true,
     "aegisName": "Dimen_SOA_Rod",
     "name": "Dimensions Soul Rod [2]",
     "unidName": "Staff",
@@ -208849,6 +209472,7 @@
   },
   "550133": {
     "id": 550133,
+    "preRelease": true,
     "aegisName": "Dimen_HN_Rod",
     "name": "Dimensions Hyper Rod [2]",
     "unidName": "Staff",
@@ -208918,6 +209542,7 @@
   },
   "550134": {
     "id": 550134,
+    "preRelease": true,
     "aegisName": "Dimen_SH_Foxtail",
     "name": "Dimensions Spirit Foxtail [2]",
     "unidName": "Staff",
@@ -208979,6 +209604,7 @@
   },
   "550135": {
     "id": 550135,
+    "preRelease": true,
     "aegisName": "Dimen_SH_F_Model",
     "name": "Dimensions Spirit Foxtail Model [2]",
     "unidName": "Staff",
@@ -210932,6 +211558,7 @@
   },
   "560060": {
     "id": 560060,
+    "preRelease": true,
     "aegisName": "Dimen_IQ_Knuckle",
     "name": "Dimensions Judgment Knuckle [2]",
     "unidName": "손톱",
@@ -210990,6 +211617,7 @@
   },
   "560061": {
     "id": 560061,
+    "preRelease": true,
     "aegisName": "Dimen_IQ_Claw",
     "name": "Dimensions Judgment Claw [2]",
     "unidName": "손톱",
@@ -212375,6 +213003,7 @@
   },
   "570062": {
     "id": 570062,
+    "preRelease": true,
     "aegisName": "Dimen_TR_Vilolin",
     "name": "Dimensions Musical Violin [2]",
     "unidName": "Instrument",
@@ -212433,6 +213062,7 @@
   },
   "570063": {
     "id": 570063,
+    "preRelease": true,
     "aegisName": "Dimen_TR_Harp",
     "name": "Dimensions Musical Harp [2]",
     "unidName": "Instrument",
@@ -213795,6 +214425,7 @@
   },
   "580061": {
     "id": 580061,
+    "preRelease": true,
     "aegisName": "Dimen_TR_Ribbon",
     "name": "Dimensions Musical Ribbon [2]",
     "unidName": "Whip",
@@ -213853,6 +214484,7 @@
   },
   "580062": {
     "id": 580062,
+    "preRelease": true,
     "aegisName": "Dimen_TR_Rope",
     "name": "Dimensions Musical Rope [2]",
     "unidName": "Whip",
@@ -215588,6 +216220,7 @@
   },
   "590079": {
     "id": 590079,
+    "preRelease": true,
     "aegisName": "Dimen_MT_Mace",
     "name": "Dimensions Mechanical Mace [2]",
     "unidName": "Mace",
@@ -215650,6 +216283,7 @@
   },
   "590080": {
     "id": 590080,
+    "preRelease": true,
     "aegisName": "Dimen_BO_Hall",
     "name": "Dimensions Biological Scepter [2]",
     "unidName": "Mace",
@@ -216701,6 +217335,7 @@
   },
   "600054": {
     "id": 600054,
+    "preRelease": true,
     "aegisName": "Dimen_DK_T_Sword",
     "name": "Dimensions Dragon Sword [2]",
     "unidName": "Two-handed Sword",
@@ -218089,6 +218724,7 @@
   },
   "610064": {
     "id": 610064,
+    "preRelease": true,
     "aegisName": "Dimen_SHC_Katar",
     "name": "Dimensions Shadow Katar [2]",
     "unidName": "Katar",
@@ -218150,6 +218786,7 @@
   },
   "610065": {
     "id": 610065,
+    "preRelease": true,
     "aegisName": "Dimen_SHC_Cakram",
     "name": "Dimensions Shadow Chakram [2]",
     "unidName": "Katar",
@@ -218975,6 +219612,7 @@
   },
   "620037": {
     "id": 620037,
+    "preRelease": true,
     "aegisName": "Dimen_MT_Axe",
     "name": "Dimensions Mechanical Axe [2]",
     "unidName": "Axe",
@@ -219681,6 +220319,7 @@
   },
   "630041": {
     "id": 630041,
+    "preRelease": true,
     "aegisName": "Dimen_DK_Lance",
     "name": "Dimensions Dragon Lance [2]",
     "unidName": "Two-handed Spear",
@@ -221359,6 +221998,7 @@
   },
   "640049": {
     "id": 640049,
+    "preRelease": true,
     "aegisName": "Dimen_AG_Staff",
     "name": "Dimensions Arch Staff [2]",
     "unidName": "Staff",
@@ -221428,6 +222068,7 @@
   },
   "640050": {
     "id": 640050,
+    "preRelease": true,
     "aegisName": "Dimen_AG_Rod",
     "name": "Dimensions Arch Rod [2]",
     "unidName": "Staff",
@@ -222506,6 +223147,7 @@
   },
   "650046": {
     "id": 650046,
+    "preRelease": true,
     "aegisName": "Dimen_SS_Humma",
     "name": "Dimensions Moonlight Huuma Shuriken [2]",
     "unidName": "Huuma Shuriken",
@@ -222568,6 +223210,7 @@
   },
   "650047": {
     "id": 650047,
+    "preRelease": true,
     "aegisName": "Dimen_SS_Wheel",
     "name": "Dimensions Moonlight Wheel Shuriken [2]",
     "unidName": "Huuma Shuriken",
@@ -224531,6 +225174,7 @@
   },
   "700092": {
     "id": 700092,
+    "preRelease": true,
     "aegisName": "Dimen_ABC_Bow",
     "name": "Dimensions Abyss Bow [2]",
     "unidName": "Bow",
@@ -224590,6 +225234,7 @@
   },
   "700093": {
     "id": 700093,
+    "preRelease": true,
     "aegisName": "Dimen_WH_C_Bow",
     "name": "Dimensions Wind Crossbow [2]",
     "unidName": "Bow",
@@ -224650,6 +225295,7 @@
   },
   "700094": {
     "id": 700094,
+    "preRelease": true,
     "aegisName": "Dimen_WH_Bow",
     "name": "Dimensions Wind Bow [2]",
     "unidName": "Bow",
@@ -226232,6 +226878,7 @@
   },
   "810040": {
     "id": 810040,
+    "preRelease": true,
     "aegisName": "Dimen_NW_Rifle",
     "name": "Dimensions Night Rifle [2]",
     "unidName": "Rifle",
@@ -228208,6 +228855,7 @@
   },
   "840032": {
     "id": 840032,
+    "preRelease": true,
     "aegisName": "Dimen_NW_Launcher",
     "name": "Dimensions Night Launcher [2]",
     "unidName": "Grenade Launcher",

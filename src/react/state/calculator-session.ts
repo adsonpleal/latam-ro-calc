@@ -802,6 +802,9 @@ export class CalculatorSession extends Store<number> {
   ) {
     super(0);
     const unsubscribe = this.layoutService.previews.subscribe(() => this.action(() => {
+      // The target picker is built from monster.json alone, so it refreshes whether or not
+      // a character is loaded — unlike the item lists below.
+      if (this.monsterDataMap) this.setMonsterDropdownList();
       if (!this.items || !this.selectedCharacter) return;
       this.setItemList();
       this.setItemDropdownList();
@@ -3208,7 +3211,11 @@ await ((_event?: unknown) => {
   private setMonsterDropdownList() {
     const groupMap = new Map<string, MonsterSelectItemGroup>();
     const monsters: DropdownModel[] = [];
-    const rawMonsters = Object.values(this.monsterDataMap).sort((a, b) => {
+    const rawMonsters = Object.values(this.monsterDataMap).filter(
+      // Same contract as the item lists: a preview monster is hidden outright while
+      // Configurações > Prévias is off, and tagged when it is on.
+      (mon) => this.showPreviews || !mon.preRelease,
+    ).sort((a, b) => {
       // Sort by level, then by name with NATURAL numeric ordering so leveled
       // targets like "Miragem de Amdarais - Nível 1..10" read 1,2,…,10 instead
       // of the lexicographic 1,10,2,… (or the scrambled order the old
@@ -3222,7 +3229,7 @@ await ((_event?: unknown) => {
     };
 
     for (const mon of rawMonsters) {
-      const { id, name, spawn, stats } = mon;
+      const { id, name, spawn, stats, preRelease } = mon;
       const { level, health, mvp, class: _class, elementShortName, raceName, scaleName } = stats;
 
       // Grouping is id- and map-driven (see constants/monster-spawn-mapper), so the
@@ -3242,6 +3249,7 @@ await ((_event?: unknown) => {
         health,
         groups: spawnMap.trim().split(','),
         searchVal: `${spawnMap} ${id}`,
+        preRelease,
       };
 
       monsters.push(monster);

@@ -1,0 +1,12 @@
+{
+  "type": "patch",
+  "logs": [
+    "Adicionada a prévia dos monstros das novas Ecosferas de Varmunt do ROADMAP 2027: as áreas Temple, Venom e Soul (8 monstros cada, com um MVP de nível 260 em cada) e as Profundezas da Ecosfera (16 monstros). Aparecem no seletor de alvo em quatro grupos novos, marcados como Prévia, e podem ser escondidos em Configurações > Prévias. Os nomes estão em inglês porque o LATAM ainda não publicou os nomes em português."
+  ],
+  "logs_es": [
+    "Añadida la vista previa de los monstruos de las nuevas Ecosferas de Varmunt del ROADMAP 2027: las áreas Temple, Venom y Soul (8 monstruos cada una, con un MVP de nivel 260 en cada una) y las Profundidades de la Ecosfera (16 monstruos). Aparecen en el selector de objetivo en cuatro grupos nuevos, marcados como Vista previa, y pueden ocultarse en Configuración > Vistas previas. Los nombres están en inglés porque LATAM todavía no publicó los nombres en español."
+  ],
+  "logs_en": [
+    "Added the preview of the monsters from the ROADMAP 2027 Varmundt Biosphere renewal: the Temple, Venom and Soul areas (8 monsters each, with one level-260 MVP apiece) and Biosphere Deep Level (16 monsters). They show up in the target picker as four new groups, marked Preview, and can be hidden under Settings > Previews. Their names are in English because LATAM has not published localized names yet."
+  ]
+}

@@ -682,6 +682,7 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "group": true,
 "value": vm.selectedMonster,
 "onModelChange": (value: any, event: any) => vm.action(() => { ((event: any) => vm.action(() => { const $event = event; (vm.selectedMonster = $event) }))(value); ((event: any) => vm.action(() => { const $event = event; vm.onMonsterChange() }))({value, originalEvent: event}); }),
+"template_item": (context: any) => { const item = context["$implicit"]; return <>{item.label}{item.preRelease ? <Render tag="span" props={{"className": ["pre_release_tag"].filter(Boolean).join(' ')}}>{t('eq.preReleaseTag')}</Render> : null}</>; },
 "template_group": (context: any) => { const group = context["$implicit"]; return <><Render tag="div" props={{"className": ["flex align-items-center font-bold dropdown_monster_group_label"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{interpolate(["",""], [group.label])}</Render></Render></>; }}}></Render></Render></Render></Render></Render>
 <Render tag="div" props={{"className": ["col-12"].filter(Boolean).join(' ')}}><Render tag="app-battle-hud" props={{"totalSummary": vm.totalSummary,
 "totalSummary2": vm.totalSummary2,
@@ -756,6 +757,7 @@ const i = __index59; return <Fragment key={identityKey(__entry59)}><>{(() => { c
 "group": true,
 "value": vm.selectedMonster,
 "onModelChange": (value: any, event: any) => vm.action(() => { ((event: any) => vm.action(() => { const $event = event; (vm.selectedMonster = $event) }))(value); ((event: any) => vm.action(() => { const $event = event; vm.onMonsterChange() }))({value, originalEvent: event}); }),
+"template_item": (context: any) => { const item = context["$implicit"]; return <>{item.label}{item.preRelease ? <Render tag="span" props={{"className": ["pre_release_tag"].filter(Boolean).join(' ')}}>{t('eq.preReleaseTag')}</Render> : null}</>; },
 "template_group": (context: any) => { const group = context["$implicit"]; return <><Render tag="div" props={{"className": ["flex align-items-center font-bold dropdown_monster_group_label"].filter(Boolean).join(' ')}}><Render tag="span" props={{}}>{interpolate(["",""], [group.label])}</Render></Render></>; }}}></Render></Render></Render></Render></Render>
 {(() => { const __condition63 = (vm.chanceList?.length || (vm.isComparing && vm.chanceList2?.length));  return __condition63 ? <><Render tag="div" props={{"className": ["col-12 auto-cast-shared-block"].filter(Boolean).join(' ')}}><Render tag="app-battle-effects" props={{"chanceList": vm.chanceList,
 "selectedChances": vm.selectedChances,
