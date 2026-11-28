@@ -16,6 +16,7 @@ import { Monster, Weapon } from 'src/app/domain';
 import { AtkSkillModel, CharacterBase, Doram } from 'src/app/jobs';
 import { resolveSkillById, SKILL_ID_BY_NAME } from 'src/app/skills';
 import { DEFAULT_PVP_CONTEXT, pickDefenderBonus, PlayerTargetProfile, PvpContext, PvpMode, woeFleeMultiplier } from './pvp';
+import { splitSkillValue } from './rotation';
 import { bonusKeyLabel } from 'src/app/core/bonus-key-label';
 import { createRawTotalBonus, floor, HEAD_SLOTS, isNumber, round } from 'src/app/utils';
 import { ChanceModel } from 'src/app/models/chance-model';
@@ -420,6 +421,19 @@ export class Calculator {
 
   private isEquipItemId(itemId: number) {
     return this.equipItemIdSet.has(itemId);
+  }
+
+  /**
+   * Does the build actually cast this skill? The gate for an `activationSkillId` effect,
+   * which no attack roll can switch on.
+   *
+   * `selectedAtkSkill` is read beside `rotation` because it is the write-through mirror of
+   * the rotation's first real entry (see {@link MainModel}), and the only reading the
+   * "Resumo de Batalha (antigo)" tab, the MCP server and the engine specs set.
+   */
+  private rotationUsesSkillId(skillId: number) {
+    return [...(this.model.rotation ?? []), this.model.selectedAtkSkill ?? '']
+      .some((value) => SKILL_ID_BY_NAME[splitSkillValue(value).name] === skillId);
   }
 
   isAllowAmmo() {
@@ -1398,7 +1412,9 @@ export class Calculator {
 
     for (const effect of itemAutoCastEffectScripts(item.script)) {
       if (itemRefine < (effect.minimumRefine ?? 0)) continue;
+      if ((this.model.weaponRefine ?? 0) < (effect.minimumWeaponRefine ?? 0)) continue;
       if (effect.requiredEquippedItemIds?.length && !effect.requiredEquippedItemIds.some((id) => this.isEquipItemId(id))) continue;
+      if (effect.activationSkillId && !this.rotationUsesSkillId(effect.activationSkillId)) continue;
       const shieldRefine = this.model.shieldRefine ?? 0;
       const duration = effect.durationSeconds + (effect.durationPerShieldRefineEvery
         ? Math.floor(shieldRefine / effect.durationPerShieldRefineEvery) : 0);

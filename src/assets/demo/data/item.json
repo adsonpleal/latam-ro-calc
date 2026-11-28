@@ -372884,6 +372884,23 @@
           "trigger": "skill-use",
           "triggerSkillId": 2413
         }
+      ],
+      "autoCastEffect": [
+        {
+          "name": "Ilimitar do Colar Consagrado: Amizade",
+          "label": "Colar Consagrado: Amizade — Ilimitar nv.3",
+          "chance": 3,
+          "durationSeconds": 5,
+          "activationSkillId": 5353,
+          "requiredEquippedItemIds": [
+            580019,
+            570019
+          ],
+          "minimumWeaponRefine": 10,
+          "bonus": {
+            "range": 250
+          }
+        }
       ]
     }
   },

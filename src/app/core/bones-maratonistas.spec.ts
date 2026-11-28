@@ -91,10 +91,15 @@ describe('Bonés Maratonistas: all 19 client records', () => {
     expect([bonus.cd__5048, bonus.cd__5046, bonus.cd__5051]).toEqual([0, 0, 0]);
   });
 
-  it.each([[19396, StarEmperor, 'Chute Solar', ['2592']], [19397, SoulReaper, 'Esma', ['2602', '2604']]] as const)(
-    '%i exposes a ten-second opt-in damage effect after using its trigger skill', (id, Job, trigger, keys) => {
-      expect(prepare(id, 10, new Job()).calc.chanceList).toEqual([]);
-      const { calc, bonus } = prepare(id, 11, new Job());
+  // The effect is activated by casting the trigger skill, so it is only offered while that
+  // skill is in the rotation — see Calculator.rotationUsesSkillId.
+  it.each([[19396, StarEmperor, 'Blaze Kick', 'Chute Solar', ['2592']],
+    [19397, SoulReaper, 'Esma', 'Esma', ['2602', '2604']]] as const)(
+    '%i exposes a ten-second opt-in damage effect after using its trigger skill', (id, Job, triggerName, trigger, keys) => {
+      const rotation = { rotation: [`${triggerName}==10`] };
+      expect(prepare(id, 10, new Job(), {}, {}, rotation).calc.chanceList).toEqual([]);
+      expect(prepare(id, 11, new Job()).calc.chanceList).toEqual([]);
+      const { calc, bonus } = prepare(id, 11, new Job(), {}, {}, rotation);
       const effect = calc.chanceList.find((entry) => entry.itemId === id)!;
       expect(effect.label2).toContain(`Ao usar ${trigger} · 10 segundos`);
       for (const key of keys) {
@@ -131,8 +136,9 @@ describe('Bonés Maratonistas: all 19 client records', () => {
   });
 });
 
-function simulate(id: number, refine: number, Job: new () => CharacterBase, learned = {}, active = {}, db = items, ranged = false) {
-  const prepared = prepare(id, refine, new Job(), learned, active, {}, db);
+function simulate(id: number, refine: number, Job: new () => CharacterBase, learned = {}, active = {}, db = items,
+  ranged = false, overrides: Record<string, unknown> = {}) {
+  const prepared = prepare(id, refine, new Job(), learned, active, overrides, db);
   const { calc, model } = prepared;
   calc.setHpSpTable([{ jobs: { [new Job().className]: true }, baseHp: Array(251).fill(20000), baseSp: Array(251).fill(1500) }] as any)
     .setMonster(monster).calcAllAtk();
@@ -176,9 +182,9 @@ describe('Sagrado: Gemini Lumen and Adoramus damage integration', () => {
 });
 
 describe('Maratonista temporary damage states', () => {
-  it.each([[19396, StarEmperor, ['Solar Explosion']], [19397, SoulReaper, ['Espa', 'Eswhoo']]] as const)(
-    '%i changes damage only while its ten-second effect is selected', (id, Job, skills) => {
-      const { calc } = simulate(id, 11, Job);
+  it.each([[19396, StarEmperor, 'Blaze Kick', ['Solar Explosion']], [19397, SoulReaper, 'Esma', ['Espa', 'Eswhoo']]] as const)(
+    '%i changes damage only while its ten-second effect is selected', (id, Job, triggerName, skills) => {
+      const { calc } = simulate(id, 11, Job, {}, {}, items, false, { rotation: [`${triggerName}==10`] });
       const effect = calc.chanceList.find((entry) => entry.itemId === id)!;
       for (const name of skills) {
         const skill = calc.atkSkills.find((entry) => entry.name === name)!;

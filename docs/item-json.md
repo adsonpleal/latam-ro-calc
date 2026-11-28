@@ -222,6 +222,14 @@ Maratonista Xamânico usa `activationSkillId: 469` (Esma), `minimumRefine: 11`,
 `chance: 100`, `durationSeconds: 10` e `bonus: {"2602": 30, "2604": 30}`. O bônus
 só entra no cálculo enquanto o efeito estiver selecionado; isso não autoconjura Esma.
 
+Um efeito com `activationSkillId` só é oferecido em **Efeitos** quando a habilidade do
+gatilho está na rotação da build — nada mais o liga, então fora dela o jogador estaria
+precificando um bônus que a rotação nunca ativa. Para uma cláusula de Conjunto cujo
+refino exigido é o da **arma**, e não o do item que carrega o efeito (`minimumRefine`),
+use `minimumWeaponRefine`. O Colar Consagrado: Amizade (491112) combina os três:
+`activationSkillId: 5353` (Atirar Rosas), `requiredEquippedItemIds` com as duas armas
+Vivatus Fides e `minimumWeaponRefine: 10`.
+
 `enable_skill__48` habilita Ataque Duplo e integra seu golpe adicional à simulação de
 ataques básicos, usando o maior nível entre o concedido e o aprendido. O golpe extra
 não cria novas rolagens de autoconjuração. `unbreakableWeapon` apenas exibe a propriedade
