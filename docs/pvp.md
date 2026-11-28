@@ -281,6 +281,20 @@ de acerto do atacante (não ao dano).
   `defender` combinado (dano inalterado). Verificado: alvo com Humano +10% + Neutro
   +15% → nós "Redução Humano" (−10% → Chapéu de Angeling) e "Redução Neutro" (−15% →
   Manteau de Vali), mais "Redução da guerra" (−70%).
+- [x] **Fase 6d — O corte nas habilidades de `customFormula`.** Uma habilidade
+  declarada com `customFormula` monta o total inteiro fora de
+  `calcPhysicalSkillDamage`/`calcMagicalSkillDamage` — e eram esses os **únicos** dois
+  pontos onde o corte vs jogador era aplicado em habilidade. Resultado: Sopro do
+  Dragão, Bafo do Dragão e Ataque Aéreo batiam no jogador pelo dano do dummy, em
+  qualquer modo (card `oua6mspqhIrWSikUbSCO`). O corte passou a ser aplicado também no
+  ramo `customFormula` de `calcSkillDamage`, antes da redução de aura e na mesma ordem
+  dos caminhos traçados; `applyPvpReduction` ganhou `push`/`emit` opcionais porque esse
+  ramo **não tem trace nem grafo** — o corte vale no número e não aparece como nó no
+  popover "Redução de dano", que é o mesmo limite que essas habilidades já tinham.
+  Pinado em `pvp-custom-formula-reduction.spec.ts` (inclusive um censo de quais
+  habilidades passam pelo ramo, pra uma quarta não entrar calada) e em
+  `pvp-integration.spec.ts` (Ataque Aéreo). **Baforada Draconiana não era afetada**:
+  usa o caminho traçado.
 
 ---
 
@@ -391,7 +405,7 @@ de acerto do atacante (não ao dano).
 | `src/app/domain/monster.ts` | `setPlayerTargetData()` — alvo como perfil de jogador |
 | `src/app/core/calculator.ts` | `setPlayerTarget()`, `calcAllDefs()` |
 | `src/app/core/calculator-controller.ts` | `runChain` aceita `playerTarget`/`pvpMode` |
-| `src/app/core/damage-calculator.ts` | `getPvpFinalMultiplier` + estágios no `skillFormula` |
+| `src/app/core/damage-calculator.ts` | `getPvpReductionParts` + `applyPvpReduction`, aplicados em **cinco** pontos: habilidade física, habilidade mágica, ataque básico (normal e crítico) e o ramo `customFormula` de `calcSkillDamage`. Um caminho de dano novo que não chame um deles não corta nada — foi assim que o ramo `customFormula` ficou de fora até a Fase 6d |
 | `src/app/core/saved-simulations.ts` | `SavedSimulationStore.list()` p/ o picker |
 | `src/app/pipes/char-sprite.pipe.ts` | `buildCharSpriteUrl` p/ cards paper-doll |
 | `src/app/layout/pages/ro-calculator/battle-hud/` | HUD reaproveitado |
