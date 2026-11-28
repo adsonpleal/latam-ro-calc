@@ -15,9 +15,11 @@ import { SKILL_NAME } from 'src/app/constants/skill-name';
 import { Monster, Weapon } from 'src/app/domain';
 import { AtkSkillModel, CharacterBase, Doram } from 'src/app/jobs';
 import { resolveSkillById, SKILL_ID_BY_NAME } from 'src/app/skills';
+import { findHealSkill } from 'src/app/skills/healing-skills';
 import { DEFAULT_PVP_CONTEXT, pickDefenderBonus, PlayerTargetProfile, PvpContext, PvpMode, woeFleeMultiplier } from './pvp';
 import { bonusKeyLabel } from 'src/app/core/bonus-key-label';
-import { createRawTotalBonus, floor, HEAD_SLOTS, isNumber, round } from 'src/app/utils';
+import { calcSkillAspd, createRawTotalBonus, floor, HEAD_SLOTS, isNumber, round } from 'src/app/utils';
+import { calcHeal, calcHealPerSecond, HealPowerSource } from './healing';
 import { ChanceModel } from 'src/app/models/chance-model';
 import { BasicAspdModel, BasicDamageSummaryModel, MiscModel, SkillAspdModel, SkillDamageSummaryModel } from 'src/app/models/damage-summary.model';
 import { EquipmentSummaryModel } from 'src/app/models/equipment-summary.model';
@@ -2124,6 +2126,103 @@ export class Calculator {
       },
       equipments: [...this.equipItemNameSet.keys()],
     };
+  }
+
+  /**
+   * One cast of a healing skill, and what it is per second — the Cura panel's whole
+   * reading.
+   *
+   * Assembles the inputs `calcHeal` wants out of the same state `getTotalSummary` reads,
+   * and gets the use rate from `calcSkillAspd`, which is the rate the Batalha panel uses
+   * for a damage skill. Nothing here writes to the calculator, and no figure it returns
+   * reaches the damage pipeline: `healPower` and `healReceived` stay the display-only
+   * keys healing-stats.spec.ts registered them as, and this method is simply a second
+   * reader of them.
+   *
+   * `targetHealReceived` is the target's own "Cura recebida" and arrives from the panel's
+   * input field rather than from this build's equipment — a heal lands on somebody else,
+   * whose gear the simulator does not hold. The caster's own figure is reported beside it
+   * as `ownHealReceived`, which is what to type in when healing yourself.
+   *
+   * The Curar level is *not* a parameter: Curar is already a Nv 0-10 dropdown every
+   * Acolyte-line build owns (`constants/share-passive-skills/heal.ts`), persisted in the
+   * model and carried in the share link. The panel reads that one rather than keeping a
+   * second level of its own that could disagree with it.
+   */
+  getHealSummary(params: { skillName: string; skillLevel: number; partyMembers?: number; targetHealReceived?: number; }) {
+    const { skillName, skillLevel, partyMembers = 0, targetHealReceived = 0 } = params;
+    const skill = findHealSkill(skillName);
+    if (!skill) return null;
+
+    const healLevel = this.skillState?.learnedLevel('Heal') || 0;
+
+    const { baseWeaponMatk, baseWeaponLevel, refineBonus, highUpgradeBonus } = this.weaponData.data;
+    // The same sum `getWeaponMatk` calls `rawWeaponMATK`, without the variance it then
+    // spreads into a min/max — a heal has no roll. bROWiki's Cura B asks for exactly this:
+    // the weapon's own ATQM plus what the refine added, and no equipment `matk` line.
+    const weaponMatk = baseWeaponMatk + refineBonus + highUpgradeBonus;
+
+    const healPowerSources = this.healPowerSources();
+    const healPower = healPowerSources.reduce((sum, source) => sum + source.value, 0);
+    const skillEffectiveness = skill.effectiveness(skillLevel, partyMembers);
+
+    const heal = calcHeal({
+      baseLevel: this.model.level,
+      int: this.dmgCalculator.status.totalInt,
+      skillLevel: healLevel,
+      weaponMatk,
+      weaponLevel: baseWeaponLevel,
+      healPower,
+      skillEffectiveness,
+      targetHealReceived,
+    });
+
+    const frequency = calcSkillAspd({
+      skillData: skill,
+      totalEquipStatus: this.totalEquipStatus,
+      status: this.dmgCalculator.status,
+      skillLevel,
+    });
+
+    return {
+      healLevel,
+      healPower,
+      healPowerSources,
+      ownHealReceived: this.totalEquipStatus.healReceived || 0,
+      targetHealReceived,
+      skillEffectiveness,
+      ...heal,
+      healPerSecond: calcHealPerSecond(heal.total, frequency.totalHitPerSec),
+      frequency,
+    };
+  }
+
+  /**
+   * Where "Efetividade de cura" came from, so the panel can show the sum broken out.
+   *
+   * Three sources, and all three are in the client's own text. The equipment line is the
+   * `healPower` key the item sweep already registered on 107 records. Meditatio's +2% per
+   * level is bROWiki's `Efetividade` column — the client's description says the passive
+   * "melhora a efetividade de cura" but prints only the SP columns. Offertorium's is the
+   * client's own per-level table, +30% a level.
+   *
+   * The two skills are summed here rather than declared as `bonus: { healPower: N }` on
+   * their own dropdown rows in `jobs/ArchBishop.ts`, which is where the engine's other
+   * skill bonuses live. That is a deliberate first cut, and it has one trap: the
+   * `equipment` line below is `totalEquipStatus.healPower`, which a `bonus` declaration
+   * would already be part of. **Moving either skill into its dropdown means deleting its
+   * branch here in the same change**, or the panel counts it twice.
+   */
+  private healPowerSources(): HealPowerSource[] {
+    const sources: HealPowerSource[] = [{ key: 'equipment', value: this.totalEquipStatus.healPower || 0 }];
+
+    const meditatio = this.skillState?.learnedLevel('Meditation') || 0;
+    if (meditatio > 0) sources.push({ key: 'Meditation', level: meditatio, value: meditatio * 2 });
+
+    const offertorium = this.skillState?.activeLevel('Offertorium') || 0;
+    if (offertorium > 0) sources.push({ key: 'Offertorium', level: offertorium, value: offertorium * 30 });
+
+    return sources;
   }
 
   getItemSummary() {

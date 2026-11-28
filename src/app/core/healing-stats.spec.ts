@@ -4,6 +4,7 @@ import { createMainModel } from 'src/app/utils';
 import { createRawTotalBonus } from 'src/app/utils/create-raw-total-bonus';
 import { ITEM_BONUS_LABELS } from './bonus-key-label';
 import { equipStatusOf, makeCalculator } from './__tests__/make-calculator';
+import { healReceivedExamples } from './healing';
 
 /**
  * The two healing stats: `healReceived` ("Cura recebida", the heal cast ON you, 20 items)
@@ -265,8 +266,83 @@ describe('healPower — "Efetividade de cura"', () => {
   });
 });
 
-describe('healPower — the six items deliberately left unregistered', () => {
+/**
+ * The six records the sweep turned up in 11/2026, when the Cura panel finally gave
+ * `healPower` a reader (card c3W2qySdAGV69qMOyM5w). Five are registered here; 16025
+ * joined the deliberately-unregistered list below, for the reason 1667 and 2019 are on it.
+ */
+describe('healPower — the 11/2026 sweep', () => {
+  const power = (ids: number[], model: Record<string, any>) => stat(ids, model, 'healPower');
+
+  it('Maça Aprimorável 16019: 1% per refine', () => {
+    expect(power([16019], { weapon: 16019, weaponRefine: 10 })).toBe(10);
+    expect(power([16019], { weapon: 16019, weaponRefine: 0 })).toBe(0);
+  });
+
+  it('Martelo Veterano 1548: 1% per level of Proteção Divina', () => {
+    // `SKILL_ID[22==1]---1` reads the learned-skill map, which the controller fills and
+    // makeCalculator does not — wired by hand, exactly as 29513 is above.
+    const learned = (level: number) =>
+      equipStatusOf(
+        makeCalculator({ 1548: { ...db[1548], usableClass: ['all'] } })
+          .setLearnedSkills(new Map([['Divine Protection', level]])),
+        { ...createMainModel(), level: 200, weapon: 1548 },
+      )['healPower'] || 0;
+
+    expect(learned(10)).toBe(10);
+    expect(learned(3)).toBe(3);
+    expect(learned(0)).toBe(0);
+  });
+
+  /**
+   * Sabedoria de Varmunt 1/2/3 — "A cada 20 de SAB base: Efetividade de cura +N%", with
+   * grade tiers adding on top. Transcribed clause by clause and not by pattern: the three
+   * enchants do not climb in step, and two of them stop paying heal partway up the grades
+   * (310934 nothing at Grau A, 310935 nothing at Grau B or A, where both switch to
+   * C.Mais). Reading one off another would invent the rows the client does not print.
+   */
+  describe('Sabedoria de Varmunt 310933-5', () => {
+    const worn = (id: number, wis: number, grade?: string) =>
+      power([id, 15047], { armor: 15047, armorEnchant1: id, armorGrade: grade, wis });
+
+    it('310933: 1% per 20 SAB, then +1 / +1 / +2 / +2 up the grades', () => {
+      expect(worn(310933, 100)).toBe(5); // floor(100 / 20) x 1
+      expect(worn(310933, 19)).toBe(0);
+      expect(worn(310933, 100, 'D') - worn(310933, 100)).toBe(5);
+      expect(worn(310933, 100, 'A')).toBe(5 + 5 + 5 + 10 + 10);
+    });
+
+    it('310934: 2% per 20 SAB, and Grau A adds nothing to the heal', () => {
+      expect(worn(310934, 100)).toBe(10);
+      expect(worn(310934, 100, 'B')).toBe(10 + 5 + 10 + 10);
+      expect(worn(310934, 100, 'A')).toBe(worn(310934, 100, 'B'));
+    });
+
+    it('310935: 3% per 20 SAB, and nothing above Grau C', () => {
+      expect(worn(310935, 100)).toBe(15);
+      expect(worn(310935, 100, 'C')).toBe(15 + 5 + 10);
+      expect(worn(310935, 100, 'A')).toBe(worn(310935, 100, 'C'));
+    });
+  });
+});
+
+describe('healPower — the seven items deliberately left unregistered', () => {
+  it('and nothing else: every other record whose pt-BR text carries the line is registered', () => {
+    // The sweep's own closing condition. A client update that ships an eighth record with
+    // the line fails here rather than going unnoticed.
+    const latam = JSON.parse(readFileSync('src/assets/demo/data/latam-items.json', 'utf8'));
+    const unregistered = Object.keys(db).filter((id) => {
+      const text: string = latam[id]?.description || '';
+      if (!/Efetividade de cura/i.test(text) || /Efetividade de cura recebida/i.test(text)) return false;
+
+      return !db[id].script?.healPower;
+    });
+
+    expect(unregistered.map(Number).sort((a, b) => a - b)).toEqual([1586, 1667, 2019, 2743, 16025, 25451, 29465]);
+  });
+
   it.each([
+    [16025, '[Aluguel] Maça TE', 'gated on "Apenas nos Castelos TE", like 1667 and 2019'],
     [1586, 'Bíblia de Vellum', 'gated on "Em mapas de GdE e PvP" — the engine has no map context'],
     [1667, '[Aluguel] Cajado TE', 'gated on "Apenas nos Castelos TE"'],
     [2019, '[Aluguel] Cajado de Duas Mãos TE', 'gated on "Apenas nos Castelos TE"'],
@@ -403,5 +479,44 @@ describe('the sustain family stays out of the damage pipeline', () => {
       expect(withIt[key] || 0, key).toBe(bare[key] || 0);
     }
     for (const key of SUSTAIN) expect(bare[key] || 0, key).toBe(0);
+  });
+});
+
+/**
+ * The field for the target's "Cura recebida" asks for a number the reader has no way to
+ * know, so its help popover names a few items that grant it. The list is computed from
+ * item.json rather than written down, which is the only way it cannot go stale.
+ */
+describe('the items the Cura recebida popover names', () => {
+  const examples = healReceivedExamples(db, 4);
+
+  it('names real items, biggest bonus first', () => {
+    expect(examples).toHaveLength(4);
+    for (const example of examples) {
+      expect(db[example.id], `item ${example.id} missing from item.json`).toBeDefined();
+      expect(example.name).toBe(db[example.id].name);
+      // The figure shown has to be the one the item's own script grants.
+      const script = db[example.id].script.healReceived;
+      expect(Number(Array.isArray(script) ? script[0] : script)).toBe(example.value);
+    }
+    expect([...examples].sort((a, b) => b.value - a.value || a.id - b.id)).toEqual(examples);
+  });
+
+  it('skips the conditional scripts, whose figure does not apply on its own', () => {
+    // A "SUM[...]---N" or "GRADE[...]" script grants its bonus only under a condition the
+    // popover has no room to explain, so naming it beside a bare "+10%" would mislead.
+    const conditional = Object.entries<any>(db)
+      .filter(([, item]) => {
+        const script = item?.script?.healReceived;
+        const first = Array.isArray(script) ? script[0] : script;
+        return first != null && !/^\s*\d+(\.\d+)?\s*$/.test(String(first));
+      })
+      .map(([id]) => Number(id));
+    expect(examples.filter(example => conditional.includes(example.id))).toEqual([]);
+  });
+
+  it('asks for nothing and gets nothing, rather than throwing', () => {
+    expect(healReceivedExamples(db, 0)).toEqual([]);
+    expect(healReceivedExamples({})).toEqual([]);
   });
 });

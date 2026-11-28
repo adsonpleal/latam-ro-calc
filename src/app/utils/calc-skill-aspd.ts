@@ -19,8 +19,21 @@ import { round, roundUp } from './round';
  */
 const HIT_PER_SEC_PRECISION = 6;
 
+/**
+ * The part of an {@link AtkSkillModel} this function actually reads.
+ *
+ * Declared structurally so a skill that is not an attack can be timed by the same code:
+ * the Cura panel's healing skills carry the client's fct/vct/acd/cd and nothing else, and
+ * routing them through here is what makes a `cd__<id>` or `vct__<id>` item reduction
+ * shorten a heal exactly as it shortens a damage skill. An `AtkSkillModel` still
+ * satisfies it, so every existing caller is unchanged.
+ */
+export type SkillTimingModel = Pick<AtkSkillModel,
+  'name' | 'acd' | 'fct' | 'vct' | 'cd' |
+  'hitEveryNSec' | 'isMatk' | 'element' | 'timingUnknown' | 'ignoreAspdFloor'>;
+
 export const calcSkillAspd = (params: {
-  skillData: AtkSkillModel;
+  skillData: SkillTimingModel;
   totalEquipStatus: EquipmentSummaryModel;
   status: StatusSummary;
   skillLevel: number;

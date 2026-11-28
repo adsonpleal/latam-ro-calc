@@ -1,0 +1,118 @@
+/*
+ * The Cura panel's own styles — only what the Batalha panel's stylesheet does not
+ * already give it.
+ *
+ * Everything structural comes from `battle-hud.css` through the `ui-scope-app-battle-hud`
+ * class on this panel's root: `.hud-card` / `.hud-cards` / `.hud-card-col` for the cards,
+ * `.pstats` / `.kv` / `.psec` for the rows, `.hud-selectors-row` / `.hud-selectors-col` /
+ * `.joined_field` / `.joined_caption` for the control pills, and `.hud-help` for the
+ * question circle. What is left here is the handful of things this panel has and the
+ * Batalha panel does not — a read-only value in a pill, one more control than fits a
+ * single row, and the help popover's own body.
+ *
+ * `heal-hud-ui.spec.ts` fails if this file starts re-declaring a shared class.
+ */
+
+/* The same block `app-battle-monster-card` gets in its own sheet: the panel is a sized,
+   self-contained container, so the battle card rules measure against it. */
+app-heal-hud {
+  display: block;
+  min-width: 0;
+  width: 100%;
+  container-type: inline-size;
+}
+
+/* The Batalha row holds two controls; this one holds up to five, so it is allowed to
+   wrap. Everything else about the row — flex, gap, margin — is the shared rule. */
+app-heal-hud .heal-selectors {
+  flex-wrap: wrap;
+}
+
+app-heal-hud .heal-selectors .hud-selectors-col {
+  flex: 1 1 190px;
+}
+
+/* The client's wording for this one is a sentence rather than a word, so its pill takes
+   the room two short captions would have had instead of eliding to "% DE CURA RECE…". */
+app-heal-hud .heal-selectors .heal-col--target {
+  flex: 2 1 290px;
+}
+
+/* The caption chips carry longer words than the Batalha row's ("% de Cura recebida do
+   alvo"), so they are given room and allowed to shrink rather than shoving the control
+   out of the pill. */
+app-heal-hud .heal-caption {
+  flex: 0 0 auto;
+  max-width: 70%;
+  padding: 0 0.5rem;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 32px;
+}
+
+/* The same thing `.battle-target-field` does for the Batalha target pill: the control
+   fills its half of the pill, so a row of them ends flush instead of trailing a gap. */
+app-heal-hud .heal-field app-ui-dropdown {
+  flex: 1 1 auto;
+  width: auto;
+}
+
+/* `.ui-inputtext` is a full-width control by default, which would leave the caption beside
+   it nothing. In a pill the caption is the label: the number gets what is left. */
+app-heal-hud .heal-field .ui-inputtext {
+  flex: 1 1 56px;
+  min-width: 0;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+app-heal-hud .heal-field .hud-help {
+  align-self: center;
+  margin-left: 0.15rem;
+}
+
+/* A value the panel reports rather than edits, drawn where its siblings draw a control
+   so the row still reads as one line of pills. */
+app-heal-hud .heal-read {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 0.5rem;
+  background: var(--surface-ground);
+  border: 1px solid var(--surface-border);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+app-heal-hud .heal-note {
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-color-secondary);
+}
+
+/* The help popover. `.ptitle`, `.psec`, `.pstats` and `.kv` inside it are the shared
+   rules again — only the body width and the search link are new. */
+.heal-info-panel {
+  max-width: 280px;
+}
+
+.heal-info-panel .heal-info-note {
+  margin: 0 0 10px;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.heal-info-panel .heal-info-search {
+  margin-top: 10px;
+  padding: 0;
+  background: none;
+  border: 0;
+  font-size: 11.5px;
+  color: var(--primary-color);
+  text-decoration: underline;
+  cursor: pointer;
+}

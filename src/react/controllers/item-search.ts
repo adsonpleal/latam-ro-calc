@@ -114,8 +114,13 @@ export class ItemSearchComponent extends ViewState {
       this.preferredTargetKey = request?.targetKey;
       this.equipInComparison = request?.compare ?? false;
       this.selectedEquipTarget = null;
-      if (request) {
+      if (request?.position) {
         this.selectedItemPositions = [request.position];
+      } else if (request?.bonuses?.length) {
+        // Opened by bonus rather than by slot, so a slot left over from the last search
+        // must not narrow it: the answer is every item carrying the bonus.
+        this.selectedItemPositions = [];
+        this.bonusPickers = request.bonuses.map(value => ({ id: this.nextBonusId++, value }));
       }
       if (request || this.onlyCurrentLevel) this.onItemSearchFilterChange();
       this.isShowSearchDialog = true;
